@@ -848,6 +848,11 @@ def gate():
     st["mode"] = "spawn: detached refresh"
     st["spawn_reason"] = reason
     st["spawn_mode"] = "re-pull (all symbols)" if repull else "continuation/first-pull"
+    # symmetric pop: the no-op branch clears spawn_*; a spawn must clear the
+    # previous run's freshness line or the status face contradicts itself
+    # (r1161: "spawned ... no panel cutoff" sat beside a stale "panel fresh
+    # (cutoff 2026-10-23 >= expected 2026-10-23)" from the prior day)
+    st.pop("no_op_reason", None)
     write_status(st)
     spawn_detached("refresh-repull" if repull else "refresh")
     print(f"spawned detached refresh: {reason} "

@@ -21609,7 +21609,7 @@
   },
   {
    "id": "E94-EXPOSURE-READSET-TRIAGE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21619,7 +21619,11 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T02:00:00+08:00",
    "entered_by": "bm-b r1160",
-   "runner_note": "code-level evidence is enough for the intersects column; do not burn a face just to answer it"
+   "runner_note": "code-level evidence is enough for the intersects column; do not burn a face just to answer it",
+   "done_at": "2026-10-27T03:25+08:00",
+   "result_ref": "results/e79/triage-20261026.json",
+   "result_note": "33 exposed modes triaged over 19 runner probes (4 arms each): 25 moves_under_repair / 4 closed / 2 structurally_immune (all,ladder) / 2 probe_blind (stalehold,weeknames). Reproducibility: burned twice on the same panel, 33/33 verdicts and every arm count identical. One label defect found and fixed in-window (read_set claimed \"no price arithmetic\" on 7 faces the repair arm moves; read_set_label + selftest 15->19). Digest=research/digests/DIGEST-20261027-e94-readset-triage.md. Descriptive only: zero face regenerated, trial 0.",
+   "booked_by": "bm-b r1161"
   },
   {
    "id": "E95-NEWESTERA-CELL-STABILITY",
@@ -21648,6 +21652,20 @@
    "entered_at": "2026-10-27T02:00:00+08:00",
    "entered_by": "bm-b r1160",
    "runner_note": "documentation repair only; no burn, no face regeneration"
+  },
+  {
+   "id": "E97-READSET-TRIAGE-ROUTING",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e94_readset_triage.py + screened twins on disk",
+   "title": "E94 leaves 25 modes charged by the repaired prints. Before any of them is re-derived, publish the routing table: for each charged mode, which screened twin already exists on disk (the E76/E77/E80-E92 family) and which have none. Rank the uncovered ones by the number of published cells they carry, so the next screen burn is chosen by exposure, not by habit.",
+   "deliverable": "results/e79/routing-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e94-readset-triage.md (25 of 29 open modes charged)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T03:25+08:00",
+   "entered_by": "bm-b r1161",
+   "runner_note": "code-and-disk evidence only: read the triage face plus the twin filenames, no burn, no face regeneration"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21662,6 +21680,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-25T17:55:39+08:00",
+ "updated_at": "2026-10-27T03:25:00+08:00",
  "version": 1
 }

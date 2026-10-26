@@ -1,0 +1,1290 @@
+{
+ "study": "e94_exposure_readset_triage",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "arms": [
+   "unscreened",
+   "neutralise",
+   "perturb_ladder",
+   "perturb_repaired"
+  ],
+  "screen_module": "scripts/panel_screen.py",
+  "screen_mode": "neutralise",
+  "perturb": {
+   "names": 5,
+   "step_pct": 5.000000000000004,
+   "from": "2019-08-02",
+   "kind": "step, not a single print"
+  },
+  "closed_modes": {
+   "calcost": "screencalc",
+   "era": "screenreg",
+   "neutralrob": "screenrob",
+   "tilt": "screentilt"
+  },
+  "loader_pin": "e27_universe_expansion.load_universe patched per arm; every arm writes into a temp dir, published faces untouched",
+  "comparison": "flattened JSON leaf paths, 1e-9 relative tolerance, volatile keys dropped: ['as_of_utc', 'elapsed', 'elapsed_sec', 'generated', 'generated_at', 'generated_ts', 'runtime_sec', 'ts', 'wall_clock']"
+ },
+ "universe": {
+  "names": 1317,
+  "repaired_neutralise": 131,
+  "repaired_integer_only": 67,
+  "repaired_sample": [
+   "sh510100",
+   "sh510310",
+   "sh510580",
+   "sh511030",
+   "sh511220",
+   "sh512000",
+   "sh512040",
+   "sh512200",
+   "sh512480",
+   "sh512760"
+  ],
+  "ladder_overlap": [],
+  "midpoint_session": "2019-08-02",
+  "probe_names": [
+   "sh510100",
+   "sh510310",
+   "sh510580",
+   "sh511030",
+   "sh511220"
+  ]
+ },
+ "rows": [
+  {
+   "mode": "all",
+   "runner": "run_ladder",
+   "reads_loader": true,
+   "read_set": "ladder marks only",
+   "intersects_repaired": false,
+   "charged_by_repair": false,
+   "verdict": "structurally_immune",
+   "note": "price reads are ladder-local; the repaired names never enter the arithmetic",
+   "evidence": {
+    "face_on_disk": "results/e39_ladder_risk/LADDER-RISK-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 0,
+    "perturb_ladder_changed": 7,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [],
+     "perturb_ladder": [
+      "/windows/2018-01-01/ann_return_pct",
+      "/windows/2018-01-01/metrics_engine/ann_return_pct",
+      "/windows/2018-01-01/metrics_engine/ann_vol_pct",
+      "/windows/2018-01-01/metrics_engine/sharpe",
+      "/windows/2018-01-01/metrics_engine/total_return_pct",
+      "/windows/2018-01-01/monthly_win_rate_pct"
+     ],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "ladder",
+   "runner": "run_ladder",
+   "reads_loader": true,
+   "read_set": "ladder marks only",
+   "intersects_repaired": false,
+   "charged_by_repair": false,
+   "verdict": "structurally_immune",
+   "note": "price reads are ladder-local; the repaired names never enter the arithmetic",
+   "evidence": {
+    "face_on_disk": "results/e39_ladder_risk/LADDER-RISK-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 0,
+    "perturb_ladder_changed": 7,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [],
+     "perturb_ladder": [
+      "/windows/2018-01-01/ann_return_pct",
+      "/windows/2018-01-01/metrics_engine/ann_return_pct",
+      "/windows/2018-01-01/metrics_engine/ann_vol_pct",
+      "/windows/2018-01-01/metrics_engine/sharpe",
+      "/windows/2018-01-01/metrics_engine/total_return_pct",
+      "/windows/2018-01-01/monthly_win_rate_pct"
+     ],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "pair",
+   "runner": "run_pair",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e40_pair_drawdown/PAIR-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 42,
+    "perturb_ladder_changed": 17,
+    "perturb_repaired_changed": 6,
+    "samples": {
+     "neutralise": [
+      "/windows/2018-01-01/answers/ann_spread_pct",
+      "/windows/2018-01-01/answers/maxdd_delta_pct",
+      "/windows/2018-01-01/answers/spread_maxdd_pct",
+      "/windows/2018-01-01/answers/spread_worst_month/return_pct",
+      "/windows/2018-01-01/answers/underwater_delta_sessions",
+      "/windows/2018-01-01/profiles/spread_ratio/ann_return_pct"
+     ],
+     "perturb_ladder": [
+      "/windows/2018-01-01/answers/ann_spread_pct",
+      "/windows/2018-01-01/answers/spread_longest_underwater_sessions",
+      "/windows/2018-01-01/profiles/ladder5/ann_return_pct",
+      "/windows/2018-01-01/profiles/ladder5/engine_metrics/ann_return_pct",
+      "/windows/2018-01-01/profiles/ladder5/engine_metrics/ann_vol_pct",
+      "/windows/2018-01-01/profiles/ladder5/engine_metrics/sharpe"
+     ],
+     "perturb_repaired": [
+      "/windows/2018-01-01/answers/ann_spread_pct",
+      "/windows/2018-01-01/profiles/spread_ratio/ann_return_pct",
+      "/windows/2018-01-01/profiles/wide_top9999/ann_return_pct",
+      "/windows/2018-01-01/profiles/wide_top9999/engine_metrics/ann_return_pct",
+      "/windows/2018-01-01/profiles/wide_top9999/engine_metrics/sharpe",
+      "/windows/2018-01-01/profiles/wide_top9999/engine_metrics/total_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "cashdrag",
+   "runner": "run_cashdrag",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e40_cashleg_drag/CASHLeg-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 20,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/windows/2020-01-01/answers/wide_x3_delta_bp",
+      "/windows/2020-01-01/schemes/wide_top9999/x0/ann_return_pct",
+      "/windows/2020-01-01/schemes/wide_top9999/x0/cost_per_year_bp",
+      "/windows/2020-01-01/schemes/wide_top9999/x0/curve_last",
+      "/windows/2020-01-01/schemes/wide_top9999/x0/max_drawdown_pct",
+      "/windows/2020-01-01/schemes/wide_top9999/x0/sharpe"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "tilt",
+   "runner": "run_tilt",
+   "reads_loader": true,
+   "read_set": "closed by the E81 screened twin `screentilt`",
+   "intersects_repaired": null,
+   "charged_by_repair": null,
+   "verdict": "closed",
+   "evidence": {
+    "face_on_disk": "results/e42_tilt_era/TILT-ERA-20261020.json"
+   }
+  },
+  {
+   "mode": "rebalday",
+   "runner": "run_rebalday",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e41_rebal_day/SHIFT-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 50,
+    "perturb_ladder_changed": 24,
+    "perturb_repaired_changed": 16,
+    "samples": {
+     "neutralise": [
+      "/answers/2018-01-01/spread_at_month_end_bp",
+      "/answers/2018-01-01/spread_max_bp",
+      "/answers/2018-01-01/spread_min_bp",
+      "/answers/2018-01-01/spread_range_bp",
+      "/answers/2018-01-01/wide_ann_range_bp",
+      "/answers/2020-01-01/spread_at_month_end_bp"
+     ],
+     "perturb_ladder": [
+      "/answers/2018-01-01/spread_at_month_end_bp",
+      "/answers/2018-01-01/spread_max_bp",
+      "/answers/2018-01-01/spread_min_bp",
+      "/answers/2018-01-01/wide_ann_range_bp",
+      "/windows/2018-01-01/answers/spread_at_month_end_bp",
+      "/windows/2018-01-01/answers/spread_max_bp"
+     ],
+     "perturb_repaired": [
+      "/answers/2018-01-01/spread_at_month_end_bp",
+      "/answers/2018-01-01/spread_max_bp",
+      "/answers/2018-01-01/spread_min_bp",
+      "/answers/2018-01-01/spread_range_bp",
+      "/windows/2018-01-01/answers/spread_at_month_end_bp",
+      "/windows/2018-01-01/answers/spread_max_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "era",
+   "runner": "run_era",
+   "reads_loader": true,
+   "read_set": "closed by the E81 screened twin `screenreg`",
+   "intersects_repaired": null,
+   "charged_by_repair": null,
+   "verdict": "closed",
+   "evidence": {
+    "face_on_disk": "results/e41_spread_era/ERA-20261021.json"
+   }
+  },
+  {
+   "mode": "e42",
+   "runner": "run_spreadsize",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 34,
+    "perturb_ladder_changed": 2,
+    "perturb_repaired_changed": 2,
+    "samples": {
+     "neutralise": [
+      "/answers/max_arithmetic_vs_geometric_gap_bp",
+      "/answers/size_neutral_max_bp",
+      "/answers/size_neutral_min_bp",
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/alpha_monthly_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ],
+     "perturb_repaired": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "spreadsize",
+   "runner": "run_spreadsize",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 34,
+    "perturb_ladder_changed": 2,
+    "perturb_repaired_changed": 2,
+    "samples": {
+     "neutralise": [
+      "/answers/max_arithmetic_vs_geometric_gap_bp",
+      "/answers/size_neutral_max_bp",
+      "/answers/size_neutral_min_bp",
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/alpha_monthly_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ],
+     "perturb_repaired": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "tiltera",
+   "runner": "run_spreadsize",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 34,
+    "perturb_ladder_changed": 2,
+    "perturb_repaired_changed": 2,
+    "samples": {
+     "neutralise": [
+      "/answers/max_arithmetic_vs_geometric_gap_bp",
+      "/answers/size_neutral_max_bp",
+      "/answers/size_neutral_min_bp",
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/alpha_monthly_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ],
+     "perturb_repaired": [
+      "/eras/full/arithmetic_vs_geometric_gap_bp",
+      "/eras/full/engine_ann_diff_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "calcost",
+   "runner": "run_calcost",
+   "reads_loader": true,
+   "read_set": "closed by the E81 screened twin `screencalc`",
+   "intersects_repaired": null,
+   "charged_by_repair": null,
+   "verdict": "closed",
+   "evidence": {
+    "face_on_disk": "results/e42_calendar_cost/COST-20261020.json"
+   }
+  },
+  {
+   "mode": "e43",
+   "runner": "run_tilt4",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e43_tilt_4member/HIST-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 22,
+    "perturb_ladder_changed": 28,
+    "perturb_repaired_changed": 11,
+    "samples": {
+     "neutralise": [
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp",
+      "/eras/2021_2023/beta_spread_on_tilt",
+      "/eras/2021_2023/engine_ann_diff_bp",
+      "/eras/2021_2023/r_squared_spread",
+      "/eras/2021_2023/spread_raw_ann_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/2017_2020/alpha_monthly_bp",
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/beta_ladder_on_tilt",
+      "/eras/2017_2020/beta_spread_on_tilt",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/ladder_mean_month_pct"
+     ],
+     "perturb_repaired": [
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/r_squared_spread",
+      "/eras/2017_2020/spread_raw_ann_bp",
+      "/eras/2017_2020/spread_size_component_ann_bp",
+      "/eras/2017_2020/spread_size_neutral_ann_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "neutralrob",
+   "runner": "run_tilt4",
+   "reads_loader": true,
+   "read_set": "closed by the E81 screened twin `screenrob`",
+   "intersects_repaired": null,
+   "charged_by_repair": null,
+   "verdict": "closed",
+   "evidence": {
+    "face_on_disk": "results/e43_tilt_4member/HIST-20261020.json"
+   }
+  },
+  {
+   "mode": "tilt4",
+   "runner": "run_tilt4",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e43_tilt_4member/HIST-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 22,
+    "perturb_ladder_changed": 28,
+    "perturb_repaired_changed": 11,
+    "samples": {
+     "neutralise": [
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp",
+      "/eras/2021_2023/beta_spread_on_tilt",
+      "/eras/2021_2023/engine_ann_diff_bp",
+      "/eras/2021_2023/r_squared_spread",
+      "/eras/2021_2023/spread_raw_ann_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/2017_2020/alpha_monthly_bp",
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/beta_ladder_on_tilt",
+      "/eras/2017_2020/beta_spread_on_tilt",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/ladder_mean_month_pct"
+     ],
+     "perturb_repaired": [
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/r_squared_spread",
+      "/eras/2017_2020/spread_raw_ann_bp",
+      "/eras/2017_2020/spread_size_component_ann_bp",
+      "/eras/2017_2020/spread_size_neutral_ann_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "widecomp",
+   "runner": "run_tilt4",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e43_tilt_4member/HIST-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 22,
+    "perturb_ladder_changed": 28,
+    "perturb_repaired_changed": 11,
+    "samples": {
+     "neutralise": [
+      "/answers/size_neutral_range_bp",
+      "/eras/2021_2023/arithmetic_vs_geometric_gap_bp",
+      "/eras/2021_2023/beta_spread_on_tilt",
+      "/eras/2021_2023/engine_ann_diff_bp",
+      "/eras/2021_2023/r_squared_spread",
+      "/eras/2021_2023/spread_raw_ann_bp"
+     ],
+     "perturb_ladder": [
+      "/eras/2017_2020/alpha_monthly_bp",
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/beta_ladder_on_tilt",
+      "/eras/2017_2020/beta_spread_on_tilt",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/ladder_mean_month_pct"
+     ],
+     "perturb_repaired": [
+      "/eras/2017_2020/arithmetic_vs_geometric_gap_bp",
+      "/eras/2017_2020/engine_ann_diff_bp",
+      "/eras/2017_2020/r_squared_spread",
+      "/eras/2017_2020/spread_raw_ann_bp",
+      "/eras/2017_2020/spread_size_component_ann_bp",
+      "/eras/2017_2020/spread_size_neutral_ann_bp"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "burnin",
+   "runner": "run_burnin",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_burnin/BURNIN-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 49,
+    "perturb_ladder_changed": 25,
+    "perturb_repaired_changed": 13,
+    "samples": {
+     "neutralise": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2021-01-01..now/wide/ann_return_pct",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2022",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2023",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2024",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2025"
+     ],
+     "perturb_ladder": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/calendar_year_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019"
+     ],
+     "perturb_repaired": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/calendar_year_returns_pct/2019",
+      "/windows/2013-01-01/naive_start_curves/wide/ann_return_pct",
+      "/windows/2013-01-01/warm_slice/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "e44",
+   "runner": "run_burnin",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_burnin/BURNIN-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 49,
+    "perturb_ladder_changed": 25,
+    "perturb_repaired_changed": 13,
+    "samples": {
+     "neutralise": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2021-01-01..now/wide/ann_return_pct",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2022",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2023",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2024",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2025"
+     ],
+     "perturb_ladder": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/calendar_year_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019"
+     ],
+     "perturb_repaired": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/calendar_year_returns_pct/2019",
+      "/windows/2013-01-01/naive_start_curves/wide/ann_return_pct",
+      "/windows/2013-01-01/warm_slice/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "knife",
+   "runner": "run_burnin",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_burnin/BURNIN-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 49,
+    "perturb_ladder_changed": 25,
+    "perturb_repaired_changed": 13,
+    "samples": {
+     "neutralise": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2021-01-01..now/wide/ann_return_pct",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2022",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2023",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2024",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2025"
+     ],
+     "perturb_ladder": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/calendar_year_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019"
+     ],
+     "perturb_repaired": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/calendar_year_returns_pct/2019",
+      "/windows/2013-01-01/naive_start_curves/wide/ann_return_pct",
+      "/windows/2013-01-01/warm_slice/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "skinloo",
+   "runner": "run_burnin",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_burnin/BURNIN-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 49,
+    "perturb_ladder_changed": 25,
+    "perturb_repaired_changed": 13,
+    "samples": {
+     "neutralise": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2021-01-01..now/wide/ann_return_pct",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2022",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2023",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2024",
+      "/era_spans_warm/2021-01-01..now/wide/annual_returns_pct/2025"
+     ],
+     "perturb_ladder": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/ladder5/calendar_year_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019"
+     ],
+     "perturb_repaired": [
+      "/answers/naive_2013_start_wide_ann_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/ann_return_pct",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/annual_returns_pct/2019",
+      "/era_spans_warm/2017-01-01..2020-12-31/wide/calendar_year_returns_pct/2019",
+      "/windows/2013-01-01/naive_start_curves/wide/ann_return_pct",
+      "/windows/2013-01-01/warm_slice/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "e45",
+   "runner": "run_warmspread",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e45_warm_spread/WARMSPREAD-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 28,
+    "perturb_ladder_changed": 9,
+    "perturb_repaired_changed": 6,
+    "samples": {
+     "neutralise": [
+      "/answers/cold_minus_live_bp",
+      "/answers/cold_order_thinnest_to_widest[0]",
+      "/answers/cold_order_thinnest_to_widest[1]",
+      "/answers/max_warm_minus_cold_bp",
+      "/answers/newest_era_is_thinnest_warm",
+      "/answers/newest_era_live_window/spread_bp"
+     ],
+     "perturb_ladder": [
+      "/answers/cold_order_thinnest_to_widest[3]",
+      "/answers/warm_order_thinnest_to_widest[3]",
+      "/eras/2017_2020/cold/ladder/ann_return_pct",
+      "/eras/2017_2020/cold/spread_bp",
+      "/eras/2017_2020/cold/wide/ann_return_pct",
+      "/eras/2017_2020/warm/ladder/ann_return_pct"
+     ],
+     "perturb_repaired": [
+      "/answers/cold_order_thinnest_to_widest[3]",
+      "/answers/warm_order_thinnest_to_widest[3]",
+      "/eras/2017_2020/cold/spread_bp",
+      "/eras/2017_2020/cold/wide/ann_return_pct",
+      "/eras/2017_2020/warm/spread_bp",
+      "/eras/2017_2020/warm/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "warmspread",
+   "runner": "run_warmspread",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e45_warm_spread/WARMSPREAD-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 28,
+    "perturb_ladder_changed": 9,
+    "perturb_repaired_changed": 6,
+    "samples": {
+     "neutralise": [
+      "/answers/cold_minus_live_bp",
+      "/answers/cold_order_thinnest_to_widest[0]",
+      "/answers/cold_order_thinnest_to_widest[1]",
+      "/answers/max_warm_minus_cold_bp",
+      "/answers/newest_era_is_thinnest_warm",
+      "/answers/newest_era_live_window/spread_bp"
+     ],
+     "perturb_ladder": [
+      "/answers/cold_order_thinnest_to_widest[3]",
+      "/answers/warm_order_thinnest_to_widest[3]",
+      "/eras/2017_2020/cold/ladder/ann_return_pct",
+      "/eras/2017_2020/cold/spread_bp",
+      "/eras/2017_2020/cold/wide/ann_return_pct",
+      "/eras/2017_2020/warm/ladder/ann_return_pct"
+     ],
+     "perturb_repaired": [
+      "/answers/cold_order_thinnest_to_widest[3]",
+      "/answers/warm_order_thinnest_to_widest[3]",
+      "/eras/2017_2020/cold/spread_bp",
+      "/eras/2017_2020/cold/wide/ann_return_pct",
+      "/eras/2017_2020/warm/spread_bp",
+      "/eras/2017_2020/warm/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "e46",
+   "runner": "run_livespan",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 22,
+    "perturb_ladder_changed": 7,
+    "perturb_repaired_changed": 6,
+    "samples": {
+     "neutralise": [
+      "/answers/part_band_bp_by_era/2021_2023",
+      "/answers/part_band_bp_by_era/2024_now",
+      "/eras/2021_2023/era_spread_bp",
+      "/eras/2021_2023/part_band_bp",
+      "/eras/2021_2023/part_spreads_bp[0]",
+      "/eras/2021_2023/part_spreads_bp[1]"
+     ],
+     "perturb_ladder": [
+      "/answers/part_band_bp_by_era/2017_2020",
+      "/eras/2017_2020/era_spread_bp",
+      "/eras/2017_2020/part_band_bp",
+      "/eras/2017_2020/part_spreads_bp[1]",
+      "/eras/2017_2020/parts[1]/ladder/ann_return_pct",
+      "/eras/2017_2020/parts[1]/spread_bp"
+     ],
+     "perturb_repaired": [
+      "/answers/part_band_bp_by_era/2017_2020",
+      "/eras/2017_2020/era_spread_bp",
+      "/eras/2017_2020/part_band_bp",
+      "/eras/2017_2020/part_spreads_bp[1]",
+      "/eras/2017_2020/parts[1]/spread_bp",
+      "/eras/2017_2020/parts[1]/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "livespan",
+   "runner": "run_livespan",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 22,
+    "perturb_ladder_changed": 7,
+    "perturb_repaired_changed": 6,
+    "samples": {
+     "neutralise": [
+      "/answers/part_band_bp_by_era/2021_2023",
+      "/answers/part_band_bp_by_era/2024_now",
+      "/eras/2021_2023/era_spread_bp",
+      "/eras/2021_2023/part_band_bp",
+      "/eras/2021_2023/part_spreads_bp[0]",
+      "/eras/2021_2023/part_spreads_bp[1]"
+     ],
+     "perturb_ladder": [
+      "/answers/part_band_bp_by_era/2017_2020",
+      "/eras/2017_2020/era_spread_bp",
+      "/eras/2017_2020/part_band_bp",
+      "/eras/2017_2020/part_spreads_bp[1]",
+      "/eras/2017_2020/parts[1]/ladder/ann_return_pct",
+      "/eras/2017_2020/parts[1]/spread_bp"
+     ],
+     "perturb_repaired": [
+      "/answers/part_band_bp_by_era/2017_2020",
+      "/eras/2017_2020/era_spread_bp",
+      "/eras/2017_2020/part_band_bp",
+      "/eras/2017_2020/part_spreads_bp[1]",
+      "/eras/2017_2020/parts[1]/spread_bp",
+      "/eras/2017_2020/parts[1]/wide/ann_return_pct"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "cutcurve",
+   "runner": "run_cutcurve",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e46_live_span/CUTCURVE-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 468,
+    "perturb_ladder_changed": 139,
+    "perturb_repaired_changed": 54,
+    "samples": {
+     "neutralise": [
+      "/answers/era_level_by_cost/x1/2021_2023[0]",
+      "/answers/era_level_by_cost/x1/2024_now[0]",
+      "/answers/era_level_by_cost/x3/2021_2023[0]",
+      "/answers/era_level_by_cost/x3/2024_now[0]",
+      "/answers/series_by_cost/x1/band_mean_bp/10",
+      "/answers/series_by_cost/x1/band_mean_bp/11"
+     ],
+     "perturb_ladder": [
+      "/answers/era_level_by_cost/x1/2017_2020[0]",
+      "/answers/era_level_by_cost/x3/2017_2020[0]",
+      "/answers/series_by_cost/x1/band_mean_bp/10",
+      "/answers/series_by_cost/x1/band_mean_bp/2",
+      "/answers/series_by_cost/x1/band_mean_bp/3",
+      "/answers/series_by_cost/x1/band_mean_bp/4"
+     ],
+     "perturb_repaired": [
+      "/answers/era_level_by_cost/x1/2017_2020[0]",
+      "/answers/era_level_by_cost/x3/2017_2020[0]",
+      "/answers/series_by_cost/x1/band_mean_bp/2",
+      "/answers/series_by_cost/x3/band_mean_bp/2",
+      "/cuts/x1/10/eras/2017_2020/era_spread_bp",
+      "/cuts/x1/10/eras/2017_2020/part_spreads_bp[6]"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "chase",
+   "runner": "run_chase",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/CHASE-20261020.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 72,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/newest_era_me_bucket_fwd_pct/other_still_holds",
+      "/answers/newest_era_mid_bucket_fwd_pct/disjoint",
+      "/eras/me/2024_now/bottom10_entrants[0]/date",
+      "/eras/me/2024_now/bottom10_entrants[0]/fwd_pct",
+      "/eras/me/2024_now/bottom10_entrants[0]/symbol",
+      "/eras/me/2024_now/bottom10_entrants[1]/bucket"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "entrydelay",
+   "runner": "run_entrydelay",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/ENTRYDELAY-20261020-s20130101.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 85,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/delay_gap_bp/me_lag1",
+      "/answers/delay_gap_bp/me_lag10",
+      "/answers/delay_gap_bp/me_lag3",
+      "/answers/delay_gap_bp/me_lag5",
+      "/answers/delay_rows/me_lag1/eras/2024_now",
+      "/answers/delay_rows/me_lag1/full_window_gap_bp"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "earlydelay",
+   "runner": "run_earlydelay",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/EARLYDELAY-20261020-s20130101.json",
+    "evidence_cutoff": "2026-10-20",
+    "neutralise_changed": 80,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/early_gap_bp/me_m1",
+      "/answers/early_gap_bp/me_m10",
+      "/answers/early_gap_bp/me_m3",
+      "/answers/early_gap_bp/me_m5",
+      "/answers/early_newest_era_gap_bp/me_m1",
+      "/answers/early_newest_era_gap_bp/me_m10"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "neighborhood",
+   "runner": "run_neighborhood",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 40,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/brackets/early_k2/full_window_bp[1]",
+      "/answers/brackets/late_k2/newest_era_bp[1]",
+      "/answers/full_window_gap_bp/me_lag-2",
+      "/answers/neighbor_gap_bp/me_m2",
+      "/answers/neighbor_newest_era_gap_bp/me_p2",
+      "/answers/neighbor_rows/me_m2/eras/2021_2023"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "weeklyclash",
+   "runner": "run_weeklyclash",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/WEEKLYCLASH-20261021-s20130101-c0_3.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 36,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/calendar_rows/week/eras/2021_2023",
+      "/answers/calendar_rows/week/full_window_gap_bp",
+      "/answers/calendar_rows/week/turnover_per_year",
+      "/answers/calendar_rows/week_near_me/eras/2021_2023",
+      "/answers/calendar_rows/week_near_me/turnover_per_year",
+      "/answers/full_window_gap_bp/week"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "weeknames",
+   "runner": "run_weeknames",
+   "reads_loader": true,
+   "read_set": "no price arithmetic on the probed names",
+   "intersects_repaired": false,
+   "charged_by_repair": false,
+   "verdict": "probe_blind",
+   "note": "not even a 5% ladder step moves this face: it publishes no price arithmetic on the perturbed names and the immunity reading is unproven",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/WEEKNAMES-20261021-s20130101.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 0,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "stalehold",
+   "runner": "run_stalehold",
+   "reads_loader": true,
+   "read_set": "no price arithmetic on the probed names",
+   "intersects_repaired": false,
+   "charged_by_repair": false,
+   "verdict": "probe_blind",
+   "note": "not even a 5% ladder step moves this face: it publishes no price arithmetic on the perturbed names and the immunity reading is unproven",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/STALEHOLD-20261021-s20130101.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 0,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "staletail",
+   "runner": "run_staletail",
+   "reads_loader": true,
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it",
+   "intersects_repaired": false,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/STALETAIL-20261021-s20130101.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 23,
+    "perturb_ladder_changed": 0,
+    "perturb_repaired_changed": 0,
+    "samples": {
+     "neutralise": [
+      "/answers/era_relative_bp_per_year/2021_2023",
+      "/answers/era_relative_bp_per_year/2024_now",
+      "/answers/newest_era_relative_bp",
+      "/answers/relative_all_events_bp_per_year",
+      "/answers/relative_bp_per_year",
+      "/answers/relative_share_of_raw"
+     ],
+     "perturb_ladder": [],
+     "perturb_repaired": []
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  },
+  {
+   "mode": "panelsplit",
+   "runner": "run_panelsplit",
+   "reads_loader": true,
+   "read_set": "wide per-name prices + ladder marks",
+   "intersects_repaired": true,
+   "charged_by_repair": true,
+   "verdict": "moves_under_repair",
+   "note": "the repaired prints are charged: this face must be quoted with its screen arm",
+   "evidence": {
+    "face_on_disk": "results/e44_midmonth/PANELSPLIT-20261021-s20130101.json",
+    "evidence_cutoff": "2026-10-21",
+    "neutralise_changed": 256,
+    "perturb_ladder_changed": 2,
+    "perturb_repaired_changed": 2,
+    "samples": {
+     "neutralise": [
+      "/answers/adjacent",
+      "/answers/bp_per_year",
+      "/answers/down",
+      "/answers/events",
+      "/answers/integer_ratio_events",
+      "/answers/max_event_bp"
+     ],
+     "perturb_ladder": [
+      "/top_events[6]/close",
+      "/top_events[6]/prev_close"
+     ],
+     "perturb_repaired": [
+      "/top_events[0]/close",
+      "/top_events[0]/prev_close"
+     ]
+    },
+    "faces_probed": [
+     "returned"
+    ]
+   }
+  }
+ ],
+ "summary": {
+  "rows": 33,
+  "probe_units": 19,
+  "verdicts": {
+   "structurally_immune": 2,
+   "moves_under_repair": 25,
+   "closed": 4,
+   "probe_blind": 2
+  },
+  "charged_by_repair_modes": [
+   "burnin",
+   "cashdrag",
+   "chase",
+   "cutcurve",
+   "e42",
+   "e43",
+   "e44",
+   "e45",
+   "e46",
+   "earlydelay",
+   "entrydelay",
+   "knife",
+   "livespan",
+   "neighborhood",
+   "pair",
+   "panelsplit",
+   "rebalday",
+   "skinloo",
+   "spreadsize",
+   "staletail",
+   "tilt4",
+   "tiltera",
+   "warmspread",
+   "weeklyclash",
+   "widecomp"
+  ],
+  "structurally_immune_modes": [
+   "all",
+   "ladder"
+  ],
+  "unproven_modes": [
+   "stalehold",
+   "weeknames"
+  ]
+ },
+ "honest": [
+  "a 5% step on five names is a lower bound on sensitivity: a mode that averages over a wide book can absorb one name's move, so 'repaired' hits are detected more reliably than they are sized",
+  "arm B repairs only the `neutralise` arm; `neutralise_int` (67 names, the conservative branch) is a subset, so a mode that is clean under B is clean under it too, but not vice versa",
+  "no published face is regenerated and no ledger row is written: this is a triage of read sets, not a re-derivation of any level",
+  "modes sharing one runner are probed once (default arguments); a published face produced with non-default arguments could still differ"
+ ],
+ "elapsed_sec": 467.1
+}
