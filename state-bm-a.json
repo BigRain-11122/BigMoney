@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T05:50:00+08:00",
+ "clock_read": "2026-10-27T06:42:15+08:00",
  "codely_live_count": 3,
  "codely_live_count_note": "r1026 2026-10-17T05:24:24+08:00 census: headless-only -p count=3 (gate-fixed probe face)",
  "cpu_load_pct": 9.3,
@@ -272,20 +272,16 @@
  "orphan_faces": 20,
  "orphan_killed": 0,
  "push_verified": {
-  "ahead": 0,
-  "behind": 0,
-  "note": "r1117 delivered on the second attempt after a clean rebase over two mid-window bm-c commits; two shared derived faces kept this window's fresher run",
-  "origin_tip": "b61396ba39",
-  "ts": "2026-10-26T11:54:35+08:00"
+  "note": "pending this window"
  },
  "ram_free_gb": 25.27,
  "ram_free_mb": 25876,
  "ram_free_pct": 27.0,
  "ram_load_pct": 73.0,
- "recent_artifact": "docs/live_book/LIVE-BOOK-20261027.md",
- "round": 1124,
- "round_no": 1125,
- "round_no_label": "r1124",
+ "recent_artifact": "CODELY.md + Tools/memory_face_guard.py",
+ "round": 1125,
+ "round_no": 1126,
+ "round_no_label": "r1125",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
  "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
  "s6_face_r1102": "S6 42-leg chain (r1102 clone of the r1099 face): dualrun ZERO-DRIFT 616 entries streak 51 | compute_audit rc0 | py_watermark rc0 | update_daily rc0 | marks_coverage rc3 + marks_capture rc0 (outside window) | market_regime ORANGE breadth 0.85 | scorecard/market_clock/lhb/zt_pool/heat/futures/repo rc0 | regime_thermo rc0 | dualarm rc0 | rev_osc rc0 | minute_feed rc0 | ths/ah/premium/fundamental/b_layer rc0 | t35_open_fill_verify rc1 (known marks gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local-LLM legs",
@@ -307,13 +303,13 @@
   "origin_tip": "b61396ba39",
   "ts": "2026-10-26T11:54:35+08:00"
  },
- "task": "r1124: the one page the owner reads now states the book in yuan, and every row shows the percentage it came from",
+ "task": "r1125: the memory face is rebuilt and now has a tripwire -- 27 rows, zero lost, structure back",
  "total_ram_gb": 93.6,
- "ts": "2026-10-27T06:00:23+08:00",
+ "ts": "2026-10-27T06:42:15+08:00",
  "updated": "2026-10-24T07:43:23+08:00",
- "updated_at": "2026-10-27T06:00:23+08:00",
- "verdict": "green red=false (smoke 78/78; orders_ack CLEAN 114/123/0; attrition CLEAN; orphan 0/11; compute_audit FLAG:supply_gap,supply_owner_silent = bm-b lane alive, supply_floor breach=false)",
- "verify": "system_v1_paper selftest 12/12 ALL LEGS PASS (new leg 12: same-date -> True + 'not quoting a lonely price'; behind coverage_90 -> False + names the coverage date; panel absent -> None + note starts 'panel coverage face unreadable'); live run rc0 cutoff=2026-10-20 marks=12 entries=30 open_pos=11, staleness lag_trading_days=4 priced_at_widest_current_date=true coverage_pct=31.4; smoke 77/77 PASS 0 FAIL; orders_ack_scan CLEAN 114/123/0 zero face divergence; dualrun ZERO-DRIFT 624 entries streak 51; attrition CLEAN 4 ledgers (5 historical shrinks healed); D-19 probe decisions_changed=false orders_changed=false both reproducible; saturation_engine alive rc0; orphan probe 0/20",
+ "updated_at": "2026-10-27T06:42:15+08:00",
+ "verdict": "green red=false (smoke 78/78; orders_ack CLEAN 114/123/0; attrition CLEAN 4 ledgers; orphan 0/20; satengine was DEAD 7127s -> revived same round (rc1 -> rc0 alive); CODELY.md rebuilt LF 4->66 PUA 19->0 entries 27 missing=0 extra=0)",
+ "verify": "CODELY.md rebuild: base blob da99a6e9ce (62 lines, PUA 0) + the three rows appended after it recovered from raw objects by ASCII marker (r1298 utf-8 542 chars, r1165 ascii 1193, r1166 ascii 1255); asserts LF>=5, PUA==0, entry list equality vs the mangled face = 27/27 missing=0 extra=0; Tools/memory_face_guard.py selftest 10/10 + live check PASS (bytes=39373 lf=66 sections=4 entries=28 pua=0); smoke 78/78 PASS 0 FAIL; attrition CLEAN (4 ledgers, 3 historical shrinks healed); orders_ack_scan CLEAN 114/123/0 zero face divergence; saturation_engine status rc1 dead (heartbeat 7127s) -> register_satengine_task + tick -> rc0 alive (heartbeat_age 5s)",
  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
  "verify_r1109": "fund_pit_factor_panel selftest 9/9; run rc0 over 200 month-ends (median report_differs 0.727 window, roe rho 0.896, min top-decile overlap 0.211); panel 281986 rows / 24 asofs lookahead-asserted; smoke 56/56; attrition CLEAN",
  "verify_r1110": "heartbeat_write selftest 10/10; live heal ack 0->118; orders_ack_scan CLEAN 109/118/0; smoke 56/56",
@@ -322,5 +318,9 @@
  "verify_r1122": "etf_book_ceo_page selftest 13/13 (calendar arithmetic, money closes to the cent, render sections, caveats carried, single-writer guard rejects bm-b/bm-c/None); live run wrote LIVE-BOOK-20261027.md twice byte-identically (idempotent) naming 5 ETFs / 471,226 book / 528,774 cash / next rebalance 2026-11-11; chain --only etf_book_ceo_page rc0; smoke 76/76",
  "s6_face_r1123": "core legs rc0: smoke 77/77 (system_v1_paper is chained; new face reached smoke clean) | dualrun ZERO-DRIFT 624 entries streak 51 | compute_audit rc0 FLAG:supply_gap,supply_owner_silent (ready 3 / ready_ignitable 0 / ready_foreign_alive 3 = bm-b lane alive and burning at GPU 96%) | attrition CLEAN 4 ledgers | orders_ack CLEAN 114/123/0 | D-19 dec+ord unchanged both reproducible (fd9e59cd / c067b3b2) | saturation_engine alive | orphan 0/20 | full 50-leg chain NOT re-run: r1122 ran it 55 min before this window and the only changed leg was run standalone",
  "s6_face_r1124": "S6 core legs rc0 this window: compute_audit rc0 FLAG:supply_gap,supply_owner_silent (pool_ready 3 / ready_ignitable 0 / ready_foreign_alive 3 = bm-b lane alive, breach_ignitable=true but supply_floor breach=false) | py_watermark rc0 red=false lane healthy | attrition CLEAN 4 ledgers (6 historical shrinks healed) | orders_ack_scan CLEAN 114/123/0 zero face divergence | D-19 probe decisions_changed=false orders_changed=false, dec fd9e59cd / ord c067b3b2 both reproducible, advance = NOOP (read-back equality OK, heartbeat mirrors synced 6) | orphan face 0/11 | NOT re-run: the other 49 S6 legs were run at 04:58 by r1122/r1123 and nothing they consume changed (pre-open, no new bar); re-burning identical faces is duplication, not product",
- "verify_r1124": "etf_book_ceo_page selftest 16/16 (new L13 expected_annual_cny == backtest cagr x capital = 110400.00; L14 excess_annual_cny == excess_pp x capital = 80500.00; L15 absent inputs -> None, never 0); live run rc0 rewrote LIVE-BOOK-20261027.md with the money table (110,400 / 80,500 / -60,100 on 1,000,000); smoke 78/78 PASS 0 FAIL; attrition CLEAN 4 ledgers; orders_ack CLEAN 114/123/0; D-19 both faces unchanged and reproducible, advance NOOP; orphan 0/11"
+ "verify_r1124": "etf_book_ceo_page selftest 16/16 (new L13 expected_annual_cny == backtest cagr x capital = 110400.00; L14 excess_annual_cny == excess_pp x capital = 80500.00; L15 absent inputs -> None, never 0); live run rc0 rewrote LIVE-BOOK-20261027.md with the money table (110,400 / 80,500 / -60,100 on 1,000,000); smoke 78/78 PASS 0 FAIL; attrition CLEAN 4 ledgers; orders_ack CLEAN 114/123/0; D-19 both faces unchanged and reproducible, advance NOOP; orphan 0/11",
+ "s6_face_r1125": "S6 core legs this window: saturation_engine DEAD->revived (rc1->rc0, heartbeat 7127s->5s) | smoke 78/78 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | orders_ack_scan CLEAN 114/123/0 | D-19 decisions DELTA/repro@d39d33e/286825 + orders same/repro@d39d33e/384256 -> consumed D-20261027-01 (7/7 re-enabled by the round) and D-20261027-08 (CODELY.md rebuild = done here) | orphan 0/20 | NOT re-run: the rest of the 50-leg chain was run 05:00-06:00 by r1122-r1124 and nothing it consumes changed (pre-open, no new bar) -- re-burning identical faces is duplication not product",
+ "decisions_scan_r1125": "dlatest origin decisions.md hash advanced fd9e59cd -> d39d33e (281828 -> 286825 B): 10 new rows (D-20261027-01..05, 08..10). Two name this repo: D-20261027-01 (bm-a Bigmoney 7/7 tasks Disabled; the 00:00 round already re-enabled 7/7 = verified nothing to do) and D-20261027-08 (CODELY.md damage + repair recipe) = executed this round with the acceptance asserts green. Others dispatch HQ tools / 夜轮 / 周轮, no BigMoney obligation.",
+ "verify_r1125": "CODELY.md rebuild: base blob da99a6e9ce (62 lines, PUA 0) + the three rows appended after it recovered from raw objects by ASCII marker (r1298 utf-8 542 chars, r1165 ascii 1193, r1166 ascii 1255); asserts LF>=5, PUA==0, entry list equality vs the mangled face = 27/27 missing=0 extra=0; Tools/memory_face_guard.py selftest 10/10 + live check PASS (bytes=39373 lf=66 sections=4 entries=28 pua=0); smoke 78/78 PASS 0 FAIL; attrition CLEAN (4 ledgers, 3 historical shrinks healed); orders_ack_scan CLEAN 114/123/0 zero face divergence; saturation_engine status rc1 dead (heartbeat 7127s) -> register_satengine_task + tick -> rc0 alive (heartbeat_age 5s)",
+ "memory_face_r1125": "CODELY.md rebuilt from da99a6e9ce + 3 recovered rows; guard Tools/memory_face_guard.py check PASS"
 }
