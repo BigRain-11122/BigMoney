@@ -1,0 +1,882 @@
+{
+ "ts": "2026-10-26 09:59:26",
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_book_bridge.py",
+ "config": {
+  "rebal": 20,
+  "widths": [
+   5,
+   12
+  ],
+  "target_vol": 0.08,
+  "beta_target": 0.2,
+  "cost_bp_per_side": 10.0,
+  "short_start": "2024-01-01",
+  "universe_sizes": {
+   "ticket": 1498,
+   "card": 1499
+  },
+  "universe_diff": {
+   "ticket_only": [
+    "159005"
+   ],
+   "card_only": [
+    "511180",
+    "511380"
+   ],
+   "shared": 1497
+  }
+ },
+ "arms": {
+  "card@ticket|n5|none": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.1533,
+    "sharpe": 0.945,
+    "maxdd": -0.1604,
+    "vol": 0.1733,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.2114,
+    "sharpe": 1.268,
+    "maxdd": -0.1604,
+    "vol": 0.1695,
+    "years": 2.81
+   }
+  },
+  "card@ticket|n5|vol8": {
+   "turnover_per_decision": 1.035,
+   "full": {
+    "cagr": 0.1088,
+    "sharpe": 1.042,
+    "maxdd": -0.1056,
+    "vol": 0.1089,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.1674,
+    "sharpe": 1.515,
+    "maxdd": -0.1056,
+    "vol": 0.1108,
+    "years": 2.81
+   }
+  },
+  "card@ticket|n12|none": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.1023,
+    "sharpe": 0.708,
+    "maxdd": -0.2248,
+    "vol": 0.1621,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.217,
+    "sharpe": 1.432,
+    "maxdd": -0.1274,
+    "vol": 0.1513,
+    "years": 2.81
+   }
+  },
+  "card@ticket|n12|vol8": {
+   "turnover_per_decision": 0.925,
+   "full": {
+    "cagr": 0.0737,
+    "sharpe": 0.774,
+    "maxdd": -0.1504,
+    "vol": 0.1025,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.1576,
+    "sharpe": 1.51,
+    "maxdd": -0.1064,
+    "vol": 0.1049,
+    "years": 2.81
+   }
+  },
+  "card@card|n5|none": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.1556,
+    "sharpe": 1.002,
+    "maxdd": -0.1604,
+    "vol": 0.1638,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.2364,
+    "sharpe": 1.489,
+    "maxdd": -0.1604,
+    "vol": 0.1572,
+    "years": 2.81
+   }
+  },
+  "card@card|n5|vol8": {
+   "turnover_per_decision": 1.08,
+   "full": {
+    "cagr": 0.1149,
+    "sharpe": 1.132,
+    "maxdd": -0.1056,
+    "vol": 0.105,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.2014,
+    "sharpe": 1.836,
+    "maxdd": -0.1056,
+    "vol": 0.1076,
+    "years": 2.81
+   }
+  },
+  "card@card|n12|none": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.1403,
+    "sharpe": 0.97,
+    "maxdd": -0.1588,
+    "vol": 0.1531,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.2377,
+    "sharpe": 1.579,
+    "maxdd": -0.1289,
+    "vol": 0.1481,
+    "years": 2.81
+   }
+  },
+  "card@card|n12|vol8": {
+   "turnover_per_decision": 0.934,
+   "full": {
+    "cagr": 0.0947,
+    "sharpe": 0.978,
+    "maxdd": -0.1177,
+    "vol": 0.1018,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.1808,
+    "sharpe": 1.714,
+    "maxdd": -0.107,
+    "vol": 0.1045,
+    "years": 2.81
+   }
+  },
+  "ticket@ticket|n5|none": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.1317,
+    "sharpe": 0.807,
+    "maxdd": -0.2223,
+    "vol": 0.1798,
+    "years": 6.81
+   },
+   "since2024": {
+    "cagr": 0.2216,
+    "sharpe": 1.274,
+    "maxdd": -0.1519,
+    "vol": 0.1765,
+    "years": 2.81
+   }
+  },
+  "ticket@ticket|n5|vol": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0715,
+    "sharpe": 0.851,
+    "maxdd": -0.1226,
+    "vol": 0.089,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1083,
+    "sharpe": 1.286,
+    "maxdd": -0.0771,
+    "vol": 0.0865,
+    "years": 2.81
+   },
+   "k_mean": 0.5654,
+   "cash_share": 0.4346,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n5|vol+repo": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0805,
+    "sharpe": 0.948,
+    "maxdd": -0.1187,
+    "vol": 0.0891,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1168,
+    "sharpe": 1.377,
+    "maxdd": -0.0756,
+    "vol": 0.0865,
+    "years": 2.81
+   },
+   "k_mean": 0.5654,
+   "cash_share": 0.4346,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n5|beta": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0509,
+    "sharpe": 0.836,
+    "maxdd": -0.0738,
+    "vol": 0.0643,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1004,
+    "sharpe": 1.266,
+    "maxdd": -0.0619,
+    "vol": 0.0816,
+    "years": 2.81
+   },
+   "k_mean": 0.3681,
+   "cash_share": 0.6319,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n5|beta+repo": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0646,
+    "sharpe": 1.045,
+    "maxdd": -0.0691,
+    "vol": 0.0643,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1105,
+    "sharpe": 1.381,
+    "maxdd": -0.0601,
+    "vol": 0.0817,
+    "years": 2.81
+   },
+   "k_mean": 0.3681,
+   "cash_share": 0.6319,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n12|none": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0882,
+    "sharpe": 0.618,
+    "maxdd": -0.26,
+    "vol": 0.1649,
+    "years": 6.81
+   },
+   "since2024": {
+    "cagr": 0.2151,
+    "sharpe": 1.387,
+    "maxdd": -0.1181,
+    "vol": 0.1555,
+    "years": 2.81
+   }
+  },
+  "ticket@ticket|n12|vol": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0386,
+    "sharpe": 0.505,
+    "maxdd": -0.1805,
+    "vol": 0.0852,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.111,
+    "sharpe": 1.299,
+    "maxdd": -0.0818,
+    "vol": 0.0877,
+    "years": 2.81
+   },
+   "k_mean": 0.601,
+   "cash_share": 0.399,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n12|vol+repo": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0468,
+    "sharpe": 0.601,
+    "maxdd": -0.1737,
+    "vol": 0.0852,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1187,
+    "sharpe": 1.38,
+    "maxdd": -0.0795,
+    "vol": 0.0877,
+    "years": 2.81
+   },
+   "k_mean": 0.601,
+   "cash_share": 0.399,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n12|beta": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0341,
+    "sharpe": 0.718,
+    "maxdd": -0.0757,
+    "vol": 0.0504,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.0841,
+    "sharpe": 1.413,
+    "maxdd": -0.0419,
+    "vol": 0.061,
+    "years": 2.81
+   },
+   "k_mean": 0.3213,
+   "cash_share": 0.6787,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n12|beta+repo": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0485,
+    "sharpe": 1.001,
+    "maxdd": -0.0593,
+    "vol": 0.0505,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.0953,
+    "sharpe": 1.587,
+    "maxdd": -0.0417,
+    "vol": 0.0611,
+    "years": 2.81
+   },
+   "k_mean": 0.3213,
+   "cash_share": 0.6787,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n5|none": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.157,
+    "sharpe": 0.999,
+    "maxdd": -0.1703,
+    "vol": 0.1659,
+    "years": 6.81
+   },
+   "since2024": {
+    "cagr": 0.2571,
+    "sharpe": 1.563,
+    "maxdd": -0.1519,
+    "vol": 0.1613,
+    "years": 2.81
+   }
+  },
+  "ticket@card|n5|vol": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0827,
+    "sharpe": 1.005,
+    "maxdd": -0.0868,
+    "vol": 0.0859,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1355,
+    "sharpe": 1.507,
+    "maxdd": -0.0868,
+    "vol": 0.0908,
+    "years": 2.81
+   },
+   "k_mean": 0.621,
+   "cash_share": 0.379,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n5|vol+repo": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0905,
+    "sharpe": 1.092,
+    "maxdd": -0.0854,
+    "vol": 0.0859,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1435,
+    "sharpe": 1.587,
+    "maxdd": -0.0854,
+    "vol": 0.0909,
+    "years": 2.81
+   },
+   "k_mean": 0.621,
+   "cash_share": 0.379,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n5|beta": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.059,
+    "sharpe": 1.083,
+    "maxdd": -0.0605,
+    "vol": 0.0565,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1137,
+    "sharpe": 1.582,
+    "maxdd": -0.0605,
+    "vol": 0.0728,
+    "years": 2.81
+   },
+   "k_mean": 0.3602,
+   "cash_share": 0.6398,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n5|beta+repo": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0729,
+    "sharpe": 1.322,
+    "maxdd": -0.0587,
+    "vol": 0.0566,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.124,
+    "sharpe": 1.713,
+    "maxdd": -0.0587,
+    "vol": 0.0729,
+    "years": 2.81
+   },
+   "k_mean": 0.3602,
+   "cash_share": 0.6398,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n12|none": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.134,
+    "sharpe": 0.933,
+    "maxdd": -0.1626,
+    "vol": 0.1531,
+    "years": 6.81
+   },
+   "since2024": {
+    "cagr": 0.2385,
+    "sharpe": 1.559,
+    "maxdd": -0.1197,
+    "vol": 0.1507,
+    "years": 2.81
+   }
+  },
+  "ticket@card|n12|vol": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.0658,
+    "sharpe": 0.814,
+    "maxdd": -0.1218,
+    "vol": 0.0861,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1275,
+    "sharpe": 1.433,
+    "maxdd": -0.0835,
+    "vol": 0.0904,
+    "years": 2.81
+   },
+   "k_mean": 0.6394,
+   "cash_share": 0.3606,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n12|vol+repo": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.0734,
+    "sharpe": 0.898,
+    "maxdd": -0.1161,
+    "vol": 0.0861,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1348,
+    "sharpe": 1.507,
+    "maxdd": -0.0825,
+    "vol": 0.0904,
+    "years": 2.81
+   },
+   "k_mean": 0.6394,
+   "cash_share": 0.3606,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n12|beta": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.0469,
+    "sharpe": 1.025,
+    "maxdd": -0.0454,
+    "vol": 0.0476,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.0924,
+    "sharpe": 1.584,
+    "maxdd": -0.0421,
+    "vol": 0.0594,
+    "years": 2.81
+   },
+   "k_mean": 0.3243,
+   "cash_share": 0.6757,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@card|n12|beta+repo": {
+   "turnover_per_decision": 1.277,
+   "full": {
+    "cagr": 0.0614,
+    "sharpe": 1.324,
+    "maxdd": -0.0418,
+    "vol": 0.0477,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1036,
+    "sharpe": 1.761,
+    "maxdd": -0.0418,
+    "vol": 0.0595,
+    "years": 2.81
+   },
+   "k_mean": 0.3243,
+   "cash_share": 0.6757,
+   "cash_leg_missing_bars": 0
+  },
+  "card@ticket|n12|vol8@0bp": {
+   "turnover_per_decision": 0.925,
+   "full": {
+    "cagr": 0.0857,
+    "sharpe": 0.887,
+    "maxdd": -0.1402,
+    "vol": 0.1026,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.1727,
+    "sharpe": 1.637,
+    "maxdd": -0.1041,
+    "vol": 0.105,
+    "years": 2.81
+   }
+  },
+  "card@card|n12|vol8@0bp": {
+   "turnover_per_decision": 0.934,
+   "full": {
+    "cagr": 0.1072,
+    "sharpe": 1.093,
+    "maxdd": -0.108,
+    "vol": 0.1018,
+    "years": 6.8
+   },
+   "since2024": {
+    "cagr": 0.1965,
+    "sharpe": 1.844,
+    "maxdd": -0.1047,
+    "vol": 0.1046,
+    "years": 2.81
+   }
+  },
+  "ticket@ticket|n12|vol@0bp": {
+   "turnover_per_decision": 1.303,
+   "full": {
+    "cagr": 0.0473,
+    "sharpe": 0.607,
+    "maxdd": -0.1738,
+    "vol": 0.0852,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.121,
+    "sharpe": 1.405,
+    "maxdd": -0.0793,
+    "vol": 0.0876,
+    "years": 2.81
+   },
+   "k_mean": 0.6019,
+   "cash_share": 0.3981,
+   "cash_leg_missing_bars": 0
+  },
+  "ticket@ticket|n5|beta+repo@8bp": {
+   "turnover_per_decision": 1.53,
+   "full": {
+    "cagr": 0.0646,
+    "sharpe": 1.045,
+    "maxdd": -0.0691,
+    "vol": 0.0643,
+    "years": 6.27
+   },
+   "since2024": {
+    "cagr": 0.1105,
+    "sharpe": 1.382,
+    "maxdd": -0.0601,
+    "vol": 0.0817,
+    "years": 2.81
+   },
+   "k_mean": 0.3681,
+   "cash_share": 0.6319,
+   "cash_leg_missing_bars": 0
+  }
+ },
+ "width_effect_pp": {
+  "card|none": {
+   "ticket": {
+    "full": -5.1,
+    "since2024": 0.56
+   },
+   "card": {
+    "full": -1.53,
+    "since2024": 0.13
+   }
+  },
+  "card|vol8": {
+   "ticket": {
+    "full": -3.51,
+    "since2024": -0.98
+   },
+   "card": {
+    "full": -2.02,
+    "since2024": -2.06
+   }
+  },
+  "ticket|none": {
+   "ticket": {
+    "full": -4.35,
+    "since2024": -0.65
+   },
+   "card": {
+    "full": -2.3,
+    "since2024": -1.86
+   }
+  },
+  "ticket|vol": {
+   "ticket": {
+    "full": -3.29,
+    "since2024": 0.27
+   },
+   "card": {
+    "full": -1.69,
+    "since2024": -0.8
+   }
+  },
+  "ticket|beta": {
+   "ticket": {
+    "full": -1.68,
+    "since2024": -1.63
+   },
+   "card": {
+    "full": -1.21,
+    "since2024": -2.13
+   }
+  },
+  "ticket|beta+repo": {
+   "ticket": {
+    "full": -1.61,
+    "since2024": -1.52
+   },
+   "card": {
+    "full": -1.15,
+    "since2024": -2.04
+   }
+  }
+ },
+ "engine_delta_pp": {
+  "n5|none|ticket": {
+   "full": -2.16,
+   "since2024": 1.02
+  },
+  "n12|none|ticket": {
+   "full": -1.41,
+   "since2024": -0.19
+  },
+  "n5|vol|ticket": {
+   "full": -3.73,
+   "since2024": -5.91
+  },
+  "n12|vol|ticket": {
+   "full": -3.51,
+   "since2024": -4.66
+  },
+  "n5|none|card": {
+   "full": 0.14,
+   "since2024": 2.07
+  },
+  "n12|none|card": {
+   "full": -0.63,
+   "since2024": 0.08
+  },
+  "n5|vol|card": {
+   "full": -3.22,
+   "since2024": -6.59
+  },
+  "n12|vol|card": {
+   "full": -2.89,
+   "since2024": -5.33
+  }
+ },
+ "universe_delta_pp": {
+  "n5|none": {
+   "full": 2.53,
+   "since2024": 3.55
+  },
+  "n12|none": {
+   "full": 4.58,
+   "since2024": 2.34
+  },
+  "n5|vol": {
+   "full": 1.12,
+   "since2024": 2.72
+  },
+  "n12|vol": {
+   "full": 2.72,
+   "since2024": 1.65
+  }
+ },
+ "vol_label_delivery": {
+  "card_engine@card_panel": {
+   "delivered_vol_full": 0.1018,
+   "ratio_to_label": 1.272,
+   "k_mean": null
+  },
+  "card_engine@ticket_panel": {
+   "delivered_vol_full": 0.1025,
+   "ratio_to_label": 1.281,
+   "k_mean": null
+  },
+  "ticket_engine@ticket_panel": {
+   "delivered_vol_full": 0.0852,
+   "ratio_to_label": 1.065,
+   "k_mean": 0.601
+  },
+  "ticket_engine@card_panel": {
+   "delivered_vol_full": 0.0861,
+   "ratio_to_label": 1.076,
+   "k_mean": 0.6394
+  }
+ },
+ "bridge": {
+  "start": {
+   "key": "card@card|n12|vol8",
+   "cagr": 0.0947
+  },
+  "steps": [
+   {
+    "knob": "window",
+    "move": "full history -> 2024-01-01",
+    "before": "card@card|n12|vol8",
+    "after": "card@card|n12|vol8",
+    "window": "since2024",
+    "cagr_before": 0.0947,
+    "cagr_after": 0.1808,
+    "effect_pp": 8.61
+   },
+   {
+    "knob": "universe",
+    "move": "card USE_CLASSES -> ticket KEEP",
+    "before": "card@card|n12|vol8",
+    "after": "card@ticket|n12|vol8",
+    "window": "since2024",
+    "cagr_before": 0.1808,
+    "cagr_after": 0.1576,
+    "effect_pp": -2.32
+   },
+   {
+    "knob": "card-fee",
+    "move": "10bp -> no fee (card engine)",
+    "before": "card@ticket|n12|vol8",
+    "after": "card@ticket|n12|vol8@0bp",
+    "window": "since2024",
+    "cagr_before": 0.1576,
+    "cagr_after": 0.1727,
+    "effect_pp": 1.51
+   },
+   {
+    "knob": "basis",
+    "move": "open_to_open -> run_next_open, no fee either side",
+    "before": "card@ticket|n12|vol8@0bp",
+    "after": "ticket@ticket|n12|vol@0bp",
+    "window": "since2024",
+    "cagr_before": 0.1727,
+    "cagr_after": 0.121,
+    "effect_pp": -5.17
+   },
+   {
+    "knob": "ticket-fee",
+    "move": "no fee -> book 8bp + k-leg 10bp",
+    "before": "ticket@ticket|n12|vol@0bp",
+    "after": "ticket@ticket|n12|vol",
+    "window": "since2024",
+    "cagr_before": 0.121,
+    "cagr_after": 0.111,
+    "effect_pp": -1.0
+   },
+   {
+    "knob": "rule",
+    "move": "vol 8% -> beta 0.20",
+    "before": "ticket@ticket|n12|vol",
+    "after": "ticket@ticket|n12|beta",
+    "window": "since2024",
+    "cagr_before": 0.111,
+    "cagr_after": 0.0841,
+    "effect_pp": -2.69
+   },
+   {
+    "knob": "width",
+    "move": "12 names -> 5 names",
+    "before": "ticket@ticket|n12|beta",
+    "after": "ticket@ticket|n5|beta",
+    "window": "since2024",
+    "cagr_before": 0.0841,
+    "cagr_after": 0.1004,
+    "effect_pp": 1.63
+   },
+   {
+    "knob": "cash",
+    "move": "nothing -> repo ladder",
+    "before": "ticket@ticket|n5|beta",
+    "after": "ticket@ticket|n5|beta+repo",
+    "window": "since2024",
+    "cagr_before": 0.1004,
+    "cagr_after": 0.1105,
+    "effect_pp": 1.01
+   },
+   {
+    "knob": "cost",
+    "move": "10bp -> 8bp/side",
+    "before": "ticket@ticket|n5|beta+repo",
+    "after": "ticket@ticket|n5|beta+repo@8bp",
+    "window": "since2024",
+    "cagr_before": 0.1105,
+    "cagr_after": 0.1105,
+    "effect_pp": 0.0
+   }
+  ],
+  "end": {
+   "key": "ticket@ticket|n5|beta+repo@8bp",
+   "cagr": 0.1105
+  },
+  "total_pp": 1.58,
+  "steps_sum_pp": 1.58,
+  "path_dependent": true
+ },
+ "published": {
+  "card_n12_vt08_full": 0.0947,
+  "card_n5_vt08_full": 0.1149,
+  "ticket_beta_n5_since2024": 0.1105
+ },
+ "caveats": [
+  "Path-dependent attribution: the step ORDER is one path through a factorial; an interaction-heavy knob (rule x width) will move between positions.",
+  "Both engines are charged a per-side rate on turnover, but they apply the vol scale differently (inside the weights vs on top of an unlevered book), so the engine step carries a little accounting with it -- disclosed, not netted.",
+  "The card engine accrues the new book from the open of its decision bar, i.e. one bar of return exists before the decision does; run_next_open fills at open(d+1). Neither engine can referee the other's level.",
+  "Survivorship (the ETF pool is today's list) applies to every cell equally and is NOT what the differences measure."
+ ]
+}
