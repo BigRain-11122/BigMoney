@@ -126,8 +126,16 @@ def stats(ser, label):
     }
 
 
-def main():
+def main(repair=False):
+    """repair=True re-runs the identical grid on the split-print-repaired panel and
+    writes a SEPARATE face (etf_robust_pf_repair.json). The published
+    etf_robust_pf.json is never rewritten in place (E81 twin-face rule)."""
     close, openp, amt, feats = E.build_panel()
+    n_flip = None
+    if repair:
+        import etf_equity_alpha as A
+        close, openp, n_flip = A.repair_flips(close, openp)
+        print("repaired flip cells:", n_flip, flush=True)
     score = E.build_score(close, amt, feats)
     print("universe", close.shape[1], flush=True)
 
@@ -167,11 +175,16 @@ def main():
 
     out = {"grid": grid, "vol_target": vt, "target_vol": TARGET_VOL,
            "execution": "decision at close t, execute at open t+1, hold to next open"}
-    p = os.path.join(PATHS.results_dir, "etf_robust_pf.json")
+    name = "etf_robust_pf.json"
+    if repair:
+        out["flips_repaired"] = n_flip
+        out["panel"] = "split-print-repaired twin of etf_robust_pf.json (E81: published face untouched)"
+        name = "etf_robust_pf_repair.json"
+    p = os.path.join(PATHS.results_dir, name)
     with open(p, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
     print("saved", p)
 
 
 if __name__ == "__main__":
-    main()
+    main("--repair" in sys.argv[1:])
