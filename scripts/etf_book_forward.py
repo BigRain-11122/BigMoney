@@ -334,8 +334,11 @@ def _noop_stub(led, headed, day=None):
             and last.get("last_bar") == headed.get("bar")
             and str(last.get("ts", ""))[:10] == day):
         return False
-    runs.append({"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "new_bars": 0,
-                 "last_bar": headed.get("bar")})
+    # the stamp must be built from `day`, not from the wall clock: otherwise the
+    # record we just wrote can never match the day we compare against, and the
+    # one-per-day gate silently degrades back to one-per-poll.
+    runs.append({"ts": "%sT%s" % (day, time.strftime("%H:%M:%S%z")),
+                 "new_bars": 0, "last_bar": headed.get("bar")})
     led["runs"] = runs[-MAX_RUNS:]
     return True
 

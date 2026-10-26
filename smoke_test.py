@@ -476,6 +476,12 @@ def main() -> int:
              "scripts/etf_book_width_audit.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
+            # The money question ("how big can this book get before impact eats it")
+            # rests entirely on this one script: it re-derives both arms off one
+            # engine and pins k=1 to the flat path to 1e-12. A rot here would print
+            # a confident NAV ladder that no longer belongs to the delivered rule.
+            ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
+             "scripts/etf_book_capacity_rule.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
