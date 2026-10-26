@@ -1,8 +1,8 @@
 {
- "ts": "2026-10-26T15:12:14",
+ "ts": "2026-10-26T15:56:40",
  "mode": "probe",
  "py_faces_seen": 3,
- "orphans": 0,
+ "orphans": 1,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
@@ -11,8 +11,8 @@
    "pid": 5036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 1131.7,
-   "cpu_delta_20s": 1.984,
+   "age_min": 1176.1,
+   "cpu_delta_20s": 2.484,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,24 +21,11 @@
    ]
   },
   {
-   "pid": 25792,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
-   "age_min": 11.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": true,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 45392,
+   "pid": 14260,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.5,
-   "cpu_delta_20s": 0.422,
+   "cpu_delta_20s": 0.625,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -48,9 +35,36 @@
     "powershell.exe",
     "wscript.exe"
    ]
+  },
+  {
+   "pid": 25792,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 55.6,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
   }
  ],
- "orphan_details": [],
+ "orphan_details": [
+  {
+   "pid": 25792,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 55.6,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  }
+ ],
  "idle_server_details": [],
  "resident_server_details": [],
  "sample_sec": 20.0,
