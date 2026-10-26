@@ -62,6 +62,10 @@ SIG_DIR = os.path.join(ROOT, "results", "rev_osc_live")
 OUT_DIR = os.path.join(ROOT, "results", "system_v1_paper")
 V1_PATH = os.path.join(OUT_DIR, "SYSTEM-V1_paper.json")
 STD_PATH = os.path.join(OUT_DIR, "REV-OSC-STD_paper.json")
+# bm-b's astock collector publishes the coverage face we compare the book
+# against (r1165); read-only cross-face, zero coupling to that lane's writer.
+ASTOCK_STATUS = os.path.join(ROOT, "results",
+                             "astock_daily_update_status.json")
 
 LANE_OWNER = "bm-a"                     # T-91 harness lane (R31 family)
 TICKET = "T-2026-09-27-91"
@@ -419,18 +423,73 @@ def _marks_summary(marks, eq, fail_closed_days):
             "fail_closed_route_days": fail_closed_days}
 
 
-def price_lag(cal, bars_cutoff):
-    """Name the staleness of the priced face (r1121).
+def price_face_coverage(bars_cutoff, panel):
+    """Is the priced date the panel's *widely current* date, or a lonely one?
+
+    r1165 bm-b: ``panel.cutoff`` is a max tail over the per-name csv files and
+    therefore says nothing about how many names actually reach that date (31.4%
+    while the refresh was mid-flight). ``coverage_90`` -- the date at which
+    >=90% of names are covered -- is the honest "widely current" price date, so
+    a lag measured against the calendar alone cannot distinguish these:
+
+      * behind the calendar but priced at ``coverage_90`` -> the book is using
+        the only defensible cross-section on the box (not alone);
+      * behind ``coverage_90`` -> the book is quoting a price face the panel
+        itself has already superseded for the vast majority of names.
+    """
+    if not isinstance(panel, dict):
+        return {"panel_cutoff_max": None, "panel_coverage_90": None,
+                "panel_coverage_pct": None,
+                "priced_at_widest_current_date": None,
+                "price_face_note": "panel coverage face unreadable "
+                                   "(results/astock_daily_update_status.json)"}
+    cut, cov = panel.get("cutoff"), panel.get("coverage_90")
+    pct = panel.get("coverage_pct")
+    block = {"panel_cutoff_max": cut, "panel_coverage_90": cov,
+             "panel_coverage_pct": pct,
+             "panel_coverage_floor_pct": panel.get("coverage_floor_pct")}
+    if bars_cutoff is None or cov is None:
+        block.update(priced_at_widest_current_date=None,
+                     price_face_note="agreement unknown: "
+                                     + ("bridge cutoff absent"
+                                        if bars_cutoff is None else
+                                        "coverage_90 absent"))
+        return block
+    if bars_cutoff == cov:
+        block.update(priced_at_widest_current_date=True,
+                     price_face_note=f"priced at the widest current date "
+                                     f"({pct}% of names at {cut}); the panel "
+                                     f"itself has no more current "
+                                     f"cross-section")
+    elif bars_cutoff < cov:
+        block.update(priced_at_widest_current_date=False,
+                     price_face_note=f"priced behind the panel's own widest "
+                                     f"current date {cov} (book at "
+                                     f"{bars_cutoff}, panel max tail {cut})")
+    else:
+        block.update(priced_at_widest_current_date=None,
+                     price_face_note=f"book cutoff {bars_cutoff} is ahead of "
+                                     f"the panel coverage date {cov} -- "
+                                     f"agreement not applicable")
+    return block
+
+
+def price_lag(cal, bars_cutoff, panel=None):
+    """Name the staleness of the priced face (r1121, sharpened r1123).
 
     ``panel_cutoff`` is one lane's output: the SIG/BARS bridge cutoff. It can
     sit behind the exchange calendar while every other face on the machine is
     current, and a book quoted at an older cutoff then reads as if it were
     today's equity. Swap the level for an explicit lag so no consumer can
-    quote ``equity_cny`` without its distance from the last trading day.
+    quote ``equity_cny`` without its distance from the last trading day, and
+    state whether that lagging date is the panel's own coverage date (r1165
+    bm-b: "four sessions behind but the panel agrees with me" is not the same
+    fault as "four sessions behind and I am alone").
     """
     last = cal[-1] if cal else None
     upstream = ("results/rev_osc_live SIG/BARS bridge "
                 "(rev_osc_signal_export owner lane)")
+    cover = price_face_coverage(bars_cutoff, panel)
     if bars_cutoff is None or last is None:
         return {
             "calendar_last": last,
@@ -440,21 +499,32 @@ def price_lag(cal, bars_cutoff):
             "reason": ("lag unknown: bridge cutoff absent" if bars_cutoff is None
                        else "lag unknown: calendar unreadable"),
             "upstream_lane": upstream,
+            "price_face_coverage": cover,
         }
     lag = sum(1 for d in cal if d > bars_cutoff)
+    reason = ("priced at the last trading day" if lag == 0 else
+              f"priced {lag} trading day(s) before the last trading day; "
+              "equity_cny and open positions are NOT current")
+    if lag > 0 and cover.get("priced_at_widest_current_date") is True:
+        reason += (" -- but this IS the panel's widest current date "
+                   f"({cover.get('panel_coverage_pct')}% of names there), so "
+                   "the book is not quoting a lonely price")
+    elif lag > 0 and cover.get("priced_at_widest_current_date") is False:
+        reason += (" -- and the panel's own coverage date is "
+                   f"{cover.get('panel_coverage_90')}, so the book sits behind "
+                   "the widest available cross-section")
     return {
         "calendar_last": last,
         "panel_cutoff": bars_cutoff,
         "lag_trading_days": lag,
         "stale": lag > 0,
-        "reason": ("priced at the last trading day" if lag == 0 else
-                   f"priced {lag} trading day(s) before the last trading day; "
-                   "equity_cny and open positions are NOT current"),
+        "reason": reason,
         "upstream_lane": upstream,
+        "price_face_coverage": cover,
     }
 
 
-def build_account_states(cal, rep, hist, bars_cutoff, lane_files):
+def build_account_states(cal, rep, hist, bars_cutoff, lane_files, panel=None):
     """Pure state builders for both accounts (no wall clock, no disk)."""
     counters = rep["counters"]
     common = {
@@ -509,7 +579,7 @@ def build_account_states(cal, rep, hist, bars_cutoff, lane_files):
         "lane_files": lane_files,
         "panel_cutoff": bars_cutoff,
         "etf_calendar_last": cal[-1] if cal else None,
-        "staleness": price_lag(cal, bars_cutoff),
+        "staleness": price_lag(cal, bars_cutoff, panel),
         "awaiting_lane_data": bars_cutoff is None,
         "audit": {"network": "zero", "ledger_trials_added": 0,
                   "seed_registry_added": 0,
@@ -630,8 +700,12 @@ def run() -> int:
             end_pos = len(cal) - 1
 
         rep = replay(cal, pos_of, sigs, bars, end_pos)
+        astock_status = _read_json(ASTOCK_STATUS) \
+            if os.path.exists(ASTOCK_STATUS) else None
+        panel = (astock_status or {}).get("panel")
         v1_state, std_state = build_account_states(
-            cal, rep, hist, bars_cutoff, {"sig": n_sig, "bars": n_bars})
+            cal, rep, hist, bars_cutoff, {"sig": n_sig, "bars": n_bars},
+            panel)
         w1 = write_if_changed(V1_PATH, v1_state)
         w2 = write_if_changed(STD_PATH, std_state)
         if not (w1 or w2):
@@ -922,6 +996,29 @@ def selftest() -> int:
            and "NOT current" in lg1["reason"]
            and lgn["lag_trading_days"] is None and lgn["stale"] is None
            and v1["staleness"] == price_lag(cal2, cal2[T2 - 1]))
+
+        # [12/12] a lagging book must say whether it is ALONE (r1123, bm-b
+        # r1165): panel.cutoff is a max tail, coverage_90 is the honest date
+        pan_same = {"cutoff": cal2[T2 - 1], "coverage_90": cal2[T2 - 3],
+                    "coverage_pct": 31.4, "coverage_floor_pct": 90}
+        pan_later = {"cutoff": cal2[T2 - 1], "coverage_90": cal2[T2 - 2],
+                     "coverage_pct": 12.0, "coverage_floor_pct": 90}
+        lg_same = price_lag(cal2, cal2[T2 - 3], pan_same)
+        lg_later = price_lag(cal2, cal2[T2 - 3], pan_later)
+        lg_none = price_lag(cal2, cal2[T2 - 3], None)
+        ok("price-face coverage: priced at the panel's widest current date "
+           "-> agreement True and the reason says so; behind it -> False "
+           "and names the coverage date; panel absent -> None (unknown)",
+           lg_same["price_face_coverage"]["priced_at_widest_current_date"]
+           is True
+           and lg_later["price_face_coverage"]["priced_at_widest_current_date"]
+           is False
+           and "not quoting a lonely price" in lg_same["reason"]
+           and "widest available cross-section" in lg_later["reason"]
+           and lg_none["price_face_coverage"]["priced_at_widest_current_date"]
+           is None
+           and lg_none["price_face_coverage"]["price_face_note"]
+           .startswith("panel coverage face unreadable"))
 
         if not ok_all:
             print("SELFTEST FAILED")
