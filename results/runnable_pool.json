@@ -21371,7 +21371,7 @@
   },
   {
    "id": "E81-EXPOSED-RUNNER-RAW-HOOKS",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21381,7 +21381,11 @@
    "entered_at": "2026-10-22T22:22:00+08:00",
    "entered_by": "bm-b r1150",
    "evidence_cutoff": "2026-10-21",
-   "runner_note": "one leg per batch; keep the unscreened column and the turnover control beside every screened cell, and re-list the output directory after each variant burn (r1135 pit)"
+   "runner_note": "one leg per batch; keep the unscreened column and the turnover control beside every screened cell, and re-list the output directory after each variant burn (r1135 pit)",
+   "done_at": "2026-10-27T01:55:00+08:00",
+   "done_by": "bm-b r1159",
+   "result_ref": "results/e42_tilt_era/TILT-ERA-20261026-screened.json",
+   "note": "closed by four legs: screencalc (COST twin, 37/72 cells move), screenspread (NEUTRAL twin, 2024_now alpha 161.5->340.2), screenrob (ROBUST twin, sign flip), screentilt (TILT-ERA twin, 0/20 cells -- the face reads only the five ladder members, no flagged name can enter). Digests: DIGEST-20261026-e81-*.md + DIGEST-20261027-e81-screentilt.md"
   },
   {
    "id": "E82-CHURN-GAP-AMPLIFICATION",
@@ -21602,6 +21606,48 @@
    "result_ref": "results/e44_midmonth/SCREENGAPERA-20261023.json",
    "result_note": "delivered 2026-10-24 (commit ba54f4b979) and verified against the entry spec this round: 6 arms / 3 gap limits / 4 eras, zero era spread changes sign under any gap arm, gap@1 vs gap@5 marginal is exactly 0.0bp in all four eras, 6 of 12 era x arm cells move at all and the widest is 2024_now under neutralise_gap@5 (+200bp vs unscreened, -175bp vs adjacent-only) -- i.e. the gapped prints do not carry the published era spread; the adjacent-only arm is what moves it. No reburn: descriptive re-read only, trial 0.",
    "booked_by": "bm-c r1244 (owner bm-b silent; delivered batch booked, not reburned)"
+  },
+  {
+   "id": "E94-EXPOSURE-READSET-TRIAGE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E81 closed the four named exposed legs. Triage the remaining exposed modes by the question the fifth leg proved to matter: does the mode read the per-name loader at all, and does its read set intersect the repaired-name set? Publish one machine-checkable row per exposed mode (reads_loader / read_set / intersects_repaired / verdict) instead of ranking by consumption.",
+   "deliverable": "results/e79/triage-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e81-screentilt.md",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T02:00:00+08:00",
+   "entered_by": "bm-b r1160",
+   "runner_note": "code-level evidence is enough for the intersects column; do not burn a face just to answer it"
+  },
+  {
+   "id": "E95-NEWESTERA-CELL-STABILITY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "title": "The E42 tilt face newest-era cell moved 748.1 -> 697.6 bp across six sessions of new data. Publish a rolling-window stability read of that cell (same cutoff, several window ends) so a real level change is distinguishable from a re-derivation artefact, and state which of the two it is.",
+   "deliverable": "results/e42_tilt_era/NEWESTERA-STABILITY-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e81-screentilt.md",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T02:00:00+08:00",
+   "entered_by": "bm-b r1160",
+   "runner_note": "one leg, no new screen arm; keep the published twin untouched"
+  },
+  {
+   "id": "E96-CHURN-LEVEL-SCREEN-LABEL",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "research/digests/*churnspan*",
+   "title": "r1158 promised that every published churn LEVEL says which screen arm produced it. Audit that promise across the churn digests and patch the ones that still quote a bare level, so no level can be cited without its arm.",
+   "deliverable": "research/digests/CHURN-ARM-AUDIT-<cutoff>.md (table: digest / quoted level / arm named? / patched line)",
+   "source": "r1158 round report promise",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T02:00:00+08:00",
+   "entered_by": "bm-b r1160",
+   "runner_note": "documentation repair only; no burn, no face regeneration"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

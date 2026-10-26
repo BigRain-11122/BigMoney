@@ -1854,6 +1854,143 @@ def run_calcost_screenreg(outdir, start="2020-01-01", pick_n=9999,
     }
 
 
+def _tiltdelta_rows(faces, base="unscreened",
+                    columns=("tilt_annualised_bp", "beta_ladder_on_tilt",
+                             "alpha_monthly_bp", "r_squared")):
+    """(E81) unscreened vs each screened arm, one row per era-and-column cell.
+
+    Every cell keeps the unscreened value beside the arm values, so a reader can
+    see whether the screen moved a level without re-deriving the face.
+    """
+    rows = []
+    eras = list(faces[base]["eras"])
+    arms = [a for a in faces if a != base]
+    for era in eras:
+        u_row = faces[base]["eras"].get(era) or {}
+        for col in columns:
+            u = u_row.get(col)
+            row = {"era": era, "column": col, "unscreened": u}
+            for arm in arms:
+                v = (faces[arm]["eras"].get(era) or {}).get(col)
+                row[arm] = v
+                row["delta_" + arm] = (round(v - u, 4)
+                                       if isinstance(u, (int, float))
+                                       and isinstance(v, (int, float)) else None)
+            rows.append(row)
+    return rows
+
+
+def run_screentilt(outdir, pick_n=9999, exclude=("sh511",),
+                   modes=("neutralise_int", "neutralise"), eras=ERAS):
+    """(E81) replay the E42 tilt-era face from a screened universe.
+
+    E79's matrix left ``era``/``calcost``/``neutralrob`` exposed; the calendar
+    band and the robustness grid now have screened twins, and this leg covers the
+    remaining member-tilt decomposer -- the face that reads "how much of the
+    ladder's monthly return is a size tilt, and what is left over". It rebuilds
+    the whole monthly core per arm (engine curves *and* the member tilt series
+    move together), publishes each arm BESIDE the untouched column, and never
+    rewrites the published ``TILT-ERA-<cutoff>.json`` in place.
+    """
+    import e27_universe_expansion as e27
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw_all = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    faces = {"unscreened": run_tilt_era(None, core=_monthly_core(
+        pick_n, exclude, raw_all), eras=eras)}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw_all, mode=mode,
+                                                        cal=cal_full)
+        reports[mode] = report
+        faces[mode] = run_tilt_era(None, core=_monthly_core(
+            pick_n, exclude, repaired), eras=eras)
+
+    delta = _tiltdelta_rows(faces)
+    arms = ["unscreened"] + list(modes)
+    per_era = [e[0] for e in eras]
+
+    tilt_by_arm = {arm: {era: (faces[arm]["eras"].get(era) or {}).get(
+        "tilt_annualised_bp") for era in per_era} for arm in arms}
+    beta_by_arm = {arm: {era: (faces[arm]["eras"].get(era) or {}).get(
+        "beta_ladder_on_tilt") for era in per_era} for arm in arms}
+    r2_by_arm = {arm: {era: (faces[arm]["eras"].get(era) or {}).get(
+        "r_squared") for era in per_era} for arm in arms}
+
+    def _range(vals):
+        nums = [v for v in vals if isinstance(v, (int, float))]
+        return round(max(nums) - min(nums), 1) if len(nums) > 1 else None
+
+    flips = []
+    for era in per_era:
+        u = tilt_by_arm["unscreened"].get(era)
+        for arm in modes:
+            v = tilt_by_arm[arm].get(era)
+            if isinstance(u, (int, float)) and isinstance(v, (int, float)) \
+                    and (u > 0) != (v > 0):
+                flips.append({"era": era, "arm": arm,
+                              "unscreened_bp": u, "screened_bp": v})
+
+    widest = None
+    for row in delta:
+        mag = max([abs(row["delta_" + m]) for m in modes
+                   if isinstance(row.get("delta_" + m), (int, float))] or [0])
+        if mag and (widest is None or mag > widest["abs_delta"]):
+            widest = {"era": row["era"], "column": row["column"],
+                      "unscreened": row["unscreened"],
+                      "abs_delta": round(mag, 4),
+                      "arms": {m: row.get(m) for m in modes}}
+
+    return {
+        "study": "e81_tilt_era_screened",
+        "evidence_cutoff": faces["unscreened"]["evidence_cutoff"],
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "modes": list(modes), "eras": [e[0] for e in eras],
+            "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean)",
+            "loader": "scripts/panel_screen.py (opt-in; the published TILT-ERA "
+                      "face still reads e27.load_universe() unmodified)",
+            "faces": "E42 ladder tilt by era, rebuilt per arm from the same "
+                     "monthly core builder the published twin uses",
+        },
+        "screen_reports": reports,
+        "faces": faces,
+        "delta": delta,
+        "answers": {
+            "tilt_by_arm_era_bp": tilt_by_arm,
+            "tilt_range_by_arm_bp": {arm: _range(list(tilt_by_arm[arm].values()))
+                                     for arm in arms},
+            "beta_by_arm_era": beta_by_arm,
+            "r_squared_by_arm_era": r2_by_arm,
+            "sign_flips_vs_unscreened": flips,
+            "widest_correction": widest,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": len([
+                r for r in delta
+                if any(r.get("delta_" + m) not in (None, 0) for m in modes)]),
+        },
+        "honest": [
+            "the screen repairs arithmetic impossibility only: a flagged ETF print "
+            "may be genuine (ETF daily limits differ from the 10%/20% stock band), "
+            "so every arm is a sensitivity face, not a corrected truth",
+            "neutralise_int repairs only prints whose price ratio lands on an "
+            "integer; neutralise repairs every adjacent print -- the range between "
+            "them bounds the correction",
+            "eras are calendar partitions of one continuous monthly series; each "
+            "row is measured on its own months, so era bp do not add up to the "
+            "full-sample number",
+            "the tilt regression is descriptive, not a factor-model estimate, and "
+            "the newest era is the shortest so its beta carries the widest error",
+            "the screened tilt is not a pre-registration and books no trial: it is "
+            "the same descriptive face replayed from a different input",
+            "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
+        ],
+    }
+
+
 # ------------------- leg: E43 four-member reach-back (tilt + neutral spread)
 
 def run_tilt4(outdir, core=None, eras=ERAS):
@@ -8875,6 +9012,34 @@ def selftest():
     chk(_rows[1]["delta_vs_adjacent_only_neutralise_gap@5"] == -8.0,
         "a sign-carrying delta keeps its sign against the adjacent arm")
 
+    # (E81 screentilt) the tilt delta table must report a zero arm as zero and a
+    # repaired arm cell-by-cell, with the beta column carried independently.
+    _tf = {"unscreened": {"eras": {"A": {"tilt_annualised_bp": 100.0,
+                                         "beta_ladder_on_tilt": 0.500,
+                                         "alpha_monthly_bp": 5.0,
+                                         "r_squared": 0.250},
+                                   "B": {"bars": 12}}},
+           "neutralise_int": {"eras": {"A": {"tilt_annualised_bp": 100.0,
+                                             "beta_ladder_on_tilt": 0.500,
+                                             "alpha_monthly_bp": 5.0,
+                                             "r_squared": 0.250}}},
+           "neutralise": {"eras": {"A": {"tilt_annualised_bp": 140.0,
+                                         "beta_ladder_on_tilt": 0.620,
+                                         "alpha_monthly_bp": 5.0,
+                                         "r_squared": 0.310}}}}
+    _tr = _tiltdelta_rows(_tf)
+    chk(len(_tr) == 8, "two eras x four columns: a skipped era still publishes rows")
+    chk(all(r["delta_neutralise_int"] in (None, 0) for r in _tr),
+        "an arm that repairs nothing publishes a zero delta on every cell")
+    chk([r["delta_neutralise"] for r in _tr if r["column"] == "tilt_annualised_bp"
+         and r["era"] == "A"] == [40.0],
+        "the repaired arm moves the tilt level by the measured amount")
+    chk([r["delta_neutralise"] for r in _tr if r["column"] == "beta_ladder_on_tilt"
+         and r["era"] == "A"] == [0.12],
+        "the beta column is carried on its own row, not folded into the tilt row")
+    chk(all(r["delta_neutralise"] is None for r in _tr if r["era"] == "B"),
+        "a skipped era has no delta instead of a fabricated one")
+
     # E81 calcost screen twin: an identical arm moves nothing, a shifted arm does.
     # The activity leg is mandatory -- two identical arms would otherwise pass as
     # "the screen changes nothing" without the delta table ever being read.
@@ -9063,7 +9228,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screencalc", "screenspread",
-                             "screenrob", "screenwide", "screenweek",
+                             "screenrob", "screentilt", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera",
@@ -9237,6 +9402,23 @@ def main(argv):
                           "widest_correction": f["answers"]["widest_correction"],
                           "delta_cells": f["answers"]["delta_cells"],
                           "non_zero_delta_cells": f["answers"]["non_zero_delta_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screentilt":
+        f = run_screentilt(None)
+        outdir = os.path.join(ROOT, "results", "e42_tilt_era")
+        p = write_json(outdir, "TILT-ERA-%s-screened.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screentilt", "file": os.path.relpath(p, ROOT),
+                          "tilt_by_arm_era_bp": f["answers"]["tilt_by_arm_era_bp"],
+                          "tilt_range_by_arm_bp": f["answers"]["tilt_range_by_arm_bp"],
+                          "beta_by_arm_era": f["answers"]["beta_by_arm_era"],
+                          "sign_flips_vs_unscreened":
+                              f["answers"]["sign_flips_vs_unscreened"],
+                          "widest_correction": f["answers"]["widest_correction"],
+                          "delta_cells": f["answers"]["delta_cells"],
+                          "non_zero_delta_cells":
+                              f["answers"]["non_zero_delta_cells"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "screenrob":
