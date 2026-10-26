@@ -10,6 +10,7 @@ import sys
 import os
 import json
 import datetime as dt
+import importlib
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -469,7 +470,9 @@ def main() -> int:
             ("product: etf_book_order ticket (exit-code contract)",
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
-             "scripts/etf_book_width_audit.py", ["--selftest"])):
+             "scripts/etf_book_width_audit.py", ["--selftest"]),
+            ("product: gpu_face canonical GPU face (exit-code contract)",
+             "Tools/gpu_face.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -505,6 +508,24 @@ def main() -> int:
               f"clock={_hb.get('clock_read')}")
     except Exception as e:
         check("fleet: heartbeat epoch fields present", False, str(e))
+    # ... and the GPU face on the same heartbeat must agree with itself and carry a
+    # provenance stamp. r1277's face held 25 GPU keys disagreeing by up to 13 GB
+    # (free 13.72 GB next to free 1.31 GB) with util pinned to a literal 0; a fleet
+    # audit reading any single key read a random round's snapshot. Selftest covers
+    # the pure audit; this leg covers the live file, which is where it was broken.
+    try:
+        _mid = json.load(open("fleet/machine.json", encoding="utf-8-sig"))["machine_id"]
+        _hb = json.load(open(f"fleet/machines/{_mid}.json", encoding="utf-8-sig"))
+        _gf = importlib.import_module("Tools.gpu_face")
+        _fnd = _gf.audit(_hb)
+        check("fleet: GPU face self-consistent on heartbeat", not _fnd,
+              f"{_mid}: findings={_fnd or 'none'} stamped={bool(_hb.get('gpu_face_ts'))}")
+        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        check("fleet: GPU face leg wired into the S6 chain", "gpu_face" in _legs,
+              f"legs={len(_legs)}")
+    except Exception as e:
+        check("fleet: GPU face self-consistent on heartbeat", False, str(e))
+        check("fleet: GPU face leg wired into the S6 chain", False, str(e))
 
     return _finish()
 

@@ -67,10 +67,51 @@ is made, so the executable ticket now carries it:
   bar, `etf_book_order` re-emits the ticket. First chained run: forward = NO-OP (no new
   panel bars, cutoff 2026-10-23), order = ticket rewritten, chain 41/41 rc0.
 
+## Correction (r1278): the −1.52pp was a width effect *under the ticket's rule only*
+
+The table above varies width while holding the ticket's beta overlay fixed, then compares the
+12-name row against the 5-name row. But the two published faces do not differ in width alone —
+they also use different leverage rules (ticket: beta target 0.20; card: 8% vol target). So the
+−1.52pp was being attributed to width, although it is the width **under one rule**. Both rules
+re-run on the same book series (`book_leg` cache) and the same accounting, factor 2×2:
+
+| rule | 5 names | 12 names | width effect |
+|---|---|---|---|
+| beta target 0.20 | 11.05% / 1.353 / −6.01% | 9.53% / 1.560 / −4.17% | **−1.52pp** |
+| vol target 8% | 11.69% / 1.351 / −7.56% | 11.88% / 1.355 / −7.95% | **+0.19pp** |
+
+Rule effect (vol minus beta): **+0.64pp at 5 names, +2.35pp at 12 names**; interaction
++1.71pp. So:
+
+- **The width penalty is not a property of width, it belongs to the beta rule.** Under the
+  card's own rule, going from 5 to 12 names is worth +0.19pp of CAGR with unchanged Sharpe
+  (+0.004) and 0.4pp *more* drawdown — i.e. flat, not costly.
+- **The two rules chase the same thing from opposite sides.** A wider basket is calmer: beta
+  falls and realised vol falls. The beta rule therefore cuts exposure *more* when the basket is
+  wide (cash 55.0% → 61.9%), while the vol rule cuts it *less* (cash 48.1% → 42.9%). Same calm
+  signal, opposite action, which is the whole interaction term.
+- Read on the diagonal the two published faces differ by **+0.83pp** (card-side rule at 12 vs
+  ticket rule at 5), not −1.52pp. The card's book is the *better* of the two on this accounting,
+  not the more conservative one.
+
+Honest limits of this correction, both load-bearing:
+
+1. It is measured **inside the ticket engine** (`F.run_next_open` + `BT.apply_overlay`), because
+   that is the only place both rules can be applied to one book series. The card's own headline
+   comes from `R.open_to_open_equity` (10bp/side, vol target inside the engine) and prints
+   9.47% / 0.98 / −11.8% at 12 names — a different level from the 11.88% / 1.355 / −7.95% here.
+   So the two published faces differ in **three** dimensions (width, rule, engine); this square
+   prices the first two and leaves the engine delta explicitly unpriced.
+2. The vol arm inherits r1272's estimator bias: a one-sided `min(1, target/vol)` sized on a
+   biased-low 60-bar estimator delivers ~1.27× its label, which is why the vol arms carry less
+   cash and more drawdown than an 8% label suggests. Reported, not corrected.
+
+The ticket's `width_disclosure` still quotes the beta-rule rows, and now says so.
+
 ## Reproduction
 
 ```
-python scripts/etf_book_width_audit.py --selftest     # 4 legs, offline
+python scripts/etf_book_width_audit.py --selftest     # 8 legs, offline
 python scripts/etf_book_width_audit.py run            # rewrites results/etf_book_width_audit.json
 python scripts/etf_book_order.py --selftest           # 16 legs, incl. the disclosure contract
 ```

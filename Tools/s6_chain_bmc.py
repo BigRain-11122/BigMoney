@@ -1,6 +1,6 @@
 """bm-c S6 chain runner (reusable).
 
-Runs the 39 S6 data/panel maintenance legs in the order fixed by the round
+Runs the 42 S6 data/panel maintenance legs in the order fixed by the round
 prompt, records {leg, rc, elapsed} for each into
 results/_r<round>bmc_s6_chain.json and prints a compact tail summary.
 
@@ -71,6 +71,12 @@ LEGS = [
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
     ("build_status", ["python", "-m", "monitor.build_status"]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
+    # O-20261026-0810-bm-a 4 handed this side the fix: the heartbeat carried 25 GPU
+    # keys from a dozen per-round closeouts, disagreeing by up to 13 GB, with
+    # gpu_util_pct pinned to a literal 0 -- a fleet audit was reading a random
+    # round's snapshot. gpu_face re-probes once and rewrites every alias from that
+    # one reading, so the face is consistent without a session remembering to do it.
+    ("gpu_face", ["python", "Tools/gpu_face.py", "apply"]),
 ]
 
 
