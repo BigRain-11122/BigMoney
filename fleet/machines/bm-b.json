@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T05:45:56+08:00",
+ "clock_read": "2026-10-27T06:08:53+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -10,14 +10,14 @@
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
  "current": "r1166: E101 gap-arm end grid -- the E99 arm delta is a one-transition step, not a rate",
- "current_task": "r1166: E101 gap-arm delta under the end grid (2 arms x 12 ends x 3 eras x 2 books)",
+ "current_task": "r1167 E102 done -> E103-GAPLIMIT-IDENTIFICATION ready in pool; S6 legs partial (no standing bm-b runner)",
  "cyc_round": 1166,
  "d19_note": "r1166: group origin decisions.md/l orders.md read via cat-file; rows D-20261027-01..05 landed 00:07 (bm-a). Only D-20261027-01 touches BigMoney (bm-a task family Disabled->resumed): local check done -- Bigmoney-IterationLoop next-run 05:47 and Bigmoney-LoopWatchdog 05:46 both scheduled (Ready), so bm-b has no UNEXPECTED-DISABLED. Watermark RE-BASELINED: stored 17c29359 does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md) = fd9e59cd..., recipe now written into state-bm-b.json.",
  "dept": "research+engineering",
  "did": [
   {
-   "card": "E101-GAPARM-ENDGRID",
    "action": "done",
+   "card": "E101-GAPARM-ENDGRID",
    "evidence": "results/e44_midmonth/GAPARM-ENDGRID-20261026-s20180101.json + research/digests/DIGEST-20261027-e101-gaparm-endgrid.md",
    "ts": "2026-10-27T05:45:56+08:00"
   }
@@ -59,7 +59,7 @@
  "gpu_vram_free_mib": 3722,
  "gpu_vram_used_mb": 4470,
  "gpu_vram_used_mib": 4470,
- "heartbeat_epoch_utc": 1793051156,
+ "heartbeat_epoch_utc": 1793052533,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -78,7 +78,7 @@
  "last_orders_watermark": "c067b3b20f6b8138@17b6385/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "da99a6e9ce -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-27T05:45:56+08:00",
+ "last_seen": "2026-10-27T06:08:53+08:00",
  "latest_artifact": "results/e44_midmonth/MID-20261026-s20180101-armed.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -204,7 +204,8 @@
   "O-20261026-0930-bm-c.md",
   "O-20261026-0400-bm-c.md"
  ],
- "orders_ack_last": "O-20261026-0400-bm-c.md",
+ "orders_ack_count": 115,
+ "orders_ack_last": "O-20261026-0930-bm-c.md",
  "orders_ack_note": "r1159: seven unacked orders consumed (2317/2325/1530/0400/0735/0810/0930); acks in fleet/ack/O-*-bm-b-ack.md",
  "orphan_face": 0,
  "orphan_faces": 0,
@@ -317,13 +318,19 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T04:20:00+08:00"
  },
+ "r1164_push": {
+  "behind_origin_main": 0,
+  "note": "clean delivery da99a6e9ce onto ba4ffbff3a (bm-c r1297). First push rejected (2 incoming commits); rebase --autostash replayed 1 commit. Two content conflicts resolved on the origin base: regime_state.json -> origin-verbatim (daemon-derived), runnable_pool.json -> our edits re-applied by script on the origin blob (27/5 lines, no whole-file replay). Autostash pop left 10 UU derived faces (machine-health, *_update_status, compute_audit, dashboard_status, token_usage) -> resolved to committed state, stash dropped. Four-way verified: HEAD==origin/main==da99a6e9ce, behind=0 ahead=0, ls-tree origin carries both E99 faces. Line-ending trap caught in-window: the pool/state/heartbeat blobs were CRLF on the old local base but LF on origin, so a naive rewrite read as a 21,738-line whole-file diff until normalised to the origin convention.",
+  "pushed_sha": "da99a6e9ce",
+  "status": "PUSHED_VERIFIED"
+ },
  "ram_free_gb": 10.3,
  "ram_free_mb": 11673,
- "ram_free_pct": 43.4,
+ "ram_free_pct": 41.6,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1163,
- "round_no": 1164,
+ "round_no": 1167,
  "round_no_label": "r1164",
  "sat_engine": {
   "checked_at": "2026-10-23T00:21:41+08:00",
@@ -336,16 +343,9 @@
  },
  "task": "E99 start-2018 churn levels named by arm",
  "task_short": "E99 levels-by-arm",
- "ts": "2026-10-27T05:45:56+08:00",
+ "ts": "2026-10-27T06:08:53+08:00",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "productive: E101 face + digest; control reproduces all six published arm deltas exactly (0.0); S6 37/37 rc0; smoke 77/77",
- "vram_free_gb": 3.44,
- "r1164_push": {
-  "pushed_sha": "da99a6e9ce",
-  "behind_origin_main": 0,
-  "status": "PUSHED_VERIFIED",
-  "note": "clean delivery da99a6e9ce onto ba4ffbff3a (bm-c r1297). First push rejected (2 incoming commits); rebase --autostash replayed 1 commit. Two content conflicts resolved on the origin base: regime_state.json -> origin-verbatim (daemon-derived), runnable_pool.json -> our edits re-applied by script on the origin blob (27/5 lines, no whole-file replay). Autostash pop left 10 UU derived faces (machine-health, *_update_status, compute_audit, dashboard_status, token_usage) -> resolved to committed state, stash dropped. Four-way verified: HEAD==origin/main==da99a6e9ce, behind=0 ahead=0, ls-tree origin carries both E99 faces. Line-ending trap caught in-window: the pool/state/heartbeat blobs were CRLF on the old local base but LF on origin, so a naive rewrite read as a 21,738-line whole-file diff until normalised to the origin convention."
- },
- "orders_ack_count": 115
+ "verdict": "productive: E102 five-arm end grid published -- gap1/gap2/gap5 are one object (identical on all 6 era-book cells and on every end) while neutralise_int is a different object; published control reproduces all 24 (era,book,arm) deltas at diff 0.0; selftest 292/292; smoke 77/77; attrition CLEAN",
+ "vram_free_gb": 3.44
 }

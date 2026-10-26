@@ -9555,6 +9555,26 @@ def selftest():
         and _arm_delta_verdict(20.0, None) == (None, None),
         "an unmeasured span yields no verdict instead of a default one")
 
+    # E102: a zero-delta series is a step only when exactly one end moves
+    _zp = _grid_zero_profile([0.0, 0.0, 0.0, -745.9])
+    chk(_zp["zero_ends"] == 3 and _zp["step_signature"],
+        "three zero ends and one move read as a one-transition step")
+    _zp = _grid_zero_profile([0.0, 12.0, 0.0, -745.9])
+    chk(_zp["zero_ends"] == 2 and not _zp["step_signature"],
+        "two non-zero ends are a movement, not a step")
+    chk(_grid_zero_profile([0.049, 0.0])["zero_ends"] == 2
+        and _grid_zero_profile([-0.049])["ends"] == 1,
+        "the zero rule is the published 0.05bp precision, on both signs")
+    chk(_grid_zero_profile([None, 0.0])["ends"] == 1
+        and not _grid_zero_profile([])["step_signature"],
+        "a null cell is not an end and an empty grid is not a step")
+    _caches = {"unscreened": {"prices": {"a": [1.0, 2.0], "b": [3.0, 4.0]}},
+               "repair": {"prices": {"a": [1.0, 2.5], "b": [3.0, 4.0]}}}
+    chk(_arm_price_edits(_caches, "repair")["symbols_with_changed_prices"] == 1,
+        "an arm that edits one print is one edit, not one fewer name")
+    chk(_arm_price_edits(_caches, "unscreened")["symbols_with_changed_prices"] == 0,
+        "the base arm edits nothing against itself")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9893,6 +9913,39 @@ def _arm_delta_verdict(delta_span, level_span):
         else "delta_moves_with_the_end")
 
 
+def _arm_price_edits(caches, arm, base="unscreened"):
+    """How many symbols an arm actually edits, not how many it keeps.
+
+    The screens repair prints rather than drop tickers, so two arms can hold
+    the same name set and still be different objects. A delta identity alone
+    cannot tell "the repair does not bind on this panel" from "this arm is the
+    base universe under another name"; the edit count can.
+    """
+    base_p = caches[base]["prices"]
+    p = caches[arm]["prices"]
+    changed = [s for s in sorted(p) if base_p.get(s) != p[s]]
+    return {"symbols_with_changed_prices": len(changed),
+            "first_three": changed[:3]}
+
+
+def _grid_zero_profile(deltas):
+    """Zero ends and the step signature of one delta series across a grid.
+
+    Kept as a pure function so the selftest can pin the rule the E102 leg
+    publishes: an end reads zero at the precision the E99 deltas are quoted
+    at (|delta| < 0.05bp), and a series is a one-transition step when exactly
+    one end of the grid is non-zero -- the era's own last end.
+    """
+    kv = [x for x in deltas if isinstance(x, (int, float))]
+    zeros = [x for x in kv if abs(x) < 0.05]
+    non_zero = [x for x in kv if abs(x) >= 0.05]
+    return {"ends": len(kv), "zero_ends": len(zeros),
+            "non_zero_ends": len(non_zero),
+            "non_zero_delta_bp": [round(x, 1) for x in non_zero],
+            "step_signature": bool(kv) and len(zeros) == len(kv) - 1
+                              and len(non_zero) == 1}
+
+
 def _read_published_levels(outdir, published):
     path = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
                         published)
@@ -10097,6 +10150,257 @@ def run_gaparm_endgrid(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511"
     }
 
 
+FAMILY_ARMS = ("unscreened", "neutralise_int", "neutralise_gap1",
+               "neutralise_gap2", "neutralise_gap5")
+
+
+def run_gaparm_family_endgrid(outdir, start="2018-01-01", pick_n=9999,
+                              exclude=("sh511",), ends=12, mid_day=15,
+                              eras=ERAS,
+                              published="MID-20261026-s20180101-armed.json"):
+    """E102: the whole five-arm family under the same end grid.
+
+    E101 put ONE repair arm (neutralise_gap1) under the grid and found its
+    delta on 2017_2020 is a one-transition step: 11 of 12 ends read exactly
+    0.0bp and the twelfth is the era's own last end. E99 published FIVE arms
+    and gap1/gap2/gap5 read the same delta to 0.1bp there, so a family read as
+    five measurements may in fact be five names for one transition. This leg
+    runs the identical grid on all five arms and prints, per arm and book, how
+    many ends read exactly zero beside the delta span: a step leaves (ends-1)
+    zeros and puts its whole span in the last end, an effect spreads movement
+    across the grid.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+
+    universes = {"unscreened": raw}
+    reports = {}
+    for label, mode, kw in (("neutralise_int", "neutralise_int", {}),
+                            ("neutralise_gap1", "neutralise_gap", {"gap_limit": 1}),
+                            ("neutralise_gap2", "neutralise_gap", {"gap_limit": 2}),
+                            ("neutralise_gap5", "neutralise_gap", {"gap_limit": 5})):
+        universes[label], reports[label] = panel_screen.screen_universe(
+            raw, mode=mode, cal=cal_full, **kw)
+    arms = list(FAMILY_ARMS)
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+
+    caches = {}
+    for label in arms:
+        univ = universes[label]
+        all_syms = sorted(set(base.LADDER) | set(univ))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = univ.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in univ]
+        rank_cache = {}
+        decisions = {}
+        for cname, idxs in calendars:
+            decisions[cname] = _decision_sets(cal, prices, amounts, universe,
+                                              pick_n, idxs, rank_cache)
+        caches[label] = {"prices": prices, "decisions": decisions,
+                         "universe_members": len(universe)}
+
+    agg_cache = {}
+
+    def agg_for(arm, book, end):
+        decs = caches[arm]["decisions"][book]
+        nxt = _next_decision_session(decs, cal, end)
+        window_end = nxt or cal[-1]
+        key = (arm, book, window_end)
+        if key not in agg_cache:
+            dec = _truncate_decisions(decs, cal, window_end)
+            _rows, agg = _churn_stats(cal, caches[arm]["prices"], dec, eras)
+            agg_cache[key] = agg
+        return agg_cache[key]
+
+    pub_index, pub_meta = _read_published_levels(outdir, published)
+
+    era_rows = []
+    for era in eras:
+        name, lo, hi = era
+        grid = _era_end_grid(caches["unscreened"]["decisions"]["me"], cal, era, ends)
+        row = {"era": name, "era_from": lo, "era_to": hi, "grid_ends": len(grid)}
+        if len(grid) < 3:
+            row.update({"skipped": "fewer than 3 decision ends fall inside this era"})
+            era_rows.append(row)
+            continue
+        series = []
+        for end in grid:
+            books = {}
+            for book in LEVEL_BOOKS:
+                per_arm, priced = {}, {}
+                for a in arms:
+                    nxt = _next_decision_session(caches[a]["decisions"][book], cal, end)
+                    priced[a] = nxt or cal[-1]
+                    per_arm[a] = ((agg_for(a, book, end).get(name) or {})
+                                  .get("churn_alpha_bp_mean"))
+                delta = {a: (round(per_arm[a] - per_arm["unscreened"], 1)
+                             if per_arm[a] is not None
+                             and per_arm["unscreened"] is not None else None)
+                         for a in arms if a != "unscreened"}
+                books[book] = {"levels_bp": per_arm, "delta_bp": delta,
+                               "priced_through": priced}
+            series.append({"window_end": end, "books": books})
+
+        # per (book, arm): zero-delta ends, delta span, and the level spans it sits on
+        per_arm_cell = {}
+        for book in LEVEL_BOOKS:
+            cell = {}
+            for a in arms:
+                if a == "unscreened":
+                    continue
+                dser = [s["books"][book]["delta_bp"][a] for s in series]
+                zp = _grid_zero_profile(dser)
+                zeros = [s["window_end"] for s, x in zip(series, dser)
+                         if isinstance(x, (int, float)) and abs(x) < 0.05]
+                lvl_a = [s["books"][book]["levels_bp"][a] for s in series]
+                lvl_u = [s["books"][book]["levels_bp"]["unscreened"] for s in series]
+                dspan = _endgrid_span(dser)
+                lspan = _min_span([_endgrid_span(lvl_a), _endgrid_span(lvl_u)])
+                ratio, verdict = _arm_delta_verdict(dspan, lspan)
+                cell[a] = {"ends": zp["ends"], "zero_ends": zp["zero_ends"],
+                           "zero_end_dates": zeros,
+                           "non_zero_ends": zp["non_zero_ends"],
+                           "non_zero_delta_bp": zp["non_zero_delta_bp"],
+                           "delta_span_bp": dspan,
+                           "level_span_bp": {"arm": _endgrid_span(lvl_a),
+                                             "unscreened": _endgrid_span(lvl_u)},
+                           "delta_over_level_span": ratio,
+                           "verdict": verdict,
+                           "step_signature": zp["step_signature"]}
+            per_arm_cell[book] = cell
+
+        # is the screen family one reading or several, on this era and book?
+        family = {}
+        for book in LEVEL_BOOKS:
+            latest = {a: series[-1]["books"][book]["delta_bp"][a]
+                      for a in arms if a != "unscreened"}
+            scr = [x for x in latest.values() if isinstance(x, (int, float))]
+            distinct = sorted({round(x, 1) for x in scr})
+            family[book] = {
+                "latest_end_delta_bp": latest,
+                "distinct_screen_deltas": len(distinct),
+                "distinct_values_bp": distinct,
+                "screen_max_minus_min_bp": (round(max(scr) - min(scr), 1)
+                                            if len(scr) >= 2 else None),
+                "reads_as": ("one_reading_many_names" if len(distinct) == 1
+                             else "distinct_repairs"),
+            }
+
+        control = {}
+        for book in LEVEL_BOOKS:
+            for a in arms:
+                if a == "unscreened":
+                    continue
+                theirs = ((pub_index or {}).get((name, book)) or {}).get(a) or {}
+                t = theirs.get("delta_vs_unscreened_bp")
+                mine = series[-1]["books"][book]["delta_bp"][a]
+                control.setdefault(book, {})[a] = {
+                    "published_delta_bp": t, "latest_end_delta_bp": mine,
+                    "abs_diff_bp": (round(abs(t - mine), 1)
+                                    if isinstance(t, (int, float))
+                                    and isinstance(mine, (int, float)) else None)}
+
+        row.update({"end_choice_series": series,
+                    "per_arm": per_arm_cell,
+                    "family": family,
+                    "published_control": control})
+        era_rows.append(row)
+
+    measured = [r for r in era_rows if r.get("per_arm")]
+    zero_ends = {r["era"]: {b: {a: "%d/%d" % (c["zero_ends"], c["ends"])
+                                for a, c in (r["per_arm"][b] or {}).items()}
+                            for b in LEVEL_BOOKS} for r in measured}
+    delta_span = {r["era"]: {b: {a: c["delta_span_bp"]
+                                 for a, c in (r["per_arm"][b] or {}).items()}
+                             for b in LEVEL_BOOKS} for r in measured}
+    steps = {r["era"]: {b: sorted(a for a, c in (r["per_arm"][b] or {}).items()
+                                  if c["step_signature"])
+                        for b in LEVEL_BOOKS} for r in measured}
+    identity = {r["era"]: r["family"] for r in measured}
+
+    # control must reproduce the published delta on the grid's own latest end
+    ctrl_diff = []
+    for r in measured:
+        for book, per_arm in (r.get("published_control") or {}).items():
+            for a, legs in per_arm.items():
+                if legs["abs_diff_bp"] is not None and legs["abs_diff_bp"] > 0.05:
+                    ctrl_diff.append({"era": r["era"], "book": book, "arm": a,
+                                      "abs_diff_bp": legs["abs_diff_bp"]})
+
+    one_reading = [ (r["era"], b) for r in measured for b in LEVEL_BOOKS
+                    if (r["family"].get(b) or {}).get("reads_as")
+                    == "one_reading_many_names" ]
+    any_step = any(steps[r["era"]][b] for r in measured for b in LEVEL_BOOKS)
+
+    return {
+        "study": "e102_gaparm_family_endgrid",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "arms": arms,
+            "grid": "the last %d month-end decision sessions of each era; the same "
+                    "end is applied to all five arms and both books" % int(ends),
+            "cell": "eras[era][book].churn_alpha_bp_mean (the E99 LEVEL)",
+            "delta": "screen arm level minus unscreened level on the SAME end",
+            "zero_rule": "an end reads zero when |delta| < 0.05bp, the precision the "
+                         "published E99 deltas are quoted at",
+            "step_rule": "step_signature when exactly one end of the grid is non-zero "
+                         "and it is the era's own last end",
+            "universe_members": {a: caches[a]["universe_members"] for a in arms},
+        },
+        "screen_report": reports,
+        "eras": era_rows,
+        "published_control": {"meta": pub_meta, "mismatches": ctrl_diff},
+        "answers": {
+            "measured_eras": [r["era"] for r in measured],
+            "skipped_eras": [r["era"] for r in era_rows if r.get("skipped")],
+            "zero_ends": zero_ends,
+            "delta_span_bp": delta_span,
+            "step_arms": steps,
+            "arm_price_edits": {a: _arm_price_edits(caches, a)
+                                for a in arms if a != "unscreened"},
+            "family_identity": identity,
+            "control_reproduces_published": not ctrl_diff,
+            "reads_as": (
+                "the five published arms are %d distinct end-grid measurements and "
+                "%d era-book cells in which four screen arms quote one identical "
+                "delta: the family is a measurement of one transition under several "
+                "names wherever the identity cells are the movers"
+                % (len(arms), len(one_reading))
+                if one_reading else
+                "every era-book cell separates the screen arms, so the published "
+                "family reads as %d independent measurements" % len(arms)
+                if measured else None),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no prereg, "
+            "no trial count, no ledger booking",
+            "all five arms share the panel calendar, the rank cache and the fee ladder; "
+            "the arms are universe repairs, not different strategies",
+            "a zero-delta end is not a zero effect: the grid truncates the evaluation "
+            "end and every end is priced through the next decision of the same book, so "
+            "a transition sitting after the era's own last end can still be counted",
+            "identical deltas across gap1/gap2/gap5 mean the gap limit does not bind on "
+            "this panel; it does not mean the three screens are the same object",
+            "the churn level is a name-level mean over swapped pairs, not a portfolio "
+            "return: the deltas move a reading, not money",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -10113,7 +10417,8 @@ def main(argv):
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
-                             "midlevels", "gaparmendgrid", "all", "selftest"])
+                             "midlevels", "gaparmendgrid", "gaparmfamily",
+                             "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -10273,6 +10578,26 @@ def main(argv):
                           "stable": f["answers"]["delta_stable_eras"],
                           "moves": f["answers"]["delta_moves_eras"],
                           "control": f["published_control"]["meta"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "gaparmfamily":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_gaparm_family_endgrid(outdir, start=args.start)
+        tag = f["spec"]["start"].replace("-", "")
+        p = write_json(outdir, "GAPARM-FAMILY-ENDGRID-%s-s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), tag), f)
+        print(json.dumps({"leg": "gaparmfamily", "file": os.path.relpath(p, ROOT),
+                          "arms": f["spec"]["arms"],
+                          "measured_eras": f["answers"]["measured_eras"],
+                          "zero_ends": f["answers"]["zero_ends"],
+                          "step_arms": f["answers"]["step_arms"],
+                          "family_identity": {e: {b: v.get("reads_as")
+                                                  for b, v in (eid or {}).items()}
+                                              for e, eid
+                                              in f["answers"]["family_identity"].items()},
+                          "control_reproduces_published":
+                              f["answers"]["control_reproduces_published"],
+                          "reads_as": f["answers"]["reads_as"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "tiltstable":
