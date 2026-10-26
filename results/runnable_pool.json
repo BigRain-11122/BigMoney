@@ -21715,7 +21715,7 @@
   },
   {
    "id": "E100-GAPARM-TRANSITION-NAMES",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (topnames leg + gap-arm universe)",
@@ -21725,7 +21725,12 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T04:45:00+08:00",
    "entered_by": "bm-b r1164",
-   "runner_note": "reuse the topnames burn with full_churn=True on the neutralise_gap1 universe and the unscreened universe; print name and date per transition, never a bare share, and keep the unscreened column beside the repaired one"
+   "runner_note": "reuse the topnames burn with full_churn=True on the neutralise_gap1 universe and the unscreened universe; print name and date per transition, never a bare share, and keep the unscreened column beside the repaired one",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-27T06:50:00+08:00",
+   "done_at": "2026-10-27T07:10:00+08:00",
+   "result_ref": "results/e44_midmonth/GAPTOP3-20261026-s2018.json",
+   "result_note": "e39 mode gaptop3 (selftest 299->307). Split is exact (residual 0.0, zero one-sided dates) and reproduces all six published deltas at <=0.05bp. Every large move is ONE window and the two arms hold identical names there (18 top windows, 0 composition carriers): 2017_2020 me -745.9 is 100% the 2020-12-31 window where sz159975 reads -89.54% unscreened vs +5.04% repaired; 2021_2023 me -1098.3 top-3 61.6% (sh510580 -89.95%/+1.02%, sh510150 -91.20%/+5.32%); 2021_2023 mid -1117.2 top-3 58.8%; 2024_now mid -241.0 one window (sz159925 +105.39%/+303.82%). Verdict: the level delta is a PRICE-READ difference on split prints, not a composition difference."
   },
   {
    "id": "E101-GAPARM-ENDGRID",
@@ -21783,6 +21788,34 @@
    "done_at": "2026-10-27T07:05:00+08:00",
    "result_ref": "results/e44_midmonth/GAPLIMIT-20261026.json",
    "result_note": "twenty limits, two objects: limits 1 and 2 rewrite the same 36,184 bars, limits 3..20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (an integer-like print with a 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions (28 gapped prints at 1 of which 10 integer-like, 4 at 2 of which 0, 1 at 3 of which 1), so no limit above 3 can bind. No limit in 1..20 moves a published cell (all six measurable era-book deltas identical to 0.05bp, published control reproduces 6/6): the published gap1/gap2/gap5 columns are one reading under two objects and corroborate nothing. Verdict not_identified."
+  },
+  {
+   "id": "E104-HELD-NAME-SPLIT-EXPOSURE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py + scripts/panel_screen.py",
+   "title": "E100 showed the gap arm's two published level moves are split prints on the ENTRANT/EXIT lists. That leg cannot see a split inside a name the book held across the window, so ask directly: for every name held by the unscreened book over each transition, how many carry a |one-window read| > 50% that the repaired arm does not, and do those reads reach a published portfolio face (book returns, breadth, curve drawdown) rather than only the churn level?",
+   "deliverable": "results/e44_midmonth/HELDSPLIT-<cutoff>-s2018.json + digest",
+   "source": "r1169 E100 (GAPTOP3-20261026-s2018.json) honest-limits: 'a split inside an unchanged holding is invisible to this leg'",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:05:00+08:00",
+   "entered_by": "bm-b r1169",
+   "runner_note": "reuse the gaptop3 caches (per-arm prices + decisions); enumerate held names per transition, flag |fwd|>50% reads, then join each flagged name-date to the faces that price it"
+  },
+  {
+   "id": "E105-LEVEL-SINGLE-NAME-COLUMN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (midlevels / gaparmfamily faces)",
+   "title": "Every era-book LEVEL in the MID family is a mean over 10-29 transitions, so one name can carry it (E100: 100% of 2017_2020 me). Publish, beside every level cell of MID-20261026-s20180101-armed.json and its family, the max |single-transition contribution| with its name and date, so a reader can tell a level from a one-name artefact without re-running gaptop3.",
+   "deliverable": "results/e44_midmonth/MIDLEVEL-DRIVERS-<cutoff>.json + digest",
+   "source": "r1169 E100 pit: 'publish max single-name read beside every level whose transitions<~30'",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:05:00+08:00",
+   "entered_by": "bm-b r1169",
+   "runner_note": "pure function of the already-burned levels face + churn rows; no new engine work and no re-burn of panels"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

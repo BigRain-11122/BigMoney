@@ -9606,6 +9606,37 @@ def selftest():
         "a print is only a repair when the arm repaired it, not when it was left "
         "gapped")
 
+    # E100: an arm delta must split into pieces that ADD UP to it
+    _g = {"2020-01-31": {"churn_alpha_bp": 10.0}, "2020-02-28": {"churn_alpha_bp": -30.0}}
+    _u = {"2020-01-31": {"churn_alpha_bp": 10.0}, "2020-02-28": {"churn_alpha_bp": 10.0},
+          "2020-03-31": {"churn_alpha_bp": -10.0}}
+    _pc, _pm = _arm_delta_contrib(_g, _u)
+    chk(_pm["level_gap_bp"] == -10.0 and _pm["level_unscreened_bp"] == 3.3,
+        "the two arm levels are each their own equal-weight mean")
+    chk(abs(_pm["residual_bp"]) < 1e-9,
+        "the pieces sum to the delta exactly when both arms keep their own n")
+    chk(_pm["common_transitions"] == 2 and _pm["unscreened_only_transitions"] == 1
+        and _pm["gap_only_transitions"] == 0,
+        "a date that exists in only one arm is counted as one-sided, not dropped")
+    _g2 = {"2020-01-31": {"churn_alpha_bp": 10.0}}
+    _u2 = {"2020-01-31": {"churn_alpha_bp": 10.0}}
+    _pc2, _pm2 = _arm_delta_contrib(_g2, _u2)
+    chk(_pm2["delta_bp"] == 0.0 and _pm2["residual_bp"] == 0.0
+        and _pc2[0]["contrib_bp"] == 0.0,
+        "two arms that agree on every transition produce a zero delta and zero pieces")
+    _mk = lambda rows, share, sides=("both",): {"delta_bp": 100.0,
+                                               "top_share_of_delta_pct": share,
+                                               "top": [{"side": s} for s in sides]}
+    chk(_arm_split_verdict(_mk([], 60.0)) == "delta_is_one_window",
+        "one window carrying 60% of the delta is one window")
+    chk(_arm_split_verdict(_mk([], 30.0)) == "delta_is_a_few_windows",
+        "three windows carrying 30% is a few windows, not a broad move")
+    chk(_arm_split_verdict(_mk([], 60.0, ("both", "gap_only")))
+        == "delta_is_a_transition_that_exists_in_one_arm",
+        "a one-sided date among the largest pieces outranks the share test")
+    chk(_arm_split_verdict({"delta_bp": None, "top": []}) == "no_delta",
+        "an unmeasurable cell reads no_delta instead of broad")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -10745,6 +10776,374 @@ def run_gap_limit_ladder(outdir, start="2018-01-01", pick_n=9999,
     }
 
 
+# -------------------------------------------------------------- E100
+
+def _arm_delta_contrib(gap_map, unscr_map):
+    """Exact additive split of one LEVEL delta into per-transition pieces.
+
+    A level is an equal-weight mean over THAT arm's own transitions, so with
+    unequal counts every row has to be divided by its own arm's n or the pieces
+    do not add up to the delta. One-sided transitions (a decision date that
+    exists in only one arm) are kept as rows of their own instead of being
+    dropped by a join, and the residual (delta minus the sum of the pieces) is
+    returned rather than assumed to be zero -- a partial join must not be able
+    to pass as a decomposition.
+
+    ``*_map`` maps decision date -> a churn row carrying churn_alpha_bp, already
+    filtered to one era and to numeric alphas.
+    """
+    ng, nu = len(gap_map), len(unscr_map)
+    rows = []
+    for d in sorted(set(gap_map) & set(unscr_map)):
+        g, u = gap_map[d], unscr_map[d]
+        rows.append({"date": d, "side": "both",
+                     "gap_bp": g.get("churn_alpha_bp"),
+                     "unscreened_bp": u.get("churn_alpha_bp"),
+                     "contrib_bp": (g["churn_alpha_bp"] / ng
+                                    - u["churn_alpha_bp"] / nu) if ng and nu else None})
+    for d in sorted(set(gap_map) - set(unscr_map)):
+        rows.append({"date": d, "side": "gap_only",
+                     "gap_bp": gap_map[d].get("churn_alpha_bp"),
+                     "unscreened_bp": None,
+                     "contrib_bp": gap_map[d]["churn_alpha_bp"] / ng if ng else None})
+    for d in sorted(set(unscr_map) - set(gap_map)):
+        rows.append({"date": d, "side": "unscreened_only",
+                     "gap_bp": None,
+                     "unscreened_bp": unscr_map[d].get("churn_alpha_bp"),
+                     "contrib_bp": (-unscr_map[d]["churn_alpha_bp"] / nu) if nu else None})
+    rows = [r for r in rows if isinstance(r.get("contrib_bp"), (int, float))]
+
+    level_gap = (sum(r["churn_alpha_bp"] for r in gap_map.values()) / ng) if ng else None
+    level_unscr = (sum(r["churn_alpha_bp"] for r in unscr_map.values()) / nu) if nu else None
+    total = sum(r["contrib_bp"] for r in rows)
+    delta = (level_gap - level_unscr
+             if level_gap is not None and level_unscr is not None else None)
+    meta = {
+        "gap_n": ng, "unscreened_n": nu,
+        "level_gap_bp": None if level_gap is None else round(level_gap, 1),
+        "level_unscreened_bp": None if level_unscr is None else round(level_unscr, 1),
+        "delta_bp": None if delta is None else round(delta, 1),
+        "sum_contrib_bp": round(total, 1),
+        "residual_bp": None if delta is None else round(delta - total, 6),
+        "gap_only_transitions": len(set(gap_map) - set(unscr_map)),
+        "unscreened_only_transitions": len(set(unscr_map) - set(gap_map)),
+        "common_transitions": len(set(gap_map) & set(unscr_map)),
+    }
+    return rows, meta
+
+
+def _arm_split_verdict(row, top_k=3):
+    """Three-way reading of a level-delta split: one window, a few, or composition.
+
+    ``delta_is_a_transition_that_exists_in_one_arm`` is checked first: if any of
+    the largest pieces comes from a date present in only one arm, the delta is a
+    decision-schedule difference and the shared windows cannot corroborate it.
+    """
+    d = row.get("delta_bp")
+    if not isinstance(d, (int, float)) or d == 0:
+        return "no_delta"
+    top = (row.get("top") or [])[:top_k]
+    if any(t.get("side") != "both" for t in top):
+        return "delta_is_a_transition_that_exists_in_one_arm"
+    share = row.get("top_share_of_delta_pct")
+    if not isinstance(share, (int, float)):
+        return "delta_unattributable"
+    if abs(share) >= 50.0:
+        return "delta_is_one_window"
+    if abs(share) >= 25.0:
+        return "delta_is_a_few_windows"
+    return "delta_is_broad"
+
+
+def _fwd_pct(prices, sym, i0, i1):
+    """Forward percent return of one name over one decision window, or None."""
+    s = prices.get(sym)
+    if not s or i0 is None or i1 is None:
+        return None
+    p0, p1 = s[i0], s[i1]
+    if p0 is None or p1 is None or p0 <= 0:
+        return None
+    return 100.0 * (p1 / p0 - 1.0)
+
+
+def _window_drivers(grows, urows, gprices, uprices, g_i0, g_i1, u_i0, u_i1,
+                    limit=3):
+    """The swapped names whose forward read moves the most between the two arms.
+
+    Naming a window is not enough: if the two arms hold the same names there, the
+    delta can only come from the PRICE each arm reads for them. The drivers are
+    exactly those names, with both reads and the gap between them, so a split
+    artefact is visible as a name-level number instead of a level difference.
+    """
+    seen, out = set(), []
+    for names in (grows.get("entrant_names") or [], grows.get("exit_names") or [],
+                  urows.get("entrant_names") or [], urows.get("exit_names") or []):
+        for nm in names:
+            if nm in seen:
+                continue
+            seen.add(nm)
+            g = _fwd_pct(gprices, nm, g_i0, g_i1)
+            u = _fwd_pct(uprices, nm, u_i0, u_i1)
+            if g is None or u is None:
+                continue
+            out.append({"name": nm,
+                        "gap_fwd_pct": round(g, 2),
+                        "unscreened_fwd_pct": round(u, 2),
+                        "read_gap_pct": round(g - u, 2)})
+    out.sort(key=lambda r: -abs(r["read_gap_pct"]))
+    return out[:limit]
+
+
+def run_gaparm_topnames(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
+                        gap_limit=1, mid_day=15, eras=ERAS, top_k=3,
+                        published="MID-20261026-s20180101-armed.json"):
+    """E100: name the transitions that carry the gap arm's two large LEVEL moves.
+
+    E99 published the arm as a difference of levels (-745.9bp on 2017_2020 me,
+    -1098.3bp on 2021_2023 me); E101 and E103 then showed the DELTA survives the
+    end grid and the limit ladder while the levels themselves do not. A delta
+    nobody can name is still unauditable, so this leg splits each cell's delta
+    additively over the transitions (E91's full_churn rows) and publishes the
+    window, the swapped tickers, and the names each arm actually held there.
+
+    The level is recomputed with E103's own recipe -- the era's last decision
+    end priced through the next decision of the same book -- so the split sums
+    to the published number rather than to a nearby one.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+
+    gap_label = "neutralise_gap%d" % int(gap_limit)
+    universes = {"unscreened": raw}
+    universes[gap_label], reports = panel_screen.screen_universe(
+        raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(gap_limit))
+    arms = ["unscreened", gap_label]
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+
+    caches = {}
+    for label in arms:
+        univ = universes[label]
+        all_syms = sorted(set(base.LADDER) | set(univ))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = univ.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in univ]
+        rank_cache = {}
+        decisions = {}
+        for cname, idxs in calendars:
+            decisions[cname] = _decision_sets(cal, prices, amounts, universe,
+                                              pick_n, idxs, rank_cache)
+        caches[label] = {"prices": prices, "decisions": decisions,
+                         "universe_members": len(universe)}
+
+    def era_arm(arm, book, era_row):
+        """One arm's churn rows for one era, on the level's own decision list."""
+        name = era_row[0]
+        decs = caches[arm]["decisions"][book]
+        grid = _era_end_grid(decs, cal, era_row, 1)
+        if not grid:
+            return None
+        nxt = _next_decision_session(decs, cal, grid[-1])
+        window_end = nxt or cal[-1]
+        dec = _truncate_decisions(decs, cal, window_end)
+        rows, agg = _churn_stats(cal, caches[arm]["prices"], dec, eras,
+                                 with_names=True)
+        live = {r["date"]: r for r in rows
+                if r.get("era") == name
+                and isinstance(r.get("churn_alpha_bp"), (int, float))}
+        hold = {cal[i]: (i, set(h)) for i, h in dec}
+        return {"window_end": window_end, "rows": live, "hold": hold,
+                "prices": caches[arm]["prices"],
+                "level_bp": (agg.get(name) or {}).get("churn_alpha_bp_mean"),
+                "negative_share_pct": (agg.get(name) or {}).get("negative_churn_share_pct")}
+
+    pub_index, pub_meta = _read_published_levels(outdir, published)
+
+    cells, ctrl_diff, carrier_counts = [], [], {}
+    driver_counts = {}
+    same_book_windows = 0
+    for era_row in eras:
+        for book in LEVEL_BOOKS:
+            a = era_arm("unscreened", book, era_row)
+            b = era_arm(gap_label, book, era_row)
+            row = {"era": era_row[0], "book": book, "arm": gap_label,
+                   "window_end": (b or {}).get("window_end") or (a or {}).get("window_end")}
+            if not a or not b or not a["rows"] or not b["rows"]:
+                row["skipped"] = "no measurable churn cell for both arms in this era"
+                row["levels_bp"] = {"unscreened": (a or {}).get("level_bp"),
+                                    gap_label: (b or {}).get("level_bp")}
+                row["delta_bp"] = None
+                row["verdict"] = "no_delta"
+                cells.append(row)
+                continue
+            pieces, meta = _arm_delta_contrib(b["rows"], a["rows"])
+            top = sorted(pieces, key=lambda r: -abs(r["contrib_bp"]))[:top_k]
+            named = []
+            for r in top:
+                gset = (b["hold"].get(r["date"]) or (None, set()))[1]
+                uset = (a["hold"].get(r["date"]) or (None, set()))[1]
+                grows = b["rows"].get(r["date"]) or {}
+                urows = a["rows"].get(r["date"]) or {}
+                g_i0 = (b["hold"].get(r["date"]) or (None,))[0]
+                g_i1 = (b["hold"].get(grows.get("next") or "") or (None,))[0]
+                u_i0 = (a["hold"].get(r["date"]) or (None,))[0]
+                u_i1 = (a["hold"].get(urows.get("next") or "") or (None,))[0]
+                entry = {
+                    "date": r["date"],
+                    "next": grows.get("next") or urows.get("next"),
+                    "side": r["side"],
+                    "contrib_bp": round(r["contrib_bp"], 1),
+                    "gap_bp": r["gap_bp"], "unscreened_bp": r["unscreened_bp"],
+                    "alpha_change_bp": (round(r["gap_bp"] - r["unscreened_bp"], 1)
+                                        if isinstance(r["gap_bp"], (int, float))
+                                        and isinstance(r["unscreened_bp"], (int, float))
+                                        else None),
+                    "held_only_in_gap": sorted(gset - uset)[:10],
+                    "held_only_in_unscreened": sorted(uset - gset)[:10],
+                    "members_gap": len(gset), "members_unscreened": len(uset),
+                    "entrant_names_gap": (grows.get("entrant_names") or [])[:8],
+                    "exit_names_gap": (grows.get("exit_names") or [])[:8],
+                    "drivers": _window_drivers(
+                        grows, urows, b["prices"], a["prices"],
+                        g_i0, g_i1, u_i0, u_i1) if r["side"] == "both" else [],
+                }
+                named.append(entry)
+                for nm in (entry["held_only_in_gap"]
+                           + entry["held_only_in_unscreened"]):
+                    carrier_counts[nm] = carrier_counts.get(nm, 0) + 1
+                for d in entry["drivers"]:
+                    driver_counts[d["name"]] = driver_counts.get(d["name"], 0) + 1
+                if entry["drivers"] and not (entry["held_only_in_gap"]
+                                             or entry["held_only_in_unscreened"]):
+                    same_book_windows += 1
+            delta = meta["delta_bp"]
+            top_sum = sum(n["contrib_bp"] for n in named)
+            row.update({
+                "transitions": {"unscreened": meta["unscreened_n"],
+                                gap_label: meta["gap_n"]},
+                "levels_bp": {"unscreened": meta["level_unscreened_bp"],
+                              gap_label: meta["level_gap_bp"]},
+                "delta_bp": delta,
+                "neg_share_pct": {"unscreened": a["negative_share_pct"],
+                                  gap_label: b["negative_share_pct"]},
+                "contrib_pieces": len(pieces),
+                "sum_top_contrib_bp": round(top_sum, 1),
+                "top_share_of_delta_pct": (round(100.0 * top_sum / delta, 1)
+                                           if delta else None),
+                "residual_bp": meta["residual_bp"],
+                "one_sided_transitions": {"gap_only": meta["gap_only_transitions"],
+                                          "unscreened_only":
+                                              meta["unscreened_only_transitions"]},
+                "top": named,
+            })
+            row["verdict"] = _arm_split_verdict(row, top_k=top_k)
+            theirs = ((pub_index or {}).get((era_row[0], book)) or {}).get(gap_label) or {}
+            t = theirs.get("delta_vs_unscreened_bp")
+            row["published_delta_bp"] = t
+            row["abs_diff_vs_published_bp"] = (
+                round(abs(t - delta), 1)
+                if isinstance(t, (int, float)) and isinstance(delta, (int, float))
+                else None)
+            if row["abs_diff_vs_published_bp"] is not None \
+                    and row["abs_diff_vs_published_bp"] > 0.05:
+                ctrl_diff.append({"era": era_row[0], "book": book,
+                                  "abs_diff_bp": row["abs_diff_vs_published_bp"]})
+            cells.append(row)
+
+    measured = [c for c in cells if isinstance(c.get("delta_bp"), (int, float))]
+    movers = sorted(measured, key=lambda c: -abs(c["delta_bp"]))
+    large = [c for c in movers if abs(c["delta_bp"]) >= 50.0]
+    carriers = sorted(carrier_counts.items(), key=lambda kv: -kv[1])
+    drivers = sorted(driver_counts.items(), key=lambda kv: -kv[1])
+    verdict_tally = {}
+    for c in measured:
+        verdict_tally[c["verdict"]] = verdict_tally.get(c["verdict"], 0) + 1
+
+    return {
+        "study": "e100_gaparm_transition_names",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "arms": arms, "gap_limit": int(gap_limit),
+            "top_k": top_k,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": list(LEVEL_BOOKS),
+            "cell": "eras[era][book].churn_alpha_bp_mean (the E99 LEVEL), recomputed "
+                    "with E103's recipe: the era's last decision end priced through "
+                    "the next decision of the same book",
+            "split": "level_arm = equal-weight mean over THAT arm's own transitions, "
+                     "so each shared transition contributes a_gap/n_gap - "
+                     "a_unscreened/n_unscreened; one-sided dates contribute their own "
+                     "term; residual = delta - sum(pieces) is published, never assumed 0",
+            "name_rule": "the names published per window are the holdings that appear "
+                         "in one arm and not the other at that decision plus the "
+                         "engine's own entrant/exit lists (truncated to 10/8)",
+            "move_rule": "a cell is LARGE when |delta| >= 50bp, the threshold the two "
+                         "published moves (745.9 / 1098.3) are read at",
+        },
+        "screen_reports": reports,
+        "cells": cells,
+        "answers": {
+            "moves_named": [{"era": c["era"], "book": c["book"],
+                             "delta_bp": c["delta_bp"], "verdict": c["verdict"],
+                             "top_share_of_delta_pct": c["top_share_of_delta_pct"],
+                             "largest_window": (c["top"][0] if c["top"] else None)}
+                            for c in large],
+            "large_moves": len(large),
+            "verdict_tally": verdict_tally,
+            "top_carrier_names": [{"name": n, "windows": k} for n, k in carriers[:10]],
+            "distinct_names_in_top_windows": len(carriers),
+            "price_read_driver_names": [{"name": n, "windows": k}
+                                        for n, k in drivers[:10]],
+            "distinct_price_driver_names": len(drivers),
+            "top_windows_with_identical_holdings": same_book_windows,
+            "reading": ("the two arms hold the same names at every top window that "
+                        "carries a large move, so the delta is a PRICE-READ "
+                        "difference, not a composition difference"
+                        if same_book_windows and not carriers else
+                        "the top windows change composition as well as reads; read "
+                        "held_only_in_gap / held_only_in_unscreened per window"),
+            "control_reproduces_published": not ctrl_diff,
+            "control_mismatches": ctrl_diff,
+            "reads_as": (
+                "no level delta of 50bp or more exists between these arms on this "
+                "panel, so there is nothing to name"
+                if not large else
+                "the %d largest arm deltas are split into named windows: %s"
+                % (len(large),
+                   "; ".join("%s/%s %.1fbp -> %s (%s, top-%d share %s%%)"
+                             % (c["era"], c["book"], c["delta_bp"], c["verdict"],
+                                (c["top"][0]["date"] if c["top"] else "n/a"),
+                                len(c["top"]),
+                                c["top_share_of_delta_pct"])
+                             for c in large))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "an equal-weight mean of name-level reads is not a portfolio return: the "
+            "split moves a reading, not money",
+            "the split is exact for THIS panel at THIS cutoff; a refreshed panel can "
+            "add or lose a decision date and move the one-sided terms, which is why "
+            "they are published separately from the shared ones",
+            "naming a window names the swap that carried the reading; it does not "
+            "claim the repair caused the forward returns inside it",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -10762,7 +11161,7 @@ def main(argv):
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
                              "midlevels", "gaparmendgrid", "gaparmfamily",
-                             "gaplimit",
+                             "gaplimit", "gaptop3",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -10969,6 +11368,29 @@ def main(argv):
                                               for k, v in (c["arms"] or {}).items()}}
                                     for c in f["cells"]]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "gaptop3":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_gaparm_topnames(outdir, start=args.start)
+        p = write_json(outdir, "GAPTOP3-%s-s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""),
+                          f["spec"]["start"][:4]), f)
+        print(json.dumps({
+            "leg": "gaptop3",
+            "file": os.path.relpath(p, ROOT),
+            "answers": {k: v for k, v in f["answers"].items()
+                        if k not in ("moves_named",)},
+            "moves": [{"era": m["era"], "book": m["book"],
+                       "delta_bp": m["delta_bp"], "verdict": m["verdict"],
+                       "top_share": m["top_share_of_delta_pct"],
+                       "windows": [{"date": w["date"], "contrib_bp": w["contrib_bp"],
+                                    "side": w["side"],
+                                    "only_gap": w["held_only_in_gap"][:5],
+                                    "only_unscreened":
+                                        w["held_only_in_unscreened"][:5]}
+                                   for w in (m["largest_window"],) if w]}
+                      for m in f["answers"]["moves_named"]]},
+            ensure_ascii=False))
         return 0
     if args.mode == "tiltstable":
         outdir = os.path.join(ROOT, "results", "e42_tilt_era")

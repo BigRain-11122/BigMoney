@@ -3,6 +3,7 @@
  "clock_read": "2026-10-23T00:21:41+08:00",
  "current": "r1162: E95 newest-era tilt stability (end-choice grid 12 ends, span 1184.1bp)",
  "current_task": "r1162 closed; next = E96 or E97 burn + supply floor refill",
+ "cyc_round": 1169,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -15,6 +16,31 @@
   "tool": "scripts/d19_watermark.py",
   "ts": "2026-10-20T19:32:57+08:00",
   "verbatim": true
+ },
+ "decisions_consumed_r1166": {
+  "action": "bm-b local check: Bigmoney-IterationLoop next-run 05:47 / Bigmoney-LoopWatchdog 05:46 both scheduled (Ready) -> no UNEXPECTED-DISABLED on this machine; other four rows are BigStream/doc-governance (not this repo), watermark advanced only",
+  "rows": [
+   "D-20261027-01",
+   "D-20261027-02",
+   "D-20261027-03",
+   "D-20261027-04",
+   "D-20261027-05"
+  ],
+  "touching_this_repo": [
+   "D-20261027-01 BigMoney bm-a 7 tasks Disabled -> resumed (UNEXPECTED-DISABLED criterion)"
+  ]
+ },
+ "decisions_consumed_r1169": {
+  "action": "ack only, deliberately not executed by this round: 08 is dispatched to the current same-repo writer (bm-c r1298) and 09 forbids subsidiary self-certification, so a second write face on the same files would be a double-burn. bm-b commits to re-check after 12:00 and pick up 08 if no repair commit has landed. D-20261027-10 is MiniGame (not this repo) and is a criterion correction only.",
+  "rows": [
+   "D-20261027-08",
+   "D-20261027-09",
+   "D-20261027-10"
+  ],
+  "touching_this_repo": [
+   "D-20261027-08 BigMoney CODELY.md structural repair (exec=@BigMoney, bm-c r1298 current writer, due 12:00)",
+   "D-20261027-09 Tools/silence-enforce.ps1 group copy divergence (exec=@HQ mechanism face, due 2026-10-28 03:07)"
+  ]
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
@@ -30,9 +56,10 @@
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-10-22T22:45:42+08:00",
- "last_decisions_sha": "fd9e59cd026ae10d860ba80ed330553c263caec780197834a3da50234dc1148b",
+ "last_decisions_sha": "c514b69c2f06202d",
  "last_decisions_sha_method": "r1147: origin blob sha256 via git show in the C:\\Fluxgroup\\FluxGroup group tree (K: absent on this machine, D-20261004-02 fallback path)",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
+ "last_decisions_sha_recipe": "sha256 of git cat-file blob origin/main:docs/decisions.md in the group tree C:/Fluxgroup/FluxGroup (D-19 group-face fresh-read law)",
  "last_orders_at": "2026-10-21T01:22:37+08:00",
  "last_orders_probe_at": "2026-10-21T05:12:00+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
@@ -42,16 +69,19 @@
  "last_orders_sha_probe": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
+ "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_push": "94022f322c -> origin/main (behind=0 ahead=0, four-way verified)",
  "last_round_at": "2026-10-27T04:05:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md r1162",
  "last_round_ts": "2026-10-27T04:05:00+08:00",
+ "last_run": "2026-10-27T07:05:00+08:00",
  "last_seen": "2026-10-27T04:20:00+08:00",
  "latest_artifact": "results/e42_tilt_era/NEWESTERA-STABILITY-20261026.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
  "next": "r1163: burn E96 churn-arm label audit (digest face), else E97 routing table; refill supply floor to 3",
  "next_milestone": "every published churn/spread LEVEL carries the arm and the window end it was measured on (<=24h)",
+ "next_pointer": "r1170 E97 readset routing (mapping table, not a burn) or E104 held-name split exposure; E105 level single-name column",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -215,6 +245,11 @@
  "orphan_face": 0,
  "orphan_face_note": "r1162: no orphan python faces at closeout (8 py faces probed)",
  "orphan_faces": 0,
+ "pending_ops": [
+  "D-20261027-08 dead-letter: after 2026-10-27T12:00 verify CODELY.md repaired on origin (LF>=55, PUA=0, both new rows present); if not, bm-b executes the recipe (base = blob da99a6e9ce, re-wrap the two flattened commits).",
+  "CODELY.md 49909B == 93B headroom: any append crosses the 50KB hot/cold trigger -> append lessons to knowledge/METHODOLOGY_ASSETS.md + digest instead (this round did exactly that).",
+  "Bigmoney-IntradayMarks: check marks-20261027.jsonl after 15:10; if absent run update_intraday_marks.py --force inside the window and read the rc/2 branch (carried from r1168)."
+ ],
  "pool_claims": [
   "E92-GAPPED-SPLIT-SCREEN (done, bm-b r1158)",
   "E95-NEWESTERA-CELL-STABILITY (done, bm-b r1162)"
@@ -463,12 +498,44 @@
  },
  "r1159_note": "r1159 read-only round: smoke 49/49 PASS, orphan face=0 (8 py faces), watermark rc0 insufficient_history (1 sample; pool ready 3 = E81/E90/E93), machine RAM free 11GB / CPU 15% / VRAM 4869MiB used. Origin has moved far past this lane: rounds 1276-1291 landed E134 persistence-screen work and the E-line census script gained 875 lines upstream, so E93-GAPSPLIT-ERA-SPREAD must NOT be burned from this 3-day-stale worktree -- currency first.",
  "r1159_pit": "a partial clone fails at CHECKOUT, not at fetch: `git fetch` returned origin/main fine and the catalog looked current while the ff-merge checkout sat on a 149MB tmp_pack for six minutes; judge sync health by `rev-list HEAD...origin/main` plus the presence of a growing tmp_pack, never by 'fetch succeeded'",
+ "r1161_note": "E94 adopted+reproduced: scripts/e94_readset_triage.py (463 lines) probes one runner per distinct runner with four arms (unscreened / neutralise / perturb 5 ladder members / perturb 5 repaired names), every arm in a temp dir with e27.load_universe pinned, so no published face is rewritten. 33 modes -> 25 moves_under_repair, 4 closed (tilt/era/calrob/calcost twins), 2 structurally immune (all,ladder), 2 probe_blind (stalehold,weeknames cite nothing provable). Two burns on the same panel: 33/33 verdicts and all arm counts identical, so the harness is reproducible; the only difference is the label fix it caused (read_set named from the 5-name step alone said \"no price arithmetic\" on 7 faces the whole-arm repair moves; read_set_label + 4 selftest legs, 15->19).",
+ "r1161_pit": "a label must never be narrower than the evidence behind it: the first burn labelled seven modes \"no price arithmetic on the probed names\" while the same row carried charged_by_repair=true with 20 changed leaf paths -- the 5-name step proves name-level reads only, an aggregate book absorbs it, so one column was a name-level reading and the other an arm-level one. Publish which granularity each boolean came from, or two true statements in the same row read as a contradiction. Sibling: a status face that writes both \"spawned: no panel cutoff\" and \"panel fresh (cutoff X >= expected X)\" in one file is a pop gap, not a data problem -- the spawn branch must clear the no-op line it supersedes.",
+ "r1162_note": "r1162: E95 closed. New runner leg `tiltstable` (selftest 262->266, +4 legs) holds one panel fixed and moves only the evaluation end of the E42 newest-era tilt cell across the last 12 era month-ends: 448.6..1632.7 bp (span 1184.1, sd 316.3, months 23..34) against a monthly sd of 621.4 bp. The two already-published readings differ by only 50.5 bp (748.1 @2026-10-20 vs 697.6 @2026-10-26) and BOTH carry months=34, so the difference is panel revision, not a longer window. Verdict `inside_end_choice_span` (23x): the cell may be cited by mechanism (positive at 12/12 ends, beta 1.01-1.17) but never by bp level, and any E41/E42 ratio off it must print its window end. Pool E95 done with result_ref, E98-ENDCHOICE-ALLERAS seeded. S6: dualrun ZERO-DRIFT (620 entries, streak 51), attrition CLEAN (4 ledgers, 2 healed shrinks), orphan face=0 (8 py faces), watermark insufficient_history, compute_audit FLAG supply_gap+supply_floor (ready 2/3, breach honest). Orders: four order files already carried ack receipts in fleet/ack from the r1159-r1161 return window; orders_ack set back-filled here, plus a new ack for O-20261026-0810 s5 and O-20261023-2325 MV standby.",
+ "r1162_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data.",
+ "r1162_push": {
+  "behind_origin_main": 0,
+  "note": "r1162 push: clean delivery 94022f322c (origin/main before push 128480d5ff after two incoming bm-c commits e305311c8f..128480d5ff); pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c DIGEST-20261027-r1296 + results/etf_book_pair.json + scripts/etf_book_pair.py), rebase --autostash replayed 1 commit, 1 UU (results/_attrition_guard_scan.json) ours-newer-wins 04:03:48 vs 04:00:24, autostash pop left 2 UU daemon faces (fleet/machine-health.json, results/compute_audit.json) resolved theirs = committed daemon state, stash dropped; four-way verified behind=0 ahead=0 HEAD==origin/main==94022f322c",
+  "pushed_sha": "94022f322c",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T04:20:00+08:00"
+ },
+ "r1165_note": "E98 closed: the E95 caveat is a property of the instrument, not of the newest years. Both eras the panel reaches re-derive under their own 12-end grid (2021_2023 515.0bp vs a published spread of EXACTLY 0.0 across one cutoff + three screening arms; 2024_now 1184.1bp vs 50.5). pre2017 (0 months) and 2017_2020 (1 month) are structurally empty -- the E42 panel opens 2020-12, so the deliverable \"other three eras\" is one era in practice and that is reported rather than swept on borrowed months. Same grid width and same 11 dropped months with a 2.3x span difference excludes a grid artefact; span/monthly-sd 0.96 vs 1.91 is era character. Free finding: beta_ladder_on_tilt is stable across all ends within an era (0.116-0.171 / 1.013-1.173) but 9x apart BETWEEN eras. Second product: bm-a inbox MSG-20261027-0400 said the rev_osc bridge was 4td stale -- it is not, the collector face was. panel.cutoff is a MAX: 31.4% of 5,223 names reached 2026-10-26 while the 90% date was 2026-10-20, which is exactly what the bridge was publishing. Coverage face + honest in-progress reason landed, smoke leg added (75->76), reply sent MSG-20261027-0511.",
+ "r1165_pit": "r1165: a panel cutoff is a MAX over a heterogeneous population, never a coverage claim -- publish the >=90%-coverage date beside it or a correct consumer looks stale and the face looks current (E136 is the same trap at the min end of the same panel). Sibling: a stability read needs BOTH the published-spread control AND an end grid -- here the published spread was EXACTLY 0.0 (one cutoff x three arms) on a cell that moves 515.0bp when the evaluation end moves, so cross-arm/cross-cutoff agreement proves nothing about the end. Also: this repo root CODELY.md is irreversibly double-encoded (disk==HEAD, 464 x U+950B-family artefacts, reverse transform dies on PUA U+E511) -- new memory rows are ASCII-only until it is rebuilt; raised as HQ-FEEDBACK F-20261027-01.",
+ "r1166_note": "E101 closed: the E98 end grid applied to BOTH arms shows the E99 level delta is a step, not a rate. 2017_2020 me: eleven of twelve ends read exactly 0.0 and the single non-zero end is the era own last (2020-12-31, priced into 2021-01-29) carrying the whole published -745.9bp -- one transition. 2021_2023 me: -1347.9 -> -1098.3 across its own ends (span 249.6, 1.58x the smaller level span) and the mid book 291.4 vs 244.1, so where the delta is large it moves with the end. The two stable cells are stable for the boring reason: 2017_2020 mid is untouched by this repair at every end (delta identically 0.0) and 2024_now me is a 5.3bp wobble. Second-order product: the repair also halves the level end-sensitivity (2021_2023 me level span 407.3 unscreened vs 157.7 repaired), which points the opposite way from the delta. Instrument fix in-window: the first burn truncated each end hard and the published control failed loudly (0.0 vs -745.9) because a hard cut drops the era own last transition (_churn_stats needs a following decision); every end is now priced through the next decision of the same book and all six published deltas reproduce at abs_diff 0.0.",
+ "r1166_pit": "r1166: an era cell does not survive a hard end cut -- a truncated window loses the forward leg of the era own last decision, and here that single dropped transition WAS the whole 745.9bp reading, so the instrument must price each end through the following decision or the grid silently measures a different cell. Sibling: a delta that reads exactly 0.0 at 11 of 12 ends is a transition, not a rate -- publish the count of zero ends beside every arm delta. Second sibling: a stored watermark whose recipe is not written down cannot be compared; 17c29359 was carried for several rounds and does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md), so r1166 re-baselines to fd9e59cd with the recipe in state.",
+ "r1168_marks_gap": {
+  "face": "results/paper/marks (coverage 12/15 trading days)",
+  "lane_owner": "bm-b",
+  "last_present": "2026-10-21",
+  "missing": [
+   "2026-10-22",
+   "2026-10-23",
+   "2026-10-26"
+  ],
+  "next": "check marks-20261027.jsonl after 15:10; if absent, run update_intraday_marks.py --force inside the window and read the rc/2 branch",
+  "open_question": "the collector is a legal no-op outside 09:25-15:00, so the lane can only be proven healed by a marks-20261027.jsonl file appearing after today's window; the pre-register task XML was NOT exported, so the old schedule definition is unprovable (own pit, recorded in r1168_pit)",
+  "task_state": "Bigmoney-IntradayMarks re-registered with Tools/register_marks_task.ps1 (idempotent, S4U verified in XML, repetition P3650D / interval PT10M); task was firing every 10 min with LastTaskResult 0 outside the trading window"
+ },
+ "r1168_note": "productive: E103 face published (GAPLIMIT-20261026). Twenty limits collapse to two repair objects: limits 1-2 rewrite the same 36,184 bars, limits 3-20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (integer-like, 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions, so no wider limit can bind. No limit in 1..20 moves a published cell (six measurable era-book deltas identical to 0.05bp; published control reproduces 6/6 at abs_diff 0.0) -> verdict not_identified, so gap1/gap2/gap5 are one reading under two objects and cannot corroborate each other. e39 selftest 286->299; smoke 78/78; S6 40/41 rc0 (t35_open_fill_verify rc1 = marks 2026-10-26 missing, coverage 12/15, last marks 2026-10-21); dualrun streak 51; attrition CLEAN; orphan face=0 (9 py); watermark insufficient_history with 3 ready pool items -> E103 claimed and burned in-round (20.3s, rerun byte-identical).",
+ "r1168_pit": "r1168: a parameter ladder is not a ladder of measurements -- fingerprint each value by the SET of bars it edits and only burn cells for one representative per distinct face, or twenty near-identical columns get published as twenty measurements. Sibling: a flat ladder is a property of the DATA, not of the walk: publish the panel's own gapped-print spectrum (here max gap 3 sessions) beside it, or flatness is indistinguishable from a broken probe. Second sibling (process, mine): I re-registered Bigmoney-IntradayMarks with the canonical script before exporting the old task XML, so the marks lane's root cause is no longer provable from the machine -- capture the pre-state of an idempotent re-register or the fix loses its evidence.",
+ "r1169_note": "E100 closed: the two famous gap-arm moves are one window each, and the window is a split print. 2017_2020 me -745.9bp is carried 100% by 2020-12-31 (sz159975 -89.54% vs +5.04%, sh510210 -79.98% vs -0.14%); 2024_now mid -241.0 by 2024-01-15 (sz159925 +105.39% vs +303.82% -- the mirror case where the repaired read is LARGER); 2021_2023 me/mid split over top-3 at 61.6%/58.8% with the same names. Both arms hold IDENTICAL names at every top window (member counts equal, held_only empty, zero one-sided dates, residual 0.0), so the delta is a price-read difference, not a portfolio difference -- E99/E101/E102/E103 must be cited as 'the repair prices a split print', never as 'the repair changes the book'.",
+ "r1169_pit": "a level that is a mean over few transitions is not a level, it is whichever single name carried the window -- here one unadjusted split read (-89.5% instead of +5%) IS the whole 745.9bp of a 10-transition era cell, and the same structure pushes a level the other way elsewhere (2024: +304% repaired vs +105% raw). Publish the max single-name read beside every level whose transitions < ~30, and check whether the two arms hold the same names BEFORE attributing a level difference to a screening decision. Sibling: the split diagnosis is only visible on the entrant/exit lists -- a split inside an unchanged holding is invisible to this leg (seeded as E104).",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1167,
- "round_no": 1168,
- "round_no_label": "r1167",
+ "round": 1168,
+ "round_no": 1169,
+ "round_no_label": "r1169",
  "round_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data.",
  "sat_engine": {
   "checked_at": "2026-10-27T05:46:04+08:00",
@@ -477,66 +544,15 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "local_not_on_origin_main": 0,
   "last_push": "89b38b9f5e -> verified (behind=0 ahead=0, HEAD==origin/main==89b38b9f5e)",
   "last_push_ts": "2026-10-27T06:45:02+08:00",
+  "local_not_on_origin_main": 0,
   "note": "r1168 push: pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c results/etf_book_stagger_publish.json + scripts/etf_book_stagger_publish.py); pull --rebase --autostash left 2 UU (knowledge/METHODOLOGY_ASSETS.md = append-only, resolved union by re-appending the E103 card on top of origin; results/_attrition_guard_scan.json = regenerable daemon face, took theirs then regenerated by the guard itself and amended); a second incoming commit triggered one more rebase; payload verified on origin via ls-tree (GAPLIMIT face + digest + e39). Left untouched per r982/r1015/r1033: drama lane dirty files, untracked _tmp* scratch, machine-health, unsuffixed collector status faces."
  },
- "task": "r1168 E103 gap-limit ladder (gap_limit 1..20, 2 objects, 0 moved cells)",
- "task_short": "E103 gaplimit ladder",
- "ts": "2026-10-27T06:37:59+08:00",
- "updated": "2026-10-27T06:37:59+08:00",
- "updated_at": "2026-10-27T06:37:59+08:00",
- "verdict": "productive: E103 face published (GAPLIMIT-20261026). Twenty limits collapse to two repair objects: limits 1-2 rewrite the same 36,184 bars, limits 3-20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (integer-like, 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions, so no wider limit can bind. No limit in 1..20 moves a published cell (six measurable era-book deltas identical to 0.05bp; published control reproduces 6/6 at abs_diff 0.0) -> verdict not_identified, so gap1/gap2/gap5 are one reading under two objects and cannot corroborate each other. e39 selftest 286->299; smoke 78/78; S6 40/41 rc0 (t35_open_fill_verify rc1 = marks 2026-10-26 missing, coverage 12/15, last marks 2026-10-21); dualrun streak 51; attrition CLEAN; orphan face=0 (9 py); watermark insufficient_history with 3 ready pool items -> E103 claimed and burned in-round (20.3s, rerun byte-identical).",
- "cyc_round": 1168,
- "r1161_note": "E94 adopted+reproduced: scripts/e94_readset_triage.py (463 lines) probes one runner per distinct runner with four arms (unscreened / neutralise / perturb 5 ladder members / perturb 5 repaired names), every arm in a temp dir with e27.load_universe pinned, so no published face is rewritten. 33 modes -> 25 moves_under_repair, 4 closed (tilt/era/calrob/calcost twins), 2 structurally immune (all,ladder), 2 probe_blind (stalehold,weeknames cite nothing provable). Two burns on the same panel: 33/33 verdicts and all arm counts identical, so the harness is reproducible; the only difference is the label fix it caused (read_set named from the 5-name step alone said \"no price arithmetic\" on 7 faces the whole-arm repair moves; read_set_label + 4 selftest legs, 15->19).",
- "r1161_pit": "a label must never be narrower than the evidence behind it: the first burn labelled seven modes \"no price arithmetic on the probed names\" while the same row carried charged_by_repair=true with 20 changed leaf paths -- the 5-name step proves name-level reads only, an aggregate book absorbs it, so one column was a name-level reading and the other an arm-level one. Publish which granularity each boolean came from, or two true statements in the same row read as a contradiction. Sibling: a status face that writes both \"spawned: no panel cutoff\" and \"panel fresh (cutoff X >= expected X)\" in one file is a pop gap, not a data problem -- the spawn branch must clear the no-op line it supersedes.",
- "r1162_note": "r1162: E95 closed. New runner leg `tiltstable` (selftest 262->266, +4 legs) holds one panel fixed and moves only the evaluation end of the E42 newest-era tilt cell across the last 12 era month-ends: 448.6..1632.7 bp (span 1184.1, sd 316.3, months 23..34) against a monthly sd of 621.4 bp. The two already-published readings differ by only 50.5 bp (748.1 @2026-10-20 vs 697.6 @2026-10-26) and BOTH carry months=34, so the difference is panel revision, not a longer window. Verdict `inside_end_choice_span` (23x): the cell may be cited by mechanism (positive at 12/12 ends, beta 1.01-1.17) but never by bp level, and any E41/E42 ratio off it must print its window end. Pool E95 done with result_ref, E98-ENDCHOICE-ALLERAS seeded. S6: dualrun ZERO-DRIFT (620 entries, streak 51), attrition CLEAN (4 ledgers, 2 healed shrinks), orphan face=0 (8 py faces), watermark insufficient_history, compute_audit FLAG supply_gap+supply_floor (ready 2/3, breach honest). Orders: four order files already carried ack receipts in fleet/ack from the r1159-r1161 return window; orders_ack set back-filled here, plus a new ack for O-20261026-0810 s5 and O-20261023-2325 MV standby.",
- "r1162_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data.",
- "r1162_push": {
-  "behind_origin_main": 0,
-  "pushed_sha": "94022f322c",
-  "status": "PUSHED_VERIFIED",
-  "note": "r1162 push: clean delivery 94022f322c (origin/main before push 128480d5ff after two incoming bm-c commits e305311c8f..128480d5ff); pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c DIGEST-20261027-r1296 + results/etf_book_pair.json + scripts/etf_book_pair.py), rebase --autostash replayed 1 commit, 1 UU (results/_attrition_guard_scan.json) ours-newer-wins 04:03:48 vs 04:00:24, autostash pop left 2 UU daemon faces (fleet/machine-health.json, results/compute_audit.json) resolved theirs = committed daemon state, stash dropped; four-way verified behind=0 ahead=0 HEAD==origin/main==94022f322c",
-  "ts": "2026-10-27T04:20:00+08:00"
- },
- "r1165_note": "E98 closed: the E95 caveat is a property of the instrument, not of the newest years. Both eras the panel reaches re-derive under their own 12-end grid (2021_2023 515.0bp vs a published spread of EXACTLY 0.0 across one cutoff + three screening arms; 2024_now 1184.1bp vs 50.5). pre2017 (0 months) and 2017_2020 (1 month) are structurally empty -- the E42 panel opens 2020-12, so the deliverable \"other three eras\" is one era in practice and that is reported rather than swept on borrowed months. Same grid width and same 11 dropped months with a 2.3x span difference excludes a grid artefact; span/monthly-sd 0.96 vs 1.91 is era character. Free finding: beta_ladder_on_tilt is stable across all ends within an era (0.116-0.171 / 1.013-1.173) but 9x apart BETWEEN eras. Second product: bm-a inbox MSG-20261027-0400 said the rev_osc bridge was 4td stale -- it is not, the collector face was. panel.cutoff is a MAX: 31.4% of 5,223 names reached 2026-10-26 while the 90% date was 2026-10-20, which is exactly what the bridge was publishing. Coverage face + honest in-progress reason landed, smoke leg added (75->76), reply sent MSG-20261027-0511.",
- "r1165_pit": "r1165: a panel cutoff is a MAX over a heterogeneous population, never a coverage claim -- publish the >=90%-coverage date beside it or a correct consumer looks stale and the face looks current (E136 is the same trap at the min end of the same panel). Sibling: a stability read needs BOTH the published-spread control AND an end grid -- here the published spread was EXACTLY 0.0 (one cutoff x three arms) on a cell that moves 515.0bp when the evaluation end moves, so cross-arm/cross-cutoff agreement proves nothing about the end. Also: this repo root CODELY.md is irreversibly double-encoded (disk==HEAD, 464 x U+950B-family artefacts, reverse transform dies on PUA U+E511) -- new memory rows are ASCII-only until it is rebuilt; raised as HQ-FEEDBACK F-20261027-01.",
- "r1166_note": "E101 closed: the E98 end grid applied to BOTH arms shows the E99 level delta is a step, not a rate. 2017_2020 me: eleven of twelve ends read exactly 0.0 and the single non-zero end is the era own last (2020-12-31, priced into 2021-01-29) carrying the whole published -745.9bp -- one transition. 2021_2023 me: -1347.9 -> -1098.3 across its own ends (span 249.6, 1.58x the smaller level span) and the mid book 291.4 vs 244.1, so where the delta is large it moves with the end. The two stable cells are stable for the boring reason: 2017_2020 mid is untouched by this repair at every end (delta identically 0.0) and 2024_now me is a 5.3bp wobble. Second-order product: the repair also halves the level end-sensitivity (2021_2023 me level span 407.3 unscreened vs 157.7 repaired), which points the opposite way from the delta. Instrument fix in-window: the first burn truncated each end hard and the published control failed loudly (0.0 vs -745.9) because a hard cut drops the era own last transition (_churn_stats needs a following decision); every end is now priced through the next decision of the same book and all six published deltas reproduce at abs_diff 0.0.",
- "r1166_pit": "r1166: an era cell does not survive a hard end cut -- a truncated window loses the forward leg of the era own last decision, and here that single dropped transition WAS the whole 745.9bp reading, so the instrument must price each end through the following decision or the grid silently measures a different cell. Sibling: a delta that reads exactly 0.0 at 11 of 12 ends is a transition, not a rate -- publish the count of zero ends beside every arm delta. Second sibling: a stored watermark whose recipe is not written down cannot be compared; 17c29359 was carried for several rounds and does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md), so r1166 re-baselines to fd9e59cd with the recipe in state.",
- "last_decisions_sha_recipe": "sha256 of git cat-file blob origin/main:docs/decisions.md in the group tree C:/Fluxgroup/FluxGroup (D-19 group-face fresh-read law)",
- "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
- "decisions_consumed_r1166": {
-  "rows": [
-   "D-20261027-01",
-   "D-20261027-02",
-   "D-20261027-03",
-   "D-20261027-04",
-   "D-20261027-05"
-  ],
-  "touching_this_repo": [
-   "D-20261027-01 BigMoney bm-a 7 tasks Disabled -> resumed (UNEXPECTED-DISABLED criterion)"
-  ],
-  "action": "bm-b local check: Bigmoney-IterationLoop next-run 05:47 / Bigmoney-LoopWatchdog 05:46 both scheduled (Ready) -> no UNEXPECTED-DISABLED on this machine; other four rows are BigStream/doc-governance (not this repo), watermark advanced only"
- },
- "last_run": "2026-10-27T06:37:59+08:00",
- "pending_ops": [
-  "CODELY.md 49909B == 93B headroom: any append crosses the 50KB hot/cold trigger, so r1167 wrote its lesson to knowledge/METHODOLOGY_ASSETS.md + digest instead. Next round that must append must first compact to research/memory-archive/202611.md with line-level zero-loss check."
- ],
- "next_pointer": "r1169 E100 gap-arm transition names (topnames burn with full_churn on the gap1 universe against unscreened); E97 readset routing still ready",
- "r1168_note": "productive: E103 face published (GAPLIMIT-20261026). Twenty limits collapse to two repair objects: limits 1-2 rewrite the same 36,184 bars, limits 3-20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (integer-like, 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions, so no wider limit can bind. No limit in 1..20 moves a published cell (six measurable era-book deltas identical to 0.05bp; published control reproduces 6/6 at abs_diff 0.0) -> verdict not_identified, so gap1/gap2/gap5 are one reading under two objects and cannot corroborate each other. e39 selftest 286->299; smoke 78/78; S6 40/41 rc0 (t35_open_fill_verify rc1 = marks 2026-10-26 missing, coverage 12/15, last marks 2026-10-21); dualrun streak 51; attrition CLEAN; orphan face=0 (9 py); watermark insufficient_history with 3 ready pool items -> E103 claimed and burned in-round (20.3s, rerun byte-identical).",
- "r1168_pit": "r1168: a parameter ladder is not a ladder of measurements -- fingerprint each value by the SET of bars it edits and only burn cells for one representative per distinct face, or twenty near-identical columns get published as twenty measurements. Sibling: a flat ladder is a property of the DATA, not of the walk: publish the panel's own gapped-print spectrum (here max gap 3 sessions) beside it, or flatness is indistinguishable from a broken probe. Second sibling (process, mine): I re-registered Bigmoney-IntradayMarks with the canonical script before exporting the old task XML, so the marks lane's root cause is no longer provable from the machine -- capture the pre-state of an idempotent re-register or the fix loses its evidence.",
- "r1168_marks_gap": {
-  "face": "results/paper/marks (coverage 12/15 trading days)",
-  "last_present": "2026-10-21",
-  "missing": [
-   "2026-10-22",
-   "2026-10-23",
-   "2026-10-26"
-  ],
-  "lane_owner": "bm-b",
-  "task_state": "Bigmoney-IntradayMarks re-registered with Tools/register_marks_task.ps1 (idempotent, S4U verified in XML, repetition P3650D / interval PT10M); task was firing every 10 min with LastTaskResult 0 outside the trading window",
-  "open_question": "the collector is a legal no-op outside 09:25-15:00, so the lane can only be proven healed by a marks-20261027.jsonl file appearing after today's window; the pre-register task XML was NOT exported, so the old schedule definition is unprovable (own pit, recorded in r1168_pit)",
-  "next": "check marks-20261027.jsonl after 15:10; if absent, run update_intraday_marks.py --force inside the window and read the rc/2 branch"
- }
+ "task": "r1169 E100 gap-arm transition names (exact split, drivers named)",
+ "task_short": "E100 gaptop3",
+ "ts": "2026-10-27T07:05:00+08:00",
+ "updated": "2026-10-27T07:05:00+08:00",
+ "updated_at": "2026-10-27T07:05:00+08:00",
+ "verdict": "productive: E100 face published (GAPTOP3-20261026-s2018). The split is exact (residual 0.0, zero one-sided dates) and reproduces all six published deltas at <=0.05bp. Every large move is ONE window and the two arms hold identical names there: 18 top windows carry price drivers with empty held_only sets, so the level delta is a PRICE-READ difference, not a composition difference. Named drivers: 2017_2020 me -745.9 = 100% the 2020-12-31 window where sz159975 reads -89.54% unscreened vs +5.04% repaired (sh510210 -79.98% vs -0.14%); 2021_2023 me -1098.3 top-3 61.6% (sh510580 -89.95%/+1.02%, sh510150 -91.20%/+5.32%); 2021_2023 mid -1117.2 top-3 58.8% (sh510150 -91.63%/+0.23%); 2024_now mid -241.0 one window (sz159925 +105.39% vs +303.82%). A -90% one-window ETF read is an unadjusted split, so the published level delta is the repair of a split print, not evidence that the book changed. e39 selftest 299->307; smoke 78/78; dualrun streak 51; attrition CLEAN; orphan face=0 (9 py); compute_audit FLAG single_core_hog+supply_gap+supply_floor (ready 1<3 -> seeded E104/E105)."
 }
