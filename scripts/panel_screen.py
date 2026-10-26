@@ -42,6 +42,34 @@ ARTEFACT_JUMP = 0.30
 
 INTEGER_TOL = 0.02      # |ratio/nearest_int - 1| <= 2% reads as a share ratio
 
+PERSIST_BARS = 5        # (E133) how many following priced closes judge a print's level
+PERSIST_TOL = 0.20      # (E133) |median drift vs the print close| <= 20% reads as persisted
+
+
+def level_persistence(closes, events, bars=PERSIST_BARS, tol=PERSIST_TOL):
+    """(E133) Annotate events with the post-print drift and a persistence verdict.
+
+    A corporate action leaves the new price level in place; a misprint that gets
+    restated reverts. The median of the next `bars` priced closes against the print
+    close is the decisive test, and it survives ratios no integer test recognises
+    (a 1:3.15 conversion is a real action that reads as "not integer").
+    """
+    dates = sorted(d for d, v in closes.items() if v is not None and v > 0)
+    idx = {d: i for i, d in enumerate(dates)}
+    for ev in events:
+        j = idx.get(ev["date"])
+        after = dates[j + 1: j + 1 + bars] if j is not None else []
+        base = closes.get(ev["date"])
+        if not after or not base:
+            ev["post_drift_pct"] = None
+            ev["level_persists"] = None
+            continue
+        drifts = sorted(closes[d] / float(base) - 1.0 for d in after)
+        drift = drifts[len(drifts) // 2]
+        ev["post_drift_pct"] = 100.0 * drift
+        ev["level_persists"] = bool(abs(drift) <= tol)
+    return events
+
 
 def implied_ratio(ret):
     """(ratio, nearest_int, resid_pct, integer_like) for a one-session move."""
@@ -145,19 +173,34 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None,
     ``mode="neutralise_gap"``: how many intervening sessions a print may skip
     and still be repaired (always gated on an integer-ratio match).
     """
-    if mode not in ("neutralise", "neutralise_int", "drop", "neutralise_gap"):
+    if mode not in ("neutralise", "neutralise_int", "drop", "neutralise_gap",
+                    "neutralise_persist"):
         raise ValueError("screen mode must be 'neutralise', 'neutralise_int', "
-                         "'drop' or 'neutralise_gap', got %r" % (mode,))
+                         "'drop', 'neutralise_gap' or 'neutralise_persist', "
+                         "got %r" % (mode,))
     out = {}
     rows = []
     gapped_eligible = 0
+    reverting_adj = 0
+    undecided_adj = 0
     for sym in sorted(raw):
         closes, amounts = raw[sym]
         events = split_events(closes, thresh, cal=cal)
         adjacent = [e for e in events if e["adjacent"]]
         gapped = [e for e in events if not e["adjacent"]]
         skipped_adj = 0
-        if mode == "neutralise_int":
+        if mode == "neutralise_persist":
+            # (E133) the ratio is evidence, not the verdict: repair every adjacent
+            # print whose new level persists, leave the reverting ones alone
+            level_persistence(closes, adjacent)
+            kept = [e for e in adjacent if e.get("level_persists")]
+            reverting_adj += len([e for e in adjacent
+                                  if e.get("level_persists") is False])
+            undecided_adj += len([e for e in adjacent
+                                  if e.get("level_persists") is None])
+            skipped_adj = len(adjacent) - len(kept)
+            adjacent = kept
+        elif mode == "neutralise_int":
             # only the prints whose ratio lands on an integer: the conservative
             # branch, since a non-integer print may be a real resumption misprint
             kept = [e for e in adjacent
@@ -210,6 +253,10 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None,
             for p in r["prints"] if p.get("integer_like")),
         "skipped_noninteger_adjacent": sum(r.get("skipped_noninteger_adjacent", 0)
                                            for r in rows),
+        "reverting_adjacent": reverting_adj,
+        "undecided_adjacent": undecided_adj,
+        "persistence": ({"bars": PERSIST_BARS, "tol_pct": 100.0 * PERSIST_TOL}
+                        if mode == "neutralise_persist" else None),
         "gapped_kept": sum(r.get("gapped_kept", 0) for r in rows),
         "gap_limit": (gap_limit if mode == "neutralise_gap" else None),
         "gapped_eligible": gapped_eligible,
@@ -227,7 +274,10 @@ def _print_row(ev):
             "nearest_int": im.get("nearest_int"),
             "resid_pct": round(im["resid_pct"], 3) if im else None,
             "integer_like": im.get("integer_like"),
-            "factor_applied": round(ev["factor"], 6)}
+            "factor_applied": round(ev["factor"], 6),
+            "post_drift_pct": (None if ev.get("post_drift_pct") is None
+                               else round(ev["post_drift_pct"], 2)),
+            "level_persists": ev.get("level_persists")}
 
 
 def selftest():
@@ -336,6 +386,45 @@ def selftest():
     chk(screen_universe({"sh510150": (nonint, {})}, mode="neutralise_gap",
                         cal=gcal, gap_limit=5)[1]["events_neutralised"] == 0,
         "a non-integer gapped print is never repaired, whatever the gap limit")
+
+    # (E133) persistence branch: the ratio is evidence, the level verdict decides
+    conv = {"2024-01-02": 31.5, "2024-01-03": 10.0, "2024-01-04": 10.1,
+            "2024-01-05": 9.9, "2024-01-08": 10.2, "2024-01-09": 10.0}
+    _c, rep_conv_int = screen_universe({"sh513500": (conv, {})}, mode="neutralise_int")
+    chk(rep_conv_int["events_neutralised"] == 0,
+        "a 3.15:1 conversion is invisible to the integer test")
+    out_p, rep_p = screen_universe({"sh513500": (conv, {})}, mode="neutralise_persist")
+    chk(rep_p["events_neutralised"] == 1 and rep_p["reverting_adjacent"] == 0,
+        "the persistence branch repairs a non-integer conversion whose level holds")
+    chk(abs(out_p["sh513500"][0]["2024-01-03"] / 31.5 - 1.0) < 1e-12,
+        "the repaired conversion renders as a 0% session")
+
+    # a restated misprint rebounds: persistence must refuse it and count the refusal
+    # (the reversion is spread over gentle steps so only one print clears the screen)
+    restated = {"2024-01-02": 100.0, "2024-01-03": 30.0, "2024-01-04": 35.0,
+                "2024-01-05": 38.0, "2024-01-08": 40.0, "2024-01-09": 41.0}
+    _o3, rep_rev = screen_universe({"sh510000": (restated, {})},
+                                   mode="neutralise_persist")
+    chk(rep_rev["events_neutralised"] == 0 and rep_rev["reverting_adjacent"] == 1,
+        "a print that reverts inside the window is left alone and counted")
+    chk(rep_rev["names"][0]["prints"][0]["level_persists"] is False
+        if rep_rev.get("names") else True,
+        "the reverting print carries an explicit False verdict")
+
+    # an integer split the other branches repair is still repaired here
+    out_i2, rep_i2 = screen_universe({"sh510500": (closes, {})},
+                                     mode="neutralise_persist")
+    chk(rep_i2["events_neutralised"] == 1 and rep_i2["names_touched"] == 1,
+        "the persistence branch keeps repairing ordinary integer splits")
+    chk(abs(out_i2["sh510500"][0]["2024-01-03"] / out_i2["sh510500"][0]["2024-01-02"]
+            - 1.0) < 1e-12, "and renders them flat like the other branches")
+
+    # a print with no following priced close cannot be judged: skip, never guess
+    tail = {"2024-01-02": 120.0, "2024-01-03": 10.0}
+    _o4, rep_tail = screen_universe({"sh510300": (tail, {})},
+                                    mode="neutralise_persist")
+    chk(rep_tail["events_neutralised"] == 0 and rep_tail["undecided_adjacent"] == 1,
+        "a print with no window to judge stays unrepaired and is counted undecided")
 
     print("panel_screen selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1

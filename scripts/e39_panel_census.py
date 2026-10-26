@@ -1373,7 +1373,8 @@ def _spread_delta_rows(base_label, faces, modes, eras):
 
 
 def run_screenspread(outdir, pick_n=9999, exclude=("sh511",),
-                     modes=("neutralise_int", "neutralise"), eras=ERAS):
+                     modes=("neutralise_int", "neutralise", "neutralise_persist"),
+                     eras=ERAS):
     """E81 leg 2: replay the size-neutral spread from the repaired universe.
 
     E42's newest-era size-neutral spread is the number the chain quotes as its

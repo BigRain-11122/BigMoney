@@ -848,3 +848,11 @@ eutralrob，八格与新件 unscreened 臂逐格恒等（diff 为空）。
 - 顺手抓到的缺陷：`A.repair_flips` 用 `close.pct_change()` 量收益，**pandas 3 已不再跨 NaN 前填**，紧跟停牌 bar 的拆分打印返回 NaN——重标尺仍然把它压平了（NaN 归 0% 日），但**计数行漏了**（报 134，按前有价收盘实测 168），且该 bar 上真实的小幅波动被一并吃掉。修=按 `close.ffill()` 量（E74 律新面），卡片重出后印 168；另加**自证门**：修复后面板残余越阈打印必须 = 0（两面均已 0）。
 - 验证：`python scripts\etf_book_split_audit.py selftest` 20/20（含「修复后无残余」「gap 邻接拆分计数」「整数比漏判 3.15:1 而持久性抓住」「回弹打印判非持久」「名义宽度不冒充活动」）＋卡片一致性门（审计臂与卡片 n12_vt08 全指标差 <5e-5）；结果 results/etf_book_split_audit/AUDIT-2026-10-23.json、research/digests/DIGEST-20261026-e133-book-split-repair.md。
 - 2026-10-26 r1282 bm-c，E133 收口。承接 O-20261002-2100 捕获律。
+
+## E134 筛法裁决要看「水平保不保得住」而不是「比值像不像整数」：普查尺度上持续筛与全修逐格相等（r1283 bm-c 实证）
+- 情境：E133 在片子上证明「整数比启发式只认 47%、水平持续性能认全 164 个」，留下一个明账问题——**新裁决规则会不会改动任何已发布的普查线**？两种结局都可能：若有打印回弹，持续筛=比全修更保守的安全臂；若没有，持续筛=有证据支撑的相等，而整数门才是错的臂。此前无人量过。
+- 实现：`panel_screen.level_persistence(closes, events, bars=5, tol=0.20)`（取打印后 5 个有价收盘的中位漂移，|漂移|≤20% 判持续）成为共享 loader 的一等公民，`mode="neutralise_persist"` 只修「水平站得住」的相邻打印、不看比值；默认调用方零改动；挂进 `screenspread`（E81 leg2）让已发布的生存 claim 在三道门下同读。selftest 26→31 腿（3.15:1 换股被持续筛修好而整数筛视而不见；回弹打印被拒且计数；普通整数拆股照修；窗口不足判未决不猜）。
+- 实测（size-neutral spread，bp/yr，1269 名，cutoff 2026-10-23）：未筛 326.4/161.5/260.6（水平均值 243.9，带 164.9）；整数门 371.6/340.2/369.2（355.9，带 31.4，修 65 打印/65 名）；全修 467.3/490.0/489.5（478.6，带 22.7，修 135 打印/129 名）；**持续筛与全修逐格相等**（467.3/490.0/489.5、478.6、22.7、135）——它评估了全部 135 个相邻打印并拒了 **0 个**。
+- 判读：①答案=**不改动任何已发布普查线**，宽臂本来就对；②真正错的是整数门：它丢掉 135 个真修复里的 70 个（52%），代价是水平 −122.7bp、带宽 22.7→31.4——「保守分支」在这里保护的从来不是风险而是欠修；③相等是**单面板单切口的测量不是定理**：只要有一个打印在 5 个收盘内回弹两臂就分开，故 `reverting_adjacent`/`undecided_adjacent` 随件发布，引用持续臂必带拒修计数。
+- 验证：`python scripts\panel_screen.py` 31/31；`python scripts\e39_panel_census.py selftest` 257/257；`python scripts\e39_panel_census.py screenspread` 四臂约 35s；results/e42_spread_size_neutral/NEUTRAL-20261023-screened.json；research/digests/DIGEST-20261026-e134-persist-screen-census.md
+- 2026-10-26 r1283 bm-c，E134 收口。承接 O-20261002-2100 收口步。
