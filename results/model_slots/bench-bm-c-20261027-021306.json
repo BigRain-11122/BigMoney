@@ -1,0 +1,79 @@
+{
+ "machine_id": "bm-c",
+ "tag": "r1294-tight",
+ "measured_at": "2026-10-27T02:13:06+0800",
+ "server": {
+  "started": false,
+  "reason": "already listening"
+ },
+ "hardware": {
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 3070",
+   "total_mb": 16384,
+   "used_mb": 1288,
+   "free_mb": 14890,
+   "util_pct": 0,
+   "raw": "NVIDIA GeForce RTX 3070, 16384, 1288, 14890, 0"
+  },
+  "ram_total_gb": 23.9,
+  "ram_available_gb": 1.53,
+  "ram_gate_reserve_gb": 0.6
+ },
+ "gpu_after": {
+  "name": "NVIDIA GeForce RTX 3070",
+  "total_mb": 16384,
+  "used_mb": 1277,
+  "free_mb": 14901,
+  "util_pct": 82,
+  "raw": "NVIDIA GeForce RTX 3070, 16384, 1277, 14901, 82"
+ },
+ "inventory": [
+  {
+   "name": "qwen3.5:9b-q4_K_M",
+   "size_bytes": 6550815118,
+   "size_gb": 6.1,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\qwen3.5\\9b-q4_K_M"
+  }
+ ],
+ "results": [
+  {
+   "model": "qwen3.5:9b-q4_K_M",
+   "runs": [
+    {
+     "run": 1,
+     "tokens": 128,
+     "decode_tok_s": 57.14,
+     "prefill_tok_s": 153.37,
+     "wall_s": 15.02,
+     "load_s": 12.56
+    },
+    {
+     "run": 2,
+     "tokens": 128,
+     "decode_tok_s": 58.14,
+     "prefill_tok_s": 170.94,
+     "wall_s": 13.67,
+     "load_s": 11.26
+    },
+    {
+     "run": 3,
+     "tokens": 128,
+     "decode_tok_s": 58.9,
+     "prefill_tok_s": 164.09,
+     "wall_s": 12.83,
+     "load_s": 10.46
+    }
+   ],
+   "median_decode_tok_s": 58.14,
+   "median_prefill_tok_s": 164.09,
+   "median_first_load_s": 11.26,
+   "command": "POST /api/generate stream=false num_predict=128 temperature=0 keep_alive=0",
+   "size_gb": 6.1,
+   "status": "measured",
+   "gate": "vram 14.54GB >= weights 6.10+0.5 and ram 1.54GB >= reserve 0.6"
+  }
+ ],
+ "resident_after": [],
+ "measurement_note": "decode tok/s = eval_count / eval_duration from /api/generate. bm-c has NO resident production model (Ollama automation cleared 2026-10-17), so the first-load cost IS measured here (median_first_load_s) and each model is unloaded with keep_alive=0 immediately after. bm-a's bench deliberately cannot do this on its host.",
+ "memory_gate_note": "a model whose estimated weights + reserve do not fit in currently available RAM is skipped, not attempted: the desktop user shares this box."
+}

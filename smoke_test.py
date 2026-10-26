@@ -508,7 +508,8 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_width_audit", "etf_book_registry", "cal_audit"}
+                 "etf_book_width_audit", "etf_book_registry", "etf_paper_signal",
+                 "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")

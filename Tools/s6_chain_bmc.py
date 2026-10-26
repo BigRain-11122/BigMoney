@@ -78,6 +78,14 @@ LEGS = [
     # class). Every row is derived from its own artefact, so it also catches a pointer
     # that still names a file which no longer exists. <1s, no network, no judge.
     ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
+    # Fourth instance of the orphan-face class, and the worst-placed one: the staggered
+    # 5+5 book is the config this firm calls its production book, but its accrual ran only
+    # off a scheduled task that no longer exists on this host (schtasks: not found), so the
+    # ledger sat at 2026-10-23 while the panel had already printed 2026-10-26 -- a stale
+    # track record on the face with the best measured numbers (Sharpe 1.32). The ledger is
+    # idempotent per signal date (re-running a date replaces that row), so riding the chain
+    # cannot double-count a bar; the scheduled task, if it ever returns, is harmless too.
+    ("etf_paper_signal", ["python", "scripts/etf_paper_signal.py"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),

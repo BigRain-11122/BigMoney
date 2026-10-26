@@ -1,0 +1,127 @@
+{
+ "machine_id": "bm-c",
+ "tag": "r1294",
+ "measured_at": "2026-10-27T02:11:22+0800",
+ "server": {
+  "started": false,
+  "reason": "already listening"
+ },
+ "hardware": {
+  "gpu": {
+   "name": "NVIDIA GeForce RTX 3070",
+   "total_mb": 16384,
+   "used_mb": 1271,
+   "free_mb": 14907,
+   "util_pct": 0,
+   "raw": "NVIDIA GeForce RTX 3070, 16384, 1271, 14907, 0"
+  },
+  "ram_total_gb": 23.9,
+  "ram_available_gb": 2.03,
+  "ram_gate_reserve_gb": 1.5
+ },
+ "gpu_after": {
+  "name": "NVIDIA GeForce RTX 3070",
+  "total_mb": 16384,
+  "used_mb": 1284,
+  "free_mb": 14894,
+  "util_pct": 43,
+  "raw": "NVIDIA GeForce RTX 3070, 16384, 1284, 14894, 43"
+ },
+ "inventory": [
+  {
+   "name": "qwen3.5:4b-q4_K_M",
+   "size_bytes": 3324163502,
+   "size_gb": 3.1,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\qwen3.5\\4b-q4_K_M"
+  },
+  {
+   "name": "qwen3.5:9b-q4_K_M",
+   "size_bytes": 6550815118,
+   "size_gb": 6.1,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\qwen3.5\\9b-q4_K_M"
+  },
+  {
+   "name": "qwen3.8:27b",
+   "size_bytes": 13146393538,
+   "size_gb": 12.24,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\qwen3.8\\27b"
+  },
+  {
+   "name": "qwen3.6-coder:35b",
+   "size_bytes": 13676723202,
+   "size_gb": 12.74,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\qwen3.6-coder\\35b"
+  },
+  {
+   "name": "glm-4.7-flash:30b",
+   "size_bytes": 13782004098,
+   "size_gb": 12.84,
+   "manifest": "C:\\Users\\Dasheng\\.ollama\\models\\manifests\\registry.ollama.ai\\library\\glm-4.7-flash\\30b"
+  }
+ ],
+ "results": [
+  {
+   "model": "qwen3.5:4b-q4_K_M",
+   "runs": [
+    {
+     "run": 1,
+     "tokens": 128,
+     "decode_tok_s": 83.16,
+     "prefill_tok_s": 1.47,
+     "wall_s": 64.98,
+     "load_s": 45.75
+    },
+    {
+     "run": 2,
+     "tokens": 128,
+     "decode_tok_s": 83.4,
+     "prefill_tok_s": 129.17,
+     "wall_s": 11.33,
+     "load_s": 9.52
+    },
+    {
+     "run": 3,
+     "tokens": 128,
+     "decode_tok_s": 83.44,
+     "prefill_tok_s": 129.37,
+     "wall_s": 12.76,
+     "load_s": 10.97
+    }
+   ],
+   "median_decode_tok_s": 83.4,
+   "median_prefill_tok_s": 129.17,
+   "median_first_load_s": 10.97,
+   "command": "POST /api/generate stream=false num_predict=128 temperature=0 keep_alive=0",
+   "size_gb": 3.1,
+   "status": "measured",
+   "gate": "vram 14.56GB >= weights 3.10+0.5 and ram 2.02GB >= reserve 1.5"
+  },
+  {
+   "model": "qwen3.5:9b-q4_K_M",
+   "size_gb": 6.1,
+   "status": "skipped_memory_gate",
+   "gate": "vram fits weights but ram 1.30GB < reserve 1.5"
+  },
+  {
+   "model": "qwen3.8:27b",
+   "size_gb": 12.24,
+   "status": "skipped_memory_gate",
+   "gate": "vram fits weights but ram 1.31GB < reserve 1.5"
+  },
+  {
+   "model": "qwen3.6-coder:35b",
+   "size_gb": 12.74,
+   "status": "skipped_memory_gate",
+   "gate": "vram fits weights but ram 1.29GB < reserve 1.5"
+  },
+  {
+   "model": "glm-4.7-flash:30b",
+   "size_gb": 12.84,
+   "status": "skipped_memory_gate",
+   "gate": "vram fits weights but ram 1.29GB < reserve 1.5"
+  }
+ ],
+ "resident_after": [],
+ "measurement_note": "decode tok/s = eval_count / eval_duration from /api/generate. bm-c has NO resident production model (Ollama automation cleared 2026-10-17), so the first-load cost IS measured here (median_first_load_s) and each model is unloaded with keep_alive=0 immediately after. bm-a's bench deliberately cannot do this on its host.",
+ "memory_gate_note": "a model whose estimated weights + reserve do not fit in currently available RAM is skipped, not attempted: the desktop user shares this box."
+}

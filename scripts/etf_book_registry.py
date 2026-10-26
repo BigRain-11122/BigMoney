@@ -68,9 +68,9 @@ FACES = [
     },
     {
         "id": "staggered",
-        "label": "staggered 5+5 paper ledger (own task, not in chain)",
+        "label": "staggered 5+5 paper ledger (production config)",
         "pointer": os.path.join("results", "etf_paper", "ledger.jsonl"),
-        "chain_leg": None,
+        "chain_leg": "etf_paper_signal",
     },
 ]
 
@@ -225,6 +225,20 @@ def build(faces=None, legs=AUTO_LEGS):
         entry = {"id": face["id"], "label": face["label"],
                  "pointer": face["pointer"].replace(os.sep, "/"),
                  "chain_leg": face["chain_leg"]}
+        # Wiring is decided before the artefact is read, so that a face which is missing
+        # or unreadable still reports whether anything refreshes it. Deciding it after the
+        # read meant the two checks below (`continue`) dropped the verdict entirely -- and
+        # a face that is both mis-typed and unchanged is exactly the one nobody notices.
+        if legs is None:
+            entry["in_chain"] = None
+            entry["chain_note"] = "runner not importable -- wiring unknown"
+        elif face["chain_leg"] is None:
+            entry["in_chain"] = False
+            entry["chain_note"] = "declared outside the chain (own scheduled task)"
+        else:
+            entry["in_chain"] = face["chain_leg"] in legs
+            entry["chain_note"] = ("wired as %s" % face["chain_leg"] if entry["in_chain"]
+                                   else "declared leg %s absent from runner" % face["chain_leg"])
         if not os.path.exists(path):
             entry.update({"status": "missing", "detail": "artefact not on disk"})
             rows.append(entry)
@@ -242,16 +256,6 @@ def build(faces=None, legs=AUTO_LEGS):
         # anything complaining -- the r1292 "field promised one quantity" class.  Say so.
         if entry.get("n_names") and len(entry.get("names") or []) != int(entry["n_names"]):
             entry["name_count_mismatch"] = True
-        if legs is None:
-            entry["in_chain"] = None
-            entry["chain_note"] = "runner not importable -- wiring unknown"
-        elif face["chain_leg"] is None:
-            entry["in_chain"] = False
-            entry["chain_note"] = "declared outside the chain (own scheduled task)"
-        else:
-            entry["in_chain"] = face["chain_leg"] in legs
-            entry["chain_note"] = ("wired as %s" % face["chain_leg"] if entry["in_chain"]
-                                   else "declared leg %s absent from runner" % face["chain_leg"])
         rows.append(entry)
 
     def _key(r):
@@ -337,10 +341,18 @@ def run():
 # ---------------------------------------------------------------- selftest
 def selftest():
     fails = []
+    n_chk = [0]          # assertions made, counted not typed -- see the teacher below
 
     def eq(name, got, want):
+        n_chk[0] += 1
         if got != want:
             fails.append("%s: got %r want %r" % (name, got, want))
+
+    def chk(name, ok, detail=""):
+        """For the checks that are conditions rather than value comparisons."""
+        n_chk[0] += 1
+        if not ok:
+            fails.append("%s: %s" % (name, detail))
 
     # L1 a missing artefact is reported, never raised and never silently dropped
     reg = build(faces=[{"id": "ticket", "label": "x",
@@ -360,9 +372,34 @@ def selftest():
     eq("L3 unknown wiring", reg["faces"][0]["in_chain"], None)
     eq("L3 unknown is not unwired", reg["unwired_declared_legs"], [])
 
-    # L4 a face declared outside the chain is recorded, not counted as a defect
-    reg = build(faces=[dict(FACES[3])], legs=["etf_book_order"])
+    # L4 a face declared outside the chain is recorded, not counted as a defect.
+    #    Built from the real staggered face with its leg removed, so the reader (and thus
+    #    the artefact) is real: an invented id would fail the reader lookup instead and
+    #    test the wrong thing. The live register no longer has an off-chain face (r1294
+    #    wired it), and a leg that kept asserting otherwise would go red the moment that
+    #    stopped being true.
+    _offchain = dict(FACES[3])
+    _offchain["chain_leg"] = None
+    reg = build(faces=[_offchain], legs=["etf_book_order"])
     eq("L4 off-chain", reg["off_chain_by_design"], ["staggered"])
+
+    # L14 a face that is missing or unreadable must still say whether anything refreshes
+    #     it. Wiring used to be decided after the read, so the two `continue` paths
+    #     dropped the verdict -- and a face that is both stale and unwired is the one
+    #     nobody notices.
+    _gone = {"id": "ticket", "label": "x",
+             "pointer": os.path.join("results", "__nope__.json"),
+             "chain_leg": "etf_book_order"}
+    reg = build(faces=[_gone], legs=["something_else"])
+    eq("L14 missing still reports wiring", reg["faces"][0]["in_chain"], False)
+    eq("L14 missing unwired is caught", reg["unwired_declared_legs"], ["ticket"])
+
+    # L13 every declared face must carry a chain leg. This is the invariant behind the
+    #     whole register: r1257/r1290/r1291/r1294 were each a live face that nothing
+    #     refreshed. A new face with no leg is not "outside the chain by design", it is
+    #     the next stale track record waiting to happen.
+    missing_legs = [f["id"] for f in FACES if not f.get("chain_leg")]
+    eq("L13 every registered face is wired", missing_legs, [])
 
     # L5 two different configs are a disagreement, one config is not
     fake = [{"id": "card", "label": "a", "pointer": "results/etf_book_production/latest.json",
@@ -391,24 +428,26 @@ def selftest():
     #    pass while every real artefact was gone (r1289 leg-16 lesson)
     live = build()
     ids = {r["id"] for r in live["faces"] if r.get("status") == "ok"}
-    if not ids:
-        fails.append("L9 no live face on disk (register is all-missing)")
+    chk("L9 a live face is on disk", bool(ids), "register is all-missing")
     eq("L9 every registered face resolves", live["n_live"], live["n_faces"])
 
     # L10 a declared count that the name list does not back is flagged, not averaged
     eq("L10 count/list agree on live faces", live["name_count_mismatch"], [])
     for r in live["faces"]:
         if r.get("status") == "ok" and r.get("n_names"):
-            if len(r.get("names") or []) != int(r["n_names"]):
-                fails.append("L11 %s: n_names=%s but %d name(s) parsed"
-                             % (r["id"], r["n_names"], len(r.get("names") or [])))
+            chk("L11 %s name list backs n_names" % r["id"],
+                len(r.get("names") or []) == int(r["n_names"]),
+                "n_names=%s but %d name(s) parsed" % (r["n_names"], len(r.get("names") or [])))
 
+    # The total used to be a typed constant ("10/10"), so the two legs added in r1294
+    # printed under the old denominator -- a selftest that adds a check but keeps the
+    # old count reads green while doing more than it admits. Count what actually ran.
     if fails:
-        print("selftest FAIL %d/%d" % (len(fails), 9 + 1))
+        print("selftest FAIL %d/%d" % (len(fails), n_chk[0]))
         for f in fails:
             print("  " + f)
         return 1
-    print("selftest: 10/10 PASS")
+    print("selftest: %d/%d PASS" % (n_chk[0], n_chk[0]))
     return 0
 
 

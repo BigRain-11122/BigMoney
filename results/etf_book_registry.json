@@ -5,6 +5,8 @@
    "label": "executable ticket (broker-followable)",
    "pointer": "results/etf_book_order/latest.json",
    "chain_leg": "etf_book_order",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_order",
    "status": "ok",
    "as_of": "2026-10-26",
    "n_names": 5,
@@ -18,15 +20,15 @@
    "rule": "beta",
    "rule_param": 0.2,
    "k_now": 0.47149,
-   "artefact": "results/etf_book_order/TICKET-2026-10-26.json",
-   "in_chain": true,
-   "chain_note": "wired as etf_book_order"
+   "artefact": "results/etf_book_order/TICKET-2026-10-26.json"
   },
   {
    "id": "card",
    "label": "production card (headline face)",
    "pointer": "results/etf_book_production/latest.json",
    "chain_leg": "etf_book_production",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_production",
    "status": "ok",
    "as_of": "2026-10-26",
    "n_names": 12,
@@ -47,15 +49,15 @@
    "rule": "vol",
    "rule_param": 0.08,
    "k_now": 0.7008,
-   "artefact": "results/etf_book_production/latest.json",
-   "in_chain": true,
-   "chain_note": "wired as etf_book_production"
+   "artefact": "results/etf_book_production/latest.json"
   },
   {
    "id": "forward",
    "label": "forward marks (paper track record)",
    "pointer": "results/etf_book_forward/LEDGER.json",
    "chain_leg": "etf_book_forward",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_forward",
    "status": "ok",
    "as_of": "2026-10-26",
    "n_names": 12,
@@ -76,17 +78,17 @@
    "rule": "vol",
    "rule_param": 0.08,
    "k_now": 1.0010304509,
-   "artefact": "results/etf_book_forward/LEDGER.json",
-   "in_chain": true,
-   "chain_note": "wired as etf_book_forward"
+   "artefact": "results/etf_book_forward/LEDGER.json"
   },
   {
    "id": "staggered",
-   "label": "staggered 5+5 paper ledger (own task, not in chain)",
+   "label": "staggered 5+5 paper ledger (production config)",
    "pointer": "results/etf_paper/ledger.jsonl",
-   "chain_leg": null,
+   "chain_leg": "etf_paper_signal",
+   "in_chain": true,
+   "chain_note": "wired as etf_paper_signal",
    "status": "ok",
-   "as_of": "2026-10-23",
+   "as_of": "2026-10-26",
    "n_names": 10,
    "names": [
     "159307",
@@ -101,12 +103,10 @@
     "515450"
    ],
    "rule": "vol",
-   "rule_param": 0.0693,
+   "rule_param": 0.0676,
    "k_now": 1.0,
    "artefact": "results/etf_paper/ledger.jsonl",
-   "config": "bond-free, staggered 5+5, R10, 8% vol target",
-   "in_chain": false,
-   "chain_note": "declared outside the chain (own scheduled task)"
+   "config": "bond-free, staggered 5+5, R10, 8% vol target"
   }
  ],
  "n_faces": 4,
@@ -125,9 +125,7 @@
  },
  "distinct_configs": 3,
  "unwired_declared_legs": [],
- "off_chain_by_design": [
-  "staggered"
- ],
+ "off_chain_by_design": [],
  "config_disagreement": true,
  "shared_names": {
   "card|forward": [
