@@ -1341,3 +1341,4 @@ S7-tail dual-scan: O-20261015-1834 consumed (spawn-gate preflight = next-window 
   worktree); decisions watermark 39b90a19 -> 61dc0f19, orders e51fccdb unchanged, 114 orders vs
   239 acks unacked=0. Next: r1292 capacity under the vol rule; then re-read delivered vol against
   the forward record accruing from bar 2026-10-26.
+- r1291 delivery: commit 12749b347d pushed f621e6ccd6..12749b347d; rev-list ahead/behind 0/0; origin/main carries research/digests/DIGEST-20261026-r1291-width-rule-mismatch.md; 本地未达 origin commit 数=0; inbox empty; loop pin=5 no-op; watchdog re-registered (S4U XML flip access-denied = standing PR-20261026-02 face).
