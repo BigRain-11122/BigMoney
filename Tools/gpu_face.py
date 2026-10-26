@@ -57,6 +57,10 @@ FREE_KEYS = (
     # face counted 14 keys and disagreed by 242 MiB while nothing pointed at the key
     # responsible. A GPU-memory key is owned by this tool whatever its prefix.
     "free_vram_mb",
+    # r1169: the GB spellings of the same two orders were still outside the table,
+    # so a heartbeat carrying free_vram_gb / vram_free_gb audited as "unowned" and
+    # could keep a random round's number while every MiB sibling was rewritten.
+    "free_vram_gb", "vram_free_gb",
 )
 
 # Keys whose value is a formatted pair rather than a scalar (r1299: the live face
@@ -68,7 +72,7 @@ USED_KEYS = (
     "gpu_mem_used_mib", "gpu_vram_used_mb", "gpu_vram_used_mib",
 )
 TOTAL_KEYS = ("gpu_mem_total_mib", "gpu_total_vram_mib")
-GB_KEYS = ("gpu_free_gb", "gpu_free_vram_gb")
+GB_KEYS = ("gpu_free_gb", "gpu_free_vram_gb", "free_vram_gb", "vram_free_gb")
 
 # one disagreement of this size or more is a defect (probe granularity is 1 MiB)
 TOL_MIB = 64.0
@@ -140,6 +144,12 @@ def gpu_mem_key(k):
     k = k.lower()
     if k in ("total_ram_gb", "free_ram_gb", "idle_ram_gb", "ram_free_gb",
              "ram_load_pct", "ram_critical_face"):
+        return False
+    # r1169: the exclusion above was a frozen list of exact spellings, so the MB
+    # spells of SYSTEM RAM (free_ram_mb / ram_free_mb) fell through and were
+    # reported as unowned GPU keys. A RAM key is RAM in any unit: 'vram' keeps its
+    # own rule, so match 'ram' only when it is not preceded by a letter.
+    if re.search(r"(?<![a-z])ram", k):
         return False
     if not re.search(r"(vram|gpu|mib|mb|gb)", k):
         return False
@@ -393,6 +403,24 @@ def selftest():
     rc = cmd_apply(tmp, shim)
     after = io.open(hp, "rb").read()
     leg("L6 failed probe -> rc2 and heartbeat untouched", (2, True), (rc, before == after))
+
+    # L9 r1169: a RAM spelling is never a GPU key (the frozen list let MB through)
+    leg("L9a system RAM keys are not GPU-memory keys", (False, False, False),
+        (gpu_mem_key("free_ram_mb"), gpu_mem_key("ram_free_mb"),
+         gpu_mem_key("total_ram_gb")))
+    leg("L9b vram keys still are GPU-memory keys", (True, True, True),
+        (gpu_mem_key("vram_free_gb"), gpu_mem_key("free_vram_gb"),
+         gpu_mem_key("gpu_free_vram_gb")))
+    # L9c the GB spellings must be OWNED and unit-scaled, else they silently age
+    _f9 = fields_from({"util_pct": 50.0, "used_mib": 4096, "total_mib": 16384},
+                      "2026-10-27T07:00:00+08:00")
+    leg("L9c free_vram_gb / vram_free_gb are written and scaled",
+        (True, 12.0, 12.0),
+        ("free_vram_gb" in FREE_KEYS and "vram_free_gb" in FREE_KEYS,
+         _f9.get("free_vram_gb"), _f9.get("vram_free_gb")))
+    leg("L9d a heartbeat carrying the GB spells audits clean",
+        [], [x["family"] for x in audit(dict(_f9, free_ram_mb=8000,
+                                             ram_free_mb=8000))])
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs), "PASS" if ok == len(legs) else "FAIL"))
