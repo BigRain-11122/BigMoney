@@ -537,6 +537,7 @@
  },
  "r1170_faces": {
   "d19": "decisions c514b69c + orders c067b3b2 both unchanged vs state -> zero action",
+  "inbox": "MSG-20261027-0546-bm-a-coverage-face-adopted read and archived to inbox/processed: bm-a adopted the r1165 coverage suggestion (price_face_coverage sub-face); nothing owed to this lane, zero action.",
   "orders": "114 files, orders_ack 115, unacked 0",
   "orphan_face": 0,
   "partial": "E104 portfolio-face half not delivered (reads only) -> E107",
@@ -575,8 +576,8 @@
  },
  "task": "r1170 E104 unchanged-holding split exposure (fixed the E100 blind spot)",
  "task_short": "E104 heldsplit",
- "ts": "2026-10-27T07:46:19+08:00",
+ "ts": "2026-10-27T07:46:58+08:00",
  "updated": "2026-10-27T07:40:53+08:00",
- "updated_at": "2026-10-27T07:40:53+08:00",
+ "updated_at": "2026-10-27T07:46:58+08:00",
  "verdict": "productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed."
 }
