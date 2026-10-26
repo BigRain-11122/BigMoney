@@ -1,0 +1,294 @@
+{
+ "ts": null,
+ "evidence_cutoff": "2026-10-26",
+ "script": "scripts/etf_book_publish_decision.py",
+ "capital_grid_cny": [
+  1000000.0,
+  5000000.0,
+  10000000.0,
+  30000000.0,
+  50000000.0
+ ],
+ "units": "cagr/sharpe/maxdd are decimals; capacity_1pct/capacity_5pct are CNY ceilings (p90 participation at 1%/5% of ADV); deployable_* and annual_cny are CNY / CNY per year",
+ "arms": [
+  {
+   "config": "12@vol",
+   "label": "published card (12 names, vol target 8%, R20, with bonds)",
+   "faces": [
+    "card",
+    "forward"
+   ],
+   "source": "results/etf_book_production/latest.json::backtest.n12_vt08.full",
+   "as_of": "2026-10-26",
+   "basis": "same-engine backtest, cost 10bp/side, decide close -> fill next open",
+   "n_hold": 12,
+   "rebal": 20,
+   "vol_target": 0.08,
+   "cagr": 0.0949,
+   "sharpe": 0.98,
+   "maxdd": -0.1177,
+   "turnover": 0.934,
+   "capacity_1pct": 1824788.0,
+   "capacity_5pct": 9123940.0,
+   "capacity_note": "frontier cell N12_R20 (fraction-of-ADV ceiling, weights of the un-targeted 12-name arm)",
+   "group": "R20_with_bonds"
+  },
+  {
+   "config": "5@beta",
+   "label": "executable ticket (5 names, k = min(1, 0.20/beta), R20, repo cash leg)",
+   "faces": [
+    "ticket"
+   ],
+   "source": "results/etf_book_capacity_rule.json::capacity_frontier_by_cap.rule",
+   "as_of": "2026-10-26",
+   "basis": "same-engine ladder priced at 8bp + K*sqrt(p/1%%) size impact, k from realised weight path",
+   "n_hold": 5,
+   "rebal": 20,
+   "vol_target": null,
+   "cagr": 0.0728,
+   "sharpe": 0.89,
+   "maxdd": -0.1322,
+   "turnover": null,
+   "capacity_1pct": 1526694.2,
+   "capacity_5pct": 7633471.2,
+   "capacity_note": "deployable NAV already in CNY (p90 participation capped at 1%% / 5%% of ADV)",
+   "ticket_metrics": {
+    "cagr": 0.1104,
+    "sharpe": 1.352,
+    "maxdd": -0.0601,
+    "vol": 0.0816,
+    "bars": 679
+   },
+   "ticket_inception": "2024-01-02",
+   "group": "R20_with_bonds"
+  },
+  {
+   "config": "10@vol",
+   "label": "staggered 5+5 ledger (R10, vol target 8%, bond-free)",
+   "faces": [
+    "staggered"
+   ],
+   "source": "results/etf_stagger_capacity.json::staggered",
+   "as_of": "2026-10-26",
+   "basis": "own run: two sleeves half a rebalance apart, R10, bond-free universe",
+   "n_hold": 10,
+   "rebal": 10,
+   "vol_target": 0.08,
+   "cagr": 0.2077,
+   "sharpe": 1.315,
+   "maxdd": -0.155,
+   "turnover": 0.78,
+   "capacity_1pct": 1583273.0,
+   "capacity_5pct": 7916367.0,
+   "capacity_note": "own run's p90 1%%/5%% ADV ceiling",
+   "group": "R10_bond_free"
+  }
+ ],
+ "money_table": {
+  "12@vol": [
+   {
+    "capital_cny": 1000000.0,
+    "deployable_1pct": 1000000.0,
+    "annual_cny_1pct": 94900.0,
+    "deployable_5pct": 1000000.0,
+    "annual_cny_5pct": 94900.0
+   },
+   {
+    "capital_cny": 5000000.0,
+    "deployable_1pct": 1824788.0,
+    "annual_cny_1pct": 173172.3812,
+    "deployable_5pct": 5000000.0,
+    "annual_cny_5pct": 474500.0
+   },
+   {
+    "capital_cny": 10000000.0,
+    "deployable_1pct": 1824788.0,
+    "annual_cny_1pct": 173172.3812,
+    "deployable_5pct": 9123940.0,
+    "annual_cny_5pct": 865861.906
+   },
+   {
+    "capital_cny": 30000000.0,
+    "deployable_1pct": 1824788.0,
+    "annual_cny_1pct": 173172.3812,
+    "deployable_5pct": 9123940.0,
+    "annual_cny_5pct": 865861.906
+   },
+   {
+    "capital_cny": 50000000.0,
+    "deployable_1pct": 1824788.0,
+    "annual_cny_1pct": 173172.3812,
+    "deployable_5pct": 9123940.0,
+    "annual_cny_5pct": 865861.906
+   }
+  ],
+  "5@beta": [
+   {
+    "capital_cny": 1000000.0,
+    "deployable_1pct": 1000000.0,
+    "annual_cny_1pct": 72800.0,
+    "deployable_5pct": 1000000.0,
+    "annual_cny_5pct": 72800.0
+   },
+   {
+    "capital_cny": 5000000.0,
+    "deployable_1pct": 1526694.2,
+    "annual_cny_1pct": 111143.33776,
+    "deployable_5pct": 5000000.0,
+    "annual_cny_5pct": 364000.0
+   },
+   {
+    "capital_cny": 10000000.0,
+    "deployable_1pct": 1526694.2,
+    "annual_cny_1pct": 111143.33776,
+    "deployable_5pct": 7633471.2,
+    "annual_cny_5pct": 555716.70336
+   },
+   {
+    "capital_cny": 30000000.0,
+    "deployable_1pct": 1526694.2,
+    "annual_cny_1pct": 111143.33776,
+    "deployable_5pct": 7633471.2,
+    "annual_cny_5pct": 555716.70336
+   },
+   {
+    "capital_cny": 50000000.0,
+    "deployable_1pct": 1526694.2,
+    "annual_cny_1pct": 111143.33776,
+    "deployable_5pct": 7633471.2,
+    "annual_cny_5pct": 555716.70336
+   }
+  ],
+  "10@vol": [
+   {
+    "capital_cny": 1000000.0,
+    "deployable_1pct": 1000000.0,
+    "annual_cny_1pct": 207700.0,
+    "deployable_5pct": 1000000.0,
+    "annual_cny_5pct": 207700.0
+   },
+   {
+    "capital_cny": 5000000.0,
+    "deployable_1pct": 1583273.0,
+    "annual_cny_1pct": 328845.8021,
+    "deployable_5pct": 5000000.0,
+    "annual_cny_5pct": 1038500.0
+   },
+   {
+    "capital_cny": 10000000.0,
+    "deployable_1pct": 1583273.0,
+    "annual_cny_1pct": 328845.8021,
+    "deployable_5pct": 7916367.0,
+    "annual_cny_5pct": 1644229.4259
+   },
+   {
+    "capital_cny": 30000000.0,
+    "deployable_1pct": 1583273.0,
+    "annual_cny_1pct": 328845.8021,
+    "deployable_5pct": 7916367.0,
+    "annual_cny_5pct": 1644229.4259
+   },
+   {
+    "capital_cny": 50000000.0,
+    "deployable_1pct": 1583273.0,
+    "annual_cny_1pct": 328845.8021,
+    "deployable_5pct": 7916367.0,
+    "annual_cny_5pct": 1644229.4259
+   }
+  ]
+ },
+ "verdict": {
+  "publish": "12@vol",
+  "why": [
+   "only config that carries a published card AND a forward ledger AND a same-engine backtest AND a measured capacity ceiling",
+   "the two live faces of that config (card, forward) are one book, not two - the four faces collapse to three configs",
+   "at 1% ADV the card can place about 1.82M CNY, at 5% about 9.12M CNY",
+   "the 5@beta ticket stays as the smaller-capital executable sleeve: under ~1.5M CNY it is the only config a broker can follow name by name",
+   "the staggered 10@vol ledger is NOT a variant of the published book - it runs a different cadence (R10) on a bond-free universe, so its higher headline CAGR cannot be read as the same book doing better; it stays an experiment until it is re-run on the published rule for an apples-to-apples number"
+  ],
+  "bands": [
+   {
+    "capital_cny": 1000000.0,
+    "card_12vol_cny": 94900.0,
+    "ticket_5beta_cny": 72800.0,
+    "delta_cny": 22100.0,
+    "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
+   },
+   {
+    "capital_cny": 5000000.0,
+    "card_12vol_cny": 173172.3812,
+    "ticket_5beta_cny": 111143.33776,
+    "delta_cny": 62029.04344000001,
+    "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
+   },
+   {
+    "capital_cny": 10000000.0,
+    "card_12vol_cny": 173172.3812,
+    "ticket_5beta_cny": 111143.33776,
+    "delta_cny": 62029.04344000001,
+    "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
+   },
+   {
+    "capital_cny": 30000000.0,
+    "card_12vol_cny": 173172.3812,
+    "ticket_5beta_cny": 111143.33776,
+    "delta_cny": 62029.04344000001,
+    "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
+   },
+   {
+    "capital_cny": 50000000.0,
+    "card_12vol_cny": 173172.3812,
+    "ticket_5beta_cny": 111143.33776,
+    "delta_cny": 62029.04344000001,
+    "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
+   }
+  ],
+  "group_winners": {
+   "R20_with_bonds": [
+    {
+     "capital_cny": 1000000.0,
+     "winner": "12@vol",
+     "annual_cny": 94900.0
+    },
+    {
+     "capital_cny": 5000000.0,
+     "winner": "12@vol",
+     "annual_cny": 173172.3812
+    },
+    {
+     "capital_cny": 10000000.0,
+     "winner": "12@vol",
+     "annual_cny": 173172.3812
+    },
+    {
+     "capital_cny": 30000000.0,
+     "winner": "12@vol",
+     "annual_cny": 173172.3812
+    },
+    {
+     "capital_cny": 50000000.0,
+     "winner": "12@vol",
+     "annual_cny": 173172.3812
+    }
+   ]
+  },
+  "not_comparable": [
+   "12@vol vs 10@vol: different rebalance cadence (R20 vs R10) and universe (with vs without bonds)",
+   "card vs ticket head-to-head inside R20 is directional only: 10bp flat vs 8bp + sqrt impact"
+  ],
+  "faces": {
+   "count": 4,
+   "distinct_configs": 3,
+   "merges": [
+    {
+     "config": "12@vol",
+     "faces": [
+      "card",
+      "forward"
+     ]
+    }
+   ]
+  }
+ },
+ "method_note": "aggregation only -- every number is copied from the arm's own artifact; money_per_year = min(capital, own_capacity_ceiling) * own_cagr; cross-group ranking is deliberately suppressed"
+}

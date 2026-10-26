@@ -210,21 +210,39 @@ def run():
     return 0
 
 
+def _fixture(n_sym=40, n_bar=1500, seed=7):
+    """Small synthetic panel: the guards below are about a code path, not about the market.
+
+    The earlier version called P.prep_panel() (1499 symbols x 1649 bars) and ran the full
+    engine three times, so `--selftest` printed nothing for >10 minutes and blocked the S1
+    smoke gate outright (r1298 and r1300 both lost the gate to it). A fixture keeps every
+    leg meaningful and the whole file offline in seconds.
+    """
+    rng = np.random.default_rng(seed)
+    idx = pd.bdate_range("2020-01-01", periods=n_bar)
+    cols = ["S%03d" % i for i in range(n_sym)]
+    rets = rng.normal(0.0004, 0.013, size=(n_bar, n_sym))
+    close = pd.DataFrame(1.0 * np.cumprod(1.0 + rets, axis=0), index=idx, columns=cols)
+    openp = close * (1.0 + rng.normal(0.0, 0.002, size=(n_bar, n_sym)))
+    amt = pd.DataFrame(5e7 * (1.0 + rng.random((n_bar, n_sym))), index=idx, columns=cols)
+    score = pd.DataFrame(rng.normal(size=(n_bar, n_sym)), index=idx, columns=cols)
+    return close, openp, amt, score
+
+
 def selftest():
     ok = []
 
     def chk(name, cond, detail=""):
         ok.append((name, bool(cond), detail))
 
-    close, openp, amt, score, cls, _ = P.prep_panel()
-    key = ("n_hold", "rebal")
+    close, openp, amt, score = _fixture()
     ser_legacy, turn_legacy = R.open_to_open_equity(close, openp, amt, score, REBAL, N_HOLD,
                                                     COST, vol_target=TARGET)
     diag = []
     ser_explicit, turn_explicit = R.open_to_open_equity(close, openp, amt, score, REBAL, N_HOLD,
                                                         COST, vol_target=TARGET, vol_cap=1.0,
                                                         diag=diag)
-    chk("default vol_cap path is bit-identical to the published behaviour",
+    chk("default vol_cap path is the same run as an explicit cap 1.0",
         float(np.max(np.abs((ser_legacy - ser_explicit).to_numpy()))) == 0.0
         and turn_legacy == turn_explicit,
         "maxabs=%.2e turn %.6f/%.6f" % (float(np.max(np.abs((ser_legacy - ser_explicit).to_numpy()))),
