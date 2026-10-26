@@ -164,7 +164,15 @@
   "bars": 10
  },
  "panel_cutoff": "2026-10-20",
- "etf_calendar_last": "2026-10-23",
+ "etf_calendar_last": "2026-10-26",
+ "staleness": {
+  "calendar_last": "2026-10-26",
+  "panel_cutoff": "2026-10-20",
+  "lag_trading_days": 4,
+  "stale": true,
+  "reason": "priced 4 trading day(s) before the last trading day; equity_cny and open positions are NOT current",
+  "upstream_lane": "results/rev_osc_live SIG/BARS bridge (rev_osc_signal_export owner lane)"
+ },
  "awaiting_lane_data": false,
  "audit": {
   "network": "zero",
@@ -273,6 +281,12 @@
    "asof": "2026-10-23",
    "state": "ORANGE",
    "clock_cell": "ORANGE_HOT",
+   "cap_ladder": 0.5
+  },
+  {
+   "asof": "2026-10-26",
+   "state": "ORANGE",
+   "clock_cell": "ORANGE_COOL",
    "cap_ladder": 0.5
   }
  ],
@@ -456,5 +470,5 @@
   "fail_closed_route_days": 0
  },
  "equity_cny": 990156.71,
- "updated": "2026-10-24 00:39:58"
+ "updated": "2026-10-27 03:56:11"
 }

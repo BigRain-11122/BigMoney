@@ -419,6 +419,41 @@ def _marks_summary(marks, eq, fail_closed_days):
             "fail_closed_route_days": fail_closed_days}
 
 
+def price_lag(cal, bars_cutoff):
+    """Name the staleness of the priced face (r1121).
+
+    ``panel_cutoff`` is one lane's output: the SIG/BARS bridge cutoff. It can
+    sit behind the exchange calendar while every other face on the machine is
+    current, and a book quoted at an older cutoff then reads as if it were
+    today's equity. Swap the level for an explicit lag so no consumer can
+    quote ``equity_cny`` without its distance from the last trading day.
+    """
+    last = cal[-1] if cal else None
+    upstream = ("results/rev_osc_live SIG/BARS bridge "
+                "(rev_osc_signal_export owner lane)")
+    if bars_cutoff is None or last is None:
+        return {
+            "calendar_last": last,
+            "panel_cutoff": bars_cutoff,
+            "lag_trading_days": None,
+            "stale": None,
+            "reason": ("lag unknown: bridge cutoff absent" if bars_cutoff is None
+                       else "lag unknown: calendar unreadable"),
+            "upstream_lane": upstream,
+        }
+    lag = sum(1 for d in cal if d > bars_cutoff)
+    return {
+        "calendar_last": last,
+        "panel_cutoff": bars_cutoff,
+        "lag_trading_days": lag,
+        "stale": lag > 0,
+        "reason": ("priced at the last trading day" if lag == 0 else
+                   f"priced {lag} trading day(s) before the last trading day; "
+                   "equity_cny and open positions are NOT current"),
+        "upstream_lane": upstream,
+    }
+
+
 def build_account_states(cal, rep, hist, bars_cutoff, lane_files):
     """Pure state builders for both accounts (no wall clock, no disk)."""
     counters = rep["counters"]
@@ -474,6 +509,7 @@ def build_account_states(cal, rep, hist, bars_cutoff, lane_files):
         "lane_files": lane_files,
         "panel_cutoff": bars_cutoff,
         "etf_calendar_last": cal[-1] if cal else None,
+        "staleness": price_lag(cal, bars_cutoff),
         "awaiting_lane_data": bars_cutoff is None,
         "audit": {"network": "zero", "ledger_trials_added": 0,
                   "seed_registry_added": 0,
@@ -852,7 +888,7 @@ def selftest() -> int:
            w_a and not w_b and w_c
            and _read_json(p9).get("updated") is not None)
 
-        # [10/10] B7b consumer contract + stub/state disclosure fields
+        # [10/11] B7b consumer contract + stub/state disclosure fields
         v1, std = build_account_states(
             cal2, rep2, hist2, cal2[T2 - 1], {"sig": 8, "bars": 1})
         prod_sig_keys = {"schema", "date", "gate", "universe", "thin_market",
@@ -873,6 +909,19 @@ def selftest() -> int:
            and v1["evidence_cutoff"] == EVIDENCE_CUTOFF
            and v1["account"] == "SYSTEM-V1" and std["account"] == "REV-OSC-STD"
            and v1["marks_summary"]["bars"] == len(v1["marks"]))
+
+        # [11/11] staleness is stated on the face (r1121: a book priced
+        # behind the calendar must not be readable as current)
+        lg0 = price_lag(cal2, cal2[T2 - 1])
+        lg1 = price_lag(cal2, cal2[T2 - 3])
+        lgn = price_lag(cal2, None)
+        ok("staleness: at last day -> lag 0 stale False; 2 days back -> "
+           "lag 2 stale True; absent cutoff -> None (unknown, not 0)",
+           lg0["lag_trading_days"] == 0 and lg0["stale"] is False
+           and lg1["lag_trading_days"] == 2 and lg1["stale"] is True
+           and "NOT current" in lg1["reason"]
+           and lgn["lag_trading_days"] is None and lgn["stale"] is None
+           and v1["staleness"] == price_lag(cal2, cal2[T2 - 1]))
 
         if not ok_all:
             print("SELFTEST FAILED")

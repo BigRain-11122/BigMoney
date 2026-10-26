@@ -22,6 +22,13 @@ def check(name: str, ok: bool, detail: str = ""):
     print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""))
 
 
+def _lan_ok(lag, st) -> bool:
+    """lag 0 must read as current, lag > 0 must read as stale and say so."""
+    if lag == 0:
+        return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
+    return st.get("stale") is True and "NOT current" in str(st.get("reason"))
+
+
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
 
@@ -543,6 +550,25 @@ def main() -> int:
               f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')}")
     except Exception as e:
         check("product: data lag audit face published", False, str(e))
+    # A live paper book priced behind the exchange calendar must say so on its
+    # own face (r1121): the SYSTEM-V1 lane consumes a SIG/BARS bridge cutoff,
+    # one lane's output, and it sat 4 trading days behind while every other
+    # face was current. Assert the block agrees with its own two dates -- a
+    # hardcoded "stale: false" would pass a weaker existence-only check.
+    try:
+        _v1 = json.load(open("results/system_v1_paper/SYSTEM-V1_paper.json",
+                             encoding="utf-8"))
+        _st = _v1.get("staleness") or {}
+        _lag = _st.get("lag_trading_days")
+        _ok_st = (_st.get("panel_cutoff") == _v1.get("panel_cutoff")
+                  and _st.get("calendar_last") == _v1.get("etf_calendar_last")
+                  and (_lag is None or (_lag >= 0 and _lan_ok(_lag, _st))))
+        check("product: live paper book states its price lag", _ok_st,
+              f"panel={_v1.get('panel_cutoff')} "
+              f"calendar={_v1.get('etf_calendar_last')} "
+              f"lag={_lag} stale={_st.get('stale')}")
+    except Exception as e:
+        check("product: live paper book states its price lag", False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:
