@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T04:46:53+08:00",
+ "clock_read": "2026-10-27T05:17:54+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -10,7 +10,7 @@
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
  "current": "r1162: E95 newest-era tilt stability (end-choice grid 12 ends, span 1184.1bp)",
- "current_task": "r1163 E96 churn LEVEL label audit: 0 of 2 published levels declare their arm",
+ "current_task": "r1165: E98 end-choice grid on every era + astock panel coverage face",
  "cyc_round": 1162,
  "d19_note": "r1161: dec/ord identical to the r1160 watermark (update --advance NOOP, read-back equality OK, mirrors synced 2) -> zero delta, zero bm-b rows",
  "dept": "research+engineering+database",
@@ -41,7 +41,7 @@
  "gpu_free_mib": 3722,
  "gpu_free_vram_gb": 3.6,
  "gpu_free_vram_mb": 3722,
- "gpu_free_vram_mib": 3722,
+ "gpu_free_vram_mib": 3748,
  "gpu_idle_mb": 3722,
  "gpu_idle_mib": 3722,
  "gpu_idle_vram_mb": 3722,
@@ -59,7 +59,7 @@
  "gpu_vram_free_mib": 3722,
  "gpu_vram_used_mb": 4470,
  "gpu_vram_used_mib": 4470,
- "heartbeat_epoch_utc": 1793047613,
+ "heartbeat_epoch_utc": 1793049474,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -78,7 +78,7 @@
  "last_orders_watermark": "c067b3b20f6b8138@17b6385/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "da99a6e9ce -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-27T04:46:53+08:00",
+ "last_seen": "2026-10-27T05:17:54+08:00",
  "latest_artifact": "results/e44_midmonth/MID-20261026-s20180101-armed.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -317,7 +317,7 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T04:20:00+08:00"
  },
- "ram_free_gb": 11.0,
+ "ram_free_gb": 10.3,
  "ram_free_mb": 11673,
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
@@ -336,15 +336,16 @@
  },
  "task": "E99 start-2018 churn levels named by arm",
  "task_short": "E99 levels-by-arm",
- "ts": "2026-10-27T04:46:53+08:00",
+ "ts": "2026-10-27T05:17:54+08:00",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "smoke 75/75 PASS; E99 face published (results/e44_midmonth/MID-20261026-s20180101-armed.json, selftest 271/271): 5 arms x 8 (era,book) rows = 40 cells with 0 missing arm keys; LEVEL moves up to -1098.3bp under the gap arms while the mid-minus-me GAP moves <=2bp; newest-era mid level reads -123.7 unscreened vs -364.7 under every repair arm; gap1==gap2==gap5 exactly; published-twin control 6 cells max_abs_diff 5.1bp; S6 37 legs rc0 (dualrun ZERO-DRIFT streak 51, attrition CLEAN 3 healed, daily 0 new rows cutoff 2026-10-26); compute_audit FLAG single_core_hog,supply_gap; watermark py_low_with_work_cands (ready 3, honest); orphan face=0 (8 py); D-19 zero delta; orders unacked 0",
+ "verdict": "productive: E98 face + 2 digests + coverage face; smoke 76/76; S6 rc0",
  "vram_free_gb": 3.44,
  "r1164_push": {
   "pushed_sha": "da99a6e9ce",
   "behind_origin_main": 0,
   "status": "PUSHED_VERIFIED",
   "note": "clean delivery da99a6e9ce onto ba4ffbff3a (bm-c r1297). First push rejected (2 incoming commits); rebase --autostash replayed 1 commit. Two content conflicts resolved on the origin base: regime_state.json -> origin-verbatim (daemon-derived), runnable_pool.json -> our edits re-applied by script on the origin blob (27/5 lines, no whole-file replay). Autostash pop left 10 UU derived faces (machine-health, *_update_status, compute_audit, dashboard_status, token_usage) -> resolved to committed state, stash dropped. Four-way verified: HEAD==origin/main==da99a6e9ce, behind=0 ahead=0, ls-tree origin carries both E99 faces. Line-ending trap caught in-window: the pool/state/heartbeat blobs were CRLF on the old local base but LF on origin, so a naive rewrite read as a 21,738-line whole-file diff until normalised to the origin convention."
- }
+ },
+ "orders_ack_count": 115
 }

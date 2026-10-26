@@ -21676,7 +21676,7 @@
   },
   {
    "id": "E98-ENDCHOICE-ALLERAS",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py",
@@ -21686,7 +21686,14 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T04:06:00+08:00",
    "entered_by": "bm-b r1162",
-   "runner_note": "reuse run_tilt_stable with a wider era list; no new screen arm, published twins untouched"
+   "runner_note": "reuse run_tilt_stable with a wider era list; no new screen arm, published twins untouched",
+   "result_ref": [
+    "results/e42_tilt_era/ENDCHOICE-ALLERAS-20261026.json",
+    "research/digests/DIGEST-20261027-e98-endchoice-all-eras.md"
+   ],
+   "done_at": "2026-10-27T05:05:52+08:00",
+   "done_by": "bm-b r1165",
+   "result_note": "both reachable eras re-derive under their own end grid: 2021_2023 span 515.0bp (published spread 0.0 across 1 cutoff + 3 arms), 2024_now span 1184.1bp (published spread 50.5). pre2017 (0 months) and 2017_2020 (1 month) are structurally empty -- the panel opens 2020-12. Same grid width, same 11 dropped months, 2.3x span difference => grid artefact excluded; span/monthly sd 0.96 vs 1.91 is era character. beta_ladder_on_tilt stable across all ends within an era (0.116-0.171 / 1.013-1.173) but 9x apart between eras."
   },
   {
    "id": "E99-LEVEL-LABEL-START2018",
@@ -21719,6 +21726,20 @@
    "entered_at": "2026-10-27T04:45:00+08:00",
    "entered_by": "bm-b r1164",
    "runner_note": "reuse the topnames burn with full_churn=True on the neutralise_gap1 universe and the unscreened universe; print name and date per transition, never a bare share, and keep the unscreened column beside the repaired one"
+  },
+  {
+   "id": "E101-GAPARM-ENDGRID",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (topnames leg + gap-arm universe)",
+   "title": "E98 showed the tilt LEVEL is end-fragile on every era the panel reaches. E99's arm deltas (-745.9bp on 2017_2020 me, -1098.3bp on 2021_2023 me) are differences of levels, so ask whether the DELTA is end-stable: run the same 12-end grid on both arms and report the arm delta per end. If the delta survives the grid while the levels do not, the repair is a measurement and the level is not.",
+   "deliverable": "results/e44_midmonth/GAPARM-ENDGRID-<cutoff>.json + digest",
+   "source": "results/e42_tilt_era/ENDCHOICE-ALLERAS-20261026.json + DIGEST-20261027-e98-endchoice-all-eras.md",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T05:05:52+08:00",
+   "entered_by": "bm-b r1165",
+   "runner_note": "reuse the midlevels arm loop, add the E98 end grid as the outer loop; per end print both arms and their delta side by side, never a delta without its two levels"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21733,6 +21754,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T04:48:46+08:00",
+ "updated_at": "2026-10-27T05:05:52+08:00",
  "version": 1
 }

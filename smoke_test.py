@@ -589,6 +589,30 @@ def main() -> int:
               f"names={len(_page.get('order') or [])} next={_page.get('next_rebalance_date')}")
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
+    # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's
+    # astock_daily face read `cutoff 2026-10-26` while 31.4% of names reached it
+    # and 90% stopped at 2026-10-20 (bm-a MSG-20261027-0400 mistook the gap for
+    # a stale consumer). Assert the coverage face is published AND that it
+    # agrees with its own date -- an existence-only check would pass on a face
+    # that prints a percentage of the wrong denominator.
+    try:
+        _ad = json.load(open("results/astock_daily_update_status.json",
+                             encoding="utf-8"))
+        _p = _ad.get("panel") or {}
+        _cp = _p.get("coverage_pct")
+        _c90 = _p.get("coverage_90")
+        _cut = _p.get("cutoff")
+        _ok_ad = (isinstance(_cp, (int, float)) and 0.0 <= float(_cp) <= 100.0
+                  and isinstance(_c90, str) and bool(_p.get("cutoff_is"))
+                  and isinstance(_p.get("dates_tail"), list)
+                  and (not _cut or not _c90 or _c90 <= _cut))
+        check("product: astock panel states its coverage, not just its date",
+              _ok_ad,
+              f"cutoff={_cut} coverage={_cp}% 90%-date={_c90} "
+              f"mode={_ad.get('mode')}")
+    except Exception as e:
+        check("product: astock panel states its coverage, not just its date",
+              False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:

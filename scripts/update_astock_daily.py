@@ -525,6 +525,45 @@ def _panel_cutoff_from_bytes(per_dir=None):
     return best
 
 
+def _panel_coverage_from_bytes(per_dir=None, floor=0.90):
+    """How much of the panel is actually at the max tail date.
+
+    ``_panel_cutoff_from_bytes`` returns a MAX, which on a panel mid-refresh is
+    a promise about one file, not about the universe -- a face that says
+    "cutoff 2026-10-26" while 60% of the names stop at 2026-10-20 reads as a
+    current panel to every consumer that only looks at the date. Report the
+    share beside the date, plus the date at which ``floor`` of the universe is
+    covered (E136 coverage rule), so "current" and "widely current" cannot be
+    confused.
+    """
+    per_dir = per_dir or PER_DIR
+    tails = {}
+    counts = {}
+    for p in _glob.glob(os.path.join(per_dir, "*.csv")):
+        d = _local_last_date(os.path.splitext(os.path.basename(p))[0], per_dir)
+        if not d:
+            continue
+        tails[d] = tails.get(d, 0) + 1
+    total = sum(tails.values())
+    if not total:
+        return {"n": 0, "coverage_pct": None, "coverage_90": None,
+                "dates_tail": []}
+    best = max(tails)
+    at_or_after = sum(n for d, n in tails.items() if d >= best)
+    cum = 0
+    cover = None
+    for d in sorted(tails, reverse=True):
+        cum += tails[d]
+        if cum / total >= floor:
+            cover = d
+            break
+    return {"n": total,
+            "coverage_pct": round(at_or_after / total * 100, 1),
+            "coverage_90": cover,
+            "floor_pct": int(round(floor * 100)),
+            "dates_tail": [[d, tails[d]] for d in sorted(tails, reverse=True)][:6]}
+
+
 def _is_conn_error(ename, emsg=""):
     return any(m in ename or m in str(emsg)[:200] for m in CONN_MARKERS)
 
@@ -699,11 +738,19 @@ def refresh(limit=None, repull=False):
         # settle-cycle that fetched only suspended short-tails would else
         # stamp a lagging cutoff and keep the gate spawning forever (r305)
         cutoff = _panel_cutoff_from_bytes() or panel_cutoff
+        cov = _panel_coverage_from_bytes()
         st.update({
             "ts": dt.datetime.now().isoformat(timespec="seconds"),
             "mode": ("refresh complete" if complete
                      else "refresh incomplete (checkpoint preserved)"),
             "panel": {"complete": bool(complete), "cutoff": cutoff,
+                      "cutoff_is": "max tail across all per/*.csv -- read "
+                                   "coverage_pct/coverage_90 before calling "
+                                   "the panel current",
+                      "coverage_pct": cov["coverage_pct"],
+                      "coverage_90": cov["coverage_90"],
+                      "coverage_floor_pct": cov.get("floor_pct"),
+                      "dates_tail": cov["dates_tail"],
                       "universe_n": len(codes),
                       "per_files": len(_glob.glob(os.path.join(PER_DIR, "*.csv")))},
             "last_refresh": {"todo": len(todo), "fetched": fetched_n,
@@ -796,7 +843,18 @@ def gate():
                     "ts": now.isoformat(timespec="seconds")}
         print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} lane by "
               f"{owner} -- {why}")
-    panel = st.get("panel") or {}
+    panel = dict(st.get("panel") or {})
+    # the coverage face is a disk-truth statement, so it is refreshed on every
+    # gate cycle rather than inherited from whatever the last writer said
+    _cov = _panel_coverage_from_bytes()
+    if _cov["n"]:
+        panel.update({"cutoff_is": "max tail across all per/*.csv -- read "
+                                   "coverage_pct/coverage_90 before calling "
+                                   "the panel current",
+                      "coverage_pct": _cov["coverage_pct"],
+                      "coverage_90": _cov["coverage_90"],
+                      "coverage_floor_pct": _cov.get("floor_pct"),
+                      "dates_tail": _cov["dates_tail"]})
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
     per_on_disk = _count_per_files()
@@ -839,6 +897,18 @@ def gate():
     if _lock_alive():
         st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "refresh in progress (lock alive)"
+        st["panel"] = panel
+        # the gate just decided the panel lags; saying so here too keeps the
+        # freshness line from contradicting the verdict it superseded. An
+        # incomplete panel still HAS a cutoff -- reporting "no panel cutoff"
+        # while 60% of the names sit four sessions back is the misreading this
+        # face exists to prevent (bm-a MSG-20261027-0400).
+        st["spawn_reason"] = (
+            reason if complete or not panel.get("cutoff") else
+            f"refresh in progress: panel incomplete at cutoff "
+            f"{panel.get('cutoff')} (coverage {panel.get('coverage_pct')}%, "
+            f"90% date {panel.get('coverage_90')})")
+        st.pop("no_op_reason", None)
         write_status(st)
         print("refresh already in progress (lock alive) -> no-op")
         return 0
@@ -983,7 +1053,26 @@ def _selftest():
         io.open(os.path.join(td, "_progress.json"), "w",
                 encoding="utf-8").write("{}")
         assert _panel_cutoff_from_bytes(td) == "2026-09-24"
+        # E102: the cutoff is a MAX, so it must never be read as coverage --
+        # two names, one at the max tail, is a 50%-covered panel wearing a
+        # current-looking date.
+        cov = _panel_coverage_from_bytes(td)
+        assert cov["n"] == 2, cov
+        assert cov["coverage_pct"] == 50.0, cov
+        assert cov["coverage_90"] == "2026-09-22", cov
+        assert cov["coverage_90"] != _panel_cutoff_from_bytes(td), \
+            "on a mixed panel the 90% date must not equal the max date"
+        atomic_write(os.path.join(td, "600000.csv"),
+                     rows_to_csv_text([{DATE_KEY: "2026-09-24", PRIMARY: 5.0}]))
+        cov2 = _panel_coverage_from_bytes(td)
+        assert cov2["n"] == 3 and cov2["coverage_pct"] == 66.7, cov2
+        assert cov2["coverage_90"] == "2026-09-22", cov2
         assert _local_last_date("nonexistent") is None
+    with tempfile.TemporaryDirectory() as td:
+        # an empty panel states nothing rather than claiming 0%
+        cov0 = _panel_coverage_from_bytes(td)
+        assert cov0["n"] == 0 and cov0["coverage_pct"] is None \
+            and cov0["coverage_90"] is None, cov0
     # todo: file-derived continuation
     with tempfile.TemporaryDirectory() as td:
         global PER_DIR

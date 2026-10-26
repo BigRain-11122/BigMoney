@@ -1,11 +1,41 @@
 {
-  "ts": "2026-10-27T04:10:28",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-10-27T05:10:37",
+  "mode": "refresh in progress (lock alive)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-26",
     "universe_n": 5227,
-    "per_files": 5223
+    "per_files": 5223,
+    "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
+    "coverage_pct": 31.4,
+    "coverage_90": "2026-10-20",
+    "coverage_floor_pct": 90,
+    "dates_tail": [
+      [
+        "2026-10-26",
+        1639
+      ],
+      [
+        "2026-10-23",
+        1
+      ],
+      [
+        "2026-10-21",
+        450
+      ],
+      [
+        "2026-10-20",
+        3128
+      ],
+      [
+        "2026-10-16",
+        1
+      ],
+      [
+        "2026-10-12",
+        2
+      ]
+    ]
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -45,19 +75,12 @@
   "last_spawn_attempt": "2026-10-26T20:40:28",
   "settled_n": 0,
   "settled": [],
-  "no_op_reason": "panel fresh (cutoff 2026-10-23 >= expected 2026-10-23)",
-  "per_files_on_disk": 5223,
+  "per_files_on_disk": 5225,
   "validation": {
     "suspended_rows": 3,
     "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
-  "takeover": {
-    "owner": "bm-b",
-    "by": "bm-c",
-    "reason": "owner bm-b silent 92.3h >= 120min",
-    "ts": "2026-10-26T20:40:28"
-  },
-  "spawn_reason": "panel lags expected bar date (2026-10-23 < 2026-10-26)",
+  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-26 (coverage 31.4%, 90% date 2026-10-20)",
   "spawn_mode": "continuation/first-pull"
 }

@@ -1,0 +1,489 @@
+{
+ "study": "e98_end_choice_slack_by_era",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "grid": "the last 12 month-ends of each era, same panel, same loader",
+  "eras": [
+   "pre2017",
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "cell": "ladder monthly size tilt, annualised bp",
+  "identity": "the grid moves the evaluation end only; the era window is the only thing that differs between rows"
+ },
+ "eras": [
+  {
+   "era": "pre2017",
+   "era_from": null,
+   "era_to": "2016-12-31",
+   "panel_months": 0,
+   "skipped": "the panel carries fewer than 3 months in this era",
+   "grid_ends": 0,
+   "span_bp": null,
+   "verdict": null,
+   "end_choice_series": [],
+   "published": [],
+   "observed_spread_bp": null,
+   "span_over_monthly_sd": null
+  },
+  {
+   "era": "2017_2020",
+   "era_from": "2017-01-01",
+   "era_to": "2020-12-31",
+   "panel_months": 1,
+   "skipped": "the panel carries fewer than 3 months in this era",
+   "grid_ends": 0,
+   "span_bp": null,
+   "verdict": null,
+   "end_choice_series": [],
+   "published": [],
+   "observed_spread_bp": null,
+   "span_over_monthly_sd": null
+  },
+  {
+   "era": "2021_2023",
+   "era_from": "2021-01-01",
+   "era_to": "2023-12-31",
+   "panel_months": 36,
+   "cell_now": {
+    "months": 36,
+    "from": "2021-01",
+    "to": "2023-12",
+    "tilt_annualised_bp": 609.2,
+    "tilt_sd_bp": 538.4,
+    "tilt_positive_share_pct": 50.0,
+    "beta_ladder_on_tilt": 0.116,
+    "alpha_monthly_bp": -84.4,
+    "r_squared": 0.0199
+   },
+   "grid_ends": 12,
+   "months_dropped_max": 11,
+   "span_bp": 515.0,
+   "min_bp": 508.8,
+   "max_bp": 1023.8,
+   "sd_bp": 186.0,
+   "latest_end_bp": 609.2,
+   "monthly_sd_bp": 538.4,
+   "span_over_monthly_sd": 0.96,
+   "published": [
+    {
+     "file": "TILT-ERA-20261020.json",
+     "arm": null,
+     "cutoff": "2026-10-20",
+     "months": 36,
+     "tilt_annualised_bp": 609.2
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "neutralise",
+     "cutoff": "2026-10-26",
+     "months": 36,
+     "tilt_annualised_bp": 609.2
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "neutralise_int",
+     "cutoff": "2026-10-26",
+     "months": 36,
+     "tilt_annualised_bp": 609.2
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "unscreened",
+     "cutoff": "2026-10-26",
+     "months": 36,
+     "tilt_annualised_bp": 609.2
+    }
+   ],
+   "published_n": 4,
+   "observed_spread_bp": 0.0,
+   "verdict": "inside_end_choice_span",
+   "end_choice_series": [
+    {
+     "months": 25,
+     "from": "2021-01",
+     "to": "2023-01",
+     "tilt_annualised_bp": 735.9,
+     "tilt_sd_bp": 613.0,
+     "tilt_positive_share_pct": 48.0,
+     "beta_ladder_on_tilt": 0.169,
+     "alpha_monthly_bp": -63.89,
+     "r_squared": 0.0406,
+     "window_end": "2023-01"
+    },
+    {
+     "months": 26,
+     "from": "2021-01",
+     "to": "2023-02",
+     "tilt_annualised_bp": 830.0,
+     "tilt_sd_bp": 602.0,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.166,
+     "alpha_monthly_bp": -68.72,
+     "r_squared": 0.0394,
+     "window_end": "2023-02"
+    },
+    {
+     "months": 27,
+     "from": "2021-01",
+     "to": "2023-03",
+     "tilt_annualised_bp": 982.4,
+     "tilt_sd_bp": 594.0,
+     "tilt_positive_share_pct": 51.9,
+     "beta_ladder_on_tilt": 0.171,
+     "alpha_monthly_bp": -64.18,
+     "r_squared": 0.042,
+     "window_end": "2023-03"
+    },
+    {
+     "months": 28,
+     "from": "2021-01",
+     "to": "2023-04",
+     "tilt_annualised_bp": 918.7,
+     "tilt_sd_bp": 583.5,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.17,
+     "alpha_monthly_bp": -61.73,
+     "r_squared": 0.0415,
+     "window_end": "2023-04"
+    },
+    {
+     "months": 29,
+     "from": "2021-01",
+     "to": "2023-05",
+     "tilt_annualised_bp": 1023.8,
+     "tilt_sd_bp": 575.0,
+     "tilt_positive_share_pct": 51.7,
+     "beta_ladder_on_tilt": 0.158,
+     "alpha_monthly_bp": -76.26,
+     "r_squared": 0.0353,
+     "window_end": "2023-05"
+    },
+    {
+     "months": 30,
+     "from": "2021-01",
+     "to": "2023-06",
+     "tilt_annualised_bp": 875.2,
+     "tilt_sd_bp": 569.0,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.153,
+     "alpha_monthly_bp": -72.12,
+     "r_squared": 0.0338,
+     "window_end": "2023-06"
+    },
+    {
+     "months": 31,
+     "from": "2021-01",
+     "to": "2023-07",
+     "tilt_annualised_bp": 559.4,
+     "tilt_sd_bp": 578.3,
+     "tilt_positive_share_pct": 48.4,
+     "beta_ladder_on_tilt": 0.118,
+     "alpha_monthly_bp": -55.78,
+     "r_squared": 0.0209,
+     "window_end": "2023-07"
+    },
+    {
+     "months": 32,
+     "from": "2021-01",
+     "to": "2023-08",
+     "tilt_annualised_bp": 569.8,
+     "tilt_sd_bp": 568.9,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.117,
+     "alpha_monthly_bp": -69.56,
+     "r_squared": 0.0199,
+     "window_end": "2023-08"
+    },
+    {
+     "months": 33,
+     "from": "2021-01",
+     "to": "2023-09",
+     "tilt_annualised_bp": 508.8,
+     "tilt_sd_bp": 560.7,
+     "tilt_positive_share_pct": 48.5,
+     "beta_ladder_on_tilt": 0.119,
+     "alpha_monthly_bp": -73.77,
+     "r_squared": 0.0207,
+     "window_end": "2023-09"
+    },
+    {
+     "months": 34,
+     "from": "2021-01",
+     "to": "2023-10",
+     "tilt_annualised_bp": 539.5,
+     "tilt_sd_bp": 552.4,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.117,
+     "alpha_monthly_bp": -79.82,
+     "r_squared": 0.02,
+     "window_end": "2023-10"
+    },
+    {
+     "months": 35,
+     "from": "2021-01",
+     "to": "2023-11",
+     "tilt_annualised_bp": 633.6,
+     "tilt_sd_bp": 546.2,
+     "tilt_positive_share_pct": 51.4,
+     "beta_ladder_on_tilt": 0.116,
+     "alpha_monthly_bp": -81.27,
+     "r_squared": 0.0196,
+     "window_end": "2023-11"
+    },
+    {
+     "months": 36,
+     "from": "2021-01",
+     "to": "2023-12",
+     "tilt_annualised_bp": 609.2,
+     "tilt_sd_bp": 538.4,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 0.116,
+     "alpha_monthly_bp": -84.4,
+     "r_squared": 0.0199,
+     "window_end": "2023-12"
+    }
+   ]
+  },
+  {
+   "era": "2024_now",
+   "era_from": "2024-01-01",
+   "era_to": null,
+   "panel_months": 34,
+   "cell_now": {
+    "months": 34,
+    "from": "2024-01",
+    "to": "2026-10",
+    "tilt_annualised_bp": 697.6,
+    "tilt_sd_bp": 621.4,
+    "tilt_positive_share_pct": 50.0,
+    "beta_ladder_on_tilt": 1.032,
+    "alpha_monthly_bp": 44.58,
+    "r_squared": 0.6728
+   },
+   "grid_ends": 12,
+   "months_dropped_max": 11,
+   "span_bp": 1184.1,
+   "min_bp": 448.6,
+   "max_bp": 1632.7,
+   "sd_bp": 316.3,
+   "latest_end_bp": 697.6,
+   "monthly_sd_bp": 621.4,
+   "span_over_monthly_sd": 1.91,
+   "published": [
+    {
+     "file": "TILT-ERA-20261020.json",
+     "arm": null,
+     "cutoff": "2026-10-20",
+     "months": 34,
+     "tilt_annualised_bp": 748.1
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "neutralise",
+     "cutoff": "2026-10-26",
+     "months": 34,
+     "tilt_annualised_bp": 697.6
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "neutralise_int",
+     "cutoff": "2026-10-26",
+     "months": 34,
+     "tilt_annualised_bp": 697.6
+    },
+    {
+     "file": "TILT-ERA-20261026-screened.json",
+     "arm": "unscreened",
+     "cutoff": "2026-10-26",
+     "months": 34,
+     "tilt_annualised_bp": 697.6
+    }
+   ],
+   "published_n": 4,
+   "observed_spread_bp": 50.5,
+   "verdict": "inside_end_choice_span",
+   "end_choice_series": [
+    {
+     "months": 23,
+     "from": "2024-01",
+     "to": "2025-11",
+     "tilt_annualised_bp": 448.6,
+     "tilt_sd_bp": 488.5,
+     "tilt_positive_share_pct": 43.5,
+     "beta_ladder_on_tilt": 1.173,
+     "alpha_monthly_bp": 117.66,
+     "r_squared": 0.5687,
+     "window_end": "2025-11"
+    },
+    {
+     "months": 24,
+     "from": "2024-01",
+     "to": "2025-12",
+     "tilt_annualised_bp": 570.1,
+     "tilt_sd_bp": 480.3,
+     "tilt_positive_share_pct": 45.8,
+     "beta_ladder_on_tilt": 1.166,
+     "alpha_monthly_bp": 111.17,
+     "r_squared": 0.5672,
+     "window_end": "2025-12"
+    },
+    {
+     "months": 25,
+     "from": "2024-01",
+     "to": "2026-01",
+     "tilt_annualised_bp": 1029.4,
+     "tilt_sd_bp": 507.6,
+     "tilt_positive_share_pct": 48.0,
+     "beta_ladder_on_tilt": 1.068,
+     "alpha_monthly_bp": 93.21,
+     "r_squared": 0.5462,
+     "window_end": "2026-01"
+    },
+    {
+     "months": 26,
+     "from": "2024-01",
+     "to": "2026-02",
+     "tilt_annualised_bp": 1089.1,
+     "tilt_sd_bp": 498.0,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 1.064,
+     "alpha_monthly_bp": 85.18,
+     "r_squared": 0.5429,
+     "window_end": "2026-02"
+    },
+    {
+     "months": 27,
+     "from": "2024-01",
+     "to": "2026-03",
+     "tilt_annualised_bp": 757.5,
+     "tilt_sd_bp": 509.0,
+     "tilt_positive_share_pct": 48.1,
+     "beta_ladder_on_tilt": 1.108,
+     "alpha_monthly_bp": 67.04,
+     "r_squared": 0.5771,
+     "window_end": "2026-03"
+    },
+    {
+     "months": 28,
+     "from": "2024-01",
+     "to": "2026-04",
+     "tilt_annualised_bp": 1079.5,
+     "tilt_sd_bp": 519.3,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 1.127,
+     "alpha_monthly_bp": 72.22,
+     "r_squared": 0.6029,
+     "window_end": "2026-04"
+    },
+    {
+     "months": 29,
+     "from": "2024-01",
+     "to": "2026-05",
+     "tilt_annualised_bp": 1213.0,
+     "tilt_sd_bp": 513.5,
+     "tilt_positive_share_pct": 51.7,
+     "beta_ladder_on_tilt": 1.115,
+     "alpha_monthly_bp": 63.47,
+     "r_squared": 0.5978,
+     "window_end": "2026-05"
+    },
+    {
+     "months": 30,
+     "from": "2024-01",
+     "to": "2026-06",
+     "tilt_annualised_bp": 1632.7,
+     "tilt_sd_bp": 539.7,
+     "tilt_positive_share_pct": 53.3,
+     "beta_ladder_on_tilt": 1.066,
+     "alpha_monthly_bp": 56.63,
+     "r_squared": 0.6036,
+     "window_end": "2026-06"
+    },
+    {
+     "months": 31,
+     "from": "2024-01",
+     "to": "2026-07",
+     "tilt_annualised_bp": 918.6,
+     "tilt_sd_bp": 625.6,
+     "tilt_positive_share_pct": 51.6,
+     "beta_ladder_on_tilt": 1.023,
+     "alpha_monthly_bp": 69.1,
+     "r_squared": 0.6588,
+     "window_end": "2026-07"
+    },
+    {
+     "months": 32,
+     "from": "2024-01",
+     "to": "2026-08",
+     "tilt_annualised_bp": 1109.7,
+     "tilt_sd_bp": 622.0,
+     "tilt_positive_share_pct": 53.1,
+     "beta_ladder_on_tilt": 1.013,
+     "alpha_monthly_bp": 61.92,
+     "r_squared": 0.6566,
+     "window_end": "2026-08"
+    },
+    {
+     "months": 33,
+     "from": "2024-01",
+     "to": "2026-09",
+     "tilt_annualised_bp": 982.2,
+     "tilt_sd_bp": 615.2,
+     "tilt_positive_share_pct": 51.5,
+     "beta_ladder_on_tilt": 1.024,
+     "alpha_monthly_bp": 48.95,
+     "r_squared": 0.6585,
+     "window_end": "2026-09"
+    },
+    {
+     "months": 34,
+     "from": "2024-01",
+     "to": "2026-10",
+     "tilt_annualised_bp": 697.6,
+     "tilt_sd_bp": 621.4,
+     "tilt_positive_share_pct": 50.0,
+     "beta_ladder_on_tilt": 1.032,
+     "alpha_monthly_bp": 44.58,
+     "r_squared": 0.6728,
+     "window_end": "2026-10"
+    }
+   ]
+  }
+ ],
+ "answers": {
+  "measured_eras": [
+   "2021_2023",
+   "2024_now"
+  ],
+  "structurally_empty_eras": [
+   "pre2017",
+   "2017_2020"
+  ],
+  "spans_bp": {
+   "2021_2023": 515.0,
+   "2024_now": 1184.1
+  },
+  "span_over_monthly_sd": {
+   "2021_2023": 0.96,
+   "2024_now": 1.91
+  },
+  "verdicts": {
+   "2021_2023": "inside_end_choice_span",
+   "2024_now": "inside_end_choice_span"
+  },
+  "widest_era": "2024_now",
+  "widest_span_bp": 1184.1,
+  "any_era_quotable_by_level": false,
+  "reads_as": "every era the panel reaches re-derives under its own end grid -- the E95 caveat is a property of the instrument, not of the newest years, so no era level may be quoted as a measurement"
+ },
+ "honest": [
+  "one panel, one loader, one cutoff: this cannot see panel-arrival effects or a changed universe, only the choice of end",
+  "two of the four era names carry no months on the E42 panel (it opens in 2020-12), so they are reported structurally empty rather than swept",
+  "short eras lose a larger share of themselves to the same 12-end grid, so the span is also stated against the era's own monthly sd",
+  "published readings are read back from the faces verbatim, both schemas; a reading never written is absent here rather than guessed",
+  "descriptive census only: no gate, no verdict on the strategy, no prereg, no trial, no ledger booking"
+ ],
+ "dropped_months": []
+}

@@ -1714,6 +1714,171 @@ def run_tilt_stable(outdir, core=None, ends=12, era=NEWEST_ERA):
     }
 
 
+# ------------------------------------ leg: E98 end-choice slack on every era
+
+def _published_era_readings(outdir, era):
+    """Every already-published cell for one era, read back off the faces.
+
+    Two schemas share this directory: the plain E42 face keeps its ``eras`` at
+    the top level, the E81 screened face keeps one full copy per screening arm
+    under ``faces``. Both are read here, because a reader that only knows the
+    flat shape reports zero published readings for the whole screened family --
+    and "nothing was published" is the one answer a stability question must
+    never invent.
+    """
+    out = []
+    if not os.path.isdir(outdir):
+        return out
+    for name in sorted(os.listdir(outdir)):
+        if not (name.startswith("TILT-ERA-") and name.endswith(".json")):
+            continue
+        try:
+            with open(os.path.join(outdir, name), encoding="utf-8") as fh:
+                face = json.load(fh)
+        except (OSError, ValueError):
+            continue
+        containers = []
+        if isinstance(face.get("eras"), dict):
+            containers.append((None, face["eras"]))
+        for arm, sub in sorted((face.get("faces") or {}).items()):
+            if isinstance(sub, dict) and isinstance(sub.get("eras"), dict):
+                containers.append((arm, sub["eras"]))
+        for arm, eras in containers:
+            row = eras.get(era) or {}
+            val = row.get("tilt_annualised_bp")
+            if val is None:
+                continue
+            out.append({"file": name, "arm": arm,
+                        "cutoff": face.get("evidence_cutoff"),
+                        "months": row.get("months"),
+                        "tilt_annualised_bp": val})
+    return out
+
+
+def _endchoice_era_row(core, era, ends, outdir):
+    """One era's end-choice grid: same panel, same loader, only the end moves.
+
+    An era the panel does not reach is reported as structurally empty rather
+    than measured on borrowed months -- the E42 panel opens in 2020-12, so two
+    of the four era names carry no months at all and cannot be swept.
+    """
+    name, lo, hi = era
+    era_months = [m for m in core["months"] if _in_era(m, lo, hi)]
+    row = {"era": name, "era_from": lo, "era_to": hi,
+           "panel_months": len(era_months)}
+    if len(era_months) < 3:
+        row.update({"skipped": "the panel carries fewer than 3 months in this era",
+                    "grid_ends": 0, "span_bp": None, "verdict": None,
+                    "end_choice_series": [], "published": [],
+                    "observed_spread_bp": None, "span_over_monthly_sd": None})
+        return row
+    full = _tilt_stats(core, era_months)
+    grid = era_months[-int(ends):]
+    series = []
+    for end in grid:
+        ms = [m for m in era_months if m <= end]
+        r = _tilt_stats(core, ms)
+        r["window_end"] = end
+        series.append(r)
+    vals = [r["tilt_annualised_bp"] for r in series
+            if r.get("tilt_annualised_bp") is not None]
+    span = round(max(vals) - min(vals), 1) if len(vals) >= 2 else None
+    # how much of the era each truncated run throws away at most
+    dropped = (len(era_months) - min(r["months"] for r in series
+                                     if r.get("months"))) if series else None
+    monthly_sd = None
+    tm = _moments([core["tilt"][m] for m in era_months])
+    if tm["sd"] is not None:
+        monthly_sd = round(tm["sd"] * 1e4, 1)
+    published = _published_era_readings(outdir, name)
+    readings = [p["tilt_annualised_bp"] for p in published]
+    observed = round(max(readings) - min(readings), 1) if len(readings) >= 2 else None
+    row.update({
+        "cell_now": full,
+        "grid_ends": len(series),
+        "months_dropped_max": dropped,
+        "span_bp": span,
+        "min_bp": min(vals) if vals else None,
+        "max_bp": max(vals) if vals else None,
+        "sd_bp": round(_moments(vals)["sd"], 1) if len(vals) >= 2 else None,
+        "latest_end_bp": vals[-1] if vals else None,
+        "monthly_sd_bp": monthly_sd,
+        # E95's own denominator, now per era: a span can only be called wide
+        # relative to how much this era actually moves month to month.
+        "span_over_monthly_sd": (round(span / monthly_sd, 2)
+                                 if span is not None and monthly_sd else None),
+        "published": published,
+        "published_n": len(readings),
+        "observed_spread_bp": observed,
+        "verdict": _stability_verdict(observed, span),
+        "end_choice_series": series,
+    })
+    return row
+
+
+def run_endchoice_all_eras(outdir, core=None, ends=12):
+    """E98: run the E95 end-choice grid on every era, not just the newest one.
+
+    The question E95 could not answer: is "the cell is re-derived, not
+    re-measured" a property of the newest era or of the instrument? Same panel,
+    same loader, same end grid width; only the era window changes.
+    """
+    core = core or _monthly_core()
+    rows = [_endchoice_era_row(core, era, ends, outdir) for era in ERAS]
+    measured = [r for r in rows if r.get("span_bp") is not None]
+    empty = [r["era"] for r in rows if r.get("skipped")]
+    widest = (max(measured, key=lambda r: r["span_bp"]) if measured else None)
+    # a span is only comparable to another span once both are stated against
+    # the month-to-month movement of their own era
+    ratios = {r["era"]: r["span_over_monthly_sd"] for r in measured}
+    verdicts = {r["era"]: r["verdict"] for r in measured}
+    return {
+        "study": "e98_end_choice_slack_by_era",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {"grid": "the last %d month-ends of each era, same panel, same loader"
+                         % int(ends),
+                 "eras": [e[0] for e in ERAS],
+                 "cell": "ladder monthly size tilt, annualised bp",
+                 "identity": "the grid moves the evaluation end only; the era window "
+                             "is the only thing that differs between rows"},
+        "eras": rows,
+        "answers": {
+            "measured_eras": [r["era"] for r in measured],
+            "structurally_empty_eras": empty,
+            "spans_bp": {r["era"]: r["span_bp"] for r in measured},
+            "span_over_monthly_sd": ratios,
+            "verdicts": verdicts,
+            "widest_era": widest["era"] if widest else None,
+            "widest_span_bp": widest["span_bp"] if widest else None,
+            "any_era_quotable_by_level": (
+                any(r["verdict"] == "beyond_end_choice_span" for r in measured)
+                if measured else None),
+            "reads_as": (
+                "every era the panel reaches re-derives under its own end grid -- the "
+                "E95 caveat is a property of the instrument, not of the newest years, so "
+                "no era level may be quoted as a measurement"
+                if measured and not any(r["verdict"] == "beyond_end_choice_span"
+                                        for r in measured) else
+                "at least one era survives its own end grid, so the caveat is local to "
+                "the eras that do not and must be cited per era"
+                if measured else None),
+        },
+        "honest": [
+            "one panel, one loader, one cutoff: this cannot see panel-arrival effects "
+            "or a changed universe, only the choice of end",
+            "two of the four era names carry no months on the E42 panel (it opens in "
+            "2020-12), so they are reported structurally empty rather than swept",
+            "short eras lose a larger share of themselves to the same 12-end grid, so "
+            "the span is also stated against the era's own monthly sd",
+            "published readings are read back from the faces verbatim, both schemas; a "
+            "reading never written is absent here rather than guessed",
+            "descriptive census only: no gate, no verdict on the strategy, no prereg, "
+            "no trial, no ledger booking",
+        ],
+        "dropped_months": core["dropped"],
+    }
+
+
 # ------------------------------------ leg: E42 calendar band at cost x3
 
 def _calcost_face(raw_all, cal_full, start="2020-01-01", pick_n=9999,
@@ -9277,6 +9442,59 @@ def selftest():
         and _stability_verdict(None, 50.0) is None,
         "the stability verdict is pure and stays None when either spread is unmeasured")
 
+    # E98: the same grid on every era. Four things have to hold before an era
+    # span can be quoted: the reader sees BOTH face schemas (a flat-only reader
+    # reports "nothing published" for the whole screened family), an era the
+    # panel does not reach is skipped rather than measured on borrowed months,
+    # the grid really moves the cell (otherwise "the span is small" is the
+    # arithmetic of a no-op), and the span is scaled by the era's own movement.
+    import tempfile
+    _tmpd = tempfile.mkdtemp(prefix="e98")
+    try:
+        with open(os.path.join(_tmpd, "TILT-ERA-20260101.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"evidence_cutoff": "2026-01-01",
+                       "eras": {"2021_2023": {"months": 36,
+                                              "tilt_annualised_bp": 100.0}}}, fh)
+        with open(os.path.join(_tmpd, "TILT-ERA-20260102.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"evidence_cutoff": "2026-01-02",
+                       "faces": {"unscreened": {"eras": {
+                           "2021_2023": {"months": 36, "tilt_annualised_bp": 140.0}}},
+                           "neutralise_int": {"eras": {
+                               "2021_2023": {"months": 36,
+                                             "tilt_annualised_bp": 145.0}}}}}, fh)
+        _pr = _published_era_readings(_tmpd, "2021_2023")
+        _pr_absent = _published_era_readings(_tmpd, "2024_now")
+    finally:
+        for _n in os.listdir(_tmpd):
+            os.remove(os.path.join(_tmpd, _n))
+        os.rmdir(_tmpd)
+    chk(len(_pr) == 3 and {p["arm"] for p in _pr} == {None, "unscreened",
+                                                      "neutralise_int"},
+        "both face schemas are read: a flat eras block and one per screening arm")
+    chk(_pr_absent == [],
+        "an era with no published reading comes back empty, never guessed")
+
+    # hermetic core: 24 months of a tilting ladder, two eras that both reach
+    _hc = {"months": ["2021-%02d" % m for m in range(1, 13)]
+                    + ["2022-%02d" % m for m in range(1, 13)],
+           "tilt": {}, "lad_m": {}, "dropped": {}}
+    for _i, _m in enumerate(_hc["months"]):
+        _hc["tilt"][_m] = 0.001 * (_i + 1)
+        _hc["lad_m"][_m] = 0.002 * (_i + 1)
+    _toy_eras = (("A", "2021-01-01", "2021-12-31"), ("B", "2022-01-01", None))
+    _rows98 = [_endchoice_era_row(_hc, _e, 6, "") for _e in _toy_eras]
+    _a, _b = _rows98
+    chk(_a["span_bp"] is not None and _a["span_bp"] > 0,
+        "the end grid actually moves the cell -- a zero span would be a no-op sweep")
+    chk(_a["months_dropped_max"] == 5 and _a["monthly_sd_bp"],
+        "each truncated run states how much of its era it threw away, and the era's "
+        "own monthly movement comes with it")
+    chk(_endchoice_era_row(_hc, ("C", "2030-01-01", None), 6, "").get("skipped")
+        and _endchoice_era_row(_hc, ("C", "2030-01-01", None), 6, "")["span_bp"] is None,
+        "an era the panel does not reach is skipped, never measured on borrowed months")
+
     # E99: the arm must be the key, and every row must carry every arm
     _fake_faces = {
         "unscreened": {"eras": {"E1": {"me": {"churn_alpha_bp_mean": 10.0,
@@ -9596,6 +9814,7 @@ def main(argv):
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera", "tiltstable",
+                             "endchoice",
                              "midlevels", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -9751,6 +9970,17 @@ def main(argv):
                           "cell_now_bp": f["cell_now"].get("tilt_annualised_bp"),
                           "end_choice": f["end_choice_answers"],
                           "stability": f["stability_answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "endchoice":
+        outdir = os.path.join(ROOT, "results", "e42_tilt_era")
+        f = run_endchoice_all_eras(outdir)
+        p = write_json(outdir, "ENDCHOICE-ALLERAS-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "endchoice", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "spans": {r["era"]: r.get("span_bp") for r in f["eras"]},
+                          "verdicts": f["answers"]["verdicts"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "calcost":
         f = run_calcost(None)
