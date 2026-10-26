@@ -441,12 +441,27 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-23T00:22:48+08:00"
  },
+ "r1159_blocker": {
+  "actions": "killed 5 git procs, removed .git/index.lock (orphan 414s), stash pop restored other-lane faces",
+  "ahead_at_open": 0,
+  "attempts": 3,
+  "behind_at_open": 390,
+  "fetch_status": "fetch COMPLETED (origin/main ref = 0c8513f76 present); only the checkout blob fetch stalled",
+  "kind": "S0_sync_promisor_stall",
+  "retry_plan": "next round: retry rebase first, but fetch blobs in a bounded pass (git -c core.sparseCheckout limited to scripts/Tools/firm/research/docs first, data/ last) so the ~150MB data churn does not block code currency",
+  "stuck_minutes": 6.0,
+  "stuck_pack_bytes": 149209087,
+  "uncommitted": true,
+  "worktree_after": "restored to entry state (4 modified other-lane files + untracked), zero unmerged paths"
+ },
+ "r1159_note": "r1159 read-only round: smoke 49/49 PASS, orphan face=0 (8 py faces), watermark rc0 insufficient_history (1 sample; pool ready 3 = E81/E90/E93), machine RAM free 11GB / CPU 15% / VRAM 4869MiB used. Origin has moved far past this lane: rounds 1276-1291 landed E134 persistence-screen work and the E-line census script gained 875 lines upstream, so E93-GAPSPLIT-ERA-SPREAD must NOT be burned from this 3-day-stale worktree -- currency first.",
+ "r1159_pit": "a partial clone fails at CHECKOUT, not at fetch: `git fetch` returned origin/main fine and the catalog looked current while the ff-merge checkout sat on a 149MB tmp_pack for six minutes; judge sync health by `rev-list HEAD...origin/main` plus the presence of a growing tmp_pack, never by 'fetch succeeded'",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1158,
- "round_no": 1158,
- "round_no_label": "r1158",
+ "round": 1159,
+ "round_no": 1159,
+ "round_no_label": "r1159",
  "round_pit": "r1158: a repair that hits both books symmetrically leaves the gap untouched while halving the levels -- publish arm width, not one arm; and run_midmonth's era table hardcodes x0/x1/x3, so a narrowed cost set KeyErrors instead of degrading",
  "sat_engine": {
   "checked_at": "2026-10-23T00:21:41+08:00",
@@ -459,10 +474,10 @@
   "last_push_ts": "2026-10-23T00:22:48+08:00",
   "local_not_on_origin_main": 0
  },
- "task": "r1158: E92 gapped-split screen -- panel_screen gains mode neutralise_gap (gap_limit in sessions, integer-ratio only) and e39 gets the gapsplit leg; 75 events repaired at gap_limit=1 (65 adjacent + 10 gapped), 9 of 11 gapped integer prints sit in 2021_2023, the era churn LEVELS fall 59%/51% while the mid-minus-me GAP keeps 94%",
- "task_short": "r1158 E92 gapped split screen",
- "ts": "2026-10-23T00:21:41+08:00",
- "updated": "2026-10-23T00:21:41+08:00",
- "updated_at": "2026-10-23T00:21:41+08:00",
- "verdict": "product+maintenance"
+ "task": "r1159: S0 rebase onto origin/main blocked -- worktree was 0/390 (390 commits behind), the fast-forward checkout stalled on a partial-clone blob fetch (tmp_pack frozen at 149.2MB for ~6 min at ~30KB/s); killed the stalled chains, cleared the orphan index.lock, restored the stashed other-lane faces, and ran the round as read-only health maintenance. No product face.",
+ "task_short": "r1159 S0 sync blocked (promisor blob fetch stall)",
+ "ts": "2026-10-27T00:01:55+08:00",
+ "updated": "2026-10-27T00:01:55+08:00",
+ "updated_at": "2026-10-27T00:01:55+08:00",
+ "verdict": "blocked-s0-sync"
 }
