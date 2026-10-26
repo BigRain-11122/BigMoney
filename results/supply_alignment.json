@@ -1,0 +1,54 @@
+{
+ "self": "bm-c",
+ "newest_panel_cutoff": "2026-10-22",
+ "definitions": {
+  "ready_fresh": "status==ready AND evidence_cutoff within 5 official days of the newest panel cutoff (missing cutoff = unknown, never fresh)",
+  "ignitable": "ready AND (unclaimed or owned by self or owner heartbeat fresh); a silent owner stays a takeover CANDIDATE, not a permit",
+  "effective_ignitable": "ignitable AND fresh",
+  "floor": "read from compute_audit.supply_floor.floor -- never hardcoded"
+ },
+ "four_tuple": {
+  "ready": 1,
+  "ready_fresh": 1,
+  "ignitable": 0,
+  "effective_ignitable": 0,
+  "floor": 3,
+  "fresh_unknown": 0
+ },
+ "breach": [
+  "ready<3",
+  "effective_ignitable<3"
+ ],
+ "gap_causes": [
+  "inventory_owned_elsewhere"
+ ],
+ "owner_silent_min": 120.0,
+ "silent_owners": {
+  "bm-b": 5437.6
+ },
+ "takeover_needs_corroboration": true,
+ "ignition_face": {
+  "present": true,
+  "tasks": {
+   "Bigmoney-IterationLoop": "2026/10/26 19:05:00",
+   "Bigmoney-LoopWatchdog": "2026/10/26 19:03:00"
+  },
+  "detail": "registered"
+ },
+ "audit_mismatch": [],
+ "items": [
+  {
+   "id": "E81-EXPOSED-RUNNER-RAW-HOOKS",
+   "owner": "bm-b",
+   "fresh": true,
+   "fresh_note": "fresh lag=1 src=exchange_calendar",
+   "ignitable": false,
+   "ignitable_note": "owner_silent_bm-b"
+  }
+ ],
+ "generated_at": "2026-10-26T19:02:06+08:00",
+ "inputs": {
+  "compute_audit": "results/compute_audit.json",
+  "runnable_pool": "results/runnable_pool.json"
+ }
+}

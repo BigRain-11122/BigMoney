@@ -476,7 +476,9 @@ def main() -> int:
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
-             "scripts/exchange_calendar_audit.py", ["selftest"])):
+             "scripts/exchange_calendar_audit.py", ["selftest"]),
+            ("product: supply_alignment four-tuple face (exit-code contract)",
+             "scripts/supply_alignment.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
