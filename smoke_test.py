@@ -508,12 +508,27 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_width_audit", "cal_audit"}
+                 "etf_book_width_audit", "etf_book_registry", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
+    # r1293: the register that lists the live book faces together. A published face is
+    # not proof it is current, but a face that is not registered cannot be checked at
+    # all -- so assert the live register exists, is single-schema, and that every face
+    # it claims to have read really resolved (an all-missing register still "publishes").
+    try:
+        _rg = json.load(open("results/etf_book_registry.json", encoding="utf-8"))
+        _ok_rg = (_rg.get("schema") == "etf-book-registry/v1"
+                  and _rg.get("n_faces", 0) >= 4
+                  and _rg.get("n_live") == _rg.get("n_faces")
+                  and _rg.get("verdict") in {"single-config", "multi-config", "unwired"})
+        check("product: ETF book registry published", _ok_rg,
+              f"faces={_rg.get('n_faces')} live={_rg.get('n_live')} "
+              f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
+    except Exception as e:
+        check("product: ETF book registry published", False, str(e))
     # The lag face itself is what a human reads to tell a holiday from a dead feed,
     # so assert the published file exists and speaks a known verdict -- a green
     # selftest on synthetic panels would not prove the live face was ever written.

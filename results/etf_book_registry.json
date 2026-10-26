@@ -1,0 +1,172 @@
+{
+ "faces": [
+  {
+   "id": "ticket",
+   "label": "executable ticket (broker-followable)",
+   "pointer": "results/etf_book_order/latest.json",
+   "chain_leg": "etf_book_order",
+   "status": "ok",
+   "as_of": "2026-10-26",
+   "n_names": 5,
+   "names": [
+    "159263",
+    "159501",
+    "159577",
+    "513100",
+    "513690"
+   ],
+   "rule": "beta",
+   "rule_param": 0.2,
+   "k_now": 0.47149,
+   "artefact": "results/etf_book_order/TICKET-2026-10-26.json",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_order"
+  },
+  {
+   "id": "card",
+   "label": "production card (headline face)",
+   "pointer": "results/etf_book_production/latest.json",
+   "chain_leg": "etf_book_production",
+   "status": "ok",
+   "as_of": "2026-10-26",
+   "n_names": 12,
+   "names": [
+    "159207",
+    "159263",
+    "159307",
+    "159501",
+    "159577",
+    "159632",
+    "513100",
+    "513300",
+    "513630",
+    "513690",
+    "513850",
+    "513870"
+   ],
+   "rule": "vol",
+   "rule_param": 0.08,
+   "k_now": 0.7008,
+   "artefact": "results/etf_book_production/latest.json",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_production"
+  },
+  {
+   "id": "forward",
+   "label": "forward marks (paper track record)",
+   "pointer": "results/etf_book_forward/LEDGER.json",
+   "chain_leg": "etf_book_forward",
+   "status": "ok",
+   "as_of": "2026-10-26",
+   "n_names": 12,
+   "names": [
+    "159207",
+    "159263",
+    "159307",
+    "159501",
+    "159577",
+    "159632",
+    "513100",
+    "513300",
+    "513630",
+    "513690",
+    "513850",
+    "513870"
+   ],
+   "rule": "vol",
+   "rule_param": 0.08,
+   "k_now": 1.0010304509,
+   "artefact": "results/etf_book_forward/LEDGER.json",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_forward"
+  },
+  {
+   "id": "staggered",
+   "label": "staggered 5+5 paper ledger (own task, not in chain)",
+   "pointer": "results/etf_paper/ledger.jsonl",
+   "chain_leg": null,
+   "status": "ok",
+   "as_of": "2026-10-23",
+   "n_names": 10,
+   "names": [
+    "159307",
+    "159980",
+    "510760",
+    "510980",
+    "511180",
+    "511380",
+    "512890",
+    "513400",
+    "515300",
+    "515450"
+   ],
+   "rule": "vol",
+   "rule_param": 0.0693,
+   "k_now": 1.0,
+   "artefact": "results/etf_paper/ledger.jsonl",
+   "config": "bond-free, staggered 5+5, R10, 8% vol target",
+   "in_chain": false,
+   "chain_note": "declared outside the chain (own scheduled task)"
+  }
+ ],
+ "n_faces": 4,
+ "n_live": 4,
+ "configs": {
+  "10@vol": [
+   "staggered"
+  ],
+  "12@vol": [
+   "card",
+   "forward"
+  ],
+  "5@beta": [
+   "ticket"
+  ]
+ },
+ "distinct_configs": 3,
+ "unwired_declared_legs": [],
+ "off_chain_by_design": [
+  "staggered"
+ ],
+ "config_disagreement": true,
+ "shared_names": {
+  "card|forward": [
+   "159207",
+   "159263",
+   "159307",
+   "159501",
+   "159577",
+   "159632",
+   "513100",
+   "513300",
+   "513630",
+   "513690",
+   "513850",
+   "513870"
+  ],
+  "card|staggered": [
+   "159307"
+  ],
+  "card|ticket": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
+  "forward|staggered": [
+   "159307"
+  ],
+  "forward|ticket": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ]
+ },
+ "name_count_mismatch": [],
+ "verdict": "multi-config",
+ "schema": "etf-book-registry/v1",
+ "note": "every row is derived from its own artefact; a face missing from the chain cannot be trusted to be current"
+}

@@ -72,6 +72,12 @@ LEGS = [
     # instance of the orphan-face class after r1257 (wide panel) and r1290 (the card).
     # ~70s on the same panel the two legs above already warmed.
     ("etf_book_width_audit", ["python", "scripts/etf_book_width_audit.py", "run"]),
+    # r1293: the register of every live book face. The legs above each refresh ONE
+    # face; nothing listed them together, so a face could be added, go stale, or sit
+    # outside the chain with no single place to notice (r1290 and r1291 were both that
+    # class). Every row is derived from its own artefact, so it also catches a pointer
+    # that still names a file which no longer exists. <1s, no network, no judge.
+    ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
