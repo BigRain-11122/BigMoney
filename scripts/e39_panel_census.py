@@ -9524,6 +9524,37 @@ def selftest():
         and _level_sign_flips(_flip_faces, ["unscreened", "neutralise_gap1"]) == ["E1/me"],
         "a level that changes sign across arms is reported, a same-sign pair is not")
 
+    # E101: the end grid must truncate, never re-stamp, and the arm delta
+    # verdict must be readable off its two spans alone
+    _cal = ["2020-%02d-%02d" % (m, d) for m, d in
+            ((1, 31), (2, 28), (3, 31), (4, 30), (5, 29))]
+    _dec = [(0, ["a"]), (2, ["b"]), (4, ["c"])]
+    chk(_truncate_decisions(_dec, _cal, "2020-03-31") == [(0, ["a"]), (2, ["b"])],
+        "a grid end drops the decisions after it and keeps the ones inside it")
+    chk(_truncate_decisions(_dec, _cal, "2020-03-30") == [(0, ["a"])]
+        and _truncate_decisions(_dec, _cal, "2020-03-31") == [(0, ["a"]), (2, ["b"])],
+        "the end is read on the session date, not on the decision ordinal")
+    _grid = _era_end_grid(_dec, _cal, ("E1", "2020-01-01", "2020-04-30"), 12)
+    chk(_grid == ["2020-01-31", "2020-03-31"],
+        "the era grid is taken inside its own window and keeps session order")
+    chk(_era_end_grid(_dec, _cal, ("E1", "2020-01-01", "2020-04-30"), 1)
+        == ["2020-03-31"],
+        "a 1-end grid is the last session inside the era, not the first")
+    chk(_endgrid_span([1.0, None, 4.0]) == 3.0 and _endgrid_span([2.0]) is None,
+        "a span needs two numbers and ignores a null cell")
+    chk(_min_span([None, -40.0, 12.0]) == -40.0 and _min_span([None]) is None,
+        "the smaller level span is the smaller of the populated ones")
+    chk(_arm_delta_verdict(40.0, 800.0) == (0.05, "delta_stable_levels_fragile"),
+        "a delta that spans 5% of its levels survives the grid")
+    chk(_arm_delta_verdict(515.0, 1184.1)[1] == "delta_moves_with_the_end",
+        "a delta that spans 43% of its levels moves with the end")
+    chk(_arm_delta_verdict(0.0, 0.0)[1] == "levels_fixed_across_ends"
+        and _arm_delta_verdict(30.0, 0.0)[1] == "delta_moves_while_levels_hold",
+        "a frozen level pair is named, not divided by zero")
+    chk(_arm_delta_verdict(None, 500.0) == (None, None)
+        and _arm_delta_verdict(20.0, None) == (None, None),
+        "an unmeasured span yields no verdict instead of a default one")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9799,6 +9830,273 @@ def run_midlevels(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
     }
 
 
+# ------------------------------------ E101: is the arm DELTA end-stable?
+
+def _truncate_decisions(decisions, cal, end):
+    """Every decision whose session is on or before ``end``.
+
+    A re-burned window cannot see the forward leg of its own final decision,
+    and that is exactly what happens here: ``_churn_stats`` needs a following
+    decision and skips the last one, so truncating the list is a window
+    truncation, not a re-stamp of a full-window reading.
+    """
+    return [(i, holds) for i, holds in decisions if cal[i] <= end]
+
+
+def _era_end_grid(decisions, cal, era, ends):
+    """The last ``ends`` decision sessions of one era, ascending."""
+    name = era[0]
+    idxs = [i for i, _ in decisions if _era_of(cal[i], (era,)) == name]
+    return [cal[i] for i in idxs[-int(ends):]]
+
+
+def _next_decision_session(decisions, cal, end):
+    """The first decision session strictly after ``end`` (None if there is none).
+
+    Pricing a grid cell through the NEXT decision is what keeps the cell's
+    meaning constant: an era's own last transition needs a following decision
+    to have a forward leg at all, so a hard truncation at the end date silently
+    drops it. The published control caught exactly that -- the 2017_2020 me
+    delta read 0.0bp under a hard cut against the published -745.9bp, and the
+    whole 745.9 sits in the transition the cut had thrown away.
+    """
+    for i, _holds in decisions:
+        if cal[i] > end:
+            return cal[i]
+    return None
+
+
+def _endgrid_span(vals):
+    v = [x for x in vals if isinstance(x, (int, float))]
+    return round(max(v) - min(v), 1) if len(v) >= 2 else None
+
+
+def _min_span(vals):
+    v = [x for x in vals if isinstance(x, (int, float))]
+    return min(v) if v else None
+
+
+def _arm_delta_verdict(delta_span, level_span):
+    """One (era, book) cell: does the DELTA survive an end grid the levels do not?
+
+    Returns (delta_over_level_span, verdict). The rule is mechanical: a delta
+    whose grid span is at most a quarter of the smaller of its two level spans
+    is reading through a movement that moves both arms together.
+    """
+    if delta_span is None or level_span is None:
+        return None, None
+    if level_span == 0.0:
+        return None, ("levels_fixed_across_ends" if delta_span == 0.0
+                      else "delta_moves_while_levels_hold")
+    return round(delta_span / level_span, 2), (
+        "delta_stable_levels_fragile" if delta_span <= 0.25 * level_span
+        else "delta_moves_with_the_end")
+
+
+def _read_published_levels(outdir, published):
+    path = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
+                        published)
+    if not os.path.isfile(path):
+        return None, {"file": published, "status": "absent"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            face = json.load(fh)
+    except (OSError, ValueError):
+        return None, {"file": published, "status": "unreadable"}
+    index = {}
+    for row in face.get("levels") or []:
+        index[(row.get("era"), row.get("book"))] = row.get("arms") or {}
+    return index, {"file": published, "status": "read",
+                   "published_cutoff": face.get("evidence_cutoff"),
+                   "rows": len(face.get("levels") or [])}
+
+
+def run_gaparm_endgrid(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
+                       gap_limit=1, ends=12, mid_day=15, eras=ERAS,
+                       published="MID-20261026-s20180101-armed.json"):
+    """E101: put the E99 arm delta under the E98 end grid.
+
+    E99 published the gap arm's effect as a difference of LEVELs (-745.9bp on
+    the 2017_2020 me level, -1098.3bp on 2021_2023), and E98 showed the tilt
+    LEVEL is end-fragile on every era the panel reaches. A difference of two
+    fragile numbers is not automatically fragile: if both arms move together
+    the delta survives while neither level may be quoted. So the grid is run on
+    BOTH arms and every end prints the two levels beside their delta.
+
+    Cost note: the decision sets are causal (book at bar i uses bars <= i), so
+    each arm's books are built ONCE on the full window and each grid end only
+    truncates the decision list. No e27.simulate call is needed -- the cell is
+    the churn level, which is a name-level read, not a portfolio return.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+
+    gap_label = "neutralise_gap%d" % int(gap_limit)
+    universes = {"unscreened": raw}
+    universes[gap_label], reports = panel_screen.screen_universe(
+        raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(gap_limit))
+    arms = ["unscreened", gap_label]
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+
+    caches = {}
+    for label in arms:
+        univ = universes[label]
+        all_syms = sorted(set(base.LADDER) | set(univ))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = univ.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in univ]
+        rank_cache = {}
+        decisions = {}
+        for cname, idxs in calendars:
+            decisions[cname] = _decision_sets(cal, prices, amounts, universe,
+                                              pick_n, idxs, rank_cache)
+        caches[label] = {"prices": prices, "decisions": decisions,
+                         "universe_members": len(universe)}
+
+    agg_cache = {}
+
+    def agg_for(arm, book, end):
+        decs = caches[arm]["decisions"][book]
+        nxt = _next_decision_session(decs, cal, end)
+        window_end = nxt or cal[-1]
+        key = (arm, book, window_end)
+        if key not in agg_cache:
+            dec = _truncate_decisions(decs, cal, window_end)
+            _rows, agg = _churn_stats(cal, caches[arm]["prices"], dec, eras)
+            agg_cache[key] = agg
+        return agg_cache[key]
+
+    pub_index, pub_meta = _read_published_levels(outdir, published)
+
+    era_rows, control = [], {}
+    for era in eras:
+        name, lo, hi = era
+        grid = _era_end_grid(caches["unscreened"]["decisions"]["me"], cal, era, ends)
+        row = {"era": name, "era_from": lo, "era_to": hi, "grid_ends": len(grid)}
+        if len(grid) < 3:
+            row.update({"skipped": "fewer than 3 decision ends fall inside this era",
+                        "end_choice_series": [], "delta_span_bp": {},
+                        "level_span_bp": {}, "verdict": {}, "delta_over_level_span": {}})
+            era_rows.append(row)
+            continue
+        series = []
+        for end in grid:
+            books = {}
+            for book in LEVEL_BOOKS:
+                per_arm, priced = {}, {}
+                for a in arms:
+                    nxt = _next_decision_session(caches[a]["decisions"][book], cal, end)
+                    priced[a] = nxt or cal[-1]
+                    per_arm[a] = ((agg_for(a, book, end).get(name) or {})
+                                  .get("churn_alpha_bp_mean"))
+                delta = (round(per_arm[gap_label] - per_arm["unscreened"], 1)
+                         if per_arm["unscreened"] is not None
+                         and per_arm[gap_label] is not None else None)
+                books[book] = {"levels_bp": per_arm, "delta_bp": delta,
+                               "priced_through": priced}
+            series.append({"window_end": end, "books": books})
+
+        level_span = {book: {a: _endgrid_span([s["books"][book]["levels_bp"][a]
+                                               for s in series]) for a in arms}
+                      for book in LEVEL_BOOKS}
+        delta_span = {book: _endgrid_span([s["books"][book]["delta_bp"] for s in series])
+                      for book in LEVEL_BOOKS}
+        ratio, verdict = {}, {}
+        for book in LEVEL_BOOKS:
+            ds = delta_span[book]
+            ls = _min_span(level_span[book].values())
+            ratio[book], verdict[book] = _arm_delta_verdict(ds, ls)
+        row.update({"end_choice_series": series,
+                    "level_span_bp": level_span,
+                    "delta_span_bp": delta_span,
+                    "delta_over_level_span": ratio,
+                    "verdict": verdict,
+                    "latest_end": {"window_end": grid[-1],
+                                   "books": series[-1]["books"]}})
+        era_rows.append(row)
+        # the published (full-window) delta against this grid's own latest end
+        legs = {}
+        for book in LEVEL_BOOKS:
+            theirs = ((pub_index or {}).get((name, book)) or {}).get(gap_label) or {}
+            mine = series[-1]["books"][book]["delta_bp"]
+            t = theirs.get("delta_vs_unscreened_bp")
+            legs[book] = {"published_delta_bp": t, "latest_end_delta_bp": mine,
+                          "abs_diff_bp": (round(abs(t - mine), 1)
+                                          if isinstance(t, (int, float))
+                                          and isinstance(mine, (int, float)) else None)}
+        control[name] = legs
+
+    measured = [r for r in era_rows if r.get("delta_span_bp")]
+    stable = {book: [r["era"] for r in measured
+                     if (r["verdict"] or {}).get(book) == "delta_stable_levels_fragile"]
+              for book in LEVEL_BOOKS}
+    fragile = {book: [r["era"] for r in measured
+                      if (r["verdict"] or {}).get(book) == "delta_moves_with_the_end"]
+               for book in LEVEL_BOOKS}
+    return {
+        "study": "e101_gaparm_delta_under_end_grid",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "arms": arms, "gap_limit": int(gap_limit),
+            "grid": "the last %d month-end decision sessions of each era; the same "
+                    "end is applied to both arms and both books" % int(ends),
+            "cell": "eras[era][book].churn_alpha_bp_mean, the E99 LEVEL",
+            "delta": "gap arm level minus unscreened level on the SAME end",
+            "verdict_rule": "delta_stable_levels_fragile when the delta span is "
+                            "<= 25% of the smaller level span in that era",
+            "universe_members": {a: caches[a]["universe_members"] for a in arms},
+        },
+        "screen_report": reports,
+        "eras": era_rows,
+        "published_control": {"meta": pub_meta, "cells": control},
+        "answers": {
+            "measured_eras": [r["era"] for r in measured],
+            "skipped_eras": [r["era"] for r in era_rows if r.get("skipped")],
+            "delta_stable_eras": stable,
+            "delta_moves_eras": fragile,
+            "delta_span_bp": {r["era"]: r["delta_span_bp"] for r in measured},
+            "level_span_bp": {r["era"]: r["level_span_bp"] for r in measured},
+            "reads_as": (
+                "the arm delta holds across the end grid on every measured era while "
+                "at least one of its two levels does not, so the repair is a measurement "
+                "even where the level it moves is not quotable"
+                if measured and all(stable[b] == [r["era"] for r in measured]
+                                    for b in LEVEL_BOOKS) else
+                "at least one (era, book) delta moves with the end grid, so the arm "
+                "effect must be cited per end the way its levels are"
+                if measured else None),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no prereg, "
+            "no trial count, no ledger booking",
+            "both arms share the panel calendar, the rank cache and the fee ladder; the "
+            "arm is a universe repair, not a different strategy",
+            "the grid moves the evaluation end only, so a delta that survives it is "
+            "end-stable on THIS panel and says nothing about panel arrival effects",
+            "a truncated window loses the forward leg of its own last decision, so every "
+            "grid end is priced through the next decision of the same book: the "
+            "published control reproduces the full-window delta exactly there, which "
+            "is the proof that the cut is a cut of the evaluation end only",
+            "the churn level is a name-level mean over swapped pairs, not a portfolio "
+            "return: the delta moves a reading, not money",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -9815,7 +10113,7 @@ def main(argv):
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
-                             "midlevels", "all", "selftest"])
+                             "midlevels", "gaparmendgrid", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -9959,6 +10257,22 @@ def main(argv):
                           "newest_era_level_bp": f["answers"]["newest_era_level_bp"],
                           "sign_flips": f["answers"]["level_sign_flips_across_arms"],
                           "published_control": f["answers"]["published_control"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "gaparmendgrid":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_gaparm_endgrid(outdir, start=args.start)
+        tag = f["spec"]["start"].replace("-", "")
+        p = write_json(outdir, "GAPARM-ENDGRID-%s-s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), tag), f)
+        print(json.dumps({"leg": "gaparmendgrid", "file": os.path.relpath(p, ROOT),
+                          "arms": f["spec"]["arms"],
+                          "measured_eras": f["answers"]["measured_eras"],
+                          "delta_span_bp": f["answers"]["delta_span_bp"],
+                          "level_span_bp": f["answers"]["level_span_bp"],
+                          "stable": f["answers"]["delta_stable_eras"],
+                          "moves": f["answers"]["delta_moves_eras"],
+                          "control": f["published_control"]["meta"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "tiltstable":

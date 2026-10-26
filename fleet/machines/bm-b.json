@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T05:17:54+08:00",
+ "clock_read": "2026-10-27T05:45:56+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -9,20 +9,20 @@
  "cpu_load_pct": 39.0,
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
- "current": "r1162: E95 newest-era tilt stability (end-choice grid 12 ends, span 1184.1bp)",
- "current_task": "r1165: E98 end-choice grid on every era + astock panel coverage face",
- "cyc_round": 1162,
- "d19_note": "r1161: dec/ord identical to the r1160 watermark (update --advance NOOP, read-back equality OK, mirrors synced 2) -> zero delta, zero bm-b rows",
- "dept": "research+engineering+database",
+ "current": "r1166: E101 gap-arm end grid -- the E99 arm delta is a one-transition step, not a rate",
+ "current_task": "r1166: E101 gap-arm delta under the end grid (2 arms x 12 ends x 3 eras x 2 books)",
+ "cyc_round": 1166,
+ "d19_note": "r1166: group origin decisions.md/l orders.md read via cat-file; rows D-20261027-01..05 landed 00:07 (bm-a). Only D-20261027-01 touches BigMoney (bm-a task family Disabled->resumed): local check done -- Bigmoney-IterationLoop next-run 05:47 and Bigmoney-LoopWatchdog 05:46 both scheduled (Ready), so bm-b has no UNEXPECTED-DISABLED. Watermark RE-BASELINED: stored 17c29359 does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md) = fd9e59cd..., recipe now written into state-bm-b.json.",
+ "dept": "research+engineering",
  "did": [
   {
-   "card": "E96-CHURN-LEVEL-SCREEN-LABEL",
+   "card": "E101-GAPARM-ENDGRID",
    "action": "done",
-   "evidence": "results/e44_midmonth/LEVEL-LABELS-20261027.json + scripts/e96_level_label_audit.py (selftest 22/22) + research/digests/DIGEST-20261027-e96-level-labels.md",
-   "ts": "2026-10-27T04:24:29+08:00"
+   "evidence": "results/e44_midmonth/GAPARM-ENDGRID-20261026-s20180101.json + research/digests/DIGEST-20261027-e101-gaparm-endgrid.md",
+   "ts": "2026-10-27T05:45:56+08:00"
   }
  ],
- "did_round": 1161,
+ "did_round": 1166,
  "free_ram_gb": 10.2,
  "free_ram_mb": 12000,
  "free_ram_pct": 39.8,
@@ -59,7 +59,7 @@
  "gpu_vram_free_mib": 3722,
  "gpu_vram_used_mb": 4470,
  "gpu_vram_used_mib": 4470,
- "heartbeat_epoch_utc": 1793049474,
+ "heartbeat_epoch_utc": 1793051156,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -78,7 +78,7 @@
  "last_orders_watermark": "c067b3b20f6b8138@17b6385/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "da99a6e9ce -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-27T05:17:54+08:00",
+ "last_seen": "2026-10-27T05:45:56+08:00",
  "latest_artifact": "results/e44_midmonth/MID-20261026-s20180101-armed.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -336,10 +336,10 @@
  },
  "task": "E99 start-2018 churn levels named by arm",
  "task_short": "E99 levels-by-arm",
- "ts": "2026-10-27T05:17:54+08:00",
+ "ts": "2026-10-27T05:45:56+08:00",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "productive: E98 face + 2 digests + coverage face; smoke 76/76; S6 rc0",
+ "verdict": "productive: E101 face + digest; control reproduces all six published arm deltas exactly (0.0); S6 37/37 rc0; smoke 77/77",
  "vram_free_gb": 3.44,
  "r1164_push": {
   "pushed_sha": "da99a6e9ce",
