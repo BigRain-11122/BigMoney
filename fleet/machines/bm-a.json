@@ -41,7 +41,7 @@
   "machine_id": "bm-a",
   "next": "full verdict DIRECTOR-VERDICT-MV-NEWPROCESS-20261026.md by 2026-10-27T08:00+08:00",
   "next_milestone": "full verdict DIRECTOR-VERDICT-MV-NEWPROCESS-20261026.md by 2026-10-27T08:00+08:00",
-  "note": "r1113: avail_tier per-face + tier_deadline_faces + universe coverage columns wired into the accrual panel; deadline fallback measured as a code-level (all-three-face) event, zero sole-face rows",
+  "note": "PR-20261026-02: all Bigmoney-* scheduled tasks sit at LogonType=Interactive (S4U flip refused with access-denied inside register_watchdog_task.ps1). Two are Running (IterationLoop, LoopWatchdog) so the flip must be done between rounds: $p=New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType S4U; Set-ScheduledTask -TaskName Bigmoney-LoopWatchdog -Principal $p (repeat per enabled task). Until fixed, child consoles stay visible to the CEO.",
   "notes": "heartbeat writer is merge-only by law (r1110): whole-file replace = P0 false debt, scan reads heartbeat only",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
