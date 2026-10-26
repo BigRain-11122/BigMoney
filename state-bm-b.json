@@ -42,11 +42,11 @@
  "last_orders_sha_probe": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
- "last_push": "777d6c1e9 -> origin/main (behind=0 ahead=0, four-way verified)",
+ "last_push": "94022f322c -> origin/main (behind=0 ahead=0, four-way verified)",
  "last_round_at": "2026-10-27T04:05:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md r1162",
  "last_round_ts": "2026-10-27T04:05:00+08:00",
- "last_seen": "2026-10-27T04:05:00+08:00",
+ "last_seen": "2026-10-27T04:20:00+08:00",
  "latest_artifact": "results/e42_tilt_era/NEWESTERA-STABILITY-20261026.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -477,19 +477,26 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
   "behind_origin_main": 0,
-  "last_push": "pending this round",
-  "last_push_ts": "2026-10-23T00:22:48+08:00",
-  "local_not_on_origin_main": 0
+  "local_not_on_origin_main": 0,
+  "last_push": "94022f322c -> origin/main (behind=0 ahead=0, four-way verified)",
+  "last_push_ts": "2026-10-27T04:20:00+08:00"
  },
  "task": "r1162 E95 newest-era tilt stability: end-choice grid, cell demoted to mechanism-only",
  "task_short": "E95 tilt stability",
- "ts": "2026-10-27T04:05:00+08:00",
- "updated": "2026-10-27T04:05:00+08:00",
- "updated_at": "2026-10-27T04:05:00+08:00",
+ "ts": "2026-10-27T04:20:00+08:00",
+ "updated": "2026-10-27T04:20:00+08:00",
+ "updated_at": "2026-10-27T04:20:00+08:00",
  "verdict": "smoke 74/74 PASS; E95 face published (12-end grid, span 1184.1bp vs 50.5bp published spread -> inside_end_choice_span); e39 selftest 266/266; S6 dualrun ZERO-DRIFT streak 51, attrition CLEAN, orphan 0, watermark insufficient_history; compute_audit FLAG supply_gap+supply_floor (ready 2/3)",
  "cyc_round": 1162,
  "r1161_note": "E94 adopted+reproduced: scripts/e94_readset_triage.py (463 lines) probes one runner per distinct runner with four arms (unscreened / neutralise / perturb 5 ladder members / perturb 5 repaired names), every arm in a temp dir with e27.load_universe pinned, so no published face is rewritten. 33 modes -> 25 moves_under_repair, 4 closed (tilt/era/calrob/calcost twins), 2 structurally immune (all,ladder), 2 probe_blind (stalehold,weeknames cite nothing provable). Two burns on the same panel: 33/33 verdicts and all arm counts identical, so the harness is reproducible; the only difference is the label fix it caused (read_set named from the 5-name step alone said \"no price arithmetic\" on 7 faces the whole-arm repair moves; read_set_label + 4 selftest legs, 15->19).",
  "r1161_pit": "a label must never be narrower than the evidence behind it: the first burn labelled seven modes \"no price arithmetic on the probed names\" while the same row carried charged_by_repair=true with 20 changed leaf paths -- the 5-name step proves name-level reads only, an aggregate book absorbs it, so one column was a name-level reading and the other an arm-level one. Publish which granularity each boolean came from, or two true statements in the same row read as a contradiction. Sibling: a status face that writes both \"spawned: no panel cutoff\" and \"panel fresh (cutoff X >= expected X)\" in one file is a pop gap, not a data problem -- the spawn branch must clear the no-op line it supersedes.",
  "r1162_note": "r1162: E95 closed. New runner leg `tiltstable` (selftest 262->266, +4 legs) holds one panel fixed and moves only the evaluation end of the E42 newest-era tilt cell across the last 12 era month-ends: 448.6..1632.7 bp (span 1184.1, sd 316.3, months 23..34) against a monthly sd of 621.4 bp. The two already-published readings differ by only 50.5 bp (748.1 @2026-10-20 vs 697.6 @2026-10-26) and BOTH carry months=34, so the difference is panel revision, not a longer window. Verdict `inside_end_choice_span` (23x): the cell may be cited by mechanism (positive at 12/12 ends, beta 1.01-1.17) but never by bp level, and any E41/E42 ratio off it must print its window end. Pool E95 done with result_ref, E98-ENDCHOICE-ALLERAS seeded. S6: dualrun ZERO-DRIFT (620 entries, streak 51), attrition CLEAN (4 ledgers, 2 healed shrinks), orphan face=0 (8 py faces), watermark insufficient_history, compute_audit FLAG supply_gap+supply_floor (ready 2/3, breach honest). Orders: four order files already carried ack receipts in fleet/ack from the r1159-r1161 return window; orders_ack set back-filled here, plus a new ack for O-20261026-0810 s5 and O-20261023-2325 MV standby.",
- "r1162_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data."
+ "r1162_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data.",
+ "r1162_push": {
+  "behind_origin_main": 0,
+  "pushed_sha": "94022f322c",
+  "status": "PUSHED_VERIFIED",
+  "note": "r1162 push: clean delivery 94022f322c (origin/main before push 128480d5ff after two incoming bm-c commits e305311c8f..128480d5ff); pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c DIGEST-20261027-r1296 + results/etf_book_pair.json + scripts/etf_book_pair.py), rebase --autostash replayed 1 commit, 1 UU (results/_attrition_guard_scan.json) ours-newer-wins 04:03:48 vs 04:00:24, autostash pop left 2 UU daemon faces (fleet/machine-health.json, results/compute_audit.json) resolved theirs = committed daemon state, stash dropped; four-way verified behind=0 ahead=0 HEAD==origin/main==94022f322c",
+  "ts": "2026-10-27T04:20:00+08:00"
+ }
 }

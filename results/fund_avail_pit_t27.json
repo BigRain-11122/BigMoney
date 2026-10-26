@@ -1,34 +1,34 @@
 {
-  "ts": "2026-10-20T17:56:12+0800",
+  "ts": "2026-10-27T03:55:05+0800",
   "audit": "T27 PIT availability repair (min(latest_revision, deadline))",
   "faces": {
     "income": {
-      "rows": 461679,
-      "avail_date_present": 461629,
+      "rows": 460516,
+      "avail_date_present": 460466,
       "median_lag_days_before": 418.0,
       "median_lag_days_after": 62.0,
       "p90_lag_days_after": 120.0,
-      "rows_tightened": 423145,
+      "rows_tightened": 423766,
       "invalid_early_avail": 0,
       "out": "data\\fund_statement_export\\pit_avail\\income_avail.parquet"
     },
     "balance": {
-      "rows": 283955,
-      "avail_date_present": 283523,
+      "rows": 283962,
+      "avail_date_present": 283530,
       "median_lag_days_before": 50.0,
       "median_lag_days_after": 46.0,
       "p90_lag_days_after": 120.0,
-      "rows_tightened": 93470,
+      "rows_tightened": 93483,
       "invalid_early_avail": 43,
       "out": "data\\fund_statement_export\\pit_avail\\balance_avail.parquet"
     },
     "cashflow": {
-      "rows": 292537,
-      "avail_date_present": 292207,
+      "rows": 292555,
+      "avail_date_present": 292225,
       "median_lag_days_before": 396.0,
       "median_lag_days_after": 62.0,
       "p90_lag_days_after": 120.0,
-      "rows_tightened": 265876,
+      "rows_tightened": 267489,
       "invalid_early_avail": 8,
       "out": "data\\fund_statement_export\\pit_avail\\cashflow_avail.parquet"
     }
