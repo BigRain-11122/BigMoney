@@ -1,0 +1,122 @@
+{
+ "study": "E96 churn LEVEL screen-arm label audit",
+ "evidence_cutoff": "2026-10-23",
+ "scan_dir": "results/e44_midmonth",
+ "promise_ref": "r1158 round report: every published churn LEVEL says which screen arm produced it",
+ "counts": {
+  "total": 2,
+  "declared": 0,
+  "inferred": 0,
+  "inferred_nearest": 1,
+  "unlabelled": 1
+ },
+ "faces": [
+  {
+   "face": "MID-20261020-s20180101.json",
+   "level_cells": 48,
+   "eras_populated": [
+    "2017_2020",
+    "2021_2023",
+    "2024_now"
+   ],
+   "declared_arm": null,
+   "declared_from": null,
+   "label_state": "unlabelled",
+   "inferred_arm": null,
+   "inferred_from": null,
+   "evidence": [
+    {
+     "sibling": "MIDSCREEN-20261021.json",
+     "matches": [
+      {
+       "arm": "unscreened",
+       "common": 41,
+       "max_abs_diff": 69.0,
+       "coverage": 0.8542,
+       "identical": false
+      },
+      {
+       "arm": "drop",
+       "common": 41,
+       "max_abs_diff": 195.20000000000002,
+       "coverage": 0.8542,
+       "identical": false
+      },
+      {
+       "arm": "neutralise_int",
+       "common": 41,
+       "max_abs_diff": 241.0,
+       "coverage": 0.8542,
+       "identical": false
+      },
+      {
+       "arm": "neutralise",
+       "common": 41,
+       "max_abs_diff": 241.0,
+       "coverage": 0.8542,
+       "identical": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "face": "MID-20261020.json",
+   "level_cells": 41,
+   "eras_populated": [
+    "2017_2020",
+    "2021_2023",
+    "2024_now"
+   ],
+   "declared_arm": null,
+   "declared_from": null,
+   "label_state": "inferred_nearest",
+   "inferred_arm": "unscreened",
+   "inferred_from": "MIDSCREEN-20261021.json",
+   "evidence": [
+    {
+     "sibling": "MIDSCREEN-20261021.json",
+     "matches": [
+      {
+       "arm": "unscreened",
+       "common": 41,
+       "max_abs_diff": 8.300000000000011,
+       "coverage": 1.0,
+       "identical": false
+      },
+      {
+       "arm": "drop",
+       "common": 41,
+       "max_abs_diff": 195.20000000000002,
+       "coverage": 1.0,
+       "identical": false
+      },
+      {
+       "arm": "neutralise_int",
+       "common": 41,
+       "max_abs_diff": 241.0,
+       "coverage": 1.0,
+       "identical": false
+      },
+      {
+       "arm": "neutralise",
+       "common": 41,
+       "max_abs_diff": 241.0,
+       "coverage": 1.0,
+       "identical": false
+      }
+     ]
+    }
+   ],
+   "nearest_margin": 23.518,
+   "match_kind": "nearest",
+   "drift_bp": 8.3
+  }
+ ],
+ "honest": [
+  "declared = the face names its arm in its own spec; inferred = the face's cells are bit-identical to a named arm of a sibling face on the same burn; inferred_nearest = not identical, but one arm dominates the runner-up by >=10x on max abs difference at full coverage, and the residual drift is published as drift_bp; unlabelled = no proof available from disk.",
+  "inference is evidence about the numbers, not about the producing code path: a nearest match says the face reads like that arm on a later burn, which is weaker than a declared arm and must not be quoted as one.",
+  "inference is only as good as the sibling: if the sibling itself re-derived rather than re-read the base face, an inferred match proves the burn is reproducible, not that the base ran that arm.",
+  "faces outside results/e44_midmonth are not scanned; this audit covers the churn family only."
+ ]
+}

@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T04:20:00+08:00",
+ "clock_read": "2026-10-27T04:24:29+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -10,14 +10,21 @@
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
  "current": "r1162: E95 newest-era tilt stability (end-choice grid 12 ends, span 1184.1bp)",
- "current_task": "r1162: E95 newest-era tilt stability + S6 light chain",
+ "current_task": "r1163 E96 churn LEVEL label audit: 0 of 2 published levels declare their arm",
  "cyc_round": 1162,
  "d19_note": "r1161: dec/ord identical to the r1160 watermark (update --advance NOOP, read-back equality OK, mirrors synced 2) -> zero delta, zero bm-b rows",
  "dept": "research+engineering+database",
- "did": "r1162: E95 closed. New runner leg `tiltstable` (selftest 262->266, +4 legs) holds one panel fixed and moves only the evaluation end of the E42 newest-era tilt cell across the last 12 era month-ends: 448.6..1632.7 bp (span 1184.1, sd 316.3, months 23..34) against a monthly sd of 621.4 bp. The two already-published readings differ by only 50.5 bp (748.1 @2026-10-20 vs 697.6 @2026-10-26) and BOTH carry months=34, so the difference is panel revision, not a longer window. Verdict `inside_end_choice_span` (23x): the cell may be cited by mechanism (positive at 12/12 ends, beta 1.01-1.17) but never by bp level, and any E41/E42 ratio off it must print its window end. Pool E95 done with result_ref, E98-ENDCHOICE-ALLERAS seeded. S6: dualrun ZERO-DRIFT (620 entries, streak 51), attrition CLEAN (4 ledgers, 2 healed shrinks), orphan face=0 (8 py faces), watermark insufficient_history, compute_audit FLAG supply_gap+supply_floor (ready 2/3, breach honest). Orders: four order files already carried ack receipts in fleet/ack from the r1159-r1161 return window; orders_ack set back-filled here, plus a new ack for O-20261026-0810 s5 and O-20261023-2325 MV standby.",
+ "did": [
+  {
+   "card": "E96-CHURN-LEVEL-SCREEN-LABEL",
+   "action": "done",
+   "evidence": "results/e44_midmonth/LEVEL-LABELS-20261027.json + scripts/e96_level_label_audit.py (selftest 22/22) + research/digests/DIGEST-20261027-e96-level-labels.md",
+   "ts": "2026-10-27T04:24:29+08:00"
+  }
+ ],
  "did_round": 1161,
  "free_ram_gb": 10.2,
- "free_ram_mb": 11673,
+ "free_ram_mb": 12000,
  "free_ram_pct": 39.8,
  "free_vram_gb": 0.69,
  "gpu": {
@@ -52,7 +59,7 @@
  "gpu_vram_free_mib": 3722,
  "gpu_vram_used_mb": 4470,
  "gpu_vram_used_mib": 4470,
- "heartbeat_epoch_utc": 1793045094,
+ "heartbeat_epoch_utc": 1793046269,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -71,7 +78,7 @@
  "last_orders_watermark": "c067b3b20f6b8138@17b6385/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "94022f322c -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-27T04:20:00+08:00",
+ "last_seen": "2026-10-27T04:24:29+08:00",
  "latest_artifact": "results/e42_tilt_era/NEWESTERA-STABILITY-20261026.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -194,9 +201,10 @@
   "O-20261025-1530-bm-c.md",
   "O-20261026-0735-bm-c.md",
   "O-20261026-0810-bm-a.md",
-  "O-20261026-0930-bm-c.md"
+  "O-20261026-0930-bm-c.md",
+  "O-20261026-0400-bm-c.md"
  ],
- "orders_ack_last": "O-20261026-0930-bm-c.md",
+ "orders_ack_last": "O-20261026-0400-bm-c.md",
  "orders_ack_note": "r1159: seven unacked orders consumed (2317/2325/1530/0400/0735/0810/0930); acks in fleet/ack/O-*-bm-b-ack.md",
  "orphan_face": 0,
  "orphan_faces": 0,
@@ -315,7 +323,7 @@
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1162,
- "round_no": 1162,
+ "round_no": 1163,
  "round_no_label": "r1162",
  "sat_engine": {
   "checked_at": "2026-10-23T00:21:41+08:00",
@@ -328,9 +336,9 @@
  },
  "task": "E95 tilt stability",
  "task_short": "E95 tilt stability",
- "ts": "2026-10-27T04:20:00+08:00",
+ "ts": "2026-10-27T04:24:29+08:00",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "green",
+ "verdict": "smoke 75/75 PASS; E96 audit face published (results/e44_midmonth/LEVEL-LABELS-20261027.json, selftest 22/22): only 2 published churn LEVEL faces exist and neither declares its screen arm -- MID-20261020 infers to unscreened at 8.3bp drift with a 23.5x margin over the runner-up, the start-2018 twin cannot be labelled at all (coverage 0.854); S6 19 legs rc0 (dualrun ZERO-DRIFT streak 51, attrition CLEAN, supply_floor 3/3, daily 0 new rows cutoff 2026-10-26, REPORT-2026-10-27 + LIVE-2026-10-27 regenerated); compute_audit FLAG single_core_hog,supply_gap; watermark py_low_with_work_cands (pool ready 3, honest); orphan face=0 (8 py); D-19 zero delta (dec fd9e59cd / ord c067b3b2 raw-byte identical to watermark); orders unacked 0 (7 heart-only acks repaired into state)",
  "vram_free_gb": 3.44
-}
+}
