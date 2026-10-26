@@ -827,3 +827,15 @@ aw = alpha + beta*tilt，所以屏幕动一项时，另一项必然跟着动或�
 - 配套纪律：①屏幕单据按代计数并带名字（E82）——本批 135 个修复打印里 109 个（81%）落在活代，污染集中在最靠近头条的那一代；②屏幕同时改了宽簿与 tilt 成员，所以 alpha 的移动是两腿净额，禁归因给单腿；③重建而非引用已发布面：无屏臂在本腿内重建，先证明默认路径与 HEAD 逐字节恒等再跑新臂。
 - 自证：scripts/e39_panel_census.py screenspread（selftest 246→252，+6 腿含「每臂独立 delta 列，后到臂不得覆盖先到臂」）+ results/e42_spread_size_neutral/NEUTRAL-20261023-screened.json + research/digests/DIGEST-20261026-e81-spreadsize-screened.md
 - 2026-10-26 r1280 bm-c（E81 第 2 腿·捕获律 O-20261002-2100 依法生成）
+
+
+## E132 数据缺陷能改写面目的「符号属性」而不动水平——且必须连回归量一起换账面（r1281 bm-c 实证）
+- 场景：E43 稳健面（4 日历 x1/x3 费率 = 8 格）判「size-neutral spread 新纪元只在月末日历存活（4 格为负，min -22.4bp）」。这 8 格读的是 as-traded 面板，宽基簿里一次整数比拆股打印就按 1/n 权重计价——正是 E81 在日历面/价差面已经屏掉的缺陷。
+- 做法：整格网格逐臂重建（引擎曲线 **和** 成员 tilt 回归量一起），面板打印整数比修复后与未筛面并列发布（不重写任何已发布面）。
+- 实测：未筛 4/8 格为负（min -22.4bp）；整数比屏下 8/8 全正（min +164.4bp）；全邻接屏 8/8 全正（min +316.9bp）。符号翻转恰好落在四格非月末日历（me_p1/mid15 两费率档）——即「日历脆弱」这个判词整个是由那几笔修复打印扛着的。最大单格移动 cost_x1|mid15 -15.4 → +171.5/+329.9bp。
+- 判据：①「水平变化」与「符号翻转」是两类结论，低计数数据缺陷可以完全不动水平的量级感却把符号面翻掉；②带宽 40.4 → 36.6/35.9bp 收窄而水平涨十倍＝E81「带对共同位移盲」判例第三次复现，收窄≠稳健；③屏必须同时换引擎与回归量，否则回归是拿另一个账簿去解释这个账簿。
+- 默认路径证明：加入 opt-in 
+aw_all 参数后，用未触动的 loader 重跑 
+eutralrob，八格与新件 unscreened 臂逐格恒等（diff 为空）。
+- 验证：python scripts\e39_panel_census.py screenrob → results/e43_neutral_robust/ROBUST-20261023-screened.json；selftest 252 → 257（+5 腿，含每臂各自 delta 列与「未测格保持 None 不折价为零」）；research/digests/DIGEST-20261026-e81-leg3-robustness-screened.md
+- 2026-10-26 r1281 bm-c（E81 第 3 腿·取宝律 O-20261002-2100 收口步）

@@ -2098,7 +2098,8 @@ def run_widecomp(outdir, core=None, pick_n=9999, exclude=("sh511",), eras=ERAS):
 # ---------------------- leg: E43 size-neutral robustness (calendar x cost)
 
 def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
-                      exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0)):
+                      exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0),
+                      raw_all=None):
     """Re-run the size-neutral spread on all four decision calendars at cost x3.
 
     E42's +181bp newest-era figure has survived neither a fee stress nor a
@@ -2106,12 +2107,17 @@ def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
     E42's cost x3 moved the fee 3x. This leg crosses both axes and reports the
     size-neutral number per cell, so the only surviving claim is the one that
     clears both at once.
+
+    ``raw_all`` lets a screen leg hand in a repaired universe (E81 leg 3). With
+    the default ``None`` this calls ``e27.load_universe()`` exactly as before,
+    so the published ROBUST face keeps reading the untouched loader.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
     core = core or _monthly_core()
-    raw_all = e27.load_universe()
+    if raw_all is None:
+        raw_all = e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -2207,6 +2213,160 @@ def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
             "the fewest months and carries the widest error",
             "the tilt regressor is the four-member skin; the five-member skin cannot price the "
             "pre-2021 months (E43 reach-back face)",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _robdelta_rows(base_label, faces, modes, eras):
+    """Cell-by-cell unscreened vs screened table for the E43 robustness face.
+
+    Same contract as ``_spread_delta_rows``: one delta column per arm (a single
+    ``delta_<column>`` key would silently keep only the last arm), and a cell
+    whose either side is unmeasured stays None rather than being priced as 0.
+    """
+    rows = []
+    order = [n for n, _lo, _hi in list(eras) + [("full", None, None)]]
+    base_cells = faces[base_label]["cells"]
+    for cell in sorted(base_cells):
+        for era in order:
+            era_row = (((base_cells.get(cell) or {}).get("era") or {}).get(era)) or {}
+            for col in SPREAD_COLUMNS:
+                u = era_row.get(col)
+                row = {"cell": cell, "era": era, "column": col, "unscreened": u}
+                for mode in modes:
+                    v = ((((faces[mode]["cells"].get(cell) or {}).get("era") or {})
+                          .get(era)) or {}).get(col)
+                    row[mode] = v
+                    row["delta_" + mode] = (round(v - u, 4)
+                                            if isinstance(v, (int, float))
+                                            and isinstance(u, (int, float)) else None)
+                rows.append(row)
+    return rows
+
+
+def run_screenrob(outdir, pick_n=9999, exclude=("sh511",),
+                  modes=("neutralise_int", "neutralise"), eras=ERAS):
+    """E81 leg 3: replay the E43 robustness face from the repaired universe.
+
+    E43 is the face that decides whether the size-neutral spread survives
+    twelve cells (four calendars x two fee levels), and it is read off the
+    as-traded panel, so the same split-print defect E81 screened out of the
+    calendar and spread faces lives inside every one of its cells. This leg
+    rebuilds the whole cell grid per arm -- engine curves and the member tilt
+    regressor together -- and publishes the screened grid beside the untouched
+    one. No published face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    arms = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        arms[mode] = repaired
+
+    faces = {}
+    for label, univ in arms.items():
+        core = _monthly_core(pick_n=pick_n, exclude=(), raw_all=univ)
+        face = run_neutralrobust(None, core=core, pick_n=pick_n, exclude=(),
+                                 raw_all=univ)
+        faces[label] = {"universe_size": len(univ), "cells": face["cells"],
+                        "answers": face["answers"]}
+
+    delta = _robdelta_rows("unscreened", faces, modes, eras)
+
+    def _cell_bp(arm, cell, era):
+        return ((((faces[arm]["cells"].get(cell) or {}).get("era") or {})
+                 .get(era)) or {}).get("size_neutral_ann_bp")
+
+    cells = sorted(faces["unscreened"]["cells"])
+    levels = {arm: {c: _cell_bp(arm, c, "2024_now") for c in cells} for arm in faces}
+
+    def _positive(arm):
+        xs = [x for x in levels[arm].values() if x is not None]
+        return all(x > 0 for x in xs) if xs else None
+
+    def _spread(arm):
+        xs = [x for x in levels[arm].values() if x is not None]
+        return (round(max(xs) - min(xs), 1) if len(xs) >= 2 else None)
+
+    flips = {}
+    for mode in modes:
+        flips[mode] = [c for c in cells
+                       if levels["unscreened"][c] is not None
+                       and levels[mode][c] is not None
+                       and (levels["unscreened"][c] > 0) != (levels[mode][c] > 0)]
+
+    moves = []
+    for mode in modes:
+        best = None
+        for c in cells:
+            u, v = levels["unscreened"][c], levels[mode][c]
+            if u is None or v is None:
+                continue
+            if best is None or abs(v - u) > abs(best["delta_bp"]):
+                best = {"cell": c, "unscreened_bp": u, "screened_bp": v,
+                        "delta_bp": round(v - u, 1)}
+        moves.append({"arm": mode, "widest_cell_move": best,
+                      "no_delta_cells": sum(
+                          1 for r in delta
+                          if r["column"] == "size_neutral_ann_bp"
+                          and r["delta_" + mode] == 0.0)})
+
+    def _era_event_census(mode):
+        counts = {n: 0 for n, _lo, _hi in list(eras) + [("full", None, None)]}
+        for entry in reports[mode].get("names") or []:
+            if entry.get("action") != "neutralise":
+                continue
+            for pr in entry.get("prints") or []:
+                if pr.get("factor_applied") is None:
+                    continue
+                era = _era_of(pr.get("date"), eras) or "full"
+                counts[era] = counts.get(era, 0) + 1
+                counts["full"] = counts.get("full", 0) + 1
+        return counts
+
+    return {
+        "study": "e81_leg3_size_neutral_robustness_screened",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude),
+                 "cells": cells, "arms": list(faces), "screen_modes": list(modes),
+                 "cost_mults": [1.0, 3.0], "calendars": ["me_m1", "me", "me_p1", "mid15"]},
+        "arms": {arm: {"universe_size": faces[arm]["universe_size"],
+                       "newest_era_all_positive_by_cell": _positive(arm),
+                       "newest_era_range_bp": _spread(arm),
+                       "newest_era_by_cell_bp": levels[arm],
+                       "delta_cells": 0 if arm == "unscreened" else 1,
+                       "repair_events_by_era": (_era_event_census(arm)
+                                                if arm in reports else {})}
+                 for arm in faces},
+        "answers": {
+            "newest_era_by_arm_cell_bp": levels,
+            "all_positive": {arm: _positive(arm) for arm in faces},
+            "range_bp": {arm: _spread(arm) for arm in faces},
+            "sign_flips_vs_unscreened": flips,
+            "widest_moves": moves,
+            "newest_era_unscreened_min_bp": min(
+                [x for x in levels["unscreened"].values() if x is not None] or [None]),
+            "newest_era_unscreened_max_bp": max(
+                [x for x in levels["unscreened"].values() if x is not None] or [None]),
+        },
+        "delta_table": delta,
+        "honest": [
+            "screened arms repair integer-ratio prints inside the wide book; the ladder "
+            "leg is untouched because its five members are never the repaired names",
+            "cost x3 is the engine's own 13.041bp/side constant scaled, not a measured schedule",
+            "the screen cannot recover a print that the source never published -- it only "
+            "removes the ones the panel shows as integer-ratio jumps",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
@@ -8771,6 +8931,32 @@ def selftest():
     chk(all(r["delta_neutralise_int"] in (None, 0) for r in _sr),
         "the zero arm stays zero on every column, not just the one being read")
 
+    # E81 leg 3 (robustness face): the cell grid needs the same three properties
+    # -- a repairing arm that moves nothing stays zero, each arm keeps its own
+    # delta column, and an unmeasured cell stays None on both sides.
+    def _rob_face(neutral):
+        def cell(v):
+            return {"era": {"2021_2023": {c: v for c in SPREAD_COLUMNS},
+                            "2024_now": {c: None for c in SPREAD_COLUMNS}}}
+        return {"cells": {"cost_x1|me": cell(neutral), "cost_x3|mid15": cell(neutral)}}
+
+    _rf = {"unscreened": _rob_face(200.0),
+           "neutralise_int": _rob_face(200.0),
+           "neutralise": _rob_face(260.0)}
+    _rr = _robdelta_rows("unscreened", _rf, ("neutralise_int", "neutralise"),
+                         (("2021_2023", "2021-01-01", "2023-12-31"),
+                          ("2024_now", "2024-01-01", None)))
+    chk(len(_rr) == 30, "thirty cells: five columns on two eras on two cells")
+    _rn = [r for r in _rr if r["column"] == "size_neutral_ann_bp"]
+    chk(all(r["delta_neutralise_int"] in (None, 0) for r in _rn),
+        "the non-repairing arm publishes a zero delta on every robustness cell")
+    chk([r["delta_neutralise"] for r in _rn if r["era"] == "2021_2023"] == [60.0, 60.0],
+        "the repairing arm moves both calendar x fee cells by its own amount")
+    chk([r["delta_neutralise_int"] for r in _rn if r["era"] == "2021_2023"] == [0.0, 0.0],
+        "each arm keeps its own delta column on the robustness face too")
+    chk([r["delta_neutralise"] for r in _rn if r["era"] == "2024_now"] == [None, None],
+        "an unmeasured robustness cell stays None rather than being priced as zero")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -8876,7 +9062,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screencalc", "screenspread",
-                             "screenwide", "screenweek",
+                             "screenrob", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera",
@@ -9050,6 +9236,19 @@ def main(argv):
                           "widest_correction": f["answers"]["widest_correction"],
                           "delta_cells": f["answers"]["delta_cells"],
                           "non_zero_delta_cells": f["answers"]["non_zero_delta_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screenrob":
+        f = run_screenrob(None)
+        outdir = os.path.join(ROOT, "results", "e43_neutral_robust")
+        p = write_json(outdir, "ROBUST-%s-screened.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screenrob", "file": os.path.relpath(p, ROOT),
+                          "all_positive": f["answers"]["all_positive"],
+                          "range_bp": f["answers"]["range_bp"],
+                          "sign_flips_vs_unscreened": f["answers"]["sign_flips_vs_unscreened"],
+                          "widest_moves": f["answers"]["widest_moves"],
+                          "newest_era_by_arm_cell_bp": f["answers"]["newest_era_by_arm_cell_bp"]},
                          ensure_ascii=False))
         return 0
     if args.mode in ("e43", "tilt4", "widecomp", "neutralrob"):
