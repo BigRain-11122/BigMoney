@@ -30,11 +30,16 @@ Exit: 0 ok, 2 mechanism fault, 3 invariant/refusal.
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# every GPU spelling the fleet face has ever used (see Tools/gpu_face.py); a caller
+# may not supply these -- they are replaced by one probe (r1284)
+GPU_KEY_RE = re.compile(r"^gpu.*(free|used|idle|mem|vram|util)")
 
 # mirrors kept identical on both faces (state -> heartbeat direction)
 MIRROR_KEYS = (
@@ -75,6 +80,43 @@ def _dump_atomic(path, obj):
 
 def _iso_t(ts):
     return isinstance(ts, str) and "T" in ts and len(ts) >= 19
+
+
+def _gpu_face_mod():
+    if ROOT not in sys.path:
+        sys.path.insert(0, ROOT)
+    from Tools import gpu_face
+    return gpu_face
+
+
+def gpu_chokepoint(fields, verdict):
+    """Replace every caller-supplied GPU spelling with one probe's whole face.
+
+    WHY (r1284): the heartbeat is merge-only, so a per-round closeout script that
+    hand-wrote nine aliases at its own sample left two other aliases at an older
+    one -- the face then read free=15065 beside free=15252 MiB and smoke went red
+    on `fleet: GPU face self-consistent`. Tools/gpu_face.apply already owns the
+    face, but only an S6 leg calls it, so any ad-hoc writer could half-own it
+    again. This is the chokepoint: GPU numbers are not a caller's to set.
+    A failed probe drops them (warning) rather than inventing a number.
+    """
+    gpu_keys = [k for k in (fields or {}) if GPU_KEY_RE.match(k)]
+    if not gpu_keys:
+        return fields
+    kept = {k: val for k, val in fields.items() if not GPU_KEY_RE.match(k)}
+    try:
+        gf = _gpu_face_mod()
+        probe = gf.probe_live()
+    except Exception as ex:
+        verdict["warnings"].append(
+            "gpu probe failed, %d caller GPU key(s) dropped: %s"
+            % (len(gpu_keys), str(ex)[:120]))
+        verdict["gpu_dropped"] = gpu_keys
+        return kept
+    kept.update(gf.fields_from(probe, gf._stamp()))
+    verdict["gpu_probe"] = probe
+    verdict["gpu_replaced"] = gpu_keys
+    return kept
 
 
 def write(project, fields, state_path=None, heart_path=None, heal=True):
@@ -137,6 +179,7 @@ def write(project, fields, state_path=None, heart_path=None, heal=True):
                 hb[k] = state[k]
 
     # (1) merge caller fields (never delete)
+    fields = gpu_chokepoint(fields, v)
     for k, val in (fields or {}).items():
         if hb.get(k) != val:
             hb[k] = val
@@ -296,6 +339,43 @@ def selftest():
     os.remove(os.path.join(t, "fleet", "machines", "bm-a.json"))
     v, rc = write(t, {"did": "w"})
     leg("L10 missing heartbeat face rc2", 2, rc)
+
+    # L11 r1284: a caller's partial GPU face is replaced by one probe, so the face
+    #     stays self-consistent (the defect: 9 keys at one sample, 2 at another)
+    t = os.path.join(tmp, "L11")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"gpu_free_mem_mib": 15252, "gpu_idle_mib": 15252,
+                               "gpu_mem_total_mib": 16384})
+    gf = _gpu_face_mod()
+    real = gf.probe_live
+    gf.probe_live = lambda smi=None: {"util_pct": 0.0, "used_mib": 1125,
+                                      "total_mib": 16384}
+    try:
+        v, rc = write(t, {"did": "g", "gpu_free_mib": 15065,
+                          "gpu_free_mb": 15065, "gpu_used_mib": 1319})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L11 caller GPU spellings replaced by one probe (face consistent)", True,
+        rc == 0 and gf.audit(h) == [] and h.get("gpu_free_mib") == 15259
+        and h.get("gpu_used_mib") == 1125,
+        "audit=%s free=%s" % (gf.audit(h) or "none", h.get("gpu_free_mib")))
+
+    # L12 a failed probe drops the caller's GPU keys instead of inventing a face
+    t = os.path.join(tmp, "L12")
+    hp = _fixture(t, A, heart_ack=A,
+                  extra_heart={"gpu_free_mib": 15259, "gpu_used_mib": 1125,
+                               "gpu_mem_total_mib": 16384})
+    real = gf.probe_live
+    gf.probe_live = lambda smi=None: (_ for _ in ()).throw(RuntimeError("no smi"))
+    try:
+        v, rc = write(t, {"did": "f", "gpu_free_mib": 1, "gpu_used_mib": 1})
+    finally:
+        gf.probe_live = real
+    h = _load(hp)
+    leg("L12 failed probe: GPU keys dropped, rest written", True,
+        rc == 0 and h.get("did") == "f" and h.get("gpu_free_mib") == 15259
+        and bool(v.get("gpu_dropped")), "dropped=%s" % (v.get("gpu_dropped"),))
 
     ok = sum(1 for _, p in legs if p)
     print("\nselftest %d/%d %s" % (ok, len(legs),
