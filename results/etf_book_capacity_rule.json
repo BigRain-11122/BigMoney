@@ -1,5 +1,5 @@
 {
-  "ts": "2026-10-27 00:18:32",
+  "ts": "2026-10-27 03:26:07",
   "evidence_cutoff": "2026-10-26",
   "script": "scripts/etf_book_capacity_rule.py",
   "config": {
@@ -554,6 +554,72 @@
       "units": "fraction of ADV (0.0655 == 6.55%)",
       "worst": 0.160941
     }
+  },
+  "capacity_frontier_by_cap": {
+    "rule": [
+      {
+        "cap_p90_of_adv": 0.01,
+        "deployable_nav_cny": 1526694.2,
+        "cagr": 0.0728,
+        "sharpe": 0.89,
+        "maxdd": -0.1322,
+        "annual_profit_cny": 111143.0,
+        "participation_worst": 0.02128,
+        "missing_adv_legs": 0
+      },
+      {
+        "cap_p90_of_adv": 0.02,
+        "deployable_nav_cny": 3053388.5,
+        "cagr": 0.0706,
+        "sharpe": 0.866,
+        "maxdd": -0.1328,
+        "annual_profit_cny": 215569.0,
+        "participation_worst": 0.04256,
+        "missing_adv_legs": 0
+      },
+      {
+        "cap_p90_of_adv": 0.05,
+        "deployable_nav_cny": 7633471.2,
+        "cagr": 0.0664,
+        "sharpe": 0.817,
+        "maxdd": -0.1339,
+        "annual_profit_cny": 506862.0,
+        "participation_worst": 0.1064,
+        "missing_adv_legs": 0
+      }
+    ],
+    "flat": [
+      {
+        "cap_p90_of_adv": 0.01,
+        "deployable_nav_cny": 940999.3,
+        "cagr": 0.0699,
+        "sharpe": 0.732,
+        "maxdd": -0.1319,
+        "annual_profit_cny": 65776.0,
+        "participation_worst": 0.015145,
+        "missing_adv_legs": 0
+      },
+      {
+        "cap_p90_of_adv": 0.02,
+        "deployable_nav_cny": 1881998.7,
+        "cagr": 0.0673,
+        "sharpe": 0.708,
+        "maxdd": -0.1324,
+        "annual_profit_cny": 126659.0,
+        "participation_worst": 0.030289,
+        "missing_adv_legs": 0
+      },
+      {
+        "cap_p90_of_adv": 0.05,
+        "deployable_nav_cny": 4704996.7,
+        "cagr": 0.0621,
+        "sharpe": 0.659,
+        "maxdd": -0.1332,
+        "annual_profit_cny": 292180.0,
+        "participation_worst": 0.075723,
+        "missing_adv_legs": 0
+      }
+    ]
   },
   "k_stats": {
     "bars": 1522,

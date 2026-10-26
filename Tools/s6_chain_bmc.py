@@ -72,6 +72,12 @@ LEGS = [
     # instance of the orphan-face class after r1257 (wide panel) and r1290 (the card).
     # ~70s on the same panel the two legs above already warmed.
     ("etf_book_width_audit", ["python", "scripts/etf_book_width_audit.py", "run"]),
+    # The capacity face answers the money question the NAV ladder cannot: at a given
+    # participation cap, how much capital can this book hold and what does it earn per
+    # year THERE. Hand-run until r1295 -- the same orphan-face class as r1257 (wide
+    # panel), r1290 (card) and r1291 (width face) -- so it rides the chain behind the
+    # panel those legs already warmed (~110s, no network, no judge).
+    ("etf_book_capacity_rule", ["python", "scripts/etf_book_capacity_rule.py", "run"]),
     # r1293: the register of every live book face. The legs above each refresh ONE
     # face; nothing listed them together, so a face could be added, go stale, or sit
     # outside the chain with no single place to notice (r1290 and r1291 were both that

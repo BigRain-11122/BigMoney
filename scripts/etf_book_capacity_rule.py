@@ -53,6 +53,10 @@ START = "2020-01-01"
 TARGET_BETA = 0.20
 REF_NAV = 1e7
 NAV_GRID = (1e6, 5e6, 1e7, 3e7, 5e7, 1e8, 2e8, 5e8, 1e9)
+# The 1% convention is a convention, not a law: at 2% and 5% the book holds more
+# money but pays more impact. Each cap is re-priced at its own ceiling NAV, so the
+# marginal money is measured rather than extrapolated from a nearby ladder rung.
+CAPS = (0.01, 0.02, 0.05)
 EPS = 1e-12
 
 
@@ -231,6 +235,11 @@ def _ceiling_nav(ref_nav, p90_fraction, cap=0.01):
     return round(cap * ref_nav / p90_fraction, 1)
 
 
+def _cap_navs(p90_fraction, caps=CAPS, ref_nav=REF_NAV):
+    """Deployable NAV under each participation cap, from the same p90 reading."""
+    return [(cap, _ceiling_nav(ref_nav, p90_fraction, cap=cap)) for cap in caps]
+
+
 def run(target=TARGET_BETA, k_bp=C.IMPACT_BP_PER_PCT, start=START):
     face = build_face(target=target, start=start)
     rp, rf = face["rp"], face["rf"]
@@ -301,6 +310,33 @@ def run(target=TARGET_BETA, k_bp=C.IMPACT_BP_PER_PCT, start=START):
             "units": "fraction of ADV (0.0655 == 6.55%)",
             "worst": round(float(ps.max()), 6) if len(ps) else None}
 
+    # Deployable-NAV frontier: the same p90 reading under three participation caps,
+    # each re-priced at its own ceiling NAV. This is the money question a reader
+    # actually asks -- "if I accept paying 5% of ADV on my worst-move trades, how much
+    # capital can this book hold and what does it earn per year there?" -- and it
+    # cannot be answered by extending the NAV ladder, because the ladder rungs and the
+    # ceilings are different points on the cost curve.
+    frontier = {}
+    for arm, path in (("rule", rule_path), ("flat", flat_path)):
+        p90 = ceiling[arm + "_at_ref_nav"]["p90"]
+        rows = []
+        for cap, nav in _cap_navs(p90):
+            row = {"cap_p90_of_adv": cap, "deployable_nav_cny": nav}
+            if nav:
+                ser, crows, cnt = curve(face, nav, k_bp=k_bp, path=path, trace=True)
+                m = F.metrics(ser, "%s @ nav=%.3g cap=%.0f%%" % (arm, nav, cap * 100.0))
+                ps = pd.Series([c["participation_max"] for c in crows
+                                if c["participation_max"] is not None])
+                row.update({
+                    "cagr": m.get("cagr"), "sharpe": m.get("sharpe"),
+                    "maxdd": m.get("maxdd"),
+                    "annual_profit_cny": (round(nav * m["cagr"], 0)
+                                          if m.get("cagr") is not None else None),
+                    "participation_worst": round(float(ps.max()), 6) if len(ps) else None,
+                    "missing_adv_legs": cnt["missing_adv_legs"]})
+            rows.append(row)
+        frontier[arm] = rows
+
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(pd.Timestamp(face["idx"][-1]).date()),
@@ -319,6 +355,7 @@ def run(target=TARGET_BETA, k_bp=C.IMPACT_BP_PER_PCT, start=START):
         "peak_dollar_profit_nav": {a: _peak_nav(ladders[a]) for a in ladders},
         "peak_dollar_profit_cny": {a: _peak_dollar(ladders[a]) for a in ladders},
         "participation_ceiling_1pct_adv": ceiling,
+        "capacity_frontier_by_cap": frontier,
         "k_stats": _k_stats(face),
         "cash_leg": {"rf_mean_ann_pct": round(float(rf.mean()) * 252.0 * 100.0, 3),
                      "rf_missing_days": int(face["rf_missing"])},
@@ -364,6 +401,17 @@ def _print(out):
                  if r.get("participation_max_p90") is not None else "-",
                  ("%.1f" % r["cost_bp_avg_per_side"])
                  if r.get("cost_bp_avg_per_side") is not None else "-"))
+    print("\ncap on p90 trade -> deployable NAV -> what it earns there")
+    print(" cap    rule NAV      rule cagr  rule $/yr   flat NAV      flat cagr  flat $/yr")
+    for r, f in zip(out["capacity_frontier_by_cap"]["rule"],
+                    out["capacity_frontier_by_cap"]["flat"]):
+        print(" %4.1f%% %12.0f %9s %11s %12.0f %9s %11s"
+              % (100 * r["cap_p90_of_adv"], r["deployable_nav_cny"] or 0,
+                 ("%.2f%%" % (100 * r["cagr"])) if r.get("cagr") is not None else "-",
+                 ("%.0f" % r["annual_profit_cny"]) if r.get("annual_profit_cny") is not None else "-",
+                 f["deployable_nav_cny"] or 0,
+                 ("%.2f%%" % (100 * f["cagr"])) if f.get("cagr") is not None else "-",
+                 ("%.0f" % f["annual_profit_cny"]) if f.get("annual_profit_cny") is not None else "-"))
     print("\npeak $/yr: rule %s CNY at NAV %s | flat %s CNY at NAV %s"
           % (out["peak_dollar_profit_cny"]["rule"], out["peak_dollar_profit_nav"]["rule"],
              out["peak_dollar_profit_cny"]["flat"], out["peak_dollar_profit_nav"]["flat"]))
@@ -375,9 +423,11 @@ def _print(out):
 # ---------------------------------------------------------------------------- selftest
 def selftest():
     ok = True
+    n = [0]
 
     def chk(name, cond, detail=""):
         nonlocal ok
+        n[0] += 1
         print("[%s] %s %s" % ("PASS" if cond else "FAIL", name, detail))
         ok = ok and bool(cond)
 
@@ -479,6 +529,14 @@ def selftest():
         "%.1f" % _ceiling_nav(1e7, 0.0655))
     chk("reading 6.55 as a percent shrinks the ceiling 100x",
         abs(_ceiling_nav(1e7, 6.55) * 100.0 / _ceiling_nav(1e7, 0.0655) - 1.0) < 1e-5)
+    # ---- 8c) the cap frontier scales linearly and keeps the 1% rung honest -------
+    navs = dict(_cap_navs(0.0655))
+    chk("a cap 5x looser holds exactly 5x the NAV",
+        abs(navs[0.05] / navs[0.01] - 5.0) < 1e-6,
+        "%.6f" % (navs[0.05] / navs[0.01]))
+    chk("the 1% frontier rung IS the reported 1% ceiling",
+        abs(navs[0.01] - _ceiling_nav(REF_NAV, 0.0655)) < 1e-6,
+        "%.1f" % navs[0.01])
 
     # ---- 9) no lookahead: k in force lags its own decision --------------------
     sched = [(pd.Timestamp("2021-01-06"), 0.4, 0.5)]
@@ -488,7 +546,7 @@ def selftest():
         np.isnan(ser.loc["2021-01-05"]) and np.isnan(ser.loc["2021-01-06"])
         and abs(ser.loc["2021-01-07"] - 0.4) < 1e-12, str(list(ser.values)))
 
-    print("\n%d/%d" % (17 if ok else 0, 17))
+    print("\n%d/%d" % (n[0] if ok else 0, n[0]))
     return 0 if ok else 1
 
 
