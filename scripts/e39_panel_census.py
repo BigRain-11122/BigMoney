@@ -9637,6 +9637,62 @@ def selftest():
     chk(_arm_split_verdict({"delta_bp": None, "top": []}) == "no_delta",
         "an unmeasurable cell reads no_delta instead of broad")
 
+    # E104: an UNCHANGED holding can carry the split that E100's swap lists miss
+    _gp = {"A": [1.0, 1.05, 1.10], "B": [1.0, 0.11, 0.11], "C": [1.0, 2.0, 2.0]}
+    _up = {"A": [1.0, 1.05, 1.10], "B": [1.0, 1.05, 1.05], "C": [1.0, 1.00, 1.00]}
+    _hs = _held_read_split(_gp, _up, {"A", "B", "C"}, {"A", "B", "C"}, 0, 1, top_k=2)
+    chk(_hs["persistent_names"] == 3,
+        "only names held at BOTH ends of the window are read")
+    chk(abs(_hs["residual_bp"]) < 1e-9,
+        "the per-name pieces add up to the window delta exactly")
+    chk(_hs["top"][0]["name"] in ("B", "C"),
+        "the biggest contributor is a name whose read differs between the arms")
+    _hs2 = _held_read_split(_gp, _gp, {"A", "B"}, {"A", "B"}, 0, 1)
+    chk(_hs2["delta_bp"] == 0.0 and not _hs2["top"][0]["read_gap_pct"],
+        "two arms reading the same prices produce a zero split, not a tiny one")
+    _hs3 = _held_read_split(_gp, _up, {"A", "B"}, {"C"}, 0, 1)
+    chk(_hs3["persistent_names"] == 0 and _hs3["delta_bp"] is None,
+        "a window that swaps everything has no unchanged holding to read")
+    # E105: a level is a mean, so the largest single-name read must travel with it
+    _hs4 = _held_read_split({"A": [1.0, 1.10], "B": [1.0, 1.00]},
+                            {"A": [1.0, 1.10], "B": [1.0, 1.00]}, {"A", "B"},
+                            {"A", "B"}, 0, 1)
+    chk(_hs4["max_abs_read"]["share_of_window_mean_pct"] == 200.0,
+        "a single name reading twice the window mean is published as 200% of it")
+    _hs5 = _held_read_split({"A": [1.0, 1.10], "B": [1.0, 9.0]},
+                            {"A": [1.0, 1.10], "B": [1.0, 9.0]}, {"A", "B"},
+                            {"A", "B"}, 0, 1)
+    chk(_hs5["max_abs_read"]["share_of_window_mean_pct"] is not None
+        and _hs5["max_abs_read"]["share_eligible"] is True,
+        "a big read against a big mean still prints its share")
+    _hs6 = _held_read_split({"A": [1.0, 1.006], "B": [1.0, 1.007]},
+                            {"A": [1.0, 1.006], "B": [1.0, 1.007]}, {"A", "B"},
+                            {"A", "B"}, 0, 1)
+    chk(_hs6["max_abs_read"]["share_of_window_mean_pct"] is not None
+        and _hs6["max_abs_read"]["share_of_window_mean_pct"] <= 300.0,
+        "a flat window's share stays a share, not a four-digit ratio")
+    _hs7 = _held_read_split({"A": [1.0, 1.002], "B": [1.0, 0.998]},
+                            {"A": [1.0, 1.002], "B": [1.0, 0.998]}, {"A", "B"},
+                            {"A", "B"}, 0, 1)
+    chk(_hs7["max_abs_read"]["share_eligible"] is False
+        and _hs7["max_abs_read"]["share_of_window_mean_pct"] is None,
+        "a mean inside the floor publishes no share and says why")
+    chk(_held_split_verdict({"persistent_reads": 0}) == "no_unchanged_holdings",
+        "a cell with no persistent reads says so instead of reading as no split")
+    chk(_held_split_verdict({"persistent_reads": 5, "delta_mean_bp": 0.0})
+        == "no_split_inside_unchanged_holdings",
+        "zero delta on a measured cell is a finding, not a missing measurement")
+    # E104b: the repair is not automatically the plausible side of a print
+    _hs8 = _held_read_split({"A": [1.0, 3.0]}, {"A": [1.0, 1.2]}, {"A"}, {"A"}, 0, 1)
+    chk(_hs8["reads_beyond_100pct"]["gap"] == 1
+        and _hs8["reads_beyond_100pct"]["unscreened"] == 0,
+        "a repaired read past +100% is counted against the repaired arm alone")
+    _hrow = {"persistent_reads": 5, "delta_mean_bp": 7.0,
+             "windows": [{"delta_bp": -7.0}, {"delta_bp": 0.0}, {"delta_bp": 0.0}]}
+    chk(_held_split_verdict(_hrow) == "delta_is_one_window"
+        and _hrow["top_share_of_delta_pct"] == 100.0,
+        "one window carrying the whole split reads as one window")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -10894,6 +10950,311 @@ def _window_drivers(grows, urows, gprices, uprices, g_i0, g_i1, u_i0, u_i1,
     return out[:limit]
 
 
+_SHARE_MEAN_FLOOR_PCT = 0.5
+
+
+def _held_read_split(gprices, uprices, hold_prev, hold_cur, i0, i1, top_k=3):
+    """The price-read split of a window's UNCHANGED holdings (E104).
+
+    E100 could only see names that entered or exited: a ticker the book kept
+    through the window contributes no swap, so a split inside it never reaches
+    the churn sleeve -- yet the book still holds it and still earns its read.
+    This leg reads exactly those names, same dates and same membership, under
+    both arms' prices.
+    """
+    names = sorted(set(hold_prev) & set(hold_cur))
+    rows = []
+    for nm in names:
+        g = _fwd_pct(gprices, nm, i0, i1)
+        u = _fwd_pct(uprices, nm, i0, i1)
+        if g is None or u is None:
+            continue
+        rows.append({"name": nm, "gap_fwd_pct": g, "unscreened_fwd_pct": u,
+                     "read_gap_pct": g - u})
+    n = len(rows)
+    if not n:
+        return {"persistent_names": 0, "gap_mean_pct": None,
+                "unscreened_mean_pct": None, "delta_bp": None, "top": [],
+                "residual_bp": None, "max_abs_read": None}
+    gm = sum(r["gap_fwd_pct"] for r in rows) / n
+    um = sum(r["unscreened_fwd_pct"] for r in rows) / n
+    pieces = [{"name": r["name"],
+               "contrib_bp": 100.0 * r["read_gap_pct"] / n,
+               "gap_fwd_pct": round(r["gap_fwd_pct"], 2),
+               "unscreened_fwd_pct": round(r["unscreened_fwd_pct"], 2),
+               "read_gap_pct": round(r["read_gap_pct"], 2)} for r in rows]
+    delta_bp = 100.0 * (gm - um)
+    pieces.sort(key=lambda r: -abs(r["contrib_bp"]))
+    biggest = max(rows, key=lambda r: abs(r["unscreened_fwd_pct"]))
+    return {"persistent_names": n,
+            "gap_mean_pct": round(gm, 4), "unscreened_mean_pct": round(um, 4),
+            "delta_bp": round(delta_bp, 4),
+            "top": pieces[:top_k],
+            "residual_bp": round(delta_bp - sum(p["contrib_bp"] for p in pieces), 9),
+            # an ETF does not double in a month: a read past +/-100% is a print
+            # artefact, and E104 showed the REPAIRED arm can be the broken one,
+            # so both arms are counted separately instead of assuming the fix
+            "reads_beyond_100pct": {
+                "gap": sum(1 for r in rows if abs(r["gap_fwd_pct"]) > 100.0),
+                "unscreened": sum(1 for r in rows
+                                  if abs(r["unscreened_fwd_pct"]) > 100.0),
+                "names_gap": [r["name"] for r in rows
+                              if abs(r["gap_fwd_pct"]) > 100.0][:5],
+                "names_unscreened": [r["name"] for r in rows
+                                     if abs(r["unscreened_fwd_pct"]) > 100.0][:5]},
+            "max_abs_read": {
+                "name": biggest["name"],
+                "unscreened_fwd_pct": round(biggest["unscreened_fwd_pct"], 2),
+                "gap_fwd_pct": round(biggest["gap_fwd_pct"], 2),
+                # a level is a mean, so one name can carry it -- but only say so
+                # where the mean is far enough from zero for the share to mean
+                # anything (a 2% read against a 0.05% mean is not "4000%" of it)
+                "share_of_window_mean_pct": (round(100.0 * biggest["unscreened_fwd_pct"] / um, 1)
+                                             if abs(um) >= _SHARE_MEAN_FLOOR_PCT else None),
+                "share_eligible": abs(um) >= _SHARE_MEAN_FLOOR_PCT,
+                "window_mean_pct": round(um, 4)}}
+
+
+def _held_split_verdict(row, top_k=3):
+    """Is the unchanged-holding split none, one window, a few, or broad?"""
+    if not row.get("persistent_reads"):
+        return "no_unchanged_holdings"
+    d = row.get("delta_mean_bp")
+    if not isinstance(d, (int, float)) or abs(d) < 1e-9:
+        return "no_split_inside_unchanged_holdings"
+    windows = row.get("windows") or []
+    total = sum(abs(w["delta_bp"]) for w in windows
+                if isinstance(w.get("delta_bp"), (int, float)))
+    if not total:
+        return "delta_unattributable"
+    top = sorted([w for w in windows if isinstance(w.get("delta_bp"), (int, float))],
+                 key=lambda w: -abs(w["delta_bp"]))[:top_k]
+    share = 100.0 * sum(abs(w["delta_bp"]) for w in top) / total
+    row["top_share_of_delta_pct"] = round(share, 1)
+    if share >= 50.0:
+        return "delta_is_one_window"
+    if share >= 25.0:
+        return "delta_is_a_few_windows"
+    return "delta_is_broad"
+
+
+def run_heldsplit(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
+                  gap_limit=1, mid_day=15, eras=ERAS, top_k=3):
+    """E104: is a split print visible inside an UNCHANGED holding, and how big.
+
+    E100 closed the gap arm as a price-read story but had to say that "a split
+    inside an unchanged holding would be invisible here even though it still
+    moves the book's curve". This leg measures that blind spot directly: for
+    every transition, take the names the repair arm held at BOTH ends (they
+    enter no swap list), read them forward under each arm's prices, and publish
+    the mean read, the per-name contributors and the largest single-name read.
+
+    The same per-window read answers E105: every era-book level whose
+    transitions are few is a mean over few names, so it is published beside the
+    largest single-name read and that name's share of the window mean.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+
+    gap_label = "neutralise_gap%d" % int(gap_limit)
+    universes = {"unscreened": raw}
+    universes[gap_label], reports = panel_screen.screen_universe(
+        raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(gap_limit))
+    arms = ["unscreened", gap_label]
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+
+    caches = {}
+    for label in arms:
+        univ = universes[label]
+        all_syms = sorted(set(base.LADDER) | set(univ))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = univ.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in univ]
+        rank_cache = {}
+        decisions = {}
+        for cname, idxs in calendars:
+            decisions[cname] = _decision_sets(cal, prices, amounts, universe,
+                                              pick_n, idxs, rank_cache)
+        caches[label] = {"prices": prices, "decisions": decisions,
+                         "universe_members": len(universe)}
+
+    def arm_holdings(label, book, era_row):
+        decs = caches[label]["decisions"][book]
+        grid = _era_end_grid(decs, cal, era_row, 1)
+        if not grid:
+            return None
+        nxt = _next_decision_session(decs, cal, grid[-1])
+        window_end = nxt or cal[-1]
+        dec = _truncate_decisions(decs, cal, window_end)
+        return {"hold": {cal[i]: (i, set(h)) for i, h in dec},
+                "window_end": window_end, "prices": caches[label]["prices"]}
+
+    cells = []
+    for era_row in eras:
+        for book in LEVEL_BOOKS:
+            a = arm_holdings("unscreened", book, era_row)
+            b = arm_holdings(gap_label, book, era_row)
+            row = {"era": era_row[0], "book": book, "arm": gap_label,
+                   "window_end": (b or {}).get("window_end") or (a or {}).get("window_end")}
+            if not a or not b:
+                row.update({"skipped": "no decision ends for this era/book",
+                            "persistent_reads": 0, "verdict": "no_unchanged_holdings"})
+                cells.append(row)
+                continue
+            dates = sorted(set(a["hold"]) & set(b["hold"]))
+            windows = []
+            for d, nd in zip(dates, dates[1:]):
+                if _era_of(d, eras) != era_row[0]:
+                    continue
+                i0 = a["hold"][d][0]
+                i1 = a["hold"][nd][0]
+                split = _held_read_split(b["prices"], a["prices"],
+                                         b["hold"][d][1], b["hold"][nd][1],
+                                         i0, i1, top_k=top_k)
+                if not split["persistent_names"]:
+                    continue
+                split.update({"date": d, "next": nd})
+                windows.append(split)
+
+            if not windows:
+                row.update({"persistent_reads": 0, "windows": [],
+                            "verdict": "no_unchanged_holdings"})
+                cells.append(row)
+                continue
+            deltas = [w["delta_bp"] for w in windows]
+            nonzero = [w for w in windows if abs(w["delta_bp"]) > 1e-9]
+            reads = sum(w["persistent_names"] for w in windows)
+            biggest = max((w["max_abs_read"] for w in windows),
+                          key=lambda r: abs(r["unscreened_fwd_pct"]))
+            movers = sorted(windows, key=lambda w: -abs(w["delta_bp"]))[:top_k]
+            beyond = {
+                "gap": sum(w["reads_beyond_100pct"]["gap"] for w in windows),
+                "unscreened": sum(w["reads_beyond_100pct"]["unscreened"]
+                                  for w in windows),
+                "windows": [{"date": w["date"],
+                             **w["reads_beyond_100pct"]}
+                            for w in windows
+                            if w["reads_beyond_100pct"]["gap"]
+                            or w["reads_beyond_100pct"]["unscreened"]][:6],
+            }
+            row.update({
+                "persistent_reads": reads,
+                "windows": [{"date": w["date"], "next": w["next"],
+                             "persistent_names": w["persistent_names"],
+                             "gap_mean_pct": w["gap_mean_pct"],
+                             "unscreened_mean_pct": w["unscreened_mean_pct"],
+                             "delta_bp": w["delta_bp"],
+                             "residual_bp": w["residual_bp"],
+                             "top": w["top"],
+                             "max_abs_read": w["max_abs_read"]}
+                            for w in windows],
+                "transitions": len(windows),
+                "reads_beyond_100pct": beyond,
+                "windows_with_a_split_pct": round(100.0 * len(nonzero) / len(windows), 1),
+                "delta_mean_bp": round(sum(deltas) / len(deltas), 2),
+                "delta_max_abs_bp": round(max(deltas, key=abs), 2),
+                "largest_single_name_read": dict(biggest, date=next(
+                    w["date"] for w in windows if w["max_abs_read"] is biggest)),
+                "top": movers,
+            })
+            row["verdict"] = _held_split_verdict(row, top_k=top_k)
+            cells.append(row)
+
+    measured = [c for c in cells if isinstance(c.get("delta_mean_bp"), (int, float))]
+    with_split = [c for c in measured if abs(c["delta_mean_bp"]) > 1e-9]
+    verdict_tally = {}
+    for c in measured:
+        verdict_tally[c.get("verdict")] = verdict_tally.get(c.get("verdict"), 0) + 1
+    largest = sorted(({"era": c["era"], "book": c["book"],
+                       **c["largest_single_name_read"]} for c in measured),
+                     key=lambda r: -abs(r["unscreened_fwd_pct"]))[:8]
+    return {
+        "study": "e104_held_name_split_exposure",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "arms": arms, "gap_limit": int(gap_limit),
+            "top_k": top_k,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": list(LEVEL_BOOKS),
+            "populations": "names held by the repair arm at BOTH ends of the window "
+                           "(no swap, so E100's entrant/exit lists cannot see them)",
+            "cell": "mean over the era's windows of 100*(mean_gap_read - "
+                    "mean_unscreened_read) in bp, on the same names and dates",
+            "additivity": "each name contributes 100*(g_u - u_u)/n, so the pieces sum "
+                          "to the window delta; residual published, never assumed 0",
+            "e105_column": "largest_single_name_read = the name with the biggest "
+                           "absolute read in the window, with its share of that "
+                           "window's mean -- a level over few transitions is a mean "
+                           "over few names and must be published with it",
+        },
+        "screen_reports": reports,
+        "cells": cells,
+        "answers": {
+            "cells_measured": len(measured),
+            "cells_with_a_split": len(with_split),
+            "verdict_tally": verdict_tally,
+            "largest_unchanged_holding_splits": [
+                {"era": c["era"], "book": c["book"],
+                 "delta_mean_bp": c["delta_mean_bp"],
+                 "delta_max_abs_bp": c["delta_max_abs_bp"],
+                 "windows_with_a_split_pct": c["windows_with_a_split_pct"],
+                 "verdict": c["verdict"],
+                 "largest_window": (c["top"][0] if c["top"] else None)}
+                for c in sorted(with_split, key=lambda c: -abs(c["delta_mean_bp"]))[:6]],
+            "largest_single_name_reads": largest,
+            "implausible_reads": {
+                "gap_total": sum(c["reads_beyond_100pct"]["gap"] for c in measured),
+                "unscreened_total": sum(c["reads_beyond_100pct"]["unscreened"]
+                                        for c in measured),
+                "cells": [{"era": c["era"], "book": c["book"],
+                           "gap": c["reads_beyond_100pct"]["gap"],
+                           "unscreened": c["reads_beyond_100pct"]["unscreened"],
+                           "windows": c["reads_beyond_100pct"]["windows"]}
+                          for c in measured
+                          if c["reads_beyond_100pct"]["gap"]
+                          or c["reads_beyond_100pct"]["unscreened"]],
+                "reading": "a read past +/-100% in one window is a print artefact, "
+                           "not a return; both arms are counted because the repair "
+                           "is not automatically the plausible side",
+            },
+            "reading": ("no split print reaches an unchanged holding on this panel: "
+                        "every window's persistent names read identically in both "
+                        "arms" if not with_split else
+                        "a split print does sit inside unchanged holdings on %d of %d "
+                        "cells; the largest is %s/%s at %s"
+                        % (len(with_split), len(measured),
+                           max(with_split, key=lambda c: abs(c["delta_mean_bp"]))["era"],
+                           max(with_split, key=lambda c: abs(c["delta_mean_bp"]))["book"],
+                           round(max(with_split,
+                                     key=lambda c: abs(c["delta_mean_bp"]))["delta_mean_bp"], 1))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the population is the REPAIR arm's persistent names; where the two arms "
+            "hold different names the unscreened arm's own persistent set is not "
+            "measured here (that is E100's swap face, not this one)",
+            "an equal-weight mean of name-level reads is not a portfolio return",
+            "a split read is inferred from the shape of the read plus the repair's own "
+            "report, not proven against a vendor corporate-action file",
+        ],
+    }
+
+
 def run_gaparm_topnames(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                         gap_limit=1, mid_day=15, eras=ERAS, top_k=3,
                         published="MID-20261026-s20180101-armed.json"):
@@ -11161,7 +11522,7 @@ def main(argv):
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
                              "midlevels", "gaparmendgrid", "gaparmfamily",
-                             "gaplimit", "gaptop3",
+                             "gaplimit", "gaptop3", "heldsplit",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -11368,6 +11729,28 @@ def main(argv):
                                               for k, v in (c["arms"] or {}).items()}}
                                     for c in f["cells"]]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "heldsplit":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_heldsplit(outdir, start=args.start)
+        p = write_json(outdir, "HELDSPLIT-%s-s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""),
+                          f["spec"]["start"][:4]), f)
+        print(json.dumps({
+            "leg": "heldsplit",
+            "file": os.path.relpath(p, ROOT),
+            "answers": {k: v for k, v in f["answers"].items()
+                        if k != "largest_unchanged_holding_splits"},
+            "splits": [{"era": s["era"], "book": s["book"],
+                        "delta_mean_bp": s["delta_mean_bp"],
+                        "max_window_bp": s["delta_max_abs_bp"],
+                        "windows_with_split_pct": s["windows_with_a_split_pct"],
+                        "verdict": s["verdict"],
+                        "window": (s["largest_window"] or {}).get("date"),
+                        "names": [t["name"] for t in
+                                  (s["largest_window"] or {}).get("top", [])]}
+                       for s in f["answers"]["largest_unchanged_holding_splits"]]},
+            ensure_ascii=False))
         return 0
     if args.mode == "gaptop3":
         outdir = os.path.join(ROOT, "results", "e44_midmonth")

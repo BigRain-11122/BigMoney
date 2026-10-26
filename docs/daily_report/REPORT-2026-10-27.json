@@ -1,13 +1,13 @@
 {
  "report_date": "2026-10-27",
- "generated_at": "2026-10-27 06:50:53",
+ "generated_at": "2026-10-27 07:38:54",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5957079.7,
-   "total_positions": 20,
-   "entries_today": 0,
-   "exits_today": 1,
+   "total_equity_cny": 5937423.14,
+   "total_positions": 21,
+   "entries_today": 1,
+   "exits_today": 0,
    "exits_not_derivable_first_snapshot": false
   },
   "traders": [
@@ -15,64 +15,64 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 987081.73,
-     "positions_value": 849018.97,
-     "cash": 138062.76,
+     "equity": 984270.26,
+     "positions_value": 941331.39,
+     "cash": 42938.87,
      "denomination": "CNY"
     },
     "positions": 5,
-    "dd": -0.0182,
+    "dd": -0.021,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 981853.4,
-     "positions_value": 704421.58,
-     "cash": 277431.82,
+     "equity": 979874.88,
+     "positions_value": 880725.27,
+     "cash": 99149.61,
      "denomination": "CNY"
     },
-    "positions": 7,
-    "dd": -0.0245,
+    "positions": 8,
+    "dd": -0.0269,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "DROUGHT-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 995203.53,
-     "positions_value": 48978.92,
-     "cash": 946224.61,
+     "equity": 987969.65,
+     "positions_value": 95520.42,
+     "cash": 892449.23,
      "denomination": "CNY"
     },
     "positions": 1,
-    "dd": -0.0058,
+    "dd": -0.012,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "ENGULF-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 999655.56,
-     "positions_value": 99785.97,
-     "cash": 899869.59,
+     "equity": 991157.24,
+     "positions_value": 191418.05,
+     "cash": 799739.19,
      "denomination": "CNY"
     },
     "positions": 2,
-    "dd": -0.0034,
+    "dd": -0.0088,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,24 +87,24 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 993285.48,
-     "positions_value": 493938.11,
+     "equity": 994151.11,
+     "positions_value": 494803.74,
      "cash": 499347.37,
      "denomination": "CNY"
     },
     "positions": 5,
     "dd": -0.0078,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -283,7 +283,7 @@
     "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
    ]
   },
-  "marks_asof": "2026-10-23"
+  "marks_asof": "2026-10-26"
  },
  "live_usage": {
   "status": "ok",
@@ -297,22 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-27.md"
  },
  "rd": {
-  "commits_24h": 105,
-  "result_jsons_landed_24h": 105,
-  "digests_landed_24h": 26,
-  "prereg_md_touched_24h": 4,
+  "commits_24h": 115,
+  "result_jsons_landed_24h": 309,
+  "digests_landed_24h": 40,
+  "prereg_md_touched_24h": 66,
   "compute_audit_latest": {
-   "ts": "2026-10-27 06:40:42",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-27 07:36:39",
+   "py_cpu_pct": 2.0,
    "flags": [
-    "supply_gap",
-    "supply_owner_silent"
+    "supply_gap"
    ],
-   "verdict": "FLAG:supply_gap,supply_owner_silent"
+   "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -653,12 +652,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2266158,
+  "total_report_tokens_est": 2268729,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-27 05:06:38",
+   "prev_generated": "2026-10-27 05:43:36",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 916,
-   "mandate_growth": 0
+   "report_tokens_growth": 2571,
+   "mandate_growth": 6
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -730,25 +729,13 @@
     "today_supply_gap_flags": 10
    },
    "bm-b": {
-    "latest_ts": "2026-10-27 06:15:47",
-    "py_pct": 1.8,
-    "cpu_pct": 4.0,
+    "latest_ts": "2026-10-27 07:36:39",
+    "py_pct": 2.0,
+    "cpu_pct": 3.0,
     "ready": 3,
-    "streak_min": 212.2,
+    "streak_min": 293.1,
     "verdict": "FLAG:supply_gap",
     "py_series_tail": [
-     [
-      "01:57",
-      0.0
-     ],
-     [
-      "01:57",
-      0.0
-     ],
-     [
-      "02:43",
-      0.0
-     ],
      [
       "03:09",
       1.5
@@ -784,25 +771,33 @@
      [
       "06:15",
       1.8
-     ]
-    ],
-    "today_samples": 14,
-    "today_floor_ok": 11,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 11
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-27 06:40:42",
-    "py_pct": 0.0,
-    "cpu_pct": 17.0,
-    "ready": 3,
-    "streak_min": 237.2,
-    "verdict": "FLAG:supply_gap,supply_owner_silent",
-    "py_series_tail": [
+     ],
      [
-      "01:57",
+      "06:40",
       0.0
      ],
+     [
+      "07:13",
+      2.5
+     ],
+     [
+      "07:36",
+      2.0
+     ]
+    ],
+    "today_samples": 17,
+    "today_floor_ok": 14,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 14
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-27 07:13:50",
+    "py_pct": 2.5,
+    "cpu_pct": 23.0,
+    "ready": 3,
+    "streak_min": 270.3,
+    "verdict": "FLAG:supply_gap,supply_owner_silent",
+    "py_series_tail": [
      [
       "02:43",
       0.0
@@ -846,12 +841,16 @@
      [
       "06:40",
       0.0
+     ],
+     [
+      "07:13",
+      2.5
      ]
     ],
-    "today_samples": 15,
-    "today_floor_ok": 12,
+    "today_samples": 16,
+    "today_floor_ok": 13,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 12
+    "today_supply_gap_flags": 13
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -889,7 +888,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 06:15:47"
+     "audit_ts": "2026-10-27 07:36:39"
     }
    },
    "bm-c": {
@@ -905,7 +904,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 06:40:42"
+     "audit_ts": "2026-10-27 07:13:50"
     }
    }
   },
@@ -920,46 +919,46 @@
    "rows": [
     {
      "trader": "COMPOSITE-CE-01",
-     "equity_cny": 987081.73,
-     "day_pnl_cny": -3386.58,
-     "day_ret": -0.003419,
+     "equity_cny": 984270.26,
+     "day_pnl_cny": -2811.47,
+     "day_ret": -0.002848,
      "status": "ok",
      "top_position": {
       "symbol": "513100",
-      "unrealized_pnl_cny": -5350.95
+      "unrealized_pnl_cny": -5927.21
      }
     },
     {
      "trader": "COMPOSITE-CE-02",
-     "equity_cny": 981853.4,
-     "day_pnl_cny": -5690.8,
-     "day_ret": -0.005763,
+     "equity_cny": 979874.88,
+     "day_pnl_cny": -1978.52,
+     "day_ret": -0.002015,
      "status": "ok",
      "top_position": {
-      "symbol": "513500",
-      "unrealized_pnl_cny": -4176.48
+      "symbol": "513520",
+      "unrealized_pnl_cny": -5908.85
      }
     },
     {
      "trader": "DROUGHT-CE-01",
-     "equity_cny": 995203.53,
-     "day_pnl_cny": 1021.08,
-     "day_ret": 0.001027,
+     "equity_cny": 987969.65,
+     "day_pnl_cny": -7233.88,
+     "day_ret": -0.007269,
      "status": "ok",
      "top_position": {
       "symbol": "512400",
-      "unrealized_pnl_cny": -1021.08
+      "unrealized_pnl_cny": -4479.58
      }
     },
     {
      "trader": "ENGULF-CE-01",
-     "equity_cny": 999655.56,
-     "day_pnl_cny": 3091.1,
-     "day_ret": 0.003102,
+     "equity_cny": 991157.24,
+     "day_pnl_cny": -8498.32,
+     "day_ret": -0.008501,
      "status": "ok",
      "top_position": {
       "symbol": "512480",
-      "unrealized_pnl_cny": -119.33
+      "unrealized_pnl_cny": -4415.27
      }
     },
     {
@@ -972,19 +971,19 @@
     },
     {
      "trader": "VOLATILITY-CE-01",
-     "equity_cny": 993285.48,
-     "day_pnl_cny": 1098.77,
-     "day_ret": 0.001107,
+     "equity_cny": 994151.11,
+     "day_pnl_cny": 865.63,
+     "day_ret": 0.000871,
      "status": "ok",
      "top_position": {
       "symbol": "510050",
-      "unrealized_pnl_cny": -4110.96
+      "unrealized_pnl_cny": -3810.16
      }
     }
    ],
-   "asof": "2026-10-23",
-   "prior": "2026-10-22",
-   "family_day_pnl_cny": -3866.43
+   "asof": "2026-10-26",
+   "prior": "2026-10-23",
+   "family_day_pnl_cny": -19656.56
   },
   "families": [
    {
@@ -1352,7 +1351,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -14679.26,
+  "grand_day_pnl_cny": -30469.39,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",

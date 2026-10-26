@@ -1,9 +1,9 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-23T00:21:41+08:00",
- "current": "r1162: E95 newest-era tilt stability (end-choice grid 12 ends, span 1184.1bp)",
- "current_task": "r1162 closed; next = E96 or E97 burn + supply floor refill",
- "cyc_round": 1169,
+ "clock_read": "2026-10-27T07:40:53+08:00",
+ "current": "r1170: E104 heldsplit face + E106/E107 seeded",
+ "current_task": "r1170 closed; next = E106 repair step consistency (sh510580 witness) or E107 curve effect",
+ "cyc_round": 1170,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -535,15 +535,31 @@
   "gpu_face_fix": "smoke went 78/78 -> 79/79 after the r1302 rebase but one leg turned red: 'GPU face self-consistent' reported four unowned keys. Two real defects, both in the spelling table, not in the data: (a) free_vram_gb / vram_free_gb were missing from FREE_KEYS and GB_KEYS, so apply() rewrote every MiB sibling and left the GB spellings at a random round's snapshot; (b) gpu_mem_key() excluded RAM keys by a frozen list of exact spellings, so free_ram_mb / ram_free_mb fell through and were reported as GPU-memory keys. Fix = add the two GB spellings (owned + scaled) and exclude 'ram' by pattern rather than by enumeration (a RAM key is RAM in any unit; 'vram' is unaffected).",
   "why_it_matters": "the defect class is the one r1299 named: a key outside the table is not audited and not refreshed, so consumers read a random round. Widening by enumeration has now failed twice (prefix rule, then exact RAM list) -- the pattern rule is the durable form."
  },
+ "r1170_faces": {
+  "d19": "decisions c514b69c + orders c067b3b2 both unchanged vs state -> zero action",
+  "orders": "114 files, orders_ack 115, unacked 0",
+  "orphan_face": 0,
+  "partial": "E104 portfolio-face half not delivered (reads only) -> E107",
+  "pool": "E104 done + result_ref + PARTIAL note; E105 annotated; E106/E107 seeded ready",
+  "py_faces": 9,
+  "record": "r1170",
+  "s6": "39/39 rc0, no non-zero legs; dualrun DRIFT (updated_at 07:05 vs 07:10) recorded as observation-phase data per its own report",
+  "selftest": "e39_panel_census 307 -> 320",
+  "smoke": "79/79 PASS",
+  "verdict": "productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed.",
+  "watermark_red": "RED pool-batch-runnable-idle-low-cpu -> claimed and burned E104 in-round"
+ },
+ "r1170_note": "r1170: productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed.",
+ "r1170_pit": "r1170: read the population your discrimination lists cannot see -- an entrant/exit decomposition cannot bound split exposure, because a name the book kept contributes no swap; ask the kept names directly or the exposure is unmeasured rather than zero. Sibling: never infer which arm is right from which arm is the repair -- count implausible reads per arm and publish both (here sh510580 reads +1464% repaired against +295% raw across a 2024-09-02 event, with the arm ratio stepping x10.05 -> x39.8 exactly at the event). Second sibling: a share of a mean is only a share where the mean is far from zero -- publish share_eligible and suppress the ratio below a 0.5% mean floor, or the column reads as 40,208% of noise.",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1168,
- "round_no": 1169,
- "round_no_label": "r1169",
+ "round": 1169,
+ "round_no": 1170,
+ "round_no_label": "r1170",
  "round_pit": "r1162: a stability read is only a stability read if the grid moves ONE thing -- moving the evaluation end on a single panel says how much of a headline is re-derivation, and it returned 23x the entire spread the repo had published (1184.1 vs 50.5 bp), so the cell was never a level. Sibling: two faces with the SAME month count and different levels cannot be a window-length story -- check months before attributing a move to new data.",
  "sat_engine": {
-  "checked_at": "2026-10-27T05:46:04+08:00",
+  "checked_at": "2026-10-27T07:40:53+08:00",
   "status": "alive"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -554,10 +570,10 @@
   "local_not_on_origin_main": 0,
   "note": "r1169 push: pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c r1299 digest + results/etf_book_tsmom.json + scripts/etf_book_tsmom.py); rebase --autostash over 2 incoming commits (incl. r1302 CODELY.md rebuild = D-20261027-08 done by bm-c, so this round's ack-not-execute was the right call); 2 UU daemon faces (results/_attrition_guard_scan.json, results/compute_audit.json) resolved --ours = the committed upstream daemon state; autostash pop left 1 more UU (fleet/machine-health.json) resolved --ours and the stash dropped; drama lane files restored to unstaged so the next round's add -A cannot swallow another lane's work."
  },
- "task": "r1169 E100 gap-arm transition names (exact split, drivers named)",
- "task_short": "E100 gaptop3",
- "ts": "2026-10-27T07:20:00+08:00",
- "updated": "2026-10-27T07:05:00+08:00",
- "updated_at": "2026-10-27T07:20:00+08:00",
- "verdict": "productive: E100 face published (GAPTOP3-20261026-s2018). The split is exact (residual 0.0, zero one-sided dates) and reproduces all six published deltas at <=0.05bp. Every large move is ONE window and the two arms hold identical names there: 18 top windows carry price drivers with empty held_only sets, so the level delta is a PRICE-READ difference, not a composition difference. Named drivers: 2017_2020 me -745.9 = 100% the 2020-12-31 window where sz159975 reads -89.54% unscreened vs +5.04% repaired (sh510210 -79.98% vs -0.14%); 2021_2023 me -1098.3 top-3 61.6% (sh510580 -89.95%/+1.02%, sh510150 -91.20%/+5.32%); 2021_2023 mid -1117.2 top-3 58.8% (sh510150 -91.63%/+0.23%); 2024_now mid -241.0 one window (sz159925 +105.39% vs +303.82%). A -90% one-window ETF read is an unadjusted split, so the published level delta is the repair of a split print, not evidence that the book changed. e39 selftest 299->307; smoke 79/79 (after fixing 4 GPU-face spellings in-window); dualrun streak 51; attrition CLEAN; orphan face=0 (9 py); compute_audit FLAG single_core_hog+supply_gap+supply_floor (ready 1<3 -> seeded E104/E105)."
+ "task": "r1170 E104 unchanged-holding split exposure (fixed the E100 blind spot)",
+ "task_short": "E104 heldsplit",
+ "ts": "2026-10-27T07:40:53+08:00",
+ "updated": "2026-10-27T07:40:53+08:00",
+ "updated_at": "2026-10-27T07:40:53+08:00",
+ "verdict": "productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed."
 }
