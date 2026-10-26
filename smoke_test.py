@@ -471,6 +471,8 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            ("product: etf_book_split_audit repair value (exit-code contract)",
+             "scripts/etf_book_split_audit.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"])):
         try:

@@ -136,7 +136,7 @@ def delivered_vs_target(bt_row, target):
     return out
 
 
-def prep_panel():
+def prep_panel(repair=True, repair_fn=None):
     """Panel + score exactly as the production run sees them (class filter included).
 
     Shared by `run` and by any sweep over the configuration, so a sensitivity study can
@@ -147,7 +147,16 @@ def prep_panel():
     flip count travels too -- it is printed on the card as evidence the panel was repaired.
     """
     close, openp, amt, feats = E.build_panel()
-    close, openp, n_flip = A.repair_flips(close, openp)
+    if repair_fn is not None:
+        # counterfactual repair injected by an audit (e.g. the pre-r1282 behaviour), so a
+        # twin can be priced through THIS universe and score builder instead of a copy.
+        close, openp, n_flip = repair_fn(close, openp)
+    elif repair:
+        close, openp, n_flip = A.repair_flips(close, openp)
+    else:
+        # the raw twin: the panel exactly as the source prints it, for audits that have
+        # to price what the repair is worth instead of assuming it (etf_book_split_audit).
+        n_flip = 0
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     cols = [c for c in close.columns if cls[c] in USE_CLASSES]

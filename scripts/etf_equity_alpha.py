@@ -53,8 +53,16 @@ def repair_flips(close, openp, thr=FLIP_THR):
 
     A flat day at a flip means the raw jump becomes a 0% return; the cumulative factor is
     then applied to the open face as well so open-to-open legs stay consistent.
+
+    The return is measured against the previous PRICED close (`ffill`), not against
+    `close.pct_change()`. A split frequently sits next to a suspension bar, and pandas 3
+    stopped filling across NaN in `pct_change`, so the bare call returns NaN on exactly
+    those bars: the level rebuild still flattened them (NaN floors to a 0% day), but the
+    printed count missed them -- the r1282 audit measured 168 such prints against 134
+    reported -- and a small REAL move on a post-suspension bar was dropped along with
+    them. (E74 lesson, new face: always compare adjacent PRICED closes.)
     """
-    r = close.pct_change()
+    r = close.ffill().pct_change()
     bad = r.abs() > thr
     r_clean = r.where(~bad, 0.0).fillna(0.0)
     first = close.ffill().bfill().iloc[0]
