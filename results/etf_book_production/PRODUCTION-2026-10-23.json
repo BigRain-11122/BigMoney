@@ -1,6 +1,13 @@
 {
- "ts": "2026-10-26 12:43:59",
+ "ts": "2026-10-26 17:43:27",
  "evidence_cutoff": "2026-10-23",
+ "feed_status": {
+  "ticket_bar": "2026-10-23",
+  "expected_bar": "2026-10-26",
+  "lag_days": 1,
+  "status": "stale_feed",
+  "detail": "the bar this ticket is priced on is 1 official day(s) behind the market; the signal is that old"
+ },
  "script": "scripts/etf_book_production.py",
  "config": {
   "universe_classes": [
@@ -351,6 +358,7 @@
   ]
  },
  "caveats": [
+  "FEED IS BEHIND: this card is priced on the 2026-10-23 bar, 1 official trading day(s) short of the 2026-10-26 bar the market has already published. The names are that old, not a fresh call.",
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
   "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
   "The vol target only de-levers; it is a drawdown tool, not an edge.",

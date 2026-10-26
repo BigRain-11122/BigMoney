@@ -866,3 +866,13 @@ esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_s
 - 验证：python scripts\exchange_calendar_audit.py selftest 9/9；实跑 verdict=source_lag（expected 2026-10-26，active 1723/1725，effective 2026-10-23，missing ['2026-10-26']）；已接 S6 链 cal_audit 腿（43 腿）+ smoke 两条腿（selftest 契约 + 活面已发布）。
 - 读法：**「没有新 bar」不是状态，是待解释的观测**。有官方日历才有资格说这是延迟；没有就只能等。
 - 2026-10-26 r1286 bm-c，承接 O-20261002-2100 收口步。
+
+
+## E137 人要看的那张单子必须自己带「我乘的是哪一天的 bar」——面板内的陈旧度腿对整块面板一起过时是瞎的（r1287 bm-c 实证）
+- 情境：r1286 造了官方日历审计，但下游要人动手的两件实物（可执行订单单 TICKET/ORDER.md、生产卡 CARD.md）没接。它们本来就有陈旧度腿 staleness_stats，可那条量的是**面板内部**各标的相对决策 bar 的陈旧——整块面板一起晚 N 天时它读到的是 0/415（满分干净）。同一跑里两条线并排：`staleness: 0/415 picks (0.0%)` 与 `feed: stale_feed | ticket bar 2026-10-23 vs official 2026-10-26 | lag 1`。
+- 实做：把纯函数 CA.ticket_feed_status(日历日序列, 单据 bar, 官方期望 bar, 审计 verdict) 放进出日历的那个模块（一份实现两处消费，禁第二份拷贝），live 包装 CA.live_ticket_feed_status() 喂盘上日历+面板尾。四态：current（lag=0）/ stale_feed（lag≥1 且非 panel_gap）/ feed_broken（panel_gap 优先于普通落后=停发不是延迟）/ unknown（没日历或审计抛错，**显式不是新鲜**）。
+- 口径要点（每格一条 selftest 钉子）：①lag 只数官方交易日——周五 10-23 到周一 10-26 是 1 不是 3（leg21）；②feed_broken 压过普通 lag（leg22）；③unknown 永不读成 current（leg23）；④警告必须落到人打开的那张 md 上，不能只躺在 JSON（leg24）。
+- 落地位：ORDER-<asof>.md 加「数据新鲜度」块；CARD.md/卡片 JSON 加 feed_status + 陈旧时置顶 caveat「FEED IS BEHIND: ……The names are that old, not a fresh call.」。首跑 2026-10-26 17:52 两处同读 stale_feed / lag 1（sina 17:33 仍未发当日 bar=源头滞后，不是书的判断）。
+- 验证：etf_book_order --selftest 24/24（19→24）；etf_book_production --selftest OK；exchange_calendar_audit selftest 9/9。
+- 读法：**「我的输入是新的」不是一个可以被下游默认的前提，是一条必须自己算、自己印在单子上的断言**。内生的陈旧度腿只在同一块面板内有意义，跨面板/跨日历的一律要先有独立参照。
+- 2026-10-26 r1287 bm-c，承接 O-20261002-2100 收口步。

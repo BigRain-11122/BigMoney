@@ -11,6 +11,8 @@ Config: 12 names of a 1499-instrument bond-free pool, rebalance every 20 bars, 1
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
+**Feed: stale_feed** -- priced on the 2026-10-23 bar; the official calendar expects 2026-10-26 (lag 1 official day(s)).
+
 **Today (2026-10-23 bar): HOLD: 13 bars until the next decision point** (last grid decision 2026-10-14).
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
@@ -33,6 +35,7 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
 ## Caveats
 
+- FEED IS BEHIND: this card is priced on the 2026-10-23 bar, 1 official trading day(s) short of the 2026-10-26 bar the market has already published. The names are that old, not a fresh call.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
 - The vol target only de-levers; it is a drawdown tool, not an edge.

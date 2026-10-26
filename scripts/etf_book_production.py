@@ -30,6 +30,7 @@ import pandas as pd
 import etf_composite_pf as E
 import etf_robust_pf as R
 import etf_equity_alpha as A
+import exchange_calendar_audit as CA
 
 OUT_DIR = os.path.join(E.PATHS.results_dir, "etf_book_production")
 IS_END = "2023-12-31"
@@ -247,9 +248,13 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     }
 
     dv = delivered_vs_target(runs.get("n%d_vt08" % n_hold), TARGET_VOL)
+    # r1287: the card is the sheet a human reads, so it states out loud which bar it was
+    # priced on against the official calendar -- the panel cannot judge this by itself.
+    feed = CA.live_ticket_feed_status(last)
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
+        "feed_status": feed,
         "script": "scripts/etf_book_production.py",
         "config": {"universe_classes": list(USE_CLASSES), "n_hold": n_hold, "rebal": rebal,
                    "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL,
@@ -272,6 +277,12 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "would trade names the book never held." % rebal,
         ],
     }
+    if feed.get("status") in ("stale_feed", "feed_broken"):
+        out["caveats"].insert(0, "FEED IS BEHIND: this card is priced on the %s bar, %s "
+                              "official trading day(s) short of the %s bar the market has "
+                              "already published. The names are that old, not a fresh call."
+                              % (feed.get("ticket_bar"), feed.get("lag_days"),
+                                 feed.get("expected_bar")))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "PRODUCTION-%s.json" % last.date()), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
@@ -313,6 +324,11 @@ def write_card(out):
                   "risk column, not the label." % (dv["headline"], cfg["vol_target"] * 100), ""]
     lines += [
         "",
+        "**Feed: %s** -- priced on the %s bar; the official calendar expects %s (lag %s "
+        "official day(s))." % (
+            (out.get("feed_status") or {}).get("status", "unknown"), s["as_of_bar"],
+            (out.get("feed_status") or {}).get("expected_bar") or "unknown",
+            (out.get("feed_status") or {}).get("lag_days")), "",
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),
         "",

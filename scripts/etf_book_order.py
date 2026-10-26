@@ -47,6 +47,7 @@ from scripts import etf_composite_pf as F          # noqa: E402
 from scripts import etf_phase_beta_target as BT    # noqa: E402
 from scripts import etf_phase_beta_window as BW    # noqa: E402
 from scripts import etf_variants_null_rolling as V  # noqa: E402
+from scripts import exchange_calendar_audit as CA   # noqa: E402
 from scripts.etf_asset_class import classify       # noqa: E402
 from config import PATHS                           # noqa: E402
 
@@ -208,6 +209,16 @@ def metrics(nav_ser, bench_ser, lb=252):
     return out
 
 
+# ------------------------------------------------------------------ feed freshness
+# One implementation lives in exchange_calendar_audit (it owns the official calendar);
+# these aliases keep the local call sites readable.
+feed_status = CA.ticket_feed_status
+
+
+def live_feed_status(ticket_bar, now=None):
+    return CA.live_ticket_feed_status(ticket_bar, now=now)
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -215,6 +226,18 @@ def card(ticket, mk, sched, asof, beta, extra):
          "最近实物：%s（本文件同日生成）。"
          % os.path.relpath(os.path.join(OUT_DIR, "TICKET-%s.json" % asof), BASE).replace("\\", "/"),
          "下个里程碑：下一决策日落单后前向账本追加一行（窗 ≤48h，随面板推进）。", ""]
+    feed = extra.get("feed")
+    if feed:
+        lag = feed.get("lag_days")
+        L += ["## 数据新鲜度（本单定价用的是哪一天的 bar）",
+              "- 官方交易日历期望最新 bar：%s" % (feed.get("expected_bar") or "未知（无日历）"),
+              "- 本单定价 bar：%s" % (feed.get("ticket_bar") or "未知"),
+              "- 判定：**%s**｜落后 %s 个交易日" % (feed.get("status", "unknown"),
+                                                  "?" if lag is None else lag),
+              "- %s" % feed.get("detail", ""), ""]
+        if feed.get("status") in ("stale_feed", "feed_broken"):
+            L += ["> ⚠ 提醒：本单的定价 bar 落后市场 %s 个交易日 —— 这是数据面的滞后，"
+                  "不是书换了判断。照此单下手前必须知道这一点。" % ("?" if lag is None else lag), ""]
     if ticket:
         L += ["## 今日目标（NAV ¥%s）" % format(int(ticket["nav"]), ","),
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
@@ -334,6 +357,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
           % (stale["stale_picks"], stale["picks"], 100.0 * (stale["stale_share"] or 0.0),
              stale["symbols_with_value_on_last_bar"], stale["symbols_total"],
              stale["worst_stale_gap_days"]), flush=True)
+    # a second, independent staleness face: the one above is between symbols inside the
+    # panel, this one is between the panel and the official calendar (r1287).
+    feed = live_feed_status(close.index[-1])
+    print("feed: %s | ticket bar %s vs official %s | lag %s day(s)"
+          % (feed["status"], feed["ticket_bar"], feed["expected_bar"],
+             "-" if feed["lag_days"] is None else feed["lag_days"]), flush=True)
     if fresh_gate:
         # only instruments that actually printed a close on the decision bar are eligible
         score = score.where(close[cols].notna())
@@ -445,6 +474,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                "fresh_gate": bool(fresh_gate), "staleness": stale,
+               "feed_status": feed,
                "k_now": round(float(k_now), 6),
                "book_decided_at": str(dec_bar.date()),
                "card_agreement": agreement,
@@ -476,7 +506,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                            "beta_target": float(beta), "k_now": round(float(k_now), 6)})
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
-                     {"inception": payload["inception"], "stale": stale, "width": wd}))
+                     {"inception": payload["inception"], "stale": stale, "width": wd,
+                      "feed": feed}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -755,6 +786,29 @@ def selftest():
     kv = in_force(sched2, idx)
     chk("leg11 decision applies from the next bar", bool(np.isnan(kv.iloc[5]))
         and abs(float(kv.iloc[6]) - 0.7) < 1e-12, "k5=%s k6=%.3f" % (kv.iloc[5], kv.iloc[6]))
+
+    # legs 20-24: the ticket must answer "is this priced off a current bar?" by itself,
+    # because every other leg grades the panel by the panel (r1286/r1287).
+    cal = ["2026-10-21", "2026-10-22", "2026-10-23", "2026-10-26"]
+    cur = feed_status(cal, "2026-10-26", "2026-10-26", "in_sync")
+    chk("leg20 ticket on the newest official bar reads current",
+        cur["status"] == "current" and cur["lag_days"] == 0,
+        "status=%s lag=%s" % (cur["status"], cur["lag_days"]))
+    lag1 = feed_status(cal, "2026-10-23", "2026-10-26", "source_lag")
+    chk("leg21 one unpublished day reads as a 1-day lag (Fri->Mon costs 1, not 3)",
+        lag1["status"] == "stale_feed" and lag1["lag_days"] == 1,
+        "status=%s lag=%s" % (lag1["status"], lag1["lag_days"]))
+    gap = feed_status(cal, "2026-10-22", "2026-10-26", "panel_gap")
+    chk("leg22 a stopped feed outranks the plain lag",
+        gap["status"] == "feed_broken" and gap["lag_days"] == 2,
+        "status=%s lag=%s" % (gap["status"], gap["lag_days"]))
+    unk = feed_status(cal, "2026-10-23", None, "in_sync")
+    chk("leg23 no calendar reads unknown, never current", unk["status"] == "unknown",
+        "status=%s" % unk["status"])
+    md = card(None, None, None, "2026-10-23", 0.2,
+              {"inception": "2024-01-01", "feed": lag1})
+    chk("leg24 the stale warning reaches the one-page face a human reads",
+        "\u26a0" in md and "stale_feed" in md, "chars=%d" % len(md))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

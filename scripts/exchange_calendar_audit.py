@@ -287,6 +287,62 @@ def audit(days, tails, now, missing_window=MISSING_WINDOW,
     }
 
 
+def ticket_feed_status(days, ticket_bar, expected_bar, verdict):
+    """How far behind the official calendar is the bar a ticket was priced on.
+
+    r1287: the audit above answers this for the *panel*, but the artefact a human
+    acts on is priced at its own cutoff and carried no such field. Its own staleness
+    leg could not cover it either -- `staleness_stats` counts symbols that were stale
+    *within* the panel, so a panel that is uniformly days old scores a spotless 0/N
+    and reads identical to a fresh one (measured: 0/415 on a ticket one day behind).
+    A ticket therefore has to answer "is this priced off a current bar?" by itself.
+
+    lag_days counts OFFICIAL trading days strictly after the ticket bar up to the
+    last day whose bar must already exist, so a weekend costs nothing and 0 means
+    current. verdict=panel_gap means an older official day never arrived at all --
+    a stopped feed rather than a publication delay -- and outranks the plain lag.
+    """
+    def _iso(x):
+        if x is None:
+            return None
+        return x.date().isoformat() if hasattr(x, "date") else str(x)[:10]
+
+    tb, eb = _iso(ticket_bar), _iso(expected_bar)
+    out = {"ticket_bar": tb, "expected_bar": eb, "lag_days": None,
+           "status": "unknown", "detail": ""}
+    if eb is None or tb is None:
+        out["detail"] = ("no official calendar loaded -- freshness cannot be judged; "
+                         "do not read this ticket as current")
+        return out
+    lag = sum(1 for d in days if tb < str(d)[:10] <= eb)
+    out["lag_days"] = int(lag)
+    if verdict == "panel_gap":
+        out["status"] = "feed_broken"
+        out["detail"] = ("the maintained panel is missing an official trading day that "
+                         "should already be published -- a stopped feed, not a delay")
+    elif lag > 0:
+        out["status"] = "stale_feed"
+        out["detail"] = ("the bar this ticket is priced on is %d official day(s) behind "
+                         "the market; the signal is that old" % lag)
+    else:
+        out["status"] = "current"
+        out["detail"] = "the ticket is priced on the newest official bar that must exist"
+    return out
+
+
+def live_ticket_feed_status(ticket_bar, now=None, cal_path=CAL_PATH, daily_dir=DAILY_DIR):
+    """ticket_feed_status() against the on-disk calendar and the live panel tails."""
+    now = now or dt.datetime.now()
+    try:
+        days = load_calendar(cal_path)
+        rep = audit(days, panel_tails(daily_dir), now)
+    except Exception as exc:                                  # noqa: BLE001
+        return {"ticket_bar": str(ticket_bar), "expected_bar": None, "lag_days": None,
+                "status": "unknown", "detail": "freshness audit unavailable: %s" % exc}
+    return ticket_feed_status(days, ticket_bar, rep.get("expected_last_official_day"),
+                              rep.get("verdict"))
+
+
 def forward_impact():
     """What the lag costs the one face a human reads: the forward ledger."""
     try:
