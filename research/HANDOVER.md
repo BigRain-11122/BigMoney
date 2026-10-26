@@ -543,3 +543,21 @@ python -m screening.rank          # 432 组排名重建
 - next milestone: (i) next-open permutation null, (ii) sleeve decomposition re-run on the next-open basis --
   does the gold-is-load-bearing ordering survive the fill? <=48h. Wave chain: W330 freeze stays queued behind
   the meaning gate, not behind this window.
+
+## Live product faces, 5-round checkpoint -- 2026-10-27 r1295 bm-c
+
+- The book has FOUR live faces and all four are on the S6 chain as of r1294-r1295:
+  executable ticket (5 names, beta 0.20 rule, results/etf_book_order/latest.json),
+  production card + forward marks (12 names, 8% vol target, results/etf_book_production/latest.json,
+  results/etf_book_forward/LEDGER.json), staggered 5+5 paper ledger (10 names, bond-free,
+  results/etf_paper/ledger.jsonl). Register: results/etf_book_registry.json (4/4 in_chain).
+- Capacity (r1295, capacity_frontier_by_cap): at a 1/2/5% of ADV cap on the p90 trade the rule
+  arm holds 1.53M / 3.05M / 7.63M CNY and earns ~111k / 216k / 507k CNY per year
+  (7.28 / 7.06 / 6.64% CAGR). The 1% column is a convention; the 5% column is what the same
+  book does when the operator accepts paying more impact. Flat arm is ~1.6x smaller on both counts.
+- Forward record is thin by construction: LEDGER first bar 2026-10-23, marks 2026-10-26,
+  nav 1.0010. Do not quote an annualised number off two bars.
+- Open question (not yet decided): whether the four configs collapse to ONE published book.
+  r1291 measured width x leverage interaction; r1295 supplies the tie-breaker (money per year
+  at a stated cap). Any answer must state the cap and the rule, because a name count without
+  its leverage rule is a different experiment.
