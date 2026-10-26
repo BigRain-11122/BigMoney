@@ -662,6 +662,23 @@ def main() -> int:
         check("fleet: GPU face self-consistent on heartbeat", False, str(e))
         check("fleet: GPU face leg wired into the S6 chain", False, str(e))
 
+    # The memory file is a write target for every round and nothing read its SHAPE.
+    # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
+    # the older body went out through a GBK round trip (19 x U+E511), and the file
+    # still read `git status` clean -- 62 lines became 4 with nothing red anywhere
+    # (D-20261027-08). Counts, not content: one line per entry, no private-use
+    # characters, list rows present.
+    try:
+        _mt = open("CODELY.md", encoding="utf-8-sig").read()
+        _lf = _mt.count("\n")
+        _pua = sum(1 for _c in _mt if 0xE000 <= ord(_c) <= 0xF8FF)
+        _rows = sum(1 for _l in _mt.splitlines() if _l.lstrip().startswith("- ["))
+        check("memory: CODELY.md structure intact", _lf >= 55 and _pua == 0 and _rows > 0,
+              f"lines={_lf} pua={_pua} list_rows={_rows} "
+              f"bytes={len(_mt.encode('utf-8'))}")
+    except Exception as e:
+        check("memory: CODELY.md structure intact", False, str(e))
+
     return _finish()
 
 
