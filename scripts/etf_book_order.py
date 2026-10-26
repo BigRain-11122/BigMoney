@@ -270,6 +270,19 @@ def card(ticket, mk, sched, asof, beta, extra):
                                                              b["maxdd"] * 100))
         if "excess_pp" in mk:
             L += ["", "超额 %+.2fpp/年（同 β 基准对照，成本双层已计）。" % mk["excess_pp"]]
+    ag = extra.get("agreement")
+    if ag:
+        L += ["", "## 两张生产面是不是同一天",
+              "- 决策 bar：卡片 %s ｜ 本单 %s ｜ 一致=%s"
+              % (ag["card_decided_at"], ag["ticket_book_decided_at"], ag["same_decision_bar"]),
+              "- 定价 bar：卡片 %s（%s）｜ 本单 %s（%s）｜ 一致=%s"
+              % (ag["card_priced_bar"] or "未知", ag["card_feed_status"] or "未知",
+                 ag["ticket_priced_bar"], (feed or {}).get("status", "未知"),
+                 ag["same_priced_bar"])]
+        if not ag["same_priced_bar"]:
+            L += ["- ⚠ 两张面定价不在同一天：卡片是配置口径的对照面、本单是可执行面，"
+                  "若两张之间跨过了一个网格决策日，它们描述的是两本不同的书 —— 照单下手前"
+                  "只看本单的仓位，卡片的名数与波动目标行不可当今天的仓位用。"]
     wd = extra.get("width")
     if wd:
         L += ["", "## 这张单是 %d 名，卡片是 %d 名" % (wd["ticket_names"], wd["card_names"]),
@@ -463,11 +476,22 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                      "ticket_book_decided_at": str(dec_bar.date()),
                      "same_decision_bar": cb["decided_at"] == str(dec_bar.date()),
                      "ticket_is_prefix_of_card": cb["symbols"][:len(ticket_picks)] == ticket_picks,
-                     "card_names": len(cb["symbols"])}
+                     "card_names": len(cb["symbols"]),
+                     # the priced bar is the second half of the agreement: two faces can
+                     # share a decision bar and still be built off different panel endings,
+                     # and a card refreshed before a grid decision keeps describing the
+                     # PREVIOUS book (r1290: the card sat at 2026-10-23/stale_feed while
+                     # this ticket was already 2026-10-26/current, both calling themselves
+                     # the production book, neither saying a word about the other).
+                     "card_priced_bar": cb.get("priced_bar"),
+                     "ticket_priced_bar": asof,
+                     "same_priced_bar": bool(cb.get("priced_bar")) and cb.get("priced_bar") == asof,
+                     "card_feed_status": cb.get("feed_status")}
         print("card agreement: same decision bar=%s | ticket is %d-name prefix of the card's "
-              "%d-name book=%s"
+              "%d-name book=%s | same priced bar=%s (card %s vs ticket %s)"
               % (agreement["same_decision_bar"], len(ticket_picks),
-                 agreement["card_names"], agreement["ticket_is_prefix_of_card"]), flush=True)
+                 agreement["card_names"], agreement["ticket_is_prefix_of_card"],
+                 agreement["same_priced_bar"], cb.get("priced_bar"), asof), flush=True)
     mk = metrics(slip, blip)
     wd = width_disclosure()
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
@@ -507,7 +531,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
-                      "feed": feed}))
+                      "feed": feed, "agreement": agreement}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -572,7 +596,16 @@ def card_book(card_dir=None):
         sh = doc.get("sheet") or {}
         return {"decided_at": sh.get("book_decided_at") or sh.get("last_decision_bar"),
                 "symbols": [l.get("symbol") for l in (sh.get("legs") or [])],
-                "scale": sh.get("risk_scale")}
+                "scale": sh.get("risk_scale"),
+                # the bar the card was PRICED on, not just the bar its book was decided
+                # on: both faces slice the same panel, but only this field says WHICH day
+                # the numbers under it belong to. Measured r1290: on a non-grid day the
+                # book is identical (vol overlay sizes at the decision bar, not daily) and
+                # only the feed line moves -- but a card refreshed before a grid decision
+                # and a ticket refreshed after it describe two different books, and
+                # nothing in either face would have said so.
+                "priced_bar": sh.get("as_of_bar"),
+                "feed_status": (doc.get("feed_status") or {}).get("status")}
     except Exception:
         return None
 
@@ -767,7 +800,9 @@ def selftest():
         syms = ["A%03d" % i for i in range(6)]
         with open(os.path.join(cd3, "latest.json"), "w", encoding="utf-8") as f:
             json.dump({"config": {"n_hold": 6},
-                       "sheet": {"book_decided_at": "2026-10-14", "risk_scale": 0.7008,
+                       "feed_status": {"status": "stale_feed", "ticket_bar": "2026-10-23"},
+                       "sheet": {"as_of_bar": "2026-10-23",
+                                 "book_decided_at": "2026-10-14", "risk_scale": 0.7008,
                                  "legs": [{"symbol": s} for s in syms]}}, f)
         cb = card_book(cd3)
         chk("leg18 card_book reads the held book off the card",
@@ -809,6 +844,37 @@ def selftest():
               {"inception": "2024-01-01", "feed": lag1})
     chk("leg24 the stale warning reaches the one-page face a human reads",
         "\u26a0" in md and "stale_feed" in md, "chars=%d" % len(md))
+
+    # legs 25-26: two faces can share a decision bar and still price a day apart -- on a
+    # HOLD bar the vol overlay re-sizes weights and the cash slot every single day, so the
+    # priced bar has to travel with the book (r1290: card at 10-23/stale_feed, ticket at
+    # 10-26/current, and nothing in either face said so).
+    import shutil
+    import tempfile
+    cdt = tempfile.mkdtemp()
+    try:
+        with open(os.path.join(cdt, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"feed_status": {"status": "stale_feed", "ticket_bar": "2026-10-23"},
+                       "sheet": {"as_of_bar": "2026-10-23", "book_decided_at": "2026-10-14",
+                                 "legs": [{"symbol": "AAA"}]}}, f)
+        cbo = card_book(cdt)
+        chk("leg25 card_book carries the priced bar and its feed status",
+            cbo["priced_bar"] == "2026-10-23" and cbo["feed_status"] == "stale_feed",
+            "bar=%s feed=%s" % (cbo.get("priced_bar"), cbo.get("feed_status")))
+        md_split = card(None, None, None, "2026-10-26", 0.2,
+                        {"inception": "2024-01-01", "feed": cur,
+                         "agreement": {"card_decided_at": cbo["decided_at"],
+                                       "ticket_book_decided_at": "2026-10-14",
+                                       "same_decision_bar": True,
+                                       "card_priced_bar": cbo["priced_bar"],
+                                       "card_feed_status": cbo["feed_status"],
+                                       "ticket_priced_bar": "2026-10-26",
+                                       "same_priced_bar": False}})
+        chk("leg26 a one-day-stale card is flagged despite a matching decision bar",
+            "\u26a0" in md_split and "两张面定价不在同一天" in md_split
+            and "一致=True" in md_split, "chars=%d" % len(md_split))
+    finally:
+        shutil.rmtree(cdt, ignore_errors=True)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

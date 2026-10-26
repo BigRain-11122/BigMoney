@@ -1,0 +1,368 @@
+{
+ "ts": "2026-10-26 22:28:01",
+ "evidence_cutoff": "2026-10-26",
+ "feed_status": {
+  "ticket_bar": "2026-10-26",
+  "expected_bar": "2026-10-26",
+  "lag_days": 0,
+  "status": "current",
+  "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "script": "scripts/etf_book_production.py",
+ "config": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "capital_cny": 1000000.0,
+  "universe_size": 1499,
+  "flips_repaired": 168,
+  "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"
+ },
+ "backtest": {
+  "n5_base": {
+   "full": {
+    "cagr": 0.1559,
+    "sharpe": 1.005,
+    "maxdd": -0.1604,
+    "vol": 0.1637,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.1022,
+    "sharpe": 0.685,
+    "maxdd": -0.1418,
+    "vol": 0.1683,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2371,
+    "sharpe": 1.496,
+    "maxdd": -0.1604,
+    "vol": 0.1571,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.53,
+   "n_hold": 5,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n5_vt08": {
+   "full": {
+    "cagr": 0.1152,
+    "sharpe": 1.135,
+    "maxdd": -0.1056,
+    "vol": 0.1049,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0581,
+    "sharpe": 0.621,
+    "maxdd": -0.088,
+    "vol": 0.1031,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2017,
+    "sharpe": 1.842,
+    "maxdd": -0.1056,
+    "vol": 0.1075,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.08,
+   "n_hold": 5,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n8_base": {
+   "full": {
+    "cagr": 0.1501,
+    "sharpe": 0.997,
+    "maxdd": -0.1678,
+    "vol": 0.1591,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0883,
+    "sharpe": 0.625,
+    "maxdd": -0.1678,
+    "vol": 0.1616,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.2446,
+    "sharpe": 1.55,
+    "maxdd": -0.1494,
+    "vol": 0.1556,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.389,
+   "n_hold": 8,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n8_vt08": {
+   "full": {
+    "cagr": 0.1063,
+    "sharpe": 1.057,
+    "maxdd": -0.114,
+    "vol": 0.1048,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0474,
+    "sharpe": 0.516,
+    "maxdd": -0.114,
+    "vol": 0.1035,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1961,
+    "sharpe": 1.811,
+    "maxdd": -0.1044,
+    "vol": 0.1066,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.018,
+   "n_hold": 8,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  },
+  "n12_base": {
+   "full": {
+    "cagr": 0.1405,
+    "sharpe": 0.972,
+    "maxdd": -0.1588,
+    "vol": 0.153,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0769,
+    "sharpe": 0.57,
+    "maxdd": -0.1588,
+    "vol": 0.1565,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.238,
+    "sharpe": 1.584,
+    "maxdd": -0.1289,
+    "vol": 0.148,
+    "years": 2.81
+   },
+   "turnover_per_decision": 1.277,
+   "n_hold": 12,
+   "vol_target": null,
+   "cost_bp": 10.0
+  },
+  "n12_vt08": {
+   "full": {
+    "cagr": 0.0949,
+    "sharpe": 0.98,
+    "maxdd": -0.1177,
+    "vol": 0.1017,
+    "years": 6.81
+   },
+   "is": {
+    "cagr": 0.0384,
+    "sharpe": 0.442,
+    "maxdd": -0.1177,
+    "vol": 0.0997,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.181,
+    "sharpe": 1.719,
+    "maxdd": -0.107,
+    "vol": 0.1044,
+    "years": 2.81
+   },
+   "turnover_per_decision": 0.934,
+   "n_hold": 12,
+   "vol_target": 0.08,
+   "cost_bp": 10.0
+  }
+ },
+ "vol_delivery": {
+  "target_vol": 0.08,
+  "windows": {
+   "full": {
+    "target": 0.08,
+    "delivered": 0.1017,
+    "ratio": 1.271
+   },
+   "is": {
+    "target": 0.08,
+    "delivered": 0.0997,
+    "ratio": 1.246
+   },
+   "oos": {
+    "target": 0.08,
+    "delivered": 0.1044,
+    "ratio": 1.305
+   }
+  },
+  "headline": "target 8% -> delivered 10.2% over the full window (1.27x)"
+ },
+ "sheet": {
+  "as_of_bar": "2026-10-26",
+  "decision": "HOLD: 12 bars until the next decision point",
+  "is_grid_decision_bar": false,
+  "last_decision_bar": "2026-10-14",
+  "book_decided_at": "2026-10-14",
+  "bars_until_next_decision": 12,
+  "capital_cny": 1000000.0,
+  "target_vol": 0.08,
+  "realised_book_vol_60d": 0.1142,
+  "risk_scale": 0.7008,
+  "cash_weight": 0.2992,
+  "cash_amount_cny": 299225.0,
+  "legs": [
+   {
+    "symbol": "159501",
+    "name": "纳指ETF嘉实",
+    "class": "equity",
+    "score": 0.7953,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.1390000000000042,
+    "lots_100": 27300,
+    "actual_amount_cny": 58395.0
+   },
+   {
+    "symbol": "513100",
+    "name": "纳指ETF国泰",
+    "class": "equity",
+    "score": 0.7495,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 11.437745812807918,
+    "lots_100": 5100,
+    "actual_amount_cny": 58333.0
+   },
+   {
+    "symbol": "513690",
+    "name": "港股红利ETF博时",
+    "class": "equity",
+    "score": 0.7193,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1029999999999978,
+    "lots_100": 52900,
+    "actual_amount_cny": 58349.0
+   },
+   {
+    "symbol": "159577",
+    "name": "美国50ETF汇添富",
+    "class": "equity",
+    "score": 0.7166,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.643000000000005,
+    "lots_100": 35500,
+    "actual_amount_cny": 58327.0
+   },
+   {
+    "symbol": "159263",
+    "name": "价值ETF易方达",
+    "class": "equity",
+    "score": 0.7086,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1150000000000027,
+    "lots_100": 52300,
+    "actual_amount_cny": 58315.0
+   },
+   {
+    "symbol": "513630",
+    "name": "港股低波红利ETF摩根",
+    "class": "equity",
+    "score": 0.704,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.5359999999999974,
+    "lots_100": 38000,
+    "actual_amount_cny": 58368.0
+   },
+   {
+    "symbol": "513300",
+    "name": "纳斯达克ETF华夏",
+    "class": "equity",
+    "score": 0.6997,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.6800000000000193,
+    "lots_100": 21700,
+    "actual_amount_cny": 58156.0
+   },
+   {
+    "symbol": "513850",
+    "name": "美国50ETF易方达",
+    "class": "equity",
+    "score": 0.6944,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.8379999999999985,
+    "lots_100": 31700,
+    "actual_amount_cny": 58265.0
+   },
+   {
+    "symbol": "159207",
+    "name": "高股息ETF广发",
+    "class": "equity",
+    "score": 0.6889,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.1469999999999954,
+    "lots_100": 50900,
+    "actual_amount_cny": 58382.0
+   },
+   {
+    "symbol": "159307",
+    "name": "红利低波100ETF博时",
+    "class": "equity",
+    "score": 0.6816,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 1.032,
+    "lots_100": 56500,
+    "actual_amount_cny": 58308.0
+   },
+   {
+    "symbol": "513870",
+    "name": "纳指ETF富国",
+    "class": "equity",
+    "score": 0.6807,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.0650000000000053,
+    "lots_100": 28200,
+    "actual_amount_cny": 58233.0
+   },
+   {
+    "symbol": "159632",
+    "name": "纳斯达克ETF华安",
+    "class": "equity",
+    "score": 0.6757,
+    "weight": 0.0584,
+    "amount_cny": 58398.0,
+    "ref_price": 2.4339999999999966,
+    "lots_100": 23900,
+    "actual_amount_cny": 58173.0
+   }
+  ]
+ },
+ "caveats": [
+  "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
+  "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
+  "The vol target only de-levers; it is a drawdown tool, not an edge.",
+  "Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).",
+  "Order sheet is research output, not an investment recommendation.",
+  "The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held."
+ ]
+}

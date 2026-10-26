@@ -496,7 +496,10 @@ def main() -> int:
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {n for n, _c in _legs}
-        _want = {"etf_book_forward", "etf_book_order", "cal_audit"}
+        # etf_book_production belongs here as much as the ticket: r1290 caught the card
+        # (the headline face) a full refresh behind the ticket because only the ticket
+        # was wired -- an unwired face reads as current to everything downstream.
+        _want = {"etf_book_forward", "etf_book_production", "etf_book_order", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")

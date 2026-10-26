@@ -59,6 +59,12 @@ LEGS = [
     # ticket. Both were hand-run only until r1275, so the accrual depended on a session
     # remembering to call them -- r1267, r1269 and r1273 each named that as owed.
     ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # The card is the headline face and the ticket the executable one; both are sold as
+    # "the production book". r1290 found the card stranded a full refresh behind (priced
+    # 2026-10-23/stale_feed while this ticket was already 2026-10-26/current) because only
+    # the ticket was on this chain -- the same orphan-face class as r1257's panel. Card
+    # first, ticket second: the ticket's card_agreement block reads the card back.
+    ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
