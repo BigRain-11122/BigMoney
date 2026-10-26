@@ -93,6 +93,39 @@ def probe_vram():
         return None
 
 
+def _count_pool_ready(entries):
+    # Pure counting core of the runnable-pool face (fixture-testable).
+    if not isinstance(entries, list):
+        return None
+    n = 0
+    for e in entries:
+        if not isinstance(e, dict):
+            continue
+        if str(e.get('status') or '').lower() != 'ready':
+            continue
+        if e.get('owner'):
+            continue
+        n += 1
+    return n
+
+
+def pool_ready_unclaimed():
+    # r1119: the runnable POOL face (results/runnable_pool.json), which is a
+    # DIFFERENT work face from fleet/backlog.md. This round both numbers were
+    # read side by side (idle_trigger 1 vs compute_audit 3) and looked like a
+    # contradiction; they never were -- one counts backlog lines, the other
+    # counts ready unowned pool entries. Publish both, named for their face,
+    # so no consumer has to guess which "pool" a number refers to.
+    p = os.path.join(PROJECT, 'results', 'runnable_pool.json')
+    try:
+        with open(p, encoding='utf-8') as f:
+            d = json.load(f)
+    except Exception:
+        return None
+    entries = d.get('entries') if isinstance(d, dict) else d
+    return _count_pool_ready(entries)
+
+
 def probe_inflight(mid):
     reasons = []
     # 1) saturation engine active burns
@@ -241,7 +274,13 @@ def bookkeeping(mid, now):
         'vram_gate_note': 'disclosure-only since T-2026-10-10-183 (O-20261010-1825 sec.3)',
         'inflight_reasons': inflight,
         'claimed_recent': fresh_claim is not None,
+        'backlog_claimable_lines': len(claimable),
+        'pool_ready_unclaimed': pool_ready_unclaimed(),
+        # deprecated alias: this is the BACKLOG line count, not the runnable
+        # pool (see pool_ready_unclaimed / pool_count_note).
         'claimable_pool_lines': len(claimable),
+        'pool_count_note': 'backlog_claimable_lines==fleet/backlog.md claim-by-file lines; '
+                           'pool_ready_unclaimed==results/runnable_pool.json ready+unowned entries',
         'idle_rounds': idle_rounds,
         'agenda_starved': agenda_starved,
         'two_read_red': idle_rounds >= 2,
@@ -489,6 +528,22 @@ def selftest():
     if not cnw_ok:
         ok = False
     print('[%s] cnw-consistency CNW=%d' % (flag, CNW))
+    # r1119 two-face fixture: the runnable POOL count must not swallow owned or
+    # non-ready entries, and an unreadable face must be None (not 0 -- 0 would
+    # claim "no work" from a face we never read).
+    pool_cases = [
+        ([{'status': 'ready'}, {'status': 'claimed', 'owner': 'bm-c'},
+          {'status': 'ready', 'owner': 'bm-a'}, {'status': 'done'},
+          'not-a-dict'], 1, 'mixed'),
+        ([], 0, 'empty'),
+        (None, None, 'unreadable-face'),
+    ]
+    for entries, want, name in pool_cases:
+        got = _count_pool_ready(entries)
+        flag = 'PASS' if got == want else 'FAIL'
+        if got != want:
+            ok = False
+        print('[%s] pool-ready %s -> %s' % (flag, name, got))
     print('selftest:', 'ALL PASS' if ok else 'FAIL')
     return 0 if ok else 1
 
