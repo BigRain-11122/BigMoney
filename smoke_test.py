@@ -474,7 +474,9 @@ def main() -> int:
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
-             "Tools/gpu_face.py", ["--selftest"])):
+             "Tools/gpu_face.py", ["--selftest"]),
+            ("product: exchange_calendar_audit lag verdict (exit-code contract)",
+             "scripts/exchange_calendar_audit.py", ["selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -489,12 +491,25 @@ def main() -> int:
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {n for n, _c in _legs}
-        _want = {"etf_book_forward", "etf_book_order"}
+        _want = {"etf_book_forward", "etf_book_order", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
+    # The lag face itself is what a human reads to tell a holiday from a dead feed,
+    # so assert the published file exists and speaks a known verdict -- a green
+    # selftest on synthetic panels would not prove the live face was ever written.
+    try:
+        _la = json.load(open("results/data_lag_audit.json", encoding="utf-8"))
+        _ok_la = (_la.get("schema") == "data-lag-audit/v1"
+                  and _la.get("verdict") in {"in_sync", "source_lag", "panel_gap"}
+                  and bool(_la.get("expected_last_official_day")))
+        check("product: data lag audit face published", _ok_la,
+              f"verdict={_la.get('verdict')} expected="
+              f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')}")
+    except Exception as e:
+        check("product: data lag audit face published", False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:

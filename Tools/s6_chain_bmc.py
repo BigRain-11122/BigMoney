@@ -1,6 +1,6 @@
 """bm-c S6 chain runner (reusable).
 
-Runs the 42 S6 data/panel maintenance legs in the order fixed by the round
+Runs the 43 S6 data/panel maintenance legs in the order fixed by the round
 prompt, records {leg, rc, elapsed} for each into
 results/_r<round>bmc_s6_chain.json and prints a compact tail summary.
 
@@ -23,6 +23,11 @@ LEGS = [
     ("compute_audit", ["python", "scripts/compute_audit.py"]),
     ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
     ("update_daily", ["python", "scripts/update_daily.py"]),
+    # The official exchange calendar, so "no new bar" stops being ambiguous: on
+    # 2026-10-26 every panel leg printed no-op while the market had closed and the
+    # feed had simply not published. The audit reads the sina trading-day list
+    # (one request, then local for the rest of the year) and names the verdict.
+    ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
@@ -81,9 +86,25 @@ LEGS = [
 
 
 def main():
-    round_no = sys.argv[1] if len(sys.argv) > 1 else "0"
+    args = [a for a in sys.argv[1:]]
+    only = None
+    for a in list(args):
+        if a.startswith("--only"):
+            only = a.split("=", 1)[1] if "=" in a else None
+            args.remove(a)
+            if only is None:
+                only = args.pop(0) if args else ""
+    round_no = args[0] if args else "0"
+    legs = LEGS
+    if only is not None:
+        want = [w.strip() for w in only.split(",") if w.strip()]
+        legs = [(n, c) for n, c in LEGS if n in want]
+        missing = sorted(set(want) - {n for n, _ in legs})
+        if missing:
+            print(f"unknown leg(s): {missing}; known={[n for n, _ in LEGS]}")
+            sys.exit(2)
     out = []
-    for name, cmd in LEGS:
+    for name, cmd in legs:
         t0 = time.time()
         try:
             r = subprocess.run(cmd, capture_output=True, text=True,

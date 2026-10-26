@@ -856,3 +856,13 @@ eutralrob，八格与新件 unscreened 臂逐格恒等（diff 为空）。
 - 判读：①答案=**不改动任何已发布普查线**，宽臂本来就对；②真正错的是整数门：它丢掉 135 个真修复里的 70 个（52%），代价是水平 −122.7bp、带宽 22.7→31.4——「保守分支」在这里保护的从来不是风险而是欠修；③相等是**单面板单切口的测量不是定理**：只要有一个打印在 5 个收盘内回弹两臂就分开，故 `reverting_adjacent`/`undecided_adjacent` 随件发布，引用持续臂必带拒修计数。
 - 验证：`python scripts\panel_screen.py` 31/31；`python scripts\e39_panel_census.py selftest` 257/257；`python scripts\e39_panel_census.py screenspread` 四臂约 35s；results/e42_spread_size_neutral/NEUTRAL-20261023-screened.json；research/digests/DIGEST-20261026-e134-persist-screen-census.md
 - 2026-10-26 r1283 bm-c，E134 收口。承接 O-20261002-2100 收口步。
+
+
+## E136 自指日历分不清假日与哑火：拿交易所官方日历做独立参照，才敢说「今天没有新增 bar」是合法的（r1286 bm-c 实证）
+- 情境：2026-10-26（官方交易日，收盘已过）ETF feed 未发当日 bar。全链 42 条腿全部 rc=0：update_daily 打 probe_no_new、etf_book_forward 打 NO-OP last_bar=2026-10-23、forward 账本停在 1.0。所有腿的「预期完整 bar 日」都是从我们自己的面板/由面板生成的日历推的——**数据自己当裁判，永远判自己合格**。
+- 实做：scripts/exchange_calendar_audit.py（两脸一跑）——①data/exchange_calendar.csv 官方交易日（sina tool_trade_date_hist_sina 一次请求，8797 天，覆盖到 2026-12-31；刷新闸=覆盖不足 30 天或距上次 6h，常态零网络；写入一律与盘上**取并集**，日历属历史不可缩）②
+esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_sync / source_lag（就是今天这一根还没发） / panel_gap（更早的官方日也缺=feed 真哑了），并直接写明对 forward 账本的影响。
+- 口径要点（全部有 selftest 钉子）：①**15:30 边界**——盘前不要求当日 bar，否则每个上午都报假警（L4）；②**别拿最老的 CSV 当面板落后度**——data/daily 有 1,725 个文件，其中 2 个停在 09-04/09-22，min() 会把「1 天发布延迟」读成「10 天停摆」（首跑就踩，见 L9）；正法=维护中队列（尾 bar 落在最新尾 bar 的 5 个官方日内）+ 覆盖率 ≥90% 才算该日已覆盖；③冻结队列单独披露，不静默平均进状态。
+- 验证：python scripts\exchange_calendar_audit.py selftest 9/9；实跑 verdict=source_lag（expected 2026-10-26，active 1723/1725，effective 2026-10-23，missing ['2026-10-26']）；已接 S6 链 cal_audit 腿（43 腿）+ smoke 两条腿（selftest 契约 + 活面已发布）。
+- 读法：**「没有新 bar」不是状态，是待解释的观测**。有官方日历才有资格说这是延迟；没有就只能等。
+- 2026-10-26 r1286 bm-c，承接 O-20261002-2100 收口步。
