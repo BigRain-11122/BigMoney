@@ -1,0 +1,195 @@
+{
+ "evidence_cutoff": "2026-10-23",
+ "script": "scripts/etf_book_split_audit.py",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "flip_thr": 0.35,
+  "universe_size": 1499,
+  "flips_repaired": 168
+ },
+ "arms": {
+  "repaired": {
+   "full": {
+    "cagr": 0.0947,
+    "sharpe": 0.978,
+    "maxdd": -0.1177,
+    "vol": 0.1018
+   },
+   "is": {
+    "cagr": 0.0384,
+    "sharpe": 0.442,
+    "maxdd": -0.1177,
+    "vol": 0.0997
+   },
+   "oos": {
+    "cagr": 0.1808,
+    "sharpe": 1.714,
+    "maxdd": -0.107,
+    "vol": 0.1045
+   },
+   "turnover_per_decision": 0.934
+  },
+  "raw": {
+   "full": {
+    "cagr": 0.083,
+    "sharpe": 0.857,
+    "maxdd": -0.1177,
+    "vol": 0.1032
+   },
+   "is": {
+    "cagr": 0.0273,
+    "sharpe": 0.326,
+    "maxdd": -0.1177,
+    "vol": 0.1017
+   },
+   "oos": {
+    "cagr": 0.1682,
+    "sharpe": 1.596,
+    "maxdd": -0.107,
+    "vol": 0.1052
+   },
+   "turnover_per_decision": 0.934
+  },
+  "legacy_repair": {
+   "full": {
+    "cagr": 0.0947,
+    "sharpe": 0.978,
+    "maxdd": -0.1177,
+    "vol": 0.1018
+   },
+   "is": {
+    "cagr": 0.0384,
+    "sharpe": 0.442,
+    "maxdd": -0.1177,
+    "vol": 0.0997
+   },
+   "oos": {
+    "cagr": 0.1808,
+    "sharpe": 1.714,
+    "maxdd": -0.107,
+    "vol": 0.1045
+   },
+   "turnover_per_decision": 0.934
+  }
+ },
+ "delta_repaired_minus_raw": {
+  "full": {
+   "cagr": 0.0117,
+   "sharpe": 0.121,
+   "maxdd": 0.0,
+   "vol": -0.0014
+  },
+  "is": {
+   "cagr": 0.0111,
+   "sharpe": 0.116,
+   "maxdd": 0.0,
+   "vol": -0.002
+  },
+  "oos": {
+   "cagr": 0.0126,
+   "sharpe": 0.118,
+   "maxdd": 0.0,
+   "vol": -0.0007
+  }
+ },
+ "flip_attribution": {
+  "events_in_universe": 164,
+  "events_held_by_book": 4,
+  "integer_like_events": 77,
+  "level_persist_events": 164,
+  "level_persist_in_book": 4,
+  "reverting_events": 0,
+  "bp_if_unrepaired_abs": 2001.32,
+  "bp_if_unrepaired_signed": 2001.32
+ },
+ "events_held_by_book": [
+  {
+   "name": "159966",
+   "date": "2020-11-06",
+   "ret_pct": -68.26,
+   "prev_close": 1.941,
+   "close": 0.616,
+   "implied_ratio": 3.151,
+   "nearest_int": 3,
+   "resid_pct": 5.032,
+   "integer_like": false,
+   "post_drift_pct": -1.3,
+   "level_persists": true,
+   "book_decision": "2020-11-03",
+   "held_by_book": true,
+   "book_bp_if_unrepaired": 568.83,
+   "book_bp_signed": 568.83
+  },
+  {
+   "name": "159967",
+   "date": "2020-11-06",
+   "ret_pct": -73.03,
+   "prev_close": 2.11,
+   "close": 0.569,
+   "implied_ratio": 3.7083,
+   "nearest_int": 4,
+   "resid_pct": 7.293,
+   "integer_like": false,
+   "post_drift_pct": -1.41,
+   "level_persists": true,
+   "book_decision": "2020-11-03",
+   "held_by_book": true,
+   "book_bp_if_unrepaired": 608.58,
+   "book_bp_signed": 608.58
+  },
+  {
+   "name": "513500",
+   "date": "2022-03-30",
+   "ret_pct": -49.18,
+   "prev_close": 2.735,
+   "close": 1.39,
+   "implied_ratio": 1.9676,
+   "nearest_int": 2,
+   "resid_pct": 1.619,
+   "integer_like": true,
+   "post_drift_pct": -1.37,
+   "level_persists": true,
+   "book_decision": "2022-03-28",
+   "held_by_book": true,
+   "book_bp_if_unrepaired": 409.83,
+   "book_bp_signed": 409.83
+  },
+  {
+   "name": "512800",
+   "date": "2025-07-07",
+   "ret_pct": -49.69,
+   "prev_close": 1.777,
+   "close": 0.894,
+   "implied_ratio": 1.9877,
+   "nearest_int": 2,
+   "resid_pct": 0.615,
+   "integer_like": true,
+   "post_drift_pct": 0.11,
+   "level_persists": true,
+   "book_decision": "2025-06-18",
+   "held_by_book": true,
+   "book_bp_if_unrepaired": 414.08,
+   "book_bp_signed": 414.08
+  }
+ ],
+ "event_count": 164,
+ "curves_identical": false,
+ "repair_completeness": {
+  "prints_reported_now": 168,
+  "prints_reported_legacy": 134,
+  "prints_measured_vs_priced_close": 164,
+  "prints_surviving_in_repaired_panel": 0,
+  "prints_surviving_in_legacy_panel": 0,
+  "legacy_equals_published": false
+ },
+ "verdict": "the repair is worth +1.17pp of CAGR on the published headline (full window, 9.47% vs 8.30% raw); 164 prints flagged in the universe, 4 of them ever in the book (4 of those level-persistent, i.e. corporate actions), 2001bp of raw charge in total",
+ "card_agreement": {
+  "equal": true,
+  "diffs": [],
+  "card_ts": "2026-10-26 12:43:59",
+  "card_cutoff": "2026-10-23"
+ }
+}
