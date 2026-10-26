@@ -84,6 +84,12 @@ LEGS = [
     # class). Every row is derived from its own artefact, so it also catches a pointer
     # that still names a file which no longer exists. <1s, no network, no judge.
     ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
+    # Fifth instance of the same class, one layer up: every face above is machine-shaped,
+    # so the one thing a human can actually read about the only money-making structure we
+    # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
+    # forward nav, backtest band, next rebalance) with zero new judgement; single writer
+    # = bm-a, other hosts print an honest no-op. <1s, no network.
+    ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
     # Fourth instance of the orphan-face class, and the worst-placed one: the staggered
     # 5+5 book is the config this firm calls its production book, but its accrual ran only
     # off a scheduled task that no longer exists on this host (schtasks: not found), so the

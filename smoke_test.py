@@ -515,8 +515,8 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_width_audit", "etf_book_registry", "etf_paper_signal",
-                 "cal_audit"}
+                 "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
+                 "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
@@ -569,6 +569,26 @@ def main() -> int:
               f"lag={_lag} stale={_st.get('stale')}")
     except Exception as e:
         check("product: live paper book states its price lag", False, str(e))
+    # The ETF book is the only money-making structure we publish, yet every face of
+    # it is machine-shaped; docs/live_book is the one a human reads. Assert it is
+    # current with the ticket pointer and that its own arithmetic closes -- a page
+    # left behind after a new ticket would otherwise look perfectly valid.
+    try:
+        _lb = json.load(open("results/etf_book_order/latest.json", encoding="utf-8"))
+        _ptr = json.load(open("docs/live_book/latest.json", encoding="utf-8"))
+        _page = json.load(open(_ptr.get("json"), encoding="utf-8"))
+        _sum = sum(float(o.get("amount_cny") or 0) for o in (_page.get("order") or []))
+        _ok_lb = (_page.get("schema") == "etf-book-ceo-page/v1"
+                  and _page.get("evidence_cutoff") == _lb.get("as_of")
+                  and bool(_page.get("next_rebalance_date"))
+                  and bool(_page.get("order"))
+                  and abs(_sum + float(_page.get("cash_amount_cny") or 0)
+                          - float(_page.get("capital_cny") or 0)) < 1.0)
+        check("product: ETF live-book page current and its money closes", _ok_lb,
+              f"page_cutoff={_page.get('evidence_cutoff')} ticket_asof={_lb.get('as_of')} "
+              f"names={len(_page.get('order') or [])} next={_page.get('next_rebalance_date')}")
+    except Exception as e:
+        check("product: ETF live-book page current and its money closes", False, str(e))
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:

@@ -139,7 +139,7 @@
   "cashflow": 0,
   "income": 58
  },
- "now_active": "S7 closeout r1121 -> r1122",
+ "now_active": "S7 closeout r1122 -> r1123",
  "ord_sha_method": "python raw-bytes sha256 canonical (r814 lineage)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -268,8 +268,8 @@
  ],
  "orders_ack_last": "O-20261026-0930-bm-c.md",
  "orders_ack_note": "r1085: O-20261019-2230-bm-b consumed same-round (yield=zero per 22:38 revision, resume=n/a, first-batch ticket=FUND-STAGESTYLE-COMBO-P1, panel evidence MSG-2314 dispatched) + dual-face ack 116/116; D-19 ord ADVANCED 4cadbbd9; dec hold 60a98a02; MSG-2218 informational (hardware seat)",
- "orphan_face": "0/18",
- "orphan_faces": 18,
+ "orphan_face": "0/16",
+ "orphan_faces": 16,
  "orphan_killed": 0,
  "push_verified": {
   "ahead": 0,
@@ -282,10 +282,10 @@
  "ram_free_mb": 5120,
  "ram_free_pct": 24.3,
  "ram_load_pct": null,
- "recent_artifact": "fleet/tasks/T-2026-10-05-172-P1.json",
- "round": 1121,
- "round_no": 1122,
- "round_no_label": "r1121",
+ "recent_artifact": "docs/live_book/LIVE-BOOK-20261027.md",
+ "round": 1122,
+ "round_no": 1123,
+ "round_no_label": "r1122",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
  "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
  "s6_face_r1102": "S6 42-leg chain (r1102 clone of the r1099 face): dualrun ZERO-DRIFT 616 entries streak 51 | compute_audit rc0 | py_watermark rc0 | update_daily rc0 | marks_coverage rc3 + marks_capture rc0 (outside window) | market_regime ORANGE breadth 0.85 | scorecard/market_clock/lhb/zt_pool/heat/futures/repo rc0 | regime_thermo rc0 | dualarm rc0 | rev_osc rc0 | minute_feed rc0 | ths/ah/premium/fundamental/b_layer rc0 | t35_open_fill_verify rc1 (known marks gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local-LLM legs",
@@ -307,9 +307,9 @@
   "origin_tip": "b61396ba39",
   "ts": "2026-10-26T11:54:35+08:00"
  },
- "task": "r1121: the SYSTEM-V1 live paper book had been quoting equity at a 4-trading-day-old price face with nothing on the face saying so; the face now publishes its lag and a smoke leg pins the arithmetic",
+ "task": "r1122: the only money-making structure we publish had no human-readable face; docs/live_book now prints today's order, money split, forward nav, expectation band and next rebalance on one page, and the S6 chain refills it",
  "total_ram_gb": 93.6,
- "ts": "2026-10-27T03:32:41+08:00",
+ "ts": "2026-10-27T04:56:49+08:00",
  "updated": "2026-10-24T07:43:23+08:00",
  "updated_at": "2026-10-20T12:32:26+08:00",
  "verdict": "green red=false (py_watermark insufficient_history n=1; compute_audit FLAG:supply_gap,supply_floor,supply_owner_silent; smoke 67/67; orphan 0/21)",
@@ -317,5 +317,7 @@
  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
  "verify_r1109": "fund_pit_factor_panel selftest 9/9; run rc0 over 200 month-ends (median report_differs 0.727 window, roe rho 0.896, min top-decile overlap 0.211); panel 281986 rows / 24 asofs lookahead-asserted; smoke 56/56; attrition CLEAN",
  "verify_r1110": "heartbeat_write selftest 10/10; live heal ack 0->118; orders_ack_scan CLEAN 109/118/0; smoke 56/56",
- "verify_r1121": "system_v1_paper selftest 11/11 (new leg [11/11] staleness: 0 -> stale False / 2 -> stale True + 'NOT current' / absent cutoff -> None not 0); live run rc0 wrote staleness{panel_cutoff 2026-10-20, calendar_last 2026-10-26, lag_trading_days 4, stale true}; smoke 75/75 PASS 0 FAIL; attrition CLEAN; orders_ack CLEAN; d19 both faces unchanged and reproducible"
+ "verify_r1121": "system_v1_paper selftest 11/11 (new leg [11/11] staleness: 0 -> stale False / 2 -> stale True + 'NOT current' / absent cutoff -> None not 0); live run rc0 wrote staleness{panel_cutoff 2026-10-20, calendar_last 2026-10-26, lag_trading_days 4, stale true}; smoke 75/75 PASS 0 FAIL; attrition CLEAN; orders_ack CLEAN; d19 both faces unchanged and reproducible",
+ "s6_face_r1122": "etf_book_ceo_page new chain leg rc0 (50 legs now) | smoke 76/76 (new leg: page current + money closes) | script selftest 13/13 | dualrun ZERO-DRIFT 622 entries streak 51 | compute_audit rc0 FLAG:supply_gap,supply_owner_silent (ready 3, ready_ignitable 0, foreign bm-b lane alive) | py_watermark insufficient_history n=1 | attrition CLEAN 4 ledgers (5 historical shrinks healed) | orders_ack CLEAN 114/123/0 | D-19 dec+ord unchanged both reproducible (fd9e59cd/c067b3b2 @17b6385) | full 50-leg chain not re-run: r1119 ran 47 legs 5h ago and the only new leg was run standalone",
+ "verify_r1122": "etf_book_ceo_page selftest 13/13 (calendar arithmetic, money closes to the cent, render sections, caveats carried, single-writer guard rejects bm-b/bm-c/None); live run wrote LIVE-BOOK-20261027.md twice byte-identically (idempotent) naming 5 ETFs / 471,226 book / 528,774 cash / next rebalance 2026-11-11; chain --only etf_book_ceo_page rc0; smoke 76/76"
 }

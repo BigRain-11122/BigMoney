@@ -1,0 +1,153 @@
+{
+ "schema": "etf-book-ceo-page/v1",
+ "generated_for_date": "2026-10-27",
+ "evidence_cutoff": "2026-10-26",
+ "priced_bar": "2026-10-26",
+ "feed_status": "current",
+ "feed_lag_days": 0,
+ "capital_cny": 1000000.0,
+ "book_amount_cny": 471225.5,
+ "cash_amount_cny": 528774.5,
+ "cash_weight": 0.5285,
+ "cash_leg": "GC001 (1-day repo, observed close)",
+ "k_now": 0.47149,
+ "n_hold": 5,
+ "cost_bp_per_side": 8.0,
+ "book_decided_at": "2026-10-14",
+ "next_decision_bars": 12,
+ "next_rebalance_date": "2026-11-11",
+ "order": [
+  {
+   "symbol": "159501",
+   "class": "crossborder",
+   "class_zh": "跨境",
+   "weight": 0.094298,
+   "price": 2.229,
+   "lots": 423,
+   "shares": 42300,
+   "amount_cny": 94286.7
+  },
+  {
+   "symbol": "513100",
+   "class": "crossborder",
+   "class_zh": "跨境",
+   "weight": 0.094298,
+   "price": 2.399,
+   "lots": 393,
+   "shares": 39300,
+   "amount_cny": 94280.7
+  },
+  {
+   "symbol": "513690",
+   "class": "crossborder",
+   "class_zh": "跨境",
+   "weight": 0.094298,
+   "price": 1.137,
+   "lots": 829,
+   "shares": 82900,
+   "amount_cny": 94257.3
+  },
+  {
+   "symbol": "159577",
+   "class": "crossborder",
+   "class_zh": "跨境",
+   "weight": 0.094298,
+   "price": 1.75,
+   "lots": 538,
+   "shares": 53800,
+   "amount_cny": 94150.0
+  },
+  {
+   "symbol": "159263",
+   "class": "equity",
+   "class_zh": "A股",
+   "weight": 0.094298,
+   "price": 1.148,
+   "lots": 821,
+   "shares": 82100,
+   "amount_cny": 94250.8
+  }
+ ],
+ "forward": {
+  "bars": 2,
+  "inception": "2026-10-23",
+  "nav": 1.0010304509,
+  "since_inception_pct": 0.103,
+  "as_of": "2026-10-26"
+ },
+ "backtest_band": {
+  "5 名·可执行单口径（本单这份账）": {
+   "full": {
+    "cagr_pct": 11.04,
+    "sharpe": 1.35,
+    "maxdd_pct": -6.01
+   }
+  },
+  "5 名·beta 覆盖": {
+   "full": {
+    "cagr_pct": 15.59,
+    "sharpe": 1.0,
+    "maxdd_pct": -16.04
+   },
+   "is": {
+    "cagr_pct": 10.22,
+    "sharpe": 0.69,
+    "maxdd_pct": -14.18
+   },
+   "oos": {
+    "cagr_pct": 23.71,
+    "sharpe": 1.5,
+    "maxdd_pct": -16.04
+   }
+  },
+  "12 名·8% 波动目标（生产卡片口径）": {
+   "full": {
+    "cagr_pct": 9.49,
+    "sharpe": 0.98,
+    "maxdd_pct": -11.77
+   },
+   "is": {
+    "cagr_pct": 3.84,
+    "sharpe": 0.44,
+    "maxdd_pct": -11.77
+   },
+   "oos": {
+    "cagr_pct": 18.1,
+    "sharpe": 1.72,
+    "maxdd_pct": -10.7
+   }
+  }
+ },
+ "excess_pp": 8.05,
+ "ticket_book": {
+  "cagr": 0.1104,
+  "sharpe": 1.352,
+  "maxdd": -0.0601,
+  "vol": 0.0816,
+  "bars": 679
+ },
+ "same_beta_benchmark": {
+  "cagr": 0.0299,
+  "sharpe": 0.787,
+  "maxdd": -0.0379,
+  "vol": 0.038,
+  "bars": 679
+ },
+ "agreement": {
+  "same_decision_bar": true,
+  "same_priced_bar": true,
+  "card_names": 12
+ },
+ "sources": {
+  "ticket": "results\\etf_book_order\\TICKET-2026-10-26.json",
+  "card": "results/etf_book_production/latest.json",
+  "ledger": "results/etf_book_forward/LEDGER.json",
+  "calendar": "data/exchange_calendar.csv"
+ },
+ "caveats": [
+  "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
+  "前向账本只有 2 个交易日，自起始净值 1.0010 不构成业绩记录。",
+  "现金腿若不下单，账本按 GC001 (1-day repo, observed close) 计息；不买逆回购则实际是 0 息。",
+  "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。"
+ ]
+}
