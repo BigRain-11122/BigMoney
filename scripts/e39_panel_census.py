@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import os
 import sys
@@ -9575,6 +9576,36 @@ def selftest():
     chk(_arm_price_edits(_caches, "unscreened")["symbols_with_changed_prices"] == 0,
         "the base arm edits nothing against itself")
 
+    # E103: a ladder that does not move is not a ladder of measurements
+    _lg = _limit_groups({1: "a", 2: "a", 3: "b", 4: "b", 5: "b"})
+    chk(_lg["distinct_objects"] == 2 and _lg["growth_limits"] == [1, 3],
+        "five limits over two edit faces read as two objects, moving at 1 and 3")
+    chk(_lg["saturates_at"] == 3,
+        "the saturation point is the first limit of the last face, not the last "
+        "limit walked")
+    _lg = _limit_groups({1: "a", 2: "b", 3: "c"})
+    chk(_lg["distinct_objects"] == 3 and _lg["growth_limits"] == [1, 2, 3],
+        "a ladder that moves at every limit keeps every limit as a growth point")
+    _lg = _limit_groups({})
+    chk(_lg["distinct_objects"] == 0 and _lg["growth_limits"] == []
+        and _lg["saturates_at"] is None,
+        "an empty ladder names no saturation point instead of defaulting to 0")
+    _raw = {"a": ({"2020-01-02": 1.0, "2020-01-03": 2.0}, {}),
+            "b": ({"2020-01-02": 5.0, "2020-01-03": 6.0}, {})}
+    _univ = {"a": ({"2020-01-02": 1.0, "2020-01-03": 1.0}, {}),
+             "b": ({"2020-01-02": 5.0, "2020-01-03": 6.0}, {})}
+    chk(_arm_edit_face(_raw, _univ) == ["a|2020-01-03"],
+        "an edit face is the changed bars, not the touched names")
+    chk(_arm_edit_face(_raw, _raw) == [],
+        "an arm identical to the base has an empty edit face")
+    _rep = {"names": [{"name": "a", "action": "neutralise",
+                       "prints": [{"date": "2020-01-03"}]},
+                      {"name": "b", "action": "kept-gapped-only",
+                       "prints": [{"date": "2020-01-09"}]}]}
+    chk(_print_set(_rep) == [("a", "2020-01-03")],
+        "a print is only a repair when the arm repaired it, not when it was left "
+        "gapped")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -10401,6 +10432,319 @@ def run_gaparm_family_endgrid(outdir, start="2018-01-01", pick_n=9999,
     }
 
 
+def _print_set(report):
+    """The (name, date) pairs an arm actually repaired, from a screen report.
+
+    ``events_neutralised`` counts repaired prints; the ladder needs the prints
+    themselves, because the question "does limit L add anything to limit L-1" is
+    answered by which print appeared, not by how many.
+    """
+    out = []
+    for row in (report or {}).get("names") or []:
+        if row.get("action") == "kept-gapped-only":
+            continue
+        for p in row.get("prints") or []:
+            out.append((row.get("name"), p.get("date")))
+    return sorted(out)
+
+
+def _arm_edit_face(raw, univ):
+    """Every bar an arm rewrites, as ``symbol|date`` cells.
+
+    A repair multiplies the closes on and after the print, so one repaired print
+    shows up as hundreds of changed cells. Print count and cell count are two
+    different measurements: publishing only one of them reads as either a single
+    print or a rewritten panel.
+    """
+    cells = []
+    for s in sorted(univ):
+        c0 = raw[s][0]
+        c1 = univ[s][0]
+        if c1 is c0:
+            continue
+        for d, v in c1.items():
+            if c0.get(d) != v:
+                cells.append("%s|%s" % (s, d))
+    return cells
+
+
+def _limit_groups(signatures):
+    """Group gap limits by identical edit face, and say where the ladder moves.
+
+    ``signatures`` maps limit -> hashable edit signature. Two limits with the same
+    signature rewrite exactly the same cells, so they are one object under two
+    names, not two measurements -- which is the whole E103 question. ``growth_limits``
+    is every limit whose signature differs from the limit below it (the first limit
+    is always a growth point, since it is measured against nothing).
+    """
+    order = sorted(signatures)
+    groups, seen = [], {}
+    for lim in order:
+        sig = signatures[lim]
+        if sig not in seen:
+            seen[sig] = {"signature": sig, "limits": []}
+            groups.append(seen[sig])
+        seen[sig]["limits"].append(lim)
+    growth = []
+    prev = None
+    for lim in order:
+        if prev is None or signatures[lim] != signatures[prev]:
+            growth.append(lim)
+        prev = lim
+    return {"groups": groups,
+            "distinct_objects": len(groups),
+            "growth_limits": growth,
+            "saturates_at": (groups[-1]["limits"][0] if groups else None)}
+
+
+def run_gap_limit_ladder(outdir, start="2018-01-01", pick_n=9999,
+                         exclude=("sh511",), max_limit=20, mid_day=15,
+                         eras=ERAS, max_cell_arms=8,
+                         published="MID-20261026-s20180101-armed.json"):
+    """E103: at which gap limit does the screen actually start to bind?
+
+    E102 found gap1/gap2/gap5 publish one identical delta on every era-book cell
+    while gap1 and gap5 differ on exactly one of 1,271 names, so the published gap
+    limit is an assumption rather than an identified parameter: on this panel the
+    three columns may be three names for one object and cannot corroborate each
+    other. This leg walks ``gap_limit`` 1..max_limit and publishes the frontier --
+    how many symbols, prints and bars each limit rewrites, the binding print named
+    by date, and the panel's own gapped-print spectrum -- then measures the
+    published cells on one representative per DISTINCT edit face. Two limits with
+    an identical edit face are one object by construction, so no burn is needed to
+    say their cells agree; only a limit that changes the face can change a cell.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+
+    # the panel's own gap spectrum: why a ladder may saturate immediately
+    spectrum, max_gap = {}, 0
+    for s in sorted(raw):
+        for e in panel_screen.split_events(raw[s][0], cal=cal_full):
+            if e["adjacent"]:
+                continue
+            g = e["gap_sessions"]
+            max_gap = max(max_gap, g)
+            key = str(g) if g <= max_limit else "gt%d" % max_limit
+            ent = spectrum.setdefault(key, {"gapped_prints": 0,
+                                            "integer_like": 0, "prints": []})
+            ent["gapped_prints"] += 1
+            if (e.get("implied") or {}).get("integer_like"):
+                ent["integer_like"] += 1
+                ent["prints"].append("%s@%s" % (s, e["date"]))
+
+    # the ladder: one screen per limit, retained only on a new edit face
+    rows, signatures, reps, rep_reports = [], {}, {}, {}
+    prev_prints = None
+    for lim in range(1, int(max_limit) + 1):
+        univ, rep = panel_screen.screen_universe(
+            raw, mode="neutralise_gap", cal=cal_full, gap_limit=lim)
+        cells = _arm_edit_face(raw, univ)
+        sig = hashlib.sha1("\n".join(cells).encode()).hexdigest()[:12]
+        prints = _print_set(rep)
+        new_prints = ([p for p in prints if p not in set(prev_prints or [])]
+                      if prev_prints is not None else list(prints))
+        symbols = sorted({c.split("|")[0] for c in cells})
+        rows.append({"limit": lim,
+                     "symbols_rewritten": len(symbols),
+                     "prints_repaired": rep.get("events_neutralised"),
+                     "gapped_eligible": rep.get("gapped_eligible"),
+                     "bars_rewritten": len(cells),
+                     "new_symbols_vs_previous": len(
+                         {p[0] for p in new_prints} - set(
+                             p[0] for p in (prev_prints or []))),
+                     "new_prints": [{"name": p[0], "date": p[1]}
+                                    for p in new_prints],
+                     "edit_signature": sig})
+        signatures[lim] = sig
+        if sig not in reps:
+            reps[sig] = {"limit": lim, "universe": univ}
+            rep_reports[lim] = rep.get("mode")
+        prev_prints = prints
+
+    ladder = _limit_groups(signatures)
+    growth = ladder["growth_limits"]
+    first_growth = growth[1] if len(growth) > 1 else None
+    binding_prints = []
+    for r in rows:
+        if r["limit"] == first_growth:
+            binding_prints = r["new_prints"]
+
+    # cells: one representative per distinct face, plus the unscreened base
+    arm_limits = [g["limits"][0] for g in ladder["groups"]]
+    measured_limits = arm_limits[:int(max_cell_arms)]
+    unmeasured = [lim for lim in arm_limits if lim not in measured_limits]
+    all_syms = sorted({s for s in raw})
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+
+    caches = {}
+    for lim, univ in [("unscreened", raw)] + [
+            (reps[sig]["limit"], reps[sig]["universe"]) for sig in reps
+            if reps[sig]["limit"] in measured_limits]:
+        all_syms_a = sorted(set(base.LADDER) | set(univ))
+        prices, amounts = {}, {}
+        for s in all_syms_a:
+            c, a = univ.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms_a if s in univ]
+        rank_cache = {}
+        decisions = {}
+        for cname, idxs in calendars:
+            decisions[cname] = _decision_sets(cal, prices, amounts, universe,
+                                              pick_n, idxs, rank_cache)
+        caches[lim] = {"prices": prices, "decisions": decisions,
+                       "universe_members": len(universe)}
+
+    def level_at(arm, book, era_row):
+        name, _lo, _hi = era_row
+        decs = caches[arm]["decisions"][book]
+        grid = _era_end_grid(decs, cal, era_row, 1)
+        if not grid:
+            return None
+        nxt = _next_decision_session(decs, cal, grid[-1])
+        window_end = nxt or cal[-1]
+        _rows, agg = _churn_stats(cal, caches[arm]["prices"],
+                                  _truncate_decisions(decs, cal, window_end), eras)
+        return (agg.get(name) or {}).get("churn_alpha_bp_mean")
+
+    pub_index, pub_meta = _read_published_levels(outdir, published)
+
+    cells = []
+    ctrl_diff = []
+    for era_row in eras:
+        for book in LEVEL_BOOKS:
+            base_level = level_at("unscreened", book, era_row)
+            per_arm = {}
+            for lim in measured_limits:
+                lvl = level_at(lim, book, era_row)
+                per_arm["neutralise_gap%d" % lim] = {
+                    "level_bp": lvl,
+                    "delta_vs_unscreened_bp": (
+                        round(lvl - base_level, 1)
+                        if isinstance(lvl, (int, float))
+                        and isinstance(base_level, (int, float)) else None)}
+            first = per_arm.get("neutralise_gap%d" % measured_limits[0], {}) \
+                if measured_limits else {}
+            d0 = first.get("delta_vs_unscreened_bp")
+            for label, v in per_arm.items():
+                d = v["delta_vs_unscreened_bp"]
+                v["moves_vs_gap%d_bp"] = (
+                    round(abs(d - d0), 1)
+                    if isinstance(d, (int, float)) and isinstance(d0, (int, float))
+                    else None)
+                theirs = ((pub_index or {}).get((era_row[0], book)) or {}) \
+                    .get(label) or {}
+                t = theirs.get("delta_vs_unscreened_bp")
+                v["published_delta_bp"] = t
+                v["abs_diff_vs_published_bp"] = (
+                    round(abs(t - d), 1)
+                    if isinstance(t, (int, float)) and isinstance(d, (int, float))
+                    else None)
+                if v["abs_diff_vs_published_bp"] is not None \
+                        and v["abs_diff_vs_published_bp"] > 0.05:
+                    ctrl_diff.append({"era": era_row[0], "book": book,
+                                      "arm": label,
+                                      "abs_diff_bp": v["abs_diff_vs_published_bp"]})
+            moved = [label for label, v in per_arm.items()
+                     if isinstance(v.get("moves_vs_gap%d_bp"
+                                         % measured_limits[0]), (int, float))
+                     and v["moves_vs_gap%d_bp" % measured_limits[0]] >= 0.05] \
+                if measured_limits else []
+            cells.append({"era": era_row[0], "book": book,
+                          "unscreened_level_bp": base_level,
+                          "arms": per_arm, "arms_that_move_a_cell": moved})
+
+    first_mover = None
+    for lim in measured_limits[1:]:
+        label = "neutralise_gap%d" % lim
+        moved_any = [c for c in cells
+                     if label in (c.get("arms_that_move_a_cell") or [])]
+        if moved_any:
+            first_mover = {"limit": lim, "cells": len(moved_any),
+                           "examples": [{"era": c["era"], "book": c["book"],
+                                         "moves_bp": (c["arms"] or {})
+                                         .get(label, {}).get(
+                                             "moves_vs_gap%d_bp" % measured_limits[0])}
+                                        for c in moved_any[:4]]}
+            break
+
+    empty_limits = [r["limit"] for r in rows
+                    if r["limit"] not in growth and not r["new_prints"]]
+    return {
+        "study": "e103_gap_limit_ladder",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "gap_limits_walked": [1, int(max_limit)],
+            "cell": "eras[era][book].churn_alpha_bp_mean (the E99 LEVEL)",
+            "cell_arms": "the unscreened base plus one representative per distinct "
+                         "edit face; limits inside one face are one object and are "
+                         "not re-burned",
+            "move_rule": "an arm moves a cell when its delta against unscreened "
+                         "differs from the gap1 delta by at least 0.05bp, the "
+                         "precision the published deltas are quoted at",
+            "measured_limits": measured_limits,
+            "unmeasured_limits": unmeasured,
+        },
+        "gap_spectrum": {"max_gap_sessions": max_gap,
+                         "by_gap_sessions": spectrum},
+        "ladder": rows,
+        "edit_face_groups": ladder,
+        "cells": cells,
+        "published_control": {"meta": pub_meta, "mismatches": ctrl_diff},
+        "answers": {
+            "distinct_objects_in_ladder": ladder["distinct_objects"],
+            "growth_limits": growth,
+            "first_limit_that_adds_a_print": first_growth,
+            "binding_prints": binding_prints,
+            "limits_that_add_nothing": empty_limits,
+            "gap_ceiling_sessions": (ladder["saturates_at"]
+                                     if ladder["distinct_objects"] > 1 else None),
+            "first_limit_that_moves_a_published_cell": (
+                first_mover["limit"] if first_mover else None),
+            "first_mover_detail": first_mover,
+            "control_reproduces_published": not ctrl_diff,
+            "verdict": ("identified" if first_mover else "not_identified"),
+            "reads_as": (
+                "no limit in 1..%d moves a published cell: every published gap "
+                "column is one object under several names and none of them "
+                "corroborates another (the ladder's only real step is limit %s, "
+                "which rewrites %s bar(s) and still moves nothing)"
+                % (int(max_limit), first_growth,
+                   next((r["bars_rewritten"] for r in rows
+                         if r["limit"] == first_growth), None))
+                if not first_mover else
+                "the gap limit binds at %d: the first limit whose repair moves a "
+                "published cell is %d, so a published column above that limit is "
+                "not interchangeable with a column below it"
+                % (first_mover["limit"], first_mover["limit"])),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "an identical edit face is a proof of an identical repair object, so "
+            "limits inside one face are never counted as independent measurements",
+            "the ladder publishes the frontier, not a chosen limit: no limit is "
+            "recommended and gap1 stays the published control",
+            "the gap spectrum is this panel's own: an integer-like gapped print "
+            "beyond the saturation gap does not exist here, so the ladder's "
+            "flatness is a property of the data, not of the walk",
+            "the churn level is a name-level mean over swapped pairs, not a "
+            "portfolio return: the deltas move a reading, not money",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -10418,6 +10762,7 @@ def main(argv):
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
                              "midlevels", "gaparmendgrid", "gaparmfamily",
+                             "gaplimit",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -10431,6 +10776,8 @@ def main(argv):
                     help="comma-separated new magnitudes in sessions (neighborhood leg)")
     ap.add_argument("--gaps", default="1,2,5",
                     help="comma-separated gap limits in sessions (gapsplit leg)")
+    ap.add_argument("--max-limit", type=int, default=20,
+                    help="top of the gap_limit ladder (gaplimit leg)")
     args = ap.parse_args(argv)
 
     if args.mode == "selftest":
@@ -10598,6 +10945,29 @@ def main(argv):
                           "control_reproduces_published":
                               f["answers"]["control_reproduces_published"],
                           "reads_as": f["answers"]["reads_as"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "gaplimit":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_gap_limit_ladder(outdir, start=args.start, max_limit=args.max_limit)
+        p = write_json(outdir, "GAPLIMIT-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "gaplimit", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "ladder": [{"limit": r["limit"],
+                                      "symbols": r["symbols_rewritten"],
+                                      "prints": r["prints_repaired"],
+                                      "bars": r["bars_rewritten"],
+                                      "signature": r["edit_signature"]}
+                                     for r in f["ladder"]],
+                          "gap_spectrum": {k: {"gapped": v["gapped_prints"],
+                                               "integer_like": v["integer_like"]}
+                                           for k, v in
+                                           f["gap_spectrum"]["by_gap_sessions"].items()},
+                          "cells": [{"era": c["era"], "book": c["book"],
+                                     "arms": {k: v["delta_vs_unscreened_bp"]
+                                              for k, v in (c["arms"] or {}).items()}}
+                                    for c in f["cells"]]},
                          ensure_ascii=False))
         return 0
     if args.mode == "tiltstable":

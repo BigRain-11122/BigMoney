@@ -21767,7 +21767,7 @@
   },
   {
    "id": "E103-GAPLIMIT-IDENTIFICATION",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/panel_screen.py (neutralise_gap gap_limit) + scripts/e39_panel_census.py",
@@ -21777,7 +21777,12 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T06:07:39+08:00",
    "entered_by": "bm-b r1167",
-   "runner_note": "screen_universe is cheap (seconds per limit): walk the ladder, count edited symbols and edited prints per limit against unscreened, and print the edited print dates so the binding print is named by date, not as a count. Only if a limit separates a published cell does the 12-end grid need to run on it. Publish the limit-ladder as a frontier, never a single chosen limit, and keep gap1 as the published control (its edit set must reproduce at limit 1)."
+   "runner_note": "screen_universe is cheap (seconds per limit): walk the ladder, count edited symbols and edited prints per limit against unscreened, and print the edited print dates so the binding print is named by date, not as a count. Only if a limit separates a published cell does the 12-end grid need to run on it. Publish the limit-ladder as a frontier, never a single chosen limit, and keep gap1 as the published control (its edit set must reproduce at limit 1).",
+   "owner": "bm-b",
+   "claimed_at": "2026-10-27T06:30:00+08:00",
+   "done_at": "2026-10-27T07:05:00+08:00",
+   "result_ref": "results/e44_midmonth/GAPLIMIT-20261026.json",
+   "result_note": "twenty limits, two objects: limits 1 and 2 rewrite the same 36,184 bars, limits 3..20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (an integer-like print with a 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions (28 gapped prints at 1 of which 10 integer-like, 4 at 2 of which 0, 1 at 3 of which 1), so no limit above 3 can bind. No limit in 1..20 moves a published cell (all six measurable era-book deltas identical to 0.05bp, published control reproduces 6/6): the published gap1/gap2/gap5 columns are one reading under two objects and corroborate nothing. Verdict not_identified."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21792,6 +21797,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T06:07:39+08:00",
+ "updated_at": "2026-10-27T07:05:00+08:00",
  "version": 1
 }
