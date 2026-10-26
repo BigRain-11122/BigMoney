@@ -9277,6 +9277,35 @@ def selftest():
         and _stability_verdict(None, 50.0) is None,
         "the stability verdict is pure and stays None when either spread is unmeasured")
 
+    # E99: the arm must be the key, and every row must carry every arm
+    _fake_faces = {
+        "unscreened": {"eras": {"E1": {"me": {"churn_alpha_bp_mean": 10.0,
+                                              "x1_ann_pct": 1.0}}}},
+        "neutralise_gap1": {"eras": {"E1": {"me": {"churn_alpha_bp_mean": 40.0,
+                                                    "x1_ann_pct": 2.0}}}},
+    }
+    _rows = _level_rows(_fake_faces, [("E1", "2020-01", "2020-12"),
+                                      ("E2", "2021-01", "2021-12")],
+                        ["unscreened", "neutralise_gap1"], books=("me",))
+    _r0 = _rows[0]
+    chk(_r0["arms"]["unscreened"]["churn_alpha_bp_mean"] == 10.0
+        and _r0["arms"]["neutralise_gap1"]["churn_alpha_bp_mean"] == 40.0,
+        "two arms on one (era, book) cell keep their own level -- no arm overwrites another")
+    chk(_r0["arms"]["neutralise_gap1"]["delta_vs_unscreened_bp"] == 30.0
+        and _r0["arms"]["unscreened"]["delta_vs_unscreened_bp"] == 0.0,
+        "the screened level carries its distance from the untreated one")
+    chk(_rows[1]["arms"]["unscreened"]["churn_alpha_bp_mean"] is None,
+        "an era the burn never populated reads null, not a borrowed number")
+    chk(_level_coverage(_rows, ["unscreened", "neutralise_gap1"])["missing_arm_keys"] == []
+        and _level_coverage(_rows, ["unscreened", "neutralise_gap1"])["cells"] == 4,
+        "every (era, book) row carries every arm key, populated or not")
+    _flip_faces = [{"era": "E1", "book": "me", "arms": {
+        "unscreened": {"churn_alpha_bp_mean": -5.0},
+        "neutralise_gap1": {"churn_alpha_bp_mean": 5.0}}}]
+    chk(_level_sign_flips(_rows, ["unscreened", "neutralise_gap1"]) == []
+        and _level_sign_flips(_flip_faces, ["unscreened", "neutralise_gap1"]) == ["E1/me"],
+        "a level that changes sign across arms is reported, a same-sign pair is not")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9371,6 +9400,187 @@ def run_burncontrol(outdir=None, dirpath=None):
     }
 
 
+# ------------------------------------------- leg: churn LEVELs named by arm (E99)
+
+LEVEL_BOOKS = ("me", "mid")
+
+
+def _arm_level_cell(face, era, book):
+    """One published churn LEVEL cell, read off a face by (era, book)."""
+    row = ((face or {}).get("eras") or {}).get(era) or {}
+    cell = row.get(book) or {}
+    return {"churn_alpha_bp_mean": cell.get("churn_alpha_bp_mean"),
+            "x1_ann_pct": cell.get("x1_ann_pct"),
+            "negative_churn_share_pct": cell.get("negative_churn_share_pct")}
+
+
+def _level_rows(faces, eras, arms, books=LEVEL_BOOKS):
+    """(era, book) rows carrying one cell per arm, with the arm as the key.
+
+    The arm is the dictionary key, never a column name: E96 found both
+    published LEVEL faces carried no arm at all, and a row of bare levels
+    cannot be labelled after the fact. ``delta_vs_unscreened_bp`` sits beside
+    every arm so a screened level can never be read as the untreated one.
+    """
+    rows = []
+    for era in [e[0] for e in eras]:
+        for book in books:
+            cells = {arm: _arm_level_cell((faces or {}).get(arm), era, book)
+                     for arm in arms}
+            base = (cells.get("unscreened") or {}).get("churn_alpha_bp_mean")
+            for arm in arms:
+                v = cells[arm].get("churn_alpha_bp_mean")
+                cells[arm]["delta_vs_unscreened_bp"] = (
+                    round(v - base, 1)
+                    if isinstance(v, (int, float)) and isinstance(base, (int, float))
+                    else None)
+            rows.append({"era": era, "book": book, "arms": cells})
+    return rows
+
+
+def _level_sign_flips(rows, arms):
+    """(era, book) cells whose LEVEL changes sign across arms."""
+    out = []
+    for r in rows:
+        vals = [c.get("churn_alpha_bp_mean") for a, c in r["arms"].items()
+                if a in arms and isinstance(c.get("churn_alpha_bp_mean"), (int, float))]
+        if len(vals) >= 2 and min(vals) < 0 < max(vals):
+            out.append("%s/%s" % (r["era"], r["book"]))
+    return sorted(out)
+
+
+def _level_coverage(rows, arms):
+    """Structural check: every row must carry every arm key."""
+    missing = []
+    for r in rows:
+        for arm in arms:
+            if arm not in r["arms"]:
+                missing.append("%s/%s/%s" % (r["era"], r["book"], arm))
+    return {"rows": len(rows), "arms": len(arms),
+            "cells": len(rows) * len(arms), "missing_arm_keys": missing}
+
+
+def _published_level_control(outdir, faces,
+                             published="MID-20261020-s20180101.json"):
+    """Join the already-published start-2018 LEVEL face against the unscreened arm."""
+    path = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
+                        published)
+    if not os.path.isfile(path):
+        return {"file": published, "status": "absent"}
+    try:
+        with open(path, encoding="utf-8") as fh:
+            pub = json.load(fh)
+    except (OSError, ValueError):
+        return {"file": published, "status": "unreadable"}
+    joined, diffs = 0, []
+    for era, row in (pub.get("eras") or {}).items():
+        for book in LEVEL_BOOKS:
+            mine = _arm_level_cell(faces.get("unscreened"), era, book)
+            theirs = (row.get(book) or {}).get("churn_alpha_bp_mean")
+            a, b = mine.get("churn_alpha_bp_mean"), theirs
+            if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+                joined += 1
+                diffs.append(abs(a - b))
+    return {"file": published, "status": "compared",
+            "published_cutoff": pub.get("evidence_cutoff"),
+            "cells_joined": joined,
+            "max_abs_diff_bp": round(max(diffs), 1) if diffs else None,
+            "identical": bool(diffs) and max(diffs) == 0.0,
+            "note": "the published twin was burned on an earlier cutoff, so a "
+                    "non-zero drift is a re-derivation through new data, not a "
+                    "producing-code difference"}
+
+
+def run_midlevels(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
+                  gap_limits=(1, 5), mid_day=15, costs=(0.0, 1.0, 3.0), eras=ERAS):
+    """E99: the start-2018 churn LEVELs, each carrying the arm that produced it.
+
+    E96 could not label MID-20261020-s20180101.json at all: its 2017_2020 era
+    has no arm twin on the 2020-start sibling, so every arm stopped at 0.854
+    coverage. The fix is not an inference but a burn -- one universe per arm,
+    the same calendars, the same rank cache, and the arm written into the spec
+    from the loop that built the universes rather than typed afterwards.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    universes = {"unscreened": raw}
+    universes["neutralise_int"], reports = (
+        panel_screen.screen_universe(raw, mode="neutralise_int", cal=cal_full))
+    reports = {"neutralise_int": reports}
+    for k in gap_limits:
+        label = "neutralise_gap%d" % int(k)
+        universes[label], reports[label] = panel_screen.screen_universe(
+            raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(k))
+    arms = list(universes)  # the arm list IS the producing loop
+
+    faces = {}
+    for label, univ in universes.items():
+        faces[label] = run_midmonth(outdir, start=start, pick_n=pick_n,
+                                    exclude=exclude, mid_day=mid_day,
+                                    costs=costs, raw=univ)
+
+    rows = _level_rows(faces, eras, arms)
+    populated = sorted({r["era"] for r in rows
+                        if any(isinstance(c.get("churn_alpha_bp_mean"), (int, float))
+                               for c in r["arms"].values())})
+    era_gaps = {}
+    for era in [e[0] for e in eras]:
+        era_gaps[era] = {arm: (faces[arm]["eras"].get(era) or {}).get("gap_x1_bp")
+                         for arm in arms}
+    newest = eras[-1][0]
+    return {
+        "study": "e99_midmonth_levels_by_arm",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "cost_mult_list": list(costs),
+            "cost_bp_per_side": base.COST_BP_SIDE,
+            "arms": arms,
+            "arm_source": "spec.arms is list(universes) from the producing loop; "
+                          "'unscreened' is the untouched e27 loader, the gap arms "
+                          "are panel_screen.screen_universe(mode=neutralise_gap, "
+                          "gap_limit=k), all on one panel calendar",
+            "gap_limits": [int(k) for k in gap_limits],
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "books": "me = month-end decisions; mid = first session on/after the "
+                     "%dth; both on one calendar, one universe per arm" % mid_day,
+            "level_cell": "eras[era][book].churn_alpha_bp_mean (the LEVEL E96 "
+                          "found unlabelled)",
+        },
+        "screen_reports": reports,
+        "levels": rows,
+        "era_gaps_x1_bp": era_gaps,
+        "answers": {
+            "arms": arms,
+            "populated_eras": populated,
+            "coverage": _level_coverage(rows, arms),
+            "level_sign_flips_across_arms": _level_sign_flips(rows, arms),
+            "newest_era_level_bp": {
+                book: {arm: ((faces[arm]["eras"].get(newest) or {})
+                             .get(book, {}).get("churn_alpha_bp_mean"))
+                       for arm in arms} for book in LEVEL_BOOKS},
+            "published_control": _published_level_control(outdir, faces),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+            "the arm is a universe repair, not a different strategy: every arm "
+            "keeps the same calendars, rank cache and fee ladder",
+            "coverage: a cell is emitted for every (era, book, arm) triple, so an "
+            "era the burn could not populate shows up as null, never as a missing key",
+            "a level that moves across arms is not a level the repair created; it "
+            "is a level the untreated panel was carrying on a repaired print",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -9386,7 +9596,7 @@ def main(argv):
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
                              "gapsplit", "screengapera", "tiltstable",
-                             "all", "selftest"])
+                             "midlevels", "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
@@ -9515,6 +9725,22 @@ def main(argv):
                                            "r2_pct": v.get("tilt_explains_ladder_var_pct")}
                                       for k, v in f["eras"].items()},
                               "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "midlevels":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        gaps = tuple(int(x) for x in args.gaps.split(",") if x.strip())
+        f = run_midlevels(outdir, start=args.start, gap_limits=gaps)
+        tag = f["spec"]["start"].replace("-", "")
+        p = write_json(outdir, "MID-%s-s%s-armed.json"
+                       % (f["evidence_cutoff"].replace("-", ""), tag), f)
+        print(json.dumps({"leg": "midlevels", "file": os.path.relpath(p, ROOT),
+                          "arms": f["answers"]["arms"],
+                          "populated_eras": f["answers"]["populated_eras"],
+                          "coverage": f["answers"]["coverage"],
+                          "newest_era_level_bp": f["answers"]["newest_era_level_bp"],
+                          "sign_flips": f["answers"]["level_sign_flips_across_arms"],
+                          "published_control": f["answers"]["published_control"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "tiltstable":
         outdir = os.path.join(ROOT, "results", "e42_tilt_era")

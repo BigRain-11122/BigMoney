@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T04:24:29+08:00",
+ "clock_read": "2026-10-27T04:46:53+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -59,7 +59,7 @@
  "gpu_vram_free_mib": 3722,
  "gpu_vram_used_mb": 4470,
  "gpu_vram_used_mib": 4470,
- "heartbeat_epoch_utc": 1793046269,
+ "heartbeat_epoch_utc": 1793047613,
  "idle_ram_gb": 13.6,
  "idle_ram_pct": 53.0,
  "idle_rounds": 0,
@@ -78,15 +78,15 @@
  "last_orders_watermark": "c067b3b20f6b8138@17b6385/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@17b6385bb5fe36f1b95a3efeb6dd295dcfa974e5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "94022f322c -> origin/main (behind=0 ahead=0, four-way verified)",
- "last_seen": "2026-10-27T04:24:29+08:00",
- "latest_artifact": "results/e42_tilt_era/NEWESTERA-STABILITY-20261026.json",
+ "last_seen": "2026-10-27T04:46:53+08:00",
+ "latest_artifact": "results/e44_midmonth/MID-20261026-s20180101-armed.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1163: burn E96 churn-arm label audit (digest face), else E97 routing table; refill supply floor to 3",
- "next_milestone": "every published churn/spread LEVEL carries the arm and the window end it was measured on (<=24h)",
+ "next": "r1165: E100 name the transitions behind the gap-arm level moves, else E97 routing table",
+ "next_milestone": "every published churn LEVEL carries the arm that produced it AND the gap-arm moves are auditable by name and date (<=24h)",
  "note": "S6 chain ran end to end (24 legs) after r1160 skipped it; ack face has 7 heart_only entries pending a --sync-mirrors repair",
  "notes": "rounds 1145-1149 close the split-screen chain: E75 audit -> E76 spread regrade -> E77 wide book -> E78 weekly residual (only the frequency-mixed book moves)",
- "now_active": "pool ready 2 (E96 + E97) + E98 seeded; supply floor 2/3 short",
+ "now_active": "pool ready 3 (E97 / E98 / E100)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -322,9 +322,9 @@
  "ram_free_pct": 43.4,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1162,
- "round_no": 1163,
- "round_no_label": "r1162",
+ "round": 1163,
+ "round_no": 1164,
+ "round_no_label": "r1164",
  "sat_engine": {
   "checked_at": "2026-10-23T00:21:41+08:00",
   "status": "alive"
@@ -334,11 +334,11 @@
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0
  },
- "task": "E95 tilt stability",
- "task_short": "E95 tilt stability",
- "ts": "2026-10-27T04:24:29+08:00",
+ "task": "E99 start-2018 churn levels named by arm",
+ "task_short": "E99 levels-by-arm",
+ "ts": "2026-10-27T04:46:53+08:00",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "smoke 75/75 PASS; E96 audit face published (results/e44_midmonth/LEVEL-LABELS-20261027.json, selftest 22/22): only 2 published churn LEVEL faces exist and neither declares its screen arm -- MID-20261020 infers to unscreened at 8.3bp drift with a 23.5x margin over the runner-up, the start-2018 twin cannot be labelled at all (coverage 0.854); S6 19 legs rc0 (dualrun ZERO-DRIFT streak 51, attrition CLEAN, supply_floor 3/3, daily 0 new rows cutoff 2026-10-26, REPORT-2026-10-27 + LIVE-2026-10-27 regenerated); compute_audit FLAG single_core_hog,supply_gap; watermark py_low_with_work_cands (pool ready 3, honest); orphan face=0 (8 py); D-19 zero delta (dec fd9e59cd / ord c067b3b2 raw-byte identical to watermark); orders unacked 0 (7 heart-only acks repaired into state)",
+ "verdict": "smoke 75/75 PASS; E99 face published (results/e44_midmonth/MID-20261026-s20180101-armed.json, selftest 271/271): 5 arms x 8 (era,book) rows = 40 cells with 0 missing arm keys; LEVEL moves up to -1098.3bp under the gap arms while the mid-minus-me GAP moves <=2bp; newest-era mid level reads -123.7 unscreened vs -364.7 under every repair arm; gap1==gap2==gap5 exactly; published-twin control 6 cells max_abs_diff 5.1bp; S6 37 legs rc0 (dualrun ZERO-DRIFT streak 51, attrition CLEAN 3 healed, daily 0 new rows cutoff 2026-10-26); compute_audit FLAG single_core_hog,supply_gap; watermark py_low_with_work_cands (ready 3, honest); orphan face=0 (8 py); D-19 zero delta; orders unacked 0",
  "vram_free_gb": 3.44
 }
