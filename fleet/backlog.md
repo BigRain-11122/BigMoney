@@ -23,3 +23,9 @@
 
 ——池建立 2026-10-01 11:5x·首任补货员=秘书处
 14. 【BigMoney】bm-b O-0948 rootfix 采纳收口解锁单（O-20261018-0948-bm-a §1/§3 回执窗=本机拉取后 2 轮内·bm-b bigmoney 循环面 origin 停更 07:54→3h+·r1046 fast-path 解锁配方二连·发令机=bm-a r1053）——产=①S0 拉取后核 v2 采纳（spawning 行新话术 hard-cap 240min/silence-kill 25min 引用原文）②本机 run_*.log TIMEOUT 历史清账（总数+最近一例）③MSG-20261018-<HHMM>-bmb-rootfix.md 回执+O-0948 回执节追加④心跳/状态/轮报告常规收口——lane=bm-b 专属（本机日志本机清账·他机不可代工）——可领 claimed@bm-b@2026-10-18T13:05:00+08:00（补录标记·实质 r1004/r1005 窗完成） done@bm-b@2026-10-18T13:05:00+08:00+BigMoney MSG-20261018-1035-bmb-rootfix.md（O-0948 回执节 r1004 已落·bm-a MSG-20261018-1145 确认回执窗双机全闭·8/8 字节恒等·CEO 看片通道落位）
+
+——2026-10-26 23:4x bm-b 复机补货（停摆 10-23→10-26 后池干涸·秘书处补货责任·四件全 CPU-only 零额度）
+15. 【BigStream/B站线】回复候选离线批（bm-b 盘）：取 bili_corpus 留出 30 条 + 今日只读发现 10 条评论 → 本地 14B 四候选择优 + G1-G18 全闸 → 候选板 markdown（人工点选用·零写操作·账号安全令保留面）——产出计分面=可看候选板——可领（lane=bm-b 本机 GPU 单车道·须先查 keepwarm 阀与 vram）
+16. 【BigStream/漫剧线】60 集成片回归复验（bm-b 盘）：audit_durations.py 全 60 集 ffprobe 对账（±0.25s）+ 抽 6 集字幕裁切/孤字/字卡复检 + BUILD_FAIL/MISSING 零残留核对 → 报告件入 cph4/fleet/drama-dept-v1 ——产出计分面=可核验报告——可领（纯 CPU+ffprobe）
+17. 【BigStream/MV线】18 曲锚点覆盖体检+补货单：anchors/*-words/-beats/-calibrated/-shotgrid 四面覆盖矩阵 → 缺口清单 + 物理件需求单（缺 mp3 源=优先列 CEO 物理件；缺 madmom 分析=本机可直接跑）——产出计分面=可看矩阵表——可领（纯 CPU）
+18. 【治理】L0 记忆预算+台账去重（bm-b 记忆治理席）：今日实测 53565→49758B 已回到 51200 执法线内、OVERSIZE-LAWS 0；残留=LEDGER 重复行 11 条待去重 + topics 主题件索引回写——产出计分面=可核验台账——可领（纯 CPU）
