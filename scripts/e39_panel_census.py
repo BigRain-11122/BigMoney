@@ -1581,6 +1581,139 @@ def run_tilt_era(outdir, core=None, eras=ERAS):
     }
 
 
+# ------------------------------------ leg: E95 newest-era cell stability
+
+NEWEST_ERA = ("2024_now", "2024-01-01", None)
+
+
+def _tilt_stats(core, months):
+    """The E42 tilt cell measured on an explicit list of months.
+
+    Factored out so the stability leg and the published face cannot disagree
+    about what the cell *is*: run_tilt_era keeps its own body (its published
+    output must stay bit-identical), and the selftest pins this helper to the
+    same number on the same month list.
+    """
+    if len(months) < 3:
+        return {"months": len(months), "skipped": "fewer than 3 usable months"}
+    tilt = [core["tilt"][m] for m in months]
+    lad = [core["lad_m"][m] for m in months]
+    tm = _moments(tilt)
+    beta, alpha, r2 = _ols(lad, tilt)
+    pos = sum(1 for t in tilt if t > 0)
+    return {
+        "months": len(months), "from": months[0], "to": months[-1],
+        "tilt_annualised_bp": round(tm["mean"] * 12 * 1e4, 1),
+        "tilt_sd_bp": round(tm["sd"] * 1e4, 1) if tm["sd"] is not None else None,
+        "tilt_positive_share_pct": round(pos / len(tilt) * 100, 1),
+        "beta_ladder_on_tilt": round(beta, 3) if beta is not None else None,
+        "alpha_monthly_bp": round(alpha * 1e4, 2) if alpha is not None else None,
+        "r_squared": round(r2, 4) if r2 is not None else None,
+    }
+
+
+def _published_tilt_readings(outdir):
+    """Every newest-era tilt reading this repo has already published, read back
+    off the faces themselves (no transcription, no memory)."""
+    out = []
+    if not os.path.isdir(outdir):
+        return out
+    for name in sorted(os.listdir(outdir)):
+        if not (name.startswith("TILT-ERA-") and name.endswith(".json")):
+            continue
+        try:
+            with open(os.path.join(outdir, name), encoding="utf-8") as fh:
+                face = json.load(fh)
+        except (OSError, ValueError):
+            continue
+        row = (face.get("eras") or {}).get("2024_now") or {}
+        val = row.get("tilt_annualised_bp")
+        if val is None:
+            continue
+        out.append({"file": name, "cutoff": face.get("evidence_cutoff"),
+                    "months": row.get("months"), "tilt_annualised_bp": val})
+    return out
+
+
+def _stability_verdict(observed_bp, span_bp):
+    """Is the spread of published readings inside what moving the end alone does?"""
+    if observed_bp is None or span_bp is None:
+        return None
+    return "inside_end_choice_span" if observed_bp <= span_bp else "beyond_end_choice_span"
+
+
+def run_tilt_stable(outdir, core=None, ends=12, era=NEWEST_ERA):
+    """Rolling-window stability of the newest-era tilt cell (E95).
+
+    Same panel, same code path, only the *evaluation end* moves. If the whole
+    spread of already-published readings fits inside the spread this grid
+    produces, the cell is being re-derived, not re-measured.
+    """
+    core = core or _monthly_core()
+    name, lo, hi = era
+    era_months = [m for m in core["months"] if _in_era(m, lo, hi)]
+    full = _tilt_stats(core, era_months)
+    end_months = era_months[-int(ends):] if era_months else []
+    rows = []
+    for end in end_months:
+        ms = [m for m in era_months if m <= end]
+        row = _tilt_stats(core, ms)
+        row["window_end"] = end
+        rows.append(row)
+    vals = [r["tilt_annualised_bp"] for r in rows
+            if r.get("tilt_annualised_bp") is not None]
+    span = round(max(vals) - min(vals), 1) if len(vals) >= 2 else None
+    published = _published_tilt_readings(outdir or os.path.join(ROOT, "results", "e42_tilt_era"))
+    readings = [p["tilt_annualised_bp"] for p in published
+                if p.get("tilt_annualised_bp") is not None]
+    if full.get("tilt_annualised_bp") is not None:
+        readings.append(full["tilt_annualised_bp"])
+    observed = (round(max(readings) - min(readings), 1) if len(readings) >= 2 else None)
+    verdict = _stability_verdict(observed, span)
+    return {
+        "study": "e95_newest_era_cell_stability",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {"era": name, "era_from": lo, "era_to": hi,
+                 "cell": "ladder monthly size tilt, annualised bp",
+                 "end_grid": "the last %d era month-ends, same panel, same loader"
+                             % len(end_months),
+                 "panel_months": len(core["months"])},
+        "cell_now": full,
+        "end_choice_series": rows,
+        "end_choice_answers": {
+            "ends": len(rows), "span_bp": span,
+            "min_bp": min(vals) if vals else None,
+            "max_bp": max(vals) if vals else None,
+            "sd_bp": (round(_moments(vals)["sd"], 1) if len(vals) >= 2 else None),
+            "latest_end_bp": vals[-1] if vals else None,
+        },
+        "published_readings": published,
+        "stability_answers": {
+            "published_n": len(readings),
+            "observed_spread_bp": observed,
+            "end_choice_span_bp": span,
+            "verdict": verdict,
+            "reads_as": (
+                "the spread of published readings is no larger than what moving the "
+                "evaluation end alone produces -- read the cell as re-derived, not re-measured"
+                if verdict == "inside_end_choice_span" else
+                "published readings spread wider than the end-choice grid -- at least part "
+                "of the move is not an end-choice artefact"
+                if verdict == "beyond_end_choice_span" else None),
+        },
+        "honest": [
+            "one panel, one loader, one cutoff: the grid moves the evaluation end only, so it "
+            "cannot see panel-arrival effects (E-register r1110) or a changed universe",
+            "the newest era is open-ended and the shortest, so its beta carries the widest error "
+            "and its own early months are the ones each truncated window drops first",
+            "published readings are read back from the faces verbatim; a face that was never "
+            "written is absent here rather than guessed",
+            "descriptive census only: no gate, no verdict on the strategy, no prereg, no trial",
+        ],
+        "dropped_months": core["dropped"],
+    }
+
+
 # ------------------------------------ leg: E42 calendar band at cost x3
 
 def _calcost_face(raw_all, cal_full, start="2020-01-01", pick_n=9999,
@@ -9123,6 +9256,27 @@ def selftest():
     chk([r["delta_neutralise"] for r in _rn if r["era"] == "2024_now"] == [None, None],
         "an unmeasured robustness cell stays None rather than being priced as zero")
 
+    # E95 leg: the newest-era cell must be measurable on an explicit month list
+    # (so the stability grid and the published face agree by construction), the
+    # grid must actually shorten the window, and the verdict must be a pure
+    # function of the two spreads it compares.
+    _fake = {"tilt": {"2024-%02d" % m: 0.01 * m for m in range(1, 13)},
+             "lad_m": {"2024-%02d" % m: 0.005 * m for m in range(1, 13)}}
+    _full = _tilt_stats(_fake, sorted(_fake["tilt"]))
+    chk(_full["months"] == 12
+        and _full["tilt_annualised_bp"] == round(0.065 * 12 * 1e4, 1),
+        "the tilt cell is the same arithmetic on an explicit month list")
+    _half = _tilt_stats(_fake, sorted(_fake["tilt"])[:6])
+    chk(_half["months"] == 6 and _half["to"] == "2024-06"
+        and _half["tilt_annualised_bp"] != _full["tilt_annualised_bp"],
+        "truncating the window really moves the cell, so the grid is not a no-op")
+    chk(_tilt_stats(_fake, ["2024-01", "2024-02"])["skipped"],
+        "a window too short to regress is skipped, never priced as a number")
+    chk(_stability_verdict(40.0, 50.0) == "inside_end_choice_span"
+        and _stability_verdict(60.0, 50.0) == "beyond_end_choice_span"
+        and _stability_verdict(None, 50.0) is None,
+        "the stability verdict is pure and stays None when either spread is unmeasured")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9231,7 +9385,7 @@ def main(argv):
                              "screenrob", "screentilt", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
-                             "gapsplit", "screengapera",
+                             "gapsplit", "screengapera", "tiltstable",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -9361,6 +9515,16 @@ def main(argv):
                                            "r2_pct": v.get("tilt_explains_ladder_var_pct")}
                                       for k, v in f["eras"].items()},
                               "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "tiltstable":
+        outdir = os.path.join(ROOT, "results", "e42_tilt_era")
+        f = run_tilt_stable(outdir)
+        p = write_json(outdir, "NEWESTERA-STABILITY-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tiltstable", "file": os.path.relpath(p, ROOT),
+                          "cell_now_bp": f["cell_now"].get("tilt_annualised_bp"),
+                          "end_choice": f["end_choice_answers"],
+                          "stability": f["stability_answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "calcost":
         f = run_calcost(None)
