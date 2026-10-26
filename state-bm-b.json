@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T07:40:53+08:00",
+ "clock_read": "2026-10-27T07:47:32+08:00",
  "current": "r1170: E104 heldsplit face + E106/E107 seeded",
  "current_task": "r1170 closed; next = E106 repair step consistency (sh510580 witness) or E107 curve effect",
  "cyc_round": 1170,
@@ -46,7 +46,7 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "r1162: E95 closed. New runner leg `tiltstable` (selftest 262->266, +4 legs) holds one panel fixed and moves only the evaluation end of the E42 newest-era tilt cell across the last 12 era month-ends: 448.6..1632.7 bp (span 1184.1, sd 316.3, months 23..34) against a monthly sd of 621.4 bp. The two already-published readings differ by only 50.5 bp (748.1 @2026-10-20 vs 697.6 @2026-10-26) and BOTH carry months=34, so the difference is panel revision, not a longer window. Verdict `inside_end_choice_span` (23x): the cell may be cited by mechanism (positive at 12/12 ends, beta 1.01-1.17) but never by bp level, and any E41/E42 ratio off it must print its window end. Pool E95 done with result_ref, E98-ENDCHOICE-ALLERAS seeded. S6: dualrun ZERO-DRIFT (620 entries, streak 51), attrition CLEAN (4 ledgers, 2 healed shrinks), orphan face=0 (8 py faces), watermark insufficient_history, compute_audit FLAG supply_gap+supply_floor (ready 2/3, breach honest). Orders: four order files already carried ack receipts in fleet/ack from the r1159-r1161 return window; orders_ack set back-filled here, plus a new ack for O-20261026-0810 s5 and O-20261023-2325 MV standby.",
  "did_round": 1161,
- "heartbeat_epoch_utc": 1793045094,
+ "heartbeat_epoch_utc": 1793058452,
  "heartbeat_epoch_utc_face": 1792530408,
  "idle_rounds": 0,
  "last_action": "burned E95 end-choice grid (12 ends) + published face and digest",
@@ -552,6 +552,7 @@
  },
  "r1170_note": "r1170: productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed.",
  "r1170_pit": "r1170: read the population your discrimination lists cannot see -- an entrant/exit decomposition cannot bound split exposure, because a name the book kept contributes no swap; ask the kept names directly or the exposure is unmeasured rather than zero. Sibling: never infer which arm is right from which arm is the repair -- count implausible reads per arm and publish both (here sh510580 reads +1464% repaired against +295% raw across a 2024-09-02 event, with the arm ratio stepping x10.05 -> x39.8 exactly at the event). Second sibling: a share of a mean is only a share where the mean is far from zero -- publish share_eligible and suppress the ratio below a 0.5% mean floor, or the column reads as 40,208% of noise.",
+ "r1170_time_fix": "first postscript stamped 08:05 while the shell clock read 07:47; corrected to 2026-10-27T07:47:32+08:00 on read-back",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -576,8 +577,8 @@
  },
  "task": "r1170 E104 unchanged-holding split exposure (fixed the E100 blind spot)",
  "task_short": "E104 heldsplit",
- "ts": "2026-10-27T07:46:58+08:00",
+ "ts": "2026-10-27T07:47:32+08:00",
  "updated": "2026-10-27T07:40:53+08:00",
- "updated_at": "2026-10-27T07:46:58+08:00",
+ "updated_at": "2026-10-27T07:47:32+08:00",
  "verdict": "productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed."
 }
