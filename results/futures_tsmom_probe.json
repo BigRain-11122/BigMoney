@@ -1,0 +1,286 @@
+{
+ "evidence_cutoff": "2026-10-26",
+ "universe": {
+  "varieties": [
+   "AU",
+   "IC",
+   "IF",
+   "IH",
+   "IM",
+   "RB",
+   "SC",
+   "T",
+   "TF",
+   "TS"
+  ],
+  "bars": 4577,
+  "start": "2008-01-09",
+  "source": "data/futures_daily main-continuous (sina), roll gaps live in the series"
+ },
+ "model": {
+  "sizing": "risk parity w_i = sign_i*(target/sqrt(N))/vol_i, |w_i|<=2.0, gross<=3.0",
+  "execution": "weights decided at close t, held over t->t+1",
+  "cost_per_side": 0.0001,
+  "target_vol": 0.08,
+  "not_modelled": "margin, financing/carry, roll cost, contract multipliers (cancel in risk sizing)"
+ },
+ "note": "exploratory; not a live face, not registered, no capital claim",
+ "arms": {
+  "tsmom60": {
+   "label": "tsmom60",
+   "years": 18.8,
+   "cagr": 0.0137,
+   "vol": 0.0574,
+   "sharpe": 0.274,
+   "maxdd": -0.1119,
+   "worst_year": -0.076,
+   "neg_years": 10,
+   "turnover_total": 1006.09,
+   "sum_gross_return": 0.3862,
+   "sign_flip_days": 1133,
+   "is": {
+    "label": "tsmom60_is",
+    "years": 15.97,
+    "cagr": 0.0113,
+    "vol": 0.0562,
+    "sharpe": 0.235,
+    "maxdd": -0.1119,
+    "worst_year": -0.076,
+    "neg_years": 8
+   },
+   "oos": {
+    "label": "tsmom60_oos",
+    "years": 2.81,
+    "cagr": 0.0265,
+    "vol": 0.064,
+    "sharpe": 0.46,
+    "maxdd": -0.1111,
+    "worst_year": -0.0579,
+    "neg_years": 2
+   },
+   "vs_etf_book": {
+    "corr_full": 0.078,
+    "corr_oos": 0.099,
+    "common_window": [
+     "2020-01-03",
+     "2026-10-26"
+    ],
+    "blend_50_50": {
+     "label": "tsmom60_blend50",
+     "years": 6.8,
+     "cagr": 0.0653,
+     "vol": 0.0641,
+     "sharpe": 1.059,
+     "maxdd": -0.0723,
+     "worst_year": -0.0185,
+     "neg_years": 2
+    },
+    "etf_alone": {
+     "label": "etf_alone",
+     "years": 6.81,
+     "cagr": 0.0949,
+     "vol": 0.1017,
+     "sharpe": 0.98,
+     "maxdd": -0.1177,
+     "worst_year": -0.0199,
+     "neg_years": 1
+    },
+    "at_equal_vol_10.17": {
+     "target_vol": 0.1017,
+     "etf_alone": {
+      "label": "etf_at_vol",
+      "years": 6.8,
+      "cagr": 0.096,
+      "vol": 0.1017,
+      "sharpe": 0.99,
+      "maxdd": -0.1177,
+      "worst_year": -0.0199,
+      "neg_years": 1
+     },
+     "sleeve": {
+      "label": "sleeve_at_vol",
+      "years": 6.8,
+      "cagr": 0.0446,
+      "vol": 0.1017,
+      "sharpe": 0.498,
+      "maxdd": -0.1577,
+      "worst_year": -0.083,
+      "neg_years": 4
+     },
+     "blend_50_50": {
+      "label": "blend_at_vol",
+      "years": 6.8,
+      "cagr": 0.1036,
+      "vol": 0.1018,
+      "sharpe": 1.06,
+      "maxdd": -0.1136,
+      "worst_year": -0.0301,
+      "neg_years": 2
+     },
+     "note": "all three scaled to the ETF book's realised vol; analytical, not a trading rule"
+    }
+   }
+  },
+  "tsmom120": {
+   "label": "tsmom120",
+   "years": 18.8,
+   "cagr": 0.0184,
+   "vol": 0.0566,
+   "sharpe": 0.361,
+   "maxdd": -0.1361,
+   "worst_year": -0.0996,
+   "neg_years": 6,
+   "turnover_total": 633.28,
+   "sum_gross_return": 0.4346,
+   "sign_flip_days": 774,
+   "is": {
+    "label": "tsmom120_is",
+    "years": 15.97,
+    "cagr": 0.0145,
+    "vol": 0.0544,
+    "sharpe": 0.3,
+    "maxdd": -0.1361,
+    "worst_year": -0.0996,
+    "neg_years": 5
+   },
+   "oos": {
+    "label": "tsmom120_oos",
+    "years": 2.81,
+    "cagr": 0.0392,
+    "vol": 0.068,
+    "sharpe": 0.625,
+    "maxdd": -0.0759,
+    "worst_year": -0.0019,
+    "neg_years": 1
+   },
+   "vs_etf_book": {
+    "corr_full": 0.045,
+    "corr_oos": 0.006,
+    "common_window": [
+     "2020-01-03",
+     "2026-10-26"
+    ],
+    "blend_50_50": {
+     "label": "tsmom120_blend50",
+     "years": 6.8,
+     "cagr": 0.0626,
+     "vol": 0.0628,
+     "sharpe": 1.039,
+     "maxdd": -0.0635,
+     "worst_year": -0.018,
+     "neg_years": 2
+    },
+    "etf_alone": {
+     "label": "etf_alone",
+     "years": 6.81,
+     "cagr": 0.0949,
+     "vol": 0.1017,
+     "sharpe": 0.98,
+     "maxdd": -0.1177,
+     "worst_year": -0.0199,
+     "neg_years": 1
+    },
+    "at_equal_vol_10.17": {
+     "target_vol": 0.1017,
+     "etf_alone": {
+      "label": "etf_at_vol",
+      "years": 6.8,
+      "cagr": 0.096,
+      "vol": 0.1017,
+      "sharpe": 0.99,
+      "maxdd": -0.1177,
+      "worst_year": -0.0199,
+      "neg_years": 1
+     },
+     "sleeve": {
+      "label": "sleeve_at_vol",
+      "years": 6.8,
+      "cagr": 0.0377,
+      "vol": 0.1017,
+      "sharpe": 0.43,
+      "maxdd": -0.1903,
+      "worst_year": -0.0737,
+      "neg_years": 3
+     },
+     "blend_50_50": {
+      "label": "blend_at_vol",
+      "years": 6.8,
+      "cagr": 0.1014,
+      "vol": 0.1018,
+      "sharpe": 1.04,
+      "maxdd": -0.1016,
+      "worst_year": -0.0305,
+      "neg_years": 2
+     },
+     "note": "all three scaled to the ETF book's realised vol; analytical, not a trading rule"
+    }
+   }
+  },
+  "random_sign": {
+   "label": "random_sign",
+   "years": 18.8,
+   "cagr": -0.0563,
+   "vol": 0.0459,
+   "sharpe": -1.282,
+   "maxdd": -0.671,
+   "worst_year": -0.1483,
+   "neg_years": 16,
+   "turnover_total": 8035.13,
+   "is": {
+    "label": "random_sign_is",
+    "years": 15.97,
+    "cagr": -0.0622,
+    "vol": 0.0447,
+    "sharpe": -1.46,
+    "maxdd": -0.6437,
+    "worst_year": -0.1483,
+    "neg_years": 14
+   },
+   "oos": {
+    "label": "random_sign_oos",
+    "years": 2.81,
+    "cagr": -0.0198,
+    "vol": 0.0521,
+    "sharpe": -0.375,
+    "maxdd": -0.1229,
+    "worst_year": -0.0527,
+    "neg_years": 2
+   }
+  },
+  "long_only": {
+   "label": "long_only",
+   "years": 18.8,
+   "cagr": 0.0262,
+   "vol": 0.0594,
+   "sharpe": 0.481,
+   "maxdd": -0.2222,
+   "worst_year": -0.0659,
+   "neg_years": 8,
+   "is": {
+    "label": "long_only_is",
+    "years": 15.97,
+    "cagr": 0.0173,
+    "vol": 0.0573,
+    "sharpe": 0.338,
+    "maxdd": -0.2222,
+    "worst_year": -0.0659,
+    "neg_years": 8
+   },
+   "oos": {
+    "label": "long_only_oos",
+    "years": 2.81,
+    "cagr": 0.0803,
+    "vol": 0.0703,
+    "sharpe": 1.184,
+    "maxdd": -0.0534,
+    "worst_year": 0.0202,
+    "neg_years": 0
+   }
+  }
+ },
+ "etf_book": {
+  "names": 1499,
+  "flips_repaired": 168,
+  "cutoff": "2026-10-26"
+ }
+}

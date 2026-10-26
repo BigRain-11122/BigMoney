@@ -1,9 +1,9 @@
 {
-  "ts": "2026-10-27T03:16:42",
-  "mode": "refresh in progress (todo=5223/5227, quarantined=4, settled=0)",
+  "ts": "2026-10-27T04:10:28",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-23",
+    "cutoff": "2026-10-26",
     "universe_n": 5227,
     "per_files": 5223
   },
@@ -19,35 +19,45 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5,
-    "fetched": 5,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "todo": 5223,
+    "fetched": 5220,
+    "appended": 1917083,
+    "readjusted": 5,
+    "readjusted_tail": [
+      "000630@2020-01-02",
+      "601088@2020-01-02",
+      "601866@2020-01-02",
+      "601990@2020-01-02",
+      "688293@2022-09-02"
+    ],
+    "failures_tail": [
+      "000014:conn:TimeoutError",
+      "601658:conn:TimeoutError",
+      "688729:conn:TimeoutError"
+    ],
+    "failures_n": 3,
     "conn_stopped": false,
-    "elapsed_min": 1.2,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 449.0,
+    "vwap_anchor_max": 0.436986,
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-10-27T03:16:36",
-  "settled_n": 5,
-  "settled": [
-    "002717",
-    "301314",
-    "301468",
-    "601326",
-    "688496"
-  ],
+  "last_spawn_attempt": "2026-10-26T20:40:28",
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-10-23 >= expected 2026-10-23)",
-  "per_files_on_disk": 5225,
+  "per_files_on_disk": 5223,
   "validation": {
-    "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "suspended_rows": 3,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
-  "spawn_reason": "no panel cutoff (first pull / empty panel)",
+  "takeover": {
+    "owner": "bm-b",
+    "by": "bm-c",
+    "reason": "owner bm-b silent 92.3h >= 120min",
+    "ts": "2026-10-26T20:40:28"
+  },
+  "spawn_reason": "panel lags expected bar date (2026-10-23 < 2026-10-26)",
   "spawn_mode": "continuation/first-pull"
 }

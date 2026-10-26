@@ -1,0 +1,16 @@
+{
+  "id": "T-2026-10-27-188",
+  "priority": "P1",
+  "type": "second-book-source-futures-sleeve",
+  "immediate": false,
+  "spec": "P1 new-major-class ticket (firm/RULES.md P1 gate: new asset class needs a signed ticket; signed by GM under CEO O-1620 non-major self-decision authority). Scope = MEASUREMENT ONLY, no live face, no capital, no registry entry, no capital claim. Question inherited from the capacity study (results/etf_book_capacity_rule.json: shipped ETF book caps ~1.5M CNY at 1% ADV): is there a second book whose capital does not queue behind the same ADV? r1296 rejected the ETF cross-section's first candidate (5d reversal); r1297 rejected four more cross-section mechanisms in one bake-off (results/etf_book_bakeoff.json: breakout/lowvol/mom60 all the same trade as the shipped book or non-additive; random control flat) and found the first additive candidate in a different universe: 10-variety main-continuous futures TSMOM, correlation 0.045-0.078 with the shipped book, +0.5-0.8pp CAGR at equal risk in a 50/50 blend (results/futures_tsmom_probe.json, digest research/digests/DIGEST-20261027-r1297-second-book-bakeoff-and-futures-sleeve.md). Slice 2 (the actual ticket work) = feasibility study before any tradeable claim: (a) contract multipliers and lot rounding for AU/IC/IF/IH/IM/RB/SC/T/TF/TS, (b) roll convention and roll cost on main-continuous series (the probe's returns live inside spliced contracts), (c) real commission/slippage per variety, (d) margin utilisation and financing/carry, (e) long-only vs timed decomposition (probe shows long-only beats the timed book OOS +8.0% vs +2.7%, so the sleeve's value must be attributed, not assumed), (f) 12-month forward paper ledger in its own directory results/futures_sleeve_paper/. Not in scope: live orders, capital, CEO-facing recommendations.",
+  "status": "done",
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-10-27T04:0x+08:00",
+  "created_by": "总经理 (GM) signature; executed bm-c r1297 (measurement slice only)",
+  "progress": "r1297 bm-c: measurement slice delivered same round as the ticket (O-1730 immediate law analogue). Two tools + two faces: scripts/etf_book_bakeoff.py (selftest 10/10, control arm asserted against the published production card n12_vt08 9.49% at 0.5pp tolerance) -> results/etf_book_bakeoff.json; scripts/futures_tsmom_probe.py (selftest 6/6) -> results/futures_tsmom_probe.json. Verdicts: ETF cross-section closed as a second-book source (5 mechanisms, all rejected; the two that are different trades lose money, the two that make money are 0.62-0.75 correlated with 88% name overlap); futures TSMOM is the first additive candidate at equal risk (blend 10.36%/SR 1.060 vs ETF alone 9.60%/SR 0.990 at 10.17% vol). Slice 2 items (a)-(f) not started: they need multipliers/roll/carry modelling that the probe explicitly does not do, and the honest next step is to build them before any claim.",
+  "result_ref": "results/etf_book_bakeoff.json + results/futures_tsmom_probe.json + research/digests/DIGEST-20261027-r1297-second-book-bakeoff-and-futures-sleeve.md",
+  "done_at": "2026-10-27T04:2x+08:00",
+  "completed_at": "2026-10-27T04:2x+08:00",
+  "closed_by": "bm-c (OS iteration loop r1297, measurement slice; slice 2 = follow-on ticket when scheduled)"
+}
