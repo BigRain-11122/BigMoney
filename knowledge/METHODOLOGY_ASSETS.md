@@ -795,3 +795,26 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
   every time the chain regenerates it (the chain runs every round).
 - Gates: production selftest 11->14 (decision-row identity + activity leg that the off-grid
   ranking really differs), ticket selftest 16->19 (grid bar + card-prefix agreement).
+
+## E130 -- two published faces of one book must be bridged knob-by-knob, and the bridge must close (2026-10-26 bm-c r1279)
+
+- Situation: the production book published 9.47%/0.98/-11.8% (12 names, 8% vol rule, card
+  engine, full history) and 11.05% (5 names, beta 0.20 + GC001 ladder, ticket engine, since
+  2024). Two rounds had priced the width difference INSIDE one engine; nobody had priced the
+  1.58pp between the two published numbers, so an operator had to guess which face he was
+  reading.
+- Rule: build the bridge as a single walk from face A's headline to face B's, each step
+  moving exactly ONE knob (window, universe, fee, accounting basis, rule, width, cash, cost),
+  and make the step sum land on face B's number exactly. A decomposition that does not close
+  is a residual nobody has named; a decomposition that closes is an audit of both faces.
+- Two constructions carry the weight: (1) `@0bp` twins of each fee-bearing arm, so the fee
+  step is measured instead of assumed; (2) a selftest leg that PROVES the two engines'
+  conventions disagree on the same synthetic panel (1.370766 vs 1.398458, rel 1.98%), so the
+  "basis" step cannot silently become a no-op. Without (2) a refactor that harmonises the two
+  engines would zero the largest term and still print a closing bridge.
+- Reading: the largest single term was the window (+8.61pp, not skill) and the largest cost
+  was executable accounting (-5.17pp, next-open fills vs open-to-open accrual). Any
+  "the ticket beats the card" claim that omits the basis term is measuring the calendar.
+- Evidence: `python scripts\etf_book_bridge.py --selftest` (10/10), full run 2.1 min,
+  results/etf_book_bridge.json (32 arms), research/ETF_BOOK_BRIDGE.md. Re-run reproduces
+  every number byte-for-byte apart from `ts`.
