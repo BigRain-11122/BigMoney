@@ -725,7 +725,10 @@ def main():
 
     hist.append(record)
     payload = {"latest": record, "history": hist}
-    with open(OUT, "w", encoding="utf-8") as f:
+    # newline="" keeps the face LF on Windows: in text mode the platform
+    # default turns every write into a CRLF whole-file rewrite, so a 13.8k-line
+    # face showed up as a 27.7k-line diff on every single round (r1167).
+    with open(OUT, "w", encoding="utf-8", newline="") as f:
         json.dump(payload, f, indent=2, ensure_ascii=False)
     # D-20260928-03(1) batch-1 writer dual-track: own lane alongside the
     # shared face (compat window -- shared stays authoritative; the
