@@ -1,0 +1,87 @@
+{
+ "machine_id": "bm-a",
+ "tag": "r1118",
+ "measured_at": "2026-10-27T01:45:57+0800",
+ "gpu": {
+  "name": "NVIDIA GeForce RTX 4070 SUPER",
+  "total_mb": 12282,
+  "used_mb": 11257,
+  "free_mb": 741,
+  "util_pct": 22,
+  "raw": "NVIDIA GeForce RTX 4070 SUPER, 12282, 11257, 741, 22"
+ },
+ "gpu_after": {
+  "name": "NVIDIA GeForce RTX 4070 SUPER",
+  "total_mb": 12282,
+  "used_mb": 11257,
+  "free_mb": 741,
+  "util_pct": 96,
+  "raw": "NVIDIA GeForce RTX 4070 SUPER, 12282, 11257, 741, 96"
+ },
+ "idle_baseline_note": "gpu0 is the state BEFORE any bench call (acceptance criterion 4)",
+ "ollama_ps_before": "NAME                 ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL   \nqwen3:4b-instruct    0edcdef34593    7.5 GB    100% GPU     16384      llamacpp    Forever",
+ "ollama_resident": [
+  {
+   "name": "qwen3:4b-instruct",
+   "size": "7.5",
+   "processor": "GB 100%"
+  }
+ ],
+ "ollama_bench": [
+  {
+   "model": "qwen3:4b-instruct",
+   "runs": [
+    {
+     "run": 1,
+     "tokens": 44,
+     "decode_tok_s": 90.76,
+     "prefill_tok_s": 949.97,
+     "wall_s": 0.65
+    },
+    {
+     "run": 2,
+     "tokens": 44,
+     "decode_tok_s": 94.72,
+     "prefill_tok_s": 2455.28,
+     "wall_s": 0.49
+    },
+    {
+     "run": 3,
+     "tokens": 44,
+     "decode_tok_s": 95.07,
+     "prefill_tok_s": 2077.97,
+     "wall_s": 0.5
+    }
+   ],
+   "median_decode_tok_s": 94.72,
+   "command": "POST http://127.0.0.1:11434/api/generate stream=false num_predict=128 temperature=0"
+  }
+ ],
+ "llama_server": {
+  "port": 50630,
+  "runs": [
+   {
+    "run": 1,
+    "tokens": 45,
+    "decode_tok_s": 91.27,
+    "prefill_tok_s": 713.74
+   },
+   {
+    "run": 2,
+    "tokens": 45,
+    "decode_tok_s": 93.61,
+    "prefill_tok_s": 85.53
+   },
+   {
+    "run": 3,
+    "tokens": 45,
+    "decode_tok_s": 91.67,
+    "prefill_tok_s": 113.22
+   }
+  ],
+  "median_decode_tok_s": 91.67,
+  "command": "POST http://127.0.0.1:50630/completion n_predict=128 temperature=0"
+ },
+ "first_load": "NOT MEASURED by design: unloading a resident production model to time a cold load breaks the running service; disclosed, not estimated",
+ "not_in_inventory_warning": "only models present in `ollama list` can be timed; anything the paper matrix v1.2 names but that is not on disk is reported absent, never extrapolated"
+}
