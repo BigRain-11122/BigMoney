@@ -1,0 +1,159 @@
+{
+ "study": "e41_spread_era_decay",
+ "evidence_cutoff": "2026-10-21",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0,
+  "cost_bp_per_side": 13.041,
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "calendar_from": "2012-05-28"
+ },
+ "eras": {
+  "pre2017": {
+   "from": "2012-05-29",
+   "to": "2016-12-30",
+   "bars": 1120,
+   "years": 4.44,
+   "ladder_ann_pct": 10.31,
+   "wide_ann_pct": 12.67,
+   "spread_ann_bp": 236.0,
+   "spread_positive": true,
+   "ratio_path": {
+    "ann_pct": 2.14,
+    "max_drawdown_pct": -12.88,
+    "max_drawdown_span": [
+     "2014-02-24",
+     "2015-04-22"
+    ],
+    "longest_underwater_sessions": 369,
+    "worst_month": {
+     "month": "2015-04",
+     "return_pct": -3.17
+    },
+    "monthly_win_rate_pct": 69.1,
+    "months": 55
+   },
+   "ladder_max_drawdown_pct": -45.2,
+   "wide_max_drawdown_pct": -40.27
+  },
+  "2017_2020": {
+   "from": "2017-01-03",
+   "to": "2020-12-31",
+   "bars": 974,
+   "years": 3.87,
+   "ladder_ann_pct": 8.49,
+   "wide_ann_pct": 12.68,
+   "spread_ann_bp": 419.0,
+   "spread_positive": true,
+   "ratio_path": {
+    "ann_pct": 3.86,
+    "max_drawdown_pct": -5.7,
+    "max_drawdown_span": [
+     "2017-05-10",
+     "2017-11-21"
+    ],
+    "longest_underwater_sessions": 257,
+    "worst_month": {
+     "month": "2019-02",
+     "return_pct": -1.83
+    },
+    "monthly_win_rate_pct": 70.2,
+    "months": 47
+   },
+   "ladder_max_drawdown_pct": -32.79,
+   "wide_max_drawdown_pct": -26.08
+  },
+  "2021_2023": {
+   "from": "2021-01-04",
+   "to": "2023-12-29",
+   "bars": 727,
+   "years": 2.88,
+   "ladder_ann_pct": -10.81,
+   "wide_ann_pct": -8.38,
+   "spread_ann_bp": 243.0,
+   "spread_positive": true,
+   "ratio_path": {
+    "ann_pct": 2.72,
+    "max_drawdown_pct": -5.99,
+    "max_drawdown_span": [
+     "2022-04-25",
+     "2022-08-10"
+    ],
+    "longest_underwater_sessions": 239,
+    "worst_month": {
+     "month": "2022-05",
+     "return_pct": -2.28
+    },
+    "monthly_win_rate_pct": 54.3,
+    "months": 35
+   },
+   "ladder_max_drawdown_pct": -34.3,
+   "wide_max_drawdown_pct": -28.75
+  },
+  "2024_now": {
+   "from": "2024-01-02",
+   "to": "2026-10-21",
+   "bars": 676,
+   "years": 2.68,
+   "ladder_ann_pct": 10.92,
+   "wide_ann_pct": 11.95,
+   "spread_ann_bp": 103.0,
+   "spread_positive": true,
+   "ratio_path": {
+    "ann_pct": 0.92,
+    "max_drawdown_pct": -13.04,
+    "max_drawdown_span": [
+     "2025-07-24",
+     "2026-06-30"
+    ],
+    "longest_underwater_sessions": 299,
+    "worst_month": {
+     "month": "2026-06",
+     "return_pct": -7.49
+    },
+    "monthly_win_rate_pct": 57.6,
+    "months": 33
+   },
+   "ladder_max_drawdown_pct": -22.69,
+   "wide_max_drawdown_pct": -17.32
+  }
+ },
+ "answers": {
+  "spread_positive_eras": 4,
+  "eras_with_data": 4,
+  "spread_range_bp": 316.0,
+  "spread_min_bp": 103.0,
+  "spread_max_bp": 419.0,
+  "era_of_worst_ratio_drawdown": "2024-01-02"
+ },
+ "honest": [
+  "eras are calendar partitions of one continuous curve; each slice is re-based at its own first bar, so era ann% are not additive and do not compound to the full-sample number",
+  "the last era is open-ended (2024-01-01 to the cutoff) and is therefore the shortest and the least stable",
+  "the ratio curve is a ratio of equity curves, not a tradable sleeve",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ]
+}
