@@ -285,19 +285,33 @@ def card(ticket, mk, sched, asof, beta, extra):
                   "只看本单的仓位，卡片的名数与波动目标行不可当今天的仓位用。"]
     wd = extra.get("width")
     if wd:
+        d = wd["delta_ticket_minus_card"]
         L += ["", "## 这张单是 %d 名，卡片是 %d 名" % (wd["ticket_names"], wd["card_names"]),
-              "同一套账（β 目标覆盖 + GC001 现金腿、次日开盘成交、8bp/边）下只换名数：",
-              "| 账簿 | 年化 | 夏普 | 最大回撤 |", "|---|---|---|---|",
-              "| 本单 %d 名（可执行） | %.1f%% | %.2f | %.1f%% |"
-              % (wd["ticket_names"], wd["ticket"]["cagr"] * 100, wd["ticket"]["sharpe"],
+              "两张面不只名数不同，杠杆规则也不同（本单 %s 覆盖 / 卡片 %s 目标），"
+              "所以下表的差值是一条对角线，不是「名数的代价」："
+              % (wd["ticket_rule"], wd["card_rule"]),
+              "| 账簿 | 名数 | 规则 | 年化 | 夏普 | 实现波动 | 最大回撤 |",
+              "|---|---|---|---|---|---|---|",
+              "| 本单（可执行） | %d | %s | %.1f%% | %.2f | %.1f%% | %.1f%% |"
+              % (wd["ticket_names"], wd["ticket_rule"], wd["ticket"]["cagr"] * 100,
+                 wd["ticket"]["sharpe"], (wd["ticket"].get("vol") or 0.0) * 100,
                  wd["ticket"]["maxdd"] * 100),
-              "| 卡片 %d 名 | %.1f%% | %.2f | %.1f%% |"
-              % (wd["card_names"], wd["card"]["cagr"] * 100, wd["card"]["sharpe"],
+              "| 卡片（对照面） | %d | %s | %.1f%% | %.2f | %.1f%% | %.1f%% |"
+              % (wd["card_names"], wd["card_rule"], wd["card"]["cagr"] * 100,
+                 wd["card"]["sharpe"], (wd["card"].get("vol") or 0.0) * 100,
                  wd["card"]["maxdd"] * 100),
-              "", "差值（本单 − 卡片）：年化 %+.2fpp、夏普 %+.3f、回撤 %+.2fpp——集中的代价是回撤，"
-              "不是缺陷；跟单前要知道自己站在这条斜线的哪一端。"
-              % (wd["delta_ticket_minus_card"]["cagr_pp"], wd["delta_ticket_minus_card"]["sharpe"],
-                 wd["delta_ticket_minus_card"]["maxdd_pp"]),
+              "", "本单 − 卡片：年化 %+.2fpp、夏普 %+.3f、波动 %+.2fpp、回撤 %+.2fpp。"
+              % (d["cagr_pp"], d["sharpe"], d.get("vol_pp") or 0.0, d["maxdd_pp"])]
+        we = wd.get("width_effect") or {}
+        if we:
+            L += ["", "同一规则下只换名数（这才是名数的代价）："]
+            for rule, v in sorted(we.items()):
+                L += ["- %s 规则：%d 名 → %d 名 年化 %+.2fpp"
+                      % (rule, wd["ticket_names"], wd["card_names"], v["pp"])]
+        L += ["", "读法：名数的代价随规则变号（β 覆盖下宽账少担风险 → 少赚；8%% 波动目标下"
+              "两宽度实现波动相当 → 名数几乎不花钱）。两张面的夏普差 %+.3f，即风险调整后"
+              "基本等价——两者之间选，是选承担多少波动，不是选谁更会选股。"
+              % d["sharpe"],
               "出处：%s（cutoff %s）。" % (wd["source"], wd["evidence_cutoff"])]
     L += ["", "## 诚实面", "",
           "- 探索件：无预注册、无判决、不入成绩账本。"]
@@ -610,46 +624,106 @@ def card_book(card_dir=None):
         return None
 
 
-def width_disclosure(card_n=None, audit_path=None):
-    """What this ticket's 5 names cost against the card's width, from the audit face.
+# The ticket sizes through the fixed beta overlay, the card through an 8% vol target.
+# That is not a detail: the audit's width table now carries BOTH rules (r1291), and a
+# lookup keyed on the name count alone silently returns whichever arm was written last
+# (the vol arm) -- i.e. it would print vol-rule numbers under the "this ticket" label.
+TICKET_RULE = "beta"
+
+
+def card_rule(card_dir=None):
+    """Leverage rule the card runs, read off its own config (vol target present -> vol)."""
+    d = card_dir or CARD_DIR
+    try:
+        with open(os.path.join(d, "latest.json"), encoding="utf-8") as f:
+            doc = json.load(f)
+        if doc.get("file"):
+            with open(os.path.join(d, doc["file"]), encoding="utf-8") as f:
+                doc = json.load(f)
+        cfg = doc.get("config") or {}
+        return "vol" if cfg.get("vol_target") else "beta"
+    except Exception:
+        return None
+
+
+def width_disclosure(card_n=None, audit_path=None, card_dir=None):
+    """What this ticket's width costs against the card's, from the audit face.
 
     Both faces are published as "the production book", so an operator following this
-    ticket buys 5 names while the card's row describes the card's own width.
-    ``scripts/etf_book_width_audit.py`` measures that difference holding accounting
-    fixed; this reads the audit back rather than re-running it. Missing audit (or a
-    width missing from it) returns None and the caller says so out loud -- silence
-    would read as "no difference".
+    ticket buys N names under the beta overlay while the card's row describes its own
+    width under an 8% vol target. ``scripts/etf_book_width_audit.py`` measures the full
+    width x rule grid; this reads it back rather than re-running it.
+
+    Two numbers matter and they are not interchangeable (r1291):
+      * ``width_effect`` -- same rule, two widths: how much the name count alone costs.
+        Under the beta overlay it is -1.5pp, under the vol target +0.2pp.
+      * ``delta_ticket_minus_card`` -- the two *published* faces: they differ in BOTH
+        width and rule, so this is a diagonal of that grid, not a width effect.
+
+    Missing audit (or a width/rule missing from it) returns None and the caller says so
+    out loud -- silence would read as "no difference".
     """
     p = audit_path or AUDIT_PATH
     n_card = card_n if card_n is not None else card_width()
+    c_rule = card_rule(card_dir)
     try:
         with open(p, encoding="utf-8") as f:
             audit = json.load(f)
     except Exception:
         return None
-    rows = {int(r["n_hold"]): r for r in (audit.get("rows") or [])}
-    a = rows.get(int(N_HOLD))
-    b = rows.get(int(n_card)) if n_card else None
+    # keyed by (names, rule): rows written before the rule column existed are the beta arm.
+    cells = {}
+    for r in (audit.get("rows") or []):
+        cells[(int(r["n_hold"]), r.get("rule") or "beta")] = r
+    if c_rule is None:
+        # A card artefact we cannot read is not a licence to assume its rule: use the
+        # only arm present at its width, and say which one we ended up comparing.
+        cand = [rule for (_n, rule) in cells if n_card and _n == int(n_card)]
+        if len(cand) != 1:
+            return None
+        c_rule = cand[0]
+    a = cells.get((int(N_HOLD), TICKET_RULE))
+    b = cells.get((int(n_card), c_rule)) if n_card else None
     if not a or not b:
         return None
 
     def face(r):
         bk = r.get("book") or {}
-        return {"cagr": bk.get("cagr"), "sharpe": bk.get("sharpe"), "maxdd": bk.get("maxdd")}
+        return {"cagr": bk.get("cagr"), "sharpe": bk.get("sharpe"), "maxdd": bk.get("maxdd"),
+                "vol": bk.get("vol")}
 
     ta, tb = face(a), face(b)
+    sq = audit.get("square") or {}
+    # same-rule width effect, per rule, straight off the audit's own grid.
+    # sign = the WIDER book minus this ticket's width (audit's own width_effect_pp
+    # convention), so beta reads -1.5pp and vol +0.2pp at 12 vs 5 names.
+    width_effect = {}
+    for rule in {TICKET_RULE, c_rule}:
+        lo = cells.get((int(N_HOLD), rule))
+        hi = cells.get((int(n_card), rule)) if n_card else None
+        if lo and hi:
+            width_effect[rule] = {
+                "ticket_width_cagr": (lo.get("book") or {}).get("cagr"),
+                "card_width_cagr": (hi.get("book") or {}).get("cagr"),
+                "pp": round((((hi.get("book") or {}).get("cagr") or 0.0)
+                             - ((lo.get("book") or {}).get("cagr") or 0.0)) * 100, 2)}
     try:
         src = os.path.relpath(p, BASE).replace("\\", "/")
     except ValueError:            # audit path off the repo volume (selftest fixtures)
         src = p.replace("\\", "/")
     return {"ticket_names": int(N_HOLD), "card_names": int(n_card),
+            "ticket_rule": TICKET_RULE, "card_rule": c_rule,
             "ticket": ta, "card": tb,
+            "width_effect": width_effect,
+            "rules_differ": TICKET_RULE != c_rule,
             "delta_ticket_minus_card": {
                 "cagr_pp": round((ta["cagr"] - tb["cagr"]) * 100, 2),
                 "sharpe": round(ta["sharpe"] - tb["sharpe"], 3),
-                "maxdd_pp": round((ta["maxdd"] - tb["maxdd"]) * 100, 2)},
-            "same_accounting": "this ticket's own accounting (beta overlay + GC001 cash leg, "
-                               "next-open fills, 8bp/side); only the name count varies",
+                "maxdd_pp": round((ta["maxdd"] - tb["maxdd"]) * 100, 2),
+                "vol_pp": round(((ta.get("vol") or 0.0) - (tb.get("vol") or 0.0)) * 100, 2)},
+            "square": sq or None,
+            "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); "
+                               "width and leverage rule each varied in turn",
             "source": src,
             "evidence_cutoff": audit.get("evidence_cutoff")}
 
@@ -751,7 +825,10 @@ def selftest():
             json.dump({"evidence_cutoff": "2026-10-23", "rows": [
                 {"n_hold": 5, "book": {"cagr": 0.1105, "sharpe": 1.353, "maxdd": -0.0601}},
                 {"n_hold": 12, "book": {"cagr": 0.0953, "sharpe": 1.560, "maxdd": -0.0417}}]}, f)
-        wd = width_disclosure(card_n=12, audit_path=audit_p)
+        # card_dir pointed at nothing: the live card's rule must not leak into a fixture
+        # (the audit below carries one arm, which is then used and named).
+        wd = width_disclosure(card_n=12, audit_path=audit_p,
+                              card_dir=os.path.join(td, "no_card"))
         chk("leg12 width disclosure reads the two rows and their difference",
             bool(wd) and wd["ticket_names"] == 5 and wd["card_names"] == 12
             and abs(wd["delta_ticket_minus_card"]["cagr_pp"] - 1.52) < 1e-9
@@ -783,6 +860,43 @@ def selftest():
         chk("leg16 live wiring: real card x real audit produce a disclosure",
             (width_disclosure() is not None) if os.path.exists(AUDIT_PATH) else True,
             "card=%s audit=%s" % (card_width(), os.path.exists(AUDIT_PATH)))
+
+        # leg17/18 -> numbered 27/28 (17/18 were taken by the decision-bar and card_book
+        # legs below): the audit now carries BOTH leverage rules, so a lookup keyed on the
+        # name count alone returns whichever arm was written last (r1280's "last arm
+        # silently wins" class, one file over). The ticket's cell must be the BETA row
+        # even though a vol row with the same n_hold exists further down the file, and
+        # the two width effects must be reported as separate arms.
+        audit2 = os.path.join(td, "audit2.json")
+        with open(audit2, "w", encoding="utf-8") as f:
+            json.dump({"evidence_cutoff": "2026-10-26", "rows": [
+                {"n_hold": 5, "rule": "beta", "book": {"cagr": 0.1104, "sharpe": 1.352,
+                                                       "maxdd": -0.0601, "vol": 0.0816}},
+                {"n_hold": 12, "rule": "beta", "book": {"cagr": 0.0952, "sharpe": 1.561,
+                                                        "maxdd": -0.0417, "vol": 0.061}},
+                {"n_hold": 5, "rule": "vol", "book": {"cagr": 0.1169, "sharpe": 1.352,
+                                                      "maxdd": -0.0756, "vol": 0.0865}},
+                {"n_hold": 12, "rule": "vol", "book": {"cagr": 0.119, "sharpe": 1.357,
+                                                       "maxdd": -0.0795, "vol": 0.0876}}]}, f)
+        cd_arm = os.path.join(td, "prod_arm")
+        os.makedirs(cd_arm, exist_ok=True)
+        with open(os.path.join(cd_arm, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12, "vol_target": 0.08}}, f)
+        wd2 = width_disclosure(card_n=12, audit_path=audit2, card_dir=cd_arm)
+        chk("leg27 width lookup keyed by (names, rule): ticket cell is the beta arm, "
+            "not whichever arm was written last",
+            bool(wd2) and abs(wd2["ticket"]["cagr"] - 0.1104) < 1e-12
+            and abs(wd2["card"]["cagr"] - 0.119) < 1e-12
+            and wd2["ticket_rule"] == "beta" and wd2["card_rule"] == "vol",
+            "ticket=%s card=%s" % (wd2["ticket"]["cagr"] if wd2 else None,
+                                   wd2["card"]["cagr"] if wd2 else None))
+        chk("leg28 same-rule width effect reported per arm, and the published faces "
+            "compared as a diagonal",
+            bool(wd2) and abs(wd2["width_effect"]["beta"]["pp"] + 1.52) < 1e-9
+            and abs(wd2["width_effect"]["vol"]["pp"] - 0.21) < 1e-9
+            and abs(wd2["delta_ticket_minus_card"]["cagr_pp"] + 0.86) < 1e-9,
+            "arms=%s diag=%.2f" % (wd2["width_effect"] if wd2 else None,
+                                   (wd2["delta_ticket_minus_card"]["cagr_pp"] if wd2 else 0)))
 
         # leg17: the ticket ranks on the engine's last DECISION bar, not the panel's last
         # bar. Until r1277 it ranked slip.index[-1], so the ticket traded five names the

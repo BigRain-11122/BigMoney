@@ -66,6 +66,12 @@ LEGS = [
     # first, ticket second: the ticket's card_agreement block reads the card back.
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # The width face prices the disagreement BETWEEN those two faces ("what does the
+    # ticket's 5 names cost against the card's 12"), and it was hand-run only: r1291 found
+    # it sitting on 2026-10-23 while both faces above had moved to 2026-10-26 -- third
+    # instance of the orphan-face class after r1257 (wide panel) and r1290 (the card).
+    # ~70s on the same panel the two legs above already warmed.
+    ("etf_book_width_audit", ["python", "scripts/etf_book_width_audit.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),

@@ -499,7 +499,10 @@ def main() -> int:
         # etf_book_production belongs here as much as the ticket: r1290 caught the card
         # (the headline face) a full refresh behind the ticket because only the ticket
         # was wired -- an unwired face reads as current to everything downstream.
-        _want = {"etf_book_forward", "etf_book_production", "etf_book_order", "cal_audit"}
+        # etf_book_width_audit prices the disagreement between the card and the ticket,
+        # so it goes stale the moment either moves: r1291 found it two bars behind both.
+        _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
+                 "etf_book_width_audit", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")

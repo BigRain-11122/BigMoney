@@ -135,24 +135,92 @@
  "width_disclosure": {
   "ticket_names": 5,
   "card_names": 12,
+  "ticket_rule": "beta",
+  "card_rule": "vol",
   "ticket": {
-   "cagr": 0.1169,
-   "sharpe": 1.351,
-   "maxdd": -0.0756
+   "cagr": 0.1104,
+   "sharpe": 1.352,
+   "maxdd": -0.0601,
+   "vol": 0.0816
   },
   "card": {
-   "cagr": 0.1188,
-   "sharpe": 1.355,
-   "maxdd": -0.0795
+   "cagr": 0.119,
+   "sharpe": 1.357,
+   "maxdd": -0.0795,
+   "vol": 0.0876
   },
+  "width_effect": {
+   "beta": {
+    "ticket_width_cagr": 0.1104,
+    "card_width_cagr": 0.0952,
+    "pp": -1.52
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1169,
+    "card_width_cagr": 0.119,
+    "pp": 0.21
+   }
+  },
+  "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -0.19,
-   "sharpe": -0.004,
-   "maxdd_pp": 0.39
+   "cagr_pp": -0.86,
+   "sharpe": -0.005,
+   "maxdd_pp": 1.94,
+   "vol_pp": -0.6
   },
-  "same_accounting": "this ticket's own accounting (beta overlay + GC001 cash leg, next-open fills, 8bp/side); only the name count varies",
+  "square": {
+   "cells": {
+    "beta@5": {
+     "cagr": 0.1104,
+     "sharpe": 1.352,
+     "maxdd": -0.0601,
+     "turnover": 1.5301,
+     "cash_share": 0.5502
+    },
+    "beta@12": {
+     "cagr": 0.0952,
+     "sharpe": 1.561,
+     "maxdd": -0.0417,
+     "turnover": 1.3032,
+     "cash_share": 0.6193
+    },
+    "vol@5": {
+     "cagr": 0.1169,
+     "sharpe": 1.352,
+     "maxdd": -0.0756,
+     "turnover": 1.5301,
+     "cash_share": 0.4808
+    },
+    "vol@12": {
+     "cagr": 0.119,
+     "sharpe": 1.357,
+     "maxdd": -0.0795,
+     "turnover": 1.3032,
+     "cash_share": 0.4287
+    }
+   },
+   "width_effect_pp": {
+    "beta": -1.52,
+    "vol": 0.21
+   },
+   "rule_effect_pp": {
+    "n5": 0.65,
+    "n12": 2.38
+   },
+   "interaction_pp": 1.73,
+   "published_diagonal_pp": 0.86,
+   "sharpe_width_effect": {
+    "beta": 0.209,
+    "vol": 0.005
+   },
+   "sharpe_rule_effect": {
+    "n5": 0.0,
+    "n12": -0.204
+   }
+  },
+  "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-10-23"
+  "evidence_cutoff": "2026-10-26"
  },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",

@@ -1303,3 +1303,41 @@ S7-tail dual-scan: O-20261015-1834 consumed (spawn-gate preflight = next-window 
   FIX: (1) Tools/s6_chain_bmc.py gains etf_book_production placed BEFORE etf_book_order (the ticket reads the card back for its agreement block) -> chain 45 legs. (2) scripts/etf_book_order.py: card_book() carries the card priced bar + feed status (not just the decision bar); card_agreement grows card_priced_bar/ticket_priced_bar/same_priced_bar/card_feed_status; ORDER-<bar>.md always prints the two-face agreement section and escalates to a warning when the priced bars differ; a regression leg proves a one-day-stale card is flagged even when the decision bar matches. selftest 24 -> 26 (leg25/leg26). (3) smoke_test.py chain-wiring leg now requires etf_book_production, so an unwired headline face fails smoke instead of reading as current to everything downstream.
   VERIFY (all re-run this window, not inherited): etf_book_order selftest 26/26 PASS; etf_book_production + etf_book_order live run -> both faces 2026-10-26, same priced bar=True, ticket 5-name prefix of the card 12-name book=True, stale 0/415 picks, panel live 1494/1498; smoke 72/72 PASS; S6 chain 45/45 rc0 at 2026-10-26T22:30:49 (results/_r1290bmc_s6_chain.json); dualrun ZERO-DRIFT 616/streak 51; compute_audit FLAG supply_gap/supply_floor (bm-b-owned ready item, bm-b still silent -> untouched, correctly); cal_audit in_sync expected=2026-10-26; regime breadth 0.79; attrition guard 4 ledger files CLEAN (historical shrinks healed); orphan face=0 (py_faces=5, no kill); D-19 decisions 39b90a19 / orders e51fccdb unchanged + both reproducible (zero phantom, nothing to consume); orders 114 files vs 239 acks unacked=0; local behind origin=0 at open. MEMORY: hot/cold consolidation moved 32 lines to research/memory-archive/202610.md, zero-loss verified line by line (32/32 present), CODELY.md 25,497B (under the 50KB watermark); the r1290 lesson appended as one line with a pointer to the digest. S7: loop pin=5 no-op (first fire 22:35), watchdog re-registered (S4U XML flip access-denied = standing PR-20261026-02 face, unchanged), pre-commit and pre-push claws both match repo sources, inbox empty, no task re-registration beyond the idempotent pair.
 - r1290 next: tomorrow history-face print is the referee for tonight quote bar (update_daily parity leg will either confirm 510300 byte-identically or flag overlap_mismatch); then check the width-audit cutoff (still 2026-10-23, a backtest face) for the same orphan-leg class, and re-read the delivered-vol ratio against the forward record now accruing from bar 2026-10-26.
+- r1291 (2026-10-26T23:05:24+08:00): PRODUCT — the width face now prints the rule it was measured under, and
+  the width x rule grid is published (results/etf_book_width_audit.json, cutoff 2026-10-26).
+  当前活：r1291 收口；最近实物：results/etf_book_order/ORDER-2026-10-26.md（2026-10-26T23:05:24+08:00 重建，含修正后的宽度块）
+  与 research/digests/DIGEST-20261026-r1291-width-rule-mismatch.md；下个里程碑：r1292 起把容量
+  （p90/1% ADV）按波动目标规则重算一遍（48h 内）。
+  FINDING: the 12-name card vs the 5-name ticket was published as "wide costs -1.52pp/yr" (r1275).
+  That number is a beta-overlay artifact, not a width cost. Holding the ledger fixed and varying
+  BOTH knobs: beta@5 11.04%/SR 1.352/vol 8.16%/DD -6.01%/cash 55.0%, beta@12 9.52%/1.561/6.10%/
+  -4.17%/61.9%, vol@5 11.69%/1.352/8.65%/-7.56%/48.1%, vol@12 11.90%/1.357/8.76%/-7.95%/42.9%.
+  Width effect beta -1.52pp vs vol +0.21pp; rule effect +0.65pp at 5 names and +2.38pp at 12;
+  interaction +1.73pp. The beta overlay sizes off index beta and ignores the book's own vol, so the
+  wide book simply carries 25% less risk (6.10% vs 8.16% realised) and earns less while scoring a
+  HIGHER Sharpe; under the vol target both widths realise 8.6-8.8% and width is nearly free. The two
+  published faces differ on BOTH knobs, so the honest number is the diagonal: card - ticket =
+  +0.86pp/yr, Sharpe +0.005, +0.60pp vol, 1.94pp deeper drawdown -> risk-budget choice, not skill.
+  DEFECT FOUND WHILE WIRING (real, silent): width_disclosure() keyed its lookup on n_hold alone, and
+  the audit now carries a second arm with the same widths (5/12 under vol). The dict kept the LAST
+  row, so the ticket face would have printed vol-rule numbers under the "本单（可执行）" label
+  (11.69% instead of 11.04%). Fixed by keying on (names, rule), deriving the ticket's rule from its
+  own accounting and the card's from its config (vol_target present -> vol), and refusing to guess
+  when the card artefact is unreadable (single-arm fallback, named in the face). selftest 26 -> 28
+  (leg27 last arm must not overwrite the first; leg28 per-arm width effects + diagonal).
+  CHAIN: the width face was hand-run only and sat on 2026-10-23 while both faces above it were on
+  2026-10-26 -- third instance of the orphan-face class (r1257 wide panel, r1290 card). Now S6 leg
+  46 (~62s), and the smoke wiring leg requires it.
+  VERIFY (all run this window): etf_book_order selftest 28/28 PASS; S6 chain 46/46 rc0 at
+  2026-10-26T23:04:02 (results/_r1291bmc_s6_chain.json); smoke 72/72 PASS (legs=46); dualrun
+  ZERO-DRIFT 616/streak 51; compute_audit cpu 70.0%/py 0.9%; py_watermark py_low (see face);
+  cal_audit in_sync expected 2026-10-26 (active 1723/1725); regime ORANGE breadth 0.79; attrition
+  guard 4 ledger files CLEAN (historical shrinks healed); claws pre-commit/pre-push both match;
+  orphan face=0 (py_faces=6, no kill). bm-a heartbeat 662 min stale -> strategy_scorecard took over
+  legitimately and rewrote the shared face this round (bm-b 5675 min silent; the astock refresh
+  continuation from r1290 is alive with lock held -> lane no-op).
+  CONSUMED: D-20261026-23 (ledger-rewrite law) is now a line in Tools/iteration_prompt.txt
+  (origin-direct edits only, commit sha recorded, never a whole-file rewrite from a behind
+  worktree); decisions watermark 39b90a19 -> 61dc0f19, orders e51fccdb unchanged, 114 orders vs
+  239 acks unacked=0. Next: r1292 capacity under the vol rule; then re-read delivered vol against
+  the forward record accruing from bar 2026-10-26.
