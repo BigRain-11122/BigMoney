@@ -21764,6 +21764,20 @@
    "done_at": "2026-10-27T06:13:00+08:00",
    "result_ref": "results/e44_midmonth/GAPARM-FAMILY-ENDGRID-20261026-s20180101.json",
    "result_note": "two objects, not five: gap1/gap2/gap5 agree on all six era-book cells and on every end (max-min 0.0); they keep the same 1,271 names, gap1==gap2 edits and gap1 vs gap5 differs on exactly 1 name that never reaches a cell, so the gap limit 1/2/5 is not identified by this panel. neutralise_int is a different object (65 vs 74 edited symbols): +52.5bp step on 2017_2020 me against the gap family -745.9bp step, and 12/12 zero ends on 2021_2023 both books. Published control reproduces all 24 (era,book,arm) deltas at abs_diff 0.0; digest research/digests/DIGEST-20261027-e102-gaparm-family-endgrid.md"
+  },
+  {
+   "id": "E103-GAPLIMIT-IDENTIFICATION",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/panel_screen.py (neutralise_gap gap_limit) + scripts/e39_panel_census.py",
+   "title": "E102 showed gap1/gap2/gap5 publish one identical reading on every era-book cell and that gap1 vs gap5 differ on exactly one of 1,271 names which never reaches a cell. So the published gap limit (1/2/5 sessions) is not identified by the panel. Find the limit at which the screen starts to bind: walk gap_limit 1..20, report per limit how many symbols and how many prints change, and name the first limit that moves a published cell. Until such a limit exists, three published columns cannot be cited as corroboration.",
+   "deliverable": "results/e44_midmonth/GAPLIMIT-<cutoff>.json + digest",
+   "source": "results/e44_midmonth/GAPARM-FAMILY-ENDGRID-20261026-s20180101.json + DIGEST-20261027-e102-gaparm-family-endgrid.md",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T06:07:39+08:00",
+   "entered_by": "bm-b r1167",
+   "runner_note": "screen_universe is cheap (seconds per limit): walk the ladder, count edited symbols and edited prints per limit against unscreened, and print the edited print dates so the binding print is named by date, not as a count. Only if a limit separates a published cell does the 12-end grid need to run on it. Publish the limit-ladder as a frontier, never a single chosen limit, and keep gap1 as the published control (its edit set must reproduce at limit 1)."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21778,7 +21792,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T06:06:23+08:00",
+ "updated_at": "2026-10-27T06:07:39+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
