@@ -27,6 +27,13 @@ WHAT THIS DELIVERS (product, not prose):
       top-decile membership), plus how many codes reach back to a report that
       was not public yet.
     * results/fund_pit_crossface_factor.json -- the evidence face;
+    * quarter-isolated accrual (r1117): every row also carries the flows of the
+      reporting period it actually covers (``q_np`` / ``q_cf`` /
+      ``q_prev_period_end``), because a Q1 filer's YTD accrual spans 3 months
+      while a laggard's annual figure spans 12 and ranking them together ranks
+      spans, not accruals. ``quarter_isolation`` publishes how much of the
+      panel is comparable and how far the equal-span ranking departs from the
+      YTD one;
     * data/fund_statement_export/pit_avail/pit_crossface_monthly.parquet --
       the panel artifact (gitignored data lane, one command to regenerate).
 
@@ -163,6 +170,106 @@ def accrual_of(frame):
     return out
 
 
+def _cum_frame(prep, cols):
+    """Per-row (code, period_end, avail_event) view of an as-of prep.
+
+    ``prep["codes"]`` holds one entry per code (the as-of join works per code);
+    the per-ROW code label lives in the prepped frame, so read it from there.
+    """
+    frame = pd.DataFrame({"code": prep["frame"]["code"].to_numpy(),
+                          "period_end": pd.to_datetime(prep["period_end"]),
+                          "avail_event": pd.to_datetime(prep["avail_event"])})
+    for col in cols:
+        frame[col] = prep["vals"][col]
+    return frame
+
+
+def _isolate(frame, cols, asof):
+    """Split cumulative flows into the single reporting period they cover.
+
+    Q1 (a period ending in March) already is one quarter. Any later period is
+    cumulative from January, so its single-period value is the difference to
+    the previous report of the SAME fiscal year. A predecessor from another
+    year (a skipped quarter) or a missing predecessor cannot be differenced --
+    the row is marked un-isolated and stays NaN instead of silently mixing a
+    6-month flow with a 12-month one.
+    """
+    out_cols = [*cols, "prev_period_end", "isolated"]
+    av = frame[frame["avail_event"] <= pd.Timestamp(asof)]
+    if av.empty:
+        return pd.DataFrame(columns=out_cols)
+    av = av.drop_duplicates(["code", "period_end"], keep="last")
+    av = av.sort_values(["code", "period_end"], kind="stable")
+    grp = av.groupby("code", sort=False)
+    av["prev_period_end"] = grp["period_end"].shift(1)
+    for col in cols:
+        av["_prev_" + col] = grp[col].shift(1)
+    last = grp.tail(1).set_index("code")
+    first_quarter = last["period_end"].dt.month == 3
+    same_year = last["prev_period_end"].dt.year == last["period_end"].dt.year
+    out = pd.DataFrame(index=last.index)
+    out["period_end"] = last["period_end"]
+    out["prev_period_end"] = last["prev_period_end"]
+    isolated = first_quarter.copy()
+    for col in cols:
+        cum = pd.to_numeric(last[col], errors="coerce")
+        prev = pd.to_numeric(last["_prev_" + col], errors="coerce")
+        differenced = same_year & prev.notna() & cum.notna()
+        out[col] = np.where(first_quarter, cum,
+                            np.where(differenced, cum - prev, np.nan))
+        isolated = isolated | differenced
+    out["isolated"] = isolated.fillna(False).astype(bool)
+    return out
+
+
+def _isolated_view(prep, cols, asof):
+    """Isolated flows keyed by (code, period_end), plus the flag and span."""
+    iso = _isolate(_cum_frame(prep, cols), cols, asof)
+    if iso.empty:
+        return iso, None
+    idx = pd.MultiIndex.from_arrays([iso.index.to_numpy(dtype=object),
+                                     iso["period_end"].to_numpy()])
+    return iso, idx
+
+
+def add_quarterly(preps, asof, frame):
+    """Attach single-period flows and the quarter-isolated accrual.
+
+    WHY: a YTD accrual from a Q1 filer spans 3 months and a laggard's annual
+    figure spans 12, so a cross-section ranked on YTD ranks different spans
+    against each other. This publishes the span-explicit factor and how much
+    of the panel can actually be compared on equal footing.
+    """
+    if frame.empty:
+        return frame
+    out = frame.copy()
+    if "degenerate" not in out:
+        out["degenerate"] = degenerate_mask(out[BS_ASSETS])
+    key = pd.MultiIndex.from_arrays([out["code"].astype(str).to_numpy(),
+                                     pd.to_datetime(out["period_end"]).to_numpy()])
+    inc, inc_idx = _isolated_view(preps["income"], (NP,), asof)
+    cfl, cf_idx = _isolated_view(preps["cashflow"], (CF_OPS,), asof)
+    q_np = (pd.Series(inc[NP].to_numpy(), index=inc_idx).reindex(key)
+            if inc_idx is not None else pd.Series(np.nan, index=key))
+    q_cf = (pd.Series(cfl[CF_OPS].to_numpy(), index=cf_idx).reindex(key)
+            if cf_idx is not None else pd.Series(np.nan, index=key))
+    prev = (pd.Series(inc["prev_period_end"].to_numpy(), index=inc_idx)
+            .reindex(key) if inc_idx is not None
+            else pd.Series(pd.NaT, index=key))
+    out["q_np"] = q_np.to_numpy()
+    out["q_cf"] = q_cf.to_numpy()
+    out["q_prev_period_end"] = prev.to_numpy()
+    ok = out["q_np"].notna() & out["q_cf"].notna()
+    out["quarter_isolated"] = ok.to_numpy()
+    mask = out["degenerate"].to_numpy() | (~ok).to_numpy()
+    assets = pd.to_numeric(out[BS_ASSETS], errors="coerce")
+    raw = (pd.to_numeric(out["q_np"], errors="coerce")
+           - pd.to_numeric(out["q_cf"], errors="coerce")) / assets
+    out["accrual_q"] = raw.where(~pd.Series(mask, index=out.index))
+    out["accrual_q_rank_pct"] = rank_pct(out["accrual_q"].to_numpy(), mask)
+    return out
+
+
 def add_ranks(frame):
     """Global rank and peer (same period_end cohort) rank of the accrual."""
     if frame.empty:
@@ -193,7 +300,7 @@ def build_panel(preps, asofs, coverage=None):
         frame = coherent_triple(preps, d)
         if frame.empty:
             continue
-        part = add_ranks(accrual_of(frame))
+        part = add_quarterly(preps, d, add_ranks(accrual_of(frame)))
         c = cov.get(d.strftime("%Y-%m-%d"))
         if c is not None:
             part["codes_income_asof"] = int(c["codes_income"])
@@ -211,7 +318,9 @@ def build_panel(preps, asofs, coverage=None):
             "tier_deadline_faces", "avail_tier_income", "avail_tier_cashflow",
             "avail_tier_balance", "degenerate", "cohort_size", NP, CF_OPS,
             BS_ASSETS, BS_LEV, "accrual", "accrual_rank_pct",
-            "accrual_rank_pct_peer", "cash_quality"]
+            "accrual_rank_pct_peer", "cash_quality", "q_np", "q_cf",
+            "q_prev_period_end", "quarter_isolated", "accrual_q",
+            "accrual_q_rank_pct"]
     if parts and "codes_income_asof" in parts[0]:
         keep += ["codes_income_asof", "codes_all_three_asof",
                  "coherent_share_of_income_asof"]
@@ -309,6 +418,63 @@ def _median(rows, key):
 def _worst(rows, key, fn):
     vals = [r[key] for r in rows if r.get(key) is not None]
     return round(float(fn(vals)), 4) if vals else None
+
+
+def quarter_isolation_grid(panel):
+    """Does splitting YTD flows into single quarters reorder the cross-section?
+
+    Reads the panel it was built for: every row already carries the YTD accrual
+    and the quarter-isolated accrual, so this is a re-cut of one simulation
+    rather than a second build (r1133 cut-axis law).
+    """
+    rows = []
+    if panel is None or panel.empty:
+        return rows
+    for asof, group in panel.groupby("asof"):
+        live = group[~group["degenerate"]]
+        both = live.dropna(subset=["accrual", "accrual_q"])
+        iso_share = (round(float(group["quarter_isolated"].mean()), 4)
+                     if len(group) else None)
+        span = None
+        prev = pd.to_datetime(both["q_prev_period_end"], errors="coerce")
+        pe = pd.to_datetime(both["period_end"], errors="coerce")
+        if len(both) and prev.notna().any():
+            span = round(float(((pe - prev).dt.days / 30.44)
+                               .dropna().median()), 2)
+        rho = _spearman(both["accrual"], both["accrual_q"])
+        ytd_top = set(top_decile(both["accrual"], None, share=DECILE))
+        q_top = set(top_decile(both["accrual_q"], None, share=DECILE))
+        overlap = (len(ytd_top & q_top) / len(ytd_top)) if ytd_top else None
+        rows.append({
+            "asof": pd.Timestamp(asof).strftime("%Y-%m-%d"),
+            "codes_triple": int(len(group)),
+            "codes_isolated": int(group["quarter_isolated"].sum()),
+            "isolated_share": iso_share,
+            "codes_ranked_both": int(len(both)),
+            "ytd_vs_quarter_spearman": round(rho, 4) if rho is not None else None,
+            "top_decile_overlap": round(overlap, 4) if overlap is not None else None,
+            "codes_top_decile_changed": (int(len(ytd_top - q_top))
+                                         if ytd_top else None),
+            "median_span_months": span,
+        })
+    return rows
+
+
+def _summarise_quarter(rows):
+    return {
+        "asofs": len(rows),
+        "median_isolated_share": _median(rows, "isolated_share"),
+        "min_isolated_share": _worst(rows, "isolated_share", min),
+        "median_ytd_vs_quarter_spearman": _median(rows, "ytd_vs_quarter_spearman"),
+        "min_ytd_vs_quarter_spearman": _worst(rows, "ytd_vs_quarter_spearman", min),
+        "median_top_decile_overlap": _median(rows, "top_decile_overlap"),
+        "min_top_decile_overlap": _worst(rows, "top_decile_overlap", min),
+        "median_codes_top_decile_changed": _median(rows, "codes_top_decile_changed"),
+        "max_codes_top_decile_changed": _worst(rows, "codes_top_decile_changed", max),
+        "median_span_months": _median(rows, "median_span_months"),
+        "asofs_below_0_9_spearman": int(sum(
+            1 for r in rows if (r.get("ytd_vs_quarter_spearman") or 1.0) < 0.9)),
+    }
 
 
 def _summarise(compared, coverage, peer):
@@ -422,6 +588,7 @@ def run(log=print):
             raise AssertionError("panel lost its universe coverage column; a "
                                  "consumer would silently assume income breadth")
         peer = peer_vs_global(panel)
+        quarter = quarter_isolation_grid(panel)
     except AssertionError as exc:
         log(f"MACHINERY: {exc}")
         return 2
@@ -458,9 +625,19 @@ def run(log=print):
                           "from the decile test, kept in the panel (r1107)",
             "naive": "max period_end <= asof per face, availability ignored, "
                      "then the same coherence filter",
+            "quarter_isolated_accrual": "(single-period net profit - "
+                                        "single-period operating cash flow) / "
+                                        "total assets; Q1 is already one "
+                                        "quarter, later periods subtract the "
+                                        "previous report of the same fiscal "
+                                        "year, else NaN (span not comparable)",
         },
         "universe_coverage": universe_block(coverage),
         "availability_provenance": tier_provenance(panel),
+        "quarter_isolation": {
+            "summary": _summarise_quarter(quarter),
+            "grid": quarter,
+        },
         "grid_summary": _summarise(compared, coverage, peer),
         "window_summary_across_grid": _summarise(
             [r for r in compared if r["asof"] >= asofs[-PANEL_WINDOW:]
@@ -509,21 +686,31 @@ def run(log=print):
         f"{t['deadline_bound_share']} across {t['faces_deadline_mean']} faces mean "
         f"(sole-face rows i/c/b: {t['income_sole_deadline_rows']}/"
         f"{t['cashflow_sole_deadline_rows']}/{t['balance_sole_deadline_rows']})")
+    qs = receipts["quarter_isolation"]["summary"]
+    log(f"quarter isolation: share of rows comparable median "
+        f"{qs['median_isolated_share']} (min {qs['min_isolated_share']}); "
+        f"YTD-vs-quarter rank rho median {qs['median_ytd_vs_quarter_spearman']} "
+        f"min {qs['min_ytd_vs_quarter_spearman']} "
+        f"({qs['asofs_below_0_9_spearman']} month-ends below 0.9); top-decile "
+        f"overlap median {qs['median_top_decile_overlap']} (median "
+        f"{qs['median_codes_top_decile_changed']} codes swapped); median span "
+        f"{qs['median_span_months']} months")
     return 0
 
 
 # ------------------------------------------------------------------ selftest
-def _fixture(lags=None):
+def _fixture(lags=None, periods=None):
     """Four codes x two periods across three faces.
 
     ``lags`` maps a face name to {(code, period): extra days of filing delay},
     so a test can lag exactly one statement (the coherence-breaking case) or
     all three (the case where the strict triple falls back to an older period
-    while the naive one does not).
+    while the naive one does not). ``periods`` overrides the two report periods
+    so a test can build a fiscal-year gap.
     """
     lags = lags or {}
     codes = ["000001", "000002", "000003", "000004"]
-    periods = ["2020-03-31", "2020-06-30"]
+    periods = periods or ["2020-03-31", "2020-06-30"]
 
     def build(face, cols, base, shift):
         per_face = lags.get(face, {})
@@ -674,6 +861,68 @@ def selftest(log=print):
         assert set(panel["codes_all_three_asof"]) == {4}
         assert set(panel["coherent_share_of_income_asof"]) == {1.0}
 
+    def leg_first_quarter_is_already_single_period():
+        asof = pd.Timestamp("2020-05-15")
+        frame = add_quarterly(_fixture(), asof, coherent_triple(_fixture(), asof))
+        assert (frame["period_end"] == pd.Timestamp("2020-03-31")).all()
+        assert bool(frame["quarter_isolated"].all()), frame["quarter_isolated"]
+        assert np.allclose(frame["q_np"], frame[NP])
+        assert np.allclose(frame["q_cf"], frame[CF_OPS])
+
+    def leg_later_period_subtracts_its_predecessor():
+        asof = pd.Timestamp("2020-09-10")
+        frame = add_quarterly(_fixture(), asof, coherent_triple(_fixture(), asof))
+        # the fixture adds exactly 10.0 in every later period, so each
+        # single-period flow is 10.0 no matter the code
+        assert np.allclose(frame["q_np"], 10.0), frame["q_np"].tolist()
+        assert np.allclose(frame["q_cf"], 10.0), frame["q_cf"].tolist()
+        assert bool(frame["quarter_isolated"].all())
+        assert (frame["q_prev_period_end"] == pd.Timestamp("2020-03-31")).all()
+
+    def leg_missing_predecessor_leaves_the_row_unisolated():
+        # cashflow Q1 is not public yet, so the H1 cash flow has nothing to
+        # subtract. Income still isolates (10.0), but a quarter accrual needs
+        # BOTH legs, so the row must be flagged rather than half-filled.
+        preps = _fixture(lags={"cashflow": {("000001", "2020-03-31"): 200}})
+        asof = pd.Timestamp("2020-09-10")
+        frame = add_quarterly(preps, asof, coherent_triple(preps, asof))
+        row = frame[frame["code"] == "000001"].iloc[0]
+        assert row["period_end"] == pd.Timestamp("2020-06-30")
+        assert bool(row["quarter_isolated"]) is False
+        assert abs(row["q_np"] - 10.0) < 1e-9, row["q_np"]
+        assert pd.isna(row["accrual_q"]), row["accrual_q"]
+        assert pd.isna(row["accrual_q_rank_pct"])
+
+    def leg_cross_year_predecessor_is_not_subtracted():
+        # a skipped fiscal year: the previous available report belongs to
+        # another year, so the difference would span 12 months, not one period
+        periods = ["2020-06-30", "2021-06-30"]
+        preps = _fixture(periods=periods)
+        asof = pd.Timestamp("2021-09-10")
+        frame = add_quarterly(preps, asof, coherent_triple(preps, asof))
+        assert (frame["period_end"] == pd.Timestamp("2021-06-30")).all()
+        assert not bool(frame["quarter_isolated"].any())
+        assert frame["accrual_q"].isna().all()
+
+    def leg_quarter_grid_publishes_rank_departure():
+        preps = _fixture()
+        h1 = pd.to_datetime(preps["income"]["period_end"]) == pd.Timestamp("2020-06-30")
+        vals = np.array(preps["income"]["vals"][NP], dtype=float)
+        idx = np.where(h1)[0]
+        # make the H1 increment code-dependent: YTD ranks follow the cumulative
+        # level, single-period ranks follow the increment, so the two disagree
+        vals[idx] += np.arange(len(idx))
+        preps["income"]["vals"][NP] = vals
+        asof = pd.Timestamp("2020-09-10")
+        frame = add_quarterly(preps, asof, coherent_triple(preps, asof))
+        assert frame["accrual_q"].nunique() == 4, frame["accrual_q"].unique()
+        grid = quarter_isolation_grid(build_panel(preps, [asof]))
+        assert len(grid) == 1, grid
+        assert grid[0]["codes_isolated"] == 4, grid[0]
+        assert abs(grid[0]["median_span_months"] - 3.0) < 0.02, grid[0]
+        assert grid[0]["codes_ranked_both"] == 4, grid[0]
+        assert grid[0]["ytd_vs_quarter_spearman"] is not None, grid[0]
+
     leg("coherent triple keeps only agreeing periods",
         leg_coherent_keeps_agreeing_periods)
     leg("a single lagging face breaks coherence", leg_one_face_lag_breaks_coherence)
@@ -696,8 +945,18 @@ def selftest(log=print):
     leg("peer rank separates mixed cohorts", leg_peer_rank_differs_when_cohorts_mix)
     leg("panel asserts no lookahead", leg_panel_asserts_no_lookahead)
     leg("empty grid is safe", leg_empty_grid_is_safe)
+    leg("first quarter is already a single period",
+        leg_first_quarter_is_already_single_period)
+    leg("later period subtracts its predecessor",
+        leg_later_period_subtracts_its_predecessor)
+    leg("missing predecessor leaves the row un-isolated",
+        leg_missing_predecessor_leaves_the_row_unisolated)
+    leg("cross-year predecessor is not subtracted",
+        leg_cross_year_predecessor_is_not_subtracted)
+    leg("quarter grid publishes the rank departure",
+        leg_quarter_grid_publishes_rank_departure)
 
-    total = 14
+    total = 19
     if fails:
         log(f"selftest {total - len(fails)}/{total} PASS -- FAILED: {fails}")
         return 1

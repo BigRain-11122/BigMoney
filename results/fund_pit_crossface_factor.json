@@ -4432,7 +4432,8 @@
     "coherence": "income.period_end == cashflow.period_end == balance.period_end == the newest period public at the as-of date in all three faces",
     "degenerate": "total assets <= 0 or missing; excluded from ranks and from the decile test, kept in the panel (r1107)",
     "naive": "max period_end <= asof per face, availability ignored, then the same coherence filter",
-    "peer_rank": "accrual rank inside the period_end cohort, published because a month-end cross-section mixes annual and quarterly filers"
+    "peer_rank": "accrual rank inside the period_end cohort, published because a month-end cross-section mixes annual and quarterly filers",
+    "quarter_isolated_accrual": "(single-period net profit - single-period operating cash flow) / total assets; Q1 is already one quarter, later periods subtract the previous report of the same fiscal year, else NaN (span not comparable)"
   },
   "evidence_cutoff": "2026-08-31",
   "faces": [
@@ -4485,6 +4486,12 @@
       "accrual_rank_pct",
       "accrual_rank_pct_peer",
       "cash_quality",
+      "q_np",
+      "q_cf",
+      "q_prev_period_end",
+      "quarter_isolated",
+      "accrual_q",
+      "accrual_q_rank_pct",
       "codes_income_asof",
       "codes_all_three_asof",
       "coherent_share_of_income_asof"
@@ -4640,7 +4647,288 @@
       "rank_spearman": 0.9982
     }
   ],
-  "ts": "2026-10-24T07:51:27+0800",
+  "quarter_isolation": {
+    "grid": [
+      {
+        "asof": "2024-09-30",
+        "codes_isolated": 5117,
+        "codes_ranked_both": 5117,
+        "codes_top_decile_changed": 242,
+        "codes_triple": 5199,
+        "isolated_share": 0.9842,
+        "median_span_months": 2.99,
+        "top_decile_overlap": 0.5273,
+        "ytd_vs_quarter_spearman": 0.6639
+      },
+      {
+        "asof": "2024-10-31",
+        "codes_isolated": 5107,
+        "codes_ranked_both": 5107,
+        "codes_top_decile_changed": 287,
+        "codes_triple": 5145,
+        "isolated_share": 0.9926,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4384,
+        "ytd_vs_quarter_spearman": 0.6025
+      },
+      {
+        "asof": "2024-11-30",
+        "codes_isolated": 5117,
+        "codes_ranked_both": 5117,
+        "codes_top_decile_changed": 289,
+        "codes_triple": 5155,
+        "isolated_share": 0.9926,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4355,
+        "ytd_vs_quarter_spearman": 0.6034
+      },
+      {
+        "asof": "2024-12-31",
+        "codes_isolated": 5121,
+        "codes_ranked_both": 5121,
+        "codes_top_decile_changed": 290,
+        "codes_triple": 5157,
+        "isolated_share": 0.993,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4336,
+        "ytd_vs_quarter_spearman": 0.6042
+      },
+      {
+        "asof": "2025-01-31",
+        "codes_isolated": 5122,
+        "codes_ranked_both": 5122,
+        "codes_top_decile_changed": 291,
+        "codes_triple": 5158,
+        "isolated_share": 0.993,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4316,
+        "ytd_vs_quarter_spearman": 0.6021
+      },
+      {
+        "asof": "2025-02-28",
+        "codes_isolated": 5129,
+        "codes_ranked_both": 5129,
+        "codes_top_decile_changed": 294,
+        "codes_triple": 5165,
+        "isolated_share": 0.993,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4269,
+        "ytd_vs_quarter_spearman": 0.6021
+      },
+      {
+        "asof": "2025-03-31",
+        "codes_isolated": 5146,
+        "codes_ranked_both": 5146,
+        "codes_top_decile_changed": 293,
+        "codes_triple": 5182,
+        "isolated_share": 0.9931,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4311,
+        "ytd_vs_quarter_spearman": 0.583
+      },
+      {
+        "asof": "2025-04-30",
+        "codes_isolated": 5146,
+        "codes_ranked_both": 5146,
+        "codes_top_decile_changed": 4,
+        "codes_triple": 5152,
+        "isolated_share": 0.9988,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9922,
+        "ytd_vs_quarter_spearman": 0.9958
+      },
+      {
+        "asof": "2025-05-31",
+        "codes_isolated": 5149,
+        "codes_ranked_both": 5149,
+        "codes_top_decile_changed": 3,
+        "codes_triple": 5155,
+        "isolated_share": 0.9988,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9942,
+        "ytd_vs_quarter_spearman": 0.9984
+      },
+      {
+        "asof": "2025-06-30",
+        "codes_isolated": 5152,
+        "codes_ranked_both": 5152,
+        "codes_top_decile_changed": 1,
+        "codes_triple": 5158,
+        "isolated_share": 0.9988,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9981,
+        "ytd_vs_quarter_spearman": 0.9992
+      },
+      {
+        "asof": "2025-07-31",
+        "codes_isolated": 5156,
+        "codes_ranked_both": 5156,
+        "codes_top_decile_changed": 8,
+        "codes_triple": 5162,
+        "isolated_share": 0.9988,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9845,
+        "ytd_vs_quarter_spearman": 0.9941
+      },
+      {
+        "asof": "2025-08-31",
+        "codes_isolated": 5182,
+        "codes_ranked_both": 5182,
+        "codes_top_decile_changed": 249,
+        "codes_triple": 5190,
+        "isolated_share": 0.9985,
+        "median_span_months": 2.99,
+        "top_decile_overlap": 0.5193,
+        "ytd_vs_quarter_spearman": 0.6703
+      },
+      {
+        "asof": "2025-09-30",
+        "codes_isolated": 5200,
+        "codes_ranked_both": 5200,
+        "codes_top_decile_changed": 251,
+        "codes_triple": 5208,
+        "isolated_share": 0.9985,
+        "median_span_months": 2.99,
+        "top_decile_overlap": 0.5173,
+        "ytd_vs_quarter_spearman": 0.6676
+      },
+      {
+        "asof": "2025-10-31",
+        "codes_isolated": 5200,
+        "codes_ranked_both": 5200,
+        "codes_top_decile_changed": 267,
+        "codes_triple": 5206,
+        "isolated_share": 0.9988,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4865,
+        "ytd_vs_quarter_spearman": 0.6175
+      },
+      {
+        "asof": "2025-11-30",
+        "codes_isolated": 5215,
+        "codes_ranked_both": 5215,
+        "codes_top_decile_changed": 269,
+        "codes_triple": 5221,
+        "isolated_share": 0.9989,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4847,
+        "ytd_vs_quarter_spearman": 0.6142
+      },
+      {
+        "asof": "2025-12-31",
+        "codes_isolated": 5213,
+        "codes_ranked_both": 5213,
+        "codes_top_decile_changed": 271,
+        "codes_triple": 5219,
+        "isolated_share": 0.9989,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4798,
+        "ytd_vs_quarter_spearman": 0.6158
+      },
+      {
+        "asof": "2026-01-31",
+        "codes_isolated": 5214,
+        "codes_ranked_both": 5214,
+        "codes_top_decile_changed": 271,
+        "codes_triple": 5220,
+        "isolated_share": 0.9989,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4798,
+        "ytd_vs_quarter_spearman": 0.6151
+      },
+      {
+        "asof": "2026-02-28",
+        "codes_isolated": 5215,
+        "codes_ranked_both": 5215,
+        "codes_top_decile_changed": 271,
+        "codes_triple": 5221,
+        "isolated_share": 0.9989,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4808,
+        "ytd_vs_quarter_spearman": 0.6139
+      },
+      {
+        "asof": "2026-03-31",
+        "codes_isolated": 5224,
+        "codes_ranked_both": 5224,
+        "codes_top_decile_changed": 271,
+        "codes_triple": 5229,
+        "isolated_share": 0.999,
+        "median_span_months": 3.02,
+        "top_decile_overlap": 0.4808,
+        "ytd_vs_quarter_spearman": 0.6209
+      },
+      {
+        "asof": "2026-04-30",
+        "codes_isolated": 5226,
+        "codes_ranked_both": 5226,
+        "codes_top_decile_changed": 2,
+        "codes_triple": 5231,
+        "isolated_share": 0.999,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9962,
+        "ytd_vs_quarter_spearman": 0.9962
+      },
+      {
+        "asof": "2026-05-31",
+        "codes_isolated": 5229,
+        "codes_ranked_both": 5229,
+        "codes_top_decile_changed": 2,
+        "codes_triple": 5234,
+        "isolated_share": 0.999,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.9962,
+        "ytd_vs_quarter_spearman": 0.9979
+      },
+      {
+        "asof": "2026-06-30",
+        "codes_isolated": 5233,
+        "codes_ranked_both": 5233,
+        "codes_top_decile_changed": 0,
+        "codes_triple": 5238,
+        "isolated_share": 0.999,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 1.0,
+        "ytd_vs_quarter_spearman": 0.9991
+      },
+      {
+        "asof": "2026-07-31",
+        "codes_isolated": 5233,
+        "codes_ranked_both": 5233,
+        "codes_top_decile_changed": 11,
+        "codes_triple": 5238,
+        "isolated_share": 0.999,
+        "median_span_months": 2.96,
+        "top_decile_overlap": 0.979,
+        "ytd_vs_quarter_spearman": 0.9932
+      },
+      {
+        "asof": "2026-08-31",
+        "codes_isolated": 5232,
+        "codes_ranked_both": 5232,
+        "codes_top_decile_changed": 215,
+        "codes_triple": 5238,
+        "isolated_share": 0.9989,
+        "median_span_months": 2.99,
+        "top_decile_overlap": 0.5889,
+        "ytd_vs_quarter_spearman": 0.686
+      }
+    ],
+    "summary": {
+      "asofs": 24,
+      "asofs_below_0_9_spearman": 16,
+      "max_codes_top_decile_changed": 294.0,
+      "median_codes_top_decile_changed": 259.0,
+      "median_isolated_share": 0.9988,
+      "median_span_months": 3.005,
+      "median_top_decile_overlap": 0.5019,
+      "median_ytd_vs_quarter_spearman": 0.6424,
+      "min_isolated_share": 0.9842,
+      "min_top_decile_overlap": 0.4269,
+      "min_ytd_vs_quarter_spearman": 0.583
+    }
+  },
+  "ts": "2026-10-26T11:39:20+0800",
   "universe_coverage": {
     "max_codes_all_three": 5239.0,
     "max_codes_income": 11757.0,
