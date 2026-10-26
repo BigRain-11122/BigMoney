@@ -75,7 +75,7 @@
  "last_round_report": "logs/iteration-loop/round_reports.md r1162",
  "last_round_ts": "2026-10-27T04:05:00+08:00",
  "last_run": "2026-10-27T07:20:00+08:00",
- "last_seen": "2026-10-27T04:20:00+08:00",
+ "last_seen": "2026-10-27T07:46:19+08:00",
  "latest_artifact": "results/e42_tilt_era/NEWESTERA-STABILITY-20261026.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -568,11 +568,14 @@
   "last_push": "22ba29587c -> verified (behind=0 ahead=0 HEAD==origin/main==22ba29587c)",
   "last_push_ts": "2026-10-27T07:20:00+08:00",
   "local_not_on_origin_main": 0,
-  "note": "r1169 push: pre-push claw blocked attempt 1 correctly (stale base would have deleted bm-c r1299 digest + results/etf_book_tsmom.json + scripts/etf_book_tsmom.py); rebase --autostash over 2 incoming commits (incl. r1302 CODELY.md rebuild = D-20261027-08 done by bm-c, so this round's ack-not-execute was the right call); 2 UU daemon faces (results/_attrition_guard_scan.json, results/compute_audit.json) resolved --ours = the committed upstream daemon state; autostash pop left 1 more UU (fleet/machine-health.json) resolved --ours and the stash dropped; drama lane files restored to unstaged so the next round's add -A cannot swallow another lane's work."
+  "note": "clean delivery: rebase --autostash over bm-c 604bb7a..53213b0 (1 UU fleet/machine-health.json resolved to upstream -- the local copy had an object-string key bug from a daemon write; stash dropped); push 53213b0cb..f3d518749; four-way verified behind=0 ahead=0 HEAD==origin/main==f3d518749",
+  "pushed_sha": "f3d518749",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T07:46:19+08:00"
  },
  "task": "r1170 E104 unchanged-holding split exposure (fixed the E100 blind spot)",
  "task_short": "E104 heldsplit",
- "ts": "2026-10-27T07:40:53+08:00",
+ "ts": "2026-10-27T07:46:19+08:00",
  "updated": "2026-10-27T07:40:53+08:00",
  "updated_at": "2026-10-27T07:40:53+08:00",
  "verdict": "productive: E104 face published (HELDSPLIT-20261026-s2018) -- the blind spot E100 declared is real, not zero: 4 of 6 era-book cells carry a split inside an UNCHANGED holding (2024_now me mean +15.2bp, max window 247.4bp at 2024-08-30, 51.5% of windows; 2024_now mid +14.1/162.0; 2021_2023 mid +5.5/55.4; 2021_2023 me +3.9/35.5; 2017_2020 both books exactly 0.0; per-name pieces sum to the window delta, residual 0.0). Second finding, the load-bearing one: the repaired arm is not automatically the plausible side -- mechanical |one-window read|>100% counts are 16 repaired vs 14 unscreened (extra two both sz159747/2023), and sh510580 reads +295% raw vs +1464% repaired across 2024-08-30..2024-09-30 with the arm ratio moving x10.05 -> x39.8 exactly at the event. E105 delivered as the largest_single_name_read column with a 0.5% mean floor gate (share suppressed when the mean is noise). PARTIAL on the E104 ticket: the does-it-reach-a-portfolio-face half is seeded as E107, not claimed."
