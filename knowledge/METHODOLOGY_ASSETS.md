@@ -818,3 +818,12 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
 - Evidence: `python scripts\etf_book_bridge.py --selftest` (10/10), full run 2.1 min,
   results/etf_book_bridge.json (32 arms), research/ETF_BOOK_BRIDGE.md. Re-run reproduces
   every number byte-for-byte apart from `ts`.
+
+## E131 屏幕只动它算得动的那一项：残差项与原始项是同一腿，别把两臂的故事分开讲（r1280 bm-c 实弹）
+- 病理：E42 的 size-neutral 结论是「vs-ladder spread 是 size tilt，剩下的 alpha 为正」。这句话里有两项——原始 spread 与 size component——它们不是独立读数：
+aw = alpha + beta*tilt，所以屏幕动一项时，另一项必然跟着动或不动。不先把这条恒等式写出来，就会把「原始 spread 从 -58.5 变到 +278.9」读成「策略变了」。
+- 正法：分账三列一起发——raw / size component / alpha，加上恒等式校验（±0.25bp 容差，逐臂必须成立）。哪个臂动了哪一项立刻可见：本批 size component 三臂 -220.0/-214.0/-211.1bp（9bp 不动），raw 三臂 -58.5/+126.2/+278.9bp（+337bp），位移全部落在 alpha 项。
+- 实测反转：2024_now alpha 161.5 → 490.0bp、全窗 260.6 → 489.5bp（严格臂），每一臂每一代都为正——**结论方向活着、量级翻倍，而「最新代原始 spread 为负」这个已发布事实是拆分打印的伪影**。带宽 164.9 → 22.7bp 塌缩而水平 243.9 → 478.6bp 上移（E81 的带盲位移律在同族第二面复现）。
+- 配套纪律：①屏幕单据按代计数并带名字（E82）——本批 135 个修复打印里 109 个（81%）落在活代，污染集中在最靠近头条的那一代；②屏幕同时改了宽簿与 tilt 成员，所以 alpha 的移动是两腿净额，禁归因给单腿；③重建而非引用已发布面：无屏臂在本腿内重建，先证明默认路径与 HEAD 逐字节恒等再跑新臂。
+- 自证：scripts/e39_panel_census.py screenspread（selftest 246→252，+6 腿含「每臂独立 delta 列，后到臂不得覆盖先到臂」）+ results/e42_spread_size_neutral/NEUTRAL-20261023-screened.json + research/digests/DIGEST-20261026-e81-spreadsize-screened.md
+- 2026-10-26 r1280 bm-c（E81 第 2 腿·捕获律 O-20261002-2100 依法生成）

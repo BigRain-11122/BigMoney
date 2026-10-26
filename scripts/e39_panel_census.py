@@ -1205,16 +1205,21 @@ def _ols(y, x):
     return beta, alpha, r2
 
 
-def _monthly_core(pick_n=9999, exclude=("sh511",)):
+def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
     """One shared build: both engine curves plus the member tilt series.
 
     The two E42 product legs read this object so their faces cannot drift apart
     and the expensive panel pass happens once per process.
+
+    ``raw_all`` lets a screen leg hand in a repaired universe (E81). With the
+    default ``None`` this calls ``e27.load_universe()`` exactly as before, so
+    every published face keeps reading the untouched loader.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    if raw_all is None:
+        raw_all = e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -1334,6 +1339,175 @@ def run_spreadsize(outdir, core=None, eras=ERAS):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
         "dropped_months": core["dropped"],
+    }
+
+
+SPREAD_COLUMNS = ("raw_spread_ann_bp", "size_neutral_ann_bp",
+                  "size_component_ann_bp", "beta_spread_on_tilt", "r_squared")
+
+
+def _spread_delta_rows(base_label, faces, modes, eras):
+    """Column-by-column unscreened vs screened table for the E42 spread face.
+
+    Pure function of the built faces, so the selftest can pin the arithmetic
+    without touching the panel.
+    """
+    rows = []
+    base_face = faces[base_label]["eras"]
+    order = [n for n, _lo, _hi in list(eras) + [("full", None, None)]]
+    for era in order:
+        era_row = base_face.get(era) or {}
+        for col in SPREAD_COLUMNS:
+            u = era_row.get(col)
+            row = {"era": era, "column": col, "unscreened": u}
+            for mode in modes:
+                v = (faces[mode]["eras"].get(era) or {}).get(col)
+                row[mode] = v
+                # one delta column per arm, not per cell column: a single
+                # ``delta_<column>`` key would keep only the last arm's figure
+                row["delta_" + mode] = (round(v - u, 4)
+                                        if isinstance(v, (int, float))
+                                        and isinstance(u, (int, float)) else None)
+            rows.append(row)
+    return rows
+
+
+def run_screenspread(outdir, pick_n=9999, exclude=("sh511",),
+                     modes=("neutralise_int", "neutralise"), eras=ERAS):
+    """E81 leg 2: replay the size-neutral spread from the repaired universe.
+
+    E42's newest-era size-neutral spread is the number the chain quotes as its
+    surviving claim, and it is an equal-weight figure read from the as-traded
+    panel -- so a share-split print inside the wide book is charged at weight
+    1/n, exactly the defect E81 screened out of the calendar face. This leg
+    rebuilds the whole monthly core per arm (engine curves *and* the member tilt
+    series, so the regression and its regressor move together) and publishes the
+    screened column beside the unscreened one. No published face is rewritten.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+
+    arms = {"unscreened": raw}
+    reports = {}
+    for mode in modes:
+        repaired, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+        reports[mode] = report
+        arms[mode] = repaired
+
+    faces = {}
+    for label, univ in arms.items():
+        core = _monthly_core(pick_n=pick_n, exclude=(), raw_all=univ)
+        face = run_spreadsize(None, core=core, eras=eras)
+        faces[label] = {"universe_size": len(univ),
+                        "months": len(core["months"]),
+                        "eras": face["eras"],
+                        "answers": face["answers"]}
+
+    delta = _spread_delta_rows("unscreened", faces, modes, eras)
+    order = [n for n, _lo, _hi in list(eras) + [("full", None, None)]]
+
+    def _neutral(arm, era):
+        return (faces[arm]["eras"].get(era) or {}).get("size_neutral_ann_bp")
+
+    levels = {arm: {era: _neutral(arm, era) for era in order} for arm in faces}
+    per_era = [n for n, _lo, _hi in eras]
+
+    def _band(arm):
+        xs = [levels[arm][e] for e in per_era if levels[arm][e] is not None]
+        return (round(max(xs) - min(xs), 1) if len(xs) >= 2 else None)
+
+    def _level(arm):
+        xs = [levels[arm][e] for e in per_era if levels[arm][e] is not None]
+        return round(sum(xs) / len(xs), 1) if xs else None
+
+    def _all_positive(arm):
+        xs = [levels[arm][e] for e in per_era if levels[arm][e] is not None]
+        return all(x > 0 for x in xs) if xs else None
+
+    # E82: a moved cell must be nameable. Count the repaired prints by era and
+    # carry the newest-era names, so the reader can check the dates themselves.
+    def _era_event_census(mode):
+        counts = {n: 0 for n, _lo, _hi in list(eras) + [("full", None, None)]}
+        named = []
+        for entry in reports[mode].get("names") or []:
+            if entry.get("action") != "neutralise":
+                continue
+            for pr in entry.get("prints") or []:
+                if pr.get("factor_applied") is None:
+                    continue
+                era = _era_of(pr.get("date"), eras) or "full"
+                counts[era] = counts.get(era, 0) + 1
+                counts["full"] = counts.get("full", 0) + 1
+                if era == "2024_now" and len(named) < 8:
+                    named.append({"name": entry["name"], "date": pr.get("date"),
+                                  "ret_pct": pr.get("ret_pct"),
+                                  "ratio": round(pr.get("ratio") or 0.0, 4),
+                                  "nearest_int": pr.get("nearest_int")})
+        return {"events_by_era": counts, "newest_era_names_sample": named}
+
+    flips = {}
+    for mode in modes:
+        flips[mode] = [e for e in per_era
+                       if levels["unscreened"][e] is not None
+                       and levels[mode][e] is not None
+                       and (levels["unscreened"][e] > 0) != (levels[mode][e] > 0)]
+    moves = []
+    for mode in modes:
+        for r in delta:
+            if r["column"] == "size_neutral_ann_bp" and r.get("delta_" + mode):
+                x = dict(r)
+                x["arm"] = mode
+                x["delta_bp"] = r["delta_" + mode]
+                moves.append(x)
+    widest = max(moves, key=lambda r: abs(r["delta_bp"])) if moves else None
+    return {
+        "study": "e42_spread_size_neutral_screened",
+        "evidence_cutoff": cutoff,
+        "spec": {"pick_n": pick_n, "exclude_prefixes": list(exclude), "cost_mult": 1.0,
+                 "modes": list(modes),
+                 "calendar": "month-end decision, the E24/E27 default",
+                 "decomposition": "spread_m = alpha + beta * tilt_m; "
+                                  "size_neutral = alpha*12*1e4 bp, size = beta*tilt_mean*12*1e4 bp",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "screen": {m: reports[m] for m in modes}},
+        "arms": faces,
+        "delta": delta,
+        "answers": {
+            "size_neutral_by_arm_era_bp": levels,
+            "level_mean_over_eras_bp": {arm: _level(arm) for arm in faces},
+            "band_max_minus_min_bp": {arm: _band(arm) for arm in faces},
+            "all_eras_positive": {arm: _all_positive(arm) for arm in faces},
+            "sign_flips_vs_unscreened": flips,
+            "era_event_census": {m: _era_event_census(m) for m in modes},
+            "full_sample_size_neutral_bp": {arm: levels[arm].get("full") for arm in faces},
+            "widest_correction": widest,
+            "delta_cells": len(delta),
+            "non_zero_delta_cells": sum(
+                1 for r in delta
+                if any(r.get("delta_" + m) not in (None, 0, 0.0) for m in modes)),
+            "arm_alpha_identity_holds": {
+                arm: faces[arm]["answers"]["alpha_equals_raw_minus_size_row_check"]
+                for arm in faces},
+        },
+        "honest": [
+            "repairing an integer-ratio print is a sensitivity, not a correction: an ETF whose "
+            "daily limit differs from the 10%/20% stock band can print >30% for real",
+            "the screen repairs both the wide book and the tilt members, so a moved alpha is net "
+            "of both legs and is not attributable to one of them",
+            "the unscreened arm is rebuilt here rather than copied from the published face: it is "
+            "the same code path on the same panel, and the published COST/NEUTRAL files stay "
+            "untouched",
+            "level and band are published together: max-min over eras is blind to a common shift, "
+            "which is exactly how the E81 calendar leg first hid a tripled level",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
     }
 
 
@@ -8566,6 +8740,37 @@ def selftest():
          if r["column"] == "ann_return_pct" and r["scheme"] == "ladder5"] == [0.5],
         "per-scheme columns are compared within the same scheme, not across")
 
+    # E81 leg 2 (spread face): the same three properties -- identical arm moves
+    # nothing, a shifted arm moves the right cell, and the skip cell stays None
+    # rather than being priced as zero.
+    def _spread_face(neutral):
+        def row(v):
+            return {c: v for c in SPREAD_COLUMNS}
+        return {"eras": {"2021_2023": row(neutral), "2024_now": row(None),
+                         "full": row(neutral)}}
+
+    _sf = {"unscreened": _spread_face(300.0),
+           "neutralise_int": _spread_face(300.0),
+           "neutralise": _spread_face(420.0)}
+    _sr = _spread_delta_rows("unscreened", _sf,
+                             ("neutralise_int", "neutralise"),
+                             (("2021_2023", "2021-01-01", "2023-12-31"),
+                              ("2024_now", "2024-01-01", None)))
+    chk(len(_sr) == 15, "fifteen cells: five columns on three eras")
+    _sn = [r for r in _sr if r["column"] == "size_neutral_ann_bp"]
+    chk(all(r["delta_neutralise_int"] in (None, 0) for r in _sn),
+        "a screen arm that repairs nothing publishes a zero delta on the spread face")
+    chk([r["delta_neutralise"] for r in _sn
+         if r["era"] == "2021_2023"] == [120.0],
+        "a repaired arm moves the size-neutral cell by its own amount")
+    chk([r["delta_neutralise"] for r in _sn if r["era"] == "2024_now"] == [None],
+        "an era with no data stays None on both sides, never priced as zero")
+    chk([r["delta_neutralise_int"] for r in _sn if r["era"] == "2021_2023"] == [0.0]
+        and [r["delta_neutralise"] for r in _sn if r["era"] == "2021_2023"] == [120.0],
+        "each arm keeps its own delta column, so a later arm cannot overwrite an earlier one")
+    chk(all(r["delta_neutralise_int"] in (None, 0) for r in _sr),
+        "the zero arm stays zero on every column, not just the one being read")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -8670,7 +8875,7 @@ def main(argv):
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "screenreg", "screencalc",
+                             "panelsplit", "screenreg", "screencalc", "screenspread",
                              "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
@@ -8827,6 +9032,24 @@ def main(argv):
                           "delta_cells": f["answers"]["delta_cells"],
                           "non_zero_delta_cells":
                               f["answers"]["non_zero_delta_cells"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "screenspread":
+        f = run_screenspread(None)
+        outdir = os.path.join(ROOT, "results", "e42_spread_size_neutral")
+        p = write_json(outdir, "NEUTRAL-%s-screened.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "screenspread", "file": os.path.relpath(p, ROOT),
+                          "level_mean_over_eras_bp": f["answers"]["level_mean_over_eras_bp"],
+                          "band_max_minus_min_bp": f["answers"]["band_max_minus_min_bp"],
+                          "all_eras_positive": f["answers"]["all_eras_positive"],
+                          "size_neutral_by_arm_era_bp":
+                              f["answers"]["size_neutral_by_arm_era_bp"],
+                          "sign_flips_vs_unscreened":
+                              f["answers"]["sign_flips_vs_unscreened"],
+                          "widest_correction": f["answers"]["widest_correction"],
+                          "delta_cells": f["answers"]["delta_cells"],
+                          "non_zero_delta_cells": f["answers"]["non_zero_delta_cells"]},
                          ensure_ascii=False))
         return 0
     if args.mode in ("e43", "tilt4", "widecomp", "neutralrob"):

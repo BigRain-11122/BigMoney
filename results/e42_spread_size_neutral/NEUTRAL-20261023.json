@@ -1,0 +1,111 @@
+{
+ "study": "e42_spread_size_neutral",
+ "evidence_cutoff": "2026-10-23",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0,
+  "calendar": "month-end decision, the E24/E27 default",
+  "decomposition": "spread_m = alpha + beta * tilt_m; size_neutral = alpha*12*1e4 bp, size = beta*tilt_mean*12*1e4 bp",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "universe_members": 1269
+ },
+ "eras": {
+  "pre2017": {
+   "months": 0,
+   "skipped": "fewer than 3 usable months"
+  },
+  "2017_2020": {
+   "months": 1,
+   "skipped": "fewer than 3 usable months"
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "raw_spread_ann_bp": 251.1,
+   "size_neutral_ann_bp": 326.4,
+   "size_component_ann_bp": -75.3,
+   "beta_spread_on_tilt": -0.124,
+   "alpha_monthly_bp": 27.2,
+   "r_squared": 0.2496,
+   "tilt_explains_spread_var_pct": 24.96,
+   "tilt_ann_bp_in_era": 609.2,
+   "share_of_spread_from_size_pct": -30.0,
+   "engine_ann_diff_bp": 243.0,
+   "arithmetic_vs_geometric_gap_bp": 8.1
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "raw_spread_ann_bp": -58.5,
+   "size_neutral_ann_bp": 161.5,
+   "size_component_ann_bp": -220.0,
+   "beta_spread_on_tilt": -0.287,
+   "alpha_monthly_bp": 13.46,
+   "r_squared": 0.5881,
+   "tilt_explains_spread_var_pct": 58.81,
+   "tilt_ann_bp_in_era": 767.1,
+   "share_of_spread_from_size_pct": 376.3,
+   "engine_ann_diff_bp": 59.0,
+   "arithmetic_vs_geometric_gap_bp": -117.5
+  },
+  "full": {
+   "months": 71,
+   "from": "2020-12",
+   "to": "2026-10",
+   "raw_spread_ann_bp": 127.0,
+   "size_neutral_ann_bp": 260.6,
+   "size_component_ann_bp": -133.6,
+   "beta_spread_on_tilt": -0.215,
+   "alpha_monthly_bp": 21.72,
+   "r_squared": 0.4385,
+   "tilt_explains_spread_var_pct": 43.85,
+   "tilt_ann_bp_in_era": 621.0,
+   "share_of_spread_from_size_pct": -105.1,
+   "engine_ann_diff_bp": 254.0,
+   "arithmetic_vs_geometric_gap_bp": -127.0
+  }
+ },
+ "answers": {
+  "size_neutral_range_bp": 164.9,
+  "size_neutral_min_bp": 161.5,
+  "size_neutral_max_bp": 326.4,
+  "eras_positive_size_neutral": 2,
+  "eras_with_data": 2,
+  "max_arithmetic_vs_geometric_gap_bp": 117.5,
+  "alpha_equals_raw_minus_size_row_check": true
+ },
+ "honest": [
+  "the tilt is a naming split (2 broad-cap legs vs 3 mid/small/STAR legs), not a factor-model exposure; beta is descriptive, it does not claim the size spread causes the ladder/wide gap",
+  "the two engine curves are the E24/E27 engine's own (module import); the tilt series is month-end marks from the panel rows",
+  "monthly convention: raw = size_neutral + size component holds on the arithmetic mean, so the columns do not compound to the era-leg's geometric ann% difference",
+  "member months carrying a >20% single-day corporate-action jump are dropped from the tilt mean (as-traded panel), and the dropped set is disclosed below",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months": []
+}
