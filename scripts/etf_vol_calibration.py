@@ -331,13 +331,32 @@ def run():
     return 0
 
 
+def _fixture(n_sym=40, n_bar=1500, seed=7):
+    """Small synthetic panel: every leg below guards a code path, not the market.
+
+    This file used to call P.prep_panel() (1499 symbols x 1649 bars) and then drive the
+    engine ten times, so `--selftest` printed nothing for ~5 minutes and sat right on the
+    300 s per-leg timeout inside the S1 smoke gate -- the same defect r1300 fixed one
+    script over (etf_vol_delivery_audit). A fixture keeps every leg meaningful offline.
+    """
+    rng = np.random.default_rng(seed)
+    idx = pd.bdate_range("2020-01-01", periods=n_bar)
+    cols = ["S%03d" % i for i in range(n_sym)]
+    rets = rng.normal(0.0004, 0.022, size=(n_bar, n_sym))
+    close = pd.DataFrame(1.0 * np.cumprod(1.0 + rets, axis=0), index=idx, columns=cols)
+    openp = close * (1.0 + rng.normal(0.0, 0.002, size=(n_bar, n_sym)))
+    amt = pd.DataFrame(5e7 * (1.0 + rng.random((n_bar, n_sym))), index=idx, columns=cols)
+    score = pd.DataFrame(rng.normal(size=(n_bar, n_sym)), index=idx, columns=cols)
+    return close, openp, amt, score
+
+
 def selftest():
     ok = []
 
     def chk(name, cond, detail=""):
         ok.append((name, bool(cond), detail))
 
-    close, openp, amt, score, cls, _ = P.prep_panel()
+    close, openp, amt, score = _fixture()
 
     # 1. the hook defaults to the published behaviour, bit for bit
     ser_legacy, turn_legacy = R.open_to_open_equity(close, openp, amt, score, REBAL, N_HOLD,

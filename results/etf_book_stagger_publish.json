@@ -1,0 +1,117 @@
+{
+ "machinery": {
+  "universe_classes": [
+   "equity",
+   "commodity",
+   "convertible"
+  ],
+  "universe_size": 1499,
+  "flips_repaired": 168,
+  "score": "etf_composite_pf.build_score",
+  "engine": "open-to-open, decide close t -> fill open t+1, hold to next decision",
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "n_total": 12,
+  "rebal": 20,
+  "note": "every arm below shares this rule; deltas are only printed inside it"
+ },
+ "control": {
+  "label": "control: single sleeve, N12/R20/vt08 (the published cell)",
+  "cagr": 0.0949,
+  "sharpe": 0.98,
+  "maxdd": -0.1177,
+  "vol": 0.1017,
+  "years": 6.81,
+  "worst_year": -0.0199,
+  "neg_years": 1,
+  "is": {
+   "cagr": 0.0384,
+   "sharpe": 0.442,
+   "maxdd": -0.1177,
+   "vol": 0.0997,
+   "years": 3.99,
+   "worst_year": -0.0199,
+   "neg_years": 1
+  },
+  "oos": {
+   "cagr": 0.181,
+   "sharpe": 1.719,
+   "maxdd": -0.107,
+   "vol": 0.1044,
+   "years": 2.81,
+   "worst_year": 0.0208,
+   "neg_years": 0
+  },
+  "turnover_per_decision": 0.934,
+  "source": "re-priced here, not retyped",
+  "card_cagr": 0.0949,
+  "card_file": "results\\etf_book_production\\latest.json",
+  "cagr_delta_vs_card": 0.0,
+  "control_reproduces_card": true
+ },
+ "staggered": {
+  "label": "staggered: 6 + 6, second sleeve offset half a period (R20 -> 10)",
+  "cagr": 0.1041,
+  "sharpe": 1.054,
+  "maxdd": -0.1036,
+  "vol": 0.1029,
+  "years": 6.81,
+  "worst_year": -0.0196,
+  "neg_years": 2,
+  "is": {
+   "cagr": 0.0417,
+   "sharpe": 0.478,
+   "maxdd": -0.0884,
+   "vol": 0.0991,
+   "years": 3.99,
+   "worst_year": -0.0071,
+   "neg_years": 1
+  },
+  "oos": {
+   "cagr": 0.1988,
+   "sharpe": 1.809,
+   "maxdd": -0.1036,
+   "vol": 0.1081,
+   "years": 2.81,
+   "worst_year": -0.0196,
+   "neg_years": 1
+  },
+  "turnover_per_decision": 0.619,
+  "decisions": 164
+ },
+ "delta": {
+  "cagr_pp": 0.92,
+  "sharpe": 0.074,
+  "maxdd_pp": 1.41,
+  "turnover": -0.315,
+  "is_cagr_pp": 0.33,
+  "oos_cagr_pp": 1.78
+ },
+ "capacity": {
+  "control": {
+   "units": "CNY",
+   "aum_1pct": 2417327.0,
+   "aum_5pct": 12086633.0,
+   "p90_participation_per_1m_cny": 0.004137,
+   "p90_participation_per_cny": 4.136801228772541e-09,
+   "decisions": 83
+  },
+  "staggered": {
+   "units": "CNY",
+   "aum_1pct": 2539038.0,
+   "aum_5pct": 12695188.0,
+   "p90_participation_per_1m_cny": 0.003939,
+   "p90_participation_per_cny": 3.9385000345130175e-09,
+   "decisions": 163
+  }
+ },
+ "assertions": {
+  "staggered_decisions": 164,
+  "warmup_note": "sleeve B is half-cash until its first decision (10 bars)",
+  "sleeves_fired": true,
+  "scale_median": 0.7286,
+  "max_turnover_per_decision": 1.0
+ },
+ "evidence_cutoff": "2026-10-26",
+ "script": "scripts/etf_book_stagger_publish.py"
+}
