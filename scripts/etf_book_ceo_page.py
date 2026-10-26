@@ -103,6 +103,30 @@ def calendar_dates(path=CAL):
     return out
 
 
+def money_cny(tk, nav):
+    """Backtest percentages -> yuan on this ticket's own capital.
+
+    Pure unit change: every number is one already published on the ticket times `nav`.
+    Anything unreadable stays None -- a 0 here would read as "this book earns nothing".
+    """
+    tk = tk or {}
+    metrics = tk.get("metrics") or {}
+    book = metrics.get("book") or {}
+    bench = metrics.get("same_beta_benchmark") or {}
+    out = {"capital_cny": round(float(nav or 0.0), 2), "expected_annual_cny": None,
+           "benchmark_annual_cny": None, "excess_annual_cny": None,
+           "worst_drawdown_cny": None, "basis": None}
+    if not nav or not book:
+        return out
+    out["expected_annual_cny"] = round(float(book["cagr"]) * nav, 0)
+    out["worst_drawdown_cny"] = round(float(book["maxdd"]) * nav, 0)
+    out["basis"] = "backtest cagr/maxdd x this ticket's capital, no new assumption"
+    if bench and metrics.get("excess_pp") is not None:
+        out["benchmark_annual_cny"] = round(float(bench["cagr"]) * nav, 0)
+        out["excess_annual_cny"] = round(float(metrics["excess_pp"]) / 100.0 * nav, 0)
+    return out
+
+
 def build():
     ptr, tk, tk_path = _load_ticket()
     card = _load(CARD) if os.path.exists(CARD) else {}
@@ -147,6 +171,9 @@ def build():
                             "maxdd_pct": round(s["maxdd"] * 100, 2)}
         band[label] = row
 
+    # the same percentages expressed in yuan on THIS ticket's capital -- a unit change, not a new estimate
+    money = money_cny(tk, nav)
+
     feed = tk.get("feed_status") or {}
     agree = tk.get("card_agreement") or {}
     cal = calendar_dates() if os.path.exists(CAL) else []
@@ -179,6 +206,7 @@ def build():
         "forward": fwd,
         "backtest_band": band,
         "excess_pp": (tk.get("metrics") or {}).get("excess_pp"),
+        "money_cny": money,
         "ticket_book": tk_book or None,
         "same_beta_benchmark": (tk.get("metrics") or {}).get("same_beta_benchmark"),
         "agreement": {"same_decision_bar": agree.get("same_decision_bar"),
@@ -259,6 +287,30 @@ def render_md(p):
         add("")
         add("关键一句：**在同样的风险敞口下（beta 基准年化 %.2f%%、夏普 %.2f），这本账回测年化 %.2f%%、夏普 %.2f，多赚 %.2f 个百分点/年**——超额来自选券，不是来自加杠杆。"
             % (b["cagr"] * 100, b["sharpe"], bk["cagr"] * 100, bk["sharpe"], p["excess_pp"]))
+    add("")
+    add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
+    add("")
+    add("同一批数字再换一把尺子，只做单位换算，不叠加任何新假设：")
+    add("")
+    add("| 项目 | 一年多少钱 | 怎么来的 |")
+    add("|---|---|---|")
+    mc = p["money_cny"]
+
+    def y(v):
+        return "—" if v is None else ("%s¥%s" % ("+" if v > 0 else "-", format(abs(v), ",.0f")))
+
+    add("| 这本账回测期望 | %s | 年化 %s%% × 资金 |"
+        % (y(mc["expected_annual_cny"]), "%.2f" % (p["ticket_book"]["cagr"] * 100) if p.get("ticket_book") else "—"))
+    add("| 同风险基准（beta 覆盖） | %s | 基准年化 %s%% × 资金 |"
+        % (y(mc["benchmark_annual_cny"]),
+           "%.2f" % (p["same_beta_benchmark"]["cagr"] * 100) if p.get("same_beta_benchmark") else "—"))
+    add("| **超额部分** | **%s** | 多赚 %.2f 个百分点 × 资金 |"
+        % (y(mc["excess_annual_cny"]), p["excess_pp"] or 0.0))
+    add("| 一次最坏回撤要亏 | %s | 最大回撤 %s%% × 资金 |"
+        % (y(mc["worst_drawdown_cny"]),
+           "%.2f" % (p["ticket_book"]["maxdd"] * 100) if p.get("ticket_book") else "—"))
+    add("")
+    add("读法：一年赚多少是回测期望，不是承诺；最坏回撤那一行才是你要能扛住的数。")
     add("")
     add("## 必须记住的四条")
     add("")
@@ -349,8 +401,25 @@ def selftest():
     chk("L12 page: data freshness stated", page["feed_status"] is not None and page["priced_bar"] is not None,
         "%s lag=%s" % (page["feed_status"], page["feed_lag_days"]))
 
-    # 13. single writer: only the host may write, and an unknown host must not write either
-    chk("L13 guard: writer_allowed('bm-a') only",
+    # 13. the money block must be a pure unit change of numbers already on the page
+    mc = page["money_cny"]
+    tk_book = page.get("ticket_book") or {}
+    exp_ok = (abs(mc["expected_annual_cny"] - tk_book["cagr"] * page["capital_cny"]) < 1.0
+              if mc["expected_annual_cny"] is not None else mc["expected_annual_cny"] is None)
+    chk("L13 money: annual yuan == backtest cagr x capital", exp_ok,
+        "%s vs %.2f" % (mc["expected_annual_cny"], tk_book.get("cagr", 0) * page["capital_cny"]))
+    chk("L14 money: excess yuan == excess_pp x capital",
+        mc["excess_annual_cny"] is not None
+        and abs(mc["excess_annual_cny"] - (page["excess_pp"] or 0.0) / 100.0 * page["capital_cny"]) < 1.0,
+        "%s vs %s" % (mc["excess_annual_cny"], (page["excess_pp"] or 0.0) / 100.0 * page["capital_cny"]))
+    chk("L15 money: absent inputs give None, never a zero that would read as 'earns nothing'",
+        money_cny({}, 0.0)["expected_annual_cny"] is None
+        and money_cny({}, 1000000.0)["excess_annual_cny"] is None
+        and money_cny({"metrics": {"book": {"cagr": 0.1, "maxdd": -0.05}}}, 0.0)["expected_annual_cny"] is None,
+        "empty ticket -> None; ticket without capital -> None")
+
+    # 16. single writer: only the host may write, and an unknown host must not write either
+    chk("L16 guard: writer_allowed('bm-a') only",
         writer_allowed("bm-a") and not writer_allowed("bm-c") and not writer_allowed("bm-b")
         and not writer_allowed(None), "host=%s" % HOST)
 

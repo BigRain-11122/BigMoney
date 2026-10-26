@@ -587,6 +587,21 @@ def main() -> int:
         check("product: ETF live-book page current and its money closes", _ok_lb,
               f"page_cutoff={_page.get('evidence_cutoff')} ticket_asof={_lb.get('as_of')} "
               f"names={len(_page.get('order') or [])} next={_page.get('next_rebalance_date')}")
+        # The page now states the same expectation in yuan. Assert the unit change
+        # is honest: every yuan figure must equal its own percentage x the capital
+        # printed on the same page, and an absent input must be null, not 0 (a 0
+        # would read as "this book earns nothing", which is a different claim).
+        _mc = _page.get("money_cny") or {}
+        _cap = float(_page.get("capital_cny") or 0)
+        _tb = _page.get("ticket_book") or {}
+        _ok_money = (bool(_mc) and _cap > 0 and bool(_tb)
+                     and abs(float(_mc.get("expected_annual_cny") or 0) - _tb["cagr"] * _cap) < 1.0
+                     and abs(float(_mc.get("worst_drawdown_cny") or 0) - _tb["maxdd"] * _cap) < 1.0
+                     and abs(float(_mc.get("excess_annual_cny") or 0)
+                             - float(_page.get("excess_pp") or 0) / 100.0 * _cap) < 1.0)
+        check("product: ETF live-book yuan figures are its own percentages x its own capital", _ok_money,
+              f"expected={_mc.get('expected_annual_cny')} excess={_mc.get('excess_annual_cny')} "
+              f"worst={_mc.get('worst_drawdown_cny')} capital={_cap}")
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's
