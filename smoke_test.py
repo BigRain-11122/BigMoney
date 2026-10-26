@@ -427,6 +427,9 @@ def main() -> int:
             ("open_fill_verify", "scripts/t35_open_fill_verify.py",
              ["--selftest"]),
             ("etf_daily", "scripts/update_etf_daily.py", ["selftest"]),
+            # the wide panel is the price universe of every ETF study, and its
+            # refresh leg spent a week unwired while the panel sat frozen
+            ("etf_wide", "scripts/update_etf_wide.py", ["--selftest"]),
             ("zt_pool", "scripts/update_zt_pool.py", ["selftest"]),
             ("fund_statements", "scripts/update_fund_statements.py",
              ["selftest"]),

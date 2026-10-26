@@ -47,6 +47,12 @@ LEGS = [
     ("update_astock_daily", ["python", "scripts/update_astock_daily.py",
                              "--takeover"]),
     ("update_etf_daily", ["python", "scripts/update_etf_daily.py", "--takeover"]),
+    # The wide panel (1,724 files) is the price universe of every ETF study and of
+    # the production book, but its refresh leg was never wired in: r1257 pulled it
+    # once by hand and the panel then sat frozen at that Friday while every
+    # downstream face kept computing on it. Runs after the five-member leg because
+    # it is the wider face of the same session.
+    ("update_etf_wide", ["python", "scripts/update_etf_wide.py", "run"]),
     # The production book's two live faces ride right behind the panel leg they read.
     # etf_book_forward appends one mark per new bar (idempotent; exit 3 freezes the
     # ledger instead of rewriting history) and etf_book_order re-emits the executable

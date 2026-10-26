@@ -353,6 +353,23 @@ def write_status(payload):
     os.replace(tmp, STATUS)
 
 
+# Keys this lane owns. E138 moved the wide leg's status onto its own path, but
+# that only stopped NEW writes: the five-member face still loaded whatever body
+# was already in its file and merged on top, so the pre-split wide payload
+# (universe 1724, quote_topup_*) lived on inside the five-member face -- and
+# crashed the dashboard, which treats any results/*.json with status=="ok" as a
+# backtest face. A face should describe its own lane only.
+OWNED_KEYS = ("ts", "machine", "lane_owner", "owner", "owner_since",
+              "status", "mode", "no_op_reason", "expected_cutoff",
+              "data_cutoff", "last_attempt", "members_planned", "per_member",
+              "files_written", "summary", "claim", "note", "takeover")
+
+
+def owned_status(st):
+    """Strip keys this lane does not own (see OWNED_KEYS)."""
+    return {k: v for k, v in (st or {}).items() if k in OWNED_KEYS}
+
+
 # ---------------------------------------------------------------------- fetch
 
 
@@ -416,7 +433,7 @@ def run():
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
         st["data_cutoff"] = panel_cut
-        write_status(st)
+        write_status(owned_status(st))
         print(f"no-op: {gate_reason} -> zero network")
         return 0
     last_attempt = st.get("last_attempt")
@@ -433,7 +450,7 @@ def run():
     st["members_planned"] = list(MEMBERS)
     if takeover:
         st["takeover"] = takeover
-    write_status(st)
+    write_status(owned_status(st))
 
     per, failures, mismatches = [], [], []
     conn_fails = 0
@@ -518,7 +535,7 @@ def run():
                 "events -- fund-share dividends not back-priced); frozen "
                 "consumers truncate post-cutoff rows via D2 lockbox",
     })
-    write_status(st)
+    write_status(owned_status(st))
     print(f"update_etf_daily -> {STATUS}")
     for r in per:
         line = f"  {r['code']} ({r['tier']}): "
@@ -687,7 +704,16 @@ def _selftest():
     ok, why = takeover_decision(True, TAKEOVER_STALE_MIN)
     assert ok and "silent" in why
     assert takeover_decision(False, TAKEOVER_STALE_MIN)[0] is False
-    print("selftest: 11/11 PASS")
+
+    # S12 status body owns only this lane's keys (E138 residue: the wide lane
+    # used to write here, and a surviving foreign body made the five-member
+    # face claim a 1,724-symbol universe -- and crashed the dashboard)
+    st = owned_status({"ts": "x", "members_planned": ["510300"],
+                       "universe": 1724, "quote_topup_stems": 1697,
+                       "counts": {"appended": 1697}})
+    assert st == {"ts": "x", "members_planned": ["510300"]}, st
+    assert owned_status({}) == {} and owned_status(None) == {}
+    print("selftest: 12/12 PASS")
     return 0
 
 

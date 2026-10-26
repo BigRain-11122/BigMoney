@@ -1,0 +1,161 @@
+{
+ "evidence_cutoff": "2026-10-26",
+ "beta_target": 0.2,
+ "inception": "2024-01-02",
+ "rebal": 20,
+ "n_hold": 5,
+ "cost_bp_per_side": 8.0,
+ "fresh_gate": false,
+ "staleness": {
+  "decisions": 83,
+  "picks": 415,
+  "stale_picks": 0,
+  "stale_share": 0.0,
+  "worst_stale_gap_days": 0,
+  "symbols_with_value_on_last_bar": 1494,
+  "symbols_total": 1498,
+  "decisions_with_too_few_picks": 0
+ },
+ "feed_status": {
+  "ticket_bar": "2026-10-26",
+  "expected_bar": "2026-10-26",
+  "lag_days": 0,
+  "status": "current",
+  "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "k_now": 0.47149,
+ "book_decided_at": "2026-10-14",
+ "card_agreement": {
+  "card_decided_at": "2026-10-14",
+  "ticket_book_decided_at": "2026-10-14",
+  "same_decision_bar": true,
+  "ticket_is_prefix_of_card": true,
+  "card_names": 12
+ },
+ "next_decision_bars": 12,
+ "ticket": {
+  "beta_k": 0.47149,
+  "book_weight": 0.47149,
+  "cash_weight": 0.52851,
+  "nav": 1000000.0,
+  "order": [
+   {
+    "symbol": "159501",
+    "weight": 0.094298,
+    "price": 2.229,
+    "lots": 423,
+    "shares": 42300,
+    "amount": 94286.7,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513100",
+    "weight": 0.094298,
+    "price": 2.399,
+    "lots": 393,
+    "shares": 39300,
+    "amount": 94280.7,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "513690",
+    "weight": 0.094298,
+    "price": 1.137,
+    "lots": 829,
+    "shares": 82900,
+    "amount": 94257.3,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159577",
+    "weight": 0.094298,
+    "price": 1.75,
+    "lots": 538,
+    "shares": 53800,
+    "amount": 94150.0,
+    "class": "crossborder",
+    "note": ""
+   },
+   {
+    "symbol": "159263",
+    "weight": 0.094298,
+    "price": 1.148,
+    "lots": 821,
+    "shares": 82100,
+    "amount": 94250.8,
+    "class": "equity",
+    "note": ""
+   }
+  ],
+  "book_amount": 471225.5,
+  "cash_amount": 528774.5,
+  "cash_leg": "GC001 (1-day repo, observed close)",
+  "basket_drift": [],
+  "underspend_pct": 0.0265
+ },
+ "metrics": {
+  "book": {
+   "cagr": 0.1104,
+   "sharpe": 1.352,
+   "maxdd": -0.0601,
+   "vol": 0.0816,
+   "bars": 679
+  },
+  "same_beta_benchmark": {
+   "cagr": 0.0299,
+   "sharpe": 0.787,
+   "maxdd": -0.0379,
+   "vol": 0.038,
+   "bars": 679
+  },
+  "excess_pp": 8.05
+ },
+ "book_leg": {
+  "turnover_per_rebal": 1.5301,
+  "open_gapfill": 1
+ },
+ "cash_leg": {
+  "source": "data/repo_daily/GC001.csv",
+  "mean_accrual_ann_pct": 2.09,
+  "missing_bar_steps": 0
+ },
+ "ledger": {
+  "bars": 679,
+  "nav": 1.46042819,
+  "rows_added": 0,
+  "engine_naive_vs_ledger": null
+ },
+ "width_disclosure": {
+  "ticket_names": 5,
+  "card_names": 12,
+  "ticket": {
+   "cagr": 0.1169,
+   "sharpe": 1.351,
+   "maxdd": -0.0756
+  },
+  "card": {
+   "cagr": 0.1188,
+   "sharpe": 1.355,
+   "maxdd": -0.0795
+  },
+  "delta_ticket_minus_card": {
+   "cagr_pp": -0.19,
+   "sharpe": -0.004,
+   "maxdd_pp": 0.39
+  },
+  "same_accounting": "this ticket's own accounting (beta overlay + GC001 cash leg, next-open fills, 8bp/side); only the name count varies",
+  "source": "results/etf_book_width_audit.json",
+  "evidence_cutoff": "2026-10-23"
+ },
+ "caveats": [
+  "survivorship: on-disk panel holds ETFs that still exist",
+  "ticket prices are closes; no impact cost, no limit-move guard",
+  "GC001 single tenor, rolling assumed cost-free",
+  "k revised every 20 bars so delivered beta still wanders",
+  "exploratory: no preregistration, no verdict, no ledger booking",
+  "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
+ ]
+}

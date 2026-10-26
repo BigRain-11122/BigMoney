@@ -1,5 +1,5 @@
 {
- "as_of": "2026-10-26T18:59:25",
+ "as_of": "2026-10-26T20:35:02",
  "calendar": {
   "path": "data/exchange_calendar.csv",
   "refresh": {
@@ -21,29 +21,34 @@
   "2026-10-21": 1.0,
   "2026-10-22": 1.0,
   "2026-10-23": 1.0,
-  "2026-10-26": 0.0
+  "2026-10-26": 0.9965
  },
- "detail": "2026-10-26 is an official trading day; the market closed 3.5h ago and no bar has been published to this panel yet",
+ "detail": "the maintained panel covers every official trading day it should by now",
  "expected_last_official_day": "2026-10-26",
  "forward_impact": {
   "blocked": true,
-  "ledger_last_bar": "2026-10-23",
+  "ledger_last_bar": "2026-10-26",
   "note": "one mark per new panel bar; a lagging feed pauses accrual without any error"
  },
- "missing_official_days": [
-  "2026-10-26"
- ],
+ "missing_official_days": [],
  "note": "Descriptive face. The calendar is the independent reference; the panel is ours. source_lag is a publication delay (self-heals), panel_gap is a stopped feed (needs a human/lane owner).",
  "panel": {
-  "active_floor": "2026-10-19",
-  "cutoff_max": "2026-10-23",
+  "active_floor": "2026-10-20",
+  "cutoff_max": "2026-10-26",
   "cutoff_min": "2026-09-04",
-  "effective_cutoff": "2026-10-23",
-  "lagging_active_sample": [],
+  "effective_cutoff": "2026-10-26",
+  "lagging_active_sample": [
+   "sh512690",
+   "sh512710",
+   "sh512720",
+   "sh512800",
+   "sz159332",
+   "sz159355"
+  ],
   "n_active": 1723,
   "n_stale_cohort": 2,
   "n_symbols": 1725
  },
  "schema": "data-lag-audit/v1",
- "verdict": "source_lag"
+ "verdict": "in_sync"
 }

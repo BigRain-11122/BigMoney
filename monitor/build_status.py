@@ -1063,7 +1063,7 @@ def _factor_line() -> dict:
 
 def _backtest_summary() -> dict:
     sharpe, ar, mdd = [], [], []
-    n_ok = passed = 0
+    n_ok = passed = n_other = 0
     for f in glob.glob(os.path.join(PATHS.results_dir, "*.json")):
         base = os.path.basename(f)
         if base.startswith(("factor_ic", "dashboard_status")):
@@ -1071,11 +1071,25 @@ def _backtest_summary() -> dict:
         d = _read_json(f)
         if not isinstance(d, dict) or d.get("status") != "ok":
             continue  # probe/scratch products may be list-typed; backtest faces are dict-only
+        m = d.get("metrics")
+        if not isinstance(m, dict):
+            # results/ also holds lane status files that legitimately publish
+            # status=="ok" with no metrics (etf_daily_pull_status et al).
+            # Reading them as backtests used to be a KeyError that killed the
+            # whole dashboard face; skip them and count the skip.
+            n_other += 1
+            continue
+        try:
+            sh = float(m["sharpe"])
+            a = float(m["annual_return"])
+            dd = abs(float(m["max_drawdown"]))
+        except (KeyError, TypeError, ValueError):
+            n_other += 1
+            continue
         n_ok += 1
-        m = d["metrics"]
-        sharpe.append(m["sharpe"])
-        ar.append(m["annual_return"])
-        mdd.append(abs(m["max_drawdown"]))
+        sharpe.append(sh)
+        ar.append(a)
+        mdd.append(dd)
         if (m.get("num_trades", 0) >= SCREEN.min_trades
                 and abs(m.get("max_drawdown", 0)) <= SCREEN.max_drawdown_limit
                 and m.get("sharpe", 0) >= SCREEN.min_sharpe
@@ -1083,6 +1097,7 @@ def _backtest_summary() -> dict:
             passed += 1
     return {
         "n_combos": n_ok,
+        "n_status_only_skipped": n_other,
         "sharpe_med": round(statistics.median(sharpe), 3) if sharpe else None,
         "sharpe_max": round(max(sharpe), 3) if sharpe else None,
         "ar_med": round(statistics.median(ar), 4) if ar else None,

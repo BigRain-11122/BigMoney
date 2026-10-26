@@ -234,6 +234,48 @@ def load_existing(path: str) -> pd.DataFrame:
     return df
 
 
+def parity_verdict(hist, mine, tol_rel: float = 1e-6) -> dict:
+    """Compare the local panel tail against one source history frame.
+
+    The newest local bar can be absent from the source for two opposite
+    reasons, and the old check could not tell them apart: the source
+    rewrote history (loud) or the panel is legitimately AHEAD because the
+    same-evening quote face (E138) wrote tonight's finished session before
+    the history face publishes it (expected). Parity is therefore asserted
+    on the newest date BOTH sides carry; the unverifiable tail is returned
+    in ``ahead`` for disclosure instead of being failed.
+    """
+    out = {"status": "no_overlap", "compared_date": None,
+           "ahead": [], "mismatch_col": None}
+    if hist is None or mine is None or len(hist) == 0 or len(mine) == 0:
+        return out
+    h = hist.copy()
+    m = mine.copy()
+    h["date"] = h["date"].astype(str)
+    m["date"] = m["date"].astype(str)
+    src_last = str(h["date"].iloc[-1])
+    out["ahead"] = [d for d in m["date"] if d > src_last]
+    shared = h[h["date"].isin(set(m["date"]))]
+    if len(shared) == 0:
+        return out
+    last = str(shared["date"].iloc[-1])
+    out["compared_date"] = last
+    src_row = shared[shared["date"] == last]
+    loc_row = m[m["date"] == last]
+    if len(src_row) != 1 or len(loc_row) != 1:
+        out["status"] = "ambiguous"     # duplicate dates: refuse to guess
+        return out
+    for c in COLUMNS[1:]:
+        a = float(src_row.iloc[0][c])
+        b = float(loc_row.iloc[0][c])
+        if abs(a - b) > max(1e-9, abs(b) * tol_rel):
+            out["status"] = "mismatch"
+            out["mismatch_col"] = c
+            return out
+    out["status"] = "match"
+    return out
+
+
 def update_one(path: str, fetcher, now: dt.datetime) -> dict:
     """Append strictly-new closed bars to one CSV. Never rewrites rows."""
     status = {"symbol": os.path.basename(path)[:-4], "appended": 0,
@@ -735,20 +777,49 @@ def selftest() -> bool:
                         "auto-activate when the module lands]")
             ok &= i
 
+    # C2: parity verdict branches (offline) -- a quote-topped tail is not a
+    # source rewrite, and a shared-bar disagreement is still loud
+    _base = pd.DataFrame([["2026-10-23", 1.0, 1.1, 0.9, 1.05, 100, 1000],
+                          ["2026-10-26", 4.155, 4.187, 4.130, 4.179,
+                           200, 8000]], columns=COLUMNS)
+    _ahead = pd.concat([_base, _base.tail(1).assign(date="2026-10-27")],
+                       ignore_index=True)
+    _v1 = parity_verdict(_base, _ahead)
+    _v2 = parity_verdict(_base, _base.assign(close=[1.05, 4.180]))
+    _v3 = parity_verdict(_base, _base.tail(1).assign(date="2026-10-27"))
+    i = (_v1["status"] == "match" and _v1["compared_date"] == "2026-10-26"
+         and _v1["ahead"] == ["2026-10-27"] and not _v1["mismatch_col"]
+         and _v2["status"] == "mismatch" and _v2["mismatch_col"] == "close"
+         and _v3["status"] == "no_overlap"
+         and parity_verdict(_base, None)["status"] == "no_overlap")
+    print("  [updater] parity verdict: quote-tail ahead is not a rewrite... "
+          + ("PASS" if i else "FAIL"))
+    ok &= i
+
     # D: source parity on real data (network; SKIP if unreachable)
     try:
-        hist = fetch_history(PROBE_SYMBOL)
         mine = load_existing(os.path.join(PATHS.daily_dir,
                                           f"{PROBE_SYMBOL}.csv"))
-        last = str(mine["date"].iloc[-1])
-        ov = hist[hist["date"] == last]
-        same = (len(ov) == 1 and all(
-            abs(float(ov.iloc[0][c]) - float(mine.iloc[-1][c])) <=
-            max(1e-9, abs(float(mine.iloc[-1][c])) * 1e-6)
-            for c in COLUMNS[1:]))
-        ok &= same
-        print(f"  [updater] source parity {PROBE_SYMBOL} @ {last}... "
-              + ("PASS" if same else "FAIL (source history changed!)"))
+        v = parity_verdict(fetch_history(PROBE_SYMBOL), mine)
+        ahead = v["ahead"]
+        tail = (" [local ahead of source by %d bar(s) %s..%s -- quote-tail "
+                "rows written before the history face publishes them, no "
+                "source evidence yet]" % (len(ahead), ahead[-1], ahead[0])
+                ) if ahead else ""
+        if v["status"] == "no_overlap":
+            print(f"  [updater] source parity {PROBE_SYMBOL}... SKIP "
+                  f"(no overlapping bar){tail}")
+        else:
+            if v["status"] == "match":
+                verdict = "PASS"
+            elif v["status"] == "mismatch":
+                verdict = (f"FAIL (source history changed: "
+                           f"{v['mismatch_col']})")
+            else:
+                verdict = "FAIL (source history changed!)"
+            ok &= v["status"] == "match"
+            print(f"  [updater] source parity {PROBE_SYMBOL} "
+                  f"@ {v['compared_date']}... {verdict}{tail}")
     except Exception as e:  # noqa: BLE001 -- offline selftest stays runnable
         print(f"  [updater] source parity... SKIP (network: {type(e).__name__})")
     return bool(ok)
