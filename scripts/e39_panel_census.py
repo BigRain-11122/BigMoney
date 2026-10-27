@@ -530,7 +530,7 @@ def _scale_cash(cash, mult):
 
 
 def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",),
-                 rate_mults=(0.0, 1.0, 3.0)):
+                 rate_mults=(0.0, 1.0, 3.0), raw=None):
     """How much of the ladder/wide verdict is the repo leg actually paying for?
 
     The engine accrues cash only on the un-invested weight: it is 1.0 before the
@@ -539,11 +539,15 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
     re-runs the identical spec at repo multipliers 0x / 1x / 3x and reads the
     annualised column, which bounds the cash leg's contribution to the verdict
     instead of asserting it.
+
+    ``raw`` lets a caller hand in an already-loaded (optionally screened) panel
+    so a twin can burn both arms off ONE load (E113/E125 seam); the default path
+    still loads the shipped universe.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = dict(raw) if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -4628,6 +4632,342 @@ def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "the decomposition gap is published per era rather than trusted: a "
             "split that stops summing makes the attribution unreadable even when "
             "every individual number looks plausible",
+        ],
+    }
+
+
+# ------------------------------------- leg: E125 cash-leg drag, screened twin
+
+_CASH_SCHEME_SCALARS = (
+    "ann_return_pct", "ann_vs_x0_bp", "vol_pct", "sharpe",
+    "max_drawdown_pct", "cost_per_year_bp", "curve_first", "curve_last",
+)
+_CASH_MECH_SCALARS = (
+    "first_rebalance_index", "first_trading_rebalance_index", "cash_bars",
+    "cash_bar_share_pct", "rebalance_decisions", "panel_covered_days",
+    "panel_ffilled_days", "mean_daily_cash_bp", "mean_annual_cash_rate_pct",
+)
+_CASH_ANSWER_SCALARS = (
+    "ladder_cash_attributable_bp", "wide_cash_attributable_bp",
+    "ladder_x3_delta_bp", "wide_x3_delta_bp",
+)
+_CASH_ARROW_COLUMNS = ("ladder_cash_sign", "wide_cash_sign",
+                       "cash_gap_sign", "ladder_maxdd_sign")
+
+
+def _cash_arm_cells(face, keys=None):
+    """(E125) -> {(key, column): value} for every cell the cashdrag leg publishes.
+
+    Three buckets, because they fail differently. ``scheme/`` cells are the
+    per-book per-multiplier measurements (the levels a reader quotes),
+    ``cash/`` cells are the mechanism (when the book first trades, how many
+    bars it sat in repo, what rate it earned there) and ``answers/`` are the
+    derived attributions plus the per-book maxdd movements. A moved ``cash/``
+    cell beside untouched ``scheme/`` rows says the repair changed WHEN the
+    book got invested, not what it earned -- a distinction the total cannot make.
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        win = win or {}
+        for name, rows in (win.get("schemes") or {}).items():
+            for mult, row in (rows or {}).items():
+                row = row or {}
+                for col in _CASH_SCHEME_SCALARS:
+                    out[("scheme/%s/%s/%s" % (start, name, mult), col)] = row.get(col)
+        for col in _CASH_MECH_SCALARS:
+            out[("cash/" + start, col)] = (win.get("cash_mechanism") or {}).get(col)
+        ans = win.get("answers") or {}
+        for col in _CASH_ANSWER_SCALARS:
+            out[("answers/" + start, col)] = ans.get(col)
+        for name, val in (ans.get("maxdd_moves_with_cash") or {}).items():
+            out[("answers/" + start, "maxdd_move:" + name)] = val
+    return out
+
+
+def _cash_arm_dates(face, keys=None):
+    """(E125) the claim layer: the first invested bar, panel edges, multiplier set.
+
+    ``first_invested_bar`` is a date claim, not a number: the price repair can
+    move the first month-end whose live set is non-empty, and that is the whole
+    cash window. A face that silently grew or lost a multiplier is a different
+    experiment, so the multiplier set rides here too.
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        win = win or {}
+        mech = win.get("cash_mechanism") or {}
+        mults = sorted({m for rows in (win.get("schemes") or {}).values()
+                        for m in (rows or {})})
+        out["cash/" + start] = {
+            "first_invested_bar": mech.get("first_invested_bar"),
+            "panel_first": mech.get("panel_first"),
+            "panel_last": mech.get("panel_last"),
+            "multipliers": ",".join(mults),
+        }
+    return out
+
+
+def _cash_arrows(face):
+    """(E125) the published ARROWS per window: the signs a reader consumes.
+
+    The cash attribution's sign says whether the repo leg helped or hurt; the
+    ladder-minus-wide gap says which book leaned on it more; the maxdd arrow
+    says whether the repo leg cushioned the drawdown. A sign can flip under a
+    sub-floor delta, so all four are carried (E94 family).
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        win = win or {}
+        ans = win.get("answers") or {}
+        lad = ans.get("ladder_cash_attributable_bp")
+        wid = ans.get("wide_cash_attributable_bp")
+        out[str(start)] = {
+            "ladder_cash_sign": _pair_sign(lad),
+            "wide_cash_sign": _pair_sign(wid),
+            "cash_gap_sign": _pair_sign(
+                (lad - wid) if (lad is not None and wid is not None) else None),
+            "ladder_maxdd_sign": _pair_sign(
+                (ans.get("maxdd_moves_with_cash") or {}).get("ladder5")),
+        }
+    return out
+
+
+def _ladder_exposure(base_ladder, report):
+    """(E125) does the screen reach the ladder's own five names?
+
+    Every twin in this family publishes a ``ladder`` row beside the wide book.
+    If the repair never edits a ladder name, that row is a CONTROL, not evidence
+    the repair is harmless -- and a reader who sees "ladder cells: 0 moved"
+    without this block would read the opposite. The candidates the screen
+    declines to touch (gapped prints) ride here too: a ladder name that is
+    neutralised tomorrow would move rows that are all zeros today.
+    """
+    lad = set(base_ladder)
+    entries = [n for n in ((report or {}).get("names") or []) if isinstance(n, dict)]
+    touched = {n.get("name") for n in entries if n.get("action") == "neutralise"}
+    cand = {n.get("name"): n.get("action") for n in entries if n.get("name") in lad}
+    return {
+        "ladder_names": sorted(lad),
+        "names_neutralised": len(touched),
+        "ladder_names_neutralised": sorted(touched & lad),
+        "ladder_names_with_untouched_candidates": sorted(cand),
+        "untouched_candidate_actions": {k: cand[k] for k in sorted(cand)},
+        "ladder_row_is_a_control": not (touched & lad),
+        "reading": ("no ladder name is neutralised on this panel, so every ladder "
+                    "row in this face is a control arm rather than a measurement "
+                    "of the repair; a ladder name that starts being neutralised "
+                    "would move rows that read zero today"
+                    if not (touched & lad) else
+                    "the repair reaches ladder names (%s), so this ladder row is "
+                    "a measurement, not a control"
+                    % ", ".join(sorted(touched & lad))),
+    }
+
+
+def run_cashdragscreened(outdir, mode="neutralise_int", starts=("2020-01-01",),
+                         pick_n=9999, exclude=("sh511",),
+                         rate_mults=(0.0, 1.0, 3.0), resume=True):
+    """E125: re-derive the E40 cash-leg drag face on the screened arm.
+
+    Same machinery as E112-E124: one load, both arms burned off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero, and a cutoff control against the newest published raw face.
+
+    The question is narrower than "did the numbers move": the cash leg is the
+    un-invested weight, so its size is set by WHEN the book first trades, which
+    eligibility -- and therefore the repaired prints -- decide. So the twin
+    publishes the mechanism cells beside the earned cells: a repair that shifts
+    the first invested bar without moving the attribution is a different finding
+    from one that moves both.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+    kw = {"starts": starts, "pick_n": pick_n, "exclude": exclude,
+          "rate_mults": rate_mults}
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "CASHLeg-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "CASHLeg-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_cashdrag(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_cashdrag(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _cash_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_cash_arm_cells,
+                             dates_fn=_cash_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_cash_arm_cells,
+                                dates_fn=_cash_arm_dates)["summary"]
+
+    # cutoff control: newest published raw cashdrag face vs today's raw arm.
+    # The raw face lands in results/e40_cashleg_drag as CASHLeg-<yyyymmdd>.json
+    # (E159 pit: searching only the twin's own directory returns null, and null
+    # reads as "no older face exists").
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e40_cashleg_drag"),
+                               outdir) if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("CASHLeg-") and p.endswith(".json")
+                    and "-arm-" not in p)
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("CASHLeg-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _cash_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_cash_arm_cells,
+                                     dates_fn=_cash_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+
+    arr_raw, arr_scr = _cash_arrows(raw_arm), _cash_arrows(scr_arm)
+    arrow_moved = [{"start": k, "column": c, "raw": arr_raw[k][c],
+                    "screened": (arr_scr.get(k) or {}).get(c)}
+                   for k in sorted(arr_raw)
+                   for c in _CASH_ARROW_COLUMNS
+                   if arr_scr.get(k, {}).get(c) != arr_raw[k][c]]
+    survives_arrows = not arrow_moved
+
+    scheme_moved = [r for r in pair["moved"] if r["start"].startswith("scheme/")]
+    mech_moved = [r for r in pair["moved"] if r["start"].startswith("cash/")]
+    answer_moved = [r for r in pair["moved"] if r["start"].startswith("answers/")]
+    other_moved = [r for r in pair["moved"] if r not in scheme_moved
+                   and r not in mech_moved and r not in answer_moved]
+
+    mech_raw = {st: (w.get("cash_mechanism") or {})
+                for st, w in (raw_arm.get("windows") or {}).items()}
+    mech_scr = {st: (w.get("cash_mechanism") or {})
+                for st, w in (scr_arm.get("windows") or {}).items()}
+    first_bar = {st: {"raw": (mech_raw.get(st) or {}).get("first_invested_bar"),
+                      "screened": (mech_scr.get(st) or {}).get("first_invested_bar")}
+                 for st in sorted(set(mech_raw) | set(mech_scr))}
+
+    ladder_exp = _ladder_exposure(base.LADDER, report)
+
+    return {
+        "study": "e125_cashdrag_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "starts": list(starts), "pick_n": pick_n,
+            "exclude_prefixes": list(exclude),
+            "rate_mults": list(rate_mults),
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_cashdrag grew a raw= parameter this round: before it "
+                     "loaded the shipped universe itself, so a twin could not "
+                     "burn both arms off one load"),
+            "join": ("_cash_arm_cells harvests the per-book per-multiplier rows, "
+                     "the cash-mechanism columns and the derived attributions; "
+                     "_cash_arm_dates carries the first invested bar, the panel "
+                     "edges and the multiplier set, because a date or a symbol "
+                     "list has no delta"),
+        },
+        "screen_report": report,
+        "ladder_exposure": ladder_exp,
+        "arrows": {"raw": arr_raw, "screened": arr_scr},
+        "first_invested_bar": first_bar,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "numbers_survive_the_repair": bool(survives),
+            "arrows_survive_the_repair": bool(survives_arrows),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for the "
+                            "return/cost columns, percent for shares and drawdowns, "
+                            "count for bars and indices, a price level for the "
+                            "curve endpoints -- the summary max is a screen over "
+                            "mixed units, not a quantity"),
+            "worst_cell": s["worst"],
+            "scheme_cells_moved": len(scheme_moved),
+            "mechanism_cells_moved": len(mech_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "moved_attribution_complete": (
+                len(scheme_moved) + len(mech_moved) + len(answer_moved)
+                + len(other_moved) == s["cells_moved"]),
+            "arrow_claims_moved": len(arrow_moved),
+            "ladder_row_is_a_control": ladder_exp["ladder_row_is_a_control"],
+            "ladder_names_neutralised":
+                ladder_exp["ladder_names_neutralised"],
+            "first_invested_bar_moved": sorted(
+                st for st, v in first_bar.items()
+                if v["raw"] != v["screened"]),
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the cash-leg attribution survives the repair: %d of %d cells "
+                 "move, every scheme row holds, the first invested bar does not "
+                 "shift and all %d arrow claims stand"
+                 % (s["cells_moved"], s["cells_compared"],
+                    len(arr_raw) * len(_CASH_ARROW_COLUMNS)))
+                if (survives and survives_arrows) else
+                ("the repair reaches the cash leg: %d of %d cells move "
+                 "(%d scheme / %d mechanism / %d answer / %d other), %d of %d "
+                 "arrow claims move and the first invested bar shifts on %s; "
+                 "%d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(scheme_moved),
+                    len(mech_moved), len(answer_moved), len(other_moved),
+                    len(arrow_moved), len(arr_raw) * len(_CASH_ARROW_COLUMNS),
+                    (", ".join(sorted(st for st, v in first_bar.items()
+                                      if v["raw"] != v["screened"])) or "no window"),
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the repo leg is the un-invested weight of the same engine, not a "
+            "discretionary allocation; a multiplier is a counterfactual rate "
+            "that never existed",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged ``cash_bars`` cell is "
+            "a property of the repair, not evidence the panel is clean",
+            "a multiplier row that moves while its ``ann_vs_x0_bp`` holds says "
+            "the two runs share the same rate exposure, not that the level is "
+            "stable -- the level is quoted with its cutoff",
         ],
     }
 
@@ -14379,6 +14719,130 @@ def selftest():
     chk("raw" in run_tilt4.__code__.co_varnames,
         "E124 run_tilt4 carries the raw= seam the twin burns both arms through")
 
+    # ---- E125 cashdrag screened twin
+    _cash_face = {
+        "evidence_cutoff": "2026-10-27",
+        "windows": {
+            "2020-01-01": {
+                "bars": 1700, "years": 6.75,
+                "schemes": {
+                    "ladder5": {
+                        "x0": {"ann_return_pct": 8.0, "ann_vs_x0_bp": None,
+                               "vol_pct": 20.0, "sharpe": 0.4,
+                               "max_drawdown_pct": -40.0, "cost_per_year_bp": 10.0,
+                               "curve_first": 1.0, "curve_last": 1.7},
+                        "x1": {"ann_return_pct": 8.6, "ann_vs_x0_bp": 60.0,
+                               "vol_pct": 20.0, "sharpe": 0.43,
+                               "max_drawdown_pct": -39.5, "cost_per_year_bp": 10.0,
+                               "curve_first": 1.0, "curve_last": 1.75},
+                        "x3": {"ann_return_pct": 9.8, "ann_vs_x0_bp": 180.0,
+                               "vol_pct": 20.0, "sharpe": 0.49,
+                               "max_drawdown_pct": -38.5, "cost_per_year_bp": 10.0,
+                               "curve_first": 1.0, "curve_last": 1.85},
+                    },
+                    "wide_top9999": {
+                        "x0": {"ann_return_pct": 7.0, "ann_vs_x0_bp": None,
+                               "vol_pct": 21.0, "sharpe": 0.33,
+                               "max_drawdown_pct": -42.0, "cost_per_year_bp": 12.0,
+                               "curve_first": 1.0, "curve_last": 1.6},
+                        "x1": {"ann_return_pct": 7.5, "ann_vs_x0_bp": 50.0,
+                               "vol_pct": 21.0, "sharpe": 0.36,
+                               "max_drawdown_pct": -41.4, "cost_per_year_bp": 12.0,
+                               "curve_first": 1.0, "curve_last": 1.65},
+                    },
+                },
+                "cash_mechanism": {
+                    "first_rebalance_index": 20,
+                    "first_trading_rebalance_index": 900,
+                    "first_invested_bar": "2023-08-31",
+                    "cash_bars": 901, "cash_bar_share_pct": 53.0,
+                    "rebalance_decisions": 80, "panel_covered_days": 1600,
+                    "panel_ffilled_days": 100, "panel_first": "2020-01-02",
+                    "panel_last": "2026-10-27", "mean_daily_cash_bp": 1.2,
+                    "mean_annual_cash_rate_pct": 1.6,
+                    "cash_is_discretionary": False,
+                },
+                "answers": {
+                    "ladder_cash_attributable_bp": 60.0,
+                    "wide_cash_attributable_bp": 50.0,
+                    "ladder_x3_delta_bp": 180.0,
+                    "wide_x3_delta_bp": 150.0,
+                    "maxdd_moves_with_cash": {"ladder5": 0.5,
+                                              "wide_top9999": 0.6},
+                },
+            },
+        },
+    }
+    _cash_cells = _cash_arm_cells(_cash_face)
+    chk(_cash_cells[("scheme/2020-01-01/ladder5/x1", "ann_vs_x0_bp")] == 60.0,
+        "E125 the harvest reads the per-book per-multiplier rows")
+    chk(_cash_cells[("cash/2020-01-01", "first_trading_rebalance_index")] == 900,
+        "E125 the harvest reads the cash mechanism, not just the returns")
+    chk(_cash_cells[("answers/2020-01-01", "ladder_cash_attributable_bp")] == 60.0,
+        "E125 the harvest carries the derived attributions")
+    chk(_cash_cells[("answers/2020-01-01", "maxdd_move:ladder5")] == 0.5,
+        "E125 the harvest reaches inside the maxdd map")
+    chk(not [k for k in _cash_cells if isinstance(_cash_cells[k], bool)],
+        "E125 no boolean leaks into the numeric layer")
+    _cash_keys = sorted({k[0] for k in _cash_cells})
+    chk([k for k in _cash_keys
+         if not k.startswith(("scheme/", "cash/", "answers/"))] == [],
+        "E125 every harvested key lands in a named bucket")
+    _cash_dates = _cash_arm_dates(_cash_face)
+    chk(_cash_dates["cash/2020-01-01"]["first_invested_bar"] == "2023-08-31",
+        "E125 the claim layer carries the first invested bar")
+    chk(_cash_dates["cash/2020-01-01"]["multipliers"] == "x0,x1,x3",
+        "E125 the claim layer carries the multiplier set")
+    # a repair that shifts WHEN the book trades moves no return cell but must
+    # still be reported -- that is the whole point of carrying the mechanism
+    _cash_shift = json.loads(json.dumps(_cash_face))
+    _cash_shift["windows"]["2020-01-01"]["cash_mechanism"]["first_invested_bar"] = \
+        "2023-09-30"
+    _cash_pair = _burnin_pair_rows(_cash_face, _cash_shift, _cash_keys,
+                                   cells_fn=_cash_arm_cells,
+                                   dates_fn=_cash_arm_dates)
+    chk(_cash_pair["summary"]["cells_moved"] == 0,
+        "E125 a shifted first invested bar moves no numeric cell")
+    chk(_cash_pair["summary"]["gate_dates_moved"] == 1,
+        "E125 a shifted first invested bar is still reported by the claim layer")
+    # arrows: every column published, and a sub-floor sign flip must still show
+    _cash_arr = _cash_arrows(_cash_face)["2020-01-01"]
+    chk(set(_CASH_ARROW_COLUMNS) == set(_cash_arr),
+        "E125 every arrow column is published, none silently dropped")
+    _cash_flip = json.loads(json.dumps(_cash_face))
+    _cash_flip["windows"]["2020-01-01"]["answers"][
+        "ladder_cash_attributable_bp"] = -0.002
+    _cash_orig = json.loads(json.dumps(_cash_face))
+    _cash_orig["windows"]["2020-01-01"]["answers"][
+        "ladder_cash_attributable_bp"] = 0.002
+    chk(_burnin_pair_rows(_cash_orig, _cash_flip, _cash_keys,
+                          cells_fn=_cash_arm_cells,
+                          dates_fn=_cash_arm_dates)["summary"]["cells_moved"] == 0,
+        "E125 a sign flip below the delta floor moves no cell")
+    chk(_cash_arrows(_cash_orig)["2020-01-01"]["ladder_cash_sign"] == 1
+        and _cash_arrows(_cash_flip)["2020-01-01"]["ladder_cash_sign"] == -1
+        and _cash_arrows(_cash_face)["2020-01-01"]["cash_gap_sign"] == 1,
+        "E125 the arrow layer sees a sign flip the cell floor cannot")
+    chk("raw" in run_cashdrag.__code__.co_varnames,
+        "E125 run_cashdrag carries the raw= seam the twin burns both arms through")
+    # ladder exposure: a zero-moved ladder row is a CONTROL, and the face has to
+    # say so -- otherwise "0 ladder cells moved" reads as "the repair is harmless"
+    _lx = _ladder_exposure(("AAA", "BBB"),
+                           {"names": [{"name": "CCC", "action": "neutralise"},
+                                      {"name": "AAA", "action": "kept-gapped-only"},
+                                      {"name": "DDD", "action": "kept-gapped-only"}]})
+    chk(_lx["ladder_row_is_a_control"] is True
+        and _lx["ladder_names_neutralised"] == [],
+        "E125 an untouched ladder row is declared a control")
+    chk(_lx["ladder_names_with_untouched_candidates"] == ["AAA"]
+        and _lx["untouched_candidate_actions"] == {"AAA": "kept-gapped-only"},
+        "E125 ladder names with declined candidates stay visible")
+    _lx2 = _ladder_exposure(("AAA", "BBB"),
+                            {"names": [{"name": "BBB", "action": "neutralise"}]})
+    chk(_lx2["ladder_row_is_a_control"] is False
+        and _lx2["ladder_names_neutralised"] == ["BBB"],
+        "E125 a neutralised ladder name turns the control claim false")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -16762,6 +17226,7 @@ def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
+                             "cashdragscreened",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened",
@@ -17417,6 +17882,22 @@ def main(argv):
                           "decomposition": {
                               "incomplete_eras":
                                   f["decomposition"]["incomplete_eras"]},
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "claims_moved":
+                                          f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "cashdragscreened":
+        outdir = os.path.join(ROOT, "results", "e40_cashleg_drag")
+        f = run_cashdragscreened(outdir)
+        p = write_json(outdir, "CASHLegSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "cashdragscreened",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "arrows": f["arrows"],
+                          "ladder_exposure": f["ladder_exposure"],
+                          "first_invested_bar": f["first_invested_bar"],
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "claims_moved":
                                           f["control"]["gate_dates_moved"]}},

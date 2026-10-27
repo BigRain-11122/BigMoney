@@ -92,6 +92,11 @@ TWIN_FUNCS = {
     # E124 (r1197): the per-era four-member tilt attribution twin.
     "run_tilt4screened": ("tilt4screened",
                           "results/e43_tilt_4member/TILT4SCREEN-*.json"),
+    # E125 (r1198): the cash-leg drag twin -- the last uncovered runner. Its
+    # subject is the un-invested weight, so the join carries the mechanism
+    # (first invested bar) beside the earned numbers.
+    "run_cashdragscreened": ("cashdragscreened",
+                             "results/e40_cashleg_drag/CASHLegSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

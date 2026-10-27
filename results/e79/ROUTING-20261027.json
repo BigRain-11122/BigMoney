@@ -183,6 +183,14 @@
     "calls": [
      "run_tilt4"
     ]
+   },
+   {
+    "leg": "cashdragscreened",
+    "func": "run_cashdragscreened",
+    "face": "results/e40_cashleg_drag/CASHLegSCREEN-20261027.json",
+    "calls": [
+     "run_cashdrag"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -209,8 +217,10 @@
    "runner": "run_cashdrag",
    "face": "results/e40_cashleg_drag/CASHLeg-20261020.json",
    "published_cells": 70,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "cashdragscreened"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
@@ -740,35 +750,16 @@
    "read_set": "wide per-name prices + ladder marks"
   }
  ],
- "ranking_uncovered_by_runner": [
-  {
-   "runner": "run_cashdrag",
-   "modes": [
-    "cashdrag"
-   ],
-   "published_cells_dedup": 70,
-   "faces": [
-    "results/e40_cashleg_drag/CASHLeg-20261020.json"
-   ]
-  }
- ],
- "ranking_uncovered_by_mode": [
-  {
-   "mode": "cashdrag",
-   "runner": "run_cashdrag",
-   "published_cells": 70,
-   "coverage": "uncovered",
-   "twin_legs": []
-  }
- ],
+ "ranking_uncovered_by_runner": [],
+ "ranking_uncovered_by_mode": [],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 23,
+  "covered_by_twin": 24,
   "covered_twin_by_name": 1,
-  "uncovered": 1,
+  "uncovered": 0,
   "uncovered_column_only": 0,
-  "uncovered_distinct_runners": 1,
-  "cells_unchanged_by_any_twin": 70
+  "uncovered_distinct_runners": 0,
+  "cells_unchanged_by_any_twin": 0
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

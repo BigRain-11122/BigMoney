@@ -22177,9 +22177,13 @@
    "seeded_at": "2026-10-28T02:12:00+08:00",
    "seeded_by": "bm-b r1196",
    "source": "Seeded from the re-derived results/e79/ROUTING-20261027.json after E123 closed the pair row: covered_twin 20, uncovered 4, runners 2 (run_tilt4 = E124, run_cashdrag = this row). Same machinery as E112-E123: one load, both arms, per-arm checkpoints, shared _burnin_pair_rows join, same-arm control zero, cutoff control against the newest published raw face. Supply floor 3/3: E124 + this row + 1 more needed next round.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py",
-   "title": "Next uncovered runner after E123 (70 numbers, one mode cashdrag). run_cashdrag re-runs the identical spec at repo multipliers 0x/1x/3x to bound what the cash leg pays for -- so the twin must publish the MULTIPLIER as the axis: a repair that moves all three rate points by the same amount leaves the cash-leg attribution untouched while every level moves. Needs a raw= seam first (run_cashdrag loads the universe itself today)."
+   "title": "Next uncovered runner after E123 (70 numbers, one mode cashdrag). run_cashdrag re-runs the identical spec at repo multipliers 0x/1x/3x to bound what the cash leg pays for -- so the twin must publish the MULTIPLIER as the axis: a repair that moves all three rate points by the same amount leaves the cash-leg attribution untouched while every level moves. Needs a raw= seam first (run_cashdrag loads the universe itself today).",
+   "done_at": "2026-10-28T03:05:00+08:00",
+   "done_by": "bm-b r1198",
+   "result_ref": "results/e40_cashleg_drag/CASHLegSCREEN-20261027.json",
+   "done_note": "closed r1198 bm-b: 18/63 cells move, all 18 on the all-name book and all three multiplier rows at the SAME delta (+0.36pp ann at x0/x1/x3), while 0 mechanism / 0 answer cells move (cash attribution 36.0bp ladder / 37.0bp wide / 109-111bp at x3, all bit-identical). First invested bar 2021-02-01 unchanged, cash window 263 bars = 15.95%; 1.98% rate x 15.95% = 31.6bp against the measured 36.0bp. New ladder_exposure block: 67 of 1317 names neutralised, ZERO ladder names, so every ladder row in this face (and in E121/E123) is a control arm; two ladder names carry declined gapped candidates disclosed in the face. Same-arm control 0/63; cutoff control CASHLeg-20261020 raw vs today raw = 35 cells max 5 (refresh dominates ~2x, fourth ordering in four twins). Routing covered_twin 23 -> 24, uncovered 1 -> 0, runners 0 -- the E97 uncovered-runner axis is exhausted. run_cashdrag gained the raw= seam; selftest 459 -> 476."
   },
   {
    "deliverable": "results/e43_tilt_4member/TILT3REACH-<cutoff>.json",
@@ -22192,6 +22196,30 @@
    "status": "ready",
    "seeded_at": "2026-10-28T02:45:00+08:00",
    "seeded_by": "bm-b r1197"
+  },
+  {
+   "id": "E127-SCREEN-REACH-LEDGER",
+   "title": "E125 published a hard fact about every twin already on disk: 67 of 1317 names are neutralised and NONE of the five ladder names is among them, so every ladder row that reads \"0 cells moved\" in E121/E123/E125 is a control arm rather than a measurement of the repair. That fact lives in one face today and a reader of the others cannot see it. Build the cross-twin ledger: for every published *SCREEN*.json and its raw sibling, print (a) names_in / names_neutralised / ladder intersection from that face's own screen_report, (b) the repair-vs-refresh ordering (cells_moved from `pair` vs from `cutoff_control`) with both numbers, and (c) a flag when a face carries no cutoff control at all -- an unpublished control is how a repair gets quoted alone. This is the new supply axis: the E97 uncovered-runner list is empty (covered_twin 24, uncovered 0, runners 0).",
+   "source": "Seeded r1198 bm-b from results/e40_cashleg_drag/CASHLegSCREEN-20261027.json (ladder_exposure: 67 neutralised names, 0 ladder) plus the four orderings already published across E122/E123/E124/E125 faces. Every input is a face already on disk, so the leg is deterministic, zero-network and re-derivable per round.",
+   "deliverable": "results/e79/SCREENREACH-<cutoff>.json",
+   "target": "scripts/e97_routing.py",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "ready",
+   "seeded_at": "2026-10-28T03:05:00+08:00",
+   "seeded_by": "bm-b r1198"
+  },
+  {
+   "id": "E128-CASHDRAG-PERBOOK-WINDOW",
+   "title": "run_cashdrag publishes a cash ATTRIBUTION for two books (ladder 36.0bp, wide 37.0bp) but a cash MECHANISM for one: first_trading_rebalance_index / cash_bars / cash_bar_share_pct are computed from the ladder's eligibility alone. The two attributions differ by 1bp and nothing on the face says whether that is a window difference or a rate difference. Publish the window per book (first trading rebalance, cash bars, share) beside each book's attribution, and carry the arithmetic identity rate x share vs measured attribution as a published residual with a tolerance, per book -- a residual that grows is a defect in the attribution, not a market fact.",
+   "source": "Seeded r1198 bm-b from the E125 face: cash_mechanism is ladder-only while answers.wide_cash_attributable_bp is measured on the all-name book (36.0 vs 37.0bp, the gap unexplained); the ladder identity closes to 31.6bp vs 36.0bp measured, so the residual is currently 4.4bp on the ladder and unknown on the wide book.",
+   "deliverable": "results/e40_cashleg_drag/CASHLeg-<cutoff>.json (per-book window block)",
+   "target": "scripts/e39_panel_census.py (run_cashdrag)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "ready",
+   "seeded_at": "2026-10-28T03:05:00+08:00",
+   "seeded_by": "bm-b r1198"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22206,6 +22234,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T02:45:00+08:00",
+ "updated_at": "2026-10-28T03:05:00+08:00",
  "version": 1
 }

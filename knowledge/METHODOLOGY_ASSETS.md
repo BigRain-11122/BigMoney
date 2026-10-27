@@ -1628,3 +1628,27 @@ never delivered, because the binding universe member changed under it.
 Evidence: results/e43_tilt_4member/TILT4SCREEN-20261027.json, per-arm checkpoints,
 _tilt4_arm_cells/_tilt4_arm_dates/_tilt4_arrows + run_tilt4screened (selftest 442 -> 459),
 research/digests/DIGEST-20261028-r1197-e124-tilt4-screened.md.
+
+## E164 A multiplier axis survives a repair only if the levels move uniformly (2026-10-28 r1198 bm-b)
+
+E40 bounds the cash leg by re-running one spec at repo multipliers 0x/1x/3x. Burning the raw and
+print-screened arms of that leg moves 18 of 63 cells -- and the moved delta is IDENTICAL at all
+three rate points (+0.36pp annualised at x0, x1 and x3) while the derived attributions
+(ladder 36.0bp, wide 37.0bp, x3 109/111bp) do not move at all. That uniformity is the test, not
+a coincidence: a repair that touched the rate exposure would have to move the three points by
+different amounts. So when a face has an axis that is a TRANSFORMATION of the answer
+(multiplier, cost level, horizon), publish the per-point deltas side by side -- a uniform delta
+says the axis is orthogonal to the repair, a gradient says the repair reached it, and the total
+cannot tell you which.
+
+Sibling rule learned in the same burn: a zero on the CONTROL book is not a clean bill. The
+ladder5 rows move 0 of 27 cells here, and 0 of theirs in E121/E123, because none of the five
+ladder names is among the 67 names the screen neutralises -- the control arm is a control. A
+twin has to publish that fact mechanically (``ladder_exposure``: names neutralised, the ladder
+intersection, plus the ladder names whose candidate prints were declined as gapped), or a reader
+reads "0 moved" as "the repair is harmless". Declined candidates are part of the claim: two
+ladder names carry +248.55% and +176.27% gapped prints that the screen keeps today.
+
+Evidence: results/e40_cashleg_drag/CASHLegSCREEN-20261027.json, per-arm checkpoints,
+_cash_arm_cells/_cash_arm_dates/_cash_arrows/_ladder_exposure + run_cashdragscreened
+(selftest 459 -> 476), research/digests/DIGEST-20261028-r1198-e125-cashdrag-screened.md.
