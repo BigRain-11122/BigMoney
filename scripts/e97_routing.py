@@ -79,6 +79,8 @@ TWIN_FUNCS = {
                              "results/e44_midmonth/ENTRYDELAYSCREEN-*.json"),
     "run_neighborhoodscreen": ("neighborhoodscreen",
                                "results/e44_midmonth/NEIGHBORHOODSCREEN-*.json"),
+    "run_rebaldayscreen": ("rebaldayscreen",
+                           "results/e44_midmonth/REBALDAYSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

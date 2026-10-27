@@ -1,12 +1,12 @@
 {
   "latest": {
-    "ts": "2026-10-27 22:08:58",
+    "ts": "2026-10-27 22:58:01",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 2.0,
-    "py_cpu_pct": 2.2,
+    "cpu_total_pct": 28.0,
+    "py_cpu_pct": 3.1,
     "cores": 16,
-    "py_procs": 11,
-    "result_stale_min": 0.1,
+    "py_procs": 23,
+    "result_stale_min": 0.3,
     "fleet_open_tasks": 0,
     "pool_ready_count": 3,
     "pool_ready_unclaimed": 3,
@@ -45,16 +45,16 @@
     "supply_family_streak_min": null,
     "gpu": {
       "present": true,
-      "util_pct": 0.0,
-      "mem_used_mb": 4451.0,
-      "compute_apps_count": 28,
+      "util_pct": 23.0,
+      "mem_used_mb": 4724.0,
+      "compute_apps_count": 31,
       "rogue_apps": []
     },
     "zombies": [],
     "single_core_hog_candidate": true,
     "single_core_hog_detail": {
       "pid": 31480,
-      "cores_used": 1.05
+      "cores_used": 1.11
     },
     "parallel_efficiency": {
       "window_min": 60.0,
@@ -14067,13 +14067,13 @@
       "verdict": "FLAG:cap_violation,supply_owner_silent"
     },
     {
-      "ts": "2026-10-27 22:05:55",
+      "ts": "2026-10-27 21:52:58",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 7.0,
-      "py_cpu_pct": 3.2,
-      "cores": 16,
-      "py_procs": 11,
-      "result_stale_min": 0.9,
+      "cpu_total_pct": 3.0,
+      "py_cpu_pct": 0.2,
+      "cores": 32,
+      "py_procs": 19,
+      "result_stale_min": 0.4,
       "fleet_open_tasks": 0,
       "pool_ready_count": 2,
       "pool_ready_unclaimed": 2,
@@ -14105,24 +14105,21 @@
         "silent_owners": {},
         "unknown_owners": [],
         "owner_silent_min": 120.0,
-        "self": "bm-b",
+        "self": "bm-a",
         "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
       },
       "ignition_sla_breach_ids": [],
       "supply_family_streak_min": 0.0,
       "gpu": {
         "present": true,
-        "util_pct": 2.0,
-        "mem_used_mb": 4442.0,
-        "compute_apps_count": 27,
+        "util_pct": 4.0,
+        "mem_used_mb": 11349.0,
+        "compute_apps_count": 46,
         "rogue_apps": []
       },
       "zombies": [],
-      "single_core_hog_candidate": true,
-      "single_core_hog_detail": {
-        "pid": 31480,
-        "cores_used": 1.5
-      },
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
       "parallel_efficiency": {
         "window_min": 60.0,
         "batches_judged": 0,
@@ -14140,13 +14137,13 @@
       "verdict": "FLAG:supply_floor"
     },
     {
-      "ts": "2026-10-27 22:08:58",
+      "ts": "2026-10-27 22:58:01",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 2.0,
-      "py_cpu_pct": 2.2,
+      "cpu_total_pct": 28.0,
+      "py_cpu_pct": 3.1,
       "cores": 16,
-      "py_procs": 11,
-      "result_stale_min": 0.1,
+      "py_procs": 23,
+      "result_stale_min": 0.3,
       "fleet_open_tasks": 0,
       "pool_ready_count": 3,
       "pool_ready_unclaimed": 3,
@@ -14185,16 +14182,16 @@
       "supply_family_streak_min": null,
       "gpu": {
         "present": true,
-        "util_pct": 0.0,
-        "mem_used_mb": 4451.0,
-        "compute_apps_count": 28,
+        "util_pct": 23.0,
+        "mem_used_mb": 4724.0,
+        "compute_apps_count": 31,
         "rogue_apps": []
       },
       "zombies": [],
       "single_core_hog_candidate": true,
       "single_core_hog_detail": {
         "pid": 31480,
-        "cores_used": 1.05
+        "cores_used": 1.11
       },
       "parallel_efficiency": {
         "window_min": 60.0,

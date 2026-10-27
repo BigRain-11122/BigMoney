@@ -926,7 +926,7 @@ def _mid_month_indices(cal, day=15):
 
 
 def run_rebalday(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
-                 exclude=("sh511",), mid_day=15):
+                 exclude=("sh511",), mid_day=15, raw=None):
     """Does the verdict survive moving the decision calendar by one session?
 
     Every number in E34-E40 rests on one decision calendar: month-end. This leg
@@ -936,11 +936,14 @@ def run_rebalday(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
     inside a quoted spread. The engine's own semantics apply: it reads the
     rebalance set as "the close of index (i-1) is the decision", so a shift of
     k sessions moves decision and trade together.
+
+    ``raw`` (E121) is the screened-twin seam: the twin hands in a repaired
+    universe so both arms burn off one load.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -6226,6 +6229,309 @@ def run_neighborhoodscreen(outdir, start="2020-01-01", pick_n=9999,
             "its k=1 and k=3 brackets reach k=0 and k=4, which this leg does not "
             "burn: those four cells read null on both arms by construction, and "
             "only the centre bracket is complete",
+        ],
+    }
+
+
+# ------------------------------ E121 rebalance-calendar screened twin
+
+def _rebalday_arm_cells(face, starts=None):
+    """(E121) -> {(key, column): value} for every number the rebalday leg publishes.
+
+    This runner's published reading is a table of calendars x books, so the
+    harvest keeps two kinds of number in separate namespaces: what each calendar
+    EARNED (ann_return_pct / drawdown / win rate) and WHEN the book TRADED
+    (decision-session counts, rebalances, turnover). ``_rebalday_cell_role``
+    then names which kind a moved cell belongs to, because "the repair moved the
+    trade calendar" and "the repair moved every calendar's return" are different
+    findings that a single moved-cell total would blend.
+    """
+    out = {}
+    for start, w in (face.get("windows") or {}).items():
+        w = w or {}
+        for vname, row in (w.get("variants") or {}).items():
+            row = row or {}
+            out[("calendar/%s/%s" % (start, vname), "rebalances")] = row.get("rebalances")
+            out[("spread/%s/%s" % (start, vname), "vs_ladder_spread_bp")] = row.get(
+                "vs_ladder_spread_bp")
+            for scheme, cell in row.items():
+                if not isinstance(cell, dict):
+                    continue
+                base = "book/%s/%s/%s" % (start, vname, scheme)
+                for col in ("ann_return_pct", "max_drawdown_pct",
+                            "monthly_win_rate_pct", "turnover_per_year",
+                            "rebalances"):
+                    out[(base, col)] = cell.get(col)
+        for col, v in (w.get("answers") or {}).items():
+            # spread_all_positive is a verdict, not a level: subtracting two
+            # booleans would book a "delta" with no units.
+            if isinstance(v, bool) or not isinstance(v, (int, float)):
+                continue
+            out[("answers/%s" % start, col)] = v
+        out[("window/%s" % start, "bars")] = w.get("bars")
+        out[("window/%s" % start, "years")] = w.get("years")
+    return out
+
+
+_RETURN_COLUMNS = ("ann_return_pct", "max_drawdown_pct", "monthly_win_rate_pct")
+_SPREAD_COLUMNS = ("vs_ladder_spread_bp", "spread_range_bp", "spread_min_bp",
+                   "spread_max_bp", "spread_at_month_end_bp")
+_CALENDAR_COLUMNS = ("rebalances", "turnover_per_year")
+
+
+def _rebalday_cell_role(start, column):
+    """(E121) does a moved cell say WHEN the book traded or WHAT it earned?
+
+    ``calendar`` = the decision/trade schedule itself (rebalance counts and
+    turnover). ``returns`` = what a calendar earned. ``spread`` = the ladder-vs-
+    wide difference, which is a ratio of two books. ``frame`` = the window's own
+    bars/years and the universe count, which move only if the panel changed
+    length. Anything unrecognised is published as ``other`` rather than folded
+    into a named role.
+    """
+    col = str(column or "")
+    s = str(start or "")
+    if col in _CALENDAR_COLUMNS:
+        return "calendar"
+    if col in _RETURN_COLUMNS or col in ("ladder_ann_range_bp", "wide_ann_range_bp"):
+        return "returns"
+    if col in _SPREAD_COLUMNS:
+        return "spread"
+    if col in ("bars", "years", "universe_members"):
+        return "frame"
+    return "other"
+
+
+def _rebalday_shift_verdict(returns_moved, calendar_moved):
+    """(E121) did the repair change WHEN the book traded or WHAT it earned?"""
+    if calendar_moved and not returns_moved:
+        return ("the repair changes WHEN the book traded, not WHAT it earned: "
+                "the moved cells are decision/rebalance cells while every "
+                "calendar's own return holds")
+    if calendar_moved and returns_moved:
+        return ("the repair moves the trade calendar and the returns measured "
+                "on it together, so no calendar row here can be quoted apart "
+                "from the repair")
+    if returns_moved:
+        return ("the repair moves the returns while the trade calendar is "
+                "untouched: the calendars disagree by the same schedule, what "
+                "moved is the level")
+    return "nothing moved: the rebalance-calendar face survives the repair"
+
+
+def _rebalday_older_raw(outdir, tag):
+    """(E121) the newest PUBLISHED raw rebalday face other than ``tag``.
+
+    The runner's published face is written by the ``rebalday`` CLI mode to
+    ``results/e41_rebal_day/SHIFT-<cutoff>.json`` -- NOT into this leg's own
+    directory and NOT under a REBALDAY- name. Looking in the obvious place
+    returns None, and a None cutoff control reads exactly like "no older face
+    exists", so the path is kept in one function the selftest can point at a
+    temp dir.
+    """
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e41_rebal_day"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("SHIFT-") and p.endswith(".json"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        if os.path.basename(path)[len("SHIFT-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                return path, json.load(fh)
+        except Exception:
+            continue
+    return None, None
+
+
+def run_rebaldayscreen(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
+                       exclude=("sh511",), mode="neutralise_int", resume=True):
+    """E121: re-derive the rebalance-calendar face on the screened arm.
+
+    E97 ranks this runner third on the uncovered list (132 numbers, one mode).
+    What makes the twin worth burning rather than copying is that this leg holds
+    the axis every other twin moves: it prices the CALENDAR itself. So the
+    reading here is a split, not a total -- a moved rebalance count means the
+    repair changed when the book traded, while a moved ann_return means it
+    changed what the book earned on that schedule, and a spread that holds
+    because neither book moved is a different finding from one that holds
+    because both moved together.
+
+    Same machinery as E112-E120: one load, both arms burned off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero, and a cutoff control against the newest published raw
+    rebalday face so the panel refresh is sized beside the repair.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "REBALDAY-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "REBALDAY-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(starts=tuple(starts), pick_n=pick_n, exclude=exclude)
+    raw_arm = cached("raw", lambda: run_rebalday(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_rebalday(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _rebalday_arm_cells(raw_arm)})
+    no_dates = lambda face, ks: {}
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                            cells_fn=_rebalday_arm_cells, dates_fn=no_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_rebalday_arm_cells,
+                                dates_fn=no_dates)["summary"]
+
+    # cutoff control: the runner's own PUBLISHED raw face is
+    # results/e41_rebal_day/SHIFT-<cutoff>.json (the rebalday CLI writes it
+    # there), so that is where an older raw arm can be found -- joining the
+    # twin's own arm caches would compare today against today and read zero by
+    # construction.
+    cutoff_control = None
+    path, old_face = _rebalday_older_raw(outdir, tag)
+    if old_face is not None:
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_rebalday_arm_cells,
+                                     dates_fn=no_dates)
+        cutoff_control = {
+            "old_face": os.path.relpath(path, ROOT),
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+            "one_sided_is_structural": True,
+        }
+
+    s = pair["summary"]
+    by_role = {}
+    for r in pair["moved"]:
+        by_role.setdefault(_rebalday_cell_role(r["start"], r["column"]),
+                           []).append(r)
+    roles = {role: {"cells_moved": len(rs),
+                    "max_abs_delta": round(max(abs(x["delta"]) for x in rs), 4)}
+             for role, rs in sorted(by_role.items())}
+    returns_moved = len(by_role.get("returns") or [])
+    calendar_moved = len(by_role.get("calendar") or [])
+    survives = _twin_survives(s, control)
+
+    # the calendar table itself, side by side, so the role counts can be read
+    # against the rows they came from instead of being taken on trust
+    calendar_view = {}
+    for start in starts:
+        rw = (raw_arm.get("windows") or {}).get(start) or {}
+        sw = (scr_arm.get("windows") or {}).get(start) or {}
+        rows = {}
+        for vname, rrow in (rw.get("variants") or {}).items():
+            srow = (sw.get("variants") or {}).get(vname) or {}
+            rows[vname] = {
+                "raw_rebalances": rrow.get("rebalances"),
+                "screened_rebalances": srow.get("rebalances"),
+                "raw_spread_bp": rrow.get("vs_ladder_spread_bp"),
+                "screened_spread_bp": srow.get("vs_ladder_spread_bp"),
+                "raw_ladder_ann_pct": (rrow.get("ladder5") or {}).get("ann_return_pct"),
+                "screened_ladder_ann_pct": (srow.get("ladder5") or {}).get(
+                    "ann_return_pct"),
+            }
+        calendar_view[start] = {
+            "rows": rows,
+            "raw_spread_all_positive": (rw.get("answers") or {}).get(
+                "spread_all_positive"),
+            "screened_spread_all_positive": (sw.get("answers") or {}).get(
+                "spread_all_positive"),
+        }
+
+    return {
+        "study": "e121_rebalday_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "starts": list(starts), "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": "run_rebalday gained raw= so both arms burn off one load",
+            "join": ("_rebalday_arm_cells keeps calendar / returns / spread cells "
+                     "in separate namespaces and _rebalday_cell_role names each "
+                     "moved cell, so the split is the published reading"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "calendar_view": calendar_view,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for "
+                            "spreads, percent per year for annualised returns, "
+                            "turns/yr for turnover, sessions for offsets -- the "
+                            "summary max is a max over mixed units and is a "
+                            "screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "moved_by_role": roles,
+            "returns_cells_moved": returns_moved,
+            "calendar_cells_moved": calendar_moved,
+            "shift_verdict": _rebalday_shift_verdict(returns_moved, calendar_moved),
+            "control_cells_moved": control["cells_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "old_cutoff": cutoff_control["old_cutoff"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the calendar face survives the repair: %d of %d cells move "
+                 "(%d calendar / %d returns / %d spread)"
+                 % (s["cells_moved"], s["cells_compared"], calendar_moved,
+                    returns_moved, len(by_role.get("spread") or [])))
+                if survives else
+                ("the repair reaches the calendar face: %d of %d cells move "
+                 "(%d calendar, %d returns, %d spread, %d other) and %d cell(s) "
+                 "exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], calendar_moved,
+                    returns_moved, len(by_role.get("spread") or []),
+                    len(by_role.get("other") or []) + len(by_role.get("frame") or []),
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the split is a classification of moved cells, not a decomposition: "
+            "a calendar cell and a return cell can move for one and the same "
+            "repair, and the counts say how many cells each role lost, not how "
+            "much of a change each role caused",
+            "spread_all_positive is published per arm as a verdict and is NOT "
+            "joined: subtracting two booleans would book a delta with no units",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged universe_members count "
+            "is a property of the repair, not evidence the panel is clean",
+            "the cutoff control joins an older raw face whose start set may be "
+            "narrower, so its one-sided count is structural and only the shared "
+            "cells carry the refresh reading",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "book/calendar/spread/answers/window cells, not the pointer fields",
         ],
     }
 
@@ -12824,6 +13130,121 @@ def selftest():
     chk("raw" in _inspect.signature(run_neighborhood).parameters,
         "E120 run_neighborhood carries the raw= arm seam the twin burns on")
 
+    # ------------------------------------------------ E121 rebalance-calendar twin
+    # The reading is a SPLIT: a calendar cell moving is a different finding from
+    # a return cell moving, so the join has to name each moved cell's role and
+    # the verdict has to come from the two counts rather than from a total.
+    def _syn_rebal(ann=8.0, spread_bp=40.0, rebalances=12, bars=1680):
+        variants = {}
+        for vname in ("me_m1", "me", "me_p1", "mid15"):
+            variants[vname] = {
+                "rebalances": rebalances,
+                "ladder5": {"ann_return_pct": round(ann - 1.0, 3),
+                            "max_drawdown_pct": -10.0,
+                            "monthly_win_rate_pct": 55.0,
+                            "rebalances": rebalances,
+                            "turnover_per_year": 1.2},
+                "wide_top9999": {"ann_return_pct": ann,
+                                 "max_drawdown_pct": -12.0,
+                                 "monthly_win_rate_pct": 54.0,
+                                 "rebalances": rebalances,
+                                 "turnover_per_year": 1.3},
+                "vs_ladder_spread_bp": spread_bp,
+            }
+        answers = {"ladder_ann_range_bp": 1.0, "wide_ann_range_bp": 2.0,
+                   "spread_range_bp": 3.0, "spread_all_positive": True,
+                   "spread_min_bp": spread_bp - 1.0,
+                   "spread_max_bp": spread_bp + 1.0,
+                   "spread_at_month_end_bp": spread_bp,
+                   "universe_members": 665}
+        w = {"bars": bars, "years": 6.67, "variants": variants, "answers": answers}
+        return {"study": "e41_rebalance_day_sensitivity",
+                "evidence_cutoff": "2026-10-27",
+                "spec": {"pick_n": 9999, "starts": ["2020-01-01"]},
+                "windows": {"2020-01-01": w},
+                "answers": {"2020-01-01": answers},
+                "honest": ["a pointer line, not a measurement"]}
+
+    _c121 = _rebalday_arm_cells(_syn_rebal())
+    chk(("book/2020-01-01/me/ladder5", "ann_return_pct") in _c121
+        and ("calendar/2020-01-01/me_p1", "rebalances") in _c121
+        and ("spread/2020-01-01/mid15", "vs_ladder_spread_bp") in _c121
+        and ("answers/2020-01-01", "spread_range_bp") in _c121
+        and ("window/2020-01-01", "bars") in _c121,
+        "E121 the harvest walks book -> calendar -> spread -> answers -> window")
+    chk(("answers/2020-01-01", "spread_all_positive") not in _c121,
+        "E121 a boolean verdict is not harvested: it has no units to subtract")
+    chk(_rebalday_cell_role("book/2020-01-01/me/ladder5", "ann_return_pct") == "returns"
+        and _rebalday_cell_role("calendar/2020-01-01/me", "rebalances") == "calendar"
+        and _rebalday_cell_role("book/2020-01-01/me/ladder5", "turnover_per_year")
+        == "calendar"
+        and _rebalday_cell_role("spread/2020-01-01/me", "vs_ladder_spread_bp")
+        == "spread"
+        and _rebalday_cell_role("window/2020-01-01", "bars") == "frame"
+        and _rebalday_cell_role("answers/2020-01-01", "ladder_ann_range_bp")
+        == "returns",
+        "E121 a moved cell is named by what it measures, not only by its table")
+    _k121 = sorted({k[0] for k in _c121})
+    _nd121 = lambda face, ks: {}
+    _s121 = _burnin_pair_rows(_syn_rebal(), _syn_rebal(), _k121,
+                              cells_fn=_rebalday_arm_cells,
+                              dates_fn=_nd121)["summary"]
+    chk(_s121["cells_moved"] == 0 and _s121["max_abs_delta_pp"] == 0.0,
+        "E121 the same rebalday face joined against itself reads zero")
+    _mv121 = _burnin_pair_rows(_syn_rebal(), _syn_rebal(rebalances=13), _k121,
+                               cells_fn=_rebalday_arm_cells,
+                               dates_fn=_nd121)["moved"]
+    _roles121 = sorted({_rebalday_cell_role(r["start"], r["column"])
+                        for r in _mv121})
+    chk(_roles121 == ["calendar"],
+        "E121 a trade-schedule-only repair is published as calendar cells alone")
+    _mv121b = _burnin_pair_rows(_syn_rebal(), _syn_rebal(ann=9.5, spread_bp=55.0),
+                                _k121, cells_fn=_rebalday_arm_cells,
+                                dates_fn=_nd121)["moved"]
+    _roles121b = sorted({_rebalday_cell_role(r["start"], r["column"])
+                         for r in _mv121b})
+    chk("returns" in _roles121b and "spread" in _roles121b
+        and "calendar" not in _roles121b,
+        "E121 a return-only repair leaves every calendar cell where it was")
+    chk(_rebalday_shift_verdict(0, 5).startswith("the repair changes WHEN")
+        and _rebalday_shift_verdict(5, 5).startswith("the repair moves the trade calendar")
+        and _rebalday_shift_verdict(5, 0).startswith("the repair moves the returns")
+        and _rebalday_shift_verdict(0, 0).startswith("nothing moved"),
+        "E121 the shift verdict separates WHEN the book traded from WHAT it earned")
+    _side121 = _burnin_pair_rows(_syn_rebal(), _syn_rebal(bars=1690), _k121,
+                                  cells_fn=_rebalday_arm_cells,
+                                  dates_fn=_nd121)["summary"]
+    chk(_side121["cells_moved"] > 0 and _side121["only_in_raw"] == 0,
+        "E121 a panel-length change moves frame cells without one-sided rows")
+    chk("raw" in _inspect.signature(run_rebalday).parameters,
+        "E121 run_rebalday carries the raw= arm seam the twin burns on")
+    # the cutoff control reads the runner's PUBLISHED raw face, which lives
+    # under e41_rebal_day/SHIFT-*.json. A lookup that points at the twin's own
+    # directory finds nothing and reports "no older face", which is exactly what
+    # a clean twin looks like -- so the path itself gets a leg.
+    import tempfile as _tempfile
+    with _tempfile.TemporaryDirectory() as _td:
+        _p = os.path.join(_td, "SHIFT-20261020.json")
+        with open(_p, "w", encoding="utf-8") as _fh:
+            json.dump(_syn_rebal(), _fh)
+        _hit_path, _hit_face = _rebalday_older_raw(_td, "20261027")
+        _skip_path, _skip_face = _rebalday_older_raw(_td, "20261020")
+        _none_path, _none_face = _rebalday_older_raw(
+            os.path.join(_td, "absent-dir"), "20261027")
+    chk(_hit_path is not None and (_hit_face or {}).get("study")
+        == "e41_rebalance_day_sensitivity",
+        "E121 the cutoff control finds the published SHIFT-<cutoff> face")
+    chk(_skip_face is None,
+        "E121 the cutoff control never joins today's own cutoff against itself")
+    chk(_none_face is None or (_none_face or {}).get("evidence_cutoff"),
+        "E121 a missing leg directory raises nothing and returns a real face")
+    _repo_dir = os.path.join(ROOT, "results", "e41_rebal_day")
+    _repo_has_old = os.path.isdir(_repo_dir) and any(
+        p.startswith("SHIFT-") and p != "SHIFT-20261027.json"
+        for p in os.listdir(_repo_dir))
+    chk((not _repo_has_old) or _none_face is not None,
+        "E121 the published-face fallback survives a missing leg directory")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -15216,6 +15637,7 @@ def main(argv):
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
                              "neighborhoodscreen",
+                             "rebaldayscreen",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "staletailscreen",
                              "panelsplit", "panelsplitscreen",
@@ -15895,6 +16317,21 @@ def main(argv):
                                       ("cells_compared", "cells_moved",
                                        "moved_by_role", "shift_verdict",
                                        "bracket_shapes",
+                                       "counts_survive_the_repair")},
+                          "control": f["control"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "rebaldayscreen":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_rebaldayscreen(outdir)
+        p = write_json(outdir, "REBALDAYSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "rebaldayscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": {k: f["answers"][k] for k in
+                                      ("cells_compared", "cells_moved",
+                                       "moved_by_role", "shift_verdict",
+                                       "returns_cells_moved",
+                                       "calendar_cells_moved",
                                        "counts_survive_the_repair")},
                           "control": f["control"]}, ensure_ascii=False))
         return 0

@@ -1,17 +1,21 @@
 {
-  "ts": "2026-10-27T21:15:28",
-  "mode": "refresh in progress (todo=5222/5227, quarantined=5, settled=0)",
+  "ts": "2026-10-27T23:14:52",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-26",
+    "cutoff": "2026-10-27",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
+    "coverage_pct": 35.3,
     "coverage_90": "2026-10-26",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
+        "2026-10-27",
+        1847
+      ],
+      [
         "2026-10-26",
-        5215
+        3368
       ],
       [
         "2026-10-23",
@@ -28,10 +32,6 @@
       [
         "2026-10-12",
         1
-      ],
-      [
-        "2026-09-14",
-        2
       ]
     ],
     "universe_n": 5227,
@@ -49,34 +49,30 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 3,
-    "fetched": 3,
-    "appended": 0,
+    "todo": 5222,
+    "fetched": 1849,
+    "appended": 1847,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
-    "conn_stopped": false,
-    "elapsed_min": 0.2,
-    "vwap_anchor_max": 0.061246,
+    "failures_tail": [
+      "300394:conn:TimeoutError",
+      "300395:conn:TimeoutError",
+      "300396:conn:TimeoutError"
+    ],
+    "failures_n": 3,
+    "conn_stopped": true,
+    "elapsed_min": 119.4,
+    "vwap_anchor_max": 0.131531,
     "repull": false
   },
   "quarantined_n": 5,
   "last_spawn_attempt": "2026-10-27T21:15:25",
-  "settled_n": 7,
-  "settled": [
-    "002717",
-    "002827",
-    "301468",
-    "600621",
-    "601326",
-    "605258",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "per_files_on_disk": 5225,
   "validation": {
     "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "spawn_reason": "panel lags expected bar date (2026-10-26 < 2026-10-27)",

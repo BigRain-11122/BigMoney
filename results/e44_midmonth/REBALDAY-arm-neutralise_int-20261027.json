@@ -1,0 +1,232 @@
+{
+ "study": "e41_rebalance_day_sensitivity",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0,
+  "cost_bp_per_side": 13.041,
+  "starts": [
+   "2020-01-01",
+   "2018-01-01"
+  ],
+  "mid_month_day": 15,
+  "variants": [
+   "me_m1",
+   "me",
+   "me_p1",
+   "mid15"
+  ]
+ },
+ "windows": {
+  "2020-01-01": {
+   "bars": 1650,
+   "years": 6.55,
+   "variants": {
+    "me_m1": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -1.0,
+      "max_drawdown_pct": -42.89,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 70,
+      "turnover_per_year": 0.375
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.76,
+      "max_drawdown_pct": -36.0,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 70,
+      "turnover_per_year": 0.588
+     },
+     "vs_ladder_spread_bp": 176.0
+    },
+    "me": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -1.03,
+      "max_drawdown_pct": -42.72,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 69,
+      "turnover_per_year": 0.373
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.68,
+      "max_drawdown_pct": -36.13,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 69,
+      "turnover_per_year": 0.585
+     },
+     "vs_ladder_spread_bp": 171.0
+    },
+    "me_p1": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -1.15,
+      "max_drawdown_pct": -42.49,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 69,
+      "turnover_per_year": 0.374
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.41,
+      "max_drawdown_pct": -35.88,
+      "monthly_win_rate_pct": 56.8,
+      "rebalances": 69,
+      "turnover_per_year": 0.583
+     },
+     "vs_ladder_spread_bp": 156.0
+    },
+    "mid15": {
+     "rebalances": 82,
+     "ladder5": {
+      "ann_return_pct": -1.53,
+      "max_drawdown_pct": -42.27,
+      "monthly_win_rate_pct": 54.3,
+      "rebalances": 70,
+      "turnover_per_year": 0.36
+     },
+     "wide_top9999": {
+      "ann_return_pct": 0.07,
+      "max_drawdown_pct": -35.97,
+      "monthly_win_rate_pct": 55.6,
+      "rebalances": 70,
+      "turnover_per_year": 0.588
+     },
+     "vs_ladder_spread_bp": 160.0
+    }
+   },
+   "answers": {
+    "ladder_ann_range_bp": 53.0,
+    "wide_ann_range_bp": 69.0,
+    "spread_range_bp": 20.0,
+    "spread_all_positive": true,
+    "spread_min_bp": 156.0,
+    "spread_max_bp": 176.0,
+    "spread_at_month_end_bp": 171.0,
+    "universe_members": 1271
+   }
+  },
+  "2018-01-01": {
+   "bars": 2137,
+   "years": 8.48,
+   "variants": {
+    "me_m1": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.13,
+      "max_drawdown_pct": -42.89,
+      "monthly_win_rate_pct": 57.1,
+      "rebalances": 94,
+      "turnover_per_year": 0.312
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.38,
+      "max_drawdown_pct": -36.0,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 94,
+      "turnover_per_year": 0.58
+     },
+     "vs_ladder_spread_bp": 225.0
+    },
+    "me": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 4.98,
+      "max_drawdown_pct": -42.72,
+      "monthly_win_rate_pct": 58.1,
+      "rebalances": 93,
+      "turnover_per_year": 0.314
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.28,
+      "max_drawdown_pct": -36.13,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 93,
+      "turnover_per_year": 0.58
+     },
+     "vs_ladder_spread_bp": 230.0
+    },
+    "me_p1": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 4.76,
+      "max_drawdown_pct": -42.49,
+      "monthly_win_rate_pct": 58.1,
+      "rebalances": 93,
+      "turnover_per_year": 0.313
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.01,
+      "max_drawdown_pct": -35.88,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 93,
+      "turnover_per_year": 0.578
+     },
+     "vs_ladder_spread_bp": 225.0
+    },
+    "mid15": {
+     "rebalances": 106,
+     "ladder5": {
+      "ann_return_pct": 5.03,
+      "max_drawdown_pct": -42.27,
+      "monthly_win_rate_pct": 56.2,
+      "rebalances": 94,
+      "turnover_per_year": 0.301
+     },
+     "wide_top9999": {
+      "ann_return_pct": 7.2,
+      "max_drawdown_pct": -35.97,
+      "monthly_win_rate_pct": 61.0,
+      "rebalances": 94,
+      "turnover_per_year": 0.582
+     },
+     "vs_ladder_spread_bp": 217.0
+    }
+   },
+   "answers": {
+    "ladder_ann_range_bp": 37.0,
+    "wide_ann_range_bp": 37.0,
+    "spread_range_bp": 13.0,
+    "spread_all_positive": true,
+    "spread_min_bp": 217.0,
+    "spread_max_bp": 230.0,
+    "spread_at_month_end_bp": 230.0,
+    "universe_members": 1271
+   }
+  }
+ },
+ "answers": {
+  "2020-01-01": {
+   "ladder_ann_range_bp": 53.0,
+   "wide_ann_range_bp": 69.0,
+   "spread_range_bp": 20.0,
+   "spread_all_positive": true,
+   "spread_min_bp": 156.0,
+   "spread_max_bp": 176.0,
+   "spread_at_month_end_bp": 171.0,
+   "universe_members": 1271
+  },
+  "2018-01-01": {
+   "ladder_ann_range_bp": 37.0,
+   "wide_ann_range_bp": 37.0,
+   "spread_range_bp": 13.0,
+   "spread_all_positive": true,
+   "spread_min_bp": 217.0,
+   "spread_max_bp": 230.0,
+   "spread_at_month_end_bp": 230.0,
+   "universe_members": 1271
+  }
+ },
+ "honest": [
+  "the engine reads the rebalance set as a decision at the close of index (i-1), so a one-session shift moves decision and trade together; this leg does not test a decision-only shift",
+  "all four variants share one calendar, one universe and one rank cache, so the only moving part is the set of decision sessions",
+  "mid-month is a single fixed date (day 15), not a sweep: it prices a wrong-calendar cost, it does not search for a better one",
+  "spread is the annualised column difference in bp, the same convention as E34-E40; the ratio curve's path is not re-measured here",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

@@ -1481,3 +1481,41 @@ Evidence: results/e44_midmonth/NEIGHBORHOODSCREEN-20261027.json, scripts/e39_pan
 run_neighborhoodscreen / _neighborhood_arm_cells / _neighborhood_cell_role /
 _neighborhood_shift_verdict (selftest 393 -> 403), scripts/e97_routing.py TWIN_FUNCS
 (15/15), research/digests/DIGEST-20261027-e120-neighborhood-twin.md.
+
+
+## E159 A face that prices the calendar cannot be quoted without its role split (2026-10-27 r1192 bm-b)
+
+`run_rebalday` publishes a table of *calendars x books* (month-end-1 / month-end / month-end+1 /
+mid-month). A screened twin of it is not the usual "did the numbers move" question, because the
+moved cells fall into three kinds with different meanings, and one total blends them:
+
+1) **Publish the split, not the count.** `_rebalday_cell_role` names every moved cell
+   `calendar` (rebalance counts, turnover) / `returns` (ann return, drawdown, win rate) /
+   `spread` (ladder-vs-wide) / `frame` (bars, years, universe size) / `other`, and the verdict
+   is built from the two headline counts: 114 cells, 33 moved, **0 calendar** / 17 returns /
+   16 spread. That single zero is the finding — the repair changed WHAT the book earned
+   (+0.29…+0.45 pp on the wide book only, spread widening +29…+45 bp) and left WHEN it traded
+   bit-identical on all eight calendar rows. A "33 moved" headline would have buried it.
+2) **Never harvest a boolean beside numeric columns.** `spread_all_positive` sits in the same
+   `answers` block as the bp levels, and `True - False` is a legal subtraction — the join would
+   have booked a delta with no units and no complaint. Skip booleans by isinstance, publish the
+   flag per arm as a verdict, and pin the absence in selftest.
+3) **A cutoff control that looks in the obvious place returns `null`, and `null` reads as
+   clean.** This runner's published raw face is written by the `rebalday` CLI mode to
+   `results/e41_rebal_day/SHIFT-<cutoff>.json` — not to the twin's own directory and not under
+   a `REBALDAY-` prefix. The first burn therefore published `cutoff_control: null`, which is
+   indistinguishable from "no older face exists". Factoring the lookup into
+   `_rebalday_older_raw` and pointing three selftest legs at a temp dir (finds a real face /
+   refuses today's own cutoff / a missing leg directory must not lose the fallback) turned a
+   silent absence into a measured control: 40 of 114 cells, max 7.0 bp, so the repair's 45 bp
+   dominates the four-session refresh by ~6x.
+
+Sibling reading worth keeping: the two controls disagree by family, not by quality. E118 was
+cutoff-dominated (6.0 bp refresh vs a sub-bp repair), E119/E120/E121 are repair-dominated.
+A twin that publishes both controls can be compared across families; one that publishes either
+alone cannot.
+
+Evidence: results/e44_midmonth/REBALDAYSCREEN-20261027.json, scripts/e39_panel_census.py
+run_rebaldayscreen / _rebalday_arm_cells / _rebalday_cell_role / _rebalday_shift_verdict /
+_rebalday_older_raw (selftest 403 -> 416), scripts/e97_routing.py TWIN_FUNCS,
+research/digests/DIGEST-20261027-e121-rebalday-twin.md.

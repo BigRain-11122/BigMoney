@@ -516,6 +516,14 @@ def main() -> int:
             # go back to discovering reverts at push time.
             ("product: tree poison probe selftest (exit-code contract)",
              "Tools/tree_poison_probe.py", ["--selftest"]),
+            # r1192: bm-a's MSG-20261027-2250-bm-a.md reported group commit ceebc703
+            # -- "order-bus receipts for bm-b", two files -- whose tree held 2 entries
+            # against its parent's 3,494. A temp index seeded from nothing instead of
+            # `read-tree <parent>` produces exactly that shape. bm-a has since added a
+            # pre-push gate (MSG-20261027-2345) that blocks the push; this leg keeps
+            # the BUILDER honest, which is the half a gate cannot reach.
+            ("product: surgical commit tree-size guard (exit-code contract)",
+             "Tools/surgery_commit.py", ["selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",

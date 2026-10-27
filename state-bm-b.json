@@ -1,9 +1,9 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-27T22:16:00+08:00",
- "current": "r1191 closed: the month-boundary bracket survived the repair as a shape, not as a level",
- "current_task": "E120 neighborhood screened twin",
- "cyc_round": 1191,
+ "current": "r1192 closed: the rebalance calendar did not move -- the repair changed what the book earned, not when it traded",
+ "current_task": "E122 warm-spread screened twin",
+ "cyc_round": 1192,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -44,14 +44,14 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "did": "r1191: E120 neighbourhood screened twin burned and published -- 163 cells joined, 90 move (28 centre / 36 shoulder / 26 book, 0 other, max 15.0bp); same-arm control 0; cutoff control NEIGHBORHOOD-20261021 vs today raw arm 3 cells / 6.0bp; the CENTRE and BOTH SHOULDERS move together (the repair shifts the level, it does not bend the shape) and all four bracket shapes hold (ramp on both arms); also fixed the E97 twin registry -- run_entrydelayscreen (r1190) was never declared, L15 was RED at open, both twins declared and the routing face re-derived covered_twin 14 -> 16, uncovered 10 -> 8",
+ "did": "r1192: E121 rebalance-calendar screened twin burned and published -- 114 cells, 33 moved, 0 of them CALENDAR cells (17 returns / 16 spread). The trade schedule is untouched: all four calendars keep identical rebalance counts (82@2020, 106@2018) and the ladder5 return is bit-identical on both arms; only the wide book moves (+0.29..+0.45pp ann, drawdown 0.32..0.42pp better), so every spread widens +29..+45bp while wide_ann_range_bp narrows 79->69. Same-arm control 0/114; cutoff control results/e41_rebal_day/SHIFT-20261020.json = 40/114 max 7.0bp, so the repair dominates the refresh by ~6x. Also shipped Tools/surgery_commit.py (selftest 13/13, smoke leg) to close the ceebc703 class bm-a reported: a tree-surgery commit is now built from read-tree <base> and refuses to publish a shrink past its budget.",
  "did_round": "r1191",
  "heartbeat_epoch_utc": 1793087868,
  "heartbeat_epoch_utc_face": 1792530408,
  "idle_rounds": 0,
  "last_action": "E120 neighborhood screened twin burned and published",
  "last_action_at": "2026-10-27T22:16:00+08:00",
- "last_artifact": "results/e44_midmonth/NEIGHBORHOODSCREEN-20261027.json",
+ "last_artifact": "results/e44_midmonth/REBALDAYSCREEN-20261027.json",
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -84,11 +84,11 @@
  "last_run": "2026-10-27T12:06:00+08:00",
  "last_seen": "2026-10-27T22:16:00+08:00",
  "last_updated": "2026-10-27T15:57:48+08:00",
- "latest_artifact": "results/e44_midmonth/NEIGHBORHOODSCREEN-20261027.json",
+ "latest_artifact": "results/e44_midmonth/REBALDAYSCREEN-20261027.json | Tools/surgery_commit.py",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
- "next": "r1192: E121 rebalday screened twin (ready in pool; run_rebalday raw= seam if absent)",
- "next_milestone": "E121 face published (window <=48h from 2026-10-27 22:16)",
+ "next": "r1193: E122 warmspread screened twin (ready in pool; run_warmspread raw= seam)",
+ "next_milestone": "E122 face published (window <=48h from 2026-10-27 23:15)",
  "next_pointer": "scripts/e39_panel_census.py run_earlydelay has no raw= seam yet",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
@@ -132,7 +132,7 @@
   "r1158": "r1158: E92 gap-tolerant split screen. panel_screen mode neutralise_gap (gap_limit sessions, integer-ratio only) + e39 gapsplit leg (selftest 231->237, panel_screen 17->23). Face SCREENGAP-20261022.json (159KB) + digest. Census: 33 gapped prints, 10 integer-eligible at limit 1, 9 of them in 2021_2023. Churn levels 2021_2023 me 1866.5->768.2 / mid15 2185.4->1068.2; gap 318.9->300.0 (94% survives). 2024_now gap widens -211.0->-457.1 (mid15 -364.7 = E82 neutralise exactly). Transitions moved 9/69 me and 10/69 mid15; top moved mid15 2021-05-17->2021-06-15 -9185.4bp. Pool E92 done + E93-GAPSPLIT-ERA-SPREAD seeded (ready 3). S6: dualrun ZERO-DRIFT 616 streak 51, audit FLAG supply_gap only, watermark insufficient_history, update_daily no new rows, attrition CLEAN, orphan 0, smoke 49/49, REPORT/LIVE-2026-10-23 written, scorecard stale-takeover. S7: loop pin 2 no-op, watchdog re-registered, both claws reinstalled. Pit: pool text surgery needs BOTH the flip block to end with a comma AND the seeded block to omit one before the closing ' ]' -- json.loads caught both drafts before write.",
   "r1172": "E108 closed. The factor in split_events was implied_ratio()[ratio] -- folded to >=1 so the integer test can see a reverse split -- which is right on downward prints and mirrors upward ones to (1+r)^2-1. Fixed to 1/(1+r). Seven consuming faces re-derived (MID armed, GAPARM endgrid, GAPARM family, GAPTOP3, HELDSPLIT, REPAIRSTEP, SCREENGAPERA) with a legacy-coded control: e108_repairfix.py \"legacy repairstep\" reproduced the published face with 0 of 966 numeric leaves moved, so panel drift is excluded. Readings: REPAIRSTEP fabricating_windows 8->0 and the class tally flips to step_cancels_print; HELDSPLIT 2024_now sh510580 arm reads 1902.84/1418.07 -> 28.05/-2.94; MID armed 2024_now mid level -364.7 -> +4.9bp (sign flip appears in the cross-arm list); GAPARM 2024_now mid delta -241.0 -> +128.6bp, span 107.1 -> 48.5bp; GAPTOP3 names a 4th large move (2024_now/mid, 100% one window). Untouched by design and verified: 2017_2020 me -745.9bp and the 2021_2023 pair. E104's \"the repaired arm is not automatically plausible\" loses its witness (that witness WAS this bug); the newest-era mid -364.7 readings are superseded. SCREENGAPERA is cross-cutoff confounded (20261023 vs 20261026) and is disclosed as direction only. Pool E108 done + E109 seeded (14 neutralise legs still carry the old factor)."
  },
- "now_active": "r1191: E120 published; next = E121 rebalance-calendar twin",
+ "now_active": "r1192: E121 published; next = E122 warm-spread twin",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -744,11 +744,12 @@
   "smoke": "95/95 PASS"
  },
  "r1190_pit": "'append-only' is a claim about BYTES, not rows: update_one's pandas read_concat_to_csv round-trip rewrote all 1,650 lines of data/daily for three new bars (4.1200 -> 4.12) while every row-level test passed. Any writer tested by read-back row counts will pass while rewriting every line -- assert new_text.startswith(old_text). Sibling: the first fix truncated a 4.35 bar to 4.3 because it inherited the panel's 1dp style unconditionally, so style inheritance must be conditional on exact round-trip.",
+ "r1192_push": "pending",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1191,
- "round_no": 1192,
+ "round_no": 1193,
  "round_no_label": "r1191",
  "round_no_ts": "2026-10-27T22:16:00+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
@@ -771,5 +772,5 @@
  "ts": "2026-10-27T22:16:00+08:00",
  "updated": "2026-10-27T22:16:00+08:00",
  "updated_at": "2026-10-27T22:16:00+08:00",
- "verdict": "green r1191: smoke 96/96 | E120 face published (90 of 163 cells move; level shifts, shape holds) | census selftest 393 -> 403/403 | e97 15/15 + routing re-derived | method card E158 | pool 3 ready -> 2 -> 3 (E122/E123 seeded) | dualrun ZERO-DRIFT streak 13 | audit CLEAN | attrition CLEAN | orphan face=0"
+ "verdict": "green r1192: smoke 98/98 | E121 face published (33 of 114 cells move, 0 calendar) | census selftest 403 -> 416 | routing covered_twin 16 -> 17 uncovered 8 -> 7 | method card E159 | pool 3 ready (E122/E123/E124) | dualrun ZERO-DRIFT streak 14 | audit CLEAN | attrition CLEAN | orphan face=0 | group tree repaired+clean (bm-a r1133)"
 }
