@@ -210,9 +210,10 @@
  "push_verified": {
   "ahead": 0,
   "behind": 0,
-  "note": "r1122 pushed ce11a4806a..438e389f9d after a 7-commit rebase; 3 shared derived faces resolved origin-verbatim; not-on-origin commits=0 verified both directions",
-  "origin_tip": "438e389f9d",
-  "ts": "2026-10-27T05:02:00+08:00"
+  "head": "149551d0b6",
+  "origin_main": "149551d0b6",
+  "ts": "2026-10-27T08:30:10+08:00",
+  "note": "round-1127 + pool re-merge after rebase; empty diff vs origin"
  },
  "ram_free_gb": 25.36,
  "ram_free_mb": 25967,
@@ -237,5 +238,11 @@
  "verify": "CODELY.md rebuild: base blob da99a6e9ce (62 lines, PUA 0) + the three rows appended after it recovered from raw objects by ASCII marker (r1298 utf-8 542 chars, r1165 ascii 1193, r1166 ascii 1255); asserts LF>=5, PUA==0, entry list equality vs the mangled face = 27/27 missing=0 extra=0; Tools/memory_face_guard.py selftest 10/10 + live check PASS (bytes=39373 lf=66 sections=4 entries=28 pua=0); smoke 78/78 PASS 0 FAIL; attrition CLEAN (4 ledgers, 3 historical shrinks healed); orders_ack_scan CLEAN 114/123/0 zero face divergence; saturation_engine status rc1 dead (heartbeat 7127s) -> register_satengine_task + tick -> rc0 alive (heartbeat_age 5s)",
  "verify_r1121": "system_v1_paper selftest 11/11 (new leg [11/11] staleness: 0 -> stale False / 2 -> stale True + 'NOT current' / absent cutoff -> None not 0); live run rc0 wrote staleness{panel_cutoff 2026-10-20, calendar_last 2026-10-26, lag_trading_days 4, stale true}; smoke 75/75 PASS 0 FAIL; attrition CLEAN; orders_ack CLEAN; d19 both faces unchanged and reproducible",
  "verify_r1124": "etf_book_ceo_page selftest 16/16 (new L13 expected_annual_cny == backtest cagr x capital = 110400.00; L14 excess_annual_cny == excess_pp x capital = 80500.00; L15 absent inputs -> None, never 0); live run rc0 rewrote LIVE-BOOK-20261027.md with the money table (110,400 / 80,500 / -60,100 on 1,000,000); smoke 78/78 PASS 0 FAIL; attrition CLEAN 4 ledgers; orders_ack CLEAN 114/123/0; D-19 both faces unchanged and reproducible, advance NOOP; orphan 0/11",
- "vram_free_gb": 1.0
+ "vram_free_gb": 1.0,
+ "sync": {
+  "ahead": 0,
+  "behind": 0,
+  "origin_tip": "149551d0b6",
+  "ts": "2026-10-27T08:30:10+08:00"
+ }
 }

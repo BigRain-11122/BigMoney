@@ -273,7 +273,14 @@
  "orphan_face": "0/17",
  "orphan_faces": 17,
  "orphan_killed": 0,
- "push_verified": {},
+ "push_verified": {
+  "ahead": 0,
+  "behind": 0,
+  "head": "149551d0b6",
+  "origin_main": "149551d0b6",
+  "ts": "2026-10-27T08:30:10+08:00",
+  "note": "round-1127 + pool re-merge after rebase; empty diff vs origin"
+ },
  "ram_free_gb": 25.36,
  "ram_free_mb": 25967,
  "ram_free_pct": 27.1,
@@ -302,7 +309,12 @@
  "s6_face_r1125": "S6 core legs this window: saturation_engine DEAD->revived (rc1->rc0, heartbeat 7127s->5s) | smoke 78/78 | attrition CLEAN 4 ledgers (3 historical shrinks healed) | orders_ack_scan CLEAN 114/123/0 | D-19 decisions DELTA/repro@d39d33e/286825 + orders same/repro@d39d33e/384256 -> consumed D-20261027-01 (7/7 re-enabled by the round) and D-20261027-08 (CODELY.md rebuild = done here) | orphan 0/20 | NOT re-run: the rest of the 50-leg chain was run 05:00-06:00 by r1122-r1124 and nothing it consumes changed (pre-open, no new bar) -- re-burning identical faces is duplication not product",
  "s6_face_r1126": "S6 core legs rc0 this window: attrition CLEAN 4 ledgers (1 historical shrink healed) | compute_audit rc0 FLAG:supply_gap,supply_owner_silent (pool_ready 4 / ready_ignitable 0 / ready_foreign_alive 4 = every ready entry is a foreign alive lane, takeover_candidate_ids=[]) | py_watermark rc0 insufficient_history n=1, red=false | smoke 80/80 | orders_ack_scan CLEAN 114/123/0 zero face divergence | D-19 probe decisions_changed=false orders_changed=false, both digests reproducible at d39d33e, advance NOOP | orphan face 0/17 (resident_servers 1) | NOT re-run: the other chain legs were run 05:00-06:00 by r1122-r1125 and their inputs did not change (pre-open, no new bar) -- re-burning identical faces is duplication, not product",
  "status": "green",
- "sync": {},
+ "sync": {
+  "ahead": 0,
+  "behind": 0,
+  "origin_tip": "149551d0b6",
+  "ts": "2026-10-27T08:30:10+08:00"
+ },
  "task": "r1127: the book now states what its worst days cost in money",
  "total_ram_gb": 93.6,
  "ts": "2026-10-27T08:27:30+08:00",
