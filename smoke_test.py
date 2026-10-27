@@ -646,6 +646,27 @@ def main() -> int:
               f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')}")
     except Exception as e:
         check("product: data lag audit face published", False, str(e))
+    # A marks session can be missing permanently (capture task Disabled, machine
+    # off) or only transiently (today's window is still open), and the T-35
+    # verifier reports both as the same NO_EVIDENCE/rc=1. This face names which
+    # is which; assert it agrees with itself rather than only existing.
+    try:
+        _mc = json.load(open("results/marks_coverage.json", encoding="utf-8"))
+        _rows = {r["date"]: r["status"] for r in _mc.get("days") or []}
+        _holes = _mc.get("holes") or []
+        _want = "complete" if not _holes else f"holes={len(_holes)}"
+        _ok_mc = (bool(_rows)
+                  and all(_rows.get(h) in ("missing_historical", "missing_today")
+                          for h in _holes)
+                  and _mc.get("verdict") == _want
+                  and (_mc.get("counters") or {}).get("holes") == len(_holes))
+        check("product: marks coverage face names its holes", _ok_mc,
+              f"verdict={_mc.get('verdict')} "
+              f"captured={(_mc.get('counters') or {}).get('captured')}/"
+              f"{(_mc.get('counters') or {}).get('closed_days')} "
+              f"last={_mc.get('last_captured')}")
+    except Exception as e:
+        check("product: marks coverage face names its holes", False, str(e))
     # A live paper book priced behind the exchange calendar must say so on its
     # own face (r1121): the SYSTEM-V1 lane consumes a SIG/BARS bridge cutoff,
     # one lane's output, and it sat 4 trading days behind while every other

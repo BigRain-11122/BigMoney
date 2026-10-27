@@ -122,6 +122,11 @@ LEGS = [
     ("alloc_paper", ["python", "scripts/alloc_paper.py", "run"]),
     ("grid_paper", ["python", "scripts/grid_paper.py", "run"]),
     ("system_v1", ["python", "scripts/system_v1_paper.py", "run"]),
+    # r1129: the marks lane feeds the T-35 fill verifier, and a session that was
+    # never captured looks identical to one that is merely late. Classify every
+    # trading day (captured / permanent hole / still pending) so the verifier's
+    # rc=1 can be read as "unrecoverable" instead of "retry tomorrow".
+    ("marks_coverage", ["python", "scripts/marks_coverage.py"]),
     ("t35_export", ["python", "scripts/t35_paper_export.py", "run"]),
     ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),

@@ -201,6 +201,18 @@ def run() -> int:
         return 2
     if rep["verdict"] == "NO_EVIDENCE":
         print(f"  marks file for {day} missing -- marks lane evidence gap")
+        # Say whether this is recoverable: scripts/marks_coverage.py classifies
+        # every session as captured / permanently missing / still pending, so a
+        # reader does not treat a permanent hole as a retry-able miss.
+        cov = os.path.join(PATHS.results_dir, "marks_coverage.json")
+        try:
+            with open(cov, encoding="utf-8") as fh:
+                holes = (json.load(fh).get("holes") or [])
+            if day in holes:
+                print("  permanent hole (capture never happened; "
+                      "see results/marks_coverage.json)")
+        except (OSError, ValueError):
+            pass
         return 1
     return 0
 
