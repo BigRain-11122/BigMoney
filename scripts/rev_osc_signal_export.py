@@ -225,6 +225,40 @@ def np_isfinite(x):
     return x is not None and bool(np.isfinite(x))
 
 
+def panel_readiness(panel):
+    """Can this leg price a signal date off the panel's stated cutoff?
+
+    r1178: the gate used to be `panel["complete"]`, but `complete` is a
+    boolean over the WHOLE universe -- a handful of permanently quarantined
+    symbols keeps it false forever, and this leg sat dead from 2026-10-21
+    while the panel carried 99.8% coverage at its own cutoff (the
+    SYSTEM-V1 paper book froze at 2026-10-20 for 4 trading days because of
+    it). Readiness is a coverage claim, not a completeness claim (E136 /
+    E102 口径: a cutoff is a MAX over a heterogeneous population): ready
+    when coverage at the cutoff clears the panel's own floor and the
+    >=floor-coverage date IS that cutoff.
+    """
+    cutoff = panel.get("cutoff")
+    cov_pct = panel.get("coverage_pct")
+    cov_90 = panel.get("coverage_90")
+    floor = float(panel.get("coverage_floor_pct") or 90.0)
+    detail = {"panel_complete": bool(panel.get("complete")),
+              "cutoff": cutoff, "coverage_pct": cov_pct,
+              "coverage_90": cov_90, "coverage_floor_pct": floor}
+    if panel.get("complete"):
+        detail["basis"] = "complete"
+        return True, detail
+    try:
+        ok_cov = float(cov_pct) >= floor
+    except (TypeError, ValueError):
+        ok_cov = False
+    ok_90 = bool(cutoff) and cov_90 == cutoff
+    detail["basis"] = "coverage" if (ok_cov and ok_90) else "incomplete"
+    detail["coverage_ok"] = ok_cov
+    detail["coverage_90_is_cutoff"] = ok_90
+    return bool(ok_cov and ok_90), detail
+
+
 # ------------------------------ the lane -----------------------------------
 
 def run() -> int:
@@ -238,10 +272,19 @@ def run() -> int:
 
         status = _read_json(STATUS_JSON)
         panel = status.get("panel", {})
-        if not panel.get("complete"):
+        ready, readiness = panel_readiness(panel)
+        if not ready:
             print("rev_osc_signal_export: panel incomplete "
-                  f"(cutoff={panel.get('cutoff')}) -- no-op, harness waits")
+                  f"(cutoff={panel.get('cutoff')} "
+                  f"coverage={panel.get('coverage_pct')}% "
+                  f"coverage_90={panel.get('coverage_90')}) "
+                  "-- no-op, harness waits")
             return 0
+        if readiness["basis"] != "complete":
+            print("rev_osc_signal_export: panel priced on COVERAGE basis "
+                  f"{readiness['coverage_pct']}% at {readiness['cutoff']} "
+                  f"(complete=false is driven by quarantined names; "
+                  f"coverage_90==cutoff) -- proceeding with disclosure")
         cutoff = panel["cutoff"]
 
         os.makedirs(OUT_DIR, exist_ok=True)
@@ -286,6 +329,7 @@ def run() -> int:
         bars = bars_payload(frames, codes, cutoff)
 
         sig["panel_cutoff"] = cutoff
+        sig["panel_readiness"] = readiness
         sig["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
         _atomic_json(sig_path, sig)
         _atomic_json(bars_path, {"schema": "rev_osc_live_bars_v1",
@@ -412,6 +456,41 @@ def selftest() -> int:
        {"date", "gate", "picks", "thin_market", "universe", "schema"}
        <= set(sig) and {"open", "close"} <= set(sig["gate"])
        and {"code", "board", "drop20", "rank"} <= set(sig["picks"][0]))
+
+    # [7/9] readiness: reachable on coverage, not on the completeness boolean
+    r_ok, d_ok = panel_readiness({"complete": True, "cutoff": "2026-10-26",
+                                  "coverage_pct": 99.8,
+                                  "coverage_90": "2026-10-26",
+                                  "coverage_floor_pct": 90})
+    ok("readiness: complete panel -> basis=complete", r_ok
+       and d_ok["basis"] == "complete")
+
+    # [8/9] THE live regression (r1178): a handful of quarantined names keep
+    # complete=false forever while the panel is 99.8% covered at its cutoff --
+    # treating that as "wait" froze the SYSTEM-V1 paper book for 4 sessions.
+    r_cov, d_cov = panel_readiness({"complete": False,
+                                    "cutoff": "2026-10-26",
+                                    "coverage_pct": 99.8,
+                                    "coverage_90": "2026-10-26",
+                                    "coverage_floor_pct": 90})
+    ok("readiness: complete=false + coverage>=floor at cutoff -> ready "
+       "(coverage basis)",
+       r_cov and d_cov["basis"] == "coverage" and d_cov["coverage_ok"])
+
+    # [9/9] guardrail the other way: coverage below floor, or the >=floor
+    # date trailing the cutoff, must still wait.
+    r_lo, _ = panel_readiness({"complete": False, "cutoff": "2026-10-26",
+                               "coverage_pct": 71.0,
+                               "coverage_90": "2026-10-26",
+                               "coverage_floor_pct": 90})
+    r_trail, _ = panel_readiness({"complete": False,
+                                  "cutoff": "2026-10-26",
+                                  "coverage_pct": 99.8,
+                                  "coverage_90": "2026-10-22",
+                                  "coverage_floor_pct": 90})
+    r_none, _ = panel_readiness({"complete": False})
+    ok("readiness: below-floor / trailing-90 / missing fields all still wait",
+       not r_lo and not r_trail and not r_none)
 
     if not ok_all:
         print("SELFTEST FAILED")
