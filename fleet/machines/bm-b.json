@@ -452,7 +452,12 @@
  "verdict": "green r1190: smoke 95/95 | E119 face published (50 of 93 cells move; ladder shape flips monotone->non_monotone while levels hold; copy invariant clean both arms) | census selftest 393/393 | method card E157 | pool 3 ready -> 2 | dualrun ZERO-DRIFT streak 11 | attrition CLEAN | update_daily 3 new bars -> paper chain OK | orphan face=0",
  "vram_free_gb": 3.66,
  "vram_used_gb": 4.3,
- "r1190_push": "pending",
+ "r1190_push": {
+  "sha": "59e2cbf6c0f9ef65189978ade1d725b2294e2750",
+  "status": "PUSHED_VERIFIED",
+  "base": "78d8816d18",
+  "note": "42 files, ahead 0 behind 0 after push"
+ },
  "r1190_defect": "F-20261027-03: update_daily rewrote the whole frozen panel on every append; fixed in-window, panels repaired, digest research/digests/DIGEST-20261027-append-rewrite.md",
  "r1190_pit": "'append-only' is a claim about BYTES, not rows: update_one's pandas read_concat_to_csv round-trip rewrote all 1,650 lines of data/daily for three new bars (4.1200 -> 4.12) while every row-level test passed. Any writer tested by read-back row counts will pass while rewriting every line -- assert new_text.startswith(old_text). Sibling: the first fix truncated a 4.35 bar to 4.3 because it inherited the panel's 1dp style unconditionally, so style inheritance must be conditional on exact round-trip."
 }
