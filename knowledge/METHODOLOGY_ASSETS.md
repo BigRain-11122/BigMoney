@@ -1445,3 +1445,39 @@ in k.
 Evidence: results/e44_midmonth/ENTRYDELAYSCREEN-20261027.json, scripts/e39_panel_census.py
 run_entrydelayscreen / _entrydelay_arm_cells / _lag_ladder_read / _delegation_attribution
 (selftest 380 -> 393), research/digests/DIGEST-20261027-e119-entrydelay-twin.md.
+
+## E158 A frozen bound cannot move: a bracket twin must re-burn its own shoulders (2026-10-27 r1191 bm-b)
+
+`run_neighborhood` publishes a three-point bracket (a session either side of the month
+boundary plus the boundary itself) but burns only the centre: its k-1 / k+1 bounds are read
+off the E65/E66 faces **on disk**. A bound read from a static file is arm-invariant by
+construction, so a same-spec twin of that leg would publish a guaranteed zero shoulder count
+— a measurement that always agrees with itself. Three rules carried out of E120:
+
+1) **Re-burn the shoulders you intend to compare.** The twin burns `neighbors=(1,2,3)` so all
+   three rungs exist on both arms. The consequence must be disclosed in the same breath: the
+   resulting bracket is *not* comparable cell-by-cell with the published face, because the
+   published one mixes a fresh centre with frozen bounds.
+2) **Name each moved cell by its position, not just by the count.** `_neighborhood_cell_role`
+   classifies every cell centre / shoulder / book / baseline, and the published verdict is
+   built from the two counts: centre-only = the repair bends the shape; both = it shifts the
+   level; nothing = the bracket survives. On this face 28 centre + 36 shoulder + 26 book of
+   163 cells moved (max 15 bp) and all four brackets kept their `ramp` label — the repair
+   moved the level, not the shape.
+3) **Classify arms by magnitude, not sign.** The early arms live in the gaps layer as
+   `me_lag-K` (signed) while the published copy renames them `me_mK`; a role keyed on the
+   sign or written only for the published spelling sends half the bracket into "other" — the
+   first burn did exactly that (8 cells mislabelled) and the mislabel survived every numeric
+   check, because the numbers were right and only the naming was wrong. Accept both
+   spellings for one magnitude and assert the role of the signed form in selftest.
+
+Sibling finding worth keeping: **the registry is the range** (third recurrence, E115 -> E118
+-> E119/E120). `run_entrydelayscreen` was burned in the previous round and never declared in
+`TWIN_FUNCS`, so the routing face still called `run_entrydelay` uncovered while the twin sat
+on disk; the L15 leg caught it as a red at the open of this round and the face re-derived
+`covered_twin 14 -> 16, uncovered 10 -> 8`. The habit is not the fix — the selftest leg is.
+
+Evidence: results/e44_midmonth/NEIGHBORHOODSCREEN-20261027.json, scripts/e39_panel_census.py
+run_neighborhoodscreen / _neighborhood_arm_cells / _neighborhood_cell_role /
+_neighborhood_shift_verdict (selftest 393 -> 403), scripts/e97_routing.py TWIN_FUNCS
+(15/15), research/digests/DIGEST-20261027-e120-neighborhood-twin.md.

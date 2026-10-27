@@ -132,6 +132,24 @@
     "calls": [
      "run_staletail"
     ]
+   },
+   {
+    "leg": "entrydelayscreen",
+    "func": "run_entrydelayscreen",
+    "face": "results/e44_midmonth/ENTRYDELAYSCREEN-20261027.json",
+    "calls": [
+     "run_entrydelay",
+     "run_midsweep"
+    ]
+   },
+   {
+    "leg": "neighborhoodscreen",
+    "func": "run_neighborhoodscreen",
+    "face": "results/e44_midmonth/NEIGHBORHOODSCREEN-20261027.json",
+    "calls": [
+     "run_midsweep",
+     "run_neighborhood"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -502,8 +520,10 @@
    "runner": "run_entrydelay",
    "face": "results/e44_midmonth/ENTRYDELAY-20261020-s20130101.json",
    "published_cells": 223,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "entrydelayscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -572,8 +592,10 @@
    "runner": "run_neighborhood",
    "face": "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json",
    "published_cells": 139,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "neighborhoodscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -670,26 +692,6 @@
  ],
  "ranking_uncovered_by_runner": [
   {
-   "runner": "run_entrydelay",
-   "modes": [
-    "entrydelay"
-   ],
-   "published_cells_dedup": 223,
-   "faces": [
-    "results/e44_midmonth/ENTRYDELAY-20261020-s20130101.json"
-   ]
-  },
-  {
-   "runner": "run_neighborhood",
-   "modes": [
-    "neighborhood"
-   ],
-   "published_cells_dedup": 139,
-   "faces": [
-    "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json"
-   ]
-  },
-  {
    "runner": "run_rebalday",
    "modes": [
     "rebalday"
@@ -744,20 +746,6 @@
   }
  ],
  "ranking_uncovered_by_mode": [
-  {
-   "mode": "entrydelay",
-   "runner": "run_entrydelay",
-   "published_cells": 223,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
-  {
-   "mode": "neighborhood",
-   "runner": "run_neighborhood",
-   "published_cells": 139,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
   {
    "mode": "rebalday",
    "runner": "run_rebalday",
@@ -817,12 +805,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 14,
+  "covered_by_twin": 16,
   "covered_twin_by_name": 1,
-  "uncovered": 10,
-  "uncovered_column_only": 6,
-  "uncovered_distinct_runners": 7,
-  "cells_unchanged_by_any_twin": 871
+  "uncovered": 8,
+  "uncovered_column_only": 4,
+  "uncovered_distinct_runners": 5,
+  "cells_unchanged_by_any_twin": 509
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

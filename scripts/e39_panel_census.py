@@ -5765,7 +5765,7 @@ def run_earlydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh51
 # --------------------------------- leg: the month-end NEIGHBOURHOOD (E67)
 
 def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                     costs=(1.0,), neighbors=(2,)):
+                     costs=(1.0,), neighbors=(2,), raw=None):
     """E67: is the one-session penalty a spike on one session, or a ramp?
 
     E65 (late) and E66 (early) each priced 1/3/5/10 sessions off the boundary
@@ -5774,11 +5774,14 @@ def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)
     (early k = `me_mK`, late k = `me_pK`) on the same universe and rank cache,
     then brackets each against the nearest already-burned magnitudes on the
     E65/E66 faces to say whether the penalty is a point kick or a ramp.
+
+    ``raw`` (E120) is the screened-twin seam: the leg delegates to
+    ``run_midsweep``, so a repaired universe is handed down one level unchanged.
     """
     neighbors = tuple(int(k) for k in neighbors)
     lags = tuple(sorted({-k for k in neighbors} | {k for k in neighbors}))
     face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
-                        days=(), costs=costs, lags=lags)
+                        days=(), costs=costs, lags=lags, raw=raw)
     lvl = "x%g" % costs[0]
     gaps = face["gaps"].get(lvl, {})
     rows = {}
@@ -5864,6 +5867,367 @@ def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)
         "shape labels come from a +/-2bp tolerance on three points: they describe the "
         "ladder, they are not a test and no arm here is a recommendation")
     return face
+
+
+# ----------------------------------- E120 neighborhood screened twin
+
+def _neighborhood_arm_cells(face, starts=None):
+    """(E120) -> {(key, column): value} for every cell the neighborhood leg publishes.
+
+    The published reading of this runner is a three-point bracket, so the
+    harvest keeps the three positions APART: the centre (the k the leg burns)
+    and its two shoulders are separate cells. A join that averaged them would
+    be unable to say whether a repair bends the shape or shifts the level,
+    which is the whole question this twin exists to answer.
+    """
+    out = {}
+    lvl = "x%g" % (((face.get("spec") or {}).get("cost_mult_list") or [1.0])[0])
+
+    for lab, book in (face.get("books") or {}).items():
+        book = book or {}
+        key = "book/%s/%s" % (lab, lvl)
+        out[(key, "decision_days")] = book.get("decision_days")
+        out[(key, "mean_sessions_to_month_end")] = (
+            (book.get("offset") or {}).get("mean_sessions_to_month_end"))
+        arm = (book.get("arms") or {}).get(lvl) or {}
+        for col in ("full_window_ann_pct", "turnover_per_year", "cost_per_year_bp"):
+            out[(key, col)] = arm.get(col)
+        for era, ed in (arm.get("eras") or {}).items():
+            out[("book/%s/%s/era/%s" % (lab, lvl, era), "ann_return_pct")] = (
+                (ed or {}).get("ann_return_pct"))
+
+    for lab, gap in ((face.get("gaps") or {}).get(lvl) or {}).items():
+        gap = gap or {}
+        key = "gap/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year", "cost_per_year_bp"):
+            out[(key, col)] = gap.get(col)
+        for era, ed in (gap.get("eras") or {}).items():
+            out[("gap/%s/era/%s" % (lab, era), "gap_bp")] = (ed or {}).get("gap_bp")
+
+    ans = face.get("answers") or {}
+    for lab, row in (ans.get("neighbor_rows") or {}).items():
+        row = row or {}
+        key = "neighbor/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year"):
+            out[(key, col)] = row.get(col)
+        for era, ev in (row.get("eras") or {}).items():
+            out[("neighbor/%s/era/%s" % (lab, era), "gap_bp")] = ev
+    for col in ("neighbor_gap_bp", "neighbor_newest_era_gap_bp"):
+        for lab, v in (ans.get(col) or {}).items():
+            out[("answers/%s/%s" % (col, lab), "gap_bp")] = v
+    for name, br in (ans.get("brackets") or {}).items():
+        br = br or {}
+        for col in ("full_window_bp", "newest_era_bp"):
+            for idx, v in enumerate(br.get(col) or []):
+                out[("bracket/%s/%s/%d" % (name, col, idx), "gap_bp")] = v
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def _arm_rank(label):
+    """(E120) sessions away from the month boundary, read off an arm label.
+
+    ``me`` is 0 (the boundary itself), ``me_mK`` is K sessions early and
+    ``me_lagK`` / ``me_pK`` is K sessions late (the E67 leg republishes the late
+    arm under ``me_pK`` while its source row keeps the ``me_lagK`` name). An
+    unrecognised label returns None so it is published as 'other' rather than
+    silently counted as a shoulder.
+    """
+    lab = str(label or "")
+    if lab == "me":
+        return 0
+    for pre in ("me_m", "me_lag", "me_p"):
+        if lab.startswith(pre):
+            rest = lab[len(pre):]
+            # the early arms live in the gaps layer as me_lag-K (signed), while
+            # the published neighbour rows rename them me_mK: both must classify
+            # to the same magnitude or half the bracket lands in 'other'.
+            try:
+                return int(rest)
+            except ValueError:
+                return None
+    return None
+
+
+def _neighborhood_cell_role(start, centre=2):
+    """(E120) which part of the bracket does a moved cell belong to?
+
+    The seed for this leg says the split IS the deliverable: a repair can move
+    the CENTRE while leaving both shoulders alone, or the reverse. So a moved
+    cell is named by its position and never only counted in a total.
+    """
+    s = str(start or "")
+    if s.startswith("bracket/"):
+        return "centre" if s.endswith("/1") else "shoulder"
+    arm = None
+    if s.startswith("neighbor/") or s.startswith("gap/"):
+        parts = s.split("/")
+        arm = parts[1] if len(parts) > 1 else None
+    elif s.startswith("answers/"):
+        arm = s.rsplit("/", 1)[-1]
+    if arm is not None:
+        k = _arm_rank(arm)
+        if k is None:
+            return "other"
+        if k == 0:
+            return "baseline"
+        # magnitude: the early arms are stored as me_lag-K (negative offset) while
+        # the published copy names them me_mK, and both sit K sessions off the
+        # boundary -- a role computed on the sign would split the same arm in two.
+        return "centre" if abs(k) == int(centre) else "shoulder"
+    if s.startswith("book/"):
+        return "book"
+    return "other"
+
+
+def _neighborhood_shift_verdict(centre_moved, shoulder_moved):
+    """(E120) did the repair bend the bracket's shape or shift its level?"""
+    if centre_moved and not shoulder_moved:
+        return ("centre moved, shoulders held: the repair bends the shape, "
+                "not the level")
+    if centre_moved and shoulder_moved:
+        return ("centre and shoulders moved together: the repair shifts the "
+                "level as well")
+    if shoulder_moved:
+        return ("shoulders moved with the centre held: the bracket is not a "
+                "ladder on this panel")
+    return "nothing moved: the bracket survives the repair"
+
+
+def run_neighborhoodscreen(outdir, start="2020-01-01", pick_n=9999,
+                           exclude=("sh511",), neighbors=(1, 2, 3), centre=2,
+                           costs=(1.0,), mode="neutralise_int", resume=True):
+    """E120: re-derive the month-boundary bracket on the screened arm.
+
+    E97 ranks this runner second on the uncovered list (139 published numbers,
+    one mode). Two things make the twin necessary rather than a copy:
+
+      * the published leg burns only the k arms it was asked for and then
+        brackets them against the E65/E66 faces ON DISK, so its shoulders are
+        frozen -- no repair can move them and a same-spec twin would publish a
+        guaranteed zero shoulder count;
+      * the published reading is a SHAPE ("spike on one session" vs "ramp"), so
+        the twin has to keep the three rung positions apart and say whether the
+        repair bent the shape or merely shifted the level.
+
+    So this leg burns the shoulders itself (neighbors default 1/2/3) on both
+    arms and composes the bracket from its own rows, then publishes the
+    centre/shoulder split of the moved cells.
+
+    Same machinery as E112-E119 otherwise: one load, both arms burned off it,
+    per-arm checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm
+    control that must read zero, and a cutoff control against the newest
+    previously published raw neighborhood face.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    neighbours = tuple(int(k) for k in neighbors)
+    if int(centre) not in neighbours:
+        raise ValueError("centre=%r must be one of neighbors=%r"
+                         % (centre, neighbours))
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "NEIGHBOR-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "NEIGHBOR-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(start=start, pick_n=pick_n, exclude=exclude,
+              neighbors=neighbours, costs=costs)
+    raw_arm = cached("raw", lambda: run_neighborhood(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_neighborhood(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _neighborhood_arm_cells(raw_arm)})
+    no_dates = lambda face, ks: {}
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_neighborhood_arm_cells, dates_fn=no_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_neighborhood_arm_cells,
+                                dates_fn=no_dates)["summary"]
+
+    # cutoff control: newest published raw neighborhood face vs today's raw arm.
+    # Same arm, two cutoffs, so it sizes the panel refresh beside the repair.
+    # Only the k arms the older face actually burned are shared, so the one-sided
+    # counts of that join are structural (new shoulder arms), not a defect.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("NEIGHBORHOOD-") and p.endswith(".json")
+                    and not p.startswith("NEIGHBORHOODSCREEN-")
+                    and not p.startswith("NEIGHBOR-arm-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("NEIGHBORHOOD-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_neighborhood_arm_cells,
+                                     dates_fn=no_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+            "one_sided_is_structural": True,
+        }
+        break
+
+    s = pair["summary"]
+    by_role = {}
+    for r in pair["moved"]:
+        by_role.setdefault(_neighborhood_cell_role(r["start"], centre), []).append(r)
+    roles = {role: {"cells_moved": len(rs),
+                    "max_abs_delta": round(max(abs(x["delta"]) for x in rs), 4)}
+             for role, rs in sorted(by_role.items())}
+    centre_moved = len(by_role.get("centre") or [])
+    shoulder_moved = len(by_role.get("shoulder") or [])
+    survives = _twin_survives(s, control)
+
+    # the bracket itself, composed from THIS leg's own rows on each arm -- no
+    # frozen faces, so a shoulder delta is a measurement rather than an artefact
+    # of not re-burning it.
+    def _bracket_rows(face, side, era=None):
+        ans = face.get("answers") or {}
+        d = ((ans.get("neighbor_newest_era_gap_bp") if era
+              else ans.get("neighbor_gap_bp")) or {})
+        labs = [("me_m%d" % k if side == "early" else "me_p%d" % k)
+                for k in (centre - 1, centre, centre + 1)]
+        return labs, [d.get(x) for x in labs]
+
+    brackets = {}
+    for side in ("early", "late"):
+        for wname, era in (("full_window", None), ("newest_era", "2024_now")):
+            per_arm = {}
+            for label, face in (("raw", raw_arm), ("screened", scr_arm)):
+                labs, vals = _bracket_rows(face, side, era)
+                per_arm[label] = {
+                    "labels": labs,
+                    "gap_bp": [None if v is None else round(v, 3) for v in vals],
+                    "shape": _bracket_shape(vals),
+                }
+            brackets["%s_%s" % (side, wname)] = {
+                "raw": per_arm["raw"],
+                "screened": per_arm["screened"],
+                "shape_survives": per_arm["raw"]["shape"] == per_arm["screened"]["shape"],
+            }
+
+    return {
+        "study": "e120_neighborhood_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "neighbor_sessions": list(neighbours), "centre_sessions": int(centre),
+            "cost_mult_list": list(costs), "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_neighborhood delegates to run_midsweep, so raw= is "
+                     "threaded through both layers"),
+            "shoulders": ("the twin burns neighbours 1..%d itself; the published "
+                          "E67 leg instead reads its k-1 / k+1 bounds from the "
+                          "E65/E66 faces on disk, where no repair can move them"
+                          % max(neighbours)),
+            "join": ("_neighborhood_arm_cells keeps the three bracket positions "
+                     "apart and _neighborhood_cell_role names each moved cell "
+                     "centre / shoulder / book / answers, so the split is the "
+                     "published reading rather than a total"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "brackets": brackets,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for "
+                            "gaps, percent per year for annualised returns, "
+                            "turns/yr for turnover, sessions for offsets -- the "
+                            "summary max is a max over mixed units and is a "
+                            "screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "moved_by_role": roles,
+            "centre_cells_moved": centre_moved,
+            "shoulder_cells_moved": shoulder_moved,
+            "shift_verdict": _neighborhood_shift_verdict(centre_moved,
+                                                         shoulder_moved),
+            "control_cells_moved": control["cells_moved"],
+            "bracket_shapes": {k: {"raw": v["raw"]["shape"],
+                                   "screened": v["screened"]["shape"],
+                                   "shape_survives": v["shape_survives"]}
+                               for k, v in brackets.items()},
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "old_cutoff": cutoff_control["old_cutoff"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the bracket survives the repair: %d of %d cells move "
+                 "(%d centre / %d shoulder)"
+                 % (s["cells_moved"], s["cells_compared"], centre_moved,
+                    shoulder_moved))
+                if survives else
+                ("the repair reaches the bracket: %d of %d cells move "
+                 "(%d centre, %d shoulder, %d other) and %d cell(s) exist on "
+                 "one arm only"
+                 % (s["cells_moved"], s["cells_compared"], centre_moved,
+                    shoulder_moved,
+                    s["cells_moved"] - centre_moved - shoulder_moved,
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the shoulders are re-burned rather than read off the E65/E66 faces, "
+            "because a frozen bound cannot move under a repair: the split here "
+            "is a measurement on both arms, and it is NOT comparable cell by "
+            "cell with the published E67 face",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged universe_members count "
+            "is a property of the repair, not evidence the panel is clean",
+            "bracket shapes come from a +/-2bp tolerance on three points and are "
+            "a description of one centre and its two neighbours, not a fitted "
+            "curve and not a recommendation",
+            "the cutoff control joins an older raw face whose neighbour set is "
+            "narrower, so its one-sided count is structural and only the shared "
+            "cells carry the refresh reading",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "book/gap/neighbor/answers/bracket cells, not the pointer fields",
+            "the published routine emits a bracket for EVERY burned magnitude, so "
+            "its k=1 and k=3 brackets reach k=0 and k=4, which this leg does not "
+            "burn: those four cells read null on both arms by construction, and "
+            "only the centre bracket is complete",
+        ],
+    }
 
 
 # --------------------------------- leg: month-end vs the weekly grid (E69/E70)
@@ -12351,6 +12715,115 @@ def selftest():
     chk("raw" in _inspect.signature(run_midsweep).parameters,
         "E119 ...and reaches the layer it delegates to")
 
+    # --- E120: the neighborhood bracket and its centre/shoulder split --------
+    # The published E67 leg reads its shoulders off frozen E65/E66 faces, so a
+    # repair cannot move them. These legs pin the opposite design: the twin
+    # burns the shoulders itself, keeps the three rung positions apart, and
+    # reports which positions moved rather than only how many cells did.
+    def _syn_neigh(centre_bp=-30.0, shoulder_bp=-10.0, universe=665,
+                   extra_shoulder=False):
+        books, gaps_ = {}, {}
+        for k in (1, 2, 3) + ((4,) if extra_shoulder else ()):
+            v = centre_bp if k == 2 else shoulder_bp
+            for lab, src in (("me_m%d" % k, "me_m%d" % k),
+                             ("me_p%d" % k, "me_lag%d" % k)):
+                books[lab] = {"decision_days": 81,
+                              "offset": {"mean_sessions_to_month_end": float(k)},
+                              "arms": {"x1": {"full_window_ann_pct": 8.0,
+                                              "turnover_per_year": 1.2,
+                                              "cost_per_year_bp": 12.5,
+                                              "eras": {"2024_now": {"ann_return_pct": 7.0}}}}}
+                gaps_[src] = {"full_window_gap_bp": v, "turnover_per_year": 1.2,
+                              "cost_per_year_bp": 12.5,
+                              "eras": {"2024_now": {"gap_bp": v}}}
+        books["me"] = {"decision_days": 81,
+                       "offset": {"mean_sessions_to_month_end": 0.0},
+                       "arms": {"x1": {"full_window_ann_pct": 9.0,
+                                       "turnover_per_year": 1.1,
+                                       "cost_per_year_bp": 12.0,
+                                       "eras": {"2024_now": {"ann_return_pct": 8.0}}}}}
+        gaps_["me"] = {"full_window_gap_bp": 0.0, "turnover_per_year": 1.1,
+                       "cost_per_year_bp": 12.0,
+                       "eras": {"2024_now": {"gap_bp": 0.0}}}
+        rows = {"me_m2": {"full_window_gap_bp": centre_bp,
+                          "turnover_per_year": 1.2,
+                          "eras": {"2024_now": centre_bp}},
+                "me_p2": {"full_window_gap_bp": centre_bp,
+                          "turnover_per_year": 1.2,
+                          "eras": {"2024_now": centre_bp}}}
+        ladder = [shoulder_bp, centre_bp, shoulder_bp]
+        br = {"early_k2": {"labels": ["me_m1", "me_m2", "me_m3"],
+                           "full_window_bp": list(ladder),
+                           "newest_era_bp": list(ladder)},
+              "late_k2": {"labels": ["me_p1", "me_p2", "me_p3"],
+                          "full_window_bp": list(ladder),
+                          "newest_era_bp": list(ladder)}}
+        return {"study": "e67_monthend_neighborhood",
+                "evidence_cutoff": "2026-10-27",
+                "spec": {"pick_n": 9999, "start": "2020-01-01",
+                         "cost_mult_list": [1.0], "universe_members": universe},
+                "books": books, "gaps": {"x1": gaps_},
+                "answers": {"neighbor_rows": rows,
+                            "neighbor_gap_bp": {k: v["full_window_gap_bp"]
+                                                for k, v in rows.items()},
+                            "neighbor_newest_era_gap_bp": {
+                                k: v["eras"]["2024_now"] for k, v in rows.items()},
+                            "brackets": br},
+                "honest": ["a pointer line, not a measurement"]}
+
+    _c120 = _neighborhood_arm_cells(_syn_neigh())
+    chk(("neighbor/me_m2", "full_window_gap_bp") in _c120
+        and ("gap/me_lag2", "full_window_gap_bp") in _c120
+        and ("book/me_p1/x1", "full_window_ann_pct") in _c120
+        and ("bracket/early_k2/full_window_bp/2", "gap_bp") in _c120
+        and ("answers/neighbor_gap_bp/me_p2", "gap_bp") in _c120,
+        "E120 the harvest walks book -> gaps -> neighbor copy -> answers -> bracket")
+    chk(_neighborhood_cell_role("bracket/early_k2/full_window_bp/1") == "centre"
+        and _neighborhood_cell_role("bracket/early_k2/full_window_bp/0") == "shoulder"
+        and _neighborhood_cell_role("bracket/late_k2/newest_era_bp/2") == "shoulder",
+        "E120 the bracket centre is a different cell from its two shoulders")
+    chk(_neighborhood_cell_role("gap/me_lag2") == "centre"
+        and _neighborhood_cell_role("gap/me_m2") == "centre"
+        and _neighborhood_cell_role("gap/me_m1") == "shoulder"
+        and _neighborhood_cell_role("gap/me") == "baseline",
+        "E120 an arm is classified by how many sessions it sits off the boundary")
+    chk(_neighborhood_cell_role("gap/me_lag-2") == "centre"
+        and _neighborhood_cell_role("gap/me_lag-1") == "shoulder"
+        and _neighborhood_cell_role("gap/me_lag-3") == "shoulder",
+        "E120 the SIGNED early arms classify by magnitude, not by sign")
+    _k120 = sorted({k[0] for k in _c120})
+    _nd120 = lambda face, ks: {}
+    _s120 = _burnin_pair_rows(_syn_neigh(), _syn_neigh(), _k120,
+                              cells_fn=_neighborhood_arm_cells,
+                              dates_fn=_nd120)["summary"]
+    chk(_s120["cells_moved"] == 0 and _s120["max_abs_delta_pp"] == 0.0,
+        "E120 the same neighborhood face joined against itself reads zero")
+    _mv120 = _burnin_pair_rows(_syn_neigh(), _syn_neigh(centre_bp=-45.0), _k120,
+                               cells_fn=_neighborhood_arm_cells,
+                               dates_fn=_nd120)["moved"]
+    _roles120 = sorted({_neighborhood_cell_role(r["start"]) for r in _mv120})
+    chk(_roles120 == ["centre"],
+        "E120 a centre-only repair moves centre cells and leaves every shoulder")
+    _mv120b = _burnin_pair_rows(_syn_neigh(), _syn_neigh(centre_bp=-45.0,
+                                                        shoulder_bp=-25.0),
+                                _k120, cells_fn=_neighborhood_arm_cells,
+                                dates_fn=_nd120)["moved"]
+    _roles120b = sorted({_neighborhood_cell_role(r["start"]) for r in _mv120b})
+    chk("centre" in _roles120b and "shoulder" in _roles120b,
+        "E120 a repair that also moves the shoulders is published as both")
+    chk(_neighborhood_shift_verdict(True, False).startswith("centre moved")
+        and _neighborhood_shift_verdict(True, True).startswith("centre and shoulders")
+        and _neighborhood_shift_verdict(False, False).startswith("nothing moved")
+        and _neighborhood_shift_verdict(False, True).startswith("shoulders moved"),
+        "E120 the shift verdict names shape vs level from the two counts alone")
+    _side120 = _burnin_pair_rows(_syn_neigh(), _syn_neigh(extra_shoulder=True),
+                                 _k120, cells_fn=_neighborhood_arm_cells,
+                                 dates_fn=_nd120)["summary"]
+    chk(_side120["only_in_screened"] > 0 and _side120["cells_moved"] == 0,
+        "E120 a shoulder that exists on one arm only is one-sided, not a zero delta")
+    chk("raw" in _inspect.signature(run_neighborhood).parameters,
+        "E120 run_neighborhood carries the raw= arm seam the twin burns on")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -14742,6 +15215,7 @@ def main(argv):
                              "midsweep", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
+                             "neighborhoodscreen",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "staletailscreen",
                              "panelsplit", "panelsplitscreen",
@@ -14765,6 +15239,13 @@ def main(argv):
                     help="comma-separated decision lags in sessions (entrydelay leg)")
     ap.add_argument("--neighbors", default="2",
                     help="comma-separated new magnitudes in sessions (neighborhood leg)")
+    ap.add_argument("--neighbor-set", default="1,2,3",
+                    help="comma-separated magnitudes the twin burns itself, so the "
+                         "shoulders are measured rather than read off frozen faces "
+                         "(neighborhoodscreen leg)")
+    ap.add_argument("--centre", type=int, default=2,
+                    help="which magnitude is the bracket centre "
+                         "(neighborhoodscreen leg)")
     ap.add_argument("--gaps", default="1,2,5",
                     help="comma-separated gap limits in sessions (gapsplit leg)")
     ap.add_argument("--max-limit", type=int, default=20,
@@ -15396,6 +15877,26 @@ def main(argv):
                                            "newest_era_bp": v["newest_era_bp"]}
                                        for k, v in f["answers"]["brackets"].items()}},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "neighborhoodscreen":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_neighborhoodscreen(
+            outdir, start=args.start, costs=costs, centre=args.centre,
+            neighbors=tuple(int(x) for x in args.neighbor_set.split(",")
+                            if x.strip()))
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "NEIGHBORHOODSCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "neighborhoodscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": {k: f["answers"][k] for k in
+                                      ("cells_compared", "cells_moved",
+                                       "moved_by_role", "shift_verdict",
+                                       "bracket_shapes",
+                                       "counts_survive_the_repair")},
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "weeklyclash":
         costs = (tuple(float(x) for x in args.costs.split(","))

@@ -71,6 +71,14 @@ TWIN_FUNCS = {
     # two screens agree on which prints are impossible.
     "run_staletailscreen": ("staletailscreen",
                             "results/e44_midmonth/STALETAILSCREEN-*.json"),
+    # E119/E120: the registry-as-range pit recurred a third time. r1190 burned
+    # run_entrydelayscreen and did not declare it, so the routing face still
+    # called run_entrydelay uncovered while its twin sat on disk. L15 was red at
+    # the open of r1191 -- the leg did its job; both twins are declared here.
+    "run_entrydelayscreen": ("entrydelayscreen",
+                             "results/e44_midmonth/ENTRYDELAYSCREEN-*.json"),
+    "run_neighborhoodscreen": ("neighborhoodscreen",
+                               "results/e44_midmonth/NEIGHBORHOODSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")
