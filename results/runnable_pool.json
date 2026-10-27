@@ -22208,7 +22208,11 @@
    "status": "ready",
    "seeded_at": "2026-10-28T03:05:00+08:00",
    "seeded_by": "bm-b r1198"
-  },
+  ,
+   "result_ref": "results/e79/SCREENREACH-2026-10-27.json",
+   "done_at": "2026-10-28T04:20:00+08:00",
+   "done_by": "bm-b r1199",
+   "done_note": "32 screened files classified (14 declared twins, 18 earlier sweeps). 18 rows carry no cutoff control at all (all of the sweep generation). On matched denominators the repair/refresh ordering is repair 5 / refresh 5 / tied 3; the neighbourhood twin is excluded because its 90/163 repair count is compared against a 3/9 shared-cell refresh count (30x is a denominator artefact). Every face with a census has zero ladder names neutralised (29 of 29) yet only CASHLegSCREEN publishes that fact; 3 declared faces publish no census at all, so their ladder verdict is unknown, not a control."},
   {
    "id": "E128-CASHDRAG-PERBOOK-WINDOW",
    "title": "run_cashdrag publishes a cash ATTRIBUTION for two books (ladder 36.0bp, wide 37.0bp) but a cash MECHANISM for one: first_trading_rebalance_index / cash_bars / cash_bar_share_pct are computed from the ladder's eligibility alone. The two attributions differ by 1bp and nothing on the face says whether that is a window difference or a rate difference. Publish the window per book (first trading rebalance, cash bars, share) beside each book's attribution, and carry the arithmetic identity rate x share vs measured attribution as a published residual with a tolerance, per book -- a residual that grows is a defect in the attribution, not a market fact.",

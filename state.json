@@ -11,15 +11,15 @@
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
   "round_ref": 1195,
-  "ts": "2026-10-28T03:46:13+08:00"
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-10-28T03:46:13+08:00",
+  "verbatim": true
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
@@ -61,6 +61,7 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
+ "last_round": "r1199",
  "last_round_at": "2026-10-27T17:31:00+08:00",
  "last_round_report": "r1176 E97: routing table published; 21 of 25 charged modes have no screened twin; largest uncovered burn run_burnin 1727 numbers",
  "last_round_ts": "2026-10-27T17:31:00+08:00",
@@ -69,6 +70,7 @@
  "latest_artifact": "results/e44_midmonth/PANELSPLITSCREEN-20261027.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
+ "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
  "next": "E118 staletail screened twin (E97 ranking after E117: staletail 228 numbers)",
  "next_milestone": "E118 staletail screened twin + digest, window <=48h (deadline 2026-10-29 17:30)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
@@ -451,47 +453,70 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
+ "r1184_card": "E153 (yielded from E151: bm-c published E151 'two arms fitted by one code path' and E152 in the same window; both kept, mine renumbered across card / state / heartbeat / round report)",
+ "r1184_card_yield": true,
+ "r1184_note": "E117: the twin whose subject IS the repair. The rule kept: split count columns from value columns in answers, because a count delta here is the repair working, not instability. Derived-denominator trap disclosed (by_era years measured between surviving events -> bp_per_year inherits it). D-20261027-08 verified already executed (CODELY.md LF 81 / PUA 0 / 48048B); D-20261027-09/11/12/13 are HQ-owned, no action here. Group orders OB-20261027-170356-791 / -170546-497 (fleet order-bus): cph4/fleet/order-bus does not exist at origin -> zero bus items to self-claim this round, re-checked each round once the bus materialises",
+ "r1184_pit": "state.json and fleet/machines/bm-b.json came back CRLF from a tool write (core.autocrlf=false here): normalize to LF before staging or a 17-line edit reads as a 1018-line rewrite",
+ "r1194_push": "cc571f959b8407bec41e9bfb46990eca529618c4",
+ "r1198_push": {
+  "behind_origin_main": 0,
+  "note": "first attempt, no claw block; four-way verified (HEAD==origin/main==09df85ece, ahead=0 behind=0, ls-tree origin carries the digest and the CASHLegSCREEN face). Targeted add only: the drama lane faces (content/drama/QUEUE.md, ROUND-LOG.md, loop_state.json) and the stray results/_smoke_r1188b.err were left untouched because they were dirty at open and are not this round's output.",
+  "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T03:48:26+08:00"
+ },
+ "r1199": {
+  "d19": "decisions same / orders same (repro@f702a0e, 253416 / 397106 bytes), delta none, phantom none; 114 order files / 115 acked / unacked 0",
+  "defects_fixed": [
+   "F-20261028-07: repair/refresh ratios were published without denominators; NEIGHBORHOODSCREEN 90/163 vs 3/9 = 30x is an artefact. cells_compared now published on both sides, denominators_differ flagged, mismatched rows kept out of the matched tally",
+   "F-20261028-08: a missing screen census was read as zero neutralised names, i.e. as a control. Now null + no_screen_census, and the aggregate asserts the ladder reading only over rows that carry a census",
+   "the selftest live leg resolved TWIN_FUNCS globs against the temp fixture root that build() leaves in ROOT; it now names the repo root and reads declared faces off the ledger"
+  ],
+  "finding": "the repair-vs-refresh ordering is not a family law: 14 declared twins with both numbers read repair_dominates 5 / refresh_dominates 5 / tied 3 on matched denominators (naive 6/5/3). 18 of 32 screened faces carry NO cutoff control at all (the whole sweep generation). Extremes CUTCURVE 126/330 vs 68/330 (1.85x) and CHASE 5/95 vs 16/95 (0.31x): the repair matters most exactly where the face is about the burn-in curve and least where the book re-picks weekly",
+  "ladder": "29 of 32 rows publish a screen census and ZERO of them neutralise a ladder name, so every ladder row in this family is a control arm; only CASHLegSCREEN publishes that fact. 3 declared faces (NEUTRAL x2, ROBUST) publish no census at all, so their ladder verdict is unknown, not a control",
+  "mission": "S1 red at open (smoke 107/108: GPU face self-consistent) -> repaired; pool head E127 screen-reach ledger burned and published",
+  "not_run": "strategy_scorecard / market_clock_call / daily_scorecard / build_status are bm-a host-guarded; long collectors are bm-a lanes",
+  "pit": "two moved counts are not a comparison until they sit on the same cells (publish both denominators), and an absent census is not an empty census (unknown is not true); also a family-level claim built from four consecutive faces is a sample -- the fifth and sixth ordering showed up as soon as the whole family was read at once",
+  "product": [
+   "results/e79/SCREENREACH-2026-10-27.json (new ledger face, 32 rows)",
+   "research/digests/DIGEST-20261028-r1199-e127-screen-reach-ledger.md",
+   "knowledge/METHODOLOGY_ASSETS.md E165",
+   "scripts/e97_routing.py: screenreach mode + LADDER_NAMES/_screen_block/_nonzero_delta_rows/_ordering/_repair_count/ledger_row/screen_reach_ledger/run_screenreach (selftest 15 -> 29)",
+   "results/runnable_pool.json E127 -> done with result_ref + done_note",
+   "fleet/machines/bm-b.json GPU face rebuilt from one probe (Tools/gpu_face.py apply)"
+  ],
+  "s1": "smoke opened 107/108 (GPU face self-consistent on bm-b: 17 keys disagreeing, gpu_free_vram_gb 0.1 vs gpu_free_mib 317 vs gpu_mem_free_mib 3577); gpu_face apply rewrote the face from one nvidia-smi probe (24 applied / 26 replaced / gpu_free_gb dropped), audit [] over 31 keys, smoke re-run 108/108",
+  "s6": "dualrun ZERO-DRIFT 651 entries streak 3 | compute_audit FLAG:gpu_unauthorized,supply_gap | watermark insufficient_history (n=1) | update_daily 0 new rows (cutoff 2026-10-27) | market_regime hs300<MA200 / crash10d -5.1% / breadth 0.85 | attrition CLEAN 4 ledgers (1 healed) | orphan face=0 (10 py faces)",
+  "selftest": "e97 15 -> 29/29; smoke 108/108"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1198,
- "round_no": 1199,
- "round_no_label": "r1198",
+ "round": 1199,
+ "round_no": 1200,
+ "round_no_label": "r1199",
+ "round_no_ts": "2026-10-28T04:24:00+08:00",
  "sat_engine": {
   "checked_at": "2026-10-22T23:28:23+08:00",
   "status": "alive (exit 0 at round start)"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+ "status": "green",
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
   "note": "base = origin tip 93b634836 (r1197); pushed 09df85ece",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T03:48:26+08:00",
-  "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f"
- },
- "task": "r1199: E127 screen-reach ledger (the new supply axis -- E97 uncovered is now 0) or E126 tilt3 reach-back",
- "task_short": "E127 screen-reach ledger",
- "ts": "2026-10-28T03:46:50+08:00",
- "updated": "2026-10-28T03:46:50+08:00",
- "updated_at": "2026-10-28T03:46:50+08:00",
- "verdict": "green r1198: E125 cashdrag screened twin shipped -- the cash leg's CONTRIBUTION survives the print repair and the book's LEVEL does not (18/63 cells move, all on the all-name book, identical +0.36pp delta at x0/x1/x3; 0 mechanism / 0 answer cells move, cash attribution 36.0bp ladder / 37.0bp wide / 109-111bp at x3 bit-identical, first invested bar 2021-02-01 unchanged); new ladder_exposure block proves 67 neutralised names touch ZERO ladder names, so every ladder row in this family is a control arm; routing covered_twin 23 -> 24, uncovered 1 -> 0 (E97 axis exhausted); smoke 108/108 | e39 selftest 476/476 | dualrun ZERO-DRIFT streak 2 | attrition CLEAN | orphan 0 | d19 orders delta consumed+advanced",
- "r1184_note": "E117: the twin whose subject IS the repair. The rule kept: split count columns from value columns in answers, because a count delta here is the repair working, not instability. Derived-denominator trap disclosed (by_era years measured between surviving events -> bp_per_year inherits it). D-20261027-08 verified already executed (CODELY.md LF 81 / PUA 0 / 48048B); D-20261027-09/11/12/13 are HQ-owned, no action here. Group orders OB-20261027-170356-791 / -170546-497 (fleet order-bus): cph4/fleet/order-bus does not exist at origin -> zero bus items to self-claim this round, re-checked each round once the bus materialises",
- "r1184_pit": "state.json and fleet/machines/bm-b.json came back CRLF from a tool write (core.autocrlf=false here): normalize to LF before staging or a 17-line edit reads as a 1018-line rewrite",
- "r1184_card": "E153 (yielded from E151: bm-c published E151 'two arms fitted by one code path' and E152 in the same window; both kept, mine renumbered across card / state / heartbeat / round report)",
- "r1184_card_yield": true,
- "round_no_ts": "2026-10-28T03:46:50+08:00",
- "status": "green",
- "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
- "r1194_push": "cc571f959b8407bec41e9bfb46990eca529618c4",
- "r1198_push": {
   "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f",
   "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T03:48:26+08:00",
-  "behind_origin_main": 0,
-  "note": "first attempt, no claw block; four-way verified (HEAD==origin/main==09df85ece, ahead=0 behind=0, ls-tree origin carries the digest and the CASHLegSCREEN face). Targeted add only: the drama lane faces (content/drama/QUEUE.md, ROUND-LOG.md, loop_state.json) and the stray results/_smoke_r1188b.err were left untouched because they were dirty at open and are not this round's output."
- }
+  "ts": "2026-10-28T03:48:26+08:00"
+ },
+ "task": "r1200: E128 cashdrag per-book window (the 36.0 vs 37.0bp attribution gap is unexplained: mechanism is ladder-only, attribution is per book) or E126 tilt3 reach-back",
+ "task_short": "E128 cashdrag per-book window",
+ "ts": "2026-10-28T04:24:00+08:00",
+ "updated": "2026-10-28T04:24:00+08:00",
+ "updated_at": "2026-10-28T04:24:00+08:00",
+ "verdict": "green r1199: E127 cross-twin screen-reach ledger shipped -- 32 screened faces classified, the repair/refresh ordering is 5/5/3 on matched denominators rather than a family law, 18 faces carry no cutoff control at all, and 29 of 29 census-bearing faces have zero ladder names neutralised while only one publishes it; S1 red (GPU face half-owned, 17 keys) repaired in-window with one probe; smoke 108/108 | e97 selftest 29/29 | dualrun ZERO-DRIFT streak 3 | attrition CLEAN | orphan 0"
 }

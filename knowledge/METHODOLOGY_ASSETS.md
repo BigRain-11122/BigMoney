@@ -1652,3 +1652,28 @@ ladder names carry +248.55% and +176.27% gapped prints that the screen keeps tod
 Evidence: results/e40_cashleg_drag/CASHLegSCREEN-20261027.json, per-arm checkpoints,
 _cash_arm_cells/_cash_arm_dates/_cash_arrows/_ladder_exposure + run_cashdragscreened
 (selftest 459 -> 476), research/digests/DIGEST-20261028-r1198-e125-cashdrag-screened.md.
+
+## E165 Two counts are not a comparison until they sit on the same cells, and a missing census is not a null census (2026-10-28 r1199 bm-b)
+
+E122-E125 each published "the repair moved X cells, the data refresh moved Y" and let the reader
+rank them. Collecting all fourteen twin faces into one ledger
+(`results/e79/SCREENREACH-2026-10-27.json`) shows the ranking is **not** uniform: 5 faces are
+repair-dominated, 5 refresh-dominated, 3 tied -- the family's four published orderings (3.6x,
+equal, equal, refresh-bigger) were a sample, not a law. Two ways the ratio lies:
+
+1. **Different denominators.** `NEIGHBORHOODSCREEN` publishes 90 moved of 163 repair cells beside
+   a cutoff control that shares only 9 cells: 90/3 = 30x reads as the biggest repair in the family
+   and is an artefact of the refresh arm having a ninth of the surface. Publish `cells_compared`
+   on BOTH sides, flag the mismatch, and keep those rows out of any matched tally.
+2. **Absent census read as empty census.** Two declared twins (`NEUTRAL`, `ROBUST`) publish no
+   per-name screen census. Treating the missing block as "zero names neutralised" prints
+   `ladder_row_is_a_control = true` for a face that never said which names it touched. A verdict
+   the face cannot support is `null` + a flag, and the aggregate must count those rows separately
+   (29 of 32 have a census; the ladder reading is only asserted over those 29).
+
+Third finding worth carrying: the ladder-control fact itself is published by exactly ONE of the
+29 faces that rely on it. A reading every sibling depends on belongs in the shared ledger, not in
+the newest face that happened to think of it -- which is what this leg exists to be.
+
+Evidence: results/e79/SCREENREACH-2026-10-27.json, scripts/e97_routing.py (`screenreach` mode,
+selftest 15 -> 29), research/digests/DIGEST-20261028-r1199-e127-screen-reach-ledger.md.
