@@ -54,7 +54,13 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_watermark": "c067b3b20f6b8138@d39d33e/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
- "last_push": "c6bd76814 -> origin/main (behind=0 ahead=0)",
+ "last_push": {
+  "behind_origin_main": 0,
+  "note": "ff after one --autostash rebase over bm-c r1309; E146->E147 card yield; lane state mirror repaired by key patch (49 keys had been lost by a copy)",
+  "pushed_sha": "d30356e54",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T15:26:56+08:00"
+ },
  "last_round_at": "2026-10-27T15:14:12+08:00",
  "last_round_report": "r1176 E97: routing table published; 21 of 25 charged modes have no screened twin; largest uncovered burn run_burnin 1727 numbers",
  "last_round_ts": "2026-10-27T15:14:12+08:00",
@@ -436,6 +442,15 @@
  },
  "r1176_note": "E97 closes the routing gap E94/E109 left: E109 fixed the repair factor on the 14 legs that join a screened arm themselves, but the base faces a reader opens are still unscreened. Coverage had to be resolved from the call graph - a face-content test collides on generic metric names. Pool: E97 done with result_ref, E112-BURNIN-SCREENED-TWIN seeded ready (ready 2, below the 3 floor, kept honest).",
  "r1176_pit": "a twin-existence test on face contents is unusable: generic metric names (ann_return_pct/sharpe/max_drawdown_pct) matched 7 of 25 charged modes to an unrelated twin at ratio 1.00, so coverage must come from the call graph (twin calls base runner) plus a body-built channel (shared >=4-char filename root, >=3 body mentions). Sibling: one burn feeds several modes, so rank unscreened work per RUNNER - a per-mode ranking double-counts the same burn.",
+ "r1181_card_yield": "bm-c r1309 published E146 in the same window -> this round card renumbered E147, theirs kept verbatim",
+ "r1181_pit": "copying one state face over another (state.json -> state-bm-b.json) destroyed 49 keys that existed only on the mirror; patch keys, never copy faces. Sibling: a later arrival yields the method-card number -- same-ID block conflicts are resolved by keeping the earlier card verbatim and renumbering yours, then re-pointing every state/report reference to the new id",
+ "r1181_push": {
+  "behind_origin_main": 0,
+  "note": "ff after one --autostash rebase over bm-c r1309; E146->E147 card yield; lane state mirror repaired by key patch (49 keys had been lost by a copy)",
+  "pushed_sha": "d30356e54",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T15:26:56+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",

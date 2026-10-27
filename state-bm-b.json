@@ -70,7 +70,13 @@
  "last_orders_sha_probe_at": "2026-10-21T00:50:20+0800",
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
- "last_push": "b6f16839d -> origin/main (behind=0 ahead=0, four-way verified)",
+ "last_push": {
+  "behind_origin_main": 0,
+  "note": "ff after one --autostash rebase over bm-c r1309; E146->E147 card yield; lane state mirror repaired by key patch (49 keys had been lost by a copy)",
+  "pushed_sha": "d30356e54",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T15:26:56+08:00"
+ },
  "last_round_at": "2026-10-27T15:14:12+08:00",
  "last_round_report": "r1175 E111: repair_factor stamped in e39 write_json; burncontrol publishes version_unknown for 70 unstamped faces",
  "last_round_ts": "2026-10-27T15:14:12+08:00",
@@ -577,6 +583,15 @@
   "smoke": "85/85 PASS (red closed: 84/85 at round open)"
  },
  "r1177_pit": "r1177: a spelling table is a permanent liability -- it was widened by hand twice (r1299 prefix rule, r1169 RAM list + free GB pair) and the live face still carried vram_used_gb at a random round's number. Ownership must be 'apply() will refresh it', derived from the key tokens, not 'somebody tabulated it'. Sibling: when a law changes, the legs that encoded the OLD law must be inverted in the same edit -- two selftest legs here asserted 'a stray is reported' and both went red the moment restate() landed, which is the correct signal and not a regression.",
+ "r1181_card_yield": "bm-c r1309 published E146 in the same window -> this round card renumbered E147, theirs kept verbatim",
+ "r1181_pit": "copying one state face over another (state.json -> state-bm-b.json) destroyed 49 keys that existed only on the mirror; patch keys, never copy faces. Sibling: a later arrival yields the method-card number -- same-ID block conflicts are resolved by keeping the earlier card verbatim and renumbering yours, then re-pointing every state/report reference to the new id",
+ "r1181_push": {
+  "behind_origin_main": 0,
+  "note": "ff after one --autostash rebase over bm-c r1309; E146->E147 card yield; lane state mirror repaired by key patch (49 keys had been lost by a copy)",
+  "pushed_sha": "d30356e54",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T15:26:56+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
