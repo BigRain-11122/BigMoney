@@ -108,6 +108,22 @@
      "run_cutcurve",
      "run_livespan"
     ]
+   },
+   {
+    "leg": "earlydelayscreen",
+    "func": "run_earlydelayscreen",
+    "face": "results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
+    "calls": [
+     "run_earlydelay"
+    ]
+   },
+   {
+    "leg": "panelsplitscreen",
+    "func": "run_panelsplitscreen",
+    "face": "results/e44_midmonth/PANELSPLITSCREEN-20261027.json",
+    "calls": [
+     "run_panelsplit"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -512,8 +528,10 @@
    "runner": "run_earlydelay",
    "face": "results/e44_midmonth/EARLYDELAY-20261020-s20130101.json",
    "published_cells": 235,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "earlydelayscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -631,34 +649,16 @@
    "runner": "run_panelsplit",
    "face": "results/e44_midmonth/PANELSPLIT-20261021-s20130101.json",
    "published_cells": 234,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "panelsplitscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
   }
  ],
  "ranking_uncovered_by_runner": [
-  {
-   "runner": "run_earlydelay",
-   "modes": [
-    "earlydelay"
-   ],
-   "published_cells_dedup": 235,
-   "faces": [
-    "results/e44_midmonth/EARLYDELAY-20261020-s20130101.json"
-   ]
-  },
-  {
-   "runner": "run_panelsplit",
-   "modes": [
-    "panelsplit"
-   ],
-   "published_cells_dedup": 234,
-   "faces": [
-    "results/e44_midmonth/PANELSPLIT-20261021-s20130101.json"
-   ]
-  },
   {
    "runner": "run_staletail",
    "modes": [
@@ -745,20 +745,6 @@
  ],
  "ranking_uncovered_by_mode": [
   {
-   "mode": "earlydelay",
-   "runner": "run_earlydelay",
-   "published_cells": 235,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
-  {
-   "mode": "panelsplit",
-   "runner": "run_panelsplit",
-   "published_cells": 234,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
    "mode": "staletail",
    "runner": "run_staletail",
    "published_cells": 228,
@@ -838,12 +824,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 11,
+  "covered_by_twin": 13,
   "covered_twin_by_name": 1,
-  "uncovered": 13,
-  "uncovered_column_only": 7,
-  "uncovered_distinct_runners": 10,
-  "cells_unchanged_by_any_twin": 1568
+  "uncovered": 11,
+  "uncovered_column_only": 6,
+  "uncovered_distinct_runners": 8,
+  "cells_unchanged_by_any_twin": 1099
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

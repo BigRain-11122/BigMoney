@@ -508,6 +508,13 @@ def main() -> int:
              "scripts/etf_book_capacity_rule.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"]),
+            # r1188: an autostash rebase put a 62-file revert of another machine's
+            # work into this tree, and the only thing that noticed was the pre-push
+            # ownership claw -- i.e. after the commit already existed. This leg keeps
+            # the earlier, cheaper detector callable; if its classifier rots, rounds
+            # go back to discovering reverts at push time.
+            ("product: tree poison probe selftest (exit-code contract)",
+             "Tools/tree_poison_probe.py", ["--selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
