@@ -9728,6 +9728,40 @@ def selftest():
     chk(_g4["verdict"] == "version_unknown" and _g4["unstamped"] == ["a"],
         "a missing face is unstamped, so the join is refused before anything is read")
 
+    # E105: the churn read decomposes exactly into name-level shares
+    _cal105 = ["2020-01-02", "2020-02-03"]
+    _px105 = {"a": [1.0, 1.2], "b": [1.0, 0.8],
+              "c": [1.0, 1.0], "d": [1.0, 1.1]}
+    _dec105 = [(0, ["c", "d"]), (1, ["a", "b"])]
+    _rows105 = _churn_name_table(_cal105, _px105, _dec105, ERAS)
+    _r105 = _rows105[0]
+    chk(abs(_r105["churn_alpha_bp"] - (-500.0)) < 1e-9,
+        "E105 a two-in two-out swap reads -500bp on the hand-built returns")
+    chk(abs(sum(s["bp"] for s in _r105["shares"]) - _r105["churn_alpha_bp"]) < 1e-9,
+        "E105 name shares reproduce the transition read exactly")
+    _d105 = _single_name_driver(_rows105, "2017_2020")
+    chk(_d105["additivity_residual_bp"] == 0.0
+        and abs(_d105["level_bp"] - (-500.0)) < 1e-9,
+        "E105 the level is the transition mean and the shares add up to it")
+    chk(_d105["max_single_name"]["name"] == "a"
+        and _d105["max_single_name"]["side"] == "entrant"
+        and _d105["max_single_name"]["share_of_level_pct"] == -200.0
+        and _d105["verdict"] == "single_name_artefact",
+        "E105 the carry is named, sided, signed, and flagged as a one-name artefact")
+    _spread105 = {"date": "2020-01-31", "next": "2020-02-28", "era": "x",
+                  "churn_alpha_bp": 2000.0,
+                  "shares": [{"name": "n%d" % i, "side": "entrant", "bp": 100.0}
+                             for i in range(20)]}
+    chk(_single_name_driver([_spread105], "x")["verdict"] == "broadly_supported",
+        "E105 twenty equal names is a supported level, not an artefact")
+    chk(_single_name_driver([{"date": "d", "next": "n", "era": "x",
+                              "churn_alpha_bp": 10.0,
+                              "shares": [{"name": "z", "side": "exit", "bp": 10.0}]}],
+                            "x")["verdict"] == "immaterial_level",
+        "E105 a level under the material floor is not named as an artefact")
+    chk(_single_name_driver([], "x")["verdict"] == "no_transitions",
+        "E105 an era with no transitions reads no_transitions, not a clean level")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9926,6 +9960,280 @@ def _level_sign_flips(rows, arms):
         if len(vals) >= 2 and min(vals) < 0 < max(vals):
             out.append("%s/%s" % (r["era"], r["book"]))
     return sorted(out)
+
+
+# -------------------------------------------------------------- E105
+
+MATERIAL_LEVEL_BP = 50.0
+CONCENTRATION_FLOOR_PCT = 25.0
+SINGLE_NAME_FLOOR_PCT = 50.0
+
+
+def _churn_name_table(cal, prices, decisions, eras):
+    """Additive name-level decomposition of every churn transition.
+
+    ``churn_alpha_bp`` is a difference of two equal-weight means, so each
+    subscribed name carries an exactly additive share of it: an entrant
+    contributes ``+r/n_entrants`` and an exit ``-r/n_exits``. Summed over one
+    transition the shares reproduce that transition's read, and summed over
+    the transitions of an era they reproduce the LEVEL -- which is what turns
+    "one name carried this cell" from a suspicion into a measurement.
+    """
+    rows = []
+    for k in range(1, len(decisions)):
+        i0, prev = decisions[k - 1]
+        i1, cur = decisions[k]
+        pset, cset = set(prev), set(cur)
+        ent = [s for s in cur if s not in pset]
+        ext = [s for s in prev if s not in cset]
+
+        def fwd(s):
+            series = prices.get(s)
+            if not series:
+                return None
+            p0, p1 = series[i0], series[i1]
+            if p0 is None or p1 is None or p0 <= 0:
+                return None
+            return p1 / p0 - 1.0
+
+        fe = [(s, fwd(s)) for s in ent]
+        fe = [(s, r) for s, r in fe if r is not None]
+        fx = [(s, fwd(s)) for s in ext]
+        fx = [(s, r) for s, r in fx if r is not None]
+        if not fe or not fx:
+            continue
+        shares = [{"name": s, "side": "entrant", "bp": 1e4 * r / len(fe)}
+                  for s, r in fe]
+        shares += [{"name": s, "side": "exit", "bp": -1e4 * r / len(fx)}
+                   for s, r in fx]
+        rows.append({
+            "date": cal[i0], "next": cal[i1], "era": _era_of(cal[i0], eras),
+            "churn_alpha_bp": 1e4 * (sum(r for _s, r in fe) / len(fe)
+                                     - sum(r for _s, r in fx) / len(fx)),
+            "n_entrants": len(fe), "n_exits": len(fx),
+            "shares": shares,
+        })
+    return rows
+
+
+def _driver_verdict(level_bp, abs_share_pct):
+    """Read one LEVEL cell as supported, concentrated, or a one-name artefact."""
+    if level_bp is None or abs_share_pct is None:
+        return "no_transitions"
+    if abs(level_bp) < MATERIAL_LEVEL_BP:
+        return "immaterial_level"
+    if abs_share_pct >= SINGLE_NAME_FLOOR_PCT:
+        return "single_name_artefact"
+    if abs_share_pct >= CONCENTRATION_FLOOR_PCT:
+        return "concentrated"
+    return "broadly_supported"
+
+
+def _single_name_driver(rows, era, top_k=3):
+    """Who carries one era's LEVEL, and by how much of it.
+
+    The era read is ``sum(churn_alpha_bp)/T``, so a name's share of the LEVEL
+    is its share of one transition divided by ``T``. Shares are signed (an
+    exit that fell contributes positively), and ``additivity_residual_bp``
+    proves the decomposition is exact rather than a ranking of correlates.
+    """
+    sub = [r for r in rows if r["era"] == era]
+    if not sub:
+        return {"verdict": "no_transitions", "transitions": 0}
+    t = len(sub)
+    level = sum(r["churn_alpha_bp"] for r in sub) / t
+    flat = []
+    for r in sub:
+        for s in r["shares"]:
+            flat.append({"name": s["name"], "date": r["date"], "next": r["next"],
+                         "side": s["side"], "contrib_bp": s["bp"] / t})
+    if not flat:
+        return {"verdict": "no_transitions", "transitions": t,
+                "level_bp": round(level, 1)}
+    total = sum(f["contrib_bp"] for f in flat)
+    flat.sort(key=lambda f: -abs(f["contrib_bp"]))
+    top = flat[:top_k]
+
+    def share_pct(v):
+        return round(100.0 * v / level, 1) if level else None
+
+    biggest = top[0]
+    abs_share = (round(100.0 * abs(biggest["contrib_bp"]) / abs(level), 1)
+                 if level else None)
+    return {
+        "transitions": t,
+        "level_bp": round(level, 1),
+        "names_subscribed": len({f["name"] for f in flat}),
+        "max_single_name": {"name": biggest["name"], "date": biggest["date"],
+                            "next": biggest["next"], "side": biggest["side"],
+                            "contrib_bp": round(biggest["contrib_bp"], 2),
+                            "share_of_level_pct": share_pct(biggest["contrib_bp"]),
+                            "abs_share_pct": abs_share},
+        "top": [{"name": f["name"], "date": f["date"], "side": f["side"],
+                 "contrib_bp": round(f["contrib_bp"], 2),
+                 "share_of_level_pct": share_pct(f["contrib_bp"])} for f in top],
+        "additivity_residual_bp": round(level - total, 6),
+        "verdict": _driver_verdict(level, abs_share),
+    }
+
+
+def run_midlevel_drivers(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
+                         gap_limits=(1, 2, 5), mid_day=15, eras=ERAS,
+                         published="MID-20261026-s20180101-armed.json"):
+    """E105: beside every MID-family LEVEL cell, name the one name that carries it.
+
+    E100 found the published levels are means over 10-29 transitions, and that
+    one name carried 100% of the 2017_2020 ``me`` cell. A reader cannot see
+    that from the face, and cannot check it without re-running gaptop3. This
+    leg re-reads the same decisions (no engine, no curve, no new panel) and
+    publishes, per arm/era/book, the largest single-name contribution with its
+    name and date -- plus an exactness residual so the decomposition cannot be
+    silently wrong.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+    all_syms = sorted(set(base.LADDER) | set(raw))
+    prices = {}
+    for s in all_syms:
+        c, _a = raw.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw]
+    ranks = {}
+
+    universes = {"unscreened": raw}
+    universes["neutralise_int"], reports = panel_screen.screen_universe(
+        raw, mode="neutralise_int", cal=cal_full)
+    reports = {"neutralise_int": reports}
+    for k in gap_limits:
+        label = "neutralise_gap%d" % int(k)
+        universes[label], reports[label] = panel_screen.screen_universe(
+            raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(k))
+    arms = list(universes)
+
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid", _mid_month_indices(cal, mid_day))]
+    cells, coverage = [], []
+    for label in arms:
+        univ = universes[label]
+        px, am = {}, {}
+        for s in all_syms:
+            c, a = univ.get(s, ({}, {}))
+            px[s] = [c.get(d) for d in cal]
+            am[s] = [a.get(d) for d in cal]
+        members = [s for s in all_syms if s in univ]
+        for book, idxs in calendars:
+            decisions = _decision_sets(cal, px, am, members, pick_n, idxs, ranks)
+            rows = _churn_name_table(cal, px, decisions, eras)
+            coverage.append({"arm": label, "book": book,
+                             "decisions": len(decisions),
+                             "transitions": len(rows)})
+            for era, _lo, _hi in eras:
+                drv = _single_name_driver(rows, era)
+                drv.update({"arm": label, "era": era, "book": book})
+                cells.append(drv)
+
+    measured = [c for c in cells if c.get("level_bp") is not None]
+    tally = {}
+    for c in measured:
+        tally[c["verdict"]] = tally.get(c["verdict"], 0) + 1
+    carried = sorted((c for c in measured
+                      if c["verdict"] == "single_name_artefact"),
+                     key=lambda c: -abs(c["max_single_name"]["abs_share_pct"] or 0.0))
+    residuals = [abs(c["additivity_residual_bp"]) for c in measured
+                 if c.get("additivity_residual_bp") is not None]
+
+    control = {"file": published, "status": "absent"}
+    path = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
+                        published)
+    if os.path.isfile(path):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                pub = json.load(fh)
+        except (OSError, ValueError):
+            control = {"file": published, "status": "unreadable"}
+        else:
+            published_cells = {(r.get("era"), r.get("book"),
+                                arm): cell.get("churn_alpha_bp_mean")
+                               for r in (pub.get("levels") or [])
+                               for arm, cell in (r.get("arms") or {}).items()}
+            joined, diffs, misses = 0, [], []
+            for c in measured:
+                want = published_cells.get((c["era"], c["book"], c["arm"]))
+                if isinstance(c["level_bp"], (int, float)) and isinstance(want, (int, float)):
+                    joined += 1
+                    diffs.append(abs(c["level_bp"] - want))
+                else:
+                    misses.append("%s/%s/%s" % (c["arm"], c["era"], c["book"]))
+            control = {"file": published, "status": "compared",
+                       "published_cutoff": pub.get("evidence_cutoff"),
+                       "cells_joined": joined,
+                       "max_abs_diff_bp": round(max(diffs), 1) if diffs else None,
+                       "identical": bool(diffs) and max(diffs) == 0.0,
+                       "unjoined": misses,
+                       "note": ("the published MID face was burned off the same "
+                                "decision sets on the same panel; a non-zero diff "
+                                "means this re-read moved, not that the arm did")}
+    return {
+        "study": "e105_midlevel_single_name_drivers",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "mid_month_day": mid_day, "arms": arms,
+            "gap_limits": [int(k) for k in gap_limits],
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "decomposition": ("churn_alpha = mean(entrant fwd) - mean(exit fwd) = "
+                              "sum(r_e/n_e) - sum(r_x/n_x); a name's share of the "
+                              "era LEVEL is its transition share / transitions"),
+            "material_level_bp": MATERIAL_LEVEL_BP,
+            "concentration_floor_pct": CONCENTRATION_FLOOR_PCT,
+            "single_name_floor_pct": SINGLE_NAME_FLOOR_PCT,
+            "reads": "no engine, no curve, no cost arm: decisions and churn only",
+        },
+        "screen_reports": reports,
+        "coverage": coverage,
+        "cells": cells,
+        "control": control,
+        "answers": {
+            "cells": len(measured),
+            "verdict_tally": tally,
+            "cells_single_name_artefact": len(carried),
+            "additivity_max_abs_residual_bp":
+                round(max(residuals), 6) if residuals else None,
+            "worst_cell": ({"arm": carried[0]["arm"], "era": carried[0]["era"],
+                            "book": carried[0]["book"],
+                            "level_bp": carried[0]["level_bp"],
+                            **carried[0]["max_single_name"]} if carried else None),
+            "carried_cells": [{"arm": c["arm"], "era": c["era"], "book": c["book"],
+                               "level_bp": c["level_bp"],
+                               **c["max_single_name"]} for c in carried],
+            "reading": ("%d of %d measured LEVEL cells are a one-name artefact "
+                        "(one name carries >= %g%% of the cell)"
+                        % (len(carried), len(measured), SINGLE_NAME_FLOOR_PCT)
+                        if carried else
+                        "no measured LEVEL cell has a single name carrying >= %g%% "
+                        "of it on this panel" % SINGLE_NAME_FLOOR_PCT),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the share is a share of an equal-weight mean of name reads, not of "
+            "money: a name moved the READ by its forward return, which the engine "
+            "never charged the book for",
+            "a one-name artefact is usually a corporate-action read (share split) "
+            "or a single-day gap, not a strategy property -- the name and date are "
+            "published so a reader can check which",
+            "the arm is the key, never a column: every cell names the universe "
+            "that produced it, because E96 lost that label once already",
+        ],
+    }
 
 
 def _level_coverage(rows, arms):
@@ -11851,6 +12159,7 @@ def main(argv):
                              "endchoice",
                              "midlevels", "gaparmendgrid", "gaparmfamily",
                              "gaplimit", "gaptop3", "heldsplit", "repairstep",
+                             "midleveldrivers",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -11998,6 +12307,21 @@ def main(argv):
                           "sign_flips": f["answers"]["level_sign_flips_across_arms"],
                           "published_control": f["answers"]["published_control"]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "midleveldrivers":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        gaps = tuple(int(x) for x in args.gaps.split(",") if x.strip())
+        f = run_midlevel_drivers(outdir, start=args.start, gap_limits=gaps)
+        tag = f["spec"]["start"].replace("-", "")
+        p = write_json(outdir, "MIDLEVEL-DRIVERS-%s-s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), tag), f)
+        print(json.dumps({"leg": "midleveldrivers", "file": os.path.relpath(p, ROOT),
+                          "cells": f["answers"]["cells"],
+                          "verdict_tally": f["answers"]["verdict_tally"],
+                          "worst_cell": f["answers"]["worst_cell"],
+                          "additivity_residual_bp":
+                              f["answers"]["additivity_max_abs_residual_bp"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "gaparmendgrid":
         outdir = os.path.join(ROOT, "results", "e44_midmonth")

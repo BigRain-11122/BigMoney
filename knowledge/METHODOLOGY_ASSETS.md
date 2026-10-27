@@ -1137,3 +1137,19 @@ actually is.
 How to apply: any "is there already a screened/split/robust version of this?" audit must resolve coverage from
 code (call graph + body), publish the weak channel as explicitly non-decisive, and rank the remaining work by
 distinct experiments, not by published cells.
+
+## E143 A mean-of-means read must publish its additive name decomposition (2026-10-27 r1179 bm-b)
+A level that is the mean of a per-period read (churn alpha, per-swap spread, per-window delta) can be 100%
+one name, and nothing on the published face says so. The decomposition is exact rather than a correlation
+rank: any mean is additive over its inputs, so churn_alpha = sum(r_e/n_e) - sum(r_x/n_x) per transition and
+the era level is that divided by the transition count. Publishing the largest single-name contribution with
+name/date/side plus the additivity residual (0.0 here) turns "one name probably carried this" into a checkable
+reading (results/e44_midmonth/MIDLEVEL-DRIVERS-20261026-s20180101.json, scripts/e39_panel_census.py
+midleveldrivers, selftest 331/331). Outcome on the MID family: 9 of 30 level cells are one-name artefacts,
+including the largest cell in the family (1405.0bp, 56.5% one exit) and the newer-era unscreened cell
+(-123.7bp, 105.2% one name), while only 2021_2023 me/mid (1866.5 / 2185.4, biggest name 17.8%/14.5%) survive.
+Two traps. (a) **A cell that prints identically across arms is not thereby robust** -- here the arm-invariant
+cell was the one a single name carried, so arm agreement was the artefact's signature, not replication.
+(b) A decomposition must be exact or it is a story: publish the residual, and assert it in the selftest.
+How to apply: before quoting any mean-of-means level, publish the max single-input share beside it; treat
+>=50% as an artefact, >=25% as concentrated, and put the material floor in the spec so a reader can re-cut.
