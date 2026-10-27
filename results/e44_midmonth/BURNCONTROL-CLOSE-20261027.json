@@ -1,0 +1,202 @@
+{
+ "tool": "scripts/e110_burncontrol_close.py",
+ "study": "E110 burncontrol MISMATCH: the 2013-start twin on disk predates the E108 split_events factor, so the control compared a pre-fix face with a post-fix one",
+ "evidence_cutoff": "2026-10-26",
+ "faces": {
+  "stale_twin": "CHURNROBUST-20261022-s2013.json",
+  "fresh_twin": "CHURNROBUST-20261026-s2013.json",
+  "interval": "CHURNSE-20261026.json",
+  "control": "CHURNROBUST-CONTROL-20261026.json"
+ },
+ "cutoffs": {
+  "stale_twin": "2026-10-22",
+  "fresh_twin": "2026-10-26"
+ },
+ "stale_vs_fixed": {
+  "label": "old face (2026-10-22, pre-E108) vs refreshed twin",
+  "shared_cells": 56,
+  "moved": 11,
+  "moved_rows": [
+   {
+    "kind": "levels",
+    "keys": [
+     "mid15",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": -364.7,
+    "b": 4.9,
+    "delta": 369.6
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "mid15",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": -364.7,
+    "b": 4.9,
+    "delta": 369.6
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "mid15",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": -241.0,
+    "b": 128.6,
+    "delta": 369.6
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "mid15",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": -241.0,
+    "b": 128.6,
+    "delta": 369.6
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "me",
+     "drop",
+     "2024_now"
+    ],
+    "a": 52.1,
+    "b": 66.8,
+    "delta": 14.7
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "me",
+     "unscreened",
+     "2024_now"
+    ],
+    "a": 87.3,
+    "b": 100.7,
+    "delta": 13.4
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "me",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": 92.4,
+    "b": 105.6,
+    "delta": 13.2
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "me",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": 92.4,
+    "b": 105.6,
+    "delta": 13.2
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "me",
+     "drop",
+     "2024_now"
+    ],
+    "a": -35.2,
+    "b": -33.9,
+    "delta": 1.3
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "me",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": 5.1,
+    "b": 4.9,
+    "delta": -0.2
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "me",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": 5.1,
+    "b": 4.9,
+    "delta": -0.2
+   }
+  ]
+ },
+ "legacy_vs_fixed": {
+  "label": "same panel same start, factor flipped only",
+  "shared_cells": 56,
+  "moved": 4,
+  "moved_rows": [
+   {
+    "kind": "levels",
+    "keys": [
+     "mid15",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": -364.7,
+    "b": 4.9,
+    "delta": 369.6
+   },
+   {
+    "kind": "levels",
+    "keys": [
+     "mid15",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": -364.7,
+    "b": 4.9,
+    "delta": 369.6
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "mid15",
+     "neutralise",
+     "2024_now"
+    ],
+    "a": -241.0,
+    "b": 128.6,
+    "delta": 369.6
+   },
+   {
+    "kind": "deltas",
+    "keys": [
+     "mid15",
+     "neutralise_int",
+     "2024_now"
+    ],
+    "a": -241.0,
+    "b": 128.6,
+    "delta": 369.6
+   }
+  ]
+ },
+ "control": {
+  "status": "identical_on_this_face",
+  "summary": {
+   "shared_cells": 56,
+   "mismatched": 0
+  }
+ },
+ "confound": "stale_vs_fixed mixes the factor with four days of panel arrival (cutoffs 2026-10-22 vs 2026-10-26); legacy_vs_fixed is the clean factor attribution and the control verdict is cutoff-clean"
+}

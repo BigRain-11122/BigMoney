@@ -999,3 +999,22 @@ if the artefact only stores an index into a rebuildable series, it is not yet an
 - Verify: python scripts/e109_repairsweep.py selftest (3/3); results/e44_midmonth/REPAIRSWEEP-20261026.json;
   research/digests/DIGEST-20261027-e109-repair-sweep.md
 - 2026-10-27 r1173 bm-b (capture law O-20261002-2100 closing step)
+
+- Card: separation first, verdict second (E110)
+- Trigger: a self-check/control that cannot be read as green -- rc=1 on a leg whose own numbers did not move.
+- Move: ask what the control READS before asking what it measures. Here urncontrol recomputes nothing;
+  it joins three faces off disk, so it compared a face burned 2026-10-22 (pre-E108 factor) with one burned
+  post-fix and reported the version gap as a burn defect. Same-panel A/B with only the factor flipped moved
+  4 cells (all mid15 x neutralise x 2024_now, delta 369.6bp); the other 7 moved with four days of panel
+  arrival. Re-deriving the stale twin at the current cutoff turned the control green, 56/56, 0 mismatched.
+- Judgment: (1) "it fails in both arms" is a claim about the INSTRUMENT, not the cause -- a disk-reading
+  control is arm-invariant by construction, and bit-identical failure across arms is the tell; (2) an
+  exact-equality join over published faces has two implicit axes it never checks: the cutoff and the code
+  that burned them; (3) name the condition in the status (mismatch_across_cutoffs + stale_twins + cutoffs)
+  rather than emitting a bare MISMATCH, or the control indicts the data for its own stale input.
+- Reusable check: for every control, write down its inputs and their versions; if the two sides were not
+  produced by the same code at the same cutoff, the comparison is between experiments, not measurements.
+- Verify: python scripts/e110_burncontrol_close.py selftest (4/4); e39 selftest 320/320;
+  results/e44_midmonth/BURNCONTROL-CLOSE-20261027.json; research/digests/DIGEST-20261027-e110-burncontrol-mismatch.md;
+  stale-twin fixture reproduces status=mismatch_across_cutoffs with 11 mismatches
+- 2026-10-27 r1174 bm-b (capture law O-20261002-2100 closing step)

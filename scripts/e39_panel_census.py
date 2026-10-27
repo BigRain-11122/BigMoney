@@ -9770,10 +9770,30 @@ def run_burncontrol(outdir=None, dirpath=None):
                                     s13.get("delta_cells"), dk)}
     bad = sum(v["mismatched"] for c in controls.values() for v in c.values())
     shared = sum(v["shared_cells"] for c in controls.values() for v in c.values())
+    # E110: this control recomputes nothing -- it joins faces already on disk. A twin
+    # burned at an older cutoff (or before a repair-factor change) cannot agree no
+    # matter which arm the current leg runs in, so name that condition instead of
+    # reporting a bare MISMATCH as if the burn were wrong.
+    cutoffs = {n: (f.get("evidence_cutoff") if f else None)
+               for n, f in (("churnse", se), ("churnrobust", rob),
+                            ("churnrobust_s2013", s13))}
+    stale_twins = [n for n, c in cutoffs.items() if c != cutoffs["churnse"]]
+    if bad == 0:
+        status = "identical_on_this_face"
+    elif stale_twins:
+        status = "mismatch_across_cutoffs"
+    else:
+        status = "MISMATCH"
     return {
         "study": "e88_churnrobust_burn_control",
         "evidence_cutoff": se.get("evidence_cutoff"),
-        "status": "identical_on_this_face" if bad == 0 else "MISMATCH",
+        "status": status,
+        "cutoffs": cutoffs,
+        "stale_twins": stale_twins,
+        "confound": ("a twin whose cutoff differs from the interval face mixes panel "
+                     "arrival (and any factor change since it was burned) with the "
+                     "burn; re-derive the twin at the current cutoff before reading "
+                     "the control as a burn verdict") if stale_twins else None,
         "spec": {
             "faces": [os.path.relpath(p, ROOT) for p in (se_p, rob_p, s13_p)],
             "control": "join every cell on (book, universe|mode, era) and compare "

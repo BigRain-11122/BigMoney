@@ -21893,7 +21893,7 @@
   {
    "id": "E110-BURNCONTROL-MISMATCH",
    "title": "The burncontrol leg exits rc=1 with status MISMATCH (11 of 56 shared cells) in BOTH arms of the E109 sweep -- i.e. the mismatch is not the repair factor. Find what the control actually compares (its own recompute vs a face burned at a different start/burn) and either align the burn or publish the 11 named cells with the reason they disagree. E88 introduced this control to prove the robust table sits on the published burn; a control that cannot be read as green is dead weight.",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "lane": "cpu-only",
    "lane_owner": "bm-b",
@@ -21903,7 +21903,26 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T09:5x+08:00",
    "entered_by": "bm-b r1173",
-   "runner_note": "read the 11 mismatched cells first; the control is cheap so no burn budget needed"
+   "runner_note": "read the 11 mismatched cells first; the control is cheap so no burn budget needed",
+   "result_ref": "results/e44_midmonth/BURNCONTROL-CLOSE-20261027.json + research/digests/DIGEST-20261027-e110-burncontrol-mismatch.md",
+   "verdict": "the 11 mismatches were a stale control face: the 2013-start twin was burned 2026-10-22, before the E108 factor fix. Re-derived at the current cutoff -> 56/56 agree, 0 mismatched. Factor-only burn moves 4 cells (all mid15 x neutralise x 2024_now, delta 369.6bp); the other 7 are four days of panel arrival.",
+   "done_by": "bm-b r1174",
+   "done_at": "2026-10-27T11:05:00+08:00"
+  },
+  {
+   "id": "E111-FACE-FACTOR-STAMP",
+   "title": "Every e44 face carries an implicit version: the code that burned it. E110 proved a control can compare two different experiments and call the difference a defect, and the cutoff guard only catches one of the two axes. Stamp a repair_factor marker (and the cutoff, already present) into every face written by e39_panel_census so a join can refuse a cross-version comparison instead of reporting a mismatch. Back-stamp is impossible for old faces -- publish the stamp going forward and make the control treat an unstamped face as unknown, not as agreeing.",
+   "status": "ready",
+   "owner": null,
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py write_json + run_burncontrol",
+   "deliverable": "repair_factor marker on new faces + control refuses cross-version joins + digest",
+   "source": "r1174 E110: the control could not tell a factor change from a burn change",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T11:05:00+08:00",
+   "entered_by": "bm-b r1174",
+   "runner_note": "do not rewrite published faces to add the stamp; unknown != agreeing"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
