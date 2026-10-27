@@ -674,6 +674,27 @@ def main() -> int:
               f"last={_mc.get('last_captured')}")
     except Exception as e:
         check("product: marks coverage face names its holes", False, str(e))
+    # A hole the owner could not have captured and a hole somebody could have
+    # taken over are different problems; the face must say which. Assert the
+    # live face attributes every hole exactly once from the closed vocabulary.
+    try:
+        _mc3 = json.load(open("results/marks_coverage.json", encoding="utf-8"))
+        _det = _mc3.get("hole_detail") or []
+        _holes3 = _mc3.get("holes") or []
+        _causes = _mc3.get("holes_by_cause") or {}
+        _vocab = ("lane_missed", "takeover_possible", "host_down", "host_offhours")
+        _ok_cause = (len(_det) == len(_holes3)
+                     and [d.get("date") for d in _det] == _holes3
+                     and all(d.get("cause") in _vocab for d in _det)
+                     and sum(_causes.values()) == len(_holes3)
+                     and bool(_mc3.get("lane_owner")))
+        check("product: every marks hole carries a cause from the lane's own ownership contract",
+              _ok_cause,
+              f"owner={_mc3.get('lane_owner')} causes={_causes} "
+              f"detail={[(d.get('date'), d.get('cause')) for d in _det]}")
+    except Exception as e:
+        check("product: every marks hole carries a cause from the lane's own ownership contract",
+              False, str(e))
     # ...and the gap has to reach the place the CEO actually looks. The coverage
     # face existed for a full round while the dashboard said nothing about the
     # paper record being 3 sessions short; assert the payload carries the same

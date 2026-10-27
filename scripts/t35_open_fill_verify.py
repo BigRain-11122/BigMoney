@@ -341,10 +341,14 @@ def run() -> int:
         cov = os.path.join(PATHS.results_dir, "marks_coverage.json")
         try:
             with open(cov, encoding="utf-8") as fh:
-                holes = (json.load(fh).get("holes") or [])
+                face = json.load(fh)
+            holes = (face.get("holes") or [])
+            cause = next((d.get("cause") for d in (face.get("hole_detail") or [])
+                          if d.get("date") == day), None)
             if day in holes:
-                print("  permanent hole (capture never happened; "
-                      "see results/marks_coverage.json)")
+                print("  permanent hole "
+                      f"(cause={cause or 'unattributed'}; what it cost and who "
+                      "could have avoided it: results/marks_coverage.json)")
         except (OSError, ValueError):
             pass
         return 1
