@@ -11,6 +11,7 @@ import os
 import json
 import datetime as dt
 import importlib
+import subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -959,6 +960,25 @@ def main() -> int:
               f"bytes={len(_mt.encode('utf-8'))}")
     except Exception as e:
         check("memory: CODELY.md structure intact", False, str(e))
+
+    # A commit built from a partial index produces a valid push whose only
+    # symptom is a much smaller tree (r1133: the group tip lost 3,492 files and
+    # nothing in the repo noticed until a consumer could not read decisions.md).
+    try:
+        _tg = os.path.join("Tools", "tree_shrink_guard.py")
+        _tp = subprocess.run([sys.executable, _tg, "selftest"], capture_output=True,
+                             text=True, encoding="utf-8", errors="replace")
+        _tt = ((_tp.stdout or "").strip().splitlines() or [""])[-1]
+        check("fleet: a partial-index commit cannot silently shrink the tree",
+              _tp.returncode == 0, f"guard selftest rc={_tp.returncode} {_tt[:60]}")
+        _tq = subprocess.run([sys.executable, _tg, "check", "--repo", ".",
+                              "--commits", "20"], capture_output=True, text=True,
+                             encoding="utf-8", errors="replace")
+        _tql = ((_tq.stdout or "").strip().splitlines() or [""])[0]
+        check("fleet: this repo's last 20 commits lost no tree", _tq.returncode == 0,
+              _tql[:100])
+    except Exception as e:
+        check("fleet: a partial-index commit cannot silently shrink the tree", False, str(e))
 
     return _finish()
 

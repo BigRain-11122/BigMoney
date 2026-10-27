@@ -139,6 +139,13 @@ LEGS = [
     # round's snapshot. gpu_face re-probes once and rewrites every alias from that
     # one reading, so the face is consistent without a session remembering to do it.
     ("gpu_face", ["python", "Tools/gpu_face.py", "apply"]),
+    # r1133: the group repo's tip landed with a tree of 2 files (3,492 deleted)
+    # because its closeout wrote the commit from a partial index. A commit-tree
+    # bypasses every hook, so the only defence is a tree-count comparison; it
+    # runs on this repo and on the group tree when the machine carries one.
+    ("tree_shrink", ["python", "Tools/tree_shrink_guard.py", "check",
+                     "--repo", ".", "--commits", "20"]),
+    ("tree_shrink_group", ["python", "Tools/tree_shrink_guard.py", "check_group"]),
 ]
 
 
