@@ -120,7 +120,12 @@ def split_events(closes, thresh=ARTEFACT_JUMP, cal=None):
                         "gap_sessions": gap,
                         "adjacent": gap == 0,
                         "implied": ir,
-                        "factor": (ir["ratio"] if ir else 1.0 / (1.0 + r)),
+                        # (E108) the factor is always the cancelling value 1/(1+r):
+                        # a downward print needs >1, an upward one needs <1. The
+                        # implied share ratio is folded to >=1 for the integer test,
+                        # so using it as the factor mirrored every reverse split and
+                        # made the arm read (1+r)^2-1 (E106, sh510580 witness).
+                        "factor": 1.0 / (1.0 + r),
                     })
         prev_d = d
     return events
@@ -268,6 +273,7 @@ def screen_universe(raw, mode="neutralise", thresh=ARTEFACT_JUMP, cal=None,
 def _print_row(ev):
     im = ev.get("implied") or {}
     return {"date": ev["date"], "prev_date": ev["prev_date"],
+            "direction": ("up" if ev["ret_pct"] > 0 else "down"),
             "gap_sessions": ev.get("gap_sessions"),
             "ret_pct": round(ev["ret_pct"], 2),
             "ratio": round(im.get("ratio", ev["factor"]), 4),
@@ -346,6 +352,24 @@ def selftest():
     adj2 = neutralise(two, ev2)
     chk(len(ev2) == 2 and abs(adj2["2024-01-04"] / adj2["2024-01-03"] - 1.0) < 1e-12,
         "a second split is neutralised on the already adjusted series")
+
+    # (E108) an upward print is a reverse split: the factor must cancel it too.
+    # Using the folded share ratio as the factor mirrored every reverse split and
+    # made the arm read (1+r)^2-1 (E106, sh510580 +295.49% -> +1464.09%).
+    rev = {"2024-01-02": 100.0, "2024-01-03": 395.49}    # +295.49%, 1:2.96
+    rev_ev = split_events(rev)
+    chk(len(rev_ev) == 1 and rev_ev[0]["factor"] < 1.0,
+        "an upward print carries a shrinking factor, not the folded share ratio")
+    rev_adj = neutralise(rev, rev_ev)
+    chk(abs(rev_adj["2024-01-03"] / rev_adj["2024-01-02"] - 1.0) < 1e-9,
+        "an upward print neutralises to a flat session like a downward one")
+    chk(abs(split_events(closes)[0]["factor"] - 12.0) < 1e-9,
+        "a downward print keeps 1/(1+r) > 1 as its factor")
+    gup = {"2021-05-27": 10.0, "2021-05-31": 40.0}       # +300%, 1:4 reverse
+    upcal = ["2021-05-27", "2021-05-28", "2021-05-31"]
+    chk(screen_universe({"sh510150": (gup, {})}, mode="neutralise_gap",
+                        cal=upcal, gap_limit=1)[1]["events_neutralised"] == 1,
+        "an upward gapped integer print is repairable on the gap branch")
 
     # report arithmetic
     chk(rep_n["integer_like_events"] == 1 and rep_n["names_in"] == 1,

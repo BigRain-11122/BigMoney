@@ -21856,7 +21856,10 @@
   },
   {
    "id": "E108-REPAIR-FACTOR-SIGN",
-   "status": "ready",
+   "status": "done",
+  "result_ref": "results/e44_midmonth/REPAIRFIX-20261026.json",
+  "result_note": "factor now 1/(1+r); 7 consuming faces re-derived and diffed, legacy control reproduced the published repairstep face 0/966 leaves moved; REPAIRSTEP fabricating_windows 8->0, MID 2024_now mid level -364.7 -> +4.9bp, 2017_2020 me -745.9 and 2021_2023 pair unchanged",
+  "done_by": "bm-b r1172",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/panel_screen.py (split_events factor) + every screened/gap-arm face",
@@ -21867,6 +21870,20 @@
    "entered_at": "2026-10-27T08:12:00+08:00",
    "entered_by": "bm-b r1171",
    "runner_note": "one-line semantic fix, but it moves every screened arm: the deliverable is the before/after per consuming face (MID armed levels, GAPARM family/endgrid, GAPTOP3, HELDSPLIT, SCREENGAPERA, panel_screen selftest), not the patch alone. Order: patch + selftest, then re-derive, then re-read E99/E100/E104 conclusions against the new arms (all of them were measured on the mirrored arm)."
+  },
+  {
+   "id": "E109-SCREENED-CONSUMER-SWEEP",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (midscreen / churngap / robustchurn / churnse / singleprint / topnames / loodist / screenspread / screentilt / screenwide / screenweek / screenreg / gapsplit / burncontrol)",
+   "title": "E108 re-derived only the seven gap-arm consumers. Every other leg that reads a neutralise or neutralise_int arm still carries the mirrored factor on its reverse-split windows. Re-derive all of them with the fixed panel_screen and publish one before/after face per leg, ranked by the number of published numbers the leg carries.",
+   "deliverable": "results/e44_midmonth/REPAIRSWEEP-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e108-repair-factor-sign.md (remaining scope block)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T08:36:33+08:00",
+   "entered_by": "bm-b r1172",
+   "runner_note": "reuse scripts/e108_repairfix.py: copy the published faces to a temp dir, run each leg with the fixed code, then 'report <before> <after>'. Downward-print cells must be bit-identical; if one moves, the leg reads something else too."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

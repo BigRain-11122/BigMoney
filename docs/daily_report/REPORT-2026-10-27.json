@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-27",
- "generated_at": "2026-10-27 08:06:39",
+ "generated_at": "2026-10-27 08:39:16",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-27.md"
  },
  "rd": {
-  "commits_24h": 115,
+  "commits_24h": 119,
   "result_jsons_landed_24h": 309,
-  "digests_landed_24h": 41,
+  "digests_landed_24h": 43,
   "prereg_md_touched_24h": 66,
   "compute_audit_latest": {
-   "ts": "2026-10-27 08:04:19",
-   "py_cpu_pct": 4.1,
+   "ts": "2026-10-27 08:36:53",
+   "py_cpu_pct": 2.7,
    "flags": [
     "supply_gap"
    ],
    "verdict": "FLAG:supply_gap"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -652,12 +652,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2269377,
+  "total_report_tokens_est": 2270505,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-27 06:50:55",
+   "prev_generated": "2026-10-27 07:39:24",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 648,
-   "mandate_growth": -6
+   "report_tokens_growth": 1128,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -667,74 +667,12 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-27 05:52:29",
-    "py_pct": 0.0,
-    "cpu_pct": 27.0,
-    "ready": 3,
-    "streak_min": 188.9,
-    "verdict": "FLAG:supply_gap,supply_owner_silent",
-    "py_series_tail": [
-     [
-      "01:57",
-      0.1
-     ],
-     [
-      "01:57",
-      0.0
-     ],
-     [
-      "01:57",
-      0.0
-     ],
-     [
-      "02:43",
-      0.0
-     ],
-     [
-      "03:09",
-      1.5
-     ],
-     [
-      "03:12",
-      0.1
-     ],
-     [
-      "03:17",
-      0.3
-     ],
-     [
-      "03:31",
-      2.4
-     ],
-     [
-      "04:01",
-      3.1
-     ],
-     [
-      "04:56",
-      0.2
-     ],
-     [
-      "05:44",
-      0.1
-     ],
-     [
-      "05:52",
-      0.0
-     ]
-    ],
-    "today_samples": 13,
-    "today_floor_ok": 10,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 10
-   },
-   "bm-b": {
-    "latest_ts": "2026-10-27 08:04:19",
-    "py_pct": 4.1,
-    "cpu_pct": 6.0,
+    "latest_ts": "2026-10-27 08:02:15",
+    "py_pct": 0.1,
+    "cpu_pct": 21.0,
     "ready": 4,
-    "streak_min": 320.8,
-    "verdict": "FLAG:supply_gap",
+    "streak_min": 318.7,
+    "verdict": "FLAG:supply_gap,supply_owner_silent",
     "py_series_tail": [
      [
       "03:12",
@@ -781,14 +719,76 @@
       2.0
      ],
      [
-      "08:04",
-      4.1
+      "08:02",
+      0.1
      ]
     ],
     "today_samples": 18,
     "today_floor_ok": 15,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 15
+   },
+   "bm-b": {
+    "latest_ts": "2026-10-27 08:36:53",
+    "py_pct": 2.7,
+    "cpu_pct": 12.0,
+    "ready": 4,
+    "streak_min": 353.3,
+    "verdict": "FLAG:supply_gap",
+    "py_series_tail": [
+     [
+      "03:17",
+      0.3
+     ],
+     [
+      "03:31",
+      2.4
+     ],
+     [
+      "04:01",
+      3.1
+     ],
+     [
+      "04:56",
+      0.2
+     ],
+     [
+      "05:44",
+      0.1
+     ],
+     [
+      "05:52",
+      0.0
+     ],
+     [
+      "06:15",
+      1.8
+     ],
+     [
+      "06:40",
+      0.0
+     ],
+     [
+      "07:13",
+      2.5
+     ],
+     [
+      "07:36",
+      2.0
+     ],
+     [
+      "08:02",
+      0.1
+     ],
+     [
+      "08:36",
+      2.7
+     ]
+    ],
+    "today_samples": 19,
+    "today_floor_ok": 16,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 16
    },
    "bm-c": {
     "latest_ts": "2026-10-27 07:13:50",
@@ -872,7 +872,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 05:52:29"
+     "audit_ts": "2026-10-27 08:02:15"
     }
    },
    "bm-b": {
@@ -888,7 +888,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 08:04:19"
+     "audit_ts": "2026-10-27 08:36:53"
     }
    },
    "bm-c": {

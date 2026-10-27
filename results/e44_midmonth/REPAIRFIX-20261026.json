@@ -1,0 +1,726 @@
+{
+ "tool": "scripts/e108_repairfix.py",
+ "study": "E108 repair-factor sign fix: panel_screen.split_events now uses the cancelling factor 1/(1+r) for every event",
+ "before_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\e108_before",
+ "after_dir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\e108_after",
+ "faces": [
+  {
+   "face": "GAPARM-ENDGRID-20261026-s20180101.json",
+   "keys_compared": 1629,
+   "numeric_leaves": 1141,
+   "numeric_moved": 45,
+   "max_abs_delta": 525.2,
+   "date_leaves_moved": 0,
+   "top_movers": [
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/levels_bp/neutralise_gap1",
+     "before": -559.5,
+     "after": -34.3,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/delta_bp",
+     "before": -348.1,
+     "after": 177.1,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[2]/books/mid/levels_bp/neutralise_gap1",
+     "before": -534.8,
+     "after": -35.9,
+     "delta": 498.9
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[2]/books/mid/delta_bp",
+     "before": -330.7,
+     "after": 168.2,
+     "delta": 498.9
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[1]/books/mid/levels_bp/neutralise_gap1",
+     "before": -534.8,
+     "after": -35.9,
+     "delta": 498.9
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[1]/books/mid/delta_bp",
+     "before": -330.7,
+     "after": 168.2,
+     "delta": 498.9
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[3]/books/mid/levels_bp/neutralise_gap1",
+     "before": -507.2,
+     "after": -32.1,
+     "delta": 475.1
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[3]/books/mid/delta_bp",
+     "before": -314.9,
+     "after": 160.2,
+     "delta": 475.1
+    }
+   ]
+  },
+  {
+   "face": "GAPARM-FAMILY-ENDGRID-20261026-s20180101.json",
+   "keys_compared": 6235,
+   "numeric_leaves": 4515,
+   "numeric_moved": 226,
+   "max_abs_delta": 525.2,
+   "date_leaves_moved": 0,
+   "top_movers": [
+    {
+     "path": "eras/[3]/per_arm/mid/neutralise_int/non_zero_delta_bp/[0]",
+     "before": -348.1,
+     "after": 177.1,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/per_arm/mid/neutralise_gap5/non_zero_delta_bp/[0]",
+     "before": -348.1,
+     "after": 177.1,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/per_arm/mid/neutralise_gap2/non_zero_delta_bp/[0]",
+     "before": -348.1,
+     "after": 177.1,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/per_arm/mid/neutralise_gap1/non_zero_delta_bp/[0]",
+     "before": -348.1,
+     "after": 177.1,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/levels_bp/neutralise_int",
+     "before": -559.5,
+     "after": -34.3,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/levels_bp/neutralise_gap5",
+     "before": -559.5,
+     "after": -34.3,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/levels_bp/neutralise_gap2",
+     "before": -559.5,
+     "after": -34.3,
+     "delta": 525.2
+    },
+    {
+     "path": "eras/[3]/end_choice_series/[0]/books/mid/levels_bp/neutralise_gap1",
+     "before": -559.5,
+     "after": -34.3,
+     "delta": 525.2
+    }
+   ]
+  },
+  {
+   "face": "GAPTOP3-20261026-s2018.json",
+   "keys_compared": 1619,
+   "numeric_leaves": 1282,
+   "numeric_moved": 27,
+   "max_abs_delta": 9978.4,
+   "date_leaves_moved": 0,
+   "top_movers": [
+    {
+     "path": "cells/[7]/top/[0]/gap_bp",
+     "before": -9979.4,
+     "after": -1.0,
+     "delta": 9978.4
+    },
+    {
+     "path": "cells/[7]/top/[0]/alpha_change_bp",
+     "before": -6614.2,
+     "after": 3364.2,
+     "delta": 9978.4
+    },
+    {
+     "path": "answers/moves_named/[3]/largest_window/gap_bp",
+     "before": -9979.4,
+     "after": -1.0,
+     "delta": 9978.4
+    },
+    {
+     "path": "answers/moves_named/[3]/largest_window/alpha_change_bp",
+     "before": -6614.2,
+     "after": 3364.2,
+     "delta": 9978.4
+    },
+    {
+     "path": "cells/[7]/top/[0]/contrib_bp",
+     "before": -245.0,
+     "after": 124.6,
+     "delta": 369.6
+    },
+    {
+     "path": "cells/[7]/sum_top_contrib_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "cells/[7]/published_delta_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "cells/[7]/delta_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    }
+   ]
+  },
+  {
+   "face": "HELDSPLIT-20261026-s2018.json",
+   "keys_compared": 6355,
+   "numeric_leaves": 5393,
+   "numeric_moved": 569,
+   "max_abs_delta": 11850.0,
+   "date_leaves_moved": 22,
+   "top_movers": [
+    {
+     "path": "cells/[7]/top/[0]/max_abs_read/share_of_window_mean_pct",
+     "before": -8952.5,
+     "after": 2897.5,
+     "delta": 11850.0
+    },
+    {
+     "path": "answers/largest_unchanged_holding_splits/[1]/largest_window/max_abs_read/share_of_window_mean_pct",
+     "before": -8952.5,
+     "after": 1717.5,
+     "delta": 10670.0
+    },
+    {
+     "path": "cells/[7]/top/[2]/max_abs_read/share_of_window_mean_pct",
+     "before": -554.6,
+     "after": -8952.5,
+     "delta": -8397.9
+    },
+    {
+     "path": "cells/[5]/top/[2]/max_abs_read/share_of_window_mean_pct",
+     "before": 2282.6,
+     "after": -3871.9,
+     "delta": -6154.5
+    },
+    {
+     "path": "cells/[5]/top/[1]/max_abs_read/share_of_window_mean_pct",
+     "before": -1904.1,
+     "after": 2282.6,
+     "delta": 4186.7
+    },
+    {
+     "path": "cells/[7]/top/[1]/max_abs_read/share_of_window_mean_pct",
+     "before": 2897.5,
+     "after": -554.6,
+     "delta": -3452.1
+    },
+    {
+     "path": "answers/largest_unchanged_holding_splits/[0]/largest_window/top/[0]/gap_fwd_pct",
+     "before": 1902.84,
+     "after": 14.2,
+     "delta": -1888.64
+    },
+    {
+     "path": "answers/largest_unchanged_holding_splits/[0]/largest_window/max_abs_read/gap_fwd_pct",
+     "before": 1902.84,
+     "after": 14.2,
+     "delta": -1888.64
+    }
+   ]
+  },
+  {
+   "face": "MID-20261026-s20180101-armed.json",
+   "keys_compared": 4660,
+   "numeric_leaves": 3514,
+   "numeric_moved": 84,
+   "max_abs_delta": 369.6,
+   "date_leaves_moved": 0,
+   "top_movers": [
+    {
+     "path": "levels/[7]/arms/neutralise_int/delta_vs_unscreened_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap5/delta_vs_unscreened_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap2/delta_vs_unscreened_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap1/delta_vs_unscreened_bp",
+     "before": -241.0,
+     "after": 128.6,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_int/churn_alpha_bp_mean",
+     "before": -364.7,
+     "after": 4.9,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap5/churn_alpha_bp_mean",
+     "before": -364.7,
+     "after": 4.9,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap2/churn_alpha_bp_mean",
+     "before": -364.7,
+     "after": 4.9,
+     "delta": 369.6
+    },
+    {
+     "path": "levels/[7]/arms/neutralise_gap1/churn_alpha_bp_mean",
+     "before": -364.7,
+     "after": 4.9,
+     "delta": 369.6
+    }
+   ]
+  },
+  {
+   "face": "REPAIRSTEP-20261026.json",
+   "keys_compared": 1285,
+   "numeric_leaves": 951,
+   "numeric_moved": 45,
+   "max_abs_delta": 1874.79,
+   "date_leaves_moved": 0,
+   "top_movers": [
+    {
+     "path": "windows/[6]/arm_read_pct",
+     "before": 1902.84,
+     "after": 28.05,
+     "delta": -1874.79
+    },
+    {
+     "path": "windows/[6]/largest_step/rep_ret_pct",
+     "before": 1464.09,
+     "after": 0.0,
+     "delta": -1464.09
+    },
+    {
+     "path": "windows/[11]/largest_step/rep_ret_pct",
+     "before": 1464.09,
+     "after": 0.0,
+     "delta": -1464.09
+    },
+    {
+     "path": "windows/[11]/arm_read_pct",
+     "before": 1418.07,
+     "after": -2.94,
+     "delta": -1421.01
+    },
+    {
+     "path": "windows/[5]/arm_read_pct",
+     "before": 393.45,
+     "after": 22.21,
+     "delta": -371.24
+    },
+    {
+     "path": "windows/[13]/arm_read_pct",
+     "before": 389.03,
+     "after": 21.12,
+     "delta": -367.91
+    },
+    {
+     "path": "windows/[3]/largest_step/rep_ret_pct",
+     "before": 313.06,
+     "after": 0.0,
+     "delta": -313.06
+    },
+    {
+     "path": "windows/[1]/largest_step/rep_ret_pct",
+     "before": 313.06,
+     "after": 0.0,
+     "delta": -313.06
+    }
+   ]
+  },
+  {
+   "face": "SCREENGAPERA-20261023.json",
+   "keys_compared": 6590,
+   "numeric_leaves": 4945,
+   "numeric_moved": 166,
+   "max_abs_delta": 283.0,
+   "date_leaves_moved": 1,
+   "top_movers": [
+    {
+     "path": "era_rows/[3]/adjacent_only_spread_ann_bp",
+     "before": 475.0,
+     "after": 192.0,
+     "delta": -283.0
+    },
+    {
+     "path": "era_rows/[3]/neutralise_int_spread_ann_bp",
+     "before": 300.0,
+     "after": 141.0,
+     "delta": -159.0
+    },
+    {
+     "path": "era_rows/[3]/neutralise_gap@5_spread_ann_bp",
+     "before": 300.0,
+     "after": 141.0,
+     "delta": -159.0
+    },
+    {
+     "path": "era_rows/[3]/neutralise_gap@2_spread_ann_bp",
+     "before": 300.0,
+     "after": 141.0,
+     "delta": -159.0
+    },
+    {
+     "path": "era_rows/[3]/neutralise_gap@1_spread_ann_bp",
+     "before": 300.0,
+     "after": 141.0,
+     "delta": -159.0
+    },
+    {
+     "path": "answers/worst_era_correction/arm_spread_ann_bp",
+     "before": 300.0,
+     "after": 141.0,
+     "delta": -159.0
+    },
+    {
+     "path": "era_rows/[3]/delta_vs_unscreened_neutralise_int",
+     "before": 200.0,
+     "after": 58.0,
+     "delta": -142.0
+    },
+    {
+     "path": "era_rows/[3]/delta_vs_unscreened_neutralise_gap@5",
+     "before": 200.0,
+     "after": 58.0,
+     "delta": -142.0
+    }
+   ]
+  }
+ ],
+ "faces_moved": [
+  "GAPARM-ENDGRID-20261026-s20180101.json",
+  "GAPARM-FAMILY-ENDGRID-20261026-s20180101.json",
+  "GAPTOP3-20261026-s2018.json",
+  "HELDSPLIT-20261026-s2018.json",
+  "MID-20261026-s20180101-armed.json",
+  "REPAIRSTEP-20261026.json",
+  "SCREENGAPERA-20261023.json"
+ ],
+ "faces_untouched": [],
+ "readings": {
+  "mid_armed_levels": {
+   "before": {
+    "newest_era_level_bp": {
+     "me": {
+      "unscreened": 100.7,
+      "neutralise_int": 105.6,
+      "neutralise_gap1": 105.6,
+      "neutralise_gap2": 105.6,
+      "neutralise_gap5": 105.6
+     },
+     "mid": {
+      "unscreened": -123.7,
+      "neutralise_int": -364.7,
+      "neutralise_gap1": -364.7,
+      "neutralise_gap2": -364.7,
+      "neutralise_gap5": -364.7
+     }
+    },
+    "level_sign_flips_across_arms": []
+   },
+   "after": {
+    "newest_era_level_bp": {
+     "me": {
+      "unscreened": 100.7,
+      "neutralise_int": 105.6,
+      "neutralise_gap1": 105.6,
+      "neutralise_gap2": 105.6,
+      "neutralise_gap5": 105.6
+     },
+     "mid": {
+      "unscreened": -123.7,
+      "neutralise_int": 4.9,
+      "neutralise_gap1": 4.9,
+      "neutralise_gap2": 4.9,
+      "neutralise_gap5": 4.9
+     }
+    },
+    "level_sign_flips_across_arms": [
+     "2024_now/mid"
+    ]
+   }
+  },
+  "GAPARM-ENDGRID-20261026-s20180101": {
+   "before": {
+    "delta_span_bp": {
+     "2017_2020": {
+      "me": 745.9,
+      "mid": 0.0
+     },
+     "2021_2023": {
+      "me": 249.6,
+      "mid": 291.4
+     },
+     "2024_now": {
+      "me": 5.3,
+      "mid": 107.1
+     }
+    },
+    "level_span_bp": {
+     "2017_2020": {
+      "me": {
+       "unscreened": 1773.4,
+       "neutralise_gap1": 1526.1
+      },
+      "mid": {
+       "unscreened": 1890.3,
+       "neutralise_gap1": 1890.3
+      }
+     },
+     "2021_2023": {
+      "me": {
+       "unscreened": 407.3,
+       "neutralise_gap1": 157.7
+      },
+      "mid": {
+       "unscreened": 535.5,
+       "neutralise_gap1": 244.1
+      }
+     },
+     "2024_now": {
+      "me": {
+       "unscreened": 78.9,
+       "neutralise_gap1": 78.9
+      },
+      "mid": {
+       "unscreened": 89.2,
+       "neutralise_gap1": 194.8
+      }
+     }
+    },
+    "delta_stable_eras": {
+     "me": [
+      "2024_now"
+     ],
+     "mid": [
+      "2017_2020"
+     ]
+    }
+   },
+   "after": {
+    "delta_span_bp": {
+     "2017_2020": {
+      "me": 745.9,
+      "mid": 0.0
+     },
+     "2021_2023": {
+      "me": 249.6,
+      "mid": 291.4
+     },
+     "2024_now": {
+      "me": 5.3,
+      "mid": 48.5
+     }
+    },
+    "level_span_bp": {
+     "2017_2020": {
+      "me": {
+       "unscreened": 1773.4,
+       "neutralise_gap1": 1526.1
+      },
+      "mid": {
+       "unscreened": 1890.3,
+       "neutralise_gap1": 1890.3
+      }
+     },
+     "2021_2023": {
+      "me": {
+       "unscreened": 407.3,
+       "neutralise_gap1": 157.7
+      },
+      "mid": {
+       "unscreened": 535.5,
+       "neutralise_gap1": 244.1
+      }
+     },
+     "2024_now": {
+      "me": {
+       "unscreened": 78.9,
+       "neutralise_gap1": 78.9
+      },
+      "mid": {
+       "unscreened": 89.2,
+       "neutralise_gap1": 53.9
+      }
+     }
+    },
+    "delta_stable_eras": {
+     "me": [
+      "2024_now"
+     ],
+     "mid": [
+      "2017_2020"
+     ]
+    }
+   }
+  },
+  "GAPTOP3-20261026-s2018": {
+   "before": {
+    "large_moves": 4,
+    "verdict_tally": {
+     "delta_is_one_window": 5,
+     "no_delta": 1
+    },
+    "price_read_driver_names": [
+     {
+      "name": "sh510130",
+      "windows": 3
+     },
+     {
+      "name": "sh510210",
+      "windows": 2
+     },
+     {
+      "name": "sh512090",
+      "windows": 2
+     },
+     {
+      "name": "sh512360",
+      "windows": 2
+     },
+     {
+      "name": "sh510580",
+      "windows": 2
+     },
+     {
+      "name": "sh510150",
+      "windows": 2
+     },
+     {
+      "name": "sh510200",
+      "windows": 2
+     },
+     {
+      "name": "sh510030",
+      "windows": 2
+     },
+     {
+      "name": "sh510270",
+      "windows": 2
+     },
+     {
+      "name": "sh513080",
+      "windows": 2
+     }
+    ]
+   },
+   "after": {
+    "large_moves": 4,
+    "verdict_tally": {
+     "delta_is_one_window": 5,
+     "no_delta": 1
+    },
+    "price_read_driver_names": [
+     {
+      "name": "sh510130",
+      "windows": 3
+     },
+     {
+      "name": "sh510210",
+      "windows": 2
+     },
+     {
+      "name": "sh512090",
+      "windows": 2
+     },
+     {
+      "name": "sh512360",
+      "windows": 2
+     },
+     {
+      "name": "sh510580",
+      "windows": 2
+     },
+     {
+      "name": "sh510150",
+      "windows": 2
+     },
+     {
+      "name": "sh510200",
+      "windows": 2
+     },
+     {
+      "name": "sh510030",
+      "windows": 2
+     },
+     {
+      "name": "sh510270",
+      "windows": 2
+     },
+     {
+      "name": "sh513080",
+      "windows": 2
+     }
+    ]
+   }
+  },
+  "HELDSPLIT-20261026-s2018": {
+   "before": {
+    "cells_measured": 6,
+    "cells_with_a_split": 4,
+    "verdict_tally": {
+     "no_split_inside_unchanged_holdings": 2,
+     "delta_is_one_window": 4
+    }
+   },
+   "after": {
+    "cells_measured": 6,
+    "cells_with_a_split": 4,
+    "verdict_tally": {
+     "no_split_inside_unchanged_holdings": 2,
+     "delta_is_one_window": 2,
+     "delta_is_a_few_windows": 2
+    }
+   }
+  },
+  "REPAIRSTEP-20261026": {
+   "before": {
+    "flagged_windows": 16,
+    "fabricating_windows": 8,
+    "verdict_tally": {
+     "arm_untouched_raw_print": 8,
+     "step_amplifies_print": 8
+    }
+   },
+   "after": {
+    "flagged_windows": 16,
+    "fabricating_windows": 0,
+    "verdict_tally": {
+     "arm_untouched_raw_print": 8,
+     "step_cancels_print": 8
+    }
+   }
+  }
+ },
+ "control": {
+  "note": "the repairstep leg was re-run with the OLD factor restored (e108_repairfix.py legacy repairstep) and reproduced the published face with 0 of 966 numeric leaves moved, so the diffs below are the factor and not panel drift",
+  "panel_cutoff": "2026-10-26"
+ },
+ "confound": {
+  "SCREENGAPERA-20261023.json": "compared across cutoffs (published 2026-10-23 vs fresh 2026-10-26), so its diff mixes the factor with two days of panel arrival; read it as a direction, not a delta"
+ }
+}
