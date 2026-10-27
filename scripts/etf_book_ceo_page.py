@@ -129,6 +129,95 @@ def money_cny(tk, nav):
 
 TRADING_DAYS_PER_YEAR = 250
 
+STRESS_DIR = os.path.join(ROOT, "results", "etf_book_stress")
+STRESS_WINDOWS = (1, 5, 20)
+
+
+def stress_stats(daily, windows=STRESS_WINDOWS, capital=None):
+    """Worst run of `n` consecutive days for a fixed-weight book.
+
+    `daily` is a pandas Series of (weight-applied) book returns; a name that printed no
+    price on a leg simply earns nothing for that leg, which is how the research engine
+    treats it too. Everything here is the same arithmetic in a different window -- no new
+    assumption, no fitted model. Returns None when there is not enough history, so a
+    missing panel can never be read as "this book never loses".
+    """
+    if daily is None or len(daily) == 0:
+        return None
+    s = daily.dropna()
+    if len(s) == 0:
+        return None
+    out = {"n_days": int(len(s)), "first": str(s.index[0])[:10], "last": str(s.index[-1])[:10],
+           "worst": {}, "capital_cny": capital}
+    for n in windows:
+        if len(s) < n:
+            out["worst"]["%dd" % n] = None
+            continue
+        # compounded, not summed: the reader is being told what the money did over N days
+        gross = (1.0 + s).cumprod() / (1.0 + s).cumprod().shift(n) - 1.0
+        roll = gross.dropna()
+        if len(roll) == 0:
+            out["worst"]["%dd" % n] = None
+            continue
+        when = roll.idxmin()
+        val = float(roll.min())
+        row = {"pct": round(val * 100.0, 2), "end_date": str(when)[:10]}
+        row["cny"] = None if capital is None else round(val * float(capital), 0)
+        out["worst"]["%dd" % n] = row
+    return out
+
+
+def build_stress(order, capital, priced_bar, close=None):
+    """Data path: replay today's weights over the whole panel, worst-window report.
+
+    Cached per priced bar -- the answer only changes when the panel or the book does, and
+    re-walking 20 years of a 1,500-column panel every tick is cost without information.
+    """
+    if not order:
+        return None
+    cache = os.path.join(STRESS_DIR, "STRESS-%s.json" % str(priced_bar).replace("-", ""))
+    if os.path.exists(cache):
+        try:
+            with open(cache, encoding="utf-8") as fh:
+                c = json.load(fh)
+            if c.get("capital_cny") == round(float(capital or 0.0), 2):
+                return c
+        except (OSError, ValueError):
+            pass
+    try:
+        if close is None:
+            import sys as _sys
+            _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import etf_book_forward as F
+            close, _o, _a, _f, _sc, _cls, _nf = F.build_inputs()
+        import numpy as _np
+        import pandas as _pd
+        names = [o.get("symbol") for o in order]
+        wts = [float(o.get("weight") or 0.0) for o in order]
+        legs = {}
+        for n, w in zip(names, wts):
+            if n in close.columns:
+                legs[n] = close[n].astype(float).pct_change().fillna(0.0) * w
+            else:
+                legs[n] = _pd.Series(0.0, index=close.index)
+        book = _pd.DataFrame(legs).sum(axis=1)
+    except Exception as exc:               # honest: no panel -> no stress claim
+        return {"error": "%s: %s" % (type(exc).__name__, exc), "worst": {}, "capital_cny": capital}
+    st = stress_stats(book, capital=capital)
+    if st is None:
+        return None
+    st["capital_cny"] = round(float(capital or 0.0), 2)
+    st["basis"] = ("今天的权重原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；"
+                   "不是策略实际路径，是同一批票的最坏窗口")
+    try:
+        os.makedirs(STRESS_DIR, exist_ok=True)
+        with open(cache, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(st, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+    except OSError:
+        pass
+    return st
+
 
 def today_action(p):
     """Does the reader have to touch the account today?
@@ -172,7 +261,7 @@ def today_action(p):
     return out
 
 
-def build():
+def build(with_stress=False):
     ptr, tk, tk_path = _load_ticket()
     card = _load(CARD) if os.path.exists(CARD) else {}
     ledger = _load(LEDGER) if os.path.exists(LEDGER) else {}
@@ -269,6 +358,7 @@ def build():
         ],
     }
     page["today_action"] = today_action(page)
+    page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
 
@@ -381,6 +471,29 @@ def render_md(p):
     add("")
     add("读法：一年赚多少是回测期望，不是承诺；最坏回撤那一行才是你要能扛住的数。")
     add("")
+    st = p.get("stress") or {}
+    worst = st.get("worst") or {}
+    if worst.get("1d") or worst.get("5d") or worst.get("20d"):
+        add("## 最坏的日子长什么样（同一批票，整段历史）")
+        add("")
+        add("把今天这 %d 只票的权重重放回 %s~%s 的整段面板（现金 0 息），看最坏的连续几个交易日："
+            % (len(p["order"]), st.get("first"), st.get("last")))
+        add("")
+        add("| 窗口 | 最差涨跌 | 折成钱 | 结束于 |")
+        add("|---|---|---|---|")
+        for n in STRESS_WINDOWS:
+            row = worst.get("%dd" % n)
+            if not row:
+                add("| %d 个交易日 | — | — | — |" % n)
+                continue
+            add("| %d 个交易日 | %+.2f%% | %s | %s |"
+                % (n, row["pct"], "—" if row.get("cny") is None else
+                   ("%s¥%s" % ("+" if row["cny"] > 0 else "-", format(abs(row["cny"]), ",.0f"))),
+                   row.get("end_date") or "—"))
+        add("")
+        add("读法：这是「同一批票、同样权重、最倒霉的一段」值多少钱，不是预测，也不是这本账实际走过的路"
+            "（实际路径的回撤见上一张表的最大回撤列）。")
+        add("")
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -398,7 +511,7 @@ def run():
         print("etf_book_ceo_page: host=%s is not the writer (host=%s) -- honest no-op, nothing written"
               % (mid, HOST))
         return 0
-    page, today = build()
+    page, today = build(with_stress=True)
     os.makedirs(OUT_DIR, exist_ok=True)
     md_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.md" % today.replace("-", ""))
     js_path = os.path.join(OUT_DIR, "LIVE-BOOK-%s.json" % today.replace("-", ""))
@@ -519,6 +632,29 @@ def selftest():
     chk("L22 guard: writer_allowed('bm-a') only",
         writer_allowed("bm-a") and not writer_allowed("bm-c") and not writer_allowed("bm-b")
         and not writer_allowed(None), "host=%s" % HOST)
+
+    # 23-26. the stress block: hand fixture first, then the "absent panel is never zero" face
+    import pandas as _pd
+    _s = _pd.Series([0.01, -0.05, 0.02, -0.03, -0.04, 0.06, -0.08],
+                    index=["2026-01-0%d" % i for i in range(1, 8)])
+    _st = stress_stats(_s, windows=(1, 2, 5), capital=1000000.0)
+    chk("L23 stress: worst 1-day is the single worst print, with its own end date",
+        _st["worst"]["1d"]["pct"] == -8.0 and _st["worst"]["1d"]["end_date"] == "2026-01-07",
+        str(_st["worst"]["1d"]))
+    chk("L24 stress: the N-day window compounds its days and starts strictly after the anchor",
+        -8.0 < _st["worst"]["5d"]["pct"] < -7.0 and _st["worst"]["5d"]["end_date"] == "2026-01-07",
+        str(_st["worst"]["5d"]))
+    chk("L25 stress: yuan is the percentage times this ticket's capital (a unit change only)",
+        abs(_st["worst"]["1d"]["cny"] + 80000.0) < 1.0
+        and abs(_st["worst"]["5d"]["cny"] / 1000000.0 * 100.0 - _st["worst"]["5d"]["pct"]) < 0.01,
+        "%s / %s" % (_st["worst"]["1d"]["cny"], _st["worst"]["5d"]["cny"]))
+    _no_cap = stress_stats(_s, windows=(1,), capital=None)["worst"]["1d"]
+    chk("L26 stress: no panel / no capital gives None or a missing row, never a zero",
+        stress_stats(None) is None and stress_stats(_pd.Series(dtype=float)) is None
+        and _no_cap["cny"] is None and _no_cap["pct"] == -8.0,
+        "empty panel -> None, capital-less yuan -> None")
+    chk("L27 stress: a window longer than the history says 'no row', never a fabricated number",
+        stress_stats(_s, windows=(50,))["worst"]["50d"] is None)
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

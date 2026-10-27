@@ -653,6 +653,25 @@ def main() -> int:
               f"mode={_mode} decided={_page.get('book_decided_at')} "
               f"priced={_page.get('priced_bar')} retrade_cost="
               f"{_ta.get('cost_if_retraded_pct_per_year')}%/yr")
+        # A page that only quotes the backtest's max drawdown answers "how bad was the
+        # strategy's own path", not "how bad can this exact set of names get". Assert
+        # the stress block exists, that each window's yuan is that window's own
+        # percentage x this ticket's capital, and that no window is silently blank.
+        _st = _page.get("stress") or {}
+        _w = _st.get("worst") or {}
+        _ok_st = bool(_st) and not _st.get("error") and _st.get("n_days", 0) > 0
+        for _k in ("1d", "5d", "20d"):
+            _row = _w.get(_k)
+            if not _row:
+                _ok_st = False
+                break
+            _ok_st = (_ok_st and isinstance(_row.get("end_date"), str)
+                      and abs(float(_row.get("cny") or 0)
+                              - float(_row.get("pct") or 0) / 100.0 * _cap) < 100.0
+                      and float(_row.get("pct") or 0) < 0)
+        check("product: ETF live-book stress rows are their own percentages x capital", _ok_st,
+              f"days={_st.get('n_days')} 1d={_w.get('1d', {}).get('pct')} "
+              f"5d={_w.get('5d', {}).get('pct')} 20d={_w.get('20d', {}).get('pct')}")
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's
