@@ -970,6 +970,32 @@ def main() -> int:
         check("fleet: machine-health face is machine-keyed, not a nesting generator",
               False, str(e))
 
+    # The hourly oversight writer does NOT run this repo's copy. It runs a deployed
+    # copy under <KRoot>\.codely-cli\oversight-<id>\fleet-oversight.ps1, and nothing
+    # kept the two in step: D-20261028-02 fixed the writer in the repo, the running
+    # copy stayed at v1.0, and the very next hourly fire re-broke fleet/machine-health
+    # with the nesting the fix had just removed (2026-10-28 01:11, one hour after the
+    # rebuilt face read clean). A deployed copy is a SECOND code face, so its drift is
+    # a red leg rather than something a reader has to notice from damaged output.
+    try:
+        _mid2 = json.load(open("fleet/machine.json", encoding="utf-8-sig"))["machine_id"]
+        _group = os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
+        _dtool = os.path.join(_group, "Tools", "oversight_deploy.ps1")
+        if not os.path.isfile(_dtool):
+            check("fleet: oversight writer's deployed copy tracks its source", True,
+                  "group tree not mounted on this machine -- omitted, not passed")
+        else:
+            _dw = subprocess.run(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+                 _dtool, "-M", _mid2, "-Check"],
+                capture_output=True, text=True, encoding="utf-8", errors="replace",
+                creationflags=0x08000000)
+            _dline = ((_dw.stdout or "").strip().splitlines() or [""])[-1]
+            check("fleet: oversight writer's deployed copy tracks its source",
+                  _dw.returncode == 0, f"rc={_dw.returncode} {_dline[:90]}")
+    except Exception as e:
+        check("fleet: oversight writer's deployed copy tracks its source", False, str(e))
+
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
     # the older body went out through a GBK round trip (19 x U+E511), and the file

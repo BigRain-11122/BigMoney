@@ -1555,3 +1555,29 @@ quoting any 2024-now bp figure off this face is not.
 Evidence: results/e44_midmonth/WARMSPREADSCREEN-20261027.json, scripts/e39_panel_census.py
 run_warmspreadscreened / _warmspread_arm_cells / _warmspread_ordering / _warmspread_arm_dates
 (selftest 393 -> 427), research/digests/DIGEST-20261027-e122-warmspread-screened.md.
+## E161 A fix is only live where the scheduler actually runs it (2026-10-28 r1195 bm-b)
+
+The hourly oversight task does not run `Tools/fleet-oversight.ps1`; it runs a deployed
+copy at `<KRoot>/.codely-cli/oversight-<id>/fleet-oversight.ps1`. Nothing compared the two.
+D-20261028-02 repaired the machine-health writer in the repo (in fact only in one
+uncommitted worktree), the deployed copy stayed at v1.0 from 2026-10-11, and the very next
+hourly fire re-broke `fleet/machine-health.json` into the exact `{"value": ...}` nesting the
+repair removed. The timeline is the tell: face rebuilt clean at 00:22, broken at 01:11, zero
+repo edits in between -- one scheduled fire.
+
+Two rules fall out. (a) Any task whose entry point is COPIED outside the repo needs a drift
+leg that compares the deployed file to its source (`oversight_deploy.ps1 -Check` -> 0
+identical / 1 drift / 2 never deployed), wired as a smoke leg so stale running code is RED
+instead of a damaged shared face that a reader has to notice. (b) Deploy tooling must resolve
+the SAME path the task uses, not a tidy variant of it: `oversight-bm-b` (dashed) and
+`oversight-bmb` (what the 2026-10-11 registration runs) both "look right", and deploying to
+the wrong one reproduces the very bug the tool exists to catch -- caught here only because
+the first deploy wrote 20,923 chars into a directory no task reads.
+
+This is the same family as the worker-reads-the-code-on-disk-at-spawn pit, one step earlier:
+before the worker reads stale code, the scheduler started it.
+
+Evidence: group FluxGroup `76bf885c` (Tools/fleet-oversight.ps1 fix + Tools/oversight_deploy.ps1),
+bigmoney smoke leg `fleet: oversight writer's deployed copy tracks its source` (104/104 PASS),
+rebuild + live fire of the DEPLOYED writer (machine-health: OK machines=1 junk=0),
+research/digests/DIGEST-20261028-r1195-deployed-writer-drift.md.
