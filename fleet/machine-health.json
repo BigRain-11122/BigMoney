@@ -1,35 +1,33 @@
 {
- "bm-a": {
-  "cpu": 54.0,
-  "gpu": {
-   "free_gb": 0.7,
-   "util": 100.0
-  },
-  "ram_free_gb": 20.8,
-  "ts": "2026-10-27T23:42",
-  "util": "green",
-  "work": "r1134: the ceebc703 tree-wipe is blocked at the push, in both repos"
- },
- "bm-b": {
-  "cpu": 18.0,
-  "gpu": {
-   "free_gb": 0.3,
-   "util": 20.0
-  },
-  "ram_free_gb": 5.2,
-  "ts": "2026-10-28T04:47",
-  "util": "green",
-  "work": "idle closeout r1200: E128 per-book cash window published; pool 1 ready (E126-TILT3-REACHBACK)"
- },
- "bm-c": {
-  "cpu": 7.9,
-  "gpu": {
-   "free_gb": 14.6,
-   "util": 1.0
-  },
-  "ram_free_gb": 1.2,
-  "ts": "2026-10-28T03:15",
-  "util": "r1315 closed",
-  "work": "r1315 closeout: field-level machine-health gate + group_root resolver"
- }
+    "bm-a":  {
+                 "cpu":  54.0,
+                 "gpu":  {
+                             "free_gb":  0.7,
+                             "util":  100.0
+                         },
+                 "ram_free_gb":  20.8,
+                 "ts":  "2026-10-27T23:42",
+                 "util":  "green",
+                 "work":  "r1134: the ceebc703 tree-wipe is blocked at the push, in both repos"
+             },
+    "bm-b":  {
+                 "cpu":  10.4,
+                 "gpu":  {
+                             "free_gb":  0.5,
+                             "util":  100.0
+                         },
+                 "ram_free_gb":  9.14,
+                 "ts":  "2026-10-28T05:35",
+                 "util":  "green",
+                 "work":  "idle: pool 3 ready (E168/E169/E170) after burning E126"
+             },
+    "bm-c":  {
+                 "ts":  "2026-10-28 06:36",
+                 "util":  "red",
+                 "work":  "oversight: cpu=AMBER gpu=RED llm=RETIRED engine_q=0 wave=329 flags=8",
+                 "ram_free_gb":  1.7,
+                 "gpu":  {
+                             "free_gb":  14.6
+                         }
+             }
 }

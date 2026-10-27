@@ -537,6 +537,12 @@ def main() -> int:
             # subdirectory, which is the failure that serves a week-old ledger.
             ("product: group-root resolution (exit-code contract)",
              "Tools/group_root.py", ["selftest"]),
+            # D-20261028-04, second half: the resolver only helps the files that
+            # use it. This leg keeps the CENSUS callable -- a resident script that
+            # climbs `..\..` or pastes a mirror gets named every round instead of
+            # once, by whoever happened to grep for it.
+            ("product: group-root sweep census (exit-code contract)",
+             "scripts/group_root_sweep.py", ["selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
@@ -1147,6 +1153,14 @@ def main() -> int:
         _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: machine-health gate leg wired into the S6 chain",
               "machine_health_face" in _legs, f"legs={len(_legs)}")
+        # r1318: the panel READS the health face, so the writer has to run first.
+        # It did not -- build_status copied a thinned row and the heal happened
+        # behind it, which is why this very leg went red on a healthy fleet.
+        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        check("fleet: health writer runs before the panel that reads it",
+              _order.index("machine_health_write") < _order.index("build_status"),
+              "write=%d build_status=%d" % (_order.index("machine_health_write"),
+                                            _order.index("build_status")))
     except Exception as e:
         check("fleet: panel carries the machine-health verdict, not a row count",
               False, str(e))

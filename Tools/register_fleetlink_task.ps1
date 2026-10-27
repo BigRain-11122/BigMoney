@@ -11,11 +11,35 @@
 # quoting mangled the arguments on first registration attempt r810).
 # Pure ASCII. Idempotent via -Force. Path-agnostic via -Root param.
 param(
-  [string]$Root = "C:\Fluxgroup\FluxGroup",
+  [string]$Root = "",
   [string]$NodeId = "bm-b",
   [int]$Port = 8790
 )
 $ErrorActionPreference = 'Stop'
+# D-20261028-04: never default to a literal mirror. Resolve the group tree, then
+# require that it is the tree this task actually runs (fleet-link.ps1 present);
+# a mirror that resolves but lacks the script throws instead of registering a
+# task that can never start. -Root still wins when a caller passes one.
+if ([string]::IsNullOrWhiteSpace($Root)) {
+  # group-root-sweep: validated-walk - each candidate is only a HINT; it has to
+  # carry fleet-link.ps1 AND have the group repo as its git origin, which is the
+  # same two-part test Tools/group_root.py applies in Python.
+  $cands = @()
+  if ($env:FLUXGROUP_ROOT) { $cands += $env:FLUXGROUP_ROOT }
+  if ($PSScriptRoot) {
+    $cands += (Join-Path (Join-Path (Join-Path $PSScriptRoot '..') '..') '..')
+  }
+  foreach ($c in $cands) {
+    if (-not $c) { continue }
+    if (-not (Test-Path (Join-Path $c 'Tools\fleet-link.ps1'))) { continue }
+    $origin = ''
+    try { $origin = (& git -C $c remote get-url origin 2>$null) } catch { $origin = '' }
+    if (-not $origin -or $origin -notmatch 'FluxGroup') { continue }
+    $Root = (Resolve-Path $c).Path
+    break
+  }
+  if (-not $Root) { throw 'group root not resolved: pass -Root or set FLUXGROUP_ROOT' }
+}
 $TaskName = 'FluxGroup-FleetLink'
 $script = Join-Path $Root 'Tools\fleet-link.ps1'
 $vbs = Join-Path $Root 'Tools\InvisibleRunner.vbs'

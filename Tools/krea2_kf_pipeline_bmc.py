@@ -13,7 +13,19 @@ FILES = [
     ("vae/qwen_image_vae.safetensors", 253806246, MODELS + "\\vae\\qwen_image_vae.safetensors"),
 ]
 NSEG = 8
-REPO = "K:/Fluxgroup/FluxGroup"
+# D-20261028-04: resolve the group tree, never paste a mirror path. The Krea2
+# keyframes land under the group tree's cph4/ handover lane, so a hardcoded
+# mirror here would write frames into a tree nobody reads.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from group_root import pick_or_default as _gr_pick
+    REPO = _gr_pick()
+except Exception:                        # never block a burn on the resolver
+    REPO = None
+if not REPO:
+    REPO = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                         "..", "..", ".."))
+REPO = REPO.replace("\\", "/")
 KF_SCRIPT = REPO + "/cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/kf_fix2_fleet.py"
 FRAMES_DIR = REPO + "/cph4/fleet/mv0001-handover/outbound/krea2/30s-reel-v1/frames"
 DONE_MARKER = FRAMES_DIR + "/_krea2_kf_pipeline_done.json"

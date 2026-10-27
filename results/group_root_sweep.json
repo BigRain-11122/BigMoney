@@ -1,0 +1,6236 @@
+{
+ "schema": "group-root-sweep/2",
+ "decision": "D-20261028-04",
+ "scan_dirs": [
+  "scripts",
+  "Tools",
+  "firm",
+  "live",
+  "monitor"
+ ],
+ "files_scanned": 2138,
+ "n_hits": 790,
+ "counts": {
+  "bare-root-literal": 2,
+  "deployment-root-literal": 2,
+  "exempt-resolver": 20,
+  "group-root-hint": 7,
+  "one-off": 214,
+  "repo-root-literal": 533,
+  "sibling-repo-literal": 11,
+  "validated-walk": 1
+ },
+ "verdict": "PASS",
+ "defects": [],
+ "advisory": {
+  "exempt-resolver": [
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 68,
+    "text": "`K:\\\\Fluxgroup` is a per-host DEPLOYMENT root (task backups, machine-state",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 69,
+    "text": "flags); `K:\\\\Fluxgroup\\\\FluxGroup` is the group TREE. Only the latter can be",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 78,
+    "text": "# `D:\\FluxGroup` alone is ambiguous: the group tree on some host, or a",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 82,
+    "text": "# K:\\Fluxgroup\\.codely-cli\\... -- per-host deployment, outside any repo",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 88,
+    "text": "# nested FluxGroup/, or straight into the tree (D:\\FluxGroup\\cph4, cph4/, docs/)",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 216,
+    "text": "bad.write_text(\"GRP = r'D:\\\\FluxGroup\\\\cph4'\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 227,
+    "text": "oneoff.write_text(\"GROUP = r'K:\\\\Fluxgroup\\\\FluxGroup'\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 235,
+    "text": "\"GRP = pick_or_default(r'K:\\\\Fluxgroup\\\\FluxGroup')\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 245,
+    "text": "own.write_text(\"ROOT = r'K:\\\\Fluxgroup\\\\FluxGroup\\\\quant\\\\bigmoney'\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 254,
+    "text": "climb.write_text(\"p = os.path.join('..', '..', 'docs', 'decisions.md')\\n\",",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 266,
+    "text": "\"c = os.path.join('..', '..')\\n\", encoding=\"utf-8\")",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 279,
+    "text": "# 7. the per-host deployment root is NOT the group tree (K:\\Fluxgroup\\.codely-cli)",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 281,
+    "text": "dep.write_text('VALVE = r\"K:\\\\Fluxgroup\\\\.codely-cli\\\\machine-state.flag\"\\n',",
+    "file": "scripts/group_root_sweep.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 12,
+    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 12,
+    "text": "* hardcoded paths (`K:\\\\Fluxgroup\\\\FluxGroup`, `D:\\\\FluxGroup`, ...) -- same",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 15,
+    "text": "FluxVerse's live damage: `D:\\\\FluxGroup\\\\cph4` was nine days stale (235 vs 373",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 33,
+    "text": "root = pick_or_default(\"K:\\\\Fluxgroup\\\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 71,
+    "text": "out.append(os.path.normpath(os.path.join(here, \"..\", \"..\")))",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 72,
+    "text": "out.append(r\"K:\\Fluxgroup\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 73,
+    "text": "out.append(r\"C:\\Fluxgroup\\FluxGroup\")",
+    "file": "Tools/group_root.py",
+    "bucket": "exempt-resolver",
+    "uses_resolver": false
+   }
+  ],
+  "repo-root-literal": [
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1029bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 16,
+    "text": "REPO = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1034bmc_spawn_receipt.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1070bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r1071bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 14,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_pool_rebase_resolver.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 26,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r309bmc_w5_entry_flip.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 21,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r416bmc_cas_push.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_addendum.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_close2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 24,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_finish.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 11,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_resolve2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r421bmc_rebase_skip.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r422bmc_rebase_resolve.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r488_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r517bmc_commit.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r518bmc_commit.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r525bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 13,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r526bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_final_verify.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 5,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_gitlog.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r536bmc_gorders_dump.txt\"",
+    "file": "Tools/_r536bmc_gorders2.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_premerge_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 7,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_race_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r536bmc_xref_extract.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "OUT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\.codely-cli\\scratch\\_r725bmb_merge_resolve_REF.py\"",
+    "file": "Tools/_r536bmc_xref_extract.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 3,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_board_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 3,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r539bmc_orders_probe.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 15,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r544bmc_merge_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 7,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r545bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r546bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r547bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 9,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r547bmc_verdict_fix.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 8,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r548bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 10,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r549bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r550bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 12,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
+    "file": "Tools/_r551bmc_bookkeeping.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   }
+  ],
+  "one-off": [
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 15,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r1034bmc_closeout.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 15,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r1034bmc_spawn_receipt.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 5,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r1039bmc_d19_diff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 11,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r421bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 11,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r424bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 11,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r504bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 9,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r504bmc_win_probe.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 11,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r505bmc_d19_delta.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 12,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r505bmc_d19_read.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 8,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r505bmc_d19_rows.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 8,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r505bmc_oh_read.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 13,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r506bmc_d19_read.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 12,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r512bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 12,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r513bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 16,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r518bmc_gorders.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 8,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r536bmc_gorders.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 8,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r536bmc_gorders2.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 6,
+    "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r536bmc_gorders3.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 11,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r536bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 4,
+    "text": "G = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/_r539bmc_gorders.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 45,
+    "text": "r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r544bmc_mergemsg.txt\"])",
+    "file": "Tools/_r544bmc_merge_close.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 25,
+    "text": "OLD = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r551bmc_s6_chain.ps1\"",
+    "file": "Tools/_r555bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 26,
+    "text": "NEW = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r555bmc_s6_chain.ps1\"",
+    "file": "Tools/_r555bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 12,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))",
+    "file": "Tools/_r555bmc_s0.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 22,
+    "text": "OLD = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r555bmc_s6_chain.ps1\"",
+    "file": "Tools/_r556bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 23,
+    "text": "NEW = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r556bmc_s6_chain.ps1\"",
+    "file": "Tools/_r556bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 22,
+    "text": "OLD = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r556bmc_s6_chain.ps1\"",
+    "file": "Tools/_r557bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 23,
+    "text": "NEW = r\"K:\\Fluxgroup\\FluxGroup\\quant\\.codely-cli\\scratch\\_r557bmc_s6_chain.ps1\"",
+    "file": "Tools/_r557bmc_legdiff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 9,
+    "text": "for root in (r'K:\\Fluxgroup\\FluxGroup', r'C:\\Fluxgroup\\FluxGroup'):",
+    "file": "Tools/_r579bmb_d19.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 9,
+    "text": "for root in (r'K:\\Fluxgroup\\FluxGroup', r'C:\\Fluxgroup\\FluxGroup'):",
+    "file": "Tools/_r579bmb_d19.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 23,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r654bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 23,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r655bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r660bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r661bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r662bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r663bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r664bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r665bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r666bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 24,
+    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
+    "file": "Tools/_r668bmc_s05.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   }
+  ],
+  "deployment-root-literal": [
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 25,
+    "text": "needle_a = b(\"- [2026-10-06 23:2x r786 bm-b] O-20261006-2110/2250/2257 三 CEO 令同窗执行回执：让路律套件部署（C:\\\\Fluxgroup\\\\.codely-cli\\\\machine-state.ps1 本地化三处=$tasks 10 任务清单/qwen3.8:4b/MiniGameOllamaKeepWarm）+pause",
+    "file": "Tools/_r643bmc_codely_sink.py",
+    "bucket": "deployment-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "deployment-root",
+    "line": 58,
+    "text": "VALVE_PATH = r\"K:\\Fluxgroup\\.codely-cli\\machine-state.flag\"",
+    "file": "Tools/sentinel_bm-c.py",
+    "bucket": "deployment-root-literal",
+    "uses_resolver": false
+   }
+  ],
+  "bare-root-literal": [
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 88,
+    "text": "\"compute_audit supply_gap/ignition_sla 旗如实上报（RAM 外部门根因披露·K:\\Fluxgroup 事实面）\"",
+    "file": "Tools/_r803bmc_close.py",
+    "bucket": "bare-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "bare-root",
+    "line": 103,
+    "text": "\"compute_audit supply_gap/ignition_sla 旗如实上报（RAM 外部门根因披露·K:\\Fluxgroup 事实面）\"",
+    "file": "Tools/_r804bmc_close.py",
+    "bucket": "bare-root-literal",
+    "uses_resolver": false
+   }
+  ],
+  "group-root-hint": [
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 44,
+    "text": "GRP = _gr_pick(r'C:\\Fluxgroup\\FluxGroup')",
+    "file": "Tools/content_loop_step.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 46,
+    "text": "GRP = r'C:\\Fluxgroup\\FluxGroup'",
+    "file": "Tools/content_loop_step.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 47,
+    "text": "os.path.normpath(os.path.join(ROOT, \"..\", \"..\")),   # bigmoney -> quant -> FluxGroup (bm-a/bm-c layout)",
+    "file": "Tools/d19_check.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 49,
+    "text": "r\"K:\\Fluxgroup\\FluxGroup\",                           # legacy mapped drive probe (r579 lineage)",
+    "file": "Tools/d19_check.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 42,
+    "text": "ROOT = _gr_pick(r\"K:\\Fluxgroup\\FluxGroup\")",
+    "file": "Tools/git-atomic-push-bmc.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 44,
+    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\"",
+    "file": "Tools/git-atomic-push-bmc.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   },
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 27,
+    "text": "\"..\", \"..\", \"..\"))",
+    "file": "Tools/krea2_kf_pipeline_bmc.py",
+    "bucket": "group-root-hint",
+    "uses_resolver": true
+   }
+  ],
+  "sibling-repo-literal": [
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 385,
+    "text": "BURN_PY = r'C:\\Fluxgroup\\MiniGame\\Tools\\comfy\\drama_ep_burn.py'",
+    "file": "Tools/content_loop_step.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 386,
+    "text": "APC_DEST = r'C:\\Fluxgroup\\MiniGame\\Tools\\comfy\\anchor_precheck.py'",
+    "file": "Tools/content_loop_step.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": true
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 3,
+    "text": "# (C:\\Fluxgroup\\MiniGame\\BiuNiYiXia\\Tools\\iteration_loop.ps1, rounds 000+ live evidence).",
+    "file": "Tools/iteration_loop.ps1",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1758,
+    "text": "# first existing wins so the panel survives the C:\\Fluxgroup\\MiniGame -> C:\\Fluxgroup\\MiniGame move.",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1758,
+    "text": "# first existing wins so the panel survives the C:\\Fluxgroup\\MiniGame -> C:\\Fluxgroup\\MiniGame move.",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1760,
+    "text": "{\"name\": \"Biggame · biu你一下\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\BiuNiYiXia\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\BiuNiYiXia\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1760,
+    "text": "{\"name\": \"Biggame · biu你一下\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\BiuNiYiXia\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\BiuNiYiXia\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1761,
+    "text": "{\"name\": \"Biggame · HomeWreck\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\HomeWreck\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\HomeWreck\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1761,
+    "text": "{\"name\": \"Biggame · HomeWreck\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\HomeWreck\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\HomeWreck\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1762,
+    "text": "{\"name\": \"Biggame · PhantomEscapeGo\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\PhantomEscapeGo\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\PhantomEscapeGo\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "sibling-repo",
+    "line": 1762,
+    "text": "{\"name\": \"Biggame · PhantomEscapeGo\", \"roots\": [r\"C:\\Fluxgroup\\MiniGame\\PhantomEscapeGo\\Logs\", r\"C:\\Fluxgroup\\MiniGame\\PhantomEscapeGo\\Logs\"]},",
+    "file": "monitor/build_status.py",
+    "bucket": "sibling-repo-literal",
+    "uses_resolver": false
+   }
+  ],
+  "validated-walk": [
+   {
+    "kind": "climb",
+    "mode": "group-root",
+    "line": 30,
+    "text": "$cands += (Join-Path (Join-Path (Join-Path $PSScriptRoot '..') '..') '..')",
+    "file": "Tools/register_fleetlink_task.ps1",
+    "bucket": "validated-walk",
+    "uses_resolver": false
+   }
+  ]
+ },
+ "files_using_resolver": [
+  "Tools/content_loop_step.py",
+  "Tools/d19_check.py",
+  "Tools/git-atomic-push-bmc.py",
+  "Tools/krea2_kf_pipeline_bmc.py",
+  "scripts/group_root_sweep.py"
+ ],
+ "by_file": {
+  "scripts/group_root_sweep.py": [
+   {
+    "bucket": "exempt-resolver",
+    "mode": "bare-root",
+    "line": 68
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 69
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "bare-root",
+    "line": 78
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "deployment-root",
+    "line": 82
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 88
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 216
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 227
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 235
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "repo-root",
+    "line": 245
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 254
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 266
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "deployment-root",
+    "line": 279
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "deployment-root",
+    "line": 281
+   }
+  ],
+  "Tools/_r1029bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r1034bmc_closeout.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r1034bmc_spawn_receipt.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r1039bmc_d19_diff.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r1070bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r1071bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r309bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r309bmc_pool_rebase_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r309bmc_w5_entry_flip.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r416bmc_cas_push.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   }
+  ],
+  "Tools/_r421bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r421bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r421bmc_close2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r421bmc_rebase_finish.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r421bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r421bmc_rebase_resolve2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r421bmc_rebase_skip.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r421bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r422bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r424bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r488_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r504bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r504bmc_win_probe.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r505bmc_d19_delta.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r505bmc_d19_read.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r505bmc_d19_rows.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r505bmc_oh_read.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r506bmc_d19_read.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r512bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r513bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r517bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r518bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r518bmc_gorders.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r525bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r526bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r536bmc_final_verify.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r536bmc_gitlog.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r536bmc_gorders.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r536bmc_gorders2.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 8
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r536bmc_gorders3.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r536bmc_premerge_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r536bmc_race_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r536bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r536bmc_xref_extract.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r539bmc_board_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   }
+  ],
+  "Tools/_r539bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r539bmc_gorders.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r539bmc_orders_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   }
+  ],
+  "Tools/_r544bmc_merge_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 45
+   }
+  ],
+  "Tools/_r545bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r546bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r547bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r547bmc_verdict_fix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r548bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r549bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r550bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r551bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r551bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r552bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r552bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r552bmc_closerow.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r553bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r553bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r553bmc_close_recovery.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r553bmc_closerow.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r554bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r554bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r554bmc_closerow.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r554bmc_codely_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r554bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r555bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r555bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r555bmc_close2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r555bmc_closerow.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r555bmc_legdiff.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 25
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r555bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r555bmc_por_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r555bmc_s0.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r555bmc_s6read.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r555bmc_vloc.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r556bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r556bmc_legdiff.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r557bmc_bookkeeping.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r557bmc_legdiff.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r557bmc_s6facts.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r579bmb_d19.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r643bmc_codely_sink.py": [
+   {
+    "bucket": "deployment-root-literal",
+    "mode": "deployment-root",
+    "line": 25
+   }
+  ],
+  "Tools/_r654bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r655bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r660bmc_qa_poll.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r660bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r661bmc_qa_poll.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r661bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r662bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r663bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r664bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r665bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r666bmc_receipt_add.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 2
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r666bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r668bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r668bmc_uu_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r668bmc_uu_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r668bmc_uu_resolve2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r669bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r670bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r671bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r672bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r673bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r675bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r675bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r675bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r676bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r677bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r678bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r678bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 34
+   }
+  ],
+  "Tools/_r678bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r679bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r679bmc_ca_flags.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r679bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r680bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r681bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r682bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r683bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r684bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r685bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r686bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r687bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r687bmc_s3.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   }
+  ],
+  "Tools/_r688bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r688bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r688bmc_s3.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   }
+  ],
+  "Tools/_r689bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r690bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r690bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r690bmc_uu_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r691bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r692bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r693bmc_adv_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 37
+   }
+  ],
+  "Tools/_r693bmc_adv_probe2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r693bmc_commit_push.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r693bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r693bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r693bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r693bmc_s0_absorb.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r694bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r695bmc_chain_head.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r695bmc_close_facts.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r695bmc_ho_facts.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r695bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r695bmc_s3_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r697bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r698bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r698bmc_s3_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r700bmc_post_close_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r700bmc_rebase_escape.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r700bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r700bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r700bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r700bmc_s0_absorb.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r700bmc_s3_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r700bmc_w14_watch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r702bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r702bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r702bmc_s0b.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r702bmc_s0c.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r702bmc_s0d.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r702bmc_s0e.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r702bmc_s0f.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r702bmc_s0g.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r702bmc_s0h.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r702bmc_s0i_rebuild.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r702bmc_s0j_pullpush.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r702bmc_w14_watch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r711bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r717bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r718bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r719bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r720bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r721bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r722bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r723bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r724bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r725bmc_handover.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r725bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r726bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r727bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r728bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r729bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r730bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r730bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r730bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r731bmc_appendix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r731bmc_codely_minisplit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r731bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r731bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r731bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r732bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r733bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r734bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r735bmc_codely_minisplit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r735bmc_codely_minisplit_fix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r735bmc_prescan.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 49
+   }
+  ],
+  "Tools/_r735bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r736bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r737bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r738bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 28
+   }
+  ],
+  "Tools/_r738bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r739bmc_cas_push.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r739bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r739bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r739bmc_innovation_scan.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r739bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r740bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r740bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r740bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r741bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r741bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r741bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r741bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r742bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r742bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r742bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r742bmc_merge_gates2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r742bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r742bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r743bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r743bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r743bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r743bmc_merge_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r743bmc_merge_gates2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r743bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r743bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r744bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r744bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r744bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r744bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r744bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r745bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r745bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r745bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r745bmc_handover_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r745bmc_race_absorb.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r745bmc_race_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r745bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r745bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r746bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r746bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r746bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r746bmc_commit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r746bmc_commit2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r746bmc_merge_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r746bmc_merge_close2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r746bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r746bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r747bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r747bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r747bmc_merge_finish.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r747bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r747bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r748bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r748bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r748bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r749bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r749bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r749bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r749bmc_pit_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r749bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r750bmc_addendum_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r750bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r750bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r750bmc_ledger_heal.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r750bmc_pit_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r750bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r750bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r751bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r751bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r751bmc_pit_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r751bmc_push.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r751bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r751bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r752bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r752bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r752bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r752bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r753bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r753bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r753bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r753bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r753bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r754bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r754bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r754bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r755bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r755bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r755bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r756bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r756bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r756bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r757bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r757bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r757bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r758bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r758bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r758bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r758bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r759bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r759bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r759bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r759bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r760bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r760bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r760bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r760bmc_handover.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r760bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r761bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r761bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r761bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r762bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r762bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r762bmc_merge_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r762bmc_merge_finish.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r762bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r762bmc_race_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r762bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r763bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r763bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r763bmc_merge_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r763bmc_merge_finish.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r763bmc_merge_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r763bmc_race_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r763bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r764bmc_boot.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r764bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r764bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r765bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r765bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r766bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r766bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r767bmc_cas_receipt.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r767bmc_clone_gate.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r767bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   }
+  ],
+  "Tools/_r767bmc_mv_hb_patch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r767bmc_mv_state_patch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r767bmc_ord_diff.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 10
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 77
+   }
+  ],
+  "Tools/_r767bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r767bmc_s1.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r767bmc_s6_edit_receipt.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r767bmc_wan_fetch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r768bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r768bmc_clipvision_fetch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r768bmc_close_patch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r768bmc_i2v_gen.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 30
+   }
+  ],
+  "Tools/_r768bmc_kf_gen.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r768bmc_kf_gen_rest.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r768bmc_mv_assemble.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r768bmc_mv_extract.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 8
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r768bmc_silence_receipt.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r768bmc_umt5_fetch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r769bmc_clone_gate.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r769bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r769bmc_close_patch.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r769bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r769bmc_style_gen.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r769bmc_style_regen.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   }
+  ],
+  "Tools/_r769bmc_style_regen3.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r770bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r770bmc_ord_delta.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r770bmc_outbound_cas.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 14
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r770bmc_outbound_jpg.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r770bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r770bmc_style_composite.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r770bmc_style_composite2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r770bmc_style_iter2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r770bmc_style_regen4.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r770bmc_style_scribe_leg.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r771bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r771bmc_pngfix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r771bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r772bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r772bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r772bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r773bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r773bmc_hb.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r773bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r774bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r774bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r774bmc_idleprobe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r774bmc_mvintake.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r774bmc_ordprobe.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r774bmc_outbound_a1.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 21
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r774bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r774bmc_style_composite_z2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r774bmc_style_composite_z3.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r774bmc_style_gen_v6.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 33
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 34
+   }
+  ],
+  "Tools/_r775bmc_claw_escape.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r775bmc_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r775bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r775bmc_handover.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r775bmc_mvwork_fix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r775bmc_outbound_v7.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r775bmc_pit_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r775bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r775bmc_style_gen_v7.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r776bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r776bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r777bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r777bmc_qa_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r777bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r778bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r778bmc_qa_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r778bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r779bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 29
+   }
+  ],
+  "Tools/_r779bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r779bmc_uu_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r780bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r780bmc_codely_minisplit.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r780bmc_row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r780bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r780bmc_s7row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   }
+  ],
+  "Tools/_r781bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r781bmc_close_facts.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r781bmc_gitlog.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r781bmc_row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r781bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r781bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r781bmc_s6read.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r781bmc_s7row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r781bmc_tailread.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 1
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r782bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r783bmc_row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r783bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r784bmc_row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r784bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r785bmc_qa_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r785bmc_row_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r785bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r786bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r787bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r787bmc_s4_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r788bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r789bmc_adopt.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r789bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r790bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r790bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r790bmc_s7scan.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r791bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r791bmc_s0.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r791bmc_syncface.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r792bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r792bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r792bmc_syncface.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r793bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r793bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r793bmc_syncface.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r794bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r794bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r794bmc_syncface.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r795bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r795bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r795bmc_syncface.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r796bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r796bmc_merge_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r796bmc_pushsync.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r796bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r797bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r797bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r798bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r798bmc_rebase_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r798bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r799bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r799bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   }
+  ],
+  "Tools/_r800bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r800bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r801bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r801bmc_dec_probe.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 7
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r801bmc_gitclose.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r801bmc_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r801bmc_rebase_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 23
+   }
+  ],
+  "Tools/_r801bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r802bmc_rebase_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r802bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r803bmc_close.py": [
+   {
+    "bucket": "bare-root-literal",
+    "mode": "bare-root",
+    "line": 88
+   }
+  ],
+  "Tools/_r803bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r804bmc_ceo1246.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 25
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 26
+   }
+  ],
+  "Tools/_r804bmc_close.py": [
+   {
+    "bucket": "bare-root-literal",
+    "mode": "bare-root",
+    "line": 103
+   }
+  ],
+  "Tools/_r804bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r805bmc_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 28
+   }
+  ],
+  "Tools/_r805bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r806bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 27
+   }
+  ],
+  "Tools/_r807bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 26
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 27
+   }
+  ],
+  "Tools/_r808bmc_rebase_resolve.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r808bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r809bmc_group_https.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 16
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 17
+   }
+  ],
+  "Tools/_r809bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r810bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r811bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r812bmc_correction.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   }
+  ],
+  "Tools/_r812bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r813bmc_c03_receipt.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 14
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r813bmc_fl_recon.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 14
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r813bmc_fl_upgrade.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 21
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 22
+   }
+  ],
+  "Tools/_r813bmc_h3_recon.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 13
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r813bmc_probe.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 10
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/_r813bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r813bmc_union_exec.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 24
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 25
+   }
+  ],
+  "Tools/_r813bmc_ws_classify.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 16
+   }
+  ],
+  "Tools/_r814bmc_fl_receipt.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r814bmc_fl_upgrade.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 18
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r814bmc_h3_download.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 20
+   }
+  ],
+  "Tools/_r814bmc_occupancy.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r814bmc_orders_delta.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 9
+   }
+  ],
+  "Tools/_r814bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r814bmc_s0fix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r814bmc_s0fix2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 15
+   }
+  ],
+  "Tools/_r815bmc_h3_download.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 28
+   }
+  ],
+  "Tools/_r815bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r816bmc_codely_split.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 19
+   }
+  ],
+  "Tools/_r816bmc_pushfix.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/_r816bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r817bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r818bmc_h3_client.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 25
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 26
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 29
+   }
+  ],
+  "Tools/_r818bmc_h3_download.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 25
+   }
+  ],
+  "Tools/_r818bmc_h3_download2.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 25
+   }
+  ],
+  "Tools/_r818bmc_h3_t2v_client.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 28
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 30
+   }
+  ],
+  "Tools/_r818bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r820bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 17
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 18
+   }
+  ],
+  "Tools/_r823bmc_addendum.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r823bmc_closeout.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r823bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r824bmc_krea2_dl.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 13
+   }
+  ],
+  "Tools/_r824bmc_s05.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 5
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 6
+   }
+  ],
+  "Tools/_r825bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r825bmc_trainprobe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 21
+   }
+  ],
+  "Tools/_r828bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/_r828bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r832bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r834bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r835bmc_lhb_q4_probe.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 51
+   }
+  ],
+  "Tools/_r835bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r837bmc_ack_surgery.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 12
+   }
+  ],
+  "Tools/_r837bmc_close.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 10
+   }
+  ],
+  "Tools/_r837bmc_report_append.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 40
+   }
+  ],
+  "Tools/_r837bmc_ruizhu_keys.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 3
+   }
+  ],
+  "Tools/_r837bmc_s05.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 27
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 28
+   }
+  ],
+  "Tools/_r837bmc_s6_clone.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 4
+   }
+  ],
+  "Tools/_r844bmc_rebase_resolver.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 14
+   }
+  ],
+  "Tools/_r897bma_close.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 7
+   }
+  ],
+  "Tools/content_loop_step.py": [
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 44
+   },
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 46
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 385
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 386
+   }
+  ],
+  "Tools/d19_check.py": [
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 47
+   },
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 49
+   }
+  ],
+  "Tools/git-atomic-push-bmc.py": [
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 42
+   },
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 44
+   }
+  ],
+  "Tools/group_root.py": [
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 12
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "bare-root",
+    "line": 12
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 15
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 33
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 71
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 72
+   },
+   {
+    "bucket": "exempt-resolver",
+    "mode": "group-root",
+    "line": 73
+   }
+  ],
+  "Tools/int8_dit_downloader_bmc.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 11
+   }
+  ],
+  "Tools/iteration_loop.ps1": [
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 3
+   }
+  ],
+  "Tools/krea2_kf_pipeline_bmc.py": [
+   {
+    "bucket": "group-root-hint",
+    "mode": "group-root",
+    "line": 27
+   },
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 32
+   }
+  ],
+  "Tools/register_fleetlink_task.ps1": [
+   {
+    "bucket": "validated-walk",
+    "mode": "group-root",
+    "line": 30
+   }
+  ],
+  "Tools/register_madmom_sdk_task_r1037.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   },
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 5
+   }
+  ],
+  "Tools/run_e93_spread_bmb.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 7
+   }
+  ],
+  "Tools/run_screentilt_bmb.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 8
+   }
+  ],
+  "Tools/run_w21_judge_bmb.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 6
+   }
+  ],
+  "Tools/run_w21_judge_finalize_bmb.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
+   }
+  ],
+  "Tools/sentinel_bm-c.py": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 34
+   },
+   {
+    "bucket": "deployment-root-literal",
+    "mode": "deployment-root",
+    "line": 58
+   }
+  ],
+  "monitor/build_status.py": [
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1758
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1758
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1760
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1760
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1761
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1761
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1762
+   },
+   {
+    "bucket": "sibling-repo-literal",
+    "mode": "sibling-repo",
+    "line": 1762
+   }
+  ]
+ },
+ "law": "a resident script must resolve the group root via Tools/group_root (validated toplevel + origin + newest ledger mtime); a literal is a hint, a climb is never the decision"
+}

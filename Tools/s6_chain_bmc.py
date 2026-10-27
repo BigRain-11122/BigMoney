@@ -140,6 +140,15 @@ LEGS = [
     ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    # ORDER MATTERS (r1318): the panel READS fleet/machine-health.json, and the
+    # hourly oversight task independently writes that file with a thin row. When
+    # these legs ran after build_status, the panel was built from the thinned face
+    # and then the face was healed behind it -- so the payload a person reads
+    # carried a stale verdict every round, deterministically, while `check` said
+    # ok (the r1290 two-face class). Producer before consumer: refresh, judge,
+    # then build the panel from the judged face.
+    ("machine_health_write", ["python", "Tools/machine_health_face.py", "rebuild"]),
+    ("machine_health_face", ["python", "Tools/machine_health_face.py", "check"]),
     ("build_status", ["python", "-m", "monitor.build_status"]),
     ("token_meter", ["python", "scripts/token_meter.py"]),
     # O-20261026-0810-bm-a 4 handed this side the fix: the heartbeat carried 25 GPU
@@ -176,8 +185,14 @@ LEGS = [
     # machine's own heartbeat, heal thin foreign rows) and then judges. Write is local:
     # it never invents a reading, a machine with no heartbeat keeps its row and reports
     # the gap.
-    ("machine_health_write", ["python", "Tools/machine_health_face.py", "rebuild"]),
-    ("machine_health_face", ["python", "Tools/machine_health_face.py", "check"]),
+    # r1318: those two legs moved ABOVE build_status -- see the note there. Running
+    # them here healed the face after the panel had already copied the thin verdict.
+    # D-20261028-04 asked this firm to sweep every resident script for a `..\..`
+    # climb or a pasted group-tree mirror. A sweep done once answers "was it clean
+    # on 10-28"; the defect is reintroduced the next time somebody writes a script
+    # in a hurry, so the census runs every round and goes red on a new offender
+    # (r1266: a verdict only in a receipt is not a gate). Costs ~4s over 2,100 files.
+    ("group_root_sweep", ["python", "scripts/group_root_sweep.py", "run"]),
 ]
 
 
