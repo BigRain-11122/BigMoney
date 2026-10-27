@@ -433,7 +433,7 @@ def run_month(outdir, month):
 # ----------------------------------------------------- leg: pair drawdown path
 
 def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
-             exclude=("sh511",)):
+             exclude=("sh511",), raw=None):
     """Read the E34-E38 wide-book spread on the drawdown path, not on its mean.
 
     Same calendar, same cost, same spec, one shared rank cache: ladder5 and the
@@ -442,11 +442,15 @@ def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
     and worst month are comparable line for line. A third profile is taken on
     the ratio of the two equity curves -- the spread itself, which every
     vs-ladder number quotes but never measures.
+
+    ``raw`` lets a caller hand in an already-loaded (optionally screened) panel
+    so a twin can burn both arms off ONE load (E113/E122 seam); the default path
+    still loads the shipped universe.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -4015,6 +4019,293 @@ def run_warmspreadscreened(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
             "orderings are read off the published face verbatim; a tie in spread "
             "would make the order arbitrary and is disclosed by the raw spread map "
             "rather than smoothed away",
+        ],
+    }
+
+
+_PAIR_PROFILE_SCALARS = ("years", "ann_return_pct", "max_drawdown_pct",
+                         "longest_underwater_sessions", "months",
+                         "negative_months", "monthly_win_rate_pct")
+
+
+def _pair_sign(v):
+    """(E123) -1/0/1, or None when the cell is absent: a missing answer is not zero."""
+    if v is None:
+        return None
+    return (v > 0) - (v < 0)
+
+
+def _pair_arm_cells(face, starts=None):
+    """(E123) -> {(key, column): value} for every cell the pair leg publishes.
+
+    E40 publishes three PROFILES per window -- the five-name ladder, the wide
+    book and the ratio of their curves -- plus the scalar answers derived from
+    them. Only the wide book can be reached by a print repair, so the buckets
+    have to be separable: a moved ``ladder5`` cell names a defect in the join or
+    the cache, a moved ``spread_ratio`` cell is derived, and the compare-to-order
+    claims (worst month identity) live in the dates layer because they are
+    booleans and a delta over a boolean is meaningless.
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        key = "win/" + str(start)
+        out[(key, "bars")] = (win or {}).get("bars")
+        for name, prof in ((win or {}).get("profiles") or {}).items():
+            p = prof or {}
+            k = key + "/" + name
+            for col in _PAIR_PROFILE_SCALARS:
+                out[(k, col)] = p.get(col)
+            out[(k, "worst_month_return_pct")] = (p.get("worst_month") or {}).get("return_pct")
+            out[(k, "best_month_return_pct")] = (p.get("best_month") or {}).get("return_pct")
+            em = p.get("engine_metrics") or {}
+            out[(k, "engine_ann_vol_pct")] = em.get("ann_vol_pct")
+            out[(k, "engine_sharpe")] = em.get("sharpe")
+        ans = (win or {}).get("answers") or {}
+        for col in ("ann_spread_pct", "maxdd_delta_pct",
+                    "underwater_delta_sessions", "spread_maxdd_pct",
+                    "spread_longest_underwater_sessions"):
+            out[(key + "/answers", col)] = ans.get(col)
+    out[("spec", "pick_n")] = (face.get("spec") or {}).get("pick_n")
+    return out
+
+
+def _pair_arm_dates(face, starts=None):
+    """(E123) the pair leg's claim layer: month identities and booleans.
+
+    E40's answers include ``worst_month_same_month`` -- "both books lost their
+    worst month in the same month" -- which is a claim, not a quantity. A twin
+    that only diffs numbers would report that claim as unchanged even when it
+    flipped, so the same layer that carries gate dates carries these.
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        win = win or {}
+        cols = {"worst_month_same_month": (win.get("answers") or {}).get(
+            "worst_month_same_month")}
+        for name, prof in (win.get("profiles") or {}).items():
+            prof = prof or {}
+            for which in ("worst_month", "best_month"):
+                cols["%s_%s" % (name, which)] = (prof.get(which) or {}).get("month")
+        out["win/" + str(start)] = cols
+    return out
+
+
+_PAIR_ARROW_COLUMNS = ("ann_spread_sign", "maxdd_delta_sign",
+                       "underwater_delta_sign", "worst_month_same_month")
+
+
+def _pair_arrows(face):
+    """(E123) the published ARROWS per window: signs plus the month identity.
+
+    A spread that is +40bp on both arms is the same reading as +20bp on both; a
+    spread that changes sign is not, however small the cell delta. The first cut
+    of this leg listed only the spread and drawdown signs and missed the
+    underwater-delta sign flipping (+48 -> -92 sessions on a 0.4pp cell move) --
+    the arrow list must cover every answer that is read as a direction, or the
+    twin reports "arrows hold" while the face says the opposite (E94 family).
+    """
+    out = {}
+    for start, win in (face.get("windows") or {}).items():
+        ans = (win or {}).get("answers") or {}
+        out[str(start)] = {
+            "ann_spread_sign": _pair_sign(ans.get("ann_spread_pct")),
+            "maxdd_delta_sign": _pair_sign(ans.get("maxdd_delta_pct")),
+            "underwater_delta_sign": _pair_sign(
+                ans.get("underwater_delta_sessions")),
+            "worst_month_same_month": ans.get("worst_month_same_month"),
+        }
+    return out
+
+
+def run_pairscreened(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
+                     exclude=("sh511",), mode="neutralise_int", resume=True):
+    """E123: re-derive the E40 ladder-vs-wide drawdown face on the screened arm.
+
+    E97 row 9 after the burnin/cutcurve/livespan/chase/early/split/stale/entrydelay/
+    warmspread twins. E40 publishes drawdown SHAPE -- max drawdown, longest
+    underwater run, worst month and the ratio curve's own drawdown -- so a twin
+    must publish whether each window's ARROWS survive, not only whether cells
+    moved: a repair that reorders two adjacent drawdowns by 3bp changes the
+    reading while every level stays inside a plausible band.
+
+    Same machinery as E112-E122: one load, both arms burned off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero, and a cutoff control against the newest published raw face.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "PAIR-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "PAIR-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(starts=starts, pick_n=pick_n, exclude=exclude)
+    raw_arm = cached("raw", lambda: run_pair(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_pair(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _pair_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_pair_arm_cells,
+                             dates_fn=_pair_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_pair_arm_cells,
+                                dates_fn=_pair_arm_dates)["summary"]
+
+    # cutoff control: newest previously published raw face vs today's raw arm,
+    # arm held fixed. E40's own raw face is published by the pair CLI into
+    # results/e40_pair_drawdown, so the search starts there (E159 pit: a twin
+    # that looks only in its own directory returns null, and null reads as
+    # "no older face exists").
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e40_pair_drawdown"),
+                               outdir) if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("PAIR-") and p.endswith(".json")
+                    and not p.startswith("PAIRSCREEN-")
+                    and not p.startswith("PAIR-arm-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("PAIR-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _pair_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_pair_arm_cells,
+                                     dates_fn=_pair_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+    wide_name = "wide_top%d" % pick_n
+
+    # arrows: per window, the sign of every answer that is read as a direction.
+    # A spread that is +40bp on both arms and +20bp on both arms is the same
+    # reading; one that flips is not, however small the cell delta.
+    arr_raw, arr_scr = _pair_arrows(raw_arm), _pair_arrows(scr_arm)
+    arrow_moved = [{"start": k, "column": c, "raw": arr_raw[k][c],
+                    "screened": (arr_scr.get(k) or {}).get(c)}
+                   for k in sorted(arr_raw)
+                   for c in _PAIR_ARROW_COLUMNS
+                   if arr_scr.get(k, {}).get(c) != arr_raw[k][c]]
+    survives_arrows = not arrow_moved
+
+    # attribution: keys end WITH the leg name (".../wide_top9999"), so the test
+    # must be a suffix test on the dynamic wide name. An infixed test matches
+    # nothing and the "other" bucket absorbs the moves silently (E94 family).
+    wide_moved = [r for r in pair["moved"] if r["start"].endswith("/" + wide_name)]
+    ladder_moved = [r for r in pair["moved"] if r["start"].endswith("/ladder5")]
+    ratio_moved = [r for r in pair["moved"] if r["start"].endswith("/spread_ratio")]
+    answer_moved = [r for r in pair["moved"] if r["start"].endswith("/answers")]
+    other_moved = [r for r in pair["moved"]
+                   if r not in wide_moved and r not in ladder_moved
+                   and r not in ratio_moved and r not in answer_moved]
+    return {
+        "study": "e123_pair_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "screen_mode": mode, "starts": list(starts),
+            "wide_name": wide_name,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_pair grew a raw= parameter this round: before it loaded "
+                     "the universe itself, so a twin could not burn both arms off "
+                     "one load"),
+            "join": ("_pair_arm_cells harvests every scalar in the three profiles "
+                     "and the derived answers; _pair_arm_dates harvests the month "
+                     "identities and the worst_month_same_month claim, because a "
+                     "boolean compared by subtraction is not a measurement"),
+        },
+        "screen_report": report,
+        "arrows": {"raw": arr_raw, "screened": arr_scr},
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "arrows_survive_the_repair": bool(survives_arrows),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: percent for "
+                            "returns and drawdowns, sessions for underwater runs, "
+                            "count for months/negative_months -- the summary max is "
+                            "a max over mixed units and is a screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "wide_cells_moved": len(wide_moved),
+            "ladder_cells_moved": len(ladder_moved),
+            "spread_ratio_cells_moved": len(ratio_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "arrow_claims_moved": len(arrow_moved),
+            "moved_attribution_complete": (
+                len(wide_moved) + len(ladder_moved) + len(ratio_moved)
+                + len(answer_moved) + len(other_moved) == s["cells_moved"]),
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the drawdown face survives the repair: %d of %d cells move "
+                 "(%d wide / %d ratio / %d answer / %d ladder), every window's "
+                 "arrows hold and the worst-month identity is unchanged" %
+                 (s["cells_moved"], s["cells_compared"], len(wide_moved),
+                  len(ratio_moved), len(answer_moved), len(ladder_moved)))
+                if (survives and survives_arrows) else
+                ("the repair reaches the drawdown face: %d of %d cells move "
+                 "(%d wide, %d ratio, %d answer, %d ladder, %d other) and %d of "
+                 "%d arrow claims move; %d cell(s) exist on one arm only" %
+                 (s["cells_moved"], s["cells_compared"], len(wide_moved),
+                  len(ratio_moved), len(answer_moved), len(ladder_moved),
+                  len(other_moved), len(arrow_moved), len(arr_raw) * 4,
+                  s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it does "
+            "not add or remove bars, so an unchanged ``bars`` cell is a property of "
+            "the repair, not evidence the panel is clean",
+            "the five-name ladder is a constant list: a moved ladder cell names a "
+            "defect in the join or the cache, not a repair effect",
+            "spread_ratio is a ratio of equity curves, not a tradable sleeve, so a "
+            "move there is derived from the two books rather than independent",
+            "worst_month_same_month is a claim about two curves landing in the same "
+            "month; it is carried in the dates layer because a boolean has no delta",
         ],
     }
 
@@ -13577,6 +13868,91 @@ def selftest():
     chk(_pair["summary"]["gate_dates_moved"] == 1,
         "E122 a pure order flip is still reported by the order layer")
 
+    # E123 pair (drawdown-shape) screened twin: the harvest reads all three
+    # profiles plus the derived answers, and the claim layer carries the
+    # worst-month identity because a boolean has no delta.
+    _pr_face = {
+        "spec": {"pick_n": 9999},
+        "windows": {
+            "2020-01-01": {
+                "bars": 1378, "years": 5.47,
+                "profiles": {
+                    "ladder5": {"ann_return_pct": 6.1, "max_drawdown_pct": -12.0,
+                                "longest_underwater_sessions": 400, "months": 65,
+                                "negative_months": 30, "monthly_win_rate_pct": 53.8,
+                                "years": 5.47,
+                                "worst_month": {"month": "2021-02", "return_pct": -8.0},
+                                "best_month": {"month": "2020-07", "return_pct": 9.0},
+                                "engine_metrics": {"ann_vol_pct": 14.2, "sharpe": 0.42}},
+                    "wide_top9999": {"ann_return_pct": 10.1, "max_drawdown_pct": -19.9,
+                                     "longest_underwater_sessions": 800, "months": 65,
+                                     "negative_months": 28, "monthly_win_rate_pct": 56.9,
+                                     "years": 5.47,
+                                     "worst_month": {"month": "2021-02", "return_pct": -11.0},
+                                     "best_month": {"month": "2020-07", "return_pct": 13.0},
+                                     "engine_metrics": {"ann_vol_pct": 22.1, "sharpe": 0.51}},
+                    "spread_ratio": {"ann_return_pct": 3.7, "max_drawdown_pct": -14.5,
+                                     "longest_underwater_sessions": 900, "months": 65,
+                                     "negative_months": 31, "monthly_win_rate_pct": 52.3,
+                                     "years": 5.47,
+                                     "worst_month": {"month": "2021-02", "return_pct": -5.0},
+                                     "best_month": {"month": "2020-07", "return_pct": 6.0}},
+                },
+                "answers": {"ann_spread_pct": 4.0, "maxdd_delta_pct": -7.9,
+                            "underwater_delta_sessions": 400,
+                            "worst_month_same_month": True,
+                            "spread_maxdd_pct": -14.5,
+                            "spread_longest_underwater_sessions": 900},
+            },
+        },
+    }
+    _pr_cells = _pair_arm_cells(_pr_face)
+    chk(_pr_cells[("win/2020-01-01/wide_top9999", "ann_return_pct")] == 10.1,
+        "E123 the harvest reads a per-profile annualised cell")
+    chk(_pr_cells[("win/2020-01-01/ladder5", "engine_sharpe")] == 0.42,
+        "E123 the harvest reads the engine metrics beside the profile")
+    chk(_pr_cells[("win/2020-01-01/answers", "ann_spread_pct")] == 4.0,
+        "E123 the harvest reads the derived answers")
+    chk(_pr_cells[("spec", "pick_n")] == 9999,
+        "E123 the harvest carries the spec cell")
+    _pr_dates = _pair_arm_dates(_pr_face)
+    chk(_pr_dates["win/2020-01-01"]["worst_month_same_month"] is True,
+        "E123 the claim layer carries worst_month_same_month")
+    chk(_pr_dates["win/2020-01-01"]["wide_top9999_worst_month"] == "2021-02",
+        "E123 the claim layer carries the month identity per book")
+    chk(not [k for k in _pr_cells if _pr_cells[k] is True or _pr_cells[k] is False],
+        "E123 no boolean leaks into the numeric layer")
+    # a claim flip must be visible even when every number is identical
+    _pr_flip = json.loads(json.dumps(_pr_face))
+    _pr_flip["windows"]["2020-01-01"]["answers"]["worst_month_same_month"] = False
+    _pr_keys = sorted({k[0] for k in _pr_cells})
+    _pr_pair = _burnin_pair_rows(_pr_face, _pr_flip, _pr_keys,
+                                 cells_fn=_pair_arm_cells,
+                                 dates_fn=_pair_arm_dates)
+    chk(_pr_pair["summary"]["cells_moved"] == 0,
+        "E123 a pure claim flip moves no numeric cell")
+    chk(_pr_pair["summary"]["gate_dates_moved"] == 1,
+        "E123 a pure claim flip is still reported by the claim layer")
+    # the attribution test must be a suffix test on the DYNAMIC wide name
+    chk([k for k in _pr_keys if k.endswith("/wide_top9999")]
+        == ["win/2020-01-01/wide_top9999"],
+        "E123 leg attribution keys on the dynamic wide-name suffix")
+    chk(not [k for k in _pr_keys if "/wide_top9999/" in k],
+        "E123 an infixed '/wide_top/' test matches nothing -- pinned as the defect")
+    chk(_pair_sign(None) is None and _pair_sign(0) == 0 and _pair_sign(-1.5) == -1,
+        "E123 a missing answer is not a zero sign")
+    # the arrow list must cover the underwater sign too: the first live burn
+    # published "arrows hold" while this very answer flipped +48 -> -92.
+    _pr_arr = _pair_arrows(_pr_face)["2020-01-01"]
+    chk(_pr_arr["underwater_delta_sign"] == 1,
+        "E123 the arrow layer carries the underwater-delta sign")
+    chk(set(_PAIR_ARROW_COLUMNS) == set(_pr_arr),
+        "E123 every arrow column is published, none silently dropped")
+    _pr_uw = json.loads(json.dumps(_pr_face))
+    _pr_uw["windows"]["2020-01-01"]["answers"]["underwater_delta_sessions"] = -92
+    chk(_pair_arrows(_pr_uw)["2020-01-01"]["underwater_delta_sign"] == -1,
+        "E123 an underwater sign flip is visible to the arrow layer")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -15963,7 +16339,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
-                             "warmspreadscreened",
+                             "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen",
                              "midsweep", "entrydelay", "entrydelayscreen",
@@ -16599,6 +16975,20 @@ def main(argv):
                                      for k, v in f["orders"].items()},
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "ordering_moved":
+                                          f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "pairscreened":
+        outdir = os.path.join(ROOT, "results", "e40_pair_drawdown")
+        f = run_pairscreened(outdir)
+        p = write_json(outdir, "PAIRSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "pairscreened",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "arrows": f["arrows"],
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "claims_moved":
                                           f["control"]["gate_dates_moved"]}},
                          ensure_ascii=False))
         return 0

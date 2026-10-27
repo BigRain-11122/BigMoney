@@ -166,6 +166,14 @@
     "calls": [
      "run_warmspread"
     ]
+   },
+   {
+    "leg": "pairscreened",
+    "func": "run_pairscreened",
+    "face": "results/e40_pair_drawdown/PAIRSCREEN-20261027.json",
+    "calls": [
+     "run_pair"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -179,8 +187,10 @@
    "runner": "run_pair",
    "face": "results/e40_pair_drawdown/PAIR-20261020.json",
    "published_cells": 93,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "pairscreened"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -714,16 +724,6 @@
  ],
  "ranking_uncovered_by_runner": [
   {
-   "runner": "run_pair",
-   "modes": [
-    "pair"
-   ],
-   "published_cells_dedup": 93,
-   "faces": [
-    "results/e40_pair_drawdown/PAIR-20261020.json"
-   ]
-  },
-  {
    "runner": "run_tilt4",
    "modes": [
     "e43",
@@ -747,13 +747,6 @@
   }
  ],
  "ranking_uncovered_by_mode": [
-  {
-   "mode": "pair",
-   "runner": "run_pair",
-   "published_cells": 93,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
   {
    "mode": "e43",
    "runner": "run_tilt4",
@@ -785,12 +778,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 19,
+  "covered_by_twin": 20,
   "covered_twin_by_name": 1,
-  "uncovered": 5,
+  "uncovered": 4,
   "uncovered_column_only": 3,
-  "uncovered_distinct_runners": 3,
-  "cells_unchanged_by_any_twin": 254
+  "uncovered_distinct_runners": 2,
+  "cells_unchanged_by_any_twin": 161
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

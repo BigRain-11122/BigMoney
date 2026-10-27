@@ -1,9 +1,9 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-28T01:34:24+08:00",
- "current": "r1192 closed: the rebalance calendar did not move -- the repair changed what the book earned, not when it traded",
- "current_task": "E123 pair screened twin",
- "cyc_round": 1192,
+ "clock_read": "2026-10-28T02:19:53+08:00",
+ "current": "r1196 done: the pair leg's drawdown SHAPE does not survive the repair -- the wide book keeps its shallower max drawdown but its underwater run flips +48 -> -92 sessions",
+ "current_task": "E124 tilt4 screened twin",
+ "cyc_round": 1196,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -802,33 +802,52 @@
   "root_cause": "hourly FluxGroup-FleetOversight runs a DEPLOYED copy (<KRoot>\\.codely-cli\\oversight-bmb\\fleet-oversight.ps1, v1.0 2026-10-11, 338 lines) not this repo's writer (375 lines), so the D-20261028-02 face fix never ran; face clean at 00:22, re-broken by the 01:11 fire, zero repo edits in between"
  },
  "r1195_pit": "a deployed copy is a second code face: any task run from a copy outside the repo needs a drift leg comparing it to the source, and deploy tooling must resolve the path the task actually uses (oversight-bmb, not oversight-bm-b)",
+ "r1196": {
+  "carried": "GPU util 100% with rogue app uv python.exe = the drama voicegen batch (OB-20261027-211206 tells bm-b to run its voice lane; C-20261014-01 s3 parks this machine GPU) -- escalated, nothing killed",
+  "controls": "same arm 0 of 75; cutoff control PAIR-20261020 raw vs today raw = 28 cells max 5 -- the refresh is the same size as the repair here, the opposite ordering to E122 (repair 3.6x), so neither number is quoted alone",
+  "defect_fixed": "F-20261028-04: the arrow layer listed spread and maxdd signs but not the underwater sign -- the face printed arrows_survive=true beside the +48 -> -92 flip; _pair_arrows is now module-level with _PAIR_ARROW_COLUMNS and 3 selftest legs pin the column set, the values and the flip (E94 family, fourth recurrence: label narrower than evidence)",
+  "finding": "the drawdown ADVANTAGE survives, the drawdown TIMING does not: wide book maxdd -36.55 -> -36.13 vs ladder -42.72 (delta +6.17 -> +6.59, same sign), but longest underwater 1094 -> 954 sessions and underwater_delta_sessions +48 -> -92. Ann spread stays positive and grows (1.35 -> 1.71 / 2.01 -> 2.30).",
+  "not_run": "heavy pandas S6 legs (strategy_scorecard / market_clock_call / daily_scorecard / build_status are bm-a host-guarded; the long update_* collectors are bm-a lanes)",
+  "product": [
+   "results/e40_pair_drawdown/PAIRSCREEN-20261027.json (new twin face)",
+   "results/e40_pair_drawdown/PAIR-arm-raw-20261027.json / -neutralise_int- (per-arm checkpoints)",
+   "research/digests/DIGEST-20261028-r1196-e123-pair-screened.md",
+   "knowledge/METHODOLOGY_ASSETS.md E162",
+   "scripts/e39_panel_census.py: run_pair(raw=) seam + _pair_arm_cells / _pair_arm_dates / _pair_arrows / run_pairscreened + CLI mode pairscreened (selftest 427 -> 442)",
+   "scripts/e97_routing.py TWIN_FUNCS += run_pairscreened",
+   "results/e79/ROUTING-20261027.json re-derived (covered_twin 19 -> 20, uncovered 5 -> 4)",
+   "results/runnable_pool.json E123 -> done (+ E122 re-filed done, it was left ready), E125 cashdrag twin seeded ready"
+  ],
+  "s6": "dualrun DRIFT on $.updated_at (observation-phase, streak reset to 0, entries 648 == 648) | compute_audit FLAG:gpu_unauthorized,supply_gap,supply_floor (ready 2 < 3) | watermark insufficient_history (first sample of this window) | update_daily 0 new rows (cutoff 2026-10-27, 15:30 guard) | market_regime triggers hs300<MA200 / crash10d -5.1% / breadth 85% | attrition CLEAN 4 ledgers (2 historical shrinks healed) | orphan face=0 (10 py faces)",
+  "smoke": "108/108 PASS"
+ },
+ "r1196_pit": "An \"arrow\" list is a claim about which answers the reader consumes as a direction, so it must be enumerated from the published answers, not picked by whoever writes the twin: the first cut of E123 listed the spread sign and the drawdown-delta sign, missed the underwater sign, and printed arrows_survive=true directly beside a +48 -> -92 flip. Fix belongs at module level with an explicit column tuple and a selftest leg per column (a wider if-statement inside the runner cannot be pinned). Sibling: a cutoff control of the same SIZE as the repair does not rank them -- E122 repair 3.6x the refresh, E123 refresh ~= repair (28 vs 30 cells) -- so each face ships its own two controls and neither is quoted alone.",
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1195,
- "round_no": 1196,
- "round_no_label": "r1195",
- "round_no_ts": "2026-10-28T01:34+08:00",
+ "round": 1196,
+ "round_no": 1197,
+ "round_no_label": "r1196",
+ "round_no_ts": "2026-10-28T02:19:53+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
-  "checked_at": "2026-10-27T12:06:00+08:00",
+  "checked_at": "2026-10-28T02:19:53+08:00",
   "status": "alive"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
   "behind_origin_main": 0,
-  "local_not_on_origin_main": 0,
-  "note": "base = origin tip 350c9bf0b; pushed cc571f959",
-  "pushed_sha": "cc571f959b8407bec41e9bfb46990eca529618c4",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T00:58:00+08:00"
+  "local_not_on_origin_main": "pending-this-push",
+  "note": "base = origin tip de3cfdf3bc (bm-c r1314), ff before work",
+  "status": "PUSH_PENDING",
+  "ts": "2026-10-28T02:19:53+08:00"
  },
- "task": "r1195: E123 pair screened twin (pool ready: E123/E124)",
- "task_short": "E123 pair screened twin",
+ "task": "r1197: E124 tilt4 screened twin (pool ready E124/E125)",
+ "task_short": "E124 tilt4 screened twin",
  "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
- "ts": "2026-10-28T01:34+08:00",
- "updated": "2026-10-28T00:56:00+08:00",
- "updated_at": "2026-10-28T01:34+08:00",
- "verdict": "green r1194: E122 warm-spread screened twin shipped -- the ORDERING survives the print repair (0 ordering claims move, both warm and cold orders identical on both arms) while the LEVELS do not (17/68 cells, three 2024-now levels flip sign under 67 neutralised prints); smoke 103/103 | e39 selftest 427/427 | e97 covered_twin 16 -> 19 | dualrun ZERO-DRIFT streak 16 | attrition CLEAN | orphan 0 | d19 no new decisions/orders"
+ "ts": "2026-10-28T02:19:53+08:00",
+ "updated": "2026-10-28T02:19:53+08:00",
+ "updated_at": "2026-10-28T02:19:53+08:00",
+ "verdict": "green r1196: E123 pair screened twin shipped -- 30/75 cells move (14 wide / 8 ratio / 8 answer / 0 ladder), percent deltas all <0.5pp but the underwater-delta sign flips +48 -> -92 sessions while maxdd_delta holds +6.17 -> +6.59; my own arrow layer missed that sign and was fixed in-window; smoke 108/108 | e39 selftest 442/442 | e97 covered_twin 19 -> 20 | orphan 0 | attrition CLEAN"
 }

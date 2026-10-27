@@ -86,6 +86,9 @@ TWIN_FUNCS = {
     # L15 red, so the registration is part of the leg's definition now.
     "run_warmspreadscreened": ("warmspreadscreened",
                                "results/e45_warm_spread/WARMSPREADSCREEN-*.json"),
+    # E123 (r1196): the ladder-vs-wide drawdown-shape twin.
+    "run_pairscreened": ("pairscreened",
+                         "results/e40_pair_drawdown/PAIRSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

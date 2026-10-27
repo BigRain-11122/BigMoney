@@ -1579,3 +1579,26 @@ Evidence: group FluxGroup `76bf885c` (Tools/fleet-oversight.ps1 fix + Tools/over
 bigmoney smoke leg `fleet: oversight writer's deployed copy tracks its source` (104/104 PASS),
 rebuild + live fire of the DEPLOYED writer (machine-health: OK machines=1 junk=0),
 research/digests/DIGEST-20261028-r1195-deployed-writer-drift.md.
+
+## E162 A drawdown profile is two sentences, and a repair can move one of them (2026-10-28 r1196 bm-b)
+
+E40 publishes, per window, three profiles (ladder5, the wide book, the ratio of their curves)
+and reads them as "drawdown shape". Burning the same leg on the raw and on the print-screened
+arm moves 30 of 75 cells with every percent delta under 0.5pp -- and flips the sign of
+`underwater_delta_sessions` (+48 -> -92) while the wide book's longest underwater run falls
+1094 -> 954 sessions. The book's drawdown ADVANTAGE is intact (maxdd delta +6.17 -> +6.59, same
+sign); its underwater TIMING is not. Quote the two separately or you are reporting an average
+of two different claims.
+
+Two rules. (a) A twin's "arrow layer" must enumerate every answer the reader consumes as a
+direction -- the first version of this leg listed the spread and drawdown-delta signs, missed
+the underwater sign, and printed `arrows_survive: true` directly beside the flip; the fix is
+module-level `_pair_arrows` + an explicit column tuple + a selftest leg per column, not a
+wider if-statement inside the runner. (b) A cutoff control that is the same SIZE as the repair
+does not rank the two: here the old-face refresh moves 28 cells (max 5) against the repair's
+30, the opposite of E122 where the repair dominated 3.6x. Same family, opposite ordering --
+so each face ships its own two controls and neither number is quoted alone.
+
+Evidence: results/e40_pair_drawdown/PAIRSCREEN-20261027.json, per-arm checkpoints,
+_pair_arm_cells/_pair_arm_dates/_pair_arrows + run_pairscreened (selftest 427 -> 442),
+research/digests/DIGEST-20261028-r1196-e123-pair-screened.md.
