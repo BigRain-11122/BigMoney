@@ -1677,3 +1677,31 @@ the newest face that happened to think of it -- which is what this leg exists to
 
 Evidence: results/e79/SCREENREACH-2026-10-27.json, scripts/e97_routing.py (`screenreach` mode,
 selftest 15 -> 29), research/digests/DIGEST-20261028-r1199-e127-screen-reach-ledger.md.
+
+## E166 A window that is really a burn-in gate must say so, and an identity's residual must be quoted with the share it was measured at (2026-10-28 r1200 bm-b)
+
+The E40 cash leg publishes one window (`first trading rebalance 262`, `cash 263 bars = 15.95%`)
+and one attribution per book, but only the ladder's window. Adding the per-book window
+(`run_cashdrag.cash_window_by_book`) answers two questions the face could not:
+
+1. **Is the ladder/wide attribution gap (36.0 vs 37.0bp) a window effect?** No. Both books first
+   trade on the same month end in both tested windows (`same_window_for_both_books=true`,
+   `ladder_gap_from_window_bp=0.0`, `ladder_gap_unexplained_bp=-1.0`). A wider universe can only
+   make a book eligible EARLIER, never later, so a shared window means the gap is valuation.
+2. **Is the repo stretch a market fact?** No. `base.elig` demands `MIN_BARS=250` non-missing
+   closes on the WINDOW-LOCAL price array, so every window sits in repo until the first month end
+   past bar 250: measured `bars_beyond_burn_in` = 12 (2020 window) and 13 (2023 window). "The book
+   is in cash for 13 months" is the backtest's own burn-in, not scarce investable names.
+
+The identity `rate_pct x share_pct = bp` closes to 4.42bp (ladder) / 5.42bp (wide) on the 2020
+window, but to 20.13/21.13bp on a 2023 start where the share is 28.66% instead of 15.95% -- the
+ratio `measured/expected` rises 1.14 -> 1.39 with the share, i.e. the linear sum is a LOWER bound
+and the extra is the cash gain compounding at the book's own return after the repo stretch.
+Consequence for the tolerance: a single absolute band declared on one window is a band on that
+window's share, not a property of the identity -- quote the residual beside `cash_bar_share_pct`
+or scale the band with it, otherwise a second window silently "proves a defect".
+
+Evidence: results/e40_cashleg_drag/CASHLeg-20261027.json (`cash_window_by_book`,
+`cash_window_note`), results/e40_cashleg_drag/IDENTITY-20261027.json (two windows),
+scripts/e39_panel_census.py (`_first_trade_index`, `_window_is_burn_in_driven`, `_cash_identity`,
+selftest 476 -> 488), research/digests/DIGEST-20261028-r1200-e128-cash-window-identity.md.

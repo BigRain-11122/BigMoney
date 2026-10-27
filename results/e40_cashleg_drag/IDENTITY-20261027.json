@@ -1,0 +1,109 @@
+{
+ "evidence_cutoff": "2026-10-27",
+ "honest": [
+  "the identity is rate x share in bp; the engine compounds the accrual on the equity curve, so the measured attribution is not required to equal it",
+  "a residual that scales with the cash share is a property of compounding on a different base return, not evidence of a second cash channel",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "questions": {
+  "does_the_residual_grow_with_the_window": {
+   "2020-01-01": {
+    "ladder5": 4.42,
+    "wide_top9999": 5.42
+   },
+   "2023-01-01": {
+    "ladder5": 20.13,
+    "wide_top9999": 21.13
+   }
+  },
+  "is_the_ladder_wide_gap_a_window_effect": {
+   "2020-01-01": true,
+   "2023-01-01": true
+  }
+ },
+ "starts": [
+  "2020-01-01",
+  "2023-01-01"
+ ],
+ "study": "e128_cash_window_identity",
+ "windows": {
+  "2020-01-01": {
+   "bars": 1650,
+   "books": {
+    "ladder5": {
+     "bars_beyond_burn_in": 12,
+     "cash_bar_share_pct": 15.95,
+     "expected_linear_bp": 31.58,
+     "first_trading_rebalance_index": 262,
+     "mean_annual_cash_rate_pct": 1.98,
+     "measured_attribution_bp": 36.0,
+     "ratio_measured_over_expected": 1.14,
+     "residual_bp": 4.42,
+     "window_is_burn_in_driven": true,
+     "within_tolerance": true
+    },
+    "wide_top9999": {
+     "bars_beyond_burn_in": 12,
+     "cash_bar_share_pct": 15.95,
+     "expected_linear_bp": 31.58,
+     "first_trading_rebalance_index": 262,
+     "mean_annual_cash_rate_pct": 1.98,
+     "measured_attribution_bp": 37.0,
+     "ratio_measured_over_expected": 1.172,
+     "residual_bp": 5.42,
+     "window_is_burn_in_driven": true,
+     "within_tolerance": false
+    }
+   },
+   "cash_window_note": {
+    "burn_in_bars_required": 250,
+    "ladder_gap_bp": -1.0,
+    "ladder_gap_from_window_bp": 0.0,
+    "ladder_gap_unexplained_bp": -1.0,
+    "reading": "both books first trade on the same month end, so the ladder/wide attribution gap cannot be a window difference",
+    "same_window_for_both_books": true,
+    "tolerance_bp": 5.0,
+    "window_is_burn_in_driven": true
+   }
+  },
+  "2023-01-01": {
+   "bars": 922,
+   "books": {
+    "ladder5": {
+     "bars_beyond_burn_in": 13,
+     "cash_bar_share_pct": 28.66,
+     "expected_linear_bp": 51.87,
+     "first_trading_rebalance_index": 263,
+     "mean_annual_cash_rate_pct": 1.81,
+     "measured_attribution_bp": 72.0,
+     "ratio_measured_over_expected": 1.388,
+     "residual_bp": 20.13,
+     "window_is_burn_in_driven": true,
+     "within_tolerance": false
+    },
+    "wide_top9999": {
+     "bars_beyond_burn_in": 13,
+     "cash_bar_share_pct": 28.66,
+     "expected_linear_bp": 51.87,
+     "first_trading_rebalance_index": 263,
+     "mean_annual_cash_rate_pct": 1.81,
+     "measured_attribution_bp": 73.0,
+     "ratio_measured_over_expected": 1.407,
+     "residual_bp": 21.13,
+     "window_is_burn_in_driven": true,
+     "within_tolerance": false
+    }
+   },
+   "cash_window_note": {
+    "burn_in_bars_required": 250,
+    "ladder_gap_bp": -1.0,
+    "ladder_gap_from_window_bp": 0.0,
+    "ladder_gap_unexplained_bp": -1.0,
+    "reading": "both books first trade on the same month end, so the ladder/wide attribution gap cannot be a window difference",
+    "same_window_for_both_books": true,
+    "tolerance_bp": 5.0,
+    "window_is_burn_in_driven": true
+   }
+  }
+ }
+}

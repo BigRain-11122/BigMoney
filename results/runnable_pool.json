@@ -22205,7 +22205,7 @@
    "target": "scripts/e97_routing.py",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-10-28T03:05:00+08:00",
    "seeded_by": "bm-b r1198"
   ,
@@ -22221,9 +22221,12 @@
    "target": "scripts/e39_panel_census.py (run_cashdrag)",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-10-28T03:05:00+08:00",
-   "seeded_by": "bm-b r1198"
+   "seeded_by": "bm-b r1198",
+   "done_at": "2026-10-28T05:05:00+08:00",
+   "done_by": "bm-b r1200",
+   "done_note": "per-book window published: both books first trade on the SAME month end in both tested windows, so the 1bp ladder/wide gap is valuation, not window; the repo stretch is the window own 250-bar burn-in (bars_beyond_burn_in=12/13); identity residual 4.42/5.42bp at 15.95pct share but 20.13/21.13bp at 28.66pct share, so the linear band only means something quoted with cash_bar_share_pct. Two-window receipt results/e40_cashleg_drag/IDENTITY-20261027.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22238,6 +22241,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T03:05:00+08:00",
+ "updated_at": "2026-10-28T04:37:43+08:00",
  "version": 1
 }

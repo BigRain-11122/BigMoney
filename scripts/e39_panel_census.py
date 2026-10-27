@@ -529,6 +529,89 @@ def _scale_cash(cash, mult):
     return {"series": {d: r * mult for d, r in cash["series"].items()}}
 
 
+CASH_IDENTITY_TOL_BP = 5.0
+
+
+def _first_trade_index(rebal, prices, universe, elig):
+    """(E128) the first month end on which THIS book's own universe can trade.
+
+    Extracted so the per-book window is testable and so two books cannot
+    accidentally share one answer: eligibility needs a per-name burn-in, and a
+    1317-name universe and a 5-name universe are not eligible on the same month
+    end unless their oldest bars happen to line up.
+    """
+    for ri in rebal:
+        if any(elig(prices[s], ri) for s in universe):
+            return ri
+    return None
+
+
+def _window_is_burn_in_driven(idx, min_bars, slack=35):
+    """(E128) is the repo stretch the window's own burn-in, or a real delay?
+
+    ``base.elig`` demands ``MIN_BARS`` of non-missing closes on the WINDOW-LOCAL
+    price array, so a window that starts at 2020 is guaranteed to sit in repo
+    until a month end about 250 bars later -- whatever the panel looks like.
+    If the first trading rebalance lands within a month or so of that gate, the
+    window is the burn-in and must not be narrated as scarce investable names.
+    """
+    if idx is None or min_bars is None:
+        return None
+    return (idx - min_bars) <= slack
+
+
+def _cash_identity(rate_pct, share_pct, measured_bp, tol_bp=CASH_IDENTITY_TOL_BP):
+    """(E128) rate x share vs the measured attribution, as a published residual.
+
+    The identity is the arithmetic a reader does in their head: a repo rate of
+    ``rate_pct`` per year, carried on the un-invested weight for ``share_pct``
+    of the bars, is worth about ``rate_pct * share_pct`` basis points a year
+    (because bp = pct/100 * share/100 * 1e4). The engine compounds the accrual
+    on the equity curve instead of summing it linearly, so the measured number
+    is NOT required to equal the identity -- but the gap is only allowed to be
+    a valuation difference. A residual that grows with the window, or one that
+    dwarfs the number it explains, is a defect in the attribution rather than a
+    market fact, and the face has to say which one it is.
+    """
+    if rate_pct is None or share_pct is None:
+        return {
+            "expected_linear_bp": None, "measured_bp": measured_bp,
+            "residual_bp": None, "tolerance_bp": tol_bp,
+            "within_tolerance": None, "status": "inputs_missing",
+            "reading": "no rate or no share on this book, so the identity is "
+                       "not computable -- say so rather than printing zero",
+        }
+    expected = round(rate_pct * share_pct, 2)
+    if measured_bp is None:
+        return {
+            "expected_linear_bp": expected, "measured_bp": None,
+            "residual_bp": None, "tolerance_bp": tol_bp,
+            "within_tolerance": None, "status": "measurement_missing",
+            "reading": "the identity is computable but the book published no "
+                       "measured attribution, so there is nothing to reconcile",
+        }
+    resid = round(measured_bp - expected, 2)
+    within = abs(resid) <= tol_bp
+    return {
+        "expected_linear_bp": expected,
+        "measured_bp": measured_bp,
+        "residual_bp": resid,
+        "tolerance_bp": tol_bp,
+        "within_tolerance": within,
+        "ratio_measured_over_expected": (round(measured_bp / expected, 3)
+                                        if expected else None),
+        "residual_share_of_measured_pct": (round(abs(resid) / abs(measured_bp) * 100, 1)
+                                           if measured_bp else None),
+        "status": "ok" if within else "residual_outside_tolerance",
+        "reading": ("the linear identity closes within %.1fbp of the measured "
+                    "attribution, so the gap is the compounding difference, not "
+                    "a missing mechanism" % tol_bp if within else
+                    "the identity misses the measured attribution by more than "
+                    "%.1fbp: either the accrual is not the only cash channel or "
+                    "the attribution is mis-specified" % tol_bp),
+    }
+
+
 def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",),
                  rate_mults=(0.0, 1.0, 3.0), raw=None):
     """How much of the ladder/wide verdict is the repo leg actually paying for?
@@ -569,12 +652,34 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
         rebal = base.month_end_indices(cal)
         # The cash weight is the un-invested weight, and the first rebalance that
         # actually trades is NOT the first month end: eligibility needs a burn-in,
-        # so empty live sets keep the book in repo for far longer. Measure it.
-        first_trade_idx = None
-        for ri in rebal:
-            if any(base.elig(prices[s], ri) for s in base.LADDER):
-                first_trade_idx = ri
-                break
+        # so empty live sets keep the book in repo for far longer. Measure it --
+        # PER BOOK (E128): the window belongs to the book's own universe, not to
+        # the ladder's. A 1317-name universe and a 5-name universe do not become
+        # eligible on the same month end, so one shared window would silently
+        # answer "when does the ladder trade" for both books.
+        book_universes = {"ladder5": list(base.LADDER), wide_name: universe}
+        first_trade_idx = _first_trade_index(rebal, prices, base.LADDER, base.elig)
+        book_windows = {}
+        for name, univ in book_universes.items():
+            idx = _first_trade_index(rebal, prices, univ, base.elig)
+            bars = (idx + 1) if idx is not None else len(cal) - 1
+            book_windows[name] = {
+                "first_rebalance_index": rebal[0] if rebal else None,
+                "first_trading_rebalance_index": idx,
+                "first_invested_bar": (cal[idx + 1] if idx is not None else None),
+                "cash_bars": bars,
+                "cash_bar_share_pct": round(bars / max(1, len(cal) - 1) * 100, 2),
+                "universe_size": len(univ),
+                # E128: the gate that decides WHEN this book first trades is
+                # base.elig, which demands MIN_BARS of non-missing closes ON THE
+                # WINDOW-LOCAL array. So the repo stretch is the window's own
+                # burn-in, not a scarcity of investable names -- publishing the
+                # number beside the window is what stops "13 months in cash"
+                # being read as a market fact.
+                "burn_in_bars_required": base.MIN_BARS,
+                "bars_beyond_burn_in": ((idx - base.MIN_BARS) if idx is not None else None),
+                "window_is_burn_in_driven": _window_is_burn_in_driven(idx, base.MIN_BARS),
+            }
         cash_bars = (first_trade_idx + 1) if first_trade_idx is not None else len(cal) - 1
         rank_cache = {}
         table = {}
@@ -605,10 +710,53 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
             table[name] = rows
         cash_map = (cash_panel or {}).get("series", {})
         rates = [cash_map[d] for d in cal if d in cash_map]
+        mean_rate_pct = (round(sum(rates) / len(rates) * 252 * 100, 2) if rates else None)
+        # E128: each book gets its OWN window, and each window carries the
+        # rate x share identity beside the attribution it is supposed to explain.
+        # Ladder-only bookkeeping could not say whether the 1bp ladder/wide gap
+        # was a window difference or a rate difference; a reader could not say
+        # either, because the wide book published no window at all.
+        window_by_book = {}
+        for name, bw in book_windows.items():
+            measured = table[name].get("x1", {}).get("ann_vs_x0_bp")
+            row = dict(bw)
+            row["mean_annual_cash_rate_pct"] = mean_rate_pct
+            row["measured_attribution_bp"] = measured
+            row.update(_cash_identity(mean_rate_pct, bw["cash_bar_share_pct"], measured))
+            window_by_book[name] = row
+        same_window = (book_windows["ladder5"]["first_trading_rebalance_index"]
+                       == book_windows[wide_name]["first_trading_rebalance_index"])
+        exp_lad = window_by_book["ladder5"].get("expected_linear_bp")
+        exp_wid = window_by_book[wide_name].get("expected_linear_bp")
+        meas_lad = window_by_book["ladder5"].get("measured_attribution_bp")
+        meas_wid = window_by_book[wide_name].get("measured_attribution_bp")
+        gap = (round(meas_lad - meas_wid, 2)
+               if (meas_lad is not None and meas_wid is not None) else None)
+        gap_window = (round(exp_lad - exp_wid, 2)
+                      if (exp_lad is not None and exp_wid is not None) else None)
         windows[start] = {
             "bars": len(cal),
             "years": round(years, 2),
             "schemes": table,
+            "cash_window_by_book": window_by_book,
+            "cash_window_note": {
+                "same_window_for_both_books": same_window,
+                "ladder_gap_bp": gap,
+                "ladder_gap_from_window_bp": gap_window,
+                "ladder_gap_unexplained_bp": (round(gap - gap_window, 2)
+                                              if (gap is not None and gap_window is not None)
+                                              else None),
+                "tolerance_bp": CASH_IDENTITY_TOL_BP,
+                "window_is_burn_in_driven": all(
+                    row.get("window_is_burn_in_driven") for row in window_by_book.values()),
+                "burn_in_bars_required": base.MIN_BARS,
+                "reading": ("both books first trade on the same month end, so the "
+                            "ladder/wide attribution gap cannot be a window difference"
+                            if same_window else
+                            "the two books first trade on different month ends, so part "
+                            "of the attribution gap is window and only the remainder is "
+                            "rate or valuation"),
+            },
             "cash_mechanism": {
                 "first_rebalance_index": rebal[0] if rebal else None,
                 "first_trading_rebalance_index": first_trade_idx,
@@ -622,20 +770,29 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
                 "panel_first": (cash_panel or {}).get("first"),
                 "panel_last": (cash_panel or {}).get("last"),
                 "mean_daily_cash_bp": round(sum(rates) / len(rates) * 1e4, 4) if rates else None,
-                "mean_annual_cash_rate_pct": (round(sum(rates) / len(rates) * 252 * 100, 2)
-                                              if rates else None),
+                "mean_annual_cash_rate_pct": mean_rate_pct,
                 "cash_is_discretionary": False,
+                "per_book_window_published_separately": True,
                 "why": ("the engine holds cash only for the un-invested weight: 1.0 until the first "
                         "rebalance whose live set is non-empty (eligibility needs a burn-in, "
                         "so that is far later than the first month end), then 0.0 after an "
                         "equal-weight rebalance, because the weight is taken over the live "
-                        "names only"),
+                        "names only. This block is the LADDER's window; E128 publishes every "
+                        "book's own window under cash_window_by_book"),
             },
             "answers": {
                 "ladder_cash_attributable_bp": table["ladder5"].get("x1", {}).get("ann_vs_x0_bp"),
                 "wide_cash_attributable_bp": table[wide_name].get("x1", {}).get("ann_vs_x0_bp"),
                 "ladder_x3_delta_bp": table["ladder5"].get("x3", {}).get("ann_vs_x0_bp"),
                 "wide_x3_delta_bp": table[wide_name].get("x3", {}).get("ann_vs_x0_bp"),
+                "cash_window_same_for_both_books": same_window,
+                "ladder_identity_residual_bp":
+                    window_by_book["ladder5"].get("residual_bp"),
+                "wide_identity_residual_bp":
+                    window_by_book[wide_name].get("residual_bp"),
+                "identity_within_tolerance": {
+                    name: row.get("within_tolerance")
+                    for name, row in window_by_book.items()},
                 "maxdd_moves_with_cash": {
                     name: round((table[name].get("x1", {}).get("max_drawdown_pct") or 0)
                                 - (table[name].get("x0", {}).get("max_drawdown_pct") or 0), 2)
@@ -654,6 +811,10 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
             "the same engine, so 'cash drag' here means the accrual rate on dead weight",
             "x0 reproduces the historical zero-cash convention (cash=None -> 0.0 daily return)",
             "a multiplier is a counterfactual rate, not a rate that ever existed",
+            "the per-book identity residual is rate x share minus measured attribution: the "
+            "engine compounds on the equity curve instead of summing linearly, so a few bp of "
+            "gap is expected and a gap above the published tolerance is a defect in the "
+            "attribution, not a market fact",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
@@ -14842,6 +15003,54 @@ def selftest():
     chk(_lx2["ladder_row_is_a_control"] is False
         and _lx2["ladder_names_neutralised"] == ["BBB"],
         "E125 a neutralised ladder name turns the control claim false")
+
+    # ---- E128 per-book cash windows + published identity residual
+    # the identity is rate_pct * share_pct == bp (pct/100 * share/100 * 1e4);
+    # a wrong exponent here would silently report a 100x number, so pin it.
+    _id_ok = _cash_identity(1.98, 15.95, 36.0)
+    chk(_id_ok["expected_linear_bp"] == 31.58,
+        "E128 the identity is rate x share in bp, not a 100x number")
+    chk(_id_ok["residual_bp"] == 4.42 and _id_ok["within_tolerance"] is True,
+        "E128 a residual inside the tolerance is published, not rounded away")
+    _id_bad = _cash_identity(1.98, 15.95, 80.0)
+    chk(_id_bad["within_tolerance"] is False
+        and _id_bad["status"] == "residual_outside_tolerance",
+        "E128 a residual outside the tolerance is named a defect, not a market fact")
+    chk(_cash_identity(None, 15.95, 36.0)["status"] == "inputs_missing"
+        and _cash_identity(1.98, None, 36.0)["residual_bp"] is None,
+        "E128 a missing rate or share is inputs_missing, never a zero residual")
+    chk(_cash_identity(1.98, 15.95, None)["status"] == "measurement_missing",
+        "E128 an unmeasured attribution does not reconcile against itself")
+    # the two books must be able to disagree: a book whose only eligible name
+    # appears late has a shorter repo window than one that trades at the start
+    _e128_prices = {"early": [1.0] * 300, "late": [1.0] * 300, "absent": [1.0] * 300}
+    _e128_rebal = [10, 20, 30, 40]
+
+    # base.elig is called with the name's own price series, so the fixture
+    # declares eligibility per series, exactly as the real gate does.
+    def _e128_elig(px, ri):
+        if px is _e128_prices["early"]:
+            return True
+        if px is _e128_prices["late"]:
+            return ri >= 30
+        return False
+
+    chk(_first_trade_index(_e128_rebal, _e128_prices, ("early",), _e128_elig) == 10
+        and _first_trade_index(_e128_rebal, _e128_prices, ("late",), _e128_elig) == 30,
+        "E128 two books with different burn-ins get different first-trade month ends")
+    chk(_first_trade_index(_e128_rebal, _e128_prices, ("early", "late"), _e128_elig) == 10,
+        "E128 a wider universe can only trade earlier, never later")
+    chk(_first_trade_index(_e128_rebal, _e128_prices, ("absent",), _e128_elig) is None,
+        "E128 a book that can never trade reports None, not the last bar")
+    chk(CASH_IDENTITY_TOL_BP > 0,
+        "E128 the tolerance is a published positive number, not a silent default")
+    chk(_id_ok["ratio_measured_over_expected"] == 1.14,
+        "E128 the measured/expected ratio is published beside the residual")
+    chk(_window_is_burn_in_driven(262, 250) is True
+        and _window_is_burn_in_driven(500, 250) is False,
+        "E128 a window that first trades at the burn-in gate is named as such")
+    chk(_window_is_burn_in_driven(None, 250) is None,
+        "E128 an unknown first-trade index is None, not a false claim")
 
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
