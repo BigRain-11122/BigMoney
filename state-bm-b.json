@@ -695,13 +695,28 @@
   "pushed_sha": "f59eefe82c",
   "status": "PUSHED_VERIFIED"
  },
+ "r1189": {
+  "card": "E156",
+  "controls": "same-arm control 0 of 77 moved; cutoff control (STALETAIL-20261021 vs today raw) moved 44 cells with a 6.0 bp max -- an order of magnitude more than the repair, so this family's numbers must carry a cutoff.",
+  "digest": "research/digests/DIGEST-20261027-e118-staletail-screened.md",
+  "finding": "77 cells, 19 moved (3 guarded / 8 unguarded / 8 other), max 0.42. The PRICED tail is bit-identical on both arms (raw_clean 112 events / -6.079 bp; raw_all_events 131 / -514.454) and the artefact list holds 19 events with the same top print on both sides (sh510150@2021-05-31). Only the relative (name-minus-wide-book) columns move, by <=0.42 bp of a -522 bp total -- the repair edits the wide book's members, not the exiting name.",
+  "not_run": "heavy pandas S6 chain (previous full chain 52 legs; this round ran the cheap lane legs + the twin, which is the round's compute)",
+  "orphan": 0,
+  "product": "results/e44_midmonth/STALETAILSCREEN-20261027.json (new leg + face)",
+  "routing": "covered_twin 13 -> 14 (charged 25, uncovered 10, runners 7)",
+  "s6": "dualrun ZERO-DRIFT 642 entries streak 10 | attrition CLEAN (3 historical shrinks healed) | update_daily 0 new rows (cutoff 2026-10-27, 15:30 guard) | astock no-op (cutoff 2026-10-26 = expected) | etf_daily no-op | regime ORANGE shadow day 7",
+  "selftest": "e39 362 -> 380/380; e97 15/15",
+  "smoke": "94/94 PASS (run at open and re-run after all edits)",
+  "supply": "pool ready 0 -> 3 (E119/E120/E121 seeded from the E97 ranking); compute_audit verdict FLAG:pool_starvation,supply_floor -> CLEAN, supply_floor 3/3 breach=false",
+  "tree_probe": "SUSPECT at open, 0 foreign faces / 0 deletes -- resolved as LINE ENDINGS, not content: fleet/machines/bm-b.json is LF at origin while fleet/machine-health.json, results/compute_audit.bm-b.json and results/_orphan_face_probe.bm-b.json are CRLF at origin. Normalising all four to LF turned three host-owned faces into full-file rewrites; the fix is per-FILE, read from git show origin/main:<path>, never per-repo."
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1188,
- "round_no": 1189,
+ "round_no": 1190,
  "round_no_label": "r1186",
- "round_no_ts": "2026-10-27T19:08:03+08:00",
+ "round_no_ts": "2026-10-27T20:34:03+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
   "checked_at": "2026-10-27T12:06:00+08:00",
@@ -716,11 +731,11 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T19:08:03+08:00"
  },
- "task": "r1189: stand the tree-poison probe at round open, then take the staletail twin (228 cells, the largest unscreened runner)",
- "task_short": "tree poison probe + E118 staletail twin",
+ "task": "r1190: take E119 (entry-delay twin -- the first twin whose runner delegates to another runner, so the arm seam must be threaded through both)",
+ "task_short": "E119 entry-delay screened twin",
  "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-27T20:15:21+08:00",
- "updated": "2026-10-27T20:15:21+08:00",
- "updated_at": "2026-10-27T20:15:21+08:00",
- "verdict": "green r1188: smoke 93/93 PASS 0 FAIL (with the new leg) | tree_poison_probe selftest 15/15, live verdict CLEAN | the 62-file revert of another machine's work is out of the tree | dualrun ZERO-DRIFT streak 9 | attrition CLEAN | orphan face=0"
+ "ts": "2026-10-27T20:34:03+08:00",
+ "updated": "2026-10-27T20:34:03+08:00",
+ "updated_at": "2026-10-27T20:34:03+08:00",
+ "verdict": "green r1189: smoke 94/94 | E118 face published | e97 covered 13->14 | census selftest 380/380 | pool reseeded 0->3 ready (audit CLEAN) | dualrun ZERO-DRIFT streak 10 | attrition CLEAN | orphan face=0"
 }

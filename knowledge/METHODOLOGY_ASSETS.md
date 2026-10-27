@@ -1393,3 +1393,23 @@ book by the size of the basket's own move, and the difference is exactly what a 
 Evidence: results/etf_book_forward/LEDGER.json (benchmark block), scripts/etf_book_forward.py (selftest 33 legs,
 9 of them new), scripts/etf_book_ceo_page.py (lifted into the CEO one-pager, selftest 26 -> 28), chain leg prints
 the pair on every run.
+## E156 On a face that already carries a guard, a screened twin tests whether the two screens agree -- not whether the face is stable (r1189 bm-b, E118)
+
+The stale tail (E74) already excludes, before pricing anything, every event whose span carries a >30% single-session
+move; panel_screen repairs a different population (integer-ratio prints). Joining the two arms on the same 77 cells
+moved 19, but the priced tail came back bit-identical (raw_clean 112 events / -6.079 bp on both arms, raw_all_events
+131 / -514.454 on both) and the artefact list held 19 events with the same top print (sh510150@2021-05-31) on both
+sides. Only the relative (name-minus-wide-book) columns moved, and by 0.42 bp of a -522 bp total -- because the repair
+edits the wide book's members' returns, not the exiting name's.
+
+1) Ask which columns SHOULD move before you read the moved-count. "19 of 77 moved" reads as instability; split into
+   guarded (3) / unguarded (8) / other (8) it reads as "the priced tail is arm-invariant, the denominators are not".
+   A twin reported without that split destroys the finding it exists to produce.
+2) Two guards over overlapping populations are not redundant, but their agreement is a measured fact, not an
+   assumption. Getting "both arms bit-identical" is the evidence that lets the tail be quoted; it is not a proof the
+   panel is clean.
+3) Size the refresh in the same breath. The cutoff control moved 44 cells with a 6.0 bp max on this family while the
+   repair moved 19 cells with 0.42 bp -- a number quoted without its cutoff is comparing two panels and calling the
+   difference a repair effect.
+Evidence: results/e44_midmonth/STALETAILSCREEN-20261027.json, scripts/e39_panel_census.py run_staletailscreen
+(selftest 362 -> 380), scripts/e97_routing.py TWIN_FUNCS (covered 13 -> 14), research/digests/DIGEST-20261027-e118-staletail-screened.md.

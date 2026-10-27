@@ -124,6 +124,14 @@
     "calls": [
      "run_panelsplit"
     ]
+   },
+   {
+    "leg": "staletailscreen",
+    "func": "run_staletailscreen",
+    "face": "results/e44_midmonth/STALETAILSCREEN-20261027.json",
+    "calls": [
+     "run_staletail"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -638,8 +646,10 @@
    "runner": "run_staletail",
    "face": "results/e44_midmonth/STALETAIL-20261021-s20130101.json",
    "published_cells": 228,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "staletailscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
@@ -659,16 +669,6 @@
   }
  ],
  "ranking_uncovered_by_runner": [
-  {
-   "runner": "run_staletail",
-   "modes": [
-    "staletail"
-   ],
-   "published_cells_dedup": 228,
-   "faces": [
-    "results/e44_midmonth/STALETAIL-20261021-s20130101.json"
-   ]
-  },
   {
    "runner": "run_entrydelay",
    "modes": [
@@ -745,13 +745,6 @@
  ],
  "ranking_uncovered_by_mode": [
   {
-   "mode": "staletail",
-   "runner": "run_staletail",
-   "published_cells": 228,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
    "mode": "entrydelay",
    "runner": "run_entrydelay",
    "published_cells": 223,
@@ -824,12 +817,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 13,
+  "covered_by_twin": 14,
   "covered_twin_by_name": 1,
-  "uncovered": 11,
+  "uncovered": 10,
   "uncovered_column_only": 6,
-  "uncovered_distinct_runners": 8,
-  "cells_unchanged_by_any_twin": 1099
+  "uncovered_distinct_runners": 7,
+  "cells_unchanged_by_any_twin": 871
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

@@ -22053,7 +22053,7 @@
   },
   {
    "id": "E118-STALETAIL-SCREENED-TWIN",
-   "status": "open",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (run_staletail)",
@@ -22066,7 +22066,43 @@
    "runner_note": "run_staletail loads its own panel via _panel_inputs, which now carries the raw= seam E117 added -- so the twin needs a raw= passthrough only, plus a harvest that keeps the stale-WINDOW columns (sessions held past the decision) apart from the RETURN columns, the same split E117 used for count vs value: a repair that changes how long a name is held is a different finding from one that changes what it earned while held.",
    "owner": null,
    "claimed_at": null,
-   "result_ref": null
+   "result_ref": "results/e44_midmonth/STALETAILSCREEN-20261027.json",
+   "completed_at": "2026-10-27T20:35:00+08:00",
+   "completed_by": "bm-b",
+   "result_note": "77 cells, 19 moved (3 guarded / 8 unguarded / 8 other), max 0.42; same-arm control 0; the PRICED tail is bit-identical on both arms (raw_clean 112 events / -6.079 bp; raw_all_events 131 / -514.454) and the artefact list is 19 events with the same top print (sh510150@2021-05-31) -- only the relative (name-minus-wide-book) columns move, because the repair edits the wide book's members, not the exiting name. cutoff control (STALETAIL-20261021 vs today raw) moved 44 cells with a 6.0 bp max, an order of magnitude more than the repair: this family's numbers must carry a cutoff."
+  },
+  {
+   "id": "E119-ENTRYDELAY-SCREENED-TWIN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "E97 ranking after E118: run_entrydelay is now the largest uncovered runner (223 numbers, one mode). It is the first twin that cannot simply reuse an existing raw= seam -- run_entrydelay delegates to run_midsweep and republishes its me_lagK arms, so the seam has to be threaded through BOTH (midsweep takes raw=, entrydelay passes it), and the join must harvest the delay rows plus the underlying midsweep gaps so a moved arm is attributable to the repair rather than to the delegating layer. The published question is 'is the off-cycle penalty the calendar or being late', read on a repaired panel: a repair that changes which name is picked on a delayed decision date changes the lag ladder itself, so the monotonicity of the lag ladder (does each extra k sessions still cost more?) is the reading to publish beside the moved-cell count.",
+   "deliverable": "results/e44_midmonth/ENTRYDELAYSCREEN-<cutoff>.json",
+   "source": "results/e79/ROUTING-20261027.json ranking after E118 (charged=25 covered_twin=14 uncovered=10 runners=7); scripts/e39_panel_census.py run_entrydelay -> run_midsweep delegation; E112-E118 twin machinery (_burnin_pair_rows + per-arm checkpoint + same-arm control + cutoff control)",
+   "seeded_at": "2026-10-27T20:35:00+08:00",
+   "seeded_by": "bm-b r1189"
+  },
+  {
+   "id": "E120-NEIGHBORHOOD-SCREENED-TWIN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Second-largest uncovered runner (139 numbers, one mode). run_neighborhood asks what the month-end decision would have earned a session either side of the calendar, so a repair can move the CENTRE while leaving both shoulders alone (or vice versa): publish the inside/outside split of the moved cells, not just the total, or the reading cannot say whether the repair bends the shape or shifts the level.",
+   "deliverable": "results/e44_midmonth/NEIGHBORHOODSCREEN-<cutoff>.json",
+   "source": "Seeded from results/e79/ROUTING-20261027.json (charged=25 covered_twin=14 uncovered=10 runners=7) after E118 closed the stale-tail row. Same machinery as E112-E118: one load, both arms burned off it (run_neighborhood gains the raw= seam if it does not already carry one), per-arm checkpoints, the shared _burnin_pair_rows join, a same-arm control that must read zero, and a cutoff control (an older published raw face vs today's raw arm) so the panel refresh is sized beside the repair.",
+   "seeded_at": "2026-10-27T20:40:00+08:00",
+   "seeded_by": "bm-b r1189"
+  },
+  {
+   "id": "E121-REBALDAY-SCREENED-TWIN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "target": "scripts/e39_panel_census.py",
+   "title": "Third-largest uncovered runner (132 numbers, one mode). run_rebalday prices the rebalance calendar itself, which is the one axis every other twin holds fixed -- so this twin's control is the interesting part: if the calendar face moves on a repaired panel while every calendar's own return holds, the repair changed WHEN the book traded rather than WHAT it earned.",
+   "deliverable": "results/e44_midmonth/REBALDAYSCREEN-<cutoff>.json",
+   "source": "Seeded from results/e79/ROUTING-20261027.json (charged=25 covered_twin=14 uncovered=10 runners=7) after E118 closed the stale-tail row. Same machinery as E112-E118: one load, both arms burned off it (run_rebalday gains the raw= seam if it does not already carry one), per-arm checkpoints, the shared _burnin_pair_rows join, a same-arm control that must read zero, and a cutoff control (an older published raw face vs today's raw arm) so the panel refresh is sized beside the repair.",
+   "seeded_at": "2026-10-27T20:40:00+08:00",
+   "seeded_by": "bm-b r1189"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22081,6 +22117,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T16:34:39+08:00",
+ "updated_at": "2026-10-27T20:40:00+08:00",
  "version": 1
 }

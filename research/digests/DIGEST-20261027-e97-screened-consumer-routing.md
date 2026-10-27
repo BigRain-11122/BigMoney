@@ -13,7 +13,7 @@ Coverage is a **code-graph** fact (does a twin leg call this mode's runner, or b
 
 | charged | covered by twin call | covered by twin body | uncovered | distinct runners | column-only collisions |
 |---|---|---|---|---|---|
-| 25 | 11 | 1 | 13 | 10 | 7 |
+| 25 | 14 | 1 | 10 | 7 | 6 |
 
 ## The table
 
@@ -39,32 +39,29 @@ Coverage is a **code-graph** fact (does a twin leg call this mode's runner, or b
 | cutcurve | run_cutcurve | chasescreen,cutcurvescreen | covered_twin | 1139 |
 | chase | run_chase | chasescreen | covered_twin | 377 |
 | entrydelay | run_entrydelay | none | uncovered_column_only | 223 |
-| earlydelay | run_earlydelay | none | uncovered_column_only | 235 |
+| earlydelay | run_earlydelay | earlydelayscreen | covered_twin | 235 |
 | neighborhood | run_neighborhood | none | uncovered_column_only | 139 |
 | weeklyclash | run_weeklyclash | screenweek | covered_twin_by_name | 332 |
-| staletail | run_staletail | none | uncovered | 228 |
-| panelsplit | run_panelsplit | none | uncovered | 234 |
+| staletail | run_staletail | staletailscreen | covered_twin | 228 |
+| panelsplit | run_panelsplit | panelsplitscreen | covered_twin | 234 |
 
 ## Ranked: uncovered, by runner (one burn per runner)
 
 | # | runner | numbers carried | modes sharing the face |
 |---|---|---|---|
-| 1 | run_earlydelay | 235 | earlydelay |
-| 2 | run_panelsplit | 234 | panelsplit |
-| 3 | run_staletail | 228 | staletail |
-| 4 | run_entrydelay | 223 | entrydelay |
-| 5 | run_neighborhood | 139 | neighborhood |
-| 6 | run_rebalday | 132 | rebalday |
-| 7 | run_warmspread | 123 | e45, warmspread |
-| 8 | run_pair | 93 | pair |
-| 9 | run_tilt4 | 91 | e43, tilt4, widecomp |
-| 10 | run_cashdrag | 70 | cashdrag |
+| 1 | run_entrydelay | 223 | entrydelay |
+| 2 | run_neighborhood | 139 | neighborhood |
+| 3 | run_rebalday | 132 | rebalday |
+| 4 | run_warmspread | 123 | e45, warmspread |
+| 5 | run_pair | 93 | pair |
+| 6 | run_tilt4 | 91 | e43, tilt4, widecomp |
+| 7 | run_cashdrag | 70 | cashdrag |
 
 ## What the numbers say
 
-1. **The biggest untouched face is not a headline leg.** `run_earlydelay` carries 235 numbers across earlydelay - the largest single burn, 15% of the 1568 numbers the 10 uncovered runners carry together (one burn each, shared faces counted once).
-2. **Only 11 of 25 charged modes have a twin that calls their runner**, and exactly one more is covered by a twin that builds the face in its own body. So E109's fixed-factor sweep did not reach the base faces: the corrected numbers live on twin faces, while the faces a reader opens are still the unscreened ones.
-3. **A column-name test would have routed work to the wrong leg.** 7 rows match some twin at >=80% column overlap without any code link; generic metric names (`ann_return_pct`, `sharpe`, `max_drawdown_pct`) are why.
+1. **The biggest untouched face is not a headline leg.** `run_entrydelay` carries 223 numbers across entrydelay - the largest single burn, 26% of the 871 numbers the 7 uncovered runners carry together (one burn each, shared faces counted once).
+2. **Only 14 of 25 charged modes have a twin that calls their runner**, and exactly one more is covered by a twin that builds the face in its own body. So E109's fixed-factor sweep did not reach the base faces: the corrected numbers live on twin faces, while the faces a reader opens are still the unscreened ones.
+3. **A column-name test would have routed work to the wrong leg.** 6 rows match some twin at >=80% column overlap without any code link; generic metric names (`ann_return_pct`, `sharpe`, `max_drawdown_pct`) are why.
 
 ## Honest
 

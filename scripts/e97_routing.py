@@ -65,6 +65,12 @@ TWIN_FUNCS = {
     # the prints panel_screen edits, so here a moved count is the repair working.
     "run_panelsplitscreen": ("panelsplitscreen",
                              "results/e44_midmonth/PANELSPLITSCREEN-*.json"),
+    # E118: the last of the mid-month E7x family. Its published numbers already
+    # exclude >30% single-session jumps, so this twin tests the GUARD rather
+    # than the panel: a repair that only moves the unguarded columns means the
+    # two screens agree on which prints are impossible.
+    "run_staletailscreen": ("staletailscreen",
+                            "results/e44_midmonth/STALETAILSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

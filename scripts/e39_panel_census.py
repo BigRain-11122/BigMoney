@@ -6359,16 +6359,18 @@ def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     return face
 
 
-def _stale_hold_inputs(start, pick_n, exclude):
+def _stale_hold_inputs(start, pick_n, exclude, raw=None):
     """(E72/E74) shared panel, calendars and books for both stale legs.
 
     Factored out so the absolute (E72) and relative (E74) reads cannot drift
     onto two different panels or two different decision calendars.
+    ``raw`` (E118) lets the screened twin hand in an already repaired universe
+    so both arms are cut from one load; passing it skips the loader entirely.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -6577,7 +6579,8 @@ def _relative_reading(raw_bp, rel_bp, shrink_share=0.25, floor_bp=5.0):
     return "partial"
 
 
-def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
+def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                  raw=None):
     """E74: is the stale tail a name effect, or the market's own path?
 
     E72 priced the tail raw and its sign flipped era to era (+282bp/yr pre2017,
@@ -6586,8 +6589,11 @@ def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     against the wide book over the identical sessions: an event that merely
     moved with the market nets to ~0, and only a surviving excess is a name
     effect worth naming.
+
+    ``raw`` (E118) is the screened-twin seam: the caller hands in an already
+    repaired universe so both arms are cut from one load.
     """
-    ds = _stale_hold_inputs(start, pick_n, exclude)
+    ds = _stale_hold_inputs(start, pick_n, exclude, raw=raw)
     cal, cutoff, prices = ds["cal"], ds["cutoff"], ds["prices"]
     me_idxs, me_books = ds["me_idxs"], ds["me_books"]
     wk_idxs, wk_books = ds["wk_idxs"], ds["wk_books"]
@@ -6716,6 +6722,279 @@ def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
         ],
     }
     return face
+
+
+# ------------------------------------------------ E118 stale-tail screened twin
+
+def _staletail_arm_cells(face, starts=None):
+    """(E118) -> {(key, column): value} for every number the stale-tail leg prices.
+
+    Three levels, because they answer three different questions: ``tail/*`` is
+    the whole tail (all events vs artefact-guarded, raw vs relative), ``era/*``
+    is where the published sign flips live, and ``answers/*`` is the headline
+    the E74 reading was written from. The artefact guard is what makes this leg
+    interesting: it already excludes the prints ``panel_screen`` repairs, so a
+    repair that reaches this face should move the *unguarded* columns
+    (``raw_all_events``, ``artefacts.excluded_events``) and leave the guarded
+    ones alone -- and if it moves the guarded ones too, the guard was never
+    catching what it claimed to catch.
+    """
+    out = {}
+    for lab, agg in (face.get("tail") or {}).items():
+        agg = agg or {}
+        key = "tail/" + lab
+        for col in ("events", "total_bp", "bp_per_year", "mean_return_pct",
+                    "negative_share", "mean_extra_sessions", "max_extra_sessions"):
+            out[(key, col)] = agg.get(col)
+    for lab, agg in (face.get("by_era") or {}).items():
+        agg = agg or {}
+        key = "era/" + lab
+        for col in ("events", "total_bp", "bp_per_year", "mean_return_pct",
+                    "negative_share", "artefacts_excluded"):
+            out[(key, col)] = agg.get(col)
+    for lab, agg in (face.get("by_era_raw") or {}).items():
+        agg = agg or {}
+        key = "era_raw/" + lab
+        for col in ("events", "total_bp", "bp_per_year", "negative_share"):
+            out[(key, col)] = agg.get(col)
+    out[("artefacts", "excluded_events")] = (face.get("artefacts") or {}).get(
+        "excluded_events")
+    ans = face.get("answers") or {}
+    for col in ("stale_events", "stale_events_all", "artefacts_excluded",
+                "raw_total_bp", "raw_bp_per_year",
+                "raw_all_events_total_bp", "raw_all_events_bp_per_year",
+                "relative_total_bp", "relative_bp_per_year",
+                "relative_negative_share", "relative_share_of_raw",
+                "relative_all_events_bp_per_year", "newest_era_relative_bp"):
+        out[("answers", col)] = ans.get(col)
+    for lab, v in (ans.get("era_relative_bp_per_year") or {}).items():
+        out[("answers/era_relative_bp_per_year", lab)] = v
+    for lab, v in (ans.get("era_raw_bp_per_year") or {}).items():
+        out[("answers/era_raw_bp_per_year", lab)] = v
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def _staletail_top_event(face, starts=None):
+    """(E118) the artefact list as a date face: the tail's identity, not its size.
+
+    The E97 census counts numbers; the artefact event list is the one place this
+    face names WHICH print it charged. A repair that changes the count without
+    changing the names is a different finding from one that swaps them, so the
+    top event (largest |bp_contrib|) travels as a string cell that either moves
+    or does not.
+    """
+    evs = (face.get("artefacts") or {}).get("events") or []
+    if not evs:
+        return {"artefacts": {"top": None, "n": 0}}
+    top = max(evs, key=lambda e: abs(e.get("bp_contrib") or 0.0))
+    return {"artefacts": {"top": "%s@%s" % (top.get("name"), top.get("date")),
+                          "n": len(evs)}}
+
+
+def run_staletailscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                        mode="neutralise_int", resume=True):
+    """E118: re-price the stale tail on the screened arm, beside the raw face.
+
+    E97 row 6 after the burn-in/cut-curve/livespan/chase/early/split twins. This
+    is the last of the mid-month E7x family, and the only one whose published
+    numbers are already split by an artefact guard: E74 excluded every event
+    whose span carried a >30% single-session jump BEFORE pricing it. So the twin
+    reads as a test of the guard itself:
+
+      * if the repair only touches the unguarded columns, the guard and the
+        screen agree on which prints are impossible, and the priced tail is
+        arm-invariant -- that is the result that would let the tail be quoted;
+      * if the guarded columns move too, the guard was catching a different set
+        of prints than ``panel_screen`` repairs, and neither face is safe to
+        quote until the two are reconciled;
+      * if the counts move while the rates hold, only the population changed.
+
+    Same machinery as E112-E117 on purpose: one load, both arms burned off it,
+    per-arm checkpoints, one ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero, and a cutoff control (an older published raw tail face vs
+    today's raw arm).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "STALETAIL-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "STALETAIL-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(start=start, pick_n=pick_n, exclude=exclude)
+    raw_arm = cached("raw", lambda: run_staletail(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_staletail(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _staletail_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_staletail_arm_cells,
+                             dates_fn=_staletail_top_event)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_staletail_arm_cells,
+                                dates_fn=_staletail_top_event)["summary"]
+
+    # cutoff control: newest previously published raw tail face vs today's raw
+    # arm -- same arm, two cutoffs, so it isolates the panel refresh.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("STALETAIL-") and p.endswith(".json")
+                    and not p.startswith("STALETAIL-arm-")
+                    and not p.startswith("STALETAILSCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("STALETAIL-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_staletail_arm_cells,
+                                     dates_fn=_staletail_top_event)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+            "gate_dates_moved": old_pair["gate_dates_moved"],
+        }
+        break
+
+    s = pair["summary"]
+    guarded_cols = ("tail/raw_clean", "tail/relative_clean")
+    guarded_moved = [r for r in pair["moved"] if r["start"] in guarded_cols]
+    unguarded_moved = [r for r in pair["moved"]
+                       if r["start"] in ("tail/raw_all_events",
+                                         "tail/relative_all_events",
+                                         "artefacts", "answers")
+                       or r["start"].startswith("era_raw/")]
+    other_moved = [r for r in pair["moved"]
+                   if r not in guarded_moved and r not in unguarded_moved]
+    survives = _twin_survives(s, control)
+    raw_sum = {lab: (raw_arm.get("tail") or {}).get(lab, {})
+               for lab in ("raw_all_events", "raw_clean",
+                           "relative_all_events", "relative_clean")}
+    scr_sum = {lab: (scr_arm.get("tail") or {}).get(lab, {})
+               for lab in ("raw_all_events", "raw_clean",
+                           "relative_all_events", "relative_clean")}
+    return {
+        "study": "e118_staletail_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_staletail_arm_cells harvests the four tail aggregates, "
+                     "each era on both the relative and the raw key, the artefact "
+                     "block and the E74 answers; the artefact event LIST travels "
+                     "as a date face (its top print) because a count that moves "
+                     "without the names moving is a different finding"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+            "guard_vs_repair": ("guarded columns = the tail E74 actually priced "
+                                "(events with no >%.0f%% single-session jump inside "
+                                "their span); unguarded = the all-events and "
+                                "artefact block beside it"
+                                % (100.0 * ARTEFACT_JUMP)),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "face_survives_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "guarded_cells_moved": len(guarded_moved),
+            "unguarded_cells_moved": len(unguarded_moved),
+            "other_cells_moved": len(other_moved),
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("counts are events; bp columns are basis points; "
+                            "negative_share is a fraction; years is a duration -- "
+                            "the summary max is a screen over mixed units, not a "
+                            "quantity"),
+            "worst_cell": s["worst"],
+            "control_cells_moved": control["cells_moved"],
+            "artefact_events": {
+                "raw": (raw_arm.get("artefacts") or {}).get("excluded_events"),
+                "screened": (scr_arm.get("artefacts") or {}).get("excluded_events"),
+                "guard_threshold_pct": (raw_arm.get("artefacts") or {}).get(
+                    "jump_threshold_pct"),
+            },
+            "tail_by_arm": {
+                lab: {"raw": {k: raw_sum[lab].get(k)
+                              for k in ("events", "total_bp", "bp_per_year")},
+                      "screened": {k: scr_sum[lab].get(k)
+                                   for k in ("events", "total_bp", "bp_per_year")}}
+                for lab in raw_sum},
+            "gate_dates": pair["gate_dates"],
+            "gate_dates_moved": pair["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta": cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the priced stale tail survives the repair: %d of %d cells move "
+                 "(%d guarded / %d unguarded), so the E74 artefact guard and "
+                 "panel_screen agree on which prints are impossible"
+                 % (s["cells_moved"], s["cells_compared"], len(guarded_moved),
+                    len(unguarded_moved)))
+                if survives else
+                ("the repair reaches the stale tail: %d of %d cells move "
+                 "(%d guarded, %d unguarded, %d other) and %d cell(s) exist on "
+                 "one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(guarded_moved),
+                    len(unguarded_moved), len(other_moved),
+                    s["only_in_raw"] + s["only_in_screened"]))),
+            "honest_flag": ("guarded columns moving is the finding that matters: "
+                            "E74's guard is a >%.0f%% single-session jump test, "
+                            "while panel_screen repairs integer-ratio prints -- "
+                            "two different populations, and a delta here means the "
+                            "tail was quoting a set the screen never touched"
+                            % (100.0 * ARTEFACT_JUMP)),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged universe_members count "
+            "is a property of the repair, not evidence the panel is clean",
+            "the artefact guard is a daily-limit screen, not an adjustment: an "
+            "event it excludes is excluded on BOTH arms identically, so this leg "
+            "can only show whether the repair reached the prints the guard missed",
+            "E74's era bp/yr divides a small total by a short span on the early "
+            "eras; those cells move for arithmetic reasons as much as for repair "
+            "reasons and are read beside their event counts",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "tail/era/answers cells and the top artefact print, not the full "
+            "event list or the skipped-block counters",
+        ],
+    }
 
 
 # --------------------------------------------------------------- E75 panel splits
@@ -11503,6 +11782,115 @@ def selftest():
     chk("raw" in _inspect.signature(run_panelsplit).parameters,
         "E117 run_panelsplit carries the raw= arm seam the twin burns on")
 
+    # --- E118: the stale tail's own screened twin ---------------------------
+    # Its published numbers are already split by an artefact guard, so the twin
+    # is really a test of the guard: a repair that only moves the UNGUARDED
+    # columns means the two screens agree on which prints are impossible.
+    def _syn_tail(all_bp=160.0, clean_bp=100.0, artefacts=1, rel_bp=None,
+                  top=("sh600000", "2021-06-11"), era="2024_now",
+                  extra_era=False, universe=665):
+        def agg(events, total_bp, neg=0.4, excluded=None):
+            d = {"events": events, "total_bp": total_bp,
+                 "bp_per_year": round(total_bp / 6.0, 3),
+                 "mean_return_pct": -2.0, "negative_share": neg,
+                 "mean_extra_sessions": 20.7, "max_extra_sessions": 25,
+                 "worst_event": {"date": "2021-06-11", "name": "sh600000",
+                                 "extra_sessions": 25, "return_pct": -9.0,
+                                 "bp_contrib": -30.0},
+                 "reading": "a label, not a test"}
+            if excluded is not None:
+                d["artefacts_excluded"] = excluded
+            return d
+        raz = rel_bp if rel_bp is not None else clean_bp * 0.2
+        by_era = {era: dict(agg(20, clean_bp), artefacts_excluded=artefacts,
+                            relative_bp_contrib=raz)}
+        by_era_raw = {era: agg(20 + artefacts, all_bp)}
+        if extra_era:
+            by_era["2017_2020"] = dict(agg(10, 50.0), artefacts_excluded=0,
+                                       relative_bp_contrib=10.0)
+            by_era_raw["2017_2020"] = agg(10, 80.0)
+        return {
+            "study": "e74_stale_hold_relative", "evidence_cutoff": "2026-10-26",
+            "spec": {"pick_n": 9999, "start": "2020-01-01",
+                     "universe_members": universe},
+            "tail": {"raw_all_events": agg(40 + artefacts, all_bp),
+                     "raw_clean": agg(40, clean_bp),
+                     "relative_all_events": agg(40 + artefacts, raz),
+                     "relative_clean": agg(40, raz)},
+            "artefacts": {"excluded_events": artefacts, "jump_threshold_pct": 30.0,
+                          "events": [{"date": top[1], "name": top[0],
+                                      "return_pct": -91.7,
+                                      "max_session_jump_pct": 91.7,
+                                      "bp_contrib": -150.0}] if artefacts else []},
+            "by_era": by_era, "by_era_raw": by_era_raw,
+            "skipped": {"unpriced_book": 0},
+            "answers": {"stale_events": 40, "stale_events_all": 40 + artefacts,
+                        "artefacts_excluded": artefacts,
+                        "raw_total_bp": clean_bp,
+                        "raw_bp_per_year": round(clean_bp / 6.0, 3),
+                        "raw_all_events_total_bp": all_bp,
+                        "raw_all_events_bp_per_year": round(all_bp / 6.0, 3),
+                        "relative_total_bp": raz,
+                        "relative_bp_per_year": round(raz / 6.0, 3),
+                        "relative_negative_share": 0.4,
+                        "relative_share_of_raw": 0.2,
+                        "relative_all_events_bp_per_year": round(raz / 6.0, 3),
+                        "era_relative_bp_per_year": {era: round(raz / 6.0, 3)},
+                        "era_raw_bp_per_year": {era: round(all_bp / 6.0, 3)},
+                        "newest_era_relative_bp": raz,
+                        "relative_reading": "a label, not a test"},
+            "honest": ["a pointer line, not a measurement"],
+        }
+
+    _cells118 = _staletail_arm_cells(_syn_tail())
+    chk(("tail/raw_clean", "total_bp") in _cells118
+        and ("tail/raw_all_events", "events") in _cells118
+        and ("era/2024_now", "artefacts_excluded") in _cells118
+        and ("era_raw/2024_now", "total_bp") in _cells118
+        and ("artefacts", "excluded_events") in _cells118
+        and ("answers", "raw_bp_per_year") in _cells118
+        and ("answers/era_relative_bp_per_year", "2024_now") in _cells118
+        and ("spec", "universe_members") in _cells118,
+        "E118 the harvest walks tail -> era -> era_raw -> artefacts -> answers")
+    chk(not any("sh600000" in str(k) for k in _cells118),
+        "E118 the artefact event list is a date face, not a set of joined numbers")
+    _k118 = sorted({k[0] for k in _cells118})
+    _c118 = _burnin_pair_rows(_syn_tail(), _syn_tail(), _k118,
+                              cells_fn=_staletail_arm_cells,
+                              dates_fn=_staletail_top_event)["summary"]
+    chk(_c118["cells_moved"] == 0 and _c118["max_abs_delta_pp"] == 0.0
+        and _c118["gate_dates_moved"] == 0,
+        "E118 the same tail face joined against itself reads zero everywhere")
+    _g118 = _burnin_pair_rows(_syn_tail(), _syn_tail(clean_bp=120.0), _k118,
+                              cells_fn=_staletail_arm_cells,
+                              dates_fn=_staletail_top_event)
+    chk(any(r["column"] == "total_bp" and r["start"] == "tail/raw_clean"
+            for r in _g118["moved"]),
+        "E118 a guarded-column move is published with its tail pointer")
+    _u118 = _burnin_pair_rows(_syn_tail(), _syn_tail(artefacts=0), _k118,
+                              cells_fn=_staletail_arm_cells,
+                              dates_fn=_staletail_top_event)
+    chk(any(r["column"] == "excluded_events" and r["start"] == "artefacts"
+            for r in _u118["moved"]),
+        "E118 an unguarded artefact count is still a moved cell, not a footnote")
+    _d118 = _burnin_pair_rows(_syn_tail(),
+                              _syn_tail(top=("sh600001", "2019-03-04")),
+                              _k118, cells_fn=_staletail_arm_cells,
+                              dates_fn=_staletail_top_event)["gate_dates_moved"]
+    chk(any(r["column"] == "top" for r in _d118),
+        "E118 a changed top artefact print is a moved identity, not a zero delta")
+    _s118 = _burnin_pair_rows(_syn_tail(), _syn_tail(extra_era=True), _k118,
+                              cells_fn=_staletail_arm_cells,
+                              dates_fn=_staletail_top_event)["summary"]
+    chk(_s118["only_in_screened"] > 0 and _s118["cells_moved"] == 0,
+        "E118 an era that exists on one arm only is one-sided, not a zero delta")
+    chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0,
+                        "cells_moved": len(_u118["moved"])},
+                       {"cells_moved": 0, "max_abs_delta_pp": 0.0}) is False,
+        "E118 a tail whose unguarded counts moved does not claim to survive")
+    chk("raw" in _inspect.signature(run_staletail).parameters,
+        "E118 run_staletail carries the raw= arm seam the twin burns on")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -13894,6 +14282,7 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "earlydelayscreen",
                              "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
+                             "staletailscreen",
                              "panelsplit", "panelsplitscreen",
                              "screenreg", "screencalc", "screenspread",
                              "screenrob", "screentilt", "screenwide", "screenweek",
@@ -14589,6 +14978,17 @@ def main(argv):
                                      for k, v in f["by_era"].items()},
                           "skipped": f["skipped"]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "staletailscreen":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_staletailscreen(outdir, start=args.start)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "STALETAILSCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "staletailscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "panelsplit":
         f = run_panelsplit(None, start=args.start)
