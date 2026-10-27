@@ -419,6 +419,20 @@ def selftest():
     leg("L3d a MiB number under a GB name is caught, not agreed with", True,
         round(_mb("gpu_vram_free_gb", 15099) - _mb("gpu_free_mib", 15099), 1) > 64000,
         "reads %.0f MiB" % _mb("gpu_vram_free_gb", 15099))
+    # L3e r1185: r1311 corrected the WRITER and left the values it had already
+    #     written -- the live face carried gpu_vram_free_gb=3742 for two minutes
+    #     under the new code, because a merge-only face is never revisited unless a
+    #     probe runs. The residue must be visible to audit()...
+    residue = dict(f, gpu_vram_free_gb=3742)
+    leg("L3e a pre-fix GB-named MiB residue is caught by audit", True,
+        any(x["family"] == "free" for x in audit(residue)),
+        "gpu_vram_free_gb=3742 beside gpu_free_mib=%d" % f["gpu_free_mib"])
+    # ...and healable by the same round's probe (fields_from covers the key, so
+    # apply() rewrites it even though restate() skips anything already in fields).
+    healed = dict(residue, **fields_from(
+        {"util_pct": 100.0, "used_mib": 11688, "total_mib": 16384}, "2026-10-27T18:05:00+08:00"))
+    leg("L3f one probe heals the residue to GB", 4.6, healed["gpu_vram_free_gb"])
+    leg("L3f the healed face audits clean", [], audit(healed))
     leg("L3c audit is silent on a self-consistent face", [], audit(f))
 
     # L4 audit catches the live defect: a literal 0 next to a 13.7 GB free claim
