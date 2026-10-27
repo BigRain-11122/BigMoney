@@ -106,7 +106,21 @@
    "rule_param": 0.0676,
    "k_now": 1.0,
    "artefact": "results/etf_paper/ledger.jsonl",
-   "config": "bond-free, staggered 5+5, R10, 8% vol target"
+   "config": "bond-free, staggered 5+5, R10, 8% vol target",
+   "next_turn": [
+    {
+     "leg": 0,
+     "due": "2026-11-06",
+     "anchor": "estimate",
+     "clock_anchor": "pos"
+    },
+    {
+     "leg": 1,
+     "due": "2026-11-13",
+     "anchor": "estimate",
+     "clock_anchor": "pos"
+    }
+   ]
   }
  ],
  "n_faces": 4,

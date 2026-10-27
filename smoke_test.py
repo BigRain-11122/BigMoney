@@ -494,7 +494,12 @@ def main() -> int:
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
-             "scripts/supply_alignment.py", ["--selftest"])):
+             "scripts/supply_alignment.py", ["--selftest"]),
+            # The staggered book's sleeve due dates used to be position indices only
+            # (5274/5279) -- unreadable as dates and fragile against a panel whose
+            # history window shifts. Its selftest pins the date anchor + projection.
+            ("product: etf_paper_signal sleeve schedule (exit-code contract)",
+             "scripts/etf_paper_signal.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -537,6 +542,31 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # The register is the one screen that lists the books side by side. If it names the
+    # staggered book but not when that book turns, the reader is back to opening the
+    # ledger by hand -- so assert the date reaches the register too (r1304).
+    try:
+        _stg = [f for f in (_rg.get("faces") or []) if f.get("id") == "staggered"]
+        _turn = (_stg[0].get("next_turn") if _stg else None) or []
+        check("product: ETF registry says when the staggered book turns",
+              len(_turn) >= 2 and all(t.get("due") for t in _turn),
+              "; ".join("leg%s %s" % (t.get("leg"), t.get("due")) for t in _turn)
+              or "no next_turn on the staggered row")
+    except Exception as e:
+        check("product: ETF registry says when the staggered book turns", False, str(e))
+    # A sleeve schedule that a human cannot turn into a date is not an order. Assert the
+    # live ledger state: per sleeve, where the clock stands AND when it next turns.
+    try:
+        _led = [json.loads(_l) for _l in open("results/etf_paper/ledger.jsonl",
+                                             encoding="utf-8") if _l.strip()][-1]
+        _acts = _led.get("next_actions") or []
+        _ok_led = (len(_acts) == len(_led.get("sleeves") or [])
+                   and all(a.get("due_date") or a.get("due_date_estimate") for a in _acts))
+        check("product: staggered book states when each sleeve next turns", _ok_led,
+              "; ".join("sleeve %s -> %s" % (a.get("leg"), a.get("due_date_estimate"))
+                        for a in _acts))
+    except Exception as e:
+        check("product: staggered book states when each sleeve next turns", False, str(e))
     # The lag face itself is what a human reads to tell a holiday from a dead feed,
     # so assert the published file exists and speaks a known verdict -- a green
     # selftest on synthetic panels would not prove the live face was ever written.

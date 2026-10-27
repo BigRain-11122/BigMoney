@@ -171,7 +171,23 @@ def _staggered_face(path):
     if not last:
         return {"status": "empty", "as_of": None, "detail": "ledger has no rows"}
     names = _held_names(last.get("weights") or last.get("picks") or [])
-    return {
+    # The staggered book is the only face here whose clock is a future date, and a
+    # registry row that lists four books without saying when any of them turns leaves
+    # the reader to open the ledger itself. Carry the date, not the position -- and
+    # carry nothing at all when the ledger does not state one (r1304 E138).
+    turn = []
+    for a in last.get("next_actions") or []:
+        if not isinstance(a, dict):
+            continue
+        due = a.get("due_date") or a.get("due_date_estimate")
+        if due:
+            # Two different questions: is this date the ledger's own, or projected from
+            # the official calendar? And separately, how is the sleeve's clock anchored
+            # ("date" once anchored, "pos" for rows still carrying a bare position)?
+            turn.append({"leg": int(a["leg"]), "due": due,
+                         "anchor": "date" if a.get("due_date") else "estimate",
+                         "clock_anchor": a.get("anchor")})
+    out = {
         "status": "ok",
         "as_of": last.get("as_of"),
         "n_names": len(names),
@@ -182,6 +198,9 @@ def _staggered_face(path):
         "artefact": path,
         "config": last.get("config"),
     }
+    if turn:
+        out["next_turn"] = turn
+    return out
 
 
 READERS = {
@@ -311,6 +330,12 @@ def render(reg):
         lines.append("")
         lines.append("configs (names@rule -> faces): " + "; ".join(
             "%s -> %s" % (k, ",".join(v)) for k, v in reg["configs"].items()))
+    for r in reg["faces"]:
+        if r.get("next_turn"):
+            lines.append("next turn: %s %s" % (r["id"], ", ".join(
+                "leg%s@%s%s" % (t["leg"], t["due"],
+                                " (projected)" if t.get("anchor") == "estimate" else "")
+                for t in r["next_turn"])))
     if reg["unwired_declared_legs"]:
         lines.append("UNWIRED: " + ",".join(reg["unwired_declared_legs"]))
     if reg["off_chain_by_design"]:
@@ -438,6 +463,43 @@ def selftest():
             chk("L11 %s name list backs n_names" % r["id"],
                 len(r.get("names") or []) == int(r["n_names"]),
                 "n_names=%s but %d name(s) parsed" % (r["n_names"], len(r.get("names") or [])))
+
+    # L15 the register must answer "when does this book turn", and must stay silent when
+    #     the ledger does not say. A fixture row carrying a position-looking field would
+    #     pass a looser check, so the fixture speaks the real shape: next_actions with a
+    #     date, and a second ledger with none at all.
+    import tempfile
+    # Same mount as the repo: _rel() is relative-to-root, and a C:\ temp path would make
+    # the fixture itself raise instead of testing anything.
+    tmpd = tempfile.mkdtemp(prefix="_etfreg_fixture_", dir="results")
+    withdate = os.path.join(tmpd, "with.jsonl")
+    with open(withdate, "w", encoding="utf-8") as f:
+        f.write(json.dumps({"as_of": "2026-10-26", "weights": {"515450": 0.5},
+                            "config": "staggered",
+                            "next_actions": [{"leg": 0, "due_date": None,
+                                              "due_date_estimate": "2026-11-06",
+                                              "anchor": "pos"},
+                                             {"leg": 1, "due_date": "2026-11-13",
+                                              "due_date_estimate": "2026-11-13",
+                                              "anchor": "date"}]}) + "\n")
+    face = _staggered_face(withdate)
+    eq("L15 next turn carries both sleeves", [t["leg"] for t in face.get("next_turn", [])], [0, 1])
+    eq("L15 projected date is labelled as projected",
+       face["next_turn"][0]["anchor"], "estimate")
+    eq("L15 a real date keeps its date", face["next_turn"][1]["due"], "2026-11-13")
+    nodate = os.path.join(tmpd, "none.jsonl")
+    with open(nodate, "w", encoding="utf-8") as f:
+        f.write(json.dumps({"as_of": "2026-10-26", "weights": {"515450": 0.5}}) + "\n")
+    chk("L15 a ledger without a clock invents no date",
+        "next_turn" not in _staggered_face(nodate), str(_staggered_face(nodate)))
+    # L16 and it has to reach the page a human reads, otherwise the field is invisible.
+    reg = build(faces=[{"id": "staggered", "label": "x", "pointer": withdate,
+                        "chain_leg": "etf_paper_signal"}], legs=["etf_paper_signal"])
+    txt = render(reg)
+    chk("L16 next turn reaches the rendered register",
+        "next turn: staggered" in txt and "2026-11-06" in txt, txt)
+    import shutil
+    shutil.rmtree(tmpd, ignore_errors=True)
 
     # The total used to be a typed constant ("10/10"), so the two legs added in r1294
     # printed under the old denominator -- a selftest that adds a check but keeps the

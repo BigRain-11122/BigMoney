@@ -930,6 +930,7 @@ esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_s
 - 2026-10-27 r1169 bm-b (capture law O-20261002-2100 closing step)
 
 
+
 ## E104 Read the population your discrimination lists cannot see, and audit BOTH arms for plausibility (r1170 bm-b)
 - Situation: E100 published the gap arm as a price-read story but had to admit in its own honest-limits block that a split inside an unchanged holding would be invisible: it names only swapped tickers (entrants/exits), so a name the book kept through the window contributes no swap and never reaches the churn sleeve -- yet the book still holds it and still earns its read.
 - Method: (1) take the repair arm own persistent set per transition (names held at BOTH ends), read them forward under each arm prices at the same calendar indices, and publish the mean read per arm plus per-name contributions that sum to the window delta exactly (residual printed); (2) publish a mechanical plausibility counter per arm -- the number of |one-window reads| > 100% -- instead of trusting provenance, because the repair is not automatically the plausible side; (3) publish the largest single-name read with its share of the window mean and SUPPRESS that share (share_eligible=false) when the mean is inside 0.5%, since a 200% read against a 0.02% mean is a ratio of noise.
@@ -946,3 +947,24 @@ esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_s
 - Judgment: (1) implied_ratio() folds the sign away on purpose (a share ratio >= 1 for the integer test) -- reusing that folded number as a price factor mirrors every upward print, and the bug is invisible on downward prints because there the folded ratio happens to equal the cancelling factor; (2) a date-level consistency check passes a wrong-side factor, so a repair test must assert the post-repair read, not the step date; (3) "the repair moved it" and "the repair moved it the right way" are two tests; (4) unfixed raw prints are a repair-SCOPE finding and must be published beside the repair-DEFECT one, or the face reads as if the arm had touched every name.
 - Verify: python scripts\e39_panel_census.py repairstep (16 windows, ratio_product_mismatch=0); results/e44_midmonth/REPAIRSTEP-20261026.json; research/digests/DIGEST-20261027-e106-repair-step-consistency.md; fix + re-derivation seeded as pool E108
 - 2026-10-27 r1171 bm-b (capture law O-20261002-2100 closing step)
+||||||| parent of b860cfedf0 (round 1304: staggered book carries its next turn as dates (ledger + registry), and the GPU face is written through one chokepoint)
+
+## E138 A schedule a reader cannot turn into a date is not an order (2026-10-27 r1304 bm-c)
+
+The staggered ETF book carried its sleeve clocks as panel POSITIONS only (next_due_pos 5274/5279).
+Two things fall out of that: (1) the reader cannot answer the only question an order sheet exists to
+answer -- when does this sleeve turn over; (2) the anchor is not portable. A position is meaningful
+against exactly one panel; this panel is rebuilt every refresh from a history window that can gain or
+drop bars, and every future rebalance (plus the 5-day stagger the whole book rests on) slides silently
+with it, with nothing in the ledger to notice.
+
+Fix pattern: anchor the clock on the DATE ('today >= next_due_date', ISO string comparison -- r1288),
+keep the position as telemetry, derive the date for legacy position-only rows from the current panel,
+and for dates that lie past the panel's last bar count the OFFICIAL exchange calendar (E136) instead of
+guessing -- returning None rather than inventing a date when the calendar runs out. Then publish it on
+the face the human reads (next_actions per sleeve) and assert it in smoke: a ledger that says
+'position 5274' passes every existence check ever written and still cannot be executed.
+
+How to apply: for any scheduled/rotating product face, ask 'what does the operator act on tonight?' --
+if the artefact only stores an index into a rebuildable series, it is not yet an order.
+
