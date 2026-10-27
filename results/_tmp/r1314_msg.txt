@@ -1,0 +1,23 @@
+round 1314: two faces that only a script knew how to compare are now gates
+
+The 01:08 window died before its closeout, so this round inherits its estate.
+
+1) etf_book_card_track (new script + chain leg + smoke legs): the card and the
+forward ledger are two independent records of ONE frozen decision and nothing
+compared them. It now asserts the paper book owns the book the card sells (12
+names, same order, weights 2.08e-6 apart, scale 0.7008 vs 0.7008, cash 0.2992),
+re-derives the ledger nav from those same weights (max dev 1e-10), and prices the
+drift the frozen decision has carried: max 0.1451pp on 159632, 0.11bp to undo at
+the next decision, 11 bars away.
+
+2) machine_health_face (new reader module + gate leg + smoke legs): D-20261028-02
+found fleet/machine-health.json holding a nested {value:[{value:[...]}]} payload
+that made build_status fail SOFT -- the panel showed fewer machines instead of
+UNKNOWN, and the writer was copying its own damage forward. The reader classifies
+ok/legacy_list/corrupt, rebuild never downgrades a row and labels each row's
+source, and the live face now reads 3 machine rows (was 1 before the rebuild).
+The gate rides the chain because a decision that lives only in a receipt is not a
+gate (r1266); the panel asserts the face's own verdict, not a row count.
+
+smoke 105/105 PASS; new chain legs 2/2 rc0.
+
