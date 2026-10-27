@@ -315,14 +315,14 @@
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "origin_tip": "149551d0b6",
-  "ts": "2026-10-27T08:30:10+08:00"
+  "origin_tip": "e22561641c",
+  "ts": "2026-10-27T20:22:29+08:00"
  },
  "task": "r1130: the marks coverage gap is now on the CEO dashboard, not only in a lane file",
  "total_ram_gb": 93.6,
- "ts": "2026-10-27T20:17:42+08:00",
- "updated": "2026-10-27T20:17:42+08:00",
- "updated_at": "2026-10-27T20:17:42+08:00",
+ "ts": "2026-10-27T20:22:29+08:00",
+ "updated": "2026-10-27T20:22:29+08:00",
+ "updated_at": "2026-10-27T20:22:29+08:00",
  "verdict": "green red=false (smoke 94/94; dashboard paper block carries marks coverage 14/17=82.35% + 3 hole dates; attrition CLEAN; orders_ack CLEAN 114/123/0; D-19 both faces unchanged/reproducible; orphan 0/26)",
  "verify": "marks_coverage selftest 15/15 PASS (scan counts rows/non-forced/traders and ignores foreign files; today-missing before the 15:05 close = pending, after the close = missing_today; past trading day without a file = missing_historical; coverage denominator counts closed days only 3/6=50.0%; no captures at all => zero phantom holes; non-trading days never become rows); live run rc0 wrote results/marks_coverage.json (17 trading days, 14 captured, 3 holes, 82.35%); chain leg marks_coverage rc0 (1/1); t35_open_fill_verify selftest PASS and its live run now prints 'permanent hole (capture never happened; see results/marks_coverage.json)' instead of a bare evidence gap; smoke 93/93 PASS 0 FAIL (new leg 'marks coverage face names its holes'); attrition CLEAN 4 ledgers (3 historical shrinks healed); orders_ack CLEAN 114/123/0 zero face divergence; D-19 both faces unchanged and reproducible (dec 415fe83b / ord b8cd2aa7 @25349c3), advance NOOP; orphan face 0/19.",
  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
