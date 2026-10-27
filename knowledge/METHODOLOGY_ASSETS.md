@@ -1319,3 +1319,28 @@ How to apply: whenever a field name encodes a unit (gb/mb/pct/bp), derive the un
 producer and the auditor -- and add a leg asserting a value under a mismatched name is caught. Two hand-maintained
 tables over the same key set will eventually disagree, and the disagreement is silent because each table validates
 the other. Artifacts: Tools/gpu_face.py (selftest 30/30), fleet/machines/bm-c.json (audit 0 findings, 30 GPU keys).
+
+## E153 A census over a repairable panel is an arm statement -- split its count columns from its value columns (2026-10-27 r1184 bm-b)
+
+`run_panelsplit` (E75) counts the very prints that `panel_screen` repairs, so its twin could not ask "does the
+conclusion survive": it had to ask how much of the audit IS the repair. Both arms off one load at cutoff 2026-10-27,
+screen `neutralise_int`: events 161 -> 96, names 152 -> 90, adjacent 135 -> 70, integer-ratio fingerprints 74 -> 9,
+book cost 1468.23 -> 1058.25 bp (-409.98 over the window, -60.14 bp/yr). Gapped events (26) and non-integer prints
+(87) do not move by a single count.
+Three rules follow, and the second is why this card exists:
+1) When the leg's subject IS the repair, publish count cells and value cells as separate blocks (`count_cells_moved`
+   vs `value_cells_moved`) and say in-line that a count delta is the repair working, not a stability finding. One
+   `cells_moved` headline lets a reader conclude "unstable measurement" from a face where the measurement was
+   supposed to move.
+2) The UNMOVED columns are the proof of mechanism. Gapped and non-integer counts staying bit-identical, while every
+   adjacent and integer count drops by the same 65, says the repair's boundary is adjacency rather than "splits" --
+   a stronger claim than any number that moved.
+3) Beware the derived denominator: `by_era[*].years` is measured between the first and last SURVIVING event, so
+   removing events shortens the span (2024_now 2.6256 -> 2.2012) and `bp_per_year` inherits it. Never divide era
+   cost by this column when comparing arms; use a fixed span.
+Also: the post-repair residual (96 events, 87 of them non-integer) is a DIFFERENT claim -- resumptions after
+suspension and instruments whose daily limit is not 10/20% -- not a cleaner version of the pre-repair number.
+Evidence: results/e44_midmonth/PANELSPLITSCREEN-20261027.json (73 cells, 40 moved: 26 count / 14 value; identity 0,
+refresh control 9 with max 183 on breadth_min, coverage 4 null-on-both all era/pre2017), scripts/e39_panel_census.py
+_panelsplit_arm_cells + run_panelsplitscreen (selftest 362 -> 371/371),
+research/digests/DIGEST-20261027-e117-panelsplit-screened-twin.md.

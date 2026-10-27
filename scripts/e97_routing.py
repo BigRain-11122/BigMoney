@@ -61,6 +61,10 @@ TWIN_FUNCS = {
     "run_chasescreen": ("chasescreen", "results/e44_midmonth/CHASESCREEN-*.json"),
     "run_earlydelayscreen": ("earlydelayscreen",
                              "results/e44_midmonth/EARLYDELAYSCREEN-*.json"),
+    # E117: the one twin whose subject IS the repair -- run_panelsplit censuses
+    # the prints panel_screen edits, so here a moved count is the repair working.
+    "run_panelsplitscreen": ("panelsplitscreen",
+                             "results/e44_midmonth/PANELSPLITSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

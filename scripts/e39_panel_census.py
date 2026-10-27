@@ -6720,16 +6720,18 @@ def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
 
 # --------------------------------------------------------------- E75 panel splits
 
-def _panel_inputs(start, exclude):
+def _panel_inputs(start, exclude, raw=None):
     """(E75) raw closes on the decision calendar -- no book, no rank, nothing dropped.
 
     The split audit must see every name a census leg could ever charge, so it
     skips the monthly/weekly book machinery and reads the closes directly.
+    ``raw`` (E117) lets the screened twin hand in an already repaired universe so
+    both arms are cut from one load; passing it skips the loader entirely.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw = e27.load_universe()
+    raw = raw if raw is not None else e27.load_universe()
     if exclude:
         raw = {s: v for s, v in raw.items()
                if not s.startswith(tuple(exclude))}
@@ -6836,7 +6838,7 @@ def _split_summary(events, years):
 
 
 def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                   top_n=15):
+                   top_n=15, raw=None):
     """E75: how many published census numbers sit on unadjusted corporate actions?
 
     E74 found 19 of 128 stale-tail events were unadjusted splits and that they
@@ -6844,8 +6846,12 @@ def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     every single-session move past the 30% daily-limit screen, who it belongs to,
     whether it lands on an integer share ratio, and what it costs an equal-weight
     book (one name charges |r|/n).
+
+    ``raw`` (E117) is the screened-twin seam: hand in a repaired universe and the
+    census is re-derived over it, which is exactly the question E117 asks -- this
+    leg counts the prints that the repair edits.
     """
-    cal, prices, universe, cutoff = _panel_inputs(start, exclude)
+    cal, prices, universe, cutoff = _panel_inputs(start, exclude, raw=raw)
     breadth = _breadth(prices, universe, len(cal))
     events = _split_events(cal, prices, universe, breadth)
     years = _years_between(cal[0], cal[-1]) if cal else None
@@ -6922,6 +6928,246 @@ def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         ],
     }
     return face
+
+
+# ------------------------------ leg: E117 the split census' own screened twin
+#
+# E75 counted the prints; E117 asks whether that count is a panel fact or an arm
+# statement. run_panelsplit is the only census leg that already knows about
+# splits -- it censused the 135 adjacent impossibilities that ``panel_screen``
+# repairs -- so the hazard is that the audit may be reading the very prints it
+# repairs. Re-derive it over the repaired universe with the E112-E116 join.
+
+_PANELSPLIT_COUNT_COLUMNS = ("events", "names", "adjacent", "gapped", "down",
+                             "up", "integer_ratio_events", "non_integer_events")
+
+
+def _panelsplit_arm_cells(face, starts=None):
+    """(E117) -> {(key, column): value} for every cell the split audit publishes.
+
+    The runner_note's rule is kept here: a repair that changes an EVENT COUNT
+    makes a different claim from one that changes what an event EARNED, so both
+    classes are harvested into one join but classified separately by the caller
+    (``_PANELSPLIT_COUNT_COLUMNS``). The honest/screening lines and the ranked
+    ``top_events`` list are pointers, not measurements, so they are not joined.
+    """
+    out = {}
+    for col, val in (face.get("panel") or {}).items():
+        out[("panel", col)] = val
+    for col, val in (face.get("summary") or {}).items():
+        out[("summary", col)] = val
+    for era, row in (face.get("by_era") or {}).items():
+        for col, val in (row or {}).items():
+            out[("era/" + era, col)] = val
+    for year, n in (face.get("events_per_year") or {}).items():
+        out[("year/%s" % year, "events")] = n
+    return out
+
+
+def _panelsplit_top_event(face, starts=None):
+    """(E117) the ranked headline event is an identity: it moves or it does not."""
+    top = (face.get("answers") or {}).get("top_event") or {}
+    return {"top": {"name": top.get("name"), "date": top.get("date"),
+                    "ret_pct": top.get("ret_pct"),
+                    "book_impact_bp": top.get("book_impact_bp")}}
+
+
+def run_panelsplitscreen(outdir, start="2020-01-01", pick_n=9999,
+                         exclude=("sh511",), mode="neutralise_int", resume=True):
+    """E117: re-derive the split census on the screened arm, beside the raw face.
+
+    E97 leaves this runner as the largest uncovered one after E116, and it is the
+    one leg whose SUBJECT is the repair: it censused the adjacent-impossibility
+    prints that ``panel_screen`` edits. So the twin is not a formality -- if the
+    repair works, this leg's own counts should collapse, and the open question is
+    what is left:
+
+      * event counts are the repair's target: a delta there is the repair working
+        (or failing), not a stability finding;
+      * the bp/year columns are what the unadjusted prints charged, so their
+        delta is the size of the distortion E75 published;
+      * whatever remains on the repaired arm is the census' irreducible core --
+        resumptions after suspension, ETFs whose daily limits are not 10/20%, and
+        prints whose implied ratio is not an integer.
+
+    Same machinery as E112-E116: one load, both arms burned off it, per-arm
+    checkpoints, one ``_burnin_pair_rows`` join, a same-arm control that must
+    read zero, and a cutoff control (an older published raw face vs today's raw).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "PANELSPLIT-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "PANELSPLIT-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_panelsplit(None, start=start,
+                                                  pick_n=pick_n,
+                                                  exclude=exclude, raw=raw))
+    scr_arm = cached(mode, lambda: run_panelsplit(None, start=start,
+                                                 pick_n=pick_n,
+                                                 exclude=exclude, raw=screened))
+
+    keys = sorted({k[0] for k in _panelsplit_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_panelsplit_arm_cells,
+                             dates_fn=_panelsplit_top_event)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_panelsplit_arm_cells,
+                                dates_fn=_panelsplit_top_event)["summary"]
+
+    # cutoff control: an older published raw split face vs today's raw arm. Same
+    # arm, two cutoffs -> isolates the panel refresh from the repair.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("PANELSPLIT-") and p.endswith(".json")
+                    and not p.startswith("PANELSPLIT-arm-")
+                    and not p.startswith("PANELSPLITSCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("PANELSPLIT-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_panelsplit_arm_cells,
+                                     dates_fn=_panelsplit_top_event)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    count_moved = [r for r in pair["moved"]
+                   if r["column"] in _PANELSPLIT_COUNT_COLUMNS]
+    value_moved = [r for r in pair["moved"]
+                   if r["column"] not in _PANELSPLIT_COUNT_COLUMNS]
+    survives = _twin_survives(s, control)
+
+    raw_sum = raw_arm.get("summary") or {}
+    scr_sum = scr_arm.get("summary") or {}
+    raw_panel = raw_arm.get("panel") or {}
+    scr_panel = scr_arm.get("panel") or {}
+    return {
+        "study": "e117_panelsplit_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_panelsplit_arm_cells harvests panel/summary/each era/each "
+                     "year; count columns and bp-year columns are joined together "
+                     "and split apart again in answers, because an event count "
+                     "moving and an event's cost moving are different findings"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "face_survives_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "count_cells_moved": len(count_moved),
+            "value_cells_moved": len(value_moved),
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("counts are event/name counts; total_book_bp and "
+                            "bp_per_year are basis points, years is a duration -- "
+                            "the summary max is a screen over mixed units, not a "
+                            "quantity"),
+            "worst_cell": s["worst"],
+            "control_cells_moved": control["cells_moved"],
+            "events": {"raw": raw_sum.get("events"),
+                       "screened": scr_sum.get("events"),
+                       "removed": (None if raw_sum.get("events") is None
+                                   or scr_sum.get("events") is None
+                                   else raw_sum["events"] - scr_sum["events"])},
+            "integer_ratio_events": {
+                "raw": raw_sum.get("integer_ratio_events"),
+                "screened": scr_sum.get("integer_ratio_events")},
+            "book_bp": {"raw": raw_sum.get("total_book_bp"),
+                        "screened": scr_sum.get("total_book_bp"),
+                        "bp_per_year_raw": raw_sum.get("bp_per_year"),
+                        "bp_per_year_screened": scr_sum.get("bp_per_year")},
+            "irreducible_core": {
+                "screened_events": scr_sum.get("events"),
+                "screened_adjacent": scr_sum.get("adjacent"),
+                "screened_gapped": scr_sum.get("gapped"),
+                "screened_non_integer": scr_sum.get("non_integer_events"),
+                "screened_names": scr_sum.get("names"),
+                "note": ("what is left after the repair is not 'clean': it is "
+                         "resumptions, non-integer prints and instruments whose "
+                         "daily limit is not 10/20%, which the screen never "
+                         "claimed to fix"),
+            },
+            "panel_breadth": {"raw_median": raw_panel.get("breadth_median"),
+                              "screened_median": scr_panel.get("breadth_median"),
+                              "raw_names": raw_panel.get("names"),
+                              "screened_names": scr_panel.get("names")},
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta": cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the split census reads the same on both arms (%d of %d cells "
+                 "move)" % (s["cells_moved"], s["cells_compared"]))
+                if survives else
+                ("the split census is an arm statement: %d of %d cells move "
+                 "(%d count, %d value) and %d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(count_moved),
+                    len(value_moved), s["only_in_raw"] + s["only_in_screened"]))),
+            "honest_flag": ("event-count cells are EXPECTED to move: the repair "
+                            "targets exactly the prints this leg counts, so a "
+                            "count delta is the repair working, not instability"),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the repair edits the panel this leg censuses, so counts moving is the "
+            "expected outcome and is not evidence about any other face",
+            "the screened arm keeps every name (neutralise_int repairs the print, "
+            "it does not drop the symbol), so names/breadth cannot move -- that is "
+            "a property of the mode, not proof the panel is clean",
+            "the screen flags arithmetic impossibilities rather than confirmed "
+            "corporate actions; the residual core still contains ETFs, resumptions "
+            "and non-integer prints, so 'repaired' never means 'clean'",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "panel/summary/era/year cells, not the ranked top-event list or the "
+            "screening pointers (the headline event identity is compared "
+            "separately as a date face)",
+        ],
+    }
 
 
 # ------------------------------------------- leg: E76 screen-regrade (opt-in)
@@ -11189,6 +11435,74 @@ def selftest():
                        {"cells_moved": 1, "max_abs_delta_pp": 0.0}) is False,
         "E116 a control that moved its own numbers blocks the survival claim")
 
+    # --- E117: the split census' own screened twin -------------------------
+    def _syn_split(events=135, integer_events=120, total_bp=216.0,
+                   top=("sh600000", "2021-06-11"), extra_year=False):
+        face = {
+            "study": "e75_panel_split_audit",
+            "evidence_cutoff": "2026-10-26",
+            "panel": {"events": events, "names": 152,
+                      "breadth_median": 900, "breadth_min": 1, "breadth_max": 1000},
+            "summary": {"events": events, "names": 152, "adjacent": 135,
+                        "gapped": 0, "down": 100, "up": 35,
+                        "integer_ratio_events": integer_events,
+                        "non_integer_events": events - integer_events,
+                        "total_book_bp": total_bp,
+                        "bp_per_year": round(total_bp / 7.0, 2),
+                        "max_event_bp": 3.0, "median_event_bp": 1.0, "years": 7.0},
+            "by_era": {"2024_now": {"events": events // 2, "total_book_bp": 0.0,
+                                    "integer_ratio_events": 0, "down": 1}},
+            "events_per_year": {"2021": 10, "2022": 12},
+            "answers": {"top_event": {"name": top[0], "date": top[1],
+                                      "ret_pct": -50.0, "book_impact_bp": 3.0}},
+            "honest": ["pointer, not a measurement"],
+        }
+        if extra_year:
+            face["events_per_year"]["2023"] = 11
+        return face
+
+    _cells117 = _panelsplit_arm_cells(_syn_split())
+    chk(("summary", "events") in _cells117
+        and ("panel", "breadth_median") in _cells117
+        and ("era/2024_now", "events") in _cells117
+        and ("year/2021", "events") in _cells117,
+        "E117 the harvest walks panel -> summary -> era -> year")
+    chk(not any(k[1] in ("honest", "top_event") for k in _cells117),
+        "E117 the ranked event list and the honest lines are pointers, not numbers")
+    chk("events" in _PANELSPLIT_COUNT_COLUMNS
+        and "total_book_bp" not in _PANELSPLIT_COUNT_COLUMNS,
+        "E117 event counts and bp columns are classified apart")
+    _k117 = sorted({k[0] for k in _cells117})
+    _c117 = _burnin_pair_rows(_syn_split(), _syn_split(), _k117,
+                              cells_fn=_panelsplit_arm_cells,
+                              dates_fn=_panelsplit_top_event)["summary"]
+    chk(_c117["cells_moved"] == 0 and _c117["max_abs_delta_pp"] == 0.0,
+        "E117 the same split face joined against itself reads zero everywhere")
+    _e117 = _burnin_pair_rows(_syn_split(), _syn_split(events=10,
+                                                       integer_events=0,
+                                                       total_bp=0.0), _k117,
+                              cells_fn=_panelsplit_arm_cells,
+                              dates_fn=_panelsplit_top_event)
+    chk(any(r["column"] == "events" and r["start"] == "summary"
+            and abs(r["delta"] + 125) < 1e-9 for r in _e117["moved"]),
+        "E117 a repaired event count is published as a moved cell")
+    chk(any(r["column"] == "total_book_bp" for r in _e117["moved"])
+        and any(r["column"] == "bp_per_year" for r in _e117["moved"]),
+        "E117 the bp columns move alongside the counts, not instead of them")
+    _t117 = _burnin_pair_rows(_syn_split(), _syn_split(top=("sh600001",
+                                                            "2019-03-04")),
+                              _k117, cells_fn=_panelsplit_arm_cells,
+                              dates_fn=_panelsplit_top_event)["gate_dates_moved"]
+    chk(any(r["column"] == "name" for r in _t117),
+        "E117 a changed headline event is a moved identity, not a zero delta")
+    chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0,
+                        "cells_moved": len(_e117["moved"])},
+                       {"cells_moved": 0, "max_abs_delta_pp": 0.0}) is False,
+        "E117 a census whose counts moved does not claim to survive the repair")
+    import inspect as _inspect
+    chk("raw" in _inspect.signature(run_panelsplit).parameters,
+        "E117 run_panelsplit carries the raw= arm seam the twin burns on")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -13580,7 +13894,8 @@ def main(argv):
                              "midsweep", "entrydelay", "earlydelay", "earlydelayscreen",
                              "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
-                             "panelsplit", "screenreg", "screencalc", "screenspread",
+                             "panelsplit", "panelsplitscreen",
+                             "screenreg", "screencalc", "screenspread",
                              "screenrob", "screentilt", "screenwide", "screenweek",
                              "midscreen", "churngap", "singleprint", "robustchurn",
                              "loodist", "churnse", "burncontrol", "topnames",
@@ -14293,6 +14608,17 @@ def main(argv):
                                    "ratio": (e.get("implied_ratio") or {}).get("ratio")}
                                   for e in f["top_events"][:5]]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "panelsplitscreen":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_panelsplitscreen(outdir, start=args.start)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "PANELSPLITSCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "panelsplitscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "screenreg":
         f = run_screenreg(None, start=args.start)

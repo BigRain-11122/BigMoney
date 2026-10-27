@@ -1,0 +1,450 @@
+{
+ "study": "e75_panel_split_audit",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "start": "2020-01-01",
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "panel_names": 1271,
+  "sessions": 1650,
+  "years": 6.8172484599589325,
+  "screen": "consecutive PRICED closes, missing bars skipped and never filled; flag |return| > 30%",
+  "charge": "an equal-weight book of n live names absorbs one name's move as |r|/n; breadth is the priced-member count at that session",
+  "pick_n": "accepted for CLI parity and unused -- this leg audits every panel name"
+ },
+ "panel": {
+  "events": 161,
+  "names": 152,
+  "breadth_median": 717,
+  "breadth_min": 197,
+  "breadth_max": 1271
+ },
+ "summary": {
+  "events": 161,
+  "names": 152,
+  "adjacent": 135,
+  "gapped": 26,
+  "down": 142,
+  "up": 19,
+  "integer_ratio_events": 74,
+  "non_integer_events": 87,
+  "total_book_bp": 1468.23,
+  "bp_per_year": 215.37,
+  "max_event_bp": 31.91,
+  "median_event_bp": 5.14,
+  "years": 6.8172484599589325
+ },
+ "by_era": {
+  "pre2017": {
+   "events": 0,
+   "names": 0,
+   "adjacent": 0,
+   "gapped": 0,
+   "down": 0,
+   "up": 0,
+   "integer_ratio_events": 0,
+   "non_integer_events": 0,
+   "total_book_bp": 0,
+   "bp_per_year": null,
+   "max_event_bp": null,
+   "median_event_bp": null,
+   "years": null
+  },
+  "2017_2020": {
+   "events": 4,
+   "names": 4,
+   "adjacent": 2,
+   "gapped": 2,
+   "down": 4,
+   "up": 0,
+   "integer_ratio_events": 0,
+   "non_integer_events": 4,
+   "total_book_bp": 103.58,
+   "bp_per_year": 467.07,
+   "max_event_bp": 30.78,
+   "median_event_bp": 27.15,
+   "years": 0.22176591375770022
+  },
+  "2021_2023": {
+   "events": 48,
+   "names": 45,
+   "adjacent": 24,
+   "gapped": 24,
+   "down": 39,
+   "up": 9,
+   "integer_ratio_events": 18,
+   "non_integer_events": 30,
+   "total_book_bp": 722.59,
+   "bp_per_year": 266.86,
+   "max_event_bp": 31.05,
+   "median_event_bp": 14.18,
+   "years": 2.707734428473648
+  },
+  "2024_now": {
+   "events": 109,
+   "names": 107,
+   "adjacent": 109,
+   "gapped": 0,
+   "down": 99,
+   "up": 10,
+   "integer_ratio_events": 56,
+   "non_integer_events": 53,
+   "total_book_bp": 642.06,
+   "bp_per_year": 244.54,
+   "max_event_bp": 31.91,
+   "median_event_bp": 4.17,
+   "years": 2.625598904859685
+  }
+ },
+ "events_per_year": {
+  "2020": 4,
+  "2021": 29,
+  "2022": 12,
+  "2023": 7,
+  "2024": 11,
+  "2025": 33,
+  "2026": 65
+ },
+ "top_events": [
+  {
+   "name": "sh510580",
+   "date": "2024-09-02",
+   "prev_date": "2024-08-30",
+   "prev_close": 0.576,
+   "close": 2.278,
+   "ret_pct": 295.49,
+   "direction": "up",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2024_now",
+   "breadth": 926,
+   "book_impact_bp": 31.91,
+   "implied_ratio": {
+    "ratio": 3.9549,
+    "nearest_int": 4,
+    "resid_pct": 1.128,
+    "integer_like": true
+   }
+  },
+  {
+   "name": "sz159975",
+   "date": "2021-01-29",
+   "prev_date": "2021-01-28",
+   "prev_close": 7.61,
+   "close": 0.758,
+   "ret_pct": -90.04,
+   "direction": "down",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2021_2023",
+   "breadth": 290,
+   "book_impact_bp": 31.05,
+   "implied_ratio": {
+    "ratio": 10.0396,
+    "nearest_int": 10,
+    "resid_pct": 0.396,
+    "integer_like": true
+   }
+  },
+  {
+   "name": "sh510230",
+   "date": "2020-08-17",
+   "prev_date": "2020-08-13",
+   "prev_close": 5.683,
+   "close": 1.205,
+   "ret_pct": -78.8,
+   "direction": "down",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2017_2020",
+   "breadth": 256,
+   "book_impact_bp": 30.78,
+   "implied_ratio": {
+    "ratio": 4.7162,
+    "nearest_int": 5,
+    "resid_pct": 5.676,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sz159845",
+   "date": "2022-08-02",
+   "prev_date": "2022-08-01",
+   "prev_close": 0.758,
+   "close": 2.099,
+   "ret_pct": 176.91,
+   "direction": "up",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2021_2023",
+   "breadth": 621,
+   "book_impact_bp": 28.49,
+   "implied_ratio": {
+    "ratio": 2.7691,
+    "nearest_int": 3,
+    "resid_pct": 7.696,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sz159300",
+   "date": "2024-06-25",
+   "prev_date": "2024-06-24",
+   "prev_close": 0.973,
+   "close": 3.462,
+   "ret_pct": 255.81,
+   "direction": "up",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2024_now",
+   "breadth": 904,
+   "book_impact_bp": 28.3,
+   "implied_ratio": {
+    "ratio": 3.5581,
+    "nearest_int": 4,
+    "resid_pct": 11.048,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sh560010",
+   "date": "2022-09-14",
+   "prev_date": "2022-09-09",
+   "prev_close": 0.977,
+   "close": 2.728,
+   "ret_pct": 179.22,
+   "direction": "up",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2021_2023",
+   "breadth": 638,
+   "book_impact_bp": 28.09,
+   "implied_ratio": {
+    "ratio": 2.7922,
+    "nearest_int": 3,
+    "resid_pct": 6.926,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sh512100",
+   "date": "2022-09-05",
+   "prev_date": "2022-09-01",
+   "prev_close": 0.982,
+   "close": 2.713,
+   "ret_pct": 176.27,
+   "direction": "up",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2021_2023",
+   "breadth": 631,
+   "book_impact_bp": 27.94,
+   "implied_ratio": {
+    "ratio": 2.7627,
+    "nearest_int": 3,
+    "resid_pct": 7.909,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sh510210",
+   "date": "2021-01-25",
+   "prev_date": "2021-01-21",
+   "prev_close": 5.019,
+   "close": 1.006,
+   "ret_pct": -79.96,
+   "direction": "down",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2021_2023",
+   "breadth": 288,
+   "book_impact_bp": 27.76,
+   "implied_ratio": {
+    "ratio": 4.9891,
+    "nearest_int": 5,
+    "resid_pct": 0.219,
+    "integer_like": true
+   }
+  },
+  {
+   "name": "sz159393",
+   "date": "2025-03-31",
+   "prev_date": "2025-03-28",
+   "prev_close": 1.0,
+   "close": 3.888,
+   "ret_pct": 288.8,
+   "direction": "up",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2024_now",
+   "breadth": 1055,
+   "book_impact_bp": 27.37,
+   "implied_ratio": {
+    "ratio": 3.888,
+    "nearest_int": 4,
+    "resid_pct": 2.8,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sz159909",
+   "date": "2021-03-11",
+   "prev_date": "2021-03-10",
+   "prev_close": 6.874,
+   "close": 0.707,
+   "ret_pct": -89.71,
+   "direction": "down",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2021_2023",
+   "breadth": 329,
+   "book_impact_bp": 27.27,
+   "implied_ratio": {
+    "ratio": 9.7228,
+    "nearest_int": 10,
+    "resid_pct": 2.772,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sz159967",
+   "date": "2020-11-06",
+   "prev_date": "2020-11-05",
+   "prev_close": 2.11,
+   "close": 0.569,
+   "ret_pct": -73.03,
+   "direction": "down",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2017_2020",
+   "breadth": 269,
+   "book_impact_bp": 27.15,
+   "implied_ratio": {
+    "ratio": 3.7083,
+    "nearest_int": 4,
+    "resid_pct": 7.293,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sz159966",
+   "date": "2020-11-06",
+   "prev_date": "2020-11-05",
+   "prev_close": 1.941,
+   "close": 0.616,
+   "ret_pct": -68.26,
+   "direction": "down",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2017_2020",
+   "breadth": 269,
+   "book_impact_bp": 25.38,
+   "implied_ratio": {
+    "ratio": 3.151,
+    "nearest_int": 3,
+    "resid_pct": 5.032,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sh510150",
+   "date": "2021-05-31",
+   "prev_date": "2021-05-27",
+   "prev_close": 10.414,
+   "close": 0.87,
+   "ret_pct": -91.65,
+   "direction": "down",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2021_2023",
+   "breadth": 377,
+   "book_impact_bp": 24.31,
+   "implied_ratio": {
+    "ratio": 11.9701,
+    "nearest_int": 12,
+    "resid_pct": 0.249,
+    "integer_like": true
+   }
+  },
+  {
+   "name": "sh516160",
+   "date": "2024-09-18",
+   "prev_date": "2024-09-13",
+   "prev_close": 0.497,
+   "close": 1.597,
+   "ret_pct": 221.33,
+   "direction": "up",
+   "gap_sessions": 1,
+   "adjacent": true,
+   "era": "2024_now",
+   "breadth": 926,
+   "book_impact_bp": 23.9,
+   "implied_ratio": {
+    "ratio": 3.2133,
+    "nearest_int": 3,
+    "resid_pct": 7.109,
+    "integer_like": false
+   }
+  },
+  {
+   "name": "sh510030",
+   "date": "2021-06-21",
+   "prev_date": "2021-06-17",
+   "prev_close": 6.471,
+   "close": 0.798,
+   "ret_pct": -87.67,
+   "direction": "down",
+   "gap_sessions": 2,
+   "adjacent": false,
+   "era": "2021_2023",
+   "breadth": 392,
+   "book_impact_bp": 22.36,
+   "implied_ratio": {
+    "ratio": 8.109,
+    "nearest_int": 8,
+    "resid_pct": 1.363,
+    "integer_like": true
+   }
+  }
+ ],
+ "screening": {
+  "screened_legs": [
+   "staletail (E74: events inside the stale tail)"
+  ],
+  "unscreened_rule": "every census leg in this file charges per-name returns out of the same e27.load_universe() closes, so an unadjusted print enters any equal-weight number at weight 1/n; only staletail screens for it",
+  "selection_channel": "rank/_rank sorts on traded amount, and a split re-prices the share, so the amount leg is distorted on the same date as the return leg"
+ },
+ "answers": {
+  "events": 161,
+  "names": 152,
+  "adjacent": 135,
+  "gapped": 26,
+  "down": 142,
+  "up": 19,
+  "integer_ratio_events": 74,
+  "non_integer_events": 87,
+  "total_book_bp": 1468.23,
+  "bp_per_year": 215.37,
+  "max_event_bp": 31.91,
+  "median_event_bp": 5.14,
+  "years": 6.8172484599589325,
+  "panel_names": 1271,
+  "top_event": {
+   "name": "sh510580",
+   "date": "2024-09-02",
+   "ret_pct": 295.49,
+   "book_impact_bp": 31.91
+  }
+ },
+ "honest": [
+  "the screen flags arithmetic impossibilities, not confirmed corporate actions: an adjacent-session move past 30% cannot be a real A-share return under the 10%/20% limits, but the panel also carries ETFs and bonds whose daily limits differ, so a flagged ETF print may be genuine",
+  "the integer-ratio fingerprint is inferred from the price ratio alone with a 2% band and no announcement feed; non-integer events are listed as unclassified, never as clean",
+  "book impact assumes equal weight at 1/n of the live breadth: it sizes the distortion, it is not a correction to any published number",
+  "gapped events (a resumption after suspension) can be real; the adjacent flag is the hard screen and the gap is published on every row",
+  "pick_n is unused here by design -- the audit covers the whole panel so no book construction can hide a print",
+  "descriptive census only: no gate, no verdict, no ledger booking, trial 0"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}
