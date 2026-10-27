@@ -839,15 +839,17 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "round open base = origin tip (pull --rebase clean)",
-  "status": "PENDING_THIS_PUSH"
+  "note": "clean ff push 7f9b1b557..7f8a2dcd7, four-way verified (behind 0 / ahead 0 / ls-tree origin carries TILT4SCREEN-20261027.json blob 9c68b8181)",
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "7f8a2dcd7",
+  "ts": "2026-10-28T02:57:10+08:00"
  },
  "task": "r1198: E125 cashdrag screened twin (needs raw= seam; last uncovered runner) or E126 three-member reach-back",
  "task_short": "E125 cashdrag twin / E126 tilt3 reach-back",
  "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
  "ts": "2026-10-28T02:50:35+08:00",
- "updated": "2026-10-28T02:50:35+08:00",
- "updated_at": "2026-10-28T02:50:35+08:00",
+ "updated": "2026-10-28T02:57:10+08:00",
+ "updated_at": "2026-10-28T02:57:10+08:00",
  "verdict": "green r1197: E124 tilt4 screened twin shipped -- 17/93 cells move (size-neutral alpha +22..+47bp vs size base <=3.1bp), 2017_2020 untouched, newest-era spread flips -21.6 -> +25.1bp (repair-attributable: refresh alone moves 13.5bp same direction and cannot cross zero), decomposition sums both arms; same-arm 0/93, cutoff 29 cells max 131bp (refresh > repair); routing covered_twin 20 -> 23 / uncovered 4 -> 1; smoke 108/108 | e39 selftest 459/459 | orphan 0 | attrition CLEAN",
  "r1197": {
   "mission": "水位红牌(pool-batch-runnable-idle-low-cpu) -> 烧池中 E124，顺带把 E97 路由面的 uncovered 从 4 压到 1",
@@ -874,6 +876,7 @@
   "smoke": "108/108 PASS",
   "orphan": 0,
   "d19": "decisions 未变 / orders 有增量(11 行，均为 BigStream/硬件/机队派单面，无涉本仓机制) -> update --advance 已消费，水位同步 9 面",
-  "not_run": "bm-a 宿主守卫之外的其余长跑采集链未逐条跑；GPU 面未手写（心跳 GPU 键不传，由 gpu_face 单点探针持有）"
+  "not_run": "bm-a 宿主守卫之外的其余长跑采集链未逐条跑；GPU 面未手写（心跳 GPU 键不传，由 gpu_face 单点探针持有）",
+  "push": "7f8a2dcd7 PUSHED_VERIFIED"
  }
 }
