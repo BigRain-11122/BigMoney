@@ -667,6 +667,14 @@
    "group origin 995047d5: cph4/fleet/queue-receipts/POOL-0018-bm-b.json (claim intent, face=origin) + POOL-0020-bm-b.json + POOL-0020-RECEIPT-bm-b.md",
    "group origin 995047d5: cph4/fleet/order-bus/receipts/OB-20261027-182254-574-bm-b.json"
   ],
+  "pushed": {
+   "bigmoney": "69682280c2c7de46bfff2feb865b05a0a82a3d0d",
+   "group": [
+    "995047d587c2a82790e5a74ca7e9c65e4ab105a9",
+    "5fae077167b3e4d0bdff50a9d95502d043ae4135",
+    "1eb208ba0e9538266e7cc5b228d4a7972a48fb79"
+   ]
+  },
   "root_causes": [
    "claim: queue_claim.py only read cph4/fleet/PRODUCTION-QUEUE.jsonl, so every numbered card in cph4/fleet/dispatcher/POOL.json was unclaimable by ANY machine - POOL-0018/0019 were RE-OFFERED for 8 days with no tool that could claim them",
    "clock: FluxGroup-NatsHB pointed at the legacy root C:\\Fluxgroup\\Tools\\nats\\nats-heartbeat.ps1 (3515-byte pre-v2 script) under InteractiveToken, and its own log carried hb-server-unreachable/hb-kvput-fail - the KV key aged out and every audit read v1"
@@ -691,9 +699,9 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "r1186 closeout commit",
-  "pushed_sha": "",
-  "status": "PENDING",
+  "note": "r1186 closeout commit (landed via origin-tip tree rebuild - worktree dirty from other lanes, rebase refused)",
+  "pushed_sha": "69682280c2c7de46bfff2feb865b05a0a82a3d0d",
+  "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T19:08:03+08:00"
  },
  "task": "OB-20261027-182254-574: production claim loop + heartbeat v2 + POOL-0020 receipt",
