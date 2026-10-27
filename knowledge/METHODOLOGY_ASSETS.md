@@ -1119,3 +1119,21 @@ scripts/etf_book_commodity_split.py (selftest 10/10, rides etf_composite_pf + et
 A book priced only against other ranking rules has never been priced against the alternative a holder actually has. Take the book's own mean class shape (from the attribution chain), hold it statically with no scoring and no rotation, run it on the same grid / same cost rule / same vol overlay, and the difference is what the machinery earns. Here the shipped book did 9.49%/yr and -11.8% DD against 3.13%/yr and -22.9% DD for the static mix: +6.36pp/yr at 10.5x the turnover (results/etf_book_passive_mix.json, scripts/etf_book_passive_mix.py, selftest 8/8, control arm asserted at 0.0pp against the published card).
 Two traps. (a) The static arm is FAVOURED: equal-weight class indices rebalance daily at zero cost, so the premium is a lower bound, and saying so is what makes the number quotable. (b) The attribution chain's class weights are already normalised to 1, so a 'raw exposure including cash' arm silently becomes a duplicate of the fully-invested arm -- both printed 3.13% and the label lied. When two arms print the same number, the first hypothesis is that they are the same arm, not that the finding is robust.
 How to apply: any 'the strategy works' claim needs one arm that holds the same exposures and never trades; if that arm lands close, the machinery is decoration and the card must say so.
+
+## E142 A twin test must be a code-graph test; column overlap is not coverage (2026-10-27 r1176 bm-b)
+Asking "does a screened twin exist for this face?" against face contents does not work: generic metric
+names (ann_return_pct, sharpe, max_drawdown_pct) make an unrelated twin match at ratio 1.00, and seven of
+25 charged modes picked up exactly that false positive (results/e79/ROUTING-20261027.json, scripts/e97_routing.py,
+selftest 14/14). The decisive evidence is the call graph: a twin covers a mode when the twin function calls
+that mode's runner (screenspread -> run_spreadsize) or when the twin builds the face in its own body (verified
+by a shared >=4-char filename root plus >=3 body mentions, which is how run_screenweek covers the weekly clash
+face it never calls). Coverage is then 3 direct + 1 body-built of 25, and 21 modes across 14 runners are still
+unscreened.
+Two traps. (a) Coverage is not correction: a twin face existing does not mean the face a reader opens was
+re-derived, so "covered" and "the published number is screened" are different claims and must be printed
+separately. (b) Rank work per RUNNER, not per mode: one burn feeds four modes here (burnin/e44/knife/skinloo
+share one face, 1727 numbers), so a mode-level ranking double-counts the same burn and hides where the exposure
+actually is.
+How to apply: any "is there already a screened/split/robust version of this?" audit must resolve coverage from
+code (call graph + body), publish the weak channel as explicitly non-decisive, and rank the remaining work by
+distinct experiments, not by published cells.

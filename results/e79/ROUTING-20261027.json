@@ -1,0 +1,895 @@
+{
+ "study": "e97_screened_consumer_routing",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "inputs": [
+   "results/e79/triage-20261026.json",
+   "scripts/e39_panel_census.py"
+  ],
+  "twin_legs": [
+   {
+    "leg": "screenspread",
+    "func": "run_screenspread",
+    "face": "results/e42_spread_size_neutral/NEUTRAL-20261026-screened.json",
+    "calls": [
+     "run_spreadsize"
+    ]
+   },
+   {
+    "leg": "screentilt",
+    "func": "run_screentilt",
+    "face": "results/e42_tilt_era/TILT-ERA-20261026-screened.json",
+    "calls": [
+     "run_tilt_era"
+    ]
+   },
+   {
+    "leg": "screencalc",
+    "func": "run_calcost_screenreg",
+    "face": "results/e42_calendar_cost/COST-20261023-screened.json",
+    "calls": [
+     "run_screenreg"
+    ]
+   },
+   {
+    "leg": "screenrob",
+    "func": "run_screenrob",
+    "face": "results/e43_neutral_robust/ROBUST-20261023-screened.json",
+    "calls": [
+     "run_neutralrobust"
+    ]
+   },
+   {
+    "leg": "screenweek",
+    "func": "run_screenweek",
+    "face": "results/e44_midmonth/WEEKCLASH-20261026-screened.json",
+    "calls": [
+     "run_midsweep"
+    ]
+   },
+   {
+    "leg": "midscreen",
+    "func": "run_midscreen",
+    "face": "results/e44_midmonth/MIDSCREEN-20261026.json",
+    "calls": [
+     "run_midmonth"
+    ]
+   },
+   {
+    "leg": "screenwide",
+    "func": "run_screenwide",
+    "face": "results/e44_midmonth/SCREENWIDE-20261026.json",
+    "calls": []
+   },
+   {
+    "leg": "screengapera",
+    "func": "run_screengapera",
+    "face": "results/e44_midmonth/SCREENGAPERA-20261026.json",
+    "calls": []
+   },
+   {
+    "leg": "screenreg",
+    "func": "run_screenreg",
+    "face": "results/e44_midmonth/SCREENREG-20261026.json",
+    "calls": []
+   }
+  ],
+  "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
+  "coverage_rule_weak": "covered_twin_by_name = the twin rebuilds the face in its own code: mode face stem and twin face stem share a >=4-char root and that root appears >=3 times in the twin function body",
+  "uncovered_column_only": "row has no code link but >=80% of some twin's delta columns (>=3 shared) appear in its face; the column test is NON-DECISIVE and is never counted as coverage",
+  "published_cells": "numeric leaves of the mode's own published face"
+ },
+ "rows": [
+  {
+   "mode": "pair",
+   "runner": "run_pair",
+   "face": "results/e40_pair_drawdown/PAIR-20261020.json",
+   "published_cells": 93,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "cashdrag",
+   "runner": "run_cashdrag",
+   "face": "results/e40_cashleg_drag/CASHLeg-20261020.json",
+   "published_cells": 70,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "rebalday",
+   "runner": "run_rebalday",
+   "face": "results/e41_rebal_day/SHIFT-20261020.json",
+   "published_cells": 132,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screencalc",
+     "ratio": 0.8,
+     "shared": 4,
+     "columns": [
+      "ann_return_pct",
+      "max_drawdown_pct",
+      "turnover_per_year",
+      "vs_ladder_spread_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "e42",
+   "runner": "run_spreadsize",
+   "face": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+   "published_cells": 47,
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "screenspread"
+   ],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenspread",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    },
+    {
+     "leg": "screenrob",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "spreadsize",
+   "runner": "run_spreadsize",
+   "face": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+   "published_cells": 47,
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "screenspread"
+   ],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenspread",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    },
+    {
+     "leg": "screenrob",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "tiltera",
+   "runner": "run_spreadsize",
+   "face": "results/e42_spread_size_neutral/NEUTRAL-20261020.json",
+   "published_cells": 47,
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "screenspread"
+   ],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenspread",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    },
+    {
+     "leg": "screenrob",
+     "ratio": 1.0,
+     "shared": 5,
+     "columns": [
+      "beta_spread_on_tilt",
+      "r_squared",
+      "raw_spread_ann_bp",
+      "size_component_ann_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "e43",
+   "runner": "run_tilt4",
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screentilt",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "alpha_monthly_bp",
+      "beta_ladder_on_tilt",
+      "r_squared",
+      "tilt_annualised_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "tilt4",
+   "runner": "run_tilt4",
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screentilt",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "alpha_monthly_bp",
+      "beta_ladder_on_tilt",
+      "r_squared",
+      "tilt_annualised_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "widecomp",
+   "runner": "run_tilt4",
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screentilt",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "alpha_monthly_bp",
+      "beta_ladder_on_tilt",
+      "r_squared",
+      "tilt_annualised_bp"
+     ]
+    }
+   ],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "burnin",
+   "runner": "run_burnin",
+   "face": "results/e44_burnin/BURNIN-20261020.json",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "e44",
+   "runner": "run_burnin",
+   "face": "results/e44_burnin/BURNIN-20261020.json",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "knife",
+   "runner": "run_burnin",
+   "face": "results/e44_burnin/BURNIN-20261020.json",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "skinloo",
+   "runner": "run_burnin",
+   "face": "results/e44_burnin/BURNIN-20261020.json",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "e45",
+   "runner": "run_warmspread",
+   "face": "results/e45_warm_spread/WARMSPREAD-20261020.json",
+   "published_cells": 123,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "warmspread",
+   "runner": "run_warmspread",
+   "face": "results/e45_warm_spread/WARMSPREAD-20261020.json",
+   "published_cells": 123,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "e46",
+   "runner": "run_livespan",
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
+   "published_cells": 471,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "livespan",
+   "runner": "run_livespan",
+   "face": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
+   "published_cells": 471,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "cutcurve",
+   "runner": "run_cutcurve",
+   "face": "results/e46_live_span/CUTCURVE-20261020.json",
+   "published_cells": 1139,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  },
+  {
+   "mode": "chase",
+   "runner": "run_chase",
+   "face": "results/e44_midmonth/CHASE-20261020.json",
+   "published_cells": 377,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "entrydelay",
+   "runner": "run_entrydelay",
+   "face": "results/e44_midmonth/ENTRYDELAY-20261020-s20130101.json",
+   "published_cells": 223,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenweek",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "cost_per_year_bp",
+      "full_window_gap_bp",
+      "gap_bp",
+      "turnover_per_year"
+     ]
+    },
+    {
+     "leg": "screencalc",
+     "ratio": 0.8,
+     "shared": 4,
+     "columns": [
+      "ann_return_pct",
+      "cost_per_year_bp",
+      "max_drawdown_pct",
+      "turnover_per_year"
+     ]
+    }
+   ],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "earlydelay",
+   "runner": "run_earlydelay",
+   "face": "results/e44_midmonth/EARLYDELAY-20261020-s20130101.json",
+   "published_cells": 235,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenweek",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "cost_per_year_bp",
+      "full_window_gap_bp",
+      "gap_bp",
+      "turnover_per_year"
+     ]
+    },
+    {
+     "leg": "screencalc",
+     "ratio": 0.8,
+     "shared": 4,
+     "columns": [
+      "ann_return_pct",
+      "cost_per_year_bp",
+      "max_drawdown_pct",
+      "turnover_per_year"
+     ]
+    }
+   ],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "neighborhood",
+   "runner": "run_neighborhood",
+   "face": "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json",
+   "published_cells": 139,
+   "coverage": "uncovered_column_only",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [
+    {
+     "leg": "screenweek",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "cost_per_year_bp",
+      "full_window_gap_bp",
+      "gap_bp",
+      "turnover_per_year"
+     ]
+    },
+    {
+     "leg": "screencalc",
+     "ratio": 0.8,
+     "shared": 4,
+     "columns": [
+      "ann_return_pct",
+      "cost_per_year_bp",
+      "max_drawdown_pct",
+      "turnover_per_year"
+     ]
+    }
+   ],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "weeklyclash",
+   "runner": "run_weeklyclash",
+   "face": "results/e44_midmonth/WEEKLYCLASH-20261021-s20130101-c0_3.json",
+   "published_cells": 332,
+   "coverage": "covered_twin_by_name",
+   "twin_legs": [],
+   "twin_by_name": [
+    {
+     "leg": "screenweek",
+     "root": "WEEK",
+     "body_mentions": 25
+    }
+   ],
+   "column_overlap_only": [
+    {
+     "leg": "screenweek",
+     "ratio": 1.0,
+     "shared": 4,
+     "columns": [
+      "cost_per_year_bp",
+      "full_window_gap_bp",
+      "gap_bp",
+      "turnover_per_year"
+     ]
+    },
+    {
+     "leg": "screencalc",
+     "ratio": 0.8,
+     "shared": 4,
+     "columns": [
+      "ann_return_pct",
+      "cost_per_year_bp",
+      "max_drawdown_pct",
+      "turnover_per_year"
+     ]
+    }
+   ],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "staletail",
+   "runner": "run_staletail",
+   "face": "results/e44_midmonth/STALETAIL-20261021-s20130101.json",
+   "published_cells": 228,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
+  },
+  {
+   "mode": "panelsplit",
+   "runner": "run_panelsplit",
+   "face": "results/e44_midmonth/PANELSPLIT-20261021-s20130101.json",
+   "published_cells": 234,
+   "coverage": "uncovered",
+   "twin_legs": [],
+   "twin_by_name": [],
+   "column_overlap_only": [],
+   "read_set": "wide per-name prices + ladder marks"
+  }
+ ],
+ "ranking_uncovered_by_runner": [
+  {
+   "runner": "run_burnin",
+   "modes": [
+    "burnin",
+    "e44",
+    "knife",
+    "skinloo"
+   ],
+   "published_cells_dedup": 1727,
+   "faces": [
+    "results/e44_burnin/BURNIN-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_cutcurve",
+   "modes": [
+    "cutcurve"
+   ],
+   "published_cells_dedup": 1139,
+   "faces": [
+    "results/e46_live_span/CUTCURVE-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_livespan",
+   "modes": [
+    "e46",
+    "livespan"
+   ],
+   "published_cells_dedup": 471,
+   "faces": [
+    "results/e46_live_span/LIVESPAN-20261020-x3-p11.json"
+   ]
+  },
+  {
+   "runner": "run_chase",
+   "modes": [
+    "chase"
+   ],
+   "published_cells_dedup": 377,
+   "faces": [
+    "results/e44_midmonth/CHASE-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_earlydelay",
+   "modes": [
+    "earlydelay"
+   ],
+   "published_cells_dedup": 235,
+   "faces": [
+    "results/e44_midmonth/EARLYDELAY-20261020-s20130101.json"
+   ]
+  },
+  {
+   "runner": "run_panelsplit",
+   "modes": [
+    "panelsplit"
+   ],
+   "published_cells_dedup": 234,
+   "faces": [
+    "results/e44_midmonth/PANELSPLIT-20261021-s20130101.json"
+   ]
+  },
+  {
+   "runner": "run_staletail",
+   "modes": [
+    "staletail"
+   ],
+   "published_cells_dedup": 228,
+   "faces": [
+    "results/e44_midmonth/STALETAIL-20261021-s20130101.json"
+   ]
+  },
+  {
+   "runner": "run_entrydelay",
+   "modes": [
+    "entrydelay"
+   ],
+   "published_cells_dedup": 223,
+   "faces": [
+    "results/e44_midmonth/ENTRYDELAY-20261020-s20130101.json"
+   ]
+  },
+  {
+   "runner": "run_neighborhood",
+   "modes": [
+    "neighborhood"
+   ],
+   "published_cells_dedup": 139,
+   "faces": [
+    "results/e44_midmonth/NEIGHBORHOOD-20261021-s20130101.json"
+   ]
+  },
+  {
+   "runner": "run_rebalday",
+   "modes": [
+    "rebalday"
+   ],
+   "published_cells_dedup": 132,
+   "faces": [
+    "results/e41_rebal_day/SHIFT-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_warmspread",
+   "modes": [
+    "e45",
+    "warmspread"
+   ],
+   "published_cells_dedup": 123,
+   "faces": [
+    "results/e45_warm_spread/WARMSPREAD-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_pair",
+   "modes": [
+    "pair"
+   ],
+   "published_cells_dedup": 93,
+   "faces": [
+    "results/e40_pair_drawdown/PAIR-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_tilt4",
+   "modes": [
+    "e43",
+    "tilt4",
+    "widecomp"
+   ],
+   "published_cells_dedup": 91,
+   "faces": [
+    "results/e43_tilt_4member/HIST-20261020.json"
+   ]
+  },
+  {
+   "runner": "run_cashdrag",
+   "modes": [
+    "cashdrag"
+   ],
+   "published_cells_dedup": 70,
+   "faces": [
+    "results/e40_cashleg_drag/CASHLeg-20261020.json"
+   ]
+  }
+ ],
+ "ranking_uncovered_by_mode": [
+  {
+   "mode": "burnin",
+   "runner": "run_burnin",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "e44",
+   "runner": "run_burnin",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "knife",
+   "runner": "run_burnin",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "skinloo",
+   "runner": "run_burnin",
+   "published_cells": 1727,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "cutcurve",
+   "runner": "run_cutcurve",
+   "published_cells": 1139,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "e46",
+   "runner": "run_livespan",
+   "published_cells": 471,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "livespan",
+   "runner": "run_livespan",
+   "published_cells": 471,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "chase",
+   "runner": "run_chase",
+   "published_cells": 377,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "earlydelay",
+   "runner": "run_earlydelay",
+   "published_cells": 235,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "panelsplit",
+   "runner": "run_panelsplit",
+   "published_cells": 234,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "staletail",
+   "runner": "run_staletail",
+   "published_cells": 228,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "entrydelay",
+   "runner": "run_entrydelay",
+   "published_cells": 223,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "neighborhood",
+   "runner": "run_neighborhood",
+   "published_cells": 139,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "rebalday",
+   "runner": "run_rebalday",
+   "published_cells": 132,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "e45",
+   "runner": "run_warmspread",
+   "published_cells": 123,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "warmspread",
+   "runner": "run_warmspread",
+   "published_cells": 123,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "pair",
+   "runner": "run_pair",
+   "published_cells": 93,
+   "coverage": "uncovered",
+   "twin_legs": []
+  },
+  {
+   "mode": "e43",
+   "runner": "run_tilt4",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "tilt4",
+   "runner": "run_tilt4",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "widecomp",
+   "runner": "run_tilt4",
+   "published_cells": 91,
+   "coverage": "uncovered_column_only",
+   "twin_legs": []
+  },
+  {
+   "mode": "cashdrag",
+   "runner": "run_cashdrag",
+   "published_cells": 70,
+   "coverage": "uncovered",
+   "twin_legs": []
+  }
+ ],
+ "totals": {
+  "charged_modes": 25,
+  "covered_by_twin": 3,
+  "covered_twin_by_name": 1,
+  "uncovered": 21,
+  "uncovered_column_only": 7,
+  "uncovered_distinct_runners": 14,
+  "cells_unchanged_by_any_twin": 5282
+ },
+ "honest": [
+  "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",
+  "covered_twin_by_name is the weaker of the two code channels: the twin builds the face in its own body instead of calling the base runner (run_screenweek borrows run_midsweep for decision sets only), so read it as 'the twin exists' and not as 'the same function burned it'",
+  "the column-overlap channel is published because it was measured, not because it routes work: generic metric names (ann_return_pct/sharpe/max_drawdown_pct) make unrelated twins match a face at ratio 1.00",
+  "published_cells counts numeric leaves in the mode's face; it measures how much number surface a re-burn would touch, not how much of it the repair would move (E94/E109 carry the move counts)",
+  "modes sharing a runner share one burn, so the runner-level ranking is the actionable one; the mode-level ranking double-counts shared faces"
+ ],
+ "law_ref": "O-20261002-2100 capture law (new method -> methodology card)"
+}

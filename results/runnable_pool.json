@@ -21662,7 +21662,7 @@
   },
   {
    "id": "E97-READSET-TRIAGE-ROUTING",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e94_readset_triage.py + screened twins on disk",
@@ -21672,7 +21672,10 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T03:25+08:00",
    "entered_by": "bm-b r1161",
-   "runner_note": "code-and-disk evidence only: read the triage face plus the twin filenames, no burn, no face regeneration"
+   "runner_note": "code-and-disk evidence only: read the triage face plus the twin filenames, no burn, no face regeneration",
+   "done_at": "2026-10-27T13:5x+08:00",
+   "result_ref": "scripts/e97_routing.py -> results/e79/ROUTING-20261027.json + research/digests/DIGEST-20261027-e97-screened-consumer-routing.md",
+   "done_note": "25 charged modes routed by CODE GRAPH, not by column names: 3 covered by a twin that calls their runner (spreadsize/e42/tiltera <- screenspread), 1 covered by a twin that builds the face in its own body (weeklyclash <- screenweek), 21 uncovered across 14 runners. Largest untouched burn = run_burnin (1727 numbers, 33% of the 5282 the uncovered runners carry). The column test matched 7 rows at ratio>=0.8 with no code link, so it is published as non-decisive rather than used as coverage."
   },
   {
    "id": "E98-ENDCHOICE-ALLERAS",
@@ -21931,6 +21934,20 @@
    "result_ref": "scripts/e111_face_factor_stamp.py -> results/e44_midmonth/FACESTAMP-20261027.json",
    "done_at": "2026-10-27T10:35:00+08:00",
    "done_note": "repair_factor id a78d23e15b45 stamped by e39 write_json; burncontrol now publishes version_unknown for all 70 unstamped faces instead of claiming identity"
+  },
+  {
+   "id": "E112-BURNIN-SCREENED-TWIN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (run_burnin / run_cutcurve)",
+   "title": "E97's routing table leaves 21 of 25 charged modes with no screened twin, and the largest is run_burnin: one burn feeds four published modes (burnin/e44/knife/skinloo) and carries 1727 numbers, 33% of all uncovered number surface. Re-derive BURNIN on the neutralise arm beside the unscreened face and publish the before/after pair, then say whether the burn-in window conclusion survives the repair (E77 moved the wide book 216bp/yr, so a null result here is informative too).",
+   "deliverable": "results/e44_burnin/BURNIN-<cutoff>-screened.json + digest",
+   "source": "SCRIPT: research/digests/DIGEST-20261027-e97-screened-consumer-routing.md (ranking row 1)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T13:5x+08:00",
+   "entered_by": "bm-b r1176",
+   "runner_note": "one burn per runner: burnin/e44/knife/skinloo share the face, so the ticket is a single leg with two arms; cutcurve (1139) is the next row and stays separate"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21945,6 +21962,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T11:34+08:00",
+ "updated_at": "2026-10-27T13:5x+08:00",
  "version": 1
 }
