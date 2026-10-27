@@ -494,6 +494,12 @@ def main() -> int:
              "scripts/etf_book_width_audit.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
+            # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
+            # window the book earned its money in. This leg keeps the outside-window test
+            # callable: if its selftest rots, the "alpha is a window property" reading
+            # stands on a script nobody can re-derive.
+            ("product: etf_book_spanning_pre2020 period test (exit-code contract)",
+             "scripts/etf_book_spanning_pre2020.py", ["--selftest"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

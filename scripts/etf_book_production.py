@@ -212,6 +212,54 @@ def _stagger_block(doc):
     }
 
 
+def spanning_pre2020_support():
+    """Read results/etf_book_spanning_pre2020.json -> does the intercept survive the window
+    the book was not fitted in?
+
+    r1312: the four-beta section on this card only ever spoke about 2020+ -- the window the
+    book earned its money in. The same regression run on U_pre over 2015-2019 answers the
+    question a reader actually has ("is this exposure mix, or skill?"), and it answers it
+    negatively, so it belongs on the card and not in a digest (r1275). Soft-fails to None:
+    a missing artefact must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_spanning_pre2020.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or {}
+        single = arms.get("single") or {}
+        st = arms.get("staggered") or {}
+        ew = (doc.get("span_portfolios") or {}).get("equal_weight_basket") or {}
+        full_s, full_g = single.get("full") or {}, st.get("full") or {}
+        if full_s.get("alpha_annual") is None or ew.get("cagr") is None:
+            return None
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "window": doc.get("window"),
+            "universe": doc.get("universe") or {},
+            "single": {"alpha_annual": full_s.get("alpha_annual"),
+                       "alpha_t": full_s.get("alpha_t"), "r2": full_s.get("r2"),
+                       "is_alpha_t": (single.get("is") or {}).get("alpha_t"),
+                       "oos_alpha_t": (single.get("oos") or {}).get("alpha_t"),
+                       "cagr": (single.get("stats") or {}).get("cagr"),
+                       "sharpe": (single.get("stats") or {}).get("sharpe"),
+                       "maxdd": (single.get("stats") or {}).get("maxdd")},
+            "staggered": {"alpha_annual": full_g.get("alpha_annual"),
+                          "alpha_t": full_g.get("alpha_t"), "r2": full_g.get("r2"),
+                          "is_alpha_t": (st.get("is") or {}).get("alpha_t"),
+                          "oos_alpha_t": (st.get("oos") or {}).get("alpha_t"),
+                          "cagr": (st.get("stats") or {}).get("cagr"),
+                          "sharpe": (st.get("stats") or {}).get("sharpe"),
+                          "maxdd": (st.get("stats") or {}).get("maxdd")},
+            "basket": {"cagr": ew.get("cagr"), "sharpe": ew.get("sharpe"),
+                       "maxdd": ew.get("maxdd"), "vol": ew.get("vol")},
+            "control": doc.get("control"),
+            "verdict": doc.get("verdict"),
+        }
+    except Exception:
+        return None
+
+
 def preperiod_support():
     """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
 
@@ -488,6 +536,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "passive_mix": passive_mix_support(),
         "window_decomp": decomp_support(),
         "spanning": spanning_support(),
+        "spanning_pre2020": spanning_pre2020_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -596,6 +645,8 @@ def write_card(out):
     lines += decomp_paragraphs(out.get("window_decomp"))
     lines += ["## What is left after the four betas", ""]
     lines += spanning_paragraphs(out.get("spanning"))
+    lines += ["## Does any of it survive outside 2020-2026?", ""]
+    lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -741,6 +792,59 @@ def spanning_paragraphs(sp):
         else:
             tail = (".")
         out += [head + tail, ""]
+    return out
+
+
+def spanning_pre2020_paragraphs(sp):
+    """The outside-the-boom-window section. Pure: needs only the artefact block.
+
+    r1312: the section above answers "is anything left after the four betas" on 2020+.
+    This one answers "and does that survive the window the book was not fitted in" -- and
+    prints the buy-and-hold basket beside it, because a book that loses to four ETFs in a
+    negative-alpha window is a different object from one that merely fails a t-test.
+    """
+    if not (sp and (sp.get("single") or {}).get("alpha_annual") is not None):
+        return ["Not measured: results/etf_book_spanning_pre2020.json is missing, so this "
+                "card cannot say whether the intercept exists outside 2020-2026.", ""]
+    s, g, b = sp.get("single") or {}, sp.get("staggered") or {}, sp.get("basket") or {}
+    win = sp.get("window") or ["?", "?"]
+    n_pre = (sp.get("universe") or {}).get("U_pre")
+    out = ["The same regression, run on the %s ETFs that already existed before the boom, "
+           "over %s..%s (a window this card's configuration was never fitted in, control "
+           "delta %spp against the published pre-2020 cell):" % (
+               n_pre if n_pre is not None else "pre-2020", win[0], win[1],
+               (sp.get("control") or {}).get("delta_pp")), ""]
+    out += ["| arm | CAGR | Sharpe | maxDD | intercept | t | R2 |", "|---|---|---|---|---|---|---|"]
+    for label, a in (("single sleeve", s), ("staggered 6+6", g)):
+        if a.get("cagr") is None:
+            continue
+        out.append("| %s | %.1f%% | %.2f | %.1f%% | %+.1f%%/yr | %.2f | %.2f |" % (
+            label, a["cagr"] * 100, a.get("sharpe") or 0.0, (a.get("maxdd") or 0) * 100,
+            a["alpha_annual"] * 100, a.get("alpha_t") or 0.0, a.get("r2") or 0.0))
+    if b.get("cagr") is not None:
+        out.append("| equal-weight four ETFs | %.1f%% | %.2f | %.1f%% | - | - | - |" % (
+            b["cagr"] * 100, b.get("sharpe") or 0.0, (b.get("maxdd") or 0) * 100))
+    out += [""]
+    if (s.get("alpha_t") or 0) < 2.0 and (g.get("alpha_t") or 0) < 2.0:
+        out += ["**Neither arm clears a t of 2 outside 2020-2026** (single t=%.2f, staggered "
+                "t=%.2f; the out-of-sample half prints t=%.2f and t=%.2f, i.e. no intercept "
+                "there at all). Read it as: the published "
+                "intercept is a property of the boom window and the panel that grew in it, "
+                "not yet a property of the rule -- the pre-2020 cross-section is small and "
+                "survival-filtered, so this is one honest negative, not a demolition. It is, "
+                "however, the reason not to scale size on the 9-10%% headline."
+                % (s.get("alpha_t") or 0.0, g.get("alpha_t") or 0.0,
+                   s.get("oos_alpha_t") or 0.0, g.get("oos_alpha_t") or 0.0),
+                ""]
+    if b.get("cagr") is not None and s.get("cagr") is not None:
+        d = (s["cagr"] - b["cagr"]) * 100
+        if d < 0:
+            out += ["In that window a static equal-weight basket of the same four ETFs "
+                    "returned %.1f%%/yr at Sharpe %.2f against the book's %.1f%%/yr at %.2f "
+                    "(%+.1fpp), so the negative is not merely a failed t-test -- the rotation "
+                    "cost money there. See %s."
+                    % (b["cagr"] * 100, b.get("sharpe") or 0.0, s["cagr"] * 100,
+                       s.get("sharpe") or 0.0, d, sp["artifact"]), ""]
     return out
 
 
@@ -955,6 +1059,35 @@ def selftest():
         E.PATHS.results_dir = _keep_results
     chk("no reconciliation artifact -> no section",
         decomp_paragraphs(None) == [])
+
+    # 10d. the outside-the-window section (r1312): both arms' t, the basket, and the
+    #      sentence that changes when the alpha DOES clear 2. A section that prints the
+    #      same words for a pass and a failure would hide the finding it exists to carry.
+    sp20 = spanning_pre2020_support()
+    fix = {"window": ["2015-01-01", "2019-12-31"], "universe": {"U_pre": 193},
+           "single": {"alpha_annual": 0.0203, "alpha_t": 1.04, "r2": 0.70, "cagr": 0.0512,
+                      "sharpe": 0.70, "maxdd": -0.1671},
+           "staggered": {"alpha_annual": 0.0100, "alpha_t": 0.48, "r2": 0.68,
+                         "cagr": 0.0426, "sharpe": 0.574, "maxdd": -0.1762},
+           "basket": {"cagr": 0.0864, "sharpe": 0.968, "maxdd": -0.1298},
+           "control": {"delta_pp": 0.13, "within_0p5pp": True},
+           "artifact": "results/etf_book_spanning_pre2020.json"}
+    txt = "\n".join(spanning_pre2020_paragraphs(fix))
+    chk("card prints the outside-window section with both arms",
+        "193" in txt and "single sleeve" in txt and "staggered 6+6" in txt
+        and "Neither arm clears a t of 2" in txt, "%d lines" % len(spanning_pre2020_paragraphs(fix)))
+    chk("the buy-and-hold basket is printed beside the book",
+        "equal-weight four ETFs" in txt and "rotation cost money" in txt)
+    passing = json.loads(json.dumps(fix))
+    passing["single"]["alpha_t"] = 2.6
+    passing["staggered"]["alpha_t"] = 2.2
+    chk("a passing alpha stops printing the negative sentence",
+        "Neither arm clears" not in "\n".join(spanning_pre2020_paragraphs(passing)))
+    chk("no outside-window artifact -> disclosed, not silent",
+        "Not measured" in spanning_pre2020_paragraphs(None)[0])
+    chk("outside-window face reads the live artifact when present",
+        sp20 is None or (sp20.get("window") and sp20.get("single", {}).get("alpha_t") is not None),
+        "artifact %s" % ("absent" if sp20 is None else sp20.get("window")))
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

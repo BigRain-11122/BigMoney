@@ -206,13 +206,16 @@ def _stats_of(ser):
     return {k: m.get(k) for k in ("cagr", "sharpe", "maxdd", "vol", "years")}
 
 
-def arm_from_returns(book_r, sr, keys, equity=None, min_obs=60):
+def arm_from_returns(book_r, sr, keys, equity=None, min_obs=60, is_end=None):
     """Regress one arm's daily returns on the span set -> window + full/IS/OOS + walk-forward.
 
     r1311: the single-book version of this was inlined in `build()`. Two arms have to be
     priced through the SAME code path or their alphas are not comparable -- the r1262
     lesson (an "A vs B" that silently ran different widths) applies to the arithmetic too,
     not just to the experiment. So this is the only place a regression is fitted.
+
+    r1312: `is_end` lets the pre-2020 consumer use its own split (2017-12-31) instead of
+    the 2020+ face's; the default keeps every existing caller bit-identical.
     """
     idx = book_r.index.intersection(sr.dropna().index)
     if len(idx) < min_obs:
@@ -220,7 +223,7 @@ def arm_from_returns(book_r, sr, keys, equity=None, min_obs=60):
     y = book_r.loc[idx]
     X = sr.loc[idx, keys]
     full = ols(y, X)
-    is_split = pd.Timestamp(P.IS_END)
+    is_split = pd.Timestamp(is_end or P.IS_END)
     is_mask = idx <= is_split
     oos_mask = idx > is_split
     is_fit = ols(y[is_mask], X[is_mask]) if is_mask.sum() > len(keys) + 2 else None

@@ -1,7 +1,7 @@
 {
- "ts": "2026-10-27T17:32:05",
+ "ts": "2026-10-27T18:41:10",
  "mode": "probe",
- "py_faces_seen": 2,
+ "py_faces_seen": 4,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
@@ -11,8 +11,8 @@
    "pid": 5036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 2711.6,
-   "cpu_delta_20s": 2.438,
+   "age_min": 2780.7,
+   "cpu_delta_20s": 0.891,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,19 +21,46 @@
    ]
   },
   {
-   "pid": 71976,
+   "pid": 74496,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_book_forward.py --selftest",
+   "age_min": 0.3,
+   "cpu_delta_20s": 999.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 75460,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u -m smoke_test",
+   "age_min": 2.3,
+   "cpu_delta_20s": 0.031,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 77048,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.5,
-   "cpu_delta_20s": 0.859,
+   "age_min": 0.6,
+   "cpu_delta_20s": 0.938,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
+   "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "pwsh.exe",
     "codely.exe",
     "powershell.exe",
-    "wscript.exe"
+    "DEAD"
    ]
   }
  ],

@@ -1,0 +1,270 @@
+{
+ "schema": "etf_book_spanning_pre2020/v1",
+ "question": "do gold/Nasdaq/CSI300/bond explain the book outside the 2020-2026 ETF-boom window?",
+ "window": [
+  "2015-01-01",
+  "2019-12-31"
+ ],
+ "is_end": "2017-12-31",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "stagger": {
+   "n_total": 12,
+   "rebal": 20,
+   "vol_target": 0.08,
+   "cost": 0.001
+  },
+  "stagger_source": "results/etf_book_stagger_publish.json:machinery"
+ },
+ "universe": {
+  "U_pre": 193,
+  "cols": 193,
+  "flips_repaired": 168,
+  "shape": [
+   3617,
+   193
+  ],
+  "last_bar": "2019-12-31"
+ },
+ "arms": {
+  "single": {
+   "window": [
+    "2015-01-07",
+    "2019-12-31"
+   ],
+   "obs": {
+    "full": 1217,
+    "is": 730,
+    "oos": 487
+   },
+   "full": {
+    "alpha_annual": 0.0203,
+    "alpha_t": 1.036,
+    "betas": {
+     "518880": 0.1276,
+     "513100": 0.0587,
+     "510300": 0.2293,
+     "511010": 0.0075
+    },
+    "beta_t": {
+     "518880": 12.179,
+     "513100": 7.948,
+     "510300": 46.121,
+     "511010": 0.332
+    },
+    "r2": 0.6989,
+    "n_obs": 1217,
+    "resid_vol_annual": 0.0428
+   },
+   "is": {
+    "alpha_annual": 0.0394,
+    "alpha_t": 1.548,
+    "betas": {
+     "518880": 0.1037,
+     "513100": 0.0066,
+     "510300": 0.1998,
+     "511010": 0.0698
+    },
+    "beta_t": {
+     "518880": 8.394,
+     "513100": 0.632,
+     "510300": 35.245,
+     "511010": 1.415
+    },
+    "r2": 0.6649,
+    "n_obs": 730,
+    "resid_vol_annual": 0.0431
+   },
+   "oos": {
+    "alpha_annual": -0.0083,
+    "alpha_t": -0.388,
+    "betas": {
+     "518880": 0.2189,
+     "513100": 0.0774,
+     "510300": 0.3445,
+     "511010": 0.0137
+    },
+    "beta_t": {
+     "518880": 15.75,
+     "513100": 10.358,
+     "510300": 46.96,
+     "511010": 0.771
+    },
+    "r2": 0.8757,
+    "n_obs": 487,
+    "resid_vol_annual": 0.0295
+   },
+   "walkforward": {
+    "alpha_is_annual": 0.0394,
+    "oos_mean_resid_annual": -0.0188,
+    "oos_realised_annual": 0.042,
+    "oos_predicted_annual": 0.0609,
+    "n_oos": 487
+   },
+   "stats": {
+    "cagr": 0.0512,
+    "sharpe": 0.7,
+    "maxdd": -0.1671,
+    "vol": 0.0779,
+    "years": 4.98
+   }
+  },
+  "staggered": {
+   "window": [
+    "2015-01-07",
+    "2019-12-31"
+   ],
+   "obs": {
+    "full": 1217,
+    "is": 730,
+    "oos": 487
+   },
+   "full": {
+    "alpha_annual": 0.01,
+    "alpha_t": 0.479,
+    "betas": {
+     "518880": 0.1546,
+     "513100": 0.0614,
+     "510300": 0.2308,
+     "511010": -0.0138
+    },
+    "beta_t": {
+     "518880": 13.796,
+     "513100": 7.778,
+     "510300": 43.397,
+     "511010": -0.571
+    },
+    "r2": 0.6778,
+    "n_obs": 1217,
+    "resid_vol_annual": 0.0458
+   },
+   "is": {
+    "alpha_annual": 0.0305,
+    "alpha_t": 1.131,
+    "betas": {
+     "518880": 0.1343,
+     "513100": 0.0124,
+     "510300": 0.199,
+     "511010": 0.0282
+    },
+    "beta_t": {
+     "518880": 10.263,
+     "513100": 1.114,
+     "510300": 33.148,
+     "511010": 0.54
+    },
+    "r2": 0.6457,
+    "n_obs": 730,
+    "resid_vol_annual": 0.0456
+   },
+   "oos": {
+    "alpha_annual": -0.019,
+    "alpha_t": -0.774,
+    "betas": {
+     "518880": 0.2369,
+     "513100": 0.0743,
+     "510300": 0.3537,
+     "511010": 0.0006
+    },
+    "beta_t": {
+     "518880": 14.808,
+     "513100": 8.648,
+     "510300": 41.889,
+     "511010": 0.027
+    },
+    "r2": 0.8473,
+    "n_obs": 487,
+    "resid_vol_annual": 0.0339
+   },
+   "walkforward": {
+    "alpha_is_annual": 0.0305,
+    "oos_mean_resid_annual": -0.0224,
+    "oos_realised_annual": 0.0324,
+    "oos_predicted_annual": 0.0548,
+    "n_oos": 487
+   },
+   "stats": {
+    "cagr": 0.0426,
+    "sharpe": 0.574,
+    "maxdd": -0.1762,
+    "vol": 0.0806,
+    "years": 4.98
+   }
+  }
+ },
+ "span_portfolios": {
+  "gold": {
+   "code": "518880",
+   "label": "gold ETF",
+   "turnover_total": 1.0,
+   "cagr": 0.0671,
+   "sharpe": 0.623,
+   "maxdd": -0.169,
+   "vol": 0.1189,
+   "years": 4.98
+  },
+  "us_tech": {
+   "code": "513100",
+   "label": "Nasdaq-100 QDII ETF",
+   "turnover_total": 1.0,
+   "cagr": 0.1904,
+   "sharpe": 1.093,
+   "maxdd": -0.2315,
+   "vol": 0.1794,
+   "years": 4.98
+  },
+  "csi300": {
+   "code": "510300",
+   "label": "CSI 300 ETF",
+   "turnover_total": 1.0,
+   "cagr": 0.0223,
+   "sharpe": 0.219,
+   "maxdd": -0.4638,
+   "vol": 0.2631,
+   "years": 4.98
+  },
+  "bond": {
+   "code": "511010",
+   "label": "treasury bond ETF",
+   "turnover_total": 1.0,
+   "cagr": 0.0299,
+   "sharpe": 0.584,
+   "maxdd": -0.0713,
+   "vol": 0.0545,
+   "years": 4.98
+  },
+  "equal_weight_basket": {
+   "codes": [
+    "518880",
+    "513100",
+    "510300",
+    "511010"
+   ],
+   "turnover_total": 1.0,
+   "cagr": 0.0864,
+   "sharpe": 0.968,
+   "maxdd": -0.1298,
+   "vol": 0.0928,
+   "years": 4.98
+  }
+ },
+ "control": {
+  "source": "results/etf_book_pre2020_wf.json:full_window_arm_stats.fixed_n12_vt",
+  "tolerance_pp": 0.5,
+  "mine": 0.0512,
+  "published": 0.0499,
+  "delta_pp": 0.13,
+  "within_0p5pp": true
+ },
+ "caveats": [
+  "one window, one universe: U_pre is itself survival-filtered (dead funds are absent from the panel), so a pass here is weaker evidence than it looks and a failure is stronger",
+  "the pre-2020 cross-section is small (eligible names per decision are published in the panel block); a top-12 pick out of 20 names is the universe, not a ranking",
+  "daily OLS without HAC correction, same basis as results/etf_book_spanning.json",
+  "span arms carry the same flip repair as the book's panel",
+  "exploratory: no preregistration, no verdict booking, no member file touched"
+ ],
+ "verdict": "no intercept survives outside 2020-2026 (t 1.04 single / 0.48 staggered): the published alpha is a property of the window, not of the book"
+}

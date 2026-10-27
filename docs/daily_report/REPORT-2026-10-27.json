@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-27",
- "generated_at": "2026-10-27 17:24:33",
+ "generated_at": "2026-10-27 18:36:54",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-27.md"
  },
  "rd": {
-  "commits_24h": 130,
+  "commits_24h": 133,
   "result_jsons_landed_24h": 98,
-  "digests_landed_24h": 41,
+  "digests_landed_24h": 43,
   "prereg_md_touched_24h": 2,
   "compute_audit_latest": {
-   "ts": "2026-10-27 17:11:33",
+   "ts": "2026-10-27 18:24:30",
    "py_cpu_pct": 0.1,
    "flags": [
+    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -652,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2279512,
+  "total_report_tokens_est": 2282030,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-27 12:20:31",
+   "prev_generated": "2026-10-27 15:57:24",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2770,
+   "report_tokens_growth": 2518,
    "mandate_growth": 0
   },
   "method": {
@@ -729,73 +730,11 @@
     "today_supply_gap_flags": 17
    },
    "bm-b": {
-    "latest_ts": "2026-10-27 15:47:34",
-    "py_pct": 0.0,
-    "cpu_pct": 6.0,
-    "ready": 1,
-    "streak_min": 784.0,
-    "verdict": "FLAG:supply_gap,supply_floor",
-    "py_series_tail": [
-     [
-      "08:29",
-      0.0
-     ],
-     [
-      "08:34",
-      0.0
-     ],
-     [
-      "08:56",
-      3.2
-     ],
-     [
-      "10:24",
-      2.6
-     ],
-     [
-      "11:14",
-      1.5
-     ],
-     [
-      "11:59",
-      0.0
-     ],
-     [
-      "12:04",
-      0.0
-     ],
-     [
-      "12:10",
-      0.0
-     ],
-     [
-      "13:17",
-      0.1
-     ],
-     [
-      "14:00",
-      0.0
-     ],
-     [
-      "15:06",
-      0.3
-     ],
-     [
-      "15:47",
-      0.0
-     ]
-    ],
-    "today_samples": 30,
-    "today_floor_ok": 20,
-    "today_sla_flags": 0,
-    "today_supply_gap_flags": 27
-   },
-   "bm-c": {
-    "latest_ts": "2026-10-27 17:11:33",
+    "latest_ts": "2026-10-27 17:08:43",
     "py_pct": 0.1,
-    "cpu_pct": 73.0,
+    "cpu_pct": 3.0,
     "ready": 0,
-    "streak_min": 868.0,
+    "streak_min": 865.2,
     "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
@@ -843,11 +782,73 @@
       0.1
      ],
      [
-      "17:11",
+      "17:08",
       0.1
      ]
     ],
     "today_samples": 29,
+    "today_floor_ok": 20,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 24
+   },
+   "bm-c": {
+    "latest_ts": "2026-10-27 18:24:30",
+    "py_pct": 0.1,
+    "cpu_pct": 53.0,
+    "ready": 0,
+    "streak_min": 941.0,
+    "verdict": "FLAG:pool_starvation,supply_floor",
+    "py_series_tail": [
+     [
+      "08:29",
+      0.0
+     ],
+     [
+      "08:34",
+      0.0
+     ],
+     [
+      "08:56",
+      3.2
+     ],
+     [
+      "10:24",
+      2.6
+     ],
+     [
+      "11:14",
+      1.5
+     ],
+     [
+      "11:59",
+      0.0
+     ],
+     [
+      "12:04",
+      0.0
+     ],
+     [
+      "12:10",
+      0.0
+     ],
+     [
+      "15:36",
+      0.1
+     ],
+     [
+      "16:21",
+      0.1
+     ],
+     [
+      "17:11",
+      0.1
+     ],
+     [
+      "18:24",
+      0.1
+     ]
+    ],
+    "today_samples": 30,
     "today_floor_ok": 20,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 24
@@ -888,7 +889,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 15:47:34"
+     "audit_ts": "2026-10-27 17:08:43"
     }
    },
    "bm-c": {
@@ -904,7 +905,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-27 17:11:33"
+     "audit_ts": "2026-10-27 18:24:30"
     }
    }
   },
@@ -1183,70 +1184,70 @@
     "rows": [
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": -127.59,
-      "day_ret": -0.000133,
-      "equity_cny": 961928.21,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": -213.29,
+      "day_ret": -0.000222,
+      "equity_cny": 961714.92,
       "account": "ALLOC-P1"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": -271.75,
-      "day_ret": -0.000286,
-      "equity_cny": 950653.4,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": -376.85,
+      "day_ret": -0.000396,
+      "equity_cny": 950276.56,
       "account": "ALLOC-P2"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": 171.95,
-      "day_ret": 0.000182,
-      "equity_cny": 946808.3,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": 89.35,
+      "day_ret": 9.4e-05,
+      "equity_cny": 946897.65,
       "account": "ALLOC-P3"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": 170.09,
-      "day_ret": 0.00018,
-      "equity_cny": 947348.81,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": 89.99,
+      "day_ret": 9.5e-05,
+      "equity_cny": 947438.8,
       "account": "ALLOC-P3B"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": 123.8,
-      "day_ret": 0.000126,
-      "equity_cny": 984185.89,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": 179.5,
+      "day_ret": 0.000182,
+      "equity_cny": 984365.39,
       "account": "ALLOC-P4"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": -124.34,
-      "day_ret": -0.000125,
-      "equity_cny": 993744.04,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": -120.74,
+      "day_ret": -0.000121,
+      "equity_cny": 993623.31,
       "account": "ALLOC-P5"
      },
      {
       "status": "ok",
-      "asof": "2026-10-26",
-      "prior": "2026-10-23",
-      "day_pnl_cny": -459.21,
-      "day_ret": -0.000473,
-      "equity_cny": 970089.76,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": 4266.99,
+      "day_ret": 0.004399,
+      "equity_cny": 974356.75,
       "account": "ALLOC-P6"
      }
     ],
-    "asof": "2026-10-26",
-    "family_day_pnl_cny": -517.05,
+    "asof": "2026-10-27",
+    "family_day_pnl_cny": 3914.95,
     "missing_n": 0
    },
    {
@@ -1351,7 +1352,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -9210.7,
+  "grand_day_pnl_cny": -4778.7,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",

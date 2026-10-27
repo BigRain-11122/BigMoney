@@ -55,6 +55,20 @@ The single arm that out-earns the book is gold (13.3%/yr) at a -31.5% drawdown -
 
 The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+6.8%/yr at t=2.36** (IS t=1.26 / OOS t=2.30) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.94 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
 
+## Does any of it survive outside 2020-2026?
+
+The same regression, run on the 193 ETFs that already existed before the boom, over 2015-01-01..2019-12-31 (a window this card's configuration was never fitted in, control delta 0.13pp against the published pre-2020 cell):
+
+| arm | CAGR | Sharpe | maxDD | intercept | t | R2 |
+|---|---|---|---|---|---|---|
+| single sleeve | 5.1% | 0.70 | -16.7% | +2.0%/yr | 1.04 | 0.70 |
+| staggered 6+6 | 4.3% | 0.57 | -17.6% | +1.0%/yr | 0.48 | 0.68 |
+| equal-weight four ETFs | 8.6% | 0.97 | -13.0% | - | - | - |
+
+**Neither arm clears a t of 2 outside 2020-2026** (single t=1.04, staggered t=0.48; the out-of-sample half prints t=-0.39 and t=-0.77, i.e. no intercept there at all). Read it as: the published intercept is a property of the boom window and the panel that grew in it, not yet a property of the rule -- the pre-2020 cross-section is small and survival-filtered, so this is one honest negative, not a demolition. It is, however, the reason not to scale size on the 9-10% headline.
+
+In that window a static equal-weight basket of the same four ETFs returned 8.6%/yr at Sharpe 0.97 against the book's 5.1%/yr at 0.70 (-3.5pp), so the negative is not merely a failed t-test -- the rotation cost money there. See results/etf_book_spanning_pre2020.json.
+
 ## Caveats
 
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.

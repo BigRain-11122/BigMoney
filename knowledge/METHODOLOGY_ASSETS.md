@@ -1344,3 +1344,25 @@ Evidence: results/e44_midmonth/PANELSPLITSCREEN-20261027.json (73 cells, 40 move
 refresh control 9 with max 183 on breadth_min, coverage 4 null-on-both all era/pre2017), scripts/e39_panel_census.py
 _panelsplit_arm_cells + run_panelsplitscreen (selftest 362 -> 371/371),
 research/digests/DIGEST-20261027-e117-panelsplit-screened-twin.md.
+
+
+## E154 An alpha test only ever run inside the window the book was fitted in is a description, not an edge (2026-10-27 r1312 bm-c)
+
+The four-span regression (gold / Nasdaq QDII / CSI300 / bond) had been run twice on 2020-2026 -- once for the
+single sleeve (r1310: +5.85 %/yr, t=1.94) and once for the staggered book (r1311: +6.77 %/yr, t=2.36) -- and both
+times inside the window in which the ETF universe grew and the book made all of its money. Re-running the SAME
+regression on the universe the boom did not contain (193 pre-2020 names, 2015-01-07..2019-12-31, control delta
+0.13 pp against the published pre-2020 cell) gives single +2.03 %/yr t=1.04 and staggered +1.00 %/yr t=0.48, with
+the OOS half (2018-2019) at t=-0.39 / -0.77 and R2 0.70/0.68 against 0.43 in the boom window.
+Three transferable rules:
+1) The window is a parameter of the claim. Any intercept quoted without its window is quoting the window.
+2) A higher R2 outside the fitted window turns "the sample is short" into evidence: if the span betas explain MORE
+   of the book there, the exposures were doing the work and the intercept was the weather.
+3) Print the buy-and-hold basket beside the intercept. Here the static four-ETF basket made 8.64 %/yr at a
+   shallower drawdown than the book's 5.12 % -- "rotation cost money" is a stronger, more usable statement than
+   "t below 2", and it is what tells a reader not to size on the headline.
+Mechanism note: extend `arm_from_returns` with an `is_end` argument instead of writing a second regression -- one
+code path, two windows, and the default keeps every existing caller bit-identical (r1262's rule applied to time
+rather than to width). Evidence: results/etf_book_spanning_pre2020.json, CARD.md section "Does any of it survive
+outside 2020-2026?", scripts/etf_book_spanning_pre2020.py (selftest 15/15), smoke +1 leg,
+research/digests/DIGEST-20261027-r1312-preboom-span-test.md.
