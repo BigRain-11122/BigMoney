@@ -4,7 +4,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-10-27T20:04:16+08:00",
+ "clock_read": "2026-10-27T20:15:21+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -61,7 +61,7 @@
  "gpu_vram_free_mib": 3750,
  "gpu_vram_used_mb": 4442,
  "gpu_vram_used_mib": 4442,
- "heartbeat_epoch_utc": 1793102656,
+ "heartbeat_epoch_utc": 1793103323,
  "idle_ram_gb": 8.9,
  "idle_ram_pct": 37.0,
  "idle_rounds": 0,
@@ -81,7 +81,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@25349c372d2bf8233ac2a0d5cde22e2000d7f0ec/231786#b8cd2aa728d6fb73d2d9492ff93b919a4d3713c84825f6ee8d038edd112433d7",
  "last_push": "d30356e54 -> 32ba44ede pushed, behind 0 (r1181)",
  "last_round": 1188,
- "last_seen": "2026-10-27T20:04:16+08:00",
+ "last_seen": "2026-10-27T20:15:21+08:00",
  "latest_artifact": "Tools/tree_poison_probe.py (selftest 15/15) @ 2026-10-27T20:04:16+08:00",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -213,7 +213,7 @@
  "orphan_face": 0,
  "orphan_faces": 0,
  "pool_claims": "E111 (done) | POOL-0018/0019 first-batch-7 done (r1187)",
- "postscript_sha": "99d521f50",
+ "postscript_sha": "f59eefe82c",
  "py_cpu_pct": 0.0,
  "r1043_push": "5cdfe4a885 pushed to origin/main (7adeb0f1c6..5cdfe4a885) after two autostash-rebase integrations (9 + 2 incoming bm-c commits); delivery verified by ls-tree origin (both W012 blobs present), behind=0 ahead=0",
  "r1058_push": "r1058 push receipt: commit f2495ae7cc pushed to origin fallback branch machine/bm-b-r1058 (ls-remote verified); origin/main push blocked by pre-push claw (stale base would delete bm-c shards results/p2cal_ext/n1_w284/shard-*.json - foreign owner fail-closed, expected while 5 commits behind). Local-not-on-origin-main commit count=6 (r1055..r1058 + 2 postscripts), all preserved on the fallback branch; rebase deferred to a clean-tree round.",
@@ -409,6 +409,11 @@
   "sha": "25349c372d2bf8233ac2a0d5cde22e2000d7f0ec"
  },
  "r1187_obs": "two fleet-link.ps1 listeners on :8790 (pid 1900 loopback-only + pid 9532 tailnet) - duplicate survivor after the r1274 rebind fix; not repaired this round",
+ "r1188_push": {
+  "base": "034909a2",
+  "pushed_sha": "f59eefe82c",
+  "status": "PUSHED_VERIFIED"
+ },
  "ram_free_gb": 10.8,
  "ram_free_mb": 12494,
  "ram_free_pct": 48.4,
@@ -432,11 +437,11 @@
   "ts": "2026-10-27T11:50:36+08:00"
  },
  "task": "r1185 smoke red: GPU face carried a GB-named MiB residue",
- "ts": "2026-10-27T20:04:16+08:00",
+ "ts": "2026-10-27T20:15:21+08:00",
  "ts_utc_ms": 1793099032232,
  "updated": "2026-10-27T11:50:36+08:00",
  "updated_at": "2026-10-27T11:50:36+08:00",
- "verdict": "smoke 93/93 PASS; orphan 0; attrition CLEAN; D-19 advanced (dec+ord) -> line same; tree CLEAN by probe",
+ "verdict": "smoke 94/94 PASS; orphan 0; attrition CLEAN; D-19 advanced; tree CLEAN by probe (it caught a second revert-class hit in-round and the repair was mechanical)",
  "vram_free_gb": 3.7,
  "vram_used_gb": 4.3
 }

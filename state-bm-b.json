@@ -688,6 +688,13 @@
  "r1187_group_push": "25349c372d2bf8233ac2a0d5cde22e2000d7f0ec",
  "r1188_note": "The tree was not dirty in the ordinary sense -- it was a stale pre-r1310 snapshot applied over origin, i.e. every row looked like a normal M/D and committing it would have deleted another machine's shipped files. Root cause stays r1187's: `pull --rebase --autostash` on a tree with 50 M staged/unstaged files. Detection now has three stations (probe at open -> pre-commit marker claw -> pre-push ownership claw) instead of one. Disclosure: smoke was run twice this round -- the 93/93 quoted here is the second run, taken AFTER the probe and its smoke leg landed; the first run (also 93/93, same tree minus the new file) is the one that started at 19:59. The E97 face was re-derived and included unchanged in substance (13 covered / 11 uncovered / 8 runners).",
  "r1188_pit": "`git ls-tree -r --name-only` quotes CJK paths (\"content/drama/\\346...\") unless core.quotepath=false, so os.path.exists() on the printed name fails and every CJK file reads as 'missing from the tree'. Parse with -z and split on NUL; the probe pins this with 3 selftest legs.",
+ "r1188_postscript": "The probe flagged the r1188 class a second time in the same round, after origin advanced to 034909a2: the worktree still held 41 pre-tip copies of bm-c's faces. Restored from origin; only actively-written lane files are dirty now. Law: run the probe AFTER catching up too -- a fetch that advances origin makes every untouched file stale.",
+ "r1188_push": {
+  "base": "034909a2 (bm-c r1313, arrived mid-round)",
+  "note": "tree surgery onto fresh tip; results/_attrition_guard_scan.json left to origin; ls-remote == HEAD, ahead 0 behind 0",
+  "pushed_sha": "f59eefe82c",
+  "status": "PUSHED_VERIFIED"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -712,8 +719,8 @@
  "task": "r1189: stand the tree-poison probe at round open, then take the staletail twin (228 cells, the largest unscreened runner)",
  "task_short": "tree poison probe + E118 staletail twin",
  "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-27T20:04:16+08:00",
- "updated": "2026-10-27T20:04:16+08:00",
- "updated_at": "2026-10-27T20:04:16+08:00",
+ "ts": "2026-10-27T20:15:21+08:00",
+ "updated": "2026-10-27T20:15:21+08:00",
+ "updated_at": "2026-10-27T20:15:21+08:00",
  "verdict": "green r1188: smoke 93/93 PASS 0 FAIL (with the new leg) | tree_poison_probe selftest 15/15, live verdict CLEAN | the 62-file revert of another machine's work is out of the tree | dualrun ZERO-DRIFT streak 9 | attrition CLEAN | orphan face=0"
 }
