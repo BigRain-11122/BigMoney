@@ -74,6 +74,54 @@ USED_KEYS = (
 TOTAL_KEYS = ("gpu_mem_total_mib", "gpu_total_vram_mib")
 GB_KEYS = ("gpu_free_gb", "gpu_free_vram_gb", "free_vram_gb", "vram_free_gb")
 
+# r1177: the spelling table has now been widened by ENUMERATION three times (the
+# prefix rule r1299, the RAM list r1169, the free GB pair r1169b) and each time a
+# new spelling landed on the live face with a random round's number. The durable
+# form is to derive family and unit from the tokens, then let apply() restate
+# whatever spelling the face actually carries.
+_FILLER_TOKENS = {"gpu", "vram", "mem", "memory", "v", "mb", "mib", "gb"}
+
+
+def gpu_mem_family(k):
+    """('free'|'used'|'total', 'gb'|'mib') for a GPU-memory spelling, else (None, None)."""
+    if not gpu_mem_key(k):
+        return (None, None)
+    toks = [t for t in k.lower().split("_") if t]
+    if not toks:
+        return (None, None)
+    unit = "gb" if toks[-1] == "gb" else "mib"
+    body = set(toks) - _FILLER_TOKENS
+    if "total" in body:
+        return ("total", unit)
+    if "used" in body:
+        return ("used", unit)
+    if "free" in body or "idle" in body:
+        return ("free", unit)
+    return (None, None)
+
+
+def restate(face, fields):
+    """Fields for every numeric GPU-memory spelling the face already carries.
+
+    apply() writes the canonical aliases; this covers the aliases nobody tabulated
+    (vram_used_gb was the live one) so a spelling cannot age just by being new.
+    String-valued keys are left alone: the '<free>, <total>' pair has its own leg.
+    """
+    total = fields["gpu_mem_total_mib"]
+    used = fields["gpu_used_mib"]
+    value = {"free": total - used, "used": used, "total": total}
+    extra = {}
+    for k, v in face.items():
+        if k in fields or k in PAIR_FREE_TOTAL:
+            continue
+        if not isinstance(v, (int, float)) or isinstance(v, bool):
+            continue
+        fam, unit = gpu_mem_family(k)
+        if fam is None:
+            continue
+        extra[k] = round(value[fam] / 1024.0, 1) if unit == "gb" else value[fam]
+    return extra
+
 # one disagreement of this size or more is a defect (probe granularity is 1 MiB)
 TOL_MIB = 64.0
 
@@ -205,14 +253,21 @@ def audit(face):
                         "gap_mib": round((f + u) - t, 1)})
     known = set(FREE_KEYS) | set(USED_KEYS) | set(TOTAL_KEYS) | set(PAIR_FREE_TOTAL) | {
         "gpu_util_pct", "gpu_face", "gpu_face_ts", "gpu_face_source"}
+    # r1177: ownership is "apply() will refresh it", not "somebody tabulated it".
+    # A numeric spelling with a derivable family is restated by the probe, so it
+    # can no longer age; what still ages is a GPU-memory key whose value is a
+    # formatted string (numeric pass cannot touch it) and is not the known pair.
     unowned = sorted(k for k in face
                      if k not in known and gpu_mem_key(k)
-                     and isinstance(face.get(k), (int, float)))
+                     and (not isinstance(face.get(k), (int, float))
+                          or isinstance(face.get(k), bool)
+                          or gpu_mem_family(k)[0] is None))
     if unowned:
         out.append({"family": "unowned",
                     "keys": unowned,
-                    "note": "GPU-memory key outside the spelling table: add it to "
-                            "FREE_KEYS/USED_KEYS or consumers read a random round"})
+                    "note": "GPU-memory key the probe cannot restate (formatted value "
+                            "or underivable family): normalise it or consumers read a "
+                            "random round"})
     # pair keys are invisible to the numeric pass, so they get their own leg
     for k in PAIR_FREE_TOTAL:
         if k not in face:
@@ -282,6 +337,12 @@ def cmd_apply(project=ROOT, smi=None):
         return 2
     stamp = _stamp()
     fields = fields_from(p, stamp)
+    mid, hb_path = _paths(project)
+    if os.path.exists(hb_path):
+        try:
+            fields.update(restate(_load(hb_path), fields))
+        except Exception as ex:  # an unreadable face must not block the canonical write
+            print(json.dumps({"restate_skipped": str(ex)[:120]}, sort_keys=True))
     sys.path.insert(0, ROOT)
     from Tools import heartbeat_write
     v, rc = heartbeat_write.write(project, fields)
@@ -361,17 +422,32 @@ def selftest():
     leg("L5a gpu_vram_used_mb is rewritten by the same probe", 11688,
         f["gpu_vram_used_mb"])
 
-    # L5b an invented numeric GPU key outside the table is reported, not silently
-    # shadowing the canonical value
+    # L5b r1177: an invented numeric spelling is RESTATED by the pattern rule, so
+    # it cannot age just by being new (this replaces the "report it as unowned"
+    # leg, which only held while ownership was an enumeration).
     stray = dict(f, gpu_memory_free_gb=1.0)
-    leg("L5b audit reports an unowned GPU-memory key", True,
-        any(x["family"] == "unowned" for x in audit(stray)))
+    filled = dict(stray, **restate(stray, f))
+    leg("L5b an invented numeric spelling is restated", 4.6,
+        filled["gpu_memory_free_gb"])
+    leg("L5b an invented numeric spelling audits clean once restated", [], audit(filled))
+    # L5c what still ages is a formatted value the numeric pass cannot touch
+    leg("L5c a formatted GPU value outside the pair table is reported", True,
+        any(x["family"] == "unowned"
+            for x in audit(dict(f, gpu_memory_free="4.6 GB"))))
+    # L5d the live defect of r1177: vram_used_gb (used family, GB unit) sat outside
+    # every table while all of its MiB siblings were rewritten
+    live = dict(f, vram_used_gb=2.0)
+    fixed = dict(live, **restate(live, f))
+    leg("L5d vram_used_gb is restated from the same probe", 11.4, fixed["vram_used_gb"])
+    leg("L5d a heartbeat carrying vram_used_gb audits clean once restated", [],
+        audit(fixed))
 
     # L7 r1299: an un-prefixed spelling is a GPU key too. `free_vram_mb` sat beside
     # 13 gpu_* keys with a 14-round-old value and nothing reported it.
     leg("L7 free_vram_mb is written by the probe", 4696, f["free_vram_mb"])
-    leg("L7a an un-prefixed stray is reported", True,
-        any(x["family"] == "unowned" for x in audit(dict(f, vram_free_mb=1))))
+    leg("L7a an un-prefixed stray is restated, not left stale", 4696,
+        dict(dict(f, vram_free_mb=1), **restate(dict(f, vram_free_mb=1), f))[
+            "vram_free_mb"])
     leg("L7b RAM keys are not claimed as GPU keys", False, gpu_mem_key("free_ram_gb"))
 
     # L8 the pair key: written from one probe, parsed by the audit, and a stale pair
