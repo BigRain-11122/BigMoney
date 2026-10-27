@@ -767,10 +767,10 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1193,
- "round_no": 1194,
- "round_no_label": "r1193",
- "round_no_ts": "2026-10-27T22:16:00+08:00",
+ "round": 1194,
+ "round_no": 1195,
+ "round_no_label": "r1194",
+ "round_no_ts": "2026-10-28T00:56:00+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
   "checked_at": "2026-10-27T12:06:00+08:00",
@@ -781,15 +781,37 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "base = origin tip 21f731326 (bm-a r1134 postscript)",
+  "note": "base = origin tip 350c9bf0b",
   "status": "PENDING_THIS_PUSH",
-  "ts": "2026-10-28T00:31:18+08:00"
+  "ts": "2026-10-28T00:56:00+08:00"
  },
- "task": "r1194: E122 warm-spread screened twin (pool ready 3: E122/E123/E124)",
- "task_short": "E122 warm-spread screened twin",
- "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-28T00:31:18+08:00",
- "updated": "2026-10-28T00:31:18+08:00",
- "updated_at": "2026-10-28T00:31:18+08:00",
- "verdict": "green r1193: absorbed r1192 estate (E121 face + surgery_commit builder) | D-20261028-02 closed -- machine-health root cause is the writer carrying its own damaged output forward, fixed on both sides (adopt-rule + canonical map + fail-closed consumer) | smoke 103/103 | dualrun streak 15 | attrition CLEAN | orphan 0 | D-19 delta consumed | group gate wired"
+ "task": "r1195: E123 pair screened twin (pool ready: E123/E124)",
+ "task_short": "E123 pair screened twin",
+ "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
+ "ts": "2026-10-28T00:56:00+08:00",
+ "updated": "2026-10-28T00:56:00+08:00",
+ "updated_at": "2026-10-28T00:56:00+08:00",
+ "verdict": "green r1194: E122 warm-spread screened twin shipped -- the ORDERING survives the print repair (0 ordering claims move, both warm and cold orders identical on both arms) while the LEVELS do not (17/68 cells, three 2024-now levels flip sign under 67 neutralised prints); smoke 103/103 | e39 selftest 427/427 | e97 covered_twin 16 -> 19 | dualrun ZERO-DRIFT streak 16 | attrition CLEAN | orphan 0 | d19 no new decisions/orders",
+ "orphan": 0,
+ "r1194": {
+  "card": "E160",
+  "product": [
+   "results/e45_warm_spread/WARMSPREADSCREEN-20261027.json (new twin face)",
+   "results/e45_warm_spread/WARMSPREAD-arm-raw-20261027.json / -neutralise_int- (per-arm checkpoints)",
+   "research/digests/DIGEST-20261027-e122-warmspread-screened.md",
+   "knowledge/METHODOLOGY_ASSETS.md E160",
+   "scripts/e39_panel_census.py: run_warmspread(raw=) seam + run_warmspreadscreened + _warmspread_arm_cells / _warmspread_ordering / _warmspread_arm_dates + CLI mode warmspreadscreened (selftest 393 -> 427)",
+   "scripts/e97_routing.py TWIN_FUNCS += run_warmspreadscreened",
+   "results/e79/ROUTING-20261027.json re-derived (covered_twin 16 -> 19, uncovered 8 -> 5)",
+   "results/runnable_pool.json E122 -> done (result_ref filed), 2 ready left"
+  ],
+  "finding": "ordering survives, levels do not: warm order 2024_now>pre2017>2021_2023>2017_2020 and cold order 2024_now>2021_2023>pre2017>2017_2020 are identical on both arms, while 17 of 68 numeric cells move (8 wide / 4 spread / 0 ladder / 5 other, max 133 bp) and three 2024-now levels change sign: cold spread -55 -> +25 bp, live-window spread -92 -> +41 bp, cold_minus_live 37 -> -16. The ladder book (fixed five names) moves 0 cells: the repair reaches the wide book only, which is what licenses attributing the 8 wide moves to it.",
+  "controls": "same arm vs itself 0 of 68 and 0 ordering; cutoff control (raw WARMSPREAD-20261020 vs today raw arm) 17 cells max 37.0 bp 0 ordering -> repair-dominated (3.6x), and the two controls move DIFFERENT books: the refresh moves ladder cells (annualisation on 675->680 bars), the repair moves zero ladder cells.",
+  "pit": "(a) first burn attributed 0 wide / 13 other beside a wide-derived worst cell: the test was the infixed form '/'+'wide'+'/' in start, but harvest keys END with the leg name, so every wide cell fell into other (E94 family, third recurrence). Fixed to endswith; the face now publishes moved_attribution_complete so a bucket that fails to sum is visible to the reader, and two selftest legs pin both the wrong test and the right one. (b) the twin first wrote to results/e44_midmonth while E45 publishes to results/e45_warm_spread, so cutoff_control returned null (the E159 pit). The search now starts at the raw face directory and the control is real (37 bp).",
+  "s6": "dualrun ZERO-DRIFT 647 entries streak 16 | compute_audit FLAG:gpu_unauthorized,supply_gap,supply_floor (pool 2<3) | watermark py_low_with_work_cands (2 twins are design legs without runner/shards; autofill says pool_empty_or_busy = legitimate no-op) | update_daily 0 new rows (cutoff 2026-10-27, 15:30 guard) | attrition CLEAN 4 ledgers",
+  "escalated": "GPU util 100% with rogue app uv python.exe = the drama voicegen batch: OB-20261027-211206 tells bm-b to run its voice lane while C-20261014-01 s3 parks this machine's GPU. Carried forward from r1193; reported, nothing killed.",
+  "d19": "decisions+orders unchanged (d19 probe: changed=false both, triple 95c1051)",
+  "selftest": "e39 393 -> 427/427; e97 15/15",
+  "smoke": "103/103 PASS"
+ }
 }

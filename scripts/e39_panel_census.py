@@ -3600,12 +3600,16 @@ def _cash_accrual_pct(cash, cal_x, upto_date):
     return round((tot - 1.0) * 100.0, 3)
 
 
-def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",)):
-    """E45: does the era ordering survive once the dead block is outside the window?"""
+def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), raw=None):
+    """E45: does the era ordering survive once the dead block is outside the window?
+
+    ``raw`` (E122) lets the screened twin hand in an already repaired universe so
+    both arms are burned off one load; passing it skips the loader entirely.
+    """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -3749,6 +3753,268 @@ def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",)):
             "the ratio of two rebased ann% is not a tradable sleeve, and era slices are not "
             "additive across eras",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _warmspread_arm_cells(face, starts=None):
+    """(E122) -> {(key, column): value} for every cell the warm-spread leg publishes.
+
+    E45 publishes a PAIR per era -- the warm (full-calendar, sliced) spread and the
+    cold (era-restarted) spread -- plus their difference. A repair that changes
+    which name the wide book holds on a monthly decision can move one side of that
+    pair and not the other, so all three are harvested per era. The width book is
+    the only book a print repair can reach: the five-name ladder is a fixed list,
+    so a moved ``ladder`` cell means something other than a repair effect.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        key = "era/" + era
+        out[(key, "bars")] = row.get("bars")
+        for arm in ("warm", "cold"):
+            a = row.get(arm) or {}
+            out[(key + "/" + arm, "spread_bp")] = a.get("spread_bp")
+            out[(key + "/" + arm, "dead_block_bars")] = a.get("dead_block_bars")
+            out[(key + "/" + arm, "dead_block_share_pct")] = (
+                a.get("dead_block_share_pct"))
+            for leg in ("ladder", "wide"):
+                f = a.get(leg) or {}
+                out[(key + "/" + arm + "/" + leg, "ann_return_pct")] = (
+                    f.get("ann_return_pct"))
+                out[(key + "/" + arm + "/" + leg, "max_drawdown_pct")] = (
+                    f.get("max_drawdown_pct"))
+        out[(key, "warm_minus_cold_bp")] = row.get("warm_minus_cold_bp")
+        live = row.get("warm_live_window") or {}
+        out[(key, "warm_live_spread_bp")] = live.get("spread_bp")
+    ans = face.get("answers") or {}
+    for col in ("cold_minus_live_bp", "max_warm_minus_cold_bp"):
+        out[("answers", col)] = ans.get(col)
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def _warmspread_ordering(face):
+    """(E122) the published claim of E45: two orders and their booleans."""
+    ans = face.get("answers") or {}
+    warm = list(ans.get("warm_order_thinnest_to_widest") or [])
+    cold = list(ans.get("cold_order_thinnest_to_widest") or [])
+    return {
+        "warm_order": [k for k, _v in warm],
+        "cold_order": [k for k, _v in cold],
+        "newest_era_is_thinnest_warm": bool(ans.get("newest_era_is_thinnest_warm")),
+        "newest_era_is_thinnest_cold": bool(ans.get("newest_era_is_thinnest_cold")),
+        "ordering_preserved": bool(ans.get("ordering_preserved")),
+        "spreads_warm": {k: v for k, v in warm},
+        "spreads_cold": {k: v for k, v in cold},
+    }
+
+
+def _warmspread_arm_dates(face, starts=None):
+    """(E122) the ordering claims travel as strings/booleans, not as numbers.
+
+    An ordering can flip while every spread in it moves by less than a basis
+    point, so the join needs a second layer that reports the claim itself. Without
+    it a twin could publish "0 cells moved" while the leg's headline answer became
+    the opposite one.
+    """
+    o = _warmspread_ordering(face)
+    return {"ordering": {
+        "warm_order": ">".join(o["warm_order"]),
+        "cold_order": ">".join(o["cold_order"]),
+        "newest_era_is_thinnest_warm": o["newest_era_is_thinnest_warm"],
+        "newest_era_is_thinnest_cold": o["newest_era_is_thinnest_cold"],
+        "ordering_preserved": o["ordering_preserved"],
+    }}
+
+
+def run_warmspreadscreened(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
+                           mode="neutralise_int", resume=True):
+    """E122: re-derive the WARM-SPREAD ordering on the screened arm, beside the raw.
+
+    E97 row 8 after the burnin/cutcurve/livespan/chase/early/split/stale/entrydelay
+    twins. E45's published reading is an ORDERING of eras by warm spread plus a
+    warm-vs-cold difference per era -- not a set of cells -- so the twin publishes
+    the two orders on each arm beside the moved-cell count. A repair that changes
+    which name the wide book holds on one monthly decision can flip the order of
+    two adjacent eras while moving every spread by under a basis point, and a
+    delta-only reading would call that "nothing happened".
+
+    Same machinery as E112-E119 otherwise: one load, both arms burned off it,
+    per-arm checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control
+    that must read zero, and a cutoff control against the newest previously
+    published raw face.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "WARMSPREAD-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "WARMSPREAD-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(eras=eras, pick_n=pick_n, exclude=exclude)
+    raw_arm = cached("raw", lambda: run_warmspread(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_warmspread(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _warmspread_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_warmspread_arm_cells,
+                             dates_fn=_warmspread_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_warmspread_arm_cells,
+                                dates_fn=_warmspread_arm_dates)["summary"]
+
+    # cutoff control: newest previously published raw face vs today's raw arm --
+    # same arm, two cutoffs, so it isolates the panel refresh. This leg's own raw
+    # face is published by the e45 CLI into results/e45_warm_spread, so the search
+    # must start there: looking only in the twin's own directory would return
+    # null, and null reads as "no older face exists" (E159 pit).
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e45_warm_spread"),
+                               outdir,
+                               os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("WARMSPREAD-") and p.endswith(".json")
+                    and not p.startswith("WARMSPREADSCREEN-")
+                    and not p.startswith("WARMSPREAD-arm-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("WARMSPREAD-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _warmspread_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_warmspread_arm_cells,
+                                     dates_fn=_warmspread_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+    orders = {"raw": _warmspread_ordering(raw_arm),
+              "screened": _warmspread_ordering(scr_arm)}
+    order_survives = (orders["raw"]["warm_order"] == orders["screened"]["warm_order"]
+                      and orders["raw"]["cold_order"] == orders["screened"]["cold_order"])
+    # the ladder book is a fixed five-name list: a moved ladder cell cannot be a
+    # repair effect and must be named separately from a moved wide book. Keys end
+    # WITH the leg name (".../warm/wide"), so the test must be endswith: an
+    # "/wide/" test matches nothing and silently reports zero wide moves while
+    # the OTHER bucket absorbs them (E94 family, third recurrence).
+    wide_moved = [r for r in pair["moved"] if r["start"].endswith("/wide")]
+    ladder_moved = [r for r in pair["moved"] if r["start"].endswith("/ladder")]
+    spread_moved = [r for r in pair["moved"] if r["column"] == "spread_bp"]
+    other_moved = [r for r in pair["moved"]
+                   if r not in wide_moved and r not in ladder_moved
+                   and r not in spread_moved]
+    return {
+        "study": "e122_warmspread_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_warmspread grew a raw= parameter this round: before it "
+                     "loaded the universe itself, so a twin could not burn both "
+                     "arms off one load"),
+            "join": ("_warmspread_arm_cells harvests per-era warm/cold spreads, "
+                     "dead-block bars, both curve faces and the answers scalars; "
+                     "_warmspread_arm_dates harvests the ORDERS themselves, because "
+                     "an ordering can flip without any spread moving past the "
+                     "delta floor"),
+        },
+        "screen_report": report,
+        "orders": orders,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "ordering_survives_the_repair": bool(order_survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for "
+                            "spreads, percent per year for ann_return_pct, bars for "
+                            "dead_block_bars -- the summary max is a max over mixed "
+                            "units and is a screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "wide_cells_moved": len(wide_moved),
+            "ladder_cells_moved": len(ladder_moved),
+            "spread_cells_moved": len(spread_moved),
+            "other_cells_moved": len(other_moved),
+            "ordering_cells_moved": len(pair["gate_dates_moved"]),
+            "moved_attribution_complete": (
+                len(wide_moved) + len(ladder_moved) + len(spread_moved)
+                + len(other_moved) == s["cells_moved"]),
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the warm-spread ordering survives the repair: %d of %d cells "
+                 "move (%d wide / %d spread / %d ladder) and both orders are "
+                 "unchanged" %
+                 (s["cells_moved"], s["cells_compared"], len(wide_moved),
+                  len(spread_moved), len(ladder_moved)))
+                if (survives and order_survives) else
+                ("the repair reaches the warm-spread face: %d of %d cells move "
+                 "(%d wide, %d spread, %d ladder, %d other), %d ordering claim(s) "
+                 "move, and %d cell(s) exist on one arm only" %
+                 (s["cells_moved"], s["cells_compared"], len(wide_moved),
+                  len(spread_moved), len(ladder_moved), len(other_moved),
+                  len(pair["gate_dates_moved"]),
+                  s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it does "
+            "not add or remove bars, so an unchanged universe_members count is a "
+            "property of the repair, not evidence the panel is clean",
+            "the warm curve pays the burn-in before the measured span by "
+            "construction, so a spread move on the warm arm can be a slightly "
+            "different weight path rather than a different decision",
+            "the five-name ladder is a constant list: a moved ladder cell names a "
+            "defect in the join or the cache, not a repair effect",
+            "orderings are read off the published face verbatim; a tie in spread "
+            "would make the order arbitrary and is disclosed by the raw spread map "
+            "rather than smoothed away",
         ],
     }
 
@@ -13245,6 +13511,72 @@ def selftest():
     chk((not _repo_has_old) or _none_face is not None,
         "E121 the published-face fallback survives a missing leg directory")
 
+    # E122 warm-spread screened twin: the harvest, the ordering layer, and the
+    # attribution law the twin burned itself with in its first live run (an
+    # "/wide/" test matches nothing because the keys END with the leg name).
+    _ws_face = {
+        "spec": {"universe_members": 1317},
+        "eras": {
+            "2024_now": {
+                "bars": 440,
+                "warm": {"spread_bp": 106.0, "dead_block_bars": 3,
+                         "dead_block_share_pct": 0.7,
+                         "ladder": {"ann_return_pct": 4.1, "max_drawdown_pct": -12.0},
+                         "wide": {"ann_return_pct": 10.45, "max_drawdown_pct": -19.9}},
+                "cold": {"spread_bp": -55.0, "dead_block_bars": 250,
+                         "dead_block_share_pct": 56.8,
+                         "ladder": {"ann_return_pct": 6.4, "max_drawdown_pct": -11.0},
+                         "wide": {"ann_return_pct": 5.88, "max_drawdown_pct": -19.9}},
+                "warm_minus_cold_bp": 161.0,
+                "warm_live_window": {"spread_bp": -92.0},
+            },
+        },
+        "answers": {"cold_minus_live_bp": 37.0, "max_warm_minus_cold_bp": 161.0,
+                    "warm_order_thinnest_to_widest": [["2024_now", 106.0], ["pre2017", 280.0]],
+                    "cold_order_thinnest_to_widest": [["2024_now", -55.0], ["pre2017", 120.0]],
+                    "newest_era_is_thinnest_warm": True,
+                    "newest_era_is_thinnest_cold": True,
+                    "ordering_preserved": True},
+    }
+    _ws_cells = _warmspread_arm_cells(_ws_face)
+    chk(_ws_cells[("era/2024_now/warm", "spread_bp")] == 106.0,
+        "E122 the harvest reads a per-era warm spread")
+    chk(_ws_cells[("era/2024_now/warm/wide", "ann_return_pct")] == 10.45,
+        "E122 the harvest reads the wide curve face under its arm")
+    chk(_ws_cells[("era/2024_now", "warm_live_spread_bp")] == -92.0,
+        "E122 the harvest reads the newest era's live-window spread")
+    chk(_ws_cells[("spec", "universe_members")] == 1317,
+        "E122 the harvest carries the universe count as a spec cell")
+    # the attribution law: a leg test must match the SUFFIX, or every wide cell
+    # falls into "other" and the face says zero wide moves while 8 moved.
+    _ws_keys = sorted({k[0] for k in _ws_cells})
+    chk([k for k in _ws_keys if k.endswith("/wide")]
+        == ["era/2024_now/cold/wide", "era/2024_now/warm/wide"],
+        "E122 leg attribution keys on the suffix, not an infixed separator")
+    chk(not [k for k in _ws_keys if "/wide/" in k],
+        "E122 an infixed '/wide/' test matches nothing -- that is the defect pinned")
+
+    _ws_order = _warmspread_ordering(_ws_face)
+    chk(_ws_order["warm_order"] == ["2024_now", "pre2017"],
+        "E122 the ordering layer reads the published warm order verbatim")
+    chk(_ws_order["cold_order"] == ["2024_now", "pre2017"],
+        "E122 the ordering layer reads the published cold order verbatim")
+    _ws_dates = _warmspread_arm_dates(_ws_face)
+    chk(_ws_dates["ordering"]["warm_order"] == "2024_now>pre2017",
+        "E122 the ordering travels as a comparable string, not a dict")
+    # a flipped order must be visible as a moved date column, not smoothed away
+    _ws_flip = dict(_ws_face)
+    _ws_flip["answers"] = dict(_ws_face["answers"])
+    _ws_flip["answers"]["warm_order_thinnest_to_widest"] = [["pre2017", 280.0],
+                                                            ["2024_now", 106.0]]
+    _pair = _burnin_pair_rows(_ws_face, _ws_flip, _ws_keys,
+                              cells_fn=_warmspread_arm_cells,
+                              dates_fn=_warmspread_arm_dates)
+    chk(_pair["summary"]["cells_moved"] == 0,
+        "E122 a pure order flip moves no numeric cell")
+    chk(_pair["summary"]["gate_dates_moved"] == 1,
+        "E122 a pure order flip is still reported by the order layer")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -15631,6 +15963,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
+                             "warmspreadscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen",
                              "midsweep", "entrydelay", "entrydelayscreen",
@@ -16252,6 +16585,22 @@ def main(argv):
                           "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"],
                           "control": f["control"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "warmspreadscreened":
+        outdir = os.path.join(ROOT, "results", "e45_warm_spread")
+        f = run_warmspreadscreened(outdir)
+        p = write_json(outdir, "WARMSPREADSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "warmspreadscreened",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "orders": {k: {"warm_order": v["warm_order"],
+                                         "cold_order": v["cold_order"]}
+                                     for k, v in f["orders"].items()},
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "ordering_moved":
+                                          f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
         return 0
     if args.mode == "earlydelay":
         costs = (tuple(float(x) for x in args.costs.split(","))

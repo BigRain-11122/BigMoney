@@ -81,6 +81,11 @@ TWIN_FUNCS = {
                                "results/e44_midmonth/NEIGHBORHOODSCREEN-*.json"),
     "run_rebaldayscreen": ("rebaldayscreen",
                            "results/e44_midmonth/REBALDAYSCREEN-*.json"),
+    # E122 (r1194): the warm-spread ordering twin. Declared in the same window it
+    # was built -- r1190/r1191 burned two twins before registering them and turned
+    # L15 red, so the registration is part of the leg's definition now.
+    "run_warmspreadscreened": ("warmspreadscreened",
+                               "results/e45_warm_spread/WARMSPREADSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

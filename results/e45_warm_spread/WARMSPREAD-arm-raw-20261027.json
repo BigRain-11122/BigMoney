@@ -1,0 +1,333 @@
+{
+ "study": "e45_warm_spread",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0,
+  "cost_bp_per_side": 13.041,
+  "calendar_from": "2012-05-28",
+  "min_bars": 250,
+  "warm": "one pair of curves on the full calendar, sliced per era",
+  "cold": "a fresh pair started at the era's own first bar, measured over the same era span",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "universe_members": 1271
+ },
+ "eras": {
+  "pre2017": {
+   "from": "2012-05-29",
+   "to": "2016-12-30",
+   "bars": 1120,
+   "warm": {
+    "ladder": {
+     "from": "2012-05-29",
+     "to": "2016-12-30",
+     "bars": 1120,
+     "ann_return_pct": 10.31,
+     "max_drawdown_pct": -45.2
+    },
+    "wide": {
+     "from": "2012-05-29",
+     "to": "2016-12-30",
+     "bars": 1120,
+     "ann_return_pct": 12.67,
+     "max_drawdown_pct": -40.27
+    },
+    "spread_bp": 236.0,
+    "first_invested_bar": "2013-07-01",
+    "dead_block_bars": 262,
+    "dead_block_share_pct": 23.41
+   },
+   "cold": {
+    "ladder": {
+     "from": "2012-05-29",
+     "to": "2016-12-30",
+     "bars": 1120,
+     "ann_return_pct": 10.31,
+     "max_drawdown_pct": -45.2
+    },
+    "wide": {
+     "from": "2012-05-29",
+     "to": "2016-12-30",
+     "bars": 1120,
+     "ann_return_pct": 12.67,
+     "max_drawdown_pct": -40.27
+    },
+    "spread_bp": 236.0,
+    "first_invested_bar": "2013-07-01",
+    "dead_block_bars": 262,
+    "dead_block_share_pct": 23.41,
+    "cash_accrued_in_dead_block_pct": 3.685
+   },
+   "warm_minus_cold_bp": 0.0
+  },
+  "2017_2020": {
+   "from": "2017-01-03",
+   "to": "2020-12-31",
+   "bars": 974,
+   "warm": {
+    "ladder": {
+     "from": "2017-01-03",
+     "to": "2020-12-31",
+     "bars": 974,
+     "ann_return_pct": 8.49,
+     "max_drawdown_pct": -32.79
+    },
+    "wide": {
+     "from": "2017-01-03",
+     "to": "2020-12-31",
+     "bars": 974,
+     "ann_return_pct": 12.68,
+     "max_drawdown_pct": -26.08
+    },
+    "spread_bp": 419.0,
+    "first_invested_bar": "2013-07-01",
+    "dead_block_bars": 0,
+    "dead_block_share_pct": 0.0
+   },
+   "cold": {
+    "ladder": {
+     "from": "2017-01-04",
+     "to": "2020-12-31",
+     "bars": 973,
+     "ann_return_pct": 5.91,
+     "max_drawdown_pct": -29.58
+    },
+    "wide": {
+     "from": "2017-01-04",
+     "to": "2020-12-31",
+     "bars": 973,
+     "ann_return_pct": 9.95,
+     "max_drawdown_pct": -23.17
+    },
+    "spread_bp": 404.0,
+    "first_invested_bar": "2018-02-01",
+    "dead_block_bars": 265,
+    "dead_block_share_pct": 27.24,
+    "cash_accrued_in_dead_block_pct": 4.364
+   },
+   "warm_minus_cold_bp": 15.0
+  },
+  "2021_2023": {
+   "from": "2021-01-04",
+   "to": "2023-12-29",
+   "bars": 727,
+   "warm": {
+    "ladder": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -10.81,
+     "max_drawdown_pct": -34.3
+    },
+    "wide": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -8.38,
+     "max_drawdown_pct": -28.75
+    },
+    "spread_bp": 243.0,
+    "first_invested_bar": "2013-07-01",
+    "dead_block_bars": 0,
+    "dead_block_share_pct": 0.0
+   },
+   "cold": {
+    "ladder": {
+     "from": "2021-01-05",
+     "to": "2023-12-29",
+     "bars": 726,
+     "ann_return_pct": -8.25,
+     "max_drawdown_pct": -27.37
+    },
+    "wide": {
+     "from": "2021-01-05",
+     "to": "2023-12-29",
+     "bars": 726,
+     "ann_return_pct": -6.46,
+     "max_drawdown_pct": -22.52
+    },
+    "spread_bp": 179.0,
+    "first_invested_bar": "2022-02-07",
+    "dead_block_bars": 261,
+    "dead_block_share_pct": 35.95,
+    "cash_accrued_in_dead_block_pct": 2.463
+   },
+   "warm_minus_cold_bp": 64.0
+  },
+  "2024_now": {
+   "from": "2024-01-02",
+   "to": "2026-10-27",
+   "bars": 680,
+   "warm": {
+    "ladder": {
+     "from": "2024-01-02",
+     "to": "2026-10-27",
+     "bars": 680,
+     "ann_return_pct": 9.39,
+     "max_drawdown_pct": -25.43
+    },
+    "wide": {
+     "from": "2024-01-02",
+     "to": "2026-10-27",
+     "bars": 680,
+     "ann_return_pct": 10.45,
+     "max_drawdown_pct": -19.9
+    },
+    "spread_bp": 106.0,
+    "first_invested_bar": "2013-07-01",
+    "dead_block_bars": 0,
+    "dead_block_share_pct": 0.0
+   },
+   "cold": {
+    "ladder": {
+     "from": "2024-01-03",
+     "to": "2026-10-27",
+     "bars": 679,
+     "ann_return_pct": 6.43,
+     "max_drawdown_pct": -25.43
+    },
+    "wide": {
+     "from": "2024-01-03",
+     "to": "2026-10-27",
+     "bars": 679,
+     "ann_return_pct": 5.88,
+     "max_drawdown_pct": -19.9
+    },
+    "spread_bp": -55.0,
+    "first_invested_bar": "2025-02-05",
+    "dead_block_bars": 259,
+    "dead_block_share_pct": 38.14,
+    "cash_accrued_in_dead_block_pct": 2.024
+   },
+   "warm_minus_cold_bp": 161.0,
+   "warm_live_window": {
+    "from": "2025-02-05",
+    "to": "2026-10-27",
+    "bars": 420,
+    "ladder": {
+     "from": "2025-02-05",
+     "to": "2026-10-27",
+     "bars": 420,
+     "ann_return_pct": 9.38,
+     "max_drawdown_pct": -25.43
+    },
+    "wide": {
+     "from": "2025-02-05",
+     "to": "2026-10-27",
+     "bars": 420,
+     "ann_return_pct": 8.46,
+     "max_drawdown_pct": -19.9
+    },
+    "spread_bp": -92.0
+   }
+  }
+ },
+ "answers": {
+  "warm_order_thinnest_to_widest": [
+   [
+    "2024_now",
+    106.0
+   ],
+   [
+    "pre2017",
+    236.0
+   ],
+   [
+    "2021_2023",
+    243.0
+   ],
+   [
+    "2017_2020",
+    419.0
+   ]
+  ],
+  "cold_order_thinnest_to_widest": [
+   [
+    "2024_now",
+    -55.0
+   ],
+   [
+    "2021_2023",
+    179.0
+   ],
+   [
+    "pre2017",
+    236.0
+   ],
+   [
+    "2017_2020",
+    404.0
+   ]
+  ],
+  "newest_era_is_thinnest_warm": true,
+  "newest_era_is_thinnest_cold": true,
+  "ordering_preserved": false,
+  "newest_era_live_window": {
+   "from": "2025-02-05",
+   "to": "2026-10-27",
+   "bars": 420,
+   "ladder": {
+    "from": "2025-02-05",
+    "to": "2026-10-27",
+    "bars": 420,
+    "ann_return_pct": 9.38,
+    "max_drawdown_pct": -25.43
+   },
+   "wide": {
+    "from": "2025-02-05",
+    "to": "2026-10-27",
+    "bars": 420,
+    "ann_return_pct": 8.46,
+    "max_drawdown_pct": -19.9
+   },
+   "spread_bp": -92.0
+  },
+  "cold_minus_live_bp": 37.0,
+  "max_warm_minus_cold_bp": 161.0,
+  "cold_dead_block_share_pct_by_era": {
+   "pre2017": 23.41,
+   "2017_2020": 27.24,
+   "2021_2023": 35.95,
+   "2024_now": 38.14
+  },
+  "cold_cash_accrued_in_dead_block_pct_by_era": {
+   "pre2017": 3.685,
+   "2017_2020": 4.364,
+   "2021_2023": 2.463,
+   "2024_now": 2.024
+  }
+ },
+ "honest": [
+  "the warm slice pays the burn-in on bars before the measured span, so it prices the spec; the cold window is the same spec started at the era's own first bar, and the gap is the gate plus whatever the dead block accrued at the repo rate",
+  "the pre2017 era starts where the panel starts, so its warm and cold quotes are the same curve by construction -- that is a disclosure, not a measurement",
+  "the dead block is identified by the first decision the 250-bar rule allows, not by inspecting weights; no rebalance before it can hold a name",
+  "the ratio of two rebased ann% is not a tradable sleeve, and era slices are not additive across eras",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

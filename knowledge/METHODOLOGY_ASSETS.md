@@ -1519,3 +1519,39 @@ Evidence: results/e44_midmonth/REBALDAYSCREEN-20261027.json, scripts/e39_panel_c
 run_rebaldayscreen / _rebalday_arm_cells / _rebalday_cell_role / _rebalday_shift_verdict /
 _rebalday_older_raw (selftest 403 -> 416), scripts/e97_routing.py TWIN_FUNCS,
 research/digests/DIGEST-20261027-e121-rebalday-twin.md.
+
+## E160 An ordering that survives a repair says nothing about the levels inside it (2026-10-28 r1194 bm-b)
+
+The E45 warm-spread leg publishes two ORDERINGS of eras (warm and cold, thinnest to widest)
+plus a warm-vs-cold difference per era. Its screened twin (E122) had to answer two questions
+that a delta table cannot separate:
+
+1) **Publish the order layer beside the cell layer.** `_warmspread_arm_dates` renders each
+   published order as a comparable string (`2024_now>pre2017>2021_2023>2017_2020`) and hands it
+   to the same `_burnin_pair_rows` join. Result: 17 of 68 numeric cells moved (max 133 bp) while
+   **0 ordering claims moved** -- so `ordering_survives_the_repair=true` AND
+   `counts_survive_the_repair=false` at the same time. A twin that read only deltas would have
+   said "the repair reaches this face" and stopped there, missing the one claim the leg exists
+   to make. Pinned by a selftest leg that flips an order in a synthetic face and asserts
+   `cells_moved==0` while `gate_dates_moved==1`.
+2) **A zero can be the control that licenses the reading.** The ladder book is a fixed
+   five-name list, so a repaired print can never enter it: 0 of its cells moved while 8 wide
+   cells moved. That zero is what makes the 8 moves attributable to the repair rather than to
+   the join -- without a book the repair cannot reach, "the numbers moved" has no owner.
+3) **Leg attribution must key on the SUFFIX.** First live burn reported `0 wide / 13 other`
+   beside a worst cell derived from the wide book, because the test was `"/wide/" in start`
+   and the harvest keys end with the leg name (`era/2021_2023/warm/wide`) with no trailing
+   slash. E94's "a label must not be narrower than its evidence" family, third recurrence;
+   the face now publishes `moved_attribution_complete` so a bucket that fails to sum to
+   `cells_moved` is visible to the reader, and two selftest legs pin both the wrong test
+   (matches nothing) and the right one (finds warm AND cold wide).
+
+Cross-family reading: E95/E157 said levels are not levels; E122 says the same for an ORDERING's
+implied levels. Both orders held, yet two of the newest era's three headline levels changed
+sign under 67 neutralised prints of 1,317 names (cold spread -55 -> +25 bp, live-window spread
+-92 -> +41 bp, cold_minus_live 37 -> -16). Quoting "the newest era is thinnest" is safe;
+quoting any 2024-now bp figure off this face is not.
+
+Evidence: results/e44_midmonth/WARMSPREADSCREEN-20261027.json, scripts/e39_panel_census.py
+run_warmspreadscreened / _warmspread_arm_cells / _warmspread_ordering / _warmspread_arm_dates
+(selftest 393 -> 427), research/digests/DIGEST-20261027-e122-warmspread-screened.md.
