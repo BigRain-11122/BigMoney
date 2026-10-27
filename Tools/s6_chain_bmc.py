@@ -146,6 +146,12 @@ LEGS = [
     ("tree_shrink", ["python", "Tools/tree_shrink_guard.py", "check",
                      "--repo", ".", "--commits", "20"]),
     ("tree_shrink_group", ["python", "Tools/tree_shrink_guard.py", "check_group"]),
+    # r1134: r1133 could only DETECT the wipe, after the fact. A commit-tree
+    # cannot be hooked, but the push can: both repos now carry a pre-push
+    # tree-shrink gate (group face: the gap was that it had no pre-push at all).
+    # This leg proves the gates are installed and identical to the committed
+    # source, so a machine that "has the file" but never installed it shows red.
+    ("tree_shrink_gates", ["python", "Tools/tree_shrink_guard.py", "check_gates"]),
 ]
 
 

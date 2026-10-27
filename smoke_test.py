@@ -980,6 +980,19 @@ def main() -> int:
     except Exception as e:
         check("fleet: a partial-index commit cannot silently shrink the tree", False, str(e))
 
+    # Detecting a wipe after the push is too late (r1133 repaired it 25 minutes
+    # later). The push itself is hookable, so both repos carry a pre-push gate;
+    # this leg fails if a machine has the file but never installed it.
+    try:
+        _gg = subprocess.run([sys.executable, os.path.join("Tools", "tree_shrink_guard.py"),
+                              "check_gates"], capture_output=True, text=True,
+                             encoding="utf-8", errors="replace")
+        _gt = ((_gg.stdout or "") + (_gg.stderr or "")).strip().splitlines()
+        check("fleet: the tree-shrink push gate is installed in both repos",
+              _gg.returncode == 0, (_gt[0] if _gt else "")[:110])
+    except Exception as e:
+        check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
+
     return _finish()
 
 

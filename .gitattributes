@@ -1,0 +1,4 @@
+# Hook scripts are executed by sh: CRLF breaks them (see Tools/hooks/pre-commit
+# header). Pin the hooks and the tree-shrink gate to LF regardless of autocrlf.
+Tools/hooks/* text eol=lf
+Tools/git-hooks/* text eol=lf

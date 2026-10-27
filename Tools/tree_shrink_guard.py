@@ -168,6 +168,80 @@ def cmd_check_group(args) -> int:
 
 
 # --------------------------------------------------------------------------
+# gate wiring: a guard that is not installed is a document, not a gate. This
+# checks that both repos' push gates exist, are LF, and carry the same rule --
+# and that this machine's installed pre-push is the committed source (drift
+# check). Behavioural proof lives in selftest L8-L12, which pushes for real.
+# --------------------------------------------------------------------------
+
+GATE_TOKENS = ("TREE-SHRINK-GATE", "MAX_DROP", "MAX_PCT", "count_files")
+
+
+def _read_norm(path: str) -> str:
+    with open(path, "rb") as f:
+        return f.read().decode("utf-8", errors="replace").replace("\r\n", "\n")
+
+
+def cmd_check_gates(args) -> int:
+    here = os.path.dirname(os.path.abspath(__file__))
+    repo = os.path.dirname(here)
+    problems: list[str] = []
+
+    canon = os.path.join(here, "git-hooks", "tree-shrink-gate.sh")
+    hook_src = os.path.join(here, "git-hooks", "pre-push")
+    installed = os.path.join(repo, ".git", "hooks", "pre-push")
+    for p in (canon, hook_src):
+        if not os.path.isfile(p):
+            problems.append(f"missing committed gate file: {p}")
+    if os.path.isfile(canon):
+        txt = _read_norm(canon)
+        missing = [t for t in GATE_TOKENS if t not in txt]
+        if missing:
+            problems.append(f"{os.path.basename(canon)} lacks tokens {missing}")
+        if "\r" in open(canon, "rb").read().decode("utf-8", "replace"):
+            problems.append("gate file carries CR bytes (sh will break)")
+    if os.path.isfile(hook_src) and "tree-shrink-gate.sh" not in _read_norm(hook_src):
+        problems.append("bigmoney pre-push does not call the tree-shrink gate")
+    wired = os.path.isfile(installed) and os.path.isfile(hook_src) and \
+        _read_norm(installed) == _read_norm(hook_src)
+    if not wired:
+        problems.append("installed .git/hooks/pre-push differs from the committed "
+                        "source (run Tools/register_prepush_claw.ps1)")
+
+    grp = find_group_tree(os.getcwd())
+    group_state = "no group tree on this machine -- honest no-op"
+    if grp:
+        hp = ""
+        try:
+            hp = _git(grp, "config", "--get", "core.hooksPath").strip()
+        except RuntimeError:
+            hp = ""
+        ghook = os.path.join(grp, hp.replace("/", os.sep), "pre-push") if hp else ""
+        if not hp:
+            problems.append(f"group repo has no core.hooksPath, so a committed "
+                            f"hook would be ignored: {grp}")
+        elif not os.path.isfile(ghook):
+            problems.append(f"group push gate missing: {ghook}")
+        else:
+            gtxt = _read_norm(ghook)
+            missing = [t for t in GATE_TOKENS if t not in gtxt]
+            if missing:
+                problems.append(f"group push gate lacks tokens {missing}")
+            if "\r" in open(ghook, "rb").read().decode("utf-8", "replace"):
+                problems.append("group push gate carries CR bytes (sh will break)")
+            group_state = f"group gate present at {ghook} (hooksPath={hp})"
+
+    if problems:
+        print("tree-shrink gates BROKEN:")
+        for p in problems:
+            print(f"  - {p}")
+        return 1
+    print(f"tree-shrink gates wired: bigmoney pre-push installed+matches source, "
+          f"canonical gate {len(GATE_TOKENS)} tokens present | {group_state}")
+    return 0
+
+
+# --------------------------------------------------------------------------
 # selftest: a fixture repo where the second commit is built from a partial
 # index, exactly reproducing the ceebc703 failure mode.
 # --------------------------------------------------------------------------
@@ -275,6 +349,110 @@ def cmd_selftest() -> int:
             res5["clean"] and len(res5["shrinks"]) == 1
             and res5["shrinks"][0]["repaired"] is True,
             f"clean={res5['clean']} hits={len(res5['shrinks'])} tip={res5['tip_files']}")
+
+        # L8-L11: the real gate, exercised through git's own hook machinery
+        # (a check the tool can compute is not the same thing as a push that
+        # gets refused -- r1294: installed is not declared).
+        here = os.path.dirname(os.path.abspath(__file__))
+        canon = os.path.join(here, "git-hooks", "tree-shrink-gate.sh")
+        grp = find_group_tree(os.getcwd())
+        group = os.path.join(grp, "Tools", "hooks", "pre-push") if grp else ""
+
+        def push_fixture(tag: str, hook_src: str) -> tuple[str, str]:
+            base = os.path.join(tmp, tag)
+            origin = os.path.join(base, "origin.git")
+            work = os.path.join(base, "work")
+            os.makedirs(work)
+            _g(base, "init", "-q", "--bare", origin)
+            _g(work, "init", "-q", "-b", "main")
+            _g(work, "remote", "add", "origin", origin)
+            for i in range(40):
+                with open(os.path.join(work, f"f{i}.txt"), "w", encoding="utf-8") as f:
+                    f.write(f"{i}\n")
+            _g(work, "add", "-A")
+            _g(work, "commit", "-qm", "forty files")
+            _g(work, "push", "-q", "origin", "main")
+            hook_dir = os.path.join(work, ".git", "hooks")
+            shutil.copyfile(hook_src, os.path.join(hook_dir, "pre-push"))
+            os.chmod(os.path.join(hook_dir, "pre-push"), 0o755)
+            return origin, work
+
+        def partial_commit(work: str, base: str) -> str:
+            good = _g(work, "rev-parse", "HEAD")
+            pidx = os.path.join(base, "partial.index")
+            penv = dict(os.environ, GIT_INDEX_FILE=pidx,
+                        GIT_AUTHOR_NAME="tsg", GIT_AUTHOR_EMAIL="tsg@local",
+                        GIT_COMMITTER_NAME="tsg", GIT_COMMITTER_EMAIL="tsg@local")
+            with open(os.path.join(work, "receipt.md"), "w", encoding="utf-8") as f:
+                f.write("receipt\n")
+            pblob = _g(work, "hash-object", "-w", "receipt.md")
+            subprocess.run(["git", "-C", work, "read-tree", "--empty"], env=penv,
+                           capture_output=True, text=True)
+            subprocess.run(["git", "-C", work, "update-index", "--add", "--cacheinfo",
+                            f"100644,{pblob},receipt.md"], env=penv,
+                           capture_output=True, text=True)
+            ptree = _g_env(work, penv, "write-tree")
+            bad = _g_env_commit(work, penv, ptree, good)
+            _g(work, "reset", "-q", "--hard", bad)
+            return bad, good
+
+        # L8: an ordinary push passes the gate.
+        origin, work = push_fixture("canon_clean", canon)
+        with open(os.path.join(work, "note.txt"), "w", encoding="utf-8") as f:
+            f.write("note\n")
+        _g(work, "add", "-A")
+        _g(work, "commit", "-qm", "add one file")
+        rc = _g_rc(work, "push", "-q", "origin", "main")
+        leg("L8 an ordinary push passes the gate", rc == 0, f"rc={rc}")
+
+        # L9: the ceebc703 shape is refused by the push itself.
+        before = _g(origin, "rev-parse", "main")
+        bad, good = partial_commit(work, os.path.dirname(origin))
+        rc, err = _g_rc_err(work, "push", "origin", "main")
+        after = _g(origin, "rev-parse", "main")
+        leg("L9 a partial-index push is refused",
+            rc != 0 and "TREE-SHRINK-GATE" in err and before == after,
+            f"rc={rc} origin_same={before == after}")
+
+        # L10: the documented escape hatch still works.
+        rc = _g_rc(work, "push", "-q", "--no-verify", "origin", "main")
+        leg("L10 --no-verify still allows a deliberate bulk deletion", rc == 0,
+            f"rc={rc}")
+
+        # L11: a shrink that already sits in HISTORY and was repaired must not
+        # wedge the repo -- only commits being introduced are judged. This is
+        # the live group shape (ceebc703 repaired by 0aa00453).
+        ridx = os.path.join(os.path.dirname(origin), "repair.index")
+        renv = dict(os.environ, GIT_INDEX_FILE=ridx,
+                    GIT_AUTHOR_NAME="tsg", GIT_AUTHOR_EMAIL="tsg@local",
+                    GIT_COMMITTER_NAME="tsg", GIT_COMMITTER_EMAIL="tsg@local")
+        subprocess.run(["git", "-C", work, "read-tree", good], env=renv,
+                       capture_output=True, text=True)
+        rtree = _g_env(work, renv, "write-tree")
+        repair = _g_env_commit(work, renv, rtree, bad)
+        _g(work, "reset", "-q", "--hard", repair)
+        with open(os.path.join(work, "after.txt"), "w", encoding="utf-8") as f:
+            f.write("after\n")
+        _g(work, "add", "-A")
+        _g(work, "commit", "-qm", "work after the repair")
+        rc = _g_rc(work, "push", "-q", "origin", "main")
+        rc2 = _g_rc(work, "push", "-q", "origin", "main:refs/heads/tsg-repair")
+        leg("L11 repaired history does not wedge later pushes", rc == 0 and rc2 == 0,
+            f"rc={rc} new_branch_rc={rc2}")
+
+        # L12: the group-vendored copy blocks the same shape (no drift between
+        # the two repos' rules).
+        if os.path.isfile(group):
+            origin2, work2 = push_fixture("group_clean", group)
+            before2 = _g(origin2, "rev-parse", "main")
+            partial_commit(work2, os.path.dirname(origin2))
+            rc2, err2 = _g_rc_err(work2, "push", "origin", "main")
+            leg("L12 the group-vendored hook blocks the same shape",
+                rc2 != 0 and "TREE-SHRINK-GATE" in err2
+                and before2 == _g(origin2, "rev-parse", "main"), f"rc={rc2}")
+        else:
+            leg("L12 the group-vendored hook blocks the same shape", True,
+                "no group tree on this machine -- honest skip")
     except Exception as e:  # fixture failure is a real failure
         leg("fixture", False, str(e))
     finally:
@@ -283,6 +461,20 @@ def cmd_selftest() -> int:
     n_pass = sum(1 for _, ok, _ in legs if ok)
     print(f"\nselftest: {n_pass}/{len(legs)} PASS")
     return 0 if n_pass == len(legs) else 1
+
+
+def _g_rc(repo: str, *args: str) -> int:
+    return _g_rc_err(repo, *args)[0]
+
+
+def _g_rc_err(repo: str, *args: str) -> tuple[int, str]:
+    p = subprocess.run(
+        ["git", "-C", repo] + list(args), capture_output=True, text=True,
+        encoding="utf-8", errors="replace",
+        env=dict(os.environ, GIT_AUTHOR_NAME="tsg", GIT_AUTHOR_EMAIL="tsg@local",
+                 GIT_COMMITTER_NAME="tsg", GIT_COMMITTER_EMAIL="tsg@local",
+                 GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull))
+    return p.returncode, (p.stdout or "") + (p.stderr or "")
 
 
 def _g_env(repo: str, env: dict, *args: str) -> str:
@@ -320,6 +512,8 @@ def main() -> int:
     g.set_defaults(func=cmd_check_group)
     s = sub.add_parser("selftest", help="offline fixture tests")
     s.set_defaults(func=lambda a: cmd_selftest())
+    w = sub.add_parser("check_gates", help="verify both repos' push gates are installed")
+    w.set_defaults(func=cmd_check_gates)
     args = ap.parse_args()
     return args.func(args)
 

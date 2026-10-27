@@ -12,7 +12,19 @@
 # Escape hatch: git push --no-verify (state the reason in the round
 # report).
 # Install/refresh: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_prepush_claw.ps1
+#
+# r1134: the ref list is read ONCE here, because two gates now consume it. The
+# tree-shrink gate runs first: a push that would replace the tree with a much
+# smaller one is the failure mode that wiped the group face at ceebc703 (r1133
+# found it; this is the birth-place interception).
 anew="0000000000000000000000000000000000000000"
+refs=$(cat)
+GATE=Tools/git-hooks/tree-shrink-gate.sh
+if [ -f "$GATE" ]; then
+    printf '%s\n' "$refs" | sh "$GATE" || exit 1
+else
+    echo "[PRE-PUSH] WARN: $GATE missing -- tree-shrink check skipped (S6 tree_shrink leg still guards)" >&2
+fi
 while read local_ref local_sha remote_ref remote_sha; do
     if [ "$remote_ref" = "refs/heads/main" ]; then
         if [ "$local_sha" = "$anew" ]; then
@@ -24,5 +36,7 @@ while read local_ref local_sha remote_ref remote_sha; do
         fi
         python Tools/git_claw.py check-push "$remote_sha" "$local_sha" || exit 1
     fi
-done
+done <<EOF
+$refs
+EOF
 exit 0
