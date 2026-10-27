@@ -47,6 +47,10 @@ SPAN = [
     ("bond", "511010", "treasury bond ETF"),
 ]
 
+# Filled by `stagger_arm()` from the stagger face's own artefact before `build()` runs, so
+# a reader of the JSON can see which sleeve clock the second arm was priced on.
+STAGGER_CONFIG = {}
+
 
 def card_config(default=(12, 20, 0.08)):
     """Read the shipped configuration off the production card, never a hardcoded copy.
@@ -194,23 +198,25 @@ def _pstats(ser, label):
     return {k: m.get(k) for k in ("cagr", "sharpe", "maxdd", "vol", "years")}
 
 
-def build(openp=None, close=None, amt=None, score=None, n_hold=None, rebal=None,
-          vol_target=None, cost=P.COST, span=None, span_open=None):
-    """Book return series + span returns + the two regressions. Pure function of inputs."""
-    span = span or SPAN
-    keys = [c for _, c, _ in span]
-    span_flips = 0
-    if span_open is None:
-        _sc, span_open, span_flips = load_span_frames(span)
-    bt, ser = P.backtest(close, openp, amt, score, n_hold, rebal, cost=cost,
-                         vol_target=vol_target)
-    book_r = ser.pct_change().dropna()
-    sr = span_returns(span_open, keys)
+def _stats_of(ser):
+    """cagr/sharpe/maxdd/vol for an arm's equity curve (the shape the card quotes)."""
+    if ser is None or len(ser) < 3:
+        return None
+    m = A.stats2(ser, "arm")
+    return {k: m.get(k) for k in ("cagr", "sharpe", "maxdd", "vol", "years")}
+
+
+def arm_from_returns(book_r, sr, keys, equity=None, min_obs=60):
+    """Regress one arm's daily returns on the span set -> window + full/IS/OOS + walk-forward.
+
+    r1311: the single-book version of this was inlined in `build()`. Two arms have to be
+    priced through the SAME code path or their alphas are not comparable -- the r1262
+    lesson (an "A vs B" that silently ran different widths) applies to the arithmetic too,
+    not just to the experiment. So this is the only place a regression is fitted.
+    """
     idx = book_r.index.intersection(sr.dropna().index)
-    if len(idx) < 60:
-        return {"status": "insufficient_overlap", "n_obs": int(len(idx)),
-                "keys": keys,
-                "missing": [c for c in keys if c not in span_open.columns]}
+    if len(idx) < min_obs:
+        return {"status": "insufficient_overlap", "n_obs": int(len(idx))}
     y = book_r.loc[idx]
     X = sr.loc[idx, keys]
     full = ols(y, X)
@@ -231,6 +237,55 @@ def build(openp=None, close=None, amt=None, score=None, n_hold=None, rebal=None,
             "oos_predicted_annual": round(float(pred_is.mean()) * 252, 4),
             "n_oos": int(oos_mask.sum()),
         }
+    out = {
+        "window": [str(idx[0].date()), str(idx[-1].date())],
+        "obs": {"full": int(len(idx)), "is": int(is_mask.sum()), "oos": int(oos_mask.sum())},
+        "full": _fmt(full, keys),
+        "is": _fmt(is_fit, keys),
+        "oos": _fmt(oos_fit, keys),
+        "walkforward": wf,
+    }
+    if equity is not None:
+        eq = equity.loc[(equity.index >= idx[0]) & (equity.index <= idx[-1])]
+        out["stats"] = _stats_of(eq)
+    return out
+
+
+def build(openp=None, close=None, amt=None, score=None, n_hold=None, rebal=None,
+          vol_target=None, cost=P.COST, span=None, span_open=None, stagger_ser=None):
+    """Book return series + span returns + the two regressions. Pure function of inputs."""
+    span = span or SPAN
+    keys = [c for _, c, _ in span]
+    span_flips = 0
+    if span_open is None:
+        _sc, span_open, span_flips = load_span_frames(span)
+    bt, ser = P.backtest(close, openp, amt, score, n_hold, rebal, cost=cost,
+                         vol_target=vol_target)
+    book_r = ser.pct_change().dropna()
+    sr = span_returns(span_open, keys)
+    idx = book_r.index.intersection(sr.dropna().index)
+    if len(idx) < 60:
+        return {"status": "insufficient_overlap", "n_obs": int(len(idx)),
+                "keys": keys,
+                "missing": [c for c in keys if c not in span_open.columns]}
+    book_arm = arm_from_returns(book_r, sr, keys, equity=ser)
+    full, is_fit, oos_fit, wf = (book_arm["full"], book_arm["is"], book_arm["oos"],
+                                 book_arm["walkforward"])
+    is_mask = idx <= pd.Timestamp(P.IS_END)
+    oos_mask = idx > pd.Timestamp(P.IS_END)
+    arms = {"book": dict(book_arm, config={"n_hold": n_hold, "rebal": rebal,
+                                           "vol_target": vol_target,
+                                           "sleeves": 1})}
+    stagger_note = None
+    if stagger_ser is not None and len(stagger_ser) > 2:
+        s_arm = arm_from_returns(stagger_ser.pct_change().dropna(), sr, keys,
+                                 equity=stagger_ser)
+        if "full" in s_arm:
+            arms["staggered"] = dict(s_arm, config=STAGGER_CONFIG)
+            stagger_note = stagger_note or {}
+        else:
+            stagger_note = {"status": "insufficient_overlap",
+                            "n_obs": s_arm.get("n_obs")}
     bk = {}
     for key, code, label in span:
         s, turns = basket(span_open, [code], rebal, cost)
@@ -258,11 +313,13 @@ def build(openp=None, close=None, amt=None, score=None, n_hold=None, rebal=None,
                  "turnover_per_decision": bt["turnover_per_decision"],
                  "obs": {"full": int(len(idx)), "is": int(is_mask.sum()),
                          "oos": int(oos_mask.sum())}},
-        "full": _fmt(full, keys),
-        "is": _fmt(is_fit, keys),
-        "oos": _fmt(oos_fit, keys),
+        "full": full,
+        "is": is_fit,
+        "oos": oos_fit,
         "walkforward": wf,
         "span_portfolios": bk,
+        "arms": arms,
+        "stagger_note": stagger_note,
         "caveats": [
             "daily OLS, no HAC correction (non-overlapping daily returns; autocorrelation in "
             "the residual would only widen the alpha interval, so a t below 2 is not rescued "
@@ -293,12 +350,84 @@ def _fmt(fit, keys):
     }
 
 
+def stagger_arm(close, openp, amt, score):
+    """Price the staggered sleeve book on the same panel the card's book is priced on.
+
+    r1301 measured the stagger as a mechanism gain (turnover/drawdown) with no strategy or
+    capacity gain. The open question that leaves is whether its intercept is the same --
+    i.e. is the turnover saving the ONLY edge, or does splitting the clock also change what
+    the book is exposed to? That needs its daily return series through the same regression,
+    so it is priced here by the published stagger builder, not re-implemented.
+
+    Configuration is read off the stagger face's own artefact, never copied: r1288 class.
+    """
+    cfg_path = os.path.join(os.path.dirname(RESULT), "etf_book_stagger_publish.json")
+    cfg = {"n_total": 12, "rebal": 20, "vol_target": 0.08, "cost": P.COST,
+           "source": "fallback default (stagger artefact unreadable)"}
+    try:
+        with open(cfg_path, encoding="utf-8") as f:
+            doc = json.load(f)
+        # The stagger face publishes its rule under `machinery` (not `config`): reading the
+        # wrong key here silently prices the arm on a guessed configuration, which is the
+        # defect this branch exists to avoid -- it must fail loudly, not fall back quietly.
+        m = doc.get("machinery") or {}
+        cfg = {"n_total": int(m["n_total"]), "rebal": int(m["rebal"]),
+               "vol_target": float(m["vol_target"]),
+               "cost": float(m["cost_bp_per_side"]) / 1e4,
+               "sleeves": 2, "offset_bars": int(m["rebal"]) // 2,
+               "source": "results/etf_book_stagger_publish.json:machinery"}
+    except Exception as e:                                       # noqa: BLE001
+        cfg["source"] = "fallback default (%s: %s)" % (type(e).__name__, e)
+    STAGGER_CONFIG.clear()
+    STAGGER_CONFIG.update({k: cfg[k] for k in ("n_total", "rebal", "vol_target",
+                                               "cost", "sleeves", "offset_bars")
+                           if k in cfg})
+    STAGGER_CONFIG["source"] = cfg["source"]
+    try:
+        import etf_book_stagger_publish as S
+        ser, _turns, _trades = S.run_staggered(
+            close, openp, amt, score, rebal=cfg["rebal"], n_total=cfg["n_total"],
+            cost=cfg["cost"], vol_target=cfg["vol_target"])
+        return ser, {"config": cfg, "bars": int(len(ser))}
+    except Exception as e:                                       # noqa: BLE001
+        return None, {"status": "unavailable", "error": "%s: %s" % (type(e).__name__, e),
+                      "config": cfg}
+
+
+def stagger_control(out):
+    """Assert the arm priced here IS the published stagger book before quoting its alpha.
+
+    r1297's rule, applied to a second consumer: a comparison whose control arm is only
+    "something that looks like the book" measures the difference between two code paths.
+    The published stagger face is the reference; if this window's re-price drifts from it by
+    more than 0.5pp, the alpha beside it is describing a different book.
+    """
+    p = os.path.join(os.path.dirname(RESULT), "etf_book_stagger_publish.json")
+    try:
+        with open(p, encoding="utf-8") as f:
+            pub = float((json.load(f).get("staggered") or {})["cagr"])
+    except Exception as e:                                       # noqa: BLE001
+        return {"status": "published arm unreadable", "error": type(e).__name__}
+    stats = (((out.get("arms") or {}).get("staggered") or {}).get("stats") or {})
+    got = stats.get("cagr")
+    if got is None:
+        return {"status": "arm not priced"}
+    d = abs(got - pub)
+    return {"mine": round(got, 4), "published": round(pub, 4),
+            "delta_pp": round(d * 100, 3), "within_0p5pp": bool(d <= 0.005),
+            "source": "results/etf_book_stagger_publish.json:staggered.cagr"}
+
+
 def run(capital=1_000_000.0):
     n, rebal, vt, src = card_config()
     close, openp, amt, score, cls, n_flip = P.prep_panel()
+    stagger_ser, stagger_note = stagger_arm(close, openp, amt, score)
     out = build(openp=openp, close=close, amt=amt, score=score, n_hold=n, rebal=rebal,
-                vol_target=vt)
+                vol_target=vt, stagger_ser=stagger_ser)
+    if stagger_note and not out.get("stagger_note"):
+        out["stagger_note"] = stagger_note
     out["config_source"] = src
+    out["stagger_control"] = stagger_control(out)
     out["panel"] = {"universe": int(len(close.columns)), "flips_repaired": int(n_flip),
                     "last_bar": str(close.index[-1].date())}
     if "book" not in out:
@@ -314,8 +443,38 @@ def run(capital=1_000_000.0):
                       "r2": (out.get("full") or {}).get("r2"),
                       "book_cagr": out["book"]["cagr"],
                       "ew_basket_cagr": out["span_portfolios"]["equal_weight_basket"]["cagr"],
+                      "staggered": {k: (out["arms"]["staggered"]["full"] or {}).get(k)
+                                    for k in ("alpha_annual", "alpha_t", "r2",
+                                              "resid_vol_annual")}
+                      if (out.get("arms") or {}).get("staggered", {}).get("full") else None,
+                      "stagger_note": out.get("stagger_note"),
+                      "stagger_control": out.get("stagger_control"),
                       "path": RESULT}, ensure_ascii=False, indent=1))
     return 0
+
+
+def stagger_reading(book_full, sf):
+    """What the two intercepts mean together -- worded from the numbers, not from intent.
+
+    Three states, and they are not interchangeable: the staggered arm is priced on the
+    book's own universe, score, execution and cost, so a higher intercept means the split
+    clock changes the EXPOSURE. Whether that is a gain or an artefact has to be said out
+    loud, because "same alpha, less turnover" (r1301's verdict) and "different alpha" lead
+    to different next questions.
+    """
+    if not sf or sf.get("alpha_annual") is None or not book_full:
+        return "staggered arm could not be read"
+    d = sf["alpha_annual"] - book_full["alpha_annual"]
+    if sf["alpha_t"] >= 2.0 > (book_full.get("alpha_t") or 0.0):
+        return ("the split clock pushes the intercept over 2 sigma (+%.2fpp/yr) where the "
+                "single sleeve does not clear it -- a strategy difference, not a free lunch: "
+                "one arm over a t of 2 is the threshold, not a proven edge" % (d * 100))
+    if abs(d) < 0.02 and sf["alpha_t"] < 2.0:
+        return ("same intercept inside the noise band, so the turnover saving is the only "
+                "edge (r1301's verdict holds)")
+    return ("the arms do not share an intercept (%+.2fpp/yr, t %.2f vs %.2f) -- the clock "
+            "split is not just a turnover change" % (d * 100, sf["alpha_t"],
+                                                     book_full.get("alpha_t") or 0.0))
 
 
 def verdict(out):
@@ -342,6 +501,18 @@ def verdict(out):
               and v["sharpe"] > b["sharpe"]]
     if better:
         words.append("span arms with a higher Sharpe than the book: %s" % ", ".join(better))
+    arms = out.get("arms") or {}
+    st = arms.get("staggered")
+    if st and st.get("full"):
+        sf = st["full"]
+        words.append("staggered 6+6 arm: alpha %+.2f%%/yr (t=%.2f) vs book %+.2f%%/yr "
+                     "(t=%.2f), resid vol %.1f%% vs %.1f%% -- %s"
+                     % (sf["alpha_annual"] * 100, sf["alpha_t"], f["alpha_annual"] * 100,
+                        f["alpha_t"], (sf.get("resid_vol_annual") or 0.0) * 100,
+                        (f.get("resid_vol_annual") or 0.0) * 100,
+                        stagger_reading(f, sf)))
+    elif (out.get("stagger_note") or {}).get("status"):
+        words.append("staggered arm NOT priced: %s" % out["stagger_note"]["status"])
     return "; ".join(words)
 
 
@@ -443,6 +614,66 @@ def selftest():
     v3 = verdict(fake)
     chk("L9c a span arm above the book's Sharpe is named", "gold" in v3.split("higher Sharpe")[-1],
         v3[-50:])
+
+    # L10-L13: two arms through one regression path. The whole point of the second arm is
+    # that its alpha is comparable to the book's, which is only true if both are fitted by
+    # the same code -- so the identity control comes first.
+    sr_f = X  # span returns on the fixture calendar
+    base = arm_from_returns(y, sr_f, keys, equity=pd.Series(np.cumprod(1 + y), index=idx))
+    direct = ols(y, sr_f[keys])
+    chk("L10 arm regression equals a direct fit",
+        base["full"]["alpha_annual"] == round(direct["alpha"] * 252, 4),
+        "arm=%.6f direct=%.6f" % (base["full"]["alpha_annual"], direct["alpha"] * 252))
+    same = arm_from_returns(y, sr_f, keys)
+    chk("L11 identity control: the same series gives the same intercept",
+        same["full"]["alpha_annual"] == base["full"]["alpha_annual"],
+        "%s vs %s" % (same["full"]["alpha_annual"], base["full"]["alpha_annual"]))
+    # L12 planted difference must be detected in the direction it was planted, not just
+    #     "different" -- a sign-blind leg passes on any bug that flips the arm.
+    y_hi = y + 0.0002
+    hi = arm_from_returns(y_hi, sr_f, keys)
+    chk("L12 a planted +5bp/day arm reads higher",
+        hi["full"]["alpha_annual"] > base["full"]["alpha_annual"] + 0.05,
+        "%.3f vs %.3f" % (hi["full"]["alpha_annual"], base["full"]["alpha_annual"]))
+    # L13 an arm too short is refused, so a stub sleeve cannot print an alpha
+    chk("L13 short arm refused",
+        arm_from_returns(y.iloc[:30], sr_f.iloc[:30], keys).get("status")
+        == "insufficient_overlap")
+    # L14 verdict must say which of the two it is talking about
+    fa = {"book": {"cagr": 0.09, "sharpe": 0.9, "maxdd": -0.12},
+          "evidence_cutoff": "2026-10-26",
+          "span_portfolios": {"equal_weight_basket": {"cagr": 0.10, "sharpe": 0.9,
+                                                     "maxdd": -0.12}},
+          "full": {"alpha_annual": 0.058, "alpha_t": 1.94, "r2": 0.43,
+                   "resid_vol_annual": 0.09}}
+    fa["arms"] = {"staggered": {"full": {"alpha_annual": 0.060, "alpha_t": 1.80,
+                                         "r2": 0.40, "resid_vol_annual": 0.08}}}
+    chk("L14 verdict reports the staggered arm", "staggered 6+6 arm" in verdict(fa),
+        verdict(fa)[-90:])
+    fa.pop("arms")
+    fa["stagger_note"] = {"status": "unavailable"}
+    chk("L14b an unpriced arm is stated, not silently dropped",
+        "NOT priced" in verdict(fa), verdict(fa)[-60:])
+    # L15 the control assertion must always answer in a readable shape -- a status when it
+    #     cannot compare, a number when it can -- and never raise, because it sits on the
+    #     path that publishes the alpha.
+    ctl = stagger_control({})
+    chk("L15 control assertion never raises and says why it cannot compare",
+        isinstance(ctl, dict) and ("status" in ctl or "within_0p5pp" in ctl), str(ctl)[:80])
+    chk("L15b an arm that was not priced is not compared",
+        ctl.get("status") == "arm not priced", str(ctl)[:60])
+    # L16 the three readings of two intercepts are distinct sentences, so a rising t
+    #     cannot be printed as the old "same alpha" verdict.
+    bf = {"alpha_annual": 0.0585, "alpha_t": 1.94, "resid_vol_annual": 0.077}
+    r_same = stagger_reading(bf, {"alpha_annual": 0.0600, "alpha_t": 1.80})
+    r_cross = stagger_reading(bf, {"alpha_annual": 0.0677, "alpha_t": 2.36})
+    r_diff = stagger_reading(bf, {"alpha_annual": 0.0300, "alpha_t": 2.90})
+    chk("L16 same-intercept reading kept", "turnover saving is the only edge" in r_same,
+        r_same[:60])
+    chk("L16b a t crossing 2 is called a strategy difference", "over 2 sigma" in r_cross,
+        r_cross[:60])
+    chk("L16c three readings are three sentences",
+        len({r_same, r_cross, r_diff}) == 3, "%d distinct" % len({r_same, r_cross, r_diff}))
 
     print("%d/%d PASS" % (n_ok, n_all))
     return 0 if n_ok == n_all else 1

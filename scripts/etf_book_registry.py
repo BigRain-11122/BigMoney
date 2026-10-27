@@ -72,6 +72,15 @@ FACES = [
         "pointer": os.path.join("results", "etf_paper", "ledger.jsonl"),
         "chain_leg": "etf_paper_signal",
     },
+    {
+        # r1311: the page a human reads was the one face outside this register, so its
+        # lag against the ticket was only asserted inside smoke -- invisible in the
+        # artefact a reader actually opens (r1290 class on the last remaining face).
+        "id": "ceo_page",
+        "label": "CEO one-page mirror (what a human is told)",
+        "pointer": os.path.join("docs", "live_book", "latest.json"),
+        "chain_leg": "etf_book_ceo_page",
+    },
 ]
 
 
@@ -203,11 +212,58 @@ def _staggered_face(path):
     return out
 
 
+def _ceo_page_face(path):
+    """The human-facing page: a pointer file plus the dated page it names.
+
+    Two dates matter here and they are not the same one: `generated_for_date` is when the
+    page was written, `priced_bar` is the bar its numbers belong to. A page written today
+    against yesterday's bar is current, a page written today against last week's bar is
+    the r1290 failure -- so the register carries the bar and the lag, never the write day.
+    """
+    ptr = _load_json(path)
+    jpath = os.path.join(os.path.dirname(path), os.path.basename(ptr.get("json") or ""))
+    if not os.path.exists(jpath):
+        return {"status": "unreadable", "as_of": ptr.get("generated_for_date"),
+                "detail": "pointer names %s which is not on disk" % ptr.get("json")}
+    page = _load_json(jpath)
+    order = page.get("order") or []
+    names = _held_names(order)
+    # The rule is not on the page: its `ticket_book` block is a backtest band, not the
+    # sizing rule. The page records WHICH ticket it mirrored, so read that ticket -- a
+    # rule inferred from the name count would have called this 5-name page "vol" and put
+    # it in a config row of its own (r1291's keyed-by-the-wrong-thing class).
+    rule, rule_param, rule_src = "vol", None, "page carries no ticket reference"
+    src = (page.get("sources") or {}).get("ticket")
+    if src:
+        tpath = os.path.join(PATHS.root, src) if not os.path.isabs(src) else src
+        try:
+            tk = _load_json(tpath)
+            if tk.get("beta_target") is not None:
+                rule, rule_param = "beta", tk.get("beta_target")
+            rule_src = _rel(tpath).replace(os.sep, "/")
+        except Exception as e:                                  # noqa: BLE001
+            rule_src = "%s unreadable (%s)" % (src, type(e).__name__)
+    return {
+        "status": "ok",
+        "as_of": page.get("priced_bar") or page.get("evidence_cutoff"),
+        "n_names": page.get("n_hold") if page.get("n_hold") is not None else len(names),
+        "names": names,
+        "rule": rule,
+        "rule_param": rule_param,
+        "rule_source": rule_src,
+        "k_now": page.get("k_now"),
+        "generated_for_date": page.get("generated_for_date"),
+        "feed_lag_days": page.get("feed_lag_days"),
+        "artefact": jpath,
+    }
+
+
 READERS = {
     "ticket": _ticket_face,
     "card": _card_face,
     "forward": _forward_face,
     "staggered": _staggered_face,
+    "ceo_page": _ceo_page_face,
 }
 
 
@@ -499,6 +555,57 @@ def selftest():
     chk("L16 next turn reaches the rendered register",
         "next turn: staggered" in txt and "2026-11-06" in txt, txt)
     import shutil
+    shutil.rmtree(tmpd, ignore_errors=True)
+
+    # L17 the CEO page is a pointer + a dated page, and the date that belongs on the
+    #     register is the PRICED bar, not the day it was written. Fixture carries both
+    #     and they differ, so a reader that grabs the wrong one is caught here.
+    tmpd = tempfile.mkdtemp(prefix="_etfreg_page_", dir="results")
+    # the page does not carry its own sizing rule -- it names the ticket it mirrored, so
+    # the fixture must contain that ticket or the leg would be testing a guess
+    tkpath = os.path.join(tmpd, "TICKET-2026-10-26.json")
+    with open(tkpath, "w", encoding="utf-8") as f:
+        json.dump({"evidence_cutoff": "2026-10-26", "n_hold": 2, "beta_target": 0.20}, f)
+    page = os.path.join(tmpd, "PAGE-2026-10-27.json")
+    with open(page, "w", encoding="utf-8") as f:
+        json.dump({"generated_for_date": "2026-10-27", "priced_bar": "2026-10-26",
+                   "n_hold": 2, "k_now": 0.47,
+                   "order": [{"symbol": "159501", "weight": 0.09},
+                             {"symbol": "513100", "weight": 0.09}],
+                   "sources": {"ticket": tkpath}}, f)
+    ptr = os.path.join(tmpd, "latest.json")
+    with open(ptr, "w", encoding="utf-8") as f:
+        json.dump({"generated_for_date": "2026-10-27", "json": "PAGE-2026-10-27.json"}, f)
+    face = _ceo_page_face(ptr)
+    eq("L17 page date is the priced bar", face["as_of"], "2026-10-26")
+    eq("L17 page rule comes off the ticket it names",
+       (face["rule"], face["rule_param"]), ("beta", 0.20))
+    eq("L17 page names exclude nothing but cash", face["names"], ["159501", "513100"])
+    # L17b a page whose ticket reference is unreadable must say so, not default silently
+    with open(page, "w", encoding="utf-8") as f:
+        json.dump({"generated_for_date": "2026-10-27", "priced_bar": "2026-10-26",
+                   "n_hold": 2, "order": [{"symbol": "159501"}],
+                   "sources": {"ticket": os.path.join(tmpd, "__nope__.json")}}, f)
+    chk("L17b missing ticket reference is disclosed",
+        "unreadable" in str(_ceo_page_face(ptr).get("rule_source")),
+        str(_ceo_page_face(ptr).get("rule_source")))
+    with open(page, "w", encoding="utf-8") as f:
+        json.dump({"generated_for_date": "2026-10-27", "priced_bar": "2026-10-26",
+                   "n_hold": 2, "k_now": 0.47,
+                   "order": [{"symbol": "159501", "weight": 0.09},
+                             {"symbol": "513100", "weight": 0.09}],
+                   "sources": {"ticket": tkpath}}, f)
+    # L18 the lag the page owns is carried, so a stale page cannot look like a fresh one
+    chk("L18 page carries its own write day and lag",
+        face.get("generated_for_date") == "2026-10-27" and "feed_lag_days" in face,
+        str({k: face.get(k) for k in ("generated_for_date", "feed_lag_days")}))
+    # L19 and it reaches the rendered register: a registered face nobody prints is the
+    #     same blind spot the register exists to close.
+    reg = build(faces=[{"id": "ceo_page", "label": "x", "pointer": ptr,
+                        "chain_leg": "etf_book_ceo_page"}], legs=["etf_book_ceo_page"])
+    txt = render(reg)
+    chk("L19 page appears in the rendered register",
+        "ceo_page" in txt and "2026-10-26" in txt, txt)
     shutil.rmtree(tmpd, ignore_errors=True)
 
     # The total used to be a typed constant ("10/10"), so the two legs added in r1294

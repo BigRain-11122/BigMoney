@@ -53,6 +53,8 @@ Read that as **not distinguishable from a fixed loadings mix**, not as zero and 
 
 The single arm that out-earns the book is gold (13.3%/yr) at a -31.5% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
 
+The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+6.8%/yr at t=2.36** (IS t=1.26 / OOS t=2.30) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.94 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
+
 ## Caveats
 
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.

@@ -22012,6 +22012,42 @@
    "done_at": "2026-10-27T15:55:00+08:00",
    "result_ref": "scripts/e39_panel_census.py chasescreen -> results/e44_midmonth/CHASESCREEN-20261026.json",
    "done_note": "95 joined cells (both calendars x 4 eras x 3 buckets + counts + universe). Repair axis (neutralise_int, 67 prints on 67 of 1,317 names): 5 of 95 cells move, all bucket forward returns (max +0.166pp); every entrant count, bucket share and the universe size identical -> the decision sets do not move. Refresh axis (CHASE-20261020 raw vs today raw, +4 sessions): 16 of 95 cells move, worst cell is a COUNT (entrant_slots +6, universe_members 1265 -> 1271). Controls: identity 0/95, coverage 0 one-sided / 0 null. Reading: quote bucket membership without an arm, quote bucket returns with one. Side finding: E97 only sees twins declared in TWIN_FUNCS, so E112-E115 twins were invisible (covered_by_twin 3 -> 11, uncovered modes 21 -> 13, untouched cells 5,282 -> 1,568 after registering them). Digest: research/digests/DIGEST-20261027-e115-chase-screened-twin.md"
+  },
+  {
+   "id": "E116-EARLYDELAY-SCREENED-TWIN",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (run_earlydelay)",
+   "title": "E97 row 5: run_earlydelay carries 235 numbers and no screened twin. Re-derive the E66 early ladder on the neutralise_int arm beside the raw one with the E112-E115 controls. The early decision re-ranks on a date when fewer names have published, so the arm can move the picked set as well as the returns -- harvest each calendar's OWN return beside the gap, not just the answers copy.",
+   "deliverable": "results/e44_midmonth/EARLYDELAYSCREEN-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e97-screened-consumer-routing.md (ranking row 5)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T16:34:39+08:00",
+   "entered_by": "bm-b r1183",
+   "runner_note": "run_earlydelay needed a raw= passthrough to run_midsweep (which has carried it since E78); harvest covers books/gaps/early/asymmetry so the arm's effect on the picks is separated from its effect on the gaps",
+   "owner": "bm-b",
+   "claimed_at": "2026-10-27T16:34:39+08:00",
+   "done_at": "2026-10-27T16:34:39+08:00",
+   "result_ref": "scripts/e39_panel_census.py earlydelayscreen -> results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
+   "done_note": "93 joined cells (5 calendars x ann/era/turnover/cost + 8 ladder gaps + E66 asymmetry). Repair axis (neutralise_int): 55 of 93 move -- 20 book cells (every calendar lifts +0.35..+0.61 pp/yr in both live eras; THREE of five full-window levels cross zero: -0.05->+0.39, -0.03->+0.40, -0.25->+0.18) and 35 gap-address cells (21 distinct readings). The newest-era early ladder keeps sign and moves <=3bp at 1/3/5/10 sessions (-18/-50/-64/-74 -> -19/-51/-63/-71), so E66's 'the boundary is a publication deadline' holds arm-free; every 14-15bp gap move is in 2021_2023 and every one shrinks the loss (-130/-94/-81 -> -115/-80/-66). Refresh axis (EARLYDELAY-20261020 vs today raw): 27 of 93, max 6. Identity 0/93. Coverage 0 one-sided, 13 null on BOTH arms (all pre2017, structurally empty at start 2020-01-01). Self-caught defect: the first burn printed counts_survive_the_repair=true on a face where 55 cells moved -- 'survives' had only ever tested join completeness (E112-E115 inherit it); extracted _twin_survives() now requires cells_moved==0, applied to the chase twin too, three selftest legs pin it. Digest: research/digests/DIGEST-20261027-e116-earlydelay-screened.md"
+  },
+  {
+   "id": "E117-PANELSPLIT-SCREENED-TWIN",
+   "status": "open",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (run_panelsplit)",
+   "title": "E97 ranking after E116: run_panelsplit is now the largest uncovered runner (234 numbers, one mode) and it is the one leg that already KNOWS about splits -- it censused the 135 adjacent-impossibility prints. Ask whether its own output is an arm statement or a panel fact: re-derive it on the neutralise_int arm beside the raw face with the E112-E116 join, and check the specific hazard that the split census may be reading the very prints it repaired.",
+   "deliverable": "results/e44_midmonth/PANELSPLITSCREEN-<cutoff>.json + digest",
+   "source": "scripts/e97_routing.py run (uncovered ranking after E116: panelsplit 234)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T16:34:39+08:00",
+   "entered_by": "bm-b r1183",
+   "runner_note": "needs a raw= seam on run_panelsplit; harvest must keep the split EVENT counts separate from the return columns, since a repair that changes an event count is a different claim from one that changes what the event earned",
+   "owner": null,
+   "claimed_at": null,
+   "result_ref": null
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22026,7 +22062,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T15:55:00+08:00",
+ "updated_at": "2026-10-27T16:34:39+08:00",
  "version": 1,
  "lane_machine": "bm-c"
 }

@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-27 16:00:28",
+ "ts": "2026-10-27 17:19:18",
  "evidence_cutoff": "2026-10-27",
  "feed_status": {
   "ticket_bar": "2026-10-27",
@@ -501,6 +501,7 @@
   "alpha_annual": 0.0585,
   "alpha_t": 1.939,
   "r2": 0.4346,
+  "resid_vol_annual": 0.0766,
   "is_alpha_t": 1.162,
   "oos_alpha_t": 1.971,
   "arms": {
@@ -530,6 +531,32 @@
    "513100",
    "510300",
    "511010"
-  ]
+  ],
+  "staggered_arm": {
+   "window": [
+    "2020-01-06",
+    "2026-10-27"
+   ],
+   "alpha_annual": 0.0677,
+   "alpha_t": 2.356,
+   "r2": 0.4987,
+   "resid_vol_annual": 0.073,
+   "is_alpha_t": 1.26,
+   "oos_alpha_t": 2.298,
+   "cagr": 0.1061,
+   "sharpe": 1.071,
+   "maxdd": -0.1036,
+   "book_alpha_annual": 0.0585,
+   "book_alpha_t": 1.939,
+   "crosses_two_sigma": true,
+   "book_crosses_two_sigma": false
+  },
+  "stagger_control": {
+   "mine": 0.1061,
+   "published": 0.1041,
+   "delta_pp": 0.2,
+   "within_0p5pp": true,
+   "source": "results/etf_book_stagger_publish.json:staggered.cagr"
+  }
  }
 }

@@ -169,15 +169,47 @@ def spanning_support():
             "alpha_annual": full.get("alpha_annual"),
             "alpha_t": full.get("alpha_t"),
             "r2": full.get("r2"),
+            "resid_vol_annual": full.get("resid_vol_annual"),
             "is_alpha_t": (doc.get("is") or {}).get("alpha_t"),
             "oos_alpha_t": (doc.get("oos") or {}).get("alpha_t"),
             "arms": {k: {"cagr": (v or {}).get("cagr"), "sharpe": (v or {}).get("sharpe"),
                          "maxdd": (v or {}).get("maxdd")}
                      for k, v in ports.items() if k != "equal_weight_basket"},
             "codes": ew.get("codes") or [],
+            # r1311: the stagger arm is priced through the same regression (one code path),
+            # and the control assertion says whether this window re-priced the PUBLISHED
+            # book (r1297). Both travel with the number or the number is unreadable.
+            "staggered_arm": _stagger_block(doc),
+            "stagger_control": doc.get("stagger_control"),
         }
     except Exception:
         return None
+
+
+def _stagger_block(doc):
+    """The staggered arm's intercept, its risk, and the sentence the two alphas imply."""
+    st = ((doc.get("arms") or {}).get("staggered") or {})
+    full = st.get("full") or {}
+    if full.get("alpha_annual") is None:
+        return None
+    stats = st.get("stats") or {}
+    book = doc.get("full") or {}
+    return {
+        "window": st.get("window"),
+        "alpha_annual": full.get("alpha_annual"),
+        "alpha_t": full.get("alpha_t"),
+        "r2": full.get("r2"),
+        "resid_vol_annual": full.get("resid_vol_annual"),
+        "is_alpha_t": (st.get("is") or {}).get("alpha_t"),
+        "oos_alpha_t": (st.get("oos") or {}).get("alpha_t"),
+        "cagr": stats.get("cagr"),
+        "sharpe": stats.get("sharpe"),
+        "maxdd": stats.get("maxdd"),
+        "book_alpha_annual": book.get("alpha_annual"),
+        "book_alpha_t": book.get("alpha_t"),
+        "crosses_two_sigma": bool((full.get("alpha_t") or 0.0) >= 2.0),
+        "book_crosses_two_sigma": bool((book.get("alpha_t") or 0.0) >= 2.0),
+    }
 
 
 def preperiod_support():
@@ -687,6 +719,28 @@ def spanning_paragraphs(sp):
                 "drawdown -- the comparison has to be printed next to the return or it reads "
                 "as a verdict. See %s."
                 % (gold["cagr"] * 100, (gold.get("maxdd") or 0) * 100, sp["artifact"]), ""]
+    st = sp.get("staggered_arm") or {}
+    if st.get("alpha_annual") is not None:
+        head = ("The staggered 6+6 book (same universe, score, execution and cost; second "
+                "sleeve offset half a rebalance period) leaves **%+.1f%%/yr at t=%.2f** "
+                "(IS t=%.2f / OOS t=%.2f) with residual vol %.1f%%, against the single "
+                "sleeve's %+.1f%%/yr at t=%.2f and %.1f%%"
+                % (st["alpha_annual"] * 100, st.get("alpha_t") or 0.0,
+                   st.get("is_alpha_t") or 0.0, st.get("oos_alpha_t") or 0.0,
+                   (st.get("resid_vol_annual") or 0.0) * 100,
+                   (st.get("book_alpha_annual") or 0.0) * 100,
+                   st.get("book_alpha_t") or 0.0,
+                   (sp.get("resid_vol_annual") or 0.0) * 100))
+        if st["crosses_two_sigma"] and not st["book_crosses_two_sigma"]:
+            tail = (". The split clock clears a t of 2 where the single sleeve does not: that "
+                    "is a strategy difference worth its own test, not a free lunch -- one arm "
+                    "over the threshold is a hypothesis, not an edge.")
+        elif not st["crosses_two_sigma"]:
+            tail = (". Neither arm clears a t of 2, so the turnover saving remains the only "
+                    "measured difference between them (E149/E150).")
+        else:
+            tail = (".")
+        out += [head + tail, ""]
     return out
 
 

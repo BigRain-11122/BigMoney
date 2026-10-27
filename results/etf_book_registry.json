@@ -88,7 +88,7 @@
    "in_chain": true,
    "chain_note": "wired as etf_paper_signal",
    "status": "ok",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "n_names": 10,
    "names": [
     "159307",
@@ -103,7 +103,7 @@
     "515450"
    ],
    "rule": "vol",
-   "rule_param": 0.0676,
+   "rule_param": 0.0664,
    "k_now": 1.0,
    "artefact": "results/etf_paper/ledger.jsonl",
    "config": "bond-free, staggered 5+5, R10, 8% vol target",
@@ -121,10 +121,35 @@
      "clock_anchor": "pos"
     }
    ]
+  },
+  {
+   "id": "ceo_page",
+   "label": "CEO one-page mirror (what a human is told)",
+   "pointer": "docs/live_book/latest.json",
+   "chain_leg": "etf_book_ceo_page",
+   "in_chain": true,
+   "chain_note": "wired as etf_book_ceo_page",
+   "status": "ok",
+   "as_of": "2026-10-26",
+   "n_names": 5,
+   "names": [
+    "159263",
+    "159501",
+    "159577",
+    "513100",
+    "513690"
+   ],
+   "rule": "beta",
+   "rule_param": 0.2,
+   "rule_source": "results/etf_book_order/TICKET-2026-10-26.json",
+   "k_now": 0.47149,
+   "generated_for_date": "2026-10-27",
+   "feed_lag_days": 0,
+   "artefact": "docs/live_book/LIVE-BOOK-20261027.json"
   }
  ],
- "n_faces": 4,
- "n_live": 4,
+ "n_faces": 5,
+ "n_live": 5,
  "configs": {
   "10@vol": [
    "staggered"
@@ -134,6 +159,7 @@
    "forward"
   ],
   "5@beta": [
+   "ceo_page",
    "ticket"
   ]
  },
@@ -142,6 +168,13 @@
  "off_chain_by_design": [],
  "config_disagreement": true,
  "shared_names": {
+  "card|ceo_page": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
   "card|forward": [
    "159207",
    "159263",
@@ -160,6 +193,20 @@
    "159307"
   ],
   "card|ticket": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
+  "ceo_page|forward": [
+   "159263",
+   "159501",
+   "159577",
+   "513100",
+   "513690"
+  ],
+  "ceo_page|ticket": [
    "159263",
    "159501",
    "159577",

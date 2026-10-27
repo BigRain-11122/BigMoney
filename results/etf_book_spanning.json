@@ -161,6 +161,199 @@
    "years": 6.81
   }
  },
+ "arms": {
+  "book": {
+   "window": [
+    "2020-01-06",
+    "2026-10-27"
+   ],
+   "obs": {
+    "full": 1646,
+    "is": 966,
+    "oos": 680
+   },
+   "full": {
+    "alpha_annual": 0.0585,
+    "alpha_t": 1.939,
+    "betas": {
+     "518880": 0.1525,
+     "513100": 0.0677,
+     "510300": 0.2487,
+     "511010": -0.0279
+    },
+    "beta_t": {
+     "518880": 14.52,
+     "513100": 8.783,
+     "510300": 24.261,
+     "511010": -0.305
+    },
+    "r2": 0.4346,
+    "n_obs": 1646,
+    "resid_vol_annual": 0.0766
+   },
+   "is": {
+    "alpha_annual": 0.0388,
+    "alpha_t": 1.162,
+    "betas": {
+     "518880": 0.1191,
+     "513100": 0.0288,
+     "510300": 0.3599,
+     "511010": -0.0473
+    },
+    "beta_t": {
+     "518880": 8.198,
+     "513100": 3.339,
+     "510300": 29.805,
+     "511010": -0.513
+    },
+    "r2": 0.5774,
+    "n_obs": 966,
+    "resid_vol_annual": 0.065
+   },
+   "oos": {
+    "alpha_annual": 0.1012,
+    "alpha_t": 1.971,
+    "betas": {
+     "518880": 0.18,
+     "513100": 0.0946,
+     "510300": 0.1338,
+     "511010": 0.0628
+    },
+    "beta_t": {
+     "518880": 12.249,
+     "513100": 7.162,
+     "510300": 8.144,
+     "511010": 0.341
+    },
+    "r2": 0.3596,
+    "n_obs": 680,
+    "resid_vol_annual": 0.0838
+   },
+   "walkforward": {
+    "alpha_is_annual": 0.0388,
+    "oos_mean_resid_annual": 0.0763,
+    "oos_realised_annual": 0.182,
+    "oos_predicted_annual": 0.1057,
+    "n_oos": 680
+   },
+   "stats": {
+    "cagr": 0.0974,
+    "sharpe": 1.003,
+    "maxdd": -0.1177,
+    "vol": 0.1017,
+    "years": 6.81
+   },
+   "config": {
+    "n_hold": 12,
+    "rebal": 20,
+    "vol_target": 0.08,
+    "sleeves": 1
+   }
+  },
+  "staggered": {
+   "window": [
+    "2020-01-06",
+    "2026-10-27"
+   ],
+   "obs": {
+    "full": 1646,
+    "is": 966,
+    "oos": 680
+   },
+   "full": {
+    "alpha_annual": 0.0677,
+    "alpha_t": 2.356,
+    "betas": {
+     "518880": 0.1747,
+     "513100": 0.0474,
+     "510300": 0.2843,
+     "511010": -0.0117
+    },
+    "beta_t": {
+     "518880": 17.447,
+     "513100": 6.441,
+     "510300": 29.09,
+     "511010": -0.134
+    },
+    "r2": 0.4987,
+    "n_obs": 1646,
+    "resid_vol_annual": 0.073
+   },
+   "is": {
+    "alpha_annual": 0.0411,
+    "alpha_t": 1.26,
+    "betas": {
+     "518880": 0.1533,
+     "513100": 0.022,
+     "510300": 0.3575,
+     "511010": -0.0785
+    },
+    "beta_t": {
+     "518880": 10.799,
+     "513100": 2.609,
+     "510300": 30.306,
+     "511010": -0.87
+    },
+    "r2": 0.5914,
+    "n_obs": 966,
+    "resid_vol_annual": 0.0635
+   },
+   "oos": {
+    "alpha_annual": 0.1148,
+    "alpha_t": 2.298,
+    "betas": {
+     "518880": 0.1927,
+     "513100": 0.0636,
+     "510300": 0.2102,
+     "511010": 0.1807
+    },
+    "beta_t": {
+     "518880": 13.479,
+     "513100": 4.95,
+     "510300": 13.153,
+     "511010": 1.008
+    },
+    "r2": 0.4356,
+    "n_obs": 680,
+    "resid_vol_annual": 0.0815
+   },
+   "walkforward": {
+    "alpha_is_annual": 0.0411,
+    "oos_mean_resid_annual": 0.0864,
+    "oos_realised_annual": 0.1997,
+    "oos_predicted_annual": 0.1134,
+    "n_oos": 680
+   },
+   "stats": {
+    "cagr": 0.1061,
+    "sharpe": 1.071,
+    "maxdd": -0.1036,
+    "vol": 0.103,
+    "years": 6.81
+   },
+   "config": {
+    "n_total": 12,
+    "rebal": 20,
+    "vol_target": 0.08,
+    "cost": 0.001,
+    "sleeves": 2,
+    "offset_bars": 10,
+    "source": "results/etf_book_stagger_publish.json:machinery"
+   }
+  }
+ },
+ "stagger_note": {
+  "config": {
+   "n_total": 12,
+   "rebal": 20,
+   "vol_target": 0.08,
+   "cost": 0.001,
+   "sleeves": 2,
+   "offset_bars": 10,
+   "source": "results/etf_book_stagger_publish.json:machinery"
+  },
+  "bars": 1649
+ },
  "caveats": [
   "daily OLS, no HAC correction (non-overlapping daily returns; autocorrelation in the residual would only widen the alpha interval, so a t below 2 is not rescued by it)",
   "the span set is four liquid ETFs a retail account can actually hold; a book that fails this test can still be a timing story, but not an alpha story",
@@ -168,10 +361,17 @@
   "span prices carry the same single-day flip repair as the book's panel; 1 flip(s) flattened, otherwise a split prints as a -50% day in the benchmark arm"
  ],
  "config_source": "results/etf_book_production/latest.json",
+ "stagger_control": {
+  "mine": 0.1061,
+  "published": 0.1041,
+  "delta_pp": 0.2,
+  "within_0p5pp": true,
+  "source": "results/etf_book_stagger_publish.json:staggered.cagr"
+ },
  "panel": {
   "universe": 1499,
   "flips_repaired": 168,
   "last_bar": "2026-10-27"
  },
- "verdict": "book 9.62%/yr SR 0.99 DD -11.8% vs EW span basket 10.09%/yr SR 0.98 DD -11.3% over 2026-10-27; span explains R2=0.43 of daily variance; alpha +5.85%/yr (t=1.94); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond"
+ "verdict": "book 9.62%/yr SR 0.99 DD -11.8% vs EW span basket 10.09%/yr SR 0.98 DD -11.3% over 2026-10-27; span explains R2=0.43 of daily variance; alpha +5.85%/yr (t=1.94); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond; staggered 6+6 arm: alpha +6.77%/yr (t=2.36) vs book +5.85%/yr (t=1.94), resid vol 7.3% vs 7.7% -- the split clock pushes the intercept over 2 sigma (+0.92pp/yr) where the single sleeve does not clear it -- a strategy difference, not a free lunch: one arm over a t of 2 is the threshold, not a proven edge"
 }

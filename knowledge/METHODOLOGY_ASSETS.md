@@ -1272,3 +1272,50 @@ any boolean that answers two questions into two keys.
 Evidence: results/e44_midmonth/EARLYDELAYSCREEN-20261026.json (answers.counts_survive_the_repair now false,
 answers.reading now "the repair reaches the early ladder"), scripts/e39_panel_census.py _twin_survives
 (selftest 353 -> 362/362), research/digests/DIGEST-20261027-e116-earlydelay-screened.md.
+||||||| parent of 8c784e9c0d (round 1311: the staggered arm's intercept clears t=2 where the single sleeve does not, and a GB-named key stops carrying MiB)
+
+
+## E151 Two arms must be fitted by one code path, and the control arm must be asserted (2026-10-27 r1311 bm-c)
+The staggered ETF book (6+6, second sleeve offset half a rebalance period) was regressed on the same four liquid
+exposures as the shipped single sleeve: gold 518880 / Nasdaq-100 QDII 513100 / CSI300 510300 / treasury bond 511010,
+close t -> open t+1, 10bp/side, 8% de-lever-only overlay, same universe and score, 2020-01-06..2026-10-27 (1646
+paired days). Single sleeve 9.62%/yr SR 0.99 DD -11.8%, alpha +5.85%/yr t=1.94, residual vol 7.7%, R2 0.43.
+Staggered arm 10.61%/yr SR 1.07 DD -10.4%, alpha +6.77%/yr t=2.36, residual vol 7.3%, R2 0.50.
+Reading: the split clock clears a t of 2 where the single sleeve does not (+0.92pp/yr, lower residual vol) -- so
+r1301's "the turnover saving is the entire effect" is too strong: the saving is real but not the whole difference.
+One arm over the threshold is a hypothesis, not an edge; the OOS half (t=2.30) is the only part that carries it.
+Two rules the code now enforces rather than documents.
+(a) ONE regression path for every arm. The single-book regression had been inlined in build(); adding a second arm
+    by copying that block is how two "comparable" alphas turn out to be fitted by different arithmetic (r1262's
+    lesson applies to the estimator, not just to the experiment). Both arms now go through arm_from_returns(), and a
+    selftest leg pins that the helper reproduces a direct fit exactly, plus an identity control (same series in ->
+    same intercept out) and a sign-aware planted-difference leg (+5bp/day must read higher, not merely "different").
+(b) THE CONTROL ARM IS ASSERTED, NOT LOOKED UP. The staggered arm's configuration is read off its own artefact
+    (machinery block, never typed) AND its CAGR is compared against the published stagger face with a 0.5pp
+    tolerance before any alpha is quoted (this window: 10.61% vs published 10.41%, delta 0.20pp). A reader of
+    "arm A vs arm B" needs proof that A is the arm somebody else published -- r1297's rule, now on its second face.
+    Self-caught in the same window: the first version read doc["config"], which does not exist (the rule lives under
+    "machinery"), and silently fell back to defaults -- i.e. it would have priced a guessed book and printed it as
+    the comparison. The fallback now prints its own reason into the artefact.
+How to apply: when adding an arm to an existing regression/comparison, (1) route it through the existing estimator,
+(2) assert the control arm against its publisher, (3) publish which config key was read and where, and (4) word the
+verdict from the t-stats of BOTH arms (three states: same intercept / one arm crosses 2 / different intercept) --
+never from intent. Artifacts: results/etf_book_spanning.json (arms + stagger_control), results/etf_book_production/
+latest.json (spanning.staggered_arm), scripts/etf_book_spanning.py selftest 12 -> 23, digest
+research/digests/DIGEST-20261027-r1311-stagger-spanning.md.
+
+## E152 A key's unit is in its name: derive it, do not maintain a second list (2026-10-27 r1311 bm-c)
+The fleet heartbeat carried `gpu_vram_free_gb = 15099` -- a key whose name promises GB holding a MiB number -- while
+`gpu_free_vram_mb` still carried a previous probe's 14877. Smoke flagged only the MiB family spread (207 MiB); the
+wrong-unit key was invisible because the writer and the checker shared the same blind spot: `fields_from()` wrote
+MiB into it (it was on FREE_KEYS but not on GB_KEYS) and `_mb()` read it back as MiB, so both sides agreed and the
+face said "15099 GB free" to anyone who trusted the name. Root cause: two lists that must stay in sync (the key table
+and the unit table) with nothing forcing them to.
+Fix: the unit is derived from the spelling itself (key_unit() -> gpu_mem_family() token derivation), used by both the
+writer and the auditor; the frozen GB list survives only as a fallback for keys the token rule cannot classify.
+Selftest 28 -> 30 legs, including "every GB-named key carries GB" and "a MiB number under a GB name is caught, not
+agreed with" (the read must differ by >64GB, i.e. the checker must stop confirming the defect).
+How to apply: whenever a field name encodes a unit (gb/mb/pct/bp), derive the unit from the name at BOTH ends -- the
+producer and the auditor -- and add a leg asserting a value under a mismatched name is caught. Two hand-maintained
+tables over the same key set will eventually disagree, and the disagreement is silent because each table validates
+the other. Artifacts: Tools/gpu_face.py (selftest 30/30), fleet/machines/bm-c.json (audit 0 findings, 30 GPU keys).

@@ -1,32 +1,13 @@
 {
- "ts": "2026-10-27T15:45:07",
+ "ts": "2026-10-27T17:15:48",
  "machine": "bm-c",
- "lane_owner": "bm-c",
- "status": "ok_with_refusals",
+ "status": "noop_fresh",
+ "panel_cutoff": "2026-10-26",
  "expected": "2026-10-27",
- "panel_cutoff_before": "2026-10-23",
- "panel_cutoff_after": "2026-10-26",
- "source_ended_stems": [
-  "sh512390"
- ],
- "universe": 1724,
- "attempted": 1724,
- "workers": 6,
- "elapsed_s": 320.4,
- "counts": {
-  "tail_lag": 2,
-  "mismatch": 1,
-  "appended": 1713,
-  "quote_refused": 8
- },
- "ended_grace_td": 5,
- "source_quiet_stems": [],
- "source_quiet_ts": "2026-10-27T15:45:07",
- "source_lagging_stems": 1723,
- "coverage_pct_pre": 0.0,
- "coverage_floor": 0.95,
- "coverage_post": 99.3,
+ "detail": "coverage 99.3% of 1723 symbols already at 2026-10-27 (floor 95%); laggards=12 159915,510050,510300,sh511820,sh511950,sh511970,sh513820,sh560150,sh560510,sh563980",
+ "coverage_pct": 99.3,
  "coverage_total": 1723,
+ "coverage_floor": 0.95,
  "laggard_n": 12,
  "laggard_sample": [
   "159915",
@@ -42,32 +23,13 @@
   "sz159332",
   "sz159355"
  ],
- "quote_topup_stems": 1711,
- "quote_topup_rows": 1711,
- "quote_refusal_n": 8,
- "quote_refusal_sample": [
-  "sh511820:nonpositive_quote",
-  "sh511950:nonpositive_quote",
-  "sh511970:nonpositive_quote",
-  "sh512390:nonpositive_quote",
-  "sh513820:prev_close_drift:1.177000_vs_1.181000",
-  "sh560150:prev_close_drift:1.152000_vs_1.162000",
-  "sh560510:prev_close_drift:1.035000_vs_1.047000",
-  "sh563980:prev_close_drift:0.994000_vs_0.997000"
- ],
- "quote_face": "https://hq.sinajs.cn/list={syms}",
- "quote_chunk": 60,
- "mismatch_n": 1,
- "mismatch_sample": [
-  "159915:2026-10-26:volume_drift"
- ],
- "fetch_fail_n": 0,
- "fetch_fail_sample": [],
- "invalid_n": 0,
- "invalid_sample": [],
- "holes_symbols": 36,
- "holes_bars": 36178,
- "skipped_stems": [
+ "universe": 1724,
+ "skipped": [
   "510880_t73"
- ]
+ ],
+ "source_ended_stems": [
+  "sh512390"
+ ],
+ "source_quiet_stems": [],
+ "source_quiet_ts": "2026-10-27T15:45:07"
 }

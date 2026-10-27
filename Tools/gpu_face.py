@@ -126,9 +126,23 @@ def restate(face, fields):
 TOL_MIB = 64.0
 
 
+def key_unit(k):
+    """'gb' or 'mib' for a GPU-memory spelling, derived from the tokens.
+
+    r1311: `gpu_vram_free_gb` was on FREE_KEYS but not on GB_KEYS, so apply() wrote the
+    MiB number 15099 into a key whose name promises GB, and audit() read it back as MiB --
+    writer and checker agreed with each other and the reader got a face that said 15099 GB.
+    The unit is in the spelling, so ask the spelling instead of maintaining a second list.
+    """
+    _fam, unit = gpu_mem_family(k)
+    if unit:
+        return unit
+    return "gb" if k in GB_KEYS else "mib"
+
+
 def _mb(key, value):
-    """Value in MiB for a family key (GB keys are stored 1-dp)."""
-    return float(value) * 1024.0 if key in GB_KEYS else float(value)
+    """Value in MiB for a family key (whatever unit its name promises)."""
+    return float(value) * 1024.0 if key_unit(key) == "gb" else float(value)
 
 
 def parse_smi(text):
@@ -175,7 +189,7 @@ def fields_from(probe, stamp):
         "gpu_face_source": "nvidia-smi",
     }
     for k in FREE_KEYS:
-        f[k] = round(free / 1024.0, 1) if k in GB_KEYS else free
+        f[k] = round(free / 1024.0, 1) if key_unit(k) == "gb" else free
     for k in USED_KEYS:
         f[k] = probe["used_mib"]
     for k in PAIR_FREE_TOTAL:
@@ -387,8 +401,8 @@ def selftest():
                     "2026-10-26T08:10:00+08:00")
     # MiB keys are exact; the GB mirrors carry a 1-dp convention, so their spread is
     # bounded by half a 0.1 GB step (~51 MiB) rather than zero. Both are pinned.
-    mib = [_mb(k, f[k]) for k in FREE_KEYS if k not in GB_KEYS]
-    gb = [_mb(k, f[k]) for k in GB_KEYS]
+    mib = [_mb(k, f[k]) for k in FREE_KEYS if key_unit(k) == "mib"]
+    gb = [_mb(k, f[k]) for k in FREE_KEYS if key_unit(k) == "gb"]
     leg("L3 exact aliases agree to the byte", 0.0, round(max(mib) - min(mib), 3),
         "n=%d MiB keys" % len(mib))
     leg("L3a 1-dp GB mirrors within half a step", True,
@@ -396,6 +410,15 @@ def selftest():
         "spread=%.1f MiB" % (max(gb + mib) - min(gb + mib)))
     leg("L3b free+used == total", 16384.0,
         round(_mb("gpu_free_mib", f["gpu_free_mib"]) + f["gpu_used_mib"], 3))
+    # L3c r1311: a key whose NAME promises GB must never be written with a MiB number.
+    #     gpu_vram_free_gb sat on FREE_KEYS but not on GB_KEYS and carried 15099, so the
+    #     face said "15099 GB free" to any reader that trusted the name.
+    gb_named = [k for k in FREE_KEYS if key_unit(k) == "gb"]
+    leg("L3c every GB-named key carries GB", [], [k for k in gb_named if f[k] >= 100],
+        "%d GB keys" % len(gb_named))
+    leg("L3d a MiB number under a GB name is caught, not agreed with", True,
+        round(_mb("gpu_vram_free_gb", 15099) - _mb("gpu_free_mib", 15099), 1) > 64000,
+        "reads %.0f MiB" % _mb("gpu_vram_free_gb", 15099))
     leg("L3c audit is silent on a self-consistent face", [], audit(f))
 
     # L4 audit catches the live defect: a literal 0 next to a 13.7 GB free claim
