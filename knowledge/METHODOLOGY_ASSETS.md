@@ -955,7 +955,6 @@ esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_s
 - Verify: python scripts\panel_screen.py (35/35); python scripts\e39_panel_census.py selftest (320/320); python scripts\e108_repairfix.py legacy repairstep + diff; results/e44_midmonth/REPAIRFIX-20261026.json; research/digests/DIGEST-20261027-e108-repair-factor-sign.md
 - 2026-10-27 r1172 bm-b (capture law O-20261002-2100 closing step)
 
-||||||| parent of b860cfedf0 (round 1304: staggered book carries its next turn as dates (ledger + registry), and the GPU face is written through one chokepoint)
 
 ## E138 A schedule a reader cannot turn into a date is not an order (2026-10-27 r1304 bm-c)
 
@@ -976,3 +975,27 @@ the face the human reads (next_actions per sleeve) and assert it in smoke: a led
 How to apply: for any scheduled/rotating product face, ask 'what does the operator act on tonight?' --
 if the artefact only stores an index into a rebuildable series, it is not yet an order.
 
+## E109 Burn the old and the new arms on ONE panel before calling a diff a fix (2026-10-27 r1173 bm-b)
+
+- Situation: E108 corrected a factor that had been mirrored on upward prints, but only re-derived the
+  seven legs it named. Thirteen other legs published numbers computed with the mirrored factor on faces
+  dated five sessions back -- so a plain re-run could not say whether a number moved because of the fix
+  or because five sessions of panel arrived underneath it.
+- Method: run each leg TWICE on today's panel -- once with the old code monkeypatched back (legacy arm),
+  once with the shipped code -- and diff the two arms. Harvest each arm's output by MOVING it out of the
+  results directory so the next arm writes the same filename fresh; publish the fixed arm afterwards.
+  The panel is held constant inside the comparison, so the number that moves is the patch.
+- Result (REPAIRSWEEP-20261026): 14 legs, 47,385 numeric leaves, 1,792 moved; 13 legs move, the control
+  leg is bit-identical. The writes are order-of-magnitude (concentration cell exactly /10) and two
+  verdicts flip sign (residual share 75% -> 125%, churn alpha -619.8 -> +529.4bp). The leg with the
+  fewest numbers (screenspread, 410) is the most contaminated (217 moved) because it publishes ratios.
+- Judgment: (1) "re-derived with the fixed code" is not evidence of effect -- the only evidence is the
+  same-panel A/B, and a published face dated before the fix is a hypothesis about its own numbers, not a
+  baseline; (2) an arm-vs-engine RATIO published as a percentage is denominator-fragile -- publish the bp
+  pair beside it and never quote the share alone; (3) a leg that does not touch the changed arm must be
+  published as a bit-identical control, otherwise "we re-derived everything" cannot be believed.
+- Reusable check: does the report separate the code delta from the data delta? If both changed at once,
+  the report has one number and two causes.
+- Verify: python scripts/e109_repairsweep.py selftest (3/3); results/e44_midmonth/REPAIRSWEEP-20261026.json;
+  research/digests/DIGEST-20261027-e109-repair-sweep.md
+- 2026-10-27 r1173 bm-b (capture law O-20261002-2100 closing step)

@@ -1,0 +1,157 @@
+{
+ "study": "e88_churnrobust_burn_control",
+ "evidence_cutoff": "2026-10-26",
+ "status": "MISMATCH",
+ "spec": {
+  "faces": [
+   "results\\e44_midmonth\\CHURNSE-20261026.json",
+   "results\\e44_midmonth\\CHURNROBUST-20261026.json",
+   "results\\e44_midmonth\\CHURNROBUST-20261022-s2013.json"
+  ],
+  "control": "join every cell on (book, universe|mode, era) and compare mean_bp by exact equality; a re-derived burn shows up here",
+  "note": "the 2013-start control only covers the eras both faces carry (era cells are era-local, so the shared eras must agree bit-for-bit or the earlier start changed the burn)"
+ },
+ "controls": {
+  "se_vs_robust_2020": {
+   "levels": {
+    "shared_cells": 16,
+    "matched": 16,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 0,
+    "mismatch_rows": []
+   },
+   "deltas": {
+    "shared_cells": 12,
+    "matched": 12,
+    "mismatched": 0,
+    "only_in_a": 0,
+    "only_in_b": 0,
+    "mismatch_rows": []
+   }
+  },
+  "se_vs_robust_2013_shared_eras": {
+   "levels": {
+    "shared_cells": 16,
+    "matched": 10,
+    "mismatched": 6,
+    "only_in_a": 0,
+    "only_in_b": 16,
+    "mismatch_rows": [
+     {
+      "keys": [
+       "me",
+       "unscreened",
+       "2024_now"
+      ],
+      "a": 100.7,
+      "b": 87.3
+     },
+     {
+      "keys": [
+       "me",
+       "neutralise_int",
+       "2024_now"
+      ],
+      "a": 105.6,
+      "b": 92.4
+     },
+     {
+      "keys": [
+       "me",
+       "neutralise",
+       "2024_now"
+      ],
+      "a": 105.6,
+      "b": 92.4
+     },
+     {
+      "keys": [
+       "me",
+       "drop",
+       "2024_now"
+      ],
+      "a": 66.8,
+      "b": 52.1
+     },
+     {
+      "keys": [
+       "mid15",
+       "neutralise_int",
+       "2024_now"
+      ],
+      "a": 4.9,
+      "b": -364.7
+     },
+     {
+      "keys": [
+       "mid15",
+       "neutralise",
+       "2024_now"
+      ],
+      "a": 4.9,
+      "b": -364.7
+     }
+    ]
+   },
+   "deltas": {
+    "shared_cells": 12,
+    "matched": 7,
+    "mismatched": 5,
+    "only_in_a": 0,
+    "only_in_b": 12,
+    "mismatch_rows": [
+     {
+      "keys": [
+       "me",
+       "neutralise_int",
+       "2024_now"
+      ],
+      "a": 4.9,
+      "b": 5.1
+     },
+     {
+      "keys": [
+       "me",
+       "neutralise",
+       "2024_now"
+      ],
+      "a": 4.9,
+      "b": 5.1
+     },
+     {
+      "keys": [
+       "me",
+       "drop",
+       "2024_now"
+      ],
+      "a": -33.9,
+      "b": -35.2
+     },
+     {
+      "keys": [
+       "mid15",
+       "neutralise_int",
+       "2024_now"
+      ],
+      "a": 128.6,
+      "b": -241.0
+     },
+     {
+      "keys": [
+       "mid15",
+       "neutralise",
+       "2024_now"
+      ],
+      "a": 128.6,
+      "b": -241.0
+     }
+    ]
+   }
+  }
+ },
+ "summary": {
+  "shared_cells": 56,
+  "mismatched": 11
+ }
+}

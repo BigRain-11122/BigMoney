@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T08:50:00+08:00",
+ "clock_read": "2026-10-27T09:37:54+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -54,7 +54,7 @@
  "gpu_vram_free_mib": 3748,
  "gpu_vram_used_mb": 4444,
  "gpu_vram_used_mib": 4444,
- "heartbeat_epoch_utc": 1793061711,
+ "heartbeat_epoch_utc": 1793065074,
  "idle_ram_gb": 10.3,
  "idle_ram_pct": 42.9,
  "idle_rounds": 0,
@@ -73,7 +73,7 @@
  "last_orders_watermark": "c067b3b20f6b8138@d39d33e/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "bfd9cd0c0",
- "last_seen": "2026-10-27T08:50:00+08:00",
+ "last_seen": "2026-10-27T09:37:54+0800",
  "latest_artifact": "results/e44_midmonth/HELDSPLIT-20261026-s2018.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -346,8 +346,8 @@
  "ram_free_pct": 42.9,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1170,
- "round_no": 1170,
+ "round": 1173,
+ "round_no": 1173,
  "round_no_label": "r1170",
  "sat_engine": {
   "checked_at": "2026-10-23T00:21:41+08:00",
@@ -358,12 +358,23 @@
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0
  },
- "task": "r1170 E104 unchanged-holding split exposure",
- "task_short": "E108 repairfix",
- "ts": "2026-10-27T08:50:00+08:00",
+ "task": "r1173 E109 screened-consumer sweep (14 legs, one panel, two arms)",
+ "task_short": "E109 repair sweep",
+ "ts": "2026-10-27T09:37:54+0800",
  "updated": "2026-10-27T04:20:00+08:00",
  "updated_at": "2026-10-27T04:20:00+08:00",
- "verdict": "productive: E108 -- the repair factor was mirrored on upward prints. REPAIRSTEP class tally 8 step_amplifies_print -> 8 step_cancels_print, fabricating_windows 8 -> 0, sh510580 repaired one-session read +1464.09% -> +28.05%. MID armed 2024_now mid level -364.7 -> +4.9bp (sign flips across arms now lists 2024_now/mid); GAPARM 2024_now mid delta -241.0 -> +128.6bp with its span 107.1 -> 48.5bp; HELDSPLIT tally 4 one-window -> 2 one-window + 2 few-windows; every downward-print window (2017_2020 me -745.9, 2021_2023 -1098.3/-1117.2) is bit-identical, which is the directional check",
+ "verdict": "productive: E109 -- all 14 remaining neutralise-arm legs burned twice on the SAME panel (legacy folded-ratio factor vs the shipped 1/(1+r)); 47,385 numeric leaves, 1,792 moved, 13 legs affected, burncontrol bit-identical as the control. Order-of-magnitude, not rounding: robustchurn top3 concentration -11676.8 -> -1168.0bp (exactly /10), screenwide 2024_now screened spread 456 -> 192bp, midscreen worst_correction -470.3 -> -100.7bp, churngap/gapsplit -6506.8 -> +3471.6bp, topnames -9979.4 -> -1077.6bp. Two verdicts flip: screenweek residual share 75.0% -> 125.0%, topnames third-place -619.8 -> +529.4bp. screentilt moved only its factor table (zero levels). Also fixed the astock status face losing its coverage keys to a stale-code child (single panel builder + 3 selftest legs), smoke 84/84",
  "vram_free_gb": 3.7,
- "last_round": 1171
+ "last_round": 1173,
+ "r1173_face": {
+  "smoke": "84/84 PASS (started 83/84: astock coverage red, fixed in-round)",
+  "s6": "37/37 rc0 (Tools/_r1173bmb_s6.py), NON-ZERO LEGS: none",
+  "dualrun": "ZERO-DRIFT 632 entries streak 3",
+  "d19": "dec=same ord=same delta=none phantom=none @d39d33e",
+  "orders": "116 files, orders_ack 115, unacked 0",
+  "pool": "E109 done + result_ref + REPAIRSWEEP face; E110-BURNCONTROL-MISMATCH seeded ready",
+  "attrition": "CLEAN",
+  "selftest": "e109_repairsweep 3/3",
+  "product": "results/e44_midmonth/REPAIRSWEEP-20261026.json + 13 corrected 20261026 faces"
+ }
 }

@@ -1,19 +1,17 @@
 {
-  "ts": "2026-10-27T08:38:41",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-27T09:07:23",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-26",
-    "universe_n": 5227,
-    "per_files": 5223,
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 94.5,
+    "coverage_pct": 99.8,
     "coverage_90": "2026-10-26",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-26",
-        4937
+        5215
       ],
       [
         "2026-10-23",
@@ -21,7 +19,7 @@
       ],
       [
         "2026-10-20",
-        279
+        1
       ],
       [
         "2026-10-16",
@@ -35,7 +33,9 @@
         "2026-09-14",
         2
       ]
-    ]
+    ],
+    "universe_n": 5227,
+    "per_files": 5225
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -49,38 +49,30 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5223,
-    "fetched": 5220,
-    "appended": 1917083,
-    "readjusted": 5,
-    "readjusted_tail": [
-      "000630@2020-01-02",
-      "601088@2020-01-02",
-      "601866@2020-01-02",
-      "601990@2020-01-02",
-      "688293@2022-09-02"
-    ],
+    "todo": 8,
+    "fetched": 7,
+    "appended": 0,
+    "readjusted": 0,
+    "readjusted_tail": [],
     "failures_tail": [
-      "000014:conn:TimeoutError",
-      "601658:conn:TimeoutError",
-      "688729:conn:TimeoutError"
+      "688827:KeyError:'date'"
     ],
-    "failures_n": 3,
+    "failures_n": 1,
     "conn_stopped": false,
-    "elapsed_min": 449.0,
-    "vwap_anchor_max": 0.436986,
+    "elapsed_min": 0.5,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-10-26T20:40:28",
+  "last_spawn_attempt": "2026-10-27T09:06:51",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5225,
   "validation": {
-    "suspended_rows": 3,
-    "bracket_tolerated_rows": 1,
+    "suspended_rows": 0,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-26 (coverage 94.5%, 90% date 2026-10-26)",
+  "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull"
 }

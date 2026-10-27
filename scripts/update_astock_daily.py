@@ -564,6 +564,33 @@ def _panel_coverage_from_bytes(per_dir=None, floor=0.90):
             "dates_tail": [[d, tails[d]] for d in sorted(tails, reverse=True)][:6]}
 
 
+def _panel_with_coverage(panel_in, cov, complete=None, universe_n=None):
+    """Build a status panel that always carries the disk-truth coverage face.
+
+    Inheritance is how a face loses its coverage forever: when a run started
+    from an older code build wrote a panel without ``coverage_pct``, every
+    later run that merely merged into that dict republished the same
+    coverage-less face (r1173: the 08:55 refresh-start write dropped it and
+    the next reader saw ``cutoff 2026-10-26`` with no share beside it).
+    """
+    panel = dict(panel_in or {})
+    if complete is not None:
+        panel["complete"] = bool(complete)
+    if universe_n is not None:
+        panel["universe_n"] = int(universe_n)
+    if cov.get("n"):
+        panel.update({
+            "cutoff_is": "max tail across all per/*.csv -- read "
+                         "coverage_pct/coverage_90 before calling "
+                         "the panel current",
+            "coverage_pct": cov["coverage_pct"],
+            "coverage_90": cov["coverage_90"],
+            "coverage_floor_pct": cov.get("floor_pct"),
+            "dates_tail": cov["dates_tail"],
+        })
+    return panel
+
+
 def _is_conn_error(ename, emsg=""):
     return any(m in ename or m in str(emsg)[:200] for m in CONN_MARKERS)
 
@@ -641,8 +668,10 @@ def refresh(limit=None, repull=False):
             "mode": (f"refresh in progress (todo={len(todo)}/{len(codes)}, "
                      f"quarantined={len(quarantine)}, settled={len(settled_valid)}"
                      + (", repull=all-symbols" if repull else "") + ")"),
-            "panel": dict(st.get("panel") or {}, complete=False,
-                          universe_n=len(codes)),
+            "panel": _panel_with_coverage(st.get("panel"),
+                                          _panel_coverage_from_bytes(),
+                                          complete=False,
+                                          universe_n=len(codes)),
             "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
             "probe_ref": PROBE_REF,
         })
@@ -843,18 +872,10 @@ def gate():
                     "ts": now.isoformat(timespec="seconds")}
         print(f"TAKEOVER: declared stale takeover of {LANE_OWNER} lane by "
               f"{owner} -- {why}")
-    panel = dict(st.get("panel") or {})
     # the coverage face is a disk-truth statement, so it is refreshed on every
     # gate cycle rather than inherited from whatever the last writer said
-    _cov = _panel_coverage_from_bytes()
-    if _cov["n"]:
-        panel.update({"cutoff_is": "max tail across all per/*.csv -- read "
-                                   "coverage_pct/coverage_90 before calling "
-                                   "the panel current",
-                      "coverage_pct": _cov["coverage_pct"],
-                      "coverage_90": _cov["coverage_90"],
-                      "coverage_floor_pct": _cov.get("floor_pct"),
-                      "dates_tail": _cov["dates_tail"]})
+    panel = _panel_with_coverage(st.get("panel"),
+                                 _panel_coverage_from_bytes())
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
     per_on_disk = _count_per_files()
@@ -1073,6 +1094,27 @@ def _selftest():
         cov0 = _panel_coverage_from_bytes(td)
         assert cov0["n"] == 0 and cov0["coverage_pct"] is None \
             and cov0["coverage_90"] is None, cov0
+    # panel face builder: inheritance must not preserve a coverage-less panel
+    # (r1173 -- a run started by an older build wrote a panel without the
+    # coverage keys and every later merge republished that blind face)
+    _covp = {"n": 3, "coverage_pct": 66.7, "coverage_90": "2026-09-22",
+             "floor_pct": 90, "dates_tail": [["2026-09-24", 2]]}
+    blind = _panel_with_coverage({"complete": False, "cutoff": "2026-09-24",
+                                  "per_files": 3}, _covp, complete=False)
+    assert blind["coverage_pct"] == 66.7 and blind["coverage_90"] == "2026-09-22", blind
+    assert blind["dates_tail"] == [["2026-09-24", 2]], blind
+    assert blind["complete"] is False and blind["cutoff"] == "2026-09-24", blind
+    # stale coverage is replaced by the disk truth, not merged over it
+    stale = _panel_with_coverage({"coverage_pct": 10.0, "coverage_90": "2026-09-01"},
+                                 _covp)
+    assert stale["coverage_pct"] == 66.7 and stale["coverage_90"] == "2026-09-22", stale
+    # an unreadable panel makes no coverage claim and keeps what it had
+    empty = _panel_with_coverage({"per_files": 0},
+                                 {"n": 0, "coverage_pct": None,
+                                  "coverage_90": None, "dates_tail": []})
+    assert "coverage_pct" not in empty and empty["per_files"] == 0, empty
+    assert _panel_with_coverage({"coverage_pct": 50.0},
+                                {"n": 0, "coverage_pct": None})["coverage_pct"] == 50.0
     # todo: file-derived continuation
     with tempfile.TemporaryDirectory() as td:
         global PER_DIR
