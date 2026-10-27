@@ -21812,7 +21812,7 @@
   },
   {
    "id": "E105-LEVEL-SINGLE-NAME-COLUMN",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (midlevels / gaparmfamily faces)",
@@ -21823,7 +21823,9 @@
    "entered_at": "2026-10-27T07:05:00+08:00",
    "entered_by": "bm-b r1169",
    "runner_note": "pure function of the already-burned levels face + churn rows; no new engine work and no re-burn of panels",
-   "note_from_e104": "r1170: the column now exists inside HELDSPLIT-20261026-s2018.json as cells[].largest_single_name_read (name, both reads, share of the window mean, share_eligible gate at a 0.5% mean floor). Still open as a standalone MIDLEVEL-DRIVERS face because that column is computed on the persistent-name population, not on every level transition."
+   "note_from_e104": "r1170: the column now exists inside HELDSPLIT-20261026-s2018.json as cells[].largest_single_name_read (name, both reads, share of the window mean, share_eligible gate at a 0.5% mean floor). Still open as a standalone MIDLEVEL-DRIVERS face because that column is computed on the persistent-name population, not on every level transition.",
+   "result_ref": "results/e44_midmonth/MIDLEVEL-DRIVERS-20261026-s20180101.json",
+   "done_by": "bm-b r1179"
   },
   {
    "id": "E106-REPAIR-STEP-CONSISTENCY",
@@ -21962,7 +21964,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T13:5x+08:00",
+ "updated_at": "2026-10-27T13:38:43+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
