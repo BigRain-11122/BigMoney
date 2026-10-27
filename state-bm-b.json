@@ -839,10 +839,10 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "clean ff push 7f9b1b557..7f8a2dcd7, four-way verified (behind 0 / ahead 0 / ls-tree origin carries TILT4SCREEN-20261027.json blob 9c68b8181)",
+  "note": "base = origin tip 93b634836 (r1197); pushed 09df85ece",
   "status": "PUSHED_VERIFIED",
-  "pushed_sha": "7f8a2dcd7",
-  "ts": "2026-10-28T02:57:10+08:00"
+  "ts": "2026-10-28T03:48:26+08:00",
+  "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f"
  },
  "task": "r1199: E127 screen-reach ledger (the new supply axis -- E97 uncovered is now 0) or E126 tilt3 reach-back",
  "task_short": "E127 screen-reach ledger",
@@ -879,5 +879,12 @@
   "not_run": "bm-a 宿主守卫之外的其余长跑采集链未逐条跑；GPU 面未手写（心跳 GPU 键不传，由 gpu_face 单点探针持有）",
   "push": "7f8a2dcd7 PUSHED_VERIFIED"
  },
- "mirror_note": "r1198: both faces written in the same closeout (dual-face law)"
+ "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
+ "r1198_push": {
+  "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T03:48:26+08:00",
+  "behind_origin_main": 0,
+  "note": "first attempt, no claw block; four-way verified (HEAD==origin/main==09df85ece, ahead=0 behind=0, ls-tree origin carries the digest and the CASHLegSCREEN face). Targeted add only: the drama lane faces (content/drama/QUEUE.md, ROUND-LOG.md, loop_state.json) and the stray results/_smoke_r1188b.err were left untouched because they were dirty at open and are not this round's output."
+ }
 }
