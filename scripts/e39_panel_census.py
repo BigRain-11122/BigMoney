@@ -827,6 +827,12 @@ TILT_SMALL = ("sh510500", "sh512100", "sh588000")
 # four-member reach-back skin: sh588000 has no bars before 2020-11-13, so the
 # five-member tilt cannot be measured on pre-2021 months (E43-TILT-4MEMBER-HISTORY)
 TILT4_SMALL = ("sh510500", "sh512100")
+# three-member reach-back skin: sh512100 has no bars before 2016-11-04, so the
+# four-member tilt cannot be priced on 2013-2016 either (E43-TILT-3MEMBER-
+# REACHBACK). Dropping it leaves 2 broad-cap vs sh510500 alone (first bar
+# 2013-03-15), the only skin that reads the pre-2017 years -- at a composition
+# cost that is published beside the wider skins rather than assumed away.
+TILT3_SMALL = ("sh510500",)
 
 
 def _tilt_series(mem, brk, months, large, small):
@@ -851,6 +857,20 @@ def _tilt_series(mem, brk, months, large, small):
         used.append(m)
         tilt[m] = sum(sm) / len(sm) - sum(lg) / len(lg)
     return used, tilt, dropped
+
+
+def _skin_months(lad_m, wide_m, mem, large, small):
+    """Months one skin can be priced on: every member of BOTH legs is present.
+
+    The wider skins bind on their newest member (sh588000 from 2020-11,
+    sh512100 from 2016-11), so the reach-back of a skin IS this predicate. It is
+    a named function rather than an inline comprehension because a selftest can
+    then prove the narrow skin really extends the window instead of trusting the
+    constant (E126 liveness leg).
+    """
+    need = list(large) + list(small)
+    return [m for m in sorted(lad_m)
+            if m in wide_m and all(m in mem[s] for s in need)]
 
 
 def _compose_counts(live, large, small):
@@ -1416,15 +1436,16 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
     wide_m = dict(_month_rets(curves[wide_name]))
     mem = {s: _member_monthly(cal, s, raw_all) for s in base.LADDER}
     brk = {s: _member_break_months(cal, s, raw_all) for s in base.LADDER}
-    five_ok = [m for m in sorted(lad_m)
-               if m in wide_m and all(m in mem[s] for s in base.LADDER)]
+    five_ok = _skin_months(lad_m, wide_m, mem, TILT_LARGE, TILT_SMALL)
     months, tilt, dropped = _tilt_series(mem, brk, five_ok, TILT_LARGE, TILT_SMALL)
-    four_ok = [m for m in sorted(lad_m)
-               if m in wide_m and all(m in mem[s] for s in TILT_LARGE + TILT4_SMALL)]
+    four_ok = _skin_months(lad_m, wide_m, mem, TILT_LARGE, TILT4_SMALL)
     months4, tilt4, dropped4 = _tilt_series(mem, brk, four_ok, TILT_LARGE, TILT4_SMALL)
+    three_ok = _skin_months(lad_m, wide_m, mem, TILT_LARGE, TILT3_SMALL)
+    months3, tilt3, dropped3 = _tilt_series(mem, brk, three_ok, TILT_LARGE, TILT3_SMALL)
     return {"cutoff": cutoff, "cal": cal, "curves": curves, "wide_name": wide_name,
             "lad_m": lad_m, "wide_m": wide_m, "months": months, "tilt": tilt,
             "months4": months4, "tilt4": tilt4, "dropped4": dropped4,
+            "months3": months3, "tilt3": tilt3, "dropped3": dropped3,
             "dropped": dropped, "universe": len(universe),
             # per-member monthly returns + break months, so a leg can rebuild any
             # sub-skin without a second panel pass (E44 leave-one-out)
@@ -2582,6 +2603,171 @@ def run_tilt4(outdir, core=None, eras=ERAS, raw=None):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
         "dropped_months_4member": core["dropped4"],
+    }
+
+
+def _skin_small_weights(small):
+    """Equal-weight share of each member inside one size leg, in percent."""
+    return {s: round(100.0 / len(small), 4) for s in small}
+
+
+def run_tilt3(outdir, core=None, eras=ERAS, raw=None):
+    """E43-TILT-3MEMBER-REACHBACK: read the tilt in the years no wider skin can price.
+
+    E43's four-member skin reaches 2017-01 and its docstring claimed a 2013
+    reach-back, but the binding member there is sh512100 (first bar 2016-11-04),
+    so pre2017 carries 1 usable month on BOTH the four- and five-member skins.
+    Dropping to three members (the same 2 broad-cap leg vs sh510500 alone, first
+    bar 2013-03-15) makes 2013-04..2016-12 measurable for the first time.
+
+    The three skins are NOT interchangeable readings of one identity: the small
+    leg goes from 1 name (510500) to 2 (+512100) to 3 (+STAR 588000), so part of
+    any difference is composition. Every era therefore publishes the three-member
+    number BESIDE the four- and five-member number on the months they share, with
+    the denominator of each side, and the deltas are only printed where both
+    sides cover the same months -- a delta across different month sets is an
+    artefact, not a skin price (E126 denominator rule).
+
+    ``raw`` mirrors run_tilt4's seam so a twin can burn both arms off one load.
+    """
+    core = core if core is not None else _monthly_core(raw_all=raw)
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = [m for m in core["months3"] if _in_era(m, lo, hi)]
+        if len(ms) < 3:
+            rows[name] = {"months": len(ms), "skipped": "fewer than 3 usable months"}
+            continue
+        tilt = [core["tilt3"][m] for m in ms]
+        lad = [core["lad_m"][m] for m in ms]
+        spread = [core["wide_m"][m] - core["lad_m"][m] for m in ms]
+        tm = _moments(tilt)
+        beta_l, alpha_l, r2_l = _ols(lad, tilt)
+        beta_s, alpha_s, r2_s = _ols(spread, tilt)
+        tilt_ann = tm["mean"] * 12.0 * 1e4 if tm["mean"] is not None else None
+        raw_ann = sum(spread) / len(spread) * 12.0 * 1e4
+        seg_l = _rebase(_slice_curve(core["curves"]["ladder5"], lo, hi))
+        seg_w = _rebase(_slice_curve(core["curves"][core["wide_name"]], lo, hi))
+        eng_diff = None
+        if len(seg_l) > 1 and len(seg_w) > 1:
+            yrs = len(seg_l) / 252.0
+            eng_diff = round((risk_profile(seg_w, yrs)["ann_return_pct"]
+                              - risk_profile(seg_l, yrs)["ann_return_pct"]) * 100, 1)
+        pos = sum(1 for t in tilt if t > 0)
+        i_max = max(range(len(tilt)), key=lambda i: tilt[i])
+        i_min = min(range(len(tilt)), key=lambda i: tilt[i])
+        rows[name] = {
+            "months": len(ms), "from": ms[0], "to": ms[-1],
+            "skin": "3-member (2 broad vs 510500)",
+            "tilt_annualised_bp": round(tilt_ann, 1) if tilt_ann is not None else None,
+            "tilt_sd_bp": round(tm["sd"] * 1e4, 1) if tm["sd"] is not None else None,
+            "tilt_positive_share_pct": round(pos / len(tilt) * 100, 1),
+            "tilt_best_month": {"month": ms[i_max], "spread_pct": round(tilt[i_max] * 100, 2)},
+            "tilt_worst_month": {"month": ms[i_min], "spread_pct": round(tilt[i_min] * 100, 2)},
+            "beta_ladder_on_tilt": round(beta_l, 3) if beta_l is not None else None,
+            "alpha_monthly_bp": round(alpha_l * 1e4, 2) if alpha_l is not None else None,
+            "r_squared": round(r2_l, 4) if r2_l is not None else None,
+            "tilt_explains_ladder_var_pct": round(r2_l * 100, 2) if r2_l is not None else None,
+            "ladder_mean_month_pct": round(_moments(lad)["mean"] * 100, 4),
+            "spread_raw_ann_bp": round(raw_ann, 1),
+            "spread_size_neutral_ann_bp": (round(alpha_s * 12.0 * 1e4, 1)
+                                           if alpha_s is not None else None),
+            "spread_size_component_ann_bp": (round(beta_s * tilt_ann, 1)
+                                             if beta_s is not None and tilt_ann is not None else None),
+            "beta_spread_on_tilt": round(beta_s, 3) if beta_s is not None else None,
+            "r_squared_spread": round(r2_s, 4) if r2_s is not None else None,
+            "engine_ann_diff_bp": eng_diff,
+            "arithmetic_vs_geometric_gap_bp": (
+                round(raw_ann - eng_diff, 1) if eng_diff is not None else None),
+        }
+    # the same months read on the wider skins (never presented as the identity)
+    compare = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms3 = [m for m in core["months3"] if _in_era(m, lo, hi)]
+        shared4 = [m for m in ms3 if m in core["tilt4"]]
+        shared5 = [m for m in ms3 if m in core["tilt"]]
+        t3 = _moments([core["tilt3"][m] for m in ms3])["mean"] if ms3 else None
+        t4 = _moments([core["tilt4"][m] for m in shared4])["mean"] if shared4 else None
+        t5 = _moments([core["tilt"][m] for m in shared5])["mean"] if shared5 else None
+        row = {
+            "months_3member": len(ms3),
+            "months_4member_shared": len(shared4),
+            "months_5member_shared": len(shared5),
+            "tilt_3member_ann_bp": round(t3 * 12 * 1e4, 1) if t3 is not None else None,
+            "tilt_4member_ann_bp_shared_months":
+                round(t4 * 12 * 1e4, 1) if t4 is not None else None,
+            "tilt_5member_ann_bp_shared_months":
+                round(t5 * 12 * 1e4, 1) if t5 is not None else None,
+        }
+        # a delta is only a skin price when both sides price the SAME months
+        if t3 is not None and t4 is not None and len(shared4) == len(ms3):
+            row["delta_4member_minus_3member_bp"] = round((t4 - t3) * 12 * 1e4, 1)
+        else:
+            row["delta_4member_minus_3member_bp"] = None
+            row["delta_4member_minus_3member_reason"] = (
+                "denominators differ (%d vs %d months)" % (len(shared4), len(ms3)))
+        if t3 is not None and t5 is not None and len(shared5) == len(ms3):
+            row["delta_5member_minus_3member_bp"] = round((t5 - t3) * 12 * 1e4, 1)
+        else:
+            row["delta_5member_minus_3member_bp"] = None
+            row["delta_5member_minus_3member_reason"] = (
+                "denominators differ (%d vs %d months)" % (len(shared5), len(ms3)))
+        row["note"] = ("three skins weight the small leg differently; the delta is the "
+                       "composition price, not the identity")
+        compare[name] = row
+    measured = {k: v for k, v in rows.items() if k != "full" and "tilt_annualised_bp" in v}
+    neutral3 = [v["spread_size_neutral_ann_bp"] for v in measured.values()
+                if v.get("spread_size_neutral_ann_bp") is not None]
+    pre = rows.get("pre2017") or {}
+    return {
+        "study": "e43_tilt_3member_reachback",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {"large": list(TILT_LARGE), "small": list(TILT3_SMALL),
+                 "four_member_small": list(TILT4_SMALL),
+                 "five_member_small": list(TILT_SMALL),
+                 "small_leg_member_weight_pct": {
+                     "3member": _skin_small_weights(TILT3_SMALL),
+                     "4member": _skin_small_weights(TILT4_SMALL),
+                     "5member": _skin_small_weights(TILT_SMALL)},
+                 "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean), "
+                                  "equal weight within each leg on the three-member skin",
+                 "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+                 "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0},
+        "eras": rows,
+        "skin_comparison": compare,
+        "answers": {
+            "eras_measured_3member": len(measured),
+            "eras_measured_4member": sum(
+                1 for v in rows.values() if v.get("months") and v.get("months") >= 3),
+            "era_names_measured_3member": sorted(measured),
+            "pre2017_months_3member": pre.get("months"),
+            "pre2017_tilt_3member_ann_bp": pre.get("tilt_annualised_bp"),
+            "pre2017_measurable_at_all": bool(pre.get("months", 0) >= 3),
+            "eras_positive_tilt": sum(1 for v in measured.values()
+                                      if v["tilt_annualised_bp"] > 0),
+            "eras_positive_size_neutral": sum(1 for x in neutral3 if x > 0),
+            "size_neutral_range_bp": (round(max(neutral3) - min(neutral3), 1)
+                                      if neutral3 else None),
+            "skin_cells_compared": len(compare),
+            "skin_deltas_published": sum(
+                1 for v in compare.values()
+                if v.get("delta_4member_minus_3member_bp") is not None),
+        },
+        "honest": [
+            "the three-member skin is the NARROWEST reading in this family: its small leg is one "
+            "name (sh510500), so its tilt is a broad-vs-mid read with no STAR or 512100 content -- "
+            "it is published beside the four- and five-member rows, never as the identity",
+            "the three skins differ in composition, not only in window: the small-leg member "
+            "weights are stated in spec.small_leg_member_weight_pct so a reader can see what the "
+            "delta is priced against",
+            "deltas are printed only where both sides price the same months; where the wider skin "
+            "covers fewer months the delta is null with the two denominators published",
+            "the ladder and wide curves are the E24/E27 engine's own (module import), unchanged by "
+            "the skin choice -- only the tilt regressor changes",
+            "eras remain calendar partitions of one continuous monthly series and do not add up",
+            "corporate-action guard as in E40 (drops >20% single-day member months)",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+        "dropped_months_3member": core["dropped3"],
     }
 
 
@@ -4595,6 +4781,72 @@ def _tilt4_arrows(face):
                 row.get("spread_size_neutral_ann_bp")),
             "beta_ladder_sign": _pair_sign(row.get("beta_ladder_on_tilt")),
         }
+    return out
+
+
+_TILT3_COMPARE_SCALARS = (
+    "months_3member", "months_4member_shared", "months_5member_shared",
+    "tilt_3member_ann_bp", "tilt_4member_ann_bp_shared_months",
+    "tilt_5member_ann_bp_shared_months",
+    "delta_4member_minus_3member_bp", "delta_5member_minus_3member_bp",
+)
+_TILT3_ANSWER_SCALARS = (
+    "eras_measured_3member", "pre2017_months_3member",
+    "pre2017_tilt_3member_ann_bp", "eras_positive_tilt",
+    "eras_positive_size_neutral", "size_neutral_range_bp",
+    "skin_cells_compared", "skin_deltas_published",
+)
+
+
+def _tilt3_arm_cells(face, keys=None):
+    """(E126) -> {(key, column): value} for every cell the tilt3 leg publishes.
+
+    Same three-bucket shape as ``_tilt4_arm_cells`` so the family's join can be
+    reused. The ``skin/`` bucket names BOTH arms inside the column name
+    (``delta_4member_minus_3member_bp``): a delta keyed only by "the compared
+    column" silently overwrites the first arm when a second arm is added
+    (r1280 family), and this face carries two such deltas.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        for col in _TILT4_ERA_SCALARS:
+            out[("era/" + era, col)] = row.get(col)
+        out[("era/" + era, "best_month_spread_pct")] = (
+            (row.get("tilt_best_month") or {}).get("spread_pct"))
+        out[("era/" + era, "worst_month_spread_pct")] = (
+            (row.get("tilt_worst_month") or {}).get("spread_pct"))
+        out[("era/" + era, "decomposition_gap_bp")] = _tilt4_decomposition_gap(row)
+    for era, row in (face.get("skin_comparison") or {}).items():
+        for col in _TILT3_COMPARE_SCALARS:
+            out[("skin/" + era, col)] = (row or {}).get(col)
+    for col in _TILT3_ANSWER_SCALARS:
+        out[("answers", col)] = (face.get("answers") or {}).get(col)
+    return out
+
+
+def _tilt3_arm_dates(face, keys=None):
+    """(E126) the claim layer: era boundaries, month identities, skin notes.
+
+    A delta set to null because the two skins cover different month counts is a
+    claim, not a missing number -- the reason string rides here so a reader can
+    tell "not measured" from "measured and equal".
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        out["era/" + era] = {
+            "from": row.get("from"), "to": row.get("to"),
+            "best_month": (row.get("tilt_best_month") or {}).get("month"),
+            "worst_month": (row.get("tilt_worst_month") or {}).get("month"),
+        }
+    for era, row in (face.get("skin_comparison") or {}).items():
+        row = row or {}
+        out.setdefault("skin/" + era, {})["note"] = row.get("note")
+        out["skin/" + era]["delta_4member_reason"] = row.get(
+            "delta_4member_minus_3member_reason")
+        out["skin/" + era]["delta_5member_reason"] = row.get(
+            "delta_5member_minus_3member_reason")
     return out
 
 
@@ -14880,6 +15132,118 @@ def selftest():
     chk("raw" in run_tilt4.__code__.co_varnames,
         "E124 run_tilt4 carries the raw= seam the twin burns both arms through")
 
+    # ---- E126 tilt3 reach-back skin
+    chk(set(TILT3_SMALL) < set(TILT4_SMALL) < set(TILT_SMALL) and len(TILT3_SMALL) == 1,
+        "E126 the three-member small leg is a one-name subset of both wider skins")
+    _w3 = _skin_small_weights(TILT3_SMALL)
+    _w4 = _skin_small_weights(TILT4_SMALL)
+    _w5 = _skin_small_weights(TILT_SMALL)
+    chk(all(abs(sum(w.values()) - 100.0) < 1e-3 for w in (_w3, _w4, _w5)),
+        "E126 every skin's small-leg weights sum to 100pct (within the published rounding)")
+    chk(abs(_w3["sh510500"] - 100.0) < 1e-9
+        and abs(_w4["sh510500"] - 50.0) < 1e-9
+        and abs(_w5["sh510500"] - 100.0 / 3.0) < 1e-3,
+        "E126 the same member carries a different weight per skin -- the composition price")
+    # liveness: the narrow skin must actually reach months the wider one cannot
+    # (r1261 rule: prove the mechanism ran before comparing anything)
+    _fx_lad = {m: 0.0 for m in ("2013-04", "2016-12", "2017-01")}
+    _fx_mem = {"sh510300": dict(_fx_lad), "sh510050": dict(_fx_lad),
+               "sh510500": {m: 0.02 for m in _fx_lad},
+               "sh512100": {"2016-12": 0.02, "2017-01": 0.02}}
+    _m3 = _skin_months(_fx_lad, _fx_lad, _fx_mem, TILT_LARGE, TILT3_SMALL)
+    _m4 = _skin_months(_fx_lad, _fx_lad, _fx_mem, TILT_LARGE, TILT4_SMALL)
+    chk(_m3 and _m3[0] == "2013-04" and "2013-04" not in _m4,
+        "E126 the narrow skin reaches a month the wider skin cannot price")
+    chk(set(_m4) < set(_m3),
+        "E126 the reach is a strict superset, not a different window")
+    _t3_face = {
+        "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "pre2017": {"months": 45, "from": "2013-04", "to": "2016-12",
+                        "tilt_annualised_bp": 180.0, "tilt_sd_bp": 300.0,
+                        "tilt_positive_share_pct": 55.5, "beta_ladder_on_tilt": 0.12,
+                        "alpha_monthly_bp": 1.1, "r_squared": 0.06,
+                        "tilt_explains_ladder_var_pct": 6.0,
+                        "ladder_mean_month_pct": 0.40,
+                        "spread_raw_ann_bp": 290.0,
+                        "spread_size_neutral_ann_bp": 110.0,
+                        "spread_size_component_ann_bp": 180.0,
+                        "beta_spread_on_tilt": 0.4, "r_squared_spread": 0.09,
+                        "engine_ann_diff_bp": 240.0,
+                        "arithmetic_vs_geometric_gap_bp": 50.0,
+                        "tilt_best_month": {"month": "2015-04", "spread_pct": 6.2},
+                        "tilt_worst_month": {"month": "2016-01", "spread_pct": -5.1}},
+            "full": {"months": 160, "from": "2013-04", "to": "2026-10",
+                     "tilt_annualised_bp": 120.0, "tilt_sd_bp": 280.0,
+                     "tilt_positive_share_pct": 53.0, "beta_ladder_on_tilt": 0.09,
+                     "alpha_monthly_bp": 0.8, "r_squared": 0.04,
+                     "tilt_explains_ladder_var_pct": 4.0,
+                     "ladder_mean_month_pct": 0.55,
+                     "spread_raw_ann_bp": 240.0,
+                     "spread_size_neutral_ann_bp": 90.0,
+                     "spread_size_component_ann_bp": 150.0,
+                     "beta_spread_on_tilt": 0.35, "r_squared_spread": 0.07,
+                     "engine_ann_diff_bp": 200.0,
+                     "arithmetic_vs_geometric_gap_bp": 40.0,
+                     "tilt_best_month": {"month": "2020-07", "spread_pct": 8.1},
+                     "tilt_worst_month": {"month": "2016-01", "spread_pct": -5.1}},
+        },
+        "skin_comparison": {
+            "pre2017": {"months_3member": 45, "months_4member_shared": 1,
+                        "months_5member_shared": 0,
+                        "tilt_3member_ann_bp": 180.0,
+                        "tilt_4member_ann_bp_shared_months": None,
+                        "tilt_5member_ann_bp_shared_months": None,
+                        "delta_4member_minus_3member_bp": None,
+                        "delta_4member_minus_3member_reason":
+                            "denominators differ (1 vs 45 months)",
+                        "delta_5member_minus_3member_bp": None,
+                        "delta_5member_minus_3member_reason":
+                            "denominators differ (0 vs 45 months)",
+                        "note": "three skins weight the small leg differently"},
+            "full": {"months_3member": 160, "months_4member_shared": 160,
+                     "months_5member_shared": 70,
+                     "tilt_3member_ann_bp": 120.0,
+                     "tilt_4member_ann_bp_shared_months": 150.0,
+                     "tilt_5member_ann_bp_shared_months": 130.0,
+                     "delta_4member_minus_3member_bp": 30.0,
+                     "delta_5member_minus_3member_bp": 10.0,
+                     "note": "three skins weight the small leg differently"},
+        },
+        "answers": {"eras_measured_3member": 1, "pre2017_months_3member": 45,
+                    "pre2017_tilt_3member_ann_bp": 180.0, "eras_positive_tilt": 1,
+                    "eras_positive_size_neutral": 1, "size_neutral_range_bp": 0.0,
+                    "skin_cells_compared": 2, "skin_deltas_published": 1},
+    }
+    _t3_cells = _tilt3_arm_cells(_t3_face)
+    chk(_t3_cells[("era/pre2017", "tilt_annualised_bp")] == 180.0,
+        "E126 the harvest reads the per-era tilt on the three-member skin")
+    chk(_t3_cells[("era/pre2017", "decomposition_gap_bp")] == 0.0,
+        "E126 the decomposition is still published per era on the narrow skin")
+    chk(_t3_cells[("answers", "pre2017_months_3member")] == 45,
+        "E126 the answer layer carries how far back the skin actually reaches")
+    chk(_t3_cells[("skin/full", "delta_4member_minus_3member_bp")] == 30.0
+        and _t3_cells[("skin/full", "delta_5member_minus_3member_bp")] == 10.0,
+        "E126 both skin deltas survive side by side (each arm keyed in its own column)")
+    # a delta across different month sets is an artefact, not a skin price
+    chk(_t3_cells[("skin/pre2017", "delta_4member_minus_3member_bp")] is None,
+        "E126 a shared-month denominator mismatch publishes no delta")
+    chk(_t3_cells[("skin/pre2017", "delta_4member_minus_3member_bp")] != 0.0,
+        "E126 a refused delta is None, never a silent zero")
+    chk("denominators differ" in
+        (_tilt3_arm_dates(_t3_face)["skin/pre2017"]["delta_4member_reason"] or ""),
+        "E126 the refusal carries the two denominators, not just a null")
+    chk(_t3_cells[("skin/pre2017", "months_3member")] == 45
+        and _t3_cells[("skin/pre2017", "months_4member_shared")] == 1,
+        "E126 the denominator is published beside the number it divides")
+    chk(not [k for k in _t3_cells if isinstance(_t3_cells[k], bool)],
+        "E126 no boolean leaks into the numeric layer")
+    chk([k for k in {k[0] for k in _t3_cells}
+         if not k.startswith(("era/", "skin/", "answers"))] == [],
+        "E126 every harvested key lands in a named bucket")
+    chk("raw" in run_tilt3.__code__.co_varnames,
+        "E126 run_tilt3 carries the raw= seam a screened twin would burn through")
+
     # ---- E125 cashdrag screened twin
     _cash_face = {
         "evidence_cutoff": "2026-10-27",
@@ -17438,7 +17802,7 @@ def main(argv):
                              "cashdragscreened",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "tilt4screened",
+                             "tilt4screened", "tilt3reach",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -18094,6 +18458,22 @@ def main(argv):
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "claims_moved":
                                           f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3reach":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3(None)
+        p = write_json(outdir, "TILT3REACH-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3reach",
+                          "file": os.path.relpath(p, ROOT),
+                          "eras": {k: {"months": v.get("months"),
+                                       "from": v.get("from"), "to": v.get("to"),
+                                       "tilt_bp": v.get("tilt_annualised_bp"),
+                                       "neutral_bp": v.get("spread_size_neutral_ann_bp")}
+                                   for k, v in f["eras"].items()},
+                          "skin_comparison": f["skin_comparison"],
+                          "answers": f["answers"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "cashdragscreened":

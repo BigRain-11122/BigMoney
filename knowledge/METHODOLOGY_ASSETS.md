@@ -1705,3 +1705,28 @@ Evidence: results/e40_cashleg_drag/CASHLeg-20261027.json (`cash_window_by_book`,
 `cash_window_note`), results/e40_cashleg_drag/IDENTITY-20261027.json (two windows),
 scripts/e39_panel_census.py (`_first_trade_index`, `_window_is_burn_in_driven`, `_cash_identity`,
 selftest 476 -> 488), research/digests/DIGEST-20261028-r1200-e128-cash-window-identity.md.
+
+## E167 A skin that reaches further is a different reading, and its price must be published (2026-10-28 r1201 bm-b)
+
+A "reach-back" wider window is not free evidence: in the size-tilt family the five-member,
+four-member and three-member skins each price a *different* small leg (3 names / 2 names /
+`sh510500` alone), so 2013-2016 is measurable only by the narrowest one. Publishing that number
+as "the tilt" would present the most compositionally extreme arm as the identity.
+
+Two rules fall out, and both are mechanical:
+
+1. **Reach is a predicate, not a claim.** Which months a skin can price is decided by one
+   function (here `_skin_months`: every member of both legs present on both books). Name it and
+   give it a liveness selftest asserting the narrow skin reaches a month the wide one cannot,
+   otherwise "we reach 2013" is a docstring.
+2. **A delta across different month sets is an artefact, not a price.** Publish both
+   denominators beside every comparison and set the delta to `null` + a reason string when they
+   differ; never let a null collapse to 0.0, and never print a ratio between unequal cells.
+
+Reading that motivated it: pre2017 tilt +1186.4bp/yr (44 months) with the size-neutral leg only
++134.4bp, then -923.9bp/yr in 2017_2020 -- the sign is era-dependent, and the 4-vs-3-member
+composition price swings -69.4 / +343.7 / -120.7bp across the eras that share months.
+
+Evidence: results/e43_tilt_4member/TILT3REACH-20261027.json, scripts/e39_panel_census.py
+(`TILT3_SMALL`, `_skin_months`, `run_tilt3`, `_tilt3_arm_cells`, selftest 488 -> 504),
+research/digests/DIGEST-20261028-r1201-e126-tilt3-reachback.md.

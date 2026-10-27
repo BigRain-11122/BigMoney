@@ -1,0 +1,311 @@
+{
+ "study": "e43_tilt_3member_reachback",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500"
+  ],
+  "four_member_small": [
+   "sh510500",
+   "sh512100"
+  ],
+  "five_member_small": [
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "small_leg_member_weight_pct": {
+   "3member": {
+    "sh510500": 100.0
+   },
+   "4member": {
+    "sh510500": 50.0,
+    "sh512100": 50.0
+   },
+   "5member": {
+    "sh510500": 33.3333,
+    "sh512100": 33.3333,
+    "sh588000": 33.3333
+   }
+  },
+  "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean), equal weight within each leg on the three-member skin",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0
+ },
+ "eras": {
+  "pre2017": {
+   "months": 44,
+   "from": "2013-04",
+   "to": "2016-12",
+   "skin": "3-member (2 broad vs 510500)",
+   "tilt_annualised_bp": 1186.4,
+   "tilt_sd_bp": 687.5,
+   "tilt_positive_share_pct": 50.0,
+   "tilt_best_month": {
+    "month": "2015-05",
+    "spread_pct": 20.44
+   },
+   "tilt_worst_month": {
+    "month": "2014-12",
+    "spread_pct": -28.08
+   },
+   "beta_ladder_on_tilt": -0.125,
+   "alpha_monthly_bp": 91.72,
+   "r_squared": 0.0151,
+   "tilt_explains_ladder_var_pct": 1.51,
+   "ladder_mean_month_pct": 0.7936,
+   "spread_raw_ann_bp": 287.2,
+   "spread_size_neutral_ann_bp": 134.4,
+   "spread_size_component_ann_bp": 152.8,
+   "beta_spread_on_tilt": 0.129,
+   "r_squared_spread": 0.3108,
+   "engine_ann_diff_bp": 236.0,
+   "arithmetic_vs_geometric_gap_bp": 51.2
+  },
+  "2017_2020": {
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "skin": "3-member (2 broad vs 510500)",
+   "tilt_annualised_bp": -923.9,
+   "tilt_sd_bp": 377.6,
+   "tilt_positive_share_pct": 39.6,
+   "tilt_best_month": {
+    "month": "2019-02",
+    "spread_pct": 7.25
+   },
+   "tilt_worst_month": {
+    "month": "2017-05",
+    "spread_pct": -10.01
+   },
+   "beta_ladder_on_tilt": 0.338,
+   "alpha_monthly_bp": 105.54,
+   "r_squared": 0.0667,
+   "tilt_explains_ladder_var_pct": 6.67,
+   "ladder_mean_month_pct": 0.7953,
+   "spread_raw_ann_bp": 331.7,
+   "spread_size_neutral_ann_bp": 289.0,
+   "spread_size_component_ann_bp": 42.7,
+   "beta_spread_on_tilt": -0.046,
+   "r_squared_spread": 0.0389,
+   "engine_ann_diff_bp": 419.0,
+   "arithmetic_vs_geometric_gap_bp": -87.3
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "skin": "3-member (2 broad vs 510500)",
+   "tilt_annualised_bp": 609.9,
+   "tilt_sd_bp": 475.9,
+   "tilt_positive_share_pct": 50.0,
+   "tilt_best_month": {
+    "month": "2022-10",
+    "spread_pct": 11.67
+   },
+   "tilt_worst_month": {
+    "month": "2022-08",
+    "spread_pct": -13.0
+   },
+   "beta_ladder_on_tilt": 0.148,
+   "alpha_monthly_bp": -86.03,
+   "r_squared": 0.0252,
+   "tilt_explains_ladder_var_pct": 2.52,
+   "ladder_mean_month_pct": -0.7849,
+   "spread_raw_ann_bp": 251.1,
+   "spread_size_neutral_ann_bp": 350.6,
+   "spread_size_component_ann_bp": -99.5,
+   "beta_spread_on_tilt": -0.163,
+   "r_squared_spread": 0.3395,
+   "engine_ann_diff_bp": 243.0,
+   "arithmetic_vs_geometric_gap_bp": 8.1
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "skin": "3-member (2 broad vs 510500)",
+   "tilt_annualised_bp": 252.8,
+   "tilt_sd_bp": 495.2,
+   "tilt_positive_share_pct": 47.1,
+   "tilt_best_month": {
+    "month": "2026-01",
+    "spread_pct": 10.99
+   },
+   "tilt_worst_month": {
+    "month": "2026-07",
+    "spread_pct": -13.97
+   },
+   "beta_ladder_on_tilt": 1.265,
+   "alpha_monthly_bp": 71.19,
+   "r_squared": 0.6271,
+   "tilt_explains_ladder_var_pct": 62.71,
+   "ladder_mean_month_pct": 0.9783,
+   "spread_raw_ann_bp": -21.6,
+   "spread_size_neutral_ann_bp": 58.8,
+   "spread_size_component_ann_bp": -80.4,
+   "beta_spread_on_tilt": -0.318,
+   "r_squared_spread": 0.4613,
+   "engine_ann_diff_bp": 106.0,
+   "arithmetic_vs_geometric_gap_bp": -127.6
+  },
+  "full": {
+   "months": 162,
+   "from": "2013-04",
+   "to": "2026-10",
+   "skin": "3-member (2 broad vs 510500)",
+   "tilt_annualised_bp": 237.1,
+   "tilt_sd_bp": 521.6,
+   "tilt_positive_share_pct": 46.3,
+   "tilt_best_month": {
+    "month": "2015-05",
+    "spread_pct": 20.44
+   },
+   "tilt_worst_month": {
+    "month": "2014-12",
+    "spread_pct": -28.08
+   },
+   "beta_ladder_on_tilt": 0.25,
+   "alpha_monthly_bp": 43.27,
+   "r_squared": 0.045,
+   "tilt_explains_ladder_var_pct": 4.5,
+   "ladder_mean_month_pct": 0.4821,
+   "spread_raw_ann_bp": 227.6,
+   "spread_size_neutral_ann_bp": 236.1,
+   "spread_size_component_ann_bp": -8.6,
+   "beta_spread_on_tilt": -0.036,
+   "r_squared_spread": 0.0148,
+   "engine_ann_diff_bp": 263.0,
+   "arithmetic_vs_geometric_gap_bp": -35.4
+  }
+ },
+ "skin_comparison": {
+  "pre2017": {
+   "months_3member": 44,
+   "months_4member_shared": 1,
+   "months_5member_shared": 0,
+   "tilt_3member_ann_bp": 1186.4,
+   "tilt_4member_ann_bp_shared_months": 429.4,
+   "tilt_5member_ann_bp_shared_months": null,
+   "delta_4member_minus_3member_bp": null,
+   "delta_4member_minus_3member_reason": "denominators differ (1 vs 44 months)",
+   "delta_5member_minus_3member_bp": null,
+   "delta_5member_minus_3member_reason": "denominators differ (0 vs 44 months)",
+   "note": "three skins weight the small leg differently; the delta is the composition price, not the identity"
+  },
+  "2017_2020": {
+   "months_3member": 48,
+   "months_4member_shared": 48,
+   "months_5member_shared": 1,
+   "tilt_3member_ann_bp": -923.9,
+   "tilt_4member_ann_bp_shared_months": -993.3,
+   "tilt_5member_ann_bp_shared_months": -3918.9,
+   "delta_4member_minus_3member_bp": -69.4,
+   "delta_5member_minus_3member_bp": null,
+   "delta_5member_minus_3member_reason": "denominators differ (1 vs 48 months)",
+   "note": "three skins weight the small leg differently; the delta is the composition price, not the identity"
+  },
+  "2021_2023": {
+   "months_3member": 36,
+   "months_4member_shared": 36,
+   "months_5member_shared": 36,
+   "tilt_3member_ann_bp": 609.9,
+   "tilt_4member_ann_bp_shared_months": 953.6,
+   "tilt_5member_ann_bp_shared_months": 609.2,
+   "delta_4member_minus_3member_bp": 343.7,
+   "delta_5member_minus_3member_bp": -0.7,
+   "note": "three skins weight the small leg differently; the delta is the composition price, not the identity"
+  },
+  "2024_now": {
+   "months_3member": 34,
+   "months_4member_shared": 34,
+   "months_5member_shared": 34,
+   "tilt_3member_ann_bp": 252.8,
+   "tilt_4member_ann_bp_shared_months": 132.1,
+   "tilt_5member_ann_bp_shared_months": 617.1,
+   "delta_4member_minus_3member_bp": -120.7,
+   "delta_5member_minus_3member_bp": 364.3,
+   "note": "three skins weight the small leg differently; the delta is the composition price, not the identity"
+  },
+  "full": {
+   "months_3member": 162,
+   "months_4member_shared": 119,
+   "months_5member_shared": 71,
+   "tilt_3member_ann_bp": 237.1,
+   "tilt_4member_ann_bp_shared_months": -70.8,
+   "tilt_5member_ann_bp_shared_months": 549.2,
+   "delta_4member_minus_3member_bp": null,
+   "delta_4member_minus_3member_reason": "denominators differ (119 vs 162 months)",
+   "delta_5member_minus_3member_bp": null,
+   "delta_5member_minus_3member_reason": "denominators differ (71 vs 162 months)",
+   "note": "three skins weight the small leg differently; the delta is the composition price, not the identity"
+  }
+ },
+ "answers": {
+  "eras_measured_3member": 4,
+  "eras_measured_4member": 5,
+  "era_names_measured_3member": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now",
+   "pre2017"
+  ],
+  "pre2017_months_3member": 44,
+  "pre2017_tilt_3member_ann_bp": 1186.4,
+  "pre2017_measurable_at_all": true,
+  "eras_positive_tilt": 3,
+  "eras_positive_size_neutral": 4,
+  "size_neutral_range_bp": 291.8,
+  "skin_cells_compared": 5,
+  "skin_deltas_published": 3
+ },
+ "honest": [
+  "the three-member skin is the NARROWEST reading in this family: its small leg is one name (sh510500), so its tilt is a broad-vs-mid read with no STAR or 512100 content -- it is published beside the four- and five-member rows, never as the identity",
+  "the three skins differ in composition, not only in window: the small-leg member weights are stated in spec.small_leg_member_weight_pct so a reader can see what the delta is priced against",
+  "deltas are printed only where both sides price the same months; where the wider skin covers fewer months the delta is null with the two denominators published",
+  "the ladder and wide curves are the E24/E27 engine's own (module import), unchanged by the skin choice -- only the tilt regressor changes",
+  "eras remain calendar partitions of one continuous monthly series and do not add up",
+  "corporate-action guard as in E40 (drops >20% single-day member months)",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months_3member": [
+  {
+   "month": "2015-04",
+   "members_with_break": [
+    "sh510500"
+   ],
+   "members_missing": []
+  }
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}
