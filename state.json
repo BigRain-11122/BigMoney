@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-28T04:47:00+08:00",
+ "clock_read": "2026-10-28T06:50:00+08:00",
  "cpu_load_pct": 2.0,
  "cpu_pct": 2.0,
  "cpu_util_pct": 2.0,
@@ -11,15 +11,15 @@
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
-  "tool": "scripts/d19_watermark.py",
-  "probe": "results/_r686bmb_d19_check.py",
-  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "advance": true,
   "method_decisions": "sha256",
   "method_orders": "sha256",
-  "verbatim": true,
-  "advance": true,
-  "round_ref": 1201,
-  "ts": "2026-10-28T06:19:19+08:00"
+  "probe": "results/_r686bmb_d19_check.py",
+  "probe_evidence": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-b.json",
+  "round_ref": 1205,
+  "tool": "scripts/d19_watermark.py",
+  "ts": "2026-10-28T06:46:31+08:00",
+  "verbatim": true
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
@@ -37,7 +37,7 @@
  "last_decisions_at": "2026-10-28T06:19:19+08:00",
  "last_decisions_probe_at": "2026-10-20T05:07:48+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
- "last_decisions_read_at": "2026-10-28T06:19:19+08:00",
+ "last_decisions_read_at": "2026-10-28T06:46:31+08:00",
  "last_decisions_sha": "47a48ea5617b370215988e8c9ab5aeedc0b124b93045c01756094d92cb6c6fef",
  "last_decisions_sha_method": "r982: origin blob sha256 via git show (group fetch in-probe); unchanged vs r980/r981 probes",
  "last_decisions_sha_probe": "4cfdd17caa13c60b718d3031f132620c8f66a9cc1e1b133a2f4cc73071b535c0",
@@ -46,7 +46,7 @@
  "last_orders_at": "2026-10-18T16:35:49+08:00",
  "last_orders_probe_at": "2026-10-20T08:45:12+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
- "last_orders_read_at": "2026-10-28T06:19:19+08:00",
+ "last_orders_read_at": "2026-10-28T06:46:31+08:00",
  "last_orders_sha": "d6d85b613154df4b81fd538cbcbda537b5c71f021becd436df6b70af546de156",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
  "last_orders_sha_probe": "43a18d010268fdbac6e56288fee722b613ceb58fe583abd17a665d8c066e9af5",
@@ -61,11 +61,11 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
- "last_round": "r1199",
- "last_round_at": "2026-10-27T17:31:00+08:00",
- "last_round_report": "r1176 E97: routing table published; 21 of 25 charged modes have no screened twin; largest uncovered burn run_burnin 1727 numbers",
- "last_round_ts": "2026-10-27T17:31:00+08:00",
- "last_seen": "2026-10-27T10:50:17+08:00",
+ "last_round": 1206,
+ "last_round_at": "2026-10-28T06:50:00+08:00",
+ "last_round_report": "logs/iteration-loop/round_reports.md",
+ "last_round_ts": "2026-10-28T06:50:00+08:00",
+ "last_seen": "2026-10-28T06:50:00+08:00",
  "last_updated": "2026-10-27T15:14:12+08:00",
  "latest_artifact": "results/e44_midmonth/PANELSPLITSCREEN-20261027.json",
  "local_not_on_origin_commits": 0,
@@ -497,16 +497,65 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T04:19:43+08:00"
  },
+ "r1205_face": {
+  "attrition": "CLEAN",
+  "d19": "dec+ord DELTA consumed (D-20261028-06/07, none actionable for this repo), watermark advanced",
+  "digest": "research/digests/DIGEST-20261028-r1205-e169-tilt3-sign-vs-engine.md",
+  "dualrun": "ZERO-DRIFT streak 7",
+  "finding": "the tilt's sign is not the book's sign: 2 of 4 eras disagree at the era scale (2017_2020 tilt -923.9 vs engine +331.7; 2024_now +252.8 vs -21.6) and no era clears 57% month-level agreement (full window 43.8%)",
+  "leg": "scripts/e39_panel_census.py tilt3sign (selftest 535/535)",
+  "orphan_face": 0,
+  "pool": "E168/E169/E170 closed with done_note; E171/E172/E173 seeded ready (supply floor 3)",
+  "product": "results/e43_tilt_4member/TILT3SIGN-20261027.json",
+  "s6": "all legs rc0, NON-ZERO LEGS: none",
+  "smoke": "114/114 PASS (started 113/114: the health-face leg red because the stale dashboard predated bm-c's cpu column; fixed by a legitimate stale-takeover derive)"
+ },
+ "r1205_push": {
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "clean delivery 2fcecaa17..c0ebcb740, first attempt, zero claw blocks; four-way verified HEAD==origin/main==c0ebcb740a, behind=0 ahead=0, ls-tree origin carries results/e43_tilt_4member/TILT3SIGN-20261027.json. Payload = 23 targeted faces: the tilt3sign leg + face + digest + card E170, the smoke leg's snapshot-vs-upstream fix, pool (E168/E169/E170 closed, E171/E172/E173 seeded), dualrun, attrition/orphan evidence, dashboard stale-takeover derive, daily report + live usage regen, state/heartbeat/round report. Left untouched per r982/r1015/r1033: the drama lane, fleet/machine-health.json, scorecard_v1/strategy_scorecard/token_usage union faces and the unsuffixed other-lane collector status faces.",
+  "pushed_sha": "c0ebcb740",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T06:35:00+08:00"
+ },
+ "r1205_s7": {
+  "claws": "pre-commit + pre-push installed and LF-normalized",
+  "loop_pin": "bm-b pin=2 current=2 no-op",
+  "watchdog": "Bigmoney-LoopWatchdog re-registered S4U SWA=false"
+ },
+ "r1206": {
+  "controls": "same-arm control 0/78 cells; cutoff control raw-vs-raw 0 cells, max 0.0bp; all eras priced on the same month count on both arms; 0 one-arm-only cells",
+  "d19": "decisions same / orders same (reproducible @5d970cf, 175353 / 177058 bytes), delta none; update --advance NOOP with heartbeat mirrors synced 2",
+  "defects_fixed": [
+   "F-20261028-09: agreement 'worsens' was the negation of 'screened > raw', so identical rates printed as five worsening eras; three-state _agreement_change (recovered/worsened/unchanged/not_measurable) + leg",
+   "routing: run_tilt3screened (E170) had never been declared in TWIN_FUNCS, L15 was red at the open of this round; both tilt3 twins now declared (covered_twin 24 -> 25, uncovered 0)"
+  ],
+  "finding": "tilt column 0 of 25 cells moved (E170's invariance re-measured), engine column 3 of 15 moved: 2021_2023 +29.3bp, 2024_now +46.7bp (sign flip -21.6 -> +25.1, era verdict disagree -> agree), full +16.3bp; 2017_2020 engine unchanged at +331.7bp and keeps disagreeing against a -923.9bp tilt. Month agreement is bit-identical on both arms in every era, so the repair moves levels, not rates.",
+  "mission": "burn pool row E171 (screened twin of the tilt-vs-engine sign face)",
+  "not_run": "bm-a host-guarded legs (strategy_scorecard / market_clock_call / daily_scorecard / build_status) and the long bm-a-lane collectors; GPU untouched (drama voice lane holds VRAM, parked per C-20261014-01)",
+  "pool": "E171 done; E172/E173/E174 ready (3 == supply floor)",
+  "product": [
+   "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json (78 cells, 5 moved)",
+   "research/digests/DIGEST-20261028-r1206-e171-tilt3-screened-sign.md",
+   "knowledge/METHODOLOGY_ASSETS.md E171",
+   "scripts/e39_panel_census.py: _agreement_change / _tilt3sign_arm_cells / _tilt3sign_arm_dates / run_tilt3screensign + CLI mode tilt3screensign (selftest 535 -> 543)",
+   "scripts/e97_routing.py TWIN_FUNCS += run_tilt3screensign, run_tilt3screened (the latter was undeclared since r1205; L15 red at open)",
+   "results/runnable_pool.json E171 -> done (+ E174 seeded)"
+  ],
+  "s6": "dualrun ZERO-DRIFT 657 entries streak 9 | compute_audit FLAG:supply_gap (ready 3 == floor 3 before this round's close) | watermark insufficient_history (n=1) | update_daily 0 new rows (cutoff 2026-10-27, 15:30 guard) | market_regime triggers crash10d -5.1% / breadth 85% | attrition CLEAN 4 ledgers (1 healed) | orphan 0 (7 py faces)",
+  "selftest": "e39 535 -> 543/543; e97 29/29",
+  "smoke": "114/114 PASS at open"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1205,
- "round_no": 1205,
- "round_no_label": "r1205",
- "round_no_ts": "2026-10-28T04:19:43+08:00",
+ "round": 1206,
+ "round_no": 1206,
+ "round_no_label": "r1206",
+ "round_no_ts": "2026-10-28T06:50:00+08:00",
  "sat_engine": {
   "checked_at": "2026-10-22T23:28:23+08:00",
   "status": "alive (exit 0 at round start)"
@@ -521,36 +570,10 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T04:19:43+08:00"
  },
- "task": "E169 tilt3 sign-vs-engine (published)",
- "task_short": "E126 tilt3 sign vs engine",
- "ts": "2026-10-28T06:19:33+08:00",
- "updated": "2026-10-28T06:19:33+08:00",
- "updated_at": "2026-10-28T06:19:33+08:00",
- "verdict": "green",
- "r1205_face": {
-  "product": "results/e43_tilt_4member/TILT3SIGN-20261027.json",
-  "leg": "scripts/e39_panel_census.py tilt3sign (selftest 535/535)",
-  "digest": "research/digests/DIGEST-20261028-r1205-e169-tilt3-sign-vs-engine.md",
-  "finding": "the tilt's sign is not the book's sign: 2 of 4 eras disagree at the era scale (2017_2020 tilt -923.9 vs engine +331.7; 2024_now +252.8 vs -21.6) and no era clears 57% month-level agreement (full window 43.8%)",
-  "smoke": "114/114 PASS (started 113/114: the health-face leg red because the stale dashboard predated bm-c's cpu column; fixed by a legitimate stale-takeover derive)",
-  "s6": "all legs rc0, NON-ZERO LEGS: none",
-  "pool": "E168/E169/E170 closed with done_note; E171/E172/E173 seeded ready (supply floor 3)",
-  "dualrun": "ZERO-DRIFT streak 7",
-  "attrition": "CLEAN",
-  "orphan_face": 0,
-  "d19": "dec+ord DELTA consumed (D-20261028-06/07, none actionable for this repo), watermark advanced"
- },
- "r1205_push": {
-  "behind_origin_main": 0,
-  "local_not_on_origin_main": 0,
-  "note": "clean delivery 2fcecaa17..c0ebcb740, first attempt, zero claw blocks; four-way verified HEAD==origin/main==c0ebcb740a, behind=0 ahead=0, ls-tree origin carries results/e43_tilt_4member/TILT3SIGN-20261027.json. Payload = 23 targeted faces: the tilt3sign leg + face + digest + card E170, the smoke leg's snapshot-vs-upstream fix, pool (E168/E169/E170 closed, E171/E172/E173 seeded), dualrun, attrition/orphan evidence, dashboard stale-takeover derive, daily report + live usage regen, state/heartbeat/round report. Left untouched per r982/r1015/r1033: the drama lane, fleet/machine-health.json, scorecard_v1/strategy_scorecard/token_usage union faces and the unsuffixed other-lane collector status faces.",
-  "pushed_sha": "c0ebcb740",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T06:35:00+08:00"
- },
- "r1205_s7": {
-  "loop_pin": "bm-b pin=2 current=2 no-op",
-  "watchdog": "Bigmoney-LoopWatchdog re-registered S4U SWA=false",
-  "claws": "pre-commit + pre-push installed and LF-normalized"
- }
+ "task": "E172 deadband sweep or E174 engine-move name attribution",
+ "task_short": "E172 / E174",
+ "ts": "2026-10-28T06:50:00+08:00",
+ "updated": "2026-10-28T06:50:00+08:00",
+ "updated_at": "2026-10-28T06:50:00+08:00",
+ "verdict": "green r1206: E171 screened twin of the sign leg -- the repair moves the engine column only (tilt 0 of 25 cells) and 2024_now flips its era verdict while month agreement stays bit-identical on both arms, so the post-repair agreement is a level carried by 4 of 17 months; e39 selftest 543/543 | e97 29/29 | smoke 114/114 | dualrun ZERO-DRIFT streak 9 | attrition CLEAN | orphan 0"
 }

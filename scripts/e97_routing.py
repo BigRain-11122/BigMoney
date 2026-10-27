@@ -97,6 +97,17 @@ TWIN_FUNCS = {
     # (first invested bar) beside the earned numbers.
     "run_cashdragscreened": ("cashdragscreened",
                              "results/e40_cashleg_drag/CASHLegSCREEN-*.json"),
+    # E171 (r1206): validated-twin family, declared in the window it was built.
+    # Its subject is a FACE split by column (tilt_* invariant by E170, engine_*
+    # not), so the twin's value is the per-column attribution, not a move count.
+    "run_tilt3screensign": ("tilt3screensign",
+                            "results/e43_tilt_4member/TILT3SCREENSIGN-*.json"),
+    # E170 (r1205) was burned with its twin function undeclared, so L15 was red
+    # at the open of this round and the routing table called run_tilt3reach
+    # uncovered while TILT3SCREEN-20261027.json sat on disk -- the fourth
+    # recurrence of the registry-as-range pit this leg exists to catch.
+    "run_tilt3screened": ("tilt3screened",
+                          "results/e43_tilt_4member/TILT3SCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

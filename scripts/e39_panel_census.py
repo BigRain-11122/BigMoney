@@ -5071,6 +5071,62 @@ def _tilt3_arm_dates(face, keys=None):
 TILT3SIGN_DEADBAND_BP = 10.0    # monthly bp; declared before the burn (E169)
 TILT3SIGN_DISAGREE_TOP = 5      # months named per era beside the counts
 
+# E171: the numeric cells of the E169 face, split so a reader can ask WHICH
+# column the repair reached (tilt_* is claimed arm-invariant, engine_* is not).
+# Booleans and month names are NOT here -- they ride _tilt3sign_arm_dates,
+# because a delta on a boolean is not the claim a reader consumes.
+TILT3SIGN_ERA_SCALARS = (
+    "months", "months_dropped_from_era",
+    "tilt_mean_ann_bp", "engine_mean_ann_bp",
+    "months_tilt_up", "months_tilt_down", "months_engine_up",
+    "months_agree", "months_disagree", "month_agreement_pct",
+    "agreement_when_tilt_up_pct", "agreement_when_tilt_down_pct",
+    "months_outside_deadband", "month_agreement_outside_deadband_pct",
+)
+TILT3SIGN_ANSWER_SCALARS = (
+    "eras_measured", "eras_where_signs_differ", "eras_where_signs_agree",
+    "month_agreement_min_pct", "month_agreement_max_pct",
+    "month_agreement_outside_deadband_min_pct",
+    "month_agreement_outside_deadband_max_pct",
+    "full_window_month_agreement_pct",
+)
+
+
+def _tilt3sign_arm_cells(face, keys=None):
+    """(E171) -> {(key, column): value} for every numeric cell E169 publishes."""
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        for col in TILT3SIGN_ERA_SCALARS:
+            out[("era/" + era, col)] = row.get(col)
+    for col in TILT3SIGN_ANSWER_SCALARS:
+        out[("answers", col)] = (face.get("answers") or {}).get(col)
+    return out
+
+
+def _tilt3sign_arm_dates(face, keys=None):
+    """(E171) the claim layer of E169: era boundaries, sign verdicts, names.
+
+    ``signs_agree`` is a verdict a reader consumes, so a flip must be visible
+    even when no adjacent number moves; the disagreeing era list is the same
+    kind of claim.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        out["era/" + era] = {
+            "from": row.get("from"), "to": row.get("to"),
+            "signs_agree": row.get("signs_agree"),
+            "tilt_sign": row.get("tilt_sign"),
+            "engine_sign": row.get("engine_sign"),
+        }
+    out["answers"] = {
+        "era_names_where_signs_differ":
+            list((face.get("answers") or {}).get("era_names_where_signs_differ")
+                 or []),
+    }
+    return out
+
 
 def _sign3(x):
     """Sign with an explicit zero (None stays None; a 0.0 is not a claim)."""
@@ -5456,6 +5512,289 @@ def run_tilt3screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "the delta is the composition price, not the identity",
             "the cutoff control holds the arm fixed (raw vs raw) so a stale face is "
             "separated from a repair effect",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _agreement_change(raw_pct, scr_pct):
+    """(E171) three-state change of a rate: equal is NOT a deterioration.
+
+    The first cut derived a boolean ``recovered = screened > raw`` and published
+    ``worsens`` as its negation, which printed "worsens in all five eras" while
+    every era's rate was bit-identical on both arms (23.5 vs 23.5, 45.8 vs 45.8).
+    A two-state label on a three-state fact is the E94 family this repo keeps
+    re-learning, so equality gets its own name and "not measurable" does too.
+    """
+    if raw_pct is None or scr_pct is None:
+        return "not_measurable"
+    if scr_pct > raw_pct:
+        return "recovered"
+    if scr_pct < raw_pct:
+        return "worsened"
+    return "unchanged"
+
+
+def run_tilt3screensign(outdir, mode="neutralise_int", eras=ERAS, resume=True):
+    """E171: re-derive the E169 tilt-vs-engine sign face on the screened arm.
+
+    E169 compared the tilt's sign against the engine's own wide-minus-ladder
+    monthly difference, and found two eras (2017_2020, 2024_now) where the
+    arrows disagree while no era clears 57% month-level agreement. That face
+    was burnt on the RAW panel, so the one era whose published arrow flips under
+    the repair (2024_now) was also the one whose sign verdict had never been
+    screened.
+
+    E170 already proved the tilt SERIES is arm-insensitive (tilt_bp_delta = 0.0
+    on every era), so this twin can only move the engine column -- and saying
+    that up front is the point: a column-by-column join tells a reader which
+    half of the face the repair reaches, which a single "cells moved" count
+    cannot.
+
+    Same machinery as E170: one load, both arms burnt off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero and a cutoff control against the newest published raw face.
+
+    Per-era table carries raw and screened BESIDE each other and names its
+    denominators (months priced on each arm), because "the agreement recovered"
+    on a different month count is not the same experiment.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "TILT3SIGN-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "TILT3SIGN-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_tilt3sign(None, raw=raw, eras=eras))
+    scr_arm = cached(mode, lambda: run_tilt3sign(None, raw=screened, eras=eras))
+
+    keys = sorted({k[0] for k in _tilt3sign_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_tilt3sign_arm_cells,
+                             dates_fn=_tilt3sign_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_tilt3sign_arm_cells,
+                                dates_fn=_tilt3sign_arm_dates)["summary"]
+
+    # cutoff control: newest previously published RAW tilt3sign face vs today's
+    # raw arm. Arm held fixed, so a stale face is separated from a repair effect.
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e43_tilt_4member"),
+                               outdir) if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("TILT3SIGN-") and p.endswith(".json"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("TILT3SIGN-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _tilt3sign_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_tilt3sign_arm_cells,
+                                     dates_fn=_tilt3sign_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    def _delta(a, b):
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            return round(b - a, 3)
+        return None
+
+    raw_eras = raw_arm.get("eras") or {}
+    scr_eras = scr_arm.get("eras") or {}
+    per_era = {}
+    for era in sorted(set(raw_eras) | set(scr_eras)):
+        r = raw_eras.get(era) or {}
+        q = scr_eras.get(era) or {}
+        agree_r = r.get("signs_agree")
+        agree_q = q.get("signs_agree")
+        per_era[era] = {
+            "months_raw": r.get("months"), "months_screened": q.get("months"),
+            "months_same": (r.get("months") is not None
+                            and r.get("months") == q.get("months")),
+            "tilt_bp_raw": r.get("tilt_mean_ann_bp"),
+            "tilt_bp_screened": q.get("tilt_mean_ann_bp"),
+            "tilt_bp_delta": _delta(r.get("tilt_mean_ann_bp"),
+                                    q.get("tilt_mean_ann_bp")),
+            "engine_bp_raw": r.get("engine_mean_ann_bp"),
+            "engine_bp_screened": q.get("engine_mean_ann_bp"),
+            "engine_bp_delta": _delta(r.get("engine_mean_ann_bp"),
+                                      q.get("engine_mean_ann_bp")),
+            "tilt_sign_raw": _pair_sign(r.get("tilt_mean_ann_bp")),
+            "tilt_sign_screened": _pair_sign(q.get("tilt_mean_ann_bp")),
+            "engine_sign_raw": _pair_sign(r.get("engine_mean_ann_bp")),
+            "engine_sign_screened": _pair_sign(q.get("engine_mean_ann_bp")),
+            "signs_agree_raw": agree_r,
+            "signs_agree_screened": agree_q,
+            "era_verdict_flipped": (None if agree_r is None or agree_q is None
+                                    else bool(agree_r) != bool(agree_q)),
+            "month_agreement_pct_raw": r.get("month_agreement_pct"),
+            "month_agreement_pct_screened": q.get("month_agreement_pct"),
+            "month_agreement_delta": _delta(r.get("month_agreement_pct"),
+                                            q.get("month_agreement_pct")),
+            "outside_deadband_pct_raw": r.get("month_agreement_outside_deadband_pct"),
+            "outside_deadband_pct_screened": q.get("month_agreement_outside_deadband_pct"),
+            "outside_deadband_delta": _delta(
+                r.get("month_agreement_outside_deadband_pct"),
+                q.get("month_agreement_outside_deadband_pct")),
+            "months_disagree_raw": r.get("months_disagree"),
+            "months_disagree_screened": q.get("months_disagree"),
+        }
+        pr = per_era[era]["month_agreement_pct_raw"]
+        ps = per_era[era]["month_agreement_pct_screened"]
+        per_era[era]["agreement_change"] = _agreement_change(pr, ps)
+        per_era[era]["agreement_recovered"] = (
+            None if per_era[era]["agreement_change"] == "not_measurable"
+            else per_era[era]["agreement_change"] == "recovered")
+        per_era[era]["engine_sign_flipped"] = (
+            per_era[era]["engine_sign_raw"] != per_era[era]["engine_sign_screened"])
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+
+    era_moved = [r for r in pair["moved"] if r["start"].startswith("era/")]
+    answer_moved = [r for r in pair["moved"] if r["start"] == "answers"]
+    other_moved = [r for r in pair["moved"]
+                   if r not in era_moved and r not in answer_moved]
+    eras_moved = sorted({r["start"][len("era/"):] for r in era_moved})
+    verdict_flips = sorted(k for k, v in per_era.items()
+                           if v["era_verdict_flipped"])
+    engine_sign_flips = sorted(k for k, v in per_era.items()
+                               if v["engine_sign_flipped"])
+    tilt_cells_moved = [r for r in era_moved if r["column"].startswith("tilt_")]
+    engine_cells_moved = [r for r in era_moved if r["column"].startswith("engine_")]
+    recovered = sorted(k for k, v in per_era.items()
+                       if v["agreement_change"] == "recovered")
+    worsened = sorted(k for k, v in per_era.items()
+                      if v["agreement_change"] == "worsened")
+    unchanged = sorted(k for k, v in per_era.items()
+                       if v["agreement_change"] == "unchanged")
+
+    raw_differ = sorted(k for k, v in per_era.items()
+                        if v["signs_agree_raw"] is False)
+    scr_differ = sorted(k for k, v in per_era.items()
+                        if v["signs_agree_screened"] is False)
+    same_months = all(v["months_same"] for v in per_era.values() if v["months_raw"])
+
+    return {
+        "study": "e171_tilt3_screened_sign",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "large": list(TILT_LARGE), "small": list(TILT3_SMALL),
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "columns_moved_by_construction": (
+                "the tilt series is arm-invariant (E170 measured 0.0bp on every "
+                "era), so this twin is read as a per-column question: tilt_* "
+                "cells move only if that claim fails today"),
+            "units": ("bp for the annualised tilt/engine columns, percent for "
+                      "the agreement rates, months for the denominators"),
+            "join": ("_tilt3sign_arm_cells harvests the per-era numeric columns "
+                     "and the answer scalars; _tilt3sign_arm_dates carries era "
+                     "boundaries, the signs_agree verdict and the differ-names "
+                     "list, because a boolean or a month name has no delta"),
+        },
+        "screen_report": report,
+        "per_era": per_era,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "era_cells_moved": len(era_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "eras_with_any_moved_cell": eras_moved,
+            "tilt_cells_moved": len(tilt_cells_moved),
+            "engine_cells_moved": len(engine_cells_moved),
+            "tilt_series_arm_invariant_today": (len(tilt_cells_moved) == 0),
+            "eras_where_signs_differ_raw": raw_differ,
+            "eras_where_signs_differ_screened": scr_differ,
+            "era_verdict_flips": verdict_flips,
+            "engine_sign_flips": engine_sign_flips,
+            "eras_whose_month_agreement_recovers": recovered,
+            "eras_whose_month_agreement_worsens": worsened,
+            "eras_whose_month_agreement_unchanged": unchanged,
+            "all_eras_priced_on_the_same_month_count": bool(same_months),
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "cutoff_control_reason": (
+                None if cutoff_control else
+                "no older TILT3SIGN-* raw face on disk: the only published face "
+                "carries this same cutoff, so a stale-face control has nothing to "
+                "compare against yet (null means 'not measurable', not 'clean')"),
+            "reading": (
+                ("the engine column is repair-insensitive too: %d of %d cells move, "
+                 "no era changes its sign verdict and the two disagreeing eras are "
+                 "the same on both arms"
+                 % (s["cells_moved"], s["cells_compared"]))
+                if (survives and not verdict_flips) else
+                ("the repair reaches the sign face: %d of %d cells move (%d era / "
+                 "%d answer / %d other; tilt %d, engine %d), disagreeing eras raw=%s "
+                 "screened=%s, era verdict flips=%s, engine sign flips=%s, agreement "
+                 "recovers in %s, worsens in %s and is unchanged in %s; "
+                 "%d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(era_moved),
+                    len(answer_moved), len(other_moved), len(tilt_cells_moved),
+                    len(engine_cells_moved), raw_differ, scr_differ, verdict_flips,
+                    engine_sign_flips, recovered, worsened, unchanged,
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "both arms are burnt off ONE load of the panel so the twin differs in "
+            "the repair, not in what was read",
+            "the tilt column moving at all would refute E170's 0.0bp invariance; it "
+            "is re-measured here rather than trusted, and reported separately from "
+            "the engine column",
+            "month-agreement is a rate over priced months, so the denominators are "
+            "published per arm; an era read on a different month count is disclosed "
+            "in months_same rather than silently compared",
+            "the cutoff control holds the arm fixed (raw vs raw) so a stale face is "
+            "separated from a repair effect",
+            "a null agreement_recovered means the era is missing on one arm -- "
+            "'not measurable' is not 'no change'",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
@@ -16160,6 +16499,62 @@ def selftest():
     chk("raw" in run_tilt3sign.__code__.co_varnames,
         "E169 run_tilt3sign carries the raw= seam a screened twin burns through")
 
+    # ---- E171 screened twin of the sign face
+    # The twin's whole claim is "the repair moves the engine column and cannot
+    # move the tilt column", so the join is pinned on fixtures where exactly one
+    # column moves: a boolean counted as a cell would fabricate a numeric delta
+    # on a verdict, and a None silently treated as zero would hide a missing arm.
+    def _e171_face(tilt=None, eng=None, agree=True):
+        return {
+            "eras": {"era_a": {"months": 3, "tilt_mean_ann_bp": tilt,
+                               "engine_mean_ann_bp": eng,
+                               "month_agreement_pct": 66.7,
+                               "signs_agree": agree,
+                               "from": "2014-01-01", "to": "2014-03-31"}},
+            "answers": {"eras_measured": 1,
+                        "era_names_where_signs_differ":
+                            [] if agree else ["era_a"]},
+        }
+
+    _e171_cells = _tilt3sign_arm_cells(_e171_face(10.0, 5.0))
+    chk(len(_e171_cells) == len(TILT3SIGN_ERA_SCALARS) + len(TILT3SIGN_ANSWER_SCALARS),
+        "E171 the cell harvest covers exactly the declared numeric columns")
+    chk(("era/era_a", "signs_agree") not in _e171_cells,
+        "E171 a verdict is a claim, not a numeric cell a delta can be taken on")
+    _e171_dates = _tilt3sign_arm_dates(_e171_face(10.0, 5.0, agree=False))
+    chk(_e171_dates["era/era_a"]["signs_agree"] is False
+        and _e171_dates["answers"]["era_names_where_signs_differ"] == ["era_a"],
+        "E171 the sign verdict and the differ-names list ride the claim layer")
+    _e171_self = _burnin_pair_rows(_e171_face(10.0, 5.0), _e171_face(10.0, 5.0),
+                                   ["era/era_a", "answers"],
+                                   cells_fn=_tilt3sign_arm_cells,
+                                   dates_fn=_tilt3sign_arm_dates)
+    chk(_e171_self["summary"]["cells_moved"] == 0
+        and _e171_self["gate_dates_moved"] == [],
+        "E171 a same-arm control reads zero cells and zero claim moves")
+    _e171_eng = _burnin_pair_rows(_e171_face(10.0, 5.0), _e171_face(10.0, 25.0),
+                                  ["era/era_a", "answers"],
+                                  cells_fn=_tilt3sign_arm_cells,
+                                  dates_fn=_tilt3sign_arm_dates)
+    chk([r["column"] for r in _e171_eng["moved"]] == ["engine_mean_ann_bp"]
+        and not any(r["column"].startswith("tilt_") for r in _e171_eng["moved"]),
+        "E171 a moved engine column is attributed to the engine column alone")
+    _e171_null = _burnin_pair_rows(_e171_face(10.0, None), _e171_face(10.0, 25.0),
+                                   ["era/era_a", "answers"],
+                                   cells_fn=_tilt3sign_arm_cells,
+                                   dates_fn=_tilt3sign_arm_dates)
+    chk(any(r["column"] == "engine_mean_ann_bp"
+            for r in _e171_null["null_on_either_side"]),
+        "E171 a missing cell is reported as null, not joined as a zero")
+    _e171_vars = run_tilt3screensign.__code__.co_varnames
+    chk("mode" in _e171_vars and "resume" in _e171_vars,
+        "E171 the twin carries the mode/resume seams every screened leg needs")
+    chk(_agreement_change(23.5, 23.5) == "unchanged"
+        and _agreement_change(23.5, 40.0) == "recovered"
+        and _agreement_change(40.0, 23.5) == "worsened"
+        and _agreement_change(None, 23.5) == "not_measurable",
+        "E171 an equal rate is 'unchanged', never 'worsened' and never 'recovered'")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -18547,7 +18942,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
-                             "tilt3sign",
+                             "tilt3sign", "tilt3screensign",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -19270,6 +19665,30 @@ def main(argv):
                                       for k, v in f["per_era"].items()},
                           "answers": f["answers"],
                           "arrows": f["arrows"],
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "claims_moved":
+                                          f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3screensign":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3screensign(outdir)
+        p = write_json(outdir, "TILT3SCREENSIGN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3screensign",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"tilt_bp_delta": v["tilt_bp_delta"],
+                                          "engine_bp_raw": v["engine_bp_raw"],
+                                          "engine_bp_screened": v["engine_bp_screened"],
+                                          "engine_bp_delta": v["engine_bp_delta"],
+                                          "signs_agree_raw": v["signs_agree_raw"],
+                                          "signs_agree_screened": v["signs_agree_screened"],
+                                          "month_agreement_pct_raw":
+                                              v["month_agreement_pct_raw"],
+                                          "month_agreement_pct_screened":
+                                              v["month_agreement_pct_screened"]}
+                                      for k, v in f["per_era"].items()},
+                          "answers": f["answers"],
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "claims_moved":
                                           f["control"]["gate_dates_moved"]}},

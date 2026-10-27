@@ -1827,3 +1827,32 @@ How to apply: any "factor X says the book did Y" claim publishes (a) the traded 
 factor per period, (b) both scales of sign agreement with their denominators, (c) any deadband as a
 pre-declared constant with the raw rate retained, and (d) one exact reconciliation against an already
 published column from the same family. A tie counts as a disagreement, never as an agreement.
+
+
+## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
+
+Two findings from the screened twin of the tilt-vs-engine sign face
+(`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
+
+1. **Level and rate answer different questions about the same repair.** The
+   split-event repair moved 5 of 78 cells, every one of them an era LEVEL
+   (engine +29.3 / +46.7 / +16.3bp; 2024_now flips sign -21.6 -> +25.1) and
+   moved ZERO rate cells: month-level agreement is bit-identical on both arms
+   (45.8 / 44.4 / 23.5 / 43.8 / 56.8%). So a repaired era whose sign verdict
+   flips can still be an era whose month-by-month information is unchanged --
+   and if that rate is 4 of 17 months, the post-repair "agreement" is a level
+   with almost no resolution behind it. Publish both scales; a flip on one is
+   not a flip on the other.
+2. **A boolean derived from `>` silently pronounces "worse" on equality.** The
+   first cut published `recovered = screened > raw` and its negation as
+   `worsens`, which printed "worsens in all five eras" beside five pairs of
+   identical numbers. Three-state the change: `recovered` / `worsened` /
+   `unchanged` (+ `not_measurable` when an arm is missing), and pin equality in
+   the selftest. Same family as E94: the label was narrower than the evidence.
+
+How to apply: when a twin is expected to move only one column, split the join by
+column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
+sign flips separately -- and re-measure an earlier invariance claim on the new
+leg rather than importing it. Any "better/worse" verdict computed from a
+two-state comparison of two rates needs an explicit "equal" branch before it is
+allowed to print.
