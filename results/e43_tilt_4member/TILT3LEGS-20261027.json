@@ -1,0 +1,727 @@
+{
+ "study": "e43_tilt3_pre2017_leg_split",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500"
+  ],
+  "leg_rule": "equal weight within each leg; both legs priced only on months where every member of that leg is present and clean",
+  "lomo": "each era mean re-derived with every month removed once; months_to_half orders months by their own contribution in the sign of the mean and counts to a declared 0.50 share",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0
+ },
+ "eras": {
+  "pre2017": {
+   "months": 44,
+   "from": "2013-04",
+   "to": "2016-12",
+   "months_dropped_from_era": 0,
+   "large_leg": {
+    "members": [
+     "sh510300",
+     "sh510050"
+    ],
+    "ann_bp": 683.5,
+    "best_month": 29.44,
+    "worst_month": -20.35,
+    "positive_share_pct": 50.0
+   },
+   "small_leg": {
+    "members": [
+     "sh510500"
+    ],
+    "ann_bp": 1869.9,
+    "best_month": 20.69,
+    "worst_month": -28.0,
+    "positive_share_pct": 63.6,
+    "note": "the small leg of this skin is a single name, so this number is that name's own return, not a bucket"
+   },
+   "tilt_ann_bp": 1186.4,
+   "tilt_from_legs_bp": 1186.4,
+   "identity_residual_bp": 0.0,
+   "tilt_positive_share_pct": 50.0,
+   "legs_differ_in_sign": false,
+   "legs_sum_bp": 2553.4,
+   "lomo": {
+    "months": 44,
+    "full_mean_ann_bp": 1186.4,
+    "drop_min_ann_bp": 643.7,
+    "drop_max_ann_bp": 1997.5,
+    "span_bp": 1353.8,
+    "biggest_abs_shift": {
+     "month": "2014-12",
+     "ann_bp_after_drop": 1997.5,
+     "delta_bp": 811.1
+    },
+    "months_to_half": 2,
+    "months_to_half_share": 0.5,
+    "top_months": [
+     {
+      "month": "2014-12",
+      "tilt_bp": -2807.7,
+      "share_of_mean_pct": -64.5
+     },
+     {
+      "month": "2015-05",
+      "tilt_bp": 2043.5,
+      "share_of_mean_pct": 47.0
+     },
+     {
+      "month": "2015-01",
+      "tilt_bp": 1201.1,
+      "share_of_mean_pct": 27.6
+     },
+     {
+      "month": "2013-05",
+      "tilt_bp": 870.7,
+      "share_of_mean_pct": 20.0
+     },
+     {
+      "month": "2015-03",
+      "tilt_bp": 853.8,
+      "share_of_mean_pct": 19.6
+     }
+    ],
+    "sign_flips_under_a_single_drop": false,
+    "sum_of_months_bp": 4350.1
+   },
+   "months_detail": [
+    {
+     "month": "2013-04",
+     "large_pct": -1.49,
+     "small_pct": -2.08,
+     "tilt_pct": -0.59
+    },
+    {
+     "month": "2013-05",
+     "large_pct": 5.4,
+     "small_pct": 14.1,
+     "tilt_pct": 8.71
+    },
+    {
+     "month": "2013-06",
+     "large_pct": -14.3,
+     "small_pct": -15.61,
+     "tilt_pct": -1.31
+    },
+    {
+     "month": "2013-07",
+     "large_pct": -0.67,
+     "small_pct": 6.06,
+     "tilt_pct": 6.73
+    },
+    {
+     "month": "2013-08",
+     "large_pct": 5.89,
+     "small_pct": 6.75,
+     "tilt_pct": 0.86
+    },
+    {
+     "month": "2013-09",
+     "large_pct": 3.69,
+     "small_pct": 6.91,
+     "tilt_pct": 3.21
+    },
+    {
+     "month": "2013-10",
+     "large_pct": -1.08,
+     "small_pct": -5.19,
+     "tilt_pct": -4.1
+    },
+    {
+     "month": "2013-11",
+     "large_pct": 0.41,
+     "small_pct": 5.95,
+     "tilt_pct": 5.54
+    },
+    {
+     "month": "2013-12",
+     "large_pct": -4.91,
+     "small_pct": -2.99,
+     "tilt_pct": 1.92
+    },
+    {
+     "month": "2014-01",
+     "large_pct": -6.95,
+     "small_pct": 1.4,
+     "tilt_pct": 8.35
+    },
+    {
+     "month": "2014-02",
+     "large_pct": -0.93,
+     "small_pct": 2.21,
+     "tilt_pct": 3.14
+    },
+    {
+     "month": "2014-03",
+     "large_pct": -0.59,
+     "small_pct": -3.42,
+     "tilt_pct": -2.84
+    },
+    {
+     "month": "2014-04",
+     "large_pct": 1.14,
+     "small_pct": -1.96,
+     "tilt_pct": -3.1
+    },
+    {
+     "month": "2014-05",
+     "large_pct": -0.39,
+     "small_pct": 1.9,
+     "tilt_pct": 2.29
+    },
+    {
+     "month": "2014-06",
+     "large_pct": 1.26,
+     "small_pct": 2.8,
+     "tilt_pct": 1.54
+    },
+    {
+     "month": "2014-07",
+     "large_pct": 10.67,
+     "small_pct": 8.63,
+     "tilt_pct": -2.04
+    },
+    {
+     "month": "2014-08",
+     "large_pct": -1.6,
+     "small_pct": 4.1,
+     "tilt_pct": 5.7
+    },
+    {
+     "month": "2014-09",
+     "large_pct": 3.59,
+     "small_pct": 10.92,
+     "tilt_pct": 7.33
+    },
+    {
+     "month": "2014-10",
+     "large_pct": 2.44,
+     "small_pct": 1.52,
+     "tilt_pct": -0.91
+    },
+    {
+     "month": "2014-11",
+     "large_pct": 11.87,
+     "small_pct": 4.78,
+     "tilt_pct": -7.09
+    },
+    {
+     "month": "2014-12",
+     "large_pct": 29.44,
+     "small_pct": 1.36,
+     "tilt_pct": -28.08
+    },
+    {
+     "month": "2015-01",
+     "large_pct": -5.77,
+     "small_pct": 6.25,
+     "tilt_pct": 12.01
+    },
+    {
+     "month": "2015-02",
+     "large_pct": 3.52,
+     "small_pct": 6.95,
+     "tilt_pct": 3.44
+    },
+    {
+     "month": "2015-03",
+     "large_pct": 12.15,
+     "small_pct": 20.69,
+     "tilt_pct": 8.54
+    },
+    {
+     "month": "2015-05",
+     "large_pct": -1.23,
+     "small_pct": 19.2,
+     "tilt_pct": 20.44
+    },
+    {
+     "month": "2015-06",
+     "large_pct": -6.97,
+     "small_pct": -10.27,
+     "tilt_pct": -3.3
+    },
+    {
+     "month": "2015-07",
+     "large_pct": -13.88,
+     "small_pct": -14.59,
+     "tilt_pct": -0.71
+    },
+    {
+     "month": "2015-08",
+     "large_pct": -11.06,
+     "small_pct": -14.77,
+     "tilt_pct": -3.71
+    },
+    {
+     "month": "2015-09",
+     "large_pct": -3.97,
+     "small_pct": -5.89,
+     "tilt_pct": -1.92
+    },
+    {
+     "month": "2015-10",
+     "large_pct": 9.45,
+     "small_pct": 16.03,
+     "tilt_pct": 6.59
+    },
+    {
+     "month": "2015-11",
+     "large_pct": 0.75,
+     "small_pct": 5.13,
+     "tilt_pct": 4.39
+    },
+    {
+     "month": "2015-12",
+     "large_pct": 4.21,
+     "small_pct": 3.12,
+     "tilt_pct": -1.09
+    },
+    {
+     "month": "2016-01",
+     "large_pct": -20.35,
+     "small_pct": -28.0,
+     "tilt_pct": -7.66
+    },
+    {
+     "month": "2016-02",
+     "large_pct": -2.09,
+     "small_pct": -2.89,
+     "tilt_pct": -0.8
+    },
+    {
+     "month": "2016-03",
+     "large_pct": 11.68,
+     "small_pct": 16.57,
+     "tilt_pct": 4.89
+    },
+    {
+     "month": "2016-04",
+     "large_pct": -1.38,
+     "small_pct": -2.79,
+     "tilt_pct": -1.41
+    },
+    {
+     "month": "2016-05",
+     "large_pct": 0.86,
+     "small_pct": -0.03,
+     "tilt_pct": -0.89
+    },
+    {
+     "month": "2016-06",
+     "large_pct": -0.68,
+     "small_pct": 3.04,
+     "tilt_pct": 3.73
+    },
+    {
+     "month": "2016-07",
+     "large_pct": 2.99,
+     "small_pct": 1.3,
+     "tilt_pct": -1.7
+    },
+    {
+     "month": "2016-08",
+     "large_pct": 3.96,
+     "small_pct": 3.86,
+     "tilt_pct": -0.1
+    },
+    {
+     "month": "2016-09",
+     "large_pct": -2.06,
+     "small_pct": -1.43,
+     "tilt_pct": 0.63
+    },
+    {
+     "month": "2016-10",
+     "large_pct": 2.68,
+     "small_pct": 1.66,
+     "tilt_pct": -1.02
+    },
+    {
+     "month": "2016-11",
+     "large_pct": 5.43,
+     "small_pct": 2.18,
+     "tilt_pct": -3.25
+    },
+    {
+     "month": "2016-12",
+     "large_pct": -6.05,
+     "small_pct": -4.9,
+     "tilt_pct": 1.15
+    }
+   ]
+  },
+  "2017_2020": {
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "months_dropped_from_era": 0,
+   "large_leg": {
+    "members": [
+     "sh510300",
+     "sh510050"
+    ],
+    "ann_bp": 1288.2,
+    "best_month": 12.58,
+    "worst_month": -7.38,
+    "positive_share_pct": 62.5
+   },
+   "small_leg": {
+    "members": [
+     "sh510500"
+    ],
+    "ann_bp": 364.3,
+    "best_month": 19.74,
+    "worst_month": -11.19,
+    "positive_share_pct": 45.8,
+    "note": "the small leg of this skin is a single name, so this number is that name's own return, not a bucket"
+   },
+   "tilt_ann_bp": -923.9,
+   "tilt_from_legs_bp": -923.9,
+   "identity_residual_bp": 0.0,
+   "tilt_positive_share_pct": 39.6,
+   "legs_differ_in_sign": false,
+   "legs_sum_bp": 1652.5,
+   "lomo": {
+    "months": 48,
+    "full_mean_ann_bp": -923.9,
+    "drop_min_ann_bp": -1128.6,
+    "drop_max_ann_bp": -688.1,
+    "span_bp": 440.5,
+    "biggest_abs_shift": {
+     "month": "2017-05",
+     "ann_bp_after_drop": -688.1,
+     "delta_bp": 235.8
+    },
+    "months_to_half": 14,
+    "months_to_half_share": 0.5,
+    "top_months": [
+     {
+      "month": "2017-05",
+      "tilt_bp": -1000.6,
+      "share_of_mean_pct": 27.1
+     },
+     {
+      "month": "2018-01",
+      "tilt_bp": -818.9,
+      "share_of_mean_pct": 22.2
+     },
+     {
+      "month": "2019-02",
+      "tilt_bp": 724.8,
+      "share_of_mean_pct": -19.6
+     },
+     {
+      "month": "2019-04",
+      "tilt_bp": -682.6,
+      "share_of_mean_pct": 18.5
+     },
+     {
+      "month": "2019-03",
+      "tilt_bp": 636.4,
+      "share_of_mean_pct": -17.2
+     }
+    ],
+    "sign_flips_under_a_single_drop": false,
+    "sum_of_months_bp": -3695.6
+   }
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "months_dropped_from_era": 0,
+   "large_leg": {
+    "members": [
+     "sh510300",
+     "sh510050"
+    ],
+    "ann_bp": -1258.2,
+    "best_month": 11.54,
+    "worst_month": -9.9,
+    "positive_share_pct": 41.7
+   },
+   "small_leg": {
+    "members": [
+     "sh510500"
+    ],
+    "ann_bp": -648.2,
+    "best_month": 7.92,
+    "worst_month": -14.41,
+    "positive_share_pct": 50.0,
+    "note": "the small leg of this skin is a single name, so this number is that name's own return, not a bucket"
+   },
+   "tilt_ann_bp": 609.9,
+   "tilt_from_legs_bp": 609.9,
+   "identity_residual_bp": 0.0,
+   "tilt_positive_share_pct": 50.0,
+   "legs_differ_in_sign": false,
+   "legs_sum_bp": -1906.4,
+   "lomo": {
+    "months": 36,
+    "full_mean_ann_bp": 609.9,
+    "drop_min_ann_bp": 227.4,
+    "drop_max_ann_bp": 1073.1,
+    "span_bp": 845.7,
+    "biggest_abs_shift": {
+     "month": "2022-08",
+     "ann_bp_after_drop": 1073.1,
+     "delta_bp": 463.2
+    },
+    "months_to_half": 1,
+    "months_to_half_share": 0.5,
+    "top_months": [
+     {
+      "month": "2022-08",
+      "tilt_bp": -1300.1,
+      "share_of_mean_pct": -71.1
+     },
+     {
+      "month": "2022-10",
+      "tilt_bp": 1166.6,
+      "share_of_mean_pct": 63.8
+     },
+     {
+      "month": "2021-07",
+      "tilt_bp": 870.0,
+      "share_of_mean_pct": 47.5
+     },
+     {
+      "month": "2021-08",
+      "tilt_bp": 744.1,
+      "share_of_mean_pct": 40.7
+     },
+     {
+      "month": "2022-04",
+      "tilt_bp": -681.0,
+      "share_of_mean_pct": -37.2
+     }
+    ],
+    "sign_flips_under_a_single_drop": false,
+    "sum_of_months_bp": 1829.7
+   }
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "large_leg": {
+    "members": [
+     "sh510300",
+     "sh510050"
+    ],
+    "ann_bp": 792.7,
+    "best_month": 22.28,
+    "worst_month": -6.31,
+    "positive_share_pct": 58.8
+   },
+   "small_leg": {
+    "members": [
+     "sh510500"
+    ],
+    "ann_bp": 1045.5,
+    "best_month": 27.23,
+    "worst_month": -18.43,
+    "positive_share_pct": 50.0,
+    "note": "the small leg of this skin is a single name, so this number is that name's own return, not a bucket"
+   },
+   "tilt_ann_bp": 252.8,
+   "tilt_from_legs_bp": 252.8,
+   "identity_residual_bp": 0.0,
+   "tilt_positive_share_pct": 47.1,
+   "legs_differ_in_sign": false,
+   "legs_sum_bp": 1838.2,
+   "lomo": {
+    "months": 34,
+    "full_mean_ann_bp": 252.8,
+    "drop_min_ann_bp": -139.4,
+    "drop_max_ann_bp": 768.4,
+    "span_bp": 907.7,
+    "biggest_abs_shift": {
+     "month": "2026-07",
+     "ann_bp_after_drop": 768.4,
+     "delta_bp": 515.6
+    },
+    "months_to_half": 1,
+    "months_to_half_share": 0.5,
+    "top_months": [
+     {
+      "month": "2026-07",
+      "tilt_bp": -1396.8,
+      "share_of_mean_pct": -195.0
+     },
+     {
+      "month": "2026-01",
+      "tilt_bp": 1099.4,
+      "share_of_mean_pct": 153.5
+     },
+     {
+      "month": "2024-01",
+      "tilt_bp": -804.0,
+      "share_of_mean_pct": -112.3
+     },
+     {
+      "month": "2026-10",
+      "tilt_bp": -773.4,
+      "share_of_mean_pct": -108.0
+     },
+     {
+      "month": "2026-06",
+      "tilt_bp": 648.5,
+      "share_of_mean_pct": 90.6
+     }
+    ],
+    "sign_flips_under_a_single_drop": true,
+    "sum_of_months_bp": 716.2
+   }
+  },
+  "full": {
+   "months": 162,
+   "from": "2013-04",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "large_leg": {
+    "members": [
+     "sh510300",
+     "sh510050"
+    ],
+    "ann_bp": 454.1,
+    "best_month": 29.44,
+    "worst_month": -20.35,
+    "positive_share_pct": 53.7
+   },
+   "small_leg": {
+    "members": [
+     "sh510500"
+    ],
+    "ann_bp": 691.2,
+    "best_month": 27.23,
+    "worst_month": -28.0,
+    "positive_share_pct": 52.5,
+    "note": "the small leg of this skin is a single name, so this number is that name's own return, not a bucket"
+   },
+   "tilt_ann_bp": 237.1,
+   "tilt_from_legs_bp": 237.1,
+   "identity_residual_bp": 0.0,
+   "tilt_positive_share_pct": 46.3,
+   "legs_differ_in_sign": false,
+   "legs_sum_bp": 1145.3,
+   "lomo": {
+    "months": 162,
+    "full_mean_ann_bp": 237.1,
+    "drop_min_ann_bp": 86.2,
+    "drop_max_ann_bp": 447.8,
+    "span_bp": 361.6,
+    "biggest_abs_shift": {
+     "month": "2014-12",
+     "ann_bp_after_drop": 447.8,
+     "delta_bp": 210.7
+    },
+    "months_to_half": 1,
+    "months_to_half_share": 0.5,
+    "top_months": [
+     {
+      "month": "2014-12",
+      "tilt_bp": -2807.7,
+      "share_of_mean_pct": -87.7
+     },
+     {
+      "month": "2015-05",
+      "tilt_bp": 2043.5,
+      "share_of_mean_pct": 63.9
+     },
+     {
+      "month": "2026-07",
+      "tilt_bp": -1396.8,
+      "share_of_mean_pct": -43.6
+     },
+     {
+      "month": "2022-08",
+      "tilt_bp": -1300.1,
+      "share_of_mean_pct": -40.6
+     },
+     {
+      "month": "2015-01",
+      "tilt_bp": 1201.1,
+      "share_of_mean_pct": 37.5
+     }
+    ],
+    "sign_flips_under_a_single_drop": false,
+    "sum_of_months_bp": 3200.4
+   }
+  }
+ },
+ "answers": {
+  "eras_measured": 4,
+  "era_names_measured": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now",
+   "pre2017"
+  ],
+  "pre2017_months": 44,
+  "pre2017_large_leg_ann_bp": 683.5,
+  "pre2017_small_leg_ann_bp": 1869.9,
+  "pre2017_tilt_ann_bp": 1186.4,
+  "pre2017_lomo_span_bp": 1353.8,
+  "pre2017_lomo_min_bp": 643.7,
+  "pre2017_lomo_max_bp": 1997.5,
+  "pre2017_months_to_half": 2,
+  "pre2017_biggest_shift_month": "2014-12",
+  "eras_with_sign_flip_under_one_drop": [
+   "2024_now"
+  ],
+  "largest_leg_gap_bp": -1186.4,
+  "largest_leg_gap_era": "pre2017",
+  "identity_residual_max_bp": 0.0
+ },
+ "honest": [
+  "the small leg of the three-member skin is ONE name (sh510500): the era reading inherits that name's own drawdowns and cannot be read as a small-cap bucket return",
+  "eras remain calendar partitions of one continuous monthly series and do not add up to the full row",
+  "leave-one-month-out prices the mean's dependence on single months; it is not a confidence interval and no p-value is claimed",
+  "months_to_half counts contribution in the sign of the mean, so a mean that is only large because a few months are large is named as such rather than being called robust",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months_3member": [
+  {
+   "month": "2015-04",
+   "members_with_break": [
+    "sh510500"
+   ],
+   "members_missing": []
+  }
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

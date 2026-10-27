@@ -2771,6 +2771,216 @@ def run_tilt3(outdir, core=None, eras=ERAS, raw=None):
     }
 
 
+# ---------------------- leg: E168 pre-2017 leg split + leave-one-month-out
+#
+# E126 made 2013-04..2016-12 measurable for the first time and published
+# +1186.4bp/yr of tilt beside a +134.4bp size-neutral leg. That pair says most
+# of the era's headline is the size leg, but it does not say whether the size
+# leg is itself 44 months or two of them, and the three-member skin's small leg
+# is ONE name. So the era is split into its two legs on their own and each mean
+# is re-derived with every month removed once (LOMO).
+TILT3_HALF_SHARE = 0.5          # declared before the burn (E168)
+TILT3_LOMO_TOP = 5              # months published per era beside the sweep
+
+
+def _leg_monthly(mem, brk, months, names):
+    """Equal-weight monthly return of ONE size leg on the months it can price.
+
+    A leg is priced only on months where EVERY member of that leg has a clean
+    month: a partial roster would silently change the leg's weights, which is
+    the composition trap the three skins already publish (E126).
+    """
+    names = tuple(names)
+    if not names:
+        return {}
+    out = {}
+    for m in months:
+        if any(m not in mem.get(s, {}) or m in brk.get(s, {}) for s in names):
+            continue
+        out[m] = sum(mem[s][m] for s in names) / len(names)
+    return out
+
+
+def _lomo_sweep(months, values):
+    """Leave-one-month-out on an era mean, plus how many months carry it.
+
+    Two different questions, published side by side because one number answers
+    neither alone: ``span_bp`` is the range of the era mean when each month is
+    dropped once (a reading carried by one month has a wide span), and
+    ``months_to_half`` orders months by their own contribution in the sign of
+    the mean and counts how many are needed to reach half the total.
+    """
+    pairs = [(m, v) for m, v in zip(months, values) if v is not None]
+    n = len(pairs)
+    if n < 2:
+        return {"months": n, "skipped": "fewer than 2 usable months"}
+    full = sum(v for _m, v in pairs) / n * 12.0 * 1e4
+    drops = []
+    for i, (m, _v) in enumerate(pairs):
+        rest = [v for j, (_mm, v) in enumerate(pairs) if j != i]
+        drops.append((m, sum(rest) / len(rest) * 12.0 * 1e4))
+    anns = [a for _m, a in drops]
+    worst = max(drops, key=lambda p: abs(p[1] - full))
+    total = sum(v for _m, v in pairs)
+    ordered = sorted(pairs, key=lambda p: abs(p[1]), reverse=True)
+    top = [{"month": m, "tilt_bp": round(v * 1e4, 1),
+            "share_of_mean_pct": (round(v / total * 100, 1) if total else None)}
+           for m, v in ordered[:TILT3_LOMO_TOP]]
+    months_to_half, running = None, 0.0
+    if total:
+        sign = 1.0 if total > 0 else -1.0
+        same_sign = sorted((v for _m, v in pairs if v * sign > 0), reverse=True)
+        for v in same_sign:
+            running += v
+            months_to_half = (months_to_half or 0) + 1
+            if abs(running) >= abs(total) * TILT3_HALF_SHARE:
+                break
+    return {
+        "months": n,
+        "full_mean_ann_bp": round(full, 1),
+        "drop_min_ann_bp": round(min(anns), 1),
+        "drop_max_ann_bp": round(max(anns), 1),
+        "span_bp": round(max(anns) - min(anns), 1),
+        "biggest_abs_shift": {"month": worst[0],
+                              "ann_bp_after_drop": round(worst[1], 1),
+                              "delta_bp": round(worst[1] - full, 1)},
+        "months_to_half": months_to_half,
+        "months_to_half_share": TILT3_HALF_SHARE,
+        "top_months": top,
+        "sign_flips_under_a_single_drop": min(anns) < 0.0 < max(anns),
+        "sum_of_months_bp": round(total * 1e4, 1),
+    }
+
+
+def run_tilt3legs(outdir, core=None, eras=ERAS, raw=None):
+    """E43-TILT3-PRE2017-LEG-SPLIT: price the era's two legs on their own.
+
+    The three-member skin's tilt is ``mean(sh510500) - mean(the two broad-cap
+    members)``, so every era reading is the difference of two leg returns, and
+    the small leg is a single name. This face publishes each leg's annualised
+    return beside the tilt, the arithmetic identity (small - large) against the
+    published ``tilt3`` series, and a leave-one-month-out sweep of each era mean
+    so a 44-month reading carried by a handful of months is quantified rather
+    than described.
+
+    ``raw`` mirrors run_tilt3's seam so a screened twin can burn both arms off
+    one load without a second panel pass.
+    """
+    core = core if core is not None else _monthly_core(raw_all=raw)
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = [m for m in core["months3"] if _in_era(m, lo, hi)]
+        if len(ms) < 3:
+            rows[name] = {"months": len(ms), "skipped": "fewer than 3 usable months"}
+            continue
+        big = _leg_monthly(core["mem"], core["brk"], ms, TILT_LARGE)
+        sml = _leg_monthly(core["mem"], core["brk"], ms, TILT3_SMALL)
+        paired = [m for m in ms if m in big and m in sml and m in core["tilt3"]]
+        if len(paired) < 3:
+            rows[name] = {"months": len(paired),
+                          "skipped": "fewer than 3 months priced on both legs"}
+            continue
+        tilt = [core["tilt3"][m] for m in paired]
+        big_ann = sum(big[m] for m in paired) / len(paired) * 12.0 * 1e4
+        sml_ann = sum(sml[m] for m in paired) / len(paired) * 12.0 * 1e4
+        tilt_ann = sum(tilt) / len(tilt) * 12.0 * 1e4
+        residual = max(abs((sml[m] - big[m]) - core["tilt3"][m]) for m in paired)
+        pos = sum(1 for t in tilt if t > 0)
+        rows[name] = {
+            "months": len(paired), "from": paired[0], "to": paired[-1],
+            "months_dropped_from_era": len(ms) - len(paired),
+            "large_leg": {
+                "members": list(TILT_LARGE),
+                "ann_bp": round(big_ann, 1),
+                "best_month": round(max(big.values()) * 100, 2),
+                "worst_month": round(min(big.values()) * 100, 2),
+                "positive_share_pct": round(
+                    sum(1 for m in paired if big[m] > 0) / len(paired) * 100, 1),
+            },
+            "small_leg": {
+                "members": list(TILT3_SMALL),
+                "ann_bp": round(sml_ann, 1),
+                "best_month": round(max(sml.values()) * 100, 2),
+                "worst_month": round(min(sml.values()) * 100, 2),
+                "positive_share_pct": round(
+                    sum(1 for m in paired if sml[m] > 0) / len(paired) * 100, 1),
+                "note": ("the small leg of this skin is a single name, so this "
+                         "number is that name's own return, not a bucket"),
+            },
+            "tilt_ann_bp": round(tilt_ann, 1),
+            "tilt_from_legs_bp": round(sml_ann - big_ann, 1),
+            "identity_residual_bp": round(residual * 12.0 * 1e4, 6),
+            "tilt_positive_share_pct": round(pos / len(tilt) * 100, 1),
+            "legs_differ_in_sign": (big_ann > 0) != (sml_ann > 0),
+            "legs_sum_bp": round(big_ann + sml_ann, 1),
+            "lomo": _lomo_sweep(paired, tilt),
+        }
+        if name == "pre2017":
+            rows[name]["months_detail"] = [
+                {"month": m, "large_pct": round(big[m] * 100, 2),
+                 "small_pct": round(sml[m] * 100, 2),
+                 "tilt_pct": round(core["tilt3"][m] * 100, 2)} for m in paired]
+    measured = {k: v for k, v in rows.items()
+                if k != "full" and "lomo" in v}
+    pre = rows.get("pre2017") or {}
+    gaps = [(k, v["large_leg"]["ann_bp"] - v["small_leg"]["ann_bp"])
+            for k, v in measured.items()]
+    return {
+        "study": "e43_tilt3_pre2017_leg_split",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {
+            "large": list(TILT_LARGE), "small": list(TILT3_SMALL),
+            "leg_rule": "equal weight within each leg; both legs priced only on "
+                        "months where every member of that leg is present and clean",
+            "lomo": "each era mean re-derived with every month removed once; "
+                    "months_to_half orders months by their own contribution in the "
+                    "sign of the mean and counts to a declared %.2f share"
+                    % TILT3_HALF_SHARE,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "era_names_measured": sorted(measured),
+            "pre2017_months": pre.get("months"),
+            "pre2017_large_leg_ann_bp": (pre.get("large_leg") or {}).get("ann_bp"),
+            "pre2017_small_leg_ann_bp": (pre.get("small_leg") or {}).get("ann_bp"),
+            "pre2017_tilt_ann_bp": pre.get("tilt_ann_bp"),
+            "pre2017_lomo_span_bp": (pre.get("lomo") or {}).get("span_bp"),
+            "pre2017_lomo_min_bp": (pre.get("lomo") or {}).get("drop_min_ann_bp"),
+            "pre2017_lomo_max_bp": (pre.get("lomo") or {}).get("drop_max_ann_bp"),
+            "pre2017_months_to_half": (pre.get("lomo") or {}).get("months_to_half"),
+            "pre2017_biggest_shift_month":
+                ((pre.get("lomo") or {}).get("biggest_abs_shift") or {}).get("month"),
+            "eras_with_sign_flip_under_one_drop": sorted(
+                k for k, v in measured.items()
+                if v["lomo"].get("sign_flips_under_a_single_drop")),
+            "largest_leg_gap_bp": (round(min(gaps, key=lambda p: p[1])[1], 1)
+                                   if gaps else None),
+            "largest_leg_gap_era": (min(gaps, key=lambda p: p[1])[0]
+                                    if gaps else None),
+            "identity_residual_max_bp": (round(max(v["identity_residual_bp"]
+                                                   for v in measured.values()), 6)
+                                         if measured else None),
+        },
+        "honest": [
+            "the small leg of the three-member skin is ONE name (sh510500): the "
+            "era reading inherits that name's own drawdowns and cannot be read "
+            "as a small-cap bucket return",
+            "eras remain calendar partitions of one continuous monthly series and "
+            "do not add up to the full row",
+            "leave-one-month-out prices the mean's dependence on single months; "
+            "it is not a confidence interval and no p-value is claimed",
+            "months_to_half counts contribution in the sign of the mean, so a "
+            "mean that is only large because a few months are large is named as "
+            "such rather than being called robust",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+        "dropped_months_3member": core["dropped3"],
+    }
+
+
 # ---------------------- leg: E43 wide-book size composition
 
 def run_widecomp(outdir, core=None, pick_n=9999, exclude=("sh511",), eras=ERAS):
@@ -15416,6 +15626,53 @@ def selftest():
     chk(_window_is_burn_in_driven(None, 250) is None,
         "E128 an unknown first-trade index is None, not a false claim")
 
+    # ---- E168 pre-2017 leg split + leave-one-month-out
+    _mem = {"A": {"2020-01": 0.10, "2020-02": 0.20, "2020-03": 0.05},
+            "B": {"2020-01": 0.00, "2020-02": 0.10, "2020-03": 0.05},
+            "C": {"2020-01": 0.04, "2020-02": 0.04, "2020-03": 0.04}}
+    _l = _leg_monthly(_mem, {}, ["2020-01", "2020-02", "2020-03"], ("A", "B"))
+    chk(abs(_l["2020-02"] - 0.15) < 1e-12 and abs(_l["2020-01"] - 0.05) < 1e-12,
+        "E168 a leg month is the equal-weight mean of that leg's members")
+    _l2 = _leg_monthly(_mem, {}, ["2020-01", "2020-02"],
+                       ("A", "Z"))
+    chk(_l2 == {},
+        "E168 a leg is priced only on months where EVERY member is present")
+    _l3 = _leg_monthly(_mem, {"C": {"2020-01"}}, ["2020-01", "2020-02"], ("B", "C"))
+    chk(list(_l3) == ["2020-02"],
+        "E168 a member carrying a corporate-action month removes that leg month")
+    chk(_leg_monthly(_mem, {}, ["2020-01"], ()) == {},
+        "E168 an empty leg prices nothing instead of dividing by zero")
+    # the identity the face publishes: tilt == small mean - large mean
+    _tilt_fix = [_mem["C"][m] - _l[m] for m in sorted(_l)]
+    chk([round(t, 12) for t in _tilt_fix] == [-0.01, -0.11, -0.01],
+        "E168 the published tilt is the small minus the large leg, not a fresh fit")
+    _sw = _lomo_sweep(["m1", "m2"], [0.01, 0.02])
+    chk(_sw["months"] == 2 and _sw["full_mean_ann_bp"] == 1800.0,
+        "E168 the sweep's full row matches the era mean at 12x annualisation")
+    chk(_sw["drop_min_ann_bp"] == 1200.0 and _sw["drop_max_ann_bp"] == 2400.0,
+        "E168 dropping each month re-prices the mean one month at a time")
+    chk(_sw["span_bp"] == 1200.0 and _sw["biggest_abs_shift"]["month"] == "m1",
+        "E168 the span is published and the heaviest single month is named")
+    chk(_sw["span_bp"] > 0,
+        "E168 the sweep really moved (a zero span would be a dead sweep)")
+    chk(_sw["months_to_half"] == 1,
+        "E168 one month carrying 2/3 of the sum reaches half on its own")
+    chk(_sw["sign_flips_under_a_single_drop"] is False,
+        "E168 a two-month all-positive era keeps its sign under one drop")
+    _swz = _lomo_sweep(["m1", "m2"], [0.01, -0.01])
+    chk(_swz["months_to_half"] is None and _swz["top_months"][0]["share_of_mean_pct"] is None,
+        "E168 a zero-sum era reports None for shares, never a fabricated percentage")
+    chk(_swz["sign_flips_under_a_single_drop"] is True,
+        "E168 a zero-sum era flips sign when either month is dropped")
+    chk(_lomo_sweep(["m1"], [0.01])["skipped"] == "fewer than 2 usable months",
+        "E168 a one-month era is refused, not swept over nothing")
+    chk(len(_sw["top_months"]) <= TILT3_LOMO_TOP,
+        "E168 the top-months list is capped by the declared constant")
+    chk("raw" in run_tilt3legs.__code__.co_varnames,
+        "E168 run_tilt3legs carries the raw= seam a screened twin burns through")
+    chk(TILT3_HALF_SHARE == 0.5 and TILT3_LOMO_TOP > 0,
+        "E168 the half-share rule is declared before the burn, not tuned after")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -17802,7 +18059,7 @@ def main(argv):
                              "cashdragscreened",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "tilt4screened", "tilt3reach",
+                             "tilt4screened", "tilt3reach", "tilt3legs",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -18473,6 +18730,23 @@ def main(argv):
                                        "neutral_bp": v.get("spread_size_neutral_ann_bp")}
                                    for k, v in f["eras"].items()},
                           "skin_comparison": f["skin_comparison"],
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3legs":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3legs(None)
+        p = write_json(outdir, "TILT3LEGS-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3legs",
+                          "file": os.path.relpath(p, ROOT),
+                          "eras": {k: {"months": v.get("months"),
+                                       "large_bp": (v.get("large_leg") or {}).get("ann_bp"),
+                                       "small_bp": (v.get("small_leg") or {}).get("ann_bp"),
+                                       "tilt_bp": v.get("tilt_ann_bp"),
+                                       "lomo_span_bp": (v.get("lomo") or {}).get("span_bp"),
+                                       "months_to_half": (v.get("lomo") or {}).get("months_to_half")}
+                                   for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
         return 0

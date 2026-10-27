@@ -894,9 +894,9 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1199,
- "round_no": 1202,
- "round_no_label": "r1199",
- "round_no_ts": "2026-10-28T04:19:43+08:00",
+ "round_no": 1203,
+ "round_no_label": "r1202",
+ "round_no_ts": "2026-10-28T05:36:03+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
   "checked_at": "2026-10-28T02:50:35+08:00",
@@ -912,11 +912,29 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T04:19:43+08:00"
  },
- "task": "r1200: E128 cashdrag per-book window (the 36.0 vs 37.0bp attribution gap is unexplained: mechanism is ladder-only, attribution is per book) or E126 tilt3 reach-back",
- "task_short": "E128 cashdrag per-book window",
+ "task": "r1203: E171 all-series leave-one-month-out table (or E169 tilt sign vs the engine spread)",
+ "task_short": "E171 all-series LOMO table",
  "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
- "ts": "2026-10-28T04:19:43+08:00",
- "updated": "2026-10-28T04:19:43+08:00",
- "updated_at": "2026-10-28T04:19:43+08:00",
- "verdict": "green r1199: E127 cross-twin screen-reach ledger shipped -- 32 screened faces classified, the repair/refresh ordering is 5/5/3 on matched denominators rather than a family law, 18 faces carry no cutoff control at all, and 29 of 29 census-bearing faces have zero ladder names neutralised while only one publishes it; S1 red (GPU face half-owned, 17 keys) repaired in-window with one probe; smoke 108/108 | e97 selftest 29/29 | dualrun ZERO-DRIFT streak 3 | attrition CLEAN | orphan 0"
+ "ts": "2026-10-28T05:36:03+08:00",
+ "updated": "2026-10-28T05:36:03+08:00",
+ "updated_at": "2026-10-28T05:36:03+08:00",
+ "verdict": "green r1202: E168 shipped -- the pre-2017 tilt is a difference of two positive legs (+683.5 broad / +1869.9 on 510500 alone) with a 0.0bp identity residual, and the new leave-one-month-out instrument puts the era mean's depth at 2 months to half with a 643.7..1997.5bp span; the newest era, not the oldest, is the one whose sign flips under a single dropped month; e39 selftest 521/521 | smoke 108/108 | dualrun ZERO-DRIFT streak 5 | attrition CLEAN | orphan 0",
+ "r1202": {
+  "mission": "burn pool row E168 (pre-2017 leg split + LOMO) after smoke opened green",
+  "product": [
+   "results/e43_tilt_4member/TILT3LEGS-20261027.json (new face: per-era both legs + LOMO)",
+   "scripts/e39_panel_census.py: _leg_monthly / _lomo_sweep / run_tilt3legs + mode tilt3legs (selftest 504 -> 521)",
+   "research/digests/DIGEST-20261028-r1202-e168-tilt3-leg-split.md",
+   "knowledge/METHODOLOGY_ASSETS.md E168",
+   "results/runnable_pool.json E168 -> done (+ E171 seeded)",
+   "results/e79/ROUTING-20261027.json re-derived on disk -> byte-identical to HEAD (deterministic: 25 charged / 24 covered_twin / 1 by_name / 0 uncovered); the E94 charge list does not include tilt3reach/tilt3legs, so it says nothing about the new mode"
+  ],
+  "finding": "pre2017 44 months: large +683.5bp / small +1869.9bp / tilt +1186.4bp (identity residual 0.0bp); LOMO span 1353.8bp, biggest month 2014-12 at -64.5% of the sum, months_to_half=2; months_to_half by era 2/14/1/1 and 2024_now is the only era whose sign flips under a single dropped month",
+  "controls": "the identity small-large == the published tilt3 is recomputed per era and its max residual published (0.0bp); a non-zero-span leg pins that the sweep really moved",
+  "not_run": "strategy_scorecard / market_clock_call / daily_scorecard / build_status are bm-a host-guarded; the long update_* collectors are bm-a lanes; GPU untouched (drama voice lane holds VRAM, GPU parked per C-20261014-01)",
+  "s6": "dualrun ZERO-DRIFT 654 streak 5 | compute_audit FLAG:supply_gap,supply_floor | watermark insufficient_history n=1 | update_daily 0 new rows (cutoff 2026-10-27) | market_regime three triggers | attrition CLEAN 4 ledgers (1 healed) | orphan 0 (7 py faces)",
+  "selftest": "e39 504 -> 521/521",
+  "smoke": "108/108 PASS at open and at close",
+  "pool": "E168 done; E171 seeded; ready 3 (E169/E170/E171)"
+ }
 }

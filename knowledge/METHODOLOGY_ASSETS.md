@@ -1730,3 +1730,34 @@ composition price swings -69.4 / +343.7 / -120.7bp across the eras that share mo
 Evidence: results/e43_tilt_4member/TILT3REACH-20261027.json, scripts/e39_panel_census.py
 (`TILT3_SMALL`, `_skin_months`, `run_tilt3`, `_tilt3_arm_cells`, selftest 488 -> 504),
 research/digests/DIGEST-20261028-r1201-e126-tilt3-reachback.md.
+
+## E168 A mean's width is not its depth: publish leave-one-out beside the counting rule (2026-10-28 r1202 bm-b)
+
+Two numbers, both cheap, decide whether an era mean is quotable:
+
+1. **Leave-one-out span** -- re-derive the mean with each month removed once. A mean carried by a
+   handful of months has a wide span, and the heaviest single month is named.
+2. **Months to half** -- order months by their own contribution *in the sign of the mean* and
+   count how many reach a declared half of the total. A "44-month era" that needs 2 months to
+   reach half is 2 months of evidence with 42 months of context, and that is a different claim
+   from "robust because the window is long".
+
+Neither replaces the other: span answers "how far can one month move it", the counting rule
+answers "how concentrated is it". Publish both, plus each month's share, and declare the half
+threshold before the burn (`TILT3_HALF_SHARE`), not after looking.
+
+Decomposition rule that came with it: when a reading is the difference of two legs, publish each
+leg's own annualised return and check the identity (`small - large == published tilt`, residual
+0.0bp here) instead of fitting a second model; a difference of two *positive* legs is not a
+"one side beat the other" statement.
+
+Readings that motivated it (three-member tilt skin, cutoff 2026-10-27): pre2017 is +1186.4bp/yr
+over 44 months but its LOMO span is 643.7..1997.5bp with 2014-12 alone worth -64.5% of the sum and
+two months reaching half; both legs are positive (+683.5 large / +1869.9 small), so the tilt is a
+ratio story, not a rotation story. The **newest** era is the fragile one: 2024_now +252.8bp flips
+sign under a single drop (-139.4..+768.4, 2026-07 = -195.0% of the sum) while the era everyone
+calls thin keeps its sign. Long window != safe reading; recent window != safe reading.
+
+Evidence: results/e43_tilt_4member/TILT3LEGS-20261027.json, scripts/e39_panel_census.py
+(`_leg_monthly`, `_lomo_sweep`, `run_tilt3legs`, selftest 504 -> 521),
+research/digests/DIGEST-20261028-r1202-e168-tilt3-leg-split.md.
