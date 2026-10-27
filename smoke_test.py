@@ -524,6 +524,8 @@ def main() -> int:
             # the BUILDER honest, which is the half a gate cannot reach.
             ("product: surgical commit tree-size guard (exit-code contract)",
              "Tools/surgery_commit.py", ["selftest"]),
+            ("product: machine-health face builder (exit-code contract)",
+             "Tools/machine_health_face.py", ["selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
@@ -951,6 +953,22 @@ def main() -> int:
     except Exception as e:
         check("fleet: GPU face self-consistent on heartbeat", False, str(e))
         check("fleet: GPU face leg wired into the S6 chain", False, str(e))
+
+    # fleet/machine-health.json is the face every panel reads for per-machine lane
+    # colour, and nothing checked its SHAPE. It had drifted into three shells of
+    # {"value": [...]} around hashtable .ToString() strings -- json.load returned a
+    # list of junk, monitor/build_status.py failed soft, and the board rendered blank
+    # rows that read like calm machines (D-20261028-02). Legs: the builder's own
+    # contract, and the LIVE face must still be machine-keyed today.
+    try:
+        _mf = importlib.import_module("Tools.machine_health_face")
+        _mach, _st, _drop = _mf.read_face()
+        check("fleet: machine-health face is machine-keyed, not a nesting generator",
+              _st == "ok" and bool(_mach),
+              f"status={_st} machines={','.join(sorted(_mach)) or '-'} junk={_drop}")
+    except Exception as e:
+        check("fleet: machine-health face is machine-keyed, not a nesting generator",
+              False, str(e))
 
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,

@@ -745,12 +745,31 @@
  },
  "r1190_pit": "'append-only' is a claim about BYTES, not rows: update_one's pandas read_concat_to_csv round-trip rewrote all 1,650 lines of data/daily for three new bars (4.1200 -> 4.12) while every row-level test passed. Any writer tested by read-back row counts will pass while rewriting every line -- assert new_text.startswith(old_text). Sibling: the first fix truncated a 4.35 bar to 4.3 because it inherited the panel's 1dp style unconditionally, so style inheritance must be conditional on exact round-trip.",
  "r1192_push": "pending",
+ "r1193": {
+  "absorbed": "r1192 (E121 rebalday twin + Tools/surgery_commit.py + digest + card E159) landed from the dead window's worktree; smoke_test.py re-unioned (bm-a moved the tree-shrink legs into its own guard and added the pre-push gate while r1192 appended a builder leg to the older copy)",
+  "d19": "dec+ord DELTA consumed at group 3e49eb5; new D-20261028-01..04 read; D-04 self-check answered (7 resident / 0 hits)",
+  "decision": "D-20261028-02 (dispatched @BigMoney 10-28 12:00) -- closed on this machine: writer + face + consumer",
+  "escalated": "OB-20261027-211206-860 tells bm-b to run its voice lane, C-20261014-01 sec.3 parks this machine's GPU; pid 23940 drama_voicegen_batch is doing exactly that today -- escalated, nothing killed",
+  "local_not_on_origin": "pending-this-push",
+  "product": [
+   "Tools/machine_health_face.py (write/check/selftest 9/9)",
+   "fleet/machine-health.json rebuilt to the pinned map shape from live readings",
+   "monitor/build_status.py::_machine_health_union -- accepts map + legacy rows, reports health_face/health_unknown",
+   "group Tools/fleet-oversight.ps1 ledger block -- adopt-rule + canonical map (PARSE-OK, real run verified)",
+   "smoke legs: builder selftest + 'face is machine-keyed'"
+  ],
+  "proof": "real writer run -> dict['bm-b'] ts 00:22 util amber; consumer engine_q=-1 face=ok; HEAD~1 corrupt blob classifies unreadable",
+  "root_cause": "the writer re-read its own output and carried it forward, so a single junk payload became a nesting generator; ConvertTo-Json depth was never the problem",
+  "s6": "dualrun ZERO-DRIFT 647 entries streak 15 | compute_audit FLAG:gpu_unauthorized,supply_gap | attrition CLEAN 4 ledgers | orphan face=0 | py_watermark insufficient_history (first sample of the window)",
+  "s7": "pre-push claw reinstalled; group Tools/hooks/pre-push materialised from origin (promisor blob fetch) -> check_gates OK",
+  "smoke": "103/103 PASS"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1191,
- "round_no": 1193,
- "round_no_label": "r1191",
+ "round": 1193,
+ "round_no": 1194,
+ "round_no_label": "r1193",
  "round_no_ts": "2026-10-27T22:16:00+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
@@ -762,15 +781,15 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "closeout faces + E120 product faces; base = origin tip a9b5ad833b (bm-a r1131 postscript)",
+  "note": "base = origin tip 21f731326 (bm-a r1134 postscript)",
   "status": "PENDING_THIS_PUSH",
-  "ts": "2026-10-27T22:16:00+08:00"
+  "ts": "2026-10-28T00:31:18+08:00"
  },
- "task": "r1192: take E121 (rebalance-calendar screened twin -- 132 numbers; the calendar face moving while each calendar's own return holds means the repair changed WHEN the book traded, not WHAT it earned)",
- "task_short": "E121 rebalance-day screened twin",
+ "task": "r1194: E122 warm-spread screened twin (pool ready 3: E122/E123/E124)",
+ "task_short": "E122 warm-spread screened twin",
  "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-27T22:16:00+08:00",
- "updated": "2026-10-27T22:16:00+08:00",
- "updated_at": "2026-10-27T22:16:00+08:00",
- "verdict": "green r1192: smoke 98/98 | E121 face published (33 of 114 cells move, 0 calendar) | census selftest 403 -> 416 | routing covered_twin 16 -> 17 uncovered 8 -> 7 | method card E159 | pool 3 ready (E122/E123/E124) | dualrun ZERO-DRIFT streak 14 | audit CLEAN | attrition CLEAN | orphan face=0 | group tree repaired+clean (bm-a r1133)"
+ "ts": "2026-10-28T00:31:18+08:00",
+ "updated": "2026-10-28T00:31:18+08:00",
+ "updated_at": "2026-10-28T00:31:18+08:00",
+ "verdict": "green r1193: absorbed r1192 estate (E121 face + surgery_commit builder) | D-20261028-02 closed -- machine-health root cause is the writer carrying its own damaged output forward, fixed on both sides (adopt-rule + canonical map + fail-closed consumer) | smoke 103/103 | dualrun streak 15 | attrition CLEAN | orphan 0 | D-19 delta consumed | group gate wired"
 }

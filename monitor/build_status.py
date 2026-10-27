@@ -503,34 +503,73 @@ def _saturation_state() -> dict:
 
 def _machine_health_union() -> dict:
     """D-20261015-02 dual-source helper (council dispatch; F-20261014-01/02):
-    last per-machine rows from the fleet/machine-health.json hourly union
-    ledger (appended locally by group Tools/fleet-oversight.ps1 from local-disk
-    tick reads -- engine queue + lane colors survive the tick-face git exit)
-    + heartbeat freshness from fleet/machines/<mid>.json. Fail-soft:
-    unreadable/absent faces = {} (honest not-yet)."""
+    last per-machine rows from fleet/machine-health.json
+    + heartbeat freshness from fleet/machines/<mid>.json.
+
+    Shape: D-20261028-02 pinned the face to a machine-keyed map
+    ({"<machine>": {ts, cpu, ram_free_gb, gpu, util, work}}). The old hourly
+    row array is still accepted, because a machine that has not pulled yet
+    writes that shape and reading it is strictly better than reading nothing.
+
+    Fail-closed (D-20261028-02 item 3): a face that parses but carries no
+    usable entry is NOT an empty-but-healthy panel. It comes back as
+    health_face="unreadable"/"empty" with health_unknown=true so a reader can
+    say UNKNOWN instead of rendering blank rows that look like calm machines.
+    Only a clean face yields health_unknown=false.
+    """
     out: dict = {}
+    face = {"health_face": "absent", "health_unknown": True}
+    path = os.path.join(PATHS.root, "fleet", "machine-health.json")
     try:
-        entries = _read_json(os.path.join(
-            PATHS.root, "fleet", "machine-health.json")) or []
+        entries = _read_json(path)
     except Exception:
-        entries = []
-    if isinstance(entries, list):
-        for e in entries:
-            if not isinstance(e, dict):
+        entries = None
+    rows = []
+    if isinstance(entries, dict):
+        if isinstance(entries.get("ts"), str):
+            rows = [entries]              # a single legacy row
+        else:
+            rows = [entries]              # canonical map: {mid: {...}}
+    elif isinstance(entries, list):
+        rows = entries
+    junk = 0
+    for e in rows:
+        if not isinstance(e, dict):
+            junk += 1
+            continue
+        if isinstance(entries, dict) and not isinstance(entries.get("ts"), str):
+            pairs = [(k, v) for k, v in e.items()]
+        else:
+            pairs = [(k, v) for k, v in e.items() if k != "ts"]
+        for k, v in pairs:
+            if k == "ts" or not isinstance(v, dict):
+                junk += 1
                 continue
-            ts = e.get("ts")
-            for k, v in e.items():
-                if k == "ts" or not isinstance(v, dict):
-                    continue
-                mid = str(k)
-                row = dict(out.get(mid) or {})
-                m = re.search(r"engine_q=(-?\d+)", str(v.get("work") or ""))
-                if m:
-                    row["engine_q"] = int(m.group(1))
-                if v.get("util"):
-                    row["util"] = v.get("util")
-                row["union_ts"] = ts
-                out[mid] = row
+            if not v.get("ts"):
+                junk += 1
+                continue
+            mid = str(k)
+            row = dict(out.get(mid) or {})
+            m = re.search(r"engine_q=(-?\d+)", str(v.get("work") or ""))
+            if m:
+                row["engine_q"] = int(m.group(1))
+            if v.get("util"):
+                row["util"] = v.get("util")
+            if isinstance(v.get("gpu"), dict) and v["gpu"].get("free_gb") is not None:
+                row["gpu_free_gb"] = v["gpu"].get("free_gb")
+            if v.get("ram_free_gb") is not None:
+                row["ram_free_gb"] = v.get("ram_free_gb")
+            row["union_ts"] = v.get("ts")
+            out[mid] = row
+    if out:
+        face = {"health_face": "ok", "health_unknown": False}
+    elif entries is None:
+        face = {"health_face": "unreadable", "health_unknown": True}
+    elif not entries:
+        face = {"health_face": "empty", "health_unknown": True}
+    else:
+        face = {"health_face": "unusable", "health_unknown": True}
+    face["health_face_junk"] = junk
     for mid in list(out.keys()):
         try:
             hb = _read_json(os.path.join(
@@ -549,6 +588,7 @@ def _machine_health_union() -> dict:
             except Exception:
                 age = None
         row["heartbeat_age_min"] = age
+    out["_face"] = face
     return out
 
 
@@ -590,10 +630,16 @@ def _engine_face_state() -> dict:
                          "source": "live_face"})
             seen.add(r.get("machine_id"))
     union = _machine_health_union()
+    # D-20261028-02 item 3: the face reports its own readability so a broken
+    # ledger shows up as UNKNOWN instead of a calm blank panel.
+    out["health_face"] = union.pop("_face", {"health_face": "absent",
+                                             "health_unknown": True})
     for mid in sorted(union):
         if mid in seen:
             continue
         u = union[mid]
+        if not isinstance(u, dict):
+            continue
         rows.append({"machine_id": mid,
                      "py_cpu_pct": None,
                      "engine_alive": None,
