@@ -274,14 +274,7 @@
  "orphan_face": "0/19",
  "orphan_faces": 0,
  "orphan_killed": 0,
- "push_verified": {
-  "ahead": 0,
-  "behind": 0,
-  "head": "149551d0b6",
-  "note": "round-1127 + pool re-merge after rebase; empty diff vs origin",
-  "origin_main": "149551d0b6",
-  "ts": "2026-10-27T08:30:10+08:00"
- },
+ "push_verified": "e00f40b0bd on origin/main, ahead=0 behind=0 (rev-list both ways)",
  "ram_free_gb": 25.36,
  "ram_free_mb": 25967,
  "ram_free_pct": 27.1,
@@ -319,14 +312,14 @@
  "sync": {
   "ahead": 0,
   "behind": 0,
-  "origin_tip": null,
-  "ts": "2026-10-27T22:00:00+08:00"
+  "origin_tip": "e00f40b0bd",
+  "ts": "2026-10-27T22:04:00+08:00"
  },
  "task": "r1132: a missing marks session now says WHY it is missing -- owner outage vs a live lane that dropped the ball",
  "total_ram_gb": 93.6,
- "ts": "2026-10-27T22:00:00+08:00",
- "updated": "2026-10-27T22:00:00+08:00",
- "updated_at": "2026-10-27T22:00:00+08:00",
+ "ts": "2026-10-27T22:04:00+08:00",
+ "updated": "2026-10-27T22:04:00+08:00",
+ "updated_at": "2026-10-27T22:04:00+08:00",
  "verdict": "green red=false (smoke 97/97; marks holes attributed to the lane owner contract; t35 selftest+live PASS; attrition CLEAN; orders_ack CLEAN 114/123/0; D-19 unchanged and reproducible)",
  "verify": "t35_open_fill_verify selftest PASS incl. 4 new legs (F9 fallback builds the watch from bars and PASSes; F10 a same-day fill with no bar row is no_bar + verdict NO_EVIDENCE, never zero_pending; F11 the bar tier still catches a 1% wrong fill as BREACH; F12 an earlier-session hold is not in the fallback set; F13 the history keeps 1 line per (day,tier) and never rewrites the first); live run on the pre-bar face rc0 PASS tier=daily_bar_open matched 1 (513100 2.233 vs 2.2330 rel 0.0), then after update_daily landed 3 new rows and live.paper rolled the book to 2026-10-27 the same gate ran rc0 PASS tier=marks, so BOTH tiers are exercised on real data this window; smoke 96/96 PASS 0 FAIL (one new leg recomputes every bar-tier session_open from data/daily and the existing dashboard leg now also asserts the tier/verdict/day travel with the coverage counters); dashboard JS node --check rc0 (2 blocks); dashboard paper block carries fill_verify_tier=daily_bar_open / verdict=PASS / day=2026-10-26 / matched=1; attrition CLEAN 4 ledgers (1 historical shrink healed); orders_ack CLEAN 114/123/0 zero face divergence; D-19 decisions unchanged+reproducible, orders DELTA consumed (3 rows 10-27 20:22/20:28/20:31 order-bus self-check + 21:12 'full work' night order) = informational for this repo, zero BigMoney obligation beyond the standing self-drive; orphan face 0/31; saturation engine DEAD (heartbeat 46434s) -> register + tick -> rc0 alive (12s).",
  "verify_r1108": "fund_avail_asof_panel selftest 10/10; run rc0 over 200 month-ends, panel 281986 rows / 24 asofs, lookahead assert clean; smoke 55/55; S6 7 legs rc0; attrition CLEAN; orphan 0/16",
