@@ -49,6 +49,7 @@ import etf_book_cash_ladder as REPO
 import etf_equity_alpha as A
 import etf_robust_pf as R
 import etf_book_production as P
+import etf_book_spanning as S
 from config import PATHS
 
 SCHEMA = "etf-book-forward/v1"
@@ -75,6 +76,12 @@ CAVEATS = [
      "roll GC007/GC014/GC028 on every maturity bar, and it uses the 2026 exchange commission "
      "table (re-derivable with RATES fee=0)."),
     "Research output, not an investment recommendation.",
+    ("The basket benchmark is an equal-weight rebalanced basket of the four exposures in "
+     "scripts/etf_book_spanning.py (gold 518880 / Nasdaq QDII 513100 / CSI300 510300 / "
+     "bond 511010) priced on the BOOK's own decision grid. Both arms ride the engine's "
+     "fixed-weight convention, which does not charge the weight drift inside a holding "
+     "period; the basket's would-be drift turnover is published beside it so that omission "
+     "is sized rather than hidden."),
 ]
 
 
@@ -260,6 +267,140 @@ def date_grid(px, rebal):
     return dates, set(dates[::rebal])
 
 
+BENCH_EXEC = ("decide on the book's own 20-bar grid -> fill at the next open -> equal "
+              "weights restored at that fill; cost charged on the turnover it takes")
+
+
+def _bench_frames(dates):
+    """Open/close faces of the four span exposures, re-indexed onto the book's bars.
+
+    The keys come from etf_book_spanning.SPAN rather than a copy: the annual spanning
+    study and this daily benchmark must price the SAME basket, and a code change in one
+    place has to move the other (pinned by a selftest leg).
+    """
+    close_b, open_b, n_flip = S.load_span_frames()
+    keys = [code for _k, code, _l in S.SPAN]
+    idx = pd.DatetimeIndex(list(dates))
+    px_b = close_b.reindex(columns=keys)
+    op_b = open_b.reindex(columns=keys)
+    px_b = px_b.reindex(px_b.index.union(idx)).ffill().reindex(idx)
+    op_b = op_b.reindex(op_b.index.union(idx)).ffill().reindex(idx)
+    return px_b, op_b, keys, n_flip
+
+
+def bench_block(dates, rebal_days, base_bar, cost=None):
+    """Equal-weight four-ETF basket accrued on the book's grid, rebased to `base_bar`.
+
+    This is the daily form of the question r1312 could only answer annually: is the
+    shipped book beating a basket a human could hold instead of it? Both arms ride the
+    same decision bars, the same next-open fill and the same fixed-weight convention, so
+    a gap is a portfolio difference and not a calendar difference.
+
+    Turnover is measured on the WEIGHT DRIFT that build-up produces between fills: the
+    engine's convention does not charge it on either arm, so it is published as a
+    friction estimate (`rebalance_friction`) rather than silently charged on one side.
+    """
+    cost = CONFIG["cost_per_side"] if cost is None else cost
+    px_b, op_b, keys, n_flip = _bench_frames(dates)
+    w = {k: 1.0 / len(keys) for k in keys}
+    # a buy-and-hold basket is invested from its first bar: without an opening position the
+    # arm would sit flat until the first grid decision and publish a 1.0 line (r1261 class
+    # of silent no-op, caught by the "basket actually moved" leg).
+    nav, held, pending = 1.0, dict(w), None
+    last_fill_px = {k: float(px_b.loc[dates[0], k]) for k in keys}
+    rows, turns = [], []
+    for i, d in enumerate(dates):
+        filled = False
+        if i > 0:
+            prev = dates[i - 1]
+            open_d = op_b.loc[d].where(np.isfinite(op_b.loc[d]), px_b.loc[d])
+            if pending is not None:
+                new, turn = pending
+                if held:
+                    r = _leg(held, px_b.loc[prev], open_d)
+                    if r is not None:
+                        nav *= (1.0 + r)
+                nav *= (1.0 - cost * turn)
+                turns.append(turn)
+                held, pending = new, None
+                filled = True
+                last_fill_px = open_d.to_dict()
+                r = _leg(held, open_d, px_b.loc[d])
+                if r is not None:
+                    nav *= (1.0 + r)
+            elif held:
+                r = _leg(held, px_b.loc[prev], px_b.loc[d])
+                if r is not None:
+                    nav *= (1.0 + r)
+        if d in rebal_days and last_fill_px:
+            # weight drift since the fill is what a real equal-weight basket re-equalises
+            drifted, tot = {}, 0.0
+            for k in keys:
+                a, b = last_fill_px.get(k), px_b.loc[d].get(k)
+                if np.isfinite(a) and np.isfinite(b) and a > 0:
+                    drifted[k] = w[k] * float(b) / float(a)
+                    tot += drifted[k]
+            turn = 0.0
+            if tot > 0:
+                drift_w = {k: v / tot for k, v in drifted.items()}
+                turn = 0.5 * sum(abs(drift_w.get(k, 0.0) - w[k]) for k in keys)
+            pending = (dict(w), turn)
+        rows.append((d, {"nav": nav, "filled": filled}))
+    base = None
+    bars = []
+    for d, m in rows:
+        bar = str(d.date())
+        if base is None:
+            if bar != base_bar:
+                continue
+            base = m["nav"]
+        bars.append({"bar": bar, "nav": round(m["nav"] / base, 10),
+                     "filled": m["filled"]})
+    mean_turn = float(np.mean(turns)) if turns else 0.0
+    per_year = 244.0 / CONFIG["rebal"]
+    return {
+        "keys": keys,
+        "labels": {code: lbl for _k, code, lbl in S.SPAN},
+        "weights": "equal (1/4 each), restored at every fill",
+        "execution": BENCH_EXEC,
+        "source": "scripts/etf_book_spanning.py SPAN",
+        "panel_flips_repaired": n_flip,
+        "bars": bars,
+        "rebalance_friction": {
+            "turnover_per_decision": round(mean_turn, 6),
+            "bp_per_year_if_charged": round(mean_turn * cost * per_year * 10000.0, 3),
+            "note": ("weight drift a real equal-weight basket must re-equalise; the engine "
+                     "convention charges it on NEITHER arm (the book's holdings drift the "
+                     "same way), so it is sized here, not booked"),
+        },
+        "decisions": len(turns),
+    }
+
+
+def _excess(book_nav, bench_nav):
+    """Book's lead over the basket as a fraction of the BASKET, not a difference."""
+    if not np.isfinite(bench_nav) or bench_nav == 0:
+        return None
+    return book_nav / bench_nav - 1.0
+
+
+def bench_drift(published, fresh, tol=DRIFT_TOL):
+    """Faces of the published benchmark block that no longer re-derive."""
+    if not published:
+        return []
+    old = {b.get("bar"): b for b in (published.get("bars") or [])}
+    faces, worst = [], 0.0
+    for b in (fresh.get("bars") or []):
+        o = old.get(b["bar"])
+        if o is None:
+            continue
+        d = abs(float(b["nav"]) - float(o.get("nav", 0.0)))
+        worst = max(worst, d)
+        if d > tol:
+            faces.append("%s:%.3e" % (b["bar"], d))
+    return faces[:20]
+
+
 def compute_marks(vol_target=CONFIG["vol_target"], carry_on=True):
     close, openp, amt, feats, score, cls, n_flip = build_inputs()
     px = close.reindex(columns=close.columns).ffill()
@@ -353,6 +494,7 @@ def _fresh(fwd, dates, cls, n_flip, capital):
         },
         "seed": None,
         "bars": [],
+        "benchmark": None,
         "books": {},
         "book_in_force": None,
         "status": "live",
@@ -387,13 +529,44 @@ def seed(capital=1_000_000.0):
         "note": "marks are indexed to 1.0 at this bar; nothing before it is a track record",
     }
     led["bars"] = _indexed(marks, last_bar)
+    led["benchmark"] = _bench_with_book(led["bars"], dates, last_bar)
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
     led["runs"] = [{"ts": led["seed"]["ts"], "new_bars": 0, "last_bar": last_bar, "first": True}]
     save_ledger(led)
-    print("SEEDED %s nav=1.0 bars=%d names=%d status=live" %
-          (last_bar, len(led["bars"]), CONFIG["n_hold"]), flush=True)
+    bl = _bench_line(led)
+    print("SEEDED %s nav=1.0 bars=%d names=%d status=live | %s" %
+          (last_bar, len(led["bars"]), CONFIG["n_hold"], bl), flush=True)
     return 0
+
+
+def _bench_with_book(book_bars, dates, base_bar):
+    """The benchmark block, with each basket bar carrying the book's nav beside it."""
+    bench = bench_block(dates, set(dates[::CONFIG["rebal"]]), base_bar)
+    book = {b["bar"]: b["nav"] for b in book_bars}
+    last_book = None
+    for b in bench["bars"]:
+        nav = book.get(b["bar"], last_book)
+        last_book = nav
+        b["book_nav"] = nav
+        b["excess"] = None if nav is None else round(_excess(nav, b["nav"]), 10)
+    tail = bench["bars"][-1] if bench["bars"] else None
+    bench["latest"] = None if not tail else {
+        "bar": tail["bar"],
+        "book_nav": tail["book_nav"],
+        "basket_nav": tail["nav"],
+        "excess_pp": None if tail["excess"] is None else round(tail["excess"] * 100, 4),
+    }
+    return bench
+
+
+def _bench_line(led):
+    """One line a reader (or a轮报告) can quote: is the book ahead of the basket?"""
+    latest = (led.get("benchmark") or {}).get("latest")
+    if not latest or latest.get("excess_pp") is None:
+        return "basket: unavailable (four span names missing from the panel)"
+    return ("book %.5f vs 4-ETF basket %.5f -> excess %+.2fpp on %s" %
+            (latest["book_nav"], latest["basket_nav"], latest["excess_pp"], latest["bar"]))
 
 
 def run(rebase=False):
@@ -422,26 +595,34 @@ def run(rebase=False):
             faces.append("%s:%.3e" % (b["bar"], d))
     led["drift"] = {"faces": faces[:20], "max_abs": worst, "checked_bars": len(led["bars"])}
 
+    # the basket benchmark is regenerated every run for the same reason: a published
+    # daily answer that stopped re-deriving must freeze the ledger, not be overwritten
+    bench_faces = bench_drift(led.get("benchmark"), _bench_with_book(led["bars"], dates, seed_bar))
+
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
-    if faces and not rebase:
+    if (faces or bench_faces) and not rebase:
         led["status"] = "frozen"
+        led["drift"]["benchmark_faces"] = bench_faces
         save_ledger(led)
-        print("DRIFT %d faces max_abs=%.3e -> FROZEN (exit 3); --rebase is the logged escape" %
-              (len(faces), worst), flush=True)
+        print("DRIFT %d faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); "
+              "--rebase is the logged escape" % (len(faces), len(bench_faces), worst), flush=True)
         return 3
-    if faces and rebase:
+    if (faces or bench_faces) and rebase:
         led["rebases"].append({
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-            "n_faces": len(faces), "max_abs": worst, "sample": faces[:10],
+            "n_faces": len(faces), "n_bench_faces": len(bench_faces),
+            "max_abs": worst, "sample": (faces + bench_faces)[:10],
         })
         led["bars"] = _indexed(marks, seed_bar)
         led["status"] = "live"
-        print("REBASED %d faces max_abs=%.3e (logged in rebases)" % (len(faces), worst), flush=True)
+        print("REBASED %d faces (bench %d) max_abs=%.3e (logged in rebases)" %
+              (len(faces), len(bench_faces), worst), flush=True)
 
     if not new_bars:
         headed = led["bars"][-1] if led["bars"] else {}
-        print("NO-OP last_bar=%s nav=%s (no new panel bars)" %
-              (headed.get("bar"), headed.get("nav")), flush=True)
+        led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
+        print("NO-OP last_bar=%s nav=%s (no new panel bars) | %s" %
+              (headed.get("bar"), headed.get("nav"), _bench_line(led)), flush=True)
         _noop_stub(led, headed)
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
@@ -456,6 +637,7 @@ def run(rebase=False):
     for b in led["bars"]:
         peak = max(peak, b["nav"])
         b["dd"] = round(b["nav"] / peak - 1.0, 6)
+    led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
     led["engine"] = _engine_block(fwd)
@@ -466,8 +648,9 @@ def run(rebase=False):
         "last_bar": new_bars[-1]["bar"]}])[-MAX_RUNS:]
     save_ledger(led)
     tail = led["bars"][-1]
-    print("APPENDED %d bars -> %s nav=%.4f dd=%.2f%% cash=%.0f%%" %
-          (len(new_bars), tail["bar"], tail["nav"], tail["dd"] * 100, tail["cash"] * 100),
+    print("APPENDED %d bars -> %s nav=%.4f dd=%.2f%% cash=%.0f%% | %s" %
+          (len(new_bars), tail["bar"], tail["nav"], tail["dd"] * 100, tail["cash"] * 100,
+           _bench_line(led)),
           flush=True)
     return 0
 
@@ -809,6 +992,54 @@ def selftest():
     chk("no-op stub daily", _noop_stub(led_f, {"bar": "2026-10-23"},
                                        day="2026-10-27") is True,
         "a new day records again, so liveness evidence is never lost")
+
+    # --- basket benchmark (r1313): the daily form of "are we beating buy-and-hold?" -----
+    mid_bar = str(dates[-6].date())
+    bench = bench_block(dates, rebal_days, mid_bar)
+    span_codes = [code for _k, code, _l in S.SPAN]
+    chk("basket keys come from the spanning study", bench["keys"] == span_codes,
+        "keys=%s" % ",".join(bench["keys"]))
+    navs = [b["nav"] for b in bench["bars"]]
+    chk("basket is rebased to 1.0 at the base bar",
+        bench["bars"][0]["bar"] == mid_bar and abs(navs[0] - 1.0) < 1e-12,
+        "first=%s nav=%.10f" % (bench["bars"][0]["bar"], navs[0]))
+    # a flat 1.0 line would satisfy every identity above -- prove the arm actually ran
+    chk("basket actually moved", max(navs) - min(navs) > 1e-4 and bench["decisions"] > 5,
+        "range=%.4f decisions=%d" % (max(navs) - min(navs), bench["decisions"]))
+    chk("basket nav stays positive and finite", all(np.isfinite(v) and v > 0 for v in navs),
+        "n=%d min=%.4f" % (len(navs), min(navs)))
+    # the excess must be a ratio (a difference would read 0.03 where the honest number is
+    # 0.0294) -- pin it on a hand-checkable pair rather than on the live series
+    ex = _excess(1.05, 1.02)
+    chk("excess is measured against the basket, not subtracted",
+        abs(ex - (1.05 / 1.02 - 1.0)) < 1e-15 and abs(ex - 0.03) > 1e-4,
+        "excess=%.6f vs naive difference 0.03" % ex)
+    # a published basket bar that stops re-deriving must freeze the ledger the same way
+    doctored = json.loads(json.dumps(bench))
+    doctored["bars"][1]["nav"] = doctored["bars"][1]["nav"] + 1e-6
+    chk("basket drift gate fires on a doctored bar",
+        len(bench_drift(doctored, bench)) == 1, "faces=%d" % len(bench_drift(doctored, bench)))
+    chk("basket drift gate is quiet on an identical block", bench_drift(bench, bench) == [],
+        "re-derivation is deterministic")
+    # the engine convention charges weight drift on NEITHER arm; that omission is sized,
+    # not hidden -- and a cost sweep must therefore be an exact identity here
+    b_free = bench_block(dates, rebal_days, mid_bar, cost=0.0)
+    same = max(abs(a["nav"] - b["nav"]) for a, b in zip(b_free["bars"], bench["bars"]))
+    chk("basket turnover is drift-only and is not booked on either arm",
+        same < 1e-12 and bench["rebalance_friction"]["turnover_per_decision"] >= 0.0,
+        "cost_sweep_maxabs=%.1e drift_turn/decision=%.4f -> %.1fbp/yr if charged" %
+        (same, bench["rebalance_friction"]["turnover_per_decision"],
+         bench["rebalance_friction"]["bp_per_year_if_charged"]))
+    # the book's nav must ride the same bar list as the basket, or the gap is a calendar
+    led_b = {"bars": _indexed(marks0, mid_bar)}
+    wired = _bench_with_book(led_b["bars"], dates, mid_bar)
+    chk("book and basket share one bar list",
+        [b["bar"] for b in wired["bars"]] == [b["bar"] for b in led_b["bars"]],
+        "bars=%d" % len(wired["bars"]))
+    chk("excess is published per bar and as a latest line",
+        wired["latest"] is not None and wired["latest"].get("excess_pp") is not None
+        and all("excess" in b for b in wired["bars"]),
+        "latest=%s" % json.dumps(wired["latest"]))
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

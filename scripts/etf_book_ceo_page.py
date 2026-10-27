@@ -282,6 +282,20 @@ def build(with_stress=False):
         fwd["nav"] = bars[-1].get("nav")
         fwd["since_inception_pct"] = round((float(bars[-1]["nav"]) - 1.0) * 100.0, 4)
 
+    # the daily answer to "are we beating just buying the four exposures" -- read off the
+    # forward ledger's own benchmark block, never re-priced here (one price source)
+    bench = (ledger.get("benchmark") or {}).get("latest") or {}
+    vs_basket = None
+    if bench.get("excess_pp") is not None:
+        vs_basket = {
+            "bar": bench.get("bar"),
+            "book_nav": bench.get("book_nav"),
+            "basket_nav": bench.get("basket_nav"),
+            "excess_pp": bench.get("excess_pp"),
+            "basket": ((ledger.get("benchmark") or {}).get("labels") or {}),
+            "basis": "等权 1/4、同一换仓日、次日开盘成交",
+        }
+
     bt = (card.get("backtest") or {})
     band = {}
     # the executable ticket prices its own book; quote that口径 first, from the ticket itself
@@ -338,6 +352,7 @@ def build(with_stress=False):
                    "lots": o.get("lots"), "shares": o.get("shares"),
                    "amount_cny": o.get("amount")} for o in order],
         "forward": fwd,
+        "vs_basket": vs_basket,
         "backtest_band": band,
         "excess_pp": (tk.get("metrics") or {}).get("excess_pp"),
         "money_cny": money,
@@ -423,6 +438,13 @@ def render_md(p):
         add("  - 这只是起步，不能当业绩看。")
     else:
         add("- 前向账本：尚未起算")
+    vsb = p.get("vs_basket")
+    if vsb:
+        add("- 同时期对照（**买入并持有 ETF 篮子**，%s）：到 **%s** 篮子净值 %.4f，本账 %.4f，"
+            "领先 **%+.2f 个百分点**"
+            % (vsb["basis"], vsb["bar"], vsb["basket_nav"], vsb["book_nav"], vsb["excess_pp"]))
+        add("  - 篮子=黄金/纳指/沪深300/国债四只等权、与本账同一换仓日与成交口径；"
+            "这个差只说明这几天谁更好，不是长期超额，日子还短。")
     add("")
     add("## 该期待什么（回测口径，扣成本后）")
     add("")
@@ -655,6 +677,28 @@ def selftest():
         "empty panel -> None, capital-less yuan -> None")
     chk("L27 stress: a window longer than the history says 'no row', never a fabricated number",
         stress_stats(_s, windows=(50,))["worst"]["50d"] is None)
+
+    # 28-29. the basket line must be the LEDGER's own number, and its absence must read as
+    # absence -- re-pricing it here would be a second price source for the same claim
+    _led = _load(LEDGER) if os.path.exists(LEDGER) else {}
+    _bench = (_led.get("benchmark") or {}).get("latest") or {}
+    if _bench.get("excess_pp") is not None:
+        chk("L28 basket: page quotes the ledger's own benchmark, bar and navs to the digit",
+            page["vs_basket"] is not None
+            and page["vs_basket"]["bar"] == _bench.get("bar")
+            and abs(page["vs_basket"]["excess_pp"] - _bench["excess_pp"]) < 1e-12
+            and abs(page["vs_basket"]["book_nav"] - _bench["book_nav"]) < 1e-12,
+            "ledger %s vs page %s" % (_bench.get("excess_pp"),
+                                      (page["vs_basket"] or {}).get("excess_pp")))
+    else:
+        chk("L28 basket: page has no basket line when the ledger publishes none",
+            page["vs_basket"] is None, "ledger benchmark latest absent -> page None")
+    _md = render_md(dict(page, vs_basket={"bar": "2026-10-27", "book_nav": 1.004,
+                                          "basket_nav": 0.9965, "excess_pp": 0.75,
+                                          "basis": "等权 1/4、同一换仓日、次日开盘成交"}))
+    chk("L29 basket: the rendered page carries the basket comparison and its caveat",
+        "ETF 篮子" in _md and "+0.75" in _md and "不是长期超额" in _md,
+        "rendered line present")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

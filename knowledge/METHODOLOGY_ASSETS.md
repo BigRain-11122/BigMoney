@@ -1366,3 +1366,30 @@ code path, two windows, and the default keeps every existing caller bit-identica
 rather than to width). Evidence: results/etf_book_spanning_pre2020.json, CARD.md section "Does any of it survive
 outside 2020-2026?", scripts/etf_book_spanning_pre2020.py (selftest 15/15), smoke +1 leg,
 research/digests/DIGEST-20261027-r1312-preboom-span-test.md.
+
+## E155 A track record that carries no benchmark on its own bars answers no question (2026-10-27 r1313 bm-c)
+
+The forward ledger seeded 2026-10-23 recorded the book's own nav and nothing else. Every "is this better than
+just buying the four exposures" question therefore had to go back to the annual pre-2020/2020-2026 regression
+(E154) -- a window statement answering a daily question. The ledger now appends, per bar, the same equal-weight
+four-ETF basket (gold 518880 / Nasdaq QDII 513100 / CSI300 510300 / bond 511010) priced on the BOOK's decision
+grid with the BOOK's next-open fill and cost rule, rebased to the same seed bar, and publishes
+`benchmark.latest.excess_pp` (book_nav / basket_nav - 1). First reading on 2026-10-27: book 1.00400 vs basket
+0.99649, excess +0.75 pp over 3 bars.
+Four rules that made it usable rather than decorative:
+1) Read the basket's keys from the spanning study's own SPAN list, never a copy -- the annual and the daily
+   comparison must be the same basket (a selftest leg asserts key equality).
+2) Re-derive the benchmark block on every run and freeze the ledger when a published basket bar stops
+   reproducing, exactly like the book's own marks; a published daily answer that silently re-prices itself is
+   worse than none.
+3) Prove the arm moved. An equal-weight basket that was not invested at its first bar published a flat 1.0 line
+   and passed every identity leg (r1261 class); the opening position and a "basket actually moved" assertion are
+   both load-bearing.
+4) Do not double-charge one side. The engine convention charges weight drift on NEITHER arm, so this leg sizes
+   that omission (0.0147 drift-turnover per decision, ~1.8 bp/yr) instead of booking it against the basket alone;
+   an exact cost-sweep identity leg pins that decision in place.
+Also: excess must be a ratio against the basket (1.05/1.02-1 = 2.94 %, not 3.00 pp) -- a difference flatters the
+book by the size of the basket's own move, and the difference is exactly what a reader will compute by hand.
+Evidence: results/etf_book_forward/LEDGER.json (benchmark block), scripts/etf_book_forward.py (selftest 33 legs,
+9 of them new), scripts/etf_book_ceo_page.py (lifted into the CEO one-pager, selftest 26 -> 28), chain leg prints
+the pair on every run.

@@ -1,12 +1,12 @@
 {
   "latest": {
-    "ts": "2026-10-27 19:15:53",
+    "ts": "2026-10-27 19:22:42",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 56.0,
-    "py_cpu_pct": 0.3,
+    "cpu_total_pct": 68.0,
+    "py_cpu_pct": 0.1,
     "cores": 32,
-    "py_procs": 24,
-    "result_stale_min": 0.8,
+    "py_procs": 6,
+    "result_stale_min": 0.6,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "pool_ready_unclaimed": 0,
@@ -14,7 +14,7 @@
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
       "run_samples": 4,
-      "span_min": 174.0
+      "span_min": 180.8
     },
     "supply_gap_candidate": false,
     "supply_gap_detail": {
@@ -38,16 +38,16 @@
       "silent_owners": {},
       "unknown_owners": [],
       "owner_silent_min": 120.0,
-      "self": "bm-a",
+      "self": "bm-c",
       "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 992.3,
+    "supply_family_streak_min": 999.2,
     "gpu": {
       "present": true,
-      "util_pct": 29.0,
-      "mem_used_mb": 11632.0,
-      "compute_apps_count": 44,
+      "util_pct": 0.0,
+      "mem_used_mb": 1294.0,
+      "compute_apps_count": 25,
       "rogue_apps": []
     },
     "zombies": [],
@@ -14060,13 +14060,13 @@
       "verdict": "FLAG:pool_starvation,supply_floor"
     },
     {
-      "ts": "2026-10-27 19:15:53",
+      "ts": "2026-10-27 19:22:42",
       "audit_version": "v2.4.2",
-      "cpu_total_pct": 56.0,
-      "py_cpu_pct": 0.3,
+      "cpu_total_pct": 68.0,
+      "py_cpu_pct": 0.1,
       "cores": 32,
-      "py_procs": 24,
-      "result_stale_min": 0.8,
+      "py_procs": 6,
+      "result_stale_min": 0.6,
       "fleet_open_tasks": 0,
       "pool_ready_count": 0,
       "pool_ready_unclaimed": 0,
@@ -14074,7 +14074,7 @@
       "pool_starvation_candidate": true,
       "pool_starvation_detail": {
         "run_samples": 4,
-        "span_min": 174.0
+        "span_min": 180.8
       },
       "supply_gap_candidate": false,
       "supply_gap_detail": {
@@ -14098,16 +14098,16 @@
         "silent_owners": {},
         "unknown_owners": [],
         "owner_silent_min": 120.0,
-        "self": "bm-a",
+        "self": "bm-c",
         "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
       },
       "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 992.3,
+      "supply_family_streak_min": 999.2,
       "gpu": {
         "present": true,
-        "util_pct": 29.0,
-        "mem_used_mb": 11632.0,
-        "compute_apps_count": 44,
+        "util_pct": 0.0,
+        "mem_used_mb": 1294.0,
+        "compute_apps_count": 25,
         "rogue_apps": []
       },
       "zombies": [],

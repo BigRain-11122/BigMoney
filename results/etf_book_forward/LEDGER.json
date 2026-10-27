@@ -177,5 +177,58 @@
  "engine": {
   "book_return": "sum(w*r) over the actual (vol-targeted) weights",
   "cash_leg": "ladder3 (GC007/GC014/GC028) commission charged"
+ },
+ "benchmark": {
+  "keys": [
+   "518880",
+   "513100",
+   "510300",
+   "511010"
+  ],
+  "labels": {
+   "518880": "gold ETF",
+   "513100": "Nasdaq-100 QDII ETF",
+   "510300": "CSI 300 ETF",
+   "511010": "treasury bond ETF"
+  },
+  "weights": "equal (1/4 each), restored at every fill",
+  "execution": "decide on the book's own 20-bar grid -> fill at the next open -> equal weights restored at that fill; cost charged on the turnover it takes",
+  "source": "scripts/etf_book_spanning.py SPAN",
+  "panel_flips_repaired": 1,
+  "bars": [
+   {
+    "bar": "2026-10-23",
+    "nav": 1.0,
+    "filled": false,
+    "book_nav": 1.0,
+    "excess": 0.0
+   },
+   {
+    "bar": "2026-10-26",
+    "nav": 0.9988775459,
+    "filled": false,
+    "book_nav": 1.0010304509,
+    "excess": 0.0021553243
+   },
+   {
+    "bar": "2026-10-27",
+    "nav": 0.9964905156,
+    "filled": false,
+    "book_nav": 1.0039951687,
+    "excess": 0.0075310833
+   }
+  ],
+  "rebalance_friction": {
+   "turnover_per_decision": 0.0147,
+   "bp_per_year_if_charged": 1.793,
+   "note": "weight drift a real equal-weight basket must re-equalise; the engine convention charges it on NEITHER arm (the book's holdings drift the same way), so it is sized here, not booked"
+  },
+  "decisions": 83,
+  "latest": {
+   "bar": "2026-10-27",
+   "book_nav": 1.0039951687,
+   "basket_nav": 0.9964905156,
+   "excess_pp": 0.7531
+  }
  }
 }

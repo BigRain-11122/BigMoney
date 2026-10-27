@@ -1,0 +1,52 @@
+  0 dualrun                0.2s [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 641 entries, drift-free streak 8, cutoff 2026-10-27T16:34:39+08:0
+  0 compute_audit          9.1s {"ts": "2026-10-27 19:22:42", "audit_version": "v2.4.2", "cpu_total_pct": 68.0, "py_cpu_pct": 0.1, "cores": 32, "py_proc
+  0 py_watermark           6.6s {"ts": "2026-10-27 19:22:49", "epoch": 1793100163.0, "machine": "bm-c", "cpu_total_pct": 28.0, "cores": 32, "py_cpu_pct"
+  0 update_daily           3.4s status -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+  0 cal_audit              2.5s data_lag_audit: in_sync | calendar 1990-12-19..2026-12-31 (8797d) | expected 2026-10-27 | active 1723/1725 syms effectiv
+  0 market_regime          1.1s   trigger: breadth 0.79>=65%
+  0 scorecard              0.2s lane_io single-writer guard: results/strategy_scorecard.json host=bm-a origin heartbeat fresh (2min, local 679min stale 
+  0 market_clock           7.0s call written: K:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-26.md cell=ORANGE_COOL sleeves=4 a
+  0 update_lhb             1.0s no-op: cutoff 2026-10-26 covers latest disclosure window (2026-10-26)
+  0 update_zt_pool         0.8s no-op: zt_pool lane owned by bm-b, not this machine (bm-c); takeover refused: no --takeover flag
+  0 update_heat            0.8s no-op: heat lane host bm-b authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)
+  0 update_futures         0.3s no-op: local cutoff 2026-10-26 covers expected complete-bar date 2026-10-26 -> zero network
+  0 update_repo            0.2s no-op: repo rates lane owned by bm-b, not this machine (bm-c); takeover refused: no --takeover flag
+  0 update_options         0.2s [RETIRED] update_options: options face closed per O-20261009-1105 (consumer audit: historical wave-2 batch only, zero fo
+  0 update_moneyflow       0.2s no-op: moneyflow lane owned by bm-b, not this machine (bm-c)
+  0 update_sina_mf         0.2s no-op: sina_mf lane owned by bm-b, not this machine (bm-c)
+  0 update_astock_daily     1.9s no-op: astock_daily lane owned by bm-b, not this machine (bm-c); takeover refused: owner heartbeat fresh (62min < 120min
+  0 update_etf_daily       0.1s no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c); takeover refused: owner heartbeat fresh (62min
+  0 update_etf_wide        0.5s }
+  0 etf_book_forward      63.2s NO-OP last_bar=2026-10-27 nav=1.0039951687 (no new panel bars) | book 1.00400 vs 4-ETF basket 0.99649 -> excess +0.75pp 
+  0 etf_book_spanning     81.7s }
+  0 etf_book_production    66.6s }
+  0 etf_book_order        55.0s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_order\TICKET-2026-10-27.json
+  0 etf_book_width_audit    58.0s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_width_audit.json
+  0 etf_book_capacity_rule    71.7s wrote K:\Fluxgroup\FluxGroup\quant\bigmoney\results\etf_book_capacity_rule.json
+  0 etf_book_registry      0.1s wrote results\etf_book_registry.json
+  0 etf_book_ceo_page      0.1s etf_book_ceo_page: host=bm-c is not the writer (host=bm-a) -- honest no-op, nothing written
+  0 etf_paper_signal      48.9s   sleeve 1 next_due None est 2026-11-13 pos 5279 anchor pos n 5
+  0 regime_thermo          1.0s regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+  0 regime_dualarm         0.1s regime_gate_dualarm: not lane owner (bm-b), honest no-op
+  0 rev_osc_export         0.8s rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+  0 minute_feed            0.1s update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op
+  0 ths_panel              0.7s no-op: ths panel lane owned by bm-b, not this machine (bm-c)
+  0 ah_panel               0.2s no-op: ah panel lane owned by bm-b, not this machine (bm-c)
+  0 fund_premium           0.1s no-op: snapshot 2026-10-26 already covers expected NAV date 2026-10-26
+  0 fundamental            0.8s snapshot fresh (14.9h < 24h) -> skip
+  0 b_layer                0.8s verdict -> K:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+  0 fund_statements        0.1s no-op: fund statements lane owned by bm-b, not this machine (bm-c)
+  0 t24_paper              0.8s lane_io single-writer guard: results/prospect_paper/* host=bm-a origin heartbeat fresh (9min, local 687min stale view) -
+  0 t24_promote            0.2s lane_io single-writer guard: results/prospect_promotion/* host=bm-a origin heartbeat fresh (9min, local 687min stale vie
+  0 aggr_paper            96.6s aggr paper: marks already at panel cutoff 2026-10-27 -- no-op (idempotent)
+  0 alloc_paper            0.9s no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)
+  0 grid_paper             0.9s grid paper: marks already at panel cutoff 2026-10-26 -- no-op (idempotent)
+  0 system_v1              0.9s system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op
+  0 t35_export             0.2s lane_io single-writer guard: results/paper_export/* host=bm-a origin heartbeat fresh (11min, local 689min stale view) ->
+  0 scorecard_daily        0.2s lane_io single-writer guard: results/daily_scorecard.json host=bm-a origin heartbeat fresh (11min, local 689min stale vi
+  0 daily_report           1.5s daily report written: REPORT-2026-10-27.md/.json faces=5 token=1
+  0 ceo_live_usage         0.2s ceo_live_usage: K:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-27.md (+ .json twin + LIVE-latest poi
+  0 build_status           0.9s lane_io single-writer guard: results/dashboard_status.json host=bm-a origin heartbeat fresh (11min, local 689min stale v
+  0 token_meter            0.1s L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summa
+  0 gpu_face               0.2s {"ack_after": 239, "ack_before": 239, "applied": ["gpu_face", "gpu_face_ts", "free_vram_mb", "gpu_util_pct", "gpu_free_m
+chain: 51/51 rc0 -> results/_r0bmc_s6_chain.json (2026-10-27T19:32:22)
