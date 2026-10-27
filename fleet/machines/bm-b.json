@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T13:40:27+08:00",
+ "clock_read": "2026-10-27T14:04:52+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -28,7 +28,7 @@
  },
  "gpu_face": "nvidia-smi 2% / 4450 MiB used of 8192 MiB",
  "gpu_face_source": "nvidia-smi",
- "gpu_face_ts": "2026-10-27T12:01:29+08:00",
+ "gpu_face_ts": "2026-10-27T14:12:14+08:00",
  "gpu_free": "3742, 8192",
  "gpu_free_gb": 3.7,
  "gpu_free_mb": 3742,
@@ -54,13 +54,13 @@
  "gpu_vram_free_mib": 3742,
  "gpu_vram_used_mb": 4450,
  "gpu_vram_used_mib": 4450,
- "heartbeat_epoch_utc": 1793079627,
+ "heartbeat_epoch_utc": 1793081092,
  "idle_ram_gb": 8.9,
  "idle_ram_pct": 37.0,
  "idle_rounds": 0,
  "last_action": "unblocked the REV-OSC live bridge (coverage-based readiness gate)",
  "last_action_at": "2026-10-27T12:36:17+08:00",
- "last_artifact": "results/rev_osc_live/SIG-2026-10-26.json",
+ "last_artifact": "results/e44_burnin/BURNINSCREEN-20261026.json",
  "last_decisions_at": "2026-10-27T08:14:36+08:00",
  "last_decisions_read_at": "2026-10-27T10:17:25+08:00",
  "last_decisions_sha": "c514b69c2f06202d2bd5b83bc645daf970b6fb6ec43e1b6666382bcdc4381d09",
@@ -74,7 +74,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "5085ca83d -> origin/main (behind=0 ahead=0, four-way verified)",
  "last_round": 1178,
- "last_seen": "2026-10-27T13:40:27+08:00",
+ "last_seen": "2026-10-27T14:04:52+08:00",
  "latest_artifact": "results/rev_osc_live/SIG-2026-10-26.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -374,16 +374,23 @@
   "s6": "50 legs, non-zero: none",
   "smoke": "85/85 PASS"
  },
- "ram_free_gb": 12.2,
+ "r1178_push": {
+  "behind_origin_main": 0,
+  "note": "rebase --autostash over 2 incoming bm-c commits (r1306/r1307); CODELY.md conflicted as union of both additive rows (bm-c r1306 + bm-b r1177) -- neither dropped, 75 lines / 32 list rows intact; results/_attrition_guard_scan.json taken origin-verbatim (regenerable evidence); autostash pop left 9 daemon faces UU -> resolved to committed state, stash dropped; four-way verified HEAD==origin/main==5085ca83d behind=0 ahead=0, ls-tree carries SIG-2026-10-26.json + rev_osc_signal_export.py + the digest",
+  "pushed_sha": "5085ca83d",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-27T12:47:22+08:00"
+ },
+ "ram_free_gb": 9.1,
  "ram_free_mb": 12494,
- "ram_free_pct": 48.5,
+ "ram_free_pct": 38.0,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1179,
- "round_no": 1178,
+ "round": 1180,
+ "round_no": 1180,
  "round_no_label": "r1177",
  "sat_engine": {
-  "checked_at": "2026-10-27T10:49:43+08:00",
+  "checked_at": "2026-10-27T14:04:52+08:00",
   "status": "alive"
  },
  "status": "online",
@@ -395,18 +402,11 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T11:50:36+08:00"
  },
- "task": "r1176 E97 screened-consumer routing table",
- "ts": "2026-10-27T13:40:27+08:00",
+ "task": "r1180 E112 burn-in screened twin (BURNINSCREEN-20261026)",
+ "ts": "2026-10-27T14:04:52+08:00",
  "updated": "2026-10-27T11:50:36+08:00",
  "updated_at": "2026-10-27T11:50:36+08:00",
- "verdict": "smoke 85/85 PASS; E105 published (results/e44_midmonth/MIDLEVEL-DRIVERS-20261026-s20180101.json, e39 selftest 331/331): 9 of 30 measured level cells are one-name artefacts, control identical max_abs_diff_bp=0.0; pool E105 done, E112 ready next",
+ "verdict": "smoke 85/85; e39 selftest 338/338; E112 published: gate survives the repair (0/20 gate columns, 0/20 gate dates move), returns move 13/36 cells max 0.42pp, cutoff control moves 26/56 -> refresh noise floor 0.2-0.3pp; S6 37/37 rc0; pool E112 done, E113 seeded",
  "vram_free_gb": 3.7,
- "vram_used_gb": 4.3,
- "r1178_push": {
-  "pushed_sha": "5085ca83d",
-  "status": "PUSHED_VERIFIED",
-  "behind_origin_main": 0,
-  "ts": "2026-10-27T12:47:22+08:00",
-  "note": "rebase --autostash over 2 incoming bm-c commits (r1306/r1307); CODELY.md conflicted as union of both additive rows (bm-c r1306 + bm-b r1177) -- neither dropped, 75 lines / 32 list rows intact; results/_attrition_guard_scan.json taken origin-verbatim (regenerable evidence); autostash pop left 9 daemon faces UU -> resolved to committed state, stash dropped; four-way verified HEAD==origin/main==5085ca83d behind=0 ahead=0, ls-tree carries SIG-2026-10-26.json + rev_osc_signal_export.py + the digest"
- }
+ "vram_used_gb": 4.3
 }

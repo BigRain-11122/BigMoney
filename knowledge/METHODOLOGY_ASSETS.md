@@ -1159,3 +1159,25 @@ One window can print opposite stories and both be correct: r1305 published 2015-
 Two things this buys that a single number cannot. (a) The sizing rule is not an edge but it is worth +4.39pp on this window, so any "the ranking pays before 2020" sentence has to be rule-matched on both arms or it is measuring leverage. (b) The benchmark matters as much as the cell: the same rung 4 against equal weight reads +2.76pp while against the static class mix it reads +2.17pp, so both benchmarks travel per rung rather than one being translated into the other.
 Trap: a score rebuilt on the full universe and then subset to a rung's universe does not order that subset the way a ranking inside it would (rank sums are not invariant to the pool), so every rung rebuilds its own score from its own frames.
 How to apply: when two published numbers disagree about one window, do not pick one -- publish the ladder that connects them, assert both ends against the published artifacts, and let the per-step deltas name the culprit. Artifact face: results/etf_book_window_decomp.json (schema etf_book_window_decomp/v1); implementation scripts/etf_book_window_decomp.py (selftest 8/8); consumption scripts/etf_book_production.py `## The 2015-2019 reconciliation`.
+
+## E145 A diff needs BOTH axes priced: two arms at one cutoff AND one arm at two cutoffs (2026-10-27 r1180 bm-b)
+
+An A/B comparison has two confounds, not one. E112 re-derived the burn-in face on the split-repaired
+arm beside the raw arm at one cutoff: the repair moves 13 of 56 published cells, worst 0.42pp, and moves
+zero gate dates. The honest next question is "is 0.42pp big", and the answer is not in the A/B at all --
+it is in the *same arm at two cutoffs*. Joining the previously published raw face (cutoff 2026-10-20)
+against today's raw arm (2026-10-26, arm held fixed) moves 26 of 56 cells: returns -0.12..-0.28pp and
+symbols_eligible +6 names. The refresh axis moves MORE cells than the repair axis.
+
+Reading: (a) the load-bearing columns (gate dates, un-invested sessions, eligible-at-first-trade) moved on
+NEITHER axis, which is what makes them safe to cite; (b) on the return columns a 0.2-0.3pp gap between two
+published faces is inside refresh noise and cannot be attributed to a code change at all.
+
+How to apply: build the join once as a generic cell harvest + join over the face's own columns (E112's
+`_burnin_arm_cells` / `_burnin_pair_rows`), then run three controls through it in the same call --
+identity (arm vs itself, must read 0.0), coverage (cells one-sided or null, reported not skipped) and
+cutoff (newest previously published face of the SAME arm vs today's). Publish all three on the face.
+Without the cutoff row, "the repair is small" and "the repair is invisible" are indistinguishable, and the
+first reader to compare two faces a week apart will price a panel refresh as a fix.
+Evidence: results/e44_burnin/BURNINSCREEN-20261026.json (control / cutoff_control blocks), scripts/
+e39_panel_census.py burninscreen, digest research/digests/DIGEST-20261027-e112-burnin-screened-twin.md.

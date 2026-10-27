@@ -2976,7 +2976,7 @@ def _annual_rets(marks):
 
 
 def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
-               pick_n=9999, exclude=("sh511",), min_bars=None):
+               pick_n=9999, exclude=("sh511",), min_bars=None, raw=None):
     """Attribute the missing pre-2017 years to the eligibility gate, not to mystery.
 
     E40 measured that the book sits in repo for 263 of its first 1,645 bars and
@@ -2994,7 +2994,9 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
     min_bars = int(min_bars or base.MIN_BARS)
     prev_min_bars = base.MIN_BARS
     base.MIN_BARS = min_bars   # e27.load_universe and base.elig both read this global
-    raw_all = e27.load_universe()
+    # ``raw`` lets a caller burn a screened twin of the same panel (E112) without
+    # re-loading it here; the default path is untouched for every existing face.
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -3160,6 +3162,260 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
             "symbols_in_universe counts de-duplicated panels; eligibility arrival is per "
             "window because the rule is window-relative",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+_BURNSCREEN_DELTA_FLOOR_PP = 0.005
+
+
+def _burnin_arm_cells(face, starts):
+    """-> {(start, cell): value} for every number a burn-in face publishes.
+
+    Only the columns that carry a burn-in reading are harvested: the gate dates
+    and the session counts must be comparable across arms, and so must the
+    return columns the warmth argument is built on.
+    """
+    out = {}
+    for start in starts:
+        w = (face.get("windows") or {}).get(start) or {}
+        out[(start, "sessions_uninvested")] = w.get("sessions_uninvested")
+        out[(start, "sessions_uninvested_share_pct")] = w.get(
+            "sessions_uninvested_share_pct")
+        out[(start, "months_uninvested")] = w.get("months_uninvested")
+        out[(start, "eligible_at_first_invested")] = w.get("eligible_at_first_invested")
+        out[(start, "symbols_eligible")] = w.get("symbols_eligible")
+        for book in ("ladder5", "wide"):
+            out[(start, "naive_" + book + "_ann_pct")] = (
+                ((w.get("naive_start_curves") or {}).get(book) or {}).get("ann_return_pct"))
+            sl = (w.get("warm_slice") or {}).get(book) or {}
+            out[(start, "warm_" + book + "_ann_pct")] = sl.get("ann_return_pct")
+            out[(start, "warm_" + book + "_maxdd_pct")] = sl.get("max_drawdown_pct")
+    for span, block in (face.get("era_spans_warm") or {}).items():
+        for book, sl in (block or {}).items():
+            sl = sl or {}
+            out[(span, "span_" + book + "_ann_pct")] = sl.get("ann_return_pct")
+            out[(span, "span_" + book + "_maxdd_pct")] = sl.get("max_drawdown_pct")
+    return out
+
+
+def _burnin_pair_rows(raw_arm, screened_arm, starts):
+    """(E112) Join two burn-in faces cell by cell and publish the delta rows.
+
+    A "screened twin" is only a twin if the join covers the same cells: anything
+    present on one side and missing on the other is reported, not skipped, and a
+    cell that moved is reported with its pointer (start or era span, column).
+    """
+    a = _burnin_arm_cells(raw_arm, starts)
+    b = _burnin_arm_cells(screened_arm, starts)
+    shared = [k for k in a if k in b and a[k] is not None and b[k] is not None]
+    only_a = sorted(k for k in a if k not in b)
+    only_b = sorted(k for k in b if k not in a)
+    missing = sorted(k for k in a if k in b and (a[k] is None or b[k] is None))
+    rows, moved = [], []
+    for k in shared:
+        d = b[k] - a[k]
+        row = {"start": k[0], "column": k[1],
+               "raw": round(a[k], 4), "screened": round(b[k], 4),
+               "delta": round(d, 4)}
+        rows.append(row)
+        if abs(d) > _BURNSCREEN_DELTA_FLOOR_PP:
+            moved.append(row)
+    # gate dates are strings: they either move or they do not
+    date_cols = {}
+    for start in starts:
+        wa = (raw_arm.get("windows") or {}).get(start) or {}
+        wb = (screened_arm.get("windows") or {}).get(start) or {}
+        cols = {}
+        for col in ("first_invested_bar", "first_trading_rebalance",
+                    "earliest_possible_trading_decision",
+                    "first_rebalance_with_elig_ge_5"):
+            va, vb = wa.get(col), wb.get(col)
+            cols[col] = {"raw": va, "screened": vb, "moved": va != vb}
+        date_cols[start] = cols
+    dates_moved = [{"start": s, "column": c, "raw": v["raw"], "screened": v["screened"]}
+                   for s, cols in date_cols.items() for c, v in cols.items()
+                   if v["moved"]]
+    worst = max(moved, key=lambda r: abs(r["delta"])) if moved else None
+    return {
+        "rows": rows,
+        "moved": moved,
+        "only_in_raw": [{"start": k[0], "column": k[1]} for k in only_a],
+        "only_in_screened": [{"start": k[0], "column": k[1]} for k in only_b],
+        "null_on_either_side": [{"start": k[0], "column": k[1]} for k in missing],
+        "gate_dates": date_cols,
+        "gate_dates_moved": dates_moved,
+        "summary": {
+            "cells_compared": len(shared),
+            "cells_moved": len(moved),
+            "max_abs_delta_pp": (abs(worst["delta"]) if worst else 0.0),
+            "worst": worst,
+            "only_in_raw": len(only_a),
+            "only_in_screened": len(only_b),
+            "null_on_either_side": len(missing),
+            "gate_dates_moved": len(dates_moved),
+        },
+    }
+
+
+def run_burninscreen(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
+                     pick_n=9999, exclude=("sh511",), mode="neutralise_int",
+                     resume=True):
+    """E112: re-derive the burn-in face on the screened arm, beside the raw one.
+
+    E97's routing table leaves 21 of 25 charged modes with no screened twin, and
+    the largest single burn is this one: ``run_burnin`` feeds four published
+    modes and carries 1,727 numbers. E77 moved the wide book by ~216bp/yr when
+    the split repair was switched on, so the open question is not whether the
+    numbers move but whether the *burn-in conclusion* survives them -- the gate
+    dates and the un-invested session counts are the load-bearing columns, the
+    return columns are the ones expected to move.
+
+    Both arms are burned off ONE load of the panel (the screen takes the same
+    ``raw`` mapping ``run_burnin`` would have loaded), each arm checkpoints to
+    its own file so a killed pass resumes instead of restarting, and the pair is
+    joined by ``_burnin_pair_rows``. A same-arm control (raw vs raw) is computed
+    in-round: if it does not read zero on every cell, the join machinery moved
+    the numbers and the face must not be read.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "BURNSCREEN-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "BURNSCREEN-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    raw_excl = {s: v for s, v in raw.items()
+                if not s.startswith(tuple(exclude))} if exclude else dict(raw)
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+    screened_excl = {s: v for s, v in screened.items()
+                     if not s.startswith(tuple(exclude))} if exclude else dict(screened)
+
+    raw_arm = cached("raw", lambda: run_burnin(None, starts=starts, pick_n=pick_n,
+                                               exclude=exclude, raw=raw_excl))
+    scr_arm = cached(mode, lambda: run_burnin(None, starts=starts, pick_n=pick_n,
+                                              exclude=exclude, raw=screened_excl))
+
+    pair = _burnin_pair_rows(raw_arm, scr_arm, starts)
+    # identity control: the same arm joined against itself must read zero
+    control = _burnin_pair_rows(raw_arm, raw_arm, starts)["summary"]
+
+    # cutoff control: the newest *previously published* raw burn-in face against
+    # today's raw arm. Two arms at one cutoff isolate the repair; two cutoffs on
+    # one arm isolate the panel refresh. Without both, a moved cell cannot be
+    # attributed to either.
+    cutoff_control = None
+    if outdir and os.path.isdir(outdir):
+        olds = sorted(p for p in os.listdir(outdir)
+                      if p.startswith("BURNIN-") and p.endswith(".json"))
+        for p in reversed(olds):
+            if p[len("BURNIN-"):-len(".json")] == tag:
+                continue
+            try:
+                with open(os.path.join(outdir, p), "r", encoding="utf-8") as fh:
+                    old_face = json.load(fh)
+            except Exception:
+                continue
+            old_pair = _burnin_pair_rows(old_face, raw_arm, starts)
+            cutoff_control = {
+                "old_face": p,
+                "old_cutoff": old_face.get("evidence_cutoff"),
+                "comparison": "old raw arm vs today raw arm (arm held fixed)",
+                "summary": old_pair["summary"],
+                "moved": old_pair["moved"],
+            }
+            break
+
+    s = pair["summary"]
+    survives = (s["gate_dates_moved"] == 0
+                and s["only_in_raw"] == 0 and s["only_in_screened"] == 0
+                and control["cells_moved"] == 0 and control["max_abs_delta_pp"] == 0.0)
+    gate_cols = ("sessions_uninvested", "sessions_uninvested_share_pct",
+                 "months_uninvested", "eligible_at_first_invested", "symbols_eligible")
+    gate_moved = [r for r in pair["moved"] if r["column"] in gate_cols]
+    return_moved = [r for r in pair["moved"] if r["column"] not in gate_cols]
+    return {
+        "study": "e112_burnin_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "starts": list(starts), "pick_n": pick_n,
+            "exclude_prefixes": list(exclude), "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_burnin_arm_cells harvests every numeric column a burn-in "
+                     "face publishes; a cell present on one side only is reported, "
+                     "and a cell moved is reported with its pointer"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "arms": {
+            "raw": {"cutoff": raw_arm.get("evidence_cutoff"),
+                    "symbols_in_universe": {
+                        st: ((raw_arm["windows"].get(st) or {}).get("symbols_in_universe"))
+                        for st in starts}},
+            "screened": {"cutoff": scr_arm.get("evidence_cutoff"),
+                         "symbols_in_universe": {
+                             st: ((scr_arm["windows"].get(st) or {}).get("symbols_in_universe"))
+                             for st in starts}},
+        },
+        "answers": {
+            "conclusion_survives_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta_pp": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "gate_columns_moved": len(gate_moved),
+            "return_columns_moved": len(return_moved),
+            "gate_dates_moved": s["gate_dates_moved"],
+            "control_cells_moved": control["cells_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta_pp":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the burn-in conclusion survives the repair: all %d gate columns "
+                 "and every gate date are unchanged; %d of %d return cells move, "
+                 "worst %.2f pp"
+                 % (len([r for r in pair["rows"] if r["column"] in gate_cols]),
+                    len(return_moved), len(pair["rows"]) - len(
+                        [r for r in pair["rows"] if r["column"] in gate_cols]),
+                    s["max_abs_delta_pp"]))
+                if survives else
+                ("the repair reaches the burn-in reading: %d gate columns and %d "
+                 "gate dates move between the arms, so the warm-up numbers are not "
+                 "arm-free" % (len(gate_moved), s["gate_dates_moved"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints *inside* the panel it is handed; it "
+            "does not change which bars are missing, so an unchanged eligibility "
+            "count is a property of the repair, not evidence the data is clean",
+            "a same-arm control is run in-round and published; a non-zero control "
+            "invalidates the pair regardless of how the deltas read",
+            "one burn per runner: burnin/e44/knife/skinloo share run_burnin, so "
+            "this ticket re-derives the burn-in face only; knife and skinloo keep "
+            "their own tickets",
         ],
     }
 
@@ -9762,6 +10018,60 @@ def selftest():
     chk(_single_name_driver([], "x")["verdict"] == "no_transitions",
         "E105 an era with no transitions reads no_transitions, not a clean level")
 
+    # E112: the screened twin of the burn-in face joins on cells, not on hours
+    def _syn_face(wide_naive=10.0, wide_warm=10.0, uninv=250, first_inv="2014-01-02",
+                  span_wide=9.0, drop_ladder=False):
+        w = {"sessions_uninvested": uninv,
+             "sessions_uninvested_share_pct": round(uninv / 2500.0 * 100, 2),
+             "months_uninvested": round(uninv / 21.0, 1),
+             "eligible_at_first_invested": 34,
+             "symbols_eligible": 900,
+             "first_invested_bar": first_inv,
+             "first_trading_rebalance": "2014-01-01",
+             "earliest_possible_trading_decision": "2014-01-01",
+             "first_rebalance_with_elig_ge_5": "2013-12-01",
+             "naive_start_curves": {"wide": {"ann_return_pct": wide_naive},
+                                    "ladder5": {"ann_return_pct": 8.0}},
+             "warm_slice": {"wide": {"ann_return_pct": wide_warm,
+                                     "max_drawdown_pct": -30.0},
+                            "ladder5": {"ann_return_pct": 7.5,
+                                        "max_drawdown_pct": -25.0}}}
+        if drop_ladder:
+            w.pop("warm_slice")
+        return {"windows": {"2013-01-01": w},
+                "era_spans_warm": {"2013-01-01..2016-12-31": {
+                    "wide": {"ann_return_pct": span_wide, "max_drawdown_pct": -35.0},
+                    "ladder5": {"ann_return_pct": 6.0, "max_drawdown_pct": -22.0}}}}
+
+    _p112 = _burnin_pair_rows(_syn_face(), _syn_face(wide_naive=12.5), ["2013-01-01"])
+    _s112 = _p112["summary"]
+    chk(_s112["gate_dates_moved"] == 0 and _s112["cells_moved"] == 1
+        and abs(_s112["max_abs_delta_pp"] - 2.5) < 1e-9,
+        "E112 only the return column moves; the gate dates and counts do not")
+    chk(any(r["column"] == "naive_wide_ann_pct" for r in _p112["moved"])
+        and _p112["summary"]["worst"]["raw"] == 10.0
+        and _p112["summary"]["worst"]["screened"] == 12.5,
+        "E112 the moved cell is published with both arms and its pointer")
+    _c112 = _burnin_pair_rows(_syn_face(), _syn_face(), ["2013-01-01"])["summary"]
+    chk(_c112["cells_moved"] == 0 and _c112["max_abs_delta_pp"] == 0.0
+        and _c112["cells_compared"] > 0,
+        "E112 the same arm against itself reads zero on every cell")
+    chk(len(_burnin_pair_rows(_syn_face(), _syn_face(first_inv="2014-02-03"),
+                              ["2013-01-01"])["gate_dates_moved"]) == 1,
+        "E112 a moved gate date is caught even when every number is equal")
+    _gap112 = _burnin_pair_rows(_syn_face(), _syn_face(drop_ladder=True),
+                                ["2013-01-01"])
+    chk(_gap112["summary"]["null_on_either_side"] == 4
+        and _gap112["summary"]["cells_compared"] == 11
+        and _gap112["summary"]["cells_moved"] == 0,
+        "E112 a column missing on one side is reported as missing, not as a delta")
+    chk(_burnin_pair_rows(None or {"windows": {"2013-01-01": {"eligible_at_first_invested": None}}},
+                          _syn_face(), ["2013-01-01"])["summary"]["null_on_either_side"] >= 1,
+        "E112 a null on either side is reported as missing, not as a delta")
+    chk(_burnin_pair_rows(_syn_face(), _syn_face(wide_naive=10.004),
+                          ["2013-01-01"])["summary"]["cells_moved"] == 0,
+        "E112 a delta below the floor is not a move")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -12147,7 +12457,7 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "e44", "burnin", "knife", "skinloo", "e45", "warmspread",
+                             "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "cutcurve", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
@@ -12612,6 +12922,16 @@ def main(argv):
                               "delta": f["delta_vs_full_skin_bp"],
                               "answers": f["answers"]}, ensure_ascii=False))
         return 0
+    if args.mode == "burninscreen":
+        outdir = os.path.join(ROOT, "results", "e44_burnin")
+        f = run_burninscreen(outdir)
+        p = write_json(outdir, "BURNINSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "burninscreen", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
+        return 0
+
     if args.mode in ("e45", "warmspread"):
         f = run_warmspread(None)
         outdir = os.path.join(ROOT, "results", "e45_warm_spread")

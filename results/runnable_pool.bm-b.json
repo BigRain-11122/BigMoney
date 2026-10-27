@@ -21825,7 +21825,8 @@
    "runner_note": "pure function of the already-burned levels face + churn rows; no new engine work and no re-burn of panels",
    "note_from_e104": "r1170: the column now exists inside HELDSPLIT-20261026-s2018.json as cells[].largest_single_name_read (name, both reads, share of the window mean, share_eligible gate at a 0.5% mean floor). Still open as a standalone MIDLEVEL-DRIVERS face because that column is computed on the persistent-name population, not on every level transition.",
    "result_ref": "results/e44_midmonth/MIDLEVEL-DRIVERS-20261026-s20180101.json",
-   "done_by": "bm-b r1179"
+   "done_by": "bm-b r1179",
+   "done_at": "2026-10-27T13:38:43+08:00"
   },
   {
    "id": "E106-REPAIR-STEP-CONSISTENCY",
@@ -21939,7 +21940,7 @@
   },
   {
    "id": "E112-BURNIN-SCREENED-TWIN",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (run_burnin / run_cutcurve)",
@@ -21949,7 +21950,26 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T13:5x+08:00",
    "entered_by": "bm-b r1176",
-   "runner_note": "one burn per runner: burnin/e44/knife/skinloo share the face, so the ticket is a single leg with two arms; cutcurve (1139) is the next row and stays separate"
+   "runner_note": "one burn per runner: burnin/e44/knife/skinloo share the face, so the ticket is a single leg with two arms; cutcurve (1139) is the next row and stays separate",
+   "claimed_at": "2026-10-27T13:55:36+08:00",
+   "done_at": "2026-10-27T14:00:34+08:00",
+   "result_ref": "scripts/e39_panel_census.py burninscreen -> results/e44_burnin/BURNINSCREEN-20261026.json",
+   "done_note": "two arms at one cutoff off one load (raw= seam on run_burnin); 56 cells joined. Gate survives: 0 of 20 gate columns and 0 of 20 gate dates move. Returns: 13 of 36 cells move, all in the wide book, max 0.42pp; ladder book identical. Controls: identity 0/56 moved, coverage 0 one-sided, cutoff control (BURNIN-20261020 raw vs today raw, arm fixed) moves 26 cells with returns -0.12..-0.28pp and symbols_eligible +6 -- the refresh axis moves MORE cells than the repair, so a 0.2-0.3pp gap between burn-in faces is inside noise. Digest: research/digests/DIGEST-20261027-e112-burnin-screened-twin.md"
+  },
+  {
+   "id": "E113-CUTCURVE-SCREENED-TWIN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (run_cutcurve)",
+   "title": "E97 row 2 after the burn-in: run_cutcurve carries 1,139 numbers and no screened twin. Re-derive the cut curve on the neutralise_int arm beside the raw face with the same three controls E112 used (identity join, coverage, cutoff control), and say whether the widest-window conclusion is arm-free.",
+   "deliverable": "results/e44_burnin/CUTCURVESCREEN-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e97-screened-consumer-routing.md (ranking row 2)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T14:00:34+08:00",
+   "entered_by": "bm-b r1180",
+   "runner_note": "reuse the E112 seam: run_cutcurve must take a raw= universe like run_burnin does, and _burnin_pair_rows is generic over the {start: {...}} cell shape -- add a cutcurve cell harvest rather than a second join",
+   "owner": null
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21964,7 +21984,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T13:38:43+08:00",
- "version": 1,
- "lane_machine": "bm-b"
+ "updated_at": "2026-10-27T14:00:34+08:00",
+ "version": 1
 }
