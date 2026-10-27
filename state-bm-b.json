@@ -882,6 +882,14 @@
   "s6": "dualrun ZERO-DRIFT 651 entries streak 3 | compute_audit FLAG:gpu_unauthorized,supply_gap | watermark insufficient_history (n=1) | update_daily 0 new rows (cutoff 2026-10-27) | market_regime hs300<MA200 / crash10d -5.1% / breadth 0.85 | attrition CLEAN 4 ledgers (1 healed) | orphan face=0 (10 py faces)",
   "selftest": "e97 15 -> 29/29; smoke 108/108"
  },
+ "r1199_push": {
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "four-way verified (HEAD==origin/main, ahead=0 behind=0, ls-tree origin carries the SCREENREACH face); drama lane faces and fleet/machine-health.json were another runner's writes and were left unstaged",
+  "pushed_sha": "7f72400ad",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T04:29:00+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -899,10 +907,10 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "base = origin tip 93b634836 (r1197); pushed 09df85ece",
-  "pushed_sha": "09df85ece6ba7c005c17bdc6c64d4664471e1b9f",
+  "note": "base = origin tip c6c6edac2 (r1198); pushed 7f72400ad",
+  "pushed_sha": "7f72400ad",
   "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T03:48:26+08:00"
+  "ts": "2026-10-28T04:29:00+08:00"
  },
  "task": "r1200: E128 cashdrag per-book window (the 36.0 vs 37.0bp attribution gap is unexplained: mechanism is ladder-only, attribution is per book) or E126 tilt3 reach-back",
  "task_short": "E128 cashdrag per-book window",
