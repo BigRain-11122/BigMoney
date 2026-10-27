@@ -347,6 +347,13 @@ function renderCompany() {
       `probation ${n2(pp.x2_probation)} 员 · ${(pp.x2_probation_names || []).join(" ")}`,
       "warn", "随 bar 滚动"));
   }
+  if (pp.marks_closed_days) {
+    const holes = pp.marks_hole_dates || [];
+    rows.push(chainRow("成交验证覆盖",
+      `已采 ${n2(pp.marks_captured)}/${n2(pp.marks_closed_days)} 收盘日 (${fnum(pp.marks_coverage_pct,1)}%)` +
+      (holes.length ? ` · 永久缺口 ${holes.length} 日 ${holes.join(" ")}` : " · 无缺口"),
+      holes.length ? "warn" : "ok", `最近 ${n2(pp.marks_last_captured)}`));
+  }
   const fr = (D.research && D.research.factor_line) || {};
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));

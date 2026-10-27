@@ -1534,7 +1534,26 @@ def _paper_state() -> dict:
     out = {"started": False, "n_active": 0, "months_tracked": 0,
            "trades": 0, "bars": 0, "last_update": None,
            "paper_start": None, "first_check": None, "month_progress": None,
-           "x2_probation": 0, "x2_probation_names": []}
+           "x2_probation": 0, "x2_probation_names": [],
+           "marks_as_of": None, "marks_coverage_pct": None,
+           "marks_closed_days": None, "marks_captured": None,
+           "marks_holes": None, "marks_hole_dates": [],
+           "marks_last_captured": None}
+    # The fill-verification record is part of the paper trail: a trade that was
+    # never priced intraday cannot be checked against its own entry price, and
+    # those sessions are permanently unrecoverable (marks are never backdated).
+    # Carrying the coverage counters here means the dashboard shows the gap
+    # instead of only the lane that failed.
+    mc = _read_json(os.path.join(PATHS.results_dir, "marks_coverage.json"))
+    if mc:
+        c = mc.get("counters") or {}
+        out["marks_as_of"] = mc.get("as_of")
+        out["marks_coverage_pct"] = c.get("coverage_pct_closed")
+        out["marks_closed_days"] = c.get("closed_days")
+        out["marks_captured"] = c.get("captured")
+        out["marks_holes"] = c.get("holes")
+        out["marks_hole_dates"] = mc.get("holes") or []
+        out["marks_last_captured"] = mc.get("last_captured")
     d = os.path.join(PATHS.results_dir, "paper")
     if not os.path.isdir(d):
         return out

@@ -674,6 +674,26 @@ def main() -> int:
               f"last={_mc.get('last_captured')}")
     except Exception as e:
         check("product: marks coverage face names its holes", False, str(e))
+    # ...and the gap has to reach the place the CEO actually looks. The coverage
+    # face existed for a full round while the dashboard said nothing about the
+    # paper record being 3 sessions short; assert the payload carries the same
+    # numbers (not merely the key names).
+    try:
+        _mc2 = json.load(open("results/marks_coverage.json", encoding="utf-8"))
+        _ds = json.load(open("results/dashboard_status.json", encoding="utf-8"))
+        _pp = ((_ds.get("trading") or {}).get("paper") or {})
+        _c2 = _mc2.get("counters") or {}
+        _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
+                    and _pp.get("marks_captured") == _c2.get("captured")
+                    and _pp.get("marks_coverage_pct")
+                    == _c2.get("coverage_pct_closed")
+                    and (_pp.get("marks_holes") or 0) == len(_mc2.get("holes") or []))
+        check("product: dashboard carries the marks coverage gap", _ok_dash,
+              f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
+              f"={_pp.get('marks_coverage_pct')}% holes={_pp.get('marks_holes')}"
+              f" face={_c2.get('captured')}/{_c2.get('closed_days')}")
+    except Exception as e:
+        check("product: dashboard carries the marks coverage gap", False, str(e))
     # A live paper book priced behind the exchange calendar must say so on its
     # own face (r1121): the SYSTEM-V1 lane consumes a SIG/BARS bridge cutoff,
     # one lane's output, and it sat 4 trading days behind while every other
