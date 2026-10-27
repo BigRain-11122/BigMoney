@@ -39,6 +39,40 @@ TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
 
 
+def commodity_support():
+    """Read results/etf_book_commodity_split.json -> what the commodity sleeve earns.
+
+    The commodity class produced ~30% of the book's gross return, and nothing on this
+    card said whether that came from ranking commodity ETFs or from being long the metal.
+    The artifact prices the sleeve on its own universe against the sleeve's own equal
+    weight, so the answer travels with the CAGR instead of staying in a digest.
+    Soft-fails to None: a missing artifact must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_commodity_split.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        runs = {r.get("label"): r for r in doc.get("runs", [])}
+        book, ew = runs.get("commodity_only") or {}, runs.get("commodity_ew") or {}
+        if book.get("cagr") is None or ew.get("cagr") is None:
+            return None
+        pas = (doc.get("read") or {}).get("deepest_name_passive") or {}
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "cell": doc.get("cell"),
+            "n_cols": book.get("n_cols"),
+            "book_cagr": book.get("cagr"),
+            "ew_cagr": ew.get("cagr"),
+            "excess_pp": book.get("excess_pp"),
+            "gross_share_pct": (doc.get("read") or {}).get("commodity_gross_share_pct"),
+            "passive_name": pas.get("name"),
+            "passive_cagr": pas.get("cagr"),
+            "verdict": (doc.get("read") or {}).get("verdict"),
+        }
+    except Exception:
+        return None
+
+
 def preperiod_support():
     """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
 
@@ -311,6 +345,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "would trade names the book never held." % rebal,
         ],
         "preperiod": preperiod_support(),
+        "commodity": commodity_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -323,6 +358,28 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             % (pp["universe_size"], pp["book_cagr"] * 100, pp["ew_cagr"] * 100,
                pp["excess_pp"], pp["cells_negative"], pp["cells_total"],
                pp["null_p"] if pp["null_p"] is not None else float("nan"), pp["artifact"]))
+    cs = out["commodity"]
+    if cs is not None and cs.get("excess_pp") is not None:
+        beat = cs["excess_pp"] > 0.5
+        vs_passive = None
+        if cs.get("passive_cagr") is not None:
+            vs_passive = (cs["book_cagr"] - cs["passive_cagr"]) * 100
+        out["caveats"].insert(1,
+            "THE COMMODITY SLEEVE IS %s: it produced %s%% of gross return; the same engine "
+            "restricted to the %s commodity ETFs returned %+.2f%%/yr against %+.2f%%/yr for "
+            "holding those names equally (%+.2fpp), and the deepest-turnover commodity name "
+            "(%s) returned %s passively%s. Read the sleeve as %s. See %s."
+            % ("MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY" if beat else
+               "EXPOSURE, NOT A RANKING",
+               cs.get("gross_share_pct"), cs.get("n_cols"), cs["book_cagr"] * 100,
+               cs["ew_cagr"] * 100, cs["excess_pp"], cs.get("passive_name"),
+               ("%+.2f%%/yr" % (cs["passive_cagr"] * 100)) if cs.get("passive_cagr") is not None
+               else "n/a",
+               (", i.e. the book beat holding the metal by %+.2fpp" % vs_passive)
+               if vs_passive is not None else "",
+               "commodity/gold exposure plus a small selection add-on, not a commodity "
+               "ranking that pays" if beat else "commodity/gold beta, not selection",
+               cs["artifact"]))
     if feed.get("status") in ("stale_feed", "feed_broken"):
         out["caveats"].insert(0, "FEED IS BEHIND: this card is priced on the %s bar, %s "
                               "official trading day(s) short of the %s bar the market has "
@@ -513,6 +570,26 @@ def selftest():
         E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
         chk("preperiod face is not fatal when the artifact is missing",
             preperiod_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
+
+    # 9. the commodity-sleeve face: the sleeve's 30% share has to be labelled as exposure
+    #    or as selection on the card, and a missing artifact must not break production.
+    cs = commodity_support()
+    if cs is None:
+        chk("commodity face soft-fails when absent", True,
+            "results/etf_book_commodity_split.json absent")
+    else:
+        chk("commodity face reads both arms",
+            all(k in cs for k in ("n_cols", "book_cagr", "ew_cagr", "excess_pp", "verdict"))
+            and cs["book_cagr"] is not None and cs["ew_cagr"] is not None
+            and abs(cs["excess_pp"] - (cs["book_cagr"] - cs["ew_cagr"]) * 100) < 0.05,
+            "book=%.4f ew=%.4f excess=%+.2fpp verdict=%s"
+            % (cs["book_cagr"], cs["ew_cagr"], cs["excess_pp"], cs["verdict"]))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("commodity face is not fatal when the artifact is missing",
+            commodity_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
 

@@ -1095,3 +1095,22 @@ implementation scripts/etf_book_pre2020.py (rides scripts/etf_composite_pf.py, n
 - Verify: python scripts/e107_heldcurve.py --selftest (20/20);
   results/e44_midmonth/HELDCURVE-20261026.json (max identity_control_residual_bp 0.0)
 - 2026-10-27 r1176 bm-b (capture law O-20261002-2100 closing step)
+
+## E140 A contribution share is not a skill share - price the sleeve restricted AND against its own passive alternative (2026-10-27 r1306 bm-c)
+A class can supply 30% of gross return while carrying 6% of average weight, and that number is silent about
+whether the ranking or the exposure earned it. Two arms settle it and both are cheap because they ride the
+existing engine: restrict the score to the sleeve's members (re-rank inside the sleeve) versus equal-weighting
+those same members, then add the one passive alternative a holder would actually have taken. Here the
+commodity sleeve returned 16.31%/yr versus 11.45%/yr for the sleeve equally weighted (+4.86pp of selection)
+but 13.91%/yr for holding the deepest-turnover metal ETF alone - so 13.9 of its 16.3 points were beta and only
++2.40pp was the overlay.
+Trap that must be pinned, because it silently manufactures a zero: a sleeve narrower than n_hold never trades
+at all (score.dropna() returns fewer names than the book size, so no pick is ever made and the arm reads as
+0.00%/yr with zero turnover). The r1306 leg asserts the empty case explicitly (`sleeve narrower than n_hold
+never trades`), and the picks replay that recovers WHICH names were held is only trusted when it reproduces
+the engine nav exactly (max gap 0.0 pinned as a leg).
+How to apply: any "this sleeve contributes X% of the return" claim needs (a) the sleeve restricted vs its own
+equal weight, (b) one passive alternative, (c) the concentration read - distinct names, top-name slot share,
+and the names held more than half the time - before the word "selection" is used. Artifact face:
+results/etf_book_commodity_split.json (schema etf_book_commodity_split/v1); implementation
+scripts/etf_book_commodity_split.py (selftest 10/10, rides etf_composite_pf + etf_equity_alpha).

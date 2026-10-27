@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-27 10:31:29",
+ "ts": "2026-10-27 11:48:28",
  "evidence_cutoff": "2026-10-26",
  "feed_status": {
   "ticket_bar": "2026-10-26",
@@ -359,6 +359,7 @@
  },
  "caveats": [
   "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. See results/etf_book_pre2020.json.",
+  "THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.",
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
   "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
   "The vol target only de-levers; it is a drawdown tool, not an edge.",
@@ -377,5 +378,17 @@
   "null_p": 0.96,
   "cells_negative": 6,
   "cells_total": 6
+ },
+ "commodity": {
+  "artifact": "results/etf_book_commodity_split.json",
+  "cell": "N5_R20_10bp",
+  "n_cols": 41,
+  "book_cagr": 0.1631,
+  "ew_cagr": 0.1145,
+  "excess_pp": 4.86,
+  "gross_share_pct": 30.1,
+  "passive_name": "518880",
+  "passive_cagr": 0.1391,
+  "verdict": "selection adds +4.86pp/yr over the sleeve's own equal weight (IS +2.09 / OOS +9.16) and +2.40pp vs holding 518880 passively; but the sleeve's raw return is mostly metal beta (+13.91%/yr passive vs +16.31%/yr book), and the excess is OOS-concentrated"
  }
 }
