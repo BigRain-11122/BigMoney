@@ -1114,12 +1114,36 @@ def main() -> int:
         _bs = json.load(open("results/dashboard_status.json", encoding="utf-8"))
         _fl = ((_bs.get("data") or {}).get("engine")) or {}
         _hf = _fl.get("health_face") or {}
+        # The panel is a SNAPSHOT of a face that an hourly writer on another
+        # machine keeps refreshing (observed twice on 2026-10-28: the chain
+        # derived a clean verdict, bm-c's row landed a cpu column 12 minutes
+        # later, and this leg then read "incomplete" off the older snapshot).
+        # Judging a snapshot against a face it never saw makes the gate fire on
+        # the clock instead of on the reader, so a thin verdict is accepted only
+        # when it is explained by exactly that: the upstream face is newer than
+        # the panel AND a fresh derivation of it is clean. Anything else -- a
+        # reader that says "incomplete" in front of a clean face -- still reds.
+        _face_ok = (_hf.get("health_face") in ("ok", "legacy_list")
+                    and _hf.get("health_unknown") is False)
+        _why = "face=%s unknown=%s junk=%s" % (_hf.get("health_face"),
+                                               _hf.get("health_unknown"),
+                                               _hf.get("health_face_junk"))
+        if not _face_ok:
+            _up = "fleet/machine-health.json"
+            _up_newer = os.path.getmtime(_up) > os.path.getmtime(
+                "results/dashboard_status.json")
+            _now = (importlib.import_module("monitor.build_status")
+                    ._machine_health_union().get("_face") or {})
+            _stale_explained = (_up_newer
+                                and _now.get("health_face") == "ok"
+                                and _now.get("health_unknown") is False)
+            _why += " panel=%s upstream_newer=%s now=%s" % (
+                (_bs.get("meta") or {}).get("generated_at"), _up_newer,
+                _now.get("health_face"))
+            if _stale_explained:
+                _face_ok = True
         check("fleet: panel carries the machine-health verdict, not a row count",
-              _hf.get("health_face") in ("ok", "legacy_list")
-              and _hf.get("health_unknown") is False,
-              "face=%s unknown=%s junk=%s" % (_hf.get("health_face"),
-                                              _hf.get("health_unknown"),
-                                              _hf.get("health_face_junk")))
+              _face_ok, _why)
         _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: machine-health gate leg wired into the S6 chain",
               "machine_health_face" in _legs, f"legs={len(_legs)}")

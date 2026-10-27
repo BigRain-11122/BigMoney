@@ -1802,3 +1802,28 @@ How to apply: any "the repair/screen/regeneration moved it" verdict publishes (a
 per-cell arm pair, (b) a separate list of cells whose *sign* changed, (c) the number of harvested
 cells that moved by exactly zero, and (d) an explicit reason wherever a control is unavailable. All
 four are cheap once the join exists; none of them can be reconstructed from a max delta afterwards.
+
+
+## E170 A regressor's sign is not the book's sign, and an era agreement can be pure level (2026-10-28 r1205 bm-b)
+
+Three-member tilt vs the engine's own wide-vs-ladder spread, 162 joined months, four eras.
+
+1. **Two of four eras point opposite ways.** 2017_2020: tilt -923.9 bp/yr beside a +331.7 bp/yr traded
+   spread; 2024_now: +252.8 beside -21.6. A tilt is a ratio of member returns; the spread is what a
+   portfolio is paid. Publishing one row without the other lets "small caps led" be read as "the wide
+   book got paid", which in 2017_2020 is exactly backwards.
+2. **Publish the month-level agreement beside the era-level one.** No era cleared 57% (range 23.5-56.8),
+   and the full window's echo of its own agreeing arrows is 43.8% -- the era agreement is a statement
+   about two LEVELS while the monthly series underneath is a coin flip. One number without the other
+   reads as "the signal works".
+3. **A deadband must be declared before the burn and printed beside the raw rate.** Months where either
+   series is under 10 bp are not signs. On 2024_now the deadband makes the reading worse (23.5 -> 18.8),
+   which is why it is published rather than applied silently.
+4. **Cross-check the derived series against the sibling face's own column.** engine_mean_ann_bp
+   reproduces TILT3SCREEN's spread_raw_bp_raw exactly on all five rows (287.2 / 331.7 / 251.1 / -21.6 /
+   227.6): a re-derive that lands on the published number is the cheapest proof the join is the same one.
+
+How to apply: any "factor X says the book did Y" claim publishes (a) the traded quantity beside the
+factor per period, (b) both scales of sign agreement with their denominators, (c) any deadband as a
+pre-declared constant with the raw rate retained, and (d) one exact reconciliation against an already
+published column from the same family. A tie counts as a disagreement, never as an agreement.

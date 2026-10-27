@@ -5060,6 +5060,166 @@ def _tilt3_arm_dates(face, keys=None):
     return out
 
 
+# ---------------------- leg: E169 does the engine earn the tilt's sign
+#
+# E126 measured the REGRESSOR: the three-member tilt reads +1186bp pre-2017,
+# -924bp 2017-2020, +610bp 2021-2023. What no face in this family asks is
+# whether the engine's own wide-vs-ladder spread earns the same sign in the same
+# months. The tilt is a property of the members; the spread is what a book is
+# actually paid. An era-level comparison alone cannot separate a level story
+# from a month-by-month one, so both are published with their denominators.
+TILT3SIGN_DEADBAND_BP = 10.0    # monthly bp; declared before the burn (E169)
+TILT3SIGN_DISAGREE_TOP = 5      # months named per era beside the counts
+
+
+def _sign3(x):
+    """Sign with an explicit zero (None stays None; a 0.0 is not a claim)."""
+    if x is None:
+        return None
+    if x > 0:
+        return 1
+    if x < 0:
+        return -1
+    return 0
+
+
+def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
+    """E43-TILT3-SIGN-VS-ENGINE (E169): does the traded spread earn the tilt?
+
+    The family publishes the tilt's sign per era and the engine's own
+    wide-vs-ladder difference per era on separate rows, and nothing has ever
+    put the two arrows side by side and said whether they point the same way.
+    They do not everywhere: 2017_2020 reads -924bp of tilt beside +419bp of
+    engine difference, so "the wide book lost that era" is true of the
+    regressor and false of the book.
+
+    Two rates, because they answer different questions:
+
+    * ``signs_agree`` -- the era's two LEVELS point the same way (what a reader
+      quoting the headline consumes);
+    * ``month_agreement_pct`` -- how often the two MONTHLY series share a sign.
+      A tilt that agrees at the era level but coin-flips month to month carries
+      no month-scale information, and no era table can show that.
+
+    ``deadband_bp`` is declared before the burn: months where either series is
+    under it are excluded from the deadband rate, because a sign there is not a
+    claim. Both rates are published -- suppressing the raw rate would be
+    hiding the deadband's effect rather than naming it.
+
+    ``raw`` mirrors run_tilt3's seam so a screened twin can burn both arms off
+    one load without a second panel pass.
+    """
+    core = core if core is not None else _monthly_core(raw_all=raw)
+    tilt3 = core.get("tilt3") or {}
+    wide_m = core.get("wide_m") or {}
+    lad_m = core.get("lad_m") or {}
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = [m for m in core["months3"] if _in_era(m, lo, hi)]
+        paired = [m for m in ms
+                  if m in tilt3 and m in wide_m and m in lad_m]
+        if len(paired) < 3:
+            rows[name] = {"months": len(paired),
+                          "skipped": "fewer than 3 months priced on both faces"}
+            continue
+        tilt = [tilt3[m] for m in paired]
+        eng = [wide_m[m] - lad_m[m] for m in paired]
+        tilt_ann = sum(tilt) / len(tilt) * 12.0 * 1e4
+        eng_ann = sum(eng) / len(eng) * 12.0 * 1e4
+        agree = [t * e > 0 for t, e in zip(tilt, eng)]
+        up = [i for i, t in enumerate(tilt) if t > 0]
+        down = [i for i, t in enumerate(tilt) if t < 0]
+        outside = [i for i, (t, e) in enumerate(zip(tilt, eng))
+                   if abs(t) * 1e4 >= TILT3SIGN_DEADBAND_BP
+                   and abs(e) * 1e4 >= TILT3SIGN_DEADBAND_BP]
+        dis = sorted(((m, t, e) for m, t, e, ok in zip(paired, tilt, eng, agree)
+                      if not ok), key=lambda r: abs(r[1]), reverse=True)
+
+        def _rate(idx):
+            if not idx:
+                return None
+            return round(sum(1 for i in idx if agree[i]) / len(idx) * 100, 1)
+
+        rows[name] = {
+            "months": len(paired), "from": paired[0], "to": paired[-1],
+            "months_dropped_from_era": len(ms) - len(paired),
+            "tilt_mean_ann_bp": round(tilt_ann, 1),
+            "engine_mean_ann_bp": round(eng_ann, 1),
+            "tilt_sign": _sign3(round(tilt_ann, 6)),
+            "engine_sign": _sign3(round(eng_ann, 6)),
+            "signs_agree": _sign3(round(tilt_ann, 6)) == _sign3(round(eng_ann, 6)),
+            "months_tilt_up": len(up),
+            "months_tilt_down": len(down),
+            "months_engine_up": sum(1 for e in eng if e > 0),
+            "months_agree": sum(1 for a in agree if a),
+            "months_disagree": sum(1 for a in agree if not a),
+            "month_agreement_pct": round(sum(1 for a in agree if a) / len(agree) * 100, 1),
+            "agreement_when_tilt_up_pct": _rate(up),
+            "agreement_when_tilt_down_pct": _rate(down),
+            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+            "months_outside_deadband": len(outside),
+            "month_agreement_outside_deadband_pct": _rate(outside),
+            "top_disagreement_months": [
+                {"month": m, "tilt_bp": round(t * 1e4, 1),
+                 "engine_bp": round(e * 1e4, 1)}
+                for m, t, e in dis[:TILT3SIGN_DISAGREE_TOP]],
+        }
+    measured = {k: v for k, v in rows.items()
+                if k != "full" and "month_agreement_pct" in v}
+    differ = sorted(k for k, v in measured.items() if not v["signs_agree"])
+    raw_rates = [v["month_agreement_pct"] for v in measured.values()]
+    dead_rates = [v["month_agreement_outside_deadband_pct"]
+                  for v in measured.values()
+                  if v["month_agreement_outside_deadband_pct"] is not None]
+    return {
+        "study": "e169_tilt3_sign_vs_engine",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {
+            "large": list(TILT_LARGE), "small": list(TILT3_SMALL),
+            "tilt": "three-member: mean(small leg) - mean(large leg), equal weight in-leg",
+            "engine_series": "wide monthly return minus ladder monthly return "
+                             "(the same curves the paid book is measured on)",
+            "month_agreement": "share of months where sign(tilt) == sign(engine), "
+                               "ties counted as disagreement",
+            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+            "disagreement_named_per_era": TILT3SIGN_DISAGREE_TOP,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_where_signs_differ": len(differ),
+            "era_names_where_signs_differ": differ,
+            "eras_where_signs_agree": len(measured) - len(differ),
+            "month_agreement_min_pct": min(raw_rates) if raw_rates else None,
+            "month_agreement_max_pct": max(raw_rates) if raw_rates else None,
+            "month_agreement_outside_deadband_min_pct":
+                min(dead_rates) if dead_rates else None,
+            "month_agreement_outside_deadband_max_pct":
+                max(dead_rates) if dead_rates else None,
+            "full_window_month_agreement_pct":
+                (rows.get("full") or {}).get("month_agreement_pct"),
+            "full_window_signs_agree": (rows.get("full") or {}).get("signs_agree"),
+            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+        },
+        "honest": [
+            "an era sign comparison is a statement about two LEVELS; the month-level rate "
+            "beneath it is the one that says whether the tilt tracks the traded spread at all",
+            "a month-level rate near 50% is a result, not a defect: it means the era agreement "
+            "is carried by the level, and quoting the tilt as a timing signal is not supported",
+            "the deadband is declared before the burn (%gbp monthly): months where either "
+            "series is inside it are excluded from the deadband rate, and the raw rate is "
+            "printed beside it rather than replaced" % TILT3SIGN_DEADBAND_BP,
+            "the engine series is the engine's own wide-vs-ladder monthly difference, so this "
+            "compares a member ratio against a traded quantity, not two regressions",
+            "eras remain calendar partitions of one continuous monthly series and do not add up",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+        "dropped_months_3member": core.get("dropped3"),
+    }
+
+
 def run_tilt3screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E170: re-derive the E126 three-member tilt face on the screened arm.
 
@@ -15946,6 +16106,60 @@ def selftest():
     chk(TILT3_HALF_SHARE == 0.5 and TILT3_LOMO_TOP > 0,
         "E168 the half-share rule is declared before the burn, not tuned after")
 
+    # ---- E169 does the engine earn the tilt's sign
+    # Two questions share one face: do the era LEVELS point the same way, and do
+    # the monthly series? A level-only test would pass a tilt that coin-flips
+    # every month, so both are pinned here on fixtures where they disagree.
+    _e169_months = ["2014-01", "2014-02", "2014-03"]
+    _e169_eras = (("era_a", "2014-01-01", "2014-12-31"),)
+
+    def _e169_core(tilt, eng):
+        return {"cutoff": "2014-03-31", "months3": _e169_months,
+                "tilt3": dict(zip(_e169_months, tilt)),
+                "wide_m": {m: 0.01 + e for m, e in zip(_e169_months, eng)},
+                "lad_m": {m: 0.01 for m in _e169_months},
+                "dropped3": []}
+
+    _e169_same = run_tilt3sign(None, core=_e169_core(
+        [0.01, 0.02, 0.01], [0.005, 0.004, 0.006]), eras=_e169_eras)["eras"]["era_a"]
+    chk(_e169_same["signs_agree"] is True and _e169_same["month_agreement_pct"] == 100.0,
+        "E169 two faces pointing the same way agree at both the era and the month scale")
+    _e169_one = run_tilt3sign(None, core=_e169_core(
+        [0.01, 0.02, 0.01], [0.005, -0.004, 0.006]), eras=_e169_eras)["eras"]["era_a"]
+    chk(_e169_one["months_disagree"] == 1 and _e169_one["month_agreement_pct"] == 66.7
+        and _e169_one["signs_agree"] is True,
+        "E169 one month disagreeing is counted without moving the era-level sign")
+    chk(len(_e169_one["top_disagreement_months"]) == 1
+        and _e169_one["top_disagreement_months"][0]["month"] == "2014-02",
+        "E169 the disagreeing month is named, not only counted")
+    _e169_opp = run_tilt3sign(None, core=_e169_core(
+        [0.01, 0.02, 0.01], [-0.005, -0.004, -0.006]), eras=_e169_eras)["eras"]["era_a"]
+    chk(_e169_opp["signs_agree"] is False and _e169_opp["engine_sign"] == -1
+        and _e169_opp["month_agreement_pct"] == 0.0,
+        "E169 opposite eras disagree at the era scale and month by month alike")
+    _e169_tiny = run_tilt3sign(None, core=_e169_core(
+        [0.0005, 0.02, 0.01], [-0.005, 0.004, 0.006]), eras=_e169_eras)["eras"]["era_a"]
+    chk(_e169_tiny["months_outside_deadband"] == 2
+        and _e169_tiny["month_agreement_outside_deadband_pct"] == 100.0
+        and _e169_tiny["month_agreement_pct"] == 66.7,
+        "E169 the deadband drops the near-zero month and the raw rate still carries it")
+    chk(TILT3SIGN_DEADBAND_BP == 10.0 and TILT3SIGN_DISAGREE_TOP > 0,
+        "E169 the deadband and the naming cap are declared before the burn")
+    _e169_tie = run_tilt3sign(None, core=_e169_core(
+        [0.0, 0.0, 0.0], [0.005, 0.004, 0.006]), eras=_e169_eras)["eras"]["era_a"]
+    chk(_e169_tie["months_agree"] == 0 and _e169_tie["tilt_sign"] == 0,
+        "E169 a tie is a disagreement, not a free agreement")
+    _e169_two = run_tilt3sign(None, core={
+        "cutoff": "2014-02-28", "months3": _e169_months[:2],
+        "tilt3": {"2014-01": 0.01, "2014-02": 0.01},
+        "wide_m": {"2014-01": 0.02, "2014-02": 0.02},
+        "lad_m": {"2014-01": 0.01, "2014-02": 0.01},
+        "dropped3": []}, eras=_e169_eras)["eras"]["era_a"]
+    chk("skipped" in _e169_two,
+        "E169 a two-month era is refused, not signed off on nothing")
+    chk("raw" in run_tilt3sign.__code__.co_varnames,
+        "E169 run_tilt3sign carries the raw= seam a screened twin burns through")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -18333,6 +18547,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
+                             "tilt3sign",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -19019,6 +19234,24 @@ def main(argv):
                                        "tilt_bp": v.get("tilt_ann_bp"),
                                        "lomo_span_bp": (v.get("lomo") or {}).get("span_bp"),
                                        "months_to_half": (v.get("lomo") or {}).get("months_to_half")}
+                                   for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3sign":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3sign(None)
+        p = write_json(outdir, "TILT3SIGN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3sign",
+                          "file": os.path.relpath(p, ROOT),
+                          "eras": {k: {"months": v.get("months"),
+                                       "tilt_bp": v.get("tilt_mean_ann_bp"),
+                                       "engine_bp": v.get("engine_mean_ann_bp"),
+                                       "signs_agree": v.get("signs_agree"),
+                                       "month_agreement_pct": v.get("month_agreement_pct"),
+                                       "outside_deadband_pct":
+                                           v.get("month_agreement_outside_deadband_pct")}
                                    for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

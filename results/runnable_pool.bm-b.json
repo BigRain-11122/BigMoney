@@ -22244,10 +22244,9 @@
    "status": "done",
    "seeded_at": "2026-10-28T05:05:00+08:00",
    "seeded_by": "bm-b r1201",
-   "done_at": "2026-10-28T05:4x+08:00",
-   "done_by": "bm-b r1202",
-   "result_ref": "results/e43_tilt_4member/TILT3LEGS-20261027.json",
-   "done_note": "delivered as mode tilt3legs: per-era large/small leg returns with the small-large identity (residual 0.0bp) + leave-one-month-out sweep with months_to_half. pre2017 = 44 months, large +683.5 / small +1869.9 / tilt +1186.4bp, LOMO span 1353.8bp, 2 months reach half; 2024_now is the era whose sign flips under one dropped month."
+   "done_at": "2026-10-28T06:35:00+08:00",
+   "done_by": "bm-b r1205",
+   "done_note": "pre-2017 split into its two legs with a leave-one-month-out sweep: TILT3LEGS-20261027.json (44 months, lomo span published); digest DIGEST-20261028-r1202-e168-tilt3-leg-split.md; selftest 504->521"
   },
   {
    "id": "E169-TILT3-SIGN-VS-ENGINE",
@@ -22258,9 +22257,12 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "seeded_at": "2026-10-28T05:05:00+08:00",
-   "seeded_by": "bm-b r1201"
+   "seeded_by": "bm-b r1201",
+   "done_at": "2026-10-28T06:35:00+08:00",
+   "done_by": "bm-b r1205",
+   "done_note": "per-era realised spread published beside the tilt with BOTH scales: TILT3SIGN-20261027.json (2 of 4 eras disagree at the era scale -- 2017_2020 tilt -923.9 vs engine +331.7; 2024_now +252.8 vs -21.6; month agreement 23.5-56.8 percent, full window 43.8); digest DIGEST-20261028-r1205-e169-tilt3-sign-vs-engine.md; selftest 526->535"
   },
   {
    "id": "E170-TILT3-SCREENED-TWIN",
@@ -22274,11 +22276,45 @@
    "status": "done",
    "seeded_at": "2026-10-28T05:06:00+08:00",
    "seeded_by": "bm-b r1201",
-   "owner": "bm-b",
-   "done_at": "2026-10-28T06:05:00+08:00",
-   "done_by": "bm-b r1204",
-   "result_ref": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
-   "done_note": "delivered as mode tilt3screened (one load, both arms, per-arm checkpoints, same-arm control 0 cells, cutoff control null+reason). 18 of 137 cells move (17 era / 0 skin / 1 answer), max 57.0bp at era/2024_now engine_ann_diff_bp 106.0->163.0. The tilt series is IDENTICAL on both arms (0 era tilt cells moved): pre2017 reads +1186.4bp either way, so the E126 headline is arm-insensitive. One published arrow flips: 2024_now spread_raw_sign -1 -> +1 (-21.6 -> +25.1 bp/yr) = 'the wide book lost 2024_now' was an unscreened-panel artefact. Decomposition holds on both arms (max |gap| 0.1bp). selftest 521 -> 526; digest research/digests/DIGEST-20261028-r1204-e170-tilt3-screened.md; card E169."
+   "done_at": "2026-10-28T06:35:00+08:00",
+   "done_by": "bm-b r1205",
+   "done_note": "screened twin on one load both arms: TILT3SCREEN-20261027.json (tilt identical on both arms, 18 of 137 cells move, max 57.0bp; 2024_now spread_raw_sign flips -1 -> +1); digest DIGEST-20261028-r1204-e170-tilt3-screened.md; selftest 521->526"
+  },
+  {
+   "id": "E171-TILT3-SCREENED-SIGN",
+   "title": "E169 published the tilt-vs-engine sign face on the RAW arm, where 2017_2020 and 2024_now disagree at the era scale and no era clears 57% month-level agreement. E170 already proved the tilt series itself is arm-insensitive (tilt_bp_delta = 0.0 every era), so the screened twin of this leg can move only the engine column. Burn it: which of the two disagreeing eras keeps its disagreement under the repair, and does 2024_now's 23.5% monthly agreement recover when the wide book's own path is re-priced? Without this, the one era whose published arrow flips under the repair is also the one whose sign verdict is unscreened.",
+   "source": "Seeded r1205 bm-b from its own E169 face: TILT3SIGN-20261027.json is single-arm (TILT3SCREEN carries the screened engine column, TILT3SIGN does not), and E170's digest earmarked exactly this follow-on.",
+   "deliverable": "results/e43_tilt_4member/TILT3SCREENSIGN-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3sign already carries the raw= seam)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "ready",
+   "seeded_at": "2026-10-28T06:40:00+08:00",
+   "seeded_by": "bm-b r1205"
+  },
+  {
+   "id": "E172-TILT3SIGN-DEADBAND-SWEEP",
+   "title": "E169 declares a 10bp monthly deadband and prints both rates, and on 2024_now the deadband makes the reading worse (23.5% -> 18.8%). One constant cannot tell a reader whether that era is anti-correlated or merely noisy, so sweep the deadband (0 / 10 / 25 / 50 bp) with the month count retained at every step, and publish the era-level sign stability across the sweep. A verdict that only survives its own deadband is a knob; one that survives the sweep is a result.",
+   "source": "Seeded r1205 bm-b from its own E169 face: answers carry one deadband value only.",
+   "deliverable": "results/e43_tilt_4member/TILT3SIGNBAND-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3sign)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "ready",
+   "seeded_at": "2026-10-28T06:45:00+08:00",
+   "seeded_by": "bm-b r1205"
+  },
+  {
+   "id": "E173-TILT3-REPAIR-DRIVERS",
+   "title": "E170 publishes that the split-event repair moved 18 of 137 cells and left pre2017 at exactly 0.0, but not WHICH neutralised name-month carried each era's movement. Publish, per era, the repaired names whose months fall inside it and their share of the era's delta, so 'the repair moved 2024_now' becomes 'sh<code> on <month> moved it'. An era delta with no named driver is a number a reader cannot audit.",
+   "source": "Seeded r1205 bm-b from the E170 face: screen_report carries names_neutralised but the per-era attribution is absent, and E107/E100 showed the same hole at the cell level.",
+   "deliverable": "results/e43_tilt_4member/TILT3DRIVERS-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3screened)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "ready",
+   "seeded_at": "2026-10-28T06:45:00+08:00",
+   "seeded_by": "bm-b r1205"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22293,7 +22329,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T06:05:00+08:00",
+ "updated_at": "2026-10-28T06:45:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
