@@ -543,6 +543,13 @@ def main() -> int:
             # once, by whoever happened to grep for it.
             ("product: group-root sweep census (exit-code contract)",
              "scripts/group_root_sweep.py", ["selftest"]),
+            # r1319: the book's standing "pure survivor pool" caveat had no number
+            # behind it, and the first run of the census showed the caveat was also
+            # pointed the wrong way -- 1,645 of 1,656 eligible symbols still print to
+            # the panel edge and a dead fund keeps its history in its own file, so the
+            # engine saw it while it traded. This leg keeps the classifier callable.
+            ("product: ETF pool survival census (exit-code contract)",
+             "scripts/etf_pool_survival.py", ["selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
@@ -582,7 +589,14 @@ def main() -> int:
             # the hand test (git log vs round_no) agreed with the counter and saw nothing.
             # The detector's contract is what keeps the next one from being invisible.
             ("fleet: round-open absorb detector (exit-code contract)",
-             "scripts/round_open_absorb.py", ["--selftest"])):
+             "scripts/round_open_absorb.py", ["--selftest"]),
+            # r1319: the book, the four-ETF basket and the futures sleeve had each been
+            # measured in its own window and nobody had put them on the axis an allocator
+            # holds -- account size. The legs pin the three ways that face can lie: a
+            # percent read as a fraction (100x), a capacity ceiling that never binds, and
+            # a missing source silently becoming zero profit.
+            ("product: capital placement by account size (exit-code contract)",
+             "scripts/capital_placement.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

@@ -1,0 +1,355 @@
+{
+  "schema": "capital_placement/v1",
+  "ts": "2026-10-28T07:46:19+08:00",
+  "evidence_cutoff": "2026-10-27",
+  "config": {
+    "book_participation_cap": 0.01,
+    "cash_net_annual": 0.01777,
+    "tiers_cny": [
+      300000,
+      1000000,
+      1500000,
+      3000000,
+      8000000,
+      50000000
+    ]
+  },
+  "inputs": {
+    "book": {
+      "source": "results/etf_book_spanning.json",
+      "available": true,
+      "cagr": 0.0962,
+      "sharpe": 0.992,
+      "maxdd": -0.1177,
+      "vol": 0.1017,
+      "turnover_per_decision": 0.934
+    },
+    "basket": {
+      "source": "results/etf_book_spanning.json",
+      "available": true,
+      "cagr": 0.1009,
+      "sharpe": 0.983,
+      "maxdd": -0.1135,
+      "vol": 0.1079,
+      "codes": [
+        "518880",
+        "513100",
+        "510300",
+        "511010"
+      ],
+      "turnover_total": 1.0
+    },
+    "ceiling": {
+      "source": "results/etf_book_capacity_rule.json",
+      "available": true,
+      "participation": 0.01,
+      "deployable_nav_cny": 1526694.2,
+      "cagr_at_ceiling": 0.0728,
+      "annual_profit_ceiling_cny": 111143.0,
+      "worst_participation": 0.02128,
+      "rule_label": "rule @ 8bp, no size",
+      "gross_cash_pct": 2.089
+    },
+    "futures_sleeve": {
+      "source": "results/futures_sleeve_economics.json",
+      "available": true,
+      "capital_floor_cny": 8078625,
+      "cells": {
+        "300000.0": 0.0035,
+        "500000.0": 0.0032,
+        "1000000.0": 0.0015,
+        "2000000.0": 0.0029,
+        "3000000.0": -0.0016,
+        "5000000.0": 0.0024,
+        "10000000.0": 0.0078,
+        "20000000.0": 0.0108,
+        "50000000.0": 0.013
+      },
+      "continuous_cagr": 0.0137
+    }
+  },
+  "rows": [
+    {
+      "capital_cny": 300000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 300000.0,
+          "idle_in_repo_cny": 0.0,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 21840.0,
+          "annual_profit_rule_uncapped_cny": 28860.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": false,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 300000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 30270.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "below_floor",
+          "capital_floor_cny": 8078625.0,
+          "annual_profit_cny": 5331.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 30270.0,
+      "spread_best_vs_second_cny": 8430.0,
+      "spread_best_vs_second_pct_of_capital": 2.81,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 0.0,
+        "effective_cagr_on_all_capital": 0.0728,
+        "total_gap_cny": 8430.0,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    },
+    {
+      "capital_cny": 1000000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 1000000.0,
+          "idle_in_repo_cny": 0.0,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 72800.0,
+          "annual_profit_rule_uncapped_cny": 96200.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": false,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 1000000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 100900.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "below_floor",
+          "capital_floor_cny": 8078625.0,
+          "annual_profit_cny": 17770.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 100900.0,
+      "spread_best_vs_second_cny": 28100.0,
+      "spread_best_vs_second_pct_of_capital": 2.81,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 0.0,
+        "effective_cagr_on_all_capital": 0.0728,
+        "total_gap_cny": 28100.0,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    },
+    {
+      "capital_cny": 1500000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 1500000.0,
+          "idle_in_repo_cny": 0.0,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 109200.0,
+          "annual_profit_rule_uncapped_cny": 144300.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": false,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 1500000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 151350.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "below_floor",
+          "capital_floor_cny": 8078625.0,
+          "annual_profit_cny": 26655.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 151350.0,
+      "spread_best_vs_second_cny": 42150.0,
+      "spread_best_vs_second_pct_of_capital": 2.81,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 0.0,
+        "effective_cagr_on_all_capital": 0.0728,
+        "total_gap_cny": 42150.0,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    },
+    {
+      "capital_cny": 3000000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 1526694.2,
+          "idle_in_repo_cny": 1473305.8,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 137323.98,
+          "annual_profit_rule_uncapped_cny": 288600.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": true,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 3000000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 302700.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "below_floor",
+          "capital_floor_cny": 8078625.0,
+          "annual_profit_cny": 53310.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 302700.0,
+      "spread_best_vs_second_cny": 165376.02,
+      "spread_best_vs_second_pct_of_capital": 5.513,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 2.703,
+        "effective_cagr_on_all_capital": 0.045775,
+        "total_gap_cny": 165376.02,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    },
+    {
+      "capital_cny": 8000000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 1526694.2,
+          "idle_in_repo_cny": 6473305.8,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 226173.98,
+          "annual_profit_rule_uncapped_cny": 769600.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": true,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 8000000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 807200.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "below_floor",
+          "capital_floor_cny": 8078625.0,
+          "annual_profit_cny": 142160.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 807200.0,
+      "spread_best_vs_second_cny": 581026.02,
+      "spread_best_vs_second_pct_of_capital": 7.263,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 4.453,
+        "effective_cagr_on_all_capital": 0.028272,
+        "total_gap_cny": 581026.02,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    },
+    {
+      "capital_cny": 50000000.0,
+      "vehicles": {
+        "etf_book": {
+          "status": "ok",
+          "deployed_cny": 1526694.2,
+          "idle_in_repo_cny": 48473305.8,
+          "cagr_on_deployed": 0.0728,
+          "cagr_rule_uncapped": 0.0962,
+          "annual_profit_cny": 972513.98,
+          "annual_profit_rule_uncapped_cny": 4810000.0,
+          "cash_net_annual_on_idle": 0.01777,
+          "capacity_bound": true,
+          "source": "results/etf_book_capacity_rule.json",
+          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+        },
+        "four_etf_basket": {
+          "status": "ok",
+          "deployed_cny": 50000000.0,
+          "cagr": 0.1009,
+          "annual_profit_cny": 5045000.0,
+          "source": "results/etf_book_spanning.json",
+          "note": "bought once and held (turnover 1.0 over the window); capacity is an entry-print question, not a daily one, and is not modelled here"
+        },
+        "futures_sleeve": {
+          "status": "ok",
+          "deployed_cny": 50000000.0,
+          "cagr": 0.013,
+          "lot_cagr_cell_capital_cny": 50000000.0,
+          "annual_profit_cny": 650000.0,
+          "source": "results/futures_sleeve_economics.json",
+          "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%%/yr is not reachable at these sizes",
+          "disclosure_cell_distance_cny": 0.0
+        }
+      },
+      "best_vehicle": "four_etf_basket",
+      "best_annual_profit_cny": 5045000.0,
+      "spread_best_vs_second_cny": 4072486.02,
+      "spread_best_vs_second_pct_of_capital": 8.145,
+      "book_vs_basket": {
+        "rule_gap_pp_per_year": 0.47,
+        "run_diff_pp_per_year": 2.34,
+        "capacity_cost_pp_per_year": 5.335,
+        "effective_cagr_on_all_capital": 0.01945,
+        "total_gap_cny": 4072486.02,
+        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+      }
+    }
+  ],
+  "caveats": [
+    "Every number is read from a published face, not re-measured: book 9.62%/yr (results/etf_book_spanning.json), basket 10.09%/yr (results/etf_book_spanning.json), sleeve lot arm (results/futures_sleeve_economics.json).",
+    "The book's ceiling is a p90-of-ADV statement: half of its decisions trade less than that, so the ceiling is a tail constraint, not an average.",
+    "The basket has no modelled capacity ceiling. It is bought once and held, so liquidity binds only on the entry print; that print is not measured here.",
+    "The futures sleeve pays nothing usable below its one-lot floor and stays under 2%/yr until roughly the 10M tier -- the continuous-weight series is not a tradable claim.",
+    "Cash remainder is priced at the NET repo rate 1.777%/yr (gross quote minus roll commission), not at zero and not at the gross quote.",
+    "All three vehicles were measured on 2020-2026 panels; the book's own pre-2020 test says the rotation premium there is a fraction of the boom-window figure.",
+    "The basket is not a neutral benchmark either: over this window it is carried by Nasdaq-100 QDII (20.7%/yr) and gold (13.3%/yr) with CSI300 at 0.2%. Its 10.09% is a window statement about a mix chosen in that window -- the point of the column is that the BOOK does not beat it, not that the basket keeps paying."
+  ]
+}

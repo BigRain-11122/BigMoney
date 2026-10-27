@@ -1897,3 +1897,36 @@ below which the cell reads `thin`, and an explicit note for constants that are
 band-invariant by construction. Sweeping is a sensitivity table on an already
 published reading -- it selects nothing, so it needs no new prereg; but the
 band that is *quoted* must remain the one declared before the first burn.
+
+## E173 A cross-run difference is not a capacity cost (2026-10-28 r1319 bm-c)
+
+The capital-placement face (`scripts/capital_placement.py`,
+`results/capital_placement.json`, `research/CAPITAL_PLACEMENT.md`) put the book,
+the four-ETF basket and the futures sleeve on one axis -- account size -- for the
+first time. Three reusable readings:
+
+1. **The first version of the decomposition charged a run difference to the
+   ceiling.** It split the "basket minus book" gap into `rule gap` + `capacity
+   gap` and the capacity term printed **+2.34pp/yr at CNY 300k**, where the book
+   deploys every yuan and the ceiling cannot bind. The 2.34pp is the distance
+   between the spanning face's headline CAGR (9.62%) and the capacity face's own
+   return on deployed capital (7.28%) -- two published runs that do not reproduce
+   each other even with no size limit. Charging it to the ceiling would have made
+   capacity look worse than it is at every tier. Fixed by three terms that add up
+   exactly (`rule gap` / `run diff` / `capacity cost`), with the middle one printed
+   as **unattributed** and a selftest leg asserting it does not move with capital.
+2. **A "capacity cost" term must be proven to bind.** The same selftest family
+   requires it to be exactly 0 under the ceiling and > 0 well above it -- the r1261
+   "prove the mechanism ran" rule applied to a limit rather than to a spread.
+3. **One like-for-like pair, one measured pair.** The rule gap (basket vs book
+   rule, same spanning run) is +0.47pp/yr and constant; the capacity cost rises
+   0 -> +5.33pp/yr across the ladder. The headline the allocator needs is the one
+   the ladder prints, not the rule-level 0.47pp: at CNY 1M the achievable gap is
+   CNY 28,100/yr, and the futures sleeve below its one-lot floor earns repo only.
+
+How to apply: when a face compares two artefacts produced by DIFFERENT scripts,
+first ask whether their overlapping cells agree; if they do not, publish the
+disagreement as its own term instead of folding it into whichever mechanism you
+were trying to price. Any split whose terms are supposed to sum needs a leg that
+asserts the sum (and a tolerance that scales with the base, or the rounding of a
+3-decimal pp times CNY 50M fails the leg on rounding alone).

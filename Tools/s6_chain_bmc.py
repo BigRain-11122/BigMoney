@@ -101,6 +101,13 @@ LEGS = [
     # class). Every row is derived from its own artefact, so it also catches a pointer
     # that still names a file which no longer exists. <1s, no network, no judge.
     ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
+    # r1319: the faces above each answer "what does THIS vehicle earn". A capital
+    # allocator does not hold a vehicle, it holds an account size -- and nobody had put
+    # the book, the four-ETF basket and the futures sleeve on that axis. Pure reader of
+    # the spanning / capacity / futures faces already refreshed above: it measures
+    # nothing, so its only failure mode is a missing input, which it reports instead of
+    # zeroing. <1s, no network, no judge.
+    ("capital_placement", ["python", "scripts/capital_placement.py", "run"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
@@ -193,6 +200,12 @@ LEGS = [
     # in a hurry, so the census runs every round and goes red on a new offender
     # (r1266: a verdict only in a receipt is not a gate). Costs ~4s over 2,100 files.
     ("group_root_sweep", ["python", "scripts/group_root_sweep.py", "run"]),
+    # r1319: the pool's survivorship face. Read-only over data/daily (~4s) and
+    # deterministic, so the cost is a file walk, not a re-run. What it buys: the
+    # standing "pure survivor pool" caveat gets a number every round, and a symbol
+    # that stops printing (delisting, or a collector that silently gave up) is
+    # named on the day it happens instead of being inherited from a memo.
+    ("etf_pool_survival", ["python", "scripts/etf_pool_survival.py", "run"]),
 ]
 
 
