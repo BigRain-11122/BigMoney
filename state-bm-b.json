@@ -1,9 +1,9 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-27T15:57:48+08:00",
- "current": "r1184: run_panelsplit gained a raw= seam; on the neutralise_int arm 40 of 73 cells move (26 count / 14 value) while gapped and non-integer counts do not move at all",
- "current_task": "r1184 E117 panelsplit screened twin (E97 ranking: 234 numbers)",
- "cyc_round": 1182,
+ "current": "r1187 POOL-0018/POOL-0019 first batch closed 7/7: 晴天 was missing only its official lyric face, not compute",
+ "current_task": "POOL-0018/0019 anchor batch first-7 completion (cpu-sound lane)",
+ "cyc_round": 1184,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -247,7 +247,8 @@
   "O-20261025-1530-bm-c.md",
   "O-20261026-0735-bm-c.md",
   "O-20261026-0810-bm-a.md",
-  "O-20261026-0930-bm-c.md"
+  "O-20261026-0930-bm-c.md",
+  "O-20261026-0400-bm-c.md"
  ],
  "orders_ack_last": "O-20261026-0930-bm-c.md",
  "orders_delta_pending": false,
@@ -687,7 +688,7 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1186,
- "round_no": 1186,
+ "round_no": 1187,
  "round_no_label": "r1186",
  "round_no_ts": "2026-10-27T19:08:03+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
@@ -707,8 +708,10 @@
  "task": "OB-20261027-182254-574: production claim loop + heartbeat v2 + POOL-0020 receipt",
  "task_short": "bm-b structural clearing (claim task / clock v2)",
  "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-27T19:08:03+08:00",
+ "ts": "2026-10-27T19:38:11+08:00",
  "updated": "2026-10-27T19:08:03+08:00",
  "updated_at": "2026-10-27T19:08:03+08:00",
- "verdict": "productive: registered HQ-ProductionClaim (every:5m, S4U) after discovering queue_claim.py had no --pool path at all (the real 8-day root cause, not machine laziness); repointed FluxGroup-NatsHB off the legacy C:\\Fluxgroup tree onto the current one -> state.bm-b now carries ts_utc_ms/seq/clock_offset_ms/clock_rtt_ms; closed the 12-day POOL-0020 receipt debt with live evidence; smoke 91/91"
+ "verdict": "productive: registered HQ-ProductionClaim (every:5m, S4U) after discovering queue_claim.py had no --pool path at all (the real 8-day root cause, not machine laziness); repointed FluxGroup-NatsHB off the legacy C:\\Fluxgroup tree onto the current one -> state.bm-b now carries ts_utc_ms/seq/clock_offset_ms/clock_rtt_ms; closed the 12-day POOL-0020 receipt debt with live evidence; smoke 91/91",
+ "r1187_group_push": "25349c372d2bf8233ac2a0d5cde22e2000d7f0ec",
+ "orders_ack_note": "r1187: O-20261026-0400-bm-c (FleetLink bm-c unreachable + bm-c RAM) acked - lane=bm-c, zero bm-b action; re-probed from bm-b: bm-a and bm-c :8790 both TCP-OK now, so item 1 is stale"
 }
