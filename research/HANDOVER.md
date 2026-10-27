@@ -561,3 +561,26 @@ python -m screening.rank          # 432 组排名重建
   r1291 measured width x leverage interaction; r1295 supplies the tie-breaker (money per year
   at a stated cap). Any answer must state the cap and the rule, because a name count without
   its leverage rule is a different experiment.
+
+## r1310 (2026-10-27, bm-c) -- the book tested against the four betas
+- New face: `results/etf_book_spanning.json` (schema etf_book_spanning/v1) +
+  `scripts/etf_book_spanning.py` (selftest 12/12). Chain leg `etf_book_spanning` runs
+  immediately BEFORE `etf_book_production`, so the card quotes the same bar it is priced on.
+  Card gained the section "What is left after the four betas".
+- Status: book vs the four liquid exposures (gold 518880 / Nasdaq QDII 513100 / CSI300
+  510300 / bond 511010), 2020-01-03..2026-10-27, same execution and cost on both arms:
+  book 9.62%/yr, Sharpe 0.99, DD -11.8% (vol 10.2%); equal-weight four-ETF basket on the
+  book's own 20-bar grid 10.09%/yr, Sharpe 0.98, DD -11.3%. Regression R2 0.43, loadings
+  gold 0.15 / NQ 0.07 / CSI300 0.25 / bond -0.03, alpha +5.85%/yr t=1.94 (IS t=1.16,
+  OOS t=1.97, walk-forward residual +7.63%/yr). Verdict published: NOT distinguishable
+  from a fixed loadings mix at 2 sigma -- a risk statement, not a return claim.
+- Two smoke legs repaired in the same window: (a) RW-2 "rows actually read" compared the
+  equity curve against ONE symbol's calendar and false-flagged a ragged panel (the engine
+  is correct: last_bar_read == cutoff and output == the manually pre-truncated run; asserted
+  against the max readable rows instead); (b) the CEO-page-vs-ticket leg demanded equality
+  on a host that is not the page writer -- now bounded to a 1-bar lag and the lag is printed
+  with its owner (writer=bm-a owes today's refresh).
+- Open: price the staggered book on the same span (if its alpha is the same 5.8% with lower
+  residual vol, the turnover saving is the only edge -- which is r1301's own verdict), and
+  register the CEO page in etf_book_registry so its lag is a chain-visible column rather
+  than a smoke-only assertion.

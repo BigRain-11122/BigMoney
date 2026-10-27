@@ -1,0 +1,177 @@
+{
+ "schema": "etf_book_spanning/v1",
+ "evidence_cutoff": "2026-10-27",
+ "span": [
+  {
+   "key": "gold",
+   "code": "518880",
+   "label": "gold ETF"
+  },
+  {
+   "key": "us_tech",
+   "code": "513100",
+   "label": "Nasdaq-100 QDII ETF"
+  },
+  {
+   "key": "csi300",
+   "code": "510300",
+   "label": "CSI 300 ETF"
+  },
+  {
+   "key": "bond",
+   "code": "511010",
+   "label": "treasury bond ETF"
+  }
+ ],
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0
+ },
+ "book": {
+  "cagr": 0.0962,
+  "sharpe": 0.992,
+  "maxdd": -0.1177,
+  "vol": 0.1017,
+  "turnover_per_decision": 0.934,
+  "obs": {
+   "full": 1646,
+   "is": 966,
+   "oos": 680
+  }
+ },
+ "full": {
+  "alpha_annual": 0.0585,
+  "alpha_t": 1.939,
+  "betas": {
+   "518880": 0.1525,
+   "513100": 0.0677,
+   "510300": 0.2487,
+   "511010": -0.0279
+  },
+  "beta_t": {
+   "518880": 14.52,
+   "513100": 8.783,
+   "510300": 24.261,
+   "511010": -0.305
+  },
+  "r2": 0.4346,
+  "n_obs": 1646,
+  "resid_vol_annual": 0.0766
+ },
+ "is": {
+  "alpha_annual": 0.0388,
+  "alpha_t": 1.162,
+  "betas": {
+   "518880": 0.1191,
+   "513100": 0.0288,
+   "510300": 0.3599,
+   "511010": -0.0473
+  },
+  "beta_t": {
+   "518880": 8.198,
+   "513100": 3.339,
+   "510300": 29.805,
+   "511010": -0.513
+  },
+  "r2": 0.5774,
+  "n_obs": 966,
+  "resid_vol_annual": 0.065
+ },
+ "oos": {
+  "alpha_annual": 0.1012,
+  "alpha_t": 1.971,
+  "betas": {
+   "518880": 0.18,
+   "513100": 0.0946,
+   "510300": 0.1338,
+   "511010": 0.0628
+  },
+  "beta_t": {
+   "518880": 12.249,
+   "513100": 7.162,
+   "510300": 8.144,
+   "511010": 0.341
+  },
+  "r2": 0.3596,
+  "n_obs": 680,
+  "resid_vol_annual": 0.0838
+ },
+ "walkforward": {
+  "alpha_is_annual": 0.0388,
+  "oos_mean_resid_annual": 0.0763,
+  "oos_realised_annual": 0.182,
+  "oos_predicted_annual": 0.1057,
+  "n_oos": 680
+ },
+ "span_portfolios": {
+  "gold": {
+   "code": "518880",
+   "label": "gold ETF",
+   "cagr": 0.1331,
+   "turnover_total": 1.0,
+   "sharpe": 0.81,
+   "maxdd": -0.3154,
+   "vol": 0.1811,
+   "years": 6.81
+  },
+  "us_tech": {
+   "code": "513100",
+   "label": "Nasdaq-100 QDII ETF",
+   "cagr": 0.2065,
+   "turnover_total": 1.0,
+   "sharpe": 0.887,
+   "maxdd": -0.2745,
+   "vol": 0.258,
+   "years": 6.81
+  },
+  "csi300": {
+   "code": "510300",
+   "label": "CSI 300 ETF",
+   "cagr": 0.0021,
+   "turnover_total": 1.0,
+   "sharpe": 0.111,
+   "maxdd": -0.4668,
+   "vol": 0.2013,
+   "years": 6.81
+  },
+  "bond": {
+   "code": "511010",
+   "label": "treasury bond ETF",
+   "cagr": 0.0251,
+   "turnover_total": 1.0,
+   "sharpe": 1.206,
+   "maxdd": -0.0521,
+   "vol": 0.0216,
+   "years": 6.81
+  },
+  "equal_weight_basket": {
+   "codes": [
+    "518880",
+    "513100",
+    "510300",
+    "511010"
+   ],
+   "cagr": 0.1009,
+   "turnover_total": 1.0,
+   "sharpe": 0.983,
+   "maxdd": -0.1135,
+   "vol": 0.1079,
+   "years": 6.81
+  }
+ },
+ "caveats": [
+  "daily OLS, no HAC correction (non-overlapping daily returns; autocorrelation in the residual would only widen the alpha interval, so a t below 2 is not rescued by it)",
+  "the span set is four liquid ETFs a retail account can actually hold; a book that fails this test can still be a timing story, but not an alpha story",
+  "loadings are not constant: the table is the average over the window, and the IS/OOS columns are the check on that",
+  "span prices carry the same single-day flip repair as the book's panel; 1 flip(s) flattened, otherwise a split prints as a -50% day in the benchmark arm"
+ ],
+ "config_source": "results/etf_book_production/latest.json",
+ "panel": {
+  "universe": 1499,
+  "flips_repaired": 168,
+  "last_bar": "2026-10-27"
+ },
+ "verdict": "book 9.62%/yr SR 0.99 DD -11.8% vs EW span basket 10.09%/yr SR 0.98 DD -11.3% over 2026-10-27; span explains R2=0.43 of daily variance; alpha +5.85%/yr (t=1.94); alpha NOT distinguishable from a fixed loadings mix of the four span assets at 2 sigma; span arms with a higher Sharpe than the book: bond"
+}

@@ -64,6 +64,14 @@ LEGS = [
     # 2026-10-23/stale_feed while this ticket was already 2026-10-26/current) because only
     # the ticket was on this chain -- the same orphan-face class as r1257's panel. Card
     # first, ticket second: the ticket's card_agreement block reads the card back.
+    # r1310: the question a funder asks before the capacity one -- after the four liquid
+    # exposures an account could just hold (gold / Nasdaq QDII / CSI300 / bond), does the
+    # book still have an intercept? Regresses the published book's daily returns on those
+    # four, with an IS/OOS walk-forward column, and prints the span arms' own risk beside it
+    # so a raw-CAGR contest cannot credit the benchmark for taking more risk. Rides the
+    # chain for the same reason the capacity face does: a hand-run audit is a face that
+    # silently ages (r1257/r1290/r1291/r1293/r1295 class). ~90s, no network.
+    ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # The width face prices the disagreement BETWEEN those two faces ("what does the

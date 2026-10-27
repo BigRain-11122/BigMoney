@@ -140,6 +140,46 @@ def decomp_support():
         return None
 
 
+def spanning_support():
+    """Read results/etf_book_spanning.json -> does the book still have an intercept?
+
+    r1310: the card can quote a CAGR against another ranking rule or against a static class
+    mix, but neither answers the question a funder asks -- after the four liquid exposures
+    an account could simply hold (gold / Nasdaq QDII / CSI300 / bond), is anything left?
+    Soft-fails to None: a missing artifact must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_spanning.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        full = doc.get("full") or {}
+        ports = doc.get("span_portfolios") or {}
+        ew = ports.get("equal_weight_basket") or {}
+        if full.get("alpha_annual") is None or ew.get("cagr") is None:
+            return None
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "as_of": doc.get("evidence_cutoff"),
+            "book_cagr": (doc.get("book") or {}).get("cagr"),
+            "book_sharpe": (doc.get("book") or {}).get("sharpe"),
+            "book_maxdd": (doc.get("book") or {}).get("maxdd"),
+            "basket_cagr": ew.get("cagr"),
+            "basket_sharpe": ew.get("sharpe"),
+            "basket_maxdd": ew.get("maxdd"),
+            "alpha_annual": full.get("alpha_annual"),
+            "alpha_t": full.get("alpha_t"),
+            "r2": full.get("r2"),
+            "is_alpha_t": (doc.get("is") or {}).get("alpha_t"),
+            "oos_alpha_t": (doc.get("oos") or {}).get("alpha_t"),
+            "arms": {k: {"cagr": (v or {}).get("cagr"), "sharpe": (v or {}).get("sharpe"),
+                         "maxdd": (v or {}).get("maxdd")}
+                     for k, v in ports.items() if k != "equal_weight_basket"},
+            "codes": ew.get("codes") or [],
+        }
+    except Exception:
+        return None
+
+
 def preperiod_support():
     """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
 
@@ -415,6 +455,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "commodity": commodity_support(),
         "passive_mix": passive_mix_support(),
         "window_decomp": decomp_support(),
+        "spanning": spanning_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -521,6 +562,8 @@ def write_card(out):
     lines += ["## What the rotation is worth", ""]
     lines += passive_mix_paragraphs(out.get("passive_mix"))
     lines += decomp_paragraphs(out.get("window_decomp"))
+    lines += ["## What is left after the four betas", ""]
+    lines += spanning_paragraphs(out.get("spanning"))
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -606,6 +649,44 @@ def passive_mix_paragraphs(pm):
                 if pm.get("premium_flips") else
                 "the premium survives the period change, so the machinery is not what "
                 "the pre-2020 window was missing.")), ""]
+    return out
+
+
+def spanning_paragraphs(sp):
+    """The four-beta section text. Pure: needs only the artifact block.
+
+    Both arms' risk travels with both returns, and the t-stat decides the wording -- a
+    sentence that reads the point estimate as skill without printing t is the failure this
+    section exists to prevent (E147).
+    """
+    if not (sp and sp.get("alpha_annual") is not None):
+        return ["Not measured: results/etf_book_spanning.json is missing, so this card "
+                "cannot say what is left after the liquid betas.", ""]
+    arms = sp.get("arms") or {}
+    gold = arms.get("gold") or {}
+    sentence = ("Regressed on the four exposures an account could hold instead of this book "
+                "(gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, "
+                "same cost), the book's daily returns leave an intercept of **%+.1f%%/yr with "
+                "t=%.2f** and R2=%.2f, as of %s. The equal-weight four-ETF basket itself "
+                "returns %.1f%%/yr at Sharpe %.2f and worst drawdown %.1f%%, against the "
+                "book's %.1f%%/yr, Sharpe %.2f and %.1f%%."
+                % (sp["alpha_annual"] * 100, sp.get("alpha_t") or 0.0, sp.get("r2") or 0.0,
+                   sp.get("as_of"), (sp.get("basket_cagr") or 0) * 100,
+                   sp.get("basket_sharpe") or 0.0, (sp.get("basket_maxdd") or 0) * 100,
+                   (sp.get("book_cagr") or 0) * 100, sp.get("book_sharpe") or 0.0,
+                   (sp.get("book_maxdd") or 0) * 100))
+    out = [sentence, ""]
+    if (sp.get("alpha_t") or 0) < 2.0:
+        out += ["Read that as **not distinguishable from a fixed loadings mix**, not as zero "
+                "and not as proven skill: the in-sample half of the window prints t=%.2f and "
+                "the out-of-sample half t=%.2f, so the point estimate is carried by the later "
+                "period and the line is a risk statement rather than a return one."
+                % (sp.get("is_alpha_t") or 0.0, sp.get("oos_alpha_t") or 0.0), ""]
+    if gold.get("cagr") is not None:
+        out += ["The single arm that out-earns the book is gold (%.1f%%/yr) at a %.1f%% "
+                "drawdown -- the comparison has to be printed next to the return or it reads "
+                "as a verdict. See %s."
+                % (gold["cagr"] * 100, (gold.get("maxdd") or 0) * 100, sp["artifact"]), ""]
     return out
 
 
