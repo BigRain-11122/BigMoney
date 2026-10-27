@@ -632,6 +632,13 @@
   "d19": "dec=same ord=same delta=none phantom=none",
   "pool": "E116 done + result_ref, E117-PANELSPLIT-SCREENED-TWIN seeded open",
   "card": "E150",
-  "digest": "research/digests/DIGEST-20261027-e116-earlydelay-screened.md"
+  "digest": "research/digests/DIGEST-20261027-e116-earlydelay-screened.md",
+  "push": {
+   "status": "PUSHED_VERIFIED",
+   "pushed_sha": "f86d9e14b",
+   "behind_origin_main": 0,
+   "note": "first push attempt hung on the promisor lazy fetch and was auto-cancelled after 5 min with zero residue (no index.lock; origin had advanced to de3d68d85 = bm-c r1310 while the push sat silent). rebase --autostash then stalled in the r1032 'nothing done, editing a commit' state -> rebase --quit + cherry-pick onto the origin tip (the r1032 pattern). 12 conflicts: 7 derived faces (daily_report 2, live_usage 4, attrition_scan, compute_audit, b_layer_filter, regime_state, update_status) restored origin-verbatim, and knowledge/METHODOLOGY_ASSETS.md as a UNION -- bm-c r1310 had published its own E149 in the same window, so this round's card yielded and was renumbered E150 in the card, state, heartbeat and round report (both kept). Four-way verified: HEAD == origin/main == f86d9e14b, behind=0 ahead=0, ls-tree origin carries EARLYDELAYSCREEN-20261026.json (blob 7927cb20) and the E116 digest (blob c42f4357).",
+   "ts": "2026-10-27T16:57:48+08:00"
+  }
  }
 }

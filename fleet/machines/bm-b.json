@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T16:40:39+08:00",
+ "clock_read": "2026-10-27T16:57:48+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -55,7 +55,7 @@
  "gpu_vram_free_mib": 3742,
  "gpu_vram_used_mb": 4450,
  "gpu_vram_used_mib": 4450,
- "heartbeat_epoch_utc": 1793090439,
+ "heartbeat_epoch_utc": 1793091468,
  "idle_ram_gb": 8.9,
  "idle_ram_pct": 37.0,
  "idle_rounds": 0,
@@ -75,9 +75,9 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "d30356e54 -> 32ba44ede pushed, behind 0 (r1181)",
  "last_round": 1178,
- "last_seen": "2026-10-27T16:40:39+08:00",
+ "last_seen": "2026-10-27T16:57:48+08:00",
  "latest_artifact": "results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
- "local_not_on_origin_commits": null,
+ "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
  "next": "E117 panelsplit screened twin (raw= seam + event-count/return split harvest)",
  "next_milestone": "E117 PANELSPLITSCREEN face burned (<=48h)",
@@ -413,10 +413,17 @@
   "ts": "2026-10-27T11:50:36+08:00"
  },
  "task": "r1183 E116 earlydelay screened twin (EARLYDELAYSCREEN-20261026)",
- "ts": "2026-10-27T16:40:39+08:00",
+ "ts": "2026-10-27T16:57:48+08:00",
  "updated": "2026-10-27T11:50:36+08:00",
  "updated_at": "2026-10-27T11:50:36+08:00",
  "verdict": "smoke 90/90 PASS; S6 38/38 rc0 (non-zero: none); e39 selftest 362/362; e97 15/15; D-19 same/same zero action; orders 114 files ack 115 unacked 0; orphan 0 (7 py faces); attrition CLEAN 4 ledgers; dualrun ZERO-DRIFT streak 7; watermark red=false lane healthy (py_low, remediated by the in-round E116 burn)",
  "vram_free_gb": 3.7,
- "vram_used_gb": 4.3
+ "vram_used_gb": 4.3,
+ "r1183_push": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "f86d9e14b",
+  "behind_origin_main": 0,
+  "note": "first push attempt hung on the promisor lazy fetch and was auto-cancelled after 5 min with zero residue (no index.lock; origin had advanced to de3d68d85 = bm-c r1310 while the push sat silent). rebase --autostash then stalled in the r1032 'nothing done, editing a commit' state -> rebase --quit + cherry-pick onto the origin tip (the r1032 pattern). 12 conflicts: 7 derived faces (daily_report 2, live_usage 4, attrition_scan, compute_audit, b_layer_filter, regime_state, update_status) restored origin-verbatim, and knowledge/METHODOLOGY_ASSETS.md as a UNION -- bm-c r1310 had published its own E149 in the same window, so this round's card yielded and was renumbered E150 in the card, state, heartbeat and round report (both kept). Four-way verified: HEAD == origin/main == f86d9e14b, behind=0 ahead=0, ls-tree origin carries EARLYDELAYSCREEN-20261026.json (blob 7927cb20) and the E116 digest (blob c42f4357).",
+  "ts": "2026-10-27T16:57:48+08:00"
+ }
 }
