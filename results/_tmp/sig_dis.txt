@@ -1,0 +1,337 @@
+=== excess_series args=('dates', 'marks', 'rebal_days', 'first', 'book', 'b', 'bench', 'out', 'prev', 'bn', 'cur') names=('str', 'date', '_indexed', 'bench_block', 'get', 'np', 'isfinite', 'float', 'append') consts=('Daily book-minus-basket returns across the WHOLE grid.\n\nThe published marks are a prefix of this series, so its dispersion is the only\ndefensible prior for "how big must the spread be before it means anything" while\nthe ledger itself still holds a handful of bars. Dispersion measured off three\nforward bars would be noise wearing a number.\n', 0, 'bars', 'bar', 'nav', None, 1, 1.0)
+ 391            RESUME                   0
+
+ 399            LOAD_GLOBAL              1 (str + NULL)
+                LOAD_FAST                0 (dates)
+                LOAD_CONST               1 (0)
+                BINARY_SUBSCR
+                LOAD_ATTR                3 (date + NULL|self)
+                CALL                     0
+                CALL                     1
+                STORE_FAST               3 (first)
+
+ 400            LOAD_GLOBAL              5 (_indexed + NULL)
+                LOAD_FAST_LOAD_FAST     19 (marks, first)
+                CALL                     2
+                STORE_FAST               4 (book)
+
+ 401            LOAD_GLOBAL              7 (bench_block + NULL)
+                LOAD_FAST_LOAD_FAST      2 (dates, rebal_days)
+                LOAD_FAST                3 (first)
+                CALL                     3
+                LOAD_CONST               2 ('bars')
+                BINARY_SUBSCR
+                GET_ITER
+                LOAD_FAST_AND_CLEAR      5 (b)
+                SWAP                     2
+        L1:     BUILD_MAP                0
+                SWAP                     2
+                GET_ITER
+        L2:     FOR_ITER                11 (to L3)
+                STORE_FAST_LOAD_FAST    85 (b, b)
+                LOAD_CONST               3 ('bar')
+                BINARY_SUBSCR
+                LOAD_FAST                5 (b)
+                LOAD_CONST               4 ('nav')
+                BINARY_SUBSCR
+                MAP_ADD                  2
+                JUMP_BACKWARD           13 (to L2)
+        L3:     END_FOR
+                POP_TOP
+        L4:     STORE_FAST               6 (bench)
+                STORE_FAST               5 (b)
+
+ 402            BUILD_LIST               0
+                LOAD_CONST               5 (None)
+                STORE_FAST_STORE_FAST  135 (prev, out)
+
+ 403            LOAD_FAST                4 (book)
+                GET_ITER
+        L5:     FOR_ITER               141 (to L9)
+                STORE_FAST               5 (b)
+
+ 404            LOAD_FAST                6 (bench)
+                LOAD_ATTR                9 (get + NULL|self)
+                LOAD_FAST                5 (b)
+                LOAD_CONST               3 ('bar')
+                BINARY_SUBSCR
+                CALL                     1
+                STORE_FAST               9 (bn)
+
+ 405            LOAD_FAST                9 (bn)
+                POP_JUMP_IF_NONE        33 (to L6)
+                LOAD_GLOBAL             10 (np)
+                LOAD_ATTR               12 (isfinite)
+                PUSH_NULL
+                LOAD_FAST                9 (bn)
+                CALL                     1
+                TO_BOOL
+                POP_JUMP_IF_FALSE        6 (to L6)
+                LOAD_FAST                9 (bn)
+                LOAD_CONST               1 (0)
+                COMPARE_OP              58 (bool(<=))
+                POP_JUMP_IF_FALSE        2 (to L7)
+
+ 406    L6:     JUMP_BACKWARD           61 (to L5)
+
+ 407    L7:     LOAD_FAST                5 (b)
+                LOAD_CONST               4 ('nav')
+                BINARY_SUBSCR
+                LOAD_GLOBAL             15 (float + NULL)
+                LOAD_FAST                9 (bn)
+                CALL                     1
+                BUILD_TUPLE              2
+                STORE_FAST              10 (cur)
+
+ 408            LOAD_FAST                8 (prev)
+                POP_JUMP_IF_NONE        59 (to L8)
+                LOAD_FAST                8 (prev)
+                LOAD_CONST               1 (0)
+                BINARY_SUBSCR
+                LOAD_CONST               1 (0)
+                COMPARE_OP             148 (bool(>))
+                POP_JUMP_IF_FALSE       50 (to L8)
+                LOAD_FAST                8 (prev)
+                LOAD_CONST               6 (1)
+                BINARY_SUBSCR
+                LOAD_CONST               1 (0)
+                COMPARE_OP             148 (bool(>))
+                POP_JUMP_IF_FALSE       41 (to L8)
+
+ 409            LOAD_FAST                7 (out)
+                LOAD_ATTR               17 (append + NULL|self)
+                LOAD_FAST               10 (cur)
+                LOAD_CONST               1 (0)
+                BINARY_SUBSCR
+                LOAD_FAST                8 (prev)
+                LOAD_CONST               1 (0)
+                BINARY_SUBSCR
+                BINARY_OP               11 (/)
+                LOAD_FAST               10 (cur)
+                LOAD_CONST               6 (1)
+                BINARY_SUBSCR
+                LOAD_FAST                8 (prev)
+                LOAD_CONST               6 (1)
+                BINARY_SUBSCR
+                BINARY_OP               11 (/)
+                BINARY_OP               11 (/)
+                LOAD_CONST               7 (1.0)
+                BINARY_OP               10 (-)
+                CALL                     1
+                POP_TOP
+
+ 410    L8:     LOAD_FAST               10 (cur)
+                STORE_FAST               8 (prev)
+                JUMP_BACKWARD          143 (to L5)
+
+ 403    L9:     END_FOR
+                POP_TOP
+
+ 411            LOAD_FAST                7 (out)
+                RETURN_VALUE
+
+  --   L10:     SWAP                     2
+                POP_TOP
+
+ 401            SWAP                     2
+                STORE_FAST               5 (b)
+                RERAISE                  0
+ExceptionTable:
+  L1 to L4 -> L10 [2]
+
+=== _sig_line args=('led', 'sig', 'need', 'want', 'det', 'det_txt', 'latest') names=('get', 'join', 'items', 'float') consts=('The line that stops a 3-bar spread from being read as an edge.', 'benchmark', 'significance', 'available', 'SIGNIFICANCE: unavailable (%s)', 'reason', 'no block', 'bars_needed_for_edge', ', ', <code object <genexpr> at 0x0000024DEE514030, file "K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\etf_book_forward.py", line 660>, 'min_detectable_edge_pp', '; smallest edge visible inside %s', <code object <genexpr> at 0x0000024DEE514130, file "K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\etf_book_forward.py", line 663>, '', 'latest', "SIGNIFICANCE: excess vol %.2f%%/yr over %d bars (%s) -> %s at t=2%s; this ledger's %d bars carry a +-%.2fpp band, published spread %spp", 'annual_vol_pct', 'nan', 'bars_used', 'windows', 'published_bars', 0, 'noise_band_pp_at_published', 'excess_pp', 'n/a')
+654            RESUME                   0
+
+656            LOAD_FAST                0 (led)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               1 ('benchmark')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L1)
+               POP_TOP
+               BUILD_MAP                0
+       L1:     LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               2 ('significance')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L2)
+               POP_TOP
+               BUILD_MAP                0
+       L2:     STORE_FAST               1 (sig)
+
+657            LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               3 ('available')
+               CALL                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE        21 (to L3)
+
+658            LOAD_CONST               4 ('SIGNIFICANCE: unavailable (%s)')
+               LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               5 ('reason')
+               LOAD_CONST               6 ('no block')
+               CALL                     2
+               BINARY_OP                6 (%)
+               RETURN_VALUE
+
+659    L3:     LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               7 ('bars_needed_for_edge')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L4)
+               POP_TOP
+               BUILD_MAP                0
+       L4:     STORE_FAST               2 (need)
+
+660            LOAD_CONST               8 (', ')
+               LOAD_ATTR                3 (join + NULL|self)
+               LOAD_CONST               9 (<code object <genexpr> at 0x0000024DEE514030, file "K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\etf_book_forward.py", line 660>)
+               MAKE_FUNCTION
+               LOAD_FAST                2 (need)
+               LOAD_ATTR                5 (items + NULL|self)
+               CALL                     0
+               GET_ITER
+               CALL                     0
+               CALL                     1
+               STORE_FAST               3 (want)
+
+661            LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              10 ('min_detectable_edge_pp')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L5)
+               POP_TOP
+               BUILD_MAP                0
+       L5:     STORE_FAST               4 (det)
+
+663            LOAD_FAST                4 (det)
+               TO_BOOL
+               POP_JUMP_IF_FALSE       41 (to L6)
+
+662            LOAD_CONST              11 ('; smallest edge visible inside %s')
+
+663            LOAD_CONST               8 (', ')
+               LOAD_ATTR                3 (join + NULL|self)
+               LOAD_CONST              12 (<code object <genexpr> at 0x0000024DEE514130, file "K:\Fluxgroup\FluxGroup\quant\bigmoney\scripts\etf_book_forward.py", line 663>)
+               MAKE_FUNCTION
+               LOAD_FAST                4 (det)
+               LOAD_ATTR                5 (items + NULL|self)
+               CALL                     0
+               GET_ITER
+               CALL                     0
+               CALL                     1
+
+662            BINARY_OP                6 (%)
+               JUMP_FORWARD             1 (to L7)
+
+663    L6:     LOAD_CONST              13 ('')
+
+662    L7:     STORE_FAST               5 (det_txt)
+
+664            LOAD_FAST                0 (led)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST               1 ('benchmark')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L8)
+               POP_TOP
+               BUILD_MAP                0
+       L8:     LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              14 ('latest')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE         2 (to L9)
+               POP_TOP
+               BUILD_MAP                0
+       L9:     STORE_FAST               6 (latest)
+
+665            LOAD_CONST              15 ("SIGNIFICANCE: excess vol %.2f%%/yr over %d bars (%s) -> %s at t=2%s; this ledger's %d bars carry a +-%.2fpp band, published spread %spp")
+
+667            LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              16 ('annual_vol_pct')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE        11 (to L10)
+               POP_TOP
+               LOAD_GLOBAL              7 (float + NULL)
+               LOAD_CONST              17 ('nan')
+               CALL                     1
+      L10:     LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              18 ('bars_used')
+               CALL                     1
+
+668            LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              19 ('windows')
+               CALL                     1
+               LOAD_FAST_LOAD_FAST     53 (want, det_txt)
+               LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              20 ('published_bars')
+               LOAD_CONST              21 (0)
+               CALL                     2
+
+669            LOAD_FAST                1 (sig)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              22 ('noise_band_pp_at_published')
+               CALL                     1
+               COPY                     1
+               TO_BOOL
+               POP_JUMP_IF_TRUE        11 (to L11)
+               POP_TOP
+               LOAD_GLOBAL              7 (float + NULL)
+               LOAD_CONST              17 ('nan')
+               CALL                     1
+
+670   L11:     LOAD_FAST                6 (latest)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              23 ('excess_pp')
+               CALL                     1
+               POP_JUMP_IF_NONE        20 (to L12)
+               LOAD_FAST                6 (latest)
+               LOAD_ATTR                1 (get + NULL|self)
+               LOAD_CONST              23 ('excess_pp')
+               CALL                     1
+
+667            BUILD_TUPLE              8
+
+665            BINARY_OP                6 (%)
+               RETURN_VALUE
+
+670   L12:     LOAD_CONST              24 ('n/a')
+
+667            BUILD_TUPLE              8
+
+665            BINARY_OP                6 (%)
+               RETURN_VALUE
+
+=== _attach_sig args=('led', 'sig') names=('get',) consts=(None, 'benchmark', 'significance')
+673           RESUME                   0
+
+674           LOAD_FAST                0 (led)
+              LOAD_ATTR                1 (get + NULL|self)
+              LOAD_CONST               1 ('benchmark')
+              CALL                     1
+              POP_JUMP_IF_NONE         7 (to L1)
+
+675           LOAD_FAST_LOAD_FAST     16 (sig, led)
+              LOAD_CONST               1 ('benchmark')
+              BINARY_SUBSCR
+              LOAD_CONST               2 ('significance')
+              STORE_SUBSCR
+
+676   L1:     LOAD_FAST                0 (led)
+              RETURN_VALUE
+

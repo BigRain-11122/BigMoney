@@ -1,0 +1,692 @@
+ 679            RESUME                   0
+
+ 680            LOAD_GLOBAL              1 (load_ledger + NULL)
+                CALL                     0
+                STORE_FAST               1 (led)
+
+ 681            LOAD_FAST                1 (led)
+                POP_JUMP_IF_NOT_NONE    10 (to L1)
+
+ 682            LOAD_GLOBAL              3 (seed + NULL)
+                CALL                     0
+                RETURN_VALUE
+
+ 683    L1:     LOAD_FAST                1 (led)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_CONST               1 ('status')
+                CALL                     1
+                LOAD_CONST               2 ('frozen')
+                COMPARE_OP              88 (bool(==))
+                POP_JUMP_IF_FALSE       18 (to L2)
+                LOAD_FAST                0 (rebase)
+                TO_BOOL
+                POP_JUMP_IF_TRUE        11 (to L2)
+
+ 684            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_CONST               3 ('FROZEN: ledger froze on drift; inspect results/etf_book_forward/LEDGER.json and rerun with --rebase to adopt the re-derived history')
+
+ 685            LOAD_CONST               4 (True)
+
+ 684            LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 686            RETURN_CONST             6 (3)
+
+ 688    L2:     LOAD_GLOBAL              9 (compute_marks + NULL)
+                CALL                     0
+                UNPACK_SEQUENCE          5
+                STORE_FAST_STORE_FAST   35 (fwd, marks)
+                STORE_FAST_STORE_FAST   69 (dates, cls)
+                STORE_FAST               6 (n_flip)
+
+ 689            LOAD_FAST                1 (led)
+                LOAD_CONST               7 ('seed')
+                BINARY_SUBSCR
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                STORE_FAST               7 (seed_bar)
+
+ 690            LOAD_GLOBAL             11 (_indexed + NULL)
+                LOAD_FAST_LOAD_FAST     55 (marks, seed_bar)
+                CALL                     2
+                GET_ITER
+                LOAD_FAST_AND_CLEAR      8 (b)
+                SWAP                     2
+        L3:     BUILD_MAP                0
+                SWAP                     2
+                GET_ITER
+        L4:     FOR_ITER                 8 (to L5)
+                STORE_FAST_LOAD_FAST   136 (b, b)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                LOAD_FAST                8 (b)
+                MAP_ADD                  2
+                JUMP_BACKWARD           10 (to L4)
+        L5:     END_FOR
+                POP_TOP
+        L6:     STORE_FAST               9 (fresh)
+                STORE_FAST               8 (b)
+
+ 693            BUILD_LIST               0
+                LOAD_CONST               9 (0.0)
+                STORE_FAST_STORE_FAST  186 (worst, faces)
+
+ 694            LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                GET_ITER
+        L7:     FOR_ITER               119 (to L10)
+                STORE_FAST               8 (b)
+
+ 695            LOAD_FAST                9 (fresh)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_FAST                8 (b)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                CALL                     1
+                STORE_FAST              12 (f)
+
+ 696            LOAD_FAST               12 (f)
+                POP_JUMP_IF_NOT_NONE    25 (to L8)
+
+ 697            LOAD_FAST               10 (faces)
+                LOAD_ATTR               13 (append + NULL|self)
+                LOAD_FAST                8 (b)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                LOAD_CONST              11 (':missing')
+                BINARY_OP                0 (+)
+                CALL                     1
+                POP_TOP
+
+ 698            JUMP_BACKWARD           51 (to L7)
+
+ 699    L8:     LOAD_GLOBAL             15 (abs + NULL)
+                LOAD_FAST               12 (f)
+                LOAD_CONST              12 ('nav')
+                BINARY_SUBSCR
+                LOAD_FAST                8 (b)
+                LOAD_CONST              12 ('nav')
+                BINARY_SUBSCR
+                BINARY_OP               10 (-)
+                CALL                     1
+                STORE_FAST              13 (d)
+
+ 700            LOAD_GLOBAL             17 (max + NULL)
+                LOAD_FAST_LOAD_FAST    189 (worst, d)
+                CALL                     2
+                STORE_FAST              11 (worst)
+
+ 701            LOAD_FAST               13 (d)
+                LOAD_GLOBAL             18 (DRIFT_TOL)
+                COMPARE_OP             148 (bool(>))
+                POP_JUMP_IF_TRUE         2 (to L9)
+                JUMP_BACKWARD           94 (to L7)
+
+ 702    L9:     LOAD_FAST               10 (faces)
+                LOAD_ATTR               13 (append + NULL|self)
+                LOAD_CONST              13 ('%s:%.3e')
+                LOAD_FAST                8 (b)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                LOAD_FAST               13 (d)
+                BUILD_TUPLE              2
+                BINARY_OP                6 (%)
+                CALL                     1
+                POP_TOP
+                JUMP_BACKWARD          121 (to L7)
+
+ 694   L10:     END_FOR
+                POP_TOP
+
+ 703            LOAD_FAST               10 (faces)
+                LOAD_CONST               0 (None)
+                LOAD_CONST              14 (20)
+                BINARY_SLICE
+                LOAD_FAST               11 (worst)
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                CALL                     1
+                LOAD_CONST              15 (('faces', 'max_abs', 'checked_bars'))
+                BUILD_CONST_KEY_MAP      3
+                LOAD_FAST                1 (led)
+                LOAD_CONST              16 ('drift')
+                STORE_SUBSCR
+
+ 707            LOAD_GLOBAL             23 (bench_drift + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_CONST              17 ('benchmark')
+                CALL                     1
+                LOAD_GLOBAL             25 (_bench_with_book + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_FAST_LOAD_FAST     71 (dates, seed_bar)
+                CALL                     3
+                CALL                     2
+                STORE_FAST              14 (bench_faces)
+
+ 709            LOAD_GLOBAL             11 (_indexed + NULL)
+                LOAD_FAST_LOAD_FAST     55 (marks, seed_bar)
+                CALL                     2
+                GET_ITER
+                LOAD_FAST_AND_CLEAR     12 (f)
+                SWAP                     2
+       L11:     BUILD_LIST               0
+                SWAP                     2
+                GET_ITER
+       L12:     FOR_ITER                24 (to L15)
+                STORE_FAST_LOAD_FAST   204 (f, f)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_CONST              18 (-1)
+                BINARY_SUBSCR
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                COMPARE_OP             148 (bool(>))
+       L13:     POP_JUMP_IF_TRUE         2 (to L14)
+                JUMP_BACKWARD           22 (to L12)
+       L14:     LOAD_FAST               12 (f)
+                LIST_APPEND              2
+                JUMP_BACKWARD           26 (to L12)
+       L15:     END_FOR
+                POP_TOP
+       L16:     STORE_FAST              15 (new_bars)
+                STORE_FAST              12 (f)
+
+ 710            LOAD_FAST               10 (faces)
+                TO_BOOL
+                POP_JUMP_IF_TRUE         7 (to L17)
+                LOAD_FAST               14 (bench_faces)
+                TO_BOOL
+                POP_JUMP_IF_FALSE       65 (to L18)
+       L17:     LOAD_FAST                0 (rebase)
+                TO_BOOL
+                POP_JUMP_IF_TRUE        58 (to L18)
+
+ 711            LOAD_CONST               2 ('frozen')
+                LOAD_FAST                1 (led)
+                LOAD_CONST               1 ('status')
+                STORE_SUBSCR
+
+ 712            LOAD_FAST_LOAD_FAST    225 (bench_faces, led)
+                LOAD_CONST              16 ('drift')
+                BINARY_SUBSCR
+                LOAD_CONST              19 ('benchmark_faces')
+                STORE_SUBSCR
+
+ 713            LOAD_GLOBAL             27 (save_ledger + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                POP_TOP
+
+ 714            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_CONST              20 ('DRIFT %d faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); --rebase is the logged escape')
+
+ 715            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               10 (faces)
+                CALL                     1
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               14 (bench_faces)
+                CALL                     1
+                LOAD_FAST               11 (worst)
+                BUILD_TUPLE              3
+
+ 714            BINARY_OP                6 (%)
+
+ 715            LOAD_CONST               4 (True)
+
+ 714            LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 716            RETURN_CONST             6 (3)
+
+ 717   L18:     LOAD_FAST               10 (faces)
+                TO_BOOL
+                POP_JUMP_IF_TRUE         7 (to L19)
+                LOAD_FAST               14 (bench_faces)
+                TO_BOOL
+                POP_JUMP_IF_FALSE      129 (to L20)
+       L19:     LOAD_FAST                0 (rebase)
+                TO_BOOL
+                POP_JUMP_IF_FALSE      122 (to L20)
+
+ 718            LOAD_FAST                1 (led)
+                LOAD_CONST              21 ('rebases')
+                BINARY_SUBSCR
+                LOAD_ATTR               13 (append + NULL|self)
+
+ 719            LOAD_GLOBAL             28 (time)
+                LOAD_ATTR               30 (strftime)
+                PUSH_NULL
+                LOAD_CONST              22 ('%Y-%m-%dT%H:%M:%S%z')
+                CALL                     1
+
+ 720            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               10 (faces)
+                CALL                     1
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               14 (bench_faces)
+                CALL                     1
+
+ 721            LOAD_FAST_LOAD_FAST    186 (worst, faces)
+                LOAD_FAST               14 (bench_faces)
+                BINARY_OP                0 (+)
+                LOAD_CONST               0 (None)
+                LOAD_CONST              23 (10)
+                BINARY_SLICE
+
+ 718            LOAD_CONST              24 (('ts', 'n_faces', 'n_bench_faces', 'max_abs', 'sample'))
+                BUILD_CONST_KEY_MAP      5
+                CALL                     1
+                POP_TOP
+
+ 723            LOAD_GLOBAL             11 (_indexed + NULL)
+                LOAD_FAST_LOAD_FAST     55 (marks, seed_bar)
+                CALL                     2
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                STORE_SUBSCR
+
+ 724            LOAD_CONST              25 ('live')
+                LOAD_FAST                1 (led)
+                LOAD_CONST               1 ('status')
+                STORE_SUBSCR
+
+ 725            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_CONST              26 ('REBASED %d faces (bench %d) max_abs=%.3e (logged in rebases)')
+
+ 726            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               10 (faces)
+                CALL                     1
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               14 (bench_faces)
+                CALL                     1
+                LOAD_FAST               11 (worst)
+                BUILD_TUPLE              3
+
+ 725            BINARY_OP                6 (%)
+
+ 726            LOAD_CONST               4 (True)
+
+ 725            LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 728   L20:     LOAD_FAST               15 (new_bars)
+                TO_BOOL
+                EXTENDED_ARG             1
+                POP_JUMP_IF_TRUE       265 (to L23)
+
+ 729            LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                TO_BOOL
+                POP_JUMP_IF_FALSE        8 (to L21)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_CONST              18 (-1)
+                BINARY_SUBSCR
+                JUMP_FORWARD             1 (to L22)
+       L21:     BUILD_MAP                0
+       L22:     STORE_FAST              16 (headed)
+
+ 730            LOAD_GLOBAL             25 (_bench_with_book + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_FAST_LOAD_FAST     71 (dates, seed_bar)
+                CALL                     3
+                LOAD_FAST                1 (led)
+                LOAD_CONST              17 ('benchmark')
+                STORE_SUBSCR
+
+ 731            LOAD_GLOBAL             33 (_attach_sig + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_GLOBAL             35 (significance + NULL)
+                LOAD_FAST_LOAD_FAST     67 (dates, marks)
+                LOAD_GLOBAL             37 (set + NULL)
+                LOAD_FAST                4 (dates)
+                LOAD_CONST               0 (None)
+                LOAD_CONST               0 (None)
+                LOAD_GLOBAL             38 (CONFIG)
+                LOAD_CONST              27 ('rebal')
+                BINARY_SUBSCR
+                BUILD_SLICE              3
+                BINARY_SUBSCR
+                CALL                     1
+
+ 732            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                CALL                     1
+
+ 731            CALL                     4
+                CALL                     2
+                POP_TOP
+
+ 733            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_CONST              28 ('NO-OP last_bar=')
+
+ 734            LOAD_FAST               16 (headed)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_CONST               8 ('bar')
+                CALL                     1
+                CONVERT_VALUE            1 (str)
+                FORMAT_SIMPLE
+                LOAD_CONST              29 (' nav=')
+                LOAD_FAST               16 (headed)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_CONST              12 ('nav')
+                CALL                     1
+                CONVERT_VALUE            1 (str)
+                FORMAT_SIMPLE
+                LOAD_CONST              30 (' (no new panel bars) | ')
+                LOAD_GLOBAL             41 (_bench_line + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                CONVERT_VALUE            1 (str)
+                FORMAT_SIMPLE
+
+ 733            BUILD_STRING             6
+
+ 734            LOAD_CONST               4 (True)
+
+ 733            LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 735            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_GLOBAL             43 (_sig_line + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                LOAD_CONST               4 (True)
+                LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 736            LOAD_GLOBAL             45 (_noop_stub + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_FAST               16 (headed)
+                CALL                     2
+                POP_TOP
+
+ 737            LOAD_GLOBAL             47 (_books_after + NULL)
+                LOAD_FAST_LOAD_FAST     33 (fwd, led)
+                LOAD_CONST               7 ('seed')
+                BINARY_SUBSCR
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                CALL                     2
+                LOAD_FAST                1 (led)
+                LOAD_CONST              31 ('books')
+                STORE_SUBSCR
+
+ 738            LOAD_FAST                2 (fwd)
+                LOAD_ATTR               48 (last_decision)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              32 ('book_in_force')
+                STORE_SUBSCR
+
+ 739            LOAD_GLOBAL             51 (_engine_block + NULL)
+                LOAD_FAST                2 (fwd)
+                CALL                     1
+                LOAD_FAST                1 (led)
+                LOAD_CONST              33 ('engine')
+                STORE_SUBSCR
+
+ 740            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST                5 (cls)
+                CALL                     1
+                LOAD_FAST                6 (n_flip)
+                LOAD_CONST              34 (('n_instruments', 'flips_repaired'))
+                BUILD_CONST_KEY_MAP      2
+                LOAD_FAST                1 (led)
+                LOAD_CONST              35 ('panel')
+                STORE_SUBSCR
+
+ 741            LOAD_GLOBAL             27 (save_ledger + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                POP_TOP
+
+ 742            RETURN_CONST            36 (0)
+
+ 744   L23:     LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_ATTR               53 (extend + NULL|self)
+                LOAD_FAST               15 (new_bars)
+                CALL                     1
+                POP_TOP
+
+ 746            LOAD_CONST              37 (1.0)
+                STORE_FAST              17 (peak)
+
+ 747            LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                GET_ITER
+       L24:     FOR_ITER                42 (to L25)
+                STORE_FAST               8 (b)
+
+ 748            LOAD_GLOBAL             17 (max + NULL)
+                LOAD_FAST               17 (peak)
+                LOAD_FAST                8 (b)
+                LOAD_CONST              12 ('nav')
+                BINARY_SUBSCR
+                CALL                     2
+                STORE_FAST              17 (peak)
+
+ 749            LOAD_GLOBAL             55 (round + NULL)
+                LOAD_FAST                8 (b)
+                LOAD_CONST              12 ('nav')
+                BINARY_SUBSCR
+                LOAD_FAST               17 (peak)
+                BINARY_OP               11 (/)
+                LOAD_CONST              37 (1.0)
+                BINARY_OP               10 (-)
+                LOAD_CONST              38 (6)
+                CALL                     2
+                LOAD_FAST                8 (b)
+                LOAD_CONST              39 ('dd')
+                STORE_SUBSCR
+                JUMP_BACKWARD           44 (to L24)
+
+ 747   L25:     END_FOR
+                POP_TOP
+
+ 750            LOAD_GLOBAL             25 (_bench_with_book + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_FAST_LOAD_FAST     71 (dates, seed_bar)
+                CALL                     3
+                LOAD_FAST                1 (led)
+                LOAD_CONST              17 ('benchmark')
+                STORE_SUBSCR
+
+ 751            LOAD_GLOBAL             33 (_attach_sig + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_GLOBAL             35 (significance + NULL)
+                LOAD_FAST_LOAD_FAST     67 (dates, marks)
+                LOAD_GLOBAL             37 (set + NULL)
+                LOAD_FAST                4 (dates)
+                LOAD_CONST               0 (None)
+                LOAD_CONST               0 (None)
+                LOAD_GLOBAL             38 (CONFIG)
+                LOAD_CONST              27 ('rebal')
+                BINARY_SUBSCR
+                BUILD_SLICE              3
+                BINARY_SUBSCR
+                CALL                     1
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                CALL                     1
+                CALL                     4
+                CALL                     2
+                POP_TOP
+
+ 752            LOAD_GLOBAL             47 (_books_after + NULL)
+                LOAD_FAST_LOAD_FAST     33 (fwd, led)
+                LOAD_CONST               7 ('seed')
+                BINARY_SUBSCR
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                CALL                     2
+                LOAD_FAST                1 (led)
+                LOAD_CONST              31 ('books')
+                STORE_SUBSCR
+
+ 753            LOAD_FAST                2 (fwd)
+                LOAD_ATTR               48 (last_decision)
+                LOAD_FAST                1 (led)
+                LOAD_CONST              32 ('book_in_force')
+                STORE_SUBSCR
+
+ 754            LOAD_GLOBAL             51 (_engine_block + NULL)
+                LOAD_FAST                2 (fwd)
+                CALL                     1
+                LOAD_FAST                1 (led)
+                LOAD_CONST              33 ('engine')
+                STORE_SUBSCR
+
+ 755            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST                5 (cls)
+                CALL                     1
+                LOAD_FAST                6 (n_flip)
+                LOAD_CONST              34 (('n_instruments', 'flips_repaired'))
+                BUILD_CONST_KEY_MAP      2
+                LOAD_FAST                1 (led)
+                LOAD_CONST              35 ('panel')
+                STORE_SUBSCR
+
+ 756            LOAD_CONST              25 ('live')
+                LOAD_FAST                1 (led)
+                LOAD_CONST               1 ('status')
+                STORE_SUBSCR
+
+ 757            LOAD_FAST                1 (led)
+                LOAD_ATTR                5 (get + NULL|self)
+                LOAD_CONST              40 ('runs')
+                BUILD_LIST               0
+                CALL                     2
+
+ 758            LOAD_GLOBAL             28 (time)
+                LOAD_ATTR               30 (strftime)
+                PUSH_NULL
+                LOAD_CONST              22 ('%Y-%m-%dT%H:%M:%S%z')
+                CALL                     1
+                LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               15 (new_bars)
+                CALL                     1
+
+ 759            LOAD_FAST               15 (new_bars)
+                LOAD_CONST              18 (-1)
+                BINARY_SUBSCR
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+
+ 757            LOAD_CONST              41 (('ts', 'new_bars', 'last_bar'))
+                BUILD_CONST_KEY_MAP      3
+                BUILD_LIST               1
+                BINARY_OP                0 (+)
+
+ 759            LOAD_GLOBAL             56 (MAX_RUNS)
+                UNARY_NEGATIVE
+                LOAD_CONST               0 (None)
+
+ 757            BINARY_SLICE
+                LOAD_FAST                1 (led)
+                LOAD_CONST              40 ('runs')
+                STORE_SUBSCR
+
+ 760            LOAD_GLOBAL             27 (save_ledger + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                POP_TOP
+
+ 761            LOAD_FAST                1 (led)
+                LOAD_CONST              10 ('bars')
+                BINARY_SUBSCR
+                LOAD_CONST              18 (-1)
+                BINARY_SUBSCR
+                STORE_FAST              18 (tail)
+
+ 762            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_CONST              42 ('APPENDED %d bars -> %s nav=%.4f dd=%.2f%% cash=%.0f%% | %s')
+
+ 763            LOAD_GLOBAL             21 (len + NULL)
+                LOAD_FAST               15 (new_bars)
+                CALL                     1
+                LOAD_FAST               18 (tail)
+                LOAD_CONST               8 ('bar')
+                BINARY_SUBSCR
+                LOAD_FAST               18 (tail)
+                LOAD_CONST              12 ('nav')
+                BINARY_SUBSCR
+                LOAD_FAST               18 (tail)
+                LOAD_CONST              39 ('dd')
+                BINARY_SUBSCR
+                LOAD_CONST              43 (100)
+                BINARY_OP                5 (*)
+                LOAD_FAST               18 (tail)
+                LOAD_CONST              44 ('cash')
+                BINARY_SUBSCR
+                LOAD_CONST              43 (100)
+                BINARY_OP                5 (*)
+
+ 764            LOAD_GLOBAL             41 (_bench_line + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+
+ 763            BUILD_TUPLE              6
+
+ 762            BINARY_OP                6 (%)
+
+ 765            LOAD_CONST               4 (True)
+
+ 762            LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 766            LOAD_GLOBAL              7 (print + NULL)
+                LOAD_GLOBAL             43 (_sig_line + NULL)
+                LOAD_FAST                1 (led)
+                CALL                     1
+                LOAD_CONST               4 (True)
+                LOAD_CONST               5 (('flush',))
+                CALL_KW                  2
+                POP_TOP
+
+ 767            RETURN_CONST            36 (0)
+
+  --   L26:     SWAP                     2
+                POP_TOP
+
+ 690            SWAP                     2
+                STORE_FAST               8 (b)
+                RERAISE                  0
+
+  --   L27:     SWAP                     2
+                POP_TOP
+
+ 709            SWAP                     2
+                STORE_FAST              12 (f)
+                RERAISE                  0
+ExceptionTable:
+  L3 to L6 -> L26 [2]
+  L11 to L13 -> L27 [2]
+  L14 to L16 -> L27 [2]

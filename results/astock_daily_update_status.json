@@ -1,21 +1,17 @@
 {
-  "ts": "2026-10-28T01:31:03",
-  "mode": "refresh in progress (todo=3375/5227, quarantined=5, settled=0)",
+  "ts": "2026-10-28T00:37:04",
+  "mode": "refresh in progress (todo=5223/5227, quarantined=4, settled=0)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-27",
+    "cutoff": "2026-10-26",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 35.3,
+    "coverage_pct": 99.9,
     "coverage_90": "2026-10-26",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
-        "2026-10-27",
-        1847
-      ],
-      [
         "2026-10-26",
-        3368
+        5216
       ],
       [
         "2026-10-23",
@@ -31,6 +27,10 @@
       ],
       [
         "2026-10-12",
+        1
+      ],
+      [
+        "2026-09-10",
         1
       ]
     ],
@@ -49,32 +49,42 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5222,
-    "fetched": 1849,
-    "appended": 1847,
+    "todo": 3,
+    "fetched": 3,
+    "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [
-      "300394:conn:TimeoutError",
-      "300395:conn:TimeoutError",
-      "300396:conn:TimeoutError"
-    ],
-    "failures_n": 3,
-    "conn_stopped": true,
-    "elapsed_min": 119.4,
-    "vwap_anchor_max": 0.131531,
+    "failures_tail": [],
+    "failures_n": 0,
+    "conn_stopped": false,
+    "elapsed_min": 0.2,
+    "vwap_anchor_max": 0.061246,
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-10-28T01:30:58",
-  "settled_n": 0,
-  "settled": [],
-  "per_files_on_disk": 5225,
+  "last_spawn_attempt": "2026-10-28T00:35:49",
+  "settled_n": 7,
+  "settled": [
+    "002717",
+    "002827",
+    "301468",
+    "600621",
+    "601326",
+    "605258",
+    "688496"
+  ],
+  "per_files_on_disk": 5223,
   "validation": {
     "suspended_rows": 0,
-    "bracket_tolerated_rows": 1,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "panel incomplete at cutoff 2026-10-27 (coverage 35.3%, expected 2026-10-27) -> continuation refresh, not a first pull",
-  "spawn_mode": "continuation"
+  "spawn_reason": "panel incomplete at cutoff 2026-10-26 (coverage 99.9%, expected 2026-10-27) -> continuation refresh, not a first pull",
+  "spawn_mode": "continuation",
+  "takeover": {
+    "owner": "bm-b",
+    "by": "bm-c",
+    "reason": "owner bm-b silent 2.3h >= 120min",
+    "ts": "2026-10-28T00:35:49"
+  }
 }

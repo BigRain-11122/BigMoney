@@ -161,6 +161,11 @@
    "ts": "2026-10-27T17:16:50+0800",
    "new_bars": 0,
    "last_bar": "2026-10-27"
+  },
+  {
+   "ts": "2026-10-28T00:20:01+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-27"
   }
  ],
  "panel": {
@@ -229,6 +234,33 @@
    "book_nav": 1.0039951687,
    "basket_nav": 0.9964905156,
    "excess_pp": 0.7531
+  },
+  "significance": {
+   "available": true,
+   "bars_used": 1649,
+   "windows": "2020-01-02..2026-10-27",
+   "daily_vol_pct": 0.54146,
+   "annual_vol_pct": 8.458,
+   "noise_band_pp": {
+    "1m": 4.746,
+    "3m": 8.221,
+    "1y": 16.578,
+    "3y": 28.713
+   },
+   "noise_band_pp_at_published": 1.838,
+   "published_bars": 3,
+   "bars_needed_for_edge": {
+    "3pp/yr": 7758,
+    "5pp/yr": 2793,
+    "10pp/yr": 699
+   },
+   "min_detectable_edge_pp": {
+    "1y": 16.916,
+    "3y": 9.766,
+    "5y": 7.565
+   },
+   "book_cagr_pct_on_same_window": 9.099,
+   "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  }
 }

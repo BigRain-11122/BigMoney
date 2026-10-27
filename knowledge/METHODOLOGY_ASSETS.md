@@ -1272,8 +1272,6 @@ any boolean that answers two questions into two keys.
 Evidence: results/e44_midmonth/EARLYDELAYSCREEN-20261026.json (answers.counts_survive_the_repair now false,
 answers.reading now "the repair reaches the early ladder"), scripts/e39_panel_census.py _twin_survives
 (selftest 353 -> 362/362), research/digests/DIGEST-20261027-e116-earlydelay-screened.md.
-||||||| parent of 8c784e9c0d (round 1311: the staggered arm's intercept clears t=2 where the single sleeve does not, and a GB-named key stops carrying MiB)
-
 
 ## E151 Two arms must be fitted by one code path, and the control arm must be asserted (2026-10-27 r1311 bm-c)
 The staggered ETF book (6+6, second sleeve offset half a rebalance period) was regressed on the same four liquid

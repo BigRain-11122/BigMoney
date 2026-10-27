@@ -74,6 +74,15 @@ LEGS = [
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # r1314: the card and the forward ledger are two independent records of ONE frozen
+    # decision, and nothing compared them. Every leg above refreshes a face; this one asks
+    # whether the paper book actually owns the book the card sells (names, weights, scale,
+    # cash, decision bar), re-derives the ledger's nav from those same weights (1e-10 today,
+    # so a trade the book never published would show), and prices the drift the frozen
+    # decision has accumulated plus what undoing it costs at the next decision. Rides the
+    # chain for the r1257/r1290/r1291/r1293/r1295 reason: a hand-run comparison is a
+    # comparison nobody makes. ~15s on the warmed panel, no network.
+    ("etf_book_card_track", ["python", "scripts/etf_book_card_track.py", "run"]),
     # The width face prices the disagreement BETWEEN those two faces ("what does the
     # ticket's 5 names cost against the card's 12"), and it was hand-run only: r1291 found
     # it sitting on 2026-10-23 while both faces above had moved to 2026-10-26 -- third
@@ -152,6 +161,15 @@ LEGS = [
     # This leg proves the gates are installed and identical to the committed
     # source, so a machine that "has the file" but never installed it shows red.
     ("tree_shrink_gates", ["python", "Tools/tree_shrink_guard.py", "check_gates"]),
+    # r1314: fleet/machine-health.json is written by three machines' oversight task and
+    # read by the panel, and on 2026-10-28 one bad payload became a nesting generator
+    # ({"value": [{"value": [...]}]}) that made build_status fail SOFT -- the panel showed
+    # fewer machines instead of saying UNKNOWN. bm-b landed the reader contract
+    # (Tools/machine_health_face.py) and asserted it in smoke, but a gate nobody runs on
+    # a schedule is a receipt, not a gate: this leg runs that same module's fail-closed
+    # check, so the face is judged every round (smoke only runs when a session runs it).
+    # Read-only, <1s, no network, writes nothing.
+    ("machine_health_face", ["python", "Tools/machine_health_face.py", "check"]),
 ]
 
 

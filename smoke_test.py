@@ -605,7 +605,7 @@ def main() -> int:
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
-                 "etf_paper_signal", "cal_audit"}
+                 "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
@@ -626,6 +626,36 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # r1314: two records of one fact that only a script knew how to compare. The
+    # noise floor lived in a helper and the card/ledger agreement lived in a hand run, so
+    # both could rot while every published face still looked healthy. Assert the two
+    # readings are on the FACES: the ledger carries its own floor, the card-track carries
+    # the agreement verdict.
+    try:
+        _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
+        _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
+        check("product: the forward ledger publishes its own noise floor",
+              bool(_sig.get("available")) and _sig.get("bars_used", 0) > 100
+              and len(_sig.get("bars_needed_for_edge") or {}) >= 2
+              and len(_sig.get("min_detectable_edge_pp") or {}) >= 2,
+              "vol=%s%%/yr bars=%s band@published=%spp" % (
+                  _sig.get("annual_vol_pct"), _sig.get("bars_used"),
+                  _sig.get("noise_band_pp_at_published")))
+    except Exception as e:
+        check("product: the forward ledger publishes its own noise floor", False, str(e))
+    try:
+        _ct = json.load(open("results/etf_book_card_track.json", encoding="utf-8"))
+        _ag = _ct.get("agreement") or {}
+        check("product: the paper book owns the book the card sells",
+              _ct.get("schema") == "etf-book-card-track/v1"
+              and _ag.get("same_decision_bar") is True and _ag.get("agrees") is True
+              and (_ct.get("drift") or {}).get("nav_identity_ok") is True,
+              "agrees=%s decision_bar=%s wt_maxdiff=%s navdev=%s" % (
+                  _ag.get("agrees"), _ag.get("ledger_decided_bar"),
+                  _ag.get("max_weight_diff"),
+                  (_ct.get("drift") or {}).get("nav_identity_max_dev")))
+    except Exception as e:
+        check("product: the paper book owns the book the card sells", False, str(e))
     # The register is the one screen that lists the books side by side. If it names the
     # staggered book but not when that book turns, the reader is back to opening the
     # ledger by hand -- so assert the date reaches the register too (r1304).
@@ -954,6 +984,7 @@ def main() -> int:
         check("fleet: GPU face self-consistent on heartbeat", False, str(e))
         check("fleet: GPU face leg wired into the S6 chain", False, str(e))
 
+
     # fleet/machine-health.json is the face every panel reads for per-machine lane
     # colour, and nothing checked its SHAPE. It had drifted into three shells of
     # {"value": [...]} around hashtable .ToString() strings -- json.load returned a
@@ -995,6 +1026,27 @@ def main() -> int:
                   _dw.returncode == 0, f"rc={_dw.returncode} {_dline[:90]}")
     except Exception as e:
         check("fleet: oversight writer's deployed copy tracks its source", False, str(e))
+    # D-20261028-02's other half: the reader can classify, but the PANEL is what a
+    # person reads. Assert the face's own verdict reached the payload (a row count
+    # cannot tell "three calm machines" from "one readable row and two missing"),
+    # and that the gate rides the chain instead of living in a hand run.
+    try:
+        _bs = json.load(open("results/dashboard_status.json", encoding="utf-8"))
+        _fl = ((_bs.get("data") or {}).get("engine")) or {}
+        _hf = _fl.get("health_face") or {}
+        check("fleet: panel carries the machine-health verdict, not a row count",
+              _hf.get("health_face") in ("ok", "legacy_list")
+              and _hf.get("health_unknown") is False,
+              "face=%s unknown=%s junk=%s" % (_hf.get("health_face"),
+                                              _hf.get("health_unknown"),
+                                              _hf.get("health_face_junk")))
+        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        check("fleet: machine-health gate leg wired into the S6 chain",
+              "machine_health_face" in _legs, f"legs={len(_legs)}")
+    except Exception as e:
+        check("fleet: panel carries the machine-health verdict, not a row count",
+              False, str(e))
+        check("fleet: machine-health gate leg wired into the S6 chain", False, str(e))
 
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,

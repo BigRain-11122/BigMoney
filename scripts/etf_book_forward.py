@@ -57,6 +57,9 @@ OUT_DIR = os.path.join(PATHS.results_dir, "etf_book_forward")
 LEDGER = os.path.join(OUT_DIR, "LEDGER.json")
 DRIFT_TOL = 1e-9
 MAX_RUNS = 40
+BARS_PER_YEAR = 244.0   # the repo's trading-year convention, used everywhere else for CAGR
+T_CRIT = 2.0            # the t a forward spread has to reach before it means anything
+SIG_EDGES = (0.03, 0.05, 0.10)   # candidate edges priced into a bars-needed table
 CONFIG = {
     "n_hold": 12,
     "rebal": 20,
@@ -384,6 +387,114 @@ def _excess(book_nav, bench_nav):
     return book_nav / bench_nav - 1.0
 
 
+def excess_series(dates, marks, rebal_days):
+    """Daily book-minus-basket returns across the WHOLE grid.
+
+    The published marks are a prefix of this series, so its dispersion is the only
+    defensible prior for "how big must the spread be before it means anything" while
+    the ledger itself still holds a handful of bars. Dispersion measured off three
+    forward bars would be noise wearing a number.
+    """
+    first = str(dates[0].date())
+    book = _indexed(marks, first)
+    bench = {b["bar"]: b["nav"] for b in bench_block(dates, rebal_days, first)["bars"]}
+    out, prev = [], None
+    for b in book:
+        bn = bench.get(b["bar"])
+        if bn is None or not np.isfinite(bn) or bn <= 0:
+            continue
+        cur = (b["nav"], float(bn))
+        if prev is not None and prev[0] > 0 and prev[1] > 0:
+            out.append(cur[0] / prev[0] / (cur[1] / prev[1]) - 1.0)
+        prev = cur
+    return out
+
+
+def significance(dates, marks, rebal_days, n_published, edges=SIG_EDGES):
+    """How many bars before the published spread could mean anything.
+
+    A spread with no noise floor gets read as an edge, and the first forward reading was
+    +0.75pp over three bars. This block prices the floor from the parent series (the whole
+    grid's excess dispersion), never from the published prefix -- a one-bar ledger would
+    otherwise publish a zero-width band and call everything significant. Three identities:
+
+      bars needed for a t=2 test of an edge E      N = (T*BARS_PER_YEAR*sd / E)**2
+      95% band of a spread accumulated over n bars 1.96 * sd * sqrt(n)
+      smallest edge visible inside a fixed horizon E = T*BARS_PER_YEAR*sd / sqrt(N)
+
+    The last one is the reading a holder needs: inside a horizon they actually keep, what
+    is the smallest edge this series could resolve at all.
+    """
+    ex = np.asarray(excess_series(dates, marks, rebal_days), dtype=float)
+    if len(ex) < 3 or not np.all(np.isfinite(ex)):
+        return {"available": False, "reason": "excess series too short or non-finite",
+                "bars_used": int(len(ex))}
+    sd = float(np.std(ex, ddof=1))
+    if not np.isfinite(sd) or sd <= 0:
+        return {"available": False, "reason": "zero dispersion", "bars_used": int(len(ex))}
+    ann = sd * np.sqrt(BARS_PER_YEAR)
+    need = {}
+    for e in edges:
+        need["%gpp/yr" % (e * 100)] = int(np.ceil((T_CRIT * BARS_PER_YEAR * sd / e) ** 2))
+    band = {}
+    for label, n in (("1m", 20), ("3m", 60), ("1y", 244), ("3y", 732)):
+        band[label] = round(1.96 * sd * np.sqrt(n) * 100, 3)
+    detectable = {}
+    for label, n in (("1y", 244), ("3y", 732), ("5y", 1220)):
+        detectable[label] = round(T_CRIT * BARS_PER_YEAR * sd / np.sqrt(n) * 100, 3)
+    book_all = _indexed(marks, str(dates[0].date()))
+    n_bars = len(book_all)
+    hist = None
+    if n_bars:
+        g = book_all[-1]["nav"] / book_all[0]["nav"]
+        if np.isfinite(g) and g > 0:
+            hist = round((g ** (BARS_PER_YEAR / n_bars) - 1.0) * 100, 3)
+    return {
+        "available": True,
+        "bars_used": int(len(ex)),
+        "windows": ("%s..%s" % (book_all[0]["bar"], book_all[-1]["bar"])) if n_bars else "",
+        "daily_vol_pct": round(sd * 100, 5),
+        "annual_vol_pct": round(ann * 100, 3),
+        "noise_band_pp": band,
+        "noise_band_pp_at_published": round(1.96 * sd * np.sqrt(max(n_published, 1)) * 100, 3),
+        "published_bars": int(n_published),
+        "bars_needed_for_edge": need,
+        "min_detectable_edge_pp": detectable,
+        "book_cagr_pct_on_same_window": hist,
+        "read": ("a spread smaller than the band at the bar count it was measured over is "
+                 "indistinguishable from noise; the band shrinks as sqrt(bars), not faster"),
+    }
+
+
+def _sig_line(led):
+    """The line that stops a 3-bar spread from being read as an edge."""
+    sig = (led.get("benchmark") or {}).get("significance") or {}
+    if not sig.get("available"):
+        return "SIGNIFICANCE: unavailable (%s)" % (sig.get("reason") or "no block")
+    need = sig.get("bars_needed_for_edge") or {}
+    want = ", ".join("%s %d bars" % (k, v) for k, v in need.items())
+    det = sig.get("min_detectable_edge_pp") or {}
+    det_txt = ("; smallest edge visible inside %s" %
+               ", ".join("%s %.1fpp/yr" % (k, v) for k, v in det.items())) if det else ""
+    latest = (led.get("benchmark") or {}).get("latest") or {}
+    return ("SIGNIFICANCE: excess vol %.2f%%/yr over %d bars (%s) -> %s at t=2%s; "
+            "this ledger's %d bars carry a +-%.2fpp band, published spread %spp" % (
+                sig.get("annual_vol_pct") if sig.get("annual_vol_pct") else float("nan"),
+                sig.get("bars_used"),
+                sig.get("windows"),
+                want, det_txt,
+                sig.get("published_bars") or 0,
+                sig.get("noise_band_pp_at_published")
+                if sig.get("noise_band_pp_at_published") else float("nan"),
+                latest.get("excess_pp") if latest.get("excess_pp") is not None else "n/a"))
+
+
+def _attach_sig(led, sig):
+    if led.get("benchmark") is not None:
+        led["benchmark"]["significance"] = sig
+    return led
+
+
 def bench_drift(published, fresh, tol=DRIFT_TOL):
     """Faces of the published benchmark block that no longer re-derive."""
     if not published:
@@ -621,8 +732,11 @@ def run(rebase=False):
     if not new_bars:
         headed = led["bars"][-1] if led["bars"] else {}
         led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
+        _attach_sig(led, significance(dates, marks, set(dates[::CONFIG["rebal"]]),
+                                      len(led["bars"])))
         print("NO-OP last_bar=%s nav=%s (no new panel bars) | %s" %
               (headed.get("bar"), headed.get("nav"), _bench_line(led)), flush=True)
+        print(_sig_line(led), flush=True)
         _noop_stub(led, headed)
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
@@ -638,6 +752,8 @@ def run(rebase=False):
         peak = max(peak, b["nav"])
         b["dd"] = round(b["nav"] / peak - 1.0, 6)
     led["benchmark"] = _bench_with_book(led["bars"], dates, seed_bar)
+    _attach_sig(led, significance(dates, marks, set(dates[::CONFIG["rebal"]]),
+                                  len(led["bars"])))
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
     led["engine"] = _engine_block(fwd)
@@ -652,6 +768,7 @@ def run(rebase=False):
           (len(new_bars), tail["bar"], tail["nav"], tail["dd"] * 100, tail["cash"] * 100,
            _bench_line(led)),
           flush=True)
+    print(_sig_line(led), flush=True)
     return 0
 
 
@@ -1040,6 +1157,49 @@ def selftest():
         wired["latest"] is not None and wired["latest"].get("excess_pp") is not None
         and all("excess" in b for b in wired["bars"]),
         "latest=%s" % json.dumps(wired["latest"]))
+
+    # --- significance: the noise floor a spread has to clear (r1314) --------------
+    sig = significance(dates, marks0, set(dates[::CONFIG["rebal"]]), 3)
+    chk("the significance floor is measured off the parent series, not the published prefix",
+        sig.get("available") and sig["bars_used"] > 100 and sig["published_bars"] == 3,
+        "bars_used=%s published=%s" % (sig.get("bars_used"), sig.get("published_bars")))
+    sd = (sig["daily_vol_pct"] / 100.0) if sig.get("available") else 0.0
+    chk("the published band is the 95% identity at the bar count it was measured over",
+        sig.get("available") and abs(sig["noise_band_pp_at_published"] -
+                                     1.96 * sd * np.sqrt(3) * 100) < 5e-3,
+        "band=%.3fpp" % (sig.get("noise_band_pp_at_published") or float("nan")))
+    b = sig.get("noise_band_pp") or {}
+    chk("the band shrinks as sqrt(bars), not faster",
+        b.get("3y") and b.get("3m") and
+        abs((b["3y"] / b["3m"]) / np.sqrt(732.0 / 60.0) - 1.0) < 1e-3,
+        "3y/3m=%.3f vs sqrt(12.2)=%.3f" % (b.get("3y", 0) / b["3m"], np.sqrt(732 / 60.0))
+        if b.get("3m") else "no band")
+    need = sig.get("bars_needed_for_edge") or {}
+    tres = []
+    for lbl, n in need.items():
+        e = float(lbl.replace("pp/yr", "")) / 100.0
+        tres.append(T_CRIT * BARS_PER_YEAR * sd / (np.sqrt(n) * e))
+    chk("bars_needed is the t=2 identity, and it rounds up not down",
+        len(tres) == len(SIG_EDGES) and all(0.999 <= t < 1.02 for t in tres),
+        "t=%s" % ",".join("%.4f" % t for t in tres))
+    det = sig.get("min_detectable_edge_pp") or {}
+    chk("the inverted reading is the same identity solved for edge, not a new fit",
+        det.get("1y") and abs(det["1y"] / 100 - T_CRIT * BARS_PER_YEAR * sd / np.sqrt(244)) < 1e-2,
+        "1y=%.1fpp/yr" % (det.get("1y") or 0))
+    led_real = load_ledger() or {}
+    spread = ((led_real.get("benchmark") or {}).get("latest") or {}).get("excess_pp")
+    band_pub = ((led_real.get("benchmark") or {}).get("significance") or {}).get(
+        "noise_band_pp_at_published")
+    chk("the published line carries the floor beside the spread, not the spread alone",
+        spread is None or (band_pub is not None and abs(spread) < band_pub
+                           and "band" in _sig_line(led_real) and
+                           ("%.2fpp" % band_pub) in _sig_line(led_real)),
+        "spread=%s band=%s" % (spread, band_pub))
+    chk("a shorter-than-two-bar excess series publishes unavailable, not a zero-width band",
+        significance(dates, marks0, set(dates[::CONFIG["rebal"]]), 3)["available"] is True
+        and significance(dates, marks0[-1:], set(dates[::CONFIG["rebal"]]), 1)
+        .get("available") is False,
+        "guard leg")
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
