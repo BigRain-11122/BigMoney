@@ -77,6 +77,7 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
+ "last_round": 1185,
  "last_round_at": "2026-10-27T17:31:00+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md (r1182 row)",
  "last_round_ts": "2026-10-27T17:31:00+08:00",
@@ -592,12 +593,95 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
+ "r1182_note": "E115 face results/e44_midmonth/CHASESCREEN-20261026.json: 95 cells, repair moves 5 (all bucket forward returns, max +0.166pp; every count and share identical), refresh moves 16 (worst = a count, entrant_slots +6, universe 1265->1271). Identity 0/95, coverage 0 one-sided / 0 null.",
+ "r1182_pit": "E97 TWIN_FUNCS is a hand-maintained registry, so E112-E115 twins were invisible to the routing table while their faces sat on disk; and a harvest written for eras[era] against a face that publishes eras[calendar][era] returned 15 of 95 cells and printed a green \"0 of 7 moved\". Assert joined cell count against the routing census for that runner, never against zero.",
+ "r1183": {
+  "card": "E150",
+  "d19": "dec=same ord=same delta=none phantom=none",
+  "digest": "research/digests/DIGEST-20261027-e116-earlydelay-screened.md",
+  "legs": "scripts/e39_panel_census.py earlydelayscreen (+ raw= seam on run_earlydelay)",
+  "pool": "E116 done + result_ref, E117-PANELSPLIT-SCREENED-TWIN seeded open",
+  "product": "results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
+  "push": {
+   "behind_origin_main": 0,
+   "note": "first push attempt hung on the promisor lazy fetch and was auto-cancelled after 5 min with zero residue (no index.lock; origin had advanced to de3d68d85 = bm-c r1310 while the push sat silent). rebase --autostash then stalled in the r1032 'nothing done, editing a commit' state -> rebase --quit + cherry-pick onto the origin tip (the r1032 pattern). 12 conflicts: 7 derived faces (daily_report 2, live_usage 4, attrition_scan, compute_audit, b_layer_filter, regime_state, update_status) restored origin-verbatim, and knowledge/METHODOLOGY_ASSETS.md as a UNION -- bm-c r1310 had published its own E149 in the same window, so this round's card yielded and was renumbered E150 in the card, state, heartbeat and round report (both kept). Four-way verified: HEAD == origin/main == f86d9e14b, behind=0 ahead=0, ls-tree origin carries EARLYDELAYSCREEN-20261026.json (blob 7927cb20) and the E116 digest (blob c42f4357).",
+   "pushed_sha": "f86d9e14b",
+   "status": "PUSHED_VERIFIED",
+   "ts": "2026-10-27T16:57:48+08:00"
+  },
+  "s6": "38/38 legs rc0, non-zero: none",
+  "selftest": "e39 353 -> 362/362, e97 15/15",
+  "smoke": "91/91 PASS (final re-run; 90/90 on the pre-fix run)"
+ },
+ "r1184_card": "E153 (yielded from E151: bm-c published E151 'two arms fitted by one code path' and E152 in the same window; both kept, mine renumbered across card / state / heartbeat / round report)",
+ "r1184_card_yield": true,
+ "r1184_note": "E117: the twin whose subject IS the repair. The rule kept: split count columns from value columns in answers, because a count delta here is the repair working, not instability. Derived-denominator trap disclosed (by_era years measured between surviving events -> bp_per_year inherits it). D-20261027-08 verified already executed (CODELY.md LF 81 / PUA 0 / 48048B); D-20261027-09/11/12/13 are HQ-owned, no action here. Group orders OB-20261027-170356-791 / -170546-497 (fleet order-bus): cph4/fleet/order-bus does not exist at origin -> zero bus items to self-claim this round, re-checked each round once the bus materialises",
+ "r1184_pit": "state.json and fleet/machines/bm-b.json came back CRLF from a tool write (core.autocrlf=false here): normalize to LF before staging or a 17-line edit reads as a 1018-line rewrite",
+ "r1185": {
+  "d19": "dec=DELTA->same/repro@1e87fbf ord=DELTA->same/repro@1e87fbf, advanced on 3 new decision rows + 1 new order row",
+  "fix": "1 leg pair in Tools/gpu_face.py selftest: L3e the residue is caught by audit(); L3f one probe heals it -- fields_from covers the key even though restate() skips anything already in fields. Then python Tools/gpu_face.py apply on the live face: 23 keys replaced + gpu_vram_free_gb rewritten, audit findings [] (29 gpu keys).",
+  "group_rows_consumed": "D-20261027-14 (five-company read; bigmoney 当日零新行 -> no action), D-20261027-15 (ledger split, HQ-owned), D-20261027-16 (machine-state.ps1 now declares the quant family 8 tasks so the 19:00 resume revives them -- HQ-owned, verification point 19:07, this lane owes nothing), OB row 17:3x CEO-PROXY (bm-b 8-day zero-claim RCA = no production claim task on this machine; ours is the S8 registry lane, which was not starved this round)",
+  "law": "a unit-naming fix must ship with the face heal: the code path stops writing the bad number, but the number already written only clears if a probe runs on the same round. Sibling: this is why the residue leg belongs in selftest next to the writer leg -- L3c proved the writer, which was already true at 17:41, while the face was still red.",
+  "not_run": "heavy S6 pandas chain (previous round ran 50 legs rc0 at 11:50); E118 staletail twin left ready for the next round per the S1 sole-mission rule",
+  "product": "Tools/gpu_face.py (33/33 selftest) + healed fleet/machines/bm-b.json GPU face",
+  "red_at_open": "fleet: GPU face self-consistent on heartbeat | family=free spread_mib=3828066 high=gpu_vram_free_gb low=gpu_free_mib n_keys=17",
+  "root_cause": "not the writer -- the VALUES. bm-c r1311 fixed key_unit() so a GB-named key is written in GB (bedf2e9e4, 17:40), but this face had already been stamped at 17:38:31 under the old rule, and a merge-only face is never revisited unless a probe runs. gpu_vram_free_gb sat at 3742 (=MiB free) beside gpu_free_mib=3742, so any reader trusting the name read '3742 GB free'.",
+  "s6": "not run this round (S1 sole mission = red fix; D-19 + attrition + orphan ran separately)"
+ },
+ "r1186": {
+  "attrition": "CLEAN (4 ledgers, 3 healed historical shrinks)",
+  "d19": "ord DELTA consumed (new OB rows 17:03/17:05/17:3x/18:2x) -> advanced; dec same",
+  "fixes": [
+   "pool mode emits a claim-INTENT receipt and never writes POOL.json (pool law: transitions are proxy-written); blocked_by gate holds any card whose block is not 'no-claim-task:<node>' so POOL-0020's receipt-owed stayed visible instead of being buried by a claim",
+   "offset gate: transient probe failure or precision >150ms carries the last TRUSTED reading with its age, publishes clock_offset_trusted/clock_offset_age_s, and never writes a null (a null is read as the OLD schema by fleet-clock-report -> permanent CLOCK-UNALIGNED on a healthy node)"
+  ],
+  "left_to_proxy": [
+   "POOL.json: clear blocked_by=no-claim-task:bm-b on POOL-0018/0019 and close POOL-0020 (blocked_by receipt-owed now satisfied) - proxy-writer law, this machine must not write POOL.json",
+   "CLOCK-SKEW.json old_schema drops to 0 only once bm-c also upgrades"
+  ],
+  "measurements": {
+   "clock_offset_samples_ms": [
+    16.1,
+    203.5,
+    -114.0,
+    93.3,
+    152.9
+   ],
+   "clock_precision_ms": [
+    397.0,
+    248.4,
+    528.2,
+    322.8
+   ],
+   "po20": "power.limit 239.80W / max 240.00W; *PowerCap* tasks 0; plan b58dc5dd (Ultimate); Kernel-Power 41 since 2026-10-14 = 0; WHEA all 2026-08 (pre-swap)",
+   "reading": "point estimates scatter as much as the quoted precision on the relayed Tailscale path, so a 1ms claim is not available on this machine; the face now says clock_offset_trusted=false instead of implying accuracy"
+  },
+  "not_run": "heavy S6 pandas chain; E118 staletail twin still open in results/runnable_pool.json",
+  "order": "OB-20261027-182254-574 (CEO-PROXY 18:22, lane bm-b, receipt window 2026-10-28 08:43)",
+  "orphan": 0,
+  "pool": "POOL-0018 claimed (intent); POOL-0019 next; POOL-0020 receipt filed, awaiting proxy closure",
+  "product": [
+   "group origin 995047d5: Tools/queue_claim.py --pool/--pool-list/--pool-republish/--pool-selftest",
+   "group origin 995047d5: Tools/hq-production-claim.bat + HQ-ProductionClaim task (every:5m, S4U, InvisibleRunner)",
+   "group origin 1eb208ba: Tools/nats/nats-heartbeat.ps1 offset quality gate (no null, no noisy point)",
+   "group origin 995047d5: cph4/fleet/queue-receipts/POOL-0018-bm-b.json (claim intent, face=origin) + POOL-0020-bm-b.json + POOL-0020-RECEIPT-bm-b.md",
+   "group origin 995047d5: cph4/fleet/order-bus/receipts/OB-20261027-182254-574-bm-b.json"
+  ],
+  "root_causes": [
+   "claim: queue_claim.py only read cph4/fleet/PRODUCTION-QUEUE.jsonl, so every numbered card in cph4/fleet/dispatcher/POOL.json was unclaimable by ANY machine - POOL-0018/0019 were RE-OFFERED for 8 days with no tool that could claim them",
+   "clock: FluxGroup-NatsHB pointed at the legacy root C:\\Fluxgroup\\Tools\\nats\\nats-heartbeat.ps1 (3515-byte pre-v2 script) under InteractiveToken, and its own log carried hb-server-unreachable/hb-kvput-fail - the KV key aged out and every audit read v1"
+  ],
+  "s6": "not run (S3 ordering: CEO immediate order first; previous full chain ran 51 legs rc0 at 11:50)",
+  "selftest": "queue_claim --pool-selftest 9/9 PASS (one leg caught its own wrong expected order)",
+  "smoke": "91/91 PASS (also re-run after the heartbeat stamp)"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1185,
- "round_no": 1185,
- "round_no_label": "r1185",
+ "round": 1186,
+ "round_no": 1186,
+ "round_no_label": "r1186",
+ "round_no_ts": "2026-10-27T19:08:03+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
   "checked_at": "2026-10-27T12:06:00+08:00",
@@ -607,53 +691,16 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "r1177 closeout commit",
+  "note": "r1186 closeout commit",
   "pushed_sha": "",
   "status": "PENDING",
-  "ts": "2026-10-27T12:06:00+08:00"
+  "ts": "2026-10-27T19:08:03+08:00"
  },
- "task": "r1185 smoke red: GPU face carried a GB-named MiB residue",
- "task_short": "GPU face residue heal",
+ "task": "OB-20261027-182254-574: production claim loop + heartbeat v2 + POOL-0020 receipt",
+ "task_short": "bm-b structural clearing (claim task / clock v2)",
  "task_short_note": "repair factor 1/(1+r)",
- "ts": "2026-10-27T18:21:15+08:00",
- "updated": "2026-10-27T18:21:15+08:00",
- "updated_at": "2026-10-27T18:21:15+08:00",
- "verdict": "smoke 90/91 -> 91/91 (red closed: GPU face self-consistent); gpu_face selftest 30 -> 33/33; D-19 DELTA consumed and advanced (dec/ord both); orphan 0; attrition CLEAN; watermark red=false lane healthy; orders 0 unacked; sat engine alive; idle green_idle then cleared by --worked",
- "r1182_note": "E115 face results/e44_midmonth/CHASESCREEN-20261026.json: 95 cells, repair moves 5 (all bucket forward returns, max +0.166pp; every count and share identical), refresh moves 16 (worst = a count, entrant_slots +6, universe 1265->1271). Identity 0/95, coverage 0 one-sided / 0 null.",
- "r1182_pit": "E97 TWIN_FUNCS is a hand-maintained registry, so E112-E115 twins were invisible to the routing table while their faces sat on disk; and a harvest written for eras[era] against a face that publishes eras[calendar][era] returned 15 of 95 cells and printed a green \"0 of 7 moved\". Assert joined cell count against the routing census for that runner, never against zero.",
- "last_round": 1182,
- "round_no_ts": "2026-10-27T18:21:15+08:00",
- "r1183": {
-  "product": "results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
-  "legs": "scripts/e39_panel_census.py earlydelayscreen (+ raw= seam on run_earlydelay)",
-  "selftest": "e39 353 -> 362/362, e97 15/15",
-  "smoke": "91/91 PASS (final re-run; 90/90 on the pre-fix run)",
-  "s6": "38/38 legs rc0, non-zero: none",
-  "d19": "dec=same ord=same delta=none phantom=none",
-  "pool": "E116 done + result_ref, E117-PANELSPLIT-SCREENED-TWIN seeded open",
-  "card": "E150",
-  "digest": "research/digests/DIGEST-20261027-e116-earlydelay-screened.md",
-  "push": {
-   "status": "PUSHED_VERIFIED",
-   "pushed_sha": "f86d9e14b",
-   "behind_origin_main": 0,
-   "note": "first push attempt hung on the promisor lazy fetch and was auto-cancelled after 5 min with zero residue (no index.lock; origin had advanced to de3d68d85 = bm-c r1310 while the push sat silent). rebase --autostash then stalled in the r1032 'nothing done, editing a commit' state -> rebase --quit + cherry-pick onto the origin tip (the r1032 pattern). 12 conflicts: 7 derived faces (daily_report 2, live_usage 4, attrition_scan, compute_audit, b_layer_filter, regime_state, update_status) restored origin-verbatim, and knowledge/METHODOLOGY_ASSETS.md as a UNION -- bm-c r1310 had published its own E149 in the same window, so this round's card yielded and was renumbered E150 in the card, state, heartbeat and round report (both kept). Four-way verified: HEAD == origin/main == f86d9e14b, behind=0 ahead=0, ls-tree origin carries EARLYDELAYSCREEN-20261026.json (blob 7927cb20) and the E116 digest (blob c42f4357).",
-   "ts": "2026-10-27T16:57:48+08:00"
-  }
- },
- "r1184_note": "E117: the twin whose subject IS the repair. The rule kept: split count columns from value columns in answers, because a count delta here is the repair working, not instability. Derived-denominator trap disclosed (by_era years measured between surviving events -> bp_per_year inherits it). D-20261027-08 verified already executed (CODELY.md LF 81 / PUA 0 / 48048B); D-20261027-09/11/12/13 are HQ-owned, no action here. Group orders OB-20261027-170356-791 / -170546-497 (fleet order-bus): cph4/fleet/order-bus does not exist at origin -> zero bus items to self-claim this round, re-checked each round once the bus materialises",
- "r1184_pit": "state.json and fleet/machines/bm-b.json came back CRLF from a tool write (core.autocrlf=false here): normalize to LF before staging or a 17-line edit reads as a 1018-line rewrite",
- "r1184_card": "E153 (yielded from E151: bm-c published E151 'two arms fitted by one code path' and E152 in the same window; both kept, mine renumbered across card / state / heartbeat / round report)",
- "r1184_card_yield": true,
- "r1185": {
-  "red_at_open": "fleet: GPU face self-consistent on heartbeat | family=free spread_mib=3828066 high=gpu_vram_free_gb low=gpu_free_mib n_keys=17",
-  "root_cause": "not the writer -- the VALUES. bm-c r1311 fixed key_unit() so a GB-named key is written in GB (bedf2e9e4, 17:40), but this face had already been stamped at 17:38:31 under the old rule, and a merge-only face is never revisited unless a probe runs. gpu_vram_free_gb sat at 3742 (=MiB free) beside gpu_free_mib=3742, so any reader trusting the name read '3742 GB free'.",
-  "fix": "1 leg pair in Tools/gpu_face.py selftest: L3e the residue is caught by audit(); L3f one probe heals it -- fields_from covers the key even though restate() skips anything already in fields. Then python Tools/gpu_face.py apply on the live face: 23 keys replaced + gpu_vram_free_gb rewritten, audit findings [] (29 gpu keys).",
-  "law": "a unit-naming fix must ship with the face heal: the code path stops writing the bad number, but the number already written only clears if a probe runs on the same round. Sibling: this is why the residue leg belongs in selftest next to the writer leg -- L3c proved the writer, which was already true at 17:41, while the face was still red.",
-  "product": "Tools/gpu_face.py (33/33 selftest) + healed fleet/machines/bm-b.json GPU face",
-  "d19": "dec=DELTA->same/repro@1e87fbf ord=DELTA->same/repro@1e87fbf, advanced on 3 new decision rows + 1 new order row",
-  "group_rows_consumed": "D-20261027-14 (five-company read; bigmoney 当日零新行 -> no action), D-20261027-15 (ledger split, HQ-owned), D-20261027-16 (machine-state.ps1 now declares the quant family 8 tasks so the 19:00 resume revives them -- HQ-owned, verification point 19:07, this lane owes nothing), OB row 17:3x CEO-PROXY (bm-b 8-day zero-claim RCA = no production claim task on this machine; ours is the S8 registry lane, which was not starved this round)",
-  "not_run": "heavy S6 pandas chain (previous round ran 50 legs rc0 at 11:50); E118 staletail twin left ready for the next round per the S1 sole-mission rule",
-  "s6": "not run this round (S1 sole mission = red fix; D-19 + attrition + orphan ran separately)"
- }
+ "ts": "2026-10-27T19:08:03+08:00",
+ "updated": "2026-10-27T19:08:03+08:00",
+ "updated_at": "2026-10-27T19:08:03+08:00",
+ "verdict": "productive: registered HQ-ProductionClaim (every:5m, S4U) after discovering queue_claim.py had no --pool path at all (the real 8-day root cause, not machine laziness); repointed FluxGroup-NatsHB off the legacy C:\\Fluxgroup tree onto the current one -> state.bm-b now carries ts_utc_ms/seq/clock_offset_ms/clock_rtt_ms; closed the 12-day POOL-0020 receipt debt with live evidence; smoke 91/91"
 }
