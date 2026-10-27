@@ -22073,14 +22073,21 @@
   },
   {
    "id": "E119-ENTRYDELAY-SCREENED-TWIN",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "target": "scripts/e39_panel_census.py",
    "title": "E97 ranking after E118: run_entrydelay is now the largest uncovered runner (223 numbers, one mode). It is the first twin that cannot simply reuse an existing raw= seam -- run_entrydelay delegates to run_midsweep and republishes its me_lagK arms, so the seam has to be threaded through BOTH (midsweep takes raw=, entrydelay passes it), and the join must harvest the delay rows plus the underlying midsweep gaps so a moved arm is attributable to the repair rather than to the delegating layer. The published question is 'is the off-cycle penalty the calendar or being late', read on a repaired panel: a repair that changes which name is picked on a delayed decision date changes the lag ladder itself, so the monotonicity of the lag ladder (does each extra k sessions still cost more?) is the reading to publish beside the moved-cell count.",
    "deliverable": "results/e44_midmonth/ENTRYDELAYSCREEN-<cutoff>.json",
    "source": "results/e79/ROUTING-20261027.json ranking after E118 (charged=25 covered_twin=14 uncovered=10 runners=7); scripts/e39_panel_census.py run_entrydelay -> run_midsweep delegation; E112-E118 twin machinery (_burnin_pair_rows + per-arm checkpoint + same-arm control + cutoff control)",
    "seeded_at": "2026-10-27T20:35:00+08:00",
-   "seeded_by": "bm-b r1189"
+   "seeded_by": "bm-b r1189",
+   "lane_owner": "bm-b",
+   "claimed_at": "2026-10-27T21:13:01+08:00",
+   "owner": "bm-b",
+   "completed_at": "2026-10-27T21:21:18+08:00",
+   "completed_by": "bm-b",
+   "result_ref": "results/e44_midmonth/ENTRYDELAYSCREEN-20261027.json",
+   "result_note": "93 cells, 50 moved (12 copy / 13 source / 18 book / 7 answers, 0 other), max 15.0bp (gap/me_lag10/era/2021_2023 -74.0 -> -59.0); same-arm control 0; copy==source on both arms so the delegation invariant holds; cutoff control ENTRYDELAY-20261020 vs today raw moved 39 cells max 6.0bp -- the repair dominates the cutoff axis here, the reverse of E118. Ladder shape: raw newest era monotone (-42/-74/-73/-90), screened non_monotone (-41/-70/-64/-85) -- levels survive (all rungs negative, span -48 -> -44), the 'each extra session costs more' claim does not, because the repair improves lag5 by 9bp and is not proportional in k. Full window is non_monotone on BOTH arms (lag3 relief). 2021_2023 lag3 gap is positive on both arms (+23/+21)."
   },
   {
    "id": "E120-NEIGHBORHOOD-SCREENED-TWIN",
@@ -22117,6 +22124,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T20:40:00+08:00",
+ "updated_at": "2026-10-27T21:21:18+08:00",
  "version": 1
 }

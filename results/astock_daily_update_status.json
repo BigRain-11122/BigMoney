@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-27T20:28:16",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-10-27T21:15:28",
+  "mode": "refresh in progress (todo=5222/5227, quarantined=5, settled=0)",
   "panel": {
-    "complete": true,
+    "complete": false,
     "cutoff": "2026-10-26",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
     "coverage_pct": 99.8,
@@ -62,7 +62,7 @@
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-10-27T13:17:43",
+  "last_spawn_attempt": "2026-10-27T21:15:25",
   "settled_n": 7,
   "settled": [
     "002717",
@@ -79,5 +79,6 @@
     "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "no_op_reason": "panel fresh (cutoff 2026-10-26 >= expected 2026-10-26)"
+  "spawn_reason": "panel lags expected bar date (2026-10-26 < 2026-10-27)",
+  "spawn_mode": "continuation"
 }

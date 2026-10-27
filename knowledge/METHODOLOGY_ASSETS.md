@@ -1413,3 +1413,35 @@ edits the wide book's members' returns, not the exiting name's.
    difference a repair effect.
 Evidence: results/e44_midmonth/STALETAILSCREEN-20261027.json, scripts/e39_panel_census.py run_staletailscreen
 (selftest 362 -> 380), scripts/e97_routing.py TWIN_FUNCS (covered 13 -> 14), research/digests/DIGEST-20261027-e118-staletail-screened.md.
+
+## E157 A delegating runner's twin must split the copy from the source -- and check the copy invariant on each arm (2026-10-27 r1190 bm-b)
+
+Some census runners measure nothing themselves: `run_entrydelay` calls `run_midsweep` and
+republishes that face's `me_lagK` arms. On such a face every delta has two possible owners,
+so a twin that harvests only the republished rows cannot tell a repair effect from a
+delegating-layer defect. Three rules carried out of E119:
+
+1) Harvest both layers and name the owner. The join covers the copy (`delay/...`) and the
+   arm it was copied from (`gap/...`) separately; the published `delegation_attribution`
+   picks one of "both layers moved", "copy only", "source only", "neither", in that order.
+   On this face both moved (12 copy / 13 source), i.e. the ladder itself changed -- a
+   copy-only reading would have been a bug report, not a finding.
+2) Check the copy invariant BEFORE reading any delta. `_entrydelay_copy_mismatch` asserts
+   the republished row equals its source on each arm independently. A face whose copy
+   disagrees with its own arm is joining the wrong layer and no delta from it is readable.
+   This is cheap, deterministic, and the only thing the delegation adds.
+3) Thread the seam through every layer. `raw=` had to be added to `run_entrydelay` AND
+   already existed on `run_midsweep`; a seam that stops at the outer function would burn
+   both arms off the same universe and report a beautiful zero.
+
+Sibling finding worth keeping: **the repair dominated the cutoff axis here** (15.0 vs 6.0 bp
+max) whereas on E118 the cutoff was an order of magnitude larger than the repair. Same
+family, opposite conclusion -- each face carries its own controls instead of inheriting a
+house rule. And shape claims are fragile in a way level claims are not: all four newest-era
+rungs stayed negative after the repair (levels survive) while a 9 bp improvement at one rung
+flipped monotone to non-monotone (shape does not), because the repair was not proportional
+in k.
+
+Evidence: results/e44_midmonth/ENTRYDELAYSCREEN-20261027.json, scripts/e39_panel_census.py
+run_entrydelayscreen / _entrydelay_arm_cells / _lag_ladder_read / _delegation_attribution
+(selftest 380 -> 393), research/digests/DIGEST-20261027-e119-entrydelay-twin.md.

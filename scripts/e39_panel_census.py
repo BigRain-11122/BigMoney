@@ -5332,7 +5332,7 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
 # --------------------------------- leg: delay the month-end decision (E65)
 
 def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                   lags=(1, 3, 5, 10), costs=(1.0,)):
+                   lags=(1, 3, 5, 10), costs=(1.0,), raw=None):
     """E65: is the off-cycle penalty the calendar, or simply being late?
 
     E59/E63 showed every off-cycle date loses 60-90bp and that the fee cannot
@@ -5342,9 +5342,12 @@ def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     as well as the entry, so the delayed book is re-ranked on the delayed date:
     this prices "decided and bought k sessions later", not "the same names
     bought later".
+    ``raw`` (E119) is the screened-twin seam: this leg delegates to
+    ``run_midsweep``, so a repaired universe has to be threaded through both
+    layers -- handed in here and passed down one level unchanged.
     """
     face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
-                        days=(), costs=costs, lags=tuple(lags))
+                        days=(), costs=costs, lags=tuple(lags), raw=raw)
     rows = {}
     for k in lags:
         lab = "me_lag%d" % k
@@ -6993,6 +6996,364 @@ def run_staletailscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511
             "E97 counts the published numbers of this runner; the join covers the "
             "tail/era/answers cells and the top artefact print, not the full "
             "event list or the skipped-block counters",
+        ],
+    }
+
+
+# ------------------------------------------ E119 entry-delay screened twin
+
+def _entrydelay_arm_cells(face, starts=None):
+    """(E119) -> {(key, column): value} for every cell the entry-delay leg publishes.
+
+    This is the first twin whose runner DELEGATES: ``run_entrydelay`` calls
+    ``run_midsweep`` and republishes a subset of its rows. So the harvest walks
+    both layers on purpose. ``answers.delay_rows`` is the copy the runner
+    publishes, and ``gaps[x1][me_lagK]`` is the arm that copy was taken from.
+
+    That split is the whole point of the leg: a repair that moves the copy while
+    the source holds (or the reverse) has changed the delegating layer and not
+    the measurement, and a join that harvested only one of the two could not
+    tell those apart. The books are harvested too, because a gap can hold while
+    both books move -- that is a different finding from a gap that holds because
+    neither book moved.
+    """
+    out = {}
+    lvl = (face.get("spec") or {}).get("cost_mult_list") or [1.0]
+    lvl = "x%g" % lvl[0]
+
+    for lab, book in (face.get("books") or {}).items():
+        book = book or {}
+        key = "book/%s/%s" % (lab, lvl)
+        out[(key, "decision_days")] = book.get("decision_days")
+        out[(key, "mean_sessions_to_month_end")] = (
+            (book.get("offset") or {}).get("mean_sessions_to_month_end"))
+        arm = (book.get("arms") or {}).get(lvl) or {}
+        for col in ("full_window_ann_pct", "turnover_per_year", "cost_per_year_bp"):
+            out[(key, col)] = arm.get(col)
+        for era, ed in (arm.get("eras") or {}).items():
+            out[("book/%s/%s/era/%s" % (lab, lvl, era), "ann_return_pct")] = (
+                (ed or {}).get("ann_return_pct"))
+
+    for lab, gap in ((face.get("gaps") or {}).get(lvl) or {}).items():
+        gap = gap or {}
+        key = "gap/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year", "cost_per_year_bp"):
+            out[(key, col)] = gap.get(col)
+        for era, ed in (gap.get("eras") or {}).items():
+            out[("gap/%s/era/%s" % (lab, era), "gap_bp")] = (ed or {}).get("gap_bp")
+
+    ans = face.get("answers") or {}
+    for lab, row in (ans.get("delay_rows") or {}).items():
+        row = row or {}
+        key = "delay/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year"):
+            out[(key, col)] = row.get(col)
+        for era, ev in (row.get("eras") or {}).items():
+            out[("delay/%s/era/%s" % (lab, era), "gap_bp")] = ev
+    for col in ("delay_gap_bp", "newest_era_gap_bp"):
+        for lab, v in (ans.get(col) or {}).items():
+            out[("answers/" + col, lab)] = v
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def _lag_ladder_read(face, lags, era=None, lvl=None, tol=2.0):
+    """(E119) the ladder itself: does each extra k sessions still cost more?
+
+    The published question of this runner is "is the off-cycle penalty the
+    calendar or being late", and the answer is a SHAPE, not a level: if each
+    additional k sessions costs more, lateness is priced; if every rung sits at
+    the same gap, lateness is free and the off-cycle cost belongs to the date.
+
+    A tolerance keeps a sub-2bp wiggle from being read as a shape. ``era`` picks
+    one era's gap column; ``None`` reads the full window.
+    """
+    lvl = lvl or "x%g" % (((face.get("spec") or {}).get("cost_mult_list")
+                           or [1.0])[0])
+    gaps = (face.get("gaps") or {}).get(lvl) or {}
+    rungs = []
+    for k in sorted(lags):
+        arm = gaps.get("me_lag%d" % k) or {}
+        v = ((arm.get("eras") or {}).get(era) or {}).get("gap_bp") if era \
+            else arm.get("full_window_gap_bp")
+        rungs.append((k, v))
+    vals = [v for _k, v in rungs]
+    if any(v is None for v in vals):
+        shape = "incomplete"
+    elif all(abs(v) <= tol for v in vals):
+        shape = "flat"
+    elif all(vals[i + 1] <= vals[i] + tol for i in range(len(vals) - 1)):
+        shape = "monotone"
+    elif all(vals[i + 1] >= vals[i] - tol for i in range(len(vals) - 1)):
+        shape = "monotone_relief"
+    else:
+        shape = "non_monotone"
+    return {"era": era, "cost_level": lvl,
+            "rungs": [{"lag": k, "gap_bp": v} for k, v in rungs],
+            "shape": shape,
+            "span_bp": (round(vals[-1] - vals[0], 3)
+                        if len(vals) > 1 and all(v is not None for v in vals) else None),
+            "tolerance_bp": tol}
+
+
+def _entrydelay_copy_mismatch(face):
+    """(E119) does the published copy equal the arm it was copied from?
+
+    The delegation is the only new machinery this runner has, so it is checked
+    as an invariant rather than a finding: on ONE arm, ``delay_rows[me_lagK]``
+    and ``gaps[x1][me_lagK]`` must carry the same full-window gap. A mismatch
+    is not a repair effect -- it means the twin is joining a layer that rewrites
+    its numbers, and no delta from it may be read.
+    """
+    lvl = "x%g" % (((face.get("spec") or {}).get("cost_mult_list") or [1.0])[0])
+    gaps = (face.get("gaps") or {}).get(lvl) or {}
+    rows = (face.get("answers") or {}).get("delay_rows") or {}
+    out = []
+    for lab, row in rows.items():
+        src = (gaps.get(lab) or {}).get("full_window_gap_bp")
+        cop = (row or {}).get("full_window_gap_bp")
+        if src is None or cop is None:
+            continue
+        if abs(cop - src) > 1e-9:
+            out.append({"arm": lab, "copy": cop, "source": src,
+                        "delta": round(cop - src, 6)})
+    return out
+
+
+def _delegation_attribution(copy_moved, source_moved):
+    """(E119) which LAYER of a delegating runner did the repair move?
+
+    ``run_entrydelay`` republishes rows it took from ``run_midsweep``, so every
+    delta on this face has two possible owners. Naming the layer is the reading
+    the twin exists to produce: a copy that moved while its source held means
+    the delegating layer changed, and that is a defect in this face rather than
+    a repair effect. Decided on counts, in that order, so a face that moved both
+    cannot be reported as a one-sided defect.
+    """
+    if copy_moved and source_moved:
+        return "both layers moved = the ladder itself changed"
+    if copy_moved:
+        return "copy moved + source held = the delegating layer changed"
+    if source_moved:
+        return "source moved + copy held = the copy is stale against its arm"
+    return "neither layer moved"
+
+
+def run_entrydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                         lags=(1, 3, 5, 10), costs=(1.0,), mode="neutralise_int",
+                         resume=True):
+    """E119: re-derive the ENTRY-delay ladder on the screened arm, beside the raw.
+
+    E97 row 7 after the burn-in/cut-curve/livespan/chase/early/split/stale twins.
+    Two things make this one different from its five predecessors:
+
+      * it is the first twin that cannot reuse an existing seam -- the runner
+        delegates to ``run_midsweep`` and republishes its lag arms, so the
+        repaired universe is threaded through BOTH layers;
+      * the published reading is a SHAPE (does each extra k sessions still cost
+        more) rather than a set of cells, so the twin publishes the ladder on
+        each arm beside the moved-cell count. A repair that changes which name
+        is picked on a delayed date can bend the ladder without moving any
+        single cell by much.
+
+    Same machinery as E112-E118 otherwise: one load, both arms burned off it,
+    per-arm checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm
+    control that must read zero, and a cutoff control against the newest
+    previously published raw ladder.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "ENTRYDLY-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "ENTRYDLY-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(start=start, pick_n=pick_n, exclude=exclude, lags=lags, costs=costs)
+    raw_arm = cached("raw", lambda: run_entrydelay(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_entrydelay(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _entrydelay_arm_cells(raw_arm)})
+    no_dates = lambda face, ks: {}
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_entrydelay_arm_cells, dates_fn=no_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_entrydelay_arm_cells,
+                                dates_fn=no_dates)["summary"]
+
+    # cutoff control: newest previously published raw ladder vs today's raw arm
+    # -- same arm, two cutoffs, so it isolates the panel refresh.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("ENTRYDELAY-") and p.endswith(".json")
+                    and not p.startswith("ENTRYDELAYSCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("ENTRYDELAY-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_entrydelay_arm_cells,
+                                     dates_fn=no_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    book_cols = ("full_window_ann_pct", "ann_return_pct", "turnover_per_year",
+                 "cost_per_year_bp", "decision_days", "mean_sessions_to_month_end")
+    # the copy layer: what this runner republishes
+    copy_moved = [r for r in pair["moved"] if r["start"].startswith("delay/")]
+    # the delegated layer: the midsweep arm the copy came from
+    source_moved = [r for r in pair["moved"] if r["start"].startswith("gap/")]
+    book_moved = [r for r in pair["moved"] if r["start"].startswith("book/")]
+    answer_moved = [r for r in pair["moved"] if r["start"].startswith("answers/")]
+    other_moved = [r for r in pair["moved"]
+                   if r not in copy_moved and r not in source_moved
+                   and r not in book_moved and r not in answer_moved]
+    survives = _twin_survives(s, control)
+    copy_mismatch = {"raw": _entrydelay_copy_mismatch(raw_arm),
+                     "screened": _entrydelay_copy_mismatch(scr_arm)}
+    # the sharpest single reading: the ladder shape on each arm, full window and
+    # newest era, plus whether the shape survived the repair.
+    newest = "2024_now"
+    ladders = {}
+    for label, face in (("raw", raw_arm), ("screened", scr_arm)):
+        ladders[label] = {
+            "full_window": _lag_ladder_read(face, lags),
+            "newest_era": _lag_ladder_read(face, lags, era=newest),
+        }
+    shapes_raw = {k: v["shape"] for k, v in ladders["raw"].items()}
+    shapes_scr = {k: v["shape"] for k, v in ladders["screened"].items()}
+    # a null on both sides is not a defect of the join: at start=2020-01-01 the
+    # pre2017 era carries no bars, so its cells are empty by construction.
+    _nulls = pair["null_on_either_side"]
+    _pre2017 = [r for r in _nulls if "/era/pre2017" in (r.get("start") or "")]
+    return {
+        "study": "e119_entrydelay_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "delay_sessions": list(lags), "cost_mult_list": list(costs),
+            "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_entrydelay delegates to run_midsweep, so raw= is "
+                     "threaded through BOTH layers: the twin hands it to "
+                     "run_entrydelay, which passes it down unchanged"),
+            "join": ("_entrydelay_arm_cells harvests the book rows, the gaps "
+                     "layer (the delegated arms), the delay rows (the copy this "
+                     "runner republishes) and the E65 answers; the copy/source "
+                     "split is what attributes a moved arm to the repair or to "
+                     "the delegating layer"),
+            "ladder": ("_lag_ladder_read reads the lag ladder as a SHAPE: "
+                       "monotone means each extra k sessions costs more (or, for "
+                       "monotone_relief, less); flat means lateness is free on "
+                       "that arm; tolerance %.1fbp" % 2.0),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "ladders": ladders,
+        "copy_invariant": copy_mismatch,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for gaps, "
+                            "percent per year for annualised returns, turns/yr for "
+                            "turnover, sessions for offsets -- the summary max is a "
+                            "max over mixed units and is a screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "copy_cells_moved": len(copy_moved),
+            "source_cells_moved": len(source_moved),
+            "book_cells_moved": len(book_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "delegation_attribution": _delegation_attribution(copy_moved,
+                                                              source_moved),
+            "copy_matches_source": {k: (len(v) == 0)
+                                    for k, v in copy_mismatch.items()},
+            "control_cells_moved": control["cells_moved"],
+            "ladder_shape": {"raw": shapes_raw, "screened": shapes_scr,
+                             "shape_survives": shapes_raw == shapes_scr},
+            "null_cells": {
+                "total": len(_nulls),
+                "pre2017_no_bars": len(_pre2017),
+                "other": len(_nulls) - len(_pre2017),
+                "note": ("a cell null on BOTH arms is not one-sided: at "
+                         "start=%s the pre2017 era carries no bars, so those "
+                         "cells are empty by construction in both arms" % start),
+            },
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the delay ladder survives the repair: %d of %d cells move "
+                 "(%d copy / %d source / %d book)" %
+                 (s["cells_moved"], s["cells_compared"], len(copy_moved),
+                  len(source_moved), len(book_moved)))
+                if survives else
+                ("the repair reaches the delay ladder: %d of %d cells move "
+                 "(%d copy, %d source, %d book, %d other) and %d cell(s) exist "
+                 "on one arm only" %
+                 (s["cells_moved"], s["cells_compared"], len(copy_moved),
+                  len(source_moved), len(book_moved), len(other_moved),
+                  s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the lag moves the DECISION session as well as the entry, so a "
+            "repair that changes which name is picked on a delayed date changes "
+            "the ladder by construction; an entry-only lag would need an "
+            "execution-lag hook the engine does not have",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged universe_members count "
+            "is a property of the repair, not evidence the panel is clean",
+            "ladder shapes are read at a 2bp tolerance and are a description of "
+            "four fixed lags (1/3/5/10 sessions), not a fitted curve",
+            "the copy/source invariant is checked on each arm separately before "
+            "any delta is read: a face whose published copy disagrees with its "
+            "own delegated arm cannot attribute a move to the repair",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "book/gap/delay/answers cells, not the pointer fields",
         ],
     }
 
@@ -11891,6 +12252,105 @@ def selftest():
     chk("raw" in _inspect.signature(run_staletail).parameters,
         "E118 run_staletail carries the raw= arm seam the twin burns on")
 
+    # --- E119: the entry-delay ladder, the first DELEGATING runner -----------
+    # run_entrydelay does not measure anything itself: it calls run_midsweep and
+    # republishes its lag arms. So these legs pin two things the previous twins
+    # never had to -- the arm seam reaches one level down, and a delta on this
+    # face can be attributed to the copy or to the arm the copy came from.
+    def _syn_delay(gaps=(0.0, -20.0, -40.0, -60.0), universe=665,
+                   copy_delta=0.0, extra_lag=False):
+        lags = (1, 3, 5, 10) if not extra_lag else (1, 3, 5, 10, 20)
+        gaps = tuple(gaps) if not extra_lag else tuple(gaps) + (-80.0,)
+        book = {"decision_days": 81,
+                "offset": {"mean_sessions_to_month_end": 0.0},
+                "arms": {"x1": {"full_window_ann_pct": 9.0,
+                                "turnover_per_year": 1.1,
+                                "cost_per_year_bp": 12.0,
+                                "eras": {"2024_now": {"ann_return_pct": 8.0}}}}}
+        books = {"me": book}
+        gaps_ = {"me": {"full_window_gap_bp": 0.0, "turnover_per_year": 1.1,
+                        "cost_per_year_bp": 12.0,
+                        "eras": {"2024_now": {"gap_bp": 0.0}}}}
+        rows = {}
+        for k, g in zip(lags, gaps):
+            lab = "me_lag%d" % k
+            books[lab] = {"decision_days": 81,
+                          "offset": {"mean_sessions_to_month_end": float(k)},
+                          "arms": {"x1": {"full_window_ann_pct": 8.0,
+                                          "turnover_per_year": 1.2,
+                                          "cost_per_year_bp": 12.5,
+                                          "eras": {"2024_now": {"ann_return_pct": 7.0}}}}}
+            gaps_[lab] = {"full_window_gap_bp": g, "turnover_per_year": 1.2,
+                          "cost_per_year_bp": 12.5,
+                          "eras": {"2024_now": {"gap_bp": g}}}
+            rows[lab] = {"full_window_gap_bp": g + copy_delta,
+                         "turnover_per_year": 1.2,
+                         "eras": {"2024_now": g}}
+        return {"study": "e65_entrydelay_ladder", "evidence_cutoff": "2026-10-26",
+                "spec": {"pick_n": 9999, "start": "2020-01-01",
+                         "cost_mult_list": [1.0], "universe_members": universe},
+                "books": books, "gaps": {"x1": gaps_},
+                "answers": {"delay_rows": rows,
+                            "delay_gap_bp": {k: v["full_window_gap_bp"]
+                                             for k, v in rows.items()},
+                            "newest_era_gap_bp": {k: v["eras"]["2024_now"]
+                                                  for k, v in rows.items()}},
+                "honest": ["a pointer line, not a measurement"]}
+
+    _c119 = _entrydelay_arm_cells(_syn_delay())
+    chk(("book/me_lag3/x1", "full_window_ann_pct") in _c119
+        and ("gap/me_lag3", "full_window_gap_bp") in _c119
+        and ("delay/me_lag3", "full_window_gap_bp") in _c119
+        and ("gap/me_lag3/era/2024_now", "gap_bp") in _c119
+        and ("answers/delay_gap_bp", "me_lag3") in _c119
+        and ("answers/newest_era_gap_bp", "me_lag3") in _c119
+        and ("spec", "universe_members") in _c119,
+        "E119 the harvest walks book -> gaps -> delay copy -> answers")
+    chk(_entrydelay_copy_mismatch(_syn_delay()) == [],
+        "E119 a face whose copy equals its delegated arm passes the invariant")
+    _mm119 = _entrydelay_copy_mismatch(_syn_delay(copy_delta=5.0))
+    chk(len(_mm119) == 4 and abs(_mm119[0]["delta"] - 5.0) < 1e-9,
+        "E119 a copy that disagrees with its own arm is named, not joined")
+    _k119 = sorted({k[0] for k in _c119})
+    _nd = lambda face, ks: {}
+    _s119 = _burnin_pair_rows(_syn_delay(), _syn_delay(), _k119,
+                              cells_fn=_entrydelay_arm_cells,
+                              dates_fn=_nd)["summary"]
+    chk(_s119["cells_moved"] == 0 and _s119["max_abs_delta_pp"] == 0.0,
+        "E119 the same delay face joined against itself reads zero everywhere")
+    _ladder119 = _burnin_pair_rows(_syn_delay(), _syn_delay(gaps=(0.0, -26.0, -40.0, -60.0)),
+                                   _k119, cells_fn=_entrydelay_arm_cells, dates_fn=_nd)
+    _copy119 = [r for r in _ladder119["moved"] if r["start"].startswith("delay/")]
+    _src119 = [r for r in _ladder119["moved"] if r["start"].startswith("gap/")]
+    chk(_copy119 and _src119
+        and _delegation_attribution(_copy119, _src119).startswith("both layers"),
+        "E119 a moved ladder is attributed to both layers, not to the repair")
+    _copyonly = [r for r in _burnin_pair_rows(
+        _syn_delay(), _syn_delay(copy_delta=5.0), _k119,
+        cells_fn=_entrydelay_arm_cells, dates_fn=_nd)["moved"]
+        if r["start"].startswith("delay/")]
+    chk(_copyonly and _delegation_attribution(_copyonly, []).startswith("copy moved"),
+        "E119 a copy-only delta is charged to the delegating layer")
+    chk(_delegation_attribution([], []) == "neither layer moved",
+        "E119 an unmoved face claims no layer")
+    chk(_lag_ladder_read(_syn_delay(), (1, 3, 5, 10))["shape"] == "monotone",
+        "E119 a ladder that costs more at every rung reads monotone")
+    chk(_lag_ladder_read(_syn_delay(gaps=(0.0, 0.0, 0.0, 0.0)),
+                         (1, 3, 5, 10))["shape"] == "flat",
+        "E119 a ladder whose rungs all sit at zero reads flat, not monotone")
+    chk(_lag_ladder_read(_syn_delay(gaps=(0.0, -40.0, -10.0, -60.0)),
+                         (1, 3, 5, 10))["shape"] == "non_monotone",
+        "E119 a ladder that recovers in the middle is not a ladder")
+    _side119 = _burnin_pair_rows(_syn_delay(), _syn_delay(extra_lag=True), _k119,
+                                 cells_fn=_entrydelay_arm_cells,
+                                 dates_fn=_nd)["summary"]
+    chk(_side119["only_in_screened"] > 0 and _side119["cells_moved"] == 0,
+        "E119 a lag that exists on one arm only is one-sided, not a zero delta")
+    chk("raw" in _inspect.signature(run_entrydelay).parameters,
+        "E119 the seam is threaded through the delegating runner itself")
+    chk("raw" in _inspect.signature(run_midsweep).parameters,
+        "E119 ...and reaches the layer it delegates to")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -14279,7 +14739,8 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen",
-                             "midsweep", "entrydelay", "earlydelay", "earlydelayscreen",
+                             "midsweep", "entrydelay", "entrydelayscreen",
+                             "earlydelay", "earlydelayscreen",
                              "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "staletailscreen",
@@ -14874,6 +15335,20 @@ def main(argv):
                           "delay_gap_bp": f["answers"]["delay_gap_bp"],
                           "newest_era_gap_bp": f["answers"]["newest_era_gap_bp"]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "entrydelayscreen":
+        costs = (tuple(float(x) for x in args.costs.split(","))
+                 if args.costs else (1.0,))
+        lags = tuple(int(x) for x in args.lags.split(",") if x.strip())
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_entrydelayscreen(outdir, start=args.start, lags=lags, costs=costs)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "ENTRYDELAYSCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "entrydelayscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "earlydelay":
         costs = (tuple(float(x) for x in args.costs.split(","))

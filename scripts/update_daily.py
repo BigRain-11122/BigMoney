@@ -276,8 +276,55 @@ def parity_verdict(hist, mine, tol_rel: float = 1e-6) -> dict:
     return out
 
 
+def _panel_decimals(path: str, default: int = 4) -> int:
+    """Decimal places the panel already prints, read off its last data line."""
+    try:
+        with open(path, "r", encoding="utf-8", newline="") as fh:
+            lines = [ln for ln in fh.read().splitlines() if ln.strip()]
+        last = lines[-1].split(",")
+        if len(last) >= len(COLUMNS) and "." in last[-3]:
+            return len(last[-3].split(".")[1])
+    except Exception:  # noqa: BLE001 -- style probe only, never fatal
+        pass
+    return default
+
+
+def _fmt_price(value, dp: int) -> str:
+    """A price in the panel's own decimal style, never at the cost of precision.
+
+    Inheriting the style is what keeps a one-row append to one changed line, but
+    a panel printed at 1dp must not truncate a 4.35 source bar into 4.3 -- so
+    the styled form is used only when it round-trips exactly.
+    """
+    v = float(value)
+    s = ("%." + str(dp) + "f") % v
+    if abs(float(s) - v) > 1e-9:
+        s = ("%.6f" % v).rstrip("0")
+        if s.endswith("."):
+            s += "0"
+    return s
+
+
+def _format_row(row, dp: int) -> str:
+    """One bar as the panel writes it: fixed-decimal prices, integer sizes."""
+    parts = [str(row["date"])]
+    for c in COLUMNS[1:5]:
+        parts.append(_fmt_price(row[c], dp))
+    for c in COLUMNS[5:]:
+        parts.append(str(int(round(float(row[c])))))
+    return ",".join(parts)
+
+
 def update_one(path: str, fetcher, now: dt.datetime) -> dict:
-    """Append strictly-new closed bars to one CSV. Never rewrites rows."""
+    """Append strictly-new closed bars to one CSV. Never rewrites rows.
+
+    The append is BYTE-level, not a pandas round-trip: reading the panel into
+    a DataFrame and calling ``to_csv`` re-serialises every float, so three new
+    bars rewrote all 1,650 lines of data/daily (2026-10-27 r1190) -- any freeze
+    check, blob compare or watermark that looks at that panel then reports a
+    whole-panel change for a one-row event. The new rows are therefore formatted
+    in the file's own decimal style and appended to the existing text verbatim.
+    """
     status = {"symbol": os.path.basename(path)[:-4], "appended": 0,
               "overlap_mismatch": False, "error": None}
     try:
@@ -303,9 +350,15 @@ def update_one(path: str, fetcher, now: dt.datetime) -> dict:
         new = new[[closed_bar_ok(d, now) for d in new["date"]]]
         if len(new) == 0:
             return status
-        merged = pd.concat([old[COLUMNS], new[COLUMNS]], ignore_index=True)
+        dp = _panel_decimals(path)
+        with open(path, "r", encoding="utf-8", newline="") as fh:
+            text = fh.read()
+        if text and not text.endswith("\n"):
+            text += "\n"
+        text += "".join(_format_row(r, dp) + "\n" for _i, r in new.iterrows())
         tmp = path + ".tmp"
-        merged.to_csv(tmp, index=False)
+        with open(tmp, "w", encoding="utf-8", newline="") as fh:
+            fh.write(text)
         os.replace(tmp, path)
         status["appended"] = int(len(new))
         status["first_new"] = str(new["date"].iloc[0])
@@ -594,6 +647,28 @@ def selftest() -> bool:
         ok &= c
         print("  [updater] overlap-mismatch flag, no history rewrite... "
               + ("PASS" if c else "FAIL"))
+
+        # C2: byte-level append -- existing rows keep their exact text, and the
+        # new row inherits the panel's own decimal style. A pandas round-trip
+        # passes block B and still rewrites all 1,650 lines (r1190 live case:
+        # 3 new bars -> 1,650 changed lines, so every freeze/blob check on the
+        # panel reads a whole-panel event).
+        p3 = os.path.join(td, "510302.csv")
+        styled = ("date,open,high,low,close,volume,amount\n"
+                  "2026-09-18,4.1200,4.1740,4.1180,4.1490,1000,4000\n"
+                  "2026-09-21,4.1560,4.1620,4.1330,4.1390,1001,4001\n")
+        with open(p3, "w", encoding="utf-8", newline="") as fh:
+            fh.write(styled)
+        s5 = update_one(p3, _fake_fetcher({"510302": src}),
+                        dt.datetime(2026, 9, 23, 16, 0))
+        with open(p3, "r", encoding="utf-8", newline="") as fh:
+            after = fh.read()
+        c2 = (s5["appended"] == 2 and after.startswith(styled)
+              and after.splitlines()[-2] == "2026-09-22,26.0000,26.1000,25.9000,26.0000,1022,4022"
+              and after.splitlines()[-1] == "2026-09-23,4.3000,4.4000,4.2000,4.3500,2000,8700")
+        ok &= c2
+        print("  [updater] append keeps every existing byte + panel decimal style... "
+              + ("PASS" if c2 else "FAIL"))
 
         # E: _pool_cutoff -- read failure recorded, never swallowed (F8)
         e = _pool_cutoff([os.path.join(td, "nope.csv")])
