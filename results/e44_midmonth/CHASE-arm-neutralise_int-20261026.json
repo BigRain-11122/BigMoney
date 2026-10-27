@@ -1,0 +1,1737 @@
+{
+ "study": "e57_midmonth_chase_names",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2020-01-01",
+  "mid_month_day": 15,
+  "calendars": [
+   "me",
+   "mid15"
+  ],
+  "universe_members": 1271,
+  "bucket_definition": {
+   "other_drops_next": "entrant is in the other calendar's drop set at its next rebalance",
+   "other_still_holds": "entrant is still held by the other calendar at its next rebalance",
+   "disjoint": "entrant is in neither the other book's next holdings nor its next drop set"
+  }
+ },
+ "decision_days": {
+  "me": 70,
+  "mid15": 70
+ },
+ "eras": {
+  "me": {
+   "2021_2023": {
+    "transitions": 36,
+    "entrant_slots": 524,
+    "unique_entrants": 517,
+    "repeat_entrant_share_pct": 1.3,
+    "buckets": {
+     "other_drops_next": {
+      "entrants": 1,
+      "share_pct": 0.19,
+      "priced": 1,
+      "fwd_pct_mean": 0.678,
+      "negative_share_pct": 0.0
+     },
+     "other_still_holds": {
+      "entrants": 263,
+      "share_pct": 50.19,
+      "priced": 263,
+      "fwd_pct_mean": -1.861,
+      "negative_share_pct": 62.4
+     },
+     "disjoint": {
+      "entrants": 260,
+      "share_pct": 49.62,
+      "priced": 260,
+      "fwd_pct_mean": -0.869,
+      "negative_share_pct": 56.5
+     }
+    },
+    "top10_entrants": [
+     {
+      "date": "2022-10-31",
+      "symbol": "sz159707",
+      "bucket": "disjoint",
+      "fwd_pct": 28.215
+     },
+     {
+      "date": "2022-05-31",
+      "symbol": "sh516390",
+      "bucket": "disjoint",
+      "fwd_pct": 23.767
+     },
+     {
+      "date": "2021-05-31",
+      "symbol": "sz159813",
+      "bucket": "other_still_holds",
+      "fwd_pct": 22.461
+     },
+     {
+      "date": "2022-10-31",
+      "symbol": "sz159712",
+      "bucket": "disjoint",
+      "fwd_pct": 21.652
+     },
+     {
+      "date": "2022-05-31",
+      "symbol": "sz159703",
+      "bucket": "disjoint",
+      "fwd_pct": 21.298
+     },
+     {
+      "date": "2022-05-31",
+      "symbol": "sh516380",
+      "bucket": "disjoint",
+      "fwd_pct": 19.721
+     },
+     {
+      "date": "2022-10-31",
+      "symbol": "sh516750",
+      "bucket": "other_still_holds",
+      "fwd_pct": 19.597
+     },
+     {
+      "date": "2022-05-31",
+      "symbol": "sh513360",
+      "bucket": "disjoint",
+      "fwd_pct": 19.403
+     },
+     {
+      "date": "2022-04-29",
+      "symbol": "sh516110",
+      "bucket": "disjoint",
+      "fwd_pct": 18.778
+     },
+     {
+      "date": "2022-09-30",
+      "symbol": "sh516860",
+      "bucket": "disjoint",
+      "fwd_pct": 16.958
+     }
+    ],
+    "bottom10_entrants": [
+     {
+      "date": "2023-12-29",
+      "symbol": "sz159682",
+      "bucket": "other_still_holds",
+      "fwd_pct": -16.273
+     },
+     {
+      "date": "2021-12-31",
+      "symbol": "sh515120",
+      "bucket": "other_still_holds",
+      "fwd_pct": -16.649
+     },
+     {
+      "date": "2021-12-31",
+      "symbol": "sz159828",
+      "bucket": "disjoint",
+      "fwd_pct": -17.143
+     },
+     {
+      "date": "2022-09-30",
+      "symbol": "sh516130",
+      "bucket": "disjoint",
+      "fwd_pct": -17.542
+     },
+     {
+      "date": "2023-12-29",
+      "symbol": "sz159750",
+      "bucket": "disjoint",
+      "fwd_pct": -17.91
+     },
+     {
+      "date": "2022-02-28",
+      "symbol": "sh516520",
+      "bucket": "other_still_holds",
+      "fwd_pct": -17.921
+     },
+     {
+      "date": "2023-12-29",
+      "symbol": "sz159701",
+      "bucket": "disjoint",
+      "fwd_pct": -18.143
+     },
+     {
+      "date": "2023-12-29",
+      "symbol": "sh588460",
+      "bucket": "other_still_holds",
+      "fwd_pct": -18.386
+     },
+     {
+      "date": "2022-09-30",
+      "symbol": "sz159736",
+      "bucket": "other_still_holds",
+      "fwd_pct": -19.717
+     },
+     {
+      "date": "2023-12-29",
+      "symbol": "sz159665",
+      "bucket": "disjoint",
+      "fwd_pct": -21.558
+     }
+    ]
+   },
+   "2024_now": {
+    "transitions": 33,
+    "entrant_slots": 661,
+    "unique_entrants": 647,
+    "repeat_entrant_share_pct": 2.1,
+    "buckets": {
+     "other_drops_next": {
+      "entrants": 1,
+      "share_pct": 0.15,
+      "priced": 1,
+      "fwd_pct_mean": -2.039,
+      "negative_share_pct": 100.0
+     },
+     "other_still_holds": {
+      "entrants": 323,
+      "share_pct": 48.87,
+      "priced": 323,
+      "fwd_pct_mean": 1.046,
+      "negative_share_pct": 44.9
+     },
+     "disjoint": {
+      "entrants": 337,
+      "share_pct": 50.98,
+      "priced": 337,
+      "fwd_pct_mean": 2.154,
+      "negative_share_pct": 40.4
+     }
+    },
+    "top10_entrants": [
+     {
+      "date": "2026-05-29",
+      "symbol": "sh588710",
+      "bucket": "other_still_holds",
+      "fwd_pct": 68.327
+     },
+     {
+      "date": "2025-07-31",
+      "symbol": "sh588990",
+      "bucket": "disjoint",
+      "fwd_pct": 36.428
+     },
+     {
+      "date": "2026-03-31",
+      "symbol": "sh589100",
+      "bucket": "disjoint",
+      "fwd_pct": 34.443
+     },
+     {
+      "date": "2026-05-29",
+      "symbol": "sh589180",
+      "bucket": "disjoint",
+      "fwd_pct": 33.909
+     },
+     {
+      "date": "2024-08-30",
+      "symbol": "sh588030",
+      "bucket": "disjoint",
+      "fwd_pct": 32.111
+     },
+     {
+      "date": "2024-08-30",
+      "symbol": "sh588190",
+      "bucket": "disjoint",
+      "fwd_pct": 32.111
+     },
+     {
+      "date": "2024-08-30",
+      "symbol": "sh588120",
+      "bucket": "disjoint",
+      "fwd_pct": 32.064
+     },
+     {
+      "date": "2026-05-29",
+      "symbol": "sh589700",
+      "bucket": "other_still_holds",
+      "fwd_pct": 31.768
+     },
+     {
+      "date": "2024-08-30",
+      "symbol": "sh588220",
+      "bucket": "disjoint",
+      "fwd_pct": 31.287
+     },
+     {
+      "date": "2026-03-31",
+      "symbol": "sh588770",
+      "bucket": "other_still_holds",
+      "fwd_pct": 29.255
+     }
+    ],
+    "bottom10_entrants": [
+     {
+      "date": "2026-02-27",
+      "symbol": "sh588840",
+      "bucket": "disjoint",
+      "fwd_pct": -15.323
+     },
+     {
+      "date": "2026-09-30",
+      "symbol": "sz159279",
+      "bucket": "disjoint",
+      "fwd_pct": -16.129
+     },
+     {
+      "date": "2026-05-29",
+      "symbol": "sz159210",
+      "bucket": "other_still_holds",
+      "fwd_pct": -16.77
+     },
+     {
+      "date": "2026-05-29",
+      "symbol": "sz159239",
+      "bucket": "other_still_holds",
+      "fwd_pct": -17.673
+     },
+     {
+      "date": "2026-02-27",
+      "symbol": "sh589520",
+      "bucket": "disjoint",
+      "fwd_pct": -20.91
+     },
+     {
+      "date": "2026-06-30",
+      "symbol": "sz159261",
+      "bucket": "disjoint",
+      "fwd_pct": -22.177
+     },
+     {
+      "date": "2026-06-30",
+      "symbol": "sh588520",
+      "bucket": "disjoint",
+      "fwd_pct": -22.449
+     },
+     {
+      "date": "2026-06-30",
+      "symbol": "sh589380",
+      "bucket": "other_still_holds",
+      "fwd_pct": -23.529
+     },
+     {
+      "date": "2026-06-30",
+      "symbol": "sz159311",
+      "bucket": "disjoint",
+      "fwd_pct": -24.263
+     },
+     {
+      "date": "2026-06-30",
+      "symbol": "sz159246",
+      "bucket": "disjoint",
+      "fwd_pct": -27.36
+     }
+    ]
+   }
+  },
+  "mid15": {
+   "2021_2023": {
+    "transitions": 36,
+    "entrant_slots": 523,
+    "unique_entrants": 514,
+    "repeat_entrant_share_pct": 1.7,
+    "buckets": {
+     "other_drops_next": {
+      "entrants": 1,
+      "share_pct": 0.19,
+      "priced": 1,
+      "fwd_pct_mean": -3.401,
+      "negative_share_pct": 100.0
+     },
+     "other_still_holds": {
+      "entrants": 258,
+      "share_pct": 49.33,
+      "priced": 258,
+      "fwd_pct_mean": -1.403,
+      "negative_share_pct": 58.1
+     },
+     "disjoint": {
+      "entrants": 264,
+      "share_pct": 50.48,
+      "priced": 264,
+      "fwd_pct_mean": -0.587,
+      "negative_share_pct": 53.4
+     }
+    },
+    "top10_entrants": [
+     {
+      "date": "2022-10-17",
+      "symbol": "sz159892",
+      "bucket": "other_still_holds",
+      "fwd_pct": 23.146
+     },
+     {
+      "date": "2022-03-15",
+      "symbol": "sh513060",
+      "bucket": "disjoint",
+      "fwd_pct": 22.705
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sh516110",
+      "bucket": "other_still_holds",
+      "fwd_pct": 22.348
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sh516590",
+      "bucket": "other_still_holds",
+      "fwd_pct": 18.861
+     },
+     {
+      "date": "2021-04-15",
+      "symbol": "sz159992",
+      "bucket": "other_still_holds",
+      "fwd_pct": 18.114
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sz159888",
+      "bucket": "disjoint",
+      "fwd_pct": 16.477
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sh516360",
+      "bucket": "other_still_holds",
+      "fwd_pct": 16.422
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sh516960",
+      "bucket": "other_still_holds",
+      "fwd_pct": 16.193
+     },
+     {
+      "date": "2022-05-16",
+      "symbol": "sz159740",
+      "bucket": "disjoint",
+      "fwd_pct": 15.296
+     },
+     {
+      "date": "2021-02-18",
+      "symbol": "sh515210",
+      "bucket": "disjoint",
+      "fwd_pct": 15.211
+     }
+    ],
+    "bottom10_entrants": [
+     {
+      "date": "2022-02-15",
+      "symbol": "sh516010",
+      "bucket": "disjoint",
+      "fwd_pct": -16.985
+     },
+     {
+      "date": "2022-08-15",
+      "symbol": "sz159840",
+      "bucket": "other_still_holds",
+      "fwd_pct": -17.068
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sh517000",
+      "bucket": "disjoint",
+      "fwd_pct": -17.738
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sh517100",
+      "bucket": "disjoint",
+      "fwd_pct": -17.891
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sz159855",
+      "bucket": "disjoint",
+      "fwd_pct": -18.646
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sh517050",
+      "bucket": "other_still_holds",
+      "fwd_pct": -27.035
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sz159856",
+      "bucket": "other_still_holds",
+      "fwd_pct": -27.259
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sz159850",
+      "bucket": "disjoint",
+      "fwd_pct": -27.862
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sh517200",
+      "bucket": "other_still_holds",
+      "fwd_pct": -28.116
+     },
+     {
+      "date": "2022-02-15",
+      "symbol": "sh513330",
+      "bucket": "other_still_holds",
+      "fwd_pct": -35.159
+     }
+    ]
+   },
+   "2024_now": {
+    "transitions": 33,
+    "entrant_slots": 660,
+    "unique_entrants": 645,
+    "repeat_entrant_share_pct": 2.3,
+    "buckets": {
+     "other_drops_next": {
+      "entrants": 1,
+      "share_pct": 0.15,
+      "priced": 1,
+      "fwd_pct_mean": -4.18,
+      "negative_share_pct": 100.0
+     },
+     "other_still_holds": {
+      "entrants": 333,
+      "share_pct": 50.45,
+      "priced": 333,
+      "fwd_pct_mean": 0.959,
+      "negative_share_pct": 48.3
+     },
+     "disjoint": {
+      "entrants": 326,
+      "share_pct": 49.39,
+      "priced": 326,
+      "fwd_pct_mean": 0.814,
+      "negative_share_pct": 51.5
+     }
+    },
+    "top10_entrants": [
+     {
+      "date": "2026-04-15",
+      "symbol": "sh588170",
+      "bucket": "other_still_holds",
+      "fwd_pct": 40.163
+     },
+     {
+      "date": "2026-04-15",
+      "symbol": "sh589100",
+      "bucket": "other_still_holds",
+      "fwd_pct": 29.464
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh588120",
+      "bucket": "other_still_holds",
+      "fwd_pct": 28.814
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh588030",
+      "bucket": "other_still_holds",
+      "fwd_pct": 28.704
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh588220",
+      "bucket": "other_still_holds",
+      "fwd_pct": 28.659
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh588190",
+      "bucket": "other_still_holds",
+      "fwd_pct": 28.395
+     },
+     {
+      "date": "2025-08-15",
+      "symbol": "sh588320",
+      "bucket": "disjoint",
+      "fwd_pct": 27.079
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh561280",
+      "bucket": "disjoint",
+      "fwd_pct": 24.934
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sh560220",
+      "bucket": "other_still_holds",
+      "fwd_pct": 24.868
+     },
+     {
+      "date": "2024-09-18",
+      "symbol": "sz159532",
+      "bucket": "disjoint",
+      "fwd_pct": 24.125
+     }
+    ],
+    "bottom10_entrants": [
+     {
+      "date": "2026-09-15",
+      "symbol": "sh563230",
+      "bucket": "other_still_holds",
+      "fwd_pct": -13.052
+     },
+     {
+      "date": "2026-08-17",
+      "symbol": "sz159369",
+      "bucket": "disjoint",
+      "fwd_pct": -13.757
+     },
+     {
+      "date": "2026-08-17",
+      "symbol": "sh589090",
+      "bucket": "disjoint",
+      "fwd_pct": -14.273
+     },
+     {
+      "date": "2026-09-15",
+      "symbol": "sh588550",
+      "bucket": "other_still_holds",
+      "fwd_pct": -14.375
+     },
+     {
+      "date": "2024-06-17",
+      "symbol": "sh512390",
+      "bucket": "disjoint",
+      "fwd_pct": -14.381
+     },
+     {
+      "date": "2026-08-17",
+      "symbol": "sh589020",
+      "bucket": "disjoint",
+      "fwd_pct": -14.742
+     },
+     {
+      "date": "2026-09-15",
+      "symbol": "sz159298",
+      "bucket": "other_still_holds",
+      "fwd_pct": -14.929
+     },
+     {
+      "date": "2026-05-15",
+      "symbol": "sz159728",
+      "bucket": "disjoint",
+      "fwd_pct": -15.201
+     },
+     {
+      "date": "2026-06-15",
+      "symbol": "sz159387",
+      "bucket": "other_still_holds",
+      "fwd_pct": -16.667
+     },
+     {
+      "date": "2026-09-15",
+      "symbol": "sz159583",
+      "bucket": "other_still_holds",
+      "fwd_pct": -18.587
+     }
+    ]
+   }
+  }
+ },
+ "recent_transitions": {
+  "mid15": [
+   {
+    "date": "2026-07-15",
+    "next": "2026-08-17",
+    "era": "2024_now",
+    "members": 1152,
+    "entrants": [
+     {
+      "symbol": "sh512060",
+      "bucket": "other_still_holds",
+      "fwd_pct": -0.239
+     },
+     {
+      "symbol": "sh520690",
+      "bucket": "disjoint",
+      "fwd_pct": -2.267
+     },
+     {
+      "symbol": "sh520860",
+      "bucket": "disjoint",
+      "fwd_pct": 2.264
+     },
+     {
+      "symbol": "sh520880",
+      "bucket": "other_still_holds",
+      "fwd_pct": -2.16
+     },
+     {
+      "symbol": "sh551000",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.259
+     },
+     {
+      "symbol": "sh551030",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.218
+     },
+     {
+      "symbol": "sh551500",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.222
+     },
+     {
+      "symbol": "sh551550",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.219
+     },
+     {
+      "symbol": "sh551900",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.194
+     },
+     {
+      "symbol": "sh560120",
+      "bucket": "disjoint",
+      "fwd_pct": 4.21
+     },
+     {
+      "symbol": "sh562870",
+      "bucket": "disjoint",
+      "fwd_pct": -3.135
+     },
+     {
+      "symbol": "sh563580",
+      "bucket": "disjoint",
+      "fwd_pct": 4.846
+     },
+     {
+      "symbol": "sh588520",
+      "bucket": "other_still_holds",
+      "fwd_pct": -0.591
+     },
+     {
+      "symbol": "sh588920",
+      "bucket": "disjoint",
+      "fwd_pct": -7.689
+     },
+     {
+      "symbol": "sh588980",
+      "bucket": "disjoint",
+      "fwd_pct": 0.575
+     },
+     {
+      "symbol": "sh589550",
+      "bucket": "disjoint",
+      "fwd_pct": -0.865
+     },
+     {
+      "symbol": "sh589720",
+      "bucket": "disjoint",
+      "fwd_pct": -1.707
+     },
+     {
+      "symbol": "sz159200",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.208
+     },
+     {
+      "symbol": "sz159237",
+      "bucket": "other_still_holds",
+      "fwd_pct": 1.816
+     },
+     {
+      "symbol": "sz159242",
+      "bucket": "disjoint",
+      "fwd_pct": -1.269
+     },
+     {
+      "symbol": "sz159246",
+      "bucket": "other_still_holds",
+      "fwd_pct": -1.176
+     },
+     {
+      "symbol": "sz159248",
+      "bucket": "disjoint",
+      "fwd_pct": -5.478
+     },
+     {
+      "symbol": "sz159251",
+      "bucket": "disjoint",
+      "fwd_pct": 1.151
+     },
+     {
+      "symbol": "sz159255",
+      "bucket": "disjoint",
+      "fwd_pct": 4.098
+     },
+     {
+      "symbol": "sz159256",
+      "bucket": "disjoint",
+      "fwd_pct": 5.711
+     },
+     {
+      "symbol": "sz159257",
+      "bucket": "disjoint",
+      "fwd_pct": 3.023
+     },
+     {
+      "symbol": "sz159258",
+      "bucket": "disjoint",
+      "fwd_pct": -1.196
+     },
+     {
+      "symbol": "sz159261",
+      "bucket": "other_still_holds",
+      "fwd_pct": 4.403
+     },
+     {
+      "symbol": "sz159262",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.452
+     },
+     {
+      "symbol": "sz159263",
+      "bucket": "other_still_holds",
+      "fwd_pct": 2.16
+     },
+     {
+      "symbol": "sz159266",
+      "bucket": "disjoint",
+      "fwd_pct": 3.913
+     },
+     {
+      "symbol": "sz159267",
+      "bucket": "disjoint",
+      "fwd_pct": 4.481
+     },
+     {
+      "symbol": "sz159268",
+      "bucket": "other_still_holds",
+      "fwd_pct": 1.412
+     },
+     {
+      "symbol": "sz159269",
+      "bucket": "other_still_holds",
+      "fwd_pct": 1.845
+     },
+     {
+      "symbol": "sz159270",
+      "bucket": "disjoint",
+      "fwd_pct": 3.226
+     },
+     {
+      "symbol": "sz159273",
+      "bucket": "disjoint",
+      "fwd_pct": 1.833
+     },
+     {
+      "symbol": "sz159276",
+      "bucket": "disjoint",
+      "fwd_pct": 4.753
+     },
+     {
+      "symbol": "sz159306",
+      "bucket": "disjoint",
+      "fwd_pct": -0.168
+     },
+     {
+      "symbol": "sz159311",
+      "bucket": "other_still_holds",
+      "fwd_pct": -4.179
+     },
+     {
+      "symbol": "sz159400",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.164
+     },
+     {
+      "symbol": "sz159547",
+      "bucket": "disjoint",
+      "fwd_pct": 0.424
+     },
+     {
+      "symbol": "sz159600",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.215
+     },
+     {
+      "symbol": "sz159700",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.21
+     }
+    ],
+    "exits": [
+     {
+      "symbol": "sz159211",
+      "fwd_pct": -1.434
+     },
+     {
+      "symbol": "sz159515",
+      "fwd_pct": 3.322
+     }
+    ],
+    "other_next": "2026-07-31",
+    "other_drop_next_size": 1
+   },
+   {
+    "date": "2026-08-17",
+    "next": "2026-09-15",
+    "era": "2024_now",
+    "members": 1185,
+    "entrants": [
+     {
+      "symbol": "sh512030",
+      "bucket": "other_still_holds",
+      "fwd_pct": -6.771
+     },
+     {
+      "symbol": "sh512370",
+      "bucket": "other_still_holds",
+      "fwd_pct": -5.331
+     },
+     {
+      "symbol": "sh520510",
+      "bucket": "other_still_holds",
+      "fwd_pct": -2.021
+     },
+     {
+      "symbol": "sh520620",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.461
+     },
+     {
+      "symbol": "sh520670",
+      "bucket": "other_still_holds",
+      "fwd_pct": -9.826
+     },
+     {
+      "symbol": "sh520840",
+      "bucket": "disjoint",
+      "fwd_pct": -9.422
+     },
+     {
+      "symbol": "sh520970",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.227
+     },
+     {
+      "symbol": "sh530530",
+      "bucket": "disjoint",
+      "fwd_pct": -5.714
+     },
+     {
+      "symbol": "sh560770",
+      "bucket": "disjoint",
+      "fwd_pct": -11.176
+     },
+     {
+      "symbol": "sh563320",
+      "bucket": "disjoint",
+      "fwd_pct": -5.882
+     },
+     {
+      "symbol": "sh563620",
+      "bucket": "other_still_holds",
+      "fwd_pct": -3.789
+     },
+     {
+      "symbol": "sh588690",
+      "bucket": "disjoint",
+      "fwd_pct": -10.62
+     },
+     {
+      "symbol": "sh589020",
+      "bucket": "disjoint",
+      "fwd_pct": -14.742
+     },
+     {
+      "symbol": "sh589050",
+      "bucket": "other_still_holds",
+      "fwd_pct": -12.74
+     },
+     {
+      "symbol": "sh589090",
+      "bucket": "disjoint",
+      "fwd_pct": -14.273
+     },
+     {
+      "symbol": "sh589200",
+      "bucket": "other_still_holds",
+      "fwd_pct": -10.014
+     },
+     {
+      "symbol": "sh589850",
+      "bucket": "other_still_holds",
+      "fwd_pct": -12.85
+     },
+     {
+      "symbol": "sz159101",
+      "bucket": "disjoint",
+      "fwd_pct": -8.179
+     },
+     {
+      "symbol": "sz159259",
+      "bucket": "disjoint",
+      "fwd_pct": -8.351
+     },
+     {
+      "symbol": "sz159271",
+      "bucket": "other_still_holds",
+      "fwd_pct": -2.905
+     },
+     {
+      "symbol": "sz159277",
+      "bucket": "other_still_holds",
+      "fwd_pct": -0.508
+     },
+     {
+      "symbol": "sz159278",
+      "bucket": "other_still_holds",
+      "fwd_pct": -12.181
+     },
+     {
+      "symbol": "sz159280",
+      "bucket": "other_still_holds",
+      "fwd_pct": -10.397
+     },
+     {
+      "symbol": "sz159281",
+      "bucket": "disjoint",
+      "fwd_pct": 2.757
+     },
+     {
+      "symbol": "sz159283",
+      "bucket": "disjoint",
+      "fwd_pct": -5.654
+     },
+     {
+      "symbol": "sz159286",
+      "bucket": "disjoint",
+      "fwd_pct": -2.153
+     },
+     {
+      "symbol": "sz159287",
+      "bucket": "disjoint",
+      "fwd_pct": -9.076
+     },
+     {
+      "symbol": "sz159291",
+      "bucket": "disjoint",
+      "fwd_pct": -10.024
+     },
+     {
+      "symbol": "sz159292",
+      "bucket": "disjoint",
+      "fwd_pct": -9.896
+     },
+     {
+      "symbol": "sz159296",
+      "bucket": "disjoint",
+      "fwd_pct": 1.911
+     },
+     {
+      "symbol": "sz159303",
+      "bucket": "other_still_holds",
+      "fwd_pct": -1.961
+     },
+     {
+      "symbol": "sz159305",
+      "bucket": "other_still_holds",
+      "fwd_pct": -12.658
+     },
+     {
+      "symbol": "sz159369",
+      "bucket": "disjoint",
+      "fwd_pct": -13.757
+     },
+     {
+      "symbol": "sz159500",
+      "bucket": "disjoint",
+      "fwd_pct": -7.398
+     },
+     {
+      "symbol": "sz159821",
+      "bucket": "disjoint",
+      "fwd_pct": -12.926
+     }
+    ],
+    "exits": [
+     {
+      "symbol": "sh512390",
+      "fwd_pct": null
+     },
+     {
+      "symbol": "sz159578",
+      "fwd_pct": -5.542
+     }
+    ],
+    "other_next": "2026-08-31",
+    "other_drop_next_size": 5
+   },
+   {
+    "date": "2026-09-15",
+    "next": "2026-10-15",
+    "era": "2024_now",
+    "members": 1219,
+    "entrants": [
+     {
+      "symbol": "sh520720",
+      "bucket": "disjoint",
+      "fwd_pct": -9.579
+     },
+     {
+      "symbol": "sh551060",
+      "bucket": "disjoint",
+      "fwd_pct": 0.367
+     },
+     {
+      "symbol": "sh551300",
+      "bucket": "disjoint",
+      "fwd_pct": -1.081
+     },
+     {
+      "symbol": "sh551510",
+      "bucket": "disjoint",
+      "fwd_pct": 0.374
+     },
+     {
+      "symbol": "sh551520",
+      "bucket": "disjoint",
+      "fwd_pct": 0.411
+     },
+     {
+      "symbol": "sh551560",
+      "bucket": "disjoint",
+      "fwd_pct": 0.402
+     },
+     {
+      "symbol": "sh551580",
+      "bucket": "disjoint",
+      "fwd_pct": 0.36
+     },
+     {
+      "symbol": "sh551800",
+      "bucket": "disjoint",
+      "fwd_pct": 0.367
+     },
+     {
+      "symbol": "sh560570",
+      "bucket": "other_still_holds",
+      "fwd_pct": 2.877
+     },
+     {
+      "symbol": "sh561680",
+      "bucket": "other_still_holds",
+      "fwd_pct": 2.988
+     },
+     {
+      "symbol": "sh563230",
+      "bucket": "other_still_holds",
+      "fwd_pct": -13.052
+     },
+     {
+      "symbol": "sh563600",
+      "bucket": "disjoint",
+      "fwd_pct": -7.341
+     },
+     {
+      "symbol": "sh588550",
+      "bucket": "other_still_holds",
+      "fwd_pct": -14.375
+     },
+     {
+      "symbol": "sh589120",
+      "bucket": "disjoint",
+      "fwd_pct": -6.658
+     },
+     {
+      "symbol": "sh589560",
+      "bucket": "other_still_holds",
+      "fwd_pct": -10.946
+     },
+     {
+      "symbol": "sh589780",
+      "bucket": "disjoint",
+      "fwd_pct": -12.214
+     },
+     {
+      "symbol": "sh589820",
+      "bucket": "other_still_holds",
+      "fwd_pct": -11.947
+     },
+     {
+      "symbol": "sh589960",
+      "bucket": "disjoint",
+      "fwd_pct": -10.75
+     },
+     {
+      "symbol": "sz159102",
+      "bucket": "other_still_holds",
+      "fwd_pct": -4.198
+     },
+     {
+      "symbol": "sz159103",
+      "bucket": "other_still_holds",
+      "fwd_pct": -0.636
+     },
+     {
+      "symbol": "sz159107",
+      "bucket": "disjoint",
+      "fwd_pct": -3.803
+     },
+     {
+      "symbol": "sz159110",
+      "bucket": "disjoint",
+      "fwd_pct": -0.617
+     },
+     {
+      "symbol": "sz159111",
+      "bucket": "disjoint",
+      "fwd_pct": 0.402
+     },
+     {
+      "symbol": "sz159112",
+      "bucket": "disjoint",
+      "fwd_pct": 0.386
+     },
+     {
+      "symbol": "sz159113",
+      "bucket": "disjoint",
+      "fwd_pct": 0.407
+     },
+     {
+      "symbol": "sz159115",
+      "bucket": "disjoint",
+      "fwd_pct": 0.394
+     },
+     {
+      "symbol": "sz159116",
+      "bucket": "disjoint",
+      "fwd_pct": 0.378
+     },
+     {
+      "symbol": "sz159272",
+      "bucket": "disjoint",
+      "fwd_pct": -12.237
+     },
+     {
+      "symbol": "sz159288",
+      "bucket": "disjoint",
+      "fwd_pct": -10.084
+     },
+     {
+      "symbol": "sz159289",
+      "bucket": "other_still_holds",
+      "fwd_pct": -11.026
+     },
+     {
+      "symbol": "sz159290",
+      "bucket": "other_still_holds",
+      "fwd_pct": -11.191
+     },
+     {
+      "symbol": "sz159297",
+      "bucket": "disjoint",
+      "fwd_pct": -4.782
+     },
+     {
+      "symbol": "sz159298",
+      "bucket": "other_still_holds",
+      "fwd_pct": -14.929
+     },
+     {
+      "symbol": "sz159299",
+      "bucket": "other_still_holds",
+      "fwd_pct": -1.201
+     },
+     {
+      "symbol": "sz159521",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.686
+     },
+     {
+      "symbol": "sz159583",
+      "bucket": "other_still_holds",
+      "fwd_pct": -18.587
+     },
+     {
+      "symbol": "sz159617",
+      "bucket": "other_still_holds",
+      "fwd_pct": -1.124
+     },
+     {
+      "symbol": "sz159716",
+      "bucket": "other_still_holds",
+      "fwd_pct": -10.387
+     }
+    ],
+    "exits": [
+     {
+      "symbol": "sh512180",
+      "fwd_pct": -6.809
+     },
+     {
+      "symbol": "sh563830",
+      "fwd_pct": -1.68
+     },
+     {
+      "symbol": "sz159210",
+      "fwd_pct": -10.376
+     },
+     {
+      "symbol": "sz159972",
+      "fwd_pct": 0.218
+     }
+    ],
+    "other_next": "2026-09-30",
+    "other_drop_next_size": 5
+   }
+  ],
+  "me": [
+   {
+    "date": "2026-08-31",
+    "next": "2026-09-30",
+    "era": "2024_now",
+    "members": 1198,
+    "entrants": [
+     {
+      "symbol": "sh520840",
+      "bucket": "other_still_holds",
+      "fwd_pct": -6.675
+     },
+     {
+      "symbol": "sh530530",
+      "bucket": "other_still_holds",
+      "fwd_pct": -4.979
+     },
+     {
+      "symbol": "sh560570",
+      "bucket": "disjoint",
+      "fwd_pct": 0.897
+     },
+     {
+      "symbol": "sh560770",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.914
+     },
+     {
+      "symbol": "sh561680",
+      "bucket": "disjoint",
+      "fwd_pct": 1.102
+     },
+     {
+      "symbol": "sh563230",
+      "bucket": "disjoint",
+      "fwd_pct": -7.046
+     },
+     {
+      "symbol": "sh563320",
+      "bucket": "other_still_holds",
+      "fwd_pct": -4.795
+     },
+     {
+      "symbol": "sh588550",
+      "bucket": "disjoint",
+      "fwd_pct": -8.157
+     },
+     {
+      "symbol": "sh588690",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.253
+     },
+     {
+      "symbol": "sh589020",
+      "bucket": "other_still_holds",
+      "fwd_pct": -9.641
+     },
+     {
+      "symbol": "sh589090",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.749
+     },
+     {
+      "symbol": "sh589560",
+      "bucket": "disjoint",
+      "fwd_pct": -7.867
+     },
+     {
+      "symbol": "sh589820",
+      "bucket": "disjoint",
+      "fwd_pct": -3.503
+     },
+     {
+      "symbol": "sz159101",
+      "bucket": "other_still_holds",
+      "fwd_pct": -5.946
+     },
+     {
+      "symbol": "sz159102",
+      "bucket": "disjoint",
+      "fwd_pct": 6.401
+     },
+     {
+      "symbol": "sz159103",
+      "bucket": "disjoint",
+      "fwd_pct": -8.984
+     },
+     {
+      "symbol": "sz159259",
+      "bucket": "other_still_holds",
+      "fwd_pct": -8.096
+     },
+     {
+      "symbol": "sz159281",
+      "bucket": "other_still_holds",
+      "fwd_pct": -0.412
+     },
+     {
+      "symbol": "sz159283",
+      "bucket": "other_still_holds",
+      "fwd_pct": -4.817
+     },
+     {
+      "symbol": "sz159286",
+      "bucket": "other_still_holds",
+      "fwd_pct": 2.926
+     },
+     {
+      "symbol": "sz159287",
+      "bucket": "other_still_holds",
+      "fwd_pct": -5.971
+     },
+     {
+      "symbol": "sz159289",
+      "bucket": "disjoint",
+      "fwd_pct": -5.845
+     },
+     {
+      "symbol": "sz159290",
+      "bucket": "disjoint",
+      "fwd_pct": -5.928
+     },
+     {
+      "symbol": "sz159291",
+      "bucket": "other_still_holds",
+      "fwd_pct": -6.717
+     },
+     {
+      "symbol": "sz159292",
+      "bucket": "other_still_holds",
+      "fwd_pct": -5.236
+     },
+     {
+      "symbol": "sz159296",
+      "bucket": "other_still_holds",
+      "fwd_pct": 1.19
+     },
+     {
+      "symbol": "sz159298",
+      "bucket": "disjoint",
+      "fwd_pct": -8.855
+     },
+     {
+      "symbol": "sz159299",
+      "bucket": "disjoint",
+      "fwd_pct": -8.901
+     },
+     {
+      "symbol": "sz159369",
+      "bucket": "other_still_holds",
+      "fwd_pct": -9.275
+     },
+     {
+      "symbol": "sz159500",
+      "bucket": "other_still_holds",
+      "fwd_pct": -6.02
+     },
+     {
+      "symbol": "sz159521",
+      "bucket": "disjoint",
+      "fwd_pct": -2.187
+     },
+     {
+      "symbol": "sz159583",
+      "bucket": "disjoint",
+      "fwd_pct": -5.663
+     },
+     {
+      "symbol": "sz159617",
+      "bucket": "disjoint",
+      "fwd_pct": -2.112
+     },
+     {
+      "symbol": "sz159716",
+      "bucket": "disjoint",
+      "fwd_pct": -8.169
+     },
+     {
+      "symbol": "sz159821",
+      "bucket": "other_still_holds",
+      "fwd_pct": -8.269
+     }
+    ],
+    "exits": [
+     {
+      "symbol": "sh512180",
+      "fwd_pct": -4.809
+     },
+     {
+      "symbol": "sh512390",
+      "fwd_pct": null
+     },
+     {
+      "symbol": "sh563830",
+      "fwd_pct": -5.738
+     },
+     {
+      "symbol": "sz159578",
+      "fwd_pct": -6.172
+     },
+     {
+      "symbol": "sz159972",
+      "fwd_pct": 0.065
+     }
+    ],
+    "other_next": "2026-09-15",
+    "other_drop_next_size": 4
+   },
+   {
+    "date": "2026-09-30",
+    "next": "2026-10-26",
+    "era": "2024_now",
+    "members": 1226,
+    "entrants": [
+     {
+      "symbol": "sh515720",
+      "bucket": "disjoint",
+      "fwd_pct": 2.607
+     },
+     {
+      "symbol": "sh520560",
+      "bucket": "disjoint",
+      "fwd_pct": -5.422
+     },
+     {
+      "symbol": "sh520720",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.328
+     },
+     {
+      "symbol": "sh520920",
+      "bucket": "disjoint",
+      "fwd_pct": -9.904
+     },
+     {
+      "symbol": "sh530380",
+      "bucket": "disjoint",
+      "fwd_pct": -8.964
+     },
+     {
+      "symbol": "sh551060",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.326
+     },
+     {
+      "symbol": "sh551300",
+      "bucket": "other_still_holds",
+      "fwd_pct": -1.113
+     },
+     {
+      "symbol": "sh551510",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.376
+     },
+     {
+      "symbol": "sh551520",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.371
+     },
+     {
+      "symbol": "sh551560",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.361
+     },
+     {
+      "symbol": "sh551580",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.316
+     },
+     {
+      "symbol": "sh551800",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.37
+     },
+     {
+      "symbol": "sh563600",
+      "bucket": "other_still_holds",
+      "fwd_pct": -7.366
+     },
+     {
+      "symbol": "sh563670",
+      "bucket": "disjoint",
+      "fwd_pct": 2.222
+     },
+     {
+      "symbol": "sh563690",
+      "bucket": "disjoint",
+      "fwd_pct": 0.87
+     },
+     {
+      "symbol": "sh588140",
+      "bucket": "disjoint",
+      "fwd_pct": -14.117
+     },
+     {
+      "symbol": "sh589110",
+      "bucket": "disjoint",
+      "fwd_pct": -4.85
+     },
+     {
+      "symbol": "sh589120",
+      "bucket": "other_still_holds",
+      "fwd_pct": -13.294
+     },
+     {
+      "symbol": "sh589780",
+      "bucket": "other_still_holds",
+      "fwd_pct": -14.31
+     },
+     {
+      "symbol": "sh589960",
+      "bucket": "other_still_holds",
+      "fwd_pct": -12.0
+     },
+     {
+      "symbol": "sz159107",
+      "bucket": "other_still_holds",
+      "fwd_pct": 1.847
+     },
+     {
+      "symbol": "sz159109",
+      "bucket": "disjoint",
+      "fwd_pct": -6.927
+     },
+     {
+      "symbol": "sz159110",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.291
+     },
+     {
+      "symbol": "sz159111",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.361
+     },
+     {
+      "symbol": "sz159112",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.371
+     },
+     {
+      "symbol": "sz159113",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.353
+     },
+     {
+      "symbol": "sz159115",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.358
+     },
+     {
+      "symbol": "sz159116",
+      "bucket": "other_still_holds",
+      "fwd_pct": 0.363
+     },
+     {
+      "symbol": "sz159272",
+      "bucket": "other_still_holds",
+      "fwd_pct": 3.014
+     },
+     {
+      "symbol": "sz159275",
+      "bucket": "disjoint",
+      "fwd_pct": -2.644
+     },
+     {
+      "symbol": "sz159279",
+      "bucket": "disjoint",
+      "fwd_pct": -16.129
+     },
+     {
+      "symbol": "sz159288",
+      "bucket": "other_still_holds",
+      "fwd_pct": -10.476
+     },
+     {
+      "symbol": "sz159297",
+      "bucket": "other_still_holds",
+      "fwd_pct": -11.757
+     }
+    ],
+    "exits": [
+     {
+      "symbol": "sz159210",
+      "fwd_pct": -7.555
+     },
+     {
+      "symbol": "sz159291",
+      "fwd_pct": -12.601
+     },
+     {
+      "symbol": "sz159332",
+      "fwd_pct": null
+     },
+     {
+      "symbol": "sz159355",
+      "fwd_pct": null
+     },
+     {
+      "symbol": "sz159642",
+      "fwd_pct": -5.691
+     }
+    ],
+    "other_next": "2026-10-15",
+    "other_drop_next_size": null
+   }
+  ]
+ },
+ "answers": {
+  "newest_era_mid_bucket_share_pct": {
+   "other_drops_next": 0.15,
+   "other_still_holds": 50.45,
+   "disjoint": 49.39
+  },
+  "newest_era_mid_bucket_fwd_pct": {
+   "other_drops_next": -4.18,
+   "other_still_holds": 0.959,
+   "disjoint": 0.814
+  },
+  "newest_era_me_bucket_share_pct": {
+   "other_drops_next": 0.15,
+   "other_still_holds": 48.87,
+   "disjoint": 50.98
+  },
+  "newest_era_me_bucket_fwd_pct": {
+   "other_drops_next": -2.039,
+   "other_still_holds": 1.046,
+   "disjoint": 2.154
+  },
+  "newest_era_mid_unique_entrants": 645,
+  "newest_era_me_unique_entrants": 647,
+  "newest_era_mid_repeat_entrant_share_pct": 2.3,
+  "newest_era_me_repeat_entrant_share_pct": 2.1
+ },
+ "honest": [
+  "bucket membership is decided on the other calendar's book, not on a re-priced counterfactual: it says what the other book did with the name, not what the money would have done",
+  "fwd_pct is the raw decision-to-decision return of the name, before any weighting, cost or cash leg",
+  "one mid-month date (day 15) against one month-end date: the calendars are fixed, not swept",
+  "the last transition of each calendar has no full forward window if the panel ends mid-window; those rows carry null returns rather than zeros",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

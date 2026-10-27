@@ -72,6 +72,42 @@
     "func": "run_screenreg",
     "face": "results/e44_midmonth/SCREENREG-20261026.json",
     "calls": []
+   },
+   {
+    "leg": "burninscreen",
+    "func": "run_burninscreen",
+    "face": "results/e44_burnin/BURNINSCREEN-20261026.json",
+    "calls": [
+     "run_burnin"
+    ]
+   },
+   {
+    "leg": "cutcurvescreen",
+    "func": "run_cutcurvescreen",
+    "face": "results/e44_burnin/CUTCURVESCREEN-20261026.json",
+    "calls": [
+     "run_cutcurve",
+     "run_livespan"
+    ]
+   },
+   {
+    "leg": "livespanscreen",
+    "func": "run_livespanscreen",
+    "face": "results/e44_burnin/LIVESPANSCREEN-20261026.json",
+    "calls": [
+     "run_livespan"
+    ]
+   },
+   {
+    "leg": "chasescreen",
+    "func": "run_chasescreen",
+    "face": "results/e44_midmonth/CHASESCREEN-20261026.json",
+    "calls": [
+     "run_burnin",
+     "run_chase",
+     "run_cutcurve",
+     "run_livespan"
+    ]
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -307,8 +343,11 @@
    "runner": "run_burnin",
    "face": "results/e44_burnin/BURNIN-20261020.json",
    "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "burninscreen",
+    "chasescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -318,8 +357,11 @@
    "runner": "run_burnin",
    "face": "results/e44_burnin/BURNIN-20261020.json",
    "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "burninscreen",
+    "chasescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -329,8 +371,11 @@
    "runner": "run_burnin",
    "face": "results/e44_burnin/BURNIN-20261020.json",
    "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "burninscreen",
+    "chasescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -340,8 +385,11 @@
    "runner": "run_burnin",
    "face": "results/e44_burnin/BURNIN-20261020.json",
    "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "burninscreen",
+    "chasescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -373,8 +421,12 @@
    "runner": "run_livespan",
    "face": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
    "published_cells": 471,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "chasescreen",
+    "cutcurvescreen",
+    "livespanscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -384,8 +436,12 @@
    "runner": "run_livespan",
    "face": "results/e46_live_span/LIVESPAN-20261020-x3-p11.json",
    "published_cells": 471,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "chasescreen",
+    "cutcurvescreen",
+    "livespanscreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -395,8 +451,11 @@
    "runner": "run_cutcurve",
    "face": "results/e46_live_span/CUTCURVE-20261020.json",
    "published_cells": 1139,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "chasescreen",
+    "cutcurvescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide per-name prices + ladder marks"
@@ -406,8 +465,10 @@
    "runner": "run_chase",
    "face": "results/e44_midmonth/CHASE-20261020.json",
    "published_cells": 377,
-   "coverage": "uncovered",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "chasescreen"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [],
    "read_set": "wide-book aggregates only: a 5-name step is blind, the repair arm moves it"
@@ -579,50 +640,6 @@
  ],
  "ranking_uncovered_by_runner": [
   {
-   "runner": "run_burnin",
-   "modes": [
-    "burnin",
-    "e44",
-    "knife",
-    "skinloo"
-   ],
-   "published_cells_dedup": 1727,
-   "faces": [
-    "results/e44_burnin/BURNIN-20261020.json"
-   ]
-  },
-  {
-   "runner": "run_cutcurve",
-   "modes": [
-    "cutcurve"
-   ],
-   "published_cells_dedup": 1139,
-   "faces": [
-    "results/e46_live_span/CUTCURVE-20261020.json"
-   ]
-  },
-  {
-   "runner": "run_livespan",
-   "modes": [
-    "e46",
-    "livespan"
-   ],
-   "published_cells_dedup": 471,
-   "faces": [
-    "results/e46_live_span/LIVESPAN-20261020-x3-p11.json"
-   ]
-  },
-  {
-   "runner": "run_chase",
-   "modes": [
-    "chase"
-   ],
-   "published_cells_dedup": 377,
-   "faces": [
-    "results/e44_midmonth/CHASE-20261020.json"
-   ]
-  },
-  {
    "runner": "run_earlydelay",
    "modes": [
     "earlydelay"
@@ -728,62 +745,6 @@
  ],
  "ranking_uncovered_by_mode": [
   {
-   "mode": "burnin",
-   "runner": "run_burnin",
-   "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "e44",
-   "runner": "run_burnin",
-   "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "knife",
-   "runner": "run_burnin",
-   "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "skinloo",
-   "runner": "run_burnin",
-   "published_cells": 1727,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "cutcurve",
-   "runner": "run_cutcurve",
-   "published_cells": 1139,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "e46",
-   "runner": "run_livespan",
-   "published_cells": 471,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "livespan",
-   "runner": "run_livespan",
-   "published_cells": 471,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
-   "mode": "chase",
-   "runner": "run_chase",
-   "published_cells": 377,
-   "coverage": "uncovered",
-   "twin_legs": []
-  },
-  {
    "mode": "earlydelay",
    "runner": "run_earlydelay",
    "published_cells": 235,
@@ -877,12 +838,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 3,
+  "covered_by_twin": 11,
   "covered_twin_by_name": 1,
-  "uncovered": 21,
+  "uncovered": 13,
   "uncovered_column_only": 7,
-  "uncovered_distinct_runners": 14,
-  "cells_unchanged_by_any_twin": 5282
+  "uncovered_distinct_runners": 10,
+  "cells_unchanged_by_any_twin": 1568
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

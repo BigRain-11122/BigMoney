@@ -13,7 +13,7 @@ Coverage is a **code-graph** fact (does a twin leg call this mode's runner, or b
 
 | charged | covered by twin call | covered by twin body | uncovered | distinct runners | column-only collisions |
 |---|---|---|---|---|---|
-| 25 | 3 | 1 | 21 | 14 | 7 |
+| 25 | 11 | 1 | 13 | 10 | 7 |
 
 ## The table
 
@@ -28,16 +28,16 @@ Coverage is a **code-graph** fact (does a twin leg call this mode's runner, or b
 | e43 | run_tilt4 | none | uncovered_column_only | 91 |
 | tilt4 | run_tilt4 | none | uncovered_column_only | 91 |
 | widecomp | run_tilt4 | none | uncovered_column_only | 91 |
-| burnin | run_burnin | none | uncovered | 1727 |
-| e44 | run_burnin | none | uncovered | 1727 |
-| knife | run_burnin | none | uncovered | 1727 |
-| skinloo | run_burnin | none | uncovered | 1727 |
+| burnin | run_burnin | burninscreen,chasescreen | covered_twin | 1727 |
+| e44 | run_burnin | burninscreen,chasescreen | covered_twin | 1727 |
+| knife | run_burnin | burninscreen,chasescreen | covered_twin | 1727 |
+| skinloo | run_burnin | burninscreen,chasescreen | covered_twin | 1727 |
 | e45 | run_warmspread | none | uncovered | 123 |
 | warmspread | run_warmspread | none | uncovered | 123 |
-| e46 | run_livespan | none | uncovered | 471 |
-| livespan | run_livespan | none | uncovered | 471 |
-| cutcurve | run_cutcurve | none | uncovered | 1139 |
-| chase | run_chase | none | uncovered | 377 |
+| e46 | run_livespan | chasescreen,cutcurvescreen,livespanscreen | covered_twin | 471 |
+| livespan | run_livespan | chasescreen,cutcurvescreen,livespanscreen | covered_twin | 471 |
+| cutcurve | run_cutcurve | chasescreen,cutcurvescreen | covered_twin | 1139 |
+| chase | run_chase | chasescreen | covered_twin | 377 |
 | entrydelay | run_entrydelay | none | uncovered_column_only | 223 |
 | earlydelay | run_earlydelay | none | uncovered_column_only | 235 |
 | neighborhood | run_neighborhood | none | uncovered_column_only | 139 |
@@ -49,25 +49,21 @@ Coverage is a **code-graph** fact (does a twin leg call this mode's runner, or b
 
 | # | runner | numbers carried | modes sharing the face |
 |---|---|---|---|
-| 1 | run_burnin | 1727 | burnin, e44, knife, skinloo |
-| 2 | run_cutcurve | 1139 | cutcurve |
-| 3 | run_livespan | 471 | e46, livespan |
-| 4 | run_chase | 377 | chase |
-| 5 | run_earlydelay | 235 | earlydelay |
-| 6 | run_panelsplit | 234 | panelsplit |
-| 7 | run_staletail | 228 | staletail |
-| 8 | run_entrydelay | 223 | entrydelay |
-| 9 | run_neighborhood | 139 | neighborhood |
-| 10 | run_rebalday | 132 | rebalday |
-| 11 | run_warmspread | 123 | e45, warmspread |
-| 12 | run_pair | 93 | pair |
-| 13 | run_tilt4 | 91 | e43, tilt4, widecomp |
-| 14 | run_cashdrag | 70 | cashdrag |
+| 1 | run_earlydelay | 235 | earlydelay |
+| 2 | run_panelsplit | 234 | panelsplit |
+| 3 | run_staletail | 228 | staletail |
+| 4 | run_entrydelay | 223 | entrydelay |
+| 5 | run_neighborhood | 139 | neighborhood |
+| 6 | run_rebalday | 132 | rebalday |
+| 7 | run_warmspread | 123 | e45, warmspread |
+| 8 | run_pair | 93 | pair |
+| 9 | run_tilt4 | 91 | e43, tilt4, widecomp |
+| 10 | run_cashdrag | 70 | cashdrag |
 
 ## What the numbers say
 
-1. **The biggest untouched face is not a headline leg.** `run_burnin` carries 1727 numbers across burnin, e44, knife, skinloo - the largest single burn, 33% of the 5282 numbers the 14 uncovered runners carry together (one burn each, shared faces counted once).
-2. **Only 3 of 25 charged modes have a twin that calls their runner**, and exactly one more is covered by a twin that builds the face in its own body. So E109's fixed-factor sweep did not reach the base faces: the corrected numbers live on twin faces, while the faces a reader opens are still the unscreened ones.
+1. **The biggest untouched face is not a headline leg.** `run_earlydelay` carries 235 numbers across earlydelay - the largest single burn, 15% of the 1568 numbers the 10 uncovered runners carry together (one burn each, shared faces counted once).
+2. **Only 11 of 25 charged modes have a twin that calls their runner**, and exactly one more is covered by a twin that builds the face in its own body. So E109's fixed-factor sweep did not reach the base faces: the corrected numbers live on twin faces, while the faces a reader opens are still the unscreened ones.
 3. **A column-name test would have routed work to the wrong leg.** 7 rows match some twin at >=80% column overlap without any code link; generic metric names (`ann_return_pct`, `sharpe`, `max_drawdown_pct`) are why.
 
 ## Honest

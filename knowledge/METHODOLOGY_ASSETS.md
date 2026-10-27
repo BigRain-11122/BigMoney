@@ -1219,3 +1219,31 @@ the only output that assigns a stability class to each reading.
 Evidence: results/e44_burnin/CUTCURVESCREEN-20261026.json (pair / control / cutoff_control), scripts/
 e39_panel_census.py cutcurvescreen (selftest 343/343), digest
 research/digests/DIGEST-20261027-e113-cutcurve-screened-twin.md.
+
+## E148 Repair and refresh move different columns -- measure both axes before quoting any cell (2026-10-27 r1182 bm-b)
+The same 95 numbers of one face respond to the two stability axes in opposite ways. The chase leg (E57; 95 joined
+cells: bucket shares, bucket forward returns, entrant counts, universe size) was burned twice: raw vs
+panel_screen neutralise_int (the repair axis, 67 prints on 67 of 1,317 names, names in = names out) and the newest
+published raw face 2026-10-20 vs today's raw arm (the refresh axis, +4 sessions).
+  repair axis  -> 5 of 95 cells move, all bucket RETURNS (max +0.166 pp); every count, every share and the
+                  universe size are identical: the decision sets do not move at all.
+  refresh axis -> 16 of 95 cells move, worst cell is a COUNT (entrant_slots +6, universe_members 1265 -> 1271);
+                  shares shift by <=0.45 pp and returns by <=0.60 pp.
+So "is this face stable" has no single answer: bucket MEMBERSHIP is arm-free and refresh-sensitive, bucket RETURNS
+are repair-sensitive -- in the direction where the raw arm flatters the losing bucket, same as E114. Quote the
+shares without an arm; quote the returns with one. And do not import the stability classes of another leg: the
+burn-in (E112) was stable in its gate columns and unstable in its returns, exactly the opposite decomposition.
+Two mechanism rules came with it. (a) A twin registry is a hand-maintained list, so a twin that is written but not
+registered is invisible: E97's coverage test declared covered_by_twin=3 while four screened twins sat on disk.
+Registering them moved the routing table to 11 covered / 13 uncovered / 1,568 cells untouched (from 3 / 21 / 5,282).
+Any "is X covered" table must derive from the declaration AND assert that every twin function in the census source
+appears in it. (b) A harvest must walk the face's real nesting: chase publishes eras[calendar][era], so a harvest
+written for eras[era] silently returned 15 cells of 95 and the join reported "0 of 7 cells moved" -- a green-looking
+verdict from an empty read. Assert the cell count against E97's published-number census for that runner, not
+against zero.
+How to apply: for each new screened twin, publish the moved-cell count PER COLUMN GROUP on both axes plus the
+identity and coverage controls; if the joined cell count is far below the routing census for that runner, the
+harvest is wrong, not the face.
+Evidence: results/e44_midmonth/CHASESCREEN-20261026.json (pair / control / cutoff_control), scripts/
+e39_panel_census.py chasescreen (selftest 348 -> 353/353), scripts/e97_routing.py TWIN_FUNCS,
+research/digests/DIGEST-20261027-e115-chase-screened-twin.md.

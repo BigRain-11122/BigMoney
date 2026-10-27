@@ -50,6 +50,15 @@ TWIN_FUNCS = {
     "run_screenwide": ("screenwide", "results/e44_midmonth/SCREENWIDE-*.json"),
     "run_screengapera": ("screengapera", "results/e44_midmonth/SCREENGAPERA-*.json"),
     "run_screenreg": ("screenreg", "results/e44_midmonth/SCREENREG-*.json"),
+    # E112-E115 twins. They were built before they were registered, so the first
+    # three routing faces called their runners uncovered while a screened twin
+    # for each sat on disk: the coverage question only sees what is declared
+    # here, and a twin that is not declared is not a twin as far as this table
+    # is concerned.
+    "run_burninscreen": ("burninscreen", "results/e44_burnin/BURNINSCREEN-*.json"),
+    "run_cutcurvescreen": ("cutcurvescreen", "results/e44_burnin/CUTCURVESCREEN-*.json"),
+    "run_livespanscreen": ("livespanscreen", "results/e44_burnin/LIVESPANSCREEN-*.json"),
+    "run_chasescreen": ("chasescreen", "results/e44_midmonth/CHASESCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")
@@ -521,6 +530,18 @@ def selftest():
     # L14: the name channel does not leak to unrelated modes
     chk("L14 name channel does not leak", rows["tiny"]["coverage"] == "uncovered"
         and not rows["tiny"]["twin_by_name"])
+
+    # L15: the registry is the only channel this table reads, so a twin function
+    # that exists in the census source but is not declared is invisible coverage.
+    # E112-E115 were written without being declared and the table reported their
+    # runners uncovered while the twin faces sat on disk.
+    # the leg reads the REAL census source, not the selftest's temp root (selftest
+    # reassigns ROOT, so anchor on this file's own location instead)
+    _repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    _src = open(os.path.join(_repo, CENSUS), "r", encoding="utf-8", errors="replace").read()
+    _twin_named = [n for n in re.findall(r"^def (run_\w+)\(", _src, re.M) if "screen" in n]
+    chk("L15 every run_*screen* twin in the census source is declared",
+        _twin_named and all(n in TWIN_FUNCS for n in _twin_named))
 
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:

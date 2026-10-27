@@ -4762,7 +4762,8 @@ def _chase_era(rows, eras=ERAS):
     return out
 
 
-def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15):
+def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15,
+              raw=None):
     """E57: name the mid-month swaps and test the chase reading.
 
     r1132 showed the calendars turn over the same amount and that the mid-month
@@ -4776,7 +4777,7 @@ def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_d
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = e27.load_universe() if raw is None else raw
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -4848,6 +4849,199 @@ def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_d
             "the last transition of each calendar has no full forward window if the "
             "panel ends mid-window; those rows carry null returns rather than zeros",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _chase_arm_cells(face, starts=None):
+    """(E115) -> {(key, column): value} for every cell the chase leg publishes.
+
+    The chase leg's load-bearing reading is the bucket mix of each calendar:
+    what share of entrants lands in the other book's drop set and what those
+    entrants then earned. Both are harvested per era, because a bucket share is
+    only interpretable inside the era it was computed on. ``top10_entrants`` and
+    ``recent_transitions`` are deliberately not harvested: they are name lists,
+    and joining them would report one swap as a dozen moved numbers.
+    """
+    out = {}
+    for cal_label, eras in (face.get("eras") or {}).items():
+        for era, row in (eras or {}).items():
+            row = row or {}
+            base_key = "era/%s/%s" % (cal_label, era)
+            for col in ("transitions", "entrant_slots", "unique_entrants",
+                        "repeat_entrant_share_pct"):
+                out[(base_key, col)] = row.get(col)
+            for b, bd in (row.get("buckets") or {}).items():
+                bd = bd or {}
+                for col in ("entrants", "share_pct", "priced", "fwd_pct_mean",
+                            "negative_share_pct"):
+                    out[("%s/%s" % (base_key, b), col)] = bd.get(col)
+    for k, v in (face.get("answers") or {}).items():
+        if isinstance(v, dict):
+            for sub, sv in v.items():
+                if isinstance(sv, (int, float)) or sv is None:
+                    out[("answers/" + k, sub)] = sv
+        elif isinstance(v, (int, float)) or v is None:
+            out[("answers", k)] = v
+    for k, v in (face.get("decision_days") or {}).items():
+        out[("decision_days", k)] = v
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                    mid_day=15, mode="neutralise_int", resume=True):
+    """E115: re-derive the chase leg on the screened arm, beside the raw face.
+
+    E97 ranks run_burnin / run_cutcurve / run_livespan / run_chase; E112-E114
+    closed the first three. The chase leg is the fourth (377 published numbers,
+    one runner) and it asks a narrower question than the burn-in: do the
+    *entrants* move, and does a repaired print change which names the mid-month
+    book is chasing? Its bucket shares are still a digital count (how many
+    entrants fall in the other book's drop set), so a repair that reorders the
+    decision sets can move them without any return changing.
+
+    Same machinery as E112-E114 on purpose: one load, both arms burned off it,
+    checkpoints so a killed pass resumes, the same ``_burnin_pair_rows`` join
+    with a chase harvest, and a same-arm control that must read zero.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "CHASE-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "CHASE-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_chase(None, start=start, pick_n=pick_n,
+                                              exclude=exclude, mid_day=mid_day,
+                                              raw=raw))
+    scr_arm = cached(mode, lambda: run_chase(None, start=start, pick_n=pick_n,
+                                             exclude=exclude, mid_day=mid_day,
+                                             raw=screened))
+
+    keys = sorted({k[0] for k in _chase_arm_cells(raw_arm)})
+    # the chase leg publishes no date pointers, so the date join is empty by
+    # construction rather than borrowing the burn-in's window columns.
+    no_dates = lambda face, ks: {}
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys, cells_fn=_chase_arm_cells,
+                             dates_fn=no_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys, cells_fn=_chase_arm_cells,
+                                dates_fn=no_dates)["summary"]
+
+    # cutoff control: the newest previously published raw chase face vs today's
+    # raw arm. Same arm, two cutoffs -> isolates the panel refresh, not the
+    # repair. The published faces live in results/e44_midmonth.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("CHASE-") and p.endswith(".json")
+                    and not p.startswith("CHASE-arm-")
+                    and not p.startswith("CHASESCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("CHASE-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_chase_arm_cells, dates_fn=no_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    share_cols = ("share_pct", "entrants", "priced")
+    share_moved = [r for r in pair["moved"] if r["column"] in share_cols]
+    return_moved = [r for r in pair["moved"] if r["column"] not in share_cols]
+    survives = (s["only_in_raw"] == 0 and s["only_in_screened"] == 0
+                and control["cells_moved"] == 0
+                and control["max_abs_delta_pp"] == 0.0)
+    return {
+        "study": "e115_chase_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "mid_month_day": mid_day, "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_chase_arm_cells harvests per-era bucket shares, bucket "
+                     "forward returns, entrant counts and the calendar's own "
+                     "decision/unique counts; name lists are not joined"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta_pp": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "share_cells_moved": len(share_moved),
+            "return_cells_moved": len(return_moved),
+            "control_cells_moved": control["cells_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta_pp":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the chase counts survive the repair: %d of %d cells move, %d of "
+                 "them share/count cells, worst %.2f pp"
+                 % (s["cells_moved"], s["cells_compared"], len(share_moved),
+                    s["max_abs_delta_pp"]))
+                if survives else
+                ("the repair reaches the chase leg: %d of %d cells move (%d share/"
+                 "count, %d return) and %d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(share_moved),
+                    len(return_moved), s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged entrant count is a "
+            "property of the repair, not evidence the panel is clean",
+            "bucket membership is decided on the other calendar's book, so a "
+            "share that moves between arms means the repair reordered a decision "
+            "set -- it says nothing about what the money would have earned",
+            "one mid-month date against one month-end date: the calendars are "
+            "fixed, not swept, exactly as in the raw leg",
+            "E97 counts 377 published numbers for this runner; %d are joined here "
+            "because the per-transition rows and the top10/bottom10 name lists are "
+            "not: a symbol list is a pointer, and joining it would report one "
+            "swap as a dozen moved numbers" % s["cells_compared"],
         ],
     }
 
@@ -10595,6 +10789,58 @@ def selftest():
     chk(_s114["only_in_screened"] > 0 and _s114["cells_moved"] == 0,
         "E114 an era skipped on one side is reported as one-sided, not as zero")
 
+    # E115: the chase leg is the fourth uncovered runner in E97's ranking. Its
+    # published cells are bucket shares and bucket forward returns per era, plus
+    # the calendar's own counts -- and the join must ignore the name lists.
+    def _syn_chase(share=None, fwd=None, era="2024_now", extra_bucket=False):
+        share = share or {b: 10.0 for b in CHASE_BUCKETS}
+        fwd = fwd or {b: 1.0 for b in CHASE_BUCKETS}
+        buckets = {b: {"entrants": 3, "share_pct": share[b], "priced": 3,
+                       "fwd_pct_mean": fwd[b], "negative_share_pct": 33.3}
+                   for b in CHASE_BUCKETS}
+        if extra_bucket:
+            buckets["never_seen"] = {"entrants": 1, "share_pct": 1.0, "priced": 1,
+                                     "fwd_pct_mean": 0.0, "negative_share_pct": 0.0}
+        return {"eras": {"mid15": {era: {"transitions": 10, "entrant_slots": 30,
+                                         "unique_entrants": 25,
+                                         "repeat_entrant_share_pct": 16.7,
+                                         "buckets": buckets,
+                                         "top10_entrants": [{"symbol": "sh510300"}]}}},
+                "answers": {"newest_era_mid_unique_entrants": 25,
+                            "newest_era_mid_repeat_entrant_share_pct": 16.7,
+                            "newest_era_mid_bucket_share_pct": {b: share[b]
+                                                                for b in CHASE_BUCKETS}},
+                "decision_days": {"me": 12, "mid15": 12},
+                "spec": {"universe_members": 665}}
+
+    _cells115 = _chase_arm_cells(_syn_chase())
+    chk(("era/mid15/2024_now/" + CHASE_BUCKETS[0], "share_pct") in _cells115
+        and ("spec", "universe_members") in _cells115
+        and ("decision_days", "mid15") in _cells115
+        and ("answers/newest_era_mid_bucket_share_pct", CHASE_BUCKETS[0]) in _cells115,
+        "E115 the harvest walks calendar -> era -> bucket and both calendars")
+    chk(not any(k[1] == "top10_entrants" for k in _cells115),
+        "E115 name lists are not harvested: one swap is not a dozen numbers")
+    _k115 = sorted({k[0] for k in _cells115})
+    _nod = lambda face, ks: {}
+    _c115 = _burnin_pair_rows(_syn_chase(), _syn_chase(), _k115,
+                              cells_fn=_chase_arm_cells, dates_fn=_nod)["summary"]
+    chk(_c115["cells_moved"] == 0 and _c115["max_abs_delta_pp"] == 0.0,
+        "E115 the same face joined against itself reads zero everywhere")
+    _p115 = _burnin_pair_rows(_syn_chase(),
+                              _syn_chase(share={CHASE_BUCKETS[0]: 12.5,
+                                                **{b: 10.0 for b in CHASE_BUCKETS[1:]}}),
+                              _k115, cells_fn=_chase_arm_cells, dates_fn=_nod)
+    chk(_p115["summary"]["cells_moved"] >= 1
+        and any(r["column"] == "share_pct" and abs(r["delta"] - 2.5) < 1e-9
+                and r["start"] == "era/mid15/2024_now/" + CHASE_BUCKETS[0]
+                for r in _p115["moved"]),
+        "E115 a moved bucket share is published with its era and bucket pointer")
+    _s115 = _burnin_pair_rows(_syn_chase(), _syn_chase(extra_bucket=True), _k115,
+                              cells_fn=_chase_arm_cells, dates_fn=_nod)["summary"]
+    chk(_s115["only_in_screened"] > 0 and _s115["cells_moved"] == 0,
+        "E115 a bucket that exists on one arm only is one-sided, not a zero delta")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -12982,6 +13228,7 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
+                             "chasescreen",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screencalc", "screenspread",
@@ -13537,6 +13784,16 @@ def main(argv):
                                               for b in CHASE_BUCKETS}
                                           for k, v in f["eras"]["mid15"].items()}},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "chasescreen":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_chasescreen(outdir, start=args.start)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "CHASESCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "chasescreen", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "midsweep":
         costs = (tuple(float(x) for x in args.costs.split(","))

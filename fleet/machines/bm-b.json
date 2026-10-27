@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T15:33:10+08:00",
+ "clock_read": "2026-10-27T15:57:37+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -11,7 +11,7 @@
  "cpu_pct": 7.2,
  "cpu_util_pct": 7.2,
  "current": "r1181: the cut sweep and the era split both re-derived on the screened arm -- flip counts survive both axes, levels are cut-invariant but arm/cutoff-bound, widest windows survive neither",
- "current_task": "r1181 E113+E114 screened twins done; next E115 chase screened twin (E97 row 4)",
+ "current_task": "r1182 E115 chase screened twin done (E97 row 4 closed); next E116 earlydelay screened twin (E97 row \"earlydelay\", 235 numbers)",
  "cyc_round": 1181,
  "d19_note": "r1166: group origin decisions.md/l orders.md read via cat-file; rows D-20261027-01..05 landed 00:07 (bm-a). Only D-20261027-01 touches BigMoney (bm-a task family Disabled->resumed): local check done -- Bigmoney-IterationLoop next-run 05:47 and Bigmoney-LoopWatchdog 05:46 both scheduled (Ready), so bm-b has no UNEXPECTED-DISABLED. Watermark RE-BASELINED: stored 17c29359 does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md) = fd9e59cd..., recipe now written into state-bm-b.json.",
  "dept": "research+engineering",
@@ -27,9 +27,9 @@
   "vram_free_mb": 704,
   "vram_used_mb": 7488
  },
- "gpu_face": "nvidia-smi 2% / 4450 MiB used of 8192 MiB",
+ "gpu_face": "nvidia-smi 1% / 4450 MiB used of 8192 MiB",
  "gpu_face_source": "nvidia-smi",
- "gpu_face_ts": "2026-10-27T14:12:14+08:00",
+ "gpu_face_ts": "2026-10-27T15:57:37+08:00",
  "gpu_free": "3742, 8192",
  "gpu_free_gb": 3.7,
  "gpu_free_mb": 3742,
@@ -49,13 +49,13 @@
  "gpu_used_mib": 4450,
  "gpu_used_vram_mb": 4450,
  "gpu_used_vram_mib": 4450,
- "gpu_util_pct": 2.0,
+ "gpu_util_pct": 1.0,
  "gpu_vram_free_gb": 3742,
  "gpu_vram_free_mb": 3742,
  "gpu_vram_free_mib": 3742,
  "gpu_vram_used_mb": 4450,
  "gpu_vram_used_mib": 4450,
- "heartbeat_epoch_utc": 1793086390,
+ "heartbeat_epoch_utc": 1793087857,
  "idle_ram_gb": 8.9,
  "idle_ram_pct": 37.0,
  "idle_rounds": 0,
@@ -75,7 +75,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "d30356e54 -> 32ba44ede pushed, behind 0 (r1181)",
  "last_round": 1178,
- "last_seen": "2026-10-27T15:33:10+08:00",
+ "last_seen": "2026-10-27T15:57:37+08:00",
  "latest_artifact": "results/rev_osc_live/SIG-2026-10-26.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -391,13 +391,13 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T14:43:46+08:00"
  },
- "ram_free_gb": 9.1,
+ "ram_free_gb": 10.8,
  "ram_free_mb": 12494,
- "ram_free_pct": 38.0,
+ "ram_free_pct": 45.0,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1180,
- "round_no": 1180,
+ "round_no": 1182,
  "round_no_label": "r1177",
  "sat_engine": {
   "checked_at": "2026-10-27T14:04:52+08:00",
@@ -413,10 +413,10 @@
   "ts": "2026-10-27T11:50:36+08:00"
  },
  "task": "r1180 E112 burn-in screened twin (BURNINSCREEN-20261026)",
- "ts": "2026-10-27T15:33:10+08:00",
+ "ts": "2026-10-27T15:57:37+08:00",
  "updated": "2026-10-27T11:50:36+08:00",
  "updated_at": "2026-10-27T11:50:36+08:00",
- "verdict": "smoke PASS 89/89; S6 37/37 rc0; D-19 zero delta; orders 114/115 ack, 0 unacked; orphan 0; attrition CLEAN; dualrun ZERO-DRIFT streak 3",
+ "verdict": "smoke 90/90 PASS; S6 37/37 rc0; e39 selftest 353/353; e97 selftest 15/15; D-19 zero delta; orders 114/115 ack 0 unacked; orphan 0; attrition CLEAN; dualrun ZERO-DRIFT streak 6; watermark red (py_low, one pool candidate which this round burned)",
  "vram_free_gb": 3.7,
  "vram_used_gb": 4.3
 }
