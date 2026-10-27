@@ -48,20 +48,35 @@ GROUP_CANDIDATES = [
     r"C:\Users\Administrator\FluxGroup",                 # bm-b group-tree location (r626 note)
     r"K:\Fluxgroup\FluxGroup",                           # legacy mapped drive probe (r579 lineage)
 ]
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from group_root import pick as _pick_group_root_impl
+except Exception:                                    # pragma: no cover
+    _pick_group_root_impl = None
+
+
+def _pick_group_root(candidates):
+    """D-20261028-04: one implementation, shared (Tools/group_root.py).
+
+    Validate first, then take the LIVE tree (newest ledger mtime) -- a candidate
+    list is a hint, never a decision. Kept as a thin wrapper so this probe reads
+    the same way it always did.
+    """
+    if _pick_group_root_impl is None:
+        return None, [(c, "group_root-import-failed") for c in candidates]
+    return _pick_group_root_impl(candidates)
+
+
 RE_KEYWORD = re.compile(r"BigMoney|bigmoney|quant|bm-[abc]", re.IGNORECASE)
 
 
-def _is_worktree(path):
-    r = subprocess.run(["git", "-C", path, "rev-parse", "--is-inside-work-tree"],
-                       capture_output=True, creationflags=CREATE_NO_WINDOW)
-    return r.returncode == 0 and r.stdout.strip() == b"true"
-
-
 def _find_group():
-    for cand in GROUP_CANDIDATES:
-        if os.path.isdir(cand) and _is_worktree(cand):
-            return cand
-    return None
+    """Delegates to _pick_group_root (D-20261028-04); keeps the old name so the
+    rest of this probe does not care where the root came from."""
+    path, rejected = _pick_group_root(GROUP_CANDIDATES)
+    if path is None and rejected:
+        sys.stderr.write("d19_check: no viable group tree: %s\n" % (rejected,))
+    return path
 
 
 GROUP = _find_group()

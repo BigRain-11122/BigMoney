@@ -259,6 +259,41 @@
     "3y": 9.766,
     "5y": 7.565
    },
+   "power": {
+    "units": {
+     "sd_annual_pct": "percent per year",
+     "min_detectable_edge_pp": "percentage points per year",
+     "years_for_80pct_power": "years"
+    },
+    "power": 0.8,
+    "alpha_two_sided": 0.05,
+    "z": 2.802,
+    "annual_vol_pct": 8.458,
+    "min_detectable_edge_pp": {
+     "6m": 33.516,
+     "1y": 23.699,
+     "2y": 16.758,
+     "3y": 13.683
+    },
+    "years_for_80pct_power": {
+     "pre-2020 measured alpha (single arm)": 136.3,
+     "in-window measured alpha (single arm)": 16.4
+    },
+    "candidate_sources": {
+     "pre-2020 measured alpha (single arm)": {
+      "file": "results/etf_book_spanning_pre2020.json",
+      "field": "arms.single.full.alpha_annual",
+      "edge_pp_per_year": 2.03
+     },
+     "in-window measured alpha (single arm)": {
+      "file": "results/etf_book_spanning.json",
+      "field": "arms.book.full.alpha_annual",
+      "edge_pp_per_year": 5.85
+     }
+    },
+    "available": true,
+    "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
+   },
    "book_cagr_pct_on_same_window": 9.099,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }

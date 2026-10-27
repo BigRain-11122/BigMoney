@@ -35,7 +35,15 @@ CLAIMS = os.path.join(QDIR, 'CLAIMS.jsonl')
 RLOG = os.path.join(QDIR, 'ROUND-LOG.md')
 LSTATE = os.path.join(QDIR, 'loop_state.json')
 LOCK = os.path.join(QDIR, '.loop.lock')
-GRP = r'C:\Fluxgroup\FluxGroup'
+# D-20261028-04: never trust a literal. The group tree is resolved (validated
+# toplevel + newest ledger mtime) and the literal is only a hint; picking a stale
+# mirror here would drive the content lane off a week-old ledger.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from group_root import pick_or_default as _gr_pick
+    GRP = _gr_pick(r'C:\Fluxgroup\FluxGroup')
+except Exception:                       # pragma: no cover - never block the lane
+    GRP = r'C:\Fluxgroup\FluxGroup'
 STALE_LOCK_S = 600
 _NO_WINDOW = 0x08000000 if os.name == 'nt' else 0  # CREATE_NO_WINDOW (U060 zero-desktop-flash law)
 

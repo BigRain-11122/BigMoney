@@ -168,7 +168,15 @@ LEGS = [
     # (Tools/machine_health_face.py) and asserted it in smoke, but a gate nobody runs on
     # a schedule is a receipt, not a gate: this leg runs that same module's fail-closed
     # check, so the face is judged every round (smoke only runs when a session runs it).
-    # Read-only, <1s, no network, writes nothing.
+    # r1315: gating alone would go red every hour. The hourly oversight writer is a
+    # SEPARATE code face that emits a partial row (no `cpu`, no `gpu.util`), so the
+    # face is complete at the end of a round and thin by the next one -- the gate would
+    # then report INCOMPLETE for a machine that is fine, and the "fix" would be to
+    # loosen the gate again. So the chain REFRESHES first (derive every entry from that
+    # machine's own heartbeat, heal thin foreign rows) and then judges. Write is local:
+    # it never invents a reading, a machine with no heartbeat keeps its row and reports
+    # the gap.
+    ("machine_health_write", ["python", "Tools/machine_health_face.py", "rebuild"]),
     ("machine_health_face", ["python", "Tools/machine_health_face.py", "check"]),
 ]
 

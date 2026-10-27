@@ -26,6 +26,24 @@ REPO = os.path.dirname(os.path.abspath(__file__))  # results/
 ROOT = os.path.dirname(REPO)
 
 
+
+CREATE_NO_WINDOW = 0x08000000
+
+# D-20261028-04: the resolve rule lives in exactly one place (Tools/group_root.py)
+# so a mirror can never be picked by one face and rejected by another.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), "Tools"))
+try:
+    from group_root import pick as _pick_group_root
+except Exception:                                    # pragma: no cover
+    _pick_group_root = None
+
+
+def _git_out(args, cwd):
+    r = subprocess.run(["git"] + args, capture_output=True, cwd=cwd,
+                       creationflags=CREATE_NO_WINDOW)
+    return r.returncode, (r.stdout or b"").decode("utf-8", "replace").strip()
+
 def resolve_state(root, argv_state=None):
     """T22 machine-context law: state read = state-<machine_id>.json
     (bm-b = state.json legacy, r582). argv --state wins (caller-injected,
@@ -279,13 +297,22 @@ def main() -> int:
         # until a quad exists, so mid-migration machines stay honest).
         out["wm_decisions_quad"] = st.get("last_decisions_watermark_v2")
         out["wm_orders_quad"] = st.get("last_orders_watermark_v2")
-        trees = []
+        # D-20261028-04: the candidate list is unchanged (a machine may mount the
+        # group tree anywhere), but a candidate is now VALIDATED and the live tree
+        # wins -- the old `os.path.isdir` test accepted a stale mirror that was
+        # merely a git worktree, which serves a week-old ledger as current.
+        cands, trees = [], []
         k = r"K:\Fluxgroup\FluxGroup"
-        if os.path.isdir(k):
-            trees.append(("k-tree", k))
-        for cand in (r"C:\Fluxgroup\FluxGroup",):
-            if os.path.isdir(os.path.join(cand, ".git")):
-                trees.append(("local-tree", cand))
+        cands.append(("k-tree", k))
+        cands.append(("local-tree", r"C:\Fluxgroup\FluxGroup"))
+        tag_of = {os.path.normcase(os.path.normpath(c)): t for t, c in cands}
+        live, rejected = (_pick_group_root([c for _t, c in cands])
+                          if _pick_group_root else (None, []))
+        for cand, why in rejected:
+            out.setdefault("trees_rejected", []).append(
+                (tag_of.get(os.path.normcase(os.path.normpath(cand)), cand), why))
+        trees = [(tag_of.get(os.path.normcase(os.path.normpath(live)), "live"), live)] \
+            if live else []
         blob_d = None
         blob_o = None
         tree_used = None

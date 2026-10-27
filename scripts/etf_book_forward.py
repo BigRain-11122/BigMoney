@@ -60,6 +60,19 @@ MAX_RUNS = 40
 BARS_PER_YEAR = 244.0   # the repo's trading-year convention, used everywhere else for CAGR
 T_CRIT = 2.0            # the t a forward spread has to reach before it means anything
 SIG_EDGES = (0.03, 0.05, 0.10)   # candidate edges priced into a bars-needed table
+# 80% power at a two-sided 5% test = z(0.975) + z(0.80). The bars-needed table above
+# answers "how long for a t=2 test"; a holder asks the reverse question ("in the year
+# I am willing to wait, what could this ledger even resolve?"), which is this z.
+POWER_Z = 2.802
+POWER_HORIZONS = (("6m", 122), ("1y", 244), ("2y", 488), ("3y", 732))
+# Measured edges this book's own studies published, so the 'years until 80% power'
+# column is priced on numbers that are already in the repo rather than typed here.
+POWER_CANDIDATES = (
+    ("pre-2020 measured alpha (single arm)", "results/etf_book_spanning_pre2020.json",
+     ("arms", "single", "full", "alpha_annual")),
+    ("in-window measured alpha (single arm)", "results/etf_book_spanning.json",
+     ("arms", "book", "full", "alpha_annual")),
+)
 CONFIG = {
     "n_hold": 12,
     "rebal": 20,
@@ -410,6 +423,67 @@ def excess_series(dates, marks, rebal_days):
     return out
 
 
+def _dig(obj, path):
+    for k in path:
+        if not isinstance(obj, dict) or k not in obj:
+            return None
+        obj = obj[k]
+    return obj
+
+
+def power_table(sd_annual, horizons=POWER_HORIZONS, candidates=POWER_CANDIDATES,
+                root=None):
+    """The reader's version of the bars-needed table (r1316).
+
+    `bars_needed_for_edge` answers "how long until a t=2 test" and the honest answer
+    over this ledger's 8.46%/yr excess dispersion is 7,758 bars (31.8 years) for a
+    3pp edge -- a number nobody can act on. The reverse question is answerable today:
+
+      smallest edge this ledger could resolve at 80% power inside H bars
+            E = POWER_Z * sd_annual / sqrt(H / BARS_PER_YEAR)
+      years until a candidate edge E reaches 80% power
+            Y = (POWER_Z * sd_annual / E)**2
+
+    Candidate edges are READ from this repo's own studies (units: the stored field is
+    a fraction, converted to pp here and labelled), never typed into this table. A
+    missing source is omitted with its reason instead of being filled in.
+    """
+    root = root or PATHS.root
+    out = {"units": {"sd_annual_pct": "percent per year",
+                     "min_detectable_edge_pp": "percentage points per year",
+                     "years_for_80pct_power": "years"},
+           "power": 0.80, "alpha_two_sided": 0.05, "z": POWER_Z,
+           "annual_vol_pct": round(sd_annual * 100, 3),
+           "min_detectable_edge_pp": {}, "years_for_80pct_power": {},
+           "candidate_sources": {}}
+    if not np.isfinite(sd_annual) or sd_annual <= 0:
+        out["available"] = False
+        out["reason"] = "no dispersion to price power against"
+        return out
+    for label, n in horizons:
+        out["min_detectable_edge_pp"][label] = round(
+            POWER_Z * sd_annual / np.sqrt(n / BARS_PER_YEAR) * 100, 3)
+    for name, rel, path in candidates:
+        try:
+            with open(os.path.join(root, rel), encoding="utf-8") as fh:
+                raw = _dig(json.load(fh), path)
+        except Exception as e:
+            out["candidate_sources"][name] = {"omitted": "unreadable:%s" % type(e).__name__}
+            continue
+        if not isinstance(raw, (int, float)) or not np.isfinite(float(raw)) or raw <= 0:
+            out["candidate_sources"][name] = {"omitted": "not a positive edge in %s" % rel}
+            continue
+        years = (POWER_Z * sd_annual / float(raw)) ** 2
+        out["years_for_80pct_power"][name] = round(years, 1)
+        out["candidate_sources"][name] = {"file": rel, "field": ".".join(path),
+                                          "edge_pp_per_year": round(float(raw) * 100, 3)}
+    out["available"] = True
+    out["read"] = ("a spread inside these bands is not evidence either way: at 12 months "
+                   "this ledger can only resolve edges above its 1y band, and the two "
+                   "edges this book actually published need years, not months")
+    return out
+
+
 def significance(dates, marks, rebal_days, n_published, edges=SIG_EDGES):
     """How many bars before the published spread could mean anything.
 
@@ -460,6 +534,7 @@ def significance(dates, marks, rebal_days, n_published, edges=SIG_EDGES):
         "published_bars": int(n_published),
         "bars_needed_for_edge": need,
         "min_detectable_edge_pp": detectable,
+        "power": power_table(ann),
         "book_cagr_pct_on_same_window": hist,
         "read": ("a spread smaller than the band at the bar count it was measured over is "
                  "indistinguishable from noise; the band shrinks as sqrt(bars), not faster"),
@@ -487,6 +562,25 @@ def _sig_line(led):
                 sig.get("noise_band_pp_at_published")
                 if sig.get("noise_band_pp_at_published") else float("nan"),
                 latest.get("excess_pp") if latest.get("excess_pp") is not None else "n/a"))
+
+
+def _power_line(led):
+    """The reverse question: inside a horizon a holder will actually keep, what can
+    this ledger resolve -- and how long until the edges it published could be seen?"""
+    sig = (led.get("benchmark") or {}).get("significance") or {}
+    pw = sig.get("power") or {}
+    if not pw.get("available"):
+        return "POWER: unavailable (%s)" % (pw.get("reason") or "no block")
+    mde = pw.get("min_detectable_edge_pp") or {}
+    yrs = pw.get("years_for_80pct_power") or {}
+    src = pw.get("candidate_sources") or {}
+    mde_txt = ", ".join("%s %.1fpp/yr" % (k, v) for k, v in mde.items())
+    yrs_txt = ", ".join(
+        "%s %s -> %s y" % (k.split(" (")[0], src.get(k, {}).get("edge_pp_per_year", "?"),
+                           v) for k, v in yrs.items()) or "no candidate edge readable"
+    return ("POWER (80%% at 5%% two-sided, sd %.2f%%/yr): smallest edge this ledger can "
+            "resolve is %s; the edges it published need %s"
+            % (pw.get("annual_vol_pct") or float("nan"), mde_txt, yrs_txt))
 
 
 def _attach_sig(led, sig):
@@ -737,6 +831,7 @@ def run(rebase=False):
         print("NO-OP last_bar=%s nav=%s (no new panel bars) | %s" %
               (headed.get("bar"), headed.get("nav"), _bench_line(led)), flush=True)
         print(_sig_line(led), flush=True)
+        print(_power_line(led), flush=True)
         _noop_stub(led, headed)
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
@@ -769,6 +864,7 @@ def run(rebase=False):
            _bench_line(led)),
           flush=True)
     print(_sig_line(led), flush=True)
+    print(_power_line(led), flush=True)
     return 0
 
 
@@ -1200,6 +1296,34 @@ def selftest():
         and significance(dates, marks0[-1:], set(dates[::CONFIG["rebal"]]), 1)
         .get("available") is False,
         "guard leg")
+
+    # The reverse question (r1316). Three legs: the horizon table is the power
+    # identity, the candidate years are priced off the studies' own published alpha
+    # (not typed here), and a missing study is omitted rather than filled in.
+    pw = sig.get("power") or {}
+    mde = pw.get("min_detectable_edge_pp") or {}
+    chk("the horizon table is the 80%-power identity and shrinks as sqrt(horizon)",
+        pw.get("available") and mde.get("1y")
+        and abs(mde["1y"] / 100 - POWER_Z * sd * np.sqrt(BARS_PER_YEAR)) < 1e-4
+        and mde["1y"] > mde["2y"] > mde["3y"]
+        and abs(mde["1y"] / mde["2y"] - np.sqrt(2.0)) < 0.01,
+        "1y=%.1f 2y=%.1f 3y=%.1f" % (mde.get("1y", 0), mde.get("2y", 0), mde.get("3y", 0)))
+    src = pw.get("candidate_sources") or {}
+    yrs = pw.get("years_for_80pct_power") or {}
+    pre = src.get("pre-2020 measured alpha (single arm)") or {}
+    chk("the candidate years are priced off the study's own published alpha",
+        pre.get("edge_pp_per_year")
+        and abs(yrs.get("pre-2020 measured alpha (single arm)", 0)
+                - (POWER_Z * pw["annual_vol_pct"] / 100
+                   / (pre["edge_pp_per_year"] / 100)) ** 2) < 0.15,
+        "edge=%spp/yr years=%s" % (pre.get("edge_pp_per_year"),
+                                   yrs.get("pre-2020 measured alpha (single arm)")))
+    nofile = power_table(sd, candidates=(("missing study", "results/nope.json",
+                                         ("a", "b")),), root=PATHS.root)
+    chk("a study that is not on disk is omitted with its reason, not filled in",
+        nofile["available"] and not nofile["years_for_80pct_power"]
+        and (nofile["candidate_sources"].get("missing study") or {}).get("omitted"),
+        str(nofile["candidate_sources"].get("missing study")))
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

@@ -557,9 +557,20 @@ def _machine_health_union() -> dict:
                 row["util"] = v.get("util")
             if isinstance(v.get("gpu"), dict) and v["gpu"].get("free_gb") is not None:
                 row["gpu_free_gb"] = v["gpu"].get("free_gb")
+            if v.get("cpu") is not None:
+                row["cpu"] = v.get("cpu")
             if v.get("ram_free_gb") is not None:
                 row["ram_free_gb"] = v.get("ram_free_gb")
             row["union_ts"] = v.get("ts")
+            # D-20261028-02 item 1/3, field level: a machine-keyed map whose rows
+            # are thin (no cpu / no gpu object) is readable but NOT healthy. The
+            # 2026-10-28 miss was exactly this -- the gate said OK because the
+            # shape was right while two of three rows had no cpu reading at all.
+            _g = [f for f in ("cpu", "ram_free_gb") if v.get(f) is None]
+            if not isinstance(v.get("gpu"), dict) or v["gpu"].get("free_gb") is None:
+                _g.append("gpu.free_gb")
+            if _g:
+                row["missing"] = _g
             out[mid] = row
     if out:
         face = {"health_face": "ok", "health_unknown": False}
@@ -570,6 +581,11 @@ def _machine_health_union() -> dict:
     else:
         face = {"health_face": "unusable", "health_unknown": True}
     face["health_face_junk"] = junk
+    gaps = {m: v["missing"] for m, v in out.items() if v.get("missing")}
+    if gaps:
+        face["health_unknown"] = True
+        face["health_face"] = "incomplete"
+    face["health_gaps"] = gaps
     for mid in list(out.keys()):
         try:
             hb = _read_json(os.path.join(

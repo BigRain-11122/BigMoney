@@ -1677,7 +1677,23 @@ the newest face that happened to think of it -- which is what this leg exists to
 
 Evidence: results/e79/SCREENREACH-2026-10-27.json, scripts/e97_routing.py (`screenreach` mode,
 selftest 15 -> 29), research/digests/DIGEST-20261028-r1199-e127-screen-reach-ledger.md.
+## E162 Publish the horizon a reader can wait for, not the bars a test would need (2026-10-28 r1316 bm-c)
 
+A significance block that only answers "how many bars for a t=2 test" is unreadable when the
+noise is large: over this book's 8.46%/yr excess dispersion a 3pp edge needs 7,758 bars
+(31.8 years) and a 2pp edge has no finite row at all, so the honest answer to "is the book
+beating buy-and-hold yet" degrades to "never". The reverse question is answerable today and
+is the one a holder asks: `E = z_power * sd_annual / sqrt(H / BARS_PER_YEAR)` with
+z_power = 2.802 (80% power, two-sided 5%) gives the smallest resolvable edge inside 6m/1y/
+2y/3y (33.5 / 23.7 / 16.8 / 13.7 pp/yr here), and `Y = (z_power * sd_annual / E)^2` prices
+the edges the book actually published (2.03pp -> 136.3 y, 5.85pp -> 16.4 y). Two rules:
+(a) candidate edges are READ from the studies' own result files with their units labelled
+(the stored alpha is a fraction -- r1292's 100x class), never typed into the power table, and
+a missing study is omitted with a reason; (b) the conclusion must be printed, not implied --
+a ledger that can never adjudicate its own edge is a health check, and the verdict has to
+come from a fixed-window out-of-sample study instead. Evidence: scripts/etf_book_forward.py
+`power_table()` (selftest 43 legs), LEDGER `benchmark.significance.power`, smoke 113/113,
+research/digests/DIGEST-20261028-r1316-power-floor.md.
 ## E166 A window that is really a burn-in gate must say so, and an identity's residual must be quoted with the share it was measured at (2026-10-28 r1200 bm-b)
 
 The E40 cash leg publishes one window (`first trading rebalance 262`, `cash 263 bars = 15.95%`)

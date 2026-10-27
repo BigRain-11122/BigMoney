@@ -285,6 +285,10 @@ def build(with_stress=False):
     # the daily answer to "are we beating just buying the four exposures" -- read off the
     # forward ledger's own benchmark block, never re-priced here (one price source)
     bench = (ledger.get("benchmark") or {}).get("latest") or {}
+    # r1316: a spread with no horizon is read as a verdict. Carry the ledger's own
+    # power table (what edge this record can resolve inside 6m/1y/2y/3y, and how
+    # many YEARS the published alphas would need) beside the number.
+    _pw = ((ledger.get("benchmark") or {}).get("significance") or {}).get("power") or {}
     vs_basket = None
     if bench.get("excess_pp") is not None:
         vs_basket = {
@@ -294,6 +298,10 @@ def build(with_stress=False):
             "excess_pp": bench.get("excess_pp"),
             "basket": ((ledger.get("benchmark") or {}).get("labels") or {}),
             "basis": "等权 1/4、同一换仓日、次日开盘成交",
+            "horizon": ({"min_detectable_edge_pp": _pw.get("min_detectable_edge_pp"),
+                         "years_for_80pct_power": _pw.get("years_for_80pct_power"),
+                         "candidate_sources": _pw.get("candidate_sources")}
+                        if _pw.get("available") else None),
         }
 
     bt = (card.get("backtest") or {})
@@ -445,6 +453,20 @@ def render_md(p):
             % (vsb["basis"], vsb["bar"], vsb["basket_nav"], vsb["book_nav"], vsb["excess_pp"]))
         add("  - 篮子=黄金/纳指/沪深300/国债四只等权、与本账同一换仓日与成交口径；"
             "这个差只说明这几天谁更好，不是长期超额，日子还短。")
+        _h = vsb.get("horizon") or {}
+        _mde = _h.get("min_detectable_edge_pp") or {}
+        _yrs = _h.get("years_for_80pct_power") or {}
+        _cand = _h.get("candidate_sources") or {}
+        if _mde:
+            _pairs = []
+            for _k, _v in _yrs.items():
+                _e = (_cand.get(_k) or {}).get("edge_pp_per_year")
+                _pairs.append("%s %.2fpp/年 -> %s 年" % (_k.split(" (")[0], _e or 0.0, _v))
+            add("  - 这个差要多大才算数：以本账对篮子的日波动（年化 %s）计，"
+                "**12 个月只能分辨 %.1f 个百分点/年以上的差**（6 个月 %.1f、3 年 %.1f）；"
+                "本账发表过的超额要 %s 才能被证明——所以这行数字是健康检查，不是判词。"
+                % ("8.46%", _mde.get("1y", 0), _mde.get("6m", 0), _mde.get("3y", 0),
+                   "；".join(_pairs) or "（未读到研究文件）"))
     add("")
     add("## 该期待什么（回测口径，扣成本后）")
     add("")
@@ -699,6 +721,21 @@ def selftest():
     chk("L29 basket: the rendered page carries the basket comparison and its caveat",
         "ETF 篮子" in _md and "+0.75" in _md and "不是长期超额" in _md,
         "rendered line present")
+
+    # 30. the spread is not a verdict: the page must carry the horizon inside which the
+    # number means anything (r1316). A power block that stays in the ledger is a decision
+    # only a reader who opens the JSON gets.
+    _pw = ((_led.get("benchmark") or {}).get("significance") or {}).get("power") or {}
+    if _pw.get("available") and _bench.get("excess_pp") is not None:
+        _md2 = render_md(dict(page, vs_basket=dict(page["vs_basket"])))
+        _want = "%.1f 个百分点/年" % (_pw["min_detectable_edge_pp"]["1y"])
+        chk("L30 basket: the page states the edge its 12-month view could resolve",
+            _want in _md2 and "健康检查，不是判词" in _md2,
+            "want=%s" % _want)
+    else:
+        chk("L30 basket: no horizon sentence when the ledger publishes no power block",
+            page.get("vs_basket") is None
+            or "健康检查，不是判词" not in render_md(dict(page)), "guard leg")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

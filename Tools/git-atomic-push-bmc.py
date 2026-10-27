@@ -34,7 +34,14 @@ import urllib.error
 import urllib.request
 
 GIT = r"C:\Program Files\Git\cmd\git.exe"
-ROOT = r"K:\Fluxgroup\FluxGroup"
+# D-20261028-04: resolve, do not hardcode. The literal stays as the LAST hint, so
+# a machine that mounts the tree elsewhere works without editing this file.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    from group_root import pick_or_default as _gr_pick
+    ROOT = _gr_pick(r"K:\Fluxgroup\FluxGroup")
+except Exception:
+    ROOT = r"K:\Fluxgroup\FluxGroup"
 GATE = os.path.join(ROOT, "Tools", "git-no-reversal-check.py")
 OWNER_REPO = "BigRain-11122/FluxGroup"
 API = "https://api.github.com"

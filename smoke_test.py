@@ -526,6 +526,12 @@ def main() -> int:
              "Tools/surgery_commit.py", ["selftest"]),
             ("product: machine-health face builder (exit-code contract)",
              "Tools/machine_health_face.py", ["selftest"]),
+            # D-20261028-04: a resident script must resolve the group root by
+            # validated toplevel + newest ledger mtime, never by a `..\..` climb or
+            # a hardcoded mirror. The selftest pins the rejection of a masquerading
+            # subdirectory, which is the failure that serves a week-old ledger.
+            ("product: group-root resolution (exit-code contract)",
+             "Tools/group_root.py", ["selftest"]),
             ("product: exchange_calendar_audit lag verdict (exit-code contract)",
              "scripts/exchange_calendar_audit.py", ["selftest"]),
             ("product: supply_alignment four-tuple face (exit-code contract)",
@@ -643,6 +649,31 @@ def main() -> int:
                   _sig.get("noise_band_pp_at_published")))
     except Exception as e:
         check("product: the forward ledger publishes its own noise floor", False, str(e))
+    # r1316: "how many bars for a t=2 test" was the only horizon the ledger offered,
+    # and over 8.46%/yr excess dispersion the answer for a 3pp edge is 7,758 bars --
+    # 31 years, i.e. a verdict no reader will be alive for. Assert instead that the
+    # published face answers the reverse question: what CAN be resolved inside 6m/1y/
+    # 2y/3y, and how many YEARS the edges this book actually published would need.
+    try:
+        _pw = (_sig.get("power") or {})
+        _mde = _pw.get("min_detectable_edge_pp") or {}
+        _yrs = _pw.get("years_for_80pct_power") or {}
+        check("product: the forward face prices what its horizon can resolve, not only bars",
+              _pw.get("available") is True and len(_mde) >= 3
+              and all(_mde.get(k) for k in ("1y", "2y", "3y"))
+              and _mde["1y"] > _mde["3y"] and _yrs
+              and all(isinstance(v, (int, float)) and v > 0 for v in _yrs.values()),
+              "1y=%spp/yr 3y=%spp/yr years=%s" % (_mde.get("1y"), _mde.get("3y"),
+                                                   _yrs or "-"))
+        _cand = _pw.get("candidate_sources") or {}
+        check("product: every candidate edge states the file it was read from",
+              _cand and all(("file" in v and "field" in v) or v.get("omitted")
+                            for v in _cand.values()),
+              "sources=%s" % ",".join(sorted(_cand)))
+    except Exception as e:
+        check("product: the forward face prices what its horizon can resolve, not only bars",
+              False, str(e))
+        check("product: every candidate edge states the file it was read from", False, str(e))
     try:
         _ct = json.load(open("results/etf_book_card_track.json", encoding="utf-8"))
         _ag = _ct.get("agreement") or {}
@@ -1000,6 +1031,50 @@ def main() -> int:
     except Exception as e:
         check("fleet: machine-health face is machine-keyed, not a nesting generator",
               False, str(e))
+
+    # D-20261028-02 pins six fields per machine. Shape-ok was being read as
+    # contract-ok: on 2026-10-28 the live face was a clean machine-keyed map and the
+    # gate said OK while two of three rows carried no `cpu` and every row carried a
+    # flat gpu_free_gb instead of the pinned `gpu` object. Two legs: the LIVE face
+    # must carry every pinned field, and the panel must refuse to call a thin face
+    # healthy (so the next writer regression shows up as UNKNOWN, not as a calm row).
+    try:
+        # Refresh before judging, exactly as the chain does (r1315): the hourly
+        # oversight writer is a separate code face that emits a partial row, so
+        # without this the leg would call a healthy machine thin every couple of
+        # hours and the cheap "fix" would be to loosen the assertion.
+        _mf.rebuild_face()
+        _mach, _mstat, _mdrop = _mf.read_face()
+        _gaps = {m: _mf.entry_gaps(e) for m, e in _mach.items()}
+        _bad = {m: g for m, g in _gaps.items() if g}
+        check("fleet: live machine-health rows carry every pinned field",
+              bool(_mach) and not _bad, f"machines={len(_mach)} gaps={_bad or '-'}")
+    except Exception as e:
+        check("fleet: live machine-health rows carry every pinned field", False, str(e))
+
+    try:
+        import tempfile as _tf
+        _d = _tf.mkdtemp(prefix="mhthin_")
+        os.makedirs(os.path.join(_d, "fleet", "machines"), exist_ok=True)
+        with open(os.path.join(_d, "fleet", "machine-health.json"), "w",
+                  encoding="utf-8") as _fh:
+            json.dump({"bm-c": {"ts": "2026-10-28 02:00", "util": "red", "work": "w",
+                                "ram_free_gb": 0.7, "gpu": {"free_gb": 14.6}}}, _fh)
+        _bs = importlib.import_module("monitor.build_status")
+        _orig = _bs.PATHS.root
+        _bs.PATHS.root = _d
+        try:
+            _u = _bs._machine_health_union()
+        finally:
+            _bs.PATHS.root = _orig
+        _fce = _u.get("_face") or {}
+        check("fleet: a thin face reads as UNKNOWN, not as a calm row",
+              _fce.get("health_unknown") is True
+              and _fce.get("health_face") == "incomplete"
+              and (_fce.get("health_gaps") or {}).get("bm-c") == ["cpu"],
+              "face=%s gaps=%s" % (_fce.get("health_face"), _fce.get("health_gaps")))
+    except Exception as e:
+        check("fleet: a thin face reads as UNKNOWN, not as a calm row", False, str(e))
 
     # The hourly oversight writer does NOT run this repo's copy. It runs a deployed
     # copy under <KRoot>\.codely-cli\oversight-<id>\fleet-oversight.ps1, and nothing
