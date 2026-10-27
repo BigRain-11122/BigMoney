@@ -21996,7 +21996,7 @@
   },
   {
    "id": "E115-CHASE-SCREENED-TWIN",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (run_chase)",
@@ -22007,7 +22007,11 @@
    "entered_at": "2026-10-27T15:15:21+08:00",
    "entered_by": "bm-b r1181",
    "runner_note": "run_chase has no raw= seam yet -- add it the same way run_burnin/run_cutcurve/run_livespan got theirs (one load, both arms), then a harvest pair; the moved-cell report must again be split by column group so the face gets a stability class per reading",
-   "owner": null
+   "owner": null,
+   "claimed_at": "2026-10-27T15:55:00+08:00",
+   "done_at": "2026-10-27T15:55:00+08:00",
+   "result_ref": "scripts/e39_panel_census.py chasescreen -> results/e44_midmonth/CHASESCREEN-20261026.json",
+   "done_note": "95 joined cells (both calendars x 4 eras x 3 buckets + counts + universe). Repair axis (neutralise_int, 67 prints on 67 of 1,317 names): 5 of 95 cells move, all bucket forward returns (max +0.166pp); every entrant count, bucket share and the universe size identical -> the decision sets do not move. Refresh axis (CHASE-20261020 raw vs today raw, +4 sessions): 16 of 95 cells move, worst cell is a COUNT (entrant_slots +6, universe_members 1265 -> 1271). Controls: identity 0/95, coverage 0 one-sided / 0 null. Reading: quote bucket membership without an arm, quote bucket returns with one. Side finding: E97 only sees twins declared in TWIN_FUNCS, so E112-E115 twins were invisible (covered_by_twin 3 -> 11, uncovered modes 21 -> 13, untouched cells 5,282 -> 1,568 after registering them). Digest: research/digests/DIGEST-20261027-e115-chase-screened-twin.md"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22022,7 +22026,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T15:15:21+08:00",
+ "updated_at": "2026-10-27T15:55:00+08:00",
  "version": 1,
  "lane_machine": "bm-c"
 }
