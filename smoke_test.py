@@ -602,6 +602,27 @@ def main() -> int:
         check("product: ETF live-book yuan figures are its own percentages x its own capital", _ok_money,
               f"expected={_mc.get('expected_annual_cny')} excess={_mc.get('excess_annual_cny')} "
               f"worst={_mc.get('worst_drawdown_cny')} capital={_cap}")
+        # The page used to print a fresh buy list every session while the DECISION
+        # had not moved for two weeks: a holder following it would re-buy a book
+        # they already own, at 8bp a side. Assert the page names the world the
+        # reader is in, and that the mode follows its own two date faces (a page
+        # saying "hold" on a rebalance bar, or "trade" with no position, fails).
+        _ta = _page.get("today_action") or {}
+        _mode = _ta.get("mode")
+        _decided_is_priced = str(_page.get("book_decided_at")) == str(_page.get("priced_bar"))
+        _holds = bool((_page.get("forward") or {}).get("bars"))
+        _ok_act = (_mode in ("hold", "open", "rebalance")
+                   and (_mode == "rebalance") == (_decided_is_priced and _holds)
+                   and (_mode != "hold"
+                        or _ta.get("next_trade_date") == _page.get("next_rebalance_date"))
+                   and (_ta.get("cost_if_retraded_pct_per_year") is None
+                        or abs(float(_ta["cost_if_retraded_pct_per_year"])
+                               - 2.0 * float(_page.get("cost_bp_per_side") or 0) / 10000.0
+                               * 250 * float(_page.get("k_now") or 0) * 100) < 0.01))
+        check("product: ETF live-book page says whether to trade today", _ok_act,
+              f"mode={_mode} decided={_page.get('book_decided_at')} "
+              f"priced={_page.get('priced_bar')} retrade_cost="
+              f"{_ta.get('cost_if_retraded_pct_per_year')}%/yr")
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's

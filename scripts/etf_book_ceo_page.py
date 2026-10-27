@@ -127,6 +127,51 @@ def money_cny(tk, nav):
     return out
 
 
+TRADING_DAYS_PER_YEAR = 250
+
+
+def today_action(p):
+    """Does the reader have to touch the account today?
+
+    The ticket is re-priced every session against a fixed set of weights, so the
+    share counts in the order list change daily even though the DECISION has not
+    moved since `book_decided_at`. Publishing that list as "buy this today" makes
+    a holder re-buy a book they already own -- at 8bp a side that is more than the
+    book's own expected annual return. So the page has to name the world the
+    reader is in:
+
+      rebalance -- this priced bar IS the decision bar: trade.
+      open      -- the reader is not in the book yet: buy the list once.
+      hold      -- already holding and the decision has not moved: do nothing.
+      unknown   -- a date face is missing; refuse to guess.
+    """
+    decided = p.get("book_decided_at")
+    priced = p.get("priced_bar")
+    holding = bool((p.get("forward") or {}).get("bars"))
+    out = {"mode": "unknown", "holding": holding, "book_decided_at": decided,
+           "priced_bar": priced, "next_trade_date": None, "cost_if_retraded_pct_per_year": None,
+           "cost_basis": None}
+    if not decided or not priced:
+        return out
+    decided_bar_is_priced = (str(decided) == str(priced))
+    if decided_bar_is_priced:
+        out["mode"] = "rebalance" if holding else "open"
+    else:
+        out["mode"] = "hold" if holding else "open"
+    out["next_trade_date"] = p.get("next_rebalance_date") if out["mode"] == "hold" else priced
+
+    # What chasing this list every session would cost, in percent of CAPITAL per year.
+    # 2 sides x cost_bp on the book slice x a 250-session year -- an assumption, published.
+    cost_bp = p.get("cost_bp_per_side")
+    k = p.get("k_now")
+    if cost_bp and k:
+        per_year = 2.0 * (float(cost_bp) / 10000.0) * TRADING_DAYS_PER_YEAR * float(k)
+        out["cost_if_retraded_pct_per_year"] = round(per_year * 100.0, 2)
+        out["cost_basis"] = ("2 sides x %s bp x %d sessions x book share %.4f, on capital"
+                             % (cost_bp, TRADING_DAYS_PER_YEAR, float(k)))
+    return out
+
+
 def build():
     ptr, tk, tk_path = _load_ticket()
     card = _load(CARD) if os.path.exists(CARD) else {}
@@ -223,6 +268,7 @@ def build():
             "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。",
         ],
     }
+    page["today_action"] = today_action(page)
     return page, today
 
 
@@ -235,11 +281,34 @@ def render_md(p):
     add("")
     add("## 一句话")
     inv = p["book_amount_cny"]
-    add("今天按下面的清单下单：花 **¥%s**（占总资金 %.1f%%）买 %d 只 ETF，剩下的 **¥%s**（%.1f%%）放%s。"
-        % (format(inv, ",.0f"), (p["k_now"] or 0) * 100, p["n_hold"] or len(p["order"]),
-           format(p["cash_amount_cny"], ",.0f"), p["cash_weight"] * 100, p["cash_leg"]))
+    act = p.get("today_action") or {"mode": "unknown"}
+    mode = act.get("mode")
+    if mode == "hold":
+        add("**今天不用动手。** 这套组合上一次定稿 **%s**，今天只是按新的收盘价（**%s**）把同一批权重重新算成份额——"
+            "清单里份额和金额的变化是价格漂移，不是新指令。下一个动手日是 **%s**。"
+            % (p["book_decided_at"], p["priced_bar"], p["next_rebalance_date"]))
+        if act.get("cost_if_retraded_pct_per_year") is not None:
+            add("")
+            add("（照这份清单每天重下一遍的代价：单边 %s bp、进出两边、一年按 %d 个交易日、账内占比 %.1f%%，"
+                "一年约 **%.1f%% 的资本**——比这本账回测的 %.2f%%/年还高。所以「今天不动」不是懒惰，是这条纪律的一部分。）"
+                % (p.get("cost_bp_per_side"), TRADING_DAYS_PER_YEAR, (p.get("k_now") or 0.0) * 100,
+                   act["cost_if_retraded_pct_per_year"],
+                   (p.get("ticket_book") or {}).get("cagr", 0.0) * 100))
+    elif mode == "rebalance":
+        add("**今天是换仓日。** 先卖掉不在清单里的，再按下面清单买：花 **¥%s**（占总资金 %.1f%%）买 %d 只 ETF，"
+            "剩下的 **¥%s**（%.1f%%）放%s。"
+            % (format(inv, ",.0f"), (p["k_now"] or 0) * 100, p["n_hold"] or len(p["order"]),
+               format(p["cash_amount_cny"], ",.0f"), p["cash_weight"] * 100, p["cash_leg"]))
+    elif mode == "open":
+        add("**还没建仓的话，按这个下单：** 花 **¥%s**（占总资金 %.1f%%）买 %d 只 ETF，"
+            "剩下的 **¥%s**（%.1f%%）放%s。已经在账上的不要照着重下一遍，下一次动手日是 **%s**。"
+            % (format(inv, ",.0f"), (p["k_now"] or 0) * 100, p["n_hold"] or len(p["order"]),
+               format(p["cash_amount_cny"], ",.0f"), p["cash_weight"] * 100, p["cash_leg"],
+               p["next_rebalance_date"]))
+    else:
+        add("**今天是否要动手：无法判定**（缺 book_decided_at 或 priced_bar，不猜）。下面只有数值，不代表指令。")
     add("")
-    add("## 下单清单")
+    add("## 下单清单%s" % ("（如果你今天才建仓）" if mode == "hold" else ""))
     add("")
     add("| 代码 | 类别 | 份（100 股/份） | 参考价 | 金额 |")
     add("|---|---|---|---|---|")
@@ -418,8 +487,36 @@ def selftest():
         and money_cny({"metrics": {"book": {"cagr": 0.1, "maxdd": -0.05}}}, 0.0)["expected_annual_cny"] is None,
         "empty ticket -> None; ticket without capital -> None")
 
-    # 16. single writer: only the host may write, and an unknown host must not write either
-    chk("L16 guard: writer_allowed('bm-a') only",
+    # 17. the page has to answer "do I trade today", and the answer must follow its own dates
+    _base = {"book_decided_at": "2026-10-14", "priced_bar": "2026-10-26",
+             "next_rebalance_date": "2026-11-11", "cost_bp_per_side": 8, "k_now": 0.5,
+             "forward": {"bars": 3}}
+    _hold = today_action(_base)
+    chk("L17 action: holding + decision bar behind the priced bar -> hold, next date named",
+        _hold["mode"] == "hold" and _hold["next_trade_date"] == "2026-11-11", _hold["mode"])
+    _reb = today_action(dict(_base, book_decided_at="2026-10-26"))
+    chk("L18 action: priced bar IS the decision bar -> rebalance (not hold)",
+        _reb["mode"] == "rebalance", _reb["mode"])
+    _open = today_action(dict(_base, forward={"bars": 0}))
+    _none = today_action({"priced_bar": "2026-10-26", "forward": {"bars": 3}})
+    chk("L19 action: no position -> open; missing date face -> unknown, never a guess",
+        _open["mode"] == "open" and _none["mode"] == "unknown",
+        "%s / %s" % (_open["mode"], _none["mode"]))
+    chk("L20 action: re-trade cost is 2 sides x bp x 250 x book share on capital",
+        _hold["cost_if_retraded_pct_per_year"] == 20.0,
+        "%s vs 20.0 (%s)" % (_hold["cost_if_retraded_pct_per_year"], _hold["cost_basis"]))
+
+    # 21. the LIVE page's own action line must agree with its own two dates and ledger
+    _la = page["today_action"]
+    _la_ok = (_la["mode"] in ("hold", "open", "rebalance")
+              and (_la["mode"] == "rebalance") == (str(page["book_decided_at"]) == str(page["priced_bar"])
+                                                   and bool(page["forward"]["bars"]))
+              and (_la["mode"] != "hold" or _la["next_trade_date"] == page["next_rebalance_date"]))
+    chk("L21 live page: action mode agrees with its own decision/priced bars and ledger",
+        _la_ok, "%s decided=%s priced=%s bars=%s"
+        % (_la["mode"], page["book_decided_at"], page["priced_bar"], page["forward"]["bars"]))
+    # 22. single writer: only the host may write, and an unknown host must not write either
+    chk("L22 guard: writer_allowed('bm-a') only",
         writer_allowed("bm-a") and not writer_allowed("bm-c") and not writer_allowed("bm-b")
         and not writer_allowed(None), "host=%s" % HOST)
 
