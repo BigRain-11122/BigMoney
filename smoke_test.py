@@ -507,6 +507,11 @@ def main() -> int:
             # a confident NAV ladder that no longer belongs to the delivered rule.
             ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
              "scripts/etf_book_capacity_rule.py", ["selftest"]),
+            # r1317: the 10-31 month-exam package is assembled by one generator.
+            # Nothing in this file ever called it, so the assembly face and its
+            # freeze-fingerprint gate could rot silently before exam day.
+            ("product: monthly_exam_prep exam faces (exit-code contract)",
+             "scripts/monthly_exam_prep.py", ["selftest"]),
             ("product: gpu_face canonical GPU face (exit-code contract)",
              "Tools/gpu_face.py", ["--selftest"]),
             # r1188: an autostash rebase put a 62-file revert of another machine's

@@ -725,10 +725,10 @@ RUNBOOK_FACES = [
      "roster_monthopen_baseline.json", "frozen"),
     (2, "SYSTEM-V1", "bm-a primary (SYSTEM_V1_PREREG author precedent)",
      "bm-a lane: system_v1_paper month readout (assembly command lands with the face)",
-     None, "pending"),
+     os.path.join("results", "system_v1_paper", "SYSTEM-V1_paper.json"), "owner_lane"),
     (3, "REV-OSC", "family-owner lane (ETF oversold-rebound family)",
      "family-owner lane: rev_osc state assembly (assembly command lands with the face)",
-     None, "pending"),
+     os.path.join("results", "system_v1_paper", "REV-OSC-STD_paper.json"), "owner_lane"),
     (4, "accounts", "bm-c (T-143 owner)",
      "python scripts/monthly_exam_prep.py baseline --month 2026-10",
      "accounts_monthopen_baseline.json", "frozen"),
@@ -773,10 +773,17 @@ EXAM_DAY_SEQUENCE = (
 
 
 def _sha16_file(path):
+    """sha256-16 over the file's content with line endings normalised to LF.
+
+    The exam freeze gate compares these fingerprints across checkouts, so the
+    hash must be checkout-stable: this repo smudges to CRLF on disk
+    (core.autocrlf), which would make every face read as "drifted" on a fresh
+    clone or another machine. Normalising to LF == the git blob bytes.
+    """
     import hashlib
     try:
         with io.open(path, "rb") as fh:
-            return hashlib.sha256(fh.read()).hexdigest()[:16]
+            return hashlib.sha256(fh.read().replace(b"\r\n", b"\n")).hexdigest()[:16]
     except OSError:
         return None
 
@@ -806,6 +813,24 @@ def _collect_runbook_faces(month):
         if kind == "pending":
             row["status"] = "PENDING (assembly window)"
             row["sha256_16"] = None
+        elif kind == "owner_lane":
+            # Owner-lane faces are read from the lane's own artifact, never
+            # hardcoded: a face that started publishing must stop reading as
+            # PENDING, otherwise the runbook and the assembly face disagree.
+            abspath = os.path.join(ROOT, artifact)
+            asof = None
+            if os.path.exists(abspath):
+                try:
+                    with io.open(abspath, "r", encoding="utf-8") as fh:
+                        asof = _read_marks(json.load(fh))[1]
+                except Exception:
+                    asof = None
+            if asof:
+                row["status"] = "PRESENT (owner lane, asof %s)" % asof
+                row["sha256_16"] = _sha16_file(abspath)
+            else:
+                row["status"] = "PENDING (owner lane has published no marks face)"
+                row["sha256_16"] = None
         elif kind == "active":
             # self-referential hash churn: a file cannot stably fingerprint
             # itself (each regeneration would embed the previous hash) --
@@ -908,6 +933,242 @@ def cmd_runbook(month):
     n_pending = len([r for r in payload["faces"] if r["status"].startswith("PENDING")])
     sys.stdout.write("runbook: phase=%s asof=%s frozen=%d pending=%d -> %s\n" % (
         payload["phase"], payload["asof_date"], n_frozen, n_pending, jpath))
+    return 0
+
+
+EXAM_FLOOR_REQUIREMENT = "2026-10-30"  # last full bar before the 10-31 exam
+OWNER_LANE_FACES = (
+    # (face_no, name, account, artifact_rel_path, note)
+    (2, "SYSTEM-V1", "SYSTEM-V1",
+     os.path.join("results", "system_v1_paper", "SYSTEM-V1_paper.json"),
+     "owner lane bm-a primary; read-only aggregation here (zero re-implementation)"),
+    (3, "REV-OSC", "REV-OSC-STD",
+     os.path.join("results", "system_v1_paper", "REV-OSC-STD_paper.json"),
+     "owner lane = family owner; signals bridge results/rev_osc_live/SIG-<date>.json"),
+)
+
+
+def _assemble_deltas(baseline_rows, current_rows):
+    """Pair frozen month-open rows with current marks by (family, account).
+
+    Returns (deltas, notes). Rows that cannot be paired land in notes -- a
+    silently dropped account would read as a clean exam table.
+    """
+    open_map = {}
+    for r in baseline_rows:
+        if r.get("equity_cny") is None:
+            continue
+        open_map[(r.get("family"), r.get("account"))] = r
+    deltas, notes, seen = [], [], set()
+    for r in current_rows:
+        key = (r.get("family"), r.get("account"))
+        base = open_map.get(key)
+        if base is None:
+            notes.append("%s/%s has no month-open baseline row" % key)
+            continue
+        seen.add(key)
+        if r.get("equity_cny") is None:
+            notes.append("%s/%s carries no equity face now (observation lane or fault)" % key)
+            continue
+        eq0 = float(base["equity_cny"])
+        eq1 = float(r["equity_cny"])
+        if eq0 <= 0:
+            notes.append("%s/%s month-open equity is non-positive" % key)
+            continue
+        deltas.append({
+            "family": r["family"],
+            "account": r["account"],
+            "asof": r.get("asof"),
+            "equity_open_cny": round(eq0, 2),
+            "equity_now_cny": round(eq1, 2),
+            "mtd_pct": round((eq1 / eq0 - 1.0) * 100.0, 4),
+        })
+    for key in sorted(set(open_map) - seen):
+        notes.append("%s/%s is in the baseline but absent from the current sweep" % key)
+    deltas.sort(key=lambda d: (d["family"], d["account"]))
+    return deltas, notes
+
+
+def _family_summary(deltas):
+    out = {}
+    for d in deltas:
+        b = out.setdefault(d["family"], {"n": 0, "n_up": 0, "sum_pct": 0.0})
+        b["n"] += 1
+        b["n_up"] += 1 if d["mtd_pct"] > 0 else 0
+        b["sum_pct"] += d["mtd_pct"]
+    for b in out.values():
+        b["mean_mtd_pct"] = round(b.pop("sum_pct") / b["n"], 4)
+    return dict(sorted(out.items()))
+
+
+def _owner_lane_rows(deltas):
+    """Faces 2/3: read the owner lanes' own artifacts, never re-derive them."""
+    by_acct = {(d["family"], d["account"]): d for d in deltas}
+    rows = []
+    for face_no, name, account, rel_path, note in OWNER_LANE_FACES:
+        row = {"face": face_no, "name": name, "account": account,
+               "artifact": rel_path.replace(os.sep, "/"), "note": note}
+        d = by_acct.get(("SYSV1", account))
+        if d is None:
+            row["status"] = "MISSING (owner lane has not published a marks face)"
+            row["asof"] = None
+            row["mtd_pct"] = None
+        else:
+            row["status"] = "PRESENT (read-only, owner lane)"
+            row["asof"] = d["asof"]
+            row["mtd_pct"] = d["mtd_pct"]
+        rows.append(row)
+    sig_dir = os.path.join(ROOT, "results", "rev_osc_live")
+    sigs = []
+    if os.path.isdir(sig_dir):
+        sigs = sorted(f for f in os.listdir(sig_dir)
+                      if f.startswith("SIG-") and f.endswith(".json"))
+    for row in rows:
+        if row["account"] == "REV-OSC-STD":
+            row["signal_bridge_latest"] = (
+                "results/rev_osc_live/" + sigs[-1] if sigs else None
+            )
+            row["signal_bridge_n"] = len(sigs)
+    return rows
+
+
+def build_assembly_payload(month, baseline, current_rows):
+    baseline_rows = baseline.get("accounts") or []
+    deltas, notes = _assemble_deltas(baseline_rows, current_rows)
+    roster = [d for d in deltas if d["account"] in ROSTER_EMPLOYEES]
+    floor = max((d["asof"] for d in deltas if d.get("asof")), default=None)
+    out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
+    frozen = {}
+    for name in ("accounts_monthopen_baseline.json", "roster_monthopen_baseline.json",
+                 "criteria_freeze.json"):
+        frozen[name] = _sha16_file(os.path.join(out_dir, name))
+    owner_rows = _owner_lane_rows(deltas)
+    gaps = []
+    if len(roster) != len(ROSTER_EMPLOYEES):
+        gaps.append("roster coverage %d/%d" % (len(roster), len(ROSTER_EMPLOYEES)))
+    if any(r["status"].startswith("MISSING") for r in owner_rows):
+        gaps.append("owner-lane face missing: " + ", ".join(
+            r["name"] for r in owner_rows if r["status"].startswith("MISSING")))
+    if floor:
+        for r in owner_rows:
+            if r["status"].startswith("PRESENT") and r.get("asof") != floor:
+                gaps.append(
+                    "owner-lane face %s is at %s while the panel floor is %s -- an exam-day "
+                    "readout off this face would be stale; its owner lane must refresh before 10-30"
+                    % (r["name"], r.get("asof"), floor))
+    if floor is None or floor < EXAM_FLOOR_REQUIREMENT:
+        gaps.append("marks floor %s < exam requirement %s (legal: bars stop there; "
+                    "re-run at freeze_eve after the last full bar)" % (floor, EXAM_FLOOR_REQUIREMENT))
+    return {
+        "schema": "monthly-exam-assembly/1.0",
+        "ticket": "T-2026-10-01-143 (face 4 accounts assembly + six-face aggregation; O-20261001-2355 sec.3)",
+        "exam_month": month,
+        "exam_date": EXAM_DATE,
+        "t2_deliverable": EXAM_T2_DELIVERABLE,
+        "month_open_bar": MONTH_OPEN_BAR,
+        "n_baseline_rows": len(baseline_rows),
+        "n_deltas": len(deltas),
+        "n_accounts_swept": len(current_rows),
+        "marks_floor_asof": floor,
+        "exam_time_floor_requirement": EXAM_FLOOR_REQUIREMENT,
+        "floor_meets_exam_requirement": bool(floor and floor >= EXAM_FLOOR_REQUIREMENT),
+        "frozen_face_sha16": frozen,
+        "roster_mtd": roster,
+        "family_summary": _family_summary(deltas),
+        "owner_lane_faces": owner_rows,
+        "deltas": deltas,
+        "notes": notes,
+        "gaps": gaps,
+        "honesty": (
+            "month-to-date pct is a level readout, not an annualized statistic "
+            "(D-20260930-27 Q3 window_metrics suppression); PROSPECT observation-lane "
+            "accounts carry no equity face (O-2045) and are never scored here; "
+            "negative results reported as-is, no makeup"
+        ),
+    }
+
+
+def cmd_assembly(month):
+    base_path = os.path.join(ROOT, "docs", "monthly_exam", month,
+                             "accounts_monthopen_baseline.json")
+    if not os.path.exists(base_path):
+        sys.stderr.write("FAULT: month-open accounts baseline missing: %s\n" % base_path)
+        return 2
+    try:
+        with io.open(base_path, "r", encoding="utf-8") as fh:
+            baseline = json.load(fh)
+    except Exception as exc:
+        sys.stderr.write("FAULT: baseline unreadable: %s\n" % exc)
+        return 2
+    current_rows, faults = collect_accounts()
+    if not current_rows:
+        sys.stderr.write("FAULT: zero current accounts swept\n")
+        return 2
+    payload = build_assembly_payload(month, baseline, current_rows)
+    out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
+    os.makedirs(out_dir, exist_ok=True)
+    jpath = os.path.join(out_dir, "assembly.json")
+    mpath = os.path.join(out_dir, "assembly.md")
+    with io.open(jpath, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1, sort_keys=True)
+        fh.write("\n")
+    lines = [
+        "# Monthly exam %s -- six-face assembly (T-2 deliverable)" % month,
+        "",
+        "- ticket: T-2026-10-01-143; exam %s; deliverable %s"
+        % (payload["exam_date"], payload["t2_deliverable"]),
+        "- month-open bar: %s; accounts swept: %d; paired deltas: %d"
+        % (payload["month_open_bar"], payload["n_accounts_swept"], payload["n_deltas"]),
+        "- marks floor: %s (exam requirement %s; met=%s)"
+        % (payload["marks_floor_asof"], payload["exam_time_floor_requirement"],
+           payload["floor_meets_exam_requirement"]),
+        "- what this is: month-open baseline vs latest marks, per account and per family."
+        " A level readout, not an annualized statistic.",
+        "",
+        "## Six employees (month-to-date vs 2026-09-30 month-open equity)",
+        "",
+        "| employee | asof | equity_open_cny | equity_now_cny | mtd_pct |",
+        "|---|---|---:|---:|---:|",
+    ]
+    for d in payload["roster_mtd"]:
+        lines.append("| %s | %s | %s | %s | %s |" % (
+            d["account"], d["asof"], d["equity_open_cny"], d["equity_now_cny"], d["mtd_pct"]))
+    if not payload["roster_mtd"]:
+        lines.append("| (no roster rows paired) | - | - | - | - |")
+    lines += [
+        "",
+        "## Harness families",
+        "",
+        "| family | n | up | mean_mtd_pct |",
+        "|---|---:|---:|---:|",
+    ]
+    for fam, b in payload["family_summary"].items():
+        lines.append("| %s | %d | %d | %s |" % (fam, b["n"], b["n_up"], b["mean_mtd_pct"]))
+    lines += [
+        "",
+        "## Owner-lane faces (read-only aggregation, faces 2/3)",
+        "",
+        "| face | name | status | asof | mtd_pct | artifact |",
+        "|---|---|---|---|---:|---|",
+    ]
+    for r in payload["owner_lane_faces"]:
+        lines.append("| %s | %s | %s | %s | %s | %s |" % (
+            r["face"], r["name"], r["status"], r["asof"], r["mtd_pct"], r["artifact"]))
+    lines += ["", "## Frozen face fingerprints (drift = gate red, version a new file)", ""]
+    for name, sha in payload["frozen_face_sha16"].items():
+        lines.append("- `%s` sha16=%s" % (name, sha))
+    lines += ["", "## Gaps", ""]
+    lines += ["- %s" % g for g in payload["gaps"]] or ["- none"]
+    lines += ["", "## Notes", ""]
+    lines += ["- %s" % n for n in payload["notes"]] or ["- none"]
+    lines += ["", "## Honesty anchors", "", payload["honesty"], ""]
+    with io.open(mpath, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(lines))
+    for f in faults:
+        sys.stderr.write("FAULT: %s\n" % f)
+    sys.stdout.write("assembly: deltas=%d roster=%d/%d floor=%s gaps=%d -> %s\n" % (
+        payload["n_deltas"], len(payload["roster_mtd"]), len(ROSTER_EMPLOYEES),
+        payload["marks_floor_asof"], len(payload["gaps"]), jpath))
     return 0
 
 
@@ -1073,14 +1334,85 @@ def _selftest():
         _rfmap[1]["status"].startswith("FROZEN")
         and _rfmap[4]["status"].startswith("FROZEN")
         and _rfmap[5]["status"].startswith("FROZEN")
-        and _rfmap[2]["status"].startswith("PENDING")
-        and _rfmap[3]["status"].startswith("PENDING")
+        and _rfmap[2]["status"].startswith("PRESENT")
+        and _rfmap[3]["status"].startswith("PRESENT")
+        and "asof 2026-10-20" in _rfmap[2]["status"]
         and _rfmap[6]["status"].startswith("ACTIVE"))
     # leg25: payload same-day determinism (asof_date inside, byte-stable within a day)
     _today = _dt2.date.today()
     _rb1 = json.dumps(_runbook_payload("2026-10", _today), sort_keys=True).encode("utf-8")
     _rb2 = json.dumps(_runbook_payload("2026-10", _today), sort_keys=True).encode("utf-8")
     leg("runbook payload same-day determinism", _rb1 == _rb2 and len(_rb1) > 500)
+
+    # leg26: assembly pairs baseline -> current marks and computes month-to-date pct
+    _base_rows = [{"family": "EMPLOYEE", "account": "A", "equity_cny": 1000.0},
+                  {"family": "EMPLOYEE", "account": "B", "equity_cny": 2000.0}]
+    _cur_rows = [{"family": "EMPLOYEE", "account": "A", "asof": "2026-10-27", "equity_cny": 1100.0},
+                 {"family": "EMPLOYEE", "account": "B", "asof": "2026-10-27", "equity_cny": 1900.0}]
+    _dl, _nt = _assemble_deltas(_base_rows, _cur_rows)
+    leg("assembly pairs baseline to marks",
+        len(_dl) == 2 and _dl[0]["mtd_pct"] == 10.0 and _dl[1]["mtd_pct"] == -5.0
+        and _nt == [])
+    # leg27: an unpaired / no-equity account is reported, never silently dropped
+    _dl2, _nt2 = _assemble_deltas(
+        _base_rows,
+        [{"family": "EMPLOYEE", "account": "A", "asof": "2026-10-27", "equity_cny": 1100.0},
+         {"family": "EMPLOYEE", "account": "Z", "asof": "2026-10-27", "equity_cny": 5.0},
+         {"family": "PROS", "account": "PROS-X", "asof": "2026-10-27", "equity_cny": None}])
+    leg("assembly reports orphan and no-equity rows in notes",
+        len(_dl2) == 1 and len([n for n in _nt2 if "EMPLOYEE/B" in n]) == 1
+        and len([n for n in _nt2 if "PROS/PROS-X" in n]) == 1)
+    # leg28: a non-positive month-open equity is a note, not a divide-by-zero
+    _dl3, _nt3 = _assemble_deltas(
+        [{"family": "EMPLOYEE", "account": "A", "equity_cny": 0.0}],
+        [{"family": "EMPLOYEE", "account": "A", "asof": "2026-10-27", "equity_cny": 10.0}])
+    leg("assembly guards non-positive baseline equity", _dl3 == [] and len(_nt3) == 1)
+    # leg29: family summary means are counts-weighted, not per-family averages of averages
+    _fam = _family_summary([
+        {"family": "F", "account": "a", "mtd_pct": 1.0},
+        {"family": "F", "account": "b", "mtd_pct": -3.0},
+        {"family": "F", "account": "c", "mtd_pct": 10.0}])
+    leg("family summary computes mean and up-count",
+        _fam["F"]["n"] == 3 and _fam["F"]["n_up"] == 2 and _fam["F"]["mean_mtd_pct"] == 2.6667)
+    # leg30: payload determinism (no wall clock) + floor gate is derived from data
+    _bl = {"accounts": _base_rows}
+    _p1 = json.dumps(build_assembly_payload("2026-10", _bl, _cur_rows), sort_keys=True).encode("utf-8")
+    _p2 = json.dumps(build_assembly_payload("2026-10", _bl, _cur_rows), sort_keys=True).encode("utf-8")
+    _pobj = build_assembly_payload("2026-10", _bl, _cur_rows)
+    leg("assembly payload byte-deterministic and floor-gated",
+        _p1 == _p2 and _pobj["marks_floor_asof"] == "2026-10-27"
+        and _pobj["floor_meets_exam_requirement"] is False
+        and any("marks floor" in g for g in _pobj["gaps"]))
+
+    # leg31: face fingerprints are CRLF-insensitive (this repo smudges to CRLF,
+    # so a checkout-dependent hash would make the freeze gate red on a fresh clone)
+    import tempfile as _tf
+    _lf_dir = _tf.mkdtemp(prefix="sha16_")
+    _lf_a = os.path.join(_lf_dir, "a.json")
+    _lf_b = os.path.join(_lf_dir, "b.json")
+    with io.open(_lf_a, "wb") as _fh:
+        _fh.write(b'{\n "k": 1\n}\n')
+    with io.open(_lf_b, "wb") as _fh:
+        _fh.write(b'{\r\n "k": 1\r\n}\r\n')
+    leg("face fingerprint ignores line-ending smudge",
+        _sha16_file(_lf_a) is not None and _sha16_file(_lf_a) == _sha16_file(_lf_b))
+
+    # leg32: a face present but behind the panel floor becomes a gap (stale readout)
+    _dl_stale = [{"family": "SYSV1", "account": "SYSTEM-V1", "asof": "2026-10-20",
+                  "equity_open_cny": 100.0, "equity_now_cny": 99.0, "mtd_pct": -1.0}]
+    _rows_stale = [{"family": "EMPLOYEE", "account": "COMPOSITE-CE-01", "asof": "2026-10-27",
+                    "equity_cny": 1000.0},
+                   {"family": "SYSV1", "account": "SYSTEM-V1", "asof": "2026-10-20",
+                    "equity_cny": 990.0},
+                   {"family": "SYSV1", "account": "REV-OSC-STD", "asof": "2026-10-20",
+                    "equity_cny": 980.0}]
+    _bl_stale = {"accounts": [{"family": "EMPLOYEE", "account": "COMPOSITE-CE-01",
+                               "equity_cny": 1000.0},
+                              {"family": "SYSV1", "account": "SYSTEM-V1", "equity_cny": 1000.0},
+                              {"family": "SYSV1", "account": "REV-OSC-STD", "equity_cny": 1000.0}]}
+    _pstale = build_assembly_payload("2026-10", _bl_stale, _rows_stale)
+    leg("owner-lane lag vs panel floor is reported as a gap",
+        any("SYSTEM-V1 is at 2026-10-20" in g for g in _pstale["gaps"]))
 
     sys.stdout.write("selftest: %d PASS, %d FAIL\n" % (ok[0], bad[0]))
     return 0 if bad[0] == 0 else 1
@@ -1097,6 +1429,8 @@ def main(argv):
     cp.add_argument("--month", default="2026-10")
     rbp = sub.add_parser("runbook", help="date-driven exam-day runbook (face 6): six-face status + sequence, zero new judgment")
     rbp.add_argument("--month", default="2026-10")
+    asp = sub.add_parser("assembly", help="six-face assembly at the assembly window: month-open baseline vs latest marks (faces 2/3 read-only)")
+    asp.add_argument("--month", default="2026-10")
     sub.add_parser("selftest", help="offline self-check")
     args = ap.parse_args(argv)
     if args.cmd == "selftest":
@@ -1109,6 +1443,8 @@ def main(argv):
         return cmd_criteria(args.month)
     if args.cmd == "runbook":
         return cmd_runbook(args.month)
+    if args.cmd == "assembly":
+        return cmd_assembly(args.month)
     ap.print_help()
     return 2
 

@@ -2,7 +2,7 @@
 
 - ticket: T-2026-10-01-143 face 6 (O-20261001-2355 sec.3)
 - exam date: 2026-10-31 (month-boundary first exam); T-2 deliverable: 2026-10-29
-- phase TODAY (2026-10-03): capture_window_open
+- phase TODAY (2026-10-28): assembly_window
 - law: exam day = pure aggregation, zero new judgment (T-105 one-pager precedent); this file regenerates (asof_date inside), NOT a frozen baseline
 
 ## Phase schedule
@@ -20,9 +20,9 @@
 | # | face | owner lane | status | assembly command |
 |---|---|---|---|---|
 | 1 | roster | bm-c (T-143 owner) | FROZEN sha16=c5e1e273e9e1ed93 | python scripts/monthly_exam_prep.py roster --month 2026-10 |
-| 2 | SYSTEM-V1 | bm-a primary (SYSTEM_V1_PREREG author precedent) | PENDING (assembly window) | bm-a lane: system_v1_paper month readout (assembly command lands with the face) |
-| 3 | REV-OSC | family-owner lane (ETF oversold-rebound family) | PENDING (assembly window) | family-owner lane: rev_osc state assembly (assembly command lands with the face) |
-| 4 | accounts | bm-c (T-143 owner) | FROZEN sha16=9cddb73e51a5fd91 | python scripts/monthly_exam_prep.py baseline --month 2026-10 |
+| 2 | SYSTEM-V1 | bm-a primary (SYSTEM_V1_PREREG author precedent) | PRESENT (owner lane, asof 2026-10-20) | bm-a lane: system_v1_paper month readout (assembly command lands with the face) |
+| 3 | REV-OSC | family-owner lane (ETF oversold-rebound family) | PRESENT (owner lane, asof 2026-10-20) | family-owner lane: rev_osc state assembly (assembly command lands with the face) |
+| 4 | accounts | bm-c (T-143 owner) | FROZEN sha16=0d61233fbc60e485 | python scripts/monthly_exam_prep.py baseline --month 2026-10 |
 | 5 | criteria | bm-c (T-143 owner) | FROZEN sha16=9a7b925a0b93e954 | python scripts/monthly_exam_prep.py criteria --month 2026-10 |
 | 6 | runbook | bm-c (this generator, T-143 owner) | ACTIVE (this generator; self-excluded from fingerprints) | python scripts/monthly_exam_prep.py runbook --month 2026-10 |
 

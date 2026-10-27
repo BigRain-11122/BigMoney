@@ -22241,26 +22241,9 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "worker_class": "self-contained",
-   "status": "done",
-   "seeded_at": "2026-10-28T05:05:00+08:00",
-   "seeded_by": "bm-b r1201",
-   "done_at": "2026-10-28T05:4x+08:00",
-   "done_by": "bm-b r1202",
-   "result_ref": "results/e43_tilt_4member/TILT3LEGS-20261027.json",
-   "done_note": "delivered as mode tilt3legs: per-era large/small leg returns with the small-large identity (residual 0.0bp) + leave-one-month-out sweep with months_to_half. pre2017 = 44 months, large +683.5 / small +1869.9 / tilt +1186.4bp, LOMO span 1353.8bp, 2 months reach half; 2024_now is the era whose sign flips under one dropped month."
-  },
-  {
-   "id": "E171-LOMO-BOOKS-ALLSERIES",
-   "title": "E168 showed the three-member tilt's era means are 1-2 months deep in three of four eras. The same question was never asked of the other book-level series in one load: ladder, wide, and the spread. Apply the identical leave-one-month-out + months_to_half to every era mean of every series _monthly_core already builds, on one load, and publish a single table that says which published era readings survive a single month and which do not -- so 'the era mean is X' can be quoted with its depth beside it.",
-   "source": "Seeded r1202 bm-b from the E168 face: pre2017 months_to_half=2, 2021_2023/2024_now/full=1, 2024_now flips sign under one drop.",
-   "deliverable": "results/e43_tilt_4member/LOMO-ALLSERIES-<cutoff>.json",
-   "target": "scripts/e39_panel_census.py (run_tilt3legs / _lomo_sweep)",
-   "lane": "cpu-only",
-   "lane_owner": "bm-b",
-   "worker_class": "self-contained",
    "status": "ready",
-   "seeded_at": "2026-10-28T05:33:00+08:00",
-   "seeded_by": "bm-b r1202"
+   "seeded_at": "2026-10-28T05:05:00+08:00",
+   "seeded_by": "bm-b r1201"
   },
   {
    "id": "E169-TILT3-SIGN-VS-ENGINE",

@@ -1,5 +1,5 @@
 {
- "asof_date": "2026-10-03",
+ "asof_date": "2026-10-28",
  "capture_close": "2026-10-09",
  "exam_date": "2026-10-31",
  "exam_day_sequence": [
@@ -23,24 +23,24 @@
    "status": "FROZEN sha16=c5e1e273e9e1ed93"
   },
   {
-   "artifact": null,
+   "artifact": "results\\system_v1_paper\\SYSTEM-V1_paper.json",
    "command": "bm-a lane: system_v1_paper month readout (assembly command lands with the face)",
    "face": 2,
-   "kind": "pending",
+   "kind": "owner_lane",
    "name": "SYSTEM-V1",
    "owner_lane": "bm-a primary (SYSTEM_V1_PREREG author precedent)",
-   "sha256_16": null,
-   "status": "PENDING (assembly window)"
+   "sha256_16": "7ddd5e2a3b04ee76",
+   "status": "PRESENT (owner lane, asof 2026-10-20)"
   },
   {
-   "artifact": null,
+   "artifact": "results\\system_v1_paper\\REV-OSC-STD_paper.json",
    "command": "family-owner lane: rev_osc state assembly (assembly command lands with the face)",
    "face": 3,
-   "kind": "pending",
+   "kind": "owner_lane",
    "name": "REV-OSC",
    "owner_lane": "family-owner lane (ETF oversold-rebound family)",
-   "sha256_16": null,
-   "status": "PENDING (assembly window)"
+   "sha256_16": "54a14994047c6d95",
+   "status": "PRESENT (owner lane, asof 2026-10-20)"
   },
   {
    "artifact": "accounts_monthopen_baseline.json",
@@ -49,8 +49,8 @@
    "kind": "frozen",
    "name": "accounts",
    "owner_lane": "bm-c (T-143 owner)",
-   "sha256_16": "9cddb73e51a5fd91",
-   "status": "FROZEN sha16=9cddb73e51a5fd91"
+   "sha256_16": "0d61233fbc60e485",
+   "status": "FROZEN sha16=0d61233fbc60e485"
   },
   {
    "artifact": "criteria_freeze.json",
@@ -82,7 +82,7 @@
   "window_metrics insufficient_data suppression (D-20260930-27 Q3) carried, never quoted as annualized stats",
   "negative results reported as-is, no makeup"
  ],
- "phase": "capture_window_open",
+ "phase": "assembly_window",
  "phase_schedule": [
   {
    "action": "month-open baselines captured during golden week (DONE r405-r407); do-not-overwrite",
