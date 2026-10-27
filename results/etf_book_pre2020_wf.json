@@ -1,0 +1,199 @@
+{
+  "schema": "etf_book_pre2020_wf/v1",
+  "question": "the shipped deployment rule re-picks (N,R) every year on trailing Sharpe -- does the RULE survive 2016-2019, or only the hindsight cell?",
+  "engine": "etf_composite_pf.run_next_open (selection curve) / etf_robust_pf.open_to_open_equity (earned curve, 8% de-lever-only overlay)",
+  "window": [
+    "2015-01-01",
+    "2019-12-31"
+  ],
+  "earn_years": [
+    2016,
+    2017,
+    2018,
+    2019
+  ],
+  "universe": {
+    "U_pre": 193,
+    "cols": 193,
+    "flips_repaired": 168
+  },
+  "cost_bp_per_side": 10.0,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cells": [
+    "N3_R10",
+    "N3_R20",
+    "N3_R40",
+    "N5_R10",
+    "N5_R20",
+    "N5_R40",
+    "N8_R10",
+    "N8_R20",
+    "N8_R40"
+  ],
+  "cells_vt": {
+    "N12_R20": {
+      "cagr": 0.0512,
+      "sharpe": 0.7,
+      "maxdd": -0.1671,
+      "vol": 0.0779
+    },
+    "N3_R10": {
+      "cagr": 0.038,
+      "sharpe": 0.491,
+      "maxdd": -0.1627,
+      "vol": 0.0859
+    },
+    "N3_R20": {
+      "cagr": 0.0595,
+      "sharpe": 0.728,
+      "maxdd": -0.1239,
+      "vol": 0.0871
+    },
+    "N3_R40": {
+      "cagr": 0.0518,
+      "sharpe": 0.638,
+      "maxdd": -0.1186,
+      "vol": 0.0878
+    },
+    "N5_R10": {
+      "cagr": 0.0534,
+      "sharpe": 0.68,
+      "maxdd": -0.1388,
+      "vol": 0.0841
+    },
+    "N5_R20": {
+      "cagr": 0.0598,
+      "sharpe": 0.745,
+      "maxdd": -0.1606,
+      "vol": 0.0854
+    },
+    "N5_R40": {
+      "cagr": 0.0468,
+      "sharpe": 0.607,
+      "maxdd": -0.1414,
+      "vol": 0.0835
+    },
+    "N8_R10": {
+      "cagr": 0.0558,
+      "sharpe": 0.714,
+      "maxdd": -0.1702,
+      "vol": 0.0833
+    },
+    "N8_R20": {
+      "cagr": 0.0582,
+      "sharpe": 0.735,
+      "maxdd": -0.1773,
+      "vol": 0.0843
+    },
+    "N8_R40": {
+      "cagr": 0.0389,
+      "sharpe": 0.51,
+      "maxdd": -0.1547,
+      "vol": 0.0841
+    }
+  },
+  "cell_dispersion": {
+    "n": 9,
+    "mean": 0.0514,
+    "sd": 0.0079,
+    "min": 0.038,
+    "max": 0.0598,
+    "positive": 9
+  },
+  "wf": {
+    "rows": [
+      {
+        "year": 2016,
+        "picked": "N8_R40",
+        "trailing_sharpe": 0.243,
+        "return": -0.0269
+      },
+      {
+        "year": 2017,
+        "picked": "N8_R40",
+        "trailing_sharpe": -0.077,
+        "return": 0.1304
+      },
+      {
+        "year": 2018,
+        "picked": "N8_R40",
+        "trailing_sharpe": 0.136,
+        "return": -0.1129
+      },
+      {
+        "year": 2019,
+        "picked": "N3_R40",
+        "trailing_sharpe": -0.034,
+        "return": 0.239
+      }
+    ],
+    "chained_cagr": 0.0486095233346886,
+    "picks": [
+      "N8_R40",
+      "N8_R40",
+      "N8_R40",
+      "N3_R40"
+    ]
+  },
+  "fixed_n12": {
+    "chained_cagr": 0.04972611979450958
+  },
+  "ew": {
+    "chained_cagr": 0.026883954129024
+  },
+  "chained_returns": {
+    "wf": 0.2091,
+    "fixed_n12": 0.2142,
+    "ew": 0.112
+  },
+  "full_window_arm_stats": {
+    "wf_rule_full_window": {
+      "cagr": 0.0487,
+      "sharpe": 0.611,
+      "maxdd": -0.1549,
+      "vol": 0.0866,
+      "years": 3.99
+    },
+    "fixed_n12_vt": {
+      "cagr": 0.0499,
+      "sharpe": 0.709,
+      "maxdd": -0.1671,
+      "vol": 0.0748,
+      "years": 3.99
+    },
+    "ew": {
+      "cagr": 0.027,
+      "sharpe": 0.254,
+      "maxdd": -0.2684,
+      "vol": 0.1573,
+      "years": 3.99
+    },
+    "fixed_n12_raw": {
+      "cagr": 0.0377,
+      "sharpe": 0.373,
+      "maxdd": -0.2292,
+      "vol": 0.1225,
+      "years": 3.99
+    }
+  },
+  "round": "r1309",
+  "generated": "2026-10-27T06:55:51.014096+00:00",
+  "control": {
+    "published": "results\\etf_book_window_decomp.json",
+    "r3_n12_raw": {
+      "published": 0.0073,
+      "recomputed": 0.0073,
+      "delta_pp": 0.0,
+      "ok": true
+    },
+    "r4_n12_vt": {
+      "published": 0.0512,
+      "recomputed": 0.0512,
+      "delta_pp": 0.0,
+      "ok": true
+    },
+    "tolerance_pp": 0.5,
+    "verdict": "control arms reproduce the published ladder"
+  }
+}
