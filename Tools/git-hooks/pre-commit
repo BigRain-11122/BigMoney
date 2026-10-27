@@ -9,11 +9,27 @@
 # Escape hatch for canon-doc edits that legitimately quote marker lines:
 #   git commit --no-verify   (state the reason in the round report)
 # Install/refresh: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_precommit_claw.ps1
+#
+# r1305: round 1304 shipped a stray "||||||| parent of b860cfedf0" line inside
+# knowledge/METHODOLOGY_ASSETS.md, past a claw byte-identical to this file. Probed on
+# 2026-10-27: git diff --cached --check DOES flag a base marker, and a staged probe file
+# was blocked, so the commit path that let it through was one that skips this hook
+# (rebase replay / --no-verify), not a blind spot in git. The grep below is therefore a
+# second, independent check on ADDED lines only -- it fires even if the --check wording
+# changes, and it leaves canon prose that quotes a marker alone. The real lesson stays
+# with the rebase path: after any rebase, re-read the resolved file before committing.
 out=$(git diff --cached --check 2>/dev/null | grep 'leftover conflict marker')
 if [ -n "$out" ]; then
     echo "PRE-COMMIT CLAW: unresolved conflict markers staged (D-20260927-05 item-iii)."
     echo "Resolve per .codely-cli/skills/bigmoney-conflict-resolve/SKILL.md, then re-commit."
     echo "$out"
+    exit 1
+fi
+base=$(git diff --cached -U0 --diff-filter=ACMR 2>/dev/null | grep -E '^\+\|\|\|\|\|\|\|')
+if [ -n "$base" ]; then
+    echo "PRE-COMMIT CLAW: a git base marker '|||||||' is being added (r1305)."
+    echo "Delete the line (or quote it inside prose) before committing."
+    echo "$base" | head -5
     exit 1
 fi
 exit 0

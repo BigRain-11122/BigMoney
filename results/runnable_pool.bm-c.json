@@ -21824,7 +21824,7 @@
   },
   {
    "id": "E106-REPAIR-STEP-CONSISTENCY",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/panel_screen.py + scripts/e39_panel_census.py heldsplit face",
@@ -21834,7 +21834,11 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T07:50:00+08:00",
    "entered_by": "bm-b r1170",
-   "runner_note": "pure function of both arms prices at the flagged name-dates; no engine work"
+   "runner_note": "pure function of both arms prices at the flagged name-dates; no engine work",
+   "done_at": "2026-10-27T08:12:00+08:00",
+   "done_by": "bm-b r1171",
+   "result_ref": "results/e44_midmonth/REPAIRSTEP-20261026.json",
+   "result_note": "16 flagged windows / 322 steps, step-product reconciles to the published ratio change in 16/16. Placement passes (no step lands off a print); direction fails: 8 windows step x(1+r) on an upward print and read (1+r)^2-1 (sh510580 2024-09-02 raw +295.5% -> arm +1464.1%). Root cause = split_events reuses implied_ratio()'s folded share ratio (>=1) as the price factor, so upward prints are multiplied instead of divided. The other 8 windows are raw prints the integer gate skipped (resid > 2%) and which both arms still carry. Fix + re-derivation seeded as E108; no published face re-derived here."
   },
   {
    "id": "E107-UNCHANGED-HOLDING-CURVE-EFFECT",
@@ -21849,6 +21853,57 @@
    "entered_at": "2026-10-27T07:50:00+08:00",
    "entered_by": "bm-b r1170",
    "runner_note": "reuse e27.simulate on both arms with the E104 window list; report curve deltas per window and per era"
+  },
+  {
+   "id": "E108-REPAIR-FACTOR-SIGN",
+   "status": "done",
+   "result_ref": "results/e44_midmonth/REPAIRFIX-20261026.json",
+   "result_note": "factor now 1/(1+r); 7 consuming faces re-derived and diffed, legacy control reproduced the published repairstep face 0/966 leaves moved; REPAIRSTEP fabricating_windows 8->0, MID 2024_now mid level -364.7 -> +4.9bp, 2017_2020 me -745.9 and 2021_2023 pair unchanged",
+   "done_by": "bm-b r1172",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/panel_screen.py (split_events factor) + every screened/gap-arm face",
+   "title": "E106 proved the repair factor is mirrored on UPWARD prints: split_events uses implied_ratio()[ratio] (a share ratio >= 1, folded for the integer test) as the price factor, so a +r print is multiplied by (1+r) instead of divided by it and the arm reads (1+r)^2-1. Change the factor to the cancelling value 1/(1+ret) for every event (downward prints keep the same factor, so only upward prints move), then re-derive every face that consumes a screened arm and publish a before/after diff per face.",
+   "deliverable": "panel_screen factor patch + REPAIR-FIX-<cutoff>.json before/after per consuming face + digest",
+   "source": "DIGEST-20261027-e106-repair-step-consistency.md (8 amplified windows, sh510580 witness)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T08:12:00+08:00",
+   "entered_by": "bm-b r1171",
+   "runner_note": "one-line semantic fix, but it moves every screened arm: the deliverable is the before/after per consuming face (MID armed levels, GAPARM family/endgrid, GAPTOP3, HELDSPLIT, SCREENGAPERA, panel_screen selftest), not the patch alone. Order: patch + selftest, then re-derive, then re-read E99/E100/E104 conclusions against the new arms (all of them were measured on the mirrored arm)."
+  },
+  {
+   "id": "E109-SCREENED-CONSUMER-SWEEP",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (midscreen / churngap / robustchurn / churnse / singleprint / topnames / loodist / screenspread / screentilt / screenwide / screenweek / screenreg / gapsplit / burncontrol)",
+   "title": "E108 re-derived only the seven gap-arm consumers. Every other leg that reads a neutralise or neutralise_int arm still carries the mirrored factor on its reverse-split windows. Re-derive all of them with the fixed panel_screen and publish one before/after face per leg, ranked by the number of published numbers the leg carries.",
+   "deliverable": "results/e44_midmonth/REPAIRSWEEP-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e108-repair-factor-sign.md (remaining scope block)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T08:36:33+08:00",
+   "entered_by": "bm-b r1172",
+   "runner_note": "reuse scripts/e108_repairfix.py: copy the published faces to a temp dir, run each leg with the fixed code, then 'report <before> <after>'. Downward-print cells must be bit-identical; if one moves, the leg reads something else too.",
+   "owner": null,
+   "result_ref": "results/e44_midmonth/REPAIRSWEEP-20261026.json",
+   "result_note": "14 legs burned twice on the same panel (legacy factor vs shipped factor); 47,385 numeric leaves compared, 1,792 moved, 13 of 14 legs affected, burncontrol bit-identical (control). Largest moves: screenwide 2024_now screened spread 456->192bp, midscreen worst_correction -470.3->-100.7bp, robustchurn top3 concentration -11676.8->-1168.0bp (exactly /10), churngap/gapsplit -6506.8->+3471.6bp, topnames -9979.4->-1077.6bp. Two verdicts flip: screenweek residual share 75.0%->125.0%, topnames third-place -619.8->+529.4bp. screentilt moved only its factor table (zero levels). screenspread is the most contaminated leg (217/410) because it publishes ratios: share_of_spread_from_size -133.2% -> -2683.9%.",
+   "done_by": "bm-b r1173",
+   "done_at": "2026-10-27T09:5x+08:00"
+  },
+  {
+   "id": "E110-BURNCONTROL-MISMATCH",
+   "title": "The burncontrol leg exits rc=1 with status MISMATCH (11 of 56 shared cells) in BOTH arms of the E109 sweep -- i.e. the mismatch is not the repair factor. Find what the control actually compares (its own recompute vs a face burned at a different start/burn) and either align the burn or publish the 11 named cells with the reason they disagree. E88 introduced this control to prove the robust table sits on the published burn; a control that cannot be read as green is dead weight.",
+   "status": "ready",
+   "owner": null,
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (burncontrol leg) + CHURNROBUST-CONTROL-20261026.json",
+   "deliverable": "results/e44_midmonth/BURNCONTROL-<cutoff>.json + digest",
+   "source": "r1173 E109 sweep: burncontrol rc=1 both arms, numeric_moved 0",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T09:5x+08:00",
+   "entered_by": "bm-b r1173",
+   "runner_note": "read the 11 mismatched cells first; the control is cheap so no burn budget needed"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21863,7 +21918,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T07:50:00+08:00",
+ "updated_at": "2026-10-27T09:5x+08:00",
  "version": 1,
  "lane_machine": "bm-c"
 }

@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-27 08:08:25",
+ "ts": "2026-10-27 10:31:29",
  "evidence_cutoff": "2026-10-26",
  "feed_status": {
   "ticket_bar": "2026-10-26",
@@ -358,11 +358,24 @@
   ]
  },
  "caveats": [
+  "ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. See results/etf_book_pre2020.json.",
   "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
   "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
   "The vol target only de-levers; it is a drawdown tool, not an edge.",
   "Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).",
   "Order sheet is research output, not an investment recommendation.",
   "The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held."
- ]
+ ],
+ "preperiod": {
+  "artifact": "results/etf_book_pre2020.json",
+  "grid_cell": "N5_R20",
+  "window": "2015-01-01..2019-12-31",
+  "universe_size": 224,
+  "book_cagr": -0.0497,
+  "ew_cagr": 0.0389,
+  "excess_pp": -8.86,
+  "null_p": 0.96,
+  "cells_negative": 6,
+  "cells_total": 6
+ }
 }

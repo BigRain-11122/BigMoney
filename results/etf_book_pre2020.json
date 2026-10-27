@@ -1,0 +1,717 @@
+{
+ "generated": "2026-10-27T09:53:40",
+ "elapsed_sec": 1114.2,
+ "evidence_cutoff": "2026-10-26",
+ "schema": "etf_book_pre2020/v1",
+ "question": "does the six-factor composite pay on the ETFs that existed before 2020, over a period the published book never looked at?",
+ "engine": "scripts/etf_composite_pf.run_next_open (no re-implementation)",
+ "basis": "close decision -> next open fill, 10bp per side, top-N equal weight",
+ "universe_rule": "first bar <= 2020-01-01; eligible when 20d median amount >= 20M and >= 120 bars of history",
+ "grid": {
+  "n_hold": [
+   3,
+   5,
+   8
+  ],
+  "rebal_bars": [
+   10,
+   20
+  ],
+  "primary": "N5_R20"
+ },
+ "cells": {
+  "A_pre_universe_pre_period": {
+   "universe": "U_pre",
+   "universe_size": 224,
+   "start": "2015-01-01",
+   "end": "2019-12-31",
+   "cells": {
+    "N3_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.1035,
+      "cagr": -0.0217,
+      "vol": 0.0753,
+      "sharpe": -0.262,
+      "maxdd": -0.2383
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.1999,
+      "cagr": 0.0372,
+      "vol": 0.1819,
+      "sharpe": 0.299,
+      "maxdd": -0.3659
+     },
+     "excess_cagr_pp": -5.89,
+     "turnover_per_decision": 0.79,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 122,
+      "median": 31,
+      "min": 14,
+      "max": 57,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N3_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.1442,
+      "cagr": -0.0308,
+      "vol": 0.0884,
+      "sharpe": -0.32,
+      "maxdd": -0.2306
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.2092,
+      "cagr": 0.0389,
+      "vol": 0.1824,
+      "sharpe": 0.307,
+      "maxdd": -0.3551
+     },
+     "excess_cagr_pp": -6.97,
+     "turnover_per_decision": 1.087,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 61,
+      "median": 30,
+      "min": 14,
+      "max": 55,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.1998,
+      "cagr": -0.0437,
+      "vol": 0.1079,
+      "sharpe": -0.373,
+      "maxdd": -0.3738
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.1999,
+      "cagr": 0.0372,
+      "vol": 0.1819,
+      "sharpe": 0.299,
+      "maxdd": -0.3659
+     },
+     "excess_cagr_pp": -8.09,
+     "turnover_per_decision": 0.766,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 122,
+      "median": 31,
+      "min": 14,
+      "max": 57,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.2246,
+      "cagr": -0.0497,
+      "vol": 0.106,
+      "sharpe": -0.443,
+      "maxdd": -0.3293
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.2092,
+      "cagr": 0.0389,
+      "vol": 0.1824,
+      "sharpe": 0.307,
+      "maxdd": -0.3551
+     },
+     "excess_cagr_pp": -8.86,
+     "turnover_per_decision": 1.02,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 61,
+      "median": 30,
+      "min": 14,
+      "max": 55,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     },
+     "null": {
+      "n_iter": 200,
+      "p_value": 0.96,
+      "null_cagr_median": 0.0101,
+      "null_cagr_p95": 0.1082,
+      "real_cagr": -0.0497
+     }
+    },
+    "N8_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.1543,
+      "cagr": -0.033,
+      "vol": 0.1281,
+      "sharpe": -0.206,
+      "maxdd": -0.4203
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.1999,
+      "cagr": 0.0372,
+      "vol": 0.1819,
+      "sharpe": 0.299,
+      "maxdd": -0.3659
+     },
+     "excess_cagr_pp": -7.02,
+     "turnover_per_decision": 0.709,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 122,
+      "median": 31,
+      "min": 14,
+      "max": 57,
+      "thin_decisions": 7,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N8_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1219,
+      "years": 4.99,
+      "start_level": 1.0,
+      "total_ret": -0.092,
+      "cagr": -0.0192,
+      "vol": 0.1292,
+      "sharpe": -0.089,
+      "maxdd": -0.3949
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1218,
+      "years": 4.98,
+      "start_level": 0.9975,
+      "total_ret": 0.2092,
+      "cagr": 0.0389,
+      "vol": 0.1824,
+      "sharpe": 0.307,
+      "maxdd": -0.3551
+     },
+     "excess_cagr_pp": -5.81,
+     "turnover_per_decision": 0.898,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 61,
+      "median": 30,
+      "min": 14,
+      "max": 55,
+      "thin_decisions": 4,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    }
+   }
+  },
+  "B_pre_universe_post_period": {
+   "universe": "U_pre",
+   "universe_size": 224,
+   "start": "2020-01-01",
+   "end": "2026-10-26",
+   "cells": {
+    "N3_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3436,
+      "cagr": 0.0443,
+      "vol": 0.0995,
+      "sharpe": 0.504,
+      "maxdd": -0.1725
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.2501,
+      "cagr": 0.0333,
+      "vol": 0.1605,
+      "sharpe": 0.293,
+      "maxdd": -0.3433
+     },
+     "excess_cagr_pp": 1.1,
+     "turnover_per_decision": 1.024,
+     "open_gapfill": 0,
+     "eligibility": {
+      "decisions": 165,
+      "median": 99,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N3_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.6927,
+      "cagr": 0.0803,
+      "vol": 0.0949,
+      "sharpe": 0.896,
+      "maxdd": -0.1964
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.295,
+      "cagr": 0.0387,
+      "vol": 0.1596,
+      "sharpe": 0.328,
+      "maxdd": -0.3248
+     },
+     "excess_cagr_pp": 4.16,
+     "turnover_per_decision": 1.177,
+     "open_gapfill": 0,
+     "eligibility": {
+      "decisions": 83,
+      "median": 98,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3542,
+      "cagr": 0.0455,
+      "vol": 0.1022,
+      "sharpe": 0.505,
+      "maxdd": -0.179
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.2501,
+      "cagr": 0.0333,
+      "vol": 0.1605,
+      "sharpe": 0.293,
+      "maxdd": -0.3433
+     },
+     "excess_cagr_pp": 1.22,
+     "turnover_per_decision": 0.998,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 165,
+      "median": 99,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.5718,
+      "cagr": 0.0686,
+      "vol": 0.105,
+      "sharpe": 0.712,
+      "maxdd": -0.1314
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.295,
+      "cagr": 0.0387,
+      "vol": 0.1596,
+      "sharpe": 0.328,
+      "maxdd": -0.3248
+     },
+     "excess_cagr_pp": 2.99,
+     "turnover_per_decision": 1.198,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 83,
+      "median": 98,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     },
+     "null": {
+      "n_iter": 200,
+      "p_value": 0.1,
+      "null_cagr_median": -0.0034,
+      "null_cagr_p95": 0.0908,
+      "real_cagr": 0.0686
+     }
+    },
+    "N8_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4548,
+      "cagr": 0.0566,
+      "vol": 0.1015,
+      "sharpe": 0.616,
+      "maxdd": -0.1417
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.2501,
+      "cagr": 0.0333,
+      "vol": 0.1605,
+      "sharpe": 0.293,
+      "maxdd": -0.3433
+     },
+     "excess_cagr_pp": 2.33,
+     "turnover_per_decision": 0.868,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 165,
+      "median": 99,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N8_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.5342,
+      "cagr": 0.0648,
+      "vol": 0.1045,
+      "sharpe": 0.679,
+      "maxdd": -0.1399
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.295,
+      "cagr": 0.0387,
+      "vol": 0.1596,
+      "sharpe": 0.328,
+      "maxdd": -0.3248
+     },
+     "excess_cagr_pp": 2.61,
+     "turnover_per_decision": 1.09,
+     "open_gapfill": 2,
+     "eligibility": {
+      "decisions": 83,
+      "median": 98,
+      "min": 58,
+      "max": 123,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    }
+   }
+  },
+  "C_full_universe_post_period": {
+   "universe": "U_all",
+   "universe_size": 1608,
+   "start": "2020-01-01",
+   "end": "2026-10-26",
+   "cells": {
+    "N3_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3105,
+      "cagr": 0.0405,
+      "vol": 0.0984,
+      "sharpe": 0.47,
+      "maxdd": -0.151
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1185,
+      "cagr": 0.0166,
+      "vol": 0.1822,
+      "sharpe": 0.185,
+      "maxdd": -0.4082
+     },
+     "excess_cagr_pp": 2.39,
+     "turnover_per_decision": 1.032,
+     "open_gapfill": 0,
+     "eligibility": {
+      "decisions": 165,
+      "median": 284,
+      "min": 58,
+      "max": 760,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N3_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.4698,
+      "cagr": 0.0581,
+      "vol": 0.1024,
+      "sharpe": 0.627,
+      "maxdd": -0.1964
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1444,
+      "cagr": 0.02,
+      "vol": 0.1815,
+      "sharpe": 0.205,
+      "maxdd": -0.3991
+     },
+     "excess_cagr_pp": 3.81,
+     "turnover_per_decision": 1.201,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 83,
+      "median": 281,
+      "min": 58,
+      "max": 746,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.3852,
+      "cagr": 0.049,
+      "vol": 0.1039,
+      "sharpe": 0.532,
+      "maxdd": -0.1869
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1185,
+      "cagr": 0.0166,
+      "vol": 0.1822,
+      "sharpe": 0.185,
+      "maxdd": -0.4082
+     },
+     "excess_cagr_pp": 3.24,
+     "turnover_per_decision": 1.048,
+     "open_gapfill": 0,
+     "eligibility": {
+      "decisions": 165,
+      "median": 284,
+      "min": 58,
+      "max": 760,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N5_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.615,
+      "cagr": 0.0729,
+      "vol": 0.1034,
+      "sharpe": 0.761,
+      "maxdd": -0.1314
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1444,
+      "cagr": 0.02,
+      "vol": 0.1815,
+      "sharpe": 0.205,
+      "maxdd": -0.3991
+     },
+     "excess_cagr_pp": 5.29,
+     "turnover_per_decision": 1.251,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 83,
+      "median": 281,
+      "min": 58,
+      "max": 746,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     },
+     "null": {
+      "n_iter": 200,
+      "p_value": 0.06,
+      "null_cagr_median": -0.0241,
+      "null_cagr_p95": 0.0752,
+      "real_cagr": 0.0729
+     }
+    },
+    "N8_R10": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.497,
+      "cagr": 0.061,
+      "vol": 0.1011,
+      "sharpe": 0.661,
+      "maxdd": -0.1498
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1185,
+      "cagr": 0.0166,
+      "vol": 0.1822,
+      "sharpe": 0.185,
+      "maxdd": -0.4082
+     },
+     "excess_cagr_pp": 4.44,
+     "turnover_per_decision": 1.027,
+     "open_gapfill": 0,
+     "eligibility": {
+      "decisions": 165,
+      "median": 284,
+      "min": 58,
+      "max": 760,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    },
+    "N8_R20": {
+     "book": {
+      "label": "book",
+      "bars": 1649,
+      "years": 6.81,
+      "start_level": 1.0,
+      "total_ret": 0.5409,
+      "cagr": 0.0655,
+      "vol": 0.1087,
+      "sharpe": 0.663,
+      "maxdd": -0.1399
+     },
+     "ew": {
+      "label": "ew",
+      "bars": 1648,
+      "years": 6.81,
+      "start_level": 1.0009,
+      "total_ret": 0.1444,
+      "cagr": 0.02,
+      "vol": 0.1815,
+      "sharpe": 0.205,
+      "maxdd": -0.3991
+     },
+     "excess_cagr_pp": 4.55,
+     "turnover_per_decision": 1.244,
+     "open_gapfill": 1,
+     "eligibility": {
+      "decisions": 83,
+      "median": 281,
+      "min": 58,
+      "max": 746,
+      "thin_decisions": 0,
+      "thin_rule": "fewer than 2*n_hold eligible names"
+     }
+    }
+   }
+  }
+ },
+ "honest_limits": [
+  "the panel holds no delisted funds, so U_pre is survival-filtered too",
+  "a dead name's price is forward-filled by the engine (zero return, not NAV exit)",
+  "eligibility counts are published per cell: top-5 out of 7 names is not a cross-section",
+  "no preregistration and no ledger booking -- this is a measurement, not a verdict"
+ ],
+ "control": {
+  "published_file": "results\\etf_composite_pf_open.json",
+  "published_cutoff": "2026-10-23",
+  "this_cutoff": "2026-10-26",
+  "published_cagr": 0.0762,
+  "recomputed_cagr": 0.0761,
+  "delta_pp": -0.01,
+  "published_ew_cagr": 0.0212,
+  "recomputed_ew_cagr": 0.02,
+  "ew_delta_pp": -0.12,
+  "note": "recomputed on a panel three trading days longer than the published one; the deltas are the cost of that extra data, not a code difference"
+ }
+}

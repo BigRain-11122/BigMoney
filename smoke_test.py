@@ -499,7 +499,13 @@ def main() -> int:
             # (5274/5279) -- unreadable as dates and fragile against a panel whose
             # history window shifts. Its selftest pins the date anchor + projection.
             ("product: etf_paper_signal sleeve schedule (exit-code contract)",
-             "scripts/etf_paper_signal.py", ["--selftest"])):
+             "scripts/etf_paper_signal.py", ["--selftest"]),
+            # The pre-2020 test decides whether the book's edge is the composite or the
+            # wider universe, and it reads entirely through window semantics: a panel
+            # truncated at `start` silently keeps the book in cash for its first
+            # MIN_HIST bars (r1305 self-caught), which reads as "the edge never existed".
+            ("product: etf_book_pre2020 window semantics (exit-code contract)",
+             "scripts/etf_book_pre2020.py", ["selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

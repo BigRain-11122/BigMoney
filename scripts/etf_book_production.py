@@ -39,6 +39,40 @@ TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
 
 
+def preperiod_support():
+    """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
+
+    The card's whole history is 2020+. results/etf_book_pre2020.json prices the same
+    engine on the 224 ETFs that already existed, over 2015-2019, and prints a negative
+    excess there -- so the published return is a single-regime result and the card has
+    to say so next to the CAGR rather than leave it in a digest (r1275: a measured
+    difference has to land where the decision is made). Soft-fails to None: a missing
+    or unreadable file must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_pre2020.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        cell = doc["cells"]["A_pre_universe_pre_period"]["cells"]
+        primary = doc.get("grid", {}).get("primary", "N5_R20")
+        row = cell[primary]
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "grid_cell": primary,
+            "window": "%s..%s" % (doc["cells"]["A_pre_universe_pre_period"]["start"],
+                                  doc["cells"]["A_pre_universe_pre_period"]["end"]),
+            "universe_size": doc["cells"]["A_pre_universe_pre_period"]["universe_size"],
+            "book_cagr": row["book"]["cagr"],
+            "ew_cagr": row["ew"]["cagr"],
+            "excess_pp": row["excess_cagr_pp"],
+            "null_p": row.get("null", {}).get("p_value"),
+            "cells_negative": sum(1 for v in cell.values() if v["excess_cagr_pp"] < 0),
+            "cells_total": len(cell),
+        }
+    except Exception:
+        return None
+
+
 def load_names():
     """ETF code -> short name from the shipped list; empty on failure (never fatal)."""
     p = os.path.join(E.PATHS.data_dir, "basic", "etf_list.csv")
@@ -276,7 +310,19 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "latest bar: the engine only re-decides every %d bars, so an off-grid ranking "
             "would trade names the book never held." % rebal,
         ],
+        "preperiod": preperiod_support(),
     }
+    pp = out["preperiod"]
+    if pp is not None:
+        out["caveats"].insert(0,
+            "ONE REGIME, NOT A VERIFIED EDGE: on the %d ETFs that existed before 2020, "
+            "priced 2015-2019 (a window this card never covered) the same engine returned "
+            "%+.2f%%/yr against %+.2f%%/yr equal weight = %+.2fpp excess, worse in %d of %d "
+            "grid cells, random-score p=%.2f. The published CAGR is the 2020+ regime, not a "
+            "property of the factors. See %s."
+            % (pp["universe_size"], pp["book_cagr"] * 100, pp["ew_cagr"] * 100,
+               pp["excess_pp"], pp["cells_negative"], pp["cells_total"],
+               pp["null_p"] if pp["null_p"] is not None else float("nan"), pp["artifact"]))
     if feed.get("status") in ("stale_feed", "feed_broken"):
         out["caveats"].insert(0, "FEED IS BEHIND: this card is priced on the %s bar, %s "
                               "official trading day(s) short of the %s bar the market has "
@@ -447,6 +493,28 @@ def selftest():
     finally:
         globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
         shutil.rmtree(tmp, ignore_errors=True)
+
+    # 8. the out-of-period face: when the artifact exists the card must carry it (a
+    #    measured difference that only lives in a digest is not disclosed), and when it
+    #    does not, the production face must still run.
+    pp = preperiod_support()
+    if pp is None:
+        chk("preperiod face soft-fails when absent", True, "results/etf_book_pre2020.json absent")
+    else:
+        chk("preperiod face reads the primary cell",
+            all(k in pp for k in ("universe_size", "book_cagr", "ew_cagr", "excess_pp",
+                                  "null_p", "cells_negative", "cells_total"))
+            and pp["cells_total"] > 0 and pp["universe_size"] > 0,
+            "%s %s book=%.4f ew=%.4f excess=%+.2fpp neg=%d/%d p=%s"
+            % (pp["grid_cell"], pp["window"], pp["book_cagr"], pp["ew_cagr"],
+               pp["excess_pp"], pp["cells_negative"], pp["cells_total"], pp["null_p"]))
+    _keep_results = E.PATHS.results_dir
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("preperiod face is not fatal when the artifact is missing",
+            preperiod_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

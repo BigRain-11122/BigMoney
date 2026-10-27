@@ -184,13 +184,26 @@ def expected_latest_bar_date(now, dates=None):
     return d.isoformat()
 
 
-def stale_gate(panel_cutoff, now, dates=None, max_age_td=STALE_TD):
-    """(needs, reason) -- panel lags the expected complete bar date."""
+def stale_gate(panel_cutoff, now, dates=None, max_age_td=STALE_TD,
+               observed_cutoff=None, observed_coverage=None):
+    """(needs, reason) -- panel lags the expected complete bar date.
+
+    ``panel_cutoff`` is the cutoff the panel can be CALLED (None until a cycle
+    reports complete). ``observed_cutoff`` is the max tail actually on disk --
+    it must not change the verdict, only the reason, because "no panel cutoff
+    (first pull / empty panel)" printed on a 99.9%-covered panel is the same
+    class of lie as a max date read as coverage (E102): the operator reads
+    "empty" and goes looking for a missing pull that was never missing (r1305).
+    """
     dates = dates if dates is not None else _load_trading_dates()
     exp = expected_latest_bar_date(now, dates)
     if exp is None:
         return False, "no calendar anchor"
     if panel_cutoff is None:
+        if observed_cutoff:
+            return True, (f"panel incomplete at cutoff {observed_cutoff} "
+                          f"(coverage {observed_coverage}%, expected {exp}) -> "
+                          f"continuation refresh, not a first pull")
         return True, "no panel cutoff (first pull / empty panel)"
     if panel_cutoff >= exp:
         return False, f"panel fresh (cutoff {panel_cutoff} >= expected {exp})"
@@ -894,7 +907,9 @@ def gate():
         st["takeover"] = takeover
     else:
         st.pop("takeover", None)
-    needs, reason = stale_gate(cutoff, now)
+    needs, reason = stale_gate(cutoff, now,
+                               observed_cutoff=panel.get("cutoff"),
+                               observed_coverage=panel.get("coverage_pct"))
     if not needs:
         st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "no-op: panel fresh"
@@ -938,7 +953,8 @@ def gate():
     st["last_spawn_attempt"] = now.isoformat(timespec="seconds")
     st["mode"] = "spawn: detached refresh"
     st["spawn_reason"] = reason
-    st["spawn_mode"] = "re-pull (all symbols)" if repull else "continuation/first-pull"
+    st["spawn_mode"] = ("re-pull (all symbols)" if repull else
+                        "continuation" if panel.get("cutoff") else "first-pull")
     # symmetric pop: the no-op branch clears spawn_*; a spawn must clear the
     # previous run's freshness line or the status face contradicts itself
     # (r1161: "spawned ... no panel cutoff" sat beside a stale "panel fresh
@@ -983,6 +999,14 @@ def _selftest():
     assert needs and "structural stale" in reason2, reason2
     needs, _ = stale_gate(None, now, dates)
     assert needs and "first pull" in _
+    # r1305: the same verdict must not be described as an empty panel when the
+    # disk face actually carries 99.9% coverage at the expected bar (the live
+    # 10-27 face said "first pull / empty panel" every round).
+    needs, r = stale_gate(None, now, dates, observed_cutoff="2026-09-24",
+                          observed_coverage=99.9)
+    assert needs and "incomplete at cutoff 2026-09-24" in r and "empty panel" not in r, r
+    needs, r = stale_gate(None, now, dates)
+    assert needs and r == "no panel cutoff (first pull / empty panel)", r
     # disk-truth override (P0 r834-kin guard): tracked status claiming a
     # complete panel cannot no-op when the gitignored per/*.csv face is
     # gone / partially deleted -- disk face wins, rebuild spawns

@@ -35,6 +35,7 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
 ## Caveats
 
+- ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. See results/etf_book_pre2020.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
 - The vol target only de-levers; it is a drawdown tool, not an edge.

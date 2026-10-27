@@ -1018,3 +1018,39 @@ if the artefact only stores an index into a rebuildable series, it is not yet an
   results/e44_midmonth/BURNCONTROL-CLOSE-20261027.json; research/digests/DIGEST-20261027-e110-burncontrol-mismatch.md;
   stale-twin fixture reproduces status=mismatch_across_cutoffs with 11 mismatches
 - 2026-10-27 r1174 bm-b (capture law O-20261002-2100 closing step)
+## E139 Hold one axis fixed and move the other - a period/universe 2x3 that costs one run (2026-10-27 r1305 bm-c)
+
+Every published number for the ETF composite book lives in 2020-01..2026-10, on a panel whose eligible
+cross-section grows from single digits (2013) to ~720 names. Two stories fit that chart equally well: the
+six-factor composite, or a universe that is mostly funds which exist BECAUSE the industry grew. Quoting
+either one alone is how "the edge is real" and "the cross-section is the edge" both get published off the
+same numbers.
+
+Fix pattern: price the same engine on three cells, never two.
+  A  universe = names whose first bar <= the boundary, window = BEFORE the boundary   (the honest test)
+  B  same universe, window = AFTER the boundary                                       (period effect isolated)
+  C  full universe, window = AFTER the boundary                                       (breadth effect isolated)
+A vs B holds the universe fixed and moves time; B vs C holds time fixed and moves the universe. Publishing
+A alone invites "small cross-section so of course it failed"; publishing C alone invites "look at the
+edge". Together they separate the two claims and give each a number.
+
+Three things make the read honest rather than decorative:
+  (1) a random-score null on the primary cell of every cell - p = share of permutation runs that BEAT the
+      real ranking. A pre-period book at -8.86pp excess with p=0.96 is not "flat", it is worse than random,
+      which is a much stronger statement than "underperformed the benchmark";
+  (2) eligibility counts (median/min/thin) published per cell - a top-5 pick from 14 eligible names is a
+      universe, not a cross-section, and the reader must be able to see that without re-running;
+  (3) an asserted control: re-price the PUBLISHED arm through the same call path and print the delta
+      (here 7.62% vs 7.61% published), so the comparison arm is proven to be the published arm (r1297).
+
+Trap that must be pinned by a selftest leg, because it flips the verdict silently: slicing the panel at
+`start` to save memory resets the 120-bar history counter, and the book then sits in CASH for its first
+six months -- which reads exactly like "the edge never existed". Pass the window to the engine as `start`;
+slice only the END. The r1305 leg asserts it directly (full-panel eligible at a date > 0, truncated-panel
+eligible == 0), so the memory optimisation can never come back quietly.
+
+How to apply: for any product whose history starts when its UNIVERSE came into existence, the missing
+question is never "is the backtest right" but "would this have paid on the instruments that existed
+then". One extra run, three cells, two null p-values, and the answer either supports the expectation band
+or forces it open. Artifact face: results/etf_book_pre2020.json (schema etf_book_pre2020/v1);
+implementation scripts/etf_book_pre2020.py (rides scripts/etf_composite_pf.py, no re-implementation).
