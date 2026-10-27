@@ -5139,7 +5139,7 @@ def _sign3(x):
     return 0
 
 
-def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
+def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None, deadband_bp=None):
     """E43-TILT3-SIGN-VS-ENGINE (E169): does the traded spread earn the tilt?
 
     The family publishes the tilt's sign per era and the engine's own
@@ -5165,6 +5165,7 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
     ``raw`` mirrors run_tilt3's seam so a screened twin can burn both arms off
     one load without a second panel pass.
     """
+    db = TILT3SIGN_DEADBAND_BP if deadband_bp is None else float(deadband_bp)
     core = core if core is not None else _monthly_core(raw_all=raw)
     tilt3 = core.get("tilt3") or {}
     wide_m = core.get("wide_m") or {}
@@ -5186,8 +5187,7 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
         up = [i for i, t in enumerate(tilt) if t > 0]
         down = [i for i, t in enumerate(tilt) if t < 0]
         outside = [i for i, (t, e) in enumerate(zip(tilt, eng))
-                   if abs(t) * 1e4 >= TILT3SIGN_DEADBAND_BP
-                   and abs(e) * 1e4 >= TILT3SIGN_DEADBAND_BP]
+                   if abs(t) * 1e4 >= db and abs(e) * 1e4 >= db]
         dis = sorted(((m, t, e) for m, t, e, ok in zip(paired, tilt, eng, agree)
                       if not ok), key=lambda r: abs(r[1]), reverse=True)
 
@@ -5212,7 +5212,7 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
             "month_agreement_pct": round(sum(1 for a in agree if a) / len(agree) * 100, 1),
             "agreement_when_tilt_up_pct": _rate(up),
             "agreement_when_tilt_down_pct": _rate(down),
-            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+            "deadband_bp": db,
             "months_outside_deadband": len(outside),
             "month_agreement_outside_deadband_pct": _rate(outside),
             "top_disagreement_months": [
@@ -5237,7 +5237,7 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
                              "(the same curves the paid book is measured on)",
             "month_agreement": "share of months where sign(tilt) == sign(engine), "
                                "ties counted as disagreement",
-            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+            "deadband_bp": db,
             "disagreement_named_per_era": TILT3SIGN_DISAGREE_TOP,
             "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
             "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0,
@@ -5257,7 +5257,7 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
             "full_window_month_agreement_pct":
                 (rows.get("full") or {}).get("month_agreement_pct"),
             "full_window_signs_agree": (rows.get("full") or {}).get("signs_agree"),
-            "deadband_bp": TILT3SIGN_DEADBAND_BP,
+            "deadband_bp": db,
         },
         "honest": [
             "an era sign comparison is a statement about two LEVELS; the month-level rate "
@@ -5266,13 +5266,178 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None):
             "is carried by the level, and quoting the tilt as a timing signal is not supported",
             "the deadband is declared before the burn (%gbp monthly): months where either "
             "series is inside it are excluded from the deadband rate, and the raw rate is "
-            "printed beside it rather than replaced" % TILT3SIGN_DEADBAND_BP,
+            "printed beside it rather than replaced" % db,
             "the engine series is the engine's own wide-vs-ladder monthly difference, so this "
             "compares a member ratio against a traded quantity, not two regressions",
             "eras remain calendar partitions of one continuous monthly series and do not add up",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
         "dropped_months_3member": core.get("dropped3"),
+    }
+
+
+# ---------------------- leg: E172 the deadband is a sweep, not a constant
+#
+# E169 published ONE deadband (10bp) and on 2024_now the deadband rate came out
+# WORSE than the raw rate. One constant cannot tell a reader whether that era is
+# anti-correlated or merely noisy -- dropping months can remove evidence as
+# easily as it removes noise. So the deadband is swept and, at every step, the
+# number of months that survived it is published beside the rate.
+TILT3SIGNBAND_BP = (0.0, 10.0, 25.0, 50.0)   # declared before the burn (E172)
+TILT3SIGNBAND_MIN_MONTHS = 6                 # retention floor for a rate to be quoted
+TILT3SIGNBAND_HALF = 50.0                    # the coin-flip line
+
+
+def _band_verdict(rate, months, floor=TILT3SIGNBAND_MIN_MONTHS):
+    """What a single band's reading is allowed to claim.
+
+    A rate under half is only a verdict when enough months survived the band;
+    below the floor the band has removed the evidence, not the noise, and the
+    honest label is ``thin`` rather than either side of the coin.
+    """
+    if rate is None or months is None or months < floor:
+        return "thin"
+    if rate < TILT3SIGNBAND_HALF:
+        return "anti_correlated"
+    if rate > TILT3SIGNBAND_HALF:
+        return "aligned"
+    return "coin_flip"
+
+
+def run_tilt3signband(outdir, core=None, eras=ERAS, raw=None, bands=None):
+    """E172: sweep E169's deadband and publish the support each rate stands on.
+
+    The deadband cannot reach an era's LEVEL (it filters months, never edits a
+    return), so ``tilt_sign``/``engine_sign``/``signs_agree`` are constant across
+    the sweep BY CONSTRUCTION and are published once, beside a line saying so --
+    a reader who sees identical signs at four bands is not looking at four
+    findings. What the sweep does move is the month rate, and the only honest
+    way to read that movement is next to ``months_outside_deadband``: a rate
+    that falls while the denominator collapses is the band choosing its sample.
+    """
+    bands = [float(b) for b in (bands if bands is not None else TILT3SIGNBAND_BP)]
+    core = core if core is not None else _monthly_core(raw_all=raw)
+    arms = {b: run_tilt3sign(None, core=core, eras=eras, deadband_bp=b)
+            for b in bands}
+    names = list(arms[bands[0]]["eras"].keys())
+    rows = {}
+    for name in names:
+        sweep = []
+        base = None
+        for b in bands:
+            row = (arms[b]["eras"] or {}).get(name) or {}
+            if base is None and "month_agreement_outside_deadband_pct" in row:
+                base = row
+            if "month_agreement_outside_deadband_pct" not in row:
+                sweep.append({"deadband_bp": b, "skipped": row.get("skipped")})
+                continue
+            sweep.append({
+                "deadband_bp": b,
+                "months_outside_deadband": row.get("months_outside_deadband"),
+                "month_agreement_outside_deadband_pct":
+                    row.get("month_agreement_outside_deadband_pct"),
+                "verdict": _band_verdict(
+                    row.get("month_agreement_outside_deadband_pct"),
+                    row.get("months_outside_deadband")),
+            })
+        if base is None:
+            rows[name] = {"months": ((arms[bands[0]]["eras"] or {}).get(name) or {}).get("months"),
+                          "skipped": "no band priced this era", "sweep": sweep}
+            continue
+        quoted = [s for s in sweep if s.get("verdict") != "thin"]
+        all_rates = [s["month_agreement_outside_deadband_pct"] for s in sweep
+                     if s.get("month_agreement_outside_deadband_pct") is not None]
+        quoted_rates = [s["month_agreement_outside_deadband_pct"] for s in quoted]
+        verdicts = [s["verdict"] for s in sweep if "verdict" in s]
+        quoted_verdicts = [s["verdict"] for s in quoted]
+        rows[name] = {
+            "months": base.get("months"),
+            "from": base.get("from"), "to": base.get("to"),
+            "months_dropped_from_era": base.get("months_dropped_from_era"),
+            "tilt_mean_ann_bp": base.get("tilt_mean_ann_bp"),
+            "engine_mean_ann_bp": base.get("engine_mean_ann_bp"),
+            "tilt_sign": base.get("tilt_sign"),
+            "engine_sign": base.get("engine_sign"),
+            "signs_agree": base.get("signs_agree"),
+            "signs_band_invariant": all(
+                (arms[b]["eras"] or {}).get(name, {}).get("signs_agree")
+                == base.get("signs_agree") for b in bands
+                if "month_agreement_pct" in ((arms[b]["eras"] or {}).get(name) or {})),
+            "rate_at_zero_band_pct": (sweep[0] or {}).get("month_agreement_outside_deadband_pct"),
+            "rate_span_quoted_pct": round(max(quoted_rates) - min(quoted_rates), 1)
+            if len(quoted_rates) >= 2 else None,
+            "rate_span_all_pct": round(max(all_rates) - min(all_rates), 1)
+            if len(all_rates) >= 2 else None,
+            "quoted_bands": [s["deadband_bp"] for s in quoted],
+            "thin_bands": [s["deadband_bp"] for s in sweep
+                           if s.get("verdict") == "thin"],
+            "verdicts": verdicts,
+            "quoted_verdicts": quoted_verdicts,
+            "verdict_stable": (len(set(quoted_verdicts)) == 1
+                               if quoted_verdicts else None),
+            "sweep": sweep,
+        }
+    measured = {k: v for k, v in rows.items()
+                if k != "full" and v.get("sweep") and v.get("verdicts") is not None}
+
+    def _names(pred):
+        return sorted(k for k, v in measured.items() if pred(v))
+
+    unstable = _names(lambda v: not v["verdict_stable"])
+    anti_all = _names(lambda v: v["verdicts"] and
+                      set(v["verdicts"]) == {"anti_correlated"})
+    thin_all = _names(lambda v: v["verdicts"] and
+                      set(v["verdicts"]) == {"thin"})
+    spans = [(k, v["rate_span_quoted_pct"]) for k, v in measured.items()
+             if v.get("rate_span_quoted_pct") is not None]
+    widest = max(spans, key=lambda r: r[1]) if spans else (None, None)
+    first_thin = None
+    for b in bands:
+        if any(b in (v.get("thin_bands") or []) for v in measured.values()):
+            first_thin = b
+            break
+    return {
+        "study": "e172_tilt3sign_deadband_sweep",
+        "evidence_cutoff": core["cutoff"],
+        "spec": {
+            "bands_bp": bands,
+            "min_months_floor": TILT3SIGNBAND_MIN_MONTHS,
+            "half_line_pct": TILT3SIGNBAND_HALF,
+            "rate_definition": "share of surviving months where sign(tilt) == "
+                               "sign(engine); zero band equals the raw rate by "
+                               "construction (abs(x) >= 0 always holds)",
+            "era_signs": "constant across bands by construction: the deadband "
+                         "filters months and never edits a return",
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "pick_n": 9999, "exclude_prefixes": ["sh511"], "cost_mult": 1.0,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "bands": bands,
+            "era_names_verdict_stable": _names(lambda v: v["verdict_stable"]),
+            "era_names_verdict_unstable": unstable,
+            "era_names_anti_correlated_at_every_band": anti_all,
+            "era_names_thin_at_every_band": thin_all,
+            "max_rate_span_quoted_pct": widest[1],
+            "max_rate_span_era": widest[0],
+            "first_band_with_any_thin_era": first_thin,
+            "full_window_rates_pct": {str((s or {}).get("deadband_bp")): (s or {}).get("month_agreement_outside_deadband_pct")
+                                      for s in (rows.get("full") or {}).get("sweep", [])},
+        },
+        "honest": [
+            "the era signs are identical at every band because a deadband cannot "
+            "reach a level -- four rows of the same sign are one finding, not four",
+            "a rate that moves while months_outside_deadband collapses is the band "
+            "choosing its sample; a rate quoted with fewer than %d months is labelled "
+            "thin and kept out of the span" % TILT3SIGNBAND_MIN_MONTHS,
+            "the zero band reproduces the raw rate exactly, so E169's published "
+            "figures remain readable inside this face",
+            "sweeping a constant that was declared before the burn is a sensitivity "
+            "table on a published reading, not a re-fit: nothing here selects a band",
+            "descriptive census only: no gate, no verdict on the book, no prereg, "
+            "no trial count",
+        ],
     }
 
 
@@ -16555,6 +16720,62 @@ def selftest():
         and _agreement_change(None, 23.5) == "not_measurable",
         "E171 an equal rate is 'unchanged', never 'worsened' and never 'recovered'")
 
+    # ---- E172 the deadband is a sweep, not a constant
+    # The whole point of the sweep is that a rate means nothing without the
+    # months that survived it, so every leg here pairs a rate with its count:
+    # a fixture where the band changes the verdict, one where it only removes
+    # evidence, and the construction identity that band 0 == the raw rate.
+    _e172_months = ["2014-%02d" % i for i in range(1, 9)]
+    _e172_eras = (("era_band", "2014-01-01", "2014-12-31"),)
+    _e172_tilt = [0.003, 0.003, 0.003, 0.003, 0.0012, 0.0012, 0.0012, 0.0012]
+    _e172_eng = [0.003, 0.003, -0.003, -0.003, 0.0012, 0.0012, 0.0012, 0.0012]
+    _e172_core = {"cutoff": "2014-08-31", "months3": _e172_months,
+                  "tilt3": dict(zip(_e172_months, _e172_tilt)),
+                  "wide_m": {m: 0.01 + e for m, e in zip(_e172_months, _e172_eng)},
+                  "lad_m": {m: 0.01 for m in _e172_months},
+                  "dropped3": []}
+    _e172_raw = run_tilt3sign(None, core=_e172_core, eras=_e172_eras)["eras"]["era_band"]
+    _e172_face = run_tilt3signband(None, core=_e172_core, eras=_e172_eras,
+                                   bands=(0.0, 10.0, 25.0, 50.0))
+    _e172_row = _e172_face["eras"]["era_band"]
+    chk(_e172_row["sweep"][0]["month_agreement_outside_deadband_pct"] == _e172_raw["month_agreement_pct"]
+        and _e172_row["sweep"][0]["months_outside_deadband"] == _e172_raw["months"],
+        "E172 the zero band reproduces the published raw rate and its month count")
+    chk([s["months_outside_deadband"] for s in _e172_row["sweep"]] == [8, 8, 4, 0],
+        "E172 every band publishes the months that survived it, not only its rate")
+    chk(_e172_row["verdicts"] == ["aligned", "aligned", "thin", "thin"]
+        and _e172_row["thin_bands"] == [25.0, 50.0]
+        and _e172_row["quoted_bands"] == [0.0, 10.0],
+        "E172 a band that keeps fewer months than the floor is labelled thin, not miss")
+    chk(_e172_row["verdict_stable"] is True and _e172_row["rate_span_quoted_pct"] == 0.0,
+        "E172 stability is judged over the bands that kept their support")
+    chk(_e172_row["signs_band_invariant"] is True
+        and len({(s.get("verdict") or "") for s in _e172_row["sweep"]}) > 1,
+        "E172 the era sign is band-invariant while the month verdict still moves")
+    _e172_cross = run_tilt3signband(None, core={
+        "cutoff": "2014-08-31", "months3": _e172_months,
+        "tilt3": dict(zip(_e172_months, _e172_tilt)),
+        "wide_m": {m: 0.01 + e for m, e in zip(_e172_months, _e172_eng)},
+        "lad_m": {m: 0.01 for m in _e172_months}, "dropped3": []},
+        eras=_e172_eras, bands=(0.0, 10.0))["eras"]["era_band"]
+    chk(_e172_cross["sweep"][0]["month_agreement_outside_deadband_pct"] == 75.0
+        and _e172_cross["sweep"][1]["month_agreement_outside_deadband_pct"] == 75.0
+        and _e172_cross["verdict_stable"] is True,
+        "E172 an era that keeps its support reads the same at both quoted bands")
+    chk(_band_verdict(40.0, 8) == "anti_correlated"
+        and _band_verdict(60.0, 8) == "aligned"
+        and _band_verdict(50.0, 8) == "coin_flip"
+        and _band_verdict(None, 8) == "thin"
+        and _band_verdict(40.0, TILT3SIGNBAND_MIN_MONTHS - 1) == "thin",
+        "E172 the half line is a verdict of its own and a None rate is never a claim")
+    chk(TILT3SIGNBAND_BP == (0.0, 10.0, 25.0, 50.0)
+        and TILT3SIGNBAND_BP[1] == TILT3SIGN_DEADBAND_BP,
+        "E172 the sweep carries E169's published band and is declared before the burn")
+    chk("raw" in run_tilt3signband.__code__.co_varnames
+        and "bands" in run_tilt3signband.__code__.co_varnames
+        and "deadband_bp" in run_tilt3sign.__code__.co_varnames,
+        "E172 the sweep reuses the one burn path instead of a second implementation")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -18942,7 +19163,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
-                             "tilt3sign", "tilt3screensign",
+                             "tilt3sign", "tilt3signband", "tilt3screensign",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -19647,6 +19868,27 @@ def main(argv):
                                        "month_agreement_pct": v.get("month_agreement_pct"),
                                        "outside_deadband_pct":
                                            v.get("month_agreement_outside_deadband_pct")}
+                                   for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3signband":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3signband(None)
+        p = write_json(outdir, "TILT3SIGNBAND-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3signband",
+                          "file": os.path.relpath(p, ROOT),
+                          "bands": f["answers"]["bands"],
+                          "eras": {k: {"months": v.get("months"),
+                                       "quoted_bands": v.get("quoted_bands"),
+                                       "thin_bands": v.get("thin_bands"),
+                                       "rates": [s.get("month_agreement_outside_deadband_pct")
+                                                 for s in v.get("sweep") or []],
+                                       "months_kept": [s.get("months_outside_deadband")
+                                                       for s in v.get("sweep") or []],
+                                       "verdicts": v.get("verdicts"),
+                                       "verdict_stable": v.get("verdict_stable")}
                                    for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

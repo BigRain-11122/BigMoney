@@ -1,0 +1,390 @@
+{
+ "study": "e172_tilt3sign_deadband_sweep",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "bands_bp": [
+   0.0,
+   10.0,
+   25.0,
+   50.0
+  ],
+  "min_months_floor": 6,
+  "half_line_pct": 50.0,
+  "rate_definition": "share of surviving months where sign(tilt) == sign(engine); zero band equals the raw rate by construction (abs(x) >= 0 always holds)",
+  "era_signs": "constant across bands by construction: the deadband filters months and never edits a return",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0
+ },
+ "eras": {
+  "pre2017": {
+   "months": 44,
+   "from": "2013-04",
+   "to": "2016-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 1186.4,
+   "engine_mean_ann_bp": 287.2,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "signs_band_invariant": true,
+   "rate_at_zero_band_pct": 56.8,
+   "rate_span_quoted_pct": 11.1,
+   "rate_span_all_pct": 11.1,
+   "quoted_bands": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+   ],
+   "thin_bands": [],
+   "verdicts": [
+    "aligned",
+    "aligned",
+    "aligned",
+    "aligned"
+   ],
+   "quoted_verdicts": [
+    "aligned",
+    "aligned",
+    "aligned",
+    "aligned"
+   ],
+   "verdict_stable": true,
+   "sweep": [
+    {
+     "deadband_bp": 0.0,
+     "months_outside_deadband": 44,
+     "month_agreement_outside_deadband_pct": 56.8,
+     "verdict": "aligned"
+    },
+    {
+     "deadband_bp": 10.0,
+     "months_outside_deadband": 39,
+     "month_agreement_outside_deadband_pct": 61.5,
+     "verdict": "aligned"
+    },
+    {
+     "deadband_bp": 25.0,
+     "months_outside_deadband": 36,
+     "month_agreement_outside_deadband_pct": 63.9,
+     "verdict": "aligned"
+    },
+    {
+     "deadband_bp": 50.0,
+     "months_outside_deadband": 28,
+     "month_agreement_outside_deadband_pct": 67.9,
+     "verdict": "aligned"
+    }
+   ]
+  },
+  "2017_2020": {
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": -923.9,
+   "engine_mean_ann_bp": 331.7,
+   "tilt_sign": -1,
+   "engine_sign": 1,
+   "signs_agree": false,
+   "signs_band_invariant": true,
+   "rate_at_zero_band_pct": 45.8,
+   "rate_span_quoted_pct": 5.1,
+   "rate_span_all_pct": 5.1,
+   "quoted_bands": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+   ],
+   "thin_bands": [],
+   "verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "quoted_verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "verdict_stable": true,
+   "sweep": [
+    {
+     "deadband_bp": 0.0,
+     "months_outside_deadband": 48,
+     "month_agreement_outside_deadband_pct": 45.8,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 10.0,
+     "months_outside_deadband": 45,
+     "month_agreement_outside_deadband_pct": 44.4,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 25.0,
+     "months_outside_deadband": 38,
+     "month_agreement_outside_deadband_pct": 42.1,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 50.0,
+     "months_outside_deadband": 27,
+     "month_agreement_outside_deadband_pct": 40.7,
+     "verdict": "anti_correlated"
+    }
+   ]
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 609.9,
+   "engine_mean_ann_bp": 251.1,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "signs_band_invariant": true,
+   "rate_at_zero_band_pct": 44.4,
+   "rate_span_quoted_pct": 24.4,
+   "rate_span_all_pct": 24.4,
+   "quoted_bands": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+   ],
+   "thin_bands": [],
+   "verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "quoted_verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "verdict_stable": true,
+   "sweep": [
+    {
+     "deadband_bp": 0.0,
+     "months_outside_deadband": 36,
+     "month_agreement_outside_deadband_pct": 44.4,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 10.0,
+     "months_outside_deadband": 33,
+     "month_agreement_outside_deadband_pct": 39.4,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 25.0,
+     "months_outside_deadband": 27,
+     "month_agreement_outside_deadband_pct": 33.3,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 50.0,
+     "months_outside_deadband": 20,
+     "month_agreement_outside_deadband_pct": 20.0,
+     "verdict": "anti_correlated"
+    }
+   ]
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 252.8,
+   "engine_mean_ann_bp": -21.6,
+   "tilt_sign": 1,
+   "engine_sign": -1,
+   "signs_agree": false,
+   "signs_band_invariant": true,
+   "rate_at_zero_band_pct": 23.5,
+   "rate_span_quoted_pct": 6.3,
+   "rate_span_all_pct": 6.3,
+   "quoted_bands": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+   ],
+   "thin_bands": [],
+   "verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "quoted_verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "verdict_stable": true,
+   "sweep": [
+    {
+     "deadband_bp": 0.0,
+     "months_outside_deadband": 34,
+     "month_agreement_outside_deadband_pct": 23.5,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 10.0,
+     "months_outside_deadband": 32,
+     "month_agreement_outside_deadband_pct": 18.8,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 25.0,
+     "months_outside_deadband": 29,
+     "month_agreement_outside_deadband_pct": 17.2,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 50.0,
+     "months_outside_deadband": 23,
+     "month_agreement_outside_deadband_pct": 17.4,
+     "verdict": "anti_correlated"
+    }
+   ]
+  },
+  "full": {
+   "months": 162,
+   "from": "2013-04",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 237.1,
+   "engine_mean_ann_bp": 227.6,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "signs_band_invariant": true,
+   "rate_at_zero_band_pct": 43.8,
+   "rate_span_quoted_pct": 5.0,
+   "rate_span_all_pct": 5.0,
+   "quoted_bands": [
+    0.0,
+    10.0,
+    25.0,
+    50.0
+   ],
+   "thin_bands": [],
+   "verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "quoted_verdicts": [
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated",
+    "anti_correlated"
+   ],
+   "verdict_stable": true,
+   "sweep": [
+    {
+     "deadband_bp": 0.0,
+     "months_outside_deadband": 162,
+     "month_agreement_outside_deadband_pct": 43.8,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 10.0,
+     "months_outside_deadband": 149,
+     "month_agreement_outside_deadband_pct": 42.3,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 25.0,
+     "months_outside_deadband": 130,
+     "month_agreement_outside_deadband_pct": 40.8,
+     "verdict": "anti_correlated"
+    },
+    {
+     "deadband_bp": 50.0,
+     "months_outside_deadband": 98,
+     "month_agreement_outside_deadband_pct": 38.8,
+     "verdict": "anti_correlated"
+    }
+   ]
+  }
+ },
+ "answers": {
+  "eras_measured": 4,
+  "bands": [
+   0.0,
+   10.0,
+   25.0,
+   50.0
+  ],
+  "era_names_verdict_stable": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now",
+   "pre2017"
+  ],
+  "era_names_verdict_unstable": [],
+  "era_names_anti_correlated_at_every_band": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "era_names_thin_at_every_band": [],
+  "max_rate_span_quoted_pct": 24.4,
+  "max_rate_span_era": "2021_2023",
+  "first_band_with_any_thin_era": null,
+  "full_window_rates_pct": {
+   "0.0": 43.8,
+   "10.0": 42.3,
+   "25.0": 40.8,
+   "50.0": 38.8
+  }
+ },
+ "honest": [
+  "the era signs are identical at every band because a deadband cannot reach a level -- four rows of the same sign are one finding, not four",
+  "a rate that moves while months_outside_deadband collapses is the band choosing its sample; a rate quoted with fewer than 6 months is labelled thin and kept out of the span",
+  "the zero band reproduces the raw rate exactly, so E169's published figures remain readable inside this face",
+  "sweeping a constant that was declared before the burn is a sensitivity table on a published reading, not a re-fit: nothing here selects a band",
+  "descriptive census only: no gate, no verdict on the book, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

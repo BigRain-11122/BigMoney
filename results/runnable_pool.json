@@ -22297,14 +22297,20 @@
    "title": "E169 published the tilt-vs-engine sign face on the RAW arm, where 2017_2020 and 2024_now disagree at the era scale and no era clears 57% month-level agreement. E170 already proved the tilt series itself is arm-insensitive (tilt_bp_delta = 0.0 every era), so the screened twin of this leg can move only the engine column. Burn it: which of the two disagreeing eras keeps its disagreement under the repair, and does 2024_now's 23.5% monthly agreement recover when the wide book's own path is re-priced? Without this, the one era whose published arrow flips under the repair is also the one whose sign verdict is unscreened."
   },
   {
+   "claimed_at": "2026-10-28T07:16:00+08:00",
+   "claimed_by": "bm-b",
    "deliverable": "results/e43_tilt_4member/TILT3SIGNBAND-<cutoff>.json",
+   "done_at": "2026-10-28T07:21:00+08:00",
+   "done_by": "bm-b r1207",
+   "done_note": "swept 0/10/25/50bp with months kept per band: no era goes thin, 2024_now reads 23.5/18.8/17.2/17.4 on 34/32/29/23 months (anti-correlated, not noisy), 2021_2023 has the widest lever 44.4->20.0 while its verdict never crosses the half line, pre2017 rises with the band while the other three fall; e39 selftest 521->552",
    "id": "E172-TILT3SIGN-DEADBAND-SWEEP",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
+   "result_ref": "results/e43_tilt_4member/TILT3SIGNBAND-20261027.json",
    "seeded_at": "2026-10-28T06:45:00+08:00",
    "seeded_by": "bm-b r1205",
    "source": "Seeded r1205 bm-b from its own E169 face: answers carry one deadband value only.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3sign)",
    "title": "E169 declares a 10bp monthly deadband and prints both rates, and on 2024_now the deadband makes the reading worse (23.5% -> 18.8%). One constant cannot tell a reader whether that era is anti-correlated or merely noisy, so sweep the deadband (0 / 10 / 25 / 50 bp) with the month count retained at every step, and publish the era-level sign stability across the sweep. A verdict that only survives its own deadband is a knob; one that survives the sweep is a result."
   },
@@ -22345,6 +22351,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T06:46:30+08:00",
+ "updated_at": "2026-10-28T07:21:00+08:00",
  "version": 1
 }

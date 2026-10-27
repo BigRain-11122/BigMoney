@@ -1856,3 +1856,44 @@ sign flips separately -- and re-measure an earlier invariance claim on the new
 leg rather than importing it. Any "better/worse" verdict computed from a
 two-state comparison of two rates needs an explicit "equal" branch before it is
 allowed to print.
+
+## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
+
+E169 declared a 10bp monthly deadband before its burn and published both the raw
+and the deadband rate. On 2024_now the deadband made the reading *worse*
+(23.5% -> 18.8%), and that single pair cannot distinguish "this era is
+anti-correlated" from "this era is noisy and the band ate the evidence". Sweeping
+the same constant over 0/10/25/50bp, with the surviving month count printed at
+every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 29
+/ 23 months -- the rate is low at *every* band, so the collapse is not the band
+choosing its sample.
+
+1. **A band's rate is meaningless without its denominator.** The sweep publishes
+   `months_outside_deadband` beside every rate and labels any band that keeps
+   fewer than 6 months `thin` instead of printing a percentage from 3 months. On
+   this panel no era goes thin even at 50bp (98 of 162 months survive), which is
+   itself a published answer (`first_band_with_any_thin_era = null`), not an
+   absence of one.
+2. **A sweep of a filter cannot move a level, and saying so is part of the
+   table.** The deadband drops months; it never edits a return, so `tilt_sign`,
+   `engine_sign` and `signs_agree` are identical at all four bands *by
+   construction*. Four rows of the same signs are one finding. The face publishes
+   `signs_band_invariant` per era so a reader cannot mistake construction for
+   corroboration (E94 family: the label must not be wider than the evidence).
+3. **Stability of the verdict and stability of the number are different
+   questions.** Verdicts here are stable (all four eras keep their side of the
+   50% line at every band with support), while the *numbers* move a lot:
+   2021_2023 spans 44.4 -> 20.0 (24.4pp). Reporting only "verdict stable" would
+   hide that the band is a strong lever on the level; reporting only the span
+   would hide that the sign of the reading never flips. Publish both.
+4. **Direction of the movement is a finding.** pre2017's agreement *rises* with
+   the band (56.8 -> 67.9) while the other three eras fall -- its agreement is
+   carried by the large months, theirs by the small ones. A single band value
+   hides which kind of era you are looking at.
+
+How to apply: any pre-declared constant that gates a published rate gets a sweep
+row (0 / declared / 2.5x / 5x) with its denominator beside it, a support floor
+below which the cell reads `thin`, and an explicit note for constants that are
+band-invariant by construction. Sweeping is a sensitivity table on an already
+published reading -- it selects nothing, so it needs no new prereg; but the
+band that is *quoted* must remain the one declared before the first burn.

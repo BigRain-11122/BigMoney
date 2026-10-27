@@ -549,15 +549,35 @@
   "ts": "2026-10-28T06:56:00+08:00"
  },
  "r1206_s7": "loop pin 2 no-op (next fire 06:57) | LoopWatchdog rebuilt S4U SWA=false | pre-commit + pre-push claws reinstalled",
+ "r1207": {
+  "controls": "band 0 reproduces E169 raw rate and month count exactly (abs(x)>=0 identity, selftest leg); every band ships its months_outside_deadband; cells under the 6-month floor read thin; era signs published once with signs_band_invariant=true because a filter cannot move a level",
+  "d19": "decisions same / orders same (repro@5d970cf, 175353 / 177058 bytes), delta none, phantom none; nothing actionable for this repo",
+  "defect_note": "first cut took E169 month_agreement_pct (the RAW rate) as the banded rate, so three bands printed 75.0% beside 4/4/0 surviving months; the sweep now reads month_agreement_outside_deadband_pct, and the fixture pins the [8,8,4,0] month ladder so the wrong field cannot come back",
+  "finding": "deadband 0/10/25/50bp: rates pre2017 56.8/61.5/63.9/67.9 (months 44/39/36/28), 2017_2020 45.8/44.4/42.1/40.7 (48/45/38/27), 2021_2023 44.4/39.4/33.3/20.0 (36/33/27/20), 2024_now 23.5/18.8/17.2/17.4 (34/32/29/23), full 43.8/42.3/40.8/38.8 (162/149/130/98); first_band_with_any_thin_era=null so no rate is quoted on a collapsed sample; every era keeps its side of the 50% line at every band",
+  "mission": "burn pool row E172 (watermark red: pool-batch-runnable-idle-low-cpu) after smoke opened green",
+  "not_run": "strategy_scorecard / market_clock_call / daily_scorecard / build_status are bm-a host-guarded; the long update_* collectors are bm-a lanes; GPU untouched",
+  "pool": "E172 done; ready 2 (E173/E174)",
+  "product": [
+   "results/e43_tilt_4member/TILT3SIGNBAND-20261027.json",
+   "research/digests/DIGEST-20261028-r1207-e172-deadband-sweep.md",
+   "knowledge/METHODOLOGY_ASSETS.md E172",
+   "scripts/e39_panel_census.py: run_tilt3sign deadband_bp= seam + TILT3SIGNBAND_BP/_band_verdict/run_tilt3signband + CLI mode tilt3signband (selftest 543 -> 552)",
+   "results/runnable_pool.json E172 -> done (result_ref filed)"
+  ],
+  "s6": "dualrun ZERO-DRIFT 658 entries streak 10 | compute_audit FLAG:supply_gap,supply_floor (ready 2 < 3) | watermark insufficient_history n=1 | update_daily 0 new rows (cutoff 2026-10-27, 15:30 guard) | market_regime three triggers (hs300<MA200 / crash10d -5.1% / breadth 85%) | attrition CLEAN 4 ledgers (2 historical shrinks healed) | orphan 0 (7 py faces)",
+  "s7": "loop pin 2 no-op (next fire 07:22) | LoopWatchdog rebuilt S4U SWA=false | pre-commit + pre-push claws reinstalled",
+  "selftest": "e39 543 -> 552/552",
+  "smoke": "116/116 PASS at open"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1206,
- "round_no": 1206,
- "round_no_label": "r1206",
+ "round": 1207,
+ "round_no": 1207,
+ "round_no_label": "r1207",
  "round_no_ts": "2026-10-28T06:50:00+08:00",
  "sat_engine": {
   "checked_at": "2026-10-22T23:28:23+08:00",
@@ -573,10 +593,10 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T04:19:43+08:00"
  },
- "task": "E172 deadband sweep or E174 engine-move name attribution",
- "task_short": "E172 / E174",
- "ts": "2026-10-28T06:56:00+08:00",
- "updated": "2026-10-28T06:56:00+08:00",
- "updated_at": "2026-10-28T06:56:00+08:00",
- "verdict": "green r1206: E171 screened twin of the sign leg -- the repair moves the engine column only (tilt 0 of 25 cells) and 2024_now flips its era verdict while month agreement stays bit-identical on both arms, so the post-repair agreement is a level carried by 4 of 17 months; e39 selftest 543/543 | e97 29/29 | smoke 114/114 | dualrun ZERO-DRIFT streak 9 | attrition CLEAN | orphan 0"
+ "task": "E174 engine-move name attribution (or E173 repair drivers)",
+ "task_short": "E174 engine-move names",
+ "ts": "2026-10-28T07:22:00+08:00",
+ "updated": "2026-10-28T07:22:00+08:00",
+ "updated_at": "2026-10-28T07:22:00+08:00",
+ "verdict": "green r1207: E172 deadband sweep 0/10/25/50bp with months kept per band -- no era goes thin (23 months survive 50bp even in 2024_now), 2024_now reads 23.5/18.8/17.2/17.4% on 34/32/29/23 months so its low agreement is anti-correlated rather than noisy; 2021_2023 has the widest lever (44.4->20.0, 24.4pp) without its verdict crossing the half line, and pre2017 moves the other way (56.8->67.9); e39 selftest 543->552 | smoke 116/116 | dualrun ZERO-DRIFT streak 10 | attrition CLEAN | orphan 0"
 }
