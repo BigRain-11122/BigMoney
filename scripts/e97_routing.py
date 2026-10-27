@@ -89,6 +89,9 @@ TWIN_FUNCS = {
     # E123 (r1196): the ladder-vs-wide drawdown-shape twin.
     "run_pairscreened": ("pairscreened",
                          "results/e40_pair_drawdown/PAIRSCREEN-*.json"),
+    # E124 (r1197): the per-era four-member tilt attribution twin.
+    "run_tilt4screened": ("tilt4screened",
+                          "results/e43_tilt_4member/TILT4SCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

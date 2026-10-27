@@ -2299,17 +2299,24 @@ def run_screentilt(outdir, pick_n=9999, exclude=("sh511",),
 
 # ------------------- leg: E43 four-member reach-back (tilt + neutral spread)
 
-def run_tilt4(outdir, core=None, eras=ERAS):
+def run_tilt4(outdir, core=None, eras=ERAS, raw=None):
     """Rebuild the tilt and the size-neutral spread on the four-member sub-ladder.
 
     E42 measured the era band on two of four eras: the five-member tilt needs
     sh588000, whose first bar is 2020-11-13, so pre2017 had 0 usable months and
     2017-2020 had 1. Dropping the STAR leg (2 broad-cap vs 2 mid/small) reaches
-    back to 2013 while keeping the same identity, so the 2013-2020 leg is
-    measured instead of skipped. The five-member rows are reported beside it
-    wherever both skins can price the same era.
+    back to 2017-01 while keeping the same identity, so the 2017-2020 leg is
+    measured (48 months) instead of skipped. The binding member is now sh512100
+    (first bar 2016-11-04), not the STAR leg -- pre2017 stays unmeasurable (1
+    month) on BOTH skins, and the reach-back is 2017-01, not 2013. The
+    five-member rows are reported beside it wherever both skins can price the
+    same era.
+
+    ``raw`` lets a caller hand in an already-loaded (optionally screened) panel
+    so a twin can burn both arms off ONE load (E113/E124 seam); the default path
+    still reads the shipped universe through ``_monthly_core``.
     """
-    core = core or _monthly_core()
+    core = core if core is not None else _monthly_core(raw_all=raw)
     rows = {}
     for name, lo, hi in list(eras) + [("full", None, None)]:
         ms = [m for m in core["months4"] if _in_era(m, lo, hi)]
@@ -4306,6 +4313,321 @@ def run_pairscreened(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
             "move there is derived from the two books rather than independent",
             "worst_month_same_month is a claim about two curves landing in the same "
             "month; it is carried in the dates layer because a boolean has no delta",
+        ],
+    }
+
+
+# ------------------- leg: E124 four-member tilt, screened twin
+#
+# E97 left run_tilt4 uncovered: 91 numbers across e43/tilt4/widecomp. This face
+# is a PER-ERA attribution, not a total -- each era carries its own four-member
+# tilt (2 broad vs 510500/512100), and the spread is decomposed into a
+# size-neutral alpha plus a size beta*tilt. A repair that moves one era's
+# neutral component while the others hold says the panel work sits in one
+# sleeve; every era moving together says something else. So the twin must
+# publish the per-era split, and the decomposition has to sum or the attribution
+# is silent.
+
+_TILT4_ERA_SCALARS = (
+    "months", "tilt_annualised_bp", "tilt_sd_bp", "tilt_positive_share_pct",
+    "beta_ladder_on_tilt", "alpha_monthly_bp", "r_squared",
+    "tilt_explains_ladder_var_pct", "ladder_mean_month_pct",
+    "spread_raw_ann_bp", "spread_size_neutral_ann_bp",
+    "spread_size_component_ann_bp", "beta_spread_on_tilt", "r_squared_spread",
+    "engine_ann_diff_bp", "arithmetic_vs_geometric_gap_bp",
+)
+_TILT4_COMPARE_SCALARS = ("months_5member", "tilt_5member_ann_bp",
+                          "tilt_4member_ann_bp_same_months")
+_TILT4_ANSWER_SCALARS = ("eras_measured_4member", "eras_measured_5member",
+                         "eras_positive_tilt", "eras_positive_size_neutral",
+                         "size_neutral_range_bp")
+
+
+def _tilt4_decomposition_gap(row):
+    """(E124) raw spread minus (size-neutral + size component), or None.
+
+    E43 publishes the decomposition as three numbers that are supposed to add
+    up. If they stop adding up, the per-era attribution stops meaning anything
+    -- so the gap is published per era instead of being trusted.
+    """
+    raw_ = (row or {}).get("spread_raw_ann_bp")
+    neu = (row or {}).get("spread_size_neutral_ann_bp")
+    siz = (row or {}).get("spread_size_component_ann_bp")
+    if raw_ is None or neu is None or siz is None:
+        return None
+    return round(raw_ - (neu + siz), 3)
+
+
+def _tilt4_arm_cells(face, keys=None):
+    """(E124) -> {(key, column): value} for every cell the tilt4 leg publishes.
+
+    Three buckets, because they fail differently: ``era/`` cells are the per-era
+    tilt and its decomposition (what the reader consumes as the attribution),
+    ``skin/`` cells price the STAR-leg difference on shared months (a skin
+    effect, not a repair effect), and ``answers`` are aggregates over eras. A
+    moved ``skin/`` cell beside an untouched ``era/`` set says the repair reached
+    a leg the attribution does not use.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        for col in _TILT4_ERA_SCALARS:
+            out[("era/" + era, col)] = row.get(col)
+        out[("era/" + era, "best_month_spread_pct")] = (
+            (row.get("tilt_best_month") or {}).get("spread_pct"))
+        out[("era/" + era, "worst_month_spread_pct")] = (
+            (row.get("tilt_worst_month") or {}).get("spread_pct"))
+        out[("era/" + era, "decomposition_gap_bp")] = _tilt4_decomposition_gap(row)
+    for era, row in (face.get("skin_comparison") or {}).items():
+        for col in _TILT4_COMPARE_SCALARS:
+            out[("skin/" + era, col)] = (row or {}).get(col)
+    for col in _TILT4_ANSWER_SCALARS:
+        out[("answers", col)] = (face.get("answers") or {}).get(col)
+    return out
+
+
+def _tilt4_arm_dates(face, keys=None):
+    """(E124) the claim layer: era boundaries, month identities, skin notes.
+
+    An era's ``from``/``to`` is a claim about which months it covers, and the
+    best/worst month is an identity -- neither has a delta, so they ride in the
+    dates layer (a repair that silently shortens an era is otherwise invisible).
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        out["era/" + era] = {
+            "from": row.get("from"), "to": row.get("to"),
+            "best_month": (row.get("tilt_best_month") or {}).get("month"),
+            "worst_month": (row.get("tilt_worst_month") or {}).get("month"),
+        }
+    for era, row in (face.get("skin_comparison") or {}).items():
+        out.setdefault("skin/" + era, {})["note"] = (row or {}).get("note")
+    return out
+
+
+_TILT4_ARROW_COLUMNS = ("tilt_sign", "spread_raw_sign",
+                        "spread_size_neutral_sign", "beta_ladder_sign")
+
+
+def _tilt4_arrows(face):
+    """(E124) the published ARROWS per era: the signs a reader consumes.
+
+    The tilt's sign is the headline ("small caps led or lagged"); the raw spread
+    sign says which book won the era; the size-neutral sign says whether the win
+    survives removing the size tilt; the beta sign says which way the ladder
+    leans on the tilt. A component can change sign while the era's tilt does
+    not, so all four are carried -- a list narrower than the reading is the E94
+    family this repo keeps re-learning.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        out[str(era)] = {
+            "tilt_sign": _pair_sign(row.get("tilt_annualised_bp")),
+            "spread_raw_sign": _pair_sign(row.get("spread_raw_ann_bp")),
+            "spread_size_neutral_sign": _pair_sign(
+                row.get("spread_size_neutral_ann_bp")),
+            "beta_ladder_sign": _pair_sign(row.get("beta_ladder_on_tilt")),
+        }
+    return out
+
+
+def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
+    """E124: re-derive the E43 four-member tilt face on the screened arm.
+
+    Same machinery as E112-E123: one load, both arms burned off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero, and a cutoff control against the newest published raw face.
+
+    The question this leg answers is narrower than "did the numbers move": it is
+    WHICH ERA moved. Tilt4's whole content is a per-era attribution, so a repair
+    that shifts every era by a constant leaves the ranking intact while a repair
+    that shifts one era rewrites the attribution -- and the summary max delta
+    cannot tell those apart.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "TILT4-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "TILT4-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_tilt4(None, raw=raw, eras=eras))
+    scr_arm = cached(mode, lambda: run_tilt4(None, raw=screened, eras=eras))
+
+    keys = sorted({k[0] for k in _tilt4_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_tilt4_arm_cells,
+                             dates_fn=_tilt4_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_tilt4_arm_cells,
+                                dates_fn=_tilt4_arm_dates)["summary"]
+
+    # cutoff control: newest previously published raw tilt4 face vs today's raw
+    # arm. The raw face publishes into results/e43_tilt_4member, so the search
+    # starts there (E159 pit: looking only in the twin's own directory returns
+    # null, and null reads as "no older face exists").
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e43_tilt_4member"),
+                               outdir) if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("HIST-") and p.endswith(".json"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("HIST-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _tilt4_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_tilt4_arm_cells,
+                                     dates_fn=_tilt4_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+
+    arr_raw, arr_scr = _tilt4_arrows(raw_arm), _tilt4_arrows(scr_arm)
+    arrow_moved = [{"era": k, "column": c, "raw": arr_raw[k][c],
+                    "screened": (arr_scr.get(k) or {}).get(c)}
+                   for k in sorted(arr_raw)
+                   for c in _TILT4_ARROW_COLUMNS
+                   if arr_scr.get(k, {}).get(c) != arr_raw[k][c]]
+    survives_arrows = not arrow_moved
+
+    era_moved = [r for r in pair["moved"] if r["start"].startswith("era/")]
+    skin_moved = [r for r in pair["moved"] if r["start"].startswith("skin/")]
+    answer_moved = [r for r in pair["moved"] if r["start"] == "answers"]
+    other_moved = [r for r in pair["moved"]
+                   if r not in era_moved and r not in skin_moved
+                   and r not in answer_moved]
+    eras_moved = sorted({r["start"][len("era/"):] for r in era_moved})
+
+    # decomposition: does the published split still add up, per era?
+    gaps = {era: _tilt4_decomposition_gap(row)
+            for era, row in (scr_arm.get("eras") or {}).items()}
+    gap_bad = {k: v for k, v in gaps.items() if v is not None and abs(v) > 0.2}
+    raw_gaps = {era: _tilt4_decomposition_gap(row)
+                for era, row in (raw_arm.get("eras") or {}).items()}
+
+    return {
+        "study": "e124_tilt4_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "large": list(TILT_LARGE), "small": list(TILT4_SMALL),
+            "five_member_small": list(TILT_SMALL),
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "seam": ("run_tilt4 grew a raw= parameter this round: before it built "
+                     "its own core, so a twin could not burn both arms off one load"),
+            "join": ("_tilt4_arm_cells harvests the per-era tilt and its "
+                     "decomposition, the 4-vs-5-member skin rows and the "
+                     "aggregates; _tilt4_arm_dates carries the era boundaries and "
+                     "the best/worst month identities, because a date or a month "
+                     "name has no delta"),
+        },
+        "screen_report": report,
+        "arrows": {"raw": arr_raw, "screened": arr_scr},
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "decomposition": {"screened_gaps_bp": gaps, "raw_gaps_bp": raw_gaps,
+                          "tolerance_bp": 0.2,
+                          "incomplete_eras": sorted(gap_bad)},
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "arrows_survive_the_repair": bool(survives_arrows),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for the "
+                            "annualised columns, percent for the share/squared "
+                            "columns, count for months and beta -- the summary max "
+                            "is a max over mixed units and is a screen, not a "
+                            "quantity"),
+            "worst_cell": s["worst"],
+            "era_cells_moved": len(era_moved),
+            "skin_cells_moved": len(skin_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "eras_with_any_moved_cell": eras_moved,
+            "n_eras": len([k for k in keys if k.startswith("era/")]),
+            "arrow_claims_moved": len(arrow_moved),
+            "moved_attribution_complete": (
+                len(era_moved) + len(skin_moved) + len(answer_moved)
+                + len(other_moved) == s["cells_moved"]),
+            "decomposition_complete": not gap_bad,
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "reading": (
+                ("the per-era tilt attribution survives the repair: %d of %d "
+                 "cells move, %d of %d eras carry any move, every era's arrows "
+                 "hold and the decomposition still sums"
+                 % (s["cells_moved"], s["cells_compared"], len(eras_moved),
+                    len([k for k in keys if k.startswith("era/")])))
+                if (survives and survives_arrows and not gap_bad) else
+                ("the repair reaches the tilt attribution: %d of %d cells move "
+                 "(%d era / %d skin / %d answer / %d other), %d of %d eras carry "
+                 "a move, %d of %d arrow claims move and %d era(s) no longer "
+                 "decompose; %d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(era_moved),
+                    len(skin_moved), len(answer_moved), len(other_moved),
+                    len(eras_moved), len([k for k in keys if k.startswith("era/")]),
+                    len(arrow_moved), len(arr_raw) * len(_TILT4_ARROW_COLUMNS),
+                    len(gap_bad), s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the four-member skin drops the STAR leg, so the tilt is a "
+            "broad-vs-mid/small read, not the five-member identity; the skin rows "
+            "price that difference on the months both skins can see",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged ``months`` cell is a "
+            "property of the repair, not evidence the panel is clean",
+            "eras are calendar partitions of one continuous monthly series and do "
+            "not add up, so ``eras_with_any_moved_cell`` counts eras, not weight",
+            "the decomposition gap is published per era rather than trusted: a "
+            "split that stops summing makes the attribution unreadable even when "
+            "every individual number looks plausible",
         ],
     }
 
@@ -13953,6 +14275,110 @@ def selftest():
     chk(_pair_arrows(_pr_uw)["2020-01-01"]["underwater_delta_sign"] == -1,
         "E123 an underwater sign flip is visible to the arrow layer")
 
+    # ---- E124 tilt4 screened twin
+    _t4_face = {
+        "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "pre2017": {"months": 40, "from": "2013-04", "to": "2016-12",
+                        "tilt_annualised_bp": 210.0, "tilt_sd_bp": 300.0,
+                        "tilt_positive_share_pct": 57.5, "beta_ladder_on_tilt": 0.11,
+                        "alpha_monthly_bp": 1.2, "r_squared": 0.05,
+                        "tilt_explains_ladder_var_pct": 5.0,
+                        "ladder_mean_month_pct": 0.42,
+                        "spread_raw_ann_bp": 300.0,
+                        "spread_size_neutral_ann_bp": 120.0,
+                        "spread_size_component_ann_bp": 180.0,
+                        "beta_spread_on_tilt": 0.4, "r_squared_spread": 0.08,
+                        "engine_ann_diff_bp": 250.0,
+                        "arithmetic_vs_geometric_gap_bp": 50.0,
+                        "tilt_best_month": {"month": "2015-04", "spread_pct": 6.2},
+                        "tilt_worst_month": {"month": "2016-01", "spread_pct": -5.1}},
+            "full": {"months": 90, "from": "2013-04", "to": "2026-10",
+                     "tilt_annualised_bp": 150.0, "tilt_sd_bp": 280.0,
+                     "tilt_positive_share_pct": 53.0, "beta_ladder_on_tilt": 0.09,
+                     "alpha_monthly_bp": 0.8, "r_squared": 0.04,
+                     "tilt_explains_ladder_var_pct": 4.0,
+                     "ladder_mean_month_pct": 0.55,
+                     "spread_raw_ann_bp": 240.0,
+                     "spread_size_neutral_ann_bp": 90.0,
+                     "spread_size_component_ann_bp": 150.0,
+                     "beta_spread_on_tilt": 0.35, "r_squared_spread": 0.07,
+                     "engine_ann_diff_bp": 200.0,
+                     "arithmetic_vs_geometric_gap_bp": 40.0,
+                     "tilt_best_month": {"month": "2020-07", "spread_pct": 8.1},
+                     "tilt_worst_month": {"month": "2016-01", "spread_pct": -5.1}},
+        },
+        "skin_comparison": {
+            "pre2017": {"months_5member": 0,
+                        "note": "not measurable on 5-member skin"},
+            "full": {"months_5member": 60, "tilt_5member_ann_bp": 130.0,
+                     "tilt_4member_ann_bp_same_months": 150.0,
+                     "note": "same months, two skins"},
+        },
+        "answers": {"eras_measured_4member": 1, "eras_measured_5member": 1,
+                    "eras_positive_tilt": 1, "eras_positive_size_neutral": 1,
+                    "size_neutral_range_bp": 0.0},
+    }
+    _t4_cells = _tilt4_arm_cells(_t4_face)
+    chk(_t4_cells[("era/pre2017", "tilt_annualised_bp")] == 210.0,
+        "E124 the harvest reads the per-era tilt")
+    chk(_t4_cells[("era/pre2017", "worst_month_spread_pct")] == -5.1,
+        "E124 the harvest reaches inside the best/worst month structure")
+    chk(_t4_cells[("skin/full", "tilt_5member_ann_bp")] == 130.0,
+        "E124 the harvest reads the 4-vs-5-member skin rows")
+    chk(_t4_cells[("answers", "eras_positive_tilt")] == 1,
+        "E124 the harvest carries the era aggregates")
+    chk(_t4_cells[("era/pre2017", "decomposition_gap_bp")] == 0.0,
+        "E124 the decomposition gap is published per era")
+    chk(not [k for k in _t4_cells if isinstance(_t4_cells[k], bool)],
+        "E124 no boolean leaks into the numeric layer")
+    _t4_dates = _tilt4_arm_dates(_t4_face)
+    chk(_t4_dates["era/pre2017"]["to"] == "2016-12",
+        "E124 the claim layer carries the era boundary")
+    chk(_t4_dates["era/pre2017"]["worst_month"] == "2016-01",
+        "E124 the claim layer carries the month identity")
+    # an era silently shortened moves no number but must still be reported
+    _t4_short = json.loads(json.dumps(_t4_face))
+    _t4_short["eras"]["pre2017"]["to"] = "2016-11"
+    _t4_keys = sorted({k[0] for k in _t4_cells})
+    _t4_pair = _burnin_pair_rows(_t4_face, _t4_short, _t4_keys,
+                                 cells_fn=_tilt4_arm_cells,
+                                 dates_fn=_tilt4_arm_dates)
+    chk(_t4_pair["summary"]["cells_moved"] == 0,
+        "E124 a shortened era moves no numeric cell")
+    chk(_t4_pair["summary"]["gate_dates_moved"] == 1,
+        "E124 a shortened era is still reported by the claim layer")
+    # the decomposition must add up: break it and the flag has to go false
+    _t4_gap = json.loads(json.dumps(_t4_face))
+    _t4_gap["eras"]["pre2017"]["spread_size_component_ann_bp"] = 100.0
+    chk(abs(_tilt4_decomposition_gap(_t4_gap["eras"]["pre2017"])) > 0.2,
+        "E124 a split that stops summing produces a visible gap")
+    chk(_tilt4_decomposition_gap({"spread_raw_ann_bp": 1.0}) is None,
+        "E124 a half-populated decomposition is None, not zero")
+    # arrows: every column published, and a sub-floor sign flip must still show
+    _t4_arr = _tilt4_arrows(_t4_face)["pre2017"]
+    chk(set(_TILT4_ARROW_COLUMNS) == set(_t4_arr),
+        "E124 every arrow column is published, none silently dropped")
+    _t4_flip = json.loads(json.dumps(_t4_face))
+    _t4_flip["eras"]["pre2017"]["tilt_annualised_bp"] = -0.002
+    _t4_orig = json.loads(json.dumps(_t4_face))
+    _t4_orig["eras"]["pre2017"]["tilt_annualised_bp"] = 0.002
+    _t4_flip_pair = _burnin_pair_rows(_t4_orig, _t4_flip,
+                                      sorted({k[0] for k in _tilt4_arm_cells(_t4_orig)}),
+                                      cells_fn=_tilt4_arm_cells,
+                                      dates_fn=_tilt4_arm_dates)
+    chk(_t4_flip_pair["summary"]["cells_moved"] == 0,
+        "E124 a sign flip below the delta floor moves no cell")
+    chk(_tilt4_arrows(_t4_orig)["pre2017"]["tilt_sign"] == 1
+        and _tilt4_arrows(_t4_flip)["pre2017"]["tilt_sign"] == -1,
+        "E124 the arrow layer sees a sign flip the cell floor cannot")
+    # bucket attribution: era keys start with a literal prefix, so the buckets
+    # cannot silently absorb each other (E94 family, third shape)
+    chk([k for k in _t4_keys if not k.startswith(("era/", "skin/", "answers"))] == [],
+        "E124 every harvested key lands in a named bucket")
+    chk("raw" in run_tilt4.__code__.co_varnames,
+        "E124 run_tilt4 carries the raw= seam the twin burns both arms through")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -16338,6 +16764,7 @@ def main(argv):
                     choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
+                             "tilt4screened",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -16975,6 +17402,23 @@ def main(argv):
                                      for k, v in f["orders"].items()},
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "ordering_moved":
+                                          f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt4screened":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt4screened(outdir)
+        p = write_json(outdir, "TILT4SCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt4screened",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "arrows": f["arrows"],
+                          "decomposition": {
+                              "incomplete_eras":
+                                  f["decomposition"]["incomplete_eras"]},
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "claims_moved":
                                           f["control"]["gate_dates_moved"]}},
                          ensure_ascii=False))
         return 0

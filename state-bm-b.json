@@ -825,13 +825,13 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1196,
- "round_no": 1197,
- "round_no_label": "r1196",
- "round_no_ts": "2026-10-28T02:19:53+08:00",
+ "round": 1197,
+ "round_no": 1198,
+ "round_no_label": "r1197",
+ "round_no_ts": "2026-10-28T02:50:35+08:00",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
-  "checked_at": "2026-10-28T02:19:53+08:00",
+  "checked_at": "2026-10-28T02:50:35+08:00",
   "status": "alive"
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -839,16 +839,41 @@
  "sync": {
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "base = origin tip de3cfdf3bc (bm-c r1314); clean ff push, de3cfdf3b..18aa47fa0, four-way verified (HEAD==origin/main==18aa47fa0, behind 0 / ahead 0, ls-tree origin carries PAIRSCREEN-20261027.json blob 3d767746)",
-  "pushed_sha": "18aa47fa0e46767bf3240c304b33a014a1bedb61",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T02:26:44+08:00"
+  "note": "round open base = origin tip (pull --rebase clean)",
+  "status": "PENDING_THIS_PUSH"
  },
- "task": "r1197: E124 tilt4 screened twin (pool ready E124/E125)",
- "task_short": "E124 tilt4 screened twin",
+ "task": "r1198: E125 cashdrag screened twin (needs raw= seam; last uncovered runner) or E126 three-member reach-back",
+ "task_short": "E125 cashdrag twin / E126 tilt3 reach-back",
  "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
- "ts": "2026-10-28T02:19:53+08:00",
- "updated": "2026-10-28T02:26:44+08:00",
- "updated_at": "2026-10-28T02:26:44+08:00",
- "verdict": "green r1196: E123 pair screened twin shipped -- 30/75 cells move (14 wide / 8 ratio / 8 answer / 0 ladder), percent deltas all <0.5pp but the underwater-delta sign flips +48 -> -92 sessions while maxdd_delta holds +6.17 -> +6.59; my own arrow layer missed that sign and was fixed in-window; smoke 108/108 | e39 selftest 442/442 | e97 covered_twin 19 -> 20 | orphan 0 | attrition CLEAN"
+ "ts": "2026-10-28T02:50:35+08:00",
+ "updated": "2026-10-28T02:50:35+08:00",
+ "updated_at": "2026-10-28T02:50:35+08:00",
+ "verdict": "green r1197: E124 tilt4 screened twin shipped -- 17/93 cells move (size-neutral alpha +22..+47bp vs size base <=3.1bp), 2017_2020 untouched, newest-era spread flips -21.6 -> +25.1bp (repair-attributable: refresh alone moves 13.5bp same direction and cannot cross zero), decomposition sums both arms; same-arm 0/93, cutoff 29 cells max 131bp (refresh > repair); routing covered_twin 20 -> 23 / uncovered 4 -> 1; smoke 108/108 | e39 selftest 459/459 | orphan 0 | attrition CLEAN",
+ "r1197": {
+  "mission": "水位红牌(pool-batch-runnable-idle-low-cpu) -> 烧池中 E124，顺带把 E97 路由面的 uncovered 从 4 压到 1",
+  "product": [
+   "results/e43_tilt_4member/TILT4SCREEN-20261027.json (new twin face, 93 cells)",
+   "results/e43_tilt_4member/TILT4-arm-raw-20261027.json / -neutralise_int- (per-arm checkpoints)",
+   "research/digests/DIGEST-20261028-r1197-e124-tilt4-screened.md",
+   "knowledge/METHODOLOGY_ASSETS.md E163",
+   "scripts/e39_panel_census.py: run_tilt4 加 raw= seam + _tilt4_decomposition_gap / _tilt4_arm_cells / _tilt4_arm_dates / _tilt4_arrows / run_tilt4screened + CLI mode tilt4screened (selftest 442 -> 459)",
+   "scripts/e97_routing.py TWIN_FUNCS += run_tilt4screened",
+   "results/e79/ROUTING-20261027.json re-derived (covered_twin 20 -> 23, uncovered 4 -> 1)",
+   "results/runnable_pool.json E124 -> done (result_ref filed), E126-TILT3-REACHBACK seeded ready"
+  ],
+  "finding": "repair 落到分解式的一支、也落到一部分纪元：size base 项全区间只动 <=3.1bp，而 size-neutral alpha 动 +26.2/+47.0/+22.3bp；2017_2020 的 24 格一格不动，2021_2023/2024_now/full 动；最新纪元 spread 由 -21.6 翻到 +25.1bp（20 条 arrow 里唯 1 条翻面）",
+  "controls": "same-arm 0/93；cutoff 对照(旧 raw HIST-20261020 vs 今日 raw) 29 格 max 131bp —— 本次 refresh(1.7x 格 / 2.3x 量级) 大于 repair(17 格/57bp)，与 E122(repair 3.6x)、E123(等量) 构成三种排序；单看任一数字都会读错，故两控并陈",
+  "attribution_of_flip": "cutoff 对照同一格只走 -35.1 -> -21.6(+13.5bp 同向、跨不过零)，repair 再补 +46.7 —— 故符号翻面归 repair；但纪元 tilt 水平是 refresh 主导(246.5 -> 132.1，-114.4bp，为 repair 最大格的 2 倍)，水平不可脱离 cutoff 引用（r1162 律再现）",
+  "decomposition": "两臂逐纪元 gap 全 0（incomplete_eras=[]，容差 0.2bp），归因可读非假设",
+  "defect_fixed": "F-20261028-05: run_tilt4 docstring 声称四员 skin 'reaches back to 2013'，而面上 pre2017 两臂各 1 个可用月、months4 起于 2016-12；真正的捆绑成员已从 STAR 腿(588000, 2020-11-13) 换成 sh512100(2016-11-04)，实际 reach-back=2017-01(48 个月，五员 skin 只有 1 个月)。当窗就地改正 + 播种 E126 去实测三员 skin 的 2013 段",
+  "pit": "池卡写的交付目录是 results/e43_neutral_robust/（那是 ROBUST 腿的目录），而 tilt4 原始面发在 results/e43_tilt_4member/ —— twin 写在原始面旁边（cutoff 对照要读该目录历史），偏离已在摘要与池条 done_note 显式披露，未静默改写交付面",
+  "s6": "dualrun ZERO-DRIFT 649 entries streak 1 | compute_audit FLAG:gpu_unauthorized,supply_gap,supply_floor(ready 2<3) | watermark py_low_with_work_cands(pool 2 ready，本轮已烧 1) | update_daily 0 新行(cutoff 2026-10-27, 15:30 门) | market_regime 三触(hs300<MA200 / crash10d -5.1% / breadth 85%) | etf_daily no-op | astock refresh 锁在飞 no-op | dualarm DUALARM-2026-10-19 | rev_osc awaiting panel(57.7%) | zt_pool +3242 行 | repo R-007 +1 | attrition CLEAN 4 ledgers(3 历史缩行 healed) | orphan face=0(10 py 面)",
+  "lane_note": "update_zt_pool/update_repo/update_moneyflow/update_ths_panel/ah_panel_puller 的模块 docstring 仍写 'bm-a lane'，而 config.lane_io.lane_host() 实读这五条车道属主全是 bm-b —— 守卫按注册表走，故本次真跑属合法；陈旧的是散文不是机制（与本轮 run_tilt4 docstring 同族），留一行不另开活",
+  "s7": "loop task pin 2 no-op | LoopWatchdog 重建 S4U SWA=false（本轮查无=真缺） | pre-commit + pre-push 爪重装",
+  "selftest": "e39 442 -> 459/459; e97 15/15",
+  "smoke": "108/108 PASS",
+  "orphan": 0,
+  "d19": "decisions 未变 / orders 有增量(11 行，均为 BigStream/硬件/机队派单面，无涉本仓机制) -> update --advance 已消费，水位同步 9 面",
+  "not_run": "bm-a 宿主守卫之外的其余长跑采集链未逐条跑；GPU 面未手写（心跳 GPU 键不传，由 gpu_face 单点探针持有）"
+ }
 }

@@ -1,0 +1,222 @@
+{
+ "study": "e43_tilt_4member_history",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500",
+   "sh512100"
+  ],
+  "five_member_small": [
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "decomposition": "ladder_monthly ~ alpha + beta*(small_mean - large_mean), equal weight 0.5/0.5 on the four-member skin",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0
+ },
+ "eras": {
+  "pre2017": {
+   "months": 1,
+   "skipped": "fewer than 3 usable months"
+  },
+  "2017_2020": {
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "skin": "4-member (2 broad vs 510500/512100)",
+   "tilt_annualised_bp": -993.3,
+   "tilt_sd_bp": 418.8,
+   "tilt_positive_share_pct": 39.6,
+   "tilt_best_month": {
+    "month": "2019-02",
+    "spread_pct": 8.49
+   },
+   "tilt_worst_month": {
+    "month": "2017-05",
+    "spread_pct": -10.34
+   },
+   "beta_ladder_on_tilt": 0.321,
+   "alpha_monthly_bp": 106.14,
+   "r_squared": 0.0742,
+   "tilt_explains_ladder_var_pct": 7.42,
+   "ladder_mean_month_pct": 0.7953,
+   "spread_raw_ann_bp": 331.7,
+   "spread_size_neutral_ann_bp": 293.7,
+   "spread_size_component_ann_bp": 38.1,
+   "beta_spread_on_tilt": -0.038,
+   "r_squared_spread": 0.0328,
+   "engine_ann_diff_bp": 419.0,
+   "arithmetic_vs_geometric_gap_bp": -87.3
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "skin": "4-member (2 broad vs 510500/512100)",
+   "tilt_annualised_bp": 953.6,
+   "tilt_sd_bp": 518.6,
+   "tilt_positive_share_pct": 52.8,
+   "tilt_best_month": {
+    "month": "2022-10",
+    "spread_pct": 12.21
+   },
+   "tilt_worst_month": {
+    "month": "2022-04",
+    "spread_pct": -9.05
+   },
+   "beta_ladder_on_tilt": 0.161,
+   "alpha_monthly_bp": -91.27,
+   "r_squared": 0.0352,
+   "tilt_explains_ladder_var_pct": 3.52,
+   "ladder_mean_month_pct": -0.7849,
+   "spread_raw_ann_bp": 251.1,
+   "spread_size_neutral_ann_bp": 394.1,
+   "spread_size_component_ann_bp": -143.0,
+   "beta_spread_on_tilt": -0.15,
+   "r_squared_spread": 0.3405,
+   "engine_ann_diff_bp": 243.0,
+   "arithmetic_vs_geometric_gap_bp": 8.1
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "skin": "4-member (2 broad vs 510500/512100)",
+   "tilt_annualised_bp": 132.1,
+   "tilt_sd_bp": 505.2,
+   "tilt_positive_share_pct": 44.1,
+   "tilt_best_month": {
+    "month": "2026-01",
+    "spread_pct": 9.15
+   },
+   "tilt_worst_month": {
+    "month": "2026-07",
+    "spread_pct": -14.72
+   },
+   "beta_ladder_on_tilt": 1.205,
+   "alpha_monthly_bp": 84.57,
+   "r_squared": 0.5925,
+   "tilt_explains_ladder_var_pct": 59.25,
+   "ladder_mean_month_pct": 0.9783,
+   "spread_raw_ann_bp": -21.6,
+   "spread_size_neutral_ann_bp": 17.3,
+   "spread_size_component_ann_bp": -38.9,
+   "beta_spread_on_tilt": -0.294,
+   "r_squared_spread": 0.4109,
+   "engine_ann_diff_bp": 106.0,
+   "arithmetic_vs_geometric_gap_bp": -127.6
+  },
+  "full": {
+   "months": 119,
+   "from": "2016-12",
+   "to": "2026-10",
+   "skin": "4-member (2 broad vs 510500/512100)",
+   "tilt_annualised_bp": -70.8,
+   "tilt_sd_bp": 475.1,
+   "tilt_positive_share_pct": 45.4,
+   "tilt_best_month": {
+    "month": "2022-10",
+    "spread_pct": 12.21
+   },
+   "tilt_worst_month": {
+    "month": "2026-07",
+    "spread_pct": -14.72
+   },
+   "beta_ladder_on_tilt": 0.518,
+   "alpha_monthly_bp": 34.59,
+   "r_squared": 0.1786,
+   "tilt_explains_ladder_var_pct": 17.86,
+   "ladder_mean_month_pct": 0.3153,
+   "spread_raw_ann_bp": 219.7,
+   "spread_size_neutral_ann_bp": 208.4,
+   "spread_size_component_ann_bp": 11.3,
+   "beta_spread_on_tilt": -0.159,
+   "r_squared_spread": 0.2405,
+   "engine_ann_diff_bp": 263.0,
+   "arithmetic_vs_geometric_gap_bp": -43.3
+  }
+ },
+ "skin_comparison": {
+  "pre2017": {
+   "months_5member": 0,
+   "note": "not measurable on 5-member skin"
+  },
+  "2017_2020": {
+   "months_5member": 1,
+   "note": "not measurable on 5-member skin"
+  },
+  "2021_2023": {
+   "months_5member": 36,
+   "tilt_5member_ann_bp": 609.2,
+   "tilt_4member_ann_bp_same_months": 953.6,
+   "note": "same months, two skins -- the gap is the STAR leg, not a window effect"
+  },
+  "2024_now": {
+   "months_5member": 34,
+   "tilt_5member_ann_bp": 617.1,
+   "tilt_4member_ann_bp_same_months": 132.1,
+   "note": "same months, two skins -- the gap is the STAR leg, not a window effect"
+  },
+  "full": {
+   "months_5member": 71,
+   "tilt_5member_ann_bp": 549.2,
+   "tilt_4member_ann_bp_same_months": 479.0,
+   "note": "same months, two skins -- the gap is the STAR leg, not a window effect"
+  }
+ },
+ "answers": {
+  "eras_measured_4member": 3,
+  "eras_measured_5member": 3,
+  "era_names_measured_4member": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "eras_positive_tilt": 2,
+  "eras_positive_size_neutral": 3,
+  "size_neutral_range_bp": 376.8,
+  "pre2021_eras_newly_measured": [
+   "2017_2020"
+  ]
+ },
+ "honest": [
+  "the four-member skin drops the STAR leg, so its tilt is a broad-vs-mid/small read, not the E40 five-member identity; the skin_comparison rows price that difference on the months both skins can see",
+  "the ladder and wide curves are the E24/E27 engine's own (module import), unchanged by the skin choice -- only the tilt regressor changes, so any movement in the neutral column is the size adjustment, not a different book",
+  "eras remain calendar partitions of one continuous monthly series and do not add up",
+  "corporate-action guard as in E40 (drops >20% single-day member months)",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months_4member": [],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

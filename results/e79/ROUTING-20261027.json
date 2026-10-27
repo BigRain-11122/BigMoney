@@ -172,7 +172,16 @@
     "func": "run_pairscreened",
     "face": "results/e40_pair_drawdown/PAIRSCREEN-20261027.json",
     "calls": [
-     "run_pair"
+     "run_pair",
+     "run_tilt4"
+    ]
+   },
+   {
+    "leg": "tilt4screened",
+    "func": "run_tilt4screened",
+    "face": "results/e43_tilt_4member/TILT4SCREEN-20261027.json",
+    "calls": [
+     "run_tilt4"
     ]
    }
   ],
@@ -344,8 +353,11 @@
    "runner": "run_tilt4",
    "face": "results/e43_tilt_4member/HIST-20261020.json",
    "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "pairscreened",
+    "tilt4screened"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -367,8 +379,11 @@
    "runner": "run_tilt4",
    "face": "results/e43_tilt_4member/HIST-20261020.json",
    "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "pairscreened",
+    "tilt4screened"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -390,8 +405,11 @@
    "runner": "run_tilt4",
    "face": "results/e43_tilt_4member/HIST-20261020.json",
    "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": [],
+   "coverage": "covered_twin",
+   "twin_legs": [
+    "pairscreened",
+    "tilt4screened"
+   ],
    "twin_by_name": [],
    "column_overlap_only": [
     {
@@ -724,18 +742,6 @@
  ],
  "ranking_uncovered_by_runner": [
   {
-   "runner": "run_tilt4",
-   "modes": [
-    "e43",
-    "tilt4",
-    "widecomp"
-   ],
-   "published_cells_dedup": 91,
-   "faces": [
-    "results/e43_tilt_4member/HIST-20261020.json"
-   ]
-  },
-  {
    "runner": "run_cashdrag",
    "modes": [
     "cashdrag"
@@ -748,27 +754,6 @@
  ],
  "ranking_uncovered_by_mode": [
   {
-   "mode": "e43",
-   "runner": "run_tilt4",
-   "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
-  {
-   "mode": "tilt4",
-   "runner": "run_tilt4",
-   "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
-  {
-   "mode": "widecomp",
-   "runner": "run_tilt4",
-   "published_cells": 91,
-   "coverage": "uncovered_column_only",
-   "twin_legs": []
-  },
-  {
    "mode": "cashdrag",
    "runner": "run_cashdrag",
    "published_cells": 70,
@@ -778,12 +763,12 @@
  ],
  "totals": {
   "charged_modes": 25,
-  "covered_by_twin": 20,
+  "covered_by_twin": 23,
   "covered_twin_by_name": 1,
-  "uncovered": 4,
-  "uncovered_column_only": 3,
-  "uncovered_distinct_runners": 2,
-  "cells_unchanged_by_any_twin": 161
+  "uncovered": 1,
+  "uncovered_column_only": 0,
+  "uncovered_distinct_runners": 1,
+  "cells_unchanged_by_any_twin": 70
  },
  "honest": [
   "covered_twin means a screened twin face exists for the mode's runner; it does NOT mean the mode's own published face was re-derived, so the numbers a reader opens are still the unscreened ones until the face itself is re-burned",

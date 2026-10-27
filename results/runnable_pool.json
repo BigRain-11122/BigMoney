@@ -22162,9 +22162,13 @@
    "seeded_at": "2026-10-27T23:05:00+08:00",
    "seeded_by": "bm-b r1192",
    "source": "Seeded from the re-derived results/e79/ROUTING-20261027.json after E121 closed the rebalday row (charged=25 covered_twin=17 by_name=1 uncovered=7 runners=4; top remaining run_warmspread 123 / run_pair 93 / run_tilt4 91 / run_cashdrag 70). Same machinery as E112-E121: one load, both arms burned off it (run_tilt4 gains the raw= seam if it does not already carry one), per-arm checkpoints, the shared _burnin_pair_rows join, a same-arm control that must read zero, and a cutoff control against the runner's own newest published raw face.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt4)",
-   "title": "Fourth-largest uncovered runner after E121 (91 numbers across three modes e43/tilt4/widecomp). run_tilt4 publishes the four-member tilts, i.e. what each of the four betas contributes to the book, so its reading is a PER-BOOK attribution rather than a total: a repair that moves one beta's tilt while the other three hold says the panel work is concentrated in one sleeve, which is a different finding from all four moving together. Publish the per-book split and keep the same-arm / cutoff controls."
+   "title": "Fourth-largest uncovered runner after E121 (91 numbers across three modes e43/tilt4/widecomp). run_tilt4 publishes the four-member tilts, i.e. what each of the four betas contributes to the book, so its reading is a PER-BOOK attribution rather than a total: a repair that moves one beta's tilt while the other three hold says the panel work is concentrated in one sleeve, which is a different finding from all four moving together. Publish the per-book split and keep the same-arm / cutoff controls.",
+   "done_at": "2026-10-28T02:45:00+08:00",
+   "done_by": "bm-b r1197",
+   "result_ref": "results/e43_tilt_4member/TILT4SCREEN-20261027.json",
+   "done_note": "closed r1197 bm-b: 17/93 cells move (16 era / 0 skin / 1 answer / 0 other, attribution complete); the repair lands on the size-neutral alpha (+22..+47bp) while the size base term moves <=3.1bp, 2017_2020 moves 0 of its 24 cells, and the newest era's spread flips -21.6 -> +25.1bp (refresh alone 13.5bp same direction cannot cross zero); decomposition sums on both arms; same-arm control 0/93, cutoff control 29 cells max 131bp (refresh > repair here); routing covered_twin 20 -> 23 (run_tilt4 feeds e43/tilt4/widecomp), uncovered 4 -> 1. Deliverable written to results/e43_tilt_4member/ (beside its raw face) rather than the row's stated e43_neutral_robust/ -- deviation disclosed in the digest."
   },
   {
    "deliverable": "results/e40_cashleg_drag/CASHDRAGSCREEN-<cutoff>.json",
@@ -22176,6 +22180,18 @@
    "status": "ready",
    "target": "scripts/e39_panel_census.py",
    "title": "Next uncovered runner after E123 (70 numbers, one mode cashdrag). run_cashdrag re-runs the identical spec at repo multipliers 0x/1x/3x to bound what the cash leg pays for -- so the twin must publish the MULTIPLIER as the axis: a repair that moves all three rate points by the same amount leaves the cash-leg attribution untouched while every level moves. Needs a raw= seam first (run_cashdrag loads the universe itself today)."
+  },
+  {
+   "deliverable": "results/e43_tilt_4member/TILT3REACH-<cutoff>.json",
+   "id": "E126-TILT3-REACHBACK",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "title": "The four-member tilt skin reaches 2017-01, not 2013: the binding member is sh512100 (first bar 2016-11-04), so pre2017 carries 1 usable month on BOTH skins and E43's docstring claim of a 2013 reach-back was never delivered. Dropping to a three-member skin (2 broad-cap vs sh510500 alone, first bar 2013-03-15) makes 2013-04..2016-12 measurable for the first time. Publish the pre-2017 era on the three-member skin BESIDE the four- and five-member rows on the months they share, and report the skin price rather than presenting the narrowest skin's number as the identity: the question is what the tilt reads in the years no wider skin can price, and at what cost in composition.",
+   "source": "Seeded r1197 bm-b from the E124 face (results/e43_tilt_4member/TILT4SCREEN-20261027.json): eras[pre2017] = 1 usable month on both arms while run_tilt4's docstring claimed a 2013 reach-back; data/daily first bars are 510300 2012-05-28 / 510050 2005-02-23 / 510500 2013-03-15 / 512100 2016-11-04 / 588000 2020-11-16, so 2013-2016 is reachable only by a three-member skin. Same machinery as E112-E124 (per-arm checkpoints, same-arm control zero, cutoff control against the newest published raw face), plus a skin_comparison table over the shared months as in E124.",
+   "target": "scripts/e39_panel_census.py (run_tilt4 / _tilt_series)",
+   "status": "ready",
+   "seeded_at": "2026-10-28T02:45:00+08:00",
+   "seeded_by": "bm-b r1197"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22190,6 +22206,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T01:05:00+08:00",
+ "updated_at": "2026-10-28T02:45:00+08:00",
  "version": 1
 }

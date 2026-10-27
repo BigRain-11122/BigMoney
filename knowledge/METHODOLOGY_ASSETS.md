@@ -1602,3 +1602,29 @@ so each face ships its own two controls and neither number is quoted alone.
 Evidence: results/e40_pair_drawdown/PAIRSCREEN-20261027.json, per-arm checkpoints,
 _pair_arm_cells/_pair_arm_dates/_pair_arrows + run_pairscreened (selftest 427 -> 442),
 research/digests/DIGEST-20261028-r1196-e123-pair-screened.md.
+
+## E163 A decomposition has two axes and a repair can move one of each (2026-10-28 r1197 bm-b)
+
+E43 publishes each era's spread split into a size-neutral alpha and a size beta term, per era.
+Burning the raw and print-screened arms of that leg moves 17 of 93 cells, and every moved cell
+sits on the attribution the face exists to publish (16 era / 0 skin / 1 answer). Two readings
+the totals hide: (a) the repair lands on ONE component -- the size base term moves at most
+3.1bp while the size-neutral alpha moves +22 to +47bp, so "the spread moved 20bp" and "the
+size-adjusted sleeve moved 20bp" are different sentences; (b) it lands on SOME eras --
+`2017_2020` moves 0 of its 24 cells while the newest era's spread flips sign (-21.6 -> +25.1).
+When a face is a per-era attribution, publish the component split AND the per-era split, and
+verify the decomposition sums on both arms (here `incomplete_eras: []` at 0.2bp) -- otherwise a
+split that silently stops adding up makes the attribution unreadable while every individual
+number still looks plausible.
+
+Sibling rules, all three already in this file and all three re-confirmed here: a level is not
+a sign (the newest era's `tilt_annualised` moves -114bp across a seven-day cutoff refresh,
+twice the largest repair delta, while only the sign is quotable); a cutoff control that is
+larger than the repair does not let the repair be quoted alone (E122 repair 3.6x, E123 same
+size, E124 refresh 1.7x/2.3x -- three orderings, so quote both controls every time); and a
+leg's own docstring is prose evidence -- this one claimed a 2013 reach-back that the face
+never delivered, because the binding universe member changed under it.
+
+Evidence: results/e43_tilt_4member/TILT4SCREEN-20261027.json, per-arm checkpoints,
+_tilt4_arm_cells/_tilt4_arm_dates/_tilt4_arrows + run_tilt4screened (selftest 442 -> 459),
+research/digests/DIGEST-20261028-r1197-e124-tilt4-screened.md.
