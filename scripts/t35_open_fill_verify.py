@@ -25,15 +25,27 @@ Evidence is append-only marks jsonl + overwritten state: the join can
 only happen AFTER day D's evening engine run, for the day named by the
 state cutoff. Never backdated, never fabricated.
 
+Second evidence tier (r1131): when the marks lane missed the session
+entirely (its hole is named by scripts/marks_coverage.py), the gate
+falls back to the OFFICIAL DAILY BAR OPEN (data/daily/<code>.csv). The
+bar open is the exchange's first-trade price -- the same quantity the
+marks lane samples from the spot feed -- so it verifies the fill price
+against an independent source rather than going blind. What the
+fallback cannot see: pendings the engine dropped never reach
+open_positions, so ``dropped`` is not observable on this tier
+(``drops_observable=false``) and the report says so instead of
+printing a zero. Every report carries ``evidence_tier``.
+
 Exit codes: 0 = PASS (or zero-pending honest case), 1 = no-evidence
-(marks file for the cutoff day missing -- e.g. marks lane down), 2 =
-BREACH (a filled pending deviates beyond REL_TOL from the real session
-open -- fill-price correctness red flag, report honestly).
+(marks file missing AND no bar-derived substitute for any filled name),
+2 = BREACH (a filled pending deviates beyond REL_TOL from the real
+session open -- fill-price correctness red flag, report honestly).
 
 Usage:
     python scripts/t35_open_fill_verify.py             # verify today
     python scripts/t35_open_fill_verify.py --selftest
 """
+import csv
 import datetime as dt
 import json
 import os
@@ -46,7 +58,9 @@ from config.lane_io import shared_derive_write_allowed
 
 PAPER_DIR = os.path.join(PATHS.results_dir, "paper")
 MARKS_DIR = os.path.join(PAPER_DIR, "marks")
+DAILY_DIR = os.path.join(PATHS.data_dir, "daily")
 OUT_PATH = os.path.join(PATHS.results_dir, "t35_open_fill_verify.json")
+HISTORY_PATH = os.path.join(PATHS.results_dir, "t35_evidence_history.jsonl")
 # Frozen tolerance (engineering gate, not a science threshold): quote-side
 # rounding is <= 1e-3 relative for the cheapest ETFs; any wrong-price
 # fill (close/vwap instead of open) deviates by orders of magnitude more.
@@ -112,16 +126,76 @@ def _pending_watch_for_day(day_iso: str) -> dict:
     return out
 
 
-def verify(states: dict, marks_pw: dict | None) -> dict:
+def _daily_open(day_iso: str, symbol: str) -> float | None:
+    """Official daily bar open for ``symbol`` on ``day_iso``, else None.
+    Tries the bare code file first, then the sh/sz twins (the panel holds
+    both spellings). No network, no synthesis: a missing row returns None
+    so the caller can count it honestly."""
+    for nm in (symbol, f"sh{symbol}", f"sz{symbol}"):
+        path = os.path.join(DAILY_DIR, f"{nm}.csv")
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, encoding="utf-8") as fh:
+                for row in csv.DictReader(fh):
+                    if row.get("date") != day_iso:
+                        continue
+                    try:
+                        return float(row.get("open"))
+                    except (TypeError, ValueError):
+                        return None
+        except OSError:
+            continue
+    return None
+
+
+def _fallback_watch(states: dict, day_iso: str) -> tuple[dict, dict]:
+    """Bar-derived stand-in for the marks ``pending_watch`` face.
+
+    Only positions the states say were filled THIS session (hold_days
+    <= 1, known) can be reconstructed without the engine's pending
+    export, so the substitute set is exactly the same-day fills. Returns
+    ({tid: {sym: bar_open}}, {tid: [sym]} where the second dict names the
+    same-day fills whose bar is ABSENT -- a trader that has such a fill
+    must never be reported as ``zero_pending``, which would read as a
+    clean pass over evidence that simply was not there."""
+    out, missing = {}, {}
+    for tid, st in states.items():
+        held = st.get("held_since") or {}
+        got, gone = {}, []
+        for sym in st["positions"]:
+            hd = held.get(sym)
+            if hd is None or hd > 1:
+                continue        # filled an earlier session = not this day's fill
+            px = _daily_open(day_iso, sym)
+            if px is None:
+                gone.append(sym)
+                continue
+            got[sym] = px
+        if got:
+            out[tid] = got
+        if gone:
+            missing[tid] = gone
+    return out, missing
+
+
+def verify(states: dict, marks_pw: dict | None,
+           no_bar_map: dict | None = None) -> dict:
     """Join -> report dict. Per trader: matched/dropped/breached detail.
     marks_pw None = marks file missing for the day (no-evidence)."""
     per_trader, n_breach, n_matched, n_dropped, n_zero, n_nomarks = {}, 0, 0, 0, 0, 0
-    n_refire = 0
+    n_refire = n_nobar = 0
     for tid, st in sorted(states.items()):
         pw = (marks_pw or {}).get(tid)
+        gone = ((no_bar_map or {}).get(tid) or []) if not pw else []
         if marks_pw is None:
             status = "no_marks"
             n_nomarks += 1
+        elif not pw and gone:
+            # same-day fills exist but the fallback bar is absent for them:
+            # never report this as zero_pending (that would read as a pass).
+            status = "no_bar"
+            n_nobar += 1
         elif not pw:
             status = "zero_pending"
             n_zero += 1
@@ -156,15 +230,53 @@ def verify(states: dict, marks_pw: dict | None) -> dict:
         row = {"cutoff": st["cutoff"], "status": status, "detail": []}
         if status in ("verified_pass", "breach"):
             row["detail"] = detail
+        if status == "no_bar":
+            row["detail"] = [{"symbol": s, "outcome": "no_bar"} for s in gone]
         per_trader[tid] = row
     verdict = ("BREACH" if n_breach else
-               "NO_EVIDENCE" if n_nomarks else "PASS")
+               "NO_EVIDENCE" if (n_nomarks or (n_nobar and not n_matched))
+               else "PASS")
     return {"verdict": verdict, "rel_tol": REL_TOL,
             "counters": {"matched": n_matched, "dropped": n_dropped,
                          "breach": n_breach, "zero_pending_traders": n_zero,
                          "no_marks_traders": n_nomarks,
+                         "no_bar_traders": n_nobar,
                          "refire_held": n_refire},
             "per_trader": per_trader}
+
+
+def _append_history(rep: dict) -> None:
+    """Keep one line per (day, evidence_tier) in an append-only history.
+
+    The gate's own face is overwritten every round, and a session's
+    verification can only be computed while the paper states still mark its
+    fills as same-day -- so an unrepeatable verdict must be captured the
+    moment it exists, or the fact that a hole WAS still checked is lost.
+    Idempotent: a second run for the same (day, tier) rewrites nothing.
+    """
+    path = HISTORY_PATH
+    key = (rep.get("day"), rep.get("evidence_tier"))
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                for line in fh:
+                    try:
+                        row = json.loads(line)
+                    except ValueError:
+                        continue
+                    if (row.get("day"), row.get("evidence_tier")) == key:
+                        return
+        except OSError:
+            return
+    row = {"day": rep.get("day"), "evidence_tier": rep.get("evidence_tier"),
+           "verdict": rep.get("verdict"), "counters": rep.get("counters"),
+           "drops_observable": rep.get("drops_observable"),
+           "ts": rep.get("ts")}
+    try:
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        pass
 
 
 def run() -> int:
@@ -181,15 +293,34 @@ def run() -> int:
     days = {st["cutoff"] for st in states.values()}
     day = max(days)
     marks_pw = _pending_watch_for_day(day)
-    rep = verify(states, marks_pw)
+    tier, no_bar_map = "marks", {}
+    if marks_pw is None:
+        marks_pw, no_bar_map = _fallback_watch(states, day)
+        tier = "daily_bar_open" if marks_pw else "none"
+        if tier == "none":
+            marks_pw = None      # keep the NO_EVIDENCE semantics
+    rep = verify(states, marks_pw, no_bar_map)
     rep["day"] = day
+    rep["evidence_tier"] = tier
+    # On the bar tier the engine's dropped pendings never enter
+    # open_positions, so a zero there is "not observable", not "no drops".
+    rep["drops_observable"] = tier == "marks"
+    if tier == "daily_bar_open":
+        rep["evidence_note"] = (
+            "marks lane missed this session; fill prices were checked "
+            "against the official daily bar open (same exchange first-trade "
+            "price marks samples from spot). Dropped-pending counts are NOT "
+            "observable on this tier.")
+        rep["no_bar_fills"] = {k: sorted(v) for k, v in no_bar_map.items()}
     rep["ts"] = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         json.dump(rep, fh, ensure_ascii=False, indent=1)
+    _append_history(rep)
     c = rep["counters"]
     print(f"open_fill_verify day={day}: {rep['verdict']} "
-          f"(matched {c['matched']}, dropped {c['dropped']}, "
-          f"breach {c['breach']}, zero-pending traders {c['zero_pending_traders']})"
+          f"(tier {rep['evidence_tier']}, matched {c['matched']}, "
+          f"dropped {c['dropped']}, breach {c['breach']}, "
+          f"zero-pending traders {c['zero_pending_traders']})"
           f" -> {OUT_PATH}")
     if rep["verdict"] == "BREACH":
         for tid, tr in rep["per_trader"].items():
@@ -201,6 +332,9 @@ def run() -> int:
         return 2
     if rep["verdict"] == "NO_EVIDENCE":
         print(f"  marks file for {day} missing -- marks lane evidence gap")
+        if rep["evidence_tier"] == "none":
+            print("  no daily-bar substitute either: no same-day fill had a "
+                  "reachable bar open, so nothing could be cross-checked")
         # Say whether this is recoverable: scripts/marks_coverage.py classifies
         # every session as captured / permanently missing / still pending, so a
         # reader does not treat a permanent hole as a retry-able miss.
@@ -278,6 +412,75 @@ def _selftest() -> bool:
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
+    # F9-F11: bar-derived fallback tier (marks lane missed the session)
+    tmp2 = tempfile.mkdtemp(prefix="ofv_bar_")
+    try:
+        import shutil
+        with open(os.path.join(tmp2, "510300.csv"), "w", encoding="utf-8") as fh:
+            fh.write("date,open,high,low,close,volume,amount\n")
+            fh.write("2026-09-23,4.0000,4.1,3.9,4.05,1,1\n")
+            fh.write("2026-09-24,4.1000,4.2,4.0,4.15,1,1\n")
+        global DAILY_DIR
+        orig_d = DAILY_DIR
+        DAILY_DIR = tmp2
+        st9 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 4.1001},
+                       "held_since": {"510300": 1}}}
+        fb, miss = _fallback_watch(st9, "2026-09-24")
+        ok &= fb == {"T-X": {"510300": 4.1}} and miss == {}
+        rep = verify(st9, fb, miss)
+        ok &= rep["verdict"] == "PASS" and rep["counters"]["matched"] == 1
+        # F10: a same-day fill whose bar row is absent must be no_bar, never
+        # zero_pending (a silent clean pass over absent evidence)
+        st10 = {"T-X": {"cutoff": "2026-09-24", "positions": {"159999": 1.0},
+                        "held_since": {"159999": 1}}}
+        fb, miss = _fallback_watch(st10, "2026-09-24")
+        ok &= fb == {} and miss == {"T-X": ["159999"]}
+        rep = verify(st10, fb, miss)
+        ok &= rep["verdict"] == "NO_EVIDENCE"
+        ok &= rep["per_trader"]["T-X"]["status"] == "no_bar"
+        ok &= rep["counters"]["no_bar_traders"] == 1
+        ok &= rep["counters"]["zero_pending_traders"] == 0
+        # F11: the fallback tier still catches a wrong fill price
+        st11 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 4.151},
+                        "held_since": {"510300": 1}}}
+        fb, miss = _fallback_watch(st11, "2026-09-24")
+        rep = verify(st11, fb, miss)
+        ok &= rep["verdict"] == "BREACH" and rep["counters"]["breach"] == 1
+        # F12: an earlier-session hold is not a same-day fill -> not in the
+        # fallback set at all (no bar lookup, no phantom row)
+        st12 = {"T-X": {"cutoff": "2026-09-24", "positions": {"510300": 4.1},
+                        "held_since": {"510300": 5}}}
+        fb, miss = _fallback_watch(st12, "2026-09-24")
+        ok &= fb == {} and miss == {}
+        DAILY_DIR = orig_d
+    finally:
+        import shutil
+        shutil.rmtree(tmp2, ignore_errors=True)
+    # F13: the evidence history keeps one line per (day, tier) -- a verdict
+    # that can only be computed while the states still call the fill
+    # same-day must not be lost when the face is overwritten next round.
+    tmp3 = tempfile.mkdtemp(prefix="ofv_hist_")
+    try:
+        import shutil
+        global HISTORY_PATH
+        orig_h = HISTORY_PATH
+        HISTORY_PATH = os.path.join(tmp3, "h.jsonl")
+        _append_history({"day": "2026-09-24", "evidence_tier": "daily_bar_open",
+                         "verdict": "PASS", "counters": {"matched": 1},
+                         "drops_observable": False, "ts": "t1"})
+        _append_history({"day": "2026-09-24", "evidence_tier": "daily_bar_open",
+                         "verdict": "PASS", "counters": {"matched": 1},
+                         "drops_observable": False, "ts": "t2"})
+        _append_history({"day": "2026-09-25", "evidence_tier": "marks",
+                         "verdict": "PASS", "counters": {"matched": 0},
+                         "drops_observable": True, "ts": "t3"})
+        with open(HISTORY_PATH, encoding="utf-8") as fh:
+            rows = [json.loads(x) for x in fh if x.strip()]
+        ok &= len(rows) == 2 and rows[0]["ts"] == "t1"
+        HISTORY_PATH = orig_h
+    finally:
+        import shutil
+        shutil.rmtree(tmp3, ignore_errors=True)
     return bool(ok)
 
 

@@ -354,6 +354,15 @@ function renderCompany() {
       (holes.length ? ` · 永久缺口 ${holes.length} 日 ${holes.join(" ")}` : " · 无缺口"),
       holes.length ? "warn" : "ok", `最近 ${n2(pp.marks_last_captured)}`));
   }
+  if (pp.fill_verify_tier) {
+    const tierName = pp.fill_verify_tier === "marks" ? "盘中实采"
+      : pp.fill_verify_tier === "daily_bar_open" ? "日线开盘(替代档)" : "无证据";
+    const v = pp.fill_verify_verdict || "—";
+    rows.push(chainRow("开盘成交校验",
+      `判 ${pp.fill_verify_day || "—"} · 数据档 ${tierName} · 核对 ${n2(pp.fill_verify_matched)} 笔` +
+      (pp.fill_verify_tier === "daily_bar_open" ? " · 该日盘中未采，成交价对官方日线开盘核" : ""),
+      v === "BREACH" ? "bad" : (v === "NO_EVIDENCE" ? "warn" : "ok"), v));
+  }
   const fr = (D.research && D.research.factor_line) || {};
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));

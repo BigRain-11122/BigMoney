@@ -1538,7 +1538,9 @@ def _paper_state() -> dict:
            "marks_as_of": None, "marks_coverage_pct": None,
            "marks_closed_days": None, "marks_captured": None,
            "marks_holes": None, "marks_hole_dates": [],
-           "marks_last_captured": None}
+           "marks_last_captured": None,
+           "fill_verify_tier": None, "fill_verify_verdict": None,
+           "fill_verify_day": None, "fill_verify_matched": None}
     # The fill-verification record is part of the paper trail: a trade that was
     # never priced intraday cannot be checked against its own entry price, and
     # those sessions are permanently unrecoverable (marks are never backdated).
@@ -1554,6 +1556,17 @@ def _paper_state() -> dict:
         out["marks_holes"] = c.get("holes")
         out["marks_hole_dates"] = mc.get("holes") or []
         out["marks_last_captured"] = mc.get("last_captured")
+    # A hole in the marks lane does not mean the fill check went blind: the
+    # gate falls back to the official daily bar open. Publish which tier
+    # actually verified the last session, or the dashboard would imply
+    # "unverified" for a day that was in fact checked by a weaker source.
+    fv = _read_json(os.path.join(PATHS.results_dir,
+                                 "t35_open_fill_verify.json"))
+    if fv:
+        out["fill_verify_tier"] = fv.get("evidence_tier")
+        out["fill_verify_verdict"] = fv.get("verdict")
+        out["fill_verify_day"] = fv.get("day")
+        out["fill_verify_matched"] = (fv.get("counters") or {}).get("matched")
     d = os.path.join(PATHS.results_dir, "paper")
     if not os.path.isdir(d):
         return out

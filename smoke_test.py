@@ -683,17 +683,76 @@ def main() -> int:
         _ds = json.load(open("results/dashboard_status.json", encoding="utf-8"))
         _pp = ((_ds.get("trading") or {}).get("paper") or {})
         _c2 = _mc2.get("counters") or {}
+        _fv2 = json.load(open("results/t35_open_fill_verify.json",
+                              encoding="utf-8"))
         _ok_dash = (_pp.get("marks_closed_days") == _c2.get("closed_days")
                     and _pp.get("marks_captured") == _c2.get("captured")
                     and _pp.get("marks_coverage_pct")
                     == _c2.get("coverage_pct_closed")
-                    and (_pp.get("marks_holes") or 0) == len(_mc2.get("holes") or []))
+                    and (_pp.get("marks_holes") or 0) == len(_mc2.get("holes") or [])
+                    # the verification tier travels with the gap, so a reader
+                    # sees "checked by a weaker source" not "unverified"
+                    and _pp.get("fill_verify_tier") == _fv2.get("evidence_tier")
+                    and _pp.get("fill_verify_verdict") == _fv2.get("verdict")
+                    and _pp.get("fill_verify_day") == _fv2.get("day"))
         check("product: dashboard carries the marks coverage gap", _ok_dash,
               f"dash={_pp.get('marks_captured')}/{_pp.get('marks_closed_days')}"
               f"={_pp.get('marks_coverage_pct')}% holes={_pp.get('marks_holes')}"
-              f" face={_c2.get('captured')}/{_c2.get('closed_days')}")
+              f" tier={_pp.get('fill_verify_tier')} face={_c2.get('captured')}"
+              f"/{_c2.get('closed_days')}")
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
+    # The open-fill gate must say which evidence tier verified the fills, and
+    # on the bar tier its numbers must actually come from the bar (r1131):
+    # recompute each session_open from data/daily and assert equality, so a
+    # face that quietly recycles the engine's own cost_price cannot pass.
+    try:
+        _ofv = json.load(open("results/t35_open_fill_verify.json",
+                              encoding="utf-8"))
+        _tier = _ofv.get("evidence_tier")
+        _ok_ofv, _why = True, []
+        if _tier not in ("marks", "daily_bar_open", "none"):
+            _ok_ofv, _why = False, [f"unknown tier {_tier!r}"]
+        elif _tier == "daily_bar_open":
+            if _ofv.get("drops_observable") is not False:
+                _ok_ofv = False
+                _why.append("bar tier must declare drops_observable=false")
+            _d = _ofv.get("day")
+            _n = 0
+            for _tid, _tr in (_ofv.get("per_trader") or {}).items():
+                for _r in (_tr.get("detail") or []):
+                    if _r.get("outcome") != "filled":
+                        continue
+                    _n += 1
+                    _px = None
+                    for _nm in (_r["symbol"], f"sh{_r['symbol']}",
+                                f"sz{_r['symbol']}"):
+                        _p = os.path.join("data", "daily", f"{_nm}.csv")
+                        if not os.path.exists(_p):
+                            continue
+                        import csv as _csv
+                        with open(_p, encoding="utf-8") as _fh:
+                            for _row in _csv.DictReader(_fh):
+                                if _row.get("date") == _d:
+                                    _px = float(_row["open"])
+                                    break
+                        if _px is not None:
+                            break
+                    if _px is None or abs(_px - _r["session_open"]) > 1e-9:
+                        _ok_ofv = False
+                        _why.append(f"{_r['symbol']} bar={_px} "
+                                    f"face={_r['session_open']}")
+            if _n == 0 and _ofv.get("verdict") == "PASS":
+                _ok_ofv = False
+                _why.append("PASS on the bar tier but zero filled rows checked")
+        check("product: open-fill gate names its evidence tier and the bar "
+              "tier's prices are the bars'", _ok_ofv,
+              f"tier={_tier} verdict={_ofv.get('verdict')} "
+              f"matches={(_ofv.get('counters') or {}).get('matched')} "
+              f"{' '.join(_why)}")
+    except Exception as e:
+        check("product: open-fill gate names its evidence tier and the bar "
+              "tier's prices are the bars'", False, str(e))
     # A live paper book priced behind the exchange calendar must say so on its
     # own face (r1121): the SYSTEM-V1 lane consumes a SIG/BARS bridge cutoff,
     # one lane's output, and it sat 4 trading days behind while every other
