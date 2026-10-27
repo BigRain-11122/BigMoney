@@ -3199,15 +3199,34 @@ def _burnin_arm_cells(face, starts):
     return out
 
 
-def _burnin_pair_rows(raw_arm, screened_arm, starts):
-    """(E112) Join two burn-in faces cell by cell and publish the delta rows.
+def _burnin_gate_dates(face, starts):
+    """Gate *dates* of a burn-in face: strings, so they either move or they do not."""
+    out = {}
+    for start in starts:
+        w = (face.get("windows") or {}).get(start) or {}
+        out[start] = {col: w.get(col) for col in (
+            "first_invested_bar", "first_trading_rebalance",
+            "earliest_possible_trading_decision",
+            "first_rebalance_with_elig_ge_5")}
+    return out
+
+
+def _burnin_pair_rows(raw_arm, screened_arm, starts, cells_fn=None, dates_fn=None):
+    """(E112, generalised E113) Join two faces cell by cell and publish the deltas.
 
     A "screened twin" is only a twin if the join covers the same cells: anything
     present on one side and missing on the other is reported, not skipped, and a
     cell that moved is reported with its pointer (start or era span, column).
+
+    ``cells_fn(face, starts) -> {(key, column): value}`` and
+    ``dates_fn(face, starts) -> {key: {column: value}}`` keep the join generic
+    over face shapes: E112 harvests burn-in columns, E113 harvests the cut
+    curve, and both are joined by this one function rather than two.
     """
-    a = _burnin_arm_cells(raw_arm, starts)
-    b = _burnin_arm_cells(screened_arm, starts)
+    cells_fn = cells_fn or _burnin_arm_cells
+    dates_fn = dates_fn or _burnin_gate_dates
+    a = cells_fn(raw_arm, starts)
+    b = cells_fn(screened_arm, starts)
     shared = [k for k in a if k in b and a[k] is not None and b[k] is not None]
     only_a = sorted(k for k in a if k not in b)
     only_b = sorted(k for k in b if k not in a)
@@ -3222,15 +3241,15 @@ def _burnin_pair_rows(raw_arm, screened_arm, starts):
         if abs(d) > _BURNSCREEN_DELTA_FLOOR_PP:
             moved.append(row)
     # gate dates are strings: they either move or they do not
+    da = dates_fn(raw_arm, starts)
+    db = dates_fn(screened_arm, starts)
     date_cols = {}
-    for start in starts:
-        wa = (raw_arm.get("windows") or {}).get(start) or {}
-        wb = (screened_arm.get("windows") or {}).get(start) or {}
+    for start in sorted(set(da) | set(db)):
+        ca = da.get(start) or {}
+        cb = db.get(start) or {}
         cols = {}
-        for col in ("first_invested_bar", "first_trading_rebalance",
-                    "earliest_possible_trading_decision",
-                    "first_rebalance_with_elig_ge_5"):
-            va, vb = wa.get(col), wb.get(col)
+        for col in sorted(set(ca) | set(cb)):
+            va, vb = ca.get(col), cb.get(col)
             cols[col] = {"raw": va, "screened": vb, "moved": va != vb}
         date_cols[start] = cols
     dates_moved = [{"start": s, "column": c, "raw": v["raw"], "screened": v["screened"]}
@@ -3737,17 +3756,21 @@ def _split_curve(curve, parts):
            [curve[(parts - 1) * step:]]
 
 
-def _livespan_setup(exclude=("sh511",), pick_n=9999, cost_mult=1.0):
+def _livespan_setup(exclude=("sh511",), pick_n=9999, cost_mult=1.0, raw=None):
     """Warm pair (ladder vs wide book) on the full calendar, computed once.
 
     Shared by run_livespan (one cut per call) and run_cutcurve (parts 2..12
     over the same curves), so a cut sweep pays for the simulation once per
     cost level instead of once per cut.
+
+    ``raw`` lets a caller hand in an already-loaded (optionally screened) panel
+    so a twin can be burned beside the raw arm off ONE load (E113); the default
+    path still loads the shipped universe.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
 
-    raw_all = e27.load_universe()
+    raw_all = raw if raw is not None else e27.load_universe()
     if exclude:
         raw_all = {s: v for s, v in raw_all.items()
                    if not s.startswith(tuple(exclude))}
@@ -3804,11 +3827,16 @@ def _livespan_rows(curves, eras, parts, wide_name):
 
 
 def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
-                 cost_mult=1.0):
-    """E46: split every era in `parts` chunks and read where its spread is earned."""
+                 cost_mult=1.0, raw=None):
+    """E46: split every era in `parts` chunks and read where its spread is earned.
+
+    ``raw`` is the same screened-twin seam E113 uses on the cut sweep; every
+    existing face keeps the default load.
+    """
     import e24_ladder_weighting as base
 
-    setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost_mult)
+    setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost_mult,
+                            raw=raw)
     cutoff = setup["cutoff"]
     curves = setup["curves"]
     universe = setup["universe"]
@@ -3882,20 +3910,24 @@ def _widest_window(row):
 
 
 def run_cutcurve(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
-                 costs=(1.0, 3.0), parts_range=range(2, 13)):
+                 costs=(1.0, 3.0), parts_range=range(2, 13), raw=None):
     """E58: one face over the whole cut axis (parts 2..12 at each cost level).
 
     The eleven cuts exist as eleven single faces, so any claim about the band
     is a claim about which cut it was cut at. This leg replays the same warm
     pair once per cost level and slices it at every cut, so band-vs-cut,
     flip-vs-cut and the widest part's window are readable side by side.
+
+    ``raw`` is the E113 screened-twin seam: hand in a repaired universe and the
+    identical sweep runs on it without touching the default path.
     """
     import e24_ladder_weighting as base
 
     grid = {}
     cutoffs = set()
     for cost in costs:
-        setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost)
+        setup = _livespan_setup(exclude=exclude, pick_n=pick_n, cost_mult=cost,
+                                raw=raw)
         cutoffs.add(setup["cutoff"])
         per_cut = {}
         for parts in parts_range:
@@ -3950,6 +3982,406 @@ def run_cutcurve(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
             "widest_window names the window at that cut and can move when the cut moves, "
             "so a window quoted without its cut is not reproducible",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+def _cutcurve_arm_cells(face, starts=None):
+    """(E113) -> {(cost/cut, column): value} for every cell the cut sweep publishes.
+
+    The sweep's published cells are the per-cut summary (flip count, band mean
+    and median) and, per era, the level it reads plus the band and part index
+    the level was cut from. ``part_spreads_bp`` is deliberately not harvested:
+    it is the raw ladder of eleven numbers, and joining it would report a cut
+    as moved eleven times for one reason.
+    """
+    out = {}
+    for cost_key, cuts in (face.get("cuts") or {}).items():
+        for cut_str, cut in (cuts or {}).items():
+            key = "%s/c%s" % (cost_key, cut_str)
+            cut = cut or {}
+            summ = cut.get("summary") or {}
+            for col in ("flip_count", "band_mean_bp", "band_median_bp"):
+                out[(key, col)] = summ.get(col)
+            for era, row in (cut.get("eras") or {}).items():
+                row = row or {}
+                out[(key, "era_spread_bp@" + era)] = row.get("era_spread_bp")
+                out[(key, "part_band_bp@" + era)] = row.get("part_band_bp")
+                out[(key, "widest_part@" + era)] = row.get("widest_part")
+    return out
+
+
+def _cutcurve_widest_windows(face, starts=None):
+    """(E113) -> {(cost/cut): {"window@<era>": "from..to"}} for the date join.
+
+    A widest window is a pointer, not a number: it either reproduces on the
+    screened arm or the arm changed which stretch of history carries the era.
+    """
+    out = {}
+    for cost_key, cuts in (face.get("cuts") or {}).items():
+        for cut_str, cut in (cuts or {}).items():
+            key = "%s/c%s" % (cost_key, cut_str)
+            out[key] = {"window@" + era: (row or {}).get("widest_window")
+                        for era, row in ((cut or {}).get("eras") or {}).items()}
+    return out
+
+
+def run_cutcurvescreen(outdir, pick_n=9999, exclude=("sh511",), mode="neutralise_int",
+                       costs=(1.0, 3.0), parts_range=range(2, 13), resume=True):
+    """E113: re-derive the cut sweep on the screened arm, beside the raw face.
+
+    E97's ranking puts run_cutcurve second (1,139 numbers) and E112 priced the
+    first row: a repair of the panel moves some numbers but need not move the
+    conclusion. The cut sweep's conclusion is narrower than the burn-in's --
+    every era's level is read off one warm curve and quoted per cut, and the
+    load-bearing claim is *which window is the widest part* at each cut. So the
+    question here is whether the widest-window reading and the flip count are
+    properties of the cut axis (arm-free) or of the panel's prints.
+
+    Both arms burn off ONE load through ``raw=`` (the E113 seam on
+    ``run_cutcurve`` -> ``_livespan_setup``), each checkpoints so a killed pass
+    resumes, and the pair is joined by the same ``_burnin_pair_rows`` E112 used
+    with a cutcurve harvest instead of a second join. A same-arm control is
+    computed in-round: if it does not read zero, the join machinery moved the
+    numbers and the face must not be read.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "CUTCURVE-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "CUTCURVE-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    raw_excl = {s: v for s, v in raw.items()
+                if not s.startswith(tuple(exclude))} if exclude else dict(raw)
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+    screened_excl = {s: v for s, v in screened.items()
+                     if not s.startswith(tuple(exclude))} if exclude else dict(screened)
+
+    raw_arm = cached("raw", lambda: run_cutcurve(
+        None, pick_n=pick_n, exclude=exclude, costs=costs,
+        parts_range=parts_range, raw=raw_excl))
+    scr_arm = cached(mode, lambda: run_cutcurve(
+        None, pick_n=pick_n, exclude=exclude, costs=costs,
+        parts_range=parts_range, raw=screened_excl))
+
+    keys = sorted({k[0] for k in _cutcurve_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_cutcurve_arm_cells,
+                             dates_fn=_cutcurve_widest_windows)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_cutcurve_arm_cells,
+                                dates_fn=_cutcurve_widest_windows)["summary"]
+
+    # cutoff control: the newest previously published raw sweep vs today's raw
+    # arm at the same arm. Two arms at one cutoff isolate the repair; two
+    # cutoffs on one arm isolate the panel refresh.
+    cutoff_control = None
+    # the published raw sweeps live in results/e46_live_span; this face is
+    # written beside the burn-in twins, so both directories are searched.
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e46_live_span"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("CUTCURVE-") and p.endswith(".json")
+                    and not p.startswith("CUTCURVE-arm-")
+                    and not p.startswith("CUTCURVESCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("CUTCURVE-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_cutcurve_arm_cells,
+                                     dates_fn=_cutcurve_widest_windows)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+            "windows_moved": old_pair["gate_dates_moved"],
+        }
+        break
+
+    s = pair["summary"]
+    window_moves = pair["gate_dates_moved"]
+    level_cols = tuple("era_spread_bp@" + e for e in
+                       sorted({k[1].split("@", 1)[1] for k in
+                               _cutcurve_arm_cells(raw_arm) if "@" in k[1]}))
+    level_moved = [r for r in pair["moved"] if r["column"] in level_cols]
+    shape_moved = [r for r in pair["moved"] if r["column"] not in level_cols]
+    survives = (len(window_moves) == 0
+                and s["only_in_raw"] == 0 and s["only_in_screened"] == 0
+                and control["cells_moved"] == 0
+                and control["max_abs_delta_pp"] == 0.0)
+    return {
+        "study": "e113_cutcurve_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude),
+            "screen_mode": mode, "cost_mult": list(costs),
+            "parts_swept": [min(parts_range), max(parts_range)],
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_cutcurve_arm_cells harvests the per-cut summary and the "
+                     "per-era level/band/part index; a cell present on one side "
+                     "only is reported, a cell moved is reported with its pointer"),
+            "dates": ("_cutcurve_widest_windows joins the widest window string per "
+                      "(cost, cut, era): a window either reproduces or it does not"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "conclusion_survives_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta_pp": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "level_cells_moved": len(level_moved),
+            "shape_cells_moved": len(shape_moved),
+            "widest_windows_moved": len(window_moves),
+            "control_cells_moved": control["cells_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta_pp":
+                                    cutoff_control["summary"]["max_abs_delta_pp"],
+                                "windows_moved": len(cutoff_control["windows_moved"])}
+                               if cutoff_control else None),
+            "reading": (
+                ("the cut-sweep reading survives the repair: every widest window "
+                 "reproduces and %d of %d level cells move, worst %.2f pp"
+                 % (len(level_moved), len(level_cols),
+                    s["max_abs_delta_pp"]))
+                if survives else
+                ("the repair reaches the cut sweep: %d widest windows move "
+                 "between the arms, so a window quoted without its arm is not "
+                 "reproducible" % len(window_moves))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so unchanged flip counts are a property "
+            "of the repair, not evidence the panel is clean",
+            "level cells are expected to move and do not decide the verdict; the "
+            "verdict is the widest-window join plus the same-arm control",
+            "cutcurve shares _livespan_setup with livespan, so this ticket covers "
+            "the sweep only; run_livespan (E97 row 3) keeps its own ticket",
+        ],
+    }
+
+
+def _livespan_arm_cells(face, starts=None):
+    """(E114) -> {(era, column): value} for every number a split face publishes.
+
+    Only the cells a conclusion is built on are harvested: the era's level and
+    dispersion, which part was widest, whether the era flips inside itself, and
+    the per-part book returns the split is read with.
+    """
+    out = {}
+    for era, row in (face.get("eras") or {}).items():
+        row = row or {}
+        out[(era, "bars")] = row.get("bars")
+        out[(era, "era_spread_bp")] = row.get("era_spread_bp")
+        out[(era, "part_band_bp")] = row.get("part_band_bp")
+        out[(era, "widest_part")] = row.get("widest_part")
+        out[(era, "sign_flips")] = (1 if row.get("sign_flips_inside_era") else 0)
+        for k, s in enumerate(row.get("part_spreads_bp") or [], 1):
+            out[(era, "part%d_spread_bp" % k)] = s
+        for part in (row.get("parts") or []):
+            n = part.get("part")
+            out[(era, "part%s_ladder_ann_pct" % n)] = (
+                (part.get("ladder") or {}).get("ann_return_pct"))
+            out[(era, "part%s_wide_ann_pct" % n)] = (
+                (part.get("wide") or {}).get("ann_return_pct"))
+    return out
+
+
+def _livespan_dates(face, starts=None):
+    """(E114) -> {era: {"from": .., "to": ..}}: an era's edges either reproduce or not."""
+    return {era: {"from": (row or {}).get("from"), "to": (row or {}).get("to")}
+            for era, row in (face.get("eras") or {}).items()}
+
+
+def run_livespanscreen(outdir, pick_n=9999, exclude=("sh511",), parts=2,
+                       cost_mult=1.0, mode="neutralise_int", resume=True):
+    """E114: re-derive the one-cut era split on the screened arm, beside the raw.
+
+    E97 row 3 (471 numbers, feeding e46 + livespan). The split answers where an
+    era's ladder-vs-wide spread is earned; the load-bearing readings are the
+    era's level, the part that carries it, and whether the era flips sign inside
+    itself. E113 showed the same face family can hold several stability classes
+    at once, so the harvest here separates level, dispersion and pointer columns
+    and reports moved counts per group.
+
+    Both arms burn off ONE load through the ``raw=`` seam, each checkpoints, and
+    the pair is joined by the same ``_burnin_pair_rows`` machinery (identity,
+    coverage, cutoff controls).
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "LIVESPAN-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "LIVESPAN-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    raw_excl = {s: v for s, v in raw.items()
+                if not s.startswith(tuple(exclude))} if exclude else dict(raw)
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+    screened_excl = {s: v for s, v in screened.items()
+                     if not s.startswith(tuple(exclude))} if exclude else dict(screened)
+
+    raw_arm = cached("raw", lambda: run_livespan(
+        None, pick_n=pick_n, exclude=exclude, parts=parts, cost_mult=cost_mult,
+        raw=raw_excl))
+    scr_arm = cached(mode, lambda: run_livespan(
+        None, pick_n=pick_n, exclude=exclude, parts=parts, cost_mult=cost_mult,
+        raw=screened_excl))
+
+    keys = sorted({k[0] for k in _livespan_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_livespan_arm_cells,
+                             dates_fn=_livespan_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_livespan_arm_cells,
+                                dates_fn=_livespan_dates)["summary"]
+
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e46_live_span"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("LIVESPAN-") and p.endswith(".json")
+                    and not p.startswith("LIVESPAN-arm-")
+                    and not p.startswith("LIVESPANSCREEN-"))
+    want = "" if (cost_mult == 1.0 and parts == 2) else "-x%g-p%d" % (cost_mult, parts)
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("LIVESPAN-"):-len(".json")] == tag + want:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_livespan_arm_cells,
+                                     dates_fn=_livespan_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    level_cols = ("era_spread_bp",)
+    level_moved = [r for r in pair["moved"] if r["column"] in level_cols]
+    flip_moved = [r for r in pair["moved"] if r["column"] in ("widest_part", "sign_flips")]
+    dispersion_moved = [r for r in pair["moved"]
+                        if r["column"].startswith(("part_band_bp", "part1_spread_bp",
+                                                   "part2_spread_bp"))]
+    survives = (len(pair["gate_dates_moved"]) == 0
+                and s["only_in_raw"] == 0 and s["only_in_screened"] == 0
+                and control["cells_moved"] == 0
+                and control["max_abs_delta_pp"] == 0.0)
+    return {
+        "study": "e114_livespan_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "parts": parts,
+            "cost_mult": cost_mult, "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_livespan_arm_cells harvests the era level, its dispersion, "
+                     "the widest part, the flip flag and the per-part book returns; "
+                     "_livespan_dates joins each era's edges"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "conclusion_survives_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta_pp": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "level_cells_moved": len(level_moved),
+            "flip_or_widest_cells_moved": len(flip_moved),
+            "dispersion_cells_moved": len(dispersion_moved),
+            "era_edge_pairs_moved": len(pair["gate_dates_moved"]),
+            "control_cells_moved": control["cells_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta_pp":
+                                    cutoff_control["summary"]["max_abs_delta_pp"],
+                                "era_edges_moved":
+                                    len(cutoff_control["summary"] and
+                                        [r for r in cutoff_control["moved"]
+                                         if r["column"] in ("from", "to")])}
+                               if cutoff_control else None),
+            "reading": (
+                ("the split reading survives the repair: no era edge moves and "
+                 "%d of %d level cells move, worst %.2f pp"
+                 % (len(level_moved), len(keys) and s["cells_compared"],
+                    s["max_abs_delta_pp"]))
+                if survives else
+                ("the repair reaches the split: %d era edges move between the arms"
+                 % len(pair["gate_dates_moved"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the split is by bar count inside an era, so an era with few bars is "
+            "skipped by construction and shows up as a missing cell, not a zero",
+            "one cut per ticket: parts/cost are published on the face and the raw "
+            "twin is only comparable to a published face with the same pair",
         ],
     }
 
@@ -10072,6 +10504,97 @@ def selftest():
                           ["2013-01-01"])["summary"]["cells_moved"] == 0,
         "E112 a delta below the floor is not a move")
 
+    # E113: the cut sweep joins through the same machinery, with its own harvest
+    def _syn_cut(era_bp=100.0, band=40.0, flips=1, win="2020-01-01..2020-06-30",
+                 drop_band=False):
+        era_row = {"era_spread_bp": era_bp, "widest_part": 2,
+                   "widest_window": win}
+        if not drop_band:
+            era_row["part_band_bp"] = band
+        return {"summary": {"flip_count": flips, "band_mean_bp": band,
+                            "band_median_bp": band, "band_widest_era": "e1"},
+                "eras": {"e1": era_row}}
+
+    def _syn_cutface(era_bp=100.0, band=40.0, flips=1,
+                     win="2020-01-01..2020-06-30", drop_band=False):
+        return {"cuts": {"x1": {"5": _syn_cut(era_bp=era_bp, band=band,
+                                             flips=flips, win=win,
+                                             drop_band=drop_band)}}}
+
+    _keys113 = sorted({k[0] for k in _cutcurve_arm_cells(_syn_cutface())})
+    chk(len(_cutcurve_arm_cells(_syn_cutface())) == 6 and _keys113 == ["x1/c5"],
+        "E113 the harvest names six cells of one cut (summary 3 + era level/band/part)")
+    _c113 = _burnin_pair_rows(_syn_cutface(), _syn_cutface(), _keys113,
+                              cells_fn=_cutcurve_arm_cells,
+                              dates_fn=_cutcurve_widest_windows)["summary"]
+    chk(_c113["cells_moved"] == 0 and _c113["max_abs_delta_pp"] == 0.0
+        and _c113["gate_dates_moved"] == 0,
+        "E113 the same sweep joined against itself reads zero on cells and windows")
+    _p113 = _burnin_pair_rows(_syn_cutface(), _syn_cutface(era_bp=120.0), _keys113,
+                              cells_fn=_cutcurve_arm_cells,
+                              dates_fn=_cutcurve_widest_windows)
+    chk(_p113["summary"]["cells_moved"] == 1
+        and _p113["moved"][0]["column"] == "era_spread_bp@e1"
+        and _p113["moved"][0]["start"] == "x1/c5"
+        and abs(_p113["summary"]["max_abs_delta_pp"] - 20.0) < 1e-9,
+        "E113 a moved level is published with its cut and era pointer")
+    _w113 = _burnin_pair_rows(_syn_cutface(),
+                              _syn_cutface(win="2020-03-01..2020-08-31"), _keys113,
+                              cells_fn=_cutcurve_arm_cells,
+                              dates_fn=_cutcurve_widest_windows)
+    chk(len(_w113["gate_dates_moved"]) == 1
+        and _w113["gate_dates_moved"][0]["column"] == "window@e1"
+        and _w113["summary"]["cells_moved"] == 0,
+        "E113 a moved widest window is caught even when every number is equal")
+    _n113 = _burnin_pair_rows(_syn_cutface(), _syn_cutface(drop_band=True), _keys113,
+                              cells_fn=_cutcurve_arm_cells,
+                              dates_fn=_cutcurve_widest_windows)["summary"]
+    chk(_n113["null_on_either_side"] == 1 and _n113["cells_compared"] == 5
+        and _n113["cells_moved"] == 0,
+        "E113 a column missing on one side is reported as missing, not as a delta")
+
+    # E114: the one-cut era split joins on the same machinery with its own harvest
+    def _syn_era(era_bp=100.0, band=40.0, widest=2, flips=True,
+                 parts=((1, 9.0, 10.0), (2, 7.0, 6.0)), edges=("2020-01-01", "2020-12-31")):
+        return {"bars": 240, "from": edges[0], "to": edges[1],
+                "era_spread_bp": era_bp, "part_band_bp": band,
+                "widest_part": widest, "sign_flips_inside_era": flips,
+                "part_spreads_bp": [w - l for _n, l, w in parts],
+                "parts": [{"part": n, "ladder": {"ann_return_pct": l},
+                           "wide": {"ann_return_pct": w}} for n, l, w in parts]}
+
+    def _syn_spanface(era_bp=100.0, edges=("2020-01-01", "2020-12-31")):
+        return {"eras": {"2021_2023": _syn_era(era_bp=era_bp, edges=edges)}}
+
+    _cells114 = _livespan_arm_cells(_syn_spanface())
+    chk(len(_cells114) == 11 and ("2021_2023", "era_spread_bp") in _cells114,
+        "E114 the harvest names 11 cells of one era (bars/level/band/widest/flip + 2 spreads + 4 part returns)")
+    _k114 = sorted({k[0] for k in _cells114})
+    _c114 = _burnin_pair_rows(_syn_spanface(), _syn_spanface(), _k114,
+                              cells_fn=_livespan_arm_cells,
+                              dates_fn=_livespan_dates)["summary"]
+    chk(_c114["cells_moved"] == 0 and _c114["gate_dates_moved"] == 0
+        and _c114["max_abs_delta_pp"] == 0.0,
+        "E114 the same split joined against itself reads zero on cells and edges")
+    _p114 = _burnin_pair_rows(_syn_spanface(), _syn_spanface(era_bp=129.0), _k114,
+                              cells_fn=_livespan_arm_cells,
+                              dates_fn=_livespan_dates)
+    chk(_p114["summary"]["cells_moved"] == 1
+        and _p114["moved"][0]["column"] == "era_spread_bp"
+        and abs(_p114["summary"]["max_abs_delta_pp"] - 29.0) < 1e-9,
+        "E114 a moved level is published with its era pointer")
+    chk(len(_burnin_pair_rows(_syn_spanface(),
+                              _syn_spanface(edges=("2020-01-02", "2021-01-04")), _k114,
+                              cells_fn=_livespan_arm_cells,
+                              dates_fn=_livespan_dates)["gate_dates_moved"]) == 2,
+        "E114 both moved era edges are caught even when every number is equal")
+    _skip114 = {"eras": {"pre2017": {"bars": 12, "skipped": "too few bars to split"}}}
+    _s114 = _burnin_pair_rows(_skip114, _syn_spanface(), ["pre2017", "2021_2023"],
+                              cells_fn=_livespan_arm_cells,
+                              dates_fn=_livespan_dates)["summary"]
+    chk(_s114["only_in_screened"] > 0 and _s114["cells_moved"] == 0,
+        "E114 an era skipped on one side is reported as one-sided, not as zero")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -12458,7 +12981,7 @@ def main(argv):
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
-                             "e46", "livespan", "cutcurve", "midmonth", "chase",
+                             "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "midsweep", "entrydelay", "earlydelay", "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screencalc", "screenspread",
@@ -12969,6 +13492,24 @@ def main(argv):
                           "series": f["answers"]["series_by_cost"],
                           "era_level_drift_bp": f["answers"]["era_level_drift_bp"]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "cutcurvescreen":
+        outdir = os.path.join(ROOT, "results", "e44_burnin")
+        f = run_cutcurvescreen(outdir)
+        p = write_json(outdir, "CUTCURVESCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "cutcurvescreen", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "livespanscreen":
+        outdir = os.path.join(ROOT, "results", "e44_burnin")
+        f = run_livespanscreen(outdir, parts=args.parts, cost_mult=args.cost)
+        p = write_json(outdir, "LIVESPANSCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "livespanscreen", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "midmonth":
         f = run_midmonth(None, start=args.start)

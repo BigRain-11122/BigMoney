@@ -1,0 +1,2059 @@
+{
+ "study": "e58_parts_cut_curve",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": [
+   1.0,
+   3.0
+  ],
+  "cost_bp_per_side": 13.041,
+  "parts_swept": [
+   2,
+   12
+  ],
+  "curve": "one warm pair per cost level, sliced at every cut",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ]
+ },
+ "cuts": {
+  "x1": {
+   "2": {
+    "summary": {
+     "eras_flipping": [
+      "2024_now"
+     ],
+     "flip_count": 1,
+     "bands_bp": {
+      "pre2017": 41.0,
+      "2017_2020": 30.0,
+      "2021_2023": 195.0,
+      "2024_now": 606.0
+     },
+     "band_mean_bp": 218.0,
+     "band_median_bp": 118.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 41.0,
+      "widest_part": 1,
+      "widest_window": "2012-05-29..2014-09-15",
+      "part_spreads_bp": [
+       249.0,
+       208.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 30.0,
+      "widest_part": 1,
+      "widest_window": "2017-01-03..2018-12-28",
+      "part_spreads_bp": [
+       428.0,
+       398.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 195.0,
+      "widest_part": 2,
+      "widest_window": "2022-07-06..2023-12-29",
+      "part_spreads_bp": [
+       154.0,
+       349.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 606.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2025-05-30",
+      "part_spreads_bp": [
+       379.0,
+       -227.0
+      ]
+     }
+    }
+   },
+   "3": {
+    "summary": {
+     "eras_flipping": [
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 403.0,
+      "2017_2020": 346.0,
+      "2021_2023": 635.0,
+      "2024_now": 715.0
+     },
+     "band_mean_bp": 524.8,
+     "band_median_bp": 519.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 403.0,
+      "widest_part": 3,
+      "widest_window": "2015-06-24..2016-12-30",
+      "part_spreads_bp": [
+       198.0,
+       -26.0,
+       377.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 346.0,
+      "widest_part": 3,
+      "widest_window": "2019-08-29..2020-12-31",
+      "part_spreads_bp": [
+       205.0,
+       526.0,
+       551.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 635.0,
+      "widest_part": 2,
+      "widest_window": "2021-12-31..2022-12-29",
+      "part_spreads_bp": [
+       -50.0,
+       585.0,
+       119.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 715.0,
+      "widest_part": 2,
+      "widest_window": "2024-12-10..2025-11-14",
+      "part_spreads_bp": [
+       317.0,
+       412.0,
+       -303.0
+      ]
+     }
+    }
+   },
+   "4": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 931.0,
+      "2017_2020": 758.0,
+      "2021_2023": 507.0,
+      "2024_now": 824.0
+     },
+     "band_mean_bp": 755.0,
+     "band_median_bp": 791.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 931.0,
+      "widest_part": 4,
+      "widest_window": "2015-11-12..2016-12-30",
+      "part_spreads_bp": [
+       210.0,
+       360.0,
+       -401.0,
+       530.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 758.0,
+      "widest_part": 2,
+      "widest_window": "2017-12-29..2018-12-27",
+      "part_spreads_bp": [
+       -27.0,
+       731.0,
+       191.0,
+       576.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 507.0,
+      "widest_part": 3,
+      "widest_window": "2022-07-05..2023-03-30",
+      "part_spreads_bp": [
+       72.0,
+       262.0,
+       575.0,
+       68.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 824.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-09-10",
+      "part_spreads_bp": [
+       549.0,
+       31.0,
+       -275.0,
+       -180.0
+      ]
+     }
+    }
+   },
+   "5": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 1578.0,
+      "2017_2020": 852.0,
+      "2021_2023": 347.0,
+      "2024_now": 1125.0
+     },
+     "band_mean_bp": 975.5,
+     "band_median_bp": 988.5,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 1578.0,
+      "widest_part": 2,
+      "widest_window": "2013-05-03..2014-04-03",
+      "part_spreads_bp": [
+       0.0,
+       707.0,
+       -871.0,
+       666.0,
+       156.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 852.0,
+      "widest_part": 2,
+      "widest_window": "2017-10-23..2018-08-03",
+      "part_spreads_bp": [
+       -78.0,
+       774.0,
+       38.0,
+       496.0,
+       743.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 347.0,
+      "widest_part": 3,
+      "widest_window": "2022-03-17..2022-10-21",
+      "part_spreads_bp": [
+       109.0,
+       160.0,
+       456.0,
+       319.0,
+       169.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 1125.0,
+      "widest_part": 2,
+      "widest_window": "2024-07-25..2025-02-18",
+      "part_spreads_bp": [
+       508.0,
+       572.0,
+       -184.0,
+       106.0,
+       -553.0
+      ]
+     }
+    }
+   },
+   "6": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 1105.0,
+      "2017_2020": 958.0,
+      "2021_2023": 1014.0,
+      "2024_now": 1496.0
+     },
+     "band_mean_bp": 1143.2,
+     "band_median_bp": 1059.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 1105.0,
+      "widest_part": 6,
+      "widest_window": "2016-03-25..2016-12-30",
+      "part_spreads_bp": [
+       0.0,
+       370.0,
+       388.0,
+       -646.0,
+       176.0,
+       459.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 958.0,
+      "widest_part": 3,
+      "widest_window": "2018-05-07..2018-12-27",
+      "part_spreads_bp": [
+       -244.0,
+       556.0,
+       714.0,
+       24.0,
+       496.0,
+       631.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 1014.0,
+      "widest_part": 4,
+      "widest_window": "2022-07-06..2022-12-29",
+      "part_spreads_bp": [
+       186.0,
+       -278.0,
+       512.0,
+       736.0,
+       415.0,
+       -91.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 1496.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-06-24",
+      "part_spreads_bp": [
+       627.0,
+       -394.0,
+       490.0,
+       157.0,
+       -869.0,
+       101.0
+      ]
+     }
+    }
+   },
+   "7": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 2517.0,
+      "2017_2020": 1738.0,
+      "2021_2023": 1194.0,
+      "2024_now": 1480.0
+     },
+     "band_mean_bp": 1732.2,
+     "band_median_bp": 1609.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 2517.0,
+      "widest_part": 6,
+      "widest_window": "2015-09-10..2016-05-09",
+      "part_spreads_bp": [
+       0.0,
+       -8.0,
+       705.0,
+       -1748.0,
+       534.0,
+       769.0,
+       107.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 1738.0,
+      "widest_part": 3,
+      "widest_window": "2018-02-26..2018-09-13",
+      "part_spreads_bp": [
+       -184.0,
+       239.0,
+       959.0,
+       -779.0,
+       786.0,
+       403.0,
+       865.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 1194.0,
+      "widest_part": 5,
+      "widest_window": "2022-09-14..2023-02-20",
+      "part_spreads_bp": [
+       206.0,
+       -224.0,
+       665.0,
+       -2.0,
+       970.0,
+       243.0,
+       -111.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 1480.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-05-30",
+      "part_spreads_bp": [
+       709.0,
+       -367.0,
+       637.0,
+       593.0,
+       -771.0,
+       -635.0,
+       211.0
+      ]
+     }
+    }
+   },
+   "8": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 6334.0,
+      "2017_2020": 1176.0,
+      "2021_2023": 1019.0,
+      "2024_now": 2089.0
+     },
+     "band_mean_bp": 2654.5,
+     "band_median_bp": 1632.5,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 6334.0,
+      "widest_part": 3,
+      "widest_window": "2013-07-25..2014-02-24",
+      "part_spreads_bp": [
+       0.0,
+       431.0,
+       1327.0,
+       -858.0,
+       -5007.0,
+       935.0,
+       654.0,
+       305.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 1176.0,
+      "widest_part": 3,
+      "widest_window": "2017-12-28..2018-06-29",
+      "part_spreads_bp": [
+       218.0,
+       -133.0,
+       931.0,
+       288.0,
+       -245.0,
+       682.0,
+       476.0,
+       605.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 1019.0,
+      "widest_part": 6,
+      "widest_window": "2022-11-14..2023-03-27",
+      "part_spreads_bp": [
+       341.0,
+       -278.0,
+       336.0,
+       132.0,
+       652.0,
+       741.0,
+       154.0,
+       -74.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 2089.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-05-13",
+      "part_spreads_bp": [
+       847.0,
+       313.0,
+       -1242.0,
+       437.0,
+       -17.0,
+       -230.0,
+       -1010.0,
+       452.0
+      ]
+     }
+    }
+   },
+   "9": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3254.0,
+      "2017_2020": 2381.0,
+      "2021_2023": 2433.0,
+      "2024_now": 5701.0
+     },
+     "band_mean_bp": 3442.2,
+     "band_median_bp": 2843.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 3254.0,
+      "widest_part": 6,
+      "widest_window": "2014-12-16..2015-06-18",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       587.0,
+       684.0,
+       -2190.0,
+       1064.0,
+       -193.0,
+       796.0,
+       178.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 2381.0,
+      "widest_part": 7,
+      "widest_window": "2019-08-29..2020-02-13",
+      "part_spreads_bp": [
+       495.0,
+       -1405.0,
+       880.0,
+       959.0,
+       -1324.0,
+       688.0,
+       976.0,
+       -48.0,
+       451.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 2433.0,
+      "widest_part": 6,
+      "widest_window": "2022-08-26..2022-12-23",
+      "part_spreads_bp": [
+       356.0,
+       -466.0,
+       -42.0,
+       800.0,
+       -1215.0,
+       1218.0,
+       -268.0,
+       467.0,
+       -165.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 5701.0,
+      "widest_part": 9,
+      "widest_window": "2026-06-30..2026-10-26",
+      "part_spreads_bp": [
+       534.0,
+       280.0,
+       -437.0,
+       733.0,
+       870.0,
+       -921.0,
+       -485.0,
+       -4245.0,
+       1456.0
+      ]
+     }
+    }
+   },
+   "10": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3021.0,
+      "2017_2020": 2094.0,
+      "2021_2023": 1771.0,
+      "2024_now": 6828.0
+     },
+     "band_mean_bp": 3428.5,
+     "band_median_bp": 2557.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 3021.0,
+      "widest_part": 7,
+      "widest_window": "2015-03-09..2015-08-14",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       782.0,
+       637.0,
+       -318.0,
+       -1840.0,
+       1181.0,
+       277.0,
+       43.0,
+       225.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 2094.0,
+      "widest_part": 4,
+      "widest_window": "2018-03-15..2018-08-03",
+      "part_spreads_bp": [
+       657.0,
+       -959.0,
+       209.0,
+       1135.0,
+       243.0,
+       -651.0,
+       452.0,
+       525.0,
+       995.0,
+       498.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 1771.0,
+      "widest_part": 7,
+      "widest_window": "2022-10-19..2023-02-03",
+      "part_spreads_bp": [
+       159.0,
+       37.0,
+       -714.0,
+       504.0,
+       130.0,
+       758.0,
+       1057.0,
+       -288.0,
+       89.0,
+       92.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 6828.0,
+      "widest_part": 10,
+      "widest_window": "2026-07-03..2026-10-26",
+      "part_spreads_bp": [
+       620.0,
+       490.0,
+       -899.0,
+       996.0,
+       -41.0,
+       -1241.0,
+       366.0,
+       348.0,
+       -5751.0,
+       1077.0
+      ]
+     }
+    }
+   },
+   "11": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 8392.0,
+      "2017_2020": 2416.0,
+      "2021_2023": 2042.0,
+      "2024_now": 5703.0
+     },
+     "band_mean_bp": 4638.2,
+     "band_median_bp": 4059.5,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 8392.0,
+      "widest_part": 4,
+      "widest_window": "2013-08-27..2014-01-24",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       499.0,
+       1203.0,
+       -137.0,
+       -1304.0,
+       -7189.0,
+       769.0,
+       1186.0,
+       -289.0,
+       217.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 2416.0,
+      "widest_part": 5,
+      "widest_window": "2018-06-14..2018-10-24",
+      "part_spreads_bp": [
+       828.0,
+       -1423.0,
+       197.0,
+       901.0,
+       993.0,
+       -1161.0,
+       561.0,
+       401.0,
+       493.0,
+       688.0,
+       712.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 2042.0,
+      "widest_part": 7,
+      "widest_window": "2022-08-22..2022-11-29",
+      "part_spreads_bp": [
+       117.0,
+       -26.0,
+       -336.0,
+       746.0,
+       254.0,
+       -926.0,
+       1116.0,
+       916.0,
+       322.0,
+       -135.0,
+       21.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 5703.0,
+      "widest_part": 6,
+      "widest_window": "2025-04-10..2025-07-09",
+      "part_spreads_bp": [
+       795.0,
+       526.0,
+       -1599.0,
+       -33.0,
+       -144.0,
+       1524.0,
+       -1323.0,
+       -406.0,
+       625.0,
+       -4179.0,
+       1321.0
+      ]
+     }
+    }
+   },
+   "12": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3013.0,
+      "2017_2020": 2974.0,
+      "2021_2023": 1607.0,
+      "2024_now": 4470.0
+     },
+     "band_mean_bp": 3016.0,
+     "band_median_bp": 2993.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 236.0,
+      "part_band_bp": 3013.0,
+      "widest_part": 11,
+      "widest_window": "2016-03-25..2016-08-08",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       432.0,
+       46.0,
+       633.0,
+       -238.0,
+       -2099.0,
+       901.0,
+       -401.0,
+       795.0,
+       914.0,
+       109.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 419.0,
+      "part_band_bp": 2974.0,
+      "widest_part": 5,
+      "widest_window": "2018-05-07..2018-08-28",
+      "part_spreads_bp": [
+       874.0,
+       -2030.0,
+       342.0,
+       802.0,
+       944.0,
+       500.0,
+       -576.0,
+       440.0,
+       467.0,
+       504.0,
+       446.0,
+       596.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 243.0,
+      "part_band_bp": 1607.0,
+      "widest_part": 8,
+      "widest_window": "2022-09-26..2022-12-23",
+      "part_spreads_bp": [
+       41.0,
+       596.0,
+       -259.0,
+       -388.0,
+       670.0,
+       -301.0,
+       371.0,
+       1219.0,
+       450.0,
+       257.0,
+       -84.0,
+       21.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 83.0,
+      "part_band_bp": 4470.0,
+      "widest_part": 7,
+      "widest_window": "2025-05-28..2025-08-14",
+      "part_spreads_bp": [
+       843.0,
+       427.0,
+       418.0,
+       -3496.0,
+       766.0,
+       301.0,
+       974.0,
+       -778.0,
+       -692.0,
+       -139.0,
+       -2389.0,
+       919.0
+      ]
+     }
+    }
+   }
+  },
+  "x3": {
+   "2": {
+    "summary": {
+     "eras_flipping": [
+      "2024_now"
+     ],
+     "flip_count": 1,
+     "bands_bp": {
+      "pre2017": 41.0,
+      "2017_2020": 40.0,
+      "2021_2023": 203.0,
+      "2024_now": 609.0
+     },
+     "band_mean_bp": 223.2,
+     "band_median_bp": 122.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 41.0,
+      "widest_part": 1,
+      "widest_window": "2012-05-29..2014-09-15",
+      "part_spreads_bp": [
+       243.0,
+       202.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 40.0,
+      "widest_part": 1,
+      "widest_window": "2017-01-03..2018-12-28",
+      "part_spreads_bp": [
+       424.0,
+       384.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 203.0,
+      "widest_part": 2,
+      "widest_window": "2022-07-06..2023-12-29",
+      "part_spreads_bp": [
+       144.0,
+       347.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 609.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2025-05-30",
+      "part_spreads_bp": [
+       374.0,
+       -235.0
+      ]
+     }
+    }
+   },
+   "3": {
+    "summary": {
+     "eras_flipping": [
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 401.0,
+      "2017_2020": 331.0,
+      "2021_2023": 632.0,
+      "2024_now": 715.0
+     },
+     "band_mean_bp": 519.8,
+     "band_median_bp": 516.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 401.0,
+      "widest_part": 3,
+      "widest_window": "2015-06-24..2016-12-30",
+      "part_spreads_bp": [
+       195.0,
+       -32.0,
+       369.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 331.0,
+      "widest_part": 3,
+      "widest_window": "2019-08-29..2020-12-31",
+      "part_spreads_bp": [
+       204.0,
+       517.0,
+       535.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 632.0,
+      "widest_part": 2,
+      "widest_window": "2021-12-31..2022-12-29",
+      "part_spreads_bp": [
+       -56.0,
+       576.0,
+       118.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 715.0,
+      "widest_part": 2,
+      "widest_window": "2024-12-10..2025-11-14",
+      "part_spreads_bp": [
+       311.0,
+       404.0,
+       -311.0
+      ]
+     }
+    }
+   },
+   "4": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 933.0,
+      "2017_2020": 750.0,
+      "2021_2023": 511.0,
+      "2024_now": 830.0
+     },
+     "band_mean_bp": 756.0,
+     "band_median_bp": 790.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {}
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 933.0,
+      "widest_part": 4,
+      "widest_window": "2015-11-12..2016-12-30",
+      "part_spreads_bp": [
+       210.0,
+       349.0,
+       -408.0,
+       525.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 750.0,
+      "widest_part": 2,
+      "widest_window": "2017-12-29..2018-12-27",
+      "part_spreads_bp": [
+       -26.0,
+       724.0,
+       181.0,
+       558.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 511.0,
+      "widest_part": 3,
+      "widest_window": "2022-07-05..2023-03-30",
+      "part_spreads_bp": [
+       59.0,
+       253.0,
+       570.0,
+       69.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 830.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-09-10",
+      "part_spreads_bp": [
+       545.0,
+       22.0,
+       -285.0,
+       -188.0
+      ]
+     }
+    }
+   },
+   "5": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 3,
+     "bands_bp": {
+      "pre2017": 1597.0,
+      "2017_2020": 860.0,
+      "2021_2023": 351.0,
+      "2024_now": 1121.0
+     },
+     "band_mean_bp": 982.2,
+     "band_median_bp": 990.5,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 1597.0,
+      "widest_part": 2,
+      "widest_window": "2013-05-03..2014-04-03",
+      "part_spreads_bp": [
+       0.0,
+       702.0,
+       -895.0,
+       663.0,
+       151.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 860.0,
+      "widest_part": 2,
+      "widest_window": "2017-10-23..2018-08-03",
+      "part_spreads_bp": [
+       -87.0,
+       773.0,
+       30.0,
+       483.0,
+       725.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 351.0,
+      "widest_part": 3,
+      "widest_window": "2022-03-17..2022-10-21",
+      "part_spreads_bp": [
+       95.0,
+       158.0,
+       446.0,
+       309.0,
+       172.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 1121.0,
+      "widest_part": 2,
+      "widest_window": "2024-07-25..2025-02-18",
+      "part_spreads_bp": [
+       504.0,
+       560.0,
+       -192.0,
+       99.0,
+       -561.0
+      ]
+     }
+    }
+   },
+   "6": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 1097.0,
+      "2017_2020": 955.0,
+      "2021_2023": 1008.0,
+      "2024_now": 1502.0
+     },
+     "band_mean_bp": 1140.5,
+     "band_median_bp": 1052.5,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 1097.0,
+      "widest_part": 6,
+      "widest_window": "2016-03-25..2016-12-30",
+      "part_spreads_bp": [
+       0.0,
+       363.0,
+       377.0,
+       -641.0,
+       166.0,
+       456.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 955.0,
+      "widest_part": 3,
+      "widest_window": "2018-05-07..2018-12-27",
+      "part_spreads_bp": [
+       -248.0,
+       557.0,
+       707.0,
+       13.0,
+       485.0,
+       609.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 1008.0,
+      "widest_part": 4,
+      "widest_window": "2022-07-06..2022-12-29",
+      "part_spreads_bp": [
+       169.0,
+       -275.0,
+       495.0,
+       733.0,
+       404.0,
+       -87.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 1502.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-06-24",
+      "part_spreads_bp": [
+       623.0,
+       -404.0,
+       485.0,
+       148.0,
+       -879.0,
+       95.0
+      ]
+     }
+    }
+   },
+   "7": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 2546.0,
+      "2017_2020": 1741.0,
+      "2021_2023": 1202.0,
+      "2024_now": 1483.0
+     },
+     "band_mean_bp": 1743.0,
+     "band_median_bp": 1612.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 2546.0,
+      "widest_part": 6,
+      "widest_window": "2015-09-10..2016-05-09",
+      "part_spreads_bp": [
+       0.0,
+       -11.0,
+       700.0,
+       -1779.0,
+       535.0,
+       767.0,
+       93.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 1741.0,
+      "widest_part": 3,
+      "widest_window": "2018-02-26..2018-09-13",
+      "part_spreads_bp": [
+       -190.0,
+       242.0,
+       952.0,
+       -789.0,
+       779.0,
+       391.0,
+       842.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 1202.0,
+      "widest_part": 5,
+      "widest_window": "2022-09-14..2023-02-20",
+      "part_spreads_bp": [
+       188.0,
+       -233.0,
+       659.0,
+       -20.0,
+       969.0,
+       238.0,
+       -107.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 1483.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-05-30",
+      "part_spreads_bp": [
+       705.0,
+       -376.0,
+       630.0,
+       586.0,
+       -778.0,
+       -645.0,
+       206.0
+      ]
+     }
+    }
+   },
+   "8": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 6339.0,
+      "2017_2020": 1185.0,
+      "2021_2023": 1017.0,
+      "2024_now": 2095.0
+     },
+     "band_mean_bp": 2659.0,
+     "band_median_bp": 1640.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 1
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 6339.0,
+      "widest_part": 3,
+      "widest_window": "2013-07-25..2014-02-24",
+      "part_spreads_bp": [
+       0.0,
+       429.0,
+       1310.0,
+       -860.0,
+       -5029.0,
+       932.0,
+       654.0,
+       292.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 1185.0,
+      "widest_part": 3,
+      "widest_window": "2017-12-28..2018-06-29",
+      "part_spreads_bp": [
+       213.0,
+       -126.0,
+       927.0,
+       281.0,
+       -258.0,
+       676.0,
+       463.0,
+       581.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 1017.0,
+      "widest_part": 6,
+      "widest_window": "2022-11-14..2023-03-27",
+      "part_spreads_bp": [
+       325.0,
+       -288.0,
+       337.0,
+       116.0,
+       650.0,
+       729.0,
+       149.0,
+       -68.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 2095.0,
+      "widest_part": 1,
+      "widest_window": "2024-01-02..2024-05-13",
+      "part_spreads_bp": [
+       841.0,
+       309.0,
+       -1254.0,
+       432.0,
+       -28.0,
+       -237.0,
+       -1020.0,
+       445.0
+      ]
+     }
+    }
+   },
+   "9": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3303.0,
+      "2017_2020": 2382.0,
+      "2021_2023": 2453.0,
+      "2024_now": 5699.0
+     },
+     "band_mean_bp": 3459.2,
+     "band_median_bp": 2878.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 3303.0,
+      "widest_part": 6,
+      "widest_window": "2014-12-16..2015-06-18",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       575.0,
+       676.0,
+       -2218.0,
+       1085.0,
+       -205.0,
+       797.0,
+       165.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 2382.0,
+      "widest_part": 7,
+      "widest_window": "2019-08-29..2020-02-13",
+      "part_spreads_bp": [
+       491.0,
+       -1418.0,
+       887.0,
+       951.0,
+       -1336.0,
+       681.0,
+       964.0,
+       -64.0,
+       431.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 2453.0,
+      "widest_part": 6,
+      "widest_window": "2022-08-26..2022-12-23",
+      "part_spreads_bp": [
+       339.0,
+       -475.0,
+       -37.0,
+       790.0,
+       -1234.0,
+       1219.0,
+       -280.0,
+       462.0,
+       -157.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 5699.0,
+      "widest_part": 9,
+      "widest_window": "2026-06-30..2026-10-26",
+      "part_spreads_bp": [
+       530.0,
+       275.0,
+       -453.0,
+       726.0,
+       864.0,
+       -932.0,
+       -493.0,
+       -4251.0,
+       1448.0
+      ]
+     }
+    }
+   },
+   "10": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3049.0,
+      "2017_2020": 2099.0,
+      "2021_2023": 1761.0,
+      "2024_now": 6832.0
+     },
+     "band_mean_bp": 3435.2,
+     "band_median_bp": 2574.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 3049.0,
+      "widest_part": 7,
+      "widest_window": "2015-03-09..2015-08-14",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       774.0,
+       634.0,
+       -344.0,
+       -1862.0,
+       1187.0,
+       270.0,
+       51.0,
+       211.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 2099.0,
+      "widest_part": 4,
+      "widest_window": "2018-03-15..2018-08-03",
+      "part_spreads_bp": [
+       653.0,
+       -971.0,
+       219.0,
+       1128.0,
+       238.0,
+       -664.0,
+       442.0,
+       511.0,
+       975.0,
+       482.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 1761.0,
+      "widest_part": 7,
+      "widest_window": "2022-10-19..2023-02-03",
+      "part_spreads_bp": [
+       143.0,
+       24.0,
+       -723.0,
+       505.0,
+       103.0,
+       757.0,
+       1038.0,
+       -294.0,
+       82.0,
+       101.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 6832.0,
+      "widest_part": 10,
+      "widest_window": "2026-07-03..2026-10-26",
+      "part_spreads_bp": [
+       615.0,
+       485.0,
+       -917.0,
+       989.0,
+       -45.0,
+       -1252.0,
+       359.0,
+       342.0,
+       -5761.0,
+       1071.0
+      ]
+     }
+    }
+   },
+   "11": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 8389.0,
+      "2017_2020": 2416.0,
+      "2021_2023": 2068.0,
+      "2024_now": 5702.0
+     },
+     "band_mean_bp": 4643.8,
+     "band_median_bp": 4059.0,
+     "band_widest_era": "pre2017",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 8389.0,
+      "widest_part": 4,
+      "widest_window": "2013-08-27..2014-01-24",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       492.0,
+       1187.0,
+       -134.0,
+       -1331.0,
+       -7202.0,
+       770.0,
+       1173.0,
+       -278.0,
+       203.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 2416.0,
+      "widest_part": 5,
+      "widest_window": "2018-06-14..2018-10-24",
+      "part_spreads_bp": [
+       823.0,
+       -1431.0,
+       208.0,
+       896.0,
+       985.0,
+       -1177.0,
+       554.0,
+       393.0,
+       481.0,
+       668.0,
+       694.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 2068.0,
+      "widest_part": 7,
+      "widest_window": "2022-08-22..2022-11-29",
+      "part_spreads_bp": [
+       102.0,
+       -41.0,
+       -342.0,
+       751.0,
+       242.0,
+       -949.0,
+       1119.0,
+       899.0,
+       318.0,
+       -138.0,
+       32.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 5702.0,
+      "widest_part": 6,
+      "widest_window": "2025-04-10..2025-07-09",
+      "part_spreads_bp": [
+       790.0,
+       521.0,
+       -1615.0,
+       -38.0,
+       -150.0,
+       1516.0,
+       -1338.0,
+       -414.0,
+       617.0,
+       -4186.0,
+       1315.0
+      ]
+     }
+    }
+   },
+   "12": {
+    "summary": {
+     "eras_flipping": [
+      "2017_2020",
+      "2021_2023",
+      "2024_now",
+      "pre2017"
+     ],
+     "flip_count": 4,
+     "bands_bp": {
+      "pre2017": 3063.0,
+      "2017_2020": 2971.0,
+      "2021_2023": 1603.0,
+      "2024_now": 4477.0
+     },
+     "band_mean_bp": 3028.5,
+     "band_median_bp": 3017.0,
+     "band_widest_era": "2024_now",
+     "zero_spread_parts_by_era": {
+      "pre2017": 2
+     }
+    },
+    "eras": {
+     "pre2017": {
+      "era_spread_bp": 230.0,
+      "part_band_bp": 3063.0,
+      "widest_part": 8,
+      "widest_window": "2015-01-30..2015-06-18",
+      "part_spreads_bp": [
+       0.0,
+       0.0,
+       429.0,
+       35.0,
+       634.0,
+       -272.0,
+       -2122.0,
+       941.0,
+       -413.0,
+       786.0,
+       923.0,
+       97.0
+      ]
+     },
+     "2017_2020": {
+      "era_spread_bp": 410.0,
+      "part_band_bp": 2971.0,
+      "widest_part": 5,
+      "widest_window": "2018-05-07..2018-08-28",
+      "part_spreads_bp": [
+       869.0,
+       -2034.0,
+       350.0,
+       796.0,
+       937.0,
+       495.0,
+       -592.0,
+       432.0,
+       459.0,
+       492.0,
+       426.0,
+       575.0
+      ]
+     },
+     "2021_2023": {
+      "era_spread_bp": 237.0,
+      "part_band_bp": 1603.0,
+      "widest_part": 8,
+      "widest_window": "2022-09-26..2022-12-23",
+      "part_spreads_bp": [
+       22.0,
+       581.0,
+       -265.0,
+       -377.0,
+       663.0,
+       -327.0,
+       362.0,
+       1226.0,
+       432.0,
+       253.0,
+       -91.0,
+       32.0
+      ]
+     },
+     "2024_now": {
+      "era_spread_bp": 76.0,
+      "part_band_bp": 4477.0,
+      "widest_part": 7,
+      "widest_window": "2025-05-28..2025-08-14",
+      "part_spreads_bp": [
+       839.0,
+       420.0,
+       413.0,
+       -3515.0,
+       759.0,
+       297.0,
+       962.0,
+       -789.0,
+       -698.0,
+       -147.0,
+       -2396.0,
+       912.0
+      ]
+     }
+    }
+   }
+  }
+ },
+ "answers": {
+  "era_level_by_cost": {
+   "x1": {
+    "pre2017": [
+     236.0
+    ],
+    "2017_2020": [
+     419.0
+    ],
+    "2021_2023": [
+     243.0
+    ],
+    "2024_now": [
+     83.0
+    ]
+   },
+   "x3": {
+    "pre2017": [
+     230.0
+    ],
+    "2017_2020": [
+     410.0
+    ],
+    "2021_2023": [
+     237.0
+    ],
+    "2024_now": [
+     76.0
+    ]
+   }
+  },
+  "era_level_drift_bp": {
+   "x1": {
+    "pre2017": 0.0,
+    "2017_2020": 0.0,
+    "2021_2023": 0.0,
+    "2024_now": 0.0
+   },
+   "x3": {
+    "pre2017": 0.0,
+    "2017_2020": 0.0,
+    "2021_2023": 0.0,
+    "2024_now": 0.0
+   }
+  },
+  "series_by_cost": {
+   "x1": {
+    "flip_count": {
+     "2": 1,
+     "3": 3,
+     "4": 3,
+     "5": 3,
+     "6": 4,
+     "7": 4,
+     "8": 4,
+     "9": 4,
+     "10": 4,
+     "11": 4,
+     "12": 4
+    },
+    "band_mean_bp": {
+     "2": 218.0,
+     "3": 524.8,
+     "4": 755.0,
+     "5": 975.5,
+     "6": 1143.2,
+     "7": 1732.2,
+     "8": 2654.5,
+     "9": 3442.2,
+     "10": 3428.5,
+     "11": 4638.2,
+     "12": 3016.0
+    },
+    "band_median_bp": {
+     "2": 118.0,
+     "3": 519.0,
+     "4": 791.0,
+     "5": 988.5,
+     "6": 1059.5,
+     "7": 1609.0,
+     "8": 1632.5,
+     "9": 2843.5,
+     "10": 2557.5,
+     "11": 4059.5,
+     "12": 2993.5
+    },
+    "band_widest_era": {
+     "2": "2024_now",
+     "3": "2024_now",
+     "4": "pre2017",
+     "5": "pre2017",
+     "6": "2024_now",
+     "7": "pre2017",
+     "8": "pre2017",
+     "9": "2024_now",
+     "10": "2024_now",
+     "11": "pre2017",
+     "12": "2024_now"
+    }
+   },
+   "x3": {
+    "flip_count": {
+     "2": 1,
+     "3": 3,
+     "4": 3,
+     "5": 3,
+     "6": 4,
+     "7": 4,
+     "8": 4,
+     "9": 4,
+     "10": 4,
+     "11": 4,
+     "12": 4
+    },
+    "band_mean_bp": {
+     "2": 223.2,
+     "3": 519.8,
+     "4": 756.0,
+     "5": 982.2,
+     "6": 1140.5,
+     "7": 1743.0,
+     "8": 2659.0,
+     "9": 3459.2,
+     "10": 3435.2,
+     "11": 4643.8,
+     "12": 3028.5
+    },
+    "band_median_bp": {
+     "2": 122.0,
+     "3": 516.5,
+     "4": 790.0,
+     "5": 990.5,
+     "6": 1052.5,
+     "7": 1612.0,
+     "8": 1640.0,
+     "9": 2878.0,
+     "10": 2574.0,
+     "11": 4059.0,
+     "12": 3017.0
+    },
+    "band_widest_era": {
+     "2": "2024_now",
+     "3": "2024_now",
+     "4": "pre2017",
+     "5": "pre2017",
+     "6": "2024_now",
+     "7": "pre2017",
+     "8": "pre2017",
+     "9": "2024_now",
+     "10": "2024_now",
+     "11": "pre2017",
+     "12": "2024_now"
+    }
+   }
+  },
+  "cuts_swept": 11
+ },
+ "honest": [
+  "the cuts are bar-count splits of one warm curve, not separate books: the simulation is run once per cost level, so no cut can differ by engine state",
+  "a band is max(part spread) - min(part spread); the sweep shows how that range moves with the cut, it does not convert a band into a risk or an error bar",
+  "widest_window names the window at that cut and can move when the cut moves, so a window quoted without its cut is not reproducible",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

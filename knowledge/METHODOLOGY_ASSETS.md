@@ -1182,8 +1182,40 @@ first reader to compare two faces a week apart will price a panel refresh as a f
 Evidence: results/e44_burnin/BURNINSCREEN-20261026.json (control / cutoff_control blocks), scripts/
 e39_panel_census.py burninscreen, digest research/digests/DIGEST-20261027-e112-burnin-screened-twin.md.
 
+
 ## E146 A ladder of fixed cells cannot test a rule that re-picks cells (2026-10-27 r1309 bm-c)
 The shipped ETF book does not hold one configuration: it re-picks (N, R) every year on trailing Sharpe. Every rung of r1308's reconciliation ladder was a FIXED cell chosen with hindsight, so the ladder -- however well asserted -- is silent about the thing the company actually deploys. Priced at 8% de-lever-only overlay, 10bp/side, close t -> open t+1, 193-name pre-2020 universe, years 2016-2019: walk-forward 4.86%/yr (20.91% cumulative), fixed N12 4.97% (21.42%), equal weight 2.69% (11.20%). Control: both fixed arms reproduce the published ladder at 0.00pp (r3 raw 0.73%, r4 overlay 5.12%).
 The interesting part is WHY the rule neither rescues nor damages the window: all nine overlay cells are positive (3.80-5.98%, mean 5.14%, sd 0.79pp) and the selector's trailing Sharpe readings were 0.243 / -0.077 / 0.136 / -0.034, i.e. it saw no dispersion to exploit and its four picks were effectively a draw (N8_R40 x3, N3_R40 x1). So "the rule survives" is arithmetic -- the mean of nine positive cells -- not evidence of selection skill. Publishing the rule's arm without the cell dispersion would let a reader credit the selector for the overlay's work.
 Two implementation rules come with it. (a) A chained year return must share its boundary bar with the next year (first bar >= Jan 1 of Y, first bar >= Jan 1 of Y+1, both included), otherwise compounding the years silently drops the move between the last December bar and the first January bar and the chain stops equalling the same curve's window return -- the selftest asserts chain == curve return on a constant-pick fixture. (b) A fallback cell must exist in the curve dict the fallback reads from; the production width N12 is not one of the nine candidate cells, so the arms list is CELLS + [FIXED], otherwise "too little history" crashes exactly where it should degrade.
 How to apply: whenever the deployed configuration includes a re-selection rule, price the rule, not only the cell -- and publish the candidate dispersion beside the rule's result so the reader can see whether the pick had anything to pick between. Artifact face: results/etf_book_pre2020_wf.json (schema etf_book_pre2020_wf/v1); implementation scripts/etf_book_pre2020_wf.py (selftest 8/8).
+
+## E147 One face can hold three stability classes at once -- sort the columns before quoting any of them
+
+Question: a face publishes N numbers and a repair moved some of them. Is the face now unusable? No -- and the
+wrong reaction (throw the face away) costs as much as the wrong reflex (quote it unchanged). The cut sweep
+(E58 cutcurve, 1,139 numbers) sorts into three classes that behave completely differently under two independent
+axes, at ONE cutoff with ONE load and ONE join:
+
+  (a) flip_count (22 cells)     arm-free AND refresh-free (0 moved on both axes) -> quotable bare.
+  (b) era level (88 cells)      cut-INVARIANT by construction (drift 0.0 across all 11 cuts, both cost levels),
+                                but the arm shifts it uniformly (+58bp newest era, identical at every cut) and a
+                                4-session panel refresh shifts it again (-6bp) -> quote with arm + cutoff,
+                                never with the cut.
+  (c) band + widest window      dispersion only; 16 of 22 windows move on a panel refresh and 2 of 22 on the
+                                arm, including one wholesale swap at cut 5 -> a pointer at (arm, cutoff), not
+                                a fact.
+
+Why it matters: a level that is invariant across the whole axis you varied is not evidence about that axis -- it
+is evidence that the axis is a dispersion knob. Publish the invariance, or a reader will read a 0.0 drift as
+robustness when it is slice geometry.
+
+How to apply: generalise the join, never duplicate it. `_burnin_pair_rows(face_a, face_b, keys, cells_fn=...,
+dates_fn=...)` joins any two faces through a per-shape harvest (E112 burn-in columns, E113 cutcurve cells), so a
+new twin costs a harvest function and zero new control logic. Then run three controls in the same call --
+identity (arm vs itself, must read 0.0), coverage (one-sided / null cells reported, not skipped), cutoff (newest
+published face of the SAME arm vs today's) -- and report the moved-cell count PER COLUMN GROUP, because that is
+the only output that assigns a stability class to each reading.
+
+Evidence: results/e44_burnin/CUTCURVESCREEN-20261026.json (pair / control / cutoff_control), scripts/
+e39_panel_census.py cutcurvescreen (selftest 343/343), digest
+research/digests/DIGEST-20261027-e113-cutcurve-screened-twin.md.
