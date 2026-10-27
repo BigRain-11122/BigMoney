@@ -25,6 +25,19 @@ Read: book minus static_mix is the selection premium -- what all the scoring, ro
 turnover is worth per year against a holder who never trades. A premium that does not clear
 the book's own cost drag means the ranking is decoration.
 
+Windows (r1308, answering r1307's next pointer). The premium was priced on one window --
+the 2020+ regime the card was published on -- and r1305 showed the same engine LOSES to
+equal weight over 2015-2019. If the machinery also fails to beat a static mix there, then
+"the rotation pays" is a property of the period, not of the ranking, and the card has to
+print both windows instead of the flattering one. Three cells, each moving one axis:
+
+  full                    2020..panel end, full universe (the published window)
+  pre2020                 2015-2019, the ETFs that existed before 2020 (r1305's U_pre)
+  post2020_pre_universe   2020..panel end on that SAME pre-2020 universe (period control)
+
+pre2020 vs post2020_pre_universe holds the universe fixed and moves the period, so the
+difference between their premiums cannot be a breadth artefact.
+
 Reuse, not re-implementation: panel, class map, equal-weight indices, stats and the
 open-to-open engine all come from etf_composite_pf / etf_equity_alpha / etf_robust_pf /
 etf_book_production.
@@ -44,14 +57,29 @@ import pandas as pd
 import etf_composite_pf as E
 import etf_equity_alpha as A
 import etf_book_production as P
+import etf_robust_pf as R
 
 OUT = os.path.join(E.PATHS.results_dir, "etf_book_passive_mix.json")
 PUBLISHED = os.path.join(E.PATHS.results_dir, "etf_book_production", "latest.json")
 CONTROL_TOL_PP = 0.5
 N_HOLD = 12
+REBAL = 20
 VOL_TARGET = 0.08
 VOL_WINDOW = 60
 COST = P.COST
+
+PRE_NEEDLE = pd.Timestamp("2020-01-01")   # "existed before the boom" boundary (r1305)
+PRE_START = "2015-01-01"
+PRE_END = "2019-12-31"
+
+WINDOWS = (
+    ("full", "all", A.START, None,
+     "2020-01..panel end, full universe -- the window every published number lives in"),
+    ("pre2020", "pre", PRE_START, PRE_END,
+     "2015-2019, the ETFs whose first bar is <= 2020-01-01 -- a window this book never covered"),
+    ("post2020_pre_universe", "pre", A.START, None,
+     "2020..panel end on the SAME pre-2020 universe -- the period control"),
+)
 
 
 def published_book_cagr(path=PUBLISHED):
@@ -64,11 +92,31 @@ def published_book_cagr(path=PUBLISHED):
         return None
 
 
-def class_returns(close, amt, cls, classes):
+def pre_universe(close, asof=PRE_NEEDLE):
+    """Columns whose first bar is on/before `asof` -- the funds that already existed.
+
+    Same rule as scripts/etf_book_pre2020.universe_pre (that script owns the cell design;
+    this one only needs the mask, so it is restated in three lines rather than imported
+    from a module whose import path is package-relative).
+    """
+    first = close.apply(lambda s: s.first_valid_index())
+    return [c for c in close.columns if first.get(c) is not None and first[c] <= asof]
+
+
+def clip_end(df, end):
+    """Upper bound only. The lower bound always travels as the engine's `start` argument:
+    slicing the panel at `start` resets the 120-bar history counter and leaves the book in
+    cash for its first six months (r1305 self-caught defect)."""
+    if df is None or end is None:
+        return df
+    return df.loc[df.index <= pd.Timestamp(end)]
+
+
+def class_returns(close, amt, cls, classes, start=A.START):
     """Daily returns of each class's equal-weight index, on one shared calendar."""
     rets = {}
     for c in classes:
-        ser = A.ew_universe(close, amt, cls, (c,))
+        ser = A.ew_universe(close, amt, cls, (c,), start=start)
         r = ser.sort_index().pct_change()
         if r.notna().sum() >= 40:
             rets[c] = r
@@ -133,117 +181,212 @@ def simulate_mix(mix_ret, weights, dates, vol_target=VOL_TARGET, cost=COST,
     return (pd.Series(dict(curve)), (sum(turns) / len(turns) if turns else 0.0), scales)
 
 
-def stats_block(ser, label):
+def stats_block(ser, label, splits=True):
+    """CAGR/Sharpe/drawdown/vol. `splits` off for windows that do not straddle IS_END --
+    labelling a 2015-2019 curve "is" would report a split that does not exist."""
     m = {"label": label}
-    for lbl, sl in (("full", ser), ("is", ser[ser.index <= A.IS_END]),
-                    ("oos", ser[ser.index > A.IS_END])):
+    slices = [("full", ser)]
+    if splits:
+        slices += [("is", ser[ser.index <= A.IS_END]), ("oos", ser[ser.index > A.IS_END])]
+    for lbl, sl in slices:
         s = A.stats2(sl, label + "_" + lbl)
-        for k in ("cagr", "sharpe", "maxdd", "vol"):
+        for k in ("cagr", "sharpe", "maxdd", "vol", "years"):
             m[k + "_" + lbl if lbl != "full" else k] = s.get(k)
     return m
+
+
+def verdict_for(premium, book_turn, static_turn):
+    """One sentence per premium sign. Kept a function so every window gets the SAME rule --
+    a per-window hand-written verdict is how two arms get read under two standards."""
+    if premium is None:
+        return "undetermined -- one arm did not price"
+    ratio = (book_turn / static_turn) if static_turn else float("nan")
+    if premium > 2.0:
+        return ("the ranking pays: %+.2fpp/yr over a static mix of the book's own class "
+                "exposure, at %.2fx the static arm's turnover" % (premium, ratio))
+    if premium > 0.0:
+        return ("the ranking barely pays: %+.2fpp/yr over a static mix -- inside the noise "
+                "of one regime change, not a reason to carry %.1fx-turnover machinery"
+                % (premium, ratio))
+    return ("the ranking does not pay: %+.2fpp/yr against a static mix of the same class "
+            "exposure -- the machinery costs money" % premium)
+
+
+def price_window(close, openp, amt, score, cls, cols, start, end, label,
+                 classes=None, splits=True, vol_target=VOL_TARGET):
+    """Price one (universe, window) cell: the book, the static mix, the no-overlay mix.
+
+    `cols` is the universe mask, applied to every frame BEFORE the engine sees it, so the
+    book and the static arms draw on the same names. Only the END is clipped; `start` goes
+    to the engine and to ew_universe as an argument.
+    """
+    classes = list(classes or P.USE_CLASSES)
+    cols = [c for c in cols if c in close.columns]
+    box = {"label": label, "start": str(start),
+           "end": end or str(close.index[-1].date()), "universe_size": len(cols)}
+    if not cols:
+        box["note"] = "empty universe"
+        return box
+
+    c = clip_end(close[cols], end)
+    o = clip_end(openp.reindex(columns=cols), end)
+    a = clip_end(amt[cols], end)
+    s = clip_end(score.reindex(columns=cols), end)
+
+    ser_book, turn = R.open_to_open_equity(c, o, a, s, REBAL, N_HOLD, COST,
+                                          vol_target=vol_target, start=start)
+    book = stats_block(ser_book, "book", splits=splits)
+    book["turnover_per_decision"] = round(float(turn), 4)
+    box["book"] = book
+    print("  book cagr=%s sr=%s dd=%s" % (book.get("cagr"), book.get("sharpe"),
+                                          book.get("maxdd")), flush=True)
+
+    # the class shape the book actually carried in THIS cell, from its own attribution run
+    _, _, _, mixes = A.run_with_attribution(c, o, a, s, cls, start=start)
+    w = mix_weights(mixes, classes)
+    box["static_weights"] = w
+    cret = class_returns(c, a, cls, classes, start=start)
+    dates = [d for d in o.index if d >= pd.Timestamp(start)]
+    if end is not None:
+        dates = [d for d in dates if d <= pd.Timestamp(end)]
+
+    ser_static, turn_static, _ = simulate_mix(cret, w, dates)
+    static = {}
+    if ser_static is not None:
+        static = stats_block(ser_static, "static_mix", splits=splits)
+        static["turnover_per_decision"] = round(turn_static, 4)
+        box["static_mix"] = static
+        print("  static cagr=%s sr=%s dd=%s" % (static.get("cagr"), static.get("sharpe"),
+                                                static.get("maxdd")), flush=True)
+
+    ser_novt, turn_novt, _ = simulate_mix(cret, w, dates, vol_target=None)
+    novt = {}
+    if ser_novt is not None:
+        novt = stats_block(ser_novt, "static_mix_novt", splits=splits)
+        novt["turnover_per_decision"] = round(turn_novt, 4)
+        box["static_mix_novt"] = novt
+
+    premium = maxdd_delta = None
+    if static.get("cagr") is not None and book.get("cagr") is not None:
+        premium = round((book["cagr"] - static["cagr"]) * 100, 2)
+        maxdd_delta = round(((book.get("maxdd") or 0) - (static.get("maxdd") or 0)) * 100, 2)
+    box["read"] = {
+        "selection_premium_pp": premium,
+        "maxdd_delta_pp": maxdd_delta,
+        "book_turnover_per_decision": book.get("turnover_per_decision"),
+        "static_turnover_per_decision": static.get("turnover_per_decision"),
+        "vol_delivered": {"book": book.get("vol"), "static_mix": static.get("vol"),
+                          "static_mix_no_overlay": novt.get("vol")},
+        "verdict": verdict_for(premium, book.get("turnover_per_decision"),
+                               static.get("turnover_per_decision")),
+    }
+    print("  premium=%s pp -> %s" % (premium, box["read"]["verdict"]), flush=True)
+    return box
 
 
 def run():
     close, openp, amt, score, cls, n_flip = P.prep_panel()
     classes = list(P.USE_CLASSES)
-    print("panel %s flips=%d classes=%s" % (close.shape, n_flip, cls.value_counts().to_dict()),
-          flush=True)
+    unis = {"all": list(close.columns), "pre": pre_universe(close)}
+    print("panel %s flips=%d pre-2020 universe=%d classes=%s"
+          % (close.shape, n_flip, len(unis["pre"]), cls.value_counts().to_dict()), flush=True)
 
-    dates = [d for d in openp.index if d >= pd.Timestamp(A.START)]
     out = {
-        "schema": "etf_book_passive_mix/v1",
+        "schema": "etf_book_passive_mix/v2",
         "question": ("does the shipped book beat holding its own class exposure statically, "
-                     "with no scoring and no rotation?"),
+                     "with no scoring and no rotation -- and is that answer the same outside "
+                     "the regime it was published on?"),
         "engine": ("etf_book_production.prep_panel + etf_robust_pf.open_to_open_equity "
-                   "(control) / etf_equity_alpha.ew_universe (static arms); no re-implementation"),
-        "cell": "N%d_R20_10bp" % N_HOLD,
+                   "(book) / etf_equity_alpha.ew_universe (static arms); no re-implementation"),
+        "cell": "N%d_R%d_10bp" % (N_HOLD, REBAL),
         "basis": "close decision -> next open fill, 10bp per side, top-N equal weight",
         "vol_overlay": "scale = min(1, %.2f / backward %dd realised vol) at each decision"
                        % (VOL_TARGET, VOL_WINDOW),
         "window": "%s..panel end" % A.START,
+        "windows": {},
         "runs": [],
         "control": {},
     }
 
-    # 1) control: the shipped book
-    bt, ser_book = P.backtest(close, openp, amt, score, N_HOLD, 20, vol_target=VOL_TARGET)
-    row = stats_block(ser_book, "book")
-    row["turnover_per_decision"] = bt.get("turnover_per_decision")
-    out["runs"].append(row)
+    # 1) price every window: each cell changes one axis relative to its neighbour
+    windows = out["windows"]
+    for label, uni, start, end, why in WINDOWS:
+        print("[%s] %s" % (label, why), flush=True)
+        box = price_window(close, openp, amt, score, cls, unis[uni], start, end, label,
+                           classes=classes, splits=(label == "full"))
+        box["why"] = why
+        box["universe"] = uni
+        windows[label] = box
+
+    full = windows.get("full") or {}
+    pre = (windows.get("pre2020") or {}).get("read") or {}
+    post = (windows.get("post2020_pre_universe") or {}).get("read") or {}
+    book = full.get("book") or {}
+    static_row = full.get("static_mix") or {}
+    novt_row = full.get("static_mix_novt") or {}
+
+    # 2) control: the book arm on the published window must be the published arm (r1297)
     pub = published_book_cagr()
-    delta = (round((bt["full"]["cagr"] - pub) * 100, 2)
-             if pub is not None and bt["full"].get("cagr") is not None else None)
+    delta = (round((book["cagr"] - pub) * 100, 2)
+             if pub is not None and book.get("cagr") is not None else None)
     out["control"] = {
-        "arm": "book",
+        "arm": "book@full",
         "published_cagr": pub,
-        "recomputed_cagr": bt["full"].get("cagr"),
+        "recomputed_cagr": book.get("cagr"),
         "delta_pp": delta,
         "tolerance_pp": CONTROL_TOL_PP,
         "passes": (None if delta is None else abs(delta) <= CONTROL_TOL_PP),
         "note": ("not asserted: published artifact unavailable" if delta is None else
                  "the compared arm is the arm that was published"),
     }
-    print({k: row.get(k) for k in ("label", "cagr", "sharpe", "maxdd", "vol")}, flush=True)
-
-    # 2) what class exposure the book actually carried (from its own attribution run)
-    _, contrib, turn, mixes = A.run_with_attribution(close, openp, amt, score, cls)
-    w = mix_weights(mixes, classes)
-    out["static_weights"] = w
+    out["static_weights"] = full.get("static_weights") or {}
     out["static_weight_source"] = ("mean class shape of etf_equity_alpha.run_with_attribution "
-                                   "(fully-invested chain); both arms carry the same 8% "
-                                   "overlay, delivered vol per arm is in read.vol_delivered")
+                                   "run on each cell's own universe/window (fully-invested "
+                                   "chain); both arms carry the same 8% overlay, delivered vol "
+                                   "per arm is in each cell's read.vol_delivered")
 
-    # 3) static mix: same exposure, no scoring, same overlay and cost rule
-    cret = class_returns(close, amt, cls, classes)
-    ser_static, turn_static, _ = simulate_mix(cret, w, dates)
-    static_row = {}
-    if ser_static is not None:
-        static_row = stats_block(ser_static, "static_mix")
-        static_row["turnover_per_decision"] = round(turn_static, 4)
-        out["runs"].append(static_row)
-        print({k: static_row.get(k) for k in ("label", "cagr", "sharpe", "maxdd", "vol")},
-              flush=True)
+    # 3) the published window keeps the flat keys earlier consumers read
+    for lbl in ("book", "static_mix", "static_mix_novt"):
+        row = windows.get("full", {}).get(lbl)
+        if row:
+            out["runs"].append(row)
+    out["read"] = dict(full.get("read") or {})
 
-    # 5) the same mix without any overlay: "no machinery at all"
-    ser_novt, turn_novt, _ = simulate_mix(cret, w, dates, vol_target=None)
-    novt_row = {}
-    if ser_novt is not None:
-        novt_row = stats_block(ser_novt, "static_mix_novt")
-        novt_row["turnover_per_decision"] = round(turn_novt, 4)
-        out["runs"].append(novt_row)
-        print({k: novt_row.get(k) for k in ("label", "cagr", "sharpe", "maxdd", "vol")},
-              flush=True)
+    # 4) the cross-window read: the same question asked twice, universe held fixed
+    summary = {}
+    for label, box in windows.items():
+        r = box.get("read") or {}
+        summary[label] = {
+            "window": "%s..%s" % (box.get("start"), box.get("end")),
+            "universe_size": box.get("universe_size"),
+            "book_cagr": (box.get("book") or {}).get("cagr"),
+            "static_cagr": (box.get("static_mix") or {}).get("cagr"),
+            "premium_pp": r.get("selection_premium_pp"),
+            "book_maxdd": (box.get("book") or {}).get("maxdd"),
+            "static_maxdd": (box.get("static_mix") or {}).get("maxdd"),
+            "verdict": r.get("verdict"),
+        }
+    out["read"]["by_window"] = summary
 
-    # 6) read: what all the rotation is worth against a holder who never trades
-    premium = bad = None
-    if static_row.get("cagr") is not None and row.get("cagr") is not None:
-        premium = round((row["cagr"] - static_row["cagr"]) * 100, 2)
-        bad = round(((row.get("maxdd") or 0) - (static_row.get("maxdd") or 0)) * 100, 2)
-    book_turn = bt.get("turnover_per_decision")
-    out["read"] = {
-        "selection_premium_pp": premium,
-        "maxdd_delta_pp": bad,
-        "book_turnover_per_decision": book_turn,
-        "static_turnover_per_decision": static_row.get("turnover_per_decision"),
-        "vol_delivered": {"book": row.get("vol"), "static_mix": static_row.get("vol"),
-                          "static_mix_no_overlay": novt_row.get("vol")},
-        "verdict": None,
-    }
-    if premium is None:
-        verdict = "undetermined -- one arm did not price"
-    elif premium > 2.0:
-        verdict = ("the ranking pays: %+.2fpp/yr over a static mix of the book's own class "
-                   "exposure, at %.2fx the static arm's turnover"
-                   % (premium, (book_turn / static_row["turnover_per_decision"])
-                      if static_row.get("turnover_per_decision") else float("nan")))
-    elif premium > 0.0:
-        verdict = ("the ranking barely pays: %+.2fpp/yr over a static mix -- inside the noise "
-                   "of one regime change, not a reason to carry %.1f-turnover machinery"
-                   % (premium, book_turn if book_turn is not None else float("nan")))
+    pre_pp, post_pp = pre.get("selection_premium_pp"), post.get("selection_premium_pp")
+    flips = (pre_pp is not None and post_pp is not None and (pre_pp > 0) != (post_pp > 0))
+    out["read"]["premium_flips_between_periods"] = flips
+    if pre_pp is None or post_pp is None:
+        cross = "undetermined -- the pre-2020 universe did not price in one of the periods"
+    elif flips:
+        cross = ("the premium is a property of the PERIOD, not of the ranking: on the same "
+                 "%d ETFs the book is %+.2fpp/yr against its static mix over 2015-2019 and "
+                 "%+.2fpp/yr over 2020+, while the static arm is the same construction in "
+                 "both cells. Carry the ranking only where the regime that produced it holds."
+                 % (summary.get("pre2020", {}).get("universe_size") or 0, pre_pp, post_pp))
     else:
-        verdict = ("the ranking does not pay: %+.2fpp/yr against a static mix of the same "
-                   "class exposure -- the machinery costs money" % premium)
-    out["read"]["verdict"] = verdict
+        cross = ("the premium survives the period change: %+.2fpp/yr over 2015-2019 vs "
+                 "%+.2fpp/yr over 2020+ on the same universe -- the ranking adds value in "
+                 "both, so the pre-2020 failure is about the level, not the machinery."
+                 % (pre_pp, post_pp))
+    out["read"]["cross_window"] = cross
+    print("READ", cross, flush=True)
+
     out["caveats"] = [
         ("the static arms ride class equal-weight indices that rebalance daily at ZERO cost "
          "(etf_equity_alpha.ew_universe); a real passive holder pays something, so the "
@@ -254,11 +397,12 @@ def run():
         ("both arms draw on the same ETF pool, so the survivorship bias that inflates the "
          "equity sleeve inflates the static mix as well -- it cancels in the premium, not "
          "in the absolute numbers"),
-        ("one regime: the premium is measured on the 2020+ window the book was published on; "
-         "r1305 showed the same engine loses to equal weight before 2020, and this script "
-         "does not re-price the static mix on that window"),
+        ("the pre-2020 universe is itself survival-filtered (the panel holds no delisted "
+         "funds); a failure there is weaker evidence than it looks, a pass is weaker still"),
+        ("the static class weights are re-derived inside each window from that window's own "
+         "attribution run, so the two periods are compared under the same construction "
+         "rather than one window inheriting the other's exposure"),
     ]
-    print("READ", verdict, flush=True)
 
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1, sort_keys=True)
@@ -324,6 +468,43 @@ def selftest():
     # 6. the premium is arithmetic on the two arms, not a separate model
     book, static = 0.1020, 0.0850
     chk("selection premium arithmetic", abs((book - static) * 100 - 1.70) < 1e-9)
+
+    # 7. the pre-2020 universe mask binds, and keeps only the early names
+    idx = pd.bdate_range("2019-01-01", periods=700)   # spans the 2020-01-01 needle
+    px = pd.DataFrame(index=idx)
+    for k in range(6):
+        px["s%d" % k] = np.nan
+    px.iloc[:, :3] = 10.0                       # three names from the first bar
+    px.iloc[400:, 3:] = 10.0                    # three names listing after the needle
+    pre = pre_universe(px)
+    chk("pre-2020 mask binds", 0 < len(pre) < len(px.columns),
+        "U_pre=%d of %d" % (len(pre), len(px.columns)))
+    chk("pre-2020 mask keeps only names already trading",
+        all(px[s].first_valid_index() <= PRE_NEEDLE for s in pre) and len(pre) == 3,
+        "%s" % sorted(pre))
+
+    # 8. clip_end bounds the TOP only -- a window must never truncate the history the
+    #    eligibility counter counts (a 2015-2019 cell still needs 120 bars of the past)
+    clipped = clip_end(px, "2020-06-30")
+    chk("clip_end bounds the end only",
+        clipped.index[-1] <= pd.Timestamp("2020-06-30") and clipped.index[0] == idx[0]
+        and clip_end(px, None) is px,
+        "first=%s last=%s" % (clipped.index[0].date(), clipped.index[-1].date()))
+
+    # 9. one verdict rule for every window: the sign decides, not the window's name
+    chk("verdict is signed the same way in every window",
+        verdict_for(-3.0, 1.0, 0.3).startswith("the ranking does not pay")
+        and verdict_for(3.0, 1.0, 0.3).startswith("the ranking pays")
+        and verdict_for(0.4, 1.0, 0.3).startswith("the ranking barely pays")
+        and verdict_for(None, 1.0, 0.3).startswith("undetermined"))
+
+    # 10. a window that does not straddle IS_END must not claim an is/oos split
+    ser = pd.Series(1.0 + np.arange(60) * 0.001,
+                    index=pd.bdate_range("2015-01-05", periods=60))
+    nowin = stats_block(ser, "w", splits=False)
+    chk("no is/oos labels on a single-period window",
+        nowin.get("cagr") is not None and "cagr_is" not in nowin and "cagr_oos" not in nowin,
+        "keys=%s" % sorted(k for k in nowin if k.startswith("cagr")))
 
     ok = sum(1 for _, c, _ in out if c)
     for label, cond, detail in out:

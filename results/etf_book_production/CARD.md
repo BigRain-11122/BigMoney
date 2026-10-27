@@ -37,9 +37,17 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
 Against a static mix of this book's own class exposure -- no scoring, no rotation, same grid, same cost rule, same 8% overlay -- the book returns 9.5%/yr vs 3.1%/yr (+6.4pp), worst drawdown -11.8% vs -22.9%, carrying 10.5x the static arm's turnover. That is the number the machinery has to beat to justify trading at all. See results/etf_book_passive_mix.json.
 
+The same test outside the regime this card was published on -- the 193 ETFs that already existed before 2020, priced 2015-2019, same engine, same grid, same cost rule, same overlay on both arms: the book returns 5.1%/yr vs 2.9%/yr for the static mix (+2.2pp), against +4.4pp on those SAME 193 names over 2020+. Read the two together: the premium survives the period change, so the machinery is not what the pre-2020 window was missing.
+
+## The 2015-2019 reconciliation
+
+This card states two things about 2015-2019 that look like a contradiction: the caveat below reports -8.9pp of excess (-5.0%/yr absolute) before 2020, while the rotation section above reports a premium on that same window. They are different cells, and the ladder between them is measured, not argued: from the caveat's cell (all classes, 5 names, no sizing rule) to this book's cell, holding the window and the fill rule fixed, the CAGR moves +10.1pp in total (+5.8pp from dropping the bond/money sleeve, -0.1pp from widening the book to 12 names, +4.4pp from adding the 8% sizing rule). Both ends reproduce their published number within 0.5pp. See results/etf_book_window_decomp.json.
+
+So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) and not to the ranking: with the same sizing rule on both arms the ranking still pays before 2020, just less than it pays after. What the ladder does NOT say is that the ranking works without the sizing rule -- on this window it does not.
+
 ## Caveats
 
-- ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. See results/etf_book_pre2020.json.
+- ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.

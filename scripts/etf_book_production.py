@@ -101,6 +101,40 @@ def passive_mix_support():
             "book_turnover": read.get("book_turnover_per_decision"),
             "static_turnover": read.get("static_turnover_per_decision"),
             "verdict": read.get("verdict"),
+            # r1308: the same question asked outside the published regime. Absent on older
+            # artifacts, so the card has to work with and without it.
+            "by_window": read.get("by_window") or {},
+            "cross_window": read.get("cross_window"),
+            "premium_flips": read.get("premium_flips_between_periods"),
+        }
+    except Exception:
+        return None
+
+
+def decomp_support():
+    """Read results/etf_book_window_decomp.json -> why the 2015-2019 window prints two numbers.
+
+    r1305 published -8.86pp excess for 2015-2019 and this card also shows a small POSITIVE
+    selection premium for the same window (r1308's passive-mix pre2020 cell). Both are real
+    and they are different cells; without the ladder the two lines read as a contradiction.
+    Soft-fails to None: a missing artifact must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_window_decomp.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        rungs = doc.get("rungs") or []
+        if not rungs:
+            return None
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "window": doc.get("window"),
+            "steps": [{"rung": r.get("rung"), "moves": r.get("moves"),
+                       "cagr": r.get("book_cagr"), "excess_pp": r.get("excess_vs_ew_pp"),
+                       "delta_pp": r.get("delta_vs_previous_pp")} for r in rungs],
+            "total_move_pp": (doc.get("read") or {}).get("total_move_pp"),
+            "controls": doc.get("controls") or {},
+            "verdict": (doc.get("read") or {}).get("verdict"),
         }
     except Exception:
         return None
@@ -380,6 +414,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "preperiod": preperiod_support(),
         "commodity": commodity_support(),
         "passive_mix": passive_mix_support(),
+        "window_decomp": decomp_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -388,7 +423,9 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
             "priced 2015-2019 (a window this card never covered) the same engine returned "
             "%+.2f%%/yr against %+.2f%%/yr equal weight = %+.2fpp excess, worse in %d of %d "
             "grid cells, random-score p=%.2f. The published CAGR is the 2020+ regime, not a "
-            "property of the factors. See %s."
+            "property of the factors. That cell is bond-inclusive, 5 names wide and has no "
+            "sizing rule; 'The 2015-2019 reconciliation' below prices what each of those "
+            "differences is worth. See %s."
             % (pp["universe_size"], pp["book_cagr"] * 100, pp["ew_cagr"] * 100,
                pp["excess_pp"], pp["cells_negative"], pp["cells_total"],
                pp["null_p"] if pp["null_p"] is not None else float("nan"), pp["artifact"]))
@@ -482,23 +519,94 @@ def write_card(out):
     lines += ["| cash | - | money | %.1f%% | %s | - |" % (
         s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ",")), ""]
     lines += ["## What the rotation is worth", ""]
-    pm = out.get("passive_mix")
-    if pm and pm.get("premium_pp") is not None:
-        lines += ["Against a static mix of this book's own class exposure -- no scoring, no "
-                  "rotation, same grid, same cost rule, same 8%% overlay -- the book returns "
-                  "%.1f%%/yr vs %.1f%%/yr (%+.1fpp), worst drawdown %.1f%% vs %.1f%%, carrying "
-                  "%.1fx the static arm's turnover. That is the number the machinery has to "
-                  "beat to justify trading at all. See %s."
-                  % (pm["book_cagr"] * 100, pm["static_cagr"] * 100, pm["premium_pp"],
-                     (pm.get("book_maxdd") or 0) * 100, (pm.get("static_maxdd") or 0) * 100,
-                     (pm.get("book_turnover") / pm["static_turnover"])
-                     if pm.get("static_turnover") else float("nan"), pm["artifact"]), ""]
-    else:
-        lines += ["Not measured: results/etf_book_passive_mix.json is missing, so this card "
-                  "cannot say what the rotation is worth against simply holding the classes.", ""]
+    lines += passive_mix_paragraphs(out.get("passive_mix"))
+    lines += decomp_paragraphs(out.get("window_decomp"))
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
+
+
+def decomp_paragraphs(dc):
+    """The 2015-2019 reconciliation section. Pure: takes the artifact block, returns lines.
+
+    The card carries two readings of one window -- the -8.86pp excess caveat and the
+    passive-mix premium -- and they only make sense side by side with the ladder that
+    connects them.
+    """
+    if not (dc and dc.get("steps")):
+        return []
+    steps = [s for s in dc["steps"] if s.get("delta_pp") is not None]
+    first = dc["steps"][0]
+    # a rung id is an artifact key, not a sentence; the axis is what a reader needs
+    axis = {"r2_bond_free_pool": "dropping the bond/money sleeve",
+            "r3_wider_book": "widening the book to 12 names",
+            "r4_vol_overlay": "adding the 8% sizing rule"}
+    parts = ["%+.1fpp from %s" % (s["delta_pp"], axis.get(s["rung"], s["rung"]))
+             for s in steps]
+    ctrl = dc.get("controls") or {}
+    ok = all((c.get("passes") is not False) for c in ctrl.values() if isinstance(c, dict))
+    return [
+        "## The 2015-2019 reconciliation", "",
+        "This card states two things about 2015-2019 that look like a contradiction: the "
+        "caveat below reports %.1fpp of excess (%.1f%%/yr absolute) before 2020, while the "
+        "rotation section above reports a premium on that same window. They are different "
+        "cells, and the ladder between them is measured, not argued: from the caveat's cell "
+        "(all classes, 5 names, no sizing rule) to this book's cell, holding the window and "
+        "the fill rule fixed, the CAGR moves %+.1fpp in total (%s). Both ends reproduce "
+        "their published number within %.1fpp%s. See %s."
+        % (first.get("excess_pp") or 0.0, (first.get("cagr") or 0.0) * 100,
+           dc.get("total_move_pp") or 0.0,
+           ", ".join(parts),
+           (ctrl.get("rung1_vs_pre2020_cellA") or {}).get("tolerance_pp") or 0.5,
+           "" if ok else " (one control is out of tolerance -- read the artifact before "
+                        "quoting these steps)",
+           dc["artifact"]),
+        "",
+        "So the pre-2020 failure belongs to the bond-inclusive, unsized cell (%.1f%%/yr) "
+        "and not to the ranking: with the same sizing rule on both arms the ranking still "
+        "pays before 2020, just less than it pays after. What the ladder does NOT say is "
+        "that the ranking works without the sizing rule -- on this window it does not."
+        % ((first.get("cagr") or 0.0) * 100), ""]
+
+
+def passive_mix_paragraphs(pm):
+    """The rotation-vs-static-mix section text. Pure: needs only the artifact block.
+
+    Kept a function so the wording is testable without writing a card, and so the two
+    windows (published regime, and the pre-2020 control) are emitted from one place.
+    """
+    if not (pm and pm.get("premium_pp") is not None):
+        return ["Not measured: results/etf_book_passive_mix.json is missing, so this card "
+                "cannot say what the rotation is worth against simply holding the classes.", ""]
+    out = ["Against a static mix of this book's own class exposure -- no scoring, no "
+           "rotation, same grid, same cost rule, same 8%% overlay -- the book returns "
+           "%.1f%%/yr vs %.1f%%/yr (%+.1fpp), worst drawdown %.1f%% vs %.1f%%, carrying "
+           "%.1fx the static arm's turnover. That is the number the machinery has to "
+           "beat to justify trading at all. See %s."
+           % (pm["book_cagr"] * 100, pm["static_cagr"] * 100, pm["premium_pp"],
+              (pm.get("book_maxdd") or 0) * 100, (pm.get("static_maxdd") or 0) * 100,
+              (pm.get("book_turnover") / pm["static_turnover"])
+              if pm.get("static_turnover") else float("nan"), pm["artifact"]), ""]
+    bw = pm.get("by_window") or {}
+    pre_w = bw.get("pre2020") or {}
+    post_w = bw.get("post2020_pre_universe") or {}
+    if pre_w.get("premium_pp") is not None and post_w.get("premium_pp") is not None:
+        out += [
+            "The same test outside the regime this card was published on -- the %d ETFs "
+            "that already existed before 2020, priced 2015-2019, same engine, same grid, "
+            "same cost rule, same overlay on both arms: the book returns %.1f%%/yr vs "
+            "%.1f%%/yr for the static mix (%+.1fpp), against %+.1fpp on those SAME %d names "
+            "over 2020+. Read the two together: %s"
+            % (pre_w.get("universe_size") or 0, pre_w["book_cagr"] * 100,
+               pre_w["static_cagr"] * 100, pre_w["premium_pp"], post_w["premium_pp"],
+               post_w.get("universe_size") or 0,
+               ("the premium does not survive the period change, so what pays is the "
+                "regime, not the ranking -- the ranking is only worth carrying where the "
+                "regime that produced it still holds."
+                if pm.get("premium_flips") else
+                "the premium survives the period change, so the machinery is not what "
+                "the pre-2020 window was missing.")), ""]
+    return out
 
 
 def selftest():
@@ -662,6 +770,56 @@ def selftest():
             passive_mix_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
+
+    # 10b. the two-window face (r1308): when the artifact prices the pre-2020 control too,
+    #      the card has to print both periods and let the flip change the conclusion.
+    pm_fix = {"artifact": "x.json", "book_cagr": 0.0949, "static_cagr": 0.0313,
+              "premium_pp": 6.36, "book_maxdd": -0.118, "static_maxdd": -0.229,
+              "book_turnover": 0.98, "static_turnover": 0.0935,
+              "by_window": {"pre2020": {"universe_size": 224, "book_cagr": -0.0497,
+                                        "static_cagr": 0.0389, "premium_pp": -8.86},
+                            "post2020_pre_universe": {"universe_size": 224,
+                                                      "premium_pp": 3.11}},
+              "premium_flips": True}
+    txt_flip = "\n".join(passive_mix_paragraphs(pm_fix))
+    chk("card carries both windows of the rotation test",
+        "2015-2019" in txt_flip and "2020+" in txt_flip and "224" in txt_flip
+        and "does not survive the period change" in txt_flip,
+        "%d lines" % len(passive_mix_paragraphs(pm_fix)))
+    txt_keep = "\n".join(passive_mix_paragraphs(dict(pm_fix, premium_flips=False)))
+    chk("a surviving premium says the other thing",
+        "does not survive" not in txt_keep and "survives the period change" in txt_keep)
+    chk("a single-window artifact prints the headline only",
+        len(passive_mix_paragraphs({k: v for k, v in pm_fix.items()
+                                    if k not in ("by_window", "premium_flips")})) == 2)
+
+    # 10c. the reconciliation section (r1308): the ladder has to be on the card, and a
+    #      control out of tolerance has to say so instead of printing clean steps.
+    dc = decomp_support()
+    if dc is None:
+        chk("reconciliation face soft-fails when absent", True,
+            "results/etf_book_window_decomp.json absent")
+    else:
+        chk("reconciliation face carries the ladder",
+            len(dc.get("steps") or []) >= 2 and dc.get("total_move_pp") is not None,
+            "steps=%d total=%s" % (len(dc.get("steps") or []), dc.get("total_move_pp")))
+        txt = "\n".join(decomp_paragraphs(dc))
+        chk("card prints the reconciliation with both ends",
+            "2015-2019 reconciliation" in txt and "%.1fpp" % dc["total_move_pp"] in txt,
+            "%d lines" % len(decomp_paragraphs(dc)))
+        broken = json.loads(json.dumps(dc))
+        for k in broken.get("controls") or {}:
+            broken["controls"][k]["passes"] = False
+        chk("a failed control is disclosed in the text, not swallowed",
+            "out of tolerance" in "\n".join(decomp_paragraphs(broken)))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("reconciliation face is not fatal when the artifact is missing",
+            decomp_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
+    chk("no reconciliation artifact -> no section",
+        decomp_paragraphs(None) == [])
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

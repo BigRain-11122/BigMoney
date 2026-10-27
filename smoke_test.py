@@ -505,7 +505,19 @@ def main() -> int:
             # truncated at `start` silently keeps the book in cash for its first
             # MIN_HIST bars (r1305 self-caught), which reads as "the edge never existed".
             ("product: etf_book_pre2020 window semantics (exit-code contract)",
-             "scripts/etf_book_pre2020.py", ["selftest"])):
+             "scripts/etf_book_pre2020.py", ["selftest"]),
+            # r1308: the rotation premium is now priced outside the published regime too,
+            # and the ladder reconciles it with the -8.86pp caveat on the same window. Both
+            # depend on window semantics (upper bound only) and on one verdict rule.
+            ("product: etf_book_passive_mix windows (exit-code contract)",
+             "scripts/etf_book_passive_mix.py", ["--selftest"]),
+            ("product: etf_book_window_decomp ladder (exit-code contract)",
+             "scripts/etf_book_window_decomp.py", ["--selftest"]),
+            # r1308 was itself a dead window's product left uncommitted in this tree, and
+            # the hand test (git log vs round_no) agreed with the counter and saw nothing.
+            # The detector's contract is what keeps the next one from being invisible.
+            ("fleet: round-open absorb detector (exit-code contract)",
+             "scripts/round_open_absorb.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -513,6 +525,24 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1308: the card carries two readings of 2015-2019 (the excess caveat and the
+    # selection premium). If the reconciliation section ever stops being emitted while the
+    # artifact is on disk, the card is back to printing a contradiction -- so assert the
+    # text, not just the script that writes it.
+    try:
+        _card = os.path.join("results", "etf_book_production", "CARD.md")
+        _dc = os.path.join("results", "etf_book_window_decomp.json")
+        if os.path.exists(_card) and os.path.exists(_dc):
+            _txt = open(_card, encoding="utf-8").read()
+            check("product: card reconciles its two 2015-2019 readings",
+                  "The 2015-2019 reconciliation" in _txt
+                  and "The same test outside the regime" in _txt,
+                  "card %d bytes" % len(_txt))
+        else:
+            check("product: card reconciles its two 2015-2019 readings", True,
+                  "card or reconciliation artifact absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: card reconciles its two 2015-2019 readings", False, str(e))
     # ... and the same lesson one level up: a green selftest does not prove the face is
     # ever produced. r1267/r1269/r1273 each left "wire the ledger into the S6 chain" as
     # the next pointer, and each round it silently stayed unwired because no test read
