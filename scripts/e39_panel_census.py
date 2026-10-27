@@ -3277,6 +3277,20 @@ def _burnin_pair_rows(raw_arm, screened_arm, starts, cells_fn=None, dates_fn=Non
     }
 
 
+def _twin_survives(summary, control):
+    """(E116) "survives" means the NUMBERS did not move, not that the join worked.
+
+    E112-E115 folded both questions into one boolean: a complete join with a
+    silent control returned True even when dozens of cells had moved, and E116
+    caught it live (55 of 93 cells moved while the face still said the ladder
+    survived the repair). A join's completeness and its verdict are two facts.
+    """
+    return (summary["only_in_raw"] == 0 and summary["only_in_screened"] == 0
+            and summary["cells_moved"] == 0
+            and control["cells_moved"] == 0
+            and control["max_abs_delta_pp"] == 0.0)
+
+
 def run_burninscreen(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
                      pick_n=9999, exclude=("sh511",), mode="neutralise_int",
                      resume=True):
@@ -4981,9 +4995,7 @@ def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     share_cols = ("share_pct", "entrants", "priced")
     share_moved = [r for r in pair["moved"] if r["column"] in share_cols]
     return_moved = [r for r in pair["moved"] if r["column"] not in share_cols]
-    survives = (s["only_in_raw"] == 0 and s["only_in_screened"] == 0
-                and control["cells_moved"] == 0
-                and control["max_abs_delta_pp"] == 0.0)
+    survives = _twin_survives(s, control)
     return {
         "study": "e115_chase_screened_twin",
         "evidence_cutoff": cutoff,
@@ -5437,7 +5449,7 @@ def _bracket_shape(vals, tol=2.0):
 
 
 def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
-                   early=(1, 3, 5, 10), costs=(1.0,)):
+                   early=(1, 3, 5, 10), costs=(1.0,), raw=None):
     """E66: price the other side of the month-end boundary.
 
     E65 held the spec fixed and moved the month-end decision LATER by
@@ -5449,7 +5461,8 @@ def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     pays) or a point (both sides pay).
     """
     face = run_midsweep(outdir, start=start, pick_n=pick_n, exclude=exclude,
-                        days=(), costs=costs, lags=tuple(-k for k in early))
+                        days=(), costs=costs, lags=tuple(-k for k in early),
+                        raw=raw)
     lvl = "x%g" % costs[0]
     gaps = face["gaps"].get(lvl, {})
     rows = {}
@@ -5498,6 +5511,252 @@ def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "what is already eligible, so a flat/or positive early side means the "
         "boundary is a publication deadline, not a price path")
     return face
+
+
+# --------------------------------- leg: EARLY ladder, screened twin (E116)
+
+def _earlydelay_arm_cells(face, starts=None):
+    """(E116) -> {(key, column): value} for every cell the early-delay leg publishes.
+
+    The easy mistake here is to harvest only ``answers.early_rows``: those rows
+    are a *copy* of the ladder arms, and the arms themselves live one level
+    down in ``gaps[x1][me_mK]`` beside the month-end book they are compared
+    against. Both levels are harvested, because a repair that moves a book's
+    own annual return and a repair that moves the gap are different findings.
+    ``late_rows_source`` and the honest lines are pointers to another face, not
+    measurements, so they are not joined.
+    """
+    out = {}
+    lvl = (face.get("spec") or {}).get("cost_mult_list") or [1.0]
+    lvl = "x%g" % lvl[0]
+
+    for lab, book in (face.get("books") or {}).items():
+        book = book or {}
+        key = "book/%s/%s" % (lab, lvl)
+        out[(key, "decision_days")] = book.get("decision_days")
+        out[(key, "mean_sessions_to_month_end")] = (
+            (book.get("offset") or {}).get("mean_sessions_to_month_end"))
+        arm = (book.get("arms") or {}).get(lvl) or {}
+        for col in ("full_window_ann_pct", "turnover_per_year",
+                    "cost_per_year_bp"):
+            out[(key, col)] = arm.get(col)
+        for era, ed in (arm.get("eras") or {}).items():
+            out[("book/%s/%s/era/%s" % (lab, lvl, era), "ann_return_pct")] = (
+                (ed or {}).get("ann_return_pct"))
+
+    for lab, gap in ((face.get("gaps") or {}).get(lvl) or {}).items():
+        gap = gap or {}
+        key = "gap/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year", "cost_per_year_bp"):
+            out[(key, col)] = gap.get(col)
+        for era, ed in (gap.get("eras") or {}).items():
+            out[("gap/%s/era/%s" % (lab, era), "gap_bp")] = (ed or {}).get("gap_bp")
+
+    ans = face.get("answers") or {}
+    for lab, row in (ans.get("early_rows") or {}).items():
+        row = row or {}
+        key = "early/" + lab
+        for col in ("full_window_gap_bp", "turnover_per_year"):
+            out[(key, col)] = row.get(col)
+        for era, ev in (row.get("eras") or {}).items():
+            out[("early/%s/era/%s" % (lab, era), "gap_bp")] = ev
+    for lab, row in (ans.get("asymmetry_bp") or {}).items():
+        row = row or {}
+        for col in ("full_window_early_minus_late_bp",
+                    "newest_era_early_minus_late_bp"):
+            out[("asym/" + lab, col)] = row.get(col)
+    for col in ("early_gap_bp", "early_newest_era_gap_bp"):
+        for lab, v in (ans.get(col) or {}).items():
+            out[("answers/" + col, lab)] = v
+    out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
+    return out
+
+
+def run_earlydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                         early=(1, 3, 5, 10), costs=(1.0,), mode="neutralise_int",
+                         resume=True):
+    """E116: re-derive the EARLY ladder on the screened arm, beside the raw face.
+
+    E97 row 5 after the burn-in/cut-curve/livespan/chase twins. The early side
+    is the one place where a repaired print can also reorder *eligibility*: the
+    early decision ranks names that had already published by that earlier date,
+    so an arm that changes a print can change which name is picked, not just
+    what it earned. That is why the book columns (each calendar's own annual
+    return and turnover) are harvested beside the gap columns -- a gap that
+    holds while both books move is a different reading from a gap that holds
+    because neither book moved.
+
+    Same machinery as E112-E115 on purpose: one load, both arms burned off it,
+    checkpoints so a killed pass resumes, the shared ``_burnin_pair_rows`` join,
+    and a same-arm control that must read zero everywhere.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "EARLYDLY-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "EARLYDLY-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    kw = dict(start=start, pick_n=pick_n, exclude=exclude, early=early, costs=costs)
+    raw_arm = cached("raw", lambda: run_earlydelay(None, raw=raw, **kw))
+    scr_arm = cached(mode, lambda: run_earlydelay(None, raw=screened, **kw))
+
+    keys = sorted({k[0] for k in _earlydelay_arm_cells(raw_arm)})
+    no_dates = lambda face, ks: {}
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys, cells_fn=_earlydelay_arm_cells,
+                             dates_fn=no_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys, cells_fn=_earlydelay_arm_cells,
+                                dates_fn=no_dates)["summary"]
+
+    # cutoff control: newest previously published raw early face vs today's raw
+    # arm -- same arm, two cutoffs, so it isolates the panel refresh.
+    cutoff_control = None
+    search_dirs = [d for d in (outdir, os.path.join(ROOT, "results", "e44_midmonth"))
+                   if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("EARLYDELAY-") and p.endswith(".json")
+                    and not p.startswith("EARLYDELAYSCREEN-"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("EARLYDELAY-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_pair = _burnin_pair_rows(old_face, raw_arm, keys,
+                                     cells_fn=_earlydelay_arm_cells,
+                                     dates_fn=no_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    s = pair["summary"]
+    book_cols = ("full_window_ann_pct", "ann_return_pct", "turnover_per_year",
+                 "cost_per_year_bp")
+    gap_cols = ("full_window_gap_bp", "gap_bp",
+                "full_window_early_minus_late_bp", "newest_era_early_minus_late_bp")
+    book_moved = [r for r in pair["moved"] if r["column"] in book_cols]
+    gap_moved = [r for r in pair["moved"] if r["column"] in gap_cols]
+    other_moved = [r for r in pair["moved"]
+                   if r["column"] not in book_cols and r["column"] not in gap_cols]
+    survives = _twin_survives(s, control)
+    # the sharpest single reading: does the newest-era early gap keep its sign
+    # and its magnitude on the repaired arm?
+    newest = {}
+    # a null on both sides is not a defect of the join: with start=2020-01-01 the
+    # pre2017 era has no bars at all, so every pre2017 cell is structurally empty
+    # in BOTH arms. Counted and named here so it cannot be read as a one-sided cell.
+    _nulls = pair["null_on_either_side"]
+    _pre2017 = [r for r in _nulls if "/era/pre2017" in (r.get("start") or "")]
+    raw_newest = (raw_arm.get("answers") or {}).get("early_newest_era_gap_bp") or {}
+    scr_newest = (scr_arm.get("answers") or {}).get("early_newest_era_gap_bp") or {}
+    for lab in sorted(raw_newest):
+        va, vb = raw_newest.get(lab), scr_newest.get(lab)
+        newest[lab] = {"raw": va, "screened": vb,
+                       "delta": (None if va is None or vb is None else round(vb - va, 4)),
+                       "same_sign": (None if va is None or vb is None
+                                     else (va >= 0) == (vb >= 0))}
+    return {
+        "study": "e116_earlydelay_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "early_sessions": list(early), "cost_mult_list": list(costs),
+            "screen_mode": mode,
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_earlydelay_arm_cells harvests each calendar's own annual "
+                     "return + turnover, the gap rows, and the E66 early/asymmetry "
+                     "answers; the late-face pointer and the honest lines are not "
+                     "joined because they are references, not measurements"),
+            "control": ("the same arm joined against itself; every cell must read "
+                        "delta 0.0 or the join machinery moved the numbers"),
+        },
+        "screen_report": report,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "delta_units": ("each delta is in the units of its column: bp for gaps, "
+                            "percent per year for annualised returns, turns/yr for "
+                            "turnover -- the summary max is a max over mixed units "
+                            "and is a screen, not a quantity"),
+            "worst_cell": s["worst"],
+            "book_cells_moved": len(book_moved),
+            "gap_cells_moved": len(gap_moved),
+            "other_cells_moved": len(other_moved),
+            "control_cells_moved": control["cells_moved"],
+            "null_cells": {
+                "total": len(_nulls),
+                "pre2017_no_bars": len(_pre2017),
+                "other": len(_nulls) - len(_pre2017),
+                "note": ("a cell null on BOTH arms is not one-sided: at "
+                         "start=%s the pre2017 era carries no bars, so those cells "
+                         "are empty by construction in both arms" % start),
+            },
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved": cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta": cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "newest_era_early_gap": newest,
+            "reading": (
+                ("the early ladder survives the repair: %d of %d cells move, "
+                 "%d book / %d gap" %
+                 (s["cells_moved"], s["cells_compared"], len(book_moved),
+                  len(gap_moved)))
+                if survives else
+                ("the repair reaches the early ladder: %d of %d cells move "
+                 "(%d book, %d gap, %d other) and %d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(book_moved),
+                    len(gap_moved), len(other_moved),
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "the screened arm repairs prints inside the panel it is handed; it "
+            "does not add or remove bars, so an unchanged universe_members count "
+            "is a property of the repair, not evidence the panel is clean",
+            "the early decision re-ranks on a date when fewer names have published, "
+            "so a repair can change the picked set; a stable gap with both books "
+            "moving is not the same finding as a stable gap with neither moving",
+            "the late column of the asymmetry block is read from the E65 face on "
+            "disk at the same cutoff+start, in both arms identically, so it cannot "
+            "contribute a delta and is disclosed only for context",
+            "E97 counts the published numbers of this runner; the join covers the "
+            "book/gap/early/asymmetry cells, not the pointer fields",
+        ],
+    }
 
 
 # --------------------------------- leg: the month-end NEIGHBOURHOOD (E67)
@@ -10841,6 +11100,95 @@ def selftest():
     chk(_s115["only_in_screened"] > 0 and _s115["cells_moved"] == 0,
         "E115 a bucket that exists on one arm only is one-sided, not a zero delta")
 
+    # E116: the early ladder. Its trap is that `answers.early_rows` is a COPY of
+    # the ladder arms -- the arms themselves live in gaps[x1][me_mK] beside the
+    # month-end book, so a harvest that reads only the answers block would miss
+    # every book column the repair can move.
+    def _syn_early(gap=None, book_ann=6.0, era="2024_now", extra_book=False):
+        gap = gap or {"me_m1": -5.0, "me_m3": -7.0}
+        arms = lambda ann: {"x1": {"full_window_ann_pct": ann,
+                                   "turnover_per_year": 1.2,
+                                   "cost_per_year_bp": 30.0,
+                                   "eras": {era: {"ann_return_pct": ann}}}}
+        books = {"me": {"decision_days": 12, "offset": {},
+                        "arms": arms(book_ann)},
+                 "me_m1": {"decision_days": 12,
+                           "offset": {"mean_sessions_to_month_end": -1.0},
+                           "arms": arms(book_ann - 0.5)}}
+        if extra_book:
+            books["me_m20"] = {"decision_days": 12, "offset": {},
+                               "arms": arms(book_ann)}
+        gaps = {lab: {"offset": {"mean_sessions_to_month_end": -1.0},
+                      "turnover_per_year": 1.2, "cost_per_year_bp": 30.0,
+                      "full_window_ann_pct": book_ann - 0.5,
+                      "full_window_gap_bp": v,
+                      "eras": {era: {"ann_pct": book_ann - 0.5, "gap_bp": v}}}
+                for lab, v in gap.items()}
+        return {"study": "e66_earlydelay_ladder", "evidence_cutoff": "2026-10-26",
+                "spec": {"cost_mult_list": [1.0], "universe_members": 665},
+                "books": books, "gaps": {"x1": gaps},
+                "answers": {
+                    "early_rows": {lab: {"full_window_gap_bp": v,
+                                         "turnover_per_year": 1.2,
+                                         "eras": {era: v}}
+                                   for lab, v in gap.items()},
+                    "early_gap_bp": dict(gap),
+                    "early_newest_era_gap_bp": dict(gap),
+                    "asymmetry_bp": {lab: {"full_window_early_minus_late_bp": -2.0,
+                                           "newest_era_early_minus_late_bp": -1.0}
+                                     for lab in gap},
+                    "late_rows_source": "results/e44_midmonth/ENTRYDELAY-x.json"},
+                "honest": ["a pointer line, not a measurement"]}
+
+    _cells116 = _earlydelay_arm_cells(_syn_early())
+    chk(("book/me/x1", "full_window_ann_pct") in _cells116
+        and ("gap/me_m1", "full_window_gap_bp") in _cells116
+        and ("early/me_m1", "full_window_gap_bp") in _cells116
+        and ("early/me_m1/era/2024_now", "gap_bp") in _cells116
+        and ("asym/me_m1", "full_window_early_minus_late_bp") in _cells116
+        and ("answers/early_newest_era_gap_bp", "me_m1") in _cells116
+        and ("spec", "universe_members") in _cells116,
+        "E116 the harvest walks book -> gap -> early -> asymmetry, not just the copy")
+    chk(not any(k[1] in ("late_rows_source", "honest") for k in _cells116),
+        "E116 the late-face pointer is a reference, not a joined number")
+    _k116 = sorted({k[0] for k in _cells116})
+    _c116 = _burnin_pair_rows(_syn_early(), _syn_early(), _k116,
+                              cells_fn=_earlydelay_arm_cells,
+                              dates_fn=_nod)["summary"]
+    chk(_c116["cells_moved"] == 0 and _c116["max_abs_delta_pp"] == 0.0,
+        "E116 the same face joined against itself reads zero everywhere")
+    _p116 = _burnin_pair_rows(_syn_early(), _syn_early(gap={"me_m1": -7.5,
+                                                            "me_m3": -7.0}),
+                              _k116, cells_fn=_earlydelay_arm_cells,
+                              dates_fn=_nod)
+    chk(any(r["column"] == "full_window_gap_bp" and r["start"] == "gap/me_m1"
+            and abs(r["delta"] + 2.5) < 1e-9 for r in _p116["moved"]),
+        "E116 a moved gap is published with its ladder pointer")
+    # a book column moving while the gap holds is the reading this leg exists for
+    _b116 = _burnin_pair_rows(_syn_early(), _syn_early(book_ann=4.0), _k116,
+                              cells_fn=_earlydelay_arm_cells, dates_fn=_nod)
+    chk(any(r["column"] == "full_window_ann_pct" and r["start"] == "book/me/x1"
+            and abs(r["delta"] + 2.0) < 1e-9 for r in _b116["moved"]),
+        "E116 a moved book return is reported separately from the gap")
+    _s116 = _burnin_pair_rows(_syn_early(), _syn_early(extra_book=True), _k116,
+                              cells_fn=_earlydelay_arm_cells,
+                              dates_fn=_nod)["summary"]
+    chk(_s116["only_in_screened"] > 0 and _s116["cells_moved"] == 0,
+        "E116 a calendar that exists on one arm only is one-sided, not a zero delta")
+
+    # the boolean itself: a complete join that moved 55 cells is NOT a survival.
+    # E112-E115 folded "the join worked" and "the numbers held" into one flag.
+    _zero_ctrl = {"cells_moved": 0, "max_abs_delta_pp": 0.0}
+    chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0, "cells_moved": 0},
+                       _zero_ctrl) is True,
+        "E116 an arm pair with zero moved cells survives the repair")
+    chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0, "cells_moved": 55},
+                       _zero_ctrl) is False,
+        "E116 a complete join that moved 55 cells is not a survival")
+    chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0, "cells_moved": 0},
+                       {"cells_moved": 1, "max_abs_delta_pp": 0.0}) is False,
+        "E116 a control that moved its own numbers blocks the survival claim")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -13229,7 +13577,8 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen",
-                             "midsweep", "entrydelay", "earlydelay", "neighborhood",
+                             "midsweep", "entrydelay", "earlydelay", "earlydelayscreen",
+                             "neighborhood",
                              "weeklyclash", "weeknames", "stalehold", "staletail",
                              "panelsplit", "screenreg", "screencalc", "screenspread",
                              "screenrob", "screentilt", "screenwide", "screenweek",
@@ -13838,6 +14187,17 @@ def main(argv):
                               f["answers"]["early_newest_era_gap_bp"],
                           "late_rows_source": f["answers"]["late_rows_source"]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "earlydelayscreen":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_earlydelayscreen(outdir, start=args.start)
+        start_tag = "" if args.start == "2020-01-01" else "-s%s" % args.start.replace("-", "")
+        p = write_json(outdir, "EARLYDELAYSCREEN-%s%s.json"
+                       % (f["evidence_cutoff"].replace("-", ""), start_tag), f)
+        print(json.dumps({"leg": "earlydelayscreen",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "control": f["control"]}, ensure_ascii=False))
         return 0
     if args.mode == "neighborhood":
         costs = (tuple(float(x) for x in args.costs.split(","))

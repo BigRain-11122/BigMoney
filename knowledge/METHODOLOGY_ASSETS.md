@@ -1253,3 +1253,22 @@ The shipped ETF book was regressed on the four liquid exposures an account could
 Trap this face caught in itself: the first run priced the span arms off the raw panel files, where 513100's 2022-01-14 split prints as a -50% day, because the strategy arm's panel gets repair_flips and the benchmark frame did not. That read the Nasdaq arm at -5.3%/yr and the basket at 6.41%/yr, i.e. it made the book look 3pp better than buy-and-hold -- the entire conclusion was an artefact of the corrupt comparison arm, not of the book. After the same repair: arm +20.4%/yr, basket 9.99%/yr, and the book lands within 0.5pp of the basket. This is r1262's data-pit moved to the benchmark end.
 Two publication rules come with it. (a) A span/skill comparison must print the comparison arms' OWN risk (CAGR+Sharpe+maxDD+vol) beside the strategy's: gold alone makes 13.3%/yr against the book's 9.5%, which reads as a verdict until its 18.1% vol and -31.5% drawdown are printed next to it. (b) A t below 2 is published as "not distinguishable", never as zero and never as skill, and both IS and OOS columns travel with it, because IS alone (t=1.16) and OOS alone (t=1.93) tell different stories than the full window (1.91).
 How to apply: whenever a face regresses or benchmarks one arm against another, both arms must come out of the SAME repair/normalisation path, with a selftest leg pinning it (here: span frames pass through repair_flips and the flip count is published in caveats). Artifact face: results/etf_book_spanning.json (schema etf_book_spanning/v1); implementation scripts/etf_book_spanning.py (selftest 12/12); chain leg etf_book_spanning; digest research/digests/DIGEST-20261027-r1310-spanning-four-betas.md.
+
+## E150 A twin boolean must be two facts: "the join worked" and "the numbers held" are not the same test (2026-10-27 r1183 bm-b)
+E112-E115 all computed `survives` as `only_in_raw==0 and only_in_screened==0 and control.cells_moved==0 and
+control.max_abs_delta==0.0` -- i.e. it tested the JOIN and the CONTROL, never the numbers themselves. On the four
+earlier twins that was invisible because cells_moved happened to be 0. On E116's first burn the join was complete,
+the control was silent, and 55 of 93 cells had moved, so the face published
+`counts_survive_the_repair: true` with the reading "the early ladder survives the repair: 55 of 93 cells move" --
+a sentence that contradicts its own flag and reads as a survival to anyone who skims. Extract the predicate into
+one function `_twin_survives(summary, control)` that also requires `cells_moved == 0`, apply it to every twin, and
+pin the shape with a selftest: a complete join with 55 moved cells must be False, a silent control with 0 moved
+cells must be True, and a control that moved its own numbers must block the claim.
+Why it mattered: the boolean is what downstream tickets quote (E97, the pool row, the digest headline); the moved
+count is a detail. A flag that only tests the machinery will eventually certify a face whose numbers all changed.
+How to apply: whenever a face publishes a verdict boolean, write its definition as the predicate the reader would
+assume ("nothing moved"), then add selftest legs that feed it the failure case, not just the happy path. And split
+any boolean that answers two questions into two keys.
+Evidence: results/e44_midmonth/EARLYDELAYSCREEN-20261026.json (answers.counts_survive_the_repair now false,
+answers.reading now "the repair reaches the early ladder"), scripts/e39_panel_census.py _twin_survives
+(selftest 353 -> 362/362), research/digests/DIGEST-20261027-e116-earlydelay-screened.md.

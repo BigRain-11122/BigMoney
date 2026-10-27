@@ -55,7 +55,7 @@
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
- "last_decisions_read_at": "2026-10-22T22:45:42+08:00",
+ "last_decisions_read_at": "2026-10-27T16:40:39+08:00",
  "last_decisions_sha": "c514b69c2f06202d",
  "last_decisions_sha_method": "r1147: origin blob sha256 via git show in the C:\\Fluxgroup\\FluxGroup group tree (K: absent on this machine, D-20261004-02 fallback path)",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
@@ -63,7 +63,7 @@
  "last_orders_at": "2026-10-21T01:22:37+08:00",
  "last_orders_probe_at": "2026-10-21T05:12:00+08:00",
  "last_orders_probe_at_note": "r1008: dual probe delta consumed same-round (ORD 5d871243->43a18d01, one BigStream row zero BigMoney dispatch); advance in-tool r1090 dual-face",
- "last_orders_read_at": "2026-10-22T22:45:42+08:00",
+ "last_orders_read_at": "2026-10-27T16:40:39+08:00",
  "last_orders_sha": "c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_orders_sha_note": "r997: advanced by dead-session 23:02:33 (scripts/d19_watermark.py update --advance), verified + landed this push",
  "last_orders_sha_probe": "36d96a91be6ff044719ae7ff8055be0fdacb1454f94e8e766518b92f9fe00da7",
@@ -596,7 +596,7 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1182,
- "round_no": 1182,
+ "round_no": 1183,
  "round_no_label": "r1182",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
@@ -620,5 +620,18 @@
  "updated_at": "2026-10-27T15:57:48+08:00",
  "verdict": "smoke 90/90; S6 37/37 rc0; e39 selftest 353/353; e97 selftest 15/15; D-19 zero delta; orders 0 unacked; orphan 0; attrition CLEAN; dualrun ZERO-DRIFT streak 6; watermark red py_low (candidate burned this round)",
  "r1182_note": "E115 face results/e44_midmonth/CHASESCREEN-20261026.json: 95 cells, repair moves 5 (all bucket forward returns, max +0.166pp; every count and share identical), refresh moves 16 (worst = a count, entrant_slots +6, universe 1265->1271). Identity 0/95, coverage 0 one-sided / 0 null.",
- "r1182_pit": "E97 TWIN_FUNCS is a hand-maintained registry, so E112-E115 twins were invisible to the routing table while their faces sat on disk; and a harvest written for eras[era] against a face that publishes eras[calendar][era] returned 15 of 95 cells and printed a green \"0 of 7 moved\". Assert joined cell count against the routing census for that runner, never against zero."
+ "r1182_pit": "E97 TWIN_FUNCS is a hand-maintained registry, so E112-E115 twins were invisible to the routing table while their faces sat on disk; and a harvest written for eras[era] against a face that publishes eras[calendar][era] returned 15 of 95 cells and printed a green \"0 of 7 moved\". Assert joined cell count against the routing census for that runner, never against zero.",
+ "last_round": 1182,
+ "round_no_ts": "2026-10-27T16:40:39+08:00",
+ "r1183": {
+  "product": "results/e44_midmonth/EARLYDELAYSCREEN-20261026.json",
+  "legs": "scripts/e39_panel_census.py earlydelayscreen (+ raw= seam on run_earlydelay)",
+  "selftest": "e39 353 -> 362/362, e97 15/15",
+  "smoke": "90/90 PASS",
+  "s6": "38/38 legs rc0, non-zero: none",
+  "d19": "dec=same ord=same delta=none phantom=none",
+  "pool": "E116 done + result_ref, E117-PANELSPLIT-SCREENED-TWIN seeded open",
+  "card": "E150",
+  "digest": "research/digests/DIGEST-20261027-e116-earlydelay-screened.md"
+ }
 }

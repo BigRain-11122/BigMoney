@@ -59,6 +59,8 @@ TWIN_FUNCS = {
     "run_cutcurvescreen": ("cutcurvescreen", "results/e44_burnin/CUTCURVESCREEN-*.json"),
     "run_livespanscreen": ("livespanscreen", "results/e44_burnin/LIVESPANSCREEN-*.json"),
     "run_chasescreen": ("chasescreen", "results/e44_midmonth/CHASESCREEN-*.json"),
+    "run_earlydelayscreen": ("earlydelayscreen",
+                             "results/e44_midmonth/EARLYDELAYSCREEN-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")
