@@ -38,6 +38,9 @@ lands on an integer, so a resumption misprint cannot be repaired by accident.
 
 from __future__ import annotations
 
+import hashlib
+import inspect
+
 ARTEFACT_JUMP = 0.30
 
 INTEGER_TOL = 0.02      # |ratio/nearest_int - 1| <= 2% reads as a share ratio
@@ -286,6 +289,31 @@ def _print_row(ev):
             "level_persists": ev.get("level_persists")}
 
 
+# (E111) the repair factor is a VERSION, not a constant. Every face the census
+# burns carries the id of the code that produced it, so a join between two faces
+# can refuse a cross-version comparison instead of reporting it as a mismatch
+# (E110: a pre-E108 face compared with a post-E108 one, called a defect).
+REPAIR_FACTOR_SRC = ("split_events", "neutralise", "implied_ratio")
+
+
+def _factor_id(*sources):
+    """Stable short id from source text; CRLF-normalised so a checkout cannot move it."""
+    h = hashlib.sha256()
+    for s in sources:
+        h.update(s.replace("\r\n", "\n").encode("utf-8"))
+    return h.hexdigest()[:12]
+
+
+def repair_factor_id():
+    """The id of the repair factor this process would burn with.
+
+    Deliberately sensitive to comments too: a docstring edit that changes what
+    the factor claims to do is a reason to re-burn, not a reason to keep joining
+    a face burned under the old wording.
+    """
+    return _factor_id(*[inspect.getsource(globals()[n]) for n in REPAIR_FACTOR_SRC])
+
+
 def selftest():
     """Offline checks: a split is repaired, a gap is not, real moves survive."""
     ok = tot = 0
@@ -449,6 +477,14 @@ def selftest():
                                     mode="neutralise_persist")
     chk(rep_tail["events_neutralised"] == 0 and rep_tail["undecided_adjacent"] == 1,
         "a print with no window to judge stays unrepaired and is counted undecided")
+
+    # (E111) the repair factor carries a version id so faces can be refused, not joined
+    chk(len(repair_factor_id()) == 12, "the repair factor id is a 12-char sha prefix")
+    chk(repair_factor_id() == repair_factor_id(), "the id is stable inside one process")
+    chk(_factor_id("a\r\nb") == _factor_id("a\nb"),
+        "CRLF and LF sources hash to the same factor id (a checkout cannot move it)")
+    chk(_factor_id("def split_events(): pass") != _factor_id("def split_events(): pass  "),
+        "any source change moves the factor id, so a stale face can be refused")
 
     print("panel_screen selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1

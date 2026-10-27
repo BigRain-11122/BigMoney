@@ -1,0 +1,609 @@
+{
+ "tool": "scripts/e111_face_factor_stamp.py",
+ "study": "e111_face_repair_factor_stamp",
+ "evidence_cutoff": "2026-10-26",
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio",
+ "faces_scanned": 70,
+ "counts": {
+  "stamped_current": 0,
+  "stamped_other": 0,
+  "unstamped": 70
+ },
+ "other_factor_ids": {},
+ "unstamped_faces": [
+  "BURNCONTROL-CLOSE-20261027.json",
+  "CHASE-20261020.json",
+  "CHURNGAP-20261021.json",
+  "CHURNROBUST-20261021.json",
+  "CHURNROBUST-20261022-s2013.json",
+  "CHURNROBUST-20261026-s2013.json",
+  "CHURNROBUST-20261026.json",
+  "CHURNROBUST-CONTROL-20261021.json",
+  "CHURNROBUST-CONTROL-20261026.json",
+  "CHURNSE-20261021.json",
+  "CHURNSE-20261026.json",
+  "CHURNSE-BLOCK-20261023.json",
+  "CHURNTOP3-20261022-s2013.json",
+  "CHURNTOP3-20261026.json",
+  "EARLYDELAY-20261020-s20130101.json",
+  "EARLYDELAY-20261020.json",
+  "ENTRYDELAY-20261020-s20130101.json",
+  "ENTRYDELAY-20261020.json",
+  "FACESCREEN-20261021.json",
+  "GAPARM-ENDGRID-20261026-s20180101.json",
+  "GAPARM-FAMILY-ENDGRID-20261026-s20180101.json",
+  "GAPLIMIT-20261026.json",
+  "GAPTOP3-20261026-s2018.json",
+  "HELDSPLIT-20261026-s2018.json",
+  "LEVEL-LABELS-20261027.json",
+  "LOODIST-20261021.json",
+  "LOODIST-20261026.json",
+  "MID-20261020-s20180101.json",
+  "MID-20261020.json",
+  "MID-20261026-s20180101-armed.json",
+  "MIDSCREEN-20261021.json",
+  "MIDSCREEN-20261026.json",
+  "MIDSWEEP-20261020-c0_3.json",
+  "MIDSWEEP-20261020-s20130101-c0_3.json",
+  "MIDSWEEP-20261020-s20130101.json",
+  "MIDSWEEP-20261020.json",
+  "MODEEQ-20261021.json",
+  "MODEEQ-20261026.json",
+  "NEIGHBORHOOD-20261020-s20130101.json",
+  "NEIGHBORHOOD-20261020.json",
+  "NEIGHBORHOOD-20261021-s20130101.json",
+  "NEIGHBORHOOD-20261021.json",
+  "PANELSPLIT-20261021-s20130101.json",
+  "PANELSPLIT-20261021.json",
+  "REPAIRFIX-20261026.json",
+  "REPAIRSTEP-20261026.json",
+  "REPAIRSWEEP-20261026.json",
+  "SCREENGAP-20261022.json",
+  "SCREENGAP-20261026.json",
+  "SCREENGAPERA-20261022.json",
+  "SCREENGAPERA-20261023.json",
+  "SCREENGAPERA-20261026.json",
+  "SCREENREG-20261021.json",
+  "SCREENREG-20261026.json",
+  "SCREENWIDE-20261021.json",
+  "SCREENWIDE-20261026.json",
+  "SINGLEPRINT-20261021.json",
+  "SINGLEPRINT-20261026.json",
+  "STALEHOLD-20261021-s20130101.json",
+  "STALEHOLD-20261021.json",
+  "STALETAIL-20261021-s20130101.json",
+  "STALETAIL-20261021.json",
+  "WEEKCLASH-20261021-screened.json",
+  "WEEKCLASH-20261026-screened.json",
+  "WEEKLYCLASH-20261021-c0_3.json",
+  "WEEKLYCLASH-20261021-s20130101-c0_3.json",
+  "WEEKLYCLASH-20261021-s20130101.json",
+  "WEEKLYCLASH-20261021.json",
+  "WEEKNAMES-20261021-s20130101.json",
+  "WEEKNAMES-20261021.json"
+ ],
+ "control": {
+  "status": "version_unknown",
+  "summary": {
+   "shared_cells": 56,
+   "mismatched": 0
+  },
+  "repair_factor": "version_unknown",
+  "unstamped": [
+   "churnrobust",
+   "churnrobust_s2013",
+   "churnse"
+  ],
+  "stale_twins": []
+ },
+ "answers": {
+  "can_a_join_report_agreement_today": false,
+  "why": "the burn control's own three inputs carry no stamp, so the join resolves to version_unknown instead of identical_on_this_face",
+  "what_clears_it": "re-burn the twins on the current panel; the stamp is written by write_json from this commit on"
+ },
+ "faces": [
+  {
+   "face": "BURNCONTROL-CLOSE-20261027.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "E110 burncontrol MISMATCH: the 2013-start twin on disk predates the E108 split_events factor, so the control compared a pre-fix face with a post-fix one"
+  },
+  {
+   "face": "CHASE-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e57_midmonth_chase_names"
+  },
+  {
+   "face": "CHURNGAP-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e82_churn_gap_amplification"
+  },
+  {
+   "face": "CHURNROBUST-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e85_robust_churn_estimators"
+  },
+  {
+   "face": "CHURNROBUST-20261022-s2013.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-22",
+   "study": "e85_robust_churn_estimators"
+  },
+  {
+   "face": "CHURNROBUST-20261026-s2013.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e85_robust_churn_estimators"
+  },
+  {
+   "face": "CHURNROBUST-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e85_robust_churn_estimators"
+  },
+  {
+   "face": "CHURNROBUST-CONTROL-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e88_churnrobust_burn_control"
+  },
+  {
+   "face": "CHURNROBUST-CONTROL-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e88_churnrobust_burn_control"
+  },
+  {
+   "face": "CHURNSE-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e89_churn_sampling_intervals"
+  },
+  {
+   "face": "CHURNSE-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e89_churn_sampling_intervals"
+  },
+  {
+   "face": "CHURNSE-BLOCK-20261023.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-23",
+   "study": "e90_churnse_block_cluster"
+  },
+  {
+   "face": "CHURNTOP3-20261022-s2013.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-22",
+   "study": "e91_top_churn_transition_names"
+  },
+  {
+   "face": "CHURNTOP3-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e91_top_churn_transition_names"
+  },
+  {
+   "face": "EARLYDELAY-20261020-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e66_earlydelay_ladder"
+  },
+  {
+   "face": "EARLYDELAY-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e66_earlydelay_ladder"
+  },
+  {
+   "face": "ENTRYDELAY-20261020-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e65_entrydelay_ladder"
+  },
+  {
+   "face": "ENTRYDELAY-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e65_entrydelay_ladder"
+  },
+  {
+   "face": "FACESCREEN-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e79_published_face_screen_matrix"
+  },
+  {
+   "face": "GAPARM-ENDGRID-20261026-s20180101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e101_gaparm_delta_under_end_grid"
+  },
+  {
+   "face": "GAPARM-FAMILY-ENDGRID-20261026-s20180101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e102_gaparm_family_endgrid"
+  },
+  {
+   "face": "GAPLIMIT-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e103_gap_limit_ladder"
+  },
+  {
+   "face": "GAPTOP3-20261026-s2018.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e100_gaparm_transition_names"
+  },
+  {
+   "face": "HELDSPLIT-20261026-s2018.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e104_held_name_split_exposure"
+  },
+  {
+   "face": "LEVEL-LABELS-20261027.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-23",
+   "study": "E96 churn LEVEL screen-arm label audit"
+  },
+  {
+   "face": "LOODIST-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e86_loo_distribution"
+  },
+  {
+   "face": "LOODIST-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e86_loo_distribution"
+  },
+  {
+   "face": "MID-20261020-s20180101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e44_midmonth_churn"
+  },
+  {
+   "face": "MID-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e44_midmonth_churn"
+  },
+  {
+   "face": "MID-20261026-s20180101-armed.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e99_midmonth_levels_by_arm"
+  },
+  {
+   "face": "MIDSCREEN-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e80_screened_midmonth_churn"
+  },
+  {
+   "face": "MIDSCREEN-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e80_screened_midmonth_churn"
+  },
+  {
+   "face": "MIDSWEEP-20261020-c0_3.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e59_midday_sweep"
+  },
+  {
+   "face": "MIDSWEEP-20261020-s20130101-c0_3.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e59_midday_sweep"
+  },
+  {
+   "face": "MIDSWEEP-20261020-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e59_midday_sweep"
+  },
+  {
+   "face": "MIDSWEEP-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e59_midday_sweep"
+  },
+  {
+   "face": "MODEEQ-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e84_screen_mode_equivalence"
+  },
+  {
+   "face": "MODEEQ-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e84_screen_mode_equivalence"
+  },
+  {
+   "face": "NEIGHBORHOOD-20261020-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e67_monthend_neighborhood"
+  },
+  {
+   "face": "NEIGHBORHOOD-20261020.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-20",
+   "study": "e67_monthend_neighborhood"
+  },
+  {
+   "face": "NEIGHBORHOOD-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e67_monthend_neighborhood"
+  },
+  {
+   "face": "NEIGHBORHOOD-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e67_monthend_neighborhood"
+  },
+  {
+   "face": "PANELSPLIT-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e75_panel_split_audit"
+  },
+  {
+   "face": "PANELSPLIT-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e75_panel_split_audit"
+  },
+  {
+   "face": "REPAIRFIX-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": null,
+   "study": "E108 repair-factor sign fix: panel_screen.split_events now uses the cancelling factor 1/(1+r) for every event"
+  },
+  {
+   "face": "REPAIRSTEP-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e106_repair_step_consistency"
+  },
+  {
+   "face": "REPAIRSWEEP-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "E109 screened-consumer sweep: every remaining leg that joins a neutralise/neutralise_int arm, burned with the old folded-ratio factor (legacy arm) and the E108 cancelling factor (shipped arm) on the SAME panel, so the delta is the factor and not panel drift"
+  },
+  {
+   "face": "SCREENGAP-20261022.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-22",
+   "study": "e92_gap_tolerant_split_screen"
+  },
+  {
+   "face": "SCREENGAP-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e92_gap_tolerant_split_screen"
+  },
+  {
+   "face": "SCREENGAPERA-20261022.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-22",
+   "study": "e93_gapsplit_era_spread"
+  },
+  {
+   "face": "SCREENGAPERA-20261023.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-23",
+   "study": "e93_screengap_era_spread"
+  },
+  {
+   "face": "SCREENGAPERA-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e93_screengap_era_spread"
+  },
+  {
+   "face": "SCREENREG-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e76_panelscreen_regrade"
+  },
+  {
+   "face": "SCREENREG-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e76_panelscreen_regrade"
+  },
+  {
+   "face": "SCREENWIDE-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e77_screened_wide_era"
+  },
+  {
+   "face": "SCREENWIDE-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e77_screened_wide_era"
+  },
+  {
+   "face": "SINGLEPRINT-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e83_single_print_screen"
+  },
+  {
+   "face": "SINGLEPRINT-20261026.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e83_single_print_screen"
+  },
+  {
+   "face": "STALEHOLD-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e72_stale_hold_price"
+  },
+  {
+   "face": "STALEHOLD-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e72_stale_hold_price"
+  },
+  {
+   "face": "STALETAIL-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e74_stale_hold_relative"
+  },
+  {
+   "face": "STALETAIL-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e74_stale_hold_relative"
+  },
+  {
+   "face": "WEEKCLASH-20261021-screened.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e78_screened_weekclash_residual"
+  },
+  {
+   "face": "WEEKCLASH-20261026-screened.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-26",
+   "study": "e78_screened_weekclash_residual"
+  },
+  {
+   "face": "WEEKLYCLASH-20261021-c0_3.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e70_monthend_weekly_costface"
+  },
+  {
+   "face": "WEEKLYCLASH-20261021-s20130101-c0_3.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e70_monthend_weekly_costface"
+  },
+  {
+   "face": "WEEKLYCLASH-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e69_monthend_weekly_clash"
+  },
+  {
+   "face": "WEEKLYCLASH-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e69_monthend_weekly_clash"
+  },
+  {
+   "face": "WEEKNAMES-20261021-s20130101.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e71_monthend_weekly_names"
+  },
+  {
+   "face": "WEEKNAMES-20261021.json",
+   "state": "unstamped",
+   "repair_factor": null,
+   "cutoff": "2026-10-21",
+   "study": "e71_monthend_weekly_names"
+  }
+ ],
+ "honest": [
+  "back-stamping an existing face is impossible: the stamp would be a claim about code that was never recorded, so old faces stay UNKNOWN",
+  "the stamp is deliberately sensitive to any source edit, comments included: a wording change is a reason to re-burn, not a reason to keep joining",
+  "the guard changes what the control PUBLISHES, not what the burn computes; no published number was rewritten by this leg",
+  "descriptive census only: no gate, no verdict on any strategy, zero ledger"
+ ],
+ "writer_proof": {
+  "file": "results\\e44_midmonth\\FACESTAMP-20261027.json",
+  "stamped_on_disk": true,
+  "repair_factor_on_disk": "a78d23e15b45",
+  "matches_current": true
+ }
+}

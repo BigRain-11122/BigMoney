@@ -1054,3 +1054,23 @@ question is never "is the backtest right" but "would this have paid on the instr
 then". One extra run, three cells, two null p-values, and the answer either supports the expectation band
 or forces it open. Artifact face: results/etf_book_pre2020.json (schema etf_book_pre2020/v1);
 implementation scripts/etf_book_pre2020.py (rides scripts/etf_composite_pf.py, no re-implementation).
+
+- Card: a face's identity is (code version, cutoff) -- and unstamped is UNKNOWN (E111)
+- Trigger: a control that can join two faces and call them equal (or unequal) with no record of
+  which code burned either one.
+- Move: derive a version id from the source of the functions that produce the number
+  (panel_screen.split_events+neutralise+implied_ratio -> 12-char sha), stamp it in the ONE writer
+  every face goes through (e39_panel_census.write_json), and make the join publish
+  version_unknown / mixed_repair_factors instead of identical / MISMATCH. Back-stamping is refused
+  on principle: the stamp would be a claim about code that was never recorded.
+- Judgment: (1) the cutoff guard and the factor guard are two axes of the same defect -- fixing one
+  leaves the control reporting a mismatch it cannot attribute; (2) on this repo the honest post-fix
+  verdict is version_unknown for all 70 faces on disk (0 stamped): an unstamped face is not a
+  smaller risk than a stale one, it is an unmeasurable one; (3) the stamp must be sensitive to any
+  source edit including comments -- a wording change is a reason to re-burn.
+- Reusable check: for every writer of a published number, ask "does the file say which code made
+  it, and does the consumer refuse when it does not?"
+- Verify: python scripts/e111_face_factor_stamp.py selftest (13/13); python scripts/panel_screen.py
+  (39/39); python scripts/e39_panel_census.py selftest (324/324);
+  results/e44_midmonth/FACESTAMP-20261027.json (writer_proof stamped_on_disk=true)
+- 2026-10-27 r1175 bm-b (capture law O-20261002-2100 closing step)

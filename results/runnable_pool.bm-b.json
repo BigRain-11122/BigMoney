@@ -21912,7 +21912,7 @@
   {
    "id": "E111-FACE-FACTOR-STAMP",
    "title": "Every e44 face carries an implicit version: the code that burned it. E110 proved a control can compare two different experiments and call the difference a defect, and the cutoff guard only catches one of the two axes. Stamp a repair_factor marker (and the cutoff, already present) into every face written by e39_panel_census so a join can refuse a cross-version comparison instead of reporting a mismatch. Back-stamp is impossible for old faces -- publish the stamp going forward and make the control treat an unstamped face as unknown, not as agreeing.",
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "lane": "cpu-only",
    "lane_owner": "bm-b",
@@ -21922,7 +21922,10 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T11:05:00+08:00",
    "entered_by": "bm-b r1174",
-   "runner_note": "do not rewrite published faces to add the stamp; unknown != agreeing"
+   "runner_note": "do not rewrite published faces to add the stamp; unknown != agreeing",
+   "result_ref": "scripts/e111_face_factor_stamp.py -> results/e44_midmonth/FACESTAMP-20261027.json",
+   "done_at": "2026-10-27T10:35:00+08:00",
+   "done_note": "repair_factor id a78d23e15b45 stamped by e39 write_json; burncontrol now publishes version_unknown for all 70 unstamped faces instead of claiming identity"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

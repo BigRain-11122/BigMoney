@@ -8289,9 +8289,29 @@ def run_gapsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
 
 # ------------------------------------------------------------------- plumbing
 
+# (E111) a face's LEVEL is produced by panel_screen's repair code, so two faces
+# are comparable only when that code is the same. E110 burned this lesson: a
+# pre-E108 face joined against a post-E108 one and the difference was reported
+# as a defect. The cutoff was stamped; the code version was not.
+REPAIR_FACTOR_KEY = "repair_factor"
+
+
+def _stamp_repair_factor(payload):
+    """Put the repair-factor id on a face this module is about to write."""
+    if isinstance(payload, dict) and not payload.get(REPAIR_FACTOR_KEY):
+        try:
+            import panel_screen
+            payload[REPAIR_FACTOR_KEY] = panel_screen.repair_factor_id()
+            payload["repair_factor_src"] = "+".join(panel_screen.REPAIR_FACTOR_SRC)
+        except Exception as exc:      # a burn is never failed over its stamp
+            payload["repair_factor_error"] = repr(exc)
+    return payload
+
+
 def write_json(outdir, name, payload):
     os.makedirs(outdir, exist_ok=True)
     p = os.path.join(outdir, name)
+    payload = _stamp_repair_factor(payload)
     with open(p, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(payload, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
@@ -9693,6 +9713,21 @@ def selftest():
         and _hrow["top_share_of_delta_pct"] == 100.0,
         "one window carrying the whole split reads as one window")
 
+    # E111: a face's producing code is part of its identity, not a footnote
+    _g1 = _repair_factor_guard([("a", {"repair_factor": "abc123456789"}),
+                                ("b", {"repair_factor": "abc123456789"})])
+    chk(_g1["verdict"] == "uniform", "two faces stamped by one factor are comparable")
+    _g2 = _repair_factor_guard([("a", {"repair_factor": "abc123456789"}), ("b", {})])
+    chk(_g2["verdict"] == "version_unknown" and _g2["unstamped"] == ["b"],
+        "an unstamped face reads as UNKNOWN, never as agreeing")
+    _g3 = _repair_factor_guard([("a", {"repair_factor": "aaaaaaaaaaaa"}),
+                                ("b", {"repair_factor": "bbbbbbbbbbbb"})])
+    chk(_g3["verdict"] == "mixed_repair_factors",
+        "two code versions are two experiments, published as mixed rather than MISMATCH")
+    _g4 = _repair_factor_guard([("a", None), ("b", {"repair_factor": "aaaaaaaaaaaa"})])
+    chk(_g4["verdict"] == "version_unknown" and _g4["unstamped"] == ["a"],
+        "a missing face is unstamped, so the join is refused before anything is read")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -9725,6 +9760,35 @@ def _mean_control(a_rows, b_rows, keys):
             "only_in_a": len([k for k in ia if k not in ib]),
             "only_in_b": len([k for k in ib if k not in ia]),
             "mismatch_rows": bad}
+
+
+def _repair_factor_guard(labeled):
+    """(E111) -> verdict over the repair-factor stamps of the faces being joined.
+
+    ``labeled`` is ``[(name, face)]``. A face with no stamp is UNKNOWN, never
+    equal: the honest reading of a pre-stamp face is that its producing code is
+    not recorded, so a join against it can neither agree nor disagree. Faces
+    stamped with different ids are two different experiments; the difference
+    between them is a version, not a defect.
+    """
+    tags = {n: ((f or {}).get(REPAIR_FACTOR_KEY) or None) for n, f in labeled}
+    missing = sorted(n for n, t in tags.items() if not t)
+    distinct = sorted({t for t in tags.values() if t})
+    if missing:
+        verdict = "version_unknown"
+    elif len(distinct) > 1:
+        verdict = "mixed_repair_factors"
+    else:
+        verdict = "uniform"
+    return {
+        "verdict": verdict, "stamps": tags,
+        "unstamped": missing, "distinct": distinct,
+        "rule": "an unstamped face is UNKNOWN, never agreeing; only faces "
+                "carrying the same repair_factor may be compared cell by cell",
+        "how_to_clear": "re-burn the unstamped (or old-factor) twin on the current "
+                        "panel; back-stamping a face is impossible, because the code "
+                        "that burned it is what the stamp would be claiming",
+    }
 
 
 def run_burncontrol(outdir=None, dirpath=None):
@@ -9778,7 +9842,14 @@ def run_burncontrol(outdir=None, dirpath=None):
                for n, f in (("churnse", se), ("churnrobust", rob),
                             ("churnrobust_s2013", s13))}
     stale_twins = [n for n, c in cutoffs.items() if c != cutoffs["churnse"]]
-    if bad == 0:
+    # E111: the cutoff guard catches one of the two axes. A face burned by other
+    # repair code is a different experiment, so it can neither agree (as the old
+    # "identical" status would claim for two unstamped faces) nor disagree.
+    factors = _repair_factor_guard([("churnse", se), ("churnrobust", rob),
+                                    ("churnrobust_s2013", s13)])
+    if factors["verdict"] != "uniform":
+        status = factors["verdict"]
+    elif bad == 0:
         status = "identical_on_this_face"
     elif stale_twins:
         status = "mismatch_across_cutoffs"
@@ -9790,6 +9861,7 @@ def run_burncontrol(outdir=None, dirpath=None):
         "status": status,
         "cutoffs": cutoffs,
         "stale_twins": stale_twins,
+        "repair_factor": factors,
         "confound": ("a twin whose cutoff differs from the interval face mixes panel "
                      "arrival (and any factor change since it was burned) with the "
                      "burn; re-derive the twin at the current cutoff before reading "
