@@ -21715,7 +21715,7 @@
   },
   {
    "id": "E100-GAPARM-TRANSITION-NAMES",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py (topnames leg + gap-arm universe)",
@@ -21725,7 +21725,12 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T04:45:00+08:00",
    "entered_by": "bm-b r1164",
-   "runner_note": "reuse the topnames burn with full_churn=True on the neutralise_gap1 universe and the unscreened universe; print name and date per transition, never a bare share, and keep the unscreened column beside the repaired one"
+   "runner_note": "reuse the topnames burn with full_churn=True on the neutralise_gap1 universe and the unscreened universe; print name and date per transition, never a bare share, and keep the unscreened column beside the repaired one",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-27T06:50:00+08:00",
+   "done_at": "2026-10-27T07:10:00+08:00",
+   "result_ref": "results/e44_midmonth/GAPTOP3-20261026-s2018.json",
+   "result_note": "e39 mode gaptop3 (selftest 299->307). Split is exact (residual 0.0, zero one-sided dates) and reproduces all six published deltas at <=0.05bp. Every large move is ONE window and the two arms hold identical names there (18 top windows, 0 composition carriers): 2017_2020 me -745.9 is 100% the 2020-12-31 window where sz159975 reads -89.54% unscreened vs +5.04% repaired; 2021_2023 me -1098.3 top-3 61.6% (sh510580 -89.95%/+1.02%, sh510150 -91.20%/+5.32%); 2021_2023 mid -1117.2 top-3 58.8%; 2024_now mid -241.0 one window (sz159925 +105.39%/+303.82%). Verdict: the level delta is a PRICE-READ difference on split prints, not a composition difference."
   },
   {
    "id": "E101-GAPARM-ENDGRID",
@@ -21783,6 +21788,67 @@
    "done_at": "2026-10-27T07:05:00+08:00",
    "result_ref": "results/e44_midmonth/GAPLIMIT-20261026.json",
    "result_note": "twenty limits, two objects: limits 1 and 2 rewrite the same 36,184 bars, limits 3..20 the same 37,101; the only step is limit 3 and the binding print is sz159901 2010-11-22 (an integer-like print with a 3-session gap, 917 bars downstream). The panel own gap spectrum ends at 3 sessions (28 gapped prints at 1 of which 10 integer-like, 4 at 2 of which 0, 1 at 3 of which 1), so no limit above 3 can bind. No limit in 1..20 moves a published cell (all six measurable era-book deltas identical to 0.05bp, published control reproduces 6/6): the published gap1/gap2/gap5 columns are one reading under two objects and corroborate nothing. Verdict not_identified."
+  },
+  {
+   "id": "E104-HELD-NAME-SPLIT-EXPOSURE",
+   "status": "done",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py + scripts/panel_screen.py",
+   "title": "E100 showed the gap arm's two published level moves are split prints on the ENTRANT/EXIT lists. That leg cannot see a split inside a name the book held across the window, so ask directly: for every name held by the unscreened book over each transition, how many carry a |one-window read| > 50% that the repaired arm does not, and do those reads reach a published portfolio face (book returns, breadth, curve drawdown) rather than only the churn level?",
+   "deliverable": "results/e44_midmonth/HELDSPLIT-<cutoff>-s2018.json + digest",
+   "source": "r1169 E100 (GAPTOP3-20261026-s2018.json) honest-limits: 'a split inside an unchanged holding is invisible to this leg'",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:05:00+08:00",
+   "entered_by": "bm-b r1169",
+   "runner_note": "reuse the gaptop3 caches (per-arm prices + decisions); enumerate held names per transition, flag |fwd|>50% reads, then join each flagged name-date to the faces that price it",
+   "done_at": "2026-10-27T07:50:00+08:00",
+   "done_by": "bm-b r1170",
+   "result_ref": "results/e44_midmonth/HELDSPLIT-20261026-s2018.json",
+   "result_note": "4 of 6 cells carry a split inside an unchanged holding (delta mean +3.9..+15.2bp, max window 247.4bp at 2024-08-30 me); per-name pieces sum exactly. Second finding: the repaired arm can be the implausible side (sh510580 2024-09-02 reads +1464% repaired vs +295% raw), so reads_beyond_100pct is published per arm (16 vs 14). PARTIAL vs this ticket: the \"does it reach a published portfolio face\" half is seeded as E107 -- this leg measures reads, not curves."
+  },
+  {
+   "id": "E105-LEVEL-SINGLE-NAME-COLUMN",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py (midlevels / gaparmfamily faces)",
+   "title": "Every era-book LEVEL in the MID family is a mean over 10-29 transitions, so one name can carry it (E100: 100% of 2017_2020 me). Publish, beside every level cell of MID-20261026-s20180101-armed.json and its family, the max |single-transition contribution| with its name and date, so a reader can tell a level from a one-name artefact without re-running gaptop3.",
+   "deliverable": "results/e44_midmonth/MIDLEVEL-DRIVERS-<cutoff>.json + digest",
+   "source": "r1169 E100 pit: 'publish max single-name read beside every level whose transitions<~30'",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:05:00+08:00",
+   "entered_by": "bm-b r1169",
+   "runner_note": "pure function of the already-burned levels face + churn rows; no new engine work and no re-burn of panels",
+   "note_from_e104": "r1170: the column now exists inside HELDSPLIT-20261026-s2018.json as cells[].largest_single_name_read (name, both reads, share of the window mean, share_eligible gate at a 0.5% mean floor). Still open as a standalone MIDLEVEL-DRIVERS face because that column is computed on the persistent-name population, not on every level transition."
+  },
+  {
+   "id": "E106-REPAIR-STEP-CONSISTENCY",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/panel_screen.py + scripts/e39_panel_census.py heldsplit face",
+   "title": "E104 found the repaired arm reading +1464% in one month where the raw series reads +295% (sh510580, 2024-08-30 to 2024-09-30): the level ratio between arms moves from x10.05 to x39.8 exactly AT the event. For every name flagged by reads_beyond_100pct, test whether the repaired series steps consistently at the split date (ratio before vs across the event). A repair that rescales a name without stepping at the event fabricates a read.",
+   "deliverable": "results/e44_midmonth/REPAIRSTEP-<cutoff>.json + digest",
+   "source": "DIGEST-20261027-e104-held-name-split-exposure.md (sh510580 witness)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:50:00+08:00",
+   "entered_by": "bm-b r1170",
+   "runner_note": "pure function of both arms prices at the flagged name-dates; no engine work"
+  },
+  {
+   "id": "E107-UNCHANGED-HOLDING-CURVE-EFFECT",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py + scripts/e27_universe_expansion.py",
+   "title": "E104 measured name-level reads on names the book kept; the ticket also asked whether those reads reach a published portfolio face. Price the same windows on the engine own simulated book (both arms) and report how many bp of the era curve the persistent-name splits actually move, and whether breadth or curve drawdown moves with them.",
+   "deliverable": "results/e44_midmonth/HELDCURVE-<cutoff>.json + digest",
+   "source": "pool E104 ticket half not delivered by r1170 (reads only)",
+   "evidence_cutoff": "2026-10-26",
+   "entered_at": "2026-10-27T07:50:00+08:00",
+   "entered_by": "bm-b r1170",
+   "runner_note": "reuse e27.simulate on both arms with the E104 window list; report curve deltas per window and per era"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -21797,7 +21863,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T07:05:00+08:00",
+ "updated_at": "2026-10-27T07:50:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

@@ -11038,6 +11038,242 @@ def _held_split_verdict(row, top_k=3):
     return "delta_is_broad"
 
 
+_REPAIRSTEP_MIN_STEP = 0.005        # rep/raw moving less than 0.5% is not a step
+_REPAIRSTEP_CANCEL_TOL_PCT = 2.0    # a print is "removed" if the session reads under this
+_REPAIRSTEP_PRINT_PCT = 100.0       # same family as the E104 reads_beyond_100pct line
+
+
+def _ratio_walk(rprices, uprices, nm, cal, i0, i1):
+    """(ratio, raw_ret_pct, rep_ret_pct) per session in [i0, i1] on priced pairs.
+
+    Reads the arm-vs-raw level ratio over consecutive PRICED closes, so a
+    suspended bar does not turn a moving ratio into a step.
+    """
+    rc = (rprices.get(nm) or [None] * len(cal))
+    uc = (uprices.get(nm) or [None] * len(cal))
+    out, prev = [], None
+    for i in range(max(0, i0), min(len(cal), i1 + 1)):
+        r, u = rc[i], uc[i]
+        if not r or not u:
+            continue
+        ratio = r / u
+        rec = {"date": cal[i], "ratio": ratio, "step": None,
+               "raw_ret_pct": None, "rep_ret_pct": None}
+        if prev:
+            rec["step"] = ratio / prev["ratio"]
+            rec["raw_ret_pct"] = 100.0 * (u / prev["u"] - 1.0)
+            rec["rep_ret_pct"] = 100.0 * (r / prev["r"] - 1.0)
+        rec["r"], rec["u"] = r, u
+        out.append(rec)
+        prev = rec
+    return out
+
+
+def run_repairstep(outdir, start="2018-01-01", exclude=("sh511",), gap_limit=1,
+                   published="HELDSPLIT-20261026-s2018.json"):
+    """E106: does the repaired arm step AT the print, and in which direction?
+
+    E104 flagged %d reads past +/-100%% inside unchanged holdings and left one
+    witness unexplained: sh510580 reads +1464%% in the repaired arm where the
+    raw series reads +295%%. A forward-adjustment repair must (a) put its step
+    on the session that carries the print and (b) cancel it, leaving a sane
+    one-session read. This leg tests both properties for every flagged window
+    and publishes, beside the face's own read, the read the same step would give
+    with the reciprocal factor -- so "the fix is the broken side" is a number,
+    not an opinion.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    if exclude:
+        raw = {s: v for s, v in raw.items() if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    cal = [d for d in cal_full if d >= start]
+    idx = {d: i for i, d in enumerate(cal)}
+
+    gap_label = "neutralise_gap%d" % int(gap_limit)
+    repaired, reports = panel_screen.screen_universe(
+        raw, mode="neutralise_gap", cal=cal_full, gap_limit=int(gap_limit))
+
+    def price_axis(univ):
+        out = {}
+        for s in set(univ) | set(raw):
+            c = univ.get(s, ({}, {}))[0]
+            out[s] = [c.get(d) for d in cal]
+        return out
+
+    rp, up = price_axis(repaired), price_axis(raw)
+
+    face = os.path.join(outdir, published)
+    with open(face, "r", encoding="utf-8") as fh:
+        held = json.load(fh)
+    flagged = []
+    for cell in held["cells"]:
+        rb = cell.get("reads_beyond_100pct") or {}
+        nxt = {w["date"]: w.get("next") for w in (cell.get("windows") or [])}
+        for w in rb.get("windows") or []:
+            for nm in sorted(set(w.get("names_gap") or [])
+                             | set(w.get("names_unscreened") or [])):
+                flagged.append({"era": cell["era"], "book": cell["book"],
+                                "name": nm, "date": w["date"],
+                                "next": nxt.get(w["date"]),
+                                "flagged_by": ("gap" if nm in (w.get("names_gap") or [])
+                                               else "unscreened")})
+    seen, windows = set(), []
+    for f in flagged:
+        k = (f["name"], f["date"], f["next"])
+        if k in seen or f["next"] is None:
+            continue
+        seen.add(k)
+        windows.append(f)
+
+    rows, asserts = [], {"steps_tested": 0, "ratio_product_mismatch": 0}
+    for w in windows:
+        nm, d0, d1 = w["name"], w["date"], w["next"]
+        i0, i1 = idx.get(d0), idx.get(d1)
+        row = dict(w)
+        if i0 is None or i1 is None:
+            row["verdict"] = "no_calendar_endpoint"
+            rows.append(row)
+            continue
+        walk = [x for x in _ratio_walk(rp, up, nm, cal, i0 - 1, i1)]
+        inside = [x for x in walk if x["step"] is not None and x["date"] > d0]
+        first = next((x for x in walk if x["date"] == d0), None)
+        last = next((x for x in walk if x["date"] == d1), None)
+        if not first or not last:
+            row["verdict"] = "missing_bars_at_window_ends"
+            rows.append(row)
+            continue
+        raw_read = 100.0 * (last["u"] / first["u"] - 1.0)
+        arm_read = 100.0 * (last["r"] / first["r"] - 1.0)
+        total = last["ratio"] / first["ratio"]
+        prod = 1.0
+        for x in inside:
+            prod *= x["step"]
+        if abs(prod / total - 1.0) > 1e-6:
+            asserts["ratio_product_mismatch"] += 1
+        asserts["steps_tested"] += len(inside)
+
+        steps = [x for x in inside if abs(x["step"] - 1.0) > _REPAIRSTEP_MIN_STEP]
+        largest = max(steps, key=lambda x: abs(x["step"] - 1.0)) if steps else None
+        if not steps:
+            verdict = ("arm_untouched_raw_print" if abs(total - 1.0) < 1e-9
+                       else "no_step_but_reads_differ")
+        else:
+            cancels = [x for x in steps
+                       if abs(x.get("rep_ret_pct") or 0.0) <= _REPAIRSTEP_CANCEL_TOL_PCT
+                       and abs(x.get("raw_ret_pct") or 0.0)
+                       > _REPAIRSTEP_PRINT_PCT - 1e-9]
+            amplifies = [x for x in steps
+                         if (x.get("raw_ret_pct") is not None
+                             and abs(x["raw_ret_pct"]) > _REPAIRSTEP_PRINT_PCT - 1e-9
+                             and abs(x.get("rep_ret_pct") or 0.0)
+                             > abs(x["raw_ret_pct"]))]
+            unprinted = [x for x in steps
+                         if (x.get("raw_ret_pct") or 0.0) is not None
+                         and abs(x.get("raw_ret_pct") or 0.0)
+                         <= _REPAIRSTEP_PRINT_PCT - 1e-9]
+            if amplifies:
+                verdict = "step_amplifies_print"
+            elif cancels:
+                verdict = "step_cancels_print"
+            elif unprinted:
+                verdict = "step_without_a_print"
+            else:
+                verdict = "step_partially_cancels"
+        row.update({
+            "raw_read_pct": round(raw_read, 2),
+            "arm_read_pct": round(arm_read, 2),
+            "ratio_at_window_start": round(first["ratio"], 6),
+            "ratio_at_window_end": round(last["ratio"], 6),
+            "largest_step": ({"date": largest["date"],
+                              "factor": round(largest["step"], 6),
+                              "raw_ret_pct": round(largest.get("raw_ret_pct") or 0.0, 2),
+                              "rep_ret_pct": round(largest.get("rep_ret_pct") or 0.0, 2),
+                              "raw_ret_cancelled_by_the_step": (
+                                  abs(largest.get("rep_ret_pct") or 0.0)
+                                  <= _REPAIRSTEP_CANCEL_TOL_PCT)}
+                             if largest else None),
+            "steps_inside_window": len(steps),
+            "verdict": verdict,
+        })
+        if largest and verdict in ("step_amplifies_print", "step_without_a_print"):
+            # the same print with the reciprocal (cancelling) factor: the step
+            # factor IS the amplification, so dividing the raw read by it once
+            # gives what the arm would have read had the factor been applied the
+            # other way. Publishing it keeps "the fix is the broken side" a number.
+            row["reciprocal_factor_read_pct"] = round(
+                (1.0 + raw_read / 100.0) / largest["step"] * 100.0 - 100.0, 2)
+        rows.append(row)
+
+    tally = {}
+    for r in rows:
+        tally[r["verdict"]] = tally.get(r["verdict"], 0) + 1
+    fabricating = [r for r in rows
+                   if r["verdict"] in ("step_amplifies_print", "step_without_a_print")]
+    worst = max(fabricating, key=lambda r: abs(r["arm_read_pct"])) if fabricating else None
+    return {
+        "study": "e106_repair_step_consistency",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "start": start, "exclude_prefixes": list(exclude),
+            "arm": gap_label, "gap_limit": int(gap_limit),
+            "population": ("every name the E104 face flagged as reading past "
+                           "+/-100%% inside an unchanged holding, deduplicated "
+                           "by (name, window) -- the witness list, not a screen"),
+            "step": ("a session where rep/raw moves more than %g; the step "
+                     "factor, the raw one-session read there and the repaired "
+                     "one-session read are published together"
+                     % _REPAIRSTEP_MIN_STEP),
+            "consistency_tests": {
+                "placed_at_a_print": "|raw one-session read| > 100% on the step session",
+                "cancels_the_print": ("|repaired one-session read| <= %g%% on that "
+                                      "session" % _REPAIRSTEP_CANCEL_TOL_PCT),
+                "amplifies_the_print": ("|repaired read| > |raw read| on that session "
+                                        "= the factor was applied the wrong way"),
+            },
+            "reciprocal_factor_read": ("(1+arm_read)/step - 1 = the read the same "
+                                       "step gives with the reciprocal factor"),
+        },
+        "screen_reports": reports,
+        "windows": rows,
+        "answers": {
+            "flagged_windows": len(rows),
+            "verdict_tally": tally,
+            "steps_tested": asserts["steps_tested"],
+            "ratio_product_mismatch": asserts["ratio_product_mismatch"],
+            "fabricating_windows": len(fabricating),
+            "worst": ({k: worst[k] for k in
+                       ("name", "era", "book", "date", "next", "verdict",
+                        "raw_read_pct", "arm_read_pct", "largest_step",
+                        "reciprocal_factor_read_pct")} if worst else None),
+            "reading": (("none of the %d flagged reads is fabricated by a wrong-side "
+                         "step: every step sits on a print and cancels it or leaves "
+                         "an unrepaired raw print" % len(rows))
+                        if not fabricating else
+                        ("%d of %d flagged reads are fabricated by the repair itself: "
+                         "the step sits on the print but multiplies instead of "
+                         "dividing, so the arm reads worse than the raw series"
+                         % (len(fabricating), len(rows)))),
+        },
+        "honest": [
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count, no ledger booking",
+            "a step is judged against the panel's own one-session reads, not "
+            "against a vendor corporate-action file; a real 1:N conversion and a "
+            "misprint look identical here, and the step test says nothing about "
+            "which of the two a name is",
+            "plan_screen's repair semantics belong to panel_screen.neutralise; this "
+            "leg publishes the defect but does not change any screened arm",
+            "reciprocal_factor_read is arithmetic on the published step, not a "
+            "re-burn: the arms' other bars are untouched",
+        ],
+    }
+
+
 def run_heldsplit(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                   gap_limit=1, mid_day=15, eras=ERAS, top_k=3):
     """E104: is a split print visible inside an UNCHANGED holding, and how big.
@@ -11522,7 +11758,7 @@ def main(argv):
                              "gapsplit", "screengapera", "tiltstable",
                              "endchoice",
                              "midlevels", "gaparmendgrid", "gaparmfamily",
-                             "gaplimit", "gaptop3", "heldsplit",
+                             "gaplimit", "gaptop3", "heldsplit", "repairstep",
                              "all", "selftest"])
     ap.add_argument("--month", default=None, help="YYYY-MM for the month attribution leg")
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
@@ -11729,6 +11965,29 @@ def main(argv):
                                               for k, v in (c["arms"] or {}).items()}}
                                     for c in f["cells"]]},
                          ensure_ascii=False))
+        return 0
+    if args.mode == "repairstep":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_repairstep(outdir, start=args.start)
+        p = write_json(outdir, "REPAIRSTEP-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({
+            "leg": "repairstep",
+            "file": os.path.relpath(p, ROOT),
+            "flagged_windows": f["answers"]["flagged_windows"],
+            "tally": f["answers"]["verdict_tally"],
+            "reading": f["answers"]["reading"],
+            "worst": f["answers"]["worst"],
+            "windows": [{"name": r["name"], "era": r["era"], "book": r["book"],
+                         "date": r["date"], "next": r["next"],
+                         "raw_read_pct": r.get("raw_read_pct"),
+                         "arm_read_pct": r.get("arm_read_pct"),
+                         "largest_step": r.get("largest_step"),
+                         "verdict": r["verdict"]} for r in f["windows"]],
+            "arithmetic": {"steps_tested": f["answers"]["steps_tested"],
+                           "ratio_product_mismatch":
+                               f["answers"]["ratio_product_mismatch"]},
+        }, ensure_ascii=False, indent=1))
         return 0
     if args.mode == "heldsplit":
         outdir = os.path.join(ROOT, "results", "e44_midmonth")
