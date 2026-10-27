@@ -30,4 +30,4 @@
 | ST-012 | done | gpu-night | st012_character_lora_train | none | character-voice LoRA training lane: GPT-SoVITS base finetune (GitHub wheels scan | claimed@bm-b@2026-10-20T01:12:02 |
 | ST-013 | done | cpu | st013_dubbing_sheet_prep | none | dubbing sheet preprocessing EP001-003 (一路长虹): per-line character/emotion/est-dur | claimed@bm-b@2026-10-19T14:11:15 |
 
-Loop state: rounds=141 last=2026-10-27T08:12:02
+Loop state: rounds=147 last=2026-10-27T12:12:01

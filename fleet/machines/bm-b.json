@@ -72,7 +72,7 @@
  "last_orders_sha": "c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_orders_watermark": "c067b3b20f6b8138@d39d33e/384256",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
- "last_push": "2e75f6518 -> origin/main (behind=0 ahead=0, four-way verified)",
+ "last_push": "5085ca83d -> origin/main (behind=0 ahead=0, four-way verified)",
  "last_round": 1178,
  "last_seen": "2026-10-27T12:36:17+08:00",
  "latest_artifact": "results/rev_osc_live/SIG-2026-10-26.json",
@@ -401,5 +401,12 @@
  "updated_at": "2026-10-27T11:50:36+08:00",
  "verdict": "productive: 1 production face unblocked (smoke 85/85)",
  "vram_free_gb": 3.7,
- "vram_used_gb": 4.3
+ "vram_used_gb": 4.3,
+ "r1178_push": {
+  "pushed_sha": "5085ca83d",
+  "status": "PUSHED_VERIFIED",
+  "behind_origin_main": 0,
+  "ts": "2026-10-27T12:47:22+08:00",
+  "note": "rebase --autostash over 2 incoming bm-c commits (r1306/r1307); CODELY.md conflicted as union of both additive rows (bm-c r1306 + bm-b r1177) -- neither dropped, 75 lines / 32 list rows intact; results/_attrition_guard_scan.json taken origin-verbatim (regenerable evidence); autostash pop left 9 daemon faces UU -> resolved to committed state, stash dropped; four-way verified HEAD==origin/main==5085ca83d behind=0 ahead=0, ls-tree carries SIG-2026-10-26.json + rev_osc_signal_export.py + the digest"
+ }
 }
