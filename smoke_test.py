@@ -513,6 +513,13 @@ def main() -> int:
              "scripts/etf_book_passive_mix.py", ["--selftest"]),
             ("product: etf_book_window_decomp ladder (exit-code contract)",
              "scripts/etf_book_window_decomp.py", ["--selftest"]),
+            # r1309: the ladder's rungs were all FIXED cells picked with hindsight. The
+            # deployment rule re-picks (N,R) yearly on trailing Sharpe, so the ladder cannot
+            # say whether the RULE survives the window. This leg pins that the walk-forward
+            # harness -- including the year-boundary rule that makes a chain equal its curve
+            # -- still runs.
+            ("product: etf_book_pre2020 walk-forward rule (exit-code contract)",
+             "scripts/etf_book_pre2020_wf.py", ["--selftest"]),
             # r1308 was itself a dead window's product left uncommitted in this tree, and
             # the hand test (git log vs round_no) agreed with the counter and saw nothing.
             # The detector's contract is what keeps the next one from being invisible.
