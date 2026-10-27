@@ -1,0 +1,696 @@
+{
+ "study": "e107_unchanged_holding_curve_effect",
+ "evidence_cutoff": "2026-10-26",
+ "spec": {
+  "start": "2018-01-01",
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "mid_month_day": 15,
+  "arms": [
+   "unscreened",
+   "neutralise_gap1"
+  ],
+  "gap_limit": 1,
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "books": [
+   "me",
+   "mid"
+  ],
+  "cost_bp_side": 13.041,
+  "curve": "equal-weight book built from the SAME decision timeline E104 measured; a decision at idx earns from idx to idx+1; cost = turnover x COST_BP_SIDE",
+  "curve_delta_bp": "100*(ret_repair - ret_unscreened) -- selection + read + cost",
+  "read_effect_bp": "100*(ret_hybrid - ret_repair) where hybrid = repair arm's holdings and prices, except persistent names whose session RETURN is the unscreened one inside that window; holdings, turnover and cost are therefore identical",
+  "not_a_burn": "no panel re-burn, no new engine path, no gate"
+ },
+ "screen_reports": {
+  "mode": "neutralise_gap",
+  "threshold_pct": 30.0,
+  "adjacency": "panel calendar",
+  "names_in": 1271,
+  "names_out": 1271,
+  "names_touched": 74
+ },
+ "cells": [
+  {
+   "era": "pre2017",
+   "book": "me",
+   "skipped": "no decision ends for this era/book",
+   "verdict": "no_unchanged_holdings"
+  },
+  {
+   "era": "pre2017",
+   "book": "mid",
+   "skipped": "no decision ends for this era/book",
+   "verdict": "no_unchanged_holdings"
+  },
+  {
+   "era": "2017_2020",
+   "book": "me",
+   "window_end": "2021-01-29",
+   "sessions": 486,
+   "decisions": 24,
+   "persistent_reads": 2430,
+   "transitions": 23,
+   "windows_with_a_split_pct": 0.0,
+   "curve": {
+    "ret_unscreened_pct": 72.2938,
+    "ret_repair_pct": 72.2938,
+    "ret_hybrid_pct": 72.2938,
+    "curve_delta_bp": 0.0,
+    "read_effect_bp": 0.0,
+    "read_attribution_bp": -0.0,
+    "read_effect_share_of_curve_delta_pct": null,
+    "identity_control_residual_bp": 0.0,
+    "persistent_weight_mean_pct": 99.43,
+    "swapped_share_mean_pct": 0.57,
+    "selection_effect_bp": 0.0,
+    "max_drawdown_unscreened_pct": 14.784,
+    "max_drawdown_repair_pct": 14.784,
+    "max_drawdown_hybrid_pct": 14.784,
+    "breadth_mean": 108.8,
+    "turnover_unscreened": 1.97,
+    "turnover_repair": 1.97
+   },
+   "windows": [
+    {
+     "date": "2019-01-31",
+     "next": "2019-02-28",
+     "persistent_names": 81,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sz159939"
+    },
+    {
+     "date": "2019-02-28",
+     "next": "2019-03-29",
+     "persistent_names": 82,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512330"
+    },
+    {
+     "date": "2019-03-29",
+     "next": "2019-04-30",
+     "persistent_names": 84,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": -0.0,
+     "max_abs_read": "sh513100"
+    },
+    {
+     "date": "2019-04-30",
+     "next": "2019-05-31",
+     "persistent_names": 84,
+     "persistent_weight_pct": 98.82,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh513050"
+    },
+    {
+     "date": "2019-05-31",
+     "next": "2019-06-28",
+     "persistent_names": 87,
+     "persistent_weight_pct": 98.86,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512070"
+    },
+    {
+     "date": "2019-06-28",
+     "next": "2019-07-31",
+     "persistent_names": 88,
+     "persistent_weight_pct": 98.88,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512680"
+    }
+   ],
+   "verdict": "no_read_and_no_arm_gap"
+  },
+  {
+   "era": "2017_2020",
+   "book": "mid",
+   "window_end": "2021-01-15",
+   "sessions": 488,
+   "decisions": 24,
+   "persistent_reads": 2393,
+   "transitions": 23,
+   "windows_with_a_split_pct": 0.0,
+   "curve": {
+    "ret_unscreened_pct": 75.7823,
+    "ret_repair_pct": 75.7823,
+    "ret_hybrid_pct": 75.7823,
+    "curve_delta_bp": 0.0,
+    "read_effect_bp": 0.0,
+    "read_attribution_bp": -0.0,
+    "read_effect_share_of_curve_delta_pct": null,
+    "identity_control_residual_bp": 0.0,
+    "persistent_weight_mean_pct": 99.43,
+    "swapped_share_mean_pct": 0.57,
+    "selection_effect_bp": 0.0,
+    "max_drawdown_unscreened_pct": 14.749,
+    "max_drawdown_repair_pct": 14.749,
+    "max_drawdown_hybrid_pct": 14.749,
+    "breadth_mean": 107.0,
+    "turnover_unscreened": 2.01,
+    "turnover_repair": 2.01
+   },
+   "windows": [
+    {
+     "date": "2019-01-15",
+     "next": "2019-02-15",
+     "persistent_names": 78,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512010"
+    },
+    {
+     "date": "2019-02-15",
+     "next": "2019-03-15",
+     "persistent_names": 82,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512330"
+    },
+    {
+     "date": "2019-03-15",
+     "next": "2019-04-15",
+     "persistent_names": 83,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sz159928"
+    },
+    {
+     "date": "2019-04-15",
+     "next": "2019-05-15",
+     "persistent_names": 84,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512400"
+    },
+    {
+     "date": "2019-05-15",
+     "next": "2019-06-17",
+     "persistent_names": 85,
+     "persistent_weight_pct": 97.7,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh513050"
+    },
+    {
+     "date": "2019-06-17",
+     "next": "2019-07-15",
+     "persistent_names": 88,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 0.0,
+     "max_abs_read": "sh512070"
+    }
+   ],
+   "verdict": "no_read_and_no_arm_gap"
+  },
+  {
+   "era": "2021_2023",
+   "book": "me",
+   "window_end": "2024-01-31",
+   "sessions": 730,
+   "decisions": 36,
+   "persistent_reads": 13159,
+   "transitions": 35,
+   "windows_with_a_split_pct": 20.0,
+   "curve": {
+    "ret_unscreened_pct": -31.2924,
+    "ret_repair_pct": -30.778,
+    "ret_hybrid_pct": -30.4616,
+    "curve_delta_bp": 0.51,
+    "read_effect_bp": 0.32,
+    "read_attribution_bp": -0.32,
+    "read_effect_share_of_curve_delta_pct": -61.5,
+    "identity_control_residual_bp": -0.0,
+    "persistent_weight_mean_pct": 99.36,
+    "swapped_share_mean_pct": 0.64,
+    "selection_effect_bp": 0.83,
+    "max_drawdown_unscreened_pct": 34.885,
+    "max_drawdown_repair_pct": 34.467,
+    "max_drawdown_hybrid_pct": 34.098,
+    "breadth_mean": 384.8,
+    "turnover_unscreened": 2.66,
+    "turnover_repair": 2.65
+   },
+   "windows": [
+    {
+     "date": "2021-05-31",
+     "next": "2021-06-30",
+     "persistent_names": 208,
+     "persistent_weight_pct": 99.05,
+     "read_delta_bp": 25.2722,
+     "max_abs_read": "sz159928"
+    },
+    {
+     "date": "2021-12-31",
+     "next": "2022-01-28",
+     "persistent_names": 236,
+     "persistent_weight_pct": 99.16,
+     "read_delta_bp": 24.982,
+     "max_abs_read": "sz159806"
+    },
+    {
+     "date": "2022-06-30",
+     "next": "2022-07-29",
+     "persistent_names": 351,
+     "persistent_weight_pct": 99.72,
+     "read_delta_bp": 23.6316,
+     "max_abs_read": "sz159941"
+    },
+    {
+     "date": "2023-03-31",
+     "next": "2023-04-28",
+     "persistent_names": 535,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": -17.4793,
+     "max_abs_read": "sz159747"
+    },
+    {
+     "date": "2022-04-29",
+     "next": "2022-05-31",
+     "persistent_names": 312,
+     "persistent_weight_pct": 99.05,
+     "read_delta_bp": 16.1498,
+     "max_abs_read": "sz159938"
+    },
+    {
+     "date": "2023-07-31",
+     "next": "2023-08-31",
+     "persistent_names": 572,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": 8.1529,
+     "max_abs_read": "sz159801"
+    }
+   ],
+   "verdict": "read_opposes_the_arm_gap"
+  },
+  {
+   "era": "2021_2023",
+   "book": "mid",
+   "window_end": "2024-01-15",
+   "sessions": 728,
+   "decisions": 36,
+   "persistent_reads": 12936,
+   "transitions": 35,
+   "windows_with_a_split_pct": 22.9,
+   "curve": {
+    "ret_unscreened_pct": -27.2455,
+    "ret_repair_pct": -26.2265,
+    "ret_hybrid_pct": -25.1867,
+    "curve_delta_bp": 1.02,
+    "read_effect_bp": 1.04,
+    "read_attribution_bp": -1.04,
+    "read_effect_share_of_curve_delta_pct": -102.0,
+    "identity_control_residual_bp": 0.0,
+    "persistent_weight_mean_pct": 99.35,
+    "swapped_share_mean_pct": 0.65,
+    "selection_effect_bp": 2.06,
+    "max_drawdown_unscreened_pct": 29.588,
+    "max_drawdown_repair_pct": 29.139,
+    "max_drawdown_hybrid_pct": 27.597,
+    "breadth_mean": 378.5,
+    "turnover_unscreened": 2.7,
+    "turnover_repair": 2.69
+   },
+   "windows": [
+    {
+     "date": "2021-01-15",
+     "next": "2021-02-18",
+     "persistent_names": 175,
+     "persistent_weight_pct": 98.87,
+     "read_delta_bp": 55.366,
+     "max_abs_read": "sz159975"
+    },
+    {
+     "date": "2021-12-15",
+     "next": "2022-01-17",
+     "persistent_names": 234,
+     "persistent_weight_pct": 99.15,
+     "read_delta_bp": 25.436,
+     "max_abs_read": "sz159806"
+    },
+    {
+     "date": "2021-06-15",
+     "next": "2021-07-15",
+     "persistent_names": 213,
+     "persistent_weight_pct": 99.07,
+     "read_delta_bp": 24.6176,
+     "max_abs_read": "sz159928"
+    },
+    {
+     "date": "2022-06-15",
+     "next": "2022-07-15",
+     "persistent_names": 338,
+     "persistent_weight_pct": 99.71,
+     "read_delta_bp": 22.5681,
+     "max_abs_read": "sz159941"
+    },
+    {
+     "date": "2023-04-17",
+     "next": "2023-05-15",
+     "persistent_names": 541,
+     "persistent_weight_pct": 100.0,
+     "read_delta_bp": -17.616,
+     "max_abs_read": "sz159747"
+    },
+    {
+     "date": "2022-05-16",
+     "next": "2022-06-15",
+     "persistent_names": 316,
+     "persistent_weight_pct": 99.37,
+     "read_delta_bp": 15.9698,
+     "max_abs_read": "sz159938"
+    }
+   ],
+   "verdict": "read_opposes_the_arm_gap"
+  },
+  {
+   "era": "2024_now",
+   "book": "me",
+   "window_end": "2026-10-26",
+   "sessions": 658,
+   "decisions": 34,
+   "persistent_reads": 27785,
+   "transitions": 33,
+   "windows_with_a_split_pct": 51.5,
+   "curve": {
+    "ret_unscreened_pct": 48.4124,
+    "ret_repair_pct": 50.7245,
+    "ret_hybrid_pct": 48.4124,
+    "curve_delta_bp": 2.31,
+    "read_effect_bp": -2.31,
+    "read_attribution_bp": 2.31,
+    "read_effect_share_of_curve_delta_pct": 100.0,
+    "identity_control_residual_bp": 0.0,
+    "persistent_weight_mean_pct": 99.72,
+    "swapped_share_mean_pct": 0.28,
+    "selection_effect_bp": 0.0,
+    "max_drawdown_unscreened_pct": 19.521,
+    "max_drawdown_repair_pct": 18.794,
+    "max_drawdown_hybrid_pct": 19.521,
+    "breadth_mean": 844.3,
+    "turnover_unscreened": 2.12,
+    "turnover_repair": 2.1
+   },
+   "windows": [
+    {
+     "date": "2024-08-30",
+     "next": "2024-09-30",
+     "persistent_names": 705,
+     "persistent_weight_pct": 99.58,
+     "read_delta_bp": -71.1679,
+     "max_abs_read": "sh510580"
+    },
+    {
+     "date": "2025-08-29",
+     "next": "2025-09-30",
+     "persistent_names": 833,
+     "persistent_weight_pct": 99.64,
+     "read_delta_bp": 45.2528,
+     "max_abs_read": "sh562030"
+    },
+    {
+     "date": "2026-06-30",
+     "next": "2026-07-31",
+     "persistent_names": 1095,
+     "persistent_weight_pct": 99.82,
+     "read_delta_bp": 33.7989,
+     "max_abs_read": "sz159582"
+    },
+    {
+     "date": "2025-07-31",
+     "next": "2025-08-29",
+     "persistent_names": 828,
+     "persistent_weight_pct": 99.88,
+     "read_delta_bp": 25.8877,
+     "max_abs_read": "sz159567"
+    },
+    {
+     "date": "2026-05-29",
+     "next": "2026-06-30",
+     "persistent_names": 1060,
+     "persistent_weight_pct": 99.72,
+     "read_delta_bp": 25.8598,
+     "max_abs_read": "sh561980"
+    },
+    {
+     "date": "2026-07-31",
+     "next": "2026-08-31",
+     "persistent_names": 1129,
+     "persistent_weight_pct": 99.91,
+     "read_delta_bp": 15.6449,
+     "max_abs_read": "sh588290"
+    }
+   ],
+   "verdict": "read_explains_the_arm_gap"
+  },
+  {
+   "era": "2024_now",
+   "book": "mid",
+   "window_end": "2026-10-26",
+   "sessions": 670,
+   "decisions": 34,
+   "persistent_reads": 27497,
+   "transitions": 33,
+   "windows_with_a_split_pct": 48.5,
+   "curve": {
+    "ret_unscreened_pct": 35.3426,
+    "ret_repair_pct": 37.434,
+    "ret_hybrid_pct": 40.2287,
+    "curve_delta_bp": 2.09,
+    "read_effect_bp": 2.79,
+    "read_attribution_bp": -2.79,
+    "read_effect_share_of_curve_delta_pct": -133.6,
+    "identity_control_residual_bp": 0.0,
+    "persistent_weight_mean_pct": 99.71,
+    "swapped_share_mean_pct": 0.29,
+    "selection_effect_bp": 4.89,
+    "max_drawdown_unscreened_pct": 20.797,
+    "max_drawdown_repair_pct": 20.014,
+    "max_drawdown_hybrid_pct": 18.696,
+    "breadth_mean": 846.9,
+    "turnover_unscreened": 2.13,
+    "turnover_repair": 2.11
+   },
+   "windows": [
+    {
+     "date": "2026-06-15",
+     "next": "2026-07-15",
+     "persistent_names": 1079,
+     "persistent_weight_pct": 99.72,
+     "read_delta_bp": 51.7805,
+     "max_abs_read": "sh561980"
+    },
+    {
+     "date": "2025-08-15",
+     "next": "2025-09-15",
+     "persistent_names": 831,
+     "persistent_weight_pct": 99.64,
+     "read_delta_bp": 41.4254,
+     "max_abs_read": "sh513770"
+    },
+    {
+     "date": "2024-08-15",
+     "next": "2024-09-18",
+     "persistent_names": 700,
+     "persistent_weight_pct": 99.01,
+     "read_delta_bp": -40.9702,
+     "max_abs_read": "sh510580"
+    },
+    {
+     "date": "2025-07-15",
+     "next": "2025-08-15",
+     "persistent_names": 821,
+     "persistent_weight_pct": 99.88,
+     "read_delta_bp": 26.7783,
+     "max_abs_read": "sh562060"
+    },
+    {
+     "date": "2026-07-15",
+     "next": "2026-08-17",
+     "persistent_names": 1109,
+     "persistent_weight_pct": 99.82,
+     "read_delta_bp": 20.267,
+     "max_abs_read": "sh588110"
+    },
+    {
+     "date": "2025-10-15",
+     "next": "2025-11-17",
+     "persistent_names": 856,
+     "persistent_weight_pct": 99.77,
+     "read_delta_bp": 17.2922,
+     "max_abs_read": "sh588860"
+    }
+   ],
+   "verdict": "read_opposes_the_arm_gap"
+  }
+ ],
+ "summary": {
+  "cells_measured": 6,
+  "read_effect_bp_by_era": {
+   "2017_2020": [
+    0.0,
+    0.0
+   ],
+   "2021_2023": [
+    0.32,
+    1.04
+   ],
+   "2024_now": [
+    -2.31,
+    2.79
+   ]
+  },
+  "largest_read_effects": [
+   {
+    "era": "2024_now",
+    "book": "mid",
+    "curve_delta_bp": 2.09,
+    "read_effect_bp": 2.79
+   },
+   {
+    "era": "2024_now",
+    "book": "me",
+    "curve_delta_bp": 2.31,
+    "read_effect_bp": -2.31
+   },
+   {
+    "era": "2021_2023",
+    "book": "mid",
+    "curve_delta_bp": 1.02,
+    "read_effect_bp": 1.04
+   },
+   {
+    "era": "2021_2023",
+    "book": "me",
+    "curve_delta_bp": 0.51,
+    "read_effect_bp": 0.32
+   },
+   {
+    "era": "2017_2020",
+    "book": "me",
+    "curve_delta_bp": 0.0,
+    "read_effect_bp": 0.0
+   }
+  ],
+  "largest_window_reads": [
+   {
+    "delta_bp": -71.17,
+    "era": "2024_now",
+    "book": "me",
+    "date": "2024-08-30",
+    "persistent_names": 705
+   },
+   {
+    "delta_bp": 55.37,
+    "era": "2021_2023",
+    "book": "mid",
+    "date": "2021-01-15",
+    "persistent_names": 175
+   },
+   {
+    "delta_bp": 51.78,
+    "era": "2024_now",
+    "book": "mid",
+    "date": "2026-06-15",
+    "persistent_names": 1079
+   },
+   {
+    "delta_bp": 45.25,
+    "era": "2024_now",
+    "book": "me",
+    "date": "2025-08-29",
+    "persistent_names": 833
+   },
+   {
+    "delta_bp": 41.43,
+    "era": "2024_now",
+    "book": "mid",
+    "date": "2025-08-15",
+    "persistent_names": 831
+   }
+  ],
+  "median_read_effect_share_of_curve_delta_pct": -61.5,
+  "max_identity_control_residual_bp": 0.0,
+  "degenerate_cells": [
+   {
+    "era": "2017_2020",
+    "book": "me",
+    "persistent_weight_mean_pct": 99.43,
+    "swapped_share_mean_pct": 0.57
+   },
+   {
+    "era": "2017_2020",
+    "book": "mid",
+    "persistent_weight_mean_pct": 99.43,
+    "swapped_share_mean_pct": 0.57
+   },
+   {
+    "era": "2021_2023",
+    "book": "me",
+    "persistent_weight_mean_pct": 99.36,
+    "swapped_share_mean_pct": 0.64
+   },
+   {
+    "era": "2021_2023",
+    "book": "mid",
+    "persistent_weight_mean_pct": 99.35,
+    "swapped_share_mean_pct": 0.65
+   },
+   {
+    "era": "2024_now",
+    "book": "me",
+    "persistent_weight_mean_pct": 99.72,
+    "swapped_share_mean_pct": 0.28
+   },
+   {
+    "era": "2024_now",
+    "book": "mid",
+    "persistent_weight_mean_pct": 99.71,
+    "swapped_share_mean_pct": 0.29
+   }
+  ],
+  "verdicts": {
+   "no_read_and_no_arm_gap": 2,
+   "read_opposes_the_arm_gap": 3,
+   "read_explains_the_arm_gap": 1
+  }
+ },
+ "answers": {
+  "does_a_persistent_read_reach_the_curve": true,
+  "how_do_the_two_readings_differ": "the arm-vs-arm curve delta pays for selection as well as the read, so it is published beside the read effect, never as it",
+  "drawdown_moves_too": true
+ },
+ "honest": [
+  "the read effect is a counterfactual on the SAME holdings, not a re-burn: it answers 'what does the read alone do to this curve', not 'what would the other arm have earned'",
+  "the substitution rewrites returns inside the window and rebases afterwards, so later windows start from the repair level -- splicing levels would inject a jump exactly the size of the read being measured",
+  "a level over few transitions is a mean over few names (E105); no window-level read is promoted to an era reading here",
+  "where the persistent names carry ~the whole book (2024_now), the counterfactual IS the other arm: the number is still true but it cannot separate the read from selection, and those cells say so",
+  "the identity control (substitute a series for itself) must read 0.0; a non-zero residual there would mean the machinery, not the data, moved the curve",
+  "description only: no gate, no verdict on any strategy, zero ledger"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

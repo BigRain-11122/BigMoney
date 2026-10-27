@@ -21842,7 +21842,7 @@
   },
   {
    "id": "E107-UNCHANGED-HOLDING-CURVE-EFFECT",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "target": "scripts/e39_panel_census.py + scripts/e27_universe_expansion.py",
@@ -21852,7 +21852,12 @@
    "evidence_cutoff": "2026-10-26",
    "entered_at": "2026-10-27T07:50:00+08:00",
    "entered_by": "bm-b r1170",
-   "runner_note": "reuse e27.simulate on both arms with the E104 window list; report curve deltas per window and per era"
+   "runner_note": "reuse e27.simulate on both arms with the E104 window list; report curve deltas per window and per era",
+   "owner": null,
+   "claimed_at": "2026-10-27T11:2x+08:00",
+   "result_ref": "scripts/e107_heldcurve.py -> results/e44_midmonth/HELDCURVE-20261026.json",
+   "done_at": "2026-10-27T11:34:00+08:00",
+   "done_note": "read reaches the curve (5/6 cells); read attribution vs selection split published per cell. 2017_2020 both books 0.0/0.0; 2021_2023 me -0.32 vs gap +0.51; mid -1.04 vs +1.02; 2024_now me +2.31 == gap (selection 0.0); mid -2.79 vs +2.09. Identity control residual 0.0 on all six; persistent names carry 99.4-99.7% of a near-universe book"
   },
   {
    "id": "E108-REPAIR-FACTOR-SIGN",
@@ -21940,6 +21945,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-27T09:5x+08:00",
+ "updated_at": "2026-10-27T11:34+08:00",
  "version": 1
 }

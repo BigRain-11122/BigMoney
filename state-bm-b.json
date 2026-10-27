@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T10:17:52+08:00",
- "current": "r1174: E110 closed -- burncontrol was comparing a pre-fix twin; now green 56/56 with a cutoff guard",
- "current_task": "r1172 closed; next = E109 screened-consumer sweep (14 remaining neutralise legs), or E105 midlevel drivers, or E107 held-curve effect",
+ "clock_read": "2026-10-27T11:47:46+08:00",
+ "current": "r1176: E107 shipped HELDCURVE -- read vs selection split per era-book cell",
+ "current_task": "next = E97 readsets routing table or E105 MIDLEVEL-DRIVERS",
  "cyc_round": 1175,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
@@ -557,9 +557,9 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1175,
- "round_no": 1175,
- "round_no_label": "r1175",
+ "round": 1176,
+ "round_no": 1176,
+ "round_no_label": "r1176",
  "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
  "sat_engine": {
   "checked_at": "2026-10-27T07:40:53+08:00",
@@ -567,20 +567,29 @@
  },
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "sync": {
-  "status": "PUSHED_VERIFIED",
-  "pushed_sha": "bfd9cd0c0",
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "non-ff first attempt (origin 4 ahead, bm-b r1171 postscript line + upstream bm-c work); pull --rebase --autostash: 2 conflicts resolved (METHODOLOGY_ASSETS.md = append-only ledger, origin copy + our 22 added lines; _attrition_guard_scan.json = ours, newer scan). autostash pop left results/compute_audit.json UU -> theirs (daemon state), stash dropped. Delivered 2d6c86e85..bfd9cd0c0, four-way verified behind=0 ahead=0 and ls-tree origin carries REPAIRFIX-20261026.json + the E108 digest + scripts/e108_repairfix.py",
-  "ts": "2026-10-27T10:17:52+08:00",
-  "last_push": "bfd9cd0c0 -> origin/main (behind=0 ahead=0)",
-  "last_push_ts": "2026-10-27T08:50:00+08:00"
+  "status": "PENDING_PUSH"
  },
- "task": "r1174 E110 burncontrol mismatch closure",
+ "task": "r1176 E107 held-curve attribution",
  "task_short": "E110 burncontrol",
- "ts": "2026-10-27T10:50:17+08:00",
- "updated": "2026-10-27T10:50:17+08:00",
- "updated_at": "2026-10-27T10:50:17+08:00",
- "verdict": "productive: E110 -- the burncontrol mismatch was a stale control face (4 of 11 cells = the E108 factor, 7 = panel arrival); control now green 56/56 and can no longer report a cross-cutoff comparison as a burn defect.",
- "task_short_note": "repair factor 1/(1+r)"
+ "ts": "2026-10-27T11:47:46+08:00",
+ "updated": "2026-10-27T11:47:46+08:00",
+ "updated_at": "2026-10-27T11:47:46+08:00",
+ "verdict": "productive: E107 published HELDCURVE-20261026 (identity control 0.0 on all six cells) -- the persistent-name read does reach the curve, and in 4 of 6 cells it pushes the opposite way from the arm gap",
+ "task_short_note": "repair factor 1/(1+r)",
+ "r1176_face": {
+  "d19": "decisions c514b69c + orders c067b3b2 unchanged -> zero action",
+  "inbox": "empty",
+  "orders": "114 files, orders_ack 115, unacked 0",
+  "orphan_face": 0,
+  "py_faces": 7,
+  "pool": "E107 done + result_ref; E97/E105 still ready",
+  "product": "results/e44_midmonth/HELDCURVE-20261026.json",
+  "s6": "50 legs rc0, NON-ZERO LEGS: none",
+  "smoke": "85/85 PASS",
+  "selftest": "e107_heldcurve 20/20",
+  "attrition": "CLEAN",
+  "sat_engine": "alive (status rc0)"
+ }
 }

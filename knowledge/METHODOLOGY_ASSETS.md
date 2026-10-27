@@ -1074,3 +1074,24 @@ implementation scripts/etf_book_pre2020.py (rides scripts/etf_composite_pf.py, n
   (39/39); python scripts/e39_panel_census.py selftest (324/324);
   results/e44_midmonth/FACESTAMP-20261027.json (writer_proof stamped_on_disk=true)
 - 2026-10-27 r1175 bm-b (capture law O-20261002-2100 closing step)
+
+- Card: attribute a COUNTERFACTUAL by rewriting returns, and prove the machinery with an identity control (E107)
+- Trigger: you have measured an effect on names and now must say how much of a published portfolio
+  curve it moved -- and the two arms differ by BOTH that effect and by which names they hold.
+- Move: build a third curve from the treated arm's OWN holdings and prices, substituting only the
+  target names' session RETURNS with the control arm's inside the affected window. Holdings,
+  turnover and cost are then identical by construction, so the difference is the effect alone.
+  Publish the raw arm gap beside it and define \selection_effect = arm_gap + read_effect\ with the
+  sign convention written down once (read_effect = cost of undoing the treatment).
+- Judgment: (1) rewrite returns, never levels -- splicing levels into the other arm's series injects
+  a jump at every window edge exactly the size of the effect you are measuring; (2) add an identity
+  control (substitute a series for itself, expect residual 0.0) or an off-by-one at a window edge
+  hides as a plausible few-bp reading; (3) publish the substituted names' WEIGHT SHARE -- on bm-b's
+  near-universe ETF book the persistent names carry 99.4-99.7% of capital, which caps what
+  selection can possibly explain and is the first thing a reader needs; (4) the two deltas disagree
+  in sign in 4 of 6 cells here, so "the arm gap is the effect" is wrong most of the time.
+- Reusable check: does any "change X moved the curve" claim ship (a) a same-holdings counterfactual,
+  (b) an identity control, (c) the weight share of the population it substituted?
+- Verify: python scripts/e107_heldcurve.py --selftest (20/20);
+  results/e44_midmonth/HELDCURVE-20261026.json (max identity_control_residual_bp 0.0)
+- 2026-10-27 r1176 bm-b (capture law O-20261002-2100 closing step)

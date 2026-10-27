@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-27T11:02:16+08:00",
+ "clock_read": "2026-10-27T11:47:46+08:00",
  "codely_live_count": 2,
  "cpu": {
   "cores": 16
@@ -9,8 +9,8 @@
  "cpu_load_pct": 39.0,
  "cpu_pct": 39.0,
  "cpu_util_pct": 39.0,
- "current": "r1175: E111 -- every census face now carries the repair factor; the burn control refuses a cross-version join",
- "current_task": "r1175 candidates: E111 face factor stamp / E105 level single-name column / E107 held-curve effect / E97 readset routing",
+ "current": "r1176: E107 priced the persistent-name reads on the book's own curve",
+ "current_task": "next = E97 readsets routing table, or E105 MIDLEVEL-DRIVERS standalone face",
  "cyc_round": 1175,
  "d19_note": "r1166: group origin decisions.md/l orders.md read via cat-file; rows D-20261027-01..05 landed 00:07 (bm-a). Only D-20261027-01 touches BigMoney (bm-a task family Disabled->resumed): local check done -- Bigmoney-IterationLoop next-run 05:47 and Bigmoney-LoopWatchdog 05:46 both scheduled (Ready), so bm-b has no UNEXPECTED-DISABLED. Watermark RE-BASELINED: stored 17c29359 does not reproduce under sha256(git cat-file blob origin/main:docs/decisions.md) = fd9e59cd..., recipe now written into state-bm-b.json.",
  "dept": "research+data",
@@ -28,7 +28,7 @@
  },
  "gpu_face": "nvidia-smi 2% / 4450 MiB used of 8192 MiB",
  "gpu_face_source": "nvidia-smi",
- "gpu_face_ts": "2026-10-27T10:49:24+08:00",
+ "gpu_face_ts": "2026-10-27T11:47:23+08:00",
  "gpu_free": "3742, 8192",
  "gpu_free_gb": 3.7,
  "gpu_free_mb": 3742,
@@ -48,13 +48,13 @@
  "gpu_used_mib": 4450,
  "gpu_used_vram_mb": 4450,
  "gpu_used_vram_mib": 4450,
- "gpu_util_pct": 2.0,
+ "gpu_util_pct": 4.0,
  "gpu_vram_free_gb": 3742,
  "gpu_vram_free_mb": 3742,
  "gpu_vram_free_mib": 3742,
  "gpu_vram_used_mb": 4450,
  "gpu_vram_used_mib": 4450,
- "heartbeat_epoch_utc": 1793070136,
+ "heartbeat_epoch_utc": 1793072866,
  "idle_ram_gb": 8.9,
  "idle_ram_pct": 37.0,
  "idle_rounds": 0,
@@ -74,7 +74,7 @@
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@d39d33edfedd61eb58996af9ca0740dcc7e55df5/384256#c067b3b20f6b81381e53f216f5ee039180544f138244a2f8176392d44be015e3",
  "last_push": "2e75f6518 -> origin/main (behind=0 ahead=0, four-way verified)",
  "last_round": 1174,
- "last_seen": "2026-10-27T11:02:16+08:00",
+ "last_seen": "2026-10-27T11:47:46+08:00",
  "latest_artifact": "results/e44_midmonth/FACESTAMP-20261027.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
@@ -361,14 +361,14 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T11:02:16+08:00"
  },
- "ram_free_gb": 8.9,
- "ram_free_mb": 9069,
- "ram_free_pct": 37.0,
+ "ram_free_gb": 12.2,
+ "ram_free_mb": 12494,
+ "ram_free_pct": 51.0,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1175,
- "round_no": 1175,
- "round_no_label": "r1175",
+ "round": 1176,
+ "round_no": 1176,
+ "round_no_label": "r1176",
  "sat_engine": {
   "checked_at": "2026-10-27T10:49:43+08:00",
   "status": "alive"
@@ -376,13 +376,27 @@
  "status": "online",
  "sync": {
   "behind_origin_main": 0,
-  "local_not_on_origin_main": 0
+  "local_not_on_origin_main": 0,
+  "status": "PENDING_PUSH"
  },
- "task": "r1175 E111 face repair-factor stamp",
- "task_short": "E111 face factor stamp",
- "ts": "2026-10-27T11:02:16+08:00",
+ "task": "r1176 E107 held-curve attribution",
+ "ts": "2026-10-27T11:47:46+08:00",
  "updated": "2026-10-27T11:02:16+08:00",
  "updated_at": "2026-10-27T11:02:16+08:00",
- "verdict": "productive: E111 shipped (panel_screen 39/39, e39 324/324, e111 13/13, smoke 84/84) -- a face's identity is now (code version, cutoff) and unstamped reads UNKNOWN",
- "vram_free_gb": 3.7
+ "verdict": "productive: E107 published HELDCURVE-20261026 -- a split inside an UNCHANGED holding does reach the book's curve, but the arm gap and the read are different numbers: 2017_2020 0.0/0.0; 2021_2023 me read -0.32 vs gap +0.51, mid -1.04 vs +1.02; 2024_now me read +2.31 == gap (selection 0.00), mid -2.79 vs +2.09 (selection +4.89). Persistent names carry 99.4-99.7% of a near-universe book, so selection is structurally capped. Identity control residual 0.0 on all six cells.",
+ "vram_free_gb": 3.65,
+ "vram_used_gb": 4.35,
+ "r1176_face": {
+  "product": "results/e44_midmonth/HELDCURVE-20261026.json (+latest)",
+  "leg": "scripts/e107_heldcurve.py selftest 20/20",
+  "digest": "research/digests/DIGEST-20261027-e107-heldcurve.md",
+  "pool": "E107 done + result_ref",
+  "s6": "50 legs, non-zero: none",
+  "smoke": "85/85 PASS",
+  "orphan_face": 0,
+  "py_faces": 7,
+  "d19": "dec=same ord=same -> zero action",
+  "orders": "114 files, orders_ack 115, unacked 0",
+  "attrition": "CLEAN"
+ }
 }
