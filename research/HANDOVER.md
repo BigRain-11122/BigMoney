@@ -585,3 +585,29 @@ python -m screening.rank          # 432 组排名重建
   residual vol, the turnover saving is the only edge -- which is r1301's own verdict), and
   register the CEO page in etf_book_registry so its lag is a chain-visible column rather
   than a smoke-only assertion.
+
+## 5x checkpoint -- bm-b r1194 (2026-10-28 01:00) -- live product faces and what changed
+
+Checklist status (r1190-r1194, the five rounds since the last bm-b checkpoint):
+
+- **Live product builders, all re-derived in-window and all on origin:**
+  `results/e44_midmonth/ENTRYDELAYSCREEN-20261027.json` (E119),
+  `results/e41_rebal_day/REBALDAYSCREEN-20261027.json` (E121),
+  `results/e44_midmonth/STALETAILSCREEN-20261027.json` (E118),
+  `results/e45_warm_spread/WARMSPREADSCREEN-20261027.json` (E122, this round),
+  `results/e79/ROUTING-20261027.json` (re-derived, covered_twin 16 -> 19 / uncovered
+  8 -> 5 / runners 5 -> 3).
+- **Methodology cards added:** E157 (delegating-runner copy/source split), E159 (a face
+  that prices the calendar needs its role split), E160 (an ordering that survives a
+  repair says nothing about the levels inside it).
+- **Product faces produced this round:** the E122 twin face + its digest
+  (`research/digests/DIGEST-20261027-e122-warmspread-screened.md`) + the E160 card;
+  the twin is registered in `scripts/e97_routing.py TWIN_FUNCS` in the same window it
+  was built (r1190/r1191 turned L15 red by building before declaring).
+- **Fleet faces:** `fleet/machine-health.json` rebuilt to the pinned map shape in r1193
+  (writer was carrying its own nested payload forward); heartbeat now written through
+  `Tools/heartbeat_write.py`, which merges and applies the GPU chokepoint.
+- **Open / next:** E123 (pair screened twin, 93 cells) then E124 (tilt4, 91 cells) are
+  the last two pool-ready rows; both need their own runner seam first. GPU on this
+  machine stays parked per C-20261014-01 s3 while a drama voicegen batch (uv python.exe)
+  holds util at 100% -- carried escalation, nothing killed.
