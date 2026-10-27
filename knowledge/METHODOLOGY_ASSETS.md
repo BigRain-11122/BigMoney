@@ -1777,3 +1777,28 @@ calls thin keeps its sign. Long window != safe reading; recent window != safe re
 Evidence: results/e43_tilt_4member/TILT3LEGS-20261027.json, scripts/e39_panel_census.py
 (`_leg_monthly`, `_lomo_sweep`, `run_tilt3legs`, selftest 504 -> 521),
 research/digests/DIGEST-20261028-r1202-e168-tilt3-leg-split.md.
+
+## E169 "The repair moved the family" is a per-cell claim, and a flipped sign is a claim of its own (2026-10-28 r1204 bm-b)
+
+A screened twin answers two questions that a single max-delta number merges: *how much* moved and
+*where*. E170 burned the E126 three-member tilt on both arms off one load (137 cells joined) and the
+shape of the answer was not "everything moved a little":
+
+1. **Publish the per-era arm pair, not just the delta.** pre2017 moved by exactly 0.0 bp on all four
+   of its columns while 2021_2023 and 2024_now moved by 17-57 bp. A summary "18 of 137 cells moved,
+   max 57 bp" cannot tell a reader which era's published headline is still safe to quote; the era
+   table can.
+2. **A regressor identical on both arms is a result.** `tilt_bp_delta = 0.0` on every era says the
+   tilt is a ratio of member returns and the repair reaches the engine's own path instead. Publish it
+   as a finding and keep the engine column in the same table, or the zero reads as a failed burn.
+3. **A sign that flips under the repair must be published as a sign.** 2024_now's raw spread went
+   -21.6 -> +25.1 bp/yr: "the wide book lost that era" was an artefact of the unscreened panel. The
+   magnitude table shows +46.7 bp and hides the rewrite; the arrow list shows it in one line.
+4. **A control with nothing to compare against is null *plus a reason*.** The only published raw face
+   carried the same cutoff, so the stale-face control could not run; the face says so in words.
+   Null must never be readable as "clean" (E164 family).
+
+How to apply: any "the repair/screen/regeneration moved it" verdict publishes (a) a per-era or
+per-cell arm pair, (b) a separate list of cells whose *sign* changed, (c) the number of harvested
+cells that moved by exactly zero, and (d) an explicit reason wherever a control is unavailable. All
+four are cheap once the join exists; none of them can be reconstructed from a max delta afterwards.

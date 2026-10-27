@@ -5060,6 +5060,247 @@ def _tilt3_arm_dates(face, keys=None):
     return out
 
 
+def run_tilt3screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
+    """E170: re-derive the E126 three-member tilt face on the screened arm.
+
+    E126 reached back to 2013-04 for the first time, but published it on the RAW
+    panel -- while every other skin in this family (E112-E127) was re-read on the
+    split-event-repaired arm. So "the pre-2017 era reads +1186bp" and "this
+    family has been repaired" had never been in the same sentence.
+
+    Same machinery as E124: one load, both arms burnt off it, per-arm
+    checkpoints, the shared ``_burnin_pair_rows`` join, a same-arm control that
+    must read zero and a cutoff control against the newest published raw face.
+
+    The question is per-era, not "did the numbers move": "the repair moved the
+    pre-2017 era" has to be separable from "the repair moved everything", so the
+    per-era table publishes raw vs screened beside each other, era bucket moves
+    are counted separately from the skin bucket and the answers, and a sign flip
+    on the era's tilt is called out on its own line.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    tag = cutoff.replace("-", "")
+
+    def cached(label, thunk):
+        p = os.path.join(outdir or ".", "TILT3-arm-%s-%s.json" % (label, tag))
+        if resume and os.path.isfile(p):
+            try:
+                with open(p, "r", encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception:
+                pass
+        face = thunk()
+        if outdir:
+            write_json(outdir, "TILT3-arm-%s-%s.json" % (label, tag), face)
+        return face
+
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    raw_arm = cached("raw", lambda: run_tilt3(None, raw=raw, eras=eras))
+    scr_arm = cached(mode, lambda: run_tilt3(None, raw=screened, eras=eras))
+
+    keys = sorted({k[0] for k in _tilt3_arm_cells(raw_arm)})
+    pair = _burnin_pair_rows(raw_arm, scr_arm, keys,
+                             cells_fn=_tilt3_arm_cells,
+                             dates_fn=_tilt3_arm_dates)
+    control = _burnin_pair_rows(raw_arm, raw_arm, keys,
+                                cells_fn=_tilt3_arm_cells,
+                                dates_fn=_tilt3_arm_dates)["summary"]
+
+    # cutoff control: newest previously published RAW tilt3 face vs today's raw
+    # arm. The raw face lives in results/e43_tilt_4member, so that directory is
+    # searched first as well as our own (E159 pit).
+    cutoff_control = None
+    search_dirs = [d for d in (os.path.join(ROOT, "results", "e43_tilt_4member"),
+                               outdir) if d and os.path.isdir(d)]
+    olds = []
+    for d in search_dirs:
+        olds.extend(os.path.join(d, p) for p in os.listdir(d)
+                    if p.startswith("TILT3REACH-") and p.endswith(".json"))
+    for path in sorted(olds, key=os.path.basename, reverse=True):
+        p = os.path.basename(path)
+        if p[len("TILT3REACH-"):-len(".json")] == tag:
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                old_face = json.load(fh)
+        except Exception:
+            continue
+        old_keys = sorted({k[0] for k in _tilt3_arm_cells(old_face)})
+        old_pair = _burnin_pair_rows(old_face, raw_arm, old_keys,
+                                     cells_fn=_tilt3_arm_cells,
+                                     dates_fn=_tilt3_arm_dates)
+        cutoff_control = {
+            "old_face": p,
+            "old_cutoff": old_face.get("evidence_cutoff"),
+            "comparison": "old raw arm vs today raw arm (arm held fixed)",
+            "summary": old_pair["summary"],
+            "moved": old_pair["moved"],
+        }
+        break
+
+    def _delta(a, b):
+        if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+            return round(b - a, 3)
+        return None
+
+    raw_eras = raw_arm.get("eras") or {}
+    scr_eras = scr_arm.get("eras") or {}
+    per_era = {}
+    for era in sorted(set(raw_eras) | set(scr_eras)):
+        r = raw_eras.get(era) or {}
+        q = scr_eras.get(era) or {}
+        per_era[era] = {
+            "months_raw": r.get("months"), "months_screened": q.get("months"),
+            "tilt_bp_raw": r.get("tilt_annualised_bp"),
+            "tilt_bp_screened": q.get("tilt_annualised_bp"),
+            "tilt_bp_delta": _delta(r.get("tilt_annualised_bp"),
+                                    q.get("tilt_annualised_bp")),
+            "spread_raw_bp_raw": r.get("spread_raw_ann_bp"),
+            "spread_raw_bp_screened": q.get("spread_raw_ann_bp"),
+            "spread_raw_bp_delta": _delta(r.get("spread_raw_ann_bp"),
+                                          q.get("spread_raw_ann_bp")),
+            "neutral_bp_raw": r.get("spread_size_neutral_ann_bp"),
+            "neutral_bp_screened": q.get("spread_size_neutral_ann_bp"),
+            "neutral_bp_delta": _delta(r.get("spread_size_neutral_ann_bp"),
+                                       q.get("spread_size_neutral_ann_bp")),
+            "engine_diff_bp_raw": r.get("engine_ann_diff_bp"),
+            "engine_diff_bp_screened": q.get("engine_ann_diff_bp"),
+            "tilt_sign_raw": _pair_sign(r.get("tilt_annualised_bp")),
+            "tilt_sign_screened": _pair_sign(q.get("tilt_annualised_bp")),
+        }
+        per_era[era]["tilt_sign_flipped"] = (
+            per_era[era]["tilt_sign_raw"] != per_era[era]["tilt_sign_screened"])
+
+    s = pair["summary"]
+    survives = _twin_survives(s, control)
+
+    arr_raw, arr_scr = _tilt4_arrows(raw_arm), _tilt4_arrows(scr_arm)
+    arrow_moved = [{"era": k, "column": c, "raw": arr_raw[k][c],
+                    "screened": (arr_scr.get(k) or {}).get(c)}
+                   for k in sorted(arr_raw)
+                   for c in _TILT4_ARROW_COLUMNS
+                   if arr_scr.get(k, {}).get(c) != arr_raw[k][c]]
+    survives_arrows = not arrow_moved
+
+    era_moved = [r for r in pair["moved"] if r["start"].startswith("era/")]
+    skin_moved = [r for r in pair["moved"] if r["start"].startswith("skin/")]
+    answer_moved = [r for r in pair["moved"] if r["start"] == "answers"]
+    other_moved = [r for r in pair["moved"]
+                   if r not in era_moved and r not in skin_moved
+                   and r not in answer_moved]
+    eras_moved = sorted({r["start"][len("era/"):] for r in era_moved})
+    signs_flipped = sorted(k for k, v in per_era.items() if v["tilt_sign_flipped"])
+
+    gaps = {era: _tilt4_decomposition_gap(row)
+            for era, row in (scr_arm.get("eras") or {}).items()}
+    gap_bad = {k: v for k, v in gaps.items() if v is not None and abs(v) > 0.2}
+    raw_gaps = {era: _tilt4_decomposition_gap(row)
+                for era, row in (raw_arm.get("eras") or {}).items()}
+
+    return {
+        "study": "e170_tilt3_screened_twin",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "large": list(TILT_LARGE), "small": list(TILT3_SMALL),
+            "four_member_small": list(TILT4_SMALL),
+            "five_member_small": list(TILT_SMALL),
+            "arms": {"raw": "e27.load_universe() as shipped",
+                     "screened": "panel_screen.screen_universe(mode=%s)" % mode},
+            "join": ("_tilt3_arm_cells harvests the per-era tilt and its "
+                     "decomposition, the 3-vs-4-vs-5-member skin rows and the "
+                     "aggregates; _tilt3_arm_dates carries era boundaries, the "
+                     "best/worst month identities and the delta reasons, because "
+                     "a date or a month name has no delta"),
+            "units": ("deltas are in the units of their column: bp for the "
+                      "annualised columns, percent for the share/squared columns, "
+                      "count for months and beta"),
+        },
+        "screen_report": report,
+        "arrows": {"raw": arr_raw, "screened": arr_scr},
+        "per_era": per_era,
+        "pair": pair,
+        "control": control,
+        "cutoff_control": cutoff_control,
+        "decomposition": {"screened_gaps_bp": gaps, "raw_gaps_bp": raw_gaps,
+                          "tolerance_bp": 0.2,
+                          "incomplete_eras": sorted(gap_bad)},
+        "answers": {
+            "counts_survive_the_repair": bool(survives),
+            "arrows_survive_the_repair": bool(survives_arrows),
+            "cells_compared": s["cells_compared"],
+            "cells_moved": s["cells_moved"],
+            "max_abs_delta": s["max_abs_delta_pp"],
+            "worst_cell": s["worst"],
+            "era_cells_moved": len(era_moved),
+            "skin_cells_moved": len(skin_moved),
+            "answer_cells_moved": len(answer_moved),
+            "other_cells_moved": len(other_moved),
+            "eras_with_any_moved_cell": eras_moved,
+            "eras_with_a_flipped_tilt_sign": signs_flipped,
+            "n_eras": len([k for k in keys if k.startswith("era/")]),
+            "arrow_claims_moved": len(arrow_moved),
+            "moved_attribution_complete": (
+                len(era_moved) + len(skin_moved) + len(answer_moved)
+                + len(other_moved) == s["cells_moved"]),
+            "decomposition_complete": not gap_bad,
+            "control_cells_moved": control["cells_moved"],
+            "control_ordering_moved": control["gate_dates_moved"],
+            "cutoff_control": ({"old_face": cutoff_control["old_face"],
+                                "cells_moved":
+                                    cutoff_control["summary"]["cells_moved"],
+                                "max_abs_delta":
+                                    cutoff_control["summary"]["max_abs_delta_pp"]}
+                               if cutoff_control else None),
+            "cutoff_control_reason": (
+                None if cutoff_control else
+                "no older TILT3REACH-* raw face on disk: the only published face "
+                "carries this same cutoff, so a stale-face control has nothing to "
+                "compare against yet (null means 'not measurable', not 'clean')"),
+            "era_tilt_bp_cells_moved": len(
+                [k for k, v in per_era.items() if v["tilt_bp_delta"] not in (None, 0)]),
+            "reading": (
+                ("the three-member tilt attribution survives the repair: %d of %d "
+                 "cells move, no era flips its tilt sign, every arrow holds and "
+                 "each era still decomposes"
+                 % (s["cells_moved"], s["cells_compared"]))
+                if (survives and survives_arrows and not gap_bad
+                    and not signs_flipped) else
+                ("the repair reaches the three-member attribution: %d of %d cells "
+                 "move (%d era / %d skin / %d answer / %d other), eras touched=%s, "
+                 "tilt-sign flips=%s, %d of %d arrow claims move and %d era(s) no "
+                 "longer decompose; %d cell(s) exist on one arm only"
+                 % (s["cells_moved"], s["cells_compared"], len(era_moved),
+                    len(skin_moved), len(answer_moved), len(other_moved),
+                    eras_moved, signs_flipped, len(arrow_moved),
+                    len(arr_raw) * len(_TILT4_ARROW_COLUMNS), len(gap_bad),
+                    s["only_in_raw"] + s["only_in_screened"]))),
+        },
+        "honest": [
+            "both arms are burnt off ONE load of the panel so the twin differs in "
+            "the repair, not in what was read",
+            "the per-era table is the answer face: a constant shift across eras "
+            "leaves the attribution intact while a single-era shift rewrites it",
+            "a tilt-sign flip is published as its own list because a sign is the "
+            "headline a reader consumes ('small caps led') and a magnitude delta "
+            "cannot express it",
+            "skin rows compare 3-, 4- and 5-member readings on shared months only; "
+            "the delta is the composition price, not the identity",
+            "the cutoff control holds the arm fixed (raw vs raw) so a stale face is "
+            "separated from a repair effect",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E124: re-derive the E43 four-member tilt face on the screened arm.
 
@@ -15454,6 +15695,38 @@ def selftest():
     chk("raw" in run_tilt3.__code__.co_varnames,
         "E126 run_tilt3 carries the raw= seam a screened twin would burn through")
 
+    # ---- E170 tilt3 screened twin: the join must separate the tilt from the
+    # engine leg. The live face found the tilt identical on both arms while the
+    # engine's own wide-vs-ladder spread moved and 2024_now's raw-spread sign
+    # flipped -- a join that reported "18 cells moved" without saying WHICH
+    # would have buried that.
+    import copy as _copy
+    _e170_raw = _copy.deepcopy(_t3_face)
+    _e170_scr = _copy.deepcopy(_t3_face)
+    _e170_raw["eras"]["full"]["engine_ann_diff_bp"] = 106.0
+    _e170_scr["eras"]["full"]["engine_ann_diff_bp"] = 163.0
+    _e170_keys = sorted({k[0] for k in _tilt3_arm_cells(_e170_raw)})
+    _e170_pair = _burnin_pair_rows(_e170_raw, _e170_scr, _e170_keys,
+                                   cells_fn=_tilt3_arm_cells,
+                                   dates_fn=_tilt3_arm_dates)
+    _e170_ctrl = _burnin_pair_rows(_e170_raw, _e170_raw, _e170_keys,
+                                   cells_fn=_tilt3_arm_cells,
+                                   dates_fn=_tilt3_arm_dates)["summary"]
+    chk(_e170_pair["summary"]["cells_moved"] == 1,
+        "E170 a repair that only reaches the engine leg moves exactly one cell")
+    chk([r for r in _e170_pair["moved"]
+         if r["column"] == "engine_ann_diff_bp"
+         and r["start"] == "era/full"] != [],
+        "E170 the moved cell is named: the engine leg, on its own era row")
+    chk(not [r for r in _e170_pair["moved"]
+             if r["column"] == "tilt_annualised_bp"],
+        "E170 the tilt cell itself does not move when only the engine leg moves")
+    chk(_e170_ctrl["cells_moved"] == 0 and _e170_ctrl["max_abs_delta_pp"] == 0.0,
+        "E170 the same-arm control reads zero (join completeness is not a verdict)")
+    chk(sorted({k.split("/")[0] for k in _e170_keys}) ==
+        ["answers", "era", "skin"],
+        "E170 the twin reuses the E126 harvest, so its keys are its buckets")
+
     # ---- E125 cashdrag screened twin
     _cash_face = {
         "evidence_cutoff": "2026-10-27",
@@ -18059,7 +18332,7 @@ def main(argv):
                              "cashdragscreened",
                              "tilt", "rebalday", "era", "spreadsize", "tiltera",
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
-                             "tilt4screened", "tilt3reach", "tilt3legs",
+                             "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -18748,6 +19021,25 @@ def main(argv):
                                        "months_to_half": (v.get("lomo") or {}).get("months_to_half")}
                                    for k, v in f["eras"].items()},
                           "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3screened":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3screened(outdir)
+        p = write_json(outdir, "TILT3SCREEN-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3screened",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"tilt_bp_raw": v["tilt_bp_raw"],
+                                          "tilt_bp_screened": v["tilt_bp_screened"],
+                                          "tilt_bp_delta": v["tilt_bp_delta"],
+                                          "tilt_sign_flipped": v["tilt_sign_flipped"]}
+                                      for k, v in f["per_era"].items()},
+                          "answers": f["answers"],
+                          "arrows": f["arrows"],
+                          "control": {"cells_moved": f["control"]["cells_moved"],
+                                      "claims_moved":
+                                          f["control"]["gate_dates_moved"]}},
                          ensure_ascii=False))
         return 0
     if args.mode == "cashdragscreened":
