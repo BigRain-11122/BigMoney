@@ -73,6 +73,39 @@ def commodity_support():
         return None
 
 
+def passive_mix_support():
+    """Read results/etf_book_passive_mix.json -> what the rotation is worth vs never trading.
+
+    Every other number on this card prices the book against another RANKING rule. This one
+    prices it against the alternative a holder actually has: the same class exposure held
+    statically. Without it the card can claim a CAGR but not that the machinery earns it.
+    Soft-fails to None: a missing artifact must never break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_passive_mix.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        runs = {r.get("label"): r for r in doc.get("runs", [])}
+        book, static = runs.get("book") or {}, runs.get("static_mix") or {}
+        read = doc.get("read") or {}
+        if book.get("cagr") is None or static.get("cagr") is None or not read.get("verdict"):
+            return None
+        return {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "cell": doc.get("cell"),
+            "book_cagr": book.get("cagr"),
+            "book_maxdd": book.get("maxdd"),
+            "static_cagr": static.get("cagr"),
+            "static_maxdd": static.get("maxdd"),
+            "premium_pp": read.get("selection_premium_pp"),
+            "book_turnover": read.get("book_turnover_per_decision"),
+            "static_turnover": read.get("static_turnover_per_decision"),
+            "verdict": read.get("verdict"),
+        }
+    except Exception:
+        return None
+
+
 def preperiod_support():
     """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
 
@@ -346,6 +379,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         ],
         "preperiod": preperiod_support(),
         "commodity": commodity_support(),
+        "passive_mix": passive_mix_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -447,6 +481,21 @@ def write_card(out):
             format(int(leg["amount_cny"]), ","), leg["lots_100"]))
     lines += ["| cash | - | money | %.1f%% | %s | - |" % (
         s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ",")), ""]
+    lines += ["## What the rotation is worth", ""]
+    pm = out.get("passive_mix")
+    if pm and pm.get("premium_pp") is not None:
+        lines += ["Against a static mix of this book's own class exposure -- no scoring, no "
+                  "rotation, same grid, same cost rule, same 8%% overlay -- the book returns "
+                  "%.1f%%/yr vs %.1f%%/yr (%+.1fpp), worst drawdown %.1f%% vs %.1f%%, carrying "
+                  "%.1fx the static arm's turnover. That is the number the machinery has to "
+                  "beat to justify trading at all. See %s."
+                  % (pm["book_cagr"] * 100, pm["static_cagr"] * 100, pm["premium_pp"],
+                     (pm.get("book_maxdd") or 0) * 100, (pm.get("static_maxdd") or 0) * 100,
+                     (pm.get("book_turnover") / pm["static_turnover"])
+                     if pm.get("static_turnover") else float("nan"), pm["artifact"]), ""]
+    else:
+        lines += ["Not measured: results/etf_book_passive_mix.json is missing, so this card "
+                  "cannot say what the rotation is worth against simply holding the classes.", ""]
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -590,6 +639,27 @@ def selftest():
         E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
         chk("commodity face is not fatal when the artifact is missing",
             commodity_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
+
+    # 10. the passive-mix face: the card has to say what the rotation is worth against
+    #     simply holding the classes, and a missing artifact must not break production.
+    pm = passive_mix_support()
+    if pm is None:
+        chk("passive-mix face soft-fails when absent", True,
+            "results/etf_book_passive_mix.json absent")
+    else:
+        chk("passive-mix face reads both arms and the premium",
+            all(k in pm for k in ("book_cagr", "static_cagr", "premium_pp", "verdict"))
+            and pm["book_cagr"] is not None and pm["static_cagr"] is not None
+            and pm["premium_pp"] is not None
+            and abs(pm["premium_pp"] - (pm["book_cagr"] - pm["static_cagr"]) * 100) < 0.05,
+            "book=%.4f static=%.4f premium=%+.2fpp verdict=%s"
+            % (pm["book_cagr"], pm["static_cagr"], pm["premium_pp"], pm["verdict"]))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("passive-mix face is not fatal when the artifact is missing",
+            passive_mix_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
 

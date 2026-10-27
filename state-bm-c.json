@@ -1,19 +1,19 @@
 {
- "activity_now": "r1305: ETF composite edge is period-bound (-8.86pp pre-2020 vs +2.99pp post, breadth +2.30pp); production CARD now leads with that caveat",
+ "activity_now": "r1307: the book beats a static mix of its own classes by +6.36pp/yr and 11.1pp of drawdown, at 10.5x turnover",
  "agenda_starved": false,
  "behind_origin": 0,
  "busy": false,
- "clock_read": "2026-10-27T10:49:40+08:00",
+ "clock_read": "2026-10-27T12:32:38+08:00",
  "codely_live_count": 2,
  "cores": 32,
  "cpu_cores": 32,
  "cpu_idle_pct": 5.9,
  "cpu_pct": 56.7,
  "cpu_util_pct": 56.7,
- "current": "the book's edge is a 2020+ regime: -8.86pp excess on pre-2020 ETFs in 2015-2019 (6/6 cells, p=0.96) vs +2.99pp in 2020+",
- "current_task": "r1305: pre-2020 out-of-period test of the ETF composite book",
- "current_task_at": "2026-10-27T10:45:06+08:00",
- "current_task_ts": "2026-10-27T03:56:24+08:00",
+ "current": "selection premium vs never trading = +6.36pp/yr (book 9.49%/-11.8% vs static 3.13%/-22.9%)",
+ "current_task": "r1307: passive-mix benchmark wired onto the production card",
+ "current_task_at": "2026-10-27T12:32:38+08:00",
+ "current_task_ts": "2026-10-27T12:32:38+08:00",
  "d19_watermark_guard": {
   "advance": false,
   "method_decisions": "sha256",
@@ -120,7 +120,7 @@
  "last_round_report": "round_reports-bm-c.md",
  "last_round_summary": "r1304: staggered book sleeve clocks date-anchored + calendar projection published; GPU face healed via chokepoint",
  "last_round_summary_at": "2026-10-26T21:17:48+08:00",
- "last_round_ts": "2026-10-27T10:45:06+08:00",
+ "last_round_ts": "2026-10-27T12:32:38+08:00",
  "last_run_at": "2026-10-26T21:20:55+08:00",
  "last_seen": "2026-10-27T05:56:11+08:00",
  "last_seen_at": "2026-10-26T21:20:55+08:00",
@@ -385,6 +385,32 @@
  "orphan_face": 0,
  "orphan_faces": 0,
  "pending": [],
+ "pre2020_face": {
+  "A_pre_universe_pre_period": {
+   "book_cagr": -0.0497,
+   "cells_negative": "6/6",
+   "ew_cagr": 0.0389,
+   "excess_pp": -8.86,
+   "null_p": 0.96
+  },
+  "B_pre_universe_post_period": {
+   "book_cagr": 0.0686,
+   "ew_cagr": 0.0387,
+   "excess_pp": 2.99,
+   "null_p": 0.1
+  },
+  "C_full_universe_post_period": {
+   "book_cagr": 0.0729,
+   "ew_cagr": 0.02,
+   "excess_pp": 5.29,
+   "null_p": 0.06
+  },
+  "artifact": "results/etf_book_pre2020.json",
+  "control": "published 0.0762 vs recomputed 0.0761 (-0.01pp)",
+  "disclosed_not_fixed": "astock lane livelock: 4 quarantined names keep panel complete=False at 99.9% coverage -> gate spawns a continuation every round",
+  "schema": "etf_book_pre2020/v1",
+  "verdict": "period-bound edge; breadth additive (+2.30pp within period)"
+ },
  "prod_lanes": "CPU=W280 prereg freeze landed; GPU idle (gen-only lane); NATS bus node standing",
  "r1000_closeout_note": "r1000: (1) S0-1 anchor bm-c + round-zero probe py_faces=10 orphans=3 zero-kill; (2) S0 estate rescue: pull --rebase hit r784 multi-branch pit -> direct rebase origin/main path; stash pop hit daemon live-write race (local changes would be overwritten, partial apply 1/20 + stash kept) -> disk state round_no regressed 998 -> 3 owner estates (state-bm-c.json/heartbeat/round_reports) restored via checkout-from-stash verbatim (round_no=1000 verified), fresh daemon ticks live-wins kept, superseded regenerable stash faces dropped; rebase e6e6280f3 (bm-a r939 chain) + estate commit b0385c456 pushed 0/0; (3) S0.5 dual-delta TRUE both consumed: ORD a7bb50ea->63da903e (1 new row = C-20261014-01 global memory-slim, committee-executed, zero BigMoney action; 15:5x four-in-one CEO order already inside prior watermark per r998/r999 consumption) / DEC d9d8aa72->c61d7884 (D-20261014-01..08 scanned: all group-governance/other-division; bigmoney item in D-01 = honest annotation '10-11 后零新行' with feedback-face freshness delegated to division self-heal -> HQ-FEEDBACK.md F-20261014-01 landed same-window with genuine S0-race judgment, no filler); unacked=0; (4) S1 smoke 49/49; (5) S3: satengine alive=True burns 0 (W240=bm-a in-flight, finalize absent) + wm red=false + post_review today x0 (r999 05:00 sweep) + jobs 0 + idle green_idle=false RAM/VRAM gate honest (GPU lane=MV wave2 protected O-20261014-0312 sec.2); (6) S6 light: dualrun ZERO-DRIFT streak 51 (456) + audit FLAG pool_starvation/supply_floor structural answered-by-chain (W240 upstream + RW-5 freeze) + wm py_low_with_work_cands named-answer (GPU=MV legal burn + CPU waits-upstream) + fund_premium no-op (NAV 10-13 covered) + update_daily 0 rows (10-14 bar NOT on sina yet, cutoff 10-13, papers debt=0) + token delta=0; (7) wave2 watch: 3+/39 SAVED (N01/N02/N03 mp4s landed), runner PID 24076 alive, CDN uploads marked UPLOAD_FAIL_OR_SKIPPED -> harvest-window re-upload face; (8) pit same-window: stash pop partial-apply diagnosis pattern (kept-stash + 1/20 restored + daemon race) -> checkout-from-stash per-file estate rescue path now proven; F-20261014-01 filed to HQ-FEEDBACK; counter 1000->1001",
  "r1001_closeout_note": "r1001: (1) S0-1 anchor bm-c + round-zero probe py_faces=11 orphans=3 ZERO-KILL with adjudication: all 3 = legal processes (wave2 runner polling-leg PID 24076 [ComfyUI PID 29432 burning 100% GPU], album-serve resident PID 38064, user Doubao pythonw PID 58052) -- probe false-positive face logged: idle_servers_exempt does not cover polling-legs/resident services; (2) S0 pull blocked by unstaged daemon state -> fetch + zero-overlap assert + ff-merge landed c01f183da (bm-a r992 absorb chain, 5 commits); (3) S0.5 ORD delta TRUE consumed (63da903e->746ab693 via python raw-blob sha1 match-probe; new rows: 3 committee-executed governance rows zero BigMoney action + @bm-c 16:4x wave1 relay order) / DEC delta FALSE hold c61d7884; unacked=0; (4) S1 smoke 49/49; (5) PRODUCT: wave1 6-clip source push per 16:4x order -- 6 mp4 (SIL1_v4b_s9021/SIL2_v4_s9018/SIL3_v2_s9013/SING1_v2_s9013/SING2_s9014/SING3b_v4_s9019) + wave1_qc_sheet_r996.jpg + I2V-URL-INDEX.md C01 CDN row staged 8-file surgical pathspec, push hit hot-window non-FF once -> rebase -> ORIGIN c64eefb LANDED (sha before/after verified cabb4f1->c64eefb) -- bm-a assembly-station V3.5 preview cut UNBLOCKED; (6) wave2 watch: runner alive self-chained 9+/39 SAVED (N01-N07+C01+C02, progress 17:19 fresh, GPU 100% MV-only legal); (7) W240 finalize ABSENT (bm-a in-flight) -> W241 seat correctly deferred; (8) bars 10-14 NOT on sina 17:24 (cutoff 10-13, failures 0) -> papers chain debt=0 waits-source; (9) S2 jobs 0; (10) S6 light: dualrun ZERO-DRIFT streak 51 (456) + audit FLAG pool_starvation/supply_floor answered-by-chain (W240 upstream + RW-5 freeze + GPU=MV wave2 legal) + wm insufficient_history fresh window + regime 3-triggers recorded (hs300<MA200 + crash10d + breadth 0.81) + market_clock CALL-2026-10-13 ORANGE_COOL idempotent + thermo no-op (Money02 bm-lane) + daily_report REPORT-2026-10-14 faces=5 + token delta=0; (11) S7: attrition 4 CLEAN (healed notes as-is) + IterationLoop 17:35/Watchdog 17:31 both present + pre-commit/pre-push claws MATCH + inbox 0 unread",
@@ -599,6 +625,8 @@
  "r1300_absorb_note": "round 1299 (scripts/etf_book_tsmom.py, results/etf_book_tsmom.json, research/digests/DIGEST-20261027-r1299-tsmom-second-book-neg.md, methodology card) was written by another executor in this tree at 05:00-05:05 and left uncommitted with no round-report line or state advance; absorbed here as evidence, not re-run and not committed by this round",
  "r1300_delivery_gate": "surgical push f18ed4bfba onto 84c041a9c9 (needed: local was 1 ahead/6 behind and the tree is dirty with another executor's files, so rebase was not safe); ls-tree origin/main confirms both scripts + the decision json; local behind origin=7 ahead=1 with a patch-equivalent commit -- the next S0 pull --rebase drops it",
  "r1303_closeout_note": "r1303: VERIFY window, no absorb owed (r1302 closeout landed clean). Closed a watermark defect: state carried two faces, legacy single-string keys current at c514b69c while the v2 quartet was frozen at 822d1305a8/263,139B, so Tools/s05_probe.py cried decisions_delta=true every round against a face scripts/d19_watermark.py probe called unchanged; update --advance and --repair-stale both NOOP-ed because the frozen quartet was self-reproducible. Quartet rewritten to the in-window tip (dec 286,825B c514b69c / ord 384,256B c067b3b2 / commit d39d33e); both probes now agree, exit 0. Also repaired five round-report rows that shipped a literal placeholder as their timestamp (four marked ts-lost, r1302 datable). D-20261027-08 re-verified on disk (LF=68, PUA=0, both tail entries, 27 list rows). D-20261026-23 landed as one append line in CODELY.md. next=r1304: give the v2 quartet a tooling refresh path; astock gap goes to bm-b as a message, not a takeover.",
+ "r1305_closeout_note": "r1305: PRODUCT = the ETF book's edge is a 2020+ regime, and it now says so on the card. scripts/etf_book_pre2020.py (selftest 11/11) prices the SAME engine on three cells that move one axis each: A = the 224 ETFs whose first bar <= 2020-01-01 over 2015-2019 (a window no published number covers), B = same universe 2020+, C = full 1608-name universe 2020+. A vs B holds the universe fixed and moves the period; B vs C holds the period and moves breadth. Read: A book -4.97%/yr vs EW +3.89% = -8.86pp excess, negative in 6/6 grid cells, random-score null p=0.96 (the factor ranking sat at the BOTTOM of its own permutation distribution - worse than picking at random, not merely flat); B +6.86% vs +3.87% = +2.99pp, p=0.10; C +7.29% vs +2.00% = +5.29pp, p=0.06. Verdict: the PERIOD is the binding term and breadth is additive/secondary (+2.30pp within period). Control arm re-priced through the same call path: published 7.62% vs recomputed 7.61% (-0.01pp), so the comparison arm is the published arm. Landing: scripts/etf_book_production.py reads the artifact and prints the verdict as the FIRST caveat on CARD.md (soft-fails to no line if the artifact is absent), with 3 new selftest legs (reads primary cell / not fatal when missing / run() caveat path) - r1275: a measured difference has to land where the decision is made. One new smoke leg pins the window semantics that would silently fake this result. ABSORB: round 1305's predecessor (the 08:50 headless round) was SILENCE-KILLED at 09:48 with script+result uncommitted; the run was redone from scratch here (1114s) and reproduced the earlier artifact to 4 decimals, so the numbers are verifiable, not inherited. SELF-CAUGHT LEGACY DEFECT: knowledge/METHODOLOGY_ASSETS.md in HEAD carried a stray git base marker '||||||| parent of b860cfedf0' from round 1304's rebase replay - removed (zero content loss), and the pre-commit claw gained an independent grep leg for ADDED base markers; a staged probe file proved git --check DOES block one, so the leak path was the rebase replay (which does not run the hook), not a blind spot in git. S6 50/50 rc0 @10:38:10; update_astock_daily took over the bm-b-owned lane (bm-b heartbeat 2h33m stale > 120min rule) and spawned a 10-symbol continuation that finished complete=False with 4 quarantined names - that livelock (panel 99.9% covered at 2026-10-26 yet never 'complete', so every round spawns again) is DISCLOSED, not fixed. Fixed instead the lie in front of it: the gate printed 'no panel cutoff (first pull / empty panel)' on a 99.9%-covered panel - stale_gate now takes observed_cutoff/observed_coverage for the REASON only (verdict unchanged) and spawn_mode splits continuation vs first-pull, with a selftest leg on the exact live string. D-19 decisions c514b69c / orders c067b3b2 unchanged (same/same, stored reproducible, 0 stale) -> state key refreshed, zero action. S7 attrition CLEAN (4 ledgers); loop pin=5 no-op (next fire 10:05, skipped while this round was live); watchdog re-registered with the standing S4U flip access-denied face (PR-20261026-02); pre-commit + pre-push claws match; orphan face=0 (py_faces=3).",
+ "r1305_delivery_gate": "r1305 postscript: surgical result -- commit 6f2b8784d7 pushed onto origin, rev-list ahead/behind 0/0, origin/main carries scripts/etf_book_pre2020.py + results/etf_book_pre2020.json + the digest. S0 needed a rebase (6 behind) and it conflicted on 22 faces: the 20 regenerated S6/docs faces were resolved to THIS round's bytes (:3, newer by hours), fleet/machine-health.json was resolved to origin (:2, it carries another writer's ConvertTo-Json damage on this machine), and knowledge/METHODOLOGY_ASSETS.md was resolved as a UNION from the index stages (origin 61 cards + this round's E139 = 62; markers parsed: none -- r1297 rule). smoke_test.py auto-merged and still declares the new pre2020 leg; all four edited modules byte-compile. smoke was NOT re-run on the post-rebase tree: RAM was 1.6GB free and the suite is the memory-heavy one, so the 84/84 above is the pre-rebase tree (the rebase only unioned another machine's leg list). Disclosed, not claimed.",
  "r894_absorb_note": "r894 absorb: r893 session died post-commit/push/report (22:47:24) pre-closeout (state was still 893, heartbeat still r892); this session executed as r894 per bm-b r898 absorb precedent; counter advanced 893->895 so next session = r895",
  "r897_absorb_note": "r897 absorb: prior invocation executed a FULL round as r896 (probe/smoke/S6 38-38/O-2333 POC recon/report 23:49:30/commit e13bb3ee9 pushed) then died pre-closeout (state round_no still 896, last_round still 895, heartbeat partial: epoch+ack updated but round fields not) -- this session absorbed per bm-b r898 / bm-c r894 absorb precedent; executed as r897, counter advanced 896->898 so next session = r898; zero double-count: r896's ORD probe ran pre-23:37-commit so its 3 late rows fell to this session (consumed + advanced twice)",
  "r902_wm_heal_note": "r902 heal: r901 dead-session lost state write; TRUE consumed dec=67403afa (@690a0c31e 00:11:42, rows D-20261012-01 verification-batch core incl bigmoney tail-actuals zero-action + D-20261012-02 gap-case-withdrawal + fetch-pre-legislation CANDIDATE already standing practice) / ord=33aee170; r901 commit-msg dec 358ba69b = PHANTOM value not in blob history (corrupt-face 4th instance, r863/r894/r897 lineage) -- healed programmatically from live origin blobs, assert-verified before write",
@@ -669,7 +697,7 @@
  "ram_load_pct": 97.8,
  "recent_artifact": "results/etf_book_pre2020.json",
  "round": 1305,
- "round_no": 1305,
+ "round_no": 1307,
  "round_no_label": "r1305",
  "round_t1148_closeout_note": "r1148: clean continuation window (state round_no=1148 at open, executed r1148, advanced 1148->1149 so next=r1149); zero absorb owed (r1147 closeout c2e6d34ae0 landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both scans (d19_watermark probe: dec 715e4134 / ord 9da3cb04 hold), unacked orders=0 (107 files vs 232 acks); S0 stash->pull --rebase->pop clean (1 commit behind, bm-a r1060 DIVLOWVOL live picks exporter, zero conflict); S1 smoke 49/49; PRODUCT = W285 SEAT PROBE ADMIT (results/_w285bmc_20261020_probe.py + receipt, generated by count-asserted parametric substitution off the proven W284 probe via results/_r1148bmc_gen_w285_probe.py): live walk on the post-W284-REGISTERED 274-owner universe (bm-a 130 / bm-b 41 / bm-c 103) -> A 642_301..644_300 (36th consecutive A-hop, naive start refused by REGISTERED W284 B 642_101..642_300, base==prior-B tail 642_300+1 EXACT) / B 644_301..644_500 (37th consecutive above-own-A, own-A reservation cascade, base==own-A tail 644_300+1 EXACT); upstream W284 anchors machine-read ledger 1,049,141 / K=622,720; seed_admit_gate FREE x2 (642301/2000, 644301/200); W286 projection disclosed not transcribed (A naive 644_301..646_300 hops=0 / B naive 644_301..644_500 hops=1 own-A collision); seat MSG-20261020-0758-bmc-w285-seat; commit 597a614539 pushed 0 ahead/0 behind; S6 light: dualrun ZERO-DRIFT 462 entries streak 6 + compute_audit FLAG supply_floor (ready 0<floor 3 structural, answered by W285 seat chain) + py_watermark py_low_board_clear legal idle whitelist (board closed, pool 0, zero runnable batch); S7 attrition 4 ledger files CLEAN (historical shrinks healed) / loop pin=5 no-op first fire 08:00 / watchdog re-registered (S4U flip access-denied standing face) / both claws installed / orphan face=0 (py_faces=5, resident_servers=2, zero kill). current=W285 seat declared, freeze UNBLOCKED; next=r1149 W285 prereg derive (67-rule off frozen W284 pre-run face) + banned gate + freeze; engine re-ignite <=48h.",
  "round_t1149_closeout_note": "r1149: clean continuation product window (state round_no=1149 at open, executed r1149, advanced 1149->1150 so next=r1150); zero absorb owed (r1148 closeout 49d16c526a landed clean, zero dead window between); zero double-count: S0.5 dual-delta FALSE both scans (d19_watermark probe dec 715e4134 / ord 9da3cb04 hold), unacked orders=0 (107 files vs 232 acks); S0 worktree dirty=2 daemon live faces (machine-health + own heartbeat), no rebase owed; S1 smoke 49/49; PRODUCT = W285 PREREG FREEZE: research/PERPETUAL_N1_W285_PREREG.md (24,108B/64 lines) derived from the frozen W284 pre-run face (git show 28c5f465f2, blob 66d6012cc8 bit-identical) via results/_r1149bmc_prereg_derive_w285.py -- 33 count-gated rules + single-pass wave/r/band token maps, zero residual, MUST/MUST-NOT both green; bands A 642_301..644_300 (35th consecutive A-hop, naive 642_101..644_100 refused at start by REGISTERED W284 B 642_101..642_300, A base==prior B tail 642_300+1 EXACT) / B 644_301..644_500 (36th above-own-A, own-A reservation cascade, base==own-A tail 644_300+1 EXACT); chain K 622,720->624,920 proj / ledger 1,049,141->1,051,341 proj / n_eff 1,046,941->1,049,141; banned_direction_gate ADMIT rc0; out sha256_16 fdc1f8f0c270159c; commit 3c12829cf9 pushed 0 ahead/0 behind (one rebase over 2 bm-a commits, daemon faces stashed/popped clean); S3 satengine ALIVE rc0 idle (burns=[] queue=[]); watermark py_low_board_clear (board closed, pool 0, zero runnable batch) legal idle; S6 10/10 rc0: dualrun ZERO-DRIFT 462 entries streak 7 / compute_audit FLAG pool_starvation+supply_floor (ready 0<floor 3 structural, answered by W285 splice+shard enrollment) / update_daily cutoff 2026-10-19 zero new rows / regime ORANGE_COOL breadth 0.79 / clock CALL-2026-10-19 (l3 guard bm-a skip) / fund_premium pre-15:30 no-op / b_layer mask rc0 / thermo Money02 absent honest no-op / scorecard bm-a host guard skip / daily_report REPORT-2026-10-20 / token L2 delta=0 (crash-fuse 2903/83) | S7 attrition 4 ledger files CLEAN (historical shrinks healed) / loop pin=5 no-op (first fire 08:15) / watchdog present (next 08:14) / both claws reinstalled LF-normalized / orphan face=0 (py_faces=4, resident_servers=2, zero kill). current=W285 prereg frozen; next=r1150 W285 five-face freeze splice (editor derive off _w284bmc_freeze_edits.py) + engine self-burn + sixgate/finalize",
@@ -728,37 +756,9 @@
  },
  "task": "r1302: repair the memory file three rounds had silently flattened, and make its shape a smoke leg",
  "total_ram_gb": 23.9,
- "ts": "2026-10-27T10:49:40+08:00",
- "updated": "2026-10-27 10:45:06",
+ "ts": "2026-10-27T12:32:38+08:00",
+ "updated": "2026-10-27T12:32:38+08:00",
  "updated_at": "2026-10-27T10:49:40+08:00",
  "verdict": "green r1305: the ETF composite's edge is period-bound -- on the 224 pre-2020 ETFs the same engine returns -4.97%/yr vs +3.89% EW (excess -8.86pp, 6/6 cells negative, null p=0.96) over 2015-2019 and +6.86% vs +3.87% (+2.99pp, p=0.10) over 2020+; breadth adds +2.30pp within period; the production CARD now leads with that caveat; smoke 84/84; chain 50/50; stray rebase marker removed from the methodology ledger; orphan face=0",
- "verify": "smoke 84/84 PASS 0 FAIL | pre2020 selftest 11/11 | production selftest OK (3 new legs) | astock selftest all guard cases PASS | chain 50/50 rc0 @10:38:10 | dualrun ZERO-DRIFT 632 entries streak 51 | attrition CLEAN 4 ledgers | d19 same/same reproducible | orphan face=0 | pre-commit claw probe blocked a staged base marker",
- "r1305_closeout_note": "r1305: PRODUCT = the ETF book's edge is a 2020+ regime, and it now says so on the card. scripts/etf_book_pre2020.py (selftest 11/11) prices the SAME engine on three cells that move one axis each: A = the 224 ETFs whose first bar <= 2020-01-01 over 2015-2019 (a window no published number covers), B = same universe 2020+, C = full 1608-name universe 2020+. A vs B holds the universe fixed and moves the period; B vs C holds the period and moves breadth. Read: A book -4.97%/yr vs EW +3.89% = -8.86pp excess, negative in 6/6 grid cells, random-score null p=0.96 (the factor ranking sat at the BOTTOM of its own permutation distribution - worse than picking at random, not merely flat); B +6.86% vs +3.87% = +2.99pp, p=0.10; C +7.29% vs +2.00% = +5.29pp, p=0.06. Verdict: the PERIOD is the binding term and breadth is additive/secondary (+2.30pp within period). Control arm re-priced through the same call path: published 7.62% vs recomputed 7.61% (-0.01pp), so the comparison arm is the published arm. Landing: scripts/etf_book_production.py reads the artifact and prints the verdict as the FIRST caveat on CARD.md (soft-fails to no line if the artifact is absent), with 3 new selftest legs (reads primary cell / not fatal when missing / run() caveat path) - r1275: a measured difference has to land where the decision is made. One new smoke leg pins the window semantics that would silently fake this result. ABSORB: round 1305's predecessor (the 08:50 headless round) was SILENCE-KILLED at 09:48 with script+result uncommitted; the run was redone from scratch here (1114s) and reproduced the earlier artifact to 4 decimals, so the numbers are verifiable, not inherited. SELF-CAUGHT LEGACY DEFECT: knowledge/METHODOLOGY_ASSETS.md in HEAD carried a stray git base marker '||||||| parent of b860cfedf0' from round 1304's rebase replay - removed (zero content loss), and the pre-commit claw gained an independent grep leg for ADDED base markers; a staged probe file proved git --check DOES block one, so the leak path was the rebase replay (which does not run the hook), not a blind spot in git. S6 50/50 rc0 @10:38:10; update_astock_daily took over the bm-b-owned lane (bm-b heartbeat 2h33m stale > 120min rule) and spawned a 10-symbol continuation that finished complete=False with 4 quarantined names - that livelock (panel 99.9% covered at 2026-10-26 yet never 'complete', so every round spawns again) is DISCLOSED, not fixed. Fixed instead the lie in front of it: the gate printed 'no panel cutoff (first pull / empty panel)' on a 99.9%-covered panel - stale_gate now takes observed_cutoff/observed_coverage for the REASON only (verdict unchanged) and spawn_mode splits continuation vs first-pull, with a selftest leg on the exact live string. D-19 decisions c514b69c / orders c067b3b2 unchanged (same/same, stored reproducible, 0 stale) -> state key refreshed, zero action. S7 attrition CLEAN (4 ledgers); loop pin=5 no-op (next fire 10:05, skipped while this round was live); watchdog re-registered with the standing S4U flip access-denied face (PR-20261026-02); pre-commit + pre-push claws match; orphan face=0 (py_faces=3).",
- "pre2020_face": {
-  "artifact": "results/etf_book_pre2020.json",
-  "schema": "etf_book_pre2020/v1",
-  "A_pre_universe_pre_period": {
-   "book_cagr": -0.0497,
-   "ew_cagr": 0.0389,
-   "excess_pp": -8.86,
-   "null_p": 0.96,
-   "cells_negative": "6/6"
-  },
-  "B_pre_universe_post_period": {
-   "book_cagr": 0.0686,
-   "ew_cagr": 0.0387,
-   "excess_pp": 2.99,
-   "null_p": 0.1
-  },
-  "C_full_universe_post_period": {
-   "book_cagr": 0.0729,
-   "ew_cagr": 0.02,
-   "excess_pp": 5.29,
-   "null_p": 0.06
-  },
-  "control": "published 0.0762 vs recomputed 0.0761 (-0.01pp)",
-  "verdict": "period-bound edge; breadth additive (+2.30pp within period)",
-  "disclosed_not_fixed": "astock lane livelock: 4 quarantined names keep panel complete=False at 99.9% coverage -> gate spawns a continuation every round"
- },
- "r1305_delivery_gate": "r1305 postscript: surgical result -- commit 6f2b8784d7 pushed onto origin, rev-list ahead/behind 0/0, origin/main carries scripts/etf_book_pre2020.py + results/etf_book_pre2020.json + the digest. S0 needed a rebase (6 behind) and it conflicted on 22 faces: the 20 regenerated S6/docs faces were resolved to THIS round's bytes (:3, newer by hours), fleet/machine-health.json was resolved to origin (:2, it carries another writer's ConvertTo-Json damage on this machine), and knowledge/METHODOLOGY_ASSETS.md was resolved as a UNION from the index stages (origin 61 cards + this round's E139 = 62; markers parsed: none -- r1297 rule). smoke_test.py auto-merged and still declares the new pre2020 leg; all four edited modules byte-compile. smoke was NOT re-run on the post-rebase tree: RAM was 1.6GB free and the suite is the memory-heavy one, so the 84/84 above is the pre-rebase tree (the rebase only unioned another machine's leg list). Disclosed, not claimed."
+ "verify": "smoke 84/84 PASS 0 FAIL | pre2020 selftest 11/11 | production selftest OK (3 new legs) | astock selftest all guard cases PASS | chain 50/50 rc0 @10:38:10 | dualrun ZERO-DRIFT 632 entries streak 51 | attrition CLEAN 4 ledgers | d19 same/same reproducible | orphan face=0 | pre-commit claw probe blocked a staged base marker"
 }

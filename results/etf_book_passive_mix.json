@@ -1,0 +1,92 @@
+{
+ "basis": "close decision -> next open fill, 10bp per side, top-N equal weight",
+ "caveats": [
+  "the static arms ride class equal-weight indices that rebalance daily at ZERO cost (etf_equity_alpha.ew_universe); a real passive holder pays something, so the premium measured here is a LOWER bound on what the ranking adds",
+  "the static class shape comes from the fully-invested attribution chain; both arms carry the same 8% overlay, and read.vol_delivered reports what each one actually delivered so the comparison is checkable rather than assumed",
+  "both arms draw on the same ETF pool, so the survivorship bias that inflates the equity sleeve inflates the static mix as well -- it cancels in the premium, not in the absolute numbers",
+  "one regime: the premium is measured on the 2020+ window the book was published on; r1305 showed the same engine loses to equal weight before 2020, and this script does not re-price the static mix on that window"
+ ],
+ "cell": "N12_R20_10bp",
+ "control": {
+  "arm": "book",
+  "delta_pp": 0.0,
+  "note": "the compared arm is the arm that was published",
+  "passes": true,
+  "published_cagr": 0.0949,
+  "recomputed_cagr": 0.0949,
+  "tolerance_pp": 0.5
+ },
+ "engine": "etf_book_production.prep_panel + etf_robust_pf.open_to_open_equity (control) / etf_equity_alpha.ew_universe (static arms); no re-implementation",
+ "question": "does the shipped book beat holding its own class exposure statically, with no scoring and no rotation?",
+ "read": {
+  "book_turnover_per_decision": 0.934,
+  "maxdd_delta_pp": 11.13,
+  "selection_premium_pp": 6.36,
+  "static_turnover_per_decision": 0.0893,
+  "verdict": "the ranking pays: +6.36pp/yr over a static mix of the book's own class exposure, at 10.46x the static arm's turnover",
+  "vol_delivered": {
+   "book": 0.1017,
+   "static_mix": 0.0933,
+   "static_mix_no_overlay": 0.1687
+  }
+ },
+ "runs": [
+  {
+   "cagr": 0.0949,
+   "cagr_is": 0.0384,
+   "cagr_oos": 0.181,
+   "label": "book",
+   "maxdd": -0.1177,
+   "maxdd_is": -0.1177,
+   "maxdd_oos": -0.107,
+   "sharpe": 0.98,
+   "sharpe_is": 0.442,
+   "sharpe_oos": 1.719,
+   "turnover_per_decision": 0.934,
+   "vol": 0.1017,
+   "vol_is": 0.0997,
+   "vol_oos": 0.1044
+  },
+  {
+   "cagr": 0.0313,
+   "cagr_is": -0.0074,
+   "cagr_oos": 0.0908,
+   "label": "static_mix",
+   "maxdd": -0.229,
+   "maxdd_is": -0.1742,
+   "maxdd_oos": -0.0805,
+   "sharpe": 0.391,
+   "sharpe_is": -0.043,
+   "sharpe_oos": 0.957,
+   "turnover_per_decision": 0.0893,
+   "vol": 0.0933,
+   "vol_is": 0.0881,
+   "vol_oos": 0.1001
+  },
+  {
+   "cagr": 0.0595,
+   "cagr_is": 0.02,
+   "cagr_oos": 0.1209,
+   "label": "static_mix_novt",
+   "maxdd": -0.2953,
+   "maxdd_is": -0.2302,
+   "maxdd_oos": -0.205,
+   "sharpe": 0.441,
+   "sharpe_is": 0.211,
+   "sharpe_oos": 0.726,
+   "turnover_per_decision": 0.012,
+   "vol": 0.1687,
+   "vol_is": 0.1532,
+   "vol_oos": 0.1888
+  }
+ ],
+ "schema": "etf_book_passive_mix/v1",
+ "static_weight_source": "mean class shape of etf_equity_alpha.run_with_attribution (fully-invested chain); both arms carry the same 8% overlay, delivered vol per arm is in read.vol_delivered",
+ "static_weights": {
+  "commodity": 0.255422,
+  "convertible": 0.081928,
+  "equity": 0.662651
+ },
+ "vol_overlay": "scale = min(1, 0.08 / backward 60d realised vol) at each decision",
+ "window": "2020-01-01..panel end"
+}

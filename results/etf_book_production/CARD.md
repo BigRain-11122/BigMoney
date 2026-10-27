@@ -33,6 +33,10 @@ Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 | 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 23900 |
 | cash | - | money | 29.9% | 299,225 | - |
 
+## What the rotation is worth
+
+Against a static mix of this book's own class exposure -- no scoring, no rotation, same grid, same cost rule, same 8% overlay -- the book returns 9.5%/yr vs 3.1%/yr (+6.4pp), worst drawdown -11.8% vs -22.9%, carrying 10.5x the static arm's turnover. That is the number the machinery has to beat to justify trading at all. See results/etf_book_passive_mix.json.
+
 ## Caveats
 
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. See results/etf_book_pre2020.json.
