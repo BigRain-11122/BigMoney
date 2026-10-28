@@ -573,6 +573,7 @@ def _panel_coverage_from_bytes(per_dir=None, floor=0.90):
     return {"n": total,
             "coverage_pct": round(at_or_after / total * 100, 1),
             "coverage_90": cover,
+            "cutoff_max": best,
             "floor_pct": int(round(floor * 100)),
             "dates_tail": [[d, tails[d]] for d in sorted(tails, reverse=True)][:6]}
 
@@ -592,6 +593,22 @@ def _panel_with_coverage(panel_in, cov, complete=None, universe_n=None):
     if universe_n is not None:
         panel["universe_n"] = int(universe_n)
     if cov.get("n"):
+        # The face DECLARES cutoff_is = "max tail across all per/*.csv", so the
+        # value has to be that max. Mid-refresh it was not: `cutoff` was
+        # inherited from the running cycle (built when fewer names had landed)
+        # while the coverage face was re-derived from bytes now, and the pair
+        # inverted -- r1232 caught status "cutoff 2026-10-27" beside "90% date
+        # 2026-10-28", two clocks in one dict. Publish the cycle's own date
+        # under its own key instead of letting it wear the cutoff label.
+        _cmax = cov.get("cutoff_max")
+        if _cmax and panel.get("cutoff") and _cmax > panel["cutoff"]:
+            panel["cycle_cutoff"] = panel["cutoff"]
+            panel["cycle_cutoff_is"] = (
+                "the cutoff the last completed refresh cycle built its todo "
+                "against -- always <= cutoff (cutoff is the disk max tail)")
+            panel["cutoff"] = _cmax
+        elif not panel.get("cutoff") and _cmax:
+            panel["cutoff"] = _cmax
         panel.update({
             "cutoff_is": "max tail across all per/*.csv -- read "
                          "coverage_pct/coverage_90 before calling "
@@ -1016,6 +1033,20 @@ def _selftest():
     assert not _disk_truth_override(True, {"per_files": 5217}, 5217)
     assert not _disk_truth_override(True, {"per_files": 5217}, 5300)
     assert not _disk_truth_override(False, {"per_files": 5217}, 0)
+    # r1232: the panel DECLARES cutoff_is = "max tail across all per/*.csv", so a
+    # coverage face re-derived from bytes must not sit beside a staler inherited
+    # cutoff -- the live 02:33 face read "cutoff 2026-10-27" next to "90% date
+    # 2026-10-28" (two clocks in one dict) and smoke caught it.
+    _cov = {"n": 100, "coverage_pct": 90.1, "coverage_90": "2026-09-24",
+            "cutoff_max": "2026-09-24", "floor_pct": 90, "dates_tail": []}
+    _p = _panel_with_coverage({"cutoff": "2026-09-23", "complete": False}, _cov)
+    assert _p["cutoff"] == "2026-09-24", _p
+    assert _p["cycle_cutoff"] == "2026-09-23", _p
+    assert _p["coverage_90"] <= _p["cutoff"], _p
+    _p2 = _panel_with_coverage({"cutoff": "2026-09-24", "complete": False}, _cov)
+    assert _p2["cutoff"] == "2026-09-24" and "cycle_cutoff" not in _p2, _p2
+    _p3 = _panel_with_coverage({"complete": False}, _cov)
+    assert _p3["cutoff"] == "2026-09-24", _p3
     # stale-takeover gate (r1101 family): a non-owner may only refresh with an
     # explicit flag AND a silent owner -- either alone is a silent-rot hazard.
     assert takeover_decision(False, 10_000)[0] is False

@@ -22610,13 +22610,18 @@
    "source": "r1220 E189: all four flagged reversals vanish when E186's own declared carrier month is removed, and the crossing month is never the carrier -- the verdict is known to be fragile, but by how much is unmeasured",
    "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3ladderdropcross, follow-up)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
-   },
    "title": "E189 took out exactly one month per pair -- the one E186 named -- and all four reversals collapsed, so the era verdict is known to be fragile but not how fragile. Publish a fragility curve: for k=1..8 drop the k months with the largest |gap|, then separately the k with the largest |delta_sum| and the first/last k months of the era, and report at which k each pair's two readings stop disagreeing in sign, plus the sign each reading carries after the trim. A reversal that needs more than eight months of the window removed is a property of the era; one that dies at k=1 or k=2 is a two-month artefact and may not be quoted as an era verdict.",
-   "done_at": "2026-10-28T19:50:00+08:00",
-   "result": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json (all 4 pairs agree at k=1 under both magnitude rules; 3/4 class-sensitive under the edge rules; digest research/digests/DIGEST-20261028-r1223-e190-drop-curve.md)"
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-29T01:09:32+08:00",
+   "done_at": "2026-10-29T01:09:32+08:00",
+   "done_by": "bm-c",
+   "result_ref": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+   "done_note": "r1330 bm-c: taken over under the stale-owner rule (bm-b heartbeat 2026-10-28T16:05, 9h stale). 4 pairs x 3 trims x k=1..8; 11 of 12 cells two_month_artefact, 1 fragile_mid, 0 era properties; untrimmed control reproduces E186 to 8.8e-05bp; card E194 + digest written.",
+   "runner_note": "selftest 658->670; face LADDERDROPCURVE-20261027.json"
   },
   {
    "id": "E192-WIDE-CARRIER-PERSISTENCE",
@@ -22771,6 +22776,33 @@
    "completed_by": "bm-b r1230",
    "completed_at": "2026-10-29T02:05:00+08:00",
    "verdict": "every_face_leaves_the_convention_unstated (14/14 silent; 0 declared and matching)"
+  },
+  {
+   "id": "E204-DELTA-FACE-READERS",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/e79/SIGNEXPOSURE-<cutoff>.json",
+   "result_ref": "results/e79/SIGNEXPOSURE-2026-10-27.json",
+   "target": "scripts/e97_routing.py (signexposure)",
+   "evidence_cutoff": "2026-10-27",
+   "entered_at": "2026-10-29T02:36:00+08:00",
+   "entered_by": "bm-b r1230 (E201 follow-up)",
+   "done_at": "2026-10-29T02:47:00+08:00",
+   "done_by": "bm-b r1232",
+   "source": "E201: 14 of 14 decomposition faces never state their sign convention, each with the line it would have to add",
+   "title": "E201 ranked the silent faces but never asked who reads them. For each face, collect its delta leaf names, find every in-repo script that names one as a quoted literal, subtract the face's own producer, and report the reader class beside the declaration status -- so 'write this line' becomes a ranked trap list instead of 14 equal todo items."
+  },
+  {
+   "id": "E205-DELTA-SIGN-GROWTH-GATE",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/e79/SIGNGATE-<cutoff>.json",
+   "target": "scripts/e97_routing.py (signexposure)",
+   "evidence_cutoff": "2026-10-27",
+   "entered_at": "2026-10-29T02:47:00+08:00",
+   "entered_by": "bm-b r1232",
+   "source": "E204: all 14 silent faces are producer-only, so the backlog is documentation debt; the thing worth a gate is the GROWTH, not the backlog",
+   "title": "E204 shows the missing sign lines cost nothing today. Convert that into a gate: record the delta leaf set of every face, compare it against the previous window's set, and fail when a NEW leaf lands in a face whose text block is still silent -- so a silent convention cannot spread to a new number, while the existing backlog stays honestly un-actioned. Publish the per-face leaf delta (added/removed/stable) beside the verdict."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

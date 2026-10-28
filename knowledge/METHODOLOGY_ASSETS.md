@@ -2655,3 +2655,36 @@ per drop, and treat an empty mismatch list as "read it AND equal", never as "not
 (e) seeding: `zlib.crc32("era|name|k|seed")` per cell -- string hashing is not stable across processes,
 so a `hash()`-seeded draw is not reproducible; publish the draw count as randomisation draws, not as a
 strategy trial count.
+
+
+
+## E204 Before you publish "this face should declare X", ask who reads the number: a defect is only a trap if a second script pulls it by name (2026-10-29 r1232 bm-b)
+
+Evidence: `results/e79/SIGNEXPOSURE-2026-10-27.json`, code `signexposure`
+(`scripts/e97_routing.py`, selftest 70 -> 77), upstream E193 + E201, digest
+`research/digests/DIGEST-20261029-e204-delta-face-readers.md`.
+
+E201 published that all 14 decomposition faces never teach their sign, plus the sentence each
+would have to add. Before writing 14 lines, measure whether any of them is watched: for every
+face, collect its delta leaf names, find every in-repo script that names one **as a quoted
+literal**, subtract the face's own producer, and only then ask whether the text is silent.
+
+(a) **the answer is documentation debt, not exposure** -- 14 of 14 faces are named only by the
+script that writes them (`producer_only`), zero have a reader outside their producer, so E201's
+lines rank as prose hygiene rather than as a hazard. Publish `trap = needs_line AND
+read_outside_the_producer` as its own boolean instead of letting "silent" stand for "dangerous".
+
+(b) **the auditor scores itself as the reader** -- the first fire reported 5 traps whose only
+external reader was `scripts/e97_routing.py`: the module's own classification table
+(`LEVEL_OVERRIDES = {"engine_ann_diff_bp": "anchored"}`) and its own selftest fixtures spell the
+leaf names without ever consuming the number. Exclude the measuring module from its own reader
+set, publish the exclusion (`spec.self_excluded`), and pin it with a leg (L74). Any name-scan
+study of a codebase must first ask whether the scanner is inside its own candidate set.
+
+(c) **quote-adjacency, not substring** -- `engine_ann_diff_bp` occurs inside
+`engine_ann_diff_bp_raw`, so a substring test makes every arm-suffixed reader look like a reader
+of the short leaf (the r1292 mid-name unit-token pitfall, one level down).
+
+How to apply: any "this file/field should say X" audit gets a second leg that measures who reads
+the file before the fix is prioritised; and any source-tree scan excludes its own writer and
+proves the exclusion with a leg.

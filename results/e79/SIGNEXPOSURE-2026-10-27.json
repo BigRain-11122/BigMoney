@@ -1,0 +1,343 @@
+{
+ "study": "e204_delta_face_reader_exposure",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "upstream": "the E193 delta stance sweep + the E201 declaration status (this module)",
+  "question": "E201 published which faces never teach their sign. Before any of them is rewritten, ask who would be misled: does a script other than the face's own producer pull the delta by name?",
+  "source_trees": [
+   "scripts",
+   "Tools"
+  ],
+  "self_excluded": "scripts/e97_routing.py",
+  "leaf_rule": "quoted-literal adjacency only (a substring hit would confound arm names)",
+  "reader_classes": {
+   "read_outside_the_producer": "another script names the delta leaf",
+   "producer_only": "only the script that writes the face names it",
+   "no_reader_in_repo": "nothing in the two source trees names it",
+   "producer_unlocated": "the owning script could not be identified, so the face is reported as unowned rather than external-read"
+  },
+  "trap_rule": "needs_line AND read_outside_the_producer",
+  "cost_note": "reader-facing defect: zero bp, whole sign"
+ },
+ "rows": [
+  {
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 1,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERSIDECASH-20261027.json",
+   "cells": 15,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 3,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-neutralise_int-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 3,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "Tools/_r1210bmb_closeout.py",
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-raw-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 3,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "Tools/_r1210bmb_closeout.py",
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 2,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3REACH-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 3,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+   "cells": 25,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 5,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 2,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+   "cells": 25,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 5,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "Tools/_r1210bmb_closeout.py",
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+   "cells": 5,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 1,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 2,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-neutralise_int-20261027.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 1,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-raw-20261027.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow",
+   "leaves": 1,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  },
+  {
+   "face": "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one",
+   "leaves": 2,
+   "leaf_readers": [
+    "scripts/e39_panel_census.py"
+   ],
+   "producer_files": [
+    "Tools/_r1226bmb_face.py",
+    "scripts/e39_panel_census.py"
+   ],
+   "external_readers": [],
+   "reader": "producer_only",
+   "trap": false
+  }
+ ],
+ "answers": {
+  "faces": 14,
+  "reader_counts": {
+   "producer_only": 14
+  },
+  "faces_silent": 14,
+  "silent_faces_read_outside_producer": [],
+  "silent_faces_with_no_external_reader": [
+   "results/e43_tilt_4member/HIST-20261020.json",
+   "results/e43_tilt_4member/LADDERSIDECASH-20261027.json",
+   "results/e43_tilt_4member/TILT3-arm-neutralise_int-20261027.json",
+   "results/e43_tilt_4member/TILT3-arm-raw-20261027.json",
+   "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json",
+   "results/e43_tilt_4member/TILT3REACH-20261027.json",
+   "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+   "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+   "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+   "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+   "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+   "results/e43_tilt_4member/TILT4-arm-neutralise_int-20261027.json",
+   "results/e43_tilt_4member/TILT4-arm-raw-20261027.json",
+   "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json"
+  ],
+  "silent_faces_without_a_located_producer": [],
+  "faces_already_declaring": 0,
+  "verdict": "every_silent_face_has_no_reader_outside_its_producer"
+ },
+ "honest": [
+  "this measures the IN-REPO consumer set only; a number quoted in prose, in a figures file, or outside this repository is not visible to the scan",
+  "the producer is identified by the face's directory token plus filename stem inside a script that also carries a results/ path; a face whose producer uses a wildcard glob and a short stem can be attributed to more than one script, and that over-count only makes the exposure test more conservative",
+  "a leaf named only in a comment still counts as a reader -- the leg does not attempt to parse the use",
+  "the auditing module itself is excluded from the reader set: its own naming tables and selftest fixtures carry leaf names without consuming the number, and on the first fire they made 5 of 14 faces look externally read",
+  "nothing is rewritten by this leg; it ranks which of E201's suggested lines is worth writing first"
+ ],
+ "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)"
+}

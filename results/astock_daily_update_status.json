@@ -1,21 +1,21 @@
 {
-  "ts": "2026-10-29T00:45:41",
+  "ts": "2026-10-29T02:51:20",
   "mode": "refresh in progress (lock alive)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-10-27",
+    "cutoff": "2026-10-28",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 58.4,
-    "coverage_90": "2026-10-27",
+    "coverage_pct": 95.8,
+    "coverage_90": "2026-10-28",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-28",
-        3054
+        5007
       ],
       [
         "2026-10-27",
-        2160
+        208
       ],
       [
         "2026-10-26",
@@ -23,7 +23,7 @@
       ],
       [
         "2026-10-23",
-        3
+        2
       ],
       [
         "2026-10-20",
@@ -35,7 +35,9 @@
       ]
     ],
     "universe_n": 5227,
-    "per_files": 5225
+    "per_files": 5225,
+    "cycle_cutoff": "2026-10-27",
+    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -79,6 +81,6 @@
     "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-27 (coverage 58.4%, 90% date 2026-10-27)",
+  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-28 (coverage 95.8%, 90% date 2026-10-28)",
   "spawn_mode": "continuation"
 }

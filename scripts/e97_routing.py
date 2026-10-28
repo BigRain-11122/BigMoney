@@ -2640,6 +2640,205 @@ def run_deltasign(publish=False, base=None):
     return 0
 
 
+SIGNEXPOSE_OUT_DIR = "results/e79"
+# Where an in-repo consumer can live. The question is not "does the number have a
+# reader somewhere in the world" but "does anything in THIS repo pull it by name",
+# so the scan is exactly the two source trees that hold every such script.
+SIGNEXPOSE_SRC_DIRS = ("scripts", "Tools")
+# r1232 first fire: this module scored ITSELF as the external reader on 5 of 14
+# faces, because its own classification table carries leaf names as dictionary
+# keys (LEVEL_OVERRIDES) and its own selftest carries them as fixture literals.
+# A naming table is not a consumer, so the auditor is excluded from its own
+# reader set -- and the exclusion is published rather than silent.
+SIGNEXPOSE_SELF = "scripts/e97_routing.py"
+
+
+def _signexpose_sources(base=None):
+    """rel -> source text for every .py in the two consumer trees, minus the auditor."""
+    base = base or ROOT
+    out = {}
+    for d in SIGNEXPOSE_SRC_DIRS:
+        for path in sorted(glob.glob(os.path.join(base, d, "*.py"))):
+            rel = d + "/" + os.path.basename(path)
+            if rel == SIGNEXPOSE_SELF:
+                continue
+            try:
+                with io.open(path, encoding="utf-8", errors="replace") as fh:
+                    out[rel] = fh.read()
+            except OSError:
+                continue
+    return out
+
+
+def _signexpose_leaf_hits(leaves, sources):
+    """rel -> the leaves it names as a quoted literal.
+
+    Quote-adjacency is deliberate: a substring test would score every reader of
+    `engine_ann_diff_bp_raw` as a reader of `engine_ann_diff_bp`, which is the
+    exact false positive this leg exists to avoid.
+    """
+    hits = {}
+    for rel in sorted(sources):
+        src = sources[rel]
+        found = [leaf for leaf in leaves
+                 if ('"%s"' % leaf) in src or ("'%s'" % leaf) in src]
+        if found:
+            hits[rel] = found
+    return hits
+
+
+def _signexpose_producer(face_rel, sources):
+    """The files that write this face: directory token + filename stem + results path."""
+    dir_token = os.path.basename(os.path.dirname(face_rel))
+    stem = re.split(r"[-.]", os.path.basename(face_rel))[0]
+    if not dir_token or not stem:
+        return []
+    return sorted(rel for rel in sources
+                  if dir_token in sources[rel] and stem in sources[rel]
+                  and "results/" in sources[rel])
+
+
+def _signexpose_face(rel, doc, rows, sources):
+    """(E204) is a delta face read by name outside the script that wrote it?"""
+    face = _deltasign_face(rel, doc, rows)
+    leaves = sorted({r.get("leaf") for r in rows if r.get("leaf")})
+    hits = _signexpose_leaf_hits(leaves, sources)
+    producers = _signexpose_producer(rel, sources)
+    external = [k for k in sorted(hits) if k not in producers]
+    if not producers:
+        reader = "producer_unlocated"
+    elif external:
+        reader = "read_outside_the_producer"
+    elif hits:
+        reader = "producer_only"
+    else:
+        reader = "no_reader_in_repo"
+    face.update({
+        "leaves": len(leaves),
+        "leaf_readers": sorted(hits),
+        "producer_files": producers,
+        "external_readers": external,
+        "reader": reader,
+        # the exposure only bites when the face also fails to teach its direction
+        "trap": bool(face["needs_line"] and reader == "read_outside_the_producer"),
+    })
+    return face
+
+
+def signexposure_sweep(base=None, sources=None):
+    """E204: who reads a delta face's number, and does the face teach that reader its sign?"""
+    stance = deltastance(base=base)
+    if stance.get("status") == "awaiting_upstream":
+        return {"study": "e204_delta_face_reader_exposure",
+                "status": "awaiting_upstream", "missing": stance.get("missing"),
+                "rows": [], "answers": {"faces": 0, "verdict": "no_upstream_face"}}
+    by_face = {}
+    for r in stance.get("rows") or []:
+        by_face.setdefault(r["face"], []).append(r)
+    src = sources if sources is not None else _signexpose_sources(base)
+    rows = []
+    for rel in sorted(by_face):
+        full = os.path.join(base or ROOT, rel.replace("/", os.sep))
+        try:
+            with io.open(full, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except Exception:
+            doc = {}
+        rows.append(_signexpose_face(rel, doc if isinstance(doc, dict) else {},
+                                     by_face[rel], src))
+    counts = {}
+    for r in rows:
+        counts[r["reader"]] = counts.get(r["reader"], 0) + 1
+    silent = [r for r in rows if r["status"] == "silent"]
+    traps = [r for r in rows if r["trap"]]
+    silent_clean = [r for r in silent if r["reader"] in ("producer_only", "no_reader_in_repo")]
+    silent_unowned = [r for r in silent if r["reader"] == "producer_unlocated"]
+    if not rows:
+        verdict = "no_delta_faces"
+    elif traps:
+        verdict = "a_silent_face_is_read_by_name_outside_its_producer"
+    elif silent:
+        verdict = "every_silent_face_has_no_reader_outside_its_producer"
+    else:
+        verdict = "no_silent_face"
+    return {
+        "study": "e204_delta_face_reader_exposure",
+        "evidence_cutoff": stance.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "the E193 delta stance sweep + the E201 declaration status (this module)",
+            "question": ("E201 published which faces never teach their sign. Before any of "
+                         "them is rewritten, ask who would be misled: does a script other "
+                         "than the face's own producer pull the delta by name?"),
+            "source_trees": list(SIGNEXPOSE_SRC_DIRS),
+            "self_excluded": SIGNEXPOSE_SELF,
+            "leaf_rule": "quoted-literal adjacency only (a substring hit would confound arm names)",
+            "reader_classes": {
+                "read_outside_the_producer": "another script names the delta leaf",
+                "producer_only": "only the script that writes the face names it",
+                "no_reader_in_repo": "nothing in the two source trees names it",
+                "producer_unlocated": ("the owning script could not be identified, so the "
+                                       "face is reported as unowned rather than external-read"),
+            },
+            "trap_rule": "needs_line AND read_outside_the_producer",
+            "cost_note": "reader-facing defect: zero bp, whole sign",
+        },
+        "rows": rows,
+        "answers": {
+            "faces": len(rows),
+            "reader_counts": counts,
+            "faces_silent": len(silent),
+            "silent_faces_read_outside_producer": [r["face"] for r in traps],
+            "silent_faces_with_no_external_reader": [r["face"] for r in silent_clean],
+            "silent_faces_without_a_located_producer": [r["face"] for r in silent_unowned],
+            "faces_already_declaring": len([r for r in rows
+                                            if r["status"] == "declared_and_matches"]),
+            "verdict": verdict,
+        },
+        "honest": [
+            "this measures the IN-REPO consumer set only; a number quoted in prose, in a "
+            "figures file, or outside this repository is not visible to the scan",
+            "the producer is identified by the face's directory token plus filename stem "
+            "inside a script that also carries a results/ path; a face whose producer uses "
+            "a wildcard glob and a short stem can be attributed to more than one script, "
+            "and that over-count only makes the exposure test more conservative",
+            "a leaf named only in a comment still counts as a reader -- the leg does not "
+            "attempt to parse the use",
+            "the auditing module itself is excluded from the reader set: its own naming "
+            "tables and selftest fixtures carry leaf names without consuming the number, "
+            "and on the first fire they made 5 of 14 faces look externally read",
+            "nothing is rewritten by this leg; it ranks which of E201's suggested lines is "
+            "worth writing first",
+        ],
+        "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)",
+    }
+
+
+def run_signexposure(publish=False, base=None):
+    face = signexposure_sweep(base=base)
+    if face.get("status") == "awaiting_upstream":
+        print("awaiting upstream:", face.get("missing"))
+        return 0
+    if publish:
+        out = os.path.join(_abs(SIGNEXPOSE_OUT_DIR),
+                           "SIGNEXPOSURE-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    a = face["answers"]
+    print("faces=%d silent=%d traps=%d unowned=%d"
+          % (a["faces"], a["faces_silent"],
+             len(a["silent_faces_read_outside_producer"]),
+             len(a["silent_faces_without_a_located_producer"])))
+    for k in sorted(a["reader_counts"]):
+        print("  %s=%d" % (k, a["reader_counts"][k]))
+    if a["silent_faces_read_outside_producer"]:
+        print("  traps:", ", ".join(os.path.basename(p)
+                                    for p in a["silent_faces_read_outside_producer"]))
+    print("  verdict:", a["verdict"])
+    return 0
+
+
 def render_md(face, path=None):
     """Render the routing table as a markdown page (numbers read from the face)."""
     t = face["totals"]
@@ -3534,6 +3733,44 @@ def selftest():
     chk("L67 the sign leg takes the repo base as its only seam",
         "base" in deltasign_sweep.__code__.co_varnames)
 
+    # ---- E204: who reads the number, and does the face teach that reader the sign
+    _hits_src = {"scripts/a.py": 'doc["engine_ann_diff_bp"]',
+                 "scripts/b.py": 'doc["engine_ann_diff_bp_raw"]'}
+    chk("L68 a reader of the longer arm name is not a reader of the short leaf",
+        _signexpose_leaf_hits(["engine_ann_diff_bp"], _hits_src)
+        == {"scripts/a.py": ["engine_ann_diff_bp"]})
+    _own = {"scripts/producer.py": 'OUT = "results/e79/FAKE-20261027.json"\n'
+                                   'k = doc["engine_ann_diff_bp"]'}
+    _fac = _signexpose_face("results/e79/FAKE-20261027.json", {},
+                            [{"leaf": "engine_ann_diff_bp",
+                              "sign_convention": ["flipped"]}], _own)
+    chk("L69 a face only its own producer names is not an exposure",
+        _fac["reader"] == "producer_only" and _fac["trap"] is False)
+    _both = dict(_own)
+    _both["scripts/consumer.py"] = 'v = doc["engine_ann_diff_bp"]'
+    _fac2 = _signexpose_face("results/e79/FAKE-20261027.json", {},
+                             [{"leaf": "engine_ann_diff_bp",
+                               "sign_convention": ["flipped"]}], _both)
+    chk("L70 a silent face read by another script is a trap",
+        _fac2["reader"] == "read_outside_the_producer" and _fac2["trap"] is True
+        and _fac2["external_readers"] == ["scripts/consumer.py"])
+    _fac3 = _signexpose_face("results/e79/FAKE-20261027.json",
+                             {"honest": ["deltas are screened minus raw"]},
+                             [{"leaf": "engine_ann_diff_bp",
+                               "sign_convention": ["flipped"]}], _both)
+    chk("L71 the same exposure is not a trap once the face teaches its sign",
+        _fac3["reader"] == "read_outside_the_producer" and _fac3["trap"] is False)
+    _fac4 = _signexpose_face("results/e79/NOPROD-20261027.json", {},
+                             [{"leaf": "engine_ann_diff_bp",
+                               "sign_convention": ["flipped"]}], _both)
+    chk("L72 an unlocatable producer is reported unowned, never as an external read",
+        _fac4["reader"] == "producer_unlocated" and _fac4["trap"] is False)
+    chk("L73 the exposure leg takes the repo base and the source set as its seams",
+        "base" in signexposure_sweep.__code__.co_varnames
+        and "sources" in signexposure_sweep.__code__.co_varnames)
+    chk("L74 the auditor is not counted as a reader of the faces it audits",
+        SIGNEXPOSE_SELF not in _signexpose_sources())
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -3562,6 +3799,8 @@ def main(argv):
         return run_nearzerosign(publish="--publish" in argv)
     if cmd == "deltasign":
         return run_deltasign(publish="--publish" in argv)
+    if cmd == "signexposure":
+        return run_signexposure(publish="--publish" in argv)
     print(__doc__)
     return 2
 
