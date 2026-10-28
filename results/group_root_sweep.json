@@ -8,15 +8,15 @@
   "live",
   "monitor"
  ],
- "files_scanned": 2140,
- "n_hits": 790,
+ "files_scanned": 2174,
+ "n_hits": 792,
  "counts": {
   "bare-root-literal": 2,
   "deployment-root-literal": 2,
   "exempt-resolver": 20,
   "group-root-hint": 7,
-  "one-off": 214,
-  "repo-root-literal": 533,
+  "one-off": 215,
+  "repo-root-literal": 534,
   "sibling-repo-literal": 11,
   "validated-walk": 1
  },
@@ -239,6 +239,15 @@
     "line": 5,
     "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
     "file": "Tools/_r1071bmc_close.py",
+    "bucket": "repo-root-literal",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "repo-root",
+    "line": 3,
+    "text": "$root = 'C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney'",
+    "file": "Tools/_r1159bmb_reg_e93.ps1",
     "bucket": "repo-root-literal",
     "uses_resolver": false
    },
@@ -556,15 +565,6 @@
     "file": "Tools/_r550bmc_bookkeeping.py",
     "bucket": "repo-root-literal",
     "uses_resolver": false
-   },
-   {
-    "kind": "literal",
-    "mode": "repo-root",
-    "line": 12,
-    "text": "ROOT = r\"K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\"",
-    "file": "Tools/_r551bmc_bookkeeping.py",
-    "bucket": "repo-root-literal",
-    "uses_resolver": false
    }
   ],
   "one-off": [
@@ -592,6 +592,15 @@
     "line": 5,
     "text": "GROUP = r\"K:\\Fluxgroup\\FluxGroup\"",
     "file": "Tools/_r1039bmc_d19_diff.py",
+    "bucket": "one-off",
+    "uses_resolver": false
+   },
+   {
+    "kind": "literal",
+    "mode": "group-root",
+    "line": 86,
+    "text": "'C:\\\\Fluxgroup\\\\FluxGroup (K:/E: both absent on this box).')",
+    "file": "Tools/_r1101_close.py",
     "bucket": "one-off",
     "uses_resolver": false
    },
@@ -916,15 +925,6 @@
     "line": 24,
     "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
     "file": "Tools/_r666bmc_s05.py",
-    "bucket": "one-off",
-    "uses_resolver": false
-   },
-   {
-    "kind": "climb",
-    "mode": "group-root",
-    "line": 24,
-    "text": "GROUP = os.path.normpath(os.path.join(ROOT, \"..\", \"..\"))  # bigmoney -> quant -> FluxGroup",
-    "file": "Tools/_r668bmc_s05.py",
     "bucket": "one-off",
     "uses_resolver": false
    }
@@ -1267,6 +1267,20 @@
     "bucket": "repo-root-literal",
     "mode": "repo-root",
     "line": 5
+   }
+  ],
+  "Tools/_r1101_close.py": [
+   {
+    "bucket": "one-off",
+    "mode": "group-root",
+    "line": 86
+   }
+  ],
+  "Tools/_r1159bmb_reg_e93.ps1": [
+   {
+    "bucket": "repo-root-literal",
+    "mode": "repo-root",
+    "line": 3
    }
   ],
   "Tools/_r309bmc_close.py": [

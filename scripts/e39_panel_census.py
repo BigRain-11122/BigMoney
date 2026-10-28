@@ -6557,6 +6557,219 @@ def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E176
+TILT3BOOKSPLIT_TOP = 3       # names reprinted per book
+TILT3BOOKSPLIT_MOVED_BP = 0.05   # below this a book did not move (same tol as E174)
+
+
+def _era_book_split(sides_raw, sides_scr, months):
+    """(E176) per-name annualised bp for EACH book, raw and screened.
+
+    ``sides_raw``/``sides_scr`` are ``core["contrib"]`` dicts (keys "wide" and
+    "lad"). E174 nets the two books before naming carriers, which is why its
+    table cannot say which book moved; nothing here is a second engine pass --
+    the same w*r records are read once per side and kept apart.
+    """
+    out = {}
+    for side in ("wide", "lad"):
+        raw_bp = _era_side_bp((sides_raw or {}).get(side) or {}, months)
+        scr_bp = _era_side_bp((sides_scr or {}).get(side) or {}, months)
+        delta = {s: scr_bp.get(s, 0.0) - raw_bp.get(s, 0.0)
+                 for s in set(raw_bp) | set(scr_bp)}
+        out[side] = {
+            "raw_level_bp": sum(raw_bp.values()),
+            "screened_level_bp": sum(scr_bp.values()),
+            "delta_bp": sum(delta.values()),
+            "names_moved": sorted((s for s, v in delta.items()
+                                   if abs(v) > TILT3BOOKSPLIT_MOVED_BP),
+                                  key=lambda s: -abs(delta[s])),
+            "per_name_delta_bp": delta,
+        }
+    return out
+
+
+def _book_move_verdict(wide_delta_bp, ladder_delta_bp, tol=None):
+    """(E176) which of the two held books the repair actually moved.
+
+    The engine column is ``wide - ladder``, so a reader who sees "the wide book
+    moved" cannot tell whether the fixed ladder leg moved instead and the sign
+    of the difference carried the story. Both deltas are published and the
+    verdict is a word, because "0.4bp on the ladder side" beside a 47bp engine
+    delta is a disclosure, not a cause.
+    """
+    t = TILT3BOOKSPLIT_MOVED_BP if tol is None else float(tol)
+    wide_moved = abs(wide_delta_bp or 0.0) > t
+    lad_moved = abs(ladder_delta_bp or 0.0) > t
+    if wide_moved and lad_moved:
+        return "both"
+    if wide_moved:
+        return "wide_only"
+    if lad_moved:
+        return "ladder_only"
+    return "neither"
+
+
+def run_tilt3booksplit(outdir, mode="neutralise_int", eras=ERAS):
+    """E176: split the engine column's repair delta BY BOOK, not by name.
+
+    E174 named the carriers of the era delta, but every carrier there is a net
+    of two held books. The question a reader of E171/E174 cannot answer is
+    which book moved: if the fixed five-name ladder leg is what the repair
+    re-priced, then "the wide book won 2024_now" is the wrong sentence even
+    though every number in it is right.
+
+    The decomposition levels are published beside the compounded published
+    levels and their offset, because E175 measured that offset at 52.9bp on
+    2024_now -- larger than the 46.7bp delta this table attributes. The offset
+    is disclosed here and left unexplained (E177 owns that); what this leg
+    asserts is that the two books' deltas reconstruct the DELTA, which is the
+    quantity every verdict in this family quotes.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    arm_raw, arm_scr = burn["arm_raw"], burn["arm_scr"]
+    sides_raw = (core_raw.get("contrib") or {})
+    sides_scr = (core_scr.get("contrib") or {})
+    # why the fixed leg does or does not move: derived from the screen report, not
+    # asserted, so 'the ladder is untouched' is a cause and not a lucky zero
+    import e24_ladder_weighting as base
+    _neutralised = sorted({d.get("name") for d in (report.get("names") or [])
+                           if d.get("action") == "neutralise"
+                           or (d.get("events") or 0) > 0})
+    ladder_neutralised = [s for s in _neutralised if s in set(base.LADDER)]
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(core_raw, lo, hi)
+        a = (arm_raw.get("eras") or {}).get(name) or {}
+        b = (arm_scr.get("eras") or {}).get(name) or {}
+        eng_raw, eng_scr = a.get("engine_mean_ann_bp"), b.get("engine_mean_ann_bp")
+        if not ms or eng_raw is None or eng_scr is None:
+            rows[name] = {"months": len(ms),
+                          "skipped": "no engine level on one arm for this era"}
+            continue
+        books = _era_book_split(sides_raw, sides_scr, ms)
+        wide, lad = books["wide"], books["lad"]
+        dec_raw = wide["raw_level_bp"] - lad["raw_level_bp"]
+        dec_scr = wide["screened_level_bp"] - lad["screened_level_bp"]
+        wide_delta, lad_delta = wide["delta_bp"], lad["delta_bp"]
+        delta_dec = dec_scr - dec_raw
+        delta_pub = round(eng_scr - eng_raw, 6)
+        moved = abs(delta_pub) > TILT3BOOKSPLIT_MOVED_BP
+        top = {}
+        for side in ("wide", "lad"):
+            pk = books[side]["per_name_delta_bp"]
+            top[side] = [{
+                "name": s,
+                "delta_bp": round(pk[s], 2),
+                "share_of_own_book_delta_pct": (
+                    round(pk[s] / books[side]["delta_bp"] * 100.0, 1)
+                    if abs(books[side]["delta_bp"]) > 1e-9 else None),
+            } for s in books[side]["names_moved"][:TILT3BOOKSPLIT_TOP]]
+        rows[name] = {
+            "months": len(ms),
+            "published_engine_bp_raw": eng_raw,
+            "published_engine_bp_screened": eng_scr,
+            "engine_bp_delta": delta_pub,
+            "wide_book_bp_raw": round(wide["raw_level_bp"], 2),
+            "wide_book_bp_screened": round(wide["screened_level_bp"], 2),
+            "wide_book_delta_bp": round(wide_delta, 3),
+            "ladder_book_bp_raw": round(lad["raw_level_bp"], 2),
+            "ladder_book_bp_screened": round(lad["screened_level_bp"], 2),
+            "ladder_book_delta_bp": round(lad_delta, 3),
+            "wide_share_of_engine_delta_pct": (
+                round(wide_delta / delta_dec * 100.0, 1)
+                if abs(delta_dec) > 1e-9 else None),
+            "ladder_share_of_engine_delta_pct": (
+                round(-lad_delta / delta_dec * 100.0, 1)
+                if abs(delta_dec) > 1e-9 else None),
+            "decomposition_engine_bp_raw": round(dec_raw, 2),
+            "decomposition_engine_bp_screened": round(dec_scr, 2),
+            "decomposition_level_offset_bp": {
+                "raw": round(dec_raw - eng_raw, 2),
+                "screened": round(dec_scr - eng_scr, 2),
+            },
+            "engine_delta_from_books_bp": round(delta_dec, 3),
+            "engine_delta_residual_bp": round(delta_pub - delta_dec, 3),
+            "which_book_moved": _book_move_verdict(wide_delta, lad_delta),
+            "wide_names_moved": len(wide["names_moved"]),
+            "ladder_names_moved": len(lad["names_moved"]),
+            "top_names_by_book": top,
+            "drivers_note": (None if moved else
+                             "the engine level is identical on both arms for this "
+                             "era, so there is no delta to split"),
+        }
+
+    measured = {k: v for k, v in rows.items() if "engine_bp_delta" in v}
+    moved = sorted(k for k, v in measured.items()
+                   if abs(v["engine_bp_delta"] or 0) > TILT3BOOKSPLIT_MOVED_BP)
+    verds = {k: v["which_book_moved"] for k, v in measured.items()}
+    lad_only = sorted(k for k, w in verds.items() if w == "ladder_only")
+    wide_only = sorted(k for k, w in verds.items() if w == "wide_only")
+    flat = sorted(k for k in measured if k not in moved)
+    flat_ok = all(abs(measured[k]["wide_book_delta_bp"]) <= TILT3BOOKSPLIT_MOVED_BP
+                  and abs(measured[k]["ladder_book_delta_bp"]) <= TILT3BOOKSPLIT_MOVED_BP
+                  for k in flat)
+    offsets = [abs(v["decomposition_level_offset_bp"]["raw"])
+               for v in measured.values()] + \
+              [abs(v["decomposition_level_offset_bp"]["screened"])
+               for v in measured.values()]
+    residuals = [abs(v["engine_delta_residual_bp"]) for v in measured.values()]
+    return {
+        "study": "e176_tilt3_engine_move_book_split",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "engine_series": "wide monthly return minus ladder monthly return",
+            "book_split": (
+                "each book's own contrib sink is annualised per era SEPARATELY "
+                "(wide and ladder), so the engine delta is rebuilt as "
+                "wide_delta - ladder_delta instead of netting the two books "
+                "before any attribution"),
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "moved_tolerance_bp": TILT3BOOKSPLIT_MOVED_BP,
+            "names_named_per_book": TILT3BOOKSPLIT_TOP,
+            "offset_disclosure": (
+                "the decomposition level (sum of daily w*r) is published beside "
+                "the compounded published level and their difference is quoted; "
+                "only the DELTA is asserted to reconstruct"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_where_engine_moved": moved,
+            "which_book_moved": verds,
+            "eras_moved_by_ladder_only": lad_only,
+            "eras_moved_by_wide_only": wide_only,
+            "eras_moved_by_both_books": sorted(k for k, w in verds.items()
+                                               if w == "both"),
+            "eras_where_neither_book_moved": flat,
+            "zero_delta_eras_flat_on_both_books": flat_ok,
+            "ladder_members_neutralised": ladder_neutralised,
+            "ladder_book_untouched_is_structural": not ladder_neutralised,
+            "neutralised_names_in_panel": len(_neutralised),
+            "max_abs_decomposition_level_offset_bp": (max(offsets) if offsets else None),
+            "max_abs_engine_delta_residual_bp": (max(residuals) if residuals else None),
+        },
+        "screen_report": report,
+        "honest": [
+            "the split is arithmetic on the same w*r records E174 nets: a name "
+            "held by both books appears in both lists and neither list alone "
+            "reconstructs the engine delta",
+            "the ladder leg is a fixed five-name book, so a ladder-side delta is "
+            "the repair re-pricing those five members, not the wide book's "
+            "selection changing; whether any of them was neutralised is derived "
+            "from the screen report and published beside the zeros",
+            "the DELTA is what reproduces here; the LEVELS sit apart by the "
+            "compounding offset quoted per era and are not used for any verdict",
+            "an era whose engine level did not move is the built-in control: a "
+            "book that moved there would mean the split is reading noise",
+        ],
+    }
+
+
 def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E124: re-derive the E43 four-member tilt face on the screened arm.
 
@@ -17464,6 +17677,50 @@ def selftest():
         "E175 the base offset alone can flip a verdict, so the two bases are "
         "not interchangeable readings of the same era")
 
+    # ---- E176 which BOOK moved, not which name
+    # The split is arithmetic, so the fixture is contributions whose sums are
+    # known by hand. The point under test is that the ladder side stays its own
+    # number: E174 nets the two books before naming carriers, and that netting is
+    # exactly what makes "the wide book moved" unanswerable.
+    _e176_months = ["2014-01", "2014-02"]
+    _e176_raw = {"wide": {("2014-01", "shA"): 1e-4},
+                 "lad": {("2014-01", "shL"): 2e-4, ("2014-01", "shA"): 1e-4}}
+    _e176_scr = {"wide": {("2014-01", "shA"): 3e-4},
+                 "lad": {("2014-01", "shL"): 2e-4, ("2014-01", "shA"): 1e-4}}
+    _e176_books = _era_book_split(_e176_raw, _e176_scr, _e176_months)
+    chk(abs(_e176_books["wide"]["raw_level_bp"] - 6.0) < 1e-6
+        and abs(_e176_books["lad"]["raw_level_bp"] - 18.0) < 1e-6
+        and abs(_e176_books["wide"]["delta_bp"] - 12.0) < 1e-6
+        and abs(_e176_books["lad"]["delta_bp"]) < 1e-9,
+        "E176 each book is annualised on its own and a wide-only move leaves the "
+        "ladder at exactly zero")
+    chk("shA" in _e176_books["wide"]["names_moved"]
+        and _e176_books["lad"]["names_moved"] == [],
+        "E176 a name held by both books is listed under the book that moved, not "
+        "netted away before the reader sees it")
+    chk(_book_move_verdict(12.0, 0.0) == "wide_only"
+        and _book_move_verdict(0.0, 6.0) == "ladder_only"
+        and _book_move_verdict(0.0, 0.0) == "neither"
+        and _book_move_verdict(-3.0, 4.0) == "both",
+        "E176 the verdict names the book and 'ladder_only' is a published word, "
+        "not a rounding note")
+    chk(_book_move_verdict(0.04, 0.0) == "neither"
+        and _book_move_verdict(0.06, 0.0) == "wide_only",
+        "E176 a move under the declared tolerance is not a cause")
+    _e176_lad_only = _era_book_split(
+        {"wide": {("2014-01", "shA"): 1e-4}, "lad": {("2014-01", "shL"): 2e-4}},
+        {"wide": {("2014-01", "shA"): 1e-4}, "lad": {("2014-01", "shL"): 3e-4}},
+        _e176_months)
+    _e176_eng_bp = (_e176_lad_only["wide"]["delta_bp"]
+                    - _e176_lad_only["lad"]["delta_bp"])
+    chk(abs(_e176_lad_only["wide"]["delta_bp"]) < 1e-9
+        and abs(_e176_eng_bp + 6.0) < 1e-6,
+        "E176 a ladder-side move is a NEGATIVE engine delta while the wide book is "
+        "flat: the sign the fixed leg contributes")
+    chk("mode" in run_tilt3booksplit.__code__.co_varnames
+        and "eras" in run_tilt3booksplit.__code__.co_varnames,
+        "E176 the split reads the same burn path and carries the mode/eras seams")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -19853,6 +20110,7 @@ def main(argv):
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
                              "tilt3sign", "tilt3signband", "tilt3screensign",
                              "tilt3signnames", "tilt3signdropsweep",
+                             "tilt3booksplit",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -20659,6 +20917,27 @@ def main(argv):
                                           "k0": v.get("ladder_k0_verdict"),
                                           "names_swept": v.get("names_swept"),
                                           "verdict_bands": v.get("verdict_bands")}
+                                      for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3booksplit":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3booksplit(outdir)
+        p = write_json(outdir, "TILT3SIGNBOOKSPLIT-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3booksplit",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"delta_bp": v.get("engine_bp_delta"),
+                                          "wide_delta_bp": v.get("wide_book_delta_bp"),
+                                          "ladder_delta_bp":
+                                              v.get("ladder_book_delta_bp"),
+                                          "which_book_moved":
+                                              v.get("which_book_moved"),
+                                          "residual_bp":
+                                              v.get("engine_delta_residual_bp"),
+                                          "level_offset_bp":
+                                              v.get("decomposition_level_offset_bp")}
                                       for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

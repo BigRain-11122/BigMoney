@@ -2014,3 +2014,27 @@ quantity starts from the published quantity instead; the decomposition's own
 levels are a diagnostic, never a base. And when a new leg's own k=0 or t=0 does
 not reproduce the headline it is extending, stop and check the base before
 publishing -- that mismatch is the cheapest defect detector in the family.
+
+## E176 A two-book column's delta must be split by BOOK before any book is named (2026-10-28 r1210 bm-b)
+
+The engine column of the tilt family is `wide book - ladder book`, and E174 named its
+carriers name-by-name. Every one of those carriers is a net of two held books, so the
+table can be perfectly audited while the sentence built on it is false: if the repair
+re-priced the fixed ladder leg, "the wide book won the era" is the wrong sentence even
+though its arithmetic is right. Rebuilding the delta as `wide_delta - ladder_delta` from
+each book's own contrib sink gave a cleaner answer than any name table: the ladder side
+is 0.0bp in all five eras, every moved era is `wide_only`, and the zero is STRUCTURAL --
+67 events were neutralised in the panel and none of them is one of the five fixed ladder
+members, a fact derived from the screen report rather than asserted.
+
+Two habits follow. Publish the book split beside the name split, because they answer
+different sentences. And when one side reads exactly zero, say whether it is a measured
+zero or a structural one: "no member of that book was repaired" and "that book was
+unaffected after adjustment" are different claims, and only the first one is derivable
+from the report. The same leg re-measured E175's base offset from a second direction
+(+52.9/+55.8bp on 2024_now), which is a reminder that the DELTA is the quantity that
+reproduces and the decomposition's levels are a diagnostic.
+
+How to apply: for any published difference of two held books, split the delta by book
+before naming a name, and derive "this side cannot move" from the repair report instead
+of publishing a bare zero beside a moved headline.
