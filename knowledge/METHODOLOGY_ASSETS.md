@@ -2311,3 +2311,15 @@ roots back down to `results/`.
 How to apply: when a defect class is swept, (a) name the surfaces a reader opens and make
 those the gate, (b) publish the non-gated buckets with counts so the class stays visible
 instead of silenced, (c) prove the leg exists in the runner, not in a comment.
+
+## E185 A thin net is a product of two mechanisms, and only one of them is about the signal (2026-10-28 r1217 bm-b)
+
+`run_tilt3widesplitmonth()` in `scripts/e39_panel_census.py` -> `results/e43_tilt_4member/WIDEMONTHCANCEL-20261027.json`, mode `tilt3widesplitmonth`, selftest 617->628. E182 published the wide book's repair as one net beside one gross (2024_now +49.6bp over 113.1bp, ratio 0.4387) and the ratio could not say where the movement went. Keeping the delta per decision month splits the loss exactly:
+
+    |sum_m net_m| / sum_m gross_m = (sum_m |net_m| / sum_m gross_m) x (|sum_m net_m| / sum_m |net_m|)
+
+The first factor is motion surviving WITHIN-month cancellation (two holdings repaired opposite ways at one rebalance = a membership/weight artefact), the second surviving ACROSS-month sign disagreement (the era averages away a time-varying signal). Measured: 2024_now keeps 0.872 within months but only 0.472 across them, at most 47.7bp removed inside months vs 194.7bp between them (4.1x) -- so the repair is time-varying and era-averaged, and the residual must never be quoted as an edge or a level.
+
+Two traps this closes, both worth carrying: (a) **the two removed amounts must add to `gross - |net|`** or the split is a second story rather than a decomposition -- pin it with a selftest leg; (b) **name-level gross is not the width of the movement** -- E182 netted each holding over the whole era first, so a name repairing +X then -X contributes 0 to its gross while the path carried the motion twice (path/name gross 1.037/1.067/1.060 on 2021_2023/2024_now/full; net/gross 0.4387 on the name basis vs 0.4114 on the path basis), and the two nets still agree to 0.0004bp because it is one computation read two ways.
+
+How to apply: when a thin aggregate is published, ask which axis it was netted on (names) and whether the decision axis (months) was netted first; publish both gross bases with their ratio, and classify the cancellation in words so the reader knows whether the follow-up is a membership question or a timing question.

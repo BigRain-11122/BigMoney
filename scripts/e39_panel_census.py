@@ -18675,6 +18675,91 @@ def selftest():
         "E183 a drop that does nothing on one arithmetic has no effect to "
         "reverse, so the dead band keeps it out of the flag")
 
+    # (E184) a thin net is the product of two mechanisms, and which one ate the
+    # motion is what decides the follow-up -- so it is measured, not narrated.
+    _e184_in = _wide_month_cancel_rows(
+        {"wide": {}},
+        {"wide": {("2020-01", "A"): 1.0, ("2020-01", "B"): -1.0}},
+        ["2020-01"])
+    _v184_in = _month_cancel_verdict(_e184_in)
+    chk(_v184_in["classification"] == "cancels_within_month"
+        and _v184_in["within_month_keep_ratio"] == 0.0
+        and _v184_in["across_month_removed_bp"] == 0.0,
+        "E184 two holdings repaired opposite ways in one month is within-month "
+        "cancellation and leaves nothing for the between-month term")
+    _e184_ac = _wide_month_cancel_rows(
+        {"wide": {}},
+        {"wide": {("2020-01", "A"): 1.0, ("2020-02", "A"): -0.4}},
+        ["2020-01", "2020-02"])
+    _v184_ac = _month_cancel_verdict(_e184_ac)
+    chk(_v184_ac["classification"] == "cancels_across_months"
+        and _v184_ac["within_month_keep_ratio"] == 1.0
+        and _v184_ac["months_net_against_total"] == ["2020-02"],
+        "E184 the same name repairing up one month and down the next is "
+        "across-month disagreement, and the opposing month is named")
+    _e184_mix = _wide_month_cancel_rows(
+        {"wide": {}},
+        {"wide": {("2020-01", "A"): 1.0, ("2020-01", "B"): -0.5,
+                  ("2020-02", "A"): -0.2, ("2020-02", "C"): 0.7}},
+        ["2020-01", "2020-02"])
+    _v184_mix = _month_cancel_verdict(_e184_mix)
+    chk(abs(_v184_mix["within_month_keep_ratio"]
+            * _v184_mix["across_month_keep_ratio"]
+            - abs(_v184_mix["total_net_bp"]) / _v184_mix["total_gross_bp"])
+        < 1e-12,
+        "E184 the two kept ratios multiply back to net over gross exactly, so "
+        "the split is a decomposition and not a second story")
+    chk(abs(_v184_mix["within_month_removed_bp"]
+            + _v184_mix["across_month_removed_bp"]
+            - (_v184_mix["total_gross_bp"]
+               - abs(_v184_mix["total_net_bp"]))) < 1e-9,
+        "E184 the two removed amounts add up to everything the book lost, so a "
+        "reader cannot be shown more cancellation than actually happened")
+    chk(_month_cancel_verdict(
+        _wide_month_cancel_rows({}, {"wide": {("2020-01", "A"): 0.0}},
+                                ["2020-01"]))["classification"]
+        == "flat_per_month",
+        "E184 a month that repaired nothing is flat, not cancelling")
+    chk(_month_cancel_verdict([])["classification"] == "no_months",
+        "E184 no months is an empty era, not a flat one")
+    _e184_scale = _wide_month_cancel_rows(
+        {"wide": {("2020-01", "A"): 1.0}},
+        {"wide": {("2020-01", "A"): 3.0, ("2020-09", "B"): 5.0}},
+        ["2020-01"])
+    chk(len(_e184_scale) == 1
+        and abs(_e184_scale[0]["net_bp"] - 20000.0) < 1e-9,
+        "E184 the monthly delta is screened minus raw in bp, and a month "
+        "outside the era does not leak into it")
+    chk(_wide_month_e182_join({"total_net_bp": 1.0},
+                              ["2020-01", "2020-02"],
+                              {"eras": {"X": {"net_delta_bp": 6.0}}},
+                              "X")["abs_diff_bp"] == 0.0,
+        "E184 the monthly net annualises back to the E182 era net on disk")
+    chk(_wide_month_e182_join({"total_net_bp": 1.0}, ["2020-01"], None,
+                              "X")["abs_diff_bp"] is None,
+        "E184 an absent E182 face publishes no join instead of a zero")
+
+    _e184_path = _wide_month_cancel_rows(
+        {"wide": {}},
+        {"wide": {("2020-01", "A"): 1.0, ("2020-02", "A"): -1.0}},
+        ["2020-01", "2020-02"])
+    _e184_name_gross = sum(
+        abs(v) for v in _era_side_bp(
+            {("2020-01", "A"): 1.0, ("2020-02", "A"): -1.0},
+            ["2020-01", "2020-02"]).values())
+    chk(_e184_name_gross == 0.0
+        and _month_cancel_verdict(_e184_path)["total_gross_bp"] == 20000.0,
+        "E184 a name repairing up then down contributes zero to E182's "
+        "name-level gross while the path carried the motion twice, so "
+        "name-level gross is not the width of the movement")
+    chk(_wide_month_e182_join({"total_net_bp": 1.0, "total_gross_bp": 2.0},
+                              ["2020-01", "2020-02"],
+                              {"eras": {"X": {"net_delta_bp": 6.0,
+                                              "gross_abs_delta_bp": 10.0}}},
+                              "X")["path_gross_over_name_gross"] == 1.2,
+        "E184 the two gross bases are published as a ratio, so a thin net "
+        "cannot be quoted without the width it was measured on")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -21771,6 +21856,290 @@ def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E184
+WIDEMONTHCANCEL_TOL_BP = 1e-9
+WIDEMONTHCANCEL_TOP = 8
+
+
+def _wide_month_cancel_rows(sides_raw, sides_scr, months):
+    """(E184) the wide book's repair delta kept per DECISION MONTH.
+
+    E182 published one net for the whole era, so a 45-name book netting
+    +49.6bp against 113.1bp of gross motion could be either cancellation
+    INSIDE a month (two holdings repaired opposite ways at the same
+    rebalance) or a month-on-month sign disagreement (one month repairs up,
+    another repairs down). Those are different statements about the repair
+    and only one of them is about the repair at all, so the delta is kept
+    per month here before any netting happens.
+    """
+    raw = (sides_raw or {}).get("wide") or {}
+    scr = (sides_scr or {}).get("wide") or {}
+    mset = set(months)
+    per = {}
+    for key in set(raw) | set(scr):
+        m, s = key
+        if m not in mset:
+            continue
+        per.setdefault(m, {})[s] = (float(scr.get(key, 0.0))
+                                    - float(raw.get(key, 0.0))) * 1e4
+    rows = []
+    for m in sorted(per):
+        vals = per[m]
+        net = sum(vals.values())
+        gross = sum(abs(v) for v in vals.values())
+        rows.append({
+            "month": m,
+            "names": len(vals),
+            "net_bp": net,
+            "gross_bp": gross,
+            "net_over_gross": (net / gross
+                               if gross > WIDEMONTHCANCEL_TOL_BP else None),
+            "names_positive": sum(1 for v in vals.values() if v > 0.0),
+            "names_negative": sum(1 for v in vals.values() if v < 0.0),
+        })
+    return rows
+
+
+def _wide_month_names_present(sides_raw, sides_scr, months):
+    """(E184) the era's repaired-name set, so the split can be joined to E182."""
+    mset = set(months)
+    names = set()
+    for src in ((sides_raw or {}).get("wide") or {},
+                (sides_scr or {}).get("wide") or {}):
+        for (m, s) in src:
+            if m in mset:
+                names.add(s)
+    return names
+
+
+def _month_cancel_verdict(rows, tol=None):
+    """(E184) WHERE the cancellation lives: inside a month or between months.
+
+    The two readings multiply exactly, so a thin net is not one mechanism but
+    a product of two::
+
+        |sum_m net_m| / sum_m gross_m
+            = (sum_m |net_m| / sum_m gross_m) x (|sum_m net_m| / sum_m |net_m|)
+
+    The first factor is the share of the motion that survives the WITHIN-month
+    cancellation; the second is the share that survives the ACROSS-month sign
+    disagreement. Publishing them side by side is what turns
+    "net/gross = 0.44" into a statement about which mechanism ate it, and it
+    makes the two removable amounts additive by construction rather than by
+    a story: gross - sum|net| is gone inside months, sum|net| - |net| is gone
+    between them.
+    """
+    t = WIDEMONTHCANCEL_TOL_BP if tol is None else float(tol)
+    total_net = sum(r["net_bp"] for r in rows)
+    total_gross = sum(r["gross_bp"] for r in rows)
+    abs_net_sum = sum(abs(r["net_bp"]) for r in rows)
+    if total_gross <= t:
+        within_keep = within_loss = None
+        across_keep = across_loss = None
+        cls = "flat_per_month" if rows else "no_months"
+    else:
+        within_keep = abs_net_sum / total_gross
+        within_loss = 1.0 - within_keep
+        if abs_net_sum <= t:
+            # every month nets to zero on its own: nothing is left for the
+            # between-month term, so the across-month loss is exactly zero
+            across_keep = 1.0
+            across_loss = 0.0
+            cls = "cancels_within_month"
+        else:
+            across_keep = abs(total_net) / abs_net_sum
+            across_loss = 1.0 - across_keep
+            cls = ("cancels_across_months" if across_loss > within_loss
+                   else "cancels_within_month")
+    sign = 0 if abs(total_net) <= t else (1 if total_net > 0 else -1)
+    against = [r["month"] for r in rows
+               if sign and abs(r["net_bp"]) > t
+               and (1 if r["net_bp"] > 0 else -1) != sign]
+    against_set = set(against)
+    return {
+        "total_net_bp": total_net,
+        "total_gross_bp": total_gross,
+        "sum_abs_month_net_bp": abs_net_sum,
+        "net_over_gross": (total_net / total_gross if total_gross > t else None),
+        "within_month_keep_ratio": within_keep,
+        "across_month_keep_ratio": across_keep,
+        "within_month_removed_bp": (total_gross - abs_net_sum
+                                    if total_gross > t else None),
+        "across_month_removed_bp": (abs_net_sum - abs(total_net)
+                                    if abs_net_sum > t else 0.0),
+        "months": len(rows),
+        "months_with_net_motion": sum(1 for r in rows if r["gross_bp"] > t),
+        "months_net_against_total": against,
+        "months_net_against_total_bp": sum(r["net_bp"] for r in rows
+                                           if r["month"] in against_set),
+        "classification": cls,
+    }
+
+
+def _wide_month_e182_join(verdict, months, sib, era):
+    """(E184) the month split must annualise back to E182's published net.
+
+    Also publishes the gross of the two bases side by side: E182's gross is
+    formed AFTER netting each holding over the whole era, so a name that
+    repaired up and then down inside the era contributes |0| to it while the
+    real path carried the motion twice. The ratio is the honest width of the
+    "thin net" claim, and it is the reason this leg exists.
+    """
+    e182 = ((sib or {}).get("eras") or {}).get(era) or {}
+    theirs = e182.get("net_delta_bp")
+    n = len(months)
+    mine = (verdict["total_net_bp"] * 12.0 / n) if n else None
+    path_gross = (verdict.get("total_gross_bp", 0.0) * 12.0 / n) if n else None
+    their_gross = e182.get("gross_abs_delta_bp")
+    out = {"e182_face": "WIDESIDEGROSS",
+           "e182_gross_abs_delta_bp": their_gross,
+           "month_split_annualised_gross_bp": (None if path_gross is None
+                                               else round(path_gross, 6)),
+           "path_gross_over_name_gross": (
+               None if not their_gross or path_gross is None
+               else round(path_gross / float(their_gross), 4))}
+    if theirs is None or mine is None:
+        out["e182_face"] = None
+        out["abs_diff_bp"] = None
+        out["note"] = "no E182 row for this era on disk"
+        return out
+    out["e182_net_delta_bp"] = theirs
+    out["month_split_annualised_net_bp"] = round(mine, 6)
+    out["abs_diff_bp"] = round(abs(mine - float(theirs)), 6)
+    return out
+
+
+def run_tilt3widesplitmonth(outdir, mode="neutralise_int", eras=ERAS):
+    """E184: locate the wide book's cancellation in time, not in names.
+
+    E182 could only say the net is thin (0.4387 of gross on 2024_now). Two
+    mechanisms produce a thin net from a heavy gross, and they imply opposite
+    follow-ups: within-month cancellation means the repair acts on pairs of
+    holdings at one rebalance (a membership/weight artefact), while
+    across-month disagreement means the repair is a time-varying signal that
+    the era averages away. This leg separates them per era.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("WIDESIDEGROSS-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_month_cancel_rows(sides_raw, sides_scr, ms)
+        v = _month_cancel_verdict(per)
+        names = _wide_month_names_present(sides_raw, sides_scr, ms)
+        ranked = sorted(per, key=lambda r: -r["gross_bp"])
+        top = [{"month": r["month"],
+                "gross_bp": round(r["gross_bp"], 3),
+                "net_bp": round(r["net_bp"], 3),
+                "net_over_gross": (None if r["net_over_gross"] is None
+                                   else round(r["net_over_gross"], 4)),
+                "names": r["names"],
+                "names_positive": r["names_positive"],
+                "names_negative": r["names_negative"]}
+               for r in ranked[:WIDEMONTHCANCEL_TOP]]
+        row = {
+            "months": len(ms),
+            "names_present": len(names),
+            "total_net_bp": round(v["total_net_bp"], 3),
+            "annualised_net_bp": round(v["total_net_bp"] * 12.0 / len(ms), 3),
+            "total_gross_bp": round(v["total_gross_bp"], 3),
+            "sum_abs_month_net_bp": round(v["sum_abs_month_net_bp"], 3),
+            "net_over_gross": (None if v["net_over_gross"] is None
+                               else round(v["net_over_gross"], 4)),
+            "within_month_keep_ratio": (
+                None if v["within_month_keep_ratio"] is None
+                else round(v["within_month_keep_ratio"], 4)),
+            "across_month_keep_ratio": (
+                None if v["across_month_keep_ratio"] is None
+                else round(v["across_month_keep_ratio"], 4)),
+            "within_month_removed_bp": (
+                None if v["within_month_removed_bp"] is None
+                else round(v["within_month_removed_bp"], 3)),
+            "across_month_removed_bp": (
+                None if v["across_month_removed_bp"] is None
+                else round(v["across_month_removed_bp"], 3)),
+            "months_with_net_motion": v["months_with_net_motion"],
+            "months_net_against_total": v["months_net_against_total"],
+            "months_net_against_total_bp": round(
+                v["months_net_against_total_bp"], 3),
+            "classification": v["classification"],
+            "top_months_by_gross": top,
+        }
+        row["e182_join"] = _wide_month_e182_join(v, ms, sib, name)
+        rows[name] = row
+
+    measured = {k: v for k, v in rows.items() if "classification" in v}
+    joins = [v["e182_join"]["abs_diff_bp"] for v in measured.values()
+             if v["e182_join"] and v["e182_join"]["abs_diff_bp"] is not None]
+    ratios = [v["e182_join"]["path_gross_over_name_gross"]
+              for v in measured.values()
+              if v["e182_join"] and v["e182_join"]["path_gross_over_name_gross"]]
+    by_cls = {}
+    for k, v in measured.items():
+        by_cls.setdefault(v["classification"], []).append(k)
+    return {
+        "study": "e184_tilt3_wide_side_cancel_by_month",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "side": "wide (the rotating book) contrib sink, kept per month",
+            "units": ("total_*_bp are sums of monthly bp contributions "
+                      "(x1e4 of the month's weight-return term); "
+                      "annualised_net_bp = total_net * 12 / months"),
+            "identity": ("|net|/gross = within_month_keep x across_month_keep "
+                         "(exact, not fitted)"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_by_classification": {k: sorted(v) for k, v in by_cls.items()},
+            "dominant_mechanism_by_era": {
+                k: v["classification"] for k, v in measured.items()},
+            "max_within_month_removed_bp": (
+                None if not measured else round(max(
+                    (v["within_month_removed_bp"] or 0.0)
+                    for v in measured.values()), 3)),
+            "max_across_month_removed_bp": (
+                None if not measured else round(max(
+                    (v["across_month_removed_bp"] or 0.0)
+                    for v in measured.values()), 3)),
+            "e182_join_max_abs_diff_bp": (
+                None if not joins else round(max(joins), 6)),
+            "path_gross_over_name_gross_max": (
+                None if not ratios else round(max(ratios), 4)),
+        },
+        "screen_report": report,
+        "honest": [
+            "the monthly net is the repair's contribution in that decision "
+            "month; it is not a tradable month return and no month is a "
+            "tradeable statement on its own",
+            "a month whose gross is inside the tolerance is counted as having "
+            "no motion, so the within/across split is measured on months that "
+            "actually repaired something",
+            "months_net_against_total is empty when the era's net is inside "
+            "the tolerance: a zero net has no direction to oppose",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -21788,6 +22157,7 @@ def main(argv):
                              "tilt3ladderlomo",
                              "tilt3ladderlomocomp",
                              "tilt3widesplit",
+                             "tilt3widesplitmonth",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -23187,6 +23557,27 @@ def main(argv):
                               "classification": v.get("classification"),
                               "names_moved": v.get("names_moved"),
                               "flippers": v.get("names_whose_removal_flips_the_net")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3widesplitmonth":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3widesplitmonth(outdir)
+        p = write_json(outdir, "WIDEMONTHCANCEL-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3widesplitmonth",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "classification": v.get("classification"),
+                              "total_gross_bp": v.get("total_gross_bp"),
+                              "total_net_bp": v.get("total_net_bp"),
+                              "net_over_gross": v.get("net_over_gross"),
+                              "within_month_keep_ratio":
+                                  v.get("within_month_keep_ratio"),
+                              "across_month_keep_ratio":
+                                  v.get("across_month_keep_ratio"),
+                              "months": v.get("months")}
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

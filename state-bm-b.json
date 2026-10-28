@@ -918,36 +918,6 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T05:37:14+08:00"
  },
- "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
- "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
- "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1216,
- "round_no": 1216,
- "round_no_label": "r1214",
- "round_no_ts": "2026-10-28T12:22:40+08:00",
- "round_pit": "r1215: a field NAME is not an arithmetic -- two producers published decomposition_engine_bp (a daily-sum and a monthly-sum of per-name contributions) and the two answers sit 2.92..3.63bp apart with a 0.70bp spread across four eras and two arms; a near-constant gap across eras of different volatility cannot be within-month compounding, so it is a definitional wedge and one of the two faces does not declare its reading. Sibling: a leg that publishes into a directory it scans must exclude its own study -- self-inclusion grew the sweep 25->26 faces and 1034->3274 cells before L36d pinned it.",
- "sat_engine": {
-  "checked_at": "2026-10-28T10:09:23+08:00",
-  "status": "alive"
- },
- "seq": 21,
- "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
- "status": "green",
- "sync": {
-  "status": "PUSHED_VERIFIED",
-  "pushed_sha": "2b1a046db",
-  "ts": "2026-10-28T11:58+08:00",
-  "behind_origin_main": 0,
-  "local_not_on_origin_main": 0,
-  "note": "r1214 clean first-attempt push; four-way verified (HEAD == origin/main, ahead 0 behind 0, ls-tree origin carries LADDERLEVELS-20261027 and WIDESIDEGROSS-20261027 and the E181/E182 digest)"
- },
- "task": "r1215: E180 published-level quote audit (done)",
- "task_short": "E180 level quote audit",
- "task_short_note": "e97_routing.py new mode levelquotes; 14 -> 40 selftest legs",
- "ts": "2026-10-28T12:22:40+08:00",
- "updated": "2026-10-28T12:30:00+08:00",
- "updated_at": "2026-10-28T12:30:00+08:00",
- "verdict": "E183: arithmetic reading reproduces E181 bit-for-bit (join 0.0 on all five eras), so this is the same book and the same months. Compounded reading offsets are -69.3..-318.4bp per era (one-signed by AM>=GM, so only the magnitude is informative) and every era survives every drop on both, so E181's verdict is not arithmetic-dependent. What IS arithmetic-dependent is the drop EFFECT: 4 of 22 drops reverse it (pre2017 sh510300/sh510500, 2024_now+full sh510050).",
  "r1210": {
   "dedupe": "E173-TILT3-REPAIR-DRIVERS closed as SUPERSEDED by E174 without burning: same engine column, already attributed name-by-name with per-era carriers and the drop test; re-burning would have produced a second table of the same numbers",
   "finding": "the engine column's repair delta is 100% wide book: 2021_2023 +30.20bp / 2024_now +49.60bp / full +17.12bp, ladder book 0.0bp in every row. The zero is structural -- 67 events neutralised, none of them a ladder member -- so a fixed 5-name leg has nothing to repair. E174's sentence survives ('the wide book lost 2024_now') and now has a cause. Delta rebuilt from the books lands 0.90/2.90/0.82bp under the published one (compounding). Decomposition LEVEL offset re-measured at +52.9/+55.8bp on 2024_now.",
@@ -1067,14 +1037,13 @@
   "smoke": "118/118 PASS at open"
  },
  "r1214_push": {
-  "status": "PUSHED_VERIFIED",
-  "pushed_sha": "2b1a046dbdf10df904fec9930430a0560521efe5",
-  "ts": "2026-10-28T11:58+08:00",
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "23 targeted files; the drama lane, fleet/machine-health.json, results/runnable_pool.bm-b.json, results/minute_feed_status.json and the unsuffixed collector status faces were dirty at open and left unstaged"
+  "note": "23 targeted files; the drama lane, fleet/machine-health.json, results/runnable_pool.bm-b.json, results/minute_feed_status.json and the unsuffixed collector status faces were dirty at open and left unstaged",
+  "pushed_sha": "2b1a046dbdf10df904fec9930430a0560521efe5",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T11:58+08:00"
  },
- "round_no_ts_note": "r1214 closeout",
  "r1215": {
   "attrition": "CLEAN (4 ledgers, no active loss)",
   "controls": "fixture legs cover anchored-only / derived-with-offset / derived-without-offset / monthly-producer sum / era-arm parsing / spec-block exclusion; L37 runs on the real disk and L36d pins the self-inclusion exclusion",
@@ -1101,10 +1070,62 @@
  "r1216": {
   "attrition": "not rerun this round (product leg only); last scan clean r1215",
   "d19": "decisions bee8ab7b@08f8693 delta consumed (D-20261028-08..14: none touch the science lane; D-11 group-root/.Path+blob rules self-checked = 0 .Path hits, D-14 machine-health dict = no-op), orders unchanged d6d85b61",
-  "orphan_face": 0,
   "face": "results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json",
-  "join": "E181 full arithmetic level reproduced exactly (max abs diff 0.0 across 5 eras)",
   "finding": "offsets -69.3/-99.5/-255.6/-318.4/-210.5 bp (comp-arith) per era; 0 of 22 drops flip the LEVEL sign on either arithmetic; 4 of 22 drops flip their own EFFECT sign (pre2017 sh510300/sh510500, 2024_now sh510050, full sh510050)",
+  "join": "E181 full arithmetic level reproduced exactly (max abs diff 0.0 across 5 eras)",
+  "orphan_face": 0,
   "selftest": "617/617 + panel_screen 39/39"
- }
+ },
+ "r1217": {
+  "basis": "E182 gross is formed AFTER netting each holding over the whole era, so a name repairing +X then -X contributes 0 to it; path/name gross = 1.037/1.067/1.060 (2021_2023/2024_now/full) and net/gross 0.4387 on the name basis vs 0.4114 on the path basis. Nets agree to 0.000416bp, so this is one computation read two ways.",
+  "finding": "E184: the wide book repair keeps 0.872 of its monthly motion inside a month but only 0.472 across months (2024_now; 2021_2023 0.969/0.709, full 0.899/0.543), so the thin net is a BETWEEN-MONTH sign disagreement, not a within-month cancellation. At most 47.67bp is removed inside months vs 194.70bp between them (4.1x). +49.6bp is the residual of a path that carried 140.5bp of monthly net motion and reversed on itself -> not an edge, not a level, and not a reason to hold the wide book.",
+  "inbox": "MSG-20261028-0845-bm-c (bm-c correction to MSG-0800) read and processed: no ask for bm-b; its standing item on stale SYSTEM-V1/REV-OSC-STD faces is NOT a bm-b gap -- this chain reports rev_osc_export no-op at cutoff 2026-10-27 (SIG/BARS-2026-10-27 in place since 08:06), so the stale consumer is the bm-a lane face",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0.1/0.0/0.0, pool_ready 3) -> burned the ready head E184 in-round",
+  "not_run": "GPU untouched (parked, C-20261014-01); cloud untouched; bm-a-lane collectors honoured their lane guard",
+  "orphan_face": 0,
+  "product": [
+   "results/e43_tilt_4member/WIDEMONTHCANCEL-20261027.json",
+   "scripts/e39_panel_census.py: _wide_month_cancel_rows/_wide_month_names_present/_month_cancel_verdict/_wide_month_e182_join/run_tilt3widesplitmonth + CLI mode tilt3widesplitmonth (selftest 617->628)",
+   "research/digests/DIGEST-20261028-r1217-e184-month-cancel.md",
+   "knowledge/METHODOLOGY_ASSETS.md E185",
+   "results/runnable_pool.json E184 done (+E187 seeded, ready floor 3)"
+  ],
+  "s0": "local main was DIVERGED from origin (bm-b r1216 x2 vs bm-c r1320/r1322): rebased onto origin/main, 2 conflicts (results/_attrition_guard_scan.json, results/compute_audit.json) resolved to origin because both are chain-regenerated, pushed ff 078b6e6810..3e2f221c0c",
+  "s6": "21/21 rc=0 (114.8s) | dualrun + compute_audit rc0 py 0.1% | cal_audit in_sync cutoff 2026-10-27 | market_regime breadth 0.85 | market_clock ORANGE_COOL | astock spawned detached refresh (coverage 99.8%) | etf_daily no-op | rev_osc_export no-op | minute_feed +240 rows | etf_book_forward power table | attrition CLEAN 4 ledgers | machine_health 3 machines | gpu_face no findings | pool_audit 3.0s",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled",
+  "selftest": "e39 617 -> 628/628, panel_screen 39/39",
+  "smoke": "120/120 PASS at open",
+  "stash": "round opened with 127 dirty faces; blocking set (16 regenerable report/status faces) stashed first, then the rest stashed whole so the rebase could start; backup of all 127 at %TEMP%\\r1217-dirty-backup; panels were re-derived by the S6 chain in-window (minute_feed +240 rows, daily_report, live_usage, machine-health)"
+ },
+ "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
+ "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
+ "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
+ "round": 1216,
+ "round_no": 1217,
+ "round_no_label": "r1214",
+ "round_no_ts": "2026-10-28T12:22:40+08:00",
+ "round_no_ts_note": "r1214 closeout",
+ "round_pit": "r1215: a field NAME is not an arithmetic -- two producers published decomposition_engine_bp (a daily-sum and a monthly-sum of per-name contributions) and the two answers sit 2.92..3.63bp apart with a 0.70bp spread across four eras and two arms; a near-constant gap across eras of different volatility cannot be within-month compounding, so it is a definitional wedge and one of the two faces does not declare its reading. Sibling: a leg that publishes into a directory it scans must exclude its own study -- self-inclusion grew the sweep 25->26 faces and 1034->3274 cells before L36d pinned it.",
+ "sat_engine": {
+  "checked_at": "2026-10-28T10:09:23+08:00",
+  "status": "alive"
+ },
+ "seq": 21,
+ "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+ "status": "green",
+ "sync": {
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "r1214 clean first-attempt push; four-way verified (HEAD == origin/main, ahead 0 behind 0, ls-tree origin carries LADDERLEVELS-20261027 and WIDESIDEGROSS-20261027 and the E181/E182 digest)",
+  "pushed_sha": "2b1a046db",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T11:58+08:00"
+ },
+ "task": "r1215: E180 published-level quote audit (done)",
+ "task_short": "E180 level quote audit",
+ "task_short_note": "e97_routing.py new mode levelquotes; 14 -> 40 selftest legs",
+ "ts": "2026-10-28T12:22:40+08:00",
+ "updated": "2026-10-28T12:30:00+08:00",
+ "updated_at": "2026-10-28T12:30:00+08:00",
+ "verdict": "E183: arithmetic reading reproduces E181 bit-for-bit (join 0.0 on all five eras), so this is the same book and the same months. Compounded reading offsets are -69.3..-318.4bp per era (one-signed by AM>=GM, so only the magnitude is informative) and every era survives every drop on both, so E181's verdict is not arithmetic-dependent. What IS arithmetic-dependent is the drop EFFECT: 4 of 22 drops reverse it (pre2017 sh510300/sh510500, 2024_now+full sh510050)."
 }
