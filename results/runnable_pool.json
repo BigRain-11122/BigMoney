@@ -22602,7 +22602,10 @@
    "source": "r1220 E189: all four flagged reversals vanish when E186's own declared carrier month is removed, and the crossing month is never the carrier -- the verdict is known to be fragile, but by how much is unmeasured",
    "status": "ready",
    "target": "scripts/e39_panel_census.py (run_tilt3ladderdropcross, follow-up)",
-   "workers_plan": {"workers": 1, "priority": "BelowNormal"},
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
    "title": "E189 took out exactly one month per pair -- the one E186 named -- and all four reversals collapsed, so the era verdict is known to be fragile but not how fragile. Publish a fragility curve: for k=1..8 drop the k months with the largest |gap|, then separately the k with the largest |delta_sum| and the first/last k months of the era, and report at which k each pair's two readings stop disagreeing in sign, plus the sign each reading carries after the trim. A reversal that needs more than eight months of the window removed is a property of the era; one that dies at k=1 or k=2 is a two-month artefact and may not be quoted as an era verdict."
   }
  ],

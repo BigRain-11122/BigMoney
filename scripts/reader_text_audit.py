@@ -67,6 +67,14 @@ CODE_KEY_SUFFIXES = ("_pattern", "_tmpl", "_template", "_glob", "_fmt", "_format
 # Append-only record faces: named, never rewritten.
 RECORD_FACES = ("runnable_pool",)
 
+# Collector status artifacts: machine faces that publish their own call shape (a quote
+# endpoint template, a source-name list) for the next process, not prose for a person.
+# r1325: results/etf_wide_update_status.json /quote_face = "https://hq.sinajs.cn/list={syms}"
+# was gated as a live-face defect, which would have forced renaming a template that the
+# collector genuinely sends. The bucket is advisory and COUNTED, never silently dropped --
+# and the gate keeps its teeth: the same token in docs/ or a book face still fails.
+MACHINE_STATUS_SUFFIX = "update_status.json"
+
 # A face a reader opens today: the top level of results/, the ETF book family
 # (which publishes CARD/ORDER/PRODUCTION), and docs/. Everything else under
 # results/ is a closed round's evidence -- the sweep counts it and does not edit
@@ -139,6 +147,8 @@ def bucket_for(rel, key, kinds):
         return "frozen-evidence"
     if any(name.startswith(r) for r in RECORD_FACES):
         return "pool-record"
+    if parts[-1].endswith(MACHINE_STATUS_SUFFIX):
+        return "machine-status"
     if kinds and _is_code_key(key):
         return "code-string"
     if not _is_live_rel(rel):
@@ -309,6 +319,14 @@ def selftest():
     leg("the ETF book family lives in a subdirectory but is a live face",
         bucket_for("results/etf_book_production/latest.json", "note",
                    [("doubled-percent", "%%")]) == "live-face")
+    # r1325: a collector status artifact publishes its own call shape; that is machine text.
+    # The bucket is advisory, and the gate must keep its teeth on a real reader page.
+    leg("a collector status artifact is machine text, not a reader page",
+        bucket_for("results/etf_wide_update_status.json", "quote_face",
+                   [("brace-token", "{syms}")]) == "machine-status")
+    leg("the same template token in docs/ is still a gated defect",
+        bucket_for("docs/live_usage/LIVE-2026-10-28.md", None,
+                   [("brace-token", "{syms}")]) == "live-face")
     # LaTeX is markup, not a placeholder
     leg("a LaTeX brace is not an unfilled placeholder",
         not find_defects(r"(\mathrm{close}_t - \mathrm{close}_{t-10}) / 10"),

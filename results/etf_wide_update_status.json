@@ -1,32 +1,68 @@
 {
- "ts": "2026-10-28T15:18:57",
+ "ts": "2026-10-28T16:27:27",
  "machine": "bm-c",
- "status": "noop_fresh",
- "panel_cutoff": "2026-10-26",
- "expected": "2026-10-27",
- "detail": "coverage 99.48% of 1723 symbols already at 2026-10-27 (floor 95%); laggards=9 sh511820,sh511950,sh511970,sh513820,sh560150,sh560510,sh563980,sz159332,sz159355",
- "coverage_pct": 99.48,
- "coverage_total": 1723,
+ "lane_owner": "bm-c",
+ "status": "ok_with_refusals",
+ "expected": "2026-10-28",
+ "panel_cutoff_before": "2026-10-26",
+ "panel_cutoff_after": "2026-10-26",
+ "source_ended_stems": [
+  "sh512390"
+ ],
+ "universe": 1724,
+ "attempted": 1724,
+ "workers": 6,
+ "elapsed_s": 323.2,
+ "counts": {
+  "tail_lag": 3,
+  "mismatch": 1,
+  "appended": 1717,
+  "quote_refused": 3
+ },
+ "ended_grace_td": 5,
+ "source_quiet_stems": [],
+ "source_quiet_ts": "2026-10-28T16:27:27",
+ "source_lagging_stems": 1723,
+ "coverage_pct_pre": 0.0,
  "coverage_floor": 0.95,
- "laggard_n": 9,
+ "coverage_post": 99.3,
+ "coverage_total": 1723,
+ "laggard_n": 12,
  "laggard_sample": [
+  "159915",
+  "511090",
+  "511260",
+  "sh510500",
   "sh511820",
-  "sh511950",
-  "sh511970",
   "sh513820",
+  "sh516720",
   "sh560150",
   "sh560510",
   "sh563980",
   "sz159332",
   "sz159355"
  ],
- "universe": 1724,
- "skipped": [
+ "quote_topup_stems": 1711,
+ "quote_topup_rows": 1711,
+ "quote_refusal_n": 3,
+ "quote_refusal_sample": [
+  "sh511820:nonpositive_quote",
+  "sh512390:nonpositive_quote",
+  "sh516720:nonpositive_quote"
+ ],
+ "quote_face": "https://hq.sinajs.cn/list={syms}",
+ "quote_chunk": 60,
+ "mismatch_n": 1,
+ "mismatch_sample": [
+  "159915:2026-10-26:volume_drift"
+ ],
+ "fetch_fail_n": 0,
+ "fetch_fail_sample": [],
+ "invalid_n": 0,
+ "invalid_sample": [],
+ "holes_symbols": 36,
+ "holes_bars": 36178,
+ "skipped_stems": [
   "510880_t73"
- ],
- "source_ended_stems": [
-  "sh512390"
- ],
- "source_quiet_stems": [],
- "source_quiet_ts": "2026-10-27T15:45:07"
+ ]
 }

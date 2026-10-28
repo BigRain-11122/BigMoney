@@ -253,13 +253,37 @@ def build(fast=False, n_hold=N_HOLD, rebal=REBAL, cost=COST, vol_target=TARGET_V
         "trade_margins": trades,
         "arms": arms,
         "trade_rows_sample": trade_rows[:20],
-        "caveats": [
-            "exploratory: no preregistration, no verdict, no ledger booking",
-            "the buffer is path-dependent; a single better arm can be one decision sequence",
-            "one panel / one window / one cost model; survivor-pool and 2024+ regime caveats unchanged",
-            "an arm that lowers turnover and lowers return by less is a cost effect, not skill",
-        ],
+        "caveats": _caveats_with_adoption(),
     }
+
+
+ADOPTION_FACE = ROOT / "results" / "etf_book_buffer_adoption.json"
+
+
+def _caveats_with_adoption():
+    """The path-dependence caveat, upgraded to a measurement once the adoption face exists.
+
+    r1325 re-priced this same buffer on 5 books x 4 decision phases because a caveat that
+    only warns ("a single better arm can be one decision sequence") leaves the reader free
+    to believe the arm anyway. A reader of THIS page must see the verdict.
+    """
+    caveats = [
+        "exploratory: no preregistration, no verdict, no ledger booking",
+        "the buffer is path-dependent; a single better arm can be one decision sequence",
+        "one panel / one window / one cost model; survivor-pool and 2024+ regime caveats unchanged",
+        "an arm that lowers turnover and lowers return by less is a cost effect, not skill",
+    ]
+    if ADOPTION_FACE.exists():
+        try:
+            ap = json.loads(ADOPTION_FACE.read_text(encoding="utf-8"))
+            v = ap.get("verdict") or {}
+            caveats.insert(1, "MEASURED (results/etf_book_buffer_adoption.json): that path-dependence "
+                              "test was run on %d cells -- verdict %s. Read the arms above as one "
+                              "decision sequence, not an edge."
+                           % (len(ap.get("cells") or []), v.get("label")))
+        except Exception:
+            pass
+    return caveats
 
 
 # ---------------------------------------------------------------- consistency gate

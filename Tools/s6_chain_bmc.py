@@ -123,6 +123,13 @@ LEGS = [
     # must go RED the moment the production card advances past the bar it was priced on.
     # 0.1s, no network.
     ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"]),
+    # r1325: r1324's buffer arm carried its own refutation in a caveat -- "a single better
+    # arm can be one decision sequence". The adoption face re-priced the same k=0.05 arm on
+    # 5 books x 4 decision phases (60 engine runs, ~3 min), so the chain runs the ENGINE-FREE
+    # gate: frozen criteria must be echoed unchanged, the cell grid must be complete, the
+    # phase signature must still be a real calendar, and the published verdict must be the
+    # one the rule produces from the summary. 0.1s, no network.
+    ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,

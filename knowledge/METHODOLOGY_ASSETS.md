@@ -2394,3 +2394,53 @@ scripts/etf_robust_pf.py select_hook (default None bit-identical).
 Result: **4/4 reversals disappear once that one month is gone** -- 2024_now sh510050 (carrier 2026-07) arith 73.16 -> 204.25bp / comp -34.01 -> 141.93bp; full sh510050 (2014-12) 0.07 -> 44.89 / -38.20 -> 1.63; pre2017 sh510300 (2016-01) -32.57 -> -103.85 / 6.18 -> -95.56; pre2017 sh510500 (2014-12) 36.58 -> -197.98 / -9.66 -> -203.73. The crossing month of the two paths is never the carrier (0/4), and 2024_now carries an era reversal with no path crossing at all (+296.5bp end gap, 0 crossings) because E186's `comp` is a difference of two annualised levels while `cum_link` compounds ratio steps -- published as `reversals_without_path_crossing` rather than folded into the crossing count. Join to E186 max |diff| 8.8e-05bp.
 
 Three transferable rules: (a) **a published reversal must be re-run without the month the same study named as its carrier** -- if it vanishes, the era verdict was a one-month artefact and may not be quoted as a property of the arithmetic; E186's dispersion labels (carrier share 0.118-0.358, 5.45-25.36 effective months) did not predict fragility, so the label is not a substitute for the removal test. (b) **a crossing month and a carrier month are different objects** -- "when do the two paths pass each other" answers a different question than "which month carries the gap", and reporting one as the other would invent a date for a verdict that has none. (c) **when two published readings disagree in sign but their step paths never cross, the disagreement is in the annualisation, not in the data** -- that has to be its own published bucket, otherwise the crossing count silently implies a turning point that does not exist.
+
+**Correction (r1325, measured):** the k=0.05 arm above does NOT survive the path test, so read the
+second piece as "the buffer is a cost knob, full stop". Re-priced on 5 books x 4 decision phases
+(`results/etf_book_buffer_adoption.json`, 60 engine runs): turnover falls in 100% of the 20
+comparison cells, but return falls in 14 of them (median -0.140pp, worst -0.44pp) and risk-adjusted
+return falls in 14 of 20. The +0.07pp that made k=0.05 look like the one arm improving everything
+is the production book started on 2020-01-02; the same book started a week later prints -0.24pp and
+a week after that -0.14pp. A better arm on one decision calendar is one decision sequence.
+
+## E188 Path-test an arm before adopting it -- one cell is one sequence, and a decision count is not a signature (2026-10-28 r1325 bm-c)
+
+An arm that is measured once, on one decision calendar, cannot be separated from a lucky sequence of
+decisions -- and the separation decides whether the production config changes. The test is cheap
+relative to the mistake: re-price the same arm on several books AND several decision-grid phases.
+
+Reading (k=0.05 incumbent buffer, 5 books x 4 phases = 20 comparison cells, 60 engine runs):
+
+* turnover down in **100%** of cells (median -0.030/decision) -- the turnover claim is real;
+* return down in **70%** of cells (median **-0.140pp**, worst -0.44pp), risk-adjusted down in 70%
+  -- so the arm is NOT an edge, and at k=0.20 the direction is a coin flip (10 up / 10 down,
+  exact sign test p=1.0). Verdict under the frozen rule: **REJECT** (no config change). (Re-derived one bar later at cutoff 2026-10-28: median **-0.140pp**, the same 100% turnover result and the same verdict -- a one-bar shift, not a different reading.)
+* phase noise is the ruler: the production book's own CAGR spans **9.12%..10.93%** across four
+  phases of one 20-bar cycle (IQR 0.53pp) and the 40-bar cadence spans **3.69%..10.20%** (IQR
+  2.99pp). A headline quoted from one phase is a point estimate pretending to be a level -- quote
+  the band.
+
+Three mechanisms worth reusing:
+
+1. **Freeze the decision rule above the code.** Thresholds are module constants written before the
+   run and echoed into the payload; the gate refuses a face whose echoed criteria differ, so a
+   later "small adjustment" cannot masquerade as the same rule. The gate also RECOMPUTES the
+   verdict from the summary and compares it to the published label -- a hand-written verdict is a
+   claim, not a result.
+2. **A decision count is not evidence that the calendar moved.** Four phases inside a 20-bar cycle
+   produced counts 83/83/82/82; a count-based activity check declared the test void while the
+   calendars were genuinely different. The signature is the decision DATES (first/last), and the
+   second decision count is disclosed, not required to differ. (r1261 family, one layer down.)
+3. **A caveat that only warns leaves the reader free to believe the arm.** r1324 shipped "a single
+   better arm can be one decision sequence" as a caveat; the arm still read as an improvement. The
+   hysteresis face now prints the measurement and its verdict inline, so the two faces cannot
+   disagree with the reader's takeaway.
+
+Attached defect, caught by a report leg rather than by reading: a missing comma between two
+adjacent string literals concatenated the table header with an empty string, and the following
+`lines.pop()` then deleted the header -- the table shipped with a separator row and no columns.
+Every reader-facing renderer now has a leg asserting its header row exists.
+
+Pos: scripts/etf_book_buffer_adoption.py (selftest 33/33) + results/etf_book_buffer_adoption.json
+(60 cells) + research/ETF_BOOK_BUFFER_ADOPTION.md + Tools/s6_chain_bmc.py leg + smoke leg;
+cross-pointer emitted by scripts/etf_book_hysteresis.py.

@@ -1,36 +1,36 @@
-# ETF book -- production candidate, order sheet (2026-10-27 bar)
+# ETF book -- production candidate, order sheet (2026-10-28 bar)
 
-Config: 12 names of a 1499-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
+Config: 12 names of a 1500-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
 
 | window | CAGR | Sharpe | max drawdown | realised vol | target |
 |---|---|---|---|---|---|
-| 2020-01 onwards | 9.6% | 0.99 | -11.8% | 10.2% | 8% (1.27x) |
+| 2020-01 onwards | 9.7% | 1.00 | -11.8% | 10.2% | 8% (1.27x) |
 | 2020-2023 | 3.8% | 0.44 | -11.8% | 10.0% | 8% (1.25x) |
-| 2024 onwards | 18.4% | 1.75 | -10.7% | 10.4% | 8% (1.31x) |
+| 2024 onwards | 18.6% | 1.76 | -10.7% | 10.4% | 8% (1.30x) |
 
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
-**Feed: current** -- priced on the 2026-10-27 bar; the official calendar expects 2026-10-27 (lag 0 official day(s)).
+**Feed: current** -- priced on the 2026-10-28 bar; the official calendar expects 2026-10-28 (lag 0 official day(s)).
 
-**Today (2026-10-27 bar): HOLD: 11 bars until the next decision point** (last grid decision 2026-10-14).
+**Today (2026-10-28 bar): HOLD: 10 bars until the next decision point** (last grid decision 2026-10-14).
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
 | code | name | sleeve | weight | amount (CNY) | 100-share lots |
 |---|---|---|---|---|---|
-| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 27100 |
-| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 5000 |
-| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 53000 |
-| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 35200 |
-| 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 52200 |
-| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,398 | 37900 |
-| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,398 | 21600 |
-| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,398 | 31500 |
-| 159207 | 高股息ETF广发 | equity | 5.8% | 58,398 | 51000 |
-| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 56400 |
-| 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 28000 |
-| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 23800 |
+| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 26600 |
+| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 4900 |
+| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 53300 |
+| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 34000 |
+| 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 52100 |
+| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,398 | 38300 |
+| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,398 | 21000 |
+| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,398 | 30500 |
+| 159207 | 高股息ETF广发 | equity | 5.8% | 58,398 | 50600 |
+| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 56600 |
+| 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 27200 |
+| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 23100 |
 | cash | - | money | 29.9% | 299,225 | - |
 
 ## What the rotation is worth
@@ -47,13 +47,13 @@ So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) a
 
 ## What is left after the four betas
 
-Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.94** and R2=0.43, as of 2026-10-27. The equal-weight four-ETF basket itself returns 10.1%/yr at Sharpe 0.98 and worst drawdown -11.3%, against the book's 9.6%/yr, Sharpe 0.99 and -11.8%.
+Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.96** and R2=0.43, as of 2026-10-28. The equal-weight four-ETF basket itself returns 10.2%/yr at Sharpe 0.99 and worst drawdown -11.3%, against the book's 9.7%/yr, Sharpe 1.00 and -11.8%.
 
-Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=1.97, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
+Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=1.99, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
 
-The single arm that out-earns the book is gold (13.3%/yr) at a -31.5% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
+The single arm that out-earns the book is gold (13.5%/yr) at a -31.5% drawdown -- the comparison has to be printed next to the return or it reads as a verdict. See results/etf_book_spanning.json.
 
-The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+6.8%/yr at t=2.36** (IS t=1.26 / OOS t=2.30) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.94 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
+The staggered 6+6 book (same universe, score, execution and cost; second sleeve offset half a rebalance period) leaves **+6.9%/yr at t=2.40** (IS t=1.26 / OOS t=2.35) with residual vol 7.3%, against the single sleeve's +5.9%/yr at t=1.96 and 7.7%. The split clock clears a t of 2 where the single sleeve does not: that is a strategy difference worth its own test, not a free lunch -- one arm over the threshold is a hypothesis, not an edge.
 
 ## Does any of it survive outside 2020-2026?
 
@@ -89,7 +89,7 @@ Priced the other way: a buffer that only displaces an incumbent when the challen
 k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (+0.07pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
 
 - exploratory: no preregistration, no verdict, no ledger booking
-- the buffer is path-dependent; a single better arm can be one decision sequence
+- MEASURED (results/etf_book_buffer_adoption.json): that path-dependence test was run on 60 cells -- verdict REJECT. Read the arms above as one decision sequence, not an edge.
 
 ## Caveats
 

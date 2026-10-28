@@ -626,7 +626,16 @@ def main() -> int:
             # differing only on exact ties), a bad hook raising, and the consistency gate
             # actually going red on each of nine ways this face can lie.
             ("product: decision margins and a hysteresis buffer (exit-code contract)",
-             "scripts/etf_book_hysteresis.py", ["--selftest"])):
+             "scripts/etf_book_hysteresis.py", ["--selftest"]),
+            # r1325: the buffer arm above shipped with its own refutation in a caveat ("a
+            # single better arm can be one decision sequence"). These legs pin the test that
+            # settles it: phases must be distinct CALENDARS (a decision count is not a
+            # signature -- four phases gave 83/83/82/82), delta arithmetic must keep its
+            # units, the sign test must be exact, frozen criteria may not be re-tuned
+            # silently, the published verdict must be recomputed rather than trusted, and
+            # both tables must keep their header rows.
+            ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

@@ -6,18 +6,18 @@ The book, the four-ETF basket and the futures sleeve were each measured in their
 
 | capital | ETF book (card config, size-free) | ETF book (ticket, size applied) | 4-ETF basket | futures sleeve | best | basket vs card | card vs ticket | ticket vs size | size vs effective |
 |---|---|---|---|---|---|---|---|---|---|
-| CNY 300,000 | CNY 28,860 | CNY 40,050 | CNY 30,270 | floor not met (repo only CNY 5,331) | etf_book | +0.47pp/yr | -3.73pp/yr | +0.00pp/yr | +0.00pp/yr |
-| CNY 1,000,000 | CNY 96,200 | CNY 133,500 | CNY 100,900 | floor not met (repo only CNY 17,770) | etf_book | +0.47pp/yr | -3.73pp/yr | +0.00pp/yr | +0.00pp/yr |
-| CNY 1,500,000 | CNY 144,300 | CNY 191,985 | CNY 151,350 | floor not met (repo only CNY 26,655) | etf_book | +0.47pp/yr | -3.73pp/yr | +0.55pp/yr | -0.00pp/yr |
-| CNY 3,000,000 | CNY 288,600 | CNY 221,495 (capped at CNY 1,526,694) | CNY 302,700 | floor not met (repo only CNY 53,310) | four_etf_basket | +0.47pp/yr | -3.73pp/yr | +0.56pp/yr | +5.41pp/yr |
-| CNY 8,000,000 | CNY 769,600 | CNY 310,345 (capped at CNY 1,526,694) | CNY 807,200 | floor not met (repo only CNY 142,160) | four_etf_basket | +0.47pp/yr | -3.73pp/yr | +0.56pp/yr | +8.91pp/yr |
-| CNY 50,000,000 | CNY 4,810,000 | CNY 1,056,685 (capped at CNY 1,526,694) | CNY 5,045,000 | CNY 650,000 | four_etf_basket | +0.47pp/yr | -3.73pp/yr | +0.56pp/yr | +10.68pp/yr |
+| CNY 300,000 | CNY 29,100 | CNY 40,050 | CNY 30,450 | floor not met (repo only CNY 5,331) | etf_book | +0.45pp/yr | -3.65pp/yr | +0.00pp/yr | +0.00pp/yr |
+| CNY 1,000,000 | CNY 97,000 | CNY 133,500 | CNY 101,500 | floor not met (repo only CNY 17,770) | etf_book | +0.45pp/yr | -3.65pp/yr | +0.00pp/yr | +0.00pp/yr |
+| CNY 1,500,000 | CNY 145,500 | CNY 191,985 | CNY 152,250 | floor not met (repo only CNY 26,655) | etf_book | +0.45pp/yr | -3.65pp/yr | +0.55pp/yr | -0.00pp/yr |
+| CNY 3,000,000 | CNY 291,000 | CNY 221,495 (capped at CNY 1,526,694) | CNY 304,500 | floor not met (repo only CNY 53,310) | four_etf_basket | +0.45pp/yr | -3.65pp/yr | +0.56pp/yr | +5.41pp/yr |
+| CNY 8,000,000 | CNY 776,000 | CNY 310,345 (capped at CNY 1,526,694) | CNY 812,000 | floor not met (repo only CNY 142,160) | four_etf_basket | +0.45pp/yr | -3.65pp/yr | +0.56pp/yr | +8.91pp/yr |
+| CNY 50,000,000 | CNY 4,850,000 | CNY 1,056,685 (capped at CNY 1,526,694) | CNY 5,075,000 | CNY 650,000 | four_etf_basket | +0.45pp/yr | -3.65pp/yr | +0.56pp/yr | +10.68pp/yr |
 
 Four columns, four different statements, and they add up exactly to the gap in the table above (a selftest leg enforces the sum). **basket vs card**: the basket beats the card's own configuration, size-free -- the book loses that one on its own terms. **card vs ticket**: the card headline is not the rule the order sheet executes; this is that distance, measured knob by knob in `research/ETF_BOOK_CAGR_RECONCILE.md`. **ticket vs size**: impact only, taken from the capacity ladder's own delta rather than from its absolute levels (which are priced on a different universe). **size vs effective**: the part of the account that cannot be deployed and earns repo.
 
 ## How to read it
 
-* Every number is read from a published face, not re-measured: book card headline 9.62%/yr (results/etf_book_spanning.json), book level as traded 13.35%/yr (the executable ticket, results/etf_book_cagr_reconcile.json), basket 10.09%/yr (results/etf_book_spanning.json), sleeve lot arm (results/futures_sleeve_economics.json).
+* Every number is read from a published face, not re-measured: book card headline 9.70%/yr (results/etf_book_spanning.json), book level as traded 13.35%/yr (the executable ticket, results/etf_book_cagr_reconcile.json), basket 10.15%/yr (results/etf_book_spanning.json), sleeve lot arm (results/futures_sleeve_economics.json).
 * Risk is not free: the ticket carries ~13.5% vol and a ~-16% max drawdown against the card's 10.2% / -11.8% -- it earns more because it takes more, Sharpe 1.04 vs 0.99.
 * The card headline and the executable ticket are DIFFERENT books: the card prints a 12-name 8%-vol-target run, the order sheet trades 5 names with a 0.20 beta cover at 8bp. The distance between them (+3.7pp/yr on the same stack) is decomposed knob by knob in research/ETF_BOOK_CAGR_RECONCILE.md, including the -1.25pp width x rule interaction.
 * The capacity face's absolute levels (7.2-7.4%/yr) are priced on a different universe (un-repaired panel, no class filter) and run ~5.5pp/yr below the production stack at identical settings; only its impact DELTA is used here, never its levels.

@@ -100,3 +100,23 @@ explicitly: the score face is an average of percentile ranks and therefore has e
 `nlargest` breaks those by index order while the buffer keeps the incumbent, so the k=0
 *hook* is not literally the published rule on tied rows (the production k=0 arm uses the
 default path, not the hook, for exactly this reason).
+
+## E. Correction (r1325): the k=0.05 arm is one decision sequence, not an edge
+
+Section C above prices every arm on ONE decision calendar, so the arm that improves turnover,
+CAGR, Sharpe and maxDD together (k=0.05) cannot be separated from a lucky sequence of decisions.
+That test now exists: `results/etf_book_buffer_adoption.json` re-prices the same buffer on
+**5 books x 4 decision phases** (60 engine runs, verdict rule frozen before the run).
+
+* turnover falls in **100%** of the 20 comparison cells (median -0.030/decision) -- the
+  turnover claim in section C is real and survives;
+* **return falls in 70% of cells** (median **-0.140pp**, worst -0.44pp) and risk-adjusted
+  return falls in 70%, so the production config does **not** change (verdict **REJECT**).
+  The +0.07pp that made k=0.05 look like the only arm improving everything is the book started
+  on 2020-01-02; the same book started a week later prints -0.24pp and a week after that
+  -0.14pp. At k=0.20 the direction is a coin flip (10 up / 10 down, exact sign test p=1.0).
+* the ruler matters: this book own CAGR spans **9.12%..10.93%** across four phases of one
+  20-bar cycle (IQR 0.53pp). The 9.62% headline is one phase of that band, not a level.
+
+So read section C as: **the buffer is a cost knob, period**; the "only arm improving everything"
+sentence was a single-sequence artefact.
