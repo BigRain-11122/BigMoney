@@ -136,6 +136,13 @@ LEGS = [
     # phase signature must still be a real calendar, and the published verdict must be the
     # one the rule produces from the summary. 0.1s, no network.
     ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
+    # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
+    # window, so it is late in two ways at once and the headline cannot tell them apart.
+    # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
+    # the gate: frozen criteria echoed, control arm still reproducing the published cell,
+    # the lag block still carrying measured slots, and the verdict still the one the rule
+    # produces. 0.1s + one rebuild, no network.
+    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,

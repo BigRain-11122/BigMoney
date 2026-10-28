@@ -1827,75 +1827,143 @@ How to apply: any "factor X says the book did Y" claim publishes (a) the traded 
 factor per period, (b) both scales of sign agreement with their denominators, (c) any deadband as a
 pre-declared constant with the raw rate retained, and (d) one exact reconciliation against an already
 published column from the same family. A tie counts as a disagreement, never as an agreement.
-
-
-## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
-
-Two findings from the screened twin of the tilt-vs-engine sign face
-(`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
-
-1. **Level and rate answer different questions about the same repair.** The
-   split-event repair moved 5 of 78 cells, every one of them an era LEVEL
-   (engine +29.3 / +46.7 / +16.3bp; 2024_now flips sign -21.6 -> +25.1) and
-   moved ZERO rate cells: month-level agreement is bit-identical on both arms
-   (45.8 / 44.4 / 23.5 / 43.8 / 56.8%). So a repaired era whose sign verdict
-   flips can still be an era whose month-by-month information is unchanged --
-   and if that rate is 4 of 17 months, the post-repair "agreement" is a level
-   with almost no resolution behind it. Publish both scales; a flip on one is
-   not a flip on the other.
-2. **A boolean derived from `>` silently pronounces "worse" on equality.** The
-   first cut published `recovered = screened > raw` and its negation as
-   `worsens`, which printed "worsens in all five eras" beside five pairs of
-   identical numbers. Three-state the change: `recovered` / `worsened` /
-   `unchanged` (+ `not_measurable` when an arm is missing), and pin equality in
-   the selftest. Same family as E94: the label was narrower than the evidence.
-
-How to apply: when a twin is expected to move only one column, split the join by
-column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
-sign flips separately -- and re-measure an earlier invariance claim on the new
-leg rather than importing it. Any "better/worse" verdict computed from a
-two-state comparison of two rates needs an explicit "equal" branch before it is
-allowed to print.
 
-## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
-
-E169 declared a 10bp monthly deadband before its burn and published both the raw
-and the deadband rate. On 2024_now the deadband made the reading *worse*
-(23.5% -> 18.8%), and that single pair cannot distinguish "this era is
-anti-correlated" from "this era is noisy and the band ate the evidence". Sweeping
-the same constant over 0/10/25/50bp, with the surviving month count printed at
-every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 29
-/ 23 months -- the rate is low at *every* band, so the collapse is not the band
-choosing its sample.
-
-1. **A band's rate is meaningless without its denominator.** The sweep publishes
-   `months_outside_deadband` beside every rate and labels any band that keeps
-   fewer than 6 months `thin` instead of printing a percentage from 3 months. On
-   this panel no era goes thin even at 50bp (98 of 162 months survive), which is
-   itself a published answer (`first_band_with_any_thin_era = null`), not an
-   absence of one.
-2. **A sweep of a filter cannot move a level, and saying so is part of the
-   table.** The deadband drops months; it never edits a return, so `tilt_sign`,
-   `engine_sign` and `signs_agree` are identical at all four bands *by
-   construction*. Four rows of the same signs are one finding. The face publishes
-   `signs_band_invariant` per era so a reader cannot mistake construction for
-   corroboration (E94 family: the label must not be wider than the evidence).
-3. **Stability of the verdict and stability of the number are different
-   questions.** Verdicts here are stable (all four eras keep their side of the
-   50% line at every band with support), while the *numbers* move a lot:
-   2021_2023 spans 44.4 -> 20.0 (24.4pp). Reporting only "verdict stable" would
-   hide that the band is a strong lever on the level; reporting only the span
-   would hide that the sign of the reading never flips. Publish both.
-4. **Direction of the movement is a finding.** pre2017's agreement *rises* with
-   the band (56.8 -> 67.9) while the other three eras fall -- its agreement is
-   carried by the large months, theirs by the small ones. A single band value
-   hides which kind of era you are looking at.
-
-How to apply: any pre-declared constant that gates a published rate gets a sweep
-row (0 / declared / 2.5x / 5x) with its denominator beside it, a support floor
-below which the cell reads `thin`, and an explicit note for constants that are
-band-invariant by construction. Sweeping is a sensitivity table on an already
-published reading -- it selects nothing, so it needs no new prereg; but the
+
+
+
+## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
+
+
+
+Two findings from the screened twin of the tilt-vs-engine sign face
+
+(`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
+
+
+
+1. **Level and rate answer different questions about the same repair.** The
+
+   split-event repair moved 5 of 78 cells, every one of them an era LEVEL
+
+   (engine +29.3 / +46.7 / +16.3bp; 2024_now flips sign -21.6 -> +25.1) and
+
+   moved ZERO rate cells: month-level agreement is bit-identical on both arms
+
+   (45.8 / 44.4 / 23.5 / 43.8 / 56.8%). So a repaired era whose sign verdict
+
+   flips can still be an era whose month-by-month information is unchanged --
+
+   and if that rate is 4 of 17 months, the post-repair "agreement" is a level
+
+   with almost no resolution behind it. Publish both scales; a flip on one is
+
+   not a flip on the other.
+
+2. **A boolean derived from `>` silently pronounces "worse" on equality.** The
+
+   first cut published `recovered = screened > raw` and its negation as
+
+   `worsens`, which printed "worsens in all five eras" beside five pairs of
+
+   identical numbers. Three-state the change: `recovered` / `worsened` /
+
+   `unchanged` (+ `not_measurable` when an arm is missing), and pin equality in
+
+   the selftest. Same family as E94: the label was narrower than the evidence.
+
+
+
+How to apply: when a twin is expected to move only one column, split the join by
+
+column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
+
+sign flips separately -- and re-measure an earlier invariance claim on the new
+
+leg rather than importing it. Any "better/worse" verdict computed from a
+
+two-state comparison of two rates needs an explicit "equal" branch before it is
+
+allowed to print.
+
+
+## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
+
+
+
+E169 declared a 10bp monthly deadband before its burn and published both the raw
+
+and the deadband rate. On 2024_now the deadband made the reading *worse*
+
+(23.5% -> 18.8%), and that single pair cannot distinguish "this era is
+
+anti-correlated" from "this era is noisy and the band ate the evidence". Sweeping
+
+the same constant over 0/10/25/50bp, with the surviving month count printed at
+
+every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 29
+
+/ 23 months -- the rate is low at *every* band, so the collapse is not the band
+
+choosing its sample.
+
+
+
+1. **A band's rate is meaningless without its denominator.** The sweep publishes
+
+   `months_outside_deadband` beside every rate and labels any band that keeps
+
+   fewer than 6 months `thin` instead of printing a percentage from 3 months. On
+
+   this panel no era goes thin even at 50bp (98 of 162 months survive), which is
+
+   itself a published answer (`first_band_with_any_thin_era = null`), not an
+
+   absence of one.
+
+2. **A sweep of a filter cannot move a level, and saying so is part of the
+
+   table.** The deadband drops months; it never edits a return, so `tilt_sign`,
+
+   `engine_sign` and `signs_agree` are identical at all four bands *by
+
+   construction*. Four rows of the same signs are one finding. The face publishes
+
+   `signs_band_invariant` per era so a reader cannot mistake construction for
+
+   corroboration (E94 family: the label must not be wider than the evidence).
+
+3. **Stability of the verdict and stability of the number are different
+
+   questions.** Verdicts here are stable (all four eras keep their side of the
+
+   50% line at every band with support), while the *numbers* move a lot:
+
+   2021_2023 spans 44.4 -> 20.0 (24.4pp). Reporting only "verdict stable" would
+
+   hide that the band is a strong lever on the level; reporting only the span
+
+   would hide that the sign of the reading never flips. Publish both.
+
+4. **Direction of the movement is a finding.** pre2017's agreement *rises* with
+
+   the band (56.8 -> 67.9) while the other three eras fall -- its agreement is
+
+   carried by the large months, theirs by the small ones. A single band value
+
+   hides which kind of era you are looking at.
+
+
+
+How to apply: any pre-declared constant that gates a published rate gets a sweep
+
+row (0 / declared / 2.5x / 5x) with its denominator beside it, a support floor
+
+below which the cell reads `thin`, and an explicit note for constants that are
+
+band-invariant by construction. Sweeping is a sensitivity table on an already
+
+published reading -- it selects nothing, so it needs no new prereg; but the
+
 band that is *quoted* must remain the one declared before the first burn.
 
 ## E173 A cross-run difference is not a capacity cost (2026-10-28 r1319 bm-c)
@@ -2508,3 +2576,47 @@ RULES
 
 Pos: scripts/e39_panel_census.py `widechurntie` (census selftest 658/658, +7 legs)
 + results/e43_tilt_4member/WIDECHURNTIE-20261028.json (5 eras, 161 months).
+
+
+## E192 A lag you can only see through one lever is still two lags (2026-10-28 r1327 bm-c)
+
+WHY
+---
+The book's 8% sizing overlay is `scale = min(1, 0.08 / est_vol)`, where `est_vol` is a
+trailing realised vol of the proposed book computed AT a decision and then FROZEN until the
+next one (20 bars). Two different lags sit inside that one number -- the estimator's window
+and the slot freeze -- and the published headline cannot separate them. The only lever the
+engine exposes is `vol_window`, so that is what was swept (20/40/60/120), with the control
+arm asserted against the published production cell first.
+
+READING (full window 2020-2026, n12/r20, 10bp/side, next-open)
+  20 bars  CAGR 11.30%  SR 1.093  maxDD -11.87%
+  40       10.28%       1.057       -11.40%
+  60*       9.70%       1.000       -11.77%   (control, reproduces the card)
+  120       7.31%       0.837       -12.19%
+Depth is nearly flat across estimators (spread 0.79pp) while return is not (spread 3.99pp),
+so the lateness is a RETURN cost, not a drawdown benefit: a stale high estimate keeps the book
+de-levered through the rebound. The slot census says the same from the other side -- 79 slots,
+median realised/estimated 1.06, p90 1.90, 20.2% of slots past 1.5x, 87.3% of slots delevered,
+median delivered vol 8.31% against the 8% target. The deepest drawdown (2021-09-14..2022-11-01,
+-11.77%, 271 bars) had the book at full size on 31.4% of its bars, and 42% of the depth accrued
+on exactly those bars. Verdict under the frozen rule: KEEP (no window buys 1pp of depth inside
+a -0.5pp return floor).
+
+RULES
+-----
+1. A frozen size is two lags (estimate + refresh cadence). Sweep the lever that exists and say
+   which of the two the answer belongs to; do not report "the overlay is late".
+2. Measure the error, do not assert it: engine `diag` gives `est_vol` at every decision, and
+   the next slot's realised vol of the SAME book turns it into `ratio = realised/estimated`.
+3. Attribute DEPTH, not a level: the drawdown peak bar is at full size by definition, so
+   reading the level there always prints 100%. Use the log-return share accrued on full-size
+   bars (here 42%).
+4. An overlay that does not move depth is a cost knob, not risk insurance -- quote the return
+   it gives up beside the headline instead of calling it free protection.
+5. Equivalence legs need a discriminating fixture: on a stationary-vol fixture all four windows
+   print the same curve (correct, not a dead test), so the regime-shift fixture is what proves
+   the estimator can move (r1261 family).
+
+Pos: scripts/etf_book_voltarget_lag.py (selftest 13/13, chain leg is the engine-free `--check`)
++ results/etf_book_voltarget_lag.json + research/ETF_BOOK_VOLTARGET_LAG.md.

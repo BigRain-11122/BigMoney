@@ -644,6 +644,14 @@ def main() -> int:
             # all (r1261 -- prove the mechanism moved before comparing numbers).
             ("product: selection premium across decision phases (exit-code contract)",
              "scripts/etf_book_premium_phases.py", ["--selftest"]),
+            # r1327: the sizing overlay's two lags (trailing-window estimate + a scale frozen
+            # for up to 19 bars) are measured on the engine's own diag, so these legs pin the
+            # traps: a stationary-vol panel makes every window agree by construction (so an
+            # "arms are identical" reading there is correct, not a dead test) while a regime
+            # shift must move the curve; a vol shock must show as realised/estimated > 1.5;
+            # and the gate must refuse a hand-written verdict or a re-tuned threshold.
+            ("product: vol-target estimation and slot-freeze lag (exit-code contract)",
+             "scripts/etf_book_voltarget_lag.py", ["--selftest"]),
             # r1326: the E187 pool batch added a leg to the shared census tool, so its
             # 658-leg selftest has to run somewhere other than a human's memory. The
             # seven new legs pin the churn arithmetic (a first month has no predecessor and

@@ -1,9 +1,9 @@
 {
-  "updated": "2026-10-28 19:52:18",
-  "now": "2026-10-28 19:52:16.816716",
+  "updated": "2026-10-28 21:19:38",
+  "now": "2026-10-28 21:19:35.174306",
   "close_accept_time": "15:30:00",
   "symbols": 48,
-  "total_new_rows": 0,
+  "total_new_rows": 3,
   "failures": [],
   "overlap_mismatches": [],
   "data_cutoff": "2026-10-28",
@@ -23,10 +23,12 @@
     },
     {
       "symbol": "159915",
-      "appended": 0,
+      "appended": 1,
       "overlap_mismatch": false,
       "error": null,
-      "skipped": "catchup_backoff"
+      "first_new": "2026-10-28",
+      "last_new": "2026-10-28",
+      "catchup_fetch": true
     },
     {
       "symbol": "159919",
@@ -135,17 +137,21 @@
     },
     {
       "symbol": "511090",
-      "appended": 0,
+      "appended": 1,
       "overlap_mismatch": false,
       "error": null,
-      "skipped": "catchup_backoff"
+      "first_new": "2026-10-28",
+      "last_new": "2026-10-28",
+      "catchup_fetch": true
     },
     {
       "symbol": "511260",
-      "appended": 0,
+      "appended": 1,
       "overlap_mismatch": false,
       "error": null,
-      "skipped": "catchup_backoff"
+      "first_new": "2026-10-28",
+      "last_new": "2026-10-28",
+      "catchup_fetch": true
     },
     {
       "symbol": "512000",
@@ -350,30 +356,31 @@
       "511090",
       "511260"
     ],
-    "fetched": [],
-    "backoff": [
+    "fetched": [
       "159915",
       "511090",
       "511260"
     ],
+    "backoff": [],
     "stale_dead": []
   },
   "catchup_attempts": {
-    "159915": "2026-10-28T19:14:00",
-    "511090": "2026-10-28T19:14:00",
-    "511260": "2026-10-28T19:14:00"
+    "159915": "2026-10-28T21:19:35",
+    "511090": "2026-10-28T21:19:35",
+    "511260": "2026-10-28T21:19:35"
   },
   "cutoff_error": null,
   "source_used": "sina",
-  "fallback_events": [
-    {
-      "symbol": "510300",
-      "diagnosis": "upstream_equal",
-      "tencent_latest": "2026-10-28",
-      "note": "zero-row ambiguity: upstream bar-existence probe"
-    }
-  ],
+  "fallback_events": [],
+  "parity_audit": {
+    "symbols": [
+      "159915",
+      "511090",
+      "511260"
+    ],
+    "flags": []
+  },
   "exit_code": 0,
-  "hook_ok": null,
-  "hook_exit": null
+  "hook_ok": true,
+  "hook_exit": 0
 }
