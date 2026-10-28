@@ -111,41 +111,6 @@ def passive_mix_support():
         return None
 
 
-def premium_phases_support():
-    """Read results/etf_book_premium_phases.json -> is the premium a LEVEL or one calendar?
-
-    r1325 showed on this same book that a single decision calendar is not a ruler (an arm
-    that improved everything on the production phase reversed on 70% of four phase-shifted
-    ones). The rotation line on this card quotes ONE number, so without this block the card
-    would state as a level something measured on one calendar. Soft-fails to None: a missing
-    artifact must never break the production face -- but then the card must not imply the
-    premium was tested across phases.
-    """
-    p = os.path.join(E.PATHS.results_dir, "etf_book_premium_phases.json")
-    try:
-        with open(p, "r", encoding="utf-8") as fh:
-            doc = json.load(fh)
-        s = doc.get("summary") or {}
-        if s.get("status") != "priced" or s.get("median_pp") is None:
-            return None
-        rg = (doc.get("ranges") or {}).get("book_cagr") or {}
-        return {
-            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
-            "verdict": doc.get("verdict"),
-            "n_phases": s.get("n_phases"),
-            "positive_phases": s.get("positive_phases"),
-            "median_pp": s.get("median_pp"),
-            "min_pp": s.get("min_pp"),
-            "max_pp": s.get("max_pp"),
-            "spread_pp": s.get("spread_pp"),
-            "book_cagr_spread_pp": (round(rg["spread"] * 100, 2)
-                                    if isinstance(rg.get("spread"), (int, float)) else None),
-            "level": str(doc.get("verdict") or "").startswith("level"),
-        }
-    except Exception:
-        return None
-
-
 def decomp_support():
     """Read results/etf_book_window_decomp.json -> why the 2015-2019 window prints two numbers.
 
@@ -632,7 +597,6 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "preperiod": preperiod_support(),
         "commodity": commodity_support(),
         "passive_mix": passive_mix_support(),
-        "premium_phases": premium_phases_support(),
         "window_decomp": decomp_support(),
         "spanning": spanning_support(),
         "spanning_pre2020": spanning_pre2020_support(),
@@ -741,7 +705,7 @@ def write_card(out):
     lines += ["| cash | - | money | %.1f%% | %s | - |" % (
         s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ",")), ""]
     lines += ["## What the rotation is worth", ""]
-    lines += passive_mix_paragraphs(out.get("passive_mix"), out.get("premium_phases"))
+    lines += passive_mix_paragraphs(out.get("passive_mix"))
     lines += decomp_paragraphs(out.get("window_decomp"))
     lines += ["## What is left after the four betas", ""]
     lines += spanning_paragraphs(out.get("spanning"))
@@ -797,13 +761,11 @@ def decomp_paragraphs(dc):
         % ((first.get("cagr") or 0.0) * 100), ""]
 
 
-def passive_mix_paragraphs(pm, pp=None):
+def passive_mix_paragraphs(pm):
     """The rotation-vs-static-mix section text. Pure: needs only the artifact block.
 
     Kept a function so the wording is testable without writing a card, and so the two
     windows (published regime, and the pre-2020 control) are emitted from one place.
-    `pp` is the phase-stability block: the premium above is ONE calendar, and this says
-    whether re-pricing it on four phases of that calendar leaves it a level.
     """
     if not (pm and pm.get("premium_pp") is not None):
         return ["Not measured: results/etf_book_passive_mix.json is missing, so this card "
@@ -836,28 +798,6 @@ def passive_mix_paragraphs(pm, pp=None):
                 if pm.get("premium_flips") else
                 "the premium survives the period change, so the machinery is not what "
                 "the pre-2020 window was missing.")), ""]
-    if pp and pp.get("median_pp") is not None and pp.get("n_phases"):
-        if pp.get("level"):
-            out += ["Is that a level or one decision sequence? Re-priced on %d phases of "
-                    "the same %d-bar cycle -- each with its own decisions and its own static "
-                    "shape, both arms moving together -- the premium is positive on %d/%d "
-                    "(median %+.1fpp/yr, range %+.2f..%+.2f, spread %.2fpp) against the "
-                    "book's own phase spread of %s pp/yr of CAGR. The premium is bigger than "
-                    "the calendar noise, so the headline may be quoted as a level -- but quote "
-                    "the range beside it. See %s."
-                    % (pp["n_phases"], 20, pp.get("positive_phases") or 0, pp["n_phases"],
-                       pp["median_pp"], pp.get("min_pp") or 0.0, pp.get("max_pp") or 0.0,
-                       pp.get("spread_pp") or 0.0,
-                       ("%.2f" % pp["book_cagr_spread_pp"]
-                        if pp.get("book_cagr_spread_pp") is not None else "n/a"),
-                       pp.get("artifact") or "results/etf_book_premium_phases.json"), ""]
-        else:
-            out += ["This premium is ONE decision calendar and must not be quoted as a level: "
-                    "re-priced on %d phases of the same cycle it is positive on only %d/%d "
-                    "(median %+.1fpp/yr, range %+.2f..%+.2f). See %s."
-                    % (pp["n_phases"], pp.get("positive_phases") or 0, pp["n_phases"],
-                       pp["median_pp"], pp.get("min_pp") or 0.0, pp.get("max_pp") or 0.0,
-                       pp.get("artifact") or "results/etf_book_premium_phases.json"), ""]
     return out
 
 
@@ -1224,25 +1164,6 @@ def selftest():
     chk("a single-window artifact prints the headline only",
         len(passive_mix_paragraphs({k: v for k, v in pm_fix.items()
                                     if k not in ("by_window", "premium_flips")})) == 2)
-
-    # 10b-2. r1326: the premium is one calendar until the phases say otherwise. Both
-    #        directions are pinned -- "level" must print the range and the ruler, and a
-    #        non-level must forbid quoting the point as a level.
-    pp_flat = {"artifact": "results/etf_book_premium_phases.json", "n_phases": 4,
-               "positive_phases": 4, "median_pp": 6.59, "min_pp": 5.55, "max_pp": 7.16,
-               "spread_pp": 1.61, "book_cagr_spread_pp": 1.81, "level": True}
-    txt_pp = "\n".join(passive_mix_paragraphs(pm_fix, pp_flat))
-    chk("the card states the premium survived four decision phases",
-        "positive on 4/4" in txt_pp and "+6.6pp" in txt_pp
-        and "+5.55..+7.16" in txt_pp and "1.81 pp/yr of CAGR" in txt_pp,
-        "%d lines" % len(passive_mix_paragraphs(pm_fix, pp_flat)))
-    chk("a sequence premium is forbidden from being quoted as a level",
-        "must not be quoted as a level" in
-        "\n".join(passive_mix_paragraphs(pm_fix, dict(pp_flat, positive_phases=2,
-                                                      level=False))))
-    chk("no phase artifact = no phase sentence (the card must not imply it was tested)",
-        "decision sequence" not in "\n".join(passive_mix_paragraphs(pm_fix, None))
-        and "decision sequence" not in "\n".join(passive_mix_paragraphs(pm_fix)))
 
     # 10c. the reconciliation section (r1308): the ladder has to be on the card, and a
     #      control out of tolerance has to say so instead of printing clean steps.

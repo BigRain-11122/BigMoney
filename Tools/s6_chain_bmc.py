@@ -35,12 +35,6 @@ LEGS = [
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py"]),
     ("update_futures", ["python", "scripts/update_futures.py"]),
-    # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
-    # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
-    # daily face for it -- the "produced but never read" class this repo keeps recording
-    # (r1108). It rides immediately behind the panel it reads so the target weights can
-    # never be older than the futures bars. ~2s, no network, no judge, shadow only.
-    ("futures_tsmom_signal", ["python", "scripts/futures_tsmom_signal.py", "run"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
@@ -136,13 +130,6 @@ LEGS = [
     # phase signature must still be a real calendar, and the published verdict must be the
     # one the rule produces from the summary. 0.1s, no network.
     ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
-    # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
-    # window, so it is late in two ways at once and the headline cannot tell them apart.
-    # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
-    # the gate: frozen criteria echoed, control arm still reproducing the published cell,
-    # the lag block still carrying measured slots, and the verdict still the one the rule
-    # produces. 0.1s + one rebuild, no network.
-    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
@@ -259,13 +246,6 @@ LEGS = [
     # markdown pass labelled every .md "doc-prose" then gated only live-face, so the
     # CEO page itself was never checked.
     ("reader_text_audit", ["python", "scripts/reader_text_audit.py", "run"]),
-    # r1326: the card's headline (book beats its own static class mix by +6.36pp/yr) was
-    # priced on ONE decision calendar, and r1325 had just shown on this same book why that
-    # is not a decision -- an arm that improved everything on the production calendar
-    # reversed on 70% of four phase-shifted ones. The face re-prices the premium across
-    # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
-    # distinct decision signatures), which is a JSON read, not another engine run.
-    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
 ]
 
 

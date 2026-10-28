@@ -635,31 +635,7 @@ def main() -> int:
             # silently, the published verdict must be recomputed rather than trusted, and
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
-             "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
-            # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
-            # of selection premium over the book's own static class mix). The legs pin the
-            # two ways this face can lie in either direction: a premium under the frozen
-            # floor cannot be called a level just because it never changed sign, and a face
-            # whose four phases collapsed onto one calendar cannot call anything a level at
-            # all (r1261 -- prove the mechanism moved before comparing numbers).
-            ("product: selection premium across decision phases (exit-code contract)",
-             "scripts/etf_book_premium_phases.py", ["--selftest"]),
-            # r1327: the sizing overlay's two lags (trailing-window estimate + a scale frozen
-            # for up to 19 bars) are measured on the engine's own diag, so these legs pin the
-            # traps: a stationary-vol panel makes every window agree by construction (so an
-            # "arms are identical" reading there is correct, not a dead test) while a regime
-            # shift must move the curve; a vol shock must show as realised/estimated > 1.5;
-            # and the gate must refuse a hand-written verdict or a re-tuned threshold.
-            ("product: vol-target estimation and slot-freeze lag (exit-code contract)",
-             "scripts/etf_book_voltarget_lag.py", ["--selftest"]),
-            # r1326: the E187 pool batch added a leg to the shared census tool, so its
-            # 658-leg selftest has to run somewhere other than a human's memory. The
-            # seven new legs pin the churn arithmetic (a first month has no predecessor and
-            # must not read as zero churn), the frozen rule (equal churn in both buckets is
-            # not a discount), and the honest empty case (an era with no against-months is
-            # published as such, not as a pass with a missing ratio).
-            ("product: census selftest incl. the E187 churn-tie legs",
-             "scripts/e39_panel_census.py", ["selftest"])):
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -1314,44 +1290,6 @@ def main() -> int:
               _gg.returncode == 0, (_gt[0] if _gt else "")[:110])
     except Exception as e:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
-
-    # A sleeve that was measured but never published is the "produced but never read"
-    # failure this repo keeps recording (r1108). The futures TSMOM sleeve now has a daily
-    # shadow face; this leg asserts it exists, is capped, is NOT actionable, and is
-    # priced on the newest bar the panel actually has (an old face reading as current is
-    # worse than no face).
-    try:
-        import glob as _glob
-        import json as _json
-        _sp = os.path.join("scripts", "futures_tsmom_signal.py")
-        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
-                             text=True, encoding="utf-8", errors="replace")
-        _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
-        check("product: futures TSMOM shadow face keeps its sizing rules",
-              _sr.returncode == 0, f"selftest rc={_sr.returncode} {_st[:60]}")
-
-        _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
-                                encoding="utf-8"))
-        _tails = []
-        for _p in _glob.glob(os.path.join("data", "futures_daily", "*.csv")):
-            try:
-                _last = open(_p, encoding="utf-8").read().strip().splitlines()[-1]
-                _tails.append(_last.split(",")[0].strip()[:10])
-            except Exception:
-                pass
-        _panel_tail = max(_tails) if _tails else ""
-        _gross = (_face.get("book") or {}).get("gross")
-        _ok = (_face.get("actionable") is False
-               and _face.get("shadow") is True
-               and isinstance(_gross, (int, float)) and _gross <= 3.0 + 1e-9
-               and _face.get("generated_for_bar") == _panel_tail
-               and _face.get("staleness", {}).get("stale") is False)
-        check("product: futures TSMOM face is current, capped and not an order", _ok,
-              "bar=%s panel=%s gross=%s stale=%s" % (
-                  _face.get("generated_for_bar"), _panel_tail, _gross,
-                  _face.get("staleness", {}).get("stale")))
-    except Exception as e:
-        check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
 
     return _finish()
 

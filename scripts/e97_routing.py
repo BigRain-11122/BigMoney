@@ -722,7 +722,9 @@ LEVELQUOTE_OUT_DIR = "results/e79"
 # This leg publishes into a directory it scans, so its own face must be excluded or
 # the audit would count itself (r1215: 25 -> 26 faces, 1034 -> 3274 cells by
 # self-inclusion, and the extra face has no producer so the live leg went red).
-LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",)
+LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
+                              "e188_decomposition_label_duty",
+                              "e193_decomposition_delta_build_stance")
 
 # E177's own reading vocabulary, turned into name rules.  Order matters: a gap cell
 # named `arithmetic_vs_geometric_gap_bp` carries both vocabularies, and it is a gap.
@@ -1248,6 +1250,940 @@ def run_levelquotes(publish=False):
         print("  LEAK", f)
     for name in face["answers"]["field_names_published_from_two_arithmetics"]:
         print("  COLLISION", name)
+    return 0
+
+
+# --- E188 label duty ---------------------------------------------------------------
+# E185 located the E180 wedge as the rebalance fee: the same field NAME
+# (`decomposition_engine_bp`) is published from a contrib/sink reading (GROSS of the
+# fee) by one face and from a daily/curve reading (NET of it) by another.  A number
+# that moves by 1.1-10.9% depending on which face a reader copies it from is only
+# quotable if the page says which one.  This leg sweeps the family for those cells,
+# classifies each face's OWN label state, and re-states the published offsets under
+# the other stance so "the label changes nothing" is measured, not assumed.
+
+LABELDUTY_OUT_DIR = "results/e79"
+LABELDUTY_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
+                             "e188_decomposition_label_duty",
+                             "e193_decomposition_delta_build_stance")
+GROSS_FACE_GLOB = "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-*.json"
+NET_FACE_GLOB = "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-*.json"
+FEE_FACE_GLOB = "results/e79/LEVELWEDGE-*.json"
+STANCE_GROSS_TOKENS = ("gross of", "gross_of", "gross")
+STANCE_NET_TOKENS = ("net of the fee", "net of", "net_of", "after the fee", "after_fee")
+FEE_TEXT_TOKENS = ("fee", "turnover", "rebalance cost")
+
+
+def _is_num(v):
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def _newest_under(base, pattern):
+    files = sorted(glob.glob(os.path.join(base, pattern.replace("/", os.sep))))
+    return files[-1] if files else None
+
+
+def _rel(base, path):
+    return os.path.relpath(path, base).replace("\\", "/")
+
+
+def fee_ladder(fee_face):
+    """(arm, era) -> rebalance cost term in bp, from the E185 wedge face."""
+    out = {}
+    for cell in (fee_face.get("eras") or {}).values():
+        if not isinstance(cell, dict):
+            continue
+        era, arm = cell.get("era"), cell.get("arm") or "raw"
+        fee = cell.get("rebalance_cost_term_bp")
+        if era and _is_num(fee):
+            out[(arm, era)] = float(fee)
+    return out
+
+
+def gross_ladder(gross_face):
+    """(arm, era) -> the sink/contrib reading (E176 shape: one cell per era)."""
+    out = {}
+    for era, cell in (gross_face.get("eras") or {}).items():
+        if not isinstance(cell, dict):
+            continue
+        for arm in ("raw", "screened"):
+            v = cell.get("decomposition_engine_bp_%s" % arm)
+            if _is_num(v):
+                out[(arm, era)] = float(v)
+    return out
+
+
+def net_ladder(net_face):
+    """(arm, era) -> the daily/curve reading (E177 shape: keyed '<arm>|<era>')."""
+    out = {}
+    for cell in (net_face.get("eras") or {}).values():
+        if not isinstance(cell, dict):
+            continue
+        era, arm = cell.get("era"), cell.get("arm") or "raw"
+        v = cell.get("decomposition_engine_bp")
+        if era and _is_num(v):
+            out[(arm, era)] = float(v)
+    return out
+
+
+def published_ladder(gross_face):
+    out = {}
+    for era, cell in (gross_face.get("eras") or {}).items():
+        if not isinstance(cell, dict):
+            continue
+        for arm in ("raw", "screened"):
+            v = cell.get("published_engine_bp_%s" % arm)
+            if _is_num(v):
+                out[(arm, era)] = float(v)
+    return out
+
+
+def stance_of(text):
+    """Which fee stance a face's own text declares. Four states, no guessing."""
+    low = (text or "").lower()
+    gross = any(t in low for t in STANCE_GROSS_TOKENS)
+    net = any(t in low for t in STANCE_NET_TOKENS)
+    if gross and net:
+        return "both"
+    if gross:
+        return "gross_only"
+    if net:
+        return "net_only"
+    return "unlabelled"
+
+
+def wedge_rows(fee, gross, net, published):
+    """Per (arm, era): one number in two stances, the fee between them, and the
+    offset each stance publishes (published level minus that reading)."""
+    rows = []
+    for key in sorted(set(gross) & set(net) & set(fee),
+                      key=lambda k: (str(k[1]), str(k[0]))):
+        arm, era = key
+        g, n, f = gross[key], net[key], fee[key]
+        pub = published.get(key)
+        off_g = round(pub - g, 4) if pub is not None else None
+        off_n = round(pub - n, 4) if pub is not None else None
+        rows.append({
+            "arm": arm,
+            "era": era,
+            "gross_bp": g,
+            "net_bp": n,
+            "fee_bp": f,
+            "stance_gap_bp": round(g - n, 4),
+            "residual_after_fee_bp": round(g - n - f, 4),
+            "rel_shift_pct": (round(100.0 * (g - n) / abs(n), 3) if n else None),
+            "offset_gross_stance_bp": off_g,
+            "offset_net_stance_bp": off_n,
+            "offset_stance_gap_bp": (round(off_n - off_g, 4)
+                                     if off_g is not None and off_n is not None else None),
+            "offset_margin_in_fees": (round(abs(off_n) / f, 3)
+                                      if off_n is not None and f else None),
+            "inside_the_wedge": bool(off_n is not None and f
+                                     and min(abs(off_n), abs(off_g or 0.0)) <= f),
+            "inside_stances": ([s for s, v in (("gross", off_g), ("net", off_n))
+                                if v is not None and f and abs(v) <= f]),
+            "sign_flips_with_stance": (off_g is not None and off_n is not None
+                                       and (off_g > 0) != (off_n > 0)),
+        })
+    return rows
+
+
+def _numeric_paths(obj, path="", out=None):
+    """Every numeric leaf WITH its key path -- the era/arm context this leg needs
+    lives in the enclosing keys, not in the leaf name."""
+    if out is None:
+        out = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            _numeric_paths(v, path + "/" + str(k), out)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            _numeric_paths(v, path + "/" + str(i), out)
+    elif _is_num(obj):
+        out.append((path, obj))
+    return out
+
+
+def label_sweep(base, dirs, gross, net, tol=0.01):
+    """Classify every face in the quoting dirs by the stance it PUBLISHES cells in
+    versus the stance its own text DECLARES."""
+    eras = sorted({k[1] for k in list(gross) + list(net)})
+    gvals, nvals = {}, {}
+    for (arm, era), v in gross.items():
+        gvals.setdefault(era, []).append(v)
+    for (arm, era), v in net.items():
+        nvals.setdefault(era, []).append(v)
+    rows, skipped = [], []
+    for d in dirs:
+        for path in sorted(glob.glob(os.path.join(base, d.replace("/", os.sep), "*.json"))):
+            try:
+                with io.open(path, encoding="utf-8") as fh:
+                    doc = json.load(fh)
+            except Exception:
+                continue
+            study = doc.get("study") if isinstance(doc, dict) else None
+            if study in LABELDUTY_EXCLUDE_STUDIES:
+                skipped.append({"face": _rel(base, path), "study": study,
+                                "reason": "this_leg_or_its_label_source"})
+                continue
+            # The study slug is an identifier, not a claim: a face called
+            # ..._gross_something declares nothing about the cell it publishes.
+            text = json.dumps({k: v for k, v in doc.items() if k != "study"}
+                              if isinstance(doc, dict) else doc, ensure_ascii=False)
+            stance = stance_of(text)
+            g_n = n_n = 0
+            for leaf, val in _numeric_paths(doc):
+                era = next((e for e in eras if e and e in leaf), None)
+                if not era:
+                    continue
+                if any(abs(val - g) <= tol for g in gvals.get(era, [])):
+                    g_n += 1
+                if any(abs(val - n) <= tol for n in nvals.get(era, [])):
+                    n_n += 1
+            if g_n and n_n:
+                side = "both"
+            elif g_n:
+                side = "gross"
+            elif n_n:
+                side = "net"
+            else:
+                side = "neither"
+            if side == "both":
+                cls = "labelled" if stance == "both" else "mixed"
+            elif side == "neither":
+                cls = "no_stance_cells"
+            elif stance == "unlabelled":
+                cls = "unlabelled"
+            elif stance == "both":
+                cls = "labelled"
+            elif stance[:-5] == side:
+                cls = "labelled"
+            else:
+                cls = "mislabeled"
+            rows.append({
+                "face": _rel(base, path),
+                "study": study,
+                "declared_stance": stance,
+                "publishes_stance_cells": side,
+                "gross_cells": g_n,
+                "net_cells": n_n,
+                "label_class": cls,
+                "mentions_fee": any(t in text.lower() for t in FEE_TEXT_TOKENS),
+            })
+    rows.sort(key=lambda r: r["face"])
+    return rows, skipped
+
+
+def label_duty(base=None):
+    base = base or ROOT
+    gp = _newest_under(base, GROSS_FACE_GLOB)
+    npth = _newest_under(base, NET_FACE_GLOB)
+    fp = _newest_under(base, FEE_FACE_GLOB)
+    if not (gp and npth and fp):
+        return {"study": "e188_decomposition_label_duty",
+                "status": "awaiting_upstream",
+                "missing": {"gross_face": bool(gp), "net_face": bool(npth),
+                            "fee_face": bool(fp)}}
+
+    def _load(p):
+        with io.open(p, encoding="utf-8") as fh:
+            return json.load(fh)
+
+    gross_face, net_face, fee_face = _load(gp), _load(npth), _load(fp)
+    fee = fee_ladder(fee_face)
+    gross = gross_ladder(gross_face)
+    net = net_ladder(net_face)
+    published = published_ladder(gross_face)
+    rows = wedge_rows(fee, gross, net, published)
+    sweep, skipped = label_sweep(base, LEVELQUOTE_DIRS, gross, net)
+
+    rel_shifts = [r["rel_shift_pct"] for r in rows if r["rel_shift_pct"] is not None]
+    residuals = [abs(r["residual_after_fee_bp"]) for r in rows]
+    inside = [r for r in rows if r["inside_the_wedge"]]
+    flips = [r for r in rows if r["sign_flips_with_stance"]]
+
+    # The offsets each face PUBLISHES for itself: E176 stores (reading - published),
+    # E177 stores (published - reading).  Same construct, opposite sign convention, and
+    # the two differ by exactly the fee -- measured here rather than argued.
+    published_offsets = []
+    for era, cell in (gross_face.get("eras") or {}).items():
+        if not isinstance(cell, dict):
+            continue
+        own = cell.get("decomposition_level_offset_bp")
+        if not isinstance(own, dict):
+            continue
+        for arm in ("raw", "screened"):
+            theirs = (net_face.get("eras") or {}).get("%s|%s" % (arm, era), {})
+            o_g = own.get(arm)
+            o_n = theirs.get("level_offset_bp") if isinstance(theirs, dict) else None
+            if not _is_num(o_g) or not _is_num(o_n):
+                continue
+            published_offsets.append({
+                "arm": arm,
+                "era": era,
+                "gross_face_offset_bp": float(o_g),
+                "net_face_offset_bp": float(o_n),
+                "gap_bp": round(float(o_n) + float(o_g), 4),
+                "fee_bp": fee.get((arm, era)),
+                "gap_is_the_fee": (fee.get((arm, era)) is not None
+                                   and abs(abs(float(o_n) + float(o_g))
+                                           - fee[(arm, era)]) <= 0.10),
+            })
+
+    # A delta built from the two readings keeps the fee only insofar as the two arms
+    # carry different fees: pre2017/2017_2020 are identical arms, the rest are not.
+    delta_shifts = []
+    for era in sorted({k[1] for k in fee}):
+        fr, fs = fee.get(("raw", era)), fee.get(("screened", era))
+        if fr is None or fs is None:
+            continue
+        delta_shifts.append({"era": era, "fee_raw_bp": fr, "fee_screened_bp": fs,
+                             "delta_restatement_shift_bp": round(fr - fs, 4),
+                             "delta_is_fee_neutral": abs(fr - fs) == 0.0})
+
+    classes = {}
+    for r in sweep:
+        classes[r["label_class"]] = classes.get(r["label_class"], 0) + 1
+    cutoffs = [d.get("evidence_cutoff") for d in (gross_face, net_face, fee_face)
+               if d.get("evidence_cutoff")]
+    return {
+        "study": "e188_decomposition_label_duty",
+        "evidence_cutoff": max(cutoffs) if cutoffs else None,
+        "spec": {
+            "gross_face": _rel(base, gp),
+            "net_face": _rel(base, npth),
+            "fee_face": _rel(base, fp),
+            "stance_tokens": {"gross": list(STANCE_GROSS_TOKENS),
+                              "net": list(STANCE_NET_TOKENS)},
+            "class_rules": {
+                "labelled": "publishes one stance and its text declares that stance",
+                "unlabelled": "publishes a stance and its text declares none",
+                "mixed": "publishes BOTH stances under one label (the E180 collision)",
+                "mislabeled": "declares one stance and publishes the other",
+                "no_stance_cells": "publishes neither reading (not a consumer of this cell)",
+            },
+            "value_match_tolerance_bp": 0.01,
+            "units": "bp as published by the producing face; rel_shift_pct is a percent",
+        },
+        "wedge": rows,
+        "published_offsets": published_offsets,
+        "delta_restatement": delta_shifts,
+        "family": sweep,
+        "skipped": skipped,
+        "totals": {
+            "cells": len(rows),
+            "max_abs_residual_after_fee_bp": round(max(residuals), 4) if residuals else None,
+            "rel_shift_range_pct": ([min(rel_shifts), max(rel_shifts)]
+                                    if rel_shifts else None),
+            "cells_inside_the_wedge": len(inside),
+            "cells_quoting_sign_flip_with_stance": len(flips),
+            "published_offsets_differ_by_the_fee": sum(
+                1 for o in published_offsets if o["gap_is_the_fee"]),
+            "published_offsets_checked": len(published_offsets),
+            "label_classes": classes,
+            "faces_in_family": len(sweep),
+            "faces_publishing_a_stance": sum(
+                1 for r in sweep if r["publishes_stance_cells"] != "neither"),
+        },
+        "answers": {
+            "the_two_readings_are_one_number_plus_the_fee_measured": (
+                bool(residuals) and max(residuals) <= 0.01),
+            "the_label_moves_the_level_by_pct": ([min(rel_shifts), max(rel_shifts)]
+                                                 if rel_shifts else None),
+            "sign_flips_when_the_stance_changes": [r["era"] + "|" + r["arm"]
+                                                   for r in flips],
+            "verdicts_inside_the_wedge": [
+                {"era": r["era"], "arm": r["arm"],
+                 "offset_gross_stance_bp": r["offset_gross_stance_bp"],
+                 "offset_net_stance_bp": r["offset_net_stance_bp"],
+                 "inside_stances": r["inside_stances"],
+                 "fee_bp": r["fee_bp"],
+                 "offset_margin_in_fees": r["offset_margin_in_fees"]}
+                for r in inside],
+            "faces_that_say_which_stance_they_publish": [
+                {"face": r["face"], "label_class": r["label_class"]}
+                for r in sweep if r["label_class"] in ("labelled", "mislabeled")],
+            "faces_publishing_a_reading_without_saying_which": [
+                {"face": r["face"], "side": r["publishes_stance_cells"],
+                 "gross_cells": r["gross_cells"], "net_cells": r["net_cells"]}
+                for r in sweep if r["label_class"] == "unlabelled"],
+            "reading": (
+                "%d cells publish one number in two fee stances; gross minus net equals "
+                "the rebalance fee to %s bp, so the label alone moves the level by "
+                "%s-%s%%. %d cell(s) quote an offset no wider than its own fee "
+                "(inside the wedge) and %d quote a sign that flips with the stance. "
+                "%d/%d published offsets are the same construct with the fee between "
+                "them. In the family, %d face(s) publish a stance: %s."
+                % (len(rows),
+                   ("%.4f" % max(residuals)) if residuals else "n/a",
+                   ("%s" % min(rel_shifts)) if rel_shifts else "n/a",
+                   ("%s" % max(rel_shifts)) if rel_shifts else "n/a",
+                   len(inside), len(flips),
+                   sum(1 for o in published_offsets if o["gap_is_the_fee"]),
+                   len(published_offsets),
+                   sum(1 for r in sweep if r["publishes_stance_cells"] != "neither"),
+                   ", ".join("%s=%d" % (k, v) for k, v in sorted(classes.items()))
+                   or "none")),
+        },
+        "honest": [
+            "the stance is read from the face's OWN text tokens, so a face that labels "
+            "the number only in a prose digest (not in the JSON it publishes) counts as "
+            "unlabelled -- that is the point: a reader copying the JSON never sees it",
+            "gross minus net is the fee only because E185 already located it; this leg "
+            "does not re-derive the fee, it joins the published term",
+            "a delta that carries the same fee on both arms is fee-neutral by "
+            "construction; the restatement shift published here is the difference "
+            "between the two arms' fees, not a property of the signal",
+            "inside_the_wedge compares the published offset to that cell's own fee, so "
+            "the threshold moves with the era rather than sitting at one constant",
+        ],
+        "law_ref": "O-20261002-2100 capture law (new method -> methodology card)",
+    }
+
+
+def run_labelduty(publish=False, base=None):
+    face = label_duty(base=base)
+    if face.get("status") == "awaiting_upstream":
+        print("awaiting upstream: %s" % face["missing"])
+        return 0
+    if publish:
+        out = os.path.join(_abs(LABELDUTY_OUT_DIR),
+                           "LABELDUTY-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("cells=%d residual_after_fee=%s rel_shift=%s inside_wedge=%d sign_flips=%d "
+          "offsets_differ_by_fee=%d/%d classes=%s"
+          % (t["cells"], t["max_abs_residual_after_fee_bp"], t["rel_shift_range_pct"],
+             t["cells_inside_the_wedge"], t["cells_quoting_sign_flip_with_stance"],
+             t["published_offsets_differ_by_the_fee"], t["published_offsets_checked"],
+             ",".join("%s=%d" % (k, v) for k, v in sorted(t["label_classes"].items()))))
+    for row in face["answers"]["verdicts_inside_the_wedge"]:
+        print("  INSIDE_WEDGE", row["era"], row["arm"],
+              "gross", row["offset_gross_stance_bp"],
+              "net", row["offset_net_stance_bp"],
+              "fee", row["fee_bp"], "stances", row["inside_stances"])
+    for row in face["answers"]["faces_publishing_a_reading_without_saying_which"]:
+        print("  UNLABELLED", row["face"], row["side"])
+    return 0
+
+
+# ---------------------------------------------------- E193 delta build stance
+
+
+DELTASTANCE_OUT_DIR = "results/e79"
+DELTASTANCE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
+                               "e188_decomposition_label_duty",
+                               "e193_decomposition_delta_build_stance")
+DELTA_LEAF_TOKENS = ("delta", "diff", "difference")
+DELTA_UNIT_SUFFIX = "_bp"
+DELTA_ARMS = ("raw", "screened")
+
+# Build family -> (fee content, what the family means).  The fee content is what the
+# delta silently carries: a reader who restates the cell on a single stance moves the
+# printed number by exactly that much.
+DELTA_FAMILIES = {
+    "from_two_published_levels": (
+        "fee_free",
+        "both operands are published levels; the difference inherits nothing"),
+    "book_pair": ("fee_free", "two anchored book levels"),
+    "same_stance_arm_delta": (
+        "arm_fee_diff",
+        "two readings of ONE stance across arms: carries fee_raw minus fee_screened"),
+    "cross_stance": (
+        "full_fee",
+        "one operand gross, the other net: the whole fee sits inside the delta"),
+    "abs_sum_of_name_deltas": (
+        "arm_fee_diff_per_name",
+        "a SUM of absolute per-name arm deltas (turnover of the level), not a "
+        "difference of two levels"),
+    "arm_delta_of_screen_output": (
+        "not_a_curve_reading",
+        "screening outputs (tilt / spread / neutral) carry no fee term"),
+    "cross_measure_pair": (
+        "fee_free", "two different measures of one era, neither a curve reading"),
+    "unnamed_operand": (
+        "unknown",
+        "the label names the arithmetic but not the object it differences"),
+    "external_operands": ("unknown", "operands live on a sibling face"),
+    "residual": ("not_a_build", "a difference between two deltas"),
+    "unbound": ("unknown", "no build rule fired"),
+}
+
+# Ordered (regex on the arm-stripped leaf name, build family).  First match wins, so
+# the order is part of the classification: the narrower names come first.
+DELTA_BUILD_RULES = (
+    (re.compile(r"^(?:published_)?engine_bp_delta$"), "from_two_published_levels"),
+    (re.compile(r"^engine_delta_from_books_bp$"), "book_pair"),
+    (re.compile(r"^(?:rotating_wide_book|wide_book|ladder_book)_delta_bp$"), "book_pair"),
+    (re.compile(r"^(?:e182_|max_)?gross_abs_delta_bp$"), "abs_sum_of_name_deltas"),
+    (re.compile(r"^(?:e182_)?net_delta_bp$"), "unnamed_operand"),
+    (re.compile(r"^(?:tilt|spread_raw|neutral)_bp_delta$"), "arm_delta_of_screen_output"),
+    (re.compile(r"^engine_diff_bp_(?:raw|screened)$"), "arm_delta_of_screen_output"),
+    (re.compile(r"^(?:max_abs_)?engine_ann_diff_bp$"), "cross_measure_pair"),
+    (re.compile(r"^delta_[45]member_minus_3member_bp$"), "external_operands"),
+    (re.compile(r"^(?:max_abs_)?engine_delta_residual_bp$"), "residual"),
+)
+
+# Families whose label does not name its operand get the whole construct table
+# searched; the match is what identifies the object, and it is published as such.
+DELTA_SEARCH_ALL = ("unnamed_operand", "abs_sum_of_name_deltas", "unbound")
+
+
+def delta_build_family(leaf):
+    """Which build path a published delta cell's own name declares.
+
+    The raw leaf is tried first: arm-suffixed names (`engine_diff_bp_raw`) carry the
+    arm in the name, so stripping it before matching would lose the rule.
+    """
+    for name in ((leaf or "").lower(), _base_name(leaf)):
+        for rx, family in DELTA_BUILD_RULES:
+            if rx.match(name):
+                return family
+    return "unbound"
+
+
+def _delta_books(gross_face):
+    """(book, arm, era) -> the anchored book level the E176 face publishes."""
+    out = {}
+    for era, cell in (gross_face.get("eras") or {}).items():
+        if not isinstance(cell, dict):
+            continue
+        for arm in DELTA_ARMS:
+            for book in ("wide_book", "ladder_book"):
+                v = cell.get("%s_bp_%s" % (book, arm))
+                if _is_num(v):
+                    out[(book, arm, era)] = float(v)
+    return out
+
+
+def delta_constructs(fee, gross, net, published, books):
+    """(era, family) -> every number that build path produces from published cells.
+
+    Enumerated a priori from the family's own declared readings, so a cell that
+    matches one of them is reproduced rather than guessed at.
+    """
+    eras = sorted({k[1] for k in list(fee) + list(gross) + list(net) + list(published)})
+    out = {}
+    for era in eras:
+        g = {a: gross.get((a, era)) for a in DELTA_ARMS}
+        n = {a: net.get((a, era)) for a in DELTA_ARMS}
+        p = {a: published.get((a, era)) for a in DELTA_ARMS}
+        cands = {}
+
+        def add(family, label, value):
+            if _is_num(value):
+                cands.setdefault(family, []).append(
+                    {"label": label, "value_bp": round(float(value), 4)})
+
+        def diff(a, b):
+            return None if a is None or b is None else float(a) - float(b)
+
+        w = lambda arm: books.get(("wide_book", arm, era))
+        lad = lambda arm: books.get(("ladder_book", arm, era))
+        add("from_two_published_levels", "published_raw_minus_screened",
+            diff(p["raw"], p["screened"]))
+        add("book_pair", "wide_book_raw_minus_screened", diff(w("raw"), w("screened")))
+        add("book_pair", "ladder_book_raw_minus_screened", diff(lad("raw"), lad("screened")))
+        add("book_pair", "wide_minus_ladder_raw", diff(w("raw"), lad("raw")))
+        add("book_pair", "wide_minus_ladder_screened", diff(w("screened"), lad("screened")))
+        add("same_stance_arm_delta", "gross_raw_minus_screened", diff(g["raw"], g["screened"]))
+        add("same_stance_arm_delta", "net_raw_minus_screened", diff(n["raw"], n["screened"]))
+        add("cross_stance", "gross_minus_net_raw", diff(g["raw"], n["raw"]))
+        add("cross_stance", "gross_minus_net_screened", diff(g["screened"], n["screened"]))
+        out[era] = cands
+    return out
+
+
+def delta_fee_content(family, era, arm, fee, matched_family=None):
+    """(shift_bp, basis): what a fee-free restatement of this cell would move it by."""
+    eff = family
+    if family == "unnamed_operand" and matched_family:
+        eff = matched_family
+    if eff in ("from_two_published_levels", "book_pair", "cross_measure_pair"):
+        return 0.0, "fee_free"
+    if eff in ("same_stance_arm_delta", "abs_sum_of_name_deltas"):
+        fr, fs = fee.get(("raw", era)), fee.get(("screened", era))
+        if fr is None or fs is None:
+            return None, "unknown"
+        return round(fr - fs, 4), "arm_fee_diff"
+    if eff == "cross_stance":
+        f = fee.get((arm or "raw", era))
+        return (round(f, 4), "full_fee") if f is not None else (None, "unknown")
+    return None, DELTA_FAMILIES.get(eff, ("unknown", ""))[0]
+
+
+def _delta_match(cands, value, tol):
+    """Collect the constructs a cell reproduces, keeping the sign convention."""
+    hits = []
+    for c in cands:
+        if abs(c["value_bp"] - value) <= tol:
+            hits.append((c, "same"))
+        elif abs(c["value_bp"] + value) <= tol and abs(value) > tol:
+            hits.append((c, "flipped"))
+    return hits
+
+
+def _delta_sibling_map(doc):
+    """(era, arm) -> {leaf: value} for the fields a face publishes inside one era cell.
+
+    The cross-measure and residual deltas differ two cells of the SAME era, so the
+    operands are siblings; nothing outside this face can rebuild them.
+    """
+    out = {}
+    eras = doc.get("eras")
+    if not isinstance(eras, dict):
+        return out
+    for key, cell in eras.items():
+        if not isinstance(cell, dict):
+            continue
+        era, arm = era_arm_of("/eras/" + str(key) + "/_cell")
+        if not era:
+            continue
+        nums = {k: float(v) for k, v in cell.items() if _is_num(v)}
+        if nums:
+            out[(era, arm)] = nums
+    return out
+
+
+def _delta_in_cell(value, siblings, leaf, tol=0.01):
+    """Pairs of sibling fields whose difference (either sign) is this cell."""
+    hits = []
+    names = sorted(k for k in siblings if k != leaf)
+    for a in names:
+        for b in names:
+            if a == b:
+                continue
+            if abs(siblings[a] - siblings[b] - value) <= tol:
+                hits.append((a, b, "same"))
+            elif abs(value) > tol and abs(siblings[a] - siblings[b] + value) <= tol:
+                hits.append((a, b, "flipped"))
+    return hits
+
+
+def delta_sweep(base, fee, gross, net, published, books, tol=0.01):
+    """Classify every bp delta a face publishes at era level by how it was BUILT."""
+    constructs = delta_constructs(fee, gross, net, published, books)
+    rows, nested = [], []
+    for d in LEVELQUOTE_DIRS:
+        for path in sorted(glob.glob(os.path.join(base, d.replace("/", os.sep), "*.json"))):
+            try:
+                with io.open(path, encoding="utf-8") as fh:
+                    doc = json.load(fh)
+            except Exception:
+                continue
+            if not isinstance(doc, dict):
+                continue
+            if doc.get("study") in DELTASTANCE_EXCLUDE_STUDIES:
+                continue
+            rel = _rel(base, path)
+            sibs = _delta_sibling_map(doc)
+            for cell_path, value in _numeric_paths(doc):
+                leaf = cell_path.split("/")[-1]
+                low = leaf.lower()
+                if not any(t in low for t in DELTA_LEAF_TOKENS):
+                    continue
+                if "_bp" not in low:
+                    # counts, shares and percentages are not deltas in bp; the unit
+                    # may sit mid-name (`engine_bp_delta`) or at the end (`delta_bp`)
+                    continue
+                segs = [s for s in cell_path.split("/") if s]
+                era, arm = era_arm_of(cell_path)
+                parent = segs[-2] if len(segs) > 1 else None
+                p_era, p_arm = era_arm_of(parent or "")
+                if not era or not (parent == era or p_era == era):
+                    nested.append({"face": rel, "path": cell_path, "value_bp": value,
+                                   "reason": "internal_arithmetic_not_an_era_cell"})
+                    continue
+                family = delta_build_family(leaf)
+                era_constructs = constructs.get(era, {})
+                zero_cell = abs(value) <= tol
+                if family in DELTA_SEARCH_ALL:
+                    searched = sorted(era_constructs)
+                else:
+                    searched = [family]
+                hits = []
+                if not zero_cell:
+                    # A zero has no sign and matches any zero construct: reproducing it
+                    # says nothing, so it is reported as unchecked rather than as a hit.
+                    for fam in searched:
+                        for c, convention in _delta_match(era_constructs.get(fam, []),
+                                                          value, tol):
+                            hits.append((fam, c, convention))
+                elsewhere = [h for h in hits if h[0] != family]
+                matched_family = hits[0][0] if hits else None
+                in_cell = []
+                if not zero_cell and not hits and family in DELTA_SEARCH_ALL + (
+                        "cross_measure_pair", "residual", "arm_delta_of_screen_output"):
+                    # What the ladder cannot rebuild, the face itself can: a
+                    # cross-measure delta differs two fields of its own era cell.
+                    in_cell = _delta_in_cell(value, sibs.get((era, arm or p_arm), {}),
+                                             leaf, tol)
+                if zero_cell:
+                    verified = "not_checkable_zero"
+                elif hits:
+                    verified = ("reproduces" if hits[0][2] == "same"
+                                else "reproduces_flipped_sign")
+                elif family == "abs_sum_of_name_deltas":
+                    # a sum of absolute per-name deltas has no era-level rebuilding:
+                    # only the top carriers are published, never the full name set.
+                    verified = "not_checkable"
+                elif in_cell:
+                    verified = "reproduces_in_cell"
+                elif not any(era_constructs.get(fam) for fam in searched):
+                    verified = "not_checkable"
+                else:
+                    verified = "does_not_reproduce"
+                shift, basis = delta_fee_content(family, era, arm or p_arm, fee,
+                                                 matched_family)
+                rows.append({
+                    "face": rel,
+                    "field": cell_path,
+                    "leaf": leaf,
+                    "base_name": _base_name(leaf),
+                    "era": era,
+                    "arm": arm or p_arm,
+                    "value_bp": value,
+                    "build_family": family,
+                    "matched_family": matched_family,
+                    "fee_content": DELTA_FAMILIES[family][0],
+                    "reproduced_by": [h[1]["label"] for h in hits],
+                    "reproduced_family": [h[0] for h in hits],
+                    "sign_convention": [h[2] for h in hits],
+                    "reproduced_value_bp": hits[0][1]["value_bp"] if hits else None,
+                    "residual_bp": ((round(value - hits[0][1]["value_bp"], 4)
+                                     if hits[0][2] == "same"
+                                     else round(value + hits[0][1]["value_bp"], 4))
+                                    if hits else None),
+                    "matched_outside_its_label": bool(elsewhere),
+                    "reproduced_in_cell": [{"minus": a, "plus": b, "convention": c}
+                                           for a, b, c in in_cell[:4]],
+                    "verification": verified,
+                    "restatement_shift_bp": shift,
+                    "shift_basis": basis,
+                    "shift_exceeds_value": bool(shift is not None
+                                                and basis in ("arm_fee_diff", "full_fee")
+                                                and abs(value) > tol
+                                                and abs(shift) > abs(value)),
+                })
+    rows.sort(key=lambda r: (r["face"], r["field"]))
+    return rows, nested, constructs
+
+
+def deltastance(base=None):
+    base = base or ROOT
+    gp = _newest_under(base, GROSS_FACE_GLOB)
+    npth = _newest_under(base, NET_FACE_GLOB)
+    fp = _newest_under(base, FEE_FACE_GLOB)
+    if not (gp and npth and fp):
+        return {"study": "e193_decomposition_delta_build_stance",
+                "status": "awaiting_upstream",
+                "missing": {"gross_face": bool(gp), "net_face": bool(npth),
+                            "fee_face": bool(fp)}}
+
+    def _load(p):
+        with io.open(p, encoding="utf-8") as fh:
+            return json.load(fh)
+
+    gross_face, net_face, fee_face = _load(gp), _load(npth), _load(fp)
+    fee = fee_ladder(fee_face)
+    gross = gross_ladder(gross_face)
+    net = net_ladder(net_face)
+    published = published_ladder(gross_face)
+    books = _delta_books(gross_face)
+    rows, nested, constructs = delta_sweep(base, fee, gross, net, published, books)
+
+    by_family, by_verification, by_fee_content = {}, {}, {}
+    for r in rows:
+        by_family[r["build_family"]] = by_family.get(r["build_family"], 0) + 1
+        by_verification[r["verification"]] = by_verification.get(r["verification"], 0) + 1
+        by_fee_content[r["fee_content"]] = by_fee_content.get(r["fee_content"], 0) + 1
+
+    shifts = [abs(r["restatement_shift_bp"]) for r in rows
+              if r["restatement_shift_bp"] is not None]
+    flagged = [r for r in rows if r["shift_exceeds_value"]]
+    cross = [r for r in rows if r["build_family"] == "cross_stance"]
+    reproduced = [r for r in rows if r["verification"].startswith("reproduces")]
+    contradicted = [r for r in rows if r["verification"] == "does_not_reproduce"]
+    flipped = [r for r in rows if r["verification"] == "reproduces_flipped_sign"]
+    in_cell = [r for r in rows if r["verification"] == "reproduces_in_cell"]
+    outside = [r for r in rows if r["matched_outside_its_label"]]
+    # The family's own vocabulary says "net of the fee" (E188 measured it). A delta
+    # whose name carries a stance word but is fee-free by construction is the exact
+    # defect E193 warns about, one level up: the label, not the arithmetic.  An
+    # unnamed-operand cell takes the fee content of the build it reproduces.
+    def _effective_fee_content(r):
+        if r["build_family"] == "unnamed_operand" and r["matched_family"]:
+            return DELTA_FAMILIES.get(r["matched_family"], ("unknown", ""))[0]
+        return r["fee_content"]
+
+    for r in rows:
+        r["effective_fee_content"] = _effective_fee_content(r)
+    stance_named = [r for r in rows
+                    if ("net" in r["base_name"] or "gross" in r["base_name"])
+                    and r["effective_fee_content"] == "fee_free"]
+    distinct = {}
+    for r in rows:
+        distinct[(r["base_name"], r["era"], round(r["value_bp"], 4))] = r
+    # One sign convention for the whole family, MEASURED: every delta the ladder can
+    # rebuild lands on the negative of the authored construct, i.e. the faces print
+    # screened minus raw while the construct is authored raw minus screened.
+    conventions = {}
+    for r in rows:
+        if not r["sign_convention"]:
+            continue
+        conventions[r["sign_convention"][0]] = conventions.get(
+            r["sign_convention"][0], 0) + 1
+    uniform = len([k for k, v in conventions.items() if v]) == 1
+    cutoffs = [d.get("evidence_cutoff") for d in (gross_face, net_face, fee_face)
+               if d.get("evidence_cutoff")]
+    return {
+        "study": "e193_decomposition_delta_build_stance",
+        "evidence_cutoff": max(cutoffs) if cutoffs else None,
+        "spec": {
+            "gross_face": _rel(base, gp),
+            "net_face": _rel(base, npth),
+            "fee_face": _rel(base, fp),
+            "scope": ("every bp delta a face of the family publishes at ERA level; "
+                      "deltas nested inside per-month / per-name lists are internal "
+                      "arithmetic and are counted, not classified"),
+            "build_families": {k: {"fee_content": v[0], "meaning": v[1]}
+                               for k, v in sorted(DELTA_FAMILIES.items())},
+            "binding_rules": [[rx.pattern, fam] for rx, fam in DELTA_BUILD_RULES],
+            "verification": ("a cell REPRODUCES when a construct this family can build "
+                             "from the published ladders lands within tolerance; a cell "
+                             "whose value is the NEGATIVE of a construct reproduces_flipped"
+                             "_sign and is reported as a sign-convention difference, not "
+                             "as a match"),
+            "value_match_tolerance_bp": 0.01,
+            "units": "bp as published by the producing face",
+        },
+        "constructs": [{"era": era,
+                        "builds": [{"family": fam, "label": c["label"],
+                                    "value_bp": c["value_bp"]}
+                                   for fam in sorted(cs) for c in cs[fam]]}
+                       for era, cs in sorted(constructs.items())],
+        "rows": rows,
+        "nested": nested,
+        "totals": {
+            "era_level_delta_cells": len(rows),
+            "distinct_delta_constructs": len(distinct),
+            "faces": len({r["face"] for r in rows}),
+            "build_families": by_family,
+            "verification": by_verification,
+            "fee_content": by_fee_content,
+            "cells_reproduced": len(reproduced),
+            "cells_reproduced_in_cell": len(in_cell),
+            "cells_contradicted": len(contradicted),
+            "cells_reproduced_flipped_sign": len(flipped),
+            "cells_matched_outside_their_label": len(outside),
+            "cells_not_checkable": sum(1 for r in rows
+                                       if r["verification"] == "not_checkable"),
+            "cells_not_checkable_zero": sum(1 for r in rows
+                                            if r["verification"] == "not_checkable_zero"),
+            "cells_named_net_or_gross_but_fee_free": len(stance_named),
+            "cross_stance_cells": len(cross),
+            "max_restatement_shift_bp": round(max(shifts), 4) if shifts else None,
+            "cells_shift_exceeds_value": len(flagged),
+            "nested_delta_cells": len(nested),
+            "sign_convention": conventions,
+            "sign_convention_is_uniform": uniform,
+        },
+        "answers": {
+            "how_each_published_delta_was_built": {k: by_family[k]
+                                                   for k in sorted(by_family)},
+            "fee_free_cells": sum(1 for r in rows if r["fee_content"] == "fee_free"),
+            "cells_that_sit_under_their_own_shift": [
+                {"face": r["face"], "field": r["field"], "era": r["era"],
+                 "value_bp": r["value_bp"], "restatement_shift_bp": r["restatement_shift_bp"],
+                 "basis": r["shift_basis"]}
+                for r in flagged],
+            "cells_whose_name_and_number_disagree": [
+                {"face": r["face"], "field": r["field"], "era": r["era"],
+                 "declared_family": r["build_family"], "value_bp": r["value_bp"],
+                 "constructs_tried": [c["label"] for c in
+                                      constructs.get(r["era"], {}).get(r["build_family"], [])]}
+                for r in contradicted],
+            "sign_convention_of_reproduced_deltas": {
+                "conventions": conventions,
+                "uniform": uniform,
+                "note": ("`same` means the printed number is the construct the rule "
+                         "names; `flipped` means it is that construct negated, so the "
+                         "faces print screened-minus-raw where the rule reads "
+                         "raw-minus-screened"),
+            },
+            "labels_that_do_not_name_their_operand": [
+                {"face": r["face"], "field": r["field"], "era": r["era"],
+                 "value_bp": r["value_bp"], "matched_family": r["matched_family"],
+                 "reproduced_by": r["reproduced_by"][:2]}
+                for r in outside],
+            "fee_words_in_fee_free_names": [
+                {"face": r["face"], "field": r["field"], "era": r["era"],
+                 "value_bp": r["value_bp"], "build_family": r["build_family"],
+                 "fee_content": r["fee_content"]}
+                for r in stance_named],
+            "reading": (
+                "%d bp delta cells published at era level: %d reproduce a build path "
+                "inside their own era cell, %d reproduce a ladder construct only with "
+                "the opposite sign, %d contradict theirs, %d are zero-valued and %d "
+                "cannot be checked from either source. %d are fee-free by construction, "
+                "%d take the absolute value of per-name arm deltas and %d differ the two "
+                "stances - the only construct that would carry the whole fee is published "
+                "nowhere as a delta. Max arm fee difference available to be inherited is "
+                "%s bp, and %d cell(s) would print less than a fee they actually carried. "
+                "Sign convention is %s: the printed delta is the construct negated. %d "
+                "cell(s) carry a stance word in their name while being fee-free."
+                % (len(rows), len(in_cell), len(flipped), len(contradicted),
+                   sum(1 for r in rows if r["verification"] == "not_checkable_zero"),
+                   sum(1 for r in rows if r["verification"] == "not_checkable"),
+                   sum(1 for r in rows if r["fee_content"] == "fee_free"),
+                   by_family.get("abs_sum_of_name_deltas", 0), len(cross),
+                   ("%.4f" % max(shifts)) if shifts else "n/a", len(flagged),
+                   ("uniform (screened minus raw)" if uniform else "not uniform"),
+                   len(stance_named))),
+        },
+        "honest": [
+            "the build path of a cell is bound by its own NAME and then verified "
+            "against a construct computed from the published ladders; a cell whose "
+            "label does not name its operand is matched by number and that match is "
+            "published as a reading, not as a declaration",
+            "a flipped-sign reproduction is a sign convention, not a wrong number: the "
+            "two faces are each internally consistent and disagree with each other",
+            "era-level only: %d deltas nested inside per-month / per-name lists are "
+            "counted and excluded - they are internal arithmetic of a parent cell, not "
+            "a quote a reader takes away" % len(nested),
+            "a fee-free verdict says the delta inherits nothing from the fee, not that "
+            "the delta is right",
+        ],
+    }
+
+
+def run_deltastance(publish=False, base=None):
+    face = deltastance(base=base)
+    if face.get("status") == "awaiting_upstream":
+        print("awaiting upstream: %s" % face["missing"])
+        return 0
+    if publish:
+        out = os.path.join(_abs(DELTASTANCE_OUT_DIR),
+                           "DELTASTANCE-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("era_cells=%d distinct=%d faces=%d reproduced=%d contradicted=%d "
+          "not_checkable=%d cross_stance=%d max_shift=%s shift_exceeds_value=%d nested=%d"
+          % (t["era_level_delta_cells"], t["distinct_delta_constructs"], t["faces"],
+             t["cells_reproduced"], t["cells_contradicted"], t["cells_not_checkable"],
+             t["cross_stance_cells"], t["max_restatement_shift_bp"],
+             t["cells_shift_exceeds_value"], t["nested_delta_cells"]))
+    print("  families:", ", ".join("%s=%d" % (k, v)
+                                   for k, v in sorted(t["build_families"].items())))
+    for row in face["answers"]["cells_whose_name_and_number_disagree"]:
+        print("  NAME_NUMBER_DISAGREE", row["face"], row["field"], row["era"],
+              row["value_bp"], "tried", row["constructs_tried"])
     return 0
 
 
@@ -1812,6 +2748,236 @@ def selftest():
         and live_lq["totals"]["max_abs_offset_diff_bp"] is not None
         and live_lq["totals"]["faces_quoting_derived_without_offset"] == 0)
 
+    # ---- E188 label duty ---------------------------------------------------------
+    # Fixture numbers are the REAL published pair on two eras, so the legs pin the
+    # identity a reader depends on rather than an invented round number.
+    lf = os.path.join(tmp, "labelduty")
+    os.makedirs(os.path.join(lf, "results", "e43_tilt_4member"), exist_ok=True)
+    os.makedirs(os.path.join(lf, "results", "e79"), exist_ok=True)
+
+    def _lface(sub, name, doc):
+        p = os.path.join(lf, "results", sub, name)
+        with io.open(p, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(doc, ensure_ascii=False, indent=1) + "\n")
+
+    _lface("e43_tilt_4member", "TILT3SIGNBOOKSPLIT-20261027.json", {
+        "study": "e176_book_split", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "pre2017": {"published_engine_bp_raw": 287.2,
+                        "published_engine_bp_screened": 287.2,
+                        "decomposition_engine_bp_raw": 261.76,
+                        "decomposition_engine_bp_screened": 261.76,
+                        "decomposition_level_offset_bp": {"raw": -25.44,
+                                                          "screened": -25.44}},
+            "2021_2023": {"published_engine_bp_raw": 251.1,
+                          "published_engine_bp_screened": 280.4,
+                          "decomposition_engine_bp_raw": 255.87,
+                          "decomposition_engine_bp_screened": 286.07,
+                          "decomposition_level_offset_bp": {"raw": 4.77,
+                                                            "screened": 5.67}},
+        },
+    })
+    _lface("e43_tilt_4member", "TILT3SIGNDECOMOFFSET-20261027.json", {
+        "study": "e177_decom_offset", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "raw|pre2017": {"arm": "raw", "era": "pre2017",
+                            "published_engine_bp": 287.2,
+                            "decomposition_engine_bp": 258.8365,
+                            "level_offset_bp": 28.41},
+            "screened|pre2017": {"arm": "screened", "era": "pre2017",
+                                 "published_engine_bp": 287.2,
+                                 "decomposition_engine_bp": 258.8365,
+                                 "level_offset_bp": 28.41},
+            "raw|2021_2023": {"arm": "raw", "era": "2021_2023",
+                              "published_engine_bp": 251.1,
+                              "decomposition_engine_bp": 252.2442,
+                              "level_offset_bp": -1.1442},
+            "screened|2021_2023": {"arm": "screened", "era": "2021_2023",
+                                   "published_engine_bp": 280.4,
+                                   "decomposition_engine_bp": 282.4866,
+                                   "level_offset_bp": -2.0866},
+        },
+    })
+    _lface("e79", "LEVELWEDGE-20261027.json", {
+        "study": "e185_level_wedge", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "raw|pre2017": {"arm": "raw", "era": "pre2017",
+                            "rebalance_cost_term_bp": 2.9207},
+            "screened|pre2017": {"arm": "screened", "era": "pre2017",
+                                 "rebalance_cost_term_bp": 2.9207},
+            "raw|2021_2023": {"arm": "raw", "era": "2021_2023",
+                              "rebalance_cost_term_bp": 3.6208},
+            "screened|2021_2023": {"arm": "screened", "era": "2021_2023",
+                                   "rebalance_cost_term_bp": 3.5823},
+        },
+    })
+    # An owner claiming nothing, a face claiming gross, and a face claiming net while
+    # publishing the gross reading -- the three states a sweep must not conflate.
+    _lface("e43_tilt_4member", "SILENT-20261027.json", {
+        "study": "e901_silent_gross", "evidence_cutoff": "2026-10-27",
+        "eras": {"pre2017": {"decomposition_engine_bp_unlabelled": 261.76}}})
+    _lface("e43_tilt_4member", "HELD-20261027.json", {
+        "study": "e902_declared_gross", "evidence_cutoff": "2026-10-27",
+        "honest": ["this level is GROSS of the rebalance fee"],
+        "eras": {"2021_2023": {"decomposition_engine_bp_declared": 255.87}}})
+    _lface("e43_tilt_4member", "WRONG-20261027.json", {
+        "study": "e903_declared_net", "evidence_cutoff": "2026-10-27",
+        "honest": ["this level is net of the fee"],
+        "eras": {"pre2017": {"decomposition_engine_bp_wrong": 261.76}}})
+
+    lfx = label_duty(base=lf)
+    lf_rows = {(r["era"], r["arm"]): r for r in lfx["wedge"]}
+    chk("L38 gross minus net is the fee and the two offsets differ by it",
+        len(lf_rows) == 4
+        and max(abs(r["residual_after_fee_bp"]) for r in lf_rows.values()) <= 0.01
+        and all(abs(r["offset_stance_gap_bp"] - r["fee_bp"]) <= 0.01
+                for r in lf_rows.values() if r["offset_stance_gap_bp"] is not None))
+    chk("L39 the offsets the two faces publish are one construct plus the fee",
+        lfx["totals"]["published_offsets_checked"] == 4
+        and lfx["totals"]["published_offsets_differ_by_the_fee"] == 4)
+    chk("L40 a delta is fee-neutral only when both arms carry the same fee",
+        {d["era"]: d["delta_restatement_shift_bp"] for d in lfx["delta_restatement"]}
+        == {"pre2017": 0.0, "2021_2023": 0.0385})
+    chk("L41 stance_of has four states and no default",
+        [stance_of(x) for x in ("nothing here", "gross of the fee",
+                                "net of the fee", "gross but net of the fee")]
+        == ["unlabelled", "gross_only", "net_only", "both"])
+    chk("L42 the sweep separates silent / declared / mis-declared faces",
+        {r["study"]: r["label_class"] for r in lfx["family"]}.get("e901_silent_gross")
+        == "unlabelled"
+        and {r["study"]: r["label_class"] for r in lfx["family"]}.get(
+            "e902_declared_gross") == "labelled"
+        and {r["study"]: r["label_class"] for r in lfx["family"]}.get(
+            "e903_declared_net") == "mislabeled")
+    chk("L43 inside_the_wedge is per stance and inclusive at the boundary",
+        lf_rows[("pre2017", "raw")]["inside_the_wedge"] is False
+        and lf_rows[("2021_2023", "raw")]["inside_stances"] == ["net"]
+        and lf_rows[("2021_2023", "screened")]["inside_stances"] == ["net"]
+        and bool(wedge_rows({("raw", "e"): 3.0},
+                            {("raw", "e"): 10.0}, {("raw", "e"): 10.0},
+                            {("raw", "e"): 13.0})[0]["inside_the_wedge"]
+                 or wedge_rows({("raw", "e"): 3.0}, {("raw", "e"): 10.0},
+                               {("raw", "e"): 10.0}, {("raw", "e"): 10.0})
+                 [0]["inside_the_wedge"]) is True)
+    chk("L44 rel_shift_pct is a percent, not a fraction",
+        1.0 < lf_rows[("pre2017", "raw")]["rel_shift_pct"] < 1.3)
+    live_ld = label_duty(base=_repo)
+    live_ld_prod = {r["face"].split("/")[-1]: r for r in live_ld["family"]}
+    chk("L45 on the real disk the producers are silent and the audit face is the label",
+        live_ld["totals"]["cells"] >= 10
+        and (live_ld["totals"]["max_abs_residual_after_fee_bp"] or 0) <= 0.01
+        and live_ld["totals"]["cells_quoting_sign_flip_with_stance"] == 0
+        and live_ld_prod["TILT3SIGNBOOKSPLIT-20261027.json"]["label_class"] == "unlabelled"
+        and live_ld_prod["TILT3SIGNDECOMOFFSET-20261027.json"]["label_class"] == "unlabelled"
+        and live_ld_prod["LEVELWEDGE-20261027.json"]["label_class"] == "labelled")
+
+    # ---- E193 delta build stance -------------------------------------------------
+    df = os.path.join(tmp, "deltastance")
+    os.makedirs(os.path.join(df, "results", "e43_tilt_4member"), exist_ok=True)
+    os.makedirs(os.path.join(df, "results", "e79"), exist_ok=True)
+
+    def _dface(sub, name, doc):
+        p = os.path.join(df, "results", sub, name)
+        with io.open(p, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(doc, ensure_ascii=False, indent=1) + "\n")
+
+    _dface("e43_tilt_4member", "TILT3SIGNBOOKSPLIT-20261027.json", {
+        "study": "e176_book_split", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "pre2017": {"published_engine_bp_raw": 287.2,
+                        "published_engine_bp_screened": 287.2,
+                        "wide_book_bp_raw": 1279.97, "wide_book_bp_screened": 1279.97,
+                        "ladder_book_bp_raw": 1018.21, "ladder_book_bp_screened": 1018.21,
+                        "decomposition_engine_bp_raw": 261.76,
+                        "decomposition_engine_bp_screened": 261.76},
+            "2021_2023": {"published_engine_bp_raw": 251.1,
+                          "published_engine_bp_screened": 280.4,
+                          "wide_book_bp_raw": -667.681, "wide_book_bp_screened": -637.477,
+                          "ladder_book_bp_raw": -922.64, "ladder_book_bp_screened": -923.54,
+                          "decomposition_engine_bp_raw": 255.87,
+                          "decomposition_engine_bp_screened": 286.07},
+        },
+    })
+    _dface("e43_tilt_4member", "TILT3SIGNDECOMOFFSET-20261027.json", {
+        "study": "e177_decom_offset", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "raw|pre2017": {"arm": "raw", "era": "pre2017",
+                            "decomposition_engine_bp": 258.8365},
+            "screened|pre2017": {"arm": "screened", "era": "pre2017",
+                                 "decomposition_engine_bp": 258.8365},
+            "raw|2021_2023": {"arm": "raw", "era": "2021_2023",
+                              "decomposition_engine_bp": 252.2442},
+            "screened|2021_2023": {"arm": "screened", "era": "2021_2023",
+                                   "decomposition_engine_bp": 282.4866},
+        },
+    })
+    _dface("e79", "LEVELWEDGE-20261027.json", {
+        "study": "e185_level_wedge", "evidence_cutoff": "2026-10-27",
+        "eras": {
+            "raw|pre2017": {"arm": "raw", "era": "pre2017",
+                            "rebalance_cost_term_bp": 2.9207},
+            "screened|pre2017": {"arm": "screened", "era": "pre2017",
+                                 "rebalance_cost_term_bp": 2.9207},
+            "raw|2021_2023": {"arm": "raw", "era": "2021_2023",
+                              "rebalance_cost_term_bp": 3.6208},
+            "screened|2021_2023": {"arm": "screened", "era": "2021_2023",
+                                   "rebalance_cost_term_bp": 3.5823},
+        },
+    })
+    # One face carrying all four states a delta sweep must separate: a published-level
+    # delta printed with the opposite sign, an unnamed-operand delta that is really a
+    # fee-free book delta, a zero delta, and a cross-measure delta whose operands are
+    # siblings of its own era cell.
+    _dface("e43_tilt_4member", "DELTAMIX-20261027.json", {
+        "study": "e910_delta_mix", "evidence_cutoff": "2026-10-27",
+        "eras": {"2021_2023": {
+            "published_engine_bp_delta": 29.3,
+            "net_delta_bp": 30.204,
+            "engine_delta_residual_bp": 0.0,
+            "spread_raw_ann_bp": 500.0,
+            "arithmetic_vs_geometric_gap_bp": 81.0,
+            "engine_ann_diff_bp": 419.0,
+        }}})
+
+    dfx = deltastance(base=df)
+    d_rows = {(r["field"].split("/")[-1], r["era"]): r for r in dfx["rows"]}
+    chk("L46 delta_build_family binds by name and the rule order matters",
+        delta_build_family("published_engine_bp_delta") == "from_two_published_levels"
+        and delta_build_family("wide_book_delta_bp") == "book_pair"
+        and delta_build_family("net_delta_bp") == "unnamed_operand"
+        and delta_build_family("gross_abs_delta_bp") == "abs_sum_of_name_deltas"
+        and delta_build_family("something_else_bp") == "unbound")
+    chk("L47 a delta printed as the negated construct is a sign convention",
+        d_rows[("published_engine_bp_delta", "2021_2023")]["verification"]
+        == "reproduces_flipped_sign"
+        and d_rows[("published_engine_bp_delta", "2021_2023")]["residual_bp"] == 0.0
+        and all(abs(r["residual_bp"]) <= 0.01 for r in dfx["rows"] if r["residual_bp"]))
+    chk("L48 a zero delta is never reported as a reproduction",
+        d_rows[("engine_delta_residual_bp", "2021_2023")]["verification"]
+        == "not_checkable_zero")
+    chk("L49 a cross-measure delta reproduces from its own era cell's siblings",
+        d_rows[("engine_ann_diff_bp", "2021_2023")]["verification"]
+        == "reproduces_in_cell"
+        and any(p["minus"] == "spread_raw_ann_bp"
+                and p["plus"] == "arithmetic_vs_geometric_gap_bp"
+                for p in d_rows[("engine_ann_diff_bp", "2021_2023")]["reproduced_in_cell"]))
+    chk("L50 a net-named fee-free delta is flagged and keeps its declared family",
+        d_rows[("net_delta_bp", "2021_2023")]["build_family"] == "unnamed_operand"
+        and d_rows[("net_delta_bp", "2021_2023")]["matched_family"] == "book_pair"
+        and d_rows[("net_delta_bp", "2021_2023")]["effective_fee_content"] == "fee_free"
+        and dfx["totals"]["cells_named_net_or_gross_but_fee_free"] == 1
+        and dfx["totals"]["nested_delta_cells"] == 0)
+    live_ds = deltastance(base=_repo)
+    ds_fields = {(r["field"].split("/")[-1], r["era"]): r for r in live_ds["rows"]}
+    chk("L51 on the real disk no published delta is built across stances",
+        live_ds["totals"]["era_level_delta_cells"] >= 60
+        and live_ds["totals"]["cross_stance_cells"] == 0
+        and live_ds["totals"]["cells_contradicted"] == 0
+        and live_ds["totals"]["sign_convention_is_uniform"] is True
+        and live_ds["totals"]["max_restatement_shift_bp"] <= 0.08
+        and live_ds["totals"]["nested_delta_cells"] > 100
+        and ds_fields[("net_delta_bp", "2024_now")]["effective_fee_content"] == "fee_free")
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -1832,6 +2998,10 @@ def main(argv):
         return run_screenreach(publish="--publish" in argv)
     if cmd == "levelquotes":
         return run_levelquotes(publish="--publish" in argv)
+    if cmd == "labelduty":
+        return run_labelduty(publish="--publish" in argv)
+    if cmd == "deltastance":
+        return run_deltastance(publish="--publish" in argv)
     print(__doc__)
     return 2
 

@@ -1,0 +1,877 @@
+{
+ "study": "e195_tilt3_ladder_drop_rule",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "upstream": "LADDERDROPWHERE-*.json (E186 month rows) + LADDERDROPCURVE-*.json (E190 base for the join)",
+  "upstream_cutoff": "2026-10-27",
+  "method": "for each flagged (era, drop): remove the months named by each pre-registerable rule (book-return outliers only), recompute both era readings with _drop_effect_both_bp, and publish whether the reversal dies",
+  "rules": [
+   "book_mad3",
+   "book_gross_x2",
+   "book_top_decile",
+   "chrono_edges"
+  ],
+  "rule_params": {
+   "book_mad3_k": 3.0,
+   "book_gross_mult": 2.0,
+   "book_top_decile": 0.1
+  },
+  "dependent_rule": "e186_carrier -- published for contrast only: it reads the drop's own gap series, so it cannot justify removing a month",
+  "units": "era effects in bp",
+  "join_tolerance_bp": 0.01,
+  "class_rules": {
+   "quotable_dies_under_every_preregistered_rule": "the reversal is gone under every rule that saw no gap data",
+   "era_property_survives_every_preregistered_rule": "the reversal survives every pre-registerable removal",
+   "rule_sensitive_on_preregistered_set": "some pre-registerable rules kill it and some do not",
+   "no_base_reversal": "nothing to test on this pair"
+  }
+ },
+ "eras": {
+  "2024_now": {
+   "months": 34,
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_source": 34,
+     "base": {
+      "arith_bp": 73.1574,
+      "comp_bp": -34.014662,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "rules": [
+      {
+       "rule": "book_mad3",
+       "months_removed": [
+        "2024-09",
+        "2026-07"
+       ],
+       "n_months_removed": 2,
+       "threshold": 0.14895147,
+       "criterion": "|book return| above median + 3.0 scaled MAD",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 32,
+       "arith_bp": 159.048188,
+       "comp_bp": 91.20272,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_gross_x2",
+       "months_removed": [
+        "2024-01",
+        "2024-02",
+        "2024-09",
+        "2025-08",
+        "2026-03",
+        "2026-04",
+        "2026-06",
+        "2026-07",
+        "2026-10"
+       ],
+       "n_months_removed": 9,
+       "threshold": 0.07599841,
+       "criterion": "|book return| above 2.0x the era median",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 25,
+       "arith_bp": 186.36072,
+       "comp_bp": 171.102323,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_top_decile",
+       "months_removed": [
+        "2024-09",
+        "2026-07",
+        "2025-08",
+        "2024-01"
+       ],
+       "n_months_removed": 4,
+       "threshold": null,
+       "criterion": "largest |book return| months, top 10% (>=1)",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 30,
+       "arith_bp": 208.1698,
+       "comp_bp": 167.75565,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "chrono_edges",
+       "months_removed": [
+        "2024-01",
+        "2026-10"
+       ],
+       "n_months_removed": 2,
+       "threshold": null,
+       "criterion": "first and last decision month of the era",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 32,
+       "arith_bp": 253.261575,
+       "comp_bp": 202.842974,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "e186_carrier",
+       "months_removed": [
+        "2026-07"
+       ],
+       "n_months_removed": 1,
+       "threshold": null,
+       "criterion": "the month E186 named from the gap series",
+       "pre_registerable": false,
+       "reads_gap_columns": true,
+       "months_used": 33,
+       "arith_bp": 204.251673,
+       "comp_bp": 141.930997,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_only_under_a_gap_series_rule"
+      }
+     ],
+     "testable_rules": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_that_kill_the_reversal": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_under_which_it_survives": [],
+     "classification": "quotable_dies_under_every_preregistered_rule",
+     "carrier_month": "2026-07",
+     "carrier_rule": {
+      "rule": "e186_carrier",
+      "months_removed": [
+       "2026-07"
+      ],
+      "n_months_removed": 1,
+      "threshold": null,
+      "criterion": "the month E186 named from the gap series",
+      "pre_registerable": false,
+      "reads_gap_columns": true,
+      "months_used": 33,
+      "arith_bp": 204.251673,
+      "comp_bp": 141.930997,
+      "signs": {
+       "arith": 1,
+       "comp": 1
+      },
+      "reversal": false,
+      "classification": "dies_only_under_a_gap_series_rule"
+     },
+     "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+    }
+   ]
+  },
+  "full": {
+   "months": 162,
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_source": 162,
+     "base": {
+      "arith_bp": 0.074333,
+      "comp_bp": -38.198705,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "rules": [
+      {
+       "rule": "book_mad3",
+       "months_removed": [
+        "2014-12",
+        "2015-03",
+        "2015-07",
+        "2016-01",
+        "2019-02",
+        "2020-07",
+        "2024-01",
+        "2024-09",
+        "2025-08",
+        "2026-07"
+       ],
+       "n_months_removed": 10,
+       "threshold": 0.11945059,
+       "criterion": "|book return| above median + 3.0 scaled MAD",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 152,
+       "arith_bp": 60.981995,
+       "comp_bp": 39.774551,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_gross_x2",
+       "months_removed": [
+        "2013-08",
+        "2014-01",
+        "2014-07",
+        "2014-09",
+        "2014-11",
+        "2014-12",
+        "2015-03",
+        "2015-06",
+        "2015-07",
+        "2015-08",
+        "2015-10",
+        "2016-01",
+        "2016-03",
+        "2016-12",
+        "2018-06",
+        "2018-08",
+        "2018-10",
+        "2018-12",
+        "2019-02",
+        "2019-03",
+        "2019-05",
+        "2019-12",
+        "2020-03",
+        "2020-04",
+        "2020-06",
+        "2020-07",
+        "2020-09",
+        "2022-01",
+        "2022-03",
+        "2022-04",
+        "2022-05",
+        "2022-06",
+        "2022-08",
+        "2022-09",
+        "2022-11",
+        "2023-01",
+        "2024-01",
+        "2024-02",
+        "2024-09",
+        "2025-02",
+        "2025-08",
+        "2026-01",
+        "2026-03",
+        "2026-04",
+        "2026-06",
+        "2026-07",
+        "2026-09",
+        "2026-10"
+       ],
+       "n_months_removed": 48,
+       "threshold": 0.05405191,
+       "criterion": "|book return| above 2.0x the era median",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 114,
+       "arith_bp": 120.934926,
+       "comp_bp": 120.85727,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_top_decile",
+       "months_removed": [
+        "2024-09",
+        "2016-01",
+        "2014-12",
+        "2019-02",
+        "2026-07",
+        "2015-03",
+        "2025-08",
+        "2020-07",
+        "2024-01",
+        "2015-07",
+        "2016-03",
+        "2024-02",
+        "2026-04",
+        "2026-10",
+        "2022-01",
+        "2026-03",
+        "2015-08"
+       ],
+       "n_months_removed": 17,
+       "threshold": null,
+       "criterion": "largest |book return| months, top 10% (>=1)",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 145,
+       "arith_bp": 80.337434,
+       "comp_bp": 67.317618,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "chrono_edges",
+       "months_removed": [
+        "2013-04",
+        "2026-10"
+       ],
+       "n_months_removed": 2,
+       "threshold": null,
+       "criterion": "first and last decision month of the era",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 160,
+       "arith_bp": 15.698197,
+       "comp_bp": -20.464313,
+       "signs": {
+        "arith": 1,
+        "comp": -1
+       },
+       "reversal": true,
+       "classification": "survives_preregistered_rule"
+      },
+      {
+       "rule": "e186_carrier",
+       "months_removed": [
+        "2014-12"
+       ],
+       "n_months_removed": 1,
+       "threshold": null,
+       "criterion": "the month E186 named from the gap series",
+       "pre_registerable": false,
+       "reads_gap_columns": true,
+       "months_used": 161,
+       "arith_bp": 44.894765,
+       "comp_bp": 1.62512,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_only_under_a_gap_series_rule"
+      }
+     ],
+     "testable_rules": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_that_kill_the_reversal": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile"
+     ],
+     "rules_under_which_it_survives": [
+      "chrono_edges"
+     ],
+     "classification": "rule_sensitive_on_preregistered_set",
+     "carrier_month": "2014-12",
+     "carrier_rule": {
+      "rule": "e186_carrier",
+      "months_removed": [
+       "2014-12"
+      ],
+      "n_months_removed": 1,
+      "threshold": null,
+      "criterion": "the month E186 named from the gap series",
+      "pre_registerable": false,
+      "reads_gap_columns": true,
+      "months_used": 161,
+      "arith_bp": 44.894765,
+      "comp_bp": 1.62512,
+      "signs": {
+       "arith": 1,
+       "comp": 1
+      },
+      "reversal": false,
+      "classification": "dies_only_under_a_gap_series_rule"
+     },
+     "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+    }
+   ]
+  },
+  "pre2017": {
+   "months": 44,
+   "drops": [
+    {
+     "name": "sh510300",
+     "months_source": 44,
+     "base": {
+      "arith_bp": -32.566473,
+      "comp_bp": 6.182992,
+      "signs": {
+       "arith": -1,
+       "comp": 1
+      },
+      "reversal": true
+     },
+     "rules": [
+      {
+       "rule": "book_mad3",
+       "months_removed": [
+        "2014-12",
+        "2015-03",
+        "2015-07",
+        "2016-01"
+       ],
+       "n_months_removed": 4,
+       "threshold": 0.11466372,
+       "criterion": "|book return| above median + 3.0 scaled MAD",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 40,
+       "arith_bp": -69.72636,
+       "comp_bp": -62.0786,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_gross_x2",
+       "months_removed": [
+        "2013-08",
+        "2013-12",
+        "2014-01",
+        "2014-07",
+        "2014-09",
+        "2014-11",
+        "2014-12",
+        "2015-03",
+        "2015-06",
+        "2015-07",
+        "2015-08",
+        "2015-10",
+        "2016-01",
+        "2016-03",
+        "2016-12"
+       ],
+       "n_months_removed": 15,
+       "threshold": 0.04823905,
+       "criterion": "|book return| above 2.0x the era median",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 29,
+       "arith_bp": -101.450566,
+       "comp_bp": -107.683464,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_top_decile",
+       "months_removed": [
+        "2016-01",
+        "2014-12",
+        "2015-03",
+        "2015-07",
+        "2016-03"
+       ],
+       "n_months_removed": 5,
+       "threshold": null,
+       "criterion": "largest |book return| months, top 10% (>=1)",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 39,
+       "arith_bp": -61.986738,
+       "comp_bp": -52.582719,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "chrono_edges",
+       "months_removed": [
+        "2013-04",
+        "2016-12"
+       ],
+       "n_months_removed": 2,
+       "threshold": null,
+       "criterion": "first and last decision month of the era",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 42,
+       "arith_bp": -48.128314,
+       "comp_bp": -9.66682,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "e186_carrier",
+       "months_removed": [
+        "2016-01"
+       ],
+       "n_months_removed": 1,
+       "threshold": null,
+       "criterion": "the month E186 named from the gap series",
+       "pre_registerable": false,
+       "reads_gap_columns": true,
+       "months_used": 43,
+       "arith_bp": -103.84867,
+       "comp_bp": -95.563991,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_only_under_a_gap_series_rule"
+      }
+     ],
+     "testable_rules": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_that_kill_the_reversal": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_under_which_it_survives": [],
+     "classification": "quotable_dies_under_every_preregistered_rule",
+     "carrier_month": "2016-01",
+     "carrier_rule": {
+      "rule": "e186_carrier",
+      "months_removed": [
+       "2016-01"
+      ],
+      "n_months_removed": 1,
+      "threshold": null,
+      "criterion": "the month E186 named from the gap series",
+      "pre_registerable": false,
+      "reads_gap_columns": true,
+      "months_used": 43,
+      "arith_bp": -103.84867,
+      "comp_bp": -95.563991,
+      "signs": {
+       "arith": -1,
+       "comp": -1
+      },
+      "reversal": false,
+      "classification": "dies_only_under_a_gap_series_rule"
+     },
+     "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+    },
+    {
+     "name": "sh510500",
+     "months_source": 44,
+     "base": {
+      "arith_bp": 36.581236,
+      "comp_bp": -9.664802,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "rules": [
+      {
+       "rule": "book_mad3",
+       "months_removed": [
+        "2014-12",
+        "2015-03",
+        "2015-07",
+        "2016-01"
+       ],
+       "n_months_removed": 4,
+       "threshold": 0.11466372,
+       "criterion": "|book return| above median + 3.0 scaled MAD",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 40,
+       "arith_bp": -133.9578,
+       "comp_bp": -160.39357,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_gross_x2",
+       "months_removed": [
+        "2013-08",
+        "2013-12",
+        "2014-01",
+        "2014-07",
+        "2014-09",
+        "2014-11",
+        "2014-12",
+        "2015-03",
+        "2015-06",
+        "2015-07",
+        "2015-08",
+        "2015-10",
+        "2016-01",
+        "2016-03",
+        "2016-12"
+       ],
+       "n_months_removed": 15,
+       "threshold": 0.04823905,
+       "criterion": "|book return| above 2.0x the era median",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 29,
+       "arith_bp": -192.102703,
+       "comp_bp": -215.826093,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "book_top_decile",
+       "months_removed": [
+        "2016-01",
+        "2014-12",
+        "2015-03",
+        "2015-07",
+        "2016-03"
+       ],
+       "n_months_removed": 5,
+       "threshold": null,
+       "criterion": "largest |book return| months, top 10% (>=1)",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 39,
+       "arith_bp": -137.392615,
+       "comp_bp": -159.572909,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "chrono_edges",
+       "months_removed": [
+        "2013-04",
+        "2016-12"
+       ],
+       "n_months_removed": 2,
+       "threshold": null,
+       "criterion": "first and last decision month of the era",
+       "pre_registerable": true,
+       "reads_gap_columns": false,
+       "months_used": 42,
+       "arith_bp": 50.271943,
+       "comp_bp": 3.617046,
+       "signs": {
+        "arith": 1,
+        "comp": 1
+       },
+       "reversal": false,
+       "classification": "dies_under_preregistered_rule"
+      },
+      {
+       "rule": "e186_carrier",
+       "months_removed": [
+        "2014-12"
+       ],
+       "n_months_removed": 1,
+       "threshold": null,
+       "criterion": "the month E186 named from the gap series",
+       "pre_registerable": false,
+       "reads_gap_columns": true,
+       "months_used": 43,
+       "arith_bp": -197.97667,
+       "comp_bp": -203.729982,
+       "signs": {
+        "arith": -1,
+        "comp": -1
+       },
+       "reversal": false,
+       "classification": "dies_only_under_a_gap_series_rule"
+      }
+     ],
+     "testable_rules": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_that_kill_the_reversal": [
+      "book_mad3",
+      "book_gross_x2",
+      "book_top_decile",
+      "chrono_edges"
+     ],
+     "rules_under_which_it_survives": [],
+     "classification": "quotable_dies_under_every_preregistered_rule",
+     "carrier_month": "2014-12",
+     "carrier_rule": {
+      "rule": "e186_carrier",
+      "months_removed": [
+       "2014-12"
+      ],
+      "n_months_removed": 1,
+      "threshold": null,
+      "criterion": "the month E186 named from the gap series",
+      "pre_registerable": false,
+      "reads_gap_columns": true,
+      "months_used": 43,
+      "arith_bp": -197.97667,
+      "comp_bp": -203.729982,
+      "signs": {
+       "arith": -1,
+       "comp": -1
+      },
+      "reversal": false,
+      "classification": "dies_only_under_a_gap_series_rule"
+     },
+     "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+    }
+   ]
+  }
+ },
+ "answers": {
+  "pairs_measured": 4,
+  "classification_counts": {
+   "quotable_dies_under_every_preregistered_rule": 3,
+   "rule_sensitive_on_preregistered_set": 1
+  },
+  "pairs_and_their_rules": [
+   {
+    "era": "2024_now",
+    "name": "sh510050",
+    "classification": "quotable_dies_under_every_preregistered_rule",
+    "rules_that_kill": [
+     "book_mad3",
+     "book_gross_x2",
+     "book_top_decile",
+     "chrono_edges"
+    ],
+    "rules_where_it_survives": [],
+    "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+   },
+   {
+    "era": "full",
+    "name": "sh510050",
+    "classification": "rule_sensitive_on_preregistered_set",
+    "rules_that_kill": [
+     "book_mad3",
+     "book_gross_x2",
+     "book_top_decile"
+    ],
+    "rules_where_it_survives": [
+     "chrono_edges"
+    ],
+    "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510300",
+    "classification": "quotable_dies_under_every_preregistered_rule",
+    "rules_that_kill": [
+     "book_mad3",
+     "book_gross_x2",
+     "book_top_decile",
+     "chrono_edges"
+    ],
+    "rules_where_it_survives": [],
+    "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510500",
+    "classification": "quotable_dies_under_every_preregistered_rule",
+    "rules_that_kill": [
+     "book_mad3",
+     "book_gross_x2",
+     "book_top_decile",
+     "chrono_edges"
+    ],
+    "rules_where_it_survives": [],
+    "carrier_rule_alone_would_say": "dies_only_under_a_gap_series_rule"
+   }
+  ],
+  "pairs_quotable_under_a_preregistered_trim": [
+   {
+    "era": "2024_now",
+    "name": "sh510050"
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510300"
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510500"
+   }
+  ],
+  "pairs_that_need_a_gap_series_rule_to_die": [
+   {
+    "era": "full",
+    "name": "sh510050",
+    "carrier_rule": "dies_only_under_a_gap_series_rule"
+   }
+  ],
+  "e186_join_max_abs_diff_bp": 8.8e-05,
+  "e190_base_join_max_abs_diff_bp": 0.0,
+  "verdict": "the_class_still_depends_on_which_preregistered_rule"
+ },
+ "honest": [
+  "the month rows are read from the published E186 face; a missing face publishes zero pairs rather than an invented removal set",
+  "the four tested rules read the BOOK return column only -- none of them touches delta_sum/delta_link/gap_bp, so the choice of what to remove is made without the drop's own measurement",
+  "the e186_carrier rule is published beside them precisely because it was chosen FROM the gap series: a pair that only dies under it has not been shown to be fragile, only re-described",
+  "a rule that selects no month is recorded as vacuous, not as a surviving verdict",
+  "removing months changes the sample the verdict is computed on; this measures fragility, it does not license dropping any month for real",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

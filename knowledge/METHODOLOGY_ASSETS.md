@@ -1827,143 +1827,75 @@ How to apply: any "factor X says the book did Y" claim publishes (a) the traded 
 factor per period, (b) both scales of sign agreement with their denominators, (c) any deadband as a
 pre-declared constant with the raw rate retained, and (d) one exact reconciliation against an already
 published column from the same family. A tie counts as a disagreement, never as an agreement.
-
-
-
-
-## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
-
-
-
-Two findings from the screened twin of the tilt-vs-engine sign face
-
-(`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
-
-
-
-1. **Level and rate answer different questions about the same repair.** The
-
-   split-event repair moved 5 of 78 cells, every one of them an era LEVEL
-
-   (engine +29.3 / +46.7 / +16.3bp; 2024_now flips sign -21.6 -> +25.1) and
-
-   moved ZERO rate cells: month-level agreement is bit-identical on both arms
-
-   (45.8 / 44.4 / 23.5 / 43.8 / 56.8%). So a repaired era whose sign verdict
-
-   flips can still be an era whose month-by-month information is unchanged --
-
-   and if that rate is 4 of 17 months, the post-repair "agreement" is a level
-
-   with almost no resolution behind it. Publish both scales; a flip on one is
-
-   not a flip on the other.
-
-2. **A boolean derived from `>` silently pronounces "worse" on equality.** The
-
-   first cut published `recovered = screened > raw` and its negation as
-
-   `worsens`, which printed "worsens in all five eras" beside five pairs of
-
-   identical numbers. Three-state the change: `recovered` / `worsened` /
-
-   `unchanged` (+ `not_measurable` when an arm is missing), and pin equality in
-
-   the selftest. Same family as E94: the label was narrower than the evidence.
-
-
-
-How to apply: when a twin is expected to move only one column, split the join by
-
-column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
-
-sign flips separately -- and re-measure an earlier invariance claim on the new
-
-leg rather than importing it. Any "better/worse" verdict computed from a
-
-two-state comparison of two rates needs an explicit "equal" branch before it is
-
-allowed to print.
-
-
-## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
-
-
-
-E169 declared a 10bp monthly deadband before its burn and published both the raw
-
-and the deadband rate. On 2024_now the deadband made the reading *worse*
-
-(23.5% -> 18.8%), and that single pair cannot distinguish "this era is
-
-anti-correlated" from "this era is noisy and the band ate the evidence". Sweeping
-
-the same constant over 0/10/25/50bp, with the surviving month count printed at
-
-every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 29
-
-/ 23 months -- the rate is low at *every* band, so the collapse is not the band
-
-choosing its sample.
-
-
-
-1. **A band's rate is meaningless without its denominator.** The sweep publishes
-
-   `months_outside_deadband` beside every rate and labels any band that keeps
-
-   fewer than 6 months `thin` instead of printing a percentage from 3 months. On
-
-   this panel no era goes thin even at 50bp (98 of 162 months survive), which is
-
-   itself a published answer (`first_band_with_any_thin_era = null`), not an
-
-   absence of one.
-
-2. **A sweep of a filter cannot move a level, and saying so is part of the
-
-   table.** The deadband drops months; it never edits a return, so `tilt_sign`,
-
-   `engine_sign` and `signs_agree` are identical at all four bands *by
-
-   construction*. Four rows of the same signs are one finding. The face publishes
-
-   `signs_band_invariant` per era so a reader cannot mistake construction for
-
-   corroboration (E94 family: the label must not be wider than the evidence).
-
-3. **Stability of the verdict and stability of the number are different
-
-   questions.** Verdicts here are stable (all four eras keep their side of the
-
-   50% line at every band with support), while the *numbers* move a lot:
-
-   2021_2023 spans 44.4 -> 20.0 (24.4pp). Reporting only "verdict stable" would
-
-   hide that the band is a strong lever on the level; reporting only the span
-
-   would hide that the sign of the reading never flips. Publish both.
-
-4. **Direction of the movement is a finding.** pre2017's agreement *rises* with
-
-   the band (56.8 -> 67.9) while the other three eras fall -- its agreement is
-
-   carried by the large months, theirs by the small ones. A single band value
-
-   hides which kind of era you are looking at.
-
-
-
-How to apply: any pre-declared constant that gates a published rate gets a sweep
-
-row (0 / declared / 2.5x / 5x) with its denominator beside it, a support floor
-
-below which the cell reads `thin`, and an explicit note for constants that are
-
-band-invariant by construction. Sweeping is a sensitivity table on an already
-
-published reading -- it selects nothing, so it needs no new prereg; but the
-
+
+
+## E171 A repair can move a level without moving a rate, and equality is not deterioration (2026-10-28 r1206 bm-b)
+
+Two findings from the screened twin of the tilt-vs-engine sign face
+(`results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json`).
+
+1. **Level and rate answer different questions about the same repair.** The
+   split-event repair moved 5 of 78 cells, every one of them an era LEVEL
+   (engine +29.3 / +46.7 / +16.3bp; 2024_now flips sign -21.6 -> +25.1) and
+   moved ZERO rate cells: month-level agreement is bit-identical on both arms
+   (45.8 / 44.4 / 23.5 / 43.8 / 56.8%). So a repaired era whose sign verdict
+   flips can still be an era whose month-by-month information is unchanged --
+   and if that rate is 4 of 17 months, the post-repair "agreement" is a level
+   with almost no resolution behind it. Publish both scales; a flip on one is
+   not a flip on the other.
+2. **A boolean derived from `>` silently pronounces "worse" on equality.** The
+   first cut published `recovered = screened > raw` and its negation as
+   `worsens`, which printed "worsens in all five eras" beside five pairs of
+   identical numbers. Three-state the change: `recovered` / `worsened` /
+   `unchanged` (+ `not_measurable` when an arm is missing), and pin equality in
+   the selftest. Same family as E94: the label was narrower than the evidence.
+
+How to apply: when a twin is expected to move only one column, split the join by
+column prefix (tilt_* vs engine_*) and report each bucket's moved count and its
+sign flips separately -- and re-measure an earlier invariance claim on the new
+leg rather than importing it. Any "better/worse" verdict computed from a
+two-state comparison of two rates needs an explicit "equal" branch before it is
+allowed to print.
+
+## E172 A constant nobody sweeps is a claim nobody checked (2026-10-28 r1207 bm-b)
+
+E169 declared a 10bp monthly deadband before its burn and published both the raw
+and the deadband rate. On 2024_now the deadband made the reading *worse*
+(23.5% -> 18.8%), and that single pair cannot distinguish "this era is
+anti-correlated" from "this era is noisy and the band ate the evidence". Sweeping
+the same constant over 0/10/25/50bp, with the surviving month count printed at
+every step, answers it: 2024_now reads 23.5 / 18.8 / 17.2 / 17.4% on 34 / 32 / 29
+/ 23 months -- the rate is low at *every* band, so the collapse is not the band
+choosing its sample.
+
+1. **A band's rate is meaningless without its denominator.** The sweep publishes
+   `months_outside_deadband` beside every rate and labels any band that keeps
+   fewer than 6 months `thin` instead of printing a percentage from 3 months. On
+   this panel no era goes thin even at 50bp (98 of 162 months survive), which is
+   itself a published answer (`first_band_with_any_thin_era = null`), not an
+   absence of one.
+2. **A sweep of a filter cannot move a level, and saying so is part of the
+   table.** The deadband drops months; it never edits a return, so `tilt_sign`,
+   `engine_sign` and `signs_agree` are identical at all four bands *by
+   construction*. Four rows of the same signs are one finding. The face publishes
+   `signs_band_invariant` per era so a reader cannot mistake construction for
+   corroboration (E94 family: the label must not be wider than the evidence).
+3. **Stability of the verdict and stability of the number are different
+   questions.** Verdicts here are stable (all four eras keep their side of the
+   50% line at every band with support), while the *numbers* move a lot:
+   2021_2023 spans 44.4 -> 20.0 (24.4pp). Reporting only "verdict stable" would
+   hide that the band is a strong lever on the level; reporting only the span
+   would hide that the sign of the reading never flips. Publish both.
+4. **Direction of the movement is a finding.** pre2017's agreement *rises* with
+   the band (56.8 -> 67.9) while the other three eras fall -- its agreement is
+   carried by the large months, theirs by the small ones. A single band value
+   hides which kind of era you are looking at.
+
+How to apply: any pre-declared constant that gates a published rate gets a sweep
+row (0 / declared / 2.5x / 5x) with its denominator beside it, a support floor
+below which the cell reads `thin`, and an explicit note for constants that are
+band-invariant by construction. Sweeping is a sensitivity table on an already
+published reading -- it selects nothing, so it needs no new prereg; but the
 band that is *quoted* must remain the one declared before the first burn.
 
 ## E173 A cross-run difference is not a capacity cost (2026-10-28 r1319 bm-c)
@@ -2512,111 +2444,126 @@ Every reader-facing renderer now has a leg asserting its header row exists.
 Pos: scripts/etf_book_buffer_adoption.py (selftest 33/33) + results/etf_book_buffer_adoption.json
 (60 cells) + research/ETF_BOOK_BUFFER_ADOPTION.md + Tools/s6_chain_bmc.py leg + smoke leg;
 cross-pointer emitted by scripts/etf_book_hysteresis.py.
-## E190 A source that lags is not a source that rewrote history -- split the overlap gate in two (2026-10-28 r1326 bm-c)
+## E191 A discount nobody measured is a guess: the wide book's monthly repair motion is independent of its own churn, and an empty repair set is not a flat net (2026-10-28 r1221 bm-b)
+`run_tilt3widechurntie()` + `_wide_month_membership` / `_membership_turnover` / `_wide_turnover_rows` / `_pearson` / `_churn_tie_verdict` in `scripts/e39_panel_census.py` -> `results/e43_tilt_4member/WIDECHURNTIE-20261027.json`, mode `tilt3widechurntie`, selftest 651 -> 664 (13 new legs), panel_screen 39/39 unchanged.
+    turnover_m = (entered + left) / mean(|members_{m-1}|, |members_m|)
+    claim under test: r(net_m, turnover_m) >= 0.5 -> quote the spread as a
+    membership statement, discounted by churn
+Result: **the discount does not apply in any measured era** -- r = +0.048 (2021_2023), +0.159 (2024_now), -0.013 (full); repairing-months only +0.192/+0.135/+0.122; absolute-motion r mildly NEGATIVE (-0.107/-0.051/-0.122). The high-churn half carries LESS motion (2024_now 7.27 vs 10.26 mean |net| bp, 41.5% of the era's absolute motion; 2021_2023 2.25 vs 4.86, 31.6%), the months that fight the era total sit in the COLD half (against-month mean turnover 0.0204 vs 0.0255 on 2024_now; against-in-hot-half 57.1/20.0/33.3% = chance), and the largest months are quiet months (2024-09 turnover 0.0196 with -55.3bp against an era max of 0.0388). E184's between-month reversal is the same names moving, not different names being held.
+Three transferable rules: (a) **a correction factor has to be measured before it is applied** -- "the spread tracks churn, so discount it" is a plausible story that one correlation refutes; applied by default it would have removed motion for no reason, so the honest output is the correlation itself, published beside the number it would have modified. (b) **an empty set is not a zero** -- pre2017 and 2017_2020 have zero months in which the repair touched the wide book, and reporting them as a flat net claims a measurement nobody took; give them their own bucket (`no_repair_in_era`) and let "exactly flat" point back at an empty repair set. (c) **churn must be normalised by size and counted from a presence recorder** -- raw entry counts track the book's growth (0 -> 56 -> 159 -> 619 -> 1202 names here), and membership must come from a sink written per name-day while the name is held, with the cash residual excluded: swallowing the cash leg makes a name count read complete while being short by one pseudo-member. Side reading worth keeping: this book's churn FELL as it widened (0.057 -> 0.035 -> 0.050 -> 0.025 per month).
+## E188 A label on a different file is not a label: the two fee stances of `decomposition_engine_bp` are one number plus the rebalance fee, and only the audit face says which (2026-10-28 r1222 bm-b)
+`fee_ladder` / `gross_ladder` / `net_ladder` / `published_ladder` / `stance_of` / `wedge_rows` / `label_sweep` / `label_duty` in `scripts/e97_routing.py` -> `results/e79/LABELDUTY-2026-10-27.json`, mode `labelduty`, selftest 40 -> 48 (8 new legs).
+    gross - net == rebalance_cost_term            (E185 joins, tolerance 0.01bp)
+    offset_net - offset_gross == the fee          (E176 stores reading-published,
+                                                   E177 stores published-reading)
+    inside_the_wedge: |offset| <= that cell's own fee
+Result: **10/10 cells are one number plus the fee** (worst residual 0.0050bp), the label moves the level by **1.129%..12.187%** of itself, and **10/10 published offsets** are the same construct with the fee between them. **0/10 cells flip sign** with the stance -- which is why this survived review: the stance changes sizes, never directions. **4 cells quote an offset narrower than their own fee** (2021_2023 -1.14 net / -4.77 gross against a 3.62bp fee; full 6.13 / 2.78 against 3.36bp), so a verdict quoting "about 2bp" is quoting a number the label can double. Family sweep (30 faces): three faces publish the cell and **none of them declares a stance**; the only face that names both stances is the E185 audit itself.
+Four transferable rules: (a) **a label duty is a sweep, not a fix** -- once one gross-publishing face is found, every sibling consuming the same cell is a candidate and the join is cheap because the two stances differ by a published term. (b) **classify by publishes-vs-declares in four states** (labelled / unlabelled / mixed / mislabeled) using a value match against the stance ladders plus a token scan of the face's own text, and exclude the slug: a face named `..._gross_...` is an identifier, not a claim. (c) **publish the margin in fees, not in bp** -- "offset 2.10bp, fee 3.58bp" is actionable; the bare number sits beside another legitimate value 170% away. (d) **a sign test is not the safety test** -- zero flips looks like immunity and is precisely the mechanism that hides the error; check magnitudes against the fee, not directions.
+## E190 A label on a different file is not a label (renumbered from E188 -- bm-c r1325 published E188 in the same window, theirs kept verbatim): the two fee stances of `decomposition_engine_bp` are one number plus the rebalance fee, and only the audit face says which (2026-10-28 r1222 bm-b)
+## E190-CRV A fragility claim is not a fragility measurement: publish the k at which the pair agrees, under four trim rules, and let the rule-sensitivity count veto the label (2026-10-28 r1223 bm-b)
+`_drop_trim_order` / `_drop_trim_effect` / `_drop_fragility_curve` / `run_tilt3ladderdropcurve` in `scripts/e39_panel_census.py` -> `results/e43_tilt_4member/LADDERDROPCURVE-20261027.json`, mode `tilt3ladderdropcurve`, selftest 664 -> 670 (6 new legs).
+    k_agree(rule) = min k in 1..min(8, months-2) s.t. signs agree after removing the k worst months
+    class = two_month_artefact (k<=2) | fragile_window (3..k_max) | era_property (never) | no_era_reversal
+Result: **all four flagged reversals die at k=1** under both magnitude rules (|gap_bp| and |delta_sum|) -- the era verdicts of the E183-E186 family are one-month events -- **but three of the four pairs are class-sensitive**: trimming the era's *edges* instead needs 4 months (`full`), 8 (`pre2017`/sh510300), and never clears within k<=8 on `pre2017`/sh510500. So "the verdict is fragile" is true, and "the verdict is a one-month artefact" is true only under a rule that ranks by month magnitude. Join with E186's published month rows: 8.8e-05 bp.
+Four transferable rules: (a) **replace the fragility adjective with a curve** -- "fragile" is a feeling until you publish the k at which the two readings agree, and the k is the number a reader can act on. (b) **a trim rule is a question, not an ordering** -- ranking by |gap| removes the months that move the level, ranking by |delta_sum| removes the months that move the additive path, and first/last ask whether the verdict is an edge-of-window effect; publish all four and count how many pairs change class (`classification_is_rule_sensitive`), because a label that survives only under one rule is a label about the method. (c) **cap k at months-2** -- a short era trimmed to one observation reads as agreement, so the cap has to be published (`k_limit`, "never" = not cleared within the cap) rather than silently shrinking the sweep. (d) **a trim can manufacture the disagreement it is supposed to test** -- record `k_reversal_created` on pairs that already agree; otherwise the "first k that agrees" is answering a question nobody asked.
+## E195 Choose the trim rule before you see the answer (2026-10-28, bm-b r1224)
+Evidence: `results/e43_tilt_4member/LADDERDROPRULE-20261027.json` · leg
+`scripts/e39_panel_census.py tilt3ladderdroprules` · digest
+`research/digests/DIGEST-20261028-r1224-e195-drop-rule.md` · selftest 670->678.
+E190 ended with a class that flipped between trim rules, i.e. the label was being
+chosen by the removal method. E195 fixes the rule *before* the removal: four
+rules that read **only the book's own monthly return** (median+3xMAD outlier,
+>2x era median, top-decile magnitude, chronological first+last month) and never
+`delta_sum`/`delta_link`/`gap_bp`, which are the drop's own measurement. Result:
+3 of 4 flagged ladder-drop pairs die under *every* pre-registerable rule (quotable
+as artefacts), and the fourth -- full-era sh510050 -- survives only edge trimming
+because its arithmetic level is **+0.07bp** against a -38bp compounded gap: a
+near-zero level whose sign is a rounding-scale fact, not a direction.
+Four transferable rules: (a) **a removal set is only evidence if it could be
+written down in advance** -- a rule that ranks months on the quantity under
+question has already read the answer, so publish it as a dependent contrast
+(`reads_gap_columns: true`) and never count it as the test. (b) **prove the
+blindness mechanically, not by intent** -- a selftest leg feeds the same book
+column with the gap/delta columns inflated 1000x and asserts identical
+selections; "I only used full_ret" is a claim until a leg pins it. (c) **a
+verdict that survives some rules and dies under others is still a knob
+statement** -- publish `rules_that_kill_the_reversal` and
+`rules_under_which_it_survives` as two sets on every pair, so the reader cannot
+pick the half that suits them. (d) **check the level's magnitude against the gap
+it is being told apart from** -- "+0.07 vs -38.20" is not a sign disagreement
+worth naming; when |level| is two orders below |gap|, the honest sentence is
+"the readings differ in magnitude, not in direction".
 
-WHY
----
-`scripts/update_etf_daily.py` refused to write for two consecutive rounds with
-`510300@2026-10-28:absent_in_source` (and three siblings) -- exit 3, "source rewrites
-history, conscious re-anchor required". Nothing had been rewritten. The wide lane
-had verified 2026-10-28 against the same endpoint family and written it into the
-same `data/daily/sh<code>.csv` at 17:08; this leg's 19:53 fetch came back only
-through 10-27. Two collectors, one file namespace, two vintages of one series.
+## E192 Churn-independence is not carrier persistence: measure WHO repaired, and never score a sparsity hole as recycle (2026-10-28 r1225 bm-b)
 
-The gate could never re-open: every later fetch was still shorter than the local
-tail, so a correct collector priced a permanent red. Its own exit contract then
-pushed the reader toward "history rewrite", which is a *different* claim.
+E191 (the E187 leg) measured that the wide book's surviving monthly motion is
+independent of its own membership turnover (|r|<=0.16) and read that as "the same
+names moving". That is a name-level claim built out of a book-level measurement: a
+book can hold an identical membership two months running and still be repaired by a
+different name each month. Measuring the carriers directly settles it -- 94-97% of
+each month's repair motion is carried by names that already repaired the month
+before, the persistent names carry 80-89% of the era's gross, and the months that
+fight the era total are carried by those same names at 100.0% (2024_now, vs 97.2%
+elsewhere), not by newcomers.
 
-THE SPLIT
----------
-A local date that the source does not reach because the source series is SHORTER
-(`d > max(source dates)`) is not contradicted by that source; it is also not
-verified by it. Publish it as `source_lag` (count + dates in the status face,
-merged with nothing appended and nothing deleted) and let the run proceed.
-A local date that falls INSIDE the source's range and is still absent stays a hard
-exit 3 -- that is the case the gate exists for, and the exemption must not leak
-into it.
-
-Two defects this also fixed: every return path of the merge helper now carries the
-new key (a reader that has to `.get()` a key is the r1280 family), and the selftest
-pins both directions plus an empty-local edge, because an exemption tested only in
-its passing direction is a hole.
-
-Pos: scripts/update_etf_daily.py (selftest 15/15, was 12) + live `--takeover` run
-rc=0 with `[source_lag 1: 2026-10-28]` on four members.
-
-## E191 A column that always equals another column is not a measurement (2026-10-28 r1326 bm-c)
-
-WHY
----
-The E187 pool batch asked for "the repair's per-name count" beside the per-month
-net and the book's month-on-month membership turnover. The first cut published
-three columns and the third printed 340/340, 791/791 -- identical to book size in
-every era, because the screen re-weights every held name rather than adding or
-dropping one. The column looked like a count of the names the repair moved and was
-a book-size echo.
-
-The batch's own hypothesis (against-months are the high-churn months) failed on the
-era it was asked about: 2024_now turnover ratio 0.56 against the frozen 1.10 floor,
-high-churn against-share 0.00, corr +0.146. That is a usable negative -- the thin
-across-month net may NOT be discounted as membership churn -- but shipping the
-degenerate column beside it would have invited the reader to do exactly that.
-
-RULES
------
-1. Before publishing a derived count, ask what makes it differ from the primitive
-   it is derived from. If nothing can, publish it as a stated echo (with the
-   reading attached) or drop it.
-2. Thresholds for an adoption-style verdict are frozen as module constants BEFORE
-   the first run and echoed into the payload, so a later reader can tell a rule
-   from a description (E188).
-3. A zero-delta era must print `no_against_months`, not a passing discount with a
-   missing ratio: "cannot be measured here" and "measured and clean" are different
-   sentences.
-
-Pos: scripts/e39_panel_census.py `widechurntie` (census selftest 658/658, +7 legs)
-+ results/e43_tilt_4member/WIDECHURNTIE-20261028.json (5 eras, 161 months).
+Three transferable rules: (a) **match the measurement's unit to the claim's unit** --
+"who was held" and "who did the repairing" are different sets and only the second
+one backs a sentence about the same names; (b) **a month where nothing happened is
+not a month where something went the other way** -- an empty repair set has no
+carrier, so skip the pair and count it (`pairs_unmeasured`) instead of scoring 0.0,
+which would manufacture a "recycle" verdict out of sparsity alone (134 of 161
+full-era pairs are unmeasured; the sparsity is itself a finding); (c) **when you
+re-derive a sibling face, compare at the same cutoff** -- the head-to-head gap here
+is 0.242bp purely because the sibling was built one panel month earlier, so the leg
+recomputes the sibling's own formula in-process (residual 0.000399bp = double
+rounding) and publishes `cutoff_match=false` rather than quoting the number as a
+reproduction.
 
 
-## E192 A lag you can only see through one lever is still two lags (2026-10-28 r1327 bm-c)
+## E199 A persistent carrier is not a flipping carrier: weight the events before you name a mechanism, and check whether your "new" ratio is a published one (2026-10-28 r1226 bm-b)
 
-WHY
----
-The book's 8% sizing overlay is `scale = min(1, 0.08 / est_vol)`, where `est_vol` is a
-trailing realised vol of the proposed book computed AT a decision and then FROZEN until the
-next one (20 bars). Two different lags sit inside that one number -- the estimator's window
-and the slot freeze -- and the published headline cannot separate them. The only lever the
-engine exposes is `vol_window`, so that is what was swept (20/40/60/120), with the control
-arm asserted against the published production cell first.
+E192 shipped a stable *set* of carriers (94-97% carry share). The reading
+attached to it -- "the between-month reversal is one set of names moving" -- can
+be three different mechanisms, and they imply opposite follow-ups. Keeping the
+SIGN of each name's monthly repair settles it: of the era's 341.6bp of name-month
+gross motion only 8.13bp (2.4%) is destroyed by a name changing direction; 94% of
+the motion survives inside a name (`within_name_keep` 0.9377); and the mass that
+does point the other way is owned by three names that repair DOWN month after
+month with keep ratio 1.000 (sh510580 net -41.11bp, 16 of 24 months down).
 
-READING (full window 2020-2026, n12/r20, 10bp/side, next-open)
-  20 bars  CAGR 11.30%  SR 1.093  maxDD -11.87%
-  40       10.28%       1.057       -11.40%
-  60*       9.70%       1.000       -11.77%   (control, reproduces the card)
-  120       7.31%       0.837       -12.19%
-Depth is nearly flat across estimators (spread 0.79pp) while return is not (spread 3.99pp),
-so the lateness is a RETURN cost, not a drawdown benefit: a stale high estimate keeps the book
-de-levered through the rebound. The slot census says the same from the other side -- 79 slots,
-median realised/estimated 1.06, p90 1.90, 20.2% of slots past 1.5x, 87.3% of slots delevered,
-median delivered vol 8.31% against the 8% target. The deepest drawdown (2021-09-14..2022-11-01,
--11.77%, 271 bars) had the book at full size on 31.4% of its bars, and 42% of the depth accrued
-on exactly those bars. Verdict under the frozen rule: KEEP (no window buys 1pp of depth inside
-a -0.5pp return floor).
+Three transferable rules: (a) **a count of flips is not a measurement of flipping
+mass** -- 45.7% of adjacent months change sign while the weighted rate is 35.3%
+and the destroyed motion is 2.4% of gross, so publish both or the reading is an
+artefact of counting pennies; (b) **an exact match with a published ratio means
+the same construct, not a confirmation** -- `across_name_keep` equals E182's
+`net_over_gross` to 0.0000 on all three eras because E182 netted each holding
+before dividing, i.e. its headline was already the name-level disagreement ratio;
+(c) **`keep_ratio` separates the two name-level stories** -- a name with 16
+down-months and net -41bp on 41bp of gross is a one-way carrier, not an
+alternator, and only the ratio says so.
 
-RULES
------
-1. A frozen size is two lags (estimate + refresh cadence). Sweep the lever that exists and say
-   which of the two the answer belongs to; do not report "the overlay is late".
-2. Measure the error, do not assert it: engine `diag` gives `est_vol` at every decision, and
-   the next slot's realised vol of the SAME book turns it into `ratio = realised/estimated`.
-3. Attribute DEPTH, not a level: the drawdown peak bar is at full size by definition, so
-   reading the level there always prints 100%. Use the log-return share accrued on full-size
-   bars (here 42%).
-4. An overlay that does not move depth is a cost knob, not risk insurance -- quote the return
-   it gives up beside the headline instead of calling it free protection.
-5. Equivalence legs need a discriminating fixture: on a stationary-vol fixture all four windows
-   print the same curve (correct, not a dead test), so the regime-shift fixture is what proves
-   the estimator can move (r1261 family).
 
-Pos: scripts/etf_book_voltarget_lag.py (selftest 13/13, chain leg is the engine-free `--check`)
-+ results/etf_book_voltarget_lag.json + research/ETF_BOOK_VOLTARGET_LAG.md.
+## E200 Classify a published delta by how it was BUILT, not by what it prints: bind by name, verify against a construct, and refuse to score a zero (2026-10-28 r1227 bm-b)
+
+E193 asked which build path produced each published delta (two published levels,
+two readings of one stance, or two stances). The sweep of 152 era-level bp deltas
+in 14 faces finds **zero cross-stance deltas** - the construct that would carry
+the whole 2.9-3.6bp fee is published nowhere as a delta - so the feared defect
+class does not exist here. Two others do: every ladder-rebuilt delta (30 of them)
+reproduces only as the **negated** construct (the faces print `screened - raw`
+where the rule reads `raw - screened`, uniform and stated nowhere), and
+`net_delta_bp` carries the family's "net of the fee" vocabulary while being a
+fee-free book-level difference (30.204 / 49.598 / 17.121 bp over three eras).
+
+Four transferable rules: (a) **bind by name, verify by construct, publish both** -
+a name-bound cell whose number matches nothing is a finding ("the label names one
+object, the number is another"), and a number-matched cell whose family the label
+does not name must be published as a reading, not a declaration; (b) **a zero
+delta proves nothing** - 34 of 152 cells are 0.0 and match any zero construct in
+either sign, so counting them as reproductions manufactures agreement (the E162
+"two flat curves because neither side ran" failure in delta clothing); (c) **a sum
+of absolute per-name deltas is not a difference of two levels** - its fee exposure
+scales with how many names moved, so no era-level rebuild exists and the honest
+verdict is `not_checkable`, not `contradicted`; (d) **the unit token may sit
+mid-name** (`engine_bp_delta` vs `delta_bp`) - a suffix-based unit filter silently
+drops half the family (8 of 17 names here) and still looks like a clean sweep.

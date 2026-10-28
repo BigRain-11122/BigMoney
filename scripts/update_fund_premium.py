@@ -156,47 +156,6 @@ def expected_prev_trading_day(now: dt.datetime, dates=None) -> str:
 
 
 # ------------------------------------------------------------------ snapshot normalization (pure)
-class AwaitingPublish(Exception):
-    """The bulk face lists a NAV date but its values are not published yet.
-
-    Measured 2026-10-28: the current day's column pair exists with 0/1689
-    non-null (placeholder "--") while the previous day's pair is complete.
-    That is a source state, not a shape violation -- it must be a no-op that
-    retries later, never an error that leaves the lane dark.
-    """
-
-    def __init__(self, newest_date, rate):
-        self.newest_date = newest_date
-        self.rate = rate
-        super().__init__(f"newest NAV date {newest_date} unpublished (non-null {rate:.3f})")
-
-
-def _nav_nonnull_rate(df, date: str) -> float:
-    """Non-null share of the '<date>-\u5355\u4f4d\u51c0\u503c' column (0.0 when absent)."""
-    import pandas as pd
-    name = f"{date}-\u5355\u4f4d\u51c0\u503c"
-    col = next((c for c in df.columns if str(c) == name), None)
-    if col is None or not len(df):
-        return 0.0
-    return float(pd.to_numeric(df[col], errors="coerce").notna().sum()) / float(len(df))
-
-
-def _newest_published_date(df, dates):
-    """Newest date whose NAV values are actually published (>= SNAP_NAV_NONNULL).
-
-    Returns (date, newest_listed_date, newest_rate). date is None when no listed
-    date clears the threshold.
-    """
-    newest_listed, newest_rate = (None, 0.0)
-    if dates:
-        newest_listed = dates[-1]
-        newest_rate = _nav_nonnull_rate(df, newest_listed)
-    for d in reversed(dates):
-        if _nav_nonnull_rate(df, d) >= SNAP_NAV_NONNULL:
-            return d, newest_listed, newest_rate
-    return None, newest_listed, newest_rate
-
-
 def _extract_nav_dates(cols) -> list:
     """列名内嵌日期（'2026-09-23-单位净值'）→ 去重升序日期列表（probe pass2 发现的坑）。"""
     out = []
@@ -216,13 +175,7 @@ def normalize_snapshot(df):
     dates = _extract_nav_dates(df.columns)
     if len(dates) < 2:
         raise ValueError(f"bulk face: expected >=2 date-stamped NAV column pairs, got {dates}")
-    d_max, newest_listed, newest_rate = _newest_published_date(df, dates)
-    if d_max is None:
-        raise AwaitingPublish(newest_listed, newest_rate)
-    i_max = dates.index(d_max)
-    # prev pair is enrichment, not the row shell: absent when the published date
-    # is also the earliest date the face still lists (the face carries only 2 days)
-    d_prev = dates[i_max - 1] if i_max > 0 else None
+    d_max, d_prev = dates[-1], dates[-2]
 
     def col(base, d):
         for c in df.columns:
@@ -236,10 +189,8 @@ def normalize_snapshot(df):
         "ftype": df["类型"].astype(str).str.strip(),
         "nav": pd.to_numeric(df[col("单位净值", d_max)], errors="coerce"),
         "acc_nav": pd.to_numeric(df[col("累计净值", d_max)], errors="coerce"),
-        "nav_prev": (pd.to_numeric(df[col("单位净值", d_prev)], errors="coerce")
-                     if d_prev else pd.Series([None] * len(df), dtype="float64")),
-        "acc_nav_prev": (pd.to_numeric(df[col("累计净值", d_prev)], errors="coerce")
-                          if d_prev else pd.Series([None] * len(df), dtype="float64")),
+        "nav_prev": pd.to_numeric(df[col("单位净值", d_prev)], errors="coerce"),
+        "acc_nav_prev": pd.to_numeric(df[col("累计净值", d_prev)], errors="coerce"),
         "growth": pd.to_numeric(df.get("增长值"), errors="coerce"),
         "growth_rate": df.get("增长率").astype(str).str.strip() if "增长率" in df.columns else "",
         "mkt_price": pd.to_numeric(df.get("市价"), errors="coerce"),
@@ -263,22 +214,6 @@ def validate_snapshot(nav_date: str, norm_df) -> list:
     if len(norm_df) and bad_codes / len(norm_df) > 0.05:
         problems.append(f"non-digit code rows {bad_codes}")
     return problems
-
-
-def _stored_snapshot_face(snap: dict, nav_date: str, rows: int, prev_present: bool,
-                          ts: str) -> dict:
-    """Successful store face (pure): record the facts and drop the previous attempt's reason.
-
-    Measured 2026-10-28: the status face read mode="snapshot stored" while
-    no_op_reason still said "before 15:30:00" (left over from the 16:36 attempt's
-    pre-close no-op), so a reader could not tell a store from a skip.
-    """
-    out = dict(snap)
-    for k in ("no_op_reason", "awaiting_publish_date", "awaiting_publish_nonnull"):
-        out.pop(k, None)
-    out.update({"latest_nav_date": nav_date, "last_fetch": ts, "rows": int(rows),
-                "last_error": None, "prev_pair_present": bool(prev_present)})
-    return out
 
 
 def snapshot_needs_fetch(newest_disk: str, expected: str) -> tuple:
@@ -345,7 +280,7 @@ def _newest_snapshot(snap_dir=SNAP_DIR) -> str:
 
 
 # ------------------------------------------------------------------ snapshot leg
-def cmd_snapshot(force: bool = False) -> int:
+def cmd_snapshot() -> int:
     owner = _lane_owner_id()
     if owner != LANE_OWNER:
         # R31 lane guard (moneyflow R65 hardening): stdout-only, ZERO shared-state writes
@@ -381,7 +316,7 @@ def cmd_snapshot(force: bool = False) -> int:
 
     # 30-min retry backoff after a failure (r18 law: last_attempt written BEFORE fetch)
     last = snap.get("last_attempt")
-    if last and not force:
+    if last:
         try:
             if (now - dt.datetime.fromisoformat(last)).total_seconds() < RETRY_AFTER_FAIL_S \
                     and snap.get("last_error"):
@@ -410,19 +345,6 @@ def cmd_snapshot(force: bool = False) -> int:
 
     try:
         nav_date, norm = normalize_snapshot(df)
-    except AwaitingPublish as e:
-        snap = st.get("snapshot") or {}
-        snap.update({"last_error": None,
-                     "no_op_reason": f"awaiting NAV publish for {e.newest_date}",
-                     "awaiting_publish_date": e.newest_date,
-                     "awaiting_publish_nonnull": round(e.rate, 4)})
-        st.update({"ts": dt.datetime.now().isoformat(timespec="seconds"),
-                   "mode": "no-op: awaiting NAV publish",
-                   "snapshot": snap})
-        write_status(st)
-        print(f"no-op: bulk face lists {e.newest_date} but its NAV values are not "
-              f"published yet (non-null {e.rate:.3f} < {SNAP_NAV_NONNULL})")
-        return 0
     except ValueError as e:
         snap = st.get("snapshot") or {}
         snap["last_error"] = f"shape violation: {e}"
@@ -460,9 +382,8 @@ def cmd_snapshot(force: bool = False) -> int:
     norm[SNAP_COLS].to_csv(tmp, index=False, encoding="utf-8")
     os.replace(tmp, out_path)
     snap = st.get("snapshot") or {}
-    snap = _stored_snapshot_face(snap, nav_date, int(len(norm)),
-                                 bool(norm["nav_prev"].notna().any()),
-                                 dt.datetime.now().isoformat(timespec="seconds"))
+    snap.update({"latest_nav_date": nav_date, "last_fetch": dt.datetime.now().isoformat(timespec="seconds"),
+                 "rows": int(len(norm)), "last_error": None})
     st.update({"ts": dt.datetime.now().isoformat(timespec="seconds"),
                "mode": "snapshot stored",
                "snapshot": snap})
@@ -766,28 +687,6 @@ def selftest() -> int:
     chk("normalize nav pair", abs(float(norm["nav"].iloc[0]) - 4.5904) < 1e-9
         and abs(float(norm["nav_prev"].iloc[0]) - 4.58) < 1e-9)
     chk("normalize discount passthrough", norm["discount_rate"].iloc[0] == "0.01%")
-    # S3b unpublished newest pair (live 2026-10-28 defect: newest column all "--")
-    pending = bulk.copy()
-    pending["2026-09-24-单位净值"] = ["--", "--"]
-    pending["2026-09-24-累计净值"] = ["--", "--"]
-    d_pub, norm_pub = normalize_snapshot(pending)
-    chk("normalize skips unpublished newest date", d_pub == "2026-09-23")
-    chk("normalize unpublished fallback keeps nav pair",
-        abs(float(norm_pub["nav"].iloc[0]) - 4.5904) < 1e-9)
-    threshold = _nav_nonnull_rate(bulk, "2026-09-23") >= SNAP_NAV_NONNULL
-    chk("nav non-null helper reads published col", threshold is True)
-    chk("nav non-null helper reads placeholder col",
-        _nav_nonnull_rate(pending, "2026-09-24") == 0.0)
-    dark = bulk.copy()
-    for c in list(dark.columns):
-        if c.startswith("2026-09-22-") or c.startswith("2026-09-23-"):
-            dark[c] = "--"
-    try:
-        normalize_snapshot(dark)
-        chk("normalize awaits publish (not ValueError)", False)
-    except AwaitingPublish as e:
-        chk("normalize awaits publish (not ValueError)", e.newest_date == "2026-09-23"
-            and e.rate == 0.0)
     chk("normalize code zfill", norm["code"].iloc[0] == "510300")
     try:
         normalize_snapshot(bulk.drop(columns=["2026-09-22-单位净值"]))
@@ -852,21 +751,6 @@ def selftest() -> int:
             f.write(json.dumps({"machine_id": "bm-c"}))
         chk("lane owner BOM-tolerant", _lane_owner_id(p) == "bm-c")
 
-    # S9 store face drops the previous attempt's reason (measured 2026-10-28)
-    stale = {"no_op_reason": "before 15:30:00", "awaiting_publish_date": "2026-10-28",
-             "awaiting_publish_nonnull": 0.0, "last_error": "nav non-null rate 0.000",
-             "rows": 1}
-    face = _stored_snapshot_face(stale, "2026-10-27", 1689, False, "2026-10-28T17:45:25")
-    chk("store face clears stale no-op reason", "no_op_reason" not in face)
-    chk("store face clears stale awaiting-publish keys",
-        "awaiting_publish_date" not in face and "awaiting_publish_nonnull" not in face)
-    chk("store face records facts", face["latest_nav_date"] == "2026-10-27"
-        and face["rows"] == 1689 and face["last_error"] is None
-        and face["prev_pair_present"] is False
-        and face["last_fetch"] == "2026-10-28T17:45:25")
-    chk("store face keeps unrelated keys", stale["rows"] == 1
-        and stale["no_op_reason"] == "before 15:30:00")  # input not mutated
-
     print(f"selftest: {'ALL PASS' if not fails else 'FAIL -> ' + str(fails)}")
     return 0 if not fails else 1
 
@@ -874,11 +758,11 @@ def selftest() -> int:
 # ------------------------------------------------------------------ entry
 def main(argv):
     if len(argv) < 2:
-        print("usage: update_fund_premium.py snapshot [--force]|backfill-nav|backfill-dividends|gate|status|selftest")
+        print("usage: update_fund_premium.py snapshot|backfill-nav|backfill-dividends|gate|status|selftest")
         return 2
     cmd = argv[1]
     if cmd == "snapshot":
-        return cmd_snapshot(force="--force" in argv[2:])
+        return cmd_snapshot()
     if cmd == "backfill-nav":
         return cmd_backfill_nav()
     if cmd == "backfill-dividends":
