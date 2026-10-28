@@ -18541,6 +18541,76 @@ def selftest():
         and "eras" in run_tilt3legfamily.__code__.co_varnames,
         "E178 the family leg carries the same mode/eras seams as its family")
 
+    # (E181) a leave-one-member-out sweep must RE-WEIGHT the survivors, not just
+    # subtract the dropped name's contribution: subtracting leaves a partially
+    # invested book being compared against a fully invested one.
+    _e181_members = ["A", "B", "C"]
+    _e181_net = {}
+    for _m, _vals in (("2020-01", {"A": 0.10, "B": 0.02, "C": -0.04}),
+                      ("2020-02", {"A": 0.06, "B": 0.04, "C": 0.02})):
+        for _s, _v in _vals.items():
+            _e181_net[(_m, _s)] = _v / 3.0
+    _e181_months = ["2020-01", "2020-02"]
+    _e181_full = sum(_era_side_bp(_e181_net, _e181_months).values())
+    chk(abs(_e181_full - ((0.08 + 0.12) / 3.0 / 2.0 * 12.0 * 1e4)) < 1e-6,
+        "E181 the full ladder level is the contribution sum annualised")
+    _e181_lomo, _e181_unhold, _e181_used = _ladder_lomo_level(
+        _e181_net, _e181_months, "A", _e181_members)
+    chk(abs(_e181_lomo - (((-0.02) / 2.0 + 0.06 / 2.0) / 2.0 * 12.0 * 1e4)) < 1e-6,
+        "E181 dropping a member re-weights the survivors to stay fully invested")
+    chk(abs(_e181_lomo - ((0.08 - 0.16) / 3.0 / 2.0 * 12.0 * 1e4)) > 1.0,
+        "E181 the re-weighted level is NOT the subtract-only level, which would "
+        "understate every drop by the dropped member's weight")
+    chk(_e181_unhold == [] and _e181_used == _e181_months,
+        "E181 a member present every month leaves every month holdable")
+    _e181_solo = {("2020-03", "A"): 0.005,
+                  ("2020-04", "A"): 0.01, ("2020-04", "B"): 0.01}
+    _solo_lvl, _solo_unhold, _solo_used = _ladder_lomo_level(
+        _e181_solo, ["2020-03", "2020-04"], "A", _e181_members)
+    chk(_solo_unhold == ["2020-03"],
+        "E181 a month the dropped name alone could hold is published as "
+        "unholdable, not read as a zero return")
+    chk(_solo_used == ["2020-04"],
+        "E181 the surviving month set is what the level is annualised over")
+    chk(_ladder_lomo_verdict(100.0, [{"name": "A", "lomo_level_bp_raw": -5.0}])
+        ["classification"] == "flips_under_drop",
+        "E181 a drop that takes the level through zero is a flip, not a wobble")
+    chk(_ladder_lomo_verdict(100.0, [{"name": "A", "lomo_level_bp_raw": 40.0}])
+        ["classification"] == "survives_every_drop",
+        "E181 a drop that keeps the sign survives even when the level halves")
+
+    # (E182) the wide side's net can hide two holdings moving opposite ways, so
+    # the verdict must publish gross and name the holdings whose removal flips it.
+    _e182_flat = _wide_split_verdict([{"name": "A", "delta_bp": 0.0},
+                                      {"name": "B", "delta_bp": 0.0}])
+    chk(_e182_flat["classification"] == "flat_per_holding",
+        "E182 no holding moving is a flat book, not a cancelling one")
+    _e182_cancel = _wide_split_verdict([{"name": "A", "delta_bp": 50.0},
+                                        {"name": "B", "delta_bp": -50.0}])
+    chk(_e182_cancel["classification"] == "cancelling"
+        and _e182_cancel["gross_abs_delta_bp"] == 100.0,
+        "E182 a zero net with a non-zero gross is a cancellation and says so")
+    _e182_move = _wide_split_verdict([{"name": "A", "delta_bp": 60.0},
+                                      {"name": "B", "delta_bp": -10.0}])
+    chk(_e182_move["names_whose_removal_flips_the_net"] == ["A"],
+        "E182 the holding whose removal flips the net sign is named")
+    chk(abs(_e182_move["net_over_gross"] - 50.0 / 70.0) < 1e-12,
+        "E182 net over gross is published, so a thin net is visible as thin")
+    _e182_rows = _wide_side_split_rows(
+        {"wide": {("2020-01", "A"): 1.0, ("2020-01", "B"): 2.0}},
+        {"wide": {("2020-01", "A"): 3.0, ("2020-01", "B"): 2.0}},
+        ["2020-01"])
+    chk(len(_e182_rows) == 2
+        and sorted(round(r["delta_bp"], 6) for r in _e182_rows) == [0.0, 240000.0],
+        "E182 the per-holding delta is screened minus raw on the wide side")
+    chk(_wide_split_e176_join({"net_delta_bp": 12.0},
+                              {"eras": {"X": {"wide_book_delta_bp": 10.0}}},
+                              "X")["abs_diff_bp"] == 2.0,
+        "E182 the net side is joined against the E176 wide book on disk")
+    chk(_wide_split_e176_join({"net_delta_bp": 12.0}, None, "X")["abs_diff_bp"]
+        is None,
+        "E182 an absent E176 face publishes no join instead of a zero")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -20920,6 +20990,403 @@ def run_gaparm_topnames(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511
     }
 
 
+# ---------------------------------------------------------------- E181
+TILT3LADDERLOMO_MOVED_BP = TILT3LADDERSPLIT_MOVED_BP
+TILT3LADDERLOMO_SINGLE_MEMBER_PCT = 50.0
+
+
+def _lad_present_months(net, months, members):
+    """{month: {member, ...}} over the era's months, from the contrib sink."""
+    mset = set(months)
+    mset_m = set(members)
+    out = {}
+    for (m, s) in net:
+        if m in mset and s in mset_m:
+            out.setdefault(m, set()).add(s)
+    return out
+
+
+def _ladder_lomo_net(net, months, drop, members):
+    """(E181) the contrib sink with one member removed and the survivors re-weighted.
+
+    Subtracting the dropped name's contribution would compare a partially
+    invested book against a fully invested one -- the same class of error as
+    quoting a share of a mean that is not a mean. The survivors take the dropped
+    member's weight, so the book stays fully invested among them. A month where
+    the dropped name was the ONLY member has nothing left to hold and is
+    published as unholdable rather than silently flattened to zero.
+    """
+    mset = set(months)
+    mset_m = set(members)
+    present = _lad_present_months(net, months, members)
+    # a month whose ONLY member is the dropped name has nothing left to hold;
+    # it is excluded from both sides and published, never read as a zero month
+    unhold = set(m for m, pres in present.items()
+                 if drop in pres and len(pres) <= 1)
+    out = {}
+    for (m, s), v in net.items():
+        if m not in mset or m in unhold:
+            continue
+        if s == drop:
+            continue
+        if s in mset_m:
+            pres = present.get(m, set())
+            f = (1.0 if drop not in pres
+                 else len(pres) / (len(pres) - 1.0))
+            out[(m, s)] = v * f
+        else:
+            out[(m, s)] = v
+    return out, sorted(unhold)
+
+
+def _ladder_lomo_level(net, months, drop, members):
+    """(E181) the era level without one member, on the months that survive it.
+
+    The level is annualised over the MONTHS USED, not over the era's full month
+    list: a month that cannot be held without the dropped name would otherwise
+    read as a zero return, which is exactly the shrink this leg exists to expose.
+    """
+    transformed, unhold = _ladder_lomo_net(net, months, drop, members)
+    used = [m for m in months if m not in set(unhold)]
+    lvl = sum(_era_side_bp(transformed, used).values()) if used else None
+    return lvl, unhold, used
+
+
+def _ladder_lomo_verdict(full_level, lomo_rows, tol=None):
+    """(E181) does the era LEVEL survive dropping a member?"""
+    t = TILT3LADDERLOMO_MOVED_BP if tol is None else float(tol)
+    if full_level is None or not lomo_rows:
+        return {"level_sign": None, "flips": [], "classification": "unmeasured"}
+    sign = 1 if full_level > 0 else (-1 if full_level < 0 else 0)
+    flips = []
+    if abs(full_level) > t:
+        for r in lomo_rows:
+            lvl = r.get("lomo_level_bp_raw")
+            if lvl is None:
+                continue
+            s = 1 if lvl > 0 else (-1 if lvl < 0 else 0)
+            if s != sign:
+                flips.append(r["name"])
+    return {"level_sign": sign, "flips": sorted(flips),
+            "classification": ("flips_under_drop" if flips
+                               else "survives_every_drop")}
+
+
+def _ladder_lomo_e179_join(full_raw, sib, era):
+    """(E181) the full level must reproduce E179's ladder level for this era."""
+    if not sib:
+        return None
+    theirs = (((sib.get("eras") or {}).get(era) or {})
+              .get("ladder_book_bp_raw"))
+    if theirs is None:
+        return None
+    return round(abs(float(full_raw) - float(theirs)), 6)
+
+
+def run_tilt3ladderlomo(outdir, mode="neutralise_int", eras=ERAS):
+    """E181: does the ladder LEVEL survive dropping its biggest member?
+
+    E179 published the ladder side per holding and the levels turned out to be
+    single-member books in disguise. This runs the E105/E143 single-name test on
+    the fixed leg: leave one member out, re-weight the rest, and re-annualise the
+    level on the months that survive the drop.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+    import e24_ladder_weighting as base
+    members = list(base.LADDER)
+    lad_raw = (sides_raw.get("lad") or {})
+    lad_scr = (sides_scr.get("lad") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERSIDECASH-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        full_raw_bp = _era_side_bp(lad_raw, ms)
+        full_raw = sum(full_raw_bp.values())
+        full_scr = sum(_era_side_bp(lad_scr, ms).values())
+        present = sorted({s for (m, s) in lad_raw
+                          if m in set(ms) and s in set(members)})
+        per = []
+        for drop in present:
+            lr, un_r, used = _ladder_lomo_level(lad_raw, ms, drop, members)
+            ls, _un_s, _used_s = _ladder_lomo_level(lad_scr, ms, drop, members)
+            base_raw = (sum(_era_side_bp(lad_raw, used).values())
+                        if used else None)
+            share = (full_raw_bp.get(drop, 0.0) / full_raw * 100.0
+                     if abs(full_raw) > 1e-9 else None)
+            per.append({
+                "name": drop,
+                "share_pct": (None if share is None else round(share, 2)),
+                "lomo_level_bp_raw": (None if lr is None else round(lr, 3)),
+                "lomo_level_bp_screened": (None if ls is None else round(ls, 3)),
+                "level_change_bp": (None if (lr is None or base_raw is None)
+                                    else round(lr - base_raw, 3)),
+                "months_used": len(used),
+                "months_unholdable": un_r,
+            })
+        ranked = sorted(per, key=lambda r: -abs(r["share_pct"] or 0.0))
+        big = ranked[0] if ranked else None
+        v = _ladder_lomo_verdict(full_raw, per)
+        rows[name] = {
+            "months": len(ms),
+            "members_declared": members,
+            "members_present": present,
+            "members_missing": sorted(set(members) - set(present)),
+            "full_level_bp_raw": round(full_raw, 3),
+            "full_level_bp_screened": round(full_scr, 3),
+            "biggest_member": (big["name"] if big else None),
+            "biggest_share_pct": (big["share_pct"] if big else None),
+            "level_is_single_member": bool(
+                big and big["share_pct"] is not None
+                and abs(big["share_pct"]) >= TILT3LADDERLOMO_SINGLE_MEMBER_PCT),
+            "lomo": per,
+            "level_sign": v["level_sign"],
+            "flips_under_drop": v["flips"],
+            "level_survival": v["classification"],
+            "e179_join_bp": _ladder_lomo_e179_join(full_raw, sib, name),
+        }
+
+    measured = {k: v for k, v in rows.items()
+                if v.get("level_survival") not in (None, "unmeasured")}
+    single = sorted(k for k, v in measured.items() if v["level_is_single_member"])
+    flips = sorted(k for k, v in measured.items() if v["flips_under_drop"])
+    joins = [v["e179_join_bp"] for v in measured.values()
+             if v["e179_join_bp"] is not None]
+    return {
+        "study": "e181_tilt3_ladder_level_single_member",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "method": ("leave one member out of the fixed ladder book, re-weight "
+                       "the survivors to stay fully invested, re-annualise the "
+                       "level on the surviving months"),
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "single_member_pct": TILT3LADDERLOMO_SINGLE_MEMBER_PCT,
+            "moved_tolerance_bp": TILT3LADDERLOMO_MOVED_BP,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_level_is_single_member": single,
+            "eras_level_flips_under_drop": flips,
+            "every_era_survives_every_drop": not flips,
+            "flips_by_era": {k: v["flips_under_drop"] for k, v in measured.items()
+                             if v["flips_under_drop"]},
+            "biggest_member_by_era": {k: [v["biggest_member"],
+                                          v["biggest_share_pct"]]
+                                      for k, v in measured.items()},
+            "members_missing_by_era": {k: v["members_missing"]
+                                       for k, v in measured.items()
+                                       if v["members_missing"]},
+            "e179_join_max_abs_diff_bp": (None if not joins
+                                          else round(max(joins), 6)),
+            "eras_with_unholdable_months": sorted(
+                k for k, v in measured.items()
+                if any(r["months_unholdable"] for r in v["lomo"])),
+        },
+        "screen_report": report,
+        "honest": [
+            "level survival is a statement about the ERA LEVEL, not about the "
+            "strategy: a level that needs one holding to keep its sign is a "
+            "holding, not a book",
+            "the re-weighting makes the drop a different book, which is the "
+            "point: comparing an un-invested remainder against a fully invested "
+            "book would understate every drop",
+            "a month the dropped name alone could hold is excluded from both "
+            "sides and published, never read as a zero return",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
+# ---------------------------------------------------------------- E182
+TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
+TILT3WIDESPLIT_TOP = 8
+
+
+def _wide_side_split_rows(sides_raw, sides_scr, months):
+    """(E182) the rotating wide book's repair delta kept per holding."""
+    raw_bp = _era_side_bp((sides_raw or {}).get("wide") or {}, months)
+    scr_bp = _era_side_bp((sides_scr or {}).get("wide") or {}, months)
+    rows = []
+    for s in sorted(set(raw_bp) | set(scr_bp)):
+        r = raw_bp.get(s, 0.0)
+        c = scr_bp.get(s, 0.0)
+        rows.append({"name": s, "raw_level_bp": r, "screened_level_bp": c,
+                     "delta_bp": c - r})
+    return rows
+
+
+def _wide_split_verdict(rows, tol=None):
+    """(E182) net vs gross on the side where two members can cancel.
+
+    The wide book re-picks every month, so a NET delta can be two holdings moving
+    in opposite directions. The classification word plus the list of names whose
+    removal would flip the net sign is what makes "+49.6bp" a set of holdings
+    instead of an unexplained aggregate.
+    """
+    t = TILT3WIDESPLIT_MOVED_BP if tol is None else float(tol)
+    net = sum(float(r["delta_bp"]) for r in rows)
+    gross = sum(abs(float(r["delta_bp"])) for r in rows)
+    moved = sorted((r for r in rows if abs(r["delta_bp"]) > t),
+                   key=lambda r: -abs(r["delta_bp"]))
+    if not moved:
+        cls = "flat_per_holding"
+    elif abs(net) <= t:
+        cls = "cancelling"
+    else:
+        cls = "moving"
+    sign = 1 if net > t else (-1 if net < -t else 0)
+    flippers = []
+    if sign:
+        for r in moved:
+            rest = net - float(r["delta_bp"])
+            rs = 1 if rest > t else (-1 if rest < -t else 0)
+            if rs != sign:
+                flippers.append(r["name"])
+    return {"net_delta_bp": net, "gross_abs_delta_bp": gross,
+            "net_over_gross": (net / gross if gross > 1e-12 else None),
+            "names_moved": [r["name"] for r in moved],
+            "classification": cls,
+            "names_whose_removal_flips_the_net": sorted(flippers)}
+
+
+def _wide_split_e176_join(row, sib, era):
+    """(E182) this split's net must reproduce E176's wide book delta."""
+    e176 = ((sib or {}).get("eras") or {}).get(era) or {}
+    theirs = e176.get("wide_book_delta_bp")
+    if theirs is None:
+        return {"e176_face": None, "abs_diff_bp": None,
+                "note": "no E176 row for this era on disk"}
+    return {"e176_face": "TILT3SIGNBOOKSPLIT",
+            "e176_wide_book_delta_bp": theirs,
+            "abs_diff_bp": round(abs(float(row["net_delta_bp"]) - float(theirs)), 6)}
+
+
+def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
+    """E182: the wide side's repair delta per holding, gross beside net.
+
+    E179 proved the fixed leg's zero is five zeros. The rotating wide book is the
+    side where a net CAN hide a cancellation (7 / 45 / 52 repaired names), and
+    E176 only ever published its net delta.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("TILT3SIGNBOOKSPLIT-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_side_split_rows(sides_raw, sides_scr, ms)
+        v = _wide_split_verdict(per)
+        ranked = sorted(per, key=lambda r: -abs(r["delta_bp"]))
+        top = [{"name": r["name"],
+                "delta_bp": round(r["delta_bp"], 3),
+                "raw_level_bp": round(r["raw_level_bp"], 3),
+                "screened_level_bp": round(r["screened_level_bp"], 3),
+                "share_of_net_pct": (
+                    round(r["delta_bp"] / v["net_delta_bp"] * 100.0, 2)
+                    if abs(v["net_delta_bp"]) > 1e-9 else None)}
+               for r in ranked[:TILT3WIDESPLIT_TOP]]
+        row = {
+            "months": len(ms),
+            "names_present": len(per),
+            "wide_book_bp_raw": round(sum(r["raw_level_bp"] for r in per), 3),
+            "wide_book_bp_screened": round(sum(r["screened_level_bp"] for r in per), 3),
+            "net_delta_bp": round(v["net_delta_bp"], 3),
+            "gross_abs_delta_bp": round(v["gross_abs_delta_bp"], 3),
+            "net_over_gross": (None if v["net_over_gross"] is None
+                               else round(v["net_over_gross"], 4)),
+            "classification": v["classification"],
+            "names_moved": len(v["names_moved"]),
+            "names_whose_removal_flips_the_net":
+                v["names_whose_removal_flips_the_net"],
+            "top_carriers": top,
+        }
+        row["e176_join"] = _wide_split_e176_join(row, sib, name)
+        rows[name] = row
+
+    measured = {k: v for k, v in rows.items() if "classification" in v}
+    joins = [v["e176_join"]["abs_diff_bp"] for v in measured.values()
+             if v["e176_join"] and v["e176_join"]["abs_diff_bp"] is not None]
+    ratios = [v["net_over_gross"] for v in measured.values()
+              if v["net_over_gross"] is not None]
+    return {
+        "study": "e182_tilt3_wide_side_gross_vs_net",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "side": "wide (the rotating book) contrib sink, kept per name",
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "moved_tolerance_bp": TILT3WIDESPLIT_MOVED_BP,
+            "classification": ("flat_per_holding = no holding moved; cancelling = "
+                               "some moved but the net is under tolerance; "
+                               "moving = the net moved"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_cancelling": sorted(k for k, v in measured.items()
+                                      if v["classification"] == "cancelling"),
+            "eras_flat_per_holding": sorted(
+                k for k, v in measured.items()
+                if v["classification"] == "flat_per_holding"),
+            "eras_moving": sorted(k for k, v in measured.items()
+                                  if v["classification"] == "moving"),
+            "max_gross_abs_delta_bp": (None if not measured else
+                                       round(max(v["gross_abs_delta_bp"]
+                                                 for v in measured.values()), 3)),
+            "min_net_over_gross": (None if not ratios else round(min(ratios), 4)),
+            "names_whose_removal_flips_the_net_by_era": {
+                k: v["names_whose_removal_flips_the_net"]
+                for k, v in measured.items()
+                if v["names_whose_removal_flips_the_net"]},
+            "e176_join_max_abs_diff_bp": (None if not joins else round(max(joins), 6)),
+        },
+        "screen_report": report,
+        "honest": [
+            "the wide book re-picks every month, so a per-name delta mixes a "
+            "holding that was repaired with a name that entered or left on a "
+            "different date; this is the same membership caveat E176 carries",
+            "a net that equals one holding's delta is a single-name statement, "
+            "and the flippers list is published so the reader does not have to "
+            "guess which one",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -20934,6 +21401,8 @@ def main(argv):
                              "tilt3laddersplit",
                              "tilt3legfamily",
                              "tilt3decompoffset",
+                             "tilt3ladderlomo",
+                             "tilt3widesplit",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -22284,6 +22753,41 @@ def main(argv):
                           "status": f["status"], "summary": f["summary"]},
                          ensure_ascii=False))
         return 0 if f["status"] != "MISMATCH" else 1
+    if args.mode == "tilt3ladderlomo":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderlomo(outdir)
+        p = write_json(outdir, "LADDERLEVELS-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderlomo",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "full_level_bp_raw": v.get("full_level_bp_raw"),
+                              "biggest_member": v.get("biggest_member"),
+                              "biggest_share_pct": v.get("biggest_share_pct"),
+                              "single_member": v.get("level_is_single_member"),
+                              "survival": v.get("level_survival"),
+                              "flips": v.get("flips_under_drop")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3widesplit":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3widesplit(outdir)
+        p = write_json(outdir, "WIDESIDEGROSS-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3widesplit",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "net_delta_bp": v.get("net_delta_bp"),
+                              "gross_abs_delta_bp": v.get("gross_abs_delta_bp"),
+                              "classification": v.get("classification"),
+                              "names_moved": v.get("names_moved"),
+                              "flippers": v.get("names_whose_removal_flips_the_net")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
     if args.mode == "month":
         if not args.month:
             print("--month YYYY-MM required")

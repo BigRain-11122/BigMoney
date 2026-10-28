@@ -2125,3 +2125,36 @@ counted as a holding, and publish holdings the sink turns up but the basket does
 as `unlisted` instead of folding them in. Evidence:
 results/e43_tilt_4member/LADDERSIDECASH-20261027.json,
 research/digests/DIGEST-20261028-r1213-e179-ladder-side-cash-split.md.
+## E181 A level that survives every single-member drop is a book statement; one that needs a holder is a holding (2026-10-28 r1214 bm-b)
+
+E179 published the fixed ladder leg per holding and the shares; the open question was whether
+the era LEVELS are those holdings in disguise. Leave-one-member-out (re-weight the survivors to
+stay fully invested, re-annualise on the surviving months) says they are not: gross signs hold
++1018.2 / +1004.8 / -923.5 / +1088.6 bp across pre2017..2024_now and no single drop flips any of
+them, while pre2017 is the only era whose biggest member (sh510500, 61.89%) is over half.
+How to apply: a single-name test on a BASKET must re-weight, not subtract -- subtracting the
+dropped contribution compares an un-invested remainder against a fully invested book and
+understates every drop by exactly the dropped weight (here 800 vs 1200 bp on a three-name
+fixture, i.e. -33%, a number that reads as a result and is an artefact). Two siblings: a month
+whose only member is the dropped name is excluded from BOTH sides and published as
+unholdable rather than read as a zero return, and the re-weighted level must reproduce the
+published one when nothing is dropped (join 0.000216 bp here) or the sweep is a second engine
+pass in disguise. Evidence: results/e43_tilt_4member/LADDERLEVELS-20261027.json,
+research/digests/DIGEST-20261028-r1214-e181-e182-ladder-lomo-wide-gross.md.
+
+## E182 A net delta on a rotating book is a thin residual; publish gross and name the opposing carrier (2026-10-28 r1214 bm-b)
+
+E176 published the wide book repair delta as one net number. Per holding, 2024_now reads
++49.6 bp net against 113.1 bp of gross absolute movement (net/gross 0.4387, 45 names moved),
+and the largest single carrier is NEGATIVE: sh510580 -14.5 bp (-29.3% of the net). So the
+headline is neither a single-name story nor a cancellation to zero -- it is a thin sum of
+offsetting repairs, which is what +49.6bp cannot say on its own.
+
+How to apply: on any book that re-picks (so a name can enter/leave mid-window) publish net,
+gross abs, net/gross, a classification word (flat_per_holding / cancelling / moving) and the
+list of names whose REMOVAL flips the net sign. Three readings here: flat is not cancelling
+(a zero net with zero gross is stillness and says nothing about offsetting moves), an empty
+flipper list is a positive finding (the net is distributed, not carried), and net/gross near
+1 is a one-name story even when no flipper exists. Evidence:
+results/e43_tilt_4member/WIDESIDEGROSS-20261027.json,
+research/digests/DIGEST-20261028-r1214-e181-e182-ladder-lomo-wide-gross.md.
