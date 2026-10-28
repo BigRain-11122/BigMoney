@@ -24,6 +24,7 @@ Usage:
 """
 from __future__ import annotations
 
+import bisect
 import glob
 import io
 import json
@@ -727,7 +728,13 @@ LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
                               "e188_decomposition_label_duty",
                               "e193_decomposition_delta_build_stance",
                               "e196_tilt3_nearzero_sign_census",
-                              "e208_class_table_count_words")
+                              "e208_class_table_count_words",
+                              # E210/E209 audit faces publish counts of faces and of
+                              # page numbers; their own names carry measurement tokens
+                              # (`sourced_share`, `count`), so the live leg reads them as
+                              # quoting faces with no producer -- the E180 pattern again.
+                              "e210_doc_quote_audit",
+                              "e209_count_witness")
 
 # E177's own reading vocabulary, turned into name rules.  Order matters: a gap cell
 # named `arithmetic_vs_geometric_gap_bp` carries both vocabularies, and it is a gap.
@@ -3527,6 +3534,51 @@ QUOTECOUNT_SMALL_CEILING = 100
 QUOTECOUNT_SENSITIVITY = (10, 100, 1000)
 QUOTECOUNT_CANDIDATE_BUCKETS = ("boolean", "count_word", "small_integer")
 
+# E210: the count hazard has been measured on the face side (E207) and the class table
+# has been taught the vocabulary (E208), but both of those read results/. The reader
+# side the CEO actually opens is docs/, and nothing tests whether a number printed there
+# can be traced to a face cell at all -- or whether a count was copied onto the page
+# under a unit, i.e. wearing a reading.
+DOCQUOTE_OUT_DIR = "results/e79"
+DOCQUOTE_PAGE_FAMILIES = ("docs/daily_report/REPORT-*.md",
+                          "docs/live_usage/LIVE-*.md",
+                          "docs/live_book/LIVE-BOOK-*.md",
+                          "docs/portfolio_recommendation/*.md",
+                          "docs/tactics_report/*.md")
+# The "-latest" page is byte-identical to the dated page beside it; auditing both would
+# publish every defect on that page twice.
+DOCQUOTE_SKIP_STEM_SUFFIX = ("-latest",)
+DOCQUOTE_SIZE_CAP = 512 * 1024
+# Trace corpus: the page's own JSON twin first, then a bounded slice of the newest
+# results faces. The bound is published, because "unsourced" here means "not found in
+# this corpus", never "this number does not exist".
+DOCQUOTE_TRACE_FACES = 1200
+DOCQUOTE_TRACE_SIZE_CAP = 1536 * 1024
+DOCQUOTE_EXCLUDE_STUDIES = QUOTECOUNT_EXCLUDE_STUDIES + ("e210_doc_quote_audit",)
+DOCQUOTE_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
+DOCQUOTE_TIME = re.compile(r"\b\d{1,2}:\d{2}(?::\d{2})?\b")
+DOCQUOTE_VERSION = re.compile(r"\bv\d+(?:\.\d+)+", re.I)
+DOCQUOTE_NUMBER = re.compile(r"-?\d[\d,]*(?:\.\d+)?")
+# The unit a page prints beside a number is what turns it into a reading; without one
+# the number is a plain count and quoting it is not a fabrication.
+DOCQUOTE_MEASURE_SUFFIX = (("%", "pct"), ("bp", "bp"), ("pp", "pp"))
+DOCQUOTE_COUNT_BUCKETS = ("count_word", "small_integer", "boolean")
+# A six-digit code is an instrument, not a quantity: a page that names a holding in
+# plain text must not have that code read as a number.
+DOCQUOTE_SECURITY_CODE = re.compile(r"^[01356]\d{5}$")
+DOCQUOTE_SAMPLE = 6
+
+# E209: E207's count-word test is a test on the NAME, so a count spelled without a
+# count word (`gap` = 71) is only ever reported as ambiguous. The measured side of that
+# gap is the count that can prove itself: a numeric leaf whose value equals len() of a
+# sibling list or dict in the same parent object is a count whatever its name says.
+COUNTWITNESS_OUT_DIR = "results/e79"
+COUNTWITNESS_EXCLUDE_STUDIES = QUOTECOUNT_EXCLUDE_STUDIES + ("e210_doc_quote_audit",
+                                                             "e209_count_witness")
+# 0 and 1 match a sibling of that length all over any face; a witness below 2 is noise.
+COUNTWITNESS_FLOOR = 2
+COUNTWITNESS_SAMPLE = 20
+
 
 def _qc_leaves(obj, path="", out=None):
     """(json-path, value, kind) for every scalar leaf, booleans included.
@@ -3800,6 +3852,493 @@ def run_quotecount(publish=False, base=None):
         print("  FACE %s fabricated=%d" % (r["face"], r["fabricated"]))
     print("  verdict:", face["verdict"])
     return 0 if face["status"] == "ok" else 2
+
+
+def _dq_is_count_bucket(bucket):
+    return bucket in DOCQUOTE_COUNT_BUCKETS
+
+
+def _dq_mask(text):
+    """Blank what is an identifier or a timestamp rather than a reading.
+
+    Pages print security codes and field names in backticks, and a code inside a code
+    span is an identifier: counting it as a number would be this audit's own
+    fabrication. Dates, clock times and version strings are masked for the same reason.
+    """
+    text = re.sub(r"```.*?```", lambda m: " " * len(m.group(0)), text, flags=re.S)
+    text = re.sub(r"`[^`\n]*`", lambda m: " " * len(m.group(0)), text)
+    for pat in (DOCQUOTE_ISO_DATE, DOCQUOTE_TIME, DOCQUOTE_VERSION):
+        text = pat.sub(lambda m: " " * len(m.group(0)), text)
+    return text
+
+
+def _dq_context(line, end):
+    tail = line[end:end + 8].lstrip()
+    for suffix, name in DOCQUOTE_MEASURE_SUFFIX:
+        if tail.startswith(suffix):
+            return name
+    return "plain"
+
+
+def _dq_tokens(masked):
+    """Every number a reader would quote off the page, with the unit printed beside it."""
+    out = []
+    for ln, line in enumerate(masked.split("\n"), start=1):
+        for m in DOCQUOTE_NUMBER.finditer(line):
+            start, end = m.start(), m.end()
+            if start and (line[start - 1].isalnum() or line[start - 1] in "_.%"):
+                continue
+            if end < len(line) and (line[end].isalnum() or line[end] == "_"):
+                continue
+            digits = m.group(0).replace(",", "")
+            bare = digits.lstrip("-")
+            # "74,75,77" is a set of ids, not a number: a comma is a thousands
+            # separator only in groups of three.
+            if "," in m.group(0) and not re.fullmatch(r"-?\d{1,3}(?:,\d{3})+",
+                                                      m.group(0)):
+                continue
+            if "." in digits:
+                decimals = len(digits.split(".")[1])
+            else:
+                decimals = 0
+                # "-01" is the tail of a name (COMPOSITE-CE-01), not a count.
+                if len(bare) > 1 and bare[0] == "0":
+                    continue
+            try:
+                value = float(digits)
+            except ValueError:
+                continue
+            # "-¥60,100" puts the currency symbol between the sign and the digits, so
+            # the sign has to be read from the page or a loss reads as a gain.
+            if (start > 1 and line[start - 1] in "¥￥" and line[start - 2] == "-"
+                    and value > 0):
+                value = -value
+            context = _dq_context(line, end)
+            # `510300` printed bare in prose is a holding, not a reading.
+            if context == "plain" and DOCQUOTE_SECURITY_CODE.match(bare):
+                continue
+            out.append({"line": ln, "token": m.group(0), "value": value,
+                        "decimals": decimals, "context": context,
+                        "snippet": line[max(0, start - 45):end + 45].strip()})
+    return out
+
+
+def _dq_index(loaded):
+    """value -> buckets over every numeric leaf of the corpus, at 6dp resolution."""
+    buckets, first, leaves = {}, {}, 0
+    for rel, doc in loaded:
+        for path, value, kind in _qc_leaves(doc):
+            try:
+                key = round(float(value), 6)
+            except (TypeError, ValueError, OverflowError):
+                continue
+            buckets.setdefault(key, set()).add(_qc_bucket(_base_name(path), value, kind))
+            first.setdefault(key, (rel, path))
+            leaves += 1
+    return {"values": sorted(buckets), "buckets": buckets, "first": first,
+            "files": len(loaded), "leaves": leaves}
+
+
+def _dq_match(index, candidate, decimals):
+    """Half a unit of the last digit the page printed, so 991712.49 finds 991712.4876."""
+    tol = 0.5 * (10.0 ** -decimals) + 1e-9
+    values = index["values"]
+    lo = bisect.bisect_left(values, candidate - tol)
+    hi = bisect.bisect_right(values, candidate + tol)
+    hits = []
+    for i in range(lo, hi):
+        value = values[i]
+        for bucket in index["buckets"].get(value, ()):
+            face, leaf = index["first"][value]
+            hits.append({"value": value, "bucket": bucket, "face": face, "leaf": leaf})
+    return hits
+
+
+def _dq_pages(root):
+    """The newest page per family -- the one the CEO is pointed at today."""
+    picked = []
+    for family in DOCQUOTE_PAGE_FAMILIES:
+        cands = []
+        for path in glob.glob(os.path.join(root, family)):
+            stem = os.path.splitext(os.path.basename(path))[0].lower()
+            if any(stem.endswith(s) for s in DOCQUOTE_SKIP_STEM_SUFFIX):
+                continue
+            try:
+                if os.path.getsize(path) > DOCQUOTE_SIZE_CAP:
+                    continue
+                cands.append((os.path.getmtime(path), path))
+            except OSError:
+                continue
+        if cands:
+            cands.sort()
+            picked.append(cands[-1][1])
+    return picked
+
+
+def _dq_corpus(root, skip_studies):
+    """A bounded, newest-first slice of results/ as the fleet-wide trace source."""
+    paths = []
+    for path in glob.glob(os.path.join(root, "results", "**", "*.json"), recursive=True):
+        rel = _rel(root, path)
+        if any(s in "/" + rel for s in QUOTECOUNT_SKIP_DIRS):
+            continue
+        try:
+            if os.path.getsize(path) > DOCQUOTE_TRACE_SIZE_CAP:
+                continue
+            paths.append((os.path.getmtime(path), rel, path))
+        except OSError:
+            continue
+    paths.sort(reverse=True)
+    loaded, skipped_study, skipped_unreadable = [], 0, 0
+    for _, rel, path in paths:
+        if len(loaded) >= DOCQUOTE_TRACE_FACES:
+            break
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except (OSError, ValueError):
+            skipped_unreadable += 1
+            continue
+        if isinstance(doc, dict) and doc.get("study") in skip_studies:
+            skipped_study += 1
+            continue
+        loaded.append((rel, doc))
+    return loaded, {"files_available": len(paths), "bound": DOCQUOTE_TRACE_FACES,
+                    "size_cap_bytes": DOCQUOTE_TRACE_SIZE_CAP,
+                    "skipped_unreadable": skipped_unreadable,
+                    "skipped_study": skipped_study}
+
+
+def _dq_dates_from(rels, twins):
+    dates = []
+    for rel in rels:
+        m = DOCQUOTE_ISO_DATE.search(os.path.basename(rel))
+        if m:
+            dates.append(m.group(0))
+    for doc in twins:
+        if not isinstance(doc, dict):
+            continue
+        for key in ("report_date", "evidence_cutoff", "asof"):
+            value = doc.get(key)
+            if isinstance(value, str) and DOCQUOTE_ISO_DATE.fullmatch(value):
+                dates.append(value)
+    return max(dates) if dates else None
+
+
+def doc_quote_sweep(base=None):
+    """E210: can every number on the pages the CEO reads be traced to a face cell,
+    and is that cell a reading or a count wearing a unit?"""
+    root = base or ROOT
+    skip = tuple(DOCQUOTE_EXCLUDE_STUDIES)
+    pages = _dq_pages(root)
+    loaded, corpus_meta = _dq_corpus(root, skip)
+    fleet = _dq_index(loaded)
+
+    totals = {"pages": 0, "pages_unreadable": 0, "numbers": 0,
+              "sourced_page_twin": 0, "sourced_face_corpus": 0,
+              "unsourced": 0, "count_as_reading": 0, "integral_under_a_unit": 0,
+              "pages_without_a_json_twin": 0}
+    rows, twins, rels = [], [], []
+    for page in pages:
+        rel = _rel(root, page)
+        try:
+            with io.open(page, encoding="utf-8") as fh:
+                text = fh.read()
+        except OSError:
+            totals["pages_unreadable"] += 1
+            continue
+        totals["pages"] += 1
+        rels.append(rel)
+
+        twin_rel, twin_doc = None, None
+        twin_path = os.path.splitext(page)[0] + ".json"
+        if os.path.exists(twin_path):
+            try:
+                with io.open(twin_path, encoding="utf-8") as fh:
+                    twin_doc = json.load(fh)
+                twin_rel = _rel(root, twin_path)
+                twins.append(twin_doc)
+            except (OSError, ValueError):
+                twin_doc = None
+        else:
+            totals["pages_without_a_json_twin"] += 1
+        twin = _dq_index([(twin_rel, twin_doc)]) if twin_rel else _dq_index([])
+
+        tokens = _dq_tokens(_dq_mask(text))
+        counts = {"numbers": len(tokens), "sourced_page_twin": 0,
+                  "sourced_face_corpus": 0, "unsourced": 0,
+                  "count_as_reading": 0, "integral_under_a_unit": 0}
+        row = {"page": rel, "page_json_twin": twin_rel, "counts": counts,
+               "count_as_reading": [], "unsourced": [], "by_context": {}}
+        for tok in tokens:
+            candidates = [tok["value"]]
+            if tok["context"] == "pct":
+                candidates.append(tok["value"] / 100.0)   # a page prints 12.34%, a face stores 0.1234
+            hits, tier = [], None
+            for candidate in candidates:
+                hits = _dq_match(twin, candidate, tok["decimals"])
+                if hits:
+                    tier = "page_twin"
+                    break
+            if not hits:
+                for candidate in candidates:
+                    hits = _dq_match(fleet, candidate, tok["decimals"])
+                    if hits:
+                        tier = "face_corpus"
+                        break
+            item = {"token": tok["token"], "context": tok["context"], "line": tok["line"],
+                    "snippet": tok["snippet"], "tier": tier,
+                    "buckets": sorted({h["bucket"] for h in hits}),
+                    "face": hits[0]["face"] if hits else None,
+                    "leaf": hits[0]["leaf"] if hits else None}
+            if not hits:
+                counts["unsourced"] += 1
+                if len(row["unsourced"]) < DOCQUOTE_SAMPLE:
+                    row["unsourced"].append(item)
+            else:
+                counts["sourced_" + tier] += 1
+                # The defect: the page printed a unit over a cell whose own NAME
+                # declares a quantity of things ("gap_sessions", "n_holdings"). An
+                # integral value with no count word is ambiguity, not a defect --
+                # cpu_pct = 43.0 is a real 43.0% reading that merely lands on an exact
+                # integer, and calling it a count would be this audit's own fabrication.
+                if tok["context"] in ("bp", "pp", "pct") and all(
+                        _dq_is_count_bucket(h["bucket"]) for h in hits):
+                    if any(h["bucket"] == "count_word" for h in hits):
+                        counts["count_as_reading"] += 1
+                        if len(row["count_as_reading"]) < DOCQUOTE_SAMPLE:
+                            row["count_as_reading"].append(item)
+                    else:
+                        counts["integral_under_a_unit"] += 1
+            row["by_context"][tok["context"]] = row["by_context"].get(tok["context"], 0) + 1
+        for key in ("numbers", "sourced_page_twin", "sourced_face_corpus",
+                    "unsourced", "count_as_reading", "integral_under_a_unit"):
+            totals[key] += counts[key]
+        rows.append(row)
+
+    cutoff = _dq_dates_from(rels, twins)
+    return {
+        "study": "e210_doc_quote_audit",
+        "evidence_cutoff": cutoff,
+        "status": "ok",
+        "totals": totals,
+        "corpus": corpus_meta,
+        "rows": rows,
+        "answers": {
+            "pages": [r["page"] for r in rows],
+            "page_families": list(DOCQUOTE_PAGE_FAMILIES),
+            "sourced_share": (round(float(totals["sourced_page_twin"]
+                                         + totals["sourced_face_corpus"])
+                                    / totals["numbers"], 4) if totals["numbers"] else None),
+            "verdict": ("of_%d_numbers_on_the_pages_the_ceo_reads_%d_are_unsourced_"
+                        "and_%d_count_cells_wear_a_unit"
+                        % (totals["numbers"], totals["unsourced"],
+                           totals["count_as_reading"])),
+        },
+        "caveats": [
+            "traceability is tested against the page's own JSON twin first and then a "
+            "bounded corpus of the newest %d results faces: an 'unsourced' number may "
+            "still be a legitimate derived aggregate (a sum the page computes itself), "
+            "so the unsourced list is a reading list, not a verdict"
+            % DOCQUOTE_TRACE_FACES,
+            "matching is half a unit of the last digit the page printed, so a rounded "
+            "quote counts as sourced; a page that rounds harder than that will report "
+            "the source as missing rather than match it",
+            "counts printed without a unit (a headcount, a session count) are sourced "
+            "and acquitted on purpose -- the defect is a count wearing bp/pp/%",
+            "a defect requires the page to print a unit AND the cell that explains the "
+            "value to carry a count word in its name; value coincidence is still "
+            "possible for common small integers (a printed 20% cap can match an "
+            "n_holdings of 20), so a hit is a candidate to read, not a proven error",
+            "an exact integer with no count word ('cpu_pct': 43.0) is filed as "
+            "integral_under_a_unit, never as a defect: 43.0% is a real reading that "
+            "merely lands on a whole number",
+            "only the newest page of each family is audited, and pages whose name ends "
+            "in '-latest' are skipped as duplicates of the dated page beside them",
+            "identifiers inside backticks, dates, clock times and version strings are "
+            "masked before tokenising: a six-digit code is not a number a reader quotes",
+            "this leg cannot tell whether a sourced number was rounded wrongly, only "
+            "whether the cell it came from is a reading or a count",
+        ],
+        "law_ref": ("O-20260924-1626 R3 (a name-based audit may not invent a quote) + "
+                    "E207/E208 count-vs-quote law, applied to the reader side"),
+    }
+
+
+def run_docquotes(publish=False, base=None):
+    face = doc_quote_sweep(base=base)
+    if publish:
+        out = os.path.join(_abs(DOCQUOTE_OUT_DIR),
+                           "DOCQUOTES-%s.json" % (face.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("pages=%d numbers=%d sourced_twin=%d sourced_corpus=%d unsourced=%d "
+          "count_as_reading=%d integral_under_a_unit=%d"
+          % (t["pages"], t["numbers"], t["sourced_page_twin"],
+             t["sourced_face_corpus"], t["unsourced"], t["count_as_reading"],
+             t["integral_under_a_unit"]))
+    print("  corpus: files=%d bound=%d skipped_study=%d unreadable=%d"
+          % (face["corpus"]["files_available"], face["corpus"]["bound"],
+             face["corpus"]["skipped_study"], face["corpus"]["skipped_unreadable"]))
+
+    def _ascii(text):
+        return text.encode("ascii", "replace").decode("ascii")
+
+    for row in face["rows"]:
+        c = row["counts"]
+        print("  PAGE %s numbers=%d twin=%s unsourced=%d count_as_reading=%d"
+              % (row["page"], c["numbers"], "yes" if row["page_json_twin"] else "no",
+                 c["unsourced"], c["count_as_reading"]))
+        for item in row["count_as_reading"][:3]:
+            print("     COUNT-AS-READING L%d %s %s <- %s %s"
+                  % (item["line"], item["token"], item["context"],
+                     item["face"], item["leaf"]))
+        for item in row["unsourced"][:3]:
+            print("     UNSOURCED L%d %s %s  | %s"
+                  % (item["line"], item["token"], item["context"],
+                     _ascii(item["snippet"][:70])))
+    print("  verdict:", face["answers"]["verdict"])
+    return 0
+
+
+def _cw_containers(obj, path="", out=None):
+    """(json-path, dict) for every mapping in the document, so siblings can be compared."""
+    if out is None:
+        out = []
+    if isinstance(obj, dict):
+        out.append((path, obj))
+        for key, value in obj.items():
+            _cw_containers(value, path + "/" + str(key), out)
+    elif isinstance(obj, list):
+        for value in obj:
+            _cw_containers(value, path, out)
+    return out
+
+
+def count_witness_sweep(base=None):
+    """E209: which counts prove themselves by equalling a sibling's length."""
+    root = base or ROOT
+    loaded, corpus_meta = _dq_corpus(root, tuple(COUNTWITNESS_EXCLUDE_STUDIES))
+    totals = {"faces_scanned": 0, "containers": 0, "integer_leaves": 0,
+              "witnessed": 0, "witnessed_measurement_named": 0,
+              "witnessed_measurement_named_word_caught": 0,
+              "witnessed_measurement_named_word_missed": 0,
+              "witnessed_not_measurement_named": 0,
+              "skipped_below_floor": 0}
+    rows = []
+    for rel, doc in loaded:
+        totals["faces_scanned"] += 1
+        cells = []
+        for path, container in _cw_containers(doc):
+            totals["containers"] += 1
+            lengths = {key: len(value) for key, value in container.items()
+                       if isinstance(value, (list, dict))}
+            if not lengths:
+                continue
+            for key, value in container.items():
+                if isinstance(value, bool) or not isinstance(value, (int, float)):
+                    continue
+                totals["integer_leaves"] += 1
+                if not float(value).is_integer():
+                    continue
+                count = int(value)
+                if abs(count) < COUNTWITNESS_FLOOR:
+                    totals["skipped_below_floor"] += 1
+                    continue
+                witnesses = sorted(k for k, n in lengths.items() if n == count)
+                if not witnesses:
+                    continue
+                leaf = path + "/" + str(key)
+                name = _base_name(leaf)
+                measurement = any(tok in name for tok in QUOTECOUNT_MEASURE_TOKENS)
+                bucket = _qc_bucket(name, value, "number")
+                totals["witnessed"] += 1
+                if measurement:
+                    totals["witnessed_measurement_named"] += 1
+                    if bucket == "count_word":
+                        totals["witnessed_measurement_named_word_caught"] += 1
+                    else:
+                        totals["witnessed_measurement_named_word_missed"] += 1
+                else:
+                    totals["witnessed_not_measurement_named"] += 1
+                if len(cells) < COUNTWITNESS_SAMPLE:
+                    cells.append({"leaf": leaf, "value": count, "witnesses": witnesses,
+                                  "measurement_named": measurement, "word_test": bucket})
+        if cells:
+            rows.append({"face": rel, "witnessed": len(cells), "cells": cells})
+
+    missed = totals["witnessed_measurement_named_word_missed"]
+    caught = totals["witnessed_measurement_named_word_caught"]
+    dates = []
+    for _, doc in loaded:
+        if not isinstance(doc, dict):
+            continue
+        value = doc.get("evidence_cutoff")
+        if isinstance(value, str) and DOCQUOTE_ISO_DATE.fullmatch(value):
+            dates.append(value)
+    return {
+        "study": "e209_count_witness",
+        "evidence_cutoff": max(dates) if dates else None,
+        "status": "ok",
+        "totals": totals,
+        "corpus": corpus_meta,
+        "rows": rows,
+        "answers": {
+            "verdict": ("%d_measurement_named_counts_prove_themselves_and_the_word_test_"
+                        "caught_%d_of_them" % (totals["witnessed_measurement_named"], caught)),
+            "word_test_precision": (round(float(caught)
+                                          / totals["witnessed_measurement_named"], 4)
+                                    if totals["witnessed_measurement_named"] else None),
+            "this_leg_cannot_speak_for": ("counts whose value no sibling proves (the "
+                                          "`gap` = 71 case) stay unmeasurable here"),
+        },
+        "caveats": [
+            "an equal length is a WITNESS, not a proof: a parent with five members and a "
+            "leaf that happens to be 5 matches without the two being related",
+            "values below %d are skipped because a 0 or a 1 matches any single-member "
+            "sibling by accident; the floor is a line this leg draws and the skipped "
+            "count is published beside the finding" % COUNTWITNESS_FLOOR,
+            "the corpus is the newest %d results faces under the size cap, so the "
+            "totals are a floor on the surface, never a claim of completeness"
+            % DOCQUOTE_TRACE_FACES,
+            "only leaves whose NAME carries a measurement token are split by the "
+            "count-word test; witnessed counts under other names are reported as one "
+            "total because the quote hazard does not reach them",
+            "the two totals answer different questions: 'witnessed' is how many counts "
+            "prove themselves, 'word_caught' is how many of the measurement-named ones "
+            "the vocabulary already recognised",
+        ],
+        "law_ref": ("E207/E208 count-vs-quote family; O-20260924-1626 R3"),
+    }
+
+
+def run_countwitness(publish=False, base=None):
+    face = count_witness_sweep(base=base)
+    if publish:
+        out = os.path.join(_abs(COUNTWITNESS_OUT_DIR),
+                           "COUNTWITNESS-%s.json"
+                           % (face.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("faces=%d witnessed=%d measurement_named=%d word_caught=%d word_missed=%d "
+          "not_measurement=%d skipped_floor=%d"
+          % (t["faces_scanned"], t["witnessed"], t["witnessed_measurement_named"],
+             t["witnessed_measurement_named_word_caught"],
+             t["witnessed_measurement_named_word_missed"],
+             t["witnessed_not_measurement_named"], t["skipped_below_floor"]))
+    for row in face["rows"][:5]:
+        print("  FACE %s witnessed=%d" % (row["face"], row["witnessed"]))
+        for cell in row["cells"][:2]:
+            print("     %s = %d <- %s"
+                  % (cell["leaf"], cell["value"], ",".join(cell["witnesses"])))
+    print("  verdict:", face["answers"]["verdict"])
+    return 0
 
 
 def run_signexposure(publish=False, base=None):
@@ -4153,6 +4692,51 @@ def _quotecount_fixture(root):
     face("results/e79/SELF-20261027.json", {
         "study": "e207_count_as_quote_audit", "evidence_cutoff": "2026-10-27",
         "counts": {"gap": 999}})
+    return root
+
+
+def _docquote_fixture(root):
+    """One CEO page and its JSON twin: a real quote, a count wearing 'bp', a plain
+    count, an unsourceable number, and a code span plus a date that must not count."""
+    page_dir = os.path.join(root, "docs", "daily_report")
+    os.makedirs(page_dir, exist_ok=True)
+    page = os.path.join(page_dir, "REPORT-20261029.md")
+    with io.open(page, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("# daily\n\n"
+                 "- book equity 991712.49 CNY\n"
+                 "- gap_sessions 171 bp\n"
+                 "- members 6 people\n"
+                 "- unaccounted 123.45\n"
+                 "- code `510300` and date 2026-10-29 are identifiers, not readings\n")
+    twin = os.path.join(page_dir, "REPORT-20261029.json")
+    with io.open(twin, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"report_date": "2026-10-29",
+                             "combat": {"equity": 991712.4876,
+                                        "gap_sessions": 171,
+                                        "members": 6},
+                             "generated_at": "2026-10-29 04:32:54"},
+                            ensure_ascii=False, indent=1) + "\n")
+    return root
+
+
+def _countwitness_fixture(root):
+    """One face: a count word that proves itself, a measurement name without a count
+    word, a below-floor value, and a witnessed count under a plain name."""
+    path = os.path.join(root, "results", "e79", "WITNESS-20261029.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({
+            "study": "e999_witness_fixture",
+            "evidence_cutoff": "2026-10-29",
+            "eras": {"2017_2020": {"gap_sessions": 3,
+                                   "rows": [{"a": 1}, {"a": 2}, {"a": 3}],
+                                   "levels": 3,
+                                   "level_rows": [1, 2, 3],
+                                   "members": 3,
+                                   "member_list": ["x", "y", "z"],
+                                   "arms": 1,
+                                   "arm_list": [7]}},
+        }, ensure_ascii=False, indent=1) + "\n")
     return root
 
 
@@ -5020,6 +5604,65 @@ def selftest():
         and _lq_mixed["count_named_cells"][0]["legacy_class"] == "offset"
         and _lq["totals"]["level_named_cells_retired_as_counts"] == 1)
 
+    # ---- E210: the reader side of the same hazard
+    _tmp8 = _docquote_fixture(tempfile.mkdtemp(prefix="e210_"))
+    _dq = doc_quote_sweep(base=_tmp8)
+    _dq_row = _dq["rows"][0]
+    _dq_counts = _dq_row["counts"]
+    chk("L111 a count printed under a unit on the page is caught, with the cell that "
+        "explains it",
+        _dq_counts["count_as_reading"] == 1
+        and _dq_row["count_as_reading"][0]["token"] == "171"
+        and _dq_row["count_as_reading"][0]["buckets"] == ["count_word"]
+        and _dq_row["count_as_reading"][0]["leaf"] == "/combat/gap_sessions")
+    chk("L112 a real quote is sourced from the page's own twin and is never a defect",
+        _dq_counts["sourced_page_twin"] >= 2
+        and "991712.49" not in [i["token"] for i in _dq_row["count_as_reading"]]
+        and "991712.49" not in [i["token"] for i in _dq_row["unsourced"]])
+    chk("L113 a count printed without a unit is sourced and acquitted on purpose",
+        _dq_counts["count_as_reading"] == 1
+        and _dq_row["by_context"].get("bp") == 1)
+    chk("L114 a number the corpus cannot source is named, not dropped",
+        _dq_counts["unsourced"] == 1
+        and _dq_row["unsourced"][0]["token"] == "123.45"
+        and _dq_row["unsourced"][0]["tier"] is None
+        and _dq_row["unsourced"][0]["face"] is None)
+    chk("L115 code spans, dates, clock times and versions are masked, so an identifier "
+        "is never counted as a number",
+        _dq_counts["numbers"] == 4)
+    chk("L116 the cutoff comes from the page name, not from a masked body, and the "
+        "corpus bound is published with the face",
+        _dq["evidence_cutoff"] == "2026-10-29"
+        and _dq["corpus"]["bound"] == DOCQUOTE_TRACE_FACES
+        and _dq["totals"]["pages"] == 1)
+
+    # ---- E209: the counts that prove themselves
+    _tmp9 = _countwitness_fixture(tempfile.mkdtemp(prefix="e209_"))
+    _cw = count_witness_sweep(base=_tmp9)
+    _cw_t = _cw["totals"]
+    _cw_cells = {(c["leaf"], c["value"]): c
+                 for r in _cw["rows"] for c in r["cells"]}
+    chk("L117 a measurement-named count that equals a sibling's length is witnessed, and "
+        "the count-word test already owned it",
+        _cw_t["witnessed_measurement_named_word_caught"] == 1
+        and "rows" in _cw_cells[("/eras/2017_2020/gap_sessions", 3)]["witnesses"]
+        and _cw_cells[("/eras/2017_2020/gap_sessions", 3)]["word_test"] == "count_word")
+    chk("L118 the same witness catches the count the word test cannot: a measurement "
+        "name with no count word",
+        _cw_t["witnessed_measurement_named_word_missed"] == 1
+        and _cw_cells[("/eras/2017_2020/levels", 3)]["word_test"] == "small_integer"
+        and "level_rows" in _cw_cells[("/eras/2017_2020/levels", 3)]["witnesses"])
+    chk("L119 a witnessed count under a plain name is counted separately, and a leaf "
+        "below the floor is skipped rather than witnessed",
+        _cw_t["witnessed_not_measurement_named"] == 1
+        and _cw_t["skipped_below_floor"] == 1
+        and ("/eras/2017_2020/arms", 1) not in _cw_cells)
+    chk("L120 the witness face names its own verdict and dates itself from the corpus",
+        _cw["answers"]["verdict"] ==
+        "2_measurement_named_counts_prove_themselves_and_the_word_test_caught_1_of_them"
+        and _cw["evidence_cutoff"] == "2026-10-29"
+        and _cw["answers"]["word_test_precision"] == 0.5)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -5058,6 +5701,10 @@ def main(argv):
         return run_quotecount(publish="--publish" in argv)
     if cmd == "countworddelta":
         return run_classcountdelta(publish="--publish" in argv)
+    if cmd == "docquotes":
+        return run_docquotes(publish="--publish" in argv)
+    if cmd == "countwitness":
+        return run_countwitness(publish="--publish" in argv)
     print(__doc__)
     return 2
 

@@ -1248,6 +1248,21 @@ def main() -> int:
               False, str(e))
         check("fleet: machine-health gate leg wired into the S6 chain", False, str(e))
 
+    # E210: the CEO-page quote audit is only useful if it runs on every round and runs
+    # AFTER the two legs that write the pages it reads -- a leg wired in front of its
+    # own subject audits yesterday's file and reports clean.
+    try:
+        _dq_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _dq_after = (_dq_order.index("docquotes") > _dq_order.index("daily_report")
+                     and _dq_order.index("docquotes") > _dq_order.index("ceo_live_usage"))
+        check("product: the CEO-page quote audit runs after the pages it audits",
+              _dq_after, "docquotes=%d daily_report=%d ceo_live_usage=%d"
+              % (_dq_order.index("docquotes"), _dq_order.index("daily_report"),
+                 _dq_order.index("ceo_live_usage")))
+    except Exception as e:
+        check("product: the CEO-page quote audit runs after the pages it audits",
+              False, str(e))
+
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
     # the older body went out through a GBK round trip (19 x U+E511), and the file

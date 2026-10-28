@@ -22858,26 +22858,32 @@
   {
    "id": "E209-SIBLING-LENGTH-COUNT-PROOF",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/e79/COUNTWITNESS-<cutoff>.json",
    "target": "scripts/e97_routing.py (new mode)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T04:44:00+08:00",
    "entered_by": "bm-b r1235",
    "source": "E207's count-word test is a WORD test, so a count spelled without a count word (`gap` = 71) is only ever reported as ambiguous. The measured side of that gap is the count that can prove itself.",
-   "title": "Find the counts that prove themselves: a numeric leaf whose value equals len() of a sibling list/dict in the same parent object is a count whatever its name says. Publish how many measurement-named cells carry that witness, split by whether the count-word test already caught them, so the word test's false-negative rate is a number and not a caveat."
+   "title": "Find the counts that prove themselves: a numeric leaf whose value equals len() of a sibling list/dict in the same parent object is a count whatever its name says. Publish how many measurement-named cells carry that witness, split by whether the count-word test already caught them, so the word test's false-negative rate is a number and not a caveat.",
+   "done_at": "2026-10-29T06:0x+08:00",
+   "done_by": "bm-b r1237",
+   "result_ref": "results/e79/COUNTWITNESS-2026-10-28.json"
   },
   {
    "id": "E210-COUNTS-ON-THE-CEO-PAGE",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/e79/DOCQUOTES-<cutoff>.json",
    "target": "scripts/e97_routing.py (new mode)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T04:45:00+08:00",
    "entered_by": "bm-b r1235",
    "source": "E207 counted the hazard on the face side. The reader side the CEO actually sees is docs/ (daily report, LIVE page, scorecards), and nothing checks whether a count was copied there as if it were bp.",
-   "title": "Read the docs/ pages the CEO reads and test every number on them: is it traceable to a face cell, and is that cell quote-shaped or a count. Publish the untraceable numbers and the counts-presented-as-readings separately -- a number the page cannot source is a different defect from a count wearing a bp label."
+   "title": "Read the docs/ pages the CEO reads and test every number on them: is it traceable to a face cell, and is that cell quote-shaped or a count. Publish the untraceable numbers and the counts-presented-as-readings separately -- a number the page cannot source is a different defect from a count wearing a bp label.",
+   "done_at": "2026-10-29T06:0x+08:00",
+   "done_by": "bm-b r1237",
+   "result_ref": "results/e79/DOCQUOTES-2026-10-29.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22892,6 +22898,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-29T03:50:00+08:00",
+ "updated_at": "2026-10-29T06:05:00+08:00",
  "version": 1
 }

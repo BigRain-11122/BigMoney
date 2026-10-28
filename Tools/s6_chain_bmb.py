@@ -39,6 +39,9 @@ LEGS = [
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    # E210: the pages above are the ones the CEO opens, so the leg that asks whether
+    # their numbers can be traced to a face cell has to run after them, not before.
+    ("docquotes", ["python", "scripts/e97_routing.py", "docquotes", "--publish"]),
     # fleet / bookkeeping guards
     ("machine_health", ["python", "Tools/machine_health_face.py", "check"]),
     ("gpu_face", ["python", "Tools/gpu_face.py", "audit"]),

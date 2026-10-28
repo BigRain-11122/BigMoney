@@ -2897,3 +2897,68 @@ count word and legacy class; the audit's totals shrink *and* say why.
 
 Honest limit: the vocabulary is closed and hand-written, so a count spelled without one of these
 words is still read as a level -- the list is the whole coverage claim.
+
+## E210 The reader side needs its own test: can a page number be sourced, and is the cell a quote? (2026-10-29 r1237 bm-b)
+
+Evidence: `results/e79/DOCQUOTES-2026-10-29.json`, mode `docquotes`
+(`scripts/e97_routing.py`, selftest 113 -> 119), wired into `Tools/s6_chain_bmb.py` **after**
+`daily_report` and `ceo_live_usage`, with a smoke leg that asserts that ordering.
+
+E207/E208 measured the hazard where faces live (`results/`). The reader the CEO actually opens is
+`docs/`, and nothing tested it. First run, five families (daily report, live usage, ETF live book,
+portfolio recommendation, tactics report): **534 numbers, 471 traceable to the page's own JSON twin
+and 61 more to a bounded 1,200-face corpus -- 99.6% sourced**, 2 unsourced, 5 cells flagged as a
+count wearing a unit, 12 filed as `integral_under_a_unit`.
+
+What the numbers taught:
+
+(a) **Integrality is a signature, not evidence, and the first rule was wrong.** The first draft
+called any integral value under a unit a defect and immediately flagged `cpu_pct: 43.0` printed as
+"43.0%" and `py_series_tail: 100.0` -- both real readings that merely land on whole numbers. A
+defect now requires the page to print a unit **and** the matching cell's own NAME to carry a count
+word; exact integers with no count word go to their own bucket and are never called defects.
+
+(b) **All five survivors were value coincidence, and the face says so.** A printed "RED: 20% cap"
+matches `n_holdings: 20`; a printed "-86% ~ -14%" return range matches `n_evidence_missing: 14`.
+Value-only matching cannot tell those apart on CJK pages (no shared token to check), so a hit is
+published as a candidate to read, with that coincidence named in the caveats -- not as a proven
+error.
+
+(c) **The tokeniser is where such an audit fabricates its own quotes.** Four masks were needed
+before the totals meant anything: code spans (`510300`), dates, clock times, version strings; commas
+are a thousands separator only in groups of three ("T-{74,75,77}" is a set of ids, not a number);
+bare six-digit security codes are instruments; and "-Y60,100" puts the sign *before* the currency
+symbol, so a loss reads as a gain unless the page is read for it.
+
+How to apply: any audit of a rendered product needs a mask list plus a "candidate vs verdict"
+split -- publish what the audit cannot decide, and give the reader the cell that explains the value.
+
+## E209 A count that can prove itself: sibling length as a value-level witness (2026-10-29 r1237 bm-b)
+
+Evidence: `results/e79/COUNTWITNESS-2026-10-28.json`, mode `countwitness`
+(`scripts/e97_routing.py`, selftest 119 -> 123).
+
+E207's guard is a WORD test, so it can only speak about counts whose names say "a quantity of
+things". E209 supplies the measured side: a numeric leaf whose value equals `len()` of a sibling
+list or dict in the same parent object is a count whatever its name says. Over the newest 1,200
+faces: **373 measurement-named counts prove themselves; the count-word test already caught 299 of
+them (80.2%) and the remaining 74 were invisible to it.** 4,329 witnessed counts sit under names
+the quote hazard never reaches, and 62,372 leaves below the floor of 2 are skipped.
+
+Two rules worth keeping:
+
+(a) **A witness is not a proof, and the floor is a line you draw.** 0 and 1 match a single-member
+sibling all over any face, so they are skipped and the skip count is published. Even above the
+floor, an equal length can be a coincidence -- `published_bars: 4` next to a four-entry
+`noise_band_pp` is not a count claim about the same thing. The face reports the witnessing sibling
+key so a reader can judge it; it never asserts causation.
+
+(b) **Self-inclusion is a live hazard, and it caught this leg on its first publish.** Run one wrote
+4,702 witnessed cells; run two wrote 5,406, because the face published in between was scanned as
+input. The study name on disk still said the old id, so the exclusion list did not match it and
+nothing looked wrong -- the number simply grew. Renaming the study to the id the exclusion list
+declares restored idempotency (4,702 twice). Publish twice and compare, or you cannot tell a
+measurement from a self-portrait.
+
+How to apply: when a classifier can only work on names, look for a value-level witness beside it and
+report both totals side by side -- the gap between them is the classifier's real coverage claim.
