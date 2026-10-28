@@ -48,6 +48,7 @@ WEIGHTS = [0.0, 0.10, 0.20, 0.25, 1.0 / 3.0, 0.50]
 LOOKBACKS = {"tsmom60": 60, "tsmom120": 120}
 COST_GRID_BP = [1.0, 3.0, 5.0, 10.0]   # per side, on the futures sleeve
 BREAKEVEN_WEIGHT = 1.0 / 3.0            # the weight the shipped card publishes
+BAND_GRID = [0.0, 0.05, 0.10, 0.20, 0.30]   # no-trade band on the sleeve's own weights
 
 
 def blend_returns(etf_r, sleeve_r, f):
@@ -137,6 +138,94 @@ def cost_ladder(close, w, book_r, book_vol, book_ref, tag):
     return ladder
 
 
+def banded_weights(w, band):
+    """No-trade band (hysteresis) on the sleeve's own target weights.
+
+    The cost ladder said the overlay only clears at 1-3bp per side, i.e. its problem is
+    decision FREQUENCY, not signal quality. This damps the frequency without changing what
+    the sleeve is allowed to hold:
+
+      * entry from flat, exit to flat and a sign flip ALWAYS execute -- participation is
+        not traded away, only the re-sizing of an already-open position is damped;
+      * inside an open position a target that moves less than `band` (absolute weight) is
+        ignored and the held weight stays;
+      * a missing target (NaN row) goes flat, exactly like the baseline runner, so the
+        band is the only difference between the two paths -- a data gap is not a trading
+        decision.
+
+    Causal by construction: out[t] reads w[<=t] and out[t-1] only.
+    """
+    if band <= 0:
+        return w
+    arr = np.asarray(w.to_numpy(), dtype=float)
+    out = np.zeros_like(arr)
+    held = np.zeros(arr.shape[1])
+    for i in range(arr.shape[0]):
+        tgt = arr[i]
+        live = np.isfinite(tgt)
+        t = np.where(live, tgt, 0.0)
+        structural = (held == 0.0) | (t == 0.0) | (np.sign(t) != np.sign(held))
+        small = np.abs(t - held) <= band
+        held = np.where(live, np.where(structural | ~small, t, held), 0.0)
+        out[i] = held
+    return pd.DataFrame(out, index=w.index, columns=w.columns)
+
+
+def band_face(close, w, book_r, book_vol, book_ref, tag):
+    """Re-price the SAME decisions under rising no-trade bands (nothing re-selected).
+
+    Two readings per band, because a band is not free: the turnover it removes and the
+    gross return it gives up. A band that halves turnover by halving the position is not a
+    fix. Every band is charged the whole cost ladder, so "does cutting the rebalance
+    frequency move the breakeven" is answered against one anchor throughout."""
+    rows = []
+    for band in BAND_GRID:
+        wb = banded_weights(w, band)
+        eq0, turn, _ = P.run_weights(close, wb, cost=0.0)
+        gross_cagr = P.stats(eq0, "%s_b%03d_gross" % (tag, int(round(band * 1000)))).get("cagr")
+        cost_rows = []
+        for bp in COST_GRID_BP:
+            eq, turn_bp, _ = P.run_weights(close, wb, cost=bp / 10000.0)
+            sleeve_r = P.daily_returns(eq)
+            idx = book_r.index.intersection(sleeve_r.index)
+            e = book_r.reindex(idx).fillna(0.0)
+            s = sleeve_r.reindex(idx).fillna(0.0)
+            eq_b = eq_from_returns(blend_returns(e, s, BREAKEVEN_WEIGHT))
+            at = P.stats(P.vol_normalize(eq_b, book_vol),
+                         "%s_b%03d_c%gbp" % (tag, int(round(band * 1000)), bp))
+            cost_rows.append({
+                "cost_per_side_bp": bp,
+                "turnover_total": round(turn_bp, 1),
+                "equal_risk_delta_cagr_pp": round(
+                    (at.get("cagr", 0) - book_ref["at_equal_vol"].get("cagr", 0)) * 100, 2),
+                "equal_risk_delta_maxdd_pp": round(
+                    (at.get("maxdd", 0) - book_ref["at_equal_vol"].get("maxdd", 0)) * 100, 2),
+            })
+        breakeven = None
+        for cr in sorted(cost_rows, key=lambda c: c["cost_per_side_bp"]):
+            d = cr["equal_risk_delta_cagr_pp"]
+            if d is None or d <= 0:
+                break
+            breakeven = cr["cost_per_side_bp"]
+        rows.append({
+            "band": band,
+            "sleeve_turnover_total": round(turn, 1),
+            "gross_cagr_0bp": round(gross_cagr, 4) if gross_cagr is not None else None,
+            "breakeven_bp": breakeven,
+            "cost_rows": cost_rows,
+        })
+
+    base_turn = rows[0]["sleeve_turnover_total"]
+    base_gross = rows[0]["gross_cagr_0bp"]
+    for r in rows:
+        r["turnover_cut_pct"] = (round((1.0 - r["sleeve_turnover_total"] / base_turn) * 100, 1)
+                                 if base_turn else None)
+        r["gross_give_up_pp"] = (round((r["gross_cagr_0bp"] - base_gross) * 100, 2)
+                                 if (r["gross_cagr_0bp"] is not None
+                                     and base_gross is not None) else None)
+    return rows
+
+
 def selftest():
     ok = total = 0
 
@@ -206,6 +295,39 @@ def selftest():
         breakeven_cost(noncontig, 1 / 3.0) == 1.0)
     chk("L15 a weight absent from the ladder reports None rather than borrowing a neighbour's",
         breakeven_cost(ladder_fx, 0.5) is None)
+
+    # --- no-trade band legs ------------------------------------------------------
+    wf = pd.DataFrame({"A": [0.10, 0.12, 0.50, 0.50]},
+                      index=pd.bdate_range("2020-01-01", periods=4))
+    chk("L16 a zero band is the identity (the baseline path is untouched)",
+        banded_weights(wf, 0.0).equals(wf))
+    got = banded_weights(wf, 0.05)["A"].tolist()
+    chk("L17 a move inside the band is ignored, a move outside it is taken",
+        all(abs(g - e) < 1e-12 for g, e in zip(got, [0.10, 0.10, 0.50, 0.50])),
+        "band 0.05 -> %s" % [round(x, 4) for x in got])
+    wn = pd.DataFrame({"A": [0.30, float("nan"), 0.30]},
+                      index=pd.bdate_range("2020-01-01", periods=3))
+    gotn = banded_weights(wn, 0.05)["A"].tolist()
+    chk("L18 a missing target goes flat instead of holding a stale position",
+        all(abs(g - e) < 1e-12 for g, e in zip(gotn, [0.30, 0.0, 0.30])),
+        "NaN row -> %s" % [round(x, 4) for x in gotn])
+    ws = pd.DataFrame({"A": [0.10, -0.30, 0.0]},
+                      index=pd.bdate_range("2020-01-01", periods=3))
+    gots = banded_weights(ws, 0.50)["A"].tolist()
+    chk("L19 a sign flip and an exit are structural -- a wide band cannot block them",
+        all(abs(g - e) < 1e-12 for g, e in zip(gots, [0.10, -0.30, 0.0])),
+        "band 0.50 -> %s" % [round(x, 4) for x in gots])
+    # the mechanism must actually fire before any turnover claim is believed (r1261 law)
+    t_no, t_lo, t_hi = (P.run_weights(px, banded_weights(wts, b), cost=0.0)[1]
+                        for b in (0.0, 0.05, 0.30))
+    chk("L20 the band really cuts turnover and a wider band never adds it",
+        t_no > t_hi > 0.0 and t_lo >= t_hi,
+        "turnover %.1f -> %.1f -> %.1f (the remainder is structural: entries, exits, "
+        "sign flips, which a band must not damper)" % (t_no, t_lo, t_hi))
+    chk("L21 cost does not change the decisions the band leaves (one sequence per band)",
+        abs(P.run_weights(px, banded_weights(wts, 0.05), cost=0.0)[1]
+            - P.run_weights(px, banded_weights(wts, 0.05), cost=0.0010)[1]) < 1e-9,
+        "turnover at 0bp == turnover at 10bp")
     print("\nselftest %d/%d" % (ok, total), flush=True)
     return 0 if ok == total else 1
 
@@ -306,6 +428,27 @@ def run():
                  "at_equal_vol_delta_maxdd_pp")}
             for blk in ladder]
 
+        bands = band_face(close, w, etf_r, book_vol, base, tag)
+        # How much of the friction is STRUCTURAL (entries, exits, sign flips -- which a
+        # no-trade band must not damper) versus re-sizing? An effectively infinite band
+        # damps every re-size and leaves only the structural floor, so the split is
+        # measured, not asserted.
+        _, struct_turn, _ = P.run_weights(close, banded_weights(w, 10.0), cost=0.0)
+        base_turn = bands[0]["sleeve_turnover_total"]
+        out["sweeps"][tag]["turnover_control"] = {
+            "bands_tested": BAND_GRID,
+            "weight": round(BREAKEVEN_WEIGHT, 4),
+            "structural_turnover_total": round(struct_turn, 1),
+            "structural_share_pct": (round(struct_turn / base_turn * 100, 1) if base_turn else None),
+            "resizing_share_pct": (round((1 - struct_turn / base_turn) * 100, 1) if base_turn else None),
+            "note": ("band = absolute weight change ignored inside an already-open position; "
+                     "entries, exits and sign flips always execute, so this measures rebalance "
+                     "frequency, not participation. gross_give_up_pp is what the band costs "
+                     "BEFORE any cost saving, and it is the honest half of the trade. "
+                     "structural_turnover_total is the floor no band can remove"),
+            "rows": bands,
+        }
+
     p = os.path.join(PATHS.results_dir, "futures_overlay_sweep.json")
     with open(p, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
@@ -338,6 +481,28 @@ def run():
                      row["equal_risk_delta_cagr_pp"] if row["equal_risk_delta_cagr_pp"] is not None else float("nan"),
                      row["equal_risk_delta_maxdd_pp"] if row["equal_risk_delta_maxdd_pp"] is not None else float("nan")),
                   flush=True)
+        tc = blk.get("turnover_control") or {}
+        if tc.get("rows"):
+            print("  turnover control at f=%.2f (band = weight change ignored while open):"
+                  % tc["weight"], flush=True)
+            print("  structural floor %.1f of %.1f = %.1f%% of all turnover is entries/exits/"
+                  "sign flips; only %.1f%% is re-sizing"
+                  % (tc["structural_turnover_total"], tc["rows"][0]["sleeve_turnover_total"],
+                     tc["structural_share_pct"] or 0.0, tc["resizing_share_pct"] or 0.0), flush=True)
+            print("  band   turnover  cut     gross CAGR  give-up(pp)  breakeven", flush=True)
+            for r in tc["rows"]:
+                print("  %4.2f   %8.1f  %5.1f%%  %8.2f%%  %+9.2f     %s"
+                      % (r["band"], r["sleeve_turnover_total"], r["turnover_cut_pct"] or 0.0,
+                         (r["gross_cagr_0bp"] or 0.0) * 100, r["gross_give_up_pp"] or 0.0,
+                         ("%gbp" % r["breakeven_bp"]) if r["breakeven_bp"] else "none"),
+                      flush=True)
+            print("  equal-risk dCAGR(pp) by cost, per band:", flush=True)
+            print("  band   " + "".join("%9s" % ("%gbp" % bp) for bp in COST_GRID_BP), flush=True)
+            for r in tc["rows"]:
+                print("  %4.2f   " % r["band"] + "".join(
+                    "%+9.2f" % (cr["equal_risk_delta_cagr_pp"]
+                                if cr["equal_risk_delta_cagr_pp"] is not None else float("nan"))
+                    for cr in sorted(r["cost_rows"], key=lambda c: c["cost_per_side_bp"])), flush=True)
         be = blk["cost_breakeven_bp"]["max_cost_per_side_bp"]
         print("  breakeven = %s per side" % ("%.0fbp" % be if be is not None else "none at any cost tested"),
               flush=True)

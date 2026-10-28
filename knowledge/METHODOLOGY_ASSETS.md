@@ -2709,3 +2709,31 @@ RULES
 Pos: scripts/e39_panel_census.py (selftest 658->670, mode tilt3ladderdropfragility) +
 results/e43_tilt_4member/LADDERDROPCURVE-20261027.json +
 research/digests/DIGEST-20261029-e190-drop-fragility.md.
+
+## E195 Turnover you can only shrink by giving up alpha is not a cost problem -- measure the structural floor first (2026-10-29 r1139 bm-a; numbered E195 because E194 was already taken on origin by bm-c r1330)
+
+WHEN: a face reports that a sleeve only clears at unrealistically low friction, and the
+obvious next move is "add a no-trade band and cut turnover".
+
+WRONG: add the band, see turnover drop 5-11%, see the headline wobble, and call it
+inconclusive -- or worse, tune the band until some reading turns positive. A band can only
+touch the RE-SIZING part of turnover; if the turnover is dominated by entries, exits and
+sign flips, the band is measuring its own ceiling, not the problem.
+
+RIGHT: measure the structural floor before crediting any band. Apply an effectively
+infinite band (all re-sizing damped), take the turnover that survives, and publish its
+share of the total. Then charge every band the full cost ladder on the SAME weights and
+publish BOTH sides of the trade: turnover removed AND gross return given up, plus the
+breakeven per band. Live reading (ETF book x futures sleeve, f=0.33, 1649 bars to
+2026-10-28): the structural floor is 91.9% of turnover for tsmom60 and 86.2% for tsmom120,
+so the widest band can cut at most 6.9% / 10.9% -- while giving up 0.41-0.94pp of gross.
+The breakeven does not improve; it gets worse (120d 3bp -> 1bp, and the 0.10 band has no
+positive cost level at all). Verdict: a band is a two-sided loss here, and the friction
+lives in the signal's flip rate, not in rebalance discipline.
+
+GOTCHA: entries/exits/sign flips MUST stay structural in the band implementation, otherwise
+the band silently trades participation for turnover and the "cheaper" sleeve is just a
+smaller sleeve. Pin it with a selftest leg (a wide band must not block a sign flip or an
+exit) and a leg that verifies the band's claimed cut never exceeds the measured re-sizing
+share. Also pin that cost does not change the decisions a band leaves -- otherwise the
+levels describe different strategies again (E193's sibling).

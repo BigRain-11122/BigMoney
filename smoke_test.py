@@ -1455,6 +1455,53 @@ def main() -> int:
     except Exception as e:
         check("product: overlay breakeven is recomputable from its own ladder", False, str(e))
 
+    # A no-trade band is only honest if it publishes BOTH what it removes (turnover) and
+    # what it gives up (gross), and if the structural floor it cannot touch is measured
+    # rather than assumed. The floor is measured with an effectively infinite band, so a
+    # face that reports a band cutting more turnover than the floor allows is arithmetic
+    # fiction.
+    try:
+        import json as _json
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _bad = []
+        for _tag in ("tsmom60", "tsmom120"):
+            _tc = ((_face.get("sweeps") or {}).get(_tag) or {}).get("turnover_control") or {}
+            _rows = _tc.get("rows") or []
+            if len(_rows) < 3:
+                _bad.append(f"{_tag}: {len(_rows)} bands")
+                continue
+            _base = _rows[0]
+            if round(_base["band"], 4) != 0.0:
+                _bad.append(f"{_tag}: first band is {_base['band']}, not the baseline")
+            _turns = [r["sleeve_turnover_total"] for r in _rows]
+            if any(b > a + 1e-9 for a, b in zip(_turns, _turns[1:])):
+                _bad.append(f"{_tag}: turnover rises as the band widens {_turns}")
+            _floor = _tc.get("structural_turnover_total")
+            if _floor is None or _floor > _turns[0] + 1e-9:
+                _bad.append(f"{_tag}: structural floor {_floor} exceeds unbounded turnover")
+            if min(_turns) < _floor - 1e-9:
+                _bad.append(f"{_tag}: a band cut {min(_turns)} below the {_floor} floor")
+            _maxcut = _tc.get("resizing_share_pct")
+            for _r in _rows:
+                if _r.get("gross_give_up_pp") is None:
+                    _bad.append(f"{_tag} band {_r['band']}: no gross give-up published")
+                    break
+                _costs = {round(c["turnover_total"], 1) for c in _r.get("cost_rows") or []}
+                if len(_costs) > 1:
+                    _bad.append(f"{_tag} band {_r['band']}: turnover moves across cost levels")
+                    break
+                _cut = _r.get("turnover_cut_pct")
+                if _cut is not None and _maxcut is not None and _cut > _maxcut + 0.2:
+                    _bad.append(f"{_tag} band {_r['band']}: claims a {_cut}% cut but only "
+                                f"{_maxcut}% of turnover is re-sizing")
+                    break
+        check("product: overlay no-trade band is priced on both sides of the trade",
+              not _bad, "; ".join(_bad)[:200]
+              or "floor measured, cut <= resizing share, gross give-up published per band")
+    except Exception as e:
+        check("product: overlay no-trade band is priced on both sides of the trade", False, str(e))
+
     return _finish()
 
 

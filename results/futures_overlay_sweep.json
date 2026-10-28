@@ -1119,7 +1119,193 @@
      "equal_risk_delta_cagr_pp": -3.52,
      "equal_risk_delta_maxdd_pp": -4.97
     }
-   ]
+   ],
+   "turnover_control": {
+    "bands_tested": [
+     0.0,
+     0.05,
+     0.1,
+     0.2,
+     0.3
+    ],
+    "weight": 0.3333,
+    "structural_turnover_total": 924.3,
+    "structural_share_pct": 91.9,
+    "resizing_share_pct": 8.1,
+    "note": "band = absolute weight change ignored inside an already-open position; entries, exits and sign flips always execute, so this measures rebalance frequency, not participation. gross_give_up_pp is what the band costs BEFORE any cost saving, and it is the honest half of the trade. structural_turnover_total is the floor no band can remove",
+    "rows": [
+     {
+      "band": 0.0,
+      "sleeve_turnover_total": 1006.1,
+      "gross_cagr_0bp": 0.0193,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 1006.1,
+        "equal_risk_delta_cagr_pp": 0.9,
+        "equal_risk_delta_maxdd_pp": -0.2
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 1006.1,
+        "equal_risk_delta_cagr_pp": -0.1,
+        "equal_risk_delta_maxdd_pp": -1.29
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 1006.1,
+        "equal_risk_delta_cagr_pp": -1.09,
+        "equal_risk_delta_maxdd_pp": -2.36
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 1006.1,
+        "equal_risk_delta_cagr_pp": -3.52,
+        "equal_risk_delta_maxdd_pp": -4.97
+       }
+      ],
+      "turnover_cut_pct": 0.0,
+      "gross_give_up_pp": 0.0
+     },
+     {
+      "band": 0.05,
+      "sleeve_turnover_total": 958.9,
+      "gross_cagr_0bp": 0.0148,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 958.9,
+        "equal_risk_delta_cagr_pp": 0.31,
+        "equal_risk_delta_maxdd_pp": 0.24
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 958.9,
+        "equal_risk_delta_cagr_pp": -0.63,
+        "equal_risk_delta_maxdd_pp": -0.8
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 958.9,
+        "equal_risk_delta_cagr_pp": -1.56,
+        "equal_risk_delta_maxdd_pp": -1.84
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 958.9,
+        "equal_risk_delta_cagr_pp": -3.86,
+        "equal_risk_delta_maxdd_pp": -4.35
+       }
+      ],
+      "turnover_cut_pct": 4.7,
+      "gross_give_up_pp": -0.45
+     },
+     {
+      "band": 0.1,
+      "sleeve_turnover_total": 950.3,
+      "gross_cagr_0bp": 0.013,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 950.3,
+        "equal_risk_delta_cagr_pp": 0.05,
+        "equal_risk_delta_maxdd_pp": -0.22
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 950.3,
+        "equal_risk_delta_cagr_pp": -0.88,
+        "equal_risk_delta_maxdd_pp": -1.25
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 950.3,
+        "equal_risk_delta_cagr_pp": -1.8,
+        "equal_risk_delta_maxdd_pp": -2.27
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 950.3,
+        "equal_risk_delta_cagr_pp": -4.07,
+        "equal_risk_delta_maxdd_pp": -4.76
+       }
+      ],
+      "turnover_cut_pct": 5.5,
+      "gross_give_up_pp": -0.63
+     },
+     {
+      "band": 0.2,
+      "sleeve_turnover_total": 940.4,
+      "gross_cagr_0bp": 0.0099,
+      "breakeven_bp": null,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 940.4,
+        "equal_risk_delta_cagr_pp": -0.03,
+        "equal_risk_delta_maxdd_pp": -0.23
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 940.4,
+        "equal_risk_delta_cagr_pp": -0.94,
+        "equal_risk_delta_maxdd_pp": -1.25
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 940.4,
+        "equal_risk_delta_cagr_pp": -1.86,
+        "equal_risk_delta_maxdd_pp": -2.27
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 940.4,
+        "equal_risk_delta_cagr_pp": -4.1,
+        "equal_risk_delta_maxdd_pp": -4.74
+       }
+      ],
+      "turnover_cut_pct": 6.5,
+      "gross_give_up_pp": -0.94
+     },
+     {
+      "band": 0.3,
+      "sleeve_turnover_total": 936.4,
+      "gross_cagr_0bp": 0.0101,
+      "breakeven_bp": null,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 936.4,
+        "equal_risk_delta_cagr_pp": 0.0,
+        "equal_risk_delta_maxdd_pp": -0.14
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 936.4,
+        "equal_risk_delta_cagr_pp": -0.91,
+        "equal_risk_delta_maxdd_pp": -1.16
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 936.4,
+        "equal_risk_delta_cagr_pp": -1.82,
+        "equal_risk_delta_maxdd_pp": -2.17
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 936.4,
+        "equal_risk_delta_cagr_pp": -4.06,
+        "equal_risk_delta_maxdd_pp": -4.63
+       }
+      ],
+      "turnover_cut_pct": 6.9,
+      "gross_give_up_pp": -0.92
+     }
+    ]
+   }
   },
   "tsmom120": {
    "lookback": 120,
@@ -2221,7 +2407,193 @@
      "equal_risk_delta_cagr_pp": -2.04,
      "equal_risk_delta_maxdd_pp": -2.82
     }
-   ]
+   ],
+   "turnover_control": {
+    "bands_tested": [
+     0.0,
+     0.05,
+     0.1,
+     0.2,
+     0.3
+    ],
+    "weight": 0.3333,
+    "structural_turnover_total": 546.1,
+    "structural_share_pct": 86.2,
+    "resizing_share_pct": 13.8,
+    "note": "band = absolute weight change ignored inside an already-open position; entries, exits and sign flips always execute, so this measures rebalance frequency, not participation. gross_give_up_pp is what the band costs BEFORE any cost saving, and it is the honest half of the trade. structural_turnover_total is the floor no band can remove",
+    "rows": [
+     {
+      "band": 0.0,
+      "sleeve_turnover_total": 633.3,
+      "gross_cagr_0bp": 0.022,
+      "breakeven_bp": 3.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 633.3,
+        "equal_risk_delta_cagr_pp": 0.78,
+        "equal_risk_delta_maxdd_pp": 0.49
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 633.3,
+        "equal_risk_delta_cagr_pp": 0.15,
+        "equal_risk_delta_maxdd_pp": -0.26
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 633.3,
+        "equal_risk_delta_cagr_pp": -0.48,
+        "equal_risk_delta_maxdd_pp": -1.0
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 633.3,
+        "equal_risk_delta_cagr_pp": -2.04,
+        "equal_risk_delta_maxdd_pp": -2.82
+       }
+      ],
+      "turnover_cut_pct": 0.0,
+      "gross_give_up_pp": 0.0
+     },
+     {
+      "band": 0.05,
+      "sleeve_turnover_total": 584.1,
+      "gross_cagr_0bp": 0.0155,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 584.1,
+        "equal_risk_delta_cagr_pp": 0.16,
+        "equal_risk_delta_maxdd_pp": 0.06
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 584.1,
+        "equal_risk_delta_cagr_pp": -0.41,
+        "equal_risk_delta_maxdd_pp": -0.64
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 584.1,
+        "equal_risk_delta_cagr_pp": -0.98,
+        "equal_risk_delta_maxdd_pp": -1.33
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 584.1,
+        "equal_risk_delta_cagr_pp": -2.41,
+        "equal_risk_delta_maxdd_pp": -3.03
+       }
+      ],
+      "turnover_cut_pct": 7.8,
+      "gross_give_up_pp": -0.65
+     },
+     {
+      "band": 0.1,
+      "sleeve_turnover_total": 574.8,
+      "gross_cagr_0bp": 0.0155,
+      "breakeven_bp": null,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 574.8,
+        "equal_risk_delta_cagr_pp": -0.01,
+        "equal_risk_delta_maxdd_pp": -0.51
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 574.8,
+        "equal_risk_delta_cagr_pp": -0.57,
+        "equal_risk_delta_maxdd_pp": -1.19
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 574.8,
+        "equal_risk_delta_cagr_pp": -1.13,
+        "equal_risk_delta_maxdd_pp": -1.87
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 574.8,
+        "equal_risk_delta_cagr_pp": -2.52,
+        "equal_risk_delta_maxdd_pp": -3.52
+       }
+      ],
+      "turnover_cut_pct": 9.2,
+      "gross_give_up_pp": -0.65
+     },
+     {
+      "band": 0.2,
+      "sleeve_turnover_total": 567.0,
+      "gross_cagr_0bp": 0.0179,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 567.0,
+        "equal_risk_delta_cagr_pp": 0.24,
+        "equal_risk_delta_maxdd_pp": 0.0
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 567.0,
+        "equal_risk_delta_cagr_pp": -0.3,
+        "equal_risk_delta_maxdd_pp": -0.67
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 567.0,
+        "equal_risk_delta_cagr_pp": -0.85,
+        "equal_risk_delta_maxdd_pp": -1.33
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 567.0,
+        "equal_risk_delta_cagr_pp": -2.2,
+        "equal_risk_delta_maxdd_pp": -2.96
+       }
+      ],
+      "turnover_cut_pct": 10.5,
+      "gross_give_up_pp": -0.41
+     },
+     {
+      "band": 0.3,
+      "sleeve_turnover_total": 564.0,
+      "gross_cagr_0bp": 0.0179,
+      "breakeven_bp": 1.0,
+      "cost_rows": [
+       {
+        "cost_per_side_bp": 1.0,
+        "turnover_total": 564.0,
+        "equal_risk_delta_cagr_pp": 0.32,
+        "equal_risk_delta_maxdd_pp": 0.0
+       },
+       {
+        "cost_per_side_bp": 3.0,
+        "turnover_total": 564.0,
+        "equal_risk_delta_cagr_pp": -0.22,
+        "equal_risk_delta_maxdd_pp": -0.67
+       },
+       {
+        "cost_per_side_bp": 5.0,
+        "turnover_total": 564.0,
+        "equal_risk_delta_cagr_pp": -0.76,
+        "equal_risk_delta_maxdd_pp": -1.33
+       },
+       {
+        "cost_per_side_bp": 10.0,
+        "turnover_total": 564.0,
+        "equal_risk_delta_cagr_pp": -2.1,
+        "equal_risk_delta_maxdd_pp": -2.95
+       }
+      ],
+      "turnover_cut_pct": 10.9,
+      "gross_give_up_pp": -0.41
+     }
+    ]
+   }
   }
  }
 }
