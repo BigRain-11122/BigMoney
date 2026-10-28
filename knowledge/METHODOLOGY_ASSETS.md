@@ -2620,3 +2620,32 @@ RULES
 
 Pos: scripts/etf_book_voltarget_lag.py (selftest 13/13, chain leg is the engine-free `--check`)
 + results/etf_book_voltarget_lag.json + research/ETF_BOOK_VOLTARGET_LAG.md.
+
+## E193 A placeholder cost is not a measurement -- publish the breakeven, not just the return (2026-10-28 r1138 bm-a)
+
+WHEN: a face prices an overlay/sleeve at one assumed friction (1bp) and the whole
+conclusion rests on it.
+
+WRONG: report the headline +0.90pp at equal risk and keep the cost as a footnote. A
+gain that only exists at the cheapest possible fill is not a gain -- it is a rounding
+artifact of the assumption.
+
+RIGHT: climb a cost ladder on the SAME decision sequence (weights, panels, lag, vol
+target all frozen; only the per-side number moves) and publish the breakeven: the highest
+cost at which the sleeve still clears the book at equal risk. Real reading of the ETF book
+x futures TSMOM overlay: 1bp/side -> +0.90pp (60d) / +0.78pp (120d); 3bp -> -0.10 /
++0.15; 5bp -> -1.09 / -0.48. Breakeven = 1bp (60d) / 3bp (120d), i.e. the overlay has
+essentially no friction headroom and must be described as a risk reducer, not a return
+source.
+
+GOTCHA: two of them, both caught by the selftest before the face shipped.
+1. Turnover must be identical at every cost level -- if it moves, the levels describe
+   different strategies and the breakeven is meaningless. Assert it (smoke leg).
+2. Rows store weight_in_sleeve rounded to 4dp, so an exact-float lookup of 1/3 matched
+   nothing and the breakeven silently came back None. Match weights on the stored
+   precision grid, and let the selftest prove a rounded row still resolves.
+
+SHAPE: the breakeven is a cliff, not a number to beat: +0.90pp at 1bp collapsing to
+-0.10pp at 3bp says the edge is thinner than the modelling error, so the next move is
+cutting turnover (buffer band, E188) -- not re-weighting.
+

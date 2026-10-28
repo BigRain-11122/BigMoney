@@ -1385,6 +1385,43 @@ def main() -> int:
     except Exception as e:
         check("product: futures overlay sweep keeps its blend arithmetic", False, str(e))
 
+    # r1138: a 1bp-per-side placeholder is not a measurement. This leg recomputes the
+    # breakeven straight out of the published ladder (never reading the reported field),
+    # and insists the ladder was built from ONE decision sequence: turnover must be
+    # identical at every cost level, otherwise the levels describe different strategies
+    # and the breakeven is meaningless.
+    try:
+        import json as _json
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _sw = _face.get("sweeps") or {}
+        _bad = []
+        for _tag in ("tsmom60", "tsmom120"):
+            _blk = _sw.get(_tag) or {}
+            _lad = _blk.get("cost_ladder") or []
+            _be = (_blk.get("cost_breakeven_bp") or {}).get("max_cost_per_side_bp")
+            if len(_lad) < 2:
+                _bad.append(f"{_tag}: ladder has {len(_lad)} levels")
+                continue
+            _turns = {round(b.get("sleeve_turnover_total") or 0.0, 1) for b in _lad}
+            if len(_turns) != 1:
+                _bad.append(f"{_tag}: turnover moves across costs {sorted(_turns)}")
+            _w = (_blk.get("cost_breakeven_bp") or {}).get("weight")
+            _recomputed = None
+            for _b in sorted(_lad, key=lambda b: b["cost_per_side_bp"]):
+                _row = next((r for r in _b["rows"]
+                             if round(float(r["weight_in_sleeve"]), 4) == round(float(_w), 4)), None)
+                _d = (_row or {}).get("at_equal_vol_delta_cagr_pp")
+                if _d is None or _d <= 0:
+                    break
+                _recomputed = _b["cost_per_side_bp"]
+            if _recomputed != _be:
+                _bad.append(f"{_tag}: reported breakeven {_be} != recomputed {_recomputed}")
+        check("product: overlay breakeven is recomputable from its own ladder",
+              not _bad, "; ".join(_bad)[:200] or "both lookbacks: one sequence, stated breakeven")
+    except Exception as e:
+        check("product: overlay breakeven is recomputable from its own ladder", False, str(e))
+
     return _finish()
 
 
