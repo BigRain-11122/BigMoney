@@ -1,0 +1,772 @@
+{
+ "study": "e188_decomposition_label_duty",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "gross_face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+  "net_face": "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-20261027.json",
+  "fee_face": "results/e79/LEVELWEDGE-20261027.json",
+  "stance_tokens": {
+   "gross": [
+    "gross of",
+    "gross_of",
+    "gross"
+   ],
+   "net": [
+    "net of the fee",
+    "net of",
+    "net_of",
+    "after the fee",
+    "after_fee"
+   ]
+  },
+  "class_rules": {
+   "labelled": "publishes one stance and its text declares that stance",
+   "unlabelled": "publishes a stance and its text declares none",
+   "mixed": "publishes BOTH stances under one label (the E180 collision)",
+   "mislabeled": "declares one stance and publishes the other",
+   "no_stance_cells": "publishes neither reading (not a consumer of this cell)"
+  },
+  "value_match_tolerance_bp": 0.01,
+  "units": "bp as published by the producing face; rel_shift_pct is a percent"
+ },
+ "wedge": [
+  {
+   "arm": "raw",
+   "era": "2017_2020",
+   "gross_bp": 304.77,
+   "net_bp": 301.2404,
+   "fee_bp": 3.53,
+   "stance_gap_bp": 3.5296,
+   "residual_after_fee_bp": -0.0004,
+   "rel_shift_pct": 1.172,
+   "offset_gross_stance_bp": 26.93,
+   "offset_net_stance_bp": 30.4596,
+   "offset_stance_gap_bp": 3.5296,
+   "offset_margin_in_fees": 8.629,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "screened",
+   "era": "2017_2020",
+   "gross_bp": 304.77,
+   "net_bp": 301.2404,
+   "fee_bp": 3.53,
+   "stance_gap_bp": 3.5296,
+   "residual_after_fee_bp": -0.0004,
+   "rel_shift_pct": 1.172,
+   "offset_gross_stance_bp": 26.93,
+   "offset_net_stance_bp": 30.4596,
+   "offset_stance_gap_bp": 3.5296,
+   "offset_margin_in_fees": 8.629,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "raw",
+   "era": "2021_2023",
+   "gross_bp": 255.87,
+   "net_bp": 252.2442,
+   "fee_bp": 3.6208,
+   "stance_gap_bp": 3.6258,
+   "residual_after_fee_bp": 0.005,
+   "rel_shift_pct": 1.437,
+   "offset_gross_stance_bp": -4.77,
+   "offset_net_stance_bp": -1.1442,
+   "offset_stance_gap_bp": 3.6258,
+   "offset_margin_in_fees": 0.316,
+   "inside_the_wedge": true,
+   "inside_stances": [
+    "net"
+   ],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "screened",
+   "era": "2021_2023",
+   "gross_bp": 286.07,
+   "net_bp": 282.4866,
+   "fee_bp": 3.5823,
+   "stance_gap_bp": 3.5834,
+   "residual_after_fee_bp": 0.0011,
+   "rel_shift_pct": 1.269,
+   "offset_gross_stance_bp": -5.67,
+   "offset_net_stance_bp": -2.0866,
+   "offset_stance_gap_bp": 3.5834,
+   "offset_margin_in_fees": 0.582,
+   "inside_the_wedge": true,
+   "inside_stances": [
+    "net"
+   ],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "raw",
+   "era": "2024_now",
+   "gross_bp": 31.3,
+   "net_bp": 27.8998,
+   "fee_bp": 3.3984,
+   "stance_gap_bp": 3.4002,
+   "residual_after_fee_bp": 0.0018,
+   "rel_shift_pct": 12.187,
+   "offset_gross_stance_bp": -52.9,
+   "offset_net_stance_bp": -49.4998,
+   "offset_stance_gap_bp": 3.4002,
+   "offset_margin_in_fees": 14.566,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "screened",
+   "era": "2024_now",
+   "gross_bp": 80.9,
+   "net_bp": 77.5728,
+   "fee_bp": 3.323,
+   "stance_gap_bp": 3.3272,
+   "residual_after_fee_bp": 0.0042,
+   "rel_shift_pct": 4.289,
+   "offset_gross_stance_bp": -55.8,
+   "offset_net_stance_bp": -52.4728,
+   "offset_stance_gap_bp": 3.3272,
+   "offset_margin_in_fees": 15.791,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "raw",
+   "era": "full",
+   "gross_bp": 224.82,
+   "net_bp": 221.4675,
+   "fee_bp": 3.357,
+   "stance_gap_bp": 3.3525,
+   "residual_after_fee_bp": -0.0045,
+   "rel_shift_pct": 1.514,
+   "offset_gross_stance_bp": 2.78,
+   "offset_net_stance_bp": 6.1325,
+   "offset_stance_gap_bp": 3.3525,
+   "offset_margin_in_fees": 1.827,
+   "inside_the_wedge": true,
+   "inside_stances": [
+    "gross"
+   ],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "screened",
+   "era": "full",
+   "gross_bp": 241.95,
+   "net_bp": 238.6132,
+   "fee_bp": 3.3327,
+   "stance_gap_bp": 3.3368,
+   "residual_after_fee_bp": 0.0041,
+   "rel_shift_pct": 1.398,
+   "offset_gross_stance_bp": 1.95,
+   "offset_net_stance_bp": 5.2868,
+   "offset_stance_gap_bp": 3.3368,
+   "offset_margin_in_fees": 1.586,
+   "inside_the_wedge": true,
+   "inside_stances": [
+    "gross"
+   ],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "raw",
+   "era": "pre2017",
+   "gross_bp": 261.76,
+   "net_bp": 258.8365,
+   "fee_bp": 2.9207,
+   "stance_gap_bp": 2.9235,
+   "residual_after_fee_bp": 0.0028,
+   "rel_shift_pct": 1.129,
+   "offset_gross_stance_bp": 25.44,
+   "offset_net_stance_bp": 28.3635,
+   "offset_stance_gap_bp": 2.9235,
+   "offset_margin_in_fees": 9.711,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  },
+  {
+   "arm": "screened",
+   "era": "pre2017",
+   "gross_bp": 261.76,
+   "net_bp": 258.8365,
+   "fee_bp": 2.9207,
+   "stance_gap_bp": 2.9235,
+   "residual_after_fee_bp": 0.0028,
+   "rel_shift_pct": 1.129,
+   "offset_gross_stance_bp": 25.44,
+   "offset_net_stance_bp": 28.3635,
+   "offset_stance_gap_bp": 2.9235,
+   "offset_margin_in_fees": 9.711,
+   "inside_the_wedge": false,
+   "inside_stances": [],
+   "sign_flips_with_stance": false
+  }
+ ],
+ "published_offsets": [
+  {
+   "arm": "raw",
+   "era": "pre2017",
+   "gross_face_offset_bp": -25.44,
+   "net_face_offset_bp": 28.41,
+   "gap_bp": 2.97,
+   "fee_bp": 2.9207,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "screened",
+   "era": "pre2017",
+   "gross_face_offset_bp": -25.44,
+   "net_face_offset_bp": 28.41,
+   "gap_bp": 2.97,
+   "fee_bp": 2.9207,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "raw",
+   "era": "2017_2020",
+   "gross_face_offset_bp": -26.93,
+   "net_face_offset_bp": 30.51,
+   "gap_bp": 3.58,
+   "fee_bp": 3.53,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "screened",
+   "era": "2017_2020",
+   "gross_face_offset_bp": -26.93,
+   "net_face_offset_bp": 30.51,
+   "gap_bp": 3.58,
+   "fee_bp": 3.53,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "raw",
+   "era": "2021_2023",
+   "gross_face_offset_bp": 4.77,
+   "net_face_offset_bp": -1.19,
+   "gap_bp": 3.58,
+   "fee_bp": 3.6208,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "screened",
+   "era": "2021_2023",
+   "gross_face_offset_bp": 5.67,
+   "net_face_offset_bp": -2.1,
+   "gap_bp": 3.57,
+   "fee_bp": 3.5823,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "raw",
+   "era": "2024_now",
+   "gross_face_offset_bp": 52.9,
+   "net_face_offset_bp": -49.49,
+   "gap_bp": 3.41,
+   "fee_bp": 3.3984,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "screened",
+   "era": "2024_now",
+   "gross_face_offset_bp": 55.8,
+   "net_face_offset_bp": -52.45,
+   "gap_bp": 3.35,
+   "fee_bp": 3.323,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "raw",
+   "era": "full",
+   "gross_face_offset_bp": -2.78,
+   "net_face_offset_bp": 6.11,
+   "gap_bp": 3.33,
+   "fee_bp": 3.357,
+   "gap_is_the_fee": true
+  },
+  {
+   "arm": "screened",
+   "era": "full",
+   "gross_face_offset_bp": -1.95,
+   "net_face_offset_bp": 5.28,
+   "gap_bp": 3.33,
+   "fee_bp": 3.3327,
+   "gap_is_the_fee": true
+  }
+ ],
+ "delta_restatement": [
+  {
+   "era": "2017_2020",
+   "fee_raw_bp": 3.53,
+   "fee_screened_bp": 3.53,
+   "delta_restatement_shift_bp": 0.0,
+   "delta_is_fee_neutral": true
+  },
+  {
+   "era": "2021_2023",
+   "fee_raw_bp": 3.6208,
+   "fee_screened_bp": 3.5823,
+   "delta_restatement_shift_bp": 0.0385,
+   "delta_is_fee_neutral": false
+  },
+  {
+   "era": "2024_now",
+   "fee_raw_bp": 3.3984,
+   "fee_screened_bp": 3.323,
+   "delta_restatement_shift_bp": 0.0754,
+   "delta_is_fee_neutral": false
+  },
+  {
+   "era": "full",
+   "fee_raw_bp": 3.357,
+   "fee_screened_bp": 3.3327,
+   "delta_restatement_shift_bp": 0.0243,
+   "delta_is_fee_neutral": false
+  },
+  {
+   "era": "pre2017",
+   "fee_raw_bp": 2.9207,
+   "fee_screened_bp": 2.9207,
+   "delta_restatement_shift_bp": 0.0,
+   "delta_is_fee_neutral": true
+  }
+ ],
+ "family": [
+  {
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "study": "e43_tilt_4member_history",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERDROPCROSS-20261027.json",
+   "study": "e189_tilt3_ladder_drop_crossing",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
+   "study": "e186_tilt3_ladder_drop_where",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERLEVELS-20261027.json",
+   "study": "e181_tilt3_ladder_level_single_member",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json",
+   "study": "e183_tilt3_ladder_lomo_compounded",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERSIDECASH-20261027.json",
+   "study": "e179_tilt3_ladder_side_per_holding",
+   "declared_stance": "gross_only",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-neutralise_int-20261027.json",
+   "study": "e43_tilt_3member_reachback",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-raw-20261027.json",
+   "study": "e43_tilt_3member_reachback",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json",
+   "study": "e178_tilt3_fixed_leg_family_scope",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3LEGS-20261027.json",
+   "study": "e43_tilt3_pre2017_leg_split",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3REACH-20261027.json",
+   "study": "e43_tilt_3member_reachback",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+   "study": "e170_tilt3_screened_twin",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+   "study": "e171_tilt3_screened_sign",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGN-20261027.json",
+   "study": "e169_tilt3_sign_vs_engine",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGN-arm-neutralise_int-20261027.json",
+   "study": "e169_tilt3_sign_vs_engine",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGN-arm-raw-20261027.json",
+   "study": "e169_tilt3_sign_vs_engine",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNBAND-20261027.json",
+   "study": "e172_tilt3sign_deadband_sweep",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+   "study": "e176_tilt3_engine_move_book_split",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "gross",
+   "gross_cells": 10,
+   "net_cells": 0,
+   "label_class": "unlabelled",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-20261027.json",
+   "study": "e177_tilt3_decomposition_level_offset",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "net",
+   "gross_cells": 0,
+   "net_cells": 10,
+   "label_class": "unlabelled",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+   "study": "e175_tilt3sign_drop_ladder",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "gross",
+   "gross_cells": 10,
+   "net_cells": 0,
+   "label_class": "unlabelled",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+   "study": "e174_tilt3sign_engine_move_names",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-neutralise_int-20261027.json",
+   "study": "e43_tilt_4member_history",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-raw-20261027.json",
+   "study": "e43_tilt_4member_history",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4SCREEN-20261027.json",
+   "study": "e124_tilt4_screened_twin",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/WIDECHURNTIE-20261027.json",
+   "study": "e187_tilt3_wide_side_churn_tie",
+   "declared_stance": "gross_only",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": true
+  },
+  {
+   "face": "results/e43_tilt_4member/WIDEMONTHCANCEL-20261027.json",
+   "study": "e184_tilt3_wide_side_cancel_by_month",
+   "declared_stance": "gross_only",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json",
+   "study": "e182_tilt3_wide_side_gross_vs_net",
+   "declared_stance": "gross_only",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e79/LEVELWEDGE-20261027.json",
+   "study": "e185_tilt3_decomposition_level_wedge",
+   "declared_stance": "both",
+   "publishes_stance_cells": "both",
+   "gross_cells": 20,
+   "net_cells": 10,
+   "label_class": "labelled",
+   "mentions_fee": true
+  },
+  {
+   "face": "results/e79/ROUTING-20261027.json",
+   "study": "e97_screened_consumer_routing",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": true
+  },
+  {
+   "face": "results/e79/SCREENREACH-2026-10-27.json",
+   "study": "e127_screen_reach_ledger",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": false
+  },
+  {
+   "face": "results/e79/triage-20261026.json",
+   "study": "e94_exposure_readset_triage",
+   "declared_stance": "unlabelled",
+   "publishes_stance_cells": "neither",
+   "gross_cells": 0,
+   "net_cells": 0,
+   "label_class": "no_stance_cells",
+   "mentions_fee": true
+  }
+ ],
+ "skipped": [
+  {
+   "face": "results/e79/DECOMLEVELQUOTES-2026-10-27.json",
+   "study": "e180_published_level_quote_audit",
+   "reason": "this_leg_or_its_label_source"
+  },
+  {
+   "face": "results/e79/LABELDUTY-2026-10-27.json",
+   "study": "e188_decomposition_label_duty",
+   "reason": "this_leg_or_its_label_source"
+  }
+ ],
+ "totals": {
+  "cells": 10,
+  "max_abs_residual_after_fee_bp": 0.005,
+  "rel_shift_range_pct": [
+   1.129,
+   12.187
+  ],
+  "cells_inside_the_wedge": 4,
+  "cells_quoting_sign_flip_with_stance": 0,
+  "published_offsets_differ_by_the_fee": 10,
+  "published_offsets_checked": 10,
+  "label_classes": {
+   "no_stance_cells": 27,
+   "unlabelled": 3,
+   "labelled": 1
+  },
+  "faces_in_family": 31,
+  "faces_publishing_a_stance": 4
+ },
+ "answers": {
+  "the_two_readings_are_one_number_plus_the_fee_measured": true,
+  "the_label_moves_the_level_by_pct": [
+   1.129,
+   12.187
+  ],
+  "sign_flips_when_the_stance_changes": [],
+  "verdicts_inside_the_wedge": [
+   {
+    "era": "2021_2023",
+    "arm": "raw",
+    "offset_gross_stance_bp": -4.77,
+    "offset_net_stance_bp": -1.1442,
+    "inside_stances": [
+     "net"
+    ],
+    "fee_bp": 3.6208,
+    "offset_margin_in_fees": 0.316
+   },
+   {
+    "era": "2021_2023",
+    "arm": "screened",
+    "offset_gross_stance_bp": -5.67,
+    "offset_net_stance_bp": -2.0866,
+    "inside_stances": [
+     "net"
+    ],
+    "fee_bp": 3.5823,
+    "offset_margin_in_fees": 0.582
+   },
+   {
+    "era": "full",
+    "arm": "raw",
+    "offset_gross_stance_bp": 2.78,
+    "offset_net_stance_bp": 6.1325,
+    "inside_stances": [
+     "gross"
+    ],
+    "fee_bp": 3.357,
+    "offset_margin_in_fees": 1.827
+   },
+   {
+    "era": "full",
+    "arm": "screened",
+    "offset_gross_stance_bp": 1.95,
+    "offset_net_stance_bp": 5.2868,
+    "inside_stances": [
+     "gross"
+    ],
+    "fee_bp": 3.3327,
+    "offset_margin_in_fees": 1.586
+   }
+  ],
+  "faces_that_say_which_stance_they_publish": [
+   {
+    "face": "results/e79/LEVELWEDGE-20261027.json",
+    "label_class": "labelled"
+   }
+  ],
+  "faces_publishing_a_reading_without_saying_which": [
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+    "side": "gross",
+    "gross_cells": 10,
+    "net_cells": 0
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-20261027.json",
+    "side": "net",
+    "gross_cells": 0,
+    "net_cells": 10
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+    "side": "gross",
+    "gross_cells": 10,
+    "net_cells": 0
+   }
+  ],
+  "reading": "10 cells publish one number in two fee stances; gross minus net equals the rebalance fee to 0.0050 bp, so the label alone moves the level by 1.129-12.187%. 4 cell(s) quote an offset no wider than its own fee (inside the wedge) and 0 quote a sign that flips with the stance. 10/10 published offsets are the same construct with the fee between them. In the family, 4 face(s) publish a stance: labelled=1, no_stance_cells=27, unlabelled=3."
+ },
+ "honest": [
+  "the stance is read from the face's OWN text tokens, so a face that labels the number only in a prose digest (not in the JSON it publishes) counts as unlabelled -- that is the point: a reader copying the JSON never sees it",
+  "gross minus net is the fee only because E185 already located it; this leg does not re-derive the fee, it joins the published term",
+  "a delta that carries the same fee on both arms is fee-neutral by construction; the restatement shift published here is the difference between the two arms' fees, not a property of the signal",
+  "inside_the_wedge compares the published offset to that cell's own fee, so the threshold moves with the era rather than sitting at one constant"
+ ],
+ "law_ref": "O-20261002-2100 capture law (new method -> methodology card)"
+}
