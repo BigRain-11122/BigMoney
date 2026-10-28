@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-29",
- "generated_at": "2026-10-29 06:02:48",
+ "generated_at": "2026-10-29 07:04:34",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-29.md"
  },
  "rd": {
-  "commits_24h": 81,
+  "commits_24h": 80,
   "result_jsons_landed_24h": 100,
-  "digests_landed_24h": 21,
-  "prereg_md_touched_24h": 12,
+  "digests_landed_24h": 25,
+  "prereg_md_touched_24h": 13,
   "compute_audit_latest": {
-   "ts": "2026-10-29 05:41:18",
-   "py_cpu_pct": 1.9,
+   "ts": "2026-10-29 06:54:39",
+   "py_cpu_pct": 0.4,
    "flags": [
-    "cap_violation",
     "supply_gap",
     "supply_floor",
     "supply_owner_silent"
    ],
-   "verdict": "FLAG:cap_violation,supply_gap,supply_floor,supply_owner_silent"
+   "verdict": "FLAG:supply_gap,supply_floor,supply_owner_silent"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -655,11 +654,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2321672,
+  "total_report_tokens_est": 2322123,
   "delta_vs_prev": {
    "prev_generated": "2026-10-29 05:02:56",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 0,
+   "report_tokens_growth": 451,
    "mandate_growth": 0
   },
   "method": {
@@ -670,25 +669,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-29 05:00:17",
-    "py_pct": 0.7,
-    "cpu_pct": 18.0,
+    "latest_ts": "2026-10-29 06:54:39",
+    "py_pct": 0.4,
+    "cpu_pct": 57.0,
     "ready": 1,
-    "streak_min": 1867.3,
+    "streak_min": 1981.7,
     "verdict": "FLAG:supply_gap,supply_floor,supply_owner_silent",
     "py_series_tail": [
-     [
-      "20:31",
-      0.3
-     ],
-     [
-      "21:19",
-      2.3
-     ],
-     [
-      "23:23",
-      0.1
-     ],
      [
       "23:50",
       0.7
@@ -724,12 +711,24 @@
      [
       "05:00",
       0.7
+     ],
+     [
+      "05:12",
+      3.5
+     ],
+     [
+      "06:33",
+      0.2
+     ],
+     [
+      "06:54",
+      0.4
      ]
     ],
-    "today_samples": 8,
+    "today_samples": 11,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 8
+    "today_supply_gap_flags": 11
    },
    "bm-b": {
     "latest_ts": "2026-10-28 15:41:57",
@@ -794,13 +793,21 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-29 05:41:18",
-    "py_pct": 1.9,
-    "cpu_pct": 85.0,
+    "latest_ts": "2026-10-29 05:12:19",
+    "py_pct": 3.5,
+    "cpu_pct": 50.0,
     "ready": 1,
-    "streak_min": 1908.3,
-    "verdict": "FLAG:cap_violation,supply_gap,supply_floor,supply_owner_silent",
+    "streak_min": 1879.4,
+    "verdict": "FLAG:supply_gap,supply_floor,supply_owner_silent",
     "py_series_tail": [
+     [
+      "21:19",
+      2.3
+     ],
+     [
+      "23:23",
+      0.1
+     ],
      [
       "23:50",
       0.7
@@ -840,20 +847,12 @@
      [
       "05:12",
       3.5
-     ],
-     [
-      "05:18",
-      0.8
-     ],
-     [
-      "05:41",
-      1.9
      ]
     ],
-    "today_samples": 11,
+    "today_samples": 9,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 11
+    "today_supply_gap_flags": 9
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -875,7 +874,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-29 05:00:17"
+     "audit_ts": "2026-10-29 06:54:39"
     }
    },
    "bm-b": {
@@ -907,7 +906,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-29 05:41:18"
+     "audit_ts": "2026-10-29 05:12:19"
     }
    }
   },
@@ -1314,11 +1313,11 @@
     "rows": [
      {
       "status": "ok",
-      "asof": "2026-10-20",
-      "prior": "2026-10-19",
-      "day_pnl_cny": 2522.93,
-      "day_ret": 0.002612,
-      "equity_cny": 968325.69,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": -6078.46,
+      "day_ret": -0.006436,
+      "equity_cny": 938360.96,
       "account": "REV-OSC-STD",
       "state": "ORANGE",
       "route": {
@@ -1332,11 +1331,11 @@
      },
      {
       "status": "ok",
-      "asof": "2026-10-20",
-      "prior": "2026-10-19",
-      "day_pnl_cny": 775.36,
-      "day_ret": 0.000784,
-      "equity_cny": 990156.71,
+      "asof": "2026-10-27",
+      "prior": "2026-10-26",
+      "day_pnl_cny": -1897.63,
+      "day_ret": -0.001931,
+      "equity_cny": 980914.4,
       "account": "SYSTEM-V1",
       "state": "ORANGE",
       "route": {
@@ -1349,12 +1348,12 @@
       "pure_sleeve": false
      }
     ],
-    "asof": "2026-10-20",
-    "family_day_pnl_cny": 3298.29,
+    "asof": "2026-10-27",
+    "family_day_pnl_cny": -7976.09,
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": 41565.01,
+  "grand_day_pnl_cny": 30290.63,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",

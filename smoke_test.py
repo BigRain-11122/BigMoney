@@ -1259,6 +1259,30 @@ def main() -> int:
         check("fleet: GPU face self-consistent on heartbeat", False, str(e))
         check("fleet: GPU face leg wired into the S6 chain", False, str(e))
 
+    # r1143: bm-c got a NAMED chain runner at r1182; this host never did. Its last
+    # chain was a per-round snapshot frozen on 2026-10-24 (43 legs) and everything
+    # added afterwards was refreshed only when a session happened to remember it --
+    # the r1257/r1290 orphan-face class applied to the process, and it landed hardest
+    # on the faces this host is the single writer of (docs/live_book/ is bm-a's, and
+    # its leg was in the list but on no bm-a runner). The runner imports the leg list
+    # rather than copying it, so falling behind again requires the import to break;
+    # this leg is that assertion, plus a resolve check so a renamed script cannot
+    # leave a leg silently dead.
+    try:
+        _bma = importlib.import_module("Tools.s6_chain_bma")
+        _canon = importlib.import_module("Tools.s6_chain_bmc")
+        _a = [n for n, _c in _bma.LEGS]
+        _c = [n for n, _c in _canon.LEGS]
+        _miss = [p for _n, _cmd in _bma.LEGS
+                 if _bma.leg_script(_cmd) and not os.path.exists(
+                     os.path.join(_bma.ROOT, _bma.leg_script(_cmd)))]
+        check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+              _a == _c and not _miss,
+              f"legs={len(_a)} canonical={len(_c)} missing_scripts={_miss or '-'}")
+    except Exception as e:
+        check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+              False, str(e))
+
 
     # fleet/machine-health.json is the face every panel reads for per-machine lane
     # colour, and nothing checked its SHAPE. It had drifted into three shells of
