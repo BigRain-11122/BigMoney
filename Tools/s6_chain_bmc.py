@@ -112,7 +112,9 @@ LEGS = [
     # outside the chain with no single place to notice (r1290 and r1291 were both that
     # class). Every row is derived from its own artefact, so it also catches a pointer
     # that still names a file which no longer exists. <1s, no network, no judge.
-    ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
+    # r1329: it runs LAST among the faces (see the tail of this list). Parked here it
+    # read ceo_page and the staggered ledger from the PREVIOUS run, so the first chain
+    # of every day published two rows a bar behind the rest with nothing red.
     # r1319: the faces above each answer "what does THIS vehicle earn". A capital
     # allocator does not hold a vehicle, it holds an account size -- and nobody had put
     # the book, the four-ETF basket and the futures sleeve on that axis. Pure reader of
@@ -171,6 +173,13 @@ LEGS = [
     # idempotent per signal date (re-running a date replaces that row), so riding the chain
     # cannot double-count a bar; the scheduled task, if it ever returns, is harmless too.
     ("etf_paper_signal", ["python", "scripts/etf_paper_signal.py"]),
+    # r1329: the register summarises the faces, so it must be the LAST book leg. Until
+    # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
+    # and its rows for those two faces were therefore always one run old (as_of
+    # 2026-10-27 against card/ticket/forward 2026-10-28, verdict still "ok" because a
+    # stale row is not an error in its own schema). Every other face is written above, so
+    # from here the register has nothing left to miss. <1s, no network, no judge.
+    ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),

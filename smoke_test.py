@@ -806,6 +806,20 @@ def main() -> int:
               or "no next_turn on the staggered row")
     except Exception as e:
         check("product: ETF registry says when the staggered book turns", False, str(e))
+    # r1329: the register summarises the faces, so it has to run after them. It sat ~50
+    # legs before etf_book_ceo_page and etf_paper_signal, and its rows for those two
+    # faces were one run old on every single chain -- as_of 2026-10-27 beside
+    # card/ticket/forward 2026-10-28, verdict "ok" throughout, because a stale row is
+    # not a schema error. Static leg-order assertion, no clock involved.
+    try:
+        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _ri = _order.index("etf_book_registry")
+        _behind = [(f.get("id"), f.get("chain_leg")) for f in (_rg.get("faces") or [])
+                   if f.get("chain_leg") in _order and _order.index(f["chain_leg"]) > _ri]
+        check("product: ETF registry runs after every face it summarises",
+              not _behind, "registry_at=%d behind=%s" % (_ri, _behind or "none"))
+    except Exception as e:
+        check("product: ETF registry runs after every face it summarises", False, str(e))
     # A sleeve schedule that a human cannot turn into a date is not an order. Assert the
     # live ledger state: per sleeve, where the clock stands AND when it next turns.
     try:
