@@ -1980,3 +1980,5 @@ rebase --continue 假冲突三连（全解+全 add 后连报「must edit all mer
 > 当前活: 期货袖叠加的「换手天花板」——把结构性换手下限量出来（86-92%），再判无交易带是不是解
 > 最近实物: research/ETF_BOOK_FUTURES_OVERLAY_SWEEP.md 第七节 + results/futures_overlay_sweep.json @2026-10-29T03:53（60d 最多削 6.9% 换手、让利 0.92pp；120d 最多 10.9%、让利 0.41pp；平衡点 3bp→1bp，没变好反而变差）
 > 下个里程碑: 降反手频率的第一版可读对比表（确认阈值/更长 lookback 两臂），24h 内
+
+| 2026-10-29 03:58:22 | r1139 postscript | PUSH-OK 6fd4b1a473 on origin/main, ahead=0 behind=0 verified by fetch+rev-list both ways; the rebase needed a real conflict resolution: union on the append-only faces (compute_audit history 201+201 -> 201 capped, post_review.jsonl +49 unique rows, methodology card ledger) and newer-wins on the computed ones (attrition_scan 03:40 > 01:13, regime_state 03:50 > 01:09); E194 was already taken on origin by bm-c r1330 so this round's card is E195; a differing local post_review/REPORT-20261029.md was quarantined rather than silently deleted because it was untracked and origin already carries its own; orders re-scan CLEAN 114/123/0 | local commits not on origin = 0 |
