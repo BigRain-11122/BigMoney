@@ -21018,7 +21018,10 @@
    "lane_owner": "bm-b",
    "runner_note": "needs the engine's first-invested index (e27 aux / curve faces) exposed per era slice beside the ann gap",
    "source": "r1135 E59: 2017_2020 gap 0.0bp for all five days at start 2020, and the same era reads -26..+1bp at start 2013",
-   "status": "waiting",
+   "status": "done",
+    "result_ref": "results/e44_midmonth/MIDSWEEP-20261028-burnin.json",
+    "done_note": "r1239 bm-b: 84 cells over 4 E59 faces (start 2020 and start 2013, x1 and c0_3). The 2017_2020 column is a burn-in cash block, not calendar robustness: at start 2020 the first invested decision is 2021-01-29 (calendar idx 262, 12 decision bars late), so 100% of that era slice sits before the engine ever buys and every off-cycle day prints gap 0.0 -- all 10 such cells are degenerate_cash_slice. At start 2013 the same era is fully invested (pre share 0.0) and reads -27..+1bp, so E59's 'flat across days' sentence held only inside a cash window. One exact 0.0 survives with invested bars (mid5 start 2013, c0_3) and is published as exact_zero_with_invested_bars instead of being folded into the degenerate bucket.",
+    "done_by": "bm-b r1239",
    "target": "scripts/e39_panel_census.py",
    "title": "The start-2020 sweep prints an EXACT 0.0bp gap in every older era because that slice is entirely inside the eligibility burn-in cash block, so the full-window gap is a cash artefact of the window. Make the leg report the first invested bar and the cash share of each era slice beside the gap so a degenerate slice cannot read as calendar robustness."
   },

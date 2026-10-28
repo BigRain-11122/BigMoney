@@ -9595,6 +9595,164 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return face
 
 
+# ------------------------- leg: is a 0.0bp era gap a cash-only slice? (E64)
+
+def _burnin_share(era_idxs, first_idx):
+    """Share of an era slice that sits before the first invested decision.
+
+    The engine only buys when ``_rank`` returns names, so every bar before that
+    decision earns the repo rate on a 100% cash book and every calendar prints
+    the same number there. A 0.0bp gap is therefore evidence about the calendar
+    only once this share is small.
+    """
+    n = len(era_idxs)
+    if not n:
+        return None
+    if first_idx is None:
+        return 100.0
+    before = len([i for i in era_idxs if i < first_idx])
+    return round(before / float(n) * 100.0, 1)
+
+
+def _burnin_class(gap_bp, pre_pct):
+    """Name who owns an era gap: the calendar, or the burn-in cash block."""
+    if gap_bp is None or pre_pct is None:
+        return "unmeasured"
+    if pre_pct >= 99.9:
+        return ("degenerate_cash_slice" if gap_bp == 0.0
+                else "all_cash_slice_with_nonzero_gap")
+    if gap_bp == 0.0:
+        return "exact_zero_with_invested_bars"
+    return "informative"
+
+
+def run_midsweepburnin(outdir=None, faces=None, days=MID_SWEEP_DAYS, exclude=("sh511",)):
+    """E64: publish the burn-in block beside the era gaps E59 already prints.
+
+    E59 read the 2017_2020 column as identical for every off-cycle day at start
+    2020 and as -26..+1bp at start 2013. An exact 0.0bp on every calendar is
+    what an all-cash slice prints -- the engine holds nothing until eligibility
+    clears -- so this leg reports, per face and era, the first decision the
+    engine would have invested on and the share of the slice before it.
+
+    Nothing is re-simulated: the first invested decision comes from the same
+    eligibility+liquidity rule ``e27.simulate`` itself calls, so the reported
+    boundary is the engine's, not a lookalike.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    outdir = outdir or os.path.join(ROOT, "results", "e44_midmonth")
+    if faces is None:
+        src = [os.path.join(outdir, n) for n in sorted(os.listdir(outdir))
+               if n.startswith("MIDSWEEP-") and n.endswith(".json")
+               and "burnin" not in n]
+    else:
+        src = list(faces)
+    rows, cutoff = [], None
+    answers = {"faces_read": 0, "cells": 0, "degenerate": [],
+               "informative": 0, "unmeasured": 0, "other": 0,
+               "first_invested": {}}
+    for path in src:
+        with open(path, encoding="utf-8") as fh:
+            face = json.load(fh)
+        if face.get("study") != "e59_midday_sweep":
+            continue
+        spec = face.get("spec") or {}
+        start = spec.get("start") or "2020-01-01"
+        ex = spec.get("exclude_prefixes") or list(exclude)
+        days_here = spec.get("sweep_days") or list(days)
+        cost_keys = sorted(face.get("gaps") or {})
+        if not cost_keys:
+            continue
+        ck = cost_keys[0]
+        raw_all = e27.load_universe()
+        if ex:
+            raw_all = {s: v for s, v in raw_all.items()
+                       if not s.startswith(tuple(ex))}
+        cal = [d for d in base.load_panel()[0] if d >= start]
+        if len(cal) < 3:
+            continue
+        cutoff = cal[-1] if cutoff is None else max(cutoff, cal[-1])
+        all_syms = sorted(set(base.LADDER) | set(raw_all))
+        prices, amounts = {}, {}
+        for s in all_syms:
+            c, a = raw_all.get(s, ({}, {}))
+            prices[s] = [c.get(d) for d in cal]
+            amounts[s] = [a.get(d) for d in cal]
+        universe = [s for s in all_syms if s in raw_all]
+        me_idxs = sorted(set(base.month_end_indices(cal)))
+        calendars = [("me", me_idxs)]
+        for d in days_here:
+            calendars.append(("mid%d" % int(d), _mid_month_indices(cal, int(d))))
+        cache = {}
+        answers["faces_read"] += 1
+        fname = os.path.basename(path)
+        for label, idxs in calendars:
+            first = None
+            for idx in sorted(idxs):
+                if idx + 1 >= len(cal):
+                    continue
+                if e27._rank(idx, universe, prices, amounts, cache):
+                    first = idx
+                    break
+            answers["first_invested"].setdefault(fname, {})[label] = {
+                "idx": first,
+                "bar": cal[first] if first is not None else None,
+                "decision_bars_before_first_invested":
+                    len([i for i in idxs if first is not None and i < first]),
+            }
+            for name, lo, hi in ERAS:
+                era_idxs = [i for i, d in enumerate(cal)
+                            if (lo is None or d >= lo) and (hi is None or d <= hi)]
+                if not era_idxs:
+                    continue
+                pre = _burnin_share(era_idxs, first)
+                gap = ((((face.get("gaps") or {}).get(ck) or {}).get(label) or {})
+                       .get("eras", {}).get(name, {}).get("gap_bp"))
+                klass = _burnin_class(gap, pre)
+                answers["cells"] += 1
+                if klass == "degenerate_cash_slice":
+                    answers["degenerate"].append(
+                        {"face": fname, "calendar": label, "era": name})
+                elif klass == "informative":
+                    answers["informative"] += 1
+                elif klass == "unmeasured":
+                    answers["unmeasured"] += 1
+                else:
+                    answers["other"] += 1
+                rows.append({
+                    "face": fname, "start": start, "calendar": label, "era": name,
+                    "era_bars": len(era_idxs), "gap_bp": gap,
+                    "pre_invested_share_pct": pre,
+                    "first_invested_bar": cal[first] if first is not None else None,
+                    "class": klass,
+                })
+    return {
+        "study": "e64_midsweep_burnin",
+        "evidence_cutoff": cutoff,
+        "spec": {"faces_read": [os.path.basename(p) for p in src],
+                 "sweep_days": list(days),
+                 "cost_key": "lowest cost key of each source face's gaps",
+                 "first_invested_rule": ("first decision index on which "
+                                         "e27._rank returns at least one name -- "
+                                         "the same condition e27.simulate buys on")},
+        "cells": rows,
+        "answers": answers,
+        "honest": [
+            "nothing is re-simulated here: the face only reads gaps that E59 "
+            "already published and derives the burn-in boundary from the "
+            "engine's own eligibility rule",
+            "an era whose pre-invested share is 100% prints a gap that belongs "
+            "to the cash block, not to the calendar -- degenerate_cash_slice "
+            "says so in words",
+            "an exact 0.0bp on a slice that IS invested is a different reading "
+            "(exact_zero_with_invested_bars) and is left standing as such",
+            "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
 # --------------------------------- leg: delay the month-end decision (E65)
 
 def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
@@ -19403,6 +19561,23 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropplacebo.__code__.co_varnames,
         "E203 the placebo leg takes the face directory as its only seam")
 
+    # E64: a 0.0bp era gap is not calendar evidence while the slice is all cash
+    chk(_burnin_class(0.0, 100.0) == "degenerate_cash_slice"
+        and _burnin_class(-26.0, 100.0) == "all_cash_slice_with_nonzero_gap"
+        and _burnin_class(0.0, 40.0) == "exact_zero_with_invested_bars"
+        and _burnin_class(-87.0, 12.0) == "informative"
+        and _burnin_class(None, 0.0) == "unmeasured",
+        "E64 a degenerate slice and an exact zero are different readings")
+    chk(_burnin_share(list(range(40)), 40) == 100.0
+        and _burnin_share(list(range(40)), 0) == 0.0
+        and _burnin_share(list(range(40)), 10) == 25.0
+        and _burnin_share([], 5) is None
+        and _burnin_share([1, 2, 3], None) == 100.0,
+        "E64 the burn-in share is the pre-invested fraction of the era slice")
+    chk(run_midsweepburnin.__code__.co_varnames[:1] == ("outdir",)
+        and "faces" in run_midsweepburnin.__code__.co_varnames,
+        "E64 the burn-in leg takes the face directory and an explicit face list")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -25882,7 +26057,7 @@ def main(argv):
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen",
-                             "midsweep", "entrydelay", "entrydelayscreen",
+                             "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
                              "neighborhoodscreen",
@@ -26472,6 +26647,17 @@ def main(argv):
                        % (f["evidence_cutoff"].replace("-", ""), start_tag, cost_tag), f)
         print(json.dumps({"leg": "midsweep", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "midsweepburnin":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_midsweepburnin(outdir)
+        p = write_json(outdir, "MIDSWEEP-%s-burnin.json"
+                       % (f["evidence_cutoff"] or "unknown").replace("-", ""), f)
+        print(json.dumps({"leg": "midsweepburnin", "file": os.path.relpath(p, ROOT),
+                          "cells": f["answers"]["cells"],
+                          "degenerate": len(f["answers"]["degenerate"]),
+                          "informative": f["answers"]["informative"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "entrydelay":
         costs = (tuple(float(x) for x in args.costs.split(","))

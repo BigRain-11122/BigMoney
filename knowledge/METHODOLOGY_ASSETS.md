@@ -3000,3 +3000,32 @@ baseline is a seeded state that says so -- never a silent pass.
 
 How to apply: to turn a one-off audit into a standing guard, ratchet a signature that is stable under
 legitimate churn (mask the values), publish the set you declared, and treat shrink as success.
+
+## E212 A 0.0bp era gap is not calendar evidence until you know who was holding (2026-10-29 r1239 bm-b)
+
+E59 read the mid-sweep's 2017_2020 column as identical for every off-cycle day at start 2020 and as
+-26..+1bp for the same era at start 2013, and treated the second reading as the honest one because a
+start-late window looked like the conservative window. It was the other way round: at start 2020 the
+engine does not buy until 2021-01-29 (calendar index 262, twelve decision bars after the first one), so
+the whole 2017_2020 slice sits inside the eligibility burn-in and earns the repo rate on a 100% cash
+book. Every calendar prints gap 0.0 there for the arithmetic reason, not the calendar one.
+
+The leg (mode `midsweepburnin`) publishes, per source face, per calendar and per era: the first decision
+on which `e27._rank` returns a name (the exact condition `e27.simulate` buys on, imported rather than
+re-implemented), the bar date, and the share of the era slice that sits before it. It re-simulates
+nothing -- it reads the gaps E59 already published and derives the boundary beside them.
+
+Readings: 84 cells over four faces; 10 `degenerate_cash_slice` (exactly the ten start-2020 off-cycle
+cells in 2017_2020), 59 informative, 1 `exact_zero_with_invested_bars` (mid5 at start 2013 with the fee
+off, pre share 0.0 -- a real zero with a real book, published as such and not folded into the bucket).
+
+Why it matters beyond this leg: "a gap of zero" gets read as "these two things behave the same", which
+is the strongest and most quotable form of a negative result. Three different claims print as 0.0 -- the
+arms genuinely agree, they cancel, or one arm never traded. Only the third one is free to produce, and it
+is also the one that looks most convincing because it is exact.
+
+How to apply: before quoting an exact zero (or an exact equality) as robustness, publish the population
+that produced it -- first invested bar, cash share, decision count -- beside the number. If the slice is
+all cash, the zero is a statement about the window, not about the calendar, and the round should say so
+in the face rather than in a footnote. The classification is a pure function of (gap, pre-invested share)
+so it can be pinned by selftest legs, which is what stops the next window from re-reading the same zero.
