@@ -22842,14 +22842,18 @@
   {
    "id": "E208-CLASS-TABLE-COUNT-WORDS",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/e79/QUOTECLASSFIX-<cutoff>.json",
    "target": "scripts/e97_routing.py (level_class)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T04:41:00+08:00",
    "entered_by": "bm-b r1235",
    "source": "E207 measured 37,817 cells a name-based reader would quote that cannot be quotes, and 30,357 of them are integers whose own name carries a count word (gap_sessions, gapped_kept, gapped_eligible). The defect is in the class table, not in the pages.",
-   "title": "Teach level_class() the count-word vocabulary E207 found, then re-run the level-quote audit and publish the delta: how many cells stop being read as bp levels, whether any real quote is lost (a name that carries both a measurement token and a count word), and what the class counts move by. Fix must be a rule, not a name list read off the sweep."
+   "title": "Teach level_class() the count-word vocabulary E207 found, then re-run the level-quote audit and publish the delta: how many cells stop being read as bp levels, whether any real quote is lost (a name that carries both a measurement token and a count word), and what the class counts move by. Fix must be a rule, not a name list read off the sweep.",
+   "result_ref": "results/e79/QUOTECLASSFIX-2026-10-28.json",
+   "done_at": "2026-10-29T05:20:00+08:00",
+   "done_by": "bm-b r1236",
+   "result_note": "level_class() now retires a leaf whose name carries a whole-token count word; the delta leg (mode countworddelta) reads the same cells with the old table and the new one and publishes every move. On the live tree: 3,109 cells that the old table quoted (3,108 as offsets, 1 as an anchored level) are retired out of 5,537 level cells -> 2,455; 4,995 count-named cells in total across 45 faces. The first vocabulary draft also carried size/days/added/rows and every cell those matched was a REAL non-integral bp reading (spread_size_neutral_ann_bp 293.7, published_rebuilt_from_days_bp 287.2454) -- those four words are pruned from the guard and published as rejected_word_hits with their values, because retiring a real quote is worse than the hazard. selftest 107->113 legs green."
   },
   {
    "id": "E209-SIBLING-LENGTH-COUNT-PROOF",

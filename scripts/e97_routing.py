@@ -726,7 +726,8 @@ LEVELQUOTE_OUT_DIR = "results/e79"
 LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
                               "e188_decomposition_label_duty",
                               "e193_decomposition_delta_build_stance",
-                              "e196_tilt3_nearzero_sign_census")
+                              "e196_tilt3_nearzero_sign_census",
+                              "e208_class_table_count_words")
 
 # E177's own reading vocabulary, turned into name rules.  Order matters: a gap cell
 # named `arithmetic_vs_geometric_gap_bp` carries both vocabularies, and it is a gap.
@@ -760,11 +761,41 @@ ARM_RE = re.compile(r"(?:^|_)(raw|screened|neutralise_int)(?:$|_)")
 ARITH_TOKENS = ("_daily_rets", "_month_daily_rets", "_tilt3decom_blocks")
 
 
-def level_class(leaf):
-    """ANCHORED book level / DERIVED daily-term sum / arithmetic-of-levels / offset."""
+# E208: the count vocabulary E207 measured. `level_class()` reads NAMES, so a name that
+# declares "a number of things" must not be filed as a bp level -- `gap_sessions` was
+# being quoted as an 11,619 bp gap. Matching is whole-token on purpose: `members` is a
+# count, `membership_bp` is not.
+COUNT_WORD_TOKENS = ("count", "counts", "num", "n", "sessions", "shards", "files",
+                     "leaves", "members", "arms", "ids", "rank", "length", "names",
+                     "faces", "pulls", "trials", "eligible", "kept", "cells",
+                     "behind", "ahead")
+# Words the first draft of this guard used and the run retired from it: on the live tree
+# every cell they matched was a REAL non-integral bp reading (`spread_size_neutral_ann_bp`
+# 293.7, `published_rebuilt_from_days_bp` 287.2454, `offset_added_by_compounding_the_
+# difference_bp` -20.1, `month_rows_net_bp` 90.612). Retiring a real quote is worse than
+# the hazard this guard exists for, so the vocabulary is pruned by that measurement and
+# the words are named here instead of being quietly forgotten.
+COUNT_WORD_TOKENS_REJECTED = ("size", "days", "added", "rows")
+
+
+def count_words_in(leaf):
+    """Every count word in the name, from both tiers -- the union, for measurement."""
+    toks = [t for t in re.split(r"[^a-z0-9]+", (leaf or "").lower()) if t]
+    return [w for w in COUNT_WORD_TOKENS + COUNT_WORD_TOKENS_REJECTED if w in toks]
+
+
+def count_word_of(leaf):
+    """The count word this leaf name declares, or None. Whole tokens only, pruned tier."""
+    toks = [t for t in re.split(r"[^a-z0-9]+", (leaf or "").lower()) if t]
+    for word in COUNT_WORD_TOKENS:
+        if word in toks:
+            return word
+    return None
+
+
+def level_class_by_shape(leaf):
+    """The pre-E208 name table, kept verbatim so the delta can be measured against it."""
     name = (leaf or "").lower()
-    if name in LEVEL_OVERRIDES:
-        return LEVEL_OVERRIDES[name]
     if any(t in name for t in GAP_TOKENS):
         return "offset"
     if any(t in name for t in DERIVED_TOKENS):
@@ -776,6 +807,16 @@ def level_class(leaf):
     if "bp" in name or "level" in name:
         return "anchored"
     return None
+
+
+def level_class(leaf):
+    """ANCHORED book level / DERIVED daily-term sum / COUNT / arithmetic-of-levels / offset."""
+    name = (leaf or "").lower()
+    if name in LEVEL_OVERRIDES:
+        return LEVEL_OVERRIDES[name]
+    if count_word_of(name):
+        return "count"
+    return level_class_by_shape(name)
 
 
 def walk_numeric(obj, path=""):
@@ -917,13 +958,21 @@ def level_quotes(root=None):
                     continue
                 producer = studies.get(study, [])
                 reach = producer_reach(census_src, producer) if producer else []
-                cells = []
+                cells, retired = [], []
                 for cell_path, value in walk_numeric(doc):
                     parts = [p for p in cell_path.split("/") if p]
                     if parts and parts[0] == "spec":
                         continue
-                    cls = level_class(parts[-1] if parts else "")
+                    leaf = parts[-1] if parts else ""
+                    cls = level_class(leaf)
                     if not cls:
+                        continue
+                    if cls == "count":
+                        # E208: the name declares a quantity of things, so quoting it as a
+                        # bp level would be a fabrication. Recorded, not silently dropped.
+                        retired.append({"path": cell_path, "value": value,
+                                        "word": count_word_of(leaf),
+                                        "legacy_class": level_class_by_shape(leaf)})
                         continue
                     era, arm = era_arm_of(cell_path)
                     cells.append({"path": cell_path, "value": value, "class": cls,
@@ -1019,6 +1068,7 @@ def level_quotes(root=None):
                     "offset_joins": joins,
                     "offset_comparisons": comparisons,
                     "uncompared_offsets": uncompared,
+                    "count_named_cells": retired,
                     "verdict": verdict,
                 })
     finally:
@@ -1099,6 +1149,9 @@ def level_quotes(root=None):
         "faces_quoting_derived_without_offset": len(leak),
         "faces_with_unindexed_producer": len(unindexed),
         "level_cells_total": sum(r["level_cells"] for r in rows),
+        "level_named_cells_retired_as_counts": sum(len(r["count_named_cells"])
+                                                   for r in rows),
+        "faces_with_retired_count_cells": sum(1 for r in rows if r["count_named_cells"]),
         "offset_cells_total": sum(len(r["offset_cells"]) for r in rows),
         "cells_by_class": by_class,
         "derived_cells_from_daily_producers": sum(
@@ -1173,6 +1226,9 @@ def level_quotes(root=None):
                              "arithmetic class is read from the tokens that def reaches "
                              "through the module's own call graph (%s)" % ", ".join(ARITH_TOKENS),
             "class_rules": {
+                "count": ("E208: leaf name carries a whole-token count word from %s -- a "
+                          "quantity of things, so it is retired instead of quoted"
+                          % (COUNT_WORD_TOKENS,)),
                 "offset": "leaf name contains one of %s" % (GAP_TOKENS,),
                 "derived_daily": "contains one of %s -- E177 reading (a), a sum of daily w*r"
                                  % (DERIVED_TOKENS,),
@@ -1203,6 +1259,12 @@ def level_quotes(root=None):
                     "census source does not declare",
         },
         "honest": [
+            "E208 changed this table: a leaf whose name carries a whole-token count word "
+            "(%s) is retired into `count_named_cells` instead of being filed as a level, "
+            "because E207 showed a count can sit under a gap/level name and be quoted as bp. "
+            "The retired cells are listed per face, with the class the old table gave them, "
+            "so the change is auditable rather than a silent drop"
+            % (COUNT_WORD_TOKENS,),
             "the classification is NAME-based, not value-based: a cell is derived because of "
             "how its producer builds it, and the name rules encode E177's vocabulary. A cell "
             "renamed without re-burning this leg would be misread, which is why every cell is "
@@ -1252,6 +1314,164 @@ def run_levelquotes(publish=False):
         print("  LEAK", f)
     for name in face["answers"]["field_names_published_from_two_arithmetics"]:
         print("  COLLISION", name)
+    return 0
+
+
+# --- E208: the count vocabulary the class table was missing --------------------------
+CLASSDELTA_OUT_DIR = "results/e79"
+
+
+def count_word_delta(root=None):
+    """E208: what the count vocabulary costs the name-based audit.
+
+    The same cells, two readers -- the pre-E208 shape table and the count-aware one. Every
+    cell that moves is published with the class it used to carry, so the delta is a
+    measurement over the tree rather than a claim about it.
+    """
+    global ROOT
+    saved = ROOT
+    root = root or ROOT
+    ROOT = root
+    moved, tallies_legacy, tallies_new, cutoffs = [], {}, {}, []
+    rejected_hits = []
+    faces = 0
+    try:
+        for rel_dir in LEVELQUOTE_DIRS:
+            for path in sorted(glob.glob(os.path.join(root, rel_dir, "*.json"))):
+                rel = os.path.relpath(path, root).replace("\\", "/")
+                try:
+                    with io.open(path, encoding="utf-8") as fh:
+                        doc = json.load(fh)
+                except (OSError, ValueError):
+                    continue
+                if not isinstance(doc, dict):
+                    continue
+                if doc.get("study") in LEVELQUOTE_EXCLUDE_STUDIES:
+                    continue
+                faces += 1
+                if doc.get("evidence_cutoff"):
+                    cutoffs.append(doc["evidence_cutoff"])
+                for cell_path, value in walk_numeric(doc):
+                    parts = [p for p in cell_path.split("/") if p]
+                    if parts and parts[0] == "spec":
+                        continue
+                    leaf = parts[-1] if parts else ""
+                    legacy = level_class_by_shape(leaf)
+                    new = level_class(leaf)
+                    if legacy:
+                        tallies_legacy[legacy] = tallies_legacy.get(legacy, 0) + 1
+                    if new:
+                        tallies_new[new] = tallies_new.get(new, 0) + 1
+                    if legacy and new == "count":
+                        moved.append({"face": rel, "path": cell_path, "value": value,
+                                      "legacy_class": legacy,
+                                      "word": count_word_of(leaf)})
+                    if legacy:
+                        rejected = [w for w in COUNT_WORD_TOKENS_REJECTED
+                                    if w in [t for t in re.split(r"[^a-z0-9]+", leaf.lower())
+                                             if t]]
+                        if rejected:
+                            rejected_hits.append({"face": rel, "path": cell_path,
+                                                  "value": value,
+                                                  "legacy_class": legacy,
+                                                  "words": rejected})
+    finally:
+        ROOT = saved
+
+    by_class, by_word, by_face = {}, {}, {}
+    for m in moved:
+        by_class[m["legacy_class"]] = by_class.get(m["legacy_class"], 0) + 1
+        by_word[m["word"] or "?"] = by_word.get(m["word"] or "?", 0) + 1
+        by_face[m["face"]] = by_face.get(m["face"], 0) + 1
+    legacy_levels = sum(n for k, n in tallies_legacy.items())
+    new_levels = sum(n for k, n in tallies_new.items() if k != "count")
+    if not faces:
+        verdict = "no_faces_scanned"
+    elif moved:
+        verdict = ("the_count_vocabulary_retires_%d_cells_the_old_table_quoted_as_levels"
+                   % len(moved))
+    else:
+        verdict = "no_count_word_was_being_quoted_as_a_level"
+    return {
+        "study": "e208_class_table_count_words",
+        "status": "ok" if faces else "no_faces",
+        "evidence_cutoff": max(cutoffs) if cutoffs else None,
+        "spec": {
+            "question": ("E207 measured that a count can sit under a gap/level name. E208 "
+                         "asks the class table itself: with the count vocabulary added, which "
+                         "cells does the level-quote audit stop quoting, and what does each "
+                         "one cost?"),
+            "dirs": list(LEVELQUOTE_DIRS),
+            "count_words": list(COUNT_WORD_TOKENS),
+            "count_words_pruned_from_the_guard": list(COUNT_WORD_TOKENS_REJECTED),
+            "why_pruned": ("on the live tree every cell these words matched was a real "
+                           "non-integral bp reading, so the guard refuses to retire them; "
+                           "the hits are published under rejected_word_hits instead"),
+            "matching": ("whole token only, so `members` is a count and `membership_bp` is "
+                         "not; the guard runs before the offset/derived shape rules, because "
+                         "`gap_sessions` would otherwise be read as an offset first"),
+            "readers": {"legacy": "level_class_by_shape() -- the pre-E208 table, verbatim",
+                        "current": "level_class() -- count guard, then the same table"},
+            "changes_nothing_else": ("no value is re-derived and no producer is touched; the "
+                                     "only change is which cells the name channel files as a "
+                                     "level"),
+        },
+        "totals": {
+            "faces_scanned": faces,
+            "cells_moved_to_count": len(moved),
+            "moved_by_legacy_class": by_class,
+            "moved_by_count_word": by_word,
+            "faces_affected": len(by_face),
+            "level_cells_legacy_reader": legacy_levels,
+            "level_cells_current_reader": new_levels,
+            "level_cell_delta": new_levels - legacy_levels,
+            "rejected_word_hits": len(rejected_hits),
+            "rejected_word_hits_nonintegral": sum(
+                1 for h in rejected_hits
+                if not (isinstance(h["value"], int)
+                        or (isinstance(h["value"], float)
+                            and float(h["value"]).is_integer()))),
+        },
+        "moved": moved,
+        "rejected_word_hits": rejected_hits[:200],
+        "moved_by_face": by_face,
+        "answers": {
+            "verdict": verdict,
+            "the_old_table_quoted": by_class,
+            "words_responsible": by_word,
+        },
+        "verdict": verdict,
+        "honest": [
+            "a count word is a declaration about the NAME, not proof about the value: an "
+            "integer under `days` could in principle be a coarse bp reading, which is why "
+            "every moved cell is published with its face, path and value instead of being "
+            "dropped silently",
+            "this leg can shrink the level-quote audit's totals; that shrinkage is the "
+            "finding, not a regression -- the retired cells were never bp quotes",
+            "the vocabulary is closed and hand-written, so a count spelled without one of "
+            "these words is still read as a level: the list is the whole coverage claim",
+        ],
+        "law_ref": "E207-COUNT-AS-QUOTE-AUDIT (pool entry of the same round) + O-20261002-2100",
+    }
+
+
+def run_classcountdelta(publish=False):
+    face = count_word_delta()
+    if publish:
+        out = os.path.join(_abs(CLASSDELTA_OUT_DIR),
+                           "QUOTECLASSFIX-%s.json"
+                           % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("faces=%d moved=%d legacy_levels=%d current_levels=%d delta=%d"
+          % (t["faces_scanned"], t["cells_moved_to_count"],
+             t["level_cells_legacy_reader"], t["level_cells_current_reader"],
+             t["level_cell_delta"]))
+    print("by_legacy_class=%s" % (t["moved_by_legacy_class"],))
+    print("by_word=%s" % (t["moved_by_count_word"],))
     return 0
 
 
@@ -3283,7 +3503,8 @@ QUOTECOUNT_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
                               "e193_decomposition_delta_build_stance",
                               "e196_tilt3_nearzero_sign_census",
                               "e206_delta_leaf_growth_gate",
-                              "e207_count_as_quote_audit")
+                              "e207_count_as_quote_audit",
+                              "e208_class_table_count_words")
 # The vocabulary level_class() itself keys on, plus the two tokens it treats as gaps.
 QUOTECOUNT_MEASURE_TOKENS = ("_bp", "gap", "offset", "level", "wedge", "spread", "edge")
 # Words that say "a quantity of things".  Not a guess about the value: the NAME declares
@@ -4729,9 +4950,9 @@ def selftest():
     _mix = [r for r in _qc["rows"]
             if r["face"] == "results/e79/MIXED-20261027.json"][0]
     chk("L95 a count published under a gap name is a count_word candidate, and the "
-        "name channel would file it as an offset",
+        "count-aware name channel files it as a count instead of an offset",
         _qc_names["gap_sessions"]["buckets"] == {"count_word": 1}
-        and _qc_names["gap_sessions"]["read_as"] == ["offset"])
+        and _qc_names["gap_sessions"]["read_as"] == ["count"])
     chk("L96 a real non-integral bp cell is quote_shaped and is never listed as a candidate",
         _qc_names["level_offset_bp"]["buckets"] == {"quote_shaped": 1}
         and "level_offset_bp" not in [c["name"] for c in _mix["candidates"]])
@@ -4763,6 +4984,41 @@ def selftest():
         _qc["totals"]["fabricated_inside_the_audited_dirs"] == 3
         and _qc["totals"]["fabricated_outside_the_audited_dirs"] == 2
         and _qc["rows"][0]["audited_dir"] is True)
+
+    # ---- E208: the class table learns the count vocabulary
+    chk("L105 a count word is matched on whole tokens, so a bayes-shaped name is not a count",
+        count_word_of("gap_sessions") == "sessions"
+        and count_word_of("membership_bp") is None
+        and count_word_of("level_offset_bp") is None)
+    chk("L106 the count guard runs before the offset rule, and the legacy table is preserved",
+        level_class("gap_sessions") == "count"
+        and level_class_by_shape("gap_sessions") == "offset"
+        and level_class("level_offset_bp") == "offset")
+    chk("L110 a word that also names a real bp reading is pruned and never retires it",
+        level_class("spread_size_neutral_ann_bp") == "anchored"
+        and count_word_of("spread_size_neutral_ann_bp") is None
+        and count_words_in("spread_size_neutral_ann_bp") == ["size"])
+    _cd = count_word_delta(root=_tmp7)
+    _cd_moved = {(m["face"], m["path"]): m for m in _cd["moved"]}
+    chk("L107 the delta names the cell the old table quoted as an offset, with its word",
+        _cd["totals"]["cells_moved_to_count"] == 1
+        and _cd["totals"]["moved_by_legacy_class"] == {"offset": 1}
+        and _cd_moved[("results/e79/MIXED-20261027.json",
+                       "/eras/2017_2020/gap_sessions")]["word"] == "sessions")
+    chk("L108 a real offset and a real bp reading keep their class, and the level total "
+        "shrinks by exactly the retired cells",
+        _cd["totals"]["level_cell_delta"] == -1
+        and _cd["verdict"] ==
+        "the_count_vocabulary_retires_1_cells_the_old_table_quoted_as_levels")
+    _lq = level_quotes(root=_tmp7)
+    _lq_mixed = [r for r in _lq["faces"]
+                 if r["face"] == "results/e79/MIXED-20261027.json"][0]
+    chk("L109 the level-quote audit retires the count cell instead of quoting it, and "
+        "records the class it would have had",
+        [c["path"] for c in _lq_mixed["count_named_cells"]] ==
+        ["/eras/2017_2020/gap_sessions"]
+        and _lq_mixed["count_named_cells"][0]["legacy_class"] == "offset"
+        and _lq["totals"]["level_named_cells_retired_as_counts"] == 1)
 
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
@@ -4800,6 +5056,8 @@ def main(argv):
         return run_signleaf(publish="--publish" in argv, seed="--seed" in argv)
     if cmd == "quotecount":
         return run_quotecount(publish="--publish" in argv)
+    if cmd == "countworddelta":
+        return run_classcountdelta(publish="--publish" in argv)
     print(__doc__)
     return 2
 
