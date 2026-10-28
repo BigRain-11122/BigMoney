@@ -1,0 +1,321 @@
+{
+ "study": "e203_tilt3_ladder_drop_edge_placebo",
+ "evidence_cutoff": "2026-10-27",
+ "source_error": null,
+ "spec": {
+  "upstream": "LADDERDROPWHERE-*.json (E186 month rows), + EDGEDEPTH-*.json (E197) for the k_stop cross-read only",
+  "upstream_cutoff": "2026-10-27",
+  "method": "for each flagged (era, drop) and each E197 depth k, remove k random months drawn from the pair's own decision months 200 times and record how often the reversal survives; the edge trim's own outcome at that k is read against that null",
+  "edge_ks": [
+   2,
+   4,
+   6,
+   8,
+   10
+  ],
+  "draws_per_cell": 200,
+  "rng": "random.Random(zlib.crc32('era|name|k|seed')) -- a stable per-cell seed, because string hashing is not stable across runs; seed=20261029",
+  "units": "reversal is a boolean; rates are fractions of draws",
+  "join_tolerance_bp": 0.01,
+  "class_rules": {
+   "a_random_removal_of_the_same_size_kills_it_just_as_often": "the edge kill is not about the months -- any k months do it",
+   "the_edge_months_kill_where_random_removal_usually_does_not": "the edge set is doing something the removal count does not",
+   "random_removal_of_the_same_size_also_usually_survives": "the edge survival is not about the months either",
+   "most_random_removals_of_the_same_size_still_kill_it": "the edge survives where most random removals do not",
+   "no_null_at_this_depth": "too few months left for a reading",
+   "no_base_reversal": "nothing to test on this pair"
+  },
+  "null_size_note": "the null is removal-count-matched to the edge trim at the same k, so a match means the depth curve is a statement about how many months went missing, not about which ones"
+ },
+ "eras": [
+  {
+   "era": "2024_now",
+   "drops": [
+    {
+     "era": "2024_now",
+     "name": "sh510050",
+     "base_reversal": true,
+     "pool_months": 34,
+     "edge_k_stop": 2,
+     "e197_k_stop": 2,
+     "cells": [
+      {
+       "k": 2,
+       "size": 2,
+       "edge_reverses": false,
+       "null_rate": 0.59,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.41,
+       "class": "the_edge_months_kill_where_random_removal_usually_does_not",
+       "note": null
+      },
+      {
+       "k": 4,
+       "size": 4,
+       "edge_reverses": false,
+       "null_rate": 0.405,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.595,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      },
+      {
+       "k": 6,
+       "size": 6,
+       "edge_reverses": false,
+       "null_rate": 0.39,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.61,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      },
+      {
+       "k": 8,
+       "size": 8,
+       "edge_reverses": false,
+       "null_rate": 0.275,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.725,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      },
+      {
+       "k": 10,
+       "size": 10,
+       "edge_reverses": false,
+       "null_rate": 0.25,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.75,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "era": "full",
+   "drops": [
+    {
+     "era": "full",
+     "name": "sh510050",
+     "base_reversal": true,
+     "pool_months": 162,
+     "edge_k_stop": 8,
+     "e197_k_stop": 8,
+     "cells": [
+      {
+       "k": 2,
+       "size": 2,
+       "edge_reverses": true,
+       "null_rate": 0.51,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.51,
+       "class": "random_removal_of_the_same_size_also_usually_survives",
+       "note": null
+      },
+      {
+       "k": 4,
+       "size": 4,
+       "edge_reverses": true,
+       "null_rate": 0.51,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.51,
+       "class": "random_removal_of_the_same_size_also_usually_survives",
+       "note": null
+      },
+      {
+       "k": 6,
+       "size": 6,
+       "edge_reverses": true,
+       "null_rate": 0.44,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.44,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 8,
+       "size": 8,
+       "edge_reverses": false,
+       "null_rate": 0.4,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.6,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      },
+      {
+       "k": 10,
+       "size": 10,
+       "edge_reverses": true,
+       "null_rate": 0.325,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.325,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "era": "pre2017",
+   "drops": [
+    {
+     "era": "pre2017",
+     "name": "sh510300",
+     "base_reversal": true,
+     "pool_months": 44,
+     "edge_k_stop": 2,
+     "e197_k_stop": 2,
+     "cells": [
+      {
+       "k": 2,
+       "size": 2,
+       "edge_reverses": false,
+       "null_rate": 0.35,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.65,
+       "class": "a_random_removal_of_the_same_size_kills_it_just_as_often",
+       "note": null
+      },
+      {
+       "k": 4,
+       "size": 4,
+       "edge_reverses": true,
+       "null_rate": 0.26,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.26,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 6,
+       "size": 6,
+       "edge_reverses": true,
+       "null_rate": 0.26,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.26,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 8,
+       "size": 8,
+       "edge_reverses": true,
+       "null_rate": 0.14,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.14,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 10,
+       "size": 10,
+       "edge_reverses": true,
+       "null_rate": 0.17,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.17,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      }
+     ]
+    },
+    {
+     "era": "pre2017",
+     "name": "sh510500",
+     "base_reversal": true,
+     "pool_months": 44,
+     "edge_k_stop": 2,
+     "e197_k_stop": 2,
+     "cells": [
+      {
+       "k": 2,
+       "size": 2,
+       "edge_reverses": false,
+       "null_rate": 0.525,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.475,
+       "class": "the_edge_months_kill_where_random_removal_usually_does_not",
+       "note": null
+      },
+      {
+       "k": 4,
+       "size": 4,
+       "edge_reverses": true,
+       "null_rate": 0.335,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.335,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 6,
+       "size": 6,
+       "edge_reverses": true,
+       "null_rate": 0.185,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.185,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 8,
+       "size": 8,
+       "edge_reverses": true,
+       "null_rate": 0.16,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.16,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      },
+      {
+       "k": 10,
+       "size": 10,
+       "edge_reverses": true,
+       "null_rate": 0.16,
+       "null_draws": 200,
+       "null_same_outcome_rate": 0.16,
+       "class": "most_random_removals_of_the_same_size_still_kill_it",
+       "note": null
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "answers": {
+  "pairs_measured": 4,
+  "pairs_with_base_reversal": 4,
+  "cells_tested": 20,
+  "cells_with_a_null": 20,
+  "class_counts": {
+   "the_edge_months_kill_where_random_removal_usually_does_not": 2,
+   "a_random_removal_of_the_same_size_kills_it_just_as_often": 6,
+   "random_removal_of_the_same_size_also_usually_survives": 2,
+   "most_random_removals_of_the_same_size_still_kill_it": 10
+  },
+  "pair_verdicts": {
+   "2024_now|sh510050": "random_removal_of_the_same_size_reproduces_the_edge_outcome",
+   "full|sh510050": "the_edge_set_matters_at_some_depths_only",
+   "pre2017|sh510300": "the_edge_months_do_what_random_removal_of_the_same_size_cannot",
+   "pre2017|sh510500": "the_edge_months_do_what_random_removal_of_the_same_size_cannot"
+  },
+  "randomisation_trials": 4000,
+  "e186_join_max_abs_diff_bp": 8.8e-05,
+  "e197_kstop_join_mismatches": [],
+  "verdict": "the_edge_set_matters_at_some_depths_only"
+ },
+ "honest": [
+  "the month rows are read from the published E186 face; a missing face publishes zero pairs rather than an invented removal set",
+  "the edge side is recomputed through E197's own _edge_depth_curve, so the two faces cannot quote different k, size or outcome for the same cell; the E197 k_stop is carried as a cross-read field and is never an input to the verdict",
+  "the null draws from the pair's whole decision-month pool, so the edge set is one of its own draws -- this is the same experiment at the same size, not a weaker placebo",
+  "a cell whose removal would leave fewer than two months for a reading publishes no null at all instead of a rate over an empty sample",
+  "the draws are seeded per cell, so the face is reproducible byte for byte; the trial count is published as randomisation_trials and is a randomisation draw, not a strategy trial",
+  "matching the null on count does not prove the edge set is uninformative where the null is flat in both directions: a null rate near 1.0 makes the edge survival unremarkable and says nothing about fragility",
+  "removing months changes the sample the verdict is computed on; this measures whether the removal set matters, it does not license dropping any month for real",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

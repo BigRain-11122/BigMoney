@@ -42,6 +42,26 @@
    "D-20261027-09 Tools/silence-enforce.ps1 group copy divergence (exec=@HQ mechanism face, due 2026-10-28 03:07)"
   ]
  },
+ "decisions_consumed_r1228": {
+  "action": "ack only, nothing to execute: every row either belongs to another company or is already satisfied on this machine",
+  "rows": [
+   "D-20261028-02",
+   "D-20261028-04",
+   "D-20261028-06",
+   "D-20261028-07",
+   "D-20261028-11",
+   "D-20261028-14",
+   "D-20261028-17",
+   "D-20261029-01",
+   "D-20261029-03",
+   "D-20261029-05"
+  ],
+  "touching_this_repo": [
+   "D-20261028-02 machine-health shape (verified: fleet/machine-health.json is a dict with bm-a/bm-b/bm-c; this round rebuilt it 8/8 after the bm-b entry lost cpu+gpu.util)",
+   "D-20261029-01 Bigmoney-* Disabled reading was a false positive (bm-a measured 9/9 Ready at 00:00) - no action needed here; this round re-registered IterationLoop (pin=2 no-op) and LoopWatchdog anyway",
+   "D-20261029-03 + its falsification row: POOL-0023 host-offline verdict was telemetry-down, not machine-down. Collateral check this round: TCP 100.110.185.62:4222 = reachable at 01:0x, so the NATS break cited in fleet/inbox/MSG-20261029-0026 was transient"
+  ]
+ },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery_note": "r1225: main is 5 ahead / 5 behind origin. Two rounds have now failed to rebase on the same face (r1224 recorded the push blocked at object enumeration; r1225 recorded the rebase blocked at the same lazy fetch). The five commits are safe on machine/bm-b-r1225. The next session that finds a quiet network must heal the divergence by merging the four contested paths by hand, not by tree replay.",
@@ -78,7 +98,7 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-27T15:26:56+08:00"
  },
- "last_round": "r1213",
+ "last_round": 1231,
  "last_round_at": "2026-10-28T12:22:40+08:00",
  "last_round_report": "r1216",
  "last_round_ts": "2026-10-28T12:22:40+08:00",
@@ -1165,11 +1185,57 @@
   "smoke": "see round report",
   "watermark_red": "RED pool-batch-runnable-idle-low-cpu -> burned the ready head E193 in-round"
  },
+ "r1228": {
+  "collateral": {
+   "gpu": "nvidia-smi this round: util 100%, 7903/8192 MiB used. NOT from this chain (gpu_face findings=[]); the GPU is parked per C-20261014-01 and the occupant is the interactive window's IndexTTS dubbing batch (fleet/inbox/MSG-20261029-0026 §三). Reported, not touched.",
+   "inbox": "both fleet/inbox/MSG-*-bmb-fleet-sync.md files show as untracked locally because they are bm-b-AUTHORED messages that already exist on origin/main while this clone is 5 commits behind; they are not unread asks, so nothing was moved to inbox/processed/. The 00:26 message's two asks are addressed to bm-a and bm-c.",
+   "nats": "TCP 100.110.185.62:4222 reachable at 01:0x (Test-NetConnection True) - the telemetry break looks resolved",
+   "orders": "orders_ack scan CLEAN: 114 orders, 115 acks, unacked [], 1 stale ack (O-20261020-1335-bmc-w288-seat.md, bm-c lane)"
+  },
+  "d19": "decisions 93fa41e1 (202,168B) vs held 47a48ea5 -> delta consumed: 10 rows touch this repo, none requires an action from this round (see decisions_consumed_r1228)",
+  "delivery": "commit 00b911b98 local; machine/bm-b-r1228 push rejected on a missing promisor object (see sync block); not claimed as pushed",
+  "finding": "164 cells / 3 faces: 157 sign_quotable, 6 sign_is_hair, 1 level_agrees with the hair on the gap side (27.99bp vs -0.52bp); 51 cells disagree between the two readings, 44 of them quotable; the full-era sh510050 anchor lambda is 0.001946 and identical on 5 rows; gap_needed_for_quotable_bp 1.49bp",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/1.9, pool ready 3) -> E196 burned in-round",
+  "not_run": "GPU untouched by this chain (gpu_face findings=[]); cloud untouched; bm-a-lane collectors honoured their guard",
+  "orphan_face": 0,
+  "product": [
+   "results/e79/NEARZEROSIGN-2026-10-27.json",
+   "scripts/e97_routing.py: _nearzero_cells/_nearzero_class/_nearzero_hair_side/_nearzero_cutoff/nearzero_sign_sweep/run_nearzerosign + CLI mode nearzerosign (selftest 54 -> 61)",
+   "research/digests/DIGEST-20261029-e196-nearzero-sign-census.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E201",
+   "results/runnable_pool.json E196 done + result_ref"
+  ],
+  "s0": "local main was 1 ahead / 5 behind origin; `git rebase origin/main` hung with zero output for 5 min (the second consecutive round: blob:none promisor lazy-fetch inside rebase). Recovered per r1225 law: zero git procs -> clear orphan index.lock -> rebase --abort -> checkout -- . , tree back to HEAD with 0 modified tracked files. Delivery therefore goes on machine/bm-b-r1228.",
+  "selftest": "e97_routing 54 -> 61/61",
+  "smoke": "123/123 PASS at open (271s)"
+ },
+ "r1230": {
+  "finding_e197": "4 pairs reverse at base; edge k_stop = 2/2/2/8 of 162/44/44/34-month eras; the reversal returns after the stop in 3 of 4 (pre2017 pair reverses at every k>=4, the full-era E195 survivor dies at k=8 and reverses again at k=10); only 2024_now sh510050 dies monotonically",
+  "finding_e201": "14 delta-publishing faces, 14 silent, 0 declared-and-matching, 0 self-contradicting; each carries the one line it would need",
+  "fix": "machine-health aggregate was INCOMPLETE (bm-b entry missing pinned cpu + gpu.util, written by the bm-a oversight lane); gpu_face apply + machine_health_face write --machine bm-b healed it -> check OK 8/8 for bm-a/bm-b/bm-c",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 1.9%, pool ready 3) -> both ready cards burned in-round",
+  "not_run": "GPU untouched beyond the face probe (parked C-20261014-01); cloud untouched; bm-a-lane collectors and single-writer faces honoured their guards; live.paper family skipped (pre-close, cutoff 2026-10-28 = no new bar)",
+  "orphan_face": 0,
+  "product": [
+   "results/e43_tilt_4member/EDGEDEPTH-20261027.json",
+   "scripts/e39_panel_census.py: _edge_trim_months/_edge_depth_curve/_edge_depth_class/run_tilt3ladderdropedge + CLI mode tilt3ladderdropedge (selftest 697 -> 706)",
+   "results/e79/DELTASIGN-2026-10-27.json",
+   "scripts/e97_routing.py: _deltasign_text/_deltasign_declared/_deltasign_measured/_deltasign_face/deltasign_sweep/run_deltasign + CLI mode deltasign (selftest 61 -> 70)",
+   "research/digests/DIGEST-20261029-e197-edge-depth.md",
+   "research/digests/DIGEST-20261029-e201-sign-declaration.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E202"
+  ],
+  "s6": "38/40 rc=0 (~215s): dualrun ZERO-DRIFT 681 entries streak 9 | compute_audit rc0 | market_regime ORANGE 9d | market_clock ORANGE_COOL | astock refresh lock alive | minute_feed pre-09:15 gated | update_daily/lhb/futures/repo/etf_daily no-op cutoff 2026-10-28 | ths/moneyflow/ah spawn throttled | fund_premium bm-c lane no-op | fundamental 19.9h fresh | fund_statements 86 periods complete | daily_report + ceo_live_usage + daily_scorecard (stale-takeover from bm-a) | build_status | token_meter | attrition CLEAN 2 healed",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 advanced dec 93fa41e1 ord c9d29702 | orders_ack CLEAN 114 orders / 115 acks / 1 stale bm-c",
+  "selftest": "e39_panel_census 697 -> 706/706; e97_routing 61 -> 70/70",
+  "smoke": "123/123 PASS at open",
+  "telemetry": "D-20261029-03 correction item 4 verified on this machine: FluxGroup-NatsHB Running S4U (last run 01:37 rc=0), FluxGroup-FleetLink Running S4U, HQ-ProductionClaim Ready S4U"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1229,
- "round_no": 1230,
+ "round_no": 1231,
  "round_no_label": "r1227",
  "round_no_note": "r1225 closeout (state had drifted to round=1223/round_no=1224 -> git log is the canvas)",
  "round_no_ts": "2026-10-29T01:58:08+08:00",
@@ -1183,14 +1249,14 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "behind_origin_main": 7,
   "branch": "machine/bm-b-r1230",
   "branch_sha": "b11b56b4aa10556ad6fbe895d6507030fb0fc7bf",
-  "local_sha": "b11b56b4aa10556ad6fbe895d6507030fb0fc7bf",
-  "behind_origin_main": 7,
   "local_not_on_origin_main": 7,
-  "remote_verified": true,
+  "local_sha": "b11b56b4aa10556ad6fbe895d6507030fb0fc7bf",
   "note": "ls-remote returns b11b56b4aa10556ad6fbe895d6507030fb0fc7bf for refs/heads/machine/bm-b-r1230 == local HEAD. Zero remote delivery claimed on main: local is behind origin/main by 7 and those upstream commits touch the same shared faces, so a rebase here is the overwrite hazard (LEDGER 33 lines / QC 90 lines) rather than a merge.",
+  "remote_verified": true,
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
   "ts": "2026-10-29T02:03:20+08:00"
  },
  "task": "r1230: E197 edge-depth sweep + E201 sign declaration (both done)",
@@ -1199,71 +1265,5 @@
  "ts": "2026-10-29T02:03:20+08:00",
  "updated": "2026-10-29T02:03:20+08:00",
  "updated_at": "2026-10-29T02:03:20+08:00",
- "verdict": "edge depth does not monotonically kill the reversal (3 of 4 pairs revive); 14 of 14 delta faces never state their sign convention",
- "r1228": {
-  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/1.9, pool ready 3) -> E196 burned in-round",
-  "product": [
-   "results/e79/NEARZEROSIGN-2026-10-27.json",
-   "scripts/e97_routing.py: _nearzero_cells/_nearzero_class/_nearzero_hair_side/_nearzero_cutoff/nearzero_sign_sweep/run_nearzerosign + CLI mode nearzerosign (selftest 54 -> 61)",
-   "research/digests/DIGEST-20261029-e196-nearzero-sign-census.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E201",
-   "results/runnable_pool.json E196 done + result_ref"
-  ],
-  "finding": "164 cells / 3 faces: 157 sign_quotable, 6 sign_is_hair, 1 level_agrees with the hair on the gap side (27.99bp vs -0.52bp); 51 cells disagree between the two readings, 44 of them quotable; the full-era sh510050 anchor lambda is 0.001946 and identical on 5 rows; gap_needed_for_quotable_bp 1.49bp",
-  "selftest": "e97_routing 54 -> 61/61",
-  "smoke": "123/123 PASS at open (271s)",
-  "s0": "local main was 1 ahead / 5 behind origin; `git rebase origin/main` hung with zero output for 5 min (the second consecutive round: blob:none promisor lazy-fetch inside rebase). Recovered per r1225 law: zero git procs -> clear orphan index.lock -> rebase --abort -> checkout -- . , tree back to HEAD with 0 modified tracked files. Delivery therefore goes on machine/bm-b-r1228.",
-  "orphan_face": 0,
-  "not_run": "GPU untouched by this chain (gpu_face findings=[]); cloud untouched; bm-a-lane collectors honoured their guard",
-  "delivery": "commit 00b911b98 local; machine/bm-b-r1228 push rejected on a missing promisor object (see sync block); not claimed as pushed",
-  "d19": "decisions 93fa41e1 (202,168B) vs held 47a48ea5 -> delta consumed: 10 rows touch this repo, none requires an action from this round (see decisions_consumed_r1228)",
-  "collateral": {
-   "gpu": "nvidia-smi this round: util 100%, 7903/8192 MiB used. NOT from this chain (gpu_face findings=[]); the GPU is parked per C-20261014-01 and the occupant is the interactive window's IndexTTS dubbing batch (fleet/inbox/MSG-20261029-0026 §三). Reported, not touched.",
-   "inbox": "both fleet/inbox/MSG-*-bmb-fleet-sync.md files show as untracked locally because they are bm-b-AUTHORED messages that already exist on origin/main while this clone is 5 commits behind; they are not unread asks, so nothing was moved to inbox/processed/. The 00:26 message's two asks are addressed to bm-a and bm-c.",
-   "nats": "TCP 100.110.185.62:4222 reachable at 01:0x (Test-NetConnection True) - the telemetry break looks resolved",
-   "orders": "orders_ack scan CLEAN: 114 orders, 115 acks, unacked [], 1 stale ack (O-20261020-1335-bmc-w288-seat.md, bm-c lane)"
-  }
- },
- "decisions_consumed_r1228": {
-  "rows": [
-   "D-20261028-02",
-   "D-20261028-04",
-   "D-20261028-06",
-   "D-20261028-07",
-   "D-20261028-11",
-   "D-20261028-14",
-   "D-20261028-17",
-   "D-20261029-01",
-   "D-20261029-03",
-   "D-20261029-05"
-  ],
-  "touching_this_repo": [
-   "D-20261028-02 machine-health shape (verified: fleet/machine-health.json is a dict with bm-a/bm-b/bm-c; this round rebuilt it 8/8 after the bm-b entry lost cpu+gpu.util)",
-   "D-20261029-01 Bigmoney-* Disabled reading was a false positive (bm-a measured 9/9 Ready at 00:00) - no action needed here; this round re-registered IterationLoop (pin=2 no-op) and LoopWatchdog anyway",
-   "D-20261029-03 + its falsification row: POOL-0023 host-offline verdict was telemetry-down, not machine-down. Collateral check this round: TCP 100.110.185.62:4222 = reachable at 01:0x, so the NATS break cited in fleet/inbox/MSG-20261029-0026 was transient"
-  ],
-  "action": "ack only, nothing to execute: every row either belongs to another company or is already satisfied on this machine"
- },
- "r1230": {
-  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 1.9%, pool ready 3) -> both ready cards burned in-round",
-  "product": [
-   "results/e43_tilt_4member/EDGEDEPTH-20261027.json",
-   "scripts/e39_panel_census.py: _edge_trim_months/_edge_depth_curve/_edge_depth_class/run_tilt3ladderdropedge + CLI mode tilt3ladderdropedge (selftest 697 -> 706)",
-   "results/e79/DELTASIGN-2026-10-27.json",
-   "scripts/e97_routing.py: _deltasign_text/_deltasign_declared/_deltasign_measured/_deltasign_face/deltasign_sweep/run_deltasign + CLI mode deltasign (selftest 61 -> 70)",
-   "research/digests/DIGEST-20261029-e197-edge-depth.md",
-   "research/digests/DIGEST-20261029-e201-sign-declaration.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E202"
-  ],
-  "finding_e197": "4 pairs reverse at base; edge k_stop = 2/2/2/8 of 162/44/44/34-month eras; the reversal returns after the stop in 3 of 4 (pre2017 pair reverses at every k>=4, the full-era E195 survivor dies at k=8 and reverses again at k=10); only 2024_now sh510050 dies monotonically",
-  "finding_e201": "14 delta-publishing faces, 14 silent, 0 declared-and-matching, 0 self-contradicting; each carries the one line it would need",
-  "selftest": "e39_panel_census 697 -> 706/706; e97_routing 61 -> 70/70",
-  "smoke": "123/123 PASS at open",
-  "s6": "38/40 rc=0 (~215s): dualrun ZERO-DRIFT 681 entries streak 9 | compute_audit rc0 | market_regime ORANGE 9d | market_clock ORANGE_COOL | astock refresh lock alive | minute_feed pre-09:15 gated | update_daily/lhb/futures/repo/etf_daily no-op cutoff 2026-10-28 | ths/moneyflow/ah spawn throttled | fund_premium bm-c lane no-op | fundamental 19.9h fresh | fund_statements 86 periods complete | daily_report + ceo_live_usage + daily_scorecard (stale-takeover from bm-a) | build_status | token_meter | attrition CLEAN 2 healed",
-  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 advanced dec 93fa41e1 ord c9d29702 | orders_ack CLEAN 114 orders / 115 acks / 1 stale bm-c",
-  "fix": "machine-health aggregate was INCOMPLETE (bm-b entry missing pinned cpu + gpu.util, written by the bm-a oversight lane); gpu_face apply + machine_health_face write --machine bm-b healed it -> check OK 8/8 for bm-a/bm-b/bm-c",
-  "telemetry": "D-20261029-03 correction item 4 verified on this machine: FluxGroup-NatsHB Running S4U (last run 01:37 rc=0), FluxGroup-FleetLink Running S4U, HQ-ProductionClaim Ready S4U",
-  "orphan_face": 0,
-  "not_run": "GPU untouched beyond the face probe (parked C-20261014-01); cloud untouched; bm-a-lane collectors and single-writer faces honoured their guards; live.paper family skipped (pre-close, cutoff 2026-10-28 = no new bar)"
- }
+ "verdict": "edge depth does not monotonically kill the reversal (3 of 4 pairs revive); 14 of 14 delta faces never state their sign convention"
 }

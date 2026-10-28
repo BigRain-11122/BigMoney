@@ -24,7 +24,9 @@ import csv
 import hashlib
 import json
 import os
+import random
 import sys
+import zlib
 from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19340,6 +19342,67 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropedge.__code__.co_varnames,
         "E197 the depth leg takes the face directory as its only seam")
 
+    # ---- E203: the depth is only meaningful if the *specific* months matter
+    _e203_pool = ["m%02d" % i for i in range(1, 13)]
+    _e203_sets = _placebo_removal_sets(_e203_pool, 4, 25, 7)
+    chk(all(len(s) == 4 and len(set(s)) == 4 for s in _e203_sets)
+        and all(set(s) <= set(_e203_pool) for s in _e203_sets),
+        "E203 a placebo draw is removal-count-matched: four distinct months, "
+        "all of them from the pair's own pool")
+    chk(_placebo_removal_sets(_e203_pool, 4, 25, 7)
+        == _placebo_removal_sets(_e203_pool, 4, 25, 7)
+        and _placebo_removal_sets(_e203_pool, 4, 25, 7)
+        != _placebo_removal_sets(_e203_pool, 4, 25, 8),
+        "E203 the draws are seeded per cell, so a cell is reproducible and two "
+        "cells do not share one stream")
+    chk(_placebo_removal_sets(_e203_pool, 0, 3, 7) == [[], [], []]
+        and _placebo_removal_sets(_e203_pool, 12, 2, 7)
+        == [_e203_pool, _e203_pool],
+        "E203 the degenerate sizes are pinned: removing nothing yields the base "
+        "reading, removing the whole pool is reported as the whole pool")
+    _e203_rows = [{"month": "m%02d" % i,
+                   "full_ret": 0.0,
+                   "dropped_ret": (0.9 if i == 1 else -0.05 * i)}
+                  for i in range(1, 13)]
+    _e203_zero = _placebo_cell(_e203_rows, _e203_pool, 0, 20, 7)
+    _e203_empty = _placebo_cell(_e203_rows, _e203_pool, 11, 20, 7)
+    chk(_e203_zero["draws"] == 0 and _e203_zero["reversal_rate"] in (0.0, 1.0)
+        and _e203_empty["vacuous"] is True
+        and _e203_empty["reversal_rate"] is None,
+        "E203 a zero-size removal is the base reading and a removal that would "
+        "leave fewer than two months publishes no null instead of a rate over "
+        "an empty sample")
+    chk(_placebo_cell_class(True, True, 0.9)
+        == "random_removal_of_the_same_size_also_usually_survives"
+        and _placebo_cell_class(False, True, 0.1)
+        == "a_random_removal_of_the_same_size_kills_it_just_as_often"
+        and _placebo_cell_class(False, True, 0.9)
+        == "the_edge_months_kill_where_random_removal_usually_does_not"
+        and _placebo_cell_class(True, True, 0.02)
+        == "most_random_removals_of_the_same_size_still_kill_it"
+        and _placebo_cell_class(True, False, 0.5) == "no_base_reversal"
+        and _placebo_cell_class(True, True, None) == "no_null_at_this_depth",
+        "E203 the cell class always reads the edge outcome against the null, so "
+        "a kill the null reproduces is not published as fragility")
+    _e203_cells_typ = [{"base_reversal": True, "null_rate": 0.8,
+                        "null_same_outcome_rate": 0.8} for _ in range(4)]
+    _e203_cells_odd = [{"base_reversal": True, "null_rate": 0.05,
+                        "null_same_outcome_rate": 0.05} for _ in range(4)]
+    chk(_placebo_verdict(_e203_cells_typ)
+        == "random_removal_of_the_same_size_reproduces_the_edge_outcome"
+        and _placebo_verdict(_e203_cells_odd)
+        == "the_edge_months_do_what_random_removal_of_the_same_size_cannot"
+        and _placebo_verdict([]) == "no_pair_reverses_to_test",
+        "E203 the pair verdict is a majority over measured cells, so one "
+        "informative cell cannot carry a pair")
+    _e203_missing = run_tilt3ladderdropplacebo(_e190_tmp.mkdtemp())
+    chk(_e203_missing["answers"]["verdict"] == "no_pair_reverses_to_test"
+        and _e203_missing["answers"]["pairs_measured"] == 0
+        and _e203_missing["answers"]["cells_tested"] == 0,
+        "E203 a missing upstream face publishes zero pairs, not zero findings")
+    chk("outdir" in run_tilt3ladderdropplacebo.__code__.co_varnames,
+        "E203 the placebo leg takes the face directory as its only seam")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -23937,6 +24000,307 @@ def run_tilt3ladderdropedge(outdir):
     }
 
 
+# ---------------------------------------------------------------- E203
+# E197 swept the edge depth k=2..10 and found the kill is not monotone: pairs
+# die at k=2 and come back at k=4. That leaves a question the depth sweep
+# cannot answer on its own -- is the *specific* set of months (the era's
+# chronological ends) what moves the verdict, or would any k months of the same
+# size do it? E203 answers it by removal-count-matched randomisation: for every
+# (pair, k) cell it removes k random months instead of the edge ones, M times,
+# and reads the edge outcome against that null. The null is the same experiment
+# at the same size, so a match means the edge set carries no information the
+# removal count did not already carry.
+TILT3LADDERDROPPPLACEBO_DRAWS = 200
+TILT3LADDERDROPPPLACEBO_SEED = 20261029
+
+
+def _placebo_cell_seed(era, name, k):
+    """(E203) a stable per-cell seed -- string hashing is not stable across runs."""
+    tag = "%s|%s|%d|%d" % (era, name, int(k), TILT3LADDERDROPPPLACEBO_SEED)
+    return zlib.crc32(tag.encode("utf-8")) & 0xFFFFFFFF
+
+
+def _placebo_removal_sets(pool, size, draws, seed):
+    """(E203) ``draws`` removal sets of ``size`` months drawn from ``pool``.
+
+    The pool is the pair's own decision months, so the edge trim set is itself
+    one of the possible draws: the null is not a different experiment, it is
+    the same one with the choice of months handed to a coin.
+    """
+    rng = random.Random(int(seed))
+    pool = sorted(pool)
+    size, draws = int(size), int(draws)
+    out = []
+    for _ in range(draws):
+        if size <= 0:
+            out.append([])
+        elif size >= len(pool):
+            out.append(list(pool))
+        else:
+            out.append(sorted(rng.sample(pool, size)))
+    return out
+
+
+def _placebo_cell(rows, pool, size, draws, seed):
+    """(E203) how often a random removal of ``size`` months leaves the reversal."""
+    if size <= 0:
+        eff = _drop_trim_effect(rows, [])
+        return {"draws": 0, "size": 0,
+                "reversal_rate": (1.0 if eff["reversal"] else 0.0),
+                "vacuous": False,
+                "note": "a zero-size removal is the base reading, not a draw"}
+    if size >= max(0, len(pool) - 2):
+        return {"draws": 0, "size": int(size), "reversal_rate": None,
+                "vacuous": True,
+                "note": ("removing %d of %d months leaves fewer than two for a "
+                         "reading, so no null exists at this depth"
+                         % (int(size), len(pool)))}
+    sets = _placebo_removal_sets(pool, size, draws, seed)
+    kept = sum(1 for s in sets if _drop_trim_effect(rows, s)["reversal"])
+    n = len(sets)
+    return {"draws": n, "size": int(size),
+            "reversal_rate": (round(kept / n, 6) if n else None),
+            "vacuous": False, "note": None}
+
+
+def _placebo_cell_class(edge_reverses, base_reversal, rate):
+    """(E203) read the edge outcome against the random-removal null.
+
+    The cell is only informative when one of the two readings is rare under the
+    null. Where the null produces the same outcome in half the draws or more,
+    the specific months are not doing anything the removal count did not.
+    """
+    if not base_reversal:
+        return "no_base_reversal"
+    if rate is None:
+        return "no_null_at_this_depth"
+    same = rate if edge_reverses else (1.0 - rate)
+    if same >= 0.5:
+        return ("random_removal_of_the_same_size_also_usually_survives"
+                if edge_reverses else
+                "a_random_removal_of_the_same_size_kills_it_just_as_often")
+    return ("most_random_removals_of_the_same_size_still_kill_it"
+            if edge_reverses else
+            "the_edge_months_kill_where_random_removal_usually_does_not")
+
+
+def _placebo_verdict(cells):
+    """(E203) one sentence over every measured cell."""
+    measured = [c for c in cells
+                if c.get("base_reversal") and c.get("null_rate") is not None]
+    if not measured:
+        return "no_pair_reverses_to_test"
+    agree = [c for c in measured if c["null_same_outcome_rate"] >= 0.5]
+    frac = len(agree) / len(measured)
+    if frac >= 0.75:
+        return "random_removal_of_the_same_size_reproduces_the_edge_outcome"
+    if frac <= 0.25:
+        return ("the_edge_months_do_what_random_removal_of_the_same_size_cannot")
+    return "the_edge_set_matters_at_some_depths_only"
+
+
+def run_tilt3ladderdropplacebo(outdir, draws=TILT3LADDERDROPPPLACEBO_DRAWS):
+    """E203: is the edge trim's verdict about the months, or about the count?
+
+    E197 swept the depth and published a k_stop per pair. Every one of those
+    numbers was produced by removing a particular set of months -- the era's
+    chronological ends. If a random set of the same size moves the verdict as
+    often, the depth curve is a statement about how many months went missing,
+    not about which ones, and quoting "the reversal dies at k=2" as a fact
+    about the era's fragility overstates what the sweep measured.
+    """
+    src, e197, src_error = None, {}, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception as exc:   # IO only: a shape error must not become "no data"
+        src, src_error = None, "upstream read failed: %s" % exc
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("EDGEDEPTH-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                depth_src = json.load(fh)
+            # E197 publishes its eras as a dict keyed by era name; accept the
+            # list shape too so a future face cannot silently disable the join
+            eras = depth_src.get("eras") or {}
+            era_recs = ([dict(v, era=k) if isinstance(v, dict) else v
+                         for k, v in eras.items()]
+                        if isinstance(eras, dict) else list(eras))
+            for era_rec in era_recs:
+                for d in (era_rec.get("drops") or []):
+                    e197[(era_rec.get("era"), d.get("name"))] = d
+    except Exception:
+        src, e197 = None, {}
+
+    rows, cells, joins, kstop_join = [], [], [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        per = []
+        for d in (v.get("drops") or []):
+            months = d.get("months") or []
+            if not months:
+                continue
+            fr = {r["month"]: float(r["full_ret"]) for r in months
+                  if r.get("full_ret") is not None}
+            dr = {r["month"]: float(r["dropped_ret"]) for r in months
+                  if r.get("dropped_ret") is not None}
+            base = _drop_effect_both_bp(fr, dr)
+            sa, sc = _path_sign(base["arith_bp"]), _path_sign(base["comp_bp"])
+            base_rev = bool(sa is not None and sc is not None and sa * sc < 0)
+            for pub, got in ((d.get("effect_arith_bp"), base["arith_bp"]),
+                             (d.get("effect_comp_bp"), base["comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+
+            pool = sorted(set(
+                r["month"] for r in months
+                if r.get("month") and r.get("full_ret") is not None
+                and r.get("dropped_ret") is not None))
+            # the edge side is literally E197's own curve, so the two faces
+            # cannot drift apart: k, size and reversal all come from it
+            curve = _edge_depth_curve(months)
+            pair_cells = []
+            for step in (curve.get("steps") or []):
+                k = step["k"]
+                size = step["n_months_removed"]
+                edge_rev = bool(step["reversal"])
+                null = _placebo_cell(months, pool, size, draws,
+                                     _placebo_cell_seed(era_name, d.get("name"), k))
+                rate = null["reversal_rate"]
+                cell = {"k": k, "size": size, "edge_reverses": edge_rev,
+                        "null_rate": rate, "null_draws": null["draws"],
+                        "null_same_outcome_rate":
+                            (None if rate is None else
+                             round(rate if edge_rev else 1.0 - rate, 6)),
+                        "class": _placebo_cell_class(edge_rev, base_rev, rate),
+                        "note": null["note"]}
+                pair_cells.append(cell)
+                cells.append(dict(cell, era=era_name, name=d.get("name"),
+                                  base_reversal=base_rev))
+
+            rec = e197.get((era_name, d.get("name"))) if e197 else None
+            pub_kstop = None
+            if rec:
+                # E197 nests the curve per drop; the flat keys are fallbacks so a
+                # key rename shows up as a visible mismatch, not as a clean join
+                pub_kstop = rec.get("edge_k_stop")
+                if pub_kstop is None:
+                    pub_kstop = (rec.get("edge_curve") or {}).get("k_stop")
+                if pub_kstop is None:
+                    pub_kstop = rec.get("k_stop")
+            if e197:
+                kstop_join.append({
+                    "era": era_name, "name": d.get("name"),
+                    "e197_record_present": bool(rec),
+                    "e197_k_stop": pub_kstop,
+                    "recomputed_k_stop": curve["k_stop"],
+                    "matches": (rec is not None
+                                and pub_kstop == curve["k_stop"])})
+            per.append({"era": era_name, "name": d.get("name"),
+                        "base_reversal": base_rev, "pool_months": len(pool),
+                        "edge_k_stop": curve["k_stop"],
+                        "e197_k_stop": pub_kstop,
+                        "cells": pair_cells})
+        if per:
+            rows.append({"era": era_name, "drops": per})
+
+    classes, pair_verdicts = {}, {}
+    for c in cells:
+        classes[c["class"]] = classes.get(c["class"], 0) + 1
+    for era_rec in rows:
+        for d in era_rec["drops"]:
+            pair_verdicts["%s|%s" % (d["era"], d["name"])] = _placebo_verdict(
+                [dict(c, base_reversal=d["base_reversal"]) for c in d["cells"]])
+
+    measured = [c for c in cells if c.get("base_reversal")]
+    total_draws = sum(int(c["null_draws"] or 0) for c in cells)
+    verdict = _placebo_verdict(cells)
+    join_max = None if not joins else round(max(joins), 9)
+    kstop_mismatch = [j for j in kstop_join if not j["matches"]]
+    return {
+        "study": "e203_tilt3_ladder_drop_edge_placebo",
+        "evidence_cutoff": None if src is None else src.get("evidence_cutoff"),
+        "source_error": src_error,
+        "spec": {
+            "upstream": "LADDERDROPWHERE-*.json (E186 month rows), "
+                        "+ EDGEDEPTH-*.json (E197) for the k_stop cross-read only",
+            "upstream_cutoff": None if src is None else src.get("evidence_cutoff"),
+            "method": ("for each flagged (era, drop) and each E197 depth k, "
+                       "remove k random months drawn from the pair's own "
+                       "decision months %d times and record how often the "
+                       "reversal survives; the edge trim's own outcome at that "
+                       "k is read against that null" % draws),
+            "edge_ks": list(TILT3LADDERDROPEDGE_KS),
+            "draws_per_cell": int(draws),
+            "rng": ("random.Random(zlib.crc32('era|name|k|seed')) -- a stable "
+                    "per-cell seed, because string hashing is not stable across "
+                    "runs; seed=%d" % TILT3LADDERDROPPPLACEBO_SEED),
+            "units": "reversal is a boolean; rates are fractions of draws",
+            "join_tolerance_bp": TILT3LADDERDROPCROSS_JOIN_BP,
+            "class_rules": {
+                "a_random_removal_of_the_same_size_kills_it_just_as_often":
+                    "the edge kill is not about the months -- any k months do it",
+                "the_edge_months_kill_where_random_removal_usually_does_not":
+                    "the edge set is doing something the removal count does not",
+                "random_removal_of_the_same_size_also_usually_survives":
+                    "the edge survival is not about the months either",
+                "most_random_removals_of_the_same_size_still_kill_it":
+                    "the edge survives where most random removals do not",
+                "no_null_at_this_depth": "too few months left for a reading",
+                "no_base_reversal": "nothing to test on this pair",
+            },
+            "null_size_note": ("the null is removal-count-matched to the edge "
+                               "trim at the same k, so a match means the depth "
+                               "curve is a statement about how many months went "
+                               "missing, not about which ones"),
+        },
+        "eras": rows,
+        "answers": {
+            "pairs_measured": len([d for era_rec in rows for d in era_rec["drops"]]),
+            "pairs_with_base_reversal": len({(c["era"], c["name"])
+                                             for c in measured}),
+            "cells_tested": len(cells),
+            "cells_with_a_null": len([c for c in cells
+                                      if c.get("null_rate") is not None]),
+            "class_counts": classes,
+            "pair_verdicts": pair_verdicts,
+            "randomisation_trials": total_draws,
+            "e186_join_max_abs_diff_bp": join_max,
+            "e197_kstop_join_mismatches": kstop_mismatch,
+            "verdict": verdict,
+        },
+        "honest": [
+            "the month rows are read from the published E186 face; a missing "
+            "face publishes zero pairs rather than an invented removal set",
+            "the edge side is recomputed through E197's own _edge_depth_curve, "
+            "so the two faces cannot quote different k, size or outcome for the "
+            "same cell; the E197 k_stop is carried as a cross-read field and is "
+            "never an input to the verdict",
+            "the null draws from the pair's whole decision-month pool, so the "
+            "edge set is one of its own draws -- this is the same experiment at "
+            "the same size, not a weaker placebo",
+            "a cell whose removal would leave fewer than two months for a "
+            "reading publishes no null at all instead of a rate over an empty "
+            "sample",
+            "the draws are seeded per cell, so the face is reproducible byte for "
+            "byte; the trial count is published as randomisation_trials and is "
+            "a randomisation draw, not a strategy trial",
+            "matching the null on count does not prove the edge set is "
+            "uninformative where the null is flat in both directions: a null "
+            "rate near 1.0 makes the edge survival unremarkable and says nothing "
+            "about fragility",
+            "removing months changes the sample the verdict is computed on; this "
+            "measures whether the removal set matters, it does not license "
+            "dropping any month for real",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -25508,6 +25872,7 @@ def main(argv):
                              "tilt3ladderdropcurve",
                              "tilt3ladderdroprules",
                              "tilt3ladderdropedge",
+                             "tilt3ladderdropplacebo",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "tilt3widechurntie",
@@ -27110,6 +27475,19 @@ def main(argv):
                               for d in v["drops"]]
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropplacebo":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropplacebo(outdir)
+        p = write_json(outdir, "PLACEBO-%s.json"
+                       % str(f["evidence_cutoff"] or "unknown").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropplacebo",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "cells_tested": f["answers"]["cells_tested"],
+                          "class_counts": f["answers"]["class_counts"],
+                          "pair_verdicts": f["answers"]["pair_verdicts"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":

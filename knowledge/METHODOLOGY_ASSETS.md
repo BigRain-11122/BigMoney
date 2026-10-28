@@ -2626,3 +2626,32 @@ survival is real (it holds to 4 months per side, cheaper than the cheapest magni
 (d) **run the comparison rules from the same rows** -- recomputing book_mad3/gross_x2/top_decile in
 the same pass (instead of quoting E195's k) is what keeps the two k values from drifting, and the
 E195 classification is carried as a cross-read field that never feeds the verdict.
+
+
+## E203 Read a removal rule against a removal-count-matched random removal, or the verdict is about the row count and not the rows (2026-10-29 r1231 bm-b)
+
+Evidence: `results/e43_tilt_4member/PLACEBO-20261027.json`, code `tilt3ladderdropplacebo`
+(`scripts/e39_panel_census.py`, selftest 706 -> 714), upstream E186 month rows + E197 depth face
+(cross-read only), digest `research/digests/DIGEST-20261029-e203-drop-placebo.md`.
+
+E195/E197 publish a depth curve ("the reversal dies at k=2", "survives at k=10") whose numbers all
+come from removing one particular month set -- the era's chronological ends.  Remover, M=200 draws,
+null = remove the same NUMBER of months at random from the pair's own pool:
+
+(a) **the null must be count-matched** -- drawing from the pair's whole month pool makes the edge set
+one of its own draws, so this is the same experiment with the choice handed to a coin; a weaker
+placebo (different size, different pool) measures a different experiment.
+(b) **report the same-outcome share per cell, not a p-value** -- 20 cells collapse into three readings
+(null does it too / null rarely does it / null is flat both ways); the 50% line is descriptive and
+stated in spec, never a gate.
+(c) **the direction is asymmetric and must live in the class name** -- 10 of 20 cells were
+"edge survives where random removal kills", only 2 were "edge kills where random removal survives".
+One summary sentence would let the same table be quoted as "the edge months are critical, therefore
+the era is fragile" when the measurement says the calendar ends are the LEAST destructive months.
+(d) **a cross-read that returns None everywhere looks like "no comparable record"** -- the first draft
+read `rec["edge_k_stop"]` off a face that nests `edge_curve.k_stop`, so every join row silently failed
+and the output read as clean.  Publish `record_present` separately from `matches`, emit one join row
+per drop, and treat an empty mismatch list as "read it AND equal", never as "nothing to read".
+(e) seeding: `zlib.crc32("era|name|k|seed")` per cell -- string hashing is not stable across processes,
+so a `hash()`-seeded draw is not reproducible; publish the draw count as randomisation draws, not as a
+strategy trial count.
