@@ -112,6 +112,9 @@ TWIN_FUNCS = {
     # with the leg, not after L15 goes red -- the E170 lesson re-applied.
     "run_tilt3signnames": ("tilt3signnames",
                            "results/e43_tilt_4member/TILT3SIGNNAMES-*.json"),
+    # E175 (r1209): the drop ladder E174's two points were sampled from.
+    "run_tilt3signdropsweep": ("tilt3signdropsweep",
+                               "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

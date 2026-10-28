@@ -6059,6 +6059,338 @@ def _carrier_coverage(rows, delta_bp):
     return out
 
 
+# ---------------------------------------------------------------- E175
+TILT3SIGNDROPSWEEP_NAME_LIST = 8   # names reprinted on each ladder row
+TILT3SIGNDROPSWEEP_MAX_ROWS = 25   # individual rows printed; the bands cover the rest
+
+
+def _tilt3signname_burn(mode, eras):
+    """(E175) the one load path the two name-level legs share.
+
+    E174 and E175 read the same two arms over the same months. Loading twice
+    would let the sweep describe a panel the published carrier table cannot be
+    joined back to, so both legs take their inputs from here.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+    core_raw = _monthly_core(raw_all=raw, contrib=True)
+    core_scr = _monthly_core(raw_all=screened, contrib=True)
+    return {
+        "cutoff": cal_full[-1],
+        "report": report,
+        "core_raw": core_raw,
+        "core_scr": core_scr,
+        "net_raw": _engine_net_contrib(core_raw.get("contrib")),
+        "net_scr": _engine_net_contrib(core_scr.get("contrib")),
+        "arm_raw": run_tilt3sign(None, core=core_raw, eras=eras),
+        "arm_scr": run_tilt3sign(None, core=core_scr, eras=eras),
+    }
+
+
+def _drop_bands(rows):
+    """(E175) collapse the ladder into runs that share one verdict."""
+    bands = []
+    for r in rows:
+        if bands and bands[-1]["verdict"] == r["verdict"]:
+            bands[-1]["to_k"] = r["k"]
+            bands[-1]["rows"] += 1
+        else:
+            bands.append({"from_k": r["k"], "to_k": r["k"], "rows": 1,
+                          "verdict": r["verdict"]})
+    return bands
+
+
+def _drop_ladder(raw_bp, scr_bp, ranked, delta, base_raw=None, base_scr=None):
+    """(E175) the era's sign verdict at every carrier count k = 0..n.
+
+    k=0 reproduces the headline. Each further step removes the next name in
+    |contribution| order from BOTH arms, because the engine column is a
+    difference of two held books and a carrier exists on both sides of it.
+
+    E174 published k=1 and k=5 as two points and they answered differently,
+    which is the signature of a non-monotone curve sampled twice. Every k is
+    printed here with how much of the delta has been consumed, so a reader can
+    see both where the verdict settles and where the reading stops being about
+    the books at all.
+
+    ``base_raw``/``base_scr`` anchor the ladder on the PUBLISHED era levels and
+    the fallback sums the decomposition instead. The distinction is not
+    cosmetic: the per-name terms are sums of daily w*r while the published
+    level is a compounded monthly mean, so the two bases can be tens of bp
+    apart -- on 2024_now the offset is larger than the delta being attributed,
+    and a ladder read off the unanchored base would flip a sign by arithmetic
+    the carriers did not cause. Callers that publish a verdict about the
+    repair must anchor and publish the offset beside it.
+    """
+    sum_raw = sum(raw_bp.values())
+    sum_scr = sum(scr_bp.values())
+    anchored = base_raw is not None and base_scr is not None
+    base_raw = sum_raw if base_raw is None else float(base_raw)
+    base_scr = sum_scr if base_scr is None else float(base_scr)
+    total = abs(delta or 0.0)
+    contrib = dict(ranked)
+    # a name whose contribution did not move cannot move the verdict, so it is
+    # not a rung of this ladder -- including it would print steps that change
+    # nothing and read as evidence of stability
+    names = [s for s, v in ranked if abs(v) > 1e-12]
+    rows, cum = [], 0.0
+    for k in range(len(names) + 1):
+        dropped = names[:k]
+        if k:
+            cum += abs(contrib[dropped[-1]])
+        r = base_raw - sum(raw_bp.get(s, 0.0) for s in dropped)
+        s_ = base_scr - sum(scr_bp.get(s, 0.0) for s in dropped)
+        sr, ss = _pair_sign(round(r, 9)), _pair_sign(round(s_, 9))
+        # a level of exactly zero has no sign: 'undefined' is not 'agrees'
+        verdict = ("undefined" if not sr or not ss
+                   else ("agree" if sr == ss else "disagree"))
+        rows.append({
+            "k": k,
+            "name_dropped": (dropped[-1] if k else None),
+            "names_dropped": dropped[:TILT3SIGNDROPSWEEP_NAME_LIST],
+            "raw_engine_bp": round(r, 2),
+            "screened_engine_bp": round(s_, 2),
+            "delta_bp": round(s_ - r, 2),
+            "verdict": verdict,
+            "share_of_delta_removed_pct": (round(cum / total * 100.0, 1)
+                                           if total > 1e-9 else None),
+            "beyond_delta_span": bool(total > 1e-9 and cum > total * 1.000001),
+        })
+    return {"rows": rows,
+            "base_raw_bp": round(base_raw, 2),
+            "base_screened_bp": round(base_scr, 2),
+            "base_from": "published_level" if anchored else "decomposition",
+            "decomposition_raw_bp": round(sum_raw, 2),
+            "decomposition_screened_bp": round(sum_scr, 2),
+            "n_names": len(names),
+            "bands": _drop_bands(rows)}
+
+
+def run_tilt3signdropsweep(outdir, mode="neutralise_int", eras=ERAS):
+    """E175: sweep the carrier-drop ladder and say where the verdict settles.
+
+    E174 answered "does the flip survive dropping a carrier" at two drop sizes
+    and got two answers -- gone at k=1, back at k=5 -- so the honest object is
+    the curve both points were sampled from. This leg prints the era's sign
+    verdict at k = 0..n and the same ladder on an era whose engine level never
+    moved: a ladder that is not flat there is broken before it says anything
+    about 2024_now.
+
+    Dropping a carrier is a counterfactual on the two arms' levels, not a
+    repair: the published engine levels are untouched by this leg.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    net_raw, net_scr = burn["net_raw"], burn["net_scr"]
+    arm_raw, arm_scr = burn["arm_raw"], burn["arm_scr"]
+
+    rows = {}
+    honesty = []
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(core_raw, lo, hi)
+        ms_scr = _era_engine_months(core_scr, lo, hi)
+        a = (arm_raw.get("eras") or {}).get(name) or {}
+        b = (arm_scr.get("eras") or {}).get(name) or {}
+        eng_raw = a.get("engine_mean_ann_bp")
+        eng_scr = b.get("engine_mean_ann_bp")
+        if not ms or eng_raw is None or eng_scr is None:
+            rows[name] = {"months": len(ms),
+                          "skipped": "no engine level on one arm for this era"}
+            continue
+        split, raw_bp, scr_bp = _era_name_split(net_raw, net_scr, ms)
+        ranked = sorted(split.items(), key=lambda kv: -abs(kv[1]))
+        delta = round(eng_scr - eng_raw, 3)
+        # anchored on the published levels: the carriers are a DELTA quantity
+        # (they reproduce the arm difference to 2.9bp at worst), while the
+        # decomposition's own levels carry a compounding gap that is larger than
+        # the delta on 2024_now. An unanchored ladder would let that gap flip a
+        # sign no carrier caused -- E174's own drop test read both its points
+        # off the unanchored base and must be read with this in mind.
+        ladder = _drop_ladder(raw_bp, scr_bp, ranked, delta,
+                              base_raw=eng_raw, base_scr=eng_scr)
+        unanchored = _drop_ladder(raw_bp, scr_bp, ranked, delta)
+        anchor = {
+            "raw_offset_bp": round(eng_raw - unanchored["base_raw_bp"], 2),
+            "screened_offset_bp": round(eng_scr - unanchored["base_screened_bp"], 2),
+            "unanchored_base_raw_bp": unanchored["base_raw_bp"],
+            "unanchored_base_screened_bp": unanchored["base_screened_bp"],
+            "unanchored_k0_verdict": unanchored["rows"][0]["verdict"],
+            "offset_alone_flips_raw_sign": (_pair_sign(eng_raw)
+                                            != _pair_sign(unanchored["base_raw_bp"])),
+            "offset_alone_flips_screened_sign": (
+                _pair_sign(eng_scr)
+                != _pair_sign(unanchored["base_screened_bp"])),
+            "note": ("the per-name terms are sums of daily w*r while the "
+                     "published level is a compounded monthly mean, so the two "
+                     "bases differ by the compounding gap; the ladder is "
+                     "anchored on the published level and this block says how "
+                     "far the unanchored reading would have moved it"),
+        }
+        full = ladder["rows"]
+        shown = [x for x in full
+                 if x["k"] <= TILT3SIGNDROPSWEEP_MAX_ROWS or x["k"] == full[-1]["k"]]
+        headline = ("agree" if _pair_sign(eng_raw) == _pair_sign(eng_scr)
+                    else "disagree")
+        measured_bands = [x for x in ladder["bands"] if x["verdict"] != "undefined"]
+        verdicts = [x["verdict"] for x in measured_bands]
+        first_change = None
+        for x in ladder["bands"][1:]:
+            if x["verdict"] != ladder["bands"][0]["verdict"]:
+                first_change = x["from_k"]
+                break
+        rows[name] = {
+            "months": len(ms),
+            "months_screened": len(ms_scr),
+            "engine_bp_raw": eng_raw,
+            "engine_bp_screened": eng_scr,
+            "engine_bp_delta": delta,
+            "engine_sign_flipped": _pair_sign(eng_raw) != _pair_sign(eng_scr),
+            # the tilt column cannot move here: this leg drops names from the
+            # engine difference only, so any tilt statement is imported verbatim
+            "tilt_mean_ann_bp": a.get("tilt_mean_ann_bp"),
+            "tilt_sign": a.get("tilt_sign"),
+            "tilt_column_note": ("imported from the arm face; a drop on the "
+                                 "engine difference cannot move the tilt"),
+            "headline_verdict": headline,
+            "ladder_k0_verdict": full[0]["verdict"],
+            "ladder_k0_matches_headline": full[0]["verdict"] == headline,
+            "ladder_base": ladder["base_from"],
+            "level_reconstruction": anchor,
+            "names_swept": ladder["n_names"],
+            "ladder_rows_total": len(full),
+            "ladder_rows_omitted": len(full) - len(shown),
+            "ladder_omitted_note": (None if len(full) == len(shown) else
+                                    ("individual rows are printed to k=%d and at "
+                                     "k=n; verdict_bands covers every k in between"
+                                     % TILT3SIGNDROPSWEEP_MAX_ROWS)),
+            "verdict_bands": ladder["bands"],
+            "verdict_set": sorted(set(verdicts)),
+            "first_k_with_a_different_verdict": first_change,
+            "agrees_at_some_k": "agree" in verdicts,
+            "disagrees_at_some_k": "disagree" in verdicts,
+            "ladder_is_flat": len(set(verdicts)) <= 1,
+            "ladder": shown,
+        }
+        if full[0]["verdict"] != headline:
+            honesty.append("%s: the anchored ladder's k=0 verdict (%s) disagrees "
+                           "with the published headline (%s), which cannot happen "
+                           "unless the anchor itself was misread -- treat this "
+                           "era as unusable"
+                           % (name, full[0]["verdict"], headline))
+        elif anchor["unanchored_k0_verdict"] != headline:
+            honesty.append("%s: read off its own decomposition the era would "
+                           "print '%s' instead of '%s', so the carrier ladder is "
+                           "only meaningful anchored (offset %.1fbp raw / %.1fbp "
+                           "screened)"
+                           % (name, anchor["unanchored_k0_verdict"], headline,
+                              anchor["raw_offset_bp"],
+                              anchor["screened_offset_bp"]))
+
+    measured = {k: v for k, v in rows.items() if "verdict_bands" in v}
+    flipped = sorted(k for k, v in measured.items() if v["engine_sign_flipped"])
+    flat = sorted(k for k, v in measured.items()
+                  if abs(v["engine_bp_delta"] or 0.0) <= 0.05)
+    gaps = [abs(v["level_reconstruction"]["raw_offset_bp"])
+            for v in measured.values()]
+    gaps += [abs(v["level_reconstruction"]["screened_offset_bp"])
+             for v in measured.values()]
+    offset_flips = sorted(
+        k for k, v in measured.items()
+        if v["level_reconstruction"]["offset_alone_flips_raw_sign"]
+        or v["level_reconstruction"]["offset_alone_flips_screened_sign"])
+    return {
+        "study": "e175_tilt3sign_drop_ladder",
+        "evidence_cutoff": burn["cutoff"],
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "engine_series": "wide monthly return minus ladder monthly return",
+            "ladder": ("k = 0..n carries removed in |delta contribution| order, "
+                       "each removed from BOTH arms' era levels"),
+            "ladder_base": ("anchored on the PUBLISHED era levels, because the "
+                            "decomposition's own levels carry a compounding "
+                            "offset that can exceed the delta"),
+            "verdict": ("agree when the two eroded engine levels share a sign, "
+                        "disagree otherwise, undefined when either level is "
+                        "exactly zero"),
+            "delta_span": ("share_of_delta_removed_pct is cumulative |dropped "
+                           "contribution| over |delta|; beyond 100% the rung has "
+                           "removed more than the delta is made of and is "
+                           "flagged beyond_delta_span"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_where_engine_sign_flipped": flipped,
+            "eras_where_engine_level_did_not_move": flat,
+            "flat_eras_ladder_is_flat": {k: measured[k]["ladder_is_flat"]
+                                         for k in flat},
+            "first_k_with_a_different_verdict":
+                {k: v["first_k_with_a_different_verdict"]
+                 for k, v in measured.items()},
+            "eras_agreeing_at_some_k": sorted(k for k, v in measured.items()
+                                              if v["agrees_at_some_k"]),
+            "eras_disagreeing_at_some_k": sorted(k for k, v in measured.items()
+                                                 if v["disagrees_at_some_k"]),
+            "eras_with_more_than_two_verdict_runs": sorted(
+                k for k, v in measured.items()
+                if len([x for x in v["verdict_bands"]
+                        if x["verdict"] != "undefined"]) > 2),
+            "eras_where_the_base_offset_alone_flips_a_sign": offset_flips,
+            "unanchored_k0_verdict": {k: v["level_reconstruction"]
+                                      ["unanchored_k0_verdict"]
+                                      for k, v in measured.items()},
+            "k0_matches_headline_everywhere": all(
+                v["ladder_k0_matches_headline"] for v in measured.values()),
+            "max_base_offset_bp": (max(gaps) if gaps else None),
+        },
+        "screen_report": burn["report"],
+        "corrections": [
+            {
+                "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+                "field": "eras.*.flip_survival",
+                "issue": ("E174 read both of its drop points off the "
+                          "decomposition's own era levels, whose offset from the "
+                          "published levels is up to %.1fbp -- larger than the "
+                          "delta being attributed. Its 'gone at top1, back at "
+                          "top5' pair is therefore a property of that base, not "
+                          "of the carriers."
+                          % (max(gaps) if gaps else 0.0)),
+                "corrected_reading": (
+                    "anchored on the published levels, 2024_now's disagreement "
+                    "survives every rung inside its own delta span and only "
+                    "breaks once more than the delta has been removed; the "
+                    "published TILT3SIGNNAMES face is frozen as-is and this face "
+                    "is the reading to quote"),
+                "discovered_by": "this leg's k=0 verdict disagreeing with the "
+                                 "headline on the first cut",
+            },
+        ],
+        "honest": honesty + [
+            "the ladder is anchored on the published era levels and every rung "
+            "removes one carrier's contribution from both arms, so k=0 IS the "
+            "headline and every later rung is auditable arithmetic",
+            "the unanchored decomposition base is published beside it because "
+            "the gap between the two bases is larger than the delta on some "
+            "eras; where that gap alone flips a sign, a verdict read off the "
+            "unanchored base says nothing about the carriers",
+            "a returning verdict is not a defect: it says the two arms' signs "
+            "were separated by a small set of name-months, which is exactly what "
+            "a two-point sample could not show",
+            "the ladder is published with its delta coverage because past 100% "
+            "it is eroding more than the delta, and a verdict read there is "
+            "about the eroded books, not about the repair",
+            "eras whose engine level did not move are the built-in control: a "
+            "ladder that is not flat there is broken before it reads anything",
+        ],
+    }
+
+
 def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
     """E174: attribute E171's engine-column move to names, and test the flip.
 
@@ -6069,22 +6401,11 @@ def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
     standing. An era whose flip depends on one name-month is a data-repair
     story; an era that keeps its flip without it is a property of the books.
     """
-    import e24_ladder_weighting as base
-    import e27_universe_expansion as e27
-    import panel_screen
-
-    raw = e27.load_universe()
-    cal_full = base.load_panel()[0]
-    cutoff = cal_full[-1]
-    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
-
-    core_raw = _monthly_core(raw_all=raw, contrib=True)
-    core_scr = _monthly_core(raw_all=screened, contrib=True)
-    arm_raw = run_tilt3sign(None, core=core_raw, eras=eras)
-    arm_scr = run_tilt3sign(None, core=core_scr, eras=eras)
-
-    net_raw = _engine_net_contrib(core_raw.get("contrib"))
-    net_scr = _engine_net_contrib(core_scr.get("contrib"))
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    net_raw, net_scr = burn["net_raw"], burn["net_scr"]
+    arm_raw, arm_scr = burn["arm_raw"], burn["arm_scr"]
 
     rows = {}
     honesty = []
@@ -17082,6 +17403,67 @@ def selftest():
         and "eras" in run_tilt3signnames.__code__.co_varnames,
         "E174 the leg carries the mode/eras seams every screened leg needs")
 
+    # ---- E175 the ladder E174's two points were sampled from
+    # The fixture is the r1208 shape on purpose: agree at k=0, disagree once the
+    # biggest carrier leaves, agree again at k=2. A ladder that cannot reproduce
+    # a returning verdict cannot be trusted to say a flat one is stable.
+    _e175_raw = {"shA": 30.0, "shB": 4.0, "shC": -18.0}
+    _e175_scr = {"shA": -5.0, "shB": 20.0, "shC": 5.0}
+    _e175_ranked = [("shA", -35.0), ("shC", 23.0), ("shB", 16.0),
+                    ("shZ", 0.0)]
+    _e175 = _drop_ladder(_e175_raw, _e175_scr, _e175_ranked, 4.0)
+    chk([x["verdict"] for x in _e175["rows"]]
+        == ["agree", "disagree", "agree", "undefined"],
+        "E175 the ladder prints a returning verdict, and all-zero levels read "
+        "'undefined' rather than 'agrees'")
+    chk(_e175["n_names"] == 3 and _e175["rows"][0]["k"] == 0
+        and _e175["rows"][3]["k"] == 3,
+        "E175 a name whose contribution did not move is not a rung of the ladder")
+    chk(len(_e175["bands"]) == 4
+        and _e175["bands"][1] == {"from_k": 1, "to_k": 1, "rows": 1,
+                                  "verdict": "disagree"},
+        "E175 the bands cover every k, so a collapsed ladder still tells where "
+        "the verdict changed")
+    chk(abs(_e175["base_raw_bp"] - 16.0) < 1e-9
+        and abs(_e175["rows"][0]["delta_bp"] - 4.0) < 1e-9
+        and abs(_e175["rows"][1]["raw_engine_bp"] + 14.0) < 1e-9,
+        "E175 k=0 reproduces the era levels and each rung removes exactly that "
+        "carrier from BOTH arms")
+    chk(_e175["rows"][0]["beyond_delta_span"] is False
+        and _e175["rows"][1]["beyond_delta_span"] is True
+        and _e175["rows"][1]["share_of_delta_removed_pct"] == 875.0,
+        "E175 a rung that has removed more than the delta is flagged, not "
+        "silently read as a verdict about the repair")
+    chk(_drop_ladder({"shA": 1.0}, {"shA": 1.0}, [("shA", 0.0)], 0.0)[
+            "rows"][0]["share_of_delta_removed_pct"] is None,
+        "E175 a zero delta publishes no coverage instead of a free percentage")
+    chk("mode" in run_tilt3signdropsweep.__code__.co_varnames
+        and "eras" in run_tilt3signdropsweep.__code__.co_varnames,
+        "E175 the sweep carries the same mode/eras seams as its twin")
+
+    # the anchoring rule, pinned: two bases, same carriers, opposite verdicts.
+    # This is the 2024_now shape -- decomposition +31.3 vs published -21.6 --
+    # and the leg exists so an unanchored ladder can never be published as the
+    # ladder again.
+    _e175_anchor_car = {"shX": 60.0, "shY": -20.0}
+    _e175_anchor_raw = {"shX": 60.0, "shY": -10.0}
+    _e175_anchor_scr = {"shX": 5.0, "shY": 10.0}
+    _e175_anchor_rank = [("shX", -55.0), ("shY", 20.0)]
+    _e175_un = _drop_ladder(_e175_anchor_raw, _e175_anchor_scr,
+                            _e175_anchor_rank, 32.0)
+    _e175_an = _drop_ladder(_e175_anchor_raw, _e175_anchor_scr,
+                            _e175_anchor_rank, 32.0,
+                            base_raw=-21.6, base_scr=25.1)
+    chk(_e175_un["base_from"] == "decomposition"
+        and _e175_an["base_from"] == "published_level"
+        and abs(_e175_an["rows"][0]["raw_engine_bp"] + 21.6) < 1e-9,
+        "E175 an anchored ladder starts at the published level, and it says "
+        "which base it used")
+    chk(_e175_un["rows"][0]["verdict"] == "agree"
+        and _e175_an["rows"][0]["verdict"] == "disagree",
+        "E175 the base offset alone can flip a verdict, so the two bases are "
+        "not interchangeable readings of the same era")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -19470,7 +19852,7 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
                              "tilt3sign", "tilt3signband", "tilt3screensign",
-                             "tilt3signnames",
+                             "tilt3signnames", "tilt3signdropsweep",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -20261,6 +20643,22 @@ def main(argv):
                                               (v.get("carriers") or [{}])[0].get(
                                                   "share_of_era_delta_pct")),
                                           "flip_survival": v.get("flip_survival")}
+                                      for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3signdropsweep":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3signdropsweep(outdir)
+        p = write_json(outdir, "TILT3SIGNDROPSWEEP-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3signdropsweep",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"delta_bp": v.get("engine_bp_delta"),
+                                          "flipped": v.get("engine_sign_flipped"),
+                                          "k0": v.get("ladder_k0_verdict"),
+                                          "names_swept": v.get("names_swept"),
+                                          "verdict_bands": v.get("verdict_bands")}
                                       for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

@@ -22346,13 +22346,17 @@
   },
   {
    "deliverable": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-<cutoff>.json",
+   "done_at": "2026-10-28T09:05:00+08:00",
+   "done_by": "bm-b r1209",
+   "done_note": "Anchored on the published levels: 2024_now disagrees at k=0..9 (up to 98.5% of the delta removed) and only breaks at k=11 = 108.5% of the delta, so the flip is a property of the two books inside its own span. 2021_2023 flat agree over 625 carriers (control); the two zero-delta eras have no rungs. In-window defect: E174 read its drop points off the decomposition base, 52.9bp away from the published raw level and larger than the 46.7bp delta, which alone flipped the raw sign -- corrected reading published in the new face corrections block, old face frozen.",
    "id": "E175-TILT3SIGN-DROP-LADDER",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
+   "result_ref": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
    "seeded_at": "2026-10-28T08:20:00+08:00",
    "seeded_by": "bm-b r1208",
    "source": "Seeded r1208 bm-b from its own E174 face: flip_survival carries top1 and top5 only, and those two answer differently.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3signnames)",
    "title": "E174 found the 2024_now verdict flip disappears when its biggest carrier is dropped and returns when the top five are dropped -- two drop sizes disagreeing. That is published as two points of a curve nobody drew: sweep k = 0..n carriers removed (in |contribution| order) and publish the era sign verdict at every k, so a reader sees WHERE the verdict settles and whether any k agrees with the headline. Also publish the same ladder for 2021_2023, whose engine move never flips a sign, to show what a stable reading looks like."
   },
@@ -22367,6 +22371,18 @@
    "status": "ready",
    "target": "scripts/e39_panel_census.py (run_tilt3signnames)",
    "title": "E174 attributes each era's engine delta to NAMES, but the engine column is wide-book minus ladder-book, so every carrier is a mix of 'the wide book changed' and 'the ladder book changed'. Publish, per era, the delta split BY BOOK (sum of wide contributions vs sum of ladder contributions, each annualised) so a reader learns which of the two held books the repair actually moved -- a name-level table cannot say that, and if the ladder side moves the wide book is being blamed for the fixed leg."
+  },
+  {
+   "deliverable": "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-<cutoff>.json",
+   "id": "E177-TILT3-DECOMP-BASE-OFFSET",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "seeded_at": "2026-10-28T09:05:00+08:00",
+   "seeded_by": "bm-b r1209",
+   "source": "Seeded r1209 bm-b from its own E175 face: level_reconstruction publishes an offset up to 55.8bp with the note that it is 'the compounding gap', which is an assertion nobody has tested.",
+   "status": "ready",
+   "target": "scripts/e39_panel_census.py (run_tilt3signdropsweep)",
+   "title": "E175 found the decomposition's own era level sitting 52.9bp from the published level on 2024_now -- larger than the 46.7bp delta it was used to attribute -- while the DELTA itself reproduces to 2.9bp. Quantify that offset per era and per arm and test whether intra-month compounding explains it: rebuild each era's level as (a) the sum of daily w*r, (b) the sum of the daily returns compounded inside the month, and (c) the published mean, and publish the three side by side. If (b) closes the gap, the attribution family can keep using the decomposition for levels with a stated tolerance; if it does not, every name-level leg must anchor and the residual is unexplained arithmetic that a reader is currently trusting."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22381,6 +22397,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T08:20:00+08:00",
+ "updated_at": "2026-10-28T09:05:00+08:00",
  "version": 1
 }

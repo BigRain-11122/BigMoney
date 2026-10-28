@@ -1,0 +1,326 @@
+{
+ "study": "e169_tilt3_sign_vs_engine",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "large": [
+   "sh510300",
+   "sh510050"
+  ],
+  "small": [
+   "sh510500"
+  ],
+  "tilt": "three-member: mean(small leg) - mean(large leg), equal weight in-leg",
+  "engine_series": "wide monthly return minus ladder monthly return (the same curves the paid book is measured on)",
+  "month_agreement": "share of months where sign(tilt) == sign(engine), ties counted as disagreement",
+  "deadband_bp": 10.0,
+  "disagreement_named_per_era": 5,
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "cost_mult": 1.0
+ },
+ "eras": {
+  "pre2017": {
+   "months": 44,
+   "from": "2013-04",
+   "to": "2016-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 1186.4,
+   "engine_mean_ann_bp": 287.2,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "months_tilt_up": 22,
+   "months_tilt_down": 22,
+   "months_engine_up": 25,
+   "months_agree": 25,
+   "months_disagree": 19,
+   "month_agreement_pct": 56.8,
+   "agreement_when_tilt_up_pct": 68.2,
+   "agreement_when_tilt_down_pct": 45.5,
+   "deadband_bp": 10.0,
+   "months_outside_deadband": 39,
+   "month_agreement_outside_deadband_pct": 61.5,
+   "top_disagreement_months": [
+    {
+     "month": "2013-05",
+     "tilt_bp": 870.7,
+     "engine_bp": 0.0
+    },
+    {
+     "month": "2015-03",
+     "tilt_bp": 853.8,
+     "engine_bp": -248.6
+    },
+    {
+     "month": "2016-01",
+     "tilt_bp": -765.5,
+     "engine_bp": 216.7
+    },
+    {
+     "month": "2014-09",
+     "tilt_bp": 733.3,
+     "engine_bp": -119.2
+    },
+    {
+     "month": "2016-03",
+     "tilt_bp": 489.3,
+     "engine_bp": -209.4
+    }
+   ]
+  },
+  "2017_2020": {
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": -923.9,
+   "engine_mean_ann_bp": 331.7,
+   "tilt_sign": -1,
+   "engine_sign": 1,
+   "signs_agree": false,
+   "months_tilt_up": 19,
+   "months_tilt_down": 29,
+   "months_engine_up": 33,
+   "months_agree": 22,
+   "months_disagree": 26,
+   "month_agreement_pct": 45.8,
+   "agreement_when_tilt_up_pct": 68.4,
+   "agreement_when_tilt_down_pct": 31.0,
+   "deadband_bp": 10.0,
+   "months_outside_deadband": 45,
+   "month_agreement_outside_deadband_pct": 44.4,
+   "top_disagreement_months": [
+    {
+     "month": "2018-01",
+     "tilt_bp": -818.9,
+     "engine_bp": 27.8
+    },
+    {
+     "month": "2019-02",
+     "tilt_bp": 724.8,
+     "engine_bp": -214.0
+    },
+    {
+     "month": "2019-04",
+     "tilt_bp": -682.6,
+     "engine_bp": 50.5
+    },
+    {
+     "month": "2019-03",
+     "tilt_bp": 636.4,
+     "engine_bp": -177.6
+    },
+    {
+     "month": "2019-06",
+     "tilt_bp": -588.1,
+     "engine_bp": 27.2
+    }
+   ]
+  },
+  "2021_2023": {
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 609.9,
+   "engine_mean_ann_bp": 280.4,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "months_tilt_up": 18,
+   "months_tilt_down": 18,
+   "months_engine_up": 20,
+   "months_agree": 16,
+   "months_disagree": 20,
+   "month_agreement_pct": 44.4,
+   "agreement_when_tilt_up_pct": 50.0,
+   "agreement_when_tilt_down_pct": 38.9,
+   "deadband_bp": 10.0,
+   "months_outside_deadband": 33,
+   "month_agreement_outside_deadband_pct": 39.4,
+   "top_disagreement_months": [
+    {
+     "month": "2022-08",
+     "tilt_bp": -1300.1,
+     "engine_bp": 385.5
+    },
+    {
+     "month": "2021-08",
+     "tilt_bp": 744.1,
+     "engine_bp": -149.9
+    },
+    {
+     "month": "2022-04",
+     "tilt_bp": -681.0,
+     "engine_bp": 184.3
+    },
+    {
+     "month": "2022-05",
+     "tilt_bp": 634.4,
+     "engine_bp": -225.2
+    },
+    {
+     "month": "2021-11",
+     "tilt_bp": 596.3,
+     "engine_bp": -91.5
+    }
+   ]
+  },
+  "2024_now": {
+   "months": 34,
+   "from": "2024-01",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 252.8,
+   "engine_mean_ann_bp": 25.1,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "months_tilt_up": 16,
+   "months_tilt_down": 18,
+   "months_engine_up": 20,
+   "months_agree": 8,
+   "months_disagree": 26,
+   "month_agreement_pct": 23.5,
+   "agreement_when_tilt_up_pct": 31.2,
+   "agreement_when_tilt_down_pct": 16.7,
+   "deadband_bp": 10.0,
+   "months_outside_deadband": 32,
+   "month_agreement_outside_deadband_pct": 18.8,
+   "top_disagreement_months": [
+    {
+     "month": "2026-07",
+     "tilt_bp": -1396.8,
+     "engine_bp": 756.5
+    },
+    {
+     "month": "2026-01",
+     "tilt_bp": 1099.4,
+     "engine_bp": -52.9
+    },
+    {
+     "month": "2024-01",
+     "tilt_bp": -804.0,
+     "engine_bp": 74.1
+    },
+    {
+     "month": "2026-10",
+     "tilt_bp": -773.4,
+     "engine_bp": 199.1
+    },
+    {
+     "month": "2026-06",
+     "tilt_bp": 648.5,
+     "engine_bp": -792.5
+    }
+   ]
+  },
+  "full": {
+   "months": 162,
+   "from": "2013-04",
+   "to": "2026-10",
+   "months_dropped_from_era": 0,
+   "tilt_mean_ann_bp": 237.1,
+   "engine_mean_ann_bp": 243.9,
+   "tilt_sign": 1,
+   "engine_sign": 1,
+   "signs_agree": true,
+   "months_tilt_up": 75,
+   "months_tilt_down": 87,
+   "months_engine_up": 98,
+   "months_agree": 71,
+   "months_disagree": 91,
+   "month_agreement_pct": 43.8,
+   "agreement_when_tilt_up_pct": 56.0,
+   "agreement_when_tilt_down_pct": 33.3,
+   "deadband_bp": 10.0,
+   "months_outside_deadband": 149,
+   "month_agreement_outside_deadband_pct": 42.3,
+   "top_disagreement_months": [
+    {
+     "month": "2026-07",
+     "tilt_bp": -1396.8,
+     "engine_bp": 756.5
+    },
+    {
+     "month": "2022-08",
+     "tilt_bp": -1300.1,
+     "engine_bp": 385.5
+    },
+    {
+     "month": "2026-01",
+     "tilt_bp": 1099.4,
+     "engine_bp": -52.9
+    },
+    {
+     "month": "2013-05",
+     "tilt_bp": 870.7,
+     "engine_bp": 0.0
+    },
+    {
+     "month": "2015-03",
+     "tilt_bp": 853.8,
+     "engine_bp": -248.6
+    }
+   ]
+  }
+ },
+ "answers": {
+  "eras_measured": 4,
+  "eras_where_signs_differ": 1,
+  "era_names_where_signs_differ": [
+   "2017_2020"
+  ],
+  "eras_where_signs_agree": 3,
+  "month_agreement_min_pct": 23.5,
+  "month_agreement_max_pct": 56.8,
+  "month_agreement_outside_deadband_min_pct": 18.8,
+  "month_agreement_outside_deadband_max_pct": 61.5,
+  "full_window_month_agreement_pct": 43.8,
+  "full_window_signs_agree": true,
+  "deadband_bp": 10.0
+ },
+ "honest": [
+  "an era sign comparison is a statement about two LEVELS; the month-level rate beneath it is the one that says whether the tilt tracks the traded spread at all",
+  "a month-level rate near 50% is a result, not a defect: it means the era agreement is carried by the level, and quoting the tilt as a timing signal is not supported",
+  "the deadband is declared before the burn (10bp monthly): months where either series is inside it are excluded from the deadband rate, and the raw rate is printed beside it rather than replaced",
+  "the engine series is the engine's own wide-vs-ladder monthly difference, so this compares a member ratio against a traded quantity, not two regressions",
+  "eras remain calendar partitions of one continuous monthly series and do not add up",
+  "descriptive census only: no gate, no verdict, no prereg, no trial count"
+ ],
+ "dropped_months_3member": [
+  {
+   "month": "2015-04",
+   "members_with_break": [
+    "sh510500"
+   ],
+   "members_missing": []
+  }
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

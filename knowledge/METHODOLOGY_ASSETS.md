@@ -1970,3 +1970,47 @@ names for 50%/80%), (c) a drop-the-carrier survival test at two sizes, and (d) a
 empty carrier list when the delta is zero. Attribution is descriptive: it selects
 nothing, so it needs no new prereg, but it must reuse the one burn path (a
 separate implementation would measure a different book).
+
+## E175 A ladder must start where the published face starts: a decomposition's own levels are not the level it is explaining (2026-10-28 r1209 bm-b)
+
+E174 ran a carrier-drop test off the decomposition's own era levels and published
+"the flip is gone at top1, back at top5". The first cut of E175 found its ladder's
+k=0 verdict disagreeing with the headline it was supposed to start from, and the
+reason generalises: **the per-name terms are sums of daily `w*r` inside a month
+while the published level is a compounded monthly mean.** On 2024_now the two
+bases sit 52.9bp apart -- more than the 46.7bp delta being attributed -- and the
+offset alone flips the raw arm's sign (+31.3 vs -21.6). Any drop read off the
+unanchored base measures the offset, not the carrier.
+
+1. **Anchor a counterfactual on the published level, not on its decomposition.**
+   A contribution is a DELTA quantity (E174 reproduces the arm difference to
+   2.9bp) even when the levels differ by tens of bp. So subtract contributions
+   from the published level (`_drop_ladder(base_raw=, base_scr=)`) and make k=0
+   equal the headline by construction; publish the offset beside it, plus a
+   boolean `offset_alone_flips_*_sign` for each arm.
+2. **Two bases, same carriers, opposite verdicts = a selftest leg.** The fixture
+   is two arms whose decomposition sums are both positive while one published
+   level is negative, so a future caller cannot silently publish an unanchored
+   ladder as the ladder.
+3. **Run the ladder on a flat era as its own control.** Eras with a zero delta
+   have zero moved carriers: the ladder must be a single rung, and a ladder that
+   is not flat there is broken before it reads anything about the era you care
+   about. The eras that did move but never flip (2021_2023: 625 carriers, "agree"
+   at every k) are the second control -- what a verdict not carried by a few
+   months looks like.
+4. **Publish delta coverage with every rung, and flag past 100%.** The answer is
+   often "the verdict holds until you have removed more than the delta is made
+   of"; that is only visible when each step carries
+   `share_of_delta_removed_pct` and a `beyond_delta_span` flag. The `full` era's
+   seven verdict bands all live past k=1160 of 1193 carriers -- noise, flagged,
+   not suppressed.
+5. **A published face read off the wrong base is corrected by a new face, not by
+   editing the old one.** The frozen face keeps its numbers; the new face carries
+   a machine-readable `corrections` block naming the field, the issue and the
+   corrected reading, and the digest says which one to quote.
+
+How to apply: any drop/bootstrap/counterfactual that starts from a decomposed
+quantity starts from the published quantity instead; the decomposition's own
+levels are a diagnostic, never a base. And when a new leg's own k=0 or t=0 does
+not reproduce the headline it is extending, stop and check the base before
+publishing -- that mismatch is the cheapest defect detector in the family.
