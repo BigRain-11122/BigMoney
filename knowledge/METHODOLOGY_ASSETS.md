@@ -2600,3 +2600,29 @@ silence into a 17-second named failure ("could not fetch <oid> from promisor rem
 genuinely absent). When killing a stuck push, kill the whole subtree (parent + `pack-objects` + the fetch it
 spawned + `index-pack --promisor`) and only that subtree - other repos' git processes can be hung at the same
 time and are not yours.
+
+
+## E202 Sweep the depth, not just the sign: a verdict that "survives / dies at k" is a single-point artefact until the whole k curve is published (2026-10-29 r1230 bm-b)
+
+Evidence: `results/e43_tilt_4member/EDGEDEPTH-20261027.json`, code `tilt3ladderdropedge`
+(`scripts/e39_panel_census.py`, selftest 697 -> 706), upstream E186 month rows + E195 rules,
+digest `research/digests/DIGEST-20261029-e197-edge-depth.md`.
+
+E195 published `chrono_edges` as the one pre-registerable rule under which a full-era pair keeps
+reversing, but that rule removes exactly two months on a 162-month era (1.2%) while the magnitude
+rules removed 10-48. The natural audit question -- "is the survival just a cheap trim?" -- was swept
+(k=2..10, first k/2 + last k/2 months, answer-blind) and came back inverted:
+
+(a) **the kill is not monotone in k** -- 3 of 4 pairs reverse again after they stop: pre2017
+sh510300/sh510500 look killed at k=2 and reverse through k=4..10, and the one E195 survivor dies at
+k=8 but reverses at k=10. So neither "survives the trim" nor "dies at k=8" is the finding; the first
+stopping point is a single-point artefact and only `n_ks_reversing` plus the revival list describe it.
+(b) **a revival costs more evidence than a death** -- one k aligning signs kills it; returning needs
+every deeper k to align. Publish the revival list rather than a count, so a 4-in-a-row revival cannot
+be read like a one-off.
+(c) **falsifying a suspicion can invert it** -- the suspicion was "trim too shallow, therefore the
+survival is fake". The measurement says the shallow depth is where the sign happens to align and the
+survival is real (it holds to 4 months per side, cheaper than the cheapest magnitude rule at 10).
+(d) **run the comparison rules from the same rows** -- recomputing book_mad3/gross_x2/top_decile in
+the same pass (instead of quoting E195's k) is what keeps the two k values from drifting, and the
+E195 classification is carried as a cross-read field that never feeds the verdict.

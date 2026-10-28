@@ -1168,18 +1168,18 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1228,
- "round_no": 1229,
+ "round": 1229,
+ "round_no": 1230,
  "round_no_label": "r1227",
  "round_no_note": "r1225 closeout (state had drifted to round=1223/round_no=1224 -> git log is the canvas)",
- "round_no_ts": "2026-10-29T00:52:00+08:00",
+ "round_no_ts": "2026-10-29T01:58:08+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
   "status": "alive"
  },
- "seq": 21,
+ "seq": 22,
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
@@ -1198,13 +1198,13 @@
   "chain_note": "the 4 unpushed commits are r1227 (9f8010c78) plus r1228 work (00b911b98), r1228 delivery receipt (4e0f4cc03) and r1228 d19/orders receipt (00533e33d)",
   "local_sha_prev_receipt": "98870769d"
  },
- "task": "r1228: E196 near-zero sign census (done)",
- "task_short": "E196 near-zero sign census (done)",
+ "task": "r1230: E197 edge-depth sweep + E201 sign declaration (both done)",
+ "task_short": "E197 edge depth + E201 sign declaration (done)",
  "task_short_note": "e39 mode tilt3widecarrierpersist; selftest 678 -> 686",
- "ts": "2026-10-29T00:52:00+08:00",
- "updated": "2026-10-29T01:29:58+08:00",
- "updated_at": "2026-10-29T00:52:00+08:00",
- "verdict": "working: 6 of 164 published additive-vs-gap cells print a sign that is rounding scale, not direction",
+ "ts": "2026-10-29T01:58:08+08:00",
+ "updated": "2026-10-29T01:58:08+08:00",
+ "updated_at": "2026-10-29T01:58:08+08:00",
+ "verdict": "edge depth does not monotonically kill the reversal (3 of 4 pairs revive); 14 of 14 delta faces never state their sign convention",
  "r1228": {
   "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/1.9, pool ready 3) -> E196 burned in-round",
   "product": [
@@ -1248,5 +1248,27 @@
    "D-20261029-03 + its falsification row: POOL-0023 host-offline verdict was telemetry-down, not machine-down. Collateral check this round: TCP 100.110.185.62:4222 = reachable at 01:0x, so the NATS break cited in fleet/inbox/MSG-20261029-0026 was transient"
   ],
   "action": "ack only, nothing to execute: every row either belongs to another company or is already satisfied on this machine"
+ },
+ "r1230": {
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 1.9%, pool ready 3) -> both ready cards burned in-round",
+  "product": [
+   "results/e43_tilt_4member/EDGEDEPTH-20261027.json",
+   "scripts/e39_panel_census.py: _edge_trim_months/_edge_depth_curve/_edge_depth_class/run_tilt3ladderdropedge + CLI mode tilt3ladderdropedge (selftest 697 -> 706)",
+   "results/e79/DELTASIGN-2026-10-27.json",
+   "scripts/e97_routing.py: _deltasign_text/_deltasign_declared/_deltasign_measured/_deltasign_face/deltasign_sweep/run_deltasign + CLI mode deltasign (selftest 61 -> 70)",
+   "research/digests/DIGEST-20261029-e197-edge-depth.md",
+   "research/digests/DIGEST-20261029-e201-sign-declaration.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E202"
+  ],
+  "finding_e197": "4 pairs reverse at base; edge k_stop = 2/2/2/8 of 162/44/44/34-month eras; the reversal returns after the stop in 3 of 4 (pre2017 pair reverses at every k>=4, the full-era E195 survivor dies at k=8 and reverses again at k=10); only 2024_now sh510050 dies monotonically",
+  "finding_e201": "14 delta-publishing faces, 14 silent, 0 declared-and-matching, 0 self-contradicting; each carries the one line it would need",
+  "selftest": "e39_panel_census 697 -> 706/706; e97_routing 61 -> 70/70",
+  "smoke": "123/123 PASS at open",
+  "s6": "38/40 rc=0 (~215s): dualrun ZERO-DRIFT 681 entries streak 9 | compute_audit rc0 | market_regime ORANGE 9d | market_clock ORANGE_COOL | astock refresh lock alive | minute_feed pre-09:15 gated | update_daily/lhb/futures/repo/etf_daily no-op cutoff 2026-10-28 | ths/moneyflow/ah spawn throttled | fund_premium bm-c lane no-op | fundamental 19.9h fresh | fund_statements 86 periods complete | daily_report + ceo_live_usage + daily_scorecard (stale-takeover from bm-a) | build_status | token_meter | attrition CLEAN 2 healed",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 advanced dec 93fa41e1 ord c9d29702 | orders_ack CLEAN 114 orders / 115 acks / 1 stale bm-c",
+  "fix": "machine-health aggregate was INCOMPLETE (bm-b entry missing pinned cpu + gpu.util, written by the bm-a oversight lane); gpu_face apply + machine_health_face write --machine bm-b healed it -> check OK 8/8 for bm-a/bm-b/bm-c",
+  "telemetry": "D-20261029-03 correction item 4 verified on this machine: FluxGroup-NatsHB Running S4U (last run 01:37 rc=0), FluxGroup-FleetLink Running S4U, HQ-ProductionClaim Ready S4U",
+  "orphan_face": 0,
+  "not_run": "GPU untouched beyond the face probe (parked C-20261014-01); cloud untouched; bm-a-lane collectors and single-writer faces honoured their guards; live.paper family skipped (pre-close, cutoff 2026-10-28 = no new bar)"
  }
 }

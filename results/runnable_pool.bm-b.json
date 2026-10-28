@@ -22693,14 +22693,18 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "source": "r1224 E195: full-era sh510050 arith +0.07bp vs comp -38.20bp; 3/4 flagged pairs die under every pre-registerable trim rule",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1224",
    "entered_at": "2026-10-28T20:40:20+08:00",
    "evidence_cutoff": "2026-10-27",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
-   }
+   },
+   "result_ref": "results/e79/NEARZEROSIGN-2026-10-27.json",
+   "done_at": "2026-10-29T00:52:00+08:00",
+   "done_by": "bm-b",
+   "done_round": "r1228"
   },
   {
    "id": "E197-CHRONO-EDGE-DEPTH",
@@ -22710,14 +22714,18 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "source": "r1224 E195: chrono_edges removes 2 months on a 162-month era and is the only rule under which the full-era pair survives",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1224",
    "entered_at": "2026-10-28T20:40:20+08:00",
    "evidence_cutoff": "2026-10-27",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
-   }
+   },
+   "result_ref": "results/e43_tilt_4member/EDGEDEPTH-20261027.json",
+   "completed_by": "bm-b r1230",
+   "completed_at": "2026-10-29T01:45:00+08:00",
+   "verdict": "edge_depth_does_not_monotonically_kill_the_reversal; 3 of 4 pairs revive after a k_stop"
   },
   {
    "id": "E198-CARRIER-SIGN-FLIP-CENSUS",
@@ -22773,7 +22781,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T23:55:00+08:00",
+ "updated_at": "2026-10-29T01:45:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

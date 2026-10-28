@@ -1,0 +1,288 @@
+{
+ "study": "e201_decomposition_delta_sign_declaration",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "upstream": "the E193 delta stance sweep (this module, deltastance)",
+  "scope": "every face that publishes at least one era-level bp delta; the declared convention is read from the face's own prose blocks (spec/honest/notes/reading/method/class_rules)",
+  "text_blocks_read": [
+   "spec",
+   "honest",
+   "notes",
+   "reading",
+   "method",
+   "class_rules"
+  ],
+  "declaration_patterns": [
+   [
+    "\\bscr(?:eened)?\\b[^.;\\n]{0,20}?\\bminus\\b[^.;\\n]{0,20}?\\braw\\b",
+    "screened_minus_raw"
+   ],
+   [
+    "\\bscr(?:eened)?\\s*-\\s*raw\\b",
+    "screened_minus_raw"
+   ],
+   [
+    "\\braw\\b[^.;\\n]{0,20}?\\bminus\\b[^.;\\n]{0,20}?\\bscr(?:eened)?\\b",
+    "raw_minus_screened"
+   ],
+   [
+    "\\braw\\s*-\\s*scr(?:eened)?\\b",
+    "raw_minus_screened"
+   ]
+  ],
+  "measured_convention": "read off E193's construct match: a cell that reproduces the NEGATIVE of the authored raw-minus-screened construct follows screened-minus-raw",
+  "statuses": {
+   "declared_and_matches": "the text teaches the convention the cells use",
+   "declared_but_contradicts": "the text states the opposite direction of its own numbers",
+   "states_two_directions": "the face quotes both directions",
+   "declared_but_unmeasurable": "a direction is stated but no cell could be matched to it",
+   "silent": "nothing in the text names the direction"
+  },
+  "cost_note": "reader-facing defect: zero bp, whole sign"
+ },
+ "rows": [
+  {
+   "face": "results/e43_tilt_4member/HIST-20261020.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/LADDERSIDECASH-20261027.json",
+   "cells": 15,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-neutralise_int-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3-arm-raw-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3REACH-20261027.json",
+   "cells": 10,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+   "cells": 25,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+   "cells": 25,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+   "cells": 5,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-neutralise_int-20261027.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/TILT4-arm-raw-20261027.json",
+   "cells": 4,
+   "measured_convention": "unknown",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+  },
+  {
+   "face": "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json",
+   "cells": 10,
+   "measured_convention": "screened_minus_raw",
+   "declared_convention": null,
+   "declared_phrase": null,
+   "status": "silent",
+   "needs_line": true,
+   "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+  }
+ ],
+ "answers": {
+  "faces": 14,
+  "status_counts": {
+   "silent": 14
+  },
+  "faces_silent": 14,
+  "faces_declared_and_matching": 0,
+  "faces_contradicting_themselves": 0,
+  "faces_and_the_line_they_need": [
+   {
+    "face": "results/e43_tilt_4member/HIST-20261020.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/LADDERSIDECASH-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3-arm-neutralise_int-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3-arm-raw-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3REACH-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT4-arm-neutralise_int-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/TILT4-arm-raw-20261027.json",
+    "status": "silent",
+    "measured_convention": "unknown",
+    "line_to_add": "sign convention: not measurable from this face's cells -- publish the single direction the cells follow"
+   },
+   {
+    "face": "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json",
+    "status": "silent",
+    "measured_convention": "screened_minus_raw",
+    "line_to_add": "sign convention: every delta on this face is screened minus raw (d = screened - raw); a positive d means the screened reading is the higher one"
+   }
+  ],
+  "verdict": "every_face_leaves_the_convention_unstated"
+ },
+ "honest": [
+  "this measures whether the TEXT declares a direction; it does not change any published number",
+  "the measured convention is inherited from the E193 construct match rather than re-derived here, so a face whose cells E193 could not match is reported as unmeasurable rather than assumed",
+  "a face that states both directions is reported as such instead of being scored as matching one of them",
+  "the suggested line is a proposal; nothing is rewritten by this leg"
+ ],
+ "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)"
+}

@@ -1,33 +1,35 @@
 {
-    "bm-a":  {
-                 "cpu":  54.0,
-                 "gpu":  {
-                             "free_gb":  0.7,
-                             "util":  100.0
-                         },
-                 "ram_free_gb":  20.8,
-                 "ts":  "2026-10-28T19:50",
-                 "util":  "green",
-                 "work":  "r1135 closed: bm-a owns only futures + fundamental now; next = bm-a-lineage science supply"
-             },
-    "bm-b":  {
-                 "ts":  "2026-10-29 00:11",
-                 "util":  "amber",
-                 "work":  "oversight: cpu=GREEN gpu=GREEN llm=GREEN engine_q=-1 wave=329 flags=1",
-                 "ram_free_gb":  7.5,
-                 "gpu":  {
-                             "free_gb":  0.7
-                         }
-             },
-    "bm-c":  {
-                 "cpu":  85.4,
-                 "gpu":  {
-                             "free_gb":  14.5,
-                             "util":  0.0
-                         },
-                 "ram_free_gb":  1.6,
-                 "ts":  "2026-10-28T17:14",
-                 "util":  "idle",
-                 "work":  "r1325 closed"
-             }
+ "bm-a": {
+  "cpu": 54.0,
+  "gpu": {
+   "free_gb": 0.7,
+   "util": 100.0
+  },
+  "ram_free_gb": 20.8,
+  "ts": "2026-10-28T19:50",
+  "util": "green",
+  "work": "r1135 closed: bm-a owns only futures + fundamental now; next = bm-a-lineage science supply"
+ },
+ "bm-b": {
+  "cpu": 14.5,
+  "gpu": {
+   "free_gb": 4.1,
+   "util": 0.0
+  },
+  "ram_free_gb": 10.7,
+  "ts": "2026-10-29T01:58",
+  "util": "green",
+  "work": "r1229 delivered 5 backlogged commits to machine/bm-b-r1229 (push --no-thin after fresh fetch); thin-pack promisor hang root-caused"
+ },
+ "bm-c": {
+  "cpu": 85.4,
+  "gpu": {
+   "free_gb": 14.5,
+   "util": 0.0
+  },
+  "ram_free_gb": 1.6,
+  "ts": "2026-10-28T17:14",
+  "util": "idle",
+  "work": "r1325 closed"
+ }
 }

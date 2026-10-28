@@ -19264,6 +19264,82 @@ def selftest():
     chk("outdir" in run_tilt3ladderdroprules.__code__.co_varnames,
         "E195 the rule leg takes the face directory as its only seam")
 
+    # ---- E197: the edge depth itself is what has to be swept
+    _e197_rows = [{"month": "m%02d" % i, "full_ret": 0.01, "dropped_ret": 0.01,
+                   "gap_bp": float(i)} for i in range(1, 11)]
+    chk(_edge_trim_months(_e197_rows, 2)["months"] == ["m01", "m10"]
+        and _edge_trim_months(_e197_rows, 4)["months"]
+        == ["m01", "m02", "m09", "m10"],
+        "E197 the edge sweep deepens symmetrically from both ends: k=2 takes "
+        "one month per side, k=4 takes two")
+    _e197_loud = [dict(r, gap_bp=1000.0 * i, delta_sum=9.0 * i,
+                       delta_link=9.0 * i)
+                  for i, r in enumerate(_e197_rows)]
+    chk(all(_edge_trim_months(_e197_rows, k)["months"]
+            == _edge_trim_months(_e197_loud, k)["months"]
+            for k in TILT3LADDERDROPEDGE_KS),
+        "E197 the edge set is chosen from the calendar alone, so changing the "
+        "gap/delta columns cannot move it (answer-blind at every depth)")
+    _e197_short = [dict(r) for r in _e197_rows[:4]]
+    chk(len(_edge_trim_months(_e197_short, 10)["months"]) == 2
+        and _edge_trim_months(_e197_short, 10)["half_depth"] == 1,
+        "E197 on a four-month era the deepest k still leaves two months for a "
+        "reading instead of eating the whole era")
+
+    _e197_cut = [{"month": "m01", "full_ret": 0.0, "dropped_ret": 0.8},
+                 {"month": "m02", "full_ret": 0.0, "dropped_ret": -0.4},
+                 {"month": "m03", "full_ret": 0.0, "dropped_ret": -0.2},
+                 {"month": "m04", "full_ret": 0.0, "dropped_ret": -0.1}]
+    _e197_curve = _edge_depth_curve(_e197_cut)
+    chk(_e197_curve["base"]["reversal"] is True
+        and _e197_curve["k_stop"] == 2,
+        "E197 a reversal carried by the era's first month dies at k=2 and the "
+        "curve names that k rather than only 'does not survive'")
+    _e197_flat = _edge_depth_curve(
+        [dict(r, dropped_ret=0.0) for r in _e197_cut])
+    chk(_e197_flat["base"]["reversal"] is False
+        and _e197_flat["k_stop"] is None,
+        "E197 a pair that never reverses reports no k_stop at all instead of a "
+        "meaningless first depth")
+
+    chk(_edge_depth_class(False, None, {}) == "no_base_reversal"
+        and _edge_depth_class(
+            True, 2, {"book_mad3": {"k": 10, "kills": True}})
+        == "edge_kill_is_cheaper_than_every_magnitude_kill"
+        and _edge_depth_class(
+            True, 8, {"book_mad3": {"k": 4, "kills": True}})
+        == "magnitude_rule_kills_cheaper_than_the_edge_trim"
+        and _edge_depth_class(
+            True, 4, {"book_mad3": {"k": 4, "kills": True}})
+        == "edge_and_magnitude_kills_cost_the_same"
+        and _edge_depth_class(True, None, {}) == "survives_even_the_deepest_edge_trim"
+        and _edge_depth_class(
+            True, None, {"book_mad3": {"k": 10, "kills": True}})
+        == "edge_never_kills_but_a_magnitude_rule_does",
+        "E197 the edge k is read against the magnitude rules' k, so the same "
+        "depth cost is not reported as an artefact of being cheap")
+
+    _e197_rev = _edge_depth_curve([
+        {"month": "m01", "full_ret": 0.0, "dropped_ret": 0.8},
+        {"month": "m02", "full_ret": 0.0, "dropped_ret": -0.3},
+        {"month": "m03", "full_ret": 0.0, "dropped_ret": -0.5},
+        {"month": "m04", "full_ret": 0.0, "dropped_ret": 0.6},
+        {"month": "m05", "full_ret": 0.0, "dropped_ret": -0.4},
+        {"month": "m06", "full_ret": 0.0, "dropped_ret": -0.1}])
+    _e197_dead = [s["reversal"] for s in _e197_rev["steps"]]
+    chk(_e197_rev["base"]["reversal"] is True
+        and not all(_e197_dead)
+        and any(_e197_dead[_e197_dead.index(False):]),
+        "E197 the curve records a reversal that comes back at a deeper k, so a "
+        "single k_stop is not read as a threshold")
+
+    _e197_missing = run_tilt3ladderdropedge(_e190_tmp.mkdtemp())
+    chk(_e197_missing["answers"]["verdict"] == "no_upstream_face"
+        and _e197_missing["answers"]["pairs_measured"] == 0,
+        "E197 a missing upstream face publishes zero pairs, not zero findings")
+    chk("outdir" in run_tilt3ladderdropedge.__code__.co_varnames,
+        "E197 the depth leg takes the face directory as its only seam")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -23499,6 +23575,368 @@ def run_tilt3ladderdroprules(outdir):
     }
 
 
+# ---------------------------------------------------------------- E197
+# E195 let the full-era reversal survive because chrono_edges removes exactly
+# two months -- the era's first and last -- no matter how long the era is. On a
+# 162-month era that is a 1.2% trim while the magnitude rules took 10-48
+# months, so "survives edge trimming" may only mean "the rule removed too few
+# months". This sweeps the edge depth instead of fixing it at one.
+TILT3LADDERDROPEDGE_KS = (2, 4, 6, 8, 10)
+
+
+def _edge_trim_months(rows, k):
+    """(E197) the first k/2 and last k/2 decision months, chronologically.
+
+    Reads the calendar only. Every month in the set is named by its position in
+    time, so nothing about the drop's own gap series can influence it -- the
+    same answer-blindness E195 required, deepened instead of traded away.
+    """
+    ordered = sorted(set(
+        r["month"] for r in rows
+        if r.get("month") and r.get("full_ret") is not None
+        and r.get("dropped_ret") is not None))
+    n = len(ordered)
+    half = max(0, int(k) // 2)
+    # never eat the whole era: two months must survive for a reading to exist
+    half = min(half, max(0, (n - 2) // 2))
+    picked = ordered[:half] + (ordered[n - half:] if half else [])
+    months = []
+    for m in picked:
+        if m not in months:
+            months.append(m)
+    return {"months": months,
+            "half_depth": half,
+            "criterion": ("first %d + last %d decision months of the era "
+                          "(chronological, answer-blind)" % (half, half))}
+
+
+def _edge_depth_curve(rows, ks=TILT3LADDERDROPEDGE_KS):
+    """(E197) how many edge months this pair needs before it stops reversing.
+
+    ``k_stop`` is the FIRST k in the sweep at which the reversal is gone, so a
+    pair that dies at k=2 was surviving E195's trim only because that trim
+    removed one month per side. A pair that still reverses at the deepest k in
+    the sweep carries an insensitivity that is not a depth artefact.
+    """
+    base = _drop_trim_effect(rows, [])
+    n = base["months_used"]
+    steps, k_stop = [], None
+    for k in ks:
+        pick = _edge_trim_months(rows, k)
+        eff = _drop_trim_effect(rows, pick["months"])
+        removed = len(pick["months"])
+        rec = {"k": k, "half_depth": pick["half_depth"],
+               "n_months_removed": removed,
+               "trim_fraction": (round(removed / n, 6) if n else None),
+               "months_removed": pick["months"],
+               "arith_bp": eff["arith_bp"], "comp_bp": eff["comp_bp"],
+               "signs": eff["signs"], "reversal": eff["reversal"],
+               "months_used": eff["months_used"]}
+        steps.append(rec)
+        if base["reversal"] and k_stop is None and not eff["reversal"]:
+            k_stop = k
+    return {"base": base, "months": n, "steps": steps, "k_stop": k_stop,
+            "k_max_tested": max(ks) if ks else None,
+            "trim_fraction_at_stop": (
+                None if k_stop is None or not n else
+                round(len(_edge_trim_months(rows, k_stop)["months"]) / n, 6)),
+            "reversal_survives_deepest_edge_trim": bool(
+                base["reversal"] and k_stop is None)}
+
+
+def _edge_depth_class(base_reversal, k_stop, mag_rules):
+    """(E197) read the edge death against the magnitude rules on the same pair.
+
+    ``mag_rules`` is {rule: {"k": months_removed, "kills": bool}}. The point of
+    the comparison is that a kill at k=2 has cost two months, so an E195 pair
+    that "survived" while the magnitude rules removed 10-48 months was measured
+    under a far shallower trim -- that is a depth artefact, not insensitivity.
+    """
+    if not base_reversal:
+        return "no_base_reversal"
+    killers = sorted(((v.get("k"), rule) for rule, v in mag_rules.items()
+                      if v.get("kills") and v.get("k") is not None),
+                     key=lambda t: (t[0], t[1]))
+    mag_min = killers[0][0] if killers else None
+    if k_stop is None:
+        return ("survives_even_the_deepest_edge_trim"
+                if mag_min is None else
+                "edge_never_kills_but_a_magnitude_rule_does")
+    edge_cost = 2 * (int(k_stop) // 2)
+    if mag_min is None:
+        return "edge_kills_before_any_magnitude_rule"
+    if edge_cost < mag_min:
+        return "edge_kill_is_cheaper_than_every_magnitude_kill"
+    if edge_cost == mag_min:
+        return "edge_and_magnitude_kills_cost_the_same"
+    return "magnitude_rule_kills_cheaper_than_the_edge_trim"
+
+
+def run_tilt3ladderdropedge(outdir):
+    """E197: is "the reversal survives edge trimming" a depth artefact?
+
+    E195 published chrono_edges as the one pre-registerable rule under which a
+    full-era pair keeps reversing. But that rule removes two months on a
+    162-month era, i.e. 1.2%, while book_mad3/book_gross_x2/book_top_decile
+    removed 10-48. A verdict that survives the cheapest possible trim has not
+    been tested by it. This sweeps the edge depth k=2..10 on the same month rows
+    and puts each pair's edge k beside the magnitude rules' k, so the survival
+    claim is read as either an artefact of depth or a real insensitivity.
+    """
+    src, rules_src = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPRULE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                rules_src = json.load(fh)
+    except Exception:
+        src, rules_src = None, None
+
+    # E195's own reading of the same pair, carried as a cross-read only: the
+    # question here is whether the rule it called the survivor is a depth
+    # artefact, so what matters is that face's chrono_edges verdict.
+    e195_read = {}
+    for era_name, v in ((rules_src or {}).get("eras") or {}).items():
+        for d in (v.get("drops") or []):
+            survives = list(d.get("rules_under_which_it_survives") or [])
+            kills = list(d.get("rules_that_kill_the_reversal") or [])
+            e195_read[(era_name, d.get("name"))] = {
+                "classification": d.get("classification"),
+                "chrono_edges_survives": "chrono_edges" in survives,
+                "chrono_edges_was_tested": ("chrono_edges" in survives
+                                            or "chrono_edges" in kills),
+            }
+
+    rows, joins = {}, []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        per = []
+        for d in (v.get("drops") or []):
+            months = d.get("months") or []
+            if not months:
+                continue
+            fr = {r["month"]: float(r["full_ret"]) for r in months
+                  if r.get("full_ret") is not None}
+            dr = {r["month"]: float(r["dropped_ret"]) for r in months
+                  if r.get("dropped_ret") is not None}
+            base = _drop_effect_both_bp(fr, dr)
+            sa, sc = _path_sign(base["arith_bp"]), _path_sign(base["comp_bp"])
+            base_rev = bool(sa is not None and sc is not None and sa * sc < 0)
+            for pub, got in ((d.get("effect_arith_bp"), base["arith_bp"]),
+                             (d.get("effect_comp_bp"), base["comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+
+            curve = _edge_depth_curve(months)
+            mag_rules = {}
+            for rule in TILT3LADDERDROPRULE_RULES:
+                if rule == "chrono_edges":
+                    continue   # that IS the edge rule; swept above
+                pick = _preregister_trim_months(months, rule)
+                eff = _drop_trim_effect(months, pick["months"])
+                mag_rules[rule] = {"k": len(pick["months"]),
+                                   "kills": bool(base_rev and not eff["reversal"]),
+                                   "vacuous": not pick["months"]}
+            cls = _edge_depth_class(base_rev, curve["k_stop"], mag_rules)
+            e195 = e195_read.get((era_name, d.get("name"))) or {}
+            k_stop = curve["k_stop"]
+            returns = [s["k"] for s in curve["steps"]
+                       if k_stop is not None and s["k"] > k_stop
+                       and s["reversal"]]
+            if not base_rev:
+                depth = "no_base_reversal"
+            elif k_stop is None:
+                depth = "survives_the_whole_edge_sweep"
+            elif returns:
+                depth = ("revival_at_k%d_after_dying_at_k%d"
+                         % (returns[0], k_stop))
+            elif k_stop <= 2:
+                depth = "dies_at_the_depth_e195_already_tested"
+            elif e195.get("chrono_edges_survives"):
+                depth = "e195_survivor_dies_at_k%d" % k_stop
+            else:
+                depth = "dies_at_k%d" % k_stop
+            per.append({
+                "name": d.get("name"),
+                "months_source": len(months),
+                "base": {"arith_bp": base["arith_bp"],
+                         "comp_bp": base["comp_bp"],
+                         "signs": {"arith": sa, "comp": sc},
+                         "reversal": base_rev},
+                "edge_curve": curve,
+                "magnitude_rules": mag_rules,
+                "cheapest_killer_k": (
+                    min([v2["k"] for v2 in mag_rules.values() if v2["kills"]],
+                        default=None)),
+                "classification": cls,
+                "depth_verdict": depth,
+                # a first-k reading is only a threshold if the death holds:
+                # on these eras it often does not, and then "dies at k" and
+                # "survives at k" are both single-point artefacts
+                "reversal_returns_after_stop_k": returns,
+                "reverses_at_deepest_k": bool(
+                    curve["steps"] and curve["steps"][-1]["reversal"]),
+                "n_ks_reversing": sum(1 for s in curve["steps"] if s["reversal"]),
+                "e195_classification": e195.get("classification"),
+                "e195_said_chrono_edges_survives": bool(
+                    e195.get("chrono_edges_survives")),
+            })
+        if per:
+            rows[era_name] = {"months": v.get("months"), "drops": per}
+
+    measured = [dict(r, era=e) for e, v in rows.items() for r in v["drops"]]
+    classes, k_stops = {}, {}
+    for r in measured:
+        classes[r["classification"]] = classes.get(r["classification"], 0) + 1
+        ks = r["edge_curve"]["k_stop"]
+        if ks is not None:
+            k_stops[str(ks)] = k_stops.get(str(ks), 0) + 1
+    reversing = [r for r in measured if r["base"]["reversal"]]
+    e195_survivors = [r for r in reversing
+                      if r["e195_said_chrono_edges_survives"]]
+    one_step = [r for r in e195_survivors
+                if r["edge_curve"]["k_stop"] is not None
+                and r["edge_curve"]["k_stop"] <= 4]
+    deep_hold = [r for r in e195_survivors
+                 if r["edge_curve"]["reversal_survives_deepest_edge_trim"]]
+    depths = {}
+    for r in measured:
+        depths[r["depth_verdict"]] = depths.get(r["depth_verdict"], 0) + 1
+    revivals = [r for r in reversing if r["reversal_returns_after_stop_k"]]
+    if not measured:
+        verdict = "no_upstream_face"
+    elif not reversing:
+        verdict = "no_pair_reverses_to_test"
+    elif revivals and len(revivals) > len(reversing) // 2:
+        # the sweep is not a monotone kill: a pair that "dies at k=2" comes
+        # back at k=4, and the one E195 kept alive dies at k=8 but reverses
+        # again at k=10. Both readings are single-point artefacts.
+        verdict = "edge_depth_does_not_monotonically_kill_the_reversal"
+    elif e195_survivors and deep_hold:
+        verdict = "an_e195_survivor_holds_through_the_whole_sweep"
+    elif e195_survivors and one_step:
+        verdict = "e195_edge_survival_dies_one_step_deeper_than_it_was_tested"
+    elif e195_survivors:
+        verdict = "e195_survival_dies_only_at_a_deeper_edge_trim"
+    elif all(r["edge_curve"]["k_stop"] == 2 for r in reversing):
+        verdict = "every_reversal_dies_at_the_shallowest_edge_trim"
+    else:
+        verdict = "edge_death_is_graded_not_instant"
+    join_max = None if not joins else round(max(joins), 9)
+    return {
+        "study": "e197_tilt3_ladder_drop_edge_depth",
+        "evidence_cutoff": None if src is None else src.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "LADDERDROPWHERE-*.json (E186 month rows) "
+                        "(+ LADDERDROPRULE-*.json only for the E195 cross-read)",
+            "upstream_cutoff": None if src is None else src.get("evidence_cutoff"),
+            "method": ("for each flagged (era, drop): remove the era's first "
+                       "k/2 and last k/2 decision months for k in 2..10, "
+                       "recompute both era readings with _drop_effect_both_bp, "
+                       "and publish the first k at which the reversal is gone; "
+                       "each pair's edge k is then read against the k the "
+                       "magnitude rules need on the same pair"),
+            "edge_ks": list(TILT3LADDERDROPEDGE_KS),
+            "chrono_edges_note": ("E195's chrono_edges is the k=2 member of this "
+                                  "family; the sweep exists because that rule "
+                                  "removed 1.2% of a 162-month era"),
+            "magnitude_rules": [r for r in TILT3LADDERDROPRULE_RULES
+                                if r != "chrono_edges"],
+            "units": "era effects in bp; depth in months; fraction of the era",
+            "join_tolerance_bp": TILT3LADDERDROPCROSS_JOIN_BP,
+            "class_rules": {
+                "edge_kill_is_cheaper_than_every_magnitude_kill":
+                    "the reversal dies under a shallower edge trim than any "
+                    "magnitude rule needs, so E195's survival was depth",
+                "magnitude_rule_kills_cheaper_than_the_edge_trim":
+                    "an answer-blind magnitude rule kills with fewer months",
+                "edge_and_magnitude_kills_cost_the_same":
+                    "the two families need the same depth",
+                "survives_even_the_deepest_edge_trim":
+                    "no edge depth in the sweep kills it and no magnitude rule "
+                    "does either -- a real insensitivity",
+                "edge_never_kills_but_a_magnitude_rule_does":
+                    "only the book-return rules can kill it, so the verdict "
+                    "rests on which months were flagged, not on era depth",
+                "no_base_reversal": "nothing to test on this pair",
+            },
+            "monotonicity_note": ("k_stop is the FIRST depth at which the "
+                                  "reversal is gone; where the reversal "
+                                  "returns at a deeper k it is reported as "
+                                  "revival_at_k<first>_after_dying_at_k<stop> "
+                                  "and the pair is not a threshold case at all"),
+        },
+        "eras": rows,
+        "answers": {
+            "pairs_measured": len(measured),
+            "pairs_with_base_reversal": len(reversing),
+            "classification_counts": classes,
+            "edge_k_stop_counts": k_stops,
+            "depth_verdict_counts": depths,
+            "pairs_whose_reversal_returns_after_a_k_stop": [
+                {"era": r["era"], "name": r["name"],
+                 "died_at_k": r["edge_curve"]["k_stop"],
+                 "returned_at_k": r["reversal_returns_after_stop_k"]}
+                for r in revivals],
+            "pairs_and_their_depth": [
+                {"era": r["era"], "name": r["name"],
+                 "base_reversal": r["base"]["reversal"],
+                 "edge_k_stop": r["edge_curve"]["k_stop"],
+                 "edge_trim_fraction_at_stop":
+                     r["edge_curve"]["trim_fraction_at_stop"],
+                 "cheapest_magnitude_killer_k": r["cheapest_killer_k"],
+                 "classification": r["classification"],
+                 "depth_verdict": r["depth_verdict"],
+                 "reverses_at_deepest_k": r["reverses_at_deepest_k"],
+                 "n_ks_reversing": r["n_ks_reversing"],
+                 "e195_classification": r["e195_classification"],
+                 "e195_said_chrono_edges_survives":
+                     r["e195_said_chrono_edges_survives"]}
+                for r in measured],
+            "e195_survivors_audited": [
+                {"era": r["era"], "name": r["name"],
+                 "edge_k_stop": r["edge_curve"]["k_stop"],
+                 "edge_trim_fraction_at_stop":
+                     r["edge_curve"]["trim_fraction_at_stop"],
+                 "depth_verdict": r["depth_verdict"]}
+                for r in e195_survivors],
+            "pairs_that_survive_a_ten_month_edge_trim": [
+                {"era": r["era"], "name": r["name"]}
+                for r in reversing
+                if r["edge_curve"]["reversal_survives_deepest_edge_trim"]],
+            "e186_join_max_abs_diff_bp": join_max,
+            "verdict": verdict,
+        },
+        "honest": [
+            "the month rows are read from the published E186 face; a missing "
+            "face publishes zero pairs rather than an invented removal set",
+            "the edge rule reads the calendar only -- it cannot see gap_bp, "
+            "delta_sum or delta_link, so the removal set is answer-blind",
+            "the magnitude rules are recomputed here from the same month rows "
+            "rather than quoted from the E195 face, so the two k values cannot "
+            "drift apart silently; the E195 classification is carried as a "
+            "cross-read field and is never used as an input to the verdict",
+            "k is bounded so at least two months always survive a trim; on a "
+            "short era two different k values therefore remove the same set, "
+            "and n_months_removed says so explicitly",
+            "removing months changes the sample the verdict is computed on; this "
+            "measures how deep the verdict sits, it does not license dropping "
+            "any month for real",
+            "the sweep is published as a curve, not as one k: where a pair "
+            "reverses again at a deeper k the first stopping point is a "
+            "single-point artefact, so k_stop alone must not be quoted as a "
+            "threshold",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -25069,6 +25507,7 @@ def main(argv):
                              "tilt3ladderdropcross",
                              "tilt3ladderdropcurve",
                              "tilt3ladderdroprules",
+                             "tilt3ladderdropedge",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "tilt3widechurntie",
@@ -26650,6 +27089,24 @@ def main(argv):
                               "kills": d["rules_that_kill_the_reversal"],
                               "survives": d["rules_under_which_it_survives"],
                               "carrier_rule": d["carrier_rule_alone_would_say"]}
+                              for d in v["drops"]]
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropedge":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropedge(outdir)
+        p = write_json(outdir, "EDGEDEPTH-%s.json"
+                       % str(f["evidence_cutoff"] or "unknown").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropedge",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: [{
+                              "name": d["name"],
+                              "edge_k_stop": d["edge_curve"]["k_stop"],
+                              "cheapest_magnitude_killer_k":
+                                  d["cheapest_killer_k"],
+                              "classification": d["classification"]}
                               for d in v["drops"]]
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},

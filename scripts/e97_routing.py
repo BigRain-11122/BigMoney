@@ -2418,6 +2418,228 @@ def run_nearzerosign(publish=False, base=None):
     return 0
 
 
+# ---------------------------------------------------------------- E201
+# E193 measured that the family prints screened-minus-raw everywhere (30 of 30
+# ladder-rebuilt deltas reproduce only as the negated construct) and E193's own
+# row-level output scores a cell as `reproduces_flipped_sign` -- but no face says
+# so in its own text. A convention that lives only in the producer's head is a
+# reader-facing defect with a zero-bp cost and a whole-sign impact, so this leg
+# asks, per face, whether the text alone teaches the convention.
+DELTASIGN_OUT_DIR = "results/e79"
+DELTASIGN_TEXT_BLOCKS = ("spec", "honest", "notes", "reading", "method",
+                         "class_rules")
+# Declared in words, not inferred: a face that writes "d = screened - raw" has
+# stated its convention; every other spelling still has to name both operands.
+DELTASIGN_DECL_PATTERNS = (
+    (re.compile(r"\bscr(?:eened)?\b[^.;\n]{0,20}?\bminus\b[^.;\n]{0,20}?\braw\b",
+                re.I), "screened_minus_raw"),
+    (re.compile(r"\bscr(?:eened)?\s*-\s*raw\b", re.I), "screened_minus_raw"),
+    (re.compile(r"\braw\b[^.;\n]{0,20}?\bminus\b[^.;\n]{0,20}?\bscr(?:eened)?\b",
+                re.I), "raw_minus_screened"),
+    (re.compile(r"\braw\s*-\s*scr(?:eened)?\b", re.I), "raw_minus_screened"),
+)
+DELTASIGN_CONVENTION_TEXT = {
+    "screened_minus_raw": "screened minus raw",
+    "raw_minus_screened": "raw minus screened",
+    "mixed": "not one convention across this face's cells",
+    "unknown": "not measurable from this face's cells",
+}
+
+
+def _deltasign_text(doc):
+    """One string holding everything the face says about itself in prose."""
+    chunks = []
+    for key in DELTASIGN_TEXT_BLOCKS:
+        v = doc.get(key)
+        if v is None:
+            continue
+        chunks.append(v if isinstance(v, str) else json.dumps(v, ensure_ascii=False))
+    return "\n".join(chunks)
+
+
+def _deltasign_declared(text):
+    """-> {"convention", "phrase"} when the text states a direction, else None."""
+    best = None
+    for rx, name in DELTASIGN_DECL_PATTERNS:
+        m = rx.search(text or "")
+        if m is None:
+            continue
+        cand = {"convention": name, "phrase": m.group(0).strip()}
+        # screened_minus_raw and raw_minus_screened are mutually exclusive readings;
+        # when both appear the face is quoting two directions and that IS a finding
+        if best is None:
+            best = cand
+        elif best["convention"] != name:
+            best = {"convention": "mixed", "phrase": best["phrase"] + " / " + cand["phrase"]}
+    return best
+
+
+def _deltasign_measured(rows):
+    """The convention the cells actually follow, read off E193's own construct match."""
+    same = sum(1 for r in rows if "same" in (r.get("sign_convention") or []))
+    flipped = sum(1 for r in rows if "flipped" in (r.get("sign_convention") or []))
+    if same and flipped:
+        return "mixed"
+    if flipped:
+        return "screened_minus_raw"
+    if same:
+        return "raw_minus_screened"
+    return "unknown"
+
+
+def _deltasign_suggestion(measured):
+    conv = DELTASIGN_CONVENTION_TEXT.get(measured, "not measurable")
+    if measured in ("screened_minus_raw", "raw_minus_screened"):
+        first, second = ("screened", "raw") if measured == "screened_minus_raw" else ("raw", "screened")
+        return ("sign convention: every delta on this face is %s (d = %s - %s); a "
+                "positive d means the %s reading is the higher one"
+                % (conv, first, second, first))
+    return ("sign convention: %s -- publish the single direction the cells follow"
+            % conv)
+
+
+def _deltasign_face(rel, doc, rows):
+    """(E201) one face's reader-facing status, with the line it would have to add."""
+    measured = _deltasign_measured(rows)
+    declared = _deltasign_declared(_deltasign_text(doc))
+    if declared is None:
+        status = "silent"
+    elif declared["convention"] == "mixed":
+        status = "states_two_directions"
+    elif measured in ("unknown",):
+        status = "declared_but_unmeasurable"
+    elif declared["convention"] == measured:
+        status = "declared_and_matches"
+    else:
+        status = "declared_but_contradicts"
+    return {
+        "face": rel,
+        "cells": len(rows),
+        "measured_convention": measured,
+        "declared_convention": None if declared is None else declared["convention"],
+        "declared_phrase": None if declared is None else declared["phrase"],
+        "status": status,
+        "needs_line": status != "declared_and_matches",
+        "line_to_add": (None if status == "declared_and_matches"
+                        else _deltasign_suggestion(measured)),
+    }
+
+
+def deltasign_sweep(base=None):
+    """E201: can a reader learn the family's sign convention from the published text?"""
+    stance = deltastance(base=base)
+    if stance.get("status") == "awaiting_upstream":
+        return {"study": "e201_decomposition_delta_sign_declaration",
+                "status": "awaiting_upstream",
+                "missing": stance.get("missing"),
+                "rows": [], "faces": [],
+                "answers": {"faces": 0, "faces_silent": 0,
+                            "verdict": "no_upstream_face"}}
+    by_face = {}
+    for r in stance.get("rows") or []:
+        by_face.setdefault(r["face"], []).append(r)
+    rows = []
+    for rel in sorted(by_face):
+        full = os.path.join(base or ROOT, rel.replace("/", os.sep))
+        try:
+            with io.open(full, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except Exception:
+            doc = {}
+        rows.append(_deltasign_face(rel, doc if isinstance(doc, dict) else {}, by_face[rel]))
+    rows.sort(key=lambda r: r["face"])
+    counts = {}
+    for r in rows:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+    silent = [r for r in rows if r["status"] == "silent"]
+    contradicts = [r for r in rows if r["status"] == "declared_but_contradicts"]
+    matches = [r for r in rows if r["status"] == "declared_and_matches"]
+    if not rows:
+        verdict = "no_delta_faces"
+    elif contradicts:
+        verdict = "a_face_states_the_opposite_of_its_own_numbers"
+    elif not silent and len(matches) == len(rows):
+        verdict = "every_face_states_the_convention_it_uses"
+    elif len(silent) == len(rows):
+        verdict = "every_face_leaves_the_convention_unstated"
+    else:
+        verdict = "some_faces_state_it_and_some_do_not"
+    return {
+        "study": "e201_decomposition_delta_sign_declaration",
+        "evidence_cutoff": stance.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "the E193 delta stance sweep (this module, deltastance)",
+            "scope": ("every face that publishes at least one era-level bp delta; "
+                      "the declared convention is read from the face's own prose "
+                      "blocks (spec/honest/notes/reading/method/class_rules)"),
+            "text_blocks_read": list(DELTASIGN_TEXT_BLOCKS),
+            "declaration_patterns": [[rx.pattern, name]
+                                     for rx, name in DELTASIGN_DECL_PATTERNS],
+            "measured_convention": ("read off E193's construct match: a cell that "
+                                    "reproduces the NEGATIVE of the authored "
+                                    "raw-minus-screened construct follows "
+                                    "screened-minus-raw"),
+            "statuses": {
+                "declared_and_matches": "the text teaches the convention the cells use",
+                "declared_but_contradicts": ("the text states the opposite direction "
+                                            "of its own numbers"),
+                "states_two_directions": "the face quotes both directions",
+                "declared_but_unmeasurable": ("a direction is stated but no cell "
+                                             "could be matched to it"),
+                "silent": "nothing in the text names the direction",
+            },
+            "cost_note": "reader-facing defect: zero bp, whole sign",
+        },
+        "rows": rows,
+        "answers": {
+            "faces": len(rows),
+            "status_counts": counts,
+            "faces_silent": len(silent),
+            "faces_declared_and_matching": len(matches),
+            "faces_contradicting_themselves": len(contradicts),
+            "faces_and_the_line_they_need": [
+                {"face": r["face"], "status": r["status"],
+                 "measured_convention": r["measured_convention"],
+                 "line_to_add": r["line_to_add"]}
+                for r in rows if r["needs_line"]],
+            "verdict": verdict,
+        },
+        "honest": [
+            "this measures whether the TEXT declares a direction; it does not change "
+            "any published number",
+            "the measured convention is inherited from the E193 construct match rather "
+            "than re-derived here, so a face whose cells E193 could not match is "
+            "reported as unmeasurable rather than assumed",
+            "a face that states both directions is reported as such instead of being "
+            "scored as matching one of them",
+            "the suggested line is a proposal; nothing is rewritten by this leg",
+        ],
+        "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)",
+    }
+
+
+def run_deltasign(publish=False, base=None):
+    face = deltasign_sweep(base=base)
+    if face.get("status") == "awaiting_upstream":
+        print("awaiting upstream:", face.get("missing"))
+        return 0
+    if publish:
+        out = os.path.join(_abs(DELTASIGN_OUT_DIR),
+                           "DELTASIGN-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    a = face["answers"]
+    print("faces=%d silent=%d declared_and_matching=%d contradicting=%d"
+          % (a["faces"], a["faces_silent"], a["faces_declared_and_matching"],
+             a["faces_contradicting_themselves"]))
+    for k in sorted(a["status_counts"]):
+        print("  %s=%d" % (k, a["status_counts"][k]))
+    print("  verdict:", a["verdict"])
+    return 0
+
+
 def render_md(face, path=None):
     """Render the routing table as a markdown page (numbers read from the face)."""
     t = face["totals"]
@@ -3266,6 +3488,52 @@ def selftest():
         and abs(anchor[0]["level_bp"] - 0.074333) < 1e-6
         and live_nz["answers"]["cells"] >= 4)
 
+    # ---- E201: a convention that only the producer knows is a reader defect
+    e201_declared = _deltasign_declared(
+        json.dumps({"spec": {"method": "each delta is screened minus raw"}}))
+    chk("L59 a face that writes its direction in prose is read as declaring it",
+        e201_declared is not None
+        and e201_declared["convention"] == "screened_minus_raw")
+    chk("L60 a direction written the other way is read as the other direction",
+        _deltasign_declared("d = raw - screened")["convention"]
+        == "raw_minus_screened")
+    chk("L61 a face that states both directions is not scored as matching one",
+        _deltasign_declared("some cells are raw minus screened, others "
+                            "screened minus raw")["convention"] == "mixed")
+    chk("L62 silence is None, not a guessed direction",
+        _deltasign_declared("this face publishes era effects in bp") is None)
+    chk("L63 the measured convention follows E193's construct match, not the text",
+        _deltasign_measured([{"sign_convention": ["flipped"]}]) == "screened_minus_raw"
+        and _deltasign_measured([{"sign_convention": ["same"]}]) == "raw_minus_screened"
+        and _deltasign_measured([{"sign_convention": ["same"]},
+                                 {"sign_convention": ["flipped"]}]) == "mixed"
+        and _deltasign_measured([{}]) == "unknown")
+    _e201_face = _deltasign_face(
+        "results/e79/FAKE.json",
+        {"spec": {"method": "each delta is raw minus screened"}},
+        [{"sign_convention": ["flipped"]}])
+    chk("L64 a face that states the opposite of its own numbers is caught and told "
+        "what to write",
+        _e201_face["status"] == "declared_but_contradicts"
+        and _e201_face["needs_line"] is True
+        and "screened minus raw" in (_e201_face["line_to_add"] or ""))
+    _e201_silent = _deltasign_face("results/e79/FAKE2.json", {},
+                                   [{"sign_convention": ["flipped"]}])
+    chk("L65 a silent face needs a line even when its cells are uniform",
+        _e201_silent["status"] == "silent"
+        and _e201_silent["needs_line"] is True
+        and _e201_silent["measured_convention"] == "screened_minus_raw")
+    _e201_match = _deltasign_face(
+        "results/e79/FAKE3.json",
+        {"honest": ["deltas are screened minus raw"]},
+        [{"sign_convention": ["flipped"]}])
+    chk("L66 a face that already declares a matching convention needs no line",
+        _e201_match["status"] == "declared_and_matches"
+        and _e201_match["needs_line"] is False
+        and _e201_match["line_to_add"] is None)
+    chk("L67 the sign leg takes the repo base as its only seam",
+        "base" in deltasign_sweep.__code__.co_varnames)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -3292,6 +3560,8 @@ def main(argv):
         return run_deltastance(publish="--publish" in argv)
     if cmd == "nearzerosign":
         return run_nearzerosign(publish="--publish" in argv)
+    if cmd == "deltasign":
+        return run_deltasign(publish="--publish" in argv)
     print(__doc__)
     return 2
 

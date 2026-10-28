@@ -1,0 +1,860 @@
+{
+ "study": "e197_tilt3_ladder_drop_edge_depth",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "upstream": "LADDERDROPWHERE-*.json (E186 month rows) (+ LADDERDROPRULE-*.json only for the E195 cross-read)",
+  "upstream_cutoff": "2026-10-27",
+  "method": "for each flagged (era, drop): remove the era's first k/2 and last k/2 decision months for k in 2..10, recompute both era readings with _drop_effect_both_bp, and publish the first k at which the reversal is gone; each pair's edge k is then read against the k the magnitude rules need on the same pair",
+  "edge_ks": [
+   2,
+   4,
+   6,
+   8,
+   10
+  ],
+  "chrono_edges_note": "E195's chrono_edges is the k=2 member of this family; the sweep exists because that rule removed 1.2% of a 162-month era",
+  "magnitude_rules": [
+   "book_mad3",
+   "book_gross_x2",
+   "book_top_decile"
+  ],
+  "units": "era effects in bp; depth in months; fraction of the era",
+  "join_tolerance_bp": 0.01,
+  "class_rules": {
+   "edge_kill_is_cheaper_than_every_magnitude_kill": "the reversal dies under a shallower edge trim than any magnitude rule needs, so E195's survival was depth",
+   "magnitude_rule_kills_cheaper_than_the_edge_trim": "an answer-blind magnitude rule kills with fewer months",
+   "edge_and_magnitude_kills_cost_the_same": "the two families need the same depth",
+   "survives_even_the_deepest_edge_trim": "no edge depth in the sweep kills it and no magnitude rule does either -- a real insensitivity",
+   "edge_never_kills_but_a_magnitude_rule_does": "only the book-return rules can kill it, so the verdict rests on which months were flagged, not on era depth",
+   "no_base_reversal": "nothing to test on this pair"
+  },
+  "monotonicity_note": "k_stop is the FIRST depth at which the reversal is gone; where the reversal returns at a deeper k it is reported as revival_at_k<first>_after_dying_at_k<stop> and the pair is not a threshold case at all"
+ },
+ "eras": {
+  "2024_now": {
+   "months": 34,
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_source": 34,
+     "base": {
+      "arith_bp": 73.1574,
+      "comp_bp": -34.014662,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "edge_curve": {
+      "base": {
+       "months_used": 34,
+       "arith_bp": 73.1574,
+       "comp_bp": -34.014662,
+       "signs": {
+        "arith": 1,
+        "comp": -1
+       },
+       "reversal": true
+      },
+      "months": 34,
+      "steps": [
+       {
+        "k": 2,
+        "half_depth": 1,
+        "n_months_removed": 2,
+        "trim_fraction": 0.058824,
+        "months_removed": [
+         "2024-01",
+         "2026-10"
+        ],
+        "arith_bp": 253.261575,
+        "comp_bp": 202.842974,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 32
+       },
+       {
+        "k": 4,
+        "half_depth": 2,
+        "n_months_removed": 4,
+        "trim_fraction": 0.117647,
+        "months_removed": [
+         "2024-01",
+         "2024-02",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 249.41484,
+        "comp_bp": 198.293826,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 30
+       },
+       {
+        "k": 6,
+        "half_depth": 3,
+        "n_months_removed": 6,
+        "trim_fraction": 0.176471,
+        "months_removed": [
+         "2024-01",
+         "2024-02",
+         "2024-03",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 233.3748,
+        "comp_bp": 173.924014,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 28
+       },
+       {
+        "k": 8,
+        "half_depth": 4,
+        "n_months_removed": 8,
+        "trim_fraction": 0.235294,
+        "months_removed": [
+         "2024-01",
+         "2024-02",
+         "2024-03",
+         "2024-04",
+         "2026-07",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 419.119938,
+        "comp_bp": 468.287274,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 26
+       },
+       {
+        "k": 10,
+        "half_depth": 5,
+        "n_months_removed": 10,
+        "trim_fraction": 0.294118,
+        "months_removed": [
+         "2024-01",
+         "2024-02",
+         "2024-03",
+         "2024-04",
+         "2024-05",
+         "2026-06",
+         "2026-07",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 397.13995,
+        "comp_bp": 436.353421,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 24
+       }
+      ],
+      "k_stop": 2,
+      "k_max_tested": 10,
+      "trim_fraction_at_stop": 0.058824,
+      "reversal_survives_deepest_edge_trim": false
+     },
+     "magnitude_rules": {
+      "book_mad3": {
+       "k": 2,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_gross_x2": {
+       "k": 9,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_top_decile": {
+       "k": 4,
+       "kills": true,
+       "vacuous": false
+      }
+     },
+     "cheapest_killer_k": 2,
+     "classification": "edge_and_magnitude_kills_cost_the_same",
+     "depth_verdict": "dies_at_the_depth_e195_already_tested",
+     "reversal_returns_after_stop_k": [],
+     "reverses_at_deepest_k": false,
+     "n_ks_reversing": 0,
+     "e195_classification": "quotable_dies_under_every_preregistered_rule",
+     "e195_said_chrono_edges_survives": false
+    }
+   ]
+  },
+  "full": {
+   "months": 162,
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_source": 162,
+     "base": {
+      "arith_bp": 0.074333,
+      "comp_bp": -38.198705,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "edge_curve": {
+      "base": {
+       "months_used": 162,
+       "arith_bp": 0.074333,
+       "comp_bp": -38.198705,
+       "signs": {
+        "arith": 1,
+        "comp": -1
+       },
+       "reversal": true
+      },
+      "months": 162,
+      "steps": [
+       {
+        "k": 2,
+        "half_depth": 1,
+        "n_months_removed": 2,
+        "trim_fraction": 0.012346,
+        "months_removed": [
+         "2013-04",
+         "2026-10"
+        ],
+        "arith_bp": 15.698197,
+        "comp_bp": -20.464313,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 160
+       },
+       {
+        "k": 4,
+        "half_depth": 2,
+        "n_months_removed": 4,
+        "trim_fraction": 0.024691,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 20.841456,
+        "comp_bp": -15.276115,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 158
+       },
+       {
+        "k": 6,
+        "half_depth": 3,
+        "n_months_removed": 6,
+        "trim_fraction": 0.037037,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 13.155862,
+        "comp_bp": -23.384125,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 156
+       },
+       {
+        "k": 8,
+        "half_depth": 4,
+        "n_months_removed": 8,
+        "trim_fraction": 0.049383,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2026-07",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 34.961306,
+        "comp_bp": 5.093786,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 154
+       },
+       {
+        "k": 10,
+        "half_depth": 5,
+        "n_months_removed": 10,
+        "trim_fraction": 0.061728,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2013-08",
+         "2026-06",
+         "2026-07",
+         "2026-08",
+         "2026-09",
+         "2026-10"
+        ],
+        "arith_bp": 23.891818,
+        "comp_bp": -5.881842,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 152
+       }
+      ],
+      "k_stop": 8,
+      "k_max_tested": 10,
+      "trim_fraction_at_stop": 0.049383,
+      "reversal_survives_deepest_edge_trim": false
+     },
+     "magnitude_rules": {
+      "book_mad3": {
+       "k": 10,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_gross_x2": {
+       "k": 48,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_top_decile": {
+       "k": 17,
+       "kills": true,
+       "vacuous": false
+      }
+     },
+     "cheapest_killer_k": 10,
+     "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+     "depth_verdict": "revival_at_k10_after_dying_at_k8",
+     "reversal_returns_after_stop_k": [
+      10
+     ],
+     "reverses_at_deepest_k": true,
+     "n_ks_reversing": 4,
+     "e195_classification": "rule_sensitive_on_preregistered_set",
+     "e195_said_chrono_edges_survives": true
+    }
+   ]
+  },
+  "pre2017": {
+   "months": 44,
+   "drops": [
+    {
+     "name": "sh510300",
+     "months_source": 44,
+     "base": {
+      "arith_bp": -32.566473,
+      "comp_bp": 6.182992,
+      "signs": {
+       "arith": -1,
+       "comp": 1
+      },
+      "reversal": true
+     },
+     "edge_curve": {
+      "base": {
+       "months_used": 44,
+       "arith_bp": -32.566473,
+       "comp_bp": 6.182992,
+       "signs": {
+        "arith": -1,
+        "comp": 1
+       },
+       "reversal": true
+      },
+      "months": 44,
+      "steps": [
+       {
+        "k": 2,
+        "half_depth": 1,
+        "n_months_removed": 2,
+        "trim_fraction": 0.045455,
+        "months_removed": [
+         "2013-04",
+         "2016-12"
+        ],
+        "arith_bp": -48.128314,
+        "comp_bp": -9.66682,
+        "signs": {
+         "arith": -1,
+         "comp": -1
+        },
+        "reversal": false,
+        "months_used": 42
+       },
+       {
+        "k": 4,
+        "half_depth": 2,
+        "n_months_removed": 4,
+        "trim_fraction": 0.090909,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": -28.03923,
+        "comp_bp": 13.490855,
+        "signs": {
+         "arith": -1,
+         "comp": 1
+        },
+        "reversal": true,
+        "months_used": 40
+       },
+       {
+        "k": 6,
+        "half_depth": 3,
+        "n_months_removed": 6,
+        "trim_fraction": 0.136364,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": -31.361179,
+        "comp_bp": 12.183025,
+        "signs": {
+         "arith": -1,
+         "comp": 1
+        },
+        "reversal": true,
+        "months_used": 38
+       },
+       {
+        "k": 8,
+        "half_depth": 4,
+        "n_months_removed": 8,
+        "trim_fraction": 0.181818,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2016-09",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": -9.6492,
+        "comp_bp": 38.917432,
+        "signs": {
+         "arith": -1,
+         "comp": 1
+        },
+        "reversal": true,
+        "months_used": 36
+       },
+       {
+        "k": 10,
+        "half_depth": 5,
+        "n_months_removed": 10,
+        "trim_fraction": 0.227273,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2013-08",
+         "2016-08",
+         "2016-09",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": -11.142318,
+        "comp_bp": 39.200134,
+        "signs": {
+         "arith": -1,
+         "comp": 1
+        },
+        "reversal": true,
+        "months_used": 34
+       }
+      ],
+      "k_stop": 2,
+      "k_max_tested": 10,
+      "trim_fraction_at_stop": 0.045455,
+      "reversal_survives_deepest_edge_trim": false
+     },
+     "magnitude_rules": {
+      "book_mad3": {
+       "k": 4,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_gross_x2": {
+       "k": 15,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_top_decile": {
+       "k": 5,
+       "kills": true,
+       "vacuous": false
+      }
+     },
+     "cheapest_killer_k": 4,
+     "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+     "depth_verdict": "revival_at_k4_after_dying_at_k2",
+     "reversal_returns_after_stop_k": [
+      4,
+      6,
+      8,
+      10
+     ],
+     "reverses_at_deepest_k": true,
+     "n_ks_reversing": 4,
+     "e195_classification": "quotable_dies_under_every_preregistered_rule",
+     "e195_said_chrono_edges_survives": false
+    },
+    {
+     "name": "sh510500",
+     "months_source": 44,
+     "base": {
+      "arith_bp": 36.581236,
+      "comp_bp": -9.664802,
+      "signs": {
+       "arith": 1,
+       "comp": -1
+      },
+      "reversal": true
+     },
+     "edge_curve": {
+      "base": {
+       "months_used": 44,
+       "arith_bp": 36.581236,
+       "comp_bp": -9.664802,
+       "signs": {
+        "arith": 1,
+        "comp": -1
+       },
+       "reversal": true
+      },
+      "months": 44,
+      "steps": [
+       {
+        "k": 2,
+        "half_depth": 1,
+        "n_months_removed": 2,
+        "trim_fraction": 0.045455,
+        "months_removed": [
+         "2013-04",
+         "2016-12"
+        ],
+        "arith_bp": 50.271943,
+        "comp_bp": 3.617046,
+        "signs": {
+         "arith": 1,
+         "comp": 1
+        },
+        "reversal": false,
+        "months_used": 42
+       },
+       {
+        "k": 4,
+        "half_depth": 2,
+        "n_months_removed": 4,
+        "trim_fraction": 0.090909,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": 21.17091,
+        "comp_bp": -29.005651,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 40
+       },
+       {
+        "k": 6,
+        "half_depth": 3,
+        "n_months_removed": 6,
+        "trim_fraction": 0.136364,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": 12.029179,
+        "comp_bp": -41.193786,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 38
+       },
+       {
+        "k": 8,
+        "half_depth": 4,
+        "n_months_removed": 8,
+        "trim_fraction": 0.181818,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2016-09",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": 20.0742,
+        "comp_bp": -35.772343,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 36
+       },
+       {
+        "k": 10,
+        "half_depth": 5,
+        "n_months_removed": 10,
+        "trim_fraction": 0.227273,
+        "months_removed": [
+         "2013-04",
+         "2013-05",
+         "2013-06",
+         "2013-07",
+         "2013-08",
+         "2016-08",
+         "2016-09",
+         "2016-10",
+         "2016-11",
+         "2016-12"
+        ],
+        "arith_bp": 20.326341,
+        "comp_bp": -37.76307,
+        "signs": {
+         "arith": 1,
+         "comp": -1
+        },
+        "reversal": true,
+        "months_used": 34
+       }
+      ],
+      "k_stop": 2,
+      "k_max_tested": 10,
+      "trim_fraction_at_stop": 0.045455,
+      "reversal_survives_deepest_edge_trim": false
+     },
+     "magnitude_rules": {
+      "book_mad3": {
+       "k": 4,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_gross_x2": {
+       "k": 15,
+       "kills": true,
+       "vacuous": false
+      },
+      "book_top_decile": {
+       "k": 5,
+       "kills": true,
+       "vacuous": false
+      }
+     },
+     "cheapest_killer_k": 4,
+     "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+     "depth_verdict": "revival_at_k4_after_dying_at_k2",
+     "reversal_returns_after_stop_k": [
+      4,
+      6,
+      8,
+      10
+     ],
+     "reverses_at_deepest_k": true,
+     "n_ks_reversing": 4,
+     "e195_classification": "quotable_dies_under_every_preregistered_rule",
+     "e195_said_chrono_edges_survives": false
+    }
+   ]
+  }
+ },
+ "answers": {
+  "pairs_measured": 4,
+  "pairs_with_base_reversal": 4,
+  "classification_counts": {
+   "edge_and_magnitude_kills_cost_the_same": 1,
+   "edge_kill_is_cheaper_than_every_magnitude_kill": 3
+  },
+  "edge_k_stop_counts": {
+   "2": 3,
+   "8": 1
+  },
+  "depth_verdict_counts": {
+   "dies_at_the_depth_e195_already_tested": 1,
+   "revival_at_k10_after_dying_at_k8": 1,
+   "revival_at_k4_after_dying_at_k2": 2
+  },
+  "pairs_whose_reversal_returns_after_a_k_stop": [
+   {
+    "era": "full",
+    "name": "sh510050",
+    "died_at_k": 8,
+    "returned_at_k": [
+     10
+    ]
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510300",
+    "died_at_k": 2,
+    "returned_at_k": [
+     4,
+     6,
+     8,
+     10
+    ]
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510500",
+    "died_at_k": 2,
+    "returned_at_k": [
+     4,
+     6,
+     8,
+     10
+    ]
+   }
+  ],
+  "pairs_and_their_depth": [
+   {
+    "era": "2024_now",
+    "name": "sh510050",
+    "base_reversal": true,
+    "edge_k_stop": 2,
+    "edge_trim_fraction_at_stop": 0.058824,
+    "cheapest_magnitude_killer_k": 2,
+    "classification": "edge_and_magnitude_kills_cost_the_same",
+    "depth_verdict": "dies_at_the_depth_e195_already_tested",
+    "reverses_at_deepest_k": false,
+    "n_ks_reversing": 0,
+    "e195_classification": "quotable_dies_under_every_preregistered_rule",
+    "e195_said_chrono_edges_survives": false
+   },
+   {
+    "era": "full",
+    "name": "sh510050",
+    "base_reversal": true,
+    "edge_k_stop": 8,
+    "edge_trim_fraction_at_stop": 0.049383,
+    "cheapest_magnitude_killer_k": 10,
+    "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+    "depth_verdict": "revival_at_k10_after_dying_at_k8",
+    "reverses_at_deepest_k": true,
+    "n_ks_reversing": 4,
+    "e195_classification": "rule_sensitive_on_preregistered_set",
+    "e195_said_chrono_edges_survives": true
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510300",
+    "base_reversal": true,
+    "edge_k_stop": 2,
+    "edge_trim_fraction_at_stop": 0.045455,
+    "cheapest_magnitude_killer_k": 4,
+    "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+    "depth_verdict": "revival_at_k4_after_dying_at_k2",
+    "reverses_at_deepest_k": true,
+    "n_ks_reversing": 4,
+    "e195_classification": "quotable_dies_under_every_preregistered_rule",
+    "e195_said_chrono_edges_survives": false
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510500",
+    "base_reversal": true,
+    "edge_k_stop": 2,
+    "edge_trim_fraction_at_stop": 0.045455,
+    "cheapest_magnitude_killer_k": 4,
+    "classification": "edge_kill_is_cheaper_than_every_magnitude_kill",
+    "depth_verdict": "revival_at_k4_after_dying_at_k2",
+    "reverses_at_deepest_k": true,
+    "n_ks_reversing": 4,
+    "e195_classification": "quotable_dies_under_every_preregistered_rule",
+    "e195_said_chrono_edges_survives": false
+   }
+  ],
+  "e195_survivors_audited": [
+   {
+    "era": "full",
+    "name": "sh510050",
+    "edge_k_stop": 8,
+    "edge_trim_fraction_at_stop": 0.049383,
+    "depth_verdict": "revival_at_k10_after_dying_at_k8"
+   }
+  ],
+  "pairs_that_survive_a_ten_month_edge_trim": [],
+  "e186_join_max_abs_diff_bp": 8.8e-05,
+  "verdict": "edge_depth_does_not_monotonically_kill_the_reversal"
+ },
+ "honest": [
+  "the month rows are read from the published E186 face; a missing face publishes zero pairs rather than an invented removal set",
+  "the edge rule reads the calendar only -- it cannot see gap_bp, delta_sum or delta_link, so the removal set is answer-blind",
+  "the magnitude rules are recomputed here from the same month rows rather than quoted from the E195 face, so the two k values cannot drift apart silently; the E195 classification is carried as a cross-read field and is never used as an input to the verdict",
+  "k is bounded so at least two months always survive a trim; on a short era two different k values therefore remove the same set, and n_months_removed says so explicitly",
+  "removing months changes the sample the verdict is computed on; this measures how deep the verdict sits, it does not license dropping any month for real",
+  "the sweep is published as a curve, not as one k: where a pair reverses again at a deeper k the first stopping point is a single-point artefact, so k_stop alone must not be quoted as a threshold",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}
