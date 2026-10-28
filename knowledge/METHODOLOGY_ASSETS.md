@@ -2592,3 +2592,11 @@ rots silently; (d) **a derived cutoff must be validated, not just maximised** - 
 status face carries prose in `evidence_cutoff` ("panel 2026-10-14 (bars 10-15 due
 15:30)") which wins a lexicographic max over every real date and lands in a filename;
 match `^\d{4}-\d{2}-\d{2}$` and derive only from contributing faces.
+
+Rider (same round, delivery pit): a partial clone that cannot fetch a single object will **hang a push
+forever**, and the hang and the rejection are the same fact - `$env:GIT_NO_LAZY_FETCH=1` turns the 5-minute
+silence into a 17-second named failure ("could not fetch <oid> from promisor remote"). Try that first; then
+`--no-thin` and `-c pack.window=0` to rule out delta bases (both died identically here, so the object was
+genuinely absent). When killing a stuck push, kill the whole subtree (parent + `pack-objects` + the fetch it
+spawned + `index-pack --promisor`) and only that subtree - other repos' git processes can be hung at the same
+time and are not yours.

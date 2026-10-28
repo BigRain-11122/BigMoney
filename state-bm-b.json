@@ -1183,12 +1183,18 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "behind_origin_main": 3,
-  "local_not_on_origin_main": 1,
-  "local_sha": "1b3a1fa0b",
-  "note": "push rejected non-fast-forward (origin 3 ahead) and every retry hung in pack-objects: the partial clone (blob:none) lazily fetches missing base blobs inside the push, and two concurrent fetches deadlock on the promisor lock. All stuck git processes were cleared and the round's commit is intact locally. Recovery: one lone `git fetch origin` in a quiet window, then `git pull --rebase`, then push - not a re-push while a fetch is in flight.",
   "status": "DELIVERED_LOCAL_ONLY",
-  "ts": "2026-10-29T00:19:42+08:00"
+  "local_sha": "00b911b98",
+  "behind_origin_main": 5,
+  "local_not_on_origin_main": 2,
+  "ts": "2026-10-29T01:05:00+08:00",
+  "note": "push to machine/bm-b-r1228 was rejected because an object the local commit references is absent from this partial clone: \"fatal: could not fetch 71f2739c0214ef6ab536a03291231676c98e8d84 from promisor remote / remote: early EOF / remote unpack failed: index-pack failed\". A re-push without lazy fetch fails in 17s instead of hanging 5 minutes, so the hang and the rejection are the same missing object seen two ways. A standalone `git cat-file -t 71f2739c` ALSO hangs (>5 min, no output), i.e. the promisor fetch of a single oid does not work in this clone at all -- it is not a payload-size problem. Both push variants died the same way: `push --no-thin` and `-c pack.window=0 -c pack.depth=0` (so it is not a delta-base problem).",
+  "recovery_recipe_next_window": [
+   "1. `git fetch origin` alone first (takes ~4s here and does work).",
+   "2. `git -c fetch.negotiationAlgorithm=default fetch --refetch --filter=blob:limit=1m origin` to rematerialise the blob layer this clone never downloaded.",
+   "3. retry the push with `$env:GIT_NO_LAZY_FETCH=1` so any remaining gap fails in seconds instead of hanging, and kill only the push subtree (parent + pack-objects + its lazily spawned fetch + index-pack --promisor) -- never the other repo lanes' git processes.",
+   "4. if the blob layer still will not materialise, the honest fallback is a fresh clone of origin/main plus a cherry-pick of 00b911b98: the local chain is 2 commits (r1227 9f8010c78 + r1228 00b911b98) and both are self-contained work commits."
+  ]
  },
  "task": "r1228: E196 near-zero sign census (done)",
  "task_short": "E196 near-zero sign census (done)",
@@ -1211,6 +1217,7 @@
   "smoke": "123/123 PASS at open (271s)",
   "s0": "local main was 1 ahead / 5 behind origin; `git rebase origin/main` hung with zero output for 5 min (the second consecutive round: blob:none promisor lazy-fetch inside rebase). Recovered per r1225 law: zero git procs -> clear orphan index.lock -> rebase --abort -> checkout -- . , tree back to HEAD with 0 modified tracked files. Delivery therefore goes on machine/bm-b-r1228.",
   "orphan_face": 0,
-  "not_run": "GPU untouched by this chain (gpu_face findings=[]); cloud untouched; bm-a-lane collectors honoured their guard"
+  "not_run": "GPU untouched by this chain (gpu_face findings=[]); cloud untouched; bm-a-lane collectors honoured their guard",
+  "delivery": "commit 00b911b98 local; machine/bm-b-r1228 push rejected on a missing promisor object (see sync block); not claimed as pushed"
  }
 }
