@@ -35,6 +35,12 @@ LEGS = [
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py"]),
     ("update_futures", ["python", "scripts/update_futures.py"]),
+    # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
+    # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
+    # daily face for it -- the "produced but never read" class this repo keeps recording
+    # (r1108). It rides immediately behind the panel it reads so the target weights can
+    # never be older than the futures bars. ~2s, no network, no judge, shadow only.
+    ("futures_tsmom_signal", ["python", "scripts/futures_tsmom_signal.py", "run"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),

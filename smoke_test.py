@@ -1291,6 +1291,44 @@ def main() -> int:
     except Exception as e:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
 
+    # A sleeve that was measured but never published is the "produced but never read"
+    # failure this repo keeps recording (r1108). The futures TSMOM sleeve now has a daily
+    # shadow face; this leg asserts it exists, is capped, is NOT actionable, and is
+    # priced on the newest bar the panel actually has (an old face reading as current is
+    # worse than no face).
+    try:
+        import glob as _glob
+        import json as _json
+        _sp = os.path.join("scripts", "futures_tsmom_signal.py")
+        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+                             text=True, encoding="utf-8", errors="replace")
+        _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
+        check("product: futures TSMOM shadow face keeps its sizing rules",
+              _sr.returncode == 0, f"selftest rc={_sr.returncode} {_st[:60]}")
+
+        _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
+                                encoding="utf-8"))
+        _tails = []
+        for _p in _glob.glob(os.path.join("data", "futures_daily", "*.csv")):
+            try:
+                _last = open(_p, encoding="utf-8").read().strip().splitlines()[-1]
+                _tails.append(_last.split(",")[0].strip()[:10])
+            except Exception:
+                pass
+        _panel_tail = max(_tails) if _tails else ""
+        _gross = (_face.get("book") or {}).get("gross")
+        _ok = (_face.get("actionable") is False
+               and _face.get("shadow") is True
+               and isinstance(_gross, (int, float)) and _gross <= 3.0 + 1e-9
+               and _face.get("generated_for_bar") == _panel_tail
+               and _face.get("staleness", {}).get("stale") is False)
+        check("product: futures TSMOM face is current, capped and not an order", _ok,
+              "bar=%s panel=%s gross=%s stale=%s" % (
+                  _face.get("generated_for_bar"), _panel_tail, _gross,
+                  _face.get("staleness", {}).get("stale")))
+    except Exception as e:
+        check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
+
     return _finish()
 
 
