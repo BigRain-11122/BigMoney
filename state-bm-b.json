@@ -1168,11 +1168,11 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1227,
- "round_no": 1227,
+ "round": 1228,
+ "round_no": 1228,
  "round_no_label": "r1227",
  "round_no_note": "r1225 closeout (state had drifted to round=1223/round_no=1224 -> git log is the canvas)",
- "round_no_ts": "2026-10-28T23:48:26+08:00",
+ "round_no_ts": "2026-10-29T00:52:00+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": {
@@ -1190,11 +1190,27 @@
   "status": "DELIVERED_LOCAL_ONLY",
   "ts": "2026-10-29T00:19:42+08:00"
  },
- "task": "r1227: E193 delta build stance (done)",
- "task_short": "E193 delta build stance (done)",
+ "task": "r1228: E196 near-zero sign census (done)",
+ "task_short": "E196 near-zero sign census (done)",
  "task_short_note": "e39 mode tilt3widecarrierpersist; selftest 678 -> 686",
- "ts": "2026-10-29T00:19:42+08:00",
- "updated": "2026-10-29T00:19:42+08:00",
- "updated_at": "2026-10-29T00:19:42+08:00",
- "verdict": "working: E193 shipped -- every published delta in the decomposition family is classified by build path; none is built across stances"
+ "ts": "2026-10-29T00:52:00+08:00",
+ "updated": "2026-10-29T00:52:00+08:00",
+ "updated_at": "2026-10-29T00:52:00+08:00",
+ "verdict": "working: 6 of 164 published additive-vs-gap cells print a sign that is rounding scale, not direction",
+ "r1228": {
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/1.9, pool ready 3) -> E196 burned in-round",
+  "product": [
+   "results/e79/NEARZEROSIGN-2026-10-27.json",
+   "scripts/e97_routing.py: _nearzero_cells/_nearzero_class/_nearzero_hair_side/_nearzero_cutoff/nearzero_sign_sweep/run_nearzerosign + CLI mode nearzerosign (selftest 54 -> 61)",
+   "research/digests/DIGEST-20261029-e196-nearzero-sign-census.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E201",
+   "results/runnable_pool.json E196 done + result_ref"
+  ],
+  "finding": "164 cells / 3 faces: 157 sign_quotable, 6 sign_is_hair, 1 level_agrees with the hair on the gap side (27.99bp vs -0.52bp); 51 cells disagree between the two readings, 44 of them quotable; the full-era sh510050 anchor lambda is 0.001946 and identical on 5 rows; gap_needed_for_quotable_bp 1.49bp",
+  "selftest": "e97_routing 54 -> 61/61",
+  "smoke": "123/123 PASS at open (271s)",
+  "s0": "local main was 1 ahead / 5 behind origin; `git rebase origin/main` hung with zero output for 5 min (the second consecutive round: blob:none promisor lazy-fetch inside rebase). Recovered per r1225 law: zero git procs -> clear orphan index.lock -> rebase --abort -> checkout -- . , tree back to HEAD with 0 modified tracked files. Delivery therefore goes on machine/bm-b-r1228.",
+  "orphan_face": 0,
+  "not_run": "GPU untouched by this chain (gpu_face findings=[]); cloud untouched; bm-a-lane collectors honoured their guard"
+ }
 }

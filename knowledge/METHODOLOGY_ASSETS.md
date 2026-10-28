@@ -2567,3 +2567,28 @@ scales with how many names moved, so no era-level rebuild exists and the honest
 verdict is `not_checkable`, not `contradicted`; (d) **the unit token may sit
 mid-name** (`engine_bp_delta` vs `delta_bp`) - a suffix-based unit filter silently
 drops half the family (8 of 17 names here) and still looks like a clean sweep.
+
+## E201 Publish the two numbers a sign is quoted from, and let a declared floor decide which one is a hair (2026-10-29 r1228 bm-b)
+
+E195 left the full-era `sh510050` drop labelled a *reversal* because its additive
+level (+0.07bp) has the opposite sign to its compounded gap (-38.20bp).  E196 swept
+all **164** cells of the family that print both numbers and asked a different
+question: is the printed sign large enough next to the gap it is told apart from to
+be quoted at all?  Two floors declared before the sweep (5% of the gap, 1bp of gap)
+sort the family into 157 quotable, **6 sign_is_hair**, 1 level_agrees.  The six hairs
+carry |level|/|gap| = 0.001946 five times over (level and gap scale together, so the
+hair is a property of the pair and not of a step), and the face also prints
+`gap_needed_for_quotable_bp`, the gap that would have had to exist for that same
+level to carry a direction (1.49bp against the 38.20bp actually present).
+
+Four transferable rules: (a) **a sign printed from two scale-incompatible readings is
+a rounding fact, not a direction** - publish the ratio, not just the sign, and let a
+pre-declared floor decide; (b) **the floor is symmetric** - one live cell prints
+27.99bp against -0.52bp, where the GAP is the hair, so an audit that only asks "is
+the level small?" mislabels it as a clean reversal; publish `hair_side` per cell;
+(c) **sweep by schema, not by face list** - "every dict carrying both `arith_bp` and
+`comp_bp`" cannot miss a face someone adds next month, while an enumerated face list
+rots silently; (d) **a derived cutoff must be validated, not just maximised** - a
+status face carries prose in `evidence_cutoff` ("panel 2026-10-14 (bars 10-15 due
+15:30)") which wins a lexicographic max over every real date and lands in a filename;
+match `^\d{4}-\d{2}-\d{2}$` and derive only from contributing faces.

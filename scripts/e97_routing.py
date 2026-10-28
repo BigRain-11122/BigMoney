@@ -29,6 +29,7 @@ import io
 import json
 import os
 import re
+import shutil
 import sys
 import tempfile
 
@@ -724,7 +725,8 @@ LEVELQUOTE_OUT_DIR = "results/e79"
 # self-inclusion, and the extra face has no producer so the live leg went red).
 LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
                               "e188_decomposition_label_duty",
-                              "e193_decomposition_delta_build_stance")
+                              "e193_decomposition_delta_build_stance",
+                              "e196_tilt3_nearzero_sign_census")
 
 # E177's own reading vocabulary, turned into name rules.  Order matters: a gap cell
 # named `arithmetic_vs_geometric_gap_bp` carries both vocabularies, and it is a gap.
@@ -2187,6 +2189,235 @@ def run_deltastance(publish=False, base=None):
     return 0
 
 
+NEARZERO_OUT_DIR = "results/e79"
+# Pre-declared before the sweep is read (E196): a printed sign whose additive
+# magnitude is below this fraction of the compounded gap it is told apart from is a
+# rounding-scale fact and must not be quoted as a direction.
+NEARZERO_RATIO_FLOOR = 0.05
+# Pre-declared: below this gap the two readings are not told apart at all, so the
+# cell carries no sign question to answer.
+NEARZERO_GAP_FLOOR_BP = 1.0
+NEARZERO_LEVEL_KEYS = ("arith_bp", "arithmetic_bp", "arith_leg_bp")
+NEARZERO_GAP_KEYS = ("comp_bp", "compounded_bp", "comp_leg_bp")
+
+
+def _nearzero_cells(obj, path, out):
+    """Collect every published cell that prints BOTH an additive level and a compounded gap."""
+    if isinstance(obj, dict):
+        level = gap = None
+        for k in NEARZERO_LEVEL_KEYS:
+            v = obj.get(k)
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                level = float(v)
+                break
+        for k in NEARZERO_GAP_KEYS:
+            v = obj.get(k)
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                gap = float(v)
+                break
+        if level is not None and gap is not None:
+            out.append({"path": path, "level_bp": level, "gap_bp": gap})
+        for k, v in obj.items():
+            _nearzero_cells(v, path + "/" + str(k), out)
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            _nearzero_cells(v, path + "/" + str(i), out)
+
+
+def _nearzero_sign(v):
+    if v > 0:
+        return 1
+    if v < 0:
+        return -1
+    return 0
+
+
+def _nearzero_class(level, gap):
+    """The published classification, with the two declared floors applied in order."""
+    if abs(gap) < NEARZERO_GAP_FLOOR_BP:
+        return "level_agrees"
+    if abs(level) < NEARZERO_RATIO_FLOOR * abs(gap):
+        return "sign_is_hair"
+    return "sign_quotable"
+
+
+def _nearzero_cutoff(base, faces=None):
+    """The newest evidence_cutoff the contributing faces declare; unknown when none does.
+
+    Only ISO dates count: several status faces carry prose in evidence_cutoff
+    ("panel 2026-10-14 (bars 10-15 due 15:30)") and a lexicographic max over that
+    text wins over every real date, which is how the first publish got a sentence
+    for a filename.
+    """
+    root = os.path.join(base or ".", "results")
+    IsoDate = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+    want = set(faces) if faces else None
+    best = None
+    for dirpath, _dirnames, filenames in os.walk(root):
+        for fn in sorted(filenames):
+            if not fn.endswith(".json"):
+                continue
+            full = os.path.join(dirpath, fn)
+            rel = os.path.relpath(full, base or ".").replace("\\", "/")
+            if want is not None and rel not in want:
+                continue
+            try:
+                doc = json.load(io.open(full, encoding="utf-8"))
+            except Exception:
+                continue
+            if not isinstance(doc, dict):
+                continue
+            c = doc.get("evidence_cutoff")
+            if isinstance(c, str) and IsoDate.match(c) and (best is None or c > best):
+                best = c
+    return best
+
+
+def _nearzero_hair_side(level, gap, cls):
+    """Which of the two published numbers is the rounding artefact?
+
+    The same floor answers both directions: a level far below its gap is a hair, and
+    so is a gap far below its level (one live cell prints 27.99bp against -0.52bp).
+    """
+    if cls == "sign_is_hair":
+        return "level"
+    if cls == "level_agrees" and abs(gap) < NEARZERO_GAP_FLOOR_BP and abs(level) >= NEARZERO_GAP_FLOOR_BP:
+        return "gap"
+    return None
+
+
+def nearzero_sign_sweep(base=None):
+    """E196: for every published additive-vs-compounded pair, is the printed sign quotable?
+
+    The family (E183-E190) publishes a level reading and a compounded gap side by side.
+    A level of +0.07bp against a -38.20bp gap is not a small direction, it is no
+    direction: the sign is decided by rounding scale.  This sweep publishes |level| /
+    |gap| for every such cell and classifies it against the two floors declared above.
+    """
+    root = os.path.join(base or ".", "results")
+    rows = []
+    faces = []
+    for dirpath, _dirnames, filenames in os.walk(root):
+        for fn in sorted(filenames):
+            if not fn.endswith(".json") or "NEARZEROSIGN" in fn:
+                continue
+            full = os.path.join(dirpath, fn)
+            rel = os.path.relpath(full, base or ".").replace("\\", "/")
+            cells = []
+            try:
+                doc = json.load(io.open(full, encoding="utf-8"))
+            except Exception:
+                continue
+            _nearzero_cells(doc, "", cells)
+            if not cells:
+                continue
+            faces.append(rel)
+            for c in cells:
+                level, gap = c["level_bp"], c["gap_bp"]
+                ratio = (abs(level) / abs(gap)) if gap else None
+                cls = _nearzero_class(level, gap)
+                rows.append({
+                    "face": rel,
+                    "path": c["path"],
+                    "level_bp": round(level, 6),
+                    "gap_bp": round(gap, 6),
+                    "level_over_gap": (round(ratio, 6) if ratio is not None else None),
+                    "class": cls,
+                    "hair_side": _nearzero_hair_side(level, gap, cls),
+                    "sign_level": _nearzero_sign(level),
+                    "sign_gap": _nearzero_sign(gap),
+                    "signs_disagree": (_nearzero_sign(level) * _nearzero_sign(gap) < 0),
+                    # the gap at which this same level would clear the ratio floor
+                    "gap_needed_for_quotable_bp": round(abs(level) / NEARZERO_RATIO_FLOOR, 6),
+                })
+    classes = {}
+    for r in rows:
+        classes[r["class"]] = classes.get(r["class"], 0) + 1
+    disagreements = [r for r in rows if r["signs_disagree"]]
+    hair_disagreements = [r for r in disagreements if r["class"] == "sign_is_hair"]
+    ratios = sorted(r["level_over_gap"] for r in rows if r["level_over_gap"] is not None)
+    median = None
+    if ratios:
+        n = len(ratios)
+        median = ratios[n // 2] if n % 2 else (ratios[n // 2 - 1] + ratios[n // 2]) / 2.0
+    return {
+        "study": "e196_tilt3_nearzero_sign_census",
+        "evidence_cutoff": _nearzero_cutoff(base, faces),
+        "spec": {
+            "question": "for every published additive-vs-compounded pair in the "
+                        "E183-E190 delta family, is the printed sign a direction or a "
+                        "rounding-scale artefact?",
+            "method": "walk every results/*.json, take every dict carrying both an "
+                      "additive level and a compounded gap, publish |level|/|gap| and "
+                      "classify against two floors declared before the sweep was read",
+            "ratio_floor": NEARZERO_RATIO_FLOOR,
+            "gap_floor_bp": NEARZERO_GAP_FLOOR_BP,
+            "classes": {
+                "sign_is_hair": "|level| < ratio_floor*|gap| -- the printed sign must not be quoted",
+                "level_agrees": "|gap| < gap_floor_bp -- no gap to speak of, no sign question",
+                "sign_quotable": "|level| >= ratio_floor*|gap| -- the additive reading is big "
+                                 "enough to be told apart from the gap",
+            },
+            "units": "bp",
+            "answer_blind": "the classification uses only the two published numbers; no "
+                            "threshold was moved after a cell was seen",
+        },
+        "rows": rows,
+        "faces_scanned": sorted(set(faces)),
+        "answers": {
+            "cells": len(rows),
+            "faces": len(set(faces)),
+            "class_counts": classes,
+            "cells_where_the_two_readings_disagree": len(disagreements),
+            "disagreements_whose_sign_is_a_hair": len(hair_disagreements),
+            "cells_where_the_gap_is_the_hair": len([r for r in rows
+                                                    if r["hair_side"] == "gap"]),
+            "distinct_hair_pairs": len(set((r["face"].split("/")[-1], r["path"])
+                                           for r in hair_disagreements)),
+            "hair_disagreements": [
+                {k: r[k] for k in ("face", "path", "level_bp", "gap_bp",
+                                   "level_over_gap", "gap_needed_for_quotable_bp")}
+                for r in hair_disagreements
+            ],
+            "median_level_over_gap": (round(median, 6) if median is not None else None),
+            "min_level_over_gap": (round(ratios[0], 6) if ratios else None),
+            "max_level_over_gap": (round(ratios[-1], 6) if ratios else None),
+            "verdict": ("the_printed_sign_is_a_rounding_fact_wherever_level_over_gap_is_below_"
+                        "the_floor" if hair_disagreements else
+                        "every_published_sign_is_big_relative_to_the_gap_it_separates"),
+        },
+        "honest": [
+            "the two floors are declared constants, not fitted: 5% of the gap and 1bp of gap",
+            "a cell prints both numbers but the face never says which one a reader should quote",
+            "gap_needed_for_quotable_bp is what the gap would have to be for this same level to "
+            "carry a quotable sign at the declared floor -- a scale statement, not a forecast",
+            "cells outside the E183-E190 family are included only if they publish both numbers",
+        ],
+        "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)",
+    }
+
+
+def run_nearzerosign(publish=False, base=None):
+    face = nearzero_sign_sweep(base=base)
+    if publish:
+        out = os.path.join(_abs(NEARZERO_OUT_DIR),
+                           "NEARZEROSIGN-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    a = face["answers"]
+    print("cells=%d faces=%d disagree=%d hair_disagreements=%d median_ratio=%s"
+          % (a["cells"], a["faces"], a["cells_where_the_two_readings_disagree"],
+             a["disagreements_whose_sign_is_a_hair"], a["median_level_over_gap"]))
+    print("  classes:", ", ".join("%s=%d" % (k, v) for k, v in sorted(a["class_counts"].items())))
+    for r in a["hair_disagreements"]:
+        print("  SIGN_IS_HAIR", r["face"], r["path"], r["level_bp"], "vs", r["gap_bp"],
+              "ratio", r["level_over_gap"], "gap_needed", r["gap_needed_for_quotable_bp"])
+    print("  verdict:", a["verdict"])
+    return 0
+
+
 def render_md(face, path=None):
     """Render the routing table as a markdown page (numbers read from the face)."""
     t = face["totals"]
@@ -2978,6 +3209,63 @@ def selftest():
         and live_ds["totals"]["nested_delta_cells"] > 100
         and ds_fields[("net_delta_bp", "2024_now")]["effective_fee_content"] == "fee_free")
 
+    # E196 near-zero sign census: fixture first, then the live disk.
+    nz = tmpdir = None
+    try:
+        tmpdir = tempfile.mkdtemp(prefix="nz196-")
+        nzfaces = os.path.join(tmpdir, "results", "e9")
+        os.makedirs(nzfaces, exist_ok=True)
+
+        def _nzwrite(name, obj):
+            with io.open(os.path.join(nzfaces, name), "w", encoding="utf-8", newline="\n") as fh:
+                json.dump(obj, fh)
+
+        _nzwrite("MIX-20261029.json", {"evidence_cutoff": "2026-10-29", "eras": {"full": {"base": {
+            "arith_bp": 0.074333, "comp_bp": -38.198705}, "hair": {
+            "arith_bp": 12.0, "comp_bp": -38.198705}, "quotfloat": {
+            "arith_bp": 9.0, "comp_bp": 100.0}, "tinygap": {
+            "arith_bp": 3.0, "comp_bp": -0.4}, "zero_gap": {
+            "arith_bp": 5.0, "comp_bp": 0.0}}}})
+        _nzwrite("WHEN-20261029.json", {"evidence_cutoff": "2026-10-29", "base": {"arith_bp": 5.0,
+                                                                        "comp_bp": 100.0}})
+        _nzwrite("STATUS-20261014.json", {"evidence_cutoff": "panel 2026-10-14 (bars 10-15 due 15:30)",
+                                          "note": "a status face carries prose in the cutoff field"})
+        nz = nearzero_sign_sweep(base=tmpdir)
+        nzrows = {r["path"]: r for r in nz["rows"]}
+        chk("L58 a prose evidence_cutoff never wins the cutoff over a real date",
+            nz["evidence_cutoff"] == "2026-10-29")
+        chk("L52 a level two orders below its gap is classified a hair, not a direction",
+            nzrows["/eras/full/base"]["class"] == "sign_is_hair"
+            and nzrows["/eras/full/base"]["signs_disagree"] is True
+            and nzrows["/eras/full/base"]["level_over_gap"] < 0.01)
+        chk("L53 the same pair clears the floor once the level is large against it",
+            nzrows["/eras/full/hair"]["class"] == "sign_quotable"
+            and nzrows["/eras/full/hair"]["signs_disagree"] is True)
+        chk("L54 a gap under the declared floor answers no sign question at all",
+            nzrows["/eras/full/tinygap"]["class"] == "level_agrees"
+            and nzrows["/eras/full/zero_gap"]["level_over_gap"] is None
+            and nzrows["/eras/full/zero_gap"]["class"] == "level_agrees")
+        chk("L55 a 9/100 level is quotable at a 5% floor and would need a 180bp gap at 10%",
+            nzrows["/eras/full/quotfloat"]["class"] == "sign_quotable"
+            and abs(nzrows["/eras/full/quotfloat"]["gap_needed_for_quotable_bp"] - 180.0) < 1e-6)
+        chk("L56 only sign-disagreeing hairs enter the published defect list",
+            nz["answers"]["disagreements_whose_sign_is_a_hair"] == 1
+            and nz["answers"]["hair_disagreements"][0]["path"] == "/eras/full/base")
+    finally:
+        if tmpdir and os.path.isdir(tmpdir):
+            shutil.rmtree(tmpdir, ignore_errors=True)
+
+    live_nz = nearzero_sign_sweep(base=_repo)
+    anchor = [r for r in live_nz["rows"]
+              if r["face"].endswith("LADDERDROPRULE-20261027.json")
+              and r["path"].endswith("/full/drops/0/base")]
+    chk("L57 on the real disk the E195 anchor pair is a printed hair, not a reversal",
+        bool(anchor)
+        and anchor[0]["class"] == "sign_is_hair"
+        and anchor[0]["signs_disagree"] is True
+        and abs(anchor[0]["level_bp"] - 0.074333) < 1e-6
+        and live_nz["answers"]["cells"] >= 4)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -3002,6 +3290,8 @@ def main(argv):
         return run_labelduty(publish="--publish" in argv)
     if cmd == "deltastance":
         return run_deltastance(publish="--publish" in argv)
+    if cmd == "nearzerosign":
+        return run_nearzerosign(publish="--publish" in argv)
     print(__doc__)
     return 2
 
