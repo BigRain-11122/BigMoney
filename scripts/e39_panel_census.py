@@ -7001,6 +7001,215 @@ def run_tilt3decompoffset(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E178
+# a pinned leg either carries a repaired member or it cannot move at all; the
+# two branches are NAMED rather than left to a zero reading
+TILT3LEGFAMILY_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
+TILT3LEGFAMILY_SKINS = (
+    ("tilt5", TILT_LARGE, TILT_SMALL, "the published five-member tilt"),
+    ("tilt4", TILT_LARGE, TILT4_SMALL, "reach-back to 2021: drops sh588000"),
+    ("tilt3", TILT_LARGE, TILT3_SMALL,
+     "reach-back to 2013: sh510500 alone on the small leg"),
+)
+
+
+def _member_era_delta_bp(mem_raw, mem_scr, months):
+    """(E178) per-member annualised bp of (screened - raw) monthly return.
+
+    A month is used only when BOTH arms price it. Reading a missing screened
+    month as a zero return would manufacture a large negative delta on a name
+    the repair never touched, and that is exactly the quantity this leg reports.
+    """
+    n = len(months)
+    if not n:
+        return {}
+    scale = 12.0 * 1e4    # mean monthly difference -> annualised bp
+    out = {}
+    for s in sorted(set(mem_raw) | set(mem_scr)):
+        r = mem_raw.get(s) or {}
+        c = mem_scr.get(s) or {}
+        vals = [(c[m] - r[m]) for m in months if m in r and m in c]
+        out[s] = (sum(vals) / len(vals) * scale) if vals else None
+    return out
+
+
+def _leg_delta_bp(deltas, members):
+    """(E178) one leg's average member delta; None when no member is priced."""
+    vals = [deltas.get(s) for s in members]
+    vals = [v for v in vals if v is not None]
+    return (sum(vals) / len(vals)) if vals else None
+
+
+def _pinned_leg_verdict(members_neutralised, max_abs_member_delta_bp, tol=None):
+    """(E178) WHY a pinned leg is flat: no event, or an event that did not show.
+
+    'the fixed leg never moves' is a mechanism only when the membership set is
+    disjoint from the repaired names. A leg that holds a repaired member and
+    still prints zero is a different, and more suspicious, statement.
+    """
+    t = TILT3LEGFAMILY_MOVED_BP if tol is None else float(tol)
+    if members_neutralised:
+        moved = (max_abs_member_delta_bp is not None
+                 and max_abs_member_delta_bp > t)
+        return "carries_repair_event_moved" if moved else \
+            "carries_repair_event_flat"
+    return "pinned_no_repair_event"
+
+
+def run_tilt3legfamily(outdir, mode="neutralise_int", eras=ERAS):
+    """E178: is 'the fixed leg never moves' a family law or one 5-name book?
+
+    E176 split the engine column's repair delta by book and found the ladder leg
+    at exactly 0.0 in every era, because none of its five members appears in the
+    screen report. That is a property of a MEMBERSHIP SET, not of the family:
+    every pinned skin built from the same names reads zero for the same reason,
+    and a book that rotates its members is not covered by the claim at all.
+    This leg prices each pinned skin's two legs member by member and puts the
+    rotating wide book beside them, so the scope of the invariant is published
+    instead of inherited from a single 5-name reading.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    sides_raw = (core_raw.get("contrib") or {})
+    sides_scr = (core_scr.get("contrib") or {})
+    neutralised = sorted({d.get("name") for d in (report.get("names") or [])
+                          if d.get("action") == "neutralise"
+                          or (d.get("events") or 0) > 0})
+    nset = set(neutralised)
+    mem_raw = core_raw.get("mem") or {}
+    mem_scr = core_scr.get("mem") or {}
+    skin_months = {
+        "tilt5": core_raw.get("months") or [],
+        "tilt4": core_raw.get("months4") or [],
+        "tilt3": core_raw.get("months3") or [],
+    }
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(core_raw, lo, hi)
+        a = (burn["arm_raw"].get("eras") or {}).get(name) or {}
+        b = (burn["arm_scr"].get("eras") or {}).get(name) or {}
+        eng_raw, eng_scr = a.get("engine_mean_ann_bp"), b.get("engine_mean_ann_bp")
+        skins = {}
+        for skin, large, small, note in TILT3LEGFAMILY_SKINS:
+            sm = [m for m in skin_months[skin] if _in_era(m, lo, hi)]
+            deltas = _member_era_delta_bp(mem_raw, mem_scr, sm)
+            members = list(large) + list(small)
+            lg = _leg_delta_bp(deltas, large)
+            sg = _leg_delta_bp(deltas, small)
+            per = {s: (None if deltas.get(s) is None
+                       else round(deltas[s], 6)) for s in members}
+            vals = [abs(v) for v in per.values() if v is not None]
+            absmax = max(vals) if vals else None
+            hit = [s for s in members if s in nset]
+            skins[skin] = {
+                "note": note,
+                "months": len(sm),
+                "large_leg": list(large),
+                "small_leg": list(small),
+                "members_neutralised": hit,
+                "per_member_delta_bp": per,
+                "large_leg_avg_delta_bp": (None if lg is None
+                                           else round(lg, 6)),
+                "small_leg_avg_delta_bp": (None if sg is None
+                                           else round(sg, 6)),
+                "spread_avg_delta_bp": (None if lg is None or sg is None
+                                        else round(sg - lg, 6)),
+                "max_abs_member_delta_bp": absmax,
+                "verdict": _pinned_leg_verdict(hit, absmax),
+            }
+        wide = _era_book_split(sides_raw, sides_scr, ms)["wide"] if ms else {}
+        rows[name] = {
+            "months": len(ms),
+            "published_engine_bp_delta": (
+                None if eng_raw is None or eng_scr is None
+                else round(eng_scr - eng_raw, 6)),
+            "skins": skins,
+            "rotating_wide_book_delta_bp": (
+                round(wide.get("delta_bp"), 3) if wide else None),
+            "rotating_wide_names_moved": len(wide.get("names_moved") or []),
+        }
+
+    measured = {k: v for k, v in rows.items() if v["months"]}
+    pinned_universe = sorted({s for _n, lg, sm, _note in TILT3LEGFAMILY_SKINS
+                              for s in list(lg) + list(sm)})
+    pinned_hit = sorted(s for s in pinned_universe if s in nset)
+    stuck = {k: sorted(sk for sk, s in v["skins"].items()
+                       if s["verdict"] == "pinned_no_repair_event")
+             for k, v in measured.items()}
+    pinned_moved = {k: sorted(sk for sk, s in v["skins"].items()
+                              if s["verdict"].startswith("carries_repair_event_moved"))
+                    for k, v in measured.items()}
+    pinned_moved = {k: v for k, v in pinned_moved.items() if v}
+    all_zero = sorted(k for k, v in measured.items()
+                      if all(s["verdict"] == "pinned_no_repair_event"
+                             for s in v["skins"].values()))
+    rotating_moved = sorted(k for k, v in measured.items()
+                            if abs(v.get("rotating_wide_book_delta_bp") or 0.0)
+                            > TILT3LEGFAMILY_MOVED_BP)
+    absmax = [s["max_abs_member_delta_bp"] for v in measured.values()
+              for s in v["skins"].values()
+              if s["max_abs_member_delta_bp"] is not None]
+    scope = ("pinned_membership_only"
+             if rotating_moved and not pinned_moved
+             else ("family_wide" if not rotating_moved and not pinned_moved
+                   else "pinned_leg_moved_too"))
+    return {
+        "study": "e178_tilt3_fixed_leg_family_scope",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "skins": [{"skin": s, "large": list(lg), "small": list(sm),
+                       "note": note} for s, lg, sm, note in TILT3LEGFAMILY_SKINS],
+            "units": "annualised bp (mean monthly x 12 x 1e4)",
+            "member_delta": (
+                "per-member annualised mean of (screened monthly return - raw "
+                "monthly return) on the months BOTH arms price"),
+            "leg_delta": "the equal-weight average of that leg's member deltas",
+            "rotating_book": (
+                "the wide book's own contribution sink (E176 path) is published "
+                "beside the pinned skins: it is the one book in this family whose "
+                "membership turns over, so it is the control for whether the "
+                "invariant can be read as a family law"),
+            "moved_tolerance_bp": TILT3LEGFAMILY_MOVED_BP,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "pinned_universe": pinned_universe,
+            "pinned_universe_neutralised": pinned_hit,
+            "pinned_membership_disjoint_from_repaired": not pinned_hit,
+            "neutralised_names_in_panel": len(neutralised),
+            "eras_all_pinned_skins_flat": all_zero,
+            "eras_where_a_pinned_skin_moved": pinned_moved,
+            "eras_where_rotating_wide_book_moved": rotating_moved,
+            "skins_flat_per_era": stuck,
+            "max_abs_pinned_member_delta_bp": (max(absmax) if absmax else None),
+            "invariant_scope": scope,
+        },
+        "screen_report": report,
+        "honest": [
+            "the invariant is a statement about MEMBERSHIP: a leg cannot move if "
+            "none of its names carries a repair event, and every pinned skin here "
+            "is built from the same five ladder names, so their zeros are one "
+            "fact reported three times, not three independent confirmations",
+            "the rotating wide book is the control, not a rival reading: it holds "
+            "names the repair does touch, and it is the only book in this family "
+            "whose delta can be nonzero",
+            "the mid-month and pair books re-subset the same ladder leg for their "
+            "fixed side, so they inherit this scope rather than extend it",
+            "a pinned skin that printed zero WHILE holding a repaired member would "
+            "be a wiring defect (verdict carries_repair_event_flat) and is named "
+            "rather than folded into the invariant",
+            "per-member deltas are price-return differences on member months; a "
+            "month priced on one arm only is dropped, never treated as a zero "
+            "return",
+        ],
+    }
+
+
 def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E124: re-derive the E43 four-member tilt face on the screened arm.
 
@@ -17988,6 +18197,44 @@ def selftest():
         and "eras" in run_tilt3decompoffset.__code__.co_varnames,
         "E177 the offset leg carries the same mode/eras seams as its family")
 
+    # ---- E178 is "the fixed leg never moves" a family law?
+    # The fixture prices two months for three members: one repaired, two not.
+    _e178_raw = {"shA": {"2014-01": 0.01, "2014-02": 0.01},
+                 "shB": {"2014-01": 0.02, "2014-02": 0.02},
+                 "shC": {"2014-01": 0.03}}
+    _e178_scr = {"shA": {"2014-01": 0.02, "2014-02": 0.02},
+                 "shB": {"2014-01": 0.02, "2014-02": 0.02},
+                 "shC": {"2014-01": 0.03}}
+    _e178_d = _member_era_delta_bp(_e178_raw, _e178_scr, ["2014-01", "2014-02"])
+    chk(abs(_e178_d["shA"] - 1200.0) < 1e-6
+        and abs(_e178_d["shB"]) < 1e-12 and abs(_e178_d["shC"]) < 1e-12,
+        "E178 an untouched member reads exactly zero while a repaired one reads "
+        "its own monthly move annualised -- the split is per holding, not a net")
+    chk(abs(_leg_delta_bp(_e178_d, ["shB", "shC"]) - 0.0) < 1e-12
+        and abs(_leg_delta_bp(_e178_d, ["shA", "shB"]) - 600.0) < 1e-6
+        and _leg_delta_bp({"shX": None}, ["shX"]) is None,
+        "E178 a leg's delta is the average of its priced members and an "
+        "unpriced leg is None, never 0.0 beside a real number")
+    _e178_one = _member_era_delta_bp(
+        {"shA": {"2014-01": 0.01, "2014-02": 0.01}},
+        {"shA": {"2014-01": 0.02}}, ["2014-01", "2014-02"])
+    chk(abs(_e178_one["shA"] - 1200.0) < 1e-6,
+        "E178 a month only one arm prices is dropped rather than read as a zero "
+        "return: a missing month must not manufacture a -100% style repair")
+    chk(_pinned_leg_verdict([], 0.0) == "pinned_no_repair_event"
+        and _pinned_leg_verdict(["shA"], 0.0) == "carries_repair_event_flat"
+        and _pinned_leg_verdict(["shA"], 1200.0) == "carries_repair_event_moved",
+        "E178 'flat because nothing was repaired' and 'flat while holding a "
+        "repaired member' are different published words")
+    _e178_pinned = {s for _n, lg, sm, _note in TILT3LEGFAMILY_SKINS
+                    for s in list(lg) + list(sm)}
+    chk(_e178_pinned <= (set(TILT_LARGE) | set(TILT_SMALL)),
+        "E178 every pinned skin is a subset of the ladder universe, which is why "
+        "their zeros are one membership fact and not three confirmations")
+    chk("mode" in run_tilt3legfamily.__code__.co_varnames
+        and "eras" in run_tilt3legfamily.__code__.co_varnames,
+        "E178 the family leg carries the same mode/eras seams as its family")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -20378,6 +20625,7 @@ def main(argv):
                              "tilt3sign", "tilt3signband", "tilt3screensign",
                              "tilt3signnames", "tilt3signdropsweep",
                              "tilt3booksplit",
+                             "tilt3legfamily",
                              "tilt3decompoffset",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
@@ -21207,6 +21455,27 @@ def main(argv):
                                           "level_offset_bp":
                                               v.get("decomposition_level_offset_bp")}
                                       for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3legfamily":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3legfamily(outdir)
+        p = write_json(outdir, "TILT3LEGFAMILY-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3legfamily",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "engine_delta_bp": v.get("published_engine_bp_delta"),
+                              "rotating_book_delta_bp":
+                                  v.get("rotating_wide_book_delta_bp"),
+                              "skins": {sk: {
+                                  "verdict": sv["verdict"],
+                                  "members_neutralised": sv["members_neutralised"],
+                                  "max_abs_member_delta_bp":
+                                      sv["max_abs_member_delta_bp"]}
+                                  for sk, sv in v["skins"].items()}}
+                              for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
         return 0

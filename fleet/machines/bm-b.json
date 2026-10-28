@@ -5,7 +5,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-10-28T10:09:23+08:00",
+ "clock_read": "2026-10-28T10:40:00+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -17,12 +17,12 @@
  "cpu_load_pct": 10.4,
  "cpu_pct": 1.0,
  "cpu_util_pct": 10.4,
- "current": "r1210 E176 book split: the engine column's repair delta is 100% wide book; the ladder leg's 0.0 is structural (no ladder member was neutralised)",
- "current_task": "E176 book split (done) -> E177 decomp base offset",
+ "current": "r1212 E178: 'the fixed leg never moves' is a membership fact, not a family law -- three pinned skins read exactly 0.0bp because none of the five ladder names is in the 67-name repair set, while the rotating wide book moves",
+ "current_task": "E178 leg family scope (done) -> E179 ladder-side cash split",
  "cyc_round": 1201,
- "d19_note": "decisions same / orders same (repro@5d970cf, 175353 / 177058 bytes), delta none, phantom none; nothing actionable for this repo",
+ "d19_note": "decisions 6d24d8bb->47a48ea5 (D-20261027-12..16, D-20261028-01..07 read; D-20261028-02 machine-health already repaired), orders c067b3b2->d6d85b61, no unacked orders (114 files vs 115 acks)",
  "dept": "research+strategy+fleet",
- "did": "E175-TILT3SIGN-DROP-LADDER: the k=0..n carrier-drop ladder anchored on the published era levels. 2024_now holds 'disagree' for k=0..9 (98.5% of the 46.7bp delta removed) and only crosses at k=11 = 108.5%; 2021_2023 flat agree over 625 carriers; pre2017/2017_2020 have zero moved carriers. In-window defect: E174 read its drop points off the decomposition base, 52.9bp from the published raw level and larger than the delta, which alone flipped the sign -- machine-readable corrections block in the new face, old face frozen.",
+ "did": "E178-TILT-LADDER-LEG-INVARIANT: new census mode tilt3legfamily publishes every pinned skin's per-member repair delta and puts the rotating wide book beside it; invariant_scope=pinned_membership_only",
  "did_round": "r1209",
  "free_ram_gb": 9.14,
  "free_ram_mb": 9360,
@@ -64,7 +64,7 @@
  "gpu_vram_free_mib": 4180,
  "gpu_vram_used_mb": 4012,
  "gpu_vram_used_mib": 4012,
- "heartbeat_epoch_utc": 1793153363,
+ "heartbeat_epoch_utc": 1793145600,
  "heartbeat_epoch_utc_face": 1793110560,
  "idle_ram_gb": 11.6,
  "idle_ram_pct": 48.5,
@@ -88,7 +88,7 @@
  "last_push_sha": "ce4e27c567058dc03f6a9a47b70b51572b1b0807",
  "last_push_ts": "2026-10-28T09:52:00+08:00",
  "last_round": "r1209",
- "last_seen": "2026-10-28T10:09:23+08:00",
+ "last_seen": "2026-10-28T10:40:00+08:00",
  "latest_artifact": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-20261027.json",
  "local_not_on_origin": 0,
  "local_not_on_origin_commits": 0,
@@ -452,13 +452,24 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T09:10:45+08:00"
  },
+ "r1211": {
+  "pool": "E177 done + E180 seeded (ready 3)",
+  "selftest": "e39 578/578",
+  "smoke": "118/118"
+ },
+ "r1211_push": {
+  "pushed_sha": "7884010acb5bd4dcca775b9ec2ca1553ea7cd819",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T10:42:00+08:00"
+ },
  "ram_free_gb": 12.6,
  "ram_free_mb": 12869,
  "ram_free_pct": 52.5,
+ "ram_load_pct": 47,
  "ram_total_gb": 23.9,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1211,
- "round_no": 1211,
+ "round": 1212,
+ "round_no": 1212,
  "round_no_label": "r1211",
  "round_no_ts": "2026-10-28T10:09:23+08:00",
  "sat_engine": {
@@ -478,22 +489,11 @@
  "sync_note": "push 1ba96b3c3 verified: behind 0 / ahead 0 / ls-tree origin carries TILT3REACH-20261027.json + the E126 digest",
  "task": "r1211: E177 decomposition level offset (done)",
  "task_short": "E175 drop ladder",
- "ts": "2026-10-28T10:09:23+08:00",
+ "ts": "2026-10-28T10:40:00+08:00",
  "ts_utc_ms": 1793143351256,
  "updated": "2026-10-28T09:04:43+08:00",
  "updated_at": "2026-10-28T09:04:43+08:00",
- "verdict": "E177: the decomposition offset is a cross term, not the compounding gap (compounding moves it the wrong sign in every era; residual up to 67.21bp) -> quotable for the delta only, never for a level",
+ "verdict": "green",
  "vram_free_gb": 4.1,
- "vram_used_gb": 3.9,
- "r1211": {
-  "pool": "E177 done + E180 seeded (ready 3)",
-  "selftest": "e39 578/578",
-  "smoke": "118/118"
- },
- "ram_load_pct": 47,
- "r1211_push": {
-  "pushed_sha": "7884010acb5bd4dcca775b9ec2ca1553ea7cd819",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T10:42:00+08:00"
- }
+ "vram_used_gb": 3.9
 }

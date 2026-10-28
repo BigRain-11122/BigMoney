@@ -2068,3 +2068,34 @@ compounding were the cause, step and offset would share a sign and the residual 
 vanish. Anchor every name-level leg on the published level and quote the offset as a
 tolerance, never as an explanation. Sibling habit: a book-level identity passing its
 sanity check proves nothing about the engine level, where the identity no longer holds.
+
+
+## E178 A fixed leg's zero is a fact about MEMBERSHIP, not about the strategy (2026-10-28 r1212 bm-b)
+
+E176 split the engine column's repair delta by book and published the ladder leg at exactly
+0.0 in every era, with the cause derived from the screen report: no ladder member carries a
+repair event. That reads like a property of the construction. It is a property of the
+membership set, and the difference matters the moment somebody quotes it for a different
+fixed composition.
+
+Measured on three pinned skins (tilt5 / tilt4 / tilt3, all subsets of the same five ladder
+names), per member, per era, both arms: the maximum absolute per-member repair delta across
+every pinned member and every era is **exactly 0.0 bp** -- a structural zero, not a small
+number -- while the control that rotates its members (the wide book) reads +30.204 /
++49.598 / +17.121 bp on 2021_2023 / 2024_now / full with 7 / 45 / 52 repaired names. The
+pinned universe is disjoint from all 67 repaired names at that cutoff.
+
+So the invariant transfers exactly as far as "membership stays out of the repair set", and
+no further. Three skins printing zero is ONE fact reported three times, not three
+confirmations; a family-wide reading of it is unearned.
+
+How to apply: when a leg prints zero, publish the branch that produced it --
+`pinned_no_repair_event` / `carries_repair_event_flat` / `carries_repair_event_moved`. A
+fixed leg that holds a repaired member and still reads zero is a wiring defect, and it must
+be a word, not an indistinguishable 0.0. Two arithmetic habits ride along: (a) a month
+priced on only one arm is dropped, never read as a zero return (otherwise the measurement
+fabricates the very delta it reports), and (b) annualising a per-member MEAN takes
+`mean*12*1e4`, while the family's `_era_side_bp` convention multiplies a monthly SUM by
+`12/n*1e4` -- copying that scale onto an average halves every number at n=2 and looks
+plausible. Evidence: results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json,
+research/digests/DIGEST-20261028-r1212-e178-leg-family.md.
