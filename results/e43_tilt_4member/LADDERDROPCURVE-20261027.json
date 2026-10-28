@@ -1,0 +1,2242 @@
+{
+ "study": "E190 ladder-drop fragility curve",
+ "evidence_cutoff": "2026-10-27",
+ "source_face": "LADDERDROPWHERE-20261027.json",
+ "spec": {
+  "trims": [
+   "gap",
+   "delta_sum",
+   "edges"
+  ],
+  "kmax": 8,
+  "artefact_max_k": 2,
+  "min_months_kept": 6,
+  "readings": [
+   "arith_bp (mean of monthly deltas x12)",
+   "comp_bp (difference of annualised levels, E183)"
+  ],
+  "disagreement": "sign(arith) * sign(comp) < 0",
+  "rule": "first_agree_k<=2 -> two_month_artefact; never agrees inside k<=8 -> survives_kmax_era_property; else fragile_mid",
+  "join_tolerance_bp": 0.001
+ },
+ "eras": {
+  "2024_now": {
+   "drops": [
+    {
+     "era": "2024_now",
+     "name": "sh510050",
+     "carrier_month": "2026-07",
+     "baseline": {
+      "months": [
+       "2024-01",
+       "2024-02",
+       "2024-03",
+       "2024-04",
+       "2024-05",
+       "2024-06",
+       "2024-07",
+       "2024-08",
+       "2024-09",
+       "2024-10",
+       "2024-11",
+       "2024-12",
+       "2025-01",
+       "2025-02",
+       "2025-03",
+       "2025-04",
+       "2025-05",
+       "2025-06",
+       "2025-07",
+       "2025-08",
+       "2025-09",
+       "2025-10",
+       "2025-11",
+       "2025-12",
+       "2026-01",
+       "2026-02",
+       "2026-03",
+       "2026-04",
+       "2026-05",
+       "2026-06",
+       "2026-07",
+       "2026-08",
+       "2026-09",
+       "2026-10"
+      ],
+      "months_kept": 34,
+      "effect_arith_bp": 73.1574,
+      "effect_comp_bp": -34.014662,
+      "sign_arith": 1,
+      "sign_comp": -1,
+      "disagree": true
+     },
+     "trims": {
+      "gap": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2026-07"
+         ],
+         "months_kept": 33,
+         "effect_arith_bp": 204.251673,
+         "effect_comp_bp": 141.930997,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 32,
+         "effect_arith_bp": 308.0517,
+         "effect_comp_bp": 295.483357,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2026-07"
+         ],
+         "months_kept": 31,
+         "effect_arith_bp": 264.738426,
+         "effect_comp_bp": 233.386002,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 30,
+         "effect_arith_bp": 356.88536,
+         "effect_comp_bp": 368.574115,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2025-08",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 29,
+         "effect_arith_bp": 301.543572,
+         "effect_comp_bp": 295.405331,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2025-08",
+          "2026-04",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 28,
+         "effect_arith_bp": 249.982543,
+         "effect_comp_bp": 232.016617,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2025-08",
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 27,
+         "effect_arith_bp": 188.479956,
+         "effect_comp_bp": 163.730474,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-09",
+          "2025-08",
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 26,
+         "effect_arith_bp": 141.761354,
+         "effect_comp_bp": 113.518806,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      },
+      "delta_sum": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2026-07"
+         ],
+         "months_kept": 33,
+         "effect_arith_bp": 204.251673,
+         "effect_comp_bp": 141.930997,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 32,
+         "effect_arith_bp": 308.0517,
+         "effect_comp_bp": 295.483357,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2024-01",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 31,
+         "effect_arith_bp": 398.623355,
+         "effect_comp_bp": 441.788807,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2024-01",
+          "2024-10",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 30,
+         "effect_arith_bp": 345.24728,
+         "effect_comp_bp": 371.994835,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2024-01",
+          "2024-10",
+          "2025-08",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 29,
+         "effect_arith_bp": 289.504179,
+         "effect_comp_bp": 293.867604,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2024-01",
+          "2024-10",
+          "2025-08",
+          "2026-06",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 28,
+         "effect_arith_bp": 231.6096,
+         "effect_comp_bp": 219.855513,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2024-01",
+          "2024-10",
+          "2025-08",
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 27,
+         "effect_arith_bp": 175.548756,
+         "effect_comp_bp": 151.891602,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2024-01",
+          "2024-09",
+          "2024-10",
+          "2025-08",
+          "2026-04",
+          "2026-06",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 26,
+         "effect_arith_bp": 118.809738,
+         "effect_comp_bp": 90.038346,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      },
+      "edges": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2024-01",
+          "2026-10"
+         ],
+         "months_kept": 32,
+         "effect_arith_bp": 253.261575,
+         "effect_comp_bp": 202.842974,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 30,
+         "effect_arith_bp": 249.41484,
+         "effect_comp_bp": 198.293826,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 28,
+         "effect_arith_bp": 233.3748,
+         "effect_comp_bp": 173.924014,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 26,
+         "effect_arith_bp": 419.119938,
+         "effect_comp_bp": 468.287274,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 24,
+         "effect_arith_bp": 397.13995,
+         "effect_comp_bp": 436.353421,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 22,
+         "effect_arith_bp": 402.781691,
+         "effect_comp_bp": 457.033488,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2026-04",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 20,
+         "effect_arith_bp": 349.40814,
+         "effect_comp_bp": 372.656546,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2026-03",
+          "2026-04",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 18,
+         "effect_arith_bp": 493.037133,
+         "effect_comp_bp": 640.209006,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "full": {
+   "drops": [
+    {
+     "era": "full",
+     "name": "sh510050",
+     "carrier_month": "2014-12",
+     "baseline": {
+      "months": [
+       "2013-04",
+       "2013-05",
+       "2013-06",
+       "2013-07",
+       "2013-08",
+       "2013-09",
+       "2013-10",
+       "2013-11",
+       "2013-12",
+       "2014-01",
+       "2014-02",
+       "2014-03",
+       "2014-04",
+       "2014-05",
+       "2014-06",
+       "2014-07",
+       "2014-08",
+       "2014-09",
+       "2014-10",
+       "2014-11",
+       "2014-12",
+       "2015-01",
+       "2015-02",
+       "2015-03",
+       "2015-05",
+       "2015-06",
+       "2015-07",
+       "2015-08",
+       "2015-09",
+       "2015-10",
+       "2015-11",
+       "2015-12",
+       "2016-01",
+       "2016-02",
+       "2016-03",
+       "2016-04",
+       "2016-05",
+       "2016-06",
+       "2016-07",
+       "2016-08",
+       "2016-09",
+       "2016-10",
+       "2016-11",
+       "2016-12",
+       "2017-01",
+       "2017-02",
+       "2017-03",
+       "2017-04",
+       "2017-05",
+       "2017-06",
+       "2017-07",
+       "2017-08",
+       "2017-09",
+       "2017-10",
+       "2017-11",
+       "2017-12",
+       "2018-01",
+       "2018-02",
+       "2018-03",
+       "2018-04",
+       "2018-05",
+       "2018-06",
+       "2018-07",
+       "2018-08",
+       "2018-09",
+       "2018-10",
+       "2018-11",
+       "2018-12",
+       "2019-01",
+       "2019-02",
+       "2019-03",
+       "2019-04",
+       "2019-05",
+       "2019-06",
+       "2019-07",
+       "2019-08",
+       "2019-09",
+       "2019-10",
+       "2019-11",
+       "2019-12",
+       "2020-01",
+       "2020-02",
+       "2020-03",
+       "2020-04",
+       "2020-05",
+       "2020-06",
+       "2020-07",
+       "2020-08",
+       "2020-09",
+       "2020-10",
+       "2020-11",
+       "2020-12",
+       "2021-01",
+       "2021-02",
+       "2021-03",
+       "2021-04",
+       "2021-05",
+       "2021-06",
+       "2021-07",
+       "2021-08",
+       "2021-09",
+       "2021-10",
+       "2021-11",
+       "2021-12",
+       "2022-01",
+       "2022-02",
+       "2022-03",
+       "2022-04",
+       "2022-05",
+       "2022-06",
+       "2022-07",
+       "2022-08",
+       "2022-09",
+       "2022-10",
+       "2022-11",
+       "2022-12",
+       "2023-01",
+       "2023-02",
+       "2023-03",
+       "2023-04",
+       "2023-05",
+       "2023-06",
+       "2023-07",
+       "2023-08",
+       "2023-09",
+       "2023-10",
+       "2023-11",
+       "2023-12",
+       "2024-01",
+       "2024-02",
+       "2024-03",
+       "2024-04",
+       "2024-05",
+       "2024-06",
+       "2024-07",
+       "2024-08",
+       "2024-09",
+       "2024-10",
+       "2024-11",
+       "2024-12",
+       "2025-01",
+       "2025-02",
+       "2025-03",
+       "2025-04",
+       "2025-05",
+       "2025-06",
+       "2025-07",
+       "2025-08",
+       "2025-09",
+       "2025-10",
+       "2025-11",
+       "2025-12",
+       "2026-01",
+       "2026-02",
+       "2026-03",
+       "2026-04",
+       "2026-05",
+       "2026-06",
+       "2026-07",
+       "2026-08",
+       "2026-09",
+       "2026-10"
+      ],
+      "months_kept": 162,
+      "effect_arith_bp": 0.074333,
+      "effect_comp_bp": -38.198705,
+      "sign_arith": 1,
+      "sign_comp": -1,
+      "disagree": true
+     },
+     "trims": {
+      "gap": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2014-12"
+         ],
+         "months_kept": 161,
+         "effect_arith_bp": 44.894765,
+         "effect_comp_bp": 1.62512,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2016-01"
+         ],
+         "months_kept": 160,
+         "effect_arith_bp": 64.128907,
+         "effect_comp_bp": 27.501507,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2014-12",
+          "2016-01",
+          "2026-07"
+         ],
+         "months_kept": 159,
+         "effect_arith_bp": 91.28037,
+         "effect_comp_bp": 62.357829,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2014-12",
+          "2016-01",
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 158,
+         "effect_arith_bp": 111.588152,
+         "effect_comp_bp": 88.263924,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2014-12",
+          "2016-01",
+          "2024-01",
+          "2024-09",
+          "2026-07"
+         ],
+         "months_kept": 157,
+         "effect_arith_bp": 101.784489,
+         "effect_comp_bp": 78.468743,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2014-12",
+          "2016-01",
+          "2024-01",
+          "2024-09",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 156,
+         "effect_arith_bp": 118.460477,
+         "effect_comp_bp": 99.233441,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2014-12",
+          "2016-01",
+          "2019-02",
+          "2024-01",
+          "2024-09",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 155,
+         "effect_arith_bp": 104.777714,
+         "effect_comp_bp": 85.661394,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2014-12",
+          "2015-03",
+          "2016-01",
+          "2019-02",
+          "2024-01",
+          "2024-09",
+          "2026-07",
+          "2026-10"
+         ],
+         "months_kept": 154,
+         "effect_arith_bp": 91.401686,
+         "effect_comp_bp": 72.551323,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      },
+      "delta_sum": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2014-12"
+         ],
+         "months_kept": 161,
+         "effect_arith_bp": 44.894765,
+         "effect_comp_bp": 1.62512,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2026-07"
+         ],
+         "months_kept": 160,
+         "effect_arith_bp": 71.756317,
+         "effect_comp_bp": 35.042383,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2014-12",
+          "2022-10",
+          "2026-07"
+         ],
+         "months_kept": 159,
+         "effect_arith_bp": 49.307804,
+         "effect_comp_bp": 11.277166,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2014-12",
+          "2017-05",
+          "2022-10",
+          "2026-07"
+         ],
+         "months_kept": 158,
+         "effect_arith_bp": 70.386873,
+         "effect_comp_bp": 33.208123,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2014-12",
+          "2017-05",
+          "2022-10",
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 157,
+         "effect_arith_bp": 90.690925,
+         "effect_comp_bp": 58.273364,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2014-12",
+          "2015-01",
+          "2017-05",
+          "2022-10",
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 156,
+         "effect_arith_bp": 71.3964,
+         "effect_comp_bp": 37.727841,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2014-12",
+          "2015-01",
+          "2016-01",
+          "2017-05",
+          "2022-10",
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 155,
+         "effect_arith_bp": 91.421977,
+         "effect_comp_bp": 66.2251,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2014-12",
+          "2015-01",
+          "2015-05",
+          "2016-01",
+          "2017-05",
+          "2022-10",
+          "2024-01",
+          "2026-07"
+         ],
+         "months_kept": 154,
+         "effect_arith_bp": 72.365603,
+         "effect_comp_bp": 45.62024,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      },
+      "edges": {
+       "verdict": "fragile_mid",
+       "first_agree_k": 4,
+       "stable_agree_k": 8,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2013-04",
+          "2026-10"
+         ],
+         "months_kept": 160,
+         "effect_arith_bp": 15.698197,
+         "effect_comp_bp": -20.464313,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 158,
+         "effect_arith_bp": 20.841456,
+         "effect_comp_bp": -15.276115,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 156,
+         "effect_arith_bp": 13.155862,
+         "effect_comp_bp": -23.384125,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 154,
+         "effect_arith_bp": 34.961306,
+         "effect_comp_bp": 5.093786,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 152,
+         "effect_arith_bp": 23.891818,
+         "effect_comp_bp": -5.881842,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 150,
+         "effect_arith_bp": 11.181696,
+         "effect_comp_bp": -19.12596,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2026-04",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 148,
+         "effect_arith_bp": 2.680014,
+         "effect_comp_bp": -26.893398,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2013-11",
+          "2026-03",
+          "2026-04",
+          "2026-05",
+          "2026-06",
+          "2026-07",
+          "2026-08",
+          "2026-09",
+          "2026-10"
+         ],
+         "months_kept": 146,
+         "effect_arith_bp": -8.506578,
+         "effect_comp_bp": -38.109594,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        }
+       ]
+      }
+     }
+    }
+   ]
+  },
+  "pre2017": {
+   "drops": [
+    {
+     "era": "pre2017",
+     "name": "sh510300",
+     "carrier_month": "2016-01",
+     "baseline": {
+      "months": [
+       "2013-04",
+       "2013-05",
+       "2013-06",
+       "2013-07",
+       "2013-08",
+       "2013-09",
+       "2013-10",
+       "2013-11",
+       "2013-12",
+       "2014-01",
+       "2014-02",
+       "2014-03",
+       "2014-04",
+       "2014-05",
+       "2014-06",
+       "2014-07",
+       "2014-08",
+       "2014-09",
+       "2014-10",
+       "2014-11",
+       "2014-12",
+       "2015-01",
+       "2015-02",
+       "2015-03",
+       "2015-05",
+       "2015-06",
+       "2015-07",
+       "2015-08",
+       "2015-09",
+       "2015-10",
+       "2015-11",
+       "2015-12",
+       "2016-01",
+       "2016-02",
+       "2016-03",
+       "2016-04",
+       "2016-05",
+       "2016-06",
+       "2016-07",
+       "2016-08",
+       "2016-09",
+       "2016-10",
+       "2016-11",
+       "2016-12"
+      ],
+      "months_kept": 44,
+      "effect_arith_bp": -32.566473,
+      "effect_comp_bp": 6.182992,
+      "sign_arith": -1,
+      "sign_comp": 1,
+      "disagree": true
+     },
+     "trims": {
+      "gap": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": -1,
+        "comp": -1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2016-01"
+         ],
+         "months_kept": 43,
+         "effect_arith_bp": -103.84867,
+         "effect_comp_bp": -95.563991,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2016-01"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": -37.117543,
+         "effect_comp_bp": -28.94333,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2014-12",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 41,
+         "effect_arith_bp": 13.109005,
+         "effect_comp_bp": 21.878725,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2014-12",
+          "2015-08",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": -21.35982,
+         "effect_comp_bp": -19.575312,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2014-12",
+          "2015-03",
+          "2015-08",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 39,
+         "effect_arith_bp": -47.292062,
+         "effect_comp_bp": -43.012411,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2014-11",
+          "2014-12",
+          "2015-03",
+          "2015-08",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": -16.083284,
+         "effect_comp_bp": -11.898036,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2014-01",
+          "2014-11",
+          "2014-12",
+          "2015-03",
+          "2015-08",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 37,
+         "effect_arith_bp": -45.688249,
+         "effect_comp_bp": -45.913439,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2014-01",
+          "2014-11",
+          "2014-12",
+          "2015-03",
+          "2015-08",
+          "2015-09",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": -84.681067,
+         "effect_comp_bp": -89.942809,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        }
+       ]
+      },
+      "delta_sum": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": -1,
+        "comp": -1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2016-01"
+         ],
+         "months_kept": 43,
+         "effect_arith_bp": -103.84867,
+         "effect_comp_bp": -95.563991,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2016-01"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": -37.117543,
+         "effect_comp_bp": -28.94333,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2016-01"
+         ],
+         "months_kept": 41,
+         "effect_arith_bp": 25.680205,
+         "effect_comp_bp": 41.061096,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2015-05",
+          "2016-01"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": 82.50132,
+         "effect_comp_bp": 105.965962,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2015-05",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 39,
+         "effect_arith_bp": 138.370738,
+         "effect_comp_bp": 160.406434,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2015-01",
+          "2015-05",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": 105.140179,
+         "effect_comp_bp": 124.716818,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2015-01",
+          "2015-05",
+          "2015-08",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 37,
+         "effect_arith_bp": 70.363914,
+         "effect_comp_bp": 85.569147,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2013-11",
+          "2014-12",
+          "2015-01",
+          "2015-05",
+          "2015-08",
+          "2015-09",
+          "2015-10",
+          "2016-01"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": 34.594767,
+         "effect_comp_bp": 44.471289,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      },
+      "edges": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 8,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": -1,
+        "comp": -1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2013-04",
+          "2016-12"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": -48.128314,
+         "effect_comp_bp": -9.66682,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": -28.03923,
+         "effect_comp_bp": 13.490855,
+         "sign_arith": -1,
+         "sign_comp": 1,
+         "disagree": true
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": -31.361179,
+         "effect_comp_bp": 12.183025,
+         "sign_arith": -1,
+         "sign_comp": 1,
+         "disagree": true
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": -9.6492,
+         "effect_comp_bp": 38.917432,
+         "sign_arith": -1,
+         "sign_comp": 1,
+         "disagree": true
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 34,
+         "effect_arith_bp": -11.142318,
+         "effect_comp_bp": 39.200134,
+         "sign_arith": -1,
+         "sign_comp": 1,
+         "disagree": true
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 32,
+         "effect_arith_bp": 14.535562,
+         "effect_comp_bp": 67.705517,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2016-06",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 30,
+         "effect_arith_bp": -16.60088,
+         "effect_comp_bp": 38.70474,
+         "sign_arith": -1,
+         "sign_comp": 1,
+         "disagree": true
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2013-11",
+          "2016-05",
+          "2016-06",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 28,
+         "effect_arith_bp": 106.863257,
+         "effect_comp_bp": 174.181483,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        }
+       ]
+      }
+     }
+    },
+    {
+     "era": "pre2017",
+     "name": "sh510500",
+     "carrier_month": "2014-12",
+     "baseline": {
+      "months": [
+       "2013-04",
+       "2013-05",
+       "2013-06",
+       "2013-07",
+       "2013-08",
+       "2013-09",
+       "2013-10",
+       "2013-11",
+       "2013-12",
+       "2014-01",
+       "2014-02",
+       "2014-03",
+       "2014-04",
+       "2014-05",
+       "2014-06",
+       "2014-07",
+       "2014-08",
+       "2014-09",
+       "2014-10",
+       "2014-11",
+       "2014-12",
+       "2015-01",
+       "2015-02",
+       "2015-03",
+       "2015-05",
+       "2015-06",
+       "2015-07",
+       "2015-08",
+       "2015-09",
+       "2015-10",
+       "2015-11",
+       "2015-12",
+       "2016-01",
+       "2016-02",
+       "2016-03",
+       "2016-04",
+       "2016-05",
+       "2016-06",
+       "2016-07",
+       "2016-08",
+       "2016-09",
+       "2016-10",
+       "2016-11",
+       "2016-12"
+      ],
+      "months_kept": 44,
+      "effect_arith_bp": 36.581236,
+      "effect_comp_bp": -9.664802,
+      "sign_arith": 1,
+      "sign_comp": -1,
+      "disagree": true
+     },
+     "trims": {
+      "gap": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": -1,
+        "comp": -1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2014-12"
+         ],
+         "months_kept": 43,
+         "effect_arith_bp": -197.97667,
+         "effect_comp_bp": -203.729982,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2015-03"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": -127.578857,
+         "effect_comp_bp": -136.174666,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2014-11",
+          "2014-12",
+          "2015-03"
+         ],
+         "months_kept": 41,
+         "effect_arith_bp": -197.332741,
+         "effect_comp_bp": -193.103679,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-03"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": -131.83248,
+         "effect_comp_bp": -131.765859,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2014-07",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-03"
+         ],
+         "months_kept": 39,
+         "effect_arith_bp": -155.713477,
+         "effect_comp_bp": -148.042708,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2014-07",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-02",
+          "2015-03"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": -128.833579,
+         "effect_comp_bp": -122.922611,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2014-07",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-02",
+          "2015-03",
+          "2016-11"
+         ],
+         "months_kept": 37,
+         "effect_arith_bp": -166.493546,
+         "effect_comp_bp": -152.698978,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2014-07",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-01",
+          "2015-02",
+          "2015-03",
+          "2016-11"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": -46.0692,
+         "effect_comp_bp": -43.656393,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        }
+       ]
+      },
+      "delta_sum": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 1,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": -1,
+        "comp": -1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2014-12"
+         ],
+         "months_kept": 43,
+         "effect_arith_bp": -197.97667,
+         "effect_comp_bp": -203.729982,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2014-12",
+          "2015-01"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": -95.5054,
+         "effect_comp_bp": -97.118069,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2014-12",
+          "2015-01",
+          "2015-03"
+         ],
+         "months_kept": 41,
+         "effect_arith_bp": -20.891268,
+         "effect_comp_bp": -28.5266,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2014-09",
+          "2014-12",
+          "2015-01",
+          "2015-03"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": 49.02003,
+         "effect_comp_bp": 36.844239,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-01",
+          "2015-03"
+         ],
+         "months_kept": 39,
+         "effect_arith_bp": -19.7828,
+         "effect_comp_bp": -23.496271,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2014-08",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-01",
+          "2015-03"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": 39.2616,
+         "effect_comp_bp": 32.65203,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2014-04",
+          "2014-08",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-01",
+          "2015-03"
+         ],
+         "months_kept": 37,
+         "effect_arith_bp": -12.279146,
+         "effect_comp_bp": -15.93086,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2014-04",
+          "2014-08",
+          "2014-09",
+          "2014-11",
+          "2014-12",
+          "2015-01",
+          "2015-03",
+          "2016-05"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": -65.954067,
+         "effect_comp_bp": -65.922079,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        }
+       ]
+      },
+      "edges": {
+       "verdict": "two_month_artefact",
+       "first_agree_k": 1,
+       "stable_agree_k": 8,
+       "k_max_tested": 8,
+       "signs_after_agreement": {
+        "arith": 1,
+        "comp": 1
+       },
+       "curve": [
+        {
+         "k": 1,
+         "dropped": [
+          "2013-04",
+          "2016-12"
+         ],
+         "months_kept": 42,
+         "effect_arith_bp": 50.271943,
+         "effect_comp_bp": 3.617046,
+         "sign_arith": 1,
+         "sign_comp": 1,
+         "disagree": false
+        },
+        {
+         "k": 2,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 40,
+         "effect_arith_bp": 21.17091,
+         "effect_comp_bp": -29.005651,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 3,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 38,
+         "effect_arith_bp": 12.029179,
+         "effect_comp_bp": -41.193786,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 4,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 36,
+         "effect_arith_bp": 20.0742,
+         "effect_comp_bp": -35.772343,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 5,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 34,
+         "effect_arith_bp": 20.326341,
+         "effect_comp_bp": -37.76307,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 6,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 32,
+         "effect_arith_bp": 1.67295,
+         "effect_comp_bp": -59.512184,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 7,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2016-06",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 30,
+         "effect_arith_bp": 53.00212,
+         "effect_comp_bp": -10.212572,
+         "sign_arith": 1,
+         "sign_comp": -1,
+         "disagree": true
+        },
+        {
+         "k": 8,
+         "dropped": [
+          "2013-04",
+          "2013-05",
+          "2013-06",
+          "2013-07",
+          "2013-08",
+          "2013-09",
+          "2013-10",
+          "2013-11",
+          "2016-05",
+          "2016-06",
+          "2016-07",
+          "2016-08",
+          "2016-09",
+          "2016-10",
+          "2016-11",
+          "2016-12"
+         ],
+         "months_kept": 28,
+         "effect_arith_bp": -11.784086,
+         "effect_comp_bp": -81.870064,
+         "sign_arith": -1,
+         "sign_comp": -1,
+         "disagree": false
+        }
+       ]
+      }
+     }
+    }
+   ]
+  }
+ },
+ "answers": {
+  "pairs_measured": 4,
+  "cells_measured": 12,
+  "join_max_abs_diff_bp": 8.8e-05,
+  "join_ok": true,
+  "verdict_counts": {
+   "two_month_artefact": 11,
+   "fragile_mid": 1
+  },
+  "per_trim": {
+   "gap": {
+    "pairs": 4,
+    "two_month_artefact": [
+     "sh510050@2024_now",
+     "sh510050@full",
+     "sh510300@pre2017",
+     "sh510500@pre2017"
+    ],
+    "fragile_mid": [],
+    "survives_kmax_era_property": [],
+    "first_agree_k": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "median_first_agree_k": 1,
+    "months_removed_at_k": "k"
+   },
+   "delta_sum": {
+    "pairs": 4,
+    "two_month_artefact": [
+     "sh510050@2024_now",
+     "sh510050@full",
+     "sh510300@pre2017",
+     "sh510500@pre2017"
+    ],
+    "fragile_mid": [],
+    "survives_kmax_era_property": [],
+    "first_agree_k": [
+     1,
+     1,
+     1,
+     1
+    ],
+    "median_first_agree_k": 1,
+    "months_removed_at_k": "k"
+   },
+   "edges": {
+    "pairs": 4,
+    "two_month_artefact": [
+     "sh510050@2024_now",
+     "sh510300@pre2017",
+     "sh510500@pre2017"
+    ],
+    "fragile_mid": [
+     "sh510050@full"
+    ],
+    "survives_kmax_era_property": [],
+    "first_agree_k": [
+     1,
+     1,
+     1,
+     4
+    ],
+    "median_first_agree_k": 1,
+    "months_removed_at_k": "2k (k per end)"
+   }
+  },
+  "verdict": "mixed"
+ },
+ "honest": [
+  "The curve is a leave-k-out sweep on one month table, not an independent sample: it says how concentrated a reading is, not whether the era exists.",
+  "edges removes 2k months (k per end), so its k is not comparable to gap/delta_sum at the same k.",
+  "Below LADDER_DROP_MIN_KEPT=6 kept months the annualisation is too short to annualise honestly, so the curve stops there and k_max_tested says where it stopped."
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

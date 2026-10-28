@@ -18940,6 +18940,62 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropcross.__code__.co_varnames,
         "E189 the crossing leg takes the face directory as its only seam")
 
+    # ---- E190 ladder-drop fragility curve (pool batch E190, bm-b r1220)
+    _e190_rows = [{"month": "m%02d" % i, "full_ret": 0.0,
+                   "dropped_ret": 0.001 * i,
+                   "delta_sum": 100.0 if i == 1 else 1.0,
+                   "gap_bp": -50.0 if i == 3 else 2.0} for i in range(1, 13)]
+    _e190_gap = _drop_fragility_trim(_e190_rows, "gap", 1)
+    chk(_e190_gap["dropped"] == ["m03"] and len(_e190_gap["kept"]) == 11,
+        "E190 the gap trim removes the largest |gap| month, not the first one")
+    _e190_ds = _drop_fragility_trim(_e190_rows, "delta_sum", 1)
+    chk(_e190_ds["dropped"] == ["m01"],
+        "E190 the delta_sum trim reads its own column, not the gap column")
+    _e190_ed = _drop_fragility_trim(_e190_rows, "edges", 2)
+    chk(_e190_ed["dropped"] == ["m01", "m02", "m11", "m12"],
+        "E190 the edges trim removes k months from EACH end and names all 2k")
+    _e190_rd = _drop_fragility_readings(_e190_rows)
+    _e190_eff = _drop_effect_both_bp(
+        {r["month"]: r["full_ret"] for r in _e190_rows},
+        {r["month"]: r["dropped_ret"] for r in _e190_rows})
+    chk(_e190_rd["effect_arith_bp"] == _e190_eff["arith_bp"]
+        and _e190_rd["effect_comp_bp"] == _e190_eff["comp_bp"],
+        "E190 the fragility readings are the E186 function itself, so a trimmed "
+        "reading and a published reading cannot drift apart")
+
+    def _e190_seq(disagree_at):
+        return [{"k": _k, "disagree": _k in disagree_at} for _k in range(1, 9)]
+
+    chk(_drop_fragility_verdict(_e190_seq({1}), True)[0] == "two_month_artefact",
+        "E190 agreement at k=1 is a two-month artefact, not an era property")
+    chk(_drop_fragility_verdict(_e190_seq({1, 2, 3, 4, 5}), True)[:2]
+        == ("fragile_mid", 6),
+        "E190 a reversal that needs six months removed is fragile, not an artefact")
+    chk(_drop_fragility_verdict(_e190_seq(set(range(1, 9))), True)[0]
+        == "survives_kmax_era_property",
+        "E190 a reversal that survives every k inside kmax is not called fragile")
+    chk(_drop_fragility_verdict(_e190_seq({1}), False)[0] == "no_reversal_baseline",
+        "E190 readings that agree untrimmed are reported as no reversal, not a "
+        "weak one")
+    chk(_drop_fragility_verdict(_e190_seq({1, 3}), True)[2] == 4,
+        "E190 the stable agreement k is published, so a curve that flips back to "
+        "disagreement at k=3 reports 4 rather than 2")
+    try:
+        _drop_fragility_trim(_e190_rows, "carrier", 1)
+        _e190_bad = False
+    except ValueError:
+        _e190_bad = True
+    chk(_e190_bad, "E190 an unknown trim raises instead of returning a quiet set")
+    import tempfile as _e190_tmp
+    _e190_empty = run_tilt3ladderdropfragility(_e190_tmp.mkdtemp())
+    chk(_e190_empty["answers"]["pairs_measured"] == 0
+        and _e190_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e190_empty["evidence_cutoff"] is None,
+        "E190 a missing E189 face publishes zero pairs and no cutoff rather than "
+        "an invented fragility curve")
+    chk("outdir" in run_tilt3ladderdropfragility.__code__.co_varnames,
+        "E190 the fragility leg takes the face directory as its only seam")
+
     # ---- E187 turnover x repair-net tie (pool batch, bm-b r1217)
     _e187_mem = _wide_month_membership(
         {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
@@ -22729,6 +22785,222 @@ def _wide_split_e176_join(row, sib, era):
             "abs_diff_bp": round(abs(float(row["net_delta_bp"]) - float(theirs)), 6)}
 
 
+# --- E190 ladder-drop fragility constants (frozen before the first run) -------
+LADDER_DROP_KMAX = 8
+LADDER_DROP_ARTEFACT_MAX_K = 2
+LADDER_DROP_MIN_KEPT = 6
+LADDER_DROP_TRIMS = ("gap", "delta_sum", "edges")
+
+
+def _drop_fragility_trim(rows, trim, k):
+    """(E190) the k months a trim removes and the rest it keeps.
+
+    Three trims answer three questions about the same verdict: which months
+    carry the |gap| (a date effect), which carry the |delta_sum| (the sum
+    reading's own weight), and which sit at the two ends of the era (a drift
+    effect). ``edges`` removes 2k months -- k from each end -- and says so in
+    the row rather than pretending the three trims cost the same.
+    """
+    if trim == "gap":
+        order = sorted(rows, key=lambda r: -abs(float(r.get("gap_bp") or 0.0)))
+    elif trim == "delta_sum":
+        order = sorted(rows, key=lambda r: -abs(float(r.get("delta_sum") or 0.0)))
+    elif trim == "edges":
+        order = None
+    else:
+        raise ValueError("unknown trim: %r" % (trim,))
+    if trim == "edges":
+        ms = sorted(r["month"] for r in rows)
+        drop = set(ms[:k]) | set(ms[len(ms) - k:])
+    else:
+        drop = set(r["month"] for r in order[:k])
+    return {"trim": trim, "k": k, "dropped": sorted(drop),
+            "kept": [r for r in rows if r["month"] not in drop]}
+
+
+def _drop_fragility_readings(rows):
+    """(E190) both era readings on a month set, and whether they disagree."""
+    fr = {r["month"]: float(r["full_ret"]) for r in rows}
+    dr = {r["month"]: float(r["dropped_ret"]) for r in rows}
+    eff = _drop_effect_both_bp(fr, dr)
+    sa, sc = _path_sign(eff["arith_bp"]), _path_sign(eff["comp_bp"])
+    return {"months": sorted(r["month"] for r in rows),
+            "months_kept": eff["months_used"],
+            "effect_arith_bp": eff["arith_bp"],
+            "effect_comp_bp": eff["comp_bp"],
+            "sign_arith": sa, "sign_comp": sc,
+            "disagree": bool(sa is not None and sc is not None and sa * sc < 0)}
+
+
+def _drop_fragility_verdict(seq, baseline_disagree):
+    """(E190) classification recomputed from the curve and the frozen constants.
+
+    ``first_agree_k`` is the first k at which the two readings stop disagreeing
+    in sign; ``stable_agree_k`` is the first k after which they never disagree
+    again. Both are published, because a curve that flips back to disagreement
+    at a larger k is not the same finding as one that stays agreed.
+    """
+    if not baseline_disagree:
+        return "no_reversal_baseline", None, None
+    first = next((x["k"] for x in seq if not x["disagree"]), None)
+    stable = None
+    for idx, x in enumerate(seq):
+        if all(not y["disagree"] for y in seq[idx:]):
+            stable = x["k"]
+            break
+    if first is None:
+        return "survives_kmax_era_property", None, stable
+    if first <= LADDER_DROP_ARTEFACT_MAX_K:
+        return "two_month_artefact", first, stable
+    return "fragile_mid", first, stable
+
+
+def run_tilt3ladderdropfragility(outdir):
+    """E190: how much of the window has to go before the reversal goes?
+
+    E189 showed the four flagged reversals vanish when E186's declared carrier
+    month is removed, and that the crossing month is never the carrier. That
+    makes the era verdict known-fragile but not how fragile: one month removed
+    is a different finding from five. This measures the curve instead of the
+    point -- for k=1..8 it removes the k months with the largest |gap|, then the
+    k with the largest |delta_sum|, then the k at each end of the era, and
+    reports what both readings say at each k. The control comes first: the
+    untrimmed effect rebuilt here must reproduce the published effect, so a
+    drifting month table cannot silently feed this face.
+    """
+    src, src_name = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            src_name = cand[-1]
+            with open(os.path.join(outdir, src_name), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    joins, pairs = [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        for d in (v.get("drops") or []):
+            rows = [r for r in (d.get("months") or []) if r.get("month")]
+            if not rows:
+                continue
+            base = _drop_fragility_readings(rows)
+            for pub, got in ((d.get("effect_arith_bp"), base["effect_arith_bp"]),
+                             (d.get("effect_comp_bp"), base["effect_comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            trims = {}
+            for trim in LADDER_DROP_TRIMS:
+                seq = []
+                for k in range(1, LADDER_DROP_KMAX + 1):
+                    sel = _drop_fragility_trim(rows, trim, k)
+                    if len(sel["kept"]) < LADDER_DROP_MIN_KEPT:
+                        break
+                    got = _drop_fragility_readings(sel["kept"])
+                    seq.append({"k": k, "dropped": sel["dropped"],
+                                "months_kept": got["months_kept"],
+                                "effect_arith_bp": got["effect_arith_bp"],
+                                "effect_comp_bp": got["effect_comp_bp"],
+                                "sign_arith": got["sign_arith"],
+                                "sign_comp": got["sign_comp"],
+                                "disagree": got["disagree"]})
+                verdict, first, stable = _drop_fragility_verdict(
+                    seq, base["disagree"])
+                trims[trim] = {
+                    "verdict": verdict,
+                    "first_agree_k": first,
+                    "stable_agree_k": stable,
+                    "k_max_tested": (seq[-1]["k"] if seq else 0),
+                    "signs_after_agreement": (
+                        {"arith": seq[first - 1]["sign_arith"],
+                         "comp": seq[first - 1]["sign_comp"]} if first else None),
+                    "curve": seq}
+            pairs.append({"era": era_name, "name": d.get("name"),
+                          "carrier_month": (d.get("locus") or {}).get("carrier_month"),
+                          "baseline": base, "trims": trims})
+
+    per_trim, verdicts = {}, {}
+    for trim in LADDER_DROP_TRIMS:
+        rows = [(p, p["trims"][trim]) for p in pairs if trim in p["trims"]]
+        dies_early = [p["name"] + "@" + p["era"] for p, t in rows
+                      if t["verdict"] == "two_month_artefact"]
+        survives = [p["name"] + "@" + p["era"] for p, t in rows
+                    if t["verdict"] == "survives_kmax_era_property"]
+        frag = [p["name"] + "@" + p["era"] for p, t in rows
+                if t["verdict"] == "fragile_mid"]
+        firsts = [t["first_agree_k"] for _, t in rows if t["first_agree_k"]]
+        per_trim[trim] = {
+            "pairs": len(rows),
+            "two_month_artefact": dies_early,
+            "fragile_mid": frag,
+            "survives_kmax_era_property": survives,
+            "first_agree_k": sorted(firsts),
+            "median_first_agree_k": (sorted(firsts)[len(firsts) // 2]
+                                     if firsts else None),
+            "months_removed_at_k": ("2k (k per end)" if trim == "edges" else "k")}
+        for _p, t in rows:
+            verdicts[t["verdict"]] = verdicts.get(t["verdict"], 0) + 1
+
+    if not pairs:
+        verdict = "no_upstream_face"
+    else:
+        kinds = [t["verdict"] for p in pairs for t in p["trims"].values()]
+        if "survives_kmax_era_property" in kinds:
+            verdict = "at_least_one_era_property"
+        elif all(k == "two_month_artefact" for k in kinds):
+            verdict = "all_two_month_artefacts"
+        elif all(k == "no_reversal_baseline" for k in kinds):
+            verdict = "no_reversal_baseline"
+        else:
+            verdict = "mixed"
+
+    face = {
+        "study": "E190 ladder-drop fragility curve",
+        "evidence_cutoff": (src or {}).get("evidence_cutoff"),
+        "source_face": src_name,
+        "spec": {
+            "trims": list(LADDER_DROP_TRIMS),
+            "kmax": LADDER_DROP_KMAX,
+            "artefact_max_k": LADDER_DROP_ARTEFACT_MAX_K,
+            "min_months_kept": LADDER_DROP_MIN_KEPT,
+            "readings": ["arith_bp (mean of monthly deltas x12)",
+                         "comp_bp (difference of annualised levels, E183)"],
+            "disagreement": "sign(arith) * sign(comp) < 0",
+            "rule": ("first_agree_k<=%d -> two_month_artefact; never agrees "
+                     "inside k<=%d -> survives_kmax_era_property; else "
+                     "fragile_mid" % (LADDER_DROP_ARTEFACT_MAX_K,
+                                      LADDER_DROP_KMAX)),
+            "join_tolerance_bp": 1e-3,
+        },
+        "eras": {},
+        "answers": {
+            "pairs_measured": len(pairs),
+            "cells_measured": len(pairs) * len(LADDER_DROP_TRIMS),
+            "join_max_abs_diff_bp": (round(max(joins), 9) if joins else None),
+            "join_ok": all(j <= 1e-3 for j in joins),
+            "verdict_counts": verdicts,
+            "per_trim": per_trim,
+            "verdict": verdict,
+        },
+        "honest": [
+            "The curve is a leave-k-out sweep on one month table, not an "
+            "independent sample: it says how concentrated a reading is, not "
+            "whether the era exists.",
+            "edges removes 2k months (k per end), so its k is not comparable "
+            "to gap/delta_sum at the same k.",
+            "Below LADDER_DROP_MIN_KEPT=%d kept months the annualisation is "
+            "too short to annualise honestly, so the curve stops there and "
+            "k_max_tested says where it stopped." % LADDER_DROP_MIN_KEPT,
+        ],
+    }
+    for p in pairs:
+        face["eras"].setdefault(p["era"], {"drops": []})
+        face["eras"][p["era"]]["drops"].append(p)
+    return face
+
+
 def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
     """E182: the wide side's repair delta per holding, gross beside net.
 
@@ -23400,6 +23672,7 @@ def main(argv):
                              "tilt3ladderlomocomp",
                              "tilt3ladderdropwhere",
                              "tilt3ladderdropcross",
+                             "tilt3ladderdropfragility",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "widechurntie",
@@ -24837,6 +25110,26 @@ def main(argv):
                                         for d in (v.get("drops") or [])]}
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropfragility":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropfragility(outdir)
+        p = write_json(outdir, "LADDERDROPCURVE-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropfragility",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "pairs": f["answers"]["pairs_measured"],
+                          "per_trim": {t: {"two_month_artefact":
+                                               len(v["two_month_artefact"]),
+                                           "fragile_mid": len(v["fragile_mid"]),
+                                           "survives_kmax_era_property":
+                                               len(v["survives_kmax_era_property"]),
+                                           "median_first_agree_k":
+                                               v["median_first_agree_k"]}
+                                       for t, v in f["answers"]["per_trim"].items()},
+                          "join_ok": f["answers"]["join_ok"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "tilt3widesplit":

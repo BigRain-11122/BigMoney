@@ -2678,3 +2678,34 @@ RULES
    renderer needs a pp helper and a selftest leg that pins it.
 Pos: scripts/etf_book_voltarget_phase.py (selftest 34/34, chain leg is the engine-free
 `--check`) + results/etf_book_voltarget_phase.json + research/ETF_BOOK_VOLTARGET_PHASE.md.
+
+## E194 Publish the fragility curve, not the crossing point (2026-10-29 r1330 bm-c)
+WHY
+---
+E189 took out exactly one month per pair -- the month E186 itself named -- and all four
+era-level reversals collapsed. That answer is binary: fragile or not. It cannot distinguish
+"a one-month object wearing an era verdict" from "an era property that happens to lean on
+its worst month", and the difference decides whether the headline may be quoted at all.
+READING (four pairs x 3 trims x k=1..8; untrimmed control reproduces E186 to 8.8e-05bp)
+  k=1 by |gap|      : agrees 4/4   (identical numbers to E189's carrier removal)
+  k=1 by |delta_sum|: agrees 4/4   (same month removed -- the two columns coincide)
+  k=1 by era edges  : agrees 3/4   (full-era pair needs k=4, and only stabilises at k=8)
+  edges curves are non-monotone: pre2017 pairs agree at k=1, disagree k=2..5/7, agree at 6/8
+Verdict: 11 of 12 cells are two-month artefacts, 1 is fragile_mid, 0 are era properties.
+RULES
+-----
+1. Publish the curve, not the crossing. "It agrees once k months are gone" hides whether
+   the agreement holds: two of four edge curves flip back to disagreement two bars later.
+2. Keep `first_agree_k` and `stable_agree_k` as separate readings. The first says when the
+   disagreement stops; the second says whether it stayed stopped. Only the pair is a claim.
+3. Trimming the ends is a different experiment from trimming the concentration. They share
+   a k axis and nothing else; the face states that edges removes 2k months (k per end) so
+   the columns cannot be read at face value against each other.
+4. A corroboration is not a discovery. Two trims naming the same month is evidence they
+   measure one object -- worth printing, because it is the cheapest way to catch a month
+   table that has drifted from the effect it feeds.
+5. Stop the ladder before the annualisation stops being honest: below six kept months the
+   face stops and publishes `k_max_tested` instead of annualising a two-month window.
+Pos: scripts/e39_panel_census.py (selftest 658->670, mode tilt3ladderdropfragility) +
+results/e43_tilt_4member/LADDERDROPCURVE-20261027.json +
+research/digests/DIGEST-20261029-e190-drop-fragility.md.
