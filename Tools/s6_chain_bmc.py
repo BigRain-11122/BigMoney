@@ -149,6 +149,14 @@ LEGS = [
     # the lag block still carrying measured slots, and the verdict still the one the rule
     # produces. 0.1s + one rebuild, no network.
     ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
+    # r1328: r1327's four-window face printed +1.60pp/yr for the 20-bar estimator -- on ONE
+    # decision calendar, which is exactly the reading r1325 showed is not a level. Re-pricing
+    # 4 windows x 4 phases costs 16 engine runs (~5 min), so the chain runs the ENGINE-FREE
+    # gate: frozen criteria echoed, the cell grid complete (every window in every phase), the
+    # phase calendars still distinct, the control still reproducing the published cell, and
+    # the published verdict still the one the rule produces from the summary.
+    # 0.1s, no network.
+    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,

@@ -2625,11 +2625,9 @@ Pos: scripts/etf_book_voltarget_lag.py (selftest 13/13, chain leg is the engine-
 
 WHEN: a face prices an overlay/sleeve at one assumed friction (1bp) and the whole
 conclusion rests on it.
-
 WRONG: report the headline +0.90pp at equal risk and keep the cost as a footnote. A
 gain that only exists at the cheapest possible fill is not a gain -- it is a rounding
 artifact of the assumption.
-
 RIGHT: climb a cost ladder on the SAME decision sequence (weights, panels, lag, vol
 target all frozen; only the per-side number moves) and publish the breakeven: the highest
 cost at which the sleeve still clears the book at equal risk. Real reading of the ETF book
@@ -2637,15 +2635,46 @@ x futures TSMOM overlay: 1bp/side -> +0.90pp (60d) / +0.78pp (120d); 3bp -> -0.1
 +0.15; 5bp -> -1.09 / -0.48. Breakeven = 1bp (60d) / 3bp (120d), i.e. the overlay has
 essentially no friction headroom and must be described as a risk reducer, not a return
 source.
-
 GOTCHA: two of them, both caught by the selftest before the face shipped.
 1. Turnover must be identical at every cost level -- if it moves, the levels describe
    different strategies and the breakeven is meaningless. Assert it (smoke leg).
 2. Rows store weight_in_sleeve rounded to 4dp, so an exact-float lookup of 1/3 matched
    nothing and the breakeven silently came back None. Match weights on the stored
    precision grid, and let the selftest prove a rounded row still resolves.
-
 SHAPE: the breakeven is a cliff, not a number to beat: +0.90pp at 1bp collapsing to
 -0.10pp at 3bp says the edge is thinner than the modelling error, so the next move is
 cutting turnover (buffer band, E188) -- not re-weighting.
-
+## E193 A faster window can win every phase and still not be a level (2026-10-28 r1328 bm-c)
+WHY
+---
+r1327 swept the sizing overlay's `vol_window` and printed +1.60pp/yr of CAGR for the 20-bar
+arm over the 60-bar control, on ONE decision calendar. r1325 had already shown, on the same
+book, that a single-cell improvement reverses on 70% of phase-shifted cells. So the ruler was
+applied to the sizing question: 4 windows x 4 decision grids started at four bars inside one
+20-bar cycle (16 engine runs), every arm measured against the 60-bar control of its OWN
+phase, so the calendar is held fixed and only the estimator moves.
+READING (full window, n12/r20, 10bp/side, next-open; phase 0 reproduces the published cell
+9.70% to the basis point)
+  dCAGR(20 vs 60) per phase: +1.60 / +2.76 / +1.40 / +0.54 pp  -> 4/4 up, median +1.50
+  the 60-bar control's own CAGR across those phases: 9.12%..10.93%  -> 1.81pp of ruler
+  claim of +1.60pp reached at that size in only 50% of phases; sign test p=0.125 at n=4
+  w40: +0.58/+0.65/+0.66/+0.34 (direction also stable, half the size); w120: -1.42..-2.39
+Verdict under the frozen rule: WITHIN NOISE -- the direction is stable in every phase, the
+SIZE is smaller than the calendar noise, so the production window stays and the card prints a
+range. That is a different sentence from "the 20-bar window is worth 1.6pp/yr".
+RULES
+-----
+1. Win-rate and effect-size are two doors. A rule that only asks "does it win more often than
+   not" would have called +1.60pp a level off 4/4 phases whose minimum is +0.54pp.
+2. The ruler is the CONTROL arm's own phase spread, not the effect's spread. Comparing the
+   effect's spread to its own median says nothing about whether calendar luck could produce it.
+3. Print the per-phase grid, not just the median: the four numbers (and the min) are the whole
+   answer, and a table is what lets a reader see the claim is a point estimate from phase 0.
+4. Keep the arms paired inside a phase. Comparing arm-A@phase0 to control@phase1 would fold
+   the calendar spread (1.81pp here) into the effect and could manufacture either sign.
+5. Units cross files: the summary stores control CAGR in percentage points, and rendering it
+   through the fraction formatter printed "912.00%" for 9.12pp in the very line describing the
+   ruler (r1292/r1316 family). A value's unit is a property of where it was computed, so a
+   renderer needs a pp helper and a selftest leg that pins it.
+Pos: scripts/etf_book_voltarget_phase.py (selftest 34/34, chain leg is the engine-free
+`--check`) + results/etf_book_voltarget_phase.json + research/ETF_BOOK_VOLTARGET_PHASE.md.

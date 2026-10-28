@@ -436,6 +436,18 @@ def main() -> int:
     # daily; 0 ok/2 source fail/3 history-rewrite flag for lhb) are
     # asserted case-by-case inside each sub-suite.
     import subprocess as _sp
+    # r1328: a suite's verdict must not depend on the parent's UTF-8 mode. With
+    # `python -X utf8 -m smoke_test` the parent decodes as UTF-8 while an unflagged
+    # child python still prints cp936, so subprocess's reader thread dies mid-pipe
+    # (UnicodeDecodeError 0xc8) and communicate() then blocks forever -- the run hangs
+    # with no failing leg to point at. Pin both sides instead of inheriting either.
+    _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+
+    def _selftest_run(script, args, timeout):
+        return _sp.run([sys.executable, script, *args], capture_output=True,
+                       text=True, encoding="utf-8", errors="replace",
+                       env=_sp_env, timeout=timeout)
+
     # (label, script, args) -- offline selftest must exit 0 (no network);
     # T-35 d2 pair: intraday marks lane + open-fill verifier (R166).
     for _name, _script, _args in (
@@ -470,8 +482,7 @@ def main() -> int:
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=180)
+            _r = _selftest_run(_script, _args, 180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
@@ -652,6 +663,15 @@ def main() -> int:
             # and the gate must refuse a hand-written verdict or a re-tuned threshold.
             ("product: vol-target estimation and slot-freeze lag (exit-code contract)",
              "scripts/etf_book_voltarget_lag.py", ["--selftest"]),
+            # r1328: r1327's "+1.60pp for the 20-bar window" rested on one decision calendar.
+            # These legs pin the ruler that tests it: the paired delta keeps its units, the
+            # noise floor is the control's OWN phase spread (so an effect smaller than it is
+            # "within noise", not a level), a sign flip is a sequence, an unpriced phase cannot
+            # become a verdict, the gate refuses a hand-written verdict / a re-tuned share
+            # floor / four identical phase calendars, and a stationary-vol fixture is allowed
+            # to make the windows agree (only a regime shift has to move the curve).
+            ("product: vol-target window across decision phases (exit-code contract)",
+             "scripts/etf_book_voltarget_phase.py", ["--selftest"]),
             # r1326: the E187 pool batch added a leg to the shared census tool, so its
             # 658-leg selftest has to run somewhere other than a human's memory. The
             # seven new legs pin the churn arithmetic (a first month has no predecessor and
@@ -661,8 +681,7 @@ def main() -> int:
             ("product: census selftest incl. the E187 churn-tie legs",
              "scripts/e39_panel_census.py", ["selftest"])):
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
-                         capture_output=True, text=True, timeout=300)
+            _r = _selftest_run(_script, _args, 300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
