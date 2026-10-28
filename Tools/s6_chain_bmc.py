@@ -47,6 +47,12 @@ LEGS = [
     # axis with an equal-risk reading beside it, straight off the panels the two legs above
     # already refreshed. ~10s, no network, no judge, selects nothing.
     ("futures_overlay_sweep", ["python", "scripts/futures_overlay_sweep.py"]),
+    # r1140: the band leg above showed 86-92% of the sleeve's turnover is structural
+    # (entries/exits/sign flips), so a no-trade band is a two-sided loss. This leg attacks
+    # the flip itself: two damping mechanisms x two thetas x two lookbacks, each priced on
+    # the full cost ladder at the book's published weight, with the exposure spread and a
+    # fragility flag published beside the win. ~15s, no network, no judge, selects nothing.
+    ("futures_overlay_fliprate", ["python", "scripts/futures_overlay_fliprate.py"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),

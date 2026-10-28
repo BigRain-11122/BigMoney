@@ -1539,6 +1539,62 @@ def main() -> int:
     except Exception as e:
         check("product: overlay no-trade band is priced on both sides of the trade", False, str(e))
 
+    # The band face proved the turnover is structural (entries/exits/flips), so the next
+    # axis was the flip itself. The failure mode that face invites: an arm that "cuts
+    # flips" by holding less risk, or a breakeven quoted rather than derived. Both are
+    # recomputed here from the published rows.
+    try:
+        _fr = json.load(open("results/futures_overlay_fliprate.json", encoding="utf-8"))
+        _bad = []
+        for _tag, _blk in (_fr.get("lookbacks") or {}).items():
+            _arms = _blk.get("arms") or []
+            if len(_arms) < 3:
+                _bad.append(f"{_tag}: {len(_arms)} arms")
+                continue
+            _base = _arms[0]
+            _expo = [a["mean_abs_weight"] for a in _arms if a.get("mean_abs_weight")]
+            if not _expo:
+                _bad.append(f"{_tag}: no exposure published")
+            elif (max(_expo) - min(_expo)) / min(_expo) > 0.01:
+                _bad.append(f"{_tag}: exposure spread {max(_expo) - min(_expo):.4f} "
+                            f"-- that is deleveraging, not a flip filter")
+            for _a in _arms:
+                _turns = {round(r.get("turnover_total") or 0.0, 1)
+                          for r in _a.get("cost_rows") or []}
+                if len(_a.get("cost_rows") or []) < 3 or len(_turns) != 1:
+                    _bad.append(f"{_tag}/{_a['label']}: cost ladder re-prices "
+                                f"{len(_turns)} sequences")
+                    break
+                _expect = round((_a["sleeve_gross_cagr"] - _base["sleeve_gross_cagr"]) * 100, 2)
+                if _a.get("gross_give_up_pp") != _expect:
+                    _bad.append(f"{_tag}/{_a['label']}: give-up {_a.get('gross_give_up_pp')} "
+                                f"!= measured {_expect}")
+                    break
+                _by = {r["cost_per_side_bp"]: r.get("equal_risk_delta_cagr_pp") or 0.0
+                       for r in _a["cost_rows"]}
+                _bby = {r["cost_per_side_bp"]: r.get("equal_risk_delta_cagr_pp") or 0.0
+                        for r in _base["cost_rows"]}
+                _claims = bool(_a.get("beats_base_at_3bp_or_worse"))
+                _real = all(_by.get(bp, -9) > _bby.get(bp, -9) for bp in (3.0, 5.0, 10.0))
+                if _a["spec"]["mechanism"] != "base" and _claims != _real:
+                    _bad.append(f"{_tag}/{_a['label']}: claims beats_base={_claims} "
+                                f"but the ladder says {_real}")
+                    break
+            _rb = _blk.get("robustness") or {}
+            _hold = [a for a in _arms if a["spec"]["mechanism"] == "strength_hold"]
+            _clr = [a for a in _hold if a.get("beats_base_at_3bp_or_worse")]
+            _expect_flag = bool(_hold) and len(_clr) == len(_hold)
+            if _rb.get("clears_both_theta_levels") != _expect_flag:
+                _bad.append(f"{_tag}: robustness flag disagrees with the rows "
+                            f"({len(_clr)}/{len(_hold)} theta levels clear)")
+        check("product: flip-rate arms cut flips, not exposure, and the cut is priced",
+              not _bad, "; ".join(_bad)[:220]
+              or "exposure flat, one sequence per arm, give-up measured, "
+                 "robustness flag derived from the rows")
+    except Exception as e:
+        check("product: flip-rate arms cut flips, not exposure, and the cut is priced",
+              False, str(e))
+
     return _finish()
 
 
