@@ -1972,3 +1972,4 @@ rebase --continue 假冲突三连（全解+全 add 后连报「must edit all mer
 > 当前活: 期货袖叠加的「摩擦阶梯」——同一串决策下把每边成本从 1bp 抬到 3/5/10bp，测它到底还剩多少
 > 最近实物: results/futures_overlay_sweep.json + research/ETF_BOOK_FUTURES_OVERLAY_SWEEP.md 第六节 @2026-10-28T23:5x（60d 平衡点 1bp/边、120d 3bp/边；1bp 时 +0.90pp，3bp 就剩 -0.10pp）
 > 下个里程碑: 把换手砍下来再谈权重（缓冲区路径测试，48h 内）——现在这个袖子只能当降风险工具，不能当收益来源
+| 2026-10-29 00:02:10 | r1138 postscript | PUSH-OK 15810874ee on origin/main (8fcb5f42f3..15810874ee), ahead=0 behind=0 verified by fetch+rev-list both ways; inbox MSG-20261028-0035-bmb answered (bm-a GPU is held by the FluxGroup domain lane, not by BigMoney, so no image slot can be promised after 02:20) and moved to processed/; S7 self-heal: loop pin 8 no-op, watchdog re-registered with its S4U flip still refused (no elevation) = carried C-20261016-04, both claws reinstalled, saturation engine re-registered + ticked alive 6s | local commits not on origin = 0 |
