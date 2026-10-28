@@ -705,6 +705,552 @@ def run_screenreach(publish=False):
     return 0
 
 
+# --------------------------------------------------------------------------- E180
+# Published-level quote audit.  E177 measured that a decomposition level (a sum of
+# daily w*r terms) and a book level (each book compounded on its own) are different
+# objects, and that their gap is book-specific.  What nobody audited is which of the
+# numbers the family already PUBLISHES are of which kind: a reader quoting
+# `engine_mean_ann_bp` is quoting a book level, while a reader quoting
+# `decomposition_engine_bp` is quoting an arithmetic sum whose offset sits somewhere
+# else (or nowhere).  This leg classifies every level-shaped cell in the two
+# directories the pool row names, joins each derived cell to E177's published offset,
+# and reports the faces that quote a derived level with no offset beside it.
+
+LEVELQUOTE_DIRS = ("results/e43_tilt_4member", "results/e79")
+DECOMOFFSET_GLOB = "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-*.json"
+LEVELQUOTE_OUT_DIR = "results/e79"
+# This leg publishes into a directory it scans, so its own face must be excluded or
+# the audit would count itself (r1215: 25 -> 26 faces, 1034 -> 3274 cells by
+# self-inclusion, and the extra face has no producer so the live leg went red).
+LEVELQUOTE_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",)
+
+# E177's own reading vocabulary, turned into name rules.  Order matters: a gap cell
+# named `arithmetic_vs_geometric_gap_bp` carries both vocabularies, and it is a gap.
+GAP_TOKENS = ("offset", "gap")
+DERIVED_TOKENS = ("decomposition", "arithmetic", "unanchored")
+ARITH_OF_LEVELS_TOKENS = ("legs_sum",)
+# Offsets that are the SAME construct as E177's published offset, keyed by the field
+# name and mapped to the E177 column it may be compared against.  Everything else that
+# carries an offset name is inventoried but never differenced: `offset_left_as_cross_
+# term_bp` and `arithmetic_vs_geometric_gap_bp` are decompositions OF an offset, so a
+# diff against the offset itself would be a comparison between a part and a whole.
+COMPARABLE_OFFSETS = {
+    "level_offset_bp": "engine_level_offset_bp",
+    "engine_level_offset_bp": "engine_level_offset_bp",
+    "wide_book_level_offset_bp": "wide_book_level_offset_bp",
+    "ladder_book_level_offset_bp": "ladder_book_level_offset_bp",
+    "raw_offset_bp": "engine_level_offset_bp",
+    "screened_offset_bp": "engine_level_offset_bp",
+}
+NON_LEVEL_TOKENS = ("delta", "diff", "sd", "tolerance", "share", "pct", "deadband",
+                    "sign", "change", "heap", "join", "months", "residual", "count",
+                    "beta", "r_squared", "corr", "stability", "abs", "quantum",
+                    "band", "cutoff", "yield")
+# Two level cells whose names carry a level word but a non-level token.  Declared
+# rather than pattern-engineered: `engine_ann_diff_bp` is the engine LEVEL (wide minus
+# ladder) and only its name says "difference".
+LEVEL_OVERRIDES = {"engine_ann_diff_bp": "anchored"}
+
+ERA_RE = re.compile(r"^(pre2017|2017_2020|2021_2023|2024_now|full)$")
+ARM_RE = re.compile(r"(?:^|_)(raw|screened|neutralise_int)(?:$|_)")
+ARITH_TOKENS = ("_daily_rets", "_month_daily_rets", "_tilt3decom_blocks")
+
+
+def level_class(leaf):
+    """ANCHORED book level / DERIVED daily-term sum / arithmetic-of-levels / offset."""
+    name = (leaf or "").lower()
+    if name in LEVEL_OVERRIDES:
+        return LEVEL_OVERRIDES[name]
+    if any(t in name for t in GAP_TOKENS):
+        return "offset"
+    if any(t in name for t in DERIVED_TOKENS):
+        return "derived_daily"
+    if any(t in name for t in ARITH_OF_LEVELS_TOKENS):
+        return "arithmetic_of_levels"
+    if any(t in name for t in NON_LEVEL_TOKENS):
+        return None
+    if "bp" in name or "level" in name:
+        return "anchored"
+    return None
+
+
+def walk_numeric(obj, path=""):
+    """(json-path, value) for every numeric leaf, in document order."""
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            for item in walk_numeric(v, path + "/" + str(k)):
+                yield item
+    elif isinstance(obj, list):
+        for v in obj:
+            for item in walk_numeric(v, path):
+                yield item
+    elif isinstance(obj, (int, float)) and not isinstance(obj, bool):
+        yield path, obj
+
+
+def _base_name(leaf):
+    """Leaf name with its arm token stripped: `decomposition_engine_bp_raw` and
+    `decomposition_engine_bp` are the same label to a reader."""
+    name = (leaf or "").lower()
+    name = re.sub(r"^(raw|screened|neutralise_int)_", "", name)
+    name = re.sub(r"_(raw|screened|neutralise_int)$", "", name)
+    return name
+
+
+def era_arm_of(path):
+    """(era, arm) inferred from a cell path; both are None when the path carries none."""
+    parts = [p for p in (path or "").split("/") if p]
+    era = None
+    arm = None
+    for part in parts[:-1]:
+        if ERA_RE.match(part):
+            era = part
+        elif "|" in part:
+            left, _, right = part.partition("|")
+            if ERA_RE.match(right):
+                era, arm = right, left
+    m = ARM_RE.search(parts[-1] if parts else "")
+    if m and arm is None:
+        arm = m.group(1)
+    return era, arm
+
+
+def _def_table(source):
+    starts = [(m.group(1), m.start()) for m in re.finditer(r"^def (\w+)\(", source, re.M)]
+    out = []
+    for i, (name, start) in enumerate(starts):
+        end = starts[i + 1][1] if i + 1 < len(starts) else len(source)
+        out.append((name, start, end))
+    return out
+
+
+def producer_index(source):
+    """study literal -> the def(s) whose body contains it."""
+    table = _def_table(source)
+    index = {}
+    for m in re.finditer(r'"(e\d{2,3}_[a-z0-9_]+)"', source):
+        owner = None
+        for name, start, end in table:
+            if start <= m.start() < end:
+                owner = name
+        if owner:
+            index.setdefault(m.group(1), set()).add(owner)
+    return {k: sorted(v) for k, v in index.items()}
+
+
+def producer_reach(source, funcs, tokens=ARITH_TOKENS):
+    """Which arithmetic tokens a producer reaches, following the module's own calls."""
+    bodies = {name: source[start:end] for name, start, end in _def_table(source)}
+    seen, stack = set(), [f for f in funcs if f in bodies]
+    while stack:
+        fn = stack.pop()
+        if fn in seen:
+            continue
+        seen.add(fn)
+        for callee in re.findall(r"\b([A-Za-z_][A-Za-z0-9_]*)\(", bodies[fn]):
+            if callee in bodies and callee not in seen:
+                stack.append(callee)
+    return sorted({t for fn in seen for t in tokens if t in bodies[fn]})
+
+
+def decomoffset_index(root=None):
+    """(arm, era) -> the offsets E177 published for that cell, plus its book levels."""
+    root = root or ROOT
+    pattern = os.path.join(root, DECOMOFFSET_GLOB)
+    files = sorted(glob.glob(pattern))
+    if not files:
+        return {}, None
+    rel = os.path.relpath(files[-1], root).replace("\\", "/")
+    try:
+        with io.open(files[-1], encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return {}, rel
+    index = {}
+    for key, row in (doc.get("eras") or {}).items():
+        arm, _, era = key.partition("|")
+        index[(arm, era)] = {
+            "engine_level_offset_bp": row.get("level_offset_bp"),
+            "wide_book_level_offset_bp": row.get("wide_book_level_offset_bp"),
+            "ladder_book_level_offset_bp": row.get("ladder_book_level_offset_bp"),
+            "published_engine_bp": row.get("published_engine_bp"),
+            "decomposition_engine_bp": row.get("decomposition_engine_bp"),
+        }
+    return index, rel
+
+
+def level_quotes(root=None):
+    """Audit every level cell the family publishes: anchored, derived, or offset."""
+    global ROOT
+    saved = ROOT
+    root = root or ROOT
+    ROOT = root
+    try:
+        census_path = os.path.join(root, CENSUS)
+        census_src = ""
+        if os.path.isfile(census_path):
+            with io.open(census_path, encoding="utf-8", errors="replace") as fh:
+                census_src = fh.read()
+        studies = producer_index(census_src) if census_src else {}
+        offsets, offset_face = decomoffset_index(root)
+
+        rows, skipped, cutoffs = [], [], []
+        for rel_dir in LEVELQUOTE_DIRS:
+            for path in sorted(glob.glob(os.path.join(root, rel_dir, "*.json"))):
+                rel = os.path.relpath(path, root).replace("\\", "/")
+                try:
+                    with io.open(path, encoding="utf-8") as fh:
+                        doc = json.load(fh)
+                except (OSError, ValueError):
+                    skipped.append({"face": rel, "reason": "unreadable"})
+                    continue
+                if not isinstance(doc, dict):
+                    skipped.append({"face": rel, "reason": "not_a_face"})
+                    continue
+                study = doc.get("study")
+                if study in LEVELQUOTE_EXCLUDE_STUDIES:
+                    skipped.append({"face": rel, "reason": "this_leg_publishes_here"})
+                    continue
+                producer = studies.get(study, [])
+                reach = producer_reach(census_src, producer) if producer else []
+                cells = []
+                for cell_path, value in walk_numeric(doc):
+                    parts = [p for p in cell_path.split("/") if p]
+                    if parts and parts[0] == "spec":
+                        continue
+                    cls = level_class(parts[-1] if parts else "")
+                    if not cls:
+                        continue
+                    era, arm = era_arm_of(cell_path)
+                    cells.append({"path": cell_path, "value": value, "class": cls,
+                                  "era": era, "arm": arm})
+                counts = {}
+                for cell in cells:
+                    counts[cell["class"]] = counts.get(cell["class"], 0) + 1
+                derived = [c for c in cells
+                           if c["class"] in ("derived_daily", "arithmetic_of_levels")]
+                own_offsets = [c for c in cells if c["class"] == "offset"]
+                if derived and not own_offsets:
+                    verdict = "quotes_derived_without_offset"
+                elif derived:
+                    verdict = "quotes_derived_with_offset"
+                elif own_offsets:
+                    verdict = "offset_only"
+                elif counts.get("anchored"):
+                    verdict = "anchored_only"
+                else:
+                    verdict = "no_level_cells"
+
+                # E177 join: the offset that sits behind each derived cell, plus the
+                # face's own offset where it publishes one under a comparable name.
+                arith = "daily_terms" if reach else "monthly_terms"
+                for cell in derived:
+                    cell["arith"] = arith
+                joins = []
+                for cell in derived:
+                    if not cell["era"]:
+                        continue
+                    key = (cell["arm"] or "raw", cell["era"])
+                    ref = offsets.get(key)
+                    own = None
+                    for cand in own_offsets:
+                        if cand["era"] != cell["era"]:
+                            continue
+                        leaf = cand["path"].split("/")[-1].lower()
+                        if "wide_book" in leaf or "ladder_book" in leaf:
+                            continue
+                        if cand["arm"] and cell["arm"] and cand["arm"] != cell["arm"]:
+                            continue
+                        own = cand
+                        break
+                    joins.append({
+                        "era": cell["era"],
+                        "arm": key[0],
+                        "field": cell["path"],
+                        "value_bp": cell["value"],
+                        "own_offset_bp": own["value"] if own else None,
+                        "own_offset_field": own["path"] if own else None,
+                        "e177_engine_offset_bp": (ref or {}).get("engine_level_offset_bp"),
+                        "diff_own_minus_e177_bp": (
+                            round(own["value"] - ref["engine_level_offset_bp"], 4)
+                            if own and ref and ref.get("engine_level_offset_bp") is not None
+                            else None),
+                    })
+                # Every offset cell is inventoried; only the ones that are the SAME
+                # construct as an E177 column are differenced against it.
+                comparisons, uncompared = [], []
+                for cand in own_offsets:
+                    leaf = cand["path"].split("/")[-1].lower()
+                    e177_key = COMPARABLE_OFFSETS.get(leaf)
+                    if not e177_key or not cand["era"]:
+                        uncompared.append({"field": cand["path"], "value_bp": cand["value"],
+                                           "era": cand["era"],
+                                           "reason": "not_the_same_construct"})
+                        continue
+                    ref = offsets.get((cand["arm"] or "raw", cand["era"])) or {}
+                    theirs = ref.get(e177_key)
+                    comparisons.append({
+                        "era": cand["era"],
+                        "arm": cand["arm"] or "raw",
+                        "field": cand["path"],
+                        "value_bp": cand["value"],
+                        "e177_field": e177_key,
+                        "e177_bp": theirs,
+                        "diff_bp": (round(cand["value"] - theirs, 4)
+                                    if theirs is not None else None),
+                    })
+                if doc.get("evidence_cutoff"):
+                    cutoffs.append(doc["evidence_cutoff"])
+                rows.append({
+                    "face": rel,
+                    "study": study,
+                    "producer": producer,
+                    "producer_arith_tokens": reach,
+                    "producer_uses_daily_terms": bool(reach),
+                    "derived_arith": arith,
+                    "cells": counts,
+                    "level_cells": len(cells) - len(own_offsets),
+                    "derived_cells": derived,
+                    "offset_cells": own_offsets,
+                    "offset_joins": joins,
+                    "offset_comparisons": comparisons,
+                    "uncompared_offsets": uncompared,
+                    "verdict": verdict,
+                })
+    finally:
+        ROOT = saved
+
+    rows.sort(key=lambda r: r["face"])
+    with_cells = [r for r in rows if r["level_cells"] or r["offset_cells"]]
+    derived_faces = [r for r in rows if r["derived_cells"]]
+    leak = [r["face"] for r in rows if r["verdict"] == "quotes_derived_without_offset"]
+    unindexed = [r["face"] for r in with_cells if not r["producer"]]
+
+    # One field NAME, two arithmetics: group every derived-class leaf name by whether
+    # its producer reaches the daily terms.  A name published from both sides is a
+    # quote a reader cannot resolve -- same label, different object.
+    by_name = {}
+    for row in derived_faces:
+        for cell in row["derived_cells"]:
+            leaf = _base_name(cell["path"].split("/")[-1])
+            slot = by_name.setdefault(leaf, {"daily_faces": [], "monthly_faces": [],
+                                             "classes": set(), "leaf_names": set(),
+                                             "values_bp": []})
+            side = "daily_faces" if row["producer_uses_daily_terms"] else "monthly_faces"
+            if row["face"] not in slot[side]:
+                slot[side].append(row["face"])
+            slot["classes"].add(cell["class"])
+            slot["leaf_names"].add(cell["path"].split("/")[-1])
+            slot["values_bp"].append({"face": row["face"], "era": cell["era"],
+                                      "arm": cell["arm"], "value_bp": cell["value"],
+                                      "arith": cell["arith"]})
+    sum_named = {}
+    for leaf in sorted(by_name):
+        slot = by_name[leaf]
+        sum_named[leaf] = {
+            "daily_faces": slot["daily_faces"],
+            "monthly_faces": slot["monthly_faces"],
+            "classes": sorted(slot["classes"]),
+            "leaf_names": sorted(slot["leaf_names"]),
+            "collision": bool(slot["daily_faces"]) and bool(slot["monthly_faces"]),
+            "values_bp": slot["values_bp"],
+        }
+    collisions = sorted(k for k, v in sum_named.items() if v["collision"])
+    # What the collision COSTS: for a name published from both arithmetics, the two
+    # values on the same (era, arm) are two different answers to the same question.
+    collision_gaps = []
+    for leaf in collisions:
+        daily, monthly = {}, {}
+        for v in sum_named[leaf]["values_bp"]:
+            if not v["era"]:
+                continue
+            (daily if v["arith"] == "daily_terms" else monthly)[(v["era"], v["arm"])] = v
+        for key in sorted(set(daily) & set(monthly), key=lambda k: (str(k[0]), str(k[1]))):
+            collision_gaps.append({
+                "field": leaf,
+                "era": key[0],
+                "arm": key[1],
+                "daily_bp": daily[key]["value_bp"],
+                "monthly_bp": monthly[key]["value_bp"],
+                "diff_daily_minus_monthly_bp": round(
+                    daily[key]["value_bp"] - monthly[key]["value_bp"], 4),
+                "daily_face": daily[key]["face"],
+                "monthly_face": monthly[key]["face"],
+            })
+
+    by_class = {}
+    for row in rows:
+        for cls, n in row["cells"].items():
+            by_class[cls] = by_class.get(cls, 0) + n
+
+    diffs = [c["diff_bp"] for r in rows for c in r["offset_comparisons"]
+             if c["diff_bp"] is not None]
+    joined = [j for r in rows for j in r["offset_joins"] if j["e177_engine_offset_bp"] is not None]
+
+    totals = {
+        "faces_scanned": len(rows),
+        "faces_with_level_or_offset_cells": len(with_cells),
+        "faces_quoting_a_derived_level": len(derived_faces),
+        "faces_publishing_an_offset": sum(1 for r in rows if r["offset_cells"]),
+        "faces_quoting_derived_without_offset": len(leak),
+        "faces_with_unindexed_producer": len(unindexed),
+        "level_cells_total": sum(r["level_cells"] for r in rows),
+        "offset_cells_total": sum(len(r["offset_cells"]) for r in rows),
+        "cells_by_class": by_class,
+        "derived_cells_from_daily_producers": sum(
+            len(r["derived_cells"]) for r in rows if r["producer_uses_daily_terms"]),
+        "derived_cells_from_monthly_producers": sum(
+            len(r["derived_cells"]) for r in rows if not r["producer_uses_daily_terms"]),
+        "sum_named_level_collisions": collisions,
+        "collision_pairs": len(collision_gaps),
+        "max_abs_collision_gap_bp": (
+            round(max(abs(g["diff_daily_minus_monthly_bp"]) for g in collision_gaps), 4)
+            if collision_gaps else None),
+        "collision_gap_spread_bp": (
+            round(max(g["diff_daily_minus_monthly_bp"] for g in collision_gaps)
+                  - min(g["diff_daily_minus_monthly_bp"] for g in collision_gaps), 4)
+            if len(collision_gaps) > 1 else None),
+        "collision_gap_verdict": (
+            "decomposition-not-a-difference" if not collision_gaps else
+            ("definitional_wedge"
+             if (max(g["diff_daily_minus_monthly_bp"] for g in collision_gaps)
+                 - min(g["diff_daily_minus_monthly_bp"] for g in collision_gaps)) <= 1.0
+             else "varies_with_the_data")),
+        "derived_cells_joined_to_e177": len(joined),
+        "offsets_compared_to_e177": len(diffs),
+        "max_abs_offset_diff_bp": round(max(abs(d) for d in diffs), 4) if diffs else None,
+        "skipped": len(skipped),
+    }
+
+    answers = {
+        "faces_quoting_a_derived_level": [r["face"] for r in derived_faces],
+        "faces_quoting_derived_without_an_offset_beside_it": leak,
+        "field_names_published_from_two_arithmetics": collisions,
+        "collision_gap_verdict": totals["collision_gap_verdict"],
+        "collision_gap_spread_bp": totals["collision_gap_spread_bp"],
+        "every_derived_cell_has_a_published_offset_to_join": bool(joined)
+        and len(joined) == sum(len(r["derived_cells"]) for r in rows
+                               if any(c["era"] for c in r["derived_cells"])),
+        "offsets_disagree_across_faces": len(diffs) > 0 and max(abs(d) for d in diffs) > 0.0,
+        "reading": (
+            "%d faces carry %d level cells: %s. %d face(s) quote a DERIVED (sum of terms) "
+            "level, %d from a producer that reaches the daily returns (%d cells) and %d from a "
+            "monthly producer (%d cells); %d of those faces publish an offset beside the sum "
+            "and %d do not. %d field name(s) are published from BOTH arithmetics (%s), and on %d "
+            "comparable cells the two answers differ by up to %s bp -- the label alone does "
+            "not identify the object. %d offset cells are published across "
+            "the family; where one is the same construct as an E177 column (%d compared) the "
+            "two disagree by up to %s bp -- an offset is a book-specific number, so 'the "
+            "compounding gap' as one headline is a category error."
+            % (len(with_cells), totals["level_cells_total"],
+               ", ".join("%s=%d" % (k, v) for k, v in sorted(by_class.items())),
+               len(derived_faces),
+               sum(1 for r in derived_faces if r["producer_uses_daily_terms"]),
+               totals["derived_cells_from_daily_producers"],
+               sum(1 for r in derived_faces if not r["producer_uses_daily_terms"]),
+               totals["derived_cells_from_monthly_producers"],
+               len(derived_faces) - len(leak), len(leak),
+               len(collisions), ", ".join(collisions) or "none",
+               totals["collision_pairs"],
+               ("%.2f" % totals["max_abs_collision_gap_bp"])
+               if totals["max_abs_collision_gap_bp"] is not None else "n/a",
+               totals["offset_cells_total"], len(diffs),
+               ("%.2f" % totals["max_abs_offset_diff_bp"])
+               if totals["max_abs_offset_diff_bp"] is not None else "n/a")),
+    }
+
+    return {
+        "study": "e180_published_level_quote_audit",
+        "evidence_cutoff": max(cutoffs) if cutoffs else None,
+        "spec": {
+            "dirs": list(LEVELQUOTE_DIRS),
+            "producer_source": CENSUS,
+            "producer_rule": "the def whose body contains the face's study literal; "
+                             "arithmetic class is read from the tokens that def reaches "
+                             "through the module's own call graph (%s)" % ", ".join(ARITH_TOKENS),
+            "class_rules": {
+                "offset": "leaf name contains one of %s" % (GAP_TOKENS,),
+                "derived_daily": "contains one of %s -- E177 reading (a), a sum of daily w*r"
+                                 % (DERIVED_TOKENS,),
+                "arithmetic_of_levels": "contains one of %s -- a sum of LEVELS"
+                                        % (ARITH_OF_LEVELS_TOKENS,),
+                "anchored": "level-shaped (bp/level in the name) and none of the above",
+                "not_a_level": "contains one of the descriptive tokens %s" % (NON_LEVEL_TOKENS,),
+            },
+            "declared_overrides": dict(LEVEL_OVERRIDES),
+            "offset_join": "%s: (arm, era) -> engine/wide/ladder level offsets"
+                           % (offset_face or "absent"),
+            "spec_subtree_excluded": "cells under /spec/ are declarations, not quotes",
+            "units": "bp as published by the producing face",
+        },
+        "faces": rows,
+        "totals": totals,
+        "skipped": skipped,
+        "answers": answers,
+        "cross_check": {
+            "sum_named_levels": sum_named,
+            "sum_named_level_collisions": collisions,
+            "collision_gaps": collision_gaps,
+            "faces_without_a_producer_in_the_census_source": unindexed,
+            "note": "sum_named_levels groups every derived-class leaf NAME by whether its "
+                    "producer reaches the daily-return helpers. A name published from both "
+                    "sides is a collision: the same label on two different objects. The second "
+                    "list is coverage, not a defect -- those faces were burned by a leg the "
+                    "census source does not declare",
+        },
+        "honest": [
+            "the classification is NAME-based, not value-based: a cell is derived because of "
+            "how its producer builds it, and the name rules encode E177's vocabulary. A cell "
+            "renamed without re-burning this leg would be misread, which is why every cell is "
+            "published with its path",
+            "derived_arith is per FACE, not per cell: a producer that reaches the daily helpers "
+            "may still mix both arithmetics inside one face, so a collision on a shared name is "
+            "evidence that two faces disagree, not that one face is internally inconsistent",
+            "offset cells are published by their own faces, so 'publishes an offset' says the "
+            "number is on the page -- it does not say the offset was subtracted from the quote "
+            "the reader sees",
+            "only offsets in COMPARABLE_OFFSETS are differenced against E177; the rest are "
+            "inventoried with reason 'not_the_same_construct' (a decomposition of an offset is "
+            "not the offset)",
+            "offsets are BOOK-specific (E177: engine 28.41 / wide -29.33 / ladder -57.74 bp on "
+            "pre2017), so the wide/ladder rows are compared to their own E177 columns, never to "
+            "the engine column",
+            "cells under /spec/ are excluded: a declared tolerance is not a published quote",
+            "the E177 join only covers (arm, era) keys that face publishes; a derived cell "
+            "without an era is joined to nothing rather than to a guess",
+        ],
+        "law_ref": "O-20261002-2100 capture law (new method -> methodology card)",
+    }
+
+
+def run_levelquotes(publish=False):
+    face = level_quotes()
+    if publish:
+        out = os.path.join(_abs(LEVELQUOTE_OUT_DIR),
+                           "DECOMLEVELQUOTES-%s.json" % (face["evidence_cutoff"] or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("faces=%d with_cells=%d derived_faces=%d offsets=%d leak=%d level_cells=%d "
+          "classes=%s" % (t["faces_scanned"], t["faces_with_level_or_offset_cells"],
+                          t["faces_quoting_a_derived_level"],
+                          t["faces_publishing_an_offset"],
+                          t["faces_quoting_derived_without_offset"],
+                          t["level_cells_total"],
+                          ",".join("%s=%d" % (k, v)
+                                   for k, v in sorted(t["cells_by_class"].items()))))
+    if t["max_abs_offset_diff_bp"] is not None:
+        print("offsets joined to E177: %d compared, max abs diff %.4f bp"
+              % (t["offsets_compared_to_e177"], t["max_abs_offset_diff_bp"]))
+    for f in face["answers"]["faces_quoting_derived_without_an_offset_beside_it"]:
+        print("  LEAK", f)
+    for name in face["answers"]["field_names_published_from_two_arithmetics"]:
+        print("  COLLISION", name)
+    return 0
+
+
 def render_md(face, path=None):
     """Render the routing table as a markdown page (numbers read from the face)."""
     t = face["totals"]
@@ -932,6 +1478,84 @@ def _ledger_fixture(tmp):
     return tmp
 
 
+def _levelquote_fixture(tmp):
+    """A tiny repo: a census source with four producers and four faces on disk."""
+    root = tmp
+    os.makedirs(os.path.join(root, "scripts"), exist_ok=True)
+    os.makedirs(os.path.join(root, "results", "e43_tilt_4member"), exist_ok=True)
+    os.makedirs(os.path.join(root, "results", "e79"), exist_ok=True)
+    census = (
+        "def _daily_helper(curve):\n"
+        "    return _daily_rets(curve)\n\n"
+        "def run_alpha(outdir):\n"
+        '    study = "e901_alpha_levels"\n'
+        "    return _monthly_core()\n\n"
+        "def run_beta(outdir):\n"
+        '    study = "e902_beta_derived"\n'
+        "    return _daily_helper(None)\n\n"
+        "def run_gamma(outdir):\n"
+        '    study = "e903_gamma_leak"\n'
+        "    return _daily_helper(None)\n\n"
+        "def run_delta(outdir):\n"
+        '    study = "e904_delta_unsourced"\n'
+        "    return None\n\n"
+        "def run_e177(outdir):\n"
+        '    study = "e177_tilt3_decomposition_level_offset"\n'
+        "    return _daily_helper(None)\n"
+    )
+    with io.open(os.path.join(root, CENSUS), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(census)
+
+    def face(name, doc):
+        path = os.path.join(root, "results", "e43_tilt_4member", name)
+        with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(doc, ensure_ascii=False, indent=1) + "\n")
+
+    face("ALPHA-20261027.json", {
+        "study": "e901_alpha_levels", "evidence_cutoff": "2026-10-27",
+        "spec": {"moved_tolerance_bp": 0.05},
+        "eras": {"pre2017": {"engine_mean_ann_bp": 287.2, "tilt_sd_bp": 687.5,
+                             "share_of_ladder_level_pct": 61.9}},
+    })
+    face("BETA-20261027.json", {
+        "study": "e902_beta_derived", "evidence_cutoff": "2026-10-27",
+        "eras": {"raw|pre2017": {"published_engine_bp": 287.2,
+                                 "decomposition_engine_bp": 258.8,
+                                 "level_offset_bp": 28.4,
+                                 "offset_left_as_cross_term_bp": 20.1}},
+    })
+    face("GAMMA-20261027.json", {
+        "study": "e903_gamma_leak", "evidence_cutoff": "2026-10-27",
+        "eras": {"pre2017": {"decomposition_engine_bp": 100.0}},
+    })
+    face("DELTA-20261027.json", {
+        "study": "e904_delta_unsourced", "evidence_cutoff": "2026-10-27",
+        "eras": {"pre2017": {"decomposition_engine_bp": 1.0}},
+    })
+    face("TILT3SIGNDECOMOFFSET-20261027.json", {
+        "study": "e177_tilt3_decomposition_level_offset", "evidence_cutoff": "2026-10-27",
+        "eras": {"raw|pre2017": {"published_engine_bp": 287.2,
+                                 "decomposition_engine_bp": 258.8,
+                                 "level_offset_bp": 28.4,
+                                 "ladder_book_level_offset_bp": -57.7}},
+    })
+    with io.open(os.path.join(root, "results", "e79", "ROUTING-20261027.json"),
+                 "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"study": "e97_screened_consumer_routing",
+                             "evidence_cutoff": "2026-10-27",
+                             "rows": [{"mode": "alpha", "published_cells": 3}]},
+                            ensure_ascii=False, indent=1) + "\n")
+    # The leg publishes into this directory, so a copy of its own output must be
+    # skipped rather than counted (self-inclusion is how a leg grows a phantom face).
+    with io.open(os.path.join(root, "results", "e79", "DECOMLEVELQUOTES-20261027.json"),
+                 "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"study": "e180_published_level_quote_audit",
+                             "evidence_cutoff": "2026-10-27",
+                             "answers": {"collision_gap_spread_bp": 0.7}},
+                            ensure_ascii=False, indent=1) + "\n")
+    return root
+
+
 def selftest():
     legs = []
 
@@ -1103,6 +1727,91 @@ def selftest():
         and led["totals"]["faces_with_screen_census"]
         + led["totals"]["faces_without_screen_census"] == led["totals"]["faces_total"])
 
+    # ----------------------------------------- E180 published-level quote legs
+    tmp3 = tempfile.mkdtemp(prefix="e180_")
+    lq_root = _levelquote_fixture(tmp3)
+    lq = level_quotes(root=lq_root)
+    lq_rows = {r["face"].split("/")[-1]: r for r in lq["faces"]}
+
+    chk("L30 the level vocabulary splits anchored / derived / offset / not-a-level",
+        level_class("engine_mean_ann_bp") == "anchored"
+        and level_class("wide_book_arithmetic_bp") == "derived_daily"
+        and level_class("decomposition_engine_bp") == "derived_daily"
+        and level_class("arithmetic_vs_geometric_gap_bp") == "offset"
+        and level_class("legs_sum_bp") == "arithmetic_of_levels"
+        and level_class("engine_ann_diff_bp") == "anchored"
+        and level_class("tilt_sd_bp") is None
+        and level_class("share_of_ladder_level_pct") is None)
+    chk("L31 (era, arm) come off the path, the leaf suffix or nowhere",
+        era_arm_of("/eras/raw|pre2017/level_offset_bp") == ("pre2017", "raw")
+        and era_arm_of("/eras/pre2017/holdings/raw_level_bp") == ("pre2017", "raw")
+        and era_arm_of("/eras/pre2017/holdings/engine_bp_screened") == ("pre2017", "screened")
+        and era_arm_of("/answers/total_bp") == (None, None))
+    alpha = lq_rows["ALPHA-20261027.json"]
+    chk("L32 an anchored face is anchored only and its spec block is not a quote",
+        alpha["verdict"] == "anchored_only" and alpha["level_cells"] == 1
+        and alpha["cells"].get("anchored") == 1)
+    beta = lq_rows["BETA-20261027.json"]
+    chk("L33 a derived face that publishes its own offset is joinable, not a leak",
+        beta["verdict"] == "quotes_derived_with_offset"
+        and beta["offset_joins"][0]["own_offset_bp"] == 28.4
+        and beta["offset_joins"][0]["diff_own_minus_e177_bp"] == 0.0
+        and beta["producer_uses_daily_terms"])
+    chk("L34 a derived face with no offset beside it is the leak this leg exists for",
+        lq_rows["GAMMA-20261027.json"]["verdict"] == "quotes_derived_without_offset"
+        and "results/e43_tilt_4member/GAMMA-20261027.json"
+        in lq["answers"]["faces_quoting_derived_without_an_offset_beside_it"]
+        and lq["totals"]["faces_quoting_derived_without_offset"] == 2
+        and lq_rows["BETA-20261027.json"]["face"]
+        not in lq["answers"]["faces_quoting_derived_without_an_offset_beside_it"])
+    chk("L35 an offset that is not the same construct is inventoried, never differenced",
+        lq["faces"] and all(c["e177_field"] for r in lq["faces"]
+                            for c in r["offset_comparisons"])
+        and any(u["reason"] == "not_the_same_construct" for r in lq["faces"]
+                for u in r["uncompared_offsets"]))
+    chk("L36 totals reconcile with the per-face classes",
+        lq["totals"]["level_cells_total"] ==
+        sum(r["level_cells"] for r in lq["faces"])
+        and lq["totals"]["faces_scanned"] == len(lq["faces"])
+        and sum(lq["totals"]["cells_by_class"].values()) ==
+        sum(sum(r["cells"].values()) for r in lq["faces"]))
+    chk("L36b one field name published from both arithmetics is a collision",
+        "decomposition_engine_bp" in lq["answers"]["field_names_published_from_two_arithmetics"]
+        and lq["cross_check"]["sum_named_levels"]["decomposition_engine_bp"]["collision"]
+        and lq["cross_check"]["sum_named_levels"]["decomposition_engine_bp"]["daily_faces"]
+        and lq["cross_check"]["sum_named_levels"]["decomposition_engine_bp"]["monthly_faces"])
+    # L36c: a near-constant gap between the two arithmetics is a definitional wedge, not
+    # a compounding artifact -- compounding would vary with the era's volatility.
+    chk("L36c collision gaps are published per cell and their spread decides the label",
+        lq["totals"]["collision_pairs"] == len(lq["cross_check"]["collision_gaps"]) >= 1
+        and all(g["daily_face"] != g["monthly_face"]
+                for g in lq["cross_check"]["collision_gaps"])
+        and (lq["answers"]["collision_gap_spread_bp"] is None
+             if len(lq["cross_check"]["collision_gaps"]) < 2 else
+             lq["answers"]["collision_gap_spread_bp"] ==
+             round(max(g["diff_daily_minus_monthly_bp"]
+                       for g in lq["cross_check"]["collision_gaps"])
+                   - min(g["diff_daily_minus_monthly_bp"]
+                         for g in lq["cross_check"]["collision_gaps"]), 4)))
+    chk("L36d this leg does not audit its own published face",
+        not any(r["study"] in LEVELQUOTE_EXCLUDE_STUDIES for r in lq["faces"])
+        and any(s["reason"] == "this_leg_publishes_here" for s in lq["skipped"]))
+
+    # L37: the live leg.  Fixtures prove the plumbing; only the real disk proves the
+    # family still publishes what this audit claims it publishes.  The collision itself
+    # is a measurement, not an invariant -- it is reported, not asserted here.
+    live_lq = level_quotes(root=_repo)
+    live_derived = [r["face"] for r in live_lq["faces"] if r["derived_cells"]]
+    live_by_face = {r["face"].split("/")[-1]: r for r in live_lq["faces"]}
+    chk("L37 on the real disk every quoting face has a producer and E177 joins resolve",
+        len(live_derived) >= 1
+        and not live_lq["cross_check"]["faces_without_a_producer_in_the_census_source"]
+        and live_by_face["TILT3SIGNDECOMOFFSET-20261027.json"]["verdict"]
+        == "quotes_derived_with_offset"
+        and live_lq["totals"]["offsets_compared_to_e177"] >= 1
+        and live_lq["totals"]["max_abs_offset_diff_bp"] is not None
+        and live_lq["totals"]["faces_quoting_derived_without_offset"] == 0)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -1121,6 +1830,8 @@ def main(argv):
         return run(publish="--publish" in argv, md=md)
     if cmd == "screenreach":
         return run_screenreach(publish="--publish" in argv)
+    if cmd == "levelquotes":
+        return run_levelquotes(publish="--publish" in argv)
     print(__doc__)
     return 2
 

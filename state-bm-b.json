@@ -923,15 +923,15 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "round": 1214,
- "round_no": 1214,
+ "round_no": 1215,
  "round_no_label": "r1214",
- "round_no_ts": "2026-10-28T11:25:37+08:00",
- "round_pit": "r1174: 'it fails in both arms' is a claim about the INSTRUMENT, not about the cause -- a control that reads its inputs from disk is arm-invariant by construction, and a bit-identical failure across arms is the tell. Sibling: an exact-equality join over published faces carries two implicit axes it never checks, the cutoff and the code that burned them, so it happily compares two different experiments and calls the difference a defect; name the condition in the status (mismatch_across_cutoffs + stale_twins) rather than indicting the data. Second sibling (process): my own PowerShell sha probe of the group decisions/orders blobs disagreed with the watermark tool because Out-String re-encodes the bytes -- the tool that reads git objects is authoritative, and a hand-rolled hash that disagrees with it is measuring the console, not the file.",
+ "round_no_ts": "2026-10-28T12:30:00+08:00",
+ "round_pit": "r1215: a field NAME is not an arithmetic -- two producers published decomposition_engine_bp (a daily-sum and a monthly-sum of per-name contributions) and the two answers sit 2.92..3.63bp apart with a 0.70bp spread across four eras and two arms; a near-constant gap across eras of different volatility cannot be within-month compounding, so it is a definitional wedge and one of the two faces does not declare its reading. Sibling: a leg that publishes into a directory it scans must exclude its own study -- self-inclusion grew the sweep 25->26 faces and 1034->3274 cells before L36d pinned it.",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
   "status": "alive"
  },
- "seq": 20,
+ "seq": 21,
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
@@ -942,13 +942,13 @@
   "local_not_on_origin_main": 0,
   "note": "r1214 clean first-attempt push; four-way verified (HEAD == origin/main, ahead 0 behind 0, ls-tree origin carries LADDERLEVELS-20261027 and WIDESIDEGROSS-20261027 and the E181/E182 digest)"
  },
- "task": "r1214: E181 ladder leave-one-member-out + E182 wide-side gross vs net (done)",
- "task_short": "E181/E182 split pair",
- "task_short_note": "same burn path as E176/E178; 5 eras x 5-6 holdings",
- "ts": "2026-10-28T11:25:37+08:00",
- "updated": "2026-10-28T11:25:37+08:00",
- "updated_at": "2026-10-28T11:25:37+08:00",
- "verdict": "E179: a side-level zero is not five zeros until it is published per holding -- gross_abs_delta_bp = 0.0 in all five eras (classification flat_per_holding, eras_cancelling []), the fixed book is era-dependent (3/4/5 members, members_missing published), and __cash__ is a labelled residual that books in exactly 15 early months (2012-05..2013-07) carrying 3.00%/1.39% of the ladder level",
+ "task": "r1215: E180 published-level quote audit (done)",
+ "task_short": "E180 level quote audit",
+ "task_short_note": "e97_routing.py new mode levelquotes; 14 -> 40 selftest legs",
+ "ts": "2026-10-28T12:30:00+08:00",
+ "updated": "2026-10-28T12:30:00+08:00",
+ "updated_at": "2026-10-28T12:30:00+08:00",
+ "verdict": "E180: 1034 level cells across 22 faces classify as 979 anchored book levels, 50 sums of terms, 5 sums of levels and 2041 offset cells; four faces quote a derived level and all four publish an offset beside it (leak 0). The finding is a collision, not a leak: decomposition_engine_bp is published from both arithmetics and differs by 2.92..3.63bp on 10 comparable era/arm cells (definitional_wedge); offsets are only differenced against the same-construct E177 column (40 comparisons, max 3.58bp).",
  "r1210": {
   "dedupe": "E173-TILT3-REPAIR-DRIVERS closed as SUPERSEDED by E174 without burning: same engine column, already attributed name-by-name with per-era carriers and the drop test; re-burning would have produced a second table of the same numbers",
   "finding": "the engine column's repair delta is 100% wide book: 2021_2023 +30.20bp / 2024_now +49.60bp / full +17.12bp, ladder book 0.0bp in every row. The zero is structural -- 67 events neutralised, none of them a ladder member -- so a fixed 5-name leg has nothing to repair. E174's sentence survives ('the wide book lost 2024_now') and now has a cause. Delta rebuilt from the books lands 0.90/2.90/0.82bp under the published one (compounding). Decomposition LEVEL offset re-measured at +52.9/+55.8bp on 2024_now.",
@@ -1075,5 +1075,28 @@
   "local_not_on_origin_main": 0,
   "note": "23 targeted files; the drama lane, fleet/machine-health.json, results/runnable_pool.bm-b.json, results/minute_feed_status.json and the unsuffixed collector status faces were dirty at open and left unstaged"
  },
- "round_no_ts_note": "r1214 closeout"
+ "round_no_ts_note": "r1214 closeout",
+ "r1215": {
+  "attrition": "CLEAN (4 ledgers, no active loss)",
+  "controls": "fixture legs cover anchored-only / derived-with-offset / derived-without-offset / monthly-producer sum / era-arm parsing / spec-block exclusion; L37 runs on the real disk and L36d pins the self-inclusion exclusion",
+  "d19": "decisions 013acbb / orders 013acbb unchanged (triple mode, reproducible); delta none",
+  "dualrun": "ZERO-DRIFT 669 entries streak 5",
+  "finding": "same-name two arithmetics: decomposition_engine_bp daily-sum 258.84 vs monthly-sum 261.76 pre2017; gaps 2.92/3.53/3.63/3.34/3.40/3.59/3.33/3.35/3.53/3.58 across the 10 cells, spread 0.7023bp -> definitional_wedge (compounding would scale with the era). The wedge's source is NOT attributed: E177 declares its reading, the monthly side does not. E185 seeded to locate it.",
+  "honest": "classification is name-based within the verified producer split -- a renamed cell would be misread, so every cell ships with its path; derived_arith is per face, not per cell; publishing an offset is not subtracting it",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0.0/0.2/0.1, pool_ready 3) -> burned the ready head E180 in-round",
+  "not_run": "strategy_scorecard / daily_scorecard / build_status are bm-a host-guarded and ran inside the S6 chain; the bm-a-lane collectors; GPU untouched (parked, C-20261014-01)",
+  "orphan": 0,
+  "pool": "E180 done + result_ref; E183/E184 still ready; E185 seeded (ready floor 3)",
+  "product": [
+   "results/e79/DECOMLEVELQUOTES-2026-10-27.json",
+   "scripts/e97_routing.py: level_class/_base_name/era_arm_of/producer_index/producer_reach/decomoffset_index/level_quotes/run_levelquotes + CLI mode levelquotes (selftest 14 -> 40)",
+   "research/digests/DIGEST-20261028-r1215-e180-level-quote-audit.md",
+   "knowledge/METHODOLOGY_ASSETS.md E180"
+  ],
+  "s6": "21/21 rc=0 (115.9s) | dualrun ZERO-DRIFT 669 entries streak 5 | compute_audit rc0 py 0.1% | cal_audit in_sync | market_regime breadth 0.85 | market_clock ORANGE_COOL | astock+etf panels no-op fresh | minute_feed +145 rows | etf_book_forward power table | attrition CLEAN | gpu_face no findings | machine_health 3 machines",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit and pre-push claws reinstalled",
+  "selftest": "e97 14 -> 40/40",
+  "smoke": "118/118 PASS at open",
+  "watermark": "red at open (pool-batch-runnable-idle-low-cpu) -> E180 burned in-round"
+ }
 }

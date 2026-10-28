@@ -2158,3 +2158,34 @@ flipper list is a positive finding (the net is distributed, not carried), and ne
 1 is a one-name story even when no flipper exists. Evidence:
 results/e43_tilt_4member/WIDESIDEGROSS-20261027.json,
 research/digests/DIGEST-20261028-r1214-e181-e182-ladder-lomo-wide-gross.md.
+
+## E180 A field name is not an arithmetic: audit which published levels are sums and which are books (2026-10-28 r1215 bm-b)
+
+Three thousand cells of "level" sit in the tilt family and nothing said which arithmetic produced
+each one. Classified by the producer's code path (the def whose body carries the face's study
+literal, then the tokens it reaches through the module's own call graph) rather than by the field
+name, the 25 faces split as: 979 ANCHORED book levels, 50 DERIVED sums of terms, 5 sums of levels,
+2041 published offset cells, 0 of them leaky (every face that quotes a sum also publishes an
+offset beside it).
+
+The finding is not a leak, it is a COLLISION. `decomposition_engine_bp` is published twice: once by
+the daily-sum producer (E177, a sum of daily w*r terms) and once by a monthly producer (E176, a sum
+of monthly per-name contributions). On the same (era, arm) the two answers differ by 2.92..3.63bp
+across all 10 comparable cells -- and a near-constant gap across four eras and two arms is a
+DEFINITIONAL wedge, not a compounding artifact (compounding would scale with each era's
+volatility). A reader quoting "the decomposition level" gets one of two objects and the label does
+not say which.
+
+How to apply: (a) when two legs publish the same quantity, the audit question is not "do they
+agree" but "are they the same object" -- classify by producer code path, never by column name
+(generic names make column matching a false-positive machine, r1176); (b) a near-constant
+cross-face gap earns its own label -- publish the per-cell diffs, their spread, and the word
+`definitional_wedge` when spread <= 1bp, because the magnitude of a gap without its sign structure
+is unreadable; (c) an offset is book-specific (E177: engine 28.41 / wide -29.33 / ladder -57.74bp
+on pre2017), so a face's own offset may only be differenced against the E177 column of the SAME
+construct -- everything else is inventoried as `not_the_same_construct`, never differenced; (d) a
+leg that publishes into a directory it scans must exclude its own study from the sweep or it
+audits itself (this window: 25->26 faces / 1034->3274 cells by self-inclusion).
+
+Evidence: results/e79/DECOMLEVELQUOTES-2026-10-27.json, scripts/e97_routing.py mode levelquotes
+(selftest 14->40 legs), research/digests/DIGEST-20261028-r1215-e180-level-quote-audit.md.

@@ -22443,10 +22443,15 @@
    "seeded_at": "2026-10-28T10:09+08:00",
    "seeded_by": "bm-b r1211",
    "source": "Seeded r1211 bm-b from its own E177 face: the decomposition cannot be quoted for a level, but the family's published faces have been printing decomposition levels beside anchored ones for six faces now.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e97_routing.py (new mode)",
-   "title": "E177 closed the arithmetic question (offset is a cross term, not compounding; anchor every name-level leg) but nobody has audited which PUBLISHED sentences still quote a decomposition level. Sweep every face in results/e43_tilt_4member/ plus the E79 ledgers and classify each published level field as ANCHORED (read from an arm's published level) or DERIVED (sum of daily w*r), publishing the offset that sits behind each derived one. A face that publishes a derived level without quoting its offset is the same class of defect as 'a verdict in a receipt is not a gate' -- the number is there, the reason to trust it is not."
-  },  {
+   "title": "E177 closed the arithmetic question (offset is a cross term, not compounding; anchor every name-level leg) but nobody has audited which PUBLISHED sentences still quote a decomposition level. Sweep every face in results/e43_tilt_4member/ plus the E79 ledgers and classify each published level field as ANCHORED (read from an arm's published level) or DERIVED (sum of daily w*r), publishing the offset that sits behind each derived one. A face that publishes a derived level without quoting its offset is the same class of defect as 'a verdict in a receipt is not a gate' -- the number is there, the reason to trust it is not.",
+   "done_at": "2026-10-28T12:2x+08:00",
+   "done_by": "bm-b r1215",
+   "result_ref": "results/e79/DECOMLEVELQUOTES-2026-10-27.json",
+   "done_note": "delivered: every level cell in the tilt family + e79 classified by producer code path (979 anchored / 50 derived_daily / 5 sums-of-levels / 2041 offset); no face quotes a sum without an offset beside it; ONE name collision -- decomposition_engine_bp published twice (daily-sum 258.84 vs monthly-sum 261.76 on pre2017), 10 comparable cells, gap 2.92..3.63bp, spread 0.70bp => definitional_wedge, not compounding; offsets differenced only against the same-construct E177 column (40 comparisons, max 3.58bp). e97 selftest 14->40"
+  },
+  {
    "claimed_at": "2026-10-28T11:30+08:00",
    "claimed_by": "bm-b",
    "deliverable": "results/e43_tilt_4member/LADDERLEVELS-<cutoff>.json",
@@ -22463,7 +22468,8 @@
    "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3laddersplit)",
    "title": "E179 published the ladder side per holding and the LEVELS turn out to be single-member books in disguise: 510500 carries 61.9% of pre2017's +1018.2bp, 588000 carries 32% of 2021_2023's -923.5bp and 41% of 2024_now's +1088.6bp. Nobody has asked whether those era LEVELS survive dropping their biggest member, which is the E105/E143 single-name test applied to the fixed leg instead of the MID family. Publish, per era, every member's share AND a leave-one-member-out sweep of the ladder level (the same shape E175 used for the sign verdict), so 'the ladder lost 2021_2023' is a book statement or is named as one holding."
-  },  {
+  },
+  {
    "claimed_at": "2026-10-28T11:30+08:00",
    "claimed_by": "bm-b",
    "deliverable": "results/e43_tilt_4member/WIDESIDEGROSS-<cutoff>.json",
@@ -22504,6 +22510,18 @@
    "status": "ready",
    "target": "scripts/e39_panel_census.py (run_tilt3widesplit)",
    "title": "E182 measured that 56% of the 2024_now wide-book repair movement cancels, but a per-name gross cannot say WHERE the cancellation lives: two names repaired in the same month cancel inside that month, while two names repaired a year apart do not. Publish the cancellation split by decision month (monthly gross vs monthly net for the 45 repaired names) and state whether the thin net is a within-month phenomenon or a dispersion across dates. Without that split, \"the net is thin\" and \"the repairs are spread out\" are the same sentence."
+  },
+  {
+   "deliverable": "results/e79/LEVELWEDGE-<cutoff>.json",
+   "id": "E185-LEVEL-WEDGE-LOCATE",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "seeded_at": "2026-10-28T12:2x+08:00",
+   "seeded_by": "bm-b r1215",
+   "source": "Seeded r1215 bm-b from its own E180 face: two arithmetics publish decomposition_engine_bp and differ by a near-constant 2.92..3.63bp.",
+   "status": "ready",
+   "target": "scripts/e97_routing.py (mode levelquotes, follow-up)",
+   "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22518,6 +22536,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T11:20+08:00",
+ "updated_at": "2026-10-28T12:2x+08:00",
  "version": 1
 }
