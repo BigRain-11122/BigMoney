@@ -1,8 +1,8 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-28T11:25:37+08:00",
- "current": "r1214: the ladder levels survive every single-member drop while the wide book nets 0.44 of its gross",
- "current_task": "pool ready 3 (E180/E183/E184); E181/E182 closed",
+ "clock_read": "2026-10-28T12:22:40+08:00",
+ "current": "r1216 E183: the E181 survival sweep re-read on the compounded level -- every era keeps its sign on BOTH arithmetics, but 4 of 22 drops reverse the sign of their own effect (2024_now without sh510050: +73.2bp sum vs -34.0bp compounded)",
+ "current_task": "r1216: E183 ladder LOMO compounded (done) -> E184 next",
  "cyc_round": 1201,
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
@@ -46,12 +46,12 @@
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "did": "E181/E182 pair published",
  "did_round": "r1214",
- "heartbeat_epoch_utc": 1793157937,
+ "heartbeat_epoch_utc": 1793161360,
  "heartbeat_epoch_utc_face": "int",
  "idle_rounds": 0,
  "last_action": "r1214 E181+E182 burn + digest + cards + pool close/seed + S6 21 legs + closeout",
  "last_action_at": "2026-10-28T11:25:37+08:00",
- "last_artifact": "results/e43_tilt_4member/WIDESIDEGROSS-20261027.json",
+ "last_artifact": "results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json",
  "last_decisions_at": "2026-10-22T00:24:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -78,19 +78,19 @@
   "ts": "2026-10-27T15:26:56+08:00"
  },
  "last_round": "r1213",
- "last_round_at": "2026-10-28T11:12+08:00",
- "last_round_report": "logs/iteration-loop/round_reports.md (r1195 row)",
- "last_round_ts": "2026-10-27T17:31:00+08:00",
+ "last_round_at": "2026-10-28T12:22:40+08:00",
+ "last_round_report": "r1216",
+ "last_round_ts": "2026-10-28T12:22:40+08:00",
  "last_run": "2026-10-27T12:06:00+08:00",
- "last_seen": "2026-10-28T11:25:37+08:00",
+ "last_seen": "2026-10-28T12:22:40+08:00",
  "last_updated": "2026-10-27T15:57:48+08:00",
- "latest_artifact": "results/e43_tilt_4member/LADDERLEVELS-20261027.json",
+ "latest_artifact": "results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json",
  "local_not_on_origin_commits": 0,
  "machine_id": "bm-b",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
- "next": "E180 decomp-level-quote audit (ready head), then E183/E184",
- "next_milestone": "E180 published-level quote audit + E183 compounded survival recheck, window <=48h (deadline 2026-10-30 11:55)",
- "next_pointer": "run_pair has no raw= seam yet; pair face lives at results/e40_pair_drawdown/PAIR-<cutoff>.json (cutoff control source)",
+ "next": "E184 wide-book cancellation location (ready head), then E175/E176 pool sweep",
+ "next_milestone": "E184 monthly gross-vs-net cancellation split, window <=48h (deadline 2026-10-30 12:16)",
+ "next_pointer": "E184 target=scripts/e39_panel_census.py (run_tilt3widesplit)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -133,7 +133,7 @@
   "r1158": "r1158: E92 gap-tolerant split screen. panel_screen mode neutralise_gap (gap_limit sessions, integer-ratio only) + e39 gapsplit leg (selftest 231->237, panel_screen 17->23). Face SCREENGAP-20261022.json (159KB) + digest. Census: 33 gapped prints, 10 integer-eligible at limit 1, 9 of them in 2021_2023. Churn levels 2021_2023 me 1866.5->768.2 / mid15 2185.4->1068.2; gap 318.9->300.0 (94% survives). 2024_now gap widens -211.0->-457.1 (mid15 -364.7 = E82 neutralise exactly). Transitions moved 9/69 me and 10/69 mid15; top moved mid15 2021-05-17->2021-06-15 -9185.4bp. Pool E92 done + E93-GAPSPLIT-ERA-SPREAD seeded (ready 3). S6: dualrun ZERO-DRIFT 616 streak 51, audit FLAG supply_gap only, watermark insufficient_history, update_daily no new rows, attrition CLEAN, orphan 0, smoke 49/49, REPORT/LIVE-2026-10-23 written, scorecard stale-takeover. S7: loop pin 2 no-op, watchdog re-registered, both claws reinstalled. Pit: pool text surgery needs BOTH the flip block to end with a comma AND the seeded block to omit one before the closing ' ]' -- json.loads caught both drafts before write.",
   "r1172": "E108 closed. The factor in split_events was implied_ratio()[ratio] -- folded to >=1 so the integer test can see a reverse split -- which is right on downward prints and mirrors upward ones to (1+r)^2-1. Fixed to 1/(1+r). Seven consuming faces re-derived (MID armed, GAPARM endgrid, GAPARM family, GAPTOP3, HELDSPLIT, REPAIRSTEP, SCREENGAPERA) with a legacy-coded control: e108_repairfix.py \"legacy repairstep\" reproduced the published face with 0 of 966 numeric leaves moved, so panel drift is excluded. Readings: REPAIRSTEP fabricating_windows 8->0 and the class tally flips to step_cancels_print; HELDSPLIT 2024_now sh510580 arm reads 1902.84/1418.07 -> 28.05/-2.94; MID armed 2024_now mid level -364.7 -> +4.9bp (sign flip appears in the cross-arm list); GAPARM 2024_now mid delta -241.0 -> +128.6bp, span 107.1 -> 48.5bp; GAPTOP3 names a 4th large move (2024_now/mid, 100% one window). Untouched by design and verified: 2017_2020 me -745.9bp and the 2021_2023 pair. E104's \"the repaired arm is not automatically plausible\" loses its witness (that witness WAS this bug); the newest-era mid -364.7 readings are superseded. SCREENGAPERA is cross-cutoff confounded (20261023 vs 20261026) and is disclosed as direction only. Pool E108 done + E109 seeded (14 neutralise legs still carry the old factor)."
  },
- "now_active": "r1214: E183 compounded-sweep recheck next (ready head E180 first)",
+ "now_active": "r1216 done; E184 ready head next",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -251,7 +251,7 @@
   "O-20261026-0930-bm-c.md",
   "O-20261026-0400-bm-c.md"
  ],
- "orders_ack_last": "O-20261026-0930-bm-c.md",
+ "orders_ack_last": "2026-10-28T12:22:40+08:00",
  "orders_ack_note": "r1191: 114 order files / 115 acked / unacked 0; order-bus receipts for OB-20261027-202256-910 (three-machine self-check) and OB-20261027-211206-860 (full-work order, bm-b voice lane) filed to cph4/fleet/order-bus/receipts/",
  "orders_delta_pending": false,
  "orphan": 0,
@@ -264,8 +264,7 @@
   "Bigmoney-IntradayMarks: check marks-20261027.jsonl after 15:10; if absent run update_intraday_marks.py --force inside the window and read the rc/2 branch (carried from r1168)."
  ],
  "pool_claims": [
-  "E175 done r1209",
-  "E173/E176/E177 ready"
+  "E183 done r1216"
  ],
  "push_receipts_r1049": {
   "ahead": 0,
@@ -922,10 +921,10 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1214,
- "round_no": 1215,
+ "round": 1216,
+ "round_no": 1216,
  "round_no_label": "r1214",
- "round_no_ts": "2026-10-28T12:30:00+08:00",
+ "round_no_ts": "2026-10-28T12:22:40+08:00",
  "round_pit": "r1215: a field NAME is not an arithmetic -- two producers published decomposition_engine_bp (a daily-sum and a monthly-sum of per-name contributions) and the two answers sit 2.92..3.63bp apart with a 0.70bp spread across four eras and two arms; a near-constant gap across eras of different volatility cannot be within-month compounding, so it is a definitional wedge and one of the two faces does not declare its reading. Sibling: a leg that publishes into a directory it scans must exclude its own study -- self-inclusion grew the sweep 25->26 faces and 1034->3274 cells before L36d pinned it.",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
@@ -945,10 +944,10 @@
  "task": "r1215: E180 published-level quote audit (done)",
  "task_short": "E180 level quote audit",
  "task_short_note": "e97_routing.py new mode levelquotes; 14 -> 40 selftest legs",
- "ts": "2026-10-28T12:30:00+08:00",
+ "ts": "2026-10-28T12:22:40+08:00",
  "updated": "2026-10-28T12:30:00+08:00",
  "updated_at": "2026-10-28T12:30:00+08:00",
- "verdict": "E180: 1034 level cells across 22 faces classify as 979 anchored book levels, 50 sums of terms, 5 sums of levels and 2041 offset cells; four faces quote a derived level and all four publish an offset beside it (leak 0). The finding is a collision, not a leak: decomposition_engine_bp is published from both arithmetics and differs by 2.92..3.63bp on 10 comparable era/arm cells (definitional_wedge); offsets are only differenced against the same-construct E177 column (40 comparisons, max 3.58bp).",
+ "verdict": "E183: arithmetic reading reproduces E181 bit-for-bit (join 0.0 on all five eras), so this is the same book and the same months. Compounded reading offsets are -69.3..-318.4bp per era (one-signed by AM>=GM, so only the magnitude is informative) and every era survives every drop on both, so E181's verdict is not arithmetic-dependent. What IS arithmetic-dependent is the drop EFFECT: 4 of 22 drops reverse it (pre2017 sh510300/sh510500, 2024_now+full sh510050).",
  "r1210": {
   "dedupe": "E173-TILT3-REPAIR-DRIVERS closed as SUPERSEDED by E174 without burning: same engine column, already attributed name-by-name with per-era carriers and the drop test; re-burning would have produced a second table of the same numbers",
   "finding": "the engine column's repair delta is 100% wide book: 2021_2023 +30.20bp / 2024_now +49.60bp / full +17.12bp, ladder book 0.0bp in every row. The zero is structural -- 67 events neutralised, none of them a ladder member -- so a fixed 5-name leg has nothing to repair. E174's sentence survives ('the wide book lost 2024_now') and now has a cause. Delta rebuilt from the books lands 0.90/2.90/0.82bp under the published one (compounding). Decomposition LEVEL offset re-measured at +52.9/+55.8bp on 2024_now.",
@@ -1098,5 +1097,14 @@
   "selftest": "e97 14 -> 40/40",
   "smoke": "118/118 PASS at open",
   "watermark": "red at open (pool-batch-runnable-idle-low-cpu) -> E180 burned in-round"
+ },
+ "r1216": {
+  "attrition": "not rerun this round (product leg only); last scan clean r1215",
+  "d19": "decisions bee8ab7b@08f8693 delta consumed (D-20261028-08..14: none touch the science lane; D-11 group-root/.Path+blob rules self-checked = 0 .Path hits, D-14 machine-health dict = no-op), orders unchanged d6d85b61",
+  "orphan_face": 0,
+  "face": "results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json",
+  "join": "E181 full arithmetic level reproduced exactly (max abs diff 0.0 across 5 eras)",
+  "finding": "offsets -69.3/-99.5/-255.6/-318.4/-210.5 bp (comp-arith) per era; 0 of 22 drops flip the LEVEL sign on either arithmetic; 4 of 22 drops flip their own EFFECT sign (pre2017 sh510300/sh510500, 2024_now sh510050, full sh510050)",
+  "selftest": "617/617 + panel_screen 39/39"
  }
 }

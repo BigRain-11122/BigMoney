@@ -18611,6 +18611,70 @@ def selftest():
         is None,
         "E182 an absent E176 face publishes no join instead of a zero")
 
+    # (E183) the same drop set against the compounded level: the arithmetic mean
+    # and the geometric annualisation are different objects on the same months,
+    # so a survival verdict has to say which one it survives.
+    _e183_members = ["A", "B", "C"]
+    _e183_net = {}
+    for _m, _r in (("2020-01", 0.02), ("2020-02", -0.01), ("2020-03", 0.03)):
+        for _s in _e183_members:
+            _e183_net[(_m, _s)] = _r / len(_e183_members)
+    _e183_pair = _era_level_arith_comp_bp(_e183_net, ["2020-01", "2020-02", "2020-03"],
+                                          _e183_members)
+    chk(abs(_e183_pair["arith_bp"] - (0.04 / 3 * 12 * 1e4)) < 1e-6,
+        "E183 the arithmetic reading is the mean month x 12, the published object")
+    _g183 = 1.02 * 0.99 * 1.03
+    chk(abs(_e183_pair["comp_bp"] - ((_g183 ** (12.0 / 3) - 1.0) * 1e4)) < 1e-3,
+        "E183 the compounded reading annualises the same months geometrically")
+    chk(_e183_pair["comp_bp"] > _e183_pair["arith_bp"],
+        "E183 compounding a variable month series sits above the sum, so the "
+        "offset is a definitional wedge and not rounding")
+    _e183_flat = _era_level_arith_comp_bp({("2020-01", "A"): 0.01,
+                                           ("2020-02", "A"): 0.01},
+                                          ["2020-01", "2020-02"], ["A"])
+    chk(abs(_e183_flat["comp_bp"] - (1.01 ** 12 - 1.0) * 1e4) < 1e-3,
+        "E183 a constant month series still carries the compound-above-sum "
+        "wedge, so 'flat months' is not the same as 'flat offset'")
+    _e183_hole = _era_level_arith_comp_bp({("2020-01", "A"): 0.01},
+                                          ["2020-01", "2020-02"], ["A"])
+    chk(_e183_hole["months_without_rows"] == 1,
+        "E183 a month with no recorded rows is counted, not silently filled")
+    _e183_v = _ladder_comp_verdict(
+        100.0, 30.0,
+        [{"name": "A", "lomo_level_bp_arith": -5.0, "lomo_level_bp_comp": 5.0}])
+    chk(_e183_v["flips_only_under_summing"] == ["A"]
+        and _e183_v["classification"] == "arithmetic_dependent",
+        "E183 a drop that flips the sum but not the compound is named as "
+        "arithmetic-dependent, not reported as a survivor")
+    _e183_v2 = _ladder_comp_verdict(
+        100.0, 30.0,
+        [{"name": "A", "lomo_level_bp_arith": 40.0, "lomo_level_bp_comp": 10.0}])
+    chk(_e183_v2["classification"] == "survives_every_drop_both",
+        "E183 a drop that keeps both signs survives on either arithmetic")
+    chk(_ladder_comp_join(100.0, None, "X") is None,
+        "E183 an absent E181 face publishes no join instead of a zero")
+    chk(_ladder_comp_join(100.0, {"eras": {"X": {"full_level_bp_raw": 100.0}}},
+                          "X") == 0.0,
+        "E183 the full arithmetic level is joined against the E181 face on disk")
+    _e183_undef = _era_level_arith_comp_bp({("2020-01", "A"): -1.5},
+                                           ["2020-01"], ["A"])
+    chk(_e183_undef["comp_bp"] is None,
+        "E183 a non-positive growth multiple leaves the compound undefined "
+        "rather than inventing a number")
+    _e183_eff = [{"name": "A", "level_change_bp_arith": 73.158,
+                  "level_change_bp_comp": -34.014},
+                 {"name": "B", "level_change_bp_arith": 73.158,
+                  "level_change_bp_comp": 12.0},
+                 {"name": "C", "level_change_bp_arith": 73.158,
+                  "level_change_bp_comp": 0.02}]
+    chk(_mark_drop_effect_dependence(_e183_eff) == ["A"],
+        "E183 only the drop whose effect actually reverses is flagged; a same-"
+        "sign drop and one inside the dead band are not")
+    chk(_e183_eff[1]["drop_effect_arithmetic_dependent"] is False
+        and _e183_eff[2]["drop_effect_sign_comp"] == 0,
+        "E183 a drop that does nothing on one arithmetic has no effect to "
+        "reverse, so the dead band keeps it out of the flag")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -21215,6 +21279,326 @@ def run_tilt3ladderlomo(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E183
+TILT3LADDERLOMOCOMP_MOVED_BP = TILT3LADDERLOMO_MOVED_BP
+TILT3LADDER_CASH_NAME = "__cash__"   # the E174 sink's un-invested residual
+
+
+def _ladder_month_returns(net, months, members):
+    """(E183) the book's monthly arithmetic return per month, from the sink.
+
+    A month with no rows is a month the book paid nothing that was recorded; it
+    is counted separately rather than silently invented, because a hole read as
+    a zero return is a shrink inside the compounding and a free month inside the
+    sum, which is exactly the wedge this leg is measuring.
+    """
+    mset = set(months)
+    # the cash residual is part of the book's return: dropping it here would
+    # make this level disagree with E181's, which sums every recorded name
+    mset_m = set(members) | {TILT3LADDER_CASH_NAME}
+    out, rows = {}, 0
+    for (m, s), v in net.items():
+        if m in mset and s in mset_m:
+            out[m] = out.get(m, 0.0) + v
+            rows += 1
+    return out, (len(mset) - len(out)), rows
+
+
+def _era_level_arith_comp_bp(net, months, members):
+    """(E183) one era level read two ways off the same monthly returns.
+
+    ``arith`` is the published object (and what E181 tested): the mean monthly
+    return x 12. ``comp`` annualises the same months geometrically, so the two
+    differ by exactly the cross term a reader who says "compounded level" is
+    asking about. Neither is more true; quoting one and claiming robustness for
+    the other is the error.
+    """
+    if not months:
+        return {"arith_bp": None, "comp_bp": None, "months_used": 0,
+                "months_without_rows": 0, "growth_multiple": None}
+    rs, missing, _rows = _ladder_month_returns(net, months, members)
+    seq = [rs.get(m, 0.0) for m in months]
+    n = len(seq)
+    arith = sum(seq) / n * 12.0 * 1e4
+    g = _compound(seq) + 1.0
+    comp = None if g <= 0 else (g ** (12.0 / n) - 1.0) * 1e4
+    return {"arith_bp": round(arith, 3),
+            "comp_bp": (None if comp is None else round(comp, 3)),
+            "months_used": n, "months_without_rows": missing,
+            "growth_multiple": round(g, 6)}
+
+
+def _ladder_lomo_level_both(net, months, drop, members):
+    """(E183) E181's leave-one-out book, read on both arithmetics."""
+    transformed, unhold = _ladder_lomo_net(net, months, drop, members)
+    used = [m for m in months if m not in set(unhold)]
+    pair = _era_level_arith_comp_bp(transformed, used, members)
+    return pair, unhold, used
+
+
+def _ladder_comp_join(full_arith, sib, era):
+    """(E183) the full arithmetic level must reproduce E181's LOMO level."""
+    if not sib:
+        return None
+    theirs = ((sib.get("eras") or {}).get(era) or {}).get("full_level_bp_raw")
+    if theirs is None or full_arith is None:
+        return None
+    return round(abs(float(full_arith) - float(theirs)), 6)
+
+
+def _drop_effect_sign(change, tol=None):
+    """(E183) the sign of a drop's effect, with a dead band at the tolerance."""
+    t = TILT3LADDERLOMOCOMP_MOVED_BP if tol is None else float(tol)
+    if change is None:
+        return None
+    if change > t:
+        return 1
+    if change < -t:
+        return -1
+    return 0
+
+
+def _mark_drop_effect_dependence(per, tol=None):
+    """(E183) flag the drops whose effect reverses between the two arithmetics.
+
+    A level that keeps its sign is not enough: "dropping this holding helps" can
+    be true of the sum and false of the compound on the same months. The flag is
+    deliberately NOT raised when either side sits inside the dead band -- a
+    drop that does nothing on one arithmetic has no effect to reverse.
+    """
+    flagged = []
+    for r in per:
+        sa = _drop_effect_sign(r.get("level_change_bp_arith"), tol)
+        sc = _drop_effect_sign(r.get("level_change_bp_comp"), tol)
+        r["drop_effect_sign_arith"] = sa
+        r["drop_effect_sign_comp"] = sc
+        dep = bool(sa and sc and sa != sc)
+        r["drop_effect_arithmetic_dependent"] = dep
+        if dep:
+            flagged.append(r["name"])
+    return flagged
+
+
+def _ladder_comp_verdict(full_arith, full_comp, rows, tol=None):
+    """(E183) does the era level survive every drop under BOTH arithmetics?
+
+    A drop can keep the sign on the arithmetic level and lose it on the
+    compounded one (or the reverse) whenever the era's monthly returns are large
+    enough for the cross term to matter. Publishing only one survivor list
+    publishes a conclusion about one arithmetic.
+    """
+    t = TILT3LADDERLOMOCOMP_MOVED_BP if tol is None else float(tol)
+
+    def _sign(x):
+        if x is None:
+            return None
+        return 1 if x > 0 else (-1 if x < 0 else 0)
+
+    sa, sc = _sign(full_arith), _sign(full_comp)
+    flips_a, flips_c, only_a, only_c = [], [], [], []
+    for r in rows:
+        la, lc = r.get("lomo_level_bp_arith"), r.get("lomo_level_bp_comp")
+        if sa is not None and la is not None and abs(full_arith) > t:
+            if _sign(la) != sa:
+                flips_a.append(r["name"])
+        if sc is not None and lc is not None and abs(full_comp) > t:
+            if _sign(lc) != sc:
+                flips_c.append(r["name"])
+    for r in rows:
+        a_in = r["name"] in flips_a
+        c_in = r["name"] in flips_c
+        if a_in and not c_in:
+            only_a.append(r["name"])
+        elif c_in and not a_in:
+            only_c.append(r["name"])
+    both = sorted(set(flips_a) & set(flips_c))
+    if sa is None or sc is None:
+        cls = "unmeasured"
+    elif not flips_a and not flips_c:
+        cls = "survives_every_drop_both"
+    elif flips_a and flips_c and not only_a and not only_c:
+        cls = "flips_under_drop_both"
+    else:
+        cls = "arithmetic_dependent"
+    return {"level_sign_arith": sa, "level_sign_comp": sc,
+            "flips_under_drop_arith": sorted(flips_a),
+            "flips_under_drop_comp": sorted(flips_c),
+            "flips_both": both,
+            "flips_only_under_summing": sorted(only_a),
+            "flips_only_under_compounding": sorted(only_c),
+            "classification": cls}
+
+
+def run_tilt3ladderlomocomp(outdir, mode="neutralise_int", eras=ERAS):
+    """E183: the E181 survival sweep re-read on the COMPOUNDED level.
+
+    E181 dropped each ladder member on a contribution-sum level. E177 proved the
+    sum and the compounded level are different objects with an opposite-sign
+    cross term, so "every era survives every drop" was a statement about the sum.
+    This re-runs the identical drop set on the geometric annualisation of the
+    same monthly returns, publishes the offset beside every dropped level, and
+    names any era whose survival depends on which arithmetic the reader assumes.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+    import e24_ladder_weighting as base
+    members = list(base.LADDER)
+    lad_raw = (sides_raw.get("lad") or {})
+    lad_scr = (sides_scr.get("lad") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERLEVELS-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        full = _era_level_arith_comp_bp(lad_raw, ms, members)
+        full_scr = _era_level_arith_comp_bp(lad_scr, ms, members)
+        present = sorted({s for (m, s) in lad_raw
+                          if m in set(ms) and s in set(members)})
+        per = []
+        for drop in present:
+            pair, un_r, used = _ladder_lomo_level_both(lad_raw, ms, drop, members)
+            pair_s, _u2, _us2 = _ladder_lomo_level_both(lad_scr, ms, drop, members)
+            # the same baseline E181 differences against: the full book, read on
+            # only the months that survive this drop
+            base_a = _era_level_arith_comp_bp(lad_raw, used, members)
+            per.append({
+                "name": drop,
+                "lomo_level_bp_arith": pair["arith_bp"],
+                "lomo_level_bp_comp": pair["comp_bp"],
+                "lomo_level_bp_arith_screened": pair_s["arith_bp"],
+                "lomo_level_bp_comp_screened": pair_s["comp_bp"],
+                "offset_comp_minus_arith_bp": (
+                    None if None in (pair["comp_bp"], pair["arith_bp"])
+                    else round(pair["comp_bp"] - pair["arith_bp"], 3)),
+                "level_change_bp_arith": (
+                    None if None in (pair["arith_bp"], base_a["arith_bp"])
+                    else round(pair["arith_bp"] - base_a["arith_bp"], 3)),
+                "level_change_bp_comp": (
+                    None if None in (pair["comp_bp"], base_a["comp_bp"])
+                    else round(pair["comp_bp"] - base_a["comp_bp"], 3)),
+                "months_used": len(used),
+                "months_unholdable": un_r,
+                "months_without_rows": pair["months_without_rows"],
+            })
+        # a level can keep its sign while the EFFECT of the drop reverses: the
+        # sum says dropping this name helps, the compound says it hurts. That is
+        # the arithmetic dependence a reader of one column cannot see.
+        _mark_drop_effect_dependence(per)
+        v = _ladder_comp_verdict(full["arith_bp"], full["comp_bp"], per)
+        rows[name] = {
+            "months": len(ms),
+            "members_declared": members,
+            "members_present": present,
+            "members_missing": sorted(set(members) - set(present)),
+            "full_level_bp_arith": full["arith_bp"],
+            "full_level_bp_comp": full["comp_bp"],
+            "full_level_bp_arith_screened": full_scr["arith_bp"],
+            "full_level_bp_comp_screened": full_scr["comp_bp"],
+            "full_offset_comp_minus_arith_bp": (
+                None if None in (full["comp_bp"], full["arith_bp"])
+                else round(full["comp_bp"] - full["arith_bp"], 3)),
+            "months_without_rows": full["months_without_rows"],
+            "growth_multiple": full["growth_multiple"],
+            "lomo": per,
+            "level_sign_arith": v["level_sign_arith"],
+            "level_sign_comp": v["level_sign_comp"],
+            "flips_under_drop_arith": v["flips_under_drop_arith"],
+            "flips_under_drop_comp": v["flips_under_drop_comp"],
+            "flips_both": v["flips_both"],
+            "flips_only_under_summing": v["flips_only_under_summing"],
+            "flips_only_under_compounding": v["flips_only_under_compounding"],
+            "level_survival": v["classification"],
+            "e181_join_bp": _ladder_comp_join(full["arith_bp"], sib, name),
+            "drops_whose_effect_sign_differs": sorted(
+                r["name"] for r in per
+                if r.get("drop_effect_arithmetic_dependent")),
+        }
+
+    measured = {k: v for k, v in rows.items()
+                if v.get("level_survival") not in (None, "unmeasured")}
+    joins = [v["e181_join_bp"] for v in measured.values()
+             if v["e181_join_bp"] is not None]
+    offsets = [abs(v["full_offset_comp_minus_arith_bp"]) for v in measured.values()
+               if v.get("full_offset_comp_minus_arith_bp") is not None]
+    offsets += [abs(r["offset_comp_minus_arith_bp"]) for v in measured.values()
+                for r in v["lomo"]
+                if r.get("offset_comp_minus_arith_bp") is not None]
+    return {
+        "study": "e183_tilt3_ladder_lomo_compounded",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "method": ("E181's identical leave-one-out drop set (survivors "
+                       "re-weighted to stay fully invested), read on the "
+                       "arithmetic mean-month level and on the geometric "
+                       "annualisation of the same monthly returns"),
+            "units": "annualised bp of the era",
+            "arith_def": "mean(monthly book return) x 12 x 1e4 (the published object)",
+            "comp_def": "(prod(1+monthly book return) ** (12/n) - 1) x 1e4",
+            "moved_tolerance_bp": TILT3LADDERLOMOCOMP_MOVED_BP,
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_survive_both": sorted(
+                k for k, v in measured.items()
+                if v["level_survival"] == "survives_every_drop_both"),
+            "eras_arithmetic_dependent": sorted(
+                k for k, v in measured.items()
+                if v["level_survival"] == "arithmetic_dependent"),
+            "flips_only_under_summing": {k: v["flips_only_under_summing"]
+                                         for k, v in measured.items()
+                                         if v["flips_only_under_summing"]},
+            "flips_only_under_compounding": {k: v["flips_only_under_compounding"]
+                                             for k, v in measured.items()
+                                             if v["flips_only_under_compounding"]},
+            "full_offset_by_era_bp": {k: v["full_offset_comp_minus_arith_bp"]
+                                      for k, v in measured.items()},
+            "max_abs_offset_bp": (None if not offsets else round(max(offsets), 3)),
+            "e181_join_max_abs_diff_bp": (None if not joins
+                                          else round(max(joins), 6)),
+            "eras_with_unholdable_months": sorted(
+                k for k, v in measured.items()
+                if any(r["months_unholdable"] for r in v["lomo"])),
+            "eras_with_months_without_rows": sorted(
+                k for k, v in measured.items() if v["months_without_rows"]),
+            "drops_whose_effect_sign_differs": {
+                k: v["drops_whose_effect_sign_differs"]
+                for k, v in measured.items()
+                if v["drops_whose_effect_sign_differs"]},
+            "n_drops_whose_effect_sign_differs": sum(
+                len(v["drops_whose_effect_sign_differs"])
+                for v in measured.values()),
+        },
+        "screen_report": report,
+        "honest": [
+            "the two readings are the same monthly returns under two "
+            "annualisations; the offset is definitional, not an error, and it "
+            "does not vanish with more data",
+            "a survival verdict that differs between them is a verdict about "
+            "arithmetic, so the reading is published with its definition",
+            "the geometric annualisation is undefined (published as null) when "
+            "the era's growth multiple is non-positive",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -21402,6 +21786,7 @@ def main(argv):
                              "tilt3legfamily",
                              "tilt3decompoffset",
                              "tilt3ladderlomo",
+                             "tilt3ladderlomocomp",
                              "tilt3widesplit",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
@@ -22767,6 +23152,24 @@ def main(argv):
                               "single_member": v.get("level_is_single_member"),
                               "survival": v.get("level_survival"),
                               "flips": v.get("flips_under_drop")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderlomocomp":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderlomocomp(outdir)
+        p = write_json(outdir, "LADDERLOMOCOMPOUND-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderlomocomp",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "arith": v.get("full_level_bp_arith"),
+                              "comp": v.get("full_level_bp_comp"),
+                              "offset": v.get("full_offset_comp_minus_arith_bp"),
+                              "survival": v.get("level_survival"),
+                              "flips_only_summing": v.get("flips_only_under_summing"),
+                              "flips_only_compounding": v.get("flips_only_under_compounding")}
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

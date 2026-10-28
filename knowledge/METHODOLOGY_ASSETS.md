@@ -2189,3 +2189,25 @@ audits itself (this window: 25->26 faces / 1034->3274 cells by self-inclusion).
 
 Evidence: results/e79/DECOMLEVELQUOTES-2026-10-27.json, scripts/e97_routing.py mode levelquotes
 (selftest 14->40 legs), research/digests/DIGEST-20261028-r1215-e180-level-quote-audit.md.
+
+## E183 A survival sweep publishes a verdict about ONE annualisation unless it is run on both (2026-10-28 r1216 bm-b)
+
+E181 said every era's ladder LEVEL survives every single-member drop. It was measured on the
+arithmetic reading only (mean monthly return x 12). Re-running the identical drop set on the
+geometric annualisation of the same monthly returns: the LEVEL verdict holds on both arithmetics
+(no era flips either way) but the offset that separates the two readings is 69.3-318.4 bp per era
+and up to 425.6 bp on one dropped book -- and 4 of the 22 drops reverse the sign of their OWN
+effect (2024_now without sh510050: +73.2 bp on the sum, -34.0 bp compounded). So "dropping this
+holding helps" was an arithmetic statement, even though "the level keeps its sign" was not.
+
+How to apply: (a) before quoting a robustness verdict, ask which arithmetic its level was built
+from; if the other reading is computable from the same months, run it and publish both, because
+the cost of the second reading is one pass and the cost of the wrong one is a claim that reverses
+on a definition; (b) an offset whose sign is guaranteed by a theorem (AM >= GM makes every
+compounding offset non-positive here) has no sign to report -- publish the magnitude and say the
+sign is arithmetic, or a reader will read it as a finding; (c) the LEVEL and the EFFECT of a drop
+are two readings: the level can survive while the effect reverses, so a "survives" table without
+the per-drop effect column hides the arithmetic dependence; (d) a drop sitting inside the dead
+band on either side has no effect to reverse -- flag only genuine sign reversals, or the split
+degenerates into noise. Evidence: results/e43_tilt_4member/LADDERLOMOCOMPOUND-20261027.json,
+research/digests/DIGEST-20261028-r1216-e183-lomo-compounded.md.
