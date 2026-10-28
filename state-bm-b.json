@@ -936,11 +936,11 @@
  "status": "green",
  "sync": {
   "status": "PUSHED_VERIFIED",
-  "pushed_sha": "ce4e27c567058dc03f6a9a47b70b51572b1b0807",
-  "ts": "2026-10-28T09:52:00+08:00",
+  "pushed_sha": "7884010acb5bd4dcca775b9ec2ca1553ea7cd819",
+  "ts": "2026-10-28T10:42:00+08:00",
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
-  "note": "four-way verified (HEAD == origin/main, ahead=0 behind=0, ls-tree origin carries TILT3SIGNBOOKSPLIT-20261027 and the E176 digest); 53 own faces staged, drama lane / machine-health / token_usage.json / unsuffixed status faces left alone"
+  "note": "clean delivery bbe74d398..7884010ac, first attempt, no claw block; four-way verified (HEAD == origin/main == 7884010ac, ahead 0 behind 0, ls-tree origin carries TILT3SIGNDECOMOFFSET-20261027.json and the E177 digest). 11 targeted paths; the drama lane, fleet/machine-health.json, results/token_usage.json and the unsuffixed collector status faces were left unstaged. Line-ending trap hit and repaired in-window: json.dump/io.open text writes re-emitted four CRLF faces as LF (state.json 655/638, machine bm-b.json 494/488, pool 22452/22436, METHODOLOGY_ASSETS 2138/2040 -- the last one again through the 68 CRCRLF sequences r1209 warned about). Restored each from HEAD and re-applied with the file's own EOL (binary append for the card); diffstat went to 29/12, 23/17, 19/3 and 30/0."
  },
  "task": "r1211: E177 decom level offset (done) -> E178 ladder-leg invariant",
  "task_short": "E177 decom offset",
@@ -989,5 +989,13 @@
   "s7": "loop task pin 2 no-op | LoopWatchdog re-registered (S4U, SWA=false)",
   "pit": "a book-level identity that passes a sanity check proves nothing about the engine level, where the same identity stops holding; and a 'step' that moves the offset the wrong way is the cheapest available test of an attribution story -- sign, not magnitude",
   "not_run": "strategy_scorecard / daily_scorecard / build_status host-guarded legs; the bm-a-lane collectors; GPU untouched (parked, C-20261014-01)"
+ },
+ "r1211_push": {
+  "status": "PUSHED_VERIFIED",
+  "pushed_sha": "7884010acb5bd4dcca775b9ec2ca1553ea7cd819",
+  "ts": "2026-10-28T10:42:00+08:00",
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "clean delivery bbe74d398..7884010ac, first attempt, no claw block; four-way verified (HEAD == origin/main == 7884010ac, ahead 0 behind 0, ls-tree origin carries TILT3SIGNDECOMOFFSET-20261027.json and the E177 digest). 11 targeted paths; the drama lane, fleet/machine-health.json, results/token_usage.json and the unsuffixed collector status faces were left unstaged. Line-ending trap hit and repaired in-window: json.dump/io.open text writes re-emitted four CRLF faces as LF (state.json 655/638, machine bm-b.json 494/488, pool 22452/22436, METHODOLOGY_ASSETS 2138/2040 -- the last one again through the 68 CRCRLF sequences r1209 warned about). Restored each from HEAD and re-applied with the file's own EOL (binary append for the card); diffstat went to 29/12, 23/17, 19/3 and 30/0."
  }
 }
