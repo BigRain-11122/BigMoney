@@ -65,7 +65,7 @@ def rungs():
         ("r3_wider_book", {"classes": "prod", "n_hold": PROD_N, "vol_target": None},
          "the shipped book width (12 names) instead of 5"),
         ("r4_vol_overlay", {"classes": "prod", "n_hold": PROD_N, "vol_target": PROD_VT},
-         "the shipped 8%% de-lever-only overlay -- the cell r1308's premium is built on"),
+         "the shipped 8% de-lever-only overlay -- the cell r1308's premium is built on"),
     ]
 
 

@@ -1,5 +1,5 @@
 {
-  "ts": "2026-10-28T08:49:28",
+  "ts": "2026-10-28T11:17:43",
   "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
@@ -11,11 +11,11 @@
     "dates_tail": [
       [
         "2026-10-27",
-        5212
+        5215
       ],
       [
         "2026-10-26",
-        4
+        1
       ],
       [
         "2026-10-23",
@@ -49,48 +49,36 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 5223,
-    "fetched": 5219,
-    "appended": 5202,
-    "readjusted": 10,
-    "readjusted_tail": [
-      "600017@2006-10-17",
-      "600360@2001-03-16",
-      "600479@2004-03-12",
-      "601229@2016-11-16",
-      "601298@2019-01-21",
-      "601991@2006-12-20",
-      "603689@2017-01-10",
-      "688087@2021-07-09"
-    ],
+    "todo": 11,
+    "fetched": 10,
+    "appended": 3,
+    "readjusted": 0,
+    "readjusted_tail": [],
     "failures_tail": [
-      "002617:conn:TimeoutError",
-      "300039:conn:TimeoutError",
-      "301139:JSONDecodeError:No value to decode",
-      "688223:conn:TimeoutError"
+      "301139:JSONDecodeError:No value to decode"
     ],
-    "failures_n": 4,
+    "failures_n": 1,
     "conn_stopped": false,
-    "elapsed_min": 492.4,
-    "vwap_anchor_max": 0.436986,
+    "elapsed_min": 1.0,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 4,
-  "last_spawn_attempt": "2026-10-28T00:35:49",
+  "last_spawn_attempt": "2026-10-28T11:15:42",
   "settled_n": 0,
   "settled": [],
   "per_files_on_disk": 5223,
   "validation": {
-    "suspended_rows": 3,
-    "bracket_tolerated_rows": 1,
+    "suspended_rows": 0,
+    "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "panel incomplete at cutoff 2026-10-26 (coverage 99.9%, expected 2026-10-27) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-10-27 (coverage 99.8%, expected 2026-10-27) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation",
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 2.3h >= 120min",
-    "ts": "2026-10-28T00:35:49"
+    "reason": "owner bm-b silent 2.1h >= 120min",
+    "ts": "2026-10-28T11:15:42"
   }
 }

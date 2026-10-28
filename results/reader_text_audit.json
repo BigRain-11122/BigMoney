@@ -1,0 +1,343 @@
+{
+ "schema": "reader-text-audit/1",
+ "origin": "r1320 recorded three faces with the doubled-percent defect for the next sweep",
+ "scan_roots": [
+  "results",
+  "docs"
+ ],
+ "files_scanned": 12943,
+ "n_hits": 788,
+ "counts": {
+  "closed-round-evidence": 300,
+  "code-string": 44,
+  "frozen-evidence": 296,
+  "pool-record": 100,
+  "self-census": 48
+ },
+ "gated_buckets": [
+  "live-face",
+  "doc-prose"
+ ],
+ "verdict": "PASS",
+ "offenders": [],
+ "offender_files": [],
+ "advisory": {
+  "closed-round-evidence": {
+   "n": 300,
+   "files": [
+    "results/e44_midmonth/REPAIRSTEP-20261026.json",
+    "results/local_coding_pilot/tasks/01/B/raw_response.md",
+    "results/local_coding_pilot/tasks/01/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/01/C/round1_gen.md",
+    "results/local_coding_pilot/tasks/01/C/round2_gen.md",
+    "results/local_coding_pilot/tasks/02/B/raw_response.md",
+    "results/local_coding_pilot/tasks/02/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/03/B/raw_response.md",
+    "results/local_coding_pilot/tasks/03/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/04/B/raw_response.md",
+    "results/local_coding_pilot/tasks/04/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/04/C/round1_gen.md",
+    "results/local_coding_pilot/tasks/04/C/round2_gen.md",
+    "results/local_coding_pilot/tasks/04/C/round3_gen.md",
+    "results/local_coding_pilot/tasks/05/B/raw_response.md",
+    "results/local_coding_pilot/tasks/05/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/05/prompt.md",
+    "results/local_coding_pilot/tasks/06/B/raw_response.md",
+    "results/local_coding_pilot/tasks/06/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/06/C/round1_gen.md",
+    "results/local_coding_pilot/tasks/06/C/round2_gen.md",
+    "results/local_coding_pilot/tasks/06/C/round3_gen.md",
+    "results/local_coding_pilot/tasks/07/B/raw_response.md",
+    "results/local_coding_pilot/tasks/07/C/round0_gen.md",
+    "results/local_coding_pilot/tasks/07/C/round1_gen.md"
+   ],
+   "sample": [
+    {
+     "file": "results/e44_midmonth/REPAIRSTEP-20261026.json",
+     "json_path": "/spec/population",
+     "key": "population",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "closed-round-evidence",
+     "text": "every name the E104 face flagged as reading past +/-100%% inside an unchanged holding, deduplicated by (name, window) -- the witness list, not a screen"
+    },
+    {
+     "file": "results/local_coding_pilot/tasks/01/B/raw_response.md",
+     "json_path": "L23",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "closed-round-evidence",
+     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
+    },
+    {
+     "file": "results/local_coding_pilot/tasks/01/B/raw_response.md",
+     "json_path": "L27",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "closed-round-evidence",
+     "text": "return False, f\"Line {line_num}: invalid timestamp format\""
+    },
+    {
+     "file": "results/local_coding_pilot/tasks/01/B/raw_response.md",
+     "json_path": "L36",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "closed-round-evidence",
+     "text": "return False, f\"Line {line_num}: field {i} is empty or whitespace only\""
+    },
+    {
+     "file": "results/local_coding_pilot/tasks/01/B/raw_response.md",
+     "json_path": "L45",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{filename}",
+     "bucket": "closed-round-evidence",
+     "text": "print(f\"Error: File '{filename}' not found.\", file=sys.stderr)"
+    }
+   ]
+  },
+  "code-string": {
+   "n": 44,
+   "files": [
+    "results/e44_midmonth/FACESCREEN-20261021.json"
+   ],
+   "sample": [
+    {
+     "file": "results/e44_midmonth/FACESCREEN-20261021.json",
+     "json_path": "/legs[0]/face_pattern",
+     "key": "face_pattern",
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "code-string",
+     "text": "CENSUS-%s.json"
+    },
+    {
+     "file": "results/e44_midmonth/FACESCREEN-20261021.json",
+     "json_path": "/legs[1]/face_pattern",
+     "key": "face_pattern",
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "code-string",
+     "text": "CENSUS-%s.json"
+    },
+    {
+     "file": "results/e44_midmonth/FACESCREEN-20261021.json",
+     "json_path": "/legs[2]/face_pattern",
+     "key": "face_pattern",
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "code-string",
+     "text": "CENSUS-%s.json"
+    },
+    {
+     "file": "results/e44_midmonth/FACESCREEN-20261021.json",
+     "json_path": "/legs[3]/face_pattern",
+     "key": "face_pattern",
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "code-string",
+     "text": "CENSUS-%s.json"
+    },
+    {
+     "file": "results/e44_midmonth/FACESCREEN-20261021.json",
+     "json_path": "/legs[4]/face_pattern",
+     "key": "face_pattern",
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "code-string",
+     "text": "LADDER-RISK-%s.json"
+    }
+   ]
+  },
+  "frozen-evidence": {
+   "n": 296,
+   "files": [
+    "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
+    "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
+    "results/_quarantine/20261009-131148/_r767bma_dec.md",
+    "results/_quarantine/20261009-131148/_r776bma_dec.md",
+    "results/_quarantine/20261015T0735_r1008bma_scratch/manifest.json",
+    "results/_quarantine/r1015_scratch/_r1013bmc_decisions_raw.md",
+    "results/_r1013bmb_d19_prev_decisions_fresh.md",
+    "results/_r1014bma_dec_raw.md",
+    "results/_r1014bmc_krea2_infer_dl_receipt.json",
+    "results/_r1024bma_decisions_fresh.md",
+    "results/_r1024bma_rollback_side/knowledge__METHODOLOGY_ASSETS.md",
+    "results/_r1024bma_rollback_side/research__HANDOVER.md",
+    "results/_r1024bma_rollback_side/results___r686bmb_decisions_fresh.md",
+    "results/_r1024bma_rollback_side/results__runnable_pool.bm-c.json",
+    "results/_r1024bma_rollback_side/results__runnable_pool.json",
+    "results/_r1024bma_rollback_side/round_reports-bm-c.md",
+    "results/_r103bmc_classify.json",
+    "results/_r1054bmc_canon_rows.json",
+    "results/_r106bmc_classify.json",
+    "results/_r1091bmc_needle_preflight.json",
+    "results/_r1093bmc_needle_preflight.json",
+    "results/_r1095bmc_needle_preflight.json",
+    "results/_r1097bmc_needle_preflight.json",
+    "results/_r1100bmc_needle_preflight.json",
+    "results/_r1126bmc_measure_t0.json"
+   ],
+   "sample": [
+    {
+     "file": "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
+     "json_path": "L152",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{u}",
+     "bucket": "frozen-evidence",
+     "text": "| 2026-09-30 | D-20260930-15 外推（push）结果可核判据——集团仓 13 提交积压的定性 | 外审第四轮：各司 `@{u}..HEAD` 领先数实测（BigMoney/BigStream/BigDomain/BigCompute=**0**；BigLife/FluxVerse=2；MiniGame=4；**集团仓=13**·origin 停 12:05）+ 本会话 `"
+    },
+    {
+     "file": "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
+     "json_path": "L241",
+     "key": null,
+     "kind": "printf-token",
+     "token": "% i",
+     "bucket": "frozen-evidence",
+     "text": "2026-09-28T13:22:00+08:00 | round 165 addendum bm-c | push-storm 收口: push 拒 non-fast-forward(他机 bm-b r384 维护链同窗先落) -> pull --rebase 撞 13-UU -> 分类器 13/13 GREEN 零 UNKNOWN -> 6 ALL_FACES 面 merge_lane_vie"
+    },
+    {
+     "file": "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
+     "json_path": "L250",
+     "key": null,
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "frozen-evidence",
+     "text": "%s | round 171 addendum bm-c | dept:策略+研究 (CEO 令 O-20260928-1506 同轮执行: 链锦标赛批认领+预注册冻结) | 轮中 CEO 令随 rebase 折入（origin f49d7ef0 15:07:21·本机轮首双扫时未达=陈树盲窗 r239 族如实披露·S7 收尾 fetch 捕获）→同轮执行 per O-1730: (1) T-20"
+    },
+    {
+     "file": "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
+     "json_path": "L250",
+     "key": null,
+     "kind": "printf-token",
+     "token": "%s",
+     "bucket": "frozen-evidence",
+     "text": "%s | round 171 addendum bm-c | dept:策略+研究 (CEO 令 O-20260928-1506 同轮执行: 链锦标赛批认领+预注册冻结) | 轮中 CEO 令随 rebase 折入（origin f49d7ef0 15:07:21·本机轮首双扫时未达=陈树盲窗 r239 族如实披露·S7 收尾 fetch 捕获）→同轮执行 per O-1730: (1) T-20"
+    },
+    {
+     "file": "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
+     "json_path": "L299",
+     "key": null,
+     "kind": "brace-token",
+     "token": "{WAVE}",
+     "bucket": "frozen-evidence",
+     "text": "2026-09-29T11:07:08+08:00 | round 212 bm-c | dept:工程 (W1-W5 finalize 守卫同型接线轮·r210 指针 item-e 兑现) | WM-VERDICT: 绿 (red=false@watermark_red.json 10:50; probe 11:03 py_low_board_clear 合法闲=板 0 open/bandit "
+    }
+   ]
+  },
+  "pool-record": {
+   "n": 100,
+   "files": [
+    "results/runnable_pool.bm-a.json",
+    "results/runnable_pool.bm-b.json",
+    "results/runnable_pool.bm-c.json",
+    "results/runnable_pool.json"
+   ],
+   "sample": [
+    {
+     "file": "results/runnable_pool.bm-a.json",
+     "json_path": "/entries[73]/workers_plan/note",
+     "key": "note",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "pool-record",
+     "text": "r459 bm-a stranded-entry live-fire repair: enqueued plan-less, autofill._pick hard-skipped 3 ticks; 4-cell judged batch x1000 vstarts+100 splits multi-core; CEO 10%% CPU headroom law = BelowNormal"
+    },
+    {
+     "file": "results/runnable_pool.bm-a.json",
+     "json_path": "/entries[142]/shards[0]/note",
+     "key": "note",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "pool-record",
+     "text": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge"
+    },
+    {
+     "file": "results/runnable_pool.bm-a.json",
+     "json_path": "/entries[143]/shards[0]/note",
+     "key": "note",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "pool-record",
+     "text": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge"
+    },
+    {
+     "file": "results/runnable_pool.bm-a.json",
+     "json_path": "/entries[144]/shards[0]/note",
+     "key": "note",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "pool-record",
+     "text": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge"
+    },
+    {
+     "file": "results/runnable_pool.bm-a.json",
+     "json_path": "/entries[145]/shards[0]/note",
+     "key": "note",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "pool-record",
+     "text": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge"
+    }
+   ]
+  },
+  "self-census": {
+   "n": 48,
+   "files": [
+    "results/reader_text_audit.json"
+   ],
+   "sample": [
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[0]/token",
+     "key": "token",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "self-census",
+     "text": "%%"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[0]/text",
+     "key": "text",
+     "kind": "doubled-percent",
+     "token": "%%",
+     "bucket": "self-census",
+     "text": "every name the E104 face flagged as reading past +/-100%% inside an unchanged holding, deduplicated by (name, window) -- the witness list, not a screen"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[1]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "{line_num}"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
+     "key": "text",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "{line_num}"
+    }
+   ]
+  }
+ },
+ "law": "reader-facing text is final text: no doubled percent, no unexpanded printf/brace token; machine-command strings, frozen evidence, the append-only pool record and this census are disclosed, not rewritten"
+}

@@ -2248,3 +2248,66 @@ How to apply: any face that compares two artefacts from different scripts must (
 same knobs on both stacks to size the stack term, (b) reproduce each published endpoint
 from one cell of one grid before decomposing anything, and (c) publish path sums AND both
 endpoints' marginals, so an interaction cannot be silently charged to the last knob stepped.
+## E176 Four published numbers, one book: reconcile the STACK before the rule (2026-10-28 r1320 bm-c)
+
+`scripts/etf_book_cagr_reconcile.py` -> `results/etf_book_cagr_reconcile.json`,
+`research/ETF_BOOK_CAGR_RECONCILE.md`. The ETF book had been published at 9.62% (card
+config: 12 names, 8% vol target, 10bp), 7.80% (5 names, beta 0.20, 8bp, no size), 7.38%
+(same at NAV 1e6) and 7.28% (1%-ADV ceiling), and r1319 put the 9.62 end next to the 7.28
+end and called the 2.34pp between them an unattributed "run diff". A 2x3x2 grid (width x
+risk rule x cost) run on ONE stack, plus the same grid on the other face's stack, closed
+it with nothing left over:
+
+1. **A "run diff" between two published faces is usually a STACK difference, and a stack
+   difference is a risk statement.** Holding the knobs fixed (5 names, flat, 10bp), the
+   production panel (class filter: equity/commodity/convertible only, 1,499 symbols)
+   returns 15.80%/yr at 16.4% vol while the capacity face's raw panel returns 7.29% at
+   10.3% vol -- 8.5pp apart, of which the engine accounts for 0.2-1.5pp. So the filter
+   buys return by forcing the book out of bonds/money funds: quote it as a risk choice
+   (Sharpe 1.02 vs 0.76), never as alpha, and never compare levels across the two faces.
+2. **The card headline is not the rule the order sheet trades.** On the production stack
+   the card is 9.62% (vol 10.17%, DD -11.8%) and the executable ticket (5 names, beta
+   0.20, 8bp) is 13.35% (vol 13.46%, DD -16.0%), +3.73pp: width +2.04, rule +1.29, cost
+   +0.40, **interaction -1.25pp**. Both path orders sum to exactly 3.73 and both endpoints
+   agree on the interaction, so the knobs must be quoted together or not at all.
+3. **Transfer a size effect as a DELTA, never as a level.** The capacity ladder's absolute
+   cagrs belong to its own universe; only its impact delta (no-size minus at-size) is
+   portable to the traded stack, and it must be priced at the DEPLOYED amount, not the
+   account size -- otherwise an account far above the ceiling pays the ladder's 50M
+   impact instead of the ceiling's.
+
+Result downstream: the book is the best vehicle at CNY 300k/1M/1.5M (+9,780 / +32,600 /
++40,635 per year) and the four-ETF basket takes over from 3M -- the previous face had the
+basket winning all six tiers because it priced the book at the ceiling's 7.28%.
+
+How to apply: any face that compares two artefacts from different scripts must (a) run the
+same knobs on both stacks to size the stack term, (b) reproduce each published endpoint
+from one cell of one grid before decomposing anything, and (c) publish path sums AND both
+endpoints' marginals, so an interaction cannot be silently charged to the last knob stepped.
+
+## E184 A census gate must gate the surface the reader opens -- and a comment naming a chain leg is not a chain leg (2026-10-28 r1322 bm-c)
+
+`scripts/reader_text_audit.py` -> `results/reader_text_audit.json`, chain leg
+`reader_text_audit`. r1320 fixed one published caveat that read "13.5%% vol" with a gate on
+that single face's output and recorded three more faces of the same class "for the next
+sweep". The sweep was written by a window that was silence-killed before it committed, so
+this round read the tree instead of a digest -- and the sweep had two defects of its own:
+
+1. **The gate's only failing input would have been a fixture.** `scan_md` labelled every
+   `.md` "doc-prose" and the verdict read only the `live-face` bucket, so the page the CEO
+   actually opens (`docs/live_usage/LIVE-*.md`) could carry the exact doubled-percent defect
+   and the census would still print PASS. Ask which bucket a real reader hits, and gate that
+   one; today docs prose is 0 hits, and 300 previously mislabelled hits correctly re-bucket
+   to frozen / closed-round evidence.
+2. **A claim in a comment is not wiring.** The smoke leg's comment said "the chain leg
+   re-derives the census every round"; `Tools/s6_chain_bmc.py` had no such leg (the r1266
+   class: a verdict that no next step reads). Grep the runner for the leg name before
+   writing the sentence.
+
+Cost disclosure: the sweep walks 12,943 files in ~110s, which is the price of gating prose
+and not only JSON fields -- disclosed here so a later round does not "optimise" the scan
+roots back down to `results/`.
+
+How to apply: when a defect class is swept, (a) name the surfaces a reader opens and make
+those the gate, (b) publish the non-gated buckets with counts so the class stays visible
+instead of silenced, (c) prove the leg exists in the runner, not in a comment.

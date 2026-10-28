@@ -91,7 +91,7 @@ def build_arms():
             "faces": ["ticket"],
             "source": "results/etf_book_capacity_rule.json::capacity_frontier_by_cap.rule",
             "as_of": ladder.get("evidence_cutoff"),
-            "basis": "same-engine ladder priced at 8bp + K*sqrt(p/1%%) size impact, k from realised weight path",
+            "basis": "same-engine ladder priced at 8bp + K*sqrt(p/1%) size impact, k from realised weight path",
             "n_hold": (ladder.get("config") or {}).get("n_hold"),
             "rebal": (ladder.get("config") or {}).get("rebal"),
             "vol_target": None,
@@ -101,7 +101,7 @@ def build_arms():
             "turnover": None,
             "capacity_1pct": (at_1 or {}).get("deployable_nav_cny"),
             "capacity_5pct": (at_5 or {}).get("deployable_nav_cny"),
-            "capacity_note": "deployable NAV already in CNY (p90 participation capped at 1%% / 5%% of ADV)",
+            "capacity_note": "deployable NAV already in CNY (p90 participation capped at 1% / 5% of ADV)",
             "ticket_metrics": (ticket.get("metrics") or {}).get("book"),
             "ticket_inception": ticket.get("inception"),
             "group": "R20_with_bonds",
@@ -126,7 +126,7 @@ def build_arms():
             "turnover": s.get("turnover"),
             "capacity_1pct": s.get("aum_1pct"),
             "capacity_5pct": s.get("aum_5pct"),
-            "capacity_note": "own run's p90 1%%/5%% ADV ceiling",
+            "capacity_note": "own run's p90 1%/5% ADV ceiling",
             "group": "R10_bond_free",
         })
     return arms

@@ -543,6 +543,13 @@ def main() -> int:
             # once, by whoever happened to grep for it.
             ("product: group-root sweep census (exit-code contract)",
              "scripts/group_root_sweep.py", ["selftest"]),
+            # r1320 fixed one doubled-percent leak with a gate on that face's OUTPUT and
+            # recorded three more for "the next sweep" -- this is that sweep, and it is a
+            # census because the same token is legitimate in a shell string, in frozen
+            # evidence and in the append-only pool record. This leg keeps the classifier
+            # callable; the chain leg re-derives the census every round.
+            ("product: reader-text audit census (exit-code contract)",
+             "scripts/reader_text_audit.py", ["selftest"]),
             # r1319: the book's standing "pure survivor pool" caveat had no number
             # behind it, and the first run of the census showed the caveat was also
             # pointed the wrong way -- 1,645 of 1,656 eligible symbols still print to

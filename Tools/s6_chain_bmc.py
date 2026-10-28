@@ -214,6 +214,15 @@ LEGS = [
     # that stops printing (delisting, or a collector that silently gave up) is
     # named on the day it happens instead of being inherited from a memo.
     ("etf_pool_survival", ["python", "scripts/etf_pool_survival.py", "run"]),
+    # r1321/r1322: reader text. r1320 caught a published caveat that read "13.5%% vol"
+    # and fixed it with a gate on that one face's output; this census sweeps every
+    # reader-facing face (~13k files, ~7s) and gates the two buckets a reader opens --
+    # JSON live faces and markdown prose under docs/ -- while naming (not rewriting)
+    # machine strings, frozen evidence and the append-only pool record. r1322 wired it:
+    # the first cut printed a chain leg in its comments that did not exist, and its
+    # markdown pass labelled every .md "doc-prose" then gated only live-face, so the
+    # CEO page itself was never checked.
+    ("reader_text_audit", ["python", "scripts/reader_text_audit.py", "run"]),
 ]
 
 

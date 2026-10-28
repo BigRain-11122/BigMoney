@@ -1,6 +1,6 @@
 {
  "ts": null,
- "evidence_cutoff": "2026-10-26",
+ "evidence_cutoff": "2026-10-27",
  "script": "scripts/etf_book_publish_decision.py",
  "capital_grid_cny": [
   1000000.0,
@@ -19,13 +19,13 @@
     "forward"
    ],
    "source": "results/etf_book_production/latest.json::backtest.n12_vt08.full",
-   "as_of": "2026-10-26",
+   "as_of": "2026-10-27",
    "basis": "same-engine backtest, cost 10bp/side, decide close -> fill next open",
    "n_hold": 12,
    "rebal": 20,
    "vol_target": 0.08,
-   "cagr": 0.0949,
-   "sharpe": 0.98,
+   "cagr": 0.0962,
+   "sharpe": 0.992,
    "maxdd": -0.1177,
    "turnover": 0.934,
    "capacity_1pct": 1824788.0,
@@ -40,18 +40,18 @@
     "ticket"
    ],
    "source": "results/etf_book_capacity_rule.json::capacity_frontier_by_cap.rule",
-   "as_of": "2026-10-26",
-   "basis": "same-engine ladder priced at 8bp + K*sqrt(p/1%%) size impact, k from realised weight path",
+   "as_of": "2026-10-27",
+   "basis": "same-engine ladder priced at 8bp + K*sqrt(p/1%) size impact, k from realised weight path",
    "n_hold": 5,
    "rebal": 20,
    "vol_target": null,
    "cagr": 0.0728,
-   "sharpe": 0.89,
+   "sharpe": 0.891,
    "maxdd": -0.1322,
    "turnover": null,
    "capacity_1pct": 1526694.2,
    "capacity_5pct": 7633471.2,
-   "capacity_note": "deployable NAV already in CNY (p90 participation capped at 1%% / 5%% of ADV)",
+   "capacity_note": "deployable NAV already in CNY (p90 participation capped at 1% / 5% of ADV)",
    "ticket_metrics": {
     "cagr": 0.1104,
     "sharpe": 1.352,
@@ -80,7 +80,7 @@
    "turnover": 0.78,
    "capacity_1pct": 1583273.0,
    "capacity_5pct": 7916367.0,
-   "capacity_note": "own run's p90 1%%/5%% ADV ceiling",
+   "capacity_note": "own run's p90 1%/5% ADV ceiling",
    "group": "R10_bond_free"
   }
  ],
@@ -89,37 +89,37 @@
    {
     "capital_cny": 1000000.0,
     "deployable_1pct": 1000000.0,
-    "annual_cny_1pct": 94900.0,
+    "annual_cny_1pct": 96200.0,
     "deployable_5pct": 1000000.0,
-    "annual_cny_5pct": 94900.0
+    "annual_cny_5pct": 96200.0
    },
    {
     "capital_cny": 5000000.0,
     "deployable_1pct": 1824788.0,
-    "annual_cny_1pct": 173172.3812,
+    "annual_cny_1pct": 175544.60559999998,
     "deployable_5pct": 5000000.0,
-    "annual_cny_5pct": 474500.0
+    "annual_cny_5pct": 480999.99999999994
    },
    {
     "capital_cny": 10000000.0,
     "deployable_1pct": 1824788.0,
-    "annual_cny_1pct": 173172.3812,
+    "annual_cny_1pct": 175544.60559999998,
     "deployable_5pct": 9123940.0,
-    "annual_cny_5pct": 865861.906
+    "annual_cny_5pct": 877723.0279999999
    },
    {
     "capital_cny": 30000000.0,
     "deployable_1pct": 1824788.0,
-    "annual_cny_1pct": 173172.3812,
+    "annual_cny_1pct": 175544.60559999998,
     "deployable_5pct": 9123940.0,
-    "annual_cny_5pct": 865861.906
+    "annual_cny_5pct": 877723.0279999999
    },
    {
     "capital_cny": 50000000.0,
     "deployable_1pct": 1824788.0,
-    "annual_cny_1pct": 173172.3812,
+    "annual_cny_1pct": 175544.60559999998,
     "deployable_5pct": 9123940.0,
-    "annual_cny_5pct": 865861.906
+    "annual_cny_5pct": 877723.0279999999
    }
   ],
   "5@beta": [
@@ -209,37 +209,37 @@
   "bands": [
    {
     "capital_cny": 1000000.0,
-    "card_12vol_cny": 94900.0,
+    "card_12vol_cny": 96200.0,
     "ticket_5beta_cny": 72800.0,
-    "delta_cny": 22100.0,
+    "delta_cny": 23400.0,
     "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
    },
    {
     "capital_cny": 5000000.0,
-    "card_12vol_cny": 173172.3812,
+    "card_12vol_cny": 175544.60559999998,
     "ticket_5beta_cny": 111143.33776,
-    "delta_cny": 62029.04344000001,
+    "delta_cny": 64401.267839999986,
     "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
    },
    {
     "capital_cny": 10000000.0,
-    "card_12vol_cny": 173172.3812,
+    "card_12vol_cny": 175544.60559999998,
     "ticket_5beta_cny": 111143.33776,
-    "delta_cny": 62029.04344000001,
+    "delta_cny": 64401.267839999986,
     "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
    },
    {
     "capital_cny": 30000000.0,
-    "card_12vol_cny": 173172.3812,
+    "card_12vol_cny": 175544.60559999998,
     "ticket_5beta_cny": 111143.33776,
-    "delta_cny": 62029.04344000001,
+    "delta_cny": 64401.267839999986,
     "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
    },
    {
     "capital_cny": 50000000.0,
-    "card_12vol_cny": 173172.3812,
+    "card_12vol_cny": 175544.60559999998,
     "ticket_5beta_cny": 111143.33776,
-    "delta_cny": 62029.04344000001,
+    "delta_cny": 64401.267839999986,
     "note": "same group: R20, with bonds, same-size basis is NOT identical (card pays flat 10bp/side, ticket pays 8bp + size impact)"
    }
   ],
@@ -248,27 +248,27 @@
     {
      "capital_cny": 1000000.0,
      "winner": "12@vol",
-     "annual_cny": 94900.0
+     "annual_cny": 96200.0
     },
     {
      "capital_cny": 5000000.0,
      "winner": "12@vol",
-     "annual_cny": 173172.3812
+     "annual_cny": 175544.60559999998
     },
     {
      "capital_cny": 10000000.0,
      "winner": "12@vol",
-     "annual_cny": 173172.3812
+     "annual_cny": 175544.60559999998
     },
     {
      "capital_cny": 30000000.0,
      "winner": "12@vol",
-     "annual_cny": 173172.3812
+     "annual_cny": 175544.60559999998
     },
     {
      "capital_cny": 50000000.0,
      "winner": "12@vol",
-     "annual_cny": 173172.3812
+     "annual_cny": 175544.60559999998
     }
    ]
   },

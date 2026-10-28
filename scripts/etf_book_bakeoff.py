@@ -232,7 +232,7 @@ def main(only=None):
         cands = {k: v for k, v in cands.items() if k in only}
 
     out = {"evidence_cutoff": str(close.index[-1].date()),
-           "execution": "decision at close t, execute at open t+1, vol target 8%%, cost 10bp/side",
+           "execution": "decision at close t, execute at open t+1, vol target 8%, cost 10bp/side",
            "panel": {"names": int(close.shape[1]), "flips_repaired": int(n_flip),
                      "classes": list(P.USE_CLASSES),
                      "why": "same panel the production card prices, so book A is the shipped book"},
