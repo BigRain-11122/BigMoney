@@ -22526,6 +22526,18 @@
    "status": "ready",
    "target": "scripts/e97_routing.py (mode levelquotes, follow-up)",
    "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error."
+  },
+  {
+   "deliverable": "results/e43_tilt_4member/LADDERDROPWHERE-<cutoff>.json",
+   "id": "E186-DROP-EFFECT-REVERSES-WHERE",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "seeded_at": "2026-10-28T12:35+08:00",
+   "seeded_by": "bm-b r1216",
+   "source": "Seeded r1216 bm-b from its own E183 face: 4 of 22 ladder drops reverse the sign of their own effect between the summed and the compounded reading while every era level keeps its sign.",
+   "status": "ready",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderlomocomp, follow-up)",
+   "title": "E183 found that dropping sh510050 in 2024_now moves the arithmetic level +73.2bp and the compounded one -34.0bp, while dropping it changes the LEVEL sign in neither. A sign reversal on one drop is enforced by the months where that drop pays: publish, for each of the four flagged drops, the per-month contribution difference (dropped-book month minus full-book month) under both readings, the month that carries the reversal, and whether the reversal lives in a single month or is a dispersion across many. Without that split, 'the drop effect reverses' is a verdict nobody can act on -- it does not say whether one month is doing the work (a single-name-single-month artefact, E143 family) or the reversal is spread (a genuine arithmetic sensitivity)."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22540,7 +22552,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T12:22:40+08:00",
+ "updated_at": "2026-10-28T12:35+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }
