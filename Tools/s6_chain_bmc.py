@@ -53,6 +53,14 @@ LEGS = [
     # the full cost ladder at the book's published weight, with the exposure spread and a
     # fragility flag published beside the win. ~15s, no network, no judge, selects nothing.
     ("futures_overlay_fliprate", ["python", "scripts/futures_overlay_fliprate.py"]),
+    # r1141: the flip-rate leg above found its win on ONE decision sequence, which is
+    # exactly the shape r1325 recorded as unsafe (a single sequence can be a phase, not an
+    # effect). This leg re-prices the same two arms across 13 paths -- era split, two
+    # execution lags, and one leave-one-variety-out panel per variety -- against an
+    # adoption rule frozen in the script, and the gate publishes ADOPT/REJECT per arm from
+    # the measured cells. ~25s, no network, no judge; decides nothing by itself.
+    ("futures_overlay_fliprate_paths", ["python",
+                                        "scripts/futures_overlay_fliprate_paths.py"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),

@@ -2845,3 +2845,38 @@ Pos: scripts/e39_panel_census.py (selftest 682->689, mode reviewwindowcross) +
 results/reviewwindow_cross/REVIEWWINDOWCROSS-20261028.json +
 research/digests/DIGEST-20261029-e197-review-window-cross.md.
 
+
+## E199 Test the arm on MANY paths before adopting it, and put the adoption rule in code (2026-10-29 r1141 bm-a; numbered E199 because E198 was already taken on origin by bm-c r1332)
+
+WHEN: a measurement face says "this arm wins" (E197: strength-hold cuts 72% of flips for
+0.41pp of gross and moves the breakeven 1bp -> 10bp). The number came from ONE decision
+sequence on ONE panel. r1325 already recorded what that is worth: the same buffer arm read
++0.07pp on one phase and -0.24pp one week later.
+
+WRONG: adopt on the strength of the headline delta, or "test robustness" by re-quoting the
+same run under another label (a second window on the same equity curve is not a second path),
+or letting the run print a verdict that a human then repeats in the report.
+
+RIGHT: enumerate the paths that can genuinely differ, declare them before the run, and score
+the arm on every one of them. For a DAILY-rebalanced sleeve there is no rebalance grid to
+shift, so the axes are: era split (<=2023-12-31 vs 2024+), execution lag (+1/+2 bars, a real
+timing perturbation -- verify it with a one-day unit-position fixture that earns on day+2, not
+that the return series is "shifted"), and leave-one-variety-out, where dropping a column
+RENORMALISES the weights and therefore produces a different decision sequence rather than a
+shorter one. Freeze the acceptance rule as constants (min share positive, worst-cell floor,
+required full and OOS positivity), echo those constants into the artifact, and recompute the
+verdict from the cell rows in both the script and the smoke leg -- a verdict that only exists
+in the report is not a gate (r1266). Live reading (ETF book x futures sleeve, f=0.33, 1,649
+bars to 2026-10-28, 10 varieties, 15 paths x 4 arms): strength-hold 2%/60d ADOPTs with
++3.93pp at 10bp on the full window, +4.76pp OOS, worst cell +2.94pp; confirm-3d/120d is
+REJECTed on one cell (OOS -0.88pp) even though its share of positive paths is 0.867 -- the
+sequence that "wins" is not the sequence that survives every path.
+
+GOTCHA: an identity arm (candidate == base) must return exactly 0.00pp on every cell, and a
+fixture shorter than the vol window returns None everywhere -- both make every leg "pass"
+while nothing ran (r1261). The SAME trap hides in era splits: a 260-bar fixture ends inside
+2020, so the OOS window is empty and the leg reports success on zero rows; assert the split
+partitions the window with both halves > 60 bars. And an empty measurement must be
+NOT-ASSESSED, never ADOPT.
+Pos: scripts/futures_overlay_fliprate_paths.py (selftest 11/11) +
+results/futures_overlay_fliprate_paths.json + research/FUTURES_OVERLAY_FLIPRATE_PATHS.md.

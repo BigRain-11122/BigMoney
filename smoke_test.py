@@ -1631,6 +1631,63 @@ def main() -> int:
         check("product: flip-rate arms cut flips, not exposure, and the cut is priced",
               False, str(e))
 
+    # The flip-rate face published a win measured on ONE decision sequence. r1325 recorded
+    # what that is worth: a single path can be a phase. This leg recomputes every arm's
+    # ADOPT/REJECT from the published cells using the rule the artifact itself echoes, so
+    # (a) nobody can hand-write a verdict and (b) a quietly weakened rule shows up here.
+    try:
+        _fp = json.load(open("results/futures_overlay_fliprate_paths.json", encoding="utf-8"))
+        _rule = _fp.get("adoption_rule") or {}
+        _bad = []
+        _cells_expected = set(_fp.get("cells_tested") or [])
+        if len(_cells_expected) < 5 or not _rule:
+            _bad.append(f"face incomplete: cells={len(_cells_expected)} rule={bool(_rule)}")
+        _key = "delta_pp_%gbp" % float(_rule.get("primary_cost_bp") or 0)
+        _sample = next(iter((_fp.get("arms") or {}).values()), {})
+        _sample = (_sample.get("cells") or [{}])[0]
+        if _key not in _sample:
+            _bad.append(f"primary cost {_rule.get('primary_cost_bp')} is not a published "
+                        f"column (looked for {_key})")
+        _passed = []
+        for _lab, _a in (_fp.get("arms") or {}).items():
+            _cells = _a.get("cells") or []
+            if {c.get("cell") for c in _cells} != _cells_expected:
+                _bad.append(f"{_lab}: {len(_cells)} cells do not match the declared path set")
+                continue
+            _vals = [c.get(_key) for c in _cells if c.get(_key) is not None]
+            if not _vals:
+                _bad.append(f"{_lab}: no measurable cell")
+                continue
+            _share = round(len([v for v in _vals if v > 0]) / len(_vals), 3)
+            _worst = min(_vals)
+            _by = {c["cell"]: c.get(_key) for c in _cells}
+            _reject = (_share < float(_rule["min_positive_share"])
+                       or _worst < float(_rule["worst_cell_floor_pp"])
+                       or (_rule.get("require_full_positive") and (_by.get("full") or 0) <= 0)
+                       or (_rule.get("require_oos_positive") and (_by.get("oos") or 0) <= 0))
+            _expect = "REJECT" if _reject else "ADOPT"
+            _ad = _a.get("adoption") or {}
+            if _ad.get("verdict") != _expect:
+                _bad.append(f"{_lab}: says {_ad.get('verdict')} but the rule says {_expect} "
+                            f"(share {_share}, worst {_worst})")
+            if _ad.get("share_positive") != _share or _ad.get("worst_cell_pp") != _worst:
+                _bad.append(f"{_lab}: published share/worst do not match its own cells")
+            if _expect == "ADOPT":
+                _passed.append(_lab)
+        if _fp.get("overall_verdict") != ("ADOPT" if _passed else "REJECT"):
+            _bad.append(f"overall {_fp.get('overall_verdict')} disagrees with "
+                        f"{len(_passed)} passing arm(s)")
+        _adopted = _fp.get("adopted_arm")
+        if _adopted is not None and _adopted not in _passed:
+            _bad.append(f"adopted arm {_adopted} did not pass the rule")
+        check("product: the flip damper is adopted or rejected by path cells, not one run",
+              not _bad, "; ".join(_bad)[:220]
+              or f"{len(_cells_expected)} paths x {len(_fp.get('arms') or {})} arms, "
+                 f"{len(_passed)} pass the frozen rule, verdict recomputed from the rows")
+    except Exception as e:
+        check("product: the flip damper is adopted or rejected by path cells, not one run",
+              False, str(e))
+
     return _finish()
 
 

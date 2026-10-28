@@ -24,11 +24,11 @@
   "signal_face": "results/rev_osc_live SIG-<date>/BARS-<date> consumed; missing SIG = awaiting_signal skip (counted); BARS merge = latest-wins (qfq truth); git = transfer channel (fleet/TRANSFER.md)"
  },
  "engine_counters": {
-  "grid_days": 3,
+  "grid_days": 4,
   "live_cohorts": 3,
   "pending_cohorts": 0,
   "skips": {
-   "awaiting_signal": 0,
+   "awaiting_signal": 1,
    "gate_closed": 0,
    "thin_market": 0,
    "empty_fill": 0
@@ -36,10 +36,10 @@
   "entries": 30,
   "unfillable": 0,
   "exits": {
-   "time": 5,
+   "time": 7,
    "tp": 4,
    "tp_gap": 1,
-   "sl": 9
+   "sl": 12
   },
   "cohort_buckets": [
    0,
@@ -49,53 +49,13 @@
  },
  "open_positions": [
   {
-   "code": "600547",
-   "board": "main",
-   "bucket": 1,
-   "grid_date": "2026-10-09",
-   "entry_date": "2026-10-12",
-   "entry_px": 27.17,
-   "last_activity_date": "2026-10-20",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "603402",
-   "board": "main",
-   "bucket": 1,
-   "grid_date": "2026-10-09",
-   "entry_date": "2026-10-12",
-   "entry_px": 59.08,
-   "last_activity_date": "2026-10-20",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "600105",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 28.65,
-   "last_activity_date": "2026-10-20",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "600108",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 3.75,
-   "last_activity_date": "2026-10-20",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
    "code": "603308",
    "board": "main",
    "bucket": 0,
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
    "entry_px": 32.2,
-   "last_activity_date": "2026-10-20",
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   },
   {
@@ -105,17 +65,7 @@
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
    "entry_px": 82.89,
-   "last_activity_date": "2026-10-20",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "301232",
-   "board": "chinext",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 68.2,
-   "last_activity_date": "2026-10-20",
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   },
   {
@@ -125,7 +75,7 @@
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
    "entry_px": 26.11,
-   "last_activity_date": "2026-10-20",
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   },
   {
@@ -135,7 +85,7 @@
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
    "entry_px": 28.4,
-   "last_activity_date": "2026-10-20",
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   },
   {
@@ -144,8 +94,8 @@
    "bucket": 0,
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
-   "entry_px": 12.77,
-   "last_activity_date": "2026-10-20",
+   "entry_px": 12.67,
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   },
   {
@@ -155,30 +105,30 @@
    "grid_date": "2026-10-16",
    "entry_date": "2026-10-19",
    "entry_px": 22.83,
-   "last_activity_date": "2026-10-20",
+   "last_activity_date": "2026-10-27",
    "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
   }
  ],
  "lane_files": {
-  "sig": 10,
-  "bars": 10
+  "sig": 12,
+  "bars": 12
  },
- "panel_cutoff": "2026-10-20",
- "etf_calendar_last": "2026-10-26",
+ "panel_cutoff": "2026-10-27",
+ "etf_calendar_last": "2026-10-28",
  "staleness": {
-  "calendar_last": "2026-10-26",
-  "panel_cutoff": "2026-10-20",
-  "lag_trading_days": 4,
+  "calendar_last": "2026-10-28",
+  "panel_cutoff": "2026-10-27",
+  "lag_trading_days": 1,
   "stale": true,
-  "reason": "priced 4 trading day(s) before the last trading day; equity_cny and open positions are NOT current -- but this IS the panel's widest current date (31.4% of names there), so the book is not quoting a lonely price",
+  "reason": "priced 1 trading day(s) before the last trading day; equity_cny and open positions are NOT current",
   "upstream_lane": "results/rev_osc_live SIG/BARS bridge (rev_osc_signal_export owner lane)",
   "price_face_coverage": {
-   "panel_cutoff_max": "2026-10-26",
-   "panel_coverage_90": "2026-10-20",
-   "panel_coverage_pct": 31.4,
+   "panel_cutoff_max": "2026-10-28",
+   "panel_coverage_90": "2026-10-23",
+   "panel_coverage_pct": 100.0,
    "panel_coverage_floor_pct": 90,
-   "priced_at_widest_current_date": true,
-   "price_face_note": "priced at the widest current date (31.4% of names at 2026-10-26); the panel itself has no more current cross-section"
+   "priced_at_widest_current_date": null,
+   "price_face_note": "book cutoff 2026-10-27 is ahead of the panel coverage date 2026-10-23 -- agreement not applicable"
   }
  },
  "awaiting_lane_data": false,
@@ -293,6 +243,12 @@
   },
   {
    "asof": "2026-10-26",
+   "state": "ORANGE",
+   "clock_cell": "ORANGE_COOL",
+   "cap_ladder": 0.5
+  },
+  {
+   "asof": "2026-10-28",
    "state": "ORANGE",
    "clock_cell": "ORANGE_COOL",
    "cap_ladder": 0.5
@@ -449,9 +405,9 @@
     "cap": 0.5
    },
    "w_eff": 0.3,
-   "series": 0.00768445,
-   "ret": 0.00230534,
-   "equity_cny": 989381.35
+   "series": 0.00765857,
+   "ret": 0.00229757,
+   "equity_cny": 989373.69
   },
   {
    "date": "2026-10-20",
@@ -463,20 +419,90 @@
     "cap": 0.5
    },
    "w_eff": 0.3,
-   "series": 0.00261227,
-   "ret": 0.00078368,
-   "equity_cny": 990156.71
+   "series": 0.00260929,
+   "ret": 0.00078279,
+   "equity_cny": 990148.16
+  },
+  {
+   "date": "2026-10-21",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 0.3,
+   "series": 0.00341165,
+   "ret": 0.00102349,
+   "equity_cny": 991161.57
+  },
+  {
+   "date": "2026-10-22",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 0.3,
+   "series": -0.01852481,
+   "ret": -0.00555744,
+   "equity_cny": 985653.24
+  },
+  {
+   "date": "2026-10-23",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 0.3,
+   "series": 8.208e-05,
+   "ret": 2.462e-05,
+   "equity_cny": 985677.51
+  },
+  {
+   "date": "2026-10-26",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 0.3,
+   "series": -0.0096904,
+   "ret": -0.00290712,
+   "equity_cny": 982812.03
+  },
+  {
+   "date": "2026-10-27",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 0.3,
+   "series": -0.00643606,
+   "ret": -0.00193082,
+   "equity_cny": 980914.4
   }
  ],
  "marks_summary": {
-  "bars": 12,
+  "bars": 17,
   "first_date": "2026-09-28",
-  "last_date": "2026-10-20",
-  "cumulative_ret": -0.00984329,
-  "current_dd": -0.014012,
-  "active_days": 12,
+  "last_date": "2026-10-27",
+  "cumulative_ret": -0.0190856,
+  "current_dd": -0.019086,
+  "active_days": 17,
   "fail_closed_route_days": 0
  },
- "equity_cny": 990156.71,
- "updated": "2026-10-27 05:39:43"
+ "equity_cny": 980914.4,
+ "updated": "2026-10-29 05:49:08"
 }
