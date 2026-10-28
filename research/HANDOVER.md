@@ -645,3 +645,26 @@ Checklist status (r1316-r1320, the five rounds since the last bm-c checkpoint):
   quoted book means the forward ledger should accrue the ticket (5 names, beta 0.20) as a
   third arm so the CEO page and the ledger are the same object; (3) the interaction term
   (-1.25pp width x rule) is measured but not explained.
+
+
+## 附：r1235（2026-10-29）产物清单核对
+
+本节是**每 5 轮一次的清单核对**（round_no 1235 % 5 == 0），只追认可 `git` 验证的实物；
+本文件上半部分的叙述性产物史（截至 2026-09-25 前后）**未在此轮重写**，仍以 git 史为准。
+
+当前活跃面（全部可在仓内直接打开）：
+
+- 签名/级差/名实审计线（`scripts/e97_routing.py`，selftest 107/107，模式依次为
+  `levelquotes` / `labelduty` / `deltastance` / `nearzerosign` / `deltasign` / `signexposure` /
+  `signgrowth` / `signleafgrowth` / `quotecount`）
+  - 最新实物 `results/e79/QUOTECOUNT-2026-10-28.json`（E207，r1235）
+  - 上一轮 `results/e79/SIGNLEAF-2026-10-27.json` + `results/e79/SIGNLEAF-BASELINE.json`（E206）
+- 任务池 `results/runnable_pool.json`：E207 已 done（带 result_ref），ready = E208 / E209 / E210
+- 方法论资产卡 `knowledge/METHODOLOGY_ASSETS.md`：最新 E207
+- 当日消费面 `docs/daily_report/REPORT-2026-10-29.md`、`docs/live_usage/LIVE-2026-10-29.md`
+- 机队面 `fleet/machine-health.json`（3 机 8/8 字段）、`fleet/machines/bm-b.json`（本轮心跳）
+
+交付状态：本机 3 个提交（`db2d4ce57` 产物 / `3c3d0bd56` 记忆 / `b007624bc` 回执）已推
+`machine/bm-b-r1235`，ls-remote 与 HEAD 一致；**origin/main 未推**——落后 16 / 领先 18，且上游
+提交重写了同一批自动生成面（runnable_pool、machine-health、状态孪生），此处 rebase 属于本仓
+已付过两次代价（LEDGER 丢 33 行 / QC 清单丢 90 行）的覆盖风险，留给静网干净窗口处理。
