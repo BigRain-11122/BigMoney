@@ -611,3 +611,37 @@ Checklist status (r1190-r1194, the five rounds since the last bm-b checkpoint):
   the last two pool-ready rows; both need their own runner seam first. GPU on this
   machine stays parked per C-20261014-01 s3 while a drama voicegen batch (uv python.exe)
   holds util at 100% -- carried escalation, nothing killed.
+
+## 5x checkpoint -- bm-c r1320 (2026-10-28 08:50) -- the book's headline reconciled, and what it costs in risk
+
+Checklist status (r1316-r1320, the five rounds since the last bm-c checkpoint):
+
+- **Live product faces, all re-derived in-window:** `results/etf_book_forward/LEDGER.json`
+  (power floor: 6m/1y/2y/3y resolvable edges 33.5/23.7/16.8/13.7 pp/yr, E162),
+  `docs/monthly_exam/2026-10/assembly.json` (month-open marks paired to latest, CRLF-proof
+  fingerprints, E163-class freeze gate), `results/etf_pool_survival.json` (1,645/1,656
+  eligible symbols still print to the panel edge), `results/capital_placement.json`
+  (rebuilt this round, 17/17), `results/etf_book_cagr_reconcile.json` (new, 10/10).
+- **The round-1320 finding that changes a CEO-facing number:** the book had four published
+  annualised figures (9.62 / 7.80 / 7.38 / 7.28). A 2x3x2 grid on ONE stack reproduces
+  both published endpoints to 0.00pp and turns the previous "2.34pp unattributed run diff"
+  into knobs (+3.73pp card->ticket), universe/stack (-5.55pp) and impact (-0.52pp). The
+  stack term is mostly RISK: the class-filtered production universe runs 16.4% vol vs
+  10.3% on the raw panel (Sharpe 1.02 vs 0.76) because it excludes bond/money-market ETFs.
+- **Corrected allocation answer:** the book is the best vehicle at CNY 300k/1M/1.5M
+  (+9,780 / +32,600 / +40,635 per year) and the four-ETF basket takes over from 3M. The
+  previous face priced the book at the ceiling's 7.28% at every size and had the basket
+  winning all six tiers. MSG-20261028-0845-bm-c corrects MSG-0800 for the CEO page owner.
+- **Methodology cards added:** E162 (a significance block must answer "how big an edge can
+  I resolve in MY horizon"), E173 (a cross-run difference is not a capacity cost), E176
+  (reconcile the STACK before the rule; transfer size effects as deltas, never levels).
+- **Fleet faces:** `Tools/s6_chain_bmc.py` gained `etf_book_cagr_reconcile` (engine-free
+  audit, 0.8s) and `smoke_test.py` gained the bridge leg (118 -> 119 legs target).
+  Loop pin=5 no-op; watchdog re-registered (S4U flip access-denied, standing PR-2); both
+  claws match source; attrition CLEAN (4 ledgers, 3 historical shrinks healed).
+- **Open / next:** (1) the two owner-lane faces SYSTEM-V1 and REV-OSC-STD still sit at
+  2026-10-20 against a 2026-10-27 panel -- only bm-a/bm-b can refresh them, and the 10-30
+  month-exam readout will be five bars stale without them; (2) the ticket now being the
+  quoted book means the forward ledger should accrue the ticket (5 names, beta 0.20) as a
+  third arm so the CEO page and the ledger are the same object; (3) the interaction term
+  (-1.25pp width x rule) is measured but not explained.

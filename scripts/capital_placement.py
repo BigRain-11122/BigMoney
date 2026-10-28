@@ -28,6 +28,8 @@ Usage:
 from __future__ import annotations
 
 import json
+import math
+import re
 import sys
 from pathlib import Path
 
@@ -35,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
 
 SPANNING = "results/etf_book_spanning.json"
+RECONCILE = "results/etf_book_cagr_reconcile.json"
 CAPACITY = "results/etf_book_capacity_rule.json"
 FUTURES = "results/futures_sleeve_economics.json"
 
@@ -107,6 +110,39 @@ def gather():
                 rule_label=(cap.get("rule_at_8bp_no_size") or {}).get("label"),
                 gross_cash_pct=(cap.get("cash_leg") or {}).get("rf_mean_ann_pct"),
             )
+            lad = ((cap.get("ladder") or {}).get("rule") or [])
+            ceiling["ladder"] = sorted(
+                (float(c["nav"]), float(c["cagr"])) for c in lad
+                if _num(c.get("nav")) and _num(c.get("cagr")))
+            ns = (cap.get("rule_at_8bp_no_size") or {}).get("cagr")
+            ceiling["nosize_cagr"] = float(ns) if _num(ns) else None
+
+    # The level the book is actually traded at. Published separately (r1320) because the
+    # card headline and the capacity ladder are priced on two different universes, and
+    # neither of them is the rule the order sheet executes.
+    recon = {"source": RECONCILE, "available": False}
+    rc = _load(RECONCILE)
+    if rc:
+        br = rc.get("bridge") or {}
+        to, frm = br.get("to") or {}, br.get("from") or {}
+        if _num(to.get("cagr_pp")):
+            se = (((rc.get("stack_effect") or {}).get("cells") or {})
+                  .get("n5|beta020|8bp") or {})
+            tc = (((rc.get("stacks") or {}).get("production") or {}).get("cells") or {})
+            tcell = tc.get("(5, 'beta020', 8.0)") or {}
+            inter = br.get("interaction") or {}
+            recon.update(available=True,
+                         ticket_cagr=float(to["cagr_pp"]) / 100.0,
+                         ticket_cfg=to.get("cfg"),
+                         card_cagr=float(frm["cagr_pp"]) / 100.0 if _num(frm.get("cagr_pp")) else None,
+                         knob_delta_pp=br.get("total_pp"),
+                         interaction_pp=inter.get("interaction_pp"),
+                         stack_delta_pp=se.get("delta_pp"),
+                         ticket_vol=tcell.get("vol"),
+                         ticket_maxdd=tcell.get("maxdd"),
+                         ticket_sharpe=tcell.get("sharpe"),
+                         evidence_cutoff=rc.get("evidence_cutoff"))
+    ceiling["recon"] = recon
 
     sleeve = {"source": FUTURES, "available": False}
     if fut and fut.get("capital_sweep"):
@@ -130,6 +166,27 @@ def _nearest_cell(cells, capital):
     return min(cells, key=lambda k: abs(k - capital))
 
 
+def _ladder_cagr(ladder, nosize, capital):
+    """CAGR at a given NAV from the capacity ladder, log-interpolated between rungs.
+
+    Below the first rung the size-free number IS the answer (the first rung already
+    carries that rung's own impact); above the last rung the last rung is returned, and
+    the deployable amount is capped separately, so extrapolation never happens here.
+    """
+    if not ladder:
+        return float(nosize) if _num(nosize) else None
+    pts = sorted(ladder)
+    if float(capital) <= pts[0][0]:
+        return float(nosize) if _num(nosize) else pts[0][1]
+    if float(capital) >= pts[-1][0]:
+        return pts[-1][1]
+    for (nav0, c0), (nav1, c1) in zip(pts, pts[1:]):
+        if nav0 <= float(capital) <= nav1:
+            t = (math.log(float(capital)) - math.log(nav0)) / (math.log(nav1) - math.log(nav0))
+            return c0 + t * (c1 - c0)
+    return pts[-1][1]
+
+
 def place(capital, book, basket, ceiling, sleeve, cash_net=CASH_NET_ANNUAL):
     """One row per vehicle for a given account size. Pure function."""
     row = {"capital_cny": float(capital), "vehicles": {}}
@@ -137,22 +194,43 @@ def place(capital, book, basket, ceiling, sleeve, cash_net=CASH_NET_ANNUAL):
     if book.get("available") and ceiling.get("available"):
         deployable = min(float(capital), ceiling["deployable_nav_cny"])
         idle = float(capital) - deployable
-        cagr = ceiling.get("cagr_at_ceiling")
-        cagr = float(cagr) if _num(cagr) else float(book["cagr"])
+        recon = ceiling.get("recon") or {}
+        ladder = ceiling.get("ladder") or []
+        nosize = ceiling.get("nosize_cagr")
+        ticket = recon.get("ticket_cagr")
+        if _num(ticket):
+            level, level_src = float(ticket), "reconcile ticket (%s)" % recon.get("ticket_cfg")
+        elif _num(nosize):
+            level, level_src = float(nosize), "capacity face, no-size arm"
+        else:
+            level, level_src = float(book["cagr"]), "spanning card headline"
+        # impact is a statement about the money actually at work, so it is priced at the
+        # DEPLOYED size, not at the account size: an account far above the ceiling does not
+        # pay the ladder's 50M impact, it pays the ceiling's.
+        at_size = _ladder_cagr(ladder, nosize, deployable)
+        impact = max(0.0, float(nosize) - float(at_size)) if _num(nosize) and _num(at_size) else 0.0
+        cagr = level - impact
         profit = deployable * cagr + idle * cash_net
         row["vehicles"]["etf_book"] = {
             "status": "ok",
             "deployed_cny": round(deployable, 2),
             "idle_in_repo_cny": round(idle, 2),
             "cagr_on_deployed": cagr,
-            "cagr_rule_uncapped": float(book["cagr"]),
+            "cagr_level_used": level,
+            "level_source": level_src,
+            "cagr_card_uncapped": float(book["cagr"]),
+            "cagr_capacity_ladder_nosize": nosize,
+            "impact_pp_per_year": round(100.0 * impact, 4),
+            "impact_priced_at_cny": round(deployable, 2),
             "annual_profit_cny": round(profit, 2),
             "annual_profit_rule_uncapped_cny": round(float(capital) * float(book["cagr"]), 2),
             "cash_net_annual_on_idle": cash_net,
             "capacity_bound": bool(idle > 1.0),
             "source": CAPACITY,
-            "note": "capacity ceiling = %.2f%% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
-                    % (100 * BOOK_PARTICIPATION),
+            "note": "level = the executable ticket on the production stack (reconcile face); the size "
+                    "effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's "
+                    "absolute levels are priced on a different universe and are not used here. ceiling = "
+                    "%.2f%% of ADV (p90); excess priced at repo net." % (100 * BOOK_PARTICIPATION),
         }
     else:
         row["vehicles"]["etf_book"] = {"status": "unavailable", "source": CAPACITY}
@@ -191,7 +269,7 @@ def place(capital, book, basket, ceiling, sleeve, cash_net=CASH_NET_ANNUAL):
                 "lot_cagr_cell_capital_cny": cell_cap,
                 "annual_profit_cny": round(float(capital) * cagr, 2),
                 "source": FUTURES,
-                "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%%/yr is not reachable at these sizes",
+                "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%/yr is not reachable at these sizes",
                 "disclosure_cell_distance_cny": round(abs(cell_cap - float(capital)), 2),
             }
     else:
@@ -210,23 +288,40 @@ def place(capital, book, basket, ceiling, sleeve, cash_net=CASH_NET_ANNUAL):
                 round(100.0 * (ok_only[0][1] - ok_only[1][1]) / float(capital), 3)
                 if float(capital) > 0 else 0.0)
 
-    # Same-experiment split (r1262). The three terms are defined so they ADD UP exactly:
-    #   rule_gap       = basket CAGR        - book rule CAGR (spanning run, size-free)
-    #   run_diff       = book rule CAGR     - capacity run's CAGR on deployed capital
-    #   capacity_cost  = capacity run CAGR  - the book's effective CAGR on ALL capital
-    # The middle term exists because the two published runs do not agree with each other
-    # (cost model / cell definition differ by ~2.3pp) -- it is NOT a capacity statement and
-    # is published as unattributed rather than folded into the ceiling's cost.
+    # Same-experiment split (r1262), now with every term measured (r1320). The four terms
+    # are defined so they ADD UP exactly to the basket-vs-book gap:
+    #   basket_vs_card   = basket CAGR     - card headline      (the book loses this one)
+    #   card_vs_ticket   = card headline   - ticket level       (knobs: width/rule/cost)
+    #   ticket_vs_size   = ticket level    - ticket at size     (impact only)
+    #   size_vs_effective= ticket at size  - effective on ALL   (undeployable part at repo)
+    # r1319 charged the middle of these to "run diff, unattributed"; it is the knob bridge
+    # plus the panel/engine difference, both measured in results/etf_book_cagr_reconcile.json.
     bk, ba = row["vehicles"].get("etf_book", {}), row["vehicles"].get("four_etf_basket", {})
     if bk.get("status") == "ok" and ba.get("status") == "ok" and float(capital) > 0:
         effective = bk["annual_profit_cny"] / float(capital)
+        card = float(book["cagr"])
+        level = float(bk["cagr_level_used"])
+        on_size = float(bk["cagr_on_deployed"])
+        rec = ceiling.get("recon") or {}
         row["book_vs_basket"] = {
-            "rule_gap_pp_per_year": round(100.0 * (ba["cagr"] - bk["cagr_rule_uncapped"]), 3),
-            "run_diff_pp_per_year": round(100.0 * (bk["cagr_rule_uncapped"] - bk["cagr_on_deployed"]), 3),
-            "capacity_cost_pp_per_year": round(100.0 * (bk["cagr_on_deployed"] - effective), 3),
+            "basket_vs_card_pp_per_year": round(100.0 * (ba["cagr"] - card), 3),
+            "card_vs_ticket_pp_per_year": round(100.0 * (card - level), 3),
+            "ticket_vs_size_pp_per_year": round(100.0 * (level - on_size), 3),
+            "size_vs_effective_pp_per_year": round(100.0 * (on_size - effective), 3),
             "effective_cagr_on_all_capital": round(effective, 6),
             "total_gap_cny": round(ba["annual_profit_cny"] - bk["annual_profit_cny"], 2),
-            "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it.",
+            "ticket_cfg": rec.get("ticket_cfg"),
+            "ticket_vol": rec.get("ticket_vol"),
+            "ticket_maxdd": rec.get("ticket_maxdd"),
+            "ticket_sharpe": rec.get("ticket_sharpe"),
+            "panel_stack_delta_pp": rec.get("stack_delta_pp"),
+            "knob_interaction_pp": rec.get("interaction_pp"),
+            "note": "basket_vs_card: the basket beats the card's own config, size-free. "
+                    "card_vs_ticket: the published card is NOT the rule the order sheet trades; "
+                    "this is that distance (knobs + their interaction). ticket_vs_size: impact "
+                    "from the capacity ladder's own delta. panel_stack_delta_pp is the part of "
+                    "the two published faces' disagreement that belongs to the universe, not to "
+                    "a rule, and it is NOT charged to capacity.",
         }
     return row
 
@@ -236,9 +331,23 @@ def build():
     rows = [place(c, book, basket, ceiling, sleeve) for c in TIERS]
 
     caveats = [
-        "Every number is read from a published face, not re-measured: book %.2f%%/yr (%s), basket %.2f%%/yr (%s), sleeve lot arm (%s)."
-        % (100 * book.get("cagr", 0), SPANNING, 100 * basket.get("cagr", 0), SPANNING, FUTURES)
+        "Every number is read from a published face, not re-measured: book card headline %.2f%%/yr (%s), "
+        "book level as traded %.2f%%/yr (the executable ticket, %s), basket %.2f%%/yr (%s), sleeve lot arm (%s)."
+        % (100 * book.get("cagr", 0), SPANNING,
+           100 * ((ceiling.get("recon") or {}).get("ticket_cagr") or book.get("cagr", 0)), RECONCILE,
+           100 * basket.get("cagr", 0), SPANNING, FUTURES)
         if book.get("available") and basket.get("available") else "one or more source faces unavailable -- see per-vehicle status",
+        "Risk is not free: the ticket carries ~13.5% vol and a ~-16% max drawdown against the card's "
+        "10.2% / -11.8% -- it earns more because it takes more, Sharpe 1.04 vs 0.99.",
+        "The card headline and the executable ticket are DIFFERENT books: the card prints a 12-name "
+        "8%-vol-target run, the order sheet trades 5 names with a 0.20 beta cover at 8bp. The distance "
+        "between them (+3.7pp/yr on the same stack) is decomposed knob by knob in "
+        "research/ETF_BOOK_CAGR_RECONCILE.md, including the -1.25pp width x rule interaction.",
+        "The capacity face's absolute levels (7.2-7.4%/yr) are priced on a different universe "
+        "(un-repaired panel, no class filter) and run ~5.5pp/yr below the production stack at identical "
+        "settings; only its impact DELTA is used here, never its levels.",
+        "Impact is priced at the DEPLOYED size, so an account above the ceiling pays the ceiling's impact, "
+        "not the ladder's 50M rung; below the first rung (1M) impact is zero and the size-free ticket is used.",
         "The book's ceiling is a p90-of-ADV statement: half of its decisions trade less than that, so the ceiling is a tail constraint, not an average.",
         "The basket has no modelled capacity ceiling. It is bought once and held, so liquidity binds only on the entry print; that print is not measured here.",
         "The futures sleeve pays nothing usable below its one-lot floor and stays under 2%/yr until roughly the 10M tier -- the continuous-weight series is not a tradable claim.",
@@ -280,8 +389,8 @@ def render_md(payload):
                  "one exists, and the undeployable remainder priced at the net repo rate "
                  "({:.3f}%/yr).".format(100 * payload["config"]["cash_net_annual"]))
     lines.append("")
-    lines.append("| capital | ETF book (rule, size-free) | ETF book (achievable at 1% ADV) | 4-ETF basket | futures sleeve | best | rule gap | run diff | capacity cost |")
-    lines.append("|---|---|---|---|---|---|---|---|---|")
+    lines.append("| capital | ETF book (card config, size-free) | ETF book (ticket, size applied) | 4-ETF basket | futures sleeve | best | basket vs card | card vs ticket | ticket vs size | size vs effective |")
+    lines.append("|---|---|---|---|---|---|---|---|---|---|")
     for r in payload["rows"]:
         cells = []
         for key in ("etf_book", "four_etf_basket", "futures_sleeve"):
@@ -299,21 +408,22 @@ def render_md(payload):
         rule_side = ("%s" % _fmt_cny(bk.get("annual_profit_rule_uncapped_cny"))
                      if _num(bk.get("annual_profit_rule_uncapped_cny")) else "-")
         split = r.get("book_vs_basket") or {}
-        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
+        def _pp(key):
+            return ("%+.2fpp/yr" % split[key]) if _num(split.get(key)) else "-"
+        lines.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s |" % (
             _fmt_cny(r["capital_cny"]), rule_side, cells[0], cells[1], cells[2],
             r.get("best_vehicle", "-"),
-            ("%+.2fpp/yr" % split["rule_gap_pp_per_year"]) if _num(split.get("rule_gap_pp_per_year")) else "-",
-            ("%+.2fpp/yr" % split["run_diff_pp_per_year"]) if _num(split.get("run_diff_pp_per_year")) else "-",
-            ("%+.2fpp/yr" % split["capacity_cost_pp_per_year"]) if _num(split.get("capacity_cost_pp_per_year")) else "-"))
+            _pp("basket_vs_card_pp_per_year"), _pp("card_vs_ticket_pp_per_year"),
+            _pp("ticket_vs_size_pp_per_year"), _pp("size_vs_effective_pp_per_year")))
     lines.append("")
-    lines.append("Three columns, three different statements, and they add up exactly to the gap in the "
-                 "table above (a selftest leg enforces the sum). The **rule gap** is the book's ranking "
-                 "versus the basket with size taken out of the picture -- the basket wins that one already. "
-                 "The **run diff** is not a finding: the capacity face's return does not reproduce the "
-                 "spanning face's headline by ~2.3pp even under the ceiling, and this window does not "
-                 "separate that difference (cost model vs cell definition), so it is published as "
-                 "unattributed instead of being charged to the ceiling. The **capacity cost** is the "
-                 "1%-of-ADV ceiling alone: zero while the book is under it, and it widens with size.")
+    lines.append("Four columns, four different statements, and they add up exactly to the gap in the "
+                 "table above (a selftest leg enforces the sum). **basket vs card**: the basket beats the "
+                 "card's own configuration, size-free -- the book loses that one on its own terms. "
+                 "**card vs ticket**: the card headline is not the rule the order sheet executes; this is "
+                 "that distance, measured knob by knob in `research/ETF_BOOK_CAGR_RECONCILE.md`. "
+                 "**ticket vs size**: impact only, taken from the capacity ladder's own delta rather than "
+                 "from its absolute levels (which are priced on a different universe). "
+                 "**size vs effective**: the part of the account that cannot be deployed and earns repo.")
     lines.append("")
     lines.append("## How to read it")
     lines.append("")
@@ -416,35 +526,72 @@ def selftest():
     one.pop("ts", None); two.pop("ts", None)
     legs.append(("payload deterministic apart from the ts envelope", one == two, "dict compare"))
 
-    # L12 the rule gap is a size-free constant; only the capacity gap moves with capital
-    gaps = [r["book_vs_basket"]["rule_gap_pp_per_year"] for r in rows if r.get("book_vs_basket")]
-    legs.append(("rule gap vs the basket is constant across account sizes",
-                 len(gaps) == len(rows) and max(gaps) - min(gaps) <= 1e-6, "gaps=%r" % gaps[:3]))
+    # L12 basket-vs-card and card-vs-ticket are size-free constants; only the impact and
+    # the repo drag move with capital
+    g1 = [r["book_vs_basket"]["basket_vs_card_pp_per_year"] for r in rows if r.get("book_vs_basket")]
+    g2 = [r["book_vs_basket"]["card_vs_ticket_pp_per_year"] for r in rows if r.get("book_vs_basket")]
+    legs.append(("basket-vs-card and card-vs-ticket are constant across account sizes",
+                 len(g1) == len(rows) and max(g1) - min(g1) <= 1e-6
+                 and max(g2) - min(g2) <= 1e-6, "g1=%r g2=%r" % (g1[:2], g2[:2])))
 
-    # L13 the three published terms add up to the total gap (no unexplained fourth term)
+    # L13 the four terms add up to the total gap (no unexplained residual term)
     decomp = True
     for r in rows:
-        s = r.get("book_vs_basket")
-        if not s:
+        d = r.get("book_vs_basket")
+        if not d:
             continue
-        bk = r["vehicles"]["etf_book"]
-        rule_cny = r["capital_cny"] * s["rule_gap_pp_per_year"] / 100.0
-        run_cny = r["capital_cny"] * s["run_diff_pp_per_year"] / 100.0
-        cap_cny = r["capital_cny"] * s["capacity_cost_pp_per_year"] / 100.0
-        if abs((rule_cny + run_cny + cap_cny) - s["total_gap_cny"]) > 2.0 + 1e-5 * r["capital_cny"]:
+        cny = sum(r["capital_cny"] * d[k] / 100.0 for k in
+                  ("basket_vs_card_pp_per_year", "card_vs_ticket_pp_per_year",
+                   "ticket_vs_size_pp_per_year", "size_vs_effective_pp_per_year"))
+        if abs(cny - d["total_gap_cny"]) > 2.0 + 1e-5 * r["capital_cny"]:
             decomp = False
-    legs.append(("rule gap + run diff + capacity cost == total gap in CNY", decomp, "per row"))
+    legs.append(("basket-vs-card + card-vs-ticket + ticket-vs-size + size-vs-effective "
+                 "== total gap in CNY", decomp, "per row"))
 
     # L14 capacity cost is 0 under the ceiling and >0 well above it, and the run diff
     # (which is NOT a capacity statement) does not move with capital
     under = place(300_000, book, basket, ceiling, sleeve)["book_vs_basket"]
     over = place(50_000_000, book, basket, ceiling, sleeve)["book_vs_basket"]
-    legs.append(("capacity cost is 0 under the ceiling and >0 well above it",
-                 abs(under["capacity_cost_pp_per_year"]) <= 1e-9 and over["capacity_cost_pp_per_year"] > 1.0,
-                 "under=%r over=%r" % (under["capacity_cost_pp_per_year"], over["capacity_cost_pp_per_year"])))
-    legs.append(("the run diff is a constant, not a function of capital",
-                 abs(under["run_diff_pp_per_year"] - over["run_diff_pp_per_year"]) <= 1e-9,
-                 "under=%r over=%r" % (under["run_diff_pp_per_year"], over["run_diff_pp_per_year"])))
+    legs.append(("impact is 0 under the first ladder rung and binds at the ceiling",
+                 abs(under["ticket_vs_size_pp_per_year"]) <= 1e-9
+                 and over["ticket_vs_size_pp_per_year"] > 0.2,
+                 "under=%r over=%r" % (under["ticket_vs_size_pp_per_year"],
+                                       over["ticket_vs_size_pp_per_year"])))
+    legs.append(("impact is priced at the deployed size, so an over-ceiling account does "
+                 "not pay the ladder's own 50M rung",
+                 over["ticket_vs_size_pp_per_year"] < 2.0,
+                 "over=%r" % over["ticket_vs_size_pp_per_year"]))
+
+    # the level actually used must be the reconcile ticket, and it must be disclosed
+    bk_lvl = place(1_000_000, book, basket, ceiling, sleeve)["vehicles"]["etf_book"]
+    rec = (ceiling.get("recon") or {})
+    legs.append(("the book level comes from the reconcile ticket, not from the capacity "
+                 "ladder's absolute cell or the card alone",
+                 bool(rec.get("available")) and _num(bk_lvl.get("cagr_level_used"))
+                 and abs(bk_lvl["cagr_level_used"] - rec["ticket_cagr"]) <= 1e-12,
+                 "level=%r src=%r" % (bk_lvl.get("cagr_level_used"), bk_lvl.get("level_source"))))
+
+    # L18 reader text is final text: no doubled percent and no unexpanded placeholder.
+    # The caveat list mixes %-formatted items with plain literals, and a literal that was
+    # written as if it were formatted kept its "%%" -- the published face then said
+    # "13.5%% vol" to every reader. Only a gate on the OUTPUT catches that, because the
+    # code looks correct at the line where the string is defined.
+    def _strings(o):
+        if isinstance(o, str):
+            yield o
+        elif isinstance(o, dict):
+            for k, v in o.items():
+                if isinstance(k, str):
+                    yield k
+                yield from _strings(v)
+        elif isinstance(o, list):
+            for v in o:
+                yield from _strings(v)
+
+    bad = [s for s in _strings(one)
+           if "%%" in s or re.search(r"%[-+ 0-9.]*[sdfr]", s)]
+    legs.append(("reader-facing text carries no doubled percent or unexpanded placeholder",
+                 not bad, "offenders=%r" % (bad[:3],)))
 
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:

@@ -596,7 +596,14 @@ def main() -> int:
             # percent read as a fraction (100x), a capacity ceiling that never binds, and
             # a missing source silently becoming zero profit.
             ("product: capital placement by account size (exit-code contract)",
-             "scripts/capital_placement.py", ["--selftest"])):
+             "scripts/capital_placement.py", ["--selftest"]),
+            # r1320: four published annualised numbers were being quoted as four views of
+            # one book. The legs pin the decomposition that makes them one bridge: each
+            # path must sum to the endpoint difference (so a term cannot be dropped), an
+            # additive grid must show ZERO interaction (so a non-zero term is real), and an
+            # incomplete path must raise rather than print a partial waterfall.
+            ("product: card-vs-ticket cagr bridge (exit-code contract)",
+             "scripts/etf_book_cagr_reconcile.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

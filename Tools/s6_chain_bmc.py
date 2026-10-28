@@ -108,6 +108,14 @@ LEGS = [
     # nothing, so its only failure mode is a missing input, which it reports instead of
     # zeroing. <1s, no network, no judge.
     ("capital_placement", ["python", "scripts/capital_placement.py", "run"]),
+    # r1320: capital_placement put the card's 9.62% next to the capacity ladder's 7.28%
+    # and called the 2.34pp between them an unattributed "run diff". They are three
+    # measured things: knobs (card -> executable ticket, +3.73pp), the universe the two
+    # faces were priced on (-5.55pp) and impact (-0.52pp). Re-deriving the 12-cell grid
+    # costs ~5 min (the panel build dominates), so the chain runs the ENGINE-FREE audit:
+    # the face must stay internally consistent, and must go red the moment a source face
+    # it reconciles is re-derived to a new headline. 0.1s, no network.
+    ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,

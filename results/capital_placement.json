@@ -1,6 +1,6 @@
 {
   "schema": "capital_placement/v1",
-  "ts": "2026-10-28T09:32:55+08:00",
+  "ts": "2026-10-28T09:24:45+08:00",
   "evidence_cutoff": "2026-10-27",
   "config": {
     "book_participation_cap": 0.01,
@@ -48,7 +48,60 @@
       "annual_profit_ceiling_cny": 111143.0,
       "worst_participation": 0.02128,
       "rule_label": "rule @ 8bp, no size",
-      "gross_cash_pct": 2.089
+      "gross_cash_pct": 2.089,
+      "ladder": [
+        [
+          1000000.0,
+          0.0738
+        ],
+        [
+          5000000.0,
+          0.0686
+        ],
+        [
+          10000000.0,
+          0.0647
+        ],
+        [
+          30000000.0,
+          0.0551
+        ],
+        [
+          50000000.0,
+          0.0485
+        ],
+        [
+          100000000.0,
+          0.0365
+        ],
+        [
+          200000000.0,
+          0.0197
+        ],
+        [
+          500000000.0,
+          -0.0129
+        ],
+        [
+          1000000000.0,
+          -0.0485
+        ]
+      ],
+      "nosize_cagr": 0.078,
+      "recon": {
+        "source": "results/etf_book_cagr_reconcile.json",
+        "available": true,
+        "ticket_cagr": 0.1335,
+        "ticket_cfg": "n5/beta020/8bp",
+        "card_cagr": 0.0962,
+        "knob_delta_pp": 3.73,
+        "interaction_pp": -1.245,
+        "stack_delta_pp": 5.55,
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "evidence_cutoff": "2026-10-27"
+      }
     },
     "futures_sleeve": {
       "source": "results/futures_sleeve_economics.json",
@@ -76,14 +129,19 @@
           "status": "ok",
           "deployed_cny": 300000.0,
           "idle_in_repo_cny": 0.0,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 21840.0,
+          "cagr_on_deployed": 0.1335,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.0,
+          "impact_priced_at_cny": 300000.0,
+          "annual_profit_cny": 40050.0,
           "annual_profit_rule_uncapped_cny": 28860.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": false,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -101,17 +159,24 @@
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
         }
       },
-      "best_vehicle": "four_etf_basket",
-      "best_annual_profit_cny": 30270.0,
-      "spread_best_vs_second_cny": 8430.0,
-      "spread_best_vs_second_pct_of_capital": 2.81,
+      "best_vehicle": "etf_book",
+      "best_annual_profit_cny": 40050.0,
+      "spread_best_vs_second_cny": 9780.0,
+      "spread_best_vs_second_pct_of_capital": 3.26,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 0.0,
-        "effective_cagr_on_all_capital": 0.0728,
-        "total_gap_cny": 8430.0,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.0,
+        "size_vs_effective_pp_per_year": 0.0,
+        "effective_cagr_on_all_capital": 0.1335,
+        "total_gap_cny": -9780.0,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     },
     {
@@ -121,14 +186,19 @@
           "status": "ok",
           "deployed_cny": 1000000.0,
           "idle_in_repo_cny": 0.0,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 72800.0,
+          "cagr_on_deployed": 0.1335,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.0,
+          "impact_priced_at_cny": 1000000.0,
+          "annual_profit_cny": 133500.0,
           "annual_profit_rule_uncapped_cny": 96200.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": false,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -146,17 +216,24 @@
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
         }
       },
-      "best_vehicle": "four_etf_basket",
-      "best_annual_profit_cny": 100900.0,
-      "spread_best_vs_second_cny": 28100.0,
-      "spread_best_vs_second_pct_of_capital": 2.81,
+      "best_vehicle": "etf_book",
+      "best_annual_profit_cny": 133500.0,
+      "spread_best_vs_second_cny": 32600.0,
+      "spread_best_vs_second_pct_of_capital": 3.26,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 0.0,
-        "effective_cagr_on_all_capital": 0.0728,
-        "total_gap_cny": 28100.0,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.0,
+        "size_vs_effective_pp_per_year": 0.0,
+        "effective_cagr_on_all_capital": 0.1335,
+        "total_gap_cny": -32600.0,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     },
     {
@@ -166,14 +243,19 @@
           "status": "ok",
           "deployed_cny": 1500000.0,
           "idle_in_repo_cny": 0.0,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 109200.0,
+          "cagr_on_deployed": 0.12798996589065453,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.551,
+          "impact_priced_at_cny": 1500000.0,
+          "annual_profit_cny": 191984.95,
           "annual_profit_rule_uncapped_cny": 144300.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": false,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -191,17 +273,24 @@
           "note": "below the one-lot floor the sleeve can only hold repo; profit shown is the cash leg"
         }
       },
-      "best_vehicle": "four_etf_basket",
-      "best_annual_profit_cny": 151350.0,
-      "spread_best_vs_second_cny": 42150.0,
-      "spread_best_vs_second_pct_of_capital": 2.81,
+      "best_vehicle": "etf_book",
+      "best_annual_profit_cny": 191984.95,
+      "spread_best_vs_second_cny": 40634.95,
+      "spread_best_vs_second_pct_of_capital": 2.709,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 0.0,
-        "effective_cagr_on_all_capital": 0.0728,
-        "total_gap_cny": 42150.0,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.551,
+        "size_vs_effective_pp_per_year": -0.0,
+        "effective_cagr_on_all_capital": 0.12799,
+        "total_gap_cny": -40634.95,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     },
     {
@@ -211,14 +300,19 @@
           "status": "ok",
           "deployed_cny": 1526694.2,
           "idle_in_repo_cny": 1473305.8,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 137323.98,
+          "cagr_on_deployed": 0.12793297325544684,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.5567,
+          "impact_priced_at_cny": 1526694.2,
+          "annual_profit_cny": 221495.17,
           "annual_profit_rule_uncapped_cny": 288600.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": true,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -238,15 +332,22 @@
       },
       "best_vehicle": "four_etf_basket",
       "best_annual_profit_cny": 302700.0,
-      "spread_best_vs_second_cny": 165376.02,
-      "spread_best_vs_second_pct_of_capital": 5.513,
+      "spread_best_vs_second_cny": 81204.83,
+      "spread_best_vs_second_pct_of_capital": 2.707,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 2.703,
-        "effective_cagr_on_all_capital": 0.045775,
-        "total_gap_cny": 165376.02,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.557,
+        "size_vs_effective_pp_per_year": 5.41,
+        "effective_cagr_on_all_capital": 0.073832,
+        "total_gap_cny": 81204.83,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     },
     {
@@ -256,14 +357,19 @@
           "status": "ok",
           "deployed_cny": 1526694.2,
           "idle_in_repo_cny": 6473305.8,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 226173.98,
+          "cagr_on_deployed": 0.12793297325544684,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.5567,
+          "impact_priced_at_cny": 1526694.2,
+          "annual_profit_cny": 310345.17,
           "annual_profit_rule_uncapped_cny": 769600.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": true,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -283,15 +389,22 @@
       },
       "best_vehicle": "four_etf_basket",
       "best_annual_profit_cny": 807200.0,
-      "spread_best_vs_second_cny": 581026.02,
-      "spread_best_vs_second_pct_of_capital": 7.263,
+      "spread_best_vs_second_cny": 496854.83,
+      "spread_best_vs_second_pct_of_capital": 6.211,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 4.453,
-        "effective_cagr_on_all_capital": 0.028272,
-        "total_gap_cny": 581026.02,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.557,
+        "size_vs_effective_pp_per_year": 8.914,
+        "effective_cagr_on_all_capital": 0.038793,
+        "total_gap_cny": 496854.83,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     },
     {
@@ -301,14 +414,19 @@
           "status": "ok",
           "deployed_cny": 1526694.2,
           "idle_in_repo_cny": 48473305.8,
-          "cagr_on_deployed": 0.0728,
-          "cagr_rule_uncapped": 0.0962,
-          "annual_profit_cny": 972513.98,
+          "cagr_on_deployed": 0.12793297325544684,
+          "cagr_level_used": 0.1335,
+          "level_source": "reconcile ticket (n5/beta020/8bp)",
+          "cagr_card_uncapped": 0.0962,
+          "cagr_capacity_ladder_nosize": 0.078,
+          "impact_pp_per_year": 0.5567,
+          "impact_priced_at_cny": 1526694.2,
+          "annual_profit_cny": 1056685.17,
           "annual_profit_rule_uncapped_cny": 4810000.0,
           "cash_net_annual_on_idle": 0.01777,
           "capacity_bound": true,
           "source": "results/etf_book_capacity_rule.json",
-          "note": "capacity ceiling = 1.00% of ADV (p90); excess priced at repo net. cagr_on_deployed comes from the capacity face's own run; cagr_rule_uncapped is the spanning face's headline and is NOT achievable above the ceiling."
+          "note": "level = the executable ticket on the production stack (reconcile face); the size effect is the capacity ladder's impact DELTA (a cost difference) -- the ladder's absolute levels are priced on a different universe and are not used here. ceiling = 1.00% of ADV (p90); excess priced at repo net."
         },
         "four_etf_basket": {
           "status": "ok",
@@ -325,26 +443,37 @@
           "lot_cagr_cell_capital_cny": 50000000.0,
           "annual_profit_cny": 650000.0,
           "source": "results/futures_sleeve_economics.json",
-          "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%%/yr is not reachable at these sizes",
+          "note": "lot-sized arm at the nearest measured capital cell; the continuous-weight 1.37%/yr is not reachable at these sizes",
           "disclosure_cell_distance_cny": 0.0
         }
       },
       "best_vehicle": "four_etf_basket",
       "best_annual_profit_cny": 5045000.0,
-      "spread_best_vs_second_cny": 4072486.02,
-      "spread_best_vs_second_pct_of_capital": 8.145,
+      "spread_best_vs_second_cny": 3988314.83,
+      "spread_best_vs_second_pct_of_capital": 7.977,
       "book_vs_basket": {
-        "rule_gap_pp_per_year": 0.47,
-        "run_diff_pp_per_year": 2.34,
-        "capacity_cost_pp_per_year": 5.335,
-        "effective_cagr_on_all_capital": 0.01945,
-        "total_gap_cny": 4072486.02,
-        "note": "rule_gap: basket vs book rule, same spanning run, size-free. run_diff: the capacity face's CAGR does not reproduce the spanning face's headline even under the ceiling -- unattributed, not a capacity cost. capacity_cost: only the 1%-ADV ceiling, zero while the book is under it."
+        "basket_vs_card_pp_per_year": 0.47,
+        "card_vs_ticket_pp_per_year": -3.73,
+        "ticket_vs_size_pp_per_year": 0.557,
+        "size_vs_effective_pp_per_year": 10.68,
+        "effective_cagr_on_all_capital": 0.021134,
+        "total_gap_cny": 3988314.83,
+        "ticket_cfg": "n5/beta020/8bp",
+        "ticket_vol": 0.1346,
+        "ticket_maxdd": -0.1598,
+        "ticket_sharpe": 1.036,
+        "panel_stack_delta_pp": 5.55,
+        "knob_interaction_pp": -1.245,
+        "note": "basket_vs_card: the basket beats the card's own config, size-free. card_vs_ticket: the published card is NOT the rule the order sheet trades; this is that distance (knobs + their interaction). ticket_vs_size: impact from the capacity ladder's own delta. panel_stack_delta_pp is the part of the two published faces' disagreement that belongs to the universe, not to a rule, and it is NOT charged to capacity."
       }
     }
   ],
   "caveats": [
-    "Every number is read from a published face, not re-measured: book 9.62%/yr (results/etf_book_spanning.json), basket 10.09%/yr (results/etf_book_spanning.json), sleeve lot arm (results/futures_sleeve_economics.json).",
+    "Every number is read from a published face, not re-measured: book card headline 9.62%/yr (results/etf_book_spanning.json), book level as traded 13.35%/yr (the executable ticket, results/etf_book_cagr_reconcile.json), basket 10.09%/yr (results/etf_book_spanning.json), sleeve lot arm (results/futures_sleeve_economics.json).",
+    "Risk is not free: the ticket carries ~13.5% vol and a ~-16% max drawdown against the card's 10.2% / -11.8% -- it earns more because it takes more, Sharpe 1.04 vs 0.99.",
+    "The card headline and the executable ticket are DIFFERENT books: the card prints a 12-name 8%-vol-target run, the order sheet trades 5 names with a 0.20 beta cover at 8bp. The distance between them (+3.7pp/yr on the same stack) is decomposed knob by knob in research/ETF_BOOK_CAGR_RECONCILE.md, including the -1.25pp width x rule interaction.",
+    "The capacity face's absolute levels (7.2-7.4%/yr) are priced on a different universe (un-repaired panel, no class filter) and run ~5.5pp/yr below the production stack at identical settings; only its impact DELTA is used here, never its levels.",
+    "Impact is priced at the DEPLOYED size, so an account above the ceiling pays the ceiling's impact, not the ladder's 50M rung; below the first rung (1M) impact is zero and the size-free ticket is used.",
     "The book's ceiling is a p90-of-ADV statement: half of its decisions trade less than that, so the ceiling is a tail constraint, not an average.",
     "The basket has no modelled capacity ceiling. It is bought once and held, so liquidity binds only on the entry print; that print is not measured here.",
     "The futures sleeve pays nothing usable below its one-lot floor and stays under 2%/yr until roughly the 10M tier -- the continuous-weight series is not a tradable claim.",
