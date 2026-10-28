@@ -5,7 +5,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-10-28T15:45:12+08:00",
+ "clock_read": "2026-10-28T16:05:52+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -86,12 +86,12 @@
  "last_orders_sha": "d6d85b613154df4b81fd538cbcbda537b5c71f021becd436df6b70af546de156",
  "last_orders_watermark": "d6d85b613154df4b@08f8693/177058",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@08f8693d426d75a9571ef851b4145b37ad108bf2/177058#d6d85b613154df4b81fd538cbcbda537b5c71f021becd436df6b70af546de156",
- "last_push": "386a13fee4",
- "last_push_sha": "386a13fee4",
- "last_push_ts": "2026-10-28T15:10+08:00",
+ "last_push": "ddd349fad0",
+ "last_push_sha": "ddd349fad0",
+ "last_push_ts": "2026-10-28T16:05:52+08:00",
  "last_round": 1220,
  "last_round_at": "2026-10-28T15:45:12+08:00",
- "last_seen": "2026-10-28T15:45:12+08:00",
+ "last_seen": "2026-10-28T16:05:52+08:00",
  "latest_artifact": "results/e43_tilt_4member/LADDERDROPCROSS-20261027.json",
  "local_not_on_origin": 0,
  "local_not_on_origin_commits": 0,
@@ -465,6 +465,12 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T10:42:00+08:00"
  },
+ "r1220_push": {
+  "rebase": "over bm-c e3d486f818 r1324: 5 regenerable faces kept as this round re-derived them, methodology file unioned from origin blob + E189 card (markers 0)",
+  "s7": "loop pin 2 no-op; LoopWatchdog present Ready; pre-commit + pre-push claws reinstalled; smoke 122/122",
+  "sha": "ddd349fad0",
+  "verified": "ahead 0 behind 0 ls-tree ok"
+ },
  "ram_free_gb": 12.9,
  "ram_free_mb": 12869,
  "ram_free_pct": 54.0,
@@ -489,14 +495,14 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T07:28:07+08:00"
  },
- "sync_note": "push 1ba96b3c3 verified: behind 0 / ahead 0 / ls-tree origin carries TILT3REACH-20261027.json + the E126 digest",
+ "sync_note": "push ddd349fad0 four-way verified: behind 0 / ahead 0, ls-tree origin/main carries LADDERDROPCROSS-20261027.json + DIGEST-20261028-e189-drop-crossing.md",
  "task": "r1220: E189 drop-crossing (done) -> E190 fragility sweep",
  "task_short": "E189 drop crossing",
- "ts": "2026-10-28T15:45:12+08:00",
+ "ts": "2026-10-28T16:05:52+08:00",
  "ts_utc_ms": 1793143351256,
  "updated": "2026-10-28T15:45:12+08:00",
  "updated_at": "2026-10-28T15:45:12+08:00",
  "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0.0-0.8%, pool ready 3) -> E189 burned in-round | e39 selftest 644->651 | S6 subset 6/6 rc=0 | smoke 120/120",
  "vram_free_gb": 4.1,
  "vram_used_gb": 3.9
-}
+}
