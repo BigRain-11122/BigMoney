@@ -2758,3 +2758,38 @@ family audits must be run past that audit before it is claimed as done.
 How to apply: when you gate one half of a measurement (readers, producers, levels, deltas), publish
 the boundary of the test as a count on the face itself; and never let a count share a name with the
 quantity the family classifies, because name-based audits will happily quote it.
+
+## E207 The classifier's blind spot also has a *volume*: sweep the whole tree and count the cells a name-based reader would quote that could not be a quote (2026-10-29 r1235 bm-b)
+
+Evidence: `results/e79/QUOTECOUNT-2026-10-28.json`, code `quotecount`
+(`scripts/e97_routing.py`, selftest 97 -> 107), upstream E180 + E206,
+digest `research/digests/DIGEST-20261029-e207-count-as-quote.md`.
+
+E206 admitted "a delta spelled `engine_gap_bp` is invisible to this gate" as a caveat. E207 turns
+that caveat into a measurement, and it is large: across 12,111 faces and 71,245 measurement-named
+cells, **37,817 could not be bp quotes at all** -- 30,357 integers whose own name says "a number of
+things" (`gapped_kept` 15,682, `gap_sessions` 11,619), 1,728 booleans, 5,732 small integers. Only
+3,759 of them sit inside the two directories the level-quote auditor already scans; 34,058 are
+outside it. So the auditor is not merely blind at the margin, it is blind across almost the whole
+tree -- and `level_class()` would file `gap_sessions` as an **offset of 11,619 bp**.
+
+Three reusable pieces:
+
+(a) **A name test has a false-positive side that is itself quotable.** Splitting the candidates into
+`count_word` (the name says count), `small_integer` (no count word, |v| <= ceiling) and
+`integral_quote_sized` (5,776 bp is a real reading) is what makes the headline defensible; the
+ceiling is a line, so the face publishes a sensitivity table (10/100/1000 -> 4,186/5,732/9,446)
+instead of an unqualified total.
+
+(b) **Counts must not be published under classifier vocabulary.** Every count-word hit is a defect
+with a one-line fix available at the producer (rename), which is why this is an inventory and not a
+rewrite: the audit's job is to put the number where the fix can be argued from.
+
+(c) **A sweep that publishes into the tree it scans must exclude its own study AND its own previous
+file**, and `evidence_cutoff` cannot be copied straight into a filename: one page stores a sentence
+there and the colon in "15:30" produced a zero-byte face on Windows. Derive the cutoff from strict
+ISO dates, and name the pages that misuse the field.
+
+How to apply: before trusting any name-based classifier, count the cells it would classify wrongly
+and publish the total with its sensitivity; and when a sweep's total is dominated by one production
+family, read the top faces before believing the headline.

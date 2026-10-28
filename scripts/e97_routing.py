@@ -3262,6 +3262,325 @@ def run_signleaf(publish=False, seed=False, base=None):
     return 3 if gate["violations"] else 0
 
 
+# --- E207 count-as-quote audit ------------------------------------------------------
+# E206 measured the delta-token gate's blind spot. This leg turns the same question on
+# the LEVEL-quote gate, but from the other side: not "which number did the gate miss"
+# but "which published number would a name-based reader call a bp quote, and CAN it be
+# one at all".  A count named `gap_sessions` is an honest number and a completely
+# fabricated quote -- level_class() reads the `gap` token and files it as an offset of
+# 12,461 bp.  Nothing in the family could tell those two apart before this face existed.
+QUOTECOUNT_OUT_DIR = "results/e79"
+QUOTECOUNT_SCAN_DIR = "results"
+QUOTECOUNT_SKIP_DIRS = ("/_quarantine/",)
+# A 6 MB judge file is a panel, not a page anyone quotes from; skipping it is counted
+# and published rather than silently dropped.
+QUOTECOUNT_SIZE_CAP = 3 * 1024 * 1024
+# This leg publishes into the tree it scans, so it must exclude itself AND the family's
+# other audit faces: each of them legitimately carries measurement-named leaves whose
+# values are counts of other faces (E180 counted 25 -> 26 by self-inclusion).
+QUOTECOUNT_EXCLUDE_STUDIES = ("e180_published_level_quote_audit",
+                              "e188_decomposition_label_duty",
+                              "e193_decomposition_delta_build_stance",
+                              "e196_tilt3_nearzero_sign_census",
+                              "e206_delta_leaf_growth_gate",
+                              "e207_count_as_quote_audit")
+# The vocabulary level_class() itself keys on, plus the two tokens it treats as gaps.
+QUOTECOUNT_MEASURE_TOKENS = ("_bp", "gap", "offset", "level", "wedge", "spread", "edge")
+# Words that say "a quantity of things".  Not a guess about the value: the NAME declares
+# it, which is what makes quoting it a fabrication rather than an ambiguity.
+QUOTECOUNT_COUNT_WORDS = ("count", "num", "sessions", "days", "names", "cells", "rows",
+                          "faces", "pulls", "trials", "added", "kept", "eligible", "ids",
+                          "rank", "length", "size", "n_", "_n", "how_many", "shards",
+                          "files", "leaves", "members", "arms", "behind", "ahead")
+QUOTECOUNT_AUDITED_DIRS = ("results/e79/", "results/e43_tilt_4member/")
+# `evidence_cutoff` is not always a date: some pages write a sentence into it, and a
+# sentence with a colon in it produced a zero-byte filename on Windows. The cutoff this
+# leg publishes is therefore the newest STRICT ISO date on the tree, and the pages whose
+# cutoff is not a date are counted and named instead of being copied into a filename.
+QUOTECOUNT_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+# Where a bp quote stops being a plausible count. 5776 bp is a real reading (5,776 basis
+# points of forward return), so an exact integer is NOT by itself evidence of a count --
+# the ceiling is the line this leg draws, and the sensitivity table below publishes what
+# the headline number would be if the line moved.
+QUOTECOUNT_SMALL_CEILING = 100
+QUOTECOUNT_SENSITIVITY = (10, 100, 1000)
+QUOTECOUNT_CANDIDATE_BUCKETS = ("boolean", "count_word", "small_integer")
+
+
+def _qc_leaves(obj, path="", out=None):
+    """(json-path, value, kind) for every scalar leaf, booleans included.
+
+    walk_numeric() drops booleans on purpose (a True is not a number), but a boolean
+    published under a `_bp` name is precisely the kind of cell this leg counts.
+    """
+    if out is None:
+        out = []
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            _qc_leaves(v, path + "/" + str(k), out)
+    elif isinstance(obj, list):
+        for v in obj:
+            _qc_leaves(v, path, out)
+    elif isinstance(obj, bool):
+        out.append((path, obj, "boolean"))
+    elif isinstance(obj, (int, float)):
+        out.append((path, obj, "number"))
+    return out
+
+
+def _qc_is_integral(value):
+    try:
+        return float(value).is_integer()
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
+def _qc_bucket(leaf, value, kind):
+    """Can a number under a measurement name be a bp quote? Four answers, no guessing.
+
+    boolean             -- a flag, never a quote
+    count_word          -- an integer whose own name says "a number of things"
+    small_integer       -- an exact integer no count word names: most likely a count, but
+                           a coarse quote is possible, so this is a candidate not a verdict
+    integral_quote_sized-- an exact integer above the ceiling: quote-sized, read as bp
+    quote_shaped        -- non-integral, which is the shape a derived bp quote has
+    """
+    if kind == "boolean":
+        return "boolean"
+    if not _qc_is_integral(value):
+        return "quote_shaped"
+    if any(w in leaf for w in QUOTECOUNT_COUNT_WORDS):
+        return "count_word"
+    if abs(value) <= QUOTECOUNT_SMALL_CEILING:
+        return "small_integer"
+    return "integral_quote_sized"
+
+
+def quote_count_sweep(base=None, cap=QUOTECOUNT_SIZE_CAP):
+    """E207: sweep every published face for numbers the name channel would fabricate."""
+    root = base or ROOT
+    files, skipped_size = [], 0
+    for path in sorted(glob.glob(os.path.join(root, QUOTECOUNT_SCAN_DIR, "**", "*.json"),
+                                recursive=True)):
+        rel = _rel(root, path)
+        if any(s in "/" + rel for s in QUOTECOUNT_SKIP_DIRS):
+            continue
+        try:
+            if os.path.getsize(path) > cap:
+                skipped_size += 1
+                continue
+        except OSError:
+            continue
+        files.append((path, rel))
+
+    by_name, by_face = {}, {}
+    counts = {"faces_scanned": 0, "skipped_by_size": skipped_size,
+              "skipped_unreadable": 0, "skipped_this_leg_publishes_here": 0,
+              "measurement_named_leaves": 0}
+    buckets = {}
+    inside, outside = 0, 0
+    cutoff = None
+    bad_cutoffs = []
+    sensitivity = {}
+
+    for path, rel in files:
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except Exception:
+            counts["skipped_unreadable"] += 1
+            continue
+        study = doc.get("study") if isinstance(doc, dict) else None
+        if study in QUOTECOUNT_EXCLUDE_STUDIES:
+            counts["skipped_this_leg_publishes_here"] += 1
+            continue
+        cut = doc.get("evidence_cutoff") if isinstance(doc, dict) else None
+        if isinstance(cut, str):
+            if QUOTECOUNT_ISO_DATE.match(cut):
+                if cutoff is None or cut > cutoff:
+                    cutoff = cut
+            elif len(bad_cutoffs) < 5:
+                bad_cutoffs.append({"face": rel, "evidence_cutoff": cut})
+        counts["faces_scanned"] += 1
+        audited_dir = any(rel.startswith(d) for d in QUOTECOUNT_AUDITED_DIRS)
+        for cell_path, value, kind in _qc_leaves(doc):
+            # list indices elided: one leaf per NAME, so a 4,000-row grid of the same
+            # key is one quotable name and 4,000 occurrences, not 4,000 names.
+            parts = [p for p in cell_path.split("/") if p and not p.isdigit()]
+            if parts and parts[0] == "spec":
+                continue
+            leaf = (parts[-1] if parts else "").lower()
+            if not any(tok in leaf for tok in QUOTECOUNT_MEASURE_TOKENS):
+                continue
+            key = "/".join(parts)
+            bucket = _qc_bucket(leaf, value, kind)
+            cls = level_class(leaf)
+            counts["measurement_named_leaves"] += 1
+            buckets[bucket] = buckets.get(bucket, 0) + 1
+            if (kind != "boolean" and _qc_is_integral(value)
+                    and not any(w in leaf for w in QUOTECOUNT_COUNT_WORDS)):
+                for c in QUOTECOUNT_SENSITIVITY:
+                    if abs(value) <= c:
+                        sensitivity[c] = sensitivity.get(c, 0) + 1
+
+            n_row = by_name.get(leaf)
+            if n_row is None:
+                n_row = by_name[leaf] = {"leaf": leaf, "occurrences": 0, "faces": [],
+                                         "buckets": {}, "read_as": [],
+                                         "example": {"path": key, "value": value,
+                                                     "face": rel, "bucket": bucket}}
+            n_row["occurrences"] += 1
+            if rel not in n_row["faces"]:
+                n_row["faces"].append(rel)
+            n_row["buckets"][bucket] = n_row["buckets"].get(bucket, 0) + 1
+            if cls and cls not in n_row["read_as"]:
+                n_row["read_as"].append(cls)
+            if (bucket in QUOTECOUNT_CANDIDATE_BUCKETS
+                    and n_row["example"]["bucket"] not in QUOTECOUNT_CANDIDATE_BUCKETS):
+                n_row["example"] = {"path": key, "value": value, "face": rel,
+                                    "bucket": bucket}
+
+            f_row = by_face.get(rel)
+            if f_row is None:
+                f_row = by_face[rel] = {"face": rel, "audited_dir": audited_dir,
+                                        "measurement_named_leaves": 0, "by_bucket": {},
+                                        "fabricated": 0, "candidates": []}
+            f_row["measurement_named_leaves"] += 1
+            f_row["by_bucket"][bucket] = f_row["by_bucket"].get(bucket, 0) + 1
+            if bucket in QUOTECOUNT_CANDIDATE_BUCKETS:
+                f_row["fabricated"] += 1
+                if audited_dir:
+                    inside += 1
+                else:
+                    outside += 1
+                if len(f_row["candidates"]) < 3:
+                    f_row["candidates"].append({"path": key, "name": leaf,
+                                                "value": value, "bucket": bucket,
+                                                "read_as": cls})
+
+    names = []
+    for leaf in sorted(by_name, key=lambda k: (-by_name[k]["occurrences"], k))[:40]:
+        r = by_name[leaf]
+        names.append({"leaf": r["leaf"], "occurrences": r["occurrences"],
+                      "faces": len(r["faces"]), "buckets": r["buckets"],
+                      "read_as": sorted(r["read_as"]), "example": r["example"]})
+    rows = sorted([f for f in by_face.values() if f["fabricated"]],
+                  key=lambda r: (-r["fabricated"], r["face"]))
+    fabricated = sum(f["fabricated"] for f in by_face.values())
+    if not counts["faces_scanned"]:
+        verdict = "no_faces_scanned"
+    elif fabricated:
+        verdict = ("the_name_channel_would_quote_%d_cells_that_cannot_be_a_quote"
+                   % fabricated)
+    else:
+        verdict = "every_measurement_named_cell_can_be_a_quote"
+    return {
+        "study": "e207_count_as_quote_audit",
+        "status": "ok" if counts["faces_scanned"] else "no_faces",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "question": ("E206 measured which number the delta-token gate cannot see. "
+                         "The level-quote gate has the opposite blind spot: it classes "
+                         "numeric leaves BY NAME, so a count that happens to be spelled "
+                         "`gap_sessions` becomes a fabricated bp quote. This leg asks "
+                         "every published face which of its measurement-named cells "
+                         "could not be a quote at all."),
+            "scan": ("%s/**/*.json below the size cap, %s excluded"
+                     % (QUOTECOUNT_SCAN_DIR, list(QUOTECOUNT_SKIP_DIRS))),
+            "size_cap_bytes": cap,
+            "measure_tokens": list(QUOTECOUNT_MEASURE_TOKENS),
+            "count_words": list(QUOTECOUNT_COUNT_WORDS),
+            "buckets": {
+                "boolean": "a flag published under a measurement name",
+                "count_word": "an integer whose own name says 'a number of things'",
+                "small_integer": ("an exact integer with no count word and |v| <= %d -- "
+                                  "most likely a count, a coarse quote possible, so it is "
+                                  "a candidate and not a verdict"
+                                  % QUOTECOUNT_SMALL_CEILING),
+                "integral_quote_sized": ("an exact integer above the ceiling: 5,776 bp is "
+                                         "a real reading, so this is NOT counted against "
+                                         "the page"),
+                "quote_shaped": "non-integral: the shape a derived bp quote actually has",
+            },
+            "candidate_buckets": list(QUOTECOUNT_CANDIDATE_BUCKETS),
+            "small_ceiling_bp": QUOTECOUNT_SMALL_CEILING,
+            "sensitivity_ceilings": list(QUOTECOUNT_SENSITIVITY),
+            "read_as": ("level_class() applied to the same name, i.e. what the existing "
+                        "name-based auditor would file the cell as"),
+            "self_exclusion": list(QUOTECOUNT_EXCLUDE_STUDIES),
+            "changes_nothing": ("nothing is rewritten and no number is re-derived; this is "
+                                "an inventory of a name-channel hazard"),
+        },
+        "non_iso_evidence_cutoffs": bad_cutoffs,
+        "sensitivity": [{"ceiling": c,
+                         "integral_notes_without_a_count_word": sensitivity.get(c, 0)}
+                        for c in QUOTECOUNT_SENSITIVITY],
+        "totals": dict(counts, cells_by_bucket=buckets,
+                       candidates_not_quote_shaped=fabricated,
+                       fabricated_inside_the_audited_dirs=inside,
+                       fabricated_outside_the_audited_dirs=outside,
+                       faces_carrying_a_candidate=len(rows)),
+        "rows": rows,
+        "names": names,
+        "answers": {
+            "faces_scanned": counts["faces_scanned"],
+            "measurement_named_leaves": counts["measurement_named_leaves"],
+            "names_seen": len(by_name),
+            "candidates_not_quote_shaped": fabricated,
+            "candidates_by_bucket": {k: buckets.get(k, 0)
+                                     for k in ("count_word", "small_integer", "boolean",
+                                               "integral_quote_sized", "quote_shaped")},
+            "inside_the_audited_dirs": inside,
+            "outside_the_audited_dirs": outside,
+            "largest_face": (rows[0]["face"] if rows else None),
+            "verdict": verdict,
+        },
+        "verdict": verdict,
+        "honest": [
+            "integrality is a SIGNATURE of a count, not proof: a bp value of exactly 0.0 "
+            "lands in small_integer, and 0.0 is a real quote. The ceiling is a line this "
+            "leg draws, so the sensitivity table publishes what the headline would be if "
+            "the line moved to %s" % (list(QUOTECOUNT_SENSITIVITY),),
+            "the count-word list is a word test, so a count spelled without a count word "
+            "(`gap` = 71) is only ever reported as small_integer -- the ambiguity is the "
+            "finding, not a defect in the reader",
+            "the sweep is bounded by a size cap and reports how many faces it skipped, so "
+            "the totals are a floor on the surface, never a claim of completeness",
+            "this leg cannot tell whether any individual number is wrong; it answers only "
+            "'could a reader quote this as bp'",
+        ],
+        "law_ref": ("O-20260924-1626 R3 (a name-based audit may not invent a quote) + "
+                    "E180/E206 self-inclusion law"),
+    }
+
+
+def run_quotecount(publish=False, base=None):
+    face = quote_count_sweep(base=base)
+    if publish:
+        out = os.path.join(_abs(QUOTECOUNT_OUT_DIR),
+                           "QUOTECOUNT-%s.json" % (face.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(face, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = face["totals"]
+    print("faces=%d measurement_named=%d candidates=%d bucket=%s names=%d files=%d"
+          % (t["faces_scanned"], t["measurement_named_leaves"],
+             t["candidates_not_quote_shaped"],
+             ",".join("%s=%d" % (k, v) for k, v in sorted(t["cells_by_bucket"].items())),
+             face["answers"]["names_seen"], len(face["rows"])))
+    print("  skipped: by_size=%d unreadable=%d self=%d"
+          % (t["skipped_by_size"], t["skipped_unreadable"],
+             t["skipped_this_leg_publishes_here"]))
+    print("  inside the audited dirs=%d outside=%d"
+          % (t["fabricated_inside_the_audited_dirs"],
+             t["fabricated_outside_the_audited_dirs"]))
+    for r in face["rows"][:5]:
+        print("  FACE %s fabricated=%d" % (r["face"], r["fabricated"]))
+    print("  verdict:", face["verdict"])
+    return 0 if face["status"] == "ok" else 2
+
+
 def run_signexposure(publish=False, base=None):
     face = signexposure_sweep(base=base)
     if face.get("status") == "awaiting_upstream":
@@ -3590,6 +3909,29 @@ def _levelquote_fixture(tmp):
                              "evidence_cutoff": "2026-10-27",
                              "answers": {"collision_gap_spread_bp": 0.7}},
                             ensure_ascii=False, indent=1) + "\n")
+    return root
+
+
+def _quotecount_fixture(root):
+    """Three pages: a mixed one, one with repeated rows, and a copy of this leg."""
+    def face(rel, doc):
+        full = os.path.join(root, rel.replace("/", os.sep))
+        os.makedirs(os.path.dirname(full), exist_ok=True)
+        with io.open(full, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(doc, ensure_ascii=False, indent=1) + "\n")
+
+    face("results/e79/MIXED-20261027.json", {
+        "study": "e900_mixed_page", "evidence_cutoff": "2026-10-27",
+        "spec": {"level_bp": 7},
+        "eras": {"2017_2020": {"gap_sessions": 171, "level_offset_bp": 28.4,
+                               "zero_gap_bp": 0, "flag_edge_bp": True,
+                               "exit_fwd_bp": 5776.0}}})
+    face("results/other/ROWS-20261026.json", {
+        "study": "e901_row_page", "evidence_cutoff": "2026-10-26",
+        "cells": [{"level": 12}, {"level": 13}]})
+    face("results/e79/SELF-20261027.json", {
+        "study": "e207_count_as_quote_audit", "evidence_cutoff": "2026-10-27",
+        "counts": {"gap": 999}})
     return root
 
 
@@ -4380,6 +4722,48 @@ def selftest():
                                          {"class": "offset", "names": 1}]
         and not any(k in ("anchored", "offset") for k in _gap))
 
+    # ---- E207: a name-based audit may not invent a quote
+    _tmp7 = _quotecount_fixture(tempfile.mkdtemp(prefix="e207_"))
+    _qc = quote_count_sweep(base=_tmp7)
+    _qc_names = {n["leaf"]: n for n in _qc["names"]}
+    _mix = [r for r in _qc["rows"]
+            if r["face"] == "results/e79/MIXED-20261027.json"][0]
+    chk("L95 a count published under a gap name is a count_word candidate, and the "
+        "name channel would file it as an offset",
+        _qc_names["gap_sessions"]["buckets"] == {"count_word": 1}
+        and _qc_names["gap_sessions"]["read_as"] == ["offset"])
+    chk("L96 a real non-integral bp cell is quote_shaped and is never listed as a candidate",
+        _qc_names["level_offset_bp"]["buckets"] == {"quote_shaped": 1}
+        and "level_offset_bp" not in [c["name"] for c in _mix["candidates"]])
+    chk("L97 a boolean under a bp name gets its own bucket instead of reading as zero",
+        _qc_names["flag_edge_bp"]["buckets"] == {"boolean": 1}
+        and [c["bucket"] for c in _mix["candidates"]
+             if c["name"] == "flag_edge_bp"] == ["boolean"])
+    chk("L98 an exact integer with no count word is only ever a small-integer candidate",
+        _qc_names["zero_gap_bp"]["buckets"] == {"small_integer": 1}
+        and _qc["answers"]["candidates_by_bucket"]["small_integer"] == 3)
+    chk("L104 an integral but quote-sized bp reading is not charged to the page, and the "
+        "ceiling table is published monotonically",
+        _qc_names["exit_fwd_bp"]["buckets"] == {"integral_quote_sized": 1}
+        and "exit_fwd_bp" not in [c["name"] for c in _mix["candidates"]]
+        and [s["ceiling"] for s in _qc["sensitivity"]] == [10, 100, 1000]
+        and [s["integral_notes_without_a_count_word"] for s in _qc["sensitivity"]] ==
+        sorted(s["integral_notes_without_a_count_word"] for s in _qc["sensitivity"]))
+    chk("L99 a number inside a spec block is documentation, not a published cell",
+        "level_bp" not in _qc_names)
+    chk("L100 repeated rows are one quotable name with many occurrences",
+        _qc_names["level"]["occurrences"] == 2 and _qc_names["level"]["faces"] == 1)
+    chk("L101 a copy of this leg's own face is skipped, so the audit cannot count itself",
+        _qc["totals"]["skipped_this_leg_publishes_here"] == 1 and "gap" not in _qc_names)
+    _qc_cap = quote_count_sweep(base=_tmp7, cap=10)
+    chk("L102 an oversized page is skipped and counted, never parsed",
+        _qc_cap["totals"]["skipped_by_size"] >= 3 and _qc_cap["status"] == "no_faces"
+        and _qc_cap["verdict"] == "no_faces_scanned")
+    chk("L103 the sweep splits its exposure by whether the existing audited dirs see it",
+        _qc["totals"]["fabricated_inside_the_audited_dirs"] == 3
+        and _qc["totals"]["fabricated_outside_the_audited_dirs"] == 2
+        and _qc["rows"][0]["audited_dir"] is True)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -4414,6 +4798,8 @@ def main(argv):
         return run_signgrowth(publish="--publish" in argv, seed="--seed" in argv)
     if cmd == "signleafgrowth":
         return run_signleaf(publish="--publish" in argv, seed="--seed" in argv)
+    if cmd == "quotecount":
+        return run_quotecount(publish="--publish" in argv)
     print(__doc__)
     return 2
 

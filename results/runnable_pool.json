@@ -22826,14 +22826,54 @@
   {
    "id": "E207-COUNT-AS-QUOTE-AUDIT",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/e79/QUOTECOUNT-<cutoff>.json",
    "target": "scripts/e97_routing.py (levelquotes / new mode)",
    "evidence_cutoff": "2026-10-27",
    "entered_at": "2026-10-29T03:53:00+08:00",
    "entered_by": "bm-b r1234",
    "source": "E206 published 71 offset-class + 210 unclassified residue names the delta-token gate cannot see, and produced the opposite defect twice in one round: a COUNT published under a measurement-looking name is read as a bp quote by level_quotes() and by smoke L37",
-   "title": "Sweep every published face in results/ for numeric leaves whose NAME matches the family measurement vocabulary (_bp, gap, offset, level, wedge, spread, edge) but whose VALUE cannot be a bp quote: small integers, counts of cells, counts of names, booleans-as-ints. Publish per face the fabricated-quote candidates with value and path, so a name-based audit can be told apart from a real quote instead of silently inventing one."
+   "title": "Sweep every published face in results/ for numeric leaves whose NAME matches the family measurement vocabulary (_bp, gap, offset, level, wedge, spread, edge) but whose VALUE cannot be a bp quote: small integers, counts of cells, counts of names, booleans-as-ints. Publish per face the fabricated-quote candidates with value and path, so a name-based audit can be told apart from a real quote instead of silently inventing one.",
+   "result_ref": "results/e79/QUOTECOUNT-2026-10-28.json",
+   "done_at": "2026-10-29T04:40:00+08:00",
+   "done_by": "bm-b r1235",
+   "result_note": "12,111 faces / 71,245 measurement-named cells swept: 30,357 integers whose own name says 'a number of things' (count_word), 1,728 booleans and 5,732 small integers the level-quote class table would file as bp levels or gaps; 3,759 of them sit inside the two dirs the existing auditor already scans, 34,058 outside. Ceiling sensitivity published (10/100/1000 -> 4,186/5,732/9,446)."
+  },
+  {
+   "id": "E208-CLASS-TABLE-COUNT-WORDS",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/e79/QUOTECLASSFIX-<cutoff>.json",
+   "target": "scripts/e97_routing.py (level_class)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T04:41:00+08:00",
+   "entered_by": "bm-b r1235",
+   "source": "E207 measured 37,817 cells a name-based reader would quote that cannot be quotes, and 30,357 of them are integers whose own name carries a count word (gap_sessions, gapped_kept, gapped_eligible). The defect is in the class table, not in the pages.",
+   "title": "Teach level_class() the count-word vocabulary E207 found, then re-run the level-quote audit and publish the delta: how many cells stop being read as bp levels, whether any real quote is lost (a name that carries both a measurement token and a count word), and what the class counts move by. Fix must be a rule, not a name list read off the sweep."
+  },
+  {
+   "id": "E209-SIBLING-LENGTH-COUNT-PROOF",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/e79/COUNTWITNESS-<cutoff>.json",
+   "target": "scripts/e97_routing.py (new mode)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T04:44:00+08:00",
+   "entered_by": "bm-b r1235",
+   "source": "E207's count-word test is a WORD test, so a count spelled without a count word (`gap` = 71) is only ever reported as ambiguous. The measured side of that gap is the count that can prove itself.",
+   "title": "Find the counts that prove themselves: a numeric leaf whose value equals len() of a sibling list/dict in the same parent object is a count whatever its name says. Publish how many measurement-named cells carry that witness, split by whether the count-word test already caught them, so the word test's false-negative rate is a number and not a caveat."
+  },
+  {
+   "id": "E210-COUNTS-ON-THE-CEO-PAGE",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/e79/DOCQUOTES-<cutoff>.json",
+   "target": "scripts/e97_routing.py (new mode)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T04:45:00+08:00",
+   "entered_by": "bm-b r1235",
+   "source": "E207 counted the hazard on the face side. The reader side the CEO actually sees is docs/ (daily report, LIVE page, scorecards), and nothing checks whether a count was copied there as if it were bp.",
+   "title": "Read the docs/ pages the CEO reads and test every number on them: is it traceable to a face cell, and is that cell quote-shaped or a count. Publish the untraceable numbers and the counts-presented-as-readings separately -- a number the page cannot source is a different defect from a count wearing a bp label."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
