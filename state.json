@@ -671,11 +671,11 @@
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1222,
- "round_no": 1222,
- "round_no_label": "r1222",
+ "round": 1223,
+ "round_no": 1223,
+ "round_no_label": "r1223",
  "round_no_note": "r1218: state.json round_no had lagged the round-report series since r1211 (windows r1212-r1217 wrote reports only); restored to the report series rather than bumped off the stale number",
- "round_no_ts": "2026-10-28T17:25:45+08:00",
+ "round_no_ts": "2026-10-28T19:26:26+08:00",
  "sat_engine": {
   "status": "alive",
   "checked_at": "2026-10-28T17:25:45+08:00"
@@ -692,12 +692,12 @@
   "ts": "2026-10-28T15:10+08:00"
  },
  "sync_note": "push ddd349fad0 four-way verified: behind 0 / ahead 0, ls-tree origin/main carries LADDERDROPCROSS-20261027.json + DIGEST-20261028-e189-drop-crossing.md",
- "task": "r1222: E188 decomposition label duty (done) -> E190 drop fragility curve",
- "task_short": "E188 label duty",
- "ts": "2026-10-28T17:25:45+08:00",
- "updated": "2026-10-28T17:25:45+08:00",
- "updated_at": "2026-10-28T17:25:45+08:00",
- "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu, pool ready 3) -> E188 burned in-round | e97 selftest 40->48 | smoke 122/122",
+ "task": "r1223: E190 drop fragility curve (done) -> E195 trim-rule justification",
+ "task_short": "E190 drop fragility curve",
+ "ts": "2026-10-28T19:26:26+08:00",
+ "updated": "2026-10-28T19:26:26+08:00",
+ "updated_at": "2026-10-28T19:26:26+08:00",
+ "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu, pool ready 3) -> E190 burned in-round + r1221 E187 absorbed | e39 selftest 664->670",
  "r1222": {
   "finding": "E188: gross - net == rebalance fee on 10/10 cells (worst residual 0.0050bp); the label moves the level by 1.129-12.187% (2024_now 31.2982 vs 27.8998); 0/10 sign flips; 10/10 published offsets are one construct with the fee between them; 4 cells quote an offset narrower than their own fee (2021_2023 -1.1442/-4.77 vs 3.6208, screened -2.0866/-5.67 vs 3.5823, full 6.1325/2.78 vs 3.357, screened 5.2868/1.95 vs 3.3327); deltas built from the readings shift by fee_raw-fee_screened 0.0/0.0/0.0385/0.0754/0.0243bp, deltas built from published levels shift by nothing. Family: three faces publish the cell and none declares a stance; only the E185 audit names both",
   "pit": "a label on a different file is not a label -- a reader copying the publishing JSON never sees it; and zero sign flips is not immunity, it is the mechanism",
@@ -716,5 +716,23 @@
   "orders_ack": "OB-20261028-150100-267 acked (quant lane: worked in-round)",
   "not_run": "pool_dualrun_reconcile (bm-c-owned file, absent here) / market_regime / market_clock / minute_feed / rev_osc_export / etf_book legs / monthly science+self-review legs (not a month-first round) / GPU untouched (parked, C-20261014-01) / S8 self-drive step n-a (a pool row was burned)",
   "eol": "METHODOLOGY_ASSETS 2385/2292 churn and pool 22670/22623 from the r1221 append rebuilt as HEAD bytes + appended content -> 25/0 and 54/7"
+ },
+ "r1223": {
+  "finding": "E190: all four flagged ladder-drop reversals agree at k=1 under both magnitude rules (|gap_bp| and |delta_sum|), so the E183-E186 era verdicts are one-month artefacts; but 3/4 pairs change class under the chronological edge rules (full k=4, pre2017/sh510300 k=8, pre2017/sh510500 never within k<=8), so the class is rule-dependent and must be published with the rule. No trim manufactures a reversal (16/16 rule-pair cells empty). Join vs E186 published months: 8.8e-05bp",
+  "absorbed": "r1221's E187 (tilt3widechurntie leg + WIDECHURNTIE-20261027.json + digest) was complete on disk but uncommitted -- 664/664 selftest passed on that code, so it is a finished round that never reached origin; committed this window",
+  "pit": "a fragility adjective is not a measurement -- publish the k at which the two readings agree, under every trim rule you are willing to defend, and count how many pairs change class; a label that survives only under one rule is a label about the method",
+  "product": [
+   "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+   "scripts/e39_panel_census.py: _drop_trim_order / _drop_trim_effect / _drop_fragility_curve / run_tilt3ladderdropcurve + CLI mode tilt3ladderdropcurve (selftest 664 -> 670)",
+   "research/digests/DIGEST-20261028-r1223-e190-drop-curve.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E190-CRV",
+   "results/runnable_pool.json E190 -> done (+E195 seeded, ready floor 3)",
+   "results/e43_tilt_4member/WIDECHURNTIE-20261027.json + DIGEST-20261028-r1221-e187-churn-tie.md (r1221 absorb)"
+  ],
+  "pool": "E190 done; ready 3 (E192/E193/E195)",
+  "s6": "orphan face 0 (4 py faces) | attrition CLEAN 4 ledgers (2 historical shrinks healed) | watermark red at open (pool-batch-runnable-idle-low-cpu) | loop pin 2 no-op",
+  "s7": "loop pin 2 no-op | LoopWatchdog re-registered S4U SWA=false | claws reinstalled",
+  "selftest": "e39 664 -> 670/670; panel_screen 39/39",
+  "not_run": "full S6 chain (10-minute round; the chain is carried by its own scheduled legs) / GPU untouched (parked, C-20261014-01) / S8 self-drive step n-a (a pool row was burned)"
  }
 }

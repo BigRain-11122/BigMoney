@@ -22610,13 +22610,15 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "source": "r1220 E189: all four flagged reversals vanish when E186's own declared carrier month is removed, and the crossing month is never the carrier -- the verdict is known to be fragile, but by how much is unmeasured",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3ladderdropcross, follow-up)",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
    },
-   "title": "E189 took out exactly one month per pair -- the one E186 named -- and all four reversals collapsed, so the era verdict is known to be fragile but not how fragile. Publish a fragility curve: for k=1..8 drop the k months with the largest |gap|, then separately the k with the largest |delta_sum| and the first/last k months of the era, and report at which k each pair's two readings stop disagreeing in sign, plus the sign each reading carries after the trim. A reversal that needs more than eight months of the window removed is a property of the era; one that dies at k=1 or k=2 is a two-month artefact and may not be quoted as an era verdict."
+   "title": "E189 took out exactly one month per pair -- the one E186 named -- and all four reversals collapsed, so the era verdict is known to be fragile but not how fragile. Publish a fragility curve: for k=1..8 drop the k months with the largest |gap|, then separately the k with the largest |delta_sum| and the first/last k months of the era, and report at which k each pair's two readings stop disagreeing in sign, plus the sign each reading carries after the trim. A reversal that needs more than eight months of the window removed is a property of the era; one that dies at k=1 or k=2 is a two-month artefact and may not be quoted as an era verdict.",
+   "done_at": "2026-10-28T19:50:00+08:00",
+   "result": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json (all 4 pairs agree at k=1 under both magnitude rules; 3/4 class-sensitive under the edge rules; digest research/digests/DIGEST-20261028-r1223-e190-drop-curve.md)"
   },
   {
    "id": "E192-WIDE-CARRIER-PERSISTENCE",
@@ -22651,6 +22653,23 @@
     "workers": 1,
     "priority": "BelowNormal"
    }
+  },
+  {
+   "id": "E195-DROP-TRIM-RULE-JUSTIFY",
+   "title": "E190 published that the ladder-drop verdict is a one-month artefact under both magnitude rules but an era property on one pair under the edge rule, so the class depends on which months you are allowed to remove. Pick the rule from an independent criterion instead of from which rule clears the disagreement: for each pair, mark the months an outside observer could have flagged BEFORE seeing the era's own gap series (e.g. months where the drop's held name printed an unadjusted split, months already inside E186's carrier set, months whose gross motion exceeded a pre-set multiple of the era median), remove exactly those, and publish whether the reversal dies. A verdict whose class survives removal of a pre-registerable set is quotable; one that only dies when the year's worst month is hand-picked is not.",
+   "deliverable": "results/e43_tilt_4member/LADDERDROPRULE-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderdropcurve, follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "evidence_cutoff": "2026-10-27",
+   "source": "r1223 E190: k_agree=1 on 4/4 pairs by magnitude rules; 3/4 pairs change class between magnitude and edge rules (full 1 vs 4, pre2017/sh510300 1 vs 8, pre2017/sh510500 1 vs never)",
+   "status": "ready",
+   "entered_by": "bm-b r1223",
+   "entered_at": "2026-10-28T19:50:00+08:00",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22665,6 +22684,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T17:30:00+08:00",
+ "updated_at": "2026-10-28T19:50:00+08:00",
  "version": 1
 }

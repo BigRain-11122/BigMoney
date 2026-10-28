@@ -18940,6 +18940,151 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropcross.__code__.co_varnames,
         "E189 the crossing leg takes the face directory as its only seam")
 
+    # E190: the fragility curve -- how many months a verdict needs removed
+    _e190_pair = [
+        {"month": "m1", "full_ret": 0.01, "dropped_ret": 0.01,
+         "gap_bp": 5.0, "delta_sum": 0.0},
+        {"month": "m2", "full_ret": 0.02, "dropped_ret": 0.02,
+         "gap_bp": -9.0, "delta_sum": 0.0},
+    ]
+    chk(_drop_trim_order(_e190_pair, "gap") == ["m2", "m1"]
+        and _drop_trim_order(_e190_pair, "first") == ["m1", "m2"]
+        and _drop_trim_order(_e190_pair, "last") == ["m2", "m1"]
+        and _drop_trim_order(_e190_pair, "delta_sum") == ["m1", "m2"],
+        "E190 the trim rules are four questions, not four orderings of one: "
+        "|gap| ranks by the month's own level move, |delta_sum| by its additive "
+        "step, and the first/last rules walk the era in time order with ties "
+        "keeping that order instead of a hash order")
+    _e190_art = _drop_month_deltas(_e189_art_fr, _e189_art_dr)
+    for _r in _e190_art:
+        _r["gap_bp"] = abs(float(_r.get("delta_sum") or 0.0)) * 1e4
+    _e190_one = _drop_fragility_curve(_e190_art)
+    chk(_e190_one["base"]["reversal"] is True
+        and _e190_one["curves"]["gap"]["k_agree"] == 1
+        and _e190_one["classification"] == "two_month_artefact"
+        and all(s["signs"]["arith"] is not None
+                for s in _e190_one["curves"]["gap"]["steps"]),
+        "E190 a reversal that one removed month puts back on the same side is "
+        "published with the k that did it and both signs at every step, so a "
+        "two-month artefact cannot be read as an era verdict")
+    # the same five convex months, but the disagreement is only cleared by
+    # trimming the era's own edge: the class then depends on the rule
+    _e190_disp = _drop_fragility_curve(_drop_month_deltas(
+        _e189_ind_fr, _e189_ind_dr))
+    chk(_e190_disp["curves"]["gap"]["k_agree"] == 2
+        and _e190_disp["curves"]["last"]["k_agree"] is None
+        and _e190_disp["classification_is_rule_sensitive"] is True,
+        "E190 a pair that agrees after two worst-gap months but never after "
+        "eight edge months is published as rule-sensitive rather than adopting "
+        "whichever rule happens to clear it")
+    _e190_short = _drop_fragility_curve(_drop_month_deltas(
+        {"m1": 0.01, "m2": 0.01, "m3": 0.01, "m4": 0.01, "m5": 0.01},
+        {"m1": 0.0, "m2": 0.0, "m3": 0.0, "m4": 0.0, "m5": 0.0}))
+    chk(_e190_short["months"] == 5 and _e190_short["k_limit"] == 3
+        and _e190_short["classification"] == "no_era_reversal"
+        and _e190_short["k_agree_earliest"] is None,
+        "E190 k is capped at min(k_max, months-2) so a short era cannot be "
+        "trimmed to one observation, and a pair that already agrees reports no "
+        "k instead of the k at which a trim manufactures disagreement")
+    import tempfile as _e190_tmp
+    _e190_empty = run_tilt3ladderdropcurve(_e190_tmp.mkdtemp())
+    chk(_e190_empty["answers"]["pairs_measured"] == 0
+        and _e190_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e190_empty["evidence_cutoff"] is None
+        and _e190_empty["spec"]["k_max"] == TILT3DROPCURVE_KMAX,
+        "E190 a missing E186 face publishes zero pairs and no cutoff rather than "
+        "an invented curve")
+    chk("outdir" in run_tilt3ladderdropcurve.__code__.co_varnames
+        and "kmax" in run_tilt3ladderdropcurve.__code__.co_varnames,
+        "E190 the curve leg takes the face directory and the k ceiling as its "
+        "only seams")
+
+    # (E187) a spread that tracks the book's own churn is a membership
+    # statement, so the tie is measured at three levels before it is quoted.
+    _e187_same = _membership_turnover({"A", "B"}, {"A", "B"})
+    chk(_e187_same["turnover"] == 0.0 and _e187_same["entered"] == 0
+        and _e187_same["left"] == 0,
+        "E187 a book holding the same names two months running has zero churn")
+    _e187_half = _membership_turnover({"A", "B"}, {"B", "C"})
+    chk(abs(_e187_half["turnover"] - 1.0) < 1e-12
+        and _e187_half["entered"] == 1 and _e187_half["left"] == 1,
+        "E187 replacing half the book is 1.0 turnover, and entries and exits "
+        "are both counted so a swap cannot read as no-change")
+    chk(_membership_turnover(None, {"A"}) is None,
+        "E187 a month with no anchor month has no turnover rather than zero")
+    _e187_sides = {"wide": {("2020-01", "A"): 0.0, ("2020-02", "A"): 0.0,
+                            ("2020-02", "B"): 0.0, ("2020-02", "__cash__"): 0.0}}
+    _e187_mem = _wide_month_membership(_e187_sides, ["2020-01", "2020-02"])
+    chk(_e187_mem["2020-02"] == {"A", "B"},
+        "E187 the un-invested cash leg is not a holding, and a member whose "
+        "monthly contribution is exactly zero is still a member")
+    _e187_rows = _wide_turnover_rows({}, _e187_sides, ["2020-02"],
+                                     ["2020-01", "2020-02"])
+    chk(len(_e187_rows) == 1
+        and abs(_e187_rows[0]["turnover"] - 2.0 / 3.0) < 1e-4
+        and _e187_rows[0]["month"] == "2020-02",
+        "E187 the era's first month takes its churn anchor from the panel "
+        "month before the era while the row set stays exactly the era")
+    _e187_two = _wide_turnover_rows(
+        {"wide": {("2020-01", "A"): 0.0, ("2020-02", "A"): 0.0}},
+        {"wide": {("2020-01", "A"): 0.0, ("2020-01", "B"): 0.0,
+                  ("2020-02", "A"): 0.0, ("2020-02", "B"): 0.0}},
+        ["2020-01", "2020-02"], ["2020-01", "2020-02"])
+    chk(_e187_two[1]["membership_n"] == 2
+        and _e187_two[1]["membership_n_raw"] == 1
+        and _e187_two[1]["turnover_raw"] == 0.0
+        and _e187_two[1]["repair_names"] == 0,
+        "E187 both arms' membership is published and a zero-delta member is a "
+        "member but not a repaired name, so churn cannot be attributed to the "
+        "repair by default")
+    _e187_track = [{"month": "m1", "turnover": 0.1, "net_bp": 1.0, "gross_bp": 1.0},
+                   {"month": "m2", "turnover": 0.2, "net_bp": 2.0, "gross_bp": 2.0},
+                   {"month": "m3", "turnover": 0.4, "net_bp": 4.0, "gross_bp": 4.0},
+                   {"month": "m4", "turnover": 0.8, "net_bp": 8.0, "gross_bp": 8.0}]
+    _v187_track = _churn_tie_verdict(_e187_track, total_net=15.0)
+    chk(abs(_v187_track["net_vs_turnover_r"] - 1.0) < 1e-12
+        and _v187_track["classification"] == "net_tracks_turnover"
+        and _v187_track["churn_discount_applies"] is True,
+        "E187 a spread that rises exactly with churn is published as a "
+        "membership statement and flagged for discounting")
+    _e187_orth = [{"month": "m1", "turnover": 0.1, "net_bp": 1.0, "gross_bp": 1.0},
+                  {"month": "m2", "turnover": 0.2, "net_bp": 0.0, "gross_bp": 0.0},
+                  {"month": "m3", "turnover": 0.8, "net_bp": 0.0, "gross_bp": 0.0},
+                  {"month": "m4", "turnover": 0.9, "net_bp": 1.0, "gross_bp": 1.0}]
+    chk(_churn_tie_verdict(_e187_orth, 2.0)["classification"]
+        == "turnover_independent",
+        "E187 a spread with zero correlation to churn is published as "
+        "independent, so the discount is not applied by default")
+    _e187_flat = [{"month": "m%d" % i, "turnover": 0.1 * i, "net_bp": 2.0,
+                   "gross_bp": 2.0} for i in range(1, 5)]
+    _v187_flat = _churn_tie_verdict(_e187_flat, 8.0)
+    chk(_v187_flat["classification"] == "net_flat"
+        and _v187_flat["net_vs_turnover_r"] is None,
+        "E187 a flat net has no correlation to report, so it is published as "
+        "flat rather than as independence from churn")
+    chk(_churn_tie_verdict(_e187_track[:2], 3.0)["classification"]
+        == "insufficient_months",
+        "E187 two months are not a correlation, and the verdict says so")
+    _e187_norep = [{"month": "m%d" % i, "turnover": 0.1 * i, "net_bp": 0.0,
+                    "gross_bp": 0.0} for i in range(1, 5)]
+    chk(_churn_tie_verdict(_e187_norep, 0.0)["classification"]
+        == "no_repair_in_era",
+        "E187 an era the repair never touched is published as no-repair, not "
+        "as a flat net that was measured")
+    _e187_ag = [{"month": "m1", "turnover": 0.1, "net_bp": 5.0, "gross_bp": 5.0},
+                {"month": "m2", "turnover": 0.2, "net_bp": 4.0, "gross_bp": 4.0},
+                {"month": "m3", "turnover": 0.9, "net_bp": -3.0, "gross_bp": 3.0},
+                {"month": "m4", "turnover": 0.8, "net_bp": -2.0, "gross_bp": 2.0}]
+    _v187_ag = _churn_tie_verdict(_e187_ag, total_net=4.0)
+    chk(_v187_ag["months_net_against_total"] == ["m3", "m4"]
+        and _v187_ag["against_months_in_hot_half_pct"] == 100.0
+        and (_v187_ag["against_month_turnover_mean"]
+             > _v187_ag["other_month_turnover_mean"]),
+        "E187 the months that fight the era total are the churn months, and "
+        "both turnover means are published side by side")
+    chk("outdir" in run_tilt3widechurntie.__code__.co_varnames,
+        "E187 the churn-tie leg takes the face directory as its only seam")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -22615,6 +22760,250 @@ def run_tilt3ladderdropcross(outdir):
     }
 
 
+# ---------------------------------------------------------------- E190
+TILT3DROPCURVE_KMAX = 8
+TILT3DROPCURVE_TRIM_ORDERS = ("gap", "delta_sum", "first", "last")
+TILT3DROPCURVE_ARTEFACT_K = 2
+
+
+def _drop_trim_order(rows, order):
+    """(E190) the month-removal sequence one trim rule lays over an era.
+
+    ``first``/``last`` walk the era's decision months in time order, so a
+    boundary trim means the same thing on every era; ``gap``/``delta_sum`` rank
+    by the size of the month's own repair. Ties keep the chronological order
+    rather than a hash order, so the published curve is reproducible.
+    """
+    items = sorted(
+        [r for r in rows
+         if r.get("month") and r.get("full_ret") is not None
+         and r.get("dropped_ret") is not None],
+        key=lambda r: r["month"])
+    if order == "first":
+        return [r["month"] for r in items]
+    if order == "last":
+        return [r["month"] for r in reversed(items)]
+    if order == "gap":
+        field = "gap_bp"
+    elif order == "delta_sum":
+        field = "delta_sum"
+    else:
+        raise ValueError("unknown trim order: %r" % (order,))
+    return [r["month"] for r in
+            sorted(items, key=lambda r: -abs(float(r.get(field) or 0.0)))]
+
+
+def _drop_trim_effect(rows, drop_months):
+    """(E190) both era readings recomputed with ``drop_months`` removed."""
+    gone = set(drop_months)
+    fr, dr = {}, {}
+    for r in rows:
+        if r.get("month") in gone:
+            continue
+        if r.get("full_ret") is None or r.get("dropped_ret") is None:
+            continue
+        fr[r["month"]] = float(r["full_ret"])
+        dr[r["month"]] = float(r["dropped_ret"])
+    eff = _drop_effect_both_bp(fr, dr)
+    sa, sc = _path_sign(eff["arith_bp"]), _path_sign(eff["comp_bp"])
+    return {"months_used": eff["months_used"],
+            "arith_bp": eff["arith_bp"],
+            "comp_bp": eff["comp_bp"],
+            "signs": {"arith": sa, "comp": sc},
+            "reversal": bool(sa is not None and sc is not None and sa * sc < 0)}
+
+
+def _drop_fragility_curve(rows, kmax=TILT3DROPCURVE_KMAX):
+    """(E190) how many trimmed months each rule needs before the pair agrees.
+
+    Four removal rules are walked in parallel because "the k worst months" is
+    not one thing: ranking by the month's own gap, ranking by its additive
+    step, and trimming the era's chronological ends all answer different
+    questions, and a verdict that dies under one but not another is a verdict
+    about the trimming method rather than about the era.
+    """
+    clean = [r for r in rows
+             if r.get("month") and r.get("full_ret") is not None
+             and r.get("dropped_ret") is not None]
+    base = _drop_trim_effect(clean, [])
+    n = base["months_used"]
+    limit = max(0, min(kmax, n - 2))
+    curves = {}
+    for order in TILT3DROPCURVE_TRIM_ORDERS:
+        seq = _drop_trim_order(clean, order)
+        steps, k_agree = [], None
+        for k in range(1, limit + 1):
+            eff = _drop_trim_effect(clean, seq[:k])
+            steps.append(dict(eff, k=k, removed=seq[:k]))
+            if k_agree is None and not eff["reversal"]:
+                k_agree = k
+        # a trim can also CREATE a disagreement, and on a pair that already
+        # agrees k_agree would then be answering a question nobody asked; the
+        # curve publishes the first k that manufactures a reversal instead
+        created = (next((s["k"] for s in steps if s["reversal"]), None)
+                   if not base["reversal"] else None)
+        if not base["reversal"]:
+            cls = "no_era_reversal"
+            k_agree = None
+        elif k_agree is None:
+            cls = "era_property"
+        elif k_agree <= TILT3DROPCURVE_ARTEFACT_K:
+            cls = "two_month_artefact"
+        else:
+            cls = "fragile_window"
+        curves[order] = {"removed_order": seq, "steps": steps,
+                         "k_agree": k_agree, "classification": cls,
+                         "k_reversal_created": created, "k_tested": limit}
+    agree = [c["k_agree"] for c in curves.values() if c["k_agree"] is not None]
+    classes = set(c["classification"] for c in curves.values())
+    return {"base": base, "months": n, "k_limit": limit, "curves": curves,
+            "k_agree_earliest": (min(agree) if agree else None),
+            "classification": curves["gap"]["classification"],
+            "classification_is_rule_sensitive": len(classes) > 1}
+
+
+def run_tilt3ladderdropcurve(outdir, kmax=TILT3DROPCURVE_KMAX):
+    """E190: how much of each era verdict rests on a handful of months.
+
+    E189 removed exactly one month per pair -- the one E186 named -- and found
+    every flagged reversal collapsed, which says the verdict is fragile but not
+    how fragile. This publishes the whole curve: for k=1..8 remove the k worst
+    months under four rules, record both era readings and their signs at every
+    k, and name the k at which the pair stops disagreeing. A reversal that
+    needs more than eight months removed is a property of the era; one that
+    dies at k<=2 is a two-month artefact and may not be quoted as an era
+    verdict.
+    """
+    src = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    rows, joins = {}, []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        per = []
+        for d in (v.get("drops") or []):
+            months = d.get("months") or []
+            if not months:
+                continue
+            frag = _drop_fragility_curve(months, kmax)
+            for pub, got in ((d.get("effect_arith_bp"), frag["base"]["arith_bp"]),
+                             (d.get("effect_comp_bp"), frag["base"]["comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            per.append({
+                "name": d.get("name"),
+                "months_source": len(months),
+                "months_used": frag["months"],
+                "k_limit": frag["k_limit"],
+                "base": frag["base"],
+                "classification": frag["classification"],
+                "k_agree_earliest": frag["k_agree_earliest"],
+                "classification_is_rule_sensitive":
+                    frag["classification_is_rule_sensitive"],
+                "k_agree_by_order": {o: c["k_agree"]
+                                     for o, c in frag["curves"].items()},
+                "classification_by_order": {o: c["classification"]
+                                            for o, c in frag["curves"].items()},
+                "k_reversal_created_by_order": {
+                    o: c["k_reversal_created"]
+                    for o, c in frag["curves"].items()},
+                "carrier_month": (d.get("locus") or {}).get("carrier_month"),
+                "curves": frag["curves"],
+            })
+        if per:
+            rows[era_name] = {"months": v.get("months"), "drops": per}
+
+    measured = [dict(r, era=e) for e, v in rows.items() for r in v["drops"]]
+    classes = {}
+    for r in measured:
+        classes[r["classification"]] = classes.get(r["classification"], 0) + 1
+    if not measured:
+        verdict = "no_upstream_face"
+    elif any(r["classification"] == "two_month_artefact" for r in measured):
+        verdict = "at_least_one_verdict_is_a_two_month_artefact"
+    elif all(r["classification"] == "era_property" for r in measured):
+        verdict = "every_flagged_verdict_is_an_era_property"
+    else:
+        verdict = "mixed_fragility"
+    join_max = None if not joins else round(max(joins), 9)
+    return {
+        "study": "e190_tilt3_ladder_drop_curve",
+        "evidence_cutoff": None if src is None else src.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "LADDERDROPWHERE-*.json (E186 published month rows)",
+            "upstream_cutoff": None if src is None else src.get("evidence_cutoff"),
+            "method": ("per predicted (era, drop): remove the k worst months for "
+                       "k=1..8 under four rules (|gap_bp|, |delta_sum|, first k, "
+                       "last k in month order), recompute both era readings with "
+                       "_drop_effect_both_bp, and report the k at which the two "
+                       "readings stop disagreeing in sign"),
+            "k_max": kmax,
+            "trim_orders": list(TILT3DROPCURVE_TRIM_ORDERS),
+            "units": "era effects in bp; k in months",
+            "join_tolerance_bp": TILT3LADDERDROPCROSS_JOIN_BP,
+            "class_rules": {
+                "no_era_reversal": "the two readings already agree with nothing removed",
+                "two_month_artefact": "agreement reached at k<=%d"
+                                      % TILT3DROPCURVE_ARTEFACT_K,
+                "fragile_window": "agreement reached at 3<=k<=k_max",
+                "era_property": "still disagreeing after k_max months removed",
+            },
+        },
+        "eras": rows,
+        "answers": {
+            "pairs_measured": len(measured),
+            "classification_counts": classes,
+            "pairs_and_where_they_agree": [
+                {"era": r["era"], "name": r["name"],
+                 "classification": r["classification"],
+                 "k_agree_earliest": r["k_agree_earliest"],
+                 "k_agree_by_order": r["k_agree_by_order"]}
+                for r in measured],
+            "pairs_that_die_within_two_months": [
+                {"era": r["era"], "name": r["name"],
+                 "k_agree_by_order": r["k_agree_by_order"]}
+                for r in measured if r["classification"] == "two_month_artefact"],
+            "pairs_surviving_the_full_sweep": [
+                {"era": r["era"], "name": r["name"]}
+                for r in measured if r["classification"] == "era_property"],
+            "pairs_whose_class_depends_on_the_trim_rule": [
+                {"era": r["era"], "name": r["name"],
+                 "classification_by_order": r["classification_by_order"]}
+                for r in measured if r["classification_is_rule_sensitive"]],
+            "pairs_where_a_trim_manufactures_a_reversal": [
+                {"era": r["era"], "name": r["name"],
+                 "k_reversal_created_by_order":
+                     r["k_reversal_created_by_order"]}
+                for r in measured
+                if any(v is not None
+                       for v in r["k_reversal_created_by_order"].values())],
+            "e186_join_max_abs_diff_bp": join_max,
+            "verdict": verdict,
+        },
+        "honest": [
+            "the month rows are read from the published E186 face and every k "
+            "recomputes both era readings from them, so a missing face publishes "
+            "zero pairs rather than an invented curve",
+            "the four trim rules are not interchangeable orderings of one thing: "
+            "ranking by |gap| removes the months that move the LEVEL, ranking by "
+            "|delta_sum| removes the months that move the ADDITIVE path, and the "
+            "first/last rules ask whether the verdict is an edge-of-window effect",
+            "k is capped at min(k_max, months-2) so a short era cannot be trimmed "
+            "down to one observation and read as agreement",
+            "removing months changes the sample the verdict is computed on; this "
+            "measures fragility, it does not license dropping any month for real",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -23071,6 +23460,381 @@ def run_tilt3widesplitmonth(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E187
+WIDECHURNTIE_TOL_BP = 1e-9
+WIDECHURNTIE_TOP = 6
+WIDECHURNTIE_STRONG_R = 0.5
+WIDECHURNTIE_WEAK_R = 0.3
+WIDECHURNTIE_MIN_MONTHS = 4
+
+
+def _wide_month_membership(sides, months):
+    """(E187) the names the wide book actually held in each decision month.
+
+    The contribution sink is written once per name-day while the name sits in
+    the book, so a key means "held", not "paid": a holding whose daily returns
+    were exactly zero all month still appears (its terms are 0.0, not absent).
+    ``__cash__`` is the un-invested residual and is not a holding -- it would
+    enter and leave on its own rhythm and dwarf the churn it should measure.
+    """
+    mset = set(months)
+    mem = {}
+    for (m, s) in (sides or {}).get("wide") or {}:
+        if m in mset and s != "__cash__":
+            mem.setdefault(m, set()).add(s)
+    return mem
+
+
+def _membership_turnover(prev, cur):
+    """(E187) one month's membership churn, normalised by the book's size.
+
+    turnover = (entered + left) / mean(prev_size, cur_size): 0.0 when nothing
+    moved, 1.0 when half the book is replaced (>1.0 when more than the whole
+    book turns). A bare count of entries would track the book's SIZE, and the
+    wide book's size grows with the panel, so only the ratio can be joined
+    across eras.
+    """
+    if prev is None:
+        return None
+    entered = len(cur - prev)
+    left = len(prev - cur)
+    size = 0.5 * (len(prev) + len(cur))
+    if size <= 0:
+        return {"entered": entered, "left": left, "mean_size": 0.0,
+                "turnover": None}
+    return {"entered": entered, "left": left, "mean_size": size,
+            "turnover": (entered + left) / size}
+
+
+def _wide_turnover_rows(sides_raw, sides_scr, months, panel_months=None,
+                        tol=None):
+    """(E187) the repair's monthly net beside the book's own membership churn.
+
+    ``panel_months`` is the ordered usable-month list, so the month before the
+    first era month can anchor that month's turnover: membership is not a
+    return, so anchoring costs no look-ahead into the era's arithmetic. The
+    row set is still exactly the era's months.
+
+    The cash residual is kept in its own column instead of being mixed into
+    ``net_bp``: a repair that leaves more cash did not repair a name, and a
+    name count that quietly includes the cash leg reads complete while being
+    short by one pseudo-member.
+    """
+    t = WIDECHURNTIE_TOL_BP if tol is None else float(tol)
+    panel = list(panel_months) if panel_months else list(months)
+    raw = (sides_raw or {}).get("wide") or {}
+    scr = (sides_scr or {}).get("wide") or {}
+    per = {}
+    for key in set(raw) | set(scr):
+        m, s = key
+        per.setdefault(m, {})[s] = (float(scr.get(key, 0.0))
+                                    - float(raw.get(key, 0.0))) * 1e4
+    mem_raw = _wide_month_membership(sides_raw, panel)
+    mem_scr = _wide_month_membership(sides_scr, panel)
+    pos = {m: i for i, m in enumerate(panel)}
+    rows = []
+    for m in months:
+        vals = per.get(m) or {}
+        cash = float(vals.get("__cash__", 0.0))
+        named = {k: v for k, v in vals.items() if k != "__cash__"}
+        net = sum(named.values())
+        gross = sum(abs(v) for v in named.values())
+        i = pos.get(m)
+        prev = panel[i - 1] if i else None
+        t_scr = _membership_turnover(mem_scr.get(prev) if prev else None,
+                                     mem_scr.get(m, set()))
+        t_raw = _membership_turnover(mem_raw.get(prev) if prev else None,
+                                     mem_raw.get(m, set()))
+        row = {
+            "month": m,
+            "membership_n": len(mem_scr.get(m, set())),
+            "membership_n_raw": len(mem_raw.get(m, set())),
+            "repair_names": sum(1 for v in named.values() if abs(v) > t),
+            "net_bp": net,
+            "cash_bp": cash,
+            "gross_bp": gross,
+            "net_over_gross": (net / gross if gross > t else None),
+        }
+        for tag, tr in (("", t_scr), ("_raw", t_raw)):
+            if tr is None or tr["turnover"] is None:
+                row["entered" + tag] = None
+                row["left" + tag] = None
+                row["mean_size" + tag] = None
+                row["turnover" + tag] = None
+            else:
+                row["entered" + tag] = tr["entered"]
+                row["left" + tag] = tr["left"]
+                row["mean_size" + tag] = round(tr["mean_size"], 3)
+                row["turnover" + tag] = round(tr["turnover"], 4)
+        rows.append(row)
+    return rows
+
+
+def _pearson(y, x):
+    """(E187) Pearson r; None when either series is flat or too short."""
+    if len(y) < 3 or len(y) != len(x):
+        return None
+    my, mx = _moments(y), _moments(x)
+    if (my["sd"] is None or mx["sd"] is None
+            or my["sd"] <= 1e-15 or mx["sd"] <= 1e-15):
+        return None
+    cov = (sum((a - my["mean"]) * (b - mx["mean"]) for a, b in zip(y, x))
+           / (len(y) - 1))
+    return cov / (mx["sd"] * my["sd"])
+
+
+def _churn_tie_verdict(rows, total_net=None, tol=None):
+    """(E187) is the monthly spread a membership statement?
+
+    A number that tracks the book's own churn is describing WHO was held, not
+    how well the repair worked, and has to be discounted by turnover instead
+    of quoted as repair quality. The verdict is published at three levels so
+    it can be read without re-deriving: the correlation (does it track at
+    all), the hot/cold split (where the motion lives), and the against-half
+    share (are the months that fight the era total the churn months).
+    """
+    t = WIDECHURNTIE_TOL_BP if tol is None else float(tol)
+    usable = [r for r in rows if r.get("turnover") is not None]
+    net = [r["net_bp"] for r in usable]
+    turn = [r["turnover"] for r in usable]
+    repairing = [r for r in usable if r["gross_bp"] > t]
+    enough = len(usable) >= WIDECHURNTIE_MIN_MONTHS
+    r_all = _pearson(net, turn) if enough else None
+    r_rep = (_pearson([r["net_bp"] for r in repairing],
+                      [r["turnover"] for r in repairing])
+             if len(repairing) >= WIDECHURNTIE_MIN_MONTHS else None)
+    r_abs = (_pearson([abs(v) for v in net], turn) if enough else None)
+    if len(turn) >= 2:
+        s = sorted(turn)
+        med = (s[len(s) // 2] if len(s) % 2
+               else 0.5 * (s[len(s) // 2 - 1] + s[len(s) // 2]))
+    else:
+        med = None
+    hot = [r for r in usable if med is not None and r["turnover"] > med]
+    cold = [r for r in usable if med is not None and r["turnover"] <= med]
+    abs_total = sum(abs(r["net_bp"]) for r in usable)
+    tn = sum(r["net_bp"] for r in rows) if total_net is None else float(total_net)
+    sign = 0 if abs(tn) <= t else (1 if tn > 0 else -1)
+    against = [r["month"] for r in rows
+               if sign and abs(r["net_bp"]) > t
+               and (1 if r["net_bp"] > 0 else -1) != sign]
+    against_set = set(against)
+    against_rows = [r for r in usable if r["month"] in against_set]
+    rest_rows = [r for r in usable if r["month"] not in against_set]
+    hot_set = set(r["month"] for r in hot)
+
+    def _mean(seq, key):
+        vals = [r[key] for r in seq]
+        return (sum(vals) / len(vals)) if vals else None
+
+    def _r(v, k=4):
+        return None if v is None else round(v, k)
+
+    if not enough:
+        cls = "insufficient_months"
+    elif not repairing:
+        # the repair never touched this book in this era, so a zero net here is
+        # an empty repair set -- not evidence that a spread is independent of
+        # churn. Publishing both as "flat" would report a measurement that was
+        # never taken.
+        cls = "no_repair_in_era"
+    elif r_all is None:
+        cls = "net_flat"
+    elif abs(r_all) >= WIDECHURNTIE_STRONG_R:
+        cls = "net_tracks_turnover" if r_all > 0 else "net_tracks_turnover_inverted"
+    elif abs(r_all) < WIDECHURNTIE_WEAK_R:
+        cls = "turnover_independent"
+    else:
+        cls = "weak_tie"
+    return {
+        "months": len(rows),
+        "months_measured": len(usable),
+        "months_repairing": len(repairing),
+        "total_net_bp": tn,
+        "net_vs_turnover_r": _r(r_all),
+        "net_vs_turnover_r_repairing": _r(r_rep),
+        "abs_net_vs_turnover_r": _r(r_abs),
+        "turnover_median": _r(med),
+        "hot_months": len(hot),
+        "hot_mean_net_bp": _r(_mean(hot, "net_bp"), 3),
+        "cold_mean_net_bp": _r(_mean(cold, "net_bp"), 3),
+        "hot_mean_abs_net_bp": _r(_mean([dict(r, a=abs(r["net_bp"]))
+                                         for r in hot], "a"), 3),
+        "cold_mean_abs_net_bp": _r(_mean([dict(r, a=abs(r["net_bp"]))
+                                          for r in cold], "a"), 3),
+        "hot_share_of_abs_motion_pct": (
+            None if abs_total <= t
+            else round(sum(abs(r["net_bp"]) for r in hot) / abs_total * 100.0, 1)),
+        "months_net_against_total": against,
+        "against_month_turnover_mean": _r(_mean(against_rows, "turnover")),
+        "other_month_turnover_mean": _r(_mean(rest_rows, "turnover")),
+        "against_months_in_hot_half_pct": (
+            None if not against_rows else
+            round(sum(1 for r in against_rows if r["month"] in hot_set)
+                  / len(against_rows) * 100.0, 1)),
+        "churn_discount_applies": cls in ("net_tracks_turnover",
+                                          "net_tracks_turnover_inverted"),
+        "classification": cls,
+    }
+
+
+def run_tilt3widechurntie(outdir, mode="neutralise_int", eras=ERAS):
+    """E187: is the wide book's surviving monthly motion just its churn?
+
+    E184 showed the 2024_now net is the residual of a path that reversed on
+    itself between months. If the months that reverse are the months the book
+    turned over, then the spread is a statement about membership and not
+    about the repair, and it must be discounted by turnover instead of being
+    quoted as repair quality. This leg measures that tie per era.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+    panel_months = _era_engine_months(burn["core_raw"], None, None)
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("WIDEMONTHCANCEL-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_turnover_rows(sides_raw, sides_scr, ms, panel_months)
+        base = _month_cancel_verdict(
+            _wide_month_cancel_rows(sides_raw, sides_scr, ms))
+        v = _churn_tie_verdict(per, total_net=base["total_net_bp"])
+        ranked = sorted([r for r in per if r.get("turnover") is not None],
+                        key=lambda r: -r["gross_bp"])
+        top = [{"month": r["month"],
+                "turnover": r["turnover"],
+                "net_bp": round(r["net_bp"], 3),
+                "gross_bp": round(r["gross_bp"], 3),
+                "repair_names": r["repair_names"],
+                "membership_n": r["membership_n"]}
+               for r in ranked[:WIDECHURNTIE_TOP]]
+        e184 = ((sib or {}).get("eras") or {}).get(name) or {}
+        theirs = e184.get("total_net_bp")
+        row = {
+            "months": len(ms),
+            "panel_months": len(panel_months),
+            "membership_n_first": per[0]["membership_n"],
+            "membership_n_last": per[-1]["membership_n"],
+            "turnover_mean": (round(sum(r["turnover"] for r in per
+                                        if r["turnover"] is not None)
+                                    / max(1, sum(1 for r in per
+                                                 if r["turnover"] is not None)), 4)
+                              if any(r["turnover"] is not None for r in per)
+                              else None),
+            "turnover_max": (max((r["turnover"] for r in per
+                                  if r["turnover"] is not None), default=None)),
+            "total_net_bp": round(v["total_net_bp"], 3),
+            "annualised_net_bp": round(v["total_net_bp"] * 12.0 / len(ms), 3),
+            "total_cash_bp": round(sum(r["cash_bp"] for r in per), 3),
+            "months_measured": v["months_measured"],
+            "months_repairing": v["months_repairing"],
+            "net_vs_turnover_r": v["net_vs_turnover_r"],
+            "net_vs_turnover_r_repairing": v["net_vs_turnover_r_repairing"],
+            "abs_net_vs_turnover_r": v["abs_net_vs_turnover_r"],
+            "turnover_median": v["turnover_median"],
+            "hot_months": v["hot_months"],
+            "hot_mean_net_bp": v["hot_mean_net_bp"],
+            "cold_mean_net_bp": v["cold_mean_net_bp"],
+            "hot_mean_abs_net_bp": v["hot_mean_abs_net_bp"],
+            "cold_mean_abs_net_bp": v["cold_mean_abs_net_bp"],
+            "hot_share_of_abs_motion_pct": v["hot_share_of_abs_motion_pct"],
+            "months_net_against_total": v["months_net_against_total"],
+            "against_month_turnover_mean": v["against_month_turnover_mean"],
+            "other_month_turnover_mean": v["other_month_turnover_mean"],
+            "against_months_in_hot_half_pct":
+                v["against_months_in_hot_half_pct"],
+            "churn_discount_applies": v["churn_discount_applies"],
+            "classification": v["classification"],
+            "top_months_by_gross": top,
+            "e184_join": {
+                "face": "WIDEMONTHCANCEL",
+                "e184_total_net_bp": theirs,
+                "month_rows_net_bp": round(v["total_net_bp"], 3),
+                "abs_diff_bp": (None if theirs is None
+                                else round(abs(v["total_net_bp"]
+                                               - float(theirs)), 6)),
+            },
+        }
+        rows[name] = row
+
+    measured = {k: v for k, v in rows.items() if "classification" in v}
+    joins = [v["e184_join"]["abs_diff_bp"] for v in measured.values()
+             if v["e184_join"]["abs_diff_bp"] is not None]
+    rs = [v["net_vs_turnover_r"] for v in measured.values()
+          if v["net_vs_turnover_r"] is not None]
+    by_cls = {}
+    for k, v in measured.items():
+        by_cls.setdefault(v["classification"], []).append(k)
+    tied = sorted(k for k, v in measured.items() if v["churn_discount_applies"])
+    return {
+        "study": "e187_tilt3_wide_side_churn_tie",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "side": "wide (the rotating book) membership x repair delta",
+            "turnover": ("(entered + left) / mean(prev_size, cur_size) on the "
+                         "contribution sink's membership; adjacent month = the "
+                         "previous usable panel month"),
+            "thresholds": {"strong_r": WIDECHURNTIE_STRONG_R,
+                           "weak_r": WIDECHURNTIE_WEAK_R,
+                           "min_months": WIDECHURNTIE_MIN_MONTHS},
+            "units": ("net_bp / cash_bp / gross_bp are sums of monthly bp "
+                      "contributions (x1e4 of the month's weight-return term); "
+                      "annualised_net_bp = total_net * 12 / months"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_by_classification": {k: sorted(v) for k, v in by_cls.items()},
+            "eras_where_churn_discount_applies": tied,
+            "net_vs_turnover_r_range": ([round(min(rs), 4), round(max(rs), 4)]
+                                        if rs else None),
+            "e184_join_max_abs_diff_bp": (None if not joins
+                                          else round(max(joins), 6)),
+            "verdict": (
+                "spread tracks membership churn in these eras: quote them as "
+                "membership statements, discounted by turnover, not as repair "
+                "quality" if tied else
+                "no era's spread tracks its own churn at |r|>=%.1f, so the "
+                "surviving motion is not explained by who was held"
+                % WIDECHURNTIE_STRONG_R),
+        },
+        "screen_report": report,
+        "honest": [
+            "net_bp excludes the cash residual, which is published beside it as "
+            "cash_bp: the cash leg is not a holding and is not counted as a "
+            "repaired name, so the name-level net and the engine delta differ "
+            "by exactly that column (the e184_join checks the sum)",
+            "membership comes from the contribution sink, so a name that never "
+            "traded a single day in the month cannot appear; a name held all "
+            "month with zero daily returns still counts as present",
+            "the first era month's turnover is anchored on the panel month "
+            "before the era (membership only, no era returns), so the row set "
+            "stays exactly the era's months",
+            "turnover above 1.0 means more than the whole book turned over; it "
+            "is a ratio, not a share",
+            "a correlation over months is descriptive: n here is months, not "
+            "trials, and no gate or prereg is implied",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -23090,8 +23854,10 @@ def main(argv):
                              "tilt3ladderlomocomp",
                              "tilt3ladderdropwhere",
                              "tilt3ladderdropcross",
+                             "tilt3ladderdropcurve",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
+                             "tilt3widechurntie",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -24562,6 +25328,43 @@ def main(argv):
                               "across_month_keep_ratio":
                                   v.get("across_month_keep_ratio"),
                               "months": v.get("months")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3widechurntie":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3widechurntie(outdir)
+        p = write_json(outdir, "WIDECHURNTIE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3widechurntie",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "classification": v.get("classification"),
+                              "net_vs_turnover_r": v.get("net_vs_turnover_r"),
+                              "turnover_mean": v.get("turnover_mean"),
+                              "total_net_bp": v.get("total_net_bp"),
+                              "months_net_against_total":
+                                  len(v.get("months_net_against_total") or []),
+                              "against_months_in_hot_half_pct":
+                                  v.get("against_months_in_hot_half_pct")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropcurve":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropcurve(outdir)
+        p = write_json(outdir, "LADDERDROPCURVE-%s.json"
+                       % str(f["evidence_cutoff"] or "unknown").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropcurve",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: [{
+                              "name": d["name"],
+                              "classification": d["classification"],
+                              "k_agree_earliest": d["k_agree_earliest"],
+                              "k_agree_by_order": d["k_agree_by_order"]}
+                              for d in v["drops"]]
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
