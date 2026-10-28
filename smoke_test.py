@@ -1353,6 +1353,38 @@ def main() -> int:
     except Exception as e:
         check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
 
+    # r1291 law, second face: a heavier sleeve weight also lowers total risk, so the raw
+    # CAGR column of the overlay sweep is a leverage artifact. This leg asserts the face
+    # publishes BOTH readings and that the sleeve weight really does move risk -- an
+    # equal-risk block copied next to an unmoving raw column would be a decorative fix.
+    try:
+        import json as _json
+        _sp = os.path.join("scripts", "futures_overlay_sweep.py")
+        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+                             text=True, encoding="utf-8", errors="replace")
+        _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
+        check("product: futures overlay sweep keeps its blend arithmetic",
+              _sr.returncode == 0, f"selftest rc={_sr.returncode} {_st[:60]}")
+
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _sw = _face.get("sweeps") or {}
+        _rows = (_sw.get("tsmom60") or {}).get("full") or []
+        _vols = [r.get("realised_vol") for r in _rows]
+        _has_equal = all(isinstance(r.get("at_equal_vol"), dict) for r in _rows) and bool(_rows)
+        _risk_falls = bool(_vols) and _vols[-1] < _vols[0] - 1e-6
+        _flat_at_equal = (not _rows) or abs(
+            _rows[0]["at_equal_vol"].get("cagr", 0) - _rows[0].get("cagr", 0)) < 5e-4
+        _desc = "descriptive" in str(_face.get("face", "")).lower()
+        check("product: overlay sweep sells risk and publishes the equal-risk reading",
+              sorted(_sw) == ["tsmom120", "tsmom60"] and _has_equal and _risk_falls
+              and _flat_at_equal and _desc,
+              "weights=%d vol %.4f->%.4f equal_vol_block=%s descriptive=%s" % (
+                  len(_rows), _vols[0] if _vols else -1, _vols[-1] if _vols else -1,
+                  _has_equal, _desc))
+    except Exception as e:
+        check("product: futures overlay sweep keeps its blend arithmetic", False, str(e))
+
     return _finish()
 
 

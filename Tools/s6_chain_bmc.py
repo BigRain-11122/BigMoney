@@ -41,6 +41,12 @@ LEGS = [
     # (r1108). It rides immediately behind the panel it reads so the target weights can
     # never be older than the futures bars. ~2s, no network, no judge, shadow only.
     ("futures_tsmom_signal", ["python", "scripts/futures_tsmom_signal.py", "run"]),
+    # r1137: the sleeve face published ONE blend point (50/50). A single weight is a single
+    # decision sequence (r1262), and a heavier sleeve weight also lowers total risk, so the
+    # raw CAGR column alone reads as "worse" (r1291). This leg republishes the whole overlay
+    # axis with an equal-risk reading beside it, straight off the panels the two legs above
+    # already refreshed. ~10s, no network, no judge, selects nothing.
+    ("futures_overlay_sweep", ["python", "scripts/futures_overlay_sweep.py"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
