@@ -2383,3 +2383,14 @@ face not older than the card it reconciles) with one selftest leg per way it can
 Pos: scripts/etf_book_hysteresis.py (selftest 32/32) + results/etf_book_hysteresis.json +
 research/ETF_BOOK_HYSTERESIS.md + Tools/s6_chain_bmc.py leg + smoke leg; engine change =
 scripts/etf_robust_pf.py select_hook (default None bit-identical).
+## E189 A carrier month is the whole verdict: removing the one month E186 named collapses all four era-level reversals (2026-10-28 r1220 bm-b)
+
+`run_tilt3ladderdropcross()` in `scripts/e39_panel_census.py` -> `results/e43_tilt_4member/LADDERDROPCROSS-20261027.json`, mode `tilt3ladderdropcross`, selftest 644->651. E186 published four (era, drop) pairs whose effect reverses sign between the summed and the compounded reading and classified them single_month/dispersion by carrier share. This walks the two cumulative paths month by month and re-runs each era with E186's own declared carrier month removed:
+
+    cum_sum_t  = sum_{m<=t} delta_sum_m              (the additive path)
+    cum_link_t = prod_{m<=t}(1+delta_link_m) - 1     (the compounded path)
+    diff_t     = cum_sum_t - cum_link_t              (what has to cross for an era reversal)
+
+Result: **4/4 reversals disappear once that one month is gone** -- 2024_now sh510050 (carrier 2026-07) arith 73.16 -> 204.25bp / comp -34.01 -> 141.93bp; full sh510050 (2014-12) 0.07 -> 44.89 / -38.20 -> 1.63; pre2017 sh510300 (2016-01) -32.57 -> -103.85 / 6.18 -> -95.56; pre2017 sh510500 (2014-12) 36.58 -> -197.98 / -9.66 -> -203.73. The crossing month of the two paths is never the carrier (0/4), and 2024_now carries an era reversal with no path crossing at all (+296.5bp end gap, 0 crossings) because E186's `comp` is a difference of two annualised levels while `cum_link` compounds ratio steps -- published as `reversals_without_path_crossing` rather than folded into the crossing count. Join to E186 max |diff| 8.8e-05bp.
+
+Three transferable rules: (a) **a published reversal must be re-run without the month the same study named as its carrier** -- if it vanishes, the era verdict was a one-month artefact and may not be quoted as a property of the arithmetic; E186's dispersion labels (carrier share 0.118-0.358, 5.45-25.36 effective months) did not predict fragility, so the label is not a substitute for the removal test. (b) **a crossing month and a carrier month are different objects** -- "when do the two paths pass each other" answers a different question than "which month carries the gap", and reporting one as the other would invent a date for a verdict that has none. (c) **when two published readings disagree in sign but their step paths never cross, the disagreement is in the annualisation, not in the data** -- that has to be its own published bucket, otherwise the crossing count silently implies a turning point that does not exist.

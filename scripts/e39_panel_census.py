@@ -18876,6 +18876,70 @@ def selftest():
         "E186 the where leg reads the same burn path and carries the mode/eras "
         "seams")
 
+    # E189: the cumulative paths, the crossing month, and the carrier removal
+    _e189_path = _drop_cum_paths(_e186_rows)
+    chk(abs(_e189_path[0]["cum_sum"] - 0.0102) < 1e-9
+        and abs(_e189_path[0]["cum_link"] - 0.01) < 1e-9
+        and abs(_e189_path[-1]["cum_sum"] - 0.0102) < 1e-9
+        and abs(_e189_path[-1]["cum_link"] - 0.01) < 1e-9,
+        "E189 the additive path sums the monthly steps and the multiplicative "
+        "path compounds them, so on this fixture the gap is 2bp on the first "
+        "month and never moves again")
+    _e189_cross = _path_crossings(
+        [{"month": "m1", "diff": -2.0}, {"month": "m2", "diff": 0.0},
+         {"month": "m3", "diff": 1.0}], "diff")
+    chk(len(_e189_cross) == 1 and _e189_cross[0]["month"] == "m3"
+        and _e189_cross[0]["from_sign"] == -1 and _e189_cross[0]["to_sign"] == 1,
+        "E189 a crossing is named at the first month on the far side of zero, so "
+        "a zero month cannot be reported as the turning point")
+    # one convex month (f=-35%, d=-15%) plus twelve 2% months: the additive sum
+    # turns negative while the compounded ratio is still above one, and dropping
+    # the single convex month puts both readings back on the same side
+    _e189_art_fr = {"m00": -0.35}
+    _e189_art_dr = {"m00": -0.15}
+    for _i in range(12):
+        _e189_art_fr["s%02d" % _i] = 0.02
+        _e189_art_dr["s%02d" % _i] = 0.0
+    _e189_car = _drop_crossing_summary(
+        _drop_month_deltas(_e189_art_fr, _e189_art_dr), "m00")
+    chk(_e189_car["era_reversal"] is True
+        and _e189_car["classification"] == "carrier_artefact"
+        and _e189_car["carrier_removal"]["reversal_after_removal"] is False,
+        "E189 a reversal that disappears with E186's carrier month is published "
+        "as a one-month artefact, not as an arithmetic property")
+    # five convex months against a thousand flat ones: the same reversal now
+    # survives dropping the biggest month, so the verdict is the arithmetic
+    _e189_ind_fr = {}
+    _e189_ind_dr = {}
+    for _i in range(5):
+        _e189_ind_fr["m%02d" % _i] = -0.35
+        _e189_ind_dr["m%02d" % _i] = -0.15
+    for _i in range(1035):
+        _e189_ind_fr["s%04d" % _i] = 0.001
+        _e189_ind_dr["s%04d" % _i] = 0.0
+    _e189_disp = _drop_crossing_summary(
+        _drop_month_deltas(_e189_ind_fr, _e189_ind_dr), "m00")
+    chk(_e189_disp["classification"] == "carrier_independent"
+        and _e189_disp["carrier_removal"]["reversal_after_removal"] is True,
+        "E189 a reversal that survives the carrier removal is published as "
+        "carrier-independent arithmetic, so 'it reverses' stops being a date")
+    _e189_agree = _drop_crossing_summary(
+        _drop_month_deltas({"m1": 0.01}, {"m1": 0.02}), "m1")
+    chk(_e189_agree["classification"] == "no_era_reversal"
+        and _e189_agree["first_curve_cross_month"] is None,
+        "E189 two readings that agree in sign are not reported as a reversal "
+        "with a missing crossing")
+    import tempfile as _e189_tmp
+    _e189_empty = run_tilt3ladderdropcross(_e189_tmp.mkdtemp())
+    chk(_e189_empty["answers"]["pairs_measured"] == 0
+        and _e189_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e189_empty["answers"]["reversals_without_path_crossing"] == []
+        and _e189_empty["evidence_cutoff"] is None,
+        "E189 a missing E186 face publishes zero pairs and no cutoff rather than "
+        "an invented reversal set")
+    chk("outdir" in run_tilt3ladderdropcross.__code__.co_varnames,
+        "E189 the crossing leg takes the face directory as its only seam")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -22303,6 +22367,254 @@ def run_tilt3ladderdropwhere(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E189
+# the two paths are rebuilt from 8dp published month returns, so a join inside
+# this window is rounding of the published face, not a disagreement
+TILT3LADDERDROPCROSS_JOIN_BP = 0.01
+
+
+def _drop_cum_paths(rows):
+    """(E189) the two cumulative paths one flagged drop lays over an era.
+
+    ``cum_sum`` adds each month's ``delta_sum`` (the additive reading the
+    arithmetic level is built from); ``cum_link`` compounds each month's
+    ``delta_link`` step (the multiplicative reading the engine curve compounds).
+    E186 published only the two era totals, so which month made them disagree
+    was invisible; ``diff`` is that quantity as a path.
+    """
+    path, cum_sum, growth = [], 0.0, 1.0
+    for r in rows:
+        dsum, dlink = r.get("delta_sum"), r.get("delta_link")
+        if dsum is None or dlink is None:
+            continue
+        cum_sum += float(dsum)
+        growth *= (1.0 + float(dlink))
+        cum_link = growth - 1.0
+        path.append({"month": r["month"],
+                     "cum_sum": round(cum_sum, 8),
+                     "cum_link": round(cum_link, 8),
+                     "diff": round(cum_sum - cum_link, 8)})
+    return path
+
+
+def _path_sign(x):
+    if x is None:
+        return None
+    return 1 if x > 0 else (-1 if x < 0 else 0)
+
+
+def _path_crossings(path, key):
+    """(E189) every month where ``key``'s sign flips, zero months skipped."""
+    out, prev = [], None
+    for i, p in enumerate(path):
+        s = _path_sign(p.get(key))
+        if s is None or s == 0:
+            continue
+        if prev is not None and s != prev:
+            out.append({"month": p["month"], "index": i,
+                        "from_sign": prev, "to_sign": s})
+        prev = s
+    return out
+
+
+def _drop_carrier_removal(rows, carrier_month):
+    """(E189) the same era effect with E186's carrier month taken out.
+
+    E186 named the month holding the largest share of the |gap|. If the era
+    verdict reverses only because that month sits in the window, taking it out
+    has to restore agreement between the two readings; a verdict that survives
+    the removal is a property of the arithmetic, not of the date.
+    """
+    kept = [r for r in rows if r.get("month") != carrier_month]
+    fr = {r["month"]: float(r["full_ret"]) for r in kept}
+    dr = {r["month"]: float(r["dropped_ret"]) for r in kept}
+    eff = _drop_effect_both_bp(fr, dr)
+    sa, sc = _path_sign(eff["arith_bp"]), _path_sign(eff["comp_bp"])
+    return {"carrier_month": carrier_month,
+            "months_kept": eff["months_used"],
+            "effect_arith_bp": eff["arith_bp"],
+            "effect_comp_bp": eff["comp_bp"],
+            "reversal_after_removal": bool(
+                sa is not None and sc is not None and sa * sc < 0)}
+
+
+def _drop_crossing_summary(rows, carrier_month=None):
+    """(E189) paths, crossing month, and whether the carrier carries the call."""
+    path = _drop_cum_paths(rows)
+    fr = {r["month"]: float(r["full_ret"]) for r in rows}
+    dr = {r["month"]: float(r["dropped_ret"]) for r in rows}
+    eff = _drop_effect_both_bp(fr, dr)
+    sa, sc = _path_sign(eff["arith_bp"]), _path_sign(eff["comp_bp"])
+    rev = bool(sa is not None and sc is not None and sa * sc < 0)
+    cross = _path_crossings(path, "diff")
+    rm = _drop_carrier_removal(rows, carrier_month) if carrier_month else None
+    if not rev:
+        cls = "no_era_reversal"
+    elif rm is None:
+        cls = "reversal_without_carrier"
+    elif rm["reversal_after_removal"]:
+        cls = "carrier_independent"
+    else:
+        cls = "carrier_artefact"
+    return {"months": len(path), "path": path,
+            "era_effect_rebuilt": eff, "era_reversal": rev,
+            "era_signs": {"arith": sa, "comp": sc},
+            "path_end": (None if not path else {
+                "cum_sum": path[-1]["cum_sum"],
+                "cum_link": path[-1]["cum_link"],
+                "diff_bp": round(path[-1]["diff"] * 1e4, 6)}),
+            "curve_crossings": cross,
+            "first_curve_cross_month": (cross[0]["month"] if cross else None),
+            "n_curve_crossings": len(cross),
+            "sum_zero_crossings": _path_crossings(path, "cum_sum"),
+            "link_zero_crossings": _path_crossings(path, "cum_link"),
+            "carrier_removal": rm,
+            "classification": cls}
+
+
+def run_tilt3ladderdropcross(outdir):
+    """E189: is E186's era-level reversal a date or an arithmetic property?
+
+    E186 measured that the four arithmetic-dependent drop effects reverse at era
+    level while every single month moves the same way under both readings. This
+    walks the two cumulative paths month by month, names where they cross, and
+    re-runs each era with E186's declared carrier month removed -- a reversal
+    whose crossing is stable and carrier-independent is arithmetic, one that
+    collapses when the carrier goes is a one-month artefact wearing an era-level
+    verdict.
+    """
+    src = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    rows, joins = {}, []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        per = []
+        for d in (v.get("drops") or []):
+            months = d.get("months") or []
+            if not months:
+                continue
+            carrier = (d.get("locus") or {}).get("carrier_month")
+            summ = _drop_crossing_summary(months, carrier)
+            for pub, got in ((d.get("effect_arith_bp"),
+                              summ["era_effect_rebuilt"]["arith_bp"]),
+                             (d.get("effect_comp_bp"),
+                              summ["era_effect_rebuilt"]["comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            per.append({
+                "name": d.get("name"),
+                "months_source": len(months),
+                "classification": summ["classification"],
+                "era_reversal": summ["era_reversal"],
+                "era_signs": summ["era_signs"],
+                "path_end": summ["path_end"],
+                "first_curve_cross_month": summ["first_curve_cross_month"],
+                "n_curve_crossings": summ["n_curve_crossings"],
+                "curve_crossings": summ["curve_crossings"],
+                "sum_zero_crossings": summ["sum_zero_crossings"],
+                "link_zero_crossings": summ["link_zero_crossings"],
+                "carrier_month": carrier,
+                "cross_is_carrier": bool(
+                    carrier and summ["first_curve_cross_month"] == carrier),
+                "carrier_removal": summ["carrier_removal"],
+                "path": summ["path"],
+            })
+        if per:
+            rows[era_name] = {"months": v.get("months"), "drops": per}
+
+    measured = [dict(r, era=e) for e, v in rows.items() for r in v["drops"]]
+    classes = {}
+    for r in measured:
+        classes[r["classification"]] = classes.get(r["classification"], 0) + 1
+    if not measured:
+        verdict = "no_upstream_face"
+    elif classes.get("carrier_artefact"):
+        verdict = "at_least_one_reversal_is_a_one_month_artefact"
+    else:
+        verdict = "reversal_is_carrier_independent_arithmetic"
+    join_max = None if not joins else round(max(joins), 9)
+    return {
+        "study": "e189_tilt3_ladder_drop_crossing",
+        "evidence_cutoff": None if src is None else src.get("evidence_cutoff"),
+        "spec": {
+            "upstream": ("LADDERDROPWHERE-*.json (E186 published month rows)"),
+            "upstream_cutoff": None if src is None else src.get("evidence_cutoff"),
+            "method": ("per flagged (era, drop): cumulative delta_sum path "
+                       "(additive) beside cumulative (prod(1+delta_link)-1) path; "
+                       "the crossing is the first month where their difference "
+                       "changes sign, and each era is re-run with E186's carrier "
+                       "month removed"),
+            "units": "paths in return units, endpoint gaps in bp",
+            "join_tolerance_bp": TILT3LADDERDROPCROSS_JOIN_BP,
+            "class_rules": {
+                "no_era_reversal": "the two era readings agree in sign",
+                "reversal_without_carrier": "E186 declared no carrier month",
+                "carrier_independent": "reversal survives the carrier removal",
+                "carrier_artefact": "removing the carrier month removes the reversal",
+            },
+        },
+        "eras": rows,
+        "answers": {
+            "pairs_measured": len(measured),
+            "classification_counts": classes,
+            "pairs_with_era_reversal": [
+                {"era": r["era"], "name": r["name"],
+                 "arith_bp": r["era_signs"]["arith"],
+                 "comp_bp": r["era_signs"]["comp"]}
+                for r in measured if r["era_reversal"]],
+            "pairs_with_curve_crossing": [
+                {"era": r["era"], "name": r["name"],
+                 "first_cross": r["first_curve_cross_month"],
+                 "n_crossings": r["n_curve_crossings"]}
+                for r in measured if r["n_curve_crossings"]],
+            "crossing_is_carrier": [
+                {"era": r["era"], "name": r["name"],
+                 "month": r["first_curve_cross_month"]}
+                for r in measured if r["cross_is_carrier"]],
+            "reversals_without_path_crossing": [
+                {"era": r["era"], "name": r["name"],
+                 "path_end_diff_bp": (r["path_end"] or {}).get("diff_bp")}
+                for r in measured
+                if r["era_reversal"] and not r["n_curve_crossings"]],
+            "carrier_removed_reversals": [
+                {"era": r["era"], "name": r["name"],
+                 "carrier_month": r["carrier_month"]}
+                for r in measured
+                if (r["carrier_removal"] or {}).get("reversal_after_removal") is False],
+            "carrier_independent_reversals": [
+                {"era": r["era"], "name": r["name"],
+                 "carrier_month": r["carrier_month"]}
+                for r in measured
+                if (r["carrier_removal"] or {}).get("reversal_after_removal") is True],
+            "e186_join_max_abs_diff_bp": join_max,
+            "verdict": verdict,
+        },
+        "honest": [
+            "the month rows are read from the published E186 face and the two "
+            "era effects are rebuilt from them, so a missing face publishes zero "
+            "pairs rather than an invented set",
+            "cum_link compounds each month's step while E186's comp total is the "
+            "difference of two annualised levels; the two are published under "
+            "their own names and are not interchangeable -- a drop can show "
+            "E186's reversal while its two step paths never cross, and those "
+            "pairs are listed in reversals_without_path_crossing instead of "
+            "being folded into the crossing count",
+            "a crossing month is a date inside the era's decision months, not a "
+            "tradable opportunity, and removing the carrier month changes the "
+            "sample the verdict is computed on",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -22777,6 +23089,7 @@ def main(argv):
                              "tilt3ladderlomo",
                              "tilt3ladderlomocomp",
                              "tilt3ladderdropwhere",
+                             "tilt3ladderdropcross",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
@@ -24190,6 +24503,28 @@ def main(argv):
                        % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "tilt3ladderdropwhere",
                           "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropcross":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropcross(outdir)
+        p = write_json(outdir, "LADDERDROPCROSS-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropcross",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "drops": [{"name": d.get("name"),
+                                         "classification": d.get("classification"),
+                                         "era_reversal": d.get("era_reversal"),
+                                         "first_curve_cross_month":
+                                             d.get("first_curve_cross_month"),
+                                         "n_curve_crossings":
+                                             d.get("n_curve_crossings"),
+                                         "carrier_month": d.get("carrier_month"),
+                                         "carrier_removal": d.get("carrier_removal")}
+                                        for d in (v.get("drops") or [])]}
+                              for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
         return 0
