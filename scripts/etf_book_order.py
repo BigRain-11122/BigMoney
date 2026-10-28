@@ -876,6 +876,141 @@ def card_config_card(tk, width=None):
     return "\n".join(L) + "\n"
 
 
+# --------------------------------------------------------- lot granularity (r1334)
+LOT_CURVE_GRID = (50_000, 100_000, 200_000, 300_000, 500_000, 750_000,
+                  1_000_000, 2_000_000, 3_000_000, 5_000_000, 10_000_000,
+                  20_000_000)
+
+
+def lot_point(legs, capital, scale=None, lot=LOT):
+    """What the card's own weights actually buy at one stated capital.
+
+    Whole lots only, buys floor'ed, so the book can only spend LESS than target: a
+    card's cash row is ``(1 - k) * capital`` while the cash that lands on the desk is
+    ``capital - spent``. The difference is the price of lot granularity, and
+    ``max_abs_weight_drift_pp`` is the same thing seen from the book's side -- a leg
+    that misses its weight by half a lot is mis-sized, not merely cheap.
+    """
+    cap = float(capital)
+    rows, spent, zero, max_drift, tot_w = [], 0.0, 0, 0.0, 0.0
+    for l in legs:
+        w = float(l.get("weight") or 0.0)
+        px = l.get("ref_price") or l.get("price")
+        tot_w += w
+        if not px or float(px) <= 0:
+            rows.append({"symbol": l.get("symbol"), "weight": round(w, 6), "price": None,
+                         "lots": None, "amount": None, "drift_pp": None})
+            continue
+        lots = int((cap * w) // (float(px) * lot))
+        amt = lots * lot * float(px)
+        spent += amt
+        if lots == 0:
+            zero += 1
+        drift_pp = 100.0 * (amt / cap - w)
+        max_drift = max(max_drift, abs(drift_pp))
+        rows.append({"symbol": l.get("symbol"), "weight": round(w, 6),
+                     "price": round(float(px), 4), "lots": lots,
+                     "amount": round(amt, 2), "drift_pp": round(drift_pp, 4)})
+    s = float(scale) if scale is not None else tot_w
+    cash = cap - spent
+    gap = cash - cap * (1.0 - s)
+    return {"capital_cny": round(cap, 2), "scale": round(s, 6),
+            "target_book_cny": round(cap * s, 2), "book_amount_cny": round(spent, 2),
+            "cash_amount_cny": round(cash, 2), "cash_vs_target_cny": round(gap, 2),
+            "underspend_pp_nav": round(100.0 * gap / cap, 4) if cap else None,
+            "max_abs_weight_drift_pp": round(max_drift, 4),
+            "legs_with_zero_lots": zero, "legs": rows}
+
+
+def lot_curve(legs, scale=None, grid=LOT_CURVE_GRID, thresholds=(1.0, 0.5)):
+    """Sweep the stated capital: the granularity cost is a curve, not one number.
+
+    A single-capital disclosure answers "is today's ticket executable"; the operator's
+    real question is "how small may this book be before the ticket stops being the
+    book". Both readings are published (cash vs target, and weight drift), because a
+    book can be cheap and mis-sized at the same time.
+    """
+    pts = [lot_point(legs, c, scale) for c in grid]
+    drift = [p["max_abs_weight_drift_pp"] for p in pts]
+
+    def _mincap(th):
+        for c, d in zip(grid, drift):
+            if d <= th:
+                return float(c)
+        return None
+
+    px_lot, min_w = 0.0, None
+    for l in legs:
+        px = l.get("ref_price") or l.get("price")
+        w = float(l.get("weight") or 0.0)
+        if px and float(px) > 0 and w > 0:
+            px_lot = max(px_lot, float(px) * LOT)
+            min_w = w if min_w is None else min(min_w, w)
+    floor = (px_lot / min_w) if min_w else None
+    # Each leg can leave at most one lot unspent, so the shortfall is BOUNDED in yuan
+    # and does not shrink as the book grows -- only its percentage does. That is why the
+    # cash column of this curve is jagged while the weight-drift column is monotone.
+    bound = 0.0
+    for l in legs:
+        px = l.get("ref_price") or l.get("price")
+        if px and float(px) > 0:
+            bound += float(px) * LOT
+    return {"grid": list(grid), "points": pts,
+            "monotone_non_increasing": all(b <= a + 1e-9 for a, b in zip(drift, drift[1:])),
+            "thresholds": {("%.2fpp" % th): {"min_capital_cny": _mincap(th)}
+                           for th in thresholds},
+            "shortfall_bound_cny": round(bound, 2),
+            "max_observed_shortfall_cny": max(p["cash_vs_target_cny"] for p in pts),
+            "one_lot_floor_cny": round(floor, 2) if floor else None}
+
+
+def lot_curve_md(curve, card_cap=None):
+    """The operator's half of the curve: the row about to be traded, plus the edge."""
+    L = ["## 资金规模下限（整手取整的实际代价）", ""]
+    cur = None
+    if card_cap:
+        for p in curve["points"]:
+            if abs(p["capital_cny"] - float(card_cap)) < 1.0:
+                cur = p
+                break
+    if cur:
+        L += ["本单资金 %s 元：目标持仓 %s / 实际买入 %s，现金比卡片行多 %s（%.2f%% NAV），"
+              "单腿最大偏离 %.2f%%，买不到一手 %d 腿。"
+              % (format(int(round(cur["capital_cny"])), ","),
+                 format(int(round(cur["target_book_cny"])), ","),
+                 format(int(round(cur["book_amount_cny"])), ","),
+                 format(int(round(cur["cash_vs_target_cny"])), ","),
+                 cur["underspend_pp_nav"], cur["max_abs_weight_drift_pp"],
+                 cur["legs_with_zero_lots"]), ""]
+    L += ["| 资金 | 单腿最大偏离 | 买不到一手 | 现金比目标多 |",
+          "|---|---|---|---|"]
+    for p in curve["points"]:
+        L.append("| %s | %.2f%% | %d | %s |"
+                 % (format(int(round(p["capital_cny"])), ","),
+                    p["max_abs_weight_drift_pp"], p["legs_with_zero_lots"],
+                    format(int(round(p["cash_vs_target_cny"])), ",")))
+    th = curve["thresholds"]
+    a1 = th["1.00pp"]["min_capital_cny"]
+    a5 = th["0.50pp"]["min_capital_cny"]
+    L += ["",
+          "- 单腿偏离 ≤1.00pp 需要资金 ≥ %s；≤0.50pp 需要 ≥ %s。"
+          % (format(int(a1), ",") if a1 else "本表内不可达",
+             format(int(a5), ",") if a5 else "本表内不可达"),
+          "- 至少一腿连一手都买不起的下限 = %s 元（最贵一手 ÷ 最小权重）；这条线以下"
+          "「按卡片权重执行」不成立，只能降标的数或换更便宜的腿。"
+          % (format(int(curve["one_lot_floor_cny"]), ",")
+             if curve.get("one_lot_floor_cny") else "未知"),
+          "- 偏离随资金单调不增：%s（取整代价是小资金的税，不是策略的缺陷）。"
+          % ("是" if curve["monotone_non_increasing"] else "**否，见上表**"),
+          "- 缺口的绝对额不随资金变小：每腿最多剩一手，合计上限 %s 元，本表实测最大 %s 元——"
+          "所以这条曲线在现金列是锯齿的（谁离整手更远谁更亏），只有占 NAV 的百分比随资金下降；"
+          "换句话说「多留几百块现金」是固定小额开销，与资金规模无关。"
+          % (format(int(round(curve["shortfall_bound_cny"])), ",")
+             if curve.get("shortfall_bound_cny") else "未知",
+             format(int(round(curve.get("max_observed_shortfall_cny") or 0.0)), ","))]
+    return L
+
+
 def run_card(nav=None):
     tk = card_config_ticket(nav=nav)
     if not tk:
@@ -897,7 +1032,13 @@ def run_card(nav=None):
                        "cash leg is GC001 single tenor, rolls at zero fee"]}
     _write("TICKET-%s-card.json" % asof, doc)
     wd = width_disclosure()
-    md = card_config_card(tk, wd)
+    curve = lot_curve(tk["order"], scale=tk["scale"])
+    curve["asof_bar"] = asof
+    curve["scale_of_capital_cny"] = tk["nav"]
+    _write("LOTCURVE-%s-card.json" % asof, curve)
+    md = "\n".join([card_config_card(tk, wd).rstrip(),
+                    "\n".join(lot_curve_md(curve, tk["nav"])).rstrip(),
+                    ""])
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof), "w", encoding="utf-8") as f:
         f.write(md)
@@ -909,6 +1050,12 @@ def run_card(nav=None):
           % (_verdict(rc["same_names_as_card"]), _verdict(rc["same_names_as_ledger"]),
              _verdict(rc["same_scale_as_ledger"]), _verdict(rc["same_config_as_ledger"])))
     print("card lot recount mismatches: %d" % len(tk["reprice_mismatch"]))
+    own = [p for p in curve["points"] if abs(p["capital_cny"] - tk["nav"]) < 1.0]
+    if own:
+        print("lot curve at this capital: drift %.2f%% max | %d legs below one lot | "
+              "cash vs card row +%s" % (own[0]["max_abs_weight_drift_pp"],
+                                        own[0]["legs_with_zero_lots"],
+                                        format(int(round(own[0]["cash_vs_target_cny"])), ",")))
     print("wrote", os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof))
     return 0
 
@@ -1328,6 +1475,52 @@ def selftest():
             "chars=%d" % len(md_card))
     finally:
         shutil.rmtree(cdt, ignore_errors=True)
+
+    # ---- lot granularity (r1334): the card's cash row is a target, the desk gets
+    # floor'ed lots, so the shortfall has to be published as a curve over capital.
+    fx = [{"symbol": "AAA", "weight": 0.0584, "ref_price": 2.194},
+          {"symbol": "BBB", "weight": 0.0584, "ref_price": 11.8419},
+          {"symbol": "CCC", "weight": 0.0584, "ref_price": 1.095},
+          {"symbol": "DDD", "weight": 0.0584, "ref_price": 3.407}]
+    lp1 = lot_point(fx, 1_000_000.0, scale=0.2336)
+    chk("leg32 the lot point reports cash vs the card's target and the worst mis-sized leg",
+        lp1["cash_vs_target_cny"] > 0.0 and lp1["max_abs_weight_drift_pp"] > 0.0
+        and lp1["target_book_cny"] == 233600.0,
+        "cash_vs_target=%s drift=%.3f" % (lp1["cash_vs_target_cny"],
+                                          lp1["max_abs_weight_drift_pp"]))
+    lc = lot_curve(fx, scale=0.2336)
+    chk("leg33 granularity cost falls monotonically as the book grows",
+        lc["monotone_non_increasing"] is True
+        and lc["points"][-1]["max_abs_weight_drift_pp"]
+        < lc["points"][0]["max_abs_weight_drift_pp"],
+        "first=%.3f last=%.3f" % (lc["points"][0]["max_abs_weight_drift_pp"],
+                                  lc["points"][-1]["max_abs_weight_drift_pp"]))
+    px_lot = max(l["ref_price"] * LOT for l in fx)
+    chk("leg34 every leg is off by less than one lot (drift bound = px*lot / capital)",
+        all(p["max_abs_weight_drift_pp"] <= 100.0 * px_lot / p["capital_cny"] + 1e-6
+            for p in lc["points"]),
+        "bound at 50k=%.2f" % (100.0 * px_lot / 50_000.0))
+    cheap = [{"symbol": "E%02d" % i, "weight": 0.05, "ref_price": 1.0}
+             for i in range(19)] + [{"symbol": "PRICEY", "weight": 0.05,
+                                     "ref_price": 1000.0}]
+    lc2 = lot_curve(cheap, scale=1.0)
+    chk("leg35 below the one-lot floor the book cannot even be bought (legs_with_zero_lots)",
+        lc2["one_lot_floor_cny"] == 100_000.0 / 0.05
+        and lc2["points"][0]["legs_with_zero_lots"] >= 1
+        and lc2["points"][-1]["legs_with_zero_lots"] == 0,
+        "floor=%s zero@50k=%d zero@20M=%d" % (lc2["one_lot_floor_cny"],
+                                              lc2["points"][0]["legs_with_zero_lots"],
+                                              lc2["points"][-1]["legs_with_zero_lots"]))
+    md_lc = "\n".join(lot_curve_md(lc, 1_000_000.0))
+    chk("leg36 the operator's page carries the capital table and both thresholds",
+        "| 资金 |" in md_lc and "≤1.00pp" in md_lc and "单调不增" in md_lc,
+        "chars=%d" % len(md_lc))
+    chk("leg37 the yuan shortfall is bounded by one lot per leg and does NOT shrink",
+        lc["max_observed_shortfall_cny"] <= lc["shortfall_bound_cny"] + 1e-6
+        and abs(lc["points"][0]["cash_vs_target_cny"]
+                - lc["points"][-1]["cash_vs_target_cny"])
+            < lc["shortfall_bound_cny"],
+        "bound=%s max=%s" % (lc["shortfall_bound_cny"], lc["max_observed_shortfall_cny"]))
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

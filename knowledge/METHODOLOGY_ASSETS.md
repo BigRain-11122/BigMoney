@@ -2987,3 +2987,33 @@ results/etf_book_order/ORDER-2026-10-28-card.md +
 results/etf_book_order/TICKET-2026-10-28-card.json +
 research/digests/DIGEST-20261029-e201-card-config-ticket.md.
 
+
+## E203 Lots round DOWN, so the shortfall is a fixed yuan cost, not a percentage one (2026-10-29 r1334 bm-c; E202's 0.13% NAV gap turned into a curve)
+
+WHEN: an executable ticket floors buys to whole lots and publishes one capital, so the
+only number on the page is "today the desk spends 0.13% NAV less than the card's target".
+
+WRONG: publish that as a percentage and let the reader infer it scales. It does not. Each
+leg can leave at most one lot unspent, so the shortfall is bounded by the sum of one lot
+across the book -- 1,853.79 CNY here, measured max 1,498.96 -- i.e. essentially FIXED in
+yuan and falling only as a share of NAV (2.56% at 50k, 0.005% at 20M). Two columns of the
+same curve then disagree about direction and both are right: max leg weight drift is
+monotone in capital (1.103pp at 50k -> 0.002pp at 20M) while the cash column is a
+sawtooth (1,282 -> 1,710 -> 1,607 -> 1,870 -> 1,640 -> 2,203 -> 1,280), because it reads
+a residue per leg, not a scale effect.
+
+RIGHT: publish the capital ladder, both readings, and the thresholds derived from it
+rather than asserted: drift <=1.00pp needs >=200k, <=0.50pp needs >=300k, one-lot floor
+(most expensive lot / smallest weight) = 20,277 CNY. The floor is the only line where
+"the ticket is not the book"; everything above it is mis-sizing, which is a different
+complaint.
+
+GOTCHA: a floor'ed book can be cheap and mis-sized at the same time, so a single
+"underspend" number hides the worse failure. And the bound is the sentence that makes the
+curve usable: without it the reader reads a jagged column as noise instead of as a
+constant.
+
+Pos: scripts/etf_book_order.py (selftest 33->39, lot_point/lot_curve/lot_curve_md) +
+results/etf_book_order/LOTCURVE-2026-10-28-card.json +
+results/etf_book_order/ORDER-2026-10-28-card.md +
+research/digests/DIGEST-20261029-e203-lot-granularity-curve.md.
