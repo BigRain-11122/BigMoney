@@ -4,6 +4,7 @@
  "current": "r1237: the pages the CEO reads are 99.6% traceable to a face cell (534 numbers, 5 pages); the 5 'count wearing a unit' hits were all value coincidence, not defects -- and 373 measurement-named counts prove themselves by sibling length, of which the word test owns 299",
  "current_task": "pool: E209 sibling-length count proof + E210 counts on the CEO page (both ready, supply floor 3 breached at 2) -> main re-land backlog (deferred, 17 behind / 20 ahead)",
  "cyc_round": 1236,
+ "d19_note": "r1235: decisions 93fa41e1 unchanged and orders 122ab707 unchanged -> zero new rows; orders_ack 114 files / 115 acked / 0 unacked",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -109,6 +110,7 @@
  "local_not_on_origin": 1,
  "local_not_on_origin_commits": 11,
  "machine_id": "bm-b",
+ "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
  "next": "E60-E64 off-book/mid-sweep legs (waiting) or next authored card",
  "next_milestone": "close the E60/E61/E64 mid-month legs (off-book liquidity terciles, shared-subset book, mid-sweep burn-in face), window <=48h (deadline 2026-10-31 06:05)",
@@ -1231,39 +1233,12 @@
   "smoke": "123/123 PASS at open",
   "telemetry": "D-20261029-03 correction item 4 verified on this machine: FluxGroup-NatsHB Running S4U (last run 01:37 rc=0), FluxGroup-FleetLink Running S4U, HQ-ProductionClaim Ready S4U"
  },
- "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
- "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
- "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1237,
- "round_no": 1237,
- "round_no_label": "r1237",
- "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T06:05:00+08:00",
- "round_no_ts_note": "r1214 closeout",
- "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
- "sat_engine": {
-  "checked_at": "2026-10-28T10:09:23+08:00",
-  "status": "alive"
- },
- "seq": 22,
- "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
- "status": "green",
- "sync": {
-  "behind_origin_main": 16,
-  "local_not_on_origin_main": 17,
-  "status": "pending_push_this_round",
-  "ts": "2026-10-29T04:42:26+08:00"
- },
- "task": "r1237: E210 CEO-page quote audit + E209 count witness (both done) -> pool ready 0",
- "task_short": "E210 + E209",
- "task_short_note": "e97 new modes docquotes/countwitness; selftest 113 -> 123; docquotes wired into S6 after the page legs",
- "ts": "2026-10-29T06:05:00+08:00",
- "updated": "2026-10-29T06:05:00+08:00",
- "updated_at": "2026-10-29T06:05:00+08:00",
- "verdict": "watermark RED at open (2 ready pool cards, py 6.2%) -> both cards authored and burned in-window: E210 CEO-page quote audit (534 numbers over 5 page families, 99.6% traceable, 2 unsourced, 5 count-wearing-unit candidates all triaged as value coincidence) and E209 count witness (4,702 self-proving counts, word test caught 299 of the 373 measurement-named, 74 blind) | pool ready 2 -> 0 | e97 selftest 113->123 | smoke 125/125 | S6 22/22 rc0 | dualrun ZERO-DRIFT streak 18 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions unchanged 0 unacked",
  "r1232": {
-  "mission": "watermark GREEN at open (red=false, lane healthy, py 1.7%) but pool ready = 0 of 681 entries: board clear + smoke green -> the round owed a new card, so E204 was authored and burned in the same window",
+  "astock_two_clock_fix": "smoke went red after this round's S6 chain: results/astock_daily_update_status.json carried cutoff 2026-10-27 beside coverage_90 2026-10-28 while the face declares cutoff_is = 'max tail across all per/*.csv'. Root cause: cutoff inherited from the running refresh cycle, coverage re-derived from bytes each gate cycle. Fixed in scripts/update_astock_daily.py (_panel_coverage_from_bytes -> cutoff_max; _panel_with_coverage publishes disk max as cutoff and the cycle date as cycle_cutoff), 5 selftest asserts, gate re-run green, smoke 123/123.",
   "finding": "14 of 14 decomposition delta faces are named only by the script that writes them (producer_only); zero have a reader outside their producer. E201's fourteen 'write this line' items are prose hygiene, not hazards. The methodological part is the first fire: it reported 5 traps (HIST, LADDERSIDECASH, TILT3LEGFAMILY, TILT3REACH, WIDESIDEGROSS) whose only external reader was scripts/e97_routing.py -- the auditor itself, whose LEVEL_OVERRIDES table and selftest fixtures spell the leaf names without consuming the numbers",
+  "mission": "watermark GREEN at open (red=false, lane healthy, py 1.7%) but pool ready = 0 of 681 entries: board clear + smoke green -> the round owed a new card, so E204 was authored and burned in the same window",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; bm-a/bm-c lane collectors honoured their guards; strategy_scorecard/daily_scorecard/build_status are host-guarded legs and ran inside the S6 chain",
+  "pit": "a source-tree name scan must first ask whether the scanner is inside its own candidate set: this module's classification table names every leaf it has ever classified, so it registered as the external consumer of 5 faces that nothing else reads. Cause fixed in-window (SIGNEXPOSE_SELF excluded, published as spec.self_excluded, pinned by leg L74). Sibling: quote-adjacency, not substring -- engine_ann_diff_bp lives inside engine_ann_diff_bp_raw",
   "product": [
    "results/e79/SIGNEXPOSURE-2026-10-27.json",
    "scripts/e97_routing.py: _signexpose_sources/_signexpose_leaf_hits/_signexpose_producer/_signexpose_face/signexposure_sweep/run_signexposure + CLI mode signexposure (selftest 70 -> 77, legs L68-L74)",
@@ -1271,19 +1246,17 @@
    "knowledge/METHODOLOGY_ASSETS.md card E204",
    "results/runnable_pool.json E204 done + E205 seeded (ready 1)"
   ],
-  "pit": "a source-tree name scan must first ask whether the scanner is inside its own candidate set: this module's classification table names every leaf it has ever classified, so it registered as the external consumer of 5 faces that nothing else reads. Cause fixed in-window (SIGNEXPOSE_SELF excluded, published as spec.self_excluded, pinned by leg L74). Sibling: quote-adjacency, not substring -- engine_ann_diff_bp lives inside engine_ann_diff_bp_raw",
   "s6": "21/21 rc=0 (115.0s): dualrun ZERO-DRIFT 681 entries streak 11 | compute_audit py 1.7% | watermark red=false lane=healthy | update_daily no-op cutoff 2026-10-28 | cal_audit in_sync expected 2026-10-28 | market_regime breadth 0.88>=65% | market_clock CALL-2026-10-28 ORANGE_COOL | update_astock_daily refresh lock alive no-op | update_etf_daily no-op panel covers 2026-10-28 | regime_thermo Money02 absent honest no-op | regime_gate_dualarm wrote DUALARM-2026-10-2x | rev_osc_export panel incomplete 90.1% honest no-op | minute_feed pre-09:15 gated | etf_book_forward power table | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | machine_health OK 3 machines 8/8 | gpu_face findings=[] | attrition CLEAN 4 ledgers | pool_audit 3.1s | token_meter 0 local-LLM legs today",
-  "s7": "loop pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions same (93fa41e1), orders DELTA 122ab707 consumed -> advanced | orders_ack 114/115, 0 unacked, 1 stale bm-c",
-  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; bm-a/bm-c lane collectors honoured their guards; strategy_scorecard/daily_scorecard/build_status are host-guarded legs and ran inside the S6 chain",
-  "astock_two_clock_fix": "smoke went red after this round's S6 chain: results/astock_daily_update_status.json carried cutoff 2026-10-27 beside coverage_90 2026-10-28 while the face declares cutoff_is = 'max tail across all per/*.csv'. Root cause: cutoff inherited from the running refresh cycle, coverage re-derived from bytes each gate cycle. Fixed in scripts/update_astock_daily.py (_panel_coverage_from_bytes -> cutoff_max; _panel_with_coverage publishes disk max as cutoff and the cycle date as cycle_cutoff), 5 selftest asserts, gate re-run green, smoke 123/123."
+  "s7": "loop pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions same (93fa41e1), orders DELTA 122ab707 consumed -> advanced | orders_ack 114/115, 0 unacked, 1 stale bm-c"
  },
- "snapshot": {},
  "r1234": {
-  "mission": "watermark RED at open (pool-batch-runnable-idle-low-cpu, py 1.7%, pool ready 1 = E205 card) -> the card was built as written and closed in-window",
-  "finding": "E205 asked for the PRODUCER half (a silent face may not grow a delta number) and r1233 shipped the READER half instead, leaving the card ready. The gate now records 319 delta names across 14 silent faces (list indices elided) and fails on a new name in a face that still needs its sign line; baseline seeded, first live run clean (0 grown / 0 shrunk / 0 born).",
   "blind_spot": "the gate is a token test, so the product publishes its own floor: 629 numeric leaves carry a unit/sign token but no delta token, 140 of them are arm pairs (one level quoted twice) and the 489 residue splits 208 anchored / 71 offset / 210 unclassified -> at least 71 numbers could be differences the gate cannot name (next card E207).",
-  "pit": "publishing that residue as {\"offset\": 71} put a COUNT under a key the family's level-quote audit classifies BY NAME: level_quotes() read it as a 71bp offset cell and smoke L37 (\"every quoting face has a producer\") went red. Restructured to a list of records -- and the same defect reappeared immediately as `of_which_arm_paired_levels`, where the token `level` alone fabricated one more anchored cell. Now `unit_names_in_arm_pairs`, pinned by leg L94.",
+  "finding": "E205 asked for the PRODUCER half (a silent face may not grow a delta number) and r1233 shipped the READER half instead, leaving the card ready. The gate now records 319 delta names across 14 silent faces (list indices elided) and fails on a new name in a face that still needs its sign line; baseline seeded, first live run clean (0 grown / 0 shrunk / 0 born).",
+  "mission": "watermark RED at open (pool-batch-runnable-idle-low-cpu, py 1.7%, pool ready 1 = E205 card) -> the card was built as written and closed in-window",
+  "not_run": "GPU untouched (parked C-20261014-01; nvidia-smi shows the interactive window's occupancy, not this chain); cloud untouched; bm-a/bm-c lane collectors honoured their guards",
   "orders_delta": "orders 122ab707 delta consumed (R2.47/R2.48 事件班): the only bm-b item was FleetLink 1.9.3 -> 1.9.5; the group worktree copy was stale while the index already held origin 1.9.5, so the file was restored from the index (no local work discarded) and the listener self-upgrades on the next supervisor fire.",
+  "orphan_face": 0,
+  "pit": "publishing that residue as {\"offset\": 71} put a COUNT under a key the family's level-quote audit classifies BY NAME: level_quotes() read it as a 71bp offset cell and smoke L37 (\"every quoting face has a producer\") went red. Restructured to a list of records -- and the same defect reappeared immediately as `of_which_arm_paired_levels`, where the token `level` alone fabricated one more anchored cell. Now `unit_names_in_arm_pairs`, pinned by leg L94.",
   "product": [
    "results/e79/SIGNLEAF-2026-10-27.json",
    "results/e79/SIGNLEAF-BASELINE.json",
@@ -1294,29 +1267,26 @@
   ],
   "s6": "21/21 rc=0 (168.7s): dualrun ZERO-DRIFT 685 entries streak 15 | compute_audit rc0 | cal_audit in_sync 2026-10-28 | market_regime breadth 0.88 | market_clock ORANGE_COOL | astock panel fresh no-op | etf_daily no-op | rev_osc SIG-2026-10-28 picks=10 | minute_feed pre-09:15 gated | etf_book_forward power table | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | machine_health OK 3 machines | gpu_face findings=[] | attrition CLEAN 4 ledgers | pool_audit | token_meter",
   "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions unchanged (93fa41e1), orders delta consumed | orders_ack 114/115, 0 unacked, 1 stale bm-c note",
-  "smoke": "124/124 PASS (after the restructure; L37 live leg green)",
   "selftest": "e97_routing 87 -> 97/97",
-  "orphan_face": 0,
-  "not_run": "GPU untouched (parked C-20261014-01; nvidia-smi shows the interactive window's occupancy, not this chain); cloud untouched; bm-a/bm-c lane collectors honoured their guards"
+  "smoke": "124/124 PASS (after the restructure; L37 live leg green)"
  },
- "d19_note": "r1235: decisions 93fa41e1 unchanged and orders 122ab707 unchanged -> zero new rows; orders_ack 114 files / 115 acked / 0 unacked",
- "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "r1235_face": {
-  "product": "results/e79/QUOTECOUNT-2026-10-28.json",
-  "code": "scripts/e97_routing.py mode quotecount (selftest 97 -> 107)",
+  "attrition": "CLEAN 4 ledgers",
   "card": "knowledge/METHODOLOGY_ASSETS.md E207",
+  "code": "scripts/e97_routing.py mode quotecount (selftest 97 -> 107)",
   "digest": "research/digests/DIGEST-20261029-e207-count-as-quote.md",
+  "dualrun": "ZERO-DRIFT 685 entries streak 16",
   "pool": "E207 done + result_ref; E208/E209/E210 seeded ready",
+  "product": "results/e79/QUOTECOUNT-2026-10-28.json",
   "s6": "40 legs: 38 rc=0 + 2 CLI-drift (machine_health_face/gpu_face called without their subcommand); re-run as write/apply -> machine-health OK 8/8 fields, gpu face 2% / 3982 MiB",
   "smoke": "124/124 PASS",
-  "attrition": "CLEAN 4 ledgers",
-  "dualrun": "ZERO-DRIFT 685 entries streak 16",
   "watermark_red": "none at open (py_low_board_clear, pool ready 1) -> burned the ready head"
  },
- "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "r1237": {
-  "mission": "watermark RED at open: pool-batch-runnable-idle-low-cpu with exactly two ready entries (E209, E210) and CPU at 6.2%. Both were dev cards (target scripts/e97_routing.py), which is why autofill cannot ignite them -- they need code, so the round wrote the code",
   "finding": "E210: 534 numbers on the 5 newest CEO pages, 471 sourced from the page's own JSON twin and 61 from a bounded 1,200-face corpus (99.6%), 2 unsourced (both counts whose producing face sits outside the bound), 5 count-wearing-unit candidates -- all five value coincidence (20% cap vs n_holdings=20; -86%~-14% range vs n_evidence_missing=14), 12 exact integers under a unit filed as ambiguity (cpu_pct 43.0% is a real reading). E209: 373 measurement-named counts prove themselves by sibling length; the word test already owned 299 (80.2%) and 74 were invisible to it",
+  "mission": "watermark RED at open: pool-batch-runnable-idle-low-cpu with exactly two ready entries (E209, E210) and CPU at 6.2%. Both were dev cards (target scripts/e97_routing.py), which is why autofill cannot ignite them -- they need code, so the round wrote the code",
+  "not_run": "GPU untouched (parked, C-20261014-01); cloud untouched; no cleanup/quarantine actions this round (treasure_guard not exercised, nothing deleted); bm-a/bm-c lane collectors honoured their guards",
+  "pit": "three pits, all caught in-window: (1) integrality is not evidence -- the first defect rule flagged cpu_pct 43.0% and py_series_tail 100.0%, both real readings, so a defect now needs a count WORD in the cell name plus a unit on the page; (2) the tokeniser is where such an audit fabricates its own quotes -- code spans, dates, clock times, versions, bare security codes, comma groups that are not thousands (T-{74,75,77}) and the sign sitting before the currency symbol in '-Y60,100'; (3) self-inclusion hit E209 on its first publish: run one 4,702 witnessed, run two 5,406, because the face it had just written was scanned as input and its on-disk study name still carried the old id so the exclusion list did not match",
   "product": [
    "results/e79/DOCQUOTES-2026-10-29.json",
    "results/e79/COUNTWITNESS-2026-10-28.json",
@@ -1327,9 +1297,63 @@
    "knowledge/METHODOLOGY_ASSETS.md cards E209 + E210",
    "results/runnable_pool.json E209 + E210 done with result_ref (ready 2 -> 0)"
   ],
-  "pit": "three pits, all caught in-window: (1) integrality is not evidence -- the first defect rule flagged cpu_pct 43.0% and py_series_tail 100.0%, both real readings, so a defect now needs a count WORD in the cell name plus a unit on the page; (2) the tokeniser is where such an audit fabricates its own quotes -- code spans, dates, clock times, versions, bare security codes, comma groups that are not thousands (T-{74,75,77}) and the sign sitting before the currency symbol in '-Y60,100'; (3) self-inclusion hit E209 on its first publish: run one 4,702 witnessed, run two 5,406, because the face it had just written was scanned as input and its on-disk study name still carried the old id so the exclusion list did not match",
   "s6": "22/22 rc=0 (151.6s): dualrun ZERO-DRIFT 688 entries streak 18 | compute_audit py 0.1% | cal_audit in_sync expected 2026-10-28 (1723/1725 symbols) | market_regime breadth 0.88 | market_clock CALL-2026-10-28 ORANGE_COOL | astock + etf daily panels fresh, zero network | regime_thermo Money02 absent honest no-op | regime_gate_dualarm wrote DUALARM | rev_osc SIG/BARS no-op at 2026-10-28 | minute_feed pre-09:15 gated | etf_book_forward power table | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | docquotes 534 numbers | machine_health OK 3 machines 8/8 | gpu_face findings=[] | attrition CLEAN 4 ledgers | pool_audit 3.2s | token_meter 0 local-LLM legs today",
-  "s7": "loop pin=2 no-op | LoopWatchdog in place | pre-commit/pre-push claws checked | D-19 decisions 93fa41e1 unchanged, orders 115 acked / 0 unacked -> zero new rows | watermark face regenerated: red=false, pool ready 0",
-  "not_run": "GPU untouched (parked, C-20261014-01); cloud untouched; no cleanup/quarantine actions this round (treasure_guard not exercised, nothing deleted); bm-a/bm-c lane collectors honoured their guards"
- }
+  "s7": "loop pin=2 no-op | LoopWatchdog in place | pre-commit/pre-push claws checked | D-19 decisions 93fa41e1 unchanged, orders 115 acked / 0 unacked -> zero new rows | watermark face regenerated: red=false, pool ready 0"
+ },
+ "r1238": {
+  "finding": "E210 measured the CEO pages once. r1266 already settled that a verdict living only in a receipt is not a gate, so the same sweep now re-runs every round and refuses GROWTH. The 2 untraceable numbers are unchanged (both counts whose producer sits outside the 1,200-face bound), so the gate is green on its first live run.",
+  "mission": "watermark green at open, pool ready 0, smoke green: the standing agenda owed a new card, so E211 shipped in-window",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; S8 local-ignite not applicable (green_idle=false, vram_free 3.74G)",
+  "product": [
+   "results/e79/PAGEGATE-2026-10-29.json",
+   "results/e79/DOCQUOTES-BASELINE.json",
+   "scripts/e97_routing.py: _pg_family/_pg_template/_pg_key/_pg_signatures/_pg_ratchet/_pg_baseline_from/page_gate/run_pagegate + CLI mode pagegate (selftest 123 -> 128, legs L121-L125)",
+   "Tools/s6_chain_bmb.py: pagegate wired immediately after docquotes",
+   "smoke_test.py: leg asserting the gate runs after the sweep and owns a baseline",
+   "research/digests/DIGEST-20261029-e211-page-gate.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E211",
+   "results/runnable_pool.json E211 done with result_ref (ready stays 0)"
+  ],
+  "rules": [
+   "shrink is reported and permitted (a gate that shames a fix gets switched off)",
+   "the baseline stores corpus_bound because a face rotating out of the newest-1,200 window can un-source a number without any page changing",
+   "a missing baseline reports baseline_seeded, never a silent pass"
+  ],
+  "s6": "23/23 rc0 (pagegate added; docquotes 18.4s, etf_book_forward 47.4s, attrition 38.0s): dualrun ZERO-DRIFT 688 entries streak 19 | compute_audit py 0-5% | cal_audit in_sync expected 2026-10-28 | market_regime breadth 0.88 | market_clock CALL-2026-10-28 ORANGE_COOL | astock+etf daily panels fresh zero network | regime_thermo Money02 absent honest no-op | regime_gate_dualarm wrote DUALARM | rev_osc SIG/BARS no-op | minute_feed pre-09:15 gated | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | docquotes 534 numbers | machine_health OK 3 machines 8/8 | gpu_face findings=[] | attrition CLEAN | pool_audit | token_meter",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions eee7cbf0 consumed and advanced (read-back full-string equality, mirrors synced 8), orders 122ab707 unchanged, 114 files / 115 acks / 0 unacked | sat engine status rc0 idle",
+  "self_inclusion": "both new faces excluded from the trace corpus by study name (DOCQUOTE_EXCLUDE_STUDIES +e211_page_quote_gate, skipped_study 10 -> 12): the E209 first-publish defect (4,702 -> 5,406) closed before it could fire",
+  "signature": "family (page path with digits masked) | unit context | snippet with every digit masked -> REPORT-2026-10-29.md and REPORT-2026-10-30.md are one family, -701 and -702 in one sentence are one signature. A value-keyed ratchet would go red every morning and be disabled within a week."
+ },
+ "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
+ "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
+ "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
+ "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
+ "round": 1238,
+ "round_no": 1238,
+ "round_no_label": "r1238",
+ "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
+ "round_no_ts": "2026-10-29T06:33:00+08:00",
+ "round_no_ts_note": "r1214 closeout",
+ "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
+ "sat_engine": {
+  "checked_at": "2026-10-28T10:09:23+08:00",
+  "status": "alive"
+ },
+ "seq": 22,
+ "snapshot": {},
+ "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+ "status": "green",
+ "sync": {
+  "behind_origin_main": 16,
+  "local_not_on_origin_main": 17,
+  "status": "pending_push_this_round",
+  "ts": "2026-10-29T04:42:26+08:00"
+ },
+ "task": "r1238: E211 page gate + baseline (done) -> pool ready 0",
+ "task_short": "E211",
+ "task_short_note": "e97 new modes docquotes/countwitness; selftest 113 -> 123; docquotes wired into S6 after the page legs",
+ "ts": "2026-10-29T06:33:00+08:00",
+ "updated": "2026-10-29T06:33:00+08:00",
+ "updated_at": "2026-10-29T06:33:00+08:00",
+ "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-6%) -> board clear + smoke green, so the round owed a card: E211 turned the E210 CEO-page trace sweep into a ratchet (signature masks every digit, so value churn is invisible and only a sentence that STARTS quoting an unproduced number goes red) | live: pages=5 numbers=534 unsourced=2 signatures=2 grown=0 shrunk=0 rc=0 | baseline seeded with corpus_bound 1200 | e97 selftest 123->128 | smoke 126/126 | S6 23/23 rc0 | dualrun ZERO-DRIFT streak 19 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions eee7cbf0 consumed (D-03 item4 telemetry S4U verified live), orders 0 unacked"
 }

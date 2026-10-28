@@ -3554,7 +3554,8 @@ DOCQUOTE_SIZE_CAP = 512 * 1024
 # this corpus", never "this number does not exist".
 DOCQUOTE_TRACE_FACES = 1200
 DOCQUOTE_TRACE_SIZE_CAP = 1536 * 1024
-DOCQUOTE_EXCLUDE_STUDIES = QUOTECOUNT_EXCLUDE_STUDIES + ("e210_doc_quote_audit",)
+DOCQUOTE_EXCLUDE_STUDIES = QUOTECOUNT_EXCLUDE_STUDIES + ("e210_doc_quote_audit",
+                                                        "e211_page_quote_gate")
 DOCQUOTE_ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 DOCQUOTE_TIME = re.compile(r"\b\d{1,2}:\d{2}(?::\d{2})?\b")
 DOCQUOTE_VERSION = re.compile(r"\bv\d+(?:\.\d+)+", re.I)
@@ -4025,7 +4026,7 @@ def _dq_dates_from(rels, twins):
     return max(dates) if dates else None
 
 
-def doc_quote_sweep(base=None):
+def doc_quote_sweep(base=None, sample=DOCQUOTE_SAMPLE):
     """E210: can every number on the pages the CEO reads be traced to a face cell,
     and is that cell a reading or a count wearing a unit?"""
     root = base or ROOT
@@ -4093,7 +4094,7 @@ def doc_quote_sweep(base=None):
                     "leaf": hits[0]["leaf"] if hits else None}
             if not hits:
                 counts["unsourced"] += 1
-                if len(row["unsourced"]) < DOCQUOTE_SAMPLE:
+                if len(row["unsourced"]) < sample:
                     row["unsourced"].append(item)
             else:
                 counts["sourced_" + tier] += 1
@@ -4106,7 +4107,7 @@ def doc_quote_sweep(base=None):
                         _dq_is_count_bucket(h["bucket"]) for h in hits):
                     if any(h["bucket"] == "count_word" for h in hits):
                         counts["count_as_reading"] += 1
-                        if len(row["count_as_reading"]) < DOCQUOTE_SAMPLE:
+                        if len(row["count_as_reading"]) < sample:
                             row["count_as_reading"].append(item)
                     else:
                         counts["integral_under_a_unit"] += 1
@@ -4339,6 +4340,159 @@ def run_countwitness(publish=False, base=None):
                   % (cell["leaf"], cell["value"], ",".join(cell["witnesses"])))
     print("  verdict:", face["answers"]["verdict"])
     return 0
+
+
+# --- E211 page gate: the CEO-page audit becomes a ratchet ---------------------------
+# E210 measured once. A measurement that only ever runs when someone remembers is not a
+# guard (the r1266 lesson: a verdict that lives only in a receipt is not a gate). This
+# leg re-runs the same sweep every round and refuses GROWTH: a sentence family that
+# starts printing a number no face in the bound produces is an error the round has to
+# answer for, while a value that merely changed on the same sentence is not growth --
+# the signature masks every digit, so daily page churn is invisible to it.
+PAGEGATE_OUT_DIR = "results/e79"
+PAGEGATE_BASELINE = "results/e79/DOCQUOTES-BASELINE.json"
+PAGEGATE_SAMPLE = 5000
+
+
+def _pg_family(rel):
+    """A page family is its path with every digit masked: REPORT-2026-10-29 == REPORT-X."""
+    return re.sub(r"\d+", "#", rel or "")
+
+
+def _pg_template(snippet):
+    """Mask the digits a page prints, keep the sentence that carries them."""
+    text = DOCQUOTE_NUMBER.sub("#", snippet or "")
+    return re.sub(r"\s+", " ", text).strip()[:72]
+
+
+def _pg_key(rel, item):
+    return "%s|%s|%s" % (_pg_family(rel), item.get("context"), _pg_template(item.get("snippet")))
+
+
+def _pg_signatures(face):
+    out = {}
+    for row in face.get("rows") or []:
+        for item in row.get("unsourced") or []:
+            key = _pg_key(row.get("page"), item)
+            out[key] = out.get(key, 0) + 1
+    return out
+
+
+def _pg_ratchet(current, baseline):
+    prev = (baseline or {}).get("signatures") or {}
+    grown, shrunk = {}, {}
+    for key, count in current.items():
+        before = prev.get(key, 0)
+        if count > before:
+            grown[key] = {"now": count, "before": before}
+    for key, count in prev.items():
+        now = current.get(key, 0)
+        if count > now:
+            shrunk[key] = {"now": now, "before": count}
+    return grown, shrunk
+
+
+def _pg_baseline_from(signatures, cutoff, corpus):
+    return {
+        "study": "e211_page_quote_gate",
+        "seeded_at": cutoff,
+        "note": ("declared untraceable numbers: a signature that grows means a page the "
+                 "CEO reads prints a number no face in the bound produces"),
+        "signature_rule": ("family (page path with digits masked) | unit context | "
+                           "snippet with every digit masked"),
+        "corpus_bound": (corpus or {}).get("bound"),
+        "unsourced_total": sum(signatures.values()),
+        "signatures": signatures,
+    }
+
+
+def page_gate(base=None, baseline=None, current=None):
+    """E211: no page the CEO reads may start printing a number with no producer."""
+    cur = current if current is not None else doc_quote_sweep(base=base,
+                                                              sample=PAGEGATE_SAMPLE)
+    signatures = _pg_signatures(cur)
+    if baseline is None:
+        grown, shrunk = {}, {}
+    else:
+        grown, shrunk = _pg_ratchet(signatures, baseline)
+    t = cur.get("totals") or {}
+    violations = [{"signature": key, "family": key.split("|")[0],
+                   "now": value["now"], "before": value["before"]}
+                  for key, value in sorted(grown.items())]
+    return {
+        "study": "e211_page_quote_gate",
+        "evidence_cutoff": cur.get("evidence_cutoff"),
+        "status": "ok",
+        "corpus": cur.get("corpus"),
+        "totals": {"pages": t.get("pages"), "numbers": t.get("numbers"),
+                   "unsourced": t.get("unsourced"),
+                   "untraceable_signatures": len(signatures),
+                   "grown": len(grown), "shrunk": len(shrunk)},
+        "violations": violations,
+        "shrunk": [{"signature": key, "now": value["now"], "before": value["before"]}
+                   for key, value in sorted(shrunk.items())],
+        "signatures": sorted(signatures),
+        "answers": {
+            "verdict": ("%d_of_%d_numbers_on_the_pages_the_ceo_reads_have_no_producer_"
+                        "and_%d_new_ones_appeared"
+                        % (t.get("unsourced") or 0, t.get("numbers") or 0, len(grown))),
+        },
+        "caveats": [
+            "the signature masks every digit, so a value that changes on the same "
+            "sentence is not growth -- only a sentence family that starts quoting a "
+            "number nothing produces is refused",
+            "the trace corpus is bounded to the newest %d results faces: a number that "
+            "drops out of the bound can report as untraceable without any page changing, "
+            "so the baseline carries corpus_bound and a grown row names the family to "
+            "read before widening the bound"
+            % DOCQUOTE_TRACE_FACES,
+            "a shrinking set is reported and permitted -- pages lose numbers as often "
+            "as they gain them, and a gate that shames a fix is a gate people disable",
+            "this leg inherits every caveat of the sweep it wraps: rounded quotes, "
+            "aggregates the page sums itself, and value coincidence on small integers",
+        ],
+        "law_ref": ("E210 doc_quote_audit + the E206 ratchet pattern (a measurement that "
+                    "lives only in a receipt is not a gate)"),
+    }
+
+
+def run_pagegate(publish=False, seed=False, base=None):
+    cur = doc_quote_sweep(base=base, sample=PAGEGATE_SAMPLE)
+    path = _abs(PAGEGATE_BASELINE)
+    baseline = None
+    if not seed and os.path.exists(path):
+        try:
+            with io.open(path, encoding="utf-8") as fh:
+                baseline = json.load(fh)
+        except Exception:
+            baseline = None
+    gate = page_gate(base=base, baseline=baseline, current=cur)
+    if baseline is None:
+        gate["status"] = "baseline_seeded"
+        gate["answers"]["verdict"] = "baseline_seeded_from_the_current_untraceable_set"
+        if publish:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with io.open(path, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(json.dumps(_pg_baseline_from(_pg_signatures(cur),
+                                                      gate.get("evidence_cutoff"),
+                                                      cur.get("corpus")),
+                                    ensure_ascii=False, indent=1) + "\n")
+            print("wrote", os.path.relpath(path, ROOT).replace("\\", "/"))
+    if publish:
+        out = os.path.join(_abs(PAGEGATE_OUT_DIR),
+                           "PAGEGATE-%s.json" % (gate.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(gate, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    t = gate["totals"]
+    print("pages=%d numbers=%d unsourced=%d signatures=%d grown=%d shrunk=%d"
+          % (t["pages"] or 0, t["numbers"] or 0, t["unsourced"] or 0,
+             t["untraceable_signatures"], t["grown"], t["shrunk"]))
+    for row in gate["violations"][:5]:
+        print("  GROWN %s now=%d before=%d" % (row["family"], row["now"], row["before"]))
+    print("  verdict:", gate["answers"]["verdict"])
+    return 3 if gate["violations"] else 0
 
 
 def run_signexposure(publish=False, base=None):
@@ -5663,6 +5817,49 @@ def selftest():
         and _cw["evidence_cutoff"] == "2026-10-29"
         and _cw["answers"]["word_test_precision"] == 0.5)
 
+    # ---- E211: the page audit as a ratchet (value churn is not growth)
+    def _pg_face(day, items):
+        return {"evidence_cutoff": day,
+                "corpus": {"bound": DOCQUOTE_TRACE_FACES},
+                "totals": {"pages": 1, "numbers": 6, "unsourced": len(items)},
+                "rows": [{"page": "docs/daily_report/REPORT-%s.md" % day,
+                          "unsourced": items}]}
+    _pg_a = _pg_face("2026-10-29", [{"token": "123.45", "context": "bp", "line": 9,
+                                     "snippet": "**-701 份** 未溯源"}])
+    _pg_b = _pg_face("2026-10-30", [{"token": "123.46", "context": "bp", "line": 9,
+                                     "snippet": "**-702 份** 未溯源"}])
+    _pg_c = _pg_face("2026-10-30", [{"token": "123.46", "context": "bp", "line": 9,
+                                     "snippet": "**-702 份** 未溯源"},
+                                    {"token": "77.7", "context": "pct", "line": 4,
+                                     "snippet": "另一句话 77.7%"}])
+    _pg_base = _pg_baseline_from(_pg_signatures(_pg_a), "2026-10-29", _pg_a["corpus"])
+    _pg_next = page_gate(current=_pg_b, baseline=_pg_base)
+    chk("L121 a page signature masks every digit, so tomorrow's page carries the same "
+        "signature as today's",
+        _pg_signatures(_pg_a) == _pg_signatures(_pg_b)
+        and list(_pg_signatures(_pg_a))[0].startswith(
+            "docs/daily_report/REPORT-#-#-#.md|bp|"))
+    chk("L122 a value that changes on the same sentence is not growth, and the gate is "
+        "clean",
+        _pg_next["violations"] == [] and _pg_next["totals"]["grown"] == 0
+        and _pg_next["status"] == "ok")
+    _pg_grown = page_gate(current=_pg_c, baseline=_pg_base)
+    chk("L123 a sentence family that starts printing a new untraceable number is a "
+        "violation and names the page family",
+        len(_pg_grown["violations"]) == 1
+        and _pg_grown["violations"][0]["family"] == "docs/daily_report/REPORT-#-#-#.md"
+        and _pg_grown["violations"][0]["before"] == 0)
+    _pg_shrunk = page_gate(current=_pg_a, baseline=_pg_baseline_from(
+        _pg_signatures(_pg_c), "2026-10-30", _pg_c["corpus"]))
+    chk("L124 a shrinking set is reported and permitted, never a violation",
+        _pg_shrunk["violations"] == [] and _pg_shrunk["totals"]["shrunk"] == 1)
+    _pg_seed = page_gate(current=_pg_a, baseline=None)
+    chk("L125 with no baseline every signature is declared, not grown, and the baseline "
+        "carries the corpus bound it was seeded from",
+        _pg_seed["violations"] == [] and _pg_seed["totals"]["untraceable_signatures"] == 1
+        and _pg_base["corpus_bound"] == DOCQUOTE_TRACE_FACES
+        and _pg_base["unsourced_total"] == 1)
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -5705,6 +5902,8 @@ def main(argv):
         return run_docquotes(publish="--publish" in argv)
     if cmd == "countwitness":
         return run_countwitness(publish="--publish" in argv)
+    if cmd == "pagegate":
+        return run_pagegate(publish="--publish" in argv, seed="--seed" in argv)
     print(__doc__)
     return 2
 

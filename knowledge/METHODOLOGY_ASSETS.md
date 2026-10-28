@@ -2962,3 +2962,41 @@ measurement from a self-portrait.
 
 How to apply: when a classifier can only work on names, look for a value-level witness beside it and
 report both totals side by side -- the gap between them is the classifier's real coverage claim.
+
+## E211 A measurement that runs once is not a gate: ratchet the page audit on its signature, not on its numbers (2026-10-29 r1238 bm-b)
+
+Evidence: `results/e79/PAGEGATE-2026-10-29.json`, baseline `results/e79/DOCQUOTES-BASELINE.json`,
+mode `pagegate` (`scripts/e97_routing.py`, selftest 123 -> 128, legs L121-L125), wired into
+`Tools/s6_chain_bmb.py` right after `docquotes`, with a smoke leg that asserts that ordering and
+that a baseline exists.
+
+E210 answered "how many numbers on the CEO's pages cannot be sourced" once. r1266 already settled
+the general form of that problem: **a verdict that lives only in a receipt is not a gate**. So the
+same sweep now runs every round and refuses growth: seeded with 2 signatures, the live gate reads
+`2 of 534 numbers have no producer and 0 new ones appeared`.
+
+The design decision worth copying is the signature. It masks every digit:
+
+    family (page path with digits -> '#') | unit context | snippet with every digit -> '#'
+
+so `REPORT-2026-10-29.md` and `REPORT-2026-10-30.md` are the same family, and `-701 份` and
+`-702 份` in the same sentence are the same signature. Consequences:
+
+(a) **Daily churn is invisible, so the gate can run every round.** A page whose numbers change and a
+page whose numbers *appear* are different events; only the second is a defect. A ratchet keyed on
+values would go red every day and be disabled within a week.
+
+(b) **Shrinking is reported and permitted.** A gate that shames a fix is a gate people switch off.
+`shrunk` carries the disappearing signature with both counts, and the leg stays green.
+
+(c) **A gate must publish the bound it was seeded from.** `corpus_bound` goes into the baseline
+because the trace corpus is a newest-1,200-face window: a number can stop being traceable without any
+page changing, simply because its producing face rotated out of the bound. The grown row names the
+family to read before anyone widens the bound.
+
+Two wiring rules, both smoke-asserted: the gate runs *after* the sweep it ratchets (a gate in front of
+its own subject compares today's pages to yesterday's baseline and reports clean), and a missing
+baseline is a seeded state that says so -- never a silent pass.
+
+How to apply: to turn a one-off audit into a standing guard, ratchet a signature that is stable under
+legitimate churn (mask the values), publish the set you declared, and treat shrink as success.

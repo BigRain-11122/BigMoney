@@ -22884,6 +22884,21 @@
    "done_at": "2026-10-29T06:0x+08:00",
    "done_by": "bm-b r1237",
    "result_ref": "results/e79/DOCQUOTES-2026-10-29.json"
+  },
+  {
+   "id": "E211-AUDIT-AS-A-RATCHET",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/e79/PAGEGATE-<cutoff>.json + results/e79/DOCQUOTES-BASELINE.json",
+   "target": "scripts/e97_routing.py (new mode pagegate)",
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-29T06:27:49+08:00",
+   "entered_by": "bm-b r1238",
+   "source": "E210 measured the CEO pages once; a measurement that lives only in a receipt is not a gate (r1266). Nothing re-checked the pages on later rounds.",
+   "title": "Re-run the CEO-page trace sweep every round and refuse GROWTH: a sentence family (page path + unit + digit-masked snippet) that starts printing a number no face in the bound produces turns the leg red, while a value that merely changed on the same sentence is not growth.",
+   "done_at": "2026-10-29T06:27:49+08:00",
+   "done_by": "bm-b r1238",
+   "result_ref": "results/e79/PAGEGATE-2026-10-29.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22898,6 +22913,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-29T06:05:00+08:00",
+ "updated_at": "2026-10-29T06:27:49+08:00",
  "version": 1
 }

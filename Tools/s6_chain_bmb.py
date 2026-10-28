@@ -42,6 +42,9 @@ LEGS = [
     # E210: the pages above are the ones the CEO opens, so the leg that asks whether
     # their numbers can be traced to a face cell has to run after them, not before.
     ("docquotes", ["python", "scripts/e97_routing.py", "docquotes", "--publish"]),
+    # E211: the same sweep as a ratchet -- a page family that starts printing a number
+    # no face produces turns this leg red instead of waiting for the next audit.
+    ("pagegate", ["python", "scripts/e97_routing.py", "pagegate", "--publish"]),
     # fleet / bookkeeping guards
     ("machine_health", ["python", "Tools/machine_health_face.py", "check"]),
     ("gpu_face", ["python", "Tools/gpu_face.py", "audit"]),

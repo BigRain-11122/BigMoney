@@ -1263,6 +1263,28 @@ def main() -> int:
         check("product: the CEO-page quote audit runs after the pages it audits",
               False, str(e))
 
+    # E211: the audit becomes a ratchet. A gate wired in front of the sweep it ratchets
+    # would compare today's pages against yesterday's baseline and miss the new one, and
+    # a gate with no declared baseline quietly refills itself on every run.
+    try:
+        _pg_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _pg_path = os.path.join("results", "e79", "DOCQUOTES-BASELINE.json")
+        _pg_ok = (_pg_order.index("pagegate") > _pg_order.index("docquotes")
+                  and os.path.exists(_pg_path))
+        _pg_note = "pagegate=%d docquotes=%d baseline=%s" % (
+            _pg_order.index("pagegate"), _pg_order.index("docquotes"),
+            "present" if os.path.exists(_pg_path) else "MISSING")
+        if os.path.exists(_pg_path):
+            with open(_pg_path, encoding="utf-8") as _fh:
+                _pg_doc = json.load(_fh)
+            _pg_ok = _pg_ok and isinstance(_pg_doc.get("signatures"), dict)
+            _pg_note += " signatures=%d" % len(_pg_doc.get("signatures") or {})
+        check("product: the CEO-page quote gate runs after the sweep and owns a baseline",
+              _pg_ok, _pg_note)
+    except Exception as e:
+        check("product: the CEO-page quote gate runs after the sweep and owns a baseline",
+              False, str(e))
+
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
     # the older body went out through a GBK round trip (19 x U+E511), and the file
