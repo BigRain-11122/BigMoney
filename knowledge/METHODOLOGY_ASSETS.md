@@ -2038,3 +2038,33 @@ reproduces and the decomposition's levels are a diagnostic.
 How to apply: for any published difference of two held books, split the delta by book
 before naming a name, and derive "this side cannot move" from the repair report instead
 of publishing a bare zero beside a moved headline.
+
+## E177 A decomposition's level offset is NOT the compounding gap: compounding the difference moves it the wrong way (2026-10-28 r1211 bm-b)
+
+E175 measured the offset between the per-name decomposition's era level and the published
+level at up to 55.8bp and, on the strength of a code comment, called it "the compounding
+gap"; E176 reprinted the same number and left it explicitly unexplained. Measured three
+ways on both arms and every era, that sentence does not hold.
+
+The three readings per era: (a) the sum of the daily `w*r` terms the decomposition
+publishes, (b) those same daily terms compounded inside the month, (c) the published
+object, i.e. each book compounded on its own and the engine column taken as that
+difference (rebuilt from the daily walk it reproduces the published 1-decimal levels to
+0.0485bp, so the wiring is sound). At BOOK level (b) and (c) are the same computation --
+that identity is why the offset looks like compounding and why it survives a sanity
+check. At ENGINE level they are not: compounding a difference is not the difference of
+two compoundings, and what separates them is a cross term, not a rounding artefact.
+
+Measured: offset +28.41 / +30.51 / -1.19 / -49.49 / +6.11 bp on raw (identical on the two
+pre-2021 eras when screened, -2.10 / -52.45 / +5.28 elsewhere); compounding the difference
+(b)-(a) moves it by -20.10 / -4.54 / +2.19 / +14.03 / -3.37 bp -- the WRONG SIGN in every
+era, "explaining" between -70.7% and -184.0% of it. Residual (c)-(b) is 48.51 / 35.04 /
+-3.38 / -63.51 / +9.48 bp raw and up to -67.21bp screened: in all 10 arm-era cells the
+cross term remains, so no tolerance makes the decomposition quotable for levels.
+
+How to apply: a decomposition that reproduces the DELTA to a couple of bp is not thereby
+usable for the LEVEL. Publish (a),(b),(c) side by side and read the SIGN of (b)-(a): if
+compounding were the cause, step and offset would share a sign and the residual would
+vanish. Anchor every name-level leg on the published level and quote the offset as a
+tolerance, never as an explanation. Sibling habit: a book-level identity passing its
+sanity check proves nothing about the engine level, where the identity no longer holds.

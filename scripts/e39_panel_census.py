@@ -6770,6 +6770,237 @@ def run_tilt3booksplit(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E177
+TILT3DECOMOFFSET_RESIDUAL_BP = 1.0   # a residual under this is arithmetic noise
+TILT3DECOMOFFSET_CLOSED_PCT = 80.0   # (b) explains this much of the offset -> closed
+# the published arm face prints engine levels to one decimal, so a rebuild from
+# the daily walk can differ from it by up to half that quantum (0.05bp) before
+# anything is wrong -- this is the wiring tolerance, not a result tolerance
+TILT3DECOMOFFSET_PUB_QUANTUM_BP = 0.051
+TILT3DECOMOFFSET_BOOK_ROUND_BP = 0.01  # the book offsets are printed to 2dp
+
+
+def _daily_rets(curve):
+    """[(YYYY-MM-DD, return)] from an equity curve's own day-over-day marks."""
+    out = []
+    for i in range(1, len(curve)):
+        prev, cur = curve[i - 1][1], curve[i][1]
+        if prev:
+            out.append((curve[i][0], cur / prev - 1.0))
+    return out
+
+
+def _month_daily_rets(daily):
+    """{YYYY-MM: [daily return, ...]} -- the days behind each monthly return."""
+    out = {}
+    for d, r in daily:
+        out.setdefault(d[:7], []).append(r)
+    return out
+
+
+def _compound(xs):
+    p = 1.0
+    for r in xs:
+        p *= (1.0 + r)
+    return p - 1.0
+
+
+def _tilt3decom_blocks(daily_wide, daily_lad, months):
+    """(E177) three readings of one month, for each book and for the engine column.
+
+    (a) is the arithmetic sum of the daily terms -- what the per-name
+    decomposition publishes. (b) compounds those same daily terms inside the
+    month. (c) is the published object: each book compounded on its own and the
+    engine column taken as the difference of the two compounded month returns.
+
+    At BOOK level (b) and (c) coincide by construction, so a book's level offset
+    is compounding and nothing else. At ENGINE level they do not -- compounding a
+    difference is not the difference of two compoundings -- and the gap between
+    them is the cross term this leg publishes.
+    """
+    dw = _month_daily_rets(daily_wide)
+    dl = _month_daily_rets(daily_lad)
+    out = {"wide": [], "lad": [], "engine": [], "months_skipped": []}
+    for m in months:
+        w = dw.get(m) or []
+        l = dl.get(m) or []
+        # the two books share one calendar, so a length mismatch means a month
+        # edge was cut differently -- skipped and counted, never silently paired
+        if not w or not l or len(w) != len(l):
+            out["months_skipped"].append(m)
+            continue
+        d = [a - b for a, b in zip(w, l)]
+        out["wide"].append({"month": m, "a": sum(w), "b": _compound(w)})
+        out["lad"].append({"month": m, "a": sum(l), "b": _compound(l)})
+        out["engine"].append({"month": m, "a": sum(d), "b": _compound(d),
+                              "c": _compound(w) - _compound(l)})
+    return out
+
+
+def _ann_bp(xs):
+    """Annualised bp of a monthly-return series, or None when empty."""
+    xs = [x for x in xs if x is not None]
+    if not xs:
+        return None
+    return round(sum(xs) / len(xs) * 12.0 * 1e4, 4)
+
+
+def run_tilt3decompoffset(outdir, mode="neutralise_int", eras=ERAS):
+    """E177: quantify and explain the decomposition's era-level offset.
+
+    E175 measured the offset (decomposition level minus published level) at up
+    to 55.8bp -- larger than the 46.7bp delta it was used to attribute -- and
+    called it "the compounding gap" on the strength of the note, not on a
+    measurement. E176 quoted the same offset and explicitly left it unexplained.
+    This leg measures it three ways per era and per book, so the sentence in
+    E174/E175/E176 can either keep using these levels with a stated tolerance or
+    must anchor every name-level leg.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff = burn["cutoff"]
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    arm_raw, arm_scr = burn["arm_raw"], burn["arm_scr"]
+    curves = {"raw": core_raw["curves"], "screened": core_scr["curves"]}
+    wide_name = core_raw["wide_name"]
+
+    rows = {}
+    for arm, core, armmap in (("raw", core_raw, arm_raw),
+                              ("screened", core_scr, arm_scr)):
+        dw = _daily_rets(curves[arm][wide_name])
+        dl = _daily_rets(curves[arm]["ladder5"])
+        for name, lo, hi in list(eras) + [("full", None, None)]:
+            ms = _era_engine_months(core, lo, hi)
+            a_face = (armmap.get("eras") or {}).get(name) or {}
+            pub = a_face.get("engine_mean_ann_bp")
+            row = rows.setdefault("%s|%s" % (arm, name), {"arm": arm, "era": name})
+            row["months"] = len(ms)
+            if not ms or pub is None:
+                row["skipped"] = "no engine level on this arm for this era"
+                continue
+            blk = _tilt3decom_blocks(dw, dl, ms)
+            eng = blk["engine"]
+            a_bp = _ann_bp([x["a"] for x in eng])
+            b_bp = _ann_bp([x["b"] for x in eng])
+            c_bp = _ann_bp([x["c"] for x in eng])
+            wa = _ann_bp([x["a"] for x in blk["wide"]])
+            wb = _ann_bp([x["b"] for x in blk["wide"]])
+            la = _ann_bp([x["a"] for x in blk["lad"]])
+            lb = _ann_bp([x["b"] for x in blk["lad"]])
+            offset = None if None in (c_bp, a_bp) else round(c_bp - a_bp, 2)
+            step = None if None in (b_bp, a_bp) else round(b_bp - a_bp, 2)
+            resid = None if None in (c_bp, b_bp) else round(c_bp - b_bp, 2)
+            explained = (round(step / offset * 100.0, 1)
+                         if offset and abs(offset) > 1e-9 and step is not None
+                         else None)
+            if offset is None:
+                verdict = "undefined"
+            elif abs(resid) <= TILT3DECOMOFFSET_RESIDUAL_BP:
+                verdict = "compounding_closes_it"
+            elif explained is not None and explained >= TILT3DECOMOFFSET_CLOSED_PCT:
+                verdict = "compounding_explains_most"
+            else:
+                verdict = "cross_term_remains"
+            row.update({
+                "published_engine_bp": pub,
+                "decomposition_engine_bp": a_bp,
+                "compounded_difference_engine_bp": b_bp,
+                "published_rebuilt_from_days_bp": c_bp,
+                "published_rebuild_residual_bp": (
+                    None if c_bp is None else round(c_bp - pub, 4)),
+                "level_offset_bp": offset,
+                "offset_added_by_compounding_the_difference_bp": step,
+                "offset_left_as_cross_term_bp": resid,
+                "offset_explained_by_compounding_pct": explained,
+                "verdict": verdict,
+                "wide_book_arithmetic_bp": wa,
+                "wide_book_compounded_bp": wb,
+                "wide_book_level_offset_bp": (
+                    None if None in (wb, wa) else round(wb - wa, 2)),
+                "ladder_book_arithmetic_bp": la,
+                "ladder_book_compounded_bp": lb,
+                "ladder_book_level_offset_bp": (
+                    None if None in (lb, la) else round(lb - la, 2)),
+                "book_level_offset_is_compounding_only": True,
+                "months_with_unpaired_days": blk["months_skipped"],
+            })
+
+    measured = {k: v for k, v in rows.items() if "level_offset_bp" in v}
+    offsets = {k: v["level_offset_bp"] for k, v in measured.items()}
+    resid = {k: v["offset_left_as_cross_term_bp"] for k, v in measured.items()
+             if v["offset_left_as_cross_term_bp"] is not None}
+    verdicts = {}
+    for k, v in measured.items():
+        verdicts.setdefault(v["verdict"], []).append(k)
+    rebuild = [abs(v["published_rebuild_residual_bp"]) for v in measured.values()
+               if v["published_rebuild_residual_bp"] is not None]
+    # the discriminating check: at book level (b) and (c) are the same number by
+    # construction, so any book offset that is NOT compounding means the daily
+    # walk and the month walk disagree about the calendar
+    book_gap = []
+    for v in measured.values():
+        for side in ("wide", "ladder"):
+            a_ = v.get("%s_book_arithmetic_bp" % side)
+            b_ = v.get("%s_book_compounded_bp" % side)
+            o_ = v.get("%s_book_level_offset_bp" % side)
+            if None not in (a_, b_, o_) and abs((b_ - a_) - o_) > TILT3DECOMOFFSET_BOOK_ROUND_BP:
+                book_gap.append("%s|%s|%s" % (v["arm"], v["era"], side))
+    return {
+        "study": "e177_tilt3_decomposition_level_offset",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "arms": ["raw", "screened"],
+            "readings": {
+                "a_decomposition": "sum over months of sum of daily w*r terms",
+                "b_compounded_difference": ("sum over months of the daily "
+                                            "difference compounded inside the month"),
+                "c_published": ("sum over months of (wide monthly return - "
+                                "ladder monthly return), each compounded on its own"),
+            },
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "residual_tolerance_bp": TILT3DECOMOFFSET_RESIDUAL_BP,
+            "closed_threshold_pct": TILT3DECOMOFFSET_CLOSED_PCT,
+            "published_face_quantum_bp": TILT3DECOMOFFSET_PUB_QUANTUM_BP,
+        },
+        "eras": rows,
+        "answers": {
+            "offsets_bp": offsets,
+            "max_abs_offset_bp": (max(abs(x) for x in offsets.values())
+                                  if offsets else None),
+            "max_abs_offset_row": (max(offsets, key=lambda k: abs(offsets[k]))
+                                   if offsets else None),
+            "residuals_bp": resid,
+            "max_abs_residual_bp": (max(abs(x) for x in resid.values())
+                                    if resid else None),
+            "verdict_counts": {k: len(v) for k, v in sorted(verdicts.items())},
+            "verdicts": verdicts,
+            "compounding_closes_it_everywhere": (
+                bool(verdicts) and set(verdicts) == {"compounding_closes_it"}),
+            "published_level_rebuilt_from_days": (bool(rebuild)
+                                                  and max(rebuild)
+                                                  <= TILT3DECOMOFFSET_PUB_QUANTUM_BP),
+            "max_abs_published_rebuild_residual_bp": (max(rebuild) if rebuild
+                                                      else None),
+            "book_level_offsets_are_compounding_only": not book_gap,
+            "book_level_mismatches": book_gap,
+        },
+        "honest": [
+            "at BOOK level (b) and (c) are the same computation, so 'the book "
+            "offset is compounding' is an identity, not a finding; the finding "
+            "is what is left at ENGINE level once that identity is subtracted",
+            "a book whose daily walk and month walk disagree is reported in "
+            "book_level_mismatches instead of being netted into the engine "
+            "residual -- a calendar edge must not look like a cross term",
+            "(c) is rebuilt from the same curves the published arm face reads, "
+            "so published_level_rebuilt_from_days is a wiring check, not a "
+            "second opinion on the level",
+            "this leg changes no published level: it says whether the "
+            "decomposition may be quoted for levels, and at what tolerance",
+        ],
+    }
+
+
 def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E124: re-derive the E43 four-member tilt face on the screened arm.
 
@@ -17721,6 +17952,42 @@ def selftest():
         and "eras" in run_tilt3booksplit.__code__.co_varnames,
         "E176 the split reads the same burn path and carries the mode/eras seams")
 
+    # ---- E177 decomposition level offset
+    _e177_curve = [("2024-01-01", 1.0), ("2024-01-02", 1.05), ("2024-01-03", 0.98),
+                   ("2024-01-04", 1.04)]
+    _e177_daily = _daily_rets(_e177_curve)
+    _e177_sum = sum(r for _d, r in _e177_daily)
+    chk(abs(_compound([r for _d, r in _e177_daily])
+            - (1.04 / 1.0 - 1.0)) < 1e-12
+        and abs(_e177_sum - _compound([r for _d, r in _e177_daily])) > 1e-6,
+        "E177 at BOOK level compounding the days equals the month-end ratio while "
+        "the arithmetic sum is a different number: the book offset is compounding "
+        "by identity, so it cannot be the explanation of the engine offset")
+    chk(abs(_ann_bp([0.01, 0.01]) - 1200.0) < 1e-6
+        and _ann_bp([]) is None,
+        "E177 the annualiser is mean x 12 x 1e4 and an empty era is None, never 0.0 "
+        "beside a real number")
+    _e177_blk = _tilt3decom_blocks(
+        [("2024-02-01", 0.03), ("2024-02-02", -0.02)],
+        [("2024-02-01", 0.01), ("2024-02-02", 0.01)], ["2024-02"])
+    _e177_eng = _e177_blk["engine"][0]
+    _e177_cross = (_compound([0.03, -0.02]) - _compound([0.01, 0.01])
+                   - _compound([0.02, -0.03]))
+    chk(abs(_e177_eng["c"] - _e177_eng["b"] - _e177_cross) < 1e-12
+        and abs(_e177_eng["a"] + 0.01) < 1e-12,
+        "E177 the engine column's (c)-(b) is exactly the cross term of compounding "
+        "the two books separately instead of compounding their difference -- that "
+        "residual is what the leg publishes, not a rounding note")
+    _e177_skip = _tilt3decom_blocks(
+        [("2024-03-01", 0.01), ("2024-03-04", 0.01)],
+        [("2024-03-01", 0.01)], ["2024-03"])
+    chk(_e177_skip["months_skipped"] == ["2024-03"] and not _e177_skip["engine"],
+        "E177 a month whose two books do not share the same day count is skipped "
+        "and named: a calendar edge must not be netted into the cross term")
+    chk("mode" in run_tilt3decompoffset.__code__.co_varnames
+        and "eras" in run_tilt3decompoffset.__code__.co_varnames,
+        "E177 the offset leg carries the same mode/eras seams as its family")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -20111,6 +20378,7 @@ def main(argv):
                              "tilt3sign", "tilt3signband", "tilt3screensign",
                              "tilt3signnames", "tilt3signdropsweep",
                              "tilt3booksplit",
+                             "tilt3decompoffset",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -20938,6 +21206,25 @@ def main(argv):
                                               v.get("engine_delta_residual_bp"),
                                           "level_offset_bp":
                                               v.get("decomposition_level_offset_bp")}
+                                      for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3decompoffset":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3decompoffset(outdir)
+        p = write_json(outdir, "TILT3SIGNDECOMOFFSET-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3decompoffset",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"offset_bp": v.get("level_offset_bp"),
+                                          "step_bp":
+                                              v.get("offset_added_by_compounding_the_difference_bp"),
+                                          "residual_bp":
+                                              v.get("offset_left_as_cross_term_bp"),
+                                          "explained_pct":
+                                              v.get("offset_explained_by_compounding_pct"),
+                                          "verdict": v.get("verdict")}
                                       for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))

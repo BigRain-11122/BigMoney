@@ -586,13 +586,13 @@
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1210,
- "round_no": 1210,
- "round_no_label": "r1210",
- "round_no_ts": "2026-10-28T09:45:00+08:00",
+ "round": 1211,
+ "round_no": 1211,
+ "round_no_label": "r1211",
+ "round_no_ts": "2026-10-28T10:09:23+08:00",
  "sat_engine": {
-  "checked_at": "2026-10-22T23:28:23+08:00",
-  "status": "alive (exit 0 at round start)"
+  "checked_at": "2026-10-28T10:09:23+08:00",
+  "status": "alive"
  },
  "seq": 20,
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -605,12 +605,12 @@
   "local_not_on_origin_main": 0,
   "note": "four-way verified (HEAD == origin/main, ahead=0 behind=0, ls-tree origin carries TILT3SIGNBOOKSPLIT-20261027 and the E176 digest); 53 own faces staged, drama lane / machine-health / token_usage.json / unsuffixed status faces left alone"
  },
- "task": "r1210: E176 book split (done) -> E177 decomp base offset",
- "task_short": "E176 book split",
- "ts": "2026-10-28T09:45:00+08:00",
- "updated": "2026-10-28T09:45:00+08:00",
- "updated_at": "2026-10-28T09:45:00+08:00",
- "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu) -> E176 book-split burned in round | e39 selftest 567->573 | smoke 118/118 | S6 61/61 rc0 | dualrun ZERO-DRIFT streak 15 | attrition CLEAN 4 ledgers | orphan 0 | D-19 zero delta",
+ "task": "r1211: E177 decom level offset (done) -> E178 ladder-leg invariant",
+ "task_short": "E177 decom offset",
+ "ts": "2026-10-28T10:09:23+08:00",
+ "updated": "2026-10-28T10:09:23+08:00",
+ "updated_at": "2026-10-28T10:09:23+08:00",
+ "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu) -> E177 decomposition level offset measured and answered in round | e39 selftest 573->578 | smoke 118/118 | S6 rc0 | dualrun ZERO-DRIFT streak 16 | attrition CLEAN 4 ledgers | orphan 0",
  "r1210": {
   "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/0.2, 3 ready rows) -> burned the ready head that was still open",
   "finding": "the engine column's repair delta is 100% wide book: 2021_2023 +30.20bp / 2024_now +49.60bp / full +17.12bp, ladder book 0.0bp in every row. The zero is structural -- 67 events neutralised, none of them a ladder member -- so a fixed 5-name leg has nothing to repair. E174's sentence survives ('the wide book lost 2024_now') and now has a cause. Delta rebuilt from the books lands 0.90/2.90/0.82bp under the published one (compounding). Decomposition LEVEL offset re-measured at +52.9/+55.8bp on 2024_now.",
@@ -634,5 +634,22 @@
   "behind_origin_main": 0,
   "local_not_on_origin_main": 0,
   "note": "four-way verified (HEAD == origin/main, ahead=0 behind=0, ls-tree origin carries TILT3SIGNBOOKSPLIT-20261027 and the E176 digest); 53 own faces staged, drama lane / machine-health / token_usage.json / unsuffixed status faces left alone"
+ },
+ "r1211": {
+  "mission": "watermark red at open (py_low_with_work_cands, pool_ready 3, py 5.4%) -> burned the head E177 in-round",
+  "finding": "the decomposition's level offset is NOT the compounding gap. Three readings per arm-era: (a) sum of daily w*r, (b) those days compounded inside the month, (c) published = each book compounded then differenced. (c) rebuilt from the daily walk reproduces the published 1-decimal levels to 0.0485bp (half a print quantum), so the wiring is sound. Offset +28.41/+30.51/-1.19/-49.49/+6.11bp raw (pre2021 identical screened, -2.10/-52.45/+5.28 elsewhere); the compounding step (b)-(a) is -20.10/-4.54/+2.19/+14.03/-3.37bp -- OPPOSITE SIGN in every era, 'explaining' -70.7%..-184.0% of it, and the cross term survives in 10/10 cells (residual up to 67.21bp). At BOOK level (b)==(c) by construction, which is exactly why the offset looked like compounding and passed a sanity check. Verdict: quotable for the DELTA, never for a LEVEL.",
+  "product": [
+   "results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-20261027.json",
+   "scripts/e39_panel_census.py: _daily_rets / _month_daily_rets / _compound / _tilt3decom_blocks / _ann_bp / run_tilt3decompoffset + CLI mode tilt3decompoffset (selftest 573 -> 578)",
+   "research/digests/DIGEST-20261028-r1211-e177-decom-offset.md",
+   "knowledge/METHODOLOGY_ASSETS.md E177",
+   "results/runnable_pool.json E177 done (+E180 seeded, ready floor 3)"
+  ],
+  "selftest": "e39 573 -> 578/578",
+  "smoke": "118/118 PASS at open",
+  "s6": "dualrun ZERO-DRIFT 664 entries streak 16 | compute_audit rc0 FLAG:supply_gap (ready 3 == floor 3, no breach) | update_daily 0 new rows cutoff 2026-10-27 (pre-15:30) | market_regime ORANGE, hs300<MA200 / crash10d -5.1% / breadth 0.85 | attrition CLEAN 4 ledgers (2 historical shrinks healed) | orphan face=0 (8 py faces)",
+  "s7": "loop task pin 2 no-op | LoopWatchdog re-registered (S4U, SWA=false)",
+  "pit": "a book-level identity that passes a sanity check proves nothing about the engine level, where the same identity stops holding; and a 'step' that moves the offset the wrong way is the cheapest available test of an attribution story -- sign, not magnitude",
+  "not_run": "strategy_scorecard / daily_scorecard / build_status host-guarded legs; the bm-a-lane collectors; GPU untouched (parked, C-20261014-01)"
  }
 }
