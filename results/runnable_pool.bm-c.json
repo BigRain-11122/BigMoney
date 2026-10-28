@@ -22601,13 +22601,20 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "source": "r1220 E189: all four flagged reversals vanish when E186's own declared carrier month is removed, and the crossing month is never the carrier -- the verdict is known to be fragile, but by how much is unmeasured",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3ladderdropcross, follow-up)",
    "title": "E189 took out exactly one month per pair -- the one E186 named -- and all four reversals collapsed, so the era verdict is known to be fragile but not how fragile. Publish a fragility curve: for k=1..8 drop the k months with the largest |gap|, then separately the k with the largest |delta_sum| and the first/last k months of the era, and report at which k each pair's two readings stop disagreeing in sign, plus the sign each reading carries after the trim. A reversal that needs more than eight months of the window removed is a property of the era; one that dies at k=1 or k=2 is a two-month artefact and may not be quoted as an era verdict.",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-29T01:09:32+08:00",
+   "done_at": "2026-10-29T01:09:32+08:00",
+   "done_by": "bm-c",
+   "result_ref": "results/e43_tilt_4member/LADDERDROPCURVE-20261027.json",
+   "done_note": "r1330 bm-c: taken over under the stale-owner rule (bm-b heartbeat 2026-10-28T16:05, 9h stale). 4 pairs x 3 trims x k=1..8; 11 of 12 cells two_month_artefact, 1 fragile_mid, 0 era properties; untrimmed control reproduces E186 to 8.8e-05bp; card E194 + digest written.",
+   "runner_note": "selftest 658->670; face LADDERDROPCURVE-20261027.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22622,7 +22629,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T20:34:22",
+ "updated_at": "2026-10-29T01:09:32",
  "version": 1,
  "lane_machine": "bm-c"
 }

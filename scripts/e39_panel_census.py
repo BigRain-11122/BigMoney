@@ -24,6 +24,7 @@ import csv
 import hashlib
 import json
 import os
+import random
 import sys
 from datetime import datetime
 
@@ -18996,6 +18997,77 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropfragility.__code__.co_varnames,
         "E190 the fragility leg takes the face directory as its only seam")
 
+    # ---- E196 carrier-month identifiability
+    chk(_review_window_in("2014-12") is True and _review_window_in("2026-07") is True
+        and _review_window_in("2019-02") is False and _review_window_in("junk") is None,
+        "E196 the review window is a declared calendar label, and a month string "
+        "that is not a month returns None rather than False")
+    _e196_rows = ([{"month": "2020-%02d" % m, "full_ret": 0.01, "dropped_ret": 0.01,
+                    "gap_bp": 1.0} for m in (2, 3, 4, 5, 8, 9, 10, 11)]
+                  + [{"month": "2020-%02d" % m, "full_ret": 0.01, "dropped_ret": 0.01,
+                      "gap_bp": 0.0} for m in (6, 7, 12)] + [])
+    _e196_flat = _window_perm_p(_e196_rows, draws=400, seed=7)
+    chk(_e196_flat["n_inside"] == 3 and _e196_flat["n_outside"] == 8
+        and _e196_flat["perm_p"] > 0.05,
+        "E196 equal gaps in and out of the window must not read as a window "
+        "effect, and the mechanism counts are published so an empty bucket "
+        "cannot pass as agreement (r1261)")
+    _e196_big = [dict(r) for r in _e196_rows]
+    for _r in _e196_big:
+        if _review_window_in(_r["month"]):
+            _r["gap_bp"] = 50.0
+    _e196_hit = _window_perm_p(_e196_big, draws=400, seed=7)
+    chk(_e196_hit["ratio"] > 5.0 and _e196_hit["perm_p"] < 0.02,
+        "E196 a planted window effect is found by the same statistic, so the "
+        "flat fixture above is a power check and not a broken test")
+    _e196_hit2 = _window_perm_p(_e196_big, draws=400, seed=7)
+    chk(_e196_hit == _e196_hit2,
+        "E196 the permutation test is deterministic under a fixed seed, so two "
+        "runs of the leg publish the same p")
+    chk(_spearman([1.0, 2.0, 3.0], [10.0, 20.0, 30.0]) == 1.0
+        and _spearman([1.0, 2.0, 3.0], [30.0, 20.0, 10.0]) == -1.0
+        and _spearman([1.0], [1.0]) is None,
+        "E196 the rank correlation is +1/-1 on monotone fixtures and refuses to "
+        "report a correlation from one point")
+    # the month-close rule must read |full_ret| and never the gap column: the
+    # biggest gap here sits on the smallest return, so a rule that picked it
+    # would be reading the answer
+    _e196_rule_rows = [{"month": "m%02d" % i, "full_ret": 0.01 * (i + 1),
+                        "dropped_ret": 0.0,
+                        "gap_bp": (900.0 if i == 0 else 1.0),
+                        "delta_sum": 0.001} for i in range(12)]
+    _e196_seq = _month_close_rule(_e196_rule_rows, kmax=1)
+    chk(_e196_seq and _e196_seq[0]["dropped"] == ["m11"],
+        "E196 the month-close rule drops the largest |full_ret| month, not the "
+        "largest |gap| one, so it is a live selector and not a relabelled answer")
+    chk(_carrier_rank(_e196_rule_rows, "m00", "gap_bp") == 1
+        and _carrier_rank(_e196_rule_rows, "m11", "gap_bp") == 12
+        and _carrier_rank(_e196_rule_rows, "nope", "gap_bp") is None,
+        "E196 carrier ranks are computed per column and an unknown month returns "
+        "None instead of an index error")
+    chk(_pooled_window_test([])["perm_p"] is None
+        and _pooled_window_test([])["n_cells"] == 0,
+        "E196 the pooled test reports nothing when it is handed no cells")
+    _e196_pool = _pooled_window_test([_e196_big, list(_e196_rows)], draws=400,
+                                     seed=7)
+    chk(_e196_pool["n_cells"] == 2 and _e196_pool["n_months"] == 22
+        and _e196_pool["perm_p"] is not None,
+        "E196 the pooled test shuffles labels inside each cell and counts every "
+        "month it used, so a two-cell pool publishes both")
+    _e196_twice = _pooled_window_test([_e196_big, list(_e196_big)], draws=50, seed=7)
+    chk(_e196_twice["n_months"] == 2 * len(_e196_big),
+        "E196 pooling counts a shared month twice -- which is exactly why the "
+        "calendar verdict reads the disjoint reading instead of the pooled one")
+    import tempfile as _e196_tmp
+    _e196_empty = run_tilt3ladderdropcarrier(_e196_tmp.mkdtemp())
+    chk(_e196_empty["answers"]["cells_measured"] == 0
+        and _e196_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e196_empty["evidence_cutoff"] is None,
+        "E196 a missing E186 face publishes zero cells and no cutoff rather than "
+        "an invented calendar story")
+    chk("outdir" in run_tilt3ladderdropcarrier.__code__.co_varnames,
+        "E196 the carrier leg takes the face directory as its only seam")
+
     # ---- E187 turnover x repair-net tie (pool batch, bm-b r1217)
     _e187_mem = _wide_month_membership(
         {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
@@ -23001,6 +23073,408 @@ def run_tilt3ladderdropfragility(outdir):
     return face
 
 
+LADDER_DROP_REVIEW_MONTHS = (6, 7, 12, 1)
+LADDER_DROP_CARRIER_KMAX = 3
+LADDER_DROP_CARRIER_DRAWS = 4000
+LADDER_DROP_CARRIER_SEED = 20261029
+LADDER_DROP_CARRIER_CELL_P = 0.10
+LADDER_DROP_CARRIER_POOLED_P = 0.01
+
+
+def _review_window_in(month, months=None):
+    """(E196) is this month inside the scheduled semi-annual review window?
+
+    The 沪深300/中证500 semi-annual review is effective on the trading day after
+    the second Friday of June and December, so the review month and the month it
+    spills into are both covered: the window is {6,7,12,1}. It is a calendar
+    label, knowable years ahead, and it is declared here BEFORE any gap is read
+    -- a window picked by looking at where the carriers sit would make the whole
+    measurement circular.
+    """
+    ms = LADDER_DROP_REVIEW_MONTHS if months is None else months
+    try:
+        mo = int(str(month).split("-")[1])
+    except (IndexError, ValueError):
+        return None
+    return mo in ms
+
+
+def _std_abs_gap(rows):
+    """(E196) |gap| per month over the cell's own mean |gap|.
+
+    Standardising inside the cell is what lets eras of 34..162 months be pooled
+    without the longest era dominating the mean.
+    """
+    vals = [abs(float(r.get("gap_bp") or 0.0)) for r in rows]
+    m = (sum(vals) / len(vals)) if vals else 0.0
+    if m <= 0:
+        return [0.0 for _ in vals]
+    return [v / m for v in vals]
+
+
+def _window_perm_p(rows, draws=None, seed=None):
+    """(E196) do review-window months hold bigger |gaps| than the rest?
+
+    The statistic is the mean standardised |gap| inside the window; the null
+    keeps the cell's own gap multiset and shuffles only the window labels, so a
+    cell with one giant month cannot pass by having giant months. Deterministic
+    (fixed seed, fixed draw count) so two runs publish the same p, and the
+    mechanism counts come back beside the p so a caller can assert the test
+    fired instead of comparing two empty buckets (r1261 class).
+    """
+    if not rows:
+        return {"perm_p": None, "ratio": None, "inside_mean": None,
+                "outside_mean": None, "n_inside": 0, "n_outside": 0,
+                "draws": 0, "seed": None}
+    vals = _std_abs_gap(rows)
+    lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+    inside = [v for v, l in zip(vals, lab) if l]
+    outside = [v for v, l in zip(vals, lab) if not l]
+    out = {"n_inside": len(inside), "n_outside": len(outside),
+           "draws": 0, "seed": None}
+    if not inside or not outside:
+        out.update({"perm_p": None, "ratio": None,
+                    "inside_mean": (round(sum(inside) / len(inside), 6)
+                                    if inside else None),
+                    "outside_mean": (round(sum(outside) / len(outside), 6)
+                                     if outside else None)})
+        return out
+    ins_mean = sum(inside) / len(inside)
+    outs_mean = sum(outside) / len(outside)
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd = (LADDER_DROP_CARRIER_SEED if seed is None else int(seed))
+    rng = random.Random(sd)
+    k = len(inside)
+    hits = 0
+    for _ in range(n):
+        s = 0.0
+        for i in rng.sample(range(len(vals)), k):
+            s += vals[i]
+        if (s / k) >= ins_mean:
+            hits += 1
+    out.update({"perm_p": round(hits / float(n), 6),
+                "ratio": (round(ins_mean / outs_mean, 6) if outs_mean > 0 else None),
+                "inside_mean": round(ins_mean, 6),
+                "outside_mean": round(outs_mean, 6),
+                "draws": n, "seed": sd})
+    return out
+
+
+def _pooled_window_test(row_sets, draws=None, seed=None):
+    """(E196) the same window test over several cells, labels shuffled per cell.
+
+    Pooling is where this family gets fooled: two era slices can share the same
+    carrier month, so the pooled p assumes an independence the table does not
+    have. The caller is expected to publish it beside a deduplicated reading.
+    """
+    per = []
+    for rows in row_sets:
+        if not rows:
+            continue
+        vals = _std_abs_gap(rows)
+        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        if any(lab) and not all(lab):
+            per.append((vals, lab))
+    if not per:
+        return {"perm_p": None, "ratio": None, "n_months": 0, "n_cells": 0,
+                "draws": 0, "seed": None}
+    ins = [v for vals, lab in per for v, l in zip(vals, lab) if l]
+    outs = [v for vals, lab in per for v, l in zip(vals, lab) if not l]
+    im, om = sum(ins) / len(ins), sum(outs) / len(outs)
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd = (LADDER_DROP_CARRIER_SEED if seed is None else int(seed))
+    rng = random.Random(sd)
+    hits = 0
+    for _ in range(n):
+        s = 0.0
+        c = 0
+        for vals, lab in per:
+            k = sum(1 for l in lab if l)
+            idx = set(rng.sample(range(len(vals)), k))
+            for i, v in enumerate(vals):
+                if i in idx:
+                    s += v
+                    c += 1
+        if c and (s / c) >= im:
+            hits += 1
+    return {"perm_p": round(hits / float(n), 6),
+            "ratio": (round(im / om, 6) if om > 0 else None),
+            "n_months": len(ins) + len(outs), "n_cells": len(per),
+            "draws": n, "seed": sd}
+
+
+def _spearman(xs, ys):
+    """(E196) rank correlation, ties broken by position (published as-is)."""
+    if not xs or len(xs) != len(ys) or len(xs) < 2:
+        return None
+
+    def _rk(v):
+        order = sorted(range(len(v)), key=lambda i: v[i])
+        rk = [0.0] * len(v)
+        for j, i in enumerate(order):
+            rk[i] = float(j)
+        return rk
+
+    rx, ry = _rk(xs), _rk(ys)
+    n = len(rx)
+    mx, my = sum(rx) / n, sum(ry) / n
+    sx = (sum((a - mx) ** 2 for a in rx) / n) ** 0.5
+    sy = (sum((b - my) ** 2 for b in ry) / n) ** 0.5
+    if sx <= 0 or sy <= 0:
+        return None
+    cov = sum((a - mx) * (b - my) for a, b in zip(rx, ry)) / n
+    return round(cov / (sx * sy), 6)
+
+
+def _month_close_rule(rows, kmax=None):
+    """(E196) drop the k months with the largest |book return|, k=1..kmax.
+
+    This is the only selector here a reader could run LIVE: |full_ret| is known
+    at that month's close and this function reads no gap column, so a rule built
+    on it cannot be accused of knowing the answer. It is a proxy, not an
+    identity -- |gap| is the difference of the two legs and the legs share most
+    of their variance -- so the face publishes how much of |gap| the proxy
+    explains instead of treating a hit as a mechanism.
+    """
+    km = LADDER_DROP_CARRIER_KMAX if kmax is None else int(kmax)
+    order = [r["month"] for r in sorted(
+        rows, key=lambda r: -abs(float(r.get("full_ret") or 0.0)))]
+    seq = []
+    for k in range(1, min(km, len(rows)) + 1):
+        drop = set(order[:k])
+        kept = [r for r in rows if r["month"] not in drop]
+        if len(kept) < LADDER_DROP_MIN_KEPT:
+            break
+        got = _drop_fragility_readings(kept)
+        seq.append({"k": k, "dropped": sorted(drop),
+                    "months_kept": got["months_kept"],
+                    "effect_arith_bp": got["effect_arith_bp"],
+                    "effect_comp_bp": got["effect_comp_bp"],
+                    "sign_arith": got["sign_arith"], "sign_comp": got["sign_comp"],
+                    "disagree": got["disagree"]})
+    return seq
+
+
+def _carrier_rank(rows, month, column="full_ret"):
+    """(E196) 1-based rank of ``month`` when rows are ordered by |column| desc."""
+    order = [r["month"] for r in sorted(
+        rows, key=lambda r: -abs(float(r.get(column) or 0.0)))]
+    return (order.index(month) + 1) if month in order else None
+
+
+def run_tilt3ladderdropcarrier(outdir):
+    """E196: is the carrier month knowable before the verdict, or only after?
+
+    E190 closed with "no era-level claim may be quoted from this family without
+    naming the month it rests on". That is only a usable sentence if the month
+    can be named in advance, so this face asks the four flagged cells what their
+    carrier month carries: a scheduled calendar label (semi-annual index review
+    window, knowable years ahead), a month-close magnitude (the month's own book
+    return, knowable when the month ends), or nothing that does not already
+    contain the gap itself (hindsight).
+
+    No new panel measurement: one more reading of the E186 month table, so a
+    drifting table cannot feed this face silently.
+    """
+    src, src_name = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            src_name = cand[-1]
+            with open(os.path.join(outdir, src_name), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    joins, cells, row_sets = [], [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        for d in (v.get("drops") or []):
+            rows = [r for r in (d.get("months") or []) if r.get("month")]
+            if not rows:
+                continue
+            base = _drop_fragility_readings(rows)
+            for pub, got in ((d.get("effect_arith_bp"), base["effect_arith_bp"]),
+                             (d.get("effect_comp_bp"), base["effect_comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            locus = d.get("locus") or {}
+            recomputed = _drop_month_locus(rows).get("carrier_month")
+            carrier = locus.get("carrier_month") or recomputed
+            if carrier is None:
+                continue
+            in_win = [r for r in rows if _review_window_in(r.get("month"))]
+            out_win = [r for r in rows if _review_window_in(r.get("month")) is False]
+            wi = _drop_fragility_readings(in_win) if in_win else None
+            wo = _drop_fragility_readings(out_win) if out_win else None
+            rule = _month_close_rule(rows)
+            cell = {
+                "era": era_name, "name": d.get("name"),
+                "months": len(rows),
+                "carrier_month": carrier,
+                "carrier_recomputed": recomputed,
+                "carrier_matches_published": (recomputed == carrier),
+                "carrier_share": locus.get("carrier_share"),
+                "carrier_month_of_year": int(str(carrier).split("-")[1]),
+                "carrier_in_review_window": bool(_review_window_in(carrier)),
+                "carrier_rank_by_abs_full_ret":
+                    _carrier_rank(rows, carrier, "full_ret"),
+                "carrier_rank_by_abs_dropped_ret":
+                    _carrier_rank(rows, carrier, "dropped_ret"),
+                "baseline": base,
+                "window": {
+                    "months_in_window": len(in_win),
+                    "share_of_months": (round(len(in_win) / float(len(rows)), 6)
+                                        if rows else None),
+                    "reversal_removed_by_window":
+                        (None if (wi is None or not base["disagree"])
+                         else (not wi["disagree"])),
+                    "reading_without_window": (wi or {}),
+                },
+                "complement_reading": wo,
+                "rule": rule,
+                "rule_hit_k": next((x["k"] for x in rule if not x["disagree"]), None),
+            }
+            cell["window"].update(_window_perm_p(rows))
+            cells.append(cell)
+            row_sets.append({"era": era_name, "name": d.get("name"),
+                             "carrier": carrier, "rows": rows})
+
+    seen, dedup_sets = set(), []
+    for rs in row_sets:
+        if rs["carrier"] in seen:
+            continue
+        seen.add(rs["carrier"])
+        dedup_sets.append(rs["rows"])
+    pooled = _pooled_window_test([rs["rows"] for rs in row_sets])
+    pooled["dedup_cells"] = len(dedup_sets)
+    pooled["perm_p_dedup"] = (
+        _pooled_window_test(dedup_sets)["perm_p"]
+        if len(dedup_sets) < len(row_sets) else pooled["perm_p"])
+    # the strongest honest reading: eras whose month sets do not overlap at all,
+    # because the full era literally contains both pre-2017 slices (dedup by
+    # carrier month cannot fix that -- it only removes the doubled month)
+    _used, _disjoint = set(), []
+    for rs in row_sets:
+        _ms = {r["month"] for r in rs["rows"]}
+        if _ms & _used:
+            continue
+        _used |= _ms
+        _disjoint.append(rs["rows"])
+    pooled["disjoint_cells"] = len(_disjoint)
+    pooled["perm_p_disjoint"] = (
+        _pooled_window_test(_disjoint)["perm_p"]
+        if len(_disjoint) < len(row_sets) else pooled["perm_p"])
+
+    xs, ys = [], []
+    for rs in row_sets:
+        xs.extend(abs(float(r.get("full_ret") or 0.0)) for r in rs["rows"])
+        ys.extend(abs(float(r.get("gap_bp") or 0.0)) for r in rs["rows"])
+    rho = _spearman(xs, ys)
+
+    in_window_all = bool(cells) and all(c["carrier_in_review_window"] for c in cells)
+    sig = [c for c in cells
+           if c["window"].get("perm_p") is not None
+           and c["window"]["perm_p"] <= LADDER_DROP_CARRIER_CELL_P]
+    if not cells:
+        calendar_verdict = "no_upstream_face"
+    elif (in_window_all and len(sig) >= 2
+          and (pooled.get("perm_p_disjoint") or 1.0) <= LADDER_DROP_CARRIER_POOLED_P):
+        # the gate reads the DISJOINT reading, not the pooled one: the pooled p
+        # treats nested era slices as independent evidence and is published only
+        # so a reader can see how much of the strength came from that nesting
+        calendar_verdict = "review_window_established_on_this_face"
+    elif in_window_all and sig:
+        calendar_verdict = "review_window_suggestive"
+    elif in_window_all:
+        calendar_verdict = "review_window_coincident_only"
+    else:
+        calendar_verdict = "not_calendar"
+
+    hit_all = [c["rule_hit_k"] for c in cells]
+    if not cells:
+        rule_verdict, rule_all_k = "no_upstream_face", None
+    elif any(k is None for k in hit_all):
+        rule_verdict, rule_all_k = "no_month_close_rule", None
+    else:
+        rule_all_k = max(hit_all)
+        rule_verdict = ("month_close_rule_holds_at_k%d" % rule_all_k
+                        if rule_all_k <= LADDER_DROP_CARRIER_KMAX
+                        else "month_close_rule_needs_k%d" % rule_all_k)
+
+    distinct = sorted({c["carrier_month"] for c in cells})
+    per_month = {}
+    for c in cells:
+        per_month[c["carrier_month"]] = per_month.get(c["carrier_month"], 0) + 1
+    base_rate = len(LADDER_DROP_REVIEW_MONTHS) / 12.0
+    return {
+        "study": "E196 carrier-month identifiability",
+        "evidence_cutoff": (src or {}).get("evidence_cutoff"),
+        "source_face": src_name,
+        "spec": {
+            "review_window_months": list(LADDER_DROP_REVIEW_MONTHS),
+            "review_window_def": ("沪深300/中证500 semi-annual review is effective "
+                                  "the trading day after the second Friday of June "
+                                  "and December, so the window is the review month "
+                                  "plus the month it spills into; declared before "
+                                  "any gap is read"),
+            "month_close_selector": "drop the k months with the largest |full_ret|",
+            "rule_kmax": LADDER_DROP_CARRIER_KMAX,
+            "perm_draws": LADDER_DROP_CARRIER_DRAWS,
+            "perm_seed": LADDER_DROP_CARRIER_SEED,
+            "cell_p_max": LADDER_DROP_CARRIER_CELL_P,
+            "pooled_p_max": LADDER_DROP_CARRIER_POOLED_P,
+            "gate_p": "pooled.perm_p_disjoint (non-overlapping eras only)",
+            "statistic": "mean standardised |gap| inside the window",
+            "join_tolerance_bp": 1e-3,
+        },
+        "cells": cells,
+        "answers": {
+            "cells_measured": len(cells),
+            "join_max_abs_diff_bp": (round(max(joins), 9) if joins else None),
+            "join_ok": all(j <= 1e-3 for j in joins),
+            "carrier_recomputed_all": all(c["carrier_matches_published"]
+                                          for c in cells),
+            "distinct_carrier_months": distinct,
+            "cells_per_carrier_month": per_month,
+            "calendar_hit_cells": sum(1 for c in cells
+                                      if c["carrier_in_review_window"]),
+            "calendar_base_rate": round(base_rate, 6),
+            "calendar_p_all_distinct_hits": (round(base_rate ** len(distinct), 6)
+                                             if distinct else None),
+            "cells_with_window_perm_p_under_cell_max":
+                [c["era"] + "@" + str(c["name"]) for c in sig],
+            "pooled": pooled,
+            "spearman_abs_full_ret_vs_abs_gap": rho,
+            "r2_abs_full_ret_vs_abs_gap": (None if rho is None
+                                           else round(rho * rho, 6)),
+            "rule_hit_k_by_cell": {c["era"] + "@" + str(c["name"]): c["rule_hit_k"]
+                                   for c in cells},
+            "rule_all_k": rule_all_k,
+            "calendar_verdict": calendar_verdict,
+            "rule_verdict": rule_verdict,
+            "verdict": (calendar_verdict if not cells
+                        else calendar_verdict + " + " + rule_verdict),
+        },
+        "honest": [
+            "The four flagged cells are not four independent observations: three "
+            "distinct carrier months cover them, one (2014-12) is shared by two "
+            "cells, and the full era contains both pre-2017 slices. The pooled "
+            "permutation p assumes independence and is quoted beside the "
+            "deduplicated reading.",
+            "The month-close selector reads |full_ret|, which shares variance with "
+            "|gap| by construction; the rank correlation and r2 are published so a "
+            "4/4 hit is not mistaken for a mechanism.",
+            "The review window is 4 of 12 months, so it flags a third of any era: "
+            "removing it is a much bigger experiment than E190's k=1 and the two "
+            "are not comparable at the same k.",
+            "This face re-reads the same E186 month table; it locates a month, it "
+            "does not add evidence that the ladder-drop effect exists.",
+        ],
+    }
+
+
 def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
     """E182: the wide side's repair delta per holding, gross beside net.
 
@@ -23673,6 +24147,7 @@ def main(argv):
                              "tilt3ladderdropwhere",
                              "tilt3ladderdropcross",
                              "tilt3ladderdropfragility",
+                             "tilt3ladderdropcarrier",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "widechurntie",
@@ -25130,6 +25605,29 @@ def main(argv):
                                                v["median_first_agree_k"]}
                                        for t, v in f["answers"]["per_trim"].items()},
                           "join_ok": f["answers"]["join_ok"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropcarrier":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropcarrier(outdir)
+        p = write_json(outdir, "LADDERDROPCARRIER-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropcarrier",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "calendar_verdict": f["answers"]["calendar_verdict"],
+                          "rule_verdict": f["answers"]["rule_verdict"],
+                          "distinct_carrier_months":
+                              f["answers"]["distinct_carrier_months"],
+                          "pooled": f["answers"]["pooled"],
+                          "cells": [{"key": c["era"] + "@" + str(c["name"]),
+                                     "carrier": c["carrier_month"],
+                                     "in_window": c["carrier_in_review_window"],
+                                     "rank_abs_full_ret":
+                                         c["carrier_rank_by_abs_full_ret"],
+                                     "window_perm_p": c["window"].get("perm_p"),
+                                     "rule_hit_k": c["rule_hit_k"]}
+                                    for c in f["cells"]]},
                          ensure_ascii=False))
         return 0
     if args.mode == "tilt3widesplit":

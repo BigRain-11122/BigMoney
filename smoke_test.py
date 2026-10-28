@@ -686,6 +686,43 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1331: E196 asks whether the drop family's carrier month can be named BEFORE
+    # the verdict. The face is a verdict, so this leg recomputes it from the
+    # numbers on disk: an 'established' calendar verdict must be backed by the
+    # DISJOINT reading (the pooled p counts nested era slices twice), every cell
+    # must agree by the k the rule verdict names, and a carrier that is quoted as
+    # in-window must actually be a 6/7/12/1 month.
+    try:
+        _cdir = os.path.join("results", "e43_tilt_4member")
+        _cf = sorted(f for f in os.listdir(_cdir)
+                     if f.startswith("LADDERDROPCARRIER-") and f.endswith(".json"))
+        if _cf:
+            _cj = json.load(open(os.path.join(_cdir, _cf[-1]), encoding="utf-8"))
+            _ca = _cj.get("answers") or {}
+            _gate_p = (_ca.get("pooled") or {}).get("perm_p_disjoint")
+            _cok = True
+            if _ca.get("calendar_verdict") == "review_window_established_on_this_face":
+                _cok = (_gate_p is not None
+                        and _gate_p <= float((_cj.get("spec") or {}).get("pooled_p_max", 0.01)))
+            _rk = _ca.get("rule_all_k")
+            if _rk is not None:
+                _cok = _cok and all(
+                    c.get("rule_hit_k") is not None and c["rule_hit_k"] <= _rk
+                    for c in (_cj.get("cells") or []))
+            _cok = _cok and all(
+                (c["carrier_month_of_year"] in (6, 7, 12, 1))
+                == bool(c["carrier_in_review_window"])
+                for c in (_cj.get("cells") or []))
+            check("product: E196 carrier verdict is recomputable from its own gate",
+                  _cok, "calendar=%s gate_p=%s rule_k=%s cells=%d"
+                  % (_ca.get("calendar_verdict"), _gate_p, _rk,
+                     len(_cj.get("cells") or [])))
+        else:
+            check("product: E196 carrier verdict is recomputable from its own gate",
+                  True, "carrier face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E196 carrier verdict is recomputable from its own gate",
+              False, str(e))
     # r1308: the card carries two readings of 2015-2019 (the excess caveat and the
     # selection premium). If the reconciliation section ever stops being emitted while the
     # artifact is on disk, the card is back to printing a contradiction -- so assert the

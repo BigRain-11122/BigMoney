@@ -1,21 +1,17 @@
 {
-  "ts": "2026-10-29T01:14:41",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-29T04:02:37",
+  "mode": "no-op: panel fresh",
   "panel": {
-    "complete": false,
-    "cutoff": "2026-10-27",
+    "complete": true,
+    "cutoff": "2026-10-28",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 93.4,
+    "coverage_pct": 99.9,
     "coverage_90": "2026-10-28",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-28",
-        4878
-      ],
-      [
-        "2026-10-27",
-        338
+        5216
       ],
       [
         "2026-10-26",
@@ -32,10 +28,14 @@
       [
         "2026-10-16",
         1
+      ],
+      [
+        "2026-10-12",
+        1
       ]
     ],
     "universe_n": 5227,
-    "per_files": 5225
+    "per_files": 5223
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -49,26 +49,25 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 0,
-    "fetched": 0,
+    "todo": 6,
+    "fetched": 6,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
     "failures_tail": [],
     "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 0.0,
-    "vwap_anchor_max": null,
+    "elapsed_min": 0.3,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
-  "quarantined_n": 6,
-  "last_spawn_attempt": "2026-10-28T18:08:38",
-  "settled_n": 7,
+  "quarantined_n": 5,
+  "last_spawn_attempt": "2026-10-29T02:53:56",
+  "settled_n": 6,
   "settled": [
     "002717",
     "002827",
     "301468",
-    "600621",
     "601326",
     "605258",
     "688496"
@@ -82,9 +81,8 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 9.5h >= 120min",
-    "ts": "2026-10-29T01:14:41"
+    "reason": "owner bm-b silent 12.3h >= 120min",
+    "ts": "2026-10-29T04:02:37"
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-27 (coverage 93.4%, 90% date 2026-10-28)",
-  "spawn_mode": "continuation"
+  "no_op_reason": "panel fresh (cutoff 2026-10-28 >= expected 2026-10-28)"
 }

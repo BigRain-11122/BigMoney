@@ -289,6 +289,15 @@ LEGS = [
     # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
     # distinct decision signatures), which is a JSON read, not another engine run.
     ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
+    # r1331: E196 answers the question E190 left open -- whether the month the
+    # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
+    # the E186 month table (no panel, no network, no engine), and it belongs on the
+    # chain rather than in a session's memory because a face nobody re-derives is the
+    # r1290 class: the reading stays on disk describing a table that may have moved.
+    # It pins the reading, not the upstream -- the WHERE face it reads is itself a
+    # session artefact, and the leg says so instead of implying a fresh measurement.
+    ("ladderdropcarrier", ["python", "scripts/e39_panel_census.py",
+                            "tilt3ladderdropcarrier"]),
 ]
 
 
