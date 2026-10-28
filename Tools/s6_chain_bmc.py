@@ -252,6 +252,13 @@ LEGS = [
     # markdown pass labelled every .md "doc-prose" then gated only live-face, so the
     # CEO page itself was never checked.
     ("reader_text_audit", ["python", "scripts/reader_text_audit.py", "run"]),
+    # r1326: the card's headline (book beats its own static class mix by +6.36pp/yr) was
+    # priced on ONE decision calendar, and r1325 had just shown on this same book why that
+    # is not a decision -- an arm that improved everything on the production calendar
+    # reversed on 70% of four phase-shifted ones. The face re-prices the premium across
+    # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
+    # distinct decision signatures), which is a JSON read, not another engine run.
+    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
 ]
 
 

@@ -39,6 +39,8 @@ Against a static mix of this book's own class exposure -- no scoring, no rotatio
 
 The same test outside the regime this card was published on -- the 193 ETFs that already existed before 2020, priced 2015-2019, same engine, same grid, same cost rule, same overlay on both arms: the book returns 5.1%/yr vs 2.9%/yr for the static mix (+2.2pp), against +4.4pp on those SAME 193 names over 2020+. Read the two together: the premium survives the period change, so the machinery is not what the pre-2020 window was missing.
 
+Is that a level or one decision sequence? Re-priced on 4 phases of the same 20-bar cycle -- each with its own decisions and its own static shape, both arms moving together -- the premium is positive on 4/4 (median +6.6pp/yr, range +5.55..+7.16, spread 1.61pp) against the book's own phase spread of 1.81 pp/yr of CAGR. The premium is bigger than the calendar noise, so the headline may be quoted as a level -- but quote the range beside it. See results/etf_book_premium_phases.json.
+
 ## The 2015-2019 reconciliation
 
 This card states two things about 2015-2019 that look like a contradiction: the caveat below reports -8.9pp of excess (-5.0%/yr absolute) before 2020, while the rotation section above reports a premium on that same window. They are different cells, and the ladder between them is measured, not argued: from the caveat's cell (all classes, 5 names, no sizing rule) to this book's cell, holding the window and the fill rule fixed, the CAGR moves +10.1pp in total (+5.8pp from dropping the bond/money sleeve, -0.1pp from widening the book to 12 names, +4.4pp from adding the 8% sizing rule). Both ends reproduce their published number within 0.5pp. See results/etf_book_window_decomp.json.
@@ -75,16 +77,16 @@ The book holds 12 names and re-decides every 20 bars, so its score only has to s
 
 The trades are not. Of the 590 executed pairs (a name leaving, a name entering) the median score gap is 0.97 sd and only 2.9% sit inside 0.10 sd. Read the two lines together: the ranking is noisy exactly where it costs nothing, and decisive where it costs 10.0 bp a side.
 
-Priced the other way: a buffer that only displaces an incumbent when the challenger beats it by k*sd, run through the same engine on the same grid (k=0/k=0.05/k=0.1/k=0.2/k=0.35/k=0.5, 10.0 bp/side, control arm 9.62% vs 9.62% published = +0.00pp):
+Priced the other way: a buffer that only displaces an incumbent when the challenger beats it by k*sd, run through the same engine on the same grid (k=0/k=0.05/k=0.1/k=0.2/k=0.35/k=0.5, 10.0 bp/side, control arm 9.70% vs 9.70% published = +0.00pp):
 
 | buffer | turnover/decision | CAGR | Sharpe | maxDD |
 |---|---|---|---|---|
-| k=0 | 0.934 | 9.62% | 0.99 | -11.8% |
-| k=0.05 | 0.901 | 9.69% | 1.01 | -11.6% |
-| k=0.1 | 0.887 | 9.68% | 1.00 | -12.6% |
-| k=0.2 | 0.842 | 9.65% | 1.00 | -12.5% |
-| k=0.35 | 0.762 | 9.51% | 0.98 | -12.6% |
-| k=0.5 | 0.702 | 9.58% | 0.99 | -13.5% |
+| k=0 | 0.934 | 9.70% | 1.00 | -11.8% |
+| k=0.05 | 0.901 | 9.77% | 1.01 | -11.6% |
+| k=0.1 | 0.887 | 9.76% | 1.01 | -12.6% |
+| k=0.2 | 0.842 | 9.73% | 1.01 | -12.5% |
+| k=0.35 | 0.762 | 9.59% | 0.99 | -12.6% |
+| k=0.5 | 0.702 | 9.67% | 1.00 | -13.5% |
 
 k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (+0.07pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
 

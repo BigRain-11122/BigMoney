@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-28 16:30:54",
+ "ts": "2026-10-28 19:57:20",
  "evidence_cutoff": "2026-10-28",
  "feed_status": {
   "ticket_bar": "2026-10-28",
@@ -437,6 +437,18 @@
   "cross_window": "the premium survives the period change: +2.17pp/yr over 2015-2019 vs +4.39pp/yr over 2020+ on the same universe -- the ranking adds value in both, so the pre-2020 failure is about the level, not the machinery.",
   "premium_flips": false
  },
+ "premium_phases": {
+  "artifact": "results/etf_book_premium_phases.json",
+  "verdict": "level: the premium is positive on 4/4 phases (median +6.59pp/yr, floor 2.00) -- the card's headline is a level, not one decision sequence",
+  "n_phases": 4,
+  "positive_phases": 4,
+  "median_pp": 6.59,
+  "min_pp": 5.55,
+  "max_pp": 7.16,
+  "spread_pp": 1.61,
+  "book_cagr_spread_pp": 1.81,
+  "level": true
+ },
  "window_decomp": {
   "artifact": "results/etf_book_window_decomp.json",
   "window": "2015-01-01..2019-12-31",
@@ -613,7 +625,7 @@
  },
  "hysteresis": {
   "artifact": "results/etf_book_hysteresis.json",
-  "evidence_cutoff": "2026-10-27",
+  "evidence_cutoff": "2026-10-28",
   "config": {
    "n_hold": 12,
    "rebal": 20,
@@ -628,8 +640,8 @@
    ]
   },
   "control": {
-   "published": 0.0962,
-   "measured": 0.0962,
+   "published": 0.097,
+   "measured": 0.097,
    "delta_pp": 0.0,
    "within_tol": true,
    "published_turnover": 0.934,
@@ -651,43 +663,43 @@
    {
     "k": 0.0,
     "turnover": 0.934,
-    "cagr": 0.0962,
-    "sharpe": 0.992,
+    "cagr": 0.097,
+    "sharpe": 1.0,
     "maxdd": -0.1177
    },
    {
     "k": 0.05,
     "turnover": 0.901,
-    "cagr": 0.0969,
-    "sharpe": 1.006,
+    "cagr": 0.0977,
+    "sharpe": 1.014,
     "maxdd": -0.1159
    },
    {
     "k": 0.1,
     "turnover": 0.887,
-    "cagr": 0.0968,
-    "sharpe": 1.003,
+    "cagr": 0.0976,
+    "sharpe": 1.01,
     "maxdd": -0.1258
    },
    {
     "k": 0.2,
     "turnover": 0.842,
-    "cagr": 0.0965,
-    "sharpe": 1.005,
+    "cagr": 0.0973,
+    "sharpe": 1.012,
     "maxdd": -0.1247
    },
    {
     "k": 0.35,
     "turnover": 0.762,
-    "cagr": 0.0951,
-    "sharpe": 0.985,
+    "cagr": 0.0959,
+    "sharpe": 0.993,
     "maxdd": -0.1257
    },
    {
     "k": 0.5,
     "turnover": 0.702,
-    "cagr": 0.0958,
-    "sharpe": 0.99,
+    "cagr": 0.0967,
+    "sharpe": 0.999,
     "maxdd": -0.1348
    }
   ],

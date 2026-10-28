@@ -264,34 +264,56 @@ def validate_rows(rows):
 
 def merge_incremental(local_rows, source_rows):
     """Append-only merge with overlap verification. Returns
-    {merged: bool, merged_rows|None, appended, overlap, mismatch}."""
+    {merged, merged_rows|None, appended, overlap, mismatch, source_lag}.
+
+    `source_lag` (r1326): local dates the source no longer reaches because the
+    source series is SHORTER, not because the row is contradicted. Measured
+    2026-10-28: the wide lane verified and wrote 2026-10-28 into this same
+    data/daily/sh<code>.csv at 17:08, then this leg's 19:53 fetch returned the
+    same endpoint family's series only through 10-27 -- so for two rounds the
+    leg priced a permanent exit 3 ("overlap mismatch") on a source that simply
+    lagged. A lagging source cannot contradict a row it does not reach, but the
+    row also stays unverified here, so it is DISCLOSED (count + dates in the
+    status face), never counted as agreement. A local date that falls INSIDE
+    the source range and is still absent stays a hard mismatch (source history
+    rewrite), because that is the case this gate exists for.
+    """
     src_by_date = {str(r["date"]): r for r in source_rows}
+    src_max = max(src_by_date) if src_by_date else None
     overlap = 0
+    source_lag = []
     for lr in local_rows:
         d = str(lr["date"])
         s = src_by_date.get(d)
         if s is None:
+            if src_max is not None and d > src_max:
+                source_lag.append(d)
+                continue
             return {"merged": False, "merged_rows": None, "appended": 0,
-                    "overlap": overlap, "mismatch": f"{d}:absent_in_source"}
+                    "overlap": overlap, "source_lag": source_lag,
+                    "mismatch": f"{d}:absent_in_source"}
         overlap += 1
         for key in ("open", "high", "low", "close"):
             if abs(float(lr[key]) - float(s[key])) > PRICE_TOL:
                 return {"merged": False, "merged_rows": None, "appended": 0,
-                        "overlap": overlap,
+                        "overlap": overlap, "source_lag": source_lag,
                         "mismatch": f"{d}:{key}_drift"}
         if abs(int(float(lr["volume"])) - int(round(float(s["volume"])))) \
                 > INT_TOL:
             return {"merged": False, "merged_rows": None, "appended": 0,
-                    "overlap": overlap, "mismatch": f"{d}:volume_drift"}
+                    "overlap": overlap, "source_lag": source_lag,
+                    "mismatch": f"{d}:volume_drift"}
         if abs(int(float(lr["amount"])) - int(round(float(s["amount"])))) \
                 > INT_TOL:
             return {"merged": False, "merged_rows": None, "appended": 0,
-                    "overlap": overlap, "mismatch": f"{d}:amount_drift"}
+                    "overlap": overlap, "source_lag": source_lag,
+                    "mismatch": f"{d}:amount_drift"}
     local_dates = {str(r["date"]) for r in local_rows}
     new_rows = [r for r in source_rows if str(r["date"]) not in local_dates]
     merged = list(local_rows) + sorted(new_rows, key=lambda r: str(r["date"]))
     return {"merged": True, "merged_rows": merged,
-            "appended": len(new_rows), "overlap": overlap, "mismatch": None}
+            "appended": len(new_rows), "overlap": overlap,
+            "source_lag": source_lag, "mismatch": None}
 
 
 # ------------------------------------------------------------------ csv helpers
@@ -459,7 +481,8 @@ def run():
     for i, code in enumerate(MEMBERS):
         rec = {"code": code, "tier": TIER[code], "appended": 0,
                "overlap": 0, "mismatch": None, "error": None,
-               "rows_local": None, "first": None, "last": None}
+               "source_lag": [], "rows_local": None, "first": None,
+               "last": None}
         if conn_fails >= CONN_STOP:
             rec["error"] = f"conn-fuse: {conn_fails} consecutive " \
                            f"connection failures"
@@ -489,6 +512,7 @@ def run():
             res = merge_incremental(local, rows)
             rec["overlap"] = res["overlap"]
             rec["mismatch"] = res["mismatch"]
+            rec["source_lag"] = res.get("source_lag") or []
             if not res["merged"]:
                 mismatches.append(f"{code}@{res['mismatch']}")
                 rec["rows_local"] = len(local)
@@ -526,6 +550,7 @@ def run():
         "summary": {
             "members": len(MEMBERS), "failures": len(failures),
             "mismatches": len(mismatches),
+            "source_lag_rows": sum(len(r.get("source_lag") or []) for r in per),
             "total_appended": sum(r.get("appended") or 0 for r in per),
             "data_cutoff": min([r["last"] for r in per if r.get("last")],
                                default=None),
@@ -549,6 +574,12 @@ def run():
                      f"{r['first']}..{r['last']}"
                      + (f" [written]" if wrote else " [verified, "
                         "panel blocked by sibling]"))
+        lag = r.get("source_lag") or []
+        if lag:
+            # disclosed, not verified: a shorter source series cannot
+            # contradict rows it does not reach (r1326)
+            line += (f" [source_lag {len(lag)}: {lag[0]}"
+                     + (f"..{lag[-1]}" if len(lag) > 1 else "") + "]")
         print(line)
     if failures:
         return 2
@@ -713,7 +744,42 @@ def _selftest():
                        "counts": {"appended": 1697}})
     assert st == {"ts": "x", "members_planned": ["510300"]}, st
     assert owned_status({}) == {} and owned_status(None) == {}
-    print("selftest: 12/12 PASS")
+    assert owned_status({}) == {} and owned_status(None) == {}
+
+    # S13 (r1326) source-lag vs source-rewrite: a local row BEYOND the source's
+    # last date means the source series is shorter (measured 2026-10-28: the
+    # wide lane wrote a verified 2026-10-28 into this same data/daily file at
+    # 17:08 and this leg's 19:53 fetch of the same endpoint family returned only
+    # through 10-27). That used to price a permanent exit 3 for two rounds. It
+    # is now DISCLOSED: merged, zero appended, zero rows lost, never counted as
+    # an agreement.
+    bar = {"open": 4.5, "high": 4.6, "low": 4.4, "close": 4.5,
+           "volume": 100.0, "amount": 450.0}
+    lead_local = [dict(bar, date="2026-09-22"), dict(bar, date="2026-09-23")]
+    short_src = [dict(bar, date="2026-09-22")]
+    res = merge_incremental(lead_local, short_src)
+    assert res["merged"] and res["mismatch"] is None, res
+    assert res["source_lag"] == ["2026-09-23"], res
+    assert res["appended"] == 0 and res["overlap"] == 1
+    assert len(res["merged_rows"]) == 2       # lagging source deletes nothing
+
+    # S14 the same shape INSIDE the source range is still a hard mismatch: that
+    # is the source-rewrite case this gate exists for, so it must not be
+    # downgraded by the source-lag exemption above.
+    hole_local = [dict(bar, date="2026-09-21"), dict(bar, date="2026-09-22")]
+    res = merge_incremental(hole_local, [dict(bar, date="2026-09-22")])
+    assert not res["merged"] and res["mismatch"] == "2026-09-21:absent_in_source"
+    assert res["source_lag"] == [], res
+
+    # S15 key shape: every return path carries source_lag (a reader that has to
+    # .get() a key is the r1280 defect family), and a drifted overlap still
+    # returns before any lag accounting.
+    drift_src = [dict(bar, date="2026-09-22", close=4.9)]
+    drift_res = merge_incremental([dict(bar, date="2026-09-22")], drift_src)
+    for r in (res, drift_res, merge_incremental([], short_src)):
+        assert "source_lag" in r and "mismatch" in r, r
+    assert not drift_res["merged"] and drift_res["mismatch"].endswith("close_drift")
+    print("selftest: 15/15 PASS")
     return 0
 
 

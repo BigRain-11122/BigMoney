@@ -635,7 +635,23 @@ def main() -> int:
             # silently, the published verdict must be recomputed rather than trusted, and
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
-             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
+            # of selection premium over the book's own static class mix). The legs pin the
+            # two ways this face can lie in either direction: a premium under the frozen
+            # floor cannot be called a level just because it never changed sign, and a face
+            # whose four phases collapsed onto one calendar cannot call anything a level at
+            # all (r1261 -- prove the mechanism moved before comparing numbers).
+            ("product: selection premium across decision phases (exit-code contract)",
+             "scripts/etf_book_premium_phases.py", ["--selftest"]),
+            # r1326: the E187 pool batch added a leg to the shared census tool, so its
+            # 658-leg selftest has to run somewhere other than a human's memory. The
+            # seven new legs pin the churn arithmetic (a first month has no predecessor and
+            # must not read as zero churn), the frozen rule (equal churn in both buckets is
+            # not a discount), and the honest empty case (an era with no against-months is
+            # published as such, not as a pass with a missing ratio).
+            ("product: census selftest incl. the E187 churn-tie legs",
+             "scripts/e39_panel_census.py", ["selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

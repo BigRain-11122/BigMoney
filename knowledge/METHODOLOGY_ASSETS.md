@@ -2444,3 +2444,67 @@ Every reader-facing renderer now has a leg asserting its header row exists.
 Pos: scripts/etf_book_buffer_adoption.py (selftest 33/33) + results/etf_book_buffer_adoption.json
 (60 cells) + research/ETF_BOOK_BUFFER_ADOPTION.md + Tools/s6_chain_bmc.py leg + smoke leg;
 cross-pointer emitted by scripts/etf_book_hysteresis.py.
+## E190 A source that lags is not a source that rewrote history -- split the overlap gate in two (2026-10-28 r1326 bm-c)
+
+WHY
+---
+`scripts/update_etf_daily.py` refused to write for two consecutive rounds with
+`510300@2026-10-28:absent_in_source` (and three siblings) -- exit 3, "source rewrites
+history, conscious re-anchor required". Nothing had been rewritten. The wide lane
+had verified 2026-10-28 against the same endpoint family and written it into the
+same `data/daily/sh<code>.csv` at 17:08; this leg's 19:53 fetch came back only
+through 10-27. Two collectors, one file namespace, two vintages of one series.
+
+The gate could never re-open: every later fetch was still shorter than the local
+tail, so a correct collector priced a permanent red. Its own exit contract then
+pushed the reader toward "history rewrite", which is a *different* claim.
+
+THE SPLIT
+---------
+A local date that the source does not reach because the source series is SHORTER
+(`d > max(source dates)`) is not contradicted by that source; it is also not
+verified by it. Publish it as `source_lag` (count + dates in the status face,
+merged with nothing appended and nothing deleted) and let the run proceed.
+A local date that falls INSIDE the source's range and is still absent stays a hard
+exit 3 -- that is the case the gate exists for, and the exemption must not leak
+into it.
+
+Two defects this also fixed: every return path of the merge helper now carries the
+new key (a reader that has to `.get()` a key is the r1280 family), and the selftest
+pins both directions plus an empty-local edge, because an exemption tested only in
+its passing direction is a hole.
+
+Pos: scripts/update_etf_daily.py (selftest 15/15, was 12) + live `--takeover` run
+rc=0 with `[source_lag 1: 2026-10-28]` on four members.
+
+## E191 A column that always equals another column is not a measurement (2026-10-28 r1326 bm-c)
+
+WHY
+---
+The E187 pool batch asked for "the repair's per-name count" beside the per-month
+net and the book's month-on-month membership turnover. The first cut published
+three columns and the third printed 340/340, 791/791 -- identical to book size in
+every era, because the screen re-weights every held name rather than adding or
+dropping one. The column looked like a count of the names the repair moved and was
+a book-size echo.
+
+The batch's own hypothesis (against-months are the high-churn months) failed on the
+era it was asked about: 2024_now turnover ratio 0.56 against the frozen 1.10 floor,
+high-churn against-share 0.00, corr +0.146. That is a usable negative -- the thin
+across-month net may NOT be discounted as membership churn -- but shipping the
+degenerate column beside it would have invited the reader to do exactly that.
+
+RULES
+-----
+1. Before publishing a derived count, ask what makes it differ from the primitive
+   it is derived from. If nothing can, publish it as a stated echo (with the
+   reading attached) or drop it.
+2. Thresholds for an adoption-style verdict are frozen as module constants BEFORE
+   the first run and echoed into the payload, so a later reader can tell a rule
+   from a description (E188).
+3. A zero-delta era must print `no_against_months`, not a passing discount with a
+   missing ratio: "cannot be measured here" and "measured and clean" are different
+   sentences.
+
+Pos: scripts/e39_panel_census.py `widechurntie` (census selftest 658/658, +7 legs)
++ results/e43_tilt_4member/WIDECHURNTIE-20261028.json (5 eras, 161 months).

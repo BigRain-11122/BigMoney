@@ -18940,6 +18940,56 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropcross.__code__.co_varnames,
         "E189 the crossing leg takes the face directory as its only seam")
 
+    # ---- E187 turnover x repair-net tie (pool batch, bm-b r1217)
+    _e187_mem = _wide_month_membership(
+        {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
+                  ("2020-01", "cash"): 0.05,
+                  ("2020-02", "A"): 0.1, ("2020-02", "C"): 0.1,
+                  ("2020-02", "cash"): 0.05}},
+        ["2020-01", "2020-02"])
+    chk(_e187_mem["2020-01"] == {"A", "B"} and _e187_mem["2020-02"] == {"A", "C"},
+        "E187 membership is read off the contribution sink and the cash "
+        "pseudo-name is excluded (a cash row is not a holding)")
+    _e187_t = _turnover_rows(_e187_mem)
+    chk(_e187_t[0]["turnover"] is None and _e187_t[1]["entered"] == 1
+        and _e187_t[1]["left"] == 1 and _e187_t[1]["turnover"] == 1.0,
+        "E187 the first month has no predecessor (None, not zero churn) and "
+        "one-in/one-out on a two-name book prints turnover 1.0")
+    chk(_e187_t[1]["entered_sample"] == ["C"] and _e187_t[1]["left_sample"] == ["B"],
+        "E187 entered/left samples name the actual flippers, so the churn "
+        "number can be audited per month instead of trusted")
+    # churn-tie: the months pulling against the era are the high-turnover ones
+    _e187_rows = [
+        {"month": "m1", "net_bp": 10.0, "turnover": 0.10},
+        {"month": "m2", "net_bp": -8.0, "turnover": 0.90},
+        {"month": "m3", "net_bp": 6.0, "turnover": 0.20},
+        {"month": "m4", "net_bp": -7.0, "turnover": 0.80},
+    ]
+    _e187_v = _churntie_verdict(_e187_rows)
+    chk(_e187_v["classification"] == "churn_discount_holds"
+        and _e187_v["era_sign"] == 1 and _e187_v["against_months"] == 2,
+        "E187 high-churn months pulling against a positive era classify as "
+        "churn_discount_holds under the frozen rule")
+    _e187_flat = _churntie_verdict([
+        {"month": "m1", "net_bp": 10.0, "turnover": 0.50},
+        {"month": "m2", "net_bp": -8.0, "turnover": 0.50},
+        {"month": "m3", "net_bp": 6.0, "turnover": 0.50},
+        {"month": "m4", "net_bp": -7.0, "turnover": 0.50},
+    ])
+    chk(_e187_flat["classification"] == "not_supported",
+        "E187 equal churn in both buckets must not be called a churn discount "
+        "just because against-months exist")
+    _e187_none = _churntie_verdict([{"month": "m1", "net_bp": 5.0, "turnover": 0.2},
+                                    {"month": "m2", "net_bp": 4.0, "turnover": 0.3}])
+    chk(_e187_none["classification"] == "no_against_months"
+        and _e187_none["turnover_ratio"] is None,
+        "E187 an era with no against-months is published as such, not as a "
+        "passing discount with a missing ratio")
+    chk(_e187_none["rule"] == {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                               "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
+        "E187 the verdict echoes its own frozen thresholds so a later reader "
+        "can tell a rule from a description")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -22940,6 +22990,266 @@ def _wide_month_e182_join(verdict, months, sib, era):
     return out
 
 
+# ---------------------------------------------------------------- E187
+# Frozen BEFORE the first run (E188 adoption rule: a threshold written after
+# the numbers is a description, not a test).
+CHURNTIE_TURNOVER_RATIO_MIN = 1.10   # against-months vs with-months churn
+CHURNTIE_AGAINST_SHARE_MIN = 0.60    # high-churn months that are against months
+CHURNTIE_CASH_PREFIX = "cash"
+
+
+def _wide_month_membership(contrib, months=None, cash_prefix=CHURNTIE_CASH_PREFIX):
+    """(E187) per-decision-month held-name sets, read off the engine's own sink.
+
+    A name shows up in a month's sink exactly when the engine carried weight in
+    it, so membership comes from the arithmetic that produced the curve instead
+    of a second ranking pass -- the churn face and the return face cannot
+    disagree about which names were in the book.
+
+    ``months=None`` keeps every month the sink carries, which is how the churn
+    tie is built once and then sliced per era (a per-era rebuild would re-read
+    the panel four times for the same keys).
+    """
+    mset = None if months is None else set(months)
+    per = {}
+    for (m, s) in ((contrib or {}).get("wide") or {}):
+        if mset is not None and m not in mset:
+            continue
+        if str(s).startswith(cash_prefix):
+            continue
+        per.setdefault(m, set()).add(s)
+    return per
+
+
+def _turnover_rows(membership):
+    """(E187) month-on-month membership turnover: names entering vs leaving.
+
+    ``turnover = (|entered| + |left|) / mean(|prev|, |cur|)`` so a book that
+    keeps half its names across a rebalance prints 1.0 and one that keeps them
+    all prints 0.0. The first month has no predecessor and carries None -- an
+    unmeasurable row must not be priced as zero churn.
+    """
+    months = sorted(membership)
+    rows = []
+    prev = None
+    for m in months:
+        cur = set(membership[m])
+        row = {"month": m, "names": len(cur), "entered": None, "left": None,
+               "turnover": None}
+        if prev is not None:
+            entered = sorted(cur - prev)
+            left = sorted(prev - cur)
+            denom = (len(cur) + len(prev)) / 2.0
+            row.update({"entered": len(entered), "left": len(left),
+                        "entered_sample": entered[:5],
+                        "left_sample": left[:5],
+                        "turnover": (round((len(entered) + len(left)) / denom, 4)
+                                     if denom > 0 else None)})
+        rows.append(row)
+        prev = cur
+    return rows
+
+
+def _median(vals):
+    xs = sorted(v for v in vals if v is not None)
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2.0
+
+
+def _pearson(xs, ys):
+    pairs = [(x, y) for x, y in zip(xs, ys)
+             if x is not None and y is not None]
+    n = len(pairs)
+    if n < 3:
+        return None
+    mx = sum(p[0] for p in pairs) / n
+    my = sum(p[1] for p in pairs) / n
+    sxx = sum((p[0] - mx) ** 2 for p in pairs)
+    syy = sum((p[1] - my) ** 2 for p in pairs)
+    if sxx <= 0 or syy <= 0:
+        return None
+    sxy = sum((p[0] - mx) * (p[1] - my) for p in pairs)
+    return sxy / (sxx * syy) ** 0.5
+
+
+def _churntie_verdict(rows, tol_bp=WIDEMONTHCANCEL_TOL_BP):
+    """(E187) is the era's net carried by the LOW-churn months?
+
+    The question E184 left behind: if the months whose repair runs against the
+    era total are the high-turnover months, then the net is a membership
+    statement and must be discounted by churn instead of quoted as repair
+    quality. Two frozen readings, both required:
+
+      T1  median turnover in against-months >= 1.10x the with-months median;
+      T2  at least 60% of the above-median-churn months are against-months.
+    """
+    priced = [r for r in rows if r.get("turnover") is not None]
+    total_net = sum(r["net_bp"] for r in rows)
+    sign = 0 if abs(total_net) <= tol_bp else (1 if total_net > 0 else -1)
+    against = [r for r in priced
+               if sign and abs(r["net_bp"]) > tol_bp
+               and (1 if r["net_bp"] > 0 else -1) != sign]
+    with_ = [r for r in priced
+             if sign and abs(r["net_bp"]) > tol_bp
+             and (1 if r["net_bp"] > 0 else -1) == sign]
+    med_against = _median([r["turnover"] for r in against])
+    med_with = _median([r["turnover"] for r in with_])
+    ratio = (med_against / med_with
+             if med_against is not None and med_with else None)
+    cut = _median([r["turnover"] for r in priced])
+    high = [r for r in priced
+            if cut is not None and r["turnover"] >= cut]
+    against_set = {r["month"] for r in against}
+    share = (len([r for r in high if r["month"] in against_set]) / len(high)
+             if high else None)
+    t1 = bool(ratio is not None and ratio >= CHURNTIE_TURNOVER_RATIO_MIN)
+    t2 = bool(share is not None and share >= CHURNTIE_AGAINST_SHARE_MIN)
+    if not priced:
+        cls = "no_priced_months"
+    elif not against:
+        cls = "no_against_months"
+    elif t1 and t2:
+        cls = "churn_discount_holds"
+    elif t1 or t2:
+        cls = "partly_turnover"
+    else:
+        cls = "not_supported"
+    return {
+        "priced_months": len(priced),
+        "total_net_bp": round(total_net, 3),
+        "era_sign": sign,
+        "against_months": len(against),
+        "with_months": len(with_),
+        "median_turnover_against": (None if med_against is None
+                                    else round(med_against, 4)),
+        "median_turnover_with": (None if med_with is None
+                                 else round(med_with, 4)),
+        "turnover_ratio": None if ratio is None else round(ratio, 4),
+        "high_churn_months": len(high),
+        "high_churn_against_share": (None if share is None
+                                     else round(share, 4)),
+        "corr_net_turnover": (lambda c: None if c is None else round(c, 4))(
+            _pearson([r["net_bp"] for r in priced],
+                     [r["turnover"] for r in priced])),
+        "rule": {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                 "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
+        "t1_turnover_ratio": t1,
+        "t2_against_share": t2,
+        "classification": cls,
+    }
+
+
+def run_widechurntie(outdir, mode="neutralise_int", eras=ERAS):
+    """E187 (pool batch, bm-b r1217): is the thin wide-book net churn, not signal?
+
+    E184 split the cancellation into within-month and between-month terms and
+    found the between-month term dominant on 2024_now (0.472 keep). The open
+    question is whether the months that pull against their era are simply the
+    months the book rebuilt itself: if they are, the era net is a membership
+    statement and quoting it as repair quality overstates the repair.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff = burn["cutoff"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+    membership = _wide_month_membership(sides_scr)
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_month_cancel_rows(sides_raw, sides_scr, ms)
+        tob = {r["month"]: r for r in
+               _turnover_rows({m: membership.get(m, set()) for m in ms})}
+        months = []
+        for r in per:
+            t = tob.get(r["month"]) or {}
+            months.append({
+                "month": r["month"],
+                "net_bp": round(r["net_bp"], 3),
+                "gross_bp": round(r["gross_bp"], 3),
+                "repair_names": r["names"],
+                "book_names": t.get("names"),
+                "entered": t.get("entered"),
+                "left": t.get("left"),
+                "turnover": t.get("turnover"),
+                "entered_sample": t.get("entered_sample"),
+                "left_sample": t.get("left_sample"),
+            })
+        carried = {}
+        for m in ms:
+            for s in membership.get(m, ()):
+                carried[s] = carried.get(s, 0) + 1
+        v = _churntie_verdict(months)
+        rows[name] = dict(v)
+        rows[name].update({
+            "months": len(ms),
+            "from": ms[0], "to": ms[-1],
+            "distinct_names": len(carried),
+            "median_months_carried": (None if not carried
+                                      else round(_median(list(carried.values())), 2)),
+            "median_repair_names": (None if not months
+                                    else round(_median([m["repair_names"]
+                                                        for m in months]), 2)),
+            "median_book_names": (None if not months
+                                  else round(_median([m["book_names"]
+                                                      for m in months if m["book_names"]]), 2)),
+            "month_rows": months,
+        })
+
+    payload = {
+        "study": "e187_wide_churn_tie",
+        "evidence_cutoff": cutoff,
+        "pool_batch": "E187-WIDE-CROSSMONTH-CHURN-TIE (entered by bm-b r1217)",
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi}
+                     for n, lo, hi in list(eras) + [("full", None, None)]],
+            "net_bp": "per decision month: sum over names of (screened - raw) "
+                      "engine contribution x1e4 (E184's own per-month series)",
+            "turnover": "(names entering + names leaving) / mean(prev,cur) "
+                        "book size, read from the engine's own contribution "
+                        "sink keys, cash pseudo-name excluded",
+            "repair_names": "how many names the repair's delta dict covers that "
+                            "month -- measured 2026-10-28 to EQUAL the book size "
+                            "in every era (340/340, 791/791), because the screen "
+                            "re-weights every held name rather than adding or "
+                            "dropping one; published as a book-size echo, NOT as "
+                            "a count of the names the repair moved",
+            "frozen_rule": {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                            "against_share_min": CHURNTIE_AGAINST_SHARE_MIN,
+                            "frozen": "written before the first run (E188)"},
+        },
+        "eras": rows,
+        "verdict": {k: v.get("classification") for k, v in rows.items()},
+        "engine": {"core": "_tilt3signname_burn (the same two arms every "
+                           "name-level leg reads)",
+                   "months": "core months3 x era window"},
+        "honest": [
+            "membership comes from the contribution sink, i.e. names that carried "
+            "weight, so a name held at a rounding weight is invisible here",
+            "turnover is measured on the screened book only; the raw book's "
+            "membership is not printed, so a repair that CHANGES membership is "
+            "inside the churn number, not separated from it",
+            "the month net is the repair's own per-month arithmetic, not the "
+            "engine's month return, so it is gross of the turnover fee",
+            "median_repair_names equals median_book_names in every era (340/340, "
+            "791/791): the screen re-weights the whole book, so that column is a "
+            "book-size echo and not a count of moved names -- it is published "
+            "because it was asked for, with that reading attached",
+            "pre2017 and 2017_2020 carry a ZERO repair delta in this reading, so "
+            "the tie cannot be measured there at all; those eras are published as "
+            "no_against_months rather than as a passing discount",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+    return cutoff, payload
+
+
 def run_tilt3widesplitmonth(outdir, mode="neutralise_int", eras=ERAS):
     """E184: locate the wide book's cancellation in time, not in names.
 
@@ -23092,6 +23402,7 @@ def main(argv):
                              "tilt3ladderdropcross",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
+                             "widechurntie",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -24564,6 +24875,26 @@ def main(argv):
                               "months": v.get("months")}
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "widechurntie":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        cutoff, f = run_widechurntie(outdir)
+        p = write_json(outdir, "WIDECHURNTIE-%s.json"
+                       % cutoff.replace("-", ""), f)
+        print(json.dumps({"leg": "widechurntie",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["verdict"],
+                          "per_era": {k: {
+                              "months": v.get("months"),
+                              "total_net_bp": v.get("total_net_bp"),
+                              "against_months": v.get("against_months"),
+                              "turnover_ratio": v.get("turnover_ratio"),
+                              "high_churn_against_share":
+                                  v.get("high_churn_against_share"),
+                              "corr_net_turnover": v.get("corr_net_turnover"),
+                              "classification": v.get("classification")}
+                              for k, v in f["eras"].items()}},
                          ensure_ascii=False))
         return 0
     if args.mode == "month":
