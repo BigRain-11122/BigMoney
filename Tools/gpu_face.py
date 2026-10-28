@@ -100,6 +100,43 @@ def gpu_mem_family(k):
     return (None, None)
 
 
+def deep_family(face):
+    """[(parent, sub, family, unit, value)] for one-level NESTED GPU-memory numbers.
+
+    r1334: the flat spelling table owned every `gpu_free_*` scalar while the live
+    face carried a nested `"gpu": {"free_gb": 14.36, ...}` written by a different
+    round. audit() walked only top-level keys, so a 236 MiB stale number sat inside
+    the face and the consistency leg called the face clean -- the r1299 hole one
+    level down. The nesting is not a detail: a consumer that reads
+    face["gpu"]["free_gb"] gets a random round's snapshot.
+    """
+    out = []
+    for k, v in (face or {}).items():
+        if not isinstance(v, dict):
+            continue
+        for sk, sv in v.items():
+            if not isinstance(sv, (int, float)) or isinstance(sv, bool):
+                continue
+            fam, unit = gpu_mem_family("%s_%s" % (k, sk))
+            if fam:
+                out.append((k, sk, fam, unit, float(sv)))
+    return out
+
+
+def _deep_unowned(face):
+    """Nested GPU-memory values a numeric pass cannot restate (formatted strings)."""
+    out = []
+    for k, v in (face or {}).items():
+        if not isinstance(v, dict):
+            continue
+        for sk, sv in v.items():
+            if isinstance(sv, (int, float)) and not isinstance(sv, bool):
+                continue
+            if gpu_mem_family("%s_%s" % (k, sk))[0]:
+                out.append("%s.%s" % (k, sk))
+    return sorted(out)
+
+
 def restate(face, fields):
     """Fields for every numeric GPU-memory spelling the face already carries.
 
@@ -120,6 +157,21 @@ def restate(face, fields):
         if fam is None:
             continue
         extra[k] = round(value[fam] / 1024.0, 1) if unit == "gb" else value[fam]
+    # r1334: nested one-level dicts (the live `gpu` block) are restated the same way,
+    # keeping every sub-key the other writer put there.
+    for k, v in face.items():
+        if not isinstance(v, dict):
+            continue
+        upd = {}
+        for sk, sv in v.items():
+            if not isinstance(sv, (int, float)) or isinstance(sv, bool):
+                continue
+            fam, unit = gpu_mem_family("%s_%s" % (k, sk))
+            if not fam:
+                continue
+            upd[sk] = round(value[fam] / 1024.0, 1) if unit == "gb" else value[fam]
+        if upd:
+            extra[k] = dict(v, **upd)
     return extra
 
 # one disagreement of this size or more is a defect (probe granularity is 1 MiB)
@@ -235,10 +287,13 @@ def _pair(value):
 def audit(face):
     """Disagreements on an existing heartbeat face. Pure; returns a list of dicts."""
     out = []
+    deep = deep_family(face)
 
     def spread(keys, unit):
         got = [(k, _mb(k, face[k])) for k in keys
                if isinstance(face.get(k), (int, float))]
+        got += [("%s.%s" % (p, s), v * 1024.0 if u == "gb" else v)
+                for (p, s, f, u, v) in deep if f == unit]
         if len(got) < 2:
             return
         hi = max(got, key=lambda kv: kv[1])
@@ -257,6 +312,12 @@ def audit(face):
             if isinstance(face.get(k), (int, float))]
     total = [(_mb(k, face[k]), k) for k in TOTAL_KEYS
              if isinstance(face.get(k), (int, float))]
+    free += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
+             for (p, s, f, u, v) in deep if f == "free"]
+    used += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
+             for (p, s, f, u, v) in deep if f == "used"]
+    total += [(v * 1024.0 if u == "gb" else v, "%s.%s" % (p, s))
+              for (p, s, f, u, v) in deep if f == "total"]
     if free and used and total:
         f = sorted(free)[len(free) // 2][0]
         u = sorted(used)[len(used) // 2][0]
@@ -282,6 +343,11 @@ def audit(face):
                     "note": "GPU-memory key the probe cannot restate (formatted value "
                             "or underivable family): normalise it or consumers read a "
                             "random round"})
+    deep_bad = _deep_unowned(face)
+    if deep_bad:
+        out.append({"family": "unowned", "keys": deep_bad,
+                    "note": "nested GPU-memory value the numeric pass cannot restate "
+                            "(r1334: nesting hid a whole generation of the face)"})
     # pair keys are invisible to the numeric pass, so they get their own leg
     for k in PAIR_FREE_TOTAL:
         if k not in face:
@@ -495,6 +561,22 @@ def selftest():
         any(x["family"] == "pair" for x in audit(dict(f, gpu_free="10111, 16384"))))
     leg("L8c an unparsable pair is reported, not ignored", True,
         any(x["family"] == "pair" for x in audit(dict(f, gpu_free="lots"))))
+
+    # L10 r1334: the whole face can hide one level down. The live heartbeat carried
+    #      "gpu": {"free_gb": 14.36} beside a flat family at 14.59 GB -- 236 MiB apart,
+    #      and the consistency leg called the face clean because it only saw top-level keys.
+    nested = dict(f, gpu={"free_gb": 14.36, "total_gb": 16.0, "util": 0})
+    leg("L10 a stale NESTED gpu block is caught, not ignored", True,
+        any(x["family"] == "free" for x in audit(nested)),
+        "gpu.free_gb=14.36 beside gpu_free_gb=%s" % f["gpu_free_gb"])
+    healed_n = dict(nested, **restate(nested, f))
+    leg("L10a restate rewrites the nested block from the same probe", (4.6, 16.0),
+        (healed_n["gpu"]["free_gb"], healed_n["gpu"]["total_gb"]))
+    leg("L10b the restated nested face audits clean and keeps foreign sub-keys", ([],
+        True), (audit(healed_n), healed_n["gpu"].get("util") == 0))
+    leg("L10c a formatted value inside the nested block is reported",
+        True, any("gpu.mem_free" in k for x in audit(dict(f, gpu={"mem_free": "4.6 GB"}))
+                  for k in (x.get("keys") or [])))
 
     # L6 failed probe writes nothing (rc 2, heartbeat bytes untouched)
     import tempfile
