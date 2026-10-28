@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-28 11:20:16",
+ "ts": "2026-10-28 14:52:37",
  "evidence_cutoff": "2026-10-27",
  "feed_status": {
   "ticket_bar": "2026-10-27",
@@ -610,5 +610,91 @@
    "within_0p5pp": true
   },
   "verdict": "no intercept survives outside 2020-2026 (t 1.04 single / 0.48 staggered): the published alpha is a property of the window, not of the book"
+ },
+ "hysteresis": {
+  "artifact": "results/etf_book_hysteresis.json",
+  "evidence_cutoff": "2026-10-27",
+  "config": {
+   "n_hold": 12,
+   "rebal": 20,
+   "cost_bp": 10.0,
+   "grid": [
+    0.0,
+    0.05,
+    0.1,
+    0.2,
+    0.35,
+    0.5
+   ]
+  },
+  "control": {
+   "published": 0.0962,
+   "measured": 0.0962,
+   "delta_pp": 0.0,
+   "within_tol": true,
+   "published_turnover": 0.934,
+   "measured_turnover": 0.934
+  },
+  "census": {
+   "n_decisions": 83,
+   "cut_score_median": 0.00454,
+   "share_within_0p10": 0.8675,
+   "cut_sd_median": 0.0181
+  },
+  "trades": {
+   "n_pairs": 590,
+   "gap_sd_median": 0.9741,
+   "share_under_0p10sd": 0.0288,
+   "share_under_0p25sd": 0.0915
+  },
+  "arms": [
+   {
+    "k": 0.0,
+    "turnover": 0.934,
+    "cagr": 0.0962,
+    "sharpe": 0.992,
+    "maxdd": -0.1177
+   },
+   {
+    "k": 0.05,
+    "turnover": 0.901,
+    "cagr": 0.0969,
+    "sharpe": 1.006,
+    "maxdd": -0.1159
+   },
+   {
+    "k": 0.1,
+    "turnover": 0.887,
+    "cagr": 0.0968,
+    "sharpe": 1.003,
+    "maxdd": -0.1258
+   },
+   {
+    "k": 0.2,
+    "turnover": 0.842,
+    "cagr": 0.0965,
+    "sharpe": 1.005,
+    "maxdd": -0.1247
+   },
+   {
+    "k": 0.35,
+    "turnover": 0.762,
+    "cagr": 0.0951,
+    "sharpe": 0.985,
+    "maxdd": -0.1257
+   },
+   {
+    "k": 0.5,
+    "turnover": 0.702,
+    "cagr": 0.0958,
+    "sharpe": 0.99,
+    "maxdd": -0.1348
+   }
+  ],
+  "best_arm_k": 0.05,
+  "caveats": [
+   "exploratory: no preregistration, no verdict, no ledger booking",
+   "the buffer is path-dependent; a single better arm can be one decision sequence"
+  ]
  }
 }

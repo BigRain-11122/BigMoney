@@ -543,6 +543,14 @@ def main() -> int:
             # once, by whoever happened to grep for it.
             ("product: group-root sweep census (exit-code contract)",
              "scripts/group_root_sweep.py", ["selftest"]),
+            # D-20261028-11 widened that rule to two more shapes: PowerShell reading
+            # .Path off a Get-Item result (empty group root that still reports OK), and
+            # freshness gates that hash WORKTREE bytes on an autocrlf checkout. The
+            # census measures both and the fixtures pin the two ways the second one
+            # lies -- a stale constant is not a dialect bug, and on an LF-on-disk
+            # fixture neither state is distinguishable at all.
+            ("product: group-root dialect census (exit-code contract)",
+             "scripts/group_root_dialect_census.py", ["--selftest"]),
             # r1320 fixed one doubled-percent leak with a gate on that face's OUTPUT and
             # recorded three more for "the next sweep" -- this is that sweep, and it is a
             # census because the same token is legitimate in a shell string, in frozen
@@ -610,7 +618,15 @@ def main() -> int:
             # additive grid must show ZERO interaction (so a non-zero term is real), and an
             # incomplete path must raise rather than print a partial waterfall.
             ("product: card-vs-ticket cagr bridge (exit-code contract)",
-             "scripts/etf_book_cagr_reconcile.py", ["--selftest"])):
+             "scripts/etf_book_cagr_reconcile.py", ["--selftest"]),
+            # r1323: the tempting reading of a turnover-bound book ("it trades on noise")
+            # is refuted by its own census, so the legs pin the mechanics that let it be
+            # read at all: k=0 restoring the plain top-n, the buffer being monotone in k,
+            # the hook being bit-identical to the default path on a tie-free face (and
+            # differing only on exact ties), a bad hook raising, and the consistency gate
+            # actually going red on each of nine ways this face can lie.
+            ("product: decision margins and a hysteresis buffer (exit-code contract)",
+             "scripts/etf_book_hysteresis.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)

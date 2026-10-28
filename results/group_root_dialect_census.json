@@ -1,0 +1,136 @@
+{
+ "script": "scripts/group_root_dialect_census.py",
+ "decision": "D-20261028-11",
+ "shapes": {
+  "A_powershell_dot_path": {
+   "ps_files_checked": 272,
+   "hits": 0,
+   "unaffected": 272,
+   "detail": []
+  },
+  "B_prereg_digest_dialect": {
+   "py_files_scanned": 2287,
+   "gated_files": 3,
+   "lf_latent_false_red": 0,
+   "gates": [
+    {
+     "file": "scripts/cta_p1_screen.py",
+     "raw_hash_calls": 1,
+     "constants": [
+      {
+       "constant": "FROZEN_PREREG_SHA",
+       "sha16": "2aa3d219427428a3",
+       "sha_full": "2aa3d219427428a3e7369fa6254ae121fecf81c1d061e23e1ffdb38f8b31c471",
+       "lf_normalised_present": false,
+       "artifact": "research/CTA_P1.md",
+       "artifact_worktree_crlf": true,
+       "matches_raw": false,
+       "matches_lf": false,
+       "dialect_state": "matches_neither"
+      }
+     ]
+    },
+    {
+     "file": "scripts/cta_p2_noau.py",
+     "raw_hash_calls": 1,
+     "constants": [
+      {
+       "constant": "FROZEN_PREREG_SHA",
+       "sha16": "e3248d0b3fb45c80",
+       "sha_full": "e3248d0b3fb45c8045a2c004898e06fee69a1e4b4eba5b26ccfd4fefdc8077ff",
+       "lf_normalised_present": false,
+       "artifact": "research/CTA_P2_NOAU.md",
+       "artifact_worktree_crlf": true,
+       "matches_raw": false,
+       "matches_lf": false,
+       "dialect_state": "matches_neither"
+      }
+     ]
+    },
+    {
+     "file": "scripts/im_ic_pair.py",
+     "raw_hash_calls": 1,
+     "constants": [
+      {
+       "constant": "FROZEN_PREREG_SHA",
+       "sha16": "8ee695f3cc5f7a26",
+       "sha_full": "8ee695f3cc5f7a2623472628fe576ba21c3902fcc2a72fa12c20ec612e870f5a",
+       "lf_normalised_present": true,
+       "artifact": "research/IM_IC_PAIR.md",
+       "artifact_worktree_crlf": true,
+       "matches_raw": false,
+       "matches_lf": false,
+       "dialect_state": "matches_neither"
+      }
+     ]
+    }
+   ]
+  },
+  "C_freeze_gate_liveness": {
+   "gates": 3,
+   "states": {
+    "alive": 0,
+    "amended_post_freeze": 3,
+    "unmatched_any_committed_blob": 0,
+    "no_history": 0
+   },
+   "rows": [
+    {
+     "file": "scripts/cta_p1_screen.py",
+     "constant": "FROZEN_PREREG_SHA",
+     "sha16": "2aa3d219427428a3",
+     "artifact": "research/CTA_P1.md",
+     "state": "amended_post_freeze",
+     "frozen_rev": "cb51360d48",
+     "frozen_subject": "R49: CTA_P1 prereg frozen (spec-only, 68 cells, roll-gap V0 ruling, G2 roll-debt clause) + seed cta_",
+     "n_amendments": 1,
+     "amendments": [
+      {
+       "rev": "8d639a096e",
+       "subject": "round 50: CTA_P1 batch one-shot final - G1' 0/16 honest closure (skill_line 1.1463 highest domain li"
+      }
+     ]
+    },
+    {
+     "file": "scripts/cta_p2_noau.py",
+     "constant": "FROZEN_PREREG_SHA",
+     "sha16": "e3248d0b3fb45c80",
+     "artifact": "research/CTA_P2_NOAU.md",
+     "state": "amended_post_freeze",
+     "frozen_rev": "1b04f69496",
+     "frozen_subject": "round 53 bm-a: CTA_P2_NOAU prereg freeze (R52 orphan closure) + science_gates additive pool cta_futu",
+     "n_amendments": 1,
+     "amendments": [
+      {
+       "rev": "14ce4700a2",
+       "subject": "round 53 bm-a: CTA_P2_NOAU batch done 0/16 honest verdict - AU-beta strong hypothesis refuted (famil"
+      }
+     ]
+    },
+    {
+     "file": "scripts/im_ic_pair.py",
+     "constant": "FROZEN_PREREG_SHA",
+     "sha16": "8ee695f3cc5f7a26",
+     "artifact": "research/IM_IC_PAIR.md",
+     "state": "amended_post_freeze",
+     "frozen_rev": "8003833e62",
+     "frozen_subject": "round 139: IM_IC_PAIR prereg frozen (T-45 slice-8) + science_gates additive pool im_ic_pair (seed 58",
+     "n_amendments": 1,
+     "amendments": [
+      {
+       "rev": "6a2e406cc0",
+       "subject": "T-45 slice-9 closed: IM_IC_PAIR batch 0/2 honest negative (skill_line 2.278 project high; structural"
+      }
+     ]
+    }
+   ],
+   "note": "blob-side resolution: 'amended_post_freeze' means the constant is a real freeze anchor and the artefact has legitimately moved since; 'unmatched' means the gate could never have passed."
+  }
+ },
+ "verdict": {
+  "shape_a_clean": true,
+  "shape_b_latent_false_red": true,
+  "shape_c_no_unmatched": true
+ },
+ "note": "census, not a verdict: shape B counts gates whose recorded constant equals the blob-side digest, i.e. the ones a raw worktree read would misreport on this autocrlf checkout."
+}

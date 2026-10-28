@@ -116,6 +116,13 @@ LEGS = [
     # the face must stay internally consistent, and must go red the moment a source face
     # it reconciles is re-derived to a new headline. 0.1s, no network.
     ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"]),
+    # r1323: the book is turnover-bound, so "does it trade on noise" is a money question.
+    # Re-deriving the six buffer arms costs the panel build (~80s), so the chain runs the
+    # engine-free gate: the control arm must still reproduce the published cell, turnover
+    # must stay non-increasing in the buffer, the census arithmetic must hold, and the face
+    # must go RED the moment the production card advances past the bar it was priced on.
+    # 0.1s, no network.
+    ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
@@ -208,6 +215,15 @@ LEGS = [
     # in a hurry, so the census runs every round and goes red on a new offender
     # (r1266: a verdict only in a receipt is not a gate). Costs ~4s over 2,100 files.
     ("group_root_sweep", ["python", "scripts/group_root_sweep.py", "run"]),
+    # D-20261028-11 added two shapes to that rule: PowerShell reading .Path off a
+    # Get-Item result (an empty group root that still reports OK) and prereg freshness
+    # gates hashing WORKTREE bytes on an autocrlf checkout. Both are measured every
+    # round. The second is a census and not a verdict: a constant matching neither
+    # digest means the artefact was amended after the freeze, which is not a dialect
+    # bug -- the r1324 first cut printed a clean face because its fixture could not
+    # tell the two states apart at all.
+    # ~2s over 8.5k files, no network.
+    ("group_root_dialect_census", ["python", "scripts/group_root_dialect_census.py"]),
     # r1319: the pool's survivorship face. Read-only over data/daily (~4s) and
     # deterministic, so the cost is a file walk, not a re-run. What it buys: the
     # standing "pure survivor pool" caveat gets a number every round, and a symbol

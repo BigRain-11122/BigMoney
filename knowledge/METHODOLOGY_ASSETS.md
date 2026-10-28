@@ -2349,3 +2349,37 @@ Era-level effects rebuilt from these month vectors reproduce E183 to 0.000634bp.
 The finding that kills the obvious follow-up: **zero months in any of the four pairs disagree in sign between the two readings**. So "the effect reverses" is never one bad month flipping -- every month moves the same way under both readings and the era-level sign comes from how the two columns scale the same months. A reversal is an accumulated scaling statement, i.e. a property of the arithmetic, unless a carrier month is doing the work (one case here, and it is a deep-history month).
 
 Two transferable rules: (a) **before hunting a culprit month, count the months whose two readings disagree in sign** -- zero means there is no culprit and the search is misdirected; (b) **a carrier-share floor plus 1/HHI turns "is it one month or many" into a number**, which is the difference between a verdict a reader can act on and a verdict nobody can. Also: annualising the RATIO of the two growth multiples is not the same object as differencing two annualised levels (2.43bp apart here); the first is published as `effect_comp_ratio_bp`, the second as `effect_comp_bp`, and a selftest leg pins that they cannot be swapped.
+||||||| parent of dd8f5f8c2d (round 1324: absorb the 09:55 window -- the book leaves the top 12 because a name collapses, not because it lost a coin flip, and a hysteresis buffer buys turnover at no cost in return (landed from a window killed before commit))
+instead of silenced, (c) prove the leg exists in the runner, not in a comment.
+
+
+
+## E187 A razor-thin cut line does not mean the trades are marginal -- measure the executed pairs, not the boundary (2026-10-28 r1324 bm-c)
+
+The book is turnover-bound (r1260/r1261) and its score is an average of percentile ranks, so
+"it trades on noise" is a one-line narrative. Measured on 83 decisions (2020-01 -> 2026-10-27,
+12 names / 20 bars): the 12th-vs-13th gap is a median 0.018 sd of that bar's own
+cross-section, and 86.8% of decisions sit under 0.10 sd -- the boundary really is arbitrary.
+But of the 590 trades actually executed, the median (leaver, entrant) gap is 0.974 sd and only
+2.9% are under 0.10 sd. **A name leaves the top 12 because it collapsed, not because it lost a
+coin flip.** The boundary census and the trade census answer different questions and the second
+one is the one that explains turnover; quoting the first alone manufactures a defect.
+
+Second reusable piece: incumbent-protection buffers are a cost knob, not an edge. k in
+{0.05..0.50} sd moves turnover 0.934 -> 0.702 monotonically while CAGR stays within +0.07pp
+down to +0.04pp -- and the k=0.05 arm is the only one that improves turnover, CAGR, Sharpe and
+maxDD together, so "more buffer is better" is false at k>=0.35 where depth starts to cost. Check
+the cost arithmetic against the measured delta (0.092/decision x ~12.3 decisions/yr x 10bp =
+0.11pp/yr vs +0.03pp measured): same order means the arm is pricing cost, not skill.
+
+Third: when a shared engine gains an optional hook, pin two things separately -- (a) the default
+path is bit-identical (on a TIE-FREE fixture, because `nlargest` breaks exact ties by index order
+while an incumbent-protection rule keeps the incumbent), and (b) a hook returning the wrong shape
+raises instead of silently falling back. And gate the published face with an engine-free
+`--check` (control arm reproduces the published cell / monotone turnover / census arithmetic /
+face not older than the card it reconciles) with one selftest leg per way it can lie -- 10 legs,
+9 of them red-cases.
+
+Pos: scripts/etf_book_hysteresis.py (selftest 32/32) + results/etf_book_hysteresis.json +
+research/ETF_BOOK_HYSTERESIS.md + Tools/s6_chain_bmc.py leg + smoke leg; engine change =
+scripts/etf_robust_pf.py select_hook (default None bit-identical).

@@ -26,7 +26,7 @@ TARGET_VOL = 0.08
 
 def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
                         vol_target=None, start=START, vol_window=60,
-                        vol_cap=1.0, diag=None, ratio_hook=None):
+                        vol_cap=1.0, diag=None, ratio_hook=None, select_hook=None):
     """vol_cap caps the sizing scale (1.0 = de-lever only, the published behaviour).
     diag, if a list, collects one {date, est_vol, scale, ratio} row per decision.
 
@@ -34,7 +34,14 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
     delivered/estimated vol ratio, dividing the denominator of the sizing rule
     (scale = min(cap, target / (est * ratio))). It must be causal -- it is called at the
     decision, so it may only use data up to that bar. None (default) means ratio 1.0, which
-    is bit-identical to the published behaviour."""
+    is bit-identical to the published behaviour.
+
+    select_hook(row, held_names, n_hold, d) -> list of exactly n_hold distinct names
+    optionally replaces the plain `nlargest` selection (e.g. a hysteresis buffer that
+    needs to see the incumbent book). It is called at the decision, so it may only use
+    that bar's score row plus the names already held -- never future data. `None`
+    (default) is the plain top-n rule and is bit-identical to the published behaviour; a
+    hook that returns the wrong shape raises instead of silently falling back."""
     hist = close.notna().cumsum()
     elig = (amt >= E.MIN_AMT) & (hist >= E.MIN_HIST)
     score = score.where(elig)
@@ -61,7 +68,13 @@ def open_to_open_equity(close, openp, amt, score, rebal, n_hold, cost,
         if i % rebal == 0:
             s = score.loc[d].dropna()
             if len(s) >= n_hold:
-                picks = list(s.nlargest(n_hold).index)
+                if select_hook is None:
+                    picks = list(s.nlargest(n_hold).index)
+                else:
+                    picks = list(select_hook(s, list(held), n_hold, d))
+                    if len(picks) != n_hold or len(set(picks)) != n_hold:
+                        raise ValueError("select_hook returned %d names (%d unique), expected %d"
+                                         % (len(picks), len(set(picks)), n_hold))
                 w = {p: 1.0 / n_hold for p in picks}
                 scale = 1.0
                 est = None

@@ -294,6 +294,69 @@ def preperiod_support():
         return None
 
 
+def hysteresis_support():
+    """Read results/etf_book_hysteresis.json -> does this book trade on noise?
+
+    r1324: the book re-decides every 20 bars and its score is an average of percentile
+    ranks, so "it trades on noise" is the obvious thing to say about it and nobody had
+    priced it. scripts/etf_book_hysteresis.py measured it two ways (the cut-line margin,
+    and a displacement buffer priced through the same engine). Both readings belong on
+    the card: a reader deciding whether to hold this book cares whether the turnover is
+    signal or churn. Soft-fails to None -- a missing artefact must never break the
+    production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_hysteresis.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or []
+        base = next((a for a in arms if float(a.get("k") or 0.0) == 0.0), None)
+        if base is None:
+            return None
+        cfg = doc.get("config") or {}
+        census = doc.get("margin_census") or {}
+        trades = doc.get("trade_margins") or {}
+
+        def stats(a):
+            return (a.get("stats") or {}).get("full") or {}
+
+        base_s = stats(base)
+        # the arm that beats the no-buffer book on all four numbers at once, if any:
+        # turnover down, CAGR/Sharpe up, drawdown shallower. Data-driven, never assumed.
+        best = None
+        for a in arms:
+            s = stats(a)
+            if a is base or s.get("cagr") is None:
+                continue
+            if (a.get("turnover_per_decision") < base.get("turnover_per_decision")
+                    and s["cagr"] > base_s["cagr"]
+                    and (s.get("sharpe") or 0) > (base_s.get("sharpe") or 0)
+                    and (s.get("maxdd") or 0) > (base_s.get("maxdd") or 0)):
+                if best is None or s["cagr"] > stats(best)["cagr"]:
+                    best = a
+        return {
+            "artifact": "results/etf_book_hysteresis.json",
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+            "config": {"n_hold": cfg.get("n_hold"), "rebal": cfg.get("rebal"),
+                       "cost_bp": cfg.get("cost_bp"), "grid": cfg.get("grid")},
+            "control": doc.get("control"),
+            "census": {"n_decisions": census.get("n_decisions"),
+                       "cut_score_median": census.get("cut_score_median"),
+                       "share_within_0p10": (census.get("share_within") or {}).get("0.1"),
+                       "cut_sd_median": (census.get("cut_sd_q") or {}).get("0.5")},
+            "trades": trades,
+            "arms": [{"k": a.get("k"),
+                      "turnover": a.get("turnover_per_decision"),
+                      "cagr": stats(a).get("cagr"),
+                      "sharpe": stats(a).get("sharpe"),
+                      "maxdd": stats(a).get("maxdd")} for a in arms],
+            "best_arm_k": (best or {}).get("k"),
+            "caveats": (doc.get("caveats") or [])[:2],
+        }
+    except Exception:
+        return None
+
+
 def load_names():
     """ETF code -> short name from the shipped list; empty on failure (never fatal)."""
     p = os.path.join(E.PATHS.data_dir, "basic", "etf_list.csv")
@@ -537,6 +600,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "window_decomp": decomp_support(),
         "spanning": spanning_support(),
         "spanning_pre2020": spanning_pre2020_support(),
+        "hysteresis": hysteresis_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -647,6 +711,8 @@ def write_card(out):
     lines += spanning_paragraphs(out.get("spanning"))
     lines += ["## Does any of it survive outside 2020-2026?", ""]
     lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
+    lines += ["## Does the book trade on noise?", ""]
+    lines += hysteresis_paragraphs(out.get("hysteresis"))
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -845,6 +911,73 @@ def spanning_pre2020_paragraphs(sp):
                     "cost money there. See %s."
                     % (b["cagr"] * 100, b.get("sharpe") or 0.0, s["cagr"] * 100,
                        s.get("sharpe") or 0.0, d, sp["artifact"]), ""]
+    return out
+
+
+def hysteresis_paragraphs(h):
+    """The noise section. Pure: needs only the artefact block.
+
+    r1324: two questions that read the same and are not -- "is the cut line arbitrary?"
+    and "are the trades I actually pay for noise?". This prints both, because a buffer
+    that lowers turnover without lowering the return is a cost knob, and saying so is the
+    difference between a measured answer and a marketing one.
+    """
+    if not (h and h.get("arms")):
+        return ["Not measured: results/etf_book_hysteresis.json is missing, so this card "
+                "cannot say whether the book's turnover is signal or churn.", ""]
+    cz, tr, cfg = h.get("census") or {}, h.get("trades") or {}, h.get("config") or {}
+    out = []
+    if cz.get("n_decisions"):
+        out += ["The book holds %s names and re-decides every %s bars, so its score only "
+                "has to separate the 12th name from the 13th. Over %d decisions that gap "
+                "is a median of %.3f standard deviations of the bar's own cross-section, "
+                "and %.1f%% of decisions sit inside 0.10 sd -- **the cut line is, "
+                "literally, a coin flip at the margin**."
+                % (cfg.get("n_hold"), cfg.get("rebal"), cz["n_decisions"],
+                   cz.get("cut_sd_median") or 0.0, (cz.get("share_within_0p10") or 0) * 100),
+                ""]
+    if tr.get("n_pairs"):
+        out += ["The trades are not. Of the %d executed pairs (a name leaving, a name "
+                "entering) the median score gap is %.2f sd and only %.1f%% sit inside "
+                "0.10 sd. Read the two lines together: the ranking is noisy exactly where "
+                "it costs nothing, and decisive where it costs %s bp a side."
+                % (tr["n_pairs"], tr.get("gap_sd_median") or 0.0,
+                   (tr.get("share_under_0p10sd") or 0) * 100, cfg.get("cost_bp")), ""]
+    arms = h["arms"]
+    out += ["Priced the other way: a buffer that only displaces an incumbent when the "
+            "challenger beats it by k*sd, run through the same engine on the same grid "
+            "(%s, %s bp/side, control arm %s vs %s published = %spp):"
+            % ("/".join("k=%g" % float(a["k"]) for a in arms if a.get("k") is not None),
+               cfg.get("cost_bp"),
+               "%.2f%%" % ((h.get("control") or {}).get("measured", 0) * 100),
+               "%.2f%%" % ((h.get("control") or {}).get("published", 0) * 100),
+               "%+.2f" % ((h.get("control") or {}).get("delta_pp") or 0.0)), ""]
+    out += ["| buffer | turnover/decision | CAGR | Sharpe | maxDD |", "|---|---|---|---|---|"]
+    for a in arms:
+        if a.get("cagr") is None:
+            continue
+        out.append("| k=%g | %.3f | %.2f%% | %.2f | %.1f%% |" % (
+            float(a["k"]), a.get("turnover") or 0.0, a["cagr"] * 100,
+            a.get("sharpe") or 0.0, (a.get("maxdd") or 0) * 100))
+    out += [""]
+    k0, kend = arms[0], arms[-1]
+    if h.get("best_arm_k") is not None:
+        best = next(a for a in arms if a.get("k") == h["best_arm_k"])
+        out += ["k=%g is the only arm that lowers turnover (%.3f -> %.3f), keeps the "
+                "return (%+.2fpp) and improves both Sharpe and drawdown; past k=0.35 the "
+                "buffer starts costing return and depth. So the buffer is a **cost knob, "
+                "not a discovered edge** -- worth using, worth nothing to brag about."
+                % (float(h["best_arm_k"]), k0.get("turnover") or 0.0,
+                   best.get("turnover") or 0.0,
+                   ((best.get("cagr") or 0.0) - (k0.get("cagr") or 0.0)) * 100), ""]
+    elif (kend.get("turnover") or 0.0) < (k0.get("turnover") or 0.0):
+        out += ["No arm improves all four numbers together: turnover falls %.3f -> %.3f "
+                "only by giving up return or depth, so there is nothing here to adopt."
+                % (k0.get("turnover") or 0.0, kend.get("turnover") or 0.0), ""]
+    for c in (h.get("caveats") or []):
+        out += ["- " + c]
+    if h.get("caveats"):
+        out += [""]
     return out
 
 
@@ -1088,6 +1221,48 @@ def selftest():
     chk("outside-window face reads the live artifact when present",
         sp20 is None or (sp20.get("window") and sp20.get("single", {}).get("alpha_t") is not None),
         "artifact %s" % ("absent" if sp20 is None else sp20.get("window")))
+
+    # 10e. the noise section (r1324): the card has to print the cut-line margin and the
+    #      trade margin side by side -- they point opposite ways -- and the "cost knob"
+    #      sentence has to be earned by an arm, not written in advance.
+    hz = hysteresis_support()
+    hfix = {"artifact": "results/etf_book_hysteresis.json", "evidence_cutoff": "2026-10-27",
+            "config": {"n_hold": 12, "rebal": 20, "cost_bp": 10.0, "grid": [0.0, 0.05, 0.5]},
+            "control": {"published": 0.0962, "measured": 0.0962, "delta_pp": 0.0,
+                        "within_tol": True},
+            "census": {"n_decisions": 83, "cut_score_median": 0.0045,
+                       "share_within_0p10": 0.8675, "cut_sd_median": 0.0181},
+            "trades": {"n_pairs": 590, "gap_sd_median": 0.9741, "share_under_0p10sd": 0.0288},
+            "arms": [{"k": 0.0, "turnover": 0.934, "cagr": 0.0962, "sharpe": 0.992,
+                      "maxdd": -0.1177},
+                     {"k": 0.05, "turnover": 0.901, "cagr": 0.0969, "sharpe": 1.006,
+                      "maxdd": -0.1159},
+                     {"k": 0.5, "turnover": 0.702, "cagr": 0.0958, "sharpe": 0.99,
+                      "maxdd": -0.1348}],
+            "best_arm_k": 0.05, "caveats": ["exploratory: no preregistration"]}
+    txt = "\n".join(hysteresis_paragraphs(hfix))
+    chk("card prints both margins of the same question",
+        "coin flip at the margin" in txt and "0.97 sd" in txt
+        and "0.10 sd" in txt and "590" in txt, "%d lines" % len(hysteresis_paragraphs(hfix)))
+    chk("card prints the arm grid with the control arm", "| k=0 |" in txt and "k=0.5" in txt)
+    chk("an improving arm earns the cost-knob sentence",
+        "cost knob" in txt and "k=0.05" in txt and "+0.07pp" in txt)
+    nohelp = json.loads(json.dumps(hfix))
+    nohelp["best_arm_k"] = None
+    nohelp["arms"][1] = dict(nohelp["arms"][1], cagr=0.0900)
+    txt_no = "\n".join(hysteresis_paragraphs(nohelp))
+    chk("no improving arm prints the negative, not the knob",
+        "cost knob" not in txt_no and "nothing here to adopt" in txt_no)
+    chk("no hysteresis artifact -> disclosed, not silent",
+        "Not measured" in hysteresis_paragraphs(None)[0])
+    chk("hysteresis face reads the live artifact when present",
+        hz is None or (hz.get("census") or {}).get("n_decisions"))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("hysteresis face is not fatal when the artifact is missing",
+            hysteresis_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

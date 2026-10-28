@@ -69,6 +69,28 @@ The same regression, run on the 193 ETFs that already existed before the boom, o
 
 In that window a static equal-weight basket of the same four ETFs returned 8.6%/yr at Sharpe 0.97 against the book's 5.1%/yr at 0.70 (-3.5pp), so the negative is not merely a failed t-test -- the rotation cost money there. See results/etf_book_spanning_pre2020.json.
 
+## Does the book trade on noise?
+
+The book holds 12 names and re-decides every 20 bars, so its score only has to separate the 12th name from the 13th. Over 83 decisions that gap is a median of 0.018 standard deviations of the bar's own cross-section, and 86.8% of decisions sit inside 0.10 sd -- **the cut line is, literally, a coin flip at the margin**.
+
+The trades are not. Of the 590 executed pairs (a name leaving, a name entering) the median score gap is 0.97 sd and only 2.9% sit inside 0.10 sd. Read the two lines together: the ranking is noisy exactly where it costs nothing, and decisive where it costs 10.0 bp a side.
+
+Priced the other way: a buffer that only displaces an incumbent when the challenger beats it by k*sd, run through the same engine on the same grid (k=0/k=0.05/k=0.1/k=0.2/k=0.35/k=0.5, 10.0 bp/side, control arm 9.62% vs 9.62% published = +0.00pp):
+
+| buffer | turnover/decision | CAGR | Sharpe | maxDD |
+|---|---|---|---|---|
+| k=0 | 0.934 | 9.62% | 0.99 | -11.8% |
+| k=0.05 | 0.901 | 9.69% | 1.01 | -11.6% |
+| k=0.1 | 0.887 | 9.68% | 1.00 | -12.6% |
+| k=0.2 | 0.842 | 9.65% | 1.00 | -12.5% |
+| k=0.35 | 0.762 | 9.51% | 0.98 | -12.6% |
+| k=0.5 | 0.702 | 9.58% | 0.99 | -13.5% |
+
+k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (+0.07pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
+
+- exploratory: no preregistration, no verdict, no ledger booking
+- the buffer is path-dependent; a single better arm can be one decision sequence
+
 ## Caveats
 
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
