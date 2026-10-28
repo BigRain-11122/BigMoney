@@ -129,6 +129,54 @@ def money_cny(tk, nav):
 
 TRADING_DAYS_PER_YEAR = 250
 
+REPO_DIR = os.path.join(ROOT, "data", "repo_daily")
+CASH_LEG_SYMBOL = "GC001"
+
+
+def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=20):
+    """What the idle half earns: cash x the repo panel's own quoted close.
+
+    The page told the reader to buy GC001 but never said what that is worth -- a
+    number the CEO pays for by leaving the money in a current account instead.
+    Again a pure unit change: the panel prints the rate, this multiplies it by the
+    cash on the page. The 1-day repo spikes at quarter-end and before holidays, so
+    the trailing mean is quoted beside it. Anything unreadable stays None -- 0 would
+    read as "the cash earns nothing", which is exactly the case worth warning about.
+    """
+    out = {"leg": symbol, "quoted_as": "收盘年化利率 %", "rate_date": None,
+           "rate_pct": None, "rate_20d_pct": None, "annual_cny": None,
+           "daily_cny": None, "window": int(window), "basis": None,
+           "panel": os.path.relpath(os.path.join(panel_dir, "%s.csv" % symbol), ROOT)
+           .replace("\\", "/")}
+    if cash_amount is None or float(cash_amount) <= 0:
+        return out
+    path = os.path.join(panel_dir, "%s.csv" % symbol)
+    if not os.path.exists(path):
+        return out
+    rows = []
+    with open(path, encoding="utf-8") as fh:
+        next(fh, None)
+        for line in fh:
+            parts = line.strip().split(",")
+            if len(parts) < 5:
+                continue
+            try:
+                rows.append((parts[0], float(parts[4])))
+            except ValueError:
+                continue
+    rows = [r for r in rows if 0.0 < r[1] < 200.0]   # same sanity band the collector enforces
+    if not rows:
+        return out
+    out["rate_date"], out["rate_pct"] = rows[-1]
+    tail = rows[-int(window):]
+    out["rate_20d_pct"] = round(sum(v for _, v in tail) / len(tail), 4)
+    out["annual_cny"] = round(float(cash_amount) * out["rate_pct"] / 100.0, 0)
+    out["daily_cny"] = round(out["annual_cny"] / TRADING_DAYS_PER_YEAR, 0)
+    out["basis"] = ("cash x panel close rate / 100; per session = annual / %d sessions"
+                    % TRADING_DAYS_PER_YEAR)
+    return out
+
+
 STRESS_DIR = os.path.join(ROOT, "results", "etf_book_stress")
 STRESS_WINDOWS = (1, 5, 20)
 
@@ -348,6 +396,7 @@ def build(with_stress=False):
         "cash_amount_cny": round(cash_amt, 2),
         "cash_weight": round(cash_w, 4),
         "cash_leg": cash_leg,
+        "cash_yield": cash_yield(cash_amt),
         "k_now": tk.get("k_now"),
         "n_hold": tk.get("n_hold"),
         "cost_bp_per_side": tk.get("cost_bp_per_side"),
@@ -433,6 +482,21 @@ def render_md(p):
     add("")
     add("剩余现金 ¥%s 买 %s（或等价），不要留活期。" % (format(p["cash_amount_cny"], ",.0f"), p["cash_leg"]))
     add("")
+    cy = p.get("cash_yield") or {}
+    if cy.get("annual_cny") is not None:
+        add("## 现金那一半在赚多少")
+        add("")
+        add("¥%s 放着不是 0 息：按 **%s** 最近收盘年化 **%.2f%%**（%s 的报价）算，一年约 **+¥%s**，"
+            "每个交易日约 +¥%s。"
+            % (format(p["cash_amount_cny"], ",.0f"), cy["leg"], cy["rate_pct"], cy["rate_date"],
+               format(cy["annual_cny"], ",.0f"), format(cy["daily_cny"], ",.0f")))
+        if cy.get("rate_20d_pct") is not None:
+            add("")
+            add("- 近 %d 个交易日这个利率平均 %.2f%%（一天期逆回购在季末/节前会飙高，平时就是个零钱利率），"
+                "所以这笔钱是「现金不缩水」，不是收益来源。"
+                % (cy["window"], cy["rate_20d_pct"]))
+        add("- 不买逆回购、留在活期，这 ¥%s 就是没有的。" % format(cy["annual_cny"], ",.0f"))
+        add("")
     add("## 账面与节奏")
     add("")
     add("- 定价用的收盘日：**%s**（数据状态 %s，滞后 %s 个交易日）"
@@ -736,6 +800,47 @@ def selftest():
         chk("L30 basket: no horizon sentence when the ledger publishes no power block",
             page.get("vs_basket") is None
             or "健康检查，不是判词" not in render_md(dict(page)), "guard leg")
+
+    # 31-34. the idle half is not 0% -- cash x the repo panel's own close, and an
+    # unreadable panel stays None (a 0 would read as "the cash earns nothing", which is
+    # the very case the reader needs to be warned about)
+    import tempfile
+    _td = tempfile.mkdtemp()
+    with open(os.path.join(_td, "GC001.csv"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("date,open,high,low,close,volume\n")
+        fh.write("2026-10-26,1.2,1.2,0.31,1.0,100\n")
+        fh.write("2026-10-27,1.18,1.4,1,2.0,100\n")
+    _cy = cash_yield(100000.0, panel_dir=_td)
+    chk("L31 cash: annual yuan == cash x the panel's own close rate",
+        _cy["rate_pct"] == 2.0 and _cy["rate_date"] == "2026-10-27"
+        and _cy["annual_cny"] == 2000.0 and _cy["daily_cny"] == 8.0
+        and _cy["rate_20d_pct"] == 1.5,
+        "rate %.2f annual %s daily %s mean %s"
+        % (_cy["rate_pct"], _cy["annual_cny"], _cy["daily_cny"], _cy["rate_20d_pct"]))
+    _bad = tempfile.mkdtemp()
+    with open(os.path.join(_bad, "GC001.csv"), "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("date,open,high,low,close,volume\n")
+        fh.write("2026-10-27,900,900,900,900,100\n")
+    chk("L32 cash: missing panel / zero cash / out-of-band print -> None, never 0",
+        cash_yield(100000.0, panel_dir=os.path.join(_td, "nope"))["annual_cny"] is None
+        and cash_yield(0.0, panel_dir=_td)["annual_cny"] is None
+        and cash_yield(None, panel_dir=_td)["annual_cny"] is None
+        and cash_yield(100000.0, panel_dir=_bad)["annual_cny"] is None,
+        "absent / zero-cash / 900% print all None")
+    _live = page["cash_yield"]
+    _ok_live = (_live["annual_cny"] is None
+                or (abs(_live["annual_cny"] - page["cash_amount_cny"] * _live["rate_pct"] / 100.0) < 1.0
+                    and bool(_live["rate_date"])))
+    chk("L33 live page: cash yuan == its own cash x its own rate, with the rate date",
+        _ok_live, "cash %.0f rate %s @ %s -> %s"
+        % (page["cash_amount_cny"], _live["rate_pct"], _live["rate_date"], _live["annual_cny"]))
+    _md3 = render_md(dict(page, cash_yield={"leg": "GC001", "rate_pct": 1.09,
+                                            "rate_date": "2026-10-27", "annual_cny": 5764.0,
+                                            "daily_cny": 23.0, "rate_20d_pct": 1.1,
+                                            "window": 20}))
+    chk("L34 cash: the rendered page carries the rate, its date and the 'not a return source' line",
+        "现金那一半在赚多少" in _md3 and "1.09%" in _md3 and "2026-10-27" in _md3
+        and "+¥5,764" in _md3 and "不是收益来源" in _md3, "rendered cash block present")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

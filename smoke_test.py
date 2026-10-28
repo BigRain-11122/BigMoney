@@ -1199,6 +1199,42 @@ def main() -> int:
         check("product: ETF live-book stress rows are their own percentages x capital", _ok_st,
               f"days={_st.get('n_days')} 1d={_w.get('1d', {}).get('pct')} "
               f"5d={_w.get('5d', {}).get('pct')} 20d={_w.get('20d', {}).get('pct')}")
+        # The page told the reader to buy GC001 but never said what the cash is worth.
+        # Assert the block exists AND that its yuan is the page's own cash x the repo
+        # panel's own last close -- a rate the page forgot to refresh would otherwise
+        # keep printing a confident number from a stale panel.
+        _cy = _page.get("cash_yield") or {}
+        _ok_cy = False
+        _cy_detail = "block absent"
+        if _cy and _cy.get("annual_cny") is not None:
+            _rp = "data/repo_daily/%s.csv" % (_cy.get("leg") or "GC001")
+            _last = None
+            try:
+                with open(_rp, encoding="utf-8") as _fh:
+                    next(_fh, None)
+                    for _ln in _fh:
+                        _p = _ln.strip().split(",")
+                        if len(_p) >= 5:
+                            try:
+                                _v = float(_p[4])
+                            except ValueError:
+                                continue
+                            if 0.0 < _v < 200.0:
+                                _last = (_p[0], _v)
+            except Exception as _e:
+                _last = None
+            _ok_cy = (bool(_last)
+                      and _cy.get("rate_date") == _last[0]
+                      and abs(float(_cy.get("rate_pct") or 0) - _last[1]) < 1e-9
+                      and abs(float(_cy.get("annual_cny") or 0)
+                              - float(_page.get("cash_amount_cny") or 0) * _last[1] / 100.0) < 1.0
+                      and abs(float(_cy.get("daily_cny") or 0)
+                              - float(_cy["annual_cny"]) / 250.0) < 1.0)
+            _cy_detail = (f"rate={_cy.get('rate_pct')}@{_cy.get('rate_date')} "
+                          f"panel={_last} annual={_cy.get('annual_cny')} "
+                          f"daily={_cy.get('daily_cny')}")
+        check("product: ETF live-book cash leg is priced off the repo panel's own close", _ok_cy,
+              _cy_detail)
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's
