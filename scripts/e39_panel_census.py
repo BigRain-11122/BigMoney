@@ -6770,6 +6770,269 @@ def run_tilt3booksplit(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E179
+TILT3LADDERSPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP   # same 0.05bp tolerance
+TILT3LADDERSPLIT_CASH = "__cash__"
+
+
+def _ladder_side_split(sides_raw, sides_scr, months, members):
+    """(E179) the ladder side's LEVELS per holding, raw and screened.
+
+    E176 annualised the ladder side as ONE sum, so its ``ladder_book_delta_bp =
+    0.0`` is a net over five members plus the ``__cash__`` residual the leg
+    books. This keeps every holding apart and labels it, so a zero can be read
+    as five zeros instead of a total. Anything the sink turns up that is neither
+    a declared member nor the cash residual is published as ``unlisted`` -- it is
+    neither dropped nor allowed to impersonate a security.
+    """
+    raw_bp = _era_side_bp((sides_raw or {}).get("lad") or {}, months)
+    scr_bp = _era_side_bp((sides_scr or {}).get("lad") or {}, months)
+    member_set = set(members)
+    out = {}
+    for s in sorted(set(raw_bp) | set(scr_bp)):
+        r, c = raw_bp.get(s, 0.0), scr_bp.get(s, 0.0)
+        if s in member_set:
+            kind = "member"
+        elif s == TILT3LADDERSPLIT_CASH:
+            kind = "cash_residual"
+        else:
+            kind = "unlisted"
+        out[s] = {"name": s, "kind": kind, "is_security": kind == "member",
+                  "raw_level_bp": r, "screened_level_bp": c, "delta_bp": c - r}
+    return out
+
+
+def _ladder_split_verdict(holdings, tol=None):
+    """(E179) net vs gross: a zero SUM and a zero on every holding are two claims.
+
+    A net of zero can be five flips that cancel, and a reader who sees only the
+    net cannot tell which happened. The classification is published as a word so
+    "the fixed leg did not move" is an auditable per-holding statement.
+    """
+    t = TILT3LADDERSPLIT_MOVED_BP if tol is None else float(tol)
+    deltas = {s: h["delta_bp"] for s, h in holdings.items()}
+    net = sum(deltas.values())
+    gross = sum(abs(v) for v in deltas.values())
+    moved = sorted((s for s, v in deltas.items() if abs(v) > t),
+                   key=lambda s: -abs(deltas[s]))
+    if not moved:
+        cls = "flat_per_holding"
+    elif abs(net) <= t:
+        cls = "cancelling"
+    else:
+        cls = "moving"
+    return {"net_delta_bp": net, "gross_abs_delta_bp": gross,
+            "net_over_gross": (net / gross if gross > 1e-12 else None),
+            "names_moved": moved, "classification": cls}
+
+
+def _ladder_split_join(row, sib, era):
+    """(E179) join this split's net side against the E176 ladder book, per era."""
+    out = {"era": era, "e176_face": None, "max_abs_diff_bp": None, "checks": {}}
+    e176 = ((sib or {}).get("eras") or {}).get(era) or {}
+    if not e176:
+        out["note"] = "no E176 row for this era on disk; the net side is unjoined"
+        return out
+    out["e176_face"] = "TILT3SIGNBOOKSPLIT"
+    diffs = []
+    for key in ("ladder_book_bp_raw", "ladder_book_bp_screened",
+                "ladder_book_delta_bp"):
+        mine, theirs = row.get(key), e176.get(key)
+        if mine is None or theirs is None:
+            continue
+        d = abs(float(mine) - float(theirs))
+        out["checks"][key] = {"this_split": mine, "e176": theirs,
+                              "abs_diff_bp": round(d, 6)}
+        diffs.append(d)
+    out["max_abs_diff_bp"] = round(max(diffs), 6) if diffs else None
+    return out
+
+
+def run_tilt3laddersplit(outdir, mode="neutralise_int", eras=ERAS):
+    """E179: split the ladder side into its five members and the cash residual.
+
+    E176 published "the fixed leg never moves" as ``ladder_book_delta_bp = 0.0``
+    in every era. That number is a SUM over five members plus a ``__cash__``
+    residual which is not a security, so it cannot tell a reader whether each
+    holding stayed put or whether two members moved in opposite directions and
+    cancelled. Nothing here is a new engine pass: the same w*r records E176
+    annualises as one number are kept per holding and published raw+screened.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    core_raw, core_scr = burn["core_raw"], burn["core_scr"]
+    sides_raw = (core_raw.get("contrib") or {})
+    sides_scr = (core_scr.get("contrib") or {})
+    import e24_ladder_weighting as base
+    members = list(base.LADDER)
+    _neutralised = sorted({d.get("name") for d in (report.get("names") or [])
+                           if d.get("action") == "neutralise"
+                           or (d.get("events") or 0) > 0})
+    ladder_neutralised = [s for s in _neutralised if s in set(members)]
+
+    # every month the ladder leg booked cash at all: the residual exists only
+    # where the fixed book could not be fully held, so the span is the audit trail
+    all_cash_months = sorted({m for (m, s) in ((sides_raw or {}).get("lad") or {})
+                              if s == TILT3LADDERSPLIT_CASH})
+    _lad_all = (sides_raw or {}).get("lad") or {}
+    all_full_hold_months = sorted({m for (m, _s) in _lad_all
+                                   if all((m, mb) in _lad_all for mb in members)})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("TILT3SIGNBOOKSPLIT-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(core_raw, lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        hold = _ladder_side_split(sides_raw, sides_scr, ms, members)
+        v = _ladder_split_verdict(hold)
+        # why the cash residual exists at all: the leg books cash in a month it
+        # cannot hold a declared member, so the count is derived, not asserted
+        _lad_raw = (sides_raw or {}).get("lad") or {}
+        gap_months = sorted({m for m in ms
+                             if any((m, mb) not in _lad_raw for mb in members)})
+        era_cash_months = sorted({m for (m, s) in _lad_raw
+                                  if s == TILT3LADDERSPLIT_CASH and m in set(ms)})
+        total_raw = sum(h["raw_level_bp"] for h in hold.values())
+        total_scr = sum(h["screened_level_bp"] for h in hold.values())
+        total_delta = sum(h["delta_bp"] for h in hold.values())
+        cash = hold.get(TILT3LADDERSPLIT_CASH)
+        published = []
+        for s, h in hold.items():
+            published.append({
+                "name": s,
+                "kind": h["kind"],
+                "is_security": h["is_security"],
+                "raw_level_bp": round(h["raw_level_bp"], 3),
+                "screened_level_bp": round(h["screened_level_bp"], 3),
+                "delta_bp": round(h["delta_bp"], 3),
+                "share_of_ladder_level_pct": (
+                    round(h["raw_level_bp"] / total_raw * 100.0, 2)
+                    if abs(total_raw) > 1e-9 else None),
+                "moved": abs(h["delta_bp"]) > TILT3LADDERSPLIT_MOVED_BP,
+            })
+        rows[name] = {
+            "months": len(ms),
+            "members_declared": members,
+            "members_present": sorted(s for s, h in hold.items()
+                                      if h["kind"] == "member"),
+            "members_missing": sorted(set(members) - set(hold)),
+            "months_with_missing_member_bars": len(gap_months),
+            "cash_months": len(era_cash_months),
+            "cash_month_span": ([era_cash_months[0], era_cash_months[-1]]
+                                if era_cash_months else None),
+            "unlisted_holdings": sorted(s for s, h in hold.items()
+                                        if h["kind"] == "unlisted"),
+            "holdings": published,
+            "ladder_book_bp_raw": round(total_raw, 3),
+            "ladder_book_bp_screened": round(total_scr, 3),
+            "ladder_book_delta_bp": round(total_delta, 3),
+            "net_delta_bp": round(v["net_delta_bp"], 3),
+            "gross_abs_delta_bp": round(v["gross_abs_delta_bp"], 3),
+            "net_over_gross": (None if v["net_over_gross"] is None else
+                               round(v["net_over_gross"], 4)),
+            "ladder_classification": v["classification"],
+            "holdings_moved": v["names_moved"],
+            "zero_is_flat_not_cancelling": (v["classification"] == "flat_per_holding"),
+            "cash_residual_bp_raw": (None if cash is None else
+                                     round(cash["raw_level_bp"], 3)),
+            "cash_residual_share_of_ladder_level_pct": (
+                round(cash["raw_level_bp"] / total_raw * 100.0, 2)
+                if cash is not None and abs(total_raw) > 1e-9 else None),
+        }
+        rows[name]["e176_join"] = _ladder_split_join(rows[name], sib, name)
+
+    measured = {k: v for k, v in rows.items() if "ladder_classification" in v}
+    flat = sorted(k for k, v in measured.items()
+                  if v["ladder_classification"] == "flat_per_holding")
+    cancelling = sorted(k for k, v in measured.items()
+                        if v["ladder_classification"] == "cancelling")
+    moving = sorted(k for k, v in measured.items()
+                    if v["ladder_classification"] == "moving")
+    gross_max = max((v["gross_abs_delta_bp"] for v in measured.values()),
+                    default=None)
+    cash_shares = [abs(v["cash_residual_share_of_ladder_level_pct"])
+                   for v in measured.values()
+                   if v["cash_residual_share_of_ladder_level_pct"] is not None]
+    joins = [v["e176_join"]["max_abs_diff_bp"] for v in measured.values()
+             if v["e176_join"] and v["e176_join"]["max_abs_diff_bp"] is not None]
+    cash_eras = sorted(k for k, v in measured.items()
+                       if v["cash_residual_bp_raw"] is not None)
+    missing_eras = sorted(k for k, v in measured.items() if v["members_missing"])
+    return {
+        "study": "e179_tilt3_ladder_side_per_holding",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "side": "ladder (the fixed five-name book) contrib sink, kept per name",
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "moved_tolerance_bp": TILT3LADDERSPLIT_MOVED_BP,
+            "cash_pseudo_name": TILT3LADDERSPLIT_CASH,
+            "classification": (
+                "flat_per_holding = no holding moved; cancelling = some moved "
+                "but the net is under tolerance; moving = the net moved"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_flat_per_holding": flat,
+            "eras_cancelling": cancelling,
+            "eras_moving": moving,
+            "all_eras_flat_per_holding": len(flat) == len(measured),
+            "max_gross_abs_delta_bp": (None if gross_max is None else round(gross_max, 3)),
+            "cash_share_of_ladder_level_pct_range": (
+                None if not cash_shares else
+                [round(min(cash_shares), 2), round(max(cash_shares), 2)]),
+            "ladder_members_neutralised": ladder_neutralised,
+            "neutralised_names_in_panel": len(_neutralised),
+            "members_present_every_era": all(
+                set(v["members_present"]) == set(members) for v in measured.values()),
+            "eras_with_missing_members": missing_eras,
+            "members_missing_by_era": {k: v["members_missing"]
+                                       for k, v in measured.items()
+                                       if v["members_missing"]},
+            "eras_carrying_cash_residual": cash_eras,
+            "first_month_the_whole_fixed_book_could_be_held":
+                (all_full_hold_months[0] if all_full_hold_months else None),
+            "cash_residual_is_warmup_artifact": (
+                bool(all_cash_months) and bool(all_full_hold_months)
+                and max(all_cash_months) < min(all_full_hold_months)),
+            "cash_months_by_era": {k: v["cash_months"] for k, v in measured.items()},
+            "cash_months_total": len(all_cash_months),
+            "cash_month_span": ([all_cash_months[0], all_cash_months[-1]]
+                                if all_cash_months else None),
+            "months_with_missing_member_bars_by_era": {
+                k: v["months_with_missing_member_bars"] for k, v in measured.items()},
+            "e176_join_max_abs_diff_bp": (None if not joins else round(max(joins), 6)),
+        },
+        "screen_report": report,
+        "honest": [
+            "the cash residual is not a security: it is the leg's own leftover, "
+            "so its share is published but it is never counted as a member",
+            "a zero net with a non-zero gross is a cancellation, not a "
+            "measurement of stillness, which is exactly what a single side-level "
+            "number could not say",
+            "the holdings list is exhaustive for the era: an unlisted key is "
+            "published as unlisted rather than folded into the members",
+            "levels are annualised sums of the same w*r records E176 nets; the "
+            "net side is joined against the E176 face on disk when it is present",
+            "a member absent from an era means it had no bar on that arm, which "
+            "is disclosed as members_missing and never silently weighted to zero",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E177
 TILT3DECOMOFFSET_RESIDUAL_BP = 1.0   # a residual under this is arithmetic noise
 TILT3DECOMOFFSET_CLOSED_PCT = 80.0   # (b) explains this much of the offset -> closed
@@ -18161,6 +18424,49 @@ def selftest():
         and "eras" in run_tilt3booksplit.__code__.co_varnames,
         "E176 the split reads the same burn path and carries the mode/eras seams")
 
+    # ---- E179 ladder-side per-holding split
+    _e179_members = ["shA", "shB"]
+    _e179_months = ["2014-01", "2014-02"]
+    _e179_sides = ({"lad": {("2014-01", "shA"): 1e-4, ("2014-02", "shA"): 1e-4}},
+                   {"lad": {("2014-01", "shA"): 3e-4, ("2014-02", "shA"): 3e-4}})
+    _e179_hold = _ladder_side_split(_e179_sides[0], _e179_sides[1],
+                                    _e179_months, _e179_members)
+    chk(abs(_e179_hold["shA"]["delta_bp"] - 24.0) < 1e-6
+        and _e179_hold["shA"]["kind"] == "member",
+        "E179 the side is published per holding, not as one annualised sum")
+    _e179_cancel = _ladder_side_split(
+        {"lad": {("2014-01", "shA"): 2e-4, ("2014-01", "shB"): -2e-4}},
+        {"lad": {("2014-01", "shA"): 3e-4, ("2014-01", "shB"): -3e-4}},
+        _e179_months, _e179_members)
+    _e179_cv = _ladder_split_verdict(_e179_cancel)
+    chk(abs(_e179_cv["net_delta_bp"]) < 1e-9
+        and abs(_e179_cv["gross_abs_delta_bp"] - 12.0) < 1e-6
+        and _e179_cv["classification"] == "cancelling",
+        "E179 a zero net over two members moving in opposite directions reads as "
+        "cancelling, not as a still book -- the net alone cannot say which")
+    chk(_ladder_split_verdict(_e179_hold)["classification"] == "moving"
+        and _ladder_split_verdict(
+            {"shA": {"delta_bp": 0.0}})["classification"] == "flat_per_holding",
+        "E179 flat_per_holding requires every holding at zero, and one mover "
+        "defeats it")
+    _e179_cash = _ladder_side_split(
+        {"lad": {("2014-01", "__cash__"): 1e-4}},
+        {"lad": {("2014-01", "__cash__"): 1e-4}}, _e179_months, _e179_members)
+    chk(_e179_cash["__cash__"]["kind"] == "cash_residual"
+        and not _e179_cash["__cash__"]["is_security"]
+        and _e179_cash["__cash__"]["kind"] != "member",
+        "E179 the cash residual is labelled as a residual and never counts as a "
+        "security")
+    _e179_unl = _ladder_side_split({"lad": {("2014-01", "shZ"): 1e-4}},
+                                   {"lad": {("2014-01", "shZ"): 1e-4}},
+                                   _e179_months, _e179_members)
+    chk(_e179_unl["shZ"]["kind"] == "unlisted",
+        "E179 an unexpected holding in the sink is published as unlisted rather "
+        "than folded into the members")
+    chk("mode" in run_tilt3laddersplit.__code__.co_varnames
+        and "eras" in run_tilt3laddersplit.__code__.co_varnames,
+        "E179 the split reads the same burn path and carries the mode/eras seams")
+
     # ---- E177 decomposition level offset
     _e177_curve = [("2024-01-01", 1.0), ("2024-01-02", 1.05), ("2024-01-03", 0.98),
                    ("2024-01-04", 1.04)]
@@ -20625,6 +20931,7 @@ def main(argv):
                              "tilt3sign", "tilt3signband", "tilt3screensign",
                              "tilt3signnames", "tilt3signdropsweep",
                              "tilt3booksplit",
+                             "tilt3laddersplit",
                              "tilt3legfamily",
                              "tilt3decompoffset",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
@@ -21455,6 +21762,24 @@ def main(argv):
                                           "level_offset_bp":
                                               v.get("decomposition_level_offset_bp")}
                                       for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3laddersplit":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3laddersplit(outdir)
+        p = write_json(outdir, "LADDERSIDECASH-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3laddersplit",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "net_delta_bp": v.get("net_delta_bp"),
+                              "gross_abs_delta_bp": v.get("gross_abs_delta_bp"),
+                              "classification": v.get("ladder_classification"),
+                              "holdings_moved": v.get("holdings_moved"),
+                              "cash_share_pct":
+                                  v.get("cash_residual_share_of_ladder_level_pct")}
+                              for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
         return 0

@@ -2099,3 +2099,29 @@ fabricates the very delta it reports), and (b) annualising a per-member MEAN tak
 `12/n*1e4` -- copying that scale onto an average halves every number at n=2 and looks
 plausible. Evidence: results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json,
 research/digests/DIGEST-20261028-r1212-e178-leg-family.md.
+
+## E179 A side-level zero must be re-published per holding before it can be quoted (2026-10-28 r1213 bm-b)
+
+E176 published `ladder_book_delta_bp = 0.0` in every era for a fixed five-name leg. That is a
+SUM over five members plus a `__cash__` residual the leg books, and a zero sum has three
+different meanings: every holding stayed put, two holdings moved in opposite directions and
+cancelled, or the leg holds none of the names the repair touched. Only the first is evidence
+about the strategy.
+
+Measured per holding, per era, both arms: the gross absolute delta is also exactly **0.0 bp**
+in all five eras, so the net zero is five zeros and not a cancellation (`classification =
+flat_per_holding`; `eras_cancelling = []`). The members are not all present in every era --
+pre2017 holds three (510050/510300/510500), 2017_2020 holds four, from 2021_2023 all five --
+so "the fixed book is five names" is itself an era-dependent statement, and a missing member
+is disclosed as `members_missing` rather than silently weighted to zero. The cash residual is
+not a security: it books only in the 15 earliest months of the panel (2012-05..2013-07) and
+carries 1.39%-3.0% of the ladder level in the two eras that overlap them.
+
+How to apply: whenever a published level is a sum over a fixed basket, publish the basket's
+per-holding levels beside the net and classify the zero (`flat_per_holding` / `cancelling` /
+`moving`). A net-over-gross ratio near zero is the tell that the sum is hiding offsetting
+moves. Two sibling habits: label a pseudo-name (`__cash__`) as a residual so it can never be
+counted as a holding, and publish holdings the sink turns up but the basket does not declare
+as `unlisted` instead of folding them in. Evidence:
+results/e43_tilt_4member/LADDERSIDECASH-20261027.json,
+research/digests/DIGEST-20261028-r1213-e179-ladder-side-cash-split.md.

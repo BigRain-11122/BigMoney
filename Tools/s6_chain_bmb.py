@@ -1,0 +1,89 @@
+"""bm-b S6 chain runner (reusable).
+
+Same shape and same reason as Tools/s6_chain_bmc.py: the per-round S6 chain used
+to be an ad-hoc script rebuilt every window, which spent the round's wall time
+on generation instead of measurement. This copy carries the legs bm-b actually
+owns (R31 lane law: astock daily + ETF five-member panel are bm-b lanes) plus the
+shared data/panel and guard legs, and leaves the bm-c-hosted ETF production-book
+family to bm-c's own runner so the two machines do not refresh one book twice.
+
+Usage: python Tools\\s6_chain_bmb.py <round_no>
+Exit 0 always (legs are recorded; a non-zero leg is reported, not fatal) -- the
+round report must surface any rc!=0 leg verbatim.
+"""
+import json
+import os
+import subprocess
+import sys
+import time
+from datetime import datetime
+
+LEGS = [
+    ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
+    ("compute_audit", ["python", "scripts/compute_audit.py"]),
+    ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
+    ("update_daily", ["python", "scripts/update_daily.py"]),
+    # the official exchange calendar, so "no new bar" is not ambiguous
+    ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
+    ("market_regime", ["python", "scripts/market_regime.py"]),
+    ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
+    # bm-b lanes (R31): the A-share daily panel and the five-member ETF panel
+    ("update_astock_daily", ["python", "scripts/update_astock_daily.py"]),
+    ("update_etf_daily", ["python", "scripts/update_etf_daily.py"]),
+    # bm-b faces that read those panels
+    ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
+    ("regime_gate_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
+    ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
+    ("update_minute_feed", ["python", "scripts/update_minute_feed.py"]),
+    ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # CEO-facing pages
+    ("daily_report", ["python", "scripts/daily_report.py", "run"]),
+    ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    # fleet / bookkeeping guards
+    ("machine_health", ["python", "Tools/machine_health_face.py", "check"]),
+    ("gpu_face", ["python", "Tools/gpu_face.py", "audit"]),
+    ("attrition_guard", ["python", "scripts/attrition_ledger_guard.py", "scan"]),
+    ("pool_audit", ["python", os.path.join("scripts", "pool_audit.py")]),
+    ("token_meter", ["python", "scripts/token_meter.py"]),
+]
+
+
+def main(argv):
+    if not argv:
+        print("usage: s6_chain_bmb.py <round_no>")
+        return 2
+    rnd = str(argv[0])
+    out = os.path.join("results", "_r%sbmb_s6_chain.json" % rnd)
+    rows = []
+    t0 = time.time()
+    for leg, cmd in LEGS:
+        s = time.time()
+        try:
+            p = subprocess.run(cmd, capture_output=True, text=True,
+                               errors="replace", timeout=900)
+            rc, tail = p.returncode, (p.stdout or "").strip().splitlines()[-1:] or [""]
+        except Exception as exc:      # a leg that cannot even start is a leg, not a crash
+            rc, tail = 99, [str(exc)[:200]]
+        rows.append({"leg": leg, "rc": rc,
+                     "elapsed_sec": round(time.time() - s, 2),
+                     "tail": (tail[0][:300] if tail else "")})
+        print("%-22s rc=%-3s %6.2fs  %s" % (leg, rc, time.time() - s,
+                                            rows[-1]["tail"][:110]))
+    bad = [r for r in rows if r["rc"] != 0]
+    payload = {"round": rnd, "machine": "bm-b",
+               "ts": datetime.now().isoformat(timespec="seconds"),
+               "elapsed_sec": round(time.time() - t0, 2),
+               "legs_total": len(rows), "legs_rc0": len(rows) - len(bad),
+               "legs": rows}
+    with open(out, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1)
+        fh.write("\n")
+    print("\nS6 %d/%d rc=0  (%.1fs)  receipt=%s"
+          % (payload["legs_rc0"], payload["legs_total"], payload["elapsed_sec"], out))
+    for r in bad:
+        print("NONZERO %s rc=%s %s" % (r["leg"], r["rc"], r["tail"][:200]))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
