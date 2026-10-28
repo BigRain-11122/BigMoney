@@ -5,7 +5,7 @@
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
  "clock_offset_trusted": false,
- "clock_read": "2026-10-29T00:52:00+08:00",
+ "clock_read": "2026-10-29T01:11:03+08:00",
  "clock_rtt_ms": 264.6,
  "clock_source": "NATS KV FLEET_STATE state.bm-b (FluxGroup-NatsHB v2, 1/min)",
  "codely_live_count": 2,
@@ -30,9 +30,10 @@
  "free_vram_gb": 4.1,
  "free_vram_mb": 4180,
  "gpu": {
+  "free_gb": 1.82,
   "mem_total_mib": 8192,
-  "mem_used_mib": 7903,
-  "util": 100
+  "mem_used_mib": 6329,
+  "util": 21
  },
  "gpu_face": "nvidia-smi 2% / 4012 MiB used of 8192 MiB",
  "gpu_face_source": "nvidia-smi",
@@ -65,7 +66,7 @@
  "gpu_vram_free_mib": 4180,
  "gpu_vram_used_mb": 4012,
  "gpu_vram_used_mib": 4012,
- "heartbeat_epoch_utc": 1793206123,
+ "heartbeat_epoch_utc": 1793207463,
  "heartbeat_epoch_utc_face": "int",
  "idle_ram_gb": 13.14,
  "idle_ram_pct": 48.5,
@@ -90,7 +91,7 @@
  "last_push_ts": "2026-10-29T00:19:42+08:00",
  "last_round": 1220,
  "last_round_at": "2026-10-28T15:45:12+08:00",
- "last_seen": "2026-10-29T00:52:00+08:00",
+ "last_seen": "2026-10-29T01:11:03+08:00",
  "latest_artifact": "results/e43_tilt_4member/LADDERDROPCROSS-20261027.json",
  "local_not_on_origin": 1,
  "local_not_on_origin_commits": 1,
@@ -502,7 +503,7 @@
  "round": 1228,
  "round_no": 1228,
  "round_no_label": "r1227",
- "round_no_ts": "2026-10-29T00:52:00+08:00",
+ "round_no_ts": "2026-10-29T01:11:03+08:00",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
   "status": "alive"
@@ -521,11 +522,12 @@
  "sync_note": "push ddd349fad0 four-way verified: behind 0 / ahead 0, ls-tree origin/main carries LADDERDROPCROSS-20261027.json + DIGEST-20261028-e189-drop-crossing.md",
  "task": "r1228: E196 near-zero sign census (done)",
  "task_short": "E193 delta build stance (done)",
- "ts": "2026-10-29T00:52:00+08:00",
+ "ts": "2026-10-29T01:11:03+08:00",
  "ts_utc_ms": 1793179545247,
  "updated": "2026-10-28T15:45:12+08:00",
  "updated_at": "2026-10-28T15:45:12+08:00",
  "verdict": "working: 6 of 164 published additive-vs-gap cells print a sign that is rounding scale, not direction",
  "vram_free_gb": 4.1,
- "vram_used_gb": 3.9
+ "vram_used_gb": 3.9,
+ "work": "E196 shipped; delivery blocked on promisor (machine branch push rejected)"
 }
