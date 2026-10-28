@@ -1097,6 +1097,15 @@
   "smoke": "120/120 PASS at open",
   "stash": "round opened with 127 dirty faces; blocking set (16 regenerable report/status faces) stashed first, then the rest stashed whole so the rebase could start; backup of all 127 at %TEMP%\\r1217-dirty-backup; panels were re-derived by the S6 chain in-window (minute_feed +240 rows, daily_report, live_usage, machine-health)"
  },
+ "r1217_push": {
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "two pushes this round: (1) the rebase delivery ff 078b6e6810..3e2f221c0c carrying bm-b r1216 onto bm-c r1320/r1322, (2) the round delivery 3e2f221c0c..70c5391da5 (35 files). Four-way verified after both: HEAD == origin/main == 70c5391da5, behind 0 ahead 0, ls-tree origin carries WIDEMONTHCANCEL-20261027.json (9debade8) and the E184 digest (6966e0e6). Not staged on purpose: content/drama/* (another lane), fleet/machine-health.json (bm-a writer), results/runnable_pool.bm-b.json / minute_feed_status.json / token_usage.json (unsuffixed lane aggregates kept with the .bm-b twins).",
+  "pushed_sha": "70c5391da5a40a8658b0d866c2f819c5c2a49ca6",
+  "stash": "git stash still holds the pre-rebase dirty set as a recovery path (backup copy at %TEMP%\\r1217-dirty-backup); the chain re-derived every regenerable face in-window, so the stash was not popped.",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T13:30:00+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
