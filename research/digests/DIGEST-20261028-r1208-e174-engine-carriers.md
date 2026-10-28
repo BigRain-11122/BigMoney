@@ -3,7 +3,7 @@
 Face: `results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json`
 Leg: `python scripts/e39_panel_census.py tilt3signnames` (e39 selftest 552 -> 558)
 Pool: E174-TILT3SIGN-ENGINE-MOVE-NAMES (done, this round)
-Card: E175 in `knowledge/METHODOLOGY_ASSETS.md`
+Card: E174 in `knowledge/METHODOLOGY_ASSETS.md`
 
 ## Question
 

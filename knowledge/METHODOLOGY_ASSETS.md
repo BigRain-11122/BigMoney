@@ -1931,7 +1931,7 @@ were trying to price. Any split whose terms are supposed to sum needs a leg that
 asserts the sum (and a tolerance that scales with the base, or the rounding of a
 3-decimal pp times CNY 50M fails the leg on rounding alone).
 
-## E175 A two-book spread's delta must name its carriers, and a verdict that dies with one name is not a verdict (2026-10-28 r1208 bm-b)
+## E174 A two-book spread's delta must name its carriers, and a verdict that dies with one name is not a verdict (2026-10-28 r1208 bm-b)
 
 E171 published that the split-event repair moves the ENGINE column of the
 tilt-vs-engine face and flips 2024_now's era verdict. The engine column is
