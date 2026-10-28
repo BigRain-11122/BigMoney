@@ -1,6 +1,6 @@
 {
  "agenda_starved": false,
- "clock_read": "2026-10-29T07:22:28+08:00",
+ "clock_read": "2026-10-29T07:35:02+08:00",
  "cpu_core": 32,
  "cpu_cores": 32,
  "cpu_load_pct": 9.8,
@@ -47,7 +47,7 @@
  "gpu_vram_free_mib": 1794,
  "gpu_vram_used_mb": 10488,
  "gpu_vram_used_mib": 10488,
- "heartbeat_epoch_utc": 1793229748,
+ "heartbeat_epoch_utc": 1793230502,
  "heartbeat_epoch_utc_type_int": true,
  "idle_note": "not green-idle (RAM free 18.6% < 40%); pool carries 3 ignitable batches",
  "idle_rounds": 0,
@@ -74,7 +74,7 @@
  "last_round_closed": "2026-10-29T06:35:18+08:00",
  "last_round_label": "r1141",
  "last_round_ts": "2026-10-29T06:35:18+08:00",
- "last_seen": "2026-10-29T07:22:28+08:00",
+ "last_seen": "2026-10-29T07:35:02+08:00",
  "latest_artifact": "docs/futures_lane/TSMOM-2026-10-28.md",
  "machine_id": "bm-a",
  "memory_face_r1125": "rebuilt: lf 4->66, pua 19->0, entries 27 missing=0",
@@ -215,7 +215,7 @@
  "orphan_face": 1,
  "orphan_faces": 21,
  "orphan_killed": "pid 108888 update_astock_daily.py refresh",
- "push_verified": "PUSH-OK 7abea5da0d on origin/main (929c10d840..7abea5da0d), ahead=0 behind=0 verified by fetch + rev-list + ls-tree of docs/futures_lane/TSMOM-2026-10-28.md, scripts/futures_tsmom_signal.py, knowledge/METHODOLOGY_ASSETS.md",
+ "push_verified": "PUSH-OK 787ab8757f on origin/main (4bc2dfac11..787ab8757f), ahead=0 behind=0 verified by fetch + rev-list + rev-parse equality; 22 computed-face conflicts resolved to origin then re-derived here (9/9 rc0)",
  "ram_free_gb": 17.85,
  "ram_free_mb": 14213,
  "ram_free_pct": 19.1,
@@ -245,7 +245,7 @@
  },
  "task": "r1140 closed: the flip is the frequency source, and strength-hold 2% buys 70-72% fewer flips for 0.36-0.41pp of gross while moving the breakeven 1bp->10bp (60d) / 3bp->5bp (120d); next = the neighbourhood sweep that decides whether 2% is a plateau or a lucky grid point (theta 1/1.5/2/3/4% + confirm 2/4/8d, both lookbacks)",
  "total_ram_gb": 93.65,
- "ts": "2026-10-29T07:22:28+08:00",
+ "ts": "2026-10-29T07:35:02+08:00",
  "updated": "2026-10-28T23:30:34+08:00",
  "updated_at": "2026-10-29T05:55:44+08:00",
  "verdict": "green",
@@ -254,5 +254,6 @@
  "verify_r1124": "etf_book_ceo_page selftest 16/16 (new L13 expected_annual_cny == backtest cagr x capital = 110400.00; L14 excess_annual_cny == excess_pp x capital = 80500.00; L15 absent inputs -> None, never 0); live run rc0 rewrote LIVE-BOOK-20261027.md with the money table (110,400 / 80,500 / -60,100 on 1,000,000); smoke 78/78 PASS 0 FAIL; attrition CLEAN 4 ledgers; orders_ack CLEAN 114/123/0; D-19 both faces unchanged and reproducible, advance NOOP; orphan 0/11",
  "verify_r1141": "futures_overlay_fliprate_paths selftest 11/11 (identity arm exactly 0.00pp on every cell, cells provably live with turnover>0, lag n earns a one-day unit position on day+n, LOO drops exactly one variety each, is/oos partition with both halves >60 bars, gate rejects on share/floor/full/oos, empty measurement = NOT-ASSESSED not ADOPT, echoed rule == enforced rule, no passing arm means no adopted arm); live run rc0 over 15 paths x 4 arms, 1,649 bars to 2026-10-28, 10 varieties: tsmom60 strength_hold 2% share 1.0 worst +2.94 (loo_TS) full +3.93pp@10bp oos +4.76; tsmom120 strength_hold share 1.0 worst +1.44 full +1.99; tsmom60 confirm_3d share 1.0 worst +1.08 full +1.91; tsmom120 confirm_3d REJECT (share 0.867, oos -0.88) -> overall ADOPT tsmom60_strength_hold_2pct; smoke 137/137 (new leg recomputes every arm's verdict from the published cells using the rule the artifact echoes); chain 74/74 rc0; attrition CLEAN 4 ledgers (3 historical shrinks healed)",
  "verify_r1142": "futures_tsmom_signal selftest 22/22 (L17 damper really cuts flips, L18 participation unchanged in both books, L19 theta=0 is exactly the identity, L20 the page must state whether today's two books agree, L21 absent artifact -> null + 'no candidate' sentence instead of an invented book, L22 the rule is read from the verdict artifact); live run rc0 bar 2026-10-28 gross 3.00 long3/short6/flat1 flips 1469->412 same_day=True; smoke 139/139 PASS 0 FAIL with a new leg that recomputes the published flip counts from the panel using the artifact's own rule (page drift or a damper that degenerates into sign(momentum) reads red); attrition CLEAN 4 ledgers (3 historical shrinks healed); orders_ack CLEAN 114/123/0 zero face divergence; D-19 decisions DELTA consumed (D-20261029-06..10; only D-06 touches BigMoney and retracts a bm-c gpu_lease auto-leg this repo never had) and advanced; dualrun ZERO-DRIFT 674 streak 51; token_meter L2 0 today",
- "vram_free_gb": 1.8
+ "vram_free_gb": 1.8,
+ "watchdog_logontype_face": "Bigmoney-LoopWatchdog S4U XML flip failed (access denied) -> left at default principal; needs admin-elevated re-pass (disclosed r1143)"
 }
