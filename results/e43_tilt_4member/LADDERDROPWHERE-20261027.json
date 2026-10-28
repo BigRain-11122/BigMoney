@@ -1,0 +1,5026 @@
+{
+ "study": "e186_tilt3_ladder_drop_where",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "screen_mode": "neutralise_int",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "flagged_source": "LADDERLOMOCOMPOUND-*.json answers.drops_whose_effect_sign_differs",
+  "flagged_face_cutoff": "2026-10-27",
+  "method": "for each flagged (era, drop): monthly dropped-book minus full-book contribution under the additive reading (delta_sum) and under the multiplicative link (delta_link)",
+  "units": "monthly contributions in return units, gaps and effects in bp",
+  "carrier_share_floor": 0.5,
+  "carrier_def": "share of total |gap| held by the largest month; at or above the floor the reversal is named a single-month carrier, below it a dispersion"
+ },
+ "eras": {
+  "2024_now": {
+   "months": 34,
+   "flagged_drops": [
+    "sh510050"
+   ],
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_used": 34,
+     "months_unholdable": [],
+     "effect_arith_bp": 73.157432,
+     "effect_comp_bp": -34.014626,
+     "effect_comp_ratio_bp": -31.582096,
+     "comp_reading_gap_bp": 2.43253,
+     "effect_gap_bp": -107.172058,
+     "e183_join_arith_bp": 0.000568,
+     "e183_join_comp_bp": 0.000626,
+     "locus": {
+      "carrier_month": "2026-07",
+      "carrier_gap_bp": 64.388093,
+      "carrier_share": 0.237245,
+      "effective_months": 8.969,
+      "classification": "dispersion",
+      "top": [
+       {
+        "month": "2026-07",
+        "gap_bp": 64.388093,
+        "share": 0.237245
+       },
+       {
+        "month": "2024-01",
+        "gap_bp": 38.874675,
+        "share": 0.143238
+       },
+       {
+        "month": "2024-09",
+        "gap_bp": 26.712433,
+        "share": 0.098425
+       }
+      ],
+      "n_months_with_gap": 34
+     },
+     "months": [
+      {
+       "month": "2024-01",
+       "full_ret": -0.13016637,
+       "dropped_ret": -0.15614428,
+       "delta_sum": -0.02597791,
+       "delta_link": -0.02986538,
+       "gap_bp": 38.874675,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-02",
+       "full_ret": 0.11233962,
+       "dropped_ret": 0.12403265,
+       "delta_sum": 0.01169304,
+       "delta_link": 0.01051211,
+       "gap_bp": 11.809265,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-03",
+       "full_ret": -0.00732466,
+       "dropped_ret": -0.0097637,
+       "delta_sum": -0.00243904,
+       "delta_link": -0.00245704,
+       "gap_bp": 0.17997,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-04",
+       "full_ret": 0.01824061,
+       "dropped_ret": 0.01732669,
+       "delta_sum": -0.00091392,
+       "delta_link": -0.00089755,
+       "gap_bp": -0.163718,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-05",
+       "full_ret": -0.01838254,
+       "dropped_ret": -0.02292248,
+       "delta_sum": -0.00453994,
+       "delta_link": -0.00462496,
+       "gap_bp": 0.850186,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-06",
+       "full_ret": -0.04801006,
+       "dropped_ret": -0.05417143,
+       "delta_sum": -0.00616137,
+       "delta_link": -0.00647209,
+       "gap_bp": 3.107256,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-07",
+       "full_ret": 0.01357581,
+       "dropped_ret": 0.01464066,
+       "delta_sum": 0.00106486,
+       "delta_link": 0.00105059,
+       "gap_bp": 0.142626,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-08",
+       "full_ret": -0.04421271,
+       "dropped_ret": -0.0518234,
+       "delta_sum": -0.00761068,
+       "delta_link": -0.00796274,
+       "gap_bp": 3.520542,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-09",
+       "full_ret": 0.24097571,
+       "dropped_ret": 0.25473207,
+       "delta_sum": 0.01375636,
+       "delta_link": 0.01108511,
+       "gap_bp": 26.712433,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-10",
+       "full_ret": 0.00979653,
+       "dropped_ret": 0.02646241,
+       "delta_sum": 0.01666588,
+       "delta_link": 0.0165042,
+       "gap_bp": 1.616838,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-11",
+       "full_ret": 0.01253175,
+       "dropped_ret": 0.01575735,
+       "delta_sum": 0.0032256,
+       "delta_link": 0.00318568,
+       "gap_bp": 0.399221,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-12",
+       "full_ret": -0.01186309,
+       "dropped_ret": -0.01576643,
+       "delta_sum": -0.00390334,
+       "delta_link": -0.00395021,
+       "gap_bp": 0.468616,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-01",
+       "full_ret": -0.03338299,
+       "dropped_ret": -0.03283532,
+       "delta_sum": 0.00054767,
+       "delta_link": 0.00056658,
+       "gap_bp": -0.189142,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-02",
+       "full_ret": 0.05836818,
+       "dropped_ret": 0.06705914,
+       "delta_sum": 0.00869096,
+       "delta_link": 0.00821167,
+       "gap_bp": 4.792999,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-03",
+       "full_ret": -0.01072542,
+       "dropped_ret": -0.01536549,
+       "delta_sum": -0.00464007,
+       "delta_link": -0.00469037,
+       "gap_bp": 0.503062,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-04",
+       "full_ret": -0.02351377,
+       "dropped_ret": -0.02723591,
+       "delta_sum": -0.00372214,
+       "delta_link": -0.00381177,
+       "gap_bp": 0.896291,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-05",
+       "full_ret": 0.00929735,
+       "dropped_ret": 0.00644512,
+       "delta_sum": -0.00285223,
+       "delta_link": -0.00282595,
+       "gap_bp": -0.262739,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-06",
+       "full_ret": 0.03131626,
+       "dropped_ret": 0.03378905,
+       "delta_sum": 0.00247278,
+       "delta_link": 0.0023977,
+       "gap_bp": 0.750869,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-07",
+       "full_ret": 0.0447874,
+       "dropped_ret": 0.04782432,
+       "delta_sum": 0.00303692,
+       "delta_link": 0.00290673,
+       "gap_bp": 1.30185,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-08",
+       "full_ret": 0.13521952,
+       "dropped_ret": 0.15156783,
+       "delta_sum": 0.01634831,
+       "delta_link": 0.01440101,
+       "gap_bp": 19.47298,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-09",
+       "full_ret": 0.04499943,
+       "dropped_ret": 0.05503672,
+       "delta_sum": 0.01003728,
+       "delta_link": 0.00960506,
+       "gap_bp": 4.322224,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-10",
+       "full_ret": -0.00948516,
+       "dropped_ret": -0.0148421,
+       "delta_sum": -0.00535694,
+       "delta_link": -0.00540824,
+       "gap_bp": 0.51298,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-11",
+       "full_ret": -0.033008,
+       "dropped_ret": -0.03751575,
+       "delta_sum": -0.00450775,
+       "delta_link": -0.00466162,
+       "gap_bp": 1.538708,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-12",
+       "full_ret": 0.02852323,
+       "dropped_ret": 0.03624797,
+       "delta_sum": 0.00772474,
+       "delta_link": 0.00751052,
+       "gap_bp": 2.142241,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-01",
+       "full_ret": 0.06162719,
+       "dropped_ret": 0.07358903,
+       "delta_sum": 0.01196184,
+       "delta_link": 0.01126746,
+       "gap_bp": 6.94382,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-02",
+       "full_ret": 0.01170927,
+       "dropped_ret": 0.01617895,
+       "delta_sum": 0.00446968,
+       "delta_link": 0.00441795,
+       "gap_bp": 0.51731,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-03",
+       "full_ret": -0.10580538,
+       "dropped_ret": -0.11391557,
+       "delta_sum": -0.00811018,
+       "delta_link": -0.00906982,
+       "gap_bp": 9.596358,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-04",
+       "full_ret": 0.11199346,
+       "dropped_ret": 0.12653723,
+       "delta_sum": 0.01454377,
+       "delta_link": 0.013079,
+       "gap_bp": 14.647629,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-05",
+       "full_ret": 0.02673468,
+       "dropped_ret": 0.03848073,
+       "delta_sum": 0.01174606,
+       "delta_link": 0.01144021,
+       "gap_bp": 3.058502,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-06",
+       "full_ret": 0.09352896,
+       "dropped_ret": 0.10945023,
+       "delta_sum": 0.01592127,
+       "delta_link": 0.01455953,
+       "gap_bp": 13.617379,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-07",
+       "full_ret": -0.15374392,
+       "dropped_ret": -0.1891852,
+       "delta_sum": -0.03544128,
+       "delta_link": -0.04188009,
+       "gap_bp": 64.388093,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-08",
+       "full_ret": 0.04261542,
+       "dropped_ret": 0.05295405,
+       "delta_sum": 0.01033863,
+       "delta_link": 0.00991605,
+       "gap_bp": 4.225768,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-09",
+       "full_ret": -0.06029748,
+       "dropped_ret": -0.0668078,
+       "delta_sum": -0.00651032,
+       "delta_link": -0.00692806,
+       "gap_bp": 4.177447,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-10",
+       "full_ret": -0.10980882,
+       "dropped_ret": -0.1306394,
+       "delta_sum": -0.02083058,
+       "delta_link": -0.02340012,
+       "gap_bp": 25.695397,
+       "opposite_sign": false
+      }
+     ],
+     "months_with_opposite_sign": []
+    }
+   ]
+  },
+  "full": {
+   "months": 162,
+   "flagged_drops": [
+    "sh510050"
+   ],
+   "drops": [
+    {
+     "name": "sh510050",
+     "months_used": 162,
+     "months_unholdable": [],
+     "effect_arith_bp": 0.074366,
+     "effect_comp_bp": -38.198673,
+     "effect_comp_ratio_bp": -36.775324,
+     "comp_reading_gap_bp": 1.423349,
+     "effect_gap_bp": -38.273039,
+     "e183_join_arith_bp": 0.000634,
+     "e183_join_comp_bp": 0.000327,
+     "locus": {
+      "carrier_month": "2014-12",
+      "carrier_gap_bp": -95.913871,
+      "carrier_share": 0.118303,
+      "effective_months": 25.356,
+      "classification": "dispersion",
+      "top": [
+       {
+        "month": "2014-12",
+        "gap_bp": -95.913871,
+        "share": 0.118303
+       },
+       {
+        "month": "2016-01",
+        "gap_bp": 71.106351,
+        "share": 0.087705
+       },
+       {
+        "month": "2026-07",
+        "gap_bp": 64.388093,
+        "share": 0.079418
+       }
+      ],
+      "n_months_with_gap": 162
+     },
+     "months": [
+      {
+       "month": "2013-04",
+       "full_ret": 0.00309643,
+       "dropped_ret": 0.00309643,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-05",
+       "full_ret": 0.00311567,
+       "dropped_ret": 0.00311567,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-06",
+       "full_ret": 0.00491429,
+       "dropped_ret": 0.00491429,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-07",
+       "full_ret": -0.00303747,
+       "dropped_ret": 0.00463942,
+       "delta_sum": 0.00767689,
+       "delta_link": 0.00770028,
+       "gap_bp": -0.233894,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-08",
+       "full_ret": 0.0586328,
+       "dropped_ret": 0.05731557,
+       "delta_sum": -0.00131724,
+       "delta_link": -0.00124428,
+       "gap_bp": -0.729556,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-09",
+       "full_ret": 0.03821369,
+       "dropped_ret": 0.04275349,
+       "delta_sum": 0.00453981,
+       "delta_link": 0.00437271,
+       "gap_bp": 1.670974,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-10",
+       "full_ret": -0.00989742,
+       "dropped_ret": -0.01376942,
+       "delta_sum": -0.003872,
+       "delta_link": -0.00391071,
+       "gap_bp": 0.387059,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-11",
+       "full_ret": 0.00570811,
+       "dropped_ret": 0.02747332,
+       "delta_sum": 0.02176521,
+       "delta_link": 0.02164168,
+       "gap_bp": 1.235331,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-12",
+       "full_ret": -0.04948551,
+       "dropped_ret": -0.04779724,
+       "delta_sum": 0.00168827,
+       "delta_link": 0.00177616,
+       "gap_bp": -0.878943,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-01",
+       "full_ret": -0.07093053,
+       "dropped_ret": -0.0799247,
+       "delta_sum": -0.00899417,
+       "delta_link": -0.00968083,
+       "gap_bp": 6.866666,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-02",
+       "full_ret": -0.00815651,
+       "dropped_ret": -0.00802488,
+       "delta_sum": 0.00013163,
+       "delta_link": 0.00013271,
+       "gap_bp": -0.010825,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-03",
+       "full_ret": -0.00428849,
+       "dropped_ret": -0.01237129,
+       "delta_sum": -0.0080828,
+       "delta_link": -0.00811761,
+       "gap_bp": 0.348123,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-04",
+       "full_ret": -0.0015195,
+       "dropped_ret": -0.01320806,
+       "delta_sum": -0.01168856,
+       "delta_link": -0.01170635,
+       "gap_bp": 0.177878,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-05",
+       "full_ret": 0.00423184,
+       "dropped_ret": 0.01120596,
+       "delta_sum": 0.00697412,
+       "delta_link": 0.00694473,
+       "gap_bp": 0.29389,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-06",
+       "full_ret": 0.01819076,
+       "dropped_ret": 0.0202915,
+       "delta_sum": 0.00210075,
+       "delta_link": 0.00206322,
+       "gap_bp": 0.375314,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-07",
+       "full_ret": 0.09619405,
+       "dropped_ret": 0.08978472,
+       "delta_sum": -0.00640932,
+       "delta_link": -0.00584689,
+       "gap_bp": -5.624359,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-08",
+       "full_ret": 0.00363832,
+       "dropped_ret": 0.01794169,
+       "delta_sum": 0.01430337,
+       "delta_link": 0.01425152,
+       "gap_bp": 0.518516,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-09",
+       "full_ret": 0.05962615,
+       "dropped_ret": 0.07591675,
+       "delta_sum": 0.0162906,
+       "delta_link": 0.01537391,
+       "gap_bp": 9.166873,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-10",
+       "full_ret": 0.02195465,
+       "dropped_ret": 0.02120903,
+       "delta_sum": -0.00074562,
+       "delta_link": -0.0007296,
+       "gap_bp": -0.160181,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-11",
+       "full_ret": 0.09223275,
+       "dropped_ret": 0.07974021,
+       "delta_sum": -0.01249254,
+       "delta_link": -0.01143762,
+       "gap_bp": -10.54923,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-12",
+       "full_ret": 0.18977035,
+       "dropped_ret": 0.12963689,
+       "delta_sum": -0.06013346,
+       "delta_link": -0.05054207,
+       "gap_bp": -95.913871,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-01",
+       "full_ret": -0.01090503,
+       "dropped_ret": 0.01493361,
+       "delta_sum": 0.02583864,
+       "delta_link": 0.02612352,
+       "gap_bp": -2.848779,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-02",
+       "full_ret": 0.04752101,
+       "dropped_ret": 0.05454166,
+       "delta_sum": 0.00702064,
+       "delta_link": 0.00670215,
+       "gap_bp": 3.18493,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-03",
+       "full_ret": 0.14186396,
+       "dropped_ret": 0.15990301,
+       "delta_sum": 0.01803905,
+       "delta_link": 0.0157979,
+       "gap_bp": 22.411523,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-05",
+       "full_ret": -0.00614054,
+       "dropped_ret": 0.01907699,
+       "delta_sum": 0.02521754,
+       "delta_link": 0.02537334,
+       "gap_bp": -1.558062,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-06",
+       "full_ret": -0.05929591,
+       "dropped_ret": -0.05935465,
+       "delta_sum": -5.874e-05,
+       "delta_link": -6.244e-05,
+       "gap_bp": 0.037026,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-07",
+       "full_ret": -0.12889097,
+       "dropped_ret": -0.13089197,
+       "delta_sum": -0.002001,
+       "delta_link": -0.00229707,
+       "gap_bp": 2.960716,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-08",
+       "full_ret": -0.09908386,
+       "dropped_ret": -0.11068271,
+       "delta_sum": -0.01159885,
+       "delta_link": -0.01287451,
+       "gap_bp": 12.75656,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-09",
+       "full_ret": -0.03707065,
+       "dropped_ret": -0.04838776,
+       "delta_sum": -0.01131711,
+       "delta_link": -0.01175279,
+       "gap_bp": 4.356837,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-10",
+       "full_ret": 0.09220009,
+       "dropped_ret": 0.10967015,
+       "delta_sum": 0.01747005,
+       "delta_link": 0.01599529,
+       "gap_bp": 14.747669,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-11",
+       "full_ret": 0.01131676,
+       "dropped_ret": 0.01030971,
+       "delta_sum": -0.00100705,
+       "delta_link": -0.00099578,
+       "gap_bp": -0.11269,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-12",
+       "full_ret": 0.04435247,
+       "dropped_ret": 0.0488943,
+       "delta_sum": 0.00454183,
+       "delta_link": 0.00434894,
+       "gap_bp": 1.928864,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-01",
+       "full_ret": -0.2195858,
+       "dropped_ret": -0.2448572,
+       "delta_sum": -0.0252714,
+       "delta_link": -0.03238203,
+       "gap_bp": 71.106351,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-02",
+       "full_ret": -0.01809418,
+       "dropped_ret": -0.01922088,
+       "delta_sum": -0.0011267,
+       "delta_link": -0.00114747,
+       "gap_bp": 0.207625,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-03",
+       "full_ret": 0.1130163,
+       "dropped_ret": 0.11611273,
+       "delta_sum": 0.00309643,
+       "delta_link": 0.00278202,
+       "gap_bp": 3.144132,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-04",
+       "full_ret": -0.01337691,
+       "dropped_ret": -0.01734771,
+       "delta_sum": -0.0039708,
+       "delta_link": -0.00402464,
+       "gap_bp": 0.538373,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-05",
+       "full_ret": 0.00187502,
+       "dropped_ret": -0.00680535,
+       "delta_sum": -0.00868037,
+       "delta_link": -0.00866413,
+       "gap_bp": -0.162454,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-06",
+       "full_ret": 0.00666525,
+       "dropped_ret": 0.01531528,
+       "delta_sum": 0.00865003,
+       "delta_link": 0.00859276,
+       "gap_bp": 0.572729,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-07",
+       "full_ret": 0.02476311,
+       "dropped_ret": 0.02194344,
+       "delta_sum": -0.00281967,
+       "delta_link": -0.00275153,
+       "gap_bp": -0.681365,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-08",
+       "full_ret": 0.03926127,
+       "dropped_ret": 0.04005315,
+       "delta_sum": 0.00079188,
+       "delta_link": 0.00076196,
+       "gap_bp": 0.299157,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-09",
+       "full_ret": -0.01811378,
+       "dropped_ret": -0.01654137,
+       "delta_sum": 0.00157241,
+       "delta_link": 0.00160142,
+       "gap_bp": -0.290078,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-10",
+       "full_ret": 0.02347594,
+       "dropped_ret": 0.01964358,
+       "delta_sum": -0.00383236,
+       "delta_link": -0.00374446,
+       "gap_bp": -0.879046,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-11",
+       "full_ret": 0.04296391,
+       "dropped_ret": 0.0399242,
+       "delta_sum": -0.00303971,
+       "delta_link": -0.00291449,
+       "gap_bp": -1.252179,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-12",
+       "full_ret": -0.05757639,
+       "dropped_ret": -0.05829821,
+       "delta_sum": -0.00072182,
+       "delta_link": -0.00076592,
+       "gap_bp": 0.440988,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-01",
+       "full_ret": 0.01258012,
+       "dropped_ret": 0.00153859,
+       "delta_sum": -0.01104152,
+       "delta_link": -0.01090435,
+       "gap_bp": -1.371779,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-02",
+       "full_ret": 0.01773238,
+       "dropped_ret": 0.02615063,
+       "delta_sum": 0.00841826,
+       "delta_link": 0.00827158,
+       "gap_bp": 1.466748,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-03",
+       "full_ret": -0.00323109,
+       "dropped_ret": -0.00243335,
+       "delta_sum": 0.00079774,
+       "delta_link": 0.00080033,
+       "gap_bp": -0.025859,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-04",
+       "full_ret": -0.01339307,
+       "dropped_ret": -0.01681445,
+       "delta_sum": -0.00342138,
+       "delta_link": -0.00346782,
+       "gap_bp": 0.464448,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-05",
+       "full_ret": 0.00438712,
+       "dropped_ret": -0.02295609,
+       "delta_sum": -0.02734322,
+       "delta_link": -0.02722379,
+       "gap_bp": -1.194341,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-06",
+       "full_ret": 0.04927767,
+       "dropped_ret": 0.05744903,
+       "delta_sum": 0.00817137,
+       "delta_link": 0.00778761,
+       "gap_bp": 3.837553,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-07",
+       "full_ret": 0.0353977,
+       "dropped_ret": 0.02865706,
+       "delta_sum": -0.00674063,
+       "delta_link": -0.00651019,
+       "gap_bp": -2.304457,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-08",
+       "full_ret": 0.0281017,
+       "dropped_ret": 0.02633111,
+       "delta_sum": -0.00177059,
+       "delta_link": -0.00172219,
+       "gap_bp": -0.483966,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-09",
+       "full_ret": 0.00437272,
+       "dropped_ret": 0.01375766,
+       "delta_sum": 0.00938494,
+       "delta_link": 0.00934408,
+       "gap_bp": 0.40859,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-10",
+       "full_ret": 0.02562147,
+       "dropped_ret": 0.01588358,
+       "delta_sum": -0.00973789,
+       "delta_link": -0.00949463,
+       "gap_bp": -2.432662,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-11",
+       "full_ret": -0.01375535,
+       "dropped_ret": -0.02169366,
+       "delta_sum": -0.00793832,
+       "delta_link": -0.00804903,
+       "gap_bp": 1.107172,
+       "opposite_sign": false
+      },
+      {
+       "month": "2017-12",
+       "full_ret": -0.00373345,
+       "dropped_ret": -0.00436774,
+       "delta_sum": -0.00063429,
+       "delta_link": -0.00063666,
+       "gap_bp": 0.02377,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-01",
+       "full_ret": 0.02346991,
+       "dropped_ret": 0.00214129,
+       "delta_sum": -0.02132862,
+       "delta_link": -0.02083952,
+       "gap_bp": -4.891018,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-02",
+       "full_ret": -0.04640854,
+       "dropped_ret": -0.03562082,
+       "delta_sum": 0.01078772,
+       "delta_link": 0.01131273,
+       "gap_bp": -5.250072,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-03",
+       "full_ret": -0.00659614,
+       "dropped_ret": 0.00958637,
+       "delta_sum": 0.0161825,
+       "delta_link": 0.01628995,
+       "gap_bp": -1.074508,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-04",
+       "full_ret": -0.03558621,
+       "dropped_ret": -0.03901836,
+       "delta_sum": -0.00343215,
+       "delta_link": -0.00355879,
+       "gap_bp": 1.26644,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-05",
+       "full_ret": -0.00479004,
+       "dropped_ret": -0.00790118,
+       "delta_sum": -0.00311114,
+       "delta_link": -0.00312612,
+       "gap_bp": 0.149742,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-06",
+       "full_ret": -0.08225356,
+       "dropped_ret": -0.08899361,
+       "delta_sum": -0.00674005,
+       "delta_link": -0.00734413,
+       "gap_bp": 6.040806,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-07",
+       "full_ret": 0.01002501,
+       "dropped_ret": -0.00101739,
+       "delta_sum": -0.0110424,
+       "delta_link": -0.0109328,
+       "gap_bp": -1.096014,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-08",
+       "full_ret": -0.05885677,
+       "dropped_ret": -0.06918262,
+       "delta_sum": -0.01032585,
+       "delta_link": -0.01097161,
+       "gap_bp": 6.457532,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-09",
+       "full_ret": 0.02116844,
+       "dropped_ret": 0.00898977,
+       "delta_sum": -0.01217866,
+       "delta_link": -0.0119262,
+       "gap_bp": -2.524591,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-10",
+       "full_ret": -0.09375834,
+       "dropped_ret": -0.10538146,
+       "delta_sum": -0.01162312,
+       "delta_link": -0.01282563,
+       "gap_bp": 12.025097,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-11",
+       "full_ret": 0.02399273,
+       "dropped_ret": 0.03412152,
+       "delta_sum": 0.01012879,
+       "delta_link": 0.00989146,
+       "gap_bp": 2.373232,
+       "opposite_sign": false
+      },
+      {
+       "month": "2018-12",
+       "full_ret": -0.05775333,
+       "dropped_ret": -0.05086467,
+       "delta_sum": 0.00688866,
+       "delta_link": 0.00731089,
+       "gap_bp": -4.222282,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-01",
+       "full_ret": 0.03136058,
+       "dropped_ret": 0.01485601,
+       "delta_sum": -0.01650456,
+       "delta_link": -0.01600271,
+       "gap_bp": -5.018542,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-02",
+       "full_ret": 0.15798168,
+       "dropped_ret": 0.17664242,
+       "delta_sum": 0.01866074,
+       "delta_link": 0.01611488,
+       "gap_bp": 25.45856,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-03",
+       "full_ret": 0.07703618,
+       "dropped_ret": 0.09218222,
+       "delta_sum": 0.01514604,
+       "delta_link": 0.0140627,
+       "gap_bp": 10.833369,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-04",
+       "full_ret": -0.00711082,
+       "dropped_ret": -0.02234774,
+       "delta_sum": -0.01523691,
+       "delta_link": -0.01534604,
+       "gap_bp": 1.091229,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-05",
+       "full_ret": -0.06373339,
+       "dropped_ret": -0.0614849,
+       "delta_sum": 0.00224848,
+       "delta_link": 0.00240154,
+       "gap_bp": -1.530584,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-06",
+       "full_ret": 0.04039952,
+       "dropped_ret": 0.02648836,
+       "delta_sum": -0.01391115,
+       "delta_link": -0.01337097,
+       "gap_bp": -5.401808,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-07",
+       "full_ret": 0.00415835,
+       "dropped_ret": 0.00404869,
+       "delta_sum": -0.00010966,
+       "delta_link": -0.00010921,
+       "gap_bp": -0.004541,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-08",
+       "full_ret": -0.00148599,
+       "dropped_ret": 0.00259529,
+       "delta_sum": 0.00408128,
+       "delta_link": 0.00408735,
+       "gap_bp": -0.060738,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-09",
+       "full_ret": 0.00778645,
+       "dropped_ret": 0.0069364,
+       "delta_sum": -0.00085005,
+       "delta_link": -0.00084348,
+       "gap_bp": -0.065677,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-10",
+       "full_ret": 0.01207329,
+       "dropped_ret": 0.00951133,
+       "delta_sum": -0.00256196,
+       "delta_link": -0.0025314,
+       "gap_bp": -0.305623,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-11",
+       "full_ret": -0.01494063,
+       "dropped_ret": -0.01290691,
+       "delta_sum": 0.00203372,
+       "delta_link": 0.00206456,
+       "gap_bp": -0.308459,
+       "opposite_sign": false
+      },
+      {
+       "month": "2019-12",
+       "full_ret": 0.0644321,
+       "dropped_ret": 0.0724285,
+       "delta_sum": 0.0079964,
+       "delta_link": 0.00751236,
+       "gap_bp": 4.840373,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-01",
+       "full_ret": -0.0039609,
+       "dropped_ret": 0.00881004,
+       "delta_sum": 0.01277094,
+       "delta_link": 0.01282173,
+       "gap_bp": -0.507856,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-02",
+       "full_ret": 0.00543706,
+       "dropped_ret": 0.01725116,
+       "delta_sum": 0.01181409,
+       "delta_link": 0.01175021,
+       "gap_bp": 0.638866,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-03",
+       "full_ret": -0.06340358,
+       "dropped_ret": -0.06852036,
+       "delta_sum": -0.00511678,
+       "delta_link": -0.00546317,
+       "gap_bp": 3.463843,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-04",
+       "full_ret": 0.06285574,
+       "dropped_ret": 0.06219863,
+       "delta_sum": -0.00065711,
+       "delta_link": -0.00061825,
+       "gap_bp": -0.388603,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-05",
+       "full_ret": 0.00263151,
+       "dropped_ret": 0.0092235,
+       "delta_sum": 0.00659199,
+       "delta_link": 0.00657469,
+       "gap_bp": 0.173014,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-06",
+       "full_ret": 0.07663785,
+       "dropped_ret": 0.08433752,
+       "delta_sum": 0.00769967,
+       "delta_link": 0.00715159,
+       "gap_bp": 5.480824,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-07",
+       "full_ret": 0.132657,
+       "dropped_ret": 0.13753408,
+       "delta_sum": 0.00487708,
+       "delta_link": 0.00430588,
+       "gap_bp": 5.712046,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-08",
+       "full_ret": 0.02631957,
+       "dropped_ret": 0.02466623,
+       "delta_sum": -0.00165333,
+       "delta_link": -0.00161093,
+       "gap_bp": -0.423991,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-09",
+       "full_ret": -0.05654375,
+       "dropped_ret": -0.06440054,
+       "delta_sum": -0.00785679,
+       "delta_link": -0.00832767,
+       "gap_bp": 4.708774,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-10",
+       "full_ret": 0.00622546,
+       "dropped_ret": 0.00316436,
+       "delta_sum": -0.0030611,
+       "delta_link": -0.00304216,
+       "gap_bp": -0.189388,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-11",
+       "full_ret": 0.03990454,
+       "dropped_ret": 0.03886682,
+       "delta_sum": -0.00103772,
+       "delta_link": -0.0009979,
+       "gap_bp": -0.398206,
+       "opposite_sign": false
+      },
+      {
+       "month": "2020-12",
+       "full_ret": 0.02917276,
+       "dropped_ret": 0.02315295,
+       "delta_sum": -0.00601981,
+       "delta_link": -0.00584917,
+       "gap_bp": -1.706365,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-01",
+       "full_ret": -0.00359944,
+       "dropped_ret": -0.01150257,
+       "delta_sum": -0.00790313,
+       "delta_link": -0.00793168,
+       "gap_bp": 0.285496,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-02",
+       "full_ret": 0.00496963,
+       "dropped_ret": 0.00222355,
+       "delta_sum": -0.00274609,
+       "delta_link": -0.00273251,
+       "gap_bp": -0.135796,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-03",
+       "full_ret": -0.03041684,
+       "dropped_ret": -0.02179563,
+       "delta_sum": 0.00862121,
+       "delta_link": 0.00889166,
+       "gap_bp": -2.704563,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-04",
+       "full_ret": 0.01494759,
+       "dropped_ret": 0.02404559,
+       "delta_sum": 0.009098,
+       "delta_link": 0.00896401,
+       "gap_bp": 1.339903,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-05",
+       "full_ret": 0.04914325,
+       "dropped_ret": 0.0502776,
+       "delta_sum": 0.00113435,
+       "delta_link": 0.00108121,
+       "gap_bp": 0.531344,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-06",
+       "full_ret": 0.00361966,
+       "dropped_ret": 0.01625435,
+       "delta_sum": 0.0126347,
+       "delta_link": 0.01258913,
+       "gap_bp": 0.455683,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-07",
+       "full_ret": -0.03381485,
+       "dropped_ret": -0.01218982,
+       "delta_sum": 0.02162502,
+       "delta_link": 0.02238186,
+       "gap_bp": -7.568393,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-08",
+       "full_ret": 0.03308722,
+       "dropped_ret": 0.04679248,
+       "delta_sum": 0.01370526,
+       "delta_link": 0.01326631,
+       "gap_bp": 4.389455,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-09",
+       "full_ret": -0.00626674,
+       "dropped_ret": -0.01808472,
+       "delta_sum": -0.01181798,
+       "delta_link": -0.01189251,
+       "gap_bp": 0.745273,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-10",
+       "full_ret": 0.00637022,
+       "dropped_ret": 0.00075365,
+       "delta_sum": -0.00561656,
+       "delta_link": -0.00558101,
+       "gap_bp": -0.355523,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-11",
+       "full_ret": 0.01612845,
+       "dropped_ret": 0.03549319,
+       "delta_sum": 0.01936474,
+       "delta_link": 0.01905738,
+       "gap_bp": 3.073659,
+       "opposite_sign": false
+      },
+      {
+       "month": "2021-12",
+       "full_ret": 0.00518287,
+       "dropped_ret": -0.00112752,
+       "delta_sum": -0.00631039,
+       "delta_link": -0.00627785,
+       "gap_bp": -0.325373,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-01",
+       "full_ret": -0.10598163,
+       "dropped_ret": -0.11460578,
+       "delta_sum": -0.00862415,
+       "delta_link": -0.0096465,
+       "gap_bp": 10.223521,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-02",
+       "full_ret": 0.02586893,
+       "dropped_ret": 0.02994856,
+       "delta_sum": 0.00407964,
+       "delta_link": 0.00397676,
+       "gap_bp": 1.028746,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-03",
+       "full_ret": -0.08421817,
+       "dropped_ret": -0.0911062,
+       "delta_sum": -0.00688804,
+       "delta_link": -0.00752148,
+       "gap_bp": 6.334455,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-04",
+       "full_ret": -0.09466028,
+       "dropped_ret": -0.11136074,
+       "delta_sum": -0.01670046,
+       "delta_link": -0.01844662,
+       "gap_bp": 17.461624,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-05",
+       "full_ret": 0.05749214,
+       "dropped_ret": 0.0720781,
+       "delta_sum": 0.01458596,
+       "delta_link": 0.01379298,
+       "gap_bp": 7.929876,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-06",
+       "full_ret": 0.0887715,
+       "dropped_ret": 0.08717311,
+       "delta_sum": -0.0015984,
+       "delta_link": -0.00146807,
+       "gap_bp": -1.30323,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-07",
+       "full_ret": -0.03084375,
+       "dropped_ret": -0.01865752,
+       "delta_sum": 0.01218624,
+       "delta_link": 0.01257407,
+       "gap_bp": -3.878315,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-08",
+       "full_ret": -0.05559228,
+       "dropped_ret": -0.0674976,
+       "delta_sum": -0.01190532,
+       "delta_link": -0.01260612,
+       "gap_bp": 7.00803,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-09",
+       "full_ret": -0.07913355,
+       "dropped_ret": -0.08489546,
+       "delta_sum": -0.00576191,
+       "delta_link": -0.00625706,
+       "gap_bp": 4.951431,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-10",
+       "full_ret": -0.02214256,
+       "dropped_ret": 0.00819969,
+       "delta_sum": 0.03034225,
+       "delta_link": 0.03102932,
+       "gap_bp": -6.870686,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-11",
+       "full_ret": 0.06583131,
+       "dropped_ret": 0.04603082,
+       "delta_sum": -0.01980049,
+       "delta_link": -0.01857751,
+       "gap_bp": -12.229817,
+       "opposite_sign": false
+      },
+      {
+       "month": "2022-12",
+       "full_ret": -0.01773657,
+       "dropped_ret": -0.02417104,
+       "delta_sum": -0.00643447,
+       "delta_link": -0.00655066,
+       "gap_bp": 1.161862,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-01",
+       "full_ret": 0.05989902,
+       "dropped_ret": 0.05866374,
+       "delta_sum": -0.00123528,
+       "delta_link": -0.00116547,
+       "gap_bp": -0.698102,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-02",
+       "full_ret": -0.01435177,
+       "dropped_ret": -0.01076468,
+       "delta_sum": 0.00358708,
+       "delta_link": 0.00363931,
+       "gap_bp": -0.522305,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-03",
+       "full_ret": 0.01378678,
+       "dropped_ret": 0.02763648,
+       "delta_sum": 0.0138497,
+       "delta_link": 0.01366135,
+       "gap_bp": 1.883461,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-04",
+       "full_ret": 3.638e-05,
+       "dropped_ret": -0.0015841,
+       "delta_sum": -0.00162048,
+       "delta_link": -0.00162042,
+       "gap_bp": -0.000589,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-05",
+       "full_ret": -0.04615018,
+       "dropped_ret": -0.03869927,
+       "delta_sum": 0.00745091,
+       "delta_link": 0.0078114,
+       "gap_bp": -3.604977,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-06",
+       "full_ret": -1.3e-07,
+       "dropped_ret": -0.00580733,
+       "delta_sum": -0.00580721,
+       "delta_link": -0.00580721,
+       "gap_bp": 7e-06,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-07",
+       "full_ret": 0.02731723,
+       "dropped_ret": 0.0114693,
+       "delta_sum": -0.01584792,
+       "delta_link": -0.01542651,
+       "gap_bp": -4.214095,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-08",
+       "full_ret": -0.04912468,
+       "dropped_ret": -0.04816307,
+       "delta_sum": 0.00096161,
+       "delta_link": 0.00101129,
+       "gap_bp": -0.496793,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-09",
+       "full_ret": -0.02144366,
+       "dropped_ret": -0.0278259,
+       "delta_sum": -0.00638224,
+       "delta_link": -0.0065221,
+       "gap_bp": 1.398576,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-10",
+       "full_ret": -0.02605462,
+       "dropped_ret": -0.02314872,
+       "delta_sum": 0.0029059,
+       "delta_link": 0.00298364,
+       "gap_bp": -0.777375,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-11",
+       "full_ret": -0.00911098,
+       "dropped_ret": -0.00280561,
+       "delta_sum": 0.00630537,
+       "delta_link": 0.00636334,
+       "gap_bp": -0.579763,
+       "opposite_sign": false
+      },
+      {
+       "month": "2023-12",
+       "full_ret": -0.01887324,
+       "dropped_ret": -0.01915971,
+       "delta_sum": -0.00028646,
+       "delta_link": -0.00029197,
+       "gap_bp": 0.055105,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-01",
+       "full_ret": -0.13016637,
+       "dropped_ret": -0.15614428,
+       "delta_sum": -0.02597791,
+       "delta_link": -0.02986538,
+       "gap_bp": 38.874675,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-02",
+       "full_ret": 0.11233962,
+       "dropped_ret": 0.12403265,
+       "delta_sum": 0.01169304,
+       "delta_link": 0.01051211,
+       "gap_bp": 11.809265,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-03",
+       "full_ret": -0.00732466,
+       "dropped_ret": -0.0097637,
+       "delta_sum": -0.00243904,
+       "delta_link": -0.00245704,
+       "gap_bp": 0.17997,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-04",
+       "full_ret": 0.01824061,
+       "dropped_ret": 0.01732669,
+       "delta_sum": -0.00091392,
+       "delta_link": -0.00089755,
+       "gap_bp": -0.163718,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-05",
+       "full_ret": -0.01838254,
+       "dropped_ret": -0.02292248,
+       "delta_sum": -0.00453994,
+       "delta_link": -0.00462496,
+       "gap_bp": 0.850186,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-06",
+       "full_ret": -0.04801006,
+       "dropped_ret": -0.05417143,
+       "delta_sum": -0.00616137,
+       "delta_link": -0.00647209,
+       "gap_bp": 3.107256,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-07",
+       "full_ret": 0.01357581,
+       "dropped_ret": 0.01464066,
+       "delta_sum": 0.00106486,
+       "delta_link": 0.00105059,
+       "gap_bp": 0.142626,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-08",
+       "full_ret": -0.04421271,
+       "dropped_ret": -0.0518234,
+       "delta_sum": -0.00761068,
+       "delta_link": -0.00796274,
+       "gap_bp": 3.520542,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-09",
+       "full_ret": 0.24097571,
+       "dropped_ret": 0.25473207,
+       "delta_sum": 0.01375636,
+       "delta_link": 0.01108511,
+       "gap_bp": 26.712433,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-10",
+       "full_ret": 0.00979653,
+       "dropped_ret": 0.02646241,
+       "delta_sum": 0.01666588,
+       "delta_link": 0.0165042,
+       "gap_bp": 1.616838,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-11",
+       "full_ret": 0.01253175,
+       "dropped_ret": 0.01575735,
+       "delta_sum": 0.0032256,
+       "delta_link": 0.00318568,
+       "gap_bp": 0.399221,
+       "opposite_sign": false
+      },
+      {
+       "month": "2024-12",
+       "full_ret": -0.01186309,
+       "dropped_ret": -0.01576643,
+       "delta_sum": -0.00390334,
+       "delta_link": -0.00395021,
+       "gap_bp": 0.468616,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-01",
+       "full_ret": -0.03338299,
+       "dropped_ret": -0.03283532,
+       "delta_sum": 0.00054767,
+       "delta_link": 0.00056658,
+       "gap_bp": -0.189142,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-02",
+       "full_ret": 0.05836818,
+       "dropped_ret": 0.06705914,
+       "delta_sum": 0.00869096,
+       "delta_link": 0.00821167,
+       "gap_bp": 4.792999,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-03",
+       "full_ret": -0.01072542,
+       "dropped_ret": -0.01536549,
+       "delta_sum": -0.00464007,
+       "delta_link": -0.00469037,
+       "gap_bp": 0.503062,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-04",
+       "full_ret": -0.02351377,
+       "dropped_ret": -0.02723591,
+       "delta_sum": -0.00372214,
+       "delta_link": -0.00381177,
+       "gap_bp": 0.896291,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-05",
+       "full_ret": 0.00929735,
+       "dropped_ret": 0.00644512,
+       "delta_sum": -0.00285223,
+       "delta_link": -0.00282595,
+       "gap_bp": -0.262739,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-06",
+       "full_ret": 0.03131626,
+       "dropped_ret": 0.03378905,
+       "delta_sum": 0.00247278,
+       "delta_link": 0.0023977,
+       "gap_bp": 0.750869,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-07",
+       "full_ret": 0.0447874,
+       "dropped_ret": 0.04782432,
+       "delta_sum": 0.00303692,
+       "delta_link": 0.00290673,
+       "gap_bp": 1.30185,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-08",
+       "full_ret": 0.13521952,
+       "dropped_ret": 0.15156783,
+       "delta_sum": 0.01634831,
+       "delta_link": 0.01440101,
+       "gap_bp": 19.47298,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-09",
+       "full_ret": 0.04499943,
+       "dropped_ret": 0.05503672,
+       "delta_sum": 0.01003728,
+       "delta_link": 0.00960506,
+       "gap_bp": 4.322224,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-10",
+       "full_ret": -0.00948516,
+       "dropped_ret": -0.0148421,
+       "delta_sum": -0.00535694,
+       "delta_link": -0.00540824,
+       "gap_bp": 0.51298,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-11",
+       "full_ret": -0.033008,
+       "dropped_ret": -0.03751575,
+       "delta_sum": -0.00450775,
+       "delta_link": -0.00466162,
+       "gap_bp": 1.538708,
+       "opposite_sign": false
+      },
+      {
+       "month": "2025-12",
+       "full_ret": 0.02852323,
+       "dropped_ret": 0.03624797,
+       "delta_sum": 0.00772474,
+       "delta_link": 0.00751052,
+       "gap_bp": 2.142241,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-01",
+       "full_ret": 0.06162719,
+       "dropped_ret": 0.07358903,
+       "delta_sum": 0.01196184,
+       "delta_link": 0.01126746,
+       "gap_bp": 6.94382,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-02",
+       "full_ret": 0.01170927,
+       "dropped_ret": 0.01617895,
+       "delta_sum": 0.00446968,
+       "delta_link": 0.00441795,
+       "gap_bp": 0.51731,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-03",
+       "full_ret": -0.10580538,
+       "dropped_ret": -0.11391557,
+       "delta_sum": -0.00811018,
+       "delta_link": -0.00906982,
+       "gap_bp": 9.596358,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-04",
+       "full_ret": 0.11199346,
+       "dropped_ret": 0.12653723,
+       "delta_sum": 0.01454377,
+       "delta_link": 0.013079,
+       "gap_bp": 14.647629,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-05",
+       "full_ret": 0.02673468,
+       "dropped_ret": 0.03848073,
+       "delta_sum": 0.01174606,
+       "delta_link": 0.01144021,
+       "gap_bp": 3.058502,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-06",
+       "full_ret": 0.09352896,
+       "dropped_ret": 0.10945023,
+       "delta_sum": 0.01592127,
+       "delta_link": 0.01455953,
+       "gap_bp": 13.617379,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-07",
+       "full_ret": -0.15374392,
+       "dropped_ret": -0.1891852,
+       "delta_sum": -0.03544128,
+       "delta_link": -0.04188009,
+       "gap_bp": 64.388093,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-08",
+       "full_ret": 0.04261542,
+       "dropped_ret": 0.05295405,
+       "delta_sum": 0.01033863,
+       "delta_link": 0.00991605,
+       "gap_bp": 4.225768,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-09",
+       "full_ret": -0.06029748,
+       "dropped_ret": -0.0668078,
+       "delta_sum": -0.00651032,
+       "delta_link": -0.00692806,
+       "gap_bp": 4.177447,
+       "opposite_sign": false
+      },
+      {
+       "month": "2026-10",
+       "full_ret": -0.10980882,
+       "dropped_ret": -0.1306394,
+       "delta_sum": -0.02083058,
+       "delta_link": -0.02340012,
+       "gap_bp": 25.695397,
+       "opposite_sign": false
+      }
+     ],
+     "months_with_opposite_sign": []
+    }
+   ]
+  },
+  "pre2017": {
+   "months": 44,
+   "flagged_drops": [
+    "sh510300",
+    "sh510500"
+   ],
+   "drops": [
+    {
+     "name": "sh510300",
+     "months_used": 44,
+     "months_unholdable": [],
+     "effect_arith_bp": -32.56639,
+     "effect_comp_bp": 6.18308,
+     "effect_comp_ratio_bp": 5.74497,
+     "comp_reading_gap_bp": -0.43811,
+     "effect_gap_bp": 38.74947,
+     "e183_join_arith_bp": 0.00039,
+     "e183_join_comp_bp": 8e-05,
+     "locus": {
+      "carrier_month": "2016-01",
+      "carrier_gap_bp": -71.106351,
+      "carrier_share": 0.357794,
+      "effective_months": 5.452,
+      "classification": "dispersion",
+      "top": [
+       {
+        "month": "2016-01",
+        "gap_bp": -71.106351,
+        "share": 0.357794
+       },
+       {
+        "month": "2014-12",
+        "gap_bp": -38.633369,
+        "share": 0.194396
+       },
+       {
+        "month": "2015-10",
+        "gap_bp": -14.747669,
+        "share": 0.074208
+       }
+      ],
+      "n_months_with_gap": 44
+     },
+     "months": [
+      {
+       "month": "2013-04",
+       "full_ret": 0.00309643,
+       "dropped_ret": 0.00309643,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-05",
+       "full_ret": 0.00311567,
+       "dropped_ret": 0.00311567,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-06",
+       "full_ret": 0.00491429,
+       "dropped_ret": 0.00491429,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-07",
+       "full_ret": -0.00303747,
+       "dropped_ret": -0.01071436,
+       "delta_sum": -0.00767689,
+       "delta_link": -0.00770028,
+       "gap_bp": 0.233894,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-08",
+       "full_ret": 0.0586328,
+       "dropped_ret": 0.05995004,
+       "delta_sum": 0.00131724,
+       "delta_link": 0.00124428,
+       "gap_bp": 0.729556,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-09",
+       "full_ret": 0.03821369,
+       "dropped_ret": 0.03367388,
+       "delta_sum": -0.00453981,
+       "delta_link": -0.00437271,
+       "gap_bp": -1.670974,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-10",
+       "full_ret": -0.00989742,
+       "dropped_ret": -0.00602542,
+       "delta_sum": 0.003872,
+       "delta_link": 0.00391071,
+       "gap_bp": -0.387059,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-11",
+       "full_ret": 0.00570811,
+       "dropped_ret": -0.0160571,
+       "delta_sum": -0.02176521,
+       "delta_link": -0.02164168,
+       "gap_bp": -1.235331,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-12",
+       "full_ret": -0.04948551,
+       "dropped_ret": -0.05117378,
+       "delta_sum": -0.00168827,
+       "delta_link": -0.00177616,
+       "gap_bp": 0.878943,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-01",
+       "full_ret": -0.07093053,
+       "dropped_ret": -0.06193636,
+       "delta_sum": 0.00899417,
+       "delta_link": 0.00968083,
+       "gap_bp": -6.866666,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-02",
+       "full_ret": -0.00815651,
+       "dropped_ret": -0.00828814,
+       "delta_sum": -0.00013163,
+       "delta_link": -0.00013271,
+       "gap_bp": 0.010825,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-03",
+       "full_ret": -0.00428849,
+       "dropped_ret": 0.00379431,
+       "delta_sum": 0.0080828,
+       "delta_link": 0.00811761,
+       "gap_bp": -0.348123,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-04",
+       "full_ret": -0.0015195,
+       "dropped_ret": -0.00604986,
+       "delta_sum": -0.00453035,
+       "delta_link": -0.00453725,
+       "gap_bp": 0.068944,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-05",
+       "full_ret": 0.00423184,
+       "dropped_ret": 0.00490958,
+       "delta_sum": 0.00067774,
+       "delta_link": 0.00067489,
+       "gap_bp": 0.02856,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-06",
+       "full_ret": 0.01819076,
+       "dropped_ret": 0.02125701,
+       "delta_sum": 0.00306625,
+       "delta_link": 0.00301147,
+       "gap_bp": 0.547809,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-07",
+       "full_ret": 0.09619405,
+       "dropped_ret": 0.09594064,
+       "delta_sum": -0.0002534,
+       "delta_link": -0.00023117,
+       "gap_bp": -0.222369,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-08",
+       "full_ret": 0.00363832,
+       "dropped_ret": 0.00819719,
+       "delta_sum": 0.00455888,
+       "delta_link": 0.00454235,
+       "gap_bp": 0.165265,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-09",
+       "full_ret": 0.05962615,
+       "dropped_ret": 0.06681342,
+       "delta_sum": 0.00718726,
+       "delta_link": 0.00678283,
+       "gap_bp": 4.04434,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-10",
+       "full_ret": 0.02195465,
+       "dropped_ret": 0.02019217,
+       "delta_sum": -0.00176247,
+       "delta_link": -0.00172461,
+       "gap_bp": -0.378632,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-11",
+       "full_ret": 0.09223275,
+       "dropped_ret": 0.08195587,
+       "delta_sum": -0.01027688,
+       "delta_link": -0.00940906,
+       "gap_bp": -8.678232,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-12",
+       "full_ret": 0.18977035,
+       "dropped_ret": 0.16554905,
+       "delta_sum": -0.0242213,
+       "delta_link": -0.02035796,
+       "gap_bp": -38.633369,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-01",
+       "full_ret": -0.01090503,
+       "dropped_ret": 0.00077107,
+       "delta_sum": 0.0116761,
+       "delta_link": 0.01180484,
+       "gap_bp": -1.287321,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-02",
+       "full_ret": 0.04752101,
+       "dropped_ret": 0.05030994,
+       "delta_sum": 0.00278893,
+       "delta_link": 0.00266241,
+       "gap_bp": 1.265205,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-03",
+       "full_ret": 0.14186396,
+       "dropped_ret": 0.15011394,
+       "delta_sum": 0.00824998,
+       "delta_link": 0.00722501,
+       "gap_bp": 10.249692,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-05",
+       "full_ret": -0.00614054,
+       "dropped_ret": -0.02486691,
+       "delta_sum": -0.01872636,
+       "delta_link": -0.01884206,
+       "gap_bp": 1.157005,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-06",
+       "full_ret": -0.05929591,
+       "dropped_ret": -0.05923717,
+       "delta_sum": 5.874e-05,
+       "delta_link": 6.244e-05,
+       "gap_bp": -0.037026,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-07",
+       "full_ret": -0.12889097,
+       "dropped_ret": -0.12688997,
+       "delta_sum": 0.002001,
+       "delta_link": 0.00229707,
+       "gap_bp": -2.960716,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-08",
+       "full_ret": -0.09908386,
+       "dropped_ret": -0.08748501,
+       "delta_sum": 0.01159885,
+       "delta_link": 0.01287451,
+       "gap_bp": -12.75656,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-09",
+       "full_ret": -0.03707065,
+       "dropped_ret": -0.02575354,
+       "delta_sum": 0.01131711,
+       "delta_link": 0.01175279,
+       "gap_bp": -4.356837,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-10",
+       "full_ret": 0.09220009,
+       "dropped_ret": 0.07473004,
+       "delta_sum": -0.01747005,
+       "delta_link": -0.01599529,
+       "gap_bp": -14.747669,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-11",
+       "full_ret": 0.01131676,
+       "dropped_ret": 0.01232381,
+       "delta_sum": 0.00100705,
+       "delta_link": 0.00099578,
+       "gap_bp": 0.11269,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-12",
+       "full_ret": 0.04435247,
+       "dropped_ret": 0.03981064,
+       "delta_sum": -0.00454183,
+       "delta_link": -0.00434894,
+       "gap_bp": -1.928864,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-01",
+       "full_ret": -0.2195858,
+       "dropped_ret": -0.1943144,
+       "delta_sum": 0.0252714,
+       "delta_link": 0.03238203,
+       "gap_bp": -71.106351,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-02",
+       "full_ret": -0.01809418,
+       "dropped_ret": -0.01696747,
+       "delta_sum": 0.0011267,
+       "delta_link": 0.00114747,
+       "gap_bp": -0.207625,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-03",
+       "full_ret": 0.1130163,
+       "dropped_ret": 0.10991987,
+       "delta_sum": -0.00309643,
+       "delta_link": -0.00278202,
+       "gap_bp": -3.144132,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-04",
+       "full_ret": -0.01337691,
+       "dropped_ret": -0.00940611,
+       "delta_sum": 0.0039708,
+       "delta_link": 0.00402464,
+       "gap_bp": -0.538373,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-05",
+       "full_ret": 0.00187502,
+       "dropped_ret": -0.00544475,
+       "delta_sum": -0.00731977,
+       "delta_link": -0.00730607,
+       "gap_bp": -0.13699,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-06",
+       "full_ret": 0.00666525,
+       "dropped_ret": 0.01081962,
+       "delta_sum": 0.00415437,
+       "delta_link": 0.00412686,
+       "gap_bp": 0.275066,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-07",
+       "full_ret": 0.02476311,
+       "dropped_ret": 0.02226978,
+       "delta_sum": -0.00249333,
+       "delta_link": -0.00243308,
+       "gap_bp": -0.602507,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-08",
+       "full_ret": 0.03926127,
+       "dropped_ret": 0.03820626,
+       "delta_sum": -0.00105501,
+       "delta_link": -0.00101516,
+       "gap_bp": -0.398563,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-09",
+       "full_ret": -0.01811378,
+       "dropped_ret": -0.01747317,
+       "delta_sum": 0.00064061,
+       "delta_link": 0.00065243,
+       "gap_bp": -0.11818,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-10",
+       "full_ret": 0.02347594,
+       "dropped_ret": 0.02406057,
+       "delta_sum": 0.00058463,
+       "delta_link": 0.00057122,
+       "gap_bp": 0.134099,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-11",
+       "full_ret": 0.04296391,
+       "dropped_ret": 0.03546541,
+       "delta_sum": -0.0074985,
+       "delta_link": -0.00718961,
+       "gap_bp": -3.088936,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-12",
+       "full_ret": -0.05757639,
+       "dropped_ret": -0.05267252,
+       "delta_sum": 0.00490388,
+       "delta_link": 0.00520347,
+       "gap_bp": -2.995973,
+       "opposite_sign": false
+      }
+     ],
+     "months_with_opposite_sign": []
+    },
+    {
+     "name": "sh510500",
+     "months_used": 44,
+     "months_unholdable": [],
+     "effect_arith_bp": 36.581301,
+     "effect_comp_bp": -9.664735,
+     "effect_comp_ratio_bp": -8.979928,
+     "comp_reading_gap_bp": 0.684807,
+     "effect_gap_bp": -46.246036,
+     "e183_join_arith_bp": 0.000301,
+     "e183_join_comp_bp": 0.000265,
+     "locus": {
+      "carrier_month": "2014-12",
+      "carrier_gap_bp": 134.54724,
+      "carrier_share": 0.5907,
+      "effective_months": 2.618,
+      "classification": "single_month",
+      "top": [
+       {
+        "month": "2014-12",
+        "gap_bp": 134.54724,
+        "share": 0.5907
+       },
+       {
+        "month": "2015-03",
+        "gap_bp": -32.661215,
+        "share": 0.143392
+       },
+       {
+        "month": "2014-11",
+        "gap_bp": 19.227462,
+        "share": 0.084414
+       }
+      ],
+      "n_months_with_gap": 44
+     },
+     "months": [
+      {
+       "month": "2013-04",
+       "full_ret": 0.00309643,
+       "dropped_ret": 0.00309643,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-05",
+       "full_ret": 0.00311567,
+       "dropped_ret": 0.00311567,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-06",
+       "full_ret": 0.00491429,
+       "dropped_ret": 0.00491429,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-07",
+       "full_ret": -0.00303747,
+       "dropped_ret": -0.00303747,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-08",
+       "full_ret": 0.0586328,
+       "dropped_ret": 0.0586328,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-09",
+       "full_ret": 0.03821369,
+       "dropped_ret": 0.03821369,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-10",
+       "full_ret": -0.00989742,
+       "dropped_ret": -0.00989742,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-11",
+       "full_ret": 0.00570811,
+       "dropped_ret": 0.00570811,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2013-12",
+       "full_ret": -0.04948551,
+       "dropped_ret": -0.04948551,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-01",
+       "full_ret": -0.07093053,
+       "dropped_ret": -0.07093053,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-02",
+       "full_ret": -0.00815651,
+       "dropped_ret": -0.00815651,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-03",
+       "full_ret": -0.00428849,
+       "dropped_ret": -0.00428849,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-04",
+       "full_ret": -0.0015195,
+       "dropped_ret": 0.01469941,
+       "delta_sum": 0.01621891,
+       "delta_link": 0.0162436,
+       "gap_bp": -0.246822,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-05",
+       "full_ret": 0.00423184,
+       "dropped_ret": -0.00342002,
+       "delta_sum": -0.00765186,
+       "delta_link": -0.00761961,
+       "gap_bp": -0.32245,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-06",
+       "full_ret": 0.01819076,
+       "dropped_ret": 0.01302376,
+       "delta_sum": -0.005167,
+       "delta_link": -0.00507469,
+       "gap_bp": -0.923124,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-07",
+       "full_ret": 0.09619405,
+       "dropped_ret": 0.10285677,
+       "delta_sum": 0.00666273,
+       "delta_link": 0.00607806,
+       "gap_bp": 5.846728,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-08",
+       "full_ret": 0.00363832,
+       "dropped_ret": -0.01522393,
+       "delta_sum": -0.01886225,
+       "delta_link": -0.01879387,
+       "gap_bp": -0.683781,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-09",
+       "full_ret": 0.05962615,
+       "dropped_ret": 0.03614829,
+       "delta_sum": -0.02347786,
+       "delta_link": -0.02215674,
+       "gap_bp": -13.211213,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-10",
+       "full_ret": 0.02195465,
+       "dropped_ret": 0.02446274,
+       "delta_sum": 0.00250809,
+       "delta_link": 0.00245421,
+       "gap_bp": 0.538814,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-11",
+       "full_ret": 0.09223275,
+       "dropped_ret": 0.11500217,
+       "delta_sum": 0.02276942,
+       "delta_link": 0.02084667,
+       "gap_bp": 19.227462,
+       "opposite_sign": false
+      },
+      {
+       "month": "2014-12",
+       "full_ret": 0.18977035,
+       "dropped_ret": 0.27412511,
+       "delta_sum": 0.08435476,
+       "delta_link": 0.07090003,
+       "gap_bp": 134.54724,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-01",
+       "full_ret": -0.01090503,
+       "dropped_ret": -0.04841978,
+       "delta_sum": -0.03751475,
+       "delta_link": -0.03792836,
+       "gap_bp": 4.1361,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-02",
+       "full_ret": 0.04752101,
+       "dropped_ret": 0.03771143,
+       "delta_sum": -0.00980958,
+       "delta_link": -0.00936456,
+       "gap_bp": -4.450135,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-03",
+       "full_ret": 0.14186396,
+       "dropped_ret": 0.11557492,
+       "delta_sum": -0.02628903,
+       "delta_link": -0.02302291,
+       "gap_bp": -32.661215,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-05",
+       "full_ret": -0.00614054,
+       "dropped_ret": -0.01263172,
+       "delta_sum": -0.00649118,
+       "delta_link": -0.00653128,
+       "gap_bp": 0.401056,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-06",
+       "full_ret": -0.05929591,
+       "dropped_ret": -0.05929591,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-07",
+       "full_ret": -0.12889097,
+       "dropped_ret": -0.12889097,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-08",
+       "full_ret": -0.09908386,
+       "dropped_ret": -0.09908386,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-09",
+       "full_ret": -0.03707065,
+       "dropped_ret": -0.03707065,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-10",
+       "full_ret": 0.09220009,
+       "dropped_ret": 0.09220009,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-11",
+       "full_ret": 0.01131676,
+       "dropped_ret": 0.01131676,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2015-12",
+       "full_ret": 0.04435247,
+       "dropped_ret": 0.04435247,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-01",
+       "full_ret": -0.2195858,
+       "dropped_ret": -0.2195858,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-02",
+       "full_ret": -0.01809418,
+       "dropped_ret": -0.01809418,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-03",
+       "full_ret": 0.1130163,
+       "dropped_ret": 0.1130163,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-04",
+       "full_ret": -0.01337691,
+       "dropped_ret": -0.01337691,
+       "delta_sum": 0.0,
+       "delta_link": 0.0,
+       "gap_bp": 0.0,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-05",
+       "full_ret": 0.00187502,
+       "dropped_ret": 0.01787517,
+       "delta_sum": 0.01600014,
+       "delta_link": 0.0159702,
+       "gap_bp": 0.299445,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-06",
+       "full_ret": 0.00666525,
+       "dropped_ret": -0.00613916,
+       "delta_sum": -0.0128044,
+       "delta_link": -0.01271962,
+       "gap_bp": -0.847794,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-07",
+       "full_ret": 0.02476311,
+       "dropped_ret": 0.03007612,
+       "delta_sum": 0.005313,
+       "delta_link": 0.00518462,
+       "gap_bp": 1.283873,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-08",
+       "full_ret": 0.03926127,
+       "dropped_ret": 0.0395244,
+       "delta_sum": 0.00026313,
+       "delta_link": 0.00025319,
+       "gap_bp": 0.099406,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-09",
+       "full_ret": -0.01811378,
+       "dropped_ret": -0.0203268,
+       "delta_sum": -0.00221302,
+       "delta_link": -0.00225385,
+       "gap_bp": 0.408257,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-10",
+       "full_ret": 0.02347594,
+       "dropped_ret": 0.02672367,
+       "delta_sum": 0.00324773,
+       "delta_link": 0.00317324,
+       "gap_bp": 0.744947,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-11",
+       "full_ret": 0.04296391,
+       "dropped_ret": 0.05350212,
+       "delta_sum": 0.01053821,
+       "delta_link": 0.0101041,
+       "gap_bp": 4.341115,
+       "opposite_sign": false
+      },
+      {
+       "month": "2016-12",
+       "full_ret": -0.05757639,
+       "dropped_ret": -0.06175845,
+       "delta_sum": -0.00418206,
+       "delta_link": -0.00443756,
+       "gap_bp": 2.554985,
+       "opposite_sign": false
+      }
+     ],
+     "months_with_opposite_sign": []
+    }
+   ]
+  }
+ },
+ "answers": {
+  "flagged_pairs": 4,
+  "pairs_measured": 4,
+  "single_month_carriers": [
+   {
+    "era": "pre2017",
+    "name": "sh510500",
+    "carrier_month": "2014-12",
+    "carrier_share": 0.5907,
+    "gap_bp": 134.54724
+   }
+  ],
+  "dispersed_reversals": [
+   {
+    "era": "2024_now",
+    "name": "sh510050",
+    "effective_months": 8.969,
+    "carrier_share": 0.237245
+   },
+   {
+    "era": "full",
+    "name": "sh510050",
+    "effective_months": 25.356,
+    "carrier_share": 0.118303
+   },
+   {
+    "era": "pre2017",
+    "name": "sh510300",
+    "effective_months": 5.452,
+    "carrier_share": 0.357794
+   }
+  ],
+  "pairs_with_opposite_sign_months": [],
+  "e183_join_max_abs_diff_bp": 0.000634,
+  "cuts": {}
+ },
+ "screen_report": {
+  "mode": "neutralise_int",
+  "threshold_pct": 30.0,
+  "adjacency": "panel calendar",
+  "names_in": 1317,
+  "names_out": 1317,
+  "names_touched": 67,
+  "events_neutralised": 67,
+  "integer_like_events": 67,
+  "skipped_noninteger_adjacent": 0,
+  "reverting_adjacent": 0,
+  "undecided_adjacent": 0,
+  "persistence": null,
+  "gapped_kept": 34,
+  "gap_limit": null,
+  "gapped_eligible": 0,
+  "names": [
+   {
+    "name": "sh510020",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2012-12-14",
+      "prev_date": "2012-12-11",
+      "direction": "up",
+      "gap_sessions": 2,
+      "ret_pct": 944.83,
+      "ratio": 10.4483,
+      "nearest_int": 10,
+      "resid_pct": 4.483,
+      "integer_like": false,
+      "factor_applied": 0.09571,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510030",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-06-21",
+      "prev_date": "2021-06-17",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -87.67,
+      "ratio": 8.109,
+      "nearest_int": 8,
+      "resid_pct": 1.363,
+      "integer_like": true,
+      "factor_applied": 8.109023,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510100",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-03-10",
+      "prev_date": "2025-03-07",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 100.0,
+      "ratio": 2.0,
+      "nearest_int": 2,
+      "resid_pct": 0.0,
+      "integer_like": true,
+      "factor_applied": 0.5,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510150",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-05-31",
+      "prev_date": "2021-05-27",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -91.65,
+      "ratio": 11.9701,
+      "nearest_int": 12,
+      "resid_pct": 0.249,
+      "integer_like": true,
+      "factor_applied": 11.970115,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510170",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-07-11",
+      "prev_date": "2022-07-07",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -75.87,
+      "ratio": 4.1446,
+      "nearest_int": 4,
+      "resid_pct": 3.615,
+      "integer_like": false,
+      "factor_applied": 4.144605,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510180",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 2,
+    "prints": [
+     {
+      "date": "2009-05-21",
+      "prev_date": "2009-05-18",
+      "direction": "down",
+      "gap_sessions": 2,
+      "ret_pct": -90.23,
+      "ratio": 10.2318,
+      "nearest_int": 10,
+      "resid_pct": 2.318,
+      "integer_like": false,
+      "factor_applied": 10.231788,
+      "post_drift_pct": null,
+      "level_persists": null
+     },
+     {
+      "date": "2013-12-23",
+      "prev_date": "2013-12-18",
+      "direction": "up",
+      "gap_sessions": 2,
+      "ret_pct": 285.96,
+      "ratio": 3.8596,
+      "nearest_int": 4,
+      "resid_pct": 3.509,
+      "integer_like": false,
+      "factor_applied": 0.259091,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510210",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-01-25",
+      "prev_date": "2021-01-21",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -79.96,
+      "ratio": 4.9891,
+      "nearest_int": 5,
+      "resid_pct": 0.219,
+      "integer_like": true,
+      "factor_applied": 4.989066,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510230",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2020-08-17",
+      "prev_date": "2020-08-13",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -78.8,
+      "ratio": 4.7162,
+      "nearest_int": 5,
+      "resid_pct": 5.676,
+      "integer_like": false,
+      "factor_applied": 4.716183,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510310",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2024-09-23",
+      "prev_date": "2024-09-20",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 100.94,
+      "ratio": 2.0094,
+      "nearest_int": 2,
+      "resid_pct": 0.469,
+      "integer_like": true,
+      "factor_applied": 0.497666,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510500",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2015-04-15",
+      "prev_date": "2015-04-10",
+      "direction": "up",
+      "gap_sessions": 2,
+      "ret_pct": 248.55,
+      "ratio": 3.4855,
+      "nearest_int": 3,
+      "resid_pct": 16.184,
+      "integer_like": false,
+      "factor_applied": 0.286902,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510580",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2024-09-02",
+      "prev_date": "2024-08-30",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 295.49,
+      "ratio": 3.9549,
+      "nearest_int": 4,
+      "resid_pct": 1.128,
+      "integer_like": true,
+      "factor_applied": 0.252853,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh510630",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-04-26",
+      "prev_date": "2021-04-22",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -75.23,
+      "ratio": 4.0364,
+      "nearest_int": 4,
+      "resid_pct": 0.909,
+      "integer_like": true,
+      "factor_applied": 4.036377,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh511030",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2025-03-19",
+      "prev_date": "2025-03-18",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 900.49,
+      "ratio": 10.0049,
+      "nearest_int": 10,
+      "resid_pct": 0.049,
+      "integer_like": true,
+      "factor_applied": 0.099951,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh511220",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2023-01-16",
+      "prev_date": "2023-01-13",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -90.07,
+      "ratio": 10.0663,
+      "nearest_int": 10,
+      "resid_pct": 0.663,
+      "integer_like": true,
+      "factor_applied": 10.066322,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512000",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-08-04",
+      "prev_date": "2025-08-01",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.74,
+      "ratio": 1.9895,
+      "nearest_int": 2,
+      "resid_pct": 0.524,
+      "integer_like": true,
+      "factor_applied": 1.98951,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512010",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-06-28",
+      "prev_date": "2021-06-24",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -73.92,
+      "ratio": 3.8349,
+      "nearest_int": 4,
+      "resid_pct": 4.127,
+      "integer_like": false,
+      "factor_applied": 3.834928,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512040",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2023-10-11",
+      "prev_date": "2023-10-10",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.13,
+      "ratio": 2.0054,
+      "nearest_int": 2,
+      "resid_pct": 0.27,
+      "integer_like": true,
+      "factor_applied": 2.0054,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512070",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-09-13",
+      "prev_date": "2021-09-09",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -66.22,
+      "ratio": 2.9604,
+      "nearest_int": 3,
+      "resid_pct": 1.32,
+      "integer_like": true,
+      "factor_applied": 2.960409,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512100",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-09-05",
+      "prev_date": "2022-09-01",
+      "direction": "up",
+      "gap_sessions": 1,
+      "ret_pct": 176.27,
+      "ratio": 2.7627,
+      "nearest_int": 3,
+      "resid_pct": 7.909,
+      "integer_like": false,
+      "factor_applied": 0.361961,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512120",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-03-28",
+      "prev_date": "2022-03-24",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -68.02,
+      "ratio": 3.1267,
+      "nearest_int": 3,
+      "resid_pct": 4.223,
+      "integer_like": false,
+      "factor_applied": 3.126689,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512170",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-02-25",
+      "prev_date": "2021-02-23",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -68.1,
+      "ratio": 3.1345,
+      "nearest_int": 3,
+      "resid_pct": 4.482,
+      "integer_like": false,
+      "factor_applied": 3.134474,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512480",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2026-07-03",
+      "prev_date": "2026-07-02",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.7,
+      "ratio": 2.0285,
+      "nearest_int": 2,
+      "resid_pct": 1.427,
+      "integer_like": true,
+      "factor_applied": 2.02855,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512560",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-11-15",
+      "prev_date": "2021-11-11",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -48.96,
+      "ratio": 1.9594,
+      "nearest_int": 2,
+      "resid_pct": 2.029,
+      "integer_like": false,
+      "factor_applied": 1.959427,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512600",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-08-16",
+      "prev_date": "2021-08-12",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -79.85,
+      "ratio": 4.9636,
+      "nearest_int": 5,
+      "resid_pct": 0.728,
+      "integer_like": true,
+      "factor_applied": 4.963576,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512670",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-08-23",
+      "prev_date": "2021-08-19",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -47.85,
+      "ratio": 1.9174,
+      "nearest_int": 2,
+      "resid_pct": 4.128,
+      "integer_like": false,
+      "factor_applied": 1.917447,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512690",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-05-17",
+      "prev_date": "2021-05-13",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -48.0,
+      "ratio": 1.9229,
+      "nearest_int": 2,
+      "resid_pct": 3.855,
+      "integer_like": false,
+      "factor_applied": 1.922909,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512710",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-03-22",
+      "prev_date": "2021-03-18",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -49.63,
+      "ratio": 1.9853,
+      "nearest_int": 2,
+      "resid_pct": 0.737,
+      "integer_like": true,
+      "factor_applied": 1.985255,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512760",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2026-03-27",
+      "prev_date": "2026-03-26",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.75,
+      "ratio": 1.99,
+      "nearest_int": 2,
+      "resid_pct": 0.501,
+      "integer_like": true,
+      "factor_applied": 1.989975,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512800",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-07-07",
+      "prev_date": "2025-07-04",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.69,
+      "ratio": 1.9877,
+      "nearest_int": 2,
+      "resid_pct": 0.615,
+      "integer_like": true,
+      "factor_applied": 1.987696,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512810",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-06-23",
+      "prev_date": "2025-06-20",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.21,
+      "ratio": 1.9688,
+      "nearest_int": 2,
+      "resid_pct": 1.562,
+      "integer_like": true,
+      "factor_applied": 1.96875,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh512890",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-10-25",
+      "prev_date": "2021-10-21",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -51.13,
+      "ratio": 2.0462,
+      "nearest_int": 2,
+      "resid_pct": 2.31,
+      "integer_like": false,
+      "factor_applied": 2.046192,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh513100",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-01-14",
+      "prev_date": "2022-01-12",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -80.45,
+      "ratio": 5.1153,
+      "nearest_int": 5,
+      "resid_pct": 2.305,
+      "integer_like": false,
+      "factor_applied": 5.115271,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh513380",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-03-12",
+      "prev_date": "2025-03-11",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.84,
+      "ratio": 2.0342,
+      "nearest_int": 2,
+      "resid_pct": 1.712,
+      "integer_like": true,
+      "factor_applied": 2.034247,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh513500",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-03-30",
+      "prev_date": "2022-03-28",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -49.18,
+      "ratio": 1.9676,
+      "nearest_int": 2,
+      "resid_pct": 1.619,
+      "integer_like": true,
+      "factor_applied": 1.967626,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh513660",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-04-21",
+      "prev_date": "2026-04-20",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.84,
+      "ratio": 1.9936,
+      "nearest_int": 2,
+      "resid_pct": 0.319,
+      "integer_like": true,
+      "factor_applied": 1.993627,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh513770",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-01",
+      "prev_date": "2025-08-29",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.15,
+      "ratio": 1.9666,
+      "nearest_int": 2,
+      "resid_pct": 1.669,
+      "integer_like": true,
+      "factor_applied": 1.966611,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515000",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-08",
+      "prev_date": "2025-09-05",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.52,
+      "ratio": 2.0209,
+      "nearest_int": 2,
+      "resid_pct": 1.046,
+      "integer_like": true,
+      "factor_applied": 2.020925,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515070",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-06",
+      "prev_date": "2026-07-03",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.43,
+      "ratio": 2.0172,
+      "nearest_int": 2,
+      "resid_pct": 0.859,
+      "integer_like": true,
+      "factor_applied": 2.017174,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515220",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2024-04-12",
+      "prev_date": "2024-04-11",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.34,
+      "ratio": 2.0139,
+      "nearest_int": 2,
+      "resid_pct": 0.694,
+      "integer_like": true,
+      "factor_applied": 2.013878,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515260",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-15",
+      "prev_date": "2025-09-12",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.88,
+      "ratio": 1.9953,
+      "nearest_int": 2,
+      "resid_pct": 0.236,
+      "integer_like": true,
+      "factor_applied": 1.995283,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515580",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-11-01",
+      "prev_date": "2021-10-28",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -48.72,
+      "ratio": 1.95,
+      "nearest_int": 2,
+      "resid_pct": 2.5,
+      "integer_like": false,
+      "factor_applied": 1.95,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh515980",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-30",
+      "prev_date": "2025-09-29",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.67,
+      "ratio": 1.9868,
+      "nearest_int": 2,
+      "resid_pct": 0.659,
+      "integer_like": true,
+      "factor_applied": 1.986813,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh516070",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-11-22",
+      "prev_date": "2021-11-18",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -47.92,
+      "ratio": 1.92,
+      "nearest_int": 2,
+      "resid_pct": 3.998,
+      "integer_like": false,
+      "factor_applied": 1.920049,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh516090",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2021-11-29",
+      "prev_date": "2021-11-25",
+      "direction": "down",
+      "gap_sessions": 1,
+      "ret_pct": -48.52,
+      "ratio": 1.9426,
+      "nearest_int": 2,
+      "resid_pct": 2.868,
+      "integer_like": false,
+      "factor_applied": 1.942632,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh516780",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-05-25",
+      "prev_date": "2026-05-22",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.82,
+      "ratio": 1.9928,
+      "nearest_int": 2,
+      "resid_pct": 0.36,
+      "integer_like": true,
+      "factor_applied": 1.992798,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh516800",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-08",
+      "prev_date": "2025-09-05",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.2,
+      "ratio": 1.9686,
+      "nearest_int": 2,
+      "resid_pct": 1.569,
+      "integer_like": true,
+      "factor_applied": 1.968622,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh560010",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2022-09-14",
+      "prev_date": "2022-09-09",
+      "direction": "up",
+      "gap_sessions": 1,
+      "ret_pct": 179.22,
+      "ratio": 2.7922,
+      "nearest_int": 3,
+      "resid_pct": 6.926,
+      "integer_like": false,
+      "factor_applied": 0.358138,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh560660",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-04-27",
+      "prev_date": "2026-04-24",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.34,
+      "ratio": 2.0138,
+      "nearest_int": 2,
+      "resid_pct": 0.689,
+      "integer_like": true,
+      "factor_applied": 2.013781,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh561600",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-23",
+      "prev_date": "2026-07-22",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.64,
+      "ratio": 2.0257,
+      "nearest_int": 2,
+      "resid_pct": 1.287,
+      "integer_like": true,
+      "factor_applied": 2.02574,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh561980",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-06-26",
+      "prev_date": "2026-06-25",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -79.7,
+      "ratio": 4.9252,
+      "nearest_int": 5,
+      "resid_pct": 1.496,
+      "integer_like": true,
+      "factor_applied": 4.925178,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh562000",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-11-10",
+      "prev_date": "2025-11-07",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.0,
+      "ratio": 2.0,
+      "nearest_int": 2,
+      "resid_pct": 0.0,
+      "integer_like": true,
+      "factor_applied": 2.0,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh562030",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-15",
+      "prev_date": "2025-09-12",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.04,
+      "ratio": 2.0018,
+      "nearest_int": 2,
+      "resid_pct": 0.089,
+      "integer_like": true,
+      "factor_applied": 2.001786,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh562060",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-08-11",
+      "prev_date": "2025-08-08",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.92,
+      "ratio": 1.9967,
+      "nearest_int": 2,
+      "resid_pct": 0.167,
+      "integer_like": true,
+      "factor_applied": 1.996656,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh562080",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-11-10",
+      "prev_date": "2025-11-07",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.42,
+      "ratio": 1.9772,
+      "nearest_int": 2,
+      "resid_pct": 1.138,
+      "integer_like": true,
+      "factor_applied": 1.977236,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh562590",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-06",
+      "prev_date": "2026-07-03",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -66.76,
+      "ratio": 3.0082,
+      "nearest_int": 3,
+      "resid_pct": 0.272,
+      "integer_like": true,
+      "factor_applied": 3.008157,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh563500",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-10-20",
+      "prev_date": "2025-10-17",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.75,
+      "ratio": 1.99,
+      "nearest_int": 2,
+      "resid_pct": 0.502,
+      "integer_like": true,
+      "factor_applied": 1.989967,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588170",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-06",
+      "prev_date": "2026-07-03",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -66.69,
+      "ratio": 3.0025,
+      "nearest_int": 3,
+      "resid_pct": 0.084,
+      "integer_like": true,
+      "factor_applied": 3.002517,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588790",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-03-19",
+      "prev_date": "2025-03-18",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.73,
+      "ratio": 2.0296,
+      "nearest_int": 2,
+      "resid_pct": 1.482,
+      "integer_like": true,
+      "factor_applied": 2.029641,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588810",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-09-09",
+      "prev_date": "2026-09-08",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.25,
+      "ratio": 2.0101,
+      "nearest_int": 2,
+      "resid_pct": 0.503,
+      "integer_like": true,
+      "factor_applied": 2.01005,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588860",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-10-27",
+      "prev_date": "2025-10-24",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.73,
+      "ratio": 1.9894,
+      "nearest_int": 2,
+      "resid_pct": 0.529,
+      "integer_like": true,
+      "factor_applied": 1.989418,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588890",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-08-26",
+      "prev_date": "2026-08-25",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -66.08,
+      "ratio": 2.9477,
+      "nearest_int": 3,
+      "resid_pct": 1.742,
+      "integer_like": true,
+      "factor_applied": 2.947733,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh588920",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-08-10",
+      "prev_date": "2026-08-07",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.04,
+      "ratio": 2.0017,
+      "nearest_int": 2,
+      "resid_pct": 0.086,
+      "integer_like": true,
+      "factor_applied": 2.001714,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sh589520",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-08",
+      "prev_date": "2025-09-05",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.83,
+      "ratio": 1.9931,
+      "nearest_int": 2,
+      "resid_pct": 0.343,
+      "integer_like": true,
+      "factor_applied": 1.993139,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159220",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-11-10",
+      "prev_date": "2025-11-07",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.44,
+      "ratio": 1.9777,
+      "nearest_int": 2,
+      "resid_pct": 1.116,
+      "integer_like": true,
+      "factor_applied": 1.977671,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159231",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-08-11",
+      "prev_date": "2025-08-08",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.83,
+      "ratio": 1.9934,
+      "nearest_int": 2,
+      "resid_pct": 0.331,
+      "integer_like": true,
+      "factor_applied": 1.993388,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159246",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-02-13",
+      "prev_date": "2026-02-12",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.95,
+      "ratio": 2.0387,
+      "nearest_int": 2,
+      "resid_pct": 1.936,
+      "integer_like": true,
+      "factor_applied": 2.038716,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159325",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-09-14",
+      "prev_date": "2026-09-11",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.94,
+      "ratio": 2.0383,
+      "nearest_int": 2,
+      "resid_pct": 1.915,
+      "integer_like": true,
+      "factor_applied": 2.038302,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159363",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-07-21",
+      "prev_date": "2025-07-18",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.13,
+      "ratio": 2.0051,
+      "nearest_int": 2,
+      "resid_pct": 0.253,
+      "integer_like": true,
+      "factor_applied": 2.005051,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159368",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-07",
+      "prev_date": "2026-07-06",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.66,
+      "ratio": 2.0267,
+      "nearest_int": 2,
+      "resid_pct": 1.337,
+      "integer_like": true,
+      "factor_applied": 2.026738,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159527",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-22",
+      "prev_date": "2026-07-21",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -66.46,
+      "ratio": 2.9813,
+      "nearest_int": 3,
+      "resid_pct": 0.625,
+      "integer_like": true,
+      "factor_applied": 2.981258,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159537",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-06-26",
+      "prev_date": "2026-06-25",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.92,
+      "ratio": 2.0373,
+      "nearest_int": 2,
+      "resid_pct": 1.864,
+      "integer_like": true,
+      "factor_applied": 2.037288,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159546",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-06-10",
+      "prev_date": "2026-06-09",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -67.19,
+      "ratio": 3.0481,
+      "nearest_int": 3,
+      "resid_pct": 1.604,
+      "integer_like": true,
+      "factor_applied": 3.048135,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159567",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-08-11",
+      "prev_date": "2025-08-08",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.73,
+      "ratio": 1.9893,
+      "nearest_int": 2,
+      "resid_pct": 0.534,
+      "integer_like": true,
+      "factor_applied": 1.989328,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159596",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-10-20",
+      "prev_date": "2025-10-17",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.88,
+      "ratio": 1.9952,
+      "nearest_int": 2,
+      "resid_pct": 0.24,
+      "integer_like": true,
+      "factor_applied": 1.995208,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159636",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-12-08",
+      "prev_date": "2025-12-05",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.25,
+      "ratio": 2.0102,
+      "nearest_int": 2,
+      "resid_pct": 0.508,
+      "integer_like": true,
+      "factor_applied": 2.01016,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159663",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-07",
+      "prev_date": "2026-07-06",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.79,
+      "ratio": 2.0319,
+      "nearest_int": 2,
+      "resid_pct": 1.597,
+      "integer_like": true,
+      "factor_applied": 2.031949,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159739",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-08-03",
+      "prev_date": "2026-07-31",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.0,
+      "ratio": 2.0,
+      "nearest_int": 2,
+      "resid_pct": 0.0,
+      "integer_like": true,
+      "factor_applied": 2.0,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159747",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2023-04-26",
+      "prev_date": "2023-04-25",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 103.24,
+      "ratio": 2.0324,
+      "nearest_int": 2,
+      "resid_pct": 1.619,
+      "integer_like": true,
+      "factor_applied": 0.492032,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159801",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2023-08-31",
+      "prev_date": "2023-08-30",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.34,
+      "ratio": 1.9739,
+      "nearest_int": 2,
+      "resid_pct": 1.305,
+      "integer_like": true,
+      "factor_applied": 1.973896,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159806",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2022-01-14",
+      "prev_date": "2022-01-13",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -66.36,
+      "ratio": 2.9729,
+      "nearest_int": 3,
+      "resid_pct": 0.905,
+      "integer_like": true,
+      "factor_applied": 2.97286,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159807",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2021-06-21",
+      "prev_date": "2021-06-18",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.03,
+      "ratio": 2.0012,
+      "nearest_int": 2,
+      "resid_pct": 0.06,
+      "integer_like": true,
+      "factor_applied": 2.001203,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159814",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2021-02-10",
+      "prev_date": "2021-02-09",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.0,
+      "ratio": 2.0,
+      "nearest_int": 2,
+      "resid_pct": 0.0,
+      "integer_like": true,
+      "factor_applied": 2.0,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159876",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-08-04",
+      "prev_date": "2025-08-01",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.09,
+      "ratio": 1.9643,
+      "nearest_int": 2,
+      "resid_pct": 1.783,
+      "integer_like": true,
+      "factor_applied": 1.964341,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159880",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-08-03",
+      "prev_date": "2026-07-31",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.28,
+      "ratio": 2.0111,
+      "nearest_int": 2,
+      "resid_pct": 0.553,
+      "integer_like": true,
+      "factor_applied": 2.011062,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159901",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 2,
+    "prints": [
+     {
+      "date": "2010-11-22",
+      "prev_date": "2010-11-18",
+      "direction": "down",
+      "gap_sessions": 3,
+      "ret_pct": -79.6,
+      "ratio": 4.9023,
+      "nearest_int": 5,
+      "resid_pct": 1.953,
+      "integer_like": true,
+      "factor_applied": 4.902349,
+      "post_drift_pct": null,
+      "level_persists": null
+     },
+     {
+      "date": "2014-09-01",
+      "prev_date": "2014-08-28",
+      "direction": "up",
+      "gap_sessions": 1,
+      "ret_pct": 409.72,
+      "ratio": 5.0972,
+      "nearest_int": 5,
+      "resid_pct": 1.943,
+      "integer_like": true,
+      "factor_applied": 0.196187,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159907",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2024-04-01",
+      "prev_date": "2024-03-29",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.18,
+      "ratio": 1.9678,
+      "nearest_int": 2,
+      "resid_pct": 1.608,
+      "integer_like": true,
+      "factor_applied": 1.967836,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159919",
+    "action": "kept-gapped-only",
+    "events": 0,
+    "gapped_kept": 1,
+    "prints": [
+     {
+      "date": "2012-12-03",
+      "prev_date": "2012-11-29",
+      "direction": "up",
+      "gap_sessions": 1,
+      "ret_pct": 159.29,
+      "ratio": 2.5929,
+      "nearest_int": 3,
+      "resid_pct": 13.571,
+      "integer_like": false,
+      "factor_applied": 0.385674,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159925",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2024-01-29",
+      "prev_date": "2024-01-26",
+      "direction": "up",
+      "gap_sessions": 0,
+      "ret_pct": 96.61,
+      "ratio": 1.9661,
+      "nearest_int": 2,
+      "resid_pct": 1.695,
+      "integer_like": true,
+      "factor_applied": 0.508623,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159938",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2022-05-30",
+      "prev_date": "2022-05-27",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.8,
+      "ratio": 1.9921,
+      "nearest_int": 2,
+      "resid_pct": 0.396,
+      "integer_like": true,
+      "factor_applied": 1.992084,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159941",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2022-07-05",
+      "prev_date": "2022-07-04",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -74.66,
+      "ratio": 3.947,
+      "nearest_int": 4,
+      "resid_pct": 1.325,
+      "integer_like": true,
+      "factor_applied": 3.94702,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159970",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-12-22",
+      "prev_date": "2025-12-19",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -83.08,
+      "ratio": 5.9095,
+      "nearest_int": 6,
+      "resid_pct": 1.508,
+      "integer_like": true,
+      "factor_applied": 5.909548,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159971",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-12-02",
+      "prev_date": "2025-12-01",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.35,
+      "ratio": 2.0141,
+      "nearest_int": 2,
+      "resid_pct": 0.704,
+      "integer_like": true,
+      "factor_applied": 2.014071,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159975",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2021-01-29",
+      "prev_date": "2021-01-28",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -90.04,
+      "ratio": 10.0396,
+      "nearest_int": 10,
+      "resid_pct": 0.396,
+      "integer_like": true,
+      "factor_applied": 10.039578,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159977",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2025-09-15",
+      "prev_date": "2025-09-12",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -49.36,
+      "ratio": 1.9748,
+      "nearest_int": 2,
+      "resid_pct": 1.258,
+      "integer_like": true,
+      "factor_applied": 1.974843,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   },
+   {
+    "name": "sz159995",
+    "action": "neutralise",
+    "events": 1,
+    "skipped_noninteger_adjacent": 0,
+    "gapped_kept": 0,
+    "prints": [
+     {
+      "date": "2026-07-07",
+      "prev_date": "2026-07-06",
+      "direction": "down",
+      "gap_sessions": 0,
+      "ret_pct": -50.12,
+      "ratio": 2.0047,
+      "nearest_int": 2,
+      "resid_pct": 0.233,
+      "integer_like": true,
+      "factor_applied": 2.004664,
+      "post_drift_pct": null,
+      "level_persists": null
+     }
+    ]
+   }
+  ]
+ },
+ "honest": [
+  "the flagged (era, drop) set is read from the published E183 face, not re-derived here; a missing face publishes zero pairs rather than an invented set",
+  "the two monthly columns are the same month return under two readings, so their difference is definitional and does not shrink with more data",
+  "a carrier month is a date inside the era's decision months, not a tradable opportunity",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

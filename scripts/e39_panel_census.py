@@ -18827,6 +18827,55 @@ def selftest():
         "E185 the implied turnover gap is reported in percent, not as a fraction "
         "that reads two hundred times smaller")
 
+    # E186: the two monthly readings, the era totals they must reproduce, and
+    # the carrier/dispersion split
+    _e186_fr = {"2020-01": 0.02, "2020-02": -0.01}
+    _e186_dr = {"2020-01": 0.0302, "2020-02": -0.01}
+    _e186_rows = _drop_month_deltas(_e186_fr, _e186_dr)
+    chk(abs(_e186_rows[0]["delta_sum"] - 0.0102) < 1e-9
+        and abs(_e186_rows[0]["delta_link"] - (1.0302 / 1.02 - 1.0)) < 1e-9,
+        "E186 a monthly step is published additively and multiplicatively")
+    chk(_e186_rows[0]["opposite_sign"] is False
+        and _e186_rows[1]["gap_bp"] == 0.0,
+        "E186 a month the drop does not touch carries no gap and no reversal")
+    _e186_gf = 1.02 * 0.99
+    _e186_gd = 1.0302 * 0.99
+    _e186_eff = _drop_effect_both_bp(_e186_fr, _e186_dr)
+    chk(abs(_e186_eff["arith_bp"] - 0.0102 / 2 * 12 * 1e4) < 1e-6
+        and abs(_e186_eff["comp_bp"]
+                - ((_e186_gd ** 6 - 1.0) - (_e186_gf ** 6 - 1.0)) * 1e4) < 1e-6,
+        "E186 the era-level effects are rebuilt from the month vectors, so the "
+        "table and the effect cannot drift apart silently")
+    # the compounded effect is E183's object: the DIFFERENCE of two annualised
+    # levels, not the annualisation of the ratio -- 2.4bp apart on this fixture
+    chk(abs(_e186_eff["comp_ratio_bp"]
+            - ((_e186_gd / _e186_gf) ** 6 - 1.0) * 1e4) < 1e-6
+        and abs(_e186_eff["comp_ratio_bp"] - _e186_eff["comp_bp"]) > 1e-3,
+        "E186 annualising the ratio is a different number from differencing two "
+        "annualised levels, and both are published under their own name")
+    _e186_one = _drop_month_locus([{"month": "m1", "gap_bp": 10.0},
+                                   {"month": "m2", "gap_bp": 0.0}])
+    chk(_e186_one["classification"] == "single_month"
+        and _e186_one["carrier_month"] == "m1"
+        and _e186_one["carrier_share"] == 1.0
+        and _e186_one["effective_months"] == 1.0,
+        "E186 a gap held by one month is named as that month, not as a spread")
+    _e186_many = _drop_month_locus([{"month": "m%d" % i, "gap_bp": 1.0}
+                                    for i in range(8)])
+    chk(_e186_many["classification"] == "dispersion"
+        and abs(_e186_many["effective_months"] - 8.0) < 1e-9
+        and abs(_e186_many["carrier_share"] - 0.125) < 1e-12,
+        "E186 eight equal months read as a dispersion with eight effective "
+        "months, so the floor is applied to a measured share")
+    _e186_zero = _drop_month_locus([{"month": "m1", "gap_bp": 0.0}])
+    chk(_e186_zero["classification"] == "no_gap"
+        and _e186_zero["carrier_month"] is None,
+        "E186 a zero gap reads as no gap rather than as a carrier month")
+    chk("mode" in run_tilt3ladderdropwhere.__code__.co_varnames
+        and "eras" in run_tilt3ladderdropwhere.__code__.co_varnames,
+        "E186 the where leg reads the same burn path and carries the mode/eras "
+        "seams")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -22012,6 +22061,248 @@ def run_tilt3ladderlomocomp(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+# ---------------------------------------------------------------- E186
+# one month holding this share of the |gap| is a single-carrier reversal; below
+# it the reversal is spread and cannot be named as one date
+TILT3LADDERDROPWHERE_CARRIER_SHARE = 0.50
+
+
+def _drop_month_deltas(fr, dr):
+    """(E186) per-month split of one drop's effect on the two readings.
+
+    ``delta_sum`` is the additive difference the arithmetic level is built from
+    (dropped-book month minus full-book month); ``delta_link`` is the same step
+    read multiplicatively, which is the monthly term the compounded level
+    compounds. Their era-level totals are the two published effects, so the
+    reversal lives in the difference between these two columns.
+    """
+    rows = []
+    for m in sorted(set(fr) & set(dr)):
+        f, d = fr[m], dr[m]
+        dsum = d - f
+        dlink = None if (1.0 + f) <= 0 else (1.0 + d) / (1.0 + f) - 1.0
+        row = {"month": m,
+               "full_ret": round(f, 8),
+               "dropped_ret": round(d, 8),
+               "delta_sum": round(dsum, 8),
+               "delta_link": (None if dlink is None else round(dlink, 8)),
+               "gap_bp": (None if dlink is None else round((dsum - dlink) * 1e4, 6))}
+        row["opposite_sign"] = bool(
+            dlink is not None and ((dsum > 0 and dlink < 0) or (dsum < 0 and dlink > 0)))
+        rows.append(row)
+    return rows
+
+
+def _drop_month_locus(rows, share_floor=None):
+    """(E186) which month carries the reversal, and whether it is one month.
+
+    A verdict of 'the effect reverses' is unusable while it is silent about
+    whether a single month is doing the work (a one-name-one-month artefact,
+    E143 family) or the gap is spread over the era (a genuine arithmetic
+    sensitivity). The carrier share and the effective month count separate them.
+    """
+    sf = (TILT3LADDERDROPWHERE_CARRIER_SHARE if share_floor is None
+          else float(share_floor))
+    gaps = [(abs(r["gap_bp"]), r["month"], r["gap_bp"])
+            for r in rows if r.get("gap_bp") is not None]
+    tot = sum(g[0] for g in gaps)
+    if not gaps or tot <= 0:
+        return {"carrier_month": None, "carrier_gap_bp": None,
+                "carrier_share": None, "effective_months": None,
+                "classification": "no_gap", "top": [], "n_months_with_gap": 0}
+    gaps.sort(reverse=True)
+    share = gaps[0][0] / tot
+    hhi = sum((g[0] / tot) ** 2 for g in gaps)
+    return {"carrier_month": gaps[0][1],
+            "carrier_gap_bp": round(gaps[0][2], 6),
+            "carrier_share": round(share, 6),
+            "effective_months": (None if hhi <= 0 else round(1.0 / hhi, 3)),
+            "classification": ("single_month" if share >= sf else "dispersion"),
+            "top": [{"month": g[1], "gap_bp": round(g[2], 6),
+                     "share": round(g[0] / tot, 6)} for g in gaps[:3]],
+            "n_months_with_gap": len(gaps)}
+
+
+def _drop_effect_both_bp(fr, dr):
+    """(E186) one drop's era effect on both readings, from the month vectors.
+
+    Both sides are rebuilt here rather than quoted, so the published effect and
+    the per-month table cannot drift apart without this function disagreeing.
+    ``comp_bp`` is E183's published object -- the DIFFERENCE of the two
+    annualised levels -- while ``comp_ratio_bp`` annualises the ratio of the two
+    growth multiples. They are not the same number, and quoting the second as
+    the first would be a silent relabelling (r1292 family).
+    """
+    ms = sorted(set(fr) & set(dr))
+    if not ms:
+        return {"arith_bp": None, "comp_bp": None, "comp_ratio_bp": None,
+                "months_used": 0}
+    seq = [dr[m] - fr[m] for m in ms]
+    arith = sum(seq) / len(seq) * 12.0 * 1e4
+    gf = 1.0
+    gd = 1.0
+    for m in ms:
+        gf *= (1.0 + fr[m])
+        gd *= (1.0 + dr[m])
+    k = 12.0 / len(ms)
+    dropped_level = None if gd <= 0 else (gd ** k - 1.0) * 1e4
+    full_level = None if gf <= 0 else (gf ** k - 1.0) * 1e4
+    comp = (None if None in (dropped_level, full_level)
+            else dropped_level - full_level)
+    ratio = None if gf <= 0 else ((gd / gf) ** k - 1.0) * 1e4
+    return {"arith_bp": round(arith, 6),
+            "comp_bp": (None if comp is None else round(comp, 6)),
+            "comp_ratio_bp": (None if ratio is None else round(ratio, 6)),
+            "months_used": len(ms)}
+
+
+def run_tilt3ladderdropwhere(outdir, mode="neutralise_int", eras=ERAS):
+    """E186: where the arithmetic-dependent drop effects live in time.
+
+    E183 showed four drops whose effect reverses sign between the summed and the
+    compounded reading while every era level keeps its sign. This takes exactly
+    those flagged (era, drop) pairs, splits each month's contribution under both
+    readings, and names the month that carries the gap plus whether the gap is a
+    single month or a dispersion -- because a reversal carried by one month is a
+    data point, and a spread reversal is a property of the arithmetic.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    import e24_ladder_weighting as base
+    members = list(base.LADDER)
+    lad = (sides_raw.get("lad") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERLOMOCOMPOUND-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    flagged = {}
+    if sib:
+        flagged = ((sib.get("answers") or {}).get("drops_whose_effect_sign_differs") or {})
+    era_def = {n: (lo, hi) for n, lo, hi in list(eras) + [("full", None, None)]}
+
+    rows, joins = {}, []
+    for era_name in sorted(flagged):
+        drops = flagged[era_name] or []
+        lo, hi = era_def.get(era_name, (None, None))
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms or not drops:
+            rows[era_name] = {"skipped": "no months or no flagged drops"}
+            continue
+        sib_era = ((sib.get("eras") or {}).get(era_name) or {})
+        sib_rows = {r.get("name"): r for r in (sib_era.get("lomo") or [])}
+        per = []
+        for drop in drops:
+            transformed, unhold = _ladder_lomo_net(lad, ms, drop, members)
+            used = [m for m in ms if m not in set(unhold)]
+            fr, _miss, _r = _ladder_month_returns(lad, used, members)
+            dr, _miss2, _r2 = _ladder_month_returns(transformed, used, members)
+            eff = _drop_effect_both_bp(fr, dr)
+            months = _drop_month_deltas(fr, dr)
+            locus = _drop_month_locus(months)
+            theirs = sib_rows.get(drop) or {}
+            joins_a = (None if theirs.get("level_change_bp_arith") is None
+                       or eff["arith_bp"] is None
+                       else round(abs(eff["arith_bp"]
+                                      - float(theirs["level_change_bp_arith"])), 6))
+            joins_c = (None if theirs.get("level_change_bp_comp") is None
+                       or eff["comp_bp"] is None
+                       else round(abs(eff["comp_bp"]
+                                      - float(theirs["level_change_bp_comp"])), 6))
+            for j in (joins_a, joins_c):
+                if j is not None:
+                    joins.append(j)
+            per.append({
+                "name": drop,
+                "months_used": eff["months_used"],
+                "months_unholdable": unhold,
+                "effect_arith_bp": eff["arith_bp"],
+                "effect_comp_bp": eff["comp_bp"],
+                "effect_comp_ratio_bp": eff["comp_ratio_bp"],
+                "comp_reading_gap_bp": (
+                    None if None in (eff["comp_bp"], eff["comp_ratio_bp"])
+                    else round(eff["comp_ratio_bp"] - eff["comp_bp"], 6)),
+                "effect_gap_bp": (None if None in (eff["arith_bp"], eff["comp_bp"])
+                                  else round(eff["comp_bp"] - eff["arith_bp"], 6)),
+                "e183_join_arith_bp": joins_a,
+                "e183_join_comp_bp": joins_c,
+                "locus": locus,
+                "months": months,
+                "months_with_opposite_sign": [m["month"] for m in months
+                                              if m["opposite_sign"]],
+            })
+        rows[era_name] = {
+            "months": len(ms),
+            "flagged_drops": drops,
+            "drops": per,
+        }
+
+    measured = [r for v in rows.values() for r in (v.get("drops") or [])]
+    return {
+        "study": "e186_tilt3_ladder_drop_where",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "flagged_source": ("LADDERLOMOCOMPOUND-*.json "
+                               "answers.drops_whose_effect_sign_differs"),
+            "flagged_face_cutoff": (None if not sib else sib.get("evidence_cutoff")),
+            "method": ("for each flagged (era, drop): monthly dropped-book minus "
+                       "full-book contribution under the additive reading "
+                       "(delta_sum) and under the multiplicative link (delta_link)"),
+            "units": "monthly contributions in return units, gaps and effects in bp",
+            "carrier_share_floor": TILT3LADDERDROPWHERE_CARRIER_SHARE,
+            "carrier_def": ("share of total |gap| held by the largest month; "
+                            "at or above the floor the reversal is named a "
+                            "single-month carrier, below it a dispersion"),
+        },
+        "eras": rows,
+        "answers": {
+            "flagged_pairs": sum(len(v) for v in flagged.values()),
+            "pairs_measured": len(measured),
+            "single_month_carriers": [
+                {"era": e, "name": r["name"],
+                 "carrier_month": (r["locus"] or {}).get("carrier_month"),
+                 "carrier_share": (r["locus"] or {}).get("carrier_share"),
+                 "gap_bp": (r["locus"] or {}).get("carrier_gap_bp")}
+                for e, v in rows.items() for r in (v.get("drops") or [])
+                if (r.get("locus") or {}).get("classification") == "single_month"],
+            "dispersed_reversals": [
+                {"era": e, "name": r["name"],
+                 "effective_months": (r["locus"] or {}).get("effective_months"),
+                 "carrier_share": (r["locus"] or {}).get("carrier_share")}
+                for e, v in rows.items() for r in (v.get("drops") or [])
+                if (r.get("locus") or {}).get("classification") == "dispersion"],
+            "pairs_with_opposite_sign_months": [
+                {"era": e, "name": r["name"],
+                 "months": r["months_with_opposite_sign"]}
+                for e, v in rows.items() for r in (v.get("drops") or [])
+                if r["months_with_opposite_sign"]],
+            "e183_join_max_abs_diff_bp": (None if not joins else round(max(joins), 6)),
+            "cuts": {},
+        },
+        "screen_report": report,
+        "honest": [
+            "the flagged (era, drop) set is read from the published E183 face, "
+            "not re-derived here; a missing face publishes zero pairs rather "
+            "than an invented set",
+            "the two monthly columns are the same month return under two "
+            "readings, so their difference is definitional and does not shrink "
+            "with more data",
+            "a carrier month is a date inside the era's decision months, not a "
+            "tradable opportunity",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -22485,6 +22776,7 @@ def main(argv):
                              "tilt3levelwedge",
                              "tilt3ladderlomo",
                              "tilt3ladderlomocomp",
+                             "tilt3ladderdropwhere",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
@@ -23888,6 +24180,16 @@ def main(argv):
                               "flips_only_summing": v.get("flips_only_under_summing"),
                               "flips_only_compounding": v.get("flips_only_under_compounding")}
                               for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropwhere":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropwhere(outdir)
+        p = write_json(outdir, "LADDERDROPWHERE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropwhere",
+                          "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]},
                          ensure_ascii=False))
         return 0

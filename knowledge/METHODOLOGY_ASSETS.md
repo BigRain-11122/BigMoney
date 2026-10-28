@@ -2335,3 +2335,17 @@ How to apply: when a thin aggregate is published, ask which axis it was netted o
 Fee term per era 2.9207 / 3.5300 / 3.6208 / 3.3984 / 3.3570bp; implied extra turnover ~2.17%/month at 13.041bp a side. Both published faces are reproduced exactly (max |diff| 0.0bp, 10 cells each), so the gap is the faces' own number.
 
 Two transferable rules: (a) **a near-constant offset across eras of very different volatility is a per-period charge, not compounding or scale** -- compounding grows with the era, a fee is paid every period; (b) **the decisive instrument for a definitional question can be a parameter seam, not a cleverer decomposition** -- `cost_mult` turned the question into two runs of one panel, which is why the answer is a number rather than a reading of the code. Consequence is a labelling duty: sink-based is gross, curve-based is net, and quoting either as "the decomposition" without the word is the category error.
+
+## E186-DW A reversible drop effect has no bad month: the era sign is decided by scaling, not by any one month (2026-10-28 r1219 bm-b)
+
+`run_tilt3ladderdropwhere()` in `scripts/e39_panel_census.py` -> `results/e43_tilt_4member/LADDERDROPWHERE-20261027.json`, mode `tilt3ladderdropwhere`, selftest 636->644. (Card disambiguator `-DW`: the numeric card E186 was taken by the r1218 fee-label study the same day; this card answers pool row E186-DROP-EFFECT-REVERSES-WHERE.) E183 published four drops whose effect flips sign between the summed level and the compounded one while every era LEVEL keeps its sign. Each flagged pair is now split per decision month:
+
+    delta_sum  = dropped_month_ret - full_month_ret          (what the arithmetic level averages)
+    delta_link = (1+dropped_month_ret)/(1+full_month_ret)-1  (what the compounded level compounds)
+    gap_m      = delta_sum - delta_link                      (definitional, second order)
+
+Era-level effects rebuilt from these month vectors reproduce E183 to 0.000634bp. Measured carrier concentration (share of total |gap| held by the largest month, floor 0.50, effective months 1/HHI): pre2017 sh510500 = single_month, 2014-12 holds 0.591 (eff 2.62); pre2017 sh510300 0.358 (5.45); 2024_now sh510050 0.237 (8.97) carrier 2026-07; full sh510050 0.118 (25.36) carrier 2014-12.
+
+The finding that kills the obvious follow-up: **zero months in any of the four pairs disagree in sign between the two readings**. So "the effect reverses" is never one bad month flipping -- every month moves the same way under both readings and the era-level sign comes from how the two columns scale the same months. A reversal is an accumulated scaling statement, i.e. a property of the arithmetic, unless a carrier month is doing the work (one case here, and it is a deep-history month).
+
+Two transferable rules: (a) **before hunting a culprit month, count the months whose two readings disagree in sign** -- zero means there is no culprit and the search is misdirected; (b) **a carrier-share floor plus 1/HHI turns "is it one month or many" into a number**, which is the difference between a verdict a reader can act on and a verdict nobody can. Also: annualising the RATIO of the two growth multiples is not the same object as differencing two annualised levels (2.43bp apart here); the first is published as `effect_comp_ratio_bp`, the second as `effect_comp_bp`, and a selftest leg pins that they cannot be swapped.

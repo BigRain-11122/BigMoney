@@ -4,8 +4,8 @@
  "cpu_load_pct": 0.7,
  "cpu_pct": 0.7,
  "cpu_util_pct": 0.7,
- "current": "r1218: the two decompositions were never two arithmetics -- one is gross of the fee and the other is net, and the near-constant 2.92..3.62bp gap is the monthly rebalance charge between them",
- "current_task": "idle: pool ready 3 (E186/E187/E188)",
+ "current": "r1219: the arithmetic-dependent drop effects have no bad month -- zero months disagree in sign between the two readings, so the era sign is accumulated scaling, except one deep-history carrier month (2014-12)",
+ "current_task": "idle: pool ready 3 (E187/E188/E189)",
  "cyc_round": 1200,
  "d19_note": "r1218: decisions bee8ab7b consumed + advanced (D-20261028-02 executed by HQ, D-20261028-11 already receipted in F-20261028-04, D-20261028-06 supply-dry attribution, D-20261028-14 batch 27); orders face source_ahead with zero rows for this desk",
  "d19_probe_due": false,
@@ -630,22 +630,40 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T10:42:00+08:00"
  },
+ "r1219": {
+  "defect_fixed": "machine_health was the one nonzero leg (rc=2 'missing[bm-b:cpu,gpu.util]') while the heartbeat carried cpu_pct 0.7 and a full gpu object -- so the stored face row for bm-b was thin, the r1284 half-owner class one layer up. Healed with the single writer (Tools/machine_health_face.py write -> write=OK, then check=OK machines=3 fields=8/8). Same family as r1195 deployed-writer drift: the hourly oversight writer re-emits a partial row, so a 'complete' reading is only as durable as the next hourly write",
+  "finding": "E186: E183's four arithmetic-dependent drop effects, split per decision month under both readings. Era effects rebuilt from the month vectors reproduce E183 to 0.000634bp. Carriers: pre2017 sh510500 = SINGLE-MONTH (2014-12 holds 0.591 of the |gap|, 2.62 effective months); the other three are dispersions (pre2017 sh510300 0.358/5.45 carrier 2016-01; 2024_now sh510050 0.237/8.97 carrier 2026-07; full sh510050 0.118/25.36 carrier 2014-12). The decisive read: ZERO months in all four pairs disagree in sign between the two readings, so the era-level reversal is never one month flipping -- it is accumulated scaling of the same months, i.e. a property of the arithmetic, except where a carrier month does the work (one case, and it is deep history). Second reading is not the first: annualising the RATIO of growth multiples is 2.43bp away from differencing two annualised levels (2024_now -34.01 vs -31.58); both are published under their own names and a selftest leg pins they cannot be swapped.",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0.0-0.7%, 3 ready rows) -> burned the head E186",
+  "not_run": "strategy_scorecard / market_clock_call / daily_scorecard / build_status are bm-a host-guarded; the bm-a lane collectors; GPU untouched (parked, C-20261014-01)",
+  "pit": "before hunting a culprit month for a reversible effect, count the months whose two readings disagree in sign -- zero means there is no culprit and the search is misframed; and a carrier-share floor plus 1/HHI turns 'one month or many' into a number a reader can act on",
+  "pool": "E186 done; ready 3 (E187/E188/E189)",
+  "product": [
+   "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
+   "scripts/e39_panel_census.py: _drop_month_deltas / _drop_month_locus / _drop_effect_both_bp / run_tilt3ladderdropwhere + CLI mode tilt3ladderdropwhere (selftest 636 -> 644)",
+   "research/digests/DIGEST-20261028-r1219-e186-drop-where.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E186-DW",
+   "results/runnable_pool.json E186 -> done (+ E189-DROP-CURVE-CROSSING seeded)"
+  ],
+  "s6": "S6 20/21 rc=0 (116.0s): dualrun ZERO-DRIFT (673 entries, streak 1 -- r1218's drift cleared), compute_audit py 0.1%, py_watermark rc0, cal_audit in_sync (expected 2026-10-27, active 1723/1725), market_regime breadth 0.85, market_clock ORANGE_COOL, astock/etf_daily no-op at cutoff 2026-10-27, rev_osc_export no-op, minute_feed +285 rows across 5 symbols, etf_book_forward power table, attrition CLEAN 4 ledgers, gpu_face findings [], machine_health FIXED in-window",
+  "selftest": "e39 636 -> 644/644; panel_screen 39/39",
+  "smoke": "120/120 PASS at open"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "ram_free_gb": 11.9,
  "ram_free_mb": 12184,
  "ram_free_pct": 49.7,
- "round": 1218,
- "round_no": 1218,
- "round_no_label": "r1218",
+ "round": 1219,
+ "round_no": 1219,
+ "round_no_label": "r1219",
  "round_no_note": "r1218: state.json round_no had lagged the round-report series since r1211 (windows r1212-r1217 wrote reports only); restored to the report series rather than bumped off the stale number",
- "round_no_ts": "2026-10-28T13:49:50+08:00",
+ "round_no_ts": "2026-10-28T15:02+08:00",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
   "status": "alive"
  },
- "seq": 20,
+ "seq": 21,
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
@@ -656,10 +674,10 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T10:42:00+08:00"
  },
- "task": "r1211: E177 decom level offset (done) -> E178 ladder-leg invariant",
- "task_short": "E177 decom offset",
- "ts": "2026-10-28T10:09:23+08:00",
- "updated": "2026-10-28T10:09:23+08:00",
- "updated_at": "2026-10-28T10:09:23+08:00",
+ "task": "r1219: E186 drop-effect-where (done) -> E189 cumulative crossing months",
+ "task_short": "E186 drop where",
+ "ts": "2026-10-28T15:02+08:00",
+ "updated": "2026-10-28T15:02+08:00",
+ "updated_at": "2026-10-28T15:02+08:00",
  "verdict": "watermark red at open (pool-batch-runnable-idle-low-cpu) -> E177 decomposition level offset measured and answered in round | e39 selftest 573->578 | smoke 118/118 | S6 rc0 | dualrun ZERO-DRIFT streak 16 | attrition CLEAN 4 ledgers | orphan 0"
 }
