@@ -2723,3 +2723,38 @@ How to apply: for any "nothing consumes this yet" conclusion, publish the reader
 versioned baseline and turn the *first* consumer into a blocking event; and when a study scans a
 directory the running round also writes into, classify round-local artefacts before believing
 the first number.
+## E206 A count published under a name the family's classifier reads as a measurement is a fabricated quote; gate the producer half of silence with a leaf-name ratchet (2026-10-29 r1234 bm-b)
+
+Evidence: `results/e79/SIGNLEAF-2026-10-27.json` + seeded `results/e79/SIGNLEAF-BASELINE.json`,
+code `signleafgrowth` (`scripts/e97_routing.py`, selftest 87 -> 97), upstream E201 + E204 + E205,
+digest `research/digests/DIGEST-20261029-e206-leaf-growth-gate.md`.
+
+E205 asked who *reads* a silent face. The other half is who *writes* it: a face that never taught
+its sign and then grows a **new** delta number exports that ambiguity to readers that do not exist
+yet, which no reader map can see. The gate records each face's delta names (key path, list indices
+elided), diffs them against a seeded baseline, and fails on a new name in a face that still needs
+its sign line. Baseline 14 faces / **319** delta names, clean on the first live run.
+
+(a) **publish the gate's own blind spot, as a number** -- the test is a token test on the key name,
+so it can only see deltas spelled `delta`/`diff`/`difference`. Same 14 faces carry **629** further
+numbers with a unit/sign token but no delta token: 140 are arm pairs (one level quoted twice), and
+the residue splits 208 anchored / 71 offset / 210 unclassified. Saying "319 names are covered" and
+stopping there would overstate coverage by up to 3x; publishing the floor is what lets the next
+card be a question instead of a guess.
+
+(b) **the family audits by NAME, so a count under a measurement name becomes a quote** -- this
+round produced the defect twice in one edit cycle. `{"offset": 71}` (a class count) was read by
+`level_quotes()` as an offset cell worth 71 bp, and the live smoke leg went red because the face
+then "quoted" a level with no producer. Restructuring to a list of records fixed it -- and the
+next edit reintroduced it as `of_which_arm_paired_levels`, where the token `level` alone was enough
+to fabricate one more anchored cell. Fix is structural: records not dict-keys, and count fields
+may not carry measurement tokens (`unit_names_in_arm_pairs`, not `..._levels`). Pin it with a leg.
+
+(c) **the live leg is the only reason this was caught** -- the fixture-only tests were green
+through both instances; L37 ("on the real disk every quoting face has a producer") failed because
+the new product sat in an audited directory. A product that publishes numbers into a directory the
+family audits must be run past that audit before it is claimed as done.
+
+How to apply: when you gate one half of a measurement (readers, producers, levels, deltas), publish
+the boundary of the test as a count on the face itself; and never let a count share a name with the
+quantity the family classifies, because name-based audits will happily quote it.

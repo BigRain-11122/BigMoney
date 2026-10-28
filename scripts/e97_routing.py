@@ -2980,6 +2980,288 @@ def run_signgrowth(publish=False, seed=False, base=None):
     return 3 if gate["violations"] else 0
 
 
+SIGNLEAF_BASELINE = "results/e79/SIGNLEAF-BASELINE.json"
+SIGNLEAF_OUT_DIR = "results/e79"
+# The gate is a delta-token test, so these tokens set its floor: `gap`, `wedge`,
+# `spread` and `edge` are all difference-ish spellings the family uses, and `_bp`
+# is the unit that makes a number quotable in the first place.
+SIGNLEAF_UNIT_TOKENS = ("_bp", "gap", "wedge", "spread", "edge")
+SIGNLEAF_ARM_TOKEN = re.compile(r"(^|_)(raw|screened|neutralise_int|neutral)(_|$)")
+
+
+def _signleaf_key(path):
+    """A numeric leaf's name with list indices removed.
+
+    One extra era row is the same NAME, not a new number, so an un-elided path
+    would report every row the data gains as growth. Eliding indices keeps the
+    identity that matters: the key path (which carries the era and the arm).
+    """
+    parts = [p for p in path.split("/") if p and not p.isdigit()]
+    return "/".join(parts)
+
+
+def _signleaf_delta_paths(doc):
+    """(E206) the sign-carrying numbers a face publishes, by name.
+
+    E201/E193 all start from the rows the stance sweep could match, so a face can
+    grow a delta number that no sweep has ever seen -- and that is exactly the
+    number a silent convention would spread to. This leg starts from the face's
+    own JSON instead of from the matched cells.
+    """
+    out = set()
+    for path, _ in _numeric_paths(doc if isinstance(doc, (dict, list)) else {}):
+        leaf = path.rsplit("/", 1)[-1].lower()
+        if any(tok in leaf for tok in DELTA_LEAF_TOKENS):
+            out.add(_signleaf_key(path))
+    return sorted(out)
+
+
+def _signleaf_unit_paths(doc):
+    """Numbers that carry a sign/unit token but not a delta token.
+
+    This is the gate's own blind spot, measured rather than admitted: if a delta is
+    spelled `engine_gap_bp` instead of `engine_diff_bp`, the token test above cannot
+    see it. Publishing the residue keeps the floor of the gate honest.
+    """
+    out = set()
+    for path, _ in _numeric_paths(doc if isinstance(doc, (dict, list)) else {}):
+        leaf = path.rsplit("/", 1)[-1].lower()
+        if any(tok in leaf for tok in DELTA_LEAF_TOKENS):
+            continue
+        if any(tok in leaf for tok in SIGNLEAF_UNIT_TOKENS):
+            out.add(_signleaf_key(path))
+    return sorted(out)
+
+
+def _signleaf_arm_base(key):
+    """The same name with its arm token removed (`engine_bp_raw` -> `engine_bp`)."""
+    return SIGNLEAF_ARM_TOKEN.sub("_", key)
+
+
+def _signleaf_recall_gap(rows):
+    """(E206) how much number surface the delta-token test cannot see, split by class."""
+    visible = sum(len(r.get("delta_leaves") or []) for r in rows)
+    invisible = pairs = 0
+    classes = {}
+    for r in rows:
+        units = list(r.get("unit_leaves") or [])
+        invisible += len(units)
+        bases = {}
+        for k in units:
+            bases.setdefault(_signleaf_arm_base(k), set()).add(k)
+        paired = {k for ks in bases.values() if len(ks) > 1 for k in ks}
+        pairs += len(paired)
+        for k in units:
+            if k in paired:
+                continue
+            name = level_class(k.rsplit("/", 1)[-1]) or "unclassified"
+            classes[name] = classes.get(name, 0) + 1
+    return {
+        "delta_names_seen": visible,
+        "unit_names_not_seen": invisible,
+        # `unit_names_in_arm_pairs`, not `..._levels`: the family's level-quote audit
+        # classifies numeric leaves BY NAME, so a COUNT named `*_levels` reads as one
+        # more bp level in the face (measured, not theorised: this leg failed its own
+        # build that way twice -- once as a dict key `offset`, once as `*_levels`).
+        "unit_names_in_arm_pairs": pairs,
+        "residue": invisible - pairs,
+        # A LIST of records, not a dict keyed by class: the family's level-quote audit
+        # classifies numeric leaves BY NAME, so `{"offset": 71}` would be read as a bp
+        # cell that is a gap under a constant. A count under a class name is a false
+        # quote, which is exactly the class of defect this whole line of legs audits.
+        "residue_by_class": [{"class": k, "names": classes[k]}
+                             for k in sorted(classes)],
+        "read": ("counted, not judged: an arm-paired pair is one level quoted twice; an "
+                 "'anchored' residue name is a level; an 'offset' residue is a gap under a "
+                 "constant, which can carry a sign; 'unclassified' is anything the class "
+                 "table cannot name. So the token test is a FLOOR on coverage, never a "
+                 "claim of completeness."),
+    }
+
+
+def _signleaf_ratchet(rows, baseline):
+    """Diff the leaf NAMES of every face against the previous window's set."""
+    declared = (baseline or {}).get("faces") or {}
+    added, removed, born, growth = {}, {}, [], []
+    for r in rows:
+        rel = r.get("face")
+        cur = set(r.get("delta_leaves") or [])
+        prev = declared.get(rel)
+        if prev is None:
+            if cur and r.get("needs_line"):
+                born.append(rel)
+            continue
+        before = set(prev.get("delta_leaves") or [])
+        new = sorted(cur - before)
+        gone = sorted(before - cur)
+        if new:
+            added[rel] = new
+        if gone:
+            removed[rel] = gone
+        if new and r.get("needs_line"):
+            growth.append(rel)
+    return added, removed, born, growth
+
+
+def _signleaf_baseline_from(rows, cutoff):
+    faces = {}
+    for r in rows:
+        faces[r.get("face")] = {"delta_leaves": list(r.get("delta_leaves") or []),
+                                "needs_line": bool(r.get("needs_line")),
+                                "status": r.get("status")}
+    return {
+        "study": "e206_delta_leaf_growth_gate",
+        "seeded_at": cutoff,
+        "note": ("declared leaf set: a delta NAME that appears in a face which still "
+                 "does not teach its sign is the growth this gate refuses"),
+        "leaf_rule": "list indices elided; the key path (era/arm/leaf) is the identity",
+        "faces": faces,
+    }
+
+
+def signleaf_gate(base=None, baseline=None, current=None):
+    """E206: a silent face may not GROW a delta number before it learns its sign.
+
+    E205 gated the reader side (who names the number). This gates the producer side
+    (the number itself), which is the half a reader-driven gate cannot see: a new
+    delta in a silent face is ambiguous to every future reader, including ones that
+    do not exist yet.
+    """
+    cur = current if current is not None else deltasign_sweep(base=base)
+    if cur.get("status") == "awaiting_upstream":
+        return {"study": "e206_delta_leaf_growth_gate", "status": "awaiting_upstream",
+                "missing": cur.get("missing"), "violations": [],
+                "verdict": "no_upstream_face"}
+    rows = []
+    for r in cur.get("rows") or []:
+        row = dict(r)
+        # a caller may hand in an already-measured set (selftest fixtures); re-reading
+        # the file would silently discard it.
+        if "delta_leaves" not in r:
+            full = os.path.join(base or ROOT, str(r.get("face")).replace("/", os.sep))
+            try:
+                with io.open(full, encoding="utf-8") as fh:
+                    doc = json.load(fh)
+            except Exception:
+                doc = {}
+            row["delta_leaves"] = _signleaf_delta_paths(doc)
+            row["unit_leaves"] = _signleaf_unit_paths(doc)
+        row["delta_leaf_count"] = len(row.get("delta_leaves") or [])
+        rows.append(row)
+    added, removed, born, growth = _signleaf_ratchet(rows, baseline)
+    retired = []
+    if isinstance(baseline, dict):
+        live = {r.get("face") for r in rows}
+        retired = sorted(k for k in (baseline.get("faces") or {}) if k not in live)
+    by_face = {r.get("face"): r for r in rows}
+    if not isinstance(baseline, dict):
+        # nothing was ever blessed, so every face would look "born": seeding is the
+        # deliberate act that turns this measurement into a ratchet.
+        added, removed, born, growth = {}, {}, [], []
+    violations = [{"face": rel, "kind": "silent_face_grew_a_delta_number",
+                   "added": list(added.get(rel) or [])} for rel in growth]
+    violations += [{"face": rel, "kind": "new_silent_face_published_delta_numbers",
+                    "added": list(by_face[rel].get("delta_leaves") or [])}
+                   for rel in born if rel in by_face]
+    if not rows:
+        verdict = "no_delta_faces"
+    elif violations:
+        verdict = "a_silent_face_grew_a_delta_number"
+    elif baseline is None:
+        verdict = "no_baseline_yet"
+    else:
+        verdict = "no_delta_name_grew_inside_a_silent_face"
+    return {
+        "study": "e206_delta_leaf_growth_gate",
+        "status": "ok" if baseline is not None else "needs_baseline",
+        "evidence_cutoff": cur.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "the E201 declaration status (this module) + each face's own JSON",
+            "question": ("E201 published which faces never teach their sign and E205 gated "
+                         "who reads them. The remaining half is the producer: a silent face "
+                         "that grows a NEW delta number exports its ambiguity to readers "
+                         "that do not exist yet, which no reader map can see."),
+            "baseline": SIGNLEAF_BASELINE,
+            "leaf_rule": ("numeric leaves whose key name carries a delta token "
+                          "(%s); list indices elided, so an extra era row is the same "
+                          "name" % (list(DELTA_LEAF_TOKENS),)),
+            "violation_rule": "needs_line AND a delta name appeared that the baseline lacks",
+            "born_rule": "a face absent from the baseline that carries delta names AND needs its line",
+            "retire_rule": "a face that disappears is reported, never failed",
+            "exit": "0 clean / 0 after seeding / 3 a silent face grew a delta number",
+        },
+        "rows": rows,
+        "recall_gap": _signleaf_recall_gap(rows),
+        "faces_grown": sorted(added),
+        "faces_shrunk": sorted(removed),
+        "added_leaves": added,
+        "removed_leaves": removed,
+        "born_silent_faces": born,
+        "retired_faces": retired,
+        "violations": violations,
+        "answers": {
+            "faces": len(rows),
+            "faces_silent": len([r for r in rows if r.get("needs_line")]),
+            "delta_names_total": sum(int(r.get("delta_leaf_count") or 0) for r in rows),
+            "verdict": verdict,
+        },
+        "verdict": verdict,
+        "honest": [
+            "growth is measured between two runs of this leg, so a name added and removed "
+            "between runs is invisible to it (same limit as the E205 reader ratchet)",
+            "the identity is the key path, so a RENAME shows up as one removal plus one "
+            "addition and is reported as growth -- deliberate: a renamed number is a new "
+            "number for every reader",
+            "the leaf test is a token test on the key name: a delta that is spelled "
+            "without any of the delta tokens (%s) is invisible to this gate"
+            % (list(DELTA_LEAF_TOKENS),),
+            "shrinkage is reported and never failed: a face that retires a number gets "
+            "smaller, which is the direction this gate wants",
+        ],
+        "law_ref": "O-20260924-1626 R3 (advisory-to-blocking: a silent number costs a whole sign)",
+    }
+
+
+def run_signleaf(publish=False, seed=False, base=None):
+    cur = deltasign_sweep(base=base)
+    if cur.get("status") == "awaiting_upstream":
+        print("awaiting upstream:", cur.get("missing"))
+        return 0
+    bpath = _abs(SIGNLEAF_BASELINE)
+    baseline = None
+    if not seed and os.path.exists(bpath):
+        try:
+            with io.open(bpath, encoding="utf-8") as fh:
+                baseline = json.load(fh)
+        except Exception:
+            baseline = None
+    gate = signleaf_gate(base=base, baseline=baseline, current=cur)
+    if baseline is None:
+        gate["status"] = "baseline_seeded"
+        gate["verdict"] = "baseline_seeded_from_the_current_leaf_sets"
+        if publish:
+            os.makedirs(os.path.dirname(bpath), exist_ok=True)
+            with io.open(bpath, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(json.dumps(_signleaf_baseline_from(gate.get("rows") or [],
+                                                            gate.get("evidence_cutoff")),
+                                    ensure_ascii=False, indent=1) + "\n")
+            print("wrote", os.path.relpath(bpath, ROOT).replace("\\", "/"))
+    if publish:
+        out = os.path.join(_abs(SIGNLEAF_OUT_DIR),
+                           "SIGNLEAF-%s.json" % (gate.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(gate, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    a = gate["answers"]
+    print("faces=%d silent=%d delta_names=%d grown=%d shrunk=%d born=%d retired=%d"
+          % (a["faces"], a["faces_silent"], a["delta_names_total"],
+             len(gate["faces_grown"]), len(gate["faces_shrunk"]),
+             len(gate["born_silent_faces"]), len(gate["retired_faces"])))
+    print("  verdict:", gate["verdict"])
+    return 3 if gate["violations"] else 0
+
+
 def run_signexposure(publish=False, base=None):
     face = signexposure_sweep(base=base)
     if face.get("status") == "awaiting_upstream":
@@ -4011,6 +4293,93 @@ def selftest():
     chk("L84 scratch-only coverage is a clean baseline a durable reader can grow out of",
         [v["face"] for v in _g6["violations"]] == ["results/e79/A.json"])
 
+    # ---- E206: a silent face may not GROW a delta number
+    _sl_doc = {"spec": {"note": "no direction here"},
+               "cells": [{"era": "2017_2020", "engine_diff_bp": 1.5,
+                          "count": 4},
+                         {"era": "2024_now", "engine_diff_bp": -0.5, "count": 3}]}
+    _sl_leaves = _signleaf_delta_paths(_sl_doc)
+    chk("L85 the leaf set is by key path and drops list indices",
+        _sl_leaves == ["cells/engine_diff_bp"] and "count" not in " ".join(_sl_leaves))
+    _sl_doc2 = {"spec": {"note": "no direction here"},
+                "cells": [{"era": "2017_2020", "engine_diff_bp": 1.5},
+                          {"era": "2024_now", "engine_diff_bp": -0.5},
+                          {"era": "full", "engine_diff_bp": 0.2}]}
+    chk("L86 an extra era row is the same name, not growth",
+        _signleaf_delta_paths(_sl_doc2) == _sl_leaves)
+    _sl_base = _signleaf_baseline_from(
+        [{"face": "results/e79/A.json", "needs_line": True, "status": "silent",
+          "delta_leaves": _sl_leaves}], "2026-10-28")
+    _g0 = signleaf_gate(current={"rows": [{"face": "results/e79/A.json",
+                                           "needs_line": True, "status": "silent",
+                                           "delta_leaves": _sl_leaves}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=_sl_base)
+    chk("L87 an unchanged silent leaf set passes the growth gate",
+        _g0["violations"] == []
+        and _g0["verdict"] == "no_delta_name_grew_inside_a_silent_face")
+    _g1 = signleaf_gate(current={"rows": [{"face": "results/e79/A.json",
+                                           "needs_line": True, "status": "silent",
+                                           "delta_leaves": _sl_leaves + ["cells/tilt_diff_bp"]}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=_sl_base)
+    chk("L88 a new delta name in a silent face is a violation, and it names the leaf",
+        [v["face"] for v in _g1["violations"]] == ["results/e79/A.json"]
+        and _g1["violations"][0]["kind"] == "silent_face_grew_a_delta_number"
+        and _g1["violations"][0]["added"] == ["cells/tilt_diff_bp"]
+        and _g1["verdict"] == "a_silent_face_grew_a_delta_number")
+    _g2 = signleaf_gate(current={"rows": [{"face": "results/e79/A.json",
+                                           "needs_line": False,
+                                           "status": "declared_and_matches",
+                                           "delta_leaves": _sl_leaves + ["cells/tilt_diff_bp"]}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=_sl_base)
+    chk("L89 the same growth is legal once the face teaches its sign",
+        _g2["violations"] == [] and _g2["faces_grown"] == ["results/e79/A.json"])
+    _g3 = signleaf_gate(current={"rows": [{"face": "results/e79/A.json",
+                                           "needs_line": True, "status": "silent",
+                                           "delta_leaves": []}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=_sl_base)
+    chk("L90 a silent face that retires a delta name shrinks and is never failed",
+        _g3["violations"] == []
+        and _g3["removed_leaves"] == {"results/e79/A.json": ["cells/engine_diff_bp"]})
+    _g4 = signleaf_gate(current={"rows": [{"face": "results/e79/B.json",
+                                           "needs_line": True, "status": "silent",
+                                           "delta_leaves": _sl_leaves}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=_sl_base)
+    chk("L91 a silent face born already publishing deltas is a violation; the old one retires",
+        [v["kind"] for v in _g4["violations"]] ==
+        ["new_silent_face_published_delta_numbers"]
+        and _g4["violations"][0]["face"] == "results/e79/B.json"
+        and _g4["retired_faces"] == ["results/e79/A.json"])
+    _g5 = signleaf_gate(current={"rows": [{"face": "results/e79/A.json",
+                                           "needs_line": True, "status": "silent",
+                                           "delta_leaves": _sl_leaves}],
+                                 "evidence_cutoff": "2026-10-28"},
+                        baseline=None)
+    chk("L92 with no baseline the leaf gate asks for a seed and fails nothing",
+        _g5["status"] == "needs_baseline" and _g5["violations"] == []
+        and _g5["verdict"] == "no_baseline_yet")
+    _sl_b = _signleaf_baseline_from(
+        [{"face": "results/e79/A.json", "needs_line": True, "status": "silent",
+          "delta_leaves": _sl_leaves}], "2026-10-28")
+    chk("L93 the seeded leaf baseline round-trips the names it was built from",
+        _sl_b["faces"]["results/e79/A.json"]["delta_leaves"] == _sl_leaves)
+    _gap = _signleaf_recall_gap([{
+        "face": "results/e79/A.json", "delta_leaves": [],
+        "unit_leaves": ["cells/engine_bp_raw", "cells/engine_bp_screened",
+                        "cells/alpha_monthly_bp", "cells/some_gap_bp"]}])
+    chk("L94 the recall gap counts arm pairs once and classes the residue, without a "
+        "class-named numeric key",
+        _gap["unit_names_not_seen"] == 4
+        and _gap["unit_names_in_arm_pairs"] == 2
+        and _gap["residue"] == 2
+        and _gap["residue_by_class"] == [{"class": "anchored", "names": 1},
+                                         {"class": "offset", "names": 1}]
+        and not any(k in ("anchored", "offset") for k in _gap))
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -4043,6 +4412,8 @@ def main(argv):
         return run_signexposure(publish="--publish" in argv)
     if cmd == "signgrowth":
         return run_signgrowth(publish="--publish" in argv, seed="--seed" in argv)
+    if cmd == "signleafgrowth":
+        return run_signleaf(publish="--publish" in argv, seed="--seed" in argv)
     print(__doc__)
     return 2
 

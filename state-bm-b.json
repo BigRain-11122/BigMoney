@@ -1234,11 +1234,11 @@
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1232,
- "round_no": 1233,
- "round_no_label": "r1232",
- "round_no_note": "r1225 closeout (state had drifted to round=1223/round_no=1224 -> git log is the canvas)",
- "round_no_ts": "2026-10-29T02:55:00+08:00",
+ "round": 1234,
+ "round_no": 1235,
+ "round_no_label": "r1234",
+ "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
+ "round_no_ts": "2026-10-29T03:55:00+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": {
@@ -1259,12 +1259,12 @@
   "note": "ls-remote returns the local HEAD for refs/heads/machine/bm-b-r1232. Zero delivery claimed on main: origin/main has 9 commits this clone does not, and they touch the same auto-generated faces (runnable_pool / machine-health / status twins), so a rebase is the overwrite hazard rather than a merge.",
   "ts": "2026-10-29T03:12:00+08:00"
  },
- "task": "r1232: E204 delta-face reader exposure (done) -> E205 sign growth gate (ready)",
- "task_short": "E204 reader exposure",
- "task_short_note": "e97 mode signexposure; selftest 70 -> 77",
- "ts": "2026-10-29T03:12:00+08:00",
- "updated": "2026-10-29T03:12:00+08:00",
- "updated_at": "2026-10-29T03:12:00+08:00",
+ "task": "r1234: E206 leaf-growth gate (done) -> E207 count-as-quote audit (ready)",
+ "task_short": "E206 leaf-growth gate",
+ "task_short_note": "e97 mode signleafgrowth; selftest 87 -> 97",
+ "ts": "2026-10-29T03:55:00+08:00",
+ "updated": "2026-10-29T03:55:00+08:00",
+ "updated_at": "2026-10-29T03:55:00+08:00",
  "verdict": "board clear at open -> authored+burned E204 (14/14 silent delta faces are producer-only: E201's missing lines are documentation debt, not traps; first fire's 5 'traps' were the auditor itself) | smoke went 122/123 after the S6 chain -> astock coverage face published an inherited cutoff beside a byte-derived 90% date (two clocks) and was fixed in-window, smoke back to 123/123",
  "r1232": {
   "mission": "watermark GREEN at open (red=false, lane healthy, py 1.7%) but pool ready = 0 of 681 entries: board clear + smoke green -> the round owed a new card, so E204 was authored and burned in the same window",
@@ -1281,5 +1281,27 @@
   "s7": "loop pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions same (93fa41e1), orders DELTA 122ab707 consumed -> advanced | orders_ack 114/115, 0 unacked, 1 stale bm-c",
   "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; bm-a/bm-c lane collectors honoured their guards; strategy_scorecard/daily_scorecard/build_status are host-guarded legs and ran inside the S6 chain",
   "astock_two_clock_fix": "smoke went red after this round's S6 chain: results/astock_daily_update_status.json carried cutoff 2026-10-27 beside coverage_90 2026-10-28 while the face declares cutoff_is = 'max tail across all per/*.csv'. Root cause: cutoff inherited from the running refresh cycle, coverage re-derived from bytes each gate cycle. Fixed in scripts/update_astock_daily.py (_panel_coverage_from_bytes -> cutoff_max; _panel_with_coverage publishes disk max as cutoff and the cycle date as cycle_cutoff), 5 selftest asserts, gate re-run green, smoke 123/123."
+ },
+ "snapshot": {},
+ "r1234": {
+  "mission": "watermark RED at open (pool-batch-runnable-idle-low-cpu, py 1.7%, pool ready 1 = E205 card) -> the card was built as written and closed in-window",
+  "finding": "E205 asked for the PRODUCER half (a silent face may not grow a delta number) and r1233 shipped the READER half instead, leaving the card ready. The gate now records 319 delta names across 14 silent faces (list indices elided) and fails on a new name in a face that still needs its sign line; baseline seeded, first live run clean (0 grown / 0 shrunk / 0 born).",
+  "blind_spot": "the gate is a token test, so the product publishes its own floor: 629 numeric leaves carry a unit/sign token but no delta token, 140 of them are arm pairs (one level quoted twice) and the 489 residue splits 208 anchored / 71 offset / 210 unclassified -> at least 71 numbers could be differences the gate cannot name (next card E207).",
+  "pit": "publishing that residue as {\"offset\": 71} put a COUNT under a key the family's level-quote audit classifies BY NAME: level_quotes() read it as a 71bp offset cell and smoke L37 (\"every quoting face has a producer\") went red. Restructured to a list of records -- and the same defect reappeared immediately as `of_which_arm_paired_levels`, where the token `level` alone fabricated one more anchored cell. Now `unit_names_in_arm_pairs`, pinned by leg L94.",
+  "orders_delta": "orders 122ab707 delta consumed (R2.47/R2.48 事件班): the only bm-b item was FleetLink 1.9.3 -> 1.9.5; the group worktree copy was stale while the index already held origin 1.9.5, so the file was restored from the index (no local work discarded) and the listener self-upgrades on the next supervisor fire.",
+  "product": [
+   "results/e79/SIGNLEAF-2026-10-27.json",
+   "results/e79/SIGNLEAF-BASELINE.json",
+   "scripts/e97_routing.py: _signleaf_key/_signleaf_delta_paths/_signleaf_unit_paths/_signleaf_arm_base/_signleaf_recall_gap/_signleaf_ratchet/_signleaf_baseline_from/signleaf_gate/run_signleaf + CLI mode signleafgrowth (selftest 87 -> 97, legs L85-L94)",
+   "research/digests/DIGEST-20261029-e206-leaf-growth-gate.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E206",
+   "results/runnable_pool.json: E205 done + E205B (r1233 retro card) done + E207 seeded ready"
+  ],
+  "s6": "21/21 rc=0 (168.7s): dualrun ZERO-DRIFT 685 entries streak 15 | compute_audit rc0 | cal_audit in_sync 2026-10-28 | market_regime breadth 0.88 | market_clock ORANGE_COOL | astock panel fresh no-op | etf_daily no-op | rev_osc SIG-2026-10-28 picks=10 | minute_feed pre-09:15 gated | etf_book_forward power table | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | machine_health OK 3 machines | gpu_face findings=[] | attrition CLEAN 4 ledgers | pool_audit | token_meter",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions unchanged (93fa41e1), orders delta consumed | orders_ack 114/115, 0 unacked, 1 stale bm-c note",
+  "smoke": "124/124 PASS (after the restructure; L37 live leg green)",
+  "selftest": "e97_routing 87 -> 97/97",
+  "orphan_face": 0,
+  "not_run": "GPU untouched (parked C-20261014-01; nvidia-smi shows the interactive window's occupancy, not this chain); cloud untouched; bm-a/bm-c lane collectors honoured their guards"
  }
 }
