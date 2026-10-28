@@ -2465,4 +2465,31 @@ Four transferable rules: (a) **a label duty is a sweep, not a fix** -- once one 
     k_agree(rule) = min k in 1..min(8, months-2) s.t. signs agree after removing the k worst months
     class = two_month_artefact (k<=2) | fragile_window (3..k_max) | era_property (never) | no_era_reversal
 Result: **all four flagged reversals die at k=1** under both magnitude rules (|gap_bp| and |delta_sum|) -- the era verdicts of the E183-E186 family are one-month events -- **but three of the four pairs are class-sensitive**: trimming the era's *edges* instead needs 4 months (`full`), 8 (`pre2017`/sh510300), and never clears within k<=8 on `pre2017`/sh510500. So "the verdict is fragile" is true, and "the verdict is a one-month artefact" is true only under a rule that ranks by month magnitude. Join with E186's published month rows: 8.8e-05 bp.
-Four transferable rules: (a) **replace the fragility adjective with a curve** -- "fragile" is a feeling until you publish the k at which the two readings agree, and the k is the number a reader can act on. (b) **a trim rule is a question, not an ordering** -- ranking by |gap| removes the months that move the level, ranking by |delta_sum| removes the months that move the additive path, and first/last ask whether the verdict is an edge-of-window effect; publish all four and count how many pairs change class (`classification_is_rule_sensitive`), because a label that survives only under one rule is a label about the method. (c) **cap k at months-2** -- a short era trimmed to one observation reads as agreement, so the cap has to be published (`k_limit`, "never" = not cleared within the cap) rather than silently shrinking the sweep. (d) **a trim can manufacture the disagreement it is supposed to test** -- record `k_reversal_created` on pairs that already agree; otherwise the "first k that agrees" is answering a question nobody asked.
+Four transferable rules: (a) **replace the fragility adjective with a curve** -- "fragile" is a feeling until you publish the k at which the two readings agree, and the k is the number a reader can act on. (b) **a trim rule is a question, not an ordering** -- ranking by |gap| removes the months that move the level, ranking by |delta_sum| removes the months that move the additive path, and first/last ask whether the verdict is an edge-of-window effect; publish all four and count how many pairs change class (`classification_is_rule_sensitive`), because a label that survives only under one rule is a label about the method. (c) **cap k at months-2** -- a short era trimmed to one observation reads as agreement, so the cap has to be published (`k_limit`, "never" = not cleared within the cap) rather than silently shrinking the sweep. (d) **a trim can manufacture the disagreement it is supposed to test** -- record `k_reversal_created` on pairs that already agree; otherwise the "first k that agrees" is answering a question nobody asked.
+## E195 Choose the trim rule before you see the answer (2026-10-28, bm-b r1224)
+Evidence: `results/e43_tilt_4member/LADDERDROPRULE-20261027.json` · leg
+`scripts/e39_panel_census.py tilt3ladderdroprules` · digest
+`research/digests/DIGEST-20261028-r1224-e195-drop-rule.md` · selftest 670->678.
+E190 ended with a class that flipped between trim rules, i.e. the label was being
+chosen by the removal method. E195 fixes the rule *before* the removal: four
+rules that read **only the book's own monthly return** (median+3xMAD outlier,
+>2x era median, top-decile magnitude, chronological first+last month) and never
+`delta_sum`/`delta_link`/`gap_bp`, which are the drop's own measurement. Result:
+3 of 4 flagged ladder-drop pairs die under *every* pre-registerable rule (quotable
+as artefacts), and the fourth -- full-era sh510050 -- survives only edge trimming
+because its arithmetic level is **+0.07bp** against a -38bp compounded gap: a
+near-zero level whose sign is a rounding-scale fact, not a direction.
+Four transferable rules: (a) **a removal set is only evidence if it could be
+written down in advance** -- a rule that ranks months on the quantity under
+question has already read the answer, so publish it as a dependent contrast
+(`reads_gap_columns: true`) and never count it as the test. (b) **prove the
+blindness mechanically, not by intent** -- a selftest leg feeds the same book
+column with the gap/delta columns inflated 1000x and asserts identical
+selections; "I only used full_ret" is a claim until a leg pins it. (c) **a
+verdict that survives some rules and dies under others is still a knob
+statement** -- publish `rules_that_kill_the_reversal` and
+`rules_under_which_it_survives` as two sets on every pair, so the reader cannot
+pick the half that suits them. (d) **check the level's magnitude against the gap
+it is being told apart from** -- "+0.07 vs -38.20" is not a sign disagreement
+worth naming; when |level| is two orders below |gap|, the honest sentence is
+"the readings differ in magnitude, not in direction".

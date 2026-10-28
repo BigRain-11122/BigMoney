@@ -22663,9 +22663,49 @@
    "lane_owner": "bm-b",
    "evidence_cutoff": "2026-10-27",
    "source": "r1223 E190: k_agree=1 on 4/4 pairs by magnitude rules; 3/4 pairs change class between magnitude and edge rules (full 1 vs 4, pre2017/sh510300 1 vs 8, pre2017/sh510500 1 vs never)",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1223",
    "entered_at": "2026-10-28T19:50:00+08:00",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "claimed_at": "2026-10-28T20:34:56+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-10-28T20:34:56+08:00",
+   "done_by": "bm-b r1224",
+   "result_ref": "results/e43_tilt_4member/LADDERDROPRULE-20261027.json",
+   "result": "results/e43_tilt_4member/LADDERDROPRULE-20261027.json (3/4 pairs die under every pre-registerable rule; the full-era sh510050 sits on arith +0.07bp and survives edge-trimming only; digest research/digests/DIGEST-20261028-r1224-e195-drop-rule.md)"
+  },
+  {
+   "id": "E196-NEARZERO-SIGN-CENSUS",
+   "title": "E195 found the full-era sh510050 drop 'reversal' sits on an arithmetic level of +0.07bp against a -38.20bp compounded gap, i.e. the sign of the additive reading is a rounding-scale fact rather than a direction. Sweep EVERY published delta cell in the E183-E190 family and publish |level| against |gap| as a ratio, then classify each cell: sign_quotable (|level| is large next to the gap it is told apart from), sign_is_hair (|level| below a pre-set fraction of |gap|, so the printed sign must not be quoted), or level_agrees (no gap to speak of). A published sign whose magnitude is two orders below the quantity it summarises is a defect waiting for a reader.",
+   "deliverable": "results/e43_tilt_4member/NEARZEROSIGN-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderdroprules follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1224 E195: full-era sh510050 arith +0.07bp vs comp -38.20bp; 3/4 flagged pairs die under every pre-registerable trim rule",
+   "status": "ready",
+   "entered_by": "bm-b r1224",
+   "entered_at": "2026-10-28T20:40:20+08:00",
+   "evidence_cutoff": "2026-10-27",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "E197-CHRONO-EDGE-DEPTH",
+   "title": "E195 let the full-era sh510050 reversal survive because the chronological edge rule removes exactly two months (the era's first and last) no matter how long the era is -- on a 162-month era that is a 1.2% trim, while the magnitude rules took 10-48 months. 'Survives edge trimming' may therefore just mean 'the rule removed too few months'. Sweep the edge depth k=2..10 (first k/2 + last k/2 months, chronological and answer-blind) and publish the k at which each pair stops reversing; compare that k against the magnitude rules' k on the same pair so the survival claim is read as a depth artefact or as a real insensitivity.",
+   "deliverable": "results/e43_tilt_4member/EDGEDEPTH-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderdroprules follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1224 E195: chrono_edges removes 2 months on a 162-month era and is the only rule under which the full-era pair survives",
+   "status": "ready",
+   "entered_by": "bm-b r1224",
+   "entered_at": "2026-10-28T20:40:20+08:00",
+   "evidence_cutoff": "2026-10-27",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
@@ -22684,6 +22724,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T19:50:00+08:00",
+ "updated_at": "2026-10-28T20:40:20+08:00",
  "version": 1
 }

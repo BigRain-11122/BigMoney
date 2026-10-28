@@ -19085,6 +19085,47 @@ def selftest():
     chk("outdir" in run_tilt3widechurntie.__code__.co_varnames,
         "E187 the churn-tie leg takes the face directory as its only seam")
 
+    # ---- E195: the trim rule must be chosen without looking at the answer
+    _e195_rows = [{"month": "m%02d" % i, "full_ret": 0.01, "dropped_ret": 0.01,
+                   "gap_bp": float(i)} for i in range(1, 11)]
+    _e195_loud = [dict(r, gap_bp=1000.0 * i, delta_sum=9.0 * i,
+                       delta_link=9.0 * i)
+                  for i, r in enumerate(_e195_rows)]
+    chk(all(_preregister_trim_months(_e195_rows, rule)["months"]
+            == _preregister_trim_months(_e195_loud, rule)["months"]
+            for rule in TILT3LADDERDROPRULE_RULES),
+        "E195 the pre-registerable rules pick the same months when only the "
+        "gap/delta columns change, so the removal set cannot be read off the "
+        "drop's own measurement")
+    _e195_edge = _preregister_trim_months(_e195_rows, "chrono_edges")
+    chk(_e195_edge["months"] == ["m01", "m10"],
+        "E195 the edge rule removes the era's first and last month, not the "
+        "months that move the answer")
+    _e195_top = _preregister_trim_months(_e195_rows, "book_top_decile")
+    chk(_e195_top["months"] == ["m01"],
+        "E195 a flat book has no outlier to flag: the top-decile rule takes one "
+        "month by count and it is the chronological first, not an invented one")
+    _e195_mad = _preregister_trim_months(_e195_rows, "book_mad3")
+    chk(_e195_mad["months"] == [],
+        "E195 a flat book leaves the MAD rule selecting nothing, which is a "
+        "vacuous run rather than a surviving verdict")
+    chk(_rule_class(True, [], True) == "vacuous_rule_selected_nothing"
+        and _rule_class(False, ["m"], True) == "not_applicable_no_base_reversal"
+        and _rule_class(True, ["m"], False) == "dies_under_preregistered_rule"
+        and _rule_class(True, ["m"], True) == "survives_preregistered_rule",
+        "E195 an empty removal set, a pair with no reversal, a dying reversal "
+        "and a surviving one are four different verdicts")
+    chk(_rule_class(True, ["m"], False, pre_registerable=False)
+        == "dies_only_under_a_gap_series_rule",
+        "E195 a reversal that only dies under the gap-series rule says so in "
+        "its own class rather than counting as evidence")
+    _e195_missing = run_tilt3ladderdroprules(_e190_tmp.mkdtemp())
+    chk(_e195_missing["answers"]["verdict"] == "no_upstream_face"
+        and _e195_missing["answers"]["pairs_measured"] == 0,
+        "E195 a missing upstream face publishes zero pairs, not zero findings")
+    chk("outdir" in run_tilt3ladderdroprules.__code__.co_varnames,
+        "E195 the rule leg takes the face directory as its only seam")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -23004,6 +23045,322 @@ def run_tilt3ladderdropcurve(outdir, kmax=TILT3DROPCURVE_KMAX):
     }
 
 
+# ---------------------------------------------------------------- E195
+# the rules an outside observer may use to pick months must not read the drop's
+# own gap series, otherwise the removal set is chosen from the answer
+TILT3LADDERDROPRULE_MAD_K = 3.0
+TILT3LADDERDROPRULE_GROSS_MULT = 2.0
+TILT3LADDERDROPRULE_TOP_DECILE = 0.10
+TILT3LADDERDROPRULE_RULES = ("book_mad3", "book_gross_x2",
+                             "book_top_decile", "chrono_edges")
+
+
+def _median_of(xs):
+    """Plain median; None on an empty list (a median of nothing is not zero)."""
+    xs = sorted(xs)
+    n = len(xs)
+    if not n:
+        return None
+    mid = n // 2
+    return xs[mid] if n % 2 else 0.5 * (xs[mid - 1] + xs[mid])
+
+
+def _preregister_trim_months(rows, rule):
+    """(E195) months an observer could flag BEFORE seeing the era's gap series.
+
+    Every rule here reads ``full_ret`` only -- the book's own monthly return --
+    and never ``delta_sum``/``delta_link``/``gap_bp``, which are the drop's
+    measurement. That is the point of the exercise: a rule that ranks months on
+    the gap series has already looked at the answer, so removing what it ranks
+    is not a test of the verdict, it is a restatement of it.
+    """
+    clean = [r for r in rows
+             if r.get("month") and r.get("full_ret") is not None]
+    out = {"rule": rule, "months": [], "threshold": None,
+           "pre_registerable": True, "reads_gap_columns": False}
+    if not clean:
+        out["note"] = "no months"
+        return out
+    mags = [abs(float(r["full_ret"])) for r in clean]
+    med = _median_of(mags) or 0.0
+    if rule == "chrono_edges":
+        ordered = sorted(r["month"] for r in clean)
+        out["months"] = [ordered[0]] + ([ordered[-1]] if len(ordered) > 1 else [])
+        out["criterion"] = "first and last decision month of the era"
+        return out
+    if rule == "book_top_decile":
+        n = len(mags) // int(round(1.0 / TILT3LADDERDROPRULE_TOP_DECILE))
+        if len(mags) % int(round(1.0 / TILT3LADDERDROPRULE_TOP_DECILE)):
+            n += 1
+        n = max(1, n)
+        order = sorted(clean, key=lambda r: -abs(float(r["full_ret"])))
+        out["months"] = [r["month"] for r in order[:n]]
+        out["criterion"] = ("largest |book return| months, top %d%% (>=1)"
+                            % int(round(TILT3LADDERDROPRULE_TOP_DECILE * 100)))
+        return out
+    if rule == "book_mad3":
+        dev = _median_of([abs(m - med) for m in mags]) or 0.0
+        thr = med + TILT3LADDERDROPRULE_MAD_K * 1.4826 * dev
+        out["threshold"] = round(thr, 8)
+        out["months"] = [r["month"] for r in clean
+                         if abs(float(r["full_ret"])) > thr]
+        out["criterion"] = ("|book return| above median + %.1f scaled MAD"
+                            % TILT3LADDERDROPRULE_MAD_K)
+        return out
+    if rule == "book_gross_x2":
+        thr = med * TILT3LADDERDROPRULE_GROSS_MULT
+        out["threshold"] = round(thr, 8)
+        out["months"] = [r["month"] for r in clean
+                         if abs(float(r["full_ret"])) > thr]
+        out["criterion"] = ("|book return| above %.1fx the era median"
+                            % TILT3LADDERDROPRULE_GROSS_MULT)
+        return out
+    raise ValueError("unknown pre-registerable rule: %r" % (rule,))
+
+
+def _rule_class(base_reversal, months_removed, reversal_after,
+                pre_registerable=True):
+    """(E195) what one removal run says about the pair's verdict.
+
+    The distinction that matters is not "did the sign come back" but "did it
+    come back for a reason an observer could have written down in advance". A
+    rule that selects nothing is not evidence in either direction, and a pair
+    that never reversed has nothing to die.
+    """
+    n = len(months_removed or [])
+    if not base_reversal:
+        return "not_applicable_no_base_reversal"
+    if n == 0:
+        return "vacuous_rule_selected_nothing"
+    if not reversal_after:
+        return ("dies_under_preregistered_rule" if pre_registerable
+                else "dies_only_under_a_gap_series_rule")
+    return ("survives_preregistered_rule" if pre_registerable
+            else "survives_even_the_carrier_rule")
+
+
+def _drop_rule_run(rows, rule, meta=None):
+    """(E195) one rule applied to one pair: months removed and both readings.
+
+    ``meta`` injects a removal set that was NOT chosen by a pre-registerable
+    rule (currently the E186 carrier month), so the contrast run travels the
+    same code path and cannot drift from the tested ones.
+    """
+    pick = (dict(meta, rule=rule) if meta is not None
+            else _preregister_trim_months(rows, rule))
+    eff = _drop_trim_effect(rows, pick["months"])
+    return {"rule": rule, "months_removed": list(pick["months"]),
+            "n_months_removed": len(pick["months"]),
+            "threshold": pick.get("threshold"),
+            "criterion": pick.get("criterion"),
+            "pre_registerable": bool(pick.get("pre_registerable", True)),
+            "reads_gap_columns": bool(pick.get("reads_gap_columns", False)),
+            "months_used": eff["months_used"],
+            "arith_bp": eff["arith_bp"], "comp_bp": eff["comp_bp"],
+            "signs": eff["signs"], "reversal": eff["reversal"]}
+
+
+def run_tilt3ladderdroprules(outdir):
+    """E195: does the drop verdict survive a trim chosen without the answer?
+
+    E190 showed the pair class flips depending on which months a rule is
+    allowed to remove, so the class was being chosen by the removal rule rather
+    than measured. This fixes the rule IN ADVANCE, on columns that cannot see
+    the drop's own gap series (the book's monthly return only), and asks
+    whether the reversal dies. A verdict that only dies when the year's worst
+    month is hand-picked after the fact is not quotable; one that dies under a
+    pre-registerable set is.
+    """
+    src, curves_src = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPCURVE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                curves_src = json.load(fh)
+    except Exception:
+        src, curves_src = None, None
+
+    curve_base = {}
+    for era_name, v in ((curves_src or {}).get("eras") or {}).items():
+        for d in (v.get("drops") or []):
+            curve_base[(era_name, d.get("name"))] = (d.get("base") or {})
+
+    rows, joins, curve_joins = {}, [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        per = []
+        for d in (v.get("drops") or []):
+            months = d.get("months") or []
+            if not months:
+                continue
+            fr = {r["month"]: float(r["full_ret"]) for r in months
+                  if r.get("full_ret") is not None}
+            dr = {r["month"]: float(r["dropped_ret"]) for r in months
+                  if r.get("dropped_ret") is not None}
+            base = _drop_effect_both_bp(fr, dr)
+            sa, sc = _path_sign(base["arith_bp"]), _path_sign(base["comp_bp"])
+            base_rev = bool(sa is not None and sc is not None and sa * sc < 0)
+            for pub, got in ((d.get("effect_arith_bp"), base["arith_bp"]),
+                             (d.get("effect_comp_bp"), base["comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            cb = curve_base.get((era_name, d.get("name"))) or {}
+            for key in ("arith_bp", "comp_bp"):
+                if cb.get(key) is not None and base.get(key) is not None:
+                    curve_joins.append(abs(float(base[key]) - float(cb[key])))
+
+            runs = [_drop_rule_run(months, rule)
+                    for rule in TILT3LADDERDROPRULE_RULES]
+            carrier = (d.get("locus") or {}).get("carrier_month")
+            if carrier:
+                runs.append(_drop_rule_run(
+                    months, "e186_carrier",
+                    meta={"months": [carrier],
+                          "criterion": "the month E186 named from the gap series",
+                          "pre_registerable": False,
+                          "reads_gap_columns": True}))
+            for r in runs:
+                r["classification"] = _rule_class(
+                    base_rev, r["months_removed"], r["reversal"],
+                    r["pre_registerable"])
+            testable = [r for r in runs
+                        if r["pre_registerable"]
+                        and r["classification"] != "vacuous_rule_selected_nothing"]
+            survivors = [r["rule"] for r in testable
+                         if r["reversal"]]
+            killers = [r["rule"] for r in testable if not r["reversal"]]
+            if not base_rev:
+                pair_cls = "no_base_reversal"
+            elif not testable:
+                pair_cls = "no_testable_rule"
+            elif not survivors:
+                pair_cls = "quotable_dies_under_every_preregistered_rule"
+            elif not killers:
+                pair_cls = "era_property_survives_every_preregistered_rule"
+            else:
+                pair_cls = "rule_sensitive_on_preregistered_set"
+            carrier_run = next((r for r in runs
+                                if r["rule"] == "e186_carrier"), None)
+            per.append({
+                "name": d.get("name"),
+                "months_source": len(months),
+                "base": {"arith_bp": base["arith_bp"],
+                         "comp_bp": base["comp_bp"],
+                         "signs": {"arith": sa, "comp": sc},
+                         "reversal": base_rev},
+                "rules": runs,
+                "testable_rules": [r["rule"] for r in testable],
+                "rules_that_kill_the_reversal": killers,
+                "rules_under_which_it_survives": survivors,
+                "classification": pair_cls,
+                "carrier_month": carrier,
+                "carrier_rule": carrier_run,
+                "carrier_rule_alone_would_say": (None if carrier_run is None
+                                                 else carrier_run["classification"]),
+            })
+        if per:
+            rows[era_name] = {"months": v.get("months"), "drops": per}
+
+    measured = [dict(r, era=e) for e, v in rows.items() for r in v["drops"]]
+    classes = {}
+    for r in measured:
+        classes[r["classification"]] = classes.get(r["classification"], 0) + 1
+    if not measured:
+        verdict = "no_upstream_face"
+    elif all(r["classification"] == "no_base_reversal" for r in measured):
+        verdict = "no_pair_reverses_to_test"
+    elif any(r["classification"] == "rule_sensitive_on_preregistered_set"
+             for r in measured):
+        verdict = "the_class_still_depends_on_which_preregistered_rule"
+    elif any(r["classification"]
+             == "era_property_survives_every_preregistered_rule"
+             for r in measured):
+        verdict = "at_least_one_reversal_is_an_era_property"
+    else:
+        verdict = "every_reversal_dies_under_every_preregistered_rule"
+    join_max = None if not joins else round(max(joins), 9)
+    curve_join_max = None if not curve_joins else round(max(curve_joins), 9)
+    return {
+        "study": "e195_tilt3_ladder_drop_rule",
+        "evidence_cutoff": None if src is None else src.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "LADDERDROPWHERE-*.json (E186 month rows) + "
+                        "LADDERDROPCURVE-*.json (E190 base for the join)",
+            "upstream_cutoff": None if src is None else src.get("evidence_cutoff"),
+            "method": ("for each flagged (era, drop): remove the months named by "
+                       "each pre-registerable rule (book-return outliers only), "
+                       "recompute both era readings with _drop_effect_both_bp, "
+                       "and publish whether the reversal dies"),
+            "rules": list(TILT3LADDERDROPRULE_RULES),
+            "rule_params": {"book_mad3_k": TILT3LADDERDROPRULE_MAD_K,
+                            "book_gross_mult": TILT3LADDERDROPRULE_GROSS_MULT,
+                            "book_top_decile": TILT3LADDERDROPRULE_TOP_DECILE},
+            "dependent_rule": ("e186_carrier -- published for contrast only: it "
+                               "reads the drop's own gap series, so it cannot "
+                               "justify removing a month"),
+            "units": "era effects in bp",
+            "join_tolerance_bp": TILT3LADDERDROPCROSS_JOIN_BP,
+            "class_rules": {
+                "quotable_dies_under_every_preregistered_rule":
+                    "the reversal is gone under every rule that saw no gap data",
+                "era_property_survives_every_preregistered_rule":
+                    "the reversal survives every pre-registerable removal",
+                "rule_sensitive_on_preregistered_set":
+                    "some pre-registerable rules kill it and some do not",
+                "no_base_reversal": "nothing to test on this pair",
+            },
+        },
+        "eras": rows,
+        "answers": {
+            "pairs_measured": len(measured),
+            "classification_counts": classes,
+            "pairs_and_their_rules": [
+                {"era": r["era"], "name": r["name"],
+                 "classification": r["classification"],
+                 "rules_that_kill": r["rules_that_kill_the_reversal"],
+                 "rules_where_it_survives": r["rules_under_which_it_survives"],
+                 "carrier_rule_alone_would_say": r["carrier_rule_alone_would_say"]}
+                for r in measured],
+            "pairs_quotable_under_a_preregistered_trim": [
+                {"era": r["era"], "name": r["name"]}
+                for r in measured
+                if r["classification"]
+                == "quotable_dies_under_every_preregistered_rule"],
+            "pairs_that_need_a_gap_series_rule_to_die": [
+                {"era": r["era"], "name": r["name"],
+                 "carrier_rule": r["carrier_rule_alone_would_say"]}
+                for r in measured
+                if r["classification"] != "quotable_dies_under_every_preregistered_rule"
+                and (r["carrier_rule_alone_would_say"]
+                     == "dies_only_under_a_gap_series_rule")],
+            "e186_join_max_abs_diff_bp": join_max,
+            "e190_base_join_max_abs_diff_bp": curve_join_max,
+            "verdict": verdict,
+        },
+        "honest": [
+            "the month rows are read from the published E186 face; a missing "
+            "face publishes zero pairs rather than an invented removal set",
+            "the four tested rules read the BOOK return column only -- none of "
+            "them touches delta_sum/delta_link/gap_bp, so the choice of what to "
+            "remove is made without the drop's own measurement",
+            "the e186_carrier rule is published beside them precisely because it "
+            "was chosen FROM the gap series: a pair that only dies under it has "
+            "not been shown to be fragile, only re-described",
+            "a rule that selects no month is recorded as vacuous, not as a "
+            "surviving verdict",
+            "removing months changes the sample the verdict is computed on; this "
+            "measures fragility, it does not license dropping any month for real",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+
+
 # ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
@@ -23855,6 +24212,7 @@ def main(argv):
                              "tilt3ladderdropwhere",
                              "tilt3ladderdropcross",
                              "tilt3ladderdropcurve",
+                             "tilt3ladderdroprules",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "tilt3widechurntie",
@@ -25364,6 +25722,24 @@ def main(argv):
                               "classification": d["classification"],
                               "k_agree_earliest": d["k_agree_earliest"],
                               "k_agree_by_order": d["k_agree_by_order"]}
+                              for d in v["drops"]]
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdroprules":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdroprules(outdir)
+        p = write_json(outdir, "LADDERDROPRULE-%s.json"
+                       % str(f["evidence_cutoff"] or "unknown").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdroprules",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: [{
+                              "name": d["name"],
+                              "classification": d["classification"],
+                              "kills": d["rules_that_kill_the_reversal"],
+                              "survives": d["rules_under_which_it_survives"],
+                              "carrier_rule": d["carrier_rule_alone_would_say"]}
                               for d in v["drops"]]
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
