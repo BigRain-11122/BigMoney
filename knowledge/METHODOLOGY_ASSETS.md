@@ -2323,3 +2323,15 @@ The first factor is motion surviving WITHIN-month cancellation (two holdings rep
 Two traps this closes, both worth carrying: (a) **the two removed amounts must add to `gross - |net|`** or the split is a second story rather than a decomposition -- pin it with a selftest leg; (b) **name-level gross is not the width of the movement** -- E182 netted each holding over the whole era first, so a name repairing +X then -X contributes 0 to its gross while the path carried the motion twice (path/name gross 1.037/1.067/1.060 on 2021_2023/2024_now/full; net/gross 0.4387 on the name basis vs 0.4114 on the path basis), and the two nets still agree to 0.0004bp because it is one computation read two ways.
 
 How to apply: when a thin aggregate is published, ask which axis it was netted on (names) and whether the decision axis (months) was netted first; publish both gross bases with their ratio, and classify the cancellation in words so the reader knows whether the follow-up is a membership question or a timing question.
+
+## E186 A gross-vs-net label, not a second arithmetic: the two-producer wedge is the turnover fee (2026-10-28 r1218 bm-b)
+
+`run_tilt3levelwedge()` in `scripts/e39_panel_census.py` -> `results/e79/LEVELWEDGE-20261027.json`, mode `tilt3levelwedge`, selftest 628->636. E180 found one field name (`decomposition_engine_bp`) published from two producers differing by 2.92..3.63bp with a 0.70bp spread and could not attribute the gap. Three candidates are tested per era and per arm: an additive constant (residual 0.20..0.35bp), a scale factor (up to 3.4bp), and a dropped term (0.0000bp on 10/10 cells). The dropped term is the turnover fee, measured by re-running both books with `cost_mult=0.0` on the same panel (`_monthly_core(cost_mult=...)` is the new seam) because `simulate()`'s sink records only `growth = sum w*r` while the curve is net of the fee booked at each rebalance.
+
+    dec_from_contrib  = sum_m sum_s w*r                 (GROSS of the fee)
+    dec_from_daily    = sum_m sum_d (r_wide - r_lad)    (NET of the fee)
+    gap = dec_from_contrib - dec_from_daily = fee_wide - fee_lad = 2.92..3.62 bp/yr
+
+Fee term per era 2.9207 / 3.5300 / 3.6208 / 3.3984 / 3.3570bp; implied extra turnover ~2.17%/month at 13.041bp a side. Both published faces are reproduced exactly (max |diff| 0.0bp, 10 cells each), so the gap is the faces' own number.
+
+Two transferable rules: (a) **a near-constant offset across eras of very different volatility is a per-period charge, not compounding or scale** -- compounding grows with the era, a fee is paid every period; (b) **the decisive instrument for a definitional question can be a parameter seam, not a cleverer decomposition** -- `cost_mult` turned the question into two runs of one panel, which is why the answer is a number rather than a reading of the code. Consequence is a labelling duty: sink-based is gross, curve-based is net, and quoting either as "the decomposition" without the word is the category error.

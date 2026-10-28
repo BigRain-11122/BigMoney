@@ -1,0 +1,274 @@
+{
+ "study": "e185_tilt3_decomposition_level_wedge",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "screen_mode": "neutralise_int",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   }
+  ],
+  "arms": [
+   "raw",
+   "screened"
+  ],
+  "readings": {
+   "contrib": "sum over months of the per-name daily w*r sink (GROSS of the fee)",
+   "daily_cost_on": "sum over months of the daily curve-return difference (NET of the fee)",
+   "daily_cost_off": "the same curves rebuilt with cost_mult=0 (the fee term isolated)"
+  },
+  "candidates": {
+   "a_additive_constant": "gap minus its own arm mean",
+   "b_scale_factor": "gap minus least-squares multiple of the level",
+   "c_dropped_term": "gap minus the rebalance fee the sink does not record"
+  },
+  "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+  "residual_tolerance_bp": 0.06,
+  "cost_bp_side": 13.041,
+  "rebuild_same_panel": {
+   "raw_same_cutoff": true,
+   "screened_same_cutoff": true
+  }
+ },
+ "eras": {
+  "raw|pre2017": {
+   "arm": "raw",
+   "era": "pre2017",
+   "months": 44,
+   "decomposition_from_contrib_bp": 261.76,
+   "decomposition_from_daily_difference_bp": 258.8365,
+   "decomposition_cost_free_daily_difference_bp": 261.7572,
+   "gap_bp": 2.9207,
+   "rebalance_cost_term_bp": 2.9207,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 1.8664,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "raw|2017_2020": {
+   "arm": "raw",
+   "era": "2017_2020",
+   "months": 48,
+   "decomposition_from_contrib_bp": 304.77,
+   "decomposition_from_daily_difference_bp": 301.2404,
+   "decomposition_cost_free_daily_difference_bp": 304.7704,
+   "gap_bp": 3.53,
+   "rebalance_cost_term_bp": 3.53,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.2557,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "raw|2021_2023": {
+   "arm": "raw",
+   "era": "2021_2023",
+   "months": 36,
+   "decomposition_from_contrib_bp": 255.87,
+   "decomposition_from_daily_difference_bp": 252.2442,
+   "decomposition_cost_free_daily_difference_bp": 255.865,
+   "gap_bp": 3.6208,
+   "rebalance_cost_term_bp": 3.6208,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.3137,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "raw|2024_now": {
+   "arm": "raw",
+   "era": "2024_now",
+   "months": 34,
+   "decomposition_from_contrib_bp": 31.3,
+   "decomposition_from_daily_difference_bp": 27.8998,
+   "decomposition_cost_free_daily_difference_bp": 31.2982,
+   "gap_bp": 3.3984,
+   "rebalance_cost_term_bp": 3.3984,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.1716,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "raw|full": {
+   "arm": "raw",
+   "era": "full",
+   "months": 162,
+   "decomposition_from_contrib_bp": 224.82,
+   "decomposition_from_daily_difference_bp": 221.4675,
+   "decomposition_cost_free_daily_difference_bp": 224.8245,
+   "gap_bp": 3.357,
+   "rebalance_cost_term_bp": 3.357,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.1452,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "screened|pre2017": {
+   "arm": "screened",
+   "era": "pre2017",
+   "months": 44,
+   "decomposition_from_contrib_bp": 261.76,
+   "decomposition_from_daily_difference_bp": 258.8365,
+   "decomposition_cost_free_daily_difference_bp": 261.7572,
+   "gap_bp": 2.9207,
+   "rebalance_cost_term_bp": 2.9207,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 1.8664,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "screened|2017_2020": {
+   "arm": "screened",
+   "era": "2017_2020",
+   "months": 48,
+   "decomposition_from_contrib_bp": 304.77,
+   "decomposition_from_daily_difference_bp": 301.2404,
+   "decomposition_cost_free_daily_difference_bp": 304.7704,
+   "gap_bp": 3.53,
+   "rebalance_cost_term_bp": 3.53,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.2557,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "screened|2021_2023": {
+   "arm": "screened",
+   "era": "2021_2023",
+   "months": 36,
+   "decomposition_from_contrib_bp": 286.07,
+   "decomposition_from_daily_difference_bp": 282.4866,
+   "decomposition_cost_free_daily_difference_bp": 286.0689,
+   "gap_bp": 3.5823,
+   "rebalance_cost_term_bp": 3.5823,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.2891,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "screened|2024_now": {
+   "arm": "screened",
+   "era": "2024_now",
+   "months": 34,
+   "decomposition_from_contrib_bp": 80.9,
+   "decomposition_from_daily_difference_bp": 77.5728,
+   "decomposition_cost_free_daily_difference_bp": 80.8958,
+   "gap_bp": 3.323,
+   "rebalance_cost_term_bp": 3.323,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.1234,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  },
+  "screened|full": {
+   "arm": "screened",
+   "era": "full",
+   "months": 162,
+   "decomposition_from_contrib_bp": 241.95,
+   "decomposition_from_daily_difference_bp": 238.6132,
+   "decomposition_cost_free_daily_difference_bp": 241.9459,
+   "gap_bp": 3.3327,
+   "rebalance_cost_term_bp": 3.3327,
+   "residual_after_cost_bp": 0.0,
+   "cost_term_share_of_gap_pct": 100.0,
+   "implied_monthly_turnover_gap_pct": 2.1296,
+   "verdict": "cost_term_closes_it",
+   "months_with_unpaired_days": [],
+   "months_with_unpaired_days_cost_free": []
+  }
+ },
+ "answers": {
+  "cells_measured": 10,
+  "gap_range_bp": [
+   2.921,
+   3.621
+  ],
+  "gap_spread_bp": 0.7001,
+  "cost_term_share_of_gap_pct_min": 100.0,
+  "location_by_arm": {
+   "raw": "cost_term",
+   "screened": "cost_term"
+  },
+  "wedge_located": true,
+  "per_arm": {
+   "raw": {
+    "cells": 5,
+    "mean_gap_bp": 3.3654,
+    "gap_spread_bp": 0.7001,
+    "scale_factor_k": 0.013031,
+    "max_abs_residual_after_additive_constant_bp": 0.4447,
+    "max_abs_residual_after_scale_factor_bp": 2.9905,
+    "max_abs_residual_after_cost_term_bp": 0.0,
+    "located_term": "cost_term"
+   },
+   "screened": {
+    "cells": 5,
+    "mean_gap_bp": 3.3377,
+    "gap_spread_bp": 0.6616,
+    "scale_factor_k": 0.01278,
+    "max_abs_residual_after_additive_constant_bp": 0.417,
+    "max_abs_residual_after_scale_factor_bp": 2.2891,
+    "max_abs_residual_after_cost_term_bp": 0.0,
+    "located_term": "cost_term"
+   }
+  },
+  "join_published_faces": {
+   "face_contrib": {
+    "path": "results/e43_tilt_4member\\TILT3SIGNBOOKSPLIT-20261027.json",
+    "cells": 10,
+    "max_abs_diff_bp": 0.0
+   },
+   "face_daily": {
+    "path": "results/e43_tilt_4member\\TILT3SIGNDECOMOFFSET-20261027.json",
+    "cells": 10,
+    "max_abs_diff_bp": 0.0
+   }
+  },
+  "labels_after_this_leg": {
+   "decomposition_from_contrib_bp": "gross of the rebalance fee",
+   "decomposition_from_daily_difference_bp": "net of the rebalance fee"
+  }
+ },
+ "honest": [
+  "the located term is a fee, which is a real cost the wide book pays and the fixed ladder barely pays: the two numbers are not two arithmetics of one object, one is gross and the other is net, and the difference is the price of the turnover between them",
+  "this leg repairs no published number: it says which label belongs on each, and that quoting either as 'the decomposition' without the gross/net word is the category error E180 flagged",
+  "the cost-free rebuild reproduces the published panel (same cutoff) and is compared to it as a wiring check, never as a second opinion",
+  "an era whose daily-difference reading is missing is skipped rather than filled, so a gap count smaller than the cell count is disclosure",
+  "the implied turnover gap is derived from the fee term and the declared 13.041bp per side, so it is a reading of the fee, not an independent measurement of turnover"
+ ],
+ "law_ref": "E180 collision -> E185 locate (bm-b r1218), O-20261014-1325 low-cost verification",
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

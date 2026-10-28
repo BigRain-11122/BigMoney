@@ -22526,9 +22526,13 @@
    "seeded_at": "2026-10-28T12:2x+08:00",
    "seeded_by": "bm-b r1215",
    "source": "Seeded r1215 bm-b from its own E180 face: two arithmetics publish decomposition_engine_bp and differ by a near-constant 2.92..3.63bp.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e97_routing.py (mode levelquotes, follow-up)",
-   "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error."
+   "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error.",
+   "done_at": "2026-10-28T13:40:00+08:00",
+   "done_by": "bm-b r1218",
+   "result_ref": "results/e79/LEVELWEDGE-20261027.json",
+   "done_note": "the wedge is the turnover fee: gap == cost-off minus cost-on on 10/10 cells (residual 0.0000bp), additive and scale candidates both fail; sink-based reading is gross of the fee and curve-based is net"
   },
   {
    "deliverable": "results/e43_tilt_4member/LADDERDROPWHERE-<cutoff>.json",
@@ -22553,6 +22557,19 @@
    "status": "ready",
    "target": "scripts/e39_panel_census.py (run_tilt3widesplitmonth follow-up)",
    "title": "E184 measured that the wide book repair keeps 0.872 of its monthly motion inside a month but only 0.472 across months, so most of the surviving movement is a between-month sign disagreement. Test whether that disagreement is churn rather than signal: publish, for each measured era, the per-month net beside the wide book's own month-on-month membership turnover (names entering/leaving) and the repair's per-name count, then report the correlation and whether the months with net against the era total are the high-turnover months. A spread number that tracks turnover is a membership statement and must be discounted by churn instead of quoted as repair quality."
+  },
+  {
+   "deliverable": "results/e79/LABELDUTY-<cutoff>.json",
+   "entered_at": "2026-10-28T13:34:26+08:00",
+   "entered_by": "bm-b r1218",
+   "evidence_cutoff": "2026-10-27",
+   "id": "E188-DECOM-LABEL-DUTY",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1218 E185: decomposition_engine_bp is gross of the fee on one producer and net on the other, so the labels were the defect",
+   "status": "ready",
+   "target": "scripts/e97_routing.py (mode levelquotes, follow-up)",
+   "title": "E185 located the E180 wedge as the turnover fee, which means every face that quotes a decomposition level or an engine delta is quoting either a gross or a net number without saying which. Sweep the family for level/delta cells that are published from a sink-based reading and from a curve-based reading, and classify each face as labelled / unlabelled / mixed. Then take one decided verdict that consumes such a cell and re-state it with the label applied, so 'the label changes nothing' is measured rather than assumed; where a verdict is inside the 2.9..3.6bp wedge, say so. A label that never mattered is a finding, a label that flips a decision is a defect."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

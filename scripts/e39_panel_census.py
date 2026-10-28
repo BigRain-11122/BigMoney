@@ -1398,7 +1398,8 @@ def _ols(y, x):
     return beta, alpha, r2
 
 
-def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False):
+def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False,
+                  cost_mult=1.0):
     """One shared build: both engine curves plus the member tilt series.
 
     The two E42 product legs read this object so their faces cannot drift apart
@@ -1412,6 +1413,11 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False):
     arithmetic contribution in ``core["contrib"]``, so a leg can say which name
     carried an engine month. Off by default: the recorder costs a dict write per
     name-day and no existing face should pay for it.
+
+    ``cost_mult`` (E185) is the fee seam: the sink records only the ``w*r``
+    growth term, so a decomposition read off the sink is GROSS of the turnover
+    fee while one read off the curve is NET of it. Passing 0.0 rebuilds the same
+    two books with the fee switched off, which is how that one term is measured.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
@@ -1438,7 +1444,7 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False):
     for name, univ, n in (("ladder5", base.LADDER, None), (wide_name, universe, pick_n)):
         sinks[name] = {} if contrib else None
         curves[name], _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
-                                                 n, 1.0, rank_cache,
+                                                 n, cost_mult, rank_cache,
                                                  contrib=sinks[name])
     lad_m = dict(_month_rets(curves["ladder5"]))
     wide_m = dict(_month_rets(curves[wide_name]))
@@ -18760,8 +18766,330 @@ def selftest():
         "E184 the two gross bases are published as a ratio, so a thin net "
         "cannot be quoted without the width it was measured on")
 
+    # ---- E185 locating the two-producer wedge
+    _e185_close = _levelwedge_attribution(261.76, 258.8365, 261.7572)
+    chk(abs(_e185_close["gap_bp"] - 2.9235) < 1e-3
+        and abs(_e185_close["residual_after_cost_bp"]) <= TILT3LEVELWEDGE_RESIDUAL_BP,
+        "E185 a gap that the fee term reproduces to a thousandth of a bp is a "
+        "dropped term, not a rounding")
+    _e185_unattr = _levelwedge_attribution(261.76, 258.8365, 258.8365)
+    chk(abs(_e185_unattr["rebalance_cost_term_bp"]) < 1e-9
+        and abs(_e185_unattr["residual_after_cost_bp"] - 2.9235) < 1e-3,
+        "E185 with no fee difference the same gap stays unattributed: the test "
+        "cannot pass by assuming the answer")
+    _e185_const = _levelwedge_candidates([
+        {"gap_bp": 3.0, "decomposition_from_contrib_bp": 300.0,
+         "residual_after_cost_bp": 0.0},
+        {"gap_bp": 3.4, "decomposition_from_contrib_bp": 30.0,
+         "residual_after_cost_bp": 0.01},
+    ])
+    chk(_e185_const["located_term"] == "cost_term"
+        and _e185_const["max_abs_residual_after_additive_constant_bp"] > 0.06
+        and _e185_const["max_abs_residual_after_scale_factor_bp"] > 1.0,
+        "E185 a gap that sits at one size across levels two orders apart kills the "
+        "scale candidate, and a 0.4bp wobble kills the additive one, so only the "
+        "measured cost term is left")
+    _e185_scale = _levelwedge_candidates([
+        {"gap_bp": 30.0, "decomposition_from_contrib_bp": 300.0,
+         "residual_after_cost_bp": 30.0},
+        {"gap_bp": 3.0, "decomposition_from_contrib_bp": 30.0,
+         "residual_after_cost_bp": 3.0},
+    ])
+    chk(_e185_scale["located_term"] == "scale_factor"
+        and _e185_scale["max_abs_residual_after_scale_factor_bp"]
+        <= TILT3LEVELWEDGE_RESIDUAL_BP
+        and _e185_scale["max_abs_residual_after_cost_term_bp"] > 1.0,
+        "E185 a gap proportional to the level is a scale factor and is named as "
+        "one, so 'near-constant' is a measurement on this face and not an "
+        "assumption carried in from E180")
+    _e185_none = _levelwedge_candidates([
+        {"gap_bp": 3.0, "decomposition_from_contrib_bp": 300.0,
+         "residual_after_cost_bp": 3.0},
+        {"gap_bp": 9.0, "decomposition_from_contrib_bp": 240.0,
+         "residual_after_cost_bp": 9.0},
+    ])
+    chk(_e185_none["located_term"] == "unattributed"
+        and _e185_none["gap_spread_bp"] == 6.0,
+        "E185 a wedge nobody can attribute is published as unattributed, never "
+        "promoted to a term because a term was proposed")
+    chk(abs(TILT3LEVELWEDGE_COST_BP - 13.041) < 1e-9
+        and "cost_mult" in _monthly_core.__code__.co_varnames,
+        "E185 the fee seam is a parameter of the shared build, so the cost-free "
+        "arm is the same panel and not a second loader")
+    chk("mode" in run_tilt3levelwedge.__code__.co_varnames
+        and "eras" in run_tilt3levelwedge.__code__.co_varnames,
+        "E185 the wedge leg reads the same burn path and carries the mode/eras "
+        "seams")
+    # 3.3984bp/yr of fee is 0.2832bp per month, which at 13.041bp a side is
+    # 2.17% of turnover: the field is a PERCENT, so a fraction here would be a
+    # silent 100x (r1292)
+    chk(abs(3.3984 / 12.0 / TILT3LEVELWEDGE_COST_BP * 100.0 - 2.1712) < 1e-3,
+        "E185 the implied turnover gap is reported in percent, not as a fraction "
+        "that reads two hundred times smaller")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
+
+
+# ---------------------------------------------------------------- E185
+# the two sides of the wedge are 2dp published sums recomputed unrounded here,
+# so a residual under the published quantum is arithmetic noise, not a finding
+TILT3LEVELWEDGE_RESIDUAL_BP = 0.06
+TILT3LEVELWEDGE_CLOSED_PCT = 95.0   # the located term explains this much -> located
+TILT3LEVELWEDGE_COST_BP = 13.041    # e24_ladder_weighting.COST_BP_SIDE per side
+
+
+def _levelwedge_attribution(dec_bp, a1_bp, a0_bp):
+    """(E185) one cell's gap and the cost-term residual that explains it.
+
+    ``dec_bp`` is the sink-based decomposition (E176's object, gross of fee),
+    ``a1_bp`` the daily-difference decomposition on the published curves (E177's
+    object, net of fee) and ``a0_bp`` the same reading with the fee switched
+    off. If the wedge is a term and not a rounding, ``a0 - a1`` is that term.
+    """
+    gap = float(dec_bp) - float(a1_bp)
+    fee = float(a0_bp) - float(a1_bp)
+    return {"gap_bp": round(gap, 4),
+            "rebalance_cost_term_bp": round(fee, 4),
+            "residual_after_cost_bp": round(gap - fee, 4)}
+
+
+def _levelwedge_candidates(rows):
+    """(E185) residuals left by each of the three candidate explanations.
+
+    ``rows`` are per-era dicts for ONE arm carrying ``gap_bp``,
+    ``decomposition_from_contrib_bp`` and ``residual_after_cost_bp``. A
+    near-constant gap is a claim to test, so the additive candidate removes the
+    arm's own mean gap and the scale candidate removes the least-squares
+    multiple of the level; whichever leaves the smaller residual is the term.
+    """
+    live = [r for r in rows if r.get("gap_bp") is not None]
+    out = {"cells": len(live)}
+    if not live:
+        return out
+    gaps = [r["gap_bp"] for r in live]
+    decs = [r["decomposition_from_contrib_bp"] for r in live]
+    mean_gap = sum(gaps) / len(gaps)
+    den = sum(d * d for d in decs)
+    k = (sum(g * d for g, d in zip(gaps, decs)) / den) if den > 1e-12 else None
+    add = [g - mean_gap for g in gaps]
+    cost = [abs(r["residual_after_cost_bp"]) for r in live]
+    sca = ([abs(g - k * d) for g, d in zip(gaps, decs)] if k is not None else None)
+    out.update({
+        "mean_gap_bp": round(mean_gap, 4),
+        "gap_spread_bp": round(max(gaps) - min(gaps), 4),
+        "scale_factor_k": (round(k, 6) if k is not None else None),
+        "max_abs_residual_after_additive_constant_bp": round(max(abs(x) for x in add), 4),
+        "max_abs_residual_after_scale_factor_bp": (
+            round(max(sca), 4) if sca is not None else None),
+        "max_abs_residual_after_cost_term_bp": round(max(cost), 4),
+    })
+    located = "cost_term"
+    if out["max_abs_residual_after_additive_constant_bp"] <= TILT3LEVELWEDGE_RESIDUAL_BP:
+        located = "additive_constant"
+    elif (out["max_abs_residual_after_scale_factor_bp"] is not None
+          and out["max_abs_residual_after_scale_factor_bp"]
+          <= TILT3LEVELWEDGE_RESIDUAL_BP):
+        located = "scale_factor"
+    elif out["max_abs_residual_after_cost_term_bp"] > TILT3LEVELWEDGE_RESIDUAL_BP:
+        located = "unattributed"
+    out["located_term"] = located
+    return out
+
+
+def _levelwedge_costfree(burn, mode):
+    """(E185) the same two arms rebuilt with the rebalance fee switched off.
+
+    The panel is loaded once per arm and the screen re-run deterministically, so
+    the rebuild differs from the published burn by exactly the fee seam.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+    raw = e27.load_universe()
+    cal = base.load_panel()[0]
+    screened, _report = panel_screen.screen_universe(raw, mode=mode, cal=cal)
+    out = {"raw": _monthly_core(raw_all=raw, cost_mult=0.0),
+           "screened": _monthly_core(raw_all=screened, cost_mult=0.0)}
+    # the rebuild must describe the same panel as the published burn, else the
+    # difference would be a second burn and not the fee
+    for arm, key in (("raw", "core_raw"), ("screened", "core_scr")):
+        out[arm + "_same_cutoff"] = (out[arm]["cutoff"]
+                                    == (burn.get(key) or {}).get("cutoff"))
+    return out
+
+
+def _latest_face(pattern):
+    import glob
+    import os
+    hits = sorted(glob.glob(pattern))
+    if not hits:
+        return None, None
+    p = hits[-1]
+    try:
+        return p, json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return p, None
+
+
+def run_tilt3levelwedge(outdir, mode="neutralise_int", eras=ERAS):
+    """E185: attribute the E176-vs-E177 gap to a TERM, not to rounding.
+
+    E180 published that one field name, ``decomposition_engine_bp``, comes from
+    two producers and that on ten comparable cells they disagree by 2.92..3.63bp
+    with a 0.70bp spread. A near-constant gap across eras of very different
+    volatility cannot be within-month compounding, but "it must be definitional"
+    is not an attribution: the wedge needs a term, a side and a size.
+
+    Three candidates are tested per era and per arm. (a) additive constant: the
+    gap minus its own arm mean. (b) scale factor: the gap minus the least-squares
+    multiple of the level. (c) a term one sum includes and the other drops: the
+    turnover fee, measured by re-running both books with ``cost_mult=0``, because
+    the per-name sink records the ``w*r`` growth term only while the curve return
+    is net of the fee paid at each rebalance.
+
+    The consequence is a labelling duty, not a repair: the sink-based number is
+    GROSS of the fee and the curve-based number is NET of it, so they were never
+    two arithmetics of one object.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff = burn["cutoff"]
+    free = _levelwedge_costfree(burn, mode)
+    rows = {}
+    for arm, core in (("raw", burn["core_raw"]), ("screened", burn["core_scr"])):
+        sides = core.get("contrib") or {}
+        dw = _daily_rets(core["curves"][core["wide_name"]])
+        dl = _daily_rets(core["curves"]["ladder5"])
+        cf = free[arm]
+        dw0 = _daily_rets(cf["curves"][cf["wide_name"]])
+        dl0 = _daily_rets(cf["curves"]["ladder5"])
+        for name, lo, hi in list(eras) + [("full", None, None)]:
+            ms = _era_engine_months(core, lo, hi)
+            row = rows.setdefault("%s|%s" % (arm, name), {"arm": arm, "era": name})
+            row["months"] = len(ms)
+            if not ms:
+                row["skipped"] = "no engine months on this arm for this era"
+                continue
+            wide_bp = sum(_era_side_bp(sides.get("wide") or {}, ms).values())
+            lad_bp = sum(_era_side_bp(sides.get("lad") or {}, ms).values())
+            blk = _tilt3decom_blocks(dw, dl, ms)
+            blk0 = _tilt3decom_blocks(dw0, dl0, ms)
+            a1 = _ann_bp([x["a"] for x in blk["engine"]])
+            a0 = _ann_bp([x["a"] for x in blk0["engine"]])
+            if a1 is None or a0 is None:
+                row["skipped"] = "a daily-difference reading is missing"
+                continue
+            dec = round(wide_bp - lad_bp, 4)
+            att = _levelwedge_attribution(dec, a1, a0)
+            resid = att["residual_after_cost_bp"]
+            row.update({
+                "decomposition_from_contrib_bp": round(dec, 2),
+                "decomposition_from_daily_difference_bp": a1,
+                "decomposition_cost_free_daily_difference_bp": a0,
+                "gap_bp": att["gap_bp"],
+                "rebalance_cost_term_bp": att["rebalance_cost_term_bp"],
+                "residual_after_cost_bp": resid,
+                "cost_term_share_of_gap_pct": (
+                    round(att["rebalance_cost_term_bp"] / att["gap_bp"] * 100.0, 1)
+                    if abs(att["gap_bp"]) > 1e-9 else None),
+                "implied_monthly_turnover_gap_pct": round(
+                    att["rebalance_cost_term_bp"] / 12.0 / TILT3LEVELWEDGE_COST_BP * 100.0, 4),
+                "verdict": ("cost_term_closes_it" if abs(resid) <= TILT3LEVELWEDGE_RESIDUAL_BP
+                            else "cost_term_remains"),
+                "months_with_unpaired_days": blk["months_skipped"],
+                "months_with_unpaired_days_cost_free": blk0["months_skipped"],
+            })
+
+    per_arm = {arm: _levelwedge_candidates(
+        [v for k, v in rows.items() if v.get("arm") == arm]) for arm in ("raw", "screened")}
+    live = [v for v in rows.values() if v.get("gap_bp") is not None]
+    # join the two published faces these readings restate, so "the gap is what
+    # the faces printed" is a check and not a claim
+    p176, f176 = _latest_face("results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-*.json")
+    p177, f177 = _latest_face("results/e43_tilt_4member/TILT3SIGNDECOMOFFSET-*.json")
+    join = {"face_contrib": {"path": p176, "cells": 0, "max_abs_diff_bp": None},
+            "face_daily": {"path": p177, "cells": 0, "max_abs_diff_bp": None}}
+    if f176 or f177:
+        d_contrib, d_daily = [], []
+        for key, v in rows.items():
+            if v.get("gap_bp") is None:
+                continue
+            arm, era = v["arm"], v["era"]
+            if f176:
+                published = ((f176.get("eras") or {}).get(era) or {}).get(
+                    "decomposition_engine_bp_%s" % arm)
+                if published is not None:
+                    d_contrib.append(abs(v["decomposition_from_contrib_bp"] - published))
+            if f177:
+                published = ((f177.get("eras") or {}).get("%s|%s" % (arm, era)) or {}).get(
+                    "decomposition_engine_bp")
+                if published is not None:
+                    d_daily.append(abs(v["decomposition_from_daily_difference_bp"] - published))
+        join["face_contrib"].update({
+            "cells": len(d_contrib),
+            "max_abs_diff_bp": (round(max(d_contrib), 4) if d_contrib else None)})
+        join["face_daily"].update({
+            "cells": len(d_daily),
+            "max_abs_diff_bp": (round(max(d_daily), 4) if d_daily else None)})
+    located = {a: per_arm[a].get("located_term") for a in per_arm}
+    gap_vals = [v["gap_bp"] for v in live]
+    share = [v["cost_term_share_of_gap_pct"] for v in live
+             if v["cost_term_share_of_gap_pct"] is not None]
+    return {
+        "study": "e185_tilt3_decomposition_level_wedge",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "arms": ["raw", "screened"],
+            "readings": {
+                "contrib": "sum over months of the per-name daily w*r sink (GROSS of the fee)",
+                "daily_cost_on": "sum over months of the daily curve-return difference (NET of the fee)",
+                "daily_cost_off": "the same curves rebuilt with cost_mult=0 (the fee term isolated)",
+            },
+            "candidates": {
+                "a_additive_constant": "gap minus its own arm mean",
+                "b_scale_factor": "gap minus least-squares multiple of the level",
+                "c_dropped_term": "gap minus the rebalance fee the sink does not record",
+            },
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "residual_tolerance_bp": TILT3LEVELWEDGE_RESIDUAL_BP,
+            "cost_bp_side": TILT3LEVELWEDGE_COST_BP,
+            "rebuild_same_panel": {k: v for k, v in free.items() if k.endswith("_same_cutoff")},
+        },
+        "eras": rows,
+        "answers": {
+            "cells_measured": len(live),
+            "gap_range_bp": (round(min(gap_vals), 3), round(max(gap_vals), 3)) if gap_vals else None,
+            "gap_spread_bp": (round(max(gap_vals) - min(gap_vals), 4) if gap_vals else None),
+            "cost_term_share_of_gap_pct_min": (min(share) if share else None),
+            "location_by_arm": located,
+            "wedge_located": (bool(located) and set(located.values()) == {"cost_term"}),
+            "per_arm": per_arm,
+            "join_published_faces": join,
+            "labels_after_this_leg": {
+                "decomposition_from_contrib_bp": "gross of the rebalance fee",
+                "decomposition_from_daily_difference_bp": "net of the rebalance fee",
+            },
+        },
+        "honest": [
+            "the located term is a fee, which is a real cost the wide book pays and "
+            "the fixed ladder barely pays: the two numbers are not two arithmetics "
+            "of one object, one is gross and the other is net, and the difference "
+            "is the price of the turnover between them",
+            "this leg repairs no published number: it says which label belongs on "
+            "each, and that quoting either as 'the decomposition' without the "
+            "gross/net word is the category error E180 flagged",
+            "the cost-free rebuild reproduces the published panel (same cutoff) and "
+            "is compared to it as a wiring check, never as a second opinion",
+            "an era whose daily-difference reading is missing is skipped rather "
+            "than filled, so a gap count smaller than the cell count is disclosure",
+            "the implied turnover gap is derived from the fee term and the declared "
+            "13.041bp per side, so it is a reading of the fee, not an independent "
+            "measurement of turnover",
+        ],
+        "law_ref": "E180 collision -> E185 locate (bm-b r1218), O-20261014-1325 low-cost verification",
+    }
 
 
 # -------------------------------------------------------------- E88
@@ -22154,6 +22482,7 @@ def main(argv):
                              "tilt3laddersplit",
                              "tilt3legfamily",
                              "tilt3decompoffset",
+                             "tilt3levelwedge",
                              "tilt3ladderlomo",
                              "tilt3ladderlomocomp",
                              "tilt3widesplit",
@@ -23045,6 +23374,24 @@ def main(argv):
                                           "verdict": v.get("verdict")}
                                       for k, v in f["eras"].items()},
                           "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3levelwedge":
+        outdir = os.path.join(ROOT, "results", "e79")
+        f = run_tilt3levelwedge(outdir)
+        p = write_json(outdir, "LEVELWEDGE-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3levelwedge",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"gap_bp": v.get("gap_bp"),
+                                          "cost_bp": v.get("rebalance_cost_term_bp"),
+                                          "residual_bp": v.get("residual_after_cost_bp"),
+                                          "verdict": v.get("verdict")}
+                                      for k, v in f["eras"].items()},
+                          "answers": {k: f["answers"][k] for k in
+                                      ("cells_measured", "gap_range_bp",
+                                       "gap_spread_bp", "location_by_arm",
+                                       "wedge_located", "join_published_faces")}},
                          ensure_ascii=False))
         return 0
     if args.mode == "cashdragscreened":
