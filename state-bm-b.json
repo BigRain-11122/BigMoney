@@ -945,9 +945,9 @@
  "task": "r1212: E178 fixed-leg family scope (done)",
  "task_short": "E178 leg family scope",
  "task_short_note": "same machinery as E122; run_pair has 93 cells across 1 mode",
- "ts": "2026-10-28T10:40:00+08:00",
- "updated": "2026-10-28T10:40:00+08:00",
- "updated_at": "2026-10-28T10:40:00+08:00",
+ "ts": "2026-10-28T10:48:00+08:00",
+ "updated": "2026-10-28T10:48:00+08:00",
+ "updated_at": "2026-10-28T10:48:00+08:00",
  "verdict": "E178: 'the fixed leg never moves' is a MEMBERSHIP fact, not a family law -- max abs per-member repair delta across tilt5/tilt4/tilt3 and all five eras is exactly 0.0bp, the pinned universe is disjoint from all 67 repaired names, and the rotating wide book moves +30.204/+49.598/+17.121bp in the only three eras that move at all (invariant_scope=pinned_membership_only)",
  "r1210": {
   "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu, py 0/0/0.2, 3 ready rows) -> burned the ready head that was still open",
@@ -1008,5 +1008,13 @@
   "product": "results/e43_tilt_4member/TILT3LEGFAMILY-20261027.json + new mode tilt3legfamily",
   "d19": "decisions 6d24d8bb -> 47a48ea5, orders c067b3b2 -> d6d85b61; rows consumed, see round report",
   "watermark": "red at open (pool-batch idle low cpu, py 1.0%) -> E178 burned in-round"
+ },
+ "r1212_push": {
+  "pushed_sha": "04c1455b960a0464da3b703fff1719606e4b8eb0",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-28T10:48:00+08:00",
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "clean ff 2f5ee81fc..04c1455b9 first attempt, no claw block; 38 faces; four-way verified HEAD == origin/main == 04c1455b9, behind 0 ahead 0, ls-tree origin carries TILT3LEGFAMILY-20261027.json (09298e5c, 61,315B) and the E178 digest (b9142533). Pool + heartbeat LF->CRLF repaired pre-commit so their diffs are the real edits."
  }
 }
