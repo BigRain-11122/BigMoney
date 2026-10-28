@@ -1155,14 +1155,37 @@ def main() -> int:
             check("fleet: oversight writer's deployed copy tracks its source", True,
                   "group tree not mounted on this machine -- omitted, not passed")
         else:
-            _dw = subprocess.run(
-                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
-                 _dtool, "-M", _mid2, "-Check"],
-                capture_output=True, text=True, encoding="utf-8", errors="replace",
-                creationflags=0x08000000)
-            _dline = ((_dw.stdout or "").strip().splitlines() or [""])[-1]
-            check("fleet: oversight writer's deployed copy tracks its source",
-                  _dw.returncode == 0, f"rc={_dw.returncode} {_dline[:90]}")
+            # The arrangement differs per machine: some run a DEPLOYED copy, others
+            # point the hourly task straight at the group repo source. Asserting the
+            # deployed copy unconditionally reads a direct-run machine as "never
+            # deployed" forever (bm-a 2026-10-28), which invites loosening the leg.
+            # So ask the task what it actually runs and check THAT copy.
+            _live = ""
+            try:
+                _x = subprocess.run(
+                    ["schtasks", "/query", "/tn", "FluxGroup-FleetOversight", "/xml"],
+                    capture_output=True, text=True, encoding="utf-8", errors="replace",
+                    creationflags=0x08000000)
+                if _x.returncode == 0 and _x.stdout:
+                    _live = _x.stdout
+            except Exception:
+                _live = ""
+            _norm = _live.replace("\\", "/").lower()
+            if _live and "oversight-" not in _norm and "fleet-oversight.ps1" in _norm:
+                _src = os.path.join(_group, "Tools", "fleet-oversight.ps1").replace("\\", "/").lower()
+                check("fleet: oversight writer's deployed copy tracks its source",
+                      _src in _norm,
+                      "live task runs the group repo source directly" if _src in _norm
+                      else "live task runs a copy that is not this group tree")
+            else:
+                _dw = subprocess.run(
+                    ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File",
+                     _dtool, "-M", _mid2, "-Check"],
+                    capture_output=True, text=True, encoding="utf-8", errors="replace",
+                    creationflags=0x08000000)
+                _dline = ((_dw.stdout or "").strip().splitlines() or [""])[-1]
+                check("fleet: oversight writer's deployed copy tracks its source",
+                      _dw.returncode == 0, f"rc={_dw.returncode} {_dline[:90]}")
     except Exception as e:
         check("fleet: oversight writer's deployed copy tracks its source", False, str(e))
     # D-20261028-02's other half: the reader can classify, but the PANEL is what a
