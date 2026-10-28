@@ -759,6 +759,55 @@ def main() -> int:
     except Exception as e:
         check("product: E198 cross-panel verdict is recomputable from its own gate",
               False, str(e))
+    # r1333: E198's negative is only informative if the test could have produced a
+    # positive, and E199 publishes exactly that floor next to the observed ratio.
+    # The leg checks the arithmetic a reader would check: the 80% power claim is
+    # backed by a permutation sd it agrees with (not asserted), the discrete p
+    # really crosses the alpha ceiling at the published floor, and the verdict
+    # names the reading the two numbers on disk actually support.
+    try:
+        _fdir = os.path.join("results", "reviewwindow_floor")
+        _ff = sorted(f for f in os.listdir(_fdir)
+                     if f.startswith("REVIEWWINDOWFLOOR-") and f.endswith(".json")) \
+            if os.path.isdir(_fdir) else []
+        if _ff:
+            _fj = json.load(open(os.path.join(_fdir, _ff[-1]), encoding="utf-8"))
+            _fa = _fj.get("answers") or {}
+            _fs = _fj.get("spec") or {}
+            _fv = _fa.get("verdict")
+            _floor = (_fa.get("floor") or {}).get("min_detectable_ratio")
+            _obs = (_fa.get("observed") or {})
+            _obs_r = _obs.get("observed_ratio")
+            _obs_p = _obs.get("pooled_perm_p")
+            _al = float(_fs.get("alpha_pooled", 0.01))
+            _okf = (_fa.get("months") or 0) > 0 and _floor is not None
+            _val = (_fa.get("validation") or {})
+            _sd = _val.get("analytic_sd_vs_permutation") or {}
+            _dc = _val.get("discrete_check") or {}
+            _okf = (_okf
+                    and (_sd.get("rel_diff") is not None
+                         and _sd["rel_diff"] <= 0.05)
+                    and (_dc.get("at_floor_perm_p") is not None
+                         and _dc["at_floor_perm_p"] <= _al)
+                    and (_dc.get("below_floor_perm_p") is not None
+                         and _dc["below_floor_perm_p"] > _al))
+            if _fv == "negative_is_below_the_detection_floor":
+                _okf = (_okf and _obs_r is not None and _obs_r < _floor
+                        and _obs_p is not None and _obs_p > _al)
+            elif _fv == "effect_detected":
+                _okf = _okf and _obs_p is not None and _obs_p <= _al
+            elif _fv == "effect_size_above_floor_yet_not_significant":
+                _okf = (_okf and _obs_r is not None and _obs_r >= _floor
+                        and _obs_p is not None and _obs_p > _al)
+            check("product: E199 detection floor is recomputable from its own gate",
+                  _okf, "verdict=%s observed_ratio=%s floor=%s p=%s sd_rel=%s"
+                  % (_fv, _obs_r, _floor, _obs_p, _sd.get("rel_diff")))
+        else:
+            check("product: E199 detection floor is recomputable from its own gate",
+                  True, "floor face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E199 detection floor is recomputable from its own gate",
+              False, str(e))
     # r1308: the card carries two readings of 2015-2019 (the excess caveat and the
     # selection premium). If the reconciliation section ever stops being emitted while the
     # artifact is on disk, the card is back to printing a contradiction -- so assert the
@@ -790,6 +839,7 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
+                 "etf_book_order_card",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)

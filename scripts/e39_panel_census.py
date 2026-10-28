@@ -19146,6 +19146,75 @@ def selftest():
         "E198 a missing benchmark publishes no verdict and no cutoff instead of "
         "an invented cross-panel story")
 
+    # ---- E199 detection floor of the E198 test (bm-c r1333)
+    import tempfile as _e199_tmp
+    import csv as _e199_csv
+    import random as _e199_rnd
+
+    def _e199_fixture(months=72, jitter=0.02, seed=7):
+        root = _e199_tmp.mkdtemp()
+        codes = ["BENCH"] + ["C%02d" % i for i in range(1, 9)]
+        rng = _e199_rnd.Random(seed)
+        for code in codes:
+            with open(os.path.join(root, code + ".csv"), "w",
+                      encoding="utf-8", newline="") as fh:
+                w = _e199_csv.writer(fh)
+                w.writerow(["date", "open", "high", "low", "close",
+                            "volume", "amount"])
+                px = 1.0
+                for i in range(months):
+                    m = "%04d-%02d" % (2015 + i // 12, (i % 12) + 1)
+                    px *= 1.0005
+                    cl = px * (1.0 + (jitter * (rng.random() - 0.5)
+                                      if code != "BENCH" else 0.0))
+                    w.writerow(["%s-25" % m, cl, cl, cl, cl, 1000, 1000.0])
+        return root, codes
+
+    _e199_root, _e199_codes = _e199_fixture()
+    _e199_f = run_reviewwindowfloor(daily_dir=_e199_root, basket=_e199_codes,
+                                    bench="BENCH", draws=300, mc_draws=300)
+    _e199_a = _e199_f["answers"]
+    chk(_e199_a["floor"]["min_detectable_ratio"] is not None
+        and abs(_power_at([r for _k, r in _reviewwindowcross_rows(
+            _e199_root, _e199_codes, "BENCH")[2]],
+            _e199_a["floor"]["effect_multiplier_at_floor"],
+            REVIEWWINDOWFLOOR_ALPHA_POOLED) - REVIEWWINDOWFLOOR_POWER) < 0.02,
+        "E199 the published floor is the scale at which the test reaches the "
+        "declared 80%% power -- recomputed here from the floor's own multiplier "
+        "rather than trusted from the artifact")
+    _e199_c = [row["power"] for row in _e199_a["power_curve"]]
+    chk(all(_e199_c[i] is not None and _e199_c[i + 1] is not None
+            and _e199_c[i + 1] >= _e199_c[i] for i in range(len(_e199_c) - 1))
+        and _e199_c[-1] >= 0.99,
+        "E199 power rises with the effect and the curve reaches certainty at the "
+        "top of the declared grid (a non-monotone curve would mean the sd is "
+        "being recomputed inconsistently across scales)")
+    _e199_sd = _e199_a["validation"]["analytic_sd_vs_permutation"]
+    chk(_e199_sd is not None and _e199_sd["rel_diff"] <= 0.05,
+        "E199 the analytic (hypergeometric) null sd agrees with the sampled "
+        "permutation distribution within 5% -- the power curve leans on that "
+        "variance, so it is checked against its own null instead of asserted")
+    _e199_d = _e199_a["validation"]["discrete_check"]
+    chk(_e199_d and _e199_d["at_floor_perm_p"] is not None
+        and _e199_d["at_floor_perm_p"] <= REVIEWWINDOWFLOOR_ALPHA_POOLED
+        and _e199_d["below_floor_perm_p"] > REVIEWWINDOWFLOOR_ALPHA_POOLED,
+        "E199 the discrete permutation p crosses the 1%% ceiling between the "
+        "floor effect and 0.85x the floor, so the floor is a real edge and not "
+        "an artefact of the normal approximation")
+    _e199_again = run_reviewwindowfloor(daily_dir=_e199_root,
+                                        basket=_e199_codes, bench="BENCH",
+                                        draws=300, mc_draws=300)
+    chk(_e199_again["answers"] == _e199_a,
+        "E199 the floor face is deterministic under fixed seeds")
+    _e199_flat_root, _e199_flat_codes = _e199_fixture(jitter=0.0)
+    _e199_flat = run_reviewwindowfloor(daily_dir=_e199_flat_root,
+                                       basket=_e199_flat_codes, bench="BENCH",
+                                       draws=200, mc_draws=200)
+    chk(_e199_flat["answers"]["verdict"] == "floor_unreachable_on_this_panel"
+        and _e199_flat["answers"]["floor"]["min_detectable_ratio"] is None,
+        "E199 a panel with no dispersion publishes 'floor unreachable' and no "
+        "number, instead of dividing by a zero sd and printing a confident one")
+
     # ---- E187 turnover x repair-net tie (pool batch, bm-b r1217)
     _e187_mem = _wide_month_membership(
         {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
@@ -23608,6 +23677,52 @@ def _monthly_ret(close_by_month):
     return out
 
 
+def _reviewwindowcross_rows(daily_dir=None, basket=None, bench=None):
+    """(E199) the E198 panel rows, extracted so the floor reads the SAME rows.
+
+    E198 publishes p values, not the rows they were computed from, so a power
+    face that re-derived the panel its own way could price a test on data the
+    verdict never saw. One reader: run_reviewwindowcrosspanel takes its p values
+    from these rows and run_reviewwindowfloor takes the detection floor from
+    them, so the two can never describe different panels.
+
+    Returns (closes, missing, rows_by_cell, short, cutoff, last_month).
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+    closes, missing, short = {}, [], []
+    for code in [bm] + [c for c in bsk if c != bm]:
+        cl = _monthly_close(code, d)
+        if cl is None:
+            missing.append(code)
+        else:
+            closes[code] = cl
+    rows_by_cell, cutoff, last_month = [], None, None
+    bench_close = closes.get(bm) or {}
+    if bench_close:
+        bars_bm = read_bars(os.path.join(d, bm + ".csv"))
+        cutoff = bars_bm[-1]["date"] if bars_bm else None
+        last_month = max(bench_close)      # in-progress month is excluded below
+        bench_ret = _monthly_ret(bench_close)
+        for code in bsk:
+            if code == bm or code not in closes:
+                continue
+            ret = _monthly_ret(closes[code])
+            rows = []
+            for m in sorted(set(ret) & set(bench_ret)):
+                if m >= last_month:
+                    continue
+                rows.append({"month": m,
+                             "gap_bp": (ret[m] - bench_ret[m]) * 10000.0,
+                             "ret": ret[m], "bench_ret": bench_ret[m]})
+            if len(rows) < REVIEWWINDOWCROSS_MIN_MONTHS:
+                short.append({"code": code, "months": len(rows)})
+                continue
+            rows_by_cell.append((code, rows))
+    return closes, missing, rows_by_cell, short, cutoff, last_month
+
+
 def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
                                draws=None):
     """E198: does the review window move anything OUTSIDE the drop family?
@@ -23630,13 +23745,8 @@ def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
     bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
     bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
 
-    closes, missing, short = {}, [], []
-    for code in [bm] + [c for c in bsk if c != bm]:
-        cl = _monthly_close(code, d)
-        if cl is None:
-            missing.append(code)
-        else:
-            closes[code] = cl
+    closes, missing, rows_by_cell, short, cutoff, last_month = \
+        _reviewwindowcross_rows(d, bsk, bm)
 
     bench_close = closes.get(bm) or {}
     if not bench_close:
@@ -23656,26 +23766,8 @@ def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
                        "invented."],
         }
 
-    bars_bm = read_bars(os.path.join(d, bm + ".csv"))
-    cutoff = bars_bm[-1]["date"] if bars_bm else None
-    last_month = max(bench_close)          # in-progress month is excluded below
-    bench_ret = _monthly_ret(bench_close)
-
     cells, row_sets = [], []
-    for code in bsk:
-        if code == bm or code not in closes:
-            continue
-        ret = _monthly_ret(closes[code])
-        rows = []
-        for m in sorted(set(ret) & set(bench_ret)):
-            if m >= last_month:
-                continue
-            rows.append({"month": m,
-                         "gap_bp": (ret[m] - bench_ret[m]) * 10000.0,
-                         "ret": ret[m], "bench_ret": bench_ret[m]})
-        if len(rows) < REVIEWWINDOWCROSS_MIN_MONTHS:
-            short.append({"code": code, "months": len(rows)})
-            continue
+    for code, rows in rows_by_cell:
         win = _window_perm_p(rows, draws=draws)
         cells.append({"code": code, "months": len(rows),
                       "mean_abs_gap_bp": round(
@@ -23778,6 +23870,331 @@ def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
             "universe.",
             "The final month is dropped wherever the benchmark file ends "
             "mid-month, because a partial month is not a monthly return.",
+        ],
+    }
+
+
+REVIEWWINDOWFLOOR_POWER = 0.80
+REVIEWWINDOWFLOOR_ALPHA_POOLED = REVIEWWINDOWCROSS_POOLED_P
+REVIEWWINDOWFLOOR_ALPHA_CELL = REVIEWWINDOWCROSS_CELL_P
+REVIEWWINDOWFLOOR_MC_DRAWS = 2000
+REVIEWWINDOWFLOOR_SEED = 20261029
+REVIEWWINDOWFLOOR_SCALES = (1.0, 1.10, 1.25, 1.50, 2.00)
+
+
+def _normal():
+    from statistics import NormalDist
+    return NormalDist()
+
+
+def _inside_stat(row_sets, scale=1.0):
+    """(E199) E198's pooled inside mean and its EXACT permutation-null sd.
+
+    E198 reports a p, which says what happened but not what could have
+    happened. The test's null keeps each cell's own |gap| multiset and shuffles
+    only the window labels, so the pooled inside mean is a sum of independent
+    per-cell samples-without-replacement: its null expectation is exactly 1
+    (per-cell standardisation forces every cell mean to 1) and its variance is
+    the hypergeometric sum below -- no Monte Carlo is needed to know the spread
+    the p value was drawn from.
+
+    `scale` multiplies the window months' |gaps| before standardisation, which
+    is the effect whose power we want. Because standardisation is per cell, the
+    published ratio obeys ratio(f) = f * ratio(1) exactly, so the floor can be
+    quoted in ratio units without a conversion approximation.
+    """
+    N = K = 0
+    ins_sum = out_sum = 0.0
+    var = 0.0
+    n_cells = 0
+    for rows in row_sets:
+        if not rows:
+            continue
+        raw = [abs(float(r.get("gap_bp") or 0.0)) for r in rows]
+        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        if not any(lab) or all(lab):
+            continue
+        scaled = [(v * scale if l else v) for v, l in zip(raw, lab)]
+        m = sum(scaled) / len(scaled)
+        if m <= 0:
+            continue
+        vals = [v / m for v in scaled]
+        n = len(vals)
+        k = sum(1 for l in lab if l)
+        im = sum(v for v, l in zip(vals, lab) if l) / k
+        om = sum(v for v, l in zip(vals, lab) if not l) / (n - k)
+        s2 = sum((v - 1.0) ** 2 for v in vals) / n
+        var += k * (n - k) / (n - 1) * s2
+        ins_sum += k * im
+        out_sum += (n - k) * om
+        K += k
+        N += n
+        n_cells += 1
+    if not K or N <= K or not n_cells:
+        return {"n_months": N, "n_window": K, "n_cells": n_cells,
+                "inside_mean": None, "sd": None, "ratio": None}
+    T = ins_sum / K
+    return {"n_months": N, "n_window": K, "n_cells": n_cells,
+            "inside_mean": T, "sd": (var ** 0.5) / K,
+            "ratio": (T / (out_sum / (N - K)) if out_sum > 0 else None)}
+
+
+def _power_at(row_sets, scale, alpha):
+    """(E199) power of E198's one-sided permutation test at a given effect."""
+    st = _inside_stat(row_sets, scale=scale)
+    if st["sd"] is None or st["sd"] <= 0 or st["inside_mean"] is None:
+        return None
+    z = (st["inside_mean"] - 1.0) / st["sd"]
+    return _normal().cdf(z - _normal().inv_cdf(1.0 - alpha))
+
+
+def _floor_scale(row_sets, alpha, target=None, hi=12.0, iters=60):
+    """(E199) smallest window-month multiplier that reaches the target power.
+
+    Bisection rather than a closed form because the sd is recomputed at every f
+    (the standardisation moves with the effect). Returns (scale, ratio) or
+    (None, None) when the target is not reachable inside `hi` -- publishing
+    'unreachable' is the honest answer for a panel where no effect that size
+    could ever be seen.
+    """
+    tgt = REVIEWWINDOWFLOOR_POWER if target is None else float(target)
+    lo = 1.0
+    p_hi = _power_at(row_sets, hi, alpha)
+    if p_hi is None:
+        return None, None
+    if p_hi < tgt:
+        return None, None
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        p = _power_at(row_sets, mid, alpha)
+        if p is None:
+            return None, None
+        if p >= tgt:
+            hi = mid
+        else:
+            lo = mid
+    st = _inside_stat(row_sets, scale=hi)
+    return hi, st["ratio"]
+
+
+def _scaled_rows(rows, scale):
+    """(E199) one cell's rows with the window months' |gaps| multiplied."""
+    out = []
+    for r in rows:
+        r2 = dict(r)
+        if _review_window_in(r2.get("month")):
+            r2["gap_bp"] = float(r2.get("gap_bp") or 0.0) * scale
+        out.append(r2)
+    return out
+
+
+def _perm_null_spread(row_sets, draws=None, seed=None):
+    """(E199) the permutation null's own spread, to check the analytic sd.
+
+    Same shuffle structure as _pooled_window_test (a fixed number of window
+    labels redrawn per cell), but it returns the sampled statistic instead of a
+    p, so the variance the power curve leans on is compared with the
+    distribution it claims to describe rather than asserted.
+    """
+    per = []
+    for rows in row_sets:
+        if not rows:
+            continue
+        vals = _std_abs_gap(rows)
+        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        if any(lab) and not all(lab):
+            per.append((vals, lab))
+    if not per:
+        return {"mean": None, "sd": None, "draws": 0, "seed": None}
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd_ = (REVIEWWINDOWFLOOR_SEED if seed is None else int(seed))
+    rng = random.Random(sd_)
+    ts = []
+    for _ in range(n):
+        s = 0.0
+        c = 0
+        for vals, lab in per:
+            k = sum(1 for l in lab if l)
+            idx = set(rng.sample(range(len(vals)), k))
+            for i, v in enumerate(vals):
+                if i in idx:
+                    s += v
+                    c += 1
+        ts.append(s / c)
+    mu = sum(ts) / len(ts)
+    sd_v = (sum((t - mu) ** 2 for t in ts) / len(ts)) ** 0.5
+    return {"mean": mu, "sd": sd_v, "draws": n, "seed": sd_,
+            "n_cells": len(per)}
+
+
+def run_reviewwindowfloor(daily_dir=None, basket=None, bench=None,
+                          draws=None, mc_draws=None):
+    """E199: what could E198's test have seen, on the panel it actually ran?
+
+    E198 answered 'the review window does not exist outside the drop family' --
+    and a negative is only informative if the test could have produced a
+    positive. So this face prices the test's own blind spot: the minimum
+    window-to-outside |gap| ratio that E198's gate would have flagged with 80%
+    power, on the exact same rows, with the sd of the permutation null computed
+    exactly rather than borrowed from a normal assumption.
+
+    Everything is declared before a file is read: alpha (reused from E198, not
+    re-picked), the 80% power target, the bisection range, the Monte Carlo draw
+    count and the verdict rule. The floor is then read against the observed
+    ratio: a negative whose observed ratio sits below the floor is a measurement
+    ('this test could not have seen it'), while an observed ratio ABOVE the
+    floor with a p above alpha is a contradiction that must be published as one.
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+
+    closes, missing, rows_by_cell, short, cutoff, last_month = \
+        _reviewwindowcross_rows(d, bsk, bm)
+    row_sets = [rows for _code, rows in rows_by_cell]
+
+    base_spec = {
+        "basket": list(bsk), "bench": bm,
+        "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+        "window_def": "reused from E196, not re-picked here",
+        "statistic": "mean standardised |member - bench monthly return|",
+        "alpha_pooled": REVIEWWINDOWFLOOR_ALPHA_POOLED,
+        "alpha_cell": REVIEWWINDOWFLOOR_ALPHA_CELL,
+        "power_target": REVIEWWINDOWFLOOR_POWER,
+        "rule": ("pooled p<=alpha -> detected; else observed ratio < floor -> "
+                 "negative is below the detection floor; else -> effect size "
+                 "above the floor yet not significant (published as a red flag)"),
+    }
+    if not row_sets:
+        return {
+            "study": "E199 review-window detection floor",
+            "evidence_cutoff": None,
+            "spec": base_spec,
+            "missing_files": missing,
+            "answers": {"verdict": "no_panel_to_price"},
+            "honest": ["No cell cleared the month floor, so there is no test to "
+                       "price and no floor is invented."],
+        }
+
+    pooled_now = _pooled_window_test(row_sets, draws=draws)
+    base = _inside_stat(row_sets, 1.0)
+    floor_scale, floor_ratio = _floor_scale(row_sets,
+                                           REVIEWWINDOWFLOOR_ALPHA_POOLED)
+
+    cells = []
+    for code, rows in rows_by_cell:
+        st = _inside_stat([rows], 1.0)
+        c_scale, c_ratio = _floor_scale([rows], REVIEWWINDOWFLOOR_ALPHA_CELL)
+        cells.append({
+            "code": code, "months": len(rows),
+            "window_months": st["n_window"],
+            "observed_ratio": (round(st["ratio"], 6)
+                               if st["ratio"] is not None else None),
+            "min_detectable_ratio": (round(c_ratio, 6)
+                                     if c_ratio is not None else None),
+            "effect_multiplier_at_floor": (round(c_scale, 6)
+                                           if c_scale is not None else None),
+        })
+    cell_floors = sorted(c["min_detectable_ratio"] for c in cells
+                         if c["min_detectable_ratio"] is not None)
+
+    # the power curve itself, so a reader can see the floor is not a lucky root
+    curve = []
+    for f in REVIEWWINDOWFLOOR_SCALES:
+        st = _inside_stat(row_sets, f)
+        curve.append({"effect_multiplier": f,
+                      "ratio": (round(st["ratio"], 6)
+                                if st["ratio"] is not None else None),
+                      "power": (round(_power_at(row_sets, f,
+                                                REVIEWWINDOWFLOOR_ALPHA_POOLED), 6)
+                                if _power_at(row_sets, f,
+                                             REVIEWWINDOWFLOOR_ALPHA_POOLED)
+                                is not None else None)})
+
+    # validation 1: the analytic sd against the permutation distribution it claims
+    spread = _perm_null_spread(row_sets, draws=mc_draws)
+    sd_check = None
+    if base["sd"] and spread.get("sd"):
+        sd_check = {"analytic": round(base["sd"], 8),
+                    "empirical": round(spread["sd"], 8),
+                    "rel_diff": round(abs(spread["sd"] - base["sd"])
+                                      / base["sd"], 6)}
+
+    # validation 2: the discrete p at the floor effect, and just below it
+    mc = {}
+    if floor_scale is not None:
+        hi_rows = [_scaled_rows(r, floor_scale) for r in row_sets]
+        lo_rows = [_scaled_rows(r, max(1.0, floor_scale * 0.85))
+                   for r in row_sets]
+        mc = {"at_floor_perm_p": _pooled_window_test(hi_rows, draws=draws)["perm_p"],
+              "below_floor_scale": round(max(1.0, floor_scale * 0.85), 6),
+              "below_floor_perm_p": _pooled_window_test(lo_rows,
+                                                        draws=draws)["perm_p"],
+              "draws": (LADDER_DROP_CARRIER_DRAWS if draws is None
+                        else int(draws))}
+
+    obs_ratio = base["ratio"]
+    p_pool = pooled_now.get("perm_p")
+    if len(cells) < REVIEWWINDOWCROSS_MIN_CELLS:
+        verdict = "insufficient_cells"
+    elif p_pool is not None and p_pool <= REVIEWWINDOWFLOOR_ALPHA_POOLED:
+        verdict = "effect_detected"
+    elif floor_ratio is None:
+        verdict = "floor_unreachable_on_this_panel"
+    elif obs_ratio is not None and obs_ratio < floor_ratio:
+        verdict = "negative_is_below_the_detection_floor"
+    else:
+        verdict = "effect_size_above_floor_yet_not_significant"
+
+    return {
+        "study": "E199 review-window detection floor",
+        "evidence_cutoff": cutoff,
+        "spec": base_spec,
+        "missing_files": missing,
+        "skipped_short_history": short,
+        "answers": {
+            "cells_measured": len(cells),
+            "months": base["n_months"],
+            "window_months_pooled": base["n_window"],
+            "observed": {"pooled_perm_p": p_pool,
+                         "observed_ratio": (round(obs_ratio, 6)
+                                            if obs_ratio is not None else None)},
+            "floor": {"alpha": REVIEWWINDOWFLOOR_ALPHA_POOLED,
+                      "power": REVIEWWINDOWFLOOR_POWER,
+                      "effect_multiplier_at_floor": (round(floor_scale, 6)
+                                                     if floor_scale is not None
+                                                     else None),
+                      "min_detectable_ratio": (round(floor_ratio, 6)
+                                               if floor_ratio is not None
+                                               else None)},
+            "cell_floors": {"n_cells_with_floor": len(cell_floors),
+                            "median": (round(cell_floors[len(cell_floors) // 2], 6)
+                                       if cell_floors else None),
+                            "min": (round(cell_floors[0], 6)
+                                    if cell_floors else None),
+                            "max": (round(cell_floors[-1], 6)
+                                    if cell_floors else None)},
+            "power_curve": curve,
+            "validation": {"analytic_sd_vs_permutation": sd_check,
+                           "discrete_check": mc},
+            "cells": cells,
+            "verdict": verdict,
+        },
+        "honest": [
+            "The floor is a property of the TEST, not of the market: it says "
+            "which effect sizes this panel size (17 cells x ~80 months, ~26 "
+            "window months per cell) could have flagged at 80% power, and says "
+            "nothing about whether a bigger effect exists.",
+            "Power is computed for a multiplicative window effect that hits "
+            "every cell in the same direction. An effect concentrated in a few "
+            "cells, or pointing both ways, needs a bigger per-cell move to be "
+            "detected -- the per-cell floors published here are that reading.",
+            "The permuted null keeps the observed |gap| multisets, so the floor "
+            "inherits this panel's own gap dispersion: a quieter panel would "
+            "show a lower floor without the world being easier to read.",
+            "Cells are a cross-section on the SAME timeline, so the pooled p "
+            "counts correlated members as separate evidence -- the floor is "
+            "published beside the per-cell floors for that reason.",
         ],
     }
 
@@ -24456,6 +24873,7 @@ def main(argv):
                              "tilt3ladderdropfragility",
                              "tilt3ladderdropcarrier",
                              "reviewwindowcross",
+                             "reviewwindowfloor",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "widechurntie",
@@ -25951,6 +26369,23 @@ def main(argv):
                           "pooled": f["answers"]["pooled"],
                           "dispersion": f["answers"]["dispersion"],
                           "missing_files": len(f["missing_files"])},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "reviewwindowfloor":
+        outdir = os.path.join(ROOT, "results", "reviewwindow_floor")
+        f = run_reviewwindowfloor()
+        p = write_json(outdir, "REVIEWWINDOWFLOOR-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        a = f["answers"]
+        print(json.dumps({"leg": "reviewwindowfloor",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": a.get("verdict"),
+                          "months": a.get("months"),
+                          "window_months": a.get("window_months_pooled"),
+                          "observed": a.get("observed"),
+                          "floor": a.get("floor"),
+                          "cell_floors": a.get("cell_floors"),
+                          "missing_files": len(f.get("missing_files") or [])},
                          ensure_ascii=False))
         return 0
     if args.mode == "tilt3widesplit":

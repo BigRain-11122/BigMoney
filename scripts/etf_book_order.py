@@ -646,6 +646,273 @@ def card_rule(card_dir=None):
         return None
 
 
+# ------------------------------------------------------------------ card-config ticket
+# The card, the forward ledger and this ticket are three faces of one book only if the
+# ticket is issued FROM the card instead of re-ranking the panel at its own width. Until
+# r1333 the executable ticket was a 5-name beta-overlay book while the card and the
+# ledger both ran 12 names at an 8% vol target -- two published books, one operator.
+def _read_card(card_dir=None):
+    """The card document itself, pointer chain resolved. None when the face is absent."""
+    d = card_dir or CARD_DIR
+    try:
+        with open(os.path.join(d, "latest.json"), encoding="utf-8") as f:
+            doc = json.load(f)
+        if doc.get("file"):
+            with open(os.path.join(d, doc["file"]), encoding="utf-8") as f:
+                doc = json.load(f)
+        return doc
+    except Exception:
+        return None
+
+
+LEDGER_PATH_DEFAULT = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
+
+
+def _ledger_book(ledger_path=None):
+    """Third face: what the forward ledger is actually holding and on what bar."""
+    p = ledger_path or LEDGER_PATH_DEFAULT
+    try:
+        with open(p, encoding="utf-8") as f:
+            led = json.load(f)
+    except Exception:
+        return None
+    bif = led.get("book_in_force") or {}
+    bars = led.get("bars") or []
+    last = bars[-1] if bars else {}
+    return {"config": led.get("config") or {}, "names": list(bif.get("names") or []),
+            "scale": bif.get("scale"), "book_bar": bif.get("bar"),
+            "last_bar": last.get("bar"), "last_nav": last.get("nav"),
+            "status": led.get("status"), "source": p}
+
+
+def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
+    """Broker-followable ticket for the book the production card publishes.
+
+    Weights, names and the risk scale come from the card's own sheet (one source of
+    truth); ``nav`` only re-prices the lot counts, it never re-ranks anything. Recomputing
+    the lots from price x weight is deliberate: on the card's own capital the result must
+    equal the card's published lot counts, and any drift between the two faces shows up as
+    ``reprice_mismatch`` instead of being copied silently.
+    """
+    doc = _read_card(card_dir)
+    if not doc:
+        return None
+    cfg = doc.get("config") or {}
+    sh = doc.get("sheet") or {}
+    legs = sh.get("legs") or []
+    cap = float(sh.get("capital_cny") or cfg.get("capital_cny") or 0.0)
+    if not legs or cap <= 0:
+        return None
+    stated = float(nav) if nav else cap
+    rows, spent, mismatch = [], 0.0, []
+    for l in legs:
+        px = l.get("ref_price")
+        w = float(l.get("weight") or 0.0)
+        want = stated * w
+        lots = shares = amt = None
+        if px and float(px) > 0:
+            lots = int(want // (float(px) * LOT))
+            shares = lots * LOT
+            amt = shares * float(px)
+            spent += amt
+            if (abs(stated - cap) < 1e-6 and l.get("lots_100") is not None
+                    and int(l["lots_100"]) != shares):
+                # the card's ``lots_100`` field carries the SHARE count rounded to 100
+                # (live card: 159501 26600 shares x 2.194 = 58360 actual amount), not a
+                # lot count -- comparing against ``lots`` here reads as a 100x mismatch
+                mismatch.append({"symbol": l.get("symbol"), "card_shares": l.get("lots_100"),
+                                 "ticket_shares": shares})
+        rows.append({"symbol": l.get("symbol"), "name": l.get("name"),
+                     "class": l.get("class"), "weight": round(w, 6),
+                     "price": round(float(px), 4) if px else None,
+                     "lots": lots, "shares": shares,
+                     "amount": round(amt, 2) if amt is not None else None,
+                     "note": "" if lots else "budget below one lot"})
+    cash = stated - spent
+    names = [r["symbol"] for r in rows]
+    led = _ledger_book(ledger_path) or {}
+    led_cfg = led.get("config") or {}
+    card_scale = sh.get("risk_scale")
+    recon = {"card_priced_bar": sh.get("as_of_bar"),
+             "card_decided_at": sh.get("book_decided_at") or sh.get("last_decision_bar"),
+             "card_scale": card_scale, "card_names": names,
+             "same_names_as_card": names == [l.get("symbol") for l in legs],
+             "ledger_names": led.get("names"),
+             "same_names_as_ledger": (names == led["names"]) if led.get("names") else None,
+             "ledger_scale": led.get("scale"),
+             "same_scale_as_ledger": None,
+             "ledger_book_bar": led.get("book_bar"), "ledger_last_bar": led.get("last_bar"),
+             "ledger_last_nav": led.get("last_nav"), "ledger_status": led.get("status"),
+             "card_cash_weight": sh.get("cash_weight"),
+             "card_cash_amount": sh.get("cash_amount_cny"),
+             "card_config": {k: cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
+                                                     "cost_bp_per_side")},
+             "ledger_config": {k: led_cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
+                                                           "cost_per_side")},
+             "same_config_as_ledger": None}
+    if card_scale is not None and led.get("scale") is not None:
+        # the card publishes the scale at 4 dp while the ledger keeps full precision
+        # (0.7008 vs 0.700775) -- compare at the published precision, not bitwise, or
+        # two faces of the same book would read as different books every round.
+        recon["same_scale_as_ledger"] = (round(float(card_scale), 4)
+                                         == round(float(led["scale"]), 4))
+        recon["scale_precision"] = "4 dp (the card's published precision)"
+    try:
+        recon["same_config_as_ledger"] = (
+            str(cfg.get("n_hold")) == str(led_cfg.get("n_hold"))
+            and abs(float(cfg.get("vol_target") or 0.0)
+                    - float(led_cfg.get("vol_target") or 0.0)) < 1e-9)
+    except Exception:
+        recon["same_config_as_ledger"] = None
+    return {"kind": "card_config", "nav": stated, "card_capital": cap,
+            "scale": float(card_scale or 0.0), "config": cfg, "order": rows,
+            "book_amount": round(spent, 2), "cash_amount": round(cash, 2),
+            "book_weight": round(spent / stated, 6), "cash_weight": round(cash / stated, 6),
+            "cash_leg": "GC001 (1-day repo, observed close)",
+            "underspend_pct": round(100.0 * cash / stated - 100.0 * (1.0 - float(card_scale or 0.0)), 4),
+            "reprice_mismatch": mismatch, "priced_bar": sh.get("as_of_bar"),
+            "decision": sh.get("decision"),
+            "bars_until_next_decision": sh.get("bars_until_next_decision"),
+            "feed": doc.get("feed_status") or {}, "recon": recon}
+
+
+def _verdict(b):
+    return "unknown" if b is None else ("一致" if b else "不一致")
+
+
+def card_config_card(tk, width=None):
+    """Markdown for the card-config order, with the three-face reconciliation on it."""
+    rc = tk["recon"]
+    cfg = tk["config"]
+    L = ["# ETF 复合书 · 可执行订单单（%s，卡片配置口径）" % tk["priced_bar"], "",
+         "当前活：生产卡片的原样配置——%d 名、每 %d 个交易日网格、%.0f%% 波动目标（只降不升杠杆）、"
+         "空仓进 GC001。" % (int(cfg.get("n_hold") or 0), int(cfg.get("rebal") or REBAL),
+                           100.0 * float(cfg.get("vol_target") or 0.0)),
+         "最近实物：%s（与本文件同刻生成）。"
+         % os.path.relpath(os.path.join(OUT_DIR, "TICKET-%s-card.json" % tk["priced_bar"]),
+                           BASE).replace("\\", "/"),
+         "下个里程碑：该单一是一张可下手的单，卡片/账本/单据三面同书（本文件末节逐项对账）。", ""]
+    feed = tk.get("feed") or {}
+    L += ["## 数据新鲜度（本单定价用的是哪一天的 bar）",
+          "- 官方交易日历期望最新 bar：%s" % (feed.get("expected_bar") or "未知（无日历）"),
+          "- 本单定价 bar：%s ｜ 判定：**%s**｜落后 %s 个交易日"
+          % (tk["priced_bar"], feed.get("status", "unknown"),
+             "?" if feed.get("lag_days") is None else feed.get("lag_days")),
+          "- 前向账本最后一行 bar：%s（NAV %.6f，status=%s）"
+          % (rc.get("ledger_last_bar") or "未知",
+             float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
+    L += ["## 今日目标（NAV ¥%s）" % format(int(round(tk["nav"])), ","),
+          "风险缩放 k=%.3f（书内 %.1f%%、现金 %.1f%%）｜现金腿=%s｜现金 ¥%s"
+          % (tk["scale"], tk["book_weight"] * 100, tk["cash_weight"] * 100,
+             tk["cash_leg"], format(int(round(tk["cash_amount"])), ",")),
+          "",
+          "| 代码 | 名称 | 类别 | 权重 | 参考价 | 手数(100股) | 金额 |",
+          "|---|---|---|---|---|---|---|"]
+    for r in tk["order"]:
+        L.append("| %s | %s | %s | %.1f%% | %s | %s | %s |"
+                 % (r["symbol"], r.get("name") or "-", r.get("class") or "?",
+                    r["weight"] * 100, ("%.3f" % r["price"]) if r["price"] else "-",
+                    r["lots"] if r["lots"] is not None else "-",
+                    format(int(r["amount"]), ",") if r["amount"] else "-"))
+    L += ["", "整手取整后欠投 %+.2f%% NAV（留在现金腿，不重分配）。" % tk["underspend_pct"]]
+    if tk.get("bars_until_next_decision") is not None:
+        L += ["", "下一个网格决策点：%s 个交易日后（当前决策 bar %s）。"
+              % (tk["bars_until_next_decision"], rc.get("card_decided_at") or "-")]
+    L += ["", "## 三面是不是同一本书", "",
+          "| 面 | 名数 | 杠杆规则 | 风险缩放 | 定价/决策 bar |",
+          "|---|---|---|---|---|",
+          "| 生产卡片 | %d | %s | %.4f | %s |"
+          % (len(rc["card_names"]), "vol %.0f%%" % (100.0 * float(cfg.get("vol_target") or 0.0)),
+             float(rc["card_scale"] or 0.0), rc.get("card_priced_bar") or "-"),
+          "| 前向账本 | %d | %s | %s | %s（最后行 %s） |"
+          % (len(rc.get("ledger_names") or []),
+             "vol %.0f%%" % (100.0 * float((rc.get("ledger_config") or {}).get("vol_target") or 0.0)),
+             ("%.4f" % float(rc["ledger_scale"])) if rc.get("ledger_scale") is not None else "-",
+             rc.get("ledger_book_bar") or "-", rc.get("ledger_last_bar") or "-"),
+          "| 本单（可执行） | %d | vol %.0f%% | %.4f | %s |"
+          % (len(tk["order"]), 100.0 * float(cfg.get("vol_target") or 0.0), tk["scale"],
+             tk["priced_bar"]),
+          "",
+          "- 名称：本单 vs 卡片 %s｜本单 vs 账本 %s"
+          % (_verdict(rc["same_names_as_card"]), _verdict(rc["same_names_as_ledger"])),
+          "- 风险缩放：本单 vs 账本 %s（%.4f / %s，按卡片 4 位小数口径比对）"
+          % (_verdict(rc["same_scale_as_ledger"]), tk["scale"],
+             ("%.4f" % float(rc["ledger_scale"])) if rc.get("ledger_scale") is not None else "-"),
+          "- 配置：本单 vs 账本 %s（card %s / ledger %s）"
+          % (_verdict(rc["same_config_as_ledger"]),
+             rc.get("card_config"), rc.get("ledger_config")),
+          "- 卡片重算手数 vs 卡片已发布手数：%d 处不一致%s"
+          % (len(tk["reprice_mismatch"]),
+             ("（%s）" % tk["reprice_mismatch"][:3]) if tk["reprice_mismatch"] else "")]
+    if width:
+        d = width["delta_ticket_minus_card"]
+        L += ["", "## 与「%d 名 β 覆盖」那张单的关系" % width["ticket_names"],
+              "那张单是**另一本书**（%d 名 / %s 覆盖 / 固定 β 目标 %.2f），不是本卡片的宽度变体："
+              "两者的差值 (%+.2fpp 年化, %+.3f 夏普) 是同时换了宽度和杠杆规则的对角线。"
+              % (width["ticket_names"], width["ticket_rule"], DEFAULT_BETA,
+                 -d["cagr_pp"], -d["sharpe"]),
+              "同一规则下只换名数的代价：%s。"
+              % ("；".join("%s 规则 %+.2fpp" % (r, v["pp"])
+                          for r, v in sorted((width.get("width_effect") or {}).items()))
+                 or "本窗未取到同规则两宽度格"),
+              "出处：%s（cutoff %s）。" % (width["source"], width["evidence_cutoff"])]
+    L += ["", "## 诚实面", "",
+          "- 探索件：无预注册、无判决、不入成绩账本；本单只是把卡片已经公布的那本书变成可下手的单。"]
+    gap = None
+    if rc.get("card_cash_amount") is not None:
+        gap = tk["cash_amount"] - float(rc["card_cash_amount"])
+        if abs(gap) >= 1.0:
+            L += ["- **卡片现金行是目标口径**：卡片按 权重×资本 印目标金额、现金=(1-缩放)×资本"
+                  "（¥%s）；整手取整后真实能花出去的钱比目标少 ¥%s（%.2f%% NAV），"
+                  "所以本单的现金腿是 ¥%s。照卡片那行下手，账上实际会多出这 %.2f%% 现金"
+                  "——卡片把投入算高了，不是把现金算少了。"
+                  % (format(int(round(float(rc["card_cash_amount"]))), ","),
+                     format(int(round(gap)), ","), 100.0 * gap / tk["nav"],
+                     format(int(round(tk["cash_amount"])), ","), 100.0 * gap / tk["nav"])]
+    L += [
+          "- 票池=现存 ETF，存在幸存者偏差；票面按卡片定盘 bar 的参考价折算，未计冲击成本与涨跌停。",
+          "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
+          "- 波动目标是历史估计，只降不升杠杆：标注 8% 的书实测跑到 10%+（见卡片风险列）。"]
+    return "\n".join(L) + "\n"
+
+
+def run_card(nav=None):
+    tk = card_config_ticket(nav=nav)
+    if not tk:
+        print("card: no production card to issue from (%s)" % CARD_DIR)
+        return 2
+    asof = tk["priced_bar"] or "unknown"
+    doc = {"kind": tk["kind"], "asof_bar": asof, "capital_cny": tk["nav"],
+           "card_capital_cny": tk["card_capital"], "scale": tk["scale"],
+           "config": tk["config"], "order": tk["order"],
+           "book_amount": tk["book_amount"], "cash_amount": tk["cash_amount"],
+           "book_weight": tk["book_weight"], "cash_weight": tk["cash_weight"],
+           "cash_leg": tk["cash_leg"], "underspend_pct": tk["underspend_pct"],
+           "reprice_mismatch": tk["reprice_mismatch"], "recon": tk["recon"],
+           "decision": tk.get("decision"),
+           "bars_until_next_decision": tk.get("bars_until_next_decision"),
+           "feed": tk.get("feed"),
+           "caveats": ["exploratory: no prereg, no verdict, not in the scorecard",
+                       "survivorship in the ETF pool; reference prices only, no impact cost",
+                       "cash leg is GC001 single tenor, rolls at zero fee"]}
+    _write("TICKET-%s-card.json" % asof, doc)
+    wd = width_disclosure()
+    md = card_config_card(tk, wd)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with open(os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof), "w", encoding="utf-8") as f:
+        f.write(md)
+    rc = tk["recon"]
+    print("card-config ticket: %s | NAV %s | %d names | k=%.3f | cash %.1f%%"
+          % (asof, format(int(round(tk["nav"])), ","), len(tk["order"]), tk["scale"],
+             tk["cash_weight"] * 100))
+    print("three faces: names card=%s ledger=%s | scale vs ledger=%s | config vs ledger=%s"
+          % (_verdict(rc["same_names_as_card"]), _verdict(rc["same_names_as_ledger"]),
+             _verdict(rc["same_scale_as_ledger"]), _verdict(rc["same_config_as_ledger"])))
+    print("card lot recount mismatches: %d" % len(tk["reprice_mismatch"]))
+    print("wrote", os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof))
+    return 0
+
+
 def width_disclosure(card_n=None, audit_path=None, card_dir=None):
     """What this ticket's width costs against the card's, from the audit face.
 
@@ -990,6 +1257,78 @@ def selftest():
     finally:
         shutil.rmtree(cdt, ignore_errors=True)
 
+    # ---- card-config ticket (r1333): the executable face must be the card's own book
+    cdt = tempfile.mkdtemp()
+    try:
+        legs = [{"symbol": "AAA", "name": "a", "class": "equity", "weight": 0.2,
+                 "ref_price": 2.0, "lots_100": 100000, "amount_cny": 200000.0,
+                 "actual_amount_cny": 200000.0},
+                {"symbol": "BBB", "name": "b", "class": "equity", "weight": 0.25,
+                 "ref_price": 5.0, "lots_100": 50000, "amount_cny": 250000.0,
+                 "actual_amount_cny": 250000.0},
+                {"symbol": "CCC", "name": "c", "class": "equity", "weight": 0.25,
+                 "ref_price": 1.0, "lots_100": 250000, "amount_cny": 250000.0,
+                 "actual_amount_cny": 250000.0}]
+        card_doc = {"config": {"n_hold": 3, "rebal": 20, "vol_target": 0.08,
+                              "capital_cny": 1000000.0, "cost_bp_per_side": 10.0},
+                    "feed_status": {"status": "current", "ticket_bar": "2026-10-28",
+                                    "expected_bar": "2026-10-28", "lag_days": 0},
+                    "sheet": {"as_of_bar": "2026-10-28", "book_decided_at": "2026-10-14",
+                              "capital_cny": 1000000.0, "risk_scale": 0.7,
+                              "target_vol": 0.08, "cash_weight": 0.3,
+                              "cash_amount_cny": 300000.0, "legs": legs,
+                              "bars_until_next_decision": 10}}
+        with open(os.path.join(cdt, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump(card_doc, f, ensure_ascii=False)
+        led_same = {"config": {"n_hold": 3, "vol_target": 0.08, "rebal": 20,
+                               "cost_per_side": 0.001},
+                    "book_in_force": {"bar": "2026-10-14", "scale": 0.7,
+                                      "names": ["AAA", "BBB", "CCC"]},
+                    "bars": [{"bar": "2026-10-28", "nav": 1.00053}], "status": "live"}
+        lp = os.path.join(cdt, "LEDGER.json")
+        with open(lp, "w", encoding="utf-8") as f:
+            json.dump(led_same, f, ensure_ascii=False)
+
+        tk = card_config_ticket(card_dir=cdt, ledger_path=lp)
+        rc = tk["recon"] if tk else {}
+        chk("leg27 card-config ticket reproduces the card's names, scale and config",
+            bool(tk) and rc.get("same_names_as_card") is True
+            and rc.get("same_names_as_ledger") is True
+            and rc.get("same_scale_as_ledger") is True
+            and rc.get("same_config_as_ledger") is True,
+            "names=%s scale=%s cfg=%s" % (rc.get("same_names_as_card"),
+                                          rc.get("same_scale_as_ledger"),
+                                          rc.get("same_config_as_ledger")))
+        chk("leg28 lots recomputed from price x weight match the card's published lot counts",
+            bool(tk) and tk["reprice_mismatch"] == []
+            and [r["lots"] for r in tk["order"]] == [1000, 500, 2500],
+            "mismatch=%s" % (tk["reprice_mismatch"] if tk else None))
+
+        tk2 = card_config_ticket(card_dir=cdt, ledger_path=lp, nav=2000000.0)
+        chk("leg29 a doubled stated capital doubles the book and keeps the cash share",
+            bool(tk2) and abs(tk2["cash_weight"] - 0.3) < 0.001
+            and 0.98 * 1_400_000.0 <= tk2["book_amount"] <= 1_400_000.0,
+            "book=%.0f cash_w=%.4f" % (tk2["book_amount"] if tk2 else -1,
+                                       tk2["cash_weight"] if tk2 else -1))
+
+        led_other = json.loads(json.dumps(led_same))
+        led_other["book_in_force"]["names"] = ["AAA", "BBB", "ZZZ"]
+        lp2 = os.path.join(cdt, "LEDGER-other.json")
+        with open(lp2, "w", encoding="utf-8") as f:
+            json.dump(led_other, f, ensure_ascii=False)
+        tk3 = card_config_ticket(card_dir=cdt, ledger_path=lp2)
+        chk("leg30 a ledger holding other names is reported as a different book",
+            bool(tk3) and tk3["recon"]["same_names_as_ledger"] is False,
+            "verdict=%s" % (tk3["recon"]["same_names_as_ledger"] if tk3 else None))
+
+        md_card = card_config_card(tk, None) if tk else ""
+        chk("leg31 the order sheet prints the three-face table and both verdicts",
+            "三面是不是同一本书" in md_card and "本单 vs 卡片 一致" in md_card
+            and "本单 vs 账本 一致" in md_card and "2.000" in md_card,
+            "chars=%d" % len(md_card))
+    finally:
+        shutil.rmtree(cdt, ignore_errors=True)
+
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1
 
@@ -1017,6 +1356,10 @@ def main():
         print("reset: cleared state.json + ledger.jsonl in", base_dir)
     if len(sys.argv) > 1 and sys.argv[1] == "run":
         return run(beta, nav, inception, fresh_gate=fresh)
+    if len(sys.argv) > 1 and sys.argv[1] == "card":
+        # default = the card's own stated capital; --nav= only re-prices the lots
+        stated = nav if any(a.startswith("--nav=") for a in sys.argv) else None
+        return run_card(stated)
     print(__doc__)
     return 2
 

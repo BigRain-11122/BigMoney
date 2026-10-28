@@ -2417,7 +2417,6 @@ Era-level effects rebuilt from these month vectors reproduce E183 to 0.000634bp.
 The finding that kills the obvious follow-up: **zero months in any of the four pairs disagree in sign between the two readings**. So "the effect reverses" is never one bad month flipping -- every month moves the same way under both readings and the era-level sign comes from how the two columns scale the same months. A reversal is an accumulated scaling statement, i.e. a property of the arithmetic, unless a carrier month is doing the work (one case here, and it is a deep-history month).
 
 Two transferable rules: (a) **before hunting a culprit month, count the months whose two readings disagree in sign** -- zero means there is no culprit and the search is misdirected; (b) **a carrier-share floor plus 1/HHI turns "is it one month or many" into a number**, which is the difference between a verdict a reader can act on and a verdict nobody can. Also: annualising the RATIO of the two growth multiples is not the same object as differencing two annualised levels (2.43bp apart here); the first is published as `effect_comp_ratio_bp`, the second as `effect_comp_bp`, and a selftest leg pins that they cannot be swapped.
-||||||| parent of dd8f5f8c2d (round 1324: absorb the 09:55 window -- the book leaves the top 12 because a name collapses, not because it lost a coin flip, and a hysteresis buffer buys turnover at no cost in return (landed from a window killed before commit))
 instead of silenced, (c) prove the leg exists in the runner, not in a comment.
 
 
@@ -2907,3 +2906,84 @@ unchanged in both books). Without the fixtures a damper that quietly degenerated
 `sign(momentum)` still passes.
 Pos: scripts/futures_tsmom_signal.py (selftest 22/22) + results/futures_tsmom_signal.json +
 docs/futures_lane/TSMOM-2026-10-28.md; rule source = results/futures_overlay_fliprate_paths.json.
+
+## E201 A negative is only informative once you publish the smallest effect the test could have flagged (2026-10-29 r1333 bm-c; renumbered from E200 because bm-a r1142 had already taken E200 on origin for the adopted-rule-with-no-consumer card)
+
+WHEN: a gate returns "not found" on a real panel and the next temptation is another
+panel, or a shrug ("the effect must be small").
+
+WRONG: quote the p value as if it bounded the effect. "p=0.19, so nothing there" hides
+that the same test would also have returned p>0.01 for effects far too large to ignore --
+and the reader has no way to tell whether the panel was informative or simply blind.
+
+RIGHT: price the test, not the world. Keep the observed rows and the exact statistic, model
+the effect as a multiplier on the in-window values, and solve for the smallest multiplier
+that reaches 80% power at the frozen alpha. Three things make the number honest: (a) the
+null spread is computed in closed form for a permutation test that shuffles labels within
+cells -- the statistic is a sum of independent samples-without-replacement, so its variance
+is a hypergeometric sum -- and that closed form must be checked against the sampled
+permutation distribution (1.16% apart here); (b) the floor is converted to the published
+unit without approximation (per-cell standardisation makes ratio(f) = f*ratio(1) exact),
+otherwise "48% bigger" is a claim about a rescaling nobody measured; (c) the discrete
+crossing is shown -- at the floor p=0.00025, at 0.85x the floor p=0.043 -- so the floor is
+an edge in the real test and not in the normal approximation used to find it. Publish the
+per-cell floors beside the pooled one: per cell the bar was median 1.68x over 80 months,
+i.e. the cell-level version of the claim is the least testable one.
+Live reading: E198's 17x80-month panel had a floor of 1.48x at 80% power while the observed
+excess was 1.15x -> "no outside-family signal" is a measurement of blindness, not a
+measurement of zero.
+
+1. Report the floor in the unit the verdict is quoted in (a ratio), never only as an
+   internal multiplier.
+2. One reader for the panel rows: the floor has to be computed on exactly the rows the p
+   defends, or it prices a different experiment.
+3. Publish the power curve; a floor without its curve is a number nobody can audit.
+4. A cell whose floor is unreachable (observed ratio deeply below the null) publishes
+   `None`, not the largest scale tried -- and the count of such cells is part of the face.
+5. Reuse alpha from the upstream gate instead of re-picking it: a floor at a fresh alpha is
+   not the floor of that test.
+
+Pos: scripts/e39_panel_census.py (selftest 689->695, mode reviewwindowfloor) +
+results/reviewwindow_floor/REVIEWWINDOWFLOOR-20261028.json +
+research/digests/DIGEST-20261029-e200-review-window-floor.md.
+
+
+## E202 A ticket for a published book must be issued from that book's own artifact, not re-ranked at another width (2026-10-29 r1333 bm-c; renumbered from E201 because this window's own floor card took E201 ahead of it)
+
+WHEN: a system publishes the same product on several faces -- a config/risk card, a live
+ledger, and a broker-followable order -- and one face is generated by a different code path
+than the others.
+
+WRONG: the card and the forward ledger both ran 12 names under an 8% vol target while the
+"executable" ticket ran 5 names under a fixed beta overlay, because the ticket re-ranked the
+panel at its own width instead of reading the published book. Every face was internally
+honest and printed a width-difference disclosure, and an operator still had two books.
+
+RIGHT: the ticket reads the card's own sheet (names, weights, risk scale) and only re-prices
+whole lots at the stated capital; re-ranking is a different product, not a variant. Then the
+sheet prints a three-face reconciliation (names / scale / config per face) so "one book" is
+asserted rather than assumed. Three things this exposes that a disclosure paragraph hides:
+(a) the card's printed amount column is a TARGET (weight x capital) while the lot column is
+what can actually be bought -- on a 1M CNY, 12-leg book the real spend was 1,255 CNY
+(0.13% NAV) below the target sum, so following the card's cash row overstates the money at
+work; (b) never compare the risk scale bitwise across faces -- the card publishes 4 dp
+(0.7008) while the ledger keeps full precision (0.700775), so a bitwise check reads
+"different book" every single round until someone loosens it into uselessness; compare at
+the published precision and say so on the face; (c) recount the published lots from
+price x weight -- that leg is what catches a card whose `lots_100` field is really a share
+count (100x trap).
+
+1. One source of truth per book: the ticket derives from the card, the card from the engine.
+2. Recompute, do not copy: lot counts are re-derived and mismatches are published, not
+   silently trusted.
+3. Reconcile at the precision each face actually publishes.
+4. Print the reconciliation as a table on the operator's sheet; a paragraph saying the faces
+   "may differ" is worth nothing next to a cell saying consistent/inconsistent.
+5. A second width/rule remains legitimate as an explicitly-labelled different book -- not as
+   the executable face of the published one.
+
+Pos: scripts/etf_book_order.py (selftest 26->33, mode `card`) +
+results/etf_book_order/ORDER-2026-10-28-card.md +
+results/etf_book_order/TICKET-2026-10-28-card.json +
+research/digests/DIGEST-20261029-e201-card-config-ticket.md.
+

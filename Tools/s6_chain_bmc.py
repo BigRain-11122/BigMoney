@@ -100,6 +100,12 @@ LEGS = [
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
+    # run 12 names at an 8% vol target -- two published books with one operator. This leg
+    # issues the ticket FOR the card's own config (names, weights and scale read off the
+    # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
+    # ~1s, offline, idempotent.
+    ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
     # r1314: the card and the forward ledger are two independent records of ONE frozen
     # decision, and nothing compared them. Every leg above refreshes a face; this one asks
     # whether the paper book actually owns the book the card sells (names, weights, scale,
@@ -320,6 +326,23 @@ LEGS = [
     # negative verdict that is never re-derived is exactly the r1290 class.
     ("reviewwindowcross", ["python", "scripts/e39_panel_census.py",
                            "reviewwindowcross"]),
+    # r1332: MSG-20261029-0510-bma found knowledge/METHODOLOGY_ASSETS.md at origin
+    # holding only 66 lines (E195+E196) -- a writer published a file built from a
+    # stale local copy and ate every earlier card, and unlike the attrition ledgers
+    # this append-only face had no tripwire. This leg is that tripwire: it fails when
+    # a card committed at HEAD is missing from the tree, or when a NEW duplicate
+    # number appears; it only warns on the pre-existing disorder of the union-restored
+    # history (7 descents / 11 dupes) because a permanently red gate gets "fixed" by
+    # loosening the assertion (r1135). ~0.2s, git read only.
+    ("card_ledger_guard", ["python", "Tools/card_ledger_guard.py", "check"]),
+    # r1333: E198's verdict is a NEGATIVE, and a negative is only informative if the
+    # test could have produced a positive. This leg republishes the detection floor
+    # (minimum window/outside |gap| ratio at 80% power, from the EXACT permutation sd)
+    # beside the observed ratio on the same rows, so the chain carries "this test was
+    # blind below X" next to the "not found" it defends. ~4s, reads the same 20 daily
+    # CSVs and never loads a panel.
+    ("reviewwindowfloor", ["python", "scripts/e39_panel_census.py",
+                           "reviewwindowfloor"]),
 ]
 
 
