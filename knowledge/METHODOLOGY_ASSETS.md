@@ -2492,4 +2492,29 @@ statement** -- publish `rules_that_kill_the_reversal` and
 pick the half that suits them. (d) **check the level's magnitude against the gap
 it is being told apart from** -- "+0.07 vs -38.20" is not a sign disagreement
 worth naming; when |level| is two orders below |gap|, the honest sentence is
-"the readings differ in magnitude, not in direction".
+"the readings differ in magnitude, not in direction".
+
+## E192 Churn-independence is not carrier persistence: measure WHO repaired, and never score a sparsity hole as recycle (2026-10-28 r1225 bm-b)
+
+E191 (the E187 leg) measured that the wide book's surviving monthly motion is
+independent of its own membership turnover (|r|<=0.16) and read that as "the same
+names moving". That is a name-level claim built out of a book-level measurement: a
+book can hold an identical membership two months running and still be repaired by a
+different name each month. Measuring the carriers directly settles it -- 94-97% of
+each month's repair motion is carried by names that already repaired the month
+before, the persistent names carry 80-89% of the era's gross, and the months that
+fight the era total are carried by those same names at 100.0% (2024_now, vs 97.2%
+elsewhere), not by newcomers.
+
+Three transferable rules: (a) **match the measurement's unit to the claim's unit** --
+"who was held" and "who did the repairing" are different sets and only the second
+one backs a sentence about the same names; (b) **a month where nothing happened is
+not a month where something went the other way** -- an empty repair set has no
+carrier, so skip the pair and count it (`pairs_unmeasured`) instead of scoring 0.0,
+which would manufacture a "recycle" verdict out of sparsity alone (134 of 161
+full-era pairs are unmeasured; the sparsity is itself a finding); (c) **when you
+re-derive a sibling face, compare at the same cutoff** -- the head-to-head gap here
+is 0.242bp purely because the sibling was built one panel month earlier, so the leg
+recomputes the sibling's own formula in-process (residual 0.000399bp = double
+rounding) and publishes `cutoff_match=false` rather than quoting the number as a
+reproduction.

@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28 15:41:59",
- "now": "2026-10-28 15:41:58.429011",
+ "updated": "2026-10-28 21:31:01",
+ "now": "2026-10-28 21:30:58.799893",
  "close_accept_time": "15:30:00",
  "symbols": 48,
- "total_new_rows": 0,
+ "total_new_rows": 3,
  "failures": [],
  "overlap_mismatches": [],
- "data_cutoff": "2026-10-27",
+ "data_cutoff": "2026-10-28",
  "per_symbol": [
   {
    "symbol": "510300",
@@ -23,10 +23,12 @@
   },
   {
    "symbol": "159915",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "first_new": "2026-10-28",
+   "last_new": "2026-10-28",
+   "catchup_fetch": true
   },
   {
    "symbol": "159919",
@@ -135,17 +137,21 @@
   },
   {
    "symbol": "511090",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "first_new": "2026-10-28",
+   "last_new": "2026-10-28",
+   "catchup_fetch": true
   },
   {
    "symbol": "511260",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "first_new": "2026-10-28",
+   "last_new": "2026-10-28",
+   "catchup_fetch": true
   },
   {
    "symbol": "512000",
@@ -345,24 +351,37 @@
   }
  ],
  "catchup": {
-  "laggards": [],
-  "fetched": [],
+  "laggards": [
+   "159915",
+   "511090",
+   "511260"
+  ],
+  "fetched": [
+   "159915",
+   "511090",
+   "511260"
+  ],
   "backoff": [],
   "stale_dead": []
  },
- "catchup_attempts": {},
+ "catchup_attempts": {
+  "159915": "2026-10-28T21:30:58",
+  "511090": "2026-10-28T21:30:58",
+  "511260": "2026-10-28T21:30:58"
+ },
  "cutoff_error": null,
  "source_used": "sina",
- "fallback_events": [
-  {
-   "symbol": "510300",
-   "diagnosis": "upstream_has_newer_bar",
-   "tencent_latest": "2026-10-28",
-   "note": "zero-row ambiguity: upstream bar-existence probe"
-  }
- ],
+ "fallback_events": [],
+ "parity_audit": {
+  "symbols": [
+   "159915",
+   "511090",
+   "511260"
+  ],
+  "flags": []
+ },
  "exit_code": 0,
- "hook_ok": null,
- "hook_exit": null,
+ "hook_ok": true,
+ "hook_exit": 0,
  "lane_machine": "bm-b"
 }

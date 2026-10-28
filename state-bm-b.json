@@ -1106,15 +1106,37 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-28T13:30:00+08:00"
  },
+ "r1225": {
+  "d17": "claim task HQ-ProductionClaim EXISTS on bm-b and is healthy (State=Ready, LogonType=S4U, hidden wscript chain, every 5 min, last run 21:22:44 rc=0, missed 0); POOL-0023 intent receipt has been re-issued 252 times since 00:22:48 without the card ever executing, so the block is not a missing claim task -- queue_claim.py --pool has no execute leg. Receipt landed: cph4/fleet/queue-receipts/POOL-0023-bm-b-claimtask-audit.json (group repo). POOL.json blocked_by flip left to the proxy seat (pool law: this node does not write POOL.json). Second finding: bm-b-AnchorBurn-r990 is Disabled + InteractiveToken + 2005 missed runs (last ran 10-17); not revived by this round -- lane decision.",
+  "d19": "decisions c8bd29da (192217B) vs held 47a48ea5 -> delta consumed: D-20261028-08..18; only D-17 touches this machine (@bm-b POOL-0023 claim-task closeout, due 10-29 08:43); D-14 machine-health dict = no-op (already satisfied); orders fcfda7e7 (177886B) unchanged",
+  "finding": "E192 carriers persist (Jaccard 0.82/0.97/0.92, carry 95.6/97.3/96.7%); against-months same-name carried 100.0% (2024_now)",
+  "honest": "the 7-song audio batch in POOL-0023 is NOT produced; this round supplies the executor diagnosis and the receipt, not the audio",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu) -> burned the ready head E192 in-round",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; strategy_scorecard/daily_scorecard/build_status are bm-a host-guarded and ran inside the S6 chain; the bm-a-lane collectors",
+  "orphan": 0,
+  "product": [
+   "results/e43_tilt_4member/WIDECARRIERPERSIST-20261028.json",
+   "scripts/e39_panel_census.py: _wide_carrier_sets/_carrier_persist_verdict/run_tilt3widecarrierpersist + CLI mode tilt3widecarrierpersist (selftest 678 -> 686)",
+   "research/digests/DIGEST-20261028-r1225-e192-carrier-persistence.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E192",
+   "cph4/fleet/queue-receipts/POOL-0023-bm-b-claimtask-audit.json (group repo)",
+   "results/runnable_pool.json E192 done (+E198 seeded, ready 4)"
+  ],
+  "s6": "21/21 rc=0 (193.8s) | dualrun ZERO-DRIFT 680 entries streak 4 | compute_audit rc0 py 0.1% | cal_audit in_sync expected 2026-10-28 | market_regime breadth 0.88 | market_clock ORANGE_COOL | etf_daily 588000 today bar written | astock spawned detached refresh | minute_feed +75 rows | rev_osc_export SIG-2026-10-27 | etf_book_forward power table | attrition CLEAN 4 ledgers | machine_health 3 machines | gpu_face no findings",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit and pre-push claws reinstalled",
+  "selftest": "e39 678 -> 686/686; panel_screen 39/39",
+  "smoke": "123/123 PASS at open"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
- "round": 1216,
- "round_no": 1224,
- "round_no_label": "r1214",
- "round_no_ts": "2026-10-28T12:22:40+08:00",
+ "round": 1223,
+ "round_no": 1225,
+ "round_no_label": "r1225",
+ "round_no_note": "r1225 closeout (state had drifted to round=1223/round_no=1224 -> git log is the canvas)",
+ "round_no_ts": "2026-10-28T21:34:36+08:00",
  "round_no_ts_note": "r1214 closeout",
- "round_pit": "r1215: a field NAME is not an arithmetic -- two producers published decomposition_engine_bp (a daily-sum and a monthly-sum of per-name contributions) and the two answers sit 2.92..3.63bp apart with a 0.70bp spread across four eras and two arms; a near-constant gap across eras of different volatility cannot be within-month compounding, so it is a definitional wedge and one of the two faces does not declare its reading. Sibling: a leg that publishes into a directory it scans must exclude its own study -- self-inclusion grew the sweep 25->26 faces and 1034->3274 cells before L36d pinned it.",
+ "round_pit": "r1225: a book-level independence result cannot support a name-level claim -- E187 measured membership churn and the reading attached to it was \"the same names moving\", which is a statement about the repair set. Sibling: an empty repair set is not a month of recycling; scoring it 0.0 manufactures the verdict out of sparsity (134/161 full-era pairs are holes). And a sibling face built at an earlier cutoff differs by 0.242bp for a reason that is not arithmetic: recompute the sibling's own formula in-process before calling a gap a wedge.",
  "sat_engine": {
   "checked_at": "2026-10-28T10:09:23+08:00",
   "status": "alive"
@@ -1123,19 +1145,17 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "behind_origin_main": 0,
-  "local_not_on_origin_main": 0,
-  "note": "r1214 clean first-attempt push; four-way verified (HEAD == origin/main, ahead 0 behind 0, ls-tree origin carries LADDERLEVELS-20261027 and WIDESIDEGROSS-20261027 and the E181/E182 digest)",
-  "pushed_sha": "2b1a046db",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-28T11:58+08:00"
+  "behind_origin_main": null,
+  "local_not_on_origin_main": null,
+  "note": "r1225 closeout: delivery attempted after the round; local main was 4 ahead / 5 behind origin at open (r1222/r1223/r1224 + receipt vs bm-c r1326 x2 and bm-a r1136 x3)",
+  "status": "pending_push_this_round",
+  "ts": "2026-10-28T21:34:36+08:00"
  },
- "task": "r1215: E180 published-level quote audit (done)",
- "task_short": "E180 level quote audit",
- "task_short_note": "e97_routing.py new mode levelquotes; 14 -> 40 selftest legs",
- "ts": "2026-10-28T20:40:51+08:00",
- "updated": "2026-10-28T12:30:00+08:00",
- "updated_at": "2026-10-28T12:30:00+08:00",
- "verdict": "E183: arithmetic reading reproduces E181 bit-for-bit (join 0.0 on all five eras), so this is the same book and the same months. Compounded reading offsets are -69.3..-318.4bp per era (one-signed by AM>=GM, so only the magnitude is informative) and every era survives every drop on both, so E181's verdict is not arithmetic-dependent. What IS arithmetic-dependent is the drop EFFECT: 4 of 22 drops reverse it (pre2017 sh510300/sh510500, 2024_now+full sh510050).",
- "round_no_note": "r1224 heal: file had drifted to 1217 while commits 1218-1223 landed; canvas re-anchored on git log per absorb law"
+ "task": "r1225: E192 wide-book carrier persistence (done) + D-20261028-17 claim-task audit",
+ "task_short": "E192 carrier persistence",
+ "task_short_note": "e39 mode tilt3widecarrierpersist; selftest 678 -> 686",
+ "ts": "2026-10-28T21:34:36+08:00",
+ "updated": "2026-10-28T21:34:36+08:00",
+ "updated_at": "2026-10-28T21:34:36+08:00",
+ "verdict": "E192: churn-independence is not carrier persistence, and measuring the carriers confirms E184 anyway. 94-97% of each month's repair motion is carried by names that also repaired the previous month (mean adjacent Jaccard 0.8217/0.9731/0.9207), the persistent block carries 85.5/89.2/79.8% of era gross, and the months that FIGHT the era total are carried by those same names (2024_now 100.0% vs 97.2% elsewhere; against_driven_by_new_names false in every era). So the +49.6bp thin net is a stable set of carriers oscillating in sign, not churn noise. pre2017/2017_2020 are no_repair_in_era, not recycle -- 134 of 161 full-era pairs are unmeasured and the sparsity is the finding, not a zero."
 }

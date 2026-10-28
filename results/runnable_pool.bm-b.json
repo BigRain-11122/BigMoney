@@ -22520,33 +22520,33 @@
   },
   {
    "deliverable": "results/e79/LEVELWEDGE-<cutoff>.json",
+   "done_at": "2026-10-28T13:40:00+08:00",
+   "done_by": "bm-b r1218",
+   "done_note": "the wedge is the turnover fee: gap == cost-off minus cost-on on 10/10 cells (residual 0.0000bp), additive and scale candidates both fail; sink-based reading is gross of the fee and curve-based is net",
    "id": "E185-LEVEL-WEDGE-LOCATE",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
+   "result_ref": "results/e79/LEVELWEDGE-20261027.json",
    "seeded_at": "2026-10-28T12:2x+08:00",
    "seeded_by": "bm-b r1215",
    "source": "Seeded r1215 bm-b from its own E180 face: two arithmetics publish decomposition_engine_bp and differ by a near-constant 2.92..3.63bp.",
    "status": "done",
    "target": "scripts/e97_routing.py (mode levelquotes, follow-up)",
-   "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error.",
-   "done_at": "2026-10-28T13:40:00+08:00",
-   "done_by": "bm-b r1218",
-   "result_ref": "results/e79/LEVELWEDGE-20261027.json",
-   "done_note": "the wedge is the turnover fee: gap == cost-off minus cost-on on 10/10 cells (residual 0.0000bp), additive and scale candidates both fail; sink-based reading is gross of the fee and curve-based is net"
+   "title": "E180 found the same field name published from a daily-sum producer (E177) and a monthly-sum producer (E176), disagreeing by 2.92..3.63bp across four eras and two arms with a 0.70bp spread. A near-constant gap across eras of very different volatility cannot be within-month compounding, so it is a definitional wedge -- but WHICH definitional term, and on which side, is unattributed. Decompose the wedge: compute both sums for one era from the same monthly/daily inputs and account for the per-era difference as (a) an additive constant, (b) a scale factor, or (c) a term that one sum includes and the other drops; publish the per-era residual after removing each candidate. A wedge nobody can attribute is a third reading of the same level, not a rounding error."
   },
   {
    "deliverable": "results/e43_tilt_4member/LADDERDROPWHERE-<cutoff>.json",
+   "done_at": "2026-10-28T14:55+08:00",
    "id": "E186-DROP-EFFECT-REVERSES-WHERE",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
+   "result_ref": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json",
    "seeded_at": "2026-10-28T12:35+08:00",
    "seeded_by": "bm-b r1216",
    "source": "Seeded r1216 bm-b from its own E183 face: 4 of 22 ladder drops reverse the sign of their own effect between the summed and the compounded reading while every era level keeps its sign.",
    "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3ladderlomocomp, follow-up)",
-   "title": "E183 found that dropping sh510050 in 2024_now moves the arithmetic level +73.2bp and the compounded one -34.0bp, while dropping it changes the LEVEL sign in neither. A sign reversal on one drop is enforced by the months where that drop pays: publish, for each of the four flagged drops, the per-month contribution difference (dropped-book month minus full-book month) under both readings, the month that carries the reversal, and whether the reversal lives in a single month or is a dispersion across many. Without that split, 'the drop effect reverses' is a verdict nobody can act on -- it does not say whether one month is doing the work (a single-name-single-month artefact, E143 family) or the reversal is spread (a genuine arithmetic sensitivity).",
-   "done_at": "2026-10-28T14:55+08:00",
-   "result_ref": "results/e43_tilt_4member/LADDERDROPWHERE-20261027.json"
+   "title": "E183 found that dropping sh510050 in 2024_now moves the arithmetic level +73.2bp and the compounded one -34.0bp, while dropping it changes the LEVEL sign in neither. A sign reversal on one drop is enforced by the months where that drop pays: publish, for each of the four flagged drops, the per-month contribution difference (dropped-book month minus full-book month) under both readings, the month that carries the reversal, and whether the reversal lives in a single month or is a dispersion across many. Without that split, 'the drop effect reverses' is a verdict nobody can act on -- it does not say whether one month is doing the work (a single-name-single-month artefact, E143 family) or the reversal is spread (a genuine arithmetic sensitivity)."
   },
   {
    "deliverable": "results/e43_tilt_4member/WIDECHURNTIE-<cutoff>.json",
@@ -22555,15 +22555,13 @@
    "evidence_cutoff": "2026-10-27",
    "id": "E187-WIDE-CROSSMONTH-CHURN-TIE",
    "lane": "cpu-only",
+   "result_ref": "results/e43_tilt_4member/WIDECHURNTIE-20261028.json",
    "source": "r1217 E184: 53% of 2024_now wide-book motion removed between months",
    "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3widesplitmonth follow-up)",
    "title": "E184 measured that the wide book repair keeps 0.872 of its monthly motion inside a month but only 0.472 across months, so most of the surviving movement is a between-month sign disagreement. Test whether that disagreement is churn rather than signal: publish, for each measured era, the per-month net beside the wide book's own month-on-month membership turnover (names entering/leaving) and the repair's per-name count, then report the correlation and whether the months with net against the era total are the high-turnover months. A spread number that tracks turnover is a membership statement and must be discounted by churn instead of quoted as repair quality.",
    "claimed_by": "bm-b",
-   "claimed_at": "2026-10-28T16:50:00+08:00",
-   "done_by": "bm-b r1221",
-   "done_at": "2026-10-28T16:50:00+08:00",
-   "result_ref": "results/e43_tilt_4member/WIDECHURNTIE-20261027.json"
+   "claimed_at": "2026-10-28T16:50:00+08:00"
   },
   {
    "deliverable": "results/e79/LABELDUTY-<cutoff>.json",
@@ -22584,14 +22582,14 @@
    "result_ref": "results/e79/LABELDUTY-2026-10-27.json"
   },
   {
+   "claimed_at": "2026-10-28T15:45:00+08:00",
+   "claimed_by": "bm-b",
    "deliverable": "results/e43_tilt_4member/LADDERDROPCROSS-<cutoff>.json",
+   "done_at": "2026-10-28T15:45:00+08:00",
+   "done_by": "bm-b r1220",
    "entered_at": "2026-10-28T14:55:00+08:00",
    "entered_by": "bm-b r1219",
    "evidence_cutoff": "2026-10-27",
-   "claimed_at": "2026-10-28T15:45:00+08:00",
-   "claimed_by": "bm-b",
-   "done_at": "2026-10-28T15:45:00+08:00",
-   "done_by": "bm-b r1220",
    "id": "E189-DROP-CURVE-CROSSING",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
@@ -22628,14 +22626,20 @@
    "lane": "cpu-only",
    "lane_owner": "bm-b",
    "source": "r1221 E187: churn independent (r<=0.16) and hot-half months carry only 41.5% of 2024_now absolute motion",
-   "status": "ready",
+   "status": "done",
    "entered_by": "bm-b r1221",
    "entered_at": "2026-10-28T16:50:00+08:00",
    "evidence_cutoff": "2026-10-27",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
-   }
+   },
+   "claimed_at": "2026-10-28T21:55:00+08:00",
+   "claimed_by": "bm-b",
+   "done_at": "2026-10-28T21:55:00+08:00",
+   "done_by": "bm-b r1225",
+   "result_ref": "results/e43_tilt_4member/WIDECARRIERPERSIST-20261028.json",
+   "result": "carriers persist in all three repairing eras: mean adjacent Jaccard 0.8217/0.9731/0.9207, carry share 95.6/97.3/96.7%, persistent carriers 352/849/691 names holding 85.5/89.2/79.8% of era gross; the months that fight the era total are carried by those same names (2024_now 100.0% vs 97.2% elsewhere), so no era is new-name driven; pre2017/2017_2020 are no_repair_in_era rather than recycle"
   },
   {
    "id": "E193-DELTA-BUILD-STANCE",
@@ -22676,6 +22680,57 @@
    "done_by": "bm-b r1224",
    "result_ref": "results/e43_tilt_4member/LADDERDROPRULE-20261027.json",
    "result": "results/e43_tilt_4member/LADDERDROPRULE-20261027.json (3/4 pairs die under every pre-registerable rule; the full-era sh510050 sits on arith +0.07bp and survives edge-trimming only; digest research/digests/DIGEST-20261028-r1224-e195-drop-rule.md)"
+  },
+  {
+   "id": "E196-NEARZERO-SIGN-CENSUS",
+   "title": "E195 found the full-era sh510050 drop 'reversal' sits on an arithmetic level of +0.07bp against a -38.20bp compounded gap, i.e. the sign of the additive reading is a rounding-scale fact rather than a direction. Sweep EVERY published delta cell in the E183-E190 family and publish |level| against |gap| as a ratio, then classify each cell: sign_quotable (|level| is large next to the gap it is told apart from), sign_is_hair (|level| below a pre-set fraction of |gap|, so the printed sign must not be quoted), or level_agrees (no gap to speak of). A published sign whose magnitude is two orders below the quantity it summarises is a defect waiting for a reader.",
+   "deliverable": "results/e43_tilt_4member/NEARZEROSIGN-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderdroprules follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1224 E195: full-era sh510050 arith +0.07bp vs comp -38.20bp; 3/4 flagged pairs die under every pre-registerable trim rule",
+   "status": "ready",
+   "entered_by": "bm-b r1224",
+   "entered_at": "2026-10-28T20:40:20+08:00",
+   "evidence_cutoff": "2026-10-27",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "E197-CHRONO-EDGE-DEPTH",
+   "title": "E195 let the full-era sh510050 reversal survive because the chronological edge rule removes exactly two months (the era's first and last) no matter how long the era is -- on a 162-month era that is a 1.2% trim, while the magnitude rules took 10-48 months. 'Survives edge trimming' may therefore just mean 'the rule removed too few months'. Sweep the edge depth k=2..10 (first k/2 + last k/2 months, chronological and answer-blind) and publish the k at which each pair stops reversing; compare that k against the magnitude rules' k on the same pair so the survival claim is read as a depth artefact or as a real insensitivity.",
+   "deliverable": "results/e43_tilt_4member/EDGEDEPTH-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3ladderdroprules follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1224 E195: chrono_edges removes 2 months on a 162-month era and is the only rule under which the full-era pair survives",
+   "status": "ready",
+   "entered_by": "bm-b r1224",
+   "entered_at": "2026-10-28T20:40:20+08:00",
+   "evidence_cutoff": "2026-10-27",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "E198-CARRIER-SIGN-FLIP-CENSUS",
+   "title": "E192 shows the wide book is repaired by a persistent carrier block (80-89% of era gross) and that the months fighting the era total are carried by those SAME names, which means the between-month reversal is a sign flip inside a stable set rather than a revolving cast. Name that mechanism: for every persistent carrier, publish the months it repairs up, the months it repairs down, its run-length distribution and its month-to-month sign-flip rate; then ask whether the era net is what you get when a few high-|value| carriers flip more often than the rest (flip-rate weighted by magnitude) or whether flips and magnitudes are independent. The reading to publish is whether the reversal has an owner at name level, not just \"same names\".",
+   "deliverable": "results/e43_tilt_4member/CARRIERFLIP-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (run_tilt3widecarrierpersist, follow-up)",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "source": "r1225 E192: carry share 95.6-97.3%, persistent carriers 85.5/89.2/79.8% of gross, against months 100.0% same-name carried",
+   "status": "ready",
+   "entered_by": "bm-b r1225",
+   "entered_at": "2026-10-28T21:55:00+08:00",
+   "evidence_cutoff": "2026-10-28",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22690,7 +22745,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T20:34:56+08:00",
+ "updated_at": "2026-10-28T21:55:00+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

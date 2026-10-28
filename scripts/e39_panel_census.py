@@ -19085,6 +19085,73 @@ def selftest():
     chk("outdir" in run_tilt3widechurntie.__code__.co_varnames,
         "E187 the churn-tie leg takes the face directory as its only seam")
 
+    # ---- E192: churn-independence is not carrier persistence
+    _e192_same = {"m1": {"A": 10.0, "B": -4.0}, "m2": {"A": 8.0, "B": -3.0},
+                  "m3": {"A": 6.0, "B": -2.0}, "m4": {"A": 5.0, "B": -1.0},
+                  "m5": {"A": 4.0, "B": -1.0}}
+    _v192_same = _carrier_persist_verdict(_e192_same,
+                                          ["m1", "m2", "m3", "m4", "m5"],
+                                          total_net=25.0)
+    chk(_v192_same["mean_adjacent_jaccard"] == 1.0
+        and _v192_same["mean_carry_share_pct"] == 100.0
+        and _v192_same["classification"] == "carriers_persist",
+        "E192 a book repaired by the same names every month is published as "
+        "persisting carriers, with carry share and Jaccard agreeing")
+    _e192_new = {"m1": {"A": 10.0}, "m2": {"B": 9.0}, "m3": {"C": 8.0},
+                 "m4": {"D": 7.0}, "m5": {"E": 6.0}}
+    _v192_new = _carrier_persist_verdict(_e192_new,
+                                         ["m1", "m2", "m3", "m4", "m5"],
+                                         total_net=40.0)
+    chk(_v192_new["mean_adjacent_jaccard"] == 0.0
+        and _v192_new["mean_carry_share_pct"] == 0.0
+        and _v192_new["classification"] == "carriers_recycle",
+        "E192 a book repaired by a brand-new name every month is published as "
+        "recycling carriers, not as stability with a different label")
+    _e192_scale = {m: {k: v * 1000.0 for k, v in d.items()}
+                   for m, d in _e192_same.items()}
+    chk(_carrier_persist_verdict(_e192_scale, ["m1", "m2", "m3", "m4", "m5"],
+                                 25000.0)["mean_adjacent_jaccard"]
+        == _v192_same["mean_adjacent_jaccard"],
+        "E192 the reading is scale-free: multiplying every contribution by "
+        "1000 cannot change which names count as carriers")
+    _e192_zero = {"m1": {"A": 10.0}, "m2": {"A": 0.0}, "m3": {"A": 9.0},
+                  "m4": {"A": 8.0}, "m5": {"A": 7.0}}
+    _v192_zero = _carrier_persist_verdict(_e192_zero,
+                                          ["m1", "m2", "m3", "m4", "m5"],
+                                          total_net=34.0)
+    chk(_v192_zero["pairs_measured"] == 2
+        and _v192_zero["pairs_unmeasured"] == 2
+        and _v192_zero["mean_adjacent_jaccard"] == 1.0,
+        "E192 a month with no repaired name is unmeasured, not a month of "
+        "recycling: both of its pairs are skipped and counted instead of "
+        "scored 0.0")
+    _e192_ag = {"m1": {"A": 10.0}, "m2": {"A": 9.0}, "m3": {"Z": -20.0},
+                "m4": {"Y": -18.0}, "m5": {"A": 8.0}}
+    _v192_ag = _carrier_persist_verdict(_e192_ag,
+                                        ["m1", "m2", "m3", "m4", "m5"],
+                                        total_net=10.0)
+    chk("m3" in _v192_ag["against_months"] and "m4" in _v192_ag["against_months"]
+        and _v192_ag["against_carry_share_pct"] == 0.0
+        and _v192_ag["against_driven_by_new_names"] is True,
+        "E192 the months that fight the era total can be carried by names that "
+        "repaired in no adjacent month, and that is published separately")
+    _v192_short = _carrier_persist_verdict(
+        {"m1": {"A": 1.0}, "m2": {"A": 2.0}}, ["m1", "m2"], total_net=3.0)
+    chk(_v192_short["classification"] == "insufficient_pairs",
+        "E192 one measurable pair is not a persistence measurement, and the "
+        "verdict says so instead of rounding a single pair into a class")
+    _v192_cash = _wide_carrier_sets(
+        {"wide": {("2020-01", "A"): 0.0, ("2020-01", "__cash__"): 0.0}},
+        {"wide": {("2020-01", "A"): 1e-4, ("2020-01", "__cash__"): 5e-4}},
+        ["2020-01"])
+    chk("__cash__" not in _v192_cash["2020-01"]
+        and abs(_v192_cash["2020-01"]["A"] - 1.0) < 1e-9,
+        "E192 the un-invested cash leg is not a carrier, and bp conversion is "
+        "exactly x1e4 of the month's weight-return term")
+    chk("outdir" in run_tilt3widecarrierpersist.__code__.co_varnames,
+        "E192 the carrier-persistence leg takes the face directory as its only "
+        "seam")
+
     # ---- E195: the trim rule must be chosen without looking at the answer
     _e195_rows = [{"month": "m%02d" % i, "full_ret": 0.01, "dropped_ret": 0.01,
                    "gap_bp": float(i)} for i in range(1, 11)]
@@ -24192,6 +24259,314 @@ def run_tilt3widechurntie(outdir, mode="neutralise_int", eras=ERAS):
     }
 
 
+WIDECARRIERPERSIST_TOL_BP = 1e-9
+WIDECARRIERPERSIST_PERSIST_J = 0.5
+WIDECARRIERPERSIST_RECYCLE_J = 0.25
+WIDECARRIERPERSIST_MIN_MONTHS = 4
+WIDECARRIERPERSIST_CARRIER_SHARE = 0.5
+WIDECARRIERPERSIST_NEW_NAME_GAP = 15.0
+WIDECARRIERPERSIST_TOP = 6
+
+
+def _wide_carrier_sets(sides_raw, sides_scr, months, tol=None):
+    """(E192) per month, the signed repair delta of every held wide-book name.
+
+    E187 measured churn (who was held); this measures persistence (who did the
+    repairing), so the sink is read at name level and the un-invested cash leg
+    is dropped for the same reason as in ``_wide_month_membership``: cash is
+    not a holding, so it can neither persist nor recycle as a carrier.
+    """
+    t = WIDECARRIERPERSIST_TOL_BP if tol is None else float(tol)
+    mset = set(months)
+    raw = (sides_raw or {}).get("wide") or {}
+    scr = (sides_scr or {}).get("wide") or {}
+    per = {}
+    for key in set(raw) | set(scr):
+        m, s = key
+        if m not in mset or s == "__cash__":
+            continue
+        v = (float(scr.get(key, 0.0)) - float(raw.get(key, 0.0))) * 1e4
+        if abs(v) <= t:
+            v = 0.0
+        per.setdefault(m, {})[s] = v
+    return per
+
+
+def _carrier_persist_verdict(per, months, total_net=None, tol=None):
+    """(E192) is the surviving motion carried by the SAME names month to month?
+
+    E184 said the wide book's between-month reversal is the same names moving
+    rather than different names being held. That is a name-level claim and has
+    to be measured on names: for every pair of consecutive era months, how much
+    of this month's repair motion is carried by a name that also repaired last
+    month (carry share), and how much of the two repair sets overlap (Jaccard).
+
+    A month in which nothing repaired is NOT a month of recycling: it carries
+    no carrier at all, so the pair is skipped and counted as unmeasured rather
+    than scored 0.0 (r1215's rule -- an empty set is not a measurement).
+    """
+    t = WIDECARRIERPERSIST_TOL_BP if tol is None else float(tol)
+    ordered = list(months)
+    rep = {}
+    net = {}
+    gross = {}
+    for m in ordered:
+        vals = per.get(m) or {}
+        rep[m] = {k: v for k, v in vals.items() if abs(v) > t}
+        net[m] = sum(vals.values())
+        gross[m] = sum(abs(v) for v in vals.values())
+    repairing = [m for m in ordered if rep[m]]
+    era_gross = sum(gross.values())
+    era_net = (sum(net.values()) if total_net is None else float(total_net))
+
+    pairs = []
+    skipped = []
+    for i in range(1, len(ordered)):
+        prev, cur = ordered[i - 1], ordered[i]
+        if not rep[prev] or not rep[cur]:
+            skipped.append(cur)
+            continue
+        a, b = rep[prev], rep[cur]
+        overlap = set(a) & set(b)
+        union = set(a) | set(b)
+        cur_abs = sum(abs(v) for v in b.values())
+        carry = (sum(abs(b[n]) for n in overlap) / cur_abs) if cur_abs > t else None
+        pairs.append({
+            "month": cur,
+            "jaccard": (len(overlap) / len(union)) if union else None,
+            "carry_share": carry,
+            "overlap_n": len(overlap),
+            "new_names_n": len(set(b) - set(a)),
+            "cur_abs_bp": round(cur_abs, 3),
+        })
+
+    js = [p["jaccard"] for p in pairs if p["jaccard"] is not None]
+    cs = [p["carry_share"] for p in pairs if p["carry_share"] is not None]
+    mean_j = (sum(js) / len(js)) if js else None
+    mean_c = (sum(cs) / len(cs)) if cs else None
+
+    span = {}
+    for m in repairing:
+        for name in rep[m]:
+            span[name] = span.get(name, 0) + 1
+    majority = len(repairing) * WIDECARRIERPERSIST_CARRIER_SHARE
+    persistent = {n: c for n, c in span.items() if c >= majority and c > 1}
+    persistent_abs = 0.0
+    for m in ordered:
+        for n in rep[m]:
+            if n in persistent:
+                persistent_abs += abs(rep[m][n])
+    persistent_share = (persistent_abs / era_gross) if era_gross > t else None
+
+    sign = 0 if abs(era_net) <= t else (1 if era_net > 0 else -1)
+    against = [m for m in ordered
+               if sign and abs(net[m]) > t
+               and (1 if net[m] > 0 else -1) != sign]
+    against_set = set(against)
+    ag_carry = [p["carry_share"] for p in pairs
+                if p["month"] in against_set and p["carry_share"] is not None]
+    ot_carry = [p["carry_share"] for p in pairs
+                if p["month"] not in against_set and p["carry_share"] is not None]
+    ag_mean = (sum(ag_carry) / len(ag_carry)) if ag_carry else None
+    ot_mean = (sum(ot_carry) / len(ot_carry)) if ot_carry else None
+
+    enough = len(pairs) >= WIDECARRIERPERSIST_MIN_MONTHS
+    if not repairing:
+        cls = "no_repair_in_era"
+    elif not enough:
+        cls = "insufficient_pairs"
+    elif abs(era_net) <= t:
+        cls = "net_flat"
+    elif mean_j is None:
+        cls = "unmeasured"
+    elif mean_j >= WIDECARRIERPERSIST_PERSIST_J:
+        cls = "carriers_persist"
+    elif mean_j < WIDECARRIERPERSIST_RECYCLE_J:
+        cls = "carriers_recycle"
+    else:
+        cls = "partial_persistence"
+    new_driven = (ag_mean is not None and ot_mean is not None
+                  and (ot_mean - ag_mean) * 100.0 >= WIDECARRIERPERSIST_NEW_NAME_GAP)
+
+    ranked = sorted([p for p in pairs if p["jaccard"] is not None],
+                    key=lambda p: p["cur_abs_bp"], reverse=True)
+
+    def _r(v, k=4):
+        return None if v is None else round(v, k)
+
+    return {
+        "months": len(ordered),
+        "months_repairing": len(repairing),
+        "pairs_measured": len(pairs),
+        "pairs_unmeasured": len(skipped),
+        "total_net_bp": _r(era_net, 3),
+        "total_gross_bp": _r(era_gross, 3),
+        "mean_adjacent_jaccard": _r(mean_j),
+        "mean_carry_share_pct": (None if mean_c is None
+                                 else round(mean_c * 100.0, 1)),
+        "carrier_names_total": len(span),
+        "carrier_names_persistent": len(persistent),
+        "persistent_carrier_share_pct": (None if persistent_share is None
+                                         else round(persistent_share * 100.0, 1)),
+        "persistent_carriers_top": [
+            {"name": n, "months": c} for n, c in
+            sorted(persistent.items(), key=lambda kv: (-kv[1], kv[0]))[:WIDECARRIERPERSIST_TOP]],
+        "against_months": against,
+        "against_carry_share_pct": (None if ag_mean is None
+                                    else round(ag_mean * 100.0, 1)),
+        "other_carry_share_pct": (None if ot_mean is None
+                                  else round(ot_mean * 100.0, 1)),
+        "against_driven_by_new_names": bool(new_driven),
+        "top_pairs_by_motion": ranked[:WIDECARRIERPERSIST_TOP],
+        "classification": cls,
+    }
+
+
+def run_tilt3widecarrierpersist(outdir, mode="neutralise_int", eras=ERAS):
+    """E192: measure at name level what E187 could only measure at book level.
+
+    E187 showed the spread is independent of membership churn; E184's reading of
+    that was "the same names moving". Independence of WHO WAS HELD does not
+    imply stability of WHO DID THE REPAIRING, so this leg measures the carriers
+    directly and publishes the pair rows that let the claim be checked instead
+    of inheriting it.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff, report = burn["cutoff"], burn["report"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+
+    sib = None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("WIDECHURNTIE-") and f.endswith(".json"))
+        if cand:
+            with open(os.path.join(outdir, cand[-1]), "r", encoding="utf-8") as fh:
+                sib = json.load(fh)
+    except Exception:
+        sib = None
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_carrier_sets(sides_raw, sides_scr, ms)
+        v = _carrier_persist_verdict(per, ms)
+        # E187's total came from _month_cancel_verdict on the same sink, so the
+        # construct is reproduced inside this leg at THIS cutoff: any residue
+        # left over when comparing to the published face is then a cutoff
+        # difference and not an arithmetic wedge (E180's lesson).
+        ctrl = _month_cancel_verdict(
+            _wide_month_cancel_rows(sides_raw, sides_scr, ms))
+        e187 = ((sib or {}).get("eras") or {}).get(name) or {}
+        theirs = e187.get("total_net_bp")
+        sib_cut = (sib or {}).get("evidence_cutoff")
+        rows[name] = dict(
+            v,
+            e187_join={
+                "face": "WIDECHURNTIE",
+                "e187_cutoff": sib_cut,
+                "cutoff_match": bool(sib_cut == cutoff),
+                "same_construction_net_bp": round(ctrl["total_net_bp"], 3),
+                "same_construction_diff_bp": round(
+                    abs(v["total_net_bp"] - ctrl["total_net_bp"]), 6),
+                # both sides are published at 3dp, so a residue under half a
+                # unit in the last place is the double rounding, not a wedge
+                "same_construction_within_rounding": bool(
+                    abs(v["total_net_bp"] - ctrl["total_net_bp"]) <= 5e-4),
+                "e187_total_net_bp": theirs,
+                "carrier_total_net_bp": v["total_net_bp"],
+                "abs_diff_bp": (None if theirs is None
+                                else round(abs(v["total_net_bp"]
+                                               - float(theirs)), 6)),
+                "e187_churn_r": e187.get("net_vs_turnover_r"),
+                "e187_classification": e187.get("classification"),
+            },
+        )
+
+    measured = {k: v for k, v in rows.items() if "classification" in v}
+    joins = [v["e187_join"]["abs_diff_bp"] for v in measured.values()
+             if v["e187_join"]["abs_diff_bp"] is not None]
+    samectrl = [v["e187_join"]["same_construction_diff_bp"]
+                for v in measured.values()]
+    by_cls = {}
+    for k, v in measured.items():
+        by_cls.setdefault(v["classification"], []).append(k)
+    recycling = sorted(k for k, v in measured.items()
+                       if v["classification"] == "carriers_recycle")
+    persisting = sorted(k for k, v in measured.items()
+                        if v["classification"] == "carriers_persist")
+    new_driven = sorted(k for k, v in measured.items()
+                        if v.get("against_driven_by_new_names"))
+    return {
+        "study": "e192_tilt3_wide_carrier_persistence",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "units": ("carry_share = share of this month's absolute repair "
+                      "motion carried by names that also repaired the previous "
+                      "month; jaccard = overlap of the two months' repair-name "
+                      "sets; values are bp (x1e4 of the month's weight-return "
+                      "term)"),
+            "thresholds": {"persist_jaccard": WIDECARRIERPERSIST_PERSIST_J,
+                           "recycle_jaccard": WIDECARRIERPERSIST_RECYCLE_J,
+                           "min_pairs": WIDECARRIERPERSIST_MIN_MONTHS,
+                           "carrier_share": WIDECARRIERPERSIST_CARRIER_SHARE,
+                           "new_name_gap_pct": WIDECARRIERPERSIST_NEW_NAME_GAP},
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_by_classification": {k: sorted(v) for k, v in by_cls.items()},
+            "eras_carriers_persist": persisting,
+            "eras_carriers_recycle": recycling,
+            "eras_where_against_months_are_new_names": new_driven,
+            "e187_join_max_abs_diff_bp": (None if not joins
+                                          else round(max(joins), 6)),
+            "e187_join_cutoffs": sorted({str(v["e187_join"]["e187_cutoff"])
+                                         for v in measured.values()}),
+            "e187_join_cutoff_matches": sorted(k for k, v in measured.items()
+                                               if v["e187_join"]["cutoff_match"]),
+            "same_cutoff_construction_max_abs_diff_bp": (
+                None if not samectrl else round(max(samectrl), 9)),
+            "same_cutoff_construction_all_within_rounding": all(
+                v["e187_join"]["same_construction_within_rounding"]
+                for v in measured.values()),
+            "verdict": (
+                "carriers recycle: the months disagree through DIFFERENT names "
+                "doing the repairing, so E184's 'the same names moving' is not "
+                "supported at name level" if recycling and not persisting else
+                "carriers persist: the same names repair month after month, so "
+                "the between-month reversal is one set of names moving" if
+                persisting and not recycling else
+                "mixed: persistence is era-dependent and no single name-level "
+                "story covers the book"),
+        },
+        "screen_report": report,
+        "honest": [
+            "carry_share is computed on the CURRENT month's absolute motion, so "
+            "a persistent but tiny carrier cannot inflate the number",
+            "a month where nothing repaired is not a recycling month: the pair "
+            "is skipped and counted in pairs_unmeasured",
+            "Jaccard ignores magnitude, so a persistent giant and a persistent "
+            "minnow count the same; persistent_carrier_share_pct is the "
+            "magnitude-weighted reading published beside it",
+            "the persistent-carrier rule needs a name in >=50% of the era's "
+            "REPAIRING months, which is a book-relative majority and not an "
+            "absolute month count",
+            "descriptive census only: n here is month pairs, not trials, and no "
+            "gate, prereg or trial count is implied",
+            "the E187 face was published at an earlier cutoff, so the head-to-head "
+            "abs_diff includes the panel moving under it; the same-construct "
+            "control recomputes E187's own formula at THIS cutoff and is the "
+            "reading that proves the arithmetic rather than the vintage",
+        ],
+    }
+
+
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -24216,6 +24591,7 @@ def main(argv):
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "tilt3widechurntie",
+                             "tilt3widecarrierpersist",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -25706,6 +26082,29 @@ def main(argv):
                                   len(v.get("months_net_against_total") or []),
                               "against_months_in_hot_half_pct":
                                   v.get("against_months_in_hot_half_pct")}
+                              for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3widecarrierpersist":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3widecarrierpersist(outdir)
+        p = write_json(outdir, "WIDECARRIERPERSIST-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3widecarrierpersist",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {
+                              "classification": v.get("classification"),
+                              "mean_adjacent_jaccard":
+                                  v.get("mean_adjacent_jaccard"),
+                              "mean_carry_share_pct":
+                                  v.get("mean_carry_share_pct"),
+                              "carrier_names_persistent":
+                                  v.get("carrier_names_persistent"),
+                              "persistent_carrier_share_pct":
+                                  v.get("persistent_carrier_share_pct"),
+                              "against_driven_by_new_names":
+                                  v.get("against_driven_by_new_names")}
                               for k, v in f["eras"].items()},
                           "answers": f["answers"]},
                          ensure_ascii=False))
