@@ -3017,3 +3017,25 @@ Pos: scripts/etf_book_order.py (selftest 33->39, lot_point/lot_curve/lot_curve_m
 results/etf_book_order/LOTCURVE-2026-10-28-card.json +
 results/etf_book_order/ORDER-2026-10-28-card.md +
 research/digests/DIGEST-20261029-e203-lot-granularity-curve.md.
+
+
+## E204 An instruction a page repeats must be priced on that page (2026-10-29 r1144 bm-a)
+
+WHEN: a one-page face tells the reader to do something every session ("put the rest in
+GC001, do not leave it idle") but never says what that action is worth.
+
+WRONG: treat the idle half as "not part of the book". Here it was 52.9% of the capital
+(528,774 of 1,000,000) and every published number described only the other half, so the
+reader had to look up the repo rate themselves to learn whether the advice mattered. Same
+shape as E201/E203: the face is arithmetically correct and still answers half the question.
+
+RIGHT: price the action off the panel that already quotes it -- cash x the repo panel's own
+last close (1.09% on 2026-10-27 -> +5,764 CNY/yr, 23/session), carry the quote DATE, and
+quote the trailing mean beside it because the 1-day repo spikes at quarter-end. Say plainly
+that it is "cash not shrinking", not a return source. Unreadable panel / zero cash / an
+out-of-band print stay None: a 0 reads as "this money is worth nothing", which is the one
+case worth warning about.
+
+Pos: scripts/etf_book_ceo_page.py (selftest 30->33: annual==cash x panel close, absent->
+None, live page yuan==its own cash x its own rate) + smoke leg that recomputes from
+data/repo_daily/GC001.csv so a forgotten panel refresh reads red.
