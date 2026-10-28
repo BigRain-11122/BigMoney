@@ -456,14 +456,16 @@ def _run_impl(limit=None, workers=DEFAULT_WORKERS, takeover=False,
     owner_note = None
     if me != LANE_OWNER:
         stale = U._owner_stale_min(LANE_OWNER)
-        ok = U.takeover_decision(me, LANE_OWNER, stale, takeover)
+        # the shared guard is a 2-arg pure function (allow, stale_min); this
+        # caller was left on the pre-refactor 4-arg form and died with TypeError
+        # on EVERY non-owner machine -- a silent rc=1 in the S6 chain (r1208)
+        ok, why = U.takeover_decision(takeover, stale)
         if not ok:
             payload = {"ts": _now().isoformat(timespec="seconds"),
                        "machine": me, "lane_owner": LANE_OWNER,
                        "status": "noop_lane_guard",
                        "detail": ("lane owned by %s (heartbeat silent %s min); "
-                                    "pass --takeover to declare a stale "
-                                    "takeover" % (LANE_OWNER, stale))}
+                                    "%s" % (LANE_OWNER, stale, why))}
             write_wide_status(payload)
             print(json.dumps(payload, ensure_ascii=False, indent=1))
             return 0
@@ -676,6 +678,19 @@ def _selftest():
         _checks.append(1)
         if not cond:
             fails.append(name)
+
+    # 0 shared-guard contract. The lane takeover guard lives in
+    # update_etf_daily and was refactored to a 2-arg pure function while this
+    # caller kept the 4-arg form: the leg then died with TypeError on every
+    # non-owner machine inside the S6 chain, which reads as a silent rc=1 with
+    # no output (r1208). Pin the arity here so the next refactor goes red in
+    # selftest instead of going quiet in the chain.
+    import inspect
+    _params = list(inspect.signature(U.takeover_decision).parameters)
+    chk("guard_arity", _params == ["allow", "stale_min"]
+        and U.takeover_decision(False, 10_000)[0] is False
+        and U.takeover_decision(True, None)[0] is False
+        and U.takeover_decision(True, 10 * U.TAKEOVER_STALE_MIN)[0] is True)
 
     # 1 symbol mapping: prefixed preserved, bare 6-digit gets the right prefix
     chk("map_prefixed", PREFIXED.match("sh510300").group(0) == "sh510300")

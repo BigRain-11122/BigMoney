@@ -126,12 +126,21 @@ def _rank(idx, universe, prices, amounts, cache=None):
 
 
 def simulate(cal, prices, amounts, universe, cash=None, pick_n=None, cost_mult=1.0,
-             rank_cache=None, rebal=None):
+             rank_cache=None, rebal=None, contrib=None):
     """Simulate one scheme. pick_n=None -> equal-weight the given universe.
 
     rebal: explicit set of calendar indices whose close is the decision point;
     None keeps the E24 default (every month end). E33 uses this for cadence.
+
+    contrib: E174 seam. When a dict is handed in, every day's ``w * r`` is
+    accumulated under ``(YYYY-MM, symbol)``, so a reader can ask WHICH name
+    carried a month instead of only how much the month paid. It records the
+    same ``growth`` term the loop already sums. The un-invested residual is
+    booked under the pseudo-name ``__cash__``, because an attribution that
+    silently swallows the cash leg reads complete while being short. Default
+    None means the recorder costs nothing and no published face changes.
     """
+    sink = contrib  # None => recorder off; an EMPTY dict is still a live sink
     if rebal is None:
         rebal = set(base.month_end_indices(cal))
     port = 1.0
@@ -156,11 +165,17 @@ def simulate(cal, prices, amounts, universe, cash=None, pick_n=None, cost_mult=1
                 r = a / b - 1.0
                 neww[s] = w * (1.0 + r)
                 growth += w * r
+                if sink is not None:
+                    key = (cal[i][:7], s)
+                    sink[key] = sink.get(key, 0.0) + w * r
             cw = 1.0 - sum(weights.values())
             if cw < 1e-12:
                 cw = 0.0
             rc = cash_series.get(cal[i], 0.0) if cash_series else 0.0
             growth += cw * rc
+            if sink is not None and cw:
+                key = (cal[i][:7], "__cash__")
+                sink[key] = sink.get(key, 0.0) + cw * rc
             tv = sum(neww.values()) + cw * (1.0 + rc)
             weights = {s: v / tv for s, v in neww.items()} if tv > 0 else weights
             port *= (1.0 + growth)

@@ -108,6 +108,10 @@ TWIN_FUNCS = {
     # recurrence of the registry-as-range pit this leg exists to catch.
     "run_tilt3screened": ("tilt3screened",
                           "results/e43_tilt_4member/TILT3SCREEN-*.json"),
+    # E174 (r1208): name-level carrier of E171's engine-column move. Declared
+    # with the leg, not after L15 goes red -- the E170 lesson re-applied.
+    "run_tilt3signnames": ("tilt3signnames",
+                           "results/e43_tilt_4member/TILT3SIGNNAMES-*.json"),
 }
 
 COLUMN_KEYS = ("column", "metric", "name", "label")

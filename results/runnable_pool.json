@@ -22327,16 +22327,46 @@
    "title": "E170 publishes that the split-event repair moved 18 of 137 cells and left pre2017 at exactly 0.0, but not WHICH neutralised name-month carried each era's movement. Publish, per era, the repaired names whose months fall inside it and their share of the era's delta, so 'the repair moved 2024_now' becomes 'sh<code> on <month> moved it'. An era delta with no named driver is a number a reader cannot audit."
   },
   {
+   "claimed_at": "2026-10-28T07:50:00+08:00",
+   "claimed_by": "bm-b",
    "deliverable": "results/e43_tilt_4member/TILT3SIGNNAMES-<cutoff>.json",
+   "done_at": "2026-10-28T08:20:00+08:00",
+   "done_by": "bm-b r1208",
+   "done_note": "three of five rows moved (pre2017/2017_2020 exactly 0.0 and published with NO carriers); 2024_now +46.7bp needs 3 names for 50% / 6 for 80%, top carrier sh510580 -14.51bp = -31.1% all of it in 2024-09; the era verdict flip does NOT survive dropping that one name (raw +14.86 vs screened +78.97) yet reappears when the top five are dropped (raw -4.48 vs +72.08), so the flip is a carrier-composition artefact, not a book property; residual quoted per era (2024_now -2.90bp). e39 selftest 552->558, digest + card E175",
    "id": "E174-TILT3SIGN-ENGINE-MOVE-NAMES",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
+   "result_ref": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
    "seeded_at": "2026-10-28T06:46:30+08:00",
    "seeded_by": "bm-b r1206",
    "source": "Seeded r1206 bm-b from its own E171 face: the per-era table publishes the engine delta but no name-level carrier, and E171's digest names exactly this follow-on.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e39_panel_census.py (run_tilt3screensign",
    "title": "E171 showed the split-event repair moves the engine column in three eras and moves the tilt column nowhere, and that the whole move is a LEVEL story (month agreement identical on both arms). The engine column is wide-minus-ladder, i.e. a difference of two held books, so the +46.7bp on 2024_now can in principle come from ONE name-month on either side. Attribute it the way E104/E105 attributed the gap arm: for each era whose engine level moved, name the transitions that carry the delta, publish the top carrier's share, and say whether the sign flip survives dropping it. Without this, 'the repair flips 2024_now's verdict' is an unattributable claim about a 4-of-17-month reading."
+  },
+  {
+   "deliverable": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-<cutoff>.json",
+   "id": "E175-TILT3SIGN-DROP-LADDER",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "seeded_at": "2026-10-28T08:20:00+08:00",
+   "seeded_by": "bm-b r1208",
+   "source": "Seeded r1208 bm-b from its own E174 face: flip_survival carries top1 and top5 only, and those two answer differently.",
+   "status": "ready",
+   "target": "scripts/e39_panel_census.py (run_tilt3signnames)",
+   "title": "E174 found the 2024_now verdict flip disappears when its biggest carrier is dropped and returns when the top five are dropped -- two drop sizes disagreeing. That is published as two points of a curve nobody drew: sweep k = 0..n carriers removed (in |contribution| order) and publish the era sign verdict at every k, so a reader sees WHERE the verdict settles and whether any k agrees with the headline. Also publish the same ladder for 2021_2023, whose engine move never flips a sign, to show what a stable reading looks like."
+  },
+  {
+   "deliverable": "results/e43_tilt_4member/TILT3SIGNBOOKSPLIT-<cutoff>.json",
+   "id": "E176-TILT3SIGN-BOOK-SPLIT",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "seeded_at": "2026-10-28T08:20:00+08:00",
+   "seeded_by": "bm-b r1208",
+   "source": "Seeded r1208 bm-b from its own E174 face: the legs are already recorded per book and only the wide-minus-ladder join is published.",
+   "status": "ready",
+   "target": "scripts/e39_panel_census.py (run_tilt3signnames)",
+   "title": "E174 attributes each era's engine delta to NAMES, but the engine column is wide-book minus ladder-book, so every carrier is a mix of 'the wide book changed' and 'the ladder book changed'. Publish, per era, the delta split BY BOOK (sum of wide contributions vs sum of ladder contributions, each annualised) so a reader learns which of the two held books the repair actually moved -- a name-level table cannot say that, and if the ladder side moves the wide book is being blamed for the fixed leg."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22351,6 +22381,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-28T07:21:00+08:00",
+ "updated_at": "2026-10-28T08:20:00+08:00",
  "version": 1
 }

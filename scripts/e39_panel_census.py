@@ -1398,7 +1398,7 @@ def _ols(y, x):
     return beta, alpha, r2
 
 
-def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
+def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False):
     """One shared build: both engine curves plus the member tilt series.
 
     The two E42 product legs read this object so their faces cannot drift apart
@@ -1407,6 +1407,11 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
     ``raw_all`` lets a screen leg hand in a repaired universe (E81). With the
     default ``None`` this calls ``e27.load_universe()`` exactly as before, so
     every published face keeps reading the untouched loader.
+
+    ``contrib=True`` (E174) additionally keeps each book's per-(month, name)
+    arithmetic contribution in ``core["contrib"]``, so a leg can say which name
+    carried an engine month. Off by default: the recorder costs a dict write per
+    name-day and no existing face should pay for it.
     """
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
@@ -1429,9 +1434,12 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
     rank_cache = {}
     wide_name = "wide_top%d" % pick_n
     curves = {}
+    sinks = {}
     for name, univ, n in (("ladder5", base.LADDER, None), (wide_name, universe, pick_n)):
+        sinks[name] = {} if contrib else None
         curves[name], _aux, _hold = e27.simulate(cal, prices, amounts, univ, cash,
-                                                 n, 1.0, rank_cache)
+                                                 n, 1.0, rank_cache,
+                                                 contrib=sinks[name])
     lad_m = dict(_month_rets(curves["ladder5"]))
     wide_m = dict(_month_rets(curves[wide_name]))
     mem = {s: _member_monthly(cal, s, raw_all) for s in base.LADDER}
@@ -1447,6 +1455,9 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None):
             "months4": months4, "tilt4": tilt4, "dropped4": dropped4,
             "months3": months3, "tilt3": tilt3, "dropped3": dropped3,
             "dropped": dropped, "universe": len(universe),
+            # E174: the per-name arithmetic behind both engine curves, off unless asked
+            "contrib": ({"wide": sinks[wide_name], "lad": sinks["ladder5"]}
+                        if contrib else None),
             # per-member monthly returns + break months, so a leg can rebuild any
             # sub-skin without a second panel pass (E44 leave-one-out)
             "mem": mem, "brk": brk,
@@ -5962,6 +5973,266 @@ def run_tilt3screensign(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "'not measurable' is not 'no change'",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
+    }
+
+
+# ---------------------- leg: E174 who carries the engine column's repair move
+#
+# E171 published that the split-event repair moves the ENGINE column in three
+# eras and moves the tilt column nowhere, and that 2024_now's era verdict flips
+# as a result. An era-level delta on a 4-of-17-month reading is not something a
+# reader can audit: the engine column is wide-minus-ladder, i.e. a difference of
+# two held books, so the move can in principle come from ONE name-month on
+# either side. This leg decomposes it name by name and asks whether the flipped
+# verdict survives dropping the biggest carrier.
+TILT3SIGNNAMES_TOP = 5              # carriers named per era
+TILT3SIGNNAMES_MONTHS_PER_NAME = 3  # worst months named per carrier
+TILT3SIGNNAMES_CASH = "__cash__"    # un-invested residual, booked not dropped
+TILT3SIGNNAMES_COVERS = (50.0, 80.0)
+
+
+def _engine_net_contrib(contrib):
+    """(E174) wide minus ladder per (month, name): the engine series decomposed.
+
+    A name held by both books nets out, a name held by only one book carries its
+    whole weight, and the cash residual keeps its own pseudo-name -- dropping it
+    would make the attribution read complete while being short.
+    """
+    out = {}
+    if not contrib:
+        return out
+    for side, sign in (("wide", 1.0), ("lad", -1.0)):
+        for key, v in (contrib.get(side) or {}).items():
+            out[key] = out.get(key, 0.0) + sign * v
+    return out
+
+
+def _era_engine_months(core, lo, hi):
+    """The era's months that carry BOTH engine curves (run_tilt3sign's own set)."""
+    tilt3 = core.get("tilt3") or {}
+    wide_m = core.get("wide_m") or {}
+    lad_m = core.get("lad_m") or {}
+    return [m for m in core["months3"]
+            if _in_era(m, lo, hi) and m in tilt3 and m in wide_m and m in lad_m]
+
+
+def _era_side_bp(net, months):
+    """Per-name annualised bp contribution to ONE arm's era engine level."""
+    n = len(months)
+    if not n:
+        return {}
+    scale = 12.0 / n * 1e4
+    mset = set(months)
+    out = {}
+    for (m, s), v in net.items():
+        if m in mset:
+            out[s] = out.get(s, 0.0) + v * scale
+    return out
+
+
+def _era_name_split(net_raw, net_scr, months):
+    """Per-name bp contribution to the era's engine DELTA (screened - raw)."""
+    raw_bp = _era_side_bp(net_raw, months)
+    scr_bp = _era_side_bp(net_scr, months)
+    out = {}
+    for s in set(raw_bp) | set(scr_bp):
+        out[s] = scr_bp.get(s, 0.0) - raw_bp.get(s, 0.0)
+    return out, raw_bp, scr_bp
+
+
+def _carrier_coverage(rows, delta_bp):
+    """How many names it takes to explain 50%/80% of a delta (E143 family)."""
+    total = abs(delta_bp)
+    if not rows or total <= 0:
+        return {("cover_%g_pct" % c): {"names": None, "share_pct": None}
+                for c in TILT3SIGNNAMES_COVERS}
+    out, run = {}, 0.0
+    for i, (_s, v) in enumerate(rows):
+        run += abs(v)
+        for c in TILT3SIGNNAMES_COVERS:
+            key = "cover_%g_pct" % c
+            if key not in out and run >= total * c / 100.0:
+                out[key] = {"names": i + 1,
+                            "share_pct": round(run / total * 100.0, 1)}
+    for c in TILT3SIGNNAMES_COVERS:
+        out.setdefault("cover_%g_pct" % c, {"names": None, "share_pct": None})
+    return out
+
+
+def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
+    """E174: attribute E171's engine-column move to names, and test the flip.
+
+    Three things are published per era, because one number cannot answer them:
+    the era delta itself (from the two arms' published engine levels), the
+    per-name carriers of that delta with their shares, and -- for the eras whose
+    engine SIGN flipped -- whether dropping the biggest carrier leaves the flip
+    standing. An era whose flip depends on one name-month is a data-repair
+    story; an era that keeps its flip without it is a property of the books.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+    import panel_screen
+
+    raw = e27.load_universe()
+    cal_full = base.load_panel()[0]
+    cutoff = cal_full[-1]
+    screened, report = panel_screen.screen_universe(raw, mode=mode, cal=cal_full)
+
+    core_raw = _monthly_core(raw_all=raw, contrib=True)
+    core_scr = _monthly_core(raw_all=screened, contrib=True)
+    arm_raw = run_tilt3sign(None, core=core_raw, eras=eras)
+    arm_scr = run_tilt3sign(None, core=core_scr, eras=eras)
+
+    net_raw = _engine_net_contrib(core_raw.get("contrib"))
+    net_scr = _engine_net_contrib(core_scr.get("contrib"))
+
+    rows = {}
+    honesty = []
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(core_raw, lo, hi)
+        ms_scr = _era_engine_months(core_scr, lo, hi)
+        a = (arm_raw.get("eras") or {}).get(name) or {}
+        b = (arm_scr.get("eras") or {}).get(name) or {}
+        eng_raw = a.get("engine_mean_ann_bp")
+        eng_scr = b.get("engine_mean_ann_bp")
+        if not ms or eng_raw is None or eng_scr is None:
+            rows[name] = {"months": len(ms),
+                          "skipped": "no engine level on one arm for this era"}
+            continue
+        split, raw_bp, scr_bp = _era_name_split(net_raw, net_scr, ms)
+        ranked = sorted(split.items(), key=lambda kv: -abs(kv[1]))
+        delta = round(eng_scr - eng_raw, 3)
+        explained = round(sum(v for _, v in ranked), 6)
+        top = []
+        for s, v in ranked[:TILT3SIGNNAMES_TOP]:
+            months_hit = []
+            for (m, nm), val in net_scr.items():
+                if nm == s and m in set(ms):
+                    d = val - net_raw.get((m, nm), 0.0)
+                    if d:
+                        months_hit.append({"month": m, "delta_bp": round(
+                            d * 12.0 / len(ms) * 1e4, 2)})
+            months_hit.sort(key=lambda r: -abs(r["delta_bp"]))
+            top.append({
+                "name": s,
+                "delta_bp": round(v, 2),
+                "share_of_era_delta_pct": (round(v / delta * 100.0, 1)
+                                           if abs(delta) > 1e-9 else None),
+                "raw_heap_bp": round(raw_bp.get(s, 0.0), 2),
+                "screened_heap_bp": round(scr_bp.get(s, 0.0), 2),
+                "worst_months": months_hit[:TILT3SIGNNAMES_MONTHS_PER_NAME],
+            })
+        sign_raw = _pair_sign(eng_raw)
+        sign_scr = _pair_sign(eng_scr)
+        flipped = sign_raw != sign_scr
+        # an era whose level did not move has no delta to attribute: naming a
+        # "top carrier" there would print a name beside a zero and read as a
+        # finding, so the carrier list is emptied and the reason is published
+        moved_era = abs(delta) > 0.05
+        if not moved_era:
+            top = []
+        drop = {}
+        if flipped:
+            raw_lvl = sum(raw_bp.values())
+            scr_lvl = sum(scr_bp.values())
+            for label, names in (("top1", [ranked[0][0]] if ranked else []),
+                                 ("top%d" % TILT3SIGNNAMES_TOP,
+                                  [s for s, _ in ranked[:TILT3SIGNNAMES_TOP]])):
+                if not names:
+                    continue
+                r_after = raw_lvl - sum(raw_bp.get(s, 0.0) for s in names)
+                s_after = scr_lvl - sum(scr_bp.get(s, 0.0) for s in names)
+                drop[label] = {
+                    "names_dropped": names,
+                    "raw_engine_bp_after": round(r_after, 2),
+                    "screened_engine_bp_after": round(s_after, 2),
+                    "verdict_flip_survives": _pair_sign(r_after) != _pair_sign(s_after),
+                }
+        rows[name] = {
+            "months": len(ms),
+            "months_screened": len(ms_scr),
+            "months_same": len(ms) == len(ms_scr),
+            "engine_bp_raw": eng_raw,
+            "engine_bp_screened": eng_scr,
+            "engine_bp_delta": delta,
+            "engine_sign_raw": sign_raw,
+            "engine_sign_screened": sign_scr,
+            "engine_sign_flipped": flipped,
+            "names_carrying_delta": len([1 for _, v in ranked if abs(v) >= 0.05]),
+            "delta_from_names_bp": explained,
+            "attribution_residual_bp": round(delta - explained, 6),
+            "carriers": top,
+            "carriers_note": (None if moved_era else
+                              "the engine level is identical on both arms for this "
+                              "era, so there is no delta to attribute"),
+            "coverage": _carrier_coverage(ranked, delta),
+            "flip_survival": drop or None,
+        }
+        if abs(delta - explained) > 1.0:
+            honesty.append("%s: the named carriers add to %.1fbp against a %.1fbp "
+                           "delta, so the residual is quoted, not zeroed"
+                           % (name, explained, delta))
+
+    measured = {k: v for k, v in rows.items() if "engine_bp_delta" in v}
+    moved = sorted(k for k, v in measured.items() if abs(v["engine_bp_delta"] or 0) > 0.05)
+    flips = sorted(k for k, v in measured.items() if v["engine_sign_flipped"])
+    single_name = sorted(k for k, v in measured.items()
+                         if v["carriers"] and (v["carriers"][0]["share_of_era_delta_pct"]
+                                               or 0) >= 50.0)
+    survives = {k: (v["flip_survival"] or {}).get("top1", {}).get(
+        "verdict_flip_survives") for k, v in measured.items() if v["engine_sign_flipped"]}
+    return {
+        "study": "e174_tilt3sign_engine_move_names",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi} for n, lo, hi in eras],
+            "engine_series": "wide monthly return minus ladder monthly return",
+            "decomposition": (
+                "every day's w*r is booked per (month, symbol) inside e27.simulate "
+                "(contrib seam) for BOTH books, then net = wide - ladder; a name "
+                "held by both books nets out, the cash residual keeps __cash__"),
+            "units": "annualised bp of the era (mean monthly x 12 x 1e4)",
+            "carriers_named_per_era": TILT3SIGNNAMES_TOP,
+            "covers_pct": list(TILT3SIGNNAMES_COVERS),
+            "flip_test": ("drop the biggest carrier (and the top set) from BOTH "
+                          "arms' engine levels and re-read the era sign verdict"),
+        },
+        "eras": rows,
+        "answers": {
+            "eras_measured": len(measured),
+            "eras_where_engine_moved": len(moved),
+            "era_names_where_engine_moved": moved,
+            "eras_where_engine_sign_flipped": flips,
+            "eras_where_delta_is_one_name": single_name,
+            "flips_surviving_dropping_top_carrier": survives,
+            "all_flips_survive_top1": (all(bool(v) for v in survives.values())
+                                      if survives else None),
+            "max_top_carrier_share_pct": max(
+                [v["carriers"][0]["share_of_era_delta_pct"]
+                 for v in measured.values() if v["carriers"]
+                 and v["carriers"][0]["share_of_era_delta_pct"] is not None]
+                or [None]),
+            "max_abs_attribution_residual_bp": max(
+                [abs(v["attribution_residual_bp"]) for v in measured.values()
+                 if v["attribution_residual_bp"] is not None] or [None]),
+        },
+        "screen_report": report,
+        "honest": [
+            "the decomposition is arithmetic, not a story: contributions are the "
+            "same w*r terms the engine curve compounds, so the named carriers plus "
+            "the residual reconstruct the published delta",
+            "the residual is quoted per era because daily compounding inside a "
+            "month is not additive; a residual near zero is expected and a large "
+            "one means the attribution is broken",
+            "a single-name share above 50% is a disclosure, not a defect: it says "
+            "the era's move is one name-month, which a reader must know before "
+            "quoting the era",
+            "dropping a carrier is a counterfactual, not a repair: the published "
+            "engine levels are untouched",
+            "the ladder leg is a fixed 5-name book, so a name that appears in both "
+            "books contributes only the difference of its two weights",
+        ] + honesty,
     }
 
 
@@ -16776,6 +17047,41 @@ def selftest():
         and "deadband_bp" in run_tilt3sign.__code__.co_varnames,
         "E172 the sweep reuses the one burn path instead of a second implementation")
 
+    # ---- E174 the engine column's repair move, named
+    # The claim under test is arithmetic: the per-name split must RECONSTRUCT the
+    # published engine level, and dropping a carrier must move exactly that
+    # carrier's contribution. So the fixtures are contributions whose sums are
+    # known by hand, not a re-derivation of the same face.
+    _e174_net_raw = {("2014-01", "shA"): 0.02, ("2014-01", "shB"): -0.01}
+    _e174_net_scr = {("2014-01", "shA"): 0.04, ("2014-01", "shB"): -0.01}
+    _e174_split, _e174_raw, _e174_scr = _era_name_split(
+        _e174_net_raw, _e174_net_scr, ["2014-01", "2014-02"])
+    chk(abs(_e174_raw["shA"] - 0.02 * 12.0 / 2 * 1e4) < 1e-6
+        and abs(_e174_split["shA"] - 0.02 * 12.0 / 2 * 1e4) < 1e-6
+        and abs(_e174_split["shB"]) < 1e-9,
+        "E174 an unchanged name contributes zero to the delta, and the split "
+        "reads in the published annualised-bp scale")
+    chk(abs(sum(_e174_split.values()) - (sum(_e174_scr.values())
+                                        - sum(_e174_raw.values()))) < 1e-9,
+        "E174 the named carriers reconstruct the arm difference exactly")
+    _e174_net = _engine_net_contrib({"wide": {("2014-01", "shA"): 0.03,
+                                              ("2014-01", "__cash__"): 0.0002},
+                                     "lad": {("2014-01", "shA"): 0.01}})
+    chk(abs(_e174_net[("2014-01", "shA")] - 0.02) < 1e-12
+        and abs(_e174_net[("2014-01", "__cash__")] - 0.0002) < 1e-12,
+        "E174 a name held by both books nets out and the cash leg keeps its own key")
+    _e174_cov = _carrier_coverage([("shA", 0.5), ("shB", 0.5)], 1.0)
+    chk(_e174_cov["cover_50_pct"]["names"] == 1
+        and _e174_cov["cover_80_pct"]["names"] == 2
+        and _e174_cov["cover_80_pct"]["share_pct"] == 100.0,
+        "E174 the coverage ladder counts the names a delta actually needs")
+    chk(_carrier_coverage([], 0.0)["cover_50_pct"]["names"] is None,
+        "E174 a zero delta publishes 'no coverage' instead of a free 100%")
+    _e174_eras = (("era_a", "2014-01-01", "2014-01-31"),)
+    chk("mode" in run_tilt3signnames.__code__.co_varnames
+        and "eras" in run_tilt3signnames.__code__.co_varnames,
+        "E174 the leg carries the mode/eras seams every screened leg needs")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -19164,6 +19470,7 @@ def main(argv):
                              "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
                              "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
                              "tilt3sign", "tilt3signband", "tilt3screensign",
+                             "tilt3signnames",
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
@@ -19934,6 +20241,28 @@ def main(argv):
                           "control": {"cells_moved": f["control"]["cells_moved"],
                                       "claims_moved":
                                           f["control"]["gate_dates_moved"]}},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3signnames":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3signnames(outdir)
+        p = write_json(outdir, "TILT3SIGNNAMES-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3signnames",
+                          "file": os.path.relpath(p, ROOT),
+                          "per_era": {k: {"engine_bp_delta": v.get("engine_bp_delta"),
+                                          "engine_sign_flipped":
+                                              v.get("engine_sign_flipped"),
+                                          "residual_bp":
+                                              v.get("attribution_residual_bp"),
+                                          "top_carrier": (
+                                              (v.get("carriers") or [{}])[0].get("name")),
+                                          "top_share_pct": (
+                                              (v.get("carriers") or [{}])[0].get(
+                                                  "share_of_era_delta_pct")),
+                                          "flip_survival": v.get("flip_survival")}
+                                      for k, v in f["eras"].items()},
+                          "answers": f["answers"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "cashdragscreened":
