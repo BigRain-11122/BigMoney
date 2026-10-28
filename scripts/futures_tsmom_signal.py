@@ -14,6 +14,12 @@ Two rules shape the output:
   * the weights are the probe's own function (`tsmom_weights`), imported rather than copied.
     A second implementation of the sizing rule would drift from the one that was measured,
     and the drift would be invisible.
+  * the page carries TWO books (r1142): the raw sign flip the sleeve ships today, and the
+    flip damper the path test adopted. The rule is read from
+    `results/futures_overlay_fliprate_paths.json` and executed by the mechanism modules that
+    were measured -- a verdict with no consumer is the same "produced but never read" defect
+    in another shape, and hard-coding theta here would let the verdict move while the page
+    stayed still.
 
 Staleness is part of the face: the panel is compared against the official exchange calendar
 (E136 rule -- a panel cannot judge its own currency), and `stale` is carried so a reader can
@@ -33,10 +39,12 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import futures_tsmom_probe as probe  # noqa: E402  (pure functions, main() is guarded)
+import futures_overlay_fliprate as flip  # noqa: E402  (the dampers that were measured)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_JSON = os.path.join(ROOT, "results", "futures_tsmom_signal.json")
 PROBE_JSON = os.path.join(ROOT, "results", "futures_tsmom_probe.json")
+ADOPT_JSON = os.path.join(ROOT, "results", "futures_overlay_fliprate_paths.json")
 DOC_DIR = os.path.join(ROOT, "docs", "futures_lane")
 CALENDAR = os.path.join(ROOT, "data", "exchange_calendar.csv")
 
@@ -62,7 +70,100 @@ def bar_horizon(now=None):
     return pd.Timestamp(day)
 
 
-def build(close, probe_face=None, calendar=None, asof=None, horizon=None):
+def load_adopted(path=None):
+    """The flip-damper rule the path test adopted, read from its own artifact.
+
+    r1142: the ADOPT verdict sat in a research JSON with no consumer -- the same
+    "measured but never read" face this file exists to close. The rule is quoted (arm,
+    mechanism, theta/k) rather than typed here, so a re-run of the path test that changes
+    or withdraws the verdict changes this page instead of leaving a stale constant behind.
+    """
+    path = path or ADOPT_JSON
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            d = json.load(fh)
+        arm = d.get("adopted_arm")
+        if not arm or d.get("overall_verdict") != "ADOPT":
+            return None
+        spec = (d.get("arms") or {}).get(arm, {}).get("spec")
+        if not spec or not spec.get("mechanism") or spec["mechanism"] == "base":
+            return None
+        cells = (d.get("arms") or {}).get(arm, {}).get("cells") or []
+        d10 = [c.get("delta_pp_10bp") for c in cells if c.get("delta_pp_10bp") is not None]
+        d5 = [c.get("delta_pp_5bp") for c in cells if c.get("delta_pp_5bp") is not None]
+        got = {c.get("cell"): c for c in cells}
+        return {
+            "arm": arm,
+            "spec": {"mechanism": spec["mechanism"], "lookback": spec["lookback"],
+                     "theta": spec.get("theta"), "k": spec.get("k")},
+            "source": "results/futures_overlay_fliprate_paths.json (evidence_cutoff %s)"
+                      % d.get("evidence_cutoff"),
+            "measured": {
+                "cells": len(cells),
+                "full_delta_pp_10bp": (got.get("full") or {}).get("delta_pp_10bp"),
+                "oos_delta_pp_10bp": (got.get("oos") or {}).get("delta_pp_10bp"),
+                "min_delta_pp_10bp": min(d10) if d10 else None,
+                "min_delta_pp_5bp": min(d5) if d5 else None,
+            },
+        }
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def damping_signs(close, spec):
+    """The adopted mechanism's own implementation, never a second copy of it."""
+    mom = close.pct_change(int(spec["lookback"]))
+    mech = spec["mechanism"]
+    if mech == "strength_hold":
+        return flip.strength_hold(mom, float(spec["theta"])), mom
+    if mech == "confirm_kd":
+        return flip.confirm_kd(mom, int(spec["k"])), mom
+    return flip.base_signs(mom), mom
+
+
+def adopted_block(close, adopted, asof, raw_row):
+    """What the adopted rule would hold today, next to what the raw sign holds."""
+    signs, _ = damping_signs(close, adopted["spec"])
+    damped = probe.tsmom_weights(close, lookback=int(adopted["spec"]["lookback"]),
+                                 signs=signs)
+    drow = damped.loc[asof]
+    legs = []
+    differ = []
+    for v in sorted(close.columns):
+        rw = raw_row.get(v)
+        dw = drow.get(v)
+        rw = None if rw is None or pd.isna(rw) else float(rw)
+        dw = None if dw is None or pd.isna(dw) else float(dw)
+        same = (rw is None and dw is None) or (
+            rw is not None and dw is not None and np.sign(rw) == np.sign(dw))
+        if not same:
+            differ.append(v)
+        legs.append({"variety": v, "raw_weight": None if rw is None else round(rw, 6),
+                     "damped_weight": None if dw is None else round(dw, 6),
+                     "same_side": bool(same)})
+    cnt_raw = flip.flip_counts(flip.base_signs(close.pct_change(
+        int(adopted["spec"]["lookback"]))))
+    cnt_new = flip.flip_counts(signs)
+    return {
+        "arm": adopted["arm"],
+        "spec": adopted["spec"],
+        "source": adopted["source"],
+        "measured": adopted["measured"],
+        "flips": {
+            "raw": cnt_raw["flips"],
+            "damped": cnt_new["flips"],
+            "cut_pct": flip._pct_cut(cnt_new["flips"], cnt_raw["flips"]),
+        },
+        "gross": round(float(np.nansum(np.abs(drow.values))), 4),
+        "same_day": bool(not differ),
+        "differs_today": differ,
+        "legs": legs,
+    }
+
+
+def build(close, probe_face=None, calendar=None, asof=None, horizon=None, adopted=None):
     """Target weights at one bar plus the disclosure block. No file or clock side effects."""
     if len(close) == 0:
         raise ValueError("empty panel")
@@ -151,6 +252,7 @@ def build(close, probe_face=None, calendar=None, asof=None, horizon=None):
             "legs": legs,
         },
         "diversification_evidence": ev,
+        "adopted_overlay": adopted_block(close, adopted, asof, row) if adopted else None,
         "caveats": [
             "shadow face: no order, no capital claim, not wired to the ETF book",
             "main-continuous splice hides roll cost; margin and financing are not modelled",
@@ -218,6 +320,45 @@ def render(face):
             "未建模：%s。" % (ev.get("not_modelled") or "—"),
         ]
     lines += ["", "证据面：`results/futures_tsmom_signal.json`；来源：%s。" % ev.get("source", "—")]
+    ad = face.get("adopted_overlay")
+    if ad:
+        sp, me, fl, ms = ad["spec"], ad["spec"]["mechanism"], ad["flips"], ad["measured"]
+        if me == "strength_hold":
+            rule = "动量强度保持 θ=%g（|动量|<θ 时沿用旧方向，翻面需反向动量≥θ）" % sp["theta"]
+        elif me == "confirm_kd":
+            rule = "反向确认 %d 日（反向信号连续 %d 日才翻面）" % (sp["k"], sp["k"])
+        else:
+            rule = me
+        lines += [
+            "",
+            "## 生产候选：已采纳的翻面阻尼（%s）" % ad["arm"],
+            "",
+            "- 规则：%s，回看 %d 日" % (rule, sp["lookback"]),
+            "- 翻面次数：原始 %d → 阻尼后 %d（减 %s%%）"
+            % (fl["raw"], fl["damped"], _pct_plain(fl["cut_pct"])),
+            "- 路径实测（%d 格）：全窗 %s、样本外 %s、最差格 %s（10bp/边），"
+            "最差格 @5bp %s"
+            % (ms.get("cells") or 0, _pp(ms.get("full_delta_pp_10bp")),
+               _pp(ms.get("oos_delta_pp_10bp")), _pp(ms.get("min_delta_pp_10bp")),
+               _pp(ms.get("min_delta_pp_5bp"))),
+            "- 今日两版是否同仓：%s"
+            % ("**同一持仓**（阻尼今天没有改变任何品种的方向）"
+               if ad["same_day"] else
+               "**不同**：%s" % "、".join(ad["differs_today"])),
+            "",
+            "| 品种 | 原始方向仓位 | 阻尼后仓位 | 同向 |",
+            "|---|---|---|---|",
+        ]
+        for leg in sorted(ad["legs"], key=lambda x: -abs(x["damped_weight"] or 0.0)):
+            rw = "空仓" if leg["raw_weight"] is None else "%+.3f" % leg["raw_weight"]
+            dw = "空仓" if leg["damped_weight"] is None else "%+.3f" % leg["damped_weight"]
+            lines.append("| %s | %s | %s | %s |"
+                         % (leg["variety"], rw, dw,
+                            "✓" if leg["same_side"] else "**不同**"))
+        lines += ["", "来源：%s。" % ad["source"]]
+    else:
+        lines += ["", "## 生产候选：翻面阻尼", "",
+                  "路径测试尚未给出 ADOPT 结论（或无该产物），本页不虚构候选仓位。"]
     return "\n".join(lines) + "\n"
 
 
@@ -229,13 +370,21 @@ def _num(x):
     return "—" if x is None else "%.3f" % float(x)
 
 
+def _pp(x):
+    return "—" if x is None else "%+.2fpp" % float(x)
+
+
+def _pct_plain(x):
+    return "—" if x is None else "%.1f" % float(x)
+
+
 def run():
     close = probe.load_panel()
     probe_face = None
     if os.path.exists(PROBE_JSON):
         with open(PROBE_JSON, encoding="utf-8") as fh:
             probe_face = json.load(fh)
-    face = build(close, probe_face, load_calendar())
+    face = build(close, probe_face, load_calendar(), adopted=load_adopted())
     os.makedirs(os.path.dirname(OUT_JSON), exist_ok=True)
     # the clock lives outside the face so a rerun on the same bar is byte-identical
     payload = dict(face)
@@ -252,6 +401,11 @@ def run():
              face["book"]["long"], face["book"]["short"], face["book"]["flat"],
              face["staleness"]["stale"]))
     print("[tsmom] wrote %s" % os.path.relpath(page, ROOT))
+    ad = face.get("adopted_overlay")
+    if ad:
+        print("[tsmom] adopted %s: flips %d->%d, same_day=%s, differs=%s"
+              % (ad["arm"], ad["flips"]["raw"], ad["flips"]["damped"],
+                 ad["same_day"], ",".join(ad["differs_today"]) or "-"))
     return 0
 
 
@@ -388,6 +542,71 @@ def selftest():
         ok += 1
     else:
         print("L16 FAIL: horizon %s / %s" % (h_am, h_pm))
+
+    # --- the adopted damper (r1142): the verdict must reach the page, proven on fixtures
+    # A weak, oscillating momentum series flips often; the damper must cut the flips AND
+    # keep every instrument on a side (a flip filter, never an exposure cut).
+    wob = pd.Series(100 * np.cumprod(1 + 0.004 * np.sin(np.arange(200) * 0.9)), index=idx)
+    wob2 = pd.Series(100 * np.cumprod(1 + 0.004 * np.cos(np.arange(200) * 1.3)), index=idx)
+    wclose = pd.DataFrame({"WO": wob, "WB": wob2})
+
+    # L17: the damper really cuts flips on a chattering panel
+    raw_w = probe.tsmom_weights(wclose, lookback=60)
+    damped_adopted = {"arm": "fixture", "spec": {"mechanism": "strength_hold",
+                                                "lookback": 60, "theta": 0.02, "k": None},
+                      "source": "fixture", "measured": {}}
+    fb = adopted_block(wclose, damped_adopted, idx[-1], raw_w.loc[idx[-1]])
+    total += 1
+    if fb["flips"]["damped"] < fb["flips"]["raw"]:
+        ok += 1
+    else:
+        print("L17 FAIL: damper did not cut flips %s" % fb["flips"])
+
+    # L18: it is a flip filter -- both books still carry every instrument
+    total += 1
+    if (all(l["damped_weight"] is not None for l in fb["legs"])
+            and all(l["raw_weight"] is not None for l in fb["legs"])
+            and abs(fb["gross"] - float(np.nansum(np.abs(raw_w.loc[idx[-1]].values)))) < 0.5):
+        ok += 1
+    else:
+        print("L18 FAIL: damper changed participation %s" % fb["legs"])
+
+    # L19: theta=0 must be the identity (a "damper" that also changes the base is a
+    # different mechanism wearing the same name)
+    ident = {"arm": "id", "spec": {"mechanism": "strength_hold", "lookback": 60,
+                                   "theta": 0.0, "k": None},
+             "source": "fixture", "measured": {}}
+    fi = adopted_block(wclose, ident, idx[-1], raw_w.loc[idx[-1]])
+    total += 1
+    if fi["same_day"] and fi["flips"]["damped"] == fi["flips"]["raw"]:
+        ok += 1
+    else:
+        print("L19 FAIL: theta=0 is not the identity %s" % fi["flips"])
+
+    # L20: the page must say whether today's two books are the same, never leave it implicit
+    pg = render(build(wclose, adopted=damped_adopted))
+    total += 1
+    if "生产候选" in pg and ("同一持仓" in pg or "不同" in pg):
+        ok += 1
+    else:
+        print("L20 FAIL: page does not state the same-day comparison")
+
+    # L21: no artifact -> the page admits it, and the face carries null rather than a
+    # fabricated candidate book
+    total += 1
+    if build(wclose).get("adopted_overlay") is None and "不虚构" in render(build(wclose)):
+        ok += 1
+    else:
+        print("L21 FAIL: absent artifact did not degrade honestly")
+
+    # L22: the rule on the page is the artifact's rule -- a changed verdict changes the page
+    total += 1
+    ad = load_adopted()
+    if ad is None or (ad["spec"]["mechanism"] in ("strength_hold", "confirm_kd")
+                      and ad["source"].startswith("results/futures_overlay_fliprate_paths")):
+        ok += 1
+    else:
+        print("L22 FAIL: adopted rule not read from the path artifact -> %s" % (ad,))
 
     print("selftest %d/%d" % (ok, total))
     return 0 if ok == total else 1

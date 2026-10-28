@@ -1688,6 +1688,63 @@ def main() -> int:
         check("product: the flip damper is adopted or rejected by path cells, not one run",
               False, str(e))
 
+    # r1142: the ADOPT verdict used to sit in a research JSON with no consumer -- the
+    # "measured but never read" face. The live shadow page now carries the adopted damper,
+    # so this leg recomputes the published flip counts from the panel with the artifact's
+    # own rule. A page that drifts from the verdict, or a damper that quietly degenerates
+    # into the base rule, reads red here.
+    try:
+        import json as _json
+        _bad = []
+        _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
+                                encoding="utf-8"))
+        _art = _json.load(open(os.path.join(
+            "results", "futures_overlay_fliprate_paths.json"), encoding="utf-8"))
+        _ad = _face.get("adopted_overlay")
+        if not _ad:
+            _bad.append("the live page carries no adopted_overlay")
+        else:
+            _arm = _art.get("adopted_arm")
+            _spec = (_art.get("arms") or {}).get(_arm, {}).get("spec") or {}
+            if _ad.get("arm") != _arm:
+                _bad.append(f"page rules on {_ad.get('arm')} but the path test adopted {_arm}")
+            _want = {"mechanism": _spec.get("mechanism"), "lookback": _spec.get("lookback"),
+                     "theta": _spec.get("theta"), "k": _spec.get("k")}
+            if _ad.get("spec") != _want:
+                _bad.append(f"page spec {_ad.get('spec')} != artifact {_want}")
+            if _arm and _art.get("overall_verdict") != "ADOPT":
+                _bad.append("a damper is published while the path verdict is not ADOPT")
+            _sys_path = os.path.join(os.getcwd(), "scripts")
+            if _sys_path not in sys.path:
+                sys.path.insert(0, _sys_path)
+            import futures_tsmom_probe as _P
+            import futures_overlay_fliprate as _F
+            _close = _P.load_panel()
+            _mom = _close.pct_change(int(_spec["lookback"]))
+            _fn = (lambda m: _F.strength_hold(m, float(_spec["theta"]))
+                   if _spec["mechanism"] == "strength_hold"
+                   else _F.confirm_kd(m, int(_spec["k"])))
+            _raw = _F.flip_counts(_F.base_signs(_mom))["flips"]
+            _dmp = _F.flip_counts(_fn(_mom))["flips"]
+            if _raw != _ad["flips"]["raw"]:
+                _bad.append(f"raw flips published {_ad['flips']['raw']} != recomputed {_raw}")
+            if _dmp != _ad["flips"]["damped"]:
+                _bad.append(f"damped flips published {_ad['flips']['damped']} "
+                            f"!= recomputed {_dmp}")
+            if not _dmp < _raw:
+                _bad.append(f"the damper does not cut flips ({_dmp} vs {_raw})")
+            _page = os.path.join("docs", "futures_lane",
+                                 "TSMOM-%s.md" % _face.get("generated_for_bar"))
+            if not os.path.exists(_page) or "生产候选" not in open(
+                    _page, encoding="utf-8").read():
+                _bad.append("the human page does not carry the adopted section")
+        check("product: the adopted flip damper reaches the live shadow book",
+              not _bad, "; ".join(_bad)[:220]
+              or "page flips %d->%d with the artifact's own rule, recomputed from the panel"
+                 % (_ad["flips"]["raw"], _ad["flips"]["damped"]))
+    except Exception as e:
+        check("product: the adopted flip damper reaches the live shadow book", False, str(e))
+
     return _finish()
 
 

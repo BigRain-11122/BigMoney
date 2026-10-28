@@ -114,4 +114,14 @@ Frozen adoption rule (echoed from `ADOPT_RULE` in the script):
 ## Not modelled
 
 roll cost, margin, financing/carry, contract multipliers; the ETF leg's universe is survivors; the cells are chosen before the run and are not tuned on the result
+## Consumer (r1142)
 
+The ADOPT verdict had no reader: the daily shadow face still sized on the raw momentum sign. It now
+carries both books -- raw sign and the adopted damper -- with the rule read from this artifact and
+executed by `futures_overlay_fliprate.strength_hold` (imported, not copied). Live on 2026-10-28:
+flips 1469 -> 412 over the panel, today's positions identical, gross unchanged.
+
+Read it at `docs/futures_lane/TSMOM-2026-10-28.md`; the machine face is
+`results/futures_tsmom_signal.json` -> `adopted_overlay`. A re-run of this path test that changes
+`adopted_arm` or flips the verdict changes that page on its next run; the page never applies a rule
+the verdict does not currently hold.

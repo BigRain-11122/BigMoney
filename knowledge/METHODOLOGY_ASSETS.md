@@ -2880,3 +2880,30 @@ partitions the window with both halves > 60 bars. And an empty measurement must 
 NOT-ASSESSED, never ADOPT.
 Pos: scripts/futures_overlay_fliprate_paths.py (selftest 11/11) +
 results/futures_overlay_fliprate_paths.json + research/FUTURES_OVERLAY_FLIPRATE_PATHS.md.
+## E200 An adopted rule that nothing executes is still a research artifact (2026-10-29 r1142 bm-a; E199's verdict had no consumer until this window)
+
+WHEN: a path test (or any gate) returns ADOPT. Calling it "adopted" and moving on leaves the
+verdict in `results/futures_overlay_fliprate_paths.json` and a card tail, while the daily face a
+human reads (`scripts/futures_tsmom_signal.py`) still sized on the raw momentum sign -- two files
+claiming the same sleeve, only one of them knowing the rule changed (r1290's "two production
+faces" in another shape).
+
+WRONG: type the constant into the face (`theta=0.02` at the call site), or re-implement the
+mechanism beside the sizing rule. Both freeze the verdict at the moment of adoption: a re-run that
+flips to REJECT leaves a page still applying it, and the duplicate drifts invisibly (why this face
+imports `tsmom_weights` and `strength_hold` instead of copying them).
+
+RIGHT: the face READS the verdict (arm, mechanism, theta/k, evidence_cutoff) from the artifact,
+executes it through the measured module, and publishes BOTH books side by side with the measured
+delta quoted from the cell rows. Absent or non-ADOPT verdict -> the page says it has no candidate
+rather than inventing one. Live: 1,649 bars, 10 varieties, flips 1469 -> 412 (-72% over the whole
+panel) while today's two books are IDENTICAL -- the honest headline is "the damper changes the
+history, not today's position", stated instead of inferred.
+
+GOTCHA: "the books agree today" is not evidence the damper is inert, and "they differ today" is not
+evidence it helps -- both are one row on a 1,649-bar face. Assert the mechanism is live twice: on
+the panel (damped flips < raw flips) and on fixtures (theta=0 is exactly the identity, participation
+unchanged in both books). Without the fixtures a damper that quietly degenerated into
+`sign(momentum)` still passes.
+Pos: scripts/futures_tsmom_signal.py (selftest 22/22) + results/futures_tsmom_signal.json +
+docs/futures_lane/TSMOM-2026-10-28.md; rule source = results/futures_overlay_fliprate_paths.json.
