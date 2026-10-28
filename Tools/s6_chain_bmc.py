@@ -304,6 +304,14 @@ LEGS = [
     # session artefact, and the leg says so instead of implying a fresh measurement.
     ("ladderdropcarrier", ["python", "scripts/e39_panel_census.py",
                             "tilt3ladderdropcarrier"]),
+    # r1332: E196 could only name the month; it could not say whether the calendar
+    # label is a market mechanism or just this family's naming. E198 tests the same
+    # window on a panel the family never touched -- 17 declared ETFs against the
+    # benchmark, same statistic, three window definitions. It reads local daily CSVs
+    # only (no network, no engine) and is idempotent, so it rides the chain: a
+    # negative verdict that is never re-derived is exactly the r1290 class.
+    ("reviewwindowcross", ["python", "scripts/e39_panel_census.py",
+                           "reviewwindowcross"]),
 ]
 
 

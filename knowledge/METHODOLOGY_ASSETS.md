@@ -2804,3 +2804,44 @@ assert causality by re-running on a truncated panel (prefix equality), otherwise
 confirmation window silently reads future bars.
 Pos: scripts/futures_overlay_fliprate.py (selftest 11/11) +
 results/futures_overlay_fliprate.json + research/ETF_BOOK_FUTURES_FLIPRATE.md.
+
+## E198 A calendar coincidence inside one family is not a mechanism until it survives a panel that family never touched (2026-10-29 r1332 bm-c; numbered E198 because E197 was already taken on origin by bm-a r1140, which had renumbered off E196 -- this window's card)
+
+WHEN: a verdict rests on a window/month label that happens to match a scheduled event
+(index review, expiry, rebalance), and the temptation is to upgrade the label from
+"naming" to "mechanism" because all the cells sit inside it.
+
+WRONG: quote the hit rate. With four cells and a 4-of-12 label, "all four inside" reads
+as (1/3)^4 = 1.2%, which sounds like proof and is actually one family's naming: the cells
+are two disjoint eras of one book, and the label was chosen after seeing where the
+carriers sit.
+
+RIGHT: keep the label, change the panel. Re-run the SAME statistic on names the family
+never touched, and publish three things beside the p: (a) the per-cell hit count against
+its chance expectation (k hits at p<=cell_p over n cells -> expected n*p and a binomial
+tail), because 3 of 17 hits at p<=0.10 is 1.7 expected with a 0.24 tail, not evidence;
+(b) the same test under narrower labels (strict months only, spill months only), so a
+wide label cannot manufacture the result; (c) the sign, not just the magnitude -- a
+window that makes one member *quieter* (ratio 0.20 here) is what a market-wide mechanism
+cannot produce. Live reading (17 declared ETFs vs 510300, 80 months each, 1,350
+member-months): pooled 4-month p=0.19, strict {6,12} p=0.42 ratio 0.99, spill {7,1}
+p=0.13, dispersion p=0.37, 3/17 cell hits against 1.7 expected -> the review window does
+not exist outside the family, so the family's calendar story is its own naming and earns
+no waiver.
+
+1. A negative result must be published as a face, not as a missing face: "we did not find
+   it elsewhere" is the sentence that stops the label being quoted again.
+2. Declare the basket, benchmark, thresholds and verdict rule in code BEFORE reading any
+   file, and publish absent names in `missing_files` instead of substituting others --
+   otherwise "the panel" quietly becomes whatever data happened to exist.
+3. Comparator cells on one timeline are not disjoint samples; the pooled p is published
+   beside the per-cell count precisely because it cannot be made independent.
+4. Monthly relative return of a member vs benchmark is not the book-vs-benchmark level
+   gap: a cross-panel hold would have licensed a mechanism, never the family's arithmetic.
+5. Drop a month whose neighbour is missing rather than joining them -- a hole otherwise
+   turns two quiet months into one enormous "monthly" return, and the hole is invisible.
+
+Pos: scripts/e39_panel_census.py (selftest 682->689, mode reviewwindowcross) +
+results/reviewwindow_cross/REVIEWWINDOWCROSS-20261028.json +
+research/digests/DIGEST-20261029-e197-review-window-cross.md.
+

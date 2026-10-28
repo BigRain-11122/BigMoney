@@ -723,6 +723,42 @@ def main() -> int:
     except Exception as e:
         check("product: E196 carrier verdict is recomputable from its own gate",
               False, str(e))
+    # r1332: E198 asks whether E196's review window is a mechanism or this
+    # family's naming. The face is a negative, so this leg recomputes the gate
+    # from the numbers on disk: a 'no signal' verdict must be backed by a pooled
+    # p above the frozen ceiling AND by cell hits that do not beat chance, and
+    # every published cell must carry its own p.
+    try:
+        _xdir = os.path.join("results", "reviewwindow_cross")
+        _xf = sorted(f for f in os.listdir(_xdir)
+                     if f.startswith("REVIEWWINDOWCROSS-") and f.endswith(".json"))
+        if _xf:
+            _xj = json.load(open(os.path.join(_xdir, _xf[-1]), encoding="utf-8"))
+            _xa = _xj.get("answers") or {}
+            _xs = _xj.get("spec") or {}
+            _xok = bool(_xj.get("cells")) and all(
+                c["window"].get("perm_p") is not None for c in _xj["cells"])
+            _xp = (_xa.get("pooled") or {}).get("perm_p")
+            _V = _xa.get("verdict")
+            if _V == "no_outside_family_signal":
+                _xok = (_xok and _xp is not None
+                        and _xp > float(_xs.get("pooled_p_max", 0.01))
+                        and (_xa.get("cells_sig_binomial_tail_p") or 1.0) > 0.05)
+            elif _V == "review_window_holds_outside_the_family":
+                _xok = (_xok and _xp is not None
+                        and _xp <= float(_xs.get("pooled_p_max", 0.01))
+                        and len(_xa.get("cells_sig") or [])
+                        >= max(2, len(_xj["cells"]) // 2))
+            check("product: E198 cross-panel verdict is recomputable from its own gate",
+                  _xok, "verdict=%s pooled_p=%s sig=%s cells=%d"
+                  % (_V, _xp, len(_xa.get("cells_sig") or []),
+                     len(_xj.get("cells") or [])))
+        else:
+            check("product: E198 cross-panel verdict is recomputable from its own gate",
+                  True, "cross-panel face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E198 cross-panel verdict is recomputable from its own gate",
+              False, str(e))
     # r1308: the card carries two readings of 2015-2019 (the excess caveat and the
     # selection premium). If the reconciliation section ever stops being emitted while the
     # artifact is on disk, the card is back to printing a contradiction -- so assert the

@@ -19068,6 +19068,84 @@ def selftest():
     chk("outdir" in run_tilt3ladderdropcarrier.__code__.co_varnames,
         "E196 the carrier leg takes the face directory as its only seam")
 
+    # ---- E198 does the review-window label survive outside the drop family
+    chk(_month_index("2020-03") - _month_index("2020-02") == 1
+        and _month_index("2021-01") - _month_index("2020-12") == 1
+        and _month_index("junk") is None,
+        "E198 month indices are consecutive across year boundaries, so a "
+        "December->January pair is one month and not a hole")
+    _e197_holes = _monthly_ret({"2020-01": 1.0, "2020-02": 1.1, "2020-04": 1.2})
+    chk(list(_e197_holes) == ["2020-02"]
+        and abs(_e197_holes["2020-02"] - 0.1) < 1e-12,
+        "E198 a missing month is dropped rather than joined, so two quiet months "
+        "cannot become one huge 'monthly' return")
+
+    import tempfile as _e197_tmp
+    import csv as _e197_csv
+
+    def _e197_fixture(root, lift=None, months=60):
+        lift = lift or {}
+        codes = ["BENCH"] + ["C%02d" % i for i in range(1, 10)]
+        for code in codes:
+            with open(os.path.join(root, code + ".csv"), "w",
+                      encoding="utf-8", newline="") as fh:
+                w = _e197_csv.writer(fh)
+                w.writerow(["date", "open", "high", "low", "close",
+                            "volume", "amount"])
+                px = 1.0
+                for i in range(months):
+                    m = "%04d-%02d" % (2015 + i // 12, (i % 12) + 1)
+                    px *= 1.01
+                    c = px * (1.0 + lift.get((code, m), 0.0))
+                    w.writerow(["%s-25" % m, c, c, c, c, 1000, 1000.0])
+        return codes
+
+    _e197_root = _e197_tmp.mkdtemp()
+    _e197_codes = _e197_fixture(_e197_root)
+    _e197_flat = run_reviewwindowcrosspanel(
+        daily_dir=_e197_root, basket=_e197_codes, bench="BENCH", draws=300)
+    chk(_e197_flat["answers"]["cells_measured"] == 9
+        and _e197_flat["answers"]["verdict"] == "no_outside_family_signal",
+        "E198 members that track the benchmark exactly must not read as a window "
+        "effect, and the cell count proves the fixture actually ran (r1261)")
+    _e197_lift = {}
+    for _c in _e197_codes[1:]:
+        for _m in (6, 7, 12, 1):
+            for _y in range(2015, 2020):
+                _e197_lift[(_c, "%04d-%02d" % (_y, _m))] = 0.03
+    _e197_big = None
+    _e197_hot_root = _e197_tmp.mkdtemp()
+    _e197_hot_codes = _e197_fixture(_e197_hot_root, lift=_e197_lift)
+    _e197_hot = run_reviewwindowcrosspanel(
+        daily_dir=_e197_hot_root, basket=_e197_hot_codes, bench="BENCH", draws=300)
+    chk(_e197_hot["answers"]["verdict"]
+        == "review_window_holds_outside_the_family"
+        and _e197_hot["answers"]["pooled"]["perm_p"] <= REVIEWWINDOWCROSS_POOLED_P,
+        "E198 a window effect planted across the whole basket is found by the "
+        "same gate, so the flat control above is a power check and not a broken "
+        "test")
+    _e197_again = run_reviewwindowcrosspanel(
+        daily_dir=_e197_hot_root, basket=_e197_hot_codes, bench="BENCH", draws=300)
+    chk(_e197_again["answers"]["pooled"] == _e197_hot["answers"]["pooled"],
+        "E198 the pooled permutation is deterministic under a fixed seed, and "
+        "the three window labels are published side by side")
+    chk(_e197_hot["answers"]["pooled_alt_windows"]["strict_review"]["perm_p"]
+        is not None
+        and _e197_hot["answers"]["pooled_alt_windows"]["spill"]["perm_p"]
+        is not None
+        and _review_window_in("2020-07", (6, 12)) is False
+        and _review_window_in("2020-07") is True,
+        "E198 the narrower labels are real separate readings -- the months "
+        "argument changes which months are inside, so the sensitivity block is "
+        "not an unused parameter")
+    _e197_none = run_reviewwindowcrosspanel(
+        daily_dir=_e197_tmp.mkdtemp(), basket=("A", "B"), bench="NOPE", draws=100)
+    chk(_e197_none["answers"]["verdict"] == "no_benchmark_panel"
+        and _e197_none["evidence_cutoff"] is None
+        and "NOPE" in _e197_none["missing_files"],
+        "E198 a missing benchmark publishes no verdict and no cutoff instead of "
+        "an invented cross-panel story")
+
     # ---- E187 turnover x repair-net tie (pool batch, bm-b r1217)
     _e187_mem = _wide_month_membership(
         {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
@@ -23112,7 +23190,7 @@ def _std_abs_gap(rows):
     return [v / m for v in vals]
 
 
-def _window_perm_p(rows, draws=None, seed=None):
+def _window_perm_p(rows, draws=None, seed=None, months=None):
     """(E196) do review-window months hold bigger |gaps| than the rest?
 
     The statistic is the mean standardised |gap| inside the window; the null
@@ -23127,7 +23205,7 @@ def _window_perm_p(rows, draws=None, seed=None):
                 "outside_mean": None, "n_inside": 0, "n_outside": 0,
                 "draws": 0, "seed": None}
     vals = _std_abs_gap(rows)
-    lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+    lab = [bool(_review_window_in(r.get("month"), months)) for r in rows]
     inside = [v for v, l in zip(vals, lab) if l]
     outside = [v for v, l in zip(vals, lab) if not l]
     out = {"n_inside": len(inside), "n_outside": len(outside),
@@ -23160,7 +23238,7 @@ def _window_perm_p(rows, draws=None, seed=None):
     return out
 
 
-def _pooled_window_test(row_sets, draws=None, seed=None):
+def _pooled_window_test(row_sets, draws=None, seed=None, months=None):
     """(E196) the same window test over several cells, labels shuffled per cell.
 
     Pooling is where this family gets fooled: two era slices can share the same
@@ -23172,7 +23250,7 @@ def _pooled_window_test(row_sets, draws=None, seed=None):
         if not rows:
             continue
         vals = _std_abs_gap(rows)
-        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        lab = [bool(_review_window_in(r.get("month"), months)) for r in rows]
         if any(lab) and not all(lab):
             per.append((vals, lab))
     if not per:
@@ -23471,6 +23549,235 @@ def run_tilt3ladderdropcarrier(outdir):
             "are not comparable at the same k.",
             "This face re-reads the same E186 month table; it locates a month, it "
             "does not add evidence that the ladder-drop effect exists.",
+        ],
+    }
+
+
+REVIEWWINDOWCROSS_BASKET = (
+    "510300", "510050", "510500", "512100", "588000",
+    "159915", "159919", "510880", "512880", "518880",
+    "511010", "159928", "159920", "512170", "512480",
+    "515000", "510180", "510310", "513100", "159949",
+)
+REVIEWWINDOWCROSS_BENCH = "510300"
+REVIEWWINDOWCROSS_MIN_MONTHS = 36
+REVIEWWINDOWCROSS_MIN_CELLS = 8
+REVIEWWINDOWCROSS_CELL_P = 0.10
+REVIEWWINDOWCROSS_POOLED_P = 0.01
+
+
+def _month_index(month):
+    """'YYYY-MM' -> integer month index, or None when it is not a month."""
+    try:
+        y, mo = str(month).split("-")[:2]
+        return int(y) * 12 + int(mo) - 1
+    except (ValueError, AttributeError):
+        return None
+
+
+def _monthly_close(code, daily_dir=None):
+    """month -> last close of that month, from a local daily panel file."""
+    d = DAILY if daily_dir is None else daily_dir
+    p = os.path.join(d, code + ".csv")
+    if not os.path.exists(p):
+        return None
+    last = {}
+    for b in read_bars(p):
+        c = b.get("close")
+        if c is None or c <= 0:
+            continue
+        last[b["date"][:7]] = float(c)   # read_bars is date-sorted, so last wins
+    return last
+
+
+def _monthly_ret(close_by_month):
+    """month -> return over the previous CALENDAR month.
+
+    A hole in the file would otherwise turn two quiet months into one huge
+    'monthly' return, so non-consecutive pairs are dropped rather than joined.
+    """
+    ms = sorted(m for m in (close_by_month or {}) if _month_index(m) is not None)
+    out = {}
+    for a, b in zip(ms, ms[1:]):
+        if _month_index(b) - _month_index(a) != 1:
+            continue
+        prev = close_by_month[a]
+        if prev <= 0:
+            continue
+        out[b] = close_by_month[b] / prev - 1.0
+    return out
+
+
+def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
+                               draws=None):
+    """E198: does the review window move anything OUTSIDE the drop family?
+
+    E196 could only say "no era claim may be quoted without naming the month it
+    rests on", and its evidence sat on two disjoint eras of one 4-member book.
+    That leaves the calendar label two possibilities: a mechanism (a scheduled
+    index review reshuffles relative performance market-wide) or this family's
+    naming (three months, four cells, no mechanism). The cheapest honest
+    separation is a panel the family never touched, measured with the SAME
+    statistic: monthly return of a declared ETF basket minus the benchmark, in
+    and out of the window.
+
+    Declared before any file is read: the basket, the benchmark, the window
+    (reused from E196 so it cannot be re-picked here), the cell/month thresholds
+    and the verdict rule. Names whose local file is absent are published as
+    skipped, not silently replaced by another name.
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+
+    closes, missing, short = {}, [], []
+    for code in [bm] + [c for c in bsk if c != bm]:
+        cl = _monthly_close(code, d)
+        if cl is None:
+            missing.append(code)
+        else:
+            closes[code] = cl
+
+    bench_close = closes.get(bm) or {}
+    if not bench_close:
+        return {
+            "study": "E198 review-window cross-panel probe",
+            "evidence_cutoff": None,
+            "spec": {"basket": list(bsk), "bench": bm,
+                     "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+                     "statistic": "mean standardised |member - bench monthly return|",
+                     "cell_p_max": REVIEWWINDOWCROSS_CELL_P,
+                     "pooled_p_max": REVIEWWINDOWCROSS_POOLED_P,
+                     "min_months_per_cell": REVIEWWINDOWCROSS_MIN_MONTHS,
+                     "min_cells": REVIEWWINDOWCROSS_MIN_CELLS},
+            "cells": [], "missing_files": missing,
+            "answers": {"cells_measured": 0, "verdict": "no_benchmark_panel"},
+            "honest": ["No benchmark file: nothing is measured and no cutoff is "
+                       "invented."],
+        }
+
+    bars_bm = read_bars(os.path.join(d, bm + ".csv"))
+    cutoff = bars_bm[-1]["date"] if bars_bm else None
+    last_month = max(bench_close)          # in-progress month is excluded below
+    bench_ret = _monthly_ret(bench_close)
+
+    cells, row_sets = [], []
+    for code in bsk:
+        if code == bm or code not in closes:
+            continue
+        ret = _monthly_ret(closes[code])
+        rows = []
+        for m in sorted(set(ret) & set(bench_ret)):
+            if m >= last_month:
+                continue
+            rows.append({"month": m,
+                         "gap_bp": (ret[m] - bench_ret[m]) * 10000.0,
+                         "ret": ret[m], "bench_ret": bench_ret[m]})
+        if len(rows) < REVIEWWINDOWCROSS_MIN_MONTHS:
+            short.append({"code": code, "months": len(rows)})
+            continue
+        win = _window_perm_p(rows, draws=draws)
+        cells.append({"code": code, "months": len(rows),
+                      "mean_abs_gap_bp": round(
+                          sum(abs(r["gap_bp"]) for r in rows) / len(rows), 3),
+                      "window": win})
+        row_sets.append(rows)
+
+    pooled = _pooled_window_test(row_sets, draws=draws)
+
+    # third reading: is the WHOLE cross-section more dispersed in window months?
+    by_month = {}
+    for rows in row_sets:
+        for r in rows:
+            by_month.setdefault(r["month"], []).append(r["ret"])
+    disp_rows = []
+    for m, vals in sorted(by_month.items()):
+        if len(vals) < REVIEWWINDOWCROSS_MIN_CELLS:
+            continue
+        mu = sum(vals) / len(vals)
+        sd = (sum((v - mu) ** 2 for v in vals) / len(vals)) ** 0.5
+        disp_rows.append({"month": m, "gap_bp": sd * 10000.0})
+    dispersion = _window_perm_p(disp_rows, draws=draws)
+    dispersion["months"] = len(disp_rows)
+
+    sig = [c["code"] for c in cells
+           if c["window"].get("perm_p") is not None
+           and c["window"]["perm_p"] <= REVIEWWINDOWCROSS_CELL_P]
+    need = max(2, len(cells) // 2)
+    p_pool = pooled.get("perm_p")
+
+    # the 4-of-12 window is a third of the calendar, so the same statistic is
+    # also read on narrower labels: the strict review months alone, and the spill
+    # months alone. A negative that survives all three is not an artefact of a
+    # wide label.
+    alt = {}
+    for label, months in (("strict_review", (6, 12)), ("spill", (7, 1))):
+        alt[label] = _pooled_window_test(row_sets, draws=draws, months=months)
+
+    # 17 cells tested at p<=0.10 would throw ~1.7 hits by chance alone, so a
+    # handful of cell hits is not evidence for the window.
+    from math import comb
+    n_cells = len(cells)
+    k_hit = len(sig)
+    tail = sum(comb(n_cells, i) * REVIEWWINDOWCROSS_CELL_P ** i
+               * (1.0 - REVIEWWINDOWCROSS_CELL_P) ** (n_cells - i)
+               for i in range(k_hit, n_cells + 1)) if n_cells else None
+
+    if len(cells) < REVIEWWINDOWCROSS_MIN_CELLS:
+        verdict = "insufficient_cells"
+    elif p_pool is not None and p_pool <= REVIEWWINDOWCROSS_POOLED_P and len(sig) >= need:
+        verdict = "review_window_holds_outside_the_family"
+    elif (p_pool is not None and p_pool <= REVIEWWINDOWCROSS_POOLED_P) or len(sig) >= need:
+        verdict = "partial_signal_outside_the_family"
+    else:
+        verdict = "no_outside_family_signal"
+
+    return {
+        "study": "E198 review-window cross-panel probe",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "basket": list(bsk), "bench": bm,
+            "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+            "window_def": "reused from E196, not re-picked here",
+            "statistic": "mean standardised |member - bench monthly return|",
+            "cell_p_max": REVIEWWINDOWCROSS_CELL_P,
+            "pooled_p_max": REVIEWWINDOWCROSS_POOLED_P,
+            "min_months_per_cell": REVIEWWINDOWCROSS_MIN_MONTHS,
+            "min_cells": REVIEWWINDOWCROSS_MIN_CELLS,
+            "rule": ("pooled p<=%.2f AND >=half of cells p<=%.2f -> holds; "
+                     "either alone -> partial; else no signal"
+                     % (REVIEWWINDOWCROSS_POOLED_P, REVIEWWINDOWCROSS_CELL_P)),
+        },
+        "cells": cells,
+        "missing_files": missing,
+        "skipped_short_history": short,
+        "answers": {
+            "cells_measured": len(cells),
+            "cells_sig": sig,
+            "cells_sig_expected_by_chance": round(
+                n_cells * REVIEWWINDOWCROSS_CELL_P, 3),
+            "cells_sig_binomial_tail_p": (round(tail, 6) if tail is not None
+                                          else None),
+            "pooled": pooled,
+            "pooled_alt_windows": alt,
+            "dispersion": dispersion,
+            "verdict": verdict,
+        },
+        "honest": [
+            "Cells are a cross-section on the SAME timeline, so unlike E196's "
+            "eras they cannot be made disjoint: the pooled p treats correlated "
+            "members as separate evidence and is quoted beside the per-cell "
+            "count that the rule also requires.",
+            "The measured quantity is a single ETF's monthly return versus the "
+            "benchmark, not the family's book-versus-benchmark level gap, so a "
+            "window effect here is a mechanism for relative performance and "
+            "still does not license the drop family's era verdicts.",
+            "The basket is 20 declared names with local files; a name without a "
+            "file is published in missing_files and is NOT replaced, so the "
+            "panel is whatever those names are, not a random sample of the ETF "
+            "universe.",
+            "The final month is dropped wherever the benchmark file ends "
+            "mid-month, because a partial month is not a monthly return.",
         ],
     }
 
@@ -24148,6 +24455,7 @@ def main(argv):
                              "tilt3ladderdropcross",
                              "tilt3ladderdropfragility",
                              "tilt3ladderdropcarrier",
+                             "reviewwindowcross",
                              "tilt3widesplit",
                              "tilt3widesplitmonth",
                              "widechurntie",
@@ -25628,6 +25936,21 @@ def main(argv):
                                      "window_perm_p": c["window"].get("perm_p"),
                                      "rule_hit_k": c["rule_hit_k"]}
                                     for c in f["cells"]]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "reviewwindowcross":
+        outdir = os.path.join(ROOT, "results", "reviewwindow_cross")
+        f = run_reviewwindowcrosspanel()
+        p = write_json(outdir, "REVIEWWINDOWCROSS-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "reviewwindowcross",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "cells": f["answers"]["cells_measured"],
+                          "cells_sig": len(f["answers"]["cells_sig"]),
+                          "pooled": f["answers"]["pooled"],
+                          "dispersion": f["answers"]["dispersion"],
+                          "missing_files": len(f["missing_files"])},
                          ensure_ascii=False))
         return 0
     if args.mode == "tilt3widesplit":
