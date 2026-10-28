@@ -2651,6 +2651,18 @@ SIGNEXPOSE_SRC_DIRS = ("scripts", "Tools")
 # A naming table is not a consumer, so the auditor is excluded from its own
 # reader set -- and the exclusion is published rather than silent.
 SIGNEXPOSE_SELF = "scripts/e97_routing.py"
+# r1233: the first growth seed exposed a second false-reader class. Every scratch
+# script a round writes to author its own card (`Tools/_r1232bmb_card.py`) names the
+# leaves it quotes, so 6 of 14 faces flipped to "read_external" one round after the
+# sweep of the SAME round published 14/14 producer_only. Underscore-prefixed files
+# are round-local helpers by house convention (`_r<round><machine>_*.py`, `_tmp_*`),
+# never a durable consumer, so they get their own reader class.
+SIGNEXPOSE_SCRATCH_PREFIX = "_"
+
+
+def _signexpose_is_scratch(rel):
+    """(E205) a round-local helper is not a consumer of the numbers it quotes."""
+    return os.path.basename(rel).startswith(SIGNEXPOSE_SCRATCH_PREFIX)
 
 
 def _signexpose_sources(base=None):
@@ -2705,10 +2717,14 @@ def _signexpose_face(rel, doc, rows, sources):
     hits = _signexpose_leaf_hits(leaves, sources)
     producers = _signexpose_producer(rel, sources)
     external = [k for k in sorted(hits) if k not in producers]
+    durable = [k for k in external if not _signexpose_is_scratch(k)]
+    scratch = [k for k in external if _signexpose_is_scratch(k)]
     if not producers:
         reader = "producer_unlocated"
-    elif external:
+    elif durable:
         reader = "read_outside_the_producer"
+    elif scratch:
+        reader = "read_by_a_round_scratch_script"
     elif hits:
         reader = "producer_only"
     else:
@@ -2718,6 +2734,8 @@ def _signexpose_face(rel, doc, rows, sources):
         "leaf_readers": sorted(hits),
         "producer_files": producers,
         "external_readers": external,
+        "durable_readers": durable,
+        "scratch_readers": scratch,
         "reader": reader,
         # the exposure only bites when the face also fails to teach its direction
         "trap": bool(face["needs_line"] and reader == "read_outside_the_producer"),
@@ -2751,7 +2769,7 @@ def signexposure_sweep(base=None, sources=None):
         counts[r["reader"]] = counts.get(r["reader"], 0) + 1
     silent = [r for r in rows if r["status"] == "silent"]
     traps = [r for r in rows if r["trap"]]
-    silent_clean = [r for r in silent if r["reader"] in ("producer_only", "no_reader_in_repo")]
+    silent_clean = [r for r in silent if r["reader"] in _SIGNGROWTH_CLEAN_READERS]
     silent_unowned = [r for r in silent if r["reader"] == "producer_unlocated"]
     if not rows:
         verdict = "no_delta_faces"
@@ -2773,7 +2791,9 @@ def signexposure_sweep(base=None, sources=None):
             "self_excluded": SIGNEXPOSE_SELF,
             "leaf_rule": "quoted-literal adjacency only (a substring hit would confound arm names)",
             "reader_classes": {
-                "read_outside_the_producer": "another script names the delta leaf",
+                "read_outside_the_producer": "another durable script names the delta leaf",
+                "read_by_a_round_scratch_script": ("only underscore-prefixed round-local "
+                                                   "helpers name it (`_r<round><machine>_*.py`)"),
                 "producer_only": "only the script that writes the face names it",
                 "no_reader_in_repo": "nothing in the two source trees names it",
                 "producer_unlocated": ("the owning script could not be identified, so the "
@@ -2806,11 +2826,158 @@ def signexposure_sweep(base=None, sources=None):
             "the auditing module itself is excluded from the reader set: its own naming "
             "tables and selftest fixtures carry leaf names without consuming the number, "
             "and on the first fire they made 5 of 14 faces look externally read",
+            "underscore-prefixed helpers (`Tools/_r1232bmb_card.py`) are classed as round "
+            "scratch, not consumers: the sweep of r1232 published 14/14 producer_only and "
+            "its own card-authoring script flipped 6 of them minutes later -- the byte "
+            "answer was true at its measurement instant and stale by the end of the round",
             "nothing is rewritten by this leg; it ranks which of E201's suggested lines is "
             "worth writing first",
         ],
         "law_ref": "O-20260924-1626 R3 (advisory: reader-facing defect, zero-bp cost)",
     }
+
+
+SIGNGROWTH_BASELINE = "results/e79/SIGNGROWTH-BASELINE.json"
+SIGNGROWTH_OUT_DIR = "results/e79"
+_SIGNGROWTH_CLEAN_READERS = ("producer_only", "no_reader_in_repo",
+                             "read_by_a_round_scratch_script")
+
+
+def _signgrowth_ratchet(current, baseline):
+    """(E205) diff two reader maps; name every face that crossed into an external read."""
+    if not isinstance(baseline, dict):
+        return [], [], []
+    grew, born, taught = [], [], []
+    declared = baseline.get("faces") or {}
+    for r in current:
+        rel = r.get("face")
+        prev = declared.get(rel)
+        if prev is None:
+            if r.get("trap"):
+                born.append(rel)
+            continue
+        if (prev.get("reader") in _SIGNGROWTH_CLEAN_READERS
+                and r.get("reader") == "read_outside_the_producer"
+                and bool(r.get("needs_line"))):
+            grew.append(rel)
+        if (prev.get("reader") == "read_outside_the_producer"
+                or prev.get("needs_line")) and r.get("status") == "declared_and_matches":
+            taught.append(rel)
+    return grew, born, taught
+
+
+def _signgrowth_baseline_from(rows, cutoff):
+    faces = {}
+    for r in rows:
+        faces[r.get("face")] = {"reader": r.get("reader"),
+                                "needs_line": bool(r.get("needs_line")),
+                                "status": r.get("status")}
+    return {
+        "study": "e205_delta_sign_growth_gate",
+        "seeded_at": cutoff,
+        "note": ("declared reader map: a face that leaves producer_only while it still "
+                 "fails to teach its sign is the crossing this gate refuses"),
+        "faces": faces,
+    }
+
+
+def signgrowth_gate(base=None, baseline=None, current=None):
+    """E205: E204 is a snapshot. The event a snapshot cannot catch is a silent face
+    quietly acquiring its FIRST external reader -- so ratchet the map and refuse it."""
+    cur = current if current is not None else signexposure_sweep(base=base)
+    if cur.get("status") == "awaiting_upstream":
+        return {"study": "e205_delta_sign_growth_gate", "status": "awaiting_upstream",
+                "missing": cur.get("missing"), "violations": [],
+                "verdict": "no_upstream_face"}
+    rows = cur.get("rows") or []
+    grew, born, taught = _signgrowth_ratchet(rows, baseline)
+    retired = []
+    if isinstance(baseline, dict):
+        live = {r.get("face") for r in rows}
+        retired = sorted(k for k in (baseline.get("faces") or {}) if k not in live)
+    violations = [{"face": rel, "kind": "silent_face_acquired_an_external_reader"}
+                  for rel in grew]
+    violations += [{"face": rel, "kind": "new_face_born_as_a_trap"} for rel in born]
+    if not rows:
+        verdict = "no_delta_faces"
+    elif violations:
+        verdict = "a_silent_face_acquired_an_external_reader"
+    elif baseline is None:
+        verdict = "no_baseline_yet"
+    else:
+        verdict = "no_face_crossed_into_an_external_read"
+    return {
+        "study": "e205_delta_sign_growth_gate",
+        "status": "ok" if baseline is not None else "needs_baseline",
+        "evidence_cutoff": cur.get("evidence_cutoff"),
+        "spec": {
+            "upstream": "the E204 exposure sweep + its declared reader baseline (this module)",
+            "question": ("E204 answered who reads a silent delta face today. The cheaper "
+                         "question is what happens tomorrow: the first external reader is "
+                         "the moment prose hygiene becomes a trap."),
+            "baseline": SIGNGROWTH_BASELINE,
+            "crossing_rule": ("baseline reader in %s AND now read_outside_the_producer "
+                              "AND the face still needs a sign line"
+                              % (list(_SIGNGROWTH_CLEAN_READERS),)),
+            "born_rule": "a face absent from the baseline that is already a trap",
+            "retire_rule": "a baseline face that no longer exists is reported, never failed",
+            "exit": "0 clean / 0 after seeding / 3 a crossing was found",
+        },
+        "crossings": grew,
+        "born_traps": born,
+        "newly_declaring": taught,
+        "retired_faces": retired,
+        "violations": violations,
+        "verdict": verdict,
+        "honest": [
+            "the baseline is a ratchet, not a verdict: seeding it blesses today's map, "
+            "including any face that is already read externally -- re-seed only on purpose",
+            "growth is detected between two runs of this leg, so a reader added and "
+            "removed between two runs is invisible to it",
+            "the reader scan is in-repo only (same limit as E204): prose, figures files and "
+            "out-of-repo consumers are not visible",
+        ],
+        "law_ref": "O-20260924-1626 R3 (advisory-to-blocking: the crossing costs a whole sign)",
+    }
+
+
+def run_signgrowth(publish=False, seed=False, base=None):
+    cur = signexposure_sweep(base=base)
+    if cur.get("status") == "awaiting_upstream":
+        print("awaiting upstream:", cur.get("missing"))
+        return 0
+    bpath = _abs(SIGNGROWTH_BASELINE)
+    baseline = None
+    if not seed and os.path.exists(bpath):
+        try:
+            with io.open(bpath, encoding="utf-8") as fh:
+                baseline = json.load(fh)
+        except Exception:
+            baseline = None
+    gate = signgrowth_gate(base=base, baseline=baseline, current=cur)
+    if baseline is None:
+        gate["status"] = "baseline_seeded"
+        gate["verdict"] = "baseline_seeded_from_the_current_map"
+        if publish:
+            os.makedirs(os.path.dirname(bpath), exist_ok=True)
+            with io.open(bpath, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(json.dumps(_signgrowth_baseline_from(cur.get("rows") or [],
+                                                             cur.get("evidence_cutoff")),
+                                    ensure_ascii=False, indent=1) + "\n")
+            print("wrote", os.path.relpath(bpath, ROOT).replace("\\", "/"))
+    if publish:
+        out = os.path.join(_abs(SIGNGROWTH_OUT_DIR),
+                           "SIGNGROWTH-%s.json" % (gate.get("evidence_cutoff") or "unknown"))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with io.open(out, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(gate, ensure_ascii=False, indent=1) + "\n")
+        print("wrote", os.path.relpath(out, ROOT).replace("\\", "/"))
+    print("faces=%d crossings=%d born_traps=%d newly_declaring=%d retired=%d"
+          % (len(cur.get("rows") or []), len(gate["crossings"]),
+             len(gate["born_traps"]), len(gate["newly_declaring"]),
+             len(gate["retired_faces"])))
+    print("  verdict:", gate["verdict"])
+    return 3 if gate["violations"] else 0
 
 
 def run_signexposure(publish=False, base=None):
@@ -3771,6 +3938,79 @@ def selftest():
     chk("L74 the auditor is not counted as a reader of the faces it audits",
         SIGNEXPOSE_SELF not in _signexpose_sources())
 
+    # ---- E205: the first external reader is a crossing, not a snapshot field
+    _sg_base = {"faces": {"results/e79/A.json": {"reader": "producer_only",
+                                                "needs_line": True, "status": "silent"}}}
+    _sg_rows = [{"face": "results/e79/A.json", "reader": "producer_only",
+                 "needs_line": True, "status": "silent", "trap": False}]
+    _g0 = signgrowth_gate(current={"rows": _sg_rows, "evidence_cutoff": "2026-10-28"},
+                          baseline=_sg_base)
+    chk("L75 an unchanged producer-only map does not trip the growth gate",
+        _g0["violations"] == [] and _g0["verdict"] == "no_face_crossed_into_an_external_read")
+    _sg_rows2 = [{"face": "results/e79/A.json", "reader": "read_outside_the_producer",
+                  "needs_line": True, "status": "silent", "trap": True}]
+    _g1 = signgrowth_gate(current={"rows": _sg_rows2, "evidence_cutoff": "2026-10-28"},
+                          baseline=_sg_base)
+    chk("L76 a silent face that acquires its first external reader is a violation",
+        [v["face"] for v in _g1["violations"]] == ["results/e79/A.json"]
+        and _g1["violations"][0]["kind"] == "silent_face_acquired_an_external_reader"
+        and _g1["verdict"] == "a_silent_face_acquired_an_external_reader")
+    _sg_rows3 = [{"face": "results/e79/A.json", "reader": "read_outside_the_producer",
+                  "needs_line": False, "status": "declared_and_matches", "trap": False}]
+    _g2 = signgrowth_gate(current={"rows": _sg_rows3, "evidence_cutoff": "2026-10-28"},
+                          baseline=_sg_base)
+    chk("L77 the same crossing is legal once the face teaches its sign",
+        _g2["violations"] == [] and _g2["newly_declaring"] == ["results/e79/A.json"])
+    _sg_rows4 = _sg_rows + [{"face": "results/e79/B.json",
+                             "reader": "read_outside_the_producer",
+                             "needs_line": True, "status": "silent", "trap": True}]
+    _g3 = signgrowth_gate(current={"rows": _sg_rows4, "evidence_cutoff": "2026-10-28"},
+                          baseline=_sg_base)
+    chk("L78 a face born into the tree already externally read is a violation",
+        [v["kind"] for v in _g3["violations"]] == ["new_face_born_as_a_trap"]
+        and _g3["violations"][0]["face"] == "results/e79/B.json")
+    _sg_rows5 = _sg_rows + [{"face": "results/e79/C.json", "reader": "producer_only",
+                             "needs_line": True, "status": "silent", "trap": False}]
+    _g4 = signgrowth_gate(current={"rows": _sg_rows5, "evidence_cutoff": "2026-10-28"},
+                          baseline=_sg_base)
+    chk("L79 a new face that is still producer-only is clean, and a vanished one only retires",
+        _g4["violations"] == [] and _g4["retired_faces"] == [])
+    _g5 = signgrowth_gate(current={"rows": _sg_rows4, "evidence_cutoff": "2026-10-28"},
+                          baseline=None)
+    chk("L80 with no baseline the gate names no crossing and asks for a seed first",
+        _g5["status"] == "needs_baseline" and _g5["violations"] == []
+        and _g5["verdict"] == "no_baseline_yet")
+    _sg_b = _signgrowth_baseline_from(_sg_rows, "2026-10-28")
+    chk("L81 the seeded baseline round-trips the reader map it was built from",
+        _sg_b["faces"]["results/e79/A.json"]
+        == {"reader": "producer_only", "needs_line": True, "status": "silent"})
+    _scr = dict(_own)
+    _scr["Tools/_r1232bmb_card.py"] = 'v = doc["engine_ann_diff_bp"]'
+    _fac5 = _signexpose_face("results/e79/FAKE-20261027.json", {},
+                             [{"leaf": "engine_ann_diff_bp",
+                               "sign_convention": ["flipped"]}], _scr)
+    chk("L82 a round-local helper that quotes the leaf is not an external reader",
+        _fac5["reader"] == "read_by_a_round_scratch_script"
+        and _fac5["trap"] is False
+        and _fac5["scratch_readers"] == ["Tools/_r1232bmb_card.py"])
+    _scr2 = dict(_scr)
+    _scr2["scripts/consumer.py"] = 'v = doc["engine_ann_diff_bp"]'
+    _fac6 = _signexpose_face("results/e79/FAKE-20261027.json", {},
+                             [{"leaf": "engine_ann_diff_bp",
+                               "sign_convention": ["flipped"]}], _scr2)
+    chk("L83 one durable reader outweighs any number of scratch helpers",
+        _fac6["reader"] == "read_outside_the_producer" and _fac6["trap"] is True
+        and _fac6["durable_readers"] == ["scripts/consumer.py"])
+    _g6 = signgrowth_gate(current={
+        "rows": [{"face": "results/e79/A.json",
+                  "reader": "read_outside_the_producer", "needs_line": True,
+                  "status": "silent", "trap": True}], "evidence_cutoff": "2026-10-28"},
+        baseline={"faces": {"results/e79/A.json": {
+            "reader": "read_by_a_round_scratch_script", "needs_line": True,
+            "status": "silent"}}})
+    chk("L84 scratch-only coverage is a clean baseline a durable reader can grow out of",
+        [v["face"] for v in _g6["violations"]] == ["results/e79/A.json"])
+
     ok = sum(1 for _, c in legs if c)
     for name, cond in legs:
         print(("PASS " if cond else "FAIL ") + name)
@@ -3801,6 +4041,8 @@ def main(argv):
         return run_deltasign(publish="--publish" in argv)
     if cmd == "signexposure":
         return run_signexposure(publish="--publish" in argv)
+    if cmd == "signgrowth":
+        return run_signgrowth(publish="--publish" in argv, seed="--seed" in argv)
     print(__doc__)
     return 2
 

@@ -2688,3 +2688,38 @@ of the short leaf (the r1292 mid-name unit-token pitfall, one level down).
 How to apply: any "this file/field should say X" audit gets a second leg that measures who reads
 the file before the fix is prioritised; and any source-tree scan excludes its own writer and
 proves the exclusion with a leg.
+## E205 A snapshot of "nobody reads this" expires inside the round that wrote it: ratchet the reader map and let the first durable reader fail the build (2026-10-29 r1233 bm-b)
+
+Evidence: `results/e79/SIGNGROWTH-2026-10-27.json` + seeded `results/e79/SIGNGROWTH-BASELINE.json`,
+code `signgrowth` (`scripts/e97_routing.py`, selftest 77 -> 87, smoke leg added), upstream E201 +
+E204, digest `research/digests/DIGEST-20261029-e205-sign-growth-gate.md`.
+
+E204 answered "who reads this silent face today". That answer is a snapshot, and the event it
+cannot see is the one that matters: a face that never taught its sign acquiring its **first
+durable reader**. The gate diffs two reader maps and refuses the crossing.
+
+(a) **the published "0 readers" was already stale when it shipped** -- the sweep of r1232 said
+14/14 `producer_only`; re-running the identical code one round later reported **6 of 14**
+`read_outside_the_producer`, and every one of them was read by exactly one file:
+`Tools/_r1232bmb_card.py`, the scratch script that round wrote to author its own card. A
+measurement that scans a tree which the same round is still writing is a measurement of a tree
+that does not exist yet. Fix the reader classes, not the prose: underscore-prefixed helpers are
+`read_by_a_round_scratch_script` (new class), durable readers keep
+`read_outside_the_producer`, and only the latter can be a trap. After the fix the honest split is
+8 producer-only / 6 scratch-only / **0** durable.
+
+(b) **a ratchet, not a threshold** -- publish the current map as an explicit baseline
+(`SIGNGROWTH-BASELINE.json`), then fail (rc 3) on exactly two events: a baseline face moving
+from a clean class into a durable external read while it still needs a line, and a **new** face
+born already read by a durable consumer. Report a vanished face as retired, never as a failure.
+Seeding blesses today's map on purpose, so `--seed` is a deliberate act with a published
+statement, not a convenience fallback.
+
+(c) **the gate is only real when something runs it** -- a crossing that no scheduled check reads
+is a comment. Wire the leg into smoke (124/124) so "the build fails" is a fact about the repo
+rather than a promise in a card.
+
+How to apply: for any "nothing consumes this yet" conclusion, publish the reader map as a
+versioned baseline and turn the *first* consumer into a blocking event; and when a study scans a
+directory the running round also writes into, classify round-local artefacts before believing
+the first number.

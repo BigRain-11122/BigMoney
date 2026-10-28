@@ -1,0 +1,26 @@
+{
+ "study": "e205_delta_sign_growth_gate",
+ "status": "ok",
+ "evidence_cutoff": "2026-10-27",
+ "spec": {
+  "upstream": "the E204 exposure sweep + its declared reader baseline (this module)",
+  "question": "E204 answered who reads a silent delta face today. The cheaper question is what happens tomorrow: the first external reader is the moment prose hygiene becomes a trap.",
+  "baseline": "results/e79/SIGNGROWTH-BASELINE.json",
+  "crossing_rule": "baseline reader in ['producer_only', 'no_reader_in_repo', 'read_by_a_round_scratch_script'] AND now read_outside_the_producer AND the face still needs a sign line",
+  "born_rule": "a face absent from the baseline that is already a trap",
+  "retire_rule": "a baseline face that no longer exists is reported, never failed",
+  "exit": "0 clean / 0 after seeding / 3 a crossing was found"
+ },
+ "crossings": [],
+ "born_traps": [],
+ "newly_declaring": [],
+ "retired_faces": [],
+ "violations": [],
+ "verdict": "no_face_crossed_into_an_external_read",
+ "honest": [
+  "the baseline is a ratchet, not a verdict: seeding it blesses today's map, including any face that is already read externally -- re-seed only on purpose",
+  "growth is detected between two runs of this leg, so a reader added and removed between two runs is invisible to it",
+  "the reader scan is in-repo only (same limit as E204): prose, figures files and out-of-repo consumers are not visible"
+ ],
+ "law_ref": "O-20260924-1626 R3 (advisory-to-blocking: the crossing costs a whole sign)"
+}

@@ -501,6 +501,12 @@ def main() -> int:
             # stands on a script nobody can re-derive.
             ("product: etf_book_spanning_pre2020 period test (exit-code contract)",
              "scripts/etf_book_spanning_pre2020.py", ["--selftest"]),
+            # r1233 (E205): the decomposition delta faces are silent by construction.
+            # The growth gate is the only thing that fails when one of them quietly
+            # acquires its first durable reader, so it has to be exercised, not
+            # remembered.
+            ("product: e97 sign-growth gate (crossing detection contract)",
+             "scripts/e97_routing.py", ["selftest"]),
             # The money question ("how big can this book get before impact eats it")
             # rests entirely on this one script: it re-derives both arms off one
             # engine and pins k=1 to the flat path to 1e-12. A rot here would print

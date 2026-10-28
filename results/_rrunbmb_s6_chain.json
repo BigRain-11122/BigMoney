@@ -1,0 +1,136 @@
+{
+ "round": "run",
+ "machine": "bm-b",
+ "ts": "2026-10-29T03:10:29",
+ "elapsed_sec": 138.73,
+ "legs_total": 21,
+ "legs_rc0": 21,
+ "legs": [
+  {
+   "leg": "dualrun",
+   "rc": 0,
+   "elapsed_sec": 0.12,
+   "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 683 entries, drift-free streak 13, cutoff 2026-10-29T02:05:00+08:00)"
+  },
+  {
+   "leg": "compute_audit",
+   "rc": 0,
+   "elapsed_sec": 7.94,
+   "tail": "{\"ts\": \"2026-10-29 03:08:18\", \"audit_version\": \"v2.4.2\", \"cpu_total_pct\": 8.0, \"py_cpu_pct\": 2.4, \"cores\": 16, \"py_procs\": 12, \"result_stale_min\": 0.2, \"fleet_open_tasks\": 0, \"pool_ready_count\": 1, \"pool_ready_unclaimed\": 1, \"load_state\": \"pool-supply-gap\", \"pool_starvation_candidate\": false, \"pool_"
+  },
+  {
+   "leg": "py_watermark",
+   "rc": 0,
+   "elapsed_sec": 6.02,
+   "tail": "{\"ts\": \"2026-10-29 03:08:25\", \"epoch\": 1793214499.0, \"machine\": \"bm-b\", \"cpu_total_pct\": 2.0, \"cores\": 16, \"py_cpu_pct\": 0.1, \"py_procs\": 11, \"top_proc_cores\": 0.02, \"local_batch_running\": false, \"refresh_lock_lanes\": [], \"open_tickets\": 0, \"open_ticket_ids\": [], \"bandit_open\": 0, \"pool_ready_ids\": "
+  },
+  {
+   "leg": "update_daily",
+   "rc": 0,
+   "elapsed_sec": 1.43,
+   "tail": "status -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
+  },
+  {
+   "leg": "cal_audit",
+   "rc": 0,
+   "elapsed_sec": 1.59,
+   "tail": "data_lag_audit: in_sync | calendar 1990-12-19..2026-12-31 (8797d) | expected 2026-10-28 | active 1723/1725 syms effective 2026-10-28 | missing none"
+  },
+  {
+   "leg": "market_regime",
+   "rc": 0,
+   "elapsed_sec": 0.77,
+   "tail": "  trigger: breadth 0.88>=65%"
+  },
+  {
+   "leg": "market_clock",
+   "rc": 0,
+   "elapsed_sec": 5.35,
+   "tail": "call written: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-10-28.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  {
+   "leg": "update_astock_daily",
+   "rc": 0,
+   "elapsed_sec": 1.37,
+   "tail": "throttle: last spawn 2026-10-29T03:07:56 (0.6min ago) < 30min -> no-op"
+  },
+  {
+   "leg": "update_etf_daily",
+   "rc": 0,
+   "elapsed_sec": 0.07,
+   "tail": "no-op: panel cutoff 2026-10-28 covers expected complete-bar date 2026-10-28 -> zero network"
+  },
+  {
+   "leg": "regime_thermo",
+   "rc": 0,
+   "elapsed_sec": 0.45,
+   "tail": "regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op"
+  },
+  {
+   "leg": "regime_gate_dualarm",
+   "rc": 0,
+   "elapsed_sec": 0.07,
+   "tail": "regime_gate_dualarm: wrote C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\regime_gate_dualarm\\DUALARM-2026-10-19.json (index=SUPPORT @2026-10-19, emotion @2026-09-22)"
+  },
+  {
+   "leg": "rev_osc_export",
+   "rc": 0,
+   "elapsed_sec": 31.18,
+   "tail": "rev_osc_signal_export: SIG-2026-10-28 picks=10 gate_open=True thin=False bars_codes=71 -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\rev_osc_live"
+  },
+  {
+   "leg": "update_minute_feed",
+   "rc": 0,
+   "elapsed_sec": 0.04,
+   "tail": "update_minute_feed: before 09:15 -- no-op"
+  },
+  {
+   "leg": "etf_book_forward",
+   "rc": 0,
+   "elapsed_sec": 41.22,
+   "tail": "POWER (80% at 5% two-sided, sd 8.46%/yr): smallest edge this ledger can resolve is 6m 33.5pp/yr, 1y 23.7pp/yr, 2y 16.8pp/yr, 3y 13.7pp/yr; the edges it published need pre-2020 measured alpha 2.03 -> 136.2 y, in-window measured alpha 5.9 -> 16.1 y"
+  },
+  {
+   "leg": "daily_report",
+   "rc": 0,
+   "elapsed_sec": 0.99,
+   "tail": "daily report written: REPORT-2026-10-29.md/.json faces=5 token=1"
+  },
+  {
+   "leg": "ceo_live_usage",
+   "rc": 0,
+   "elapsed_sec": 0.09,
+   "tail": "ceo_live_usage: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-10-29.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)"
+  },
+  {
+   "leg": "machine_health",
+   "rc": 0,
+   "elapsed_sec": 0.05,
+   "tail": "machine-health: OK machines=3 dropped_junk=0 fields=8/8 bm-a,bm-b,bm-c"
+  },
+  {
+   "leg": "gpu_face",
+   "rc": 0,
+   "elapsed_sec": 0.04,
+   "tail": "{\"findings\": [], \"machine_id\": \"bm-b\", \"n_gpu_keys\": 32}"
+  },
+  {
+   "leg": "attrition_guard",
+   "rc": 0,
+   "elapsed_sec": 36.34,
+   "tail": "guard scan: 4 ledger files, CLEAN (no active loss); evidence -> results/_attrition_guard_scan.json"
+  },
+  {
+   "leg": "pool_audit",
+   "rc": 0,
+   "elapsed_sec": 3.52,
+   "tail": "elapsed 3.1s | csv -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\pool_audit.csv | json -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\pool_audit.json"
+  },
+  {
+   "leg": "token_meter",
+   "rc": 0,
+   "elapsed_sec": 0.06,
+   "tail": "L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review': 1, 'summary': 1}); crash-fuse refusals=2903 across 83 sigs"
+  }
+ ]
+}
