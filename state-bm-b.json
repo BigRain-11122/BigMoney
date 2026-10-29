@@ -1,9 +1,10 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-29T11:52:12+08:00",
- "current": "r1246: E219 laddered the E218 matched-width control across book widths 10/25/50/100 -- the family becomes measurable at pick_n 50, and there the calendar gap does not reproduce (+7.6bp against -161.0bp); the gap itself moves 18 -> -50 -> -161 -> -45 across widths, so it is not width-invariant and the 18bp was a width-10 number",
- "current_task": "S6 chain + closeout (E220 face published, chain leg wired, card closed)",
+ "current": "r1248: the month boundary is a turn-of-month story and it is not resolvable on a 14-year panel -- month-end last-two +8.31bp vs rest +3.91bp = +4.40bp (t=0.64); last session +19.20bp (t=2.13) sits under its own 23-bucket bar 3.07; turn-of-month +23.32bp (t=3.43) is post-hoc; a 4.40bp gap needs 3,567 months (~297y), i.e. a calendar effect's sample size is months, not names",
+ "current_task": "S6 chain + closeout (E221 face published, chain leg wired, card closed)",
  "cyc_round": 1247,
+ "cycle_round": 1248,
  "d19_note": "decisions advanced 97fe122f (D-20261029-06..14 read: 09 superseded by 12, 03(4) already satisfied here -- NatsHB/FleetLink/ProductionClaim all S4U and Ready/Running; the rest belong to other companies) -> zero order files unacked",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
@@ -63,17 +64,35 @@
    "D-20261029-03 + its falsification row: POOL-0023 host-offline verdict was telemetry-down, not machine-down. Collateral check this round: TCP 100.110.185.62:4222 = reachable at 01:0x, so the NATS break cited in fleet/inbox/MSG-20261029-0026 was transient"
   ]
  },
+ "decisions_consumed_r1246": {
+  "action": "ack only, nothing executed: 06 is the group POOL spec correction (@HQ dispatcher), 07 MiniGame .git, 08/09 HQ tooling (09 already superseded by 12), 10/14 collection faces, 11 BigCompute L1 endpoint, 13 BigStream. 03(4) telemetry repair is verified in place on this machine (FluxGroup-NatsHB Running, FleetLink + HQ-ProductionClaim Ready, all LogonType=S4U). 12 is a judging-口径 rule: this round's task-state line carries the yield-window reading (machine-state.flag absent/paused) instead of an absolute Ready/Disabled claim",
+  "rows": [
+   "D-20261029-06",
+   "D-20261029-07",
+   "D-20261029-08",
+   "D-20261029-09",
+   "D-20261029-10",
+   "D-20261029-11",
+   "D-20261029-12",
+   "D-20261029-13",
+   "D-20261029-14"
+  ],
+  "touching_this_repo": [
+   "D-20261029-12 (judging口径: ScheduledTask State readings must exclude the AutoYield window; applied in this round report as work_window=open with flag=absent)"
+  ]
+ },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
+ "delivery": "main, ahead 0 / behind 0 (ls-remote 54e4b535b1 verified)",
  "delivery_note": "r1235 estate on machine/bm-b-r1235 (ls-remote verified); main merge deferred to a quiet window (16 behind / 17 ahead, auto-generated faces)",
- "did": "e64_midsweep_burnin_face",
- "did_round": "r1239",
+ "did": "e221_dom_profile",
+ "did_round": "r1248",
  "heartbeat_epoch_utc": 1793231425,
  "heartbeat_epoch_utc_face": "int",
  "idle_rounds": 0,
- "last_action": "r1239: E64 burn-in leg + face + digest + card E212; machine-health face healed from a live probe; pool E64 done",
- "last_action_at": "2026-10-29T07:50:25+08:00",
- "last_artifact": "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json",
+ "last_action": "r1248: E221 day-of-month profile burned (1,725 ETFs x 5,268 sessions); card E221 + digest + S6 leg + smoke leg; pool E221 done",
+ "last_action_at": "2026-10-29T13:53:39+08:00",
+ "last_artifact": "results/dom_profile/PROFILE-20261028.json",
  "last_decisions_at": "2026-10-29T01:10:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -93,29 +112,29 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_push": {
+  "behind_origin_main": 0,
+  "local_not_on_origin": 0,
+  "note": "ff push to main; ls-remote tip == HEAD; rev-list 0/0",
   "pushed_sha": "d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46",
   "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-29T11:56:02+08:00",
-  "local_not_on_origin": 0,
-  "behind_origin_main": 0,
-  "note": "ff push to main; ls-remote tip == HEAD; rev-list 0/0"
+  "ts": "2026-10-29T11:56:02+08:00"
  },
- "last_round": 1245,
- "last_round_at": "2026-10-29T11:52:12+08:00",
+ "last_round": 1248,
+ "last_round_at": "2026-10-29T13:53:39+08:00",
  "last_round_report": "r1216",
  "last_round_ts": "2026-10-28T12:22:40+08:00",
  "last_run": "2026-10-27T12:06:00+08:00",
- "last_seen": "2026-10-29T11:52:12+08:00",
+ "last_seen": "2026-10-29T13:53:39+08:00",
  "last_updated": "2026-10-27T15:57:48+08:00",
- "latest_artifact": "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json + research/digests/DIGEST-20261029-r1245-e218-width-matched.md",
+ "latest_artifact": "results/dom_profile/PROFILE-20261028.json + research/digests/DIGEST-20261029-r1248-e221-dom-profile.md",
  "local_not_on_origin": 0,
  "local_not_on_origin_commits": 26,
  "machine_id": "bm-b",
  "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
- "next": "burn E219: put the matched-width experiment on a width ladder (pick_n 10/25/50/100) and publish the first width at which a control can decide E61's 18bp",
- "next_milestone": "E219 width-ladder face, window <=48h (deadline 2026-10-31 12:00)",
- "next_pointer": "E219 target=scripts/e39_panel_census.py (mode sharedbookwidth, width ladder) deliverable=results/e44_midmonth/WIDTHLADDER-<cutoff>.json",
+ "next": "pool ready 0 -> the next round owes a card; candidate = PRE-REGISTERED turn-of-month test (r1248 group is post-hoc) with explicit exit axis + month-level power",
+ "next_milestone": "E222 pre-registered turn-of-month test, window <=48h (deadline 2026-10-31 14:00)",
+ "next_pointer": "E222 target=research/PREREG_TEMPLATE.md draft (not the post-hoc r1248 group) deliverable=research/TURN_OF_MONTH_P1.md draft -> freeze gate",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
@@ -281,7 +300,7 @@
  "orders_delta_pending": false,
  "orphan": 0,
  "orphan_face": 0,
- "orphan_face_note": "r1239: Tools/orphan_face_probe.py -> py_faces 7, orphans 0",
+ "orphan_face_note": "r1248: Tools/orphan_face_probe.py -> py_faces 9, orphans 0",
  "orphan_faces": 0,
  "pending_ops": [
   "D-20261027-08 dead-letter: after 2026-10-27T12:00 verify CODELY.md repaired on origin (LF>=55, PUA=0, both new rows present); if not, bm-b executes the recipe (base = blob da99a6e9ce, re-wrap the two flattened commits).",
@@ -291,6 +310,7 @@
  "pool_claims": [
   "E183 done r1216"
  ],
+ "push_receipt_pending": true,
  "push_receipts_r1049": {
   "ahead": 0,
   "behind": 0,
@@ -1375,15 +1395,79 @@
   "selftest": "e39 737 -> 743/743; e27 9 -> 11/11",
   "smoke": "128/128 PASS"
  },
+ "r1245": {
+  "d19": "dec + ord unchanged/reproducible -> zero new rows; 114 order files / 115 acks / 0 unacked",
+  "finding": "E61's -66bp selection term = width +189.4bp (sd 402.4) + pool identity -255.4bp (sd 402.4), residual 0.0; the calendar reading is +18.0bp at full width vs -92.4bp matched (sd 528.9, n=5, SE 236.5, same-side share 0.4) -> unresolvable_at_matched_width, 3,454 draws needed",
+  "honest": "the split's arithmetic identity holds; neither part is measurable at book width 10 with a random-draw control, so no survival claim is made",
+  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu); pool had one ready card, E218",
+  "pool": "E218 closed with result_ref; E219-WIDTH-LADDER-RESOLUTION seeded (ready 1)",
+  "products": [
+   "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json",
+   "scripts/e39_panel_census.py mode sharedbookwidth",
+   "S6 leg sharedbookwidth",
+   "smoke leg (203/203)"
+  ],
+  "push": "PUSHED_VERIFIED d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46 (rev-list 0/0, ls-remote tip == HEAD)",
+  "s6": "26/27 rc=0 (185.9s); machine_health rc=2 attributed: the bm-b row in fleet/machine-health.json is written by the deployed oversight copy and carries neither cpu nor gpu.util while the same heartbeat holds cpu_pct=4.5 / gpu_util_pct=2.0",
+  "tests": "e39 selftest 796/796 (+2 net after the count print was moved to the last leg)"
+ },
+ "r1246": {
+  "card": "E219 closed with result_ref; E220 drafting window opened",
+  "chain": "Tools/s6_chain_bmb.py leg after sharedbookwidth, cutoff-idempotent",
+  "product": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+  "runner": "scripts/e39_panel_census.py mode sharedbookwidthladder",
+  "selftest": "803/803"
+ },
+ "r1246_push": "54e4b535b1 -> origin/main (ls-remote verified, ahead/behind 0/0)",
+ "r1247": {
+  "finding": "the width ladder's movement is the TIMING part, not selection: timing 84.0/-83.0/-188.0/-3.0 (range 272bp) against selection -66.0/+33.0/+27.0/-42.0 (range 99bp); timing agrees with the total in 3/3 rung steps and selection opposes in 2/3; 272bp against a 43.5bp tightest standard error means the part that carries the movement is not width-invariant either, so the mid-month calendar line closes with no quotable number at any width",
+  "mission": "watermark green at open, pool ready 0, board clear -> the standing agenda owed the E220 drafting window that r1246 opened",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; S8 local-ignite not applicable (registry has no open cpu-only item -- all done/retired)",
+  "orphan": 0,
+  "pit": "a ladder that disagrees with itself must not be attributed by assumption: the intuitive reading (width changes the candidate set, so the movement is selection) is contradicted by the numbers -- selection is the BOUNDED part and it partly offsets the total. Computing the split before writing the card is what caught it.",
+  "product": [
+   "results/e44_midmonth/WIDTHSPLIT-20261028.json",
+   "scripts/e39_panel_census.py: _widthsplit_rows/_widthsplit_range/_widthsplit_movement/_widthsplit_verdict/run_sharedbook_widthsplit + WIDTHSPLIT_TOL_BP + CLI mode sharedbookwidthsplit (selftest 803 -> 812, 9 legs)",
+   "Tools/s6_chain_bmb.py: sharedbookwidthsplit wired immediately after sharedbookwidthladder",
+   "smoke_test.py: leg on the face, the chain position and both parts per rung",
+   "research/digests/DIGEST-20261029-r1247-e220-width-split.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E220",
+   "results/runnable_pool.json E220 done with result_ref (ready stays 0)"
+  ],
+  "s6": "29/29 rc=0 (217.3s): dualrun ZERO-DRIFT | sharedbook 11.2s | sharedbookwidth 19.0s | sharedbookwidthladder no-op 0.36s | sharedbookwidthsplit 0.37s rc=0 | attrition CLEAN 4 ledgers | token_meter 0 local-LLM legs today",
+  "s7": "loop pin=2 (re-registered per schedule) | LoopWatchdog S4U SWA=false | pre-commit + pre-push claws reinstalled | D-19 decisions 97fe122f / orders 122ab707 unchanged, 114 files / 115 acks / 0 unacked | sat engine status rc=0 idle",
+  "tests": "e39 selftest 803 -> 812/812 PASS"
+ },
+ "r1248": {
+  "finding": "the month boundary is a TURN-of-month story, and a calendar effect cannot be resolved by widening the cross-section: month-end last-two +8.31bp vs rest +3.91bp = +4.40bp at SE 6.84 (t=0.64); last session +19.20bp (t=2.13, 188 months) is under its own 23-bucket bar (3.07); first session +27.47bp (t=2.69); turn-of-month +23.32bp (t=3.43) clears the bar but was formed after seeing the ladder, so it is a pre-registerable candidate, not a finding",
+  "mission": "watermark py_low_with_work_cands at open with pool ready 0 and board clear, smoke 205/205 -> the standing agenda owed a card, so E221 was authored and burned in-window",
+  "not_run": "GPU untouched (parked, C-20261014-01; the 3,999 MiB in use belongs to the interactive window); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; CODELY.md not touched (49909B, 93B headroom -> lesson went to card E221)",
+  "pits": [
+   "testing se_bp for truthiness reported 'insufficient_days' for a perfectly measured 100bp gap, because a zero-variance group has se == 0.0 (falsy) -- test against None; the first selftest run caught it",
+   "two of my first selftest legs were wrong, not the code: the fixture's month-end sessions were all identical so their session sd is 0; the replacement moves every name identically per session with opposite-sign month-ends, which is the exact case where a name-day SE prints 0"
+  ],
+  "power": "3,567 months (~297 years) at 80% power for a 4.40bp gap; 188 usable month-ends in the panel -> E219's 'unresolvable at any width' is a property of calendar questions on a 14-year panel, not a defect of the ten-name book",
+  "product": [
+   "scripts/e221_dom_profile.py (run / selftest, 18 hermetic legs)",
+   "results/dom_profile/PROFILE-20261028.json + by_dom.csv",
+   "Tools/s6_chain_bmb.py: dom_profile leg after sharedbookwidthsplit (5.8s rc0)",
+   "smoke_test.py: leg that recomputes the published gap from the published group stats",
+   "research/digests/DIGEST-20261029-r1248-e221-dom-profile.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E221",
+   "results/runnable_pool.json E221 done with result_ref (ready 0)"
+  ],
+  "s6": "29/30 rc0 (204.1s): dom_profile 5.83s | dualrun DRIFT on $.updated_at only (my pool surgery restated the previous window's future stamp 13:40 -> 13:38) -> settled with merge_lane_views sync_face, re-run ZERO-DRIFT 693 entries streak 1 | machine_health rc=2 missing[bm-b:cpu,gpu.util] -> gpu_face apply + machine_health_face write/check -> OK 8/8 | update_daily 0 new rows | cal_audit in_sync 2026-10-28 (1723/1725 sym) | astock + etf panels fresh zero network | market_clock CALL-2026-10-27 ORANGE_COOL | docquotes 652 numbers 2 unsourced | pagegate 0 new | attrition CLEAN 4 ledgers | pool_audit 3.1s | token_meter 0 legs",
+  "s7": "loop task pin=2 no-op | LoopWatchdog re-registered (S4U, SWA=false) | pre-commit + pre-push claws reinstalled | D-19 decisions 97fe122f / orders 122ab707 unchanged, 114 files / 115 acks / 0 unacked"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1247,
- "round_no": 1247,
+ "round": 1248,
+ "round_no": 1248,
  "round_no_label": "r1242",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T13:21:19+08:00",
+ "round_no_ts": "2026-10-29T13:53:39+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": "status rc=0 (last_verdict idle)",
@@ -1397,73 +1481,11 @@
   "status": "delivered_on_machine_branch",
   "ts": "2026-10-29T07:50:25+08:00"
  },
- "task": "r1247: E220 width-movement attribution (done) -> pool ready 0",
- "task_short": "E220",
- "task_short_note": "e39 mode sharedbookwidthsplit; selftest 803->812; face WIDTHSPLIT-20261028.json",
- "ts": "2026-10-29T13:21:19+08:00",
- "updated": "2026-10-29T13:21:19+08:00",
- "updated_at": "2026-10-29T13:21:19+08:00",
- "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-7%) -> board and pool both clear, so the round owed the standing agenda's open E220 window | E220 read the E219 ladder through the E61 identity: the movement is the TIMING part (84/-83/-188/-3, range 272bp) and not selection (-66/+33/+27/-42, range 99bp), and 272bp against a 43.5bp tightest SE is still not width-invariant -> label timing_carries_movement_without_a_width_invariant_number, so the mid-month calendar line closes with no quotable number at any width | e39 selftest 803->812 | S6 29/29 rc0 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions 97fe122f + orders 122ab707 unchanged -> zero new rows",
- "r1245": {
-  "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu); pool had one ready card, E218",
-  "finding": "E61's -66bp selection term = width +189.4bp (sd 402.4) + pool identity -255.4bp (sd 402.4), residual 0.0; the calendar reading is +18.0bp at full width vs -92.4bp matched (sd 528.9, n=5, SE 236.5, same-side share 0.4) -> unresolvable_at_matched_width, 3,454 draws needed",
-  "products": [
-   "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json",
-   "scripts/e39_panel_census.py mode sharedbookwidth",
-   "S6 leg sharedbookwidth",
-   "smoke leg (203/203)"
-  ],
-  "tests": "e39 selftest 796/796 (+2 net after the count print was moved to the last leg)",
-  "honest": "the split's arithmetic identity holds; neither part is measurable at book width 10 with a random-draw control, so no survival claim is made",
-  "s6": "26/27 rc=0 (185.9s); machine_health rc=2 attributed: the bm-b row in fleet/machine-health.json is written by the deployed oversight copy and carries neither cpu nor gpu.util while the same heartbeat holds cpu_pct=4.5 / gpu_util_pct=2.0",
-  "pool": "E218 closed with result_ref; E219-WIDTH-LADDER-RESOLUTION seeded (ready 1)",
-  "d19": "dec + ord unchanged/reproducible -> zero new rows; 114 order files / 115 acks / 0 unacked",
-  "push": "PUSHED_VERIFIED d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46 (rev-list 0/0, ls-remote tip == HEAD)"
- },
- "decisions_consumed_r1246": {
-  "action": "ack only, nothing executed: 06 is the group POOL spec correction (@HQ dispatcher), 07 MiniGame .git, 08/09 HQ tooling (09 already superseded by 12), 10/14 collection faces, 11 BigCompute L1 endpoint, 13 BigStream. 03(4) telemetry repair is verified in place on this machine (FluxGroup-NatsHB Running, FleetLink + HQ-ProductionClaim Ready, all LogonType=S4U). 12 is a judging-口径 rule: this round's task-state line carries the yield-window reading (machine-state.flag absent/paused) instead of an absolute Ready/Disabled claim",
-  "rows": [
-   "D-20261029-06",
-   "D-20261029-07",
-   "D-20261029-08",
-   "D-20261029-09",
-   "D-20261029-10",
-   "D-20261029-11",
-   "D-20261029-12",
-   "D-20261029-13",
-   "D-20261029-14"
-  ],
-  "touching_this_repo": [
-   "D-20261029-12 (judging口径: ScheduledTask State readings must exclude the AutoYield window; applied in this round report as work_window=open with flag=absent)"
-  ]
- },
- "r1246": {
-  "product": "results/e44_midmonth/WIDTHLADDER-20261028.json",
-  "runner": "scripts/e39_panel_census.py mode sharedbookwidthladder",
-  "chain": "Tools/s6_chain_bmb.py leg after sharedbookwidth, cutoff-idempotent",
-  "selftest": "803/803",
-  "card": "E219 closed with result_ref; E220 drafting window opened"
- },
- "delivery": "main, ahead 0 / behind 0 (ls-remote 54e4b535b1 verified)",
- "r1246_push": "54e4b535b1 -> origin/main (ls-remote verified, ahead/behind 0/0)",
- "cycle_round": 1247,
- "r1247": {
-  "mission": "watermark green at open, pool ready 0, board clear -> the standing agenda owed the E220 drafting window that r1246 opened",
-  "finding": "the width ladder's movement is the TIMING part, not selection: timing 84.0/-83.0/-188.0/-3.0 (range 272bp) against selection -66.0/+33.0/+27.0/-42.0 (range 99bp); timing agrees with the total in 3/3 rung steps and selection opposes in 2/3; 272bp against a 43.5bp tightest standard error means the part that carries the movement is not width-invariant either, so the mid-month calendar line closes with no quotable number at any width",
-  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; S8 local-ignite not applicable (registry has no open cpu-only item -- all done/retired)",
-  "orphan": 0,
-  "product": [
-   "results/e44_midmonth/WIDTHSPLIT-20261028.json",
-   "scripts/e39_panel_census.py: _widthsplit_rows/_widthsplit_range/_widthsplit_movement/_widthsplit_verdict/run_sharedbook_widthsplit + WIDTHSPLIT_TOL_BP + CLI mode sharedbookwidthsplit (selftest 803 -> 812, 9 legs)",
-   "Tools/s6_chain_bmb.py: sharedbookwidthsplit wired immediately after sharedbookwidthladder",
-   "smoke_test.py: leg on the face, the chain position and both parts per rung",
-   "research/digests/DIGEST-20261029-r1247-e220-width-split.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E220",
-   "results/runnable_pool.json E220 done with result_ref (ready stays 0)"
-  ],
-  "tests": "e39 selftest 803 -> 812/812 PASS",
-  "s6": "29/29 rc=0 (217.3s): dualrun ZERO-DRIFT | sharedbook 11.2s | sharedbookwidth 19.0s | sharedbookwidthladder no-op 0.36s | sharedbookwidthsplit 0.37s rc=0 | attrition CLEAN 4 ledgers | token_meter 0 local-LLM legs today",
-  "s7": "loop pin=2 (re-registered per schedule) | LoopWatchdog S4U SWA=false | pre-commit + pre-push claws reinstalled | D-19 decisions 97fe122f / orders 122ab707 unchanged, 114 files / 115 acks / 0 unacked | sat engine status rc=0 idle",
-  "pit": "a ladder that disagrees with itself must not be attributed by assumption: the intuitive reading (width changes the candidate set, so the movement is selection) is contradicted by the numbers -- selection is the BOUNDED part and it partly offsets the total. Computing the split before writing the card is what caught it."
- }
+ "task": "r1248: E221 day-of-month profile (done) -> pool ready 0",
+ "task_short": "E221",
+ "task_short_note": "scripts/e221_dom_profile.py; selftest 18/18; face results/dom_profile/PROFILE-20261028.json",
+ "ts": "2026-10-29T13:53:39+08:00",
+ "updated": "2026-10-29T13:53:39+08:00",
+ "updated_at": "2026-10-29T13:53:39+08:00",
+ "verdict": "watermark py_low_with_work_cands at open (pool ready 0, board clear, smoke 205/205 green) -> the round owed the standing agenda a card, so E221 was authored and burned in-window | 1,725 ETFs x 5,268 sessions, 3,786 scored cross-sections (median 148 names/session) | month-end-rest +4.40bp at SE 6.84 (t=0.64); best ladder cell = last session +19.20bp t=2.13 under the 3.07 bar for 23 buckets; turn-of-month +23.32bp t=3.43 but post-hoc | power: 3,567 months (~297y) for a 4.40bp gap -> widening the cross-section buys nothing for a calendar effect | selftest 18/18 | S6 29/30 rc0 (machine_health rc2 healed in-window -> OK 8/8) | smoke 206/206 | attrition CLEAN 4 ledgers | orphan 0/9 | D-19 both faces unchanged -> zero new rows | pool E221 done, ready 0"
 }

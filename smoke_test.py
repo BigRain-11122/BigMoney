@@ -2158,6 +2158,50 @@ def main() -> int:
                  % (_ad["flips"]["raw"], _ad["flips"]["damped"]))
     except Exception as e:
         check("product: the adopted flip damper reaches the live shadow book", False, str(e))
+    try:
+        # E221: the day-of-month profile must stay a SESSION-counted measurement. This
+        # leg recomputes the published gap from the published group stats and fails if
+        # the face loses the power block, the multiple-comparison bar, or starts quoting
+        # a month-end gap without saying how many months it rests on.
+        import glob as _glob
+        _bad = []
+        _faces = sorted(_glob.glob(os.path.join("results", "dom_profile",
+                                               "PROFILE-*.json")))
+        if not _faces:
+            _bad.append("no PROFILE-*.json face on disk")
+        else:
+            with open(_faces[-1], encoding="utf-8") as _fh:
+                _f = json.load(_fh)
+            _g = _f.get("groups") or {}
+            _me, _rest = _g.get("month_end_last2") or {}, _g.get("rest") or {}
+            if not _f.get("evidence_cutoff"):
+                _bad.append("face carries no evidence_cutoff")
+            _pub = _f.get("month_end_minus_rest") or {}
+            if _me.get("mean_bp") is not None and _rest.get("mean_bp") is not None:
+                _want = _me["mean_bp"] - _rest["mean_bp"]
+                if _pub.get("diff_bp") is None or abs(_pub["diff_bp"] - _want) > 1e-6:
+                    _bad.append("published gap != month_end - rest recomputed")
+                _n = (_me.get("n_days") or 0) + (_rest.get("n_days") or 0)
+                if (_pub.get("se_bp") or 0) < 1e-9:
+                    _bad.append("gap published with a zero standard error")
+                if _n < 100:
+                    _bad.append("gap rests on fewer than 100 sessions")
+            _pw = _f.get("power") or {}
+            if not _pw.get("months_in_test"):
+                _bad.append("power block does not say how many months the test rests on")
+            if _pw.get("years_needed") is None:
+                _bad.append("power block does not say what the gap would need")
+            if "best_bucket" in _f:
+                _bb = _f["best_bucket"]
+                if not _bb.get("clears_bonferroni") and _bb.get("bonferroni_abs_t") is None:
+                    _bad.append("best bucket quoted without its multiple-comparison bar")
+            if not (_f.get("coverage") or {}).get("sessions_scored"):
+                _bad.append("coverage does not report the sessions actually scored")
+        check("product: the day-of-month face counts sessions, not name-days",
+              not _bad, "; ".join(_bad)[:220]
+              or "gap, power block and best-of-ladder bar all recompute from the face")
+    except Exception as e:
+        check("product: the day-of-month face counts sessions, not name-days", False, str(e))
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

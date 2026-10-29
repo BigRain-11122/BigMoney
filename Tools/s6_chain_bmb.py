@@ -64,6 +64,11 @@ LEGS = [
     # above -- no burn -- so it re-derives every round instead of caching to a cutoff.
     ("sharedbookwidthsplit", ["python", "scripts/e39_panel_census.py",
                               "sharedbookwidthsplit"]),
+    # E221: the same calendar question asked where the sample is wide enough to
+    # matter -- the whole ETF universe instead of one ten-name book. Deterministic,
+    # zero network, ~10s on the full panel, so it re-derives every round rather than
+    # caching to a cutoff.
+    ("dom_profile", ["python", "scripts/e221_dom_profile.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

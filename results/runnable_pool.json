@@ -22966,6 +22966,20 @@
    "done_at": "2026-10-29T13:40:00+08:00",
    "done_by": "bm-b r1247",
    "result_ref": "results/e44_midmonth/WIDTHSPLIT-20261028.json"
+  },
+  {
+   "id": "E221-DAY-OF-MONTH-PROFILE",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/dom_profile/PROFILE-<cutoff>.json",
+   "target": "scripts/e221_dom_profile.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T13:38:09+08:00",
+   "entered_by": "bm-b r1248",
+   "source": "The mid-month family (E61/E215/E218/E219/E220) closed with 'no quotable number at any width' because a ten-name book's own draw noise is 20-50x the 18bp it was meant to explain. The cheaper question it never asked: is the month boundary special for ETF returns at all, measured over the whole universe instead of one book?",
+   "title": "Day-of-month return profile over the full ETF universe, counted per SESSION with a stated power floor",
+   "result_ref": "results/dom_profile/PROFILE-20261028.json",
+   "done_note": "1,725 ETFs x 5,268 sessions, 3,786 scored cross-sections (median 148 names/session). Month-end (last 2 sessions) +8.31bp vs rest-of-month +3.91bp -> gap +4.40bp at SE 6.84 (t=0.64). The whole-month ladder's best cell is the LAST session alone (+19.20bp, t=2.13 over 188 months) but it must clear 3.07 for 23 buckets and does not. Power: a 4.40bp gap needs 3,567 months (~297 years) -- widening from 5 names to 1,725 buys nothing because a calendar effect is observed once per month, not once per name."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

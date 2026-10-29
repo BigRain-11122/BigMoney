@@ -3881,3 +3881,40 @@ Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthsplit` + helpers `_wi
 both parts; selftest 803 -> 812 (9 legs: the identity at both ends, a rung with no selection term,
 3/3 timing agreement, 2/3 selection opposition, both ranges, the label, the invariance direction,
 and a single-rung face that must say insufficient_rungs).
+
+### E221 — for a calendar effect the sample size is MONTHS, not names (r1248 bm-b)
+
+The mid-month family (E61/E215/E218/E219/E220) closed with no quotable number at any
+width because a ten-name book's draw noise is 20-50x the 18bp it had to explain. The
+cheap version of the same question, asked over the whole ETF universe (1,725 names x
+5,268 sessions, 3,786 scored cross-sections, median 148 names/session), produces the
+rule and the number at once.
+
+Rule: **a calendar effect is observed once per month, so widening the cross-section buys
+no power.** From 5 names to 1,725 changed nothing about resolvability because the
+independent observation is the month. Live reading (cutoff 2026-10-28, close-to-close,
+equal weight, no costs): unconditional +2.20bp/session; month-end last-two +8.31bp vs
+rest-of-month +3.91bp -> gap +4.40bp at SE 6.84, t=0.64. The power block names the price
+of settling it: 3,567 months (~297 years) for a 4.40bp gap at 80% power. So E219's
+"unresolvable at matched width" is a property of calendar questions on a 14-year panel,
+not a defect of the book.
+
+Shape finding: the mass sits on the TURN of the month, not on a two-day "month-end"
+bucket -- last session +19.20bp (t 2.13 over 188 months) against a -2.58bp penultimate,
+first session +27.47bp (t 2.69), turn-of-month group +23.32bp (t 3.43). The best single
+cell is below the ladder's own 23-bucket bar (3.07, so `clears_bonferroni=false`), and
+the turn-of-month group that does clear it was formed after seeing the ladder -- a
+pre-registerable candidate, not a finding.
+
+Statistical rule worth keeping: the standard error must be over SESSIONS. Inside one
+session all ETFs move together, so a name-day SE would read ~0 and call a gap that
+cancels to zero across months infinitely significant; a fixture with identical moves per
+session and opposite-sign month-ends pins this.
+
+Pieces: `scripts/e221_dom_profile.py` (`run` / `selftest`, 18 hermetic legs); face
+`results/dom_profile/PROFILE-<cutoff>.json` + `by_dom.csv`; S6 leg `dom_profile` right
+after `sharedbookwidthsplit`; a smoke leg that recomputes the published gap from the
+published group stats and fails if the power block, the multiple-comparison bar or the
+coverage count disappears. Pit caught in-window: testing `se_bp` for truthiness reported
+"insufficient_days" for a perfectly measured 100bp gap (a zero-variance group has se ==
+0.0) -- test against None.
