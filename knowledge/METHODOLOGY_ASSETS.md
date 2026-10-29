@@ -4347,3 +4347,43 @@ results/state_tilt/EMPIRICAL-GAMMA-<cutoff>.json + empirical_gamma_latest.json; 
 empirical_gamma after cost_curvature; smoke leg requires a published interval containing the
 point estimate, the interval endpoints among the re-derived points, a surviving toll channel,
 a stable/inside partition of the ladder cells, and the bridge disclosure.
+
+### E234 -- a book-level parameter is an average until you measure its members (r1260 bm-b)
+
+E233 measured ONE exponent per panel, but the book holds five instruments with different
+liquidity and history (sh588000 only starts in 2020), so the book-level number could be a
+mixture charged to four sleeves that do not share it. Estimator B per member gives
+sh510300 0.928 [0.830, 1.026], sh510050 0.760 [0.674, 0.847], sh510500 0.416 [0.306, 0.527],
+sh512100 0.414 [0.332, 0.496], sh588000 1.456 [1.310, 1.602]: eight of ten member pairs have
+DISJOINT intervals, and a pooled fit with five member intercepts lands at 0.622 [0.567, 0.676]
+with four of five members outside it. The single exponent is a summary of a spread, not a
+property of the book.
+
+The load-bearing part is the cost of acting on that: re-pricing the movement bill with each
+sleeve on its own exponent (cost_book(dw) = sum_i c*(|dw|/N)**gamma_i, which collapses to the
+linear bill only when every gamma_i = 1) multiplies the bill 1.6x..3.5x -- but almost all of
+that is the SPLIT, not the mixture. Charging the same five-sleeve formula with one pooled
+exponent already accounts for +1289/+2193/+4015 bp (binary_low/tilt_step/tilt_linear) while the
+per-member exponents add only -305/-319/+289 bp. Granularity is a first-order design choice;
+the mixture is a second-order correction that can take either sign.
+
+The family verdicts survive both: the toll clears its bar (3.26 over the 15 cells) on 3 of 3
+arms under the per-member charge with |t| -6.37/-9.97/-10.27, selection stays inside it
+(binary_low +1.32, the tilt arms -0.34), and only 2 of 6 ladder cells change verdict (both the
+0.10 band, which is E230's own focus band). The era question closes honestly too: the 2017+
+exponent 0.883 sits INSIDE the full-sample interval 0.928 [0.830, 1.026], and re-deriving the
+ladder at the era-measured exponent changes 0 of 6 cells -- so no part of that conclusion was
+an artefact of borrowing a longer sample's number.
+
+Pit: a pooled fit that drops the lagged magnitude/volume controls is the naive estimator
+wearing the controlled one's name, and it reported 0.051 with "5 of 5 members outside the
+pooled interval" -- comparing a naive pooled slope against controlled member slopes. Caught
+before the face was published, pinned by a selftest leg that asserts the pooled specification
+carries the same regressors as the member fits. Sibling: the per-member bill alone would have
+been read as the mixture effect, so the same-granularity control is mandatory, not decorative.
+
+Pieces: scripts/e234_per_member_gamma.py (run / selftest, 14 hermetic legs); face
+results/state_tilt/PER-MEMBER-GAMMA-<cutoff>.json + per_member_gamma_latest.json; S6 leg
+per_member_gamma after empirical_gamma; smoke leg requires per-member intervals containing
+their points, a pooled fit carrying the member specification, a compatibility verdict that
+names its breakers, and a bill whose mixture term closes against the granularity control.

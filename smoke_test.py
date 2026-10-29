@@ -2947,6 +2947,69 @@ def main() -> int:
     except Exception as e:
         check("product: the charge curvature is measured, not assumed, before verdicts ride it",
               False, repr(e)[:160])
+    # E234: E233 measured one exponent per panel; the book holds five instruments, so a
+    # book-level gamma may be a mixture. The leg holds the face to: per-member estimates
+    # with intervals, a pooled fit that carries the SAME controls as the member fits, an
+    # explicit compatibility verdict, and a bill comparison that separates the five-sleeve
+    # split from the mixture (the split alone inflates the bill on a concave charge).
+    try:
+        _bad34 = []
+        _p34 = "results/state_tilt/per_member_gamma_latest.json"
+        _f34 = {}
+        if not os.path.exists(_p34):
+            _bad34.append("per-member gamma face missing")
+        else:
+            with open(_p34, encoding="utf-8") as _fh:
+                _f34 = json.load(_fh)
+            _mel = _f34.get("member_estimates") or []
+            if len(_mel) < 2:
+                _bad34.append("fewer than two member estimates published")
+            for _m in _mel:
+                if _m.get("gamma") is None:
+                    continue
+                if not _m.get("gamma_ci"):
+                    _bad34.append("%s publishes no interval" % _m.get("symbol"))
+                    break
+                _lo, _hi = _m["gamma_ci"]
+                if not _lo < _m["gamma"] < _hi:
+                    _bad34.append("%s point sits outside its own interval" % _m.get("symbol"))
+                    break
+            _pool = _f34.get("pooled_fit") or {}
+            if _pool.get("n_regressors") != len(_pool.get("controls") or []) + len(
+                    _pool.get("members") or []) - 1:
+                _bad34.append("the pooled fit does not carry the member specification")
+            _c34 = _f34.get("compatibility") or {}
+            if _c34.get("verdict") not in ("one_exponent_holds", "mixture"):
+                _bad34.append("compatibility publishes no verdict")
+            elif _c34["verdict"] == "mixture" and not (
+                    _c34.get("pairwise_disjoint") or _c34.get("members_outside_pooled_interval")):
+                _bad34.append("a mixture verdict names no breaker")
+            _b34 = (_f34.get("summary") or {}).get("bill_by_arm") or []
+            if not _b34:
+                _bad34.append("no book bill published")
+            for _r in _b34:
+                if _r.get("uniform_same_granularity_bp") is None:
+                    _bad34.append("%s lacks the same-granularity control" % _r.get("arm"))
+                    break
+                _mix = (_r.get("per_member_bp") or 0.0) - (
+                    _r.get("uniform_same_granularity_bp") or 0.0)
+                if abs(_mix - (_r.get("mixture_effect_bp") or 0.0)) > 1e-6:
+                    _bad34.append("%s mixture term does not close the bill" % _r.get("arm"))
+                    break
+            if not (_f34.get("answer") or "").strip():
+                _bad34.append("face publishes no answer sentence")
+        check("product: a book-level exponent is measured per member before it is charged",
+              not _bad34, "; ".join(_bad34)[:220]
+              or "%d members, verdict %s, mixture effect %s bp against a %s bp split"
+                 % (len(_f34.get("member_estimates") or []),
+                    (_f34.get("compatibility") or {}).get("verdict"),
+                    ", ".join("%+.0f" % (r.get("mixture_effect_bp") or 0.0)
+                              for r in (_f34.get("summary") or {}).get("bill_by_arm") or []),
+                    ", ".join("%+.0f" % (r.get("granularity_effect_bp") or 0.0)
+                              for r in (_f34.get("summary") or {}).get("bill_by_arm") or [])))
+    except Exception as e:
+        check("product: a book-level exponent is measured per member before it is charged",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

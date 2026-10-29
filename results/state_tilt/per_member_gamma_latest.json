@@ -1,0 +1,1506 @@
+{
+ "answer": "Measured per member rather than book-wide: sh510300 0.928 [0.830, 1.026], sh510050 0.760 [0.674, 0.847], sh510500 0.416 [0.306, 0.527], sh512100 0.414 [0.332, 0.496], sh588000 1.456 [1.310, 1.602], against a pooled slope of 0.622 [0.567, 0.676] with five member intercepts. Compatibility reads mixture: 8 member pairs have disjoint intervals, and 4 of 5 members sit outside the pooled interval (sh510300, sh510500, sh512100, sh588000). Re-priced with each sleeve charged its own exponent the movement bill becomes binary_low linear 1538.8 -> same-exponent 5-sleeve 2828.2 -> per-member 2523.3 bp; tilt_step linear 1610.6 -> same-exponent 5-sleeve 3803.9 -> per-member 3485.0 bp; tilt_linear linear 1706.0 -> same-exponent 5-sleeve 5720.5 -> per-member 6009.8 bp. The split and the mixture are separated: charging the same five-sleeve formula with the pooled exponent accounts for binary_low +1289 bp, tilt_step +2193 bp, tilt_linear +4015 bp of the move and the per-member exponents for binary_low -305 bp, tilt_step -319 bp, tilt_linear +289 bp. So the single exponent is not the book's true bill -- the sleeves do not share an exponent at the book level. The toll still clears its bar on 3 of 3 arms under the per-member charge (linear 3, basket point 3), and 2 of 6 ladder cells change verdict when the charge becomes per-member. On the 2017+ slice the exponent measured then is 0.883 against 0.928 on the full sample (the full-sample interval covers that era point); re-deriving the ladder with the era's own exponent instead of the borrowed one changes 0 of 6 cells.",
+ "book": {
+  "arms": [
+   {
+    "base_weight_changes": 118,
+    "const_weight": 0.32685009487666034,
+    "name": "binary_low",
+    "per_member": {
+     "bill": {
+      "total_cost_bp": 2523.260972252639,
+      "weight_changes": 118
+     },
+     "bill_controls": {
+      "basket_point": {
+       "gamma": 0.9174517163412474,
+       "total_cost_bp": 1757.4851997723304,
+       "weight_changes": 118
+      },
+      "pooled_gamma": {
+       "gamma": 0.6218522450982513,
+       "total_cost_bp": 2828.178654262166,
+       "weight_changes": 118
+      }
+     },
+     "gammas": [
+      0.928023,
+      0.760371,
+      0.416383,
+      0.414203,
+      1.456262
+     ],
+     "pair_t_nw": 0.48523319123019876,
+     "selection_t_nw": 1.3176768614575876,
+     "toll_clears_bar": true,
+     "toll_single_channel": true,
+     "toll_t_nw": -6.365377198718298,
+     "totals": {
+      "identity_residual_bp": 0.0,
+      "oos_sessions": 2108,
+      "pair_ann_bp_per_year": 149.18350828839854,
+      "selection_ann_bp_per_year": 265.4779740698094,
+      "sizing_ann_bp_per_year": 83.09614332111111,
+      "toll_ann_bp_per_year": -199.39060910252215
+     }
+    },
+    "uniform": [
+     {
+      "bill": {
+       "total_cost_bp": 1538.8379999999997,
+       "weight_changes": 118
+      },
+      "gamma": 1.0,
+      "pair_t_nw": 0.7424734997611577,
+      "selection_t_nw": 1.3176768614575876,
+      "source": "linear_model",
+      "toll_clears_bar": true,
+      "toll_t_nw": -6.365377198718131,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": 226.97359746682187,
+       "selection_ann_bp_per_year": 265.4779740698094,
+       "sizing_ann_bp_per_year": 83.09614332111111,
+       "toll_ann_bp_per_year": -121.60051992409892
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1538.8379999999997,
+       "weight_changes": 118
+      },
+      "gamma": 0.810826,
+      "pair_t_nw": 0.7424734997611577,
+      "selection_t_nw": 1.3176768614575876,
+      "source": "basket_interval_lo",
+      "toll_clears_bar": true,
+      "toll_t_nw": -6.365377198718131,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": 226.97359746682187,
+       "selection_ann_bp_per_year": 265.4779740698094,
+       "sizing_ann_bp_per_year": 83.09614332111111,
+       "toll_ann_bp_per_year": -121.60051992409892
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1538.8379999999997,
+       "weight_changes": 118
+      },
+      "gamma": 0.917452,
+      "pair_t_nw": 0.7424734997611577,
+      "selection_t_nw": 1.3176768614575876,
+      "source": "basket_point",
+      "toll_clears_bar": true,
+      "toll_t_nw": -6.365377198718131,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": 226.97359746682187,
+       "selection_ann_bp_per_year": 265.4779740698094,
+       "sizing_ann_bp_per_year": 83.09614332111111,
+       "toll_ann_bp_per_year": -121.60051992409892
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1538.8379999999997,
+       "weight_changes": 118
+      },
+      "gamma": 1.024077,
+      "pair_t_nw": 0.7424734997611577,
+      "selection_t_nw": 1.3176768614575876,
+      "source": "basket_interval_hi",
+      "toll_clears_bar": true,
+      "toll_t_nw": -6.365377198718131,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": 226.97359746682187,
+       "selection_ann_bp_per_year": 265.4779740698094,
+       "sizing_ann_bp_per_year": 83.09614332111111,
+       "toll_ann_bp_per_year": -121.60051992409892
+      }
+     }
+    ]
+   },
+   {
+    "base_weight_changes": 241,
+    "const_weight": 0.4596774193548387,
+    "name": "tilt_step",
+    "per_member": {
+     "bill": {
+      "total_cost_bp": 3484.9904274503915,
+      "weight_changes": 241
+     },
+     "bill_controls": {
+      "basket_point": {
+       "gamma": 0.9174517163412474,
+       "total_cost_bp": 1942.4559273594602,
+       "weight_changes": 241
+      },
+      "pooled_gamma": {
+       "gamma": 0.6218522450982513,
+       "total_cost_bp": 3803.935740968016,
+       "weight_changes": 241
+      }
+     },
+     "gammas": [
+      0.928023,
+      0.760371,
+      0.416383,
+      0.414203,
+      1.456262
+     ],
+     "pair_t_nw": -1.035674923982506,
+     "selection_t_nw": -0.3400660546756332,
+     "toll_clears_bar": true,
+     "toll_single_channel": true,
+     "toll_t_nw": -9.966221469316894,
+     "totals": {
+      "identity_residual_bp": 0.0,
+      "oos_sessions": 2108,
+      "pair_ann_bp_per_year": -330.31949016721217,
+      "selection_ann_bp_per_year": -82.95449777555524,
+      "sizing_ann_bp_per_year": 26.671456981204816,
+      "toll_ann_bp_per_year": -274.0364493728621
+     }
+    },
+    "uniform": [
+     {
+      "bill": {
+       "total_cost_bp": 1610.5635000000052,
+       "weight_changes": 241
+      },
+      "gamma": 1.0,
+      "pair_t_nw": -0.577878886651645,
+      "selection_t_nw": -0.3400660546756332,
+      "source": "linear_model",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.029090236455648,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -183.3399943047867,
+       "selection_ann_bp_per_year": -82.95449777555524,
+       "sizing_ann_bp_per_year": 26.671456981204816,
+       "toll_ann_bp_per_year": -127.05695351043639
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1825.2576854777913,
+       "weight_changes": 241
+      },
+      "gamma": 0.810826,
+      "pair_t_nw": -0.6303116796155079,
+      "selection_t_nw": -0.3400660546756332,
+      "source": "basket_interval_lo",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.004259117932893,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -200.04989178809663,
+       "selection_ann_bp_per_year": -82.95449777555524,
+       "sizing_ann_bp_per_year": 26.671456981204816,
+       "toll_ann_bp_per_year": -143.76685099374572
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1700.7963617888247,
+       "weight_changes": 241
+      },
+      "gamma": 0.917452,
+      "pair_t_nw": -0.599922649388511,
+      "selection_t_nw": -0.3400660546756332,
+      "source": "basket_point",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.019234441114534,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -190.36292260049953,
+       "selection_ann_bp_per_year": -82.95449777555524,
+       "sizing_ann_bp_per_year": 26.671456981204816,
+       "toll_ann_bp_per_year": -134.07988180614873
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1585.2030073592427,
+       "weight_changes": 241
+      },
+      "gamma": 1.024077,
+      "pair_t_nw": -0.5716815776903184,
+      "selection_t_nw": -0.3400660546756332,
+      "source": "basket_interval_hi",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.031626990704998,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -181.3661577464741,
+       "selection_ann_bp_per_year": -82.95449777555524,
+       "sizing_ann_bp_per_year": 26.671456981204816,
+       "toll_ann_bp_per_year": -125.0831169521241
+      }
+     }
+    ]
+   },
+   {
+    "base_weight_changes": 997,
+    "const_weight": 0.4691019724835267,
+    "name": "tilt_linear",
+    "per_member": {
+     "bill": {
+      "total_cost_bp": 6009.765399294457,
+      "weight_changes": 997
+     },
+     "bill_controls": {
+      "basket_point": {
+       "gamma": 0.9174517163412474,
+       "total_cost_bp": 2193.4764715383176,
+       "weight_changes": 997
+      },
+      "pooled_gamma": {
+       "gamma": 0.6218522450982513,
+       "total_cost_bp": 5720.5350432056275,
+       "weight_changes": 997
+      }
+     },
+     "gammas": [
+      0.928023,
+      0.760371,
+      0.416383,
+      0.414203,
+      1.456262
+     ],
+     "pair_t_nw": -1.526351454034473,
+     "selection_t_nw": -0.3400660546756256,
+     "toll_clears_bar": true,
+     "toll_single_channel": true,
+     "toll_t_nw": -10.266872773531965,
+     "totals": {
+      "identity_residual_bp": 0.0,
+      "oos_sessions": 2108,
+      "pair_ann_bp_per_year": -501.3608319520881,
+      "selection_ann_bp_per_year": -84.65527540489039,
+      "sizing_ann_bp_per_year": 48.985837761416946,
+      "toll_ann_bp_per_year": -465.6913943086153
+     }
+    },
+    "uniform": [
+     {
+      "bill": {
+       "total_cost_bp": 1705.9957370294119,
+       "weight_changes": 997
+      },
+      "gamma": 1.0,
+      "pair_t_nw": -0.5261445968663907,
+      "selection_t_nw": -0.3400660546756256,
+      "source": "linear_model",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.053444482036786,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -170.38917972470358,
+       "selection_ann_bp_per_year": -84.65527540489039,
+       "sizing_ann_bp_per_year": 48.985837761416946,
+       "toll_ann_bp_per_year": -134.7197420812306
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 2260.6693162470433,
+       "weight_changes": 997
+      },
+      "gamma": 0.810826,
+      "pair_t_nw": -0.6562290916528518,
+      "selection_t_nw": -0.3400660546756256,
+      "source": "basket_interval_lo",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.212163309864277,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -212.76642208592938,
+       "selection_ann_bp_per_year": -84.65527540489039,
+       "sizing_ann_bp_per_year": 48.985837761416946,
+       "toll_ann_bp_per_year": -177.09698444245598
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1920.587174633321,
+       "weight_changes": 997
+      },
+      "gamma": 0.917452,
+      "pair_t_nw": -0.5765620477962067,
+      "selection_t_nw": -0.3400660546756256,
+      "source": "basket_point",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.135847378598156,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -186.80037360403392,
+       "selection_ann_bp_per_year": -84.65527540489039,
+       "sizing_ann_bp_per_year": 48.985837761416946,
+       "toll_ann_bp_per_year": -151.13093596056072
+      }
+     },
+     {
+      "bill": {
+       "total_cost_bp": 1650.0206122031789,
+       "weight_changes": 997
+      },
+      "gamma": 1.024077,
+      "pair_t_nw": -0.5129722954962013,
+      "selection_t_nw": -0.3400660546756256,
+      "source": "basket_interval_hi",
+      "toll_clears_bar": true,
+      "toll_t_nw": -10.02571790937841,
+      "totals": {
+       "identity_residual_bp": 0.0,
+       "oos_sessions": 2108,
+       "pair_ann_bp_per_year": -166.10412474733025,
+       "selection_ann_bp_per_year": -84.65527540489039,
+       "sizing_ann_bp_per_year": 48.985837761416946,
+       "toll_ann_bp_per_year": -130.43468710385625
+      }
+     }
+    ]
+   }
+  ],
+  "first": "2005-02-23",
+  "last": "2026-10-29",
+  "panel": "basket_equal_weight",
+  "sessions": 5269,
+  "signal_sd_is_bp": 85.43388291155438,
+  "split_date": "2018-02-14",
+  "split_session": 3161
+ },
+ "compatibility": {
+  "common_interval": null,
+  "members_measured": 5,
+  "members_outside_pooled_interval": [
+   "sh510300",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "pairwise_disjoint": [
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh510500",
+    "b_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ]
+   },
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh512100",
+    "b_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ]
+   },
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh510500",
+    "b_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh512100",
+    "b_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh510500",
+    "a_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh512100",
+    "a_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   }
+  ],
+  "verdict": "mixture"
+ },
+ "era": {
+  "cells": [
+   {
+    "arm": "binary_low",
+    "band_frac": 0.1,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 277.1719578364542,
+     "d_pair_t_nw": 2.075396324337044,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 0.0,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 277.1719578364542,
+     "d_pair_t_nw": 2.075396324337044,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   },
+   {
+    "arm": "binary_low",
+    "band_frac": 0.25,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 262.5307165084449,
+     "d_pair_t_nw": 1.2357720336965436,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 0.0,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 262.5307165084449,
+     "d_pair_t_nw": 1.2357720336965436,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   },
+   {
+    "arm": "tilt_step",
+    "band_frac": 0.1,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 67.65252497922023,
+     "d_pair_t_nw": 0.6609524107128569,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 2.0065327558449297,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 69.65905773506516,
+     "d_pair_t_nw": 0.6793685657419106,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   },
+   {
+    "arm": "tilt_step",
+    "band_frac": 0.25,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 177.06447123442038,
+     "d_pair_t_nw": 1.4093383953466192,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 3.4397704385910117,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 180.5042416730114,
+     "d_pair_t_nw": 1.4337963572186279,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   },
+   {
+    "arm": "tilt_linear",
+    "band_frac": 0.1,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 58.30167165080043,
+     "d_pair_t_nw": 1.4378742246260894,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 6.79830620972939,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 65.09997786052982,
+     "d_pair_t_nw": 1.5975318085901282,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   },
+   {
+    "arm": "tilt_linear",
+    "band_frac": 0.25,
+    "borrowed_full_sample": {
+     "d_pair_ann_bp_per_year": 252.35952843617486,
+     "d_pair_t_nw": 2.9509560997949107,
+     "gamma": 0.928023,
+     "verdict": "BAND_NOISE"
+    },
+    "d_pair_gap_bp_per_year": 9.731394210519568,
+    "era_measured": {
+     "d_pair_ann_bp_per_year": 262.0909226466944,
+     "d_pair_t_nw": 3.052413187067017,
+     "gamma": 0.883095,
+     "verdict": "BAND_NOISE"
+    },
+    "verdict_differs": false
+   }
+  ],
+  "cells_differing": 0,
+  "cells_total": 6,
+  "edge": "2017-01-01",
+  "estimate_era": {
+   "gamma": 0.8830948613018563,
+   "gamma_ci": [
+    0.7681907437176859,
+    0.9979989788860267
+   ],
+   "gamma_se": 0.058624549787842054,
+   "n": 2353,
+   "r2": 0.10245056140258657
+  },
+  "estimate_full": {
+   "gamma": 0.9280226288162794,
+   "gamma_ci": [
+    0.8302907699956412,
+    1.0257544876369176
+   ],
+   "gamma_se": 0.04986319327583581,
+   "n": 3455,
+   "r2": 0.11224266553625728
+  },
+  "estimate_pre2017": {
+   "gamma": 1.0794141084226112,
+   "gamma_ci": [
+    0.9041881731415709,
+    1.2546400437036516
+   ],
+   "gamma_se": 0.08940098738828586,
+   "n": 1101,
+   "r2": 0.17245256293352695
+  },
+  "first": "2017-01-03",
+  "gamma_era_measured": 0.883095,
+  "gamma_full_sample": 0.928023,
+  "interval_covers_era_point": true,
+  "last": "2026-10-29",
+  "sessions": 2383
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "arms": [
+   "binary_low",
+   "tilt_step",
+   "tilt_linear"
+  ],
+  "bar_basis": "two-sided 5% over 45 cells (arms x charges x bands)",
+  "bar_t": 3.2607674884205196,
+  "book_charge": "cost_book(dw) = sum_i c*(|dw|/N)**gamma_i, which equals c*|dw| when every gamma_i = 1 (selftest leg)",
+  "compatibility_rule": "one_exponent_holds only if the five 95%% intervals share a point AND no member sits outside the pooled interval; otherwise mixture, naming the breakers",
+  "era_edge": "2017-01-01",
+  "estimator": "B_controlled",
+  "hac_lag": 20,
+  "ladder_fracs": [
+   0.1,
+   0.25
+  ],
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "no_adoption": "the arms are already judged; this asks only whether the single exponent is a property of the book or an average of it"
+ },
+ "generated": "2026-10-30T01:21:32",
+ "ladder": [
+  {
+   "arm": "binary_low",
+   "band_bp": 8.543388291155438,
+   "band_frac": 0.1,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": -17.334736578961806,
+     "d_pair_t_nw": -0.22585040765863668,
+     "d_toll_ann_bp_per_year": 43.65146869070209,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_COSTS",
+     "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
+     "weight_changes": 82
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": -17.334736578961806,
+     "d_pair_t_nw": -0.22585040765863668,
+     "d_toll_ann_bp_per_year": 43.65146869070209,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_COSTS",
+     "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
+     "weight_changes": 82
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": -17.334736578961806,
+     "d_pair_t_nw": -0.22585040765863668,
+     "d_toll_ann_bp_per_year": 43.65146869070209,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_COSTS",
+     "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
+     "weight_changes": 82
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": -17.334736578961806,
+     "d_pair_t_nw": -0.22585040765863668,
+     "d_toll_ann_bp_per_year": 43.65146869070209,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_COSTS",
+     "verdict_reason": "pair 17.3 bp/yr not better than the base arm",
+     "weight_changes": 82
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 10.589910818421004,
+     "d_pair_t_nw": 0.1378414244895212,
+     "d_toll_ann_bp_per_year": 71.57611608808487,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.14 < bar 3.26",
+     "weight_changes": 82
+    }
+   ],
+   "verdict_moves_vs_per_member": [
+    "basket_interval_hi",
+    "basket_interval_lo",
+    "basket_point",
+    "linear_model"
+   ]
+  },
+  {
+   "arm": "binary_low",
+   "band_bp": 21.358470727888594,
+   "band_frac": 0.25,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 40.66025537582618,
+     "d_pair_t_nw": 0.19413408945655286,
+     "d_toll_ann_bp_per_year": 65.47720303605314,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.19 < bar 3.26",
+     "weight_changes": 56
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 40.66025537582618,
+     "d_pair_t_nw": 0.19413408945655286,
+     "d_toll_ann_bp_per_year": 65.47720303605314,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.19 < bar 3.26",
+     "weight_changes": 56
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 40.66025537582618,
+     "d_pair_t_nw": 0.19413408945655286,
+     "d_toll_ann_bp_per_year": 65.47720303605314,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.19 < bar 3.26",
+     "weight_changes": 56
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 40.66025537582618,
+     "d_pair_t_nw": 0.19413408945655286,
+     "d_toll_ann_bp_per_year": 65.47720303605314,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.19 < bar 3.26",
+     "weight_changes": 56
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 82.54722647190043,
+     "d_pair_t_nw": 0.3946516495345007,
+     "d_toll_ann_bp_per_year": 107.36417413212732,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.39 < bar 3.26",
+     "weight_changes": 56
+    }
+   ],
+   "verdict_moves_vs_per_member": []
+  },
+  {
+   "arm": "tilt_step",
+   "band_bp": 8.543388291155438,
+   "band_frac": 0.1,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 4.3984269415769734,
+     "d_pair_t_nw": 0.06205885838983021,
+     "d_toll_ann_bp_per_year": 40.53350664136626,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.06 < bar 3.26",
+     "weight_changes": 160
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 10.296037818039203,
+     "d_pair_t_nw": 0.14526506090043353,
+     "d_toll_ann_bp_per_year": 46.43111751782839,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.15 < bar 3.26",
+     "weight_changes": 160
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 6.877107516534312,
+     "d_pair_t_nw": 0.09703319872163789,
+     "d_toll_ann_bp_per_year": 43.012187216323554,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.10 < bar 3.26",
+     "weight_changes": 160
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 3.701778744525463,
+     "d_pair_t_nw": 0.05222888596561145,
+     "d_toll_ann_bp_per_year": 39.83685844431472,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.05 < bar 3.26",
+     "weight_changes": 160
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 53.516277523952034,
+     "d_pair_t_nw": 0.7493742682647766,
+     "d_toll_ann_bp_per_year": 89.6513572237413,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.75 < bar 3.26",
+     "weight_changes": 160
+    }
+   ],
+   "verdict_moves_vs_per_member": []
+  },
+  {
+   "arm": "tilt_step",
+   "band_bp": 21.358470727888594,
+   "band_frac": 0.25,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 106.97595017839036,
+     "d_pair_t_nw": 0.800891490714419,
+     "d_toll_ann_bp_per_year": 68.59516508538908,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.80 < bar 3.26",
+     "weight_changes": 98
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 117.46059173654544,
+     "d_pair_t_nw": 0.8782914248210205,
+     "d_toll_ann_bp_per_year": 79.07980664354389,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.88 < bar 3.26",
+     "weight_changes": 98
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 111.38249342275904,
+     "d_pair_t_nw": 0.8334583036126065,
+     "d_toll_ann_bp_per_year": 73.00170832975752,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.83 < bar 3.26",
+     "weight_changes": 98
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 105.73746449474328,
+     "d_pair_t_nw": 0.7917291421837028,
+     "d_toll_ann_bp_per_year": 67.35667940174184,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.79 < bar 3.26",
+     "weight_changes": 98
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 192.08033157901085,
+     "d_pair_t_nw": 1.4154515295011505,
+     "d_toll_ann_bp_per_year": 153.6995464860097,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=1.42 < bar 3.26",
+     "weight_changes": 98
+    }
+   ],
+   "verdict_moves_vs_per_member": []
+  },
+  {
+   "arm": "tilt_linear",
+   "band_bp": 8.543388291155438,
+   "band_frac": 0.1,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 92.14481981207153,
+     "d_pair_t_nw": 2.3758780917626368,
+     "d_toll_ann_bp_per_year": 42.569424992347656,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=2.38 < bar 3.26",
+     "weight_changes": 254
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 119.01058205237888,
+     "d_pair_t_nw": 2.994713423310218,
+     "d_toll_ann_bp_per_year": 69.43518723265505,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=2.99 < bar 3.26",
+     "weight_changes": 254
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 102.2444655436085,
+     "d_pair_t_nw": 2.614062754383988,
+     "d_toll_ann_bp_per_year": 52.66907072388458,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=2.61 < bar 3.26",
+     "weight_changes": 254
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 89.58235573497771,
+     "d_pair_t_nw": 2.314422324670685,
+     "d_toll_ann_bp_per_year": 40.00696091525386,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=2.31 < bar 3.26",
+     "weight_changes": 254
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 293.1836345925606,
+     "d_pair_t_nw": 5.8213095715546315,
+     "d_toll_ann_bp_per_year": 243.60823977283675,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_PAYS",
+     "verdict_reason": "t=5.82, toll +487.2 vs selection -5.3 bp/yr at x2 costs",
+     "weight_changes": 254
+    }
+   ],
+   "verdict_moves_vs_per_member": [
+    "basket_interval_hi",
+    "basket_interval_lo",
+    "basket_point",
+    "linear_model"
+   ]
+  },
+  {
+   "arm": "tilt_linear",
+   "band_bp": 21.358470727888594,
+   "band_frac": 0.25,
+   "by_charge": [
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 106.84954431664015,
+     "d_pair_t_nw": 0.8223003489984787,
+     "d_toll_ann_bp_per_year": 71.95035285148268,
+     "gamma": 1.0,
+     "source": "linear_model",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.82 < bar 3.26",
+     "weight_changes": 112
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 143.58485105496217,
+     "d_pair_t_nw": 1.0988871784587213,
+     "d_toll_ann_bp_per_year": 108.68565958980454,
+     "gamma": 0.810826,
+     "source": "basket_interval_lo",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=1.10 < bar 3.26",
+     "weight_changes": 112
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 120.93818874623312,
+     "d_pair_t_nw": 0.928817998731408,
+     "d_toll_ann_bp_per_year": 86.03899728107548,
+     "gamma": 0.917452,
+     "source": "basket_point",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.93 < bar 3.26",
+     "weight_changes": 112
+    },
+    {
+     "charge": "uniform",
+     "d_pair_ann_bp_per_year": 103.20551352481512,
+     "d_pair_t_nw": 0.7946653984555218,
+     "d_toll_ann_bp_per_year": 68.30632205965753,
+     "gamma": 1.024077,
+     "source": "basket_interval_hi",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=0.79 < bar 3.26",
+     "weight_changes": 112
+    },
+    {
+     "charge": "per_member",
+     "d_pair_ann_bp_per_year": 373.05808065873805,
+     "d_pair_t_nw": 2.7019660828467624,
+     "d_toll_ann_bp_per_year": 338.15888919357985,
+     "gamma": null,
+     "source": "member_estimates",
+     "verdict": "BAND_NOISE",
+     "verdict_reason": "t=2.70 < bar 3.26",
+     "weight_changes": 112
+    }
+   ],
+   "verdict_moves_vs_per_member": []
+  }
+ ],
+ "member_estimates": [
+  {
+   "estimator": "B_controlled",
+   "first": "2012-05-28",
+   "gamma": 0.9280226288162794,
+   "gamma_ci": [
+    0.8302907699956412,
+    1.0257544876369176
+   ],
+   "gamma_se": 0.04986319327583581,
+   "last": "2026-10-29",
+   "n": 3455,
+   "names": [
+    "const",
+    "log_amount",
+    "log_abs_ret_lag1",
+    "log_amount_lag1"
+   ],
+   "r2": 0.11224266553625728,
+   "rows_dropped": 48,
+   "rows_used": 3456,
+   "sessions": 3504,
+   "symbol": "sh510300",
+   "t_nw": 18.61137580344274
+  },
+  {
+   "estimator": "B_controlled",
+   "first": "2005-02-23",
+   "gamma": 0.7603707482539335,
+   "gamma_ci": [
+    0.6736214076651889,
+    0.8471200888426781
+   ],
+   "gamma_se": 0.04425986764731868,
+   "last": "2026-10-29",
+   "n": 5173,
+   "names": [
+    "const",
+    "log_amount",
+    "log_abs_ret_lag1",
+    "log_amount_lag1"
+   ],
+   "r2": 0.09900708148242232,
+   "rows_dropped": 95,
+   "rows_used": 5174,
+   "sessions": 5269,
+   "symbol": "sh510050",
+   "t_nw": 17.17968870383637
+  },
+  {
+   "estimator": "B_controlled",
+   "first": "2013-03-15",
+   "gamma": 0.41638302165995356,
+   "gamma_ci": [
+    0.3060185623828554,
+    0.5267474809370517
+   ],
+   "gamma_se": 0.056308397590356205,
+   "last": "2026-10-29",
+   "n": 3265,
+   "names": [
+    "const",
+    "log_amount",
+    "log_abs_ret_lag1",
+    "log_amount_lag1"
+   ],
+   "r2": 0.050147861161078056,
+   "rows_dropped": 41,
+   "rows_used": 3266,
+   "sessions": 3307,
+   "symbol": "sh510500",
+   "t_nw": 7.394687817066675
+  },
+  {
+   "estimator": "B_controlled",
+   "first": "2016-11-04",
+   "gamma": 0.41420274515726874,
+   "gamma_ci": [
+    0.3321961887470323,
+    0.4962093015675052
+   ],
+   "gamma_se": 0.04184007980114105,
+   "last": "2026-10-29",
+   "n": 2350,
+   "names": [
+    "const",
+    "log_amount",
+    "log_abs_ret_lag1",
+    "log_amount_lag1"
+   ],
+   "r2": 0.06093368683859002,
+   "rows_dropped": 72,
+   "rows_used": 2351,
+   "sessions": 2423,
+   "symbol": "sh512100",
+   "t_nw": 9.899664320094645
+  },
+  {
+   "estimator": "B_controlled",
+   "first": "2020-11-16",
+   "gamma": 1.4562620299334412,
+   "gamma_ci": [
+    1.310364882535872,
+    1.6021591773310104
+   ],
+   "gamma_se": 0.07443732010080066,
+   "last": "2026-10-29",
+   "n": 1398,
+   "names": [
+    "const",
+    "log_amount",
+    "log_abs_ret_lag1",
+    "log_amount_lag1"
+   ],
+   "r2": 0.2141287803917521,
+   "rows_dropped": 44,
+   "rows_used": 1399,
+   "sessions": 1443,
+   "symbol": "sh588000",
+   "t_nw": 19.56360099962515
+  }
+ ],
+ "per_member_points": [
+  {
+   "gamma": 0.928023,
+   "gamma_ci": [
+    0.8302907699956412,
+    1.0257544876369176
+   ],
+   "symbol": "sh510300"
+  },
+  {
+   "gamma": 0.760371,
+   "gamma_ci": [
+    0.6736214076651889,
+    0.8471200888426781
+   ],
+   "symbol": "sh510050"
+  },
+  {
+   "gamma": 0.416383,
+   "gamma_ci": [
+    0.3060185623828554,
+    0.5267474809370517
+   ],
+   "symbol": "sh510500"
+  },
+  {
+   "gamma": 0.414203,
+   "gamma_ci": [
+    0.3321961887470323,
+    0.4962093015675052
+   ],
+   "symbol": "sh512100"
+  },
+  {
+   "gamma": 1.456262,
+   "gamma_ci": [
+    1.310364882535872,
+    1.6021591773310104
+   ],
+   "symbol": "sh588000"
+  }
+ ],
+ "pooled_fit": {
+  "controls": [
+   "log_amount",
+   "log_abs_ret_lag1",
+   "log_amount_lag1"
+  ],
+  "estimator": "B_controlled",
+  "gamma": 0.6218522450982513,
+  "gamma_ci": [
+   0.5674761618702631,
+   0.6762283283262396
+  ],
+  "gamma_se": 0.027742899606116443,
+  "lag": 20,
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "n": 15641,
+  "n_regressors": 7,
+  "r2": 0.09813250984254107
+ },
+ "study": "E234",
+ "summary": {
+  "bill_by_arm": [
+   {
+    "arm": "binary_low",
+    "granularity_effect_bp": 1289.3406542621665,
+    "mixture_effect_bp": -304.9176820095272,
+    "per_member_bp": 2523.260972252639,
+    "uniform_linear_bp": 1538.8379999999997,
+    "uniform_point_bp": 1538.8379999999997,
+    "uniform_same_granularity_bp": 2828.178654262166,
+    "weight_changes": 118
+   },
+   {
+    "arm": "tilt_step",
+    "granularity_effect_bp": 2193.372240968011,
+    "mixture_effect_bp": -318.9453135176245,
+    "per_member_bp": 3484.9904274503915,
+    "uniform_linear_bp": 1610.5635000000052,
+    "uniform_point_bp": 1700.7963617888247,
+    "uniform_same_granularity_bp": 3803.935740968016,
+    "weight_changes": 241
+   },
+   {
+    "arm": "tilt_linear",
+    "granularity_effect_bp": 4014.5393061762156,
+    "mixture_effect_bp": 289.23035608882947,
+    "per_member_bp": 6009.765399294457,
+    "uniform_linear_bp": 1705.9957370294119,
+    "uniform_point_bp": 1920.587174633321,
+    "uniform_same_granularity_bp": 5720.5350432056275,
+    "weight_changes": 997
+   }
+  ],
+  "common_interval": null,
+  "compatibility_verdict": "mixture",
+  "era_cells_differing": 0,
+  "era_cells_total": 6,
+  "era_interval_covers_point": true,
+  "ladder_cells": 6,
+  "ladder_cells_moved_by_charge": [
+   {
+    "arm": "binary_low",
+    "band_frac": 0.1,
+    "moves": [
+     "basket_interval_hi",
+     "basket_interval_lo",
+     "basket_point",
+     "linear_model"
+    ]
+   },
+   {
+    "arm": "tilt_linear",
+    "band_frac": 0.1,
+    "moves": [
+     "basket_interval_hi",
+     "basket_interval_lo",
+     "basket_point",
+     "linear_model"
+    ]
+   }
+  ],
+  "member_gammas": [
+   {
+    "gamma": 0.9280226288162794,
+    "gamma_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "symbol": "sh510300"
+   },
+   {
+    "gamma": 0.7603707482539335,
+    "gamma_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "symbol": "sh510050"
+   },
+   {
+    "gamma": 0.41638302165995356,
+    "gamma_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ],
+    "symbol": "sh510500"
+   },
+   {
+    "gamma": 0.41420274515726874,
+    "gamma_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ],
+    "symbol": "sh512100"
+   },
+   {
+    "gamma": 1.4562620299334412,
+    "gamma_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ],
+    "symbol": "sh588000"
+   }
+  ],
+  "members_outside_pooled_interval": [
+   "sh510300",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "pairwise_disjoint_pairs": [
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh510500",
+    "b_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ]
+   },
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh512100",
+    "b_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ]
+   },
+   {
+    "a": "sh510300",
+    "a_ci": [
+     0.8302907699956412,
+     1.0257544876369176
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh510500",
+    "b_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh512100",
+    "b_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ]
+   },
+   {
+    "a": "sh510050",
+    "a_ci": [
+     0.6736214076651889,
+     0.8471200888426781
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh510500",
+    "a_ci": [
+     0.3060185623828554,
+     0.5267474809370517
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   },
+   {
+    "a": "sh512100",
+    "a_ci": [
+     0.3321961887470323,
+     0.4962093015675052
+    ],
+    "b": "sh588000",
+    "b_ci": [
+     1.310364882535872,
+     1.6021591773310104
+    ]
+   }
+  ],
+  "per_member_gammas": [
+   0.928023,
+   0.760371,
+   0.416383,
+   0.414203,
+   1.456262
+  ],
+  "pooled_ci": [
+   0.5674761618702631,
+   0.6762283283262396
+  ],
+  "pooled_gamma": 0.6218522450982513,
+  "span_per_member": [
+   0.414203,
+   1.456262
+  ],
+  "toll_clears_bar": {
+   "arm_cells": 3,
+   "per_member": 3,
+   "uniform_basket_point": 3,
+   "uniform_linear": 3
+  }
+ },
+ "title": "the book holds five instruments -- is the book-level exponent a mixture?",
+ "uniform_points": [
+  {
+   "gamma": 1.0,
+   "source": "linear_model"
+  },
+  {
+   "gamma": 0.810826,
+   "source": "basket_interval_lo"
+  },
+  {
+   "gamma": 0.917452,
+   "source": "basket_point"
+  },
+  {
+   "gamma": 1.024077,
+   "source": "basket_interval_hi"
+  }
+ ]
+}

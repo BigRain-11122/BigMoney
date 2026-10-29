@@ -124,6 +124,13 @@ LEGS = [
     # estimator-identification span, so a verdict decided by where gamma is placed shows up
     # as such instead of riding a grid.
     ("empirical_gamma", ["python", "scripts/e233_empirical_gamma.py", "run"]),
+    # E234: E233 measured ONE exponent per panel, but the book holds five instruments with
+    # different liquidity and history, so the book-level number may be a mixture charged to
+    # four sleeves that do not share it. This leg estimates gamma per member, tests whether
+    # the five intervals are mutually compatible, and re-prices the movement bill with each
+    # sleeve on its own exponent -- against a same-granularity control so the split of one
+    # move into five concave charges is never read as the mixture effect.
+    ("per_member_gamma", ["python", "scripts/e234_per_member_gamma.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
