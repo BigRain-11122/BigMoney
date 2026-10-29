@@ -1123,6 +1123,31 @@ def main() -> int:
         check("product: the mid-month gap arrives split into timing and selection",
               False, str(e))
     try:
+        _pd_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _pd_cmd = dict(importlib.import_module("Tools.s6_chain_bmb").LEGS).get(
+            "pool_deliverable") or []
+        _pd_face = os.path.join("results", "pool_deliverable_audit.json")
+        _pd_doc = None
+        if os.path.exists(_pd_face):
+            with open(_pd_face, encoding="utf-8") as _fh:
+                _pd_doc = json.load(_fh)
+        _pd_ok = ("pool_deliverable" in _pd_order
+                  and _pd_order.index("pool_deliverable") < _pd_order.index("py_watermark")
+                  and "apply" in _pd_cmd
+                  and _pd_doc is not None
+                  and _pd_doc.get("audit") == "pool deliverable reconciliation"
+                  and "counts" in _pd_doc)
+        check("pool: the deliverable reconciliation runs before anything counts pool ready",
+              _pd_ok, "chain=%s idx=%s mode=%s face=%s counts=%s" % (
+                  "pool_deliverable" in _pd_order,
+                  _pd_order.index("pool_deliverable") if "pool_deliverable" in _pd_order else -1,
+                  [c for c in _pd_cmd if c == "apply"] or "MISSING",
+                  os.path.basename(_pd_face) if _pd_doc else "MISSING",
+                  (_pd_doc or {}).get("counts")))
+    except Exception as e:
+        check("pool: the deliverable reconciliation runs before anything counts pool ready",
+              False, str(e))
+    try:
         _mt = open("CODELY.md", encoding="utf-8-sig").read()
         _lf = _mt.count("\n")
         _pua = sum(1 for _c in _mt if 0xE000 <= ord(_c) <= 0xF8FF)

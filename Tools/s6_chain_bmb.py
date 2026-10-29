@@ -20,6 +20,12 @@ from datetime import datetime
 
 LEGS = [
     ("dualrun", ["python", "scripts/pool_dualrun_reconcile.py", "run"]),
+    # E217: run before anything that reads "pool ready N" -- four cards sat open with
+    # their declared deliverable already on disk, so the watermark counted work that
+    # was finished. apply is evidence-gated (face written after the card entered) and
+    # idempotent, so a clean pool costs one glob pass and writes nothing.
+    ("pool_deliverable", ["python", os.path.join("Tools", "pool_deliverable_audit.py"),
+                          "apply"]),
     ("compute_audit", ["python", "scripts/compute_audit.py"]),
     ("py_watermark", ["python", "scripts/py_watermark.py", "probe"]),
     ("update_daily", ["python", "scripts/update_daily.py"]),

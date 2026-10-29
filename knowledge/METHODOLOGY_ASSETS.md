@@ -3737,3 +3737,42 @@ not intend -- the first push was refused for 8 upstream artefacts this lineage h
 Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
 class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
 one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
+
+## E217 A card whose deliverable is already on disk is not open work (2026-10-29 r1244 bm-b)
+
+Situation: results/runnable_pool.json is closed by hand. A round writes the face, the round
+report says "burned", and nothing edits the card. Four cards were found sitting at ready/waiting
+with their declared deliverable already written — E60-OFFBOOK-LIQUIDITY, E61-SHARED-SUBSET-BOOK,
+E64-MIDSWEEP-BURNIN-FACE (198-200h old) and E188-DECOM-LABEL-DUTY (18.9h old) — so the watermark's
+"pool ready N" counted finished work as pending work, and the next round was about to burn a card
+that needed no burning.
+
+WRONG: read the card's status as the truth about the work, or close cards by eye. Closing by eye
+needs a human to re-open four rounds of faces, and the cheap-looking alternative — trust any face
+whose name matches the template — closes a card on an older round's output that happens to match.
+
+RIGHT: expand the card's own `deliverable` template (every `<token>` becomes a glob star) and ask
+two questions instead of one: does a face exist, and was it written AFTER the card entered? Only
+AFTER_ENTRY is evidence that this card was burned; BEFORE_ENTRY is an older round's output wearing
+the same name and is reported, never closed. A card with no parsable `entered_at` reads AMBIGUOUS
+for the same reason.
+
+Three things only the live run produced:
+
+  (a) the template is not always a filename — E64's deliverable field is
+      `results/e44_midmonth/MIDSWEEP-<cutoff>.json (cash_share_pct per era)`, and globbing that
+      string verbatim can never match, so the card reads NO_FACE while the face sits on disk under
+      exactly the declared name. Strip prose after the first recognised extension and publish
+      `declared_prose_stripped` so the reader knows the field was normalised.
+  (b) NO_FACE is not the same as "the work did not happen": a card can declare a name and the round
+      can ship a different one. List the directory neighbours under the declared literal prefix
+      (prefix with trailing punctuation stripped, or `DELIVER-` never matches `DELIVERED-...`),
+      restricted to faces newer than entry; disclose, never close.
+  (c) closing is only safe as an evidence gate: `apply` flips AFTER_ENTRY cards to done with the
+      face as result_ref and is idempotent, so a clean pool costs one glob pass and writes nothing.
+
+Pos: Tools/pool_deliverable_audit.py (check/apply/--selftest, 20/20 legs incl. one leg per wrong
+reading above) + results/pool_deliverable_audit.json + wired as the second leg of
+Tools/s6_chain_bmb.py so the reconciliation runs before anything that counts "pool ready N".
+Live reading: open=4 no_face=0 after_entry=4 -> closed 4, pool ready 0/0 open; the same rule then
+re-read the pool as 674 done + 1 ready (E218) after the round seeded its successor card.
