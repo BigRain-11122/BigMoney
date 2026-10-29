@@ -20988,9 +20988,13 @@
    "lane_owner": "bm-b",
    "runner_note": "needs a sharedbook leg: intersect the two calendars' books at each session, hand the intersection to e27.simulate as the universe slice, and compare x0 arms only (cost is already answered)",
    "source": "r1134 E57: other_still_holds bucket is 50.4% of mid entrants at +0.96% vs +0.89% for month-end",
-   "status": "waiting",
+   "status": "done",
    "target": "scripts/e39_panel_census.py",
-   "title": "E57 shows the two calendars agree on half their entrants and earn the same on them. Ask the engine the portfolio question the name-level leg cannot: restrict the candidate set to names both calendars hold at the same session and re-run the mid-month arm, so the calendar cost can be split into a selection part and a timing part."
+   "title": "E57 shows the two calendars agree on half their entrants and earn the same on them. Ask the engine the portfolio question the name-level leg cannot: restrict the candidate set to names both calendars hold at the same session and re-run the mid-month arm, so the calendar cost can be split into a selection part and a timing part.",
+   "done_by": "bm-b r1242",
+   "done_at": "2026-10-29T09:10:00+08:00",
+   "result_ref": "results/e44_midmonth/SHAREDBOOK-20261028.json",
+   "finding": "timing part +84.0 bp/yr full window (+191.0 in 2024_now) and selection part -66.0 (-117.0): the net mid-month gap (+18.0 / +74.0) is the difference of two larger opposite-signed parts"
   },
   {
    "closed_at": "2026-10-21T09:45:00+08:00",
@@ -22907,6 +22911,20 @@
    "done_at": "2026-10-29T06:27:49+08:00",
    "done_by": "bm-b r1238",
    "result_ref": "results/e79/PAGEGATE-2026-10-29.json"
+  },
+  {
+   "id": "E70-SHAREDBOOK-PHASE",
+   "title": "E61 splits the mid-month gap into +84.0bp timing and -66.0bp selection at day 15. Ask whether the timing part is a day-15 accident: run the same restricted-vs-full pair on every mid-month phase (days 5/10/15/20/25) and publish which phases keep the sign.",
+   "status": "ready",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "target": "scripts/e39_panel_census.py",
+   "deliverable": "results/e44_midmonth/SHAREDBOOK-PHASE-<cutoff>.json",
+   "runner_note": "re-use run_sharedbook: the universe_at seam takes any per-session pool, so the leg only needs to loop the mid_day parameter and publish per-phase timing/selection with the same identity residual; keep pick_n pinned and publish pool_binds per phase",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T09:12:00+08:00",
+   "entered_by": "bm-b r1242",
+   "source": "r1242 E61: timing +84.0 / selection -66.0 full window, +191.0 / -117.0 in 2024_now, identity residual 0.0"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

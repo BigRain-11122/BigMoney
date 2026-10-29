@@ -3106,3 +3106,40 @@ eras, and in this panel only two counted eras exist to say so.
 How to apply: when a finding is stated over eras, publish `measured_eras` beside the verdict, keep a
 per-cell priced floor with the excluded eras listed, and never merge two faces computed on different
 spans into one table.
+## E215 A gap split into two parts has to print its identity residual (2026-10-29 r1242 bm-b)
+
+E57 (r1134) read the mid-month calendar at the name level: half its entrants are names the month-end
+book still holds, so the mid book is "early, not wrong" (+0.96% vs +0.89%). That is a name reading of a
+portfolio question. E61 asks the engine instead, by re-running the mid arm with its candidate pool
+restricted **at every session** to the month-end book's holdings: same names on offer, different
+decision sessions = the timing part; narrow pool vs full universe = the selection part.
+
+The split is an identity, and it is printed as one:
+
+    total = mid - me;  timing = mid_shared - me;  selection = mid - mid_shared;  residual = total - (timing + selection)
+
+Reading (pick_n=10, 2020-01 start, x0 arms): full window +18.0 bp total = **+84.0 timing - 66.0
+selection**, residual 0.0. In 2024_now the same two parts are **+191.0 / -117.0** netting +74.0; in
+2021_2023 they are +26.0 / -42.0 netting -16.0. So the published net gap is the small difference of
+two much larger opposite-signed parts, and both the E57 name reading and the portfolio reading are true
+while neither is the headline.
+
+(a) **A decomposition must carry the residual that ties it to the total.** Three numbers that are
+    algebraically linked are a check on how the arms were run; without the residual a reader cannot
+    separate a decomposition from three independent measurements. The leg's smoke leg fails when
+    `identity_ok` is false.
+(b) **"The candidate set" is a per-session object.** The engine only had a static universe, which is
+    why this card sat `waiting` for three weeks. A default-`None` seam (`simulate(universe_at=...)`)
+    keeps every published curve bit-identical (pinned by an e27 selftest leg); the idx-keyed rank cache
+    must be bypassed in that mode, since two decisions can share an index with different pools.
+(c) **Pin the width before reading a two-way split.** At pick_n=9999 both books hold the entire
+    universe, the selection part reads 0 by construction and the "decomposition" would confirm the
+    timing story for free. The leg pins pick_n=10 and publishes the pool-size distribution
+    (`pool_median`, `pool_binds`), so a restriction that never bound cannot pass as a result.
+(d) **An era where all three arms read the same number is a burn-in block** (E212 sibling): offset
+    2017_2020 prints 0/0/0 at a 2020 start because the first invested decision is 2021-01-29; it is
+    tagged `degenerate_cash_slice` and excluded from the dominance vote.
+
+How to apply: when attributing a calendar (or any structural) cost, restrict the treatment arm to the
+control arm's own pool per session, publish the identity residual beside the parts, pin the book width,
+and never quote the net gap without the era it was measured in.

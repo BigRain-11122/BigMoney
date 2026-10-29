@@ -1313,6 +1313,35 @@ def main() -> int:
         check("product: the off-book era leg is on the chain and publishes a cross-era verdict",
               False, str(e))
 
+    # E61: the calendar gap has to arrive already split into its two parts, and
+    # the split has to add back up to the gap it claims to explain.
+    try:
+        _sb_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _sb_dir = os.path.join("results", "e44_midmonth")
+        _sb = sorted(f for f in os.listdir(_sb_dir)
+                     if f.startswith("SHAREDBOOK-")) if os.path.isdir(_sb_dir) else []
+        _sb_doc = None
+        if _sb:
+            with open(os.path.join(_sb_dir, _sb[-1]), encoding="utf-8") as _fh:
+                _sb_doc = json.load(_fh)
+        _sb_ans = ((_sb_doc or {}).get("answers") or {})
+        _sb_ok = ("sharedbook" in _sb_order
+                  and _sb_doc is not None
+                  and _sb_doc.get("study") == "e61_shared_candidate_pool"
+                  and _sb_ans.get("identity_ok") is True
+                  and _sb_ans.get("full_window_timing_bp") is not None
+                  and _sb_ans.get("full_window_selection_bp") is not None
+                  and (_sb_doc.get("widths") or {}).get("pool_median") is not None)
+        check("product: the mid-month gap arrives split into timing and selection",
+              _sb_ok, "chain=%s face=%s total=%s timing=%s selection=%s resid=%s" % (
+                  "sharedbook" in _sb_order, _sb[-1] if _sb else "MISSING",
+                  _sb_ans.get("full_window_total_bp"), _sb_ans.get("full_window_timing_bp"),
+                  _sb_ans.get("full_window_selection_bp"),
+                  _sb_ans.get("identity_residual_bp")))
+    except Exception as e:
+        check("product: the mid-month gap arrives split into timing and selection",
+              False, str(e))
+
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
     # the older body went out through a GBK round trip (19 x U+E511), and the file

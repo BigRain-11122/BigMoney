@@ -1324,15 +1324,65 @@
   "self_inclusion": "both new faces excluded from the trace corpus by study name (DOCQUOTE_EXCLUDE_STUDIES +e211_page_quote_gate, skipped_study 10 -> 12): the E209 first-publish defect (4,702 -> 5,406) closed before it could fire",
   "signature": "family (page path with digits masked) | unit context | snippet with every digit masked -> REPORT-2026-10-29.md and REPORT-2026-10-30.md are one family, -701 and -702 in one sentence are one signature. A value-keyed ratchet would go red every morning and be disabled within a week."
  },
+ "r1239": {
+  "delivery": "main is 29 behind / 26 ahead and rebase in this blob:none promisor clone has hung in every prior round, so the estate rides machine/bm-b-r1239 per D-20260925-01③",
+  "finding": "the mid-sweep 2017_2020 column is a burn-in cash block: at start 2020 the first invested decision is 2021-01-29 (idx 262, 12 decision bars late) so 100% of that era slice sits before the engine ever buys and all five off-cycle days print gap 0.0 -- 10 of 84 cells tagged degenerate_cash_slice; at start 2013 the same era is fully invested (pre share 0.0) and reads -27..+1bp",
+  "mission": "watermark green at open (red=false, pool ready 0, py 1%), smoke 126/126, board clear -> the round owed the standing agenda's waiting card E64",
+  "not_run": "GPU untouched (parked C-20261014-01; the 3982 MiB in use is the interactive window's, not this chain); cloud untouched; E60/E61 left waiting -- both need new legs and E61 needs per-session holdings e27.simulate does not expose",
+  "product": [
+   "results/e44_midmonth/MIDSWEEP-20261028-burnin.json",
+   "scripts/e39_panel_census.py: _burnin_share/_burnin_class/run_midsweepburnin + CLI mode midsweepburnin (selftest 717/717)",
+   "research/digests/DIGEST-20261029-e64-midsweep-burnin.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E212",
+   "results/runnable_pool.json E64 -> done with result_ref"
+  ],
+  "s6": "22/23 rc0 (156.4s); machine_health rc=2 missing[bm-b:cpu,gpu.util] -> healed in-window by gpu_face apply + machine_health_face write/check -> 8/8, smoke re-run green"
+ },
+ "r1241_face": {
+  "d19": "decisions eee7cbf0 + orders 122ab707 unchanged; 114 files / 115 acks / 0 unacked",
+  "orphan": 0,
+  "pool": "E61 waiting only; ready 0 -- E61 needs an engine seam (per-session holdings), not a leg",
+  "product": [
+   "results/e44_midmonth/OFFBOOK-ERA-20261028.json",
+   "scripts/e39_panel_census.py mode offbookera",
+   "Tools/s6_chain_bmb.py leg offbookera",
+   "smoke_test.py leg",
+   "knowledge/METHODOLOGY_ASSETS.md E214",
+   "research/digests/DIGEST-20261029-r1241-e214-era-stability.md"
+  ],
+  "read": "2017_2020 thick gap +4.288 mean / +2.301 median but 15 priced slots < 20 floor -> excluded, not counted; 2021_2023 -1.626 / 2024_now +3.601; verdict flips on BOTH aggregators (spread 5.227 / 2.982), measured_eras=2",
+  "s6": "24/24 rc0",
+  "selftest": "e39 730 -> 737/737",
+  "smoke": "127/127"
+ },
+ "r1242": {
+  "finding": "the mid-month calendar gap splits into a timing GAIN and a selection LOSS: full window total +18.0bp = +84.0 timing - 66.0 selection; 2024_now +74.0 = +191.0 - 117.0; 2021_2023 -16.0 = +26.0 - 42.0. E57 name-level reading (early, not wrong) and the portfolio reading (wider pool costs money) are both true; neither is the headline.",
+  "mission": "watermark insufficient_history (pool ready 0, board clear), smoke 127/127, sat engine rc0 -> the standing agenda owed the pool card E61 that has been waiting since 2026-10-21",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; bm-a/bm-c lane collectors honoured their guards; S8 local-ignite not applicable (green_idle true but claimable pool line 1 -> handled by the standing agenda instead)",
+  "orphan": 0,
+  "product": [
+   "results/e44_midmonth/SHAREDBOOK-20261028.json",
+   "scripts/e39_panel_census.py: _book_holdings_at/_shared_pool/_decompose_gap/_era_curve_faces/_sharedbook_widths/run_sharedbook + CLI mode sharedbook (selftest 737 -> 743)",
+   "scripts/e27_universe_expansion.py: simulate(universe_at=...) seam (selftest 9 -> 11)",
+   "Tools/s6_chain_bmb.py leg sharedbook",
+   "smoke_test.py leg (smoke 127 -> 128)",
+   "research/digests/DIGEST-20261029-r1242-e61-sharedbook.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E215",
+   "results/runnable_pool.json E61 -> done with result_ref"
+  ],
+  "s6": "25/25 rc0 (199.4s): dualrun ZERO-DRIFT 689 entries streak 23 | compute_audit | cal_audit in_sync 2026-10-28 | market_regime breadth 0.88 | offbookera + sharedbook 9.9s | daily_report REPORT-2026-10-29 | ceo_live_usage LIVE-2026-10-29 | docquotes 534 numbers 2 unsourced 6 count-wearing-unit | machine_health | gpu_face findings=[] | attrition CLEAN 4 ledgers | pool_audit | token_meter 0 local legs",
+  "selftest": "e39 737 -> 743/743; e27 9 -> 11/11",
+  "smoke": "128/128 PASS"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1241,
- "round_no": 1241,
- "round_no_label": "r1241",
+ "round": 1242,
+ "round_no": 1242,
+ "round_no_label": "r1242",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T08:38:00+08:00",
+ "round_no_ts": "2026-10-29T09:08:12+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": {
@@ -1349,42 +1399,11 @@
   "status": "delivered_on_machine_branch",
   "ts": "2026-10-29T07:50:25+08:00"
  },
- "task": "r1239: E64 mid-sweep burn-in face (done) -> pool ready 0 / waiting 2 (E60/E61)",
- "task_short": "E64",
+ "task": "r1242: E61 shared candidate pool leg (done) -> pool ready 0 / waiting 0",
+ "task_short": "E61",
  "task_short_note": "e39 mode midsweepburnin; selftest 717/717; face MIDSWEEP-20261028-burnin.json",
- "ts": "2026-10-29T07:50:25+08:00",
- "updated": "2026-10-29T07:50:25+08:00",
- "updated_at": "2026-10-29T07:50:25+08:00",
- "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-6%) -> board clear + smoke green, so the round owed a card: E211 turned the E210 CEO-page trace sweep into a ratchet (signature masks every digit, so value churn is invisible and only a sentence that STARTS quoting an unproduced number goes red) | live: pages=5 numbers=534 unsourced=2 signatures=2 grown=0 shrunk=0 rc=0 | baseline seeded with corpus_bound 1200 | e97 selftest 123->128 | smoke 126/126 | S6 23/23 rc0 | dualrun ZERO-DRIFT streak 19 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions eee7cbf0 consumed (D-03 item4 telemetry S4U verified live), orders 0 unacked",
- "r1239": {
-  "mission": "watermark green at open (red=false, pool ready 0, py 1%), smoke 126/126, board clear -> the round owed the standing agenda's waiting card E64",
-  "finding": "the mid-sweep 2017_2020 column is a burn-in cash block: at start 2020 the first invested decision is 2021-01-29 (idx 262, 12 decision bars late) so 100% of that era slice sits before the engine ever buys and all five off-cycle days print gap 0.0 -- 10 of 84 cells tagged degenerate_cash_slice; at start 2013 the same era is fully invested (pre share 0.0) and reads -27..+1bp",
-  "product": [
-   "results/e44_midmonth/MIDSWEEP-20261028-burnin.json",
-   "scripts/e39_panel_census.py: _burnin_share/_burnin_class/run_midsweepburnin + CLI mode midsweepburnin (selftest 717/717)",
-   "research/digests/DIGEST-20261029-e64-midsweep-burnin.md",
-   "knowledge/METHODOLOGY_ASSETS.md card E212",
-   "results/runnable_pool.json E64 -> done with result_ref"
-  ],
-  "s6": "22/23 rc0 (156.4s); machine_health rc=2 missing[bm-b:cpu,gpu.util] -> healed in-window by gpu_face apply + machine_health_face write/check -> 8/8, smoke re-run green",
-  "not_run": "GPU untouched (parked C-20261014-01; the 3982 MiB in use is the interactive window's, not this chain); cloud untouched; E60/E61 left waiting -- both need new legs and E61 needs per-session holdings e27.simulate does not expose",
-  "delivery": "main is 29 behind / 26 ahead and rebase in this blob:none promisor clone has hung in every prior round, so the estate rides machine/bm-b-r1239 per D-20260925-01③"
- },
- "r1241_face": {
-  "smoke": "127/127",
-  "selftest": "e39 730 -> 737/737",
-  "s6": "24/24 rc0",
-  "orphan": 0,
-  "product": [
-   "results/e44_midmonth/OFFBOOK-ERA-20261028.json",
-   "scripts/e39_panel_census.py mode offbookera",
-   "Tools/s6_chain_bmb.py leg offbookera",
-   "smoke_test.py leg",
-   "knowledge/METHODOLOGY_ASSETS.md E214",
-   "research/digests/DIGEST-20261029-r1241-e214-era-stability.md"
-  ],
-  "read": "2017_2020 thick gap +4.288 mean / +2.301 median but 15 priced slots < 20 floor -> excluded, not counted; 2021_2023 -1.626 / 2024_now +3.601; verdict flips on BOTH aggregators (spread 5.227 / 2.982), measured_eras=2",
-  "pool": "E61 waiting only; ready 0 -- E61 needs an engine seam (per-session holdings), not a leg",
-  "d19": "decisions eee7cbf0 + orders 122ab707 unchanged; 114 files / 115 acks / 0 unacked"
- }
+ "ts": "2026-10-29T09:08:12+08:00",
+ "updated": "2026-10-29T09:08:12+08:00",
+ "updated_at": "2026-10-29T09:08:12+08:00",
+ "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-6%) -> board clear + smoke green, so the round owed a card: E211 turned the E210 CEO-page trace sweep into a ratchet (signature masks every digit, so value churn is invisible and only a sentence that STARTS quoting an unproduced number goes red) | live: pages=5 numbers=534 unsourced=2 signatures=2 grown=0 shrunk=0 rc=0 | baseline seeded with corpus_bound 1200 | e97 selftest 123->128 | smoke 126/126 | S6 23/23 rc0 | dualrun ZERO-DRIFT streak 19 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions eee7cbf0 consumed (D-03 item4 telemetry S4U verified live), orders 0 unacked"
 }

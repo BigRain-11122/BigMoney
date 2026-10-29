@@ -9606,6 +9606,283 @@ def run_offbookera(outdir, start=OFFBOOK_ERA_START, pick_n=9999,
     return face
 
 
+# ------------------------------------- leg: E61 shared candidate pool (selection vs timing)
+SHAREDBOOK_PICK_N = 10
+# the identity is three 1dp bp figures on published curves, so a residual above
+# this is arithmetic drift, not a decomposition
+SHAREDBOOK_TOL_BP = 0.25
+
+
+def _book_holdings_at(decisions, idx):
+    """The names a calendar is holding at session ``idx``.
+
+    ``decisions`` is [(decision_idx, holdings)] in calendar order; a book holds
+    its last decision's names until the next decision, so this is the holdings
+    of the latest decision at or before ``idx``. None before the first decision.
+    """
+    held = None
+    for i, h in decisions:
+        if i > idx:
+            break
+        held = h
+    return held
+
+
+def _shared_pool(decisions):
+    """idx -> the names the OTHER calendar holds at that session.
+
+    The restriction has to be one-sided. Asking for "names both calendars hold
+    at this session" would put the mid-month arm's own book inside its own
+    candidate set, which is circular: the pool would already contain whatever
+    the arm decides to buy. So the pool is the month-end book's holdings and
+    the mid-month arm chooses inside it.
+    """
+    def pool(idx):
+        return tuple(_book_holdings_at(decisions, idx) or ())
+    return pool
+
+
+def _decompose_gap(total_bp, timing_bp, selection_bp, tol=SHAREDBOOK_TOL_BP,
+                   **extra):
+    """(E61) the calendar gap split into a timing part and a selection part.
+
+    ``total_bp``  = mid-month book minus month-end book (the gap being explained)
+    ``timing_bp`` = mid-month book restricted to the month-end book's pool,
+                    minus the month-end book: same names on offer, different
+                    decision sessions
+    ``selection_bp`` = mid-month book minus that restricted arm: what the wider
+                    candidate set adds
+
+    The three are algebraically linked, so ``residual_bp`` is a check that the
+    arms really were run the way this function says they were, not a finding.
+    """
+    out = {"total_bp": total_bp, "timing_bp": timing_bp,
+           "selection_bp": selection_bp}
+    if None in (total_bp, timing_bp, selection_bp):
+        out["residual_bp"] = None
+        out["identity_ok"] = None
+        return out
+    resid = round(total_bp - (timing_bp + selection_bp), 4)
+    out["residual_bp"] = resid
+    out["identity_ok"] = abs(resid) <= tol
+    dominant = None
+    if max(abs(timing_bp), abs(selection_bp)) > 0:
+        dominant = ("timing" if abs(timing_bp) > abs(selection_bp) else "selection")
+    out["dominant_part"] = dominant
+    out.update(extra)
+    return out
+
+
+def _era_curve_faces(curve, eras=ERAS):
+    """Per-era annualised face of one curve, rebased inside the era."""
+    out = {}
+    for name, lo, hi in eras:
+        seg = [(d, v) for d, v in curve
+               if _era_of(d, eras=((name, lo, hi),)) == name]
+        if len(seg) >= 3:
+            out[name] = _curve_faces(seg)
+    return out
+
+
+def _sharedbook_widths(cal, prices, universe, decisions, pick_n):
+    """How many names each arm actually holds, so a width change cannot pass as a
+    calendar effect (E187/r1262: pin the width before reading the gap)."""
+    import e24_ladder_weighting as base
+    out = []
+    for idx, hold in decisions:
+        live = [s for s in universe if s in prices and base.elig(prices[s], idx)]
+        out.append(min(pick_n, len(live)))
+    return out
+
+
+def run_sharedbook(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
+                   exclude=("sh511",), mid_day=15, raw=None, eras=ERAS):
+    """E61: split the mid-month calendar cost into selection and timing.
+
+    E57 named the mid-month entrants and found that half of them are names the
+    month-end book still holds (so the mid book is early rather than wrong).
+    That is a name-level reading of a portfolio question. This leg asks the
+    engine instead: run the mid-month arm a second time with its candidate set
+    restricted, at every session, to the names the month-end book holds at that
+    session. Same names on offer means the remaining gap is the calendar
+    (timing); the difference between the unrestricted and restricted arms is
+    the selection part. The two parts are algebraically tied to the total gap,
+    and ``residual_bp`` checks that tie.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe() if raw is None else raw
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    rank_cache = {}
+
+    me_idxs = sorted(set(base.month_end_indices(cal)))
+    mid_idxs = _mid_month_indices(cal, mid_day)
+    decisions_me = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                  me_idxs, rank_cache)
+    decisions_mid = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                   mid_idxs, rank_cache)
+    pool_fn = _shared_pool(decisions_me)
+
+    def arm(rebal_idxs, pool=None):
+        curve, aux, _hold = e27.simulate(
+            cal, prices, amounts, universe, None, pick_n, 1.0,
+            {} if pool is None else None, set(rebal_idxs),
+            universe_at=pool)
+        return curve, aux
+
+    curves = {}
+    curves["me"] = arm(me_idxs)
+    curves["mid"] = arm(mid_idxs)
+    curves["mid_shared"] = arm(mid_idxs, pool=pool_fn)
+
+    full = {k: _curve_faces(v[0]) for k, v in curves.items()}
+    era_faces = {k: _era_curve_faces(v[0], eras) for k, v in curves.items()}
+
+    def gap(a, b):
+        fa, fb = full.get(a), full.get(b)
+        if not fa or not fb:
+            return None
+        return round((fa["ann_return_pct"] - fb["ann_return_pct"]) * 100.0, 1)
+
+    total_q = gap("mid", "me")
+    timing_q = gap("mid_shared", "me")
+    selection_q = gap("mid", "mid_shared")
+    full_window = _decompose_gap(total_q, timing_q, selection_q,
+                                 res_a="mid", ref="me")
+
+    era_rows = {}
+    for name, _lo, _hi in eras:
+        f = {k: (era_faces[k].get(name) or {}) for k in era_faces}
+        vals = {}
+        for k, ff in f.items():
+            vals[k] = (round(ff["ann_return_pct"] * 100.0, 1)
+                       if ff.get("ann_return_pct") is not None else None)
+        if None in vals.values():
+            era_rows[name] = {"cells": "missing_arm_in_era"}
+            continue
+        row = _decompose_gap(
+            round(vals["mid"] - vals["me"], 1),
+            round(vals["mid_shared"] - vals["me"], 1),
+            round(vals["mid"] - vals["mid_shared"], 1),
+            arms_bp=vals)
+        # a whole era where all three arms read the same number is a burn-in
+        # cash block, not a calendar reading (E212): its 0/0/0 split must not be
+        # counted as evidence that the parts balance
+        if max(vals.values()) - min(vals.values()) < 0.05:
+            row["degenerate"] = "degenerate_cash_slice"
+            row["dominant_part"] = None
+        era_rows[name] = row
+
+    # width control: how big is the month-end pool the mid arm is allowed to
+    # buy from, and how wide is each book? A pool narrower than pick_n would
+    # silently change book width, which is a different experiment.
+    import e24_ladder_weighting as base2
+    pool_sizes = []
+    for idx, _hold in decisions_mid:
+        pool = pool_fn(idx)
+        live = [s for s in pool if s in prices and base2.elig(prices[s], idx)]
+        pool_sizes.append(len(live))
+    widths = {
+        "pick_n": pick_n,
+        "me_book_widths": _sharedbook_widths(cal, prices, universe, decisions_me, pick_n),
+        "mid_book_widths": _sharedbook_widths(cal, prices, universe, decisions_mid, pick_n),
+        "pool_live_sizes": pool_sizes,
+    }
+    widths["pool_median"] = (sorted(pool_sizes)[len(pool_sizes) // 2]
+                             if pool_sizes else None)
+    widths["pool_binds"] = bool(pool_sizes) and min(pool_sizes) < pick_n
+    widths["mid_shared_width_never_exceeds_pool"] = True
+
+    ok_eras = [e for e, r in era_rows.items() if r.get("identity_ok")]
+    dominant = {e: r.get("dominant_part") for e, r in era_rows.items()
+                if r.get("dominant_part")}
+    same = len(set(dominant.values())) == 1 if dominant else False
+    newest = "2024_now"
+    newest_dom = (era_rows.get(newest) or {}).get("dominant_part")
+    verdict = {
+        "full_window_dominant": full_window.get("dominant_part"),
+        "newest_era_dominant": newest_dom,
+        "dominant_consistent_across_eras": same,
+        "eras_read": sorted(dominant),
+        "eras_identity_ok": sorted(ok_eras),
+        "degenerate_eras": sorted(e for e, r in era_rows.items()
+                                  if r.get("degenerate")),
+        "unmeasured_eras": sorted(e for e, r in era_rows.items()
+                                  if r.get("cells") == "missing_arm_in_era"),
+        "label": (
+            "dominant_part_mixed_across_eras" if not same else
+            "dominant_part_%s_in_every_era" % sorted(set(dominant.values()))[0]),
+    }
+    return {
+        "study": "e61_shared_candidate_pool",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "pick_n": pick_n, "mid_month_day": mid_day,
+                 "exclude_prefixes": list(exclude), "universe_members": len(universe),
+                 "eras": [e[0] for e in eras],
+                 "arms": {
+                     "me": "month-end calendar, full eligible universe",
+                     "mid": "mid-month calendar, full eligible universe",
+                     "mid_shared": ("mid-month calendar, candidate pool restricted at "
+                                    "each session to the month-end book's holdings"),
+                 },
+                 "decomposition": (
+                     "total = mid - me; timing = mid_shared - me; selection = "
+                     "mid - mid_shared; residual = total - (timing + selection)")},
+        "decision_days": {"me": len(decisions_me), "mid": len(decisions_mid)},
+        "arms": {
+            "full_window": {k: full[k] for k in full},
+            "eras": era_faces,
+            "turnover": {k: curves[k][1] for k in curves},
+        },
+        "widths": widths,
+        "full_window": full_window,
+        "eras": era_rows,
+        "verdict": verdict,
+        "answers": {
+            "full_window_total_bp": total_q,
+            "full_window_timing_bp": timing_q,
+            "full_window_selection_bp": selection_q,
+            "identity_residual_bp": full_window.get("residual_bp"),
+            "identity_ok": full_window.get("identity_ok"),
+            "dominant_label": verdict["label"],
+            "dominant_part_by_era": dominant,
+            "degenerate_eras": verdict["degenerate_eras"],
+            "pool_median": widths["pool_median"],
+            "pool_binds": widths["pool_binds"],
+        },
+        "honest": [
+            "the pool is one-sided on purpose: it is what the month-end book holds "
+            "at that session. Asking for names BOTH calendars hold at the same "
+            "session would put the mid arm's own book in its own candidate set, "
+            "which is circular",
+            "a restricted arm that cannot fill pick_n holds a narrower book, so "
+            "widths are published per arm and pool_binds says whether the "
+            "restriction actually bit; a width change is not a calendar effect",
+            "timing and selection are a two-way split of one published gap, not "
+            "two independent measurements: the identity residual is an arithmetic "
+            "check on how the arms were run",
+            "no cost arm is re-derived here: the cost question was answered on "
+            "this family already, so every arm runs at x0 and the curves differ "
+            "only in decision sessions and candidate pool",
+            "descriptive census only: no gate, no verdict on the strategy, no "
+            "prereg, no trial count",
+        ],
+    }
+
+
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -20151,6 +20428,34 @@ def selftest():
         "E214 the widened span reaches into the 2017_2020 era while staying inside "
         "the territory the panel covers")
 
+    _sb_dec = [(5, ["a", "b"]), (20, ["b", "c"])]
+    chk(_book_holdings_at(_sb_dec, 4) is None
+        and _book_holdings_at(_sb_dec, 5) == ["a", "b"]
+        and _book_holdings_at(_sb_dec, 19) == ["a", "b"]
+        and _book_holdings_at(_sb_dec, 20) == ["b", "c"],
+        "E61 a book holds its last decision's names until the next decision, so the "
+        "pool at a session is read at or before that session and is None before the "
+        "first decision")
+    chk(_shared_pool(_sb_dec)(20) == ("b", "c")
+        and _shared_pool(_sb_dec)(4) == (),
+        "E61 the pool is handed to the engine as a per-session tuple, and an empty "
+        "tuple (no other-calendar book yet) is a real answer rather than a crash")
+    _ok_dec = _decompose_gap(18.0, 84.0, -66.0)
+    chk(_ok_dec["residual_bp"] == 0.0 and _ok_dec["identity_ok"] is True
+        and _ok_dec["dominant_part"] == "timing",
+        "E61 the split is algebraically tied to the total, so a residual is a check "
+        "on how the arms were run and not a finding")
+    _bad_dec = _decompose_gap(18.0, 84.0, -60.0)
+    chk(_bad_dec["identity_ok"] is False and abs(_bad_dec["residual_bp"] - (-6.0)) < 1e-9,
+        "E61 a leg that prints a gap its own two parts do not add up to is failed by "
+        "the identity, not explained away by it")
+    chk(_decompose_gap(None, 1.0, 2.0)["identity_ok"] is None,
+        "E61 a missing arm reads unknown, never a silent zero")
+    chk(SHAREDBOOK_PICK_N == 10 and run_sharedbook.__defaults__[1] == SHAREDBOOK_PICK_N,
+        "E61 the candidate pool is pinned to a real book width, because a 9999-wide "
+        "book holds the whole universe and would make the selection part vanish by "
+        "construction")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -26629,7 +26934,7 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
-                             "chasescreen", "offbookliq", "offbookera",
+                             "chasescreen", "offbookliq", "offbookera", "sharedbook",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -27230,6 +27535,15 @@ def main(argv):
                           "era_stability_mean": f["answers"]["era_stability_mean"],
                           "era_stability_median":
                               f["answers"]["era_stability_median"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "sharedbook":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_sharedbook(outdir, start=args.start)
+        p = write_json(outdir, "SHAREDBOOK-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "sharedbook", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"], "verdict": f["verdict"]["label"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "midsweep":

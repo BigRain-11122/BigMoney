@@ -39,6 +39,9 @@ LEGS = [
     # E214: the E60 off-book liquidity split carried across every era the panel
     # covers, so a two-era sign disagreement is not read as a flip on a sample of 2
     ("offbookera", ["python", "scripts/e39_panel_census.py", "offbookera"]),
+    # E61: the mid-month calendar gap split into a timing part and a selection
+    # part, with the month-end book's holdings as the per-session candidate pool
+    ("sharedbook", ["python", "scripts/e39_panel_census.py", "sharedbook"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

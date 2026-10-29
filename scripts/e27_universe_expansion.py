@@ -126,11 +126,19 @@ def _rank(idx, universe, prices, amounts, cache=None):
 
 
 def simulate(cal, prices, amounts, universe, cash=None, pick_n=None, cost_mult=1.0,
-             rank_cache=None, rebal=None, contrib=None):
+             rank_cache=None, rebal=None, contrib=None, universe_at=None):
     """Simulate one scheme. pick_n=None -> equal-weight the given universe.
 
     rebal: explicit set of calendar indices whose close is the decision point;
     None keeps the E24 default (every month end). E33 uses this for cadence.
+
+    universe_at: E61 seam. A callable idx -> iterable of symbols. When handed in,
+    the candidate pool at each decision is ``universe_at(idx)`` instead of the
+    static ``universe``; that is what a per-session restriction ("only the
+    names the other calendar holds at this session") needs. Default None means
+    the static universe, so every published curve is unchanged. Since the pool
+    can now differ between decisions, the idx-keyed rank cache is bypassed in
+    this mode instead of answering with whichever pool asked first.
 
     contrib: E174 seam. When a dict is handed in, every day's ``w * r`` is
     accumulated under ``(YYYY-MM, symbol)``, so a reader can ask WHICH name
@@ -182,10 +190,12 @@ def simulate(cal, prices, amounts, universe, cash=None, pick_n=None, cost_mult=1
 
         if (i - 1) in rebal:
             idx = i - 1
+            pool = universe if universe_at is None else list(universe_at(idx))
             if pick_n is None:
-                live = [s for s in universe if s in prices and base.elig(prices[s], idx)]
+                live = [s for s in pool if s in prices and base.elig(prices[s], idx)]
             else:
-                live = _rank(idx, universe, prices, amounts, rank_cache)[:pick_n]
+                live = _rank(idx, pool, prices, amounts,
+                             None if universe_at is not None else rank_cache)[:pick_n]
             if live:
                 w = 1.0 / len(live)
                 target = {s: w for s in live}
@@ -412,6 +422,24 @@ def selftest():
     for n in (1, 3, 1000):
         curve, _, _ = simulate(cal, prices, ams, syms, None, n, 1.0, {})
         assert curve[-1][1] > 0 and all(v > 0 for _, v in curve)
+    ok += 1; tot += 1
+
+    # 10. E61 seam: a pool that always hands back the whole universe is the
+    #     static universe, bit for bit -- otherwise every published curve that
+    #     never asks for the seam would move with this change
+    c_static, a_static, h_static = simulate(cal, prices, ams, syms, None, 3, 1.0, {})
+    c_seam, a_seam, h_seam = simulate(cal, prices, ams, syms, None, 3, 1.0, {},
+                                      None, universe_at=lambda _i: syms)
+    assert all(abs(x[1] - y[1]) < 1e-15 for x, y in zip(c_static, c_seam))
+    assert h_static == h_seam and a_static == a_seam
+    ok += 1; tot += 1
+
+    # 11. and a pool that is a strict subset actually bites: restricting to the
+    #     least liquid member cannot return top-3 by liquidity
+    thin = ["sh510104", "sh510105"]
+    _c, _a, h_thin = simulate(cal, prices, ams, syms, None, 3, 1.0, {},
+                              None, universe_at=lambda _i: thin)
+    assert set(h_thin) <= set(thin), h_thin
     ok += 1; tot += 1
 
     print("selftest %d/%d PASS" % (ok, tot))

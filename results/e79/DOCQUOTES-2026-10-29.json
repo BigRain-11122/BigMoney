@@ -9,12 +9,12 @@
   "sourced_page_twin": 471,
   "sourced_face_corpus": 61,
   "unsourced": 2,
-  "count_as_reading": 5,
-  "integral_under_a_unit": 12,
+  "count_as_reading": 6,
+  "integral_under_a_unit": 11,
   "pages_without_a_json_twin": 0
  },
  "corpus": {
-  "files_available": 12170,
+  "files_available": 12174,
   "bound": 1200,
   "size_cap_bytes": 1572864,
   "skipped_unreadable": 0,
@@ -29,10 +29,24 @@
     "sourced_page_twin": 251,
     "sourced_face_corpus": 24,
     "unsourced": 0,
-    "count_as_reading": 0,
-    "integral_under_a_unit": 11
+    "count_as_reading": 1,
+    "integral_under_a_unit": 10
    },
-   "count_as_reading": [],
+   "count_as_reading": [
+    {
+     "token": "40.0",
+     "context": "pct",
+     "line": 74,
+     "snippet": "- **bm-b**：py 0.6%（总机 40.0% ·                    ）· 池 ready 0 · 今日底线合规",
+     "tier": "page_twin",
+     "buckets": [
+      "count_word",
+      "small_integer"
+     ],
+     "face": "docs/daily_report/REPORT-2026-10-29.json",
+     "leaf": "/utilization/machines/bm-b/cpu_pct"
+    }
+   ],
    "unsourced": [],
    "by_context": {
     "plain": 184,
@@ -213,7 +227,7 @@
    "docs/tactics_report/*.md"
   ],
   "sourced_share": 0.9963,
-  "verdict": "of_534_numbers_on_the_pages_the_ceo_reads_2_are_unsourced_and_5_count_cells_wear_a_unit"
+  "verdict": "of_534_numbers_on_the_pages_the_ceo_reads_2_are_unsourced_and_6_count_cells_wear_a_unit"
  },
  "caveats": [
   "traceability is tested against the page's own JSON twin first and then a bounded corpus of the newest 1200 results faces: an 'unsourced' number may still be a legitimate derived aggregate (a sum the page computes itself), so the unsourced list is a reading list, not a verdict",
