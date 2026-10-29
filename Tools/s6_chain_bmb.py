@@ -90,6 +90,12 @@ LEGS = [
     # never mistaken for "more independent observations".
     ("state_tilt", ["python", "scripts/e225_state_tilt.py", "run"]),
     ("tilt_breakeven", ["python", "scripts/e226_tilt_breakeven.py", "run"]),
+    # E228: E226 showed the drift split can hand a losing rule a positive residual,
+    # because an attributed share of the null's drift is not a benchmark. This leg
+    # builds the benchmark -- a flat arm at the gate's own average weight under the
+    # same toll -- and judges the PAIRED daily difference, so the timing term finally
+    # carries a standard error instead of standing alone.
+    ("matched_exposure", ["python", "scripts/e228_matched_exposure.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

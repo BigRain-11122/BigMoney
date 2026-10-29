@@ -1,0 +1,918 @@
+{
+ "answer": "exposure for exposure the tilt is -200 bp/yr at t=-1.99, against a bar of 2.73: 0 of 8 gated cells survive. The E225 drift split and this traded benchmark agree to within 0 bp/yr on 8 of 8 cells (0 sign changes), so the attribution was not biased -- what it lacked was a standard error, and the paired series supplies one. The reason the split could still hand a losing rule a positive residual is visible in the constants: the matched arm sits at the gate's own average weight, so it inherits the same drift the gate was charged for, and only the TIMING term separates them.",
+ "benchmark_agreement": {
+  "arms": [
+   {
+    "arm": "binary_low",
+    "attribution_bp_per_year": -523.7613626740167,
+    "paired_bp_per_year": -523.7613626740163,
+    "paired_t": -1.6919076168813347,
+    "panel": "primary_single",
+    "sign_changed": false
+   },
+   {
+    "arm": "tilt_step",
+    "attribution_bp_per_year": -637.0322189151552,
+    "paired_bp_per_year": -637.0322189151561,
+    "paired_t": -2.0647087776965827,
+    "panel": "primary_single",
+    "sign_changed": false
+   },
+   {
+    "arm": "tilt_linear",
+    "attribution_bp_per_year": -703.4864873672742,
+    "paired_bp_per_year": -703.4864873672731,
+    "paired_t": -2.1468539069477934,
+    "panel": "primary_single",
+    "sign_changed": false
+   },
+   {
+    "arm": "voltarget",
+    "attribution_bp_per_year": -200.13496721958472,
+    "paired_bp_per_year": -200.13496721958487,
+    "paired_t": -1.9851810115037818,
+    "panel": "primary_single",
+    "sign_changed": false
+   },
+   {
+    "arm": "binary_low",
+    "attribution_bp_per_year": 218.41717329450358,
+    "paired_bp_per_year": 218.41717329450333,
+    "paired_t": 0.7140266091054706,
+    "panel": "basket_equal_weight",
+    "sign_changed": false
+   },
+   {
+    "arm": "tilt_step",
+    "attribution_bp_per_year": -182.35813737557226,
+    "paired_bp_per_year": -182.35813737557172,
+    "paired_t": -0.5746070276674303,
+    "panel": "basket_equal_weight",
+    "sign_changed": false
+   },
+   {
+    "arm": "tilt_linear",
+    "attribution_bp_per_year": -172.11851820382793,
+    "paired_bp_per_year": -172.11851820382793,
+    "paired_t": -0.5309824916845635,
+    "panel": "basket_equal_weight",
+    "sign_changed": false
+   },
+   {
+    "arm": "voltarget",
+    "attribution_bp_per_year": -395.5924633581094,
+    "paired_bp_per_year": -395.59246335810724,
+    "paired_t": -2.605152598115302,
+    "panel": "basket_equal_weight",
+    "sign_changed": false
+   }
+  ],
+  "cells": 8,
+  "identity": "attribution - pair == -(matched arm's own OOS toll); a constant weight trades only at entry, so that toll is exactly zero and the two benchmarks are one number. The split was never biased -- it was undetermined, and the pair supplies its standard error.",
+  "max_abs_gap_bp_per_year": 2.1600499167107046e-12,
+  "median_abs_gap_bp_per_year": 4.973799150320701e-13,
+  "reading": "the E225 drift split is an attribution, not a benchmark; here both are priced on the same toll and the same drift, so the difference is what the attribution left out -- the matched arm's own toll",
+  "sign_changes": 0
+ },
+ "e225_crosscheck": {
+  "cells": 8,
+  "max_abs_diff_bp": 0.0,
+  "rows": [
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "binary_low",
+    "panel": "primary_single",
+    "published_bp_per_year": -1081.3651956384228,
+    "rebuilt_bp_per_year": -1081.3651956384228
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_step",
+    "panel": "primary_single",
+    "published_bp_per_year": -1465.8870831237048,
+    "rebuilt_bp_per_year": -1465.8870831237048
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_linear",
+    "panel": "primary_single",
+    "published_bp_per_year": -1566.2345021920428,
+    "rebuilt_bp_per_year": -1566.2345021920428
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "voltarget",
+    "panel": "primary_single",
+    "published_bp_per_year": -1721.7361580668517,
+    "rebuilt_bp_per_year": -1721.7361580668517
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "binary_low",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": 1.8440970418283307,
+    "rebuilt_bp_per_year": 1.8440970418283307
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_step",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -486.78632946659695,
+    "rebuilt_bp_per_year": -486.78632946659695
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_linear",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -482.8266274027197,
+    "rebuilt_bp_per_year": -482.8266274027197
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "voltarget",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -966.7767672860783,
+    "rebuilt_bp_per_year": -966.7767672860783
+   }
+  ],
+  "source": "results/state_tilt/latest.json",
+  "study": "E225"
+ },
+ "evidence_cutoff": "2026-10-28",
+ "frozen_spec": {
+  "bar_basis": "two-sided 5% over 8 tests (4 gated arms x 2 panels)",
+  "bar_t": 2.7343687865331683,
+  "cost_model": "unit turnover |dw| pays one side; w_{-1}=0 so entry pays a side",
+  "cost_side_bp": 13.041,
+  "decision_rule": "TIMING_SURVIVES iff paired OOS ann > 0 and paired NW t >= bar and still positive at x2 costs",
+  "gated_arms": [
+   "binary_low",
+   "tilt_step",
+   "tilt_linear",
+   "voltarget"
+  ],
+  "is_frac": 0.6,
+  "matched_constants": [
+   "is (primary, causal)",
+   "oos (exact match, diagnostic)",
+   "full"
+  ],
+  "matched_null": "flat arm at the gated arm's average weight, same toll, same mu_is",
+  "measurement": "paired daily difference excess_gated - excess_matched",
+  "min_oos_sessions": 252,
+  "nw_lag": 20,
+  "tests": 8,
+  "z_80pct": 2.802
+ },
+ "generated": "2026-10-29T19:08:02",
+ "panels": [
+  {
+   "arms": [
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -523.7613626740167,
+      "attribution_minus_paired_bp": -4.547473508864641e-13,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -515.8823223165043,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -523.7613626740163,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -523.7613626740167,
+      "market_drift_component_bp_per_year": -557.6038329644061
+     },
+     "gated": {
+      "avg_weight_oos": 0.3426124197002141,
+      "cost_bp_per_year_oos": 199.38488222698103,
+      "excess_oos_bp_per_year": -1081.3651956384228,
+      "gross_bp_per_year_oos": -459.5312962676756,
+      "oos_decisions": 1401,
+      "turnover_per_year": 11.006565800742221,
+      "turnover_total": 153.0
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.3455168475157053,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -562.3308072051643,
+       "paired": {
+        "ann_bp_per_year": -519.0343884332581,
+        "mde_ann_bp_per_year": 868.502724173563,
+        "mean_bp": -2.059660271560548,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 49.56318601786034,
+        "se_iid": 1.3241590353045771,
+        "se_nw": 1.2299926415564322,
+        "t_iid": -1.5554478100032705,
+        "t_nw": -1.6745305638204913
+       },
+       "turnover_total": 0.3455168475157053
+      },
+      "is": {
+       "const_weight": 0.347453593526892,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -565.4828733219182,
+       "paired": {
+        "ann_bp_per_year": -515.8823223165043,
+        "mde_ann_bp_per_year": 869.251986118885,
+        "mean_bp": -2.047152072684541,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 49.6329221292225,
+        "se_iid": 1.3260221459995583,
+        "se_nw": 1.2310537627869054,
+        "t_iid": -1.5438294743873933,
+        "t_nw": -1.6629266199147323
+       },
+       "turnover_total": 0.347453593526892
+      },
+      "oos": {
+       "const_weight": 0.3426124197002141,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -557.603832964404,
+       "paired": {
+        "ann_bp_per_year": -523.7613626740163,
+        "mde_ann_bp_per_year": 867.4110356673955,
+        "mean_bp": -2.078418105849271,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 49.460288535796415,
+        "se_iid": 1.321409966055156,
+        "se_nw": 1.2284465683063621,
+        "t_iid": -1.5728790906988794,
+        "t_nw": -1.6919076168813347
+       },
+       "turnover_total": 0.3426124197002141
+      }
+     },
+     "mu_is_bp_per_day": 4.892948685668115,
+     "name": "binary_low",
+     "paired_ann_bp_per_year_x2": -723.1462449009965,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -637.0322189151552,
+      "attribution_minus_paired_bp": 9.094947017729282e-13,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -694.7388634086794,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -637.0322189151561,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -637.0322189151552,
+      "market_drift_component_bp_per_year": -828.8548642085495
+     },
+     "gated": {
+      "avg_weight_oos": 0.5092790863668808,
+      "cost_bp_per_year_oos": 181.79209850107048,
+      "excess_oos_bp_per_year": -1465.8870831237048,
+      "gross_bp_per_year_oos": -656.1421226808088,
+      "oos_decisions": 1401,
+      "turnover_per_year": 10.071367399371967,
+      "turnover_total": 140.0
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.4880068532267276,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -794.2341731517554,
+       "paired": {
+        "ann_bp_per_year": -671.6529099719507,
+        "mde_ann_bp_per_year": 854.5646412342612,
+        "mean_bp": -2.665289325285519,
+        "n": 1401,
+        "n_eff": 1381.54345943908,
+        "sd_bp": 48.897557383578054,
+        "se_iid": 1.3063757118127273,
+        "se_nw": 1.2102532222367544,
+        "t_iid": -2.040216532797569,
+        "t_nw": -2.202257574129495
+       },
+       "turnover_total": 0.4880068532267276
+      },
+      "is": {
+       "const_weight": 0.4738219895287958,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -771.1482197150254,
+       "paired": {
+        "ann_bp_per_year": -694.7388634086794,
+        "mde_ann_bp_per_year": 849.0792603853033,
+        "mean_bp": -2.756900251621744,
+        "n": 1401,
+        "n_eff": 1379.467402528423,
+        "sd_bp": 48.35869108416961,
+        "se_iid": 1.2919790449211819,
+        "se_nw": 1.202484705348367,
+        "t_iid": -2.1338583334298047,
+        "t_nw": -2.292669702458339
+       },
+       "turnover_total": 0.4738219895287958
+      },
+      "oos": {
+       "const_weight": 0.5092790863668808,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -828.8548642085498,
+       "paired": {
+        "ann_bp_per_year": -637.0322189151561,
+        "mde_ann_bp_per_year": 864.5114006787911,
+        "mean_bp": -2.527905630615699,
+        "n": 1401,
+        "n_eff": 1384.3016510257924,
+        "sd_bp": 49.794240956683105,
+        "se_iid": 1.3303320340456923,
+        "se_nw": 1.2243400415219161,
+        "t_iid": -1.9002065393614915,
+        "t_nw": -2.0647087776965827
+       },
+       "turnover_total": 0.5092790863668808
+      }
+     },
+     "mu_is_bp_per_day": 4.892948685668115,
+     "name": "tilt_step",
+     "paired_ann_bp_per_year_x2": -818.8243174162266,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -703.4864873672742,
+      "attribution_minus_paired_bp": -1.1368683772161603e-12,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -782.89073692996,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -703.4864873672731,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -703.4864873672742,
+      "market_drift_component_bp_per_year": -862.7480148247686
+     },
+     "gated": {
+      "avg_weight_oos": 0.5301042917499791,
+      "cost_bp_per_year_oos": 168.83575776147512,
+      "excess_oos_bp_per_year": -1566.2345021920428,
+      "gross_bp_per_year_oos": -743.7679238391258,
+      "oos_decisions": 1401,
+      "turnover_per_year": 10.242755429926927,
+      "turnover_total": 142.38242964696042
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.5008337333274395,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -815.1099998815345,
+       "paired": {
+        "ann_bp_per_year": -751.124502310508,
+        "mde_ann_bp_per_year": 905.8761689520644,
+        "mean_bp": -2.98065278694646,
+        "n": 1401,
+        "n_eff": 1364.6970327719362,
+        "sd_bp": 52.72546048125565,
+        "se_iid": 1.40864420745047,
+        "se_nw": 1.2829217352572204,
+        "t_iid": -2.1159727709676215,
+        "t_nw": -2.323331739600508
+       },
+       "turnover_total": 0.5008337333274395
+      },
+      "is": {
+       "const_weight": 0.48131538380341465,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -783.3437652620823,
+       "paired": {
+        "ann_bp_per_year": -782.89073692996,
+        "mde_ann_bp_per_year": 899.7541844385698,
+        "mean_bp": -3.106709273531587,
+        "n": 1401,
+        "n_eff": 1362.236408351577,
+        "sd_bp": 52.06593195726969,
+        "se_iid": 1.3910238580693304,
+        "se_nw": 1.274251646271045,
+        "t_iid": -2.2333975477915526,
+        "t_nw": -2.4380657326384663
+       },
+       "turnover_total": 0.48131538380341465
+      },
+      "oos": {
+       "const_weight": 0.5301042917499791,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -862.7480148247688,
+       "paired": {
+        "ann_bp_per_year": -703.4864873672731,
+        "mde_ann_bp_per_year": 918.1664067703296,
+        "mean_bp": -2.7916130451082264,
+        "n": 1401,
+        "n_eff": 1367.966032142535,
+        "sd_bp": 53.87361840232888,
+        "se_iid": 1.439319065289467,
+        "se_nw": 1.3003274401084395,
+        "t_iid": -1.9395373218007048,
+        "t_nw": -2.1468539069477934
+       },
+       "turnover_total": 0.5301042917499791
+      }
+     },
+     "mu_is_bp_per_day": 4.892948685668115,
+     "name": "tilt_linear",
+     "paired_ann_bp_per_year_x2": -872.3222451287488,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -200.13496721958472,
+      "attribution_minus_paired_bp": 1.4210854715202004e-13,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -438.9802181018062,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -200.13496721958487,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -200.13496721958472,
+      "market_drift_component_bp_per_year": -1521.601190847267
+     },
+     "gated": {
+      "avg_weight_oos": 0.9349280528496423,
+      "cost_bp_per_year_oos": 26.25825179457638,
+      "excess_oos_bp_per_year": -1721.7361580668517,
+      "gross_bp_per_year_oos": -542.6900494512771,
+      "oos_decisions": 1401,
+      "turnover_per_year": 2.792041755107631,
+      "turnover_total": 38.81159630215092
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.8468832201310255,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -1378.307680823409,
+       "paired": {
+        "ann_bp_per_year": -343.42847724344193,
+        "mde_ann_bp_per_year": 302.8042872916244,
+        "mean_bp": -1.3628114176327062,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 23.728585676172813,
+        "se_iid": 0.6339467585231606,
+        "se_nw": 0.42883808517105754,
+        "t_iid": -2.1497253504497844,
+        "t_nw": -3.177916012494785
+       },
+       "turnover_total": 0.8468832201310255
+      },
+      "is": {
+       "const_weight": 0.7881726962667788,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -1282.7559399650454,
+       "paired": {
+        "ann_bp_per_year": -438.9802181018062,
+        "mde_ann_bp_per_year": 367.2347726454628,
+        "mean_bp": -1.7419849924674848,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 24.443266732220174,
+        "se_iid": 0.6530405951741198,
+        "se_nw": 0.5200859542581019,
+        "t_iid": -2.6674987823735834,
+        "t_nw": -3.3494174918690343
+       },
+       "turnover_total": 0.7881726962667788
+      },
+      "oos": {
+       "const_weight": 0.9349280528496423,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": true,
+       "excess_oos_bp_per_year": -1521.6011908472651,
+       "paired": {
+        "ann_bp_per_year": -200.13496721958487,
+        "mde_ann_bp_per_year": 282.4821388576981,
+        "mean_bp": -0.7941863778554955,
+        "n": 1401,
+        "n_eff": 1401.0,
+        "sd_bp": 26.096836610647845,
+        "se_iid": 0.6972183341564052,
+        "se_nw": 0.400057412021031,
+        "t_iid": -1.139078447809919,
+        "t_nw": -1.9851810115037818
+       },
+       "turnover_total": 0.9349280528496423
+      }
+     },
+     "mu_is_bp_per_day": 4.892948685668115,
+     "name": "voltarget",
+     "paired_ann_bp_per_year_x2": -226.3932190141614,
+     "target_bp": 113.24712377237836,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    }
+   ],
+   "first": "2012-05-28",
+   "is_frac": 0.6,
+   "last": "2026-10-28",
+   "null_arm_oos_excess_bp_per_year": -1627.5061874648604,
+   "panel": "primary_single",
+   "sessions": 3503,
+   "split_date": "2021-01-13",
+   "split_session": 2102,
+   "symbol": "sh510300"
+  },
+  {
+   "arms": [
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": 218.41717329450358,
+      "attribution_minus_paired_bp": 2.5579538487363607e-13,
+      "attribution_sign": 1,
+      "paired_is_behind_matched_is_bp_per_year": 254.41726050188802,
+      "paired_sign": 1,
+      "paired_vs_matched_oos_bp_per_year": 218.41717329450333,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": 218.41717329450358,
+      "market_drift_component_bp_per_year": -216.57307625267526
+     },
+     "gated": {
+      "avg_weight_oos": 0.3270052206929283,
+      "cost_bp_per_year_oos": 121.65823255813977,
+      "excess_oos_bp_per_year": 1.8440970418283307,
+      "gross_bp_per_year_oos": 476.12369844094883,
+      "oos_decisions": 2107,
+      "turnover_per_year": 5.644646924829157,
+      "turnover_total": 118.0
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.3486579097658481,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -230.9134879186673,
+       "paired": {
+        "ann_bp_per_year": 232.75758496049625,
+        "mde_ann_bp_per_year": 864.5051597317033,
+        "mean_bp": 0.9236412101606993,
+        "n": 2107,
+        "n_eff": 2044.3820052405279,
+        "sd_bp": 56.5169414781595,
+        "se_iid": 1.2312503964272585,
+        "se_nw": 1.2243312029555182,
+        "t_iid": 0.7501652083449847,
+        "t_nw": 0.75440469697337
+       },
+       "turnover_total": 0.0
+      },
+      "is": {
+       "const_weight": 0.3813620071684588,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -252.57316346005985,
+       "paired": {
+        "ann_bp_per_year": 254.41726050188802,
+        "mde_ann_bp_per_year": 879.8140789055115,
+        "mean_bp": 1.0095923035789207,
+        "n": 2107,
+        "n_eff": 2045.992123042513,
+        "sd_bp": 58.216753863791354,
+        "se_iid": 1.2682816762333315,
+        "se_nw": 1.2460120306718436,
+        "t_iid": 0.7960316091432527,
+        "t_nw": 0.8102588728894965
+       },
+       "turnover_total": 0.0
+      },
+      "oos": {
+       "const_weight": 0.3270052206929283,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -216.57307625267507,
+       "paired": {
+        "ann_bp_per_year": 218.41717329450333,
+        "mde_ann_bp_per_year": 857.117804528203,
+        "mean_bp": 0.8667348146607275,
+        "n": 2107,
+        "n_eff": 2042.5335150805938,
+        "sd_bp": 55.55028108795386,
+        "se_iid": 1.2101912067838987,
+        "se_nw": 1.213869068194208,
+        "t_iid": 0.7161965892679788,
+        "t_nw": 0.7140266091054706
+       },
+       "turnover_total": 0.0
+      }
+     },
+     "mu_is_bp_per_day": 4.279109499320082,
+     "name": "binary_low",
+     "paired_ann_bp_per_year_x2": 96.758940736364,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_t_0.71_below_bar_2.73"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -182.35813737557226,
+      "attribution_minus_paired_bp": -5.400124791776761e-13,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -159.91297788341782,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -182.35813737557172,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -182.35813737557226,
+      "market_drift_component_bp_per_year": -304.4281920910247
+     },
+     "gated": {
+      "avg_weight_oos": 0.45965828191741814,
+      "cost_bp_per_year_oos": 127.11725581395342,
+      "excess_oos_bp_per_year": -486.78632946659695,
+      "gross_bp_per_year_oos": 135.99681273703666,
+      "oos_decisions": 2107,
+      "turnover_per_year": 5.907744874715262,
+      "turnover_total": 123.5
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.47315819531696174,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -313.36908229421044,
+       "paired": {
+        "ann_bp_per_year": -173.41724717238694,
+        "mde_ann_bp_per_year": 894.6812290292045,
+        "mean_bp": -0.6881636792555037,
+        "n": 2107,
+        "n_eff": 1904.022358555469,
+        "sd_bp": 56.89717531369595,
+        "se_iid": 1.239533984471743,
+        "se_nw": 1.267067215352419,
+        "t_iid": -0.5551793560132045,
+        "t_nw": -0.5431153698220339
+       },
+       "turnover_total": 0.0
+      },
+      "is": {
+       "const_weight": 0.4935483870967742,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -326.8733515831782,
+       "paired": {
+        "ann_bp_per_year": -159.91297788341782,
+        "mde_ann_bp_per_year": 904.4391284925975,
+        "mean_bp": -0.6345753090611819,
+        "n": 2107,
+        "n_eff": 1907.114951481702,
+        "sd_bp": 57.97709494712244,
+        "se_iid": 1.2630605844962643,
+        "se_nw": 1.2808865669824807,
+        "t_iid": -0.5024108240336421,
+        "t_nw": -0.49541881804266064
+       },
+       "turnover_total": 0.0
+      },
+      "oos": {
+       "const_weight": 0.45965828191741814,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -304.4281920910239,
+       "paired": {
+        "ann_bp_per_year": -182.35813737557172,
+        "mde_ann_bp_per_year": 889.2468701619996,
+        "mean_bp": -0.7236434022840147,
+        "n": 2107,
+        "n_eff": 1901.9554744476934,
+        "sd_bp": 56.242657075531305,
+        "se_iid": 1.2252749708179251,
+        "se_nw": 1.2593709569156946,
+        "t_iid": -0.5905967391147725,
+        "t_nw": -0.5746070276674303
+       },
+       "turnover_total": 0.0
+      }
+     },
+     "mu_is_bp_per_day": 4.279109499320082,
+     "name": "tilt_step",
+     "paired_ann_bp_per_year_x2": -309.4753931895257,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -172.11851820382793,
+      "attribution_minus_paired_bp": 0.0,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -153.00514227435448,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -172.11851820382793,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -172.11851820382793,
+      "market_drift_component_bp_per_year": -310.70810919889175
+     },
+     "gated": {
+      "avg_weight_oos": 0.4691403732065287,
+      "cost_bp_per_year_oos": 134.28737934446988,
+      "excess_oos_bp_per_year": -482.8266274027197,
+      "gross_bp_per_year_oos": 157.35151487241023,
+      "oos_decisions": 2107,
+      "turnover_per_year": 6.23686203445135,
+      "turnover_total": 130.3801158630544
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.4806363449732246,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -318.3218040651436,
+       "paired": {
+        "ann_bp_per_year": -164.50482333757634,
+        "mde_ann_bp_per_year": 912.5016367411945,
+        "mean_bp": -0.6527969180062553,
+        "n": 2107,
+        "n_eff": 1918.5741232578011,
+        "sd_bp": 59.74452376909294,
+        "se_iid": 1.3015649228555703,
+        "se_nw": 1.2923048683213725,
+        "t_iid": -0.5015477188598864,
+        "t_nw": -0.5051415761160134
+       },
+       "turnover_total": 0.0
+      },
+      "is": {
+       "const_weight": 0.4979997948029236,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -329.8214851283645,
+       "paired": {
+        "ann_bp_per_year": -153.00514227435448,
+        "mde_ann_bp_per_year": 920.0031704912782,
+        "mean_bp": -0.6071632629934701,
+        "n": 2107,
+        "n_eff": 1922.4264683590775,
+        "sd_bp": 60.64064618630438,
+        "se_iid": 1.3210874067795335,
+        "se_nw": 1.3029287052491958,
+        "t_iid": -0.45959355897092063,
+        "t_nw": -0.4659988382690096
+       },
+       "turnover_total": 0.0
+      },
+      "oos": {
+       "const_weight": 0.4691403732065287,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -310.7081091988915,
+       "paired": {
+        "ann_bp_per_year": -172.11851820382793,
+        "mde_ann_bp_per_year": 908.2711681831267,
+        "mean_bp": -0.6830099928723331,
+        "n": 2107,
+        "n_eff": 1915.947153796186,
+        "sd_bp": 59.193275858349956,
+        "se_iid": 1.2895557059574072,
+        "se_nw": 1.2863135857934904,
+        "t_iid": -0.5296475287705735,
+        "t_nw": -0.5309824916845635
+       },
+       "turnover_total": 0.0
+      }
+     },
+     "mu_is_bp_per_day": 4.279109499320082,
+     "name": "tilt_linear",
+     "paired_ann_bp_per_year_x2": -306.4058975482976,
+     "target_bp": null,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    },
+    {
+     "bar_t": 2.7343687865331683,
+     "benchmark_comparison": {
+      "attribution_bp_per_year": -395.5924633581094,
+      "attribution_minus_paired_bp": -2.1600499167107046e-12,
+      "attribution_sign": -1,
+      "paired_is_behind_matched_is_bp_per_year": -475.3326621737308,
+      "paired_sign": -1,
+      "paired_vs_matched_oos_bp_per_year": -395.59246335810724,
+      "sign_changed": false
+     },
+     "e225_attribution": {
+      "gate_specific_bp_per_year": -395.5924633581094,
+      "market_drift_component_bp_per_year": -571.1843039279689
+     },
+     "gated": {
+      "avg_weight_oos": 0.862435223224082,
+      "cost_bp_per_year_oos": 48.94537566296287,
+      "excess_oos_bp_per_year": -966.7767672860783,
+      "gross_bp_per_year_oos": 12.16320695098044,
+      "oos_decisions": 2107,
+      "turnover_per_year": 2.3051548753418127,
+      "turnover_total": 48.18871382262171
+     },
+     "matched": {
+      "full": {
+       "const_weight": 0.814474513528541,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -539.42028983665,
+       "paired": {
+        "ann_bp_per_year": -427.35647744942565,
+        "mde_ann_bp_per_year": 416.0989945503812,
+        "mean_bp": -1.695859037497721,
+        "n": 2107,
+        "n_eff": 2018.3484447962323,
+        "sd_bp": 29.673989135432443,
+        "se_iid": 0.6464629884598131,
+        "se_nw": 0.5892885390117902,
+        "t_iid": -2.623288676646556,
+        "t_nw": -2.877807602268319
+       },
+       "turnover_total": 0.0
+      },
+      "is": {
+       "const_weight": 0.7420349326478949,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -491.44410511234565,
+       "paired": {
+        "ann_bp_per_year": -475.3326621737308,
+        "mde_ann_bp_per_year": 444.9459356482552,
+        "mean_bp": -1.8862407229116303,
+        "n": 2107,
+        "n_eff": 1999.0565388305404,
+        "sd_bp": 29.31812926067466,
+        "se_iid": 0.63871039958277,
+        "se_nw": 0.6301422108474888,
+        "t_iid": -2.9532018331685137,
+        "t_nw": -2.9933571984882485
+       },
+       "turnover_total": 0.0
+      },
+      "oos": {
+       "const_weight": 0.862435223224082,
+       "cost_bp_per_year_oos": 0.0,
+       "entry_charged": false,
+       "excess_oos_bp_per_year": -571.1843039279694,
+       "paired": {
+        "ann_bp_per_year": -395.59246335810724,
+        "mde_ann_bp_per_year": 425.4837444575511,
+        "mean_bp": -1.5698113625321717,
+        "n": 2107,
+        "n_eff": 2021.8828282519748,
+        "sd_bp": 31.566631929586862,
+        "se_iid": 0.6876951770682209,
+        "se_nw": 0.6025794280411259,
+        "t_iid": -2.282713933264131,
+        "t_nw": -2.605152598115302
+       },
+       "turnover_total": 0.0
+      }
+     },
+     "mu_is_bp_per_day": 4.279109499320082,
+     "name": "voltarget",
+     "paired_ann_bp_per_year_x2": -444.537839021071,
+     "target_bp": 106.75548646759191,
+     "verdict": "TIMING_DEAD",
+     "verdict_reason": "paired_ann_not_positive"
+    }
+   ],
+   "first": "2005-02-23",
+   "is_frac": 0.6,
+   "last": "2026-10-28",
+   "null_arm_oos_excess_bp_per_year": -662.2924117044802,
+   "panel": "basket_equal_weight",
+   "sessions": 5268,
+   "split_date": "2018-02-14",
+   "split_session": 3161,
+   "symbol": "sh510050+sh510300+sh510500+sh512100+sh588000"
+  }
+ ],
+ "study": "E228",
+ "title": "does the state tilt survive an exposure-matched null? a traded flat arm at the gated arm's own average weight, judged on the paired daily series"
+}

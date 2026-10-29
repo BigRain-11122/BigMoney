@@ -4107,3 +4107,47 @@ S6 leg tilt_breakeven immediately after state_tilt; smoke leg re-derives every p
 root from its own line (c**D == g0), refuses a root published without a positive toll
 differential, refuses a sweep that rises with cost, and refuses a survivor recorded with no
 excess read at that cost.
+
+### E228 -- an attributed share of the null's drift is already an exposure-matched benchmark, and what it lacks is an error bar (r1254 bm-b)
+
+E226 flagged the drift split as unsafe: on the equal-weight basket `binary_low` carried
++340 bp/yr of `gate_specific` beside +1.8 bp/yr of real excess, so the split looked able to
+hand a losing rule a positive residual. E228 replaced it with a TRADED benchmark -- a flat arm
+at the gated arm's own average weight, same `mu_is`, same |dw| x 13.041bp toll, w_{-1}=0 --
+and judged the PAIRED daily difference `excess_gated - excess_matched` with a Newey-West t.
+
+The answer is structural, and it is the opposite of the worry: on all 8 gated cells
+(4 arms x 2 panels) the attribution and the traded benchmark differ by **0.0 bp/yr**, so
+**0 of 8 arms change sign**. The identity is exact --
+`attribution - pair == -(matched arm's own out-of-sample toll)` -- and a constant weight
+trades only at entry, so that toll is **exactly 0.0**. An attributed share of the null's drift
+IS the exposure-matched benchmark whenever the null stops trading after entry. What the
+published residual lacked was never bias, it was a STANDARD ERROR: the split printed a point
+estimate with no dispersion, and the paired series is what supplies one.
+
+Measured (sh510300, 3,503 sessions to 2026-10-28; basket 5,268 sessions; bar 2.7344 =
+Bonferroni over 4 arms x 2 panels): 0 of 8 cells survive. Best case for the tilt is the
+basket's binary_low at +218 bp/yr, t=0.71, MDE 857 bp/yr; the single panel's four arms run
+-524/-637/-704/-200 bp/yr at t -1.69..-2.15. The E226 +340.08 was the zero-cost reading of
+the same cell; the 121.66 bp/yr drop to +218.42 equals the gate's own OOS toll (121.658)
+exactly, which is the price of being measured.
+
+How to apply:
+1. When you publish a "what the rule itself earned" residual, ask whether a traded arm exists
+   that holds the same exposure. If it does, price it and publish the PAIR -- the pair cancels
+   the drift term and therefore has a usable standard error, which an attribution never has.
+2. Publish the identity that makes the two agree, not just the agreement. `0 of N sign
+   changes` reads as an empirical result that could break next quarter; the identity says
+   exactly where it would break -- any benchmark that REBALANCES (the moment the null arm
+   trades after entry, its toll stops being zero and the two numbers separate).
+3. Two matched constants answer two questions and must both be printed: the IS-frozen one is
+   the only causal benchmark; the OOS one is an exact exposure match that looks at the answer.
+   Their difference is predictable, not noise -- a post-split drift shift of k moves the pair
+   by `k * (avg_w_oos - c_is) * 252` under the frozen constant and by exactly 0 under the
+   matched one (76.3636 vs 76.3636 measured).
+
+Pieces: scripts/e228_matched_exposure.py (run / selftest, 22 hermetic legs); face
+results/state_tilt/MATCHED-<cutoff>.json + matched_latest.json + matched_by_arm csv; S6 leg
+matched_exposure immediately after tilt_breakeven; smoke leg re-derives every paired MDE from
+its own SE, refuses a matched arm that trades more than its entry side, and refuses an
+attribution gap that is not the matched toll.

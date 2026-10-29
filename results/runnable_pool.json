@@ -23055,14 +23055,29 @@
   {
    "id": "E228-MATCHED-EXPOSURE-NULL",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/state_tilt/MATCHED-<cutoff>.json",
    "target": "scripts/e228_matched_exposure.py (new runner)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T17:58:00+08:00",
    "entered_by": "bm-b r1253",
    "source": "E226 showed the drift split can hand a rule that earned nothing a positive gate-specific residual: on the equal-weight basket binary_low's +340 bp/yr residual sits beside +1.8 bp/yr of actual excess at t=0.01, and the same rule reads -324 bp/yr on the single panel. The split was an attribution, not a benchmark.",
-   "title": "Does the tilt survive an exposure-matched null? Replace the drift split with a flat arm held at each gated arm's own average weight, so the comparison is exposure for exposure instead of an attributed share of the null's drift, and report how many arms change sign between the two benchmarks."
+   "title": "Does the tilt survive an exposure-matched null? Replace the drift split with a flat arm held at each gated arm's own average weight, so the comparison is exposure for exposure instead of an attributed share of the null's drift, and report how many arms change sign between the two benchmarks.",
+   "result_ref": "results/state_tilt/MATCHED-2026-10-28.json",
+   "done_note": "The two benchmarks are one number: on all 8 gated cells (4 arms x 2 panels) the E225 attribution and the traded flat arm differ by 0.0 bp/yr, 0 sign changes, because the identity `attribution - pair == -(matched arm's OOS toll)` holds and a constant weight trades only at entry (measured toll 0.0). What the split lacked was a standard error, not objectivity. On the pair: 0 of 8 cells survive the 2.7344 bar -- single panel binary_low/tilt_step/tilt_linear/voltarget -524/-637/-704/-200 bp/yr at t -1.69/-2.06/-2.15/-1.99, basket -182/-172/-396 and the one positive cell +218 bp/yr at t=0.71 with MDE 857. E226's +340.08 was the zero-cost reading of that same basket cell; the 121.66 bp/yr gap to +218.42 equals the gate's own OOS toll 121.658 exactly.",
+   "done_by": "bm-b r1254"
+  },
+  {
+   "id": "E229-TIMING-VS-SELECTION-DECOMPOSITION",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/state_tilt/TIMINGSEL-<cutoff>.json",
+   "target": "scripts/e229_timing_selection.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T19:12:00+08:00",
+   "entered_by": "bm-b r1254",
+   "source": "E228 gave the paired timing value a standard error for the first time (-524..-704 bp/yr on the single panel, +218 at t=0.71 on the basket) but did not ask WHERE it comes from. A gated rule differs from a flat arm in two separable ways: it is in the market a different share of the time (which days) and it holds a different weight on the days both arms share (how much). Splitting the pair into those two channels is arithmetic on an existing series, not a new study, and it is the difference between 'the gate cannot time' and 'the gate picks days but sizes them wrong'.",
+   "title": "Decompose E228's paired timing value into a day-selection channel and a sizing channel: on the days both arms hold, is the gate's weight better or worse than the flat constant, and on the days only the gate holds, does that extra exposure earn or lose?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

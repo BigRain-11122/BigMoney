@@ -2511,6 +2511,76 @@ def main() -> int:
                          .get("any_survivor_clears_the_bar"))))
     except Exception as e:
         check("product: the state tilt prices the toll it would need", False, repr(e)[:160])
+
+    # --- E228 the exposure-matched null: the drift split must be reproduced as a
+    # TRADED arm, the paired series must carry its own standard error, and the two
+    # ways of asking the question must differ by exactly the matched arm's own toll
+    try:
+        _f28 = {}
+        _bad = []
+        _face28 = "results/state_tilt/matched_latest.json"
+        if not os.path.exists(_face28):
+            _bad.append("no results/state_tilt/matched_latest.json on disk")
+        else:
+            with open(_face28, encoding="utf-8") as _fh:
+                _f28 = json.load(_fh)
+            _cut28 = _f28.get("evidence_cutoff")
+            if not _cut28:
+                _bad.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/MATCHED-%s.json" % _cut28):
+                _bad.append("the dated face beside the latest pointer is missing")
+            if not (_f28.get("answer") or "").strip():
+                _bad.append("face publishes no answer sentence")
+            _spec28 = (_f28.get("frozen_spec") or {})
+            if _spec28.get("tests") != 4 * max(1, len(_f28.get("panels") or [])):
+                _bad.append("the bar is not built from the gated-arm x panel count")
+            if (_f28.get("benchmark_agreement") or {}).get("cells") != sum(
+                    len(p.get("arms") or []) for p in (_f28.get("panels") or [])):
+                _bad.append("the agreement table does not cover every gated cell")
+            for _p28 in (_f28.get("panels") or []):
+                for _a28 in (_p28.get("arms") or []):
+                    _n28 = _a28.get("name")
+                    if _a28.get("verdict") not in {"TIMING_SURVIVES", "TIMING_DEAD",
+                                                   "UNRESOLVED"}:
+                        _bad.append("arm %s carries an unpublished verdict" % _n28)
+                    _mo28 = ((_a28.get("matched") or {}).get("oos") or {})
+                    _pa28 = _mo28.get("paired") or {}
+                    if _mo28.get("const_weight") is None:
+                        _bad.append("arm %s publishes no matched constant" % _n28)
+                    elif (_mo28.get("turnover_total") or 0.0) > _mo28["const_weight"] + 1e-9:
+                        _bad.append("arm %s matched arm trades more than its entry" % _n28)
+                    elif (_mo28.get("cost_bp_per_year_oos") or 0.0) != 0.0:
+                        _bad.append("arm %s matched arm pays a toll out of sample" % _n28)
+                    if _pa28.get("se_nw"):
+                        if abs((_pa28.get("mde_ann_bp_per_year") or 0.0)
+                               - 2.802 * _pa28["se_nw"] * 252.0) > 1e-6:
+                            _bad.append("arm %s prints an MDE its own SE cannot produce"
+                                        % _n28)
+                    elif _pa28.get("t_nw") is not None:
+                        _bad.append("arm %s prints a t with no standard error" % _n28)
+                    _bc28 = _a28.get("benchmark_comparison") or {}
+                    if _bc28.get("attribution_minus_paired_bp") is not None and \
+                            abs(_bc28["attribution_minus_paired_bp"]
+                                + (_mo28.get("cost_bp_per_year_oos") or 0.0)) > 1e-6:
+                        _bad.append("arm %s: attribution minus pair is not the matched toll"
+                                    % _n28)
+                    if _a28.get("verdict") == "TIMING_SURVIVES" and \
+                            (_pa28.get("t_nw") or 0.0) < (_spec28.get("bar_t") or 0.0):
+                        _bad.append("arm %s survives below the bar" % _n28)
+        check("product: the drift split is reproduced as a traded exposure-matched arm",
+              not _bad, "; ".join(_bad)[:220]
+              or "%d panels, %d gated arms, %d sign changes, max attribution gap %.1fbp/yr, "
+                 "verdicts %s"
+                 % (len(_f28.get("panels") or []),
+                    sum(len(p.get("arms") or []) for p in (_f28.get("panels") or [])),
+                    (_f28.get("benchmark_agreement") or {}).get("sign_changes"),
+                    (_f28.get("benchmark_agreement") or {}).get("max_abs_gap_bp_per_year")
+                    or 0.0,
+                    ",".join(sorted({a.get("verdict") for p in (_f28.get("panels") or [])
+                                     for a in (p.get("arms") or [])}))))
+    except Exception as e:
+        check("product: the drift split is reproduced as a traded exposure-matched arm",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
