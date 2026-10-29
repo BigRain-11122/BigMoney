@@ -802,6 +802,23 @@ def _exam_phase(today):
     return "capture_window_open"
 
 
+FROZEN_ASOF_FLOOR = "2026-10-20"
+
+
+def _asof_floor_ok(status, floor=FROZEN_ASOF_FLOOR):
+    """An owner-lane face may ADVANCE but must never read older than the frozen floor.
+
+    Pinning the literal 'asof 2026-10-20' made the runbook leg fail the day the lane
+    published a newer marks face (2026-10-27, first seen 2026-10-29 r1141 bm-a) while
+    nothing was actually wrong: a date that only moves forward cannot be a literal.
+    """
+    s = status or ""
+    i = s.find("asof ")
+    if i < 0:
+        return False
+    return s[i + 5:i + 15] >= floor
+
+
 def _collect_runbook_faces(month):
     out_dir = os.path.join(ROOT, "docs", "monthly_exam", month)
     rows = []
@@ -1336,8 +1353,18 @@ def _selftest():
         and _rfmap[5]["status"].startswith("FROZEN")
         and _rfmap[2]["status"].startswith("PRESENT")
         and _rfmap[3]["status"].startswith("PRESENT")
-        and "asof 2026-10-20" in _rfmap[2]["status"]
+        and _asof_floor_ok(_rfmap[2]["status"])
+        and _asof_floor_ok(_rfmap[3]["status"])
         and _rfmap[6]["status"].startswith("ACTIVE"))
+    # leg24b: the floor helper itself is two-sided -- an owner-lane face that ADVANCES
+    # passes, one that goes backwards (or loses its asof) fails. leg24 used to pin the
+    # literal 'asof 2026-10-20', so the day the lane published 2026-10-27 the selftest
+    # went red although nothing was wrong (2026-10-29 r1141 bm-a, first observed here).
+    leg("asof floor accepts advancing faces and rejects backwards ones",
+        _asof_floor_ok("PRESENT (owner lane, asof 2026-10-27)")
+        and _asof_floor_ok("PRESENT (owner lane, asof 2026-10-20)")
+        and not _asof_floor_ok("PRESENT (owner lane, asof 2026-10-19)")
+        and not _asof_floor_ok("PENDING (owner lane has published no marks face)"))
     # leg25: payload same-day determinism (asof_date inside, byte-stable within a day)
     _today = _dt2.date.today()
     _rb1 = json.dumps(_runbook_payload("2026-10", _today), sort_keys=True).encode("utf-8")

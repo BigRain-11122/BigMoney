@@ -1,0 +1,201 @@
+{
+ "actionable": false,
+ "adopted_overlay": {
+  "arm": "tsmom60_strength_hold_2pct",
+  "differs_today": [],
+  "flips": {
+   "cut_pct": 72.0,
+   "damped": 412,
+   "raw": 1469
+  },
+  "gross": 3.0,
+  "legs": [
+   {
+    "damped_weight": -0.076002,
+    "raw_weight": -0.076002,
+    "same_side": true,
+    "variety": "AU"
+   },
+   {
+    "damped_weight": -0.057091,
+    "raw_weight": -0.057091,
+    "same_side": true,
+    "variety": "IC"
+   },
+   {
+    "damped_weight": -0.096782,
+    "raw_weight": -0.096782,
+    "same_side": true,
+    "variety": "IF"
+   },
+   {
+    "damped_weight": -0.118787,
+    "raw_weight": -0.118787,
+    "same_side": true,
+    "variety": "IH"
+   },
+   {
+    "damped_weight": -0.054585,
+    "raw_weight": -0.054585,
+    "same_side": true,
+    "variety": "IM"
+   },
+   {
+    "damped_weight": -0.145732,
+    "raw_weight": -0.145732,
+    "same_side": true,
+    "variety": "RB"
+   },
+   {
+    "damped_weight": 0.025824,
+    "raw_weight": 0.025824,
+    "same_side": true,
+    "variety": "SC"
+   },
+   {
+    "damped_weight": 1.212599,
+    "raw_weight": 1.212599,
+    "same_side": true,
+    "variety": "T"
+   },
+   {
+    "damped_weight": 1.212599,
+    "raw_weight": 1.212599,
+    "same_side": true,
+    "variety": "TF"
+   },
+   {
+    "damped_weight": null,
+    "raw_weight": null,
+    "same_side": true,
+    "variety": "TS"
+   }
+  ],
+  "measured": {
+   "cells": 15,
+   "full_delta_pp_10bp": 3.93,
+   "min_delta_pp_10bp": 2.94,
+   "min_delta_pp_5bp": 1.07,
+   "oos_delta_pp_10bp": 4.76
+  },
+  "same_day": true,
+  "source": "results/futures_overlay_fliprate_paths.json (evidence_cutoff 2026-10-28)",
+  "spec": {
+   "k": null,
+   "lookback": 60,
+   "mechanism": "strength_hold",
+   "theta": 0.02
+  }
+ },
+ "book": {
+  "flat": 1,
+  "gross": 3.0,
+  "legs": [
+   {
+    "mom_60d": -0.019998,
+    "variety": "AU",
+    "vol_60d_ann": 0.201815,
+    "weight": -0.076002
+   },
+   {
+    "mom_60d": -0.10723,
+    "variety": "IC",
+    "vol_60d_ann": 0.268665,
+    "weight": -0.057091
+   },
+   {
+    "mom_60d": -0.109224,
+    "variety": "IF",
+    "vol_60d_ann": 0.158483,
+    "weight": -0.096782
+   },
+   {
+    "mom_60d": -0.061042,
+    "variety": "IH",
+    "vol_60d_ann": 0.129124,
+    "weight": -0.118787
+   },
+   {
+    "mom_60d": -0.063544,
+    "variety": "IM",
+    "vol_60d_ann": 0.280999,
+    "weight": -0.054585
+   },
+   {
+    "mom_60d": -0.005556,
+    "variety": "RB",
+    "vol_60d_ann": 0.10525,
+    "weight": -0.145732
+   },
+   {
+    "mom_60d": 0.37676,
+    "variety": "SC",
+    "vol_60d_ann": 0.593951,
+    "weight": 0.025824
+   },
+   {
+    "mom_60d": 0.007602,
+    "variety": "T",
+    "vol_60d_ann": 0.011431,
+    "weight": 1.212599
+   },
+   {
+    "mom_60d": 0.004513,
+    "variety": "TF",
+    "vol_60d_ann": 0.008046,
+    "weight": 1.212599
+   },
+   {
+    "mom_60d": null,
+    "variety": "TS",
+    "vol_60d_ann": null,
+    "weight": null
+   }
+  ],
+  "long": 3,
+  "net": 1.902,
+  "short": 6
+ },
+ "caveats": [
+  "shadow face: no order, no capital claim, not wired to the ETF book",
+  "main-continuous splice hides roll cost; margin and financing are not modelled",
+  "a NaN weight means flat (no position), never a zero-risk placeholder"
+ ],
+ "diversification_evidence": {
+  "blend_50_50": {
+   "cagr": 0.0653,
+   "maxdd": -0.0723,
+   "sharpe": 1.059
+  },
+  "corr_to_etf_book": 0.078,
+  "etf_alone": {
+   "cagr": 0.0949,
+   "maxdd": -0.1177,
+   "sharpe": 0.98
+  },
+  "not_modelled": "margin, financing/carry, roll cost, contract multipliers (cancel in risk sizing)",
+  "source": "results/futures_tsmom_probe.json (evidence_cutoff 2026-10-26)",
+  "standalone": {
+   "cagr": 0.0137,
+   "maxdd": -0.1119,
+   "sharpe": 0.274,
+   "vol": 0.0574
+  }
+ },
+ "generated_for_bar": "2026-10-28",
+ "mechanism": "time-series momentum, 60d sign, risk-parity sizing, |w|<=2.0 gross<=3.0",
+ "panel": {
+  "bars": 4579,
+  "first_bar": "2008-01-09",
+  "source": "data/futures_daily main-continuous (sina); roll gaps live in the series",
+  "varieties": 10
+ },
+ "run_at": "2026-10-29T08:39:49",
+ "shadow": true,
+ "staleness": {
+  "calendar_last": "2026-10-28",
+  "lag_trading_days": 0,
+  "panel_bar": "2026-10-28",
+  "stale": false
+ }
+}

@@ -1,0 +1,5887 @@
+{
+ "study": "e187_wide_churn_tie",
+ "evidence_cutoff": "2026-10-28",
+ "pool_batch": "E187-WIDE-CROSSMONTH-CHURN-TIE (entered by bm-b r1217)",
+ "spec": {
+  "screen_mode": "neutralise_int",
+  "eras": [
+   {
+    "name": "pre2017",
+    "from": null,
+    "to": "2016-12-31"
+   },
+   {
+    "name": "2017_2020",
+    "from": "2017-01-01",
+    "to": "2020-12-31"
+   },
+   {
+    "name": "2021_2023",
+    "from": "2021-01-01",
+    "to": "2023-12-31"
+   },
+   {
+    "name": "2024_now",
+    "from": "2024-01-01",
+    "to": null
+   },
+   {
+    "name": "full",
+    "from": null,
+    "to": null
+   }
+  ],
+  "net_bp": "per decision month: sum over names of (screened - raw) engine contribution x1e4 (E184's own per-month series)",
+  "turnover": "(names entering + names leaving) / mean(prev,cur) book size, read from the engine's own contribution sink keys, cash pseudo-name excluded",
+  "repair_names": "how many names the repair's delta dict covers that month -- measured 2026-10-28 to EQUAL the book size in every era (340/340, 791/791), because the screen re-weights every held name rather than adding or dropping one; published as a book-size echo, NOT as a count of the names the repair moved",
+  "frozen_rule": {
+   "turnover_ratio_min": 1.1,
+   "against_share_min": 0.6,
+   "frozen": "written before the first run (E188)"
+  }
+ },
+ "eras": {
+  "pre2017": {
+   "priced_months": 43,
+   "total_net_bp": 0.0,
+   "era_sign": 0,
+   "against_months": 0,
+   "with_months": 0,
+   "median_turnover_against": null,
+   "median_turnover_with": null,
+   "turnover_ratio": null,
+   "high_churn_months": 22,
+   "high_churn_against_share": 0.0,
+   "corr_net_turnover": null,
+   "rule": {
+    "turnover_ratio_min": 1.1,
+    "against_share_min": 0.6
+   },
+   "t1_turnover_ratio": false,
+   "t2_against_share": false,
+   "classification": "no_against_months",
+   "months": 44,
+   "from": "2013-04",
+   "to": "2016-12",
+   "distinct_names": 75,
+   "median_months_carried": 24,
+   "median_repair_names": 40.0,
+   "median_book_names": 40.0,
+   "month_rows": [
+    {
+     "month": "2013-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": null,
+     "left": null,
+     "turnover": null,
+     "entered_sample": null,
+     "left_sample": null
+    },
+    {
+     "month": "2013-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 21,
+     "left": 0,
+     "turnover": 1.8261,
+     "entered_sample": [
+      "sh510010",
+      "sh510030",
+      "sh510050",
+      "sh510060",
+      "sh510130"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2013-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0909,
+     "entered_sample": [
+      "sh510270"
+     ],
+     "left_sample": [
+      "__cash__"
+     ]
+    },
+    {
+     "month": "2013-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.087,
+     "entered_sample": [
+      "sh510900",
+      "sz159920"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 26,
+     "book_names": 26,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.16,
+     "entered_sample": [
+      "sh510020",
+      "sz159909",
+      "sz159919"
+     ],
+     "left_sample": [
+      "sz159905"
+     ]
+    },
+    {
+     "month": "2014-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 1,
+     "left": 3,
+     "turnover": 0.16,
+     "entered_sample": [
+      "sh510330"
+     ],
+     "left_sample": [
+      "sh510150",
+      "sh510180",
+      "sh510270"
+     ]
+    },
+    {
+     "month": "2014-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2014-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 26,
+     "book_names": 26,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.08,
+     "entered_sample": [
+      "sh510500",
+      "sz159922"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 27,
+     "book_names": 27,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.1132,
+     "entered_sample": [
+      "sh510310",
+      "sz159925"
+     ],
+     "left_sample": [
+      "sz159918"
+     ]
+    },
+    {
+     "month": "2014-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 30,
+     "book_names": 30,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.1053,
+     "entered_sample": [
+      "sh510630",
+      "sh510650",
+      "sh510660"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 29,
+     "book_names": 29,
+     "entered": 1,
+     "left": 2,
+     "turnover": 0.1017,
+     "entered_sample": [
+      "sh510510"
+     ],
+     "left_sample": [
+      "sh510900",
+      "sz159909"
+     ]
+    },
+    {
+     "month": "2014-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 30,
+     "book_names": 30,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0339,
+     "entered_sample": [
+      "sh510290"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 32,
+     "book_names": 32,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.129,
+     "entered_sample": [
+      "sh513100",
+      "sh518800",
+      "sh518880"
+     ],
+     "left_sample": [
+      "sz159901"
+     ]
+    },
+    {
+     "month": "2014-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 36,
+     "book_names": 36,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.1176,
+     "entered_sample": [
+      "sz159928",
+      "sz159929",
+      "sz159930",
+      "sz159931"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 37,
+     "book_names": 37,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0274,
+     "entered_sample": [
+      "sz159933"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 37,
+     "book_names": 37,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 39,
+     "book_names": 39,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0526,
+     "entered_sample": [
+      "sh510180",
+      "sz159934"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.05,
+     "entered_sample": [
+      "sh513500",
+      "sz159905"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0488,
+     "entered_sample": [
+      "sh510900"
+     ],
+     "left_sample": [
+      "sh510500"
+     ]
+    },
+    {
+     "month": "2015-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 43,
+     "book_names": 43,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0476,
+     "entered_sample": [
+      "sh510150",
+      "sh510270"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 48,
+     "book_names": 48,
+     "entered": 5,
+     "left": 0,
+     "turnover": 0.1099,
+     "entered_sample": [
+      "sh510190",
+      "sz159906",
+      "sz159918",
+      "sz159923",
+      "sz159936"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0206,
+     "entered_sample": [
+      "sz159913"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.0606,
+     "entered_sample": [
+      "sh513030",
+      "sz159901"
+     ],
+     "left_sample": [
+      "sz159906"
+     ]
+    },
+    {
+     "month": "2015-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.04,
+     "entered_sample": [
+      "sh510210"
+     ],
+     "left_sample": [
+      "sz159930"
+     ]
+    },
+    {
+     "month": "2015-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 2,
+     "left": 2,
+     "turnover": 0.08,
+     "entered_sample": [
+      "sz159001",
+      "sz159003"
+     ],
+     "left_sample": [
+      "sh510170",
+      "sz159913"
+     ]
+    },
+    {
+     "month": "2016-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0202,
+     "entered_sample": [],
+     "left_sample": [
+      "sz159936"
+     ]
+    },
+    {
+     "month": "2016-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0202,
+     "entered_sample": [
+      "sz159937"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 52,
+     "book_names": 52,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.0784,
+     "entered_sample": [
+      "sh513600",
+      "sh513660",
+      "sz159939"
+     ],
+     "left_sample": [
+      "sz159923"
+     ]
+    },
+    {
+     "month": "2016-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0392,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510130",
+      "sz159918"
+     ]
+    },
+    {
+     "month": "2016-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 51,
+     "book_names": 51,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.099,
+     "entered_sample": [
+      "sh510500",
+      "sz159938",
+      "sz159940"
+     ],
+     "left_sample": [
+      "sz159912",
+      "sz159931"
+     ]
+    },
+    {
+     "month": "2016-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.04,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510150",
+      "sh510190"
+     ]
+    },
+    {
+     "month": "2016-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 48,
+     "book_names": 48,
+     "entered": 1,
+     "left": 2,
+     "turnover": 0.0619,
+     "entered_sample": [
+      "sh510710"
+     ],
+     "left_sample": [
+      "sh510210",
+      "sz159933"
+     ]
+    },
+    {
+     "month": "2016-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 51,
+     "book_names": 51,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0606,
+     "entered_sample": [
+      "sz159941",
+      "sz159943",
+      "sz159945"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 58,
+     "book_names": 58,
+     "entered": 7,
+     "left": 0,
+     "turnover": 0.1284,
+     "entered_sample": [
+      "sh512010",
+      "sh512070",
+      "sh512330",
+      "sh512500",
+      "sh512510"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 58,
+     "book_names": 58,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0345,
+     "entered_sample": [
+      "sh510360"
+     ],
+     "left_sample": [
+      "sz159945"
+     ]
+    },
+    {
+     "month": "2016-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0351,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510030",
+      "sh510650"
+     ]
+    },
+    {
+     "month": "2016-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    }
+   ]
+  },
+  "2017_2020": {
+   "priced_months": 47,
+   "total_net_bp": 0.0,
+   "era_sign": 0,
+   "against_months": 0,
+   "with_months": 0,
+   "median_turnover_against": null,
+   "median_turnover_with": null,
+   "turnover_ratio": null,
+   "high_churn_months": 25,
+   "high_churn_against_share": 0.0,
+   "corr_net_turnover": null,
+   "rule": {
+    "turnover_ratio_min": 1.1,
+    "against_share_min": 0.6
+   },
+   "t1_turnover_ratio": false,
+   "t2_against_share": false,
+   "classification": "no_against_months",
+   "months": 48,
+   "from": "2017-01",
+   "to": "2020-12",
+   "distinct_names": 169,
+   "median_months_carried": 22,
+   "median_repair_names": 78.0,
+   "median_book_names": 78.0,
+   "month_rows": [
+    {
+     "month": "2017-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": null,
+     "left": null,
+     "turnover": null,
+     "entered_sample": null,
+     "left_sample": null
+    },
+    {
+     "month": "2017-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0364,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510410",
+      "sh512010"
+     ]
+    },
+    {
+     "month": "2017-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0183,
+     "entered_sample": [
+      "sz159912"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0183,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510270"
+     ]
+    },
+    {
+     "month": "2017-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.055,
+     "entered_sample": [
+      "sz159931",
+      "sz159948"
+     ],
+     "left_sample": [
+      "sz159940"
+     ]
+    },
+    {
+     "month": "2017-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 59,
+     "book_names": 59,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0702,
+     "entered_sample": [
+      "sh512660",
+      "sh512810",
+      "sh512880",
+      "sz159949"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 62,
+     "book_names": 62,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0496,
+     "entered_sample": [
+      "sh510810",
+      "sh512000",
+      "sz159945"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 62,
+     "book_names": 62,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0323,
+     "entered_sample": [
+      "sh512680"
+     ],
+     "left_sample": [
+      "sh510010"
+     ]
+    },
+    {
+     "month": "2017-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 63,
+     "book_names": 63,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.016,
+     "entered_sample": [
+      "sh512100"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 63,
+     "book_names": 63,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 64,
+     "book_names": 64,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.0787,
+     "entered_sample": [
+      "sh510410",
+      "sh510650",
+      "sh512010"
+     ],
+     "left_sample": [
+      "sh510020",
+      "sh510290"
+     ]
+    },
+    {
+     "month": "2018-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0155,
+     "entered_sample": [
+      "sz159930"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 68,
+     "book_names": 68,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0451,
+     "entered_sample": [
+      "sh510030",
+      "sz159923",
+      "sz159940"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 68,
+     "book_names": 68,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 69,
+     "book_names": 69,
+     "entered": 4,
+     "left": 3,
+     "turnover": 0.1022,
+     "entered_sample": [
+      "sh512580",
+      "sh512900",
+      "sh513050",
+      "sz159952"
+     ],
+     "left_sample": [
+      "sz159912",
+      "sz159931",
+      "sz159945"
+     ]
+    },
+    {
+     "month": "2018-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 73,
+     "book_names": 73,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0563,
+     "entered_sample": [
+      "sh512550",
+      "sh512560",
+      "sh512700",
+      "sh512800"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 75,
+     "book_names": 75,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.027,
+     "entered_sample": [
+      "sh512120",
+      "sh512400"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 77,
+     "book_names": 77,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0263,
+     "entered_sample": [
+      "sh510150",
+      "sh512200"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 77,
+     "book_names": 77,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.026,
+     "entered_sample": [
+      "sz159910"
+     ],
+     "left_sample": [
+      "sh510650"
+     ]
+    },
+    {
+     "month": "2019-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 79,
+     "book_names": 79,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0256,
+     "entered_sample": [
+      "sh510290",
+      "sz159916"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 82,
+     "book_names": 82,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0621,
+     "entered_sample": [
+      "sh510800",
+      "sh512980",
+      "sz159957",
+      "sz159958"
+     ],
+     "left_sample": [
+      "sh512560"
+     ]
+    },
+    {
+     "month": "2019-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 82,
+     "book_names": 82,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0244,
+     "entered_sample": [
+      "sh510390"
+     ],
+     "left_sample": [
+      "sz159919"
+     ]
+    },
+    {
+     "month": "2019-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 84,
+     "book_names": 84,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0241,
+     "entered_sample": [
+      "sz159954",
+      "sz159956"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 85,
+     "book_names": 85,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0118,
+     "entered_sample": [
+      "sh510580"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 88,
+     "book_names": 88,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0578,
+     "entered_sample": [
+      "sh510590",
+      "sh512160",
+      "sh512180",
+      "sh512520"
+     ],
+     "left_sample": [
+      "sh513660"
+     ]
+    },
+    {
+     "month": "2019-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 90,
+     "book_names": 90,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0225,
+     "entered_sample": [
+      "sh512090",
+      "sz159936"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 91,
+     "book_names": 91,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.0331,
+     "entered_sample": [
+      "sh512360",
+      "sz159931"
+     ],
+     "left_sample": [
+      "sh510810"
+     ]
+    },
+    {
+     "month": "2019-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 94,
+     "book_names": 94,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0541,
+     "entered_sample": [
+      "sh510190",
+      "sh510210",
+      "sh512770",
+      "sz159912"
+     ],
+     "left_sample": [
+      "sh513600"
+     ]
+    },
+    {
+     "month": "2019-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 93,
+     "book_names": 93,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0107,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510290"
+     ]
+    },
+    {
+     "month": "2019-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 96,
+     "book_names": 96,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0317,
+     "entered_sample": [
+      "sh510600",
+      "sh512570",
+      "sz159906"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 93,
+     "book_names": 93,
+     "entered": 0,
+     "left": 3,
+     "turnover": 0.0317,
+     "entered_sample": [],
+     "left_sample": [
+      "sz159001",
+      "sz159003",
+      "sz159005"
+     ]
+    },
+    {
+     "month": "2020-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 96,
+     "book_names": 96,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0317,
+     "entered_sample": [
+      "sh512040",
+      "sz159908",
+      "sz159961"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 100,
+     "book_names": 100,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0408,
+     "entered_sample": [
+      "sh510550",
+      "sh512260",
+      "sz159909",
+      "sz159919"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 110,
+     "book_names": 110,
+     "entered": 10,
+     "left": 0,
+     "turnover": 0.0952,
+     "entered_sample": [
+      "sh510170",
+      "sh512150",
+      "sh512220",
+      "sh512560",
+      "sh512600"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 112,
+     "book_names": 112,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.018,
+     "entered_sample": [
+      "sh510850",
+      "sh512870"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 113,
+     "book_names": 113,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0089,
+     "entered_sample": [
+      "sz159964"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 117,
+     "book_names": 117,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0348,
+     "entered_sample": [
+      "sh512290",
+      "sh512380",
+      "sh512690",
+      "sz159965"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 118,
+     "book_names": 118,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.0426,
+     "entered_sample": [
+      "sh512170",
+      "sh512480",
+      "sh512760"
+     ],
+     "left_sample": [
+      "sh512360",
+      "sz159956"
+     ]
+    },
+    {
+     "month": "2020-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 128,
+     "book_names": 128,
+     "entered": 10,
+     "left": 0,
+     "turnover": 0.0813,
+     "entered_sample": [
+      "sh512750",
+      "sh512910",
+      "sh513000",
+      "sh513520",
+      "sh513600"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 135,
+     "book_names": 135,
+     "entered": 7,
+     "left": 0,
+     "turnover": 0.0532,
+     "entered_sample": [
+      "sh510350",
+      "sh512670",
+      "sh512720",
+      "sh513660",
+      "sh513900"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 143,
+     "book_names": 143,
+     "entered": 9,
+     "left": 1,
+     "turnover": 0.0719,
+     "entered_sample": [
+      "sh510290",
+      "sh510810",
+      "sh512190",
+      "sh512530",
+      "sh512710"
+     ],
+     "left_sample": [
+      "sh510230"
+     ]
+    },
+    {
+     "month": "2020-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 148,
+     "book_names": 148,
+     "entered": 7,
+     "left": 2,
+     "turnover": 0.0619,
+     "entered_sample": [
+      "sh510100",
+      "sh515050",
+      "sh515860",
+      "sz159001",
+      "sz159003"
+     ],
+     "left_sample": [
+      "sh512760",
+      "sz159923"
+     ]
+    },
+    {
+     "month": "2020-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 159,
+     "book_names": 159,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0847,
+     "entered_sample": [
+      "sh512650",
+      "sh512970",
+      "sh515010",
+      "sh515200",
+      "sh515580"
+     ],
+     "left_sample": [
+      "sh510170"
+     ]
+    }
+   ]
+  },
+  "2021_2023": {
+   "priced_months": 35,
+   "total_net_bp": 90.613,
+   "era_sign": 1,
+   "against_months": 7,
+   "with_months": 7,
+   "median_turnover_against": 0.0467,
+   "median_turnover_with": 0.0389,
+   "turnover_ratio": 1.2005,
+   "high_churn_months": 18,
+   "high_churn_against_share": 0.2222,
+   "corr_net_turnover": 0.0493,
+   "rule": {
+    "turnover_ratio_min": 1.1,
+    "against_share_min": 0.6
+   },
+   "t1_turnover_ratio": true,
+   "t2_against_share": false,
+   "classification": "partly_turnover",
+   "months": 36,
+   "from": "2021-01",
+   "to": "2023-12",
+   "distinct_names": 646,
+   "median_months_carried": 20.0,
+   "median_repair_names": 340.0,
+   "median_book_names": 340.0,
+   "month_rows": [
+    {
+     "month": "2021-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 168,
+     "book_names": 168,
+     "entered": null,
+     "left": null,
+     "turnover": null,
+     "entered_sample": null,
+     "left_sample": null
+    },
+    {
+     "month": "2021-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 185,
+     "book_names": 185,
+     "entered": 18,
+     "left": 1,
+     "turnover": 0.1076,
+     "entered_sample": [
+      "sh510530",
+      "sh510680",
+      "sh515060",
+      "sh515070",
+      "sh515080"
+     ],
+     "left_sample": [
+      "sh512190"
+     ]
+    },
+    {
+     "month": "2021-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 191,
+     "book_names": 191,
+     "entered": 7,
+     "left": 1,
+     "turnover": 0.0426,
+     "entered_sample": [
+      "sh512730",
+      "sh515350",
+      "sh515700",
+      "sh515980",
+      "sz159801"
+     ],
+     "left_sample": [
+      "sh510210"
+     ]
+    },
+    {
+     "month": "2021-04",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 202,
+     "book_names": 202,
+     "entered": 13,
+     "left": 2,
+     "turnover": 0.0763,
+     "entered_sample": [
+      "sh515030",
+      "sh515090",
+      "sh515160",
+      "sh515210",
+      "sh515220"
+     ],
+     "left_sample": [
+      "sh512170",
+      "sz159915"
+     ]
+    },
+    {
+     "month": "2021-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 209,
+     "book_names": 209,
+     "entered": 10,
+     "left": 3,
+     "turnover": 0.0633,
+     "entered_sample": [
+      "sh513090",
+      "sh515630",
+      "sh515890",
+      "sh515950",
+      "sz159804"
+     ],
+     "left_sample": [
+      "sh512480",
+      "sh512710",
+      "sz159901"
+     ]
+    },
+    {
+     "month": "2021-06",
+     "net_bp": 24.959,
+     "gross_bp": 26.271,
+     "repair_names": 212,
+     "book_names": 212,
+     "entered": 6,
+     "left": 3,
+     "turnover": 0.0428,
+     "entered_sample": [
+      "sh510130",
+      "sh510200",
+      "sh512640",
+      "sh515130",
+      "sh515360"
+     ],
+     "left_sample": [
+      "sh510630",
+      "sh515590",
+      "sz159974"
+     ]
+    },
+    {
+     "month": "2021-07",
+     "net_bp": -0.085,
+     "gross_bp": 0.438,
+     "repair_names": 220,
+     "book_names": 220,
+     "entered": 10,
+     "left": 2,
+     "turnover": 0.0556,
+     "entered_sample": [
+      "sh510270",
+      "sh513080",
+      "sh515190",
+      "sh515770",
+      "sh515960"
+     ],
+     "left_sample": [
+      "sh510150",
+      "sh512690"
+     ]
+    },
+    {
+     "month": "2021-08",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 222,
+     "book_names": 222,
+     "entered": 5,
+     "left": 3,
+     "turnover": 0.0362,
+     "entered_sample": [
+      "sh515100",
+      "sh515560",
+      "sz159810",
+      "sz159814",
+      "sz159933"
+     ],
+     "left_sample": [
+      "sh510030",
+      "sh512010",
+      "sz159972"
+     ]
+    },
+    {
+     "month": "2021-09",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 228,
+     "book_names": 228,
+     "entered": 7,
+     "left": 1,
+     "turnover": 0.0356,
+     "entered_sample": [
+      "sh510230",
+      "sh510570",
+      "sh513990",
+      "sh515260",
+      "sh518600"
+     ],
+     "left_sample": [
+      "sh510580"
+     ]
+    },
+    {
+     "month": "2021-10",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 228,
+     "book_names": 228,
+     "entered": 3,
+     "left": 3,
+     "turnover": 0.0263,
+     "entered_sample": [
+      "sh510760",
+      "sh512760",
+      "sz159808"
+     ],
+     "left_sample": [
+      "sh512600",
+      "sh512670",
+      "sh512870"
+     ]
+    },
+    {
+     "month": "2021-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 231,
+     "book_names": 231,
+     "entered": 6,
+     "left": 3,
+     "turnover": 0.0392,
+     "entered_sample": [
+      "sh510380",
+      "sh515760",
+      "sh515990",
+      "sh518890",
+      "sz159819"
+     ],
+     "left_sample": [
+      "sh512070",
+      "sh515580",
+      "sz159971"
+     ]
+    },
+    {
+     "month": "2021-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 241,
+     "book_names": 241,
+     "entered": 13,
+     "left": 3,
+     "turnover": 0.0678,
+     "entered_sample": [
+      "sh510020",
+      "sh510170",
+      "sh510370",
+      "sh512390",
+      "sh513300"
+     ],
+     "left_sample": [
+      "sh510010",
+      "sh512890",
+      "sz159916"
+     ]
+    },
+    {
+     "month": "2022-01",
+     "net_bp": 27.087,
+     "gross_bp": 27.152,
+     "repair_names": 241,
+     "book_names": 241,
+     "entered": 2,
+     "left": 2,
+     "turnover": 0.0166,
+     "entered_sample": [
+      "sh515790",
+      "sz159827"
+     ],
+     "left_sample": [
+      "sh510130",
+      "sh512560"
+     ]
+    },
+    {
+     "month": "2022-02",
+     "net_bp": -0.097,
+     "gross_bp": 0.679,
+     "repair_names": 250,
+     "book_names": 250,
+     "entered": 13,
+     "left": 4,
+     "turnover": 0.0692,
+     "entered_sample": [
+      "sh513550",
+      "sh515120",
+      "sh515170",
+      "sh515250",
+      "sh515290"
+     ],
+     "left_sample": [
+      "sh510380",
+      "sh512390",
+      "sh512650",
+      "sz159935"
+     ]
+    },
+    {
+     "month": "2022-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 261,
+     "book_names": 261,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0509,
+     "entered_sample": [
+      "sh510210",
+      "sh513330",
+      "sh516050",
+      "sh516160",
+      "sh517050"
+     ],
+     "left_sample": [
+      "sh513100"
+     ]
+    },
+    {
+     "month": "2022-04",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 300,
+     "book_names": 300,
+     "entered": 41,
+     "left": 2,
+     "turnover": 0.1533,
+     "entered_sample": [
+      "sh512170",
+      "sh512710",
+      "sh515230",
+      "sh515910",
+      "sh516000"
+     ],
+     "left_sample": [
+      "sh515550",
+      "sz159907"
+     ]
+    },
+    {
+     "month": "2022-05",
+     "net_bp": 15.407,
+     "gross_bp": 15.858,
+     "repair_names": 315,
+     "book_names": 315,
+     "entered": 19,
+     "left": 4,
+     "turnover": 0.0748,
+     "entered_sample": [
+      "sh512480",
+      "sh513060",
+      "sh515590",
+      "sh516300",
+      "sh516330"
+     ],
+     "left_sample": [
+      "sh510190",
+      "sh512120",
+      "sh513500",
+      "sz159973"
+     ]
+    },
+    {
+     "month": "2022-06",
+     "net_bp": -0.076,
+     "gross_bp": 0.147,
+     "repair_names": 328,
+     "book_names": 328,
+     "entered": 14,
+     "left": 1,
+     "turnover": 0.0467,
+     "entered_sample": [
+      "sh510630",
+      "sh512690",
+      "sh513690",
+      "sh516110",
+      "sh516360"
+     ],
+     "left_sample": [
+      "sz159810"
+     ]
+    },
+    {
+     "month": "2022-07",
+     "net_bp": 24.671,
+     "gross_bp": 24.821,
+     "repair_names": 352,
+     "book_names": 352,
+     "entered": 26,
+     "left": 2,
+     "turnover": 0.0824,
+     "entered_sample": [
+      "sh510030",
+      "sh510150",
+      "sh513010",
+      "sh513130",
+      "sh513180"
+     ],
+     "left_sample": [
+      "sh512640",
+      "sh517170"
+     ]
+    },
+    {
+     "month": "2022-08",
+     "net_bp": -0.108,
+     "gross_bp": 0.251,
+     "repair_names": 391,
+     "book_names": 391,
+     "entered": 39,
+     "left": 0,
+     "turnover": 0.105,
+     "entered_sample": [
+      "sh510580",
+      "sh510990",
+      "sh512010",
+      "sh513860",
+      "sh513980"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2022-09",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 419,
+     "book_names": 419,
+     "entered": 29,
+     "left": 1,
+     "turnover": 0.0741,
+     "entered_sample": [
+      "sh512600",
+      "sh513590",
+      "sh513700",
+      "sh516100",
+      "sh516260"
+     ],
+     "left_sample": [
+      "sh510170"
+     ]
+    },
+    {
+     "month": "2022-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 434,
+     "book_names": 434,
+     "entered": 21,
+     "left": 6,
+     "turnover": 0.0633,
+     "entered_sample": [
+      "sh512070",
+      "sh512670",
+      "sh516190",
+      "sh516290",
+      "sh516560"
+     ],
+     "left_sample": [
+      "sh510270",
+      "sh510570",
+      "sh515680",
+      "sh515990",
+      "sz159961"
+     ]
+    },
+    {
+     "month": "2022-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 449,
+     "book_names": 449,
+     "entered": 17,
+     "left": 2,
+     "turnover": 0.043,
+     "entered_sample": [
+      "sh510010",
+      "sh510770",
+      "sh516130",
+      "sh516210",
+      "sh516860"
+     ],
+     "left_sample": [
+      "sh512100",
+      "sz159974"
+     ]
+    },
+    {
+     "month": "2022-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 468,
+     "book_names": 468,
+     "entered": 19,
+     "left": 0,
+     "turnover": 0.0414,
+     "entered_sample": [
+      "sh512560",
+      "sh512890",
+      "sh515580",
+      "sh516070",
+      "sh516620"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-01",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 489,
+     "book_names": 489,
+     "entered": 22,
+     "left": 1,
+     "turnover": 0.0481,
+     "entered_sample": [
+      "sh512650",
+      "sh516090",
+      "sh517770",
+      "sh517880",
+      "sh561300"
+     ],
+     "left_sample": [
+      "sh510770"
+     ]
+    },
+    {
+     "month": "2023-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 512,
+     "book_names": 512,
+     "entered": 25,
+     "left": 2,
+     "turnover": 0.0539,
+     "entered_sample": [
+      "sh513100",
+      "sh516350",
+      "sh516810",
+      "sh517090",
+      "sh517160"
+     ],
+     "left_sample": [
+      "sh512970",
+      "sh516980"
+     ]
+    },
+    {
+     "month": "2023-03",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 532,
+     "book_names": 532,
+     "entered": 21,
+     "left": 1,
+     "turnover": 0.0421,
+     "entered_sample": [
+      "sh513020",
+      "sh513150",
+      "sh513160",
+      "sh513200",
+      "sh513230"
+     ],
+     "left_sample": [
+      "sz159933"
+     ]
+    },
+    {
+     "month": "2023-04",
+     "net_bp": -18.143,
+     "gross_bp": 18.647,
+     "repair_names": 537,
+     "book_names": 537,
+     "entered": 6,
+     "left": 1,
+     "turnover": 0.0131,
+     "entered_sample": [
+      "sh513320",
+      "sh562520",
+      "sz159787",
+      "sz159788",
+      "sz159796"
+     ],
+     "left_sample": [
+      "sh510100"
+     ]
+    },
+    {
+     "month": "2023-05",
+     "net_bp": 0.222,
+     "gross_bp": 0.473,
+     "repair_names": 542,
+     "book_names": 542,
+     "entered": 7,
+     "left": 2,
+     "turnover": 0.0167,
+     "entered_sample": [
+      "sh512120",
+      "sh513070",
+      "sh513500",
+      "sh517900",
+      "sh560880"
+     ],
+     "left_sample": [
+      "sh510010",
+      "sz159821"
+     ]
+    },
+    {
+     "month": "2023-06",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 552,
+     "book_names": 552,
+     "entered": 11,
+     "left": 1,
+     "turnover": 0.0219,
+     "entered_sample": [
+      "sh512640",
+      "sh513380",
+      "sh513530",
+      "sh517850",
+      "sh517990"
+     ],
+     "left_sample": [
+      "sz159948"
+     ]
+    },
+    {
+     "month": "2023-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 556,
+     "book_names": 556,
+     "entered": 5,
+     "left": 1,
+     "turnover": 0.0108,
+     "entered_sample": [
+      "sh560900",
+      "sh588100",
+      "sh588260",
+      "sz159603",
+      "sz159810"
+     ],
+     "left_sample": [
+      "sz159976"
+     ]
+    },
+    {
+     "month": "2023-08",
+     "net_bp": 8.558,
+     "gross_bp": 8.558,
+     "repair_names": 576,
+     "book_names": 576,
+     "entered": 21,
+     "left": 1,
+     "turnover": 0.0389,
+     "entered_sample": [
+      "sh510170",
+      "sh513120",
+      "sh513220",
+      "sh513280",
+      "sh560060"
+     ],
+     "left_sample": [
+      "sz159717"
+     ]
+    },
+    {
+     "month": "2023-09",
+     "net_bp": -0.102,
+     "gross_bp": 0.138,
+     "repair_names": 586,
+     "book_names": 586,
+     "entered": 14,
+     "left": 4,
+     "turnover": 0.031,
+     "entered_sample": [
+      "sh560110",
+      "sh561510",
+      "sh562000",
+      "sh562390",
+      "sh562530"
+     ],
+     "left_sample": [
+      "sh512180",
+      "sh515190",
+      "sh517330",
+      "sz159952"
+     ]
+    },
+    {
+     "month": "2023-10",
+     "net_bp": 8.334,
+     "gross_bp": 8.4,
+     "repair_names": 599,
+     "book_names": 599,
+     "entered": 13,
+     "left": 0,
+     "turnover": 0.0219,
+     "entered_sample": [
+      "sh510270",
+      "sh512100",
+      "sh513260",
+      "sh513290",
+      "sh515680"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-11",
+     "net_bp": -0.014,
+     "gross_bp": 0.078,
+     "repair_names": 602,
+     "book_names": 602,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.005,
+     "entered_sample": [
+      "sh515990",
+      "sh560080",
+      "sz159658"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 619,
+     "book_names": 619,
+     "entered": 17,
+     "left": 0,
+     "turnover": 0.0278,
+     "entered_sample": [
+      "sh510770",
+      "sh560680",
+      "sh561180",
+      "sh561330",
+      "sh588010"
+     ],
+     "left_sample": []
+    }
+   ]
+  },
+  "2024_now": {
+   "priced_months": 32,
+   "total_net_bp": 140.768,
+   "era_sign": 1,
+   "against_months": 3,
+   "with_months": 19,
+   "median_turnover_against": 0.0165,
+   "median_turnover_with": 0.0295,
+   "turnover_ratio": 0.5593,
+   "high_churn_months": 16,
+   "high_churn_against_share": 0.0,
+   "corr_net_turnover": 0.1461,
+   "rule": {
+    "turnover_ratio_min": 1.1,
+    "against_share_min": 0.6
+   },
+   "t1_turnover_ratio": false,
+   "t2_against_share": false,
+   "classification": "not_supported",
+   "months": 33,
+   "from": "2024-01",
+   "to": "2026-09",
+   "distinct_names": 1194,
+   "median_months_carried": 32.0,
+   "median_repair_names": 791,
+   "median_book_names": 791,
+   "month_rows": [
+    {
+     "month": "2024-01",
+     "net_bp": -16.389,
+     "gross_bp": 16.395,
+     "repair_names": 631,
+     "book_names": 631,
+     "entered": null,
+     "left": null,
+     "turnover": null,
+     "entered_sample": null,
+     "left_sample": null
+    },
+    {
+     "month": "2024-02",
+     "net_bp": 0.028,
+     "gross_bp": 0.13,
+     "repair_names": 644,
+     "book_names": 644,
+     "entered": 15,
+     "left": 2,
+     "turnover": 0.0267,
+     "entered_sample": [
+      "sh513140",
+      "sh513310",
+      "sh561000",
+      "sh562010",
+      "sh562320"
+     ],
+     "left_sample": [
+      "sz159728",
+      "sz159925"
+     ]
+    },
+    {
+     "month": "2024-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 648,
+     "book_names": 648,
+     "entered": 6,
+     "left": 2,
+     "turnover": 0.0124,
+     "entered_sample": [
+      "sh510100",
+      "sh513560",
+      "sh516980",
+      "sz159652",
+      "sz159666"
+     ],
+     "left_sample": [
+      "sz159877",
+      "sz159896"
+     ]
+    },
+    {
+     "month": "2024-04",
+     "net_bp": 7.669,
+     "gross_bp": 8.245,
+     "repair_names": 660,
+     "book_names": 660,
+     "entered": 12,
+     "left": 0,
+     "turnover": 0.0183,
+     "entered_sample": [
+      "sh510190",
+      "sh513110",
+      "sh560090",
+      "sh560860",
+      "sh561170"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-05",
+     "net_bp": -0.08,
+     "gross_bp": 0.232,
+     "repair_names": 671,
+     "book_names": 671,
+     "entered": 11,
+     "left": 0,
+     "turnover": 0.0165,
+     "entered_sample": [
+      "sh513650",
+      "sh561920",
+      "sh562330",
+      "sh562550",
+      "sh562960"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-06",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 682,
+     "book_names": 682,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0192,
+     "entered_sample": [
+      "sh513390",
+      "sh513950",
+      "sh513970",
+      "sh560180",
+      "sh560580"
+     ],
+     "left_sample": [
+      "sh517010"
+     ]
+    },
+    {
+     "month": "2024-07",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 695,
+     "book_names": 695,
+     "entered": 13,
+     "left": 0,
+     "turnover": 0.0189,
+     "entered_sample": [
+      "sh513040",
+      "sh560070",
+      "sh560330",
+      "sh560700",
+      "sh561580"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-08",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 710,
+     "book_names": 710,
+     "entered": 15,
+     "left": 0,
+     "turnover": 0.0214,
+     "entered_sample": [
+      "sh510130",
+      "sh512390",
+      "sh517330",
+      "sh560030",
+      "sh560170"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-09",
+     "net_bp": -55.26,
+     "gross_bp": 61.96,
+     "repair_names": 718,
+     "book_names": 718,
+     "entered": 11,
+     "left": 3,
+     "turnover": 0.0196,
+     "entered_sample": [
+      "sh560950",
+      "sh561260",
+      "sh561790",
+      "sh562850",
+      "sz159509"
+     ],
+     "left_sample": [
+      "sh516900",
+      "sz159653",
+      "sz159685"
+     ]
+    },
+    {
+     "month": "2024-10",
+     "net_bp": 0.305,
+     "gross_bp": 1.754,
+     "repair_names": 726,
+     "book_names": 726,
+     "entered": 18,
+     "left": 10,
+     "turnover": 0.0388,
+     "entered_sample": [
+      "sh513810",
+      "sh560220",
+      "sh560260",
+      "sh561980",
+      "sh562660"
+     ],
+     "left_sample": [
+      "sh510130",
+      "sh515360",
+      "sh517160",
+      "sh517330",
+      "sh588320"
+     ]
+    },
+    {
+     "month": "2024-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 738,
+     "book_names": 738,
+     "entered": 15,
+     "left": 3,
+     "turnover": 0.0246,
+     "entered_sample": [
+      "sh513190",
+      "sh560020",
+      "sh561060",
+      "sh561280",
+      "sh561370"
+     ],
+     "left_sample": [
+      "sh512390",
+      "sz159717",
+      "sz159862"
+     ]
+    },
+    {
+     "month": "2024-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 753,
+     "book_names": 753,
+     "entered": 16,
+     "left": 1,
+     "turnover": 0.0228,
+     "entered_sample": [
+      "sh513850",
+      "sh513870",
+      "sh517520",
+      "sh560280",
+      "sh561360"
+     ],
+     "left_sample": [
+      "sz159621"
+     ]
+    },
+    {
+     "month": "2025-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 768,
+     "book_names": 768,
+     "entered": 18,
+     "left": 3,
+     "turnover": 0.0276,
+     "entered_sample": [
+      "sh510980",
+      "sh513350",
+      "sh513630",
+      "sh513730",
+      "sh513750"
+     ],
+     "left_sample": [
+      "sz159662",
+      "sz159711",
+      "sz159793"
+     ]
+    },
+    {
+     "month": "2025-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 775,
+     "book_names": 775,
+     "entered": 12,
+     "left": 5,
+     "turnover": 0.022,
+     "entered_sample": [
+      "sh513920",
+      "sh562060",
+      "sh588700",
+      "sz159502",
+      "sz159556"
+     ],
+     "left_sample": [
+      "sz159620",
+      "sz159627",
+      "sz159630",
+      "sz159723",
+      "sz159731"
+     ]
+    },
+    {
+     "month": "2025-03",
+     "net_bp": -6.757,
+     "gross_bp": 19.644,
+     "repair_names": 773,
+     "book_names": 773,
+     "entered": 5,
+     "left": 7,
+     "turnover": 0.0155,
+     "entered_sample": [
+      "sh513400",
+      "sz159530",
+      "sz159562",
+      "sz159566",
+      "sz159570"
+     ],
+     "left_sample": [
+      "sh513030",
+      "sh513080",
+      "sh513350",
+      "sz159507",
+      "sz159518"
+     ]
+    },
+    {
+     "month": "2025-04",
+     "net_bp": 0.148,
+     "gross_bp": 0.168,
+     "repair_names": 784,
+     "book_names": 784,
+     "entered": 14,
+     "left": 3,
+     "turnover": 0.0218,
+     "entered_sample": [
+      "sh513910",
+      "sh560350",
+      "sh561230",
+      "sh562890",
+      "sh563080"
+     ],
+     "left_sample": [
+      "sh513360",
+      "sh515590",
+      "sz159575"
+     ]
+    },
+    {
+     "month": "2025-05",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 791,
+     "book_names": 791,
+     "entered": 8,
+     "left": 1,
+     "turnover": 0.0114,
+     "entered_sample": [
+      "sh513170",
+      "sh560150",
+      "sh560850",
+      "sh562560",
+      "sh562580"
+     ],
+     "left_sample": [
+      "sh517880"
+     ]
+    },
+    {
+     "month": "2025-06",
+     "net_bp": 6.4,
+     "gross_bp": 6.799,
+     "repair_names": 808,
+     "book_names": 808,
+     "entered": 22,
+     "left": 5,
+     "turnover": 0.0338,
+     "entered_sample": [
+      "sh510720",
+      "sh510950",
+      "sh513210",
+      "sh513820",
+      "sh517010"
+     ],
+     "left_sample": [
+      "sh515090",
+      "sh516720",
+      "sz159716",
+      "sz159721",
+      "sz159816"
+     ]
+    },
+    {
+     "month": "2025-07",
+     "net_bp": 5.528,
+     "gross_bp": 6.297,
+     "repair_names": 819,
+     "book_names": 819,
+     "entered": 13,
+     "left": 2,
+     "turnover": 0.0184,
+     "entered_sample": [
+      "sh563090",
+      "sh563150",
+      "sh588450",
+      "sz159300",
+      "sz159309"
+     ],
+     "left_sample": [
+      "sh561180",
+      "sz159916"
+     ]
+    },
+    {
+     "month": "2025-08",
+     "net_bp": 23.451,
+     "gross_bp": 28.243,
+     "repair_names": 830,
+     "book_names": 830,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0158,
+     "entered_sample": [
+      "sh517170",
+      "sh520660",
+      "sh520900",
+      "sh520990",
+      "sh560360"
+     ],
+     "left_sample": [
+      "sz159677"
+     ]
+    },
+    {
+     "month": "2025-09",
+     "net_bp": 42.174,
+     "gross_bp": 45.564,
+     "repair_names": 837,
+     "book_names": 837,
+     "entered": 8,
+     "left": 1,
+     "turnover": 0.0108,
+     "entered_sample": [
+      "sh560590",
+      "sh588830",
+      "sh588990",
+      "sz159327",
+      "sz159330"
+     ],
+     "left_sample": [
+      "sz159306"
+     ]
+    },
+    {
+     "month": "2025-10",
+     "net_bp": 11.673,
+     "gross_bp": 13.081,
+     "repair_names": 860,
+     "book_names": 860,
+     "entered": 24,
+     "left": 1,
+     "turnover": 0.0295,
+     "entered_sample": [
+      "sh510010",
+      "sh510130",
+      "sh510570",
+      "sh512870",
+      "sh515190"
+     ],
+     "left_sample": [
+      "sz159303"
+     ]
+    },
+    {
+     "month": "2025-11",
+     "net_bp": 5.757,
+     "gross_bp": 5.897,
+     "repair_names": 870,
+     "book_names": 870,
+     "entered": 14,
+     "left": 4,
+     "turnover": 0.0208,
+     "entered_sample": [
+      "sh520700",
+      "sh560510",
+      "sh560530",
+      "sh560610",
+      "sh560620"
+     ],
+     "left_sample": [
+      "sz159321",
+      "sz159521",
+      "sz159583",
+      "sz159617"
+     ]
+    },
+    {
+     "month": "2025-12",
+     "net_bp": 11.247,
+     "gross_bp": 11.8,
+     "repair_names": 887,
+     "book_names": 887,
+     "entered": 17,
+     "left": 0,
+     "turnover": 0.0194,
+     "entered_sample": [
+      "sh512050",
+      "sh513780",
+      "sh520520",
+      "sh530880",
+      "sh562970"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2026-01",
+     "net_bp": 0.173,
+     "gross_bp": 0.692,
+     "repair_names": 906,
+     "book_names": 906,
+     "entered": 20,
+     "left": 1,
+     "turnover": 0.0234,
+     "entered_sample": [
+      "sh512020",
+      "sh512190",
+      "sh530050",
+      "sh560520",
+      "sh560810"
+     ],
+     "left_sample": [
+      "sz159661"
+     ]
+    },
+    {
+     "month": "2026-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 932,
+     "book_names": 932,
+     "entered": 29,
+     "left": 3,
+     "turnover": 0.0348,
+     "entered_sample": [
+      "sh510040",
+      "sh512080",
+      "sh517160",
+      "sh517330",
+      "sh520500"
+     ],
+     "left_sample": [
+      "sh516330",
+      "sz159528",
+      "sz159555"
+     ]
+    },
+    {
+     "month": "2026-03",
+     "net_bp": 4.757,
+     "gross_bp": 4.769,
+     "repair_names": 963,
+     "book_names": 963,
+     "entered": 33,
+     "left": 2,
+     "turnover": 0.0369,
+     "entered_sample": [
+      "sh513030",
+      "sh513080",
+      "sh513350",
+      "sh513360",
+      "sh520550"
+     ],
+     "left_sample": [
+      "sz159556",
+      "sz159563"
+     ]
+    },
+    {
+     "month": "2026-04",
+     "net_bp": 10.123,
+     "gross_bp": 10.525,
+     "repair_names": 990,
+     "book_names": 990,
+     "entered": 28,
+     "left": 1,
+     "turnover": 0.0297,
+     "entered_sample": [
+      "sh510090",
+      "sh513830",
+      "sh517880",
+      "sh520580",
+      "sh562810"
+     ],
+     "left_sample": [
+      "sz159730"
+     ]
+    },
+    {
+     "month": "2026-05",
+     "net_bp": 4.527,
+     "gross_bp": 4.773,
+     "repair_names": 1027,
+     "book_names": 1027,
+     "entered": 38,
+     "left": 1,
+     "turnover": 0.0387,
+     "entered_sample": [
+      "sh510560",
+      "sh512240",
+      "sh512250",
+      "sh515090",
+      "sh560630"
+     ],
+     "left_sample": [
+      "sz159862"
+     ]
+    },
+    {
+     "month": "2026-06",
+     "net_bp": 26.092,
+     "gross_bp": 28.207,
+     "repair_names": 1064,
+     "book_names": 1064,
+     "entered": 38,
+     "left": 1,
+     "turnover": 0.0373,
+     "entered_sample": [
+      "sh510320",
+      "sh510380",
+      "sh512390",
+      "sh516460",
+      "sh561080"
+     ],
+     "left_sample": [
+      "sz159318"
+     ]
+    },
+    {
+     "month": "2026-07",
+     "net_bp": 36.315,
+     "gross_bp": 38.96,
+     "repair_names": 1100,
+     "book_names": 1100,
+     "entered": 37,
+     "left": 1,
+     "turnover": 0.0351,
+     "entered_sample": [
+      "sh512180",
+      "sh515360",
+      "sh515590",
+      "sh516720",
+      "sh520940"
+     ],
+     "left_sample": [
+      "sz159508"
+     ]
+    },
+    {
+     "month": "2026-08",
+     "net_bp": 14.484,
+     "gross_bp": 18.021,
+     "repair_names": 1132,
+     "book_names": 1132,
+     "entered": 35,
+     "left": 3,
+     "turnover": 0.0341,
+     "entered_sample": [
+      "sh512060",
+      "sh512130",
+      "sh512360",
+      "sh520880",
+      "sh520980"
+     ],
+     "left_sample": [
+      "sh560030",
+      "sz159571",
+      "sz159889"
+     ]
+    },
+    {
+     "month": "2026-09",
+     "net_bp": 8.403,
+     "gross_bp": 8.868,
+     "repair_names": 1169,
+     "book_names": 1169,
+     "entered": 39,
+     "left": 2,
+     "turnover": 0.0356,
+     "entered_sample": [
+      "sh512030",
+      "sh512370",
+      "sh520510",
+      "sh520620",
+      "sh520670"
+     ],
+     "left_sample": [
+      "sz159515",
+      "sz159620"
+     ]
+    }
+   ]
+  },
+  "full": {
+   "priced_months": 160,
+   "total_net_bp": 231.381,
+   "era_sign": 1,
+   "against_months": 11,
+   "with_months": 26,
+   "median_turnover_against": 0.0196,
+   "median_turnover_with": 0.0296,
+   "turnover_ratio": 0.6622,
+   "high_churn_months": 80,
+   "high_churn_against_share": 0.05,
+   "corr_net_turnover": -0.0162,
+   "rule": {
+    "turnover_ratio_min": 1.1,
+    "against_share_min": 0.6
+   },
+   "t1_turnover_ratio": false,
+   "t2_against_share": false,
+   "classification": "not_supported",
+   "months": 161,
+   "from": "2013-04",
+   "to": "2026-09",
+   "distinct_names": 1197,
+   "median_months_carried": 36,
+   "median_repair_names": 96,
+   "median_book_names": 96,
+   "month_rows": [
+    {
+     "month": "2013-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": null,
+     "left": null,
+     "turnover": null,
+     "entered_sample": null,
+     "left_sample": null
+    },
+    {
+     "month": "2013-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 1,
+     "book_names": 1,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 21,
+     "left": 0,
+     "turnover": 1.8261,
+     "entered_sample": [
+      "sh510010",
+      "sh510030",
+      "sh510050",
+      "sh510060",
+      "sh510130"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2013-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0909,
+     "entered_sample": [
+      "sh510270"
+     ],
+     "left_sample": [
+      "__cash__"
+     ]
+    },
+    {
+     "month": "2013-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 22,
+     "book_names": 22,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2013-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.087,
+     "entered_sample": [
+      "sh510900",
+      "sz159920"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 26,
+     "book_names": 26,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.16,
+     "entered_sample": [
+      "sh510020",
+      "sz159909",
+      "sz159919"
+     ],
+     "left_sample": [
+      "sz159905"
+     ]
+    },
+    {
+     "month": "2014-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 1,
+     "left": 3,
+     "turnover": 0.16,
+     "entered_sample": [
+      "sh510330"
+     ],
+     "left_sample": [
+      "sh510150",
+      "sh510180",
+      "sh510270"
+     ]
+    },
+    {
+     "month": "2014-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 24,
+     "book_names": 24,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2014-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 26,
+     "book_names": 26,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.08,
+     "entered_sample": [
+      "sh510500",
+      "sz159922"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 27,
+     "book_names": 27,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.1132,
+     "entered_sample": [
+      "sh510310",
+      "sz159925"
+     ],
+     "left_sample": [
+      "sz159918"
+     ]
+    },
+    {
+     "month": "2014-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 30,
+     "book_names": 30,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.1053,
+     "entered_sample": [
+      "sh510630",
+      "sh510650",
+      "sh510660"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 29,
+     "book_names": 29,
+     "entered": 1,
+     "left": 2,
+     "turnover": 0.1017,
+     "entered_sample": [
+      "sh510510"
+     ],
+     "left_sample": [
+      "sh510900",
+      "sz159909"
+     ]
+    },
+    {
+     "month": "2014-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 30,
+     "book_names": 30,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0339,
+     "entered_sample": [
+      "sh510290"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 32,
+     "book_names": 32,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.129,
+     "entered_sample": [
+      "sh513100",
+      "sh518800",
+      "sh518880"
+     ],
+     "left_sample": [
+      "sz159901"
+     ]
+    },
+    {
+     "month": "2014-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 36,
+     "book_names": 36,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.1176,
+     "entered_sample": [
+      "sz159928",
+      "sz159929",
+      "sz159930",
+      "sz159931"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 37,
+     "book_names": 37,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0274,
+     "entered_sample": [
+      "sz159933"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2014-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 37,
+     "book_names": 37,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 39,
+     "book_names": 39,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0526,
+     "entered_sample": [
+      "sh510180",
+      "sz159934"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.05,
+     "entered_sample": [
+      "sh513500",
+      "sz159905"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2015-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 41,
+     "book_names": 41,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0488,
+     "entered_sample": [
+      "sh510900"
+     ],
+     "left_sample": [
+      "sh510500"
+     ]
+    },
+    {
+     "month": "2015-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 43,
+     "book_names": 43,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0476,
+     "entered_sample": [
+      "sh510150",
+      "sh510270"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 48,
+     "book_names": 48,
+     "entered": 5,
+     "left": 0,
+     "turnover": 0.1099,
+     "entered_sample": [
+      "sh510190",
+      "sz159906",
+      "sz159918",
+      "sz159923",
+      "sz159936"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0206,
+     "entered_sample": [
+      "sz159913"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2015-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.0606,
+     "entered_sample": [
+      "sh513030",
+      "sz159901"
+     ],
+     "left_sample": [
+      "sz159906"
+     ]
+    },
+    {
+     "month": "2015-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.04,
+     "entered_sample": [
+      "sh510210"
+     ],
+     "left_sample": [
+      "sz159930"
+     ]
+    },
+    {
+     "month": "2015-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 2,
+     "left": 2,
+     "turnover": 0.08,
+     "entered_sample": [
+      "sz159001",
+      "sz159003"
+     ],
+     "left_sample": [
+      "sh510170",
+      "sz159913"
+     ]
+    },
+    {
+     "month": "2016-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0202,
+     "entered_sample": [],
+     "left_sample": [
+      "sz159936"
+     ]
+    },
+    {
+     "month": "2016-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0202,
+     "entered_sample": [
+      "sz159937"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 52,
+     "book_names": 52,
+     "entered": 3,
+     "left": 1,
+     "turnover": 0.0784,
+     "entered_sample": [
+      "sh513600",
+      "sh513660",
+      "sz159939"
+     ],
+     "left_sample": [
+      "sz159923"
+     ]
+    },
+    {
+     "month": "2016-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 50,
+     "book_names": 50,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0392,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510130",
+      "sz159918"
+     ]
+    },
+    {
+     "month": "2016-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 51,
+     "book_names": 51,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.099,
+     "entered_sample": [
+      "sh510500",
+      "sz159938",
+      "sz159940"
+     ],
+     "left_sample": [
+      "sz159912",
+      "sz159931"
+     ]
+    },
+    {
+     "month": "2016-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 49,
+     "book_names": 49,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.04,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510150",
+      "sh510190"
+     ]
+    },
+    {
+     "month": "2016-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 48,
+     "book_names": 48,
+     "entered": 1,
+     "left": 2,
+     "turnover": 0.0619,
+     "entered_sample": [
+      "sh510710"
+     ],
+     "left_sample": [
+      "sh510210",
+      "sz159933"
+     ]
+    },
+    {
+     "month": "2016-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 51,
+     "book_names": 51,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0606,
+     "entered_sample": [
+      "sz159941",
+      "sz159943",
+      "sz159945"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 58,
+     "book_names": 58,
+     "entered": 7,
+     "left": 0,
+     "turnover": 0.1284,
+     "entered_sample": [
+      "sh512010",
+      "sh512070",
+      "sh512330",
+      "sh512500",
+      "sh512510"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2016-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 58,
+     "book_names": 58,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0345,
+     "entered_sample": [
+      "sh510360"
+     ],
+     "left_sample": [
+      "sz159945"
+     ]
+    },
+    {
+     "month": "2016-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0351,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510030",
+      "sh510650"
+     ]
+    },
+    {
+     "month": "2016-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 56,
+     "book_names": 56,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 2,
+     "turnover": 0.0364,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510410",
+      "sh512010"
+     ]
+    },
+    {
+     "month": "2017-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0183,
+     "entered_sample": [
+      "sz159912"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0183,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510270"
+     ]
+    },
+    {
+     "month": "2017-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 54,
+     "book_names": 54,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.055,
+     "entered_sample": [
+      "sz159931",
+      "sz159948"
+     ],
+     "left_sample": [
+      "sz159940"
+     ]
+    },
+    {
+     "month": "2017-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 55,
+     "book_names": 55,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2017-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 59,
+     "book_names": 59,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0702,
+     "entered_sample": [
+      "sh512660",
+      "sh512810",
+      "sh512880",
+      "sz159949"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 62,
+     "book_names": 62,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0496,
+     "entered_sample": [
+      "sh510810",
+      "sh512000",
+      "sz159945"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2017-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 62,
+     "book_names": 62,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0323,
+     "entered_sample": [
+      "sh512680"
+     ],
+     "left_sample": [
+      "sh510010"
+     ]
+    },
+    {
+     "month": "2017-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 63,
+     "book_names": 63,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.016,
+     "entered_sample": [
+      "sh512100"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 63,
+     "book_names": 63,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 64,
+     "book_names": 64,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.0787,
+     "entered_sample": [
+      "sh510410",
+      "sh510650",
+      "sh512010"
+     ],
+     "left_sample": [
+      "sh510020",
+      "sh510290"
+     ]
+    },
+    {
+     "month": "2018-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0155,
+     "entered_sample": [
+      "sz159930"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 65,
+     "book_names": 65,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 68,
+     "book_names": 68,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0451,
+     "entered_sample": [
+      "sh510030",
+      "sz159923",
+      "sz159940"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 68,
+     "book_names": 68,
+     "entered": 0,
+     "left": 0,
+     "turnover": 0.0,
+     "entered_sample": [],
+     "left_sample": []
+    },
+    {
+     "month": "2018-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 69,
+     "book_names": 69,
+     "entered": 4,
+     "left": 3,
+     "turnover": 0.1022,
+     "entered_sample": [
+      "sh512580",
+      "sh512900",
+      "sh513050",
+      "sz159952"
+     ],
+     "left_sample": [
+      "sz159912",
+      "sz159931",
+      "sz159945"
+     ]
+    },
+    {
+     "month": "2018-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 73,
+     "book_names": 73,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0563,
+     "entered_sample": [
+      "sh512550",
+      "sh512560",
+      "sh512700",
+      "sh512800"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 75,
+     "book_names": 75,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.027,
+     "entered_sample": [
+      "sh512120",
+      "sh512400"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 77,
+     "book_names": 77,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0263,
+     "entered_sample": [
+      "sh510150",
+      "sh512200"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2018-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 77,
+     "book_names": 77,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.026,
+     "entered_sample": [
+      "sz159910"
+     ],
+     "left_sample": [
+      "sh510650"
+     ]
+    },
+    {
+     "month": "2019-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 79,
+     "book_names": 79,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0256,
+     "entered_sample": [
+      "sh510290",
+      "sz159916"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 82,
+     "book_names": 82,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0621,
+     "entered_sample": [
+      "sh510800",
+      "sh512980",
+      "sz159957",
+      "sz159958"
+     ],
+     "left_sample": [
+      "sh512560"
+     ]
+    },
+    {
+     "month": "2019-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 82,
+     "book_names": 82,
+     "entered": 1,
+     "left": 1,
+     "turnover": 0.0244,
+     "entered_sample": [
+      "sh510390"
+     ],
+     "left_sample": [
+      "sz159919"
+     ]
+    },
+    {
+     "month": "2019-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 84,
+     "book_names": 84,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0241,
+     "entered_sample": [
+      "sz159954",
+      "sz159956"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 85,
+     "book_names": 85,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0118,
+     "entered_sample": [
+      "sh510580"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 88,
+     "book_names": 88,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0578,
+     "entered_sample": [
+      "sh510590",
+      "sh512160",
+      "sh512180",
+      "sh512520"
+     ],
+     "left_sample": [
+      "sh513660"
+     ]
+    },
+    {
+     "month": "2019-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 90,
+     "book_names": 90,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.0225,
+     "entered_sample": [
+      "sh512090",
+      "sz159936"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 91,
+     "book_names": 91,
+     "entered": 2,
+     "left": 1,
+     "turnover": 0.0331,
+     "entered_sample": [
+      "sh512360",
+      "sz159931"
+     ],
+     "left_sample": [
+      "sh510810"
+     ]
+    },
+    {
+     "month": "2019-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 94,
+     "book_names": 94,
+     "entered": 4,
+     "left": 1,
+     "turnover": 0.0541,
+     "entered_sample": [
+      "sh510190",
+      "sh510210",
+      "sh512770",
+      "sz159912"
+     ],
+     "left_sample": [
+      "sh513600"
+     ]
+    },
+    {
+     "month": "2019-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 93,
+     "book_names": 93,
+     "entered": 0,
+     "left": 1,
+     "turnover": 0.0107,
+     "entered_sample": [],
+     "left_sample": [
+      "sh510290"
+     ]
+    },
+    {
+     "month": "2019-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 96,
+     "book_names": 96,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0317,
+     "entered_sample": [
+      "sh510600",
+      "sh512570",
+      "sz159906"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2019-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 93,
+     "book_names": 93,
+     "entered": 0,
+     "left": 3,
+     "turnover": 0.0317,
+     "entered_sample": [],
+     "left_sample": [
+      "sz159001",
+      "sz159003",
+      "sz159005"
+     ]
+    },
+    {
+     "month": "2020-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 96,
+     "book_names": 96,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.0317,
+     "entered_sample": [
+      "sh512040",
+      "sz159908",
+      "sz159961"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 100,
+     "book_names": 100,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0408,
+     "entered_sample": [
+      "sh510550",
+      "sh512260",
+      "sz159909",
+      "sz159919"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 110,
+     "book_names": 110,
+     "entered": 10,
+     "left": 0,
+     "turnover": 0.0952,
+     "entered_sample": [
+      "sh510170",
+      "sh512150",
+      "sh512220",
+      "sh512560",
+      "sh512600"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-04",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 112,
+     "book_names": 112,
+     "entered": 2,
+     "left": 0,
+     "turnover": 0.018,
+     "entered_sample": [
+      "sh510850",
+      "sh512870"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 113,
+     "book_names": 113,
+     "entered": 1,
+     "left": 0,
+     "turnover": 0.0089,
+     "entered_sample": [
+      "sz159964"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-06",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 117,
+     "book_names": 117,
+     "entered": 4,
+     "left": 0,
+     "turnover": 0.0348,
+     "entered_sample": [
+      "sh512290",
+      "sh512380",
+      "sh512690",
+      "sz159965"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 118,
+     "book_names": 118,
+     "entered": 3,
+     "left": 2,
+     "turnover": 0.0426,
+     "entered_sample": [
+      "sh512170",
+      "sh512480",
+      "sh512760"
+     ],
+     "left_sample": [
+      "sh512360",
+      "sz159956"
+     ]
+    },
+    {
+     "month": "2020-08",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 128,
+     "book_names": 128,
+     "entered": 10,
+     "left": 0,
+     "turnover": 0.0813,
+     "entered_sample": [
+      "sh512750",
+      "sh512910",
+      "sh513000",
+      "sh513520",
+      "sh513600"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-09",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 135,
+     "book_names": 135,
+     "entered": 7,
+     "left": 0,
+     "turnover": 0.0532,
+     "entered_sample": [
+      "sh510350",
+      "sh512670",
+      "sh512720",
+      "sh513660",
+      "sh513900"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2020-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 143,
+     "book_names": 143,
+     "entered": 9,
+     "left": 1,
+     "turnover": 0.0719,
+     "entered_sample": [
+      "sh510290",
+      "sh510810",
+      "sh512190",
+      "sh512530",
+      "sh512710"
+     ],
+     "left_sample": [
+      "sh510230"
+     ]
+    },
+    {
+     "month": "2020-11",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 148,
+     "book_names": 148,
+     "entered": 7,
+     "left": 2,
+     "turnover": 0.0619,
+     "entered_sample": [
+      "sh510100",
+      "sh515050",
+      "sh515860",
+      "sz159001",
+      "sz159003"
+     ],
+     "left_sample": [
+      "sh512760",
+      "sz159923"
+     ]
+    },
+    {
+     "month": "2020-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 159,
+     "book_names": 159,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0847,
+     "entered_sample": [
+      "sh512650",
+      "sh512970",
+      "sh515010",
+      "sh515200",
+      "sh515580"
+     ],
+     "left_sample": [
+      "sh510170"
+     ]
+    },
+    {
+     "month": "2021-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 168,
+     "book_names": 168,
+     "entered": 9,
+     "left": 0,
+     "turnover": 0.055,
+     "entered_sample": [
+      "sh510010",
+      "sh510650",
+      "sh515020",
+      "sh515180",
+      "sh515680"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2021-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 185,
+     "book_names": 185,
+     "entered": 18,
+     "left": 1,
+     "turnover": 0.1076,
+     "entered_sample": [
+      "sh510530",
+      "sh510680",
+      "sh515060",
+      "sh515070",
+      "sh515080"
+     ],
+     "left_sample": [
+      "sh512190"
+     ]
+    },
+    {
+     "month": "2021-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 191,
+     "book_names": 191,
+     "entered": 7,
+     "left": 1,
+     "turnover": 0.0426,
+     "entered_sample": [
+      "sh512730",
+      "sh515350",
+      "sh515700",
+      "sh515980",
+      "sz159801"
+     ],
+     "left_sample": [
+      "sh510210"
+     ]
+    },
+    {
+     "month": "2021-04",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 202,
+     "book_names": 202,
+     "entered": 13,
+     "left": 2,
+     "turnover": 0.0763,
+     "entered_sample": [
+      "sh515030",
+      "sh515090",
+      "sh515160",
+      "sh515210",
+      "sh515220"
+     ],
+     "left_sample": [
+      "sh512170",
+      "sz159915"
+     ]
+    },
+    {
+     "month": "2021-05",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 209,
+     "book_names": 209,
+     "entered": 10,
+     "left": 3,
+     "turnover": 0.0633,
+     "entered_sample": [
+      "sh513090",
+      "sh515630",
+      "sh515890",
+      "sh515950",
+      "sz159804"
+     ],
+     "left_sample": [
+      "sh512480",
+      "sh512710",
+      "sz159901"
+     ]
+    },
+    {
+     "month": "2021-06",
+     "net_bp": 24.959,
+     "gross_bp": 26.271,
+     "repair_names": 212,
+     "book_names": 212,
+     "entered": 6,
+     "left": 3,
+     "turnover": 0.0428,
+     "entered_sample": [
+      "sh510130",
+      "sh510200",
+      "sh512640",
+      "sh515130",
+      "sh515360"
+     ],
+     "left_sample": [
+      "sh510630",
+      "sh515590",
+      "sz159974"
+     ]
+    },
+    {
+     "month": "2021-07",
+     "net_bp": -0.085,
+     "gross_bp": 0.438,
+     "repair_names": 220,
+     "book_names": 220,
+     "entered": 10,
+     "left": 2,
+     "turnover": 0.0556,
+     "entered_sample": [
+      "sh510270",
+      "sh513080",
+      "sh515190",
+      "sh515770",
+      "sh515960"
+     ],
+     "left_sample": [
+      "sh510150",
+      "sh512690"
+     ]
+    },
+    {
+     "month": "2021-08",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 222,
+     "book_names": 222,
+     "entered": 5,
+     "left": 3,
+     "turnover": 0.0362,
+     "entered_sample": [
+      "sh515100",
+      "sh515560",
+      "sz159810",
+      "sz159814",
+      "sz159933"
+     ],
+     "left_sample": [
+      "sh510030",
+      "sh512010",
+      "sz159972"
+     ]
+    },
+    {
+     "month": "2021-09",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 228,
+     "book_names": 228,
+     "entered": 7,
+     "left": 1,
+     "turnover": 0.0356,
+     "entered_sample": [
+      "sh510230",
+      "sh510570",
+      "sh513990",
+      "sh515260",
+      "sh518600"
+     ],
+     "left_sample": [
+      "sh510580"
+     ]
+    },
+    {
+     "month": "2021-10",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 228,
+     "book_names": 228,
+     "entered": 3,
+     "left": 3,
+     "turnover": 0.0263,
+     "entered_sample": [
+      "sh510760",
+      "sh512760",
+      "sz159808"
+     ],
+     "left_sample": [
+      "sh512600",
+      "sh512670",
+      "sh512870"
+     ]
+    },
+    {
+     "month": "2021-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 231,
+     "book_names": 231,
+     "entered": 6,
+     "left": 3,
+     "turnover": 0.0392,
+     "entered_sample": [
+      "sh510380",
+      "sh515760",
+      "sh515990",
+      "sh518890",
+      "sz159819"
+     ],
+     "left_sample": [
+      "sh512070",
+      "sh515580",
+      "sz159971"
+     ]
+    },
+    {
+     "month": "2021-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 241,
+     "book_names": 241,
+     "entered": 13,
+     "left": 3,
+     "turnover": 0.0678,
+     "entered_sample": [
+      "sh510020",
+      "sh510170",
+      "sh510370",
+      "sh512390",
+      "sh513300"
+     ],
+     "left_sample": [
+      "sh510010",
+      "sh512890",
+      "sz159916"
+     ]
+    },
+    {
+     "month": "2022-01",
+     "net_bp": 27.087,
+     "gross_bp": 27.152,
+     "repair_names": 241,
+     "book_names": 241,
+     "entered": 2,
+     "left": 2,
+     "turnover": 0.0166,
+     "entered_sample": [
+      "sh515790",
+      "sz159827"
+     ],
+     "left_sample": [
+      "sh510130",
+      "sh512560"
+     ]
+    },
+    {
+     "month": "2022-02",
+     "net_bp": -0.097,
+     "gross_bp": 0.679,
+     "repair_names": 250,
+     "book_names": 250,
+     "entered": 13,
+     "left": 4,
+     "turnover": 0.0692,
+     "entered_sample": [
+      "sh513550",
+      "sh515120",
+      "sh515170",
+      "sh515250",
+      "sh515290"
+     ],
+     "left_sample": [
+      "sh510380",
+      "sh512390",
+      "sh512650",
+      "sz159935"
+     ]
+    },
+    {
+     "month": "2022-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 261,
+     "book_names": 261,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0509,
+     "entered_sample": [
+      "sh510210",
+      "sh513330",
+      "sh516050",
+      "sh516160",
+      "sh517050"
+     ],
+     "left_sample": [
+      "sh513100"
+     ]
+    },
+    {
+     "month": "2022-04",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 300,
+     "book_names": 300,
+     "entered": 41,
+     "left": 2,
+     "turnover": 0.1533,
+     "entered_sample": [
+      "sh512170",
+      "sh512710",
+      "sh515230",
+      "sh515910",
+      "sh516000"
+     ],
+     "left_sample": [
+      "sh515550",
+      "sz159907"
+     ]
+    },
+    {
+     "month": "2022-05",
+     "net_bp": 15.407,
+     "gross_bp": 15.858,
+     "repair_names": 315,
+     "book_names": 315,
+     "entered": 19,
+     "left": 4,
+     "turnover": 0.0748,
+     "entered_sample": [
+      "sh512480",
+      "sh513060",
+      "sh515590",
+      "sh516300",
+      "sh516330"
+     ],
+     "left_sample": [
+      "sh510190",
+      "sh512120",
+      "sh513500",
+      "sz159973"
+     ]
+    },
+    {
+     "month": "2022-06",
+     "net_bp": -0.076,
+     "gross_bp": 0.147,
+     "repair_names": 328,
+     "book_names": 328,
+     "entered": 14,
+     "left": 1,
+     "turnover": 0.0467,
+     "entered_sample": [
+      "sh510630",
+      "sh512690",
+      "sh513690",
+      "sh516110",
+      "sh516360"
+     ],
+     "left_sample": [
+      "sz159810"
+     ]
+    },
+    {
+     "month": "2022-07",
+     "net_bp": 24.671,
+     "gross_bp": 24.821,
+     "repair_names": 352,
+     "book_names": 352,
+     "entered": 26,
+     "left": 2,
+     "turnover": 0.0824,
+     "entered_sample": [
+      "sh510030",
+      "sh510150",
+      "sh513010",
+      "sh513130",
+      "sh513180"
+     ],
+     "left_sample": [
+      "sh512640",
+      "sh517170"
+     ]
+    },
+    {
+     "month": "2022-08",
+     "net_bp": -0.108,
+     "gross_bp": 0.251,
+     "repair_names": 391,
+     "book_names": 391,
+     "entered": 39,
+     "left": 0,
+     "turnover": 0.105,
+     "entered_sample": [
+      "sh510580",
+      "sh510990",
+      "sh512010",
+      "sh513860",
+      "sh513980"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2022-09",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 419,
+     "book_names": 419,
+     "entered": 29,
+     "left": 1,
+     "turnover": 0.0741,
+     "entered_sample": [
+      "sh512600",
+      "sh513590",
+      "sh513700",
+      "sh516100",
+      "sh516260"
+     ],
+     "left_sample": [
+      "sh510170"
+     ]
+    },
+    {
+     "month": "2022-10",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 434,
+     "book_names": 434,
+     "entered": 21,
+     "left": 6,
+     "turnover": 0.0633,
+     "entered_sample": [
+      "sh512070",
+      "sh512670",
+      "sh516190",
+      "sh516290",
+      "sh516560"
+     ],
+     "left_sample": [
+      "sh510270",
+      "sh510570",
+      "sh515680",
+      "sh515990",
+      "sz159961"
+     ]
+    },
+    {
+     "month": "2022-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 449,
+     "book_names": 449,
+     "entered": 17,
+     "left": 2,
+     "turnover": 0.043,
+     "entered_sample": [
+      "sh510010",
+      "sh510770",
+      "sh516130",
+      "sh516210",
+      "sh516860"
+     ],
+     "left_sample": [
+      "sh512100",
+      "sz159974"
+     ]
+    },
+    {
+     "month": "2022-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 468,
+     "book_names": 468,
+     "entered": 19,
+     "left": 0,
+     "turnover": 0.0414,
+     "entered_sample": [
+      "sh512560",
+      "sh512890",
+      "sh515580",
+      "sh516070",
+      "sh516620"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-01",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 489,
+     "book_names": 489,
+     "entered": 22,
+     "left": 1,
+     "turnover": 0.0481,
+     "entered_sample": [
+      "sh512650",
+      "sh516090",
+      "sh517770",
+      "sh517880",
+      "sh561300"
+     ],
+     "left_sample": [
+      "sh510770"
+     ]
+    },
+    {
+     "month": "2023-02",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 512,
+     "book_names": 512,
+     "entered": 25,
+     "left": 2,
+     "turnover": 0.0539,
+     "entered_sample": [
+      "sh513100",
+      "sh516350",
+      "sh516810",
+      "sh517090",
+      "sh517160"
+     ],
+     "left_sample": [
+      "sh512970",
+      "sh516980"
+     ]
+    },
+    {
+     "month": "2023-03",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 532,
+     "book_names": 532,
+     "entered": 21,
+     "left": 1,
+     "turnover": 0.0421,
+     "entered_sample": [
+      "sh513020",
+      "sh513150",
+      "sh513160",
+      "sh513200",
+      "sh513230"
+     ],
+     "left_sample": [
+      "sz159933"
+     ]
+    },
+    {
+     "month": "2023-04",
+     "net_bp": -18.143,
+     "gross_bp": 18.647,
+     "repair_names": 537,
+     "book_names": 537,
+     "entered": 6,
+     "left": 1,
+     "turnover": 0.0131,
+     "entered_sample": [
+      "sh513320",
+      "sh562520",
+      "sz159787",
+      "sz159788",
+      "sz159796"
+     ],
+     "left_sample": [
+      "sh510100"
+     ]
+    },
+    {
+     "month": "2023-05",
+     "net_bp": 0.222,
+     "gross_bp": 0.473,
+     "repair_names": 542,
+     "book_names": 542,
+     "entered": 7,
+     "left": 2,
+     "turnover": 0.0167,
+     "entered_sample": [
+      "sh512120",
+      "sh513070",
+      "sh513500",
+      "sh517900",
+      "sh560880"
+     ],
+     "left_sample": [
+      "sh510010",
+      "sz159821"
+     ]
+    },
+    {
+     "month": "2023-06",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 552,
+     "book_names": 552,
+     "entered": 11,
+     "left": 1,
+     "turnover": 0.0219,
+     "entered_sample": [
+      "sh512640",
+      "sh513380",
+      "sh513530",
+      "sh517850",
+      "sh517990"
+     ],
+     "left_sample": [
+      "sz159948"
+     ]
+    },
+    {
+     "month": "2023-07",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 556,
+     "book_names": 556,
+     "entered": 5,
+     "left": 1,
+     "turnover": 0.0108,
+     "entered_sample": [
+      "sh560900",
+      "sh588100",
+      "sh588260",
+      "sz159603",
+      "sz159810"
+     ],
+     "left_sample": [
+      "sz159976"
+     ]
+    },
+    {
+     "month": "2023-08",
+     "net_bp": 8.558,
+     "gross_bp": 8.558,
+     "repair_names": 576,
+     "book_names": 576,
+     "entered": 21,
+     "left": 1,
+     "turnover": 0.0389,
+     "entered_sample": [
+      "sh510170",
+      "sh513120",
+      "sh513220",
+      "sh513280",
+      "sh560060"
+     ],
+     "left_sample": [
+      "sz159717"
+     ]
+    },
+    {
+     "month": "2023-09",
+     "net_bp": -0.102,
+     "gross_bp": 0.138,
+     "repair_names": 586,
+     "book_names": 586,
+     "entered": 14,
+     "left": 4,
+     "turnover": 0.031,
+     "entered_sample": [
+      "sh560110",
+      "sh561510",
+      "sh562000",
+      "sh562390",
+      "sh562530"
+     ],
+     "left_sample": [
+      "sh512180",
+      "sh515190",
+      "sh517330",
+      "sz159952"
+     ]
+    },
+    {
+     "month": "2023-10",
+     "net_bp": 8.334,
+     "gross_bp": 8.4,
+     "repair_names": 599,
+     "book_names": 599,
+     "entered": 13,
+     "left": 0,
+     "turnover": 0.0219,
+     "entered_sample": [
+      "sh510270",
+      "sh512100",
+      "sh513260",
+      "sh513290",
+      "sh515680"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-11",
+     "net_bp": -0.014,
+     "gross_bp": 0.078,
+     "repair_names": 602,
+     "book_names": 602,
+     "entered": 3,
+     "left": 0,
+     "turnover": 0.005,
+     "entered_sample": [
+      "sh515990",
+      "sh560080",
+      "sz159658"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2023-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 619,
+     "book_names": 619,
+     "entered": 17,
+     "left": 0,
+     "turnover": 0.0278,
+     "entered_sample": [
+      "sh510770",
+      "sh560680",
+      "sh561180",
+      "sh561330",
+      "sh588010"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-01",
+     "net_bp": -16.389,
+     "gross_bp": 16.395,
+     "repair_names": 631,
+     "book_names": 631,
+     "entered": 12,
+     "left": 0,
+     "turnover": 0.0192,
+     "entered_sample": [
+      "sh512970",
+      "sh518860",
+      "sh560980",
+      "sh561320",
+      "sh561590"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-02",
+     "net_bp": 0.028,
+     "gross_bp": 0.13,
+     "repair_names": 644,
+     "book_names": 644,
+     "entered": 15,
+     "left": 2,
+     "turnover": 0.0267,
+     "entered_sample": [
+      "sh513140",
+      "sh513310",
+      "sh561000",
+      "sh562010",
+      "sh562320"
+     ],
+     "left_sample": [
+      "sz159728",
+      "sz159925"
+     ]
+    },
+    {
+     "month": "2024-03",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 648,
+     "book_names": 648,
+     "entered": 6,
+     "left": 2,
+     "turnover": 0.0124,
+     "entered_sample": [
+      "sh510100",
+      "sh513560",
+      "sh516980",
+      "sz159652",
+      "sz159666"
+     ],
+     "left_sample": [
+      "sz159877",
+      "sz159896"
+     ]
+    },
+    {
+     "month": "2024-04",
+     "net_bp": 7.669,
+     "gross_bp": 8.245,
+     "repair_names": 660,
+     "book_names": 660,
+     "entered": 12,
+     "left": 0,
+     "turnover": 0.0183,
+     "entered_sample": [
+      "sh510190",
+      "sh513110",
+      "sh560090",
+      "sh560860",
+      "sh561170"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-05",
+     "net_bp": -0.08,
+     "gross_bp": 0.232,
+     "repair_names": 671,
+     "book_names": 671,
+     "entered": 11,
+     "left": 0,
+     "turnover": 0.0165,
+     "entered_sample": [
+      "sh513650",
+      "sh561920",
+      "sh562330",
+      "sh562550",
+      "sh562960"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-06",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 682,
+     "book_names": 682,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0192,
+     "entered_sample": [
+      "sh513390",
+      "sh513950",
+      "sh513970",
+      "sh560180",
+      "sh560580"
+     ],
+     "left_sample": [
+      "sh517010"
+     ]
+    },
+    {
+     "month": "2024-07",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 695,
+     "book_names": 695,
+     "entered": 13,
+     "left": 0,
+     "turnover": 0.0189,
+     "entered_sample": [
+      "sh513040",
+      "sh560070",
+      "sh560330",
+      "sh560700",
+      "sh561580"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-08",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 710,
+     "book_names": 710,
+     "entered": 15,
+     "left": 0,
+     "turnover": 0.0214,
+     "entered_sample": [
+      "sh510130",
+      "sh512390",
+      "sh517330",
+      "sh560030",
+      "sh560170"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2024-09",
+     "net_bp": -55.26,
+     "gross_bp": 61.96,
+     "repair_names": 718,
+     "book_names": 718,
+     "entered": 11,
+     "left": 3,
+     "turnover": 0.0196,
+     "entered_sample": [
+      "sh560950",
+      "sh561260",
+      "sh561790",
+      "sh562850",
+      "sz159509"
+     ],
+     "left_sample": [
+      "sh516900",
+      "sz159653",
+      "sz159685"
+     ]
+    },
+    {
+     "month": "2024-10",
+     "net_bp": 0.305,
+     "gross_bp": 1.754,
+     "repair_names": 726,
+     "book_names": 726,
+     "entered": 18,
+     "left": 10,
+     "turnover": 0.0388,
+     "entered_sample": [
+      "sh513810",
+      "sh560220",
+      "sh560260",
+      "sh561980",
+      "sh562660"
+     ],
+     "left_sample": [
+      "sh510130",
+      "sh515360",
+      "sh517160",
+      "sh517330",
+      "sh588320"
+     ]
+    },
+    {
+     "month": "2024-11",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 738,
+     "book_names": 738,
+     "entered": 15,
+     "left": 3,
+     "turnover": 0.0246,
+     "entered_sample": [
+      "sh513190",
+      "sh560020",
+      "sh561060",
+      "sh561280",
+      "sh561370"
+     ],
+     "left_sample": [
+      "sh512390",
+      "sz159717",
+      "sz159862"
+     ]
+    },
+    {
+     "month": "2024-12",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 753,
+     "book_names": 753,
+     "entered": 16,
+     "left": 1,
+     "turnover": 0.0228,
+     "entered_sample": [
+      "sh513850",
+      "sh513870",
+      "sh517520",
+      "sh560280",
+      "sh561360"
+     ],
+     "left_sample": [
+      "sz159621"
+     ]
+    },
+    {
+     "month": "2025-01",
+     "net_bp": 0.0,
+     "gross_bp": 0.0,
+     "repair_names": 768,
+     "book_names": 768,
+     "entered": 18,
+     "left": 3,
+     "turnover": 0.0276,
+     "entered_sample": [
+      "sh510980",
+      "sh513350",
+      "sh513630",
+      "sh513730",
+      "sh513750"
+     ],
+     "left_sample": [
+      "sz159662",
+      "sz159711",
+      "sz159793"
+     ]
+    },
+    {
+     "month": "2025-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 775,
+     "book_names": 775,
+     "entered": 12,
+     "left": 5,
+     "turnover": 0.022,
+     "entered_sample": [
+      "sh513920",
+      "sh562060",
+      "sh588700",
+      "sz159502",
+      "sz159556"
+     ],
+     "left_sample": [
+      "sz159620",
+      "sz159627",
+      "sz159630",
+      "sz159723",
+      "sz159731"
+     ]
+    },
+    {
+     "month": "2025-03",
+     "net_bp": -6.757,
+     "gross_bp": 19.644,
+     "repair_names": 773,
+     "book_names": 773,
+     "entered": 5,
+     "left": 7,
+     "turnover": 0.0155,
+     "entered_sample": [
+      "sh513400",
+      "sz159530",
+      "sz159562",
+      "sz159566",
+      "sz159570"
+     ],
+     "left_sample": [
+      "sh513030",
+      "sh513080",
+      "sh513350",
+      "sz159507",
+      "sz159518"
+     ]
+    },
+    {
+     "month": "2025-04",
+     "net_bp": 0.148,
+     "gross_bp": 0.168,
+     "repair_names": 784,
+     "book_names": 784,
+     "entered": 14,
+     "left": 3,
+     "turnover": 0.0218,
+     "entered_sample": [
+      "sh513910",
+      "sh560350",
+      "sh561230",
+      "sh562890",
+      "sh563080"
+     ],
+     "left_sample": [
+      "sh513360",
+      "sh515590",
+      "sz159575"
+     ]
+    },
+    {
+     "month": "2025-05",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 791,
+     "book_names": 791,
+     "entered": 8,
+     "left": 1,
+     "turnover": 0.0114,
+     "entered_sample": [
+      "sh513170",
+      "sh560150",
+      "sh560850",
+      "sh562560",
+      "sh562580"
+     ],
+     "left_sample": [
+      "sh517880"
+     ]
+    },
+    {
+     "month": "2025-06",
+     "net_bp": 6.4,
+     "gross_bp": 6.799,
+     "repair_names": 808,
+     "book_names": 808,
+     "entered": 22,
+     "left": 5,
+     "turnover": 0.0338,
+     "entered_sample": [
+      "sh510720",
+      "sh510950",
+      "sh513210",
+      "sh513820",
+      "sh517010"
+     ],
+     "left_sample": [
+      "sh515090",
+      "sh516720",
+      "sz159716",
+      "sz159721",
+      "sz159816"
+     ]
+    },
+    {
+     "month": "2025-07",
+     "net_bp": 5.528,
+     "gross_bp": 6.297,
+     "repair_names": 819,
+     "book_names": 819,
+     "entered": 13,
+     "left": 2,
+     "turnover": 0.0184,
+     "entered_sample": [
+      "sh563090",
+      "sh563150",
+      "sh588450",
+      "sz159300",
+      "sz159309"
+     ],
+     "left_sample": [
+      "sh561180",
+      "sz159916"
+     ]
+    },
+    {
+     "month": "2025-08",
+     "net_bp": 23.451,
+     "gross_bp": 28.243,
+     "repair_names": 830,
+     "book_names": 830,
+     "entered": 12,
+     "left": 1,
+     "turnover": 0.0158,
+     "entered_sample": [
+      "sh517170",
+      "sh520660",
+      "sh520900",
+      "sh520990",
+      "sh560360"
+     ],
+     "left_sample": [
+      "sz159677"
+     ]
+    },
+    {
+     "month": "2025-09",
+     "net_bp": 42.174,
+     "gross_bp": 45.564,
+     "repair_names": 837,
+     "book_names": 837,
+     "entered": 8,
+     "left": 1,
+     "turnover": 0.0108,
+     "entered_sample": [
+      "sh560590",
+      "sh588830",
+      "sh588990",
+      "sz159327",
+      "sz159330"
+     ],
+     "left_sample": [
+      "sz159306"
+     ]
+    },
+    {
+     "month": "2025-10",
+     "net_bp": 11.673,
+     "gross_bp": 13.081,
+     "repair_names": 860,
+     "book_names": 860,
+     "entered": 24,
+     "left": 1,
+     "turnover": 0.0295,
+     "entered_sample": [
+      "sh510010",
+      "sh510130",
+      "sh510570",
+      "sh512870",
+      "sh515190"
+     ],
+     "left_sample": [
+      "sz159303"
+     ]
+    },
+    {
+     "month": "2025-11",
+     "net_bp": 5.757,
+     "gross_bp": 5.897,
+     "repair_names": 870,
+     "book_names": 870,
+     "entered": 14,
+     "left": 4,
+     "turnover": 0.0208,
+     "entered_sample": [
+      "sh520700",
+      "sh560510",
+      "sh560530",
+      "sh560610",
+      "sh560620"
+     ],
+     "left_sample": [
+      "sz159321",
+      "sz159521",
+      "sz159583",
+      "sz159617"
+     ]
+    },
+    {
+     "month": "2025-12",
+     "net_bp": 11.247,
+     "gross_bp": 11.8,
+     "repair_names": 887,
+     "book_names": 887,
+     "entered": 17,
+     "left": 0,
+     "turnover": 0.0194,
+     "entered_sample": [
+      "sh512050",
+      "sh513780",
+      "sh520520",
+      "sh530880",
+      "sh562970"
+     ],
+     "left_sample": []
+    },
+    {
+     "month": "2026-01",
+     "net_bp": 0.173,
+     "gross_bp": 0.692,
+     "repair_names": 906,
+     "book_names": 906,
+     "entered": 20,
+     "left": 1,
+     "turnover": 0.0234,
+     "entered_sample": [
+      "sh512020",
+      "sh512190",
+      "sh530050",
+      "sh560520",
+      "sh560810"
+     ],
+     "left_sample": [
+      "sz159661"
+     ]
+    },
+    {
+     "month": "2026-02",
+     "net_bp": -0.0,
+     "gross_bp": 0.0,
+     "repair_names": 932,
+     "book_names": 932,
+     "entered": 29,
+     "left": 3,
+     "turnover": 0.0348,
+     "entered_sample": [
+      "sh510040",
+      "sh512080",
+      "sh517160",
+      "sh517330",
+      "sh520500"
+     ],
+     "left_sample": [
+      "sh516330",
+      "sz159528",
+      "sz159555"
+     ]
+    },
+    {
+     "month": "2026-03",
+     "net_bp": 4.757,
+     "gross_bp": 4.769,
+     "repair_names": 963,
+     "book_names": 963,
+     "entered": 33,
+     "left": 2,
+     "turnover": 0.0369,
+     "entered_sample": [
+      "sh513030",
+      "sh513080",
+      "sh513350",
+      "sh513360",
+      "sh520550"
+     ],
+     "left_sample": [
+      "sz159556",
+      "sz159563"
+     ]
+    },
+    {
+     "month": "2026-04",
+     "net_bp": 10.123,
+     "gross_bp": 10.525,
+     "repair_names": 990,
+     "book_names": 990,
+     "entered": 28,
+     "left": 1,
+     "turnover": 0.0297,
+     "entered_sample": [
+      "sh510090",
+      "sh513830",
+      "sh517880",
+      "sh520580",
+      "sh562810"
+     ],
+     "left_sample": [
+      "sz159730"
+     ]
+    },
+    {
+     "month": "2026-05",
+     "net_bp": 4.527,
+     "gross_bp": 4.773,
+     "repair_names": 1027,
+     "book_names": 1027,
+     "entered": 38,
+     "left": 1,
+     "turnover": 0.0387,
+     "entered_sample": [
+      "sh510560",
+      "sh512240",
+      "sh512250",
+      "sh515090",
+      "sh560630"
+     ],
+     "left_sample": [
+      "sz159862"
+     ]
+    },
+    {
+     "month": "2026-06",
+     "net_bp": 26.092,
+     "gross_bp": 28.207,
+     "repair_names": 1064,
+     "book_names": 1064,
+     "entered": 38,
+     "left": 1,
+     "turnover": 0.0373,
+     "entered_sample": [
+      "sh510320",
+      "sh510380",
+      "sh512390",
+      "sh516460",
+      "sh561080"
+     ],
+     "left_sample": [
+      "sz159318"
+     ]
+    },
+    {
+     "month": "2026-07",
+     "net_bp": 36.315,
+     "gross_bp": 38.96,
+     "repair_names": 1100,
+     "book_names": 1100,
+     "entered": 37,
+     "left": 1,
+     "turnover": 0.0351,
+     "entered_sample": [
+      "sh512180",
+      "sh515360",
+      "sh515590",
+      "sh516720",
+      "sh520940"
+     ],
+     "left_sample": [
+      "sz159508"
+     ]
+    },
+    {
+     "month": "2026-08",
+     "net_bp": 14.484,
+     "gross_bp": 18.021,
+     "repair_names": 1132,
+     "book_names": 1132,
+     "entered": 35,
+     "left": 3,
+     "turnover": 0.0341,
+     "entered_sample": [
+      "sh512060",
+      "sh512130",
+      "sh512360",
+      "sh520880",
+      "sh520980"
+     ],
+     "left_sample": [
+      "sh560030",
+      "sz159571",
+      "sz159889"
+     ]
+    },
+    {
+     "month": "2026-09",
+     "net_bp": 8.403,
+     "gross_bp": 8.868,
+     "repair_names": 1169,
+     "book_names": 1169,
+     "entered": 39,
+     "left": 2,
+     "turnover": 0.0356,
+     "entered_sample": [
+      "sh512030",
+      "sh512370",
+      "sh520510",
+      "sh520620",
+      "sh520670"
+     ],
+     "left_sample": [
+      "sz159515",
+      "sz159620"
+     ]
+    }
+   ]
+  }
+ },
+ "verdict": {
+  "pre2017": "no_against_months",
+  "2017_2020": "no_against_months",
+  "2021_2023": "partly_turnover",
+  "2024_now": "not_supported",
+  "full": "not_supported"
+ },
+ "engine": {
+  "core": "_tilt3signname_burn (the same two arms every name-level leg reads)",
+  "months": "core months3 x era window"
+ },
+ "honest": [
+  "membership comes from the contribution sink, i.e. names that carried weight, so a name held at a rounding weight is invisible here",
+  "turnover is measured on the screened book only; the raw book's membership is not printed, so a repair that CHANGES membership is inside the churn number, not separated from it",
+  "the month net is the repair's own per-month arithmetic, not the engine's month return, so it is gross of the turnover fee",
+  "median_repair_names equals median_book_names in every era (340/340, 791/791): the screen re-weights the whole book, so that column is a book-size echo and not a count of moved names -- it is published because it was asked for, with that reading attached",
+  "pre2017 and 2017_2020 carry a ZERO repair delta in this reading, so the tie cannot be measured there at all; those eras are published as no_against_months rather than as a passing discount",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

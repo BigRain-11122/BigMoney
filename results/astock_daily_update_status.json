@@ -1,32 +1,20 @@
 {
-  "ts": "2026-10-29T09:04:00",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-10-29T08:41:13",
+  "mode": "refresh in progress (todo=3433/5226, quarantined=0, settled=0)",
   "panel": {
-    "complete": true,
+    "complete": false,
     "cutoff": "2026-10-28",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
+    "coverage_pct": 99.9,
     "coverage_90": "2026-10-28",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-28",
-        5215
-      ],
-      [
-        "2026-10-26",
-        1
+        1793
       ],
       [
         "2026-10-23",
-        2
-      ],
-      [
-        "2026-10-20",
-        1
-      ],
-      [
-        "2026-10-16",
         1
       ],
       [
@@ -34,8 +22,8 @@
         1
       ]
     ],
-    "universe_n": 5227,
-    "per_files": 5225
+    "universe_n": 5226,
+    "per_files": 5223
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -57,12 +45,12 @@
     "failures_tail": [],
     "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 0.4,
+    "elapsed_min": 0.3,
     "vwap_anchor_max": 0.119501,
     "repull": false
   },
-  "quarantined_n": 6,
-  "last_spawn_attempt": "2026-10-29T03:45:38",
+  "quarantined_n": 5,
+  "last_spawn_attempt": "2026-10-29T08:41:11",
   "settled_n": 6,
   "settled": [
     "002717",
@@ -72,11 +60,18 @@
     "605258",
     "688496"
   ],
-  "per_files_on_disk": 5225,
+  "per_files_on_disk": 1795,
   "validation": {
     "suspended_rows": 0,
     "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "no_op_reason": "panel fresh (cutoff 2026-10-28 >= expected 2026-10-28)"
+  "takeover": {
+    "owner": "bm-b",
+    "by": "bm-a",
+    "reason": "owner bm-b silent 16.9h >= 120min",
+    "ts": "2026-10-29T08:41:11"
+  },
+  "spawn_reason": "panel incomplete at cutoff 2026-10-28 (coverage 99.9%, expected 2026-10-28) -> continuation refresh, not a first pull",
+  "spawn_mode": "continuation"
 }

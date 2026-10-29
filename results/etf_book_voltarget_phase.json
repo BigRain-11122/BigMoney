@@ -1,0 +1,418 @@
+{
+ "caveats": [
+  "one panel, one cost model (10bp/side, next-open), survivor-pool caveat unchanged",
+  "the arms differ ONLY in vol_window; selection, holdings and the cost model are shared, so a difference is the estimator's, not the book's",
+  "four phases of ONE calendar is a ruler, not a sample: it bounds calendar luck, it does not test data dependence",
+  "a sizing overlay is not an alpha; even a 'level' verdict here is a risk-shape proposal that needs a signed config decision"
+ ],
+ "cells": [
+  {
+   "cagr": 0.113,
+   "decisions": 83,
+   "first_decision": "2020-01-02",
+   "last_decision": "2026-10-14",
+   "maxdd": -0.1187,
+   "phase": 0,
+   "sharpe": 1.093,
+   "start": "2020-01-02",
+   "turnover_per_decision": 1.0293,
+   "vol": 0.1073,
+   "vol_window": 20
+  },
+  {
+   "cagr": 0.1028,
+   "decisions": 83,
+   "first_decision": "2020-01-02",
+   "last_decision": "2026-10-14",
+   "maxdd": -0.114,
+   "phase": 0,
+   "sharpe": 1.057,
+   "start": "2020-01-02",
+   "turnover_per_decision": 0.9515,
+   "vol": 0.1013,
+   "vol_window": 40
+  },
+  {
+   "cagr": 0.097,
+   "decisions": 83,
+   "first_decision": "2020-01-02",
+   "last_decision": "2026-10-14",
+   "maxdd": -0.1177,
+   "phase": 0,
+   "sharpe": 1.0,
+   "start": "2020-01-02",
+   "turnover_per_decision": 0.9343,
+   "vol": 0.1017,
+   "vol_window": 60
+  },
+  {
+   "cagr": 0.0731,
+   "decisions": 83,
+   "first_decision": "2020-01-02",
+   "last_decision": "2026-10-14",
+   "maxdd": -0.1219,
+   "phase": 0,
+   "sharpe": 0.837,
+   "start": "2020-01-02",
+   "turnover_per_decision": 0.8943,
+   "vol": 0.093,
+   "vol_window": 120
+  },
+  {
+   "cagr": 0.1236,
+   "decisions": 83,
+   "first_decision": "2020-01-09",
+   "last_decision": "2026-10-21",
+   "maxdd": -0.1462,
+   "phase": 1,
+   "sharpe": 1.159,
+   "start": "2020-01-09",
+   "turnover_per_decision": 1.0139,
+   "vol": 0.11,
+   "vol_window": 20
+  },
+  {
+   "cagr": 0.1025,
+   "decisions": 83,
+   "first_decision": "2020-01-09",
+   "last_decision": "2026-10-21",
+   "maxdd": -0.1509,
+   "phase": 1,
+   "sharpe": 0.989,
+   "start": "2020-01-09",
+   "turnover_per_decision": 0.9705,
+   "vol": 0.1088,
+   "vol_window": 40
+  },
+  {
+   "cagr": 0.096,
+   "decisions": 83,
+   "first_decision": "2020-01-09",
+   "last_decision": "2026-10-21",
+   "maxdd": -0.154,
+   "phase": 1,
+   "sharpe": 0.941,
+   "start": "2020-01-09",
+   "turnover_per_decision": 0.9613,
+   "vol": 0.1077,
+   "vol_window": 60
+  },
+  {
+   "cagr": 0.0818,
+   "decisions": 83,
+   "first_decision": "2020-01-09",
+   "last_decision": "2026-10-21",
+   "maxdd": -0.1536,
+   "phase": 1,
+   "sharpe": 0.875,
+   "start": "2020-01-09",
+   "turnover_per_decision": 0.9034,
+   "vol": 0.0993,
+   "vol_window": 120
+  },
+  {
+   "cagr": 0.1052,
+   "decisions": 82,
+   "first_decision": "2020-01-16",
+   "last_decision": "2026-09-22",
+   "maxdd": -0.1315,
+   "phase": 2,
+   "sharpe": 1.063,
+   "start": "2020-01-16",
+   "turnover_per_decision": 1.0145,
+   "vol": 0.1031,
+   "vol_window": 20
+  },
+  {
+   "cagr": 0.0978,
+   "decisions": 82,
+   "first_decision": "2020-01-16",
+   "last_decision": "2026-09-22",
+   "maxdd": -0.135,
+   "phase": 2,
+   "sharpe": 0.967,
+   "start": "2020-01-16",
+   "turnover_per_decision": 1.0191,
+   "vol": 0.1064,
+   "vol_window": 40
+  },
+  {
+   "cagr": 0.0912,
+   "decisions": 82,
+   "first_decision": "2020-01-16",
+   "last_decision": "2026-09-22",
+   "maxdd": -0.1415,
+   "phase": 2,
+   "sharpe": 0.916,
+   "start": "2020-01-16",
+   "turnover_per_decision": 0.9872,
+   "vol": 0.1054,
+   "vol_window": 60
+  },
+  {
+   "cagr": 0.0707,
+   "decisions": 82,
+   "first_decision": "2020-01-16",
+   "last_decision": "2026-09-22",
+   "maxdd": -0.1311,
+   "phase": 2,
+   "sharpe": 0.777,
+   "start": "2020-01-16",
+   "turnover_per_decision": 0.9434,
+   "vol": 0.0977,
+   "vol_window": 120
+  },
+  {
+   "cagr": 0.1147,
+   "decisions": 82,
+   "first_decision": "2020-01-23",
+   "last_decision": "2026-09-30",
+   "maxdd": -0.1444,
+   "phase": 3,
+   "sharpe": 1.159,
+   "start": "2020-01-23",
+   "turnover_per_decision": 1.0205,
+   "vol": 0.1018,
+   "vol_window": 20
+  },
+  {
+   "cagr": 0.1127,
+   "decisions": 82,
+   "first_decision": "2020-01-23",
+   "last_decision": "2026-09-30",
+   "maxdd": -0.1401,
+   "phase": 3,
+   "sharpe": 1.159,
+   "start": "2020-01-23",
+   "turnover_per_decision": 0.9806,
+   "vol": 0.1,
+   "vol_window": 40
+  },
+  {
+   "cagr": 0.1093,
+   "decisions": 82,
+   "first_decision": "2020-01-23",
+   "last_decision": "2026-09-30",
+   "maxdd": -0.1448,
+   "phase": 3,
+   "sharpe": 1.138,
+   "start": "2020-01-23",
+   "turnover_per_decision": 0.964,
+   "vol": 0.099,
+   "vol_window": 60
+  },
+  {
+   "cagr": 0.0897,
+   "decisions": 82,
+   "first_decision": "2020-01-23",
+   "last_decision": "2026-09-30",
+   "maxdd": -0.1408,
+   "phase": 3,
+   "sharpe": 1.008,
+   "start": "2020-01-23",
+   "turnover_per_decision": 0.916,
+   "vol": 0.0928,
+   "vol_window": 120
+  }
+ ],
+ "config": {
+  "control_window": 60,
+  "cost_bp": 10.0,
+  "flips_repaired": 168,
+  "n_phases": 4,
+  "phases": [
+   "2020-01-02",
+   "2020-01-09",
+   "2020-01-16",
+   "2020-01-23"
+  ],
+  "universe": 1500,
+  "vol_target": 0.08,
+  "windows": [
+   20,
+   40,
+   60,
+   120
+  ]
+ },
+ "control": {
+  "arm": "n12_r20 vol_window=60 @ phase0",
+  "delta_pp": 0.0,
+  "note": "phase 0 is the published calendar, so it must reproduce the published arm",
+  "passes": true,
+  "published_cagr": 0.097,
+  "recomputed_cagr": 0.097,
+  "tolerance_pp": 0.5
+ },
+ "criteria": {
+  "claim_pp": 1.6,
+  "control_tolerance_pp": 0.5,
+  "control_window": 60,
+  "frozen": "constants above were written before the first run; the gate refuses a face that echoes others, so 'level' cannot be produced by tuning the ruler",
+  "median_delta_floor_pp": 0.0,
+  "n_phases": 4,
+  "phase_rebal": 20,
+  "share_up_min": 0.75,
+  "w_test": 20,
+  "windows": [
+   20,
+   40,
+   60,
+   120
+  ]
+ },
+ "deltas": [
+  {
+   "arm_cagr": 0.113,
+   "ctrl_cagr": 0.097,
+   "delta_cagr_pp": 1.6,
+   "delta_maxdd_pp": -0.1,
+   "delta_sharpe": 0.093,
+   "phase": 0,
+   "vol_window": 20
+  },
+  {
+   "arm_cagr": 0.1028,
+   "ctrl_cagr": 0.097,
+   "delta_cagr_pp": 0.58,
+   "delta_maxdd_pp": 0.37,
+   "delta_sharpe": 0.057,
+   "phase": 0,
+   "vol_window": 40
+  },
+  {
+   "arm_cagr": 0.0731,
+   "ctrl_cagr": 0.097,
+   "delta_cagr_pp": -2.39,
+   "delta_maxdd_pp": -0.42,
+   "delta_sharpe": -0.163,
+   "phase": 0,
+   "vol_window": 120
+  },
+  {
+   "arm_cagr": 0.1236,
+   "ctrl_cagr": 0.096,
+   "delta_cagr_pp": 2.76,
+   "delta_maxdd_pp": 0.78,
+   "delta_sharpe": 0.218,
+   "phase": 1,
+   "vol_window": 20
+  },
+  {
+   "arm_cagr": 0.1025,
+   "ctrl_cagr": 0.096,
+   "delta_cagr_pp": 0.65,
+   "delta_maxdd_pp": 0.31,
+   "delta_sharpe": 0.048,
+   "phase": 1,
+   "vol_window": 40
+  },
+  {
+   "arm_cagr": 0.0818,
+   "ctrl_cagr": 0.096,
+   "delta_cagr_pp": -1.42,
+   "delta_maxdd_pp": 0.04,
+   "delta_sharpe": -0.066,
+   "phase": 1,
+   "vol_window": 120
+  },
+  {
+   "arm_cagr": 0.1052,
+   "ctrl_cagr": 0.0912,
+   "delta_cagr_pp": 1.4,
+   "delta_maxdd_pp": 1.0,
+   "delta_sharpe": 0.147,
+   "phase": 2,
+   "vol_window": 20
+  },
+  {
+   "arm_cagr": 0.0978,
+   "ctrl_cagr": 0.0912,
+   "delta_cagr_pp": 0.66,
+   "delta_maxdd_pp": 0.65,
+   "delta_sharpe": 0.051,
+   "phase": 2,
+   "vol_window": 40
+  },
+  {
+   "arm_cagr": 0.0707,
+   "ctrl_cagr": 0.0912,
+   "delta_cagr_pp": -2.05,
+   "delta_maxdd_pp": 1.04,
+   "delta_sharpe": -0.139,
+   "phase": 2,
+   "vol_window": 120
+  },
+  {
+   "arm_cagr": 0.1147,
+   "ctrl_cagr": 0.1093,
+   "delta_cagr_pp": 0.54,
+   "delta_maxdd_pp": 0.04,
+   "delta_sharpe": 0.021,
+   "phase": 3,
+   "vol_window": 20
+  },
+  {
+   "arm_cagr": 0.1127,
+   "ctrl_cagr": 0.1093,
+   "delta_cagr_pp": 0.34,
+   "delta_maxdd_pp": 0.47,
+   "delta_sharpe": 0.021,
+   "phase": 3,
+   "vol_window": 40
+  },
+  {
+   "arm_cagr": 0.0897,
+   "ctrl_cagr": 0.1093,
+   "delta_cagr_pp": -1.96,
+   "delta_maxdd_pp": 0.4,
+   "delta_sharpe": -0.13,
+   "phase": 3,
+   "vol_window": 120
+  }
+ ],
+ "evidence_cutoff": "2026-10-28",
+ "face": "results/etf_book_voltarget_phase.json",
+ "question": "r1327 priced the 20-bar estimator at +1.60pp over the 60-bar control on one decision calendar -- does that survive four phases of that calendar?",
+ "reuse": {
+  "arms": "etf_book_voltarget_lag.run_arm",
+  "panel": "etf_book_production.prep_panel",
+  "phases": "etf_book_buffer_adoption.phase_starts",
+  "stats": "etf_equity_alpha.stats2"
+ },
+ "schema": "etf_book_voltarget_phase/v1",
+ "script": "scripts/etf_book_voltarget_phase.py",
+ "summary": {
+  "claim_holds_in_share": 0.5,
+  "claim_pp": 1.6,
+  "control_cagr_pp": {
+   "max": 10.93,
+   "min": 9.12
+  },
+  "max_delta_pp": 2.76,
+  "median_delta_maxdd_pp": 0.41,
+  "median_delta_pp": 1.5,
+  "median_delta_sharpe": 0.12,
+  "min_delta_pp": 0.54,
+  "n_phases": 4,
+  "n_priced": 4,
+  "noise_iqr_pp": 0.5275,
+  "noise_pp": 1.81,
+  "share_up": 1.0,
+  "sign_test_p_two_sided": 0.125,
+  "spread_delta_pp": 2.22,
+  "status": "priced",
+  "up_phases": 4,
+  "w_test": 20,
+  "within_noise": true
+ },
+ "units": {
+  "cagr": "fraction per year (0.0962 = 9.62%/yr)",
+  "delta_cagr_pp": "percentage points of CAGR, arm minus the 60-bar control of the SAME phase",
+  "noise_pp": "the control arm's own CAGR spread across the four phases (percentage points)",
+  "phase": "decision-grid start bar inside one 20-bar cycle (4 per window)"
+ },
+ "verdict": "within noise: the arm wins on 4/4 phases with a median +1.50pp, but the control's own CAGR spans 1.81pp across those same phases -- the direction holds and the size cannot be told apart from calendar luck; keep the production window and print the range",
+ "verdict_source": "recomputed by the gate from `summary`, never hand-written",
+ "window": "full panel (every phase)"
+}

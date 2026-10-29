@@ -2417,7 +2417,6 @@ Era-level effects rebuilt from these month vectors reproduce E183 to 0.000634bp.
 The finding that kills the obvious follow-up: **zero months in any of the four pairs disagree in sign between the two readings**. So "the effect reverses" is never one bad month flipping -- every month moves the same way under both readings and the era-level sign comes from how the two columns scale the same months. A reversal is an accumulated scaling statement, i.e. a property of the arithmetic, unless a carrier month is doing the work (one case here, and it is a deep-history month).
 
 Two transferable rules: (a) **before hunting a culprit month, count the months whose two readings disagree in sign** -- zero means there is no culprit and the search is misdirected; (b) **a carrier-share floor plus 1/HHI turns "is it one month or many" into a number**, which is the difference between a verdict a reader can act on and a verdict nobody can. Also: annualising the RATIO of the two growth multiples is not the same object as differencing two annualised levels (2.43bp apart here); the first is published as `effect_comp_ratio_bp`, the second as `effect_comp_bp`, and a selftest leg pins that they cannot be swapped.
-||||||| parent of dd8f5f8c2d (round 1324: absorb the 09:55 window -- the book leaves the top 12 because a name collapses, not because it lost a coin flip, and a hysteresis buffer buys turnover at no cost in return (landed from a window killed before commit))
 instead of silenced, (c) prove the leg exists in the runner, not in a comment.
 
 
@@ -3143,3 +3142,559 @@ while neither is the headline.
 How to apply: when attributing a calendar (or any structural) cost, restrict the treatment arm to the
 control arm's own pool per session, publish the identity residual beside the parts, pin the book width,
 and never quote the net gap without the era it was measured in.
+## E190 A source that lags is not a source that rewrote history -- split the overlap gate in two (2026-10-28 r1326 bm-c)
+
+WHY
+---
+`scripts/update_etf_daily.py` refused to write for two consecutive rounds with
+`510300@2026-10-28:absent_in_source` (and three siblings) -- exit 3, "source rewrites
+history, conscious re-anchor required". Nothing had been rewritten. The wide lane
+had verified 2026-10-28 against the same endpoint family and written it into the
+same `data/daily/sh<code>.csv` at 17:08; this leg's 19:53 fetch came back only
+through 10-27. Two collectors, one file namespace, two vintages of one series.
+
+The gate could never re-open: every later fetch was still shorter than the local
+tail, so a correct collector priced a permanent red. Its own exit contract then
+pushed the reader toward "history rewrite", which is a *different* claim.
+
+THE SPLIT
+---------
+A local date that the source does not reach because the source series is SHORTER
+(`d > max(source dates)`) is not contradicted by that source; it is also not
+verified by it. Publish it as `source_lag` (count + dates in the status face,
+merged with nothing appended and nothing deleted) and let the run proceed.
+A local date that falls INSIDE the source's range and is still absent stays a hard
+exit 3 -- that is the case the gate exists for, and the exemption must not leak
+into it.
+
+Two defects this also fixed: every return path of the merge helper now carries the
+new key (a reader that has to `.get()` a key is the r1280 family), and the selftest
+pins both directions plus an empty-local edge, because an exemption tested only in
+its passing direction is a hole.
+
+Pos: scripts/update_etf_daily.py (selftest 15/15, was 12) + live `--takeover` run
+rc=0 with `[source_lag 1: 2026-10-28]` on four members.
+
+## E191 A column that always equals another column is not a measurement (2026-10-28 r1326 bm-c)
+
+WHY
+---
+The E187 pool batch asked for "the repair's per-name count" beside the per-month
+net and the book's month-on-month membership turnover. The first cut published
+three columns and the third printed 340/340, 791/791 -- identical to book size in
+every era, because the screen re-weights every held name rather than adding or
+dropping one. The column looked like a count of the names the repair moved and was
+a book-size echo.
+
+The batch's own hypothesis (against-months are the high-churn months) failed on the
+era it was asked about: 2024_now turnover ratio 0.56 against the frozen 1.10 floor,
+high-churn against-share 0.00, corr +0.146. That is a usable negative -- the thin
+across-month net may NOT be discounted as membership churn -- but shipping the
+degenerate column beside it would have invited the reader to do exactly that.
+
+RULES
+-----
+1. Before publishing a derived count, ask what makes it differ from the primitive
+   it is derived from. If nothing can, publish it as a stated echo (with the
+   reading attached) or drop it.
+2. Thresholds for an adoption-style verdict are frozen as module constants BEFORE
+   the first run and echoed into the payload, so a later reader can tell a rule
+   from a description (E188).
+3. A zero-delta era must print `no_against_months`, not a passing discount with a
+   missing ratio: "cannot be measured here" and "measured and clean" are different
+   sentences.
+
+Pos: scripts/e39_panel_census.py `widechurntie` (census selftest 658/658, +7 legs)
++ results/e43_tilt_4member/WIDECHURNTIE-20261028.json (5 eras, 161 months).
+
+
+## E192 A lag you can only see through one lever is still two lags (2026-10-28 r1327 bm-c)
+
+WHY
+---
+The book's 8% sizing overlay is `scale = min(1, 0.08 / est_vol)`, where `est_vol` is a
+trailing realised vol of the proposed book computed AT a decision and then FROZEN until the
+next one (20 bars). Two different lags sit inside that one number -- the estimator's window
+and the slot freeze -- and the published headline cannot separate them. The only lever the
+engine exposes is `vol_window`, so that is what was swept (20/40/60/120), with the control
+arm asserted against the published production cell first.
+
+READING (full window 2020-2026, n12/r20, 10bp/side, next-open)
+  20 bars  CAGR 11.30%  SR 1.093  maxDD -11.87%
+  40       10.28%       1.057       -11.40%
+  60*       9.70%       1.000       -11.77%   (control, reproduces the card)
+  120       7.31%       0.837       -12.19%
+Depth is nearly flat across estimators (spread 0.79pp) while return is not (spread 3.99pp),
+so the lateness is a RETURN cost, not a drawdown benefit: a stale high estimate keeps the book
+de-levered through the rebound. The slot census says the same from the other side -- 79 slots,
+median realised/estimated 1.06, p90 1.90, 20.2% of slots past 1.5x, 87.3% of slots delevered,
+median delivered vol 8.31% against the 8% target. The deepest drawdown (2021-09-14..2022-11-01,
+-11.77%, 271 bars) had the book at full size on 31.4% of its bars, and 42% of the depth accrued
+on exactly those bars. Verdict under the frozen rule: KEEP (no window buys 1pp of depth inside
+a -0.5pp return floor).
+
+RULES
+-----
+1. A frozen size is two lags (estimate + refresh cadence). Sweep the lever that exists and say
+   which of the two the answer belongs to; do not report "the overlay is late".
+2. Measure the error, do not assert it: engine `diag` gives `est_vol` at every decision, and
+   the next slot's realised vol of the SAME book turns it into `ratio = realised/estimated`.
+3. Attribute DEPTH, not a level: the drawdown peak bar is at full size by definition, so
+   reading the level there always prints 100%. Use the log-return share accrued on full-size
+   bars (here 42%).
+4. An overlay that does not move depth is a cost knob, not risk insurance -- quote the return
+   it gives up beside the headline instead of calling it free protection.
+5. Equivalence legs need a discriminating fixture: on a stationary-vol fixture all four windows
+   print the same curve (correct, not a dead test), so the regime-shift fixture is what proves
+   the estimator can move (r1261 family).
+
+Pos: scripts/etf_book_voltarget_lag.py (selftest 13/13, chain leg is the engine-free `--check`)
++ results/etf_book_voltarget_lag.json + research/ETF_BOOK_VOLTARGET_LAG.md.
+
+## E193 A placeholder cost is not a measurement -- publish the breakeven, not just the return (2026-10-28 r1138 bm-a)
+
+WHEN: a face prices an overlay/sleeve at one assumed friction (1bp) and the whole
+conclusion rests on it.
+WRONG: report the headline +0.90pp at equal risk and keep the cost as a footnote. A
+gain that only exists at the cheapest possible fill is not a gain -- it is a rounding
+artifact of the assumption.
+RIGHT: climb a cost ladder on the SAME decision sequence (weights, panels, lag, vol
+target all frozen; only the per-side number moves) and publish the breakeven: the highest
+cost at which the sleeve still clears the book at equal risk. Real reading of the ETF book
+x futures TSMOM overlay: 1bp/side -> +0.90pp (60d) / +0.78pp (120d); 3bp -> -0.10 /
++0.15; 5bp -> -1.09 / -0.48. Breakeven = 1bp (60d) / 3bp (120d), i.e. the overlay has
+essentially no friction headroom and must be described as a risk reducer, not a return
+source.
+GOTCHA: two of them, both caught by the selftest before the face shipped.
+1. Turnover must be identical at every cost level -- if it moves, the levels describe
+   different strategies and the breakeven is meaningless. Assert it (smoke leg).
+2. Rows store weight_in_sleeve rounded to 4dp, so an exact-float lookup of 1/3 matched
+   nothing and the breakeven silently came back None. Match weights on the stored
+   precision grid, and let the selftest prove a rounded row still resolves.
+SHAPE: the breakeven is a cliff, not a number to beat: +0.90pp at 1bp collapsing to
+-0.10pp at 3bp says the edge is thinner than the modelling error, so the next move is
+cutting turnover (buffer band, E188) -- not re-weighting.
+## E193 A faster window can win every phase and still not be a level (2026-10-28 r1328 bm-c)
+WHY
+---
+r1327 swept the sizing overlay's `vol_window` and printed +1.60pp/yr of CAGR for the 20-bar
+arm over the 60-bar control, on ONE decision calendar. r1325 had already shown, on the same
+book, that a single-cell improvement reverses on 70% of phase-shifted cells. So the ruler was
+applied to the sizing question: 4 windows x 4 decision grids started at four bars inside one
+20-bar cycle (16 engine runs), every arm measured against the 60-bar control of its OWN
+phase, so the calendar is held fixed and only the estimator moves.
+READING (full window, n12/r20, 10bp/side, next-open; phase 0 reproduces the published cell
+9.70% to the basis point)
+  dCAGR(20 vs 60) per phase: +1.60 / +2.76 / +1.40 / +0.54 pp  -> 4/4 up, median +1.50
+  the 60-bar control's own CAGR across those phases: 9.12%..10.93%  -> 1.81pp of ruler
+  claim of +1.60pp reached at that size in only 50% of phases; sign test p=0.125 at n=4
+  w40: +0.58/+0.65/+0.66/+0.34 (direction also stable, half the size); w120: -1.42..-2.39
+Verdict under the frozen rule: WITHIN NOISE -- the direction is stable in every phase, the
+SIZE is smaller than the calendar noise, so the production window stays and the card prints a
+range. That is a different sentence from "the 20-bar window is worth 1.6pp/yr".
+RULES
+-----
+1. Win-rate and effect-size are two doors. A rule that only asks "does it win more often than
+   not" would have called +1.60pp a level off 4/4 phases whose minimum is +0.54pp.
+2. The ruler is the CONTROL arm's own phase spread, not the effect's spread. Comparing the
+   effect's spread to its own median says nothing about whether calendar luck could produce it.
+3. Print the per-phase grid, not just the median: the four numbers (and the min) are the whole
+   answer, and a table is what lets a reader see the claim is a point estimate from phase 0.
+4. Keep the arms paired inside a phase. Comparing arm-A@phase0 to control@phase1 would fold
+   the calendar spread (1.81pp here) into the effect and could manufacture either sign.
+5. Units cross files: the summary stores control CAGR in percentage points, and rendering it
+   through the fraction formatter printed "912.00%" for 9.12pp in the very line describing the
+   ruler (r1292/r1316 family). A value's unit is a property of where it was computed, so a
+   renderer needs a pp helper and a selftest leg that pins it.
+Pos: scripts/etf_book_voltarget_phase.py (selftest 34/34, chain leg is the engine-free
+`--check`) + results/etf_book_voltarget_phase.json + research/ETF_BOOK_VOLTARGET_PHASE.md.
+
+## E194 Publish the fragility curve, not the crossing point (2026-10-29 r1330 bm-c)
+WHY
+---
+E189 took out exactly one month per pair -- the month E186 itself named -- and all four
+era-level reversals collapsed. That answer is binary: fragile or not. It cannot distinguish
+"a one-month object wearing an era verdict" from "an era property that happens to lean on
+its worst month", and the difference decides whether the headline may be quoted at all.
+READING (four pairs x 3 trims x k=1..8; untrimmed control reproduces E186 to 8.8e-05bp)
+  k=1 by |gap|      : agrees 4/4   (identical numbers to E189's carrier removal)
+  k=1 by |delta_sum|: agrees 4/4   (same month removed -- the two columns coincide)
+  k=1 by era edges  : agrees 3/4   (full-era pair needs k=4, and only stabilises at k=8)
+  edges curves are non-monotone: pre2017 pairs agree at k=1, disagree k=2..5/7, agree at 6/8
+Verdict: 11 of 12 cells are two-month artefacts, 1 is fragile_mid, 0 are era properties.
+RULES
+-----
+1. Publish the curve, not the crossing. "It agrees once k months are gone" hides whether
+   the agreement holds: two of four edge curves flip back to disagreement two bars later.
+2. Keep `first_agree_k` and `stable_agree_k` as separate readings. The first says when the
+   disagreement stops; the second says whether it stayed stopped. Only the pair is a claim.
+3. Trimming the ends is a different experiment from trimming the concentration. They share
+   a k axis and nothing else; the face states that edges removes 2k months (k per end) so
+   the columns cannot be read at face value against each other.
+4. A corroboration is not a discovery. Two trims naming the same month is evidence they
+   measure one object -- worth printing, because it is the cheapest way to catch a month
+   table that has drifted from the effect it feeds.
+5. Stop the ladder before the annualisation stops being honest: below six kept months the
+   face stops and publishes `k_max_tested` instead of annualising a two-month window.
+Pos: scripts/e39_panel_census.py (selftest 658->670, mode tilt3ladderdropfragility) +
+results/e43_tilt_4member/LADDERDROPCURVE-20261027.json +
+research/digests/DIGEST-20261029-e190-drop-fragility.md.
+
+## E195 Turnover you can only shrink by giving up alpha is not a cost problem -- measure the structural floor first (2026-10-29 r1139 bm-a; numbered E195 because E194 was already taken on origin by bm-c r1330)
+
+WHEN: a face reports that a sleeve only clears at unrealistically low friction, and the
+obvious next move is "add a no-trade band and cut turnover".
+
+WRONG: add the band, see turnover drop 5-11%, see the headline wobble, and call it
+inconclusive -- or worse, tune the band until some reading turns positive. A band can only
+touch the RE-SIZING part of turnover; if the turnover is dominated by entries, exits and
+sign flips, the band is measuring its own ceiling, not the problem.
+
+RIGHT: measure the structural floor before crediting any band. Apply an effectively
+infinite band (all re-sizing damped), take the turnover that survives, and publish its
+share of the total. Then charge every band the full cost ladder on the SAME weights and
+publish BOTH sides of the trade: turnover removed AND gross return given up, plus the
+breakeven per band. Live reading (ETF book x futures sleeve, f=0.33, 1649 bars to
+2026-10-28): the structural floor is 91.9% of turnover for tsmom60 and 86.2% for tsmom120,
+so the widest band can cut at most 6.9% / 10.9% -- while giving up 0.41-0.94pp of gross.
+The breakeven does not improve; it gets worse (120d 3bp -> 1bp, and the 0.10 band has no
+positive cost level at all). Verdict: a band is a two-sided loss here, and the friction
+lives in the signal's flip rate, not in rebalance discipline.
+
+GOTCHA: entries/exits/sign flips MUST stay structural in the band implementation, otherwise
+the band silently trades participation for turnover and the "cheaper" sleeve is just a
+smaller sleeve. Pin it with a selftest leg (a wide band must not block a sign flip or an
+exit) and a leg that verifies the band's claimed cut never exceeds the measured re-sizing
+share. Also pin that cost does not change the decisions a band leaves -- otherwise the
+levels describe different strategies again (E193's sibling).
+
+## E196 Grade a label by WHEN it is knowable, and never pool nested eras (2026-10-29 r1331 bm-c; numbered E196 because E195 was already taken on origin by bm-a r1139)
+WHY
+---
+"The verdict rests on one month" is only actionable if the month can be named before the
+verdict is quoted. E190 published the carrier month but not whether that month was
+predictable, so the family was stuck between "quotable with a caveat" and "not quotable".
+Three classes of label decide it, and they are not interchangeable: scheduled years ahead
+(calendar), observable at the month's close (a realised magnitude), and only visible in
+the gap itself (hindsight).
+READING (four flagged cells, three distinct carrier months, E186 table re-read)
+  calendar {6,7,12,1} : 3/3 distinct carriers inside -> p=0.037 under a uniform draw
+  window |gap| ratio  : 2.39x, p=0.0022 pooled / 0.0048 dedup / 0.031 disjoint
+  per-cell p<=0.10    : 2 of 4
+  month-close selector: top-k |full_ret| kills all four reversals at k=2, but
+                        Spearman(|full_ret|,|gap|)=0.68, r2=0.47 -> a proxy, not a mechanism
+Verdict: review_window_suggestive + month_close_rule_holds_at_k2 (not "established").
+RULES
+-----
+1. Grade the label by when it is knowable. A scheduled calendar and a month-close
+   magnitude answer different questions ("could anyone have called it" vs "can it be
+   flagged now"); publishing one number for both overstates the strongest of the two.
+2. Deduplicating by carrier month is not independence. A "full" era literally contains
+   its own sub-eras, so the pooled test counts the same months twice (published n_months
+   makes that visible); the gate must read the disjoint subset and the pooled p may stay
+   on the face only as a disclosure of how much strength came from nesting.
+3. Any selector built on a column that shares variance with the target must publish the
+   correlation and r2 beside its hit rate. A 4/4 hit at 0.47 r2 is half a mechanism.
+4. A live rule and a hindsight trim are separate experiments: in one cell the largest
+   |book return| month and the largest |gap| month are different months, so a rule that
+   works on the gap is not a rule anyone could have run.
+5. The permutation null keeps the cell's own gap multiset and shuffles only the labels,
+   so a cell with one giant month cannot pass by having giant months; publish n_inside /
+   n_outside so an empty bucket cannot read as agreement.
+Pos: scripts/e39_panel_census.py (selftest 670->682, mode tilt3ladderdropcarrier) +
+results/e43_tilt_4member/LADDERDROPCARRIER-20261027.json +
+research/digests/DIGEST-20261029-e195-carrier-identifiability.md.
+
+## E197 Cut the flip, not the position: a participation-preserving flip filter is the axis that survives cost (2026-10-29 r1140 bm-a; numbered E197 because E196 was already taken on origin)
+
+WHEN: a sleeve's turnover is dominated by SIGN FLIPS (E195 measured 86-92% structural), so
+a no-trade band has nowhere to work. The remaining lever is the flip itself.
+
+WRONG: damp the signal by flattening it when a threshold is not met ("momentum below theta
+-> no position"). That cuts flips and exposure at the same time, so the reading cannot say
+whether the flip rule or the smaller book did the work -- it is deleveraging wearing a
+filter's name.
+
+RIGHT: seed each instrument at its first valid sign and then HOLD the prior sign until the
+new one is genuinely established (|momentum| >= theta, or the opposite sign has held k days).
+Participation is preserved by construction, so the exposure column is the check: if the damped
+arms' mean |weight| moves more than ~1% off the base, the experiment has changed size, not
+frequency. Publish flips, entries, exits, turnover AND gross give-up per arm, then charge the
+whole cost ladder on the ONE decision sequence. Live reading (ETF book x futures sleeve,
+f=0.33, 1649 bars to 2026-10-28, 10 varieties): strength-hold at theta=2% cuts flips 72%
+(60d: 1,469->412) and turnover 83%, gives up only 0.41pp of gross, and moves the breakeven
+from 1bp to 10bp per side (120d: 69% flips, 0.36pp, 3bp->5bp). mean |weight| 0.2958->0.2960,
+i.e. the same book, far fewer trades.
+
+GOTCHA: publish the fragility flag, because a threshold axis usually wins at one grid point.
+At theta=4% the same mechanism gives up 2.16pp and has NO positive cost level -- so the win
+lives at 2% and dies at 4%: that is a hypothesis needing a neighbourhood sweep, not a rule.
+Also count a NaN gap as an EXIT, not as a flip (a data hole is not a trading decision), and
+assert causality by re-running on a truncated panel (prefix equality), otherwise a
+confirmation window silently reads future bars.
+Pos: scripts/futures_overlay_fliprate.py (selftest 11/11) +
+results/futures_overlay_fliprate.json + research/ETF_BOOK_FUTURES_FLIPRATE.md.
+
+## E198 A calendar coincidence inside one family is not a mechanism until it survives a panel that family never touched (2026-10-29 r1332 bm-c; numbered E198 because E197 was already taken on origin by bm-a r1140, which had renumbered off E196 -- this window's card)
+
+WHEN: a verdict rests on a window/month label that happens to match a scheduled event
+(index review, expiry, rebalance), and the temptation is to upgrade the label from
+"naming" to "mechanism" because all the cells sit inside it.
+
+WRONG: quote the hit rate. With four cells and a 4-of-12 label, "all four inside" reads
+as (1/3)^4 = 1.2%, which sounds like proof and is actually one family's naming: the cells
+are two disjoint eras of one book, and the label was chosen after seeing where the
+carriers sit.
+
+RIGHT: keep the label, change the panel. Re-run the SAME statistic on names the family
+never touched, and publish three things beside the p: (a) the per-cell hit count against
+its chance expectation (k hits at p<=cell_p over n cells -> expected n*p and a binomial
+tail), because 3 of 17 hits at p<=0.10 is 1.7 expected with a 0.24 tail, not evidence;
+(b) the same test under narrower labels (strict months only, spill months only), so a
+wide label cannot manufacture the result; (c) the sign, not just the magnitude -- a
+window that makes one member *quieter* (ratio 0.20 here) is what a market-wide mechanism
+cannot produce. Live reading (17 declared ETFs vs 510300, 80 months each, 1,350
+member-months): pooled 4-month p=0.19, strict {6,12} p=0.42 ratio 0.99, spill {7,1}
+p=0.13, dispersion p=0.37, 3/17 cell hits against 1.7 expected -> the review window does
+not exist outside the family, so the family's calendar story is its own naming and earns
+no waiver.
+
+1. A negative result must be published as a face, not as a missing face: "we did not find
+   it elsewhere" is the sentence that stops the label being quoted again.
+2. Declare the basket, benchmark, thresholds and verdict rule in code BEFORE reading any
+   file, and publish absent names in `missing_files` instead of substituting others --
+   otherwise "the panel" quietly becomes whatever data happened to exist.
+3. Comparator cells on one timeline are not disjoint samples; the pooled p is published
+   beside the per-cell count precisely because it cannot be made independent.
+4. Monthly relative return of a member vs benchmark is not the book-vs-benchmark level
+   gap: a cross-panel hold would have licensed a mechanism, never the family's arithmetic.
+5. Drop a month whose neighbour is missing rather than joining them -- a hole otherwise
+   turns two quiet months into one enormous "monthly" return, and the hole is invisible.
+
+Pos: scripts/e39_panel_census.py (selftest 682->689, mode reviewwindowcross) +
+results/reviewwindow_cross/REVIEWWINDOWCROSS-20261028.json +
+research/digests/DIGEST-20261029-e197-review-window-cross.md.
+
+
+## E199 Test the arm on MANY paths before adopting it, and put the adoption rule in code (2026-10-29 r1141 bm-a; numbered E199 because E198 was already taken on origin by bm-c r1332)
+
+WHEN: a measurement face says "this arm wins" (E197: strength-hold cuts 72% of flips for
+0.41pp of gross and moves the breakeven 1bp -> 10bp). The number came from ONE decision
+sequence on ONE panel. r1325 already recorded what that is worth: the same buffer arm read
++0.07pp on one phase and -0.24pp one week later.
+
+WRONG: adopt on the strength of the headline delta, or "test robustness" by re-quoting the
+same run under another label (a second window on the same equity curve is not a second path),
+or letting the run print a verdict that a human then repeats in the report.
+
+RIGHT: enumerate the paths that can genuinely differ, declare them before the run, and score
+the arm on every one of them. For a DAILY-rebalanced sleeve there is no rebalance grid to
+shift, so the axes are: era split (<=2023-12-31 vs 2024+), execution lag (+1/+2 bars, a real
+timing perturbation -- verify it with a one-day unit-position fixture that earns on day+2, not
+that the return series is "shifted"), and leave-one-variety-out, where dropping a column
+RENORMALISES the weights and therefore produces a different decision sequence rather than a
+shorter one. Freeze the acceptance rule as constants (min share positive, worst-cell floor,
+required full and OOS positivity), echo those constants into the artifact, and recompute the
+verdict from the cell rows in both the script and the smoke leg -- a verdict that only exists
+in the report is not a gate (r1266). Live reading (ETF book x futures sleeve, f=0.33, 1,649
+bars to 2026-10-28, 10 varieties, 15 paths x 4 arms): strength-hold 2%/60d ADOPTs with
++3.93pp at 10bp on the full window, +4.76pp OOS, worst cell +2.94pp; confirm-3d/120d is
+REJECTed on one cell (OOS -0.88pp) even though its share of positive paths is 0.867 -- the
+sequence that "wins" is not the sequence that survives every path.
+
+GOTCHA: an identity arm (candidate == base) must return exactly 0.00pp on every cell, and a
+fixture shorter than the vol window returns None everywhere -- both make every leg "pass"
+while nothing ran (r1261). The SAME trap hides in era splits: a 260-bar fixture ends inside
+2020, so the OOS window is empty and the leg reports success on zero rows; assert the split
+partitions the window with both halves > 60 bars. And an empty measurement must be
+NOT-ASSESSED, never ADOPT.
+Pos: scripts/futures_overlay_fliprate_paths.py (selftest 11/11) +
+results/futures_overlay_fliprate_paths.json + research/FUTURES_OVERLAY_FLIPRATE_PATHS.md.
+## E200 An adopted rule that nothing executes is still a research artifact (2026-10-29 r1142 bm-a; E199's verdict had no consumer until this window)
+
+WHEN: a path test (or any gate) returns ADOPT. Calling it "adopted" and moving on leaves the
+verdict in `results/futures_overlay_fliprate_paths.json` and a card tail, while the daily face a
+human reads (`scripts/futures_tsmom_signal.py`) still sized on the raw momentum sign -- two files
+claiming the same sleeve, only one of them knowing the rule changed (r1290's "two production
+faces" in another shape).
+
+WRONG: type the constant into the face (`theta=0.02` at the call site), or re-implement the
+mechanism beside the sizing rule. Both freeze the verdict at the moment of adoption: a re-run that
+flips to REJECT leaves a page still applying it, and the duplicate drifts invisibly (why this face
+imports `tsmom_weights` and `strength_hold` instead of copying them).
+
+RIGHT: the face READS the verdict (arm, mechanism, theta/k, evidence_cutoff) from the artifact,
+executes it through the measured module, and publishes BOTH books side by side with the measured
+delta quoted from the cell rows. Absent or non-ADOPT verdict -> the page says it has no candidate
+rather than inventing one. Live: 1,649 bars, 10 varieties, flips 1469 -> 412 (-72% over the whole
+panel) while today's two books are IDENTICAL -- the honest headline is "the damper changes the
+history, not today's position", stated instead of inferred.
+
+GOTCHA: "the books agree today" is not evidence the damper is inert, and "they differ today" is not
+evidence it helps -- both are one row on a 1,649-bar face. Assert the mechanism is live twice: on
+the panel (damped flips < raw flips) and on fixtures (theta=0 is exactly the identity, participation
+unchanged in both books). Without the fixtures a damper that quietly degenerated into
+`sign(momentum)` still passes.
+Pos: scripts/futures_tsmom_signal.py (selftest 22/22) + results/futures_tsmom_signal.json +
+docs/futures_lane/TSMOM-2026-10-28.md; rule source = results/futures_overlay_fliprate_paths.json.
+
+## E201 A negative is only informative once you publish the smallest effect the test could have flagged (2026-10-29 r1333 bm-c; renumbered from E200 because bm-a r1142 had already taken E200 on origin for the adopted-rule-with-no-consumer card)
+
+WHEN: a gate returns "not found" on a real panel and the next temptation is another
+panel, or a shrug ("the effect must be small").
+
+WRONG: quote the p value as if it bounded the effect. "p=0.19, so nothing there" hides
+that the same test would also have returned p>0.01 for effects far too large to ignore --
+and the reader has no way to tell whether the panel was informative or simply blind.
+
+RIGHT: price the test, not the world. Keep the observed rows and the exact statistic, model
+the effect as a multiplier on the in-window values, and solve for the smallest multiplier
+that reaches 80% power at the frozen alpha. Three things make the number honest: (a) the
+null spread is computed in closed form for a permutation test that shuffles labels within
+cells -- the statistic is a sum of independent samples-without-replacement, so its variance
+is a hypergeometric sum -- and that closed form must be checked against the sampled
+permutation distribution (1.16% apart here); (b) the floor is converted to the published
+unit without approximation (per-cell standardisation makes ratio(f) = f*ratio(1) exact),
+otherwise "48% bigger" is a claim about a rescaling nobody measured; (c) the discrete
+crossing is shown -- at the floor p=0.00025, at 0.85x the floor p=0.043 -- so the floor is
+an edge in the real test and not in the normal approximation used to find it. Publish the
+per-cell floors beside the pooled one: per cell the bar was median 1.68x over 80 months,
+i.e. the cell-level version of the claim is the least testable one.
+Live reading: E198's 17x80-month panel had a floor of 1.48x at 80% power while the observed
+excess was 1.15x -> "no outside-family signal" is a measurement of blindness, not a
+measurement of zero.
+
+1. Report the floor in the unit the verdict is quoted in (a ratio), never only as an
+   internal multiplier.
+2. One reader for the panel rows: the floor has to be computed on exactly the rows the p
+   defends, or it prices a different experiment.
+3. Publish the power curve; a floor without its curve is a number nobody can audit.
+4. A cell whose floor is unreachable (observed ratio deeply below the null) publishes
+   `None`, not the largest scale tried -- and the count of such cells is part of the face.
+5. Reuse alpha from the upstream gate instead of re-picking it: a floor at a fresh alpha is
+   not the floor of that test.
+
+Pos: scripts/e39_panel_census.py (selftest 689->695, mode reviewwindowfloor) +
+results/reviewwindow_floor/REVIEWWINDOWFLOOR-20261028.json +
+research/digests/DIGEST-20261029-e200-review-window-floor.md.
+
+
+## E202 A ticket for a published book must be issued from that book's own artifact, not re-ranked at another width (2026-10-29 r1333 bm-c; renumbered from E201 because this window's own floor card took E201 ahead of it)
+
+WHEN: a system publishes the same product on several faces -- a config/risk card, a live
+ledger, and a broker-followable order -- and one face is generated by a different code path
+than the others.
+
+WRONG: the card and the forward ledger both ran 12 names under an 8% vol target while the
+"executable" ticket ran 5 names under a fixed beta overlay, because the ticket re-ranked the
+panel at its own width instead of reading the published book. Every face was internally
+honest and printed a width-difference disclosure, and an operator still had two books.
+
+RIGHT: the ticket reads the card's own sheet (names, weights, risk scale) and only re-prices
+whole lots at the stated capital; re-ranking is a different product, not a variant. Then the
+sheet prints a three-face reconciliation (names / scale / config per face) so "one book" is
+asserted rather than assumed. Three things this exposes that a disclosure paragraph hides:
+(a) the card's printed amount column is a TARGET (weight x capital) while the lot column is
+what can actually be bought -- on a 1M CNY, 12-leg book the real spend was 1,255 CNY
+(0.13% NAV) below the target sum, so following the card's cash row overstates the money at
+work; (b) never compare the risk scale bitwise across faces -- the card publishes 4 dp
+(0.7008) while the ledger keeps full precision (0.700775), so a bitwise check reads
+"different book" every single round until someone loosens it into uselessness; compare at
+the published precision and say so on the face; (c) recount the published lots from
+price x weight -- that leg is what catches a card whose `lots_100` field is really a share
+count (100x trap).
+
+1. One source of truth per book: the ticket derives from the card, the card from the engine.
+2. Recompute, do not copy: lot counts are re-derived and mismatches are published, not
+   silently trusted.
+3. Reconcile at the precision each face actually publishes.
+4. Print the reconciliation as a table on the operator's sheet; a paragraph saying the faces
+   "may differ" is worth nothing next to a cell saying consistent/inconsistent.
+5. A second width/rule remains legitimate as an explicitly-labelled different book -- not as
+   the executable face of the published one.
+
+Pos: scripts/etf_book_order.py (selftest 26->33, mode `card`) +
+results/etf_book_order/ORDER-2026-10-28-card.md +
+results/etf_book_order/TICKET-2026-10-28-card.json +
+research/digests/DIGEST-20261029-e201-card-config-ticket.md.
+
+
+## E203 Lots round DOWN, so the shortfall is a fixed yuan cost, not a percentage one (2026-10-29 r1334 bm-c; E202's 0.13% NAV gap turned into a curve)
+
+WHEN: an executable ticket floors buys to whole lots and publishes one capital, so the
+only number on the page is "today the desk spends 0.13% NAV less than the card's target".
+
+WRONG: publish that as a percentage and let the reader infer it scales. It does not. Each
+leg can leave at most one lot unspent, so the shortfall is bounded by the sum of one lot
+across the book -- 1,853.79 CNY here, measured max 1,498.96 -- i.e. essentially FIXED in
+yuan and falling only as a share of NAV (2.56% at 50k, 0.005% at 20M). Two columns of the
+same curve then disagree about direction and both are right: max leg weight drift is
+monotone in capital (1.103pp at 50k -> 0.002pp at 20M) while the cash column is a
+sawtooth (1,282 -> 1,710 -> 1,607 -> 1,870 -> 1,640 -> 2,203 -> 1,280), because it reads
+a residue per leg, not a scale effect.
+
+RIGHT: publish the capital ladder, both readings, and the thresholds derived from it
+rather than asserted: drift <=1.00pp needs >=200k, <=0.50pp needs >=300k, one-lot floor
+(most expensive lot / smallest weight) = 20,277 CNY. The floor is the only line where
+"the ticket is not the book"; everything above it is mis-sizing, which is a different
+complaint.
+
+GOTCHA: a floor'ed book can be cheap and mis-sized at the same time, so a single
+"underspend" number hides the worse failure. And the bound is the sentence that makes the
+curve usable: without it the reader reads a jagged column as noise instead of as a
+constant.
+
+Pos: scripts/etf_book_order.py (selftest 33->39, lot_point/lot_curve/lot_curve_md) +
+results/etf_book_order/LOTCURVE-2026-10-28-card.json +
+results/etf_book_order/ORDER-2026-10-28-card.md +
+research/digests/DIGEST-20261029-e203-lot-granularity-curve.md.
+
+
+## E204 An instruction a page repeats must be priced on that page (2026-10-29 r1144 bm-a)
+
+WHEN: a one-page face tells the reader to do something every session ("put the rest in
+GC001, do not leave it idle") but never says what that action is worth.
+
+WRONG: treat the idle half as "not part of the book". Here it was 52.9% of the capital
+(528,774 of 1,000,000) and every published number described only the other half, so the
+reader had to look up the repo rate themselves to learn whether the advice mattered. Same
+shape as E201/E203: the face is arithmetically correct and still answers half the question.
+
+RIGHT: price the action off the panel that already quotes it -- cash x the repo panel's own
+last close (1.09% on 2026-10-27 -> +5,764 CNY/yr, 23/session), carry the quote DATE, and
+quote the trailing mean beside it because the 1-day repo spikes at quarter-end. Say plainly
+that it is "cash not shrinking", not a return source. Unreadable panel / zero cash / an
+out-of-band print stay None: a 0 reads as "this money is worth nothing", which is the one
+case worth warning about.
+
+Pos: scripts/etf_book_ceo_page.py (selftest 30->33: annual==cash x panel close, absent->
+None, live page yuan==its own cash x its own rate) + smoke leg that recomputes from
+data/repo_daily/GC001.csv so a forgotten panel refresh reads red.
+
+## E205 A tenor ladder must be rolled on the calendar, not read off the quotes (2026-10-29 r1145 bm-a)
+
+WHEN: a face has to answer "should this cash sit in a longer repo?" and the panels quote
+1/3/4/7/14-day legs. E204 priced the 1-day leg; the natural next sentence is "7 days pays
+1.35% and 1 day pays 1.09%, so lock it up".
+
+WRONG: compare the quoted rates. They are per annum, and the days actually held are not the
+tenor: 1-day money bought on a Friday is lent over the weekend (which is exactly why
+Friday's quote dips), while a 3-day leg bought on a Thursday matures on a Sunday and the
+cash sits idle until Monday. Comparing quotes would have moved half the capital (528,774)
+into GC003, which pays 18.4 bp LESS than rolling the 1-day leg, and into GC007 for a
+12.9 bp edge that decays to 5.4 bp at 3 years and 0.4 bp at 5 years.
+
+RIGHT: roll each tenor over the panel's own session calendar, charge rate x calendar-days-
+held / 365, reinvest at the first session >= maturity, and PUBLISH the idle days a longer
+tenor creates (GC003: 70 days/yr = 19.2% of the calendar; GC007/GC014: 10). Then freeze the
+adoption rule as a code constant (edge >= 20 bp in BOTH the 1y and 3y windows, idle <= 1%,
+ahead in a majority of complete years) and recompute the verdict from the cells. The first
+cut of the message also needed fixing: reporting only the first failing gate blamed GC007 on
+"weekend landings" when its real miss was the 20 bp door, and printed "-12.9 bp less" for a
+positive edge -- name every failing gate, with sign-preserving wording.
+
+Pos: scripts/etf_book_ceo_page.py cash_ladder()/rolled_yield() (selftest 33->38: flat quotes
+adopt nothing, the 1-day leg never idles, +60 bp adopts, +10 bp is rejected by the frozen
+door, the live page answers with each tenor's own quote) + the cash-section table in
+docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that re-rolls every arm from
+data/repo_daily and reds a typed-in verdict.

@@ -5,15 +5,14 @@
   "results",
   "docs"
  ],
- "files_scanned": 12962,
- "n_hits": 792,
+ "files_scanned": 13092,
+ "n_hits": 788,
  "counts": {
   "closed-round-evidence": 300,
   "code-string": 44,
-  "frozen-evidence": 297,
-  "machine-status": 1,
+  "frozen-evidence": 296,
   "pool-record": 100,
-  "self-census": 50
+  "self-census": 48
  },
  "gated_buckets": [
   "live-face",
@@ -154,15 +153,15 @@
    ]
   },
   "frozen-evidence": {
-   "n": 297,
+   "n": 296,
    "files": [
     "results/_quarantine/20261004T1630_r686bmb_scratch/_r686bmb_decisions_fresh.md",
     "results/_quarantine/20261007-1105_r671bmc_rr_predup/round_reports-bm-c.md",
     "results/_quarantine/20261009-131148/_r767bma_dec.md",
     "results/_quarantine/20261009-131148/_r776bma_dec.md",
     "results/_quarantine/20261015T0735_r1008bma_scratch/manifest.json",
+    "results/_quarantine/20261028-r1135-deadwindow/manifest.json",
     "results/_quarantine/r1015_scratch/_r1013bmc_decisions_raw.md",
-    "results/_r0bmc_s6_chain.json",
     "results/_r1013bmb_d19_prev_decisions_fresh.md",
     "results/_r1014bma_dec_raw.md",
     "results/_r1014bmc_krea2_infer_dl_receipt.json",
@@ -230,23 +229,6 @@
     }
    ]
   },
-  "machine-status": {
-   "n": 1,
-   "files": [
-    "results/etf_wide_update_status.json"
-   ],
-   "sample": [
-    {
-     "file": "results/etf_wide_update_status.json",
-     "json_path": "/quote_face",
-     "key": "quote_face",
-     "kind": "brace-token",
-     "token": "{syms}",
-     "bucket": "machine-status",
-     "text": "https://hq.sinajs.cn/list={syms}"
-    }
-   ]
-  },
   "pool-record": {
    "n": 100,
    "files": [
@@ -304,29 +286,11 @@
    ]
   },
   "self-census": {
-   "n": 50,
+   "n": 48,
    "files": [
     "results/reader_text_audit.json"
    ],
    "sample": [
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/token",
-     "key": "token",
-     "kind": "brace-token",
-     "token": "{syms}",
-     "bucket": "self-census",
-     "text": "{syms}"
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/text",
-     "key": "text",
-     "kind": "brace-token",
-     "token": "{syms}",
-     "bucket": "self-census",
-     "text": "https://hq.sinajs.cn/list={syms}"
-    },
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[0]/token",
@@ -348,6 +312,24 @@
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[1]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "{line_num}"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
+     "key": "text",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
      "key": "token",
      "kind": "brace-token",
      "token": "{line_num}",

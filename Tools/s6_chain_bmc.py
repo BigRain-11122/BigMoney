@@ -35,6 +35,32 @@ LEGS = [
     ("update_zt_pool", ["python", "scripts/update_zt_pool.py"]),
     ("update_heat", ["python", "scripts/update_heat.py"]),
     ("update_futures", ["python", "scripts/update_futures.py"]),
+    # r1136: the futures TSMOM sleeve was measured on 10-27 (standalone Sharpe 0.27, but
+    # 50/50 with the ETF book 1.059 vs 0.98 alone at a smaller drawdown) and there was no
+    # daily face for it -- the "produced but never read" class this repo keeps recording
+    # (r1108). It rides immediately behind the panel it reads so the target weights can
+    # never be older than the futures bars. ~2s, no network, no judge, shadow only.
+    ("futures_tsmom_signal", ["python", "scripts/futures_tsmom_signal.py", "run"]),
+    # r1137: the sleeve face published ONE blend point (50/50). A single weight is a single
+    # decision sequence (r1262), and a heavier sleeve weight also lowers total risk, so the
+    # raw CAGR column alone reads as "worse" (r1291). This leg republishes the whole overlay
+    # axis with an equal-risk reading beside it, straight off the panels the two legs above
+    # already refreshed. ~10s, no network, no judge, selects nothing.
+    ("futures_overlay_sweep", ["python", "scripts/futures_overlay_sweep.py"]),
+    # r1140: the band leg above showed 86-92% of the sleeve's turnover is structural
+    # (entries/exits/sign flips), so a no-trade band is a two-sided loss. This leg attacks
+    # the flip itself: two damping mechanisms x two thetas x two lookbacks, each priced on
+    # the full cost ladder at the book's published weight, with the exposure spread and a
+    # fragility flag published beside the win. ~15s, no network, no judge, selects nothing.
+    ("futures_overlay_fliprate", ["python", "scripts/futures_overlay_fliprate.py"]),
+    # r1141: the flip-rate leg above found its win on ONE decision sequence, which is
+    # exactly the shape r1325 recorded as unsafe (a single sequence can be a phase, not an
+    # effect). This leg re-prices the same two arms across 13 paths -- era split, two
+    # execution lags, and one leave-one-variety-out panel per variety -- against an
+    # adoption rule frozen in the script, and the gate publishes ADOPT/REJECT per arm from
+    # the measured cells. ~25s, no network, no judge; decides nothing by itself.
+    ("futures_overlay_fliprate_paths", ["python",
+                                        "scripts/futures_overlay_fliprate_paths.py"]),
     ("update_repo", ["python", "scripts/update_repo.py"]),
     ("update_options", ["python", "scripts/update_options.py"]),
     ("update_moneyflow", ["python", "scripts/update_moneyflow.py"]),
@@ -74,6 +100,12 @@ LEGS = [
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
+    # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
+    # run 12 names at an 8% vol target -- two published books with one operator. This leg
+    # issues the ticket FOR the card's own config (names, weights and scale read off the
+    # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
+    # ~1s, offline, idempotent.
+    ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
     # r1314: the card and the forward ledger are two independent records of ONE frozen
     # decision, and nothing compared them. Every leg above refreshes a face; this one asks
     # whether the paper book actually owns the book the card sells (names, weights, scale,
@@ -100,7 +132,9 @@ LEGS = [
     # outside the chain with no single place to notice (r1290 and r1291 were both that
     # class). Every row is derived from its own artefact, so it also catches a pointer
     # that still names a file which no longer exists. <1s, no network, no judge.
-    ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
+    # r1329: it runs LAST among the faces (see the tail of this list). Parked here it
+    # read ceo_page and the staggered ledger from the PREVIOUS run, so the first chain
+    # of every day published two rows a bar behind the rest with nothing red.
     # r1319: the faces above each answer "what does THIS vehicle earn". A capital
     # allocator does not hold a vehicle, it holds an account size -- and nobody had put
     # the book, the four-ETF basket and the futures sleeve on that axis. Pure reader of
@@ -130,6 +164,21 @@ LEGS = [
     # phase signature must still be a real calendar, and the published verdict must be the
     # one the rule produces from the summary. 0.1s, no network.
     ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
+    # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
+    # window, so it is late in two ways at once and the headline cannot tell them apart.
+    # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
+    # the gate: frozen criteria echoed, control arm still reproducing the published cell,
+    # the lag block still carrying measured slots, and the verdict still the one the rule
+    # produces. 0.1s + one rebuild, no network.
+    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
+    # r1328: r1327's four-window face printed +1.60pp/yr for the 20-bar estimator -- on ONE
+    # decision calendar, which is exactly the reading r1325 showed is not a level. Re-pricing
+    # 4 windows x 4 phases costs 16 engine runs (~5 min), so the chain runs the ENGINE-FREE
+    # gate: frozen criteria echoed, the cell grid complete (every window in every phase), the
+    # phase calendars still distinct, the control still reproducing the published cell, and
+    # the published verdict still the one the rule produces from the summary.
+    # 0.1s, no network.
+    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
@@ -144,6 +193,13 @@ LEGS = [
     # idempotent per signal date (re-running a date replaces that row), so riding the chain
     # cannot double-count a bar; the scheduled task, if it ever returns, is harmless too.
     ("etf_paper_signal", ["python", "scripts/etf_paper_signal.py"]),
+    # r1329: the register summarises the faces, so it must be the LAST book leg. Until
+    # this round it sat ~50 legs earlier, ahead of etf_book_ceo_page and etf_paper_signal,
+    # and its rows for those two faces were therefore always one run old (as_of
+    # 2026-10-27 against card/ticket/forward 2026-10-28, verdict still "ok" because a
+    # stale row is not an error in its own schema). Every other face is written above, so
+    # from here the register has nothing left to miss. <1s, no network, no judge.
+    ("etf_book_registry", ["python", "scripts/etf_book_registry.py", "run"]),
     ("regime_thermo", ["python", "scripts/regime_thermo_build.py"]),
     ("regime_dualarm", ["python", "scripts/regime_gate_dualarm.py", "run"]),
     ("rev_osc_export", ["python", "scripts/rev_osc_signal_export.py", "run"]),
@@ -246,6 +302,47 @@ LEGS = [
     # markdown pass labelled every .md "doc-prose" then gated only live-face, so the
     # CEO page itself was never checked.
     ("reader_text_audit", ["python", "scripts/reader_text_audit.py", "run"]),
+    # r1326: the card's headline (book beats its own static class mix by +6.36pp/yr) was
+    # priced on ONE decision calendar, and r1325 had just shown on this same book why that
+    # is not a decision -- an arm that improved everything on the production calendar
+    # reversed on 70% of four phase-shifted ones. The face re-prices the premium across
+    # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
+    # distinct decision signatures), which is a JSON read, not another engine run.
+    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
+    # r1331: E196 answers the question E190 left open -- whether the month the
+    # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
+    # the E186 month table (no panel, no network, no engine), and it belongs on the
+    # chain rather than in a session's memory because a face nobody re-derives is the
+    # r1290 class: the reading stays on disk describing a table that may have moved.
+    # It pins the reading, not the upstream -- the WHERE face it reads is itself a
+    # session artefact, and the leg says so instead of implying a fresh measurement.
+    ("ladderdropcarrier", ["python", "scripts/e39_panel_census.py",
+                            "tilt3ladderdropcarrier"]),
+    # r1332: E196 could only name the month; it could not say whether the calendar
+    # label is a market mechanism or just this family's naming. E198 tests the same
+    # window on a panel the family never touched -- 17 declared ETFs against the
+    # benchmark, same statistic, three window definitions. It reads local daily CSVs
+    # only (no network, no engine) and is idempotent, so it rides the chain: a
+    # negative verdict that is never re-derived is exactly the r1290 class.
+    ("reviewwindowcross", ["python", "scripts/e39_panel_census.py",
+                           "reviewwindowcross"]),
+    # r1332: MSG-20261029-0510-bma found knowledge/METHODOLOGY_ASSETS.md at origin
+    # holding only 66 lines (E195+E196) -- a writer published a file built from a
+    # stale local copy and ate every earlier card, and unlike the attrition ledgers
+    # this append-only face had no tripwire. This leg is that tripwire: it fails when
+    # a card committed at HEAD is missing from the tree, or when a NEW duplicate
+    # number appears; it only warns on the pre-existing disorder of the union-restored
+    # history (7 descents / 11 dupes) because a permanently red gate gets "fixed" by
+    # loosening the assertion (r1135). ~0.2s, git read only.
+    ("card_ledger_guard", ["python", "Tools/card_ledger_guard.py", "check"]),
+    # r1333: E198's verdict is a NEGATIVE, and a negative is only informative if the
+    # test could have produced a positive. This leg republishes the detection floor
+    # (minimum window/outside |gap| ratio at 80% power, from the EXACT permutation sd)
+    # beside the observed ratio on the same rows, so the chain carries "this test was
+    # blind below X" next to the "not found" it defends. ~4s, reads the same 20 daily
+    # CSVs and never loads a panel.
+    ("reviewwindowfloor", ["python", "scripts/e39_panel_census.py",
+                           "reviewwindowfloor"]),
 ]
 
 

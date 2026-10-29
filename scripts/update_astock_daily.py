@@ -796,8 +796,18 @@ def refresh(limit=None, repull=False):
         # ALL files); the cycle-scope fetch max is only a fallback -- a
         # settle-cycle that fetched only suspended short-tails would else
         # stamp a lagging cutoff and keep the gate spawning forever (r305)
-        cutoff = _panel_cutoff_from_bytes() or panel_cutoff
+        #
+        # r1139: cutoff and coverage MUST come from the same read. They were
+        # two separate disk probes taken seconds apart, and during a live
+        # refresh the max tail moves between them -- the published face read
+        # `cutoff 2026-10-27` beside `dates_tail [[2026-10-28, 4878] ...]`,
+        # i.e. the face contradicted itself (smoke 'astock panel states its
+        # coverage'). One read, one truth: the cutoff IS the max of the tail
+        # histogram the coverage block publishes.
         cov = _panel_coverage_from_bytes()
+        tails = cov.get("dates_tail") or []
+        cutoff = (tails[0][0] if tails else None) or _panel_cutoff_from_bytes() \
+            or panel_cutoff
         st.update({
             "ts": dt.datetime.now().isoformat(timespec="seconds"),
             "mode": ("refresh complete" if complete
@@ -1143,6 +1153,12 @@ def _selftest():
         cov2 = _panel_coverage_from_bytes(td)
         assert cov2["n"] == 3 and cov2["coverage_pct"] == 66.7, cov2
         assert cov2["coverage_90"] == "2026-09-22", cov2
+        # r1139: the published cutoff IS the max of the histogram the coverage
+        # block prints -- if those two disagree the face contradicts itself
+        # (live case: cutoff 2026-10-27 beside dates_tail [[2026-10-28, 4878]]).
+        for _cov in (cov, cov2):
+            assert _cov["dates_tail"][0][0] == _panel_cutoff_from_bytes(td), \
+                "cutoff must be the histogram's own max tail"
         assert _local_last_date("nonexistent") is None
     with tempfile.TemporaryDirectory() as td:
         # an empty panel states nothing rather than claiming 0%

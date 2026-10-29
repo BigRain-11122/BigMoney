@@ -12,28 +12,18 @@ import json
 import datetime as dt
 import importlib
 import subprocess
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
 RESULTS = []
-
-
 def check(name: str, ok: bool, detail: str = ""):
     RESULTS.append((name, bool(ok), detail))
     print(f"[{'PASS' if ok else 'FAIL'}] {name}" + (f" | {detail}" if detail else ""))
-
-
 def _lan_ok(lag, st) -> bool:
     """lag 0 must read as current, lag > 0 must read as stale and say so."""
     if lag == 0:
         return st.get("stale") is False and "NOT current" not in str(st.get("reason"))
     return st.get("stale") is True and "NOT current" in str(st.get("reason"))
-
-
 def main() -> int:
     print(f"== Bigmoney smoke test {dt.datetime.now():%Y-%m-%d %H:%M:%S} ==")
-
-    # --- 1) environment ---
     try:
         import numpy
         import pandas
@@ -43,8 +33,6 @@ def main() -> int:
     except Exception as e:
         check("env: core deps", False, str(e))
         return _finish()
-
-    # --- 2) config & paths ---
     from config import PATHS, all_combinations, combo_hash
     for d in (PATHS.root, PATHS.data_dir, PATHS.daily_dir,
               PATHS.basic_dir, PATHS.results_dir, PATHS.logs_dir):
@@ -53,13 +41,11 @@ def main() -> int:
             return _finish()
     check("config: paths", True,
           f"root={os.path.basename(PATHS.root)}, daily={PATHS.daily_dir}")
-
     combos = all_combinations()
     check("config: param grid", len(combos) == 432, f"{len(combos)} combos (expect 432)")
     h1 = combo_hash(combos[0]); h2 = combo_hash(combos[0])
+    h1 = combo_hash(combos[0]); h2 = combo_hash(combos[0])
     check("config: combo_hash deterministic", h1 == h2 and len(h1) == 8, f"hash={h1}")
-
-    # --- 3) data ---
     import pandas as pd
     core_files = sorted(f for f in os.listdir(PATHS.daily_dir)
                         if f.endswith(".csv") and f[:-4].isdigit())
@@ -67,7 +53,6 @@ def main() -> int:
           f"{len(core_files)} no-prefix CSVs (expect ~48)")
     if len(core_files) < 40:
         return _finish()
-
     panels = {}
     latest_dates = []
     bad = []
@@ -83,13 +68,10 @@ def main() -> int:
         latest_dates.append(df.index[-1])
     check("data: OHLCV readable", not bad and len(panels) >= 40,
           f"{len(panels)}/{len(core_files)} ok" + (f", bad={bad[:5]}" if bad else ""))
-
     latest = max(latest_dates).date()
     stale_days = (dt.date.today() - latest).days
     check("data: freshness", stale_days <= 15,
           f"latest bar {latest} ({stale_days}d ago, limit 15)")
-
-    # --- 4) market rules ---
     from knowledge.rules import FeeSchedule, is_t0
     fee = FeeSchedule()
     cost_rate = fee.commission_rate + fee.handling_fee + fee.supervision_fee + fee.slippage_a
@@ -97,8 +79,6 @@ def main() -> int:
           f"single-side cost {cost_rate*1e4:.1f} bp")
     check("rules: T+0 list", is_t0("511880") and not is_t0("510300"),
           "511880 T+0, 510300 T+1")
-
-    # --- 5) exit rules ---
     from engine.exit_rules import ExitConfig, ExitState, evaluate
     cfg = ExitConfig()
     a1 = evaluate(ExitState(cost_price=100.0, hold_days=10), 95.0, cfg)
@@ -110,8 +90,6 @@ def main() -> int:
           and abs(a2.close_fraction - 1/3) < 1e-9)
     check("exit: hard stop -8%", a3.reason == "stop_loss" and a3.should_close)
     check("exit: hold otherwise", not a4.should_close and a4.reason == "hold")
-
-    # --- 6) backtest engine (small window, deterministic) ---
     from engine import run_backtest
     syms = sorted(panels)[:3]
     window = {s: panels[s].tail(400)[["open", "high", "low", "close"]] for s in syms}
@@ -127,22 +105,10 @@ def main() -> int:
     check("engine: smoke backtest", keys_ok and eq_ok and tr_ok,
           f"{len(syms)} syms x 400 bars, {m.get('num_trades', 0)} trades")
     check("engine: deterministic", det_ok, "identical on rerun (no hidden randomness)")
-
-    # T+1 guard: no trade may be opened and closed on the same date.
-    # trades list carries exit records only, so a same-day roundtrip shows up
-    # as a non-T+0 exit with hold_days <= 0 (entry-day sells are skipped by
-    # the engine's T+1 guard, backtester section 1). The previous opens-dict
-    # heuristic compared exit dates and false-flagged any young latest exit
-    # (surfaced r403 when the 09-28 bar made 159915's final exit hold_days=1).
     same_day = [t for t in r1["trades"]
                 if not is_t0(t["symbol"]) and t["hold_days"] <= 0]
     check("engine: T+1 respected", len(same_day) == 0,
           f"{len(r1['trades'])} trades checked, {len(same_day)} same-day roundtrips")
-
-    # RW-1 (audit P0-1, D-20260930-05): an exit decided at day T's close
-    # must FILL at day T+1's open -- the pre-fix engine filled exits at the
-    # same close (look-ahead, systematic overstatement). Every exit record
-    # must therefore carry its own execution day's OPEN price.
     open_px = {s: dict(zip(w.index.strftime("%Y-%m-%d"), w["open"]))
                for s, w in window.items()}
     bad_exit_px = [t for t in r1["trades"]
@@ -150,10 +116,6 @@ def main() -> int:
                                - t["price"]) > 1e-6]
     check("engine: exits fill at T+1 open (RW-1)", len(bad_exit_px) == 0,
           f"{len(r1['trades'])} exits checked, {len(bad_exit_px)} non-open fills")
-
-    # RW-2 (T-127, D-20260930-05): evidence_cutoff is a backtester input
-    # param with HARD truncation at data-assembly -- the engine itself can
-    # never read a post-cutoff row, even if the caller forgets to truncate.
     cut_i = len(next(iter(window.values()))) // 2
     cut_d = next(iter(window.values())).index[cut_i]
     n_after = int(sum(int((w.index > cut_d).sum()) for w in window.values()))
@@ -169,13 +131,6 @@ def main() -> int:
     check("engine: evidence_cutoff hard truncation (RW-2)", trunc_ok,
           f"cutoff {cut_d.date()}, {n_after} post-cutoff rows dropped, "
           "result identical to pre-truncated input")
-    # The three symbols are not guaranteed to share a calendar: tail(400) gave 159901
-    # 2026-10-27 and 159915 2026-10-26 on the r1310 run, so the ragged pre-truncation
-    # panel has 202 bars while `next(iter(...)).index` has 201 up to the cutoff. The
-    # engine is right in that case (it reports last_bar_read == cutoff and its output
-    # equals the manually pre-truncated run, both asserted above); the old line here
-    # labelled the curve with ONE symbol's calendar and read the extra bar as a leak.
-    # The honest assertion is against the number of rows the engine could actually read.
     n_read = max(len(w[w.index <= cut_d]) for w in window.values())
     check("engine: rows actually read <= cutoff (RW-2)",
           (bool(r3["equity_curve"])
@@ -193,13 +148,6 @@ def main() -> int:
         raised = True
     check("engine: emptying cutoff refused (RW-2)", raised,
           "out-of-range cutoff raises -> caller rc != 0")
-
-    # RW-3 (T-127, D-20260930-05): single-source cost spec. The same
-    # synthetic bar must cost identically on every ACTIVE cost face
-    # (engine / live-paper anchor+paper path / x2 stress face); the frozen
-    # grid legacy face must diverge by exactly its declared 13.0-vs-13.041
-    # caliber, never by silent drift. (ce_transfer/combined_exit import
-    # the same knowledge.cost_spec constants -- verified script-mode.)
     from knowledge import cost_spec
     from scripts.science_gates import COST_X2_RATE as _SG_X2
     bar_notional = 100_000.0
@@ -220,13 +168,6 @@ def main() -> int:
           abs(grid_delta - 0.41) < 0.005 and _gp.COST_BP_X1 == 13.0,
           f"frozen T-78 grid caliber 13.0bp vs canonical 13.041bp "
           f"(delta {grid_delta:.2f} CNY/100k side)")
-
-    # RW-4 (T-127, D-20260930-05): canonical data-panel gate. The bare
-    # 6-digit code IS the canonical key; twins/duplicates fail the audit's
-    # len(set)==len(list) acceptance face; stale members are excluded
-    # (batch) or refused (in-service/required); the in-service panel is
-    # the FROZEN 48-member whitelist (knowledge/panel_gate.py), never the
-    # directory listing -- silent expansion OR shrink both fail closed.
     from knowledge import panel_gate as _pg
     lb_real = {s: d.index[-1].strftime("%Y-%m-%d") for s, d in panels.items()}
     inv_real = _pg.PanelInventory(bare={s: s + ".csv" for s in panels},
@@ -257,11 +198,6 @@ def main() -> int:
           (not res_lock.ok) and any("out-of-lock" in x for x in res_lock.reasons)
           and (not res_shrink.ok) and any("missing in-lock" in x for x in res_shrink.reasons),
           "600000 out-of-lock refused; 1-of-48 request = silent shrink refused")
-
-    # D-20260930-39 (P0): asset-class fee routing. ETF default stays
-    # byte-identical (13.041bp both sides); a stock symbol adds the
-    # sell-only 5bp stamp tax + 0.1bp/side transfer fee -> 13.141bp buy /
-    # 18.141bp sell. Cost helpers must charge exactly those deltas.
     from knowledge import rules as _kr
     _fs_etf = _kr.fee_schedule_for("510300")
     _fs_stk = _kr.fee_schedule_for("600519")
@@ -280,17 +216,10 @@ def main() -> int:
           f"600519 vs 510300 on 100k notional: buy +{_d_buy:.0f} CNY "
           f"(transfer), sell -{_d_sell:.0f} CNY (stamp50+transfer1); "
           f"ETF sell rate {cost_spec.X1_SELL_RATE*1e4:.4f}bp == buy rate")
-
-    # D-20260930-38 CN-A: one-word-bar (high==low, sealed limit board)
-    # fills are impossible on the A-share exchange. Entry on a one-word
-    # open -> order DROPPED; exit on a one-word open -> DEFERRED to the
-    # next fillable open; "violations" is 0 by construction.
     _idx = pd.date_range("2026-01-05", periods=8, freq="B")
-
     def _ow_frame(o, c, h, l):
         return pd.DataFrame({"open": o, "close": c, "high": h, "low": l},
                             index=_idx)
-
     _one = _ow_frame([10, 10.5, 10.6, 10.6, 10.6, 10.7, 10.8, 10.8],
                      [10, 10.6, 10.6, 10.6, 10.6, 10.7, 10.8, 10.8],
                      [10.2, 10.6, 10.7, 10.7, 10.6, 10.7, 10.8, 10.8],
@@ -313,27 +242,15 @@ def main() -> int:
           and str(_idx[5].date()) in _fills,
           f"exit off sealed board -> filled next real open "
           f"({_idx[5].date()}), violations=0 by construction")
-
-    # RW-7 (T-127, D-20260930-05): exit_rules priority layer + risk-gate
-    # circuit breaker as the SOLE order exit. (a) exit priority is fixed:
-    # P1 signal_reversal > P2 stop_loss > P3 take_profit > P4 time_decay
-    # > P5 loss_time_stop > P6 global_hard_limit -- on any bar where two
-    # rules fire simultaneously the higher one must win. (b) RiskGate
-    # rejections are EXCEPTIONS (no silent drops): position cap / total
-    # cap / trade-count cap / invalid side / halted-day BUY all raise.
-    # (c) emit_order_sheet refuses ungated orders -- the gate is the only
-    # path by which an order sheet can leave the system.
     from config import RISK as _RISK_CFG
     RISK = _RISK_CFG
     from live import (RiskGate, RiskGateRejected, Order, gate_orders,
                       emit_order_sheet as _emit)
-    # P1 > P2: reversal wins on a bar that is also in stop territory
     _p12 = evaluate(ExitState(cost_price=100.0, hold_days=1), 91.0, cfg,
                     signal_reversed=True)
     check("exit: P1 signal_reversal beats P2 stop (RW-7)",
           _p12.reason == "signal_reversal" and _p12.should_close,
           "reversal+stop same bar -> signal_reversal (P1 > P2)")
-    # P2 > P3: trailing stop hit while pnl >= next take-profit tier
     _p23 = evaluate(ExitState(cost_price=100.0, hold_days=6, tier_reached=1,
                                high_watermark=112.0,
                                trailing_stop_price=110.88), 110.5, cfg)
@@ -341,21 +258,14 @@ def main() -> int:
           _p23.reason == "stop_loss" and abs(_p23.pnl_rate - 0.105) < 1e-9,
           "pnl +10.5% >= tier-2 10% but price 110.5 <= trailing 110.88 "
           "-> stop_loss (P2 > P3)")
-    # P4 > P5: decay window reached on a losing hold
     _p45 = evaluate(ExitState(cost_price=100.0, hold_days=12), 99.0, cfg)
     check("exit: P4 time_decay beats P5 loss_time_stop (RW-7)",
           _p45.reason == "time_decay",
           "hold 12d pnl -1% -> time_decay, not loss_time_stop (P4 > P5)")
-    # P4 dominates the whole pnl<0 & hold>=12 overlap: P5's firing domain
-    # is swallowed by P4 there (ladder P4 > P5 proven above); P5 keeps
-    # only its exclusive window (8d <= hold < 12d, pnl < 0), already
-    # asserted by the standing "loss 8d force-close" case.
-    # P6 alone: a profitable-but-flat hold outlives every earlier rule
     _p6 = evaluate(ExitState(cost_price=100.0, hold_days=25), 103.0, cfg)
     check("exit: P6 global_hard_limit terminal tier (RW-7)",
           _p6.reason == "global_hard_limit" and _p6.should_close,
           "hold 25d pnl +3% >= decay threshold 2% -> hard_limit fires")
-    # circuit breaker boundary: halt AT the limit, trade above it
     _g = RiskGate()
     check("gate: daily_loss_breaker boundary (RW-7)",
           _g.daily_loss_breaker(-0.03) and not _g.daily_loss_breaker(-0.029),
@@ -388,7 +298,6 @@ def main() -> int:
     check("gate: halted day still lets exits through (RW-7)",
           _gsell == [_halt_sell],
           "circuit breaker blocks new opens, not de-risking sells")
-    # sole exit: emit_order_sheet refuses ungated orders
     _emit_refused = False
     try:
         _emit([_ord_ok], "2026-09-30")
@@ -407,8 +316,6 @@ def main() -> int:
     check("gate: emit_order_sheet is the sole gated exit (RW-7)",
           _emit_refused and _wrote,
           "ungated emit -> RuntimeError; gate_orders receipt -> sheet written")
-
-    # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy
     nt = network_detector.detect()
@@ -417,11 +324,6 @@ def main() -> int:
     check("network: status readable", isinstance(st, dict) and "net_type" in st)
     ok_small = traffic_policy.can_run("smoke_incremental", 1 * 1024 * 1024)
     check("network: traffic gate", isinstance(ok_small, bool))
-
-    # --- 8) paper pipeline (J16) ---
-    # patches bite/restore + monthly aggregation math + signal causality +
-    # anchor gate reproducing every registered trader's backtest evidence
-    # (drift = registration no longer reproducible = highest-priority red)
     try:
         from live import paper as live_paper
         check("paper: pipeline selftest", live_paper.selftest(),
@@ -429,15 +331,7 @@ def main() -> int:
               "+ x2-watch escalation(F3)")
     except Exception as e:
         check("paper: pipeline selftest", False, str(e))
-
-    # --- 9) S6 updater selftests + heartbeat epoch fields (T-04 F7) ---
-    # Exit-code contract: offline --selftest must exit 0 (no network);
-    # production contracts (0 ok/1 warn/2 fetch fail/3 anchor drift for
-    # daily; 0 ok/2 source fail/3 history-rewrite flag for lhb) are
-    # asserted case-by-case inside each sub-suite.
     import subprocess as _sp
-    # (label, script, args) -- offline selftest must exit 0 (no network);
-    # T-35 d2 pair: intraday marks lane + open-fill verifier (R166).
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
             ("lhb", "scripts/update_lhb.py", ["selftest"]),
@@ -476,10 +370,6 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
-    # The production card is the only placeable deliverable (E121), and it is the one
-    # face whose failure is invisible: r1270 shipped a round where run() crashed on a
-    # name that had moved out of scope, while every other leg in this file was green --
-    # nothing here ever called the entry point. Guard the sheet path, not just the maths.
     for _label, _script, _args in (
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
@@ -649,10 +539,6 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
-    # r1308: the card carries two readings of 2015-2019 (the excess caveat and the
-    # selection premium). If the reconciliation section ever stops being emitted while the
-    # artifact is on disk, the card is back to printing a contradiction -- so assert the
-    # text, not just the script that writes it.
     try:
         _card = os.path.join("results", "etf_book_production", "CARD.md")
         _dc = os.path.join("results", "etf_book_window_decomp.json")
@@ -667,10 +553,6 @@ def main() -> int:
                   "card or reconciliation artifact absent -- face soft-fails by design")
     except Exception as e:
         check("product: card reconciles its two 2015-2019 readings", False, str(e))
-    # ... and the same lesson one level up: a green selftest does not prove the face is
-    # ever produced. r1267/r1269/r1273 each left "wire the ledger into the S6 chain" as
-    # the next pointer, and each round it silently stayed unwired because no test read
-    # the chain. Assert the legs exist in the runner that actually executes them.
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {n for n, _c in _legs}
@@ -687,10 +569,6 @@ def main() -> int:
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
-    # r1293: the register that lists the live book faces together. A published face is
-    # not proof it is current, but a face that is not registered cannot be checked at
-    # all -- so assert the live register exists, is single-schema, and that every face
-    # it claims to have read really resolved (an all-missing register still "publishes").
     try:
         _rg = json.load(open("results/etf_book_registry.json", encoding="utf-8"))
         _ok_rg = (_rg.get("schema") == "etf-book-registry/v1"
@@ -702,11 +580,6 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
-    # r1314: two records of one fact that only a script knew how to compare. The
-    # noise floor lived in a helper and the card/ledger agreement lived in a hand run, so
-    # both could rot while every published face still looked healthy. Assert the two
-    # readings are on the FACES: the ledger carries its own floor, the card-track carries
-    # the agreement verdict.
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -719,11 +592,6 @@ def main() -> int:
                   _sig.get("noise_band_pp_at_published")))
     except Exception as e:
         check("product: the forward ledger publishes its own noise floor", False, str(e))
-    # r1316: "how many bars for a t=2 test" was the only horizon the ledger offered,
-    # and over 8.46%/yr excess dispersion the answer for a 3pp edge is 7,758 bars --
-    # 31 years, i.e. a verdict no reader will be alive for. Assert instead that the
-    # published face answers the reverse question: what CAN be resolved inside 6m/1y/
-    # 2y/3y, and how many YEARS the edges this book actually published would need.
     try:
         _pw = (_sig.get("power") or {})
         _mde = _pw.get("min_detectable_edge_pp") or {}
@@ -757,9 +625,6 @@ def main() -> int:
                   (_ct.get("drift") or {}).get("nav_identity_max_dev")))
     except Exception as e:
         check("product: the paper book owns the book the card sells", False, str(e))
-    # The register is the one screen that lists the books side by side. If it names the
-    # staggered book but not when that book turns, the reader is back to opening the
-    # ledger by hand -- so assert the date reaches the register too (r1304).
     try:
         _stg = [f for f in (_rg.get("faces") or []) if f.get("id") == "staggered"]
         _turn = (_stg[0].get("next_turn") if _stg else None) or []
@@ -769,8 +634,6 @@ def main() -> int:
               or "no next_turn on the staggered row")
     except Exception as e:
         check("product: ETF registry says when the staggered book turns", False, str(e))
-    # A sleeve schedule that a human cannot turn into a date is not an order. Assert the
-    # live ledger state: per sleeve, where the clock stands AND when it next turns.
     try:
         _led = [json.loads(_l) for _l in open("results/etf_paper/ledger.jsonl",
                                              encoding="utf-8") if _l.strip()][-1]
@@ -782,9 +645,6 @@ def main() -> int:
                         for a in _acts))
     except Exception as e:
         check("product: staggered book states when each sleeve next turns", False, str(e))
-    # The lag face itself is what a human reads to tell a holiday from a dead feed,
-    # so assert the published file exists and speaks a known verdict -- a green
-    # selftest on synthetic panels would not prove the live face was ever written.
     try:
         _la = json.load(open("results/data_lag_audit.json", encoding="utf-8"))
         _ok_la = (_la.get("schema") == "data-lag-audit/v1"
@@ -795,10 +655,6 @@ def main() -> int:
               f"{_la.get('expected_last_official_day')} as_of={_la.get('as_of')}")
     except Exception as e:
         check("product: data lag audit face published", False, str(e))
-    # A marks session can be missing permanently (capture task Disabled, machine
-    # off) or only transiently (today's window is still open), and the T-35
-    # verifier reports both as the same NO_EVIDENCE/rc=1. This face names which
-    # is which; assert it agrees with itself rather than only existing.
     try:
         _mc = json.load(open("results/marks_coverage.json", encoding="utf-8"))
         _rows = {r["date"]: r["status"] for r in _mc.get("days") or []}
@@ -816,9 +672,6 @@ def main() -> int:
               f"last={_mc.get('last_captured')}")
     except Exception as e:
         check("product: marks coverage face names its holes", False, str(e))
-    # A hole the owner could not have captured and a hole somebody could have
-    # taken over are different problems; the face must say which. Assert the
-    # live face attributes every hole exactly once from the closed vocabulary.
     try:
         _mc3 = json.load(open("results/marks_coverage.json", encoding="utf-8"))
         _det = _mc3.get("hole_detail") or []
@@ -837,10 +690,6 @@ def main() -> int:
     except Exception as e:
         check("product: every marks hole carries a cause from the lane's own ownership contract",
               False, str(e))
-    # ...and the gap has to reach the place the CEO actually looks. The coverage
-    # face existed for a full round while the dashboard said nothing about the
-    # paper record being 3 sessions short; assert the payload carries the same
-    # numbers (not merely the key names).
     try:
         _mc2 = json.load(open("results/marks_coverage.json", encoding="utf-8"))
         _ds = json.load(open("results/dashboard_status.json", encoding="utf-8"))
@@ -865,10 +714,6 @@ def main() -> int:
               f"/{_c2.get('closed_days')}")
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
-    # The open-fill gate must say which evidence tier verified the fills, and
-    # on the bar tier its numbers must actually come from the bar (r1131):
-    # recompute each session_open from data/daily and assert equality, so a
-    # face that quietly recycles the engine's own cost_price cannot pass.
     try:
         _ofv = json.load(open("results/t35_open_fill_verify.json",
                               encoding="utf-8"))
@@ -916,11 +761,6 @@ def main() -> int:
     except Exception as e:
         check("product: open-fill gate names its evidence tier and the bar "
               "tier's prices are the bars'", False, str(e))
-    # A live paper book priced behind the exchange calendar must say so on its
-    # own face (r1121): the SYSTEM-V1 lane consumes a SIG/BARS bridge cutoff,
-    # one lane's output, and it sat 4 trading days behind while every other
-    # face was current. Assert the block agrees with its own two dates -- a
-    # hardcoded "stale: false" would pass a weaker existence-only check.
     try:
         _v1 = json.load(open("results/system_v1_paper/SYSTEM-V1_paper.json",
                              encoding="utf-8"))
@@ -935,10 +775,6 @@ def main() -> int:
               f"lag={_lag} stale={_st.get('stale')}")
     except Exception as e:
         check("product: live paper book states its price lag", False, str(e))
-    # The ETF book is the only money-making structure we publish, yet every face of
-    # it is machine-shaped; docs/live_book is the one a human reads. Assert it is
-    # current with the ticket pointer and that its own arithmetic closes -- a page
-    # left behind after a new ticket would otherwise look perfectly valid.
     try:
         _lb = json.load(open("results/etf_book_order/latest.json", encoding="utf-8"))
         _ptr = json.load(open("docs/live_book/latest.json", encoding="utf-8"))
@@ -1027,12 +863,6 @@ def main() -> int:
               f"5d={_w.get('5d', {}).get('pct')} 20d={_w.get('20d', {}).get('pct')}")
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
-    # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's
-    # astock_daily face read `cutoff 2026-10-26` while 31.4% of names reached it
-    # and 90% stopped at 2026-10-20 (bm-a MSG-20261027-0400 mistook the gap for
-    # a stale consumer). Assert the coverage face is published AND that it
-    # agrees with its own date -- an existence-only check would pass on a face
-    # that prints a percentage of the wrong denominator.
     try:
         _ad = json.load(open("results/astock_daily_update_status.json",
                              encoding="utf-8"))
@@ -1051,8 +881,6 @@ def main() -> int:
     except Exception as e:
         check("product: astock panel states its coverage, not just its date",
               False, str(e))
-    # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
-    # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:
         # utf-8-sig: heartbeat files are written per-machine; BOM-tolerant
         # read (bm-c r6 _read_json precedent -- strict utf-8 crashes on BOM)
@@ -1066,11 +894,6 @@ def main() -> int:
               f"clock={_hb.get('clock_read')}")
     except Exception as e:
         check("fleet: heartbeat epoch fields present", False, str(e))
-    # ... and the GPU face on the same heartbeat must agree with itself and carry a
-    # provenance stamp. r1277's face held 25 GPU keys disagreeing by up to 13 GB
-    # (free 13.72 GB next to free 1.31 GB) with util pinned to a literal 0; a fleet
-    # audit reading any single key read a random round's snapshot. Selftest covers
-    # the pure audit; this leg covers the live file, which is where it was broken.
     try:
         _mid = json.load(open("fleet/machine.json", encoding="utf-8-sig"))["machine_id"]
         _hb = json.load(open(f"fleet/machines/{_mid}.json", encoding="utf-8-sig"))
@@ -1084,14 +907,6 @@ def main() -> int:
     except Exception as e:
         check("fleet: GPU face self-consistent on heartbeat", False, str(e))
         check("fleet: GPU face leg wired into the S6 chain", False, str(e))
-
-
-    # fleet/machine-health.json is the face every panel reads for per-machine lane
-    # colour, and nothing checked its SHAPE. It had drifted into three shells of
-    # {"value": [...]} around hashtable .ToString() strings -- json.load returned a
-    # list of junk, monitor/build_status.py failed soft, and the board rendered blank
-    # rows that read like calm machines (D-20261028-02). Legs: the builder's own
-    # contract, and the LIVE face must still be machine-keyed today.
     try:
         _mf = importlib.import_module("Tools.machine_health_face")
         _mach, _st, _drop = _mf.read_face()
@@ -1101,13 +916,6 @@ def main() -> int:
     except Exception as e:
         check("fleet: machine-health face is machine-keyed, not a nesting generator",
               False, str(e))
-
-    # D-20261028-02 pins six fields per machine. Shape-ok was being read as
-    # contract-ok: on 2026-10-28 the live face was a clean machine-keyed map and the
-    # gate said OK while two of three rows carried no `cpu` and every row carried a
-    # flat gpu_free_gb instead of the pinned `gpu` object. Two legs: the LIVE face
-    # must carry every pinned field, and the panel must refuse to call a thin face
-    # healthy (so the next writer regression shows up as UNKNOWN, not as a calm row).
     try:
         # Refresh before judging, exactly as the chain does (r1315): the hourly
         # oversight writer is a separate code face that emits a partial row, so
@@ -1121,7 +929,6 @@ def main() -> int:
               bool(_mach) and not _bad, f"machines={len(_mach)} gaps={_bad or '-'}")
     except Exception as e:
         check("fleet: live machine-health rows carry every pinned field", False, str(e))
-
     try:
         import tempfile as _tf
         _d = _tf.mkdtemp(prefix="mhthin_")
@@ -1145,14 +952,6 @@ def main() -> int:
               "face=%s gaps=%s" % (_fce.get("health_face"), _fce.get("health_gaps")))
     except Exception as e:
         check("fleet: a thin face reads as UNKNOWN, not as a calm row", False, str(e))
-
-    # The hourly oversight writer does NOT run this repo's copy. It runs a deployed
-    # copy under <KRoot>\.codely-cli\oversight-<id>\fleet-oversight.ps1, and nothing
-    # kept the two in step: D-20261028-02 fixed the writer in the repo, the running
-    # copy stayed at v1.0, and the very next hourly fire re-broke fleet/machine-health
-    # with the nesting the fix had just removed (2026-10-28 01:11, one hour after the
-    # rebuilt face read clean). A deployed copy is a SECOND code face, so its drift is
-    # a red leg rather than something a reader has to notice from damaged output.
     try:
         _mid2 = json.load(open("fleet/machine.json", encoding="utf-8-sig"))["machine_id"]
         _group = os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
@@ -1194,10 +993,6 @@ def main() -> int:
                       _dw.returncode == 0, f"rc={_dw.returncode} {_dline[:90]}")
     except Exception as e:
         check("fleet: oversight writer's deployed copy tracks its source", False, str(e))
-    # D-20261028-02's other half: the reader can classify, but the PANEL is what a
-    # person reads. Assert the face's own verdict reached the payload (a row count
-    # cannot tell "three calm machines" from "one readable row and two missing"),
-    # and that the gate rides the chain instead of living in a hand run.
     try:
         _bs = json.load(open("results/dashboard_status.json", encoding="utf-8"))
         _fl = ((_bs.get("data") or {}).get("engine")) or {}
@@ -1247,10 +1042,6 @@ def main() -> int:
         check("fleet: panel carries the machine-health verdict, not a row count",
               False, str(e))
         check("fleet: machine-health gate leg wired into the S6 chain", False, str(e))
-
-    # E210: the CEO-page quote audit is only useful if it runs on every round and runs
-    # AFTER the two legs that write the pages it reads -- a leg wired in front of its
-    # own subject audits yesterday's file and reports clean.
     try:
         _dq_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _dq_after = (_dq_order.index("docquotes") > _dq_order.index("daily_report")
@@ -1262,10 +1053,6 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO-page quote audit runs after the pages it audits",
               False, str(e))
-
-    # E211: the audit becomes a ratchet. A gate wired in front of the sweep it ratchets
-    # would compare today's pages against yesterday's baseline and miss the new one, and
-    # a gate with no declared baseline quietly refills itself on every run.
     try:
         _pg_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _pg_path = os.path.join("results", "e79", "DOCQUOTES-BASELINE.json")
@@ -1284,9 +1071,6 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO-page quote gate runs after the sweep and owns a baseline",
               False, str(e))
-
-    # E214: the era leg must be on the chain and must have published a face that
-    # can actually say "flip" -- an era verdict with one measured era is a point.
     try:
         _oera_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _oera_dir = os.path.join("results", "e44_midmonth")
@@ -1312,9 +1096,6 @@ def main() -> int:
     except Exception as e:
         check("product: the off-book era leg is on the chain and publishes a cross-era verdict",
               False, str(e))
-
-    # E61: the calendar gap has to arrive already split into its two parts, and
-    # the split has to add back up to the gap it claims to explain.
     try:
         _sb_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _sb_dir = os.path.join("results", "e44_midmonth")
@@ -1341,13 +1122,6 @@ def main() -> int:
     except Exception as e:
         check("product: the mid-month gap arrives split into timing and selection",
               False, str(e))
-
-    # The memory file is a write target for every round and nothing read its SHAPE.
-    # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
-    # the older body went out through a GBK round trip (19 x U+E511), and the file
-    # still read `git status` clean -- 62 lines became 4 with nothing red anywhere
-    # (D-20261027-08). Counts, not content: one line per entry, no private-use
-    # characters, list rows present.
     try:
         _mt = open("CODELY.md", encoding="utf-8-sig").read()
         _lf = _mt.count("\n")
@@ -1358,10 +1132,6 @@ def main() -> int:
               f"bytes={len(_mt.encode('utf-8'))}")
     except Exception as e:
         check("memory: CODELY.md structure intact", False, str(e))
-
-    # A commit built from a partial index produces a valid push whose only
-    # symptom is a much smaller tree (r1133: the group tip lost 3,492 files and
-    # nothing in the repo noticed until a consumer could not read decisions.md).
     try:
         _tg = os.path.join("Tools", "tree_shrink_guard.py")
         _tp = subprocess.run([sys.executable, _tg, "selftest"], capture_output=True,
@@ -1377,10 +1147,6 @@ def main() -> int:
               _tql[:100])
     except Exception as e:
         check("fleet: a partial-index commit cannot silently shrink the tree", False, str(e))
-
-    # Detecting a wipe after the push is too late (r1133 repaired it 25 minutes
-    # later). The push itself is hookable, so both repos carry a pre-push gate;
-    # this leg fails if a machine has the file but never installed it.
     try:
         _gg = subprocess.run([sys.executable, os.path.join("Tools", "tree_shrink_guard.py"),
                               "check_gates"], capture_output=True, text=True,
@@ -1390,10 +1156,880 @@ def main() -> int:
               _gg.returncode == 0, (_gt[0] if _gt else "")[:110])
     except Exception as e:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
+    _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    def _selftest_run(script, args, timeout):
+        return _sp.run([sys.executable, script, *args], capture_output=True,
+                       text=True, encoding="utf-8", errors="replace",
+                       env=_sp_env, timeout=timeout)
+    for _name, _script, _args in (
+            ("daily", "scripts/update_daily.py", ["--selftest"]),
+            ("lhb", "scripts/update_lhb.py", ["selftest"]),
+            ("intraday_marks", "scripts/update_intraday_marks.py",
+             ["--selftest"]),
+            ("open_fill_verify", "scripts/t35_open_fill_verify.py",
+             ["--selftest"]),
+            ("etf_daily", "scripts/update_etf_daily.py", ["selftest"]),
+            # the wide panel is the price universe of every ETF study, and its
+            # refresh leg spent a week unwired while the panel sat frozen
+            ("etf_wide", "scripts/update_etf_wide.py", ["--selftest"]),
+            ("zt_pool", "scripts/update_zt_pool.py", ["selftest"]),
+            ("fund_statements", "scripts/update_fund_statements.py",
+             ["selftest"]),
+            ("fund_avail_pit", "scripts/fund_avail_pit_t27.py",
+             ["selftest"]),
+            ("fund_pit_avail", "scripts/fund_pit_avail.py",
+             ["selftest"]),
+            ("fund_avail_notice", "scripts/fund_avail_notice.py",
+             ["selftest"]),
+            ("fund_avail_dispersion", "scripts/fund_avail_dispersion.py",
+             ["selftest"]),
+            ("fund_avail_face_impact", "scripts/fund_avail_face_impact.py",
+             ["selftest"]),
+            ("fund_avail_asof", "scripts/fund_avail_asof_panel.py",
+             ["selftest"]),
+            ("fund_pit_factor_panel", "scripts/fund_pit_factor_panel.py",
+             ["selftest"]),
+            ("fund_pit_crossface_factor", "scripts/fund_pit_crossface_factor.py",
+             ["selftest"])):
+        _label = f"updater: update_{_name} selftest (exit-code contract)"
+        try:
+            _r = _selftest_run(_script, _args, 180)
+            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
+        except Exception as e:
+            check(_label, False, str(e))
+    for _label, _script, _args in (
+            ("product: etf_book_production card (exit-code contract)",
+             "scripts/etf_book_production.py", ["--selftest"]),
+            ("product: etf_vol_delivery_audit (exit-code contract)",
+             "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
+            ("product: etf_vol_calibration (exit-code contract)",
+             "scripts/etf_vol_calibration.py", ["--selftest"]),
+            ("product: etf_book_forward ledger (exit-code contract)",
+             "scripts/etf_book_forward.py", ["--selftest"]),
+            ("product: etf_book_order ticket (exit-code contract)",
+             "scripts/etf_book_order.py", ["--selftest"]),
+            ("product: etf_book_width_audit (exit-code contract)",
+             "scripts/etf_book_width_audit.py", ["--selftest"]),
+            ("product: etf_book_split_audit repair value (exit-code contract)",
+             "scripts/etf_book_split_audit.py", ["selftest"]),
+            # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
+            # window the book earned its money in. This leg keeps the outside-window test
+            # callable: if its selftest rots, the "alpha is a window property" reading
+            # stands on a script nobody can re-derive.
+            ("product: etf_book_spanning_pre2020 period test (exit-code contract)",
+             "scripts/etf_book_spanning_pre2020.py", ["--selftest"]),
+            # The money question ("how big can this book get before impact eats it")
+            # rests entirely on this one script: it re-derives both arms off one
+            # engine and pins k=1 to the flat path to 1e-12. A rot here would print
+            # a confident NAV ladder that no longer belongs to the delivered rule.
+            ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
+             "scripts/etf_book_capacity_rule.py", ["selftest"]),
+            # r1317: the 10-31 month-exam package is assembled by one generator.
+            # Nothing in this file ever called it, so the assembly face and its
+            # freeze-fingerprint gate could rot silently before exam day.
+            ("product: monthly_exam_prep exam faces (exit-code contract)",
+             "scripts/monthly_exam_prep.py", ["selftest"]),
+            ("product: gpu_face canonical GPU face (exit-code contract)",
+             "Tools/gpu_face.py", ["--selftest"]),
+            # r1188: an autostash rebase put a 62-file revert of another machine's
+            # work into this tree, and the only thing that noticed was the pre-push
+            # ownership claw -- i.e. after the commit already existed. This leg keeps
+            # the earlier, cheaper detector callable; if its classifier rots, rounds
+            # go back to discovering reverts at push time.
+            ("product: tree poison probe selftest (exit-code contract)",
+             "Tools/tree_poison_probe.py", ["--selftest"]),
+            # r1192: bm-a's MSG-20261027-2250-bm-a.md reported group commit ceebc703
+            # -- "order-bus receipts for bm-b", two files -- whose tree held 2 entries
+            # against its parent's 3,494. A temp index seeded from nothing instead of
+            # `read-tree <parent>` produces exactly that shape. bm-a has since added a
+            # pre-push gate (MSG-20261027-2345) that blocks the push; this leg keeps
+            # the BUILDER honest, which is the half a gate cannot reach.
+            ("product: surgical commit tree-size guard (exit-code contract)",
+             "Tools/surgery_commit.py", ["selftest"]),
+            ("product: machine-health face builder (exit-code contract)",
+             "Tools/machine_health_face.py", ["selftest"]),
+            # D-20261028-04: a resident script must resolve the group root by
+            # validated toplevel + newest ledger mtime, never by a `..\..` climb or
+            # a hardcoded mirror. The selftest pins the rejection of a masquerading
+            # subdirectory, which is the failure that serves a week-old ledger.
+            ("product: group-root resolution (exit-code contract)",
+             "Tools/group_root.py", ["selftest"]),
+            # D-20261028-04, second half: the resolver only helps the files that
+            # use it. This leg keeps the CENSUS callable -- a resident script that
+            # climbs `..\..` or pastes a mirror gets named every round instead of
+            # once, by whoever happened to grep for it.
+            ("product: group-root sweep census (exit-code contract)",
+             "scripts/group_root_sweep.py", ["selftest"]),
+            # D-20261028-11 widened that rule to two more shapes: PowerShell reading
+            # .Path off a Get-Item result (empty group root that still reports OK), and
+            # freshness gates that hash WORKTREE bytes on an autocrlf checkout. The
+            # census measures both and the fixtures pin the two ways the second one
+            # lies -- a stale constant is not a dialect bug, and on an LF-on-disk
+            # fixture neither state is distinguishable at all.
+            ("product: group-root dialect census (exit-code contract)",
+             "scripts/group_root_dialect_census.py", ["--selftest"]),
+            # r1320 fixed one doubled-percent leak with a gate on that face's OUTPUT and
+            # recorded three more for "the next sweep" -- this is that sweep, and it is a
+            # census because the same token is legitimate in a shell string, in frozen
+            # evidence and in the append-only pool record. This leg keeps the classifier
+            # callable; the chain leg re-derives the census every round.
+            ("product: reader-text audit census (exit-code contract)",
+             "scripts/reader_text_audit.py", ["selftest"]),
+            # r1319: the book's standing "pure survivor pool" caveat had no number
+            # behind it, and the first run of the census showed the caveat was also
+            # pointed the wrong way -- 1,645 of 1,656 eligible symbols still print to
+            # the panel edge and a dead fund keeps its history in its own file, so the
+            # engine saw it while it traded. This leg keeps the classifier callable.
+            ("product: ETF pool survival census (exit-code contract)",
+             "scripts/etf_pool_survival.py", ["selftest"]),
+            ("product: exchange_calendar_audit lag verdict (exit-code contract)",
+             "scripts/exchange_calendar_audit.py", ["selftest"]),
+            ("product: supply_alignment four-tuple face (exit-code contract)",
+             "scripts/supply_alignment.py", ["--selftest"]),
+            # The staggered book's sleeve due dates used to be position indices only
+            # (5274/5279) -- unreadable as dates and fragile against a panel whose
+            # history window shifts. Its selftest pins the date anchor + projection.
+            ("product: etf_paper_signal sleeve schedule (exit-code contract)",
+             "scripts/etf_paper_signal.py", ["--selftest"]),
+            # The pre-2020 test decides whether the book's edge is the composite or the
+            # wider universe, and it reads entirely through window semantics: a panel
+            # truncated at `start` silently keeps the book in cash for its first
+            # MIN_HIST bars (r1305 self-caught), which reads as "the edge never existed".
+            ("product: etf_book_pre2020 window semantics (exit-code contract)",
+             "scripts/etf_book_pre2020.py", ["selftest"]),
+            # r1308: the rotation premium is now priced outside the published regime too,
+            # and the ladder reconciles it with the -8.86pp caveat on the same window. Both
+            # depend on window semantics (upper bound only) and on one verdict rule.
+            ("product: etf_book_passive_mix windows (exit-code contract)",
+             "scripts/etf_book_passive_mix.py", ["--selftest"]),
+            ("product: etf_book_window_decomp ladder (exit-code contract)",
+             "scripts/etf_book_window_decomp.py", ["--selftest"]),
+            # r1309: the ladder's rungs were all FIXED cells picked with hindsight. The
+            # deployment rule re-picks (N,R) yearly on trailing Sharpe, so the ladder cannot
+            # say whether the RULE survives the window. This leg pins that the walk-forward
+            # harness -- including the year-boundary rule that makes a chain equal its curve
+            # -- still runs.
+            ("product: etf_book_pre2020 walk-forward rule (exit-code contract)",
+             "scripts/etf_book_pre2020_wf.py", ["--selftest"]),
+            # r1310: the book is regressed on the four liquid exposures an account could
+            # hold instead of it. The legs pin the two ways this kind of face lies: an
+            # "annual" alpha that is really a daily intercept (252x), and a benchmark arm
+            # made of un-repaired prices (a split prints as a -50% day). Both are pinned.
+            ("product: etf_book_spanning vs four betas (exit-code contract)",
+             "scripts/etf_book_spanning.py", ["--selftest"]),
+            # r1308 was itself a dead window's product left uncommitted in this tree, and
+            # the hand test (git log vs round_no) agreed with the counter and saw nothing.
+            # The detector's contract is what keeps the next one from being invisible.
+            ("fleet: round-open absorb detector (exit-code contract)",
+             "scripts/round_open_absorb.py", ["--selftest"]),
+            # r1319: the book, the four-ETF basket and the futures sleeve had each been
+            # measured in its own window and nobody had put them on the axis an allocator
+            # holds -- account size. The legs pin the three ways that face can lie: a
+            # percent read as a fraction (100x), a capacity ceiling that never binds, and
+            # a missing source silently becoming zero profit.
+            ("product: capital placement by account size (exit-code contract)",
+             "scripts/capital_placement.py", ["--selftest"]),
+            # r1320: four published annualised numbers were being quoted as four views of
+            # one book. The legs pin the decomposition that makes them one bridge: each
+            # path must sum to the endpoint difference (so a term cannot be dropped), an
+            # additive grid must show ZERO interaction (so a non-zero term is real), and an
+            # incomplete path must raise rather than print a partial waterfall.
+            ("product: card-vs-ticket cagr bridge (exit-code contract)",
+             "scripts/etf_book_cagr_reconcile.py", ["--selftest"]),
+            # r1323: the tempting reading of a turnover-bound book ("it trades on noise")
+            # is refuted by its own census, so the legs pin the mechanics that let it be
+            # read at all: k=0 restoring the plain top-n, the buffer being monotone in k,
+            # the hook being bit-identical to the default path on a tie-free face (and
+            # differing only on exact ties), a bad hook raising, and the consistency gate
+            # actually going red on each of nine ways this face can lie.
+            ("product: decision margins and a hysteresis buffer (exit-code contract)",
+             "scripts/etf_book_hysteresis.py", ["--selftest"]),
+            # r1325: the buffer arm above shipped with its own refutation in a caveat ("a
+            # single better arm can be one decision sequence"). These legs pin the test that
+            # settles it: phases must be distinct CALENDARS (a decision count is not a
+            # signature -- four phases gave 83/83/82/82), delta arithmetic must keep its
+            # units, the sign test must be exact, frozen criteria may not be re-tuned
+            # silently, the published verdict must be recomputed rather than trusted, and
+            # both tables must keep their header rows.
+            ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
+            # of selection premium over the book's own static class mix). The legs pin the
+            # two ways this face can lie in either direction: a premium under the frozen
+            # floor cannot be called a level just because it never changed sign, and a face
+            # whose four phases collapsed onto one calendar cannot call anything a level at
+            # all (r1261 -- prove the mechanism moved before comparing numbers).
+            ("product: selection premium across decision phases (exit-code contract)",
+             "scripts/etf_book_premium_phases.py", ["--selftest"]),
+            # r1327: the sizing overlay's two lags (trailing-window estimate + a scale frozen
+            # for up to 19 bars) are measured on the engine's own diag, so these legs pin the
+            # traps: a stationary-vol panel makes every window agree by construction (so an
+            # "arms are identical" reading there is correct, not a dead test) while a regime
+            # shift must move the curve; a vol shock must show as realised/estimated > 1.5;
+            # and the gate must refuse a hand-written verdict or a re-tuned threshold.
+            ("product: vol-target estimation and slot-freeze lag (exit-code contract)",
+             "scripts/etf_book_voltarget_lag.py", ["--selftest"]),
+            # r1328: r1327's "+1.60pp for the 20-bar window" rested on one decision calendar.
+            # These legs pin the ruler that tests it: the paired delta keeps its units, the
+            # noise floor is the control's OWN phase spread (so an effect smaller than it is
+            # "within noise", not a level), a sign flip is a sequence, an unpriced phase cannot
+            # become a verdict, the gate refuses a hand-written verdict / a re-tuned share
+            # floor / four identical phase calendars, and a stationary-vol fixture is allowed
+            # to make the windows agree (only a regime shift has to move the curve).
+            ("product: vol-target window across decision phases (exit-code contract)",
+             "scripts/etf_book_voltarget_phase.py", ["--selftest"]),
+            # r1326: the E187 pool batch added a leg to the shared census tool, so its
+            # 658-leg selftest has to run somewhere other than a human's memory. The
+            # seven new legs pin the churn arithmetic (a first month has no predecessor and
+            # must not read as zero churn), the frozen rule (equal churn in both buckets is
+            # not a discount), and the honest empty case (an era with no against-months is
+            # published as such, not as a pass with a missing ratio).
+            ("product: census selftest incl. the E187 churn-tie legs",
+             "scripts/e39_panel_census.py", ["selftest"])):
+        try:
+            _r = _selftest_run(_script, _args, 300)
+            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
+        except Exception as e:
+            check(_label, False, str(e))
+    try:
+        _cdir = os.path.join("results", "e43_tilt_4member")
+        _cf = sorted(f for f in os.listdir(_cdir)
+                     if f.startswith("LADDERDROPCARRIER-") and f.endswith(".json"))
+        if _cf:
+            _cj = json.load(open(os.path.join(_cdir, _cf[-1]), encoding="utf-8"))
+            _ca = _cj.get("answers") or {}
+            _gate_p = (_ca.get("pooled") or {}).get("perm_p_disjoint")
+            _cok = True
+            if _ca.get("calendar_verdict") == "review_window_established_on_this_face":
+                _cok = (_gate_p is not None
+                        and _gate_p <= float((_cj.get("spec") or {}).get("pooled_p_max", 0.01)))
+            _rk = _ca.get("rule_all_k")
+            if _rk is not None:
+                _cok = _cok and all(
+                    c.get("rule_hit_k") is not None and c["rule_hit_k"] <= _rk
+                    for c in (_cj.get("cells") or []))
+            _cok = _cok and all(
+                (c["carrier_month_of_year"] in (6, 7, 12, 1))
+                == bool(c["carrier_in_review_window"])
+                for c in (_cj.get("cells") or []))
+            check("product: E196 carrier verdict is recomputable from its own gate",
+                  _cok, "calendar=%s gate_p=%s rule_k=%s cells=%d"
+                  % (_ca.get("calendar_verdict"), _gate_p, _rk,
+                     len(_cj.get("cells") or [])))
+        else:
+            check("product: E196 carrier verdict is recomputable from its own gate",
+                  True, "carrier face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E196 carrier verdict is recomputable from its own gate",
+              False, str(e))
+    try:
+        _xdir = os.path.join("results", "reviewwindow_cross")
+        _xf = sorted(f for f in os.listdir(_xdir)
+                     if f.startswith("REVIEWWINDOWCROSS-") and f.endswith(".json"))
+        if _xf:
+            _xj = json.load(open(os.path.join(_xdir, _xf[-1]), encoding="utf-8"))
+            _xa = _xj.get("answers") or {}
+            _xs = _xj.get("spec") or {}
+            _xok = bool(_xj.get("cells")) and all(
+                c["window"].get("perm_p") is not None for c in _xj["cells"])
+            _xp = (_xa.get("pooled") or {}).get("perm_p")
+            _V = _xa.get("verdict")
+            if _V == "no_outside_family_signal":
+                _xok = (_xok and _xp is not None
+                        and _xp > float(_xs.get("pooled_p_max", 0.01))
+                        and (_xa.get("cells_sig_binomial_tail_p") or 1.0) > 0.05)
+            elif _V == "review_window_holds_outside_the_family":
+                _xok = (_xok and _xp is not None
+                        and _xp <= float(_xs.get("pooled_p_max", 0.01))
+                        and len(_xa.get("cells_sig") or [])
+                        >= max(2, len(_xj["cells"]) // 2))
+            check("product: E198 cross-panel verdict is recomputable from its own gate",
+                  _xok, "verdict=%s pooled_p=%s sig=%s cells=%d"
+                  % (_V, _xp, len(_xa.get("cells_sig") or []),
+                     len(_xj.get("cells") or [])))
+        else:
+            check("product: E198 cross-panel verdict is recomputable from its own gate",
+                  True, "cross-panel face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E198 cross-panel verdict is recomputable from its own gate",
+              False, str(e))
+    try:
+        _fdir = os.path.join("results", "reviewwindow_floor")
+        _ff = sorted(f for f in os.listdir(_fdir)
+                     if f.startswith("REVIEWWINDOWFLOOR-") and f.endswith(".json")) \
+            if os.path.isdir(_fdir) else []
+        if _ff:
+            _fj = json.load(open(os.path.join(_fdir, _ff[-1]), encoding="utf-8"))
+            _fa = _fj.get("answers") or {}
+            _fs = _fj.get("spec") or {}
+            _fv = _fa.get("verdict")
+            _floor = (_fa.get("floor") or {}).get("min_detectable_ratio")
+            _obs = (_fa.get("observed") or {})
+            _obs_r = _obs.get("observed_ratio")
+            _obs_p = _obs.get("pooled_perm_p")
+            _al = float(_fs.get("alpha_pooled", 0.01))
+            _okf = (_fa.get("months") or 0) > 0 and _floor is not None
+            _val = (_fa.get("validation") or {})
+            _sd = _val.get("analytic_sd_vs_permutation") or {}
+            _dc = _val.get("discrete_check") or {}
+            _okf = (_okf
+                    and (_sd.get("rel_diff") is not None
+                         and _sd["rel_diff"] <= 0.05)
+                    and (_dc.get("at_floor_perm_p") is not None
+                         and _dc["at_floor_perm_p"] <= _al)
+                    and (_dc.get("below_floor_perm_p") is not None
+                         and _dc["below_floor_perm_p"] > _al))
+            if _fv == "negative_is_below_the_detection_floor":
+                _okf = (_okf and _obs_r is not None and _obs_r < _floor
+                        and _obs_p is not None and _obs_p > _al)
+            elif _fv == "effect_detected":
+                _okf = _okf and _obs_p is not None and _obs_p <= _al
+            elif _fv == "effect_size_above_floor_yet_not_significant":
+                _okf = (_okf and _obs_r is not None and _obs_r >= _floor
+                        and _obs_p is not None and _obs_p > _al)
+            check("product: E199 detection floor is recomputable from its own gate",
+                  _okf, "verdict=%s observed_ratio=%s floor=%s p=%s sd_rel=%s"
+                  % (_fv, _obs_r, _floor, _obs_p, _sd.get("rel_diff")))
+        else:
+            check("product: E199 detection floor is recomputable from its own gate",
+                  True, "floor face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E199 detection floor is recomputable from its own gate",
+              False, str(e))
+    try:
+        _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
+        _names = {n for n, _c in _legs}
+        # etf_book_production belongs here as much as the ticket: r1290 caught the card
+        # (the headline face) a full refresh behind the ticket because only the ticket
+        # was wired -- an unwired face reads as current to everything downstream.
+        # etf_book_width_audit prices the disagreement between the card and the ticket,
+        # so it goes stale the moment either moves: r1291 found it two bars behind both.
+        _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
+                 "etf_book_order_card",
+                 "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
+                 "etf_book_card_track", "etf_paper_signal", "cal_audit"}
+        _miss = sorted(_want - _names)
+        check("product: ETF book legs wired into the S6 chain",
+              not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
+    except Exception as e:
+        check("product: ETF book legs wired into the S6 chain", False, str(e))
+    try:
+        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _ri = _order.index("etf_book_registry")
+        _behind = [(f.get("id"), f.get("chain_leg")) for f in (_rg.get("faces") or [])
+                   if f.get("chain_leg") in _order and _order.index(f["chain_leg"]) > _ri]
+        check("product: ETF registry runs after every face it summarises",
+              not _behind, "registry_at=%d behind=%s" % (_ri, _behind or "none"))
+    except Exception as e:
+        check("product: ETF registry runs after every face it summarises", False, str(e))
+    try:
+        _lb = json.load(open("results/etf_book_order/latest.json", encoding="utf-8"))
+        _ptr = json.load(open("docs/live_book/latest.json", encoding="utf-8"))
+        _page = json.load(open(_ptr.get("json"), encoding="utf-8"))
+        _sum = sum(float(o.get("amount_cny") or 0) for o in (_page.get("order") or []))
+        # r1310: the page is written by bm-a only (single writer, HOST in
+        # scripts/etf_book_ceo_page.py), so on the host that advanced the ticket the two
+        # dates can legitimately differ by ONE bar -- that is bm-a's refresh to make, not a
+        # defect this host can close. The lag is bounded and printed, never silently
+        # accepted: a lag of 2+ bars is a genuinely stale CEO page and stays red.
+        _lag_td = None
+        try:
+            _cal = pd.to_datetime(pd.read_csv("data/exchange_calendar.csv")["date"])
+            _lag_td = int(((_cal > pd.Timestamp(_page.get("evidence_cutoff")))
+                           & (_cal <= pd.Timestamp(_lb.get("as_of")))).sum())
+        except Exception:
+            _lag_td = None
+        _dates_ok = (_page.get("evidence_cutoff") == _lb.get("as_of")
+                     or (_lag_td is not None and 0 < _lag_td <= 1))
+        _ok_lb = (_page.get("schema") == "etf-book-ceo-page/v1"
+                  and _dates_ok
+                  and bool(_page.get("next_rebalance_date"))
+                  and bool(_page.get("order"))
+                  and abs(_sum + float(_page.get("cash_amount_cny") or 0)
+                          - float(_page.get("capital_cny") or 0)) < 1.0)
+        check("product: ETF live-book page current and its money closes", _ok_lb,
+              f"page_cutoff={_page.get('evidence_cutoff')} ticket_asof={_lb.get('as_of')} "
+              f"lag_td={_lag_td} names={len(_page.get('order') or [])} "
+              f"next={_page.get('next_rebalance_date')}"
+              + ("" if _page.get("evidence_cutoff") == _lb.get("as_of")
+                 else " (page one bar behind; writer=bm-a owes the refresh)"))
+        # The page now states the same expectation in yuan. Assert the unit change
+        # is honest: every yuan figure must equal its own percentage x the capital
+        # printed on the same page, and an absent input must be null, not 0 (a 0
+        # would read as "this book earns nothing", which is a different claim).
+        _mc = _page.get("money_cny") or {}
+        _cap = float(_page.get("capital_cny") or 0)
+        _tb = _page.get("ticket_book") or {}
+        _ok_money = (bool(_mc) and _cap > 0 and bool(_tb)
+                     and abs(float(_mc.get("expected_annual_cny") or 0) - _tb["cagr"] * _cap) < 1.0
+                     and abs(float(_mc.get("worst_drawdown_cny") or 0) - _tb["maxdd"] * _cap) < 1.0
+                     and abs(float(_mc.get("excess_annual_cny") or 0)
+                             - float(_page.get("excess_pp") or 0) / 100.0 * _cap) < 1.0)
+        check("product: ETF live-book yuan figures are its own percentages x its own capital", _ok_money,
+              f"expected={_mc.get('expected_annual_cny')} excess={_mc.get('excess_annual_cny')} "
+              f"worst={_mc.get('worst_drawdown_cny')} capital={_cap}")
+        # The page used to print a fresh buy list every session while the DECISION
+        # had not moved for two weeks: a holder following it would re-buy a book
+        # they already own, at 8bp a side. Assert the page names the world the
+        # reader is in, and that the mode follows its own two date faces (a page
+        # saying "hold" on a rebalance bar, or "trade" with no position, fails).
+        _ta = _page.get("today_action") or {}
+        _mode = _ta.get("mode")
+        _decided_is_priced = str(_page.get("book_decided_at")) == str(_page.get("priced_bar"))
+        _holds = bool((_page.get("forward") or {}).get("bars"))
+        _ok_act = (_mode in ("hold", "open", "rebalance")
+                   and (_mode == "rebalance") == (_decided_is_priced and _holds)
+                   and (_mode != "hold"
+                        or _ta.get("next_trade_date") == _page.get("next_rebalance_date"))
+                   and (_ta.get("cost_if_retraded_pct_per_year") is None
+                        or abs(float(_ta["cost_if_retraded_pct_per_year"])
+                               - 2.0 * float(_page.get("cost_bp_per_side") or 0) / 10000.0
+                               * 250 * float(_page.get("k_now") or 0) * 100) < 0.01))
+        check("product: ETF live-book page says whether to trade today", _ok_act,
+              f"mode={_mode} decided={_page.get('book_decided_at')} "
+              f"priced={_page.get('priced_bar')} retrade_cost="
+              f"{_ta.get('cost_if_retraded_pct_per_year')}%/yr")
+        # A page that only quotes the backtest's max drawdown answers "how bad was the
+        # strategy's own path", not "how bad can this exact set of names get". Assert
+        # the stress block exists, that each window's yuan is that window's own
+        # percentage x this ticket's capital, and that no window is silently blank.
+        _st = _page.get("stress") or {}
+        _w = _st.get("worst") or {}
+        _ok_st = bool(_st) and not _st.get("error") and _st.get("n_days", 0) > 0
+        for _k in ("1d", "5d", "20d"):
+            _row = _w.get(_k)
+            if not _row:
+                _ok_st = False
+                break
+            _ok_st = (_ok_st and isinstance(_row.get("end_date"), str)
+                      and abs(float(_row.get("cny") or 0)
+                              - float(_row.get("pct") or 0) / 100.0 * _cap) < 100.0
+                      and float(_row.get("pct") or 0) < 0)
+        check("product: ETF live-book stress rows are their own percentages x capital", _ok_st,
+              f"days={_st.get('n_days')} 1d={_w.get('1d', {}).get('pct')} "
+              f"5d={_w.get('5d', {}).get('pct')} 20d={_w.get('20d', {}).get('pct')}")
+        # The page told the reader to buy GC001 but never said what the cash is worth.
+        # Assert the block exists AND that its yuan is the page's own cash x the repo
+        # panel's own last close -- a rate the page forgot to refresh would otherwise
+        # keep printing a confident number from a stale panel.
+        _cy = _page.get("cash_yield") or {}
+        _ok_cy = False
+        _cy_detail = "block absent"
+        if _cy and _cy.get("annual_cny") is not None:
+            _rp = "data/repo_daily/%s.csv" % (_cy.get("leg") or "GC001")
+            _last = None
+            try:
+                with open(_rp, encoding="utf-8") as _fh:
+                    next(_fh, None)
+                    for _ln in _fh:
+                        _p = _ln.strip().split(",")
+                        if len(_p) >= 5:
+                            try:
+                                _v = float(_p[4])
+                            except ValueError:
+                                continue
+                            if 0.0 < _v < 200.0:
+                                _last = (_p[0], _v)
+            except Exception as _e:
+                _last = None
+            _ok_cy = (bool(_last)
+                      and _cy.get("rate_date") == _last[0]
+                      and abs(float(_cy.get("rate_pct") or 0) - _last[1]) < 1e-9
+                      and abs(float(_cy.get("annual_cny") or 0)
+                              - float(_page.get("cash_amount_cny") or 0) * _last[1] / 100.0) < 1.0
+                      and abs(float(_cy.get("daily_cny") or 0)
+                              - float(_cy["annual_cny"]) / 250.0) < 1.0)
+            _cy_detail = (f"rate={_cy.get('rate_pct')}@{_cy.get('rate_date')} "
+                          f"panel={_last} annual={_cy.get('annual_cny')} "
+                          f"daily={_cy.get('daily_cny')}")
+        check("product: ETF live-book cash leg is priced off the repo panel's own close", _ok_cy,
+              _cy_detail)
+        # The cash block now also answers "should the idle half be laddered out to a
+        # longer repo?". That verdict must be the panels' own arithmetic: roll the legs
+        # here, independently, and require the page's edges and its pick to follow.
+        _cl = _page.get("cash_ladder") or {}
+        _ok_cl = False
+        _cl_detail = "block absent"
+        try:
+            import datetime as _dtc
 
+            def _repo(sym):
+                _rows = []
+                with open("data/repo_daily/%s.csv" % sym, encoding="utf-8") as _fh:
+                    next(_fh, None)
+                    for _ln in _fh:
+                        _p = _ln.strip().split(",")
+                        if len(_p) >= 5:
+                            try:
+                                _v = float(_p[4])
+                                if 0.0 < _v < 200.0:
+                                    _rows.append((_dtc.date.fromisoformat(_p[0]), _v))
+                            except ValueError:
+                                continue
+                return _rows
+
+            def _roll(_rows, tenor, start):
+                _dates = [d for d, _ in _rows]
+                _rate = dict(_rows)
+                _idx = [i for i, d in enumerate(_dates) if d >= start]
+                if len(_idx) < 2:
+                    return None
+                i, _last = _idx[0], _idx[-1]
+                _tot = 0.0
+                _days = 0
+                while i < _last:
+                    d = _dates[i]
+                    _mat = d + _dtc.timedelta(days=tenor)
+                    j = i + 1
+                    while j < len(_dates) and _dates[j] < _mat:
+                        j += 1
+                    if j > _last:
+                        break
+                    _acc = (_dates[j] - d).days if tenor == 1 else tenor
+                    _tot += _rate[d] / 100.0 * _acc / 365.0
+                    _days += (_dates[j] - d).days
+                    i = j
+                if _days <= 0:
+                    return None
+                return _tot / (_days / 365.0) * 100.0
+
+            _base_rows = _repo("GC001")
+            _end = _base_rows[-1][0]
+            _start = _end - _dtc.timedelta(days=365)
+            _b1 = _roll(_base_rows, 1, _start)
+            _arms = {r.get("symbol"): r for r in (_cl.get("tenors") or [])}
+            _mismatch = []
+            _passing = []
+            for _sym, _r in _arms.items():
+                if _sym == "GC001" or not _r.get("edge_bp"):
+                    continue
+                _tenor = int(_r.get("tenor_days") or 1)
+                _mine = _roll(_repo(_sym), _tenor, _start)
+                if _mine is None:
+                    continue
+                _edge = (_mine - _b1) * 100.0
+                if abs(_edge - float(_r["edge_bp"].get("1") or 0.0)) > 0.5:
+                    _mismatch.append("%s page %s vs recomputed %.1f"
+                                     % (_sym, _r["edge_bp"].get("1"), _edge))
+                if (float(_r["edge_bp"].get("1") or 0.0) >= 20.0
+                        and float(_r["edge_bp"].get("3") or 0.0) >= 20.0
+                        and float(_r.get("idle_share_1y") or 0.0) <= 0.01):
+                    _passing.append(_sym)
+            _ok_cl = (bool(_arms) and _b1 is not None and not _mismatch
+                      and (_cl.get("verdict") == "ADOPT") == bool(_passing)
+                      and (_cl.get("pick") in _passing if _passing
+                           else _cl.get("pick") == "GC001"))
+            _cl_detail = ("verdict=%s pick=%s arms=%d base1y=%.3f passing=%s mismatch=%s"
+                          % (_cl.get("verdict"), _cl.get("pick"), len(_arms), _b1 or 0.0,
+                             _passing, _mismatch))
+        except Exception as _e:
+            _cl_detail = "recompute failed: %s" % _e
+        check("product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
+              _ok_cl, _cl_detail)
+    except Exception as e:
+        check("product: ETF live-book page current and its money closes", False, str(e))
+    try:
+        _bma = importlib.import_module("Tools.s6_chain_bma")
+        _canon = importlib.import_module("Tools.s6_chain_bmc")
+        _a = [n for n, _c in _bma.LEGS]
+        _c = [n for n, _c in _canon.LEGS]
+        _miss = [p for _n, _cmd in _bma.LEGS
+                 if _bma.leg_script(_cmd) and not os.path.exists(
+                     os.path.join(_bma.ROOT, _bma.leg_script(_cmd)))]
+        check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+              _a == _c and not _miss,
+              f"legs={len(_a)} canonical={len(_c)} missing_scripts={_miss or '-'}")
+    except Exception as e:
+        check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
+              False, str(e))
+    try:
+        import glob as _glob
+        import json as _json
+        _sp = os.path.join("scripts", "futures_tsmom_signal.py")
+        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+                             text=True, encoding="utf-8", errors="replace")
+        _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
+        check("product: futures TSMOM shadow face keeps its sizing rules",
+              _sr.returncode == 0, f"selftest rc={_sr.returncode} {_st[:60]}")
+
+        _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
+                                encoding="utf-8"))
+        _tails = []
+        for _p in _glob.glob(os.path.join("data", "futures_daily", "*.csv")):
+            try:
+                _last = open(_p, encoding="utf-8").read().strip().splitlines()[-1]
+                _tails.append(_last.split(",")[0].strip()[:10])
+            except Exception:
+                pass
+        _panel_tail = max(_tails) if _tails else ""
+        _gross = (_face.get("book") or {}).get("gross")
+        _ok = (_face.get("actionable") is False
+               and _face.get("shadow") is True
+               and isinstance(_gross, (int, float)) and _gross <= 3.0 + 1e-9
+               and _face.get("generated_for_bar") == _panel_tail
+               and _face.get("staleness", {}).get("stale") is False)
+        check("product: futures TSMOM face is current, capped and not an order", _ok,
+              "bar=%s panel=%s gross=%s stale=%s" % (
+                  _face.get("generated_for_bar"), _panel_tail, _gross,
+                  _face.get("staleness", {}).get("stale")))
+    except Exception as e:
+        check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
+    try:
+        import json as _json
+        _sp = os.path.join("scripts", "futures_overlay_sweep.py")
+        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+                             text=True, encoding="utf-8", errors="replace")
+        _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
+        check("product: futures overlay sweep keeps its blend arithmetic",
+              _sr.returncode == 0, f"selftest rc={_sr.returncode} {_st[:60]}")
+
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _sw = _face.get("sweeps") or {}
+        _rows = (_sw.get("tsmom60") or {}).get("full") or []
+        _vols = [r.get("realised_vol") for r in _rows]
+        _has_equal = all(isinstance(r.get("at_equal_vol"), dict) for r in _rows) and bool(_rows)
+        _risk_falls = bool(_vols) and _vols[-1] < _vols[0] - 1e-6
+        _flat_at_equal = (not _rows) or abs(
+            _rows[0]["at_equal_vol"].get("cagr", 0) - _rows[0].get("cagr", 0)) < 5e-4
+        _desc = "descriptive" in str(_face.get("face", "")).lower()
+        check("product: overlay sweep sells risk and publishes the equal-risk reading",
+              sorted(_sw) == ["tsmom120", "tsmom60"] and _has_equal and _risk_falls
+              and _flat_at_equal and _desc,
+              "weights=%d vol %.4f->%.4f equal_vol_block=%s descriptive=%s" % (
+                  len(_rows), _vols[0] if _vols else -1, _vols[-1] if _vols else -1,
+                  _has_equal, _desc))
+    except Exception as e:
+        check("product: futures overlay sweep keeps its blend arithmetic", False, str(e))
+    try:
+        import json as _json
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _sw = _face.get("sweeps") or {}
+        _bad = []
+        for _tag in ("tsmom60", "tsmom120"):
+            _blk = _sw.get(_tag) or {}
+            _lad = _blk.get("cost_ladder") or []
+            _be = (_blk.get("cost_breakeven_bp") or {}).get("max_cost_per_side_bp")
+            if len(_lad) < 2:
+                _bad.append(f"{_tag}: ladder has {len(_lad)} levels")
+                continue
+            _turns = {round(b.get("sleeve_turnover_total") or 0.0, 1) for b in _lad}
+            if len(_turns) != 1:
+                _bad.append(f"{_tag}: turnover moves across costs {sorted(_turns)}")
+            _w = (_blk.get("cost_breakeven_bp") or {}).get("weight")
+            _recomputed = None
+            for _b in sorted(_lad, key=lambda b: b["cost_per_side_bp"]):
+                _row = next((r for r in _b["rows"]
+                             if round(float(r["weight_in_sleeve"]), 4) == round(float(_w), 4)), None)
+                _d = (_row or {}).get("at_equal_vol_delta_cagr_pp")
+                if _d is None or _d <= 0:
+                    break
+                _recomputed = _b["cost_per_side_bp"]
+            if _recomputed != _be:
+                _bad.append(f"{_tag}: reported breakeven {_be} != recomputed {_recomputed}")
+        check("product: overlay breakeven is recomputable from its own ladder",
+              not _bad, "; ".join(_bad)[:200] or "both lookbacks: one sequence, stated breakeven")
+    except Exception as e:
+        check("product: overlay breakeven is recomputable from its own ladder", False, str(e))
+    try:
+        import json as _json
+        _face = _json.load(open(os.path.join("results", "futures_overlay_sweep.json"),
+                                encoding="utf-8"))
+        _bad = []
+        for _tag in ("tsmom60", "tsmom120"):
+            _tc = ((_face.get("sweeps") or {}).get(_tag) or {}).get("turnover_control") or {}
+            _rows = _tc.get("rows") or []
+            if len(_rows) < 3:
+                _bad.append(f"{_tag}: {len(_rows)} bands")
+                continue
+            _base = _rows[0]
+            if round(_base["band"], 4) != 0.0:
+                _bad.append(f"{_tag}: first band is {_base['band']}, not the baseline")
+            _turns = [r["sleeve_turnover_total"] for r in _rows]
+            if any(b > a + 1e-9 for a, b in zip(_turns, _turns[1:])):
+                _bad.append(f"{_tag}: turnover rises as the band widens {_turns}")
+            _floor = _tc.get("structural_turnover_total")
+            if _floor is None or _floor > _turns[0] + 1e-9:
+                _bad.append(f"{_tag}: structural floor {_floor} exceeds unbounded turnover")
+            if min(_turns) < _floor - 1e-9:
+                _bad.append(f"{_tag}: a band cut {min(_turns)} below the {_floor} floor")
+            _maxcut = _tc.get("resizing_share_pct")
+            for _r in _rows:
+                if _r.get("gross_give_up_pp") is None:
+                    _bad.append(f"{_tag} band {_r['band']}: no gross give-up published")
+                    break
+                _costs = {round(c["turnover_total"], 1) for c in _r.get("cost_rows") or []}
+                if len(_costs) > 1:
+                    _bad.append(f"{_tag} band {_r['band']}: turnover moves across cost levels")
+                    break
+                _cut = _r.get("turnover_cut_pct")
+                if _cut is not None and _maxcut is not None and _cut > _maxcut + 0.2:
+                    _bad.append(f"{_tag} band {_r['band']}: claims a {_cut}% cut but only "
+                                f"{_maxcut}% of turnover is re-sizing")
+                    break
+        check("product: overlay no-trade band is priced on both sides of the trade",
+              not _bad, "; ".join(_bad)[:200]
+              or "floor measured, cut <= resizing share, gross give-up published per band")
+    except Exception as e:
+        check("product: overlay no-trade band is priced on both sides of the trade", False, str(e))
+    try:
+        _fr = json.load(open("results/futures_overlay_fliprate.json", encoding="utf-8"))
+        _bad = []
+        for _tag, _blk in (_fr.get("lookbacks") or {}).items():
+            _arms = _blk.get("arms") or []
+            if len(_arms) < 3:
+                _bad.append(f"{_tag}: {len(_arms)} arms")
+                continue
+            _base = _arms[0]
+            _expo = [a["mean_abs_weight"] for a in _arms if a.get("mean_abs_weight")]
+            if not _expo:
+                _bad.append(f"{_tag}: no exposure published")
+            elif (max(_expo) - min(_expo)) / min(_expo) > 0.01:
+                _bad.append(f"{_tag}: exposure spread {max(_expo) - min(_expo):.4f} "
+                            f"-- that is deleveraging, not a flip filter")
+            for _a in _arms:
+                _turns = {round(r.get("turnover_total") or 0.0, 1)
+                          for r in _a.get("cost_rows") or []}
+                if len(_a.get("cost_rows") or []) < 3 or len(_turns) != 1:
+                    _bad.append(f"{_tag}/{_a['label']}: cost ladder re-prices "
+                                f"{len(_turns)} sequences")
+                    break
+                _expect = round((_a["sleeve_gross_cagr"] - _base["sleeve_gross_cagr"]) * 100, 2)
+                if _a.get("gross_give_up_pp") != _expect:
+                    _bad.append(f"{_tag}/{_a['label']}: give-up {_a.get('gross_give_up_pp')} "
+                                f"!= measured {_expect}")
+                    break
+                _by = {r["cost_per_side_bp"]: r.get("equal_risk_delta_cagr_pp") or 0.0
+                       for r in _a["cost_rows"]}
+                _bby = {r["cost_per_side_bp"]: r.get("equal_risk_delta_cagr_pp") or 0.0
+                        for r in _base["cost_rows"]}
+                _claims = bool(_a.get("beats_base_at_3bp_or_worse"))
+                _real = all(_by.get(bp, -9) > _bby.get(bp, -9) for bp in (3.0, 5.0, 10.0))
+                if _a["spec"]["mechanism"] != "base" and _claims != _real:
+                    _bad.append(f"{_tag}/{_a['label']}: claims beats_base={_claims} "
+                                f"but the ladder says {_real}")
+                    break
+            _rb = _blk.get("robustness") or {}
+            _hold = [a for a in _arms if a["spec"]["mechanism"] == "strength_hold"]
+            _clr = [a for a in _hold if a.get("beats_base_at_3bp_or_worse")]
+            _expect_flag = bool(_hold) and len(_clr) == len(_hold)
+            if _rb.get("clears_both_theta_levels") != _expect_flag:
+                _bad.append(f"{_tag}: robustness flag disagrees with the rows "
+                            f"({len(_clr)}/{len(_hold)} theta levels clear)")
+        check("product: flip-rate arms cut flips, not exposure, and the cut is priced",
+              not _bad, "; ".join(_bad)[:220]
+              or "exposure flat, one sequence per arm, give-up measured, "
+                 "robustness flag derived from the rows")
+    except Exception as e:
+        check("product: flip-rate arms cut flips, not exposure, and the cut is priced",
+              False, str(e))
+    try:
+        _fp = json.load(open("results/futures_overlay_fliprate_paths.json", encoding="utf-8"))
+        _rule = _fp.get("adoption_rule") or {}
+        _bad = []
+        _cells_expected = set(_fp.get("cells_tested") or [])
+        if len(_cells_expected) < 5 or not _rule:
+            _bad.append(f"face incomplete: cells={len(_cells_expected)} rule={bool(_rule)}")
+        _key = "delta_pp_%gbp" % float(_rule.get("primary_cost_bp") or 0)
+        _sample = next(iter((_fp.get("arms") or {}).values()), {})
+        _sample = (_sample.get("cells") or [{}])[0]
+        if _key not in _sample:
+            _bad.append(f"primary cost {_rule.get('primary_cost_bp')} is not a published "
+                        f"column (looked for {_key})")
+        _passed = []
+        for _lab, _a in (_fp.get("arms") or {}).items():
+            _cells = _a.get("cells") or []
+            if {c.get("cell") for c in _cells} != _cells_expected:
+                _bad.append(f"{_lab}: {len(_cells)} cells do not match the declared path set")
+                continue
+            _vals = [c.get(_key) for c in _cells if c.get(_key) is not None]
+            if not _vals:
+                _bad.append(f"{_lab}: no measurable cell")
+                continue
+            _share = round(len([v for v in _vals if v > 0]) / len(_vals), 3)
+            _worst = min(_vals)
+            _by = {c["cell"]: c.get(_key) for c in _cells}
+            _reject = (_share < float(_rule["min_positive_share"])
+                       or _worst < float(_rule["worst_cell_floor_pp"])
+                       or (_rule.get("require_full_positive") and (_by.get("full") or 0) <= 0)
+                       or (_rule.get("require_oos_positive") and (_by.get("oos") or 0) <= 0))
+            _expect = "REJECT" if _reject else "ADOPT"
+            _ad = _a.get("adoption") or {}
+            if _ad.get("verdict") != _expect:
+                _bad.append(f"{_lab}: says {_ad.get('verdict')} but the rule says {_expect} "
+                            f"(share {_share}, worst {_worst})")
+            if _ad.get("share_positive") != _share or _ad.get("worst_cell_pp") != _worst:
+                _bad.append(f"{_lab}: published share/worst do not match its own cells")
+            if _expect == "ADOPT":
+                _passed.append(_lab)
+        if _fp.get("overall_verdict") != ("ADOPT" if _passed else "REJECT"):
+            _bad.append(f"overall {_fp.get('overall_verdict')} disagrees with "
+                        f"{len(_passed)} passing arm(s)")
+        _adopted = _fp.get("adopted_arm")
+        if _adopted is not None and _adopted not in _passed:
+            _bad.append(f"adopted arm {_adopted} did not pass the rule")
+        check("product: the flip damper is adopted or rejected by path cells, not one run",
+              not _bad, "; ".join(_bad)[:220]
+              or f"{len(_cells_expected)} paths x {len(_fp.get('arms') or {})} arms, "
+                 f"{len(_passed)} pass the frozen rule, verdict recomputed from the rows")
+    except Exception as e:
+        check("product: the flip damper is adopted or rejected by path cells, not one run",
+              False, str(e))
+    try:
+        import json as _json
+        _bad = []
+        _face = _json.load(open(os.path.join("results", "futures_tsmom_signal.json"),
+                                encoding="utf-8"))
+        _art = _json.load(open(os.path.join(
+            "results", "futures_overlay_fliprate_paths.json"), encoding="utf-8"))
+        _ad = _face.get("adopted_overlay")
+        if not _ad:
+            _bad.append("the live page carries no adopted_overlay")
+        else:
+            _arm = _art.get("adopted_arm")
+            _spec = (_art.get("arms") or {}).get(_arm, {}).get("spec") or {}
+            if _ad.get("arm") != _arm:
+                _bad.append(f"page rules on {_ad.get('arm')} but the path test adopted {_arm}")
+            _want = {"mechanism": _spec.get("mechanism"), "lookback": _spec.get("lookback"),
+                     "theta": _spec.get("theta"), "k": _spec.get("k")}
+            if _ad.get("spec") != _want:
+                _bad.append(f"page spec {_ad.get('spec')} != artifact {_want}")
+            if _arm and _art.get("overall_verdict") != "ADOPT":
+                _bad.append("a damper is published while the path verdict is not ADOPT")
+            _sys_path = os.path.join(os.getcwd(), "scripts")
+            if _sys_path not in sys.path:
+                sys.path.insert(0, _sys_path)
+            import futures_tsmom_probe as _P
+            import futures_overlay_fliprate as _F
+            _close = _P.load_panel()
+            _mom = _close.pct_change(int(_spec["lookback"]))
+            _fn = (lambda m: _F.strength_hold(m, float(_spec["theta"]))
+                   if _spec["mechanism"] == "strength_hold"
+                   else _F.confirm_kd(m, int(_spec["k"])))
+            _raw = _F.flip_counts(_F.base_signs(_mom))["flips"]
+            _dmp = _F.flip_counts(_fn(_mom))["flips"]
+            if _raw != _ad["flips"]["raw"]:
+                _bad.append(f"raw flips published {_ad['flips']['raw']} != recomputed {_raw}")
+            if _dmp != _ad["flips"]["damped"]:
+                _bad.append(f"damped flips published {_ad['flips']['damped']} "
+                            f"!= recomputed {_dmp}")
+            if not _dmp < _raw:
+                _bad.append(f"the damper does not cut flips ({_dmp} vs {_raw})")
+            _page = os.path.join("docs", "futures_lane",
+                                 "TSMOM-%s.md" % _face.get("generated_for_bar"))
+            if not os.path.exists(_page) or "生产候选" not in open(
+                    _page, encoding="utf-8").read():
+                _bad.append("the human page does not carry the adopted section")
+        check("product: the adopted flip damper reaches the live shadow book",
+              not _bad, "; ".join(_bad)[:220]
+              or "page flips %d->%d with the artifact's own rule, recomputed from the panel"
+                 % (_ad["flips"]["raw"], _ad["flips"]["damped"]))
+    except Exception as e:
+        check("product: the adopted flip damper reaches the live shadow book", False, str(e))
     return _finish()
-
-
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
@@ -1406,7 +2042,6 @@ def _finish() -> int:
     except Exception:
         pass
     return 1 if n_fail else 0
-
 
 if __name__ == "__main__":
     sys.exit(main())

@@ -16,9 +16,7 @@ Three read-only legs over ``data/daily``, all deterministic and offline:
 Every face is descriptive: no gate, no verdict on a strategy, no prereg, no
 trial count consumed.
 """
-
 from __future__ import annotations
-
 import argparse
 import csv
 import hashlib
@@ -28,15 +26,11 @@ import random
 import sys
 import zlib
 from datetime import datetime
-
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-
 DAILY = os.path.join(ROOT, "data", "daily")
 BULK_IMPORT_DATE = "2026-09-22"   # the one-off full-panel pull, see E30 coverage face
 REFRESH_WAVE_DATE = "2026-10-17"  # first mtime of the 2026-10-21 refresh pass
-
-
 def read_bars(path):
     """-> list of {date, close, volume, amount} with numeric coercion."""
     out = []
@@ -54,27 +48,17 @@ def read_bars(path):
                         "volume": num("volume"), "amount": num("amount")})
     out.sort(key=lambda r: r["date"])
     return out
-
-
 def panel_files():
     return sorted(f for f in os.listdir(DAILY) if f.lower().endswith(".csv"))
-
-
 def panel_calendar():
     import e24_ladder_weighting as base
     return base.load_panel()[0]
-
-
 def _quant(seq, q):
     if not seq:
         return None
     s = sorted(seq)
     k = max(0, min(len(s) - 1, int(round(q * (len(s) - 1)))))
     return s[k]
-
-
-# ---------------------------------------------------------------- leg: stale
-
 def classify_stale(name, bars, cal, cutoff):
     """Mechanical criteria, applied to rows on disk only.
 
@@ -119,8 +103,6 @@ def classify_stale(name, bars, cal, cutoff):
         "last_bar_vs_cutoff_days": (
             (datetime.fromisoformat(cutoff) - datetime.fromisoformat(last)).days if cutoff else None),
     }
-
-
 def run_stale(outdir):
     cal = panel_calendar()
     cutoff = cal[-1]
@@ -186,10 +168,6 @@ def run_stale(outdir):
         ],
     }
     return face
-
-
-# ---------------------------------------------------------------- leg: mtime
-
 def run_mtime(outdir):
     files = panel_files()
     pockets = []
@@ -251,10 +229,6 @@ def run_mtime(outdir):
         ],
     }
     return face, pockets
-
-
-# --------------------------------------------------------------- leg: ladder
-
 def _month_ends(curve):
     out = []
     for d, v in curve:
@@ -263,8 +237,6 @@ def _month_ends(curve):
         else:
             out.append((d, v))
     return out
-
-
 def risk_profile(curve, years):
     vals = [v for _, v in curve]
     peak = vals[0]
@@ -307,8 +279,6 @@ def risk_profile(curve, years):
         "negative_months": neg,
         "monthly_win_rate_pct": round((len(mrets) - neg) / len(mrets) * 100, 1) if mrets else None,
     }
-
-
 def run_ladder(outdir, starts=("2020-01-01", "2018-01-01")):
     import e24_ladder_weighting as base
     import e27_universe_expansion as e27
@@ -365,10 +335,6 @@ def run_ladder(outdir, starts=("2020-01-01", "2018-01-01")):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------------------------- leg: month attribution
-
 def run_month(outdir, month):
     """Attribute one calendar month of the ladder from rows only.
 
@@ -430,10 +396,6 @@ def run_month(outdir, month):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ----------------------------------------------------- leg: pair drawdown path
-
 def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
              exclude=("sh511",), raw=None):
     """Read the E34-E38 wide-book spread on the drawdown path, not on its mean.
@@ -520,20 +482,12 @@ def run_pair(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------------------------- leg: cash-leg drag
-
 def _scale_cash(cash, mult):
     """Scale a load_cash_series payload's daily returns. None stays None (0%)."""
     if cash is None or not mult:
         return None if cash is None else {"series": {}}
     return {"series": {d: r * mult for d, r in cash["series"].items()}}
-
-
 CASH_IDENTITY_TOL_BP = 5.0
-
-
 def _first_trade_index(rebal, prices, universe, elig):
     """(E128) the first month end on which THIS book's own universe can trade.
 
@@ -546,8 +500,6 @@ def _first_trade_index(rebal, prices, universe, elig):
         if any(elig(prices[s], ri) for s in universe):
             return ri
     return None
-
-
 def _window_is_burn_in_driven(idx, min_bars, slack=35):
     """(E128) is the repo stretch the window's own burn-in, or a real delay?
 
@@ -560,8 +512,6 @@ def _window_is_burn_in_driven(idx, min_bars, slack=35):
     if idx is None or min_bars is None:
         return None
     return (idx - min_bars) <= slack
-
-
 def _cash_identity(rate_pct, share_pct, measured_bp, tol_bp=CASH_IDENTITY_TOL_BP):
     """(E128) rate x share vs the measured attribution, as a published residual.
 
@@ -612,8 +562,6 @@ def _cash_identity(rate_pct, share_pct, measured_bp, tol_bp=CASH_IDENTITY_TOL_BP
                     "%.1fbp: either the accrual is not the only cash channel or "
                     "the attribution is mis-specified" % tol_bp),
     }
-
-
 def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",),
                  rate_mults=(0.0, 1.0, 3.0), raw=None):
     """How much of the ladder/wide verdict is the repo leg actually paying for?
@@ -820,23 +768,10 @@ def run_cashdrag(outdir, starts=("2020-01-01",), pick_n=9999, exclude=("sh511",)
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------------------------- leg: size tilt (E40)
-
 TILT_LARGE = ("sh510300", "sh510050")
 TILT_SMALL = ("sh510500", "sh512100", "sh588000")
-# four-member reach-back skin: sh588000 has no bars before 2020-11-13, so the
-# five-member tilt cannot be measured on pre-2021 months (E43-TILT-4MEMBER-HISTORY)
 TILT4_SMALL = ("sh510500", "sh512100")
-# three-member reach-back skin: sh512100 has no bars before 2016-11-04, so the
-# four-member tilt cannot be priced on 2013-2016 either (E43-TILT-3MEMBER-
-# REACHBACK). Dropping it leaves 2 broad-cap vs sh510500 alone (first bar
-# 2013-03-15), the only skin that reads the pre-2017 years -- at a composition
-# cost that is published beside the wider skins rather than assumed away.
 TILT3_SMALL = ("sh510500",)
-
-
 def _tilt_series(mem, brk, months, large, small):
     """Monthly (small_mean - large_mean) on the months both legs can be priced.
 
@@ -859,8 +794,6 @@ def _tilt_series(mem, brk, months, large, small):
         used.append(m)
         tilt[m] = sum(sm) / len(sm) - sum(lg) / len(lg)
     return used, tilt, dropped
-
-
 def _skin_months(lad_m, wide_m, mem, large, small):
     """Months one skin can be priced on: every member of BOTH legs is present.
 
@@ -873,8 +806,6 @@ def _skin_months(lad_m, wide_m, mem, large, small):
     need = list(large) + list(small)
     return [m for m in sorted(lad_m)
             if m in wide_m and all(m in mem[s] for s in need)]
-
-
 def _compose_counts(live, large, small):
     """Weight shares of one equal-weight book by the ladder's own size legs."""
     n = len(live)
@@ -890,14 +821,10 @@ def _compose_counts(live, large, small):
         "ladder_large_weight_pct": round(nl / n * 100, 4),
         "other_weight_pct": round((n - ns - nl) / n * 100, 4),
     }
-
-
 def _month_rets(curve):
     """[(YYYY-MM, return)] from month-end marks of an equity curve."""
     me = _month_ends(curve)
     return [(me[k][0][:7], me[k][1] / me[k - 1][1] - 1.0) for k in range(1, len(me))]
-
-
 def _member_monthly(cal, sym, raw):
     """{YYYY-MM: return} for one member, from its own month-end closes."""
     c = raw.get(sym, ({}, {}))[0] if sym in raw else {}
@@ -913,8 +840,6 @@ def _member_monthly(cal, sym, raw):
         if prev and cur and prev > 0:
             out[marks[k][0]] = cur / prev - 1.0
     return out
-
-
 def _moments(xs):
     n = len(xs)
     if n < 2:
@@ -922,8 +847,6 @@ def _moments(xs):
     m = sum(xs) / n
     var = sum((x - m) ** 2 for x in xs) / (n - 1)
     return {"n": n, "mean": m, "sd": var ** 0.5}
-
-
 def _member_break_months(cal, sym, raw, thresh=0.20):
     """{YYYY-MM} where the member's own rows carry a >thresh single-day jump.
 
@@ -942,8 +865,6 @@ def _member_break_months(cal, sym, raw, thresh=0.20):
         if v:
             prev = v
     return out
-
-
 def run_tilt(outdir, starts=("2020-01-01", "2018-01-01")):
     """Measure the ladder's size tilt, so a vs-ladder spread can be read net of it.
 
@@ -1095,15 +1016,9 @@ def run_tilt(outdir, starts=("2020-01-01", "2018-01-01")):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------------------ leg: rebalance-day shift
-
 def _shift_indices(idxs, k, n):
     """Shift rebalance indices by k sessions, clamped into [0, n-1], deduped."""
     return sorted({min(max(i + k, 0), n - 1) for i in idxs})
-
-
 def _mid_month_indices(cal, day=15):
     """First trading index of each month whose day-of-month is >= day."""
     out, seen = [], set()
@@ -1114,8 +1029,6 @@ def _mid_month_indices(cal, day=15):
         seen.add(m)
         out.append(i)
     return out
-
-
 def run_rebalday(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
                  exclude=("sh511",), mid_day=15, raw=None):
     """Does the verdict survive moving the decision calendar by one session?
@@ -1218,21 +1131,13 @@ def run_rebalday(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------- leg: spread era decay
-
 def _slice_curve(curve, lo, hi):
     return [(d, v) for d, v in curve if (lo is None or d >= lo) and (hi is None or d <= hi)]
-
-
 def _rebase(curve):
     if not curve:
         return []
     base = curve[0][1]
     return [(d, v / base) for d, v in curve] if base else []
-
-
 def _era_curves(raw_all, cal, pick_n, cost_mult=1.0):
     """(E41/E76/E77) the ladder5 and wide-top-N curves on one calendar.
 
@@ -1262,8 +1167,6 @@ def _era_curves(raw_all, cal, pick_n, cost_mult=1.0):
     lmap = dict(lad)
     ratio = [(d, v / lmap[d]) for d, v in wide if d in lmap and lmap[d] > 0]
     return lad, wide, ratio
-
-
 def _era_rows(lad, wide, ratio, eras):
     """Era-partitioned risk profile of the ladder, the wide book and their ratio."""
     rows = {}
@@ -1298,8 +1201,6 @@ def _era_rows(lad, wide, ratio, eras):
             "wide_max_drawdown_pct": pw["max_drawdown_pct"],
         }
     return rows
-
-
 def run_era(outdir, pick_n=9999, exclude=("sh511",),
             eras=(("pre2017", None, "2016-12-31"),
                   ("2017_2020", "2017-01-01", "2020-12-31"),
@@ -1352,30 +1253,11 @@ def run_era(outdir, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------ leg: E42 spread net of the size tilt
-#
-# E40 measured the ladder's own size tilt (beta 0.62 on the small-minus-large
-# month, +612bp/yr) and E41 measured a spread that is 4.7x thinner in the newest
-# era than at its 2017-2020 peak. Both are quoted against the same ladder
-# denominator, so neither can be read alone: this leg decomposes the spread and
-# reports the intercept, which is what the wide book pays when the size leg is
-# flat. Then it splits the tilt itself by the same four eras, so one full-sample
-# exposure number cannot stand in for a regime. Monthly additive convention
-# throughout, so every bp column is directly comparable.
-
 ERAS = (("pre2017", None, "2016-12-31"),
         ("2017_2020", "2017-01-01", "2020-12-31"),
         ("2021_2023", "2021-01-01", "2023-12-31"),
         ("2024_now", "2024-01-01", None))
-
-# E74: the panel carries some names unadjusted, so a share split prints as a
-# -90% "return". Any single-session move beyond any A-share/ETF daily limit is
-# treated as a corporate-action artefact and excluded from the priced tail.
 ARTEFACT_JUMP = 0.30
-
-
 def _in_era(month, lo, hi):
     """Month (YYYY-MM) inside an era whose bounds are dates (YYYY-MM-DD) or None."""
     if lo and month < lo[:7]:
@@ -1383,8 +1265,6 @@ def _in_era(month, lo, hi):
     if hi and month > hi[:7]:
         return False
     return True
-
-
 def _ols(y, x):
     """OLS y = alpha + beta*x -> (beta, alpha, r2); None when under-determined."""
     if len(y) < 3:
@@ -1398,8 +1278,6 @@ def _ols(y, x):
     alpha = my["mean"] - beta * mx["mean"]
     r2 = (cov ** 2) / (mx["sd"] ** 2 * my["sd"] ** 2)
     return beta, alpha, r2
-
-
 def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False,
                   cost_mult=1.0):
     """One shared build: both engine curves plus the member tilt series.
@@ -1470,8 +1348,6 @@ def _monthly_core(pick_n=9999, exclude=("sh511",), raw_all=None, contrib=False,
             # sub-skin without a second panel pass (E44 leave-one-out)
             "mem": mem, "brk": brk,
             "years": len(cal) / 252.0}
-
-
 def run_spreadsize(outdir, core=None, eras=ERAS):
     """Restate the vs-ladder spread net of the size tilt, per era."""
     core = core or _monthly_core()
@@ -1553,12 +1429,8 @@ def run_spreadsize(outdir, core=None, eras=ERAS):
         ],
         "dropped_months": core["dropped"],
     }
-
-
 SPREAD_COLUMNS = ("raw_spread_ann_bp", "size_neutral_ann_bp",
                   "size_component_ann_bp", "beta_spread_on_tilt", "r_squared")
-
-
 def _spread_delta_rows(base_label, faces, modes, eras):
     """Column-by-column unscreened vs screened table for the E42 spread face.
 
@@ -1583,8 +1455,6 @@ def _spread_delta_rows(base_label, faces, modes, eras):
                                         and isinstance(u, (int, float)) else None)
             rows.append(row)
     return rows
-
-
 def run_screenspread(outdir, pick_n=9999, exclude=("sh511",),
                      modes=("neutralise_int", "neutralise", "neutralise_persist"),
                      eras=ERAS):
@@ -1723,8 +1593,6 @@ def run_screenspread(outdir, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def run_tilt_era(outdir, core=None, eras=ERAS):
     """Split the ladder's size tilt and its beta/R2 by the same four eras."""
     core = core or _monthly_core()
@@ -1792,13 +1660,7 @@ def run_tilt_era(outdir, core=None, eras=ERAS):
         ],
         "dropped_months": core["dropped"],
     }
-
-
-# ------------------------------------ leg: E95 newest-era cell stability
-
 NEWEST_ERA = ("2024_now", "2024-01-01", None)
-
-
 def _tilt_stats(core, months):
     """The E42 tilt cell measured on an explicit list of months.
 
@@ -1823,8 +1685,6 @@ def _tilt_stats(core, months):
         "alpha_monthly_bp": round(alpha * 1e4, 2) if alpha is not None else None,
         "r_squared": round(r2, 4) if r2 is not None else None,
     }
-
-
 def _published_tilt_readings(outdir):
     """Every newest-era tilt reading this repo has already published, read back
     off the faces themselves (no transcription, no memory)."""
@@ -1846,15 +1706,11 @@ def _published_tilt_readings(outdir):
         out.append({"file": name, "cutoff": face.get("evidence_cutoff"),
                     "months": row.get("months"), "tilt_annualised_bp": val})
     return out
-
-
 def _stability_verdict(observed_bp, span_bp):
     """Is the spread of published readings inside what moving the end alone does?"""
     if observed_bp is None or span_bp is None:
         return None
     return "inside_end_choice_span" if observed_bp <= span_bp else "beyond_end_choice_span"
-
-
 def run_tilt_stable(outdir, core=None, ends=12, era=NEWEST_ERA):
     """Rolling-window stability of the newest-era tilt cell (E95).
 
@@ -1925,10 +1781,6 @@ def run_tilt_stable(outdir, core=None, ends=12, era=NEWEST_ERA):
         ],
         "dropped_months": core["dropped"],
     }
-
-
-# ------------------------------------ leg: E98 end-choice slack on every era
-
 def _published_era_readings(outdir, era):
     """Every already-published cell for one era, read back off the faces.
 
@@ -1966,8 +1818,6 @@ def _published_era_readings(outdir, era):
                         "months": row.get("months"),
                         "tilt_annualised_bp": val})
     return out
-
-
 def _endchoice_era_row(core, era, ends, outdir):
     """One era's end-choice grid: same panel, same loader, only the end moves.
 
@@ -2027,8 +1877,6 @@ def _endchoice_era_row(core, era, ends, outdir):
         "end_choice_series": series,
     })
     return row
-
-
 def run_endchoice_all_eras(outdir, core=None, ends=12):
     """E98: run the E95 end-choice grid on every era, not just the newest one.
 
@@ -2090,10 +1938,6 @@ def run_endchoice_all_eras(outdir, core=None, ends=12):
         ],
         "dropped_months": core["dropped"],
     }
-
-
-# ------------------------------------ leg: E42 calendar band at cost x3
-
 def _calcost_face(raw_all, cal_full, start="2020-01-01", pick_n=9999,
                   exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0)):
     """The E42 calendar-cost face from an already loaded universe.
@@ -2192,8 +2036,6 @@ def _calcost_face(raw_all, cal_full, start="2020-01-01", pick_n=9999,
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                 mid_day=15, cost_mults=(1.0, 3.0)):
     """Is the calendar band in the spread a fee artefact? Re-run it at cost x3.
@@ -2215,12 +2057,8 @@ def run_calcost(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
     return _calcost_face(raw_all, cal_full, start=start, pick_n=pick_n,
                          exclude=exclude, mid_day=mid_day,
                          cost_mults=cost_mults)
-
-
 CALCOST_CELL_COLUMNS = ("ann_return_pct", "max_drawdown_pct",
                         "turnover_per_year", "cost_per_year_bp")
-
-
 def _calcost_cell(faces, arm, tag, variant, scheme, col):
     """One published cell of one arm; scheme None reads the calendar cell."""
     table = (faces.get(arm) or {}).get("calendars") or {}
@@ -2228,8 +2066,6 @@ def _calcost_cell(faces, arm, tag, variant, scheme, col):
     if scheme is None:
         return cell.get(col)
     return (cell.get(scheme) or {}).get(col)
-
-
 def _calcost_delta_rows(faces, base="unscreened"):
     """(E81) unscreened vs each screened arm, one row per published cell.
 
@@ -2260,8 +2096,6 @@ def _calcost_delta_rows(faces, base="unscreened"):
                         and isinstance(u, (int, float)) else None)
                 rows.append(row)
     return rows
-
-
 def run_calcost_screenreg(outdir, start="2020-01-01", pick_n=9999,
                           exclude=("sh511",), mid_day=15,
                           cost_mults=(1.0, 3.0),
@@ -2363,8 +2197,6 @@ def run_calcost_screenreg(outdir, start="2020-01-01", pick_n=9999,
             "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
         ],
     }
-
-
 def _tiltdelta_rows(faces, base="unscreened",
                     columns=("tilt_annualised_bp", "beta_ladder_on_tilt",
                              "alpha_monthly_bp", "r_squared")):
@@ -2389,8 +2221,6 @@ def _tiltdelta_rows(faces, base="unscreened",
                                        and isinstance(v, (int, float)) else None)
             rows.append(row)
     return rows
-
-
 def run_screentilt(outdir, pick_n=9999, exclude=("sh511",),
                    modes=("neutralise_int", "neutralise"), eras=ERAS):
     """(E81) replay the E42 tilt-era face from a screened universe.
@@ -2500,10 +2330,6 @@ def run_screentilt(outdir, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
         ],
     }
-
-
-# ------------------- leg: E43 four-member reach-back (tilt + neutral spread)
-
 def run_tilt4(outdir, core=None, eras=ERAS, raw=None):
     """Rebuild the tilt and the size-neutral spread on the four-member sub-ladder.
 
@@ -2623,13 +2449,9 @@ def run_tilt4(outdir, core=None, eras=ERAS, raw=None):
         ],
         "dropped_months_4member": core["dropped4"],
     }
-
-
 def _skin_small_weights(small):
     """Equal-weight share of each member inside one size leg, in percent."""
     return {s: round(100.0 / len(small), 4) for s in small}
-
-
 def run_tilt3(outdir, core=None, eras=ERAS, raw=None):
     """E43-TILT-3MEMBER-REACHBACK: read the tilt in the years no wider skin can price.
 
@@ -2788,20 +2610,8 @@ def run_tilt3(outdir, core=None, eras=ERAS, raw=None):
         ],
         "dropped_months_3member": core["dropped3"],
     }
-
-
-# ---------------------- leg: E168 pre-2017 leg split + leave-one-month-out
-#
-# E126 made 2013-04..2016-12 measurable for the first time and published
-# +1186.4bp/yr of tilt beside a +134.4bp size-neutral leg. That pair says most
-# of the era's headline is the size leg, but it does not say whether the size
-# leg is itself 44 months or two of them, and the three-member skin's small leg
-# is ONE name. So the era is split into its two legs on their own and each mean
-# is re-derived with every month removed once (LOMO).
 TILT3_HALF_SHARE = 0.5          # declared before the burn (E168)
 TILT3_LOMO_TOP = 5              # months published per era beside the sweep
-
-
 def _leg_monthly(mem, brk, months, names):
     """Equal-weight monthly return of ONE size leg on the months it can price.
 
@@ -2818,8 +2628,6 @@ def _leg_monthly(mem, brk, months, names):
             continue
         out[m] = sum(mem[s][m] for s in names) / len(names)
     return out
-
-
 def _lomo_sweep(months, values):
     """Leave-one-month-out on an era mean, plus how many months carry it.
 
@@ -2869,8 +2677,6 @@ def _lomo_sweep(months, values):
         "sign_flips_under_a_single_drop": min(anns) < 0.0 < max(anns),
         "sum_of_months_bp": round(total * 1e4, 1),
     }
-
-
 def run_tilt3legs(outdir, core=None, eras=ERAS, raw=None):
     """E43-TILT3-PRE2017-LEG-SPLIT: price the era's two legs on their own.
 
@@ -2998,10 +2804,6 @@ def run_tilt3legs(outdir, core=None, eras=ERAS, raw=None):
         ],
         "dropped_months_3member": core["dropped3"],
     }
-
-
-# ---------------------- leg: E43 wide-book size composition
-
 def run_widecomp(outdir, core=None, pick_n=9999, exclude=("sh511",), eras=ERAS):
     """Explain the sign of the wide book's tilt beta from its own holdings.
 
@@ -3124,10 +2926,6 @@ def run_widecomp(outdir, core=None, pick_n=9999, exclude=("sh511",), eras=ERAS):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------- leg: E43 size-neutral robustness (calendar x cost)
-
 def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
                       exclude=("sh511",), mid_day=15, cost_mults=(1.0, 3.0),
                       raw_all=None):
@@ -3247,8 +3045,6 @@ def run_neutralrobust(outdir, core=None, start="2020-01-01", pick_n=9999,
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def _robdelta_rows(base_label, faces, modes, eras):
     """Cell-by-cell unscreened vs screened table for the E43 robustness face.
 
@@ -3274,8 +3070,6 @@ def _robdelta_rows(base_label, faces, modes, eras):
                                             and isinstance(u, (int, float)) else None)
                 rows.append(row)
     return rows
-
-
 def run_screenrob(outdir, pick_n=9999, exclude=("sh511",),
                   modes=("neutralise_int", "neutralise"), eras=ERAS):
     """E81 leg 3: replay the E43 robustness face from the repaired universe.
@@ -3401,17 +3195,11 @@ def run_screenrob(outdir, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ------------------------------------- leg: E44 leave-one-out skin decomposition
-
 def _skin_sets(drop=None):
     """(large, small) member legs after dropping one member (None = full skin)."""
     large = tuple(s for s in TILT_LARGE if s != drop)
     small = tuple(s for s in TILT_SMALL if s != drop)
     return large, small
-
-
 def run_skinloo(outdir, core=None, eras=ERAS, members=None):
     """Price the size-neutral spread on every leave-one-out skin, per era.
 
@@ -3535,10 +3323,6 @@ def run_skinloo(outdir, core=None, eras=ERAS, members=None):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# -------------------------------- leg: E44 eligibility burn-in / missing years
-
 def _first_eligible_idx(series, min_bars):
     """First index whose trailing ``min_bars`` window is fully priced.
 
@@ -3553,8 +3337,6 @@ def _first_eligible_idx(series, min_bars):
         if run >= min_bars:
             return i
     return None
-
-
 def _annual_rets(marks):
     """{year: pct} from month-end marks, each year chained off the prior year-end."""
     by_year = {}
@@ -3567,8 +3349,6 @@ def _annual_rets(marks):
             out[y] = round((by_year[y] / prev - 1.0) * 100, 2)
         prev = by_year[y]
     return out
-
-
 def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
                pick_n=9999, exclude=("sh511",), min_bars=None, raw=None):
     """Attribute the missing pre-2017 years to the eligibility gate, not to mystery.
@@ -3758,11 +3538,7 @@ def run_burnin(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-0
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 _BURNSCREEN_DELTA_FLOOR_PP = 0.005
-
-
 def _burnin_arm_cells(face, starts):
     """-> {(start, cell): value} for every number a burn-in face publishes.
 
@@ -3791,8 +3567,6 @@ def _burnin_arm_cells(face, starts):
             out[(span, "span_" + book + "_ann_pct")] = sl.get("ann_return_pct")
             out[(span, "span_" + book + "_maxdd_pct")] = sl.get("max_drawdown_pct")
     return out
-
-
 def _burnin_gate_dates(face, starts):
     """Gate *dates* of a burn-in face: strings, so they either move or they do not."""
     out = {}
@@ -3803,8 +3577,6 @@ def _burnin_gate_dates(face, starts):
             "earliest_possible_trading_decision",
             "first_rebalance_with_elig_ge_5")}
     return out
-
-
 def _burnin_pair_rows(raw_arm, screened_arm, starts, cells_fn=None, dates_fn=None):
     """(E112, generalised E113) Join two faces cell by cell and publish the deltas.
 
@@ -3869,8 +3641,6 @@ def _burnin_pair_rows(raw_arm, screened_arm, starts, cells_fn=None, dates_fn=Non
             "gate_dates_moved": len(dates_moved),
         },
     }
-
-
 def _twin_survives(summary, control):
     """(E116) "survives" means the NUMBERS did not move, not that the join worked.
 
@@ -3883,8 +3653,6 @@ def _twin_survives(summary, control):
             and summary["cells_moved"] == 0
             and control["cells_moved"] == 0
             and control["max_abs_delta_pp"] == 0.0)
-
-
 def run_burninscreen(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
                      pick_n=9999, exclude=("sh511",), mode="neutralise_int",
                      resume=True):
@@ -4045,8 +3813,6 @@ def run_burninscreen(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "
             "their own tickets",
         ],
     }
-
-
 def run_knife(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01-01"),
               knives=(60, 120, 250), pick_n=9999, exclude=("sh511",), resume=True):
     """E45: price the knife edge of the MIN_BARS eligibility rule.
@@ -4139,28 +3905,11 @@ def run_knife(outdir, starts=("2013-01-01", "2016-01-01", "2018-01-01", "2020-01
             "descriptive census only: no gate, no verdict, no prereg, no trials consumed",
         ],
     }
-
-
-# ---------------------------- leg: E45 warm slices vs cold-start windows
-#
-# Every era spread since E41 is quoted off the E24/E27 engine, and r1120 measured
-# that the 250-bar rule deletes 259-265 sessions (12.3 months) from the front of
-# ANY start window. Both books share that dead block, so the spread itself should
-# be immune -- but the block is not free: while the book holds nothing the engine
-# carries cash at weight 1.0, so the dead block accrues at the repo rate for both
-# books and it is a very different share of a 2024 window than of a 2013 one.
-# This leg puts the two quotes side by side per era -- the warm slice (one curve
-# on the full calendar, sliced afterwards, so the burn-in is paid outside the
-# measured span) against the cold start (a fresh curve from the era's own start)
-# -- and reports the dead block's size and what it accrued in each case.
-
 def _bars_before(curve, date):
     """Bars in ``curve`` strictly before ``date``; 0 when ``date`` is unknown."""
     if not date:
         return 0
     return sum(1 for d, _v in curve if d < date)
-
-
 def _curve_faces(curve):
     """Rebased annualised face of one slice; None when the slice is too short."""
     seg = _rebase(curve)
@@ -4170,15 +3919,11 @@ def _curve_faces(curve):
     return {"from": seg[0][0], "to": seg[-1][0], "bars": len(seg),
             "ann_return_pct": prof["ann_return_pct"],
             "max_drawdown_pct": prof["max_drawdown_pct"]}
-
-
 def _spread_bp(ladder_face, wide_face):
     """wide minus ladder in bp on the annualised column; None if either is missing."""
     if not ladder_face or not wide_face:
         return None
     return round((wide_face["ann_return_pct"] - ladder_face["ann_return_pct"]) * 100, 1)
-
-
 def _cash_accrual_pct(cash, cal_x, upto_date):
     """Compounded cash return over the bars before ``upto_date``, in pct."""
     if not cash or not upto_date:
@@ -4189,8 +3934,6 @@ def _cash_accrual_pct(cash, cal_x, upto_date):
             break
         tot *= (1.0 + cash["series"].get(d, 0.0))
     return round((tot - 1.0) * 100.0, 3)
-
-
 def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), raw=None):
     """E45: does the era ordering survive once the dead block is outside the window?
 
@@ -4346,8 +4089,6 @@ def run_warmspread(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), raw=None)
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def _warmspread_arm_cells(face, starts=None):
     """(E122) -> {(key, column): value} for every cell the warm-spread leg publishes.
 
@@ -4383,8 +4124,6 @@ def _warmspread_arm_cells(face, starts=None):
         out[("answers", col)] = ans.get(col)
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
 def _warmspread_ordering(face):
     """(E122) the published claim of E45: two orders and their booleans."""
     ans = face.get("answers") or {}
@@ -4399,8 +4138,6 @@ def _warmspread_ordering(face):
         "spreads_warm": {k: v for k, v in warm},
         "spreads_cold": {k: v for k, v in cold},
     }
-
-
 def _warmspread_arm_dates(face, starts=None):
     """(E122) the ordering claims travel as strings/booleans, not as numbers.
 
@@ -4417,8 +4154,6 @@ def _warmspread_arm_dates(face, starts=None):
         "newest_era_is_thinnest_cold": o["newest_era_is_thinnest_cold"],
         "ordering_preserved": o["ordering_preserved"],
     }}
-
-
 def run_warmspreadscreened(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
                            mode="neutralise_int", resume=True):
     """E122: re-derive the WARM-SPREAD ordering on the screened arm, beside the raw.
@@ -4608,20 +4343,14 @@ def run_warmspreadscreened(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
             "rather than smoothed away",
         ],
     }
-
-
 _PAIR_PROFILE_SCALARS = ("years", "ann_return_pct", "max_drawdown_pct",
                          "longest_underwater_sessions", "months",
                          "negative_months", "monthly_win_rate_pct")
-
-
 def _pair_sign(v):
     """(E123) -1/0/1, or None when the cell is absent: a missing answer is not zero."""
     if v is None:
         return None
     return (v > 0) - (v < 0)
-
-
 def _pair_arm_cells(face, starts=None):
     """(E123) -> {(key, column): value} for every cell the pair leg publishes.
 
@@ -4654,8 +4383,6 @@ def _pair_arm_cells(face, starts=None):
             out[(key + "/answers", col)] = ans.get(col)
     out[("spec", "pick_n")] = (face.get("spec") or {}).get("pick_n")
     return out
-
-
 def _pair_arm_dates(face, starts=None):
     """(E123) the pair leg's claim layer: month identities and booleans.
 
@@ -4675,12 +4402,8 @@ def _pair_arm_dates(face, starts=None):
                 cols["%s_%s" % (name, which)] = (prof.get(which) or {}).get("month")
         out["win/" + str(start)] = cols
     return out
-
-
 _PAIR_ARROW_COLUMNS = ("ann_spread_sign", "maxdd_delta_sign",
                        "underwater_delta_sign", "worst_month_same_month")
-
-
 def _pair_arrows(face):
     """(E123) the published ARROWS per window: signs plus the month identity.
 
@@ -4702,8 +4425,6 @@ def _pair_arrows(face):
             "worst_month_same_month": ans.get("worst_month_same_month"),
         }
     return out
-
-
 def run_pairscreened(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
                      exclude=("sh511",), mode="neutralise_int", resume=True):
     """E123: re-derive the E40 ladder-vs-wide drawdown face on the screened arm.
@@ -4895,19 +4616,6 @@ def run_pairscreened(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
             "month; it is carried in the dates layer because a boolean has no delta",
         ],
     }
-
-
-# ------------------- leg: E124 four-member tilt, screened twin
-#
-# E97 left run_tilt4 uncovered: 91 numbers across e43/tilt4/widecomp. This face
-# is a PER-ERA attribution, not a total -- each era carries its own four-member
-# tilt (2 broad vs 510500/512100), and the spread is decomposed into a
-# size-neutral alpha plus a size beta*tilt. A repair that moves one era's
-# neutral component while the others hold says the panel work sits in one
-# sleeve; every era moving together says something else. So the twin must
-# publish the per-era split, and the decomposition has to sum or the attribution
-# is silent.
-
 _TILT4_ERA_SCALARS = (
     "months", "tilt_annualised_bp", "tilt_sd_bp", "tilt_positive_share_pct",
     "beta_ladder_on_tilt", "alpha_monthly_bp", "r_squared",
@@ -4921,8 +4629,6 @@ _TILT4_COMPARE_SCALARS = ("months_5member", "tilt_5member_ann_bp",
 _TILT4_ANSWER_SCALARS = ("eras_measured_4member", "eras_measured_5member",
                          "eras_positive_tilt", "eras_positive_size_neutral",
                          "size_neutral_range_bp")
-
-
 def _tilt4_decomposition_gap(row):
     """(E124) raw spread minus (size-neutral + size component), or None.
 
@@ -4936,8 +4642,6 @@ def _tilt4_decomposition_gap(row):
     if raw_ is None or neu is None or siz is None:
         return None
     return round(raw_ - (neu + siz), 3)
-
-
 def _tilt4_arm_cells(face, keys=None):
     """(E124) -> {(key, column): value} for every cell the tilt4 leg publishes.
 
@@ -4964,8 +4668,6 @@ def _tilt4_arm_cells(face, keys=None):
     for col in _TILT4_ANSWER_SCALARS:
         out[("answers", col)] = (face.get("answers") or {}).get(col)
     return out
-
-
 def _tilt4_arm_dates(face, keys=None):
     """(E124) the claim layer: era boundaries, month identities, skin notes.
 
@@ -4984,12 +4686,8 @@ def _tilt4_arm_dates(face, keys=None):
     for era, row in (face.get("skin_comparison") or {}).items():
         out.setdefault("skin/" + era, {})["note"] = (row or {}).get("note")
     return out
-
-
 _TILT4_ARROW_COLUMNS = ("tilt_sign", "spread_raw_sign",
                         "spread_size_neutral_sign", "beta_ladder_sign")
-
-
 def _tilt4_arrows(face):
     """(E124) the published ARROWS per era: the signs a reader consumes.
 
@@ -5011,8 +4709,6 @@ def _tilt4_arrows(face):
             "beta_ladder_sign": _pair_sign(row.get("beta_ladder_on_tilt")),
         }
     return out
-
-
 _TILT3_COMPARE_SCALARS = (
     "months_3member", "months_4member_shared", "months_5member_shared",
     "tilt_3member_ann_bp", "tilt_4member_ann_bp_shared_months",
@@ -5025,8 +4721,6 @@ _TILT3_ANSWER_SCALARS = (
     "eras_positive_size_neutral", "size_neutral_range_bp",
     "skin_cells_compared", "skin_deltas_published",
 )
-
-
 def _tilt3_arm_cells(face, keys=None):
     """(E126) -> {(key, column): value} for every cell the tilt3 leg publishes.
 
@@ -5052,8 +4746,6 @@ def _tilt3_arm_cells(face, keys=None):
     for col in _TILT3_ANSWER_SCALARS:
         out[("answers", col)] = (face.get("answers") or {}).get(col)
     return out
-
-
 def _tilt3_arm_dates(face, keys=None):
     """(E126) the claim layer: era boundaries, month identities, skin notes.
 
@@ -5077,23 +4769,8 @@ def _tilt3_arm_dates(face, keys=None):
         out["skin/" + era]["delta_5member_reason"] = row.get(
             "delta_5member_minus_3member_reason")
     return out
-
-
-# ---------------------- leg: E169 does the engine earn the tilt's sign
-#
-# E126 measured the REGRESSOR: the three-member tilt reads +1186bp pre-2017,
-# -924bp 2017-2020, +610bp 2021-2023. What no face in this family asks is
-# whether the engine's own wide-vs-ladder spread earns the same sign in the same
-# months. The tilt is a property of the members; the spread is what a book is
-# actually paid. An era-level comparison alone cannot separate a level story
-# from a month-by-month one, so both are published with their denominators.
 TILT3SIGN_DEADBAND_BP = 10.0    # monthly bp; declared before the burn (E169)
 TILT3SIGN_DISAGREE_TOP = 5      # months named per era beside the counts
-
-# E171: the numeric cells of the E169 face, split so a reader can ask WHICH
-# column the repair reached (tilt_* is claimed arm-invariant, engine_* is not).
-# Booleans and month names are NOT here -- they ride _tilt3sign_arm_dates,
-# because a delta on a boolean is not the claim a reader consumes.
 TILT3SIGN_ERA_SCALARS = (
     "months", "months_dropped_from_era",
     "tilt_mean_ann_bp", "engine_mean_ann_bp",
@@ -5109,8 +4786,6 @@ TILT3SIGN_ANSWER_SCALARS = (
     "month_agreement_outside_deadband_max_pct",
     "full_window_month_agreement_pct",
 )
-
-
 def _tilt3sign_arm_cells(face, keys=None):
     """(E171) -> {(key, column): value} for every numeric cell E169 publishes."""
     out = {}
@@ -5121,8 +4796,6 @@ def _tilt3sign_arm_cells(face, keys=None):
     for col in TILT3SIGN_ANSWER_SCALARS:
         out[("answers", col)] = (face.get("answers") or {}).get(col)
     return out
-
-
 def _tilt3sign_arm_dates(face, keys=None):
     """(E171) the claim layer of E169: era boundaries, sign verdicts, names.
 
@@ -5145,8 +4818,6 @@ def _tilt3sign_arm_dates(face, keys=None):
                  or []),
     }
     return out
-
-
 def _sign3(x):
     """Sign with an explicit zero (None stays None; a 0.0 is not a claim)."""
     if x is None:
@@ -5156,8 +4827,6 @@ def _sign3(x):
     if x < 0:
         return -1
     return 0
-
-
 def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None, deadband_bp=None):
     """E43-TILT3-SIGN-VS-ENGINE (E169): does the traded spread earn the tilt?
 
@@ -5293,20 +4962,9 @@ def run_tilt3sign(outdir, core=None, eras=ERAS, raw=None, deadband_bp=None):
         ],
         "dropped_months_3member": core.get("dropped3"),
     }
-
-
-# ---------------------- leg: E172 the deadband is a sweep, not a constant
-#
-# E169 published ONE deadband (10bp) and on 2024_now the deadband rate came out
-# WORSE than the raw rate. One constant cannot tell a reader whether that era is
-# anti-correlated or merely noisy -- dropping months can remove evidence as
-# easily as it removes noise. So the deadband is swept and, at every step, the
-# number of months that survived it is published beside the rate.
 TILT3SIGNBAND_BP = (0.0, 10.0, 25.0, 50.0)   # declared before the burn (E172)
 TILT3SIGNBAND_MIN_MONTHS = 6                 # retention floor for a rate to be quoted
 TILT3SIGNBAND_HALF = 50.0                    # the coin-flip line
-
-
 def _band_verdict(rate, months, floor=TILT3SIGNBAND_MIN_MONTHS):
     """What a single band's reading is allowed to claim.
 
@@ -5321,8 +4979,6 @@ def _band_verdict(rate, months, floor=TILT3SIGNBAND_MIN_MONTHS):
     if rate > TILT3SIGNBAND_HALF:
         return "aligned"
     return "coin_flip"
-
-
 def run_tilt3signband(outdir, core=None, eras=ERAS, raw=None, bands=None):
     """E172: sweep E169's deadband and publish the support each rate stands on.
 
@@ -5458,8 +5114,6 @@ def run_tilt3signband(outdir, core=None, eras=ERAS, raw=None, bands=None):
             "no trial count",
         ],
     }
-
-
 def run_tilt3screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E170: re-derive the E126 three-member tilt face on the screened arm.
 
@@ -5699,8 +5353,6 @@ def run_tilt3screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def _agreement_change(raw_pct, scr_pct):
     """(E171) three-state change of a rate: equal is NOT a deterioration.
 
@@ -5717,8 +5369,6 @@ def _agreement_change(raw_pct, scr_pct):
     if scr_pct < raw_pct:
         return "worsened"
     return "unchanged"
-
-
 def run_tilt3screensign(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E171: re-derive the E169 tilt-vs-engine sign face on the screened arm.
 
@@ -5982,23 +5632,10 @@ def run_tilt3screensign(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------- leg: E174 who carries the engine column's repair move
-#
-# E171 published that the split-event repair moves the ENGINE column in three
-# eras and moves the tilt column nowhere, and that 2024_now's era verdict flips
-# as a result. An era-level delta on a 4-of-17-month reading is not something a
-# reader can audit: the engine column is wide-minus-ladder, i.e. a difference of
-# two held books, so the move can in principle come from ONE name-month on
-# either side. This leg decomposes it name by name and asks whether the flipped
-# verdict survives dropping the biggest carrier.
 TILT3SIGNNAMES_TOP = 5              # carriers named per era
 TILT3SIGNNAMES_MONTHS_PER_NAME = 3  # worst months named per carrier
 TILT3SIGNNAMES_CASH = "__cash__"    # un-invested residual, booked not dropped
 TILT3SIGNNAMES_COVERS = (50.0, 80.0)
-
-
 def _engine_net_contrib(contrib):
     """(E174) wide minus ladder per (month, name): the engine series decomposed.
 
@@ -6013,8 +5650,6 @@ def _engine_net_contrib(contrib):
         for key, v in (contrib.get(side) or {}).items():
             out[key] = out.get(key, 0.0) + sign * v
     return out
-
-
 def _era_engine_months(core, lo, hi):
     """The era's months that carry BOTH engine curves (run_tilt3sign's own set)."""
     tilt3 = core.get("tilt3") or {}
@@ -6022,8 +5657,6 @@ def _era_engine_months(core, lo, hi):
     lad_m = core.get("lad_m") or {}
     return [m for m in core["months3"]
             if _in_era(m, lo, hi) and m in tilt3 and m in wide_m and m in lad_m]
-
-
 def _era_side_bp(net, months):
     """Per-name annualised bp contribution to ONE arm's era engine level."""
     n = len(months)
@@ -6036,8 +5669,6 @@ def _era_side_bp(net, months):
         if m in mset:
             out[s] = out.get(s, 0.0) + v * scale
     return out
-
-
 def _era_name_split(net_raw, net_scr, months):
     """Per-name bp contribution to the era's engine DELTA (screened - raw)."""
     raw_bp = _era_side_bp(net_raw, months)
@@ -6046,8 +5677,6 @@ def _era_name_split(net_raw, net_scr, months):
     for s in set(raw_bp) | set(scr_bp):
         out[s] = scr_bp.get(s, 0.0) - raw_bp.get(s, 0.0)
     return out, raw_bp, scr_bp
-
-
 def _carrier_coverage(rows, delta_bp):
     """How many names it takes to explain 50%/80% of a delta (E143 family)."""
     total = abs(delta_bp)
@@ -6065,13 +5694,8 @@ def _carrier_coverage(rows, delta_bp):
     for c in TILT3SIGNNAMES_COVERS:
         out.setdefault("cover_%g_pct" % c, {"names": None, "share_pct": None})
     return out
-
-
-# ---------------------------------------------------------------- E175
 TILT3SIGNDROPSWEEP_NAME_LIST = 8   # names reprinted on each ladder row
 TILT3SIGNDROPSWEEP_MAX_ROWS = 25   # individual rows printed; the bands cover the rest
-
-
 def _tilt3signname_burn(mode, eras):
     """(E175) the one load path the two name-level legs share.
 
@@ -6098,8 +5722,6 @@ def _tilt3signname_burn(mode, eras):
         "arm_raw": run_tilt3sign(None, core=core_raw, eras=eras),
         "arm_scr": run_tilt3sign(None, core=core_scr, eras=eras),
     }
-
-
 def _drop_bands(rows):
     """(E175) collapse the ladder into runs that share one verdict."""
     bands = []
@@ -6111,8 +5733,6 @@ def _drop_bands(rows):
             bands.append({"from_k": r["k"], "to_k": r["k"], "rows": 1,
                           "verdict": r["verdict"]})
     return bands
-
-
 def _drop_ladder(raw_bp, scr_bp, ranked, delta, base_raw=None, base_scr=None):
     """(E175) the era's sign verdict at every carrier count k = 0..n.
 
@@ -6177,8 +5797,6 @@ def _drop_ladder(raw_bp, scr_bp, ranked, delta, base_raw=None, base_scr=None):
             "decomposition_screened_bp": round(sum_scr, 2),
             "n_names": len(names),
             "bands": _drop_bands(rows)}
-
-
 def run_tilt3signdropsweep(outdir, mode="neutralise_int", eras=ERAS):
     """E175: sweep the carrier-drop ladder and say where the verdict settles.
 
@@ -6397,8 +6015,6 @@ def run_tilt3signdropsweep(outdir, mode="neutralise_int", eras=ERAS):
             "ladder that is not flat there is broken before it reads anything",
         ],
     }
-
-
 def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
     """E174: attribute E171's engine-column move to names, and test the flip.
 
@@ -6563,13 +6179,8 @@ def run_tilt3signnames(outdir, mode="neutralise_int", eras=ERAS):
             "books contributes only the difference of its two weights",
         ] + honesty,
     }
-
-
-# ---------------------------------------------------------------- E176
 TILT3BOOKSPLIT_TOP = 3       # names reprinted per book
 TILT3BOOKSPLIT_MOVED_BP = 0.05   # below this a book did not move (same tol as E174)
-
-
 def _era_book_split(sides_raw, sides_scr, months):
     """(E176) per-name annualised bp for EACH book, raw and screened.
 
@@ -6594,8 +6205,6 @@ def _era_book_split(sides_raw, sides_scr, months):
             "per_name_delta_bp": delta,
         }
     return out
-
-
 def _book_move_verdict(wide_delta_bp, ladder_delta_bp, tol=None):
     """(E176) which of the two held books the repair actually moved.
 
@@ -6615,8 +6224,6 @@ def _book_move_verdict(wide_delta_bp, ladder_delta_bp, tol=None):
     if lad_moved:
         return "ladder_only"
     return "neither"
-
-
 def run_tilt3booksplit(outdir, mode="neutralise_int", eras=ERAS):
     """E176: split the engine column's repair delta BY BOOK, not by name.
 
@@ -6776,13 +6383,8 @@ def run_tilt3booksplit(outdir, mode="neutralise_int", eras=ERAS):
             "book that moved there would mean the split is reading noise",
         ],
     }
-
-
-# ---------------------------------------------------------------- E179
 TILT3LADDERSPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP   # same 0.05bp tolerance
 TILT3LADDERSPLIT_CASH = "__cash__"
-
-
 def _ladder_side_split(sides_raw, sides_scr, months, members):
     """(E179) the ladder side's LEVELS per holding, raw and screened.
 
@@ -6808,8 +6410,6 @@ def _ladder_side_split(sides_raw, sides_scr, months, members):
         out[s] = {"name": s, "kind": kind, "is_security": kind == "member",
                   "raw_level_bp": r, "screened_level_bp": c, "delta_bp": c - r}
     return out
-
-
 def _ladder_split_verdict(holdings, tol=None):
     """(E179) net vs gross: a zero SUM and a zero on every holding are two claims.
 
@@ -6832,8 +6432,6 @@ def _ladder_split_verdict(holdings, tol=None):
     return {"net_delta_bp": net, "gross_abs_delta_bp": gross,
             "net_over_gross": (net / gross if gross > 1e-12 else None),
             "names_moved": moved, "classification": cls}
-
-
 def _ladder_split_join(row, sib, era):
     """(E179) join this split's net side against the E176 ladder book, per era."""
     out = {"era": era, "e176_face": None, "max_abs_diff_bp": None, "checks": {}}
@@ -6854,8 +6452,6 @@ def _ladder_split_join(row, sib, era):
         diffs.append(d)
     out["max_abs_diff_bp"] = round(max(diffs), 6) if diffs else None
     return out
-
-
 def run_tilt3laddersplit(outdir, mode="neutralise_int", eras=ERAS):
     """E179: split the ladder side into its five members and the cash residual.
 
@@ -7039,18 +6635,10 @@ def run_tilt3laddersplit(outdir, mode="neutralise_int", eras=ERAS):
             "is disclosed as members_missing and never silently weighted to zero",
         ],
     }
-
-
-# ---------------------------------------------------------------- E177
 TILT3DECOMOFFSET_RESIDUAL_BP = 1.0   # a residual under this is arithmetic noise
 TILT3DECOMOFFSET_CLOSED_PCT = 80.0   # (b) explains this much of the offset -> closed
-# the published arm face prints engine levels to one decimal, so a rebuild from
-# the daily walk can differ from it by up to half that quantum (0.05bp) before
-# anything is wrong -- this is the wiring tolerance, not a result tolerance
 TILT3DECOMOFFSET_PUB_QUANTUM_BP = 0.051
 TILT3DECOMOFFSET_BOOK_ROUND_BP = 0.01  # the book offsets are printed to 2dp
-
-
 def _daily_rets(curve):
     """[(YYYY-MM-DD, return)] from an equity curve's own day-over-day marks."""
     out = []
@@ -7059,23 +6647,17 @@ def _daily_rets(curve):
         if prev:
             out.append((curve[i][0], cur / prev - 1.0))
     return out
-
-
 def _month_daily_rets(daily):
     """{YYYY-MM: [daily return, ...]} -- the days behind each monthly return."""
     out = {}
     for d, r in daily:
         out.setdefault(d[:7], []).append(r)
     return out
-
-
 def _compound(xs):
     p = 1.0
     for r in xs:
         p *= (1.0 + r)
     return p - 1.0
-
-
 def _tilt3decom_blocks(daily_wide, daily_lad, months):
     """(E177) three readings of one month, for each book and for the engine column.
 
@@ -7106,16 +6688,12 @@ def _tilt3decom_blocks(daily_wide, daily_lad, months):
         out["engine"].append({"month": m, "a": sum(d), "b": _compound(d),
                               "c": _compound(w) - _compound(l)})
     return out
-
-
 def _ann_bp(xs):
     """Annualised bp of a monthly-return series, or None when empty."""
     xs = [x for x in xs if x is not None]
     if not xs:
         return None
     return round(sum(xs) / len(xs) * 12.0 * 1e4, 4)
-
-
 def run_tilt3decompoffset(outdir, mode="neutralise_int", eras=ERAS):
     """E177: quantify and explain the decomposition's era-level offset.
 
@@ -7270,11 +6848,6 @@ def run_tilt3decompoffset(outdir, mode="neutralise_int", eras=ERAS):
             "decomposition may be quoted for levels, and at what tolerance",
         ],
     }
-
-
-# ---------------------------------------------------------------- E178
-# a pinned leg either carries a repaired member or it cannot move at all; the
-# two branches are NAMED rather than left to a zero reading
 TILT3LEGFAMILY_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3LEGFAMILY_SKINS = (
     ("tilt5", TILT_LARGE, TILT_SMALL, "the published five-member tilt"),
@@ -7282,8 +6855,6 @@ TILT3LEGFAMILY_SKINS = (
     ("tilt3", TILT_LARGE, TILT3_SMALL,
      "reach-back to 2013: sh510500 alone on the small leg"),
 )
-
-
 def _member_era_delta_bp(mem_raw, mem_scr, months):
     """(E178) per-member annualised bp of (screened - raw) monthly return.
 
@@ -7302,15 +6873,11 @@ def _member_era_delta_bp(mem_raw, mem_scr, months):
         vals = [(c[m] - r[m]) for m in months if m in r and m in c]
         out[s] = (sum(vals) / len(vals) * scale) if vals else None
     return out
-
-
 def _leg_delta_bp(deltas, members):
     """(E178) one leg's average member delta; None when no member is priced."""
     vals = [deltas.get(s) for s in members]
     vals = [v for v in vals if v is not None]
     return (sum(vals) / len(vals)) if vals else None
-
-
 def _pinned_leg_verdict(members_neutralised, max_abs_member_delta_bp, tol=None):
     """(E178) WHY a pinned leg is flat: no event, or an event that did not show.
 
@@ -7325,8 +6892,6 @@ def _pinned_leg_verdict(members_neutralised, max_abs_member_delta_bp, tol=None):
         return "carries_repair_event_moved" if moved else \
             "carries_repair_event_flat"
     return "pinned_no_repair_event"
-
-
 def run_tilt3legfamily(outdir, mode="neutralise_int", eras=ERAS):
     """E178: is 'the fixed leg never moves' a family law or one 5-name book?
 
@@ -7479,8 +7044,6 @@ def run_tilt3legfamily(outdir, mode="neutralise_int", eras=ERAS):
             "return",
         ],
     }
-
-
 def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
     """E124: re-derive the E43 four-member tilt face on the screened arm.
 
@@ -7678,10 +7241,6 @@ def run_tilt4screened(outdir, mode="neutralise_int", eras=ERAS, resume=True):
             "every individual number looks plausible",
         ],
     }
-
-
-# ------------------------------------- leg: E125 cash-leg drag, screened twin
-
 _CASH_SCHEME_SCALARS = (
     "ann_return_pct", "ann_vs_x0_bp", "vol_pct", "sharpe",
     "max_drawdown_pct", "cost_per_year_bp", "curve_first", "curve_last",
@@ -7697,8 +7256,6 @@ _CASH_ANSWER_SCALARS = (
 )
 _CASH_ARROW_COLUMNS = ("ladder_cash_sign", "wide_cash_sign",
                        "cash_gap_sign", "ladder_maxdd_sign")
-
-
 def _cash_arm_cells(face, keys=None):
     """(E125) -> {(key, column): value} for every cell the cashdrag leg publishes.
 
@@ -7726,8 +7283,6 @@ def _cash_arm_cells(face, keys=None):
         for name, val in (ans.get("maxdd_moves_with_cash") or {}).items():
             out[("answers/" + start, "maxdd_move:" + name)] = val
     return out
-
-
 def _cash_arm_dates(face, keys=None):
     """(E125) the claim layer: the first invested bar, panel edges, multiplier set.
 
@@ -7749,8 +7304,6 @@ def _cash_arm_dates(face, keys=None):
             "multipliers": ",".join(mults),
         }
     return out
-
-
 def _cash_arrows(face):
     """(E125) the published ARROWS per window: the signs a reader consumes.
 
@@ -7774,8 +7327,6 @@ def _cash_arrows(face):
                 (ans.get("maxdd_moves_with_cash") or {}).get("ladder5")),
         }
     return out
-
-
 def _ladder_exposure(base_ladder, report):
     """(E125) does the screen reach the ladder's own five names?
 
@@ -7806,8 +7357,6 @@ def _ladder_exposure(base_ladder, report):
                     "a measurement, not a control"
                     % ", ".join(sorted(touched & lad))),
     }
-
-
 def run_cashdragscreened(outdir, mode="neutralise_int", starts=("2020-01-01",),
                          pick_n=9999, exclude=("sh511",),
                          rate_mults=(0.0, 1.0, 3.0), resume=True):
@@ -8014,18 +7563,6 @@ def run_cashdragscreened(outdir, mode="neutralise_int", starts=("2020-01-01",),
             "stable -- the level is quoted with its cutoff",
         ],
     }
-
-
-# ---------------------------- leg: E46 is the era edge front-loaded?
-#
-# E45 found the newest era's whole edge earned before the eligibility gate would
-# let a cold book hold anything (2024-01..2025-01), with the live span negative.
-# That is one era observed once. This leg asks the same question of every era and
-# without any gate argument: split each era's slice of the same warm curve into
-# halves and see whether the spread lives in one half or is spread through the
-# era. A sign flip inside an era means the era's single number is an average of
-# two different markets; a flat split means the number is a property of the era.
-
 def _split_curve(curve, parts):
     """``parts`` contiguous chunks of a curve, the last one taking the remainder."""
     n = len(curve)
@@ -8034,8 +7571,6 @@ def _split_curve(curve, parts):
     step = n // parts
     return [curve[i * step:(i + 1) * step] for i in range(parts - 1)] + \
            [curve[(parts - 1) * step:]]
-
-
 def _livespan_setup(exclude=("sh511",), pick_n=9999, cost_mult=1.0, raw=None):
     """Warm pair (ladder vs wide book) on the full calendar, computed once.
 
@@ -8071,8 +7606,6 @@ def _livespan_setup(exclude=("sh511",), pick_n=9999, cost_mult=1.0, raw=None):
         curves[name] = curve
     return {"cutoff": cutoff, "curves": curves, "universe": universe,
             "wide_name": wide_name}
-
-
 def _livespan_rows(curves, eras, parts, wide_name):
     """Per-era part rows for one cut (the E46 split body)."""
     rows = {}
@@ -8104,8 +7637,6 @@ def _livespan_rows(curves, eras, parts, wide_name):
             "part_band_bp": (round(max(spreads) - min(spreads), 1) if spreads else None),
         }
     return rows
-
-
 def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
                  cost_mult=1.0, raw=None):
     """E46: split every era in `parts` chunks and read where its spread is earned.
@@ -8150,8 +7681,6 @@ def run_livespan(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",), parts=2,
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def _cut_summary(rows):
     """Cut-level roll-up of _livespan_rows: who flips, how wide, which parts are dead.
 
@@ -8178,8 +7707,6 @@ def _cut_summary(rows):
             "band_median_bp": med,
             "band_widest_era": max(bands, key=lambda k: bands[k]) if bands else None,
             "zero_spread_parts_by_era": dead}
-
-
 def _widest_window(row):
     """'from..to' of an era's widest part, or None when the part is missing."""
     wid = row.get("widest_part")
@@ -8187,8 +7714,6 @@ def _widest_window(row):
         if p.get("part") == wid:
             return "%s..%s" % (p.get("from"), p.get("to"))
     return None
-
-
 def run_cutcurve(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
                  costs=(1.0, 3.0), parts_range=range(2, 13), raw=None):
     """E58: one face over the whole cut axis (parts 2..12 at each cost level).
@@ -8264,8 +7789,6 @@ def run_cutcurve(outdir, eras=ERAS, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
 def _cutcurve_arm_cells(face, starts=None):
     """(E113) -> {(cost/cut, column): value} for every cell the cut sweep publishes.
 
@@ -8289,8 +7812,6 @@ def _cutcurve_arm_cells(face, starts=None):
                 out[(key, "part_band_bp@" + era)] = row.get("part_band_bp")
                 out[(key, "widest_part@" + era)] = row.get("widest_part")
     return out
-
-
 def _cutcurve_widest_windows(face, starts=None):
     """(E113) -> {(cost/cut): {"window@<era>": "from..to"}} for the date join.
 
@@ -8304,8 +7825,6 @@ def _cutcurve_widest_windows(face, starts=None):
             out[key] = {"window@" + era: (row or {}).get("widest_window")
                         for era, row in ((cut or {}).get("eras") or {}).items()}
     return out
-
-
 def run_cutcurvescreen(outdir, pick_n=9999, exclude=("sh511",), mode="neutralise_int",
                        costs=(1.0, 3.0), parts_range=range(2, 13), resume=True):
     """E113: re-derive the cut sweep on the screened arm, beside the raw face.
@@ -8474,8 +7993,6 @@ def run_cutcurvescreen(outdir, pick_n=9999, exclude=("sh511",), mode="neutralise
             "the sweep only; run_livespan (E97 row 3) keeps its own ticket",
         ],
     }
-
-
 def _livespan_arm_cells(face, starts=None):
     """(E114) -> {(era, column): value} for every number a split face publishes.
 
@@ -8500,14 +8017,10 @@ def _livespan_arm_cells(face, starts=None):
             out[(era, "part%s_wide_ann_pct" % n)] = (
                 (part.get("wide") or {}).get("ann_return_pct"))
     return out
-
-
 def _livespan_dates(face, starts=None):
     """(E114) -> {era: {"from": .., "to": ..}}: an era's edges either reproduce or not."""
     return {era: {"from": (row or {}).get("from"), "to": (row or {}).get("to")}
             for era, row in (face.get("eras") or {}).items()}
-
-
 def run_livespanscreen(outdir, pick_n=9999, exclude=("sh511",), parts=2,
                        cost_mult=1.0, mode="neutralise_int", resume=True):
     """E114: re-derive the one-cut era split on the screened arm, beside the raw.
@@ -8664,10 +8177,6 @@ def run_livespanscreen(outdir, pick_n=9999, exclude=("sh511",), parts=2,
             "twin is only comparable to a published face with the same pair",
         ],
     }
-
-
-# ------------------------------------------- leg: mid-month vs month-end churn
-
 def _decision_sets(cal, prices, amounts, universe, pick_n, rebal_idxs, rank_cache):
     """[(decision_idx, holdings)] using the engine's own rank call.
 
@@ -8687,8 +8196,6 @@ def _decision_sets(cal, prices, amounts, universe, pick_n, rebal_idxs, rank_cach
         if live:
             out.append((i, sorted(live)))
     return out
-
-
 def _era_of(date, eras=ERAS):
     """Era of a decision date. Bounds are truncated to YYYY-MM before comparing:
     a bare month is a string PREFIX of its own first day, so '2024-01' <
@@ -8700,8 +8207,6 @@ def _era_of(date, eras=ERAS):
         if (lo_m is None or month >= lo_m) and (hi_m is None or month <= hi_m):
             return name
     return None
-
-
 def _churn_stats(cal, prices, decisions, eras=ERAS, with_names=False):
     """Per-transition membership churn and the entrant-minus-exit sleeve.
 
@@ -8765,8 +8270,6 @@ def _churn_stats(cal, prices, decisions, eras=ERAS, with_names=False):
             "negative_churn_share_pct": round(100.0 * sum(1 for a in alphas if a < 0) / len(alphas), 1),
         }
     return rows, agg
-
-
 def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                  mid_day=15, costs=(0.0, 1.0, 3.0), raw=None, full_churn=False):
     """E44: explain the mid-month calendar's weakness at name level.
@@ -8910,17 +8413,8 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# --------------------------------- leg: name the mid-month swaps (E57 detail)
-
 CHASE_BUCKETS = ("other_drops_next", "other_still_holds", "disjoint")
-
-# E60: the off-book bucket is re-read inside the entrant's own liquidity, so the
-# amount window is a published parameter of the leg and not a hidden constant.
 OFFBOOK_LIQ_WINDOW = 60
-
-
 def _next_decision_idx(decisions, bar_idx):
     """Index of the first decision taken strictly after ``bar_idx``, or None.
 
@@ -8932,8 +8426,6 @@ def _next_decision_idx(decisions, bar_idx):
         if i > bar_idx:
             return j
     return None
-
-
 def _classify_entrants(entrants, next_hold, drop_next):
     """Bucket one decision's entrants against the other calendar's next book.
 
@@ -8955,8 +8447,6 @@ def _classify_entrants(entrants, next_hold, drop_next):
         else:
             out["disjoint"].append(s)
     return out
-
-
 def _chase_rows(cal, prices, decisions, other, eras=ERAS, amounts=None,
                 liq_window=OFFBOOK_LIQ_WINDOW):
     """Per-transition entrants with their forward return and their bucket.
@@ -9014,8 +8504,6 @@ def _chase_rows(cal, prices, decisions, other, eras=ERAS, amounts=None,
             "other_drop_next_size": len(drop_next) if drop_next is not None else None,
         })
     return rows
-
-
 def _chase_era(rows, eras=ERAS):
     """Per-era bucket shares and the return of each bucket, plus named swaps."""
     out = {}
@@ -9053,8 +8541,6 @@ def _chase_era(rows, eras=ERAS):
             "bottom10_entrants": named(priced[-10:]),
         }
     return out
-
-
 def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15,
               raw=None):
     """E57: name the mid-month swaps and test the chase reading.
@@ -9144,14 +8630,8 @@ def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_d
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# --------------------------------------------- leg: E60 off-book liquidity
 LIQ_TERCILES = ("thin", "mid", "thick")
-# a within-tercile calendar gap smaller than this is not separating evidence
 OFFBOOK_LIQ_FLOOR_PCT = 0.10
-
-
 def _trailing_amount(series, i0, window=OFFBOOK_LIQ_WINDOW):
     """Mean traded amount over the ``window`` sessions ending at the decision bar.
 
@@ -9169,8 +8649,6 @@ def _trailing_amount(series, i0, window=OFFBOOK_LIQ_WINDOW):
     if not vals:
         return None
     return sum(vals) / len(vals)
-
-
 def _liq_tercile_thresholds(values):
     """One pair of cuts for the whole sweep, at the thirds of the pooled values.
 
@@ -9189,8 +8667,6 @@ def _liq_tercile_thresholds(values):
         return vals[lo] + (vals[hi] - vals[lo]) * (pos - lo)
 
     return [round(q(1.0 / 3.0), 1), round(q(2.0 / 3.0), 1)]
-
-
 def _liq_tercile(value, cuts):
     """thin / mid / thick for one trailing amount, or None without a reading."""
     if value is None or not cuts:
@@ -9200,8 +8676,6 @@ def _liq_tercile(value, cuts):
     if value <= cuts[1]:
         return "mid"
     return "thick"
-
-
 def _attach_terciles(rows, cuts):
     """Write each entrant's own tercile onto its row; return how many got one."""
     attached = 0
@@ -9211,8 +8685,6 @@ def _attach_terciles(rows, cuts):
             if e["tercile"] is not None:
                 attached += 1
     return attached
-
-
 def _liq_cell(entries):
     """One (calendar x bucket x tercile) cell: count, priced mean, median, tail."""
     priced = [e["fwd_pct"] for e in entries if e.get("fwd_pct") is not None]
@@ -9227,8 +8699,6 @@ def _liq_cell(entries):
                                      / len(priced), 1)),
         "liq_amount_median": (None if not liq else round(_median_of(liq), 1)),
     }
-
-
 def _liq_bucket_cells(rows, eras=ERAS):
     """Per era and per chase bucket: the pooled cell plus one cell per tercile."""
     out = {}
@@ -9249,8 +8719,6 @@ def _liq_bucket_cells(rows, eras=ERAS):
         out[name] = {"transitions": len(sub), "entrant_slots": len(flat),
                      "buckets": per}
     return out
-
-
 def _offbook_liq_verdict(me_cells, mid_cells, floor=OFFBOOK_LIQ_FLOOR_PCT,
                          field="fwd_pct_mean"):
     """Is the off-book bucket a liquidity story, a timing story, or neither?
@@ -9312,8 +8780,6 @@ def _offbook_liq_verdict(me_cells, mid_cells, floor=OFFBOOK_LIQ_FLOOR_PCT,
     else:
         out["classification"] = "no_separating_reading"
     return out
-
-
 def _chase_panel(start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15,
                  raw=None):
     """The E57 chase leg's inputs, shared by the legs that extend it.
@@ -9345,8 +8811,6 @@ def _chase_panel(start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15
         decisions[label] = _decision_sets(cal, prices, amounts, universe, pick_n,
                                           idxs, rank_cache)
     return cal, prices, amounts, universe, decisions, "mid%d" % mid_day
-
-
 def run_offbookliq(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                    mid_day=15, liq_window=OFFBOOK_LIQ_WINDOW, raw=None):
     """E60: is the off-book bucket a liquidity story?
@@ -9470,8 +8934,6 @@ def run_offbookliq(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "no trial count",
         ],
     }
-
-
 def _chase_arm_cells(face, starts=None):
     """(E115) -> {(key, column): value} for every cell the chase leg publishes.
 
@@ -9506,14 +8968,8 @@ def _chase_arm_cells(face, starts=None):
         out[("decision_days", k)] = v
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
-# ---------------------------------- leg: E214 off-book era stability (E60 span)
 OFFBOOK_ERA_START = "2017-01-01"
-# an era counts as a replication only when its thick bucket holds enough slots
 OFFBOOK_ERA_MIN_PRICED = 20
-
-
 def _offbook_liq_era_stability(era_gaps, thick_priced=None,
                               min_priced=OFFBOOK_ERA_MIN_PRICED, field="mean"):
     """Does the liquidity gradient point the same way in every era?
@@ -9563,8 +9019,6 @@ def _offbook_liq_era_stability(era_gaps, thick_priced=None,
     else:
         out["classification"] = "thick_gap_sign_flips_across_eras"
     return out
-
-
 def run_offbookera(outdir, start=OFFBOOK_ERA_START, pick_n=9999,
                    exclude=("sh511",), mid_day=15, liq_window=OFFBOOK_LIQ_WINDOW,
                    raw=None):
@@ -9604,15 +9058,8 @@ def run_offbookera(outdir, start=OFFBOOK_ERA_START, pick_n=9999,
         "re-cut on the wider pooled distribution, so the per-era gaps here are not "
         "the E60 face's numbers and must not be joined to them" % start)
     return face
-
-
-# ------------------------------------- leg: E61 shared candidate pool (selection vs timing)
 SHAREDBOOK_PICK_N = 10
-# the identity is three 1dp bp figures on published curves, so a residual above
-# this is arithmetic drift, not a decomposition
 SHAREDBOOK_TOL_BP = 0.25
-
-
 def _book_holdings_at(decisions, idx):
     """The names a calendar is holding at session ``idx``.
 
@@ -9626,8 +9073,6 @@ def _book_holdings_at(decisions, idx):
             break
         held = h
     return held
-
-
 def _shared_pool(decisions):
     """idx -> the names the OTHER calendar holds at that session.
 
@@ -9640,8 +9085,6 @@ def _shared_pool(decisions):
     def pool(idx):
         return tuple(_book_holdings_at(decisions, idx) or ())
     return pool
-
-
 def _decompose_gap(total_bp, timing_bp, selection_bp, tol=SHAREDBOOK_TOL_BP,
                    **extra):
     """(E61) the calendar gap split into a timing part and a selection part.
@@ -9671,8 +9114,6 @@ def _decompose_gap(total_bp, timing_bp, selection_bp, tol=SHAREDBOOK_TOL_BP,
     out["dominant_part"] = dominant
     out.update(extra)
     return out
-
-
 def _era_curve_faces(curve, eras=ERAS):
     """Per-era annualised face of one curve, rebased inside the era."""
     out = {}
@@ -9682,8 +9123,6 @@ def _era_curve_faces(curve, eras=ERAS):
         if len(seg) >= 3:
             out[name] = _curve_faces(seg)
     return out
-
-
 def _sharedbook_widths(cal, prices, universe, decisions, pick_n):
     """How many names each arm actually holds, so a width change cannot pass as a
     calendar effect (E187/r1262: pin the width before reading the gap)."""
@@ -9693,8 +9132,6 @@ def _sharedbook_widths(cal, prices, universe, decisions, pick_n):
         live = [s for s in universe if s in prices and base.elig(prices[s], idx)]
         out.append(min(pick_n, len(live)))
     return out
-
-
 def run_sharedbook(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
                    exclude=("sh511",), mid_day=15, raw=None, eras=ERAS):
     """E61: split the mid-month calendar cost into selection and timing.
@@ -9881,8 +9318,6 @@ def run_sharedbook(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
             "prereg, no trial count",
         ],
     }
-
-
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -10036,13 +9471,7 @@ def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "swap as a dozen moved numbers" % s["cells_compared"],
         ],
     }
-
-
-# --------------------------------- leg: sweep the off-cycle calendar (E59)
-
 MID_SWEEP_DAYS = (5, 10, 15, 20, 25)
-
-
 def _calendar_offsets(cal, idxs, me_idxs):
     """Sessions from each decision to the next month-end decision.
 
@@ -10061,8 +9490,6 @@ def _calendar_offsets(cal, idxs, me_idxs):
     return {"decisions": len(offs),
             "mean_sessions_to_month_end": round(sum(offs) / float(len(offs)), 2),
             "min_sessions": min(offs), "max_sessions": max(offs)}
-
-
 def _sweep_gaps(books, cost="x1", eras=ERAS):
     """Gap versus the month-end book, per sweep day, at one cost level."""
     me_arm = books.get("me", {}).get("arms", {}).get(cost, {})
@@ -10091,8 +9518,6 @@ def _sweep_gaps(books, cost="x1", eras=ERAS):
             "eras": row_eras,
         }
     return out
-
-
 def _cost_face(gaps, lo_tag, hi_tag, eras=ERAS):
     """E63: does the off-cycle gap survive when the fee is switched off?
 
@@ -10122,8 +9547,6 @@ def _cost_face(gaps, lo_tag, hi_tag, eras=ERAS):
                                  if ea is not None and eb is not None else None}
         out[label] = row
     return out
-
-
 def _weekly_indices(cal):
     """First trading session of each ISO week.
 
@@ -10140,8 +9563,6 @@ def _weekly_indices(cal):
         seen.add(key)
         out.append(i)
     return out
-
-
 def _nearest_weekly_to_month_end(week_idxs, me_idxs):
     """The weekly session closest to each month-end decision, deduped.
 
@@ -10157,8 +9578,6 @@ def _nearest_weekly_to_month_end(week_idxs, me_idxs):
     for me in sorted(set(me_idxs)):
         out.add(min(wk, key=lambda w: (abs(w - me), w)))
     return sorted(out)
-
-
 def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                  days=MID_SWEEP_DAYS, costs=(1.0,), lags=(), weekly=False,
                  raw=None):
@@ -10307,10 +9726,6 @@ def run_midsweep(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "month-end decision and a weekly decision almost never land on the same "
             "session, so 'overlap' here means proximity, not the same trade")
     return face
-
-
-# ------------------------- leg: is a 0.0bp era gap a cash-only slice? (E64)
-
 def _burnin_share(era_idxs, first_idx):
     """Share of an era slice that sits before the first invested decision.
 
@@ -10326,8 +9741,6 @@ def _burnin_share(era_idxs, first_idx):
         return 100.0
     before = len([i for i in era_idxs if i < first_idx])
     return round(before / float(n) * 100.0, 1)
-
-
 def _burnin_class(gap_bp, pre_pct):
     """Name who owns an era gap: the calendar, or the burn-in cash block."""
     if gap_bp is None or pre_pct is None:
@@ -10338,8 +9751,6 @@ def _burnin_class(gap_bp, pre_pct):
     if gap_bp == 0.0:
         return "exact_zero_with_invested_bars"
     return "informative"
-
-
 def run_midsweepburnin(outdir=None, faces=None, days=MID_SWEEP_DAYS, exclude=("sh511",)):
     """E64: publish the burn-in block beside the era gaps E59 already prints.
 
@@ -10465,10 +9876,6 @@ def run_midsweepburnin(outdir=None, faces=None, days=MID_SWEEP_DAYS, exclude=("s
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
         ],
     }
-
-
-# --------------------------------- leg: delay the month-end decision (E65)
-
 def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                    lags=(1, 3, 5, 10), costs=(1.0,), raw=None):
     """E65: is the off-cycle penalty the calendar, or simply being late?
@@ -10505,20 +9912,12 @@ def run_entrydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "book is re-ranked on the delayed date; an entry-only lag would need an "
         "execution-lag hook the engine does not have")
     return face
-
-
-# --------------------------------- leg: decide EARLY instead (E66)
-
 def _early_label(k):
     """Row label for a k-session EARLY decision (positive k = earlier)."""
     return "me_m%d" % k
-
-
 def _lag_label(k):
     """Row label for a k-session LATE decision (positive k = later)."""
     return "me_lag%d" % k
-
-
 def _read_delay_face(outdir, kind, cutoff, start):
     """Read a burned delay ladder (ENTRYDELAY/NEIGHBORHOOD) for cutoff+start."""
     tag = "" if start == "2020-01-01" else "-s%s" % start.replace("-", "")
@@ -10528,18 +9927,12 @@ def _read_delay_face(outdir, kind, cutoff, start):
         return None, p
     with open(p, encoding="utf-8") as fh:
         return json.load(fh), p
-
-
 def _read_late_face(outdir, cutoff, start):
     """Read the E65 late ladder for the same cutoff+start, if it was burned."""
     return _read_delay_face(outdir, "ENTRYDELAY", cutoff, start)
-
-
 def _read_early_face(outdir, cutoff, start):
     """Read the E66 early ladder for the same cutoff+start, if it was burned."""
     return _read_delay_face(outdir, "EARLYDELAY", cutoff, start)
-
-
 def _delay_face_any(outdir, kind, cutoff, start):
     """Read a delay ladder face, falling back to the newest older burn.
 
@@ -10567,8 +9960,6 @@ def _delay_face_any(outdir, kind, cutoff, start):
         return None, p, None
     with open(best[1], encoding="utf-8") as fh:
         return json.load(fh), best[1], best[0]
-
-
 def _bracket_shape(vals, tol=2.0):
     """Is a three-point ladder [k1, k2, k3] a spike, a ramp, or flat?
 
@@ -10587,8 +9978,6 @@ def _bracket_shape(vals, tol=2.0):
     if a - tol <= b <= c + tol or a + tol >= b >= c - tol:
         return "ramp"
     return "non_monotone"
-
-
 def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                    early=(1, 3, 5, 10), costs=(1.0,), raw=None):
     """E66: price the other side of the month-end boundary.
@@ -10652,10 +10041,6 @@ def run_earlydelay(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "what is already eligible, so a flat/or positive early side means the "
         "boundary is a publication deadline, not a price path")
     return face
-
-
-# --------------------------------- leg: EARLY ladder, screened twin (E116)
-
 def _earlydelay_arm_cells(face, starts=None):
     """(E116) -> {(key, column): value} for every cell the early-delay leg publishes.
 
@@ -10711,8 +10096,6 @@ def _earlydelay_arm_cells(face, starts=None):
             out[("answers/" + col, lab)] = v
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
 def run_earlydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                          early=(1, 3, 5, 10), costs=(1.0,), mode="neutralise_int",
                          resume=True):
@@ -10898,10 +10281,6 @@ def run_earlydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh51
             "book/gap/early/asymmetry cells, not the pointer fields",
         ],
     }
-
-
-# --------------------------------- leg: the month-end NEIGHBOURHOOD (E67)
-
 def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                      costs=(1.0,), neighbors=(2,), raw=None):
     """E67: is the one-session penalty a spike on one session, or a ramp?
@@ -11005,10 +10384,6 @@ def run_neighborhood(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)
         "shape labels come from a +/-2bp tolerance on three points: they describe the "
         "ladder, they are not a test and no arm here is a recommendation")
     return face
-
-
-# ----------------------------------- E120 neighborhood screened twin
-
 def _neighborhood_arm_cells(face, starts=None):
     """(E120) -> {(key, column): value} for every cell the neighborhood leg publishes.
 
@@ -11060,8 +10435,6 @@ def _neighborhood_arm_cells(face, starts=None):
                 out[("bracket/%s/%s/%d" % (name, col, idx), "gap_bp")] = v
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
 def _arm_rank(label):
     """(E120) sessions away from the month boundary, read off an arm label.
 
@@ -11085,8 +10458,6 @@ def _arm_rank(label):
             except ValueError:
                 return None
     return None
-
-
 def _neighborhood_cell_role(start, centre=2):
     """(E120) which part of the bracket does a moved cell belong to?
 
@@ -11116,8 +10487,6 @@ def _neighborhood_cell_role(start, centre=2):
     if s.startswith("book/"):
         return "book"
     return "other"
-
-
 def _neighborhood_shift_verdict(centre_moved, shoulder_moved):
     """(E120) did the repair bend the bracket's shape or shift its level?"""
     if centre_moved and not shoulder_moved:
@@ -11130,8 +10499,6 @@ def _neighborhood_shift_verdict(centre_moved, shoulder_moved):
         return ("shoulders moved with the centre held: the bracket is not a "
                 "ladder on this panel")
     return "nothing moved: the bracket survives the repair"
-
-
 def run_neighborhoodscreen(outdir, start="2020-01-01", pick_n=9999,
                            exclude=("sh511",), neighbors=(1, 2, 3), centre=2,
                            costs=(1.0,), mode="neutralise_int", resume=True):
@@ -11366,10 +10733,6 @@ def run_neighborhoodscreen(outdir, start="2020-01-01", pick_n=9999,
             "only the centre bracket is complete",
         ],
     }
-
-
-# ------------------------------ E121 rebalance-calendar screened twin
-
 def _rebalday_arm_cells(face, starts=None):
     """(E121) -> {(key, column): value} for every number the rebalday leg publishes.
 
@@ -11406,14 +10769,10 @@ def _rebalday_arm_cells(face, starts=None):
         out[("window/%s" % start, "bars")] = w.get("bars")
         out[("window/%s" % start, "years")] = w.get("years")
     return out
-
-
 _RETURN_COLUMNS = ("ann_return_pct", "max_drawdown_pct", "monthly_win_rate_pct")
 _SPREAD_COLUMNS = ("vs_ladder_spread_bp", "spread_range_bp", "spread_min_bp",
                    "spread_max_bp", "spread_at_month_end_bp")
 _CALENDAR_COLUMNS = ("rebalances", "turnover_per_year")
-
-
 def _rebalday_cell_role(start, column):
     """(E121) does a moved cell say WHEN the book traded or WHAT it earned?
 
@@ -11435,8 +10794,6 @@ def _rebalday_cell_role(start, column):
     if col in ("bars", "years", "universe_members"):
         return "frame"
     return "other"
-
-
 def _rebalday_shift_verdict(returns_moved, calendar_moved):
     """(E121) did the repair change WHEN the book traded or WHAT it earned?"""
     if calendar_moved and not returns_moved:
@@ -11452,8 +10809,6 @@ def _rebalday_shift_verdict(returns_moved, calendar_moved):
                 "untouched: the calendars disagree by the same schedule, what "
                 "moved is the level")
     return "nothing moved: the rebalance-calendar face survives the repair"
-
-
 def _rebalday_older_raw(outdir, tag):
     """(E121) the newest PUBLISHED raw rebalday face other than ``tag``.
 
@@ -11479,8 +10834,6 @@ def _rebalday_older_raw(outdir, tag):
         except Exception:
             continue
     return None, None
-
-
 def run_rebaldayscreen(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
                        exclude=("sh511",), mode="neutralise_int", resume=True):
     """E121: re-derive the rebalance-calendar face on the screened arm.
@@ -11669,10 +11022,6 @@ def run_rebaldayscreen(outdir, starts=("2020-01-01", "2018-01-01"), pick_n=9999,
             "book/calendar/spread/answers/window cells, not the pointer fields",
         ],
     }
-
-
-# --------------------------------- leg: month-end vs the weekly grid (E69/E70)
-
 def _weekly_cal_rows(face, tag, labels=("week", "week_near_me")):
     """E70: the calendar rows of one cost level, keyed by book label.
 
@@ -11695,8 +11044,6 @@ def _weekly_cal_rows(face, tag, labels=("week", "week_near_me")):
                      for name, v in (g.get("eras") or {}).items()},
         }
     return out
-
-
 def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     costs=(1.0,)):
     """E69: is month-end a calendar of its own, or a re-timed weekly book?
@@ -11762,10 +11109,6 @@ def run_weeklyclash(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "decisions sit 1-3 sessions inside the boundary rather than on it -- the "
         "residual offset is the price of being on the weekly grid, not noise")
     return face
-
-
-# --------------------------- leg: what each calendar actually holds (E71)
-
 def _overlap_stats(base_names, other_names):
     """(E71) name overlap of two held sets, with the entrant/exit split.
 
@@ -11780,8 +11123,6 @@ def _overlap_stats(base_names, other_names):
             "share_of_base": round(len(inter) / float(len(a)), 4) if a else None,
             "share_of_other": round(len(inter) / float(len(b)), 4) if b else None,
             "jaccard": round(len(inter) / float(len(union)), 4) if union else None}
-
-
 def _pair_to_grid(targets, grid):
     """(E71) map each decision to the nearest session of another grid."""
     g = sorted(set(grid or ()))
@@ -11789,8 +11130,6 @@ def _pair_to_grid(targets, grid):
         return {}
     return {t: min(g, key=lambda x: (abs(x - t), x))
             for t in sorted(set(targets or ()))}
-
-
 def _name_churn_stats(held_sets):
     """(E71) how much a book's own membership moves between its decisions."""
     if not held_sets or len(held_sets) < 2:
@@ -11812,8 +11151,6 @@ def _name_churn_stats(held_sets):
             "mean_names_kept_share": round(sum(vals) / len(vals), 4) if vals else None,
             "mean_names_changed": round(sum(changed) / float(len(changed)), 2),
             "max_names_changed": max(changed)}
-
-
 def _stale_hold_stats(idxs, held_sets):
     """(E71) how long a dropped name is still held before the next decision.
 
@@ -11836,8 +11173,6 @@ def _stale_hold_stats(idxs, held_sets):
     return {"exits": n,
             "mean_sessions_held_after_exit": round(tot / float(n), 2) if n else None,
             "max_sessions_held_after_exit": worst or None}
-
-
 def _pair_summary(pairs):
     """(E71) aggregate a list of per-pair overlap rows."""
     if not pairs:
@@ -11858,8 +11193,6 @@ def _pair_summary(pairs):
                                 / float(len(pairs)), 2),
             "total_entrants": sum(p.get("entrants", 0) for p in pairs),
             "total_exits": sum(p.get("exits", 0) for p in pairs)}
-
-
 def _tail_guard(counts, flat=0.5):
     """(E71) decide which book decisions are priced on a complete panel bar.
 
@@ -11882,15 +11215,11 @@ def _tail_guard(counts, flat=0.5):
                          if 0 <= j < n and counts[j] is not None])
         out.append(c >= flat * ref)
     return out
-
-
 def _membership_reading(share, same_flat=0.95):
     """(E71) label a per-date name overlap: same book or diverging books."""
     if share is None:
         return "insufficient"
     return "same_names" if share >= same_flat else "diverging_names"
-
-
 def _cum_return(series, i0, i1):
     """(E72) close-to-close return between two session indices, or None.
 
@@ -11905,8 +11234,6 @@ def _cum_return(series, i0, i1):
     if a is None or b is None or a <= 0:
         return None
     return b / float(a) - 1.0
-
-
 def _week_hold_positions(wk_idxs, wk_books):
     """(E72) name -> ascending list of weekly decision positions holding it."""
     pos = {}
@@ -11914,8 +11241,6 @@ def _week_hold_positions(wk_idxs, wk_books):
         for s in names:
             pos.setdefault(s, []).append(p)
     return pos
-
-
 def _last_hold_at_or_before(positions, target_idx, wk_idxs):
     """(E72) last weekly position whose session is <= the target session."""
     best = None
@@ -11925,8 +11250,6 @@ def _last_hold_at_or_before(positions, target_idx, wk_idxs):
         else:
             break
     return best
-
-
 def _stale_hold_events(me_idxs, me_books, wk_idxs, wk_books, ret_fn,
                        book_ret_fn=None):
     """(E72) price every stale exit: sessions held past the weekly drop, and bp.
@@ -11977,8 +11300,6 @@ def _stale_hold_events(me_idxs, me_books, wk_idxs, wk_books, ret_fn,
                 events[-1]["relative_bp_contrib"] = round(10000.0 * w * (r - b), 3)
     return events, {"unpriced": unpriced, "never_in_weekly_book": no_weekly,
                     "unpriced_book": unpriced_book}
-
-
 def _years_between(d0, d1):
     """(E72) calendar years between two ISO dates, or None if unusable."""
     try:
@@ -11988,8 +11309,6 @@ def _years_between(d0, d1):
         return None
     days = (b - a).days
     return days / 365.25 if days > 0 else None
-
-
 def _stale_aggregate(events, years, key="bp_contrib", ret_key="return_pct"):
     """(E72/E74) summarise stale-exit events into total bp and per-event stats.
 
@@ -12020,8 +11339,6 @@ def _stale_aggregate(events, years, key="bp_contrib", ret_key="return_pct"):
                             "extra_sessions": worst["extra_sessions"],
                             "return_pct": worst.get(ret_key),
                             "bp_contrib": worst[key]}}
-
-
 def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     """E71: the weekly book's -45bp price-path residual -- timing or names?
 
@@ -12165,8 +11482,6 @@ def run_weeknames(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
         ],
     }
     return face
-
-
 def _stale_hold_inputs(start, pick_n, exclude, raw=None):
     """(E72/E74) shared panel, calendars and books for both stale legs.
 
@@ -12211,8 +11526,6 @@ def _stale_hold_inputs(start, pick_n, exclude, raw=None):
                         "week": keep_wk.count(False)},
             "me_books": [raw_me[i] for i in me_idxs],
             "wk_books": [raw_wk[i] for i in wk_idxs]}
-
-
 def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
     """E72: what is the stale-hold tail actually worth, in bp?
 
@@ -12306,8 +11619,6 @@ def run_stalehold(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",)):
         ],
     }
     return face
-
-
 def _wide_session_returns(prices, universe, n_sessions):
     """(E74) equal-weight return of the live universe at every session.
 
@@ -12326,8 +11637,6 @@ def _wide_session_returns(prices, universe, n_sessions):
         if vals:
             out[t] = sum(vals) / float(len(vals))
     return out
-
-
 def _compound_between(rets, i0, i1):
     """(E74) compound the wide book from session i0 to i1 (exclusive of i0)."""
     if not rets or i0 is None or i1 is None or i1 <= i0:
@@ -12340,8 +11649,6 @@ def _compound_between(rets, i0, i1):
             return None
         acc *= (1.0 + rets[t])
     return acc - 1.0
-
-
 def _max_session_jump(series, i0, i1):
     """(E74) largest absolute move between two consecutive PRICED closes.
 
@@ -12368,8 +11675,6 @@ def _max_session_jump(series, i0, i1):
                 worst = abs(r)
         last = v
     return worst if n_priced >= 2 else None
-
-
 def _relative_reading(raw_bp, rel_bp, shrink_share=0.25, floor_bp=5.0):
     """(E74) label whether a raw tail collapses once the book is subtracted.
 
@@ -12385,8 +11690,6 @@ def _relative_reading(raw_bp, rel_bp, shrink_share=0.25, floor_bp=5.0):
     if (raw_bp > 0) == (rel_bp > 0) and abs(rel_bp) >= 0.5 * abs(raw_bp):
         return "survives"
     return "partial"
-
-
 def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                   raw=None):
     """E74: is the stale tail a name effect, or the market's own path?
@@ -12530,10 +11833,6 @@ def run_staletail(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         ],
     }
     return face
-
-
-# ------------------------------------------------ E118 stale-tail screened twin
-
 def _staletail_arm_cells(face, starts=None):
     """(E118) -> {(key, column): value} for every number the stale-tail leg prices.
 
@@ -12581,8 +11880,6 @@ def _staletail_arm_cells(face, starts=None):
         out[("answers/era_raw_bp_per_year", lab)] = v
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
 def _staletail_top_event(face, starts=None):
     """(E118) the artefact list as a date face: the tail's identity, not its size.
 
@@ -12598,8 +11895,6 @@ def _staletail_top_event(face, starts=None):
     top = max(evs, key=lambda e: abs(e.get("bp_contrib") or 0.0))
     return {"artefacts": {"top": "%s@%s" % (top.get("name"), top.get("date")),
                           "n": len(evs)}}
-
-
 def run_staletailscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                         mode="neutralise_int", resume=True):
     """E118: re-price the stale tail on the screened arm, beside the raw face.
@@ -12803,10 +12098,6 @@ def run_staletailscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511
             "event list or the skipped-block counters",
         ],
     }
-
-
-# ------------------------------------------ E119 entry-delay screened twin
-
 def _entrydelay_arm_cells(face, starts=None):
     """(E119) -> {(key, column): value} for every cell the entry-delay leg publishes.
 
@@ -12860,8 +12151,6 @@ def _entrydelay_arm_cells(face, starts=None):
             out[("answers/" + col, lab)] = v
     out[("spec", "universe_members")] = (face.get("spec") or {}).get("universe_members")
     return out
-
-
 def _lag_ladder_read(face, lags, era=None, lvl=None, tol=2.0):
     """(E119) the ladder itself: does each extra k sessions still cost more?
 
@@ -12899,8 +12188,6 @@ def _lag_ladder_read(face, lags, era=None, lvl=None, tol=2.0):
             "span_bp": (round(vals[-1] - vals[0], 3)
                         if len(vals) > 1 and all(v is not None for v in vals) else None),
             "tolerance_bp": tol}
-
-
 def _entrydelay_copy_mismatch(face):
     """(E119) does the published copy equal the arm it was copied from?
 
@@ -12923,8 +12210,6 @@ def _entrydelay_copy_mismatch(face):
             out.append({"arm": lab, "copy": cop, "source": src,
                         "delta": round(cop - src, 6)})
     return out
-
-
 def _delegation_attribution(copy_moved, source_moved):
     """(E119) which LAYER of a delegating runner did the repair move?
 
@@ -12942,8 +12227,6 @@ def _delegation_attribution(copy_moved, source_moved):
     if source_moved:
         return "source moved + copy held = the copy is stale against its arm"
     return "neither layer moved"
-
-
 def run_entrydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                          lags=(1, 3, 5, 10), costs=(1.0,), mode="neutralise_int",
                          resume=True):
@@ -13161,10 +12444,6 @@ def run_entrydelayscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh51
             "book/gap/delay/answers cells, not the pointer fields",
         ],
     }
-
-
-# --------------------------------------------------------------- E75 panel splits
-
 def _panel_inputs(start, exclude, raw=None):
     """(E75) raw closes on the decision calendar -- no book, no rank, nothing dropped.
 
@@ -13187,8 +12466,6 @@ def _panel_inputs(start, exclude, raw=None):
         closes = raw[s][0]
         prices[s] = [closes.get(d) for d in cal]
     return cal, prices, sorted(raw), cal[-1]
-
-
 def _breadth(prices, universe, n_sessions):
     """(E75) priced-member count per session -- the equal-weight book's divisor."""
     out = [0] * int(n_sessions)
@@ -13197,8 +12474,6 @@ def _breadth(prices, universe, n_sessions):
             if v is not None and v > 0 and i < len(out):
                 out[i] += 1
     return out
-
-
 def _split_ratio(ret):
     """(E75) implied share ratio of a flagged move and its distance to an integer.
 
@@ -13218,8 +12493,6 @@ def _split_ratio(ret):
     return {"ratio": round(ratio, 4), "nearest_int": nearest,
             "resid_pct": round(100.0 * resid, 3),
             "integer_like": nearest >= 2 and resid <= 0.02}
-
-
 def _split_events(cal, prices, universe, breadth, thresh=ARTEFACT_JUMP):
     """(E75) every panel-wide single-session move past the daily-limit screen.
 
@@ -13256,8 +12529,6 @@ def _split_events(cal, prices, universe, breadth, thresh=ARTEFACT_JUMP):
                     })
             last, last_i = v, i
     return events
-
-
 def _split_summary(events, years):
     """(E75) book-level cost of the flagged prints: one name in an n-name book."""
     rows = [e for e in events if e.get("book_impact_bp") is not None]
@@ -13280,8 +12551,6 @@ def _split_summary(events, years):
         "median_event_bp": (round(_quant(impacts, 0.5), 2) if impacts else None),
         "years": years,
     }
-
-
 def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                    top_n=15, raw=None):
     """E75: how many published census numbers sit on unadjusted corporate actions?
@@ -13373,20 +12642,8 @@ def run_panelsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         ],
     }
     return face
-
-
-# ------------------------------ leg: E117 the split census' own screened twin
-#
-# E75 counted the prints; E117 asks whether that count is a panel fact or an arm
-# statement. run_panelsplit is the only census leg that already knows about
-# splits -- it censused the 135 adjacent impossibilities that ``panel_screen``
-# repairs -- so the hazard is that the audit may be reading the very prints it
-# repairs. Re-derive it over the repaired universe with the E112-E116 join.
-
 _PANELSPLIT_COUNT_COLUMNS = ("events", "names", "adjacent", "gapped", "down",
                              "up", "integer_ratio_events", "non_integer_events")
-
-
 def _panelsplit_arm_cells(face, starts=None):
     """(E117) -> {(key, column): value} for every cell the split audit publishes.
 
@@ -13407,16 +12664,12 @@ def _panelsplit_arm_cells(face, starts=None):
     for year, n in (face.get("events_per_year") or {}).items():
         out[("year/%s" % year, "events")] = n
     return out
-
-
 def _panelsplit_top_event(face, starts=None):
     """(E117) the ranked headline event is an identity: it moves or it does not."""
     top = (face.get("answers") or {}).get("top_event") or {}
     return {"top": {"name": top.get("name"), "date": top.get("date"),
                     "ret_pct": top.get("ret_pct"),
                     "book_impact_bp": top.get("book_impact_bp")}}
-
-
 def run_panelsplitscreen(outdir, start="2020-01-01", pick_n=9999,
                          exclude=("sh511",), mode="neutralise_int", resume=True):
     """E117: re-derive the split census on the screened arm, beside the raw face.
@@ -13613,24 +12866,11 @@ def run_panelsplitscreen(outdir, start="2020-01-01", pick_n=9999,
             "separately as a date face)",
         ],
     }
-
-
-# ------------------------------------------- leg: E76 screen-regrade (opt-in)
-#
-# E75 sized the problem: 135 adjacent-session prints past the 30% screen on 152
-# names, ~216bp/yr of equal-weight book impact -- 4.8x the -45bp residual the
-# chain had been chasing. But E75 only *sized* it; every published ladder and
-# era-spread number still charges the unadjusted prints. This leg is the other
-# half: the same two headline faces replayed from a repaired universe, with the
-# unscreened column kept beside them so the correction is measured, not claimed.
-
 LADDER_COLUMNS = ("ann_pct", "vol_pct", "sharpe", "max_drawdown_pct",
                   "worst_month_return_pct", "turnover_per_year",
                   "cost_per_year_bp")
 ERA_COLUMNS = ("spread_ann_bp", "ladder_ann_pct", "wide_ann_pct")
 ERA_RATIO_COLUMNS = ("max_drawdown_pct", "ann_pct")
-
-
 def _ladder_window(raw, cal, start):
     """One ladder5 window (the E39 columns) from an already loaded universe."""
     import e24_ladder_weighting as base
@@ -13657,8 +12897,6 @@ def _ladder_window(raw, cal, start):
         "turnover_per_year": (round(aux["turnover_total"] / years, 4) if years else None),
         "cost_per_year_bp": (round(aux["cost_paid_frac"] / years * 1e4, 2) if years else None),
     }
-
-
 def _screen_face(raw, cal_full, pick_n, eras, ladder_starts):
     """The two headline faces (ladder windows + era spread) from one universe."""
     ladder = {}
@@ -13667,8 +12905,6 @@ def _screen_face(raw, cal_full, pick_n, eras, ladder_starts):
         ladder[start] = _ladder_window(raw, cal, start)
     lad, wide, ratio = _era_curves(raw, cal_full, pick_n)
     return {"ladder": ladder, "eras": _era_rows(lad, wide, ratio, eras)}
-
-
 def _delta_rows(base_label, faces):
     """Column-by-column unscreened vs screened table, one row per cell."""
     rows = []
@@ -13707,8 +12943,6 @@ def _delta_rows(base_label, faces):
                      (faces[mode]["eras"][era].get("ratio_path") or {}).get(col))
             rows.append(row)
     return rows
-
-
 def _member_print_face(closes, cal, thresh=None):
     """(E76) how many adjacent/gapped artefact prints one series carries."""
     import panel_screen
@@ -13719,8 +12953,6 @@ def _member_print_face(closes, cal, thresh=None):
     return {"adjacent": len(adj), "gapped": len(events) - len(adj),
             "prints": [{"date": e["date"], "ret_pct": round(e["ret_pct"], 2),
                         "adjacent": e["adjacent"]} for e in events]}
-
-
 def run_screenreg(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                   modes=("neutralise_int", "neutralise", "drop"), eras=ERAS,
                   ladder_starts=("2020-01-01", "2018-01-01")):
@@ -13820,8 +13052,6 @@ def run_screenreg(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no ledger booking, trial 0",
         ],
     }
-
-
 def _screengapera_rows(faces, base="unscreened", adjacent="neutralise"):
     """(E93) One row per era: the published spread under every arm, with the
     delta against BOTH the untouched column and the adjacent-only column.
@@ -13853,8 +13083,6 @@ def _screengapera_rows(faces, base="unscreened", adjacent="neutralise"):
                 else None)
         rows.append(row)
     return rows
-
-
 def run_screengapera(outdir, start="2020-01-01", pick_n=9999,
                      exclude=("sh511",), eras=ERAS,
                      ladder_starts=("2020-01-01", "2018-01-01"),
@@ -13980,17 +13208,11 @@ def run_screengapera(outdir, start="2020-01-01", pick_n=9999,
             "not a strategy change",
         ],
     }
-
-
-# ------------------------------------------------------------ E77 wide screen
-
 WIDE_COLUMNS = ("wide_ann_pct", "wide_total_return_pct", "wide_vol_pct",
                 "wide_sharpe", "ladder_ann_pct", "vs_ladder_bp_annualised",
                 "turnover_per_year", "cost_per_year_bp", "mean_bp", "t")
 WIDE_ERA_COLUMNS = ("wide_ann_pct", "ladder_ann_pct", "spread_ann_bp",
                     "ratio_ann_pct", "ratio_max_drawdown_pct")
-
-
 def _wide_headline(face, pick_n=9999):
     """(E77) the wide-book headline columns out of one e27 universe face."""
     w = (face.get("schemes") or {}).get("top%d" % pick_n) or {}
@@ -14013,8 +13235,6 @@ def _wide_headline(face, pick_n=9999):
         "universe_size": face.get("universe_size"),
         "bars": face.get("bars"),
     }
-
-
 def _wide_era_headline(rows):
     """(E77) flatten _era_rows into the wide-book era column set."""
     out = {}
@@ -14032,8 +13252,6 @@ def _wide_era_headline(rows):
             "from": r.get("from"), "to": r.get("to"), "bars": r.get("bars"),
         }
     return out
-
-
 def _wide_delta_rows(base_label, faces, modes, starts, costs, eras):
     """(E77) one row per (window|era, cost, column) with every screen beside it."""
     rows = []
@@ -14068,8 +13286,6 @@ def _wide_delta_rows(base_label, faces, modes, starts, costs, eras):
                      lambda f, k=key, e=ename, c=col:
                      ((f["eras"].get(k) or {}).get(e) or {}).get(c))
     return rows
-
-
 def run_screenwide(outdir, pick_n=9999, exclude=("sh511",),
                    modes=("neutralise_int", "neutralise", "drop"),
                    starts=("2020-01-01", "2018-01-01"), costs=(1.0, 3.0),
@@ -14209,13 +13425,7 @@ def run_screenwide(outdir, pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial booking",
         ],
     }
-
-
-# --------------------------------------------------- E78 screened weekly residual
-
 WEEK_COLUMNS = ("full_window_gap_bp", "turnover_per_year", "cost_per_year_bp")
-
-
 def _week_delta_rows(base_label, faces, modes, costs, labels=("week", "week_near_me"),
                      eras=ERAS):
     """(E78) unscreened-vs-screened weekly residual, one row per cell.
@@ -14254,8 +13464,6 @@ def _week_delta_rows(base_label, faces, modes, costs, labels=("week", "week_near
                      (((f["calendar_rows"].get(t) or {}).get(l) or {})
                       .get("eras") or {}).get(e))
     return rows
-
-
 def run_screenweek(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                    modes=("neutralise_int", "neutralise", "drop"),
                    costs=(1.0, 3.0), eras=ERAS, labels=("week", "week_near_me")):
@@ -14402,11 +13610,6 @@ def run_screenweek(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial booking",
         ],
     }
-
-
-# ------------------------------------------------------ E80 screened mid-month
-
-
 def _dig(face, *path):
     """Walk a nested dict, returning None the moment the path breaks."""
     cur = face
@@ -14415,8 +13618,6 @@ def _dig(face, *path):
             return None
         cur = cur.get(p)
     return cur
-
-
 def _mid_delta_rows(base_label, faces, modes, eras, costs=(0.0, 1.0, 3.0),
                     mid_label="mid15"):
     """(E80) unscreened-vs-screened mid-month churn rows, one row per cell.
@@ -14472,8 +13673,6 @@ def _mid_delta_rows(base_label, faces, modes, eras, costs=(0.0, 1.0, 3.0),
              _dig(u, "eras", era, "churn_alpha_gap_bp"),
              lambda f, e=era: _dig(f, "eras", e, "churn_alpha_gap_bp"))
     return rows
-
-
 def _mid_flip_eras(faces, modes, eras, pick):
     """Eras whose unscreened value and a screened value straddle zero."""
     out = []
@@ -14488,8 +13687,6 @@ def _mid_flip_eras(faces, modes, eras, pick):
                 out.append(era)
                 break
     return sorted(out)
-
-
 def run_midscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                   modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                   costs=(0.0, 1.0, 3.0), eras=ERAS):
@@ -14619,11 +13816,6 @@ def run_midscreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial booking",
         ],
     }
-
-
-# ------------------------------- leg: who carries the churn-gap amplification (E82)
-
-
 def _event_dates(universe, cal):
     """name -> sorted print-event dates, scanned on consecutive priced closes."""
     import panel_screen
@@ -14635,8 +13827,6 @@ def _event_dates(universe, cal):
         if ev:
             out[s] = sorted({e["date"] for e in ev})
     return out
-
-
 def _transition_hits(d0, d1, swapped, event_dates):
     """Swapped names whose print event sits inside (d0, d1] -- the priced window.
 
@@ -14650,8 +13840,6 @@ def _transition_hits(d0, d1, swapped, event_dates):
                 hits.append({"name": s, "date": d})
                 break
     return hits
-
-
 def _churn_join(base_rows, mode_rows, event_dates, eras=ERAS):
     """Per-transition delta (mode minus baseline) tagged hit / clean.
 
@@ -14698,15 +13886,11 @@ def _churn_join(base_rows, mode_rows, event_dates, eras=ERAS):
                                        if hit and total else None),
         }
     return out, agg
-
-
 def _worst_transitions(rows, n=8):
     """The n largest |delta| transitions, kept with their hit tag and window."""
     live = [r for r in rows if r["delta_bp"] is not None]
     live.sort(key=lambda r: -abs(r["delta_bp"]))
     return live[:n]
-
-
 def run_churngap(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                  modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                  eras=ERAS):
@@ -14807,10 +13991,6 @@ def run_churngap(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             "descriptive census only: no gate, no verdict, no prereg, no trial booking",
         ],
     }
-
-
-# -------------------------------------------------------------- E83 / E84
-
 def _single_print_cell(rows, eras=ERAS, event_dates=None):
     """E83: one era cell re-read with its single most influential swap removed.
 
@@ -14855,8 +14035,6 @@ def _single_print_cell(rows, eras=ERAS, event_dates=None):
             face["most_influential_removal"] = best
         out[name] = face
     return out
-
-
 def _single_print_gap(me_rows, mid_rows, eras=ERAS, event_dates=None):
     """E83: the me-vs-mid churn gap re-read with one transition removed.
 
@@ -14919,8 +14097,6 @@ def _single_print_gap(me_rows, mid_rows, eras=ERAS, event_dates=None):
             face["most_influential_removal"] = best
         out[name] = face
     return out
-
-
 def _mode_universe_diff(reports, modes=("neutralise_int", "neutralise")):
     """E84: which names one screen repairs and the other leaves alone."""
     touched = {}
@@ -14946,8 +14122,6 @@ def _mode_universe_diff(reports, modes=("neutralise_int", "neutralise")):
         "note": "the conservative arm repairs a strict subset: every name and every "
                 "print it touches is also touched by the full arm",
     }
-
-
 def _mode_row_diff(rows_a, rows_b):
     """E84: exact transition-by-transition comparison of two screen modes."""
     a = {r["date"]: r.get("churn_alpha_bp") for r in rows_a}
@@ -14968,8 +14142,6 @@ def _mode_row_diff(rows_a, rows_b):
         "differing_rows": diffs[:20],
         "bit_identical": not diffs and not (set(a) ^ set(b)),
     }
-
-
 def _extra_name_relevance(churn_row_sets, extra_names, event_dates):
     """E84: did any transition ever swap one of the names only the wider arm fixes?"""
     extra = set(extra_names)
@@ -14991,8 +14163,6 @@ def _extra_name_relevance(churn_row_sets, extra_names, event_dates):
             "extra_names_ever_swapped_list": sorted(ever_swapped),
             "windows_swapping_an_extra_name": windows_with_swap,
             "windows_where_an_extra_name_carried_a_print": windows_with_print}
-
-
 def run_singleprint(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                     eras=ERAS):
@@ -15186,8 +14356,6 @@ def run_singleprint(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         ],
     }
     return bond, modeeq
-
-
 def _median_sorted(s):
     """Median of an already-sorted list (mean of the two middles when even)."""
     n = len(s)
@@ -15197,8 +14365,6 @@ def _median_sorted(s):
     if n % 2:
         return float(s[mid])
     return 0.5 * (s[mid - 1] + s[mid])
-
-
 def _robust_stats(vals, trim_pct=10.0):
     """Mean, median and symmetric trimmed mean of one cell's own values.
 
@@ -15230,8 +14396,6 @@ def _robust_stats(vals, trim_pct=10.0):
             "trim_dropped": (2 * k) if core is not s else 0,
             "median_keep_pct_of_mean": keep(med),
             "trim10_keep_pct_of_mean": keep(trim)}
-
-
 def _concentration(vals, k=3):
     """How much of a cell's signed total the k largest |values| carry."""
     clean = [float(v) for v in vals if isinstance(v, (int, float))]
@@ -15244,8 +14408,6 @@ def _concentration(vals, k=3):
             "total_sum_bp": round(tot, 1),
             "top_share_of_total_pct": (round(100.0 * top / tot, 1)
                                        if tot else None)}
-
-
 def run_robustchurn(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                     eras=ERAS):
@@ -15352,10 +14514,6 @@ def run_robustchurn(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         "summary": {"levels": _tally(cells), "deltas": _tally(delta_cells)},
         "screen_reports": reports,
     }
-
-
-# -------------------------------------------------------------- E91
-
 def _top_transitions(rows, k=3):
     """The k largest |churn_alpha_bp| transitions of one cell, by name and date.
 
@@ -15388,8 +14546,6 @@ def _top_transitions(rows, k=3):
             "exit_names": (r.get("exit_names") or [])[:10],
         })
     return out
-
-
 def run_topnames(outdir, start="2013-01-01", pick_n=9999, exclude=("sh511",),
                  modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                  eras=ERAS, top_k=3):
@@ -15475,10 +14631,6 @@ def run_topnames(outdir, start="2013-01-01", pick_n=9999, exclude=("sh511",),
         "summary": _tally(cells),
         "screen_reports": reports,
     }
-
-
-# -------------------------------------------------------------- E86
-
 def _loo_means(vals):
     """Every leave-one-out mean of one cell: ``(n*m - a_i)/(n-1)``.
 
@@ -15492,8 +14644,6 @@ def _loo_means(vals):
         return []
     tot = sum(clean)
     return [(tot - a) / (n - 1) for a in clean]
-
-
 def _breakdown_k(vals, target_frac=0.5):
     """How many transitions must be removed before |mean| falls to target_frac.
 
@@ -15525,8 +14675,6 @@ def _breakdown_k(vals, target_frac=0.5):
                     "mean_after_bp": round(cur, 1), "path_bp": path}
     return {"k": None, "n": n, "share_of_transitions_pct": None,
             "mean_after_bp": round(rest[0], 1), "path_bp": path}
-
-
 def _loo_stats(vals):
     """E86: the leave-one-out distribution of one cell plus its breakdown k."""
     clean = [float(v) for v in vals if isinstance(v, (int, float))]
@@ -15555,8 +14703,6 @@ def _loo_stats(vals):
         "loo_flips_sign_pct": round(100.0 * flip / n, 1),
         "breakdown": _breakdown_k(clean),
     }
-
-
 def run_loodist(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                 modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                 eras=ERAS):
@@ -15673,10 +14819,6 @@ def run_loodist(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
         },
         "screen_reports": reports,
     }
-
-
-# -------------------------------------------------------------- E89
-
 def _sd(vals):
     """Sample standard deviation (ddof=1); None for fewer than two points."""
     import math
@@ -15686,8 +14828,6 @@ def _sd(vals):
         return None
     m = sum(vals) / n
     return math.sqrt(sum((x - m) ** 2 for x in vals) / (n - 1))
-
-
 def _jackknife_mean(vals):
     """Closed-form jackknife standard error of one cell mean.
 
@@ -15710,8 +14850,6 @@ def _jackknife_mean(vals):
             "jk_lo90_bp": round(m - 1.6449 * se, 1),
             "jk_hi90_bp": round(m + 1.6449 * se, 1),
             "jk_available": True}
-
-
 def _boot_mean_ci(vals, draws=2000, seed=20261022):
     """Seeded percentile bootstrap of one cell mean (reproducible by seed).
 
@@ -15746,8 +14884,6 @@ def _boot_mean_ci(vals, draws=2000, seed=20261022):
             "boot_ci_straddles_zero": bool(lo <= 0.0 <= hi),
             "boot_signflip_pct": round(100.0 * cross / len(means), 1),
             "boot_se_bp": round(_sd(means), 2)}
-
-
 def _gap_interval(a, b, draws=2000, seed=20261022):
     """Interval for ``mean(b) - mean(a)`` with the two books resampled apart.
 
@@ -15795,8 +14931,6 @@ def _gap_interval(a, b, draws=2000, seed=20261022):
             "boot_signflip_pct": round(100.0 * cross / len(diffs), 1),
             "interval_clears_zero": bool(
                 (gap - 1.6449 * se) * (gap + 1.6449 * se) > 0)}
-
-
 def run_churnse(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                 modes=("neutralise_int", "neutralise", "drop"), mid_day=15,
                 eras=ERAS, draws=2000, seed=20261022):
@@ -15943,10 +15077,6 @@ def run_churnse(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     "gaps": _tally(gap_cells)},
         "screen_reports": reports,
     }
-
-
-# ------------------------------------------------ E92 gap-tolerant split screen
-
 def _gap_print_census(raw, cal_full, limits=(1, 2, 5)):
     """E92: every gapped print the fixed adjacency rule leaves unrepaired.
 
@@ -16000,8 +15130,6 @@ def _gap_print_census(raw, cal_full, limits=(1, 2, 5)):
         }
     return {"gapped_prints": len(events), "by_gap_limit": census,
             "events": events}
-
-
 def run_gapsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                  limits=(1, 2, 5), mid_day=15, eras=ERAS):
     """E92: does the published churn gap survive a gap-tolerant split screen?
@@ -16117,17 +15245,7 @@ def run_gapsplit(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
             }
     data["joins"] = joins
     return data
-
-
-# ------------------------------------------------------------------- plumbing
-
-# (E111) a face's LEVEL is produced by panel_screen's repair code, so two faces
-# are comparable only when that code is the same. E110 burned this lesson: a
-# pre-E108 face joined against a post-E108 one and the difference was reported
-# as a defect. The cutoff was stamped; the code version was not.
 REPAIR_FACTOR_KEY = "repair_factor"
-
-
 def _stamp_repair_factor(payload):
     """Put the repair-factor id on a face this module is about to write."""
     if isinstance(payload, dict) and not payload.get(REPAIR_FACTOR_KEY):
@@ -16138,8 +15256,6 @@ def _stamp_repair_factor(payload):
         except Exception as exc:      # a burn is never failed over its stamp
             payload["repair_factor_error"] = repr(exc)
     return payload
-
-
 def write_json(outdir, name, payload):
     os.makedirs(outdir, exist_ok=True)
     p = os.path.join(outdir, name)
@@ -16148,8 +15264,6 @@ def write_json(outdir, name, payload):
         json.dump(payload, fh, ensure_ascii=False, indent=1)
         fh.write("\n")
     return p
-
-
 def selftest():
     ok = tot = 0
     def chk(cond, label):
@@ -16159,8 +15273,6 @@ def selftest():
             ok += 1
         else:
             print("FAIL %s" % label)
-
-    # risk profile on a known path: 1.0 -> 1.20 -> 0.90 -> 1.30
     curve = [("2020-01-02", 1.0), ("2020-02-03", 1.10), ("2020-02-28", 1.20),
              ("2020-03-31", 0.90), ("2020-04-30", 1.30)]
     prof = risk_profile(curve, 0.5)
@@ -16169,8 +15281,6 @@ def selftest():
     chk(prof["best_month"]["month"] == "2020-04", "best month is the +44% month")
     chk(prof["longest_underwater_sessions"] == 1, "one session underwater before the new high")
     chk(prof["negative_months"] == 1, "March is the only negative month on the mark set")
-
-    # classification table
     cal = ["2026-09-%02d" % d for d in range(1, 22)]
     dead = [{"date": "2026-09-01", "close": 1.0, "volume": 0.0, "amount": 0.0},
             {"date": "2026-09-02", "close": 1.0, "volume": 0.0, "amount": 0.0}]
@@ -16186,12 +15296,8 @@ def selftest():
         "tail ending on the bulk date reads refresh failure")
     chk(classify_stale("510880_t73.csv", live, cal, cal[-1])["class"] == "PINNED_SLOT_COPY",
         "tagged filename reads pinned copy")
-
-    # month-end collapse keeps the last mark of each month
     me = _month_ends([("2020-01-02", 1.0), ("2020-01-31", 2.0), ("2020-02-03", 3.0)])
     chk(me == [("2020-01-31", 2.0), ("2020-02-03", 3.0)], "month-end collapse")
-
-    # pair leg: a ratio curve carries the spread's own drawdown, not the legs'
     lad = [("2020-01-02", 1.0), ("2020-02-03", 0.80), ("2020-03-31", 1.0)]
     wide = [("2020-01-02", 1.0), ("2020-02-03", 0.72), ("2020-03-31", 1.0)]
     lm = dict(lad)
@@ -16200,21 +15306,15 @@ def selftest():
     chk(risk_profile(wide, 0.25)["max_drawdown_pct"] == -28.0, "wide leg dd -28%")
     chk(risk_profile(ratio, 0.25)["max_drawdown_pct"] == -10.0,
         "ratio curve dd is the spread (-10%), not either leg")
-
-    # cash-leg scaling: None stays the zero-cash convention, x0 empties the series
     chk(_scale_cash(None, 2.0) is None, "no cash panel stays no cash panel")
     sc = _scale_cash({"series": {"2020-01-02": 0.001}}, 3.0)
     chk(abs(sc["series"]["2020-01-02"] - 0.003) < 1e-15, "multiplier scales daily returns")
     chk(_scale_cash({"series": {"2020-01-02": 0.001}}, 0.0)["series"] == {},
         "x0 empties the series so the engine reads 0.0")
     chk(_scale_cash({"series": {}}, 1.0)["series"] == {}, "empty series survives scaling")
-
-    # cash attribution arithmetic on a synthetic table
     rows = {"x0": {"ann_return_pct": -0.43}, "x1": {"ann_return_pct": 0.12}}
     chk(round((rows["x1"]["ann_return_pct"] - rows["x0"]["ann_return_pct"]) * 100, 2) == 55.0,
         "attribution is the ann column difference in bp")
-
-    # size tilt legs: month marks, the 2/5+3/5 identity, and the spread in bp
     mr = _month_rets([("2020-01-31", 1.0), ("2020-02-28", 1.1), ("2020-03-31", 1.21)])
     chk(len(mr) == 2 and abs(mr[0][1] - 0.10) < 1e-12 and mr[1][0] == "2020-03",
         "month returns come off month-end marks")
@@ -16229,8 +15329,6 @@ def selftest():
     mem = _member_monthly(["2020-01-31", "2020-02-28", "2020-03-31"], "shX", mem_raw)
     chk(abs(mem["2020-02"] - 0.2) < 1e-12 and abs(mem["2020-03"] + 0.25) < 1e-12,
         "member monthly returns read their own month-end closes")
-
-    # rebalance-day shift: clamping, dedupe, and the mid-month pick
     chk(_shift_indices([0, 5, 9], -1, 10) == [0, 4, 8], "shift -1 clamps at index 0")
     chk(_shift_indices([8, 9], 1, 10) == [9], "shift +1 clamps and dedupes at the last bar")
     chk(_shift_indices([3], 0, 10) == [3], "zero shift is the identity")
@@ -16242,8 +15340,6 @@ def selftest():
         "mid-month day 1 reads as the first session of each month")
     chk(_shift_indices(_mid_month_indices(cal_mid, 15), -1, len(cal_mid)) == [0, 4],
         "shifting the mid-month set moves every decision one session earlier")
-
-    # E42: era slicing, OLS recovery, and the additive spread identity
     chk(_in_era("2016-12", None, "2016-12-31") and not _in_era("2017-01", None, "2016-12-31"),
         "era upper bound is inclusive on its month")
     chk(_in_era("2017-01", "2017-01-01", "2020-12-31") and not _in_era("2021-01", "2017-01-01", "2020-12-31"),
@@ -16261,9 +15357,6 @@ def selftest():
     neutral, size_part = 120.0, -25.0
     chk(abs((neutral + size_part) - raw) < 1e-12,
         "additive identity: raw spread = size-neutral intercept + size component")
-
-    # E43: four-member skin is a strict subset, and the tilt builder drops only the
-    # months a leg cannot be priced on
     chk(set(TILT4_SMALL) < set(TILT_SMALL) and len(TILT4_SMALL) == 2,
         "four-member small leg is a two-name subset of the five-member skin")
     chk(abs((2 / 4.0) - 0.5) < 1e-12 and abs((2 / 4.0 + 2 / 4.0) - 1.0) < 1e-12,
@@ -16286,8 +15379,6 @@ def selftest():
         "composition counts split holdings into ladder small / ladder large / other")
     chk(_compose_counts([], TILT_LARGE, TILT_SMALL) == {"n": 0},
         "an empty book has no composition to report")
-
-    # E44: every leave-one-out skin drops exactly one member and keeps both legs alive
     lg5, sm5 = _skin_sets(None)
     chk(lg5 == TILT_LARGE and sm5 == TILT_SMALL,
         "the full skin is the untouched five-member set")
@@ -16299,9 +15390,6 @@ def selftest():
         "dropping a large-cap leaves a one-name large leg, not an empty one")
     chk(all(_skin_sets(d)[0] and _skin_sets(d)[1] for d in (TILT_LARGE + TILT_SMALL)),
         "no single-member drop empties either size leg")
-
-    # E44 burn-in: the gate is window-relative, and the arrival index is the
-    # first bar whose trailing window is fully priced (a gap restarts the run)
     chk(_first_eligible_idx([None] * 10, 3) is None,
         "a series with no priced closes never becomes eligible")
     chk(_first_eligible_idx([1.0] * 300, 250) == 249,
@@ -16311,14 +15399,11 @@ def selftest():
         "a single missing close restarts the burn-in inside the window")
     chk(_first_eligible_idx([None] * 100 + [1.0] * 250, 250) == 349,
         "eligibility is window-relative: the first 100 sessions are dead for everyone")
-    # annual chaining off month-end marks
     chk(_annual_rets([("2020-12-31", 1.0), ("2021-12-31", 1.10),
                       ("2022-12-31", 0.99)]) == {"2021": 10.0, "2022": -10.0},
         "annual returns chain each year off the prior year-end mark")
     chk(_annual_rets([("2021-06-30", 2.0)]) == {}, 
         "a single year has no prior close to chain from")
-
-    # E45 warm vs cold: dead-block counting, slice faces, spread arithmetic
     cur = [("2020-01-02", 1.0), ("2020-01-03", 1.1), ("2020-02-03", 1.2)]
     chk(_bars_before(cur, "2020-02-03") == 2, "bars before a date excludes the date itself")
     chk(_bars_before(cur, None) == 0, "an unknown first-invested date counts no dead bars")
@@ -16341,16 +15426,12 @@ def selftest():
         "no cash panel accrues nothing")
     chk(_cash_accrual_pct(csh, ccal, None) == 0.0,
         "a book with no first-invested bar accrues nothing")
-
-    # E46 era splitting: contiguous halves that keep the whole slice
     spl = _split_curve([("d%d" % i, 1.0 + i) for i in range(10)], 2)
     chk([len(s) for s in spl] == [5, 5], "two parts of ten bars split five and five")
     chk(spl[0][0][0] == "d0" and spl[-1][-1][0] == "d9",
         "the split keeps the first and last bar of the slice")
     chk(_split_curve([("d%d" % i, 1.0) for i in range(3)], 2) == [],
         "a slice too short to split is refused, not half-split")
-
-    # E58 cut roll-up: flip set, band stats and dead parts are read per cut
     fake = {"A": {"part_spreads_bp": [10.0, -20.0, 0.0], "part_band_bp": 30.0,
                   "sign_flips_inside_era": True, "widest_part": 1,
                   "parts": [{"part": 1, "from": "2020-01-01", "to": "2020-02-01"},
@@ -16372,8 +15453,6 @@ def selftest():
         "the widest part is reported with the window of that cut")
     chk(_widest_window({"widest_part": 9, "parts": []}) is None,
         "a missing widest part reports no window instead of guessing one")
-
-    # E44 churn sleeve: identical books swap nothing
     ccal = ["2020-01-%02d" % d for d in (2, 3, 6, 7)]
     cpx = {"a": [1.0, 1.0, 1.0, 1.0], "b": [1.0, 1.0, 1.0, 1.0]}
     same = [(1, ["a", "b"]), (3, ["a", "b"])]
@@ -16381,8 +15460,6 @@ def selftest():
     chk(len(rows) == 1 and rows[0]["entrants"] == 0 and rows[0]["churn_alpha_bp"] is None,
         "identical consecutive books produce no churn and no churn alpha")
     chk(agg == {}, "a book that never swaps contributes no era aggregate")
-
-    # one-in one-out with known forward returns: alpha == entrant minus exit
     swap = [(1, ["a"]), (3, ["b"])]
     cpx2 = {"a": [1.0, 1.0, 2.0, 1.1], "b": [1.0, 1.0, 2.0, 0.9]}
     rows2, agg2 = _churn_stats(ccal, cpx2, swap)
@@ -16391,9 +15468,6 @@ def selftest():
     chk(abs(rows2[0]["churn_alpha_bp"] - (-2000.0)) < 1e-9,
         "churn alpha is entrant forward return minus exit forward return in bp "
         "(-10%% entrant vs +10%% exit -> -2000bp)")
-
-    # E57: the other calendar's next book decides the bucket, and the "next"
-    # decision is strictly after the one being classified
     dec = [(0, ["a"]), (5, ["a", "b"]), (9, ["b", "c"])]
     chk(_next_decision_idx(dec, 0) == 1, "next decision skips a same-session twin")
     chk(_next_decision_idx(dec, 5) == 2 and _next_decision_idx(dec, 9) is None,
@@ -16404,9 +15478,6 @@ def selftest():
     chk(bk["disjoint"] == ["c", "d"], "names in neither book are a different slice")
     chk(_classify_entrants(["a"], None, None)["disjoint"] == ["a"],
         "a missing other book buckets everything as disjoint, not as a silent pass")
-
-    # E59 sweep: the offset is measured to the NEXT month-end decision, and a
-    # missing arm reports None rather than a silent zero gap
     scal = ["2020-01-%02d" % d for d in range(1, 11)]
     chk(_calendar_offsets(scal, [3, 6], [4, 7])["mean_sessions_to_month_end"] == 1.0,
         "a decision one session before month-end has offset 1")
@@ -16425,9 +15496,6 @@ def selftest():
         "sweep era gap carries the same sign convention")
     chk(_sweep_gaps(sbook, "x3", eras=(("A", "a", "b"),))["mid10"]["full_window_gap_bp"] is None,
         "a cost level with no arm reports no gap instead of a zero")
-
-    # E63 cost face: the shift is the fee signature of a sweep day, and a
-    # missing arm reports None instead of a silent zero shift
     cg = {"x0": {"mid10": {"full_window_gap_bp": -60.0, "turnover_per_year": 0.58,
                            "eras": {"A": {"gap_bp": -70.0}}}},
           "x3": {"mid10": {"full_window_gap_bp": -68.0, "turnover_per_year": 0.58,
@@ -16444,28 +15512,17 @@ def selftest():
     chk(_cost_face(cg_missing, "x0", "x3", eras=(("A", "a", "b"),))
         ["mid10"]["full_window_shift_bp"] is None,
         "an unpriced cost arm leaves the shift unknown, not zero")
-
-    # E65 delay ladder: a +k lag moves every decision k sessions later, and the
-    # tail clamps into the last bar instead of inventing future sessions
     chk(_shift_indices([3, 6], 1, 10) == [4, 7],
         "a one-session lag moves each decision exactly one session later")
     chk(_shift_indices([8, 9], 3, 10) == [9],
         "a lag past the calendar end clamps to the last bar and dedupes")
-
-    # era attribution follows the decision date, not the next date
     chk(_era_of("2023-12-29") == "2021_2023" and _era_of("2024-01-02") == "2024_now",
         "era boundaries key on the decision date")
-
-    # E66 early ladder: the two sides of the boundary must never share a label,
-    # and a negative shift stays inside the calendar
     chk(_early_label(3) == "me_m3" and _lag_label(3) == "me_lag3"
         and _early_label(3) != _lag_label(3),
         "early and late rows carry distinct labels at the same magnitude")
     chk(_lag_label(-1) == "me_lag-1" and _shift_indices([0, 5, 9], -1, 10) == [0, 4, 8],
         "an early lag is the negative shift and clamps at the first bar")
-
-    # E69 weekly clash: the weekly grid is one decision per ISO week, and the
-    # monthly-cadence reading snaps each month-end to the nearest weekly session
     _wk_cal = ["2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05",
                "2024-01-08", "2024-01-09", "2024-01-10"]
     chk(_weekly_indices(_wk_cal) == [0, 5],
@@ -16476,9 +15533,6 @@ def selftest():
     chk(_nearest_weekly_to_month_end([], [3]) == [] and
         _nearest_weekly_to_month_end([0], []) == [],
         "an empty grid returns no decisions instead of raising")
-
-    # E70 cost face on the weekly clash: the same rows at two cost levels, read
-    # out of ONE face, and a fee-only gap must move while a price-path gap does not
     _synth = {"gaps": {"x0": {"week": {"full_window_gap_bp": -40.0,
                                       "turnover_per_year": 0.70,
                                       "cost_per_year_bp": 0.0,
@@ -16508,9 +15562,6 @@ def selftest():
         _cf["week_near_me"]["full_window_shift_bp"] == 0.0 and
         _cf["week"]["eras"]["2024_now"]["shift_bp"] == 0.0,
         "a fee-only gap moves with the multiplier while a price-path gap holds still")
-
-    # E67 neighbourhood: the second-session arms keep their seeded names, and
-    # the three-point bracket separates a point kick from a ramp
     import tempfile as _tf
     chk(_early_label(2) == "me_m2" and _lag_label(2) == "me_lag2"
         and _lag_label(-2) == "me_lag-2",
@@ -16530,10 +15581,6 @@ def selftest():
         _face, _path = _read_late_face(_td, "2026-10-20", "2013-01-01")
         chk(_face is None and _path.endswith("ENTRYDELAY-20261020-s20130101.json"),
             "a missing late face reads as absent with the expected path")
-
-    # E71 name census: overlap splits into entrants/exits, pairing snaps to the
-    # nearest session, churn counts the book's own drift, and a stale hold is
-    # exactly the gap between two decisions
     _ov = _overlap_stats(["a", "b", "c"], ["b", "c", "d"])
     chk(_ov["common"] == 2 and _ov["entrants"] == 1 and _ov["exits"] == 1
         and _ov["share_of_base"] == 0.6667 and _ov["jaccard"] == 0.5,
@@ -16572,10 +15619,6 @@ def selftest():
         and _tail_guard([0, 40, 60, 80]) == [False, True, True, True]
         and _tail_guard([]) == [],
         "a mid-arrival stub bar and an empty cash bar are dropped, growth is kept")
-
-    # E72 stale-exit pricing: the return is close-to-close, an unpriced end is
-    # None (never a flat hold), and an event is charged at the equal weight of
-    # the book that dropped the name late
     chk(abs(_cum_return([1.0, 1.2, 0.9], 0, 1) - 0.2) < 1e-12,
         "cum return reads the two closes it is pointed at")
     chk(abs(_cum_return([1.0, 1.2, 0.9], 1, 2) + 0.25) < 1e-12,
@@ -16616,9 +15659,6 @@ def selftest():
     chk(_years_between("2020-01-01", "2020-01-01") is None
         and _years_between(None, "2020-01-01") is None,
         "a zero-length or malformed span has no year rate")
-
-    # E74 relative stale tail: the same events charged against the wide book so
-    # a market-wide move nets out and only a name effect can survive
     _px2 = {"a": [1.0] * 6, "b": [1.0] * 6}
     _wr = _wide_session_returns(_px2, ["a", "b"], 6)
     chk(len(_wr) == 6 and _wr[0] is None and abs(_wr[3]) < 1e-15,
@@ -16664,8 +15704,6 @@ def selftest():
     chk(_max_session_jump([1.0, 1.0], 1, 1) is None
         and _max_session_jump([None, 1.0], 0, 1) is None,
         "a zero-length span and a single priced close leave the jump unjudged")
-
-    # E75 panel-wide split audit: consecutive PRICED closes + integer-ratio fingerprint
     _pcal = ["2020-01-0%d" % i for i in range(1, 6)]
     _ppx = {"a": [10.414, None, 0.87, 0.88, 0.89],
             "b": [1.0, 1.01, 1.02, 1.03, 1.04]}
@@ -16690,8 +15728,6 @@ def selftest():
     chk(_ps["events"] == 1 and _ps["names"] == 1 and _ps["gapped"] == 1
         and abs(_ps["total_book_bp"] - _pev[0]["book_impact_bp"]) < 1e-9,
         "the split summary totals the book impacts and counts names and gaps")
-
-    # E76 screen-regrade: the opt-in loader, the delta table, and era shortfall
     import panel_screen
     chk(panel_screen.selftest() == 0,
         "the opt-in screen module passes its own selftest")
@@ -16724,8 +15760,6 @@ def selftest():
         "the era spread delta is the same arithmetic on the era column")
     chk(any(r["column"] == "ratio_max_drawdown_pct" for r in _d),
         "the ratio path is carried into the delta table, not just the levels")
-
-    # E77 screened-wide: the headline extractor, the era flatten, the delta table
     _wf = {"universe_size": 100, "bars": 50, "schemes": {
         "ladder5": {"metrics": {"ann_return_pct": 5.0}},
         "top9999": {"metrics": {"ann_return_pct": 8.0, "ann_vol_pct": 17.0,
@@ -16777,8 +15811,6 @@ def selftest():
     chk(_missing and _missing[0]["unscreened"] is None
         and _missing[0]["delta_neutralise"] is None,
         "an era the face does not publish yields None cells, not a fabricated zero")
-
-    # E78 screened weekly residual: the residual table keeps both books and twins
     _kfaces = {
         "unscreened": {"calendar_rows": {"x1": {
             "week": {"full_window_gap_bp": -53.0, "turnover_per_year": 0.789,
@@ -16812,8 +15844,6 @@ def selftest():
                               ("drop",), (1.0,), ("week",), ())
     chk(_wmiss and _wmiss[0]["drop"] is None and _wmiss[0]["delta_drop"] is None,
         "a mode that emitted no cell yields None instead of a zero delta")
-
-    # E80 screened mid-month: the churn table keeps both books and twins
     _eras80 = (("2024_now", "2024-01-01", "2026-12-31"),)
     _mface = {"eras": {"2024_now": {
         "me": {"churn_alpha_bp_mean": 95.6, "negative_churn_share_pct": 42.9},
@@ -16868,8 +15898,6 @@ def selftest():
     chk(_mid_flip_eras({"unscreened": _mface, "neutralise": _mface}, ("neutralise",),
                        _eras80, lambda f, e: _dig(f, "eras", e, "gap_x1_bp")) == [],
         "a screen that leaves the gap alone flips nothing")
-
-    # E82: the churn-gap join has to separate a repair effect from a composition one
     _ed = {"a": ["2020-02-03"], "b": ["2020-04-01"]}
     _h = _transition_hits("2020-01-31", "2020-02-28", ["a", "c"], _ed)
     chk(len(_h) == 1 and _h[0]["name"] == "a",
@@ -16903,8 +15931,6 @@ def selftest():
         "a flat join yields no attribution instead of a zero share")
     chk(_churn_join(_brows, [], _ed, (("x", "2020-01", "2020-03"),))[1] == {},
         "a mode with no rows produces no era cells")
-
-    # E83: a cell is one swap wide when one removal halves its magnitude
     _eras83 = (("x", "2020-01", "2020-12"),)
     _crow = lambda d, a: {"date": d, "next": d, "era": "x", "churn_alpha_bp": a,
                           "entrant_names": ["a"], "exit_names": ["z"]}
@@ -16961,8 +15987,6 @@ def selftest():
         "two single-transition books have nothing removable")
     chk(_single_print_gap(_g_me, [], _eras83) == {},
         "a book with no rows in the era yields no gap cell")
-
-    # E84: two screen modes are only duplicates if the universes agree
     _rep = lambda mode, names: {"mode": mode, "events_neutralised": len(names),
                                 "names": names}
     _ru = {"neutralise_int": _rep("neutralise_int",
@@ -16998,8 +16022,6 @@ def selftest():
         "an extra name that was swapped inside a print window is counted")
     chk(_extra_name_relevance([_crown], ["zz"], {})["windows_swapping_an_extra_name"] == 0,
         "a name the book never swaps contributes nothing")
-
-    # E85 robust estimators: a pure mean cell must show its tail, not hide it
     _flat = _robust_stats([5.0] * 20)
     chk(_flat["mean_bp"] == 5.0 and _flat["median_bp"] == 5.0
         and _flat["trim10_bp"] == 5.0 and _flat["trim_dropped"] == 4,
@@ -17019,8 +16041,6 @@ def selftest():
         "the top-3 share of a single-outlier cell is printed as a percentage")
     chk(_concentration([5.0, -5.0], 3)["top_share_of_total_pct"] is None,
         "a cell whose signed total is zero reports no share instead of dividing by zero")
-
-    # E86 leave-one-out distribution: all n removals, not one argmin
     _loo = _loo_means([10.0, 20.0, 30.0])
     chk(len(_loo) == 3, "a cell of n transitions has exactly n leave-one-out means")
     chk(abs(_loo[0] - 25.0) < 1e-12 and abs(_loo[2] - 15.0) < 1e-12,
@@ -17045,8 +16065,6 @@ def selftest():
     _bdp = _breakdown_k([50.0, 4.0, 3.0, 2.0, 1.0])
     chk(_bdp["k"] == 1 and _bdp["path_bp"][0] == 2.5,
         "the greedy path prints the mean after each removal, not just the endpoint")
-
-    # E89 sampling intervals: an added band, never a revised mean
     _jkf = _jackknife_mean([5.0] * 20)
     chk(_jkf["mean_bp"] == 5.0 and _jkf["jk_se_bp"] == 0.0
         and _jkf["jk_lo90_bp"] == 5.0 and _jkf["jk_hi90_bp"] == 5.0,
@@ -17081,8 +16099,6 @@ def selftest():
         "a gap equal to a pure level shift clears zero")
     chk(_gap_interval([4.0], [1.0, 2.0], draws=50, seed=7)["gap_available"] is False,
         "a gap needs two transitions on each side")
-
-    # E91 top-transition names: a share becomes auditable by date and ticker
     _tr = [{"date": "2021-05-17", "next": "2021-06-15", "era": "2021_2023",
             "churn_alpha_bp": -900.0, "entrants": 3, "exits": 4,
             "entrant_fwd_pct": -8.0, "exit_fwd_pct": 1.0,
@@ -17109,8 +16125,6 @@ def selftest():
     chk(_top_transitions([{"churn_alpha_bp": None}], 3) == [],
         "a cell with no numeric alpha publishes no names instead of a fake row")
     chk(_top_transitions([], 3) == [], "an empty cell has no top transitions")
-
-    # (E92) the gap census counts only integer-ratio gapped prints inside the limit
     _gcal = ["2021-05-27", "2021-05-28", "2021-05-31", "2021-06-01",
              "2021-06-02", "2021-06-03", "2021-06-04", "2021-06-05",
              "2021-06-07"]
@@ -17134,9 +16148,6 @@ def selftest():
         "the non-integer gapped print is counted as left alone, never repaired")
     chk(_c1["eligible_by_era"] == {"2021_2023": 1},
         "eligibility is tagged with the era of the print date")
-
-    # (E93) era-spread gap-arm table: every row keeps both twins and the
-    # gap-arm deltas are computed against each of them independently.
     _faces = {
         "unscreened": {"eras": {"A": {"spread_ann_bp": 100.0},
                                 "B": {"spread_ann_bp": -50.0},
@@ -17162,9 +16173,6 @@ def selftest():
         "the adjacent-only arm is carried on every row, never nested")
     chk(_rows[1]["delta_vs_adjacent_only_neutralise_gap@5"] == -8.0,
         "a sign-carrying delta keeps its sign against the adjacent arm")
-
-    # (E81 screentilt) the tilt delta table must report a zero arm as zero and a
-    # repaired arm cell-by-cell, with the beta column carried independently.
     _tf = {"unscreened": {"eras": {"A": {"tilt_annualised_bp": 100.0,
                                          "beta_ladder_on_tilt": 0.500,
                                          "alpha_monthly_bp": 5.0,
@@ -17190,10 +16198,6 @@ def selftest():
         "the beta column is carried on its own row, not folded into the tilt row")
     chk(all(r["delta_neutralise"] is None for r in _tr if r["era"] == "B"),
         "a skipped era has no delta instead of a fabricated one")
-
-    # E81 calcost screen twin: an identical arm moves nothing, a shifted arm does.
-    # The activity leg is mandatory -- two identical arms would otherwise pass as
-    # "the screen changes nothing" without the delta table ever being read.
     def _calcost_arm(spread, ladder_ann):
         return {"calendars": {"cost_x1": {"me": {
             "rebalances": 12,
@@ -17202,7 +16206,6 @@ def selftest():
             "wide_top9999": {"ann_return_pct": 9.0, "max_drawdown_pct": -12.0,
                              "turnover_per_year": 0.6, "cost_per_year_bp": 15.0},
             "vs_ladder_spread_bp": spread}}}}
-
     _cf = {"unscreened": _calcost_arm(100.0, 8.0),
            "neutralise_int": _calcost_arm(100.0, 8.0),
            "neutralise": _calcost_arm(90.0, 8.5)}
@@ -17216,16 +16219,11 @@ def selftest():
     chk([r["delta_neutralise"] for r in _cr
          if r["column"] == "ann_return_pct" and r["scheme"] == "ladder5"] == [0.5],
         "per-scheme columns are compared within the same scheme, not across")
-
-    # E81 leg 2 (spread face): the same three properties -- identical arm moves
-    # nothing, a shifted arm moves the right cell, and the skip cell stays None
-    # rather than being priced as zero.
     def _spread_face(neutral):
         def row(v):
             return {c: v for c in SPREAD_COLUMNS}
         return {"eras": {"2021_2023": row(neutral), "2024_now": row(None),
                          "full": row(neutral)}}
-
     _sf = {"unscreened": _spread_face(300.0),
            "neutralise_int": _spread_face(300.0),
            "neutralise": _spread_face(420.0)}
@@ -17247,16 +16245,11 @@ def selftest():
         "each arm keeps its own delta column, so a later arm cannot overwrite an earlier one")
     chk(all(r["delta_neutralise_int"] in (None, 0) for r in _sr),
         "the zero arm stays zero on every column, not just the one being read")
-
-    # E81 leg 3 (robustness face): the cell grid needs the same three properties
-    # -- a repairing arm that moves nothing stays zero, each arm keeps its own
-    # delta column, and an unmeasured cell stays None on both sides.
     def _rob_face(neutral):
         def cell(v):
             return {"era": {"2021_2023": {c: v for c in SPREAD_COLUMNS},
                             "2024_now": {c: None for c in SPREAD_COLUMNS}}}
         return {"cells": {"cost_x1|me": cell(neutral), "cost_x3|mid15": cell(neutral)}}
-
     _rf = {"unscreened": _rob_face(200.0),
            "neutralise_int": _rob_face(200.0),
            "neutralise": _rob_face(260.0)}
@@ -17273,11 +16266,6 @@ def selftest():
         "each arm keeps its own delta column on the robustness face too")
     chk([r["delta_neutralise"] for r in _rn if r["era"] == "2024_now"] == [None, None],
         "an unmeasured robustness cell stays None rather than being priced as zero")
-
-    # E95 leg: the newest-era cell must be measurable on an explicit month list
-    # (so the stability grid and the published face agree by construction), the
-    # grid must actually shorten the window, and the verdict must be a pure
-    # function of the two spreads it compares.
     _fake = {"tilt": {"2024-%02d" % m: 0.01 * m for m in range(1, 13)},
              "lad_m": {"2024-%02d" % m: 0.005 * m for m in range(1, 13)}}
     _full = _tilt_stats(_fake, sorted(_fake["tilt"]))
@@ -17294,13 +16282,6 @@ def selftest():
         and _stability_verdict(60.0, 50.0) == "beyond_end_choice_span"
         and _stability_verdict(None, 50.0) is None,
         "the stability verdict is pure and stays None when either spread is unmeasured")
-
-    # E98: the same grid on every era. Four things have to hold before an era
-    # span can be quoted: the reader sees BOTH face schemas (a flat-only reader
-    # reports "nothing published" for the whole screened family), an era the
-    # panel does not reach is skipped rather than measured on borrowed months,
-    # the grid really moves the cell (otherwise "the span is small" is the
-    # arithmetic of a no-op), and the span is scaled by the era's own movement.
     import tempfile
     _tmpd = tempfile.mkdtemp(prefix="e98")
     try:
@@ -17328,8 +16309,6 @@ def selftest():
         "both face schemas are read: a flat eras block and one per screening arm")
     chk(_pr_absent == [],
         "an era with no published reading comes back empty, never guessed")
-
-    # hermetic core: 24 months of a tilting ladder, two eras that both reach
     _hc = {"months": ["2021-%02d" % m for m in range(1, 13)]
                     + ["2022-%02d" % m for m in range(1, 13)],
            "tilt": {}, "lad_m": {}, "dropped": {}}
@@ -17347,8 +16326,6 @@ def selftest():
     chk(_endchoice_era_row(_hc, ("C", "2030-01-01", None), 6, "").get("skipped")
         and _endchoice_era_row(_hc, ("C", "2030-01-01", None), 6, "")["span_bp"] is None,
         "an era the panel does not reach is skipped, never measured on borrowed months")
-
-    # E99: the arm must be the key, and every row must carry every arm
     _fake_faces = {
         "unscreened": {"eras": {"E1": {"me": {"churn_alpha_bp_mean": 10.0,
                                               "x1_ann_pct": 1.0}}}},
@@ -17376,9 +16353,6 @@ def selftest():
     chk(_level_sign_flips(_rows, ["unscreened", "neutralise_gap1"]) == []
         and _level_sign_flips(_flip_faces, ["unscreened", "neutralise_gap1"]) == ["E1/me"],
         "a level that changes sign across arms is reported, a same-sign pair is not")
-
-    # E101: the end grid must truncate, never re-stamp, and the arm delta
-    # verdict must be readable off its two spans alone
     _cal = ["2020-%02d-%02d" % (m, d) for m, d in
             ((1, 31), (2, 28), (3, 31), (4, 30), (5, 29))]
     _dec = [(0, ["a"]), (2, ["b"]), (4, ["c"])]
@@ -17407,8 +16381,6 @@ def selftest():
     chk(_arm_delta_verdict(None, 500.0) == (None, None)
         and _arm_delta_verdict(20.0, None) == (None, None),
         "an unmeasured span yields no verdict instead of a default one")
-
-    # E102: a zero-delta series is a step only when exactly one end moves
     _zp = _grid_zero_profile([0.0, 0.0, 0.0, -745.9])
     chk(_zp["zero_ends"] == 3 and _zp["step_signature"],
         "three zero ends and one move read as a one-transition step")
@@ -17427,8 +16399,6 @@ def selftest():
         "an arm that edits one print is one edit, not one fewer name")
     chk(_arm_price_edits(_caches, "unscreened")["symbols_with_changed_prices"] == 0,
         "the base arm edits nothing against itself")
-
-    # E103: a ladder that does not move is not a ladder of measurements
     _lg = _limit_groups({1: "a", 2: "a", 3: "b", 4: "b", 5: "b"})
     chk(_lg["distinct_objects"] == 2 and _lg["growth_limits"] == [1, 3],
         "five limits over two edit faces read as two objects, moving at 1 and 3")
@@ -17457,8 +16427,6 @@ def selftest():
     chk(_print_set(_rep) == [("a", "2020-01-03")],
         "a print is only a repair when the arm repaired it, not when it was left "
         "gapped")
-
-    # E100: an arm delta must split into pieces that ADD UP to it
     _g = {"2020-01-31": {"churn_alpha_bp": 10.0}, "2020-02-28": {"churn_alpha_bp": -30.0}}
     _u = {"2020-01-31": {"churn_alpha_bp": 10.0}, "2020-02-28": {"churn_alpha_bp": 10.0},
           "2020-03-31": {"churn_alpha_bp": -10.0}}
@@ -17488,8 +16456,6 @@ def selftest():
         "a one-sided date among the largest pieces outranks the share test")
     chk(_arm_split_verdict({"delta_bp": None, "top": []}) == "no_delta",
         "an unmeasurable cell reads no_delta instead of broad")
-
-    # E104: an UNCHANGED holding can carry the split that E100's swap lists miss
     _gp = {"A": [1.0, 1.05, 1.10], "B": [1.0, 0.11, 0.11], "C": [1.0, 2.0, 2.0]}
     _up = {"A": [1.0, 1.05, 1.10], "B": [1.0, 1.05, 1.05], "C": [1.0, 1.00, 1.00]}
     _hs = _held_read_split(_gp, _up, {"A", "B", "C"}, {"A", "B", "C"}, 0, 1, top_k=2)
@@ -17505,7 +16471,6 @@ def selftest():
     _hs3 = _held_read_split(_gp, _up, {"A", "B"}, {"C"}, 0, 1)
     chk(_hs3["persistent_names"] == 0 and _hs3["delta_bp"] is None,
         "a window that swaps everything has no unchanged holding to read")
-    # E105: a level is a mean, so the largest single-name read must travel with it
     _hs4 = _held_read_split({"A": [1.0, 1.10], "B": [1.0, 1.00]},
                             {"A": [1.0, 1.10], "B": [1.0, 1.00]}, {"A", "B"},
                             {"A", "B"}, 0, 1)
@@ -17534,7 +16499,6 @@ def selftest():
     chk(_held_split_verdict({"persistent_reads": 5, "delta_mean_bp": 0.0})
         == "no_split_inside_unchanged_holdings",
         "zero delta on a measured cell is a finding, not a missing measurement")
-    # E104b: the repair is not automatically the plausible side of a print
     _hs8 = _held_read_split({"A": [1.0, 3.0]}, {"A": [1.0, 1.2]}, {"A"}, {"A"}, 0, 1)
     chk(_hs8["reads_beyond_100pct"]["gap"] == 1
         and _hs8["reads_beyond_100pct"]["unscreened"] == 0,
@@ -17544,8 +16508,6 @@ def selftest():
     chk(_held_split_verdict(_hrow) == "delta_is_one_window"
         and _hrow["top_share_of_delta_pct"] == 100.0,
         "one window carrying the whole split reads as one window")
-
-    # E111: a face's producing code is part of its identity, not a footnote
     _g1 = _repair_factor_guard([("a", {"repair_factor": "abc123456789"}),
                                 ("b", {"repair_factor": "abc123456789"})])
     chk(_g1["verdict"] == "uniform", "two faces stamped by one factor are comparable")
@@ -17559,8 +16521,6 @@ def selftest():
     _g4 = _repair_factor_guard([("a", None), ("b", {"repair_factor": "aaaaaaaaaaaa"})])
     chk(_g4["verdict"] == "version_unknown" and _g4["unstamped"] == ["a"],
         "a missing face is unstamped, so the join is refused before anything is read")
-
-    # E105: the churn read decomposes exactly into name-level shares
     _cal105 = ["2020-01-02", "2020-02-03"]
     _px105 = {"a": [1.0, 1.2], "b": [1.0, 0.8],
               "c": [1.0, 1.0], "d": [1.0, 1.1]}
@@ -17593,8 +16553,6 @@ def selftest():
         "E105 a level under the material floor is not named as an artefact")
     chk(_single_name_driver([], "x")["verdict"] == "no_transitions",
         "E105 an era with no transitions reads no_transitions, not a clean level")
-
-    # E112: the screened twin of the burn-in face joins on cells, not on hours
     def _syn_face(wide_naive=10.0, wide_warm=10.0, uninv=250, first_inv="2014-01-02",
                   span_wide=9.0, drop_ladder=False):
         w = {"sessions_uninvested": uninv,
@@ -17618,7 +16576,6 @@ def selftest():
                 "era_spans_warm": {"2013-01-01..2016-12-31": {
                     "wide": {"ann_return_pct": span_wide, "max_drawdown_pct": -35.0},
                     "ladder5": {"ann_return_pct": 6.0, "max_drawdown_pct": -22.0}}}}
-
     _p112 = _burnin_pair_rows(_syn_face(), _syn_face(wide_naive=12.5), ["2013-01-01"])
     _s112 = _p112["summary"]
     chk(_s112["gate_dates_moved"] == 0 and _s112["cells_moved"] == 1
@@ -17647,8 +16604,6 @@ def selftest():
     chk(_burnin_pair_rows(_syn_face(), _syn_face(wide_naive=10.004),
                           ["2013-01-01"])["summary"]["cells_moved"] == 0,
         "E112 a delta below the floor is not a move")
-
-    # E113: the cut sweep joins through the same machinery, with its own harvest
     def _syn_cut(era_bp=100.0, band=40.0, flips=1, win="2020-01-01..2020-06-30",
                  drop_band=False):
         era_row = {"era_spread_bp": era_bp, "widest_part": 2,
@@ -17658,13 +16613,11 @@ def selftest():
         return {"summary": {"flip_count": flips, "band_mean_bp": band,
                             "band_median_bp": band, "band_widest_era": "e1"},
                 "eras": {"e1": era_row}}
-
     def _syn_cutface(era_bp=100.0, band=40.0, flips=1,
                      win="2020-01-01..2020-06-30", drop_band=False):
         return {"cuts": {"x1": {"5": _syn_cut(era_bp=era_bp, band=band,
                                              flips=flips, win=win,
                                              drop_band=drop_band)}}}
-
     _keys113 = sorted({k[0] for k in _cutcurve_arm_cells(_syn_cutface())})
     chk(len(_cutcurve_arm_cells(_syn_cutface())) == 6 and _keys113 == ["x1/c5"],
         "E113 the harvest names six cells of one cut (summary 3 + era level/band/part)")
@@ -17696,8 +16649,6 @@ def selftest():
     chk(_n113["null_on_either_side"] == 1 and _n113["cells_compared"] == 5
         and _n113["cells_moved"] == 0,
         "E113 a column missing on one side is reported as missing, not as a delta")
-
-    # E114: the one-cut era split joins on the same machinery with its own harvest
     def _syn_era(era_bp=100.0, band=40.0, widest=2, flips=True,
                  parts=((1, 9.0, 10.0), (2, 7.0, 6.0)), edges=("2020-01-01", "2020-12-31")):
         return {"bars": 240, "from": edges[0], "to": edges[1],
@@ -17706,10 +16657,8 @@ def selftest():
                 "part_spreads_bp": [w - l for _n, l, w in parts],
                 "parts": [{"part": n, "ladder": {"ann_return_pct": l},
                            "wide": {"ann_return_pct": w}} for n, l, w in parts]}
-
     def _syn_spanface(era_bp=100.0, edges=("2020-01-01", "2020-12-31")):
         return {"eras": {"2021_2023": _syn_era(era_bp=era_bp, edges=edges)}}
-
     _cells114 = _livespan_arm_cells(_syn_spanface())
     chk(len(_cells114) == 11 and ("2021_2023", "era_spread_bp") in _cells114,
         "E114 the harvest names 11 cells of one era (bars/level/band/widest/flip + 2 spreads + 4 part returns)")
@@ -17738,10 +16687,6 @@ def selftest():
                               dates_fn=_livespan_dates)["summary"]
     chk(_s114["only_in_screened"] > 0 and _s114["cells_moved"] == 0,
         "E114 an era skipped on one side is reported as one-sided, not as zero")
-
-    # E115: the chase leg is the fourth uncovered runner in E97's ranking. Its
-    # published cells are bucket shares and bucket forward returns per era, plus
-    # the calendar's own counts -- and the join must ignore the name lists.
     def _syn_chase(share=None, fwd=None, era="2024_now", extra_bucket=False):
         share = share or {b: 10.0 for b in CHASE_BUCKETS}
         fwd = fwd or {b: 1.0 for b in CHASE_BUCKETS}
@@ -17762,7 +16707,6 @@ def selftest():
                                                                 for b in CHASE_BUCKETS}},
                 "decision_days": {"me": 12, "mid15": 12},
                 "spec": {"universe_members": 665}}
-
     _cells115 = _chase_arm_cells(_syn_chase())
     chk(("era/mid15/2024_now/" + CHASE_BUCKETS[0], "share_pct") in _cells115
         and ("spec", "universe_members") in _cells115
@@ -17790,11 +16734,6 @@ def selftest():
                               cells_fn=_chase_arm_cells, dates_fn=_nod)["summary"]
     chk(_s115["only_in_screened"] > 0 and _s115["cells_moved"] == 0,
         "E115 a bucket that exists on one arm only is one-sided, not a zero delta")
-
-    # E116: the early ladder. Its trap is that `answers.early_rows` is a COPY of
-    # the ladder arms -- the arms themselves live in gaps[x1][me_mK] beside the
-    # month-end book, so a harvest that reads only the answers block would miss
-    # every book column the repair can move.
     def _syn_early(gap=None, book_ann=6.0, era="2024_now", extra_book=False):
         gap = gap or {"me_m1": -5.0, "me_m3": -7.0}
         arms = lambda ann: {"x1": {"full_window_ann_pct": ann,
@@ -17830,7 +16769,6 @@ def selftest():
                                      for lab in gap},
                     "late_rows_source": "results/e44_midmonth/ENTRYDELAY-x.json"},
                 "honest": ["a pointer line, not a measurement"]}
-
     _cells116 = _earlydelay_arm_cells(_syn_early())
     chk(("book/me/x1", "full_window_ann_pct") in _cells116
         and ("gap/me_m1", "full_window_gap_bp") in _cells116
@@ -17855,7 +16793,6 @@ def selftest():
     chk(any(r["column"] == "full_window_gap_bp" and r["start"] == "gap/me_m1"
             and abs(r["delta"] + 2.5) < 1e-9 for r in _p116["moved"]),
         "E116 a moved gap is published with its ladder pointer")
-    # a book column moving while the gap holds is the reading this leg exists for
     _b116 = _burnin_pair_rows(_syn_early(), _syn_early(book_ann=4.0), _k116,
                               cells_fn=_earlydelay_arm_cells, dates_fn=_nod)
     chk(any(r["column"] == "full_window_ann_pct" and r["start"] == "book/me/x1"
@@ -17866,9 +16803,6 @@ def selftest():
                               dates_fn=_nod)["summary"]
     chk(_s116["only_in_screened"] > 0 and _s116["cells_moved"] == 0,
         "E116 a calendar that exists on one arm only is one-sided, not a zero delta")
-
-    # the boolean itself: a complete join that moved 55 cells is NOT a survival.
-    # E112-E115 folded "the join worked" and "the numbers held" into one flag.
     _zero_ctrl = {"cells_moved": 0, "max_abs_delta_pp": 0.0}
     chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0, "cells_moved": 0},
                        _zero_ctrl) is True,
@@ -17879,8 +16813,6 @@ def selftest():
     chk(_twin_survives({"only_in_raw": 0, "only_in_screened": 0, "cells_moved": 0},
                        {"cells_moved": 1, "max_abs_delta_pp": 0.0}) is False,
         "E116 a control that moved its own numbers blocks the survival claim")
-
-    # --- E117: the split census' own screened twin -------------------------
     def _syn_split(events=135, integer_events=120, total_bp=216.0,
                    top=("sh600000", "2021-06-11"), extra_year=False):
         face = {
@@ -17905,7 +16837,6 @@ def selftest():
         if extra_year:
             face["events_per_year"]["2023"] = 11
         return face
-
     _cells117 = _panelsplit_arm_cells(_syn_split())
     chk(("summary", "events") in _cells117
         and ("panel", "breadth_median") in _cells117
@@ -17947,11 +16878,6 @@ def selftest():
     import inspect as _inspect
     chk("raw" in _inspect.signature(run_panelsplit).parameters,
         "E117 run_panelsplit carries the raw= arm seam the twin burns on")
-
-    # --- E118: the stale tail's own screened twin ---------------------------
-    # Its published numbers are already split by an artefact guard, so the twin
-    # is really a test of the guard: a repair that only moves the UNGUARDED
-    # columns means the two screens agree on which prints are impossible.
     def _syn_tail(all_bp=160.0, clean_bp=100.0, artefacts=1, rel_bp=None,
                   top=("sh600000", "2021-06-11"), era="2024_now",
                   extra_era=False, universe=665):
@@ -18007,7 +16933,6 @@ def selftest():
                         "relative_reading": "a label, not a test"},
             "honest": ["a pointer line, not a measurement"],
         }
-
     _cells118 = _staletail_arm_cells(_syn_tail())
     chk(("tail/raw_clean", "total_bp") in _cells118
         and ("tail/raw_all_events", "events") in _cells118
@@ -18056,12 +16981,6 @@ def selftest():
         "E118 a tail whose unguarded counts moved does not claim to survive")
     chk("raw" in _inspect.signature(run_staletail).parameters,
         "E118 run_staletail carries the raw= arm seam the twin burns on")
-
-    # --- E119: the entry-delay ladder, the first DELEGATING runner -----------
-    # run_entrydelay does not measure anything itself: it calls run_midsweep and
-    # republishes its lag arms. So these legs pin two things the previous twins
-    # never had to -- the arm seam reaches one level down, and a delta on this
-    # face can be attributed to the copy or to the arm the copy came from.
     def _syn_delay(gaps=(0.0, -20.0, -40.0, -60.0), universe=665,
                    copy_delta=0.0, extra_lag=False):
         lags = (1, 3, 5, 10) if not extra_lag else (1, 3, 5, 10, 20)
@@ -18101,7 +17020,6 @@ def selftest():
                             "newest_era_gap_bp": {k: v["eras"]["2024_now"]
                                                   for k, v in rows.items()}},
                 "honest": ["a pointer line, not a measurement"]}
-
     _c119 = _entrydelay_arm_cells(_syn_delay())
     chk(("book/me_lag3/x1", "full_window_ann_pct") in _c119
         and ("gap/me_lag3", "full_window_gap_bp") in _c119
@@ -18155,12 +17073,6 @@ def selftest():
         "E119 the seam is threaded through the delegating runner itself")
     chk("raw" in _inspect.signature(run_midsweep).parameters,
         "E119 ...and reaches the layer it delegates to")
-
-    # --- E120: the neighborhood bracket and its centre/shoulder split --------
-    # The published E67 leg reads its shoulders off frozen E65/E66 faces, so a
-    # repair cannot move them. These legs pin the opposite design: the twin
-    # burns the shoulders itself, keeps the three rung positions apart, and
-    # reports which positions moved rather than only how many cells did.
     def _syn_neigh(centre_bp=-30.0, shoulder_bp=-10.0, universe=665,
                    extra_shoulder=False):
         books, gaps_ = {}, {}
@@ -18211,7 +17123,6 @@ def selftest():
                                 k: v["eras"]["2024_now"] for k, v in rows.items()},
                             "brackets": br},
                 "honest": ["a pointer line, not a measurement"]}
-
     _c120 = _neighborhood_arm_cells(_syn_neigh())
     chk(("neighbor/me_m2", "full_window_gap_bp") in _c120
         and ("gap/me_lag2", "full_window_gap_bp") in _c120
@@ -18264,11 +17175,6 @@ def selftest():
         "E120 a shoulder that exists on one arm only is one-sided, not a zero delta")
     chk("raw" in _inspect.signature(run_neighborhood).parameters,
         "E120 run_neighborhood carries the raw= arm seam the twin burns on")
-
-    # ------------------------------------------------ E121 rebalance-calendar twin
-    # The reading is a SPLIT: a calendar cell moving is a different finding from
-    # a return cell moving, so the join has to name each moved cell's role and
-    # the verdict has to come from the two counts rather than from a total.
     def _syn_rebal(ann=8.0, spread_bp=40.0, rebalances=12, bars=1680):
         variants = {}
         for vname in ("me_m1", "me", "me_p1", "mid15"):
@@ -18299,7 +17205,6 @@ def selftest():
                 "windows": {"2020-01-01": w},
                 "answers": {"2020-01-01": answers},
                 "honest": ["a pointer line, not a measurement"]}
-
     _c121 = _rebalday_arm_cells(_syn_rebal())
     chk(("book/2020-01-01/me/ladder5", "ann_return_pct") in _c121
         and ("calendar/2020-01-01/me_p1", "rebalances") in _c121
@@ -18353,10 +17258,6 @@ def selftest():
         "E121 a panel-length change moves frame cells without one-sided rows")
     chk("raw" in _inspect.signature(run_rebalday).parameters,
         "E121 run_rebalday carries the raw= arm seam the twin burns on")
-    # the cutoff control reads the runner's PUBLISHED raw face, which lives
-    # under e41_rebal_day/SHIFT-*.json. A lookup that points at the twin's own
-    # directory finds nothing and reports "no older face", which is exactly what
-    # a clean twin looks like -- so the path itself gets a leg.
     import tempfile as _tempfile
     with _tempfile.TemporaryDirectory() as _td:
         _p = os.path.join(_td, "SHIFT-20261020.json")
@@ -18379,10 +17280,6 @@ def selftest():
         for p in os.listdir(_repo_dir))
     chk((not _repo_has_old) or _none_face is not None,
         "E121 the published-face fallback survives a missing leg directory")
-
-    # E122 warm-spread screened twin: the harvest, the ordering layer, and the
-    # attribution law the twin burned itself with in its first live run (an
-    # "/wide/" test matches nothing because the keys END with the leg name).
     _ws_face = {
         "spec": {"universe_members": 1317},
         "eras": {
@@ -18416,15 +17313,12 @@ def selftest():
         "E122 the harvest reads the newest era's live-window spread")
     chk(_ws_cells[("spec", "universe_members")] == 1317,
         "E122 the harvest carries the universe count as a spec cell")
-    # the attribution law: a leg test must match the SUFFIX, or every wide cell
-    # falls into "other" and the face says zero wide moves while 8 moved.
     _ws_keys = sorted({k[0] for k in _ws_cells})
     chk([k for k in _ws_keys if k.endswith("/wide")]
         == ["era/2024_now/cold/wide", "era/2024_now/warm/wide"],
         "E122 leg attribution keys on the suffix, not an infixed separator")
     chk(not [k for k in _ws_keys if "/wide/" in k],
         "E122 an infixed '/wide/' test matches nothing -- that is the defect pinned")
-
     _ws_order = _warmspread_ordering(_ws_face)
     chk(_ws_order["warm_order"] == ["2024_now", "pre2017"],
         "E122 the ordering layer reads the published warm order verbatim")
@@ -18433,7 +17327,6 @@ def selftest():
     _ws_dates = _warmspread_arm_dates(_ws_face)
     chk(_ws_dates["ordering"]["warm_order"] == "2024_now>pre2017",
         "E122 the ordering travels as a comparable string, not a dict")
-    # a flipped order must be visible as a moved date column, not smoothed away
     _ws_flip = dict(_ws_face)
     _ws_flip["answers"] = dict(_ws_face["answers"])
     _ws_flip["answers"]["warm_order_thinnest_to_widest"] = [["pre2017", 280.0],
@@ -18445,10 +17338,6 @@ def selftest():
         "E122 a pure order flip moves no numeric cell")
     chk(_pair["summary"]["gate_dates_moved"] == 1,
         "E122 a pure order flip is still reported by the order layer")
-
-    # E123 pair (drawdown-shape) screened twin: the harvest reads all three
-    # profiles plus the derived answers, and the claim layer carries the
-    # worst-month identity because a boolean has no delta.
     _pr_face = {
         "spec": {"pick_n": 9999},
         "windows": {
@@ -18500,7 +17389,6 @@ def selftest():
         "E123 the claim layer carries the month identity per book")
     chk(not [k for k in _pr_cells if _pr_cells[k] is True or _pr_cells[k] is False],
         "E123 no boolean leaks into the numeric layer")
-    # a claim flip must be visible even when every number is identical
     _pr_flip = json.loads(json.dumps(_pr_face))
     _pr_flip["windows"]["2020-01-01"]["answers"]["worst_month_same_month"] = False
     _pr_keys = sorted({k[0] for k in _pr_cells})
@@ -18511,7 +17399,6 @@ def selftest():
         "E123 a pure claim flip moves no numeric cell")
     chk(_pr_pair["summary"]["gate_dates_moved"] == 1,
         "E123 a pure claim flip is still reported by the claim layer")
-    # the attribution test must be a suffix test on the DYNAMIC wide name
     chk([k for k in _pr_keys if k.endswith("/wide_top9999")]
         == ["win/2020-01-01/wide_top9999"],
         "E123 leg attribution keys on the dynamic wide-name suffix")
@@ -18519,8 +17406,6 @@ def selftest():
         "E123 an infixed '/wide_top/' test matches nothing -- pinned as the defect")
     chk(_pair_sign(None) is None and _pair_sign(0) == 0 and _pair_sign(-1.5) == -1,
         "E123 a missing answer is not a zero sign")
-    # the arrow list must cover the underwater sign too: the first live burn
-    # published "arrows hold" while this very answer flipped +48 -> -92.
     _pr_arr = _pair_arrows(_pr_face)["2020-01-01"]
     chk(_pr_arr["underwater_delta_sign"] == 1,
         "E123 the arrow layer carries the underwater-delta sign")
@@ -18530,8 +17415,6 @@ def selftest():
     _pr_uw["windows"]["2020-01-01"]["answers"]["underwater_delta_sessions"] = -92
     chk(_pair_arrows(_pr_uw)["2020-01-01"]["underwater_delta_sign"] == -1,
         "E123 an underwater sign flip is visible to the arrow layer")
-
-    # ---- E124 tilt4 screened twin
     _t4_face = {
         "evidence_cutoff": "2026-10-27",
         "eras": {
@@ -18593,7 +17476,6 @@ def selftest():
         "E124 the claim layer carries the era boundary")
     chk(_t4_dates["era/pre2017"]["worst_month"] == "2016-01",
         "E124 the claim layer carries the month identity")
-    # an era silently shortened moves no number but must still be reported
     _t4_short = json.loads(json.dumps(_t4_face))
     _t4_short["eras"]["pre2017"]["to"] = "2016-11"
     _t4_keys = sorted({k[0] for k in _t4_cells})
@@ -18604,14 +17486,12 @@ def selftest():
         "E124 a shortened era moves no numeric cell")
     chk(_t4_pair["summary"]["gate_dates_moved"] == 1,
         "E124 a shortened era is still reported by the claim layer")
-    # the decomposition must add up: break it and the flag has to go false
     _t4_gap = json.loads(json.dumps(_t4_face))
     _t4_gap["eras"]["pre2017"]["spread_size_component_ann_bp"] = 100.0
     chk(abs(_tilt4_decomposition_gap(_t4_gap["eras"]["pre2017"])) > 0.2,
         "E124 a split that stops summing produces a visible gap")
     chk(_tilt4_decomposition_gap({"spread_raw_ann_bp": 1.0}) is None,
         "E124 a half-populated decomposition is None, not zero")
-    # arrows: every column published, and a sub-floor sign flip must still show
     _t4_arr = _tilt4_arrows(_t4_face)["pre2017"]
     chk(set(_TILT4_ARROW_COLUMNS) == set(_t4_arr),
         "E124 every arrow column is published, none silently dropped")
@@ -18628,14 +17508,10 @@ def selftest():
     chk(_tilt4_arrows(_t4_orig)["pre2017"]["tilt_sign"] == 1
         and _tilt4_arrows(_t4_flip)["pre2017"]["tilt_sign"] == -1,
         "E124 the arrow layer sees a sign flip the cell floor cannot")
-    # bucket attribution: era keys start with a literal prefix, so the buckets
-    # cannot silently absorb each other (E94 family, third shape)
     chk([k for k in _t4_keys if not k.startswith(("era/", "skin/", "answers"))] == [],
         "E124 every harvested key lands in a named bucket")
     chk("raw" in run_tilt4.__code__.co_varnames,
         "E124 run_tilt4 carries the raw= seam the twin burns both arms through")
-
-    # ---- E126 tilt3 reach-back skin
     chk(set(TILT3_SMALL) < set(TILT4_SMALL) < set(TILT_SMALL) and len(TILT3_SMALL) == 1,
         "E126 the three-member small leg is a one-name subset of both wider skins")
     _w3 = _skin_small_weights(TILT3_SMALL)
@@ -18647,8 +17523,6 @@ def selftest():
         and abs(_w4["sh510500"] - 50.0) < 1e-9
         and abs(_w5["sh510500"] - 100.0 / 3.0) < 1e-3,
         "E126 the same member carries a different weight per skin -- the composition price")
-    # liveness: the narrow skin must actually reach months the wider one cannot
-    # (r1261 rule: prove the mechanism ran before comparing anything)
     _fx_lad = {m: 0.0 for m in ("2013-04", "2016-12", "2017-01")}
     _fx_mem = {"sh510300": dict(_fx_lad), "sh510050": dict(_fx_lad),
                "sh510500": {m: 0.02 for m in _fx_lad},
@@ -18728,7 +17602,6 @@ def selftest():
     chk(_t3_cells[("skin/full", "delta_4member_minus_3member_bp")] == 30.0
         and _t3_cells[("skin/full", "delta_5member_minus_3member_bp")] == 10.0,
         "E126 both skin deltas survive side by side (each arm keyed in its own column)")
-    # a delta across different month sets is an artefact, not a skin price
     chk(_t3_cells[("skin/pre2017", "delta_4member_minus_3member_bp")] is None,
         "E126 a shared-month denominator mismatch publishes no delta")
     chk(_t3_cells[("skin/pre2017", "delta_4member_minus_3member_bp")] != 0.0,
@@ -18746,12 +17619,6 @@ def selftest():
         "E126 every harvested key lands in a named bucket")
     chk("raw" in run_tilt3.__code__.co_varnames,
         "E126 run_tilt3 carries the raw= seam a screened twin would burn through")
-
-    # ---- E170 tilt3 screened twin: the join must separate the tilt from the
-    # engine leg. The live face found the tilt identical on both arms while the
-    # engine's own wide-vs-ladder spread moved and 2024_now's raw-spread sign
-    # flipped -- a join that reported "18 cells moved" without saying WHICH
-    # would have buried that.
     import copy as _copy
     _e170_raw = _copy.deepcopy(_t3_face)
     _e170_scr = _copy.deepcopy(_t3_face)
@@ -18778,8 +17645,6 @@ def selftest():
     chk(sorted({k.split("/")[0] for k in _e170_keys}) ==
         ["answers", "era", "skin"],
         "E170 the twin reuses the E126 harvest, so its keys are its buckets")
-
-    # ---- E125 cashdrag screened twin
     _cash_face = {
         "evidence_cutoff": "2026-10-27",
         "windows": {
@@ -18853,8 +17718,6 @@ def selftest():
         "E125 the claim layer carries the first invested bar")
     chk(_cash_dates["cash/2020-01-01"]["multipliers"] == "x0,x1,x3",
         "E125 the claim layer carries the multiplier set")
-    # a repair that shifts WHEN the book trades moves no return cell but must
-    # still be reported -- that is the whole point of carrying the mechanism
     _cash_shift = json.loads(json.dumps(_cash_face))
     _cash_shift["windows"]["2020-01-01"]["cash_mechanism"]["first_invested_bar"] = \
         "2023-09-30"
@@ -18865,7 +17728,6 @@ def selftest():
         "E125 a shifted first invested bar moves no numeric cell")
     chk(_cash_pair["summary"]["gate_dates_moved"] == 1,
         "E125 a shifted first invested bar is still reported by the claim layer")
-    # arrows: every column published, and a sub-floor sign flip must still show
     _cash_arr = _cash_arrows(_cash_face)["2020-01-01"]
     chk(set(_CASH_ARROW_COLUMNS) == set(_cash_arr),
         "E125 every arrow column is published, none silently dropped")
@@ -18885,8 +17747,6 @@ def selftest():
         "E125 the arrow layer sees a sign flip the cell floor cannot")
     chk("raw" in run_cashdrag.__code__.co_varnames,
         "E125 run_cashdrag carries the raw= seam the twin burns both arms through")
-    # ladder exposure: a zero-moved ladder row is a CONTROL, and the face has to
-    # say so -- otherwise "0 ladder cells moved" reads as "the repair is harmless"
     _lx = _ladder_exposure(("AAA", "BBB"),
                            {"names": [{"name": "CCC", "action": "neutralise"},
                                       {"name": "AAA", "action": "kept-gapped-only"},
@@ -18902,10 +17762,6 @@ def selftest():
     chk(_lx2["ladder_row_is_a_control"] is False
         and _lx2["ladder_names_neutralised"] == ["BBB"],
         "E125 a neutralised ladder name turns the control claim false")
-
-    # ---- E128 per-book cash windows + published identity residual
-    # the identity is rate_pct * share_pct == bp (pct/100 * share/100 * 1e4);
-    # a wrong exponent here would silently report a 100x number, so pin it.
     _id_ok = _cash_identity(1.98, 15.95, 36.0)
     chk(_id_ok["expected_linear_bp"] == 31.58,
         "E128 the identity is rate x share in bp, not a 100x number")
@@ -18920,20 +17776,14 @@ def selftest():
         "E128 a missing rate or share is inputs_missing, never a zero residual")
     chk(_cash_identity(1.98, 15.95, None)["status"] == "measurement_missing",
         "E128 an unmeasured attribution does not reconcile against itself")
-    # the two books must be able to disagree: a book whose only eligible name
-    # appears late has a shorter repo window than one that trades at the start
     _e128_prices = {"early": [1.0] * 300, "late": [1.0] * 300, "absent": [1.0] * 300}
     _e128_rebal = [10, 20, 30, 40]
-
-    # base.elig is called with the name's own price series, so the fixture
-    # declares eligibility per series, exactly as the real gate does.
     def _e128_elig(px, ri):
         if px is _e128_prices["early"]:
             return True
         if px is _e128_prices["late"]:
             return ri >= 30
         return False
-
     chk(_first_trade_index(_e128_rebal, _e128_prices, ("early",), _e128_elig) == 10
         and _first_trade_index(_e128_rebal, _e128_prices, ("late",), _e128_elig) == 30,
         "E128 two books with different burn-ins get different first-trade month ends")
@@ -18950,8 +17800,6 @@ def selftest():
         "E128 a window that first trades at the burn-in gate is named as such")
     chk(_window_is_burn_in_driven(None, 250) is None,
         "E128 an unknown first-trade index is None, not a false claim")
-
-    # ---- E168 pre-2017 leg split + leave-one-month-out
     _mem = {"A": {"2020-01": 0.10, "2020-02": 0.20, "2020-03": 0.05},
             "B": {"2020-01": 0.00, "2020-02": 0.10, "2020-03": 0.05},
             "C": {"2020-01": 0.04, "2020-02": 0.04, "2020-03": 0.04}}
@@ -18967,7 +17815,6 @@ def selftest():
         "E168 a member carrying a corporate-action month removes that leg month")
     chk(_leg_monthly(_mem, {}, ["2020-01"], ()) == {},
         "E168 an empty leg prices nothing instead of dividing by zero")
-    # the identity the face publishes: tilt == small mean - large mean
     _tilt_fix = [_mem["C"][m] - _l[m] for m in sorted(_l)]
     chk([round(t, 12) for t in _tilt_fix] == [-0.01, -0.11, -0.01],
         "E168 the published tilt is the small minus the large leg, not a fresh fit")
@@ -18997,21 +17844,14 @@ def selftest():
         "E168 run_tilt3legs carries the raw= seam a screened twin burns through")
     chk(TILT3_HALF_SHARE == 0.5 and TILT3_LOMO_TOP > 0,
         "E168 the half-share rule is declared before the burn, not tuned after")
-
-    # ---- E169 does the engine earn the tilt's sign
-    # Two questions share one face: do the era LEVELS point the same way, and do
-    # the monthly series? A level-only test would pass a tilt that coin-flips
-    # every month, so both are pinned here on fixtures where they disagree.
     _e169_months = ["2014-01", "2014-02", "2014-03"]
     _e169_eras = (("era_a", "2014-01-01", "2014-12-31"),)
-
     def _e169_core(tilt, eng):
         return {"cutoff": "2014-03-31", "months3": _e169_months,
                 "tilt3": dict(zip(_e169_months, tilt)),
                 "wide_m": {m: 0.01 + e for m, e in zip(_e169_months, eng)},
                 "lad_m": {m: 0.01 for m in _e169_months},
                 "dropped3": []}
-
     _e169_same = run_tilt3sign(None, core=_e169_core(
         [0.01, 0.02, 0.01], [0.005, 0.004, 0.006]), eras=_e169_eras)["eras"]["era_a"]
     chk(_e169_same["signs_agree"] is True and _e169_same["month_agreement_pct"] == 100.0,
@@ -19051,12 +17891,6 @@ def selftest():
         "E169 a two-month era is refused, not signed off on nothing")
     chk("raw" in run_tilt3sign.__code__.co_varnames,
         "E169 run_tilt3sign carries the raw= seam a screened twin burns through")
-
-    # ---- E171 screened twin of the sign face
-    # The twin's whole claim is "the repair moves the engine column and cannot
-    # move the tilt column", so the join is pinned on fixtures where exactly one
-    # column moves: a boolean counted as a cell would fabricate a numeric delta
-    # on a verdict, and a None silently treated as zero would hide a missing arm.
     def _e171_face(tilt=None, eng=None, agree=True):
         return {
             "eras": {"era_a": {"months": 3, "tilt_mean_ann_bp": tilt,
@@ -19068,7 +17902,6 @@ def selftest():
                         "era_names_where_signs_differ":
                             [] if agree else ["era_a"]},
         }
-
     _e171_cells = _tilt3sign_arm_cells(_e171_face(10.0, 5.0))
     chk(len(_e171_cells) == len(TILT3SIGN_ERA_SCALARS) + len(TILT3SIGN_ANSWER_SCALARS),
         "E171 the cell harvest covers exactly the declared numeric columns")
@@ -19107,12 +17940,6 @@ def selftest():
         and _agreement_change(40.0, 23.5) == "worsened"
         and _agreement_change(None, 23.5) == "not_measurable",
         "E171 an equal rate is 'unchanged', never 'worsened' and never 'recovered'")
-
-    # ---- E172 the deadband is a sweep, not a constant
-    # The whole point of the sweep is that a rate means nothing without the
-    # months that survived it, so every leg here pairs a rate with its count:
-    # a fixture where the band changes the verdict, one where it only removes
-    # evidence, and the construction identity that band 0 == the raw rate.
     _e172_months = ["2014-%02d" % i for i in range(1, 9)]
     _e172_eras = (("era_band", "2014-01-01", "2014-12-31"),)
     _e172_tilt = [0.003, 0.003, 0.003, 0.003, 0.0012, 0.0012, 0.0012, 0.0012]
@@ -19163,12 +17990,6 @@ def selftest():
         and "bands" in run_tilt3signband.__code__.co_varnames
         and "deadband_bp" in run_tilt3sign.__code__.co_varnames,
         "E172 the sweep reuses the one burn path instead of a second implementation")
-
-    # ---- E174 the engine column's repair move, named
-    # The claim under test is arithmetic: the per-name split must RECONSTRUCT the
-    # published engine level, and dropping a carrier must move exactly that
-    # carrier's contribution. So the fixtures are contributions whose sums are
-    # known by hand, not a re-derivation of the same face.
     _e174_net_raw = {("2014-01", "shA"): 0.02, ("2014-01", "shB"): -0.01}
     _e174_net_scr = {("2014-01", "shA"): 0.04, ("2014-01", "shB"): -0.01}
     _e174_split, _e174_raw, _e174_scr = _era_name_split(
@@ -19198,11 +18019,6 @@ def selftest():
     chk("mode" in run_tilt3signnames.__code__.co_varnames
         and "eras" in run_tilt3signnames.__code__.co_varnames,
         "E174 the leg carries the mode/eras seams every screened leg needs")
-
-    # ---- E175 the ladder E174's two points were sampled from
-    # The fixture is the r1208 shape on purpose: agree at k=0, disagree once the
-    # biggest carrier leaves, agree again at k=2. A ladder that cannot reproduce
-    # a returning verdict cannot be trusted to say a flat one is stable.
     _e175_raw = {"shA": 30.0, "shB": 4.0, "shC": -18.0}
     _e175_scr = {"shA": -5.0, "shB": 20.0, "shC": 5.0}
     _e175_ranked = [("shA", -35.0), ("shC", 23.0), ("shB", 16.0),
@@ -19236,11 +18052,6 @@ def selftest():
     chk("mode" in run_tilt3signdropsweep.__code__.co_varnames
         and "eras" in run_tilt3signdropsweep.__code__.co_varnames,
         "E175 the sweep carries the same mode/eras seams as its twin")
-
-    # the anchoring rule, pinned: two bases, same carriers, opposite verdicts.
-    # This is the 2024_now shape -- decomposition +31.3 vs published -21.6 --
-    # and the leg exists so an unanchored ladder can never be published as the
-    # ladder again.
     _e175_anchor_car = {"shX": 60.0, "shY": -20.0}
     _e175_anchor_raw = {"shX": 60.0, "shY": -10.0}
     _e175_anchor_scr = {"shX": 5.0, "shY": 10.0}
@@ -19259,12 +18070,6 @@ def selftest():
         and _e175_an["rows"][0]["verdict"] == "disagree",
         "E175 the base offset alone can flip a verdict, so the two bases are "
         "not interchangeable readings of the same era")
-
-    # ---- E176 which BOOK moved, not which name
-    # The split is arithmetic, so the fixture is contributions whose sums are
-    # known by hand. The point under test is that the ladder side stays its own
-    # number: E174 nets the two books before naming carriers, and that netting is
-    # exactly what makes "the wide book moved" unanswerable.
     _e176_months = ["2014-01", "2014-02"]
     _e176_raw = {"wide": {("2014-01", "shA"): 1e-4},
                  "lad": {("2014-01", "shL"): 2e-4, ("2014-01", "shA"): 1e-4}}
@@ -19303,8 +18108,6 @@ def selftest():
     chk("mode" in run_tilt3booksplit.__code__.co_varnames
         and "eras" in run_tilt3booksplit.__code__.co_varnames,
         "E176 the split reads the same burn path and carries the mode/eras seams")
-
-    # ---- E179 ladder-side per-holding split
     _e179_members = ["shA", "shB"]
     _e179_months = ["2014-01", "2014-02"]
     _e179_sides = ({"lad": {("2014-01", "shA"): 1e-4, ("2014-02", "shA"): 1e-4}},
@@ -19346,8 +18149,6 @@ def selftest():
     chk("mode" in run_tilt3laddersplit.__code__.co_varnames
         and "eras" in run_tilt3laddersplit.__code__.co_varnames,
         "E179 the split reads the same burn path and carries the mode/eras seams")
-
-    # ---- E177 decomposition level offset
     _e177_curve = [("2024-01-01", 1.0), ("2024-01-02", 1.05), ("2024-01-03", 0.98),
                    ("2024-01-04", 1.04)]
     _e177_daily = _daily_rets(_e177_curve)
@@ -19382,9 +18183,6 @@ def selftest():
     chk("mode" in run_tilt3decompoffset.__code__.co_varnames
         and "eras" in run_tilt3decompoffset.__code__.co_varnames,
         "E177 the offset leg carries the same mode/eras seams as its family")
-
-    # ---- E178 is "the fixed leg never moves" a family law?
-    # The fixture prices two months for three members: one repaired, two not.
     _e178_raw = {"shA": {"2014-01": 0.01, "2014-02": 0.01},
                  "shB": {"2014-01": 0.02, "2014-02": 0.02},
                  "shC": {"2014-01": 0.03}}
@@ -19420,10 +18218,6 @@ def selftest():
     chk("mode" in run_tilt3legfamily.__code__.co_varnames
         and "eras" in run_tilt3legfamily.__code__.co_varnames,
         "E178 the family leg carries the same mode/eras seams as its family")
-
-    # (E181) a leave-one-member-out sweep must RE-WEIGHT the survivors, not just
-    # subtract the dropped name's contribution: subtracting leaves a partially
-    # invested book being compared against a fully invested one.
     _e181_members = ["A", "B", "C"]
     _e181_net = {}
     for _m, _vals in (("2020-01", {"A": 0.10, "B": 0.02, "C": -0.04}),
@@ -19458,9 +18252,6 @@ def selftest():
     chk(_ladder_lomo_verdict(100.0, [{"name": "A", "lomo_level_bp_raw": 40.0}])
         ["classification"] == "survives_every_drop",
         "E181 a drop that keeps the sign survives even when the level halves")
-
-    # (E182) the wide side's net can hide two holdings moving opposite ways, so
-    # the verdict must publish gross and name the holdings whose removal flips it.
     _e182_flat = _wide_split_verdict([{"name": "A", "delta_bp": 0.0},
                                       {"name": "B", "delta_bp": 0.0}])
     chk(_e182_flat["classification"] == "flat_per_holding",
@@ -19490,10 +18281,6 @@ def selftest():
     chk(_wide_split_e176_join({"net_delta_bp": 12.0}, None, "X")["abs_diff_bp"]
         is None,
         "E182 an absent E176 face publishes no join instead of a zero")
-
-    # (E183) the same drop set against the compounded level: the arithmetic mean
-    # and the geometric annualisation are different objects on the same months,
-    # so a survival verdict has to say which one it survives.
     _e183_members = ["A", "B", "C"]
     _e183_net = {}
     for _m, _r in (("2020-01", 0.02), ("2020-02", -0.01), ("2020-03", 0.03)):
@@ -19554,9 +18341,6 @@ def selftest():
         and _e183_eff[2]["drop_effect_sign_comp"] == 0,
         "E183 a drop that does nothing on one arithmetic has no effect to "
         "reverse, so the dead band keeps it out of the flag")
-
-    # (E184) a thin net is the product of two mechanisms, and which one ate the
-    # motion is what decides the follow-up -- so it is measured, not narrated.
     _e184_in = _wide_month_cancel_rows(
         {"wide": {}},
         {"wide": {("2020-01", "A"): 1.0, ("2020-01", "B"): -1.0}},
@@ -19618,7 +18402,6 @@ def selftest():
     chk(_wide_month_e182_join({"total_net_bp": 1.0}, ["2020-01"], None,
                               "X")["abs_diff_bp"] is None,
         "E184 an absent E182 face publishes no join instead of a zero")
-
     _e184_path = _wide_month_cancel_rows(
         {"wide": {}},
         {"wide": {("2020-01", "A"): 1.0, ("2020-02", "A"): -1.0}},
@@ -19639,8 +18422,6 @@ def selftest():
                               "X")["path_gross_over_name_gross"] == 1.2,
         "E184 the two gross bases are published as a ratio, so a thin net "
         "cannot be quoted without the width it was measured on")
-
-    # ---- E185 locating the two-producer wedge
     _e185_close = _levelwedge_attribution(261.76, 258.8365, 261.7572)
     chk(abs(_e185_close["gap_bp"] - 2.9235) < 1e-3
         and abs(_e185_close["residual_after_cost_bp"]) <= TILT3LEVELWEDGE_RESIDUAL_BP,
@@ -19694,15 +18475,9 @@ def selftest():
         and "eras" in run_tilt3levelwedge.__code__.co_varnames,
         "E185 the wedge leg reads the same burn path and carries the mode/eras "
         "seams")
-    # 3.3984bp/yr of fee is 0.2832bp per month, which at 13.041bp a side is
-    # 2.17% of turnover: the field is a PERCENT, so a fraction here would be a
-    # silent 100x (r1292)
     chk(abs(3.3984 / 12.0 / TILT3LEVELWEDGE_COST_BP * 100.0 - 2.1712) < 1e-3,
         "E185 the implied turnover gap is reported in percent, not as a fraction "
         "that reads two hundred times smaller")
-
-    # E186: the two monthly readings, the era totals they must reproduce, and
-    # the carrier/dispersion split
     _e186_fr = {"2020-01": 0.02, "2020-02": -0.01}
     _e186_dr = {"2020-01": 0.0302, "2020-02": -0.01}
     _e186_rows = _drop_month_deltas(_e186_fr, _e186_dr)
@@ -19720,8 +18495,6 @@ def selftest():
                 - ((_e186_gd ** 6 - 1.0) - (_e186_gf ** 6 - 1.0)) * 1e4) < 1e-6,
         "E186 the era-level effects are rebuilt from the month vectors, so the "
         "table and the effect cannot drift apart silently")
-    # the compounded effect is E183's object: the DIFFERENCE of two annualised
-    # levels, not the annualisation of the ratio -- 2.4bp apart on this fixture
     chk(abs(_e186_eff["comp_ratio_bp"]
             - ((_e186_gd / _e186_gf) ** 6 - 1.0) * 1e4) < 1e-6
         and abs(_e186_eff["comp_ratio_bp"] - _e186_eff["comp_bp"]) > 1e-3,
@@ -19749,8 +18522,6 @@ def selftest():
         and "eras" in run_tilt3ladderdropwhere.__code__.co_varnames,
         "E186 the where leg reads the same burn path and carries the mode/eras "
         "seams")
-
-    # E189: the cumulative paths, the crossing month, and the carrier removal
     _e189_path = _drop_cum_paths(_e186_rows)
     chk(abs(_e189_path[0]["cum_sum"] - 0.0102) < 1e-9
         and abs(_e189_path[0]["cum_link"] - 0.01) < 1e-9
@@ -19766,9 +18537,6 @@ def selftest():
         and _e189_cross[0]["from_sign"] == -1 and _e189_cross[0]["to_sign"] == 1,
         "E189 a crossing is named at the first month on the far side of zero, so "
         "a zero month cannot be reported as the turning point")
-    # one convex month (f=-35%, d=-15%) plus twelve 2% months: the additive sum
-    # turns negative while the compounded ratio is still above one, and dropping
-    # the single convex month puts both readings back on the same side
     _e189_art_fr = {"m00": -0.35}
     _e189_art_dr = {"m00": -0.15}
     for _i in range(12):
@@ -19781,8 +18549,6 @@ def selftest():
         and _e189_car["carrier_removal"]["reversal_after_removal"] is False,
         "E189 a reversal that disappears with E186's carrier month is published "
         "as a one-month artefact, not as an arithmetic property")
-    # five convex months against a thousand flat ones: the same reversal now
-    # survives dropping the biggest month, so the verdict is the arithmetic
     _e189_ind_fr = {}
     _e189_ind_dr = {}
     for _i in range(5):
@@ -19813,8 +18579,6 @@ def selftest():
         "an invented reversal set")
     chk("outdir" in run_tilt3ladderdropcross.__code__.co_varnames,
         "E189 the crossing leg takes the face directory as its only seam")
-
-    # E190: the fragility curve -- how many months a verdict needs removed
     _e190_pair = [
         {"month": "m1", "full_ret": 0.01, "dropped_ret": 0.01,
          "gap_bp": 5.0, "delta_sum": 0.0},
@@ -19841,8 +18605,6 @@ def selftest():
         "E190 a reversal that one removed month puts back on the same side is "
         "published with the k that did it and both signs at every step, so a "
         "two-month artefact cannot be read as an era verdict")
-    # the same five convex months, but the disagreement is only cleared by
-    # trimming the era's own edge: the class then depends on the rule
     _e190_disp = _drop_fragility_curve(_drop_month_deltas(
         _e189_ind_fr, _e189_ind_dr))
     chk(_e190_disp["curves"]["gap"]["k_agree"] == 2
@@ -19872,9 +18634,6 @@ def selftest():
         and "kmax" in run_tilt3ladderdropcurve.__code__.co_varnames,
         "E190 the curve leg takes the face directory and the k ceiling as its "
         "only seams")
-
-    # (E187) a spread that tracks the book's own churn is a membership
-    # statement, so the tie is measured at three levels before it is quoted.
     _e187_same = _membership_turnover({"A", "B"}, {"A", "B"})
     chk(_e187_same["turnover"] == 0.0 and _e187_same["entered"] == 0
         and _e187_same["left"] == 0,
@@ -19958,8 +18717,6 @@ def selftest():
         "both turnover means are published side by side")
     chk("outdir" in run_tilt3widechurntie.__code__.co_varnames,
         "E187 the churn-tie leg takes the face directory as its only seam")
-
-    # ---- E192: churn-independence is not carrier persistence
     _e192_same = {"m1": {"A": 10.0, "B": -4.0}, "m2": {"A": 8.0, "B": -3.0},
                   "m3": {"A": 6.0, "B": -2.0}, "m4": {"A": 5.0, "B": -1.0},
                   "m5": {"A": 4.0, "B": -1.0}}
@@ -20025,8 +18782,6 @@ def selftest():
     chk("outdir" in run_tilt3widecarrierpersist.__code__.co_varnames,
         "E192 the carrier-persistence leg takes the face directory as its only "
         "seam")
-
-    # ---- E198: a persistent carrier is not automatically a flipping carrier
     _e198_per = {"m1": {"A": 10.0}, "m2": {"A": -10.0}, "m3": {"A": 10.0}}
     _e198_rows = {r["name"]: r for r in
                   _carrier_sign_rows(_e198_per, ["m1", "m2", "m3"])}
@@ -20041,7 +18796,6 @@ def selftest():
     chk(abs(_a["keep_ratio"] - 10.0 / 30.0) < 1e-9,
         "E198 keep ratio is |net|/gross, which for a pure alternator is 1/3 "
         "while its flip rate is 100%")
-
     _e198_steady = {"m1": {"A": 2.0}, "m2": {"A": 2.0}, "m3": {"A": 2.0},
                     "m4": {"A": 2.0}}
     _s = _carrier_sign_rows(_e198_steady, ["m1", "m2", "m3", "m4"])[0]
@@ -20049,13 +18803,11 @@ def selftest():
         and abs(_s["keep_ratio"] - 1.0) < 1e-9 and _s["flip_loss_bp"] == 0.0,
         "E198 a carrier that holds direction has one run, no flips and a keep "
         "ratio of exactly 1")
-
     _e198_gap = {"m1": {"A": 5.0}, "m2": {"A": 0.0}, "m3": {"A": -5.0}}
     _g = _carrier_sign_rows(_e198_gap, ["m1", "m2", "m3"])[0]
     chk(_g["months"] == 2 and _g["pairs"] == 1,
         "E198 a month in which the carrier does not repair is dropped, not "
         "scored as a zero delta (one pair, not two)")
-
     _e198_scale = {m: {k: v * 1000.0 for k, v in d.items()}
                    for m, d in _e198_per.items()}
     _sc = _carrier_sign_rows(_e198_scale, ["m1", "m2", "m3"])[0]
@@ -20063,7 +18815,6 @@ def selftest():
         and abs(_sc["keep_ratio"] - _a["keep_ratio"]) < 1e-12
         and abs(_sc["flip_loss_bp"] - _a["flip_loss_bp"] * 1000.0) < 1e-6,
         "E198 the flip census is scale-free in rates and linear in bp")
-
     _e198_one = _carrier_flip_era({"m1": {"A": 10.0}, "m2": {"A": -10.0},
                                    "m3": {"A": 10.0}},
                                   ["m1", "m2", "m3"])
@@ -20073,7 +18824,6 @@ def selftest():
         "E198 a single alternator loses two thirds of its gross INSIDE the name "
         "and has nothing left to lose between names, so the two ratios are "
         "published separately rather than as one headline")
-
     _e198_owner = _carrier_flip_era(
         {"m1": {"BIG": -30.0, "s1": 1.0, "s2": 1.0},
          "m2": {"BIG": -30.0, "s1": 1.0, "s2": 1.0},
@@ -20083,7 +18833,6 @@ def selftest():
         and _e198_owner["cancellation"]["top3_against_share_pct"] == 100.0,
         "E198 when one carrier owns the whole opposite-net mass the census "
         "says the reversal has an owner")
-
     _e198_broad = _carrier_flip_era(
         dict([("m1", dict([("n%02d" % i, -1.0) for i in range(12)]
                           + [("A", 12.0)])),
@@ -20093,11 +18842,8 @@ def selftest():
     chk(_e198_broad["cancellation"]["opposite_net_owner"] == "broad",
         "E198 when the opposite-net mass is spread the census does not call it "
         "an owner (12 equal carriers own no majority)")
-
     chk("outdir" in run_tilt3widecarriersignflip.__code__.co_varnames,
         "E198 the sign-flip leg takes the face directory as its only seam")
-
-    # ---- E195: the trim rule must be chosen without looking at the answer
     _e195_rows = [{"month": "m%02d" % i, "full_ret": 0.01, "dropped_ret": 0.01,
                    "gap_bp": float(i)} for i in range(1, 11)]
     _e195_loud = [dict(r, gap_bp=1000.0 * i, delta_sum=9.0 * i,
@@ -20137,8 +18883,6 @@ def selftest():
         "E195 a missing upstream face publishes zero pairs, not zero findings")
     chk("outdir" in run_tilt3ladderdroprules.__code__.co_varnames,
         "E195 the rule leg takes the face directory as its only seam")
-
-    # ---- E197: the edge depth itself is what has to be swept
     _e197_rows = [{"month": "m%02d" % i, "full_ret": 0.01, "dropped_ret": 0.01,
                    "gap_bp": float(i)} for i in range(1, 11)]
     chk(_edge_trim_months(_e197_rows, 2)["months"] == ["m01", "m10"]
@@ -20159,7 +18903,6 @@ def selftest():
         and _edge_trim_months(_e197_short, 10)["half_depth"] == 1,
         "E197 on a four-month era the deepest k still leaves two months for a "
         "reading instead of eating the whole era")
-
     _e197_cut = [{"month": "m01", "full_ret": 0.0, "dropped_ret": 0.8},
                  {"month": "m02", "full_ret": 0.0, "dropped_ret": -0.4},
                  {"month": "m03", "full_ret": 0.0, "dropped_ret": -0.2},
@@ -20175,7 +18918,6 @@ def selftest():
         and _e197_flat["k_stop"] is None,
         "E197 a pair that never reverses reports no k_stop at all instead of a "
         "meaningless first depth")
-
     chk(_edge_depth_class(False, None, {}) == "no_base_reversal"
         and _edge_depth_class(
             True, 2, {"book_mad3": {"k": 10, "kills": True}})
@@ -20192,7 +18934,6 @@ def selftest():
         == "edge_never_kills_but_a_magnitude_rule_does",
         "E197 the edge k is read against the magnitude rules' k, so the same "
         "depth cost is not reported as an artefact of being cheap")
-
     _e197_rev = _edge_depth_curve([
         {"month": "m01", "full_ret": 0.0, "dropped_ret": 0.8},
         {"month": "m02", "full_ret": 0.0, "dropped_ret": -0.3},
@@ -20206,15 +18947,12 @@ def selftest():
         and any(_e197_dead[_e197_dead.index(False):]),
         "E197 the curve records a reversal that comes back at a deeper k, so a "
         "single k_stop is not read as a threshold")
-
     _e197_missing = run_tilt3ladderdropedge(_e190_tmp.mkdtemp())
     chk(_e197_missing["answers"]["verdict"] == "no_upstream_face"
         and _e197_missing["answers"]["pairs_measured"] == 0,
         "E197 a missing upstream face publishes zero pairs, not zero findings")
     chk("outdir" in run_tilt3ladderdropedge.__code__.co_varnames,
         "E197 the depth leg takes the face directory as its only seam")
-
-    # ---- E203: the depth is only meaningful if the *specific* months matter
     _e203_pool = ["m%02d" % i for i in range(1, 13)]
     _e203_sets = _placebo_removal_sets(_e203_pool, 4, 25, 7)
     chk(all(len(s) == 4 and len(set(s)) == 4 for s in _e203_sets)
@@ -20274,8 +19012,6 @@ def selftest():
         "E203 a missing upstream face publishes zero pairs, not zero findings")
     chk("outdir" in run_tilt3ladderdropplacebo.__code__.co_varnames,
         "E203 the placebo leg takes the face directory as its only seam")
-
-    # E64: a 0.0bp era gap is not calendar evidence while the slice is all cash
     chk(_burnin_class(0.0, 100.0) == "degenerate_cash_slice"
         and _burnin_class(-26.0, 100.0) == "all_cash_slice_with_nonzero_gap"
         and _burnin_class(0.0, 40.0) == "exact_zero_with_invested_bars"
@@ -20291,8 +19027,6 @@ def selftest():
     chk(run_midsweepburnin.__code__.co_varnames[:1] == ("outdir",)
         and "faces" in run_midsweepburnin.__code__.co_varnames,
         "E64 the burn-in leg takes the face directory and an explicit face list")
-
-    # E60: the off-book bucket re-read inside its own liquidity
     _e60_amt = [None, None, 10.0, 20.0, 30.0]
     chk(_trailing_amount(_e60_amt, 4, window=3) == 20.0
         and _trailing_amount(_e60_amt, 2, window=3) == 10.0,
@@ -20383,8 +19117,6 @@ def selftest():
         and "amounts" in _chase_rows.__code__.co_varnames,
         "E60 the leg takes the face directory, an explicit liquidity window, and "
         "re-uses the chase rows instead of re-deriving them")
-
-    # E214: the same tercile split carried across every era
     _e214_two_era = {"2017_2020": {"mean": {"thick": 2.0, "thin": -1.0}},
                      "2024_now": {"mean": {"thick": 3.8, "thin": -0.5}}}
     chk(_offbook_liq_era_stability(_e214_two_era)["classification"]
@@ -20427,7 +19159,6 @@ def selftest():
     chk(OFFBOOK_ERA_START < "2020-01-01" and OFFBOOK_ERA_START > "2016-12-31",
         "E214 the widened span reaches into the 2017_2020 era while staying inside "
         "the territory the panel covers")
-
     _sb_dec = [(5, ["a", "b"]), (20, ["b", "c"])]
     chk(_book_holdings_at(_sb_dec, 4) is None
         and _book_holdings_at(_sb_dec, 5) == ["a", "b"]
@@ -20455,19 +19186,313 @@ def selftest():
         "E61 the candidate pool is pinned to a real book width, because a 9999-wide "
         "book holds the whole universe and would make the selection part vanish by "
         "construction")
-
     print("selftest %d/%d PASS" % (ok, tot))
+    _e190_rows = [{"month": "m%02d" % i, "full_ret": 0.0,
+                   "dropped_ret": 0.001 * i,
+                   "delta_sum": 100.0 if i == 1 else 1.0,
+                   "gap_bp": -50.0 if i == 3 else 2.0} for i in range(1, 13)]
+    _e190_gap = _drop_fragility_trim(_e190_rows, "gap", 1)
+    chk(_e190_gap["dropped"] == ["m03"] and len(_e190_gap["kept"]) == 11,
+        "E190 the gap trim removes the largest |gap| month, not the first one")
+    _e190_ds = _drop_fragility_trim(_e190_rows, "delta_sum", 1)
+    chk(_e190_ds["dropped"] == ["m01"],
+        "E190 the delta_sum trim reads its own column, not the gap column")
+    _e190_ed = _drop_fragility_trim(_e190_rows, "edges", 2)
+    chk(_e190_ed["dropped"] == ["m01", "m02", "m11", "m12"],
+        "E190 the edges trim removes k months from EACH end and names all 2k")
+    _e190_rd = _drop_fragility_readings(_e190_rows)
+    _e190_eff = _drop_effect_both_bp(
+        {r["month"]: r["full_ret"] for r in _e190_rows},
+        {r["month"]: r["dropped_ret"] for r in _e190_rows})
+    chk(_e190_rd["effect_arith_bp"] == _e190_eff["arith_bp"]
+        and _e190_rd["effect_comp_bp"] == _e190_eff["comp_bp"],
+        "E190 the fragility readings are the E186 function itself, so a trimmed "
+        "reading and a published reading cannot drift apart")
+    def _e190_seq(disagree_at):
+        return [{"k": _k, "disagree": _k in disagree_at} for _k in range(1, 9)]
+    chk(_drop_fragility_verdict(_e190_seq({1}), True)[0] == "two_month_artefact",
+        "E190 agreement at k=1 is a two-month artefact, not an era property")
+    chk(_drop_fragility_verdict(_e190_seq({1, 2, 3, 4, 5}), True)[:2]
+        == ("fragile_mid", 6),
+        "E190 a reversal that needs six months removed is fragile, not an artefact")
+    chk(_drop_fragility_verdict(_e190_seq(set(range(1, 9))), True)[0]
+        == "survives_kmax_era_property",
+        "E190 a reversal that survives every k inside kmax is not called fragile")
+    chk(_drop_fragility_verdict(_e190_seq({1}), False)[0] == "no_reversal_baseline",
+        "E190 readings that agree untrimmed are reported as no reversal, not a "
+        "weak one")
+    chk(_drop_fragility_verdict(_e190_seq({1, 3}), True)[2] == 4,
+        "E190 the stable agreement k is published, so a curve that flips back to "
+        "disagreement at k=3 reports 4 rather than 2")
+    try:
+        _drop_fragility_trim(_e190_rows, "carrier", 1)
+        _e190_bad = False
+    except ValueError:
+        _e190_bad = True
+    chk(_e190_bad, "E190 an unknown trim raises instead of returning a quiet set")
+    _e190_empty = run_tilt3ladderdropfragility(_e190_tmp.mkdtemp())
+    chk(_e190_empty["answers"]["pairs_measured"] == 0
+        and _e190_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e190_empty["evidence_cutoff"] is None,
+        "E190 a missing E189 face publishes zero pairs and no cutoff rather than "
+        "an invented fragility curve")
+    chk("outdir" in run_tilt3ladderdropfragility.__code__.co_varnames,
+        "E190 the fragility leg takes the face directory as its only seam")
+    chk(_review_window_in("2014-12") is True and _review_window_in("2026-07") is True
+        and _review_window_in("2019-02") is False and _review_window_in("junk") is None,
+        "E196 the review window is a declared calendar label, and a month string "
+        "that is not a month returns None rather than False")
+    _e196_rows = ([{"month": "2020-%02d" % m, "full_ret": 0.01, "dropped_ret": 0.01,
+                    "gap_bp": 1.0} for m in (2, 3, 4, 5, 8, 9, 10, 11)]
+                  + [{"month": "2020-%02d" % m, "full_ret": 0.01, "dropped_ret": 0.01,
+                      "gap_bp": 0.0} for m in (6, 7, 12)] + [])
+    _e196_flat = _window_perm_p(_e196_rows, draws=400, seed=7)
+    chk(_e196_flat["n_inside"] == 3 and _e196_flat["n_outside"] == 8
+        and _e196_flat["perm_p"] > 0.05,
+        "E196 equal gaps in and out of the window must not read as a window "
+        "effect, and the mechanism counts are published so an empty bucket "
+        "cannot pass as agreement (r1261)")
+    _e196_big = [dict(r) for r in _e196_rows]
+    for _r in _e196_big:
+        if _review_window_in(_r["month"]):
+            _r["gap_bp"] = 50.0
+    _e196_hit = _window_perm_p(_e196_big, draws=400, seed=7)
+    chk(_e196_hit["ratio"] > 5.0 and _e196_hit["perm_p"] < 0.02,
+        "E196 a planted window effect is found by the same statistic, so the "
+        "flat fixture above is a power check and not a broken test")
+    _e196_hit2 = _window_perm_p(_e196_big, draws=400, seed=7)
+    chk(_e196_hit == _e196_hit2,
+        "E196 the permutation test is deterministic under a fixed seed, so two "
+        "runs of the leg publish the same p")
+    chk(_spearman([1.0, 2.0, 3.0], [10.0, 20.0, 30.0]) == 1.0
+        and _spearman([1.0, 2.0, 3.0], [30.0, 20.0, 10.0]) == -1.0
+        and _spearman([1.0], [1.0]) is None,
+        "E196 the rank correlation is +1/-1 on monotone fixtures and refuses to "
+        "report a correlation from one point")
+    _e196_rule_rows = [{"month": "m%02d" % i, "full_ret": 0.01 * (i + 1),
+                        "dropped_ret": 0.0,
+                        "gap_bp": (900.0 if i == 0 else 1.0),
+                        "delta_sum": 0.001} for i in range(12)]
+    _e196_seq = _month_close_rule(_e196_rule_rows, kmax=1)
+    chk(_e196_seq and _e196_seq[0]["dropped"] == ["m11"],
+        "E196 the month-close rule drops the largest |full_ret| month, not the "
+        "largest |gap| one, so it is a live selector and not a relabelled answer")
+    chk(_carrier_rank(_e196_rule_rows, "m00", "gap_bp") == 1
+        and _carrier_rank(_e196_rule_rows, "m11", "gap_bp") == 12
+        and _carrier_rank(_e196_rule_rows, "nope", "gap_bp") is None,
+        "E196 carrier ranks are computed per column and an unknown month returns "
+        "None instead of an index error")
+    chk(_pooled_window_test([])["perm_p"] is None
+        and _pooled_window_test([])["n_cells"] == 0,
+        "E196 the pooled test reports nothing when it is handed no cells")
+    _e196_pool = _pooled_window_test([_e196_big, list(_e196_rows)], draws=400,
+                                     seed=7)
+    chk(_e196_pool["n_cells"] == 2 and _e196_pool["n_months"] == 22
+        and _e196_pool["perm_p"] is not None,
+        "E196 the pooled test shuffles labels inside each cell and counts every "
+        "month it used, so a two-cell pool publishes both")
+    _e196_twice = _pooled_window_test([_e196_big, list(_e196_big)], draws=50, seed=7)
+    chk(_e196_twice["n_months"] == 2 * len(_e196_big),
+        "E196 pooling counts a shared month twice -- which is exactly why the "
+        "calendar verdict reads the disjoint reading instead of the pooled one")
+    import tempfile as _e196_tmp
+    _e196_empty = run_tilt3ladderdropcarrier(_e196_tmp.mkdtemp())
+    chk(_e196_empty["answers"]["cells_measured"] == 0
+        and _e196_empty["answers"]["verdict"] == "no_upstream_face"
+        and _e196_empty["evidence_cutoff"] is None,
+        "E196 a missing E186 face publishes zero cells and no cutoff rather than "
+        "an invented calendar story")
+    chk("outdir" in run_tilt3ladderdropcarrier.__code__.co_varnames,
+        "E196 the carrier leg takes the face directory as its only seam")
+    chk(_month_index("2020-03") - _month_index("2020-02") == 1
+        and _month_index("2021-01") - _month_index("2020-12") == 1
+        and _month_index("junk") is None,
+        "E198 month indices are consecutive across year boundaries, so a "
+        "December->January pair is one month and not a hole")
+    _e197_holes = _monthly_ret({"2020-01": 1.0, "2020-02": 1.1, "2020-04": 1.2})
+    chk(list(_e197_holes) == ["2020-02"]
+        and abs(_e197_holes["2020-02"] - 0.1) < 1e-12,
+        "E198 a missing month is dropped rather than joined, so two quiet months "
+        "cannot become one huge 'monthly' return")
+    import tempfile as _e197_tmp
+    import csv as _e197_csv
+    def _e197_fixture(root, lift=None, months=60):
+        lift = lift or {}
+        codes = ["BENCH"] + ["C%02d" % i for i in range(1, 10)]
+        for code in codes:
+            with open(os.path.join(root, code + ".csv"), "w",
+                      encoding="utf-8", newline="") as fh:
+                w = _e197_csv.writer(fh)
+                w.writerow(["date", "open", "high", "low", "close",
+                            "volume", "amount"])
+                px = 1.0
+                for i in range(months):
+                    m = "%04d-%02d" % (2015 + i // 12, (i % 12) + 1)
+                    px *= 1.01
+                    c = px * (1.0 + lift.get((code, m), 0.0))
+                    w.writerow(["%s-25" % m, c, c, c, c, 1000, 1000.0])
+        return codes
+    _e197_root = _e197_tmp.mkdtemp()
+    _e197_codes = _e197_fixture(_e197_root)
+    _e197_flat = run_reviewwindowcrosspanel(
+        daily_dir=_e197_root, basket=_e197_codes, bench="BENCH", draws=300)
+    chk(_e197_flat["answers"]["cells_measured"] == 9
+        and _e197_flat["answers"]["verdict"] == "no_outside_family_signal",
+        "E198 members that track the benchmark exactly must not read as a window "
+        "effect, and the cell count proves the fixture actually ran (r1261)")
+    _e197_lift = {}
+    for _c in _e197_codes[1:]:
+        for _m in (6, 7, 12, 1):
+            for _y in range(2015, 2020):
+                _e197_lift[(_c, "%04d-%02d" % (_y, _m))] = 0.03
+    _e197_big = None
+    _e197_hot_root = _e197_tmp.mkdtemp()
+    _e197_hot_codes = _e197_fixture(_e197_hot_root, lift=_e197_lift)
+    _e197_hot = run_reviewwindowcrosspanel(
+        daily_dir=_e197_hot_root, basket=_e197_hot_codes, bench="BENCH", draws=300)
+    chk(_e197_hot["answers"]["verdict"]
+        == "review_window_holds_outside_the_family"
+        and _e197_hot["answers"]["pooled"]["perm_p"] <= REVIEWWINDOWCROSS_POOLED_P,
+        "E198 a window effect planted across the whole basket is found by the "
+        "same gate, so the flat control above is a power check and not a broken "
+        "test")
+    _e197_again = run_reviewwindowcrosspanel(
+        daily_dir=_e197_hot_root, basket=_e197_hot_codes, bench="BENCH", draws=300)
+    chk(_e197_again["answers"]["pooled"] == _e197_hot["answers"]["pooled"],
+        "E198 the pooled permutation is deterministic under a fixed seed, and "
+        "the three window labels are published side by side")
+    chk(_e197_hot["answers"]["pooled_alt_windows"]["strict_review"]["perm_p"]
+        is not None
+        and _e197_hot["answers"]["pooled_alt_windows"]["spill"]["perm_p"]
+        is not None
+        and _review_window_in("2020-07", (6, 12)) is False
+        and _review_window_in("2020-07") is True,
+        "E198 the narrower labels are real separate readings -- the months "
+        "argument changes which months are inside, so the sensitivity block is "
+        "not an unused parameter")
+    _e197_none = run_reviewwindowcrosspanel(
+        daily_dir=_e197_tmp.mkdtemp(), basket=("A", "B"), bench="NOPE", draws=100)
+    chk(_e197_none["answers"]["verdict"] == "no_benchmark_panel"
+        and _e197_none["evidence_cutoff"] is None
+        and "NOPE" in _e197_none["missing_files"],
+        "E198 a missing benchmark publishes no verdict and no cutoff instead of "
+        "an invented cross-panel story")
+    import tempfile as _e199_tmp
+    import csv as _e199_csv
+    import random as _e199_rnd
+    def _e199_fixture(months=72, jitter=0.02, seed=7):
+        root = _e199_tmp.mkdtemp()
+        codes = ["BENCH"] + ["C%02d" % i for i in range(1, 9)]
+        rng = _e199_rnd.Random(seed)
+        for code in codes:
+            with open(os.path.join(root, code + ".csv"), "w",
+                      encoding="utf-8", newline="") as fh:
+                w = _e199_csv.writer(fh)
+                w.writerow(["date", "open", "high", "low", "close",
+                            "volume", "amount"])
+                px = 1.0
+                for i in range(months):
+                    m = "%04d-%02d" % (2015 + i // 12, (i % 12) + 1)
+                    px *= 1.0005
+                    cl = px * (1.0 + (jitter * (rng.random() - 0.5)
+                                      if code != "BENCH" else 0.0))
+                    w.writerow(["%s-25" % m, cl, cl, cl, cl, 1000, 1000.0])
+        return root, codes
+    _e199_root, _e199_codes = _e199_fixture()
+    _e199_f = run_reviewwindowfloor(daily_dir=_e199_root, basket=_e199_codes,
+                                    bench="BENCH", draws=300, mc_draws=300)
+    _e199_a = _e199_f["answers"]
+    chk(_e199_a["floor"]["min_detectable_ratio"] is not None
+        and abs(_power_at([r for _k, r in _reviewwindowcross_rows(
+            _e199_root, _e199_codes, "BENCH")[2]],
+            _e199_a["floor"]["effect_multiplier_at_floor"],
+            REVIEWWINDOWFLOOR_ALPHA_POOLED) - REVIEWWINDOWFLOOR_POWER) < 0.02,
+        "E199 the published floor is the scale at which the test reaches the "
+        "declared 80%% power -- recomputed here from the floor's own multiplier "
+        "rather than trusted from the artifact")
+    _e199_c = [row["power"] for row in _e199_a["power_curve"]]
+    chk(all(_e199_c[i] is not None and _e199_c[i + 1] is not None
+            and _e199_c[i + 1] >= _e199_c[i] for i in range(len(_e199_c) - 1))
+        and _e199_c[-1] >= 0.99,
+        "E199 power rises with the effect and the curve reaches certainty at the "
+        "top of the declared grid (a non-monotone curve would mean the sd is "
+        "being recomputed inconsistently across scales)")
+    _e199_sd = _e199_a["validation"]["analytic_sd_vs_permutation"]
+    chk(_e199_sd is not None and _e199_sd["rel_diff"] <= 0.05,
+        "E199 the analytic (hypergeometric) null sd agrees with the sampled "
+        "permutation distribution within 5% -- the power curve leans on that "
+        "variance, so it is checked against its own null instead of asserted")
+    _e199_d = _e199_a["validation"]["discrete_check"]
+    chk(_e199_d and _e199_d["at_floor_perm_p"] is not None
+        and _e199_d["at_floor_perm_p"] <= REVIEWWINDOWFLOOR_ALPHA_POOLED
+        and _e199_d["below_floor_perm_p"] > REVIEWWINDOWFLOOR_ALPHA_POOLED,
+        "E199 the discrete permutation p crosses the 1%% ceiling between the "
+        "floor effect and 0.85x the floor, so the floor is a real edge and not "
+        "an artefact of the normal approximation")
+    _e199_again = run_reviewwindowfloor(daily_dir=_e199_root,
+                                        basket=_e199_codes, bench="BENCH",
+                                        draws=300, mc_draws=300)
+    chk(_e199_again["answers"] == _e199_a,
+        "E199 the floor face is deterministic under fixed seeds")
+    _e199_flat_root, _e199_flat_codes = _e199_fixture(jitter=0.0)
+    _e199_flat = run_reviewwindowfloor(daily_dir=_e199_flat_root,
+                                       basket=_e199_flat_codes, bench="BENCH",
+                                       draws=200, mc_draws=200)
+    chk(_e199_flat["answers"]["verdict"] == "floor_unreachable_on_this_panel"
+        and _e199_flat["answers"]["floor"]["min_detectable_ratio"] is None,
+        "E199 a panel with no dispersion publishes 'floor unreachable' and no "
+        "number, instead of dividing by a zero sd and printing a confident one")
+    _e187_mem = _wide_month_membership(
+        {"wide": {("2020-01", "A"): 0.1, ("2020-01", "B"): 0.1,
+                  ("2020-01", "cash"): 0.05,
+                  ("2020-02", "A"): 0.1, ("2020-02", "C"): 0.1,
+                  ("2020-02", "cash"): 0.05}},
+        ["2020-01", "2020-02"])
+    chk(_e187_mem["2020-01"] == {"A", "B"} and _e187_mem["2020-02"] == {"A", "C"},
+        "E187 membership is read off the contribution sink and the cash "
+        "pseudo-name is excluded (a cash row is not a holding)")
+    _e187_t = _turnover_rows(_e187_mem)
+    chk(_e187_t[0]["turnover"] is None and _e187_t[1]["entered"] == 1
+        and _e187_t[1]["left"] == 1 and _e187_t[1]["turnover"] == 1.0,
+        "E187 the first month has no predecessor (None, not zero churn) and "
+        "one-in/one-out on a two-name book prints turnover 1.0")
+    chk(_e187_t[1]["entered_sample"] == ["C"] and _e187_t[1]["left_sample"] == ["B"],
+        "E187 entered/left samples name the actual flippers, so the churn "
+        "number can be audited per month instead of trusted")
+    _e187_rows = [
+        {"month": "m1", "net_bp": 10.0, "turnover": 0.10},
+        {"month": "m2", "net_bp": -8.0, "turnover": 0.90},
+        {"month": "m3", "net_bp": 6.0, "turnover": 0.20},
+        {"month": "m4", "net_bp": -7.0, "turnover": 0.80},
+    ]
+    _e187_v = _churntie_verdict(_e187_rows)
+    chk(_e187_v["classification"] == "churn_discount_holds"
+        and _e187_v["era_sign"] == 1 and _e187_v["against_months"] == 2,
+        "E187 high-churn months pulling against a positive era classify as "
+        "churn_discount_holds under the frozen rule")
+    _e187_flat = _churntie_verdict([
+        {"month": "m1", "net_bp": 10.0, "turnover": 0.50},
+        {"month": "m2", "net_bp": -8.0, "turnover": 0.50},
+        {"month": "m3", "net_bp": 6.0, "turnover": 0.50},
+        {"month": "m4", "net_bp": -7.0, "turnover": 0.50},
+    ])
+    chk(_e187_flat["classification"] == "not_supported",
+        "E187 equal churn in both buckets must not be called a churn discount "
+        "just because against-months exist")
+    _e187_none = _churntie_verdict([{"month": "m1", "net_bp": 5.0, "turnover": 0.2},
+                                    {"month": "m2", "net_bp": 4.0, "turnover": 0.3}])
+    chk(_e187_none["classification"] == "no_against_months"
+        and _e187_none["turnover_ratio"] is None,
+        "E187 an era with no against-months is published as such, not as a "
+        "passing discount with a missing ratio")
+    chk(_e187_none["rule"] == {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                               "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
+        "E187 the verdict echoes its own frozen thresholds so a later reader "
+        "can tell a rule from a description")
     return 0 if ok == tot else 1
-
-
-# ---------------------------------------------------------------- E185
-# the two sides of the wedge are 2dp published sums recomputed unrounded here,
-# so a residual under the published quantum is arithmetic noise, not a finding
 TILT3LEVELWEDGE_RESIDUAL_BP = 0.06
 TILT3LEVELWEDGE_CLOSED_PCT = 95.0   # the located term explains this much -> located
 TILT3LEVELWEDGE_COST_BP = 13.041    # e24_ladder_weighting.COST_BP_SIDE per side
-
-
 def _levelwedge_attribution(dec_bp, a1_bp, a0_bp):
     """(E185) one cell's gap and the cost-term residual that explains it.
 
@@ -20481,8 +19506,6 @@ def _levelwedge_attribution(dec_bp, a1_bp, a0_bp):
     return {"gap_bp": round(gap, 4),
             "rebalance_cost_term_bp": round(fee, 4),
             "residual_after_cost_bp": round(gap - fee, 4)}
-
-
 def _levelwedge_candidates(rows):
     """(E185) residuals left by each of the three candidate explanations.
 
@@ -20524,8 +19547,6 @@ def _levelwedge_candidates(rows):
         located = "unattributed"
     out["located_term"] = located
     return out
-
-
 def _levelwedge_costfree(burn, mode):
     """(E185) the same two arms rebuilt with the rebalance fee switched off.
 
@@ -20546,8 +19567,6 @@ def _levelwedge_costfree(burn, mode):
         out[arm + "_same_cutoff"] = (out[arm]["cutoff"]
                                     == (burn.get(key) or {}).get("cutoff"))
     return out
-
-
 def _latest_face(pattern):
     import glob
     import os
@@ -20559,8 +19578,6 @@ def _latest_face(pattern):
         return p, json.load(open(p, encoding="utf-8"))
     except Exception:
         return p, None
-
-
 def run_tilt3levelwedge(outdir, mode="neutralise_int", eras=ERAS):
     """E185: attribute the E176-vs-E177 gap to a TERM, not to rounding.
 
@@ -20719,10 +19736,6 @@ def run_tilt3levelwedge(outdir, mode="neutralise_int", eras=ERAS):
         ],
         "law_ref": "E180 collision -> E185 locate (bm-b r1218), O-20261014-1325 low-cost verification",
     }
-
-
-# -------------------------------------------------------------- E88
-
 def _cell_index(rows, keys):
     out = {}
     for r in rows or []:
@@ -20730,8 +19743,6 @@ def _cell_index(rows, keys):
         if k not in out:
             out[k] = r
     return out
-
-
 def _mean_control(a_rows, b_rows, keys):
     """Join two faces cell by cell and count bit-identical ``mean_bp``.
 
@@ -20749,8 +19760,6 @@ def _mean_control(a_rows, b_rows, keys):
             "only_in_a": len([k for k in ia if k not in ib]),
             "only_in_b": len([k for k in ib if k not in ia]),
             "mismatch_rows": bad}
-
-
 def _repair_factor_guard(labeled):
     """(E111) -> verdict over the repair-factor stamps of the faces being joined.
 
@@ -20778,8 +19787,6 @@ def _repair_factor_guard(labeled):
                         "panel; back-stamping a face is impossible, because the code "
                         "that burned it is what the stamp would be claiming",
     }
-
-
 def run_burncontrol(outdir=None, dirpath=None):
     """E88: prove the interval and robust faces sit on the published burn."""
     import glob as _glob
@@ -20866,13 +19873,7 @@ def run_burncontrol(outdir=None, dirpath=None):
         "controls": controls,
         "summary": {"shared_cells": shared, "mismatched": bad},
     }
-
-
-# ------------------------------------------- leg: churn LEVELs named by arm (E99)
-
 LEVEL_BOOKS = ("me", "mid")
-
-
 def _arm_level_cell(face, era, book):
     """One published churn LEVEL cell, read off a face by (era, book)."""
     row = ((face or {}).get("eras") or {}).get(era) or {}
@@ -20880,8 +19881,6 @@ def _arm_level_cell(face, era, book):
     return {"churn_alpha_bp_mean": cell.get("churn_alpha_bp_mean"),
             "x1_ann_pct": cell.get("x1_ann_pct"),
             "negative_churn_share_pct": cell.get("negative_churn_share_pct")}
-
-
 def _level_rows(faces, eras, arms, books=LEVEL_BOOKS):
     """(era, book) rows carrying one cell per arm, with the arm as the key.
 
@@ -20904,8 +19903,6 @@ def _level_rows(faces, eras, arms, books=LEVEL_BOOKS):
                     else None)
             rows.append({"era": era, "book": book, "arms": cells})
     return rows
-
-
 def _level_sign_flips(rows, arms):
     """(era, book) cells whose LEVEL changes sign across arms."""
     out = []
@@ -20915,15 +19912,9 @@ def _level_sign_flips(rows, arms):
         if len(vals) >= 2 and min(vals) < 0 < max(vals):
             out.append("%s/%s" % (r["era"], r["book"]))
     return sorted(out)
-
-
-# -------------------------------------------------------------- E105
-
 MATERIAL_LEVEL_BP = 50.0
 CONCENTRATION_FLOOR_PCT = 25.0
 SINGLE_NAME_FLOOR_PCT = 50.0
-
-
 def _churn_name_table(cal, prices, decisions, eras):
     """Additive name-level decomposition of every churn transition.
 
@@ -20969,8 +19960,6 @@ def _churn_name_table(cal, prices, decisions, eras):
             "shares": shares,
         })
     return rows
-
-
 def _driver_verdict(level_bp, abs_share_pct):
     """Read one LEVEL cell as supported, concentrated, or a one-name artefact."""
     if level_bp is None or abs_share_pct is None:
@@ -20982,8 +19971,6 @@ def _driver_verdict(level_bp, abs_share_pct):
     if abs_share_pct >= CONCENTRATION_FLOOR_PCT:
         return "concentrated"
     return "broadly_supported"
-
-
 def _single_name_driver(rows, era, top_k=3):
     """Who carries one era's LEVEL, and by how much of it.
 
@@ -21030,8 +20017,6 @@ def _single_name_driver(rows, era, top_k=3):
         "additivity_residual_bp": round(level - total, 6),
         "verdict": _driver_verdict(level, abs_share),
     }
-
-
 def run_midlevel_drivers(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                          gap_limits=(1, 2, 5), mid_day=15, eras=ERAS,
                          published="MID-20261026-s20180101-armed.json"):
@@ -21189,8 +20174,6 @@ def run_midlevel_drivers(outdir, start="2018-01-01", pick_n=9999, exclude=("sh51
             "that produced it, because E96 lost that label once already",
         ],
     }
-
-
 def _level_coverage(rows, arms):
     """Structural check: every row must carry every arm key."""
     missing = []
@@ -21200,8 +20183,6 @@ def _level_coverage(rows, arms):
                 missing.append("%s/%s/%s" % (r["era"], r["book"], arm))
     return {"rows": len(rows), "arms": len(arms),
             "cells": len(rows) * len(arms), "missing_arm_keys": missing}
-
-
 def _published_level_control(outdir, faces,
                              published="MID-20261020-s20180101.json"):
     """Join the already-published start-2018 LEVEL face against the unscreened arm."""
@@ -21231,8 +20212,6 @@ def _published_level_control(outdir, faces,
             "note": "the published twin was burned on an earlier cutoff, so a "
                     "non-zero drift is a re-derivation through new data, not a "
                     "producing-code difference"}
-
-
 def run_midlevels(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                   gap_limits=(1, 5), mid_day=15, costs=(0.0, 1.0, 3.0), eras=ERAS):
     """E99: the start-2018 churn LEVELs, each carrying the arm that produced it.
@@ -21321,10 +20300,6 @@ def run_midlevels(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
             "is a level the untreated panel was carrying on a repaired print",
         ],
     }
-
-
-# ------------------------------------ E101: is the arm DELTA end-stable?
-
 def _truncate_decisions(decisions, cal, end):
     """Every decision whose session is on or before ``end``.
 
@@ -21334,15 +20309,11 @@ def _truncate_decisions(decisions, cal, end):
     truncation, not a re-stamp of a full-window reading.
     """
     return [(i, holds) for i, holds in decisions if cal[i] <= end]
-
-
 def _era_end_grid(decisions, cal, era, ends):
     """The last ``ends`` decision sessions of one era, ascending."""
     name = era[0]
     idxs = [i for i, _ in decisions if _era_of(cal[i], (era,)) == name]
     return [cal[i] for i in idxs[-int(ends):]]
-
-
 def _next_decision_session(decisions, cal, end):
     """The first decision session strictly after ``end`` (None if there is none).
 
@@ -21357,18 +20328,12 @@ def _next_decision_session(decisions, cal, end):
         if cal[i] > end:
             return cal[i]
     return None
-
-
 def _endgrid_span(vals):
     v = [x for x in vals if isinstance(x, (int, float))]
     return round(max(v) - min(v), 1) if len(v) >= 2 else None
-
-
 def _min_span(vals):
     v = [x for x in vals if isinstance(x, (int, float))]
     return min(v) if v else None
-
-
 def _arm_delta_verdict(delta_span, level_span):
     """One (era, book) cell: does the DELTA survive an end grid the levels do not?
 
@@ -21384,8 +20349,6 @@ def _arm_delta_verdict(delta_span, level_span):
     return round(delta_span / level_span, 2), (
         "delta_stable_levels_fragile" if delta_span <= 0.25 * level_span
         else "delta_moves_with_the_end")
-
-
 def _arm_price_edits(caches, arm, base="unscreened"):
     """How many symbols an arm actually edits, not how many it keeps.
 
@@ -21399,8 +20362,6 @@ def _arm_price_edits(caches, arm, base="unscreened"):
     changed = [s for s in sorted(p) if base_p.get(s) != p[s]]
     return {"symbols_with_changed_prices": len(changed),
             "first_three": changed[:3]}
-
-
 def _grid_zero_profile(deltas):
     """Zero ends and the step signature of one delta series across a grid.
 
@@ -21417,8 +20378,6 @@ def _grid_zero_profile(deltas):
             "non_zero_delta_bp": [round(x, 1) for x in non_zero],
             "step_signature": bool(kv) and len(zeros) == len(kv) - 1
                               and len(non_zero) == 1}
-
-
 def _read_published_levels(outdir, published):
     path = os.path.join(outdir or os.path.join(ROOT, "results", "e44_midmonth"),
                         published)
@@ -21435,8 +20394,6 @@ def _read_published_levels(outdir, published):
     return index, {"file": published, "status": "read",
                    "published_cutoff": face.get("evidence_cutoff"),
                    "rows": len(face.get("levels") or [])}
-
-
 def run_gaparm_endgrid(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                        gap_limit=1, ends=12, mid_day=15, eras=ERAS,
                        published="MID-20261026-s20180101-armed.json"):
@@ -21621,12 +20578,8 @@ def run_gaparm_endgrid(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511"
             "return: the delta moves a reading, not money",
         ],
     }
-
-
 FAMILY_ARMS = ("unscreened", "neutralise_int", "neutralise_gap1",
                "neutralise_gap2", "neutralise_gap5")
-
-
 def run_gaparm_family_endgrid(outdir, start="2018-01-01", pick_n=9999,
                               exclude=("sh511",), ends=12, mid_day=15,
                               eras=ERAS,
@@ -21872,8 +20825,6 @@ def run_gaparm_family_endgrid(outdir, start="2018-01-01", pick_n=9999,
             "return: the deltas move a reading, not money",
         ],
     }
-
-
 def _print_set(report):
     """The (name, date) pairs an arm actually repaired, from a screen report.
 
@@ -21888,8 +20839,6 @@ def _print_set(report):
         for p in row.get("prints") or []:
             out.append((row.get("name"), p.get("date")))
     return sorted(out)
-
-
 def _arm_edit_face(raw, univ):
     """Every bar an arm rewrites, as ``symbol|date`` cells.
 
@@ -21908,8 +20857,6 @@ def _arm_edit_face(raw, univ):
             if c0.get(d) != v:
                 cells.append("%s|%s" % (s, d))
     return cells
-
-
 def _limit_groups(signatures):
     """Group gap limits by identical edit face, and say where the ladder moves.
 
@@ -21937,8 +20884,6 @@ def _limit_groups(signatures):
             "distinct_objects": len(groups),
             "growth_limits": growth,
             "saturates_at": (groups[-1]["limits"][0] if groups else None)}
-
-
 def run_gap_limit_ladder(outdir, start="2018-01-01", pick_n=9999,
                          exclude=("sh511",), max_limit=20, mid_day=15,
                          eras=ERAS, max_cell_arms=8,
@@ -22185,10 +21130,6 @@ def run_gap_limit_ladder(outdir, start="2018-01-01", pick_n=9999,
             "portfolio return: the deltas move a reading, not money",
         ],
     }
-
-
-# -------------------------------------------------------------- E100
-
 def _arm_delta_contrib(gap_map, unscr_map):
     """Exact additive split of one LEVEL delta into per-transition pieces.
 
@@ -22241,8 +21182,6 @@ def _arm_delta_contrib(gap_map, unscr_map):
         "common_transitions": len(set(gap_map) & set(unscr_map)),
     }
     return rows, meta
-
-
 def _arm_split_verdict(row, top_k=3):
     """Three-way reading of a level-delta split: one window, a few, or composition.
 
@@ -22264,8 +21203,6 @@ def _arm_split_verdict(row, top_k=3):
     if abs(share) >= 25.0:
         return "delta_is_a_few_windows"
     return "delta_is_broad"
-
-
 def _fwd_pct(prices, sym, i0, i1):
     """Forward percent return of one name over one decision window, or None."""
     s = prices.get(sym)
@@ -22275,8 +21212,6 @@ def _fwd_pct(prices, sym, i0, i1):
     if p0 is None or p1 is None or p0 <= 0:
         return None
     return 100.0 * (p1 / p0 - 1.0)
-
-
 def _window_drivers(grows, urows, gprices, uprices, g_i0, g_i1, u_i0, u_i1,
                     limit=3):
     """The swapped names whose forward read moves the most between the two arms.
@@ -22303,11 +21238,7 @@ def _window_drivers(grows, urows, gprices, uprices, g_i0, g_i1, u_i0, u_i1,
                         "read_gap_pct": round(g - u, 2)})
     out.sort(key=lambda r: -abs(r["read_gap_pct"]))
     return out[:limit]
-
-
 _SHARE_MEAN_FLOOR_PCT = 0.5
-
-
 def _held_read_split(gprices, uprices, hold_prev, hold_cur, i0, i1, top_k=3):
     """The price-read split of a window's UNCHANGED holdings (E104).
 
@@ -22368,8 +21299,6 @@ def _held_read_split(gprices, uprices, hold_prev, hold_cur, i0, i1, top_k=3):
                                              if abs(um) >= _SHARE_MEAN_FLOOR_PCT else None),
                 "share_eligible": abs(um) >= _SHARE_MEAN_FLOOR_PCT,
                 "window_mean_pct": round(um, 4)}}
-
-
 def _held_split_verdict(row, top_k=3):
     """Is the unchanged-holding split none, one window, a few, or broad?"""
     if not row.get("persistent_reads"):
@@ -22391,13 +21320,9 @@ def _held_split_verdict(row, top_k=3):
     if share >= 25.0:
         return "delta_is_a_few_windows"
     return "delta_is_broad"
-
-
 _REPAIRSTEP_MIN_STEP = 0.005        # rep/raw moving less than 0.5% is not a step
 _REPAIRSTEP_CANCEL_TOL_PCT = 2.0    # a print is "removed" if the session reads under this
 _REPAIRSTEP_PRINT_PCT = 100.0       # same family as the E104 reads_beyond_100pct line
-
-
 def _ratio_walk(rprices, uprices, nm, cal, i0, i1):
     """(ratio, raw_ret_pct, rep_ret_pct) per session in [i0, i1] on priced pairs.
 
@@ -22422,8 +21347,6 @@ def _ratio_walk(rprices, uprices, nm, cal, i0, i1):
         out.append(rec)
         prev = rec
     return out
-
-
 def run_repairstep(outdir, start="2018-01-01", exclude=("sh511",), gap_limit=1,
                    published="HELDSPLIT-20261026-s2018.json"):
     """E106: does the repaired arm step AT the print, and in which direction?
@@ -22627,8 +21550,6 @@ def run_repairstep(outdir, start="2018-01-01", exclude=("sh511",), gap_limit=1,
             "re-burn: the arms' other bars are untouched",
         ],
     }
-
-
 def run_heldsplit(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                   gap_limit=1, mid_day=15, eras=ERAS, top_k=3):
     """E104: is a split print visible inside an UNCHANGED holding, and how big.
@@ -22844,8 +21765,6 @@ def run_heldsplit(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
             "report, not proven against a vendor corporate-action file",
         ],
     }
-
-
 def run_gaparm_topnames(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511",),
                         gap_limit=1, mid_day=15, eras=ERAS, top_k=3,
                         published="MID-20261026-s20180101-armed.json"):
@@ -23094,13 +22013,8 @@ def run_gaparm_topnames(outdir, start="2018-01-01", pick_n=9999, exclude=("sh511
             "claim the repair caused the forward returns inside it",
         ],
     }
-
-
-# ---------------------------------------------------------------- E181
 TILT3LADDERLOMO_MOVED_BP = TILT3LADDERSPLIT_MOVED_BP
 TILT3LADDERLOMO_SINGLE_MEMBER_PCT = 50.0
-
-
 def _lad_present_months(net, months, members):
     """{month: {member, ...}} over the era's months, from the contrib sink."""
     mset = set(months)
@@ -23110,8 +22024,6 @@ def _lad_present_months(net, months, members):
         if m in mset and s in mset_m:
             out.setdefault(m, set()).add(s)
     return out
-
-
 def _ladder_lomo_net(net, months, drop, members):
     """(E181) the contrib sink with one member removed and the survivors re-weighted.
 
@@ -23143,8 +22055,6 @@ def _ladder_lomo_net(net, months, drop, members):
         else:
             out[(m, s)] = v
     return out, sorted(unhold)
-
-
 def _ladder_lomo_level(net, months, drop, members):
     """(E181) the era level without one member, on the months that survive it.
 
@@ -23156,8 +22066,6 @@ def _ladder_lomo_level(net, months, drop, members):
     used = [m for m in months if m not in set(unhold)]
     lvl = sum(_era_side_bp(transformed, used).values()) if used else None
     return lvl, unhold, used
-
-
 def _ladder_lomo_verdict(full_level, lomo_rows, tol=None):
     """(E181) does the era LEVEL survive dropping a member?"""
     t = TILT3LADDERLOMO_MOVED_BP if tol is None else float(tol)
@@ -23176,8 +22084,6 @@ def _ladder_lomo_verdict(full_level, lomo_rows, tol=None):
     return {"level_sign": sign, "flips": sorted(flips),
             "classification": ("flips_under_drop" if flips
                                else "survives_every_drop")}
-
-
 def _ladder_lomo_e179_join(full_raw, sib, era):
     """(E181) the full level must reproduce E179's ladder level for this era."""
     if not sib:
@@ -23187,8 +22093,6 @@ def _ladder_lomo_e179_join(full_raw, sib, era):
     if theirs is None:
         return None
     return round(abs(float(full_raw) - float(theirs)), 6)
-
-
 def run_tilt3ladderlomo(outdir, mode="neutralise_int", eras=ERAS):
     """E181: does the ladder LEVEL survive dropping its biggest member?
 
@@ -23319,13 +22223,8 @@ def run_tilt3ladderlomo(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E183
 TILT3LADDERLOMOCOMP_MOVED_BP = TILT3LADDERLOMO_MOVED_BP
 TILT3LADDER_CASH_NAME = "__cash__"   # the E174 sink's un-invested residual
-
-
 def _ladder_month_returns(net, months, members):
     """(E183) the book's monthly arithmetic return per month, from the sink.
 
@@ -23344,8 +22243,6 @@ def _ladder_month_returns(net, months, members):
             out[m] = out.get(m, 0.0) + v
             rows += 1
     return out, (len(mset) - len(out)), rows
-
-
 def _era_level_arith_comp_bp(net, months, members):
     """(E183) one era level read two ways off the same monthly returns.
 
@@ -23368,16 +22265,12 @@ def _era_level_arith_comp_bp(net, months, members):
             "comp_bp": (None if comp is None else round(comp, 3)),
             "months_used": n, "months_without_rows": missing,
             "growth_multiple": round(g, 6)}
-
-
 def _ladder_lomo_level_both(net, months, drop, members):
     """(E183) E181's leave-one-out book, read on both arithmetics."""
     transformed, unhold = _ladder_lomo_net(net, months, drop, members)
     used = [m for m in months if m not in set(unhold)]
     pair = _era_level_arith_comp_bp(transformed, used, members)
     return pair, unhold, used
-
-
 def _ladder_comp_join(full_arith, sib, era):
     """(E183) the full arithmetic level must reproduce E181's LOMO level."""
     if not sib:
@@ -23386,8 +22279,6 @@ def _ladder_comp_join(full_arith, sib, era):
     if theirs is None or full_arith is None:
         return None
     return round(abs(float(full_arith) - float(theirs)), 6)
-
-
 def _drop_effect_sign(change, tol=None):
     """(E183) the sign of a drop's effect, with a dead band at the tolerance."""
     t = TILT3LADDERLOMOCOMP_MOVED_BP if tol is None else float(tol)
@@ -23398,8 +22289,6 @@ def _drop_effect_sign(change, tol=None):
     if change < -t:
         return -1
     return 0
-
-
 def _mark_drop_effect_dependence(per, tol=None):
     """(E183) flag the drops whose effect reverses between the two arithmetics.
 
@@ -23419,8 +22308,6 @@ def _mark_drop_effect_dependence(per, tol=None):
         if dep:
             flagged.append(r["name"])
     return flagged
-
-
 def _ladder_comp_verdict(full_arith, full_comp, rows, tol=None):
     """(E183) does the era level survive every drop under BOTH arithmetics?
 
@@ -23469,8 +22356,6 @@ def _ladder_comp_verdict(full_arith, full_comp, rows, tol=None):
             "flips_only_under_summing": sorted(only_a),
             "flips_only_under_compounding": sorted(only_c),
             "classification": cls}
-
-
 def run_tilt3ladderlomocomp(outdir, mode="neutralise_int", eras=ERAS):
     """E183: the E181 survival sweep re-read on the COMPOUNDED level.
 
@@ -23639,14 +22524,7 @@ def run_tilt3ladderlomocomp(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E186
-# one month holding this share of the |gap| is a single-carrier reversal; below
-# it the reversal is spread and cannot be named as one date
 TILT3LADDERDROPWHERE_CARRIER_SHARE = 0.50
-
-
 def _drop_month_deltas(fr, dr):
     """(E186) per-month split of one drop's effect on the two readings.
 
@@ -23671,8 +22549,6 @@ def _drop_month_deltas(fr, dr):
             dlink is not None and ((dsum > 0 and dlink < 0) or (dsum < 0 and dlink > 0)))
         rows.append(row)
     return rows
-
-
 def _drop_month_locus(rows, share_floor=None):
     """(E186) which month carries the reversal, and whether it is one month.
 
@@ -23701,8 +22577,6 @@ def _drop_month_locus(rows, share_floor=None):
             "top": [{"month": g[1], "gap_bp": round(g[2], 6),
                      "share": round(g[0] / tot, 6)} for g in gaps[:3]],
             "n_months_with_gap": len(gaps)}
-
-
 def _drop_effect_both_bp(fr, dr):
     """(E186) one drop's era effect on both readings, from the month vectors.
 
@@ -23734,8 +22608,6 @@ def _drop_effect_both_bp(fr, dr):
             "comp_bp": (None if comp is None else round(comp, 6)),
             "comp_ratio_bp": (None if ratio is None else round(ratio, 6)),
             "months_used": len(ms)}
-
-
 def run_tilt3ladderdropwhere(outdir, mode="neutralise_int", eras=ERAS):
     """E186: where the arithmetic-dependent drop effects live in time.
 
@@ -23881,14 +22753,7 @@ def run_tilt3ladderdropwhere(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E189
-# the two paths are rebuilt from 8dp published month returns, so a join inside
-# this window is rounding of the published face, not a disagreement
 TILT3LADDERDROPCROSS_JOIN_BP = 0.01
-
-
 def _drop_cum_paths(rows):
     """(E189) the two cumulative paths one flagged drop lays over an era.
 
@@ -23911,14 +22776,10 @@ def _drop_cum_paths(rows):
                      "cum_link": round(cum_link, 8),
                      "diff": round(cum_sum - cum_link, 8)})
     return path
-
-
 def _path_sign(x):
     if x is None:
         return None
     return 1 if x > 0 else (-1 if x < 0 else 0)
-
-
 def _path_crossings(path, key):
     """(E189) every month where ``key``'s sign flips, zero months skipped."""
     out, prev = [], None
@@ -23931,8 +22792,6 @@ def _path_crossings(path, key):
                         "from_sign": prev, "to_sign": s})
         prev = s
     return out
-
-
 def _drop_carrier_removal(rows, carrier_month):
     """(E189) the same era effect with E186's carrier month taken out.
 
@@ -23952,8 +22811,6 @@ def _drop_carrier_removal(rows, carrier_month):
             "effect_comp_bp": eff["comp_bp"],
             "reversal_after_removal": bool(
                 sa is not None and sc is not None and sa * sc < 0)}
-
-
 def _drop_crossing_summary(rows, carrier_month=None):
     """(E189) paths, crossing month, and whether the carrier carries the call."""
     path = _drop_cum_paths(rows)
@@ -23986,8 +22843,6 @@ def _drop_crossing_summary(rows, carrier_month=None):
             "link_zero_crossings": _path_crossings(path, "cum_link"),
             "carrier_removal": rm,
             "classification": cls}
-
-
 def run_tilt3ladderdropcross(outdir):
     """E189: is E186's era-level reversal a date or an arithmetic property?
 
@@ -24129,14 +22984,9 @@ def run_tilt3ladderdropcross(outdir):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E190
 TILT3DROPCURVE_KMAX = 8
 TILT3DROPCURVE_TRIM_ORDERS = ("gap", "delta_sum", "first", "last")
 TILT3DROPCURVE_ARTEFACT_K = 2
-
-
 def _drop_trim_order(rows, order):
     """(E190) the month-removal sequence one trim rule lays over an era.
 
@@ -24162,8 +23012,6 @@ def _drop_trim_order(rows, order):
         raise ValueError("unknown trim order: %r" % (order,))
     return [r["month"] for r in
             sorted(items, key=lambda r: -abs(float(r.get(field) or 0.0)))]
-
-
 def _drop_trim_effect(rows, drop_months):
     """(E190) both era readings recomputed with ``drop_months`` removed."""
     gone = set(drop_months)
@@ -24182,8 +23030,6 @@ def _drop_trim_effect(rows, drop_months):
             "comp_bp": eff["comp_bp"],
             "signs": {"arith": sa, "comp": sc},
             "reversal": bool(sa is not None and sc is not None and sa * sc < 0)}
-
-
 def _drop_fragility_curve(rows, kmax=TILT3DROPCURVE_KMAX):
     """(E190) how many trimmed months each rule needs before the pair agrees.
 
@@ -24231,8 +23077,6 @@ def _drop_fragility_curve(rows, kmax=TILT3DROPCURVE_KMAX):
             "k_agree_earliest": (min(agree) if agree else None),
             "classification": curves["gap"]["classification"],
             "classification_is_rule_sensitive": len(classes) > 1}
-
-
 def run_tilt3ladderdropcurve(outdir, kmax=TILT3DROPCURVE_KMAX):
     """E190: how much of each era verdict rests on a handful of months.
 
@@ -24373,18 +23217,11 @@ def run_tilt3ladderdropcurve(outdir, kmax=TILT3DROPCURVE_KMAX):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E195
-# the rules an outside observer may use to pick months must not read the drop's
-# own gap series, otherwise the removal set is chosen from the answer
 TILT3LADDERDROPRULE_MAD_K = 3.0
 TILT3LADDERDROPRULE_GROSS_MULT = 2.0
 TILT3LADDERDROPRULE_TOP_DECILE = 0.10
 TILT3LADDERDROPRULE_RULES = ("book_mad3", "book_gross_x2",
                              "book_top_decile", "chrono_edges")
-
-
 def _median_of(xs):
     """Plain median; None on an empty list (a median of nothing is not zero)."""
     xs = sorted(xs)
@@ -24393,8 +23230,6 @@ def _median_of(xs):
         return None
     mid = n // 2
     return xs[mid] if n % 2 else 0.5 * (xs[mid - 1] + xs[mid])
-
-
 def _preregister_trim_months(rows, rule):
     """(E195) months an observer could flag BEFORE seeing the era's gap series.
 
@@ -24446,8 +23281,6 @@ def _preregister_trim_months(rows, rule):
                             % TILT3LADDERDROPRULE_GROSS_MULT)
         return out
     raise ValueError("unknown pre-registerable rule: %r" % (rule,))
-
-
 def _rule_class(base_reversal, months_removed, reversal_after,
                 pre_registerable=True):
     """(E195) what one removal run says about the pair's verdict.
@@ -24467,8 +23300,6 @@ def _rule_class(base_reversal, months_removed, reversal_after,
                 else "dies_only_under_a_gap_series_rule")
     return ("survives_preregistered_rule" if pre_registerable
             else "survives_even_the_carrier_rule")
-
-
 def _drop_rule_run(rows, rule, meta=None):
     """(E195) one rule applied to one pair: months removed and both readings.
 
@@ -24488,8 +23319,6 @@ def _drop_rule_run(rows, rule, meta=None):
             "months_used": eff["months_used"],
             "arith_bp": eff["arith_bp"], "comp_bp": eff["comp_bp"],
             "signs": eff["signs"], "reversal": eff["reversal"]}
-
-
 def run_tilt3ladderdroprules(outdir):
     """E195: does the drop verdict survive a trim chosen without the answer?
 
@@ -24689,17 +23518,7 @@ def run_tilt3ladderdroprules(outdir):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E197
-# E195 let the full-era reversal survive because chrono_edges removes exactly
-# two months -- the era's first and last -- no matter how long the era is. On a
-# 162-month era that is a 1.2% trim while the magnitude rules took 10-48
-# months, so "survives edge trimming" may only mean "the rule removed too few
-# months". This sweeps the edge depth instead of fixing it at one.
 TILT3LADDERDROPEDGE_KS = (2, 4, 6, 8, 10)
-
-
 def _edge_trim_months(rows, k):
     """(E197) the first k/2 and last k/2 decision months, chronologically.
 
@@ -24724,8 +23543,6 @@ def _edge_trim_months(rows, k):
             "half_depth": half,
             "criterion": ("first %d + last %d decision months of the era "
                           "(chronological, answer-blind)" % (half, half))}
-
-
 def _edge_depth_curve(rows, ks=TILT3LADDERDROPEDGE_KS):
     """(E197) how many edge months this pair needs before it stops reversing.
 
@@ -24758,8 +23575,6 @@ def _edge_depth_curve(rows, ks=TILT3LADDERDROPEDGE_KS):
                 round(len(_edge_trim_months(rows, k_stop)["months"]) / n, 6)),
             "reversal_survives_deepest_edge_trim": bool(
                 base["reversal"] and k_stop is None)}
-
-
 def _edge_depth_class(base_reversal, k_stop, mag_rules):
     """(E197) read the edge death against the magnitude rules on the same pair.
 
@@ -24786,8 +23601,6 @@ def _edge_depth_class(base_reversal, k_stop, mag_rules):
     if edge_cost == mag_min:
         return "edge_and_magnitude_kills_cost_the_same"
     return "magnitude_rule_kills_cheaper_than_the_edge_trim"
-
-
 def run_tilt3ladderdropedge(outdir):
     """E197: is "the reversal survives edge trimming" a depth artefact?
 
@@ -25051,28 +23864,12 @@ def run_tilt3ladderdropedge(outdir):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E203
-# E197 swept the edge depth k=2..10 and found the kill is not monotone: pairs
-# die at k=2 and come back at k=4. That leaves a question the depth sweep
-# cannot answer on its own -- is the *specific* set of months (the era's
-# chronological ends) what moves the verdict, or would any k months of the same
-# size do it? E203 answers it by removal-count-matched randomisation: for every
-# (pair, k) cell it removes k random months instead of the edge ones, M times,
-# and reads the edge outcome against that null. The null is the same experiment
-# at the same size, so a match means the edge set carries no information the
-# removal count did not already carry.
 TILT3LADDERDROPPPLACEBO_DRAWS = 200
 TILT3LADDERDROPPPLACEBO_SEED = 20261029
-
-
 def _placebo_cell_seed(era, name, k):
     """(E203) a stable per-cell seed -- string hashing is not stable across runs."""
     tag = "%s|%s|%d|%d" % (era, name, int(k), TILT3LADDERDROPPPLACEBO_SEED)
     return zlib.crc32(tag.encode("utf-8")) & 0xFFFFFFFF
-
-
 def _placebo_removal_sets(pool, size, draws, seed):
     """(E203) ``draws`` removal sets of ``size`` months drawn from ``pool``.
 
@@ -25092,8 +23889,6 @@ def _placebo_removal_sets(pool, size, draws, seed):
         else:
             out.append(sorted(rng.sample(pool, size)))
     return out
-
-
 def _placebo_cell(rows, pool, size, draws, seed):
     """(E203) how often a random removal of ``size`` months leaves the reversal."""
     if size <= 0:
@@ -25114,8 +23909,6 @@ def _placebo_cell(rows, pool, size, draws, seed):
     return {"draws": n, "size": int(size),
             "reversal_rate": (round(kept / n, 6) if n else None),
             "vacuous": False, "note": None}
-
-
 def _placebo_cell_class(edge_reverses, base_reversal, rate):
     """(E203) read the edge outcome against the random-removal null.
 
@@ -25135,8 +23928,6 @@ def _placebo_cell_class(edge_reverses, base_reversal, rate):
     return ("most_random_removals_of_the_same_size_still_kill_it"
             if edge_reverses else
             "the_edge_months_kill_where_random_removal_usually_does_not")
-
-
 def _placebo_verdict(cells):
     """(E203) one sentence over every measured cell."""
     measured = [c for c in cells
@@ -25150,8 +23941,6 @@ def _placebo_verdict(cells):
     if frac <= 0.25:
         return ("the_edge_months_do_what_random_removal_of_the_same_size_cannot")
     return "the_edge_set_matters_at_some_depths_only"
-
-
 def run_tilt3ladderdropplacebo(outdir, draws=TILT3LADDERDROPPPLACEBO_DRAWS):
     """E203: is the edge trim's verdict about the months, or about the count?
 
@@ -25352,13 +24141,8 @@ def run_tilt3ladderdropplacebo(outdir, draws=TILT3LADDERDROPPPLACEBO_DRAWS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E182
 TILT3WIDESPLIT_MOVED_BP = TILT3BOOKSPLIT_MOVED_BP
 TILT3WIDESPLIT_TOP = 8
-
-
 def _wide_side_split_rows(sides_raw, sides_scr, months):
     """(E182) the rotating wide book's repair delta kept per holding."""
     raw_bp = _era_side_bp((sides_raw or {}).get("wide") or {}, months)
@@ -25370,8 +24154,6 @@ def _wide_side_split_rows(sides_raw, sides_scr, months):
         rows.append({"name": s, "raw_level_bp": r, "screened_level_bp": c,
                      "delta_bp": c - r})
     return rows
-
-
 def _wide_split_verdict(rows, tol=None):
     """(E182) net vs gross on the side where two members can cancel.
 
@@ -25404,8 +24186,6 @@ def _wide_split_verdict(rows, tol=None):
             "names_moved": [r["name"] for r in moved],
             "classification": cls,
             "names_whose_removal_flips_the_net": sorted(flippers)}
-
-
 def _wide_split_e176_join(row, sib, era):
     """(E182) this split's net must reproduce E176's wide book delta."""
     e176 = ((sib or {}).get("eras") or {}).get(era) or {}
@@ -25416,8 +24196,6 @@ def _wide_split_e176_join(row, sib, era):
     return {"e176_face": "TILT3SIGNBOOKSPLIT",
             "e176_wide_book_delta_bp": theirs,
             "abs_diff_bp": round(abs(float(row["net_delta_bp"]) - float(theirs)), 6)}
-
-
 def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
     """E182: the wide side's repair delta per holding, gross beside net.
 
@@ -25524,13 +24302,8 @@ def run_tilt3widesplit(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E184
 WIDEMONTHCANCEL_TOL_BP = 1e-9
 WIDEMONTHCANCEL_TOP = 8
-
-
 def _wide_month_cancel_rows(sides_raw, sides_scr, months):
     """(E184) the wide book's repair delta kept per DECISION MONTH.
 
@@ -25568,8 +24341,6 @@ def _wide_month_cancel_rows(sides_raw, sides_scr, months):
             "names_negative": sum(1 for v in vals.values() if v < 0.0),
         })
     return rows
-
-
 def _wide_month_names_present(sides_raw, sides_scr, months):
     """(E184) the era's repaired-name set, so the split can be joined to E182."""
     mset = set(months)
@@ -25580,8 +24351,6 @@ def _wide_month_names_present(sides_raw, sides_scr, months):
             if m in mset:
                 names.add(s)
     return names
-
-
 def _month_cancel_verdict(rows, tol=None):
     """(E184) WHERE the cancellation lives: inside a month or between months.
 
@@ -25644,8 +24413,6 @@ def _month_cancel_verdict(rows, tol=None):
                                            if r["month"] in against_set),
         "classification": cls,
     }
-
-
 def _wide_month_e182_join(verdict, months, sib, era):
     """(E184) the month split must annualise back to E182's published net.
 
@@ -25677,8 +24444,6 @@ def _wide_month_e182_join(verdict, months, sib, era):
     out["month_split_annualised_net_bp"] = round(mine, 6)
     out["abs_diff_bp"] = round(abs(mine - float(theirs)), 6)
     return out
-
-
 def run_tilt3widesplitmonth(outdir, mode="neutralise_int", eras=ERAS):
     """E184: locate the wide book's cancellation in time, not in names.
 
@@ -25808,16 +24573,11 @@ def run_tilt3widesplitmonth(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
-# ---------------------------------------------------------------- E187
 WIDECHURNTIE_TOL_BP = 1e-9
 WIDECHURNTIE_TOP = 6
 WIDECHURNTIE_STRONG_R = 0.5
 WIDECHURNTIE_WEAK_R = 0.3
 WIDECHURNTIE_MIN_MONTHS = 4
-
-
 def _wide_month_membership(sides, months):
     """(E187) the names the wide book actually held in each decision month.
 
@@ -25828,13 +24588,12 @@ def _wide_month_membership(sides, months):
     enter and leave on its own rhythm and dwarf the churn it should measure.
     """
     mset = set(months)
+    cash = ("__cash__", CHURNTIE_CASH_PREFIX)
     mem = {}
     for (m, s) in (sides or {}).get("wide") or {}:
-        if m in mset and s != "__cash__":
+        if m in mset and s not in cash:
             mem.setdefault(m, set()).add(s)
     return mem
-
-
 def _membership_turnover(prev, cur):
     """(E187) one month's membership churn, normalised by the book's size.
 
@@ -25854,8 +24613,6 @@ def _membership_turnover(prev, cur):
                 "turnover": None}
     return {"entered": entered, "left": left, "mean_size": size,
             "turnover": (entered + left) / size}
-
-
 def _wide_turnover_rows(sides_raw, sides_scr, months, panel_months=None,
                         tol=None):
     """(E187) the repair's monthly net beside the book's own membership churn.
@@ -25918,8 +24675,6 @@ def _wide_turnover_rows(sides_raw, sides_scr, months, panel_months=None,
                 row["turnover" + tag] = round(tr["turnover"], 4)
         rows.append(row)
     return rows
-
-
 def _pearson(y, x):
     """(E187) Pearson r; None when either series is flat or too short."""
     if len(y) < 3 or len(y) != len(x):
@@ -25931,8 +24686,6 @@ def _pearson(y, x):
     cov = (sum((a - my["mean"]) * (b - mx["mean"]) for a, b in zip(y, x))
            / (len(y) - 1))
     return cov / (mx["sd"] * my["sd"])
-
-
 def _churn_tie_verdict(rows, total_net=None, tol=None):
     """(E187) is the monthly spread a membership statement?
 
@@ -26026,8 +24779,6 @@ def _churn_tie_verdict(rows, total_net=None, tol=None):
                                           "net_tracks_turnover_inverted"),
         "classification": cls,
     }
-
-
 def run_tilt3widechurntie(outdir, mode="neutralise_int", eras=ERAS):
     """E187: is the wide book's surviving monthly motion just its churn?
 
@@ -26183,8 +24934,6 @@ def run_tilt3widechurntie(outdir, mode="neutralise_int", eras=ERAS):
             "descriptive census only: no gate, no prereg, no trial count",
         ],
     }
-
-
 WIDECARRIERPERSIST_TOL_BP = 1e-9
 WIDECARRIERPERSIST_PERSIST_J = 0.5
 WIDECARRIERPERSIST_RECYCLE_J = 0.25
@@ -26192,8 +24941,6 @@ WIDECARRIERPERSIST_MIN_MONTHS = 4
 WIDECARRIERPERSIST_CARRIER_SHARE = 0.5
 WIDECARRIERPERSIST_NEW_NAME_GAP = 15.0
 WIDECARRIERPERSIST_TOP = 6
-
-
 def _wide_carrier_sets(sides_raw, sides_scr, months, tol=None):
     """(E192) per month, the signed repair delta of every held wide-book name.
 
@@ -26216,8 +24963,6 @@ def _wide_carrier_sets(sides_raw, sides_scr, months, tol=None):
             v = 0.0
         per.setdefault(m, {})[s] = v
     return per
-
-
 def _carrier_persist_verdict(per, months, total_net=None, tol=None):
     """(E192) is the surviving motion carried by the SAME names month to month?
 
@@ -26346,8 +25091,6 @@ def _carrier_persist_verdict(per, months, total_net=None, tol=None):
         "top_pairs_by_motion": ranked[:WIDECARRIERPERSIST_TOP],
         "classification": cls,
     }
-
-
 def run_tilt3widecarrierpersist(outdir, mode="neutralise_int", eras=ERAS):
     """E192: measure at name level what E187 could only measure at book level.
 
@@ -26491,14 +25234,9 @@ def run_tilt3widecarrierpersist(outdir, mode="neutralise_int", eras=ERAS):
             "reading that proves the arithmetic rather than the vintage",
         ],
     }
-
-
-# ---------------------------------------------------------------- E198
 CARRIERFLIP_TOL_BP = 1e-9
 CARRIERFLIP_MIN_MONTHS = 3
 CARRIERFLIP_TOP = 8
-
-
 def _carrier_sign_rows(per, months, tol=None):
     """(E198) each name's SIGNED monthly repair path inside an era.
 
@@ -26557,8 +25295,6 @@ def _carrier_sign_rows(per, months, tol=None):
             "adjacent_2min_bp": adj2,
         })
     return rows
-
-
 def _carrier_flip_verdict(rows, era_net=None, era_gross=None, tol=None):
     """(E198) does the reversal have an OWNER at name level?
 
@@ -26662,8 +25398,6 @@ def _carrier_flip_verdict(rows, era_net=None, era_gross=None, tol=None):
         "classification": cls,
         "mechanism": mech,
     }
-
-
 def _carrier_flip_era(per, months, tol=None):
     """(E198) one era: the flip census restricted to E192's persistent carriers."""
     t = CARRIERFLIP_TOL_BP if tol is None else float(tol)
@@ -26773,8 +25507,6 @@ def _carrier_flip_era(per, months, tol=None):
         cancellation=cancellation,
         carriers_top=carriers,
     )
-
-
 def run_tilt3widecarriersignflip(outdir, mode="neutralise_int", eras=ERAS):
     """E198: name the mechanism behind E192's "same names" reading.
 
@@ -26901,8 +25633,6 @@ def run_tilt3widecarriersignflip(outdir, mode="neutralise_int", eras=ERAS):
             "trials, and no gate, prereg or trial count is implied",
         ],
     }
-
-
 def main(argv):
     ap = argparse.ArgumentParser(description="E39 panel census (descriptive, offline)")
     ap.add_argument("mode", nargs="?", default="all",
@@ -26979,7 +25709,6 @@ def main(argv):
     ap.add_argument("--max-limit", type=int, default=20,
                     help="top of the gap_limit ladder (gaplimit leg)")
     args = ap.parse_args(argv)
-
     if args.mode == "selftest":
         return selftest()
     if args.mode in ("stale", "all"):
@@ -27424,7 +26153,6 @@ def main(argv):
                           "answers": f["answers"],
                           "control": f["control"]}, ensure_ascii=False))
         return 0
-
     if args.mode in ("e45", "warmspread"):
         f = run_warmspread(None)
         outdir = os.path.join(ROOT, "results", "e45_warm_spread")
@@ -28601,8 +27329,1494 @@ def main(argv):
                           "members": {k: v.get("month_return_pct") for k, v in f["members"].items()},
                           "anomalies": f["anomaly_flags"]}, ensure_ascii=False))
         return 0
+    ap.add_argument("mode", nargs="?", default="all",
+                    choices=["stale", "mtime", "ladder", "month", "pair", "cashdrag",
+                             "cashdragscreened",
+                             "tilt", "rebalday", "era", "spreadsize", "tiltera",
+                             "calcost", "e42", "e43", "tilt4", "widecomp", "neutralrob",
+                             "tilt4screened", "tilt3reach", "tilt3legs", "tilt3screened",
+                             "tilt3sign", "tilt3signband", "tilt3screensign",
+                             "tilt3signnames", "tilt3signdropsweep",
+                             "tilt3booksplit",
+                             "tilt3laddersplit",
+                             "tilt3legfamily",
+                             "tilt3decompoffset",
+                             "tilt3levelwedge",
+                             "tilt3ladderlomo",
+                             "tilt3ladderlomocomp",
+                             "tilt3ladderdropwhere",
+                             "tilt3ladderdropcross",
+                             "tilt3ladderdropfragility",
+                             "tilt3ladderdropcarrier",
+                             "reviewwindowcross",
+                             "reviewwindowfloor",
+                             "tilt3widesplit",
+                             "tilt3widesplitmonth",
+                             "widechurntie",
+                             "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
+                             "warmspreadscreened", "pairscreened",
+                             "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
+                             "chasescreen",
+                             "midsweep", "entrydelay", "entrydelayscreen",
+                             "earlydelay", "earlydelayscreen",
+                             "neighborhood",
+                             "neighborhoodscreen",
+                             "rebaldayscreen",
+                             "weeklyclash", "weeknames", "stalehold", "staletail",
+                             "staletailscreen",
+                             "panelsplit", "panelsplitscreen",
+                             "screenreg", "screencalc", "screenspread",
+                             "screenrob", "screentilt", "screenwide", "screenweek",
+                             "midscreen", "churngap", "singleprint", "robustchurn",
+                             "loodist", "churnse", "burncontrol", "topnames",
+                             "gapsplit", "screengapera", "tiltstable",
+                             "endchoice",
+                             "midlevels", "gaparmendgrid", "gaparmfamily",
+                             "gaplimit", "gaptop3", "heldsplit", "repairstep",
+                             "midleveldrivers",
+                             "all", "selftest"])
+    if args.mode == "tilt3ladderdropfragility":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropfragility(outdir)
+        p = write_json(outdir, "LADDERDROPCURVE-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropfragility",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "pairs": f["answers"]["pairs_measured"],
+                          "per_trim": {t: {"two_month_artefact":
+                                               len(v["two_month_artefact"]),
+                                           "fragile_mid": len(v["fragile_mid"]),
+                                           "survives_kmax_era_property":
+                                               len(v["survives_kmax_era_property"]),
+                                           "median_first_agree_k":
+                                               v["median_first_agree_k"]}
+                                       for t, v in f["answers"]["per_trim"].items()},
+                          "join_ok": f["answers"]["join_ok"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "tilt3ladderdropcarrier":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        f = run_tilt3ladderdropcarrier(outdir)
+        p = write_json(outdir, "LADDERDROPCARRIER-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "tilt3ladderdropcarrier",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "calendar_verdict": f["answers"]["calendar_verdict"],
+                          "rule_verdict": f["answers"]["rule_verdict"],
+                          "distinct_carrier_months":
+                              f["answers"]["distinct_carrier_months"],
+                          "pooled": f["answers"]["pooled"],
+                          "cells": [{"key": c["era"] + "@" + str(c["name"]),
+                                     "carrier": c["carrier_month"],
+                                     "in_window": c["carrier_in_review_window"],
+                                     "rank_abs_full_ret":
+                                         c["carrier_rank_by_abs_full_ret"],
+                                     "window_perm_p": c["window"].get("perm_p"),
+                                     "rule_hit_k": c["rule_hit_k"]}
+                                    for c in f["cells"]]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "reviewwindowcross":
+        outdir = os.path.join(ROOT, "results", "reviewwindow_cross")
+        f = run_reviewwindowcrosspanel()
+        p = write_json(outdir, "REVIEWWINDOWCROSS-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        print(json.dumps({"leg": "reviewwindowcross",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["answers"]["verdict"],
+                          "cells": f["answers"]["cells_measured"],
+                          "cells_sig": len(f["answers"]["cells_sig"]),
+                          "pooled": f["answers"]["pooled"],
+                          "dispersion": f["answers"]["dispersion"],
+                          "missing_files": len(f["missing_files"])},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "reviewwindowfloor":
+        outdir = os.path.join(ROOT, "results", "reviewwindow_floor")
+        f = run_reviewwindowfloor()
+        p = write_json(outdir, "REVIEWWINDOWFLOOR-%s.json"
+                       % (f["evidence_cutoff"] or "noCutoff").replace("-", ""), f)
+        a = f["answers"]
+        print(json.dumps({"leg": "reviewwindowfloor",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": a.get("verdict"),
+                          "months": a.get("months"),
+                          "window_months": a.get("window_months_pooled"),
+                          "observed": a.get("observed"),
+                          "floor": a.get("floor"),
+                          "cell_floors": a.get("cell_floors"),
+                          "missing_files": len(f.get("missing_files") or [])},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "widechurntie":
+        outdir = os.path.join(ROOT, "results", "e43_tilt_4member")
+        cutoff, f = run_widechurntie(outdir)
+        p = write_json(outdir, "WIDECHURNTIE-%s.json"
+                       % cutoff.replace("-", ""), f)
+        print(json.dumps({"leg": "widechurntie",
+                          "file": os.path.relpath(p, ROOT),
+                          "verdict": f["verdict"],
+                          "per_era": {k: {
+                              "months": v.get("months"),
+                              "total_net_bp": v.get("total_net_bp"),
+                              "against_months": v.get("against_months"),
+                              "turnover_ratio": v.get("turnover_ratio"),
+                              "high_churn_against_share":
+                                  v.get("high_churn_against_share"),
+                              "corr_net_turnover": v.get("corr_net_turnover"),
+                              "classification": v.get("classification")}
+                              for k, v in f["eras"].items()}},
+                         ensure_ascii=False))
+        return 0
     return 0
+LADDER_DROP_KMAX = 8
+LADDER_DROP_ARTEFACT_MAX_K = 2
+LADDER_DROP_MIN_KEPT = 6
+LADDER_DROP_TRIMS = ("gap", "delta_sum", "edges")
+def _drop_fragility_trim(rows, trim, k):
+    """(E190) the k months a trim removes and the rest it keeps.
 
+    Three trims answer three questions about the same verdict: which months
+    carry the |gap| (a date effect), which carry the |delta_sum| (the sum
+    reading's own weight), and which sit at the two ends of the era (a drift
+    effect). ``edges`` removes 2k months -- k from each end -- and says so in
+    the row rather than pretending the three trims cost the same.
+    """
+    if trim == "gap":
+        order = sorted(rows, key=lambda r: -abs(float(r.get("gap_bp") or 0.0)))
+    elif trim == "delta_sum":
+        order = sorted(rows, key=lambda r: -abs(float(r.get("delta_sum") or 0.0)))
+    elif trim == "edges":
+        order = None
+    else:
+        raise ValueError("unknown trim: %r" % (trim,))
+    if trim == "edges":
+        ms = sorted(r["month"] for r in rows)
+        drop = set(ms[:k]) | set(ms[len(ms) - k:])
+    else:
+        drop = set(r["month"] for r in order[:k])
+    return {"trim": trim, "k": k, "dropped": sorted(drop),
+            "kept": [r for r in rows if r["month"] not in drop]}
+def _drop_fragility_readings(rows):
+    """(E190) both era readings on a month set, and whether they disagree."""
+    fr = {r["month"]: float(r["full_ret"]) for r in rows}
+    dr = {r["month"]: float(r["dropped_ret"]) for r in rows}
+    eff = _drop_effect_both_bp(fr, dr)
+    sa, sc = _path_sign(eff["arith_bp"]), _path_sign(eff["comp_bp"])
+    return {"months": sorted(r["month"] for r in rows),
+            "months_kept": eff["months_used"],
+            "effect_arith_bp": eff["arith_bp"],
+            "effect_comp_bp": eff["comp_bp"],
+            "sign_arith": sa, "sign_comp": sc,
+            "disagree": bool(sa is not None and sc is not None and sa * sc < 0)}
+def _drop_fragility_verdict(seq, baseline_disagree):
+    """(E190) classification recomputed from the curve and the frozen constants.
+
+    ``first_agree_k`` is the first k at which the two readings stop disagreeing
+    in sign; ``stable_agree_k`` is the first k after which they never disagree
+    again. Both are published, because a curve that flips back to disagreement
+    at a larger k is not the same finding as one that stays agreed.
+    """
+    if not baseline_disagree:
+        return "no_reversal_baseline", None, None
+    first = next((x["k"] for x in seq if not x["disagree"]), None)
+    stable = None
+    for idx, x in enumerate(seq):
+        if all(not y["disagree"] for y in seq[idx:]):
+            stable = x["k"]
+            break
+    if first is None:
+        return "survives_kmax_era_property", None, stable
+    if first <= LADDER_DROP_ARTEFACT_MAX_K:
+        return "two_month_artefact", first, stable
+    return "fragile_mid", first, stable
+def run_tilt3ladderdropfragility(outdir):
+    """E190: how much of the window has to go before the reversal goes?
+
+    E189 showed the four flagged reversals vanish when E186's declared carrier
+    month is removed, and that the crossing month is never the carrier. That
+    makes the era verdict known-fragile but not how fragile: one month removed
+    is a different finding from five. This measures the curve instead of the
+    point -- for k=1..8 it removes the k months with the largest |gap|, then the
+    k with the largest |delta_sum|, then the k at each end of the era, and
+    reports what both readings say at each k. The control comes first: the
+    untrimmed effect rebuilt here must reproduce the published effect, so a
+    drifting month table cannot silently feed this face.
+    """
+    src, src_name = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            src_name = cand[-1]
+            with open(os.path.join(outdir, src_name), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    joins, pairs = [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        for d in (v.get("drops") or []):
+            rows = [r for r in (d.get("months") or []) if r.get("month")]
+            if not rows:
+                continue
+            base = _drop_fragility_readings(rows)
+            for pub, got in ((d.get("effect_arith_bp"), base["effect_arith_bp"]),
+                             (d.get("effect_comp_bp"), base["effect_comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            trims = {}
+            for trim in LADDER_DROP_TRIMS:
+                seq = []
+                for k in range(1, LADDER_DROP_KMAX + 1):
+                    sel = _drop_fragility_trim(rows, trim, k)
+                    if len(sel["kept"]) < LADDER_DROP_MIN_KEPT:
+                        break
+                    got = _drop_fragility_readings(sel["kept"])
+                    seq.append({"k": k, "dropped": sel["dropped"],
+                                "months_kept": got["months_kept"],
+                                "effect_arith_bp": got["effect_arith_bp"],
+                                "effect_comp_bp": got["effect_comp_bp"],
+                                "sign_arith": got["sign_arith"],
+                                "sign_comp": got["sign_comp"],
+                                "disagree": got["disagree"]})
+                verdict, first, stable = _drop_fragility_verdict(
+                    seq, base["disagree"])
+                trims[trim] = {
+                    "verdict": verdict,
+                    "first_agree_k": first,
+                    "stable_agree_k": stable,
+                    "k_max_tested": (seq[-1]["k"] if seq else 0),
+                    "signs_after_agreement": (
+                        {"arith": seq[first - 1]["sign_arith"],
+                         "comp": seq[first - 1]["sign_comp"]} if first else None),
+                    "curve": seq}
+            pairs.append({"era": era_name, "name": d.get("name"),
+                          "carrier_month": (d.get("locus") or {}).get("carrier_month"),
+                          "baseline": base, "trims": trims})
+
+    per_trim, verdicts = {}, {}
+    for trim in LADDER_DROP_TRIMS:
+        rows = [(p, p["trims"][trim]) for p in pairs if trim in p["trims"]]
+        dies_early = [p["name"] + "@" + p["era"] for p, t in rows
+                      if t["verdict"] == "two_month_artefact"]
+        survives = [p["name"] + "@" + p["era"] for p, t in rows
+                    if t["verdict"] == "survives_kmax_era_property"]
+        frag = [p["name"] + "@" + p["era"] for p, t in rows
+                if t["verdict"] == "fragile_mid"]
+        firsts = [t["first_agree_k"] for _, t in rows if t["first_agree_k"]]
+        per_trim[trim] = {
+            "pairs": len(rows),
+            "two_month_artefact": dies_early,
+            "fragile_mid": frag,
+            "survives_kmax_era_property": survives,
+            "first_agree_k": sorted(firsts),
+            "median_first_agree_k": (sorted(firsts)[len(firsts) // 2]
+                                     if firsts else None),
+            "months_removed_at_k": ("2k (k per end)" if trim == "edges" else "k")}
+        for _p, t in rows:
+            verdicts[t["verdict"]] = verdicts.get(t["verdict"], 0) + 1
+
+    if not pairs:
+        verdict = "no_upstream_face"
+    else:
+        kinds = [t["verdict"] for p in pairs for t in p["trims"].values()]
+        if "survives_kmax_era_property" in kinds:
+            verdict = "at_least_one_era_property"
+        elif all(k == "two_month_artefact" for k in kinds):
+            verdict = "all_two_month_artefacts"
+        elif all(k == "no_reversal_baseline" for k in kinds):
+            verdict = "no_reversal_baseline"
+        else:
+            verdict = "mixed"
+
+    face = {
+        "study": "E190 ladder-drop fragility curve",
+        "evidence_cutoff": (src or {}).get("evidence_cutoff"),
+        "source_face": src_name,
+        "spec": {
+            "trims": list(LADDER_DROP_TRIMS),
+            "kmax": LADDER_DROP_KMAX,
+            "artefact_max_k": LADDER_DROP_ARTEFACT_MAX_K,
+            "min_months_kept": LADDER_DROP_MIN_KEPT,
+            "readings": ["arith_bp (mean of monthly deltas x12)",
+                         "comp_bp (difference of annualised levels, E183)"],
+            "disagreement": "sign(arith) * sign(comp) < 0",
+            "rule": ("first_agree_k<=%d -> two_month_artefact; never agrees "
+                     "inside k<=%d -> survives_kmax_era_property; else "
+                     "fragile_mid" % (LADDER_DROP_ARTEFACT_MAX_K,
+                                      LADDER_DROP_KMAX)),
+            "join_tolerance_bp": 1e-3,
+        },
+        "eras": {},
+        "answers": {
+            "pairs_measured": len(pairs),
+            "cells_measured": len(pairs) * len(LADDER_DROP_TRIMS),
+            "join_max_abs_diff_bp": (round(max(joins), 9) if joins else None),
+            "join_ok": all(j <= 1e-3 for j in joins),
+            "verdict_counts": verdicts,
+            "per_trim": per_trim,
+            "verdict": verdict,
+        },
+        "honest": [
+            "The curve is a leave-k-out sweep on one month table, not an "
+            "independent sample: it says how concentrated a reading is, not "
+            "whether the era exists.",
+            "edges removes 2k months (k per end), so its k is not comparable "
+            "to gap/delta_sum at the same k.",
+            "Below LADDER_DROP_MIN_KEPT=%d kept months the annualisation is "
+            "too short to annualise honestly, so the curve stops there and "
+            "k_max_tested says where it stopped." % LADDER_DROP_MIN_KEPT,
+        ],
+    }
+    for p in pairs:
+        face["eras"].setdefault(p["era"], {"drops": []})
+        face["eras"][p["era"]]["drops"].append(p)
+    return face
+LADDER_DROP_REVIEW_MONTHS = (6, 7, 12, 1)
+LADDER_DROP_CARRIER_KMAX = 3
+LADDER_DROP_CARRIER_DRAWS = 4000
+LADDER_DROP_CARRIER_SEED = 20261029
+LADDER_DROP_CARRIER_CELL_P = 0.10
+LADDER_DROP_CARRIER_POOLED_P = 0.01
+def _review_window_in(month, months=None):
+    """(E196) is this month inside the scheduled semi-annual review window?
+
+    The 沪深300/中证500 semi-annual review is effective on the trading day after
+    the second Friday of June and December, so the review month and the month it
+    spills into are both covered: the window is {6,7,12,1}. It is a calendar
+    label, knowable years ahead, and it is declared here BEFORE any gap is read
+    -- a window picked by looking at where the carriers sit would make the whole
+    measurement circular.
+    """
+    ms = LADDER_DROP_REVIEW_MONTHS if months is None else months
+    try:
+        mo = int(str(month).split("-")[1])
+    except (IndexError, ValueError):
+        return None
+    return mo in ms
+def _std_abs_gap(rows):
+    """(E196) |gap| per month over the cell's own mean |gap|.
+
+    Standardising inside the cell is what lets eras of 34..162 months be pooled
+    without the longest era dominating the mean.
+    """
+    vals = [abs(float(r.get("gap_bp") or 0.0)) for r in rows]
+    m = (sum(vals) / len(vals)) if vals else 0.0
+    if m <= 0:
+        return [0.0 for _ in vals]
+    return [v / m for v in vals]
+def _window_perm_p(rows, draws=None, seed=None, months=None):
+    """(E196) do review-window months hold bigger |gaps| than the rest?
+
+    The statistic is the mean standardised |gap| inside the window; the null
+    keeps the cell's own gap multiset and shuffles only the window labels, so a
+    cell with one giant month cannot pass by having giant months. Deterministic
+    (fixed seed, fixed draw count) so two runs publish the same p, and the
+    mechanism counts come back beside the p so a caller can assert the test
+    fired instead of comparing two empty buckets (r1261 class).
+    """
+    if not rows:
+        return {"perm_p": None, "ratio": None, "inside_mean": None,
+                "outside_mean": None, "n_inside": 0, "n_outside": 0,
+                "draws": 0, "seed": None}
+    vals = _std_abs_gap(rows)
+    lab = [bool(_review_window_in(r.get("month"), months)) for r in rows]
+    inside = [v for v, l in zip(vals, lab) if l]
+    outside = [v for v, l in zip(vals, lab) if not l]
+    out = {"n_inside": len(inside), "n_outside": len(outside),
+           "draws": 0, "seed": None}
+    if not inside or not outside:
+        out.update({"perm_p": None, "ratio": None,
+                    "inside_mean": (round(sum(inside) / len(inside), 6)
+                                    if inside else None),
+                    "outside_mean": (round(sum(outside) / len(outside), 6)
+                                     if outside else None)})
+        return out
+    ins_mean = sum(inside) / len(inside)
+    outs_mean = sum(outside) / len(outside)
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd = (LADDER_DROP_CARRIER_SEED if seed is None else int(seed))
+    rng = random.Random(sd)
+    k = len(inside)
+    hits = 0
+    for _ in range(n):
+        s = 0.0
+        for i in rng.sample(range(len(vals)), k):
+            s += vals[i]
+        if (s / k) >= ins_mean:
+            hits += 1
+    out.update({"perm_p": round(hits / float(n), 6),
+                "ratio": (round(ins_mean / outs_mean, 6) if outs_mean > 0 else None),
+                "inside_mean": round(ins_mean, 6),
+                "outside_mean": round(outs_mean, 6),
+                "draws": n, "seed": sd})
+    return out
+def _pooled_window_test(row_sets, draws=None, seed=None, months=None):
+    """(E196) the same window test over several cells, labels shuffled per cell.
+
+    Pooling is where this family gets fooled: two era slices can share the same
+    carrier month, so the pooled p assumes an independence the table does not
+    have. The caller is expected to publish it beside a deduplicated reading.
+    """
+    per = []
+    for rows in row_sets:
+        if not rows:
+            continue
+        vals = _std_abs_gap(rows)
+        lab = [bool(_review_window_in(r.get("month"), months)) for r in rows]
+        if any(lab) and not all(lab):
+            per.append((vals, lab))
+    if not per:
+        return {"perm_p": None, "ratio": None, "n_months": 0, "n_cells": 0,
+                "draws": 0, "seed": None}
+    ins = [v for vals, lab in per for v, l in zip(vals, lab) if l]
+    outs = [v for vals, lab in per for v, l in zip(vals, lab) if not l]
+    im, om = sum(ins) / len(ins), sum(outs) / len(outs)
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd = (LADDER_DROP_CARRIER_SEED if seed is None else int(seed))
+    rng = random.Random(sd)
+    hits = 0
+    for _ in range(n):
+        s = 0.0
+        c = 0
+        for vals, lab in per:
+            k = sum(1 for l in lab if l)
+            idx = set(rng.sample(range(len(vals)), k))
+            for i, v in enumerate(vals):
+                if i in idx:
+                    s += v
+                    c += 1
+        if c and (s / c) >= im:
+            hits += 1
+    return {"perm_p": round(hits / float(n), 6),
+            "ratio": (round(im / om, 6) if om > 0 else None),
+            "n_months": len(ins) + len(outs), "n_cells": len(per),
+            "draws": n, "seed": sd}
+def _spearman(xs, ys):
+    """(E196) rank correlation, ties broken by position (published as-is)."""
+    if not xs or len(xs) != len(ys) or len(xs) < 2:
+        return None
+
+    def _rk(v):
+        order = sorted(range(len(v)), key=lambda i: v[i])
+        rk = [0.0] * len(v)
+        for j, i in enumerate(order):
+            rk[i] = float(j)
+        return rk
+
+    rx, ry = _rk(xs), _rk(ys)
+    n = len(rx)
+    mx, my = sum(rx) / n, sum(ry) / n
+    sx = (sum((a - mx) ** 2 for a in rx) / n) ** 0.5
+    sy = (sum((b - my) ** 2 for b in ry) / n) ** 0.5
+    if sx <= 0 or sy <= 0:
+        return None
+    cov = sum((a - mx) * (b - my) for a, b in zip(rx, ry)) / n
+    return round(cov / (sx * sy), 6)
+def _month_close_rule(rows, kmax=None):
+    """(E196) drop the k months with the largest |book return|, k=1..kmax.
+
+    This is the only selector here a reader could run LIVE: |full_ret| is known
+    at that month's close and this function reads no gap column, so a rule built
+    on it cannot be accused of knowing the answer. It is a proxy, not an
+    identity -- |gap| is the difference of the two legs and the legs share most
+    of their variance -- so the face publishes how much of |gap| the proxy
+    explains instead of treating a hit as a mechanism.
+    """
+    km = LADDER_DROP_CARRIER_KMAX if kmax is None else int(kmax)
+    order = [r["month"] for r in sorted(
+        rows, key=lambda r: -abs(float(r.get("full_ret") or 0.0)))]
+    seq = []
+    for k in range(1, min(km, len(rows)) + 1):
+        drop = set(order[:k])
+        kept = [r for r in rows if r["month"] not in drop]
+        if len(kept) < LADDER_DROP_MIN_KEPT:
+            break
+        got = _drop_fragility_readings(kept)
+        seq.append({"k": k, "dropped": sorted(drop),
+                    "months_kept": got["months_kept"],
+                    "effect_arith_bp": got["effect_arith_bp"],
+                    "effect_comp_bp": got["effect_comp_bp"],
+                    "sign_arith": got["sign_arith"], "sign_comp": got["sign_comp"],
+                    "disagree": got["disagree"]})
+    return seq
+def _carrier_rank(rows, month, column="full_ret"):
+    """(E196) 1-based rank of ``month`` when rows are ordered by |column| desc."""
+    order = [r["month"] for r in sorted(
+        rows, key=lambda r: -abs(float(r.get(column) or 0.0)))]
+    return (order.index(month) + 1) if month in order else None
+def run_tilt3ladderdropcarrier(outdir):
+    """E196: is the carrier month knowable before the verdict, or only after?
+
+    E190 closed with "no era-level claim may be quoted from this family without
+    naming the month it rests on". That is only a usable sentence if the month
+    can be named in advance, so this face asks the four flagged cells what their
+    carrier month carries: a scheduled calendar label (semi-annual index review
+    window, knowable years ahead), a month-close magnitude (the month's own book
+    return, knowable when the month ends), or nothing that does not already
+    contain the gap itself (hindsight).
+
+    No new panel measurement: one more reading of the E186 month table, so a
+    drifting table cannot feed this face silently.
+    """
+    src, src_name = None, None
+    try:
+        cand = sorted(f for f in os.listdir(outdir)
+                      if f.startswith("LADDERDROPWHERE-") and f.endswith(".json"))
+        if cand:
+            src_name = cand[-1]
+            with open(os.path.join(outdir, src_name), "r", encoding="utf-8") as fh:
+                src = json.load(fh)
+    except Exception:
+        src = None
+
+    joins, cells, row_sets = [], [], []
+    for era_name in sorted((src or {}).get("eras") or {}):
+        v = ((src.get("eras") or {}).get(era_name)) or {}
+        for d in (v.get("drops") or []):
+            rows = [r for r in (d.get("months") or []) if r.get("month")]
+            if not rows:
+                continue
+            base = _drop_fragility_readings(rows)
+            for pub, got in ((d.get("effect_arith_bp"), base["effect_arith_bp"]),
+                             (d.get("effect_comp_bp"), base["effect_comp_bp"])):
+                if pub is not None and got is not None:
+                    joins.append(abs(float(got) - float(pub)))
+            locus = d.get("locus") or {}
+            recomputed = _drop_month_locus(rows).get("carrier_month")
+            carrier = locus.get("carrier_month") or recomputed
+            if carrier is None:
+                continue
+            in_win = [r for r in rows if _review_window_in(r.get("month"))]
+            out_win = [r for r in rows if _review_window_in(r.get("month")) is False]
+            wi = _drop_fragility_readings(in_win) if in_win else None
+            wo = _drop_fragility_readings(out_win) if out_win else None
+            rule = _month_close_rule(rows)
+            cell = {
+                "era": era_name, "name": d.get("name"),
+                "months": len(rows),
+                "carrier_month": carrier,
+                "carrier_recomputed": recomputed,
+                "carrier_matches_published": (recomputed == carrier),
+                "carrier_share": locus.get("carrier_share"),
+                "carrier_month_of_year": int(str(carrier).split("-")[1]),
+                "carrier_in_review_window": bool(_review_window_in(carrier)),
+                "carrier_rank_by_abs_full_ret":
+                    _carrier_rank(rows, carrier, "full_ret"),
+                "carrier_rank_by_abs_dropped_ret":
+                    _carrier_rank(rows, carrier, "dropped_ret"),
+                "baseline": base,
+                "window": {
+                    "months_in_window": len(in_win),
+                    "share_of_months": (round(len(in_win) / float(len(rows)), 6)
+                                        if rows else None),
+                    "reversal_removed_by_window":
+                        (None if (wi is None or not base["disagree"])
+                         else (not wi["disagree"])),
+                    "reading_without_window": (wi or {}),
+                },
+                "complement_reading": wo,
+                "rule": rule,
+                "rule_hit_k": next((x["k"] for x in rule if not x["disagree"]), None),
+            }
+            cell["window"].update(_window_perm_p(rows))
+            cells.append(cell)
+            row_sets.append({"era": era_name, "name": d.get("name"),
+                             "carrier": carrier, "rows": rows})
+
+    seen, dedup_sets = set(), []
+    for rs in row_sets:
+        if rs["carrier"] in seen:
+            continue
+        seen.add(rs["carrier"])
+        dedup_sets.append(rs["rows"])
+    pooled = _pooled_window_test([rs["rows"] for rs in row_sets])
+    pooled["dedup_cells"] = len(dedup_sets)
+    pooled["perm_p_dedup"] = (
+        _pooled_window_test(dedup_sets)["perm_p"]
+        if len(dedup_sets) < len(row_sets) else pooled["perm_p"])
+    # the strongest honest reading: eras whose month sets do not overlap at all,
+    # because the full era literally contains both pre-2017 slices (dedup by
+    # carrier month cannot fix that -- it only removes the doubled month)
+    _used, _disjoint = set(), []
+    for rs in row_sets:
+        _ms = {r["month"] for r in rs["rows"]}
+        if _ms & _used:
+            continue
+        _used |= _ms
+        _disjoint.append(rs["rows"])
+    pooled["disjoint_cells"] = len(_disjoint)
+    pooled["perm_p_disjoint"] = (
+        _pooled_window_test(_disjoint)["perm_p"]
+        if len(_disjoint) < len(row_sets) else pooled["perm_p"])
+
+    xs, ys = [], []
+    for rs in row_sets:
+        xs.extend(abs(float(r.get("full_ret") or 0.0)) for r in rs["rows"])
+        ys.extend(abs(float(r.get("gap_bp") or 0.0)) for r in rs["rows"])
+    rho = _spearman(xs, ys)
+
+    in_window_all = bool(cells) and all(c["carrier_in_review_window"] for c in cells)
+    sig = [c for c in cells
+           if c["window"].get("perm_p") is not None
+           and c["window"]["perm_p"] <= LADDER_DROP_CARRIER_CELL_P]
+    if not cells:
+        calendar_verdict = "no_upstream_face"
+    elif (in_window_all and len(sig) >= 2
+          and (pooled.get("perm_p_disjoint") or 1.0) <= LADDER_DROP_CARRIER_POOLED_P):
+        # the gate reads the DISJOINT reading, not the pooled one: the pooled p
+        # treats nested era slices as independent evidence and is published only
+        # so a reader can see how much of the strength came from that nesting
+        calendar_verdict = "review_window_established_on_this_face"
+    elif in_window_all and sig:
+        calendar_verdict = "review_window_suggestive"
+    elif in_window_all:
+        calendar_verdict = "review_window_coincident_only"
+    else:
+        calendar_verdict = "not_calendar"
+
+    hit_all = [c["rule_hit_k"] for c in cells]
+    if not cells:
+        rule_verdict, rule_all_k = "no_upstream_face", None
+    elif any(k is None for k in hit_all):
+        rule_verdict, rule_all_k = "no_month_close_rule", None
+    else:
+        rule_all_k = max(hit_all)
+        rule_verdict = ("month_close_rule_holds_at_k%d" % rule_all_k
+                        if rule_all_k <= LADDER_DROP_CARRIER_KMAX
+                        else "month_close_rule_needs_k%d" % rule_all_k)
+
+    distinct = sorted({c["carrier_month"] for c in cells})
+    per_month = {}
+    for c in cells:
+        per_month[c["carrier_month"]] = per_month.get(c["carrier_month"], 0) + 1
+    base_rate = len(LADDER_DROP_REVIEW_MONTHS) / 12.0
+    return {
+        "study": "E196 carrier-month identifiability",
+        "evidence_cutoff": (src or {}).get("evidence_cutoff"),
+        "source_face": src_name,
+        "spec": {
+            "review_window_months": list(LADDER_DROP_REVIEW_MONTHS),
+            "review_window_def": ("沪深300/中证500 semi-annual review is effective "
+                                  "the trading day after the second Friday of June "
+                                  "and December, so the window is the review month "
+                                  "plus the month it spills into; declared before "
+                                  "any gap is read"),
+            "month_close_selector": "drop the k months with the largest |full_ret|",
+            "rule_kmax": LADDER_DROP_CARRIER_KMAX,
+            "perm_draws": LADDER_DROP_CARRIER_DRAWS,
+            "perm_seed": LADDER_DROP_CARRIER_SEED,
+            "cell_p_max": LADDER_DROP_CARRIER_CELL_P,
+            "pooled_p_max": LADDER_DROP_CARRIER_POOLED_P,
+            "gate_p": "pooled.perm_p_disjoint (non-overlapping eras only)",
+            "statistic": "mean standardised |gap| inside the window",
+            "join_tolerance_bp": 1e-3,
+        },
+        "cells": cells,
+        "answers": {
+            "cells_measured": len(cells),
+            "join_max_abs_diff_bp": (round(max(joins), 9) if joins else None),
+            "join_ok": all(j <= 1e-3 for j in joins),
+            "carrier_recomputed_all": all(c["carrier_matches_published"]
+                                          for c in cells),
+            "distinct_carrier_months": distinct,
+            "cells_per_carrier_month": per_month,
+            "calendar_hit_cells": sum(1 for c in cells
+                                      if c["carrier_in_review_window"]),
+            "calendar_base_rate": round(base_rate, 6),
+            "calendar_p_all_distinct_hits": (round(base_rate ** len(distinct), 6)
+                                             if distinct else None),
+            "cells_with_window_perm_p_under_cell_max":
+                [c["era"] + "@" + str(c["name"]) for c in sig],
+            "pooled": pooled,
+            "spearman_abs_full_ret_vs_abs_gap": rho,
+            "r2_abs_full_ret_vs_abs_gap": (None if rho is None
+                                           else round(rho * rho, 6)),
+            "rule_hit_k_by_cell": {c["era"] + "@" + str(c["name"]): c["rule_hit_k"]
+                                   for c in cells},
+            "rule_all_k": rule_all_k,
+            "calendar_verdict": calendar_verdict,
+            "rule_verdict": rule_verdict,
+            "verdict": (calendar_verdict if not cells
+                        else calendar_verdict + " + " + rule_verdict),
+        },
+        "honest": [
+            "The four flagged cells are not four independent observations: three "
+            "distinct carrier months cover them, one (2014-12) is shared by two "
+            "cells, and the full era contains both pre-2017 slices. The pooled "
+            "permutation p assumes independence and is quoted beside the "
+            "deduplicated reading.",
+            "The month-close selector reads |full_ret|, which shares variance with "
+            "|gap| by construction; the rank correlation and r2 are published so a "
+            "4/4 hit is not mistaken for a mechanism.",
+            "The review window is 4 of 12 months, so it flags a third of any era: "
+            "removing it is a much bigger experiment than E190's k=1 and the two "
+            "are not comparable at the same k.",
+            "This face re-reads the same E186 month table; it locates a month, it "
+            "does not add evidence that the ladder-drop effect exists.",
+        ],
+    }
+REVIEWWINDOWCROSS_BASKET = (
+    "510300", "510050", "510500", "512100", "588000",
+    "159915", "159919", "510880", "512880", "518880",
+    "511010", "159928", "159920", "512170", "512480",
+    "515000", "510180", "510310", "513100", "159949",
+)
+REVIEWWINDOWCROSS_BENCH = "510300"
+REVIEWWINDOWCROSS_MIN_MONTHS = 36
+REVIEWWINDOWCROSS_MIN_CELLS = 8
+REVIEWWINDOWCROSS_CELL_P = 0.10
+REVIEWWINDOWCROSS_POOLED_P = 0.01
+def _month_index(month):
+    """'YYYY-MM' -> integer month index, or None when it is not a month."""
+    try:
+        y, mo = str(month).split("-")[:2]
+        return int(y) * 12 + int(mo) - 1
+    except (ValueError, AttributeError):
+        return None
+def _monthly_close(code, daily_dir=None):
+    """month -> last close of that month, from a local daily panel file."""
+    d = DAILY if daily_dir is None else daily_dir
+    p = os.path.join(d, code + ".csv")
+    if not os.path.exists(p):
+        return None
+    last = {}
+    for b in read_bars(p):
+        c = b.get("close")
+        if c is None or c <= 0:
+            continue
+        last[b["date"][:7]] = float(c)   # read_bars is date-sorted, so last wins
+    return last
+def _monthly_ret(close_by_month):
+    """month -> return over the previous CALENDAR month.
+
+    A hole in the file would otherwise turn two quiet months into one huge
+    'monthly' return, so non-consecutive pairs are dropped rather than joined.
+    """
+    ms = sorted(m for m in (close_by_month or {}) if _month_index(m) is not None)
+    out = {}
+    for a, b in zip(ms, ms[1:]):
+        if _month_index(b) - _month_index(a) != 1:
+            continue
+        prev = close_by_month[a]
+        if prev <= 0:
+            continue
+        out[b] = close_by_month[b] / prev - 1.0
+    return out
+def _reviewwindowcross_rows(daily_dir=None, basket=None, bench=None):
+    """(E199) the E198 panel rows, extracted so the floor reads the SAME rows.
+
+    E198 publishes p values, not the rows they were computed from, so a power
+    face that re-derived the panel its own way could price a test on data the
+    verdict never saw. One reader: run_reviewwindowcrosspanel takes its p values
+    from these rows and run_reviewwindowfloor takes the detection floor from
+    them, so the two can never describe different panels.
+
+    Returns (closes, missing, rows_by_cell, short, cutoff, last_month).
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+    closes, missing, short = {}, [], []
+    for code in [bm] + [c for c in bsk if c != bm]:
+        cl = _monthly_close(code, d)
+        if cl is None:
+            missing.append(code)
+        else:
+            closes[code] = cl
+    rows_by_cell, cutoff, last_month = [], None, None
+    bench_close = closes.get(bm) or {}
+    if bench_close:
+        bars_bm = read_bars(os.path.join(d, bm + ".csv"))
+        cutoff = bars_bm[-1]["date"] if bars_bm else None
+        last_month = max(bench_close)      # in-progress month is excluded below
+        bench_ret = _monthly_ret(bench_close)
+        for code in bsk:
+            if code == bm or code not in closes:
+                continue
+            ret = _monthly_ret(closes[code])
+            rows = []
+            for m in sorted(set(ret) & set(bench_ret)):
+                if m >= last_month:
+                    continue
+                rows.append({"month": m,
+                             "gap_bp": (ret[m] - bench_ret[m]) * 10000.0,
+                             "ret": ret[m], "bench_ret": bench_ret[m]})
+            if len(rows) < REVIEWWINDOWCROSS_MIN_MONTHS:
+                short.append({"code": code, "months": len(rows)})
+                continue
+            rows_by_cell.append((code, rows))
+    return closes, missing, rows_by_cell, short, cutoff, last_month
+def run_reviewwindowcrosspanel(daily_dir=None, basket=None, bench=None,
+                               draws=None):
+    """E198: does the review window move anything OUTSIDE the drop family?
+
+    E196 could only say "no era claim may be quoted without naming the month it
+    rests on", and its evidence sat on two disjoint eras of one 4-member book.
+    That leaves the calendar label two possibilities: a mechanism (a scheduled
+    index review reshuffles relative performance market-wide) or this family's
+    naming (three months, four cells, no mechanism). The cheapest honest
+    separation is a panel the family never touched, measured with the SAME
+    statistic: monthly return of a declared ETF basket minus the benchmark, in
+    and out of the window.
+
+    Declared before any file is read: the basket, the benchmark, the window
+    (reused from E196 so it cannot be re-picked here), the cell/month thresholds
+    and the verdict rule. Names whose local file is absent are published as
+    skipped, not silently replaced by another name.
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+
+    closes, missing, rows_by_cell, short, cutoff, last_month = \
+        _reviewwindowcross_rows(d, bsk, bm)
+
+    bench_close = closes.get(bm) or {}
+    if not bench_close:
+        return {
+            "study": "E198 review-window cross-panel probe",
+            "evidence_cutoff": None,
+            "spec": {"basket": list(bsk), "bench": bm,
+                     "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+                     "statistic": "mean standardised |member - bench monthly return|",
+                     "cell_p_max": REVIEWWINDOWCROSS_CELL_P,
+                     "pooled_p_max": REVIEWWINDOWCROSS_POOLED_P,
+                     "min_months_per_cell": REVIEWWINDOWCROSS_MIN_MONTHS,
+                     "min_cells": REVIEWWINDOWCROSS_MIN_CELLS},
+            "cells": [], "missing_files": missing,
+            "answers": {"cells_measured": 0, "verdict": "no_benchmark_panel"},
+            "honest": ["No benchmark file: nothing is measured and no cutoff is "
+                       "invented."],
+        }
+
+    cells, row_sets = [], []
+    for code, rows in rows_by_cell:
+        win = _window_perm_p(rows, draws=draws)
+        cells.append({"code": code, "months": len(rows),
+                      "mean_abs_gap_bp": round(
+                          sum(abs(r["gap_bp"]) for r in rows) / len(rows), 3),
+                      "window": win})
+        row_sets.append(rows)
+
+    pooled = _pooled_window_test(row_sets, draws=draws)
+
+    # third reading: is the WHOLE cross-section more dispersed in window months?
+    by_month = {}
+    for rows in row_sets:
+        for r in rows:
+            by_month.setdefault(r["month"], []).append(r["ret"])
+    disp_rows = []
+    for m, vals in sorted(by_month.items()):
+        if len(vals) < REVIEWWINDOWCROSS_MIN_CELLS:
+            continue
+        mu = sum(vals) / len(vals)
+        sd = (sum((v - mu) ** 2 for v in vals) / len(vals)) ** 0.5
+        disp_rows.append({"month": m, "gap_bp": sd * 10000.0})
+    dispersion = _window_perm_p(disp_rows, draws=draws)
+    dispersion["months"] = len(disp_rows)
+
+    sig = [c["code"] for c in cells
+           if c["window"].get("perm_p") is not None
+           and c["window"]["perm_p"] <= REVIEWWINDOWCROSS_CELL_P]
+    need = max(2, len(cells) // 2)
+    p_pool = pooled.get("perm_p")
+
+    # the 4-of-12 window is a third of the calendar, so the same statistic is
+    # also read on narrower labels: the strict review months alone, and the spill
+    # months alone. A negative that survives all three is not an artefact of a
+    # wide label.
+    alt = {}
+    for label, months in (("strict_review", (6, 12)), ("spill", (7, 1))):
+        alt[label] = _pooled_window_test(row_sets, draws=draws, months=months)
+
+    # 17 cells tested at p<=0.10 would throw ~1.7 hits by chance alone, so a
+    # handful of cell hits is not evidence for the window.
+    from math import comb
+    n_cells = len(cells)
+    k_hit = len(sig)
+    tail = sum(comb(n_cells, i) * REVIEWWINDOWCROSS_CELL_P ** i
+               * (1.0 - REVIEWWINDOWCROSS_CELL_P) ** (n_cells - i)
+               for i in range(k_hit, n_cells + 1)) if n_cells else None
+
+    if len(cells) < REVIEWWINDOWCROSS_MIN_CELLS:
+        verdict = "insufficient_cells"
+    elif p_pool is not None and p_pool <= REVIEWWINDOWCROSS_POOLED_P and len(sig) >= need:
+        verdict = "review_window_holds_outside_the_family"
+    elif (p_pool is not None and p_pool <= REVIEWWINDOWCROSS_POOLED_P) or len(sig) >= need:
+        verdict = "partial_signal_outside_the_family"
+    else:
+        verdict = "no_outside_family_signal"
+
+    return {
+        "study": "E198 review-window cross-panel probe",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "basket": list(bsk), "bench": bm,
+            "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+            "window_def": "reused from E196, not re-picked here",
+            "statistic": "mean standardised |member - bench monthly return|",
+            "cell_p_max": REVIEWWINDOWCROSS_CELL_P,
+            "pooled_p_max": REVIEWWINDOWCROSS_POOLED_P,
+            "min_months_per_cell": REVIEWWINDOWCROSS_MIN_MONTHS,
+            "min_cells": REVIEWWINDOWCROSS_MIN_CELLS,
+            "rule": ("pooled p<=%.2f AND >=half of cells p<=%.2f -> holds; "
+                     "either alone -> partial; else no signal"
+                     % (REVIEWWINDOWCROSS_POOLED_P, REVIEWWINDOWCROSS_CELL_P)),
+        },
+        "cells": cells,
+        "missing_files": missing,
+        "skipped_short_history": short,
+        "answers": {
+            "cells_measured": len(cells),
+            "cells_sig": sig,
+            "cells_sig_expected_by_chance": round(
+                n_cells * REVIEWWINDOWCROSS_CELL_P, 3),
+            "cells_sig_binomial_tail_p": (round(tail, 6) if tail is not None
+                                          else None),
+            "pooled": pooled,
+            "pooled_alt_windows": alt,
+            "dispersion": dispersion,
+            "verdict": verdict,
+        },
+        "honest": [
+            "Cells are a cross-section on the SAME timeline, so unlike E196's "
+            "eras they cannot be made disjoint: the pooled p treats correlated "
+            "members as separate evidence and is quoted beside the per-cell "
+            "count that the rule also requires.",
+            "The measured quantity is a single ETF's monthly return versus the "
+            "benchmark, not the family's book-versus-benchmark level gap, so a "
+            "window effect here is a mechanism for relative performance and "
+            "still does not license the drop family's era verdicts.",
+            "The basket is 20 declared names with local files; a name without a "
+            "file is published in missing_files and is NOT replaced, so the "
+            "panel is whatever those names are, not a random sample of the ETF "
+            "universe.",
+            "The final month is dropped wherever the benchmark file ends "
+            "mid-month, because a partial month is not a monthly return.",
+        ],
+    }
+REVIEWWINDOWFLOOR_POWER = 0.80
+REVIEWWINDOWFLOOR_ALPHA_POOLED = REVIEWWINDOWCROSS_POOLED_P
+REVIEWWINDOWFLOOR_ALPHA_CELL = REVIEWWINDOWCROSS_CELL_P
+REVIEWWINDOWFLOOR_MC_DRAWS = 2000
+REVIEWWINDOWFLOOR_SEED = 20261029
+REVIEWWINDOWFLOOR_SCALES = (1.0, 1.10, 1.25, 1.50, 2.00)
+def _normal():
+    from statistics import NormalDist
+    return NormalDist()
+def _inside_stat(row_sets, scale=1.0):
+    """(E199) E198's pooled inside mean and its EXACT permutation-null sd.
+
+    E198 reports a p, which says what happened but not what could have
+    happened. The test's null keeps each cell's own |gap| multiset and shuffles
+    only the window labels, so the pooled inside mean is a sum of independent
+    per-cell samples-without-replacement: its null expectation is exactly 1
+    (per-cell standardisation forces every cell mean to 1) and its variance is
+    the hypergeometric sum below -- no Monte Carlo is needed to know the spread
+    the p value was drawn from.
+
+    `scale` multiplies the window months' |gaps| before standardisation, which
+    is the effect whose power we want. Because standardisation is per cell, the
+    published ratio obeys ratio(f) = f * ratio(1) exactly, so the floor can be
+    quoted in ratio units without a conversion approximation.
+    """
+    N = K = 0
+    ins_sum = out_sum = 0.0
+    var = 0.0
+    n_cells = 0
+    for rows in row_sets:
+        if not rows:
+            continue
+        raw = [abs(float(r.get("gap_bp") or 0.0)) for r in rows]
+        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        if not any(lab) or all(lab):
+            continue
+        scaled = [(v * scale if l else v) for v, l in zip(raw, lab)]
+        m = sum(scaled) / len(scaled)
+        if m <= 0:
+            continue
+        vals = [v / m for v in scaled]
+        n = len(vals)
+        k = sum(1 for l in lab if l)
+        im = sum(v for v, l in zip(vals, lab) if l) / k
+        om = sum(v for v, l in zip(vals, lab) if not l) / (n - k)
+        s2 = sum((v - 1.0) ** 2 for v in vals) / n
+        var += k * (n - k) / (n - 1) * s2
+        ins_sum += k * im
+        out_sum += (n - k) * om
+        K += k
+        N += n
+        n_cells += 1
+    if not K or N <= K or not n_cells:
+        return {"n_months": N, "n_window": K, "n_cells": n_cells,
+                "inside_mean": None, "sd": None, "ratio": None}
+    T = ins_sum / K
+    return {"n_months": N, "n_window": K, "n_cells": n_cells,
+            "inside_mean": T, "sd": (var ** 0.5) / K,
+            "ratio": (T / (out_sum / (N - K)) if out_sum > 0 else None)}
+def _power_at(row_sets, scale, alpha):
+    """(E199) power of E198's one-sided permutation test at a given effect."""
+    st = _inside_stat(row_sets, scale=scale)
+    if st["sd"] is None or st["sd"] <= 0 or st["inside_mean"] is None:
+        return None
+    z = (st["inside_mean"] - 1.0) / st["sd"]
+    return _normal().cdf(z - _normal().inv_cdf(1.0 - alpha))
+def _floor_scale(row_sets, alpha, target=None, hi=12.0, iters=60):
+    """(E199) smallest window-month multiplier that reaches the target power.
+
+    Bisection rather than a closed form because the sd is recomputed at every f
+    (the standardisation moves with the effect). Returns (scale, ratio) or
+    (None, None) when the target is not reachable inside `hi` -- publishing
+    'unreachable' is the honest answer for a panel where no effect that size
+    could ever be seen.
+    """
+    tgt = REVIEWWINDOWFLOOR_POWER if target is None else float(target)
+    lo = 1.0
+    p_hi = _power_at(row_sets, hi, alpha)
+    if p_hi is None:
+        return None, None
+    if p_hi < tgt:
+        return None, None
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        p = _power_at(row_sets, mid, alpha)
+        if p is None:
+            return None, None
+        if p >= tgt:
+            hi = mid
+        else:
+            lo = mid
+    st = _inside_stat(row_sets, scale=hi)
+    return hi, st["ratio"]
+def _scaled_rows(rows, scale):
+    """(E199) one cell's rows with the window months' |gaps| multiplied."""
+    out = []
+    for r in rows:
+        r2 = dict(r)
+        if _review_window_in(r2.get("month")):
+            r2["gap_bp"] = float(r2.get("gap_bp") or 0.0) * scale
+        out.append(r2)
+    return out
+def _perm_null_spread(row_sets, draws=None, seed=None):
+    """(E199) the permutation null's own spread, to check the analytic sd.
+
+    Same shuffle structure as _pooled_window_test (a fixed number of window
+    labels redrawn per cell), but it returns the sampled statistic instead of a
+    p, so the variance the power curve leans on is compared with the
+    distribution it claims to describe rather than asserted.
+    """
+    per = []
+    for rows in row_sets:
+        if not rows:
+            continue
+        vals = _std_abs_gap(rows)
+        lab = [bool(_review_window_in(r.get("month"))) for r in rows]
+        if any(lab) and not all(lab):
+            per.append((vals, lab))
+    if not per:
+        return {"mean": None, "sd": None, "draws": 0, "seed": None}
+    n = (LADDER_DROP_CARRIER_DRAWS if draws is None else int(draws))
+    sd_ = (REVIEWWINDOWFLOOR_SEED if seed is None else int(seed))
+    rng = random.Random(sd_)
+    ts = []
+    for _ in range(n):
+        s = 0.0
+        c = 0
+        for vals, lab in per:
+            k = sum(1 for l in lab if l)
+            idx = set(rng.sample(range(len(vals)), k))
+            for i, v in enumerate(vals):
+                if i in idx:
+                    s += v
+                    c += 1
+        ts.append(s / c)
+    mu = sum(ts) / len(ts)
+    sd_v = (sum((t - mu) ** 2 for t in ts) / len(ts)) ** 0.5
+    return {"mean": mu, "sd": sd_v, "draws": n, "seed": sd_,
+            "n_cells": len(per)}
+def run_reviewwindowfloor(daily_dir=None, basket=None, bench=None,
+                          draws=None, mc_draws=None):
+    """E199: what could E198's test have seen, on the panel it actually ran?
+
+    E198 answered 'the review window does not exist outside the drop family' --
+    and a negative is only informative if the test could have produced a
+    positive. So this face prices the test's own blind spot: the minimum
+    window-to-outside |gap| ratio that E198's gate would have flagged with 80%
+    power, on the exact same rows, with the sd of the permutation null computed
+    exactly rather than borrowed from a normal assumption.
+
+    Everything is declared before a file is read: alpha (reused from E198, not
+    re-picked), the 80% power target, the bisection range, the Monte Carlo draw
+    count and the verdict rule. The floor is then read against the observed
+    ratio: a negative whose observed ratio sits below the floor is a measurement
+    ('this test could not have seen it'), while an observed ratio ABOVE the
+    floor with a p above alpha is a contradiction that must be published as one.
+    """
+    d = DAILY if daily_dir is None else daily_dir
+    bsk = tuple(REVIEWWINDOWCROSS_BASKET if basket is None else basket)
+    bm = REVIEWWINDOWCROSS_BENCH if bench is None else bench
+
+    closes, missing, rows_by_cell, short, cutoff, last_month = \
+        _reviewwindowcross_rows(d, bsk, bm)
+    row_sets = [rows for _code, rows in rows_by_cell]
+
+    base_spec = {
+        "basket": list(bsk), "bench": bm,
+        "window_months": list(LADDER_DROP_REVIEW_MONTHS),
+        "window_def": "reused from E196, not re-picked here",
+        "statistic": "mean standardised |member - bench monthly return|",
+        "alpha_pooled": REVIEWWINDOWFLOOR_ALPHA_POOLED,
+        "alpha_cell": REVIEWWINDOWFLOOR_ALPHA_CELL,
+        "power_target": REVIEWWINDOWFLOOR_POWER,
+        "rule": ("pooled p<=alpha -> detected; else observed ratio < floor -> "
+                 "negative is below the detection floor; else -> effect size "
+                 "above the floor yet not significant (published as a red flag)"),
+    }
+    if not row_sets:
+        return {
+            "study": "E199 review-window detection floor",
+            "evidence_cutoff": None,
+            "spec": base_spec,
+            "missing_files": missing,
+            "answers": {"verdict": "no_panel_to_price"},
+            "honest": ["No cell cleared the month floor, so there is no test to "
+                       "price and no floor is invented."],
+        }
+
+    pooled_now = _pooled_window_test(row_sets, draws=draws)
+    base = _inside_stat(row_sets, 1.0)
+    floor_scale, floor_ratio = _floor_scale(row_sets,
+                                           REVIEWWINDOWFLOOR_ALPHA_POOLED)
+
+    cells = []
+    for code, rows in rows_by_cell:
+        st = _inside_stat([rows], 1.0)
+        c_scale, c_ratio = _floor_scale([rows], REVIEWWINDOWFLOOR_ALPHA_CELL)
+        cells.append({
+            "code": code, "months": len(rows),
+            "window_months": st["n_window"],
+            "observed_ratio": (round(st["ratio"], 6)
+                               if st["ratio"] is not None else None),
+            "min_detectable_ratio": (round(c_ratio, 6)
+                                     if c_ratio is not None else None),
+            "effect_multiplier_at_floor": (round(c_scale, 6)
+                                           if c_scale is not None else None),
+        })
+    cell_floors = sorted(c["min_detectable_ratio"] for c in cells
+                         if c["min_detectable_ratio"] is not None)
+
+    # the power curve itself, so a reader can see the floor is not a lucky root
+    curve = []
+    for f in REVIEWWINDOWFLOOR_SCALES:
+        st = _inside_stat(row_sets, f)
+        curve.append({"effect_multiplier": f,
+                      "ratio": (round(st["ratio"], 6)
+                                if st["ratio"] is not None else None),
+                      "power": (round(_power_at(row_sets, f,
+                                                REVIEWWINDOWFLOOR_ALPHA_POOLED), 6)
+                                if _power_at(row_sets, f,
+                                             REVIEWWINDOWFLOOR_ALPHA_POOLED)
+                                is not None else None)})
+
+    # validation 1: the analytic sd against the permutation distribution it claims
+    spread = _perm_null_spread(row_sets, draws=mc_draws)
+    sd_check = None
+    if base["sd"] and spread.get("sd"):
+        sd_check = {"analytic": round(base["sd"], 8),
+                    "empirical": round(spread["sd"], 8),
+                    "rel_diff": round(abs(spread["sd"] - base["sd"])
+                                      / base["sd"], 6)}
+
+    # validation 2: the discrete p at the floor effect, and just below it
+    mc = {}
+    if floor_scale is not None:
+        hi_rows = [_scaled_rows(r, floor_scale) for r in row_sets]
+        lo_rows = [_scaled_rows(r, max(1.0, floor_scale * 0.85))
+                   for r in row_sets]
+        mc = {"at_floor_perm_p": _pooled_window_test(hi_rows, draws=draws)["perm_p"],
+              "below_floor_scale": round(max(1.0, floor_scale * 0.85), 6),
+              "below_floor_perm_p": _pooled_window_test(lo_rows,
+                                                        draws=draws)["perm_p"],
+              "draws": (LADDER_DROP_CARRIER_DRAWS if draws is None
+                        else int(draws))}
+
+    obs_ratio = base["ratio"]
+    p_pool = pooled_now.get("perm_p")
+    if len(cells) < REVIEWWINDOWCROSS_MIN_CELLS:
+        verdict = "insufficient_cells"
+    elif p_pool is not None and p_pool <= REVIEWWINDOWFLOOR_ALPHA_POOLED:
+        verdict = "effect_detected"
+    elif floor_ratio is None:
+        verdict = "floor_unreachable_on_this_panel"
+    elif obs_ratio is not None and obs_ratio < floor_ratio:
+        verdict = "negative_is_below_the_detection_floor"
+    else:
+        verdict = "effect_size_above_floor_yet_not_significant"
+
+    return {
+        "study": "E199 review-window detection floor",
+        "evidence_cutoff": cutoff,
+        "spec": base_spec,
+        "missing_files": missing,
+        "skipped_short_history": short,
+        "answers": {
+            "cells_measured": len(cells),
+            "months": base["n_months"],
+            "window_months_pooled": base["n_window"],
+            "observed": {"pooled_perm_p": p_pool,
+                         "observed_ratio": (round(obs_ratio, 6)
+                                            if obs_ratio is not None else None)},
+            "floor": {"alpha": REVIEWWINDOWFLOOR_ALPHA_POOLED,
+                      "power": REVIEWWINDOWFLOOR_POWER,
+                      "effect_multiplier_at_floor": (round(floor_scale, 6)
+                                                     if floor_scale is not None
+                                                     else None),
+                      "min_detectable_ratio": (round(floor_ratio, 6)
+                                               if floor_ratio is not None
+                                               else None)},
+            "cell_floors": {"n_cells_with_floor": len(cell_floors),
+                            "median": (round(cell_floors[len(cell_floors) // 2], 6)
+                                       if cell_floors else None),
+                            "min": (round(cell_floors[0], 6)
+                                    if cell_floors else None),
+                            "max": (round(cell_floors[-1], 6)
+                                    if cell_floors else None)},
+            "power_curve": curve,
+            "validation": {"analytic_sd_vs_permutation": sd_check,
+                           "discrete_check": mc},
+            "cells": cells,
+            "verdict": verdict,
+        },
+        "honest": [
+            "The floor is a property of the TEST, not of the market: it says "
+            "which effect sizes this panel size (17 cells x ~80 months, ~26 "
+            "window months per cell) could have flagged at 80% power, and says "
+            "nothing about whether a bigger effect exists.",
+            "Power is computed for a multiplicative window effect that hits "
+            "every cell in the same direction. An effect concentrated in a few "
+            "cells, or pointing both ways, needs a bigger per-cell move to be "
+            "detected -- the per-cell floors published here are that reading.",
+            "The permuted null keeps the observed |gap| multisets, so the floor "
+            "inherits this panel's own gap dispersion: a quieter panel would "
+            "show a lower floor without the world being easier to read.",
+            "Cells are a cross-section on the SAME timeline, so the pooled p "
+            "counts correlated members as separate evidence -- the floor is "
+            "published beside the per-cell floors for that reason.",
+        ],
+    }
+CHURNTIE_TURNOVER_RATIO_MIN = 1.10   # against-months vs with-months churn
+CHURNTIE_AGAINST_SHARE_MIN = 0.60    # high-churn months that are against months
+CHURNTIE_CASH_PREFIX = "cash"
+def _turnover_rows(membership):
+    """(E187) month-on-month membership turnover: names entering vs leaving.
+
+    ``turnover = (|entered| + |left|) / mean(|prev|, |cur|)`` so a book that
+    keeps half its names across a rebalance prints 1.0 and one that keeps them
+    all prints 0.0. The first month has no predecessor and carries None -- an
+    unmeasurable row must not be priced as zero churn.
+    """
+    months = sorted(membership)
+    rows = []
+    prev = None
+    for m in months:
+        cur = set(membership[m])
+        row = {"month": m, "names": len(cur), "entered": None, "left": None,
+               "turnover": None}
+        if prev is not None:
+            entered = sorted(cur - prev)
+            left = sorted(prev - cur)
+            denom = (len(cur) + len(prev)) / 2.0
+            row.update({"entered": len(entered), "left": len(left),
+                        "entered_sample": entered[:5],
+                        "left_sample": left[:5],
+                        "turnover": (round((len(entered) + len(left)) / denom, 4)
+                                     if denom > 0 else None)})
+        rows.append(row)
+        prev = cur
+    return rows
+def _median(vals):
+    xs = sorted(v for v in vals if v is not None)
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2.0
+def _churntie_verdict(rows, tol_bp=WIDEMONTHCANCEL_TOL_BP):
+    """(E187) is the era's net carried by the LOW-churn months?
+
+    The question E184 left behind: if the months whose repair runs against the
+    era total are the high-turnover months, then the net is a membership
+    statement and must be discounted by churn instead of quoted as repair
+    quality. Two frozen readings, both required:
+
+      T1  median turnover in against-months >= 1.10x the with-months median;
+      T2  at least 60% of the above-median-churn months are against-months.
+    """
+    priced = [r for r in rows if r.get("turnover") is not None]
+    total_net = sum(r["net_bp"] for r in rows)
+    sign = 0 if abs(total_net) <= tol_bp else (1 if total_net > 0 else -1)
+    against = [r for r in priced
+               if sign and abs(r["net_bp"]) > tol_bp
+               and (1 if r["net_bp"] > 0 else -1) != sign]
+    with_ = [r for r in priced
+             if sign and abs(r["net_bp"]) > tol_bp
+             and (1 if r["net_bp"] > 0 else -1) == sign]
+    med_against = _median([r["turnover"] for r in against])
+    med_with = _median([r["turnover"] for r in with_])
+    ratio = (med_against / med_with
+             if med_against is not None and med_with else None)
+    cut = _median([r["turnover"] for r in priced])
+    high = [r for r in priced
+            if cut is not None and r["turnover"] >= cut]
+    against_set = {r["month"] for r in against}
+    share = (len([r for r in high if r["month"] in against_set]) / len(high)
+             if high else None)
+    t1 = bool(ratio is not None and ratio >= CHURNTIE_TURNOVER_RATIO_MIN)
+    t2 = bool(share is not None and share >= CHURNTIE_AGAINST_SHARE_MIN)
+    if not priced:
+        cls = "no_priced_months"
+    elif not against:
+        cls = "no_against_months"
+    elif t1 and t2:
+        cls = "churn_discount_holds"
+    elif t1 or t2:
+        cls = "partly_turnover"
+    else:
+        cls = "not_supported"
+    return {
+        "priced_months": len(priced),
+        "total_net_bp": round(total_net, 3),
+        "era_sign": sign,
+        "against_months": len(against),
+        "with_months": len(with_),
+        "median_turnover_against": (None if med_against is None
+                                    else round(med_against, 4)),
+        "median_turnover_with": (None if med_with is None
+                                 else round(med_with, 4)),
+        "turnover_ratio": None if ratio is None else round(ratio, 4),
+        "high_churn_months": len(high),
+        "high_churn_against_share": (None if share is None
+                                     else round(share, 4)),
+        "corr_net_turnover": (lambda c: None if c is None else round(c, 4))(
+            _pearson([r["net_bp"] for r in priced],
+                     [r["turnover"] for r in priced])),
+        "rule": {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                 "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
+        "t1_turnover_ratio": t1,
+        "t2_against_share": t2,
+        "classification": cls,
+    }
+def run_widechurntie(outdir, mode="neutralise_int", eras=ERAS):
+    """E187 (pool batch, bm-b r1217): is the thin wide-book net churn, not signal?
+
+    E184 split the cancellation into within-month and between-month terms and
+    found the between-month term dominant on 2024_now (0.472 keep). The open
+    question is whether the months that pull against their era are simply the
+    months the book rebuilt itself: if they are, the era net is a membership
+    statement and quoting it as repair quality overstates the repair.
+    """
+    burn = _tilt3signname_burn(mode, eras)
+    cutoff = burn["cutoff"]
+    sides_raw = (burn["core_raw"].get("contrib") or {})
+    sides_scr = (burn["core_scr"].get("contrib") or {})
+    membership = _wide_month_membership(sides_scr)
+
+    rows = {}
+    for name, lo, hi in list(eras) + [("full", None, None)]:
+        ms = _era_engine_months(burn["core_raw"], lo, hi)
+        if not ms:
+            rows[name] = {"months": 0, "skipped": "no months in this era"}
+            continue
+        per = _wide_month_cancel_rows(sides_raw, sides_scr, ms)
+        tob = {r["month"]: r for r in
+               _turnover_rows({m: membership.get(m, set()) for m in ms})}
+        months = []
+        for r in per:
+            t = tob.get(r["month"]) or {}
+            months.append({
+                "month": r["month"],
+                "net_bp": round(r["net_bp"], 3),
+                "gross_bp": round(r["gross_bp"], 3),
+                "repair_names": r["names"],
+                "book_names": t.get("names"),
+                "entered": t.get("entered"),
+                "left": t.get("left"),
+                "turnover": t.get("turnover"),
+                "entered_sample": t.get("entered_sample"),
+                "left_sample": t.get("left_sample"),
+            })
+        carried = {}
+        for m in ms:
+            for s in membership.get(m, ()):
+                carried[s] = carried.get(s, 0) + 1
+        v = _churntie_verdict(months)
+        rows[name] = dict(v)
+        rows[name].update({
+            "months": len(ms),
+            "from": ms[0], "to": ms[-1],
+            "distinct_names": len(carried),
+            "median_months_carried": (None if not carried
+                                      else round(_median(list(carried.values())), 2)),
+            "median_repair_names": (None if not months
+                                    else round(_median([m["repair_names"]
+                                                        for m in months]), 2)),
+            "median_book_names": (None if not months
+                                  else round(_median([m["book_names"]
+                                                      for m in months if m["book_names"]]), 2)),
+            "month_rows": months,
+        })
+
+    payload = {
+        "study": "e187_wide_churn_tie",
+        "evidence_cutoff": cutoff,
+        "pool_batch": "E187-WIDE-CROSSMONTH-CHURN-TIE (entered by bm-b r1217)",
+        "spec": {
+            "screen_mode": mode,
+            "eras": [{"name": n, "from": lo, "to": hi}
+                     for n, lo, hi in list(eras) + [("full", None, None)]],
+            "net_bp": "per decision month: sum over names of (screened - raw) "
+                      "engine contribution x1e4 (E184's own per-month series)",
+            "turnover": "(names entering + names leaving) / mean(prev,cur) "
+                        "book size, read from the engine's own contribution "
+                        "sink keys, cash pseudo-name excluded",
+            "repair_names": "how many names the repair's delta dict covers that "
+                            "month -- measured 2026-10-28 to EQUAL the book size "
+                            "in every era (340/340, 791/791), because the screen "
+                            "re-weights every held name rather than adding or "
+                            "dropping one; published as a book-size echo, NOT as "
+                            "a count of the names the repair moved",
+            "frozen_rule": {"turnover_ratio_min": CHURNTIE_TURNOVER_RATIO_MIN,
+                            "against_share_min": CHURNTIE_AGAINST_SHARE_MIN,
+                            "frozen": "written before the first run (E188)"},
+        },
+        "eras": rows,
+        "verdict": {k: v.get("classification") for k, v in rows.items()},
+        "engine": {"core": "_tilt3signname_burn (the same two arms every "
+                           "name-level leg reads)",
+                   "months": "core months3 x era window"},
+        "honest": [
+            "membership comes from the contribution sink, i.e. names that carried "
+            "weight, so a name held at a rounding weight is invisible here",
+            "turnover is measured on the screened book only; the raw book's "
+            "membership is not printed, so a repair that CHANGES membership is "
+            "inside the churn number, not separated from it",
+            "the month net is the repair's own per-month arithmetic, not the "
+            "engine's month return, so it is gross of the turnover fee",
+            "median_repair_names equals median_book_names in every era (340/340, "
+            "791/791): the screen re-weights the whole book, so that column is a "
+            "book-size echo and not a count of moved names -- it is published "
+            "because it was asked for, with that reading attached",
+            "pre2017 and 2017_2020 carry a ZERO repair delta in this reading, so "
+            "the tie cannot be measured there at all; those eras are published as "
+            "no_against_months rather than as a passing discount",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
+    return cutoff, payload
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
