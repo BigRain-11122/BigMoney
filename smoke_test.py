@@ -1285,6 +1285,34 @@ def main() -> int:
         check("product: the CEO-page quote gate runs after the sweep and owns a baseline",
               False, str(e))
 
+    # E214: the era leg must be on the chain and must have published a face that
+    # can actually say "flip" -- an era verdict with one measured era is a point.
+    try:
+        _oera_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _oera_dir = os.path.join("results", "e44_midmonth")
+        _oera = sorted(f for f in os.listdir(_oera_dir)
+                       if f.startswith("OFFBOOK-ERA-")) if os.path.isdir(_oera_dir) else []
+        _oera_doc = None
+        if _oera:
+            with open(os.path.join(_oera_dir, _oera[-1]), encoding="utf-8") as _fh:
+                _oera_doc = json.load(_fh)
+        _oera_ans = ((_oera_doc or {}).get("answers") or {})
+        _oera_st = _oera_ans.get("era_stability_mean") or {}
+        _oera_ok = ("offbookera" in _oera_order
+                    and _oera_doc is not None
+                    and _oera_doc.get("study") == "e214_offbook_liquidity_era_stability"
+                    and _oera_st.get("classification") in (
+                        "insufficient_eras", "thick_gap_sign_stable_across_eras",
+                        "thick_gap_sign_flips_across_eras")
+                    and "era_stability_median" in _oera_ans)
+        check("product: the off-book era leg is on the chain and publishes a cross-era verdict",
+              _oera_ok, "chain=%s face=%s class=%s measured=%s" % (
+                  "offbookera" in _oera_order, _oera[-1] if _oera else "MISSING",
+                  _oera_st.get("classification"), _oera_st.get("measured_eras")))
+    except Exception as e:
+        check("product: the off-book era leg is on the chain and publishes a cross-era verdict",
+              False, str(e))
+
     # The memory file is a write target for every round and nothing read its SHAPE.
     # On 2026-10-27 it was appended by whole-file string concat: newlines collapsed,
     # the older body went out through a GBK round trip (19 x U+E511), and the file

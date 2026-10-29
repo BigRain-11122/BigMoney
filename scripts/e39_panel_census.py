@@ -9508,6 +9508,104 @@ def _chase_arm_cells(face, starts=None):
     return out
 
 
+# ---------------------------------- leg: E214 off-book era stability (E60 span)
+OFFBOOK_ERA_START = "2017-01-01"
+# an era counts as a replication only when its thick bucket holds enough slots
+OFFBOOK_ERA_MIN_PRICED = 20
+
+
+def _offbook_liq_era_stability(era_gaps, thick_priced=None,
+                              min_priced=OFFBOOK_ERA_MIN_PRICED, field="mean"):
+    """Does the liquidity gradient point the same way in every era?
+
+    E60 measured one era's thick column and called the effect unstable because a
+    single earlier era read the opposite sign. One reverse and one forward is not
+    a flip, it is two points -- so this leg runs the same tercile split on every
+    era the panel covers and asks the only question two readings cannot answer:
+    how many measured eras agree, and how large is the worst disagreement.
+
+    ``era_gaps`` is E60's own ``era_tercile_gap_me_minus_mid_pct`` map. Each era
+    contributes one reading per tercile; a tercile gap is signed (month-end minus
+    mid-month), so "stable" means every counted era keeps that sign in the thick
+    bucket. An era whose thick cell holds fewer than ``min_priced`` priced
+    entrants on either side is reported but not counted: a two-name cell can
+    carry any sign.
+    """
+    rows, excluded = {}, {}
+    for era, block in (era_gaps or {}).items():
+        gaps = ((block or {}).get(field) or {})
+        thick, thin = gaps.get("thick"), gaps.get("thin")
+        if thick is None and thin is None:
+            continue
+        n = (thick_priced or {}).get(era)
+        if n is not None and n < min_priced:
+            excluded[era] = {"thick_priced_slots": n, "thick_gap_pct": thick}
+            continue
+        rows[era] = {"thick_gap_pct": thick, "thin_gap_pct": thin,
+                     "thick_priced_slots": n}
+    signs = [r["thick_gap_pct"] for r in rows.values()
+             if r["thick_gap_pct"] is not None]
+    measured = len(signs)
+    out = {"measured_eras": measured, "min_priced": min_priced, "field": field,
+           "per_era": rows, "excluded_eras": excluded}
+    if measured < 2:
+        out["classification"] = "insufficient_eras"
+        return out
+    pos = sum(1 for s in signs if s > 0)
+    neg = sum(1 for s in signs if s < 0)
+    out["positive_thick_gap_eras"] = pos
+    out["negative_thick_gap_eras"] = neg
+    out["thick_gap_min_pct"] = round(min(signs), 3)
+    out["thick_gap_max_pct"] = round(max(signs), 3)
+    out["thick_gap_spread_pct"] = round(max(signs) - min(signs), 3)
+    if pos == 0 or neg == 0:
+        out["classification"] = "thick_gap_sign_stable_across_eras"
+    else:
+        out["classification"] = "thick_gap_sign_flips_across_eras"
+    return out
+
+
+def run_offbookera(outdir, start=OFFBOOK_ERA_START, pick_n=9999,
+                   exclude=("sh511",), mid_day=15, liq_window=OFFBOOK_LIQ_WINDOW,
+                   raw=None):
+    """E214: the E60 tercile split widened to every era the panel covers.
+
+    E60 published the era table for a 2020-start window (two eras). This leg is
+    the same computation carried back to 2017 so the thick-name effect gets a
+    third replication, then publishes the cross-era verdict E60 could not state:
+    how many eras agree on the sign of the thick-bucket calendar gap.
+    """
+    face = run_offbookliq(outdir, start=start, pick_n=pick_n, exclude=exclude,
+                          mid_day=mid_day, liq_window=liq_window, raw=raw)
+    gaps = face["answers"]["era_tercile_gap_me_minus_mid_pct"]
+    # the gate uses the thinner of the two sides: a gap printed against an empty
+    # calendar cell is arithmetic, not a replication
+    thick_priced = {}
+    for era in gaps:
+        counts = []
+        for label in ("me", "mid%d" % mid_day):
+            cell = (((face["calendars"].get(label) or {}).get(era) or {})
+                    .get("buckets") or {}).get("disjoint") or {}
+            counts.append(((cell.get("thick") or {}).get("priced")))
+        counts = [c for c in counts if c is not None]
+        thick_priced[era] = min(counts) if counts else None
+    by_mean = _offbook_liq_era_stability(gaps, thick_priced=thick_priced,
+                                        field="mean")
+    by_median = _offbook_liq_era_stability(gaps, thick_priced=thick_priced,
+                                          field="median")
+    face["study"] = "e214_offbook_liquidity_era_stability"
+    face["answers"]["era_stability_mean"] = by_mean
+    face["answers"]["era_stability_median"] = by_median
+    face["answers"]["era_stability_stable_across_aggregators"] = (
+        by_mean["classification"] == by_median["classification"])
+    face["honest"].append(
+        "the span is widened to %s so the era table carries every era the panel "
+        "covers after the 60-session liquidity window exists; the tercile cuts are "
+        "re-cut on the wider pooled distribution, so the per-era gaps here are not "
+        "the E60 face's numbers and must not be joined to them" % start)
+    return face
+
+
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -20009,6 +20107,50 @@ def selftest():
         "E60 the leg takes the face directory, an explicit liquidity window, and "
         "re-uses the chase rows instead of re-deriving them")
 
+    # E214: the same tercile split carried across every era
+    _e214_two_era = {"2017_2020": {"mean": {"thick": 2.0, "thin": -1.0}},
+                     "2024_now": {"mean": {"thick": 3.8, "thin": -0.5}}}
+    chk(_offbook_liq_era_stability(_e214_two_era)["classification"]
+        == "thick_gap_sign_stable_across_eras"
+        and _offbook_liq_era_stability(_e214_two_era)["measured_eras"] == 2
+        and _offbook_liq_era_stability(_e214_two_era)["thick_gap_spread_pct"] == 1.8,
+        "E214 two eras agreeing on the thick sign is stable and the spread is "
+        "reported beside the verdict")
+    chk(_offbook_liq_era_stability({"a": {"mean": {"thick": 1.0}},
+                                    "b": {"mean": {"thick": -1.0}}})
+        ["classification"] == "thick_gap_sign_flips_across_eras",
+        "E214 one positive and one negative era is a flip, not an average")
+    chk(_offbook_liq_era_stability({})["classification"] == "insufficient_eras"
+        and _offbook_liq_era_stability({"a": {"mean": {"thick": 1.0}}})
+        ["classification"] == "insufficient_eras"
+        and _offbook_liq_era_stability({"a": {"mean": {"thick": None, "thin": 1.0}},
+                                        "b": {"median": {"thick": 1.0}}})
+        ["classification"] == "insufficient_eras",
+        "E214 one era is a point, not a replication, and an era without a thick "
+        "reading does not count")
+    _e214_thin_cell = _offbook_liq_era_stability(
+        _e214_two_era, thick_priced={"2017_2020": 4, "2024_now": 200})
+    chk(_e214_thin_cell["classification"] == "insufficient_eras"
+        and "2017_2020" in _e214_thin_cell["excluded_eras"]
+        and _e214_thin_cell["excluded_eras"]["2017_2020"]["thick_priced_slots"] == 4,
+        "E214 a four-name thick cell is published as excluded rather than counted, "
+        "because a tiny cell can carry any sign")
+    chk(_offbook_liq_era_stability(_e214_two_era, field="median")
+        ["measured_eras"] == 0
+        and _offbook_liq_era_stability(
+            {"a": {"median": {"thick": 2.0}}, "b": {"median": {"thick": 1.0}}},
+            field="median")["classification"] == "thick_gap_sign_stable_across_eras",
+        "E214 the aggregator is selectable, so the era verdict can be re-read on "
+        "the medians instead of trusting one aggregator")
+    chk(run_offbookera.__code__.co_varnames[:1] == ("outdir",)
+        and "start" in run_offbookera.__code__.co_varnames
+        and run_offbookera.__defaults__[0] == OFFBOOK_ERA_START,
+        "E214 the era leg widens the span through its own default start rather "
+        "than re-tuning the E60 face")
+    chk(OFFBOOK_ERA_START < "2020-01-01" and OFFBOOK_ERA_START > "2016-12-31",
+        "E214 the widened span reaches into the 2017_2020 era while staying inside "
+        "the territory the panel covers")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -26487,7 +26629,7 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
-                             "chasescreen", "offbookliq",
+                             "chasescreen", "offbookliq", "offbookera",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -26510,6 +26652,10 @@ def main(argv):
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
     ap.add_argument("--start", default="2020-01-01", help="window start (midmonth leg)")
+    ap.add_argument("--span-start", default=OFFBOOK_ERA_START,
+                    help="window start for the off-book era leg; kept separate from "
+                         "--start so widening the span cannot silently re-tune the "
+                         "E60 face")
     ap.add_argument("--costs", default="",
                     help="comma-separated cost multiples (midsweep leg, e.g. 0,3)")
     ap.add_argument("--lags", default="1,3,5,10",
@@ -27074,6 +27220,17 @@ def main(argv):
                        % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "offbookliq", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "offbookera":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_offbookera(outdir, start=args.span_start)
+        p = write_json(outdir, "OFFBOOK-ERA-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "offbookera", "file": os.path.relpath(p, ROOT),
+                          "era_stability_mean": f["answers"]["era_stability_mean"],
+                          "era_stability_median":
+                              f["answers"]["era_stability_median"]},
+                         ensure_ascii=False))
         return 0
     if args.mode == "midsweep":
         costs = (tuple(float(x) for x in args.costs.split(","))

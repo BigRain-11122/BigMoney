@@ -3074,3 +3074,35 @@ How to apply: any "this slice is different" claim should ship with the slice spl
 covariate, a pooled threshold set so the split is comparable across arms, and the verdict computed twice.
 Publish `verdict_stable_across_aggregators` beside the verdict; a false there is a stop sign for quoting
 either number.
+
+## E214 A two-era sign disagreement is not a flip until the span is widened (2026-10-29 r1241 bm-b)
+
+E60 published the thick-name penalty and called it unstable in sign because one earlier era read the
+opposite way: 2021_2023 thick-gap -1.584 pp against 2024_now +3.774 pp. That sentence rests on two
+eras -- one forward and one reverse, which is a difference, not a flip. Widening the same computation
+to a 2017 start (same tercile split, re-cut on the wider pooled distribution) changes the count but not
+the shape:
+
+- the third era, 2017_2020, prints +4.288 pp (mean) / +2.301 (median) -- the SAME side as 2024_now,
+  so the "unstable" era is not the early panel, it is the 2021_2023 window;
+- it is nevertheless NOT counted: its thick disjoint cell holds only 15 priced entrants, below the
+  20-slot floor, so it is published under `excluded_eras` with its reading intact instead of being
+  allowed to vote. Counting a 15-name cell would have let it decide the verdict.
+
+Both aggregators agree (`thick_gap_sign_flips_across_eras`, spread 5.227 pp on means / 2.982 on
+medians), which is the opposite of the E60 result where the mean and the median verdicts disagreed --
+so the honest statement is narrower than either: the thick-bucket calendar gap changes sign across
+eras, and in this panel only two counted eras exist to say so.
+
+(a) **A verdict over eras needs a counted-era floor and a published exclusion list.** An era whose
+    gating cell is thin is a reading, not a replication. Publish it with its slot count and exclude it
+    from the vote rather than dropping it silently or letting it swing the sign.
+
+(b) **Widening a span invalidates the old tercile cuts.** The cuts are re-computed on the pooled
+    distribution of the wider window, so the per-era gaps here (-1.626 / +3.601) are not the E60 face's
+    numbers (-1.584 / +3.774) and must not be joined across faces. Any leg that changes its own window
+    has to say so on the face, not leave it to the reader.
+
+How to apply: when a finding is stated over eras, publish `measured_eras` beside the verdict, keep a
+per-cell priced floor with the excluded eras listed, and never merge two faces computed on different
+spans into one table.
