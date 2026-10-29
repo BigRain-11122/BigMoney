@@ -23530,6 +23530,18 @@
    "target": "scripts/e239_own_vs_cross.py (new runner)",
    "title": "is the own-turnover elasticity larger than the cross elasticity to another member's turnover, on identical footing?",
    "verdict": "own_exceeds_a_single_counterparty"
+  },
+  {
+   "deliverable": "results/state_tilt/AGGATT-<cutoff>.json",
+   "entered_at": "2026-10-30T04:2x+08:00",
+   "entered_by": "bm-r1265",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E240-AGGREGATE-KEEPS-HALF",
+   "lane": "cpu-only",
+   "source": "E239 priced the own channel against ONE counterparty per pair (own 0.797 [0.748,0.846] vs cross 0.314 [0.274,0.353], difference 0.484 [0.408,0.560]; two-way FE gives the same 0.484 [0.438,0.530]) and found the aggregate rest coefficient from E238 (0.771) is only 54% of four times the mean single-member cross (4 x 0.356 = 1.425, ratio 0.541). Two explanations remain and they are separable: (a) attenuation from collinearity -- the five members turnovers move together, so a sum is measured against a regressor whose own variation is shared, or (b) a genuine common component that a single counterparty does not carry. The test: project each member d(log turnover) on the cross-sectional book move and re-run the pair design on the residualised increments; publish (i) the predicted aggregate coefficient under pure collinearity, (ii) the coefficient actually fitted on the orthogonalised increments, (iii) the share of the 1.425 -> 0.771 gap each explanation accounts for, with intervals, and (iv) the same decomposition on the two-way FE form. Refuse any charge either way; this face only names the mechanism.",
+   "status": "ready",
+   "target": "scripts/e240_aggregate_attenuation.py (new runner)",
+   "title": "why does the book aggregate keep only 54% of what four single-counterparty turnover channels carry?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

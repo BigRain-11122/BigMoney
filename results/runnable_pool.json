@@ -23071,17 +23071,18 @@
    "title": "Does the tilt survive an exposure-matched null? Replace the drift split with a flat arm held at each gated arm's own average weight, so the comparison is exposure for exposure instead of an attributed share of the null's drift, and report how many arms change sign between the two benchmarks."
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b5.json",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E247-BOOT-BLOCK5",
-   "title": "Bootstrap envelope at block=5 (one week): does the envelope shrink or widen?",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 5)",
+   "lane": "cpu-only",
+   "result_note": "block=5 arm: CAGR p5/p50/p95 2.92/9.74/16.98%, maxDD p5 -25.02%, 16.1% of resamples break -20%, point at 49.6 pctile",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b5.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23091,29 +23092,29 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b5.json",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 5)",
+   "title": "Bootstrap envelope at block=5 (one week): does the envelope shrink or widen?",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b5.json",
-   "result_note": "block=5 arm: CAGR p5/p50/p95 2.92/9.74/16.98%, maxDD p5 -25.02%, 16.1% of resamples break -20%, point at 49.6 pctile"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b60.json",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E248-BOOT-BLOCK60",
-   "title": "Bootstrap envelope at block=60 (one quarter): does the p5 tail depend on the block?",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 60)",
+   "lane": "cpu-only",
+   "result_note": "block=60 arm: CAGR p5/p50/p95 3.18/9.53/16.93%, maxDD p5 -21.36%, 7.5% break -20%, point at 51.6 pctile",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b60.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23123,29 +23124,29 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b60.json",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 60)",
+   "title": "Bootstrap envelope at block=60 (one quarter): does the p5 tail depend on the block?",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b60.json",
-   "result_note": "block=60 arm: CAGR p5/p50/p95 3.18/9.53/16.93%, maxDD p5 -21.36%, 7.5% break -20%, point at 51.6 pctile"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b250.json",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E249-BOOT-BLOCK250",
-   "title": "Bootstrap envelope at block=250 (one year): the widest honest dependence the ruler can keep",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 250)",
+   "lane": "cpu-only",
+   "result_note": "block=250 arm: CAGR p5/p50/p95 3.57/9.21/18.18%, maxDD p5 -17.08%, 1.1% break -20%, point at 53.6 pctile; comparison face results/etf_book_bootstrap/BLOCKS-2026-10-29.json",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b250.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23155,29 +23156,29 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b250.json",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 250)",
+   "title": "Bootstrap envelope at block=250 (one year): the widest honest dependence the ruler can keep",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b250.json",
-   "result_note": "block=250 arm: CAGR p5/p50/p95 3.57/9.21/18.18%, maxDD p5 -17.08%, 1.1% break -20%, point at 53.6 pctile; comparison face results/etf_book_bootstrap/BLOCKS-2026-10-29.json"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b10.json",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E251-BOOT-GRID10",
-   "title": "Bootstrap envelope at block=10: the missing rung between week and rebalance cycle",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 10)",
+   "lane": "cpu-only",
+   "result_note": "block=10 arm: CAGR p5/p50/p95 2.84/9.70/16.79%, maxDD p5 -23.16%, 11.8% of resamples break -20%, point at 50.0 pctile",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b10.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23187,29 +23188,29 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b10.json",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 10)",
+   "title": "Bootstrap envelope at block=10: the missing rung between week and rebalance cycle",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b10.json",
-   "result_note": "block=10 arm: CAGR p5/p50/p95 2.84/9.70/16.79%, maxDD p5 -23.16%, 11.8% of resamples break -20%, point at 50.0 pctile"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b40.json",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E248-BOOT-GRID40",
-   "title": "Bootstrap envelope at block=40: two rebalance cycles",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 40)",
+   "lane": "cpu-only",
+   "result_note": "block=40 arm: CAGR p5/p50/p95 3.59/9.65/16.72%, maxDD p5 -20.54%, 6.1% break -20%, point at 50.8 pctile",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b40.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23219,29 +23220,29 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b40.json",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 40)",
+   "title": "Bootstrap envelope at block=40: two rebalance cycles",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b40.json",
-   "result_note": "block=40 arm: CAGR p5/p50/p95 3.59/9.65/16.72%, maxDD p5 -20.54%, 6.1% break -20%, point at 50.8 pctile"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b120.json",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E249-BOOT-GRID120",
-   "title": "Bootstrap envelope at block=120: half a year, between quarter and year",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 120)",
+   "lane": "cpu-only",
+   "result_note": "block=120 arm: CAGR p5/p50/p95 3.18/9.54/17.61%, maxDD p5 -19.44%, 4.2% break -20%, point at 51.8 pctile",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b120.json",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "run",
     "--block",
@@ -23251,72 +23252,77 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b120.json",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 120)",
+   "title": "Bootstrap envelope at block=120: half a year, between quarter and year",
+   "worker_class": "self-contained",
    "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b120.json",
-   "result_note": "block=120 arm: CAGR p5/p50/p95 3.18/9.54/17.61%, maxDD p5 -19.44%, 4.2% break -20%, point at 51.8 pctile"
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
-   "lane": "cpu-only",
-   "worker_class": "code-change",
-   "status": "done",
-   "runner": "scripts/etf_book_production.py",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "claimed_by": "bm-c",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "deliverable": "card caveat line + ORDER sheet line citing p5/p50 maxDD and the block set",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
-   "source": "r1349/E248: the operator-facing card still prints a single -12.5% drawdown while the block arms put the honest tail at -17.1% to -25.0% and the -20% break share at 1.1%-16.1%. The card is the page a human reads, so it must carry the band and name the block assumption it rests on; a tail sentence without its parameter is exactly the defect this round paid for.",
    "id": "E250-CARD-DRAWDOWN-BAND",
-   "title": "Put the drawdown band (and the block that produced it) on the production card",
-   "target": "scripts/etf_book_production.py card + scripts/etf_book_order.py sheet",
+   "lane": "cpu-only",
+   "result_note": "card caveat + card section + order-sheet section carry maxDD p5 -25.0..-17.1% and the block set; both faces disclose 'unpublished' when the arms are absent and mark stale when priced on an older bar; 4 production + 2 order selftest legs",
+   "result_ref": "scripts/etf_book_production.py + scripts/etf_book_order.py",
+   "runner": "scripts/etf_book_production.py",
    "runner_args": [
     "card",
     "--drawdown-band-from",
     "results/etf_book_bootstrap/BLOCKS-2026-10-29.json"
    ],
-   "deliverable": "card caveat line + ORDER sheet line citing p5/p50 maxDD and the block set",
+   "source": "r1349/E248: the operator-facing card still prints a single -12.5% drawdown while the block arms put the honest tail at -17.1% to -25.0% and the -20% break share at 1.1%-16.1%. The card is the page a human reads, so it must carry the band and name the block assumption it rests on; a tail sentence without its parameter is exactly the defect this round paid for.",
+   "status": "done",
+   "target": "scripts/etf_book_production.py card + scripts/etf_book_order.py sheet",
+   "title": "Put the drawdown band (and the block that produced it) on the production card",
+   "worker_class": "code-change",
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
-   },
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "result_ref": "scripts/etf_book_production.py + scripts/etf_book_order.py",
-   "result_note": "card caveat + card section + order-sheet section carry maxDD p5 -25.0..-17.1% and the block set; both faces disclose 'unpublished' when the arms are absent and mark stale when priced on an older bar; 4 production + 2 order selftest legs"
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   },
   {
+   "deliverable": "results/etf_book_bootstrap/BLOCKS-<cutoff>.json with a p1 column",
+   "entered_at": "2026-10-30T00:48:14+08:00",
+   "entered_by": "bm-c r1348",
+   "evidence_cutoff": "2026-10-29",
    "id": "E251-BOOT-P1-TAIL",
    "lane": "cpu-only",
-   "worker_class": "code-change",
-   "status": "ready",
    "runner": "scripts/etf_book_nav_envelope.py",
-   "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
    "runner_args": [
     "blocks"
    ],
-   "deliverable": "results/etf_book_bootstrap/BLOCKS-<cutoff>.json with a p1 column",
+   "source": "r1348/E249: the card now prints the drawdown as a band, but the band is a p5 -- the deepest 5% of resamples, not the worst. 'How bad can it get' was answered with a percentile chosen because every other face uses p5, and that choice is exactly the kind this repo just priced for block length. Add p1/p99 to the same arms and publish whether the ultra tail is bounded (a real bound) or runs away (a fat tail the operator must size against).",
+   "status": "ready",
+   "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
+   "worker_class": "code-change",
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
-   },
-   "evidence_cutoff": "2026-10-29",
-   "entered_at": "2026-10-30T00:48:14+08:00",
-   "entered_by": "bm-c r1348",
-   "source": "r1348/E249: the card now prints the drawdown as a band, but the band is a p5 -- the deepest 5% of resamples, not the worst. 'How bad can it get' was answered with a percentile chosen because every other face uses p5, and that choice is exactly the kind this repo just priced for block length. Add p1/p99 to the same arms and publish whether the ultra tail is bounded (a real bound) or runs away (a fat tail the operator must size against)."
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   },
   {
+   "claimed_at": "2026-10-30T02:25:12+08:00",
+   "claimed_by": "bm-c",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b1.json",
+   "done_at": "2026-10-30T02:29:32+08:00",
+   "entered_at": "2026-10-30T00:48:14+08:00",
+   "entered_by": "bm-c r1348",
+   "evidence_cutoff": "2026-10-29",
    "id": "E252-BOOT-BLOCK1-IID",
    "lane": "cpu-only",
-   "worker_class": "self-contained",
-   "status": "done",
+   "result_note": "iid zero point: p5 maxDD -24.72% vs week-block -25.02% vs year-block -17.08%; worst ordering -44.92%; card E251, digest DIGEST-20261030-e247",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json",
    "runner": "scripts/etf_book_nav_envelope.py",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 1)",
    "runner_args": [
     "run",
     "--block",
@@ -23326,40 +23332,34 @@
     "--procs",
     "6"
    ],
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b1.json",
-   "workers_plan": {
-    "workers": 6,
-    "priority": "BelowNormal"
-   },
-   "evidence_cutoff": "2026-10-29",
-   "entered_at": "2026-10-30T00:48:14+08:00",
-   "entered_by": "bm-c r1348",
    "source": "r1348/E249: the grid ran 5..250 bars and the tail fell from -25.02pp to -17.08pp, but every arm keeps SOME dependence -- none prices the iid limit. block=1 is the dependence-free bound, so the gap between block=1 and block=5 is the part of the drawdown band that pure day-to-day dependence owns, and the rest is the length of the memory. Without it 'the tail is the ruler' has no zero point.",
-   "claimed_by": "bm-c",
-   "claimed_at": "2026-10-30T02:25:12+08:00",
-   "done_at": "2026-10-30T02:29:32+08:00",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json",
-   "result_note": "iid zero point: p5 maxDD -24.72% vs week-block -25.02% vs year-block -17.08%; worst ordering -44.92%; card E251, digest DIGEST-20261030-e247"
+   "status": "done",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 1)",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 6
+   }
   },
   {
+   "deliverable": "the vol overlay's effect on the p5/p1 drawdown band, not just the median",
+   "entered_at": "2026-10-30T00:48:14+08:00",
+   "entered_by": "bm-c r1348",
+   "evidence_cutoff": "2026-10-29",
    "id": "E253-VOLTARGET-TAIL",
    "lane": "cpu-only",
-   "worker_class": "code-change",
-   "status": "ready",
    "runner": "scripts/etf_book_production.py",
-   "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
    "runner_args": [
     "--selftest"
    ],
-   "deliverable": "the vol overlay's effect on the p5/p1 drawdown band, not just the median",
+   "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator.",
+   "status": "ready",
+   "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
+   "worker_class": "code-change",
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
-   },
-   "evidence_cutoff": "2026-10-29",
-   "entered_at": "2026-10-30T00:48:14+08:00",
-   "entered_by": "bm-c r1348",
-   "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator."
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   },
   {
    "deliverable": "results/state_tilt/TIMINGSEL-<cutoff>.json",
@@ -23530,6 +23530,18 @@
    "target": "scripts/e239_own_vs_cross.py (new runner)",
    "title": "is the own-turnover elasticity larger than the cross elasticity to another member's turnover, on identical footing?",
    "verdict": "own_exceeds_a_single_counterparty"
+  },
+  {
+   "deliverable": "results/state_tilt/AGGATT-<cutoff>.json",
+   "entered_at": "2026-10-30T04:2x+08:00",
+   "entered_by": "bm-r1265",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E240-AGGREGATE-KEEPS-HALF",
+   "lane": "cpu-only",
+   "source": "E239 priced the own channel against ONE counterparty per pair (own 0.797 [0.748,0.846] vs cross 0.314 [0.274,0.353], difference 0.484 [0.408,0.560]; two-way FE gives the same 0.484 [0.438,0.530]) and found the aggregate rest coefficient from E238 (0.771) is only 54% of four times the mean single-member cross (4 x 0.356 = 1.425, ratio 0.541). Two explanations remain and they are separable: (a) attenuation from collinearity -- the five members turnovers move together, so a sum is measured against a regressor whose own variation is shared, or (b) a genuine common component that a single counterparty does not carry. The test: project each member d(log turnover) on the cross-sectional book move and re-run the pair design on the residualised increments; publish (i) the predicted aggregate coefficient under pure collinearity, (ii) the coefficient actually fitted on the orthogonalised increments, (iii) the share of the 1.425 -> 0.771 gap each explanation accounts for, with intervals, and (iv) the same decomposition on the two-way FE form. Refuse any charge either way; this face only names the mechanism.",
+   "status": "ready",
+   "target": "scripts/e240_aggregate_attenuation.py (new runner)",
+   "title": "why does the book aggregate keep only 54% of what four single-counterparty turnover channels carry?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
