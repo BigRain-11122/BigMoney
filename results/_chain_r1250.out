@@ -1,0 +1,34 @@
+dualrun                rc=0     0.13s  [pool_dualrun] ZERO-DRIFT (merged view == shared blob, 695 entries, drift-free streak 5, cutoff 2026-10-29T15:
+pool_deliverable       rc=0     0.08s  closed=0 skipped=0 now={}
+compute_audit          rc=0     7.91s  {"ts": "2026-10-29 15:00:48", "audit_version": "v2.4.2", "cpu_total_pct": 10.0, "py_cpu_pct": 0.1, "cores": 16
+py_watermark           rc=0     6.05s  {"ts": "2026-10-29 15:00:54", "epoch": 1793257248.0, "machine": "bm-b", "cpu_total_pct": 0.0, "cores": 16, "py
+update_daily           rc=0     1.42s  status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+cal_audit              rc=0     1.63s  data_lag_audit: in_sync | calendar 1990-12-19..2026-12-31 (8797d) | expected 2026-10-28 | active 1723/1725 sym
+market_regime          rc=0     0.76s    trigger: breadth 0.88>=65%
+market_clock           rc=0     6.20s  call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-10-27.md cell=ORANGE_COOL s
+update_astock_daily    rc=0     2.44s  no-op: panel fresh (cutoff 2026-10-28 >= expected 2026-10-28) -> zero network
+update_etf_daily       rc=0     0.07s  no-op: panel cutoff 2026-10-28 covers expected complete-bar date 2026-10-28 -> zero network
+regime_thermo          rc=0     0.46s  regime_thermo_build: Money02 bars panel absent on this machine -- stdout-only honest no-op
+regime_gate_dualarm    rc=0     0.07s  regime_gate_dualarm: wrote C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_gate_dualarm\DUALARM-2026-10-1
+rev_osc_export         rc=0     0.66s  rev_osc_signal_export: SIG/BARS already at cutoff 2026-10-28 & panel bytes unchanged -- no-op (idempotent)
+update_minute_feed     rc=0     7.13s  update_minute_feed: done, +225 rows across 5 symbols (kind=gated, repairs=4)
+etf_book_forward       rc=0    57.09s  POWER (80% at 5% two-sided, sd 8.46%/yr): smallest edge this ledger can resolve is 6m 33.5pp/yr, 1y 23.7pp/yr,
+offbookera             rc=0     8.72s  {"leg": "offbookera", "file": "results\\e44_midmonth\\OFFBOOK-ERA-20261028.json", "era_stability_mean": {"meas
+sharedbook             rc=0    11.58s  {"leg": "sharedbook", "file": "results\\e44_midmonth\\SHAREDBOOK-20261028.json", "answers": {"full_window_tota
+sharedbookwidth        rc=0    21.77s  {"leg": "sharedbookwidth", "file": "results\\e44_midmonth\\SHAREDBOOK-WIDTH-20261028.json", "answers": {"e61_s
+sharedbookwidthladder  rc=0     0.37s  {"leg": "sharedbookwidthladder", "file": "results\\e44_midmonth\\WIDTHLADDER-20261028.json", "noop": "face alr
+sharedbookwidthsplit   rc=0     0.38s  {"leg": "sharedbookwidthsplit", "file": "results\\e44_midmonth\\WIDTHSPLIT-20261028.json", "answers": {"timing
+dom_profile            rc=0     6.51s  uncond=2.20bp  last2=8.31bp (t=1.35)  mid=-0.47bp  rest=3.91bp  me-rest=4.40bp (t=0.64)
+tom_overlay            rc=0     0.11s  always-in= 553.97bp/yr
+obs_rate_ladder        rc=0     0.41s  verdict=REJECT | the 52-a-year arms carry 4.3x the observations of the 12-a-year anchor, yet their annual reso
+daily_report           rc=0     0.98s  daily report written: REPORT-2026-10-29.md/.json faces=5 token=1
+ceo_live_usage         rc=0     0.09s  ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-29.md (+ .json twin + LIVE-
+docquotes              rc=0    18.53s    verdict: of_652_numbers_on_the_pages_the_ceo_reads_2_are_unsourced_and_6_count_cells_wear_a_unit
+pagegate               rc=0    17.34s    verdict: 2_of_652_numbers_on_the_pages_the_ceo_reads_have_no_producer_and_0_new_ones_appeared
+machine_health         rc=0     0.05s  machine-health: OK machines=3 dropped_junk=0 fields=8/8 bm-a,bm-b,bm-c
+gpu_face               rc=0     0.04s  {"findings": [{"family": "free", "high": "gpu_free_vram_gb", "low": "gpu_free_gb", "n_keys": 17, "spread_mib":
+attrition_guard        rc=0    36.50s  guard scan: 4 ledger files, CLEAN (no active loss); evidence -> results/_attrition_guard_scan.json
+pool_audit             rc=0     3.59s  elapsed 3.0s | csv -> C:\Fluxgroup\FluxGroup\quant\bigmoney\research\pool_audit.csv | json -> C:\Fluxgroup\Flu
+token_meter            rc=0     0.08s  L2 local-LLM legs: 0 today / 14 total (~0 tokens today, by_cmd={'retro': 3, 'selftest': 8, 'ask': 1, 'review':
+
+S6 32/32 rc=0  (219.2s)  receipt=results\_r1250bmb_s6_chain.json

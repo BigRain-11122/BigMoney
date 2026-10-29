@@ -2374,6 +2374,73 @@ def main() -> int:
     except Exception as e:
         check("product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
               False, str(e))
+
+    # E225: the state-tilt face must not let "more sessions" pose as "more evidence".
+    # This leg re-derives every MDE from the published Newey-West error, refuses an
+    # effective sample size larger than the sessions it came from, and re-adds the
+    # drift split so a gated arm cannot be read as a verdict on the gate when what
+    # moved was the drift it normalised to.
+    try:
+        _bad = []
+        _face = os.path.join("results", "state_tilt", "latest.json")
+        if not os.path.exists(_face):
+            _bad.append("no results/state_tilt/latest.json on disk")
+            _f, _panels, _spec = {}, [], {}
+        else:
+            with open(_face, encoding="utf-8") as _fh:
+                _f = json.load(_fh)
+            _panels = _f.get("panels") or []
+            _spec = _f.get("frozen_spec") or {}
+            if not _f.get("evidence_cutoff"):
+                _bad.append("face carries no evidence_cutoff")
+            if not (_f.get("answer") or "").strip():
+                _bad.append("face publishes no answer sentence")
+            if "turnover" not in (_spec.get("cost_model") or ""):
+                _bad.append("cost model is not stated as unit turnover")
+            _z = _spec.get("z_80pct") or 0.0
+            _bar = _spec.get("bar_t") or 0.0
+            if len(_panels) < 1:
+                _bad.append("no panel published")
+            for _p in _panels:
+                for _a in (_p.get("arms") or []):
+                    _n, _ne = _a.get("oos_decisions"), _a.get("n_eff")
+                    if _ne is not None and _n is not None and _ne > _n + 1e-9:
+                        _bad.append("arm %s n_eff exceeds its sessions" % _a.get("name"))
+                    if _ne and _n and _a.get("n_eff_over_sessions") is not None:
+                        if abs(_a["n_eff_over_sessions"] - _ne / _n) > 1e-9:
+                            _bad.append("arm %s n_eff ratio does not match n_eff/n"
+                                        % _a.get("name"))
+                    _se, _mde = _a.get("se_nw"), _a.get("mde_ann_bp_per_year")
+                    if None not in (_se, _mde):
+                        if abs(_mde - _z * _se * 252.0) > 1e-6 * max(1.0, abs(_mde)):
+                            _bad.append("arm %s MDE is not z*se_nw*252" % _a.get("name"))
+                    if _a.get("verdict") not in ("ADOPT", "REJECT", "UNRESOLVED"):
+                        _bad.append("arm %s carries no frozen verdict" % _a.get("name"))
+                    if _a.get("verdict") == "ADOPT" and (_a.get("excess_oos_t") or 0) < _bar:
+                        _bad.append("arm %s ADOPTs below the bar" % _a.get("name"))
+                    _comp = _a.get("market_drift_component_bp_per_year")
+                    _gate = _a.get("gate_specific_bp_per_year")
+                    _exc = _a.get("excess_oos_bp_per_year")
+                    if _a.get("name") != "always_on" and None not in (_comp, _gate, _exc):
+                        if abs((_comp + _gate) - _exc) > 1e-6 * max(1.0, abs(_exc)):
+                            _bad.append("arm %s drift split does not re-add" % _a.get("name"))
+                    if _a.get("name") == "always_on" and (_a.get("turnover_total") or 0) > 1.0 + 1e-9:
+                        _bad.append("the always_on null arm pays turnover it does not trade")
+            if not ((_f.get("drift_split") or {}).get("arms")):
+                _bad.append("the drift split is not published")
+        check("product: the state tilt publishes its own effective sample size",
+              not _bad, "; ".join(_bad)[:220]
+              or "%d panels, %d arms, tightest bar %.0fbp/yr, n_eff/sessions %s, verdicts %s"
+                 % (len(_panels), sum(len(p.get("arms") or []) for p in _panels),
+                    min([a.get("mde_ann_bp_per_year") or 1e18
+                         for p in _panels for a in (p.get("arms") or [])] or [0.0]),
+                    ",".join("%.0f%%" % (100.0 * (a.get("n_eff_over_sessions") or 0.0))
+                             for p in _panels[:1] for a in (p.get("arms") or [])),
+                    ",".join(sorted({a.get("verdict") for p in _panels
+                                     for a in (p.get("arms") or [])}))))
+    except Exception as e:
+        check("product: the state tilt publishes its own effective sample size",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

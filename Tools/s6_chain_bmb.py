@@ -83,6 +83,12 @@ LEGS = [
     # continuously-sampled volatility gate -- and separates the DAYS the gate is on from
     # the EPISODES that produced them, because only the episodes are independent.
     ("vol_gate", ["python", "scripts/e224_vol_gate.py", "run"]),
+    # E225: E224's cap was the hold, not the sampling rate, so its named successor was
+    # the design the accounting does not throttle -- a weight that varies continuously
+    # with the state, no per-episode round trip. This leg prices that on the same signal
+    # and the same toll, and publishes the effective sample size so "more sessions" is
+    # never mistaken for "more independent observations".
+    ("state_tilt", ["python", "scripts/e225_state_tilt.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
