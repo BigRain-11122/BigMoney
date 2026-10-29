@@ -1467,11 +1467,11 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1249,
- "round_no": 1249,
+ "round": 1250,
+ "round_no": 1250,
  "round_no_label": "r1242",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T14:21:16+08:00",
+ "round_no_ts": "2026-10-29T15:00:02+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": "status rc=0 (last_verdict idle)",
@@ -1485,13 +1485,13 @@
   "status": "delivered_on_machine_branch",
   "ts": "2026-10-29T07:50:25+08:00"
  },
- "task": "r1249: E222 turn-of-month overlay as a tradable rule (REJECT) -> pool ready 0 | product results/tom_overlay/TOMO-20261028.json",
- "task_short": "E222",
- "task_short_note": "scripts/e222_tom_overlay.py; selftest 24/24; face results/tom_overlay/TOMO-20261028.json",
- "ts": "2026-10-29T14:21:16+08:00",
- "updated": "2026-10-29T14:21:16+08:00",
- "updated_at": "2026-10-29T14:21:16+08:00",
- "verdict": "E222 turn-of-month overlay: E221's post-hoc turn-of-month shape is NOT tradable at this panel's resolution. sh510300 173 months (IS 103 / OOS 70, 9.9% time in market): overlay nets +262.1bp/yr vs always-in 554.0bp/yr -> full-sample excess -291.9bp/yr; IS -65.1bp/mo but OOS +35.7bp/mo (t=0.65 vs 2.39 bar) and x2 costs still +116bp/yr; REJECT on all three variants and on the five-ETF basket arm. Settling it needs 1,317 months (~109.7 years) at 80% power -- a calendar rule is observed once per month, so width buys nothing.",
+ "task": "r1250: E223 observation-rate ladder -> 4 rungs all REJECT; 4.3x observations buy 0.68x-1.01x resolution | product results/obs_rate/OBSRATE-20261028.json",
+ "task_short": "E223",
+ "task_short_note": "scripts/e223_obs_rate_ladder.py; selftest 26/26; face results/obs_rate/OBSRATE-20261028.json",
+ "ts": "2026-10-29T15:00:02+08:00",
+ "updated": "2026-10-29T15:00:02+08:00",
+ "updated_at": "2026-10-29T15:00:02+08:00",
+ "verdict": "E223 observation-rate ladder: a faster calendar anchor does not resolve a calendar question. sh510300, 173 monthly periods vs 738 weekly: monthly +428.97bp/yr excess (t=0.65), weekly -1,100.6/-1,239.2/-1,255.7bp/yr (t=-1.63/-2.38/-2.79); all REJECT. Resolution is MDE_ann = z*sd_per_period*sqrt(per_year/years), so 4.3x the observations buys 0.68x-1.01x of the annual bar and the thinnest high-frequency rung is worse than the slow one.",
  "r1249": {
   "finding": "the turn-of-month shape dies on contact: net +262.1bp/yr on 9.9% time in market against 554.0bp/yr buy-and-hold (full-sample excess -291.9bp/yr), and the excess sign flips across the split (IS -65.1, OOS +35.7 bp/mo). Power says 1,317 months / ~109.7 years, so this question cannot be settled on this instrument in this century's remaining data.",
   "mission": "watermark green/healthy (pool ready 0, board clear, smoke 206/206) -> the standing agenda owed the card r1248 named: a pre-registered turn-of-month test",
@@ -1515,5 +1515,27 @@
   ],
   "tests": "e222 selftest 24/24 PASS",
   "d19": "decisions eee7cbf0 -> 97fe122f consumed, orders 122ab707 unchanged"
+ },
+ "r1250": {
+  "finding": "observation rate is not information rate: 4.3x the observations buys 0.68x-1.01x the annual resolution, and the weekly arms are outright negative (-1,100 to -1,256bp/yr) because a fixed toll is paid 52 times for a holding window that carries no per-week premium",
+  "mission": "watermark py_low_board_clear with pool ready 0 and board clear, smoke 207/207 -> the standing agenda owed the card r1249 named (a rule with more than twelve observations a year); the ladder tested that premise instead of assuming it",
+  "not_run": "GPU untouched (parked C-20261014-01; the in-use MiB belong to the interactive window); cloud untouched; no cleanup/quarantine actions; bm-a/bm-c lane collectors honoured their guards",
+  "carryover": "landed the r1249 closeout the previous window left staged and uncommitted (b4c7d8420 -> origin)",
+  "pits": [
+   "selftest fixtures wrote 1%/2%/3%/4% returns and expected 100bp -- bp is 1e4, the truth was 1000bp",
+   "the ladder summary needs all four rungs in a fixture or it raises KeyError instead of reporting a short ladder"
+  ],
+  "product": [
+   "results/obs_rate/OBSRATE-20261028.json",
+   "results/obs_rate/latest.json",
+   "scripts/e223_obs_rate_ladder.py (run/selftest, 26 legs)",
+   "Tools/s6_chain_bmb.py leg obs_rate_ladder",
+   "smoke_test.py leg on the MDE identity",
+   "research/digests/DIGEST-20261029-r1250-e223-obs-rate-ladder.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E223",
+   "results/runnable_pool.json E223 done with result_ref"
+  ],
+  "tests": "e223 selftest 26/26 PASS",
+  "d19": "decisions 97fe122f / orders 122ab707 unchanged -> zero new rows; 114 files / 115 acks / 0 unacked"
  }
 }

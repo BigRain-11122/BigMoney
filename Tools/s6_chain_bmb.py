@@ -73,6 +73,11 @@ LEGS = [
     # whether it survives as a tradable rule with costs, a frozen IS/OOS split and a
     # decision rule in code. Same panel, deterministic, ~2s, so it re-derives each round.
     ("tom_overlay", ["python", "scripts/e222_tom_overlay.py", "run"]),
+    # E223: E222's power block said the calendar question needs ~110 years because the
+    # rule is observed once a month. This leg runs the same accounting on a frequency
+    # ladder (the monthly anchor against three weekly ones) and publishes the resolution
+    # each reaches, so "observe more often" is measured rather than assumed.
+    ("obs_rate_ladder", ["python", "scripts/e223_obs_rate_ladder.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

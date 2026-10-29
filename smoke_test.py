@@ -2246,6 +2246,57 @@ def main() -> int:
               or "verdict %s at t=%.2f over %d OOS months, toll = one round trip/month"
                  % (_f.get("verdict"), _a.get("excess_oos_t") or 0.0,
                     _a.get("oos_months") or 0))
+
+        # E223: the observation-rate ladder must publish, for every rung, the resolution
+        # it actually reaches -- and must not claim that a higher frequency resolves the
+        # question when its own MDE says otherwise. This leg re-derives the MDE from the
+        # published dispersion and out-of-sample count, so a face that quotes a tight
+        # number without the dispersion behind it goes red.
+        try:
+            _bad = []
+            _face = os.path.join("results", "obs_rate", "latest.json")
+            if not os.path.exists(_face):
+                _bad.append("no results/obs_rate/latest.json on disk")
+                _f, _rows = {}, []
+            else:
+                with open(_face, encoding="utf-8") as _fh:
+                    _f = json.load(_fh)
+                _rows = ((_f.get("ladder") or {}).get("rows")) or []
+                _spec = _f.get("spec") or {}
+                if not _f.get("evidence_cutoff"):
+                    _bad.append("face carries no evidence_cutoff")
+                if not (_spec.get("resolution_rule") or "").startswith("the ladder's answer"):
+                    _bad.append("the resolution rule is not published on the face")
+                if len(_rows) < 2:
+                    _bad.append("the ladder has fewer than two rungs")
+                _z = _spec.get("z_80pct_two_sided") or 0.0
+                for _r in _rows:
+                    _sd, _n, _mde = (_r.get("excess_sd_bp_per_period"),
+                                     _r.get("oos_periods"),
+                                     _r.get("mde_bp_per_year"))
+                    if None in (_sd, _n, _mde) or not _n:
+                        continue
+                    _recalc = _z * (_r.get("periods_per_year") or 0) * (
+                        _sd / (_n ** 0.5))
+                    if abs(_recalc - _mde) > 1e-6 * max(1.0, abs(_mde)):
+                        _bad.append("MDE on rung %s does not match its own dispersion"
+                                    % _r.get("name"))
+                    if _r.get("verdict") == "ADOPT" and (
+                            (_r.get("excess_oos_t") or 0) <
+                            (_spec.get("multiple_comparison_bar") or 2.0)):
+                        _bad.append("rung %s ADOPTs below the bar" % _r.get("name"))
+                if not (((_f.get("ladder") or {}).get("answer")) or "").strip():
+                    _bad.append("the ladder publishes no answer sentence")
+            check("product: the observation-rate ladder prices its own resolution",
+                  not _bad, "; ".join(_bad)[:220]
+                  or "%d rungs, tightest %.0fbp/yr, verdict %s"
+                     % (len(_rows),
+                        min([r.get("mde_bp_per_year") or 1e18 for r in _rows]
+                            or [0.0]),
+                        (_f.get("ladder") or {}).get("verdict")))
+        except Exception as e:
+            check("product: the observation-rate ladder prices its own resolution",
+                  False, repr(e)[:160])
     except Exception as e:
         check("product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
               False, str(e))

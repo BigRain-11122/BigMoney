@@ -3951,3 +3951,34 @@ never cleared the bar. Pits: a zero-variance fixture makes REJECT unreachable (s
 inside the arm instead of before the split reads OOS one month short against its floor;
 month boundaries are session-adjacent by construction, so the face publishes
 `single_session_months` instead of a vacuous adjacency check.
+
+
+### E223 — more observations are not more resolution (r1250 bm-b)
+
+E222 rejected the turn-of-month overlay and priced the question at ~110 years, because a
+calendar rule is observed once a month. The tempting successor is a faster anchor. E223
+tests that directly: the same accounting on a ladder of anchors -- month turn (12/yr) and
+three weekly ones holding the first 1/2/3 sessions of each ISO week (52/yr) -- one round
+trip per PERIOD, frozen IS/OOS, decision rule in code.
+
+Result on sh510300 (3,503 sessions to 2026-10-28): monthly +428.97bp/yr excess at t=0.65
+(MDE 1,860.6bp/yr); weekly -1,100.6 / -1,239.2 / -1,255.7bp/yr at t=-1.63 / -2.38 / -2.79
+(MDE 1,888.2 / 1,461.9 / 1,261.1). All four REJECT, and the ladder's answer is the
+comparison: 4.3x the observations buys 0.68x-1.01x the annual resolution.
+
+The rule this card exists for: resolution is set by sd_per_period * sqrt(periods_per_year),
+not by the observation count. MDE_ann = z*sd*sqrt(per_year/years); shortening the holding
+window shrinks the per-period signal and its dispersion together, so the annual bar barely
+moves -- and the highest-frequency / thinnest rung can be strictly WORSE than the slow one
+(here week_h1 1,888 vs the monthly 1,861). A rejected calendar rule's successor must raise
+the number of *independent* observations without cutting exposure per observation; a faster
+calendar rule pays the toll more often and buys nothing.
+
+Pieces: scripts/e223_obs_rate_ladder.py (
+un / selftest, 26 hermetic legs); face
+
+esults/obs_rate/OBSRATE-<cutoff>.json + latest.json; S6 leg obs_rate_ladder after
+	om_overlay; smoke leg that re-derives every rung's MDE from its own dispersion and fails
+a rung that ADOPTs below the bar. Pit: the ladder summary needs all four rungs in its
+fixture or it raises instead of reporting a short ladder; and a bp fixture written in
+percent units asserts 100 when the truth is 1000.

@@ -22994,6 +22994,20 @@
    "title": "Turn-of-month overlay as a tradable rule: one round trip per month, frozen IS/OOS split, decision rule in code",
    "result_ref": "results/tom_overlay/TOMO-20261028.json",
    "done_note": "sh510300 173 months to 2026-10-28 (IS 103 / OOS 70, 9.9% time in market). Net +262.1bp/yr vs always-in 554.0bp/yr -> full-sample excess -291.9bp/yr; IS -65.1bp/mo, OOS +35.7bp/mo (t=0.65 vs 2.39 bar), x2 costs still +116bp/yr. REJECT on all three variants and on the five-ETF basket arm. Settling it needs 1,317 months (~109.7 years) at 80% power: a calendar rule is observed once per month, so width buys nothing."
+  },
+  {
+   "id": "E223-OBSERVATION-RATE-LADDER",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/obs_rate/OBSRATE-<cutoff>.json",
+   "target": "scripts/e223_obs_rate_ladder.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T15:10:00+08:00",
+   "entered_by": "bm-b r1250",
+   "source": "E222 rejected the turn-of-month overlay and priced the calendar question at ~110 years because the rule is observed once a month. The successor question is whether a faster anchor buys resolution at all.",
+   "title": "Observation-rate ladder: does anchoring 52 times a year instead of 12 resolve a calendar question, or only pay the toll more often?",
+   "result_ref": "results/obs_rate/OBSRATE-20261028.json",
+   "done_note": "4 rungs on sh510300: monthly +428.97bp/yr excess t=0.65 MDE 1,860.6; week_h1/h2/h3 -1,100.6/-1,239.2/-1,255.7bp/yr at t=-1.63/-2.38/-2.79 MDE 1,888.2/1,461.9/1,261.1 -> all REJECT. 4.3x observations buys 0.68x-1.01x annual resolution; resolution = sd_per_period*sqrt(periods_per_year), not the observation count."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23008,6 +23022,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-29T13:40:00+08:00",
+ "updated_at": "2026-10-29T15:10:00+08:00",
  "version": 1
 }
