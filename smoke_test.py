@@ -3368,6 +3368,77 @@ def main() -> int:
     except Exception as e:
         check("product: the book aggregate is compared on ONE parametrisation", False,
               repr(e)[:160])
+    # E241: the reproduction ladder. What makes it readable is that rung0 must BE E238
+    # (otherwise nothing downstream is attributable), that each rung changes one thing and
+    # names it, that the misalignment claim is a COUNT rather than an opinion, and that the
+    # published face's A/B pair is disclosed as superseded once the reader is repaired.
+    try:
+        _bad41 = []
+        _p41 = "results/state_tilt/repro_latest.json"
+        _f41 = {}
+        if not os.path.exists(_p41):
+            _bad41.append("reproduction face missing")
+        else:
+            with open(_p41, encoding="utf-8") as _fh:
+                _f41 = json.load(_fh)
+            if (_f41.get("study") or "") != "E241":
+                _bad41.append("face does not identify as E241")
+            _cut41 = _f41.get("evidence_cutoff")
+            if not _cut41:
+                _bad41.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/REPRO-%s.json" % str(_cut41)[:10]):
+                _bad41.append("the dated face beside the latest pointer is missing")
+            if ((_f41.get("reproduction") or {}).get("reproduced")) is not True:
+                _bad41.append("rung0 does not reproduce the published pair")
+            _l41 = [r for r in (_f41.get("ladder") or []) if r.get("step")]
+            _steps41 = [r.get("step") for r in _l41]
+            for _want in ("r0_published_rows_loo", "r1_common_rows_loo",
+                          "r2_common_rows_inclusive", "r3_common_grid_e240_code_path",
+                          "r3b_e240_code_y_realigned", "r4_aligned_comparison"):
+                if _want not in _steps41:
+                    _bad41.append("ladder rung %s missing" % _want)
+            for _r41 in _l41[1:-1]:
+                if not _r41.get("change_vs_previous"):
+                    _bad41.append("rung %s does not name the change it makes"
+                                  % _r41.get("step"))
+                if _r41.get("a_share") is None or _r41.get("g_denominator") is None:
+                    _bad41.append("rung %s does not publish both coefficients"
+                                  % _r41.get("step"))
+            _mp41 = _f41.get("misalignment") or {}
+            _prev41 = _mp41.get("dy_matches_the_previous_session")
+            _same41 = _mp41.get("dy_matches_the_same_session")
+            _n41 = _mp41.get("rows_tested")
+            if _mp41.get("available"):
+                if None in (_prev41, _same41, _n41) or _prev41 + _same41 > _n41:
+                    _bad41.append("the misalignment counts do not add up")
+                elif _mp41.get("dy_is_one_session_behind") and _prev41 < 0.9 * _n41:
+                    _bad41.append("a one-session-behind claim without the matching count")
+            _pf41 = _f41.get("published_face_check") or {}
+            if _pf41.get("reproduced") is True and _pf41.get("superseded") is not True:
+                _bad41.append("the published pair reproduces and is repaired but is not "
+                              "disclosed as superseded")
+            _al41 = _f41.get("alignment") or {}
+            if _al41.get("available"):
+                _par41 = ((_al41.get("rows_part") or 0.0)
+                          + (_al41.get("weights_part") or 0.0)
+                          + (_al41.get("reader_part") or 0.0))
+                if abs((_al41.get("aligned_gap") or 0.0) - _par41) > 1e-6:
+                    _bad41.append("the aligned change does not add up to its parts")
+            if not (_f41.get("answer") or "").strip():
+                _bad41.append("the face carries no answer sentence")
+            if (_f41.get("no_bill") or {}).get("permitted") is not False:
+                _bad41.append("the face granted a charge")
+        check("product: a non-reproducing pair is traced rung by rung to the reader",
+              not _bad41, "; ".join(_bad41)[:220]
+              or "rung0 a_share %s; misaligned rows %s of %s; corrected rest %s"
+                 % (_r39(_f41.get("reproduction") or {}, "rung0_a_share"),
+                    (_f41.get("misalignment") or {}).get("dy_matches_the_previous_session"),
+                    (_f41.get("misalignment") or {}).get("rows_tested"),
+                    _r39((_f41.get("verdict_block") or {}).get("realigned_pair") or {},
+                         "b_agg")))
+    except Exception as e:
+        check("product: a non-reproducing pair is traced rung by rung to the reader", False,
+              repr(e)[:160])
     return _finish()
 
 

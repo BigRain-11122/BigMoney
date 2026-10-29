@@ -283,7 +283,13 @@ def design_share_book(per, panel, syms, lag=NW_LAG):
             la0 = _log_agg(per, syms, d0)
             sh1 = per[m][d1][1] - la1
             sh0 = per[m][d0][1] - la0
-            y.append(dy[m][k - 1])
+            y.append(per[m][d1][0] - per[m][d0][0])
+            # F-20261030-01 (E241): this used to read dy[m][k - 1]. common_increments indexes
+            # its arrays by the KEPT session (dy[i] is the move into dates[i]), so pairing
+            # dy[k-1] with the k-1 -> k increments put the dependent variable one session
+            # behind its own regressors; 6630 of 6635 rows were affected and the pair read
+            # (-0.333, -0.174) instead of (0.791, 1.344). The y is now taken from the same
+            # session pair as the increments.
             xs.append(sh1 - sh0)          # d(log share), E236's coordinate
             xa.append(la1 - la0)          # d(log aggregate turnover)
     if len(y) < MIN_SESSIONS:

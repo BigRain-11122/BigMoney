@@ -23571,7 +23571,7 @@
     "run"
    ],
    "source": "E240 re-ran E238's own coordinates (dy on d(log share), d(log aggregate turnover)) on the common five-member grid and got (A, B) = (-0.333, -0.174), while E238 published (0.596, 0.771) on its 3,504-session panel. E240 published the gap as gap_A=-1.164 and gap_B=-1.178 rather than reconciling it by assertion. Three candidate causes are separable and must be tested one at a time: (1) ROWS -- E238 runs on each member's own date grid (3504 sessions), E240 on the intersection (1328); (2) WEIGHTS -- E238's kappa uses capital weights (nominal w=1/5, realised shares 0.10..0.29), E240's exposure is an equal-weight sum; (3) RESPONSE -- the sign of the fitted book-scaling coefficient flips, which no weighting choice can produce. Publish a ladder: reproduce E238 exactly on its own panel and rows (must match to the published precision or the face says plainly that it cannot), then relax one dimension at a time and report which single change carries the sign flip, with the residual attributed. Until this is settled the family must not quote 0.771 as a rest coefficient anywhere.",
-   "status": "ready",
+   "status": "done", "result_ref": "results/state_tilt/REPRO-2026-10-29.json", "done_note": "r1267: rung0 reproduces E238 exactly; the non-reproduction is E240 one session out of step -- 6630 of 6635 rows carry the previous session; corrected pair 0.791/1.343; reader repaired as F-20261030-01",
    "target": "scripts/e241_pair_reproduction.py (new runner)",
    "title": "why does E238's published (A, B) pair not reproduce on the common grid?",
    "worker_class": "code-change",

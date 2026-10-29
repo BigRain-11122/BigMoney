@@ -157,6 +157,12 @@ LEGS = [
     # sum by 1/4 only multiplies a coefficient, so this leg prices the own channel against ONE
     # counterparty per pair, pooled with pair fixed effects and again with member+date FE.
     ("own_vs_cross", ["python", "scripts/e239_own_vs_cross.py", "run"]),
+    # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
+    # it is the READER, not the market: E240's share/book design paired a y vector indexed by
+    # the kept session with increments re-paired from k=1, so the dependent variable sat one
+    # session behind its regressors (6630 of 6635 rows). One change per rung, and every rung
+    # publishes a_share, the denominator coefficient and the derived rest channel.
+    ("pair_reproduction", ["python", "scripts/e241_pair_reproduction.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
