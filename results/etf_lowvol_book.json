@@ -1,0 +1,886 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "universe": 1612,
+ "question": "E227 left two directions quotable and four not. Priced as a book: does a vol_60-/intraday_range- only vector lose anything against the published six-sign vector, across the FULL 9-cell grid?",
+ "declared": {
+  "cells": [
+   {
+    "tag": "R10_N3",
+    "rebal": 10,
+    "n_hold": 3
+   },
+   {
+    "tag": "R20_N3",
+    "rebal": 20,
+    "n_hold": 3
+   },
+   {
+    "tag": "R40_N3",
+    "rebal": 40,
+    "n_hold": 3
+   },
+   {
+    "tag": "R10_N5",
+    "rebal": 10,
+    "n_hold": 5
+   },
+   {
+    "tag": "R20_N5",
+    "rebal": 20,
+    "n_hold": 5
+   },
+   {
+    "tag": "R40_N5",
+    "rebal": 40,
+    "n_hold": 5
+   },
+   {
+    "tag": "R10_N8",
+    "rebal": 10,
+    "n_hold": 8
+   },
+   {
+    "tag": "R20_N8",
+    "rebal": 20,
+    "n_hold": 8
+   },
+   {
+    "tag": "R40_N8",
+    "rebal": 40,
+    "n_hold": 8
+   }
+  ],
+  "arms": {
+   "PROD": "published six-sign vector",
+   "LV2": "intraday_range, vol_60 negative, others zero"
+  },
+  "cost_per_side": 0.001,
+  "start": "2020-01-01",
+  "oos_start": "2024-01-01",
+  "min_traded_bars": 30,
+  "tol_cagr": 0.01,
+  "min_cells_within": 7,
+  "replace_frac": 0.6666666666666666,
+  "worse_frac": 0.3333333333333333,
+  "secondary_oos": "the OOS block is reported, never used by the verdict"
+ },
+ "prod_signs": {
+  "mom_12_1": 1.0,
+  "price_position": 1.0,
+  "drawdown_60": 1.0,
+  "adx_14": 1.0,
+  "vol_60": -1.0,
+  "intraday_range": -1.0
+ },
+ "lv2_signs": {
+  "mom_12_1": 0.0,
+  "price_position": 0.0,
+  "drawdown_60": 0.0,
+  "adx_14": 0.0,
+  "vol_60": -1.0,
+  "intraday_range": -1.0
+ },
+ "cells": {
+  "R10_N3": {
+   "PROD": {
+    "full": {
+     "cagr": 0.041,
+     "sharpe": 0.474,
+     "maxdd": -0.151,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0286,
+     "sharpe": 0.358,
+     "maxdd": -0.151,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0589,
+     "sharpe": 0.623,
+     "maxdd": -0.1294,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.0422,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0145,
+     "sharpe": -4.091,
+     "maxdd": -0.095,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0144,
+     "sharpe": -3.881,
+     "maxdd": -0.0563,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0148,
+     "sharpe": -4.423,
+     "maxdd": -0.0413,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.6165,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0555,
+   "d_sharpe": -4.565,
+   "d_maxdd": 0.056,
+   "d_oos_cagr": -0.0737,
+   "rebal": 10,
+   "n_hold": 3
+  },
+  "R20_N3": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0588,
+     "sharpe": 0.633,
+     "maxdd": -0.1964,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0316,
+     "sharpe": 0.36,
+     "maxdd": -0.1964,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0984,
+     "sharpe": 1.048,
+     "maxdd": -0.1037,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.2169,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0081,
+     "sharpe": -2.806,
+     "maxdd": -0.0543,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0075,
+     "sharpe": -2.541,
+     "maxdd": -0.0297,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0091,
+     "sharpe": -3.184,
+     "maxdd": -0.0256,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.7028,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0669,
+   "d_sharpe": -3.439,
+   "d_maxdd": 0.1421,
+   "d_oos_cagr": -0.1075,
+   "rebal": 20,
+   "n_hold": 3
+  },
+  "R40_N3": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0519,
+     "sharpe": 0.545,
+     "maxdd": -0.1307,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0313,
+     "sharpe": 0.343,
+     "maxdd": -0.1307,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0818,
+     "sharpe": 0.86,
+     "maxdd": -0.124,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.2302,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0041,
+     "sharpe": -1.732,
+     "maxdd": -0.0275,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0036,
+     "sharpe": -1.47,
+     "maxdd": -0.0146,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0047,
+     "sharpe": -2.136,
+     "maxdd": -0.0137,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.754,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.056,
+   "d_sharpe": -2.277,
+   "d_maxdd": 0.1032,
+   "d_oos_cagr": -0.0865,
+   "rebal": 40,
+   "n_hold": 3
+  },
+  "R10_N5": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0534,
+     "sharpe": 0.572,
+     "maxdd": -0.1891,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0375,
+     "sharpe": 0.426,
+     "maxdd": -0.1315,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0759,
+     "sharpe": 0.765,
+     "maxdd": -0.1644,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.059,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0107,
+     "sharpe": -2.695,
+     "maxdd": -0.0707,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0101,
+     "sharpe": -3.156,
+     "maxdd": -0.04,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0115,
+     "sharpe": -2.374,
+     "maxdd": -0.0321,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.4663,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0641,
+   "d_sharpe": -3.267,
+   "d_maxdd": 0.1184,
+   "d_oos_cagr": -0.0874,
+   "rebal": 10,
+   "n_hold": 5
+  },
+  "R20_N5": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0786,
+     "sharpe": 0.809,
+     "maxdd": -0.1538,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0317,
+     "sharpe": 0.352,
+     "maxdd": -0.1538,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.1483,
+     "sharpe": 1.542,
+     "maxdd": -0.0872,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.2506,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0059,
+     "sharpe": -1.704,
+     "maxdd": -0.0399,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0061,
+     "sharpe": -2.111,
+     "maxdd": -0.0247,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0056,
+     "sharpe": -1.352,
+     "maxdd": -0.0158,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.5325,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0845,
+   "d_sharpe": -2.513,
+   "d_maxdd": 0.1139,
+   "d_oos_cagr": -0.1539,
+   "rebal": 20,
+   "n_hold": 5
+  },
+  "R40_N5": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0553,
+     "sharpe": 0.583,
+     "maxdd": -0.1282,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0366,
+     "sharpe": 0.382,
+     "maxdd": -0.1282,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0819,
+     "sharpe": 0.948,
+     "maxdd": -0.1015,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.2714,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0033,
+     "sharpe": -0.995,
+     "maxdd": -0.0224,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0029,
+     "sharpe": -1.11,
+     "maxdd": -0.0121,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0038,
+     "sharpe": -0.93,
+     "maxdd": -0.0111,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.6524,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0586,
+   "d_sharpe": -1.578,
+   "d_maxdd": 0.1058,
+   "d_oos_cagr": -0.0857,
+   "rebal": 40,
+   "n_hold": 5
+  },
+  "R10_N8": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0639,
+     "sharpe": 0.674,
+     "maxdd": -0.1664,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0447,
+     "sharpe": 0.52,
+     "maxdd": -0.1029,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0915,
+     "sharpe": 0.861,
+     "maxdd": -0.1664,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.0181,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0052,
+     "sharpe": -0.458,
+     "maxdd": -0.0439,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": -0.0066,
+     "sharpe": -0.454,
+     "maxdd": -0.0413,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.0031,
+     "sharpe": -0.932,
+     "maxdd": -0.0102,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.2093,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0691,
+   "d_sharpe": -1.132,
+   "d_maxdd": 0.1225,
+   "d_oos_cagr": -0.0946,
+   "rebal": 10,
+   "n_hold": 8
+  },
+  "R20_N8": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0684,
+     "sharpe": 0.688,
+     "maxdd": -0.1399,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0234,
+     "sharpe": 0.274,
+     "maxdd": -0.1399,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.1352,
+     "sharpe": 1.289,
+     "maxdd": -0.1038,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.244,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": -0.0002,
+     "sharpe": -0.018,
+     "maxdd": -0.0216,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0004,
+     "sharpe": 0.047,
+     "maxdd": -0.0216,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": -0.001,
+     "sharpe": -0.314,
+     "maxdd": -0.0057,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.253,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0686,
+   "d_sharpe": -0.706,
+   "d_maxdd": 0.1183,
+   "d_oos_cagr": -0.1362,
+   "rebal": 20,
+   "n_hold": 8
+  },
+  "R40_N8": {
+   "PROD": {
+    "full": {
+     "cagr": 0.0359,
+     "sharpe": 0.394,
+     "maxdd": -0.1332,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.0154,
+     "sharpe": 0.198,
+     "maxdd": -0.1332,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0652,
+     "sharpe": 0.697,
+     "maxdd": -0.1161,
+     "bars": 682
+    },
+    "turnover_per_rebal": 1.2619,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "LV2": {
+    "full": {
+     "cagr": 0.0054,
+     "sharpe": 0.552,
+     "maxdd": -0.0124,
+     "bars": 1652
+    },
+    "is": {
+     "cagr": 0.009,
+     "sharpe": 0.719,
+     "maxdd": -0.0124,
+     "bars": 970
+    },
+    "oos": {
+     "cagr": 0.0003,
+     "sharpe": 0.098,
+     "maxdd": -0.0031,
+     "bars": 682
+    },
+    "turnover_per_rebal": 0.3274,
+    "traded": true,
+    "signs": {
+     "mom_12_1": 0.0,
+     "price_position": 0.0,
+     "drawdown_60": 0.0,
+     "adx_14": 0.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   "active": true,
+   "d_cagr": -0.0305,
+   "d_sharpe": 0.158,
+   "d_maxdd": 0.1208,
+   "d_oos_cagr": -0.0649,
+   "rebal": 40,
+   "n_hold": 8
+  }
+ },
+ "summary": {
+  "rows": [
+   {
+    "tag": "R10_N3",
+    "rebal": 10,
+    "n_hold": 3,
+    "prod_cagr": 0.041,
+    "lv2_cagr": -0.0145,
+    "d_cagr": -0.0555,
+    "d_sharpe": -4.565,
+    "d_oos_cagr": -0.0737
+   },
+   {
+    "tag": "R20_N3",
+    "rebal": 20,
+    "n_hold": 3,
+    "prod_cagr": 0.0588,
+    "lv2_cagr": -0.0081,
+    "d_cagr": -0.0669,
+    "d_sharpe": -3.439,
+    "d_oos_cagr": -0.1075
+   },
+   {
+    "tag": "R40_N3",
+    "rebal": 40,
+    "n_hold": 3,
+    "prod_cagr": 0.0519,
+    "lv2_cagr": -0.0041,
+    "d_cagr": -0.056,
+    "d_sharpe": -2.277,
+    "d_oos_cagr": -0.0865
+   },
+   {
+    "tag": "R10_N5",
+    "rebal": 10,
+    "n_hold": 5,
+    "prod_cagr": 0.0534,
+    "lv2_cagr": -0.0107,
+    "d_cagr": -0.0641,
+    "d_sharpe": -3.267,
+    "d_oos_cagr": -0.0874
+   },
+   {
+    "tag": "R20_N5",
+    "rebal": 20,
+    "n_hold": 5,
+    "prod_cagr": 0.0786,
+    "lv2_cagr": -0.0059,
+    "d_cagr": -0.0845,
+    "d_sharpe": -2.513,
+    "d_oos_cagr": -0.1539
+   },
+   {
+    "tag": "R40_N5",
+    "rebal": 40,
+    "n_hold": 5,
+    "prod_cagr": 0.0553,
+    "lv2_cagr": -0.0033,
+    "d_cagr": -0.0586,
+    "d_sharpe": -1.578,
+    "d_oos_cagr": -0.0857
+   },
+   {
+    "tag": "R10_N8",
+    "rebal": 10,
+    "n_hold": 8,
+    "prod_cagr": 0.0639,
+    "lv2_cagr": -0.0052,
+    "d_cagr": -0.0691,
+    "d_sharpe": -1.132,
+    "d_oos_cagr": -0.0946
+   },
+   {
+    "tag": "R20_N8",
+    "rebal": 20,
+    "n_hold": 8,
+    "prod_cagr": 0.0684,
+    "lv2_cagr": -0.0002,
+    "d_cagr": -0.0686,
+    "d_sharpe": -0.706,
+    "d_oos_cagr": -0.1362
+   },
+   {
+    "tag": "R40_N8",
+    "rebal": 40,
+    "n_hold": 8,
+    "prod_cagr": 0.0359,
+    "lv2_cagr": 0.0054,
+    "d_cagr": -0.0305,
+    "d_sharpe": 0.158,
+    "d_oos_cagr": -0.0649
+   }
+  ],
+  "verdict": "lowvol_worse",
+  "n_active": 9,
+  "n_within_tol": 0,
+  "n_beat": 0,
+  "n_sharpe_ge": 1,
+  "median_d_cagr": -0.0641,
+  "elapsed_s": 58.2
+ },
+ "caveats": [
+  "Both arms are in-sample by construction (the six published signs were chosen on this panel, E219/r1335); this compares two sign vectors, it does not estimate a live return.",
+  "LV2 is not a fresh optimisation: it is the subset E227 already certified as sign-stable, so its win is not a new in-sample draw -- but it was still selected on the same panel, so the honest reading is 'fewer knobs, no measured loss', not 'better strategy'.",
+  "The OOS block (>= 2024-01-01) is reported and never used by the verdict: the verdict rule was frozen over the full window.",
+  "ETF pool is today's listed set (survivorship), unchanged caveat.",
+  "Engine is the reference one (no impact cost, no gap risk)."
+ ],
+ "verdict": "lowvol_worse",
+ "gate": {
+  "all_ok": false,
+  "checks": [
+   {
+    "check": "declared cells echoed",
+    "ok": true,
+    "n_declared": 9,
+    "n_payload": 9
+   },
+   {
+    "check": "cell R10_N3 recomputed",
+    "ok": true,
+    "d_cagr": -0.0555
+   },
+   {
+    "check": "cell R20_N3 recomputed",
+    "ok": true,
+    "d_cagr": -0.0669
+   },
+   {
+    "check": "cell R40_N3 recomputed",
+    "ok": true,
+    "d_cagr": -0.056
+   },
+   {
+    "check": "cell R10_N5 recomputed",
+    "ok": true,
+    "d_cagr": -0.0641
+   },
+   {
+    "check": "cell R20_N5 recomputed",
+    "ok": true,
+    "d_cagr": -0.0845
+   },
+   {
+    "check": "cell R40_N5 recomputed",
+    "ok": true,
+    "d_cagr": -0.0586
+   },
+   {
+    "check": "cell R10_N8 recomputed",
+    "ok": true,
+    "d_cagr": -0.0691
+   },
+   {
+    "check": "cell R20_N8 recomputed",
+    "ok": true,
+    "d_cagr": -0.0686
+   },
+   {
+    "check": "cell R40_N8 recomputed",
+    "ok": true,
+    "d_cagr": -0.0305
+   },
+   {
+    "check": "verdict recomputed from cells",
+    "ok": false,
+    "stored": null,
+    "recomputed": "lowvol_worse"
+   },
+   {
+    "check": "summary agrees with recomputation",
+    "ok": true
+   },
+   {
+    "check": "at least one active cell",
+    "ok": true,
+    "n_active": 9
+   }
+  ]
+ }
+}

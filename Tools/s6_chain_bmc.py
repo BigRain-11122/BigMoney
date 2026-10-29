@@ -121,6 +121,10 @@ LEGS = [
     # whether each factor's own direction survives the cell choice; it is what stops "rank 6
     # of 64" from being quoted as a property of the factors. ~180s, offline, deterministic.
     ("etf_sign_cells", ["python", "scripts/etf_sign_cells.py", "run"]),
+    # r1341 / E229: the attribution above leaves two quotable directions; a reduced book
+    # built from only them is the construction claim that has to be priced, across the full
+    # 9-cell grid (two arms per cell). ~60s after the panel is warm, offline, deterministic.
+    ("etf_lowvol_book", ["python", "scripts/etf_lowvol_book.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger

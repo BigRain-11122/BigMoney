@@ -4381,3 +4381,69 @@ EVIDENCE: `scripts/etf_sign_cells.py` (selftest 11/11) -> `results/etf_sign_cell
 (three cells x 64 arms, `evidence_cutoff` 2026-10-28); S6 leg `etf_sign_cells` (~180s) + smoke
 leg that recomputes the verdict from the per-cell arm tables.
 Digest: research/digests/DIGEST-20261029-e227-sign-cell-dependence.md.
+
+## E228 An amount column that is a target is not money, and the gap always runs one way (2026-10-29 r1334 bm-c)
+
+WHEN: a sheet prints an order amount computed as `weight x capital` with a lot count beside
+it. The two cannot agree -- 100-share lots cannot spend the remainder -- so the row labelled
+"amount (CNY)" overstates money at work and the cash row understates what is left, by the
+same residual on every bar. Downstream faces that re-price the book (ticket, paper ledger, an
+operator's broker screen) then absorb the gap differently, and the card -- the face a human
+reads -- is the only one still quoting the target.
+
+HOW: publish both faces and say which is executable. Per leg `amount_cny` stays the target
+and `actual_amount_cny` = lots x price is the executable; per sheet `book_target_cny` /
+`book_executable_cny` / `lot_residual_cny` / `cash_executable_cny` / `unpriced_legs`, with two
+identities a reader can re-add by hand: target legs + target cash = capital, and executable
+legs + executable cash = capital. Keep the legacy key (`cash_amount_cny`) at its old target
+semantics so existing consumers do not silently change meaning; print the executable column
+plus one sentence naming the residual and its NAV share.
+
+RIGHT READING: live 2026-10-28 (12 names, NAV 1,000,000, k=0.7008) target 700,776 + 299,225
+vs executable 699,520 + 300,480 -> residual 1,256 CNY = +0.13% NAV, shrinking with capital
+(~0.013% at 10M). Publishing it moves no backtest number: the engine trades continuous
+weights, so the CAGR was never a lot-constrained figure.
+
+WRONG: patch the ticket instead of the card (that moves the wrong number to the other file and
+leaves the headline face wrong); or call the two columns "the same number, rounded" and loosen
+a cross-face equality check until it passes -- r1333's ticket had exactly that temptation and
+compared at the card's published 4-dp precision with the tolerance named instead. Equally
+wrong: assert the identity on a fixture where the lots divide evenly, which proves the
+arithmetic and never fires the disclosure (r1261).
+
+EVIDENCE: `scripts/etf_book_production.py` (selftest +5 legs, including an activity leg that
+requires the fixture to strand a residual: 15,940 CNY) -> `results/etf_book_production/CARD.md`
++ `PRODUCTION-2026-10-28.json`; smoke leg `product: card amount column is executable money`
+recomputes the identities from the published sheet.
+Digest: research/digests/DIGEST-20261029-e228-executable-amount-column.md.
+## E229 A direction that survives is still not a book: the quotable subset, priced (2026-10-29 r1341 bm-c)
+
+WHEN: a factorial sweep has certified that only SOME factor directions keep their sign
+across the cells it was chosen among (E227), and the obvious next sentence is therefore
+"the edge is that subset". That sentence is a construction claim hiding in an attribution
+claim, and it is testable for the price of two arms per cell.
+
+WHAT: run the quotable subset as its own book against the full published vector, on the SAME
+panel, engine, cost and start, over the FULL selection grid (9 cells here, not the three
+corners the attribution ran on). 5,269 bars x 1,612 symbols, 10bp/side: the two-direction
+book (vol_60-, intraday_range-) loses to the six-sign book at 9 of 9 cells, median
+-6.41pp/yr, inside the 1pp tolerance at 0 of 9, better on Sharpe at 1 of 9 (the slowest
+cell). It is not a return book with a loss -- maxDD shrinks from -13..-20% to -1.2..-9.5%
+and turnover from 1.02-1.28 to 0.21-0.75, so it is a DEFENSIVE book whose gross return is
+nominally zero and whose Sharpe is monotone in turnover (R10_N8 -0.458 at 0.209 turns to
+R40_N8 +0.552 at 0.327): a low-information score dies of its own toll.
+
+THE TRAP: a main-effect decomposition inside a full factorial (E219: 8.5 of 11.4pp) and a
+reduced-book price are different measurements. The first says nothing about deleting the
+other factors; the second prices the deletion. Roughly 6.4pp/yr of the book lives in the
+combination, not in any single direction -- which is exactly why per-factor quotation is
+banned while the six-sign vector stays. Also: a delta of exactly 0.0 is a legitimate
+measurement, so never write a null test as `x or default` (this round's own selftest caught
+a 0.0 Sharpe delta being read as missing and demoting the verdict).
+
+EVIDENCE: `scripts/etf_lowvol_book.py` (selftest 9/9; gate re-derives every per-cell delta
+from the arm tables, echoes the declared grid, and refuses a hand-edited delta, a dropped
+cell or a stale verdict) -> `results/etf_lowvol_book.json`; smoke leg
+`product: E229 the quotable subset is priced against the full vector` recomputes the
+verdict from the per-cell tables.
+Digest: research/digests/DIGEST-20261029-e229-lowvol-book.md.

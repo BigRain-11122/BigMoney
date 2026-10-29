@@ -553,6 +553,40 @@ def main() -> int:
                   "card or reconciliation artifact absent -- face soft-fails by design")
     except Exception as e:
         check("product: card reconciles its two 2015-2019 readings", False, str(e))
+    # r1334 / E229: the card's printed amount column used to be a TARGET (weights x
+    # capital), so a reader wiring it into a ticket came up short by the lot rounding
+    # every single time. The face now prints an executable column; this leg recomputes
+    # the identity from the published sheet, never from a sentence on the card.
+    try:
+        _lp = os.path.join("results", "etf_book_production", "latest.json")
+        _card = os.path.join("results", "etf_book_production", "CARD.md")
+        if os.path.exists(_lp) and os.path.exists(_card):
+            _doc = json.load(open(_lp, encoding="utf-8"))
+            _sh = (_doc.get("sheet") or {})
+            _cap = _sh.get("capital_cny")
+            _keys = ("book_target_cny", "book_executable_cny", "lot_residual_cny",
+                     "cash_executable_cny")
+            _have = all(_sh.get(k) is not None for k in _keys)
+            _id1 = _have and abs(_sh["book_target_cny"] + _sh["cash_amount_cny"] - _cap) <= 2
+            _id2 = _have and abs(_sh["book_executable_cny"] + _sh["cash_executable_cny"]
+                                 - _cap) <= 2
+            _id3 = _have and abs(_sh["lot_residual_cny"]
+                                 - (_sh["book_target_cny"] - _sh["book_executable_cny"])) <= 2
+            _txt = open(_card, encoding="utf-8").read()
+            _tw = "Which column is money" in _txt
+            _nym = _sh.get("cash_executable_cny")
+            _printed = _nym is not None and format(int(_nym), ",") in _txt
+            check("product: card amount column is executable money",
+                  _have and _id1 and _id2 and _id3 and _tw and _printed,
+                  "keys=%s target=%.0f exec=%.0f residual=%.0f card=%s/%s"
+                  % (_have, _sh.get("book_target_cny") or -1,
+                     _sh.get("book_executable_cny") or -1,
+                     _sh.get("lot_residual_cny") or -1, _tw, _printed))
+        else:
+            check("product: card amount column is executable money", True,
+                  "production sheet absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: card amount column is executable money", False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
         _names = {n for n, _c in _legs}
@@ -680,6 +714,31 @@ def main() -> int:
                   True, "sign-cells artifact absent -- soft-fails by design")
     except Exception as e:
         check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+              False, str(e))
+    # r1341 / E229: E227 leaves two directions quotable, and "the edge is that subset" is a
+    # construction claim. This leg requires the reduced book to be priced against the full
+    # vector across the whole declared grid, with the verdict recomputed from the per-cell
+    # tables rather than read off the payload.
+    try:
+        _lv = os.path.join("results", "etf_lowvol_book.json")
+        if os.path.exists(_lv):
+            _doc5 = json.load(open(_lv, encoding="utf-8"))
+            _mod5 = __import__("importlib").import_module("scripts.etf_lowvol_book")
+            _g5 = _mod5.gate(_doc5)
+            _c5 = _doc5.get("cells") or {}
+            check("product: E229 the quotable subset is priced against the full vector",
+                  _g5["all_ok"] and _g5["verdict"] == _doc5.get("verdict")
+                  and len(_c5) == 9
+                  and all(bool(v.get("active")) for v in _c5.values())
+                  and _g5["detail"]["n_active"] == len(_c5),
+                  "verdict=%s active=%s beat=%s median_d=%.4f"
+                  % (_g5["verdict"], _g5["detail"]["n_active"], _g5["detail"]["n_beat"],
+                     _g5["detail"]["median_d_cagr"] or 0.0))
+        else:
+            check("product: E229 the quotable subset is priced against the full vector",
+                  True, "lowvol artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E229 the quotable subset is priced against the full vector",
               False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
