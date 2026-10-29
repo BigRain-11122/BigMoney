@@ -23040,14 +23040,29 @@
   {
    "id": "E226-TILT-BREAKEVEN-COST",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/state_tilt/BREAKEVEN-<cutoff>.json",
    "target": "scripts/e226_tilt_breakeven.py (new runner)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T16:52:00+08:00",
    "entered_by": "bm-b r1252",
    "source": "E225 left one arithmetic question unanswered: the tilt's gate-specific residuals are all negative, but the toll is a per-unit-turnover charge that this design pays 4-11 times a year. Whether the rule is wrong or merely expensive is a single monotone sweep, not a new study.",
-   "title": "Breakeven toll for the state tilt: at what cost per unit of turnover does the best gate-specific arm cross zero, and is that below a plausible traded cost?"
+   "title": "Breakeven toll for the state tilt: at what cost per unit of turnover does the best gate-specific arm cross zero, and is that below a plausible traded cost?",
+   "result_ref": "results/state_tilt/BREAKEVEN-2026-10-28.json",
+   "done_note": "sh510300 3,503 sessions to 2026-10-28, 1,401 OOS decisions: every gated arm is DEAD AT ANY PRICE -- the best (binary_low) already stands at -324 bp/yr before any toll, so its break-even cost is -21.216 bp per unit of turnover and all four gated arms need a negative price. The equal-weight basket has one root above the model cost (binary_low 36.454 bp/unit) but at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01: it survives the toll by standing at zero after a null arm that lost -662 bp/yr, so 0 of 1 survivors clear the bar. Charging a cost is linear in the toll, so the answer is a root on a line, not a new study.",
+   "done_by": "bm-b r1253"
+  },
+  {
+   "id": "E228-MATCHED-EXPOSURE-NULL",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/state_tilt/MATCHED-<cutoff>.json",
+   "target": "scripts/e228_matched_exposure.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T17:58:00+08:00",
+   "entered_by": "bm-b r1253",
+   "source": "E226 showed the drift split can hand a rule that earned nothing a positive gate-specific residual: on the equal-weight basket binary_low's +340 bp/yr residual sits beside +1.8 bp/yr of actual excess at t=0.01, and the same rule reads -324 bp/yr on the single panel. The split was an attribution, not a benchmark.",
+   "title": "Does the tilt survive an exposure-matched null? Replace the drift split with a flat arm held at each gated arm's own average weight, so the comparison is exposure for exposure instead of an attributed share of the null's drift, and report how many arms change sign between the two benchmarks."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

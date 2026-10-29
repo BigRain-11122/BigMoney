@@ -1531,15 +1531,40 @@
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-29T17:07:11+08:00"
  },
+ "r1253": {
+  "d19": "decisions 97fe122f / orders 122ab707 unchanged (sha256 of origin blobs, group tree at C:\\Fluxgroup\\FluxGroup) -> zero new rows; 114 files / 115 acks / 0 unacked",
+  "dualrun": "ZERO-DRIFT 699 entries streak 10",
+  "finding": "the tilt is not merely expensive, it is wrong: gate_specific(c) = gate_specific(0) - c*D is a line in the toll, and on sh510300 every gated arm already stands below zero before any cost (best binary_low -324 bp/yr -> break-even -21.2 bp/unit), so no execution price rescues it; the one root above the model cost sits on the equal-weight basket (binary_low 36.5 bp/unit) but at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01, i.e. it survives the toll by standing at zero after a null arm that lost -662 bp/yr, not by earning",
+  "mission": "watermark red at open (py low, pool ready 1 = E226) with smoke 210/210 and board clear -> the red item WAS the ready card, so E226 was burned in-window rather than deferred",
+  "not_run": "GPU untouched (parked C-20261014-01; the 4,007 MiB in use is the interactive window's); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; CODELY.md not touched (this session carries no append_memory tool, so the lesson lives in card E227 + the digest)",
+  "orphan": 0,
+  "pits": [
+   "a first leg asserted an ORDERING between two break-even roots ('the excess-basis root is stricter') and failed: the two lines differ by avg_w*null_excess, constant in c, so which root is larger flips with the sign of the null arm's drift. Replaced with the identity excess_root - gate_root == avg_w*null_excess/D (22.2140 vs 22.2140 bp/unit)",
+   "sweeping the pool file through json.dump(sort_keys=True) reordered every entry and produced a 283-line diff for a one-field flip; reverted to a surgical in-place edit (5/2 lines)"
+  ],
+  "product": [
+   "results/state_tilt/BREAKEVEN-2026-10-28.json",
+   "results/state_tilt/breakeven_latest.json",
+   "results/state_tilt/breakeven_by_arm_2026-10-28.csv",
+   "scripts/e226_tilt_breakeven.py (run/selftest, 18 legs)",
+   "Tools/s6_chain_bmb.py: tilt_breakeven leg immediately after state_tilt",
+   "smoke_test.py: leg that re-derives every published root from its own line",
+   "research/digests/DIGEST-20261029-r1253-e226-breakeven-toll.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E227",
+   "results/runnable_pool.json E226 done with result_ref; E228 seeded ready 1"
+  ],
+  "s6": "35/35 rc=0 (217.9s), tilt_breakeven rc=0 1.68s",
+  "smoke": "211/211 PASS, 0 FAIL"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1252,
- "round_no": 1252,
- "round_no_label": "r1252",
+ "round": 1253,
+ "round_no": 1253,
+ "round_no_label": "r1253",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T17:04:02+08:00",
+ "round_no_ts": "2026-10-29T18:17:09+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": "status rc=0 (last_verdict idle)",
@@ -1553,11 +1578,11 @@
   "status": "delivered_on_machine_branch",
   "ts": "2026-10-29T07:50:25+08:00"
  },
- "task": "r1252: E225 continuously-held state tilt -> 0/5 arms adopt, but n_eff 97%% (the escape is real) and the bar moved 0.81x the wrong way | product results/state_tilt/TILT-2026-10-28.json",
- "task_short": "E225 state tilt: sessions yes, resolution no",
+ "task": "r1253: E226 break-even toll -> every gated arm is dead at any price (best root -21.2 bp/unit); the one basket root above cost survives on zero excess at t=0.01 | product results/state_tilt/BREAKEVEN-2026-10-28.json",
+ "task_short": "E227 break-even toll: the tilt dies before the toll",
  "task_short_note": "scripts/e223_obs_rate_ladder.py; selftest 26/26; face results/obs_rate/OBSRATE-20261028.json",
- "ts": "2026-10-29T16:17:39+08:00",
- "updated": "2026-10-29T15:35:00+08:00",
- "updated_at": "2026-10-29T15:35:00+08:00",
- "verdict": "E223 observation-rate ladder: a faster calendar anchor does not resolve a calendar question. sh510300, 173 monthly periods vs 738 weekly: monthly +428.97bp/yr excess (t=0.65), weekly -1,100.6/-1,239.2/-1,255.7bp/yr (t=-1.63/-2.38/-2.79); all REJECT. Resolution is MDE_ann = z*sd_per_period*sqrt(per_year/years), so 4.3x the observations buys 0.68x-1.01x of the annual bar and the thinnest high-frequency rung is worse than the slow one."
+ "ts": "2026-10-29T18:17:09+08:00",
+ "updated": "2026-10-29T18:17:09+08:00",
+ "updated_at": "2026-10-29T18:17:09+08:00",
+ "verdict": "the tilt is not merely expensive, it is wrong: gate_specific(c) = gate_specific(0) - c*D is a line in the toll, and on sh510300 every gated arm already stands below zero before any cost (best binary_low -324 bp/yr -> break-even -21.2 bp/unit), so no execution price rescues it; the one root above the model cost sits on the equal-weight basket (binary_low 36.5 bp/unit) but at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01, i.e. it survives the toll by standing at zero after a null arm that lost -662 bp/yr, not by earning"
 }

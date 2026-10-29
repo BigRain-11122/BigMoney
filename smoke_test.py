@@ -2441,6 +2441,76 @@ def main() -> int:
     except Exception as e:
         check("product: the state tilt publishes its own effective sample size",
               False, repr(e)[:160])
+
+    # --- E226 the break-even toll: the published root must be the zero of the
+    # published line, and surviving the toll must not read as clearing the bar
+    try:
+        _f26 = {}
+        _bad = []
+        _face26 = "results/state_tilt/breakeven_latest.json"
+        if not os.path.exists(_face26):
+            _bad.append("no results/state_tilt/breakeven_latest.json on disk")
+        else:
+            with open(_face26, encoding="utf-8") as _fh:
+                _f26 = json.load(_fh)
+            _cut26 = _f26.get("evidence_cutoff")
+            if not _cut26:
+                _bad.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/BREAKEVEN-%s.json" % _cut26):
+                _bad.append("the dated face beside the latest pointer is missing")
+            _spec26 = _f26.get("frozen_spec") or {}
+            _classes26 = set((_spec26.get("verdict_bands") or {}).keys())
+            if not _classes26:
+                _bad.append("verdict bands are not published")
+            for _p in (_f26.get("panels") or []):
+                for _a in (_p.get("arms") or []):
+                    _n26 = _a.get("name")
+                    if _a.get("verdict") not in _classes26:
+                        _bad.append("arm %s carries an unpublished verdict" % _n26)
+                    _d26 = _a.get("turnover_differential_oos_per_year")
+                    _g26 = _a.get("gate_specific_at_zero_cost_bp_per_year")
+                    _c26 = _a.get("break_even_cost_bp_per_unit_turnover")
+                    if _c26 is not None:
+                        if _d26 is None or _d26 <= 0:
+                            _bad.append("arm %s prices a root with no toll differential"
+                                        % _n26)
+                        elif abs(_c26 * _d26 - _g26) > 1e-6 * max(1.0, abs(_g26)):
+                            _bad.append("arm %s root is not the zero of its own line" % _n26)
+                    if _a.get("verdict") == "SURVIVES_MODEL_COST":
+                        _ac26 = _a.get("at_model_cost") or {}
+                        if None in (_ac26.get("excess_bp_per_year"),
+                                    _ac26.get("excess_oos_t")):
+                            _bad.append("arm %s survives the toll with no excess read at "
+                                        "that cost" % _n26)
+                    _lad26 = _a.get("cost_ladder") or []
+                    _mults26 = [_r.get("cost_mult") for _r in _lad26]
+                    if _mults26 != sorted(_mults26):
+                        _bad.append("arm %s sweep is not ascending in cost" % _n26)
+                    _gs26 = [_r.get("gate_specific_bp_per_year") for _r in _lad26
+                             if _r.get("gate_specific_bp_per_year") is not None]
+                    if any(_gs26[_k] < _gs26[_k + 1] - 1e-6 for _k in range(len(_gs26) - 1)):
+                        _bad.append("arm %s gate-specific rises with the toll" % _n26)
+            if not (_f26.get("answer") or "").strip():
+                _bad.append("face publishes no answer sentence")
+            _sig26 = _f26.get("breakeven_vs_significance") or {}
+            for _r26 in (_sig26.get("arms") or []):
+                if _r26.get("clears_bar_at_model_cost") is True and \
+                        (_r26.get("excess_oos_t_at_model_cost") or 0.0) < 1.0:
+                    _bad.append("a survivor is recorded as clearing the bar on no t")
+        check("product: the state tilt prices the toll it would need",
+              not _bad, "; ".join(_bad)[:220]
+              or "%d panels, %d arms, roots %s, any survivor clears the bar %s"
+                 % (len(_f26.get("panels") or []),
+                    sum(len(p.get("arms") or []) for p in (_f26.get("panels") or [])),
+                    ",".join("%s=%.1f" % (a.get("name"),
+                                          a["break_even_cost_bp_per_unit_turnover"])
+                             for p in (_f26.get("panels") or [])[:1]
+                             for a in (p.get("arms") or [])
+                             if a.get("break_even_cost_bp_per_unit_turnover") is not None),
+                    bool((_f26.get("breakeven_vs_significance") or {})
+                         .get("any_survivor_clears_the_bar"))))
+    except Exception as e:
+        check("product: the state tilt prices the toll it would need", False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

@@ -4056,3 +4056,54 @@ state_tilt after vol_gate; smoke leg re-derives each MDE from z*se_nw*252, refus
 n, and refuses a drift split that does not re-add. Pit: a HAC leg whose fixture is a
 sawtooth carries negative lag-1 correlation and fails the "NW >= iid" assertion the method
 needs -- the fixture noise must be white (LCG) before that leg means anything.
+
+### E227 -- a break-even toll is a property of the line, and clearing a toll is not clearing a bar (r1253 bm-b)
+
+E225 left one arithmetic question open and it did not need a new study. Its gate-specific
+residual runs on a per-unit-turnover toll, so in the cost `c` it is a straight line:
+
+    gate_specific(c) = gate_specific(0) - c * D,   D = arm turnover/yr - avg_w * null turnover/yr
+
+One root, `c* = gate_specific(0) / D`, in bp per unit of turnover. The sweep (0 -> 3x the
+frozen 13.041bp) is the evidence and the closed form is the answer; they are asserted equal
+to 4.5e-13 bp/yr, and the root re-evaluated through the engine reads 1.1e-13.
+
+Result. On sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions) every gated arm is
+DEAD AT ANY PRICE: the largest gross gate-specific residual (voltarget) is -174 bp/yr before
+paying anything, and the highest break-even belongs to a DIFFERENT arm (binary_low, -21.2
+bp/unit) -- a negative cost would be needed, i.e. the gross rule loses before it trades. All
+four gated arms share that state. On the equal-weight basket one root does land above the
+model cost (binary_low, 36.5 bp/unit), and that is exactly where the second rule earns its
+keep: at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01. It survives the toll by standing
+at ZERO, after a null arm that lost -662 bp/yr -- its +340 bp/yr gate-specific residual is
+the drift attribution, not money the tilt earned. 0 of 1 survivors clear the bar.
+
+**Ranking by residual and ranking by break-even name different arms** once every arm is
+below zero. The first version of this face printed "the best gate-specific arm (binary_low)
+stands at -324 bp/yr": binary_low has the highest ROOT, voltarget the highest residual.
+Publish both selectors separately (`best_gate_specific_arm` / `best_break_even_arm`) and
+have a selftest leg feed a fixture where they disagree -- a label picked by one criterion and
+written as the other is how a face lies with every number correct.
+
+How to apply:
+1. When an arm's residual is linear in a cost, publish the ROOT rather than only the
+   verdict at one cost -- and publish the ladder so the line is visible.
+2. Always read a "survives the cost" verdict again at that cost, with its t beside its
+   annual excess. Toll survival and statistical survival are different claims and a face
+   that prints only the first will be read as the second.
+3. Publish 1/D as root fragility: voltarget pays only 2.0 units/yr on the single panel, so
+   100bp/yr of measurement error moves its root 50 bp/unit. A flat line makes the root a
+   wild extrapolation even when the arithmetic is exact.
+4. **Do not assert an ORDERING between two roots whose direction depends on the sign of an
+   intercept.** gate_specific(c) and excess(c) differ by avg_w * null_excess, constant in c,
+   so which root is larger flips with the sign of the null arm's drift. My first leg
+   asserted "the excess-basis root is stricter" and failed on a negative root -- the fix is
+   to assert the IDENTITY `excess_root - gate_root == avg_w * null_excess / D`, which holds
+   whichever way the signs fall (measured 22.2140 vs expected 22.2140 bp/unit).
+
+Pieces: scripts/e226_tilt_breakeven.py (run / selftest, 18 hermetic legs); face
+results/state_tilt/BREAKEVEN-<cutoff>.json + breakeven_latest.json + breakeven_by_arm csv;
+S6 leg tilt_breakeven immediately after state_tilt; smoke leg re-derives every published
+root from its own line (c**D == g0), refuses a root published without a positive toll
+differential, refuses a sweep that rises with cost, and refuses a survivor recorded with no
+excess read at that cost.
