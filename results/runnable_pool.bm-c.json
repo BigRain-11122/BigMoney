@@ -22645,12 +22645,35 @@
    "deliverable": "results/e44_midmonth/SHAREDBOOK-WIDTH-<cutoff>.json",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-29T10:22:28+08:00",
    "entered_by": "bm-b r1244",
    "evidence_cutoff": "2026-10-28",
    "source": "r1242 E61: full window mid_shared -0.72 vs me -1.56 and mid -1.38 -> timing +0.84, selection -0.66, residual 0.00; the shared arm's candidate set is the month-end book (<=10 names) against 1,274 for both full arms",
-   "runner_note": "reuse e27.simulate with an explicit per-session candidate list; the size-matched random arm needs a fixed seed recorded in the face"
+   "runner_note": "reuse e27.simulate with an explicit per-session candidate list; the size-matched random arm needs a fixed seed recorded in the face",
+   "result_ref": "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json",
+   "closed_by": "bm-b r1245",
+   "closed_at": "2026-10-29T11:42:37+08:00",
+   "close_note": "deliverable landed on disk 9.06h after entry; closed by the reconciliation audit"
+  },
+  {
+   "id": "E219-WIDTH-LADDER-RESOLUTION",
+   "title": "E218 could not resolve E61's 18bp calendar gap at book width 10: a size-matched random control there carries 402-529bp/yr of draw noise, so 3,454 draws would be needed. A ten-name draw is the noisiest control possible, so put the SAME matched-width experiment on a width ladder (pick_n = 10 / 25 / 50 / 100) and publish, per width, the control's sd, the standard error at the draw count used, and the draws needed to resolve 18bp. Report the first width at which the control could decide the E61 split, and re-read the split there. The question is not 'does the timing part survive' but 'is this family measurable at any width this book actually runs'.",
+   "target": "scripts/e39_panel_census.py (mode sharedbookwidth, width ladder)",
+   "deliverable": "results/e44_midmonth/WIDTHLADDER-<cutoff>.json",
+   "lane": "cpu-only",
+   "lane_owner": "bm-b",
+   "status": "done",
+   "entered_at": "2026-10-29T11:42:37+08:00",
+   "entered_by": "bm-b r1245",
+   "evidence_cutoff": "2026-10-28",
+   "source": "r1245 E218: selection -66.0bp = width +189.4 (sd 402.4) + pool identity -255.4 (sd 402.4); calendar full +18.0 vs matched -92.4 (sd 528.9, n=5, SE 236.5, same-side share 0.4) -> unresolvable_at_matched_width, draws_needed=3454",
+   "runner_note": "reuse run_sharedbook_width with pick_n as the ladder axis; keep the seeded draws and the tri-state verdict; publish cost x0 and never call a wider book a strategy change",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-29T12:29:00+08:00",
+   "done_at": "2026-10-29T12:47:00+08:00",
+   "result_ref": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "result_summary": "ladder pick_n 10/25/50/100: control sd 528.9/237.3/124.8/97.3, draws needed for the gap showing at that width 3454/91/3/19 -> first resolvable width 50; but the gap itself moves 18 -> -50 -> -161 -> -45 (spread 179bp > tightest SE 43.5) so gap_is_width_invariant=false, and at width 50 the matched reading is +7.6bp against a -161.0bp gap (sign flips across draws) = resolvable but not a survival"
   },
   {
    "id": "E192-WIDE-CARRIER-PERSISTENCE",
@@ -22928,6 +22951,21 @@
    "done_at": "2026-10-29T06:27:49+08:00",
    "done_by": "bm-b r1238",
    "result_ref": "results/e79/PAGEGATE-2026-10-29.json"
+  },
+  {
+   "id": "E220-WIDTH-MOVEMENT-ATTRIBUTION",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/e44_midmonth/WIDTHSPLIT-<cutoff>.json",
+   "target": "scripts/e39_panel_census.py (new mode sharedbookwidthsplit)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T13:40:00+08:00",
+   "entered_by": "bm-b r1247",
+   "source": "E219 left the ladder as four numbers with no mechanism: either the rungs apply the same calendar offset to different books, or they offer different candidate sets. The E61 identity decides it at zero cost because the ladder already publishes both parts at every rung.",
+   "title": "Split the width ladder into timing and selection, attribute each rung STEP, and run the invariance test on the part that carries the movement -- so 'the movement is timing' cannot be read as 'the calendar effect is stable'.",
+   "done_at": "2026-10-29T13:40:00+08:00",
+   "done_by": "bm-b r1247",
+   "result_ref": "results/e44_midmonth/WIDTHSPLIT-20261028.json"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -22942,7 +22980,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-29T10:22:28+08:00",
+ "updated_at": "2026-10-29T13:40:00+08:00",
  "version": 1,
  "lane_machine": "bm-c"
 }
