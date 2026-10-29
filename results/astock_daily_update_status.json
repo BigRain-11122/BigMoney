@@ -1,21 +1,17 @@
 {
-  "ts": "2026-10-29T02:51:20",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-29T08:05:30",
+  "mode": "no-op: panel fresh",
   "panel": {
-    "complete": false,
+    "complete": true,
     "cutoff": "2026-10-28",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 95.8,
+    "coverage_pct": 99.8,
     "coverage_90": "2026-10-28",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-28",
-        5007
-      ],
-      [
-        "2026-10-27",
-        208
+        5215
       ],
       [
         "2026-10-26",
@@ -32,12 +28,14 @@
       [
         "2026-10-16",
         1
+      ],
+      [
+        "2026-10-12",
+        1
       ]
     ],
     "universe_n": 5227,
-    "per_files": 5225,
-    "cycle_cutoff": "2026-10-27",
-    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
+    "per_files": 5225
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -51,26 +49,25 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 0,
-    "fetched": 0,
+    "todo": 6,
+    "fetched": 6,
     "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
     "failures_tail": [],
     "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 0.0,
-    "vwap_anchor_max": null,
+    "elapsed_min": 0.4,
+    "vwap_anchor_max": 0.119501,
     "repull": false
   },
   "quarantined_n": 6,
-  "last_spawn_attempt": "2026-10-28T21:31:27",
-  "settled_n": 7,
+  "last_spawn_attempt": "2026-10-29T03:45:38",
+  "settled_n": 6,
   "settled": [
     "002717",
     "002827",
     "301468",
-    "600621",
     "601326",
     "605258",
     "688496"
@@ -81,6 +78,5 @@
     "bracket_tolerated_rows": 0,
     "defect_rows": 0
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-28 (coverage 95.8%, 90% date 2026-10-28)",
-  "spawn_mode": "continuation"
+  "no_op_reason": "panel fresh (cutoff 2026-10-28 >= expected 2026-10-28)"
 }

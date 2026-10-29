@@ -3029,3 +3029,48 @@ that produced it -- first invested bar, cash share, decision count -- beside the
 all cash, the zero is a statement about the window, not about the calendar, and the round should say so
 in the face rather than in a footnote. The classification is a pure function of (gap, pre-invested share)
 so it can be pinned by selftest legs, which is what stops the next window from re-reading the same zero.
+
+## E213 An off-book penalty has to survive its own liquidity terciles (2026-10-29 r1240 bm-b)
+
+E57 put the whole 2024_now mid-month gap in one bucket: entrants the month-end book neither holds nor
+is about to drop earned +0.67% per swap under the mid-month book against +2.30% for the rest, and the
+sentence "the calendars read different slices" was published on that difference. Two readings fit it and
+the bucket-level number cannot tell them apart. Either the disjoint slice is drawn from thin names that
+simply move less -- a composition effect that says nothing about calendars -- or the two books are
+reading different moments of similar names, which is a timing claim.
+
+The leg (mode `offbookliq`) republishes the same per-swap reading inside the entrant's own liquidity:
+every entrant carries the mean traded amount over the 60 sessions ending at the decision bar, one set of
+tercile cuts is drawn from the pooled distribution of BOTH calendars (per-calendar cuts would put one
+name in two buckets and destroy the only comparison the leg exists to make), and the bucket is then read
+tercile by tercile for each calendar. Nothing is re-priced: the rows are E57's own chase rows with one
+field added, and the books still come from the engine's own rank.
+
+Readings on the 2024_now era, disjoint bucket (341 month-end / 326 mid-month entrant slots): the pooled
+gap +2.006 vs +0.672 is not uniform inside the terciles. Month-end minus mid-month is -0.475 in the thin
+tercile, +0.570 in the middle and +3.774 in the thick one -- the entire headline is a thick-name effect,
+and in thin names the sign reverses. One era earlier the same thick column reads -1.584, so the effect is
+not even stable in sign across eras.
+
+The classifier publishes what the numbers support instead of picking the nicer half: a gap that holds
+inside every tercile in one direction is a timing reading, one whose terciles do not separate is a
+liquidity reading, one that changes sign by tercile is its own class (heterogeneous bucket), and one that
+holds but where the thick-minus-thin gradient is at least as large as the gap is published as both.
+
+Two rules come out of this card.
+
+(a) **A bucket statistic must be re-read inside the bucket's own covariate.** "The gap sits in bucket X"
+is a statement about an average over a heterogeneous set. Until X is split by the thing that plausibly
+causes the difference, the bucket is a name for a mixture, not a mechanism.
+
+(b) **Run the verdict on at least two aggregators and publish the disagreement.** The same classifier on
+the cell MEANS says `gap_changes_sign_across_terciles` while on the cell MEDIANS it says
+`timing_survives_inside_every_tercile` -- on identical cells, because the thin tercile's mean is dragged
+by a few large losers (mean 1.573 vs median 1.361 for month-end, 2.048 vs 0.435 for mid-month). A verdict
+that only exists under one aggregator is not a verdict, and the instability is itself the publishable
+finding: it says the effect lives in the tail, not in the typical swap.
+
+How to apply: any "this slice is different" claim should ship with the slice split by its most obvious
+covariate, a pooled threshold set so the split is comparable across arms, and the verdict computed twice.
+Publish `verdict_stable_across_aggregators` beside the verdict; a false there is a stop sign for quoting
+either number.

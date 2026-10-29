@@ -8916,6 +8916,10 @@ def run_midmonth(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
 
 CHASE_BUCKETS = ("other_drops_next", "other_still_holds", "disjoint")
 
+# E60: the off-book bucket is re-read inside the entrant's own liquidity, so the
+# amount window is a published parameter of the leg and not a hidden constant.
+OFFBOOK_LIQ_WINDOW = 60
+
 
 def _next_decision_idx(decisions, bar_idx):
     """Index of the first decision taken strictly after ``bar_idx``, or None.
@@ -8953,12 +8957,18 @@ def _classify_entrants(entrants, next_hold, drop_next):
     return out
 
 
-def _chase_rows(cal, prices, decisions, other, eras=ERAS):
+def _chase_rows(cal, prices, decisions, other, eras=ERAS, amounts=None,
+                liq_window=OFFBOOK_LIQ_WINDOW):
     """Per-transition entrants with their forward return and their bucket.
 
     ``other`` is the same-calendar decision list of the other rebalance timing.
     The bucketing reads that book's next two decisions, which is the only
     counterfactual available without re-pricing a portfolio.
+
+    ``amounts`` is optional: when the caller passes the panel's own amount
+    series each entrant also carries the trailing traded amount it had at the
+    decision bar, which is what E60 needs to ask whether a bucket is a liquidity
+    slice. Without it the emitted rows are exactly the E57 rows.
     """
     rows = []
     for k in range(1, len(decisions)):
@@ -8990,8 +9000,11 @@ def _chase_rows(cal, prices, decisions, other, eras=ERAS):
         entrants = []
         for s in ent:
             r = fwd(s)
-            entrants.append({"symbol": s, "bucket": bucket_of.get(s),
-                             "fwd_pct": None if r is None else round(100 * r, 3)})
+            entry = {"symbol": s, "bucket": bucket_of.get(s),
+                     "fwd_pct": None if r is None else round(100 * r, 3)}
+            if amounts is not None:
+                entry["liq_amount"] = _trailing_amount(amounts.get(s), i0, liq_window)
+            entrants.append(entry)
         exits = [{"symbol": s, "fwd_pct": (None if fwd(s) is None
                                            else round(100 * fwd(s), 3))} for s in ext]
         rows.append({
@@ -9129,6 +9142,332 @@ def run_chase(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_d
             "the last transition of each calendar has no full forward window if the "
             "panel ends mid-window; those rows carry null returns rather than zeros",
             "descriptive census only: no gate, no verdict, no prereg, no trial count",
+        ],
+    }
+
+
+# --------------------------------------------- leg: E60 off-book liquidity
+LIQ_TERCILES = ("thin", "mid", "thick")
+# a within-tercile calendar gap smaller than this is not separating evidence
+OFFBOOK_LIQ_FLOOR_PCT = 0.10
+
+
+def _trailing_amount(series, i0, window=OFFBOOK_LIQ_WINDOW):
+    """Mean traded amount over the ``window`` sessions ending at the decision bar.
+
+    The decision bar itself is inside the window: the book is filled on that
+    session, so the trailing amount is the longest history an observer could have
+    had when the name was bought. Missing bars are skipped rather than read as
+    zero turnover -- a suspended session is not a dry one -- and a window with no
+    traded value at all stays None, because "no liquidity reading" and "thin" are
+    different buckets.
+    """
+    if not series or i0 is None:
+        return None
+    lo = max(0, i0 - window + 1)
+    vals = [float(v) for v in series[lo:i0 + 1] if v is not None]
+    if not vals:
+        return None
+    return sum(vals) / len(vals)
+
+
+def _liq_tercile_thresholds(values):
+    """One pair of cuts for the whole sweep, at the thirds of the pooled values.
+
+    Pooling is the point: terciles computed per calendar would put the same name
+    in different buckets under the two books, and the two readings would then not
+    be comparable -- comparing them is the only thing this leg exists to do.
+    """
+    vals = sorted(float(v) for v in values if v is not None)
+    if len(vals) < 3:
+        return None
+
+    def q(p):
+        pos = p * (len(vals) - 1)
+        lo = int(pos)
+        hi = min(lo + 1, len(vals) - 1)
+        return vals[lo] + (vals[hi] - vals[lo]) * (pos - lo)
+
+    return [round(q(1.0 / 3.0), 1), round(q(2.0 / 3.0), 1)]
+
+
+def _liq_tercile(value, cuts):
+    """thin / mid / thick for one trailing amount, or None without a reading."""
+    if value is None or not cuts:
+        return None
+    if value <= cuts[0]:
+        return "thin"
+    if value <= cuts[1]:
+        return "mid"
+    return "thick"
+
+
+def _attach_terciles(rows, cuts):
+    """Write each entrant's own tercile onto its row; return how many got one."""
+    attached = 0
+    for r in rows:
+        for e in r["entrants"]:
+            e["tercile"] = _liq_tercile(e.get("liq_amount"), cuts)
+            if e["tercile"] is not None:
+                attached += 1
+    return attached
+
+
+def _liq_cell(entries):
+    """One (calendar x bucket x tercile) cell: count, priced mean, median, tail."""
+    priced = [e["fwd_pct"] for e in entries if e.get("fwd_pct") is not None]
+    liq = [e["liq_amount"] for e in entries if e.get("liq_amount") is not None]
+    return {
+        "entrants": len(entries),
+        "priced": len(priced),
+        "fwd_pct_mean": (round(sum(priced) / len(priced), 3) if priced else None),
+        "fwd_pct_median": (None if not priced else round(_median_of(priced), 3)),
+        "negative_share_pct": (None if not priced else
+                               round(100.0 * sum(1 for v in priced if v < 0)
+                                     / len(priced), 1)),
+        "liq_amount_median": (None if not liq else round(_median_of(liq), 1)),
+    }
+
+
+def _liq_bucket_cells(rows, eras=ERAS):
+    """Per era and per chase bucket: the pooled cell plus one cell per tercile."""
+    out = {}
+    for name, _lo, _hi in eras:
+        sub = [r for r in rows if r["era"] == name]
+        if not sub:
+            continue
+        flat = [e for r in sub for e in r["entrants"]]
+        per = {}
+        for b in CHASE_BUCKETS:
+            inb = [e for e in flat if e["bucket"] == b]
+            cell = {"all": _liq_cell(inb)}
+            for t in LIQ_TERCILES:
+                cell[t] = _liq_cell([e for e in inb if e.get("tercile") == t])
+            cell["share_pct"] = (round(100.0 * len(inb) / len(flat), 2)
+                                 if flat else None)
+            per[b] = cell
+        out[name] = {"transitions": len(sub), "entrant_slots": len(flat),
+                     "buckets": per}
+    return out
+
+
+def _offbook_liq_verdict(me_cells, mid_cells, floor=OFFBOOK_LIQ_FLOOR_PCT,
+                         field="fwd_pct_mean"):
+    """Is the off-book bucket a liquidity story, a timing story, or neither?
+
+    ``me_cells`` / ``mid_cells`` are the per-tercile cells of ONE bucket inside
+    ONE era. Two magnitudes decide it and both are published:
+
+      * the tercile GAP -- month-end minus mid-month inside each tercile. It is
+        the timing reading, and it only counts as surviving if it holds inside
+        every measured tercile, in one direction, above the floor.
+      * the LIQUIDITY gradient -- thick minus thin inside a calendar. It is the
+        composition reading: if thin names simply earn less, a bucket that
+        happens to be thin will look bad without any calendar being wrong.
+
+    A bucket whose gap dies inside the terciles is a liquidity slice; one whose
+    gap holds everywhere is a timing reading; one that shows both is published as
+    both rather than resolved by whichever number reads nicer. ``field`` is why
+    the caller can run the same classifier on the mean and on the median: a
+    verdict that only exists under one aggregator is not a verdict.
+    """
+    def v(cells, t):
+        return ((cells or {}).get(t) or {}).get(field)
+
+    if not me_cells or not mid_cells:
+        return {"classification": "unmeasured", "tercile_gaps_pct": {},
+                "liq_gradients_pct": {}, "floor_pct": floor, "field": field}
+    gradients = {}
+    for label, cells in (("me", me_cells), ("mid", mid_cells)):
+        thick, thin = v(cells, "thick"), v(cells, "thin")
+        gradients[label] = (None if thick is None or thin is None
+                            else round(thick - thin, 3))
+    gaps = {}
+    for t in LIQ_TERCILES:
+        a, b = v(me_cells, t), v(mid_cells, t)
+        gaps[t] = None if a is None or b is None else round(a - b, 3)
+    measured = [g for g in gaps.values() if g is not None]
+    out = {"tercile_gaps_pct": gaps, "liq_gradients_pct": gradients,
+           "terciles_measured": len(measured), "floor_pct": floor, "field": field}
+    if len(measured) < 2:
+        out["classification"] = "no_separating_reading"
+        return out
+    same_sign = (all(g > 0 for g in measured) or all(g < 0 for g in measured))
+    above_floor = all(abs(g) >= floor for g in measured)
+    gap_mag = max(abs(g) for g in measured)
+    grads = [g for g in gradients.values() if g is not None]
+    grad_mag = max(abs(g) for g in grads) if grads else None
+    out["gap_magnitude_pct"] = round(gap_mag, 3)
+    out["liq_gradient_magnitude_pct"] = (None if grad_mag is None
+                                         else round(grad_mag, 3))
+    grad_dominates = (grad_mag is not None and grad_mag >= gap_mag
+                      and grad_mag >= floor)
+    if same_sign and above_floor:
+        out["classification"] = ("both_liquidity_and_timing" if grad_dominates
+                                 else "timing_survives_inside_every_tercile")
+    elif not same_sign and above_floor:
+        out["classification"] = "gap_changes_sign_across_terciles"
+    elif grad_dominates:
+        out["classification"] = "liquidity_gradient_dominates"
+    else:
+        out["classification"] = "no_separating_reading"
+    return out
+
+
+def _chase_panel(start="2020-01-01", pick_n=9999, exclude=("sh511",), mid_day=15,
+                 raw=None):
+    """The E57 chase leg's inputs, shared by the legs that extend it.
+
+    Nothing is re-priced here: prices and amounts are the panel's own series and
+    the books come from ``_decision_sets``, which calls the engine's own rank.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe() if raw is None else raw
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    rank_cache = {}
+    calendars = [("me", sorted(set(base.month_end_indices(cal)))),
+                 ("mid%d" % mid_day, _mid_month_indices(cal, mid_day))]
+    decisions = {}
+    for label, idxs in calendars:
+        decisions[label] = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                          idxs, rank_cache)
+    return cal, prices, amounts, universe, decisions, "mid%d" % mid_day
+
+
+def run_offbookliq(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
+                   mid_day=15, liq_window=OFFBOOK_LIQ_WINDOW, raw=None):
+    """E60: is the off-book bucket a liquidity story?
+
+    E57 (r1134) put the whole 2024_now mid-month gap in the disjoint bucket:
+    entrants the other calendar neither holds nor is about to drop earned +0.67%
+    per swap there against +2.30% for the rest. Two readings fit that number --
+    the disjoint slice is drawn from thin names that simply move less, or the two
+    calendars are reading different moments of the same names. This leg separates
+    them without re-pricing anything: every entrant is bucketed by its own
+    trailing traded amount at the decision bar and the per-swap reading is
+    republished inside each liquidity tercile for both calendars.
+
+    A gap that holds inside every tercile is about timing; one that dies inside
+    them is about which names the bucket happens to hold.
+    """
+    cal, prices, amounts, universe, decisions, mid_label = _chase_panel(
+        start=start, pick_n=pick_n, exclude=exclude, mid_day=mid_day, raw=raw)
+    cutoff = cal[-1]
+    rows_me = _chase_rows(cal, prices, decisions["me"], decisions[mid_label],
+                          amounts=amounts, liq_window=liq_window)
+    rows_mid = _chase_rows(cal, prices, decisions[mid_label], decisions["me"],
+                           amounts=amounts, liq_window=liq_window)
+    pooled = [e["liq_amount"] for r in (rows_me + rows_mid)
+              for e in r["entrants"] if e.get("liq_amount") is not None]
+    cuts = _liq_tercile_thresholds(pooled)
+    attached = {"me": _attach_terciles(rows_me, cuts),
+                mid_label: _attach_terciles(rows_mid, cuts)}
+    cells = {"me": _liq_bucket_cells(rows_me), mid_label: _liq_bucket_cells(rows_mid)}
+    newest = "2024_now"
+    disjoint = {}
+    for label in ("me", mid_label):
+        disjoint[label] = (((cells[label].get(newest) or {}).get("buckets") or {})
+                           .get("disjoint") or {})
+    verdict = _offbook_liq_verdict(disjoint["me"], disjoint[mid_label])
+    verdict_median = _offbook_liq_verdict(disjoint["me"], disjoint[mid_label],
+                                          field="fwd_pct_median")
+    # the same disjoint read in every era the panel covers: one era's thick-name
+    # run is not a calendar property, and only the era table can show that
+    era_gaps, era_verdicts = {}, {}
+    for era in (cells["me"] or {}):
+        me_b = (((cells["me"][era] or {}).get("buckets") or {}).get("disjoint") or {})
+        md_b = ((((cells[mid_label].get(era) or {}).get("buckets") or {})
+                 .get("disjoint")) or {})
+        if not me_b or not md_b:
+            continue
+        mean_v = _offbook_liq_verdict(me_b, md_b)
+        med_v = _offbook_liq_verdict(me_b, md_b, field="fwd_pct_median")
+        era_gaps[era] = {"mean": mean_v["tercile_gaps_pct"],
+                         "median": med_v["tercile_gaps_pct"],
+                         "disjoint_fwd_pct": {
+                             "me": (me_b.get("all") or {}).get("fwd_pct_mean"),
+                             mid_label: (md_b.get("all") or {}).get("fwd_pct_mean")},
+                         "entrants": {"me": (me_b.get("all") or {}).get("entrants"),
+                                      mid_label: (md_b.get("all") or {}).get("entrants")}}
+        era_verdicts[era] = {"mean": mean_v["classification"],
+                             "median": med_v["classification"]}
+
+    def fwd_by(cells_side, field, terciles=LIQ_TERCILES):
+        return {t: ((cells_side.get(t) or {}).get(field)) for t in terciles}
+
+    return {
+        "study": "e60_offbook_liquidity_terciles",
+        "evidence_cutoff": cutoff,
+        "spec": {
+            "pick_n": pick_n, "exclude_prefixes": list(exclude), "start": start,
+            "mid_month_day": mid_day, "liq_window_sessions": liq_window,
+            "universe_members": len(universe),
+            "tercile_thresholds_amount": cuts,
+            "tercile_unit": "panel amount, 60-session mean ending at the decision bar",
+            "bucket_definition": {
+                "other_drops_next": "entrant is in the other calendar's drop set at its next rebalance",
+                "other_still_holds": "entrant is still held by the other calendar at its next rebalance",
+                "disjoint": "entrant is in neither the other book's next holdings nor its next drop set"},
+            "floor_pct": OFFBOOK_LIQ_FLOOR_PCT,
+        },
+        "decision_days": {"me": len(decisions["me"]), mid_label: len(decisions[mid_label])},
+        "entrants_bucketed": attached,
+        "calendars": cells,
+        "answers": {
+            "newest_era": newest,
+            "newest_era_disjoint_all_fwd_pct": {
+                label: (disjoint[label].get("all") or {}).get("fwd_pct_mean")
+                for label in ("me", mid_label)},
+            "newest_era_disjoint_fwd_pct_by_tercile": {
+                label: fwd_by(disjoint[label], "fwd_pct_mean")
+                for label in ("me", mid_label)},
+            "newest_era_disjoint_tercile_share_pct": {
+                label: {t: (None if not (disjoint[label].get("all") or {}).get("entrants")
+                            else round(100.0 * (disjoint[label].get(t) or {}).get("entrants", 0)
+                                       / disjoint[label]["all"]["entrants"], 1))
+                        for t in LIQ_TERCILES}
+                for label in ("me", mid_label)},
+            "newest_era_disjoint_tercile_gap_me_minus_mid_pct": verdict["tercile_gaps_pct"],
+            "newest_era_disjoint_liq_gradient_thick_minus_thin_pct":
+                verdict["liq_gradients_pct"],
+            "verdict": verdict["classification"],
+            "verdict_detail": verdict,
+            "verdict_median_based": verdict_median["classification"],
+            "verdict_median_detail": verdict_median,
+            "verdict_stable_across_aggregators":
+                verdict["classification"] == verdict_median["classification"],
+            "era_tercile_gap_me_minus_mid_pct": era_gaps,
+            "era_verdicts": era_verdicts,
+        },
+        "honest": [
+            "the terciles are cut on the pooled entrant distribution of both "
+            "calendars, so one name keeps one bucket whichever book bought it",
+            "the amount is the panel's own traded value, not a percentile of the "
+            "era: a tercile is a within-slice rank, not an absolute liquidity bar",
+            "fwd_pct is the raw decision-to-decision return of the name, before any "
+            "weighting, cost or cash leg",
+            "one mid-month date (day %d) against one month-end date: the calendars "
+            "are fixed, not swept" % mid_day,
+            "the last transition of each calendar has no full forward window if the "
+            "panel ends mid-window; those rows carry null returns rather than zeros",
+            "the verdict is run twice, on the cell means and on the cell medians, "
+            "and published as stable only when the two agree: a tercile mean is "
+            "tail-sensitive and one thick-name winner can move it",
+            "descriptive census only: no gate, no verdict on a strategy, no prereg, "
+            "no trial count",
         ],
     }
 
@@ -19578,6 +19917,98 @@ def selftest():
         and "faces" in run_midsweepburnin.__code__.co_varnames,
         "E64 the burn-in leg takes the face directory and an explicit face list")
 
+    # E60: the off-book bucket re-read inside its own liquidity
+    _e60_amt = [None, None, 10.0, 20.0, 30.0]
+    chk(_trailing_amount(_e60_amt, 4, window=3) == 20.0
+        and _trailing_amount(_e60_amt, 2, window=3) == 10.0,
+        "E60 the trailing amount averages the window ending at the decision bar "
+        "and skips suspended sessions instead of reading them as zero turnover")
+    chk(_trailing_amount(None, 3) is None and _trailing_amount([], 3) is None
+        and _trailing_amount([None, None], 1) is None,
+        "E60 a name with no traded value in its window has no tercile, not a thin one")
+    chk(_trailing_amount([1.0, 2.0, 3.0], 0, window=60) == 1.0
+        and _trailing_amount([1.0, 2.0, 3.0], 2, window=2) == 2.5
+        and _trailing_amount([1.0, 2.0, 3.0], 99, window=2) is None,
+        "E60 the window clamps at the first bar instead of wrapping or going short")
+    _e60_cuts = _liq_tercile_thresholds([1.0, 2.0, 3.0, 4.0])
+    chk(_e60_cuts is not None and _liq_tercile(1.0, _e60_cuts) == "thin"
+        and _liq_tercile(4.0, _e60_cuts) == "thick"
+        and _liq_tercile(2.0, _e60_cuts) in ("thin", "mid"),
+        "E60 the terciles come from the pooled distribution, so one name keeps one "
+        "bucket whichever calendar bought it")
+    chk(_liq_tercile_thresholds([1.0, 2.0]) is None
+        and _liq_tercile(None, _e60_cuts) is None
+        and _liq_tercile(5.0, None) is None,
+        "E60 two names do not make three terciles and a missing amount stays unpriced")
+    _e60_cell = _liq_cell([{"fwd_pct": 1.0, "liq_amount": 10.0},
+                           {"fwd_pct": 3.0, "liq_amount": 30.0},
+                           {"fwd_pct": None, "liq_amount": 20.0}])
+    chk(_e60_cell["entrants"] == 3 and _e60_cell["priced"] == 2
+        and _e60_cell["fwd_pct_mean"] == 2.0 and _e60_cell["fwd_pct_median"] == 2.0
+        and _e60_cell["liq_amount_median"] == 20.0,
+        "E60 an unpriced entrant is counted in the bucket but not in its return")
+    chk(_liq_cell([])["fwd_pct_mean"] is None and _liq_cell([])["priced"] == 0,
+        "E60 an empty cell publishes no return rather than a zero")
+    _e60_rows = [{"era": "2024_now", "entrants": [
+        {"bucket": "disjoint", "fwd_pct": 2.0, "tercile": "thick"},
+        {"bucket": "disjoint", "fwd_pct": None, "tercile": "thin"},
+        {"bucket": "other_still_holds", "fwd_pct": 1.0, "tercile": "mid"}]}]
+    _e60_buckets = _liq_bucket_cells(_e60_rows)["2024_now"]["buckets"]
+    chk(_e60_buckets["disjoint"]["all"]["priced"] == 1
+        and _e60_buckets["disjoint"]["thin"]["entrants"] == 1
+        and _e60_buckets["disjoint"]["thin"]["priced"] == 0
+        and _e60_buckets["other_still_holds"]["mid"]["fwd_pct_mean"] == 1.0,
+        "E60 the tercile cells partition their bucket: a thin unpriced entrant is "
+        "counted under thin and not smuggled into the pooled cell's mean")
+    _e60_timing = ({"thin": {"fwd_pct_mean": 1.0}, "mid": {"fwd_pct_mean": 1.0},
+                    "thick": {"fwd_pct_mean": 1.1}},
+                   {"thin": {"fwd_pct_mean": -0.5}, "mid": {"fwd_pct_mean": -0.5},
+                    "thick": {"fwd_pct_mean": -0.4}})
+    _e60_liq = ({"thin": {"fwd_pct_mean": -1.0}, "mid": {"fwd_pct_mean": 0.5},
+                 "thick": {"fwd_pct_mean": 2.0}},
+                {"thin": {"fwd_pct_mean": -1.0}, "mid": {"fwd_pct_mean": 0.5},
+                 "thick": {"fwd_pct_mean": 2.0}})
+    chk(_offbook_liq_verdict(*_e60_timing)["classification"]
+        == "timing_survives_inside_every_tercile"
+        and _offbook_liq_verdict(*_e60_liq)["classification"]
+        == "liquidity_gradient_dominates",
+        "E60 a gap that holds inside every tercile is a timing reading; one whose "
+        "terciles do not separate is a liquidity reading")
+    chk(_offbook_liq_verdict({}, {})["classification"] == "unmeasured"
+        and _offbook_liq_verdict({"thin": {"fwd_pct_mean": 1.0}},
+                                 {"thin": {"fwd_pct_mean": 0.5}})["classification"]
+        == "no_separating_reading"
+        and _offbook_liq_verdict(*_e60_timing)["terciles_measured"] == 3,
+        "E60 one measured tercile is not 'every tercile'")
+    _e60_flip = ({"thin": {"fwd_pct_mean": 1.5}, "mid": {"fwd_pct_mean": 0.8},
+                  "thick": {"fwd_pct_mean": 3.6}},
+                 {"thin": {"fwd_pct_mean": 2.0}, "mid": {"fwd_pct_mean": 0.3},
+                  "thick": {"fwd_pct_mean": -0.2}})
+    chk(_offbook_liq_verdict(*_e60_flip)["classification"]
+        == "gap_changes_sign_across_terciles"
+        and _offbook_liq_verdict(*_e60_flip)["tercile_gaps_pct"]["thin"] == -0.5,
+        "E60 a bucket whose calendar gap changes sign by tercile is neither a "
+        "liquidity story nor a timing story, and the face says so instead of "
+        "averaging the two halves together")
+    _e60_mixed = ({"thin": {"fwd_pct_mean": 1.0, "fwd_pct_median": 0.2},
+                   "mid": {"fwd_pct_mean": 1.0, "fwd_pct_median": 0.2},
+                   "thick": {"fwd_pct_mean": 1.0, "fwd_pct_median": 1.5}},
+                  {"thin": {"fwd_pct_mean": 0.5, "fwd_pct_median": 0.9},
+                   "mid": {"fwd_pct_mean": 0.5, "fwd_pct_median": 0.9},
+                   "thick": {"fwd_pct_mean": 0.5, "fwd_pct_median": 0.9}})
+    chk(_offbook_liq_verdict(*_e60_mixed)["classification"]
+        == "timing_survives_inside_every_tercile"
+        and _offbook_liq_verdict(*_e60_mixed, field="fwd_pct_median")["classification"]
+        == "gap_changes_sign_across_terciles",
+        "E60 the same classifier re-run on the medians reads the cells under a "
+        "different aggregator, so a verdict that only exists on the mean is "
+        "visible as unstable rather than published as the answer")
+    chk(run_offbookliq.__code__.co_varnames[:1] == ("outdir",)
+        and "liq_window" in run_offbookliq.__code__.co_varnames
+        and "amounts" in _chase_rows.__code__.co_varnames,
+        "E60 the leg takes the face directory, an explicit liquidity window, and "
+        "re-uses the chase rows instead of re-deriving them")
+
     print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 
@@ -26056,7 +26487,7 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
-                             "chasescreen",
+                             "chasescreen", "offbookliq",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -26635,6 +27066,14 @@ def main(argv):
         print(json.dumps({"leg": "chasescreen", "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"],
                           "control": f["control"]}, ensure_ascii=False))
+        return 0
+    if args.mode == "offbookliq":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_offbookliq(outdir, start=args.start)
+        p = write_json(outdir, "OFFBOOK-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "offbookliq", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"]}, ensure_ascii=False))
         return 0
     if args.mode == "midsweep":
         costs = (tuple(float(x) for x in args.costs.split(","))
