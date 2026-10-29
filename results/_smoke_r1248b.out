@@ -1,0 +1,222 @@
+== Bigmoney smoke test 2026-10-29 13:45:24 ==
+[PASS] env: core deps | numpy 2.4.6, pandas 3.0.6, scipy 1.17.1
+[PASS] config: paths | root=bigmoney, daily=C:\Fluxgroup\FluxGroup\quant\bigmoney\data\daily
+[PASS] config: param grid | 432 combos (expect 432)
+[PASS] config: combo_hash deterministic | hash=079d85ab
+[PASS] data: core ETF pool | 48 no-prefix CSVs (expect ~48)
+[PASS] data: OHLCV readable | 48/48 ok
+[PASS] data: freshness | latest bar 2026-10-28 (1d ago, limit 15)
+[PASS] rules: fee schedule sane | single-side cost 13.0 bp
+[PASS] rules: T+0 list | 511880 T+0, 510300 T+1
+[PASS] exit: loss 8d force-close
+[PASS] exit: tiered take-profit
+[PASS] exit: hard stop -8%
+[PASS] exit: hold otherwise
+[PASS] engine: smoke backtest | 3 syms x 400 bars, 37 trades
+[PASS] engine: deterministic | identical on rerun (no hidden randomness)
+[PASS] engine: T+1 respected | 37 trades checked, 0 same-day roundtrips
+[PASS] engine: exits fill at T+1 open (RW-1) | 37 exits checked, 0 non-open fills
+[PASS] engine: evidence_cutoff hard truncation (RW-2) | cutoff 2025-12-26, 597 post-cutoff rows dropped, result identical to pre-truncated input
+[PASS] engine: rows actually read <= cutoff (RW-2) | curve 201 bars vs 201 rows at/below 2025-12-26 (ragged calendars: windows end ['2026-10-28'])
+[PASS] engine: legacy keyset intact without evidence_cutoff (RW-2) | no cutoff_meta when flag off
+[PASS] engine: emptying cutoff refused (RW-2) | out-of-range cutoff raises -> caller rc != 0
+[PASS] engine: single-source cost parity (RW-3) | same bar 100k CNY: 130.4100/side on engine+paper+x2 faces; spec verify=True
+[PASS] engine: grid legacy divergence = declared 0.041bp (RW-3) | frozen T-78 grid caliber 13.0bp vs canonical 13.041bp (delta 0.41 CNY/100k side)
+[PASS] panel gate: real in-service panel inside frozen 48-lock (RW-4) | 48/48 members in lock, sha16=abf3d43b, len(set)==len(list) holds
+[PASS] panel gate: twins refused, len(set)==len(list) (RW-4) | sh510300+510300 -> duplicate after canonicalization -> batch not accepted
+[PASS] panel gate: stale in-service member refused (RW-4) | last_bar 2026-01-01 vs anchor 2026-09-29 -> lock breach refused
+[PASS] panel gate: out-of-lock + silent-shrink refused (RW-4) | 600000 out-of-lock refused; 1-of-48 request = silent shrink refused
+[PASS] rules: stock fee routing sell 18.141bp / buy 13.141bp (D-39) | 600519 vs 510300 on 100k notional: buy +1 CNY (transfer), sell -51 CNY (stamp50+transfer1); ETF sell rate 13.0410bp == buy rate
+[PASS] engine: one-word bar buy dropped + sell deferred (CN-A, D-38) | exit off sealed board -> filled next real open (2026-01-12), violations=0 by construction
+[PASS] exit: P1 signal_reversal beats P2 stop (RW-7) | reversal+stop same bar -> signal_reversal (P1 > P2)
+[PASS] exit: P2 stop_loss beats P3 take_profit (RW-7) | pnl +10.5% >= tier-2 10% but price 110.5 <= trailing 110.88 -> stop_loss (P2 > P3)
+[PASS] exit: P4 time_decay beats P5 loss_time_stop (RW-7) | hold 12d pnl -1% -> time_decay, not loss_time_stop (P4 > P5)
+[PASS] exit: P6 global_hard_limit terminal tier (RW-7) | hold 25d pnl +3% >= decay threshold 2% -> hard_limit fires
+[PASS] gate: daily_loss_breaker boundary (RW-7) | halt at pnl <= -3%, clear above
+[PASS] gate: rejections raise, never silently drop (RW-7) | position/total/trade caps + invalid side + halted-day BUY all raise RiskGateRejected; reasons=['position weight 0.50 > cap 0.1', 'total weight 0.83 > cap 0.8', "invalid side 'SHORT'", 'daily_loss_breaker halt (pnl -5.00% <= -3.00%)', 'max_daily_trades 10 reached']
+[PASS] gate: halted day still lets exits through (RW-7) | circuit breaker blocks new opens, not de-risking sells
+[PASS] gate: emit_order_sheet is the sole gated exit (RW-7) | ungated emit -> RuntimeError; gate_orders receipt -> sheet written
+[PASS] network: detector | net_type=LAN
+[PASS] network: status readable
+[PASS] network: traffic gate
+  [paper] patch self-tests... PASS
+  [paper] monthly aggregation unit tests... PASS
+  [paper] seg_metrics short-segment honesty (F4)... PASS
+  [paper] x2 watch escalation chain (F3)... PASS
+  [paper] regime_guard additive flag (T-05)... PASS
+  [paper] loading universe for causality + anchor gates...
+  [paper] signal causality (truncate-and-compare)... PASS
+  [paper] anchor gate COMPOSITE-CE-01... PASS (IS s=1.1244 OOS s=0.862, cutoff 2026-09-22)
+  [paper] anchor gate COMPOSITE-CE-02... PASS (IS s=0.7841 OOS s=1.5605, cutoff 2026-09-22)
+  [paper] anchor gate DROUGHT-CE-01... PASS (IS s=0.461 OOS s=1.2407, cutoff 2026-09-22)
+  [paper] anchor gate ENGULF-CE-01... PASS (IS s=0.5337 OOS s=0.1686, cutoff 2026-09-22)
+  [paper] anchor gate NEEDLE-DE-01... PASS (IS s=0.6862 OOS s=0.1927, cutoff 2026-09-22)
+  [paper] anchor gate VOLATILITY-CE-01... PASS (IS s=1.103 OOS s=1.7166, cutoff 2026-09-22)
+[PASS] paper: pipeline selftest | patches+aggregation+causality+anchor + seg-honesty(F4) + x2-watch escalation(F3)
+[PASS] updater: update_daily selftest (exit-code contract) | exit=0 |   [updater] source parity 510300 @ 2026-10-28... PASS
+[PASS] updater: update_lhb selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+[PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+[PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 12/12 PASS
+[PASS] updater: update_etf_wide selftest (exit-code contract) | exit=0 | etf_wide selftest 41/41 PASS
+[PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+[PASS] updater: update_fund_avail_pit selftest (exit-code contract) | exit=0 | selftest 18/18 PASS
+[PASS] updater: update_fund_pit_avail selftest (exit-code contract) | exit=0 | selftest 16/16 PASS
+[PASS] updater: update_fund_avail_notice selftest (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] updater: update_fund_avail_dispersion selftest (exit-code contract) | exit=0 | fund_avail_dispersion selftest: 3/3 PASS
+[PASS] updater: update_fund_avail_face_impact selftest (exit-code contract) | exit=0 | fund_avail_face_impact selftest 17/17 PASS
+[PASS] updater: update_fund_avail_asof selftest (exit-code contract) | exit=0 | selftest 13/13
+[PASS] updater: update_fund_pit_factor_panel selftest (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] updater: update_fund_pit_crossface_factor selftest (exit-code contract) | exit=0 | selftest 19/19 PASS
+[PASS] product: etf_book_production card (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_vol_delivery_audit (exit-code contract) | exit=0 | selftest 4/4
+[PASS] product: etf_vol_calibration (exit-code contract) | exit=0 | selftest 12/12
+[PASS] product: etf_book_forward ledger (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_book_order ticket (exit-code contract) | exit=0 | selftest: PASS 39/39
+[PASS] product: etf_book_width_audit (exit-code contract) | exit=0 | selftest: PASS
+[PASS] product: etf_book_split_audit repair value (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_book_spanning_pre2020 period test (exit-code contract) | exit=0 | 15/15
+[PASS] product: e97 sign-growth gate (crossing detection contract) | exit=0 | selftest: 129/129
+[PASS] product: etf_book_capacity_rule impact ladder (exit-code contract) | exit=0 | 19/19
+[PASS] product: monthly_exam_prep exam faces (exit-code contract) | exit=0 | selftest: 34 PASS, 0 FAIL
+[PASS] product: gpu_face canonical GPU face (exit-code contract) | exit=0 | selftest 33/33 PASS
+[PASS] product: tree poison probe selftest (exit-code contract) | exit=0 | selftest: 15/15
+[PASS] product: surgical commit tree-size guard (exit-code contract) | exit=0 | selftest 14/14 PASS
+[PASS] product: machine-health face builder (exit-code contract) | exit=0 | selftest: 17/17 PASS
+[PASS] product: group-root resolution (exit-code contract) | exit=0 | group_root selftest: 4/4 PASS
+[PASS] product: group-root sweep census (exit-code contract) | exit=0 | group_root_sweep selftest: 13/13 PASS
+[PASS] product: group-root dialect census (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: reader-text audit census (exit-code contract) | exit=0 | selftest 26/26 PASS
+[PASS] product: ETF pool survival census (exit-code contract) | exit=0 | etf_pool_survival selftest: 10/10 PASS
+[PASS] product: exchange_calendar_audit lag verdict (exit-code contract) | exit=0 | selftest: PASS (9 legs)
+[PASS] product: supply_alignment four-tuple face (exit-code contract) | exit=0 | supply_alignment selftest: 18/18 PASS
+[PASS] product: etf_paper_signal sleeve schedule (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] product: etf_book_pre2020 window semantics (exit-code contract) | exit=0 | selftest: 11/11 PASS, 0 FAIL
+[PASS] product: etf_book_passive_mix windows (exit-code contract) | exit=0 | selftest 13/13 PASS
+[PASS] product: etf_book_window_decomp ladder (exit-code contract) | exit=0 | selftest 8/8 PASS
+[PASS] product: etf_book_pre2020 walk-forward rule (exit-code contract) | exit=0 | 8/8 PASS
+[PASS] product: etf_book_spanning vs four betas (exit-code contract) | exit=0 | 23/23 PASS
+[PASS] fleet: round-open absorb detector (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] product: capital placement by account size (exit-code contract) | exit=0 | 18/18 PASS
+[PASS] product: card-vs-ticket cagr bridge (exit-code contract) | exit=0 | selftest 10/10 PASS
+[PASS] product: decision margins and a hysteresis buffer (exit-code contract) | exit=0 | 32/32 PASS
+[PASS] product: incumbent-buffer adoption across books and phases (exit-code contract) | exit=0 | selftest 33/33 PASS
+[PASS] product: card reconciles its two 2015-2019 readings | card 9886 bytes
+[PASS] product: ETF book legs wired into the S6 chain | legs=78 missing=none
+[PASS] product: ETF book registry published | faces=5 live=5 verdict=multi-config configs=3
+[PASS] product: the forward ledger publishes its own noise floor | vol=8.455%/yr bars=1650 band@published=2.122pp
+[PASS] product: the forward face prices what its horizon can resolve, not only bars | 1y=23.692pp/yr 3y=13.679pp/yr years={'pre-2020 measured alpha (single arm)': 136.2, 'in-window measured alpha (single arm)': 16.1}
+[PASS] product: every candidate edge states the file it was read from | sources=in-window measured alpha (single arm),pre-2020 measured alpha (single arm)
+[PASS] product: the paper book owns the book the card sells | agrees=True decision_bar=2026-10-14 wt_maxdiff=2.08e-06 navdev=2e-10
+[PASS] product: ETF registry says when the staggered book turns | leg0 2026-11-06; leg1 2026-11-13
+[PASS] product: staggered book states when each sleeve next turns | sleeve 0 -> 2026-11-06; sleeve 1 -> 2026-11-13
+[PASS] product: data lag audit face published | verdict=in_sync expected=2026-10-28 as_of=2026-10-29T13:41:39
+[PASS] product: marks coverage face names its holes | verdict=holes=3 captured=16/19 last=2026-10-28
+[PASS] product: every marks hole carries a cause from the lane's own ownership contract | owner=bm-b causes={'host_offhours': 2, 'takeover_possible': 1} detail=[('2026-10-22', 'host_offhours'), ('2026-10-23', 'host_offhours'), ('2026-10-26', 'takeover_possible')]
+[PASS] product: dashboard carries the marks coverage gap | dash=16/19=84.21% holes=3 tier=marks face=16/19
+[PASS] product: open-fill gate names its evidence tier and the bar tier's prices are the bars' | tier=marks verdict=PASS matches=0 
+[PASS] product: live paper book states its price lag | panel=2026-10-27 calendar=2026-10-28 lag=1 stale=True
+[PASS] product: ETF live-book page current and its money closes | page_cutoff=2026-10-28 ticket_asof=2026-10-28 lag_td=0 names=5 next=2026-11-11
+[PASS] product: ETF live-book yuan figures are its own percentages x its own capital | expected=113900.0 excess=84500.0 worst=-60100.0 capital=1000000.0
+[PASS] product: ETF live-book page says whether to trade today | mode=hold decided=2026-10-14 priced=2026-10-28 retrade_cost=18.86%/yr
+[PASS] product: ETF live-book stress rows are their own percentages x capital | days=5268 1d=-3.6 5d=-4.58 20d=-5.28
+[PASS] product: astock panel states its coverage, not just its date | cutoff=2026-10-28 coverage=99.8% 90%-date=2026-10-28 mode=no-op: panel fresh
+[PASS] fleet: heartbeat epoch fields present | bm-b: epoch=1793251279 clock=2026-10-29T13:21:19+08:00
+[PASS] fleet: GPU face self-consistent on heartbeat | bm-b: findings=none stamped=True
+[PASS] fleet: GPU face leg wired into the S6 chain | legs=78
+[PASS] fleet: machine-health face is machine-keyed, not a nesting generator | status=ok machines=bm-a,bm-b,bm-c junk=0
+[PASS] fleet: live machine-health rows carry every pinned field | machines=3 gaps=-
+[PASS] fleet: a thin face reads as UNKNOWN, not as a calm row | face=incomplete gaps={'bm-c': ['cpu']}
+[PASS] fleet: oversight writer's deployed copy tracks its source | rc=0 oversight-deploy: OK bm-b deployed copy matches source (20923 chars)
+[PASS] fleet: panel carries the machine-health verdict, not a row count | face=ok unknown=False junk=0
+[PASS] fleet: machine-health gate leg wired into the S6 chain | legs=78
+[PASS] fleet: health writer runs before the panel that reads it | write=61 build_status=63
+[PASS] product: the CEO-page quote audit runs after the pages it audits | docquotes=23 daily_report=21 ceo_live_usage=22
+[PASS] product: the CEO-page quote gate runs after the sweep and owns a baseline | pagegate=24 docquotes=23 baseline=present signatures=2
+[PASS] product: the off-book era leg is on the chain and publishes a cross-era verdict | chain=True face=OFFBOOK-ERA-20261028.json class=thick_gap_sign_flips_across_eras measured=2
+[PASS] product: the mid-month gap arrives split into timing and selection | chain=True face=SHAREDBOOK-20261028.json total=18.0 timing=84.0 selection=-66.0 resid=0.0
+[PASS] product: the calendar split is re-read at matched candidate width, as a distribution rather than a point | chain=True face=SHAREDBOOK-WIDTH-20261028.json full=18.0 matched=-92.4 sd=528.9 draws=5 label=calendar_unresolvable_at_matched_width
+[PASS] product: the matched-width control is laddered across book widths, with the invariance of the gap published beside it | chain=True face=WIDTHLADDER-20261028.json rungs=4 label=resolvable_from_width_50 sd=[528.9, 97.3, 237.3, 124.8] invariant=False
+[PASS] product: the width ladder is split into timing and selection, so its movement is attributed to a named part | chain=True face=WIDTHSPLIT-20261028.json source=WIDTHLADDER-20261028.json rungs=4 label=timing_carries_movement_without_a_width_invariant_number timing_range=272.0 selection_range=99.0
+[PASS] pool: the deliverable reconciliation runs before anything counts pool ready | chain=True idx=1 mode=['apply'] face=pool_deliverable_audit.json counts={}
+[PASS] memory: CODELY.md structure intact | lines=74 pua=0 list_rows=34 bytes=43457
+[PASS] fleet: a partial-index commit cannot silently shrink the tree | guard selftest rc=0 selftest: 12/12 PASS
+[PASS] fleet: this repo's last 20 commits lost no tree | tree-shrink guard CLEAN: 20 commit(s) in C:\Fluxgroup\FluxGroup\quant\bigmoney, tip has 33295 file(s
+[PASS] fleet: the tree-shrink push gate is installed in both repos | tree-shrink gates wired: bigmoney pre-push installed+matches source, canonical gate 4 tokens present | group g
+[PASS] updater: update_daily selftest (exit-code contract) | exit=0 |   [updater] source parity 510300 @ 2026-10-28... PASS
+[PASS] updater: update_lhb selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_intraday_marks selftest (exit-code contract) | exit=0 | update_intraday_marks selftest: PASS
+[PASS] updater: update_open_fill_verify selftest (exit-code contract) | exit=0 | t35_open_fill_verify selftest: PASS
+[PASS] updater: update_etf_daily selftest (exit-code contract) | exit=0 | selftest: 12/12 PASS
+[PASS] updater: update_etf_wide selftest (exit-code contract) | exit=0 | etf_wide selftest 41/41 PASS
+[PASS] updater: update_zt_pool selftest (exit-code contract) | exit=0 | selftest: all guard cases PASS
+[PASS] updater: update_fund_statements selftest (exit-code contract) | exit=0 | selftest: all fund statement panel guard cases PASS
+[PASS] updater: update_fund_avail_pit selftest (exit-code contract) | exit=0 | selftest 18/18 PASS
+[PASS] updater: update_fund_pit_avail selftest (exit-code contract) | exit=0 | selftest 16/16 PASS
+[PASS] updater: update_fund_avail_notice selftest (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] updater: update_fund_avail_dispersion selftest (exit-code contract) | exit=0 | fund_avail_dispersion selftest: 3/3 PASS
+[PASS] updater: update_fund_avail_face_impact selftest (exit-code contract) | exit=0 | fund_avail_face_impact selftest 17/17 PASS
+[PASS] updater: update_fund_avail_asof selftest (exit-code contract) | exit=0 | selftest 13/13
+[PASS] updater: update_fund_pit_factor_panel selftest (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] updater: update_fund_pit_crossface_factor selftest (exit-code contract) | exit=0 | selftest 19/19 PASS
+[PASS] product: etf_book_production card (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_vol_delivery_audit (exit-code contract) | exit=0 | selftest 4/4
+[PASS] product: etf_vol_calibration (exit-code contract) | exit=0 | selftest 12/12
+[PASS] product: etf_book_forward ledger (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_book_order ticket (exit-code contract) | exit=0 | selftest: PASS 39/39
+[PASS] product: etf_book_width_audit (exit-code contract) | exit=0 | selftest: PASS
+[PASS] product: etf_book_split_audit repair value (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: etf_book_spanning_pre2020 period test (exit-code contract) | exit=0 | 15/15
+[PASS] product: etf_book_capacity_rule impact ladder (exit-code contract) | exit=0 | 19/19
+[PASS] product: monthly_exam_prep exam faces (exit-code contract) | exit=0 | selftest: 34 PASS, 0 FAIL
+[PASS] product: gpu_face canonical GPU face (exit-code contract) | exit=0 | selftest 33/33 PASS
+[PASS] product: tree poison probe selftest (exit-code contract) | exit=0 | selftest: 15/15
+[PASS] product: surgical commit tree-size guard (exit-code contract) | exit=0 | selftest 14/14 PASS
+[PASS] product: machine-health face builder (exit-code contract) | exit=0 | selftest: 17/17 PASS
+[PASS] product: group-root resolution (exit-code contract) | exit=0 | group_root selftest: 4/4 PASS
+[PASS] product: group-root sweep census (exit-code contract) | exit=0 | group_root_sweep selftest: 13/13 PASS
+[PASS] product: group-root dialect census (exit-code contract) | exit=0 | SELFTEST OK
+[PASS] product: reader-text audit census (exit-code contract) | exit=0 | selftest 26/26 PASS
+[PASS] product: ETF pool survival census (exit-code contract) | exit=0 | etf_pool_survival selftest: 10/10 PASS
+[PASS] product: exchange_calendar_audit lag verdict (exit-code contract) | exit=0 | selftest: PASS (9 legs)
+[PASS] product: supply_alignment four-tuple face (exit-code contract) | exit=0 | supply_alignment selftest: 18/18 PASS
+[PASS] product: etf_paper_signal sleeve schedule (exit-code contract) | exit=0 | selftest 9/9 PASS
+[PASS] product: etf_book_pre2020 window semantics (exit-code contract) | exit=0 | selftest: 11/11 PASS, 0 FAIL
+[PASS] product: etf_book_passive_mix windows (exit-code contract) | exit=0 | selftest 13/13 PASS
+[PASS] product: etf_book_window_decomp ladder (exit-code contract) | exit=0 | selftest 8/8 PASS
+[PASS] product: etf_book_pre2020 walk-forward rule (exit-code contract) | exit=0 | 8/8 PASS
+[PASS] product: etf_book_spanning vs four betas (exit-code contract) | exit=0 | 23/23 PASS
+[PASS] fleet: round-open absorb detector (exit-code contract) | exit=0 | selftest 12/12 PASS
+[PASS] product: capital placement by account size (exit-code contract) | exit=0 | 18/18 PASS
+[PASS] product: card-vs-ticket cagr bridge (exit-code contract) | exit=0 | selftest 10/10 PASS
+[PASS] product: decision margins and a hysteresis buffer (exit-code contract) | exit=0 | 32/32 PASS
+[PASS] product: incumbent-buffer adoption across books and phases (exit-code contract) | exit=0 | selftest 33/33 PASS
+[PASS] product: selection premium across decision phases (exit-code contract) | exit=0 | etf_book_premium_phases selftest: 31/31 PASS
+[PASS] product: vol-target estimation and slot-freeze lag (exit-code contract) | exit=0 | 13/13 legs PASS
+[PASS] product: vol-target window across decision phases (exit-code contract) | exit=0 | etf_book_voltarget_phase selftest: 34/34 PASS
+[PASS] product: census selftest incl. the E187 churn-tie legs | exit=0 | selftest 812/812 PASS
+[PASS] product: E196 carrier verdict is recomputable from its own gate | calendar=review_window_suggestive gate_p=0.031 rule_k=2 cells=4
+[PASS] product: E198 cross-panel verdict is recomputable from its own gate | verdict=no_outside_family_signal pooled_p=0.1885 sig=3 cells=17
+[PASS] product: E199 detection floor is recomputable from its own gate | verdict=negative_is_below_the_detection_floor observed_ratio=1.147713 floor=1.4803 p=0.1885 sd_rel=0.011626
+[PASS] product: ETF book legs wired into the S6 chain | legs=78 missing=none
+[PASS] product: ETF registry runs after every face it summarises | registry_at=39 behind=none
+[PASS] product: ETF live-book page current and its money closes | page_cutoff=2026-10-28 ticket_asof=2026-10-28 lag_td=0 names=5 next=2026-11-11
+[PASS] product: ETF live-book yuan figures are its own percentages x its own capital | expected=113900.0 excess=84500.0 worst=-60100.0 capital=1000000.0
+[PASS] product: ETF live-book page says whether to trade today | mode=hold decided=2026-10-14 priced=2026-10-28 retrade_cost=18.86%/yr
+[PASS] product: ETF live-book stress rows are their own percentages x capital | days=5268 1d=-3.6 5d=-4.58 20d=-5.28
+[PASS] product: ETF live-book cash leg is priced off the repo panel's own close | rate=1.09@2026-10-27 panel=('2026-10-27', 1.09) annual=5764.0 daily=23.0
+[PASS] product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer | verdict=KEEP-1D pick=GC001 arms=6 base1y=1.313 passing=[] mismatch=[]
+[PASS] fleet: bm-a's chain runner is the shared leg list, not a snapshot | legs=78 canonical=78 missing_scripts=-
+[PASS] product: futures TSMOM shadow face keeps its sizing rules | selftest rc=0 selftest 22/22
+[PASS] product: futures TSMOM face is current, capped and not an order | bar=2026-10-28 panel=2026-10-28 gross=3.0 stale=False
+[PASS] product: futures overlay sweep keeps its blend arithmetic | selftest rc=0 selftest 21/21
+[PASS] product: overlay sweep sells risk and publishes the equal-risk reading | weights=6 vol 0.1017->0.0642 equal_vol_block=True descriptive=True
+[PASS] product: overlay breakeven is recomputable from its own ladder | both lookbacks: one sequence, stated breakeven
+[PASS] product: overlay no-trade band is priced on both sides of the trade | floor measured, cut <= resizing share, gross give-up published per band
+[PASS] product: flip-rate arms cut flips, not exposure, and the cut is priced | exposure flat, one sequence per arm, give-up measured, robustness flag derived from the rows
+[PASS] product: the flip damper is adopted or rejected by path cells, not one run | 15 paths x 4 arms, 3 pass the frozen rule, verdict recomputed from the rows
+[PASS] product: the adopted flip damper reaches the live shadow book | page flips 1469->412 with the artifact's own rule, recomputed from the panel
+[PASS] product: the day-of-month face counts sessions, not name-days | gap, power block and best-of-ladder bar all recompute from the face
+
+Summary: 206/206 PASS, 0 FAIL

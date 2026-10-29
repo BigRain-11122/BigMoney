@@ -4059,7 +4059,6 @@ obs_rate_ladder; smoke leg re-derives each MDE from its own dispersion, checks t
 one round trip, refuses an episode rate above 252/H and a naive day count that is not
 episodes x hold. Pit: a mean indistinguishable from zero produced years_needed = 3e5..1e8,
 which reads as a measurement -- now suppressed to null with years_needed_unbounded = true.
-||||||| parent of ed40e56da3 (round 1335: the book's six factor signs were chosen with hindsight -- repriced point-in-time, +6.14%/yr becomes -10.81%/yr, and the card now says so on its face)
 ## E221 An audit that walks only the top level of a face passes a face hiding a whole generation one level down (2026-10-29 r1334 bm-c; the nested "gpu" block was 236 MiB stale while every flat key agreed)
 
 
@@ -4467,3 +4466,41 @@ downstream ticket. Code: `scripts/etf_book_production.py` (49 selftest legs, 5 o
 new), `scripts/etf_book_order.py` (41 legs, 2 new: executable row closes the gap, legacy
 target row still gets called out). Digest:
 research/digests/DIGEST-20261029-e230-executable-cash-row.md.
+
+### E231 -- a continuous weight buys sessions, not resolution; their payoff is not the gate's (r1252 bm-b) [renumbered E225->E231 on merge, 2026-10-29 r1343 bm-c: bm-c's own E225 kept its number]
+
+E224 ended on a cap: a hold of H sessions limits a gate to 252/H independent episodes a
+year, so no sampling rate can raise the count. Its named successor was the one design the
+accounting does not throttle -- a weight that varies continuously with the state, decided
+at every close, with no per-episode round trip. E225 prices that on the SAME signal and the
+SAME toll: trailing 20-session vol, tercile thresholds from its own previous 250 values,
+unit turnover |dw| pays 13.041bp, decision at the close of t applies to the return of t+1.
+
+Result on sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions): 0 of 5 arms adopt.
+The load-bearing number is not the verdict, it is that the sample is nearly independent:
+n_eff/sessions = 97% (1,363 of 1,401), so daily reweighting genuinely escapes E224's
+episode cap -- and the annual bar still lands at 1,006bp/yr against the episode-locked
+gate's 811bp/yr, a 0.81x move in the WRONG direction. More independent observations, worse
+annual resolution. Why: a weight between 0 and 1 spreads the same signal over more
+observations at lower amplitude, so per-observation dispersion falls by less than the count
+grows, and the toll is charged per unit of weight change (11.0 round-trip units a year for
+binary_low, 199bp/yr of cost) -- a cost the episode lock pays once per hold instead.
+
+The second rule is the one that keeps a negative result readable: **the null arm already
+prices the drift, so a gated arm's excess is not a verdict on the gate**. always_on (w=1,
+no turnover) reads -1,628bp/yr on the OOS window: that is the out-of-sample drift sitting
+below the in-sample drift the face normalises to, not a property of gating. Charging every
+arm that deficit in proportion to its average exposure leaves the gate-specific residual:
+binary_low -524, tilt_step -637, tilt_linear -704, voltarget -200 bp/yr -- so the tilt
+genuinely lost money beyond the drift, and the smallest loss (voltarget, 93.5% exposure,
+2.8 turnover/yr) is the arm that traded least, not the one that timed best.
+
+How to apply: any continuously-held overlay must publish (a) n_eff beside its session count
+or "more data" is an assumption, (b) the null arm's excess as the drift deficit, and (c)
+gate_specific = excess - avg_weight x null_excess, or a market-wide drift miss gets read as
+a verdict on the rule. Pieces: scripts/e225_state_tilt.py (run / selftest, 18 hermetic
+legs); face results/state_tilt/TILT-<cutoff>.json + latest.json + by_arm csv; S6 leg
+state_tilt after vol_gate; smoke leg re-derives each MDE from z*se_nw*252, refuses n_eff >
+n, and refuses a drift split that does not re-add. Pit: a HAC leg whose fixture is a
+sawtooth carries negative lag-1 correlation and fails the "NW >= iid" assertion the method
+needs -- the fixture noise must be white (LCG) before that leg means anything.
