@@ -3982,3 +3982,38 @@ esults/obs_rate/OBSRATE-<cutoff>.json + latest.json; S6 leg obs_rate_ladder afte
 a rung that ADOPTs below the bar. Pit: the ladder summary needs all four rungs in its
 fixture or it raises instead of reporting a short ladder; and a bp fixture written in
 percent units asserts 100 when the truth is 1000.
+
+### E224 -- the observation wall is set by the hold, not by the sampling rate (r1251 bm-b)
+
+E223 rejected a faster calendar anchor and named the successor it wanted: a rule whose
+independent observations rise without cutting the exposure per observation -- a
+continuously-sampled state gate. E224 tests that with four volatility arms (trailing
+20-session vol in the bottom/top tercile of its own previous 250 values) x hold 10/20
+sessions, entry at the close of the qualifying session, one round trip per EPISODE, the
+gate not polled while holding so episodes are disjoint.
+
+Result on sh510300 (3,503 sessions to 2026-10-28): all four primary arms and all four
+basket arms REJECT; OOS excess -377 to -836bp/yr (t -0.65 to -1.92), the positive basket
+arms at +0.3/+31.3 dying at x2 costs.
+
+The rule this card exists for: **a continuously-sampled signal does not produce continuous
+observations**. A hold of H sessions caps the episode count at 252/H, and the gate fills
+only part of that cap -- at H=10 the ceiling is 25.2/yr and the gate reached 10.5 (41.7%),
+i.e. BELOW the 12/yr a monthly calendar anchor gets for free. So "sample more often" is
+the wrong lever in both directions: E223 showed a shorter hold pays the toll more often,
+E224 shows a state gate still pays per episode and gains its resolution only from
+sd_per_episode (810.7 vs 1,860.6 bp/yr = 2.30x tighter with half the observations).
+
+Sister rule (published beside it): the overlapping-day reading does NOT inflate here --
+naive per-day t is 0.31-0.88x the episode-level t, because days inside one hold are less
+dispersed than independent draws. Episodes are the honest unit because the days are
+dependent, not because pooling them manufactures significance. Every such face must
+publish episodes/yr beside the 252/H ceiling it is drawing on, and naive_days must equal
+episodes x hold.
+
+Pieces: scripts/e224_vol_gate.py (run / selftest, 18 hermetic legs); face
+results/vol_gate/VOLGATE-<cutoff>.json + latest.json + by_arm csv; S6 leg vol_gate after
+obs_rate_ladder; smoke leg re-derives each MDE from its own dispersion, checks the toll is
+one round trip, refuses an episode rate above 252/H and a naive day count that is not
+episodes x hold. Pit: a mean indistinguishable from zero produced years_needed = 3e5..1e8,
+which reads as a measurement -- now suppressed to null with years_needed_unbounded = true.

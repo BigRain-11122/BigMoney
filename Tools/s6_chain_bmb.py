@@ -78,6 +78,11 @@ LEGS = [
     # ladder (the monthly anchor against three weekly ones) and publishes the resolution
     # each reaches, so "observe more often" is measured rather than assumed.
     ("obs_rate_ladder", ["python", "scripts/e223_obs_rate_ladder.py", "run"]),
+    # E224: E223 said a faster anchor does not buy resolution because the hold sets both
+    # the count and the per-period signal. This leg tests the successor it named -- a
+    # continuously-sampled volatility gate -- and separates the DAYS the gate is on from
+    # the EPISODES that produced them, because only the episodes are independent.
+    ("vol_gate", ["python", "scripts/e224_vol_gate.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

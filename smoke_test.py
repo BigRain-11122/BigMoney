@@ -2297,6 +2297,80 @@ def main() -> int:
         except Exception as e:
             check("product: the observation-rate ladder prices its own resolution",
                   False, repr(e)[:160])
+
+        # E224: the volatility-gate face must keep the three things it claims apart --
+        # the number of held days (the tempting sample), the number of episodes (the
+        # independent unit) and the bar each arm actually reaches. This leg re-derives
+        # every MDE from the published dispersion and episode rate, and refuses a face
+        # whose toll is not one round trip per episode or whose episode count exceeds
+        # the 252/hold ceiling.
+        try:
+            _bad = []
+            _face = os.path.join("results", "vol_gate", "latest.json")
+            if not os.path.exists(_face):
+                _bad.append("no results/vol_gate/latest.json on disk")
+                _f, _panels, _spec = {}, [], {}
+            else:
+                with open(_face, encoding="utf-8") as _fh:
+                    _f = json.load(_fh)
+                _panels = _f.get("panels") or []
+                _spec = _f.get("frozen_spec") or {}
+                if not _f.get("evidence_cutoff"):
+                    _bad.append("face carries no evidence_cutoff")
+                if not (_f.get("answer") or "").strip():
+                    _bad.append("face publishes no answer sentence")
+                if (_spec.get("sides_per_episode") or 0) != 2:
+                    _bad.append("cost model is not one round trip per episode")
+                if len(_panels) < 1:
+                    _bad.append("no panel published")
+                _z = _spec.get("z_80pct") or 0.0
+                for _p in _panels:
+                    _yrs = _p.get("years") or 0.0
+                    for _a in (_p.get("arms") or []):
+                        _toll = _a.get("cost_bp_per_episode")
+                        if _toll is None or abs(
+                                _toll - 2 * (_spec.get("cost_side_bp") or 0)) > 1e-9:
+                            _bad.append("arm %s toll != 2 sides" % _a.get("name"))
+                        _cap = 252.0 / (_a.get("hold_sessions") or 1)
+                        if (_a.get("episodes_per_year") or 0) > _cap + 1e-9:
+                            _bad.append("arm %s claims more episodes/yr than the hold allows"
+                                        % _a.get("name"))
+                        if _a.get("naive_days") and _a.get("episodes_oos"):
+                            if _a["naive_days"] != _a["episodes_oos"] * _a["hold_sessions"]:
+                                _bad.append("arm %s naive day count is not episodes x hold"
+                                            % _a.get("name"))
+                        _sd, _mde, _epy = (_a.get("sd_bp_per_episode"),
+                                            _a.get("mde_ann_bp_per_year"),
+                                            _a.get("episodes_per_year"))
+                        if None not in (_sd, _mde, _epy) and _yrs:
+                            _recalc = _z * _sd * ((_epy / _yrs) ** 0.5)
+                            if abs(_recalc - _mde) > 1e-6 * max(1.0, abs(_mde)):
+                                _bad.append("arm %s MDE does not match its own dispersion"
+                                            % _a.get("name"))
+                        if _a.get("verdict") not in ("ADOPT", "REJECT", "UNRESOLVED"):
+                            _bad.append("arm %s carries no frozen verdict" % _a.get("name"))
+                        if _a.get("verdict") == "ADOPT" and (
+                                (_a.get("excess_oos_t") or 0) <
+                                (_spec.get("bar_t") or 2.0)):
+                            _bad.append("arm %s ADOPTs below the bar" % _a.get("name"))
+                _oc = _f.get("observation_ceiling") or {}
+                if not _oc.get("arms"):
+                    _bad.append("the observation ceiling is not published")
+                for _o in (_oc.get("arms") or []):
+                    if abs((_o.get("ceiling_episodes_per_year") or 0)
+                           - 252.0 / (_o.get("hold_sessions") or 1)) > 1e-9:
+                        _bad.append("ceiling row %s != 252/hold" % _o.get("name"))
+            check("product: the volatility gate separates held days from episodes",
+                  not _bad, "; ".join(_bad)[:220]
+                  or "%d panels, %d arms, tightest bar %.0fbp/yr, verdicts %s"
+                     % (len(_panels), sum(len(p.get("arms") or []) for p in _panels),
+                        min([a.get("mde_ann_bp_per_year") or 1e18
+                             for p in _panels for a in (p.get("arms") or [])] or [0.0]),
+                        ",".join(sorted({a.get("verdict") for p in _panels
+                                         for a in (p.get("arms") or [])}))))
+        except Exception as e:
+            check("product: the volatility gate separates held days from episodes",
+                  False, repr(e)[:160])
     except Exception as e:
         check("product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
               False, str(e))

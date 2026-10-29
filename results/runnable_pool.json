@@ -23008,6 +23008,20 @@
    "title": "Observation-rate ladder: does anchoring 52 times a year instead of 12 resolve a calendar question, or only pay the toll more often?",
    "result_ref": "results/obs_rate/OBSRATE-20261028.json",
    "done_note": "4 rungs on sh510300: monthly +428.97bp/yr excess t=0.65 MDE 1,860.6; week_h1/h2/h3 -1,100.6/-1,239.2/-1,255.7bp/yr at t=-1.63/-2.38/-2.79 MDE 1,888.2/1,461.9/1,261.1 -> all REJECT. 4.3x observations buys 0.68x-1.01x annual resolution; resolution = sd_per_period*sqrt(periods_per_year), not the observation count."
+  },
+  {
+   "id": "E224-VOLATILITY-STATE-GATE",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/vol_gate/VOLGATE-<cutoff>.json",
+   "target": "scripts/e224_vol_gate.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T16:10:00+08:00",
+   "entered_by": "bm-b r1251",
+   "source": "E223 rejected the frequency ladder and named its successor: a rule whose INDEPENDENT observations rise without cutting the exposure per observation. A volatility state gate is the obvious candidate, and it was never measured against the same accounting.",
+   "title": "Volatility state gate: does continuous sampling buy the resolution a calendar anchor cannot, once the held DAYS and the EPISODES behind them are counted separately?",
+   "result_ref": "results/vol_gate/VOLGATE-2026-10-28.json",
+   "done_note": "sh510300 3,503 sessions to 2026-10-28, four arms (vol low/high tercile x hold 10/20), one round trip per episode, 8-test bar 2.73. All 4 primary arms and all 4 basket arms REJECT: OOS excess -377 to -836bp/yr at t -0.65..-1.92. The finding is the ceiling: a hold caps episodes at 252/H, so at H=10 the gate reached 10.5/yr (41.7% of the 25.2 ceiling) -- BELOW the calendar's 12. Its bar is nonetheless 2.30x tighter (810.7 vs 1860.6bp/yr) purely from smaller per-episode dispersion. Naive per-day t is 0.31-0.88x the episode t, so overlapping windows understate here rather than inflate."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
