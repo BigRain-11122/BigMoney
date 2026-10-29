@@ -4690,3 +4690,44 @@ Pos: scripts/etf_sign_pit_combo.py (run/check/selftest 18/18) + face
 results/etf_sign_pit_combo.json (verdict recomputed by its own gate: pit_combo_no_value) +
 S6 leg etf_sign_pit_combo + one smoke leg that re-derives the verdict from the published
 per-variant table instead of asking the module.
+
+## E237 A check-only gate goes red on every panel advance: stale and inconsistent must be different exits (2026-10-29 r1346 bm-c)
+
+WHEN: a chain leg is an engine-free gate over a published face (0.1s, no panel build) rather
+than a re-derivation, and that gate refuses a face priced on an older bar than the
+production card. Correct assertion, broken mechanism: the panel advances daily, so the leg
+is red on every bar it is not manually re-derived, and the round that advances the panel is
+the round that turns it red.
+
+WRONG: read the NONZERO line as "three faces are wrong" and move on. On 2026-10-29 three
+legs (etf_book_cagr_reconcile, etf_book_hysteresis, etf_book_buffer_adoption) were red from
+19:27 to 20:57 through two complete chain runs, and the only reason in all three was *"face
+is stale: priced on 2026-10-28 while the production card is on 2026-10-29"*. Nothing was
+inconsistent. Also wrong: relax the assertion until the leg stops firing -- the r1135 trap
+(a gate that is permanently red on inherited state invites exactly that repair).
+
+RIGHT: give the gate two exits. A leg may carry a third element, the refresh command, and
+the runner pays it **only** when the probe's own output says the face is stale; after paying
+it the probe is re-run and the record carries `refreshed={cmd, rc, elapsed}` so the round
+report shows a face was re-derived, not quietly replaced. The selftest pins both directions,
+including the one that keeps the gate honest: an *inconsistent* probe must stay red **with
+its refresh unspent** (the fixture asserts the refresh's marker file was never written).
+
+READING (2026-10-29 bar, after refresh): hysteresis green (k=0.50: CAGR 9.66%, Sharpe 0.997,
+maxDD -13.48%); buffer adoption REJECT over 60 cells, median dCAGR -0.145pp against a
+-0.05pp floor (turnover down in 100% of cells, CAGR better in 55%, phase IQR 0.70pp) -- the
+buffer buys turnover, not return; cagr reconcile OK, card 9.70% vs executable ticket 13.50%,
+total gap 3.80pp, interaction -1.24pp. That third face had gone stale for a different
+reason -- a source face it reconciles was re-derived to a new headline (capacity_ceiling_pp
+7.28 -> 7.27) -- which is the dependency it exists to catch; it caught it and nobody
+re-derived it.
+
+TWO READERS BROKE SILENTLY when LEGS grew from 2-tuples to 3-tuples: six smoke sites, and
+`scripts/etf_book_registry.py::chain_legs()`, which wraps its import in
+`except Exception: return None` -- a swallowed `ValueError: too many values to unpack`
+reports "no legs wired" instead of crashing. Unpack the name position (`t[0] for t in LEGS`)
+and never let an excepted type error fabricate a plausible answer (r1288 family).
+
+Pos: Tools/s6_chain_bmc.py (run_leg + selftest 5/5, `--selftest`) + six legs wired with
+refresh + refreshed faces results/etf_book_{hysteresis,buffer_adoption,cagr_reconcile}.json
+on the 2026-10-29 bar + digest DIGEST-20261029-e237-stale-check-legs.md.

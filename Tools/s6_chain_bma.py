@@ -70,22 +70,28 @@ def main(argv):
             if only is None and args:
                 only = args.pop(0)
         elif a == "--list":
-            for name, _cmd in LEGS:
-                print(name)
+            for t in LEGS:
+                print(t[0])
             return 0
     round_no = args[0] if args else "0"
 
     legs = LEGS
     if only is not None:
         want = [w.strip() for w in only.split(",") if w.strip()]
-        legs = [(n, c) for n, c in LEGS if n in want]
-        missing = sorted(set(want) - {n for n, _ in legs})
+        legs = [t for t in LEGS if t[0] in want]
+        missing = sorted(set(want) - {t[0] for t in legs})
         if missing:
-            print(f"unknown leg(s): {missing}; known={[n for n, _ in LEGS]}")
+            print(f"unknown leg(s): {missing}; known={[t[0] for t in LEGS]}")
             return 2
 
     out = []
-    for name, cmd in legs:
+    for name, cmd, *rest in legs:
+        # r1346: the leg list is shared with bm-c and a leg may carry a third element
+        # (the refresh command paid when its probe says the face is stale). This runner
+        # reads the same table, so it must honour the same contract -- and it must unpack
+        # by position, because a 3-tuple breaks `for name, cmd in legs` and the whole
+        # chain stops at the first such leg.
+        refresh = rest[0] if rest else None
         script = leg_script(cmd)
         if script is not None and not os.path.exists(os.path.join(ROOT, script)):
             print(f"{name:18s} rc=MISSING ({script})")
@@ -98,14 +104,40 @@ def main(argv):
                                text=True, encoding="utf-8", errors="replace",
                                timeout=900)
             rc = r.returncode
+            text = (r.stdout or "") + (r.stderr or "")
             tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
         except subprocess.TimeoutExpired:
             rc = 124
+            text = ""
             tail = ["TIMEOUT"]
+        refreshed = None
+        if rc != 0 and refresh and "stale" in text.lower():
+            tr = time.time()
+            try:
+                rr = subprocess.run(resolve(refresh), cwd=ROOT, capture_output=True,
+                                    text=True, encoding="utf-8", errors="replace",
+                                    timeout=900)
+                refresh_rc = rr.returncode
+            except subprocess.TimeoutExpired:
+                refresh_rc = 124
+            refreshed = {"cmd": refresh, "rc": refresh_rc,
+                         "elapsed_sec": round(time.time() - tr, 1)}
+            try:
+                r2 = subprocess.run(resolve(cmd), cwd=ROOT, capture_output=True,
+                                    text=True, encoding="utf-8", errors="replace",
+                                    timeout=900)
+                rc = r2.returncode
+                tail = (r2.stdout or "").strip().splitlines()[-1:] or [""]
+            except subprocess.TimeoutExpired:
+                rc = 124
+                tail = ["TIMEOUT"]
         el = round(time.time() - t0, 1)
-        out.append({"leg": name, "rc": rc, "elapsed_sec": el,
-                    "tail": tail[0][:220]})
-        print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}", flush=True)
+        rec = {"leg": name, "rc": rc, "elapsed_sec": el, "tail": tail[0][:220]}
+        if refreshed:
+            rec["refreshed"] = refreshed
+        out.append(rec)
+        note = (" +refresh(rc=%s,%ss)" % (refreshed["rc"], refreshed["elapsed_sec"])) if refreshed else ""
+        print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}{note}", flush=True)
 
     path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain.json")
     with open(path, "w", encoding="utf-8") as fh:

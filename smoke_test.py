@@ -371,6 +371,13 @@ def main() -> int:
         except Exception as e:
             check(_label, False, str(e))
     for _label, _script, _args in (
+            # r1346: the chain runner pays a leg's declared refresh when its probe
+            # says the face is stale, and must NOT pay it when the probe says
+            # inconsistent. That branch is what stops a check-only gate from being
+            # permanently red on inherited state (r1135 trap), so it is priced here
+            # every suite instead of once in a digest.
+            ("product: S6 chain refresh branch (stale pays, inconsistent does not)",
+             "Tools/s6_chain_bmc.py", ["--selftest"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
@@ -593,7 +600,7 @@ def main() -> int:
         check("product: card amount column is executable money", False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
-        _names = {n for n, _c in _legs}
+        _names = {t[0] for t in _legs}
         # etf_book_production belongs here as much as the ticket: r1290 caught the card
         # (the headline face) a full refresh behind the ticket because only the ticket
         # was wired -- an unwired face reads as current to everything downstream.
@@ -1097,7 +1104,7 @@ def main() -> int:
         _fnd = _gf.audit(_hb)
         check("fleet: GPU face self-consistent on heartbeat", not _fnd,
               f"{_mid}: findings={_fnd or 'none'} stamped={bool(_hb.get('gpu_face_ts'))}")
-        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        _legs = {t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: GPU face leg wired into the S6 chain", "gpu_face" in _legs,
               f"legs={len(_legs)}")
     except Exception as e:
@@ -1223,13 +1230,13 @@ def main() -> int:
                 _face_ok = True
         check("fleet: panel carries the machine-health verdict, not a row count",
               _face_ok, _why)
-        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        _legs = {t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: machine-health gate leg wired into the S6 chain",
               "machine_health_face" in _legs, f"legs={len(_legs)}")
         # r1318: the panel READS the health face, so the writer has to run first.
         # It did not -- build_status copied a thinned row and the heal happened
         # behind it, which is why this very leg went red on a healthy fleet.
-        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         check("fleet: health writer runs before the panel that reads it",
               _order.index("machine_health_write") < _order.index("build_status"),
               "write=%d build_status=%d" % (_order.index("machine_health_write"),
@@ -1829,7 +1836,7 @@ def main() -> int:
               False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
-        _names = {n for n, _c in _legs}
+        _names = {t[0] for t in _legs}
         # etf_book_production belongs here as much as the ticket: r1290 caught the card
         # (the headline face) a full refresh behind the ticket because only the ticket
         # was wired -- an unwired face reads as current to everything downstream.
@@ -1846,7 +1853,7 @@ def main() -> int:
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
     try:
-        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         _ri = _order.index("etf_book_registry")
         _behind = [(f.get("id"), f.get("chain_leg")) for f in (_rg.get("faces") or [])
                    if f.get("chain_leg") in _order and _order.index(f["chain_leg"]) > _ri]
@@ -2130,11 +2137,14 @@ def main() -> int:
     try:
         _bma = importlib.import_module("Tools.s6_chain_bma")
         _canon = importlib.import_module("Tools.s6_chain_bmc")
-        _a = [n for n, _c in _bma.LEGS]
-        _c = [n for n, _c in _canon.LEGS]
-        _miss = [p for _n, _cmd in _bma.LEGS
-                 if _bma.leg_script(_cmd) and not os.path.exists(
-                     os.path.join(_bma.ROOT, _bma.leg_script(_cmd)))]
+        # r1346: LEGS entries may carry a third element (the refresh command paid on a
+        # stale face), so unpack by position -- or n, c in LEGS fails on the first
+        # such leg and this check then reads as a fleet red instead of a tuple bug.
+        _a = [t[0] for t in _bma.LEGS]
+        _c = [t[0] for t in _canon.LEGS]
+        _miss = [t[0] for t in _bma.LEGS
+                 if _bma.leg_script(t[1]) and not os.path.exists(
+                     os.path.join(_bma.ROOT, _bma.leg_script(t[1])))]
         check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
               _a == _c and not _miss,
               f"legs={len(_a)} canonical={len(_c)} missing_scripts={_miss or '-'}")

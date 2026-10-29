@@ -183,28 +183,32 @@ LEGS = [
     # costs ~5 min (the panel build dominates), so the chain runs the ENGINE-FREE audit:
     # the face must stay internally consistent, and must go red the moment a source face
     # it reconciles is re-derived to a new headline. 0.1s, no network.
-    ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"]),
+    ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"],
+     ["python", "scripts/etf_book_cagr_reconcile.py"]),
     # r1323: the book is turnover-bound, so "does it trade on noise" is a money question.
     # Re-deriving the six buffer arms costs the panel build (~80s), so the chain runs the
     # engine-free gate: the control arm must still reproduce the published cell, turnover
     # must stay non-increasing in the buffer, the census arithmetic must hold, and the face
     # must go RED the moment the production card advances past the bar it was priced on.
     # 0.1s, no network.
-    ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"]),
+    ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"],
+     ["python", "scripts/etf_book_hysteresis.py", "run"]),
     # r1325: r1324's buffer arm carried its own refutation in a caveat -- "a single better
     # arm can be one decision sequence". The adoption face re-priced the same k=0.05 arm on
     # 5 books x 4 decision phases (60 engine runs, ~3 min), so the chain runs the ENGINE-FREE
     # gate: frozen criteria must be echoed unchanged, the cell grid must be complete, the
     # phase signature must still be a real calendar, and the published verdict must be the
     # one the rule produces from the summary. 0.1s, no network.
-    ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
+    ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"],
+     ["python", "scripts/etf_book_buffer_adoption.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
     # the gate: frozen criteria echoed, control arm still reproducing the published cell,
     # the lag block still carrying measured slots, and the verdict still the one the rule
     # produces. 0.1s + one rebuild, no network.
-    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
+    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"],
+     ["python", "scripts/etf_book_voltarget_lag.py", "run"]),
     # r1328: r1327's four-window face printed +1.60pp/yr for the 20-bar estimator -- on ONE
     # decision calendar, which is exactly the reading r1325 showed is not a level. Re-pricing
     # 4 windows x 4 phases costs 16 engine runs (~5 min), so the chain runs the ENGINE-FREE
@@ -212,7 +216,8 @@ LEGS = [
     # phase calendars still distinct, the control still reproducing the published cell, and
     # the published verdict still the one the rule produces from the summary.
     # 0.1s, no network.
-    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"]),
+    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"],
+     ["python", "scripts/etf_book_voltarget_phase.py", "run"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
@@ -342,7 +347,8 @@ LEGS = [
     # reversed on 70% of four phase-shifted ones. The face re-prices the premium across
     # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
     # distinct decision signatures), which is a JSON read, not another engine run.
-    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
+    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"],
+     ["python", "scripts/etf_book_premium_phases.py", "run"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the
@@ -380,7 +386,117 @@ LEGS = [
 ]
 
 
+def run_leg(name, cmd, refresh=None, quiet=False):
+    """Run one leg; pay the declared refresh ONLY when the probe says the face is stale.
+
+    r1345: a check-only leg goes red the moment the panel advances past the bar its
+    face was priced on, and stays red until somebody re-derives it by hand -- three
+    legs sat red across two chain records (r1343/r1344) that reported NONZERO and
+    moved on. A gate that is permanently red on inherited state is the r1135 trap
+    (the cheap repair becomes loosening the assertion). So a leg may declare a
+    refresh command, paid only when the probe itself says STALE -- never when it
+    says INCONSISTENT, which stays red.
+    """
+    t0 = time.time()
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=900)
+        rc = r.returncode
+        text = (r.stdout or "") + (r.stderr or "")
+        tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
+    except subprocess.TimeoutExpired:
+        rc = 124
+        text = ""
+        tail = ["TIMEOUT"]
+    refreshed = None
+    if rc != 0 and refresh and "stale" in text.lower():
+        tr = time.time()
+        try:
+            rr = subprocess.run(refresh, capture_output=True, text=True,
+                                encoding="utf-8", errors="replace", timeout=900)
+            refresh_rc = rr.returncode
+        except subprocess.TimeoutExpired:
+            refresh_rc = 124
+        refreshed = {"cmd": refresh, "rc": refresh_rc,
+                     "elapsed_sec": round(time.time() - tr, 1)}
+        try:
+            r2 = subprocess.run(cmd, capture_output=True, text=True,
+                                encoding="utf-8", errors="replace", timeout=900)
+            rc = r2.returncode
+            tail = (r2.stdout or "").strip().splitlines()[-1:] or [""]
+        except subprocess.TimeoutExpired:
+            rc = 124
+            tail = ["TIMEOUT"]
+    rec = {"leg": name, "rc": rc,
+           "elapsed_sec": round(time.time() - t0, 1), "tail": tail[0][:220]}
+    if refreshed:
+        rec["refreshed"] = refreshed
+    if not quiet:
+        note = (" +refresh(rc=%s,%ss)" % (refreshed["rc"], refreshed["elapsed_sec"])) if refreshed else ""
+        print(f"{rc:3d} {name:18s} {rec['elapsed_sec']:7.1f}s {tail[0][:110]}{note}",
+              flush=True)
+    return rec
+
+
+def selftest():
+    """Prove the branch that matters: stale pays the refresh, inconsistent does not.
+
+    Two fixtures, both rc=2 with a refresh declared. Only the one whose probe says
+    "stale" may run its refresh; the other must stay red WITH the refresh unspent --
+    otherwise the gate has become a machine for making red go away.
+    """
+    import tempfile
+    py = sys.executable
+    legs = []
+
+    def _check(name, ok, detail=""):
+        legs.append((name, ok, detail))
+
+    with tempfile.TemporaryDirectory() as td:
+        flag = os.path.join(td, "refreshed.flag")
+        # The probe reads the marker file the refresh writes: red until refreshed.
+        probe = [py, "-c",
+                 "import os,sys;p=r'%s';done=os.path.exists(p);"
+                 "print('ok' if done else 'face is stale: priced on 2026-10-28 while the card is on 2026-10-29');"
+                 "sys.exit(0 if done else 2)" % flag]
+        refresh_cmd = [py, "-c", "open(r'%s','w').write('1')" % flag]
+        rec = run_leg("stale_fixture", probe, refresh_cmd, quiet=True)
+        _check("a stale probe pays its refresh once and comes back green",
+               rec["rc"] == 0 and rec.get("refreshed", {}).get("rc") == 0,
+               "rec=%r" % (rec,))
+
+        flag2 = os.path.join(td, "must_stay_unspent.flag")
+        bad_probe = [py, "-c",
+                     "import sys;print('face is inconsistent: control arm does not reproduce the cell');sys.exit(2)"]
+        bad_refresh = [py, "-c", "open(r'%s','w').write('1')" % flag2]
+        rec2 = run_leg("inconsistent_fixture", bad_probe, bad_refresh, quiet=True)
+        _check("an inconsistent probe stays red with its refresh unspent",
+               rec2["rc"] == 2 and "refreshed" not in rec2 and not os.path.exists(flag2),
+               "rec=%r spent=%r" % (rec2, os.path.exists(flag2)))
+
+        rec3 = run_leg("no_refresh_fixture", bad_probe, None, quiet=True)
+        _check("a leg without a refresh declared is unaffected",
+               rec3["rc"] == 2 and "refreshed" not in rec3, "rec=%r" % (rec3,))
+
+    # The leg table must be structurally readable by the new unpacking, and every
+    # declared refresh must be a real argument vector (not a bare string).
+    _check("every leg is (name, cmd[, refresh]) with list commands",
+           all(len(t) in (2, 3) and isinstance(t[0], str) and isinstance(t[1], list)
+               and (len(t) == 2 or isinstance(t[2], list)) for t in LEGS),
+           "bad=%r" % ([t[0] for t in LEGS if not (len(t) in (2, 3) and isinstance(t[1], list))],))
+    n_refresh = sum(1 for t in LEGS if len(t) == 3)
+    _check("the six check-only legs declare a refresh", n_refresh >= 6, "n=%d" % n_refresh)
+
+    passed = sum(1 for _, ok, _ in legs if ok)
+    for name, ok, detail in legs:
+        print(("[PASS] " if ok else "[FAIL] ") + name + ("" if ok else " | " + detail))
+    print("%d/%d PASS" % (passed, len(legs)))
+    return 0 if passed == len(legs) else 1
+
+
 def main():
+    if "--selftest" in sys.argv[1:]:
+        sys.exit(selftest())
     args = [a for a in sys.argv[1:]]
     only = None
     for a in list(args):
@@ -419,26 +535,12 @@ def main():
     legs = LEGS
     if only is not None:
         want = [w.strip() for w in only.split(",") if w.strip()]
-        legs = [(n, c) for n, c in LEGS if n in want]
-        missing = sorted(set(want) - {n for n, _ in legs})
+        legs = [t for t in LEGS if t[0] in want]
+        missing = sorted(set(want) - {t[0] for t in legs})
         if missing:
-            print(f"unknown leg(s): {missing}; known={[n for n, _ in LEGS]}")
+            print(f"unknown leg(s): {missing}; known={[t[0] for t in LEGS]}")
             sys.exit(2)
-    out = []
-    for name, cmd in legs:
-        t0 = time.time()
-        try:
-            r = subprocess.run(cmd, capture_output=True, text=True,
-                               encoding="utf-8", errors="replace", timeout=900)
-            rc = r.returncode
-            tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
-        except subprocess.TimeoutExpired:
-            rc = 124
-            tail = ["TIMEOUT"]
-        el = round(time.time() - t0, 1)
-        out.append({"leg": name, "rc": rc, "elapsed_sec": el,
-                    "tail": tail[0][:220]})
-        print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}", flush=True)
+    out = [run_leg(name, cmd, *rest) for name, cmd, *rest in legs]
 
     path = f"results/_r{round_no}bmc_s6_chain.json"
     # r1343: an interrupted json.dump leaves a one-byte record behind

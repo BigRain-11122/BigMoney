@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-29T17:57:54",
+ "ts": "2026-10-29T21:33:02",
  "mode": "probe",
  "py_faces_seen": 4,
  "orphans": 0,
@@ -8,11 +8,11 @@
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 109292,
+   "pid": 1888,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m Tools.s6_chain_bmc",
-   "age_min": 8.7,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update",
+   "age_min": 57.1,
+   "cpu_delta_20s": 0.5,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -21,11 +21,27 @@
    ]
   },
   {
-   "pid": 110956,
+   "pid": 40160,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 104.5,
-   "cpu_delta_20s": 3.891,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.047,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "pwsh.exe",
+    "codely.exe",
+    "powershell.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 71280,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
+   "age_min": 0.4,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -34,32 +50,15 @@
    ]
   },
   {
-   "pid": 114948,
+   "pid": 110956,
    "name": "python.exe",
-   "cmd": "python scripts/etf_book_forward.py",
-   "age_min": 0.7,
-   "cpu_delta_20s": 21.344,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 116112,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.6,
-   "cpu_delta_20s": 1.781,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
+   "age_min": 319.4,
+   "cpu_delta_20s": 1.719,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "pwsh.exe",
-    "codely.exe",
-    "powershell.exe",
     "wscript.exe"
    ]
   }

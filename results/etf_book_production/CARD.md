@@ -84,9 +84,9 @@ Priced the other way: a buffer that only displaces an incumbent when the challen
 | k=0 | 0.934 | 9.70% | 1.00 | -11.8% |
 | k=0.05 | 0.901 | 9.77% | 1.01 | -11.6% |
 | k=0.1 | 0.887 | 9.76% | 1.01 | -12.6% |
-| k=0.2 | 0.842 | 9.73% | 1.01 | -12.5% |
+| k=0.2 | 0.843 | 9.81% | 1.02 | -12.5% |
 | k=0.35 | 0.762 | 9.59% | 0.99 | -12.6% |
-| k=0.5 | 0.702 | 9.67% | 1.00 | -13.5% |
+| k=0.5 | 0.702 | 9.66% | 1.00 | -13.5% |
 
 k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (+0.07pp) and improves both Sharpe and drawdown; past k=0.35 the buffer starts costing return and depth. So the buffer is a **cost knob, not a discovered edge** -- worth using, worth nothing to brag about.
 
