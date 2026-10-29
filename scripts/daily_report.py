@@ -681,6 +681,42 @@ def _zt_risk_face(day=None, root=None):
     return face
 
 
+# --------------------------------- data-lane authorship (r1162 bm-a)
+def _lane_authority_face(root=None):
+    """Whose disk the forward data lanes' numbers are on (r1162).
+
+    Aggregation only. The board (scripts/data_lane_freshness.py) derives the
+    sentence once from each lane's own `authority` field, and this face prints
+    it verbatim: re-judging authorship here would be a second implementation of
+    the same rule, and the two would drift the first time a lane changed host.
+    """
+    root = root or ROOT
+    doc = _read_json(os.path.join(root, "results",
+                                  "data_lane_freshness.json")) or {}
+    if not doc:
+        return {"present": False,
+                "note": "车道归属面未产出（results/data_lane_freshness.json 缺件）——如实标注"}
+    disk = doc.get("disk") or {}
+    if not disk.get("sentence"):
+        return {"present": False, "as_of": doc.get("as_of"),
+                "note": "板面存在但未带归属块（旧版本）——如实标注"}
+    return {"present": True, "as_of": doc.get("as_of"),
+            "verdict": doc.get("verdict"),
+            "sentence": disk.get("sentence"),
+            "n_lanes": disk.get("n_lanes"),
+            "n_offhost": disk.get("n_offhost"),
+            "n_here": disk.get("n_here"),
+            "n_auditable_here": disk.get("n_auditable_here"),
+            "n_unsigned_here": disk.get("n_unsigned_here"),
+            "groups": [{"machine": g.get("machine"),
+                        "lanes": g.get("lanes") or [], "n": g.get("n"),
+                        "alive": g.get("alive"), "age_h": g.get("age_h"),
+                        "last_seen": g.get("last_seen")}
+                       for g in (disk.get("groups") or [])],
+            "offhost_lanes": disk.get("offhost_lanes") or [],
+            "labels": disk.get("labels") or {}}
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -697,6 +733,7 @@ def build_report(now):
         "engine_wave": _engine_wave_face(),
         "stage_style": _stage_style_face(),
         "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
+        "lane_authority": _lane_authority_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
@@ -970,6 +1007,26 @@ def render_md(rep):
         L.append("- 口径：前向积累制（2026-10-08 起），日账只有真正采到的日子——"
                  "缺日不补、不记 0；面板由宿主采集，他机接管时在 results/zt_pool_update_status.json 留痕")
     L.append("")
+    L.append("## 十、数据的盘上归属（这批数字在谁的盘上）")
+    la = rep.get("lane_authority") or {}
+    if not la.get("present"):
+        L.append(f"- {la.get('note') or '归属面未产出——如实标注'}")
+    else:
+        L.append(f"- **{la.get('sentence')}**")
+        for g in la.get("groups") or []:
+            down = "（已停报）" if g.get("alive") is False else ""
+            age = (f" · 心跳 {g.get('age_h')}h 前"
+                   if g.get("alive") is not False and g.get("age_h") is not None
+                   else "")
+            L.append(f"  - `{g.get('machine')}`{down}{age}: "
+                     f"{', '.join(g.get('lanes') or []) or '—'}")
+        if la.get("n_unsigned_here"):
+            L.append(f"- 本机盘上有 {la.get('n_unsigned_here')} 条封套没有署名——"
+                     "读到的是本机副本，不是有作者的权威面（缺面禁读成 0/禁读成绿）")
+        L.append(f"- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/"
+                 f"他机副本/申报接管/无主）· 板面 {la.get('as_of')} · "
+                 f"verdict `{la.get('verdict')}` · 本行零重判")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -997,6 +1054,7 @@ def selftest():
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
     global _attribution_face, _stage_style_face, _zt_risk_face
+    global _lane_authority_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -1199,6 +1257,16 @@ def selftest():
         "best_by_state": {"BEAR": {"cell": "U-EW", "sharpe": 0.11, "n_days": 786},
                           "BULL": {"cell": "C1", "sharpe": 2.98, "n_days": 201}},
     }
+    _lane_authority_face = lambda root=None: {
+        "present": True, "as_of": "2026-09-26T10:00:00", "verdict": "host_down",
+        "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上"
+                    "（12.3h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+        "n_lanes": 9, "n_offhost": 6, "n_here": 3, "n_auditable_here": 2,
+        "n_unsigned_here": 1,
+        "groups": [{"machine": "bm-b", "lanes": ["heat", "repo"], "n": 2,
+                    "alive": False, "age_h": 12.3,
+                    "last_seen": "2026-09-25T22:00:00+08:00"}],
+        "offhost_lanes": ["heat", "repo"], "labels": {"heat": "他机本地副本"}}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -1234,6 +1302,16 @@ def selftest():
                    "最高 **4 连板**（1 只）：TEST股份", "跌停/涨停 = **3.615**",
                    "记为**杀跌日**；今日 是"):
         assert marker in md, marker
+    # r1162: the authorship section must print the board's OWN sentence, and an
+    # absent/garbled board must read absent -- never an empty attribution table
+    assert rep["lane_authority"]["sentence"] in md
+    _saved_la = _lane_authority_face
+    _lane_authority_face = lambda root=None: {
+        "present": False, "note": "车道归属面未产出（fixture）——如实标注"}
+    _md_absent = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_authority_face = _saved_la
+    assert "车道归属面未产出（fixture）" in _md_absent, "absent authorship not printed"
+    assert "6 条在 bm-b" not in _md_absent, "absent board leaked a stale sentence"
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
     assert rep["live_usage"]["status"] == "ok"

@@ -5257,3 +5257,32 @@ Pos: scripts/etf_book_phase_atlas.py (selftest 12/12; `--check` rebuilds every p
 and the verdict from the 280 raw rows, and refuses an edited median or verdict) +
 results/etf_book_phase_atlas.json + S6 leg `etf_book_phase_atlas` + smoke leg +
 research/digests/DIGEST-20261030-e257-phase-atlas.md.
+## E258 「本机核实不了」与「这批数在谁的盘上」是两个问题，混成一个就没人能动手 (2026-10-30 r1162 bm-a)
+
+WHEN: 任何一张面在判断「我能不能为这份数据背书」——审计、新鲜度、看板、战报。
+
+DECISION: 归属拆成两问，分别回答，禁互相顶替：
+① **在哪块盘上**（where the bytes are）：`data_face_machine` → 车道宿主
+   （`config/lane_hosts.json`）→ 封套署名者，逐级回退；**他机写封套不等于他机管数据**，
+   署名者只作最后兜底；
+② **有没有人背书**（auditable）：宿主封套 / 宿主本机副本 / 申报接管 = 可审，
+   无主封套 = 在盘上但不可审。
+一句人话=「N 条在役车道里有 X 条的数字不在本机盘上：……（M 台机，几小时未报到）；
+留在本机盘上的 K 条里 A 条可核实、B 条连署名都没有」。已退役面不计（关掉的车道不欠谁一根 bar）。
+
+WHY: r1159 把「7 条车道无法作证」变成了「bm-b 10.3h 未报到、压着六条车道」——诊断进了一步，
+但读者拿到的仍是关于**我们这份副本**的事实；真正可执行的是「这些行在别的机器盘上」
+以及「本机盘上的那几条里还有一条根本没人署名」。两问一混，就会出现两种假象：
+把本机副本当成公司数据（假绿），或把在盘的未署名面算成在别人手里（假缺席）。
+
+READING: 2026-10-30 实跑（bm-a）：9 条在役车道 / 6 条在 bm-b 盘上（12.3h 未报到）/
+留在本机 3 条（2 条可核实、1 条 etf_panel 无署名）。旧口径会把 etf_panel 记成「在 bm-a 的盘上」
+——本机说自己——这正是不拆两问的产物。
+
+Pos: scripts/data_lane_freshness.py（`disk_face()` 单一格式化器 + 报告 `disk` 块；
+selftest 13->15：L14 他机/退役面、L15 全本机/未署名/空板三pole）·
+monitor/build_status.py（`lane_freshness.disk` 原样透传）· daily_report.py（第十节
+「数据的盘上归属」只读板面句子，零重判；selftest 新增两句 marker + 缺面诚实腿）·
+dashboard.html（「数据在谁的盘上」行，未报到的组标 warn）· smoke_test.py
+（「whose disk the lane numbers are on reaches both human faces」= 从已发布 lanes 重算
+必须等于发布句，禁手写；看板接线在位；战报 md 必须含其 JSON 双胞胎自己的句子且 offhost 数一致）。

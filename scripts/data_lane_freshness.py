@@ -419,6 +419,7 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
         "host_down_hours": HOST_DOWN_H,
         "worst": (worst_row["lane"] if (stale or uncertified) and worst_row
                   and worst_row.get("n_missing") else None),
+        "disk": disk_face(rows, hosts),
         "note": ("Descriptive face, one rule per lane: the official calendar is "
                  "the reference, the lane's own tail is the measurement. A lane "
                  "with no artifact reads absent, never 0. A lane whose only "
@@ -426,6 +427,98 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                  "unverifiable -- `copy_verdict` keeps what that copy said."),
         "lanes": rows,
     }
+
+
+# ------------------------------------------------------- whose disk (r1162)
+AUTHORITY_LABEL = {
+    "host_envelope": "宿主自己写的封套",
+    "host_copy": "宿主本机副本",
+    "declared_takeover": "申报接管",
+    "non_host_envelope": "他机写的封套",
+    "non_host_copy": "他机本地副本",
+    "unattributed": "无主封套",
+}
+HERE_AUTHORITY = ("host_envelope", "host_copy")
+
+
+def _data_face(r):
+    """The machine whose DISK holds this lane's rows (r1162).
+
+    A declared takeover names its own data face; otherwise the lane host owns
+    the data dir. A foreign machine that merely wrote the envelope did not move
+    anybody's rows, so `reported_by` is the last resort, not the first."""
+    return (r.get("data_face_machine") or r.get("lane_host")
+            or r.get("reported_by") or "unknown")
+
+
+def disk_face(rows, hosts=None, here=None):
+    """Whose disk each lane's number lives on, in one sentence (r1162).
+
+    The board can already say a reading is not auditable HERE -- but that is a
+    fact about our copy, not about the company's data, and a reader who stops
+    there learns nothing actionable. The next sentence is the useful one: the
+    rows are on machine X's disk, X is (or is not) still reporting, and how many
+    of the lanes that ARE on this disk we can actually vouch for.
+
+    Two different questions, kept apart: `on this disk` (where the bytes are)
+    and `auditable` (whether anybody signed for them). A lane whose envelope is
+    unsigned but whose bytes sit here is on our disk and still uncertified --
+    collapsing the two is how "seven lanes unverifiable" became unreadable.
+    Retired faces are excluded: a closed lane owes nobody a bar.
+    """
+    hosts = hosts or {}
+    here = here if here is not None else _machine_id()
+    live = [r for r in (rows or ()) if r.get("verdict") != "retired"]
+    away = [r for r in live if _data_face(r) != here
+            and r.get("authority") not in HERE_AUTHORITY]
+    groups = {}
+    for r in away:
+        groups.setdefault(_data_face(r), []).append(r.get("lane"))
+    out_groups = []
+    for m, lanes in sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0])):
+        h = hosts.get(m) or {}
+        out_groups.append({"machine": m, "lanes": sorted(lanes),
+                           "n": len(lanes), "alive": h.get("alive"),
+                           "age_h": h.get("age_h"),
+                           "last_seen": h.get("last_seen")})
+    n_offhost = sum(g["n"] for g in out_groups)
+    on_here = [r for r in live if r not in away]
+    n_here = len(on_here)
+    n_aud = len([r for r in on_here if r.get("auditable")])
+    n_unsigned = len([r for r in on_here if not r.get("auditable")])
+    if not live:
+        sentence = "本机没有任何在役车道的读数——板面为空，归属无从谈起。"
+    elif not out_groups:
+        sentence = (f"{len(live)} 条在役车道的数字全都落在本机盘上，"
+                    f"其中 {n_aud} 条有署名可核实"
+                    + (f"、{n_unsigned} 条没有署名" if n_unsigned else "")
+                    + "。")
+    else:
+        parts = []
+        for g in out_groups:
+            if g["machine"] == "unknown":
+                parts.append(f"{g['n']} 条没有谁署名")
+            elif g["alive"] is False:
+                age = (f"{g['age_h']}h 未报到" if g["age_h"] is not None
+                       else "无心跳")
+                parts.append(f"{g['n']} 条在 {g['machine']} 的盘上（{age}）")
+            else:
+                parts.append(f"{g['n']} 条在 {g['machine']} 的盘上（心跳 {g['age_h']}h 前）"
+                             if g.get("age_h") is not None
+                             else f"{g['n']} 条在 {g['machine']} 的盘上")
+        sentence = (f"{len(live)} 条在役车道里有 {n_offhost} 条的数字不在本机盘上："
+                    + "、".join(parts)
+                    + f"；留在本机盘上的 {n_here} 条里 {n_aud} 条可核实"
+                    + (f"，{n_unsigned} 条连署名都没有" if n_unsigned else "")
+                    + "。")
+    return {"here": here, "n_lanes": len(live), "n_offhost": n_offhost,
+            "n_here": n_here, "n_auditable_here": n_aud,
+            "n_unsigned_here": n_unsigned, "groups": out_groups,
+            "offhost_lanes": sorted(r["lane"] for r in away),
+            "sentence": sentence,
+            "labels": {r["lane"]: AUTHORITY_LABEL.get(r.get("authority"),
+                                                    r.get("authority"))
+                       for r in live}}
 
 
 def render_md(report):
@@ -458,6 +551,14 @@ def render_md(report):
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
     why = [r for r in report["lanes"] if r.get("why")]
+    disk = report.get("disk") or {}
+    disks = ""
+    if disk.get("sentence"):
+        disks = ("\n## Whose disk these numbers are on\n\n"
+                 f"{disk['sentence']}\n\n")
+        for g in disk.get("groups") or []:
+            disks += (f"- `{g['machine']}`: {', '.join(g.get('lanes') or [])}"
+                      f"{'' if g.get('alive') is not False else ' (host down)'}\n")
     if report.get("hosts_down"):
         tailnote += ("\n## Hosts that stopped reporting\n\n"
                      "These lanes cannot be certified here and the machine that "
@@ -479,7 +580,7 @@ def render_md(report):
                      "late can be a dead lane or a stale copy of a live one.\n\n")
         for r in why:
             tailnote += f"- `{r['lane']}`: {r['why']}\n"
-    return head + cols + body + tailnote
+    return head + disks + cols + body + tailnote
 
 
 # ---------------------------------------------------------------- selftest
@@ -709,7 +810,53 @@ def selftest():
         print("[PASS] L13 a declared takeover is auditable, an undeclared "
               "foreign envelope is not", flush=True)
 
-    print("selftest: 13/13 PASS", flush=True)
+    # L14 whose disk: a lane this machine cannot certify is not a gap on this
+    # machine -- it is somebody else's disk, and the sentence must name it
+    # (r1162: r1159 named the dead host, but the two human faces still only
+    # printed "cannot certify here", which is a fact about our copy)
+    rows = [
+        {"lane": "heat", "verdict": "unverifiable", "authority": "non_host_copy",
+         "lane_host": "bm-b"},
+        {"lane": "repo", "verdict": "unverifiable",
+         "authority": "non_host_envelope", "reported_by": "bm-a",
+         "lane_host": "bm-b"},
+        {"lane": "futures", "verdict": "in_sync", "authority": "host_envelope",
+         "reported_by": "bm-a", "lane_host": "bm-a", "auditable": True},
+        {"lane": "options", "verdict": "retired", "authority": "unattributed"},
+    ]
+    d = disk_face(rows, {"bm-b": {"alive": False, "age_h": 11.8,
+                                  "last_seen": "2026-10-29T18:18:13+08:00"}},
+                  here="bm-a")
+    assert d["n_lanes"] == 3 and d["n_offhost"] == 2 and d["n_here"] == 1, d
+    assert [g["machine"] for g in d["groups"]] == ["bm-b"], d
+    assert d["groups"][0]["n"] == 2 and d["groups"][0]["alive"] is False, d
+    assert "bm-b" in d["sentence"] and "11.8h" in d["sentence"], d["sentence"]
+    assert "本机盘上的 1 条里 1 条可核实" in d["sentence"], d["sentence"]
+    assert "options" not in d["offhost_lanes"], d          # retired owes nothing
+    print("[PASS] L14 a lane on somebody else's disk is named, per machine, "
+          "and a retired face is not a gap", flush=True)
+
+    # L15 the honest poles: all-ours, ours-but-unsigned, and empty. An unsigned
+    # envelope whose bytes sit here is ON this disk and still uncertified -- the
+    # two questions must not collapse into one (live case: etf_panel)
+    d2 = disk_face([{"lane": "lhb", "verdict": "in_sync",
+                     "authority": "host_envelope", "reported_by": "bm-a",
+                     "auditable": True}], here="bm-a")
+    assert d2["n_offhost"] == 0 and d2["groups"] == [], d2
+    assert "全都落在本机盘上" in d2["sentence"], d2["sentence"]
+    assert "1 条有署名可核实" in d2["sentence"], d2["sentence"]
+    d2b = disk_face([{"lane": "etf_panel", "verdict": "unverifiable",
+                      "authority": "unattributed", "lane_host": "bm-a",
+                      "auditable": False}], here="bm-a")
+    assert d2b["n_offhost"] == 0 and d2b["n_here"] == 1, d2b
+    assert "1 条连署名都没有" in d2b["sentence"] or "没有署名" in d2b["sentence"], \
+        d2b["sentence"]
+    d3 = disk_face([])
+    assert d3["n_lanes"] == 0 and "无从谈起" in d3["sentence"], d3
+    print("[PASS] L15 all-ours and empty boards read honestly, not as a "
+          "zero-row gap", flush=True)
+
+    print("selftest: 15/15 PASS", flush=True)
     return 0
 
 

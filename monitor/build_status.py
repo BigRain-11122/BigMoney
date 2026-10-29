@@ -154,7 +154,12 @@ def _lane_freshness_state() -> dict:
             "hosts": {k: {kk: v.get(kk) for kk in
                           ("last_seen", "age_h", "alive", "lanes_unverifiable")}
                       for k, v in (doc.get("hosts") or {}).items()},
-            "host_down_hours": doc.get("host_down_hours")}
+            "host_down_hours": doc.get("host_down_hours"),
+            # r1162: "cannot certify here" is a fact about our copy; whose disk
+            # the rows are on is the actionable half. The board derives that
+            # sentence once (data_lane_freshness.disk_face) and every human face
+            # prints it verbatim -- no second implementation to drift.
+            "disk": doc.get("disk") or {}}
 
 
 def _update_state() -> dict:

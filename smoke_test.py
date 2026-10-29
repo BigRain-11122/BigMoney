@@ -1142,6 +1142,46 @@ def main() -> int:
         check("product: a lane takeover declares whose disk holds the rows",
               False, str(e))
     try:
+        # r1162: "cannot certify here" is about our copy; whose disk the rows are
+        # on is the actionable half. The board derives that sentence ONCE, and the
+        # two faces a human opens must carry it verbatim -- so this leg recomputes
+        # the block from the published lanes (a typed-in sentence reads red) and
+        # then checks the dashboard wiring and the report's own md/json twin.
+        import data_lane_freshness as _dlf
+        _lfdoc = json.load(open("results/data_lane_freshness.json",
+                                encoding="utf-8"))
+        _dk = _lfdoc.get("disk") or {}
+        _re = _dlf.disk_face(_lfdoc.get("lanes") or [],
+                             _lfdoc.get("hosts") or {}, here=_dk.get("here"))
+        _same = (_re["sentence"] == _dk.get("sentence")
+                 and _re["n_offhost"] == _dk.get("n_offhost")
+                 and _re["n_lanes"] == _dk.get("n_lanes")
+                 and _re["offhost_lanes"] == (_dk.get("offhost_lanes") or []))
+        _html = open("dashboard.html", encoding="utf-8").read()
+        _dash = ("lf.disk" in _html and "lfd.sentence" in _html)
+        import glob as _g2
+        _rep_js = sorted(_g2.glob(os.path.join("docs", "daily_report",
+                                               "REPORT-*.json")))
+        _rep_ok, _rep_why = True, "no report yet"
+        if _rep_js:
+            _rj = json.load(open(_rep_js[-1], encoding="utf-8"))
+            _la = _rj.get("lane_authority") or {}
+            _rmd_p = _rep_js[-1][:-5] + ".md"
+            if _la.get("present") and os.path.exists(_rmd_p):
+                _rmd = open(_rmd_p, encoding="utf-8").read()
+                _rep_ok = (_la.get("sentence") in _rmd
+                           and _la.get("n_offhost") == _dk.get("n_offhost"))
+                _rep_why = (f"{os.path.basename(_rmd_p)} "
+                            f"offhost={_la.get('n_offhost')}=={_dk.get('n_offhost')} "
+                            f"sentence-in-page={_la.get('sentence') in _rmd}")
+        check("product: whose disk the lane numbers are on reaches both human faces",
+              _same and _dash and _rep_ok,
+              f"recomputed={_same} dashboard-wired={_dash} report={_rep_why} "
+              f"disk_sentence={(_dk.get('sentence') or '')[:60]}")
+    except Exception as e:
+        check("product: whose disk the lane numbers are on reaches both human faces",
+              False, str(e))
+    try:
         # r1156: the lane-freshness board must agree with the lanes' OWN bytes and
         # with the official calendar. Re-reading the published JSON would only prove
         # the file parses, so the two tails a reader acts on are recomputed here from

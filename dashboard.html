@@ -383,6 +383,16 @@ function renderCompany() {
       lf.verdict === "all_fresh" ? "全绿"
         : (lf.verdict === "uncertified" ? `可核实 ${lf.n_auditable}/${lf.n_lanes}` : `落后 ${nb.length} 条`)));
   }
+  // r1162: which machine's disk these numbers are on -- the board derives the
+  // sentence (data_lane_freshness.disk_face) and this row prints it verbatim,
+  // so the page cannot drift from the board that judged it.
+  const lfd = (lf && lf.disk) || {};
+  if (lfd.sentence) {
+    const down = (lfd.groups || []).some(g => g.alive === false);
+    rows.push(chainRow("数据在谁的盘上", lfd.sentence,
+      down ? "warn" : "dim",
+      `${n2(lfd.n_offhost)}/${n2(lfd.n_lanes)} 在外机`));
+  }
   const fr = (D.research && D.research.factor_line) || {};
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));

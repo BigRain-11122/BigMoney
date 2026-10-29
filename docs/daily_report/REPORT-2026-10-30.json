@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-30",
- "generated_at": "2026-10-30 06:11:31",
+ "generated_at": "2026-10-30 06:36:51",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,12 +297,12 @@
   "md_link": "../live_usage/LIVE-2026-10-30.md"
  },
  "rd": {
-  "commits_24h": 90,
-  "result_jsons_landed_24h": 120,
-  "digests_landed_24h": 50,
-  "prereg_md_touched_24h": 8,
+  "commits_24h": 92,
+  "result_jsons_landed_24h": 127,
+  "digests_landed_24h": 48,
+  "prereg_md_touched_24h": 7,
   "compute_audit_latest": {
-   "ts": "2026-10-30 05:40:19",
+   "ts": "2026-10-30 05:51:39",
    "py_cpu_pct": 0.1,
    "flags": [
     "pool_starvation",
@@ -668,17 +668,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-30 04:41:27",
+    "latest_ts": "2026-10-30 05:51:39",
     "py_pct": 0.1,
-    "cpu_pct": 32.0,
+    "cpu_pct": 40.0,
     "ready": 0,
-    "streak_min": 3288.5,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 3358.7,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "23:24",
-      1.9
-     ],
      [
       "23:53",
       5.2
@@ -722,9 +718,13 @@
      [
       "04:41",
       0.1
+     ],
+     [
+      "05:51",
+      0.1
      ]
     ],
-    "today_samples": 10,
+    "today_samples": 11,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -792,66 +792,66 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-30 05:40:19",
-    "py_pct": 0.1,
-    "cpu_pct": 34.0,
-    "ready": 0,
-    "streak_min": 3347.4,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "latest_ts": "2026-10-30 01:56:37",
+    "py_pct": 5.7,
+    "cpu_pct": 68.0,
+    "ready": 3,
+    "streak_min": 81.2,
+    "verdict": "FLAG:supply_gap",
     "py_series_tail": [
      [
-      "23:53",
-      5.2
+      "19:52",
+      3.6
      ],
      [
-      "00:28",
-      0.4
+      "19:56",
+      2.5
      ],
      [
-      "00:34",
-      1.4
+      "19:56",
+      4.2
      ],
      [
-      "00:55",
-      5.1
+      "20:38",
+      5.3
      ],
      [
-      "01:28",
-      6.7
+      "20:55",
+      0.9
      ],
      [
-      "02:08",
+      "21:32",
+      0.6
+     ],
+     [
+      "22:25",
+      0.2
+     ],
+     [
+      "23:23",
+      7.5
+     ],
+     [
+      "23:58",
+      1.6
+     ],
+     [
+      "00:35",
       0.3
      ],
      [
-      "02:18",
-      0.3
+      "01:24",
+      4.4
      ],
      [
-      "02:23",
-      0.3
-     ],
-     [
-      "03:17",
-      5.0
-     ],
-     [
-      "04:08",
-      4.9
-     ],
-     [
-      "04:41",
-      0.1
-     ],
-     [
-      "05:40",
-      0.1
+      "01:56",
+      5.7
      ]
     ],
-    "today_samples": 11,
-    "today_floor_ok": 0,
+    "today_samples": 3,
+    "today_floor_ok": 3,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 0
+    "today_supply_gap_flags": 3
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -873,7 +873,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-30 04:41:27"
+     "audit_ts": "2026-10-30 05:51:39"
     }
    },
    "bm-b": {
@@ -905,7 +905,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-30 05:40:19"
+     "audit_ts": "2026-10-30 01:56:37"
     }
    }
   },
@@ -1698,6 +1698,53 @@
     "seal_rate": 0.6094
    }
   ]
+ },
+ "lane_authority": {
+  "present": true,
+  "as_of": "2026-10-30T06:36:51",
+  "verdict": "host_down",
+  "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（12.31h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+  "n_lanes": 9,
+  "n_offhost": 6,
+  "n_here": 3,
+  "n_auditable_here": 2,
+  "n_unsigned_here": 1,
+  "groups": [
+   {
+    "machine": "bm-b",
+    "lanes": [
+     "astock_daily",
+     "heat",
+     "marks",
+     "moneyflow",
+     "repo",
+     "zt_pool"
+    ],
+    "n": 6,
+    "alive": false,
+    "age_h": 12.31,
+    "last_seen": "2026-10-29T18:18:13+08:00"
+   }
+  ],
+  "offhost_lanes": [
+   "astock_daily",
+   "heat",
+   "marks",
+   "moneyflow",
+   "repo",
+   "zt_pool"
+  ],
+  "labels": {
+   "moneyflow": "无主封套",
+   "heat": "无主封套",
+   "repo": "无主封套",
+   "astock_daily": "无主封套",
+   "etf_panel": "无主封套",
+   "futures": "宿主自己写的封套",
+   "lhb": "宿主自己写的封套",
+   "marks": "无主封套",
+   "zt_pool": "他机本地副本"
+  }
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
