@@ -4151,3 +4151,54 @@ results/state_tilt/MATCHED-<cutoff>.json + matched_latest.json + matched_by_arm 
 matched_exposure immediately after tilt_breakeven; smoke leg re-derives every paired MDE from
 its own SE, refuses a matched arm that trades more than its entry side, and refuses an
 attribution gap that is not the matched toll.
+
+### E229 -- split the pair before you explain it: which days, how much, and the toll (r1255 bm-b)
+
+E228 gave the paired timing value a standard error but never asked where it comes from. The
+question a reader actually has is binary: is the gate unable to time, or does it pick the
+right days and size them wrong? That question is arithmetic on a series already on disk.
+
+The identity (c = the gated arm's own OOS average weight, mu_is = the drift every arm is
+charged, per OOS session t):
+
+    d_t = (w_t - c)(r_t - mu_is) - cost_t
+        = 1[w_t = 0]*(-c)(r_t - mu_is)          selection -- which days
+        + 1[w_t > 0]*(w_t - c)(r_t - mu_is)     sizing    -- how much
+        - cost_t                                toll
+
+and sizing splits exactly into LEVEL (`n_in*m_w*m_r`, the in-market average weight sitting
+away from c) and COVARIANCE (holding more when the return is above the drift). All three
+reconstruct the pair to 2.0e-12 bp on every cell, so no channel can drift away from the
+series it claims to explain.
+
+Measured (sh510300 1,402 OOS sessions to 2026-10-29, basket 2,108; bar_arm 2.734,
+bar_channel 3.078 = Bonferroni over 4 arms x 2 panels x 3 channels):
+* `binary_low` is the only gate that dodges the right days -- the sessions it sits out
+  average -4.61 bp (single) / -4.79 bp (basket) against the drift, giving selection
+  +261 / +265 bp/yr, but at t=1.26 / 1.32 it is nowhere near the bar. E228's one positive
+  cell (was +218 bp/yr, now +227) is a right-signed, unresolved SELECTION effect, not sizing skill.
+* `tilt_step`/`tilt_linear` sit out sessions averaging +0.72 / +1.76 bp ABOVE the drift --
+  a long-only gate stepping aside above the mean, exactly backwards.
+* the only channel that clears the bar is the TOLL (tilt_* on the basket, t=-10.03, -10.05).
+  What separates these arms from a flat constant is measurably the cost of moving.
+* a 0/1 gate cannot have a sizing channel: `binary_low`'s covariance term is identically
+  zero (max 6.8e-28 bp/yr), so its whole sizing channel is a level shift. Any "sizing skill"
+  claimed for a binary rule is arithmetically impossible.
+
+How to apply:
+1. When a paired/level statistic is unexplained, look for an identity that partitions it
+   into named channels before running anything new. The partition is free and it converts
+   one number into a sentence a reader can act on.
+2. Align constructions on the RETURN index, not the weight index: the weight set at i
+   covers the return at i+1, so "sit out session j" is w[j-1]=0. Two construction legs
+   failed on exactly that off-by-one (and an in-sample dodge also moves mu_is, so only OOS
+   sessions are dodgeable when manufacturing a channel).
+3. Publish the structural zeros. A channel that is identically zero for a family of rules
+   (binary gate -> no covariance) is a stronger statement than a measured zero, and it
+   forecloses a whole class of future claims.
+
+Pieces: scripts/e229_timing_selection.py (run / selftest, 16 hermetic legs); face
+results/state_tilt/TIMINGSEL-<cutoff>.json + timingsel_latest.json + timingsel_by_arm csv;
+S6 leg timing_selection immediately after matched_exposure; smoke leg re-adds the published
+channels, refuses a face whose parts do not reconstruct its own pair, and refuses a binary
+arm that publishes a covariance.

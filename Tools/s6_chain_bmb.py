@@ -96,6 +96,11 @@ LEGS = [
     # same toll -- and judges the PAIRED daily difference, so the timing term finally
     # carries a standard error instead of standing alone.
     ("matched_exposure", ["python", "scripts/e228_matched_exposure.py", "run"]),
+    # E229: E228 gave the pair a standard error but not a source. This leg splits the
+    # same paired series three ways (selection = which days, sizing = how much, toll =
+    # what the movement costs) as an exact identity, so a losing pair can be attributed
+    # to the days it dodged, the weights it held or the toll it paid.
+    ("timing_selection", ["python", "scripts/e229_timing_selection.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

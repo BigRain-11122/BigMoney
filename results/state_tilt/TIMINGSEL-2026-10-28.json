@@ -1,0 +1,707 @@
+{
+ "answer": "on the primary panel the pair splits into 0 selection-dominant, 4 sizing-dominant and 0 toll-dominant arms (of 4); across both panels 2 cell(s) carry a dominant channel that clears the channel bar 3.08 (basket_/tilt_step t=-10.02; basket_/tilt_linear t=-10.05). The best sizing channel on the primary panel is voltarget at -174 bp/yr (t=-1.73), and the binary arms' covariance term is identically zero (max 1.23e-27 bp/yr) -- a 0/1 gate holds one weight whenever it holds at all, so for those arms 'sizing' can only be a level shift, never timing skill. The three channels reconstruct the pair exactly: max |identity residual| = 6.139e-12 bp.",
+ "channel_summary": {
+  "cells": 8,
+  "no_structure": 0,
+  "reading": "each row is the same paired series split three ways; the three channels reconstruct the pair exactly (identity_residual_bp)",
+  "rows": [
+   {
+    "arm": "binary_low",
+    "dominant": "sizing",
+    "pair": -523.7613626740163,
+    "panel": "primary_single",
+    "selection": 255.42642365855906,
+    "sizing": -579.8029041055937,
+    "toll": -199.38488222698103,
+    "verdict": "SIZING_DOMINANT"
+   },
+   {
+    "arm": "tilt_step",
+    "dominant": "sizing",
+    "pair": -637.0322189151561,
+    "panel": "primary_single",
+    "selection": -29.896448737515033,
+    "sizing": -425.3436716765698,
+    "toll": -181.79209850107048,
+    "verdict": "SIZING_DOMINANT"
+   },
+   {
+    "arm": "tilt_linear",
+    "dominant": "sizing",
+    "pair": -703.4864873672731,
+    "panel": "primary_single",
+    "selection": -31.118960522999124,
+    "sizing": -503.5317690827988,
+    "toll": -168.83575776147512,
+    "verdict": "SIZING_DOMINANT"
+   },
+   {
+    "arm": "voltarget",
+    "dominant": "sizing",
+    "pair": -200.13496721958487,
+    "panel": "primary_single",
+    "selection": 0.0,
+    "sizing": -173.87671542500829,
+    "toll": -26.25825179457638,
+    "verdict": "SIZING_DOMINANT"
+   },
+   {
+    "arm": "binary_low",
+    "dominant": "selection",
+    "pair": 218.41717329450333,
+    "panel": "basket_equal_weight",
+    "selection": 256.95898279960403,
+    "sizing": 83.11642305303984,
+    "toll": -121.65823255813977,
+    "verdict": "SELECTION_DOMINANT"
+   },
+   {
+    "arm": "tilt_step",
+    "dominant": "toll",
+    "pair": -182.35813737557172,
+    "panel": "basket_equal_weight",
+    "selection": -82.99041345370236,
+    "sizing": 27.74953189208352,
+    "toll": -127.11725581395342,
+    "verdict": "TOLL_DOMINANT"
+   },
+   {
+    "arm": "tilt_linear",
+    "dominant": "toll",
+    "pair": -172.11851820382793,
+    "panel": "basket_equal_weight",
+    "selection": -84.70238669000818,
+    "sizing": 46.871247830650326,
+    "toll": -134.28737934446988,
+    "verdict": "TOLL_DOMINANT"
+   },
+   {
+    "arm": "voltarget",
+    "dominant": "sizing",
+    "pair": -395.59246335810724,
+    "panel": "basket_equal_weight",
+    "selection": 0.0,
+    "sizing": -346.64708769514453,
+    "toll": -48.94537566296287,
+    "verdict": "SIZING_DOMINANT"
+   }
+  ],
+  "selection_dominant": 1,
+  "sizing_dominant": 5,
+  "toll_dominant": 2
+ },
+ "e228_crosscheck": {
+  "cells": 8,
+  "max_abs_diff_bp": 0.0,
+  "rows": [
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "binary_low",
+    "panel": "primary_single",
+    "published_bp_per_year": -523.7613626740163,
+    "rebuilt_bp_per_year": -523.7613626740163
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_step",
+    "panel": "primary_single",
+    "published_bp_per_year": -637.0322189151561,
+    "rebuilt_bp_per_year": -637.0322189151561
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_linear",
+    "panel": "primary_single",
+    "published_bp_per_year": -703.4864873672731,
+    "rebuilt_bp_per_year": -703.4864873672731
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "voltarget",
+    "panel": "primary_single",
+    "published_bp_per_year": -200.13496721958487,
+    "rebuilt_bp_per_year": -200.13496721958487
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "binary_low",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": 218.41717329450333,
+    "rebuilt_bp_per_year": 218.41717329450333
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_step",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -182.35813737557172,
+    "rebuilt_bp_per_year": -182.35813737557172
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "tilt_linear",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -172.11851820382793,
+    "rebuilt_bp_per_year": -172.11851820382793
+   },
+   {
+    "abs_diff_bp": 0.0,
+    "arm": "voltarget",
+    "panel": "basket_equal_weight",
+    "published_bp_per_year": -395.59246335810724,
+    "rebuilt_bp_per_year": -395.59246335810724
+   }
+  ],
+  "source": "results/state_tilt/matched_latest.json",
+  "study": "E228"
+ },
+ "evidence_cutoff": "2026-10-28",
+ "frozen_spec": {
+  "bar_arm_t": 2.7343687865331683,
+  "bar_basis": "two-sided 5% over 8 arm tests and 24 channel tests",
+  "bar_channel_t": 3.078088072842154,
+  "channels": [
+   "selection",
+   "sizing",
+   "toll"
+  ],
+  "const_weight": "the gated arm's own OOS average weight (E228's exact match)",
+  "cost_model": "unit turnover |dw| pays one side; w_{-1}=0 so entry pays a side",
+  "cost_side_bp": 13.041,
+  "gated_arms": [
+   "binary_low",
+   "tilt_step",
+   "tilt_linear",
+   "voltarget"
+  ],
+  "identity": "d_t = 1[w=0]*(-c)*(r-mu_is) + 1[w>0]*(w-c)*(r-mu_is) - cost_t",
+  "is_frac": 0.6,
+  "min_oos_sessions": 252,
+  "no_adoption": "E228 already judged the pair; the channels label that series",
+  "no_structure_bp_per_year": 1.0,
+  "nw_lag": 20,
+  "sizing_split": "n_in*m_w*m_r (level) + sum_in (w-c-m_w)(r-mu-m_r) (covariance)",
+  "vocabulary": "NO_STRUCTURE below 1bp/yr; otherwise <CH>_DOMINANT with the channel's NW t against bar_channel_t",
+  "z_80pct": 2.802
+ },
+ "generated": "2026-10-29T20:36:22",
+ "panels": [
+  {
+   "arms": [
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.3426124197002141,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": -745.5258740534199,
+       "mean_dev_bp_per_session": -4.500291908160735,
+       "n": 921,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": 3.183231456205249e-12,
+      "in_market_sessions": 480,
+      "oos_sessions": 1401,
+      "out_of_market_sessions": 921,
+      "pair_ann_bp_per_year": -523.7613626740163,
+      "selection": {
+       "ann_bp_per_year": 255.42642365855906,
+       "mean_bp_per_session": 1.0135969192799963,
+       "n": 1401,
+       "n_eff": 1385.3000358718564,
+       "se_nw": 0.827182519097779,
+       "t_nw": 1.2253606621009623
+      },
+      "sizing": {
+       "ann_bp_per_year": -579.8029041055937,
+       "mean_bp_per_session": -2.300805175022197,
+       "n": 1401,
+       "n_eff": 1363.1167152764317,
+       "se_nw": 0.9272365417247234,
+       "t_nw": -2.4813573144373087
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": -1.5665054583849197e-28,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -579.8029041055948,
+       "in_market_mean_dev_bp": -10.215396983212871,
+       "in_market_mean_weight_minus_c": 0.6573875802997867,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": -5.9117155615240335e-12,
+      "toll": {
+       "ann_bp_per_year": -199.38488222698103,
+       "mean_bp_per_session": -0.7912098501070676,
+       "n": 1401,
+       "n_eff": 1039.1667861536423,
+       "se_nw": 0.1295423462706088,
+       "t_nw": -6.107731354921284
+      }
+     },
+     "dominant": "sizing",
+     "dominant_resolvable": false,
+     "dominant_t_nw": -2.4813573144373087,
+     "name": "binary_low",
+     "target_bp": null,
+     "verdict": "SIZING_DOMINANT",
+     "verdict_reason": "t=-2.48 < bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.5092790863668808,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": 58.70346836896795,
+       "mean_dev_bp_per_session": 0.7188619605702756,
+       "n": 454,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": 4.092726157978177e-12,
+      "in_market_sessions": 947,
+      "oos_sessions": 1401,
+      "out_of_market_sessions": 454,
+      "pair_ann_bp_per_year": -637.0322189151561,
+      "selection": {
+       "ann_bp_per_year": -29.896448737515033,
+       "mean_bp_per_session": -0.11863670133934537,
+       "n": 1401,
+       "n_eff": 1380.4987017131791,
+       "se_nw": 0.9963503423723773,
+       "t_nw": -0.1190712707107255
+      },
+      "sizing": {
+       "ann_bp_per_year": -425.3436716765698,
+       "mean_bp_per_session": -1.6878717130022611,
+       "n": 1401,
+       "n_eff": 1367.0040276249663,
+       "se_nw": 0.6905919917767409,
+       "t_nw": -2.4440939557664714
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": -13.650856388804968,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -411.69281528776236,
+       "in_market_mean_dev_bp": -9.899179228571404,
+       "in_market_mean_weight_minus_c": 0.24415280381263194,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": 1.3642420526593924e-11,
+      "toll": {
+       "ann_bp_per_year": -181.79209850107048,
+       "mean_bp_per_session": -0.7213972162740893,
+       "n": 1401,
+       "n_eff": 1138.982948910785,
+       "se_nw": 0.07596752925313144,
+       "t_nw": -9.49612582331487
+      }
+     },
+     "dominant": "sizing",
+     "dominant_resolvable": false,
+     "dominant_t_nw": -2.4440939557664714,
+     "name": "tilt_step",
+     "target_bp": null,
+     "verdict": "SIZING_DOMINANT",
+     "verdict_reason": "t=-2.44 < bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.5301042917499791,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": 58.70346836896795,
+       "mean_dev_bp_per_session": 0.7188619605702756,
+       "n": 454,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": 0.0,
+      "in_market_sessions": 947,
+      "oos_sessions": 1401,
+      "out_of_market_sessions": 454,
+      "pair_ann_bp_per_year": -703.4864873672731,
+      "selection": {
+       "ann_bp_per_year": -31.118960522999124,
+       "mean_bp_per_session": -0.12348793858332986,
+       "n": 1401,
+       "n_eff": 1380.4987017131805,
+       "se_nw": 1.037092640787664,
+       "t_nw": -0.11907127071072621
+      },
+      "sizing": {
+       "ann_bp_per_year": -503.5317690827988,
+       "mean_bp_per_session": -1.9981419408047572,
+       "n": 1401,
+       "n_eff": 1381.8627611448796,
+       "se_nw": 0.8113496189389215,
+       "t_nw": -2.4627384966519315
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": -75.0042011758451,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -428.5275679069542,
+       "in_market_mean_dev_bp": -9.899179228571404,
+       "in_market_mean_weight_minus_c": 0.25413658759713825,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": -2.2737367544323206e-12,
+      "toll": {
+       "ann_bp_per_year": -168.83575776147512,
+       "mean_bp_per_session": -0.6699831657201394,
+       "n": 1401,
+       "n_eff": 1080.8521064733889,
+       "se_nw": 0.0647096659965133,
+       "t_nw": -10.353679862236339
+      }
+     },
+     "dominant": "sizing",
+     "dominant_resolvable": false,
+     "dominant_t_nw": -2.4627384966519315,
+     "name": "tilt_linear",
+     "target_bp": null,
+     "verdict": "SIZING_DOMINANT",
+     "verdict_reason": "t=-2.46 < bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.9349280528496423,
+      "dodged_days": {
+       "n": 0
+      },
+      "identity_residual_bp": 1.1368683772161603e-12,
+      "in_market_sessions": 1401,
+      "oos_sessions": 1401,
+      "out_of_market_sessions": 0,
+      "pair_ann_bp_per_year": -200.13496721958487,
+      "selection": {
+       "ann_bp_per_year": 0.0,
+       "mean_bp_per_session": 0.0,
+       "n": 1401,
+       "n_eff": 1401.0,
+       "se_nw": null,
+       "t_nw": null
+      },
+      "sizing": {
+       "ann_bp_per_year": -173.87671542500829,
+       "mean_bp_per_session": -0.6899869659722551,
+       "n": 1401,
+       "n_eff": 1401.0,
+       "se_nw": 0.3982816424477825,
+       "t_nw": -1.7324096630005164
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": -173.8767154250076,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -6.118421934799331e-13,
+       "in_market_mean_dev_bp": -6.458357886765319,
+       "in_market_mean_weight_minus_c": 3.759384745768553e-16,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": 3.410605131648481e-13,
+      "toll": {
+       "ann_bp_per_year": -26.25825179457638,
+       "mean_bp_per_session": -0.10419941188323961,
+       "n": 1401,
+       "n_eff": 860.4316283623953,
+       "se_nw": 0.017120284209932685,
+       "t_nw": -6.0863132063418774
+      }
+     },
+     "dominant": "sizing",
+     "dominant_resolvable": false,
+     "dominant_t_nw": -1.7324096630005164,
+     "name": "voltarget",
+     "target_bp": 113.24712377237836,
+     "verdict": "SIZING_DOMINANT",
+     "verdict_reason": "t=-1.73 < bar 3.08"
+    }
+   ],
+   "first": "2012-05-28",
+   "is_frac": 0.6,
+   "last": "2026-10-28",
+   "panel": "primary_single",
+   "reference_constant_arm": {
+    "const_weight": 1.0,
+    "identity_residual_bp": 0.0,
+    "verdict": "NO_STRUCTURE",
+    "verdict_reason": "largest_channel_0.000bp_below_1.0"
+   },
+   "sessions": 3503,
+   "split_date": "2021-01-13",
+   "split_session": 2102,
+   "symbol": "sh510300"
+  },
+  {
+   "arms": [
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.3270052206929283,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": -785.7947413044474,
+       "mean_dev_bp_per_session": -4.633368929882438,
+       "n": 1418,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": 6.139089236967266e-12,
+      "in_market_sessions": 689,
+      "oos_sessions": 2107,
+      "out_of_market_sessions": 1418,
+      "pair_ann_bp_per_year": 218.41717329450333,
+      "selection": {
+       "ann_bp_per_year": 256.95898279960403,
+       "mean_bp_per_session": 1.0196785031730318,
+       "n": 2107,
+       "n_eff": 2002.3276268250017,
+       "se_nw": 0.7972001948393224,
+       "t_nw": 1.2790745784734165
+      },
+      "sizing": {
+       "ann_bp_per_year": 83.11642305303984,
+       "mean_bp_per_session": 0.32982707560730096,
+       "n": 2107,
+       "n_eff": 1958.2313778729315,
+       "se_nw": 0.9612613897150275,
+       "t_nw": 0.34311902999149946
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": 1.231818097104183e-27,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": 83.11642305304058,
+       "in_market_mean_dev_bp": 1.4987179974838922,
+       "in_market_mean_weight_minus_c": 0.6729947793070772,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": 6.252776074688882e-12,
+      "toll": {
+       "ann_bp_per_year": -121.65823255813977,
+       "mean_bp_per_session": -0.4827707641196023,
+       "n": 2107,
+       "n_eff": 1651.139318243752,
+       "se_nw": 0.07587790765199208,
+       "t_nw": -6.362468062954392
+      }
+     },
+     "dominant": "selection",
+     "dominant_resolvable": false,
+     "dominant_t_nw": 1.2790745784734165,
+     "name": "binary_low",
+     "target_bp": null,
+     "verdict": "SELECTION_DOMINANT",
+     "verdict_reason": "t=1.28 < bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.45965828191741814,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": 180.54806520077497,
+       "mean_dev_bp_per_session": 1.7573718673338918,
+       "n": 859,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": -4.774847184307873e-12,
+      "in_market_sessions": 1248,
+      "oos_sessions": 2107,
+      "out_of_market_sessions": 859,
+      "pair_ann_bp_per_year": -182.35813737557172,
+      "selection": {
+       "ann_bp_per_year": -82.99041345370236,
+       "mean_bp_per_session": -0.3293270375146919,
+       "n": 2107,
+       "n_eff": 1901.705148537786,
+       "se_nw": 0.9684205826627489,
+       "t_nw": -0.3400661276830581
+      },
+      "sizing": {
+       "ann_bp_per_year": 27.74953189208352,
+       "mean_bp_per_session": 0.11011719004795048,
+       "n": 2107,
+       "n_eff": 1939.4728268527097,
+       "se_nw": 0.7814660705395462,
+       "t_nw": 0.14091103145645525
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": 294.4102547790388,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -266.6607228869508,
+       "in_market_mean_dev_bp": -5.646701022713716,
+       "in_market_mean_weight_minus_c": 0.31638338474924294,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": 3.714717422553804e-11,
+      "toll": {
+       "ann_bp_per_year": -127.11725581395342,
+       "mean_bp_per_session": -0.5044335548172755,
+       "n": 2107,
+       "n_eff": 1782.4365317863944,
+       "se_nw": 0.05031808292721511,
+       "t_nw": -10.024896130222935
+      }
+     },
+     "dominant": "toll",
+     "dominant_resolvable": true,
+     "dominant_t_nw": -10.024896130222935,
+     "name": "tilt_step",
+     "target_bp": null,
+     "verdict": "TOLL_DOMINANT",
+     "verdict_reason": "t=-10.02 >= bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.4691403732065287,
+      "dodged_days": {
+       "ann_bp_per_year_if_held": 180.54806520077497,
+       "mean_dev_bp_per_session": 1.7573718673338918,
+       "n": 859,
+       "reading": "the days the gate sat out, measured against the same in-sample drift the arms are charged"
+      },
+      "identity_residual_bp": 1.8189894035458565e-12,
+      "in_market_sessions": 1248,
+      "oos_sessions": 2107,
+      "out_of_market_sessions": 859,
+      "pair_ann_bp_per_year": -172.11851820382793,
+      "selection": {
+       "ann_bp_per_year": -84.70238669000818,
+       "mean_bp_per_session": -0.33612058210320706,
+       "n": 2107,
+       "n_eff": 1901.705148537788,
+       "se_nw": 0.9883977107430987,
+       "t_nw": -0.34006612768306027
+      },
+      "sizing": {
+       "ann_bp_per_year": 46.871247830650326,
+       "mean_bp_per_session": 0.18599701520099335,
+       "n": 2107,
+       "n_eff": 1987.0182802239135,
+       "se_nw": 0.8292971487762058,
+       "t_nw": 0.22428271395297722
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": 319.032799087513,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": -272.1615512568627,
+       "in_market_mean_dev_bp": -5.646701022713716,
+       "in_market_mean_weight_minus_c": 0.32290992034007016,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": -2.2737367544323206e-13,
+      "toll": {
+       "ann_bp_per_year": -134.28737934446988,
+       "mean_bp_per_session": -0.5328864259701186,
+       "n": 2107,
+       "n_eff": 1431.641862099529,
+       "se_nw": 0.053025407564777256,
+       "t_nw": -10.049643188864325
+      }
+     },
+     "dominant": "toll",
+     "dominant_resolvable": true,
+     "dominant_t_nw": -10.049643188864325,
+     "name": "tilt_linear",
+     "target_bp": null,
+     "verdict": "TOLL_DOMINANT",
+     "verdict_reason": "t=-10.05 >= bar 3.08"
+    },
+    {
+     "bar_arm_t": 2.7343687865331683,
+     "channels": {
+      "const_weight": 0.862435223224082,
+      "dodged_days": {
+       "n": 0
+      },
+      "identity_residual_bp": -1.3642420526593924e-12,
+      "in_market_sessions": 2107,
+      "oos_sessions": 2107,
+      "out_of_market_sessions": 0,
+      "pair_ann_bp_per_year": -395.59246335810724,
+      "selection": {
+       "ann_bp_per_year": 0.0,
+       "mean_bp_per_session": 0.0,
+       "n": 2107,
+       "n_eff": 2107.0,
+       "se_nw": null,
+       "t_nw": null
+      },
+      "sizing": {
+       "ann_bp_per_year": -346.64708769514453,
+       "mean_bp_per_session": -1.3755836813299387,
+       "n": 2107,
+       "n_eff": 2030.062230763017,
+       "se_nw": 0.5994256546904272,
+       "t_nw": -2.2948361828796893
+      },
+      "sizing_covariance": {
+       "ann_bp_per_year": -346.64708769514414,
+       "reading": "on shared days the gate holds more when the return is above the drift"
+      },
+      "sizing_level": {
+       "ann_bp_per_year": 1.0950864683382687e-13,
+       "in_market_mean_dev_bp": -2.6281444908907945,
+       "in_market_mean_weight_minus_c": -1.6534788093373238e-16,
+       "reading": "the gate's in-market average weight sits away from the flat constant"
+      },
+      "sizing_split_residual_bp": 4.547473508864641e-12,
+      "toll": {
+       "ann_bp_per_year": -48.94537566296287,
+       "mean_bp_per_session": -0.1942276812022336,
+       "n": 2107,
+       "n_eff": 1620.1492270050583,
+       "se_nw": 0.015850758958354992,
+       "t_nw": -12.25352563322247
+      }
+     },
+     "dominant": "sizing",
+     "dominant_resolvable": false,
+     "dominant_t_nw": -2.2948361828796893,
+     "name": "voltarget",
+     "target_bp": 106.75548646759191,
+     "verdict": "SIZING_DOMINANT",
+     "verdict_reason": "t=-2.29 < bar 3.08"
+    }
+   ],
+   "first": "2005-02-23",
+   "is_frac": 0.6,
+   "last": "2026-10-28",
+   "panel": "basket_equal_weight",
+   "reference_constant_arm": {
+    "const_weight": 1.0,
+    "identity_residual_bp": 0.0,
+    "verdict": "NO_STRUCTURE",
+    "verdict_reason": "largest_channel_0.000bp_below_1.0"
+   },
+   "sessions": 5268,
+   "split_date": "2018-02-14",
+   "split_session": 3161,
+   "symbol": "sh510050+sh510300+sh510500+sh512100+sh588000"
+  }
+ ],
+ "resolvable_dominant_channels": [
+  {
+   "arm": "tilt_step",
+   "channel": "toll",
+   "panel": "basket_equal_weight",
+   "t": -10.024896130222935
+  },
+  {
+   "arm": "tilt_linear",
+   "channel": "toll",
+   "panel": "basket_equal_weight",
+   "t": -10.049643188864325
+  }
+ ],
+ "study": "E229",
+ "title": "where does E228's paired timing value come from? selection (which days) vs sizing (how much) vs toll, an exact three-way split of the same series"
+}

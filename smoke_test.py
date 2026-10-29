@@ -2581,6 +2581,81 @@ def main() -> int:
     except Exception as e:
         check("product: the drift split is reproduced as a traded exposure-matched arm",
               False, repr(e)[:160])
+
+    # E229: the pair E228 judged is split three ways -- selection (which days), sizing
+    # (how much) and toll. The leg re-adds the published channels and refuses a face
+    # whose own parts do not reconstruct its own pair, so the attribution cannot drift
+    # away from the series it claims to explain.
+    try:
+        _f29 = {}
+        _bad29 = []
+        _face29 = "results/state_tilt/timingsel_latest.json"
+        if not os.path.exists(_face29):
+            _bad29.append("no results/state_tilt/timingsel_latest.json on disk")
+        else:
+            with open(_face29, encoding="utf-8") as _fh:
+                _f29 = json.load(_fh)
+            _cut29 = _f29.get("evidence_cutoff")
+            if not _cut29:
+                _bad29.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/TIMINGSEL-%s.json" % _cut29):
+                _bad29.append("the dated face beside the latest pointer is missing")
+            if (_f29.get("study") or "") != "E229":
+                _bad29.append("face is not the E229 decomposition")
+            _spec29 = _f29.get("frozen_spec") or {}
+            if list(_spec29.get("channels") or []) != ["selection", "sizing", "toll"]:
+                _bad29.append("the channel list is not the frozen three")
+            _cells29 = 0
+            for _p29 in (_f29.get("panels") or []):
+                for _a29 in (_p29.get("arms") or []):
+                    _n29 = _a29.get("name")
+                    _c29 = _a29.get("channels") or {}
+                    _cells29 += 1
+                    _pair29 = _c29.get("pair_ann_bp_per_year")
+                    _parts = [(_c29.get(_ch) or {}).get("ann_bp_per_year")
+                              for _ch in ("selection", "sizing", "toll")]
+                    if _pair29 is None or any(x is None for x in _parts):
+                        _bad29.append("arm %s publishes an incomplete split" % _n29)
+                        continue
+                    if abs(sum(_parts) - _pair29) > 1e-6:
+                        _bad29.append("arm %s channels do not reconstruct its pair" % _n29)
+                    if abs(_c29.get("identity_residual_bp") or 0.0) > 1e-6:
+                        _bad29.append("arm %s carries a non-zero identity residual" % _n29)
+                    if _a29.get("verdict") not in {"NO_STRUCTURE", "SELECTION_DOMINANT",
+                                                   "SIZING_DOMINANT", "TOLL_DOMINANT",
+                                                   "UNRESOLVED"}:
+                        _bad29.append("arm %s carries an unpublished verdict" % _n29)
+                    if _a29.get("dominant") not in {None, "selection", "sizing", "toll"}:
+                        _bad29.append("arm %s names a channel outside the frozen three"
+                                      % _n29)
+                    _si29 = (_c29.get("sizing_level") or {}).get("ann_bp_per_year")
+                    _sc29 = (_c29.get("sizing_covariance") or {}).get("ann_bp_per_year")
+                    _sz29 = (_c29.get("sizing") or {}).get("ann_bp_per_year")
+                    if _si29 is not None and _sc29 is not None and _sz29 is not None \
+                            and abs((_si29 + _sc29) - _sz29) > 1e-6:
+                        _bad29.append("arm %s sizing split does not add up" % _n29)
+                    if (_n29 or "").startswith("binary") and abs(_sc29 or 0.0) > 1e-6:
+                        _bad29.append("arm %s: a 0/1 gate cannot have a covariance term"
+                                      % _n29)
+            if _cells29 == 0:
+                _bad29.append("the face covers no arms")
+            if not (_f29.get("answer") or "").strip():
+                _bad29.append("face publishes no answer sentence")
+        check("product: the paired timing value splits into selection, sizing and toll",
+              not _bad29, "; ".join(_bad29)[:220]
+              or "%d cells, dominant channels %s, resolvable %d, max |identity residual| "
+                 "%.1e bp"
+                 % (_cells29,
+                    ",".join(sorted({str(a.get("dominant"))
+                                     for p in (_f29.get("panels") or [])
+                                     for a in (p.get("arms") or [])})),
+                    len(_f29.get("resolvable_dominant_channels") or []),
+                    max(abs((a.get("channels") or {}).get("identity_residual_bp") or 0.0)
+                        for p in (_f29.get("panels") or [])
+                        for a in (p.get("arms") or [])) if _cells29 else 0.0))
+    except Exception as e:
+        check("product: the paired timing value splits into selection, sizing and toll",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

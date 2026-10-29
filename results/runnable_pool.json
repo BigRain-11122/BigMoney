@@ -23070,14 +23070,28 @@
   {
    "id": "E229-TIMING-VS-SELECTION-DECOMPOSITION",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/state_tilt/TIMINGSEL-<cutoff>.json",
    "target": "scripts/e229_timing_selection.py (new runner)",
    "evidence_cutoff": "2026-10-28",
    "entered_at": "2026-10-29T19:12:00+08:00",
    "entered_by": "bm-b r1254",
    "source": "E228 gave the paired timing value a standard error for the first time (-524..-704 bp/yr on the single panel, +218 at t=0.71 on the basket) but did not ask WHERE it comes from. A gated rule differs from a flat arm in two separable ways: it is in the market a different share of the time (which days) and it holds a different weight on the days both arms share (how much). Splitting the pair into those two channels is arithmetic on an existing series, not a new study, and it is the difference between 'the gate cannot time' and 'the gate picks days but sizes them wrong'.",
-   "title": "Decompose E228's paired timing value into a day-selection channel and a sizing channel: on the days both arms hold, is the gate's weight better or worse than the flat constant, and on the days only the gate holds, does that extra exposure earn or lose?"
+   "title": "Decompose E228's paired timing value into a day-selection channel and a sizing channel: on the days both arms hold, is the gate's weight better or worse than the flat constant, and on the days only the gate holds, does that extra exposure earn or lose?",
+   "result_ref": "results/state_tilt/TIMINGSEL-2026-10-29.json",
+   "done_by": "bm-b r1255"
+  },
+  {
+   "id": "E230-HYSTERESIS-TOLL-BAND",
+   "lane": "cpu-only",
+   "status": "ready",
+   "deliverable": "results/state_tilt/HYSTERESIS-<cutoff>.json",
+   "target": "scripts/e230_hysteresis_toll.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T21:05:00+08:00",
+   "entered_by": "bm-b r1255",
+   "source": "E229 split every gated arm's pair into selection, sizing and toll and found the toll is the ONLY channel that clears its bar (tilt_step/tilt_linear on the basket, t=-10.0): what separates these rules from a flat constant is measured as the cost of moving, not timing skill. The obvious next question is whether that channel can be bought back -- if a deadband on the state signal cuts the number of weight changes, does the toll channel fall faster than the selection channel falls with it?",
+   "title": "Does a hysteresis deadband on the volatility state cut the toll channel (E229's only resolvable one) more than it costs in selection? Ladder the band from 0 to a coarse grid on the same signal, publish all three channels per rung, and refuse to call a band a fix unless the toll saving exceeds the selection loss at x2 costs"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
