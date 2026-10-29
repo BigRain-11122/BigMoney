@@ -363,6 +363,26 @@ function renderCompany() {
       (pp.fill_verify_tier === "daily_bar_open" ? " · 该日盘中未采，成交价对官方日线开盘核" : ""),
       v === "BREACH" ? "bad" : (v === "NO_EVIDENCE" ? "warn" : "ok"), v));
   }
+  const lf = (D.data && D.data.lane_freshness) || {};
+  if (lf.present) {
+    const nb = lf.behind || [];
+    const txt = nb.length
+      ? nb.map(b => {
+          if (b.verdict === "stalled" || b.verdict === "behind_1d") {
+            return `${b.lane} 落后 ${b.n_missing} 个交易日（尾 ${b.tail || "无"}）`;
+          }
+          if (b.verdict === "unverifiable") {
+            return `${b.lane} 无法核实（本机副本尾 ${b.tail || "无"}，落后 ${b.n_missing || 0}）`;
+          }
+          return `${b.lane} 未发布`;
+        }).join(" / ")
+      : `全部 ${lf.n_lanes} 条数据车道与官方日历同步（基准 ${lf.expected || "—"}）`;
+    const hard = nb.some(b => b.verdict === "stalled" || b.verdict === "absent"
+                              || b.verdict === "unreadable");
+    rows.push(chainRow("数据车道新鲜度", txt, hard ? "bad" : (nb.length ? "warn" : "ok"),
+      lf.verdict === "all_fresh" ? "全绿"
+        : (lf.verdict === "uncertified" ? `可核实 ${lf.n_auditable}/${lf.n_lanes}` : `落后 ${nb.length} 条`)));
+  }
   const fr = (D.research && D.research.factor_line) || {};
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));

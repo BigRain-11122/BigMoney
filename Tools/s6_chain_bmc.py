@@ -29,6 +29,16 @@ LEGS = [
     # feed had simply not published. The audit reads the sina trading-day list
     # (one request, then local for the rest of the year) and names the verdict.
     ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
+    # r1156: cal_audit gave ONE panel an independent reference and a verdict; every
+    # other forward lane still judged "am I late?" from its own bytes, so a lane that
+    # stops produces no error at all -- it just stops writing and its callers keep
+    # reading yesterday's tail. Measured on 2026-10-30: popularity last wrote 10-20,
+    # moneyflow 10-19 at a source block, repo 10-28, while every leg returned rc0.
+    # The board re-judges every lane's declared tail against the same official
+    # calendar (~0.2s, no network, no engine) and refuses to certify a tail whose
+    # envelope does not name the machine that wrote it. It must run BEFORE
+    # build_status (the dashboard renders it) -- r1290 class otherwise.
+    ("data_lane_freshness", ["python", "scripts/data_lane_freshness.py", "run"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),

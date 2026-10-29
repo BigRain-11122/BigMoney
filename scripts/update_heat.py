@@ -48,6 +48,7 @@ HEAT_LANE_HOST = lane_host("update_heat", "bm-a")   # R19 wiring / R31 lane-owne
 #   (gitignored) -- non-host runs must not author a lane (ts新 != 数据权威新).
 
 CLOSE_ACCEPT_TIME = dt.time(15, 30)   # post-close snapshot convention
+SESSION_OPEN_GUARD = dt.time(9, 15)   # call auction: the ranking can move from here
 MIN_ATTEMPT_INTERVAL = 30 * 60        # min seconds between network attempts
 ENDPOINT = "https://emappdata.eastmoney.com/stockrank/getAllCurrentList"
 PAGE_SIZE = 100                      # public top-100 (endpoint cap, probed)
@@ -59,12 +60,33 @@ RETRY_SLEEP = 3                      # one retry, emappdata flakiness (r39)
 def save_status(payload):
     os.makedirs(os.path.dirname(STATUS), exist_ok=True)
     payload["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    # WHO and WHAT (r1156): the envelope is committed by whichever machine ran
+    # the leg, and every machine keeps its own gitignored copy of the snapshots.
+    # Without these two fields a reader cannot tell "the lane is dead" from
+    # "this is a stale copy of a lane that is alive on its host" -- which is
+    # exactly how seven missing days went unnoticed (data_lane_freshness).
+    payload["machine"] = machine_id()
+    payload["lane_host"] = HEAT_LANE_HOST
+    payload["latest_snapshot"] = latest_snapshot()
+    payload["snapshots"] = count_snapshots()
     with open(STATUS, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
     # Lane dual-track (D-20260928-03 batch-2), host-guarded: only the
     # R31 host authors the heat lane; fail-soft never breaks the run.
     if machine_id() == HEAT_LANE_HOST:
         write_lane("heat_update_status", payload)
+
+
+def latest_snapshot():
+    """Newest as_of on disk, so another machine can audit the lane."""
+    if not os.path.isdir(HEAT_DIR):
+        return None
+    days = []
+    for name in os.listdir(HEAT_DIR):
+        if len(name) == 13 and name.endswith(".json") and name[:8].isdigit():
+            n = name[:8]
+            days.append(f"{n[:4]}-{n[4:6]}-{n[6:]}")
+    return max(days) if days else None
 
 
 def load_status():
@@ -77,21 +99,82 @@ def load_status():
     return {}
 
 
-def snapshot_gate(now, today_file, last_attempt):
-    """(should_fetch, reason). Window + idempotence first, then the
-    min re-attempt interval (EM throttle citizenship)."""
-    if now.weekday() >= 5:
-        return False, "no-op: weekend (no trading-day snapshot)"
-    if now.time() < CLOSE_ACCEPT_TIME:
-        return False, (f"no-op: before {CLOSE_ACCEPT_TIME} "
-                       "(post-close snapshot window)")
-    if os.path.exists(today_file):
-        return False, f"no-op: snapshot for {now.date()} already collected"
+def trading_sessions():
+    """Official trading days as datetimes at the close, newest last.
+
+    Imported from the calendar audit rather than re-derived (r1290 class). If
+    the calendar is missing the lane keeps working on a weekday approximation
+    and says so in the reason string -- it never silently invents a holiday.
+    """
+    try:
+        from scripts.exchange_calendar_audit import load_calendar
+        days = load_calendar()
+        return [dt.datetime.combine(dt.date.fromisoformat(d), CLOSE_ACCEPT_TIME)
+                for d in days], True
+    except Exception:
+        return [], False
+
+
+def target_session(now, sessions):
+    """Which session's close a snapshot taken at `now` would represent.
+
+    WHY (r1156): the gate compared `now` with TODAY's 15:30 and answered
+    "before 15:30 -> no-op" for every round that ran after midnight, even when
+    the previous session had no snapshot at all. This host's rounds run mostly
+    at night, so the lane lost seven consecutive trading days (2026-10-21..29)
+    while the endpoint stayed alive -- measured: 100/100 rows fetched at 02:13.
+    The rank list is a live ROLLING list: it does not move between a close and
+    the next 09:15 call auction. A snapshot taken in that carry window therefore
+    IS the last session's close state; the file is labelled with the session and
+    carries `fetched_at`, so a reader can tell when it was actually taken.
+
+    Returns (session_date_or_None, allowed, reason). allowed=False means a later
+    session has likely opened and the ranking has moved: the stale day stays
+    missing rather than being filled with the wrong close.
+    """
+    if sessions:
+        closed = [s for s in sessions if s <= now]
+        if not closed:
+            return None, False, "no session has closed yet"
+        target = closed[-1]
+        nxt = [s for s in sessions if s > target]
+        if nxt:
+            reopen = dt.datetime.combine(nxt[0].date(), SESSION_OPEN_GUARD)
+            if now >= reopen:
+                return (target.date(), False,
+                        f"{target.date()} close is stale: the {reopen.date()} "
+                        f"session opened at {SESSION_OPEN_GUARD} and the live "
+                        "ranking has moved on (a missed day stays missing)")
+        return target.date(), True, "post-close carry: the live ranking has not moved"
+
+    # no calendar: weekday approximation, disclosed in the reason
+    day = now.date()
+    close_today = dt.datetime.combine(day, CLOSE_ACCEPT_TIME)
+    if day.weekday() < 5 and now >= close_today:
+        return day, True, "post-close carry (no calendar: weekday approximation)"
+    back = day - dt.timedelta(days=1)
+    while back.weekday() >= 5:
+        back -= dt.timedelta(days=1)
+    if now < dt.datetime.combine(day, SESSION_OPEN_GUARD) or day.weekday() >= 5:
+        return back, True, "post-close carry (no calendar: weekday approximation)"
+    return back, False, (f"{back} is stale: the {day} session opened at "
+                         f"{SESSION_OPEN_GUARD} (no calendar: weekday "
+                         "approximation, a missed day stays missing)")
+
+
+def session_gate(now, target, target_file, last_attempt, allowed, basis):
+    """(should_fetch, reason) for a resolved target session."""
+    if not allowed:
+        return False, f"no-op: {basis}"
+    if target is None:
+        return False, f"no-op: {basis}"
+    if os.path.exists(target_file):
+        return False, f"no-op: snapshot for {target} already collected"
     if (last_attempt is not None
             and (now - last_attempt).total_seconds() < MIN_ATTEMPT_INTERVAL):
         return False, (f"no-op: <{MIN_ATTEMPT_INTERVAL // 60}min since last "
                        "fetch attempt (min-interval guard)")
-    return True, f"fetch: {now.date()} snapshot missing, in window"
+    return True, f"fetch: {target} snapshot missing ({basis})"
 
 
 def fetch_rank_rows():
@@ -145,12 +228,18 @@ def canonical_rows(raw_rows):
     return out
 
 
-def write_snapshot(path, rows, now):
+def write_snapshot(path, rows, now, session=None, basis=None):
+    """Write one day file. `as_of` is the SESSION the ranking represents;
+    `fetched_at` is when it was actually taken (they differ in the carry
+    window, and a reader is entitled to see both)."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    doc = {"as_of": str(now.date()),
+    doc = {"as_of": str(session or now.date()),
            "fetched_at": now.strftime("%Y-%m-%d %H:%M:%S"),
            "source": "emappdata getAllCurrentList (direct)",
            "n_rows": len(rows), "rows": rows}
+    if session is not None and session != now.date():
+        doc["label_basis"] = (basis or "") + " -- as_of is the session whose "
+        doc["label_basis"] += "close this ranking still is, not the fetch date"
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=1)
@@ -172,8 +261,6 @@ def main():
               f"(R31 lane-guard, r378 catch #5)", flush=True)
         return 0
     now = pd.Timestamp.now()
-    today_file = os.path.join(
-        HEAT_DIR, f"{now.strftime('%Y%m%d')}.json")
     prev = load_status()
     last_attempt = prev.get("last_attempt")
     if isinstance(last_attempt, str):
@@ -182,10 +269,19 @@ def main():
         except Exception:
             last_attempt = None
 
-    should, reason = snapshot_gate(now, today_file, last_attempt)
+    sessions, from_calendar = trading_sessions()
+    target, allowed, basis = target_session(now.to_pydatetime(), sessions)
+    if not from_calendar:
+        basis += " [no data/exchange_calendar.csv: weekday approximation]"
+    target_file = os.path.join(
+        HEAT_DIR, f"{(target or now.date()):%Y%m%d}.json")
+
+    should, reason = session_gate(now, target, target_file, last_attempt,
+                                  allowed, basis)
     print(reason, flush=True)
     if not should:
         save_status({"verdict": reason,
+                     "target_session": str(target) if target else None,
                      "snapshots": count_snapshots(),
                      "last_attempt": prev.get("last_attempt")})
         return 0
@@ -214,12 +310,16 @@ def main():
         print(f"VALIDATION FAIL: {str(ve)[:160]}", flush=True)
         return 2
 
-    write_snapshot(today_file, rows, now.to_pydatetime())
-    save_status({"verdict": f"snapshot {now.date()} landed",
+    write_snapshot(target_file, rows, now.to_pydatetime(), session=target,
+                   basis=basis)
+    save_status({"verdict": f"snapshot {target} landed",
+                 "target_session": str(target),
+                 "label_basis": basis,
                  "snapshots": count_snapshots(),
                  "n_rows": len(rows), "last_attempt": str(now)})
-    print(f"snapshot landed: {now.date()} n_rows={len(rows)} "
-          f"(total snapshots={count_snapshots()})", flush=True)
+    print(f"snapshot landed: as_of={target} fetched_at={now:%Y-%m-%d %H:%M} "
+          f"n_rows={len(rows)} (total snapshots={count_snapshots()})",
+          flush=True)
     return 0
 
 
@@ -230,45 +330,76 @@ def count_snapshots():
 
 
 def selftest():
-    """Offline guard tests: window/idempotence/throttle gates, schema
-    validation, atomic write. Zero network; file ops in a tempdir."""
+    """Offline guard tests: session carry window, idempotence, throttle,
+    schema validation, atomic write. Zero network; file ops in a tempdir."""
     ts = pd.Timestamp
 
-    gate_cases = [
-        ("Sat 20:00 weekend", "2026-09-26 20:00", False, "weekend"),
-        ("Wed 15:00 pre-close", "2026-09-23 15:00", False, "before"),
-        ("Wed 15:31 in window", "2026-09-23 15:31", True, None),
-        ("Wed 20:00 in window", "2026-09-23 20:00", True, None),
+    # synthetic calendar: Mon 10-19 .. Fri 10-23, then Mon 10-26 .. Thu 10-29
+    sess = [dt.datetime.combine(dt.date(2026, 10, d), CLOSE_ACCEPT_TIME)
+            for d in (19, 20, 21, 22, 23, 26, 27, 28, 29)]
+
+    carry_cases = [
+        # name, now, want target, want allowed
+        ("Wed 15:00 -> Tue's close is already stale (09:15 opened)", "2026-10-21 15:00",
+         dt.date(2026, 10, 20), False),
+        ("Wed 15:31 -> Wed (today's close)", "2026-10-21 15:31",
+         dt.date(2026, 10, 21), True),
+        ("Thu 02:13 -> Wed, carry still current", "2026-10-22 02:13",
+         dt.date(2026, 10, 21), True),
+        ("Thu 09:10 -> Wed, before the auction", "2026-10-22 09:10",
+         dt.date(2026, 10, 21), True),
+        ("Thu 09:20 -> Wed is stale (auction opened)", "2026-10-22 09:20",
+         dt.date(2026, 10, 21), False),
+        ("Sat 10:00 -> Fri, weekend carry", "2026-10-24 10:00",
+         dt.date(2026, 10, 23), True),
+        ("Mon 09:20 -> Fri is stale", "2026-10-26 09:20",
+         dt.date(2026, 10, 23), False),
+        ("Mon 20:00 -> Mon", "2026-10-26 20:00",
+         dt.date(2026, 10, 26), True),
+        ("before the first close -> nothing", "2026-10-01 10:00", None, False),
     ]
-    for name, now_s, want_fetch, want_sub in gate_cases:
-        with tempfile.TemporaryDirectory() as td:
-            tf = os.path.join(td, "x.json")
-            if "already" in name:
-                open(tf, "w").close()
-            should, reason = snapshot_gate(ts(now_s), tf, None)
-            assert should == want_fetch, f"{name}: {reason}"
-            if want_sub:
-                assert want_sub in reason, f"{name}: {reason}"
-            print(f"[PASS] snapshot_gate {name}", flush=True)
+    for name, now_s, want_t, want_ok in carry_cases:
+        tgt, ok, basis = target_session(ts(now_s).to_pydatetime(), sess)
+        assert (tgt, ok) == (want_t, want_ok), f"{name}: {tgt} {ok} {basis}"
+        print(f"[PASS] target_session {name}", flush=True)
+
+    # a weekday approximation is used (and disclosed) when the calendar is absent
+    tgt, ok, basis = target_session(dt.datetime(2026, 10, 22, 2, 13), [])
+    assert (tgt, ok) == (dt.date(2026, 10, 21), True) and "approximation" in basis
+    print("[PASS] target_session falls back to weekdays, says so", flush=True)
+
+    # gate: allowed/blocked, idempotence, throttle
+    with tempfile.TemporaryDirectory() as td:
+        tf = os.path.join(td, "x.json")
+        should, reason = session_gate(ts("2026-10-22 15:00"),
+                                      dt.date(2026, 10, 21), tf, None,
+                                      True, "post-close carry")
+        assert should and "2026-10-21" in reason, reason
+        open(tf, "w").close()
+        should, reason = session_gate(ts("2026-10-22 15:00"),
+                                      dt.date(2026, 10, 21), tf, None, True, "x")
+        assert not should and "already collected" in reason, reason
+        print("[PASS] session_gate fetches a missing session, then no-ops",
+              flush=True)
 
     with tempfile.TemporaryDirectory() as td:
         tf = os.path.join(td, "x.json")
-        open(tf, "w").close()  # today's snapshot exists
-        should, reason = snapshot_gate(ts("2026-09-23 20:00"), tf, None)
-        assert not should and "already" in reason, f"idempotence: {reason}"
-        print(f"[PASS] snapshot_gate already collected -> no-op", flush=True)
+        for la_s, want in (("2026-10-21 19:50", False), ("2026-10-21 10:00", True)):
+            should, reason = session_gate(ts("2026-10-21 20:00"),
+                                          dt.date(2026, 10, 21), tf, ts(la_s),
+                                          True, "x")
+            assert should == want, f"throttle {la_s}: {reason}"
+        print("[PASS] session_gate keeps the 30min min-interval", flush=True)
 
-    la_cases = [
-        ("fresh attempt -> throttled", "2026-09-23 19:50", False),
-        ("stale attempt -> fetch", "2026-09-23 10:00", True),
-    ]
-    for name, la_s, want in la_cases:
-        with tempfile.TemporaryDirectory() as td:
-            should, reason = snapshot_gate(ts("2026-09-23 20:00"),
-                                           os.path.join(td, "x.json"),
-                                           ts(la_s))
-            assert should == want, f"{name}: {reason}"
-            print(f"[PASS] snapshot_gate {name}", flush=True)
+    with tempfile.TemporaryDirectory() as td:
+        should, reason = session_gate(ts("2026-10-22 09:20"),
+                                      dt.date(2026, 10, 21),
+                                      os.path.join(td, "x.json"), None, False,
+                                      "2026-10-21 close is stale: the "
+                                      "2026-10-22 session opened")
+        assert not should and "stale" in reason, reason
+        print("[PASS] session_gate refuses a stale session (never fills a "
+              "missed day with the wrong close)", flush=True)
 
     good = [{"sc": "SH600418", "rk": 1, "rc": 0, "hisRc": 7},
             {"sc": "SZ000001", "rk": 2, "rc": -1, "hisRc": 3}]
@@ -300,7 +431,17 @@ def selftest():
         assert doc["as_of"] == "2026-09-23" and doc["n_rows"] == 2
         assert doc["rows"][1]["code"] == "000001"
         assert not os.path.exists(p + ".tmp")
-        print("[PASS] write_snapshot atomic+schema", flush=True)
+        assert "label_basis" not in doc, "same-day label needs no explanation"
+        # carry-window file: as_of is the session, fetched_at is the truth
+        p2 = os.path.join(td, "carry.json")
+        write_snapshot(p2, canonical_rows(good), dt.datetime(2026, 10, 22, 2, 13),
+                       session=dt.date(2026, 10, 21), basis="post-close carry")
+        doc2 = json.load(open(p2, encoding="utf-8"))
+        assert (doc2["as_of"] == "2026-10-21"
+                and doc2["fetched_at"].startswith("2026-10-22")
+                and "post-close carry" in doc2["label_basis"]), doc2
+        print("[PASS] write_snapshot atomic + labels the session it represents",
+              flush=True)
 
     print("selftest: all guard cases PASS", flush=True)
     return 0

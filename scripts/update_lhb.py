@@ -89,7 +89,7 @@ PARQUET = os.path.join(LHB_DIR, "lhb_detail.parquet")
 CHUNKS = os.path.join(LHB_DIR, "chunks")
 STATUS = os.path.join(ROOT, "results", "lhb_update_status.json")
 sys.path.insert(0, ROOT)
-from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
+from config.lane_io import machine_id, write_lane  # noqa: E402 -- after ROOT pin
 DAILY_DIR = os.path.join(ROOT, "data", "daily")
 CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv")
 TOL = 1e-6
@@ -100,6 +100,10 @@ MIN_ATTEMPT_INTERVAL = 30 * 60  # min seconds between network attempts
 def save_status(payload):
     os.makedirs(os.path.dirname(STATUS), exist_ok=True)
     payload["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    # r1156: say WHOSE data this cutoff describes. Without it a reader
+    # cannot tell a dead lane from a stale copy of a live one
+    # (scripts/data_lane_freshness.py).
+    payload["machine"] = machine_id()
     with open(STATUS, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
     # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,

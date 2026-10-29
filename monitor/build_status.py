@@ -120,6 +120,35 @@ def _data_freshness() -> dict:
             "fresh": stale <= 15}
 
 
+def _lane_freshness_state() -> dict:
+    """Which forward data lanes are behind the official calendar (r1156).
+
+    The dashboard already carries one card per lane, and every one of those
+    cards reads the lane's OWN status envelope -- which is precisely the face
+    that goes quiet when the lane stops. Measured on 2026-10-30: popularity last
+    wrote 2026-10-20, moneyflow 2026-10-19, options 2026-09-30, while every card
+    still rendered. This block reads the one board that re-judges each lane's
+    declared tail against the official trading calendar, so a silent stall is
+    visible without opening six cards and comparing them by eye.
+    """
+    doc = _read_json(os.path.join(PATHS.results_dir,
+                                  "data_lane_freshness.json")) or {}
+    lanes = doc.get("lanes") or []
+    behind = [{"lane": l.get("lane"), "tail": l.get("tail"),
+               "n_missing": l.get("n_missing"), "verdict": l.get("verdict"),
+               "copy_verdict": l.get("copy_verdict"),
+               "why": l.get("why")}
+              for l in lanes
+              if l.get("verdict") in ("stalled", "behind_1d", "absent",
+                                      "unreadable", "unverifiable")]
+    return {"present": bool(doc), "as_of": doc.get("as_of"),
+            "verdict": doc.get("verdict"), "n_lanes": doc.get("n_lanes"),
+            "n_auditable": doc.get("n_auditable"),
+            "counts": doc.get("counts") or {},
+            "expected": doc.get("expected_last_official_day"),
+            "worst": doc.get("worst"), "behind": behind}
+
+
 def _update_state() -> dict:
     """Daily-update chain health from results/update_status.json (J18b).
 
@@ -2682,6 +2711,7 @@ def build() -> dict:
     data["fund_premium"] = _premium_state()
     data["ah_panel"] = _ah_state()
     data["collector_wall"] = _collector_wall_state()
+    data["lane_freshness"] = _lane_freshness_state()
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()

@@ -985,6 +985,60 @@ def main() -> int:
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
     try:
+        # r1156: the lane-freshness board must agree with the lanes' OWN bytes and
+        # with the official calendar. Re-reading the published JSON would only prove
+        # the file parses, so the two tails a reader acts on are recomputed here from
+        # the artifact on disk, and the expectation is rebuilt from the calendar.
+        import glob as _glob
+        _lfz = json.load(open("results/data_lane_freshness.json", encoding="utf-8"))
+        _rows = {r["lane"]: r for r in _lfz.get("lanes") or []}
+        _heat_files = [os.path.basename(p)[:-5] for p in
+                       _glob.glob(os.path.join("data", "heat", "popularity", "*.json"))]
+        _heat_tail = None
+        for _n in _heat_files:
+            if len(_n) == 8 and _n.isdigit():
+                _d = f"{_n[:4]}-{_n[4:6]}-{_n[6:]}"
+                _heat_tail = max(_heat_tail or _d, _d)
+        _zt = json.load(open(os.path.join("data", "zt_pool", "collected_days.json"),
+                             encoding="utf-8"))
+        _zt_tail = max(max(v) for v in _zt.values() if v)
+        _cal = [ln.strip() for ln in
+                open("data/exchange_calendar.csv", encoding="utf-8") if ln.strip()]
+        _asof = dt.datetime.fromisoformat(_lfz["as_of"])
+        _today = _asof.date().isoformat()
+        _upto = [d for d in _cal if d < _today or
+                 (d == _today and _asof.time() >= dt.time(15, 30))]
+        _exp = _upto[-1]
+        # r1156: the board must not read green because it could not certify
+        # anything -- 'uncertified' is its own verdict, and a lane whose evidence
+        # came from another machine's copy must say so instead of publishing it.
+        _states = ("in_sync", "today_pending", "behind_1d", "stalled", "absent",
+                   "unreadable", "unverifiable")
+        _ok_lf = (_rows["heat"]["tail"] == _heat_tail
+                  and _rows["zt_pool"]["tail"] == _zt_tail
+                  and _lfz.get("expected_last_official_day") == _exp
+                  and sum((_lfz.get("counts") or {}).values()) == _lfz.get("n_lanes")
+                  and all(r.get("verdict") in _states
+                          for r in _lfz.get("lanes") or [])
+                  and all(r.get("verdict") == "unverifiable"
+                          for r in _lfz.get("lanes") or []
+                          if r.get("copy_verdict"))
+                  and (_lfz.get("verdict") in ("all_fresh", "attention", "uncertified"))
+                  # a green headline with nothing certified is the failure this
+                  # face exists to catch
+                  and not (_lfz.get("verdict") == "all_fresh"
+                           and _lfz.get("unverifiable_lanes")))
+        check("product: data lane freshness board agrees with the lanes and the calendar",
+              _ok_lf,
+              f"heat={_rows.get('heat', {}).get('tail')}=={_heat_tail} "
+              f"zt={_rows.get('zt_pool', {}).get('tail')}=={_zt_tail} "
+              f"expected={_lfz.get('expected_last_official_day')}=={_exp} "
+              f"verdict={_lfz.get('verdict')} counts={_lfz.get('counts')} "
+              f"auditable={_lfz.get('n_auditable')}/{_lfz.get('n_lanes')}")
+    except Exception as e:
+        check("product: data lane freshness board agrees with the lanes and the calendar",
+              False, str(e))
+    try:
         _ofv = json.load(open("results/t35_open_fill_verify.json",
                               encoding="utf-8"))
         _tier = _ofv.get("evidence_tier")
