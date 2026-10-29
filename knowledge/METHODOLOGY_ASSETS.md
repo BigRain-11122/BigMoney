@@ -3698,3 +3698,42 @@ adopt nothing, the 1-day leg never idles, +60 bp adopts, +10 bp is rejected by t
 door, the live page answers with each tenor's own quote) + the cash-section table in
 docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that re-rolls every arm from
 data/repo_daily and reds a typed-in verdict.
+
+## E216 A two-lineage merge is a union of *legs*, not a rebase of *commits* (2026-10-29 r1243 bm-b)
+
+Situation: one shared quantitative repo, three hosts, each round adding its own measurement legs
+to the same few monster files. Main drifted to 29 local commits vs 38 remote ones because every
+round deferred the merge: rebase hangs on this blob:none clone, and mktree replay is banned after a
+previous replay silently reverted another machine's ledger.
+
+WRONG: rebase the 29 commits one at a time (29 conflict resolutions, and a rewritten history that
+makes the other hosts' verification receipts meaningless), or "resolve by union" at the text level
+(`git merge-file --union`). The text union produces a file that will not parse: both sides inserted
+complete statements at the same anchor and one side's insert lands *inside* an open list literal
+(`_e190_pair = [`), so the merged list closes with the wrong bracket.
+
+RIGHT: merge the two tips with `-c merge.renames=false` (the rename pass is what makes a partial
+clone try to lazily fetch objects the promisor remote no longer carries -- `upload-pack: not our
+ref`), then resolve by CLASS, never by taste:
+
+  (a) leg containers (main/selftest bodies, smoke leg lists, chain tables): statement-level union
+      built on the AST, keep ours' order then theirs' statements not already present, tail return
+      last; assert the result parses, compiles, and passes *the file's own selftest*. A green
+      selftest is the only proof that nothing upstream was dropped.
+  (b) append-only ledgers (card registry, feedback, decision logs): line union, then re-check by
+      COUNTING the identities (cards by number) -- "0 lost from either side" is the acceptance,
+      not "the file got bigger".
+  (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
+      them next round, so taking the owner's copy cannot lose information.
+
+Three things that only show up when you actually run it: two lineages can define the same helper
+with different signatures (here `_wide_month_membership`, where each side spells the cash
+pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
+secondary worktree is not a comparable test bed (local untracked inputs such as fleet/machine.json
+are absent, and hook-path legs resolve to the worktree admin dir), so its reds must be attributed
+before they are believed; and the pre-push size claw is the real guard against the deletion you did
+not intend -- the first push was refused for 8 upstream artefacts this lineage had dropped.
+
+Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
+class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
+one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.

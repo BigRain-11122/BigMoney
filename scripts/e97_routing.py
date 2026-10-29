@@ -876,6 +876,26 @@ def _def_table(source):
     return out
 
 
+def _producer_by_face_name(source, rel):
+    """(E207/E216) face stem -> the runner named after it, when exactly one exists.
+
+    Two upstream faces (LADDERDROPCARRIER/LADDERDROPCURVE, 2026-10-27) publish a prose
+    ``study`` ("E196 carrier-month identifiability"), so the study-literal index cannot see
+    their producer and the live leg counted them as unindexed. The face stem is itself the
+    contract the chain uses (mode ``ladderdropcarrier`` -> ``run_tilt3ladderdropcarrier``),
+    so use it as a second, strictly-scoped key: the single def whose name ENDS with the
+    stem. Ambiguous or absent -> [] and the face stays unindexed, because a guessed producer
+    is worse than a missing one.
+    """
+    stem = re.sub(r"-\d{8}$", "", os.path.basename(rel).rsplit(".", 1)[0]).lower()
+    stem = re.sub(r"[^a-z0-9]", "", stem)
+    if len(stem) < 6:
+        return []
+    hits = [name for name, _s, _e in _def_table(source)
+            if name.lower().endswith(stem)]
+    return hits if len(hits) == 1 else []
+
+
 def producer_index(source):
     """study literal -> the def(s) whose body contains it."""
     table = _def_table(source)
@@ -964,6 +984,8 @@ def level_quotes(root=None):
                     skipped.append({"face": rel, "reason": "this_leg_publishes_here"})
                     continue
                 producer = studies.get(study, [])
+                if not producer:
+                    producer = _producer_by_face_name(census_src, rel)
                 reach = producer_reach(census_src, producer) if producer else []
                 cells, retired = [], []
                 for cell_path, value in walk_numeric(doc):
@@ -5141,6 +5163,18 @@ def selftest():
     live_lq = level_quotes(root=_repo)
     live_derived = [r["face"] for r in live_lq["faces"] if r["derived_cells"]]
     live_by_face = {r["face"].split("/")[-1]: r for r in live_lq["faces"]}
+    _stem_src = ("def run_tilt3ladderdropcarrier():\n    pass\n"
+                 "def run_tilt3ladderdropcurve():\n    pass\n")
+    _stem_amb = ("def run_x_mysteryblob():\n    pass\n"
+                 "def run_y_mysteryblob():\n    pass\n")
+    chk("E216 a face carrying a prose study resolves to the single runner whose name ends "
+        "with the face stem, and an ambiguous stem stays unindexed instead of guessing",
+        _producer_by_face_name(_stem_src, "results/e43/LADDERDROPCURVE-20261027.json")
+        == ["run_tilt3ladderdropcurve"]
+        and _producer_by_face_name(_stem_src, "results/e43/LADDERDROPCARRIER-20261027.json")
+        == ["run_tilt3ladderdropcarrier"]
+        and _producer_by_face_name(_stem_src, "results/e43/MYSTERYX-20261027.json") == []
+        and _producer_by_face_name(_stem_amb, "results/e43/MYSTERYBLOB-20261027.json") == [])
     chk("L37 on the real disk every quoting face has a producer and E177 joins resolve",
         len(live_derived) >= 1
         and not live_lq["cross_check"]["faces_without_a_producer_in_the_census_source"]
