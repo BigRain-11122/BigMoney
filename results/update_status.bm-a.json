@@ -1,9 +1,9 @@
 {
- "updated": "2026-10-29 19:25:38",
- "now": "2026-10-29 19:25:35.990695",
+ "updated": "2026-10-29 22:26:05",
+ "now": "2026-10-29 22:26:03.427396",
  "close_accept_time": "15:30:00",
  "symbols": 48,
- "total_new_rows": 0,
+ "total_new_rows": 3,
  "failures": [],
  "overlap_mismatches": [],
  "data_cutoff": "2026-10-29",
@@ -23,9 +23,11 @@
   },
   {
    "symbol": "159915",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
+   "first_new": "2026-10-29",
+   "last_new": "2026-10-29",
    "catchup_fetch": true
   },
   {
@@ -100,9 +102,11 @@
   },
   {
    "symbol": "510050",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
+   "first_new": "2026-10-29",
+   "last_new": "2026-10-29",
    "catchup_fetch": true
   },
   {
@@ -128,9 +132,11 @@
   },
   {
    "symbol": "511010",
-   "appended": 0,
+   "appended": 1,
    "overlap_mismatch": false,
    "error": null,
+   "first_new": "2026-10-29",
+   "last_new": "2026-10-29",
    "catchup_fetch": true
   },
   {
@@ -359,22 +365,30 @@
   "stale_dead": []
  },
  "catchup_attempts": {
-  "159915": "2026-10-29T19:25:35",
-  "510050": "2026-10-29T19:25:35",
-  "511010": "2026-10-29T19:25:35"
+  "159915": "2026-10-29T22:26:03",
+  "510050": "2026-10-29T22:26:03",
+  "511010": "2026-10-29T22:26:03"
  },
  "cutoff_error": null,
  "source_used": "sina",
- "fallback_events": [
-  {
-   "symbol": "510300",
-   "diagnosis": "upstream_equal",
-   "tencent_latest": "2026-10-29",
-   "note": "zero-row ambiguity: upstream bar-existence probe"
-  }
- ],
+ "fallback_events": [],
+ "parity_audit": {
+  "symbols": [
+   "159915",
+   "510050",
+   "511010"
+  ],
+  "flags": [
+   {
+    "symbol": "159915",
+    "flag": "level_parity_fail",
+    "rel": 0.0019723865877712132,
+    "note": "ex-div dates may false-red; flagged never auto-corrected"
+   }
+  ]
+ },
  "exit_code": 0,
- "hook_ok": null,
- "hook_exit": null,
+ "hook_ok": true,
+ "hook_exit": 0,
  "lane_machine": "bm-a"
 }

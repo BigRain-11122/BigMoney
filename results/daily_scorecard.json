@@ -1,6 +1,6 @@
 {
  "ticket": "T-2026-09-24-29",
- "evidence_cutoff": "2026-10-27",
+ "evidence_cutoff": "2026-10-29",
  "generated_from": [
   "results/paper",
   "results/shortline/o1600_market_fit.json",
@@ -12,18 +12,18 @@
   {
    "trader": "COMPOSITE-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
+   "cutoff": "2026-10-29",
+   "bars": 21,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0093,
-    "bars": 14,
+    "return": -0.0076,
+    "bars": 16,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.021,
+   "current_dd": -0.0182,
    "num_trades": 2,
    "win_rate": 0.0,
    "fill_guard_buy_dropped": 0,
@@ -36,55 +36,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:49",
-    "consolidation": {
-     "enabled": true,
-     "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
-     "events_total": 21,
-     "events_in_universe_n": 1,
-     "crossing_rows_n": 0,
-     "crossing_rows": [],
-     "open_position_hits": 0,
-     "closed_trade_hits": 0,
-     "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
-     "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
-     "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
-    }
-   },
-   "risk_regime": {
-    "is_major_bear": false,
-    "position_cap": 0.8,
-    "as_of": "2026-10-27"
-   }
-  },
-  {
-   "trader": "COMPOSITE-CE-02",
-   "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
-   "months_tracked": 0,
-   "partial_month": {
-    "month": "2026-10",
-    "return": -0.016,
-    "bars": 14,
-    "month_ended": false,
-    "full_from_hire": true,
-    "counted": false
-   },
-   "current_dd": -0.0269,
-   "num_trades": 5,
-   "win_rate": 0.2,
-   "fill_guard_buy_dropped": 0,
-   "fill_guard_sell_deferred": 0,
-   "forward_guard": {
-    "enabled": true,
-    "guard_source": "t14_rules_fidelity.build_guard",
-    "buy_rejected_n": 0,
-    "sell_deferred_events_n": 0,
-    "deferred_days_total": 0,
-    "first_deferred_date": null,
-    "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:50",
+    "as_of": "2026-10-29 22:26:10",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -102,24 +55,73 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-29"
+   }
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "paper_start": "2026-09-23",
+   "cutoff": "2026-10-29",
+   "bars": 21,
+   "months_tracked": 0,
+   "partial_month": {
+    "month": "2026-10",
+    "return": -0.0115,
+    "bars": 16,
+    "month_ended": false,
+    "full_from_hire": true,
+    "counted": false
+   },
+   "current_dd": -0.0245,
+   "num_trades": 5,
+   "win_rate": 0.2,
+   "fill_guard_buy_dropped": 0,
+   "fill_guard_sell_deferred": 0,
+   "forward_guard": {
+    "enabled": true,
+    "guard_source": "t14_rules_fidelity.build_guard",
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null,
+    "window_semantics": "guarded",
+    "as_of": "2026-10-29 22:26:11",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
+    "consolidation": {
+     "enabled": true,
+     "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
+     "events_total": 21,
+     "events_in_universe_n": 3,
+     "crossing_rows_n": 0,
+     "crossing_rows": [],
+     "open_position_hits": 0,
+     "closed_trade_hits": 0,
+     "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
+     "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
+     "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
+    }
+   },
+   "risk_regime": {
+    "is_major_bear": false,
+    "position_cap": 0.8,
+    "as_of": "2026-10-29"
    }
   },
   {
    "trader": "DROUGHT-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
+   "cutoff": "2026-10-29",
+   "bars": 21,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0123,
-    "bars": 14,
+    "return": -0.0069,
+    "bars": 16,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.0123,
+   "current_dd": -0.0069,
    "num_trades": 1,
    "win_rate": 0.0,
    "fill_guard_buy_dropped": 0,
@@ -132,7 +134,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:52",
+    "as_of": "2026-10-29 22:26:12",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -150,25 +153,25 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-29"
    }
   },
   {
    "trader": "ENGULF-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
+   "cutoff": "2026-10-29",
+   "bars": 21,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0165,
-    "bars": 14,
+    "return": -0.0098,
+    "bars": 16,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
    },
-   "current_dd": -0.0165,
-   "num_trades": 0,
+   "current_dd": -0.0098,
+   "num_trades": 1,
    "win_rate": 0.0,
    "fill_guard_buy_dropped": 0,
    "fill_guard_sell_deferred": 0,
@@ -180,7 +183,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:53",
+    "as_of": "2026-10-29 22:26:13",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -198,19 +202,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-29"
    }
   },
   {
    "trader": "NEEDLE-DE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
+   "cutoff": "2026-10-29",
+   "bars": 21,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
     "return": 0.0,
-    "bars": 14,
+    "bars": 16,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
@@ -228,7 +232,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:54",
+    "as_of": "2026-10-29 22:26:14",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -246,19 +251,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-29"
    }
   },
   {
    "trader": "VOLATILITY-CE-01",
    "paper_start": "2026-09-23",
-   "cutoff": "2026-10-27",
-   "bars": 19,
+   "cutoff": "2026-10-29",
+   "bars": 21,
    "months_tracked": 0,
    "partial_month": {
     "month": "2026-10",
-    "return": -0.0018,
-    "bars": 14,
+    "return": -0.0025,
+    "bars": 16,
     "month_ended": false,
     "full_from_hire": true,
     "counted": false
@@ -276,7 +281,8 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-28 08:57:55",
+    "as_of": "2026-10-29 22:26:14",
+    "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
      "enabled": true,
      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
@@ -294,19 +300,19 @@
    "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-10-27"
+    "as_of": "2026-10-29"
    }
   }
  ],
  "paper_export_face": {
-  "export_date": "2026-10-27",
+  "export_date": "2026-10-29",
   "schema": "t35_paper_export_v1",
   "summary": {
    "traders": 6,
-   "total_equity_cny": 5942662.17,
-   "total_positions": 16,
-   "entries_today": 0,
-   "exits_today": 5,
+   "total_equity_cny": 5960060.18,
+   "total_positions": 21,
+   "entries_today": 1,
+   "exits_today": 0,
    "exits_not_derivable_first_snapshot": false
   },
   "traders": [
@@ -314,33 +320,33 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 991712.49,
-     "positions_value": 762638.85,
-     "cash": 229073.64,
+     "equity": 993366.72,
+     "positions_value": 764293.09,
+     "cash": 229073.63,
      "denomination": "CNY"
     },
-    "positions_count": 4,
-    "operations_today_count": 1
+    "positions_count": 5,
+    "operations_today_count": 0
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 984656.32,
-     "positions_value": 654436.92,
-     "cash": 330219.4,
+     "equity": 989142.52,
+     "positions_value": 658923.09,
+     "cash": 330219.43,
      "denomination": "CNY"
     },
-    "positions_count": 6,
-    "operations_today_count": 2
+    "positions_count": 8,
+    "operations_today_count": 0
    },
    {
     "trader": "DROUGHT-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 987706.14,
-     "positions_value": 95256.91,
-     "cash": 892449.23,
+     "equity": 993095.5,
+     "positions_value": 46870.89,
+     "cash": 946224.61,
      "denomination": "CNY"
     },
     "positions_count": 1,
@@ -350,13 +356,13 @@
     "trader": "ENGULF-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 983546.9,
-     "positions_value": 183807.72,
-     "cash": 799739.18,
+     "equity": 990154.06,
+     "positions_value": 93751.81,
+     "cash": 896402.25,
      "denomination": "CNY"
     },
     "positions_count": 2,
-    "operations_today_count": 0
+    "operations_today_count": 1
    },
    {
     "trader": "NEEDLE-DE-01",
@@ -374,13 +380,13 @@
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 995040.32,
-     "positions_value": 302023.54,
-     "cash": 693016.78,
+     "equity": 994301.38,
+     "positions_value": 401415.0,
+     "cash": 592886.38,
      "denomination": "CNY"
     },
-    "positions_count": 3,
-    "operations_today_count": 2
+    "positions_count": 5,
+    "operations_today_count": 0
    }
   ]
  },
@@ -449,23 +455,23 @@
    {
     "account": "REV-OSC-STD",
     "face": "standalone sleeve face (same engine replay, no route overlay): ret = series",
-    "equity_cny": 938360.96,
+    "equity_cny": 939226.79,
     "initial_cash_cny": 1000000.0,
     "marks_summary": {
-     "bars": 17,
+     "bars": 18,
      "first_date": "2026-09-28",
-     "last_date": "2026-10-27",
-     "cumulative_ret": -0.06163904,
+     "last_date": "2026-10-28",
+     "cumulative_ret": -0.06077321,
      "current_dd": -0.061639,
-     "active_days": 17,
+     "active_days": 18,
      "fail_closed_route_days": 0
     },
     "entries": 30,
     "exits": {
-     "time": 7,
+     "time": 12,
      "tp": 4,
      "tp_gap": 1,
-     "sl": 12
+     "sl": 13
     },
     "skips": {
      "awaiting_signal": 1,
@@ -474,33 +480,33 @@
      "empty_fill": 0
     },
     "pending_cohorts": 0,
-    "open_positions": 6,
+    "open_positions": 0,
     "l1_state": {},
     "route_row": null,
     "anchor_grid": "2026-09-24",
-    "panel_cutoff": "2026-10-27",
-    "updated": "2026-10-29 08:36:28"
+    "panel_cutoff": "2026-10-28",
+    "updated": "2026-10-29 22:39:49"
    },
    {
     "account": "SYSTEM-V1",
     "face": "decision-chain LIVE face: L1 clock state -> L2 route -> deployed sleeve = rev_osc only (v1.0 stubs); allocation semantics (w_eff x series; no mid-hold forced liquidation; glide law + transition cost)",
-    "equity_cny": 980914.4,
+    "equity_cny": 981185.93,
     "initial_cash_cny": 1000000.0,
     "marks_summary": {
-     "bars": 17,
+     "bars": 18,
      "first_date": "2026-09-28",
-     "last_date": "2026-10-27",
-     "cumulative_ret": -0.0190856,
+     "last_date": "2026-10-28",
+     "cumulative_ret": -0.01881407,
      "current_dd": -0.019086,
-     "active_days": 17,
+     "active_days": 18,
      "fail_closed_route_days": 0
     },
     "entries": 30,
     "exits": {
-     "time": 7,
+     "time": 12,
      "tp": 4,
      "tp_gap": 1,
-     "sl": 12
+     "sl": 13
     },
     "skips": {
      "awaiting_signal": 1,
@@ -509,9 +515,9 @@
      "empty_fill": 0
     },
     "pending_cohorts": 0,
-    "open_positions": 6,
+    "open_positions": 0,
     "l1_state": {
-     "asof": "2026-10-28",
+     "asof": "2026-10-29",
      "state": "ORANGE",
      "clock_cell": "ORANGE_COOL",
      "cap_ladder": 0.5
@@ -523,8 +529,8 @@
      "cap": 0.5
     },
     "anchor_grid": "2026-09-24",
-    "panel_cutoff": "2026-10-27",
-    "updated": "2026-10-29 08:36:28"
+    "panel_cutoff": "2026-10-28",
+    "updated": "2026-10-29 22:39:49"
    }
   ],
   "bench_2026_10_31": {

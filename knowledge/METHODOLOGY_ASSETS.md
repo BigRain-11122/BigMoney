@@ -4731,3 +4731,31 @@ and never let an excepted type error fabricate a plausible answer (r1288 family)
 Pos: Tools/s6_chain_bmc.py (run_leg + selftest 5/5, `--selftest`) + six legs wired with
 refresh + refreshed faces results/etf_book_{hysteresis,buffer_adoption,cagr_reconcile}.json
 on the 2026-10-29 bar + digest DIGEST-20261029-e237-stale-check-legs.md.
+
+## E238 Reconcile two pages of the same book by the rule's own output, not by the row order (2026-10-29 r1151 bm-a)
+
+WHEN: two live faces describe one book -- here a menu that recomputes four risk tiers and a
+CEO page that mirrors the one published executable ticket. Both are derived from the same
+engine, so a reader must never be able to see two different books.
+
+WRONG: (a) diffing rows by position or by beta label -- the page has no beta on it, only the
+multiplier `k` the rule produced; (b) treating an absent counterpart file as agreement;
+(c) reporting the nearest tier when nothing reproduces `k`, which hides "these are different
+books" behind a plausible-looking diff.
+
+RIGHT: `reconcile_page(menu, page, dec_bar)` -- pick the tier by `page.k_now` (that IS the
+rule's output), require `|Δk| <= 5e-3` or raise "k not reproduced" as the finding, then
+compare name set, lots per name, book and cash amounts to the cent, and the decision bar.
+Absent page -> `None`, and the page prints "对账跳过——不是「已对账」". Diffs are listed, never
+smoothed. Fixture legs L22-L27 pin all six paths, including a one-lot drift and a 5-yuan cash
+drift (the ballpark that a rounding change would produce).
+
+Companion finding from the same round: a forward-accrual lane with no declared-takeover path
+loses days *permanently* whenever its host is out (data/heat/popularity tail 2026-10-20 while
+bm-b heartbeat was 4.2h stale: 7 trading days unrecoverable). The zt-pool lane, which does
+carry `--takeover` + a 120-minute staleness threshold, recovered both missing days (10-28,
+10-29) in 22s once declared. Freezing a lane is a choice; it is not a safe default.
+
+Pos: scripts/etf_book_beta_menu.py (ceo_page_face / reconcile_page / selftest 27/27 /
+page section 「与 CEO 一页纸对账」) + evidence results/etf_book_beta_menu/MENU-2026-10-29.json
+(ceo_page_recon.ok=true, matched beta 0.20, names=5) + chain leg etf_book_beta_menu.
