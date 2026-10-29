@@ -1171,7 +1171,17 @@ def main() -> int:
         # came from another machine's copy must say so instead of publishing it.
         _states = ("in_sync", "today_pending", "behind_1d", "stalled", "absent",
                    "unreadable", "unverifiable", "retired")
-        _ok_lf = (_rows["heat"]["tail"] == _heat_tail
+        # r1349: `data/heat/` is gitignored (.gitignore:35), so its bytes exist only on the
+        # machine that collects them. Requiring the board's heat tail to equal a directory
+        # that is empty here asserts a deployment layout, not a fact -- it was red on this
+        # host for a lane the board already declares unverifiable/stalled. Strict when the
+        # local bytes exist; when they do not, the board must NOT claim a certified tail for
+        # that lane (its own verdict must say unverifiable/absent/retired).
+        _heat_row = _rows.get("heat") or {}
+        _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
+            _heat_row.get("verdict") in ("unverifiable", "absent", "retired")
+            and bool(_heat_row.get("tail_source")))
+        _ok_lf = (_heat_matches
                   and _rows["zt_pool"]["tail"] == _zt_tail
                   and _lfz.get("expected_last_official_day") == _exp
                   and sum((_lfz.get("counts") or {}).values()) == _lfz.get("n_lanes")
@@ -1828,6 +1838,12 @@ def main() -> int:
             # two aggregators is published rather than resolved.
             ("product: etf_book_quantile_floor (percentile resolution contract)",
              "scripts/etf_book_quantile_floor.py", ["--selftest"]),
+            # r1350 / E256: a grid cell quoted from one decision calendar is not a level. The
+            # suite prices the rule that decides whether the grid's ordering is separated from
+            # phase luck, including the two branches a permissive rule would take (an edited
+            # median, an edited verdict) and a cell judged on too few phases.
+            ("product: etf_book_phase_atlas (grid vs its own calendar)",
+             "scripts/etf_book_phase_atlas.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",

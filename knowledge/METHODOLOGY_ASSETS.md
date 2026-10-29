@@ -5219,3 +5219,41 @@ say "block length matters" and may not say "block 10 is calmer than block 20".
 Pos: scripts/etf_book_quantile_floor.py (selftest 17/17, gate re-derives 8 arms / 52 pairs from
 their own rows) + results/etf_book_bootstrap/NOISE-2026-10-29.json + S6 leg + smoke leg +
 research/digests/DIGEST-20261030-e255-percentile-resolution.md.
+
+## E256 A grid cell is only a cell if it beats the calendar it was measured on (2026-10-30 r1350 bm-c)
+
+WHEN: a strategy's configuration is chosen by comparing (names, cadence) cells on one decision
+calendar -- the usual "N5/R20 is the best cell" -- and the headline number of each cell is then
+repeated as a property of the strategy. The engine decides every `rebal` bars counted from one
+fixed origin bar, so every cell's whole equity path is a function of a choice nobody made
+deliberately: which day of the cycle the book starts on.
+
+WRONG: (a) reporting the cell's point estimate with no band, so a 9.13%/yr cell and a 9.64%/yr
+cell look like a decision when they may be two draws of one number; (b) sampling four phases
+(one arm, one cadence) and concluding the mechanism is phase-insensitive in general -- r1325's
+four phases were inside ONE cadence, which is precisely the one that hides the effect; (c)
+counting decisions instead of comparing decision DATES to prove the phases moved (83/83/82/82
+counts hid four different calendars).
+
+RIGHT: for every cell, burn EVERY decision origin inside one rebalance cycle (10/20/40 origins =
+a complete cycle, not a sample), take the cell's band as p95-p5 of its CAGR across that cycle,
+and compare the grid's between-cell spread (max-min of cell medians) against the median band. If
+the spread is inside the band, the ordering is a calendar artefact and the honest publication is
+the band. Rank the grid per aligned slot (offsets present for every cell) and count how often the
+top cell changes -- the churn is the cheapest way to say it in one number.
+
+READING (12 cells, 280 engine runs, 8 workers, 2026-10-29 bar, 10bp/side, 8% vol target):
+between-cell spread **5.22pp** vs median cell band **6.68pp** -> the grid ordering is NOT
+separated from phase luck; the top cell changes **5 times** across the 10 aligned slots
+(N3R10, N3R20, N5R10, N8R10, N12R20) while the ranking itself stays broadly stable (Spearman
+0.58-0.90 vs slot 0). The real structure is the CADENCE, not the width: R10 cells sit at
+10.9-12.0pp with bands of 2.8-4.2pp, R40 cells at 6.8-8.3pp with bands of 6.9-12.4pp, and
+width alone moves the median by ~1.1pp inside a fixed cadence. Fewer decisions per window means
+each decision carries more path dependence -- so of the two knobs, only the cadence is quotable.
+The published cells are named from their own artifacts, not from constants: production card
+N12/R20 = 9.64pp median over a 7.87pp band, executable ticket N5/R20 = 9.13pp over 6.25pp.
+
+Pos: scripts/etf_book_phase_atlas.py (selftest 12/12; `--check` rebuilds every per-cell scalar
+and the verdict from the 280 raw rows, and refuses an edited median or verdict) +
+results/etf_book_phase_atlas.json + S6 leg `etf_book_phase_atlas` + smoke leg +
+research/digests/DIGEST-20261030-e256-phase-atlas.md.

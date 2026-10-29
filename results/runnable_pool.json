@@ -23369,6 +23369,75 @@
    "result_ref_at": "2026-10-30T00:00:00+08:00",
    "result_note": "paired bootstrap, 5 block arms x 2000 resamples: median drawdown delta +6.04pp vs p1 delta +1.26pp (tail keeps 21% of the middle gain) at -4.61pp median CAGR; the overlay is a middle-path tool, not crash insurance",
    "verdict": "tail_is_mostly_a_middle_effect=True"
+  },
+  {
+   "id": "E256-PHASE-ATLAS-BUFFER-K05",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: incumbent buffer k=0.05 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.05",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_buffer_k05.json"
+   ],
+   "deliverable": "whether r1325's buffer REJECT was itself phase luck: the k=0.05 arm re-priced on every decision origin of every cell (280 runs), judged against each cell's own band instead of one calendar",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "r1325 tested ONE buffer arm on 5 books x 4 phases and rejected it on a -0.145pp median; r1350 priced the same question one level up and found the grid's between-cell spread (5.22pp) inside its own phase band (6.68pp) -- so a 0.145pp effect was never separable on that design. The honest completion of the REJECT is to price the same arm where the noise is measured, per cell."
+  },
+  {
+   "id": "E256-PHASE-ATLAS-COST05",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: 5bp/side on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0005",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_cost05.json"
+   ],
+   "deliverable": "does the cadence conclusion (R10 quotable, R40 not) survive at half the cost, or does the band structure move with the toll",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "r1350 measured bands at 10bp/side. The cadence gap (R10 2.8-4.2pp bands vs R40 6.9-12.4pp) is a path-dependence claim, not a return claim, so it should NOT depend on the toll -- that prediction is testable for 280 runs and it decides whether the reading is a mechanism or a cost artefact."
+  },
+  {
+   "id": "E256-PHASE-ATLAS-COST20",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: 20bp/side on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0020",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_cost20.json"
+   ],
+   "deliverable": "the upper-cost arm of the same question: if the bands widen with the toll, the 'which cell is best' question is a cost question in disguise; if they do not, the band is a property of the decision count",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "see E256-PHASE-ATLAS-COST05 -- the pair brackets the production toll and turns a one-arm observation into a cost curve of the band itself."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23383,6 +23452,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T00:48:14+08:00",
+ "updated_at": "2026-10-30T06:2x+08:00",
  "version": 1
 }
