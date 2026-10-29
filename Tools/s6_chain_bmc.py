@@ -98,12 +98,18 @@ LEGS = [
     # chain for the same reason the capacity face does: a hand-run audit is a face that
     # silently ages (r1257/r1290/r1291/r1293/r1295 class). ~90s, no network.
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
-    # r1335 / E205: the book's six SIGNS are exactly this panel's full-sample IC signs, so
+    # r1335 / E207: the book's six SIGNS are exactly this panel's full-sample IC signs, so
     # every number the legs below publish rests on a direction chosen after the fact. This leg
     # prices the honest arm (signs from already-realised windows only) so the caveat the card
     # now prints is re-derived with the panel instead of quoted from a hand run (r1290 class).
     # ~110s, offline. Ordered BEFORE production: the card reads its artifact.
     ("etf_sign_pit", ["python", "scripts/etf_sign_pit.py", "run"]),
+    # r1336 / E208: the leg above says the signs were read off the sample; this one prices
+    # HOW MUCH that reading is worth by running all 2^6 sign sets on the same panel -- the
+    # production signs rank 6th of 64 against a median arm of -1.63%/yr. Same r1290 reason:
+    # the number the card quotes has to be re-derived with the panel, not quoted from a hand
+    # run. ~82s, offline, deterministic (one panel load, then one engine call per sign set).
+    ("etf_sign_enum", ["python", "scripts/etf_sign_enum.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger

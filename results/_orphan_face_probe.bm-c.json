@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-29T08:50:06",
+ "ts": "2026-10-29T10:03:56",
  "mode": "probe",
  "py_faces_seen": 4,
  "orphans": 0,
@@ -11,8 +11,8 @@
    "pid": 5036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 5069.7,
-   "cpu_delta_20s": 3.672,
+   "age_min": 5143.5,
+   "cpu_delta_20s": 5.703,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,11 +21,11 @@
    ]
   },
   {
-   "pid": 104944,
+   "pid": 111036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.6,
-   "cpu_delta_20s": 1.578,
+   "cpu_delta_20s": 1.828,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -37,29 +37,29 @@
    ]
   },
   {
-   "pid": 112964,
+   "pid": 112736,
    "name": "python.exe",
-   "cmd": "python scripts/etf_sign_pit.py run",
-   "age_min": 0.8,
-   "cpu_delta_20s": 21.266,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "python.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 114252,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py --only etf_sign_pit,etf_book_p",
-   "age_min": 0.8,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u smoke_test.py",
+   "age_min": 3.0,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 113936,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe scripts/etf_book_forward.py --selftest",
+   "age_min": 0.8,
+   "cpu_delta_20s": 21.578,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
     "DEAD"
    ]
   }
