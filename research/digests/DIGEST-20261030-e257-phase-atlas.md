@@ -1,7 +1,7 @@
 # DIGEST 2026-10-30 r1350 bm-c -- the phase atlas: a cell is not a cell until it beats its calendar
 
 Face: `results/etf_book_phase_atlas.json` | prose: `research/ETF_BOOK_PHASE_ATLAS.md` |
-card: `knowledge/METHODOLOGY_ASSETS.md#E256` | runner: `scripts/etf_book_phase_atlas.py`
+card: `knowledge/METHODOLOGY_ASSETS.md#E257` | runner: `scripts/etf_book_phase_atlas.py`
 
 ## The question
 

@@ -5,14 +5,14 @@
   "results",
   "docs"
  ],
- "files_scanned": 13188,
- "n_hits": 791,
+ "files_scanned": 13117,
+ "n_hits": 789,
  "counts": {
   "closed-round-evidence": 300,
   "code-string": 44,
   "frozen-evidence": 297,
   "pool-record": 100,
-  "self-census": 50
+  "self-census": 48
  },
  "gated_buckets": [
   "live-face",
@@ -286,29 +286,11 @@
    ]
   },
   "self-census": {
-   "n": 50,
+   "n": 48,
    "files": [
     "results/reader_text_audit.json"
    ],
    "sample": [
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/token",
-     "key": "token",
-     "kind": "brace-token",
-     "token": "{captured}",
-     "bucket": "self-census",
-     "text": "{captured}"
-    },
-    {
-     "file": "results/reader_text_audit.json",
-     "json_path": "/offenders[0]/text",
-     "key": "text",
-     "kind": "brace-token",
-     "token": "{captured}",
-     "bucket": "self-census",
-     "text": "marks_coverage ({captured}/{closed_days} closed days captured)"
-    },
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[0]/token",
@@ -330,6 +312,24 @@
     {
      "file": "results/reader_text_audit.json",
      "json_path": "/advisory/closed-round-evidence/sample[1]/token",
+     "key": "token",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "{line_num}"
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[1]/text",
+     "key": "text",
+     "kind": "brace-token",
+     "token": "{line_num}",
+     "bucket": "self-census",
+     "text": "return False, f\"Line {line_num}: expected 5 fields, got {len(fields)}\""
+    },
+    {
+     "file": "results/reader_text_audit.json",
+     "json_path": "/advisory/closed-round-evidence/sample[2]/token",
      "key": "token",
      "kind": "brace-token",
      "token": "{line_num}",

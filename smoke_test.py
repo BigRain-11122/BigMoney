@@ -1838,7 +1838,7 @@ def main() -> int:
             # two aggregators is published rather than resolved.
             ("product: etf_book_quantile_floor (percentile resolution contract)",
              "scripts/etf_book_quantile_floor.py", ["--selftest"]),
-            # r1350 / E256: a grid cell quoted from one decision calendar is not a level. The
+            # r1350 / E257: a grid cell quoted from one decision calendar is not a level. The
             # suite prices the rule that decides whether the grid's ordering is separated from
             # phase luck, including the two branches a permissive rule would take (an edited
             # median, an edited verdict) and a cell judged on too few phases.

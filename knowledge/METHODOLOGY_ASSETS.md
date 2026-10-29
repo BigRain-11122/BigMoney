@@ -5220,7 +5220,7 @@ Pos: scripts/etf_book_quantile_floor.py (selftest 17/17, gate re-derives 8 arms 
 their own rows) + results/etf_book_bootstrap/NOISE-2026-10-29.json + S6 leg + smoke leg +
 research/digests/DIGEST-20261030-e255-percentile-resolution.md.
 
-## E256 A grid cell is only a cell if it beats the calendar it was measured on (2026-10-30 r1350 bm-c)
+## E257 A grid cell is only a cell if it beats the calendar it was measured on (2026-10-30 r1350 bm-c)
 
 WHEN: a strategy's configuration is chosen by comparing (names, cadence) cells on one decision
 calendar -- the usual "N5/R20 is the best cell" -- and the headline number of each cell is then
@@ -5256,4 +5256,4 @@ N12/R20 = 9.64pp median over a 7.87pp band, executable ticket N5/R20 = 9.13pp ov
 Pos: scripts/etf_book_phase_atlas.py (selftest 12/12; `--check` rebuilds every per-cell scalar
 and the verdict from the 280 raw rows, and refuses an edited median or verdict) +
 results/etf_book_phase_atlas.json + S6 leg `etf_book_phase_atlas` + smoke leg +
-research/digests/DIGEST-20261030-e256-phase-atlas.md.
+research/digests/DIGEST-20261030-e257-phase-atlas.md.

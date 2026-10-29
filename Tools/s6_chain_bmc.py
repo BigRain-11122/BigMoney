@@ -253,7 +253,7 @@ LEGS = [
     # verdict from the arms' own rows (~1s; it reads NOISE rows, never a 2,000-draw re-run).
     ("etf_book_quantile_floor", ["python", "scripts/etf_book_quantile_floor.py", "--check"],
      ["python", "scripts/etf_book_quantile_floor.py", "run"]),
-    # r1350 / E256: the production config is a cell in a 3x3 (names x cadence) grid chosen by
+    # r1350 / E257: the production config is a cell in a 3x3 (names x cadence) grid chosen by
     # comparing single-calendar numbers, and r1325 showed that one calendar is not a level.
     # The atlas burns every decision origin inside one rebalance cycle for all 12 cells (280
     # engine runs, multicore, ~2 min), so the chain runs the ENGINE-FREE gate: the frozen cell
