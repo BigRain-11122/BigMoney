@@ -12,6 +12,14 @@ What this checks (against the file in the working tree):
   * the working tree is a SUPERSET of the card numbers in the blob at HEAD --
     i.e. no card that was committed has been dropped, and the count only grows.
 
+r1344: a card is a card at either heading level. bm-b files its cards as `### E221`
+while this machine files `## E232`, and the first version of this guard only looked
+at `##` -- so 6 of the 158 cards in the ledger were invisible to the one gate whose
+job is noticing that a card vanished. A name filter that misses a sixth of the file
+is exactly the failure the docstring above describes, one level down; the regex is
+therefore level-agnostic (`#{2,3}`) and the payload reports how many cards each
+level contributes, so the scope cannot silently shrink again.
+
 Exit codes: 0 clean, 1 ACTIVE LOSS (a committed card is missing / order broken),
 2 mechanism failure (not a git repo, unreadable file) -- reported, never masked.
 
@@ -24,7 +32,7 @@ import re
 import subprocess
 import sys
 
-CARD = re.compile(r"^## E(\d{3})\b")
+CARD = re.compile(r"^(#{2,3}) E(\d{3})\b")
 PATH = os.path.join("knowledge", "METHODOLOGY_ASSETS.md")
 
 
@@ -33,8 +41,17 @@ def _cards(text):
     for line in (text or "").split("\n"):
         m = CARD.match(line)
         if m:
-            out.append(int(m.group(1)))
+            out.append(int(m.group(2)))
     return out
+
+
+def _by_level(text):
+    counts = {}
+    for line in (text or "").split("\n"):
+        m = CARD.match(line)
+        if m:
+            counts[m.group(1)] = counts.get(m.group(1), 0) + 1
+    return counts
 
 
 def _read(path=PATH):
@@ -89,6 +106,7 @@ def check(path=PATH, head_text=None, tree_text=None):
         "tree_cards": len(tree_cards),
         "head_max": (max(head_cards) if head_cards else None),
         "tree_max": (max(tree_cards) if tree_cards else None),
+        "cards_by_level": _by_level(tree),
         "lost": lost,
         "new_duplicates": new_dupes,
         "problems": problems,
@@ -125,6 +143,18 @@ def _selftest():
                   "enforced", rc == 0 and bool(p["warnings"])))
     rc, p = check(path="<mem>", head_text=None, tree_text=base)
     cases.append(("a git failure reports rc 2 rather than a clean bill", rc == 2))
+    # r1344: the level-agnostic scope, driven by the level the OTHER machine uses
+    mixed = "## E195 A\n\nx\n### E221 B\n\ny\n"
+    rc, p = check(path="<mem>", head_text=mixed, tree_text="## E195 A\n\nx\n")
+    cases.append(("dropping a '###' card is ACTIVE_LOSS, not an invisible edit",
+                  rc == 1 and p["lost"] == [221]))
+    rc, p = check(path="<mem>", head_text=mixed, tree_text=mixed)
+    cases.append(("both heading levels are counted",
+                  rc == 0 and p["cards_by_level"] == {"##": 1, "###": 1}))
+    rc, p = check(path="<mem>", head_text="## E195 A\n\nx\n",
+                  tree_text="## E195 A\n\nx\n# E999 top\n\n### Notes\n\n### E1000 four\n")
+    cases.append(("a level-1 heading, a plain '###' heading and a 4-digit number are "
+                  "not cards", rc == 0 and p["tree_cards"] == 1))
     ok = sum(1 for _, c in cases if c)
     for name, c in cases:
         print(("PASS " if c else "FAIL ") + name)
@@ -144,9 +174,10 @@ def main(argv):
     except Exception as e:              # mechanism failure, never a silent clean
         print("card_ledger_guard: mechanism failure: %s" % e)
         return 2
-    print("card_ledger_guard: %s head=%s tree=%s max=%s->%s lost=%s %s%s"
+    print("card_ledger_guard: %s head=%s tree=%s max=%s->%s lost=%s levels=%s %s%s"
           % (payload["verdict"], payload["head_cards"], payload["tree_cards"],
              payload["head_max"], payload["tree_max"], payload["lost"],
+             payload.get("cards_by_level"),
              "; ".join(payload["problems"]),
              (" | " + "; ".join(payload["warnings"])) if payload["warnings"] else ""))
     return rc

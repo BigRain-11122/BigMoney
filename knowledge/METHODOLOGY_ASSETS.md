@@ -4636,3 +4636,57 @@ over-placed -> OVER-PLACED, a 9-day-old record flagged stale) + state/account/
 cash_placement.json (shipped unfilled on purpose) + the cash-reconciliation block in
 docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that recomputes idle and the gap from the
 placement file and data/repo_daily/GC001.csv.
+## E235 The card tripwire read one heading level, and a number-keyed loss check cannot see a collided card (2026-10-29 r1344 bm-c)
+
+WHEN: the ledger's own guard exists to notice that a committed card vanished, and two
+machines file cards at two heading levels (bm-c `## E232`, bm-b `### E221`).
+
+WRONG: match only `^## E(\d{3})\b`. The guard then reported `head=152 tree=152 lost=[]` on a
+158-card ledger -- a balanced file, not a visible blind spot. Six of the 158 cards were
+outside its eyes, and four of them (E221-E224) share a number with a `##` card this machine
+filed about different work, so even a wider reader leaves the second defect intact: a
+number-keyed loss check (`set(head) - set(tree)`) cannot fire for a collided card, because
+its disappearance moves no number.
+
+RIGHT: read level-agnostically (`^#{2,3}`) and publish `cards_by_level` in the payload so a
+future scope change is legible in the output instead of being inferred from a total that
+"looks right"; the collision itself is published (named numbers) rather than repaired,
+because renumbering another machine's recorded cards rewrites its record. The smoke leg
+re-derives the card count by hand from the ledger bytes and requires the guard to agree --
+a leg that asks the reader to check its own regex would have passed through the whole
+defect (and the first draft, using the compiled regex without `re.MULTILINE`, returned a
+vacuous zero -- the r1261 trap one level down).
+
+Pos: Tools/card_ledger_guard.py (reader widened, selftest 7->10 legs: a dropped `###` card
+must be ACTIVE_LOSS, both levels counted, a level-1 heading / a plain `### Notes` heading /
+a 4-digit number must not read as cards) + one smoke scope leg + face
+results/_r1344bmc_card_scope.json (two readers on the same blob: 152 vs 158 visible).
+
+## E236 The operator picks a vector, not six IC signs -- and that procedure earns nothing (2026-10-29 r1345 bm-c)
+
+WHEN: three faces already price "were the six signs knowable?" -- per-factor IC re-signing
+(-10.81%/yr against a published +6.14%), all 64 vectors on one window (published vector
+rank 6 of 64), and sign stability across cells. None of them is the operator's actual
+alternative, because an operator does not sign six factors independently: it picks one
+vector out of 64 and runs it.
+
+WRONG: treat "rank 6 of 64" as a near-best vector, or quote the full-sample +9.13%/yr as if
+it had a live counterpart. The in-sample optimum shares only three of six signs with the
+published vector, and the only shippable procedure -- rank the 64 by trailing Sharpe
+strictly before the date, run the winner for the next block -- loses in every cell.
+
+RIGHT: price the procedure itself. 2 cells x 64 vectors through the same reference engine,
+then 3 reselect x 2 lookback = 6 walk-forward variants per cell = 12 declared tests, paired
+against an equal-weight control at the same cadence. 0 of 12 clear the control + 1pp, 1 of
+12 is positive, median gap -6.52pp/yr; the diagnostic that outranks the CAGR is the
+selection lift (chosen vector's forward mean minus the mean across all valid vectors):
+positive in 40-67% of events, median 0.50, size flipping sign across variants -- a rank-1
+trailing Sharpe earns what the mean vector earns. The loss is not a bad rule, it is an
+empty rule, and the book bleeds the switch toll on top (the most-switching variant is the
+worst in both cells). A price face must publish the oracle arms as in-sample and keep the
+headline beside the PIT numbers.
+
+Pos: scripts/etf_sign_pit_combo.py (run/check/selftest 18/18) + face
+results/etf_sign_pit_combo.json (verdict recomputed by its own gate: pit_combo_no_value) +
+S6 leg etf_sign_pit_combo + one smoke leg that re-derives the verdict from the published
+per-variant table instead of asking the module.

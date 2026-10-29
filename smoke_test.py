@@ -740,6 +740,38 @@ def main() -> int:
     except Exception as e:
         check("product: E229 the quotable subset is priced against the full vector",
               False, str(e))
+    # r1345 / E236: the operator's real alternative is not a per-factor IC sign, it is
+    # "pick ONE of the 64 vectors from history and run it". This leg re-derives the verdict
+    # by hand from the published per-variant table and requires the face's own gate to
+    # agree -- a leg that asked the module for its verdict could not notice a rule drift.
+    try:
+        _pc = os.path.join("results", "etf_sign_pit_combo.json")
+        if os.path.exists(_pc):
+            _doc6 = json.load(open(_pc, encoding="utf-8"))
+            _cells6 = _doc6.get("cells") or {}
+            _n6 = _nbeat6 = _npos6 = 0
+            for _tag6, _c6 in _cells6.items():
+                _ctrl6 = (_c6.get("control") or {}).get("cagr")
+                for _vt6, _v6 in (_c6.get("variants") or {}).items():
+                    _cg6 = _v6.get("cagr")
+                    if not isinstance(_ctrl6, (int, float)) or not isinstance(_cg6, (int, float)):
+                        continue
+                    _n6 += 1
+                    _nbeat6 += 1 if float(_cg6) > float(_ctrl6) + 0.01 else 0
+                    _npos6 += 1 if float(_cg6) > 0.0 else 0
+            _want6 = ("pit_combo_value" if (_nbeat6 >= 9 and _npos6 >= 9)
+                      else "pit_combo_no_value" if _nbeat6 <= 3 else "pit_combo_fragile")
+            _g6 = __import__("importlib").import_module("scripts.etf_sign_pit_combo").gate(_doc6)
+            check("product: E236 the sign-vector re-selection procedure is priced",
+                  _g6["all_ok"] and _doc6.get("verdict") == _want6
+                  and _n6 == 12 and len(_cells6) == 2,
+                  "verdict=%s n=%d beat=%d pos=%d"
+                  % (_doc6.get("verdict"), _n6, _nbeat6, _npos6))
+        else:
+            check("product: E236 the sign-vector re-selection procedure is priced",
+                  True, "pit_combo artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E236 the sign-vector re-selection procedure is priced", False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -1797,7 +1829,7 @@ def main() -> int:
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
                  "etf_book_order_card", "etf_sign_pit", "etf_sign_enum", "etf_sign_stability",
-                 "etf_sign_cells",
+                 "etf_sign_cells", "etf_sign_pit_combo",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)
@@ -2683,6 +2715,34 @@ def main() -> int:
               "balanced hunks only (probe fixtures that quote a whole hunk stay legal)")
     except Exception as e:
         check("config: no tracked blob carries a conflict-marker fragment",
+              False, repr(e)[:160])
+
+    # r1344: the card-ledger tripwire must see every card at either heading level.
+    # bm-b files `### E221`, this machine files `## E232`, and the first version of
+    # the guard matched only `##` -- so 6 of 158 cards were invisible to the one gate
+    # whose job is noticing that a card disappeared. The leg is a SCOPE assertion,
+    # not a count: it re-derives the number of card headings from the ledger bytes
+    # and requires the guard's own reader to agree, so the scope cannot shrink again.
+    try:
+        _cl = importlib.import_module("Tools.card_ledger_guard")
+        _led = open("knowledge/METHODOLOGY_ASSETS.md", encoding="utf-8",
+                    newline="").read().replace("\r", "")
+        # re-derived here by hand, not through the guard's own regex: a leg that asks
+        # the reader to check itself cannot notice that the reader got narrower.
+        _want = 0
+        for _l in _led.split("\n"):
+            _body = _l[4:] if _l.startswith("### ") else (
+                _l[3:] if _l.startswith("## ") else "")
+            if (len(_body) > 4 and _body[0] == "E" and _body[1:4].isdigit()
+                    and not _body[4].isalnum()):
+                _want += 1
+        _src, _p = _cl.check(head_text=_led, tree_text=_led)
+        check("config: the card ledger guard sees every card heading level",
+              _src == 0 and _want > 0 and _p["tree_cards"] == _want,
+              "guard sees %d of %d cards (levels %s)"
+              % (_p["tree_cards"], _want, _p["cards_by_level"]))
+    except Exception as e:
+        check("config: the card ledger guard sees every card heading level",
               False, repr(e)[:160])
 
     # --- E226 the break-even toll: the published root must be the zero of the

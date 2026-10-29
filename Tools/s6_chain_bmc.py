@@ -126,6 +126,12 @@ LEGS = [
     # built from only them is the construction claim that has to be priced, across the full
     # 9-cell grid (two arms per cell). ~60s after the panel is warm, offline, deterministic.
     ("etf_lowvol_book", ["python", "scripts/etf_lowvol_book.py", "run"]),
+    # r1345 / E236: the three sign legs above price a per-factor IC sign and all 64 vectors
+    # on one window, but an operator picks ONE vector from history and runs it. This leg
+    # prices that procedure (trailing-Sharpe re-selection, 3 reselect x 2 lookback x 2 cells)
+    # against the equal-weight control, so "rank 6 of 64" cannot be quoted as if the ranking
+    # were reachable live. ~150s, offline, deterministic (one panel load, 64 engine calls/cell).
+    ("etf_sign_pit_combo", ["python", "scripts/etf_sign_pit_combo.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
