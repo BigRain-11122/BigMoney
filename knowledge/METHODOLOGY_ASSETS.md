@@ -3845,3 +3845,39 @@ Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthladder` + helpers `_d
 `results/e44_midmonth/WIDTHLADDER-<cutoff>.json`; selftest 796 -> 803 (7 legs: the 3,454 figure
 reproduced by the shared formula, narrow/wide/two-target rung readings, frozen constants, and both
 directions of the invariance check).
+
+## E220 When a family fails to be width-invariant, split the movement before deciding what to chase -- and here the movement is the calendar part, which is not width-pure either (2026-10-29 r1247 bm-b)
+
+Situation: E219 proved the mid-month calendar gap is not width-invariant (+18/-50/-161/-45bp at
+pick_n 10/25/50/100), so the ladder is four numbers rather than one. That leaves the mechanism
+open and it is worth closing, because the two readings imply opposite next steps: either the rungs
+apply the same calendar offset to different portfolios (the offset's VALUE depends on the book), or
+the rungs simply offer different candidate sets (composition). The E61 identity total = timing +
+selection decides between them, and it costs nothing to read -- the ladder already publishes both
+parts at every rung.
+
+WRONG: assume the movement must be selection, because width is what changes which names are on
+offer. That story is intuitive and it is not what the numbers say: selection stays inside
+-66..+33bp across all four rungs (range 99bp) while timing runs +84 / -83 / -188 / -3 (range
+272bp). The part that moves is the part that was supposed to be calendar-pure.
+
+RIGHT: (a) read timing as total - selection at every rung, and carry the identity flag per rung
+rather than trusting the subtraction silently; (b) attribute each rung STEP, not the endpoints --
+"timing agrees with the total in 3/3 steps, selection opposes in 2/3" is a different statement
+from "timing is bigger at the ends"; (c) run the SAME invariance test on the part that carries the
+movement (272bp spread against the 43.5bp tightest standard error), so "the movement is timing"
+cannot be read as "the calendar effect is stable".
+
+Live reading (cutoff 2026-10-28, cost x0): timing 84.0/-83.0/-188.0/-3.0, selection
+-66.0/+33.0/+27.0/-42.0, total 18.0/-50.0/-161.0/-45.0; timing range 272.0 against selection range
+99.0; tightest SE 43.5 -> `timing_carries_movement_without_a_width_invariant_number`. Consequence:
+the mid-month calendar question closes with no quotable number at any width -- E61/E218/E219/E220
+leave the effect as a per-width reading only.
+
+Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthsplit` + helpers `_widthsplit_rows` /
+`_widthsplit_range` / `_widthsplit_movement` / `_widthsplit_verdict` + constant
+`WIDTHSPLIT_TOL_BP`; face `results/e44_midmonth/WIDTHSPLIT-<cutoff>.json`; S6 leg right after
+`sharedbookwidthladder`; a smoke leg pins the face, the chain position and that every rung carries
+both parts; selftest 803 -> 812 (9 legs: the identity at both ends, a rung with no selection term,
+3/3 timing agreement, 2/3 selection opposition, both ranges, the label, the invariance direction,
+and a single-rung face that must say insufficient_rungs).

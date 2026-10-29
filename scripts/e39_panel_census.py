@@ -9960,6 +9960,189 @@ def run_sharedbook_width_ladder(outdir, start="2020-01-01",
             "that rung's number, not the narrow one",
         ],
     }
+WIDTHSPLIT_TOL_BP = 0.25
+def _widthsplit_rows(ladder_rows, order):
+    """(E220) timing and selection at every rung, read off the E219 ladder face.
+
+    E61's split is an identity: total = timing + selection. The ladder already
+    publishes the total and the selection part at every width, so the timing
+    part is the difference -- arithmetic on published numbers, not a new burn.
+    """
+    out = {}
+    for k in order:
+        r = ladder_rows.get(k) or {}
+        tot = r.get("calendar_full_bp")
+        sel = r.get("e61_selection_bp")
+        timing = None
+        if tot is not None and sel is not None:
+            timing = round(tot - sel, 4)
+        out[str(k)] = {
+            "pick_n": r.get("pick_n"),
+            "total_bp": tot,
+            "selection_bp": sel,
+            "timing_bp": timing,
+            "identity_ok": r.get("identity_ok"),
+            "standard_error_bp": r.get("standard_error_bp"),
+            "pool_binds": r.get("pool_binds"),
+        }
+    return out
+def _widthsplit_range(rows, order, key):
+    """Min/max/spread of one part across the ladder, and whether it changes sign."""
+    vals = [rows[k].get(key) for k in order if rows[k].get(key) is not None]
+    if not vals:
+        return {"n": 0, "min_bp": None, "max_bp": None, "range_bp": None,
+                "sign_stable": None}
+    return {"n": len(vals), "min_bp": min(vals), "max_bp": max(vals),
+            "range_bp": round(max(vals) - min(vals), 1),
+            "sign_stable": len({v > 0 for v in vals}) == 1}
+def _widthsplit_movement(rows, order):
+    """Which part carries the rung-to-rung movement of the gap.
+
+    E219 proved the gap is not width-invariant. A movement carried by the timing
+    part says the calendar offset's VALUE depends on the book it is applied to;
+    a movement carried by selection says the rungs are reading different
+    portfolios. The rung table alone cannot tell those apart -- this does.
+    """
+    steps = []
+    agree = oppose = 0
+    for a, b in zip(order, order[1:]):
+        ra, rb = rows[a], rows[b]
+        if None in (ra["total_bp"], rb["total_bp"], ra["timing_bp"],
+                    rb["timing_bp"], ra["selection_bp"], rb["selection_bp"]):
+            continue
+        dt = round(rb["total_bp"] - ra["total_bp"], 4)
+        dti = round(rb["timing_bp"] - ra["timing_bp"], 4)
+        dse = round(rb["selection_bp"] - ra["selection_bp"], 4)
+        t_agrees = bool(dt != 0 and (dti > 0) == (dt > 0))
+        s_opposes = bool(dt != 0 and (dse > 0) != (dt > 0))
+        if t_agrees:
+            agree += 1
+        if s_opposes:
+            oppose += 1
+        steps.append({"from": a, "to": b, "delta_total_bp": dt,
+                      "delta_timing_bp": dti, "delta_selection_bp": dse,
+                      "timing_agrees_with_total": t_agrees,
+                      "selection_opposes_total": s_opposes})
+    return {"steps": steps, "n_steps": len(steps),
+            "timing_agrees_steps": agree, "selection_opposes_steps": oppose}
+def _widthsplit_verdict(rows, order, movement):
+    """Name the part that carries the movement, then say if it is width-invariant.
+
+    The two questions are separate: "timing carries the movement" is a statement
+    about mechanism, "timing is width-invariant" is the precondition for quoting
+    any single calendar number at all. A face that reported only the first would
+    invite exactly the reading E219 refused.
+    """
+    timing = _widthsplit_range(rows, order, "timing_bp")
+    selection = _widthsplit_range(rows, order, "selection_bp")
+    ses = [rows[k]["standard_error_bp"] for k in order
+           if rows[k].get("standard_error_bp")]
+    tight = min(ses) if ses else None
+    invariant = None
+    if timing["range_bp"] is not None and tight is not None:
+        invariant = bool(timing["range_bp"] <= tight)
+    if movement["n_steps"] == 0:
+        label = "insufficient_rungs"
+    elif movement["timing_agrees_steps"] == movement["n_steps"]:
+        label = ("timing_carries_movement_without_a_width_invariant_number"
+                 if invariant is False else
+                 "timing_carries_movement_and_reads_width_invariant")
+    else:
+        label = "movement_is_not_carried_by_timing"
+    return {"label": label,
+            "timing_by_width": {k: rows[k]["timing_bp"] for k in order},
+            "selection_by_width": {k: rows[k]["selection_bp"] for k in order},
+            "total_by_width": {k: rows[k]["total_bp"] for k in order},
+            "timing_range_bp": timing["range_bp"],
+            "selection_range_bp": selection["range_bp"],
+            "timing_sign_stable": timing["sign_stable"],
+            "selection_sign_stable": selection["sign_stable"],
+            "tightest_standard_error_bp": tight,
+            "timing_is_width_invariant": invariant,
+            "timing_agrees_steps": movement["timing_agrees_steps"],
+            "selection_opposes_steps": movement["selection_opposes_steps"],
+            "n_steps": movement["n_steps"],
+            "steps": movement["steps"]}
+def run_sharedbook_widthsplit(outdir, start="2020-01-01",
+                              widths=WIDTHLADDER_WIDTHS):
+    """E220: does the ladder's movement come from the calendar or the portfolio?
+
+    E219 showed the mid-month gap is not width-invariant (+18/-50/-161/-45bp at
+    pick_n 10/25/50/100), which makes the ladder four numbers rather than one.
+    That leaves the mechanism open: the E61 split says the gap is timing plus
+    selection, so a movement carried by timing means the calendar offset's value
+    depends on the book it is applied to, while a movement carried by selection
+    means the rungs simply read different portfolios. This reads the published
+    ladder and answers that per rung, without burning anything again.
+    """
+    import e24_ladder_weighting as base
+
+    cal = [d for d in base.load_panel()[0] if d >= start]
+    cutoff = cal[-1]
+    src_name = "WIDTHLADDER-%s.json" % cutoff.replace("-", "")
+    src = os.path.join(outdir, src_name)
+    if not os.path.exists(src) or os.path.getsize(src) == 0:
+        return {"study": "e220_width_split_attribution",
+                "evidence_cutoff": cutoff,
+                "awaiting_upstream": src_name}
+    with open(src, "r", encoding="utf-8") as fh:
+        ladder = json.load(fh)
+    ladder_rows = ladder.get("rows") or {}
+    order = [str(int(w)) for w in widths if str(int(w)) in ladder_rows]
+    rows = _widthsplit_rows(ladder_rows, order)
+    movement = _widthsplit_movement(rows, order)
+    verdict = _widthsplit_verdict(rows, order, movement)
+    broken = [k for k in order if rows[k]["identity_ok"] is False]
+    return {
+        "study": "e220_width_split_attribution",
+        "evidence_cutoff": cutoff,
+        "source_face": src_name,
+        "spec": {
+            "start": start,
+            "widths": [int(w) for w in widths],
+            "ladder_axis": "pick_n",
+            "reading": (
+                "the E61 identity total = timing + selection read at every E219 "
+                "rung: timing is derived by subtraction from the published total "
+                "and selection, so it inherits the selection term's error and is "
+                "not an independent burn"),
+            "movement_rule": (
+                "a rung step is timing-carried when the timing part moves in the "
+                "same direction as the total, and selection-resisted when the "
+                "selection part moves against it"),
+            "invariance_rule": (
+                "timing is width-invariant only if its rung-to-rung range fits "
+                "inside the tightest control's standard error -- the same test "
+                "E219 applied to the total"),
+            "identity_tol_bp": WIDTHSPLIT_TOL_BP,
+        },
+        "rows": rows,
+        "verdict": verdict,
+        "answers": {
+            "timing_by_width": verdict["timing_by_width"],
+            "selection_by_width": verdict["selection_by_width"],
+            "total_by_width": verdict["total_by_width"],
+            "timing_range_bp": verdict["timing_range_bp"],
+            "selection_range_bp": verdict["selection_range_bp"],
+            "verdict_label": verdict["label"],
+        },
+        "identity_broken_widths": broken,
+        "honest": [
+            "timing is a subtraction, not a burn: with only the published total "
+            "and selection in hand it inherits that selection term's own error, "
+            "and a rung whose identity_ok is false is listed in "
+            "identity_broken_widths rather than silently trusted",
+            "cost x0 throughout: neither arm carries a fee, so a movement of "
+            "this size is gross of costs",
+            "where pool_binds is true the wide rung could not fill pick_n at "
+            "every session, so that rung holds a narrower book than its label",
+            "the label reports which part CARRIES the movement; it does not "
+            "claim the timing part is an exploitable effect, and a "
+            "width-invariant timing part would still need a cost arm before any "
+            "such reading",
+            "descriptive census only: no gate, no prereg, no trial count",
+        ],
+    }
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -20256,6 +20439,50 @@ def selftest():
                                "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
         "E187 the verdict echoes its own frozen thresholds so a later reader "
         "can tell a rule from a description")
+    # E220: timing is the E61 identity, so a wrong join shows up as a broken split
+    _ws_lad = {
+        "10": {"pick_n": 10, "calendar_full_bp": 18.0, "e61_selection_bp": -66.0,
+               "identity_ok": True, "standard_error_bp": 236.5},
+        "25": {"pick_n": 25, "calendar_full_bp": -50.0, "e61_selection_bp": 33.0,
+               "identity_ok": True, "standard_error_bp": 106.1},
+        "50": {"pick_n": 50, "calendar_full_bp": -161.0, "e61_selection_bp": 27.0,
+               "identity_ok": True, "standard_error_bp": 55.8},
+        "100": {"pick_n": 100, "calendar_full_bp": -45.0, "e61_selection_bp": -42.0,
+                "identity_ok": True, "standard_error_bp": 43.5},
+    }
+    _ws_order = ["10", "25", "50", "100"]
+    _ws = _widthsplit_rows(_ws_lad, _ws_order)
+    chk(_ws["10"]["timing_bp"] == 84.0 and _ws["100"]["timing_bp"] == -3.0,
+        "E220 timing is the E61 identity, so it reproduces the published split "
+        "(84.0 at width 10, -3.0 at width 100)")
+    chk(_widthsplit_rows({"10": {"calendar_full_bp": 18.0}}, ["10"])["10"]
+        ["timing_bp"] is None,
+        "E220 a rung with no selection term publishes no timing rather than "
+        "subtracting from zero")
+    _ws_move = _widthsplit_movement(_ws, _ws_order)
+    chk(_ws_move["n_steps"] == 3 and _ws_move["timing_agrees_steps"] == 3,
+        "E220 the timing part moves with the total at every rung step here")
+    chk(_ws_move["selection_opposes_steps"] == 2,
+        "E220 selection moves against the total on two of three steps, so the "
+        "bounded part is not the part that drives the movement")
+    _ws_v = _widthsplit_verdict(_ws, _ws_order, _ws_move)
+    chk(_ws_v["timing_range_bp"] == 272.0
+        and _ws_v["selection_range_bp"] == 99.0,
+        "E220 timing spans 272bp across the ladder while selection spans 99bp, "
+        "so the ladder's movement is not a composition effect")
+    chk(_ws_v["label"]
+        == "timing_carries_movement_without_a_width_invariant_number",
+        "E220 the verdict is named from the part that carries the movement AND "
+        "the invariance test, never from the part alone")
+    chk(_ws_v["timing_is_width_invariant"] is False
+        and _ws_v["tightest_standard_error_bp"] == 43.5,
+        "E220 272bp of timing movement against a 43.5bp tightest standard error "
+        "is not a width-invariant reading")
+    chk(_widthsplit_verdict(_ws, ["10"], _widthsplit_movement(_ws, ["10"]))
+        ["label"] == "insufficient_rungs",
+        "E220 a single rung has no movement to attribute and says so")
+    chk(WIDTHSPLIT_TOL_BP == 0.25 and _ws_v["n_steps"] == 3,
+        "E220 the identity tolerance and the rung count are frozen and echoed")
     # the count has to be printed after the LAST leg: this face grew legs below
     # where the line used to sit, so half the suite ran uncounted and the
     # printed total under-reported while the exit code stayed honest
@@ -26437,6 +26664,7 @@ def main(argv):
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
                              "chasescreen", "offbookliq", "offbookera", "sharedbook",
                   "sharedbookwidth", "sharedbookwidthladder",
+                             "sharedbookwidthsplit",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -27083,6 +27311,26 @@ def main(argv):
         print(json.dumps({"leg": "sharedbookwidthladder",
                           "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"], "verdict": f["verdict"]["label"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "sharedbookwidthsplit":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        # E220 is pure arithmetic over the E219 face, so unlike the ladder it is
+        # cheap enough to re-derive every round; nothing here burns a backtest.
+        f = run_sharedbook_widthsplit(outdir, start=args.start)
+        if f.get("awaiting_upstream"):
+            print(json.dumps({"leg": "sharedbookwidthsplit",
+                              "noop": "awaiting_upstream",
+                              "source_face": f["awaiting_upstream"],
+                              "evidence_cutoff": f.get("evidence_cutoff")},
+                             ensure_ascii=False))
+            return 0
+        p = write_json(outdir, "WIDTHSPLIT-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "sharedbookwidthsplit",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"],
+                          "verdict": f["verdict"]["label"]},
                          ensure_ascii=False))
         return 0
     if args.mode == "midsweep":

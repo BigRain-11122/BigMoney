@@ -59,6 +59,11 @@ LEGS = [
     # burns per round for identical numbers.
     ("sharedbookwidthladder", ["python", "scripts/e39_panel_census.py",
                                "sharedbookwidthladder"]),
+    # E220: the ladder's rungs disagree, so this reads them through the E61 identity
+    # and names the part that carries the movement. Pure arithmetic over the face
+    # above -- no burn -- so it re-derives every round instead of caching to a cutoff.
+    ("sharedbookwidthsplit", ["python", "scripts/e39_panel_census.py",
+                              "sharedbookwidthsplit"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

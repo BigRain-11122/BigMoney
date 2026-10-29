@@ -2,8 +2,8 @@
  "agenda_starved": false,
  "clock_read": "2026-10-29T11:52:12+08:00",
  "current": "r1246: E219 laddered the E218 matched-width control across book widths 10/25/50/100 -- the family becomes measurable at pick_n 50, and there the calendar gap does not reproduce (+7.6bp against -161.0bp); the gap itself moves 18 -> -50 -> -161 -> -45 across widths, so it is not width-invariant and the 18bp was a width-10 number",
- "current_task": "next: E220 draft (width-declared calendar gate) — E219 closed, pool has no ready card this round",
- "cyc_round": 1246,
+ "current_task": "S6 chain + closeout (E220 face published, chain leg wired, card closed)",
+ "cyc_round": 1247,
  "d19_note": "decisions advanced 97fe122f (D-20261029-06..14 read: 09 superseded by 12, 03(4) already satisfied here -- NatsHB/FleetLink/ProductionClaim all S4U and Ready/Running; the rest belong to other companies) -> zero order files unacked",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
@@ -1379,11 +1379,11 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1245,
- "round_no": 1246,
+ "round": 1247,
+ "round_no": 1247,
  "round_no_label": "r1242",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-29T11:52:12+08:00",
+ "round_no_ts": "2026-10-29T13:21:19+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1227: a delta sweep that matches numbers against a construct table will manufacture reproductions out of zeros (34 of 152 cells are 0.0 and match any zero construct in either sign), so zeros must be reported as unchecked rather than counted. Sibling: the unit token can sit mid-name (`engine_bp_delta`), and a suffix-based unit filter silently dropped 8 of 17 names before the family looked clean. And an arm-suffixed name (`engine_diff_bp_raw`) must be matched before the arm token is stripped, or the rule set loses the very cells it was written for.",
  "sat_engine": "status rc=0 (last_verdict idle)",
@@ -1397,13 +1397,13 @@
   "status": "delivered_on_machine_branch",
   "ts": "2026-10-29T07:50:25+08:00"
  },
- "task": "r1242: E61 shared candidate pool leg (done) -> pool ready 0 / waiting 0",
- "task_short": "E61",
- "task_short_note": "e39 mode midsweepburnin; selftest 717/717; face MIDSWEEP-20261028-burnin.json",
- "ts": "2026-10-29T11:52:12+08:00",
- "updated": "2026-10-29T09:08:12+08:00",
- "updated_at": "2026-10-29T09:08:12+08:00",
- "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-6%) -> board clear + smoke green, so the round owed a card: E211 turned the E210 CEO-page trace sweep into a ratchet (signature masks every digit, so value churn is invisible and only a sentence that STARTS quoting an unproduced number goes red) | live: pages=5 numbers=534 unsourced=2 signatures=2 grown=0 shrunk=0 rc=0 | baseline seeded with corpus_bound 1200 | e97 selftest 123->128 | smoke 126/126 | S6 23/23 rc0 | dualrun ZERO-DRIFT streak 19 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions eee7cbf0 consumed (D-03 item4 telemetry S4U verified live), orders 0 unacked",
+ "task": "r1247: E220 width-movement attribution (done) -> pool ready 0",
+ "task_short": "E220",
+ "task_short_note": "e39 mode sharedbookwidthsplit; selftest 803->812; face WIDTHSPLIT-20261028.json",
+ "ts": "2026-10-29T13:21:19+08:00",
+ "updated": "2026-10-29T13:21:19+08:00",
+ "updated_at": "2026-10-29T13:21:19+08:00",
+ "verdict": "watermark GREEN at open (red=false, lane=healthy, pool ready 0, py 0-7%) -> board and pool both clear, so the round owed the standing agenda's open E220 window | E220 read the E219 ladder through the E61 identity: the movement is the TIMING part (84/-83/-188/-3, range 272bp) and not selection (-66/+33/+27/-42, range 99bp), and 272bp against a 43.5bp tightest SE is still not width-invariant -> label timing_carries_movement_without_a_width_invariant_number, so the mid-month calendar line closes with no quotable number at any width | e39 selftest 803->812 | S6 29/29 rc0 | attrition CLEAN 4 ledgers | orphan 0 | D-19 decisions 97fe122f + orders 122ab707 unchanged -> zero new rows",
  "r1245": {
   "mission": "watermark red at open (pool-batch-runnable-idle-low-cpu); pool had one ready card, E218",
   "finding": "E61's -66bp selection term = width +189.4bp (sd 402.4) + pool identity -255.4bp (sd 402.4), residual 0.0; the calendar reading is +18.0bp at full width vs -92.4bp matched (sd 528.9, n=5, SE 236.5, same-side share 0.4) -> unresolvable_at_matched_width, 3,454 draws needed",
@@ -1445,5 +1445,25 @@
   "card": "E219 closed with result_ref; E220 drafting window opened"
  },
  "delivery": "main, ahead 0 / behind 0 (ls-remote 54e4b535b1 verified)",
- "r1246_push": "54e4b535b1 -> origin/main (ls-remote verified, ahead/behind 0/0)"
+ "r1246_push": "54e4b535b1 -> origin/main (ls-remote verified, ahead/behind 0/0)",
+ "cycle_round": 1247,
+ "r1247": {
+  "mission": "watermark green at open, pool ready 0, board clear -> the standing agenda owed the E220 drafting window that r1246 opened",
+  "finding": "the width ladder's movement is the TIMING part, not selection: timing 84.0/-83.0/-188.0/-3.0 (range 272bp) against selection -66.0/+33.0/+27.0/-42.0 (range 99bp); timing agrees with the total in 3/3 rung steps and selection opposes in 2/3; 272bp against a 43.5bp tightest standard error means the part that carries the movement is not width-invariant either, so the mid-month calendar line closes with no quotable number at any width",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; no cleanup/quarantine actions (nothing deleted, treasure_guard not exercised); bm-a/bm-c lane collectors honoured their guards; S8 local-ignite not applicable (registry has no open cpu-only item -- all done/retired)",
+  "orphan": 0,
+  "product": [
+   "results/e44_midmonth/WIDTHSPLIT-20261028.json",
+   "scripts/e39_panel_census.py: _widthsplit_rows/_widthsplit_range/_widthsplit_movement/_widthsplit_verdict/run_sharedbook_widthsplit + WIDTHSPLIT_TOL_BP + CLI mode sharedbookwidthsplit (selftest 803 -> 812, 9 legs)",
+   "Tools/s6_chain_bmb.py: sharedbookwidthsplit wired immediately after sharedbookwidthladder",
+   "smoke_test.py: leg on the face, the chain position and both parts per rung",
+   "research/digests/DIGEST-20261029-r1247-e220-width-split.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E220",
+   "results/runnable_pool.json E220 done with result_ref (ready stays 0)"
+  ],
+  "tests": "e39 selftest 803 -> 812/812 PASS",
+  "s6": "29/29 rc=0 (217.3s): dualrun ZERO-DRIFT | sharedbook 11.2s | sharedbookwidth 19.0s | sharedbookwidthladder no-op 0.36s | sharedbookwidthsplit 0.37s rc=0 | attrition CLEAN 4 ledgers | token_meter 0 local-LLM legs today",
+  "s7": "loop pin=2 (re-registered per schedule) | LoopWatchdog S4U SWA=false | pre-commit + pre-push claws reinstalled | D-19 decisions 97fe122f / orders 122ab707 unchanged, 114 files / 115 acks / 0 unacked | sat engine status rc=0 idle",
+  "pit": "a ladder that disagrees with itself must not be attributed by assumption: the intuitive reading (width changes the candidate set, so the movement is selection) is contradicted by the numbers -- selection is the BOUNDED part and it partly offsets the total. Computing the split before writing the card is what caught it."
+ }
 }

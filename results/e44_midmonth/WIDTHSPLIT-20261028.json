@@ -1,0 +1,149 @@
+{
+ "study": "e220_width_split_attribution",
+ "evidence_cutoff": "2026-10-28",
+ "source_face": "WIDTHLADDER-20261028.json",
+ "spec": {
+  "start": "2020-01-01",
+  "widths": [
+   10,
+   25,
+   50,
+   100
+  ],
+  "ladder_axis": "pick_n",
+  "reading": "the E61 identity total = timing + selection read at every E219 rung: timing is derived by subtraction from the published total and selection, so it inherits the selection term's error and is not an independent burn",
+  "movement_rule": "a rung step is timing-carried when the timing part moves in the same direction as the total, and selection-resisted when the selection part moves against it",
+  "invariance_rule": "timing is width-invariant only if its rung-to-rung range fits inside the tightest control's standard error -- the same test E219 applied to the total",
+  "identity_tol_bp": 0.25
+ },
+ "rows": {
+  "10": {
+   "pick_n": 10,
+   "total_bp": 18.0,
+   "selection_bp": -66.0,
+   "timing_bp": 84.0,
+   "identity_ok": true,
+   "standard_error_bp": 236.5,
+   "pool_binds": true
+  },
+  "25": {
+   "pick_n": 25,
+   "total_bp": -50.0,
+   "selection_bp": 33.0,
+   "timing_bp": -83.0,
+   "identity_ok": true,
+   "standard_error_bp": 106.1,
+   "pool_binds": true
+  },
+  "50": {
+   "pick_n": 50,
+   "total_bp": -161.0,
+   "selection_bp": 27.0,
+   "timing_bp": -188.0,
+   "identity_ok": true,
+   "standard_error_bp": 55.8,
+   "pool_binds": true
+  },
+  "100": {
+   "pick_n": 100,
+   "total_bp": -45.0,
+   "selection_bp": -42.0,
+   "timing_bp": -3.0,
+   "identity_ok": true,
+   "standard_error_bp": 43.5,
+   "pool_binds": true
+  }
+ },
+ "verdict": {
+  "label": "timing_carries_movement_without_a_width_invariant_number",
+  "timing_by_width": {
+   "10": 84.0,
+   "25": -83.0,
+   "50": -188.0,
+   "100": -3.0
+  },
+  "selection_by_width": {
+   "10": -66.0,
+   "25": 33.0,
+   "50": 27.0,
+   "100": -42.0
+  },
+  "total_by_width": {
+   "10": 18.0,
+   "25": -50.0,
+   "50": -161.0,
+   "100": -45.0
+  },
+  "timing_range_bp": 272.0,
+  "selection_range_bp": 99.0,
+  "timing_sign_stable": false,
+  "selection_sign_stable": false,
+  "tightest_standard_error_bp": 43.5,
+  "timing_is_width_invariant": false,
+  "timing_agrees_steps": 3,
+  "selection_opposes_steps": 2,
+  "n_steps": 3,
+  "steps": [
+   {
+    "from": "10",
+    "to": "25",
+    "delta_total_bp": -68.0,
+    "delta_timing_bp": -167.0,
+    "delta_selection_bp": 99.0,
+    "timing_agrees_with_total": true,
+    "selection_opposes_total": true
+   },
+   {
+    "from": "25",
+    "to": "50",
+    "delta_total_bp": -111.0,
+    "delta_timing_bp": -105.0,
+    "delta_selection_bp": -6.0,
+    "timing_agrees_with_total": true,
+    "selection_opposes_total": false
+   },
+   {
+    "from": "50",
+    "to": "100",
+    "delta_total_bp": 116.0,
+    "delta_timing_bp": 185.0,
+    "delta_selection_bp": -69.0,
+    "timing_agrees_with_total": true,
+    "selection_opposes_total": true
+   }
+  ]
+ },
+ "answers": {
+  "timing_by_width": {
+   "10": 84.0,
+   "25": -83.0,
+   "50": -188.0,
+   "100": -3.0
+  },
+  "selection_by_width": {
+   "10": -66.0,
+   "25": 33.0,
+   "50": 27.0,
+   "100": -42.0
+  },
+  "total_by_width": {
+   "10": 18.0,
+   "25": -50.0,
+   "50": -161.0,
+   "100": -45.0
+  },
+  "timing_range_bp": 272.0,
+  "selection_range_bp": 99.0,
+  "verdict_label": "timing_carries_movement_without_a_width_invariant_number"
+ },
+ "identity_broken_widths": [],
+ "honest": [
+  "timing is a subtraction, not a burn: with only the published total and selection in hand it inherits that selection term's own error, and a rung whose identity_ok is false is listed in identity_broken_widths rather than silently trusted",
+  "cost x0 throughout: neither arm carries a fee, so a movement of this size is gross of costs",
+  "where pool_binds is true the wide rung could not fill pick_n at every session, so that rung holds a narrower book than its label",
+  "the label reports which part CARRIES the movement; it does not claim the timing part is an exploitable effect, and a width-invariant timing part would still need a cost arm before any such reading",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

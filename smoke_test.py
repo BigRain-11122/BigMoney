@@ -1186,6 +1186,47 @@ def main() -> int:
         check("product: the matched-width control is laddered across book widths, "
               "with the invariance of the gap published beside it", False, str(e))
     try:
+        _ws_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _ws_dir = os.path.join("results", "e44_midmonth")
+        _ws = sorted(f for f in os.listdir(_ws_dir)
+                     if f.startswith("WIDTHSPLIT-")) \
+            if os.path.isdir(_ws_dir) else []
+        _ws_doc = None
+        if _ws:
+            with open(os.path.join(_ws_dir, _ws[-1]), encoding="utf-8") as _fh:
+                _ws_doc = json.load(_fh)
+        _ws_rows = (_ws_doc or {}).get("rows") or {}
+        _ws_v = (_ws_doc or {}).get("verdict") or {}
+        _ws_src = (_ws_doc or {}).get("source_face")
+        # every rung must carry both parts: a ladder that published only the total
+        # would let the movement be attributed to whichever part was assumed
+        _ws_parts = all(r.get("timing_bp") is not None
+                        and r.get("selection_bp") is not None
+                        for r in _ws_rows.values()) if _ws_rows else False
+        _ws_ok = ("sharedbookwidthsplit" in _ws_order
+                  and "sharedbookwidthladder" in _ws_order
+                  and _ws_order.index("sharedbookwidthsplit")
+                  > _ws_order.index("sharedbookwidthladder")
+                  and _ws_doc is not None
+                  and _ws_doc.get("study") == "e220_width_split_attribution"
+                  and len(_ws_rows) >= 2
+                  and _ws_parts
+                  and _ws_v.get("label")
+                  and _ws_v.get("timing_range_bp") is not None
+                  and _ws_v.get("selection_range_bp") is not None
+                  and _ws_src)
+        check("product: the width ladder is split into timing and selection, so "
+              "its movement is attributed to a named part",
+              _ws_ok, "chain=%s face=%s source=%s rungs=%s label=%s "
+              "timing_range=%s selection_range=%s" % (
+                  "sharedbookwidthsplit" in _ws_order,
+                  _ws[-1] if _ws else "MISSING", _ws_src, len(_ws_rows),
+                  _ws_v.get("label"), _ws_v.get("timing_range_bp"),
+                  _ws_v.get("selection_range_bp")))
+    except Exception as e:
+        check("product: the width ladder is split into timing and selection, so "
+              "its movement is attributed to a named part", False, str(e))
+    try:
         _pd_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _pd_cmd = dict(importlib.import_module("Tools.s6_chain_bmb").LEGS).get(
             "pool_deliverable") or []
