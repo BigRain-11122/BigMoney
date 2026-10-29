@@ -89,6 +89,7 @@ LEGS = [
     # and the same toll, and publishes the effective sample size so "more sessions" is
     # never mistaken for "more independent observations".
     ("state_tilt", ["python", "scripts/e225_state_tilt.py", "run"]),
+    ("tilt_breakeven", ["python", "scripts/e226_tilt_breakeven.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
