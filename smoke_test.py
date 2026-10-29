@@ -3120,7 +3120,70 @@ def main() -> int:
     except Exception as e:
         check("product: a share-and-difference design may only settle a channel whose "
               "size the designs agree on", False, repr(e)[:160])
+    # E237: E236 named the mechanism behind the 25x size gap (the difference design prices a
+    # session against its own turnover CHANGE, which co-moves with the information arrival
+    # that sets |r|) but never measured it. The leg holds the face to: a first-stage
+    # co-movement reading next to the artefact verdict, an identity residual published as a
+    # number (the two component designs agree by algebra, never as evidence), and a bill
+    # that stays refused unless both components clear the bar with overlapping intervals.
+    try:
+        _bad37 = []
+        _p37 = "results/state_tilt/infostruct_latest.json"
+        _f37 = {}
+        if not os.path.exists(_p37):
+            _bad37.append("information-structure face missing")
+        else:
+            with open(_p37, encoding="utf-8") as _fh:
+                _f37 = json.load(_fh)
+            _sum37 = _f37.get("summary") or {}
+            _pooled37 = _f37.get("pooled") or {}
+            for _want in ("components", "direct", "share", "share_controlled", "comove"):
+                if not isinstance(_pooled37.get(_want), dict):
+                    _bad37.append("pooled record misses %s" % _want)
+            _vb37 = (_pooled37.get("verdict_bundle") or {})
+            if not _vb37.get("verdict"):
+                _bad37.append("no artefact verdict")
+            if _vb37.get("verdict") == "own_channel_is_information_artefact" \
+                    and _vb37.get("comovement_clears") is not True:
+                _bad37.append("an artefact verdict without a live co-movement reading")
+            _resid37 = _pooled37.get("c_rel_minus_dy")
+            if _resid37 is None:
+                _bad37.append("the identity residual is not published")
+            _share37 = _pooled37.get("share") or {}
+            if _sum37.get("uncontrolled_b_own") is None or \
+                    abs((_sum37.get("uncontrolled_b_own") or 0.0)
+                        - (_share37.get("b_own") or 0.0)) > 1e-9:
+                _bad37.append("the summary's uncontrolled coefficient is not the share "
+                              "design's")
+            _gate37 = _f37.get("bill_gate") or {}
+            _charges37 = [c.get("key") for c in (_f37.get("charges") or [])]
+            if _gate37.get("permitted") is False and any(k != "linear" for k in _charges37):
+                _bad37.append("a refused bill gate still prices a granularity charge")
+            if _gate37.get("permitted") is True and \
+                    not _gate37.get("gamma"):
+                _bad37.append("a permitted bill publishes no exponent")
+            if not (_f37.get("answer") or "").strip():
+                _bad37.append("face publishes no answer sentence")
+        check("product: the own-turnover channel is tested against information arrival "
+              "before it is called an impact effect",
+              not _bad37, "; ".join(_bad37)[:220]
+              or "verdict %s, b_own %s -> %s, co-movement %s (t %s), bill %s"
+                 % ((_f37.get("summary") or {}).get("verdict"),
+                    _r37(_f37, "uncontrolled_b_own"),
+                    _r37(_f37, "controlled_b_own"),
+                    _r37(_f37, "comove_coef"),
+                    _r37(_f37, "comove_t"),
+                    "permitted" if (_f37.get("bill_gate") or {}).get("permitted")
+                    else "refused"))
+    except Exception as e:
+        check("product: the own-turnover channel is tested against information arrival "
+              "before it is called an impact effect", False, repr(e)[:160])
     return _finish()
+def _r37(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if v is None else "%.3f" % v
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass

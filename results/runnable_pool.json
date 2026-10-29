@@ -23203,9 +23203,23 @@
    "id": "E237-INFORMATION-VS-TURNOVER-SHARED-RETURN",
    "lane": "cpu-only",
    "source": "E236 showed the two granularity readings differ 25x and named the mechanism: the difference design prices a session against that session's own turnover CHANGE, which co-moves with the same information arrival that sets |r|, while the cross-sectional designs price the share of book turnover. Separate those two channels directly instead of inferring them: (a) decompose the session |r| into a market-common component (regress log|r| on the book's log|r_book| and take the residual) and a relative component, and fit each arm's elasticity separately -- an impact story predicts the OWN channel lives in the relative component and the aggregate channel in the common one; (b) test the co-movement directly by regressing d(log turnover) on |r| and on the market's |r|, publishing which driver dominates; (c) if the own channel survives only in the common component, that is evidence the difference-design elasticity was an information-arrival artefact and the granularity question is answered NEGATIVE for this panel. Publish the decomposition with intervals and refuse any bill unless both components agree in sign and size.",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/INFOSTRUCT-2026-10-29.json",
+   "closed_at": "2026-10-30T03:2x+08:00",
    "target": "scripts/e237_information_structure.py (new runner)",
    "title": "is the own-turnover channel an information-arrival artefact?"
+  },
+  {
+   "deliverable": "results/state_tilt/LOOBOOK-<cutoff>.json",
+   "entered_at": "2026-10-30T03:2x+08:00",
+   "entered_by": "bm-r1263",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E238-DENOMINATOR-CONTAINS-THE-NUMERATOR",
+   "lane": "cpu-only",
+   "source": "E237 closed the artefact question in one direction and left the other open: the own-turnover coefficient (0.431 -> 0.394 under a market-return control) survives neither as market information (first stage t -1.23) nor as own information (share on own relative return 0.031, R2 0.0001), so what it measures is still unnamed. The cheapest remaining explanation is mechanical: the share is own turnover over BOOK turnover, and the book is the equal-weight basket, so each member's own turnover sits inside its own denominator with weight 1/5. A share regression on a denominator that contains the numerator can manufacture a coefficient from autocorrelation alone. Build the leave-one-out book (aggregate excluding the member) and re-run E236's three designs against it: publish b_own under both denominators with intervals, the difference between them with an interval, and refuse to attribute anything to the own channel unless the leave-one-out reading keeps the sign and overlaps the original interval. Report the mechanical size predicted by the 1/5 weight so a coincidence can be told from a measurement.",
+   "status": "ready",
+   "target": "scripts/e238_leave_one_out_book.py (new runner)",
+   "title": "is the own-turnover channel a denominator artefact of the book it is measured in?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

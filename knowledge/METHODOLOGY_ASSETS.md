@@ -4468,3 +4468,36 @@ Runner `scripts/e236_share_difference.py` (selftest 18/18), face
 `results/state_tilt/SHAREDIFF-<cutoff>.json`, S6 leg `share_difference` after
 `charge_granularity`, smoke leg requiring the absorbed-aggregate disclosure and that an
 unresolved verdict publishes no granularity charge.
+
+
+### E237 -- an artefact claim needs a control that is not a component of the dependent variable (r1263 bm-b)
+
+E236 left a 25x size gap between its designs and named the mechanism in prose. This face
+measured it instead: the share coefficient (0.431) loses only 0.037 when the market's own |r| is
+controlled (0.394), and the first stage says the share never carried market information
+(d(share) on d(log|r_book|) = -0.0024, t -1.23, R^2 0.0001) -> verdict `own_channel_survives`,
+4 of 5 sleeves survive, sh510300 is `residual_only_channel`. The card's bill rule still refuses
+the per-member charge: the two return components both clear the bar (0.1085 [0.1001, 0.1169] vs
+0.0730 [0.0658, 0.0802], 7.4s / 9.7s against a 2.77 t bar over 9 pooled tests) but their
+intervals are disjoint, ratio 1.49.
+
+Three reusable pieces:
+
+1. **A control that is a component of y is not a control.** dy = d(common) + d(relative)
+   identically, so controlling the relative part leaves only the common part and every other
+   coefficient measures its covariance with d(common) -- the first draft would have stamped
+   "artefact" on a synthetic panel whose truth was a genuine relative channel. The control has
+   to be an outside regressor (the market's own |r|).
+2. **Refuting an artefact claim is two measurements**: the coefficient under the control, and
+   the first stage that says whether the regressor ever carried the confounder. One alone
+   cannot distinguish "the confounder was absorbed" from "the channel died of collinearity"
+   (the face ships `unresolved_share_dies_without_comovement` for exactly that state).
+3. **Direction belongs to the design, not to the analyst.** d(share) + d(book) = d(own), so the
+   turnover-direction version of the artefact test is a 1.0/1.0 split regardless of the data;
+   the share designs keep E236's direction (dy on turnover changes) and the components designs
+   take the card's (turnover on return components), and no coefficient is compared across them.
+
+Runner `scripts/e237_information_structure.py` (selftest 18/18), face
+`results/state_tilt/INFOSTRUCT-<cutoff>.json`, S6 leg `information_structure` after
+`share_difference`, smoke leg requiring a live co-movement reading beside the verdict, the
+published identity residual, and a refused gate that prices no granularity charge.

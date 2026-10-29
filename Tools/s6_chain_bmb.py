@@ -140,6 +140,12 @@ LEGS = [
     # frozen-standardised level, two-way fixed effects). It refuses a verdict when the
     # designs agree only about a channel's SIGN and not its SIZE.
     ("share_difference", ["python", "scripts/e236_share_difference.py", "run"]),
+    # E237: E236 named the mechanism behind its own 25x size gap (a session priced against
+    # its own turnover CHANGE co-moves with the information arrival that sets |r|) but did
+    # not measure it. This leg separates the channels directly -- common vs relative return
+    # components, plus a market-return control on the share coefficient -- and refuses a
+    # granularity bill unless both components clear the bar with overlapping intervals.
+    ("information_structure", ["python", "scripts/e237_information_structure.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
