@@ -689,3 +689,21 @@ Checklist status (r1316-r1320, the five rounds since the last bm-c checkpoint):
 `machine/bm-b-r1235`，ls-remote 与 HEAD 一致；**origin/main 未推**——落后 16 / 领先 18，且上游
 提交重写了同一批自动生成面（runnable_pool、machine-health、状态孪生），此处 rebase 属于本仓
 已付过两次代价（LEDGER 丢 33 行 / QC 清单丢 90 行）的覆盖风险，留给静网干净窗口处理。
+## 每 5 轮清单核对（round_no 1265 % 5 == 0）
+
+本节只追认可 git 验证的实物；上半部分叙述性产物史不再重写。
+
+当前活跃面（全部可在仓内直接打开）：
+
+- 状态倾斜族（E225-E239）：
+  - 最新 `results/state_tilt/OWNCROSS-2026-10-29.json` + `owncross_pairs_2026-10-29.csv`（E239，r1265，runner `scripts/e239_own_vs_cross.py` selftest 11/11）
+  - 上一面 `results/state_tilt/LOOBOOK-2026-10-29.json`（E238，r1264）
+  - 判决：own 0.797 [0.748,0.846] vs 单对手 0.314 [0.274,0.353]，差 0.484 [0.408,0.560]；双向 FE 同差 0.484 [0.438,0.530]
+- 任务板 `results/runnable_pool.json`：E239 done（带 result_ref），ready = E240 / E251 / E253（供给地板 3/3）
+- 方法论资产卡 `knowledge/METHODOLOGY_ASSETS.md`：最新 E239；宝藏登记 `knowledge/TREASURE_REGISTRY.md` 同批一行
+- 当日消费面：`docs/daily_report/REPORT-2026-10-29.md`、`docs/live_usage/LIVE-2026-10-29.md`
+- 机队面：`fleet/machines/bm-b.json`（本轮心跳，round_no 1265）
+
+交付状态：本机提交已推到 `machine/bm-b-r1265`（`de23c09eb` 产物 / `6ad6ab442` 收口 / `2a9cb8aa5` 回执 / `d1b061884` 回执校时 / 本轮 HANDOVER 提交），
+ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor 懒取让 main 的 push/merge 连续十一轮挂死，
+且上游重写了同一批自动生成面（runnable_pool / machine-health / 状态孪生），rebase 属已付过两次代价（LEDGER 丢 33 行 / QC 清单丢 90 行）的覆盖风险，留给干净窗口处理。
