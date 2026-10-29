@@ -1,9 +1,9 @@
 {
- "updated": "2026-10-29 22:26:05",
- "now": "2026-10-29 22:26:03.427396",
+ "updated": "2026-10-29 23:57:15",
+ "now": "2026-10-29 23:57:15.085567",
  "close_accept_time": "15:30:00",
  "symbols": 48,
- "total_new_rows": 3,
+ "total_new_rows": 0,
  "failures": [],
  "overlap_mismatches": [],
  "data_cutoff": "2026-10-29",
@@ -23,12 +23,10 @@
   },
   {
    "symbol": "159915",
-   "appended": 1,
+   "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "first_new": "2026-10-29",
-   "last_new": "2026-10-29",
-   "catchup_fetch": true
+   "skipped": "probe_no_new"
   },
   {
    "symbol": "159919",
@@ -102,12 +100,10 @@
   },
   {
    "symbol": "510050",
-   "appended": 1,
+   "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "first_new": "2026-10-29",
-   "last_new": "2026-10-29",
-   "catchup_fetch": true
+   "skipped": "probe_no_new"
   },
   {
    "symbol": "510310",
@@ -132,12 +128,10 @@
   },
   {
    "symbol": "511010",
-   "appended": 1,
+   "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "first_new": "2026-10-29",
-   "last_new": "2026-10-29",
-   "catchup_fetch": true
+   "skipped": "probe_no_new"
   },
   {
    "symbol": "511090",
@@ -351,44 +345,24 @@
   }
  ],
  "catchup": {
-  "laggards": [
-   "159915",
-   "510050",
-   "511010"
-  ],
-  "fetched": [
-   "159915",
-   "510050",
-   "511010"
-  ],
+  "laggards": [],
+  "fetched": [],
   "backoff": [],
   "stale_dead": []
  },
- "catchup_attempts": {
-  "159915": "2026-10-29T22:26:03",
-  "510050": "2026-10-29T22:26:03",
-  "511010": "2026-10-29T22:26:03"
- },
+ "catchup_attempts": {},
  "cutoff_error": null,
  "source_used": "sina",
- "fallback_events": [],
- "parity_audit": {
-  "symbols": [
-   "159915",
-   "510050",
-   "511010"
-  ],
-  "flags": [
-   {
-    "symbol": "159915",
-    "flag": "level_parity_fail",
-    "rel": 0.0019723865877712132,
-    "note": "ex-div dates may false-red; flagged never auto-corrected"
-   }
-  ]
- },
+ "fallback_events": [
+  {
+   "symbol": "510300",
+   "diagnosis": "upstream_equal",
+   "tencent_latest": "2026-10-29",
+   "note": "zero-row ambiguity: upstream bar-existence probe"
+  }
+ ],
  "exit_code": 0,
- "hook_ok": true,
- "hook_exit": 0,
+ "hook_ok": null,
+ "hook_exit": null,
  "lane_machine": "bm-a"
 }

@@ -4838,3 +4838,52 @@ Pos: scripts/ceo_live_usage.py (rollup face / prior-export selector / 8 new self
 docs/live_usage/LIVE-2026-10-29.md section 3 opening line + smoke leg "the CEO page prices the
 whole book in one line" (recomputes the roll-up from the page's own members and cross-checks
 the export summary).
+
+## E243 A forward panel nobody reads is inventory, not a product (2026-10-29 r1153 bm-a)
+
+WHEN: a dataset is being accumulated correctly (16 trading days captured, four panels,
+`data/zt_pool/{zt,zbgc,dtgc,strong}.parquet`) and the question is "are we producing anything".
+
+WRONG: counting the accumulation as output. The four panels had a collector, a status face and
+a lane-ownership contract -- and zero readers. On 2026-10-29 the market's own tape (limit-up 72
+-> 39, limit-down 5 -> 41, broken-seal 69 -> 25) was sitting in parquet and appeared on no page
+anyone opens. A panel that only its own collector touches is inventory; the money question it
+answers ("is today a sell-off day") stayed unanswerable for 16 days.
+
+RIGHT: one derived section on the page people actually read (the daily battle report), with
+three hard rules: (a) counts are row counts = member counts, never inferred; (b) a missing
+panel or a missing day reads ABSENT, never 0 -- forward-accumulated days are permanently gone,
+so a fabricated zero is the one error this face cannot recover from; (c) every reading rule is
+printed beside the number ("limit-down >= limit-up => sell-off day") so the page describes and
+does not judge. Panels that disagree on their cutoff are shown per-panel rather than silently
+max-ed into one date.
+
+Corroboration catch: the previous round's spoken reading said 141 limit-downs; the panel says
+41. Deriving from the stored rows (and printing the previous bar for direction) is what makes
+that discrepancy visible instead of inherited.
+
+Pos: scripts/daily_report.py (_zt_panel_day/_zt_risk_face + section 9 + parquet-fixture
+selftest legs incl. the absent-panel path) + docs/daily_report/REPORT-2026-10-29.md + smoke leg
+"daily report risk tape (zt pools, honest absence)".
+
+## E244 A mirrored status line rots unless something asserts parity (2026-10-29 r1153 bm-a)
+
+WHEN: a dashboard (or any page) copies a number that another script owns -- here
+`dashboard_status.json.trading.paper.fill_verify_{tier,verdict,day}` mirroring
+`results/t35_open_fill_verify.json`.
+
+WRONG: trusting the copy. Re-running the owning leg (a routine S6 step, not a fault) advanced
+the source's day 2026-10-27 -> 2026-10-29 while the dashboard kept publishing the two-day-old
+line, so the page told readers a fill check that no longer existed. Nothing was broken; the
+mirror simply aged.
+
+RIGHT: a parity assertion in the suite that compares every mirrored field against its source
+face, with the source leg's own re-run in between. The existing smoke leg did exactly this and
+was the only thing that noticed; the fix is one `monitor.build_status` re-run (bm-a is the
+single writer), and the leg then reads green with all three fields equal. Rule: whenever a page
+copies a number, name the owner and let a leg compare the copy to the source -- a mirror with
+no assertion is a claim, not a reading.
+
+Pos: smoke leg "product: dashboard carries the marks coverage gap" + results/dashboard_status.json
+(refreshed) vs results/t35_open_fill_verify.json + results/marks_coverage.json (both 19/16,
+84.21%, 3 holes, tier marks, PASS, day 2026-10-29).

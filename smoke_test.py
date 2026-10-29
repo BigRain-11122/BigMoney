@@ -390,6 +390,13 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # r1153: the battle report now names the market's risk tape (limit-up /
+            # limit-down / broken-seal / strong counts + the streak ladder) instead of
+            # leaving it in a forward panel nobody reads. Its selftest builds a real
+            # parquet fixture, so a column rename or a "missing day = 0 members"
+            # regression reads red instead of shipping a quiet zero.
+            ("product: daily report risk tape (zt pools, honest absence)",
+             "scripts/daily_report.py", ["selftest"]),
             # the four risk tiers used to need four separate `--beta` runs read off two
             # different files; this leg keeps the one-page menu callable (r1149).
             ("product: etf_book_beta_menu (exit-code contract)",
@@ -1555,6 +1562,13 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # r1153: the battle report now names the market's risk tape (limit-up /
+            # limit-down / broken-seal / strong counts + the streak ladder) instead of
+            # leaving it in a forward panel nobody reads. Its selftest builds a real
+            # parquet fixture, so a column rename or a "missing day = 0 members"
+            # regression reads red instead of shipping a quiet zero.
+            ("product: daily report risk tape (zt pools, honest absence)",
+             "scripts/daily_report.py", ["selftest"]),
             # the four risk tiers used to need four separate `--beta` runs read off two
             # different files; this leg keeps the one-page menu callable (r1149).
             ("product: etf_book_beta_menu (exit-code contract)",

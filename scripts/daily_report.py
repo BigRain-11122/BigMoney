@@ -573,6 +573,93 @@ def _stage_style_face():
     }
 
 
+# ------------------------------------- market risk tape (r1153 bm-a)
+ZT_PANEL_LABELS = {"zt": "涨停池", "zbgc": "炸板池", "dtgc": "跌停池",
+                   "strong": "强势池"}
+ZT_DATE_COL = "日期"
+ZT_NAME_COL = "名称"
+ZT_STREAK_COL = "连板数"
+
+
+def _zt_panel_day(key, root=None):
+    """One forward-accumulated zt-pool panel: the last two bar dates and their
+    row counts (a row IS a member, so the count is the member count).
+
+    Forward panels (O-20261001-2103): a trading day either got captured or it is
+    permanently gone -- so an absent panel or a missing day must read as absent,
+    never as 0 members (r1149 marks-coverage law)."""
+    root = root or ROOT
+    path = os.path.join(root, "data", "zt_pool", f"{key}.parquet")
+    if not os.path.exists(path):
+        return {"key": key, "label": ZT_PANEL_LABELS[key], "status": "absent"}
+    try:
+        import pandas as pd
+        df = pd.read_parquet(path)
+    except Exception as exc:                                  # noqa: BLE001
+        return {"key": key, "label": ZT_PANEL_LABELS[key],
+                "status": "unreadable", "detail": str(exc)[:120]}
+    if df is None or len(df) == 0 or ZT_DATE_COL not in df.columns:
+        return {"key": key, "label": ZT_PANEL_LABELS[key], "status": "empty"}
+    days = df[ZT_DATE_COL].map(lambda v: str(v)[:10])
+    counts = {d: int(n) for d, n in days.value_counts().items()}
+    order = sorted(counts)
+    cutoff = order[-1]
+    prev = order[-2] if len(order) > 1 else None
+    out = {"key": key, "label": ZT_PANEL_LABELS[key], "status": "ok",
+           "cutoff": cutoff, "count": counts[cutoff],
+           "prev_cutoff": prev, "prev_count": counts[prev] if prev else None,
+           "days_tracked": len(order)}
+    if key == "zt":
+        row = df[days == cutoff]
+        ladder = {}
+        if ZT_STREAK_COL in row.columns:
+            for v in row[ZT_STREAK_COL]:
+                try:
+                    k = int(v)
+                except (TypeError, ValueError):
+                    continue
+                ladder[k] = ladder.get(k, 0) + 1
+        out["ladder"] = {str(k): ladder[k] for k in sorted(ladder)}
+        if ladder and ZT_NAME_COL in row.columns:
+            top_k = max(ladder)
+            names = [str(n) for n, v in zip(row[ZT_NAME_COL], row[ZT_STREAK_COL])
+                     if str(v).strip().split(".")[0] == str(top_k)]
+            out["top_streak"] = {"streak": top_k, "n": ladder[top_k],
+                                 "names": names[:5]}
+    return out
+
+
+def _zt_risk_face(day=None, root=None):
+    """Market risk tape from the four forward zt-pool panels.
+
+    Aggregation only: member counts on each panel's newest bar, the same number
+    on the bar before it (direction), the sealed rate = 涨停/(涨停+炸板), and the
+    streak ladder carried straight out of the panel's 连板数 column.  The two
+    reading rules are mechanical and printed on the page, so nothing here is a
+    hidden threshold."""
+    panels = {k: _zt_panel_day(k, root) for k in ZT_PANEL_LABELS}
+    ok = {k: v for k, v in panels.items() if v.get("status") == "ok"}
+    if not ok:
+        return {"present": False, "panels": panels,
+                "note": "四面板全缺——前向池未采（缺面禁读成 0）"}
+    cutoffs = sorted({v["cutoff"] for v in ok.values()})
+    face = {"present": True, "panels": panels, "cutoff": cutoffs[-1],
+            "cutoffs": cutoffs,
+            "aligned": len(cutoffs) == 1 and len(ok) == len(panels)}
+    up = ok.get("zt", {}).get("count")
+    dn = ok.get("dtgc", {}).get("count")
+    broke = ok.get("zbgc", {}).get("count")
+    if up is not None and broke is not None and (up + broke) > 0:
+        face["seal_rate"] = round(up / float(up + broke), 4)
+    if isinstance(up, int) and isinstance(dn, int):
+        face["down_over_up"] = round(dn / float(up), 3) if up else None
+        face["kill_day"] = dn >= up
+    if ok.get("zt", {}).get("ladder"):
+        face["ladder"] = ok["zt"]["ladder"]
+        face["top_streak"] = ok["zt"].get("top_streak")
+    return face
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -588,6 +675,7 @@ def build_report(now):
         "pnl_attribution": _attribution_face(now),
         "engine_wave": _engine_wave_face(),
         "stage_style": _stage_style_face(),
+        "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
@@ -789,6 +877,53 @@ def render_md(rep):
         if seg:
             L.append(f"- **各阶段态最优袖**（state 内 sharpe 排序，{len(ss.get('cells') or [])} 袖面）：{seg}")
     L.append("")
+    L.append("## 九、市场风险面（涨跌停/炸板/连板梯队 · 前向池四面板）")
+    mr = rep.get("market_risk") or {}
+    if not mr.get("present"):
+        L.append(f"- {mr.get('note') or '风险面未产出——如实标注'}")
+        absent = [v.get("label") for v in (mr.get("panels") or {}).values()
+                  if v.get("status") != "ok"]
+        if absent:
+            L.append(f"  - 缺面：{'、'.join(str(a) for a in absent)}（缺面禁读成 0）")
+    else:
+        pn = mr.get("panels") or {}
+
+        def _cnt(k):
+            v = pn.get(k) or {}
+            if v.get("status") != "ok":
+                return f"{v.get('label')}=缺面"
+            seg = f"**{v.get('label')} {v.get('count')}**"
+            if v.get("prev_count") is not None:
+                seg += f"（前 {v.get('prev_cutoff')} {v.get('prev_count')}，{v.get('count') - v.get('prev_count'):+d}）"
+            else:
+                seg += "（无前一日对照）"
+            return seg
+
+        L.append("- 截止日：" + (
+            f"四面同为 **{mr.get('cutoff')}**"
+            if mr.get("aligned") else
+            "各面板不一致（" + "、".join(f"{k}={v.get('cutoff')}"
+                                       for k, v in pn.items() if v.get("status") == "ok")
+            + "）——如实标注"))
+        L.append("- " + " · ".join(_cnt(k) for k in ("zt", "dtgc", "zbgc", "strong")))
+        if mr.get("seal_rate") is not None:
+            L.append(f"- **封板率 {mr.get('seal_rate'):.1%}**（涨停/(涨停+炸板)，机械口径）")
+        lad = mr.get("ladder") or {}
+        if lad:
+            seg = " / ".join(f"{k} 板 {v}" for k, v in lad.items())
+            L.append(f"- 连板梯队：{seg}")
+        top = mr.get("top_streak") or {}
+        if top.get("streak"):
+            names = "、".join(top.get("names") or []) or "（名册缺）"
+            L.append(f"- 最高 **{top.get('streak')} 连板**（{top.get('n')} 只）：{names}")
+        if mr.get("down_over_up") is not None:
+            L.append(f"- 跌停/涨停 = **{mr.get('down_over_up')}**")
+        if "kill_day" in mr:
+            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
+                     f"今日 {'是' if mr.get('kill_day') else '否'}")
+        L.append("- 口径：前向积累制（2026-10-08 起），日账只有真正采到的日子——"
+                 "缺日不补、不记 0；面板由宿主采集，他机接管时在 results/zt_pool_update_status.json 留痕")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -815,7 +950,7 @@ def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
-    global _attribution_face, _stage_style_face
+    global _attribution_face, _stage_style_face, _zt_risk_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -832,6 +967,38 @@ def selftest():
                              {"date": "2026-09-03", "equity_cny": 102.0,
                               "daily_ret": 0.0099}])
     assert abs(d5["day_ret"] - 0.0099) < 1e-9, d5  # stored face preferred
+    # ---- r1153 market risk tape legs: real parquet fixture, counts + direction +
+    # ladder + the honest absence path (an uncaptured forward day is not "0 members")
+    import tempfile
+    import pandas as pd
+    tmp = tempfile.mkdtemp()
+    os.makedirs(os.path.join(tmp, "data", "zt_pool"), exist_ok=True)
+
+    def _mk(key, rows):
+        pd.DataFrame(rows).to_parquet(
+            os.path.join(tmp, "data", "zt_pool", f"{key}.parquet"), index=False)
+
+    _mk("zt", [{"日期": "2026-10-28", "名称": "A", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "B", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "C", "连板数": 3},
+               {"日期": "2026-10-29", "名称": "D", "连板数": 2}])
+    _mk("zbgc", [{"日期": "2026-10-28"}, {"日期": "2026-10-29"},
+                 {"日期": "2026-10-29"}])
+    _mk("dtgc", [{"日期": "2026-10-29"}])
+    f = _zt_risk_face(root=tmp)
+    assert f["present"] and f["cutoff"] == "2026-10-29", f
+    assert f["panels"]["zt"]["count"] == 3, f          # rows are members
+    assert f["panels"]["zt"]["prev_count"] == 1, f     # direction needs the prior bar
+    assert f["panels"]["strong"]["status"] == "absent", f
+    assert "count" not in f["panels"]["strong"], f     # absence is never 0 members
+    assert f["aligned"] is False, f                    # one panel missing = not aligned
+    assert f["ladder"] == {"1": 1, "2": 1, "3": 1}, f
+    assert f["top_streak"]["streak"] == 3 and f["top_streak"]["names"] == ["C"], f
+    assert abs(f["seal_rate"] - 3 / 5.0) < 1e-9, f      # 涨停/(涨停+炸板)
+    assert f["kill_day"] is False, f                   # 1 跌停 vs 3 涨停
+    assert abs(f["down_over_up"] - 1 / 3.0) < 1e-3, f
+    empty = _zt_risk_face(root=os.path.join(tmp, "nope"))
+    assert empty["present"] is False and "缺" in empty["note"], empty
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -934,6 +1101,22 @@ def selftest():
         "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
         "leg_note": "六员=一员一腿；AGGR/ALLOC/GRID=一账户一腿；SYSV1=route 腿权重面",
     }
+    _zt_risk_face = lambda day=None, root=None: {
+        "present": True, "cutoff": "2026-09-26", "cutoffs": ["2026-09-26"],
+        "aligned": True,
+        "panels": {
+            "zt": {"label": "涨停池", "status": "ok", "count": 39,
+                   "prev_cutoff": "2026-09-25", "prev_count": 44},
+            "dtgc": {"label": "跌停池", "status": "ok", "count": 141,
+                     "prev_cutoff": "2026-09-25", "prev_count": 35},
+            "zbgc": {"label": "炸板池", "status": "ok", "count": 25,
+                     "prev_cutoff": "2026-09-25", "prev_count": 20},
+            "strong": {"label": "强势池", "status": "ok", "count": 119,
+                       "prev_cutoff": "2026-09-25", "prev_count": 100}},
+        "seal_rate": 0.6094, "down_over_up": 3.615, "kill_day": True,
+        "ladder": {"1": 33, "2": 4, "3": 1, "4": 1},
+        "top_streak": {"streak": 4, "n": 1, "names": ["TEST股份"]},
+    }
     _stage_style_face = lambda: {
         "present": True, "cutoff": "2026-10-19",
         "window": {"lo": "2013-04-01", "hi": "2026-10-19", "bars": 3290},
@@ -975,7 +1158,13 @@ def selftest():
                    "可归因账户 3 · 缺数据 2", "腿级注记",
                    "八、阶段×风格组合面", "UNSUPPORTED (honest negative)",
                    "C1 sharpe 1.082985 vs 无条件 U-divlowvol 1.208542",
-                   "margin -0.1256", "各阶段态最优袖", "BULL **C1** +2.98（201d）"):
+                   "margin -0.1256", "各阶段态最优袖", "BULL **C1** +2.98（201d）",
+                   "九、市场风险面", "四面同为 **2026-09-26**",
+                   "**涨停池 39**（前 2026-09-25 44，-5）",
+                   "**跌停池 141**（前 2026-09-25 35，+106）",
+                   "封板率 60.9%", "连板梯队：1 板 33 / 2 板 4 / 3 板 1 / 4 板 1",
+                   "最高 **4 连板**（1 只）：TEST股份", "跌停/涨停 = **3.615**",
+                   "记为**杀跌日**；今日 是"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
