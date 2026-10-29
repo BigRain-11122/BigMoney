@@ -4504,3 +4504,55 @@ state_tilt after vol_gate; smoke leg re-derives each MDE from z*se_nw*252, refus
 n, and refuses a drift split that does not re-add. Pit: a HAC leg whose fixture is a
 sawtooth carries negative lag-1 correlation and fails the "NW >= iid" assertion the method
 needs -- the fixture noise must be white (LCG) before that leg means anything.
+
+## E232 A guard on the added diff is not a guard on the tree: a surviving marker has to be found by balance, not by a list of names (2026-10-29 r1343 bm-c)
+
+The pre-commit claw written at r1305 blocks `<<<<<<<` / `|||||||` lines that are being
+ADDED. Any path that does not run the hook -- a rebase replay, a `--no-verify` commit --
+puts the fragment straight into the blob, where nothing reads it again. The live case was
+found by this round, not hypothesised: at HEAD c07483b9 `knowledge/METHODOLOGY_ASSETS.md`
+carried a lone `||||||| parent of ed40e56da3` line at line 4062, inside the shared card
+ledger, surviving the eight hours in which five cards were appended below it.
+
+The mechanical rule is a state machine, not a path filter: open `<<<<<<<` -> optional
+`|||||||` -> `=======` -> `>>>>>>>` close. Anything else is a fragment, and an unclosed
+hunk at EOF is one too. Balance is what separates a leftover from a fixture: a probe file
+that quotes a whole hunk is balanced and stays legal, which is exactly the property a list
+of exempt filenames cannot express (and `=======` as a markdown underline cannot trip the
+gate because a separator only counts inside an open hunk).
+
+The one scope decision is stated rather than hidden: `results/_*` are raw diff captures and
+six of them hold 103 unbalanced marker lines by design, so the scan skips them by the
+repo's own underscore convention rather than by naming the six.
+
+Face: smoke leg `config: no tracked blob carries a conflict-marker fragment`, ~1.5s (one
+`git grep -l` plus a `git show` per candidate file). Live reading 0 fragments at HEAD
+0034e48e9 and 1 at c07483b9 (the ledger) -- the gate is red exactly on the case it was
+written for, which is how it is verified instead of asserted.
+
+How to apply: when a defect is blocked at one stage, ask which stages bypass the block
+(replay, --no-verify, another machine's tool) and assert the invariant over the artefact
+those stages produce. Balance/lint-type rules beat name lists because they need no upkeep.
+
+## E233 A flag is not an identity: `--all` was being consumed as the round number (2026-10-29 r1343 bm-c)
+
+Three committed chain records are named after flags rather than rounds:
+`results/_r--allbmc_s6_chain.json` (8021B), `results/_r--roundbmc_s6_chain.json` (7116B)
+and `results/_rrunbmc_s6_chain.json` (14544B). Cause: `Tools/s6_chain_bmc.py` took
+`sys.argv`'s first surviving token as the round, so any invocation that expressed intent
+(`--all`, the next token after `--round`) became a filename. Consequence is not cosmetic:
+the round that actually ran is unrecoverable from the name, and a second run of the same
+kind overwrites the first record silently -- a chain record is the evidence for the whole
+S6 sweep, so an untraceable name is a lost receipt.
+
+Fix: flags are parsed as flags (`--all`, `--only`, `--round N`); the round comes from
+`--round N`, else a bare numeric token, else this machine's own `state-bm-c.json`
+round_no; a non-numeric round now exits 2 with the reason instead of inventing a filename.
+Sister fix in the same leg: the record is written to `path + ".tmp"` then `os.replace`d
+after fsync, so a record on disk is either the whole chain or the previous one -- the
+interrupted-dump case leaves a one-byte/stub file that reads as a legitimately short chain.
+
+How to apply: any tool that names an artefact after a positional argument must validate
+that argument's shape before the write, and must never treat an intent flag as data. Write
+evidence files atomically; a truncated receipt is worse than a missing one because it is
+readable.

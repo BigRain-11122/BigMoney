@@ -13,6 +13,7 @@ every window (r1179..r1182 clones) which cost most of the round's wall time in
 generation rather than measurement.
 """
 import json
+import os
 import subprocess
 import sys
 import time
@@ -382,7 +383,33 @@ def main():
             args.remove(a)
             if only is None:
                 only = args.pop(0) if args else ""
-    round_no = args[0] if args else "0"
+    # r1343: `--all` used to be swallowed as the round number, so a chain run that way
+    # wrote results/_r--allbmc_s6_chain.json (three such junk names are committed:
+    # _r--all, _r--round, and _rrun). A flag is not an identity: take the round from
+    # --round N / the first bare number, and refuse to invent a filename for anything
+    # else instead of guessing.
+    round_no = "0"
+    for a in list(args):
+        if a.startswith("--round"):
+            args.remove(a)
+            round_no = a.split("=", 1)[1] if "=" in a else (args.pop(0) if args else "")
+        elif a == "--all":
+            args.remove(a)
+    if args:
+        round_no = args[0]
+    if round_no == "0":
+        # `--all` is a legitimate "run every leg" call, but it says nothing about which
+        # round this is: name the record after this machine's own state instead of "0".
+        try:
+            with open("state-bm-c.json", encoding="utf-8") as f:
+                round_no = str(json.load(f).get("round_no") or "0")
+        except Exception:
+            pass
+    if not str(round_no).isdigit():
+        print("refusing: round number must be numeric (got %r); "
+              "use --round N --all/--only ... so the chain record is not named after a flag"
+              % (round_no,))
+        sys.exit(2)
     legs = LEGS
     if only is not None:
         want = [w.strip() for w in only.split(",") if w.strip()]
@@ -408,8 +435,16 @@ def main():
         print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}", flush=True)
 
     path = f"results/_r{round_no}bmc_s6_chain.json"
-    with open(path, "w", encoding="utf-8") as f:
+    # r1343: an interrupted json.dump leaves a one-byte record behind
+    # (results/_r1314bmc_s6_chain.json carries 161 bytes from a one-leg run, and the
+    # 12:47 record from r1337 is a three-leg fragment). Write beside the target and
+    # rename, so a record on disk is either the whole chain or the previous one.
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
     bad = [o for o in out if o["rc"] != 0]
     print(f"chain: {len(out)-len(bad)}/{len(out)} rc0 -> {path} "
           f"({datetime.now().isoformat(timespec='seconds')})")

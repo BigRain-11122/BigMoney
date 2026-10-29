@@ -2602,7 +2602,76 @@ def main() -> int:
     except Exception as e:
         check("product: the state tilt publishes its own effective sample size",
               False, repr(e)[:160])
+    # r1343: the pre-commit claw only looks at markers being ADDED, so a marker that
+    # entered through a rebase replay or --no-verify sits in the blob forever. The live
+    # case was knowledge/METHODOLOGY_ASSETS.md at c07483b9 carrying a lone
+    # "||||||| parent of ed40e56da3" line, which no leg read.
+    try:
+        _frag = _marker_fragments()
+        check("config: no tracked blob carries a conflict-marker fragment",
+              not _frag,
+              ("%d file(s): " % len(_frag)
+               + "; ".join("%s:%d %s" % (p, ln, k) for p, ln, k in _frag[:4]))[:220]
+              or "balanced hunks only (probe fixtures that quote a whole hunk stay legal)")
+    except Exception as e:
+        check("config: no tracked blob carries a conflict-marker fragment",
+              False, repr(e)[:160])
     return _finish()
+_MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
+
+
+def _hunk_state(text: str, rev: str = "HEAD"):
+    """Marker lines that are NOT part of a complete open/base/sep/close hunk.
+
+    A probe fixture may legitimately quote a whole conflict hunk; a leftover is a
+    fragment of one (git applies half of a resolution, or a base marker survives a
+    replay). Balance is mechanical, so no path whitelist is needed -- and a
+    markdown "=======" underline cannot trip the gate because a separator only
+    counts inside an open hunk.
+    """
+    out = []
+    state = None
+    for ln, line in enumerate(text.split("\n"), 1):
+        kind = next((k for tok, k in _MARK if line.startswith(tok)), None)
+        if kind is None:
+            continue
+        if kind == "open" and state is None:
+            state = "open"
+            continue
+        if kind == "base" and state == "open":
+            state = "base"
+            continue
+        if kind == "sep" and state in ("open", "base"):
+            state = "sep"
+            continue
+        if kind == "close" and state == "sep":
+            state = None
+            continue
+        out.append((ln, kind))
+    return out, state
+
+
+def _marker_fragments():
+    """Live faces only: results/_* are scratch captures that quote raw diffs on purpose
+    (six of them hold unbalanced hunks by design), so the gate is scoped there by the
+    repo's own underscore convention instead of by a list of names."""
+    r = subprocess.run(["git", "grep", "-l", "-I", "-E",
+                        r"^(<<<<<<<|\|\|\|\|\|\|\||=======|>>>>>>>)", "HEAD", "--", ".",
+                        ":(exclude,glob)results/_*"], capture_output=True)
+    bad = []
+    for row in r.stdout.decode("utf-8", "replace").split("\n"):
+        if ":" not in row:
+            continue
+        path = row.split(":", 1)[1]
+        blob = subprocess.run(["git", "show", "HEAD:%s" % path], capture_output=True)
+        frag, open_state = _hunk_state(blob.stdout.decode("utf-8", "replace"))
+        for ln, kind in frag:
+            bad.append((path, ln, kind))
+        if open_state is not None:
+            bad.append((path, blob.stdout.count(b"\n") + 1, "unclosed-hunk"))
+    return bad
+
+
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
     n_fail = len(RESULTS) - n_pass
