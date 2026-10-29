@@ -1100,7 +1100,9 @@ def main() -> int:
         _sb_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _sb_dir = os.path.join("results", "e44_midmonth")
         _sb = sorted(f for f in os.listdir(_sb_dir)
-                     if f.startswith("SHAREDBOOK-")) if os.path.isdir(_sb_dir) else []
+                     if f.startswith("SHAREDBOOK-")
+                     and not f.startswith("SHAREDBOOK-WIDTH-")) \
+            if os.path.isdir(_sb_dir) else []
         _sb_doc = None
         if _sb:
             with open(os.path.join(_sb_dir, _sb[-1]), encoding="utf-8") as _fh:
@@ -1122,6 +1124,35 @@ def main() -> int:
     except Exception as e:
         check("product: the mid-month gap arrives split into timing and selection",
               False, str(e))
+    try:
+        _sw_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _sw_dir = os.path.join("results", "e44_midmonth")
+        _sw = sorted(f for f in os.listdir(_sw_dir)
+                     if f.startswith("SHAREDBOOK-WIDTH-")) \
+            if os.path.isdir(_sw_dir) else []
+        _sw_doc = None
+        if _sw:
+            with open(os.path.join(_sw_dir, _sw[-1]), encoding="utf-8") as _fh:
+                _sw_doc = json.load(_fh)
+        _sw_ans = ((_sw_doc or {}).get("answers") or {})
+        _sw_rule = ((_sw_doc or {}).get("verdict") or {}).get("rule") or {}
+        _sw_ok = ("sharedbookwidth" in _sw_order
+                  and _sw_doc is not None
+                  and _sw_doc.get("study") == "e218_width_matched_calendar_split"
+                  and _sw_ans.get("selection_identity_ok") is True
+                  and _sw_ans.get("calendar_matched_sd_bp") is not None
+                  and _sw_rule.get("n_draws")
+                  and (_sw_doc.get("widths") or {}).get("matched_width_exact") is True)
+        check("product: the calendar split is re-read at matched candidate width, "
+              "as a distribution rather than a point",
+              _sw_ok, "chain=%s face=%s full=%s matched=%s sd=%s draws=%s label=%s" % (
+                  "sharedbookwidth" in _sw_order, _sw[-1] if _sw else "MISSING",
+                  _sw_ans.get("calendar_full_bp"), _sw_ans.get("calendar_matched_bp"),
+                  _sw_ans.get("calendar_matched_sd_bp"), _sw_rule.get("n_draws"),
+                  _sw_ans.get("verdict_label")))
+    except Exception as e:
+        check("product: the calendar split is re-read at matched candidate width, "
+              "as a distribution rather than a point", False, str(e))
     try:
         _pd_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _pd_cmd = dict(importlib.import_module("Tools.s6_chain_bmb").LEGS).get(

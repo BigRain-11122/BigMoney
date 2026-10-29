@@ -48,6 +48,12 @@ LEGS = [
     # E61: the mid-month calendar gap split into a timing part and a selection
     # part, with the month-end book's holdings as the per-session candidate pool
     ("sharedbook", ["python", "scripts/e39_panel_census.py", "sharedbook"]),
+    # E218: E61's "selection" part also carried a width change (the shared arm
+    # chose from <=10 names, both full arms from ~1,274), so the split is re-read
+    # with both matched arms on one seeded draw of the same size -- and read as a
+    # distribution, because a single ten-name draw is noisier than the gap
+    ("sharedbookwidth", ["python", "scripts/e39_panel_census.py",
+                         "sharedbookwidth"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

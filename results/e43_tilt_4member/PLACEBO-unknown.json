@@ -1,0 +1,54 @@
+{
+ "study": "e202_tilt3_ladder_drop_edge_placebo",
+ "evidence_cutoff": null,
+ "spec": {
+  "upstream": "LADDERDROPWHERE-*.json (E186 month rows), + EDGEDEPTH-*.json (E197) for the k_stop cross-read only",
+  "upstream_cutoff": null,
+  "method": "for each flagged (era, drop) and each E197 depth k, remove k random months drawn from the pair's own decision months 200 times and record how often the reversal survives; the edge trim's own outcome at that k is read against that null",
+  "edge_ks": [
+   2,
+   4,
+   6,
+   8,
+   10
+  ],
+  "draws_per_cell": 200,
+  "rng": "random.Random(zlib.crc32('era|name|k|seed')) -- a stable per-cell seed, because string hashing is not stable across runs; seed=20261029",
+  "units": "reversal is a boolean; rates are fractions of draws",
+  "join_tolerance_bp": 0.01,
+  "class_rules": {
+   "a_random_removal_of_the_same_size_kills_it_just_as_often": "the edge kill is not about the months -- any k months do it",
+   "the_edge_months_kill_where_random_removal_usually_does_not": "the edge set is doing something the removal count does not",
+   "random_removal_of_the_same_size_also_usually_survives": "the edge survival is not about the months either",
+   "most_random_removals_of_the_same_size_still_kill_it": "the edge survives where most random removals do not",
+   "no_null_at_this_depth": "too few months left for a reading",
+   "no_base_reversal": "nothing to test on this pair"
+  },
+  "null_size_note": "the null is removal-count-matched to the edge trim at the same k, so a match means the depth curve is a statement about how many months went missing, not about which ones"
+ },
+ "eras": [],
+ "answers": {
+  "pairs_measured": 0,
+  "pairs_with_base_reversal": 0,
+  "cells_tested": 0,
+  "cells_with_a_null": 0,
+  "class_counts": {},
+  "pair_verdicts": {},
+  "randomisation_trials": 0,
+  "e186_join_max_abs_diff_bp": null,
+  "e197_kstop_join_mismatches": [],
+  "verdict": "no_pair_reverses_to_test"
+ },
+ "honest": [
+  "the month rows are read from the published E186 face; a missing face publishes zero pairs rather than an invented removal set",
+  "the edge side is recomputed through E197's own _edge_depth_curve, so the two faces cannot quote different k, size or outcome for the same cell; the E197 k_stop is carried as a cross-read field and is never an input to the verdict",
+  "the null draws from the pair's whole decision-month pool, so the edge set is one of its own draws -- this is the same experiment at the same size, not a weaker placebo",
+  "a cell whose removal would leave fewer than two months for a reading publishes no null at all instead of a rate over an empty sample",
+  "the draws are seeded per cell, so the face is reproducible byte for byte; the trial count is published as randomisation_trials and is a randomisation draw, not a strategy trial",
+  "matching the null on count does not prove the edge set is uninformative where the null is flat in both directions: a null rate near 1.0 makes the edge survival unremarkable and says nothing about fragility",
+  "removing months changes the sample the verdict is computed on; this measures whether the removal set matters, it does not license dropping any month for real",
+  "descriptive census only: no gate, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

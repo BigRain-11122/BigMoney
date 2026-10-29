@@ -3776,3 +3776,39 @@ reading above) + results/pool_deliverable_audit.json + wired as the second leg o
 Tools/s6_chain_bmb.py so the reconciliation runs before anything that counts "pool ready N".
 Live reading: open=4 no_face=0 after_entry=4 -> closed 4, pool ready 0/0 open; the same rule then
 re-read the pool as 674 done + 1 ready (E218) after the round seeded its successor card.
+
+## E218 A matched-width control is a distribution, and if its own spread is wider than the gap the split is unresolvable (2026-10-29 r1245 bm-b)
+
+Situation: E61 read the mid-month vs month-end gap (full window +18.0bp) as timing (+84bp) plus
+selection (-66bp), but the arm carrying the timing part chose from the month-end book (<=10 names)
+while both full arms chose from 1,274 -- so the "selection" part mixed how many names were on offer
+with which names were on offer. E218 re-reads the split with both calendars choosing from one seeded
+draw of the SAME size, so width is equal and only the decision sessions differ.
+
+WRONG (twice, both caught inside the run): (a) burn ONE matched arm. A same-size draw is a ten-name
+book, and its return spread across seeds (402-529bp/yr) is twenty to fifty times the 18bp gap, so a
+single draw answers with noise and would have been published as a point estimate. (b) read
+"survives" as "|matched| >= 0.5 * |full|". A 20x ENLARGEMENT satisfies that floor, so 2021_2023 was
+briefly reported as a survival on a reading 20x the size of the one it was supposed to confirm.
+
+RIGHT: run the control as a distribution (5 seeded draws, seeds published), publish mean AND sd
+beside every mean, and ask the resolution question BEFORE the survival question -- if |full| is
+inside 2 SE of the control the family is unresolvable at that width, and the face says how many
+draws it would take ((2*sd/|full|)^2). Only a resolvable control is then asked to keep sign, keep
+half the size, and hold its sign in >=80% of the draws.
+
+Live reading: selection -66.0bp = width +189.4bp (sd 402.4) + pool identity -255.4bp (sd 402.4),
+residual 0.0 -- i.e. the -66bp term is the small difference of two terms each about six times its
+size and each carrying +-4pp. Calendar: full +18.0bp vs matched -92.4bp (sd 528.9, n=5, SE 236.5,
+same-side share 0.4) leads to unresolvable: 3,454 draws would be needed to resolve 18bp. Both
+measured eras (2021_2023, 2024_now) are unresolvable too; 2017_2020 is a degenerate cash slice. So
+E61's arithmetic identity stands and its two parts are NOT separable at book width 10 by a
+random-draw control -- that is the finding, not a survival claim.
+
+Pieces: scripts/e39_panel_census.py modes `sharedbookwidth` + helpers _size_matched_pool /
+_width_identity_split / _width_matched_verdict (tri-state: survives / fails / unresolvable) +
+constants SHAREDBOOK_WIDTH_{SEED,KEEP,DRAWS,SHARE} echoed into the face; wired as an S6 leg right
+after `sharedbook`; a smoke leg pins the face and the chain position. Housekeeping found on the way:
+the e39 selftest printed its total BEFORE the last ~50 legs were appended, so the printed count
+under-reported while the exit code stayed honest -- the print now sits after the last leg (796/796),
+which is why this round's number jumps from the 743 the previous round reported.

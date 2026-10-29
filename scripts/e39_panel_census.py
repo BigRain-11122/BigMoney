@@ -9318,6 +9318,423 @@ def run_sharedbook(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
             "prereg, no trial count",
         ],
     }
+SHAREDBOOK_WIDTH_SEED = 20261029
+SHAREDBOOK_WIDTH_KEEP = 0.5
+SHAREDBOOK_WIDTH_DRAWS = 5
+SHAREDBOOK_WIDTH_SHARE = 0.8
+def _size_matched_pool(decisions_ref, prices, universe, seed=SHAREDBOOK_WIDTH_SEED):
+    """idx -> a seeded draw holding as many names as the reference book holds.
+
+    E218: the E61 ``mid_shared`` arm picks from the month-end book (<=10 names)
+    while both full arms pick from the whole universe (~1,274), so its
+    "selection" part carries a width change on top of the pool-identity change.
+    This pool is the width control: at each session it offers exactly as many
+    eligible names as the reference book actually holds there, drawn from the
+    whole universe with a per-session seed, so the two matched-width arms see
+    the SAME candidate set and only their decision sessions differ.
+    """
+    import random
+    import e24_ladder_weighting as base
+
+    def pool(idx):
+        ref = _book_holdings_at(decisions_ref, idx) or ()
+        k = len([s for s in ref
+                 if s in prices and base.elig(prices[s], idx)])
+        if k <= 0:
+            return ()
+        live = [s for s in universe
+                if s in prices and base.elig(prices[s], idx)]
+        if not live:
+            return ()
+        if k >= len(live):
+            return tuple(live)
+        return tuple(sorted(random.Random(seed + idx).sample(live, k)))
+    return pool
+def _width_identity_split(selection_bp, width_bp, identity_bp,
+                          tol=SHAREDBOOK_TOL_BP):
+    """selection = width + identity, with the residual as a check, not a finding.
+
+    ``width_bp``    = mid - mid_matched (same calendar, whole universe vs a
+                      pool of the same size as the book the shared arm saw)
+    ``identity_bp`` = mid_matched - mid_shared (same width, random names vs the
+                      month-end book's names)
+    Their sum has to reproduce E61's selection term; if it does not, the arms
+    were not run the way the labels say.
+    """
+    out = {"selection_bp": selection_bp, "width_bp": width_bp,
+           "identity_bp": identity_bp}
+    if None in (selection_bp, width_bp, identity_bp):
+        out["residual_bp"] = None
+        out["identity_ok"] = None
+        out["selection_carrier"] = None
+        return out
+    resid = round(selection_bp - (width_bp + identity_bp), 4)
+    out["residual_bp"] = resid
+    out["identity_ok"] = abs(resid) <= tol
+    out["selection_carrier"] = ("width" if abs(width_bp) >= abs(identity_bp)
+                                else "pool_identity")
+    return out
+def _width_matched_verdict(calendar_full_bp, calendar_matched_bp,
+                           keep=SHAREDBOOK_WIDTH_KEEP, sd_bp=None, n_draws=None,
+                           side_share=None):
+    """Does the calendar reading survive when both arms hold the same width?
+
+    The matched-width control is a seeded draw of a few names, so its own return
+    spread can be far wider than the gap being explained. Where that spread is
+    published the first question is not "did the number move" but "could a
+    control this noisy resolve a gap this small at all": a gap inside twice the
+    standard error is unresolvable and is reported as such, with the number of
+    draws it would take to resolve it (E162's reverse question) beside it.
+    """
+    out = {"full_bp": calendar_full_bp, "matched_bp": calendar_matched_bp,
+           "keep_ratio": keep, "sd_bp": sd_bp, "n_draws": n_draws,
+           "draws_needed": None, "standard_error_bp": None,
+           "keep_floor_bp": None, "same_side_share": side_share}
+    if calendar_full_bp is None or calendar_matched_bp is None:
+        out["survives_matched_width"] = None
+        out["reason"] = "missing arm"
+        return out
+    floor = round(abs(calendar_full_bp) * keep, 4)
+    out["keep_floor_bp"] = floor
+    se = None
+    if sd_bp is not None and n_draws:
+        se = round(sd_bp / (float(n_draws) ** 0.5), 1)
+    out["standard_error_bp"] = se
+    if se is not None and abs(calendar_full_bp) < 2.0 * se:
+        out["survives_matched_width"] = None
+        out["reason"] = "unresolvable_at_matched_width"
+        if sd_bp:
+            ratio = 2.0 * sd_bp / max(abs(calendar_full_bp), 1e-9)
+            out["draws_needed"] = int(ratio * ratio) + 1
+        return out
+    same_side = (calendar_full_bp == 0 or calendar_matched_bp == 0
+                 or (calendar_full_bp > 0) == (calendar_matched_bp > 0))
+    if side_share is not None and side_share < SHAREDBOOK_WIDTH_SHARE:
+        out["survives_matched_width"] = False
+        out["reason"] = "sign_flips_across_draws"
+        return out
+    if not same_side:
+        out["survives_matched_width"] = False
+        out["reason"] = "sign_flips_at_matched_width"
+        return out
+    survives = abs(calendar_matched_bp) >= floor
+    out["survives_matched_width"] = bool(survives)
+    out["reason"] = "survives" if survives else "shrinks_below_keep_floor"
+    return out
+def run_sharedbook_width(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
+                         exclude=("sh511",), mid_day=15, raw=None, eras=ERAS,
+                         seed=SHAREDBOOK_WIDTH_SEED, keep=SHAREDBOOK_WIDTH_KEEP,
+                         n_draws=SHAREDBOOK_WIDTH_DRAWS):
+    """E218: the E61 calendar split re-read with the candidate width matched.
+
+    E61 read the mid-month vs month-end gap as timing plus selection, but the
+    arm that carried the timing part chose from the month-end book (<=10 names)
+    while both full arms chose from ~1,274 -- so "selection" mixed how many
+    names were on offer with which names were on offer. Here the two published
+    calendars are burned twice more: a month-end arm and a mid-month arm that
+    BOTH choose from one seeded draw of the same size as the month-end book at
+    that session, so width is equal and only the decision sessions differ. A
+    single draw is a ten-name book, whose return spread across draws is larger
+    than the effect being measured, so the control runs over several seeds and
+    is read as a distribution rather than as a point estimate.
+    """
+    import e24_ladder_weighting as base
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe() if raw is None else raw
+    if exclude:
+        raw_all = {s: v for s, v in raw_all.items()
+                   if not s.startswith(tuple(exclude))}
+    cal_full = base.load_panel()[0]
+    cal = [d for d in cal_full if d >= start]
+    cutoff = cal[-1]
+    all_syms = sorted(set(base.LADDER) | set(raw_all))
+    prices, amounts = {}, {}
+    for s in all_syms:
+        c, a = raw_all.get(s, ({}, {}))
+        prices[s] = [c.get(d) for d in cal]
+        amounts[s] = [a.get(d) for d in cal]
+    universe = [s for s in all_syms if s in raw_all]
+    rank_cache = {}
+
+    me_idxs = sorted(set(base.month_end_indices(cal)))
+    mid_idxs = _mid_month_indices(cal, mid_day)
+    decisions_me = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                  me_idxs, rank_cache)
+    decisions_mid = _decision_sets(cal, prices, amounts, universe, pick_n,
+                                   mid_idxs, rank_cache)
+    book_pool = _shared_pool(decisions_me)
+
+    def arm(rebal_idxs, pool=None):
+        curve, aux, _hold = e27.simulate(
+            cal, prices, amounts, universe, None, pick_n, 1.0,
+            {} if pool is None else None, set(rebal_idxs),
+            universe_at=pool)
+        return curve, aux
+
+    curves = {}
+    curves["me"] = arm(me_idxs)
+    curves["mid"] = arm(mid_idxs)
+    curves["mid_shared"] = arm(mid_idxs, pool=book_pool)
+    full = {k: _curve_faces(v[0]) for k, v in curves.items()}
+    era_faces = {k: _era_curve_faces(v[0], eras) for k, v in curves.items()}
+
+    draws = []
+    for k in range(n_draws):
+        pool_k = _size_matched_pool(decisions_me, prices, universe,
+                                    seed + k * 1000003)
+        c_me = arm(me_idxs, pool=pool_k)
+        c_mid = arm(mid_idxs, pool=pool_k)
+        draws.append({
+            "seed": seed + k * 1000003,
+            "curves": {"me_matched": c_me, "mid_matched": c_mid},
+            "full": {"me_matched": _curve_faces(c_me[0]),
+                     "mid_matched": _curve_faces(c_mid[0])},
+            "eras": {"me_matched": _era_curve_faces(c_me[0], eras),
+                     "mid_matched": _era_curve_faces(c_mid[0], eras)},
+        })
+
+    def _ann(faces, name):
+        v = (faces.get(name) or {}).get("ann_return_pct")
+        return None if v is None else v * 100.0
+
+    def _diff(fa, a, fb, b):
+        va, vb = _ann(fa, a), _ann(fb, b)
+        if va is None or vb is None:
+            return None
+        return round(va - vb, 1)
+
+    def _agg(vals, ref_sign=None):
+        vals = [v for v in vals if v is not None]
+        if not vals:
+            return {"n": 0, "mean_bp": None, "sd_bp": None, "min_bp": None,
+                    "max_bp": None, "same_side_share": None}
+        m = sum(vals) / len(vals)
+        sd = ((sum((v - m) ** 2 for v in vals) / len(vals)) ** 0.5
+              if len(vals) > 1 else 0.0)
+        share = None
+        if ref_sign is not None:
+            share = round(sum(1 for v in vals if ref_sign(v)) / float(len(vals)), 3)
+        return {"n": len(vals), "mean_bp": round(m, 1), "sd_bp": round(sd, 1),
+                "min_bp": round(min(vals), 1), "max_bp": round(max(vals), 1),
+                "same_side_share": share}
+
+    def collect(era_name=None):
+        def bscope(arm_map):
+            # arm_map is arm -> faces; scope picks the era out of EACH arm, so a
+            # full-window reading and an era reading cannot be mixed by mistake
+            if era_name is None:
+                return dict(arm_map)
+            return {k: (v.get(era_name) or {}) for k, v in arm_map.items()}
+        key = "full" if era_name is None else "eras"
+        bf = bscope(full if era_name is None else era_faces)
+        cal_full_bp = _diff(bf, "mid", bf, "me")
+        timing = _diff(bf, "mid_shared", bf, "me")
+        selection = _diff(bf, "mid", bf, "mid_shared")
+        width_vals, ident_vals, cal_vals, mecost_vals = [], [], [], []
+        for d in draws:
+            fm = bscope(d[key])
+            em = fm
+            width_vals.append(_diff(bf, "mid", fm, "mid_matched"))
+            ident_vals.append(_diff(fm, "mid_matched", bf, "mid_shared"))
+            cal_vals.append(_diff(fm, "mid_matched", em, "me_matched"))
+            mecost_vals.append(_diff(bf, "me", em, "me_matched"))
+        ref = (lambda v: v > 0) if (cal_full_bp or 0) >= 0 else (lambda v: v < 0)
+        width = _agg(width_vals)
+        ident = _agg(ident_vals)
+        cal = _agg(cal_vals, ref_sign=ref)
+        mecost = _agg(mecost_vals)
+        split = _width_identity_split(selection, width["mean_bp"],
+                                      ident["mean_bp"])
+        cal_v = _width_matched_verdict(cal_full_bp, cal["mean_bp"], keep=keep,
+                                       sd_bp=cal["sd_bp"], n_draws=cal["n"],
+                                       side_share=cal["same_side_share"])
+        cal_v["draw_spread_bp"] = {"n": cal["n"], "sd": cal["sd_bp"],
+                                   "min": cal["min_bp"], "max": cal["max_bp"]}
+        return {
+            "calendar_full_bp": cal_full_bp,
+            "calendar_matched_bp": cal["mean_bp"],
+            "calendar_matched_draws": cal,
+            "e61_total_bp": cal_full_bp,
+            "e61_timing_bp": timing,
+            "e61_selection_bp": selection,
+            "selection_split": split,
+            "width_bp": width,
+            "pool_identity_bp": ident,
+            "width_cost_me_bp": mecost["mean_bp"],
+            "calendar_at_matched": cal_v,
+        }
+
+    full_window = collect()
+    era_rows = {}
+    for name, _lo, _hi in eras:
+        bf = {k: (era_faces[k].get(name) or {}) for k in era_faces}
+        if any(bf[k].get("ann_return_pct") is None for k in bf):
+            era_rows[name] = {"cells": "missing_arm_in_era"}
+            continue
+        r = collect(name)
+        vals = [_ann(bf, k) for k in ("me", "mid", "mid_shared")]
+        vals = [v for v in vals if v is not None]
+        if vals and max(vals) - min(vals) < 0.0005 and not r["calendar_matched_bp"]:
+            r["degenerate"] = "degenerate_cash_slice"
+            r["calendar_at_matched"]["survives_matched_width"] = None
+            r["calendar_at_matched"]["reason"] = "degenerate_cash_slice"
+        era_rows[name] = r
+
+    counted = {e: r for e, r in era_rows.items()
+               if (r.get("calendar_at_matched") or {}).get(
+                   "survives_matched_width") is not None}
+    deciding = {e: r["calendar_at_matched"]["survives_matched_width"]
+                for e, r in counted.items()}
+    reasons = {e: r["calendar_at_matched"]["reason"] for e, r in counted.items()}
+    carriers = {e: (r.get("selection_split") or {}).get("selection_carrier")
+                for e, r in era_rows.items()
+                if (r.get("selection_split") or {}).get("selection_carrier")}
+    same_carrier = len(set(carriers.values())) == 1 if carriers else False
+    unres = sorted(e for e, r in era_rows.items()
+                   if (r.get("calendar_at_matched") or {}).get("reason")
+                   == "unresolvable_at_matched_width")
+    if full_window["calendar_at_matched"].get("reason") == \
+            "unresolvable_at_matched_width":
+        label = "calendar_unresolvable_at_matched_width"
+    elif not deciding:
+        label = "not_assessed"
+    elif all(deciding.values()):
+        label = "calendar_survives_matched_width_everywhere"
+    else:
+        label = "calendar_does_not_survive_matched_width_everywhere"
+    verdict = {
+        "label": label,
+        "full_window_survives": full_window["calendar_at_matched"].get(
+            "survives_matched_width"),
+        "full_window_reason": full_window["calendar_at_matched"].get("reason"),
+        "per_era_survives": deciding,
+        "per_era_reason": reasons,
+        "eras_assessed": sorted(deciding),
+        "eras_unresolvable": unres,
+        "degenerate_eras": sorted(e for e, r in era_rows.items()
+                                  if r.get("degenerate")),
+        "unmeasured_eras": sorted(e for e, r in era_rows.items()
+                                  if r.get("cells") == "missing_arm_in_era"),
+        "selection_carrier_by_era": carriers,
+        "selection_carrier_consistent": same_carrier,
+        "draws_needed_full_window": full_window["calendar_at_matched"].get(
+            "draws_needed"),
+        "rule": {"keep_ratio": keep, "seed": seed, "n_draws": n_draws,
+                 "side_share_floor": SHAREDBOOK_WIDTH_SHARE,
+                 "basis": ("a matched-width calendar reading is first asked "
+                           "whether a control this noisy could resolve a gap this "
+                           "small at all (gap < 2 standard errors = unresolvable, "
+                           "with the draws needed published); if resolvable it must "
+                           "keep the sign of the full-width reading, keep at least "
+                           "keep_ratio of its size, and hold its sign in at least "
+                           "side_share_floor of the seeded draws. The constants are "
+                           "frozen in module scope and echoed here so a reader can "
+                           "see the rule was not fitted to this run")},
+    }
+
+    import e24_ladder_weighting as base2
+    pool_sizes = []
+    for idx, _hold in decisions_mid:
+        pool = book_pool(idx)
+        live = [s for s in pool if s in prices and base2.elig(prices[s], idx)]
+        pool_sizes.append(len(live))
+    rnd_sizes = [len(_size_matched_pool(decisions_me, prices, universe,
+                                        seed + k * 1000003)(idx))
+                 for idx, _hold in decisions_mid]
+    widths = {
+        "pick_n": pick_n,
+        "me_book_widths": _sharedbook_widths(cal, prices, universe, decisions_me, pick_n),
+        "mid_book_widths": _sharedbook_widths(cal, prices, universe, decisions_mid, pick_n),
+        "book_pool_live_sizes": pool_sizes,
+        "random_pool_live_sizes": rnd_sizes,
+        "matched_width_exact": pool_sizes == rnd_sizes,
+        "pool_binds": bool(pool_sizes) and min(pool_sizes) < pick_n,
+    }
+    widths["book_pool_median"] = (sorted(pool_sizes)[len(pool_sizes) // 2]
+                                  if pool_sizes else None)
+
+    return {
+        "study": "e218_width_matched_calendar_split",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "pick_n": pick_n, "mid_month_day": mid_day,
+                 "exclude_prefixes": list(exclude),
+                 "universe_members": len(universe),
+                 "eras": [e[0] for e in eras],
+                 "seed": seed, "n_draws": n_draws, "keep_ratio": keep,
+                 "draw_seeds": [d["seed"] for d in draws],
+                 "arms": {
+                     "me": "month-end calendar, full eligible universe",
+                     "mid": "mid-month calendar, full eligible universe",
+                     "mid_shared": ("mid-month calendar, candidate pool = the "
+                                    "month-end book's holdings at that session (E61)"),
+                     "me_matched": ("month-end calendar, candidate pool = a seeded "
+                                    "draw of the same size as that book"),
+                     "mid_matched": ("mid-month calendar, the SAME seeded draw"),
+                 },
+                 "decomposition": (
+                     "e61_selection = width (mid - mid_matched) + pool identity "
+                     "(mid_matched - mid_shared); calendar_matched = mid_matched - "
+                     "me_matched; the residual checks the first identity, and every "
+                     "matched term is the mean over the draw distribution")},
+        "decision_days": {"me": len(decisions_me), "mid": len(decisions_mid)},
+        "arms": {
+            "full_window": {k: full[k] for k in full},
+            "eras": era_faces,
+            "turnover": {k: curves[k][1] for k in curves},
+            "draw_turnover": [{"seed": d["seed"],
+                               "me_matched": d["curves"]["me_matched"][1],
+                               "mid_matched": d["curves"]["mid_matched"][1]}
+                              for d in draws],
+        },
+        "widths": widths,
+        "full_window": full_window,
+        "eras": era_rows,
+        "verdict": verdict,
+        "answers": {
+            "e61_selection_bp": full_window["e61_selection_bp"],
+            "selection_width_bp": full_window["width_bp"]["mean_bp"],
+            "selection_width_sd_bp": full_window["width_bp"]["sd_bp"],
+            "selection_pool_identity_bp": full_window["pool_identity_bp"]["mean_bp"],
+            "selection_pool_identity_sd_bp": full_window["pool_identity_bp"]["sd_bp"],
+            "selection_identity_ok": full_window["selection_split"]["identity_ok"],
+            "selection_carrier": full_window["selection_split"]["selection_carrier"],
+            "calendar_full_bp": full_window["calendar_full_bp"],
+            "calendar_matched_bp": full_window["calendar_matched_bp"],
+            "calendar_matched_sd_bp":
+                full_window["calendar_matched_draws"]["sd_bp"],
+            "calendar_matched_standard_error_bp":
+                full_window["calendar_at_matched"].get("standard_error_bp"),
+            "draws_needed_to_resolve_full_window":
+                full_window["calendar_at_matched"].get("draws_needed"),
+            "calendar_matched_same_side_share":
+                full_window["calendar_matched_draws"]["same_side_share"],
+            "calendar_survives_matched_width":
+                full_window["calendar_at_matched"]["survives_matched_width"],
+            "calendar_verdict_reason": full_window["calendar_at_matched"]["reason"],
+            "verdict_label": verdict["label"],
+            "per_era_survives": deciding,
+        },
+        "honest": [
+            "the random arm is a width control, not a strategy: it says how much of "
+            "the calendar gap is width and how much is which names are on offer, it "
+            "is not a book anyone should hold",
+            "one seeded draw is a ten-name book whose own return spread across seeds "
+            "is wider than the effect being measured, so the matched terms are the "
+            "mean over the draw distribution with its sd published beside every "
+            "mean, and a reading that flips sign across draws is not called a "
+            "survival even when its mean clears the floor",
+            "the draws are seeded from module constants and the seed list is "
+            "published, so the same cutoff reproduces the same names; a different "
+            "seed set would be a different control and is not run here",
+            "early sessions whose book pool is empty give both matched arms an "
+            "empty candidate set, so width is equal at 0 as well -- those sessions "
+            "hold cash in both arms and cannot distinguish the calendars",
+            "no cost arm is re-derived: every arm runs at x0, so the curves differ "
+            "only in decision sessions and candidate pool",
+            "descriptive census only: no gate, no prereq, no trial count",
+        ],
+    }
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -19186,7 +19603,65 @@ def selftest():
         "E61 the candidate pool is pinned to a real book width, because a 9999-wide "
         "book holds the whole universe and would make the selection part vanish by "
         "construction")
-    print("selftest %d/%d PASS" % (ok, tot))
+    _e218_prices = {"sh600000": [1.0] * 300, "sh600001": [1.0] * 300,
+                    "sh600002": [1.0] * 300, "sh600003": [1.0] * 300,
+                    "sh600004": [1.0] * 300}
+    _e218_ref = [(0, ("sh600000", "sh600001"))]
+    _e218_pool = _size_matched_pool(_e218_ref, _e218_prices,
+                                    sorted(_e218_prices), seed=7)
+    _e218_a = _e218_pool(280)
+    _e218_b = _size_matched_pool(_e218_ref, _e218_prices,
+                                 sorted(_e218_prices), seed=7)(280)
+    chk(len(_e218_a) == 2 and _e218_a == _e218_b,
+        "E218 the width control offers exactly as many names as the reference book "
+        "holds, and the same seed gives the same names")
+    chk(_size_matched_pool(_e218_ref, _e218_prices, sorted(_e218_prices),
+                           seed=7)(-1) == (),
+        "E218 before the reference book holds anything the matched pool is empty, "
+        "so both matched arms hold cash rather than silently widening")
+    _e218_wide = _size_matched_pool([(0, tuple(sorted(_e218_prices)))],
+                                    _e218_prices, sorted(_e218_prices))(280)
+    chk(len(_e218_wide) == len(_e218_prices),
+        "E218 a book wider than the universe gives the whole universe, so the "
+        "control cannot ask for more names than exist")
+    _e218_split = _width_identity_split(-66.0, -50.0, -16.0)
+    chk(_e218_split["residual_bp"] == 0.0 and _e218_split["identity_ok"] is True
+        and _e218_split["selection_carrier"] == "width",
+        "E218 the selection term splits into width and pool identity, and the "
+        "residual is a check on how the arms were run")
+    _e218_bad = _width_identity_split(-66.0, -50.0, -8.0)
+    chk(_e218_bad["identity_ok"] is False,
+        "E218 a width and identity reading that do not add back to the selection "
+        "term is failed, not explained away")
+    _e218_v_ok = _width_matched_verdict(88.0, 61.0)
+    _e218_v_flip = _width_matched_verdict(88.0, -12.0)
+    _e218_v_small = _width_matched_verdict(88.0, 20.0)
+    chk(_e218_v_ok["survives_matched_width"] is True
+        and _e218_v_flip["reason"] == "sign_flips_at_matched_width"
+        and _e218_v_small["reason"] == "shrinks_below_keep_floor",
+        "E218 the matched-width verdict separates 'kept the sign and most of the "
+        "size' from 'flipped' and from 'survived but small', each named")
+    _e218_unres = _width_matched_verdict(18.0, -92.0, sd_bp=528.9, n_draws=5,
+                                         side_share=0.4)
+    chk(_e218_unres["survives_matched_width"] is None
+        and _e218_unres["reason"] == "unresolvable_at_matched_width"
+        and _e218_unres["draws_needed"] > 1000,
+        "E218 when the control's own spread is wider than the gap, the reading is "
+        "unresolvable and the face publishes how many draws it would take, instead "
+        "of calling a noise-level move a survival")
+    _e218_resolv = _width_matched_verdict(18.0, 30.0, sd_bp=4.0, n_draws=5,
+                                          side_share=1.0)
+    chk(_e218_resolv["survives_matched_width"] is True
+        and _e218_resolv["draws_needed"] is None,
+        "E218 a control that CAN resolve the gap still has to pass the sign, size "
+        "and side-share gates, so resolution is a precondition not a free pass")
+    chk(SHAREDBOOK_WIDTH_KEEP == 0.5
+        and SHAREDBOOK_WIDTH_SEED == 20261029
+        and SHAREDBOOK_WIDTH_DRAWS == 5 and SHAREDBOOK_WIDTH_SHARE == 0.8
+        and run_sharedbook_width.__defaults__[6] == SHAREDBOOK_WIDTH_SEED
+        and run_sharedbook_width.__defaults__[8] == SHAREDBOOK_WIDTH_DRAWS,
+        "E218 the adoption rule and the seed are frozen module constants echoed "
+        "into the face, so a reader can see the rule was not fitted to this run")
     _e190_rows = [{"month": "m%02d" % i, "full_ret": 0.0,
                    "dropped_ret": 0.001 * i,
                    "delta_sum": 100.0 if i == 1 else 1.0,
@@ -19489,6 +19964,10 @@ def selftest():
                                "against_share_min": CHURNTIE_AGAINST_SHARE_MIN},
         "E187 the verdict echoes its own frozen thresholds so a later reader "
         "can tell a rule from a description")
+    # the count has to be printed after the LAST leg: this face grew legs below
+    # where the line used to sit, so half the suite ran uncounted and the
+    # printed total under-reported while the exit code stayed honest
+    print("selftest %d/%d PASS" % (ok, tot))
     return 0 if ok == tot else 1
 TILT3LEVELWEDGE_RESIDUAL_BP = 0.06
 TILT3LEVELWEDGE_CLOSED_PCT = 95.0   # the located term explains this much -> located
@@ -25664,7 +26143,7 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
-                             "chasescreen", "offbookliq", "offbookera", "sharedbook",
+                             "chasescreen", "offbookliq", "offbookera", "sharedbook", "sharedbookwidth",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -26271,6 +26750,16 @@ def main(argv):
         p = write_json(outdir, "SHAREDBOOK-%s.json"
                        % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "sharedbook", "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"], "verdict": f["verdict"]["label"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "sharedbookwidth":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        f = run_sharedbook_width(outdir, start=args.start)
+        p = write_json(outdir, "SHAREDBOOK-WIDTH-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "sharedbookwidth",
+                          "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"], "verdict": f["verdict"]["label"]},
                          ensure_ascii=False))
         return 0
