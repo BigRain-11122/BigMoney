@@ -5155,3 +5155,39 @@ L12 无心跳=未知非死）+ monitor/build_status.py（lane_freshness 面带 h
 + results/data_lane_freshness.json + docs/data_lanes/FRESHNESS.md + smoke 腿
 "product: data lane freshness board agrees with the lanes and the calendar" 增两条断言
 （每条 lane 必带 host_alive/host_age_h；verdict=host_down 时 hosts_down 与 lanes_hostage 均非空）。
+
+## E255 机器本地面无�?扔过去」：接管只能改宣言，读者必须认宣言（2026-10-30 r1161 bm-a）
+
+WHEN: 一条车道的原始因子落在 **gitignored 的机器本地面**（`data/heat/popularity` 这类
+逐日前向目录），而它的状态封套是入库的共享面。此时宿主一停，别人接管只能在**自己硬盘**
+上继续攒——原宿主的目录不会因此多出一行。若接管只写自己的快照，它就产出一份没人读的
+副本（T25 原话「否则接管只产出一份没人读的副本」）；若接管连封套也不写，读者看到的是
+一台死机器的旧数字，且不知道数字在哪块盘上。
+
+HOW: 三件一起做，缺一件接管就是假接管——
+① 授权：接管不是默认行为，`--takeover` 显式声明 **且** 宿主心跳静默 ≥120min，
+判据从 `update_etf_daily.takeover_decision` **import**（r1100 单源律，禁重实现）；
+② 宣言：封套写 `authority` 块——`lane_owner` / `writer_machine` / `data_face_machine` /
+`declared_takeover` / `took_over_by` / `took_over_at` / `reason`。`data_face_machine`
+是唯一能回答「这批行现在在谁的盘上」的字段；
+③ 认账：读者（新鲜度板）遇到「封套不是宿主写的」时，先看宣言——宣言点名的接管者
+== 写封套者 → `declared_takeover`（可审）；只是外人写的无名封套 → 仍判 `unverifiable`。
+同一个「谁属主」只能有一个真相：配置（`config/lane_hosts.json`）压过代码里的硬编码
+兜底（实测 2026-10-30：heat 行同时印着 owner=bm-a 与 lane_host=bm-b）。
+
+坑（立卡理由）：接管的价值不在搬数据，而在**把「谁负责」从一个死机器转交给一台活机器，
+并让所有读物立刻知道这件事**。指标面（tail/缺日数）可以不因此变好，但归属必须变清楚。
+
+WHY: 前向滚榜无历史，缺一天就是永远缺一天。所以这条车道的正确目标不是「事后补数据」，
+而是「在还能救的那一天把责任转出去」；而责任只有在**读者认得**的地方写下来才算转交。
+
+READING: 2026-10-30 实跑——heat 尾件 2026-10-20、缺 7 个交易日不可复原；
+修正前该行同时标注 owner=bm-a / lane_host=bm-b（自相矛盾），修正后 owner=lane_host=bm-b，
+且热车道对 bm-a 的诚实判决从「无理由 no-op」变成「no-op：宿主管辖；接管被拒：无 --takeover」。
+
+Pos: scripts/update_heat.py（`_takeover_gate` + `save_status` 的 authority 块 +
+「只有当局才写共享车道」；selftest 增 authority 双面腿）· scripts/data_lane_freshness.py
+（读 `authority` 块 → `declared_takeover` 可审；owner 一律取 lane_host；selftest 12->13
+L13 宣言可审/无名封套不可审）· smoke_test.py（「a lane takeover declares whose disk
+holds the rows」：owner==host 全行、封套六键齐、data_face_machine==machine、
+declared_takeover_by 必须被认账）· 正典=config/lane_hosts.json。

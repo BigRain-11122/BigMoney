@@ -244,6 +244,15 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
                     extra["reported_by"] = next(
                         (doc[k] for k in REPORTER_KEYS
                          if isinstance(doc.get(k), str)), None)
+                    # declared takeover (T25, r1161): the rows are machine-local,
+                    # so a takeover re-declares the writer instead of moving
+                    # them -- the envelope carries that declaration.
+                    auth_blk = doc.get("authority")
+                    if isinstance(auth_blk, dict):
+                        extra["data_face_machine"] = auth_blk.get(
+                            "data_face_machine")
+                        extra["declared_takeover_by"] = auth_blk.get(
+                            "took_over_by")
                     if tail is None and spec.get("fallback_day_files"):
                         # the lane publishes no tail yet: read the copy on this
                         # disk, say so, and let the authority layer refuse to
@@ -315,9 +324,20 @@ def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
             auth = "host_envelope"
         else:
             auth = "non_host_envelope"
+        # A declared takeover (T25, r1161) IS the authority for its rows: the
+        # envelope names the taker as the data face, so its own tail is
+        # meaningful. An anonymous "somebody else wrote this" stays refused.
+        decl = r.get("declared_takeover_by")
+        if auth == "non_host_envelope" and decl and decl == rep:
+            auth = "declared_takeover"
         r["lane_host"] = host
+        if host:
+            # one truth: config/lane_hosts.json beats the hardcoded fallback
+            # (measured 2026-10-30: heat printed owner bm-a, lane_host bm-b)
+            r["owner"] = host
         r["authority"] = auth
-        r["auditable"] = auth in ("host_copy", "host_envelope")
+        r["auditable"] = auth in ("host_copy", "host_envelope",
+                                  "declared_takeover")
         if spec.get("retired"):
             # a closed face is neither fresh nor late: it is retired, and it
             # may not enter the attention count (false alarms kill alerts)
@@ -659,7 +679,37 @@ def selftest():
         assert rep["hosts_down"] == [] and rep["verdict"] == "uncertified", rep
         print("[PASS] L12 no heartbeat file reads unknown, not dead", flush=True)
 
-    print("selftest: 12/12 PASS", flush=True)
+    # L13 a DECLARED takeover is the authority; an anonymous foreign writer
+    # is not (T25, r1161: the heat rows are machine-local, so the only thing a
+    # takeover can move is the declaration -- and that must be honoured)
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"heartbeat_epoch_utc": int(dt.datetime.now().timestamp())},
+                  open(os.path.join(td, "m", "bm-a.json"), "w"))
+        spec = [{"lane": "heat", "kind": "status", "path": "h.json",
+                 "key": "latest_snapshot", "owner": "bm-b"}]
+        json.dump({"machine": "bm-a", "latest_snapshot": "2026-10-20",
+                   "authority": {"lane_owner": "bm-b", "writer_machine": "bm-a",
+                                 "data_face_machine": "bm-a",
+                                 "declared_takeover": True,
+                                 "took_over_by": "bm-a"}},
+                  open(os.path.join(td, "h.json"), "w"))
+        r = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                  lanes=spec)["lanes"][0]
+        assert r["authority"] == "declared_takeover", r
+        assert r["verdict"] != "unverifiable", r
+        assert r["data_face_machine"] == "bm-a", r
+        assert r["owner"] == "bm-b" and r["lane_host"] == "bm-b", r
+        json.dump({"machine": "bm-a", "latest_snapshot": "2026-10-20"},
+                  open(os.path.join(td, "h.json"), "w"))
+        r2 = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                   lanes=spec)["lanes"][0]
+        assert r2["authority"] == "non_host_envelope", r2
+        assert r2["verdict"] == "unverifiable", r2
+        print("[PASS] L13 a declared takeover is auditable, an undeclared "
+              "foreign envelope is not", flush=True)
+
+    print("selftest: 13/13 PASS", flush=True)
     return 0
 
 

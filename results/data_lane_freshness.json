@@ -1,6 +1,6 @@
 {
  "schema": "data-lane-freshness/v1",
- "as_of": "2026-10-30T04:41:37",
+ "as_of": "2026-10-30T06:03:37",
  "close_accept_time": "15:30",
  "calendar_path": "data/exchange_calendar.csv",
  "calendar_days": 8797,
@@ -33,8 +33,8 @@
    "lanes_unverifiable": [
     "etf_panel"
    ],
-   "last_seen": "2026-10-30T04:16+08:00",
-   "age_h": 0.43,
+   "last_seen": "2026-10-30T05:53:03+08:00",
+   "age_h": 0.18,
    "alive": true
   },
   "bm-b": {
@@ -56,7 +56,7 @@
     "zt_pool"
    ],
    "last_seen": "2026-10-29T18:18:13+08:00",
-   "age_h": 10.39,
+   "age_h": 11.76,
    "alive": false
   }
  },
@@ -78,7 +78,7 @@
   {
    "lane": "options",
    "dept": "data",
-   "owner": "bm-a",
+   "owner": "bm-b",
    "kind": "status",
    "tail": "2026-09-30",
    "expected": "2026-10-29",
@@ -109,13 +109,13 @@
    "copy_verdict": "stalled",
    "retired_reason": "O-20261009-1105 -- the options face is closed; the panel is a historical wave-2 batch with no forward accumulation",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
    "lane": "moneyflow",
    "dept": "data",
-   "owner": "bm-a",
+   "owner": "bm-b",
    "kind": "status",
    "tail": "2026-10-19",
    "expected": "2026-10-29",
@@ -138,13 +138,13 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
    "lane": "heat",
    "dept": "data",
-   "owner": "bm-a",
+   "owner": "bm-b",
    "kind": "status",
    "tail": "2026-10-20",
    "expected": "2026-10-29",
@@ -170,13 +170,13 @@
    "copy_verdict": "stalled",
    "why": "the lane publishes no tail and this reading is this machine's local copy; it is hosted by bm-b",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
    "lane": "repo",
    "dept": "data",
-   "owner": "bm-a",
+   "owner": "bm-b",
    "kind": "status",
    "tail": "2026-10-28",
    "expected": "2026-10-29",
@@ -192,7 +192,7 @@
    "copy_verdict": "behind_1d",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
@@ -212,7 +212,7 @@
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
@@ -234,8 +234,8 @@
    "auditable": false,
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
-   "host_last_seen": "2026-10-30T04:16+08:00",
-   "host_age_h": 0.43,
+   "host_last_seen": "2026-10-30T05:53:03+08:00",
+   "host_age_h": 0.18,
    "host_alive": true
   },
   {
@@ -252,8 +252,8 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-30T04:16+08:00",
-   "host_age_h": 0.43,
+   "host_last_seen": "2026-10-30T05:53:03+08:00",
+   "host_age_h": 0.18,
    "host_alive": true
   },
   {
@@ -270,8 +270,8 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-30T04:16+08:00",
-   "host_age_h": 0.43,
+   "host_last_seen": "2026-10-30T05:53:03+08:00",
+   "host_age_h": 0.18,
    "host_alive": true
   },
   {
@@ -292,13 +292,13 @@
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   },
   {
    "lane": "zt_pool",
    "dept": "data",
-   "owner": "bm-a",
+   "owner": "bm-b",
    "kind": "zt_days",
    "tail": "2026-10-29",
    "expected": "2026-10-29",
@@ -318,7 +318,7 @@
    "copy_verdict": "in_sync",
    "why": "read from this machine's local copy; the lane is hosted by bm-b",
    "host_last_seen": "2026-10-29T18:18:13+08:00",
-   "host_age_h": 10.39,
+   "host_age_h": 11.76,
    "host_alive": false
   }
  ]

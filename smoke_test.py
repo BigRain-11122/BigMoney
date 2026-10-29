@@ -1101,6 +1101,47 @@ def main() -> int:
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
     try:
+        # T25 (r1161): a takeover cannot move machine-local rows, so it has to
+        # re-declare the writer -- the envelope must say whose disk holds the
+        # rows, and the board must print ONE owner (config beats the hardcoded
+        # fallback) and honour a declaration instead of refusing it.
+        _lfz2 = json.load(open("results/data_lane_freshness.json", encoding="utf-8"))
+        _rws = _lfz2.get("lanes") or []
+        _owner_ok = all((r.get("owner") == r.get("lane_host"))
+                        for r in _rws if r.get("lane_host"))
+        _env = None
+        for _p in ("results/heat_update_status.json",
+                   "results/heat_update_status.bm-a.json"):
+            if os.path.exists(_p):
+                _doc = json.load(open(_p, encoding="utf-8"))
+                if isinstance(_doc.get("authority"), dict):
+                    _env = (_p, _doc)
+                    break
+        _auth_ok, _auth_why = True, "no envelope carries an authority block yet"
+        if _env:
+            _a = _env[1]["authority"]
+            _need = ("lane_owner", "writer_machine", "data_face_machine",
+                     "declared_takeover", "took_over_by", "reason")
+            _auth_ok = (all(k in _a for k in _need)
+                        and bool(_a.get("data_face_machine"))
+                        and (_a.get("data_face_machine") == _env[1].get("machine"))
+                        and (_a.get("lane_owner")
+                             == next((r.get("lane_host") for r in _rws
+                                      if r["lane"] == "heat"), None)))
+            _auth_why = f"{_env[0]}: {_a}"
+        _tk_ok = all(
+            (r.get("authority") != "non_host_envelope"
+             or not r.get("declared_takeover_by")
+             or r.get("declared_takeover_by") != r.get("reported_by"))
+            for r in _rws)
+        check("product: a lane takeover declares whose disk holds the rows",
+              _owner_ok and _auth_ok and _tk_ok,
+              f"owner==host={_owner_ok} auth={_auth_ok} ({_auth_why}) "
+              f"declared-takeover-honoured={_tk_ok}")
+    except Exception as e:
+        check("product: a lane takeover declares whose disk holds the rows",
+              False, str(e))
+    try:
         # r1156: the lane-freshness board must agree with the lanes' OWN bytes and
         # with the official calendar. Re-reading the published JSON would only prove
         # the file parses, so the two tails a reader acts on are recomputed here from

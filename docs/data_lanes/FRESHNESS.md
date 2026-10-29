@@ -25,7 +25,7 @@ Verdict: **host_down** -- 2/10 lanes in sync, 2/10 auditable from this machine, 
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-29T18:18:13+08:00 (10.39h ago) -- holding back moneyflow, heat, repo, astock_daily, marks, zt_pool
+- `bm-b`: last seen 2026-10-29T18:18:13+08:00 (11.76h ago) -- holding back moneyflow, heat, repo, astock_daily, marks, zt_pool
 
 ## Why some lanes cannot be certified here
 

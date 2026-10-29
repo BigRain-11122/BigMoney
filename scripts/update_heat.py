@@ -47,6 +47,10 @@ HEAT_LANE_HOST = lane_host("update_heat", "bm-a")   # R19 wiring / R31 lane-owne
 #   heat snapshots derive from the HOST's machine-local data/heat face
 #   (gitignored) -- non-host runs must not author a lane (ts新 != 数据权威新).
 
+_ACTIVE_TAKEOVER = None    # set by main() when a declared stale takeover
+#   passed the gate; save_status stamps it into the tracked envelope so a
+#   reader can tell WHICH machine-local face holds the rows (T25, r1161).
+
 CLOSE_ACCEPT_TIME = dt.time(15, 30)   # post-close snapshot convention
 SESSION_OPEN_GUARD = dt.time(9, 15)   # call auction: the ranking can move from here
 MIN_ATTEMPT_INTERVAL = 30 * 60        # min seconds between network attempts
@@ -55,6 +59,39 @@ PAGE_SIZE = 100                      # public top-100 (endpoint cap, probed)
 MIN_ROWS = 50                        # validation floor (expect exactly 100)
 SC_RE = re.compile(r"^(SH|SZ)(\d{6})$")
 RETRY_SLEEP = 3                      # one retry, emappdata flakiness (r39)
+
+
+def _takeover_gate(owner):
+    """R31 lane guard + declared stale takeover (T25, r1161).
+
+    The heat rows live in a gitignored MACHINE-LOCAL dir, so a takeover cannot
+    hand them to the owner's disk. What it can do is keep forward accumulation
+    alive on the taker and SAY SO on the tracked status envelope -- otherwise
+    the takeover produces "a copy nobody reads", which is the pit T25 names.
+    A non-owner without a valid declaration stays a stdout-only no-op (R31).
+    The decision itself is imported from update_etf_daily, never re-implemented
+    (r1100 single-source law).
+    """
+    if owner == HEAT_LANE_HOST:
+        return None
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from update_etf_daily import (TAKEOVER_STALE_MIN, _owner_stale_min,
+                                  takeover_decision)
+    stale = _owner_stale_min(HEAT_LANE_HOST)
+    ok, why = takeover_decision("--takeover" in sys.argv[1:], stale)
+    if not ok:
+        print(f"no-op: heat lane host {HEAT_LANE_HOST} authority, this "
+              f"machine ({owner or 'unknown-id'}) stdout-only "
+              f"(R31 lane-guard); takeover refused: {why}", flush=True)
+        return None
+    reason = (f"owner {HEAT_LANE_HOST} heartbeat silent {stale/60:.1f}h "
+              f">= {TAKEOVER_STALE_MIN}min")
+    print(f"TAKEOVER: declared stale takeover of {HEAT_LANE_HOST}'s heat lane "
+          f"by {owner} -- {reason} | rows land in this machine's data/heat "
+          f"(gitignored, machine-local) and the status envelope now names "
+          f"{owner} as the data face", flush=True)
+    return {"owner": HEAT_LANE_HOST, "by": owner, "reason": reason,
+            "ts": dt.datetime.now().isoformat(timespec="seconds")}
 
 
 def save_status(payload):
@@ -67,13 +104,28 @@ def save_status(payload):
     # exactly how seven missing days went unnoticed (data_lane_freshness).
     payload["machine"] = machine_id()
     payload["lane_host"] = HEAT_LANE_HOST
+    # Authority block (T25, r1161): the data face is machine-local and a
+    # takeover CANNOT move the rows -- it can only re-declare the writer.
+    # Without this block a declared takeover leaves a copy no reader can
+    # attribute, so the reader is told exactly whose disk holds the rows.
+    took = _ACTIVE_TAKEOVER or {}
+    payload["authority"] = {
+        "lane_owner": HEAT_LANE_HOST,
+        "writer_machine": machine_id(),
+        "data_face_machine": machine_id(),
+        "declared_takeover": bool(_ACTIVE_TAKEOVER),
+        "took_over_by": took.get("by"),
+        "took_over_at": took.get("ts"),
+        "reason": took.get("reason"),
+    }
     payload["latest_snapshot"] = latest_snapshot()
     payload["snapshots"] = count_snapshots()
     with open(STATUS, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
     # Lane dual-track (D-20260928-03 batch-2), host-guarded: only the
     # R31 host authors the heat lane; fail-soft never breaks the run.
-    if machine_id() == HEAT_LANE_HOST:
+    # A declared takeover IS the authority while it holds the rows.
+    if machine_id() == HEAT_LANE_HOST or _ACTIVE_TAKEOVER is not None:
         write_lane("heat_update_status", payload)
 
 
@@ -247,18 +299,20 @@ def write_snapshot(path, rows, now, session=None, basis=None):
 
 
 def main():
-    # R31 host-guard (r378 obs-window catch #5): heat snapshots and their
+# R31 host-guard (r378 obs-window catch #5): heat snapshots and their
     # status face derive from the HOST's machine-local data/heat
     # directory -- a non-host run must not fetch, snapshot, or advance
-    # the shared envelope (ts新 != 数据权威新; an envelope-only no-op
+    # the shared envelope (ts新!= 数据权威新; an envelope-only no-op
     # write from a non-host advanced shared freshness past the
     # authoritative host lane and forced reconcile drift, live-fire
     # bm-c r130 vs bm-a r378 same-window). Non-host = stdout-only
-    # honest no-op, zero writes (update_astock_daily precedent).
-    if machine_id() != HEAT_LANE_HOST:
-        print(f"no-op: heat lane host {HEAT_LANE_HOST} authority, this "
-              f"machine ({machine_id() or 'unknown-id'}) stdout-only "
-              f"(R31 lane-guard, r378 catch #5)", flush=True)
+    # honest no-op (update_astock_daily precedent), EXCEPT a declared
+    # stale takeover (T25, r1161): explicit --takeover AND an owner
+    # heartbeat silent >= TAKEOVER_STALE_MIN, in which case this machine
+    # becomes the declared authority and says so on the envelope.
+    global _ACTIVE_TAKEOVER
+    _ACTIVE_TAKEOVER = _takeover_gate(machine_id())
+    if machine_id() != HEAT_LANE_HOST and _ACTIVE_TAKEOVER is None:
         return 0
     now = pd.Timestamp.now()
     prev = load_status()
@@ -442,6 +496,44 @@ def selftest():
                 and "post-close carry" in doc2["label_basis"]), doc2
         print("[PASS] write_snapshot atomic + labels the session it represents",
               flush=True)
+
+    # T25 (r1161): the authority block is what a takeover's reader depends on.
+    saved_status = globals()["STATUS"]
+    saved_take = globals()["_ACTIVE_TAKEOVER"]
+    saved_lane = globals()["write_lane"]
+    lanes_written = []
+    with tempfile.TemporaryDirectory() as td:
+        globals()["STATUS"] = os.path.join(td, "st.json")
+        globals()["write_lane"] = lambda face, payload: lanes_written.append(face)
+        try:
+            globals()["_ACTIVE_TAKEOVER"] = None
+            save_status({"verdict": "unit-plain"})
+            with open(globals()["STATUS"], encoding="utf-8") as f:
+                a = json.load(f)["authority"]
+            assert a["declared_takeover"] is False and a["took_over_by"] is None
+            assert a["data_face_machine"] == machine_id(), a
+            assert a["lane_owner"] == HEAT_LANE_HOST, a
+            plain_lane = list(lanes_written)
+            globals()["_ACTIVE_TAKEOVER"] = {"by": "bm-x", "ts": "unit",
+                                             "reason": "unit",
+                                             "owner": HEAT_LANE_HOST}
+            save_status({"verdict": "unit-takeover"})
+            with open(globals()["STATUS"], encoding="utf-8") as f:
+                a2 = json.load(f)["authority"]
+            assert a2["declared_takeover"] is True, a2
+            assert a2["took_over_by"] == "bm-x", a2
+            assert a2["data_face_machine"] == machine_id(), a2
+            # the declared takeover MUST author the shared lane, or its rows
+            # are exactly the "copy nobody reads" this card exists to prevent
+            assert lanes_written and lanes_written[-1] == "heat_update_status"
+            assert len(plain_lane) == (1 if machine_id() == HEAT_LANE_HOST else 0)
+            print("[PASS] authority block names who holds the machine-local rows "
+                  "(plain run vs declared takeover), and only the authority "
+                  "authors the shared lane", flush=True)
+        finally:
+            globals()["STATUS"] = saved_status
+            globals()["_ACTIVE_TAKEOVER"] = saved_take
+            globals()["write_lane"] = saved_lane
 
     print("selftest: all guard cases PASS", flush=True)
     return 0
