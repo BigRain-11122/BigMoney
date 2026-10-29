@@ -1612,12 +1612,15 @@
   "verdict": "E229 split E228's paired timing value three ways as an exact identity (selection = which days, sizing = how much, toll = what moving costs) and the three channels reconstruct the pair to 2.0e-12 bp on all 8 cells. The card's question has a per-arm answer: binary_low is the only gate that dodges the RIGHT days (the sessions it sits out average -4.61 bp single / -4.79 bp basket against the drift) giving selection +261/+265 bp/yr, but at t=1.26/1.32 it is nowhere near the 3.08 bar -- E228's one positive cell is a right-signed, unresolved SELECTION effect, not sizing skill. tilt_step/tilt_linear sit out sessions averaging +0.72/+1.76 bp ABOVE the drift, i.e. a long-only gate stepping aside above the mean. The only channel that clears its bar is the TOLL (tilt_* on the basket, t=-10.0): what separates these arms from a flat constant is measurably the cost of moving. And a 0/1 gate cannot have a sizing channel at all -- binary_low's covariance term is 6.8e-28 bp/yr, so its sizing is purely a level shift in average exposure."
  },
  "r1255_push": {
-  "behind_origin_main": null,
+  "behind_origin_main": 19,
   "branch": "machine/bm-b-r1255",
-  "local_not_on_origin_main": null,
-  "note": "main push not attempted: the tree is 19 behind / 2 ahead (the r1254 product and receipt never reached origin) and the merge/rebase over origin/main wedges in the promisor lazy fetch -- `git -c merge.renames=false merge --no-ff --no-commit origin/main` sat in `index-pack --stdin --promisor` (1880 objects) for 40+ min at ~0.7s CPU with 4 live git processes, so it was killed and the orphan index.lock cleared (verified no MERGE_HEAD, worktree intact). Overwriting the working-tree copies of knowledge/METHODOLOGY_ASSETS.md and smoke_test.py onto a 19-commit-stale main is exactly the LEDGER-loses-33-rows hazard, so this round goes to the machine branch per D-20260925-01(3) and the integration is left for a window with a working promisor fetch.",
-  "status": "delivered_on_machine_branch",
-  "ts": "2026-10-29T21:06:38+08:00"
+  "local_not_on_origin_main": 3,
+  "main_push_blocker": "promisor lazy fetch requests 85,599 objects before negotiation",
+  "note": "main was attempted and hangs, not rejected: `git push origin HEAD:main` starts a promisor lazy fetch -- the wrapper is `git index-pack --stdin --fix-thin --promisor --pack_header=2,85599`, i.e. it wants 85,599 objects materialised before it can even negotiate a non-fast-forward, and it sat there with no output until the 5-minute auto-cancel. The merge over origin/main dies the same way (1,880-object pack, 40+ min at 0.7s CPU). Both were killed with zero residue (no index.lock, no MERGE_HEAD, worktree intact, 320 dirty lines as at round open). Delivered instead on machine/bm-b-r1255 = 834894ac3: ls-remote returns that sha for the ref and its tree carries scripts/e229_timing_selection.py, both TIMINGSEL faces, both by-arm CSVs and the digest.",
+  "pushed_sha": "834894ac3",
+  "remote_ref_sha": "834894ac3",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-29T21:15:06+08:00"
  },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
@@ -1636,12 +1639,15 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "behind_origin_main": null,
+  "behind_origin_main": 19,
   "branch": "machine/bm-b-r1255",
-  "local_not_on_origin_main": null,
-  "note": "main push not attempted: the tree is 19 behind / 2 ahead (the r1254 product and receipt never reached origin) and the merge/rebase over origin/main wedges in the promisor lazy fetch -- `git -c merge.renames=false merge --no-ff --no-commit origin/main` sat in `index-pack --stdin --promisor` (1880 objects) for 40+ min at ~0.7s CPU with 4 live git processes, so it was killed and the orphan index.lock cleared (verified no MERGE_HEAD, worktree intact). Overwriting the working-tree copies of knowledge/METHODOLOGY_ASSETS.md and smoke_test.py onto a 19-commit-stale main is exactly the LEDGER-loses-33-rows hazard, so this round goes to the machine branch per D-20260925-01(3) and the integration is left for a window with a working promisor fetch.",
-  "status": "delivered_on_machine_branch",
-  "ts": "2026-10-29T21:06:38+08:00"
+  "local_not_on_origin_main": 3,
+  "main_push_blocker": "promisor lazy fetch requests 85,599 objects before negotiation",
+  "note": "main was attempted and hangs, not rejected: `git push origin HEAD:main` starts a promisor lazy fetch -- the wrapper is `git index-pack --stdin --fix-thin --promisor --pack_header=2,85599`, i.e. it wants 85,599 objects materialised before it can even negotiate a non-fast-forward, and it sat there with no output until the 5-minute auto-cancel. The merge over origin/main dies the same way (1,880-object pack, 40+ min at 0.7s CPU). Both were killed with zero residue (no index.lock, no MERGE_HEAD, worktree intact, 320 dirty lines as at round open). Delivered instead on machine/bm-b-r1255 = 834894ac3: ls-remote returns that sha for the ref and its tree carries scripts/e229_timing_selection.py, both TIMINGSEL faces, both by-arm CSVs and the digest.",
+  "pushed_sha": "834894ac3",
+  "remote_ref_sha": "834894ac3",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-29T21:15:06+08:00"
  },
  "task": "r1255: E229 splits the paired timing value into selection / sizing / toll -- the only channel that clears its bar is the toll",
  "task_short": "E229 timing vs selection",
