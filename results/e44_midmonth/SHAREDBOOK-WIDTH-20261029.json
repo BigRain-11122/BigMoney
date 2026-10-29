@@ -1,0 +1,818 @@
+{
+ "study": "e218_width_matched_calendar_split",
+ "evidence_cutoff": "2026-10-29",
+ "spec": {
+  "start": "2020-01-01",
+  "pick_n": 10,
+  "mid_month_day": 15,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "universe_members": 1274,
+  "eras": [
+   "pre2017",
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "seed": 20261029,
+  "n_draws": 5,
+  "keep_ratio": 0.5,
+  "draw_seeds": [
+   20261029,
+   21261032,
+   22261035,
+   23261038,
+   24261041
+  ],
+  "arms": {
+   "me": "month-end calendar, full eligible universe",
+   "mid": "mid-month calendar, full eligible universe",
+   "mid_shared": "mid-month calendar, candidate pool = the month-end book's holdings at that session (E61)",
+   "me_matched": "month-end calendar, candidate pool = a seeded draw of the same size as that book",
+   "mid_matched": "mid-month calendar, the SAME seeded draw"
+  },
+  "decomposition": "e61_selection = width (mid - mid_matched) + pool identity (mid_matched - mid_shared); calendar_matched = mid_matched - me_matched; the residual checks the first identity, and every matched term is the mean over the draw distribution"
+ },
+ "decision_days": {
+  "me": 70,
+  "mid": 70
+ },
+ "arms": {
+  "full_window": {
+   "me": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -1.62,
+    "max_drawdown_pct": -39.63
+   },
+   "mid": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -1.45,
+    "max_drawdown_pct": -39.97
+   },
+   "mid_shared": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -0.78,
+    "max_drawdown_pct": -37.35
+   }
+  },
+  "eras": {
+   "me": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -11.14,
+     "max_drawdown_pct": -32.99
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 9.3,
+     "max_drawdown_pct": -28.24
+    }
+   },
+   "mid": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -11.3,
+     "max_drawdown_pct": -33.58
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 10.02,
+     "max_drawdown_pct": -27.83
+    }
+   },
+   "mid_shared": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -10.88,
+     "max_drawdown_pct": -30.27
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 11.2,
+     "max_drawdown_pct": -25.66
+    }
+   }
+  },
+  "turnover": {
+   "me": {
+    "rebalances": 69,
+    "turnover_total": 9.825722041627696,
+    "cost_paid_frac": 0.012813724114486679
+   },
+   "mid": {
+    "rebalances": 70,
+    "turnover_total": 9.90640723674366,
+    "cost_paid_frac": 0.012918945677437418
+   },
+   "mid_shared": {
+    "rebalances": 69,
+    "turnover_total": 9.834529048790387,
+    "cost_paid_frac": 0.01282520933252754
+   }
+  },
+  "draw_turnover": [
+   {
+    "seed": 20261029,
+    "me_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.3196045614243,
+     "cost_paid_frac": 0.08779149630855353
+    },
+    "mid_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.52006681356046,
+     "cost_paid_frac": 0.08805291913156428
+    }
+   },
+   {
+    "seed": 21261032,
+    "me_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.33464228052557,
+     "cost_paid_frac": 0.0878111069980335
+    },
+    "mid_matched": {
+     "rebalances": 69,
+     "turnover_total": 68.00800908396155,
+     "cost_paid_frac": 0.08868924464639436
+    }
+   },
+   {
+    "seed": 22261035,
+    "me_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.92596141430258,
+     "cost_paid_frac": 0.08858224628039206
+    },
+    "mid_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.62124454479313,
+     "cost_paid_frac": 0.0881848650108648
+    }
+   },
+   {
+    "seed": 23261038,
+    "me_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.52061670504385,
+     "cost_paid_frac": 0.08805363624504779
+    },
+    "mid_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.71599849145184,
+     "cost_paid_frac": 0.08830843363270244
+    }
+   },
+   {
+    "seed": 24261041,
+    "me_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.34421794374592,
+     "cost_paid_frac": 0.08782359462043915
+    },
+    "mid_matched": {
+     "rebalances": 69,
+     "turnover_total": 67.84513034817306,
+     "cost_paid_frac": 0.08847683448705258
+    }
+   }
+  ]
+ },
+ "widths": {
+  "pick_n": 10,
+  "me_book_widths": [
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "mid_book_widths": [
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "book_pool_live_sizes": [
+   0,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   9,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "random_pool_live_sizes": [
+   0,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   9,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "matched_width_exact": true,
+  "pool_binds": true,
+  "book_pool_median": 10
+ },
+ "full_window": {
+  "calendar_full_bp": 17.0,
+  "calendar_matched_bp": -92.6,
+  "calendar_matched_draws": {
+   "n": 5,
+   "mean_bp": -92.6,
+   "sd_bp": 528.7,
+   "min_bp": -793.0,
+   "max_bp": 738.0,
+   "same_side_share": 0.4
+  },
+  "e61_total_bp": 17.0,
+  "e61_timing_bp": 84.0,
+  "e61_selection_bp": -67.0,
+  "selection_split": {
+   "selection_bp": -67.0,
+   "width_bp": 182.2,
+   "identity_bp": -249.2,
+   "residual_bp": 0.0,
+   "identity_ok": true,
+   "selection_carrier": "pool_identity"
+  },
+  "width_bp": {
+   "n": 5,
+   "mean_bp": 182.2,
+   "sd_bp": 402.2,
+   "min_bp": -551.0,
+   "max_bp": 543.0,
+   "same_side_share": null
+  },
+  "pool_identity_bp": {
+   "n": 5,
+   "mean_bp": -249.2,
+   "sd_bp": 402.2,
+   "min_bp": -610.0,
+   "max_bp": 484.0,
+   "same_side_share": null
+  },
+  "width_cost_me_bp": 72.6,
+  "calendar_at_matched": {
+   "full_bp": 17.0,
+   "matched_bp": -92.6,
+   "keep_ratio": 0.5,
+   "sd_bp": 528.7,
+   "n_draws": 5,
+   "draws_needed": 3869,
+   "standard_error_bp": 236.4,
+   "keep_floor_bp": 8.5,
+   "same_side_share": 0.4,
+   "survives_matched_width": null,
+   "reason": "unresolvable_at_matched_width",
+   "draw_spread_bp": {
+    "n": 5,
+    "sd": 528.7,
+    "min": -793.0,
+    "max": 738.0
+   }
+  }
+ },
+ "eras": {
+  "pre2017": {
+   "cells": "missing_arm_in_era"
+  },
+  "2017_2020": {
+   "calendar_full_bp": 0.0,
+   "calendar_matched_bp": 0.0,
+   "calendar_matched_draws": {
+    "n": 5,
+    "mean_bp": 0.0,
+    "sd_bp": 0.0,
+    "min_bp": 0.0,
+    "max_bp": 0.0,
+    "same_side_share": 0.0
+   },
+   "e61_total_bp": 0.0,
+   "e61_timing_bp": 0.0,
+   "e61_selection_bp": 0.0,
+   "selection_split": {
+    "selection_bp": 0.0,
+    "width_bp": 0.0,
+    "identity_bp": 0.0,
+    "residual_bp": 0.0,
+    "identity_ok": true,
+    "selection_carrier": "width"
+   },
+   "width_bp": {
+    "n": 5,
+    "mean_bp": 0.0,
+    "sd_bp": 0.0,
+    "min_bp": 0.0,
+    "max_bp": 0.0,
+    "same_side_share": null
+   },
+   "pool_identity_bp": {
+    "n": 5,
+    "mean_bp": 0.0,
+    "sd_bp": 0.0,
+    "min_bp": 0.0,
+    "max_bp": 0.0,
+    "same_side_share": null
+   },
+   "width_cost_me_bp": 0.0,
+   "calendar_at_matched": {
+    "full_bp": 0.0,
+    "matched_bp": 0.0,
+    "keep_ratio": 0.5,
+    "sd_bp": 0.0,
+    "n_draws": 5,
+    "draws_needed": null,
+    "standard_error_bp": 0.0,
+    "keep_floor_bp": 0.0,
+    "same_side_share": 0.0,
+    "survives_matched_width": null,
+    "reason": "degenerate_cash_slice",
+    "draw_spread_bp": {
+     "n": 5,
+     "sd": 0.0,
+     "min": 0.0,
+     "max": 0.0
+    }
+   },
+   "degenerate": "degenerate_cash_slice"
+  },
+  "2021_2023": {
+   "calendar_full_bp": -16.0,
+   "calendar_matched_bp": -314.8,
+   "calendar_matched_draws": {
+    "n": 5,
+    "mean_bp": -314.8,
+    "sd_bp": 452.6,
+    "min_bp": -790.0,
+    "max_bp": 516.0,
+    "same_side_share": 0.8
+   },
+   "e61_total_bp": -16.0,
+   "e61_timing_bp": 26.0,
+   "e61_selection_bp": -42.0,
+   "selection_split": {
+    "selection_bp": -42.0,
+    "width_bp": 191.6,
+    "identity_bp": -233.6,
+    "residual_bp": 0.0,
+    "identity_ok": true,
+    "selection_carrier": "pool_identity"
+   },
+   "width_bp": {
+    "n": 5,
+    "mean_bp": 191.6,
+    "sd_bp": 351.5,
+    "min_bp": -496.0,
+    "max_bp": 493.0,
+    "same_side_share": null
+   },
+   "pool_identity_bp": {
+    "n": 5,
+    "mean_bp": -233.6,
+    "sd_bp": 351.5,
+    "min_bp": -535.0,
+    "max_bp": 454.0,
+    "same_side_share": null
+   },
+   "width_cost_me_bp": -107.2,
+   "calendar_at_matched": {
+    "full_bp": -16.0,
+    "matched_bp": -314.8,
+    "keep_ratio": 0.5,
+    "sd_bp": 452.6,
+    "n_draws": 5,
+    "draws_needed": 3201,
+    "standard_error_bp": 202.4,
+    "keep_floor_bp": 8.0,
+    "same_side_share": 0.8,
+    "survives_matched_width": null,
+    "reason": "unresolvable_at_matched_width",
+    "draw_spread_bp": {
+     "n": 5,
+     "sd": 452.6,
+     "min": -790.0,
+     "max": 516.0
+    }
+   }
+  },
+  "2024_now": {
+   "calendar_full_bp": 72.0,
+   "calendar_matched_bp": 165.0,
+   "calendar_matched_draws": {
+    "n": 5,
+    "mean_bp": 165.0,
+    "sd_bp": 1023.5,
+    "min_bp": -1097.0,
+    "max_bp": 1310.0,
+    "same_side_share": 0.6
+   },
+   "e61_total_bp": 72.0,
+   "e61_timing_bp": 190.0,
+   "e61_selection_bp": -118.0,
+   "selection_split": {
+    "selection_bp": -118.0,
+    "width_bp": 223.4,
+    "identity_bp": -341.4,
+    "residual_bp": -0.0,
+    "identity_ok": true,
+    "selection_carrier": "pool_identity"
+   },
+   "width_bp": {
+    "n": 5,
+    "mean_bp": 223.4,
+    "sd_bp": 694.1,
+    "min_bp": -837.0,
+    "max_bp": 1071.0,
+    "same_side_share": null
+   },
+   "pool_identity_bp": {
+    "n": 5,
+    "mean_bp": -341.4,
+    "sd_bp": 694.1,
+    "min_bp": -1189.0,
+    "max_bp": 719.0,
+    "same_side_share": null
+   },
+   "width_cost_me_bp": 316.4,
+   "calendar_at_matched": {
+    "full_bp": 72.0,
+    "matched_bp": 165.0,
+    "keep_ratio": 0.5,
+    "sd_bp": 1023.5,
+    "n_draws": 5,
+    "draws_needed": 809,
+    "standard_error_bp": 457.7,
+    "keep_floor_bp": 36.0,
+    "same_side_share": 0.6,
+    "survives_matched_width": null,
+    "reason": "unresolvable_at_matched_width",
+    "draw_spread_bp": {
+     "n": 5,
+     "sd": 1023.5,
+     "min": -1097.0,
+     "max": 1310.0
+    }
+   }
+  }
+ },
+ "verdict": {
+  "label": "calendar_unresolvable_at_matched_width",
+  "full_window_survives": null,
+  "full_window_reason": "unresolvable_at_matched_width",
+  "per_era_survives": {},
+  "per_era_reason": {},
+  "eras_assessed": [],
+  "eras_unresolvable": [
+   "2021_2023",
+   "2024_now"
+  ],
+  "degenerate_eras": [
+   "2017_2020"
+  ],
+  "unmeasured_eras": [
+   "pre2017"
+  ],
+  "selection_carrier_by_era": {
+   "2017_2020": "width",
+   "2021_2023": "pool_identity",
+   "2024_now": "pool_identity"
+  },
+  "selection_carrier_consistent": false,
+  "draws_needed_full_window": 3869,
+  "rule": {
+   "keep_ratio": 0.5,
+   "seed": 20261029,
+   "n_draws": 5,
+   "side_share_floor": 0.8,
+   "basis": "a matched-width calendar reading is first asked whether a control this noisy could resolve a gap this small at all (gap < 2 standard errors = unresolvable, with the draws needed published); if resolvable it must keep the sign of the full-width reading, keep at least keep_ratio of its size, and hold its sign in at least side_share_floor of the seeded draws. The constants are frozen in module scope and echoed here so a reader can see the rule was not fitted to this run"
+  }
+ },
+ "answers": {
+  "e61_selection_bp": -67.0,
+  "selection_width_bp": 182.2,
+  "selection_width_sd_bp": 402.2,
+  "selection_pool_identity_bp": -249.2,
+  "selection_pool_identity_sd_bp": 402.2,
+  "selection_identity_ok": true,
+  "selection_carrier": "pool_identity",
+  "calendar_full_bp": 17.0,
+  "calendar_matched_bp": -92.6,
+  "calendar_matched_sd_bp": 528.7,
+  "calendar_matched_standard_error_bp": 236.4,
+  "draws_needed_to_resolve_full_window": 3869,
+  "calendar_matched_same_side_share": 0.4,
+  "calendar_survives_matched_width": null,
+  "calendar_verdict_reason": "unresolvable_at_matched_width",
+  "verdict_label": "calendar_unresolvable_at_matched_width",
+  "per_era_survives": {}
+ },
+ "honest": [
+  "the random arm is a width control, not a strategy: it says how much of the calendar gap is width and how much is which names are on offer, it is not a book anyone should hold",
+  "one seeded draw is a ten-name book whose own return spread across seeds is wider than the effect being measured, so the matched terms are the mean over the draw distribution with its sd published beside every mean, and a reading that flips sign across draws is not called a survival even when its mean clears the floor",
+  "the draws are seeded from module constants and the seed list is published, so the same cutoff reproduces the same names; a different seed set would be a different control and is not run here",
+  "early sessions whose book pool is empty give both matched arms an empty candidate set, so width is equal at 0 as well -- those sessions hold cash in both arms and cannot distinguish the calendars",
+  "no cost arm is re-derived: every arm runs at x0, so the curves differ only in decision sessions and candidate pool",
+  "descriptive census only: no gate, no prereq, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

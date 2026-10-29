@@ -1,0 +1,218 @@
+{
+ "study": "e219_width_ladder_resolution",
+ "evidence_cutoff": "2026-10-29",
+ "spec": {
+  "start": "2020-01-01",
+  "widths": [
+   10,
+   25,
+   50,
+   100
+  ],
+  "target_bp": 18.0,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "mid_month_day": 15,
+  "seed": 20261029,
+  "n_draws": 5,
+  "keep_ratio": 0.5,
+  "ladder_axis": "pick_n",
+  "experiment_held_fixed": "every rung is the same seeded size-matched control with the same two calendars and the same two draw arms; only the number of names on offer changes, so a rung-to-rung difference is width and nothing else",
+  "resolution_rule": "a rung is resolvable when |gap at that width| >= 2 standard errors at the draw count used; draws_needed is the same condition solved for n, published for both the local gap and the frozen E61 reference gap"
+ },
+ "rows": {
+  "10": {
+   "pick_n": 10,
+   "decision_days": 70,
+   "book_pool_median": 10,
+   "pool_binds": true,
+   "matched_width_exact": true,
+   "calendar_full_bp": 17.0,
+   "calendar_matched_bp": -92.6,
+   "matched_sd_bp": 528.7,
+   "n_draws": 5,
+   "standard_error_bp": 236.4,
+   "gap_over_two_se": 0.07,
+   "resolvable_at_this_width": false,
+   "draws_needed_local_gap": 3869,
+   "draws_needed_target_bp": 3451,
+   "survives_matched_width": null,
+   "reason": "unresolvable_at_matched_width",
+   "selection_width_bp": 182.2,
+   "selection_pool_identity_bp": -249.2,
+   "selection_carrier": "pool_identity",
+   "identity_ok": true,
+   "e61_selection_bp": -67.0,
+   "per_era_resolvable": [],
+   "per_era_unresolvable": [
+    "2021_2023",
+    "2024_now"
+   ]
+  },
+  "25": {
+   "pick_n": 25,
+   "decision_days": 70,
+   "book_pool_median": 25,
+   "pool_binds": true,
+   "matched_width_exact": true,
+   "calendar_full_bp": -50.0,
+   "calendar_matched_bp": -8.8,
+   "matched_sd_bp": 237.0,
+   "n_draws": 5,
+   "standard_error_bp": 106.0,
+   "gap_over_two_se": 0.47,
+   "resolvable_at_this_width": false,
+   "draws_needed_local_gap": 90,
+   "draws_needed_target_bp": 694,
+   "survives_matched_width": null,
+   "reason": "unresolvable_at_matched_width",
+   "selection_width_bp": -17.4,
+   "selection_pool_identity_bp": 50.4,
+   "selection_carrier": "pool_identity",
+   "identity_ok": true,
+   "e61_selection_bp": 33.0,
+   "per_era_resolvable": [],
+   "per_era_unresolvable": [
+    "2021_2023",
+    "2024_now"
+   ]
+  },
+  "50": {
+   "pick_n": 50,
+   "decision_days": 70,
+   "book_pool_median": 50,
+   "pool_binds": true,
+   "matched_width_exact": true,
+   "calendar_full_bp": -161.0,
+   "calendar_matched_bp": 7.6,
+   "matched_sd_bp": 124.8,
+   "n_draws": 5,
+   "standard_error_bp": 55.8,
+   "gap_over_two_se": 2.89,
+   "resolvable_at_this_width": true,
+   "draws_needed_local_gap": 3,
+   "draws_needed_target_bp": 193,
+   "survives_matched_width": false,
+   "reason": "sign_flips_across_draws",
+   "selection_width_bp": -123.4,
+   "selection_pool_identity_bp": 150.4,
+   "selection_carrier": "pool_identity",
+   "identity_ok": true,
+   "e61_selection_bp": 27.0,
+   "per_era_resolvable": [
+    "2021_2023"
+   ],
+   "per_era_unresolvable": []
+  },
+  "100": {
+   "pick_n": 100,
+   "decision_days": 70,
+   "book_pool_median": 100,
+   "pool_binds": true,
+   "matched_width_exact": true,
+   "calendar_full_bp": -45.0,
+   "calendar_matched_bp": -22.4,
+   "matched_sd_bp": 96.9,
+   "n_draws": 5,
+   "standard_error_bp": 43.3,
+   "gap_over_two_se": 1.04,
+   "resolvable_at_this_width": false,
+   "draws_needed_local_gap": 19,
+   "draws_needed_target_bp": 116,
+   "survives_matched_width": null,
+   "reason": "unresolvable_at_matched_width",
+   "selection_width_bp": -231.4,
+   "selection_pool_identity_bp": 189.4,
+   "selection_carrier": "width",
+   "identity_ok": true,
+   "e61_selection_bp": -42.0,
+   "per_era_resolvable": [],
+   "per_era_unresolvable": [
+    "2021_2023",
+    "2024_now"
+   ]
+  }
+ },
+ "verdict": {
+  "label": "resolvable_from_width_50",
+  "first_resolvable_width": 50,
+  "widths_probably_too_narrow": [
+   10,
+   25,
+   100
+  ],
+  "matched_sd_by_width": {
+   "10": 528.7,
+   "25": 237.0,
+   "50": 124.8,
+   "100": 96.9
+  },
+  "matched_sd_monotone_down_with_width": true,
+  "gap_by_width": {
+   "10": 17.0,
+   "25": -50.0,
+   "50": -161.0,
+   "100": -45.0
+  },
+  "gap_spread_bp": 178.0,
+  "tightest_standard_error_bp": 43.3,
+  "gap_sign_stable_across_widths": false,
+  "gap_is_width_invariant": false,
+  "draws_needed_by_width": {
+   "10": 3869,
+   "25": 90,
+   "50": 3,
+   "100": 19
+  },
+  "reread_at_first_resolvable": {
+   "pick_n": 50,
+   "calendar_full_bp": -161.0,
+   "calendar_matched_bp": 7.6,
+   "standard_error_bp": 55.8,
+   "survives_matched_width": false,
+   "reason": "sign_flips_across_draws",
+   "selection_carrier": "pool_identity",
+   "e61_selection_bp": 27.0,
+   "note": "the split is re-read at the narrowest width whose control can decide it; a rung that is resolvable but whose matched reading flips sign is reported as flipped, not as resolved"
+  }
+ },
+ "answers": {
+  "first_width_that_can_decide": 50,
+  "calendar_gap_by_width": {
+   "10": 17.0,
+   "25": -50.0,
+   "50": -161.0,
+   "100": -45.0
+  },
+  "matched_gap_by_width": {
+   "10": -92.6,
+   "25": -8.8,
+   "50": 7.6,
+   "100": -22.4
+  },
+  "control_sd_by_width": {
+   "10": 528.7,
+   "25": 237.0,
+   "50": 124.8,
+   "100": 96.9
+  },
+  "draws_needed_by_width": {
+   "10": 3869,
+   "25": 90,
+   "50": 3,
+   "100": 19
+  },
+  "verdict_label": "resolvable_from_width_50"
+ },
+ "honest": [
+  "a wider book is not a strategy change and not a better strategy: width is monotone in risk here, and this face only asks at which width the calendar question becomes answerable at all",
+  "the draws are seeded and the seed list is published, so the same cutoff reproduces the same names; the sd per width is the draw distribution's own spread, not a confidence interval on returns",
+  "draws_needed assumes draws are independent; correlated draws (the same month-end book recurring) would need more, so it is a floor",
+  "where pool_binds is true the wide rung could not fill pick_n at some sessions, so that rung holds a narrower book than its label",
+  "each rung is burned at cost x0 and no cost arm is re-derived; descriptive census only, no gate, no prereg, no trial count",
+  "gap_is_width_invariant is the precondition for reading the ladder as one effect measured more finely: if the gap itself moves more than the tightest control's standard error between rungs, each rung is measuring a different quantity and a 'resolved' rung decides only that rung's number, not the narrow one"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

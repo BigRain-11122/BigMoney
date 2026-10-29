@@ -163,6 +163,11 @@ LEGS = [
     # session behind its regressors (6630 of 6635 rows). One change per rung, and every rung
     # publishes a_share, the denominator coefficient and the derived rest channel.
     ("pair_reproduction", ["python", "scripts/e241_pair_reproduction.py", "run"]),
+    # E242: every design in this family whose regressor set leaves a member out inherits an
+    # omission factor (E240 measured 1.89 on one design). This leg walks the published slopes,
+    # classifies them by how many members they omit, re-prices them on one identified grid and
+    # states which published numbers are LEVEL artefacts and whether each verdict survives.
+    ("omission_inflation", ["python", "scripts/e242_omission_inflation_sweep.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

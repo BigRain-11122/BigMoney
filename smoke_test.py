@@ -3439,6 +3439,73 @@ def main() -> int:
     except Exception as e:
         check("product: a non-reproducing pair is traced rung by rung to the reader", False,
               repr(e)[:160])
+    # E242: the omission sweep. What makes it readable is that the inflation factor is
+    # measured against a NAMED identified form, that the closed form is published beside the
+    # measurement instead of standing in for it, that the paired difference is shown to be the
+    # quantity omission spares (so a verdict resting on a level is the one at risk), and that
+    # every re-priceable verdict carries the numbers it was re-priced from.
+    try:
+        _bad42 = []
+        _p42 = "results/state_tilt/omission_latest.json"
+        _f42 = {}
+        if not os.path.exists(_p42):
+            _bad42.append("omission face missing")
+        else:
+            with open(_p42, encoding="utf-8") as _fh:
+                _f42 = json.load(_fh)
+            if (_f42.get("study") or "") != "E242":
+                _bad42.append("face does not identify as E242")
+            _cut42 = _f42.get("evidence_cutoff")
+            if not _cut42:
+                _bad42.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/OMISSION-%s.json"
+                                    % str(_cut42)[:10]):
+                _bad42.append("the dated face beside the latest pointer is missing")
+            _inf42 = _f42.get("inflation") or {}
+            _c42 = _inf42.get("cross") or {}
+            if not (_c42.get("factor_by_identified_form") or {}):
+                _bad42.append("the factor is quoted without naming its identified form")
+            if _c42.get("measured_factor") is None or _inf42.get("closed_form") is None:
+                _bad42.append("measured factor and closed form are not both published")
+            if _c42.get("closed_form_gap_relative") is None:
+                _bad42.append("the closed form is not compared with the measurement")
+            _dv42 = _f42.get("difference_insulation") or {}
+            if _dv42.get("identified_pooled_diff") is None:
+                _bad42.append("the paired difference is not published")
+            if not _dv42.get("reading"):
+                _bad42.append("the face does not say why the difference is spared")
+            if not (_f42.get("level_claims") or []):
+                _bad42.append("no level claims are re-priced")
+            for _r42 in _f42.get("level_claims") or []:
+                _gw42 = _r42.get("gate_window") or []
+                if len(_gw42) != 2 or _gw42[0] > _gw42[1]:
+                    _bad42.append("a level claim carries no gate window")
+                    break
+            _pr42 = [v for v in (_f42.get("verdicts") or []) if v.get("repriced_diff") is not None]
+            for _v42 in _pr42:
+                if _v42.get("repriced_diff_ci") is None:
+                    _bad42.append("%s publishes a re-priced difference without its interval"
+                                  % _v42.get("face"))
+                if _v42.get("gap_from_omission") is None or _v42.get("gap_from_grid") is None:
+                    _bad42.append("%s does not split its gap into grid and omission"
+                                  % _v42.get("face"))
+            if (_f42.get("no_bill") or {}).get("permitted") is not False:
+                _bad42.append("the face granted a charge")
+        check("product: an omission-inflated slope is re-priced against a named identified form",
+              not _bad42, "; ".join(_bad42)[:220]
+              or "naive cross %.3f -> identified %.3f (x%.2f, closed form x%.2f); difference "
+                 "spared %.3f; levels at risk %d"
+                 % ((_f42.get("inflation") or {}).get("cross", {}).get("naive_own_plus_one") or 0.0,
+                    (_f42.get("inflation") or {}).get("cross", {}).get(
+                        "identified_own_plus_all") or 0.0,
+                    (_f42.get("inflation") or {}).get("cross", {}).get("measured_factor") or 0.0,
+                    (_f42.get("inflation") or {}).get("closed_form") or 0.0,
+                    (_f42.get("difference_insulation") or {}).get(
+                        "identified_pooled_diff") or 0.0,
+                    len((_f42.get("summary") or {}).get("levels_at_risk") or [])))
+    except Exception as e:
+        check("product: an omission-inflated slope is re-priced against a named identified form",
+              False, repr(e)[:160])
     return _finish()
 
 

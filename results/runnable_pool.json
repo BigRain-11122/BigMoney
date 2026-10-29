@@ -23594,14 +23594,18 @@
     "run"
    ],
    "source": "E240 measured the omission of the other members inside one pair regression: the naive pair cross slope is 0.325 against the identified one-counterparty slope of 0.183, a factor of 1.89 at rho = 0.424, matching the closed form (1+(k-1)rho-k rho^2)/(1-rho^2). Every face in this family that regresses on own plus ONE counterparty inherits that factor, and E239's published 0.314 is one of them. Sweep the published faces (E239 pair slopes, E236 share-difference slopes, E235 charge granularity) and for each one publish the identified counterpart (own + one + the rest) next to it, the implied inflation factor, and whether the face's VERDICT survives the re-pricing. A verdict that flips is the deliverable; a verdict that survives is the evidence that the family can keep quoting it. No new theory: only which published numbers were units artefacts.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e242_omission_inflation_sweep.py (new runner)",
    "title": "how many published family slopes are inflated by omitting the other members?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/state_tilt/OMISSION-2026-10-29.json",
+   "done_note": "r1268: 15 published slopes read / 7 re-priceable; omission lifts the single-counterparty cross level x1.53 (own+four form) to x1.78 (one+sum form) against a closed form x1.89 at rho 0.424; the paired difference is structurally spared (E239 0.4837 published, 0.7270 same naive design on the common grid, 0.6675 [0.4978, 0.8373] identified -> verdict survives); the grid moves that difference 4x more than the omission does; no verdict flips",
+   "done_round": 1268,
+   "done_by": "bm-b"
   },
   {
    "deliverable": "results/state_tilt/ADDOS-<cutoff>.json (the one-vs-three difference by era, by member, and on the pre-2020 segment)",

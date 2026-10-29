@@ -1,0 +1,929 @@
+{
+ "study": "e214_offbook_liquidity_era_stability",
+ "evidence_cutoff": "2026-10-29",
+ "spec": {
+  "pick_n": 9999,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "start": "2017-01-01",
+  "mid_month_day": 15,
+  "liq_window_sessions": 60,
+  "universe_members": 1274,
+  "tercile_thresholds_amount": [
+   6139957.7,
+   28804107.4
+  ],
+  "tercile_unit": "panel amount, 60-session mean ending at the decision bar",
+  "bucket_definition": {
+   "other_drops_next": "entrant is in the other calendar's drop set at its next rebalance",
+   "other_still_holds": "entrant is still held by the other calendar at its next rebalance",
+   "disjoint": "entrant is in neither the other book's next holdings nor its next drop set"
+  },
+  "floor_pct": 0.1
+ },
+ "decision_days": {
+  "me": 106,
+  "mid15": 106
+ },
+ "entrants_bucketed": {
+  "me": 1293,
+  "mid15": 1319
+ },
+ "calendars": {
+  "me": {
+   "2017_2020": {
+    "transitions": 36,
+    "entrant_slots": 141,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thin": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "mid": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thick": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "share_pct": 0.0
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 75,
+       "priced": 75,
+       "fwd_pct_mean": -0.715,
+       "fwd_pct_median": -0.355,
+       "negative_share_pct": 56.0,
+       "liq_amount_median": 4190666.5
+      },
+      "thin": {
+       "entrants": 41,
+       "priced": 41,
+       "fwd_pct_mean": -0.26,
+       "fwd_pct_median": -0.926,
+       "negative_share_pct": 61.0,
+       "liq_amount_median": 1068972.1
+      },
+      "mid": {
+       "entrants": 22,
+       "priced": 22,
+       "fwd_pct_mean": -3.057,
+       "fwd_pct_median": -0.256,
+       "negative_share_pct": 54.5,
+       "liq_amount_median": 13308139.8
+      },
+      "thick": {
+       "entrants": 12,
+       "priced": 12,
+       "fwd_pct_mean": 2.026,
+       "fwd_pct_median": 1.907,
+       "negative_share_pct": 41.7,
+       "liq_amount_median": 48870154.8
+      },
+      "share_pct": 53.19
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 66,
+       "priced": 66,
+       "fwd_pct_mean": 1.942,
+       "fwd_pct_median": 0.676,
+       "negative_share_pct": 42.4,
+       "liq_amount_median": 9318170.9
+      },
+      "thin": {
+       "entrants": 32,
+       "priced": 32,
+       "fwd_pct_mean": 1.995,
+       "fwd_pct_median": 1.262,
+       "negative_share_pct": 34.4,
+       "liq_amount_median": 1211963.2
+      },
+      "mid": {
+       "entrants": 16,
+       "priced": 16,
+       "fwd_pct_mean": 0.402,
+       "fwd_pct_median": -0.049,
+       "negative_share_pct": 50.0,
+       "liq_amount_median": 16888555.6
+      },
+      "thick": {
+       "entrants": 18,
+       "priced": 18,
+       "fwd_pct_mean": 3.217,
+       "fwd_pct_median": 1.314,
+       "negative_share_pct": 50.0,
+       "liq_amount_median": 93587250.9
+      },
+      "share_pct": 46.81
+     }
+    }
+   },
+   "2021_2023": {
+    "transitions": 36,
+    "entrant_slots": 524,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": 0.678,
+       "fwd_pct_median": 0.678,
+       "negative_share_pct": 0.0,
+       "liq_amount_median": 173541.1
+      },
+      "thin": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": 0.678,
+       "fwd_pct_median": 0.678,
+       "negative_share_pct": 0.0,
+       "liq_amount_median": 173541.1
+      },
+      "mid": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thick": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "share_pct": 0.19
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 263,
+       "priced": 263,
+       "fwd_pct_mean": -1.861,
+       "fwd_pct_median": -2.184,
+       "negative_share_pct": 62.4,
+       "liq_amount_median": 12864856.7
+      },
+      "thin": {
+       "entrants": 83,
+       "priced": 83,
+       "fwd_pct_mean": -1.49,
+       "fwd_pct_median": -1.786,
+       "negative_share_pct": 62.7,
+       "liq_amount_median": 2379650.0
+      },
+      "mid": {
+       "entrants": 92,
+       "priced": 92,
+       "fwd_pct_mean": -1.72,
+       "fwd_pct_median": -1.358,
+       "negative_share_pct": 58.7,
+       "liq_amount_median": 12697491.6
+      },
+      "thick": {
+       "entrants": 88,
+       "priced": 88,
+       "fwd_pct_mean": -2.359,
+       "fwd_pct_median": -3.335,
+       "negative_share_pct": 65.9,
+       "liq_amount_median": 79313824.0
+      },
+      "share_pct": 50.19
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 260,
+       "priced": 260,
+       "fwd_pct_mean": -0.869,
+       "fwd_pct_median": -1.123,
+       "negative_share_pct": 56.5,
+       "liq_amount_median": 16287142.7
+      },
+      "thin": {
+       "entrants": 80,
+       "priced": 80,
+       "fwd_pct_mean": -0.609,
+       "fwd_pct_median": -1.292,
+       "negative_share_pct": 60.0,
+       "liq_amount_median": 2500385.2
+      },
+      "mid": {
+       "entrants": 93,
+       "priced": 93,
+       "fwd_pct_mean": -0.602,
+       "fwd_pct_median": -0.486,
+       "negative_share_pct": 54.8,
+       "liq_amount_median": 15550858.2
+      },
+      "thick": {
+       "entrants": 87,
+       "priced": 87,
+       "fwd_pct_mean": -1.393,
+       "fwd_pct_median": -1.845,
+       "negative_share_pct": 55.2,
+       "liq_amount_median": 71401137.0
+      },
+      "share_pct": 49.62
+     }
+    }
+   },
+   "2024_now": {
+    "transitions": 33,
+    "entrant_slots": 628,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": -2.039,
+       "fwd_pct_median": -2.039,
+       "negative_share_pct": 100.0,
+       "liq_amount_median": 7732042.1
+      },
+      "thin": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "mid": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": -2.039,
+       "fwd_pct_median": -2.039,
+       "negative_share_pct": 100.0,
+       "liq_amount_median": 7732042.1
+      },
+      "thick": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "share_pct": 0.16
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 301,
+       "priced": 301,
+       "fwd_pct_mean": 1.172,
+       "fwd_pct_median": 0.263,
+       "negative_share_pct": 45.8,
+       "liq_amount_median": 13707150.5
+      },
+      "thin": {
+       "entrants": 88,
+       "priced": 88,
+       "fwd_pct_mean": 1.788,
+       "fwd_pct_median": 1.685,
+       "negative_share_pct": 39.8,
+       "liq_amount_median": 2341149.6
+      },
+      "mid": {
+       "entrants": 108,
+       "priced": 108,
+       "fwd_pct_mean": 0.81,
+       "fwd_pct_median": 0.0,
+       "negative_share_pct": 49.1,
+       "liq_amount_median": 12438054.6
+      },
+      "thick": {
+       "entrants": 105,
+       "priced": 105,
+       "fwd_pct_mean": 1.029,
+       "fwd_pct_median": 0.204,
+       "negative_share_pct": 47.6,
+       "liq_amount_median": 89521584.2
+      },
+      "share_pct": 47.93
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 326,
+       "priced": 326,
+       "fwd_pct_mean": 2.421,
+       "fwd_pct_median": 1.105,
+       "negative_share_pct": 39.3,
+       "liq_amount_median": 11870072.7
+      },
+      "thin": {
+       "entrants": 109,
+       "priced": 109,
+       "fwd_pct_mean": 2.314,
+       "fwd_pct_median": 2.023,
+       "negative_share_pct": 37.6,
+       "liq_amount_median": 2296599.0
+      },
+      "mid": {
+       "entrants": 105,
+       "priced": 105,
+       "fwd_pct_mean": 1.13,
+       "fwd_pct_median": 0.656,
+       "negative_share_pct": 48.6,
+       "liq_amount_median": 11532514.8
+      },
+      "thick": {
+       "entrants": 112,
+       "priced": 112,
+       "fwd_pct_mean": 3.734,
+       "fwd_pct_median": 1.06,
+       "negative_share_pct": 32.1,
+       "liq_amount_median": 124694468.2
+      },
+      "share_pct": 51.91
+     }
+    }
+   }
+  },
+  "mid15": {
+   "2017_2020": {
+    "transitions": 36,
+    "entrant_slots": 136,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thin": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "mid": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thick": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "share_pct": 0.0
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 61,
+       "priced": 61,
+       "fwd_pct_mean": 1.633,
+       "fwd_pct_median": -0.169,
+       "negative_share_pct": 50.8,
+       "liq_amount_median": 6436859.1
+      },
+      "thin": {
+       "entrants": 30,
+       "priced": 30,
+       "fwd_pct_mean": 0.7,
+       "fwd_pct_median": 0.217,
+       "negative_share_pct": 43.3,
+       "liq_amount_median": 673598.7
+      },
+      "mid": {
+       "entrants": 11,
+       "priced": 11,
+       "fwd_pct_mean": -1.156,
+       "fwd_pct_median": -1.004,
+       "negative_share_pct": 72.7,
+       "liq_amount_median": 15346511.8
+      },
+      "thick": {
+       "entrants": 20,
+       "priced": 20,
+       "fwd_pct_mean": 4.567,
+       "fwd_pct_median": -0.213,
+       "negative_share_pct": 50.0,
+       "liq_amount_median": 83989680.7
+      },
+      "share_pct": 44.85
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 75,
+       "priced": 75,
+       "fwd_pct_mean": 1.649,
+       "fwd_pct_median": 1.339,
+       "negative_share_pct": 44.0,
+       "liq_amount_median": 4388898.6
+      },
+      "thin": {
+       "entrants": 40,
+       "priced": 40,
+       "fwd_pct_mean": 1.546,
+       "fwd_pct_median": 1.438,
+       "negative_share_pct": 42.5,
+       "liq_amount_median": 989664.9
+      },
+      "mid": {
+       "entrants": 20,
+       "priced": 20,
+       "fwd_pct_mean": 3.894,
+       "fwd_pct_median": 1.804,
+       "negative_share_pct": 35.0,
+       "liq_amount_median": 11298589.7
+      },
+      "thick": {
+       "entrants": 15,
+       "priced": 15,
+       "fwd_pct_mean": -1.071,
+       "fwd_pct_median": -0.987,
+       "negative_share_pct": 60.0,
+       "liq_amount_median": 49166878.0
+      },
+      "share_pct": 55.15
+     }
+    }
+   },
+   "2021_2023": {
+    "transitions": 36,
+    "entrant_slots": 523,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": -3.401,
+       "fwd_pct_median": -3.401,
+       "negative_share_pct": 100.0,
+       "liq_amount_median": 1334390.0
+      },
+      "thin": {
+       "entrants": 1,
+       "priced": 1,
+       "fwd_pct_mean": -3.401,
+       "fwd_pct_median": -3.401,
+       "negative_share_pct": 100.0,
+       "liq_amount_median": 1334390.0
+      },
+      "mid": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "thick": {
+       "entrants": 0,
+       "priced": 0,
+       "fwd_pct_mean": null,
+       "fwd_pct_median": null,
+       "negative_share_pct": null,
+       "liq_amount_median": null
+      },
+      "share_pct": 0.19
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 258,
+       "priced": 258,
+       "fwd_pct_mean": -1.403,
+       "fwd_pct_median": -1.13,
+       "negative_share_pct": 58.1,
+       "liq_amount_median": 16553277.0
+      },
+      "thin": {
+       "entrants": 77,
+       "priced": 77,
+       "fwd_pct_mean": -0.275,
+       "fwd_pct_median": -0.983,
+       "negative_share_pct": 55.8,
+       "liq_amount_median": 2399938.8
+      },
+      "mid": {
+       "entrants": 95,
+       "priced": 95,
+       "fwd_pct_mean": -1.165,
+       "fwd_pct_median": -1.029,
+       "negative_share_pct": 55.8,
+       "liq_amount_median": 15500070.0
+      },
+      "thick": {
+       "entrants": 86,
+       "priced": 86,
+       "fwd_pct_mean": -2.676,
+       "fwd_pct_median": -1.345,
+       "negative_share_pct": 62.8,
+       "liq_amount_median": 72454428.2
+      },
+      "share_pct": 49.33
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 264,
+       "priced": 264,
+       "fwd_pct_mean": -0.587,
+       "fwd_pct_median": -0.619,
+       "negative_share_pct": 53.4,
+       "liq_amount_median": 12844178.0
+      },
+      "thin": {
+       "entrants": 83,
+       "priced": 83,
+       "fwd_pct_mean": -0.734,
+       "fwd_pct_median": -0.279,
+       "negative_share_pct": 53.0,
+       "liq_amount_median": 2258884.0
+      },
+      "mid": {
+       "entrants": 96,
+       "priced": 96,
+       "fwd_pct_mean": -0.992,
+       "fwd_pct_median": -0.866,
+       "negative_share_pct": 55.2,
+       "liq_amount_median": 12818220.5
+      },
+      "thick": {
+       "entrants": 85,
+       "priced": 85,
+       "fwd_pct_mean": 0.015,
+       "fwd_pct_median": -0.617,
+       "negative_share_pct": 51.8,
+       "liq_amount_median": 82491906.4
+      },
+      "share_pct": 50.48
+     }
+    }
+   },
+   "2024_now": {
+    "transitions": 33,
+    "entrant_slots": 660,
+    "buckets": {
+     "other_drops_next": {
+      "all": {
+       "entrants": 17,
+       "priced": 17,
+       "fwd_pct_mean": -7.624,
+       "fwd_pct_median": -10.387,
+       "negative_share_pct": 88.2,
+       "liq_amount_median": 8587672.3
+      },
+      "thin": {
+       "entrants": 7,
+       "priced": 7,
+       "fwd_pct_mean": -6.087,
+       "fwd_pct_median": -7.686,
+       "negative_share_pct": 85.7,
+       "liq_amount_median": 3264684.2
+      },
+      "mid": {
+       "entrants": 7,
+       "priced": 7,
+       "fwd_pct_mean": -7.308,
+       "fwd_pct_median": -10.946,
+       "negative_share_pct": 85.7,
+       "liq_amount_median": 10169927.6
+      },
+      "thick": {
+       "entrants": 3,
+       "priced": 3,
+       "fwd_pct_mean": -11.946,
+       "fwd_pct_median": -13.052,
+       "negative_share_pct": 100.0,
+       "liq_amount_median": 317903521.3
+      },
+      "share_pct": 2.58
+     },
+     "other_still_holds": {
+      "all": {
+       "entrants": 317,
+       "priced": 317,
+       "fwd_pct_mean": 1.403,
+       "fwd_pct_median": 0.194,
+       "negative_share_pct": 46.4,
+       "liq_amount_median": 12150880.5
+      },
+      "thin": {
+       "entrants": 107,
+       "priced": 107,
+       "fwd_pct_mean": 1.247,
+       "fwd_pct_median": 0.668,
+       "negative_share_pct": 46.7,
+       "liq_amount_median": 2461413.3
+      },
+      "mid": {
+       "entrants": 95,
+       "priced": 95,
+       "fwd_pct_mean": 0.661,
+       "fwd_pct_median": -0.203,
+       "negative_share_pct": 51.6,
+       "liq_amount_median": 11605108.6
+      },
+      "thick": {
+       "entrants": 115,
+       "priced": 115,
+       "fwd_pct_mean": 2.161,
+       "fwd_pct_median": 0.215,
+       "negative_share_pct": 41.7,
+       "liq_amount_median": 109513103.2
+      },
+      "share_pct": 48.03
+     },
+     "disjoint": {
+      "all": {
+       "entrants": 326,
+       "priced": 326,
+       "fwd_pct_mean": 0.672,
+       "fwd_pct_median": -0.264,
+       "negative_share_pct": 51.5,
+       "liq_amount_median": 15063329.6
+      },
+      "thin": {
+       "entrants": 92,
+       "priced": 92,
+       "fwd_pct_mean": 2.183,
+       "fwd_pct_median": 0.505,
+       "negative_share_pct": 44.6,
+       "liq_amount_median": 2343075.7
+      },
+      "mid": {
+       "entrants": 109,
+       "priced": 109,
+       "fwd_pct_mean": 0.356,
+       "fwd_pct_median": -0.611,
+       "negative_share_pct": 53.2,
+       "liq_amount_median": 11202137.3
+      },
+      "thick": {
+       "entrants": 125,
+       "priced": 125,
+       "fwd_pct_mean": -0.164,
+       "fwd_pct_median": -0.54,
+       "negative_share_pct": 55.2,
+       "liq_amount_median": 97193688.7
+      },
+      "share_pct": 49.39
+     }
+    }
+   }
+  }
+ },
+ "answers": {
+  "newest_era": "2024_now",
+  "newest_era_disjoint_all_fwd_pct": {
+   "me": 2.421,
+   "mid15": 0.672
+  },
+  "newest_era_disjoint_fwd_pct_by_tercile": {
+   "me": {
+    "thin": 2.314,
+    "mid": 1.13,
+    "thick": 3.734
+   },
+   "mid15": {
+    "thin": 2.183,
+    "mid": 0.356,
+    "thick": -0.164
+   }
+  },
+  "newest_era_disjoint_tercile_share_pct": {
+   "me": {
+    "thin": 33.4,
+    "mid": 32.2,
+    "thick": 34.4
+   },
+   "mid15": {
+    "thin": 28.2,
+    "mid": 33.4,
+    "thick": 38.3
+   }
+  },
+  "newest_era_disjoint_tercile_gap_me_minus_mid_pct": {
+   "thin": 0.131,
+   "mid": 0.774,
+   "thick": 3.898
+  },
+  "newest_era_disjoint_liq_gradient_thick_minus_thin_pct": {
+   "me": 1.42,
+   "mid": -2.347
+  },
+  "verdict": "timing_survives_inside_every_tercile",
+  "verdict_detail": {
+   "tercile_gaps_pct": {
+    "thin": 0.131,
+    "mid": 0.774,
+    "thick": 3.898
+   },
+   "liq_gradients_pct": {
+    "me": 1.42,
+    "mid": -2.347
+   },
+   "terciles_measured": 3,
+   "floor_pct": 0.1,
+   "field": "fwd_pct_mean",
+   "gap_magnitude_pct": 3.898,
+   "liq_gradient_magnitude_pct": 2.347,
+   "classification": "timing_survives_inside_every_tercile"
+  },
+  "verdict_median_based": "timing_survives_inside_every_tercile",
+  "verdict_median_detail": {
+   "tercile_gaps_pct": {
+    "thin": 1.518,
+    "mid": 1.267,
+    "thick": 1.6
+   },
+   "liq_gradients_pct": {
+    "me": -0.963,
+    "mid": -1.045
+   },
+   "terciles_measured": 3,
+   "floor_pct": 0.1,
+   "field": "fwd_pct_median",
+   "gap_magnitude_pct": 1.6,
+   "liq_gradient_magnitude_pct": 1.045,
+   "classification": "timing_survives_inside_every_tercile"
+  },
+  "verdict_stable_across_aggregators": true,
+  "era_tercile_gap_me_minus_mid_pct": {
+   "2017_2020": {
+    "mean": {
+     "thin": 0.449,
+     "mid": -3.492,
+     "thick": 4.288
+    },
+    "median": {
+     "thin": -0.176,
+     "mid": -1.853,
+     "thick": 2.301
+    },
+    "disjoint_fwd_pct": {
+     "me": 1.942,
+     "mid15": 1.649
+    },
+    "entrants": {
+     "me": 66,
+     "mid15": 75
+    }
+   },
+   "2021_2023": {
+    "mean": {
+     "thin": 0.125,
+     "mid": 0.39,
+     "thick": -1.408
+    },
+    "median": {
+     "thin": -1.013,
+     "mid": 0.38,
+     "thick": -1.228
+    },
+    "disjoint_fwd_pct": {
+     "me": -0.869,
+     "mid15": -0.587
+    },
+    "entrants": {
+     "me": 260,
+     "mid15": 264
+    }
+   },
+   "2024_now": {
+    "mean": {
+     "thin": 0.131,
+     "mid": 0.774,
+     "thick": 3.898
+    },
+    "median": {
+     "thin": 1.518,
+     "mid": 1.267,
+     "thick": 1.6
+    },
+    "disjoint_fwd_pct": {
+     "me": 2.421,
+     "mid15": 0.672
+    },
+    "entrants": {
+     "me": 326,
+     "mid15": 326
+    }
+   }
+  },
+  "era_verdicts": {
+   "2017_2020": {
+    "mean": "gap_changes_sign_across_terciles",
+    "median": "gap_changes_sign_across_terciles"
+   },
+   "2021_2023": {
+    "mean": "gap_changes_sign_across_terciles",
+    "median": "gap_changes_sign_across_terciles"
+   },
+   "2024_now": {
+    "mean": "timing_survives_inside_every_tercile",
+    "median": "timing_survives_inside_every_tercile"
+   }
+  },
+  "era_stability_mean": {
+   "measured_eras": 2,
+   "min_priced": 20,
+   "field": "mean",
+   "per_era": {
+    "2021_2023": {
+     "thick_gap_pct": -1.408,
+     "thin_gap_pct": 0.125,
+     "thick_priced_slots": 85
+    },
+    "2024_now": {
+     "thick_gap_pct": 3.898,
+     "thin_gap_pct": 0.131,
+     "thick_priced_slots": 112
+    }
+   },
+   "excluded_eras": {
+    "2017_2020": {
+     "thick_priced_slots": 15,
+     "thick_gap_pct": 4.288
+    }
+   },
+   "positive_thick_gap_eras": 1,
+   "negative_thick_gap_eras": 1,
+   "thick_gap_min_pct": -1.408,
+   "thick_gap_max_pct": 3.898,
+   "thick_gap_spread_pct": 5.306,
+   "classification": "thick_gap_sign_flips_across_eras"
+  },
+  "era_stability_median": {
+   "measured_eras": 2,
+   "min_priced": 20,
+   "field": "median",
+   "per_era": {
+    "2021_2023": {
+     "thick_gap_pct": -1.228,
+     "thin_gap_pct": -1.013,
+     "thick_priced_slots": 85
+    },
+    "2024_now": {
+     "thick_gap_pct": 1.6,
+     "thin_gap_pct": 1.518,
+     "thick_priced_slots": 112
+    }
+   },
+   "excluded_eras": {
+    "2017_2020": {
+     "thick_priced_slots": 15,
+     "thick_gap_pct": 2.301
+    }
+   },
+   "positive_thick_gap_eras": 1,
+   "negative_thick_gap_eras": 1,
+   "thick_gap_min_pct": -1.228,
+   "thick_gap_max_pct": 1.6,
+   "thick_gap_spread_pct": 2.828,
+   "classification": "thick_gap_sign_flips_across_eras"
+  },
+  "era_stability_stable_across_aggregators": true
+ },
+ "honest": [
+  "the terciles are cut on the pooled entrant distribution of both calendars, so one name keeps one bucket whichever book bought it",
+  "the amount is the panel's own traded value, not a percentile of the era: a tercile is a within-slice rank, not an absolute liquidity bar",
+  "fwd_pct is the raw decision-to-decision return of the name, before any weighting, cost or cash leg",
+  "one mid-month date (day 15) against one month-end date: the calendars are fixed, not swept",
+  "the last transition of each calendar has no full forward window if the panel ends mid-window; those rows carry null returns rather than zeros",
+  "the verdict is run twice, on the cell means and on the cell medians, and published as stable only when the two agree: a tercile mean is tail-sensitive and one thick-name winner can move it",
+  "descriptive census only: no gate, no verdict on a strategy, no prereg, no trial count",
+  "the span is widened to 2017-01-01 so the era table carries every era the panel covers after the 60-session liquidity window exists; the tercile cuts are re-cut on the wider pooled distribution, so the per-era gaps here are not the E60 face's numbers and must not be joined to them"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

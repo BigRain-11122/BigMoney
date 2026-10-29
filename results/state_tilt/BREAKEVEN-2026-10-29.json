@@ -1,0 +1,1180 @@
+{
+ "answer": "the tilt is not merely dear, it is wrong. On the primary panel the arm with the largest gross gate-specific residual is voltarget at -175 bp/yr -- still negative before any toll -- and the highest break-even belongs to binary_low at -20.583 bp per unit of turnover: below zero, so the gross rule loses before it is charged anything, and 4 of 4 gated arms are in that same state. (Those are two different arms, which is the point: ranking by residual and ranking by break-even do not name the same rule once every arm is below zero.) The equal-weight basket is the one place a root lands above the model cost (binary_low at 37.383 bp/unit), but at 13.041bp that arm's excess is 1.8 bp/yr at t=0.01: it survives the toll by standing at zero after a null arm that lost -689 bp/yr, not by earning, so 0 of 1 survivors clear the bar. Execution cannot rescue a rule whose gross is below the drift it is charged",
+ "breakeven_vs_significance": {
+  "any_survivor_clears_the_bar": false,
+  "arms": [
+   {
+    "arm": "binary_low",
+    "break_even_cost_bp": 37.38269431522491,
+    "clears_bar_at_model_cost": false,
+    "excess_bp_per_year_at_model_cost": 1.8432222329849586,
+    "excess_oos_t_at_model_cost": 0.005108210651016722,
+    "panel": "basket_equal_weight"
+   }
+  ],
+  "reading": "a break-even above the frozen cost only says the arm still has something left after the toll; it says nothing about whether that something is distinguishable from zero. Every surviving arm is read at the model cost with its own t beside its annual excess, and an arm that survives by standing at zero is recorded as such."
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "answer_form": "break_even_bp = gate_specific(0) / D with D = arm turnover per year - avg_weight * null turnover per year",
+  "bar_t": 2.8070337683438007,
+  "cost_mults": [
+   0.0,
+   0.25,
+   0.5,
+   0.75,
+   1.0,
+   1.5,
+   2.0,
+   3.0
+  ],
+  "min_oos_sessions": 252,
+  "model": "identical to E225; only the cost per unit of turnover moves",
+  "plausible_basis": "a wide-base ETF one-way all-in is ~half-spread 1-2bp plus impact 1-3bp; 5bp is the optimistic real fill and 13.041bp is the frozen model cost, declared before the run",
+  "plausible_high_bp": 13.041,
+  "plausible_low_bp": 5.0,
+  "tests": 10,
+  "unit_cost_bp": 13.041,
+  "verdict_bands": {
+   "DEAD_AT_ANY_PRICE": "break-even < 0",
+   "FILL_DEPENDENT": "5.000 <= break-even < 13.041",
+   "NEEDS_CHEAPER_FILL": "0 <= break-even < 5.000",
+   "SURVIVES_MODEL_COST": "break-even >= 13.041",
+   "UNASSESSABLE": "fewer than 252 OOS decisions",
+   "UNDEFINED": "no toll differential or no OOS mean"
+  }
+ },
+ "generated": "2026-10-30T07:22:45",
+ "panels": [
+  {
+   "arms": [
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 0.0,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -1644.9740262272767,
+      "excess_oos_t": -2.2751172366342,
+      "gate_specific_bp_per_year": 0.0,
+      "turnover_oos_per_year": 0.0
+     },
+     "break_even_cost_bp_excess_basis": null,
+     "break_even_cost_bp_per_unit_turnover": null,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1644.9740262272767,
+       "excess_oos_t": -2.2751172366342,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 0.0
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": 0.0,
+     "name": "always_on",
+     "oos_decisions": 1402,
+     "root_fragility_bp_per_unit_per_bp_per_year": null,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 0.0,
+     "verdict": "UNDEFINED",
+     "verdict_reason": "no_break_even_published"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 201.58669900142684,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -1082.9379251707776,
+      "excess_oos_t": -3.0142927492375033,
+      "gate_specific_bp_per_year": -519.7513826678584,
+      "turnover_oos_per_year": 15.457917261055636
+     },
+     "break_even_cost_bp_excess_basis": -57.01616920862997,
+     "break_even_cost_bp_per_unit_turnover": -20.582635958856404,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -881.3512261693501,
+       "excess_oos_t": -2.482215512276013,
+       "gate_specific_bp_per_year": -318.16468366643085,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -318.16468366643085,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -931.7479009197067,
+       "excess_oos_t": -2.6184708689644935,
+       "gate_specific_bp_per_year": -368.56135841678747,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -368.56135841678747,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -982.1445756700637,
+       "excess_oos_t": -2.7526883886729525,
+       "gate_specific_bp_per_year": -418.95803316714444,
+       "line_abs_err": 3.410605131648481e-13,
+       "line_expected_bp_per_year": -418.9580331671441,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -1032.5412504204196,
+       "excess_oos_t": -2.8846853897348335,
+       "gate_specific_bp_per_year": -469.3547079175004,
+       "line_abs_err": 3.979039320256561e-13,
+       "line_expected_bp_per_year": -469.3547079175008,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -1082.9379251707776,
+       "excess_oos_t": -3.0142927492375033,
+       "gate_specific_bp_per_year": -519.7513826678584,
+       "line_abs_err": 1.0231815394945443e-12,
+       "line_expected_bp_per_year": -519.7513826678573,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1183.7312746714883,
+       "excess_oos_t": -3.2657351520991003,
+       "gate_specific_bp_per_year": -620.5447321685691,
+       "line_abs_err": 1.5916157281026244e-12,
+       "line_expected_bp_per_year": -620.5447321685707,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1284.524624172204,
+       "excess_oos_t": -3.505963365424201,
+       "gate_specific_bp_per_year": -721.3380816692849,
+       "line_abs_err": 9.094947017729282e-13,
+       "line_expected_bp_per_year": -721.338081669284,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1486.1113231736288,
+       "excess_oos_t": -3.94983487631387,
+       "gate_specific_bp_per_year": -922.9247806707095,
+       "line_abs_err": 1.0231815394945443e-12,
+       "line_expected_bp_per_year": -922.9247806707106,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 15.457917261055636
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -318.16468366643085,
+     "name": "binary_low",
+     "oos_decisions": 1402,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.06469176818014027,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 15.457917261055636,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 182.8344479315262,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -1475.3278726979295,
+      "excess_oos_t": -3.540436224133382,
+      "gate_specific_bp_per_year": -637.587890724837,
+      "turnover_oos_per_year": 14.01997146932953
+     },
+     "break_even_cost_bp_excess_basis": -92.18944757440468,
+     "break_even_cost_bp_per_unit_turnover": -32.436117561875406,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -1292.4934247664041,
+       "excess_oos_t": -3.1042505747153872,
+       "gate_specific_bp_per_year": -454.7534427933117,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -454.7534427933117,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -1338.2020367492844,
+       "excess_oos_t": -3.2140051848151807,
+       "gate_specific_bp_per_year": -500.46205477619196,
+       "line_abs_err": 1.3642420526593924e-12,
+       "line_expected_bp_per_year": -500.4620547761933,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -1383.9106487321667,
+       "excess_oos_t": -3.323316346110486,
+       "gate_specific_bp_per_year": -546.1706667590743,
+       "line_abs_err": 6.821210263296962e-13,
+       "line_expected_bp_per_year": -546.170666759075,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -1429.6192607150479,
+       "excess_oos_t": -3.4321408753574594,
+       "gate_specific_bp_per_year": -591.8792787419554,
+       "line_abs_err": 1.1368683772161603e-12,
+       "line_expected_bp_per_year": -591.8792787419566,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -1475.3278726979295,
+       "excess_oos_t": -3.540436224133382,
+       "gate_specific_bp_per_year": -637.587890724837,
+       "line_abs_err": 1.0231815394945443e-12,
+       "line_expected_bp_per_year": -637.5878907248381,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1566.7450966636925,
+       "excess_oos_t": -3.755272855539761,
+       "gate_specific_bp_per_year": -729.0051146906001,
+       "line_abs_err": 1.2505552149377763e-12,
+       "line_expected_bp_per_year": -729.0051146906013,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1658.1623206294578,
+       "excess_oos_t": -3.967501631030854,
+       "gate_specific_bp_per_year": -820.4223386563654,
+       "line_abs_err": 9.094947017729282e-13,
+       "line_expected_bp_per_year": -820.4223386563644,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1840.9967685609813,
+       "excess_oos_t": -4.382915143604139,
+       "gate_specific_bp_per_year": -1003.2567865878889,
+       "line_abs_err": 2.0463630789890885e-12,
+       "line_expected_bp_per_year": -1003.2567865878909,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 14.01997146932953
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -454.7534427933117,
+     "name": "tilt_step",
+     "oos_decisions": 1402,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.07132682132682132,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 14.01997146932953,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 168.93947866853534,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -1582.188839029902,
+      "excess_oos_t": -3.5731973986177796,
+      "gate_specific_bp_per_year": -709.7419130240344,
+      "turnover_oos_per_year": 12.95448805065067
+     },
+     "break_even_cost_bp_excess_basis": -109.09341649285632,
+     "break_even_cost_bp_per_unit_turnover": -41.74633781288897,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -1413.249360361364,
+       "excess_oos_t": -3.1971166293689337,
+       "gate_specific_bp_per_year": -540.8024343554964,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -540.8024343554964,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -1455.4842300285009,
+       "excess_oos_t": -3.2916753301149266,
+       "gate_specific_bp_per_year": -583.0373040226332,
+       "line_abs_err": 2.9558577807620168e-12,
+       "line_expected_bp_per_year": -583.0373040226302,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -1497.7190996956322,
+       "excess_oos_t": -3.3858904373964824,
+       "gate_specific_bp_per_year": -625.2721736897645,
+       "line_abs_err": 3.410605131648481e-13,
+       "line_expected_bp_per_year": -625.2721736897641,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -1539.9539693627676,
+       "excess_oos_t": -3.4797387483858486,
+       "gate_specific_bp_per_year": -667.5070433568999,
+       "line_abs_err": 1.9326762412674725e-12,
+       "line_expected_bp_per_year": -667.507043356898,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -1582.188839029902,
+       "excess_oos_t": -3.5731973986177796,
+       "gate_specific_bp_per_year": -709.7419130240344,
+       "line_abs_err": 2.5011104298755527e-12,
+       "line_expected_bp_per_year": -709.7419130240319,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1666.6585783641713,
+       "excess_oos_t": -3.7588561147988355,
+       "gate_specific_bp_per_year": -794.2116523583036,
+       "line_abs_err": 4.092726157978177e-12,
+       "line_expected_bp_per_year": -794.2116523582995,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1751.1283176984375,
+       "excess_oos_t": -3.9426914588018556,
+       "gate_specific_bp_per_year": -878.6813916925698,
+       "line_abs_err": 2.6147972675971687e-12,
+       "line_expected_bp_per_year": -878.6813916925672,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1920.06779636697,
+       "excess_oos_t": -4.3042276141574725,
+       "gate_specific_bp_per_year": -1047.6208703611023,
+       "line_abs_err": 4.547473508864641e-13,
+       "line_expected_bp_per_year": -1047.6208703611028,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 12.95448805065067
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -540.8024343554964,
+     "name": "tilt_linear",
+     "oos_decisions": 1402,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.07719332451348956,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 12.95448805065067,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 26.239522656349155,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -1739.1367857232751,
+      "excess_oos_t": -2.619970825240235,
+      "gate_specific_bp_per_year": -201.12807313410121,
+      "turnover_oos_per_year": 2.01207903200285
+     },
+     "break_even_cost_bp_excess_basis": -851.3071483886429,
+     "break_even_cost_bp_per_unit_turnover": -86.91932458719924,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -1712.8972630669273,
+       "excess_oos_t": -2.5774742440329796,
+       "gate_specific_bp_per_year": -174.88855047775337,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -174.88855047775337,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -1719.4571437310126,
+       "excess_oos_t": -2.5880991241313716,
+       "gate_specific_bp_per_year": -181.44843114183868,
+       "line_abs_err": 1.9895196601282805e-12,
+       "line_expected_bp_per_year": -181.44843114184067,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -1726.0170243951006,
+       "excess_oos_t": -2.5987235726735545,
+       "gate_specific_bp_per_year": -188.00831180592672,
+       "line_abs_err": 1.2221335055073723e-12,
+       "line_expected_bp_per_year": -188.00831180592795,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -1732.5769050591878,
+       "excess_oos_t": -2.609347502232793,
+       "gate_specific_bp_per_year": -194.56819247001386,
+       "line_abs_err": 1.3926637620897964e-12,
+       "line_expected_bp_per_year": -194.56819247001525,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -1739.1367857232751,
+       "excess_oos_t": -2.619970825240235,
+       "gate_specific_bp_per_year": -201.12807313410121,
+       "line_abs_err": 1.3358203432289883e-12,
+       "line_expected_bp_per_year": -201.12807313410255,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1752.2565470514494,
+       "excess_oos_t": -2.641215300632652,
+       "gate_specific_bp_per_year": -214.24783446227548,
+       "line_abs_err": 1.6484591469634324e-12,
+       "line_expected_bp_per_year": -214.24783446227713,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1765.3763083796266,
+       "excess_oos_t": -2.6624562955780045,
+       "gate_specific_bp_per_year": -227.3675957904527,
+       "line_abs_err": 9.947598300641403e-13,
+       "line_expected_bp_per_year": -227.3675957904517,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1791.615831035973,
+       "excess_oos_t": -2.7049250207909408,
+       "gate_specific_bp_per_year": -253.60711844679918,
+       "line_abs_err": 1.7053025658242404e-12,
+       "line_expected_bp_per_year": -253.60711844680088,
+       "oos_decisions": 1402,
+       "turnover_oos_per_year": 2.01207903200285
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -174.88855047775337,
+     "name": "voltarget",
+     "oos_decisions": 1402,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.49699837038935135,
+     "target_bp": 113.24712377237836,
+     "turnover_differential_oos_per_year": 2.01207903200285,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    }
+   ],
+   "best_break_even_arm": "binary_low",
+   "best_break_even_cost_bp": -20.582635958856404,
+   "best_gate_specific_arm": "voltarget",
+   "best_gate_specific_bp_per_year": -174.88855047775337,
+   "first": "2012-05-28",
+   "last": "2026-10-29",
+   "panel": "primary_single",
+   "sessions": 3504,
+   "split_date": "2021-01-13",
+   "split_session": 2102,
+   "symbol": "sh510300"
+  },
+  {
+   "arms": [
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 0.0,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -688.7878534004756,
+      "excess_oos_t": -0.936785652538597,
+      "gate_specific_bp_per_year": 0.0,
+      "turnover_oos_per_year": 0.0
+     },
+     "break_even_cost_bp_excess_basis": null,
+     "break_even_cost_bp_per_unit_turnover": null,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -688.7878534004756,
+       "excess_oos_t": -0.936785652538597,
+       "gate_specific_bp_per_year": 0.0,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 0.0
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": 0.0,
+     "name": "always_on",
+     "oos_decisions": 2108,
+     "root_fragility_bp_per_unit_per_bp_per_year": null,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 0.0,
+     "verdict": "UNDEFINED",
+     "verdict_reason": "no_break_even_published"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 121.60051992409892,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": 1.8432222329849586,
+      "excess_oos_t": 0.005108210651016722,
+      "gate_specific_bp_per_year": 226.97359746682162,
+      "turnover_oos_per_year": 9.324478178368121
+     },
+     "break_even_cost_bp_excess_basis": 13.238675644441047,
+     "break_even_cost_bp_per_unit_turnover": 37.38269431522491,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": 123.44374215708407,
+       "excess_oos_t": 0.3431152787313905,
+       "gate_specific_bp_per_year": 348.5741173909207,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": 348.5741173909207,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": 93.04361217605954,
+       "excess_oos_t": 0.25849462561719533,
+       "gate_specific_bp_per_year": 318.1739874098962,
+       "line_abs_err": 1.7053025658242404e-13,
+       "line_expected_bp_per_year": 318.17398740989603,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": 62.64348219503418,
+       "excess_oos_t": 0.17392365279413466,
+       "gate_specific_bp_per_year": 287.7738574288708,
+       "line_abs_err": 5.684341886080801e-13,
+       "line_expected_bp_per_year": 287.7738574288714,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": 32.24335221401033,
+       "excess_oos_t": 0.08944681205827089,
+       "gate_specific_bp_per_year": 257.373727447847,
+       "line_abs_err": 2.8421709430404007e-13,
+       "line_expected_bp_per_year": 257.3737274478467,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": 1.8432222329849586,
+       "excess_oos_t": 0.005108210651016722,
+       "gate_specific_bp_per_year": 226.97359746682162,
+       "line_abs_err": 4.263256414560601e-13,
+       "line_expected_bp_per_year": 226.97359746682204,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -58.957037729063636,
+       "excess_oos_t": -0.1629802445748628,
+       "gate_specific_bp_per_year": 166.173337504773,
+       "line_abs_err": 3.126388037344441e-13,
+       "line_expected_bp_per_year": 166.1733375047727,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -119.75729769111352,
+       "excess_oos_t": -0.32999996970671214,
+       "gate_specific_bp_per_year": 105.37307754272312,
+       "line_abs_err": 2.4158453015843406e-13,
+       "line_expected_bp_per_year": 105.37307754272337,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -241.35781761521247,
+       "excess_oos_t": -0.6595312564493664,
+       "gate_specific_bp_per_year": -16.227442381375823,
+       "line_abs_err": 4.831690603168681e-13,
+       "line_expected_bp_per_year": -16.22744238137534,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.324478178368121
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": 348.5741173909207,
+     "name": "binary_low",
+     "oos_decisions": 2108,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.10724460724460724,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 9.324478178368121,
+     "verdict": "SURVIVES_MODEL_COST",
+     "verdict_reason": "clears_the_frozen_13.041bp_cost"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 127.05695351043639,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -499.9602172388763,
+      "excess_oos_t": -1.1894789968939699,
+      "gate_specific_bp_per_year": -183.33999430478673,
+      "turnover_oos_per_year": 9.742884250474383
+     },
+     "break_even_cost_bp_excess_basis": -38.27442204399415,
+     "break_even_cost_bp_per_unit_turnover": -5.776835621506041,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -372.90326372844015,
+       "excess_oos_t": -0.8916476806889579,
+       "gate_specific_bp_per_year": -56.2830407943506,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -56.2830407943506,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -404.66750210604937,
+       "excess_oos_t": -0.9664662876515877,
+       "gate_specific_bp_per_year": -88.04727917195981,
+       "line_abs_err": 1.1368683772161603e-13,
+       "line_expected_bp_per_year": -88.0472791719597,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -436.43174048365825,
+       "excess_oos_t": -1.041051919380402,
+       "gate_specific_bp_per_year": -119.81151754956869,
+       "line_abs_err": 1.1368683772161603e-13,
+       "line_expected_bp_per_year": -119.8115175495688,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -468.19597886126724,
+       "excess_oos_t": -1.1153932087047267,
+       "gate_specific_bp_per_year": -151.57575592717768,
+       "line_abs_err": 2.2737367544323206e-13,
+       "line_expected_bp_per_year": -151.5757559271779,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -499.9602172388763,
+       "excess_oos_t": -1.1894789968939699,
+       "gate_specific_bp_per_year": -183.33999430478673,
+       "line_abs_err": 2.8421709430404007e-13,
+       "line_expected_bp_per_year": -183.339994304787,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -563.488693994095,
+       "excess_oos_t": -1.3368405194720832,
+       "gate_specific_bp_per_year": -246.86847106000545,
+       "line_abs_err": 1.9895196601282805e-13,
+       "line_expected_bp_per_year": -246.86847106000525,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -627.0171707493138,
+       "excess_oos_t": -1.483051646752526,
+       "gate_specific_bp_per_year": -310.3969478152242,
+       "line_abs_err": 7.389644451905042e-13,
+       "line_expected_bp_per_year": -310.3969478152235,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -754.0741242597486,
+       "excess_oos_t": -1.7717022703131438,
+       "gate_specific_bp_per_year": -437.45390132565905,
+       "line_abs_err": 8.526512829121202e-13,
+       "line_expected_bp_per_year": -437.4539013256599,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 9.742884250474383
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -56.2830407943506,
+     "name": "tilt_step",
+     "oos_decisions": 2108,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.10263901061447074,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 9.742884250474383,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 134.7197420812306,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -493.50092037756093,
+      "excess_oos_t": -1.1402809455348526,
+      "gate_specific_bp_per_year": -170.38917972470364,
+      "turnover_oos_per_year": 10.330476350067515
+     },
+     "break_even_cost_bp_excess_basis": -34.73036151851659,
+     "break_even_cost_bp_per_unit_turnover": -3.4528357100628897,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -358.78117829633055,
+       "excess_oos_t": -0.8352654812140397,
+       "gate_specific_bp_per_year": -35.66943764347326,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -35.66943764347326,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -392.46111381663803,
+       "excess_oos_t": -0.9120289358152582,
+       "gate_specific_bp_per_year": -69.34937316378074,
+       "line_abs_err": 1.4210854715202004e-13,
+       "line_expected_bp_per_year": -69.34937316378088,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -426.14104933694534,
+       "excess_oos_t": -0.9884598781940225,
+       "gate_specific_bp_per_year": -103.02930868408805,
+       "line_abs_err": 4.405364961712621e-13,
+       "line_expected_bp_per_year": -103.02930868408849,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -459.8209848572531,
+       "excess_oos_t": -1.0645474123808496,
+       "gate_specific_bp_per_year": -136.70924420439582,
+       "line_abs_err": 3.126388037344441e-13,
+       "line_expected_bp_per_year": -136.70924420439613,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -493.50092037756093,
+       "excess_oos_t": -1.1402809455348526,
+       "gate_specific_bp_per_year": -170.38917972470364,
+       "line_abs_err": 8.526512829121202e-14,
+       "line_expected_bp_per_year": -170.38917972470372,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -560.8607914181771,
+       "excess_oos_t": -1.2906451789398672,
+       "gate_specific_bp_per_year": -237.7490507653198,
+       "line_abs_err": 7.958078640513122e-13,
+       "line_expected_bp_per_year": -237.749050765319,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -628.2206624587924,
+       "excess_oos_t": -1.4394740525254612,
+       "gate_specific_bp_per_year": -305.1089218059351,
+       "line_abs_err": 9.094947017729282e-13,
+       "line_expected_bp_per_year": -305.1089218059342,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -762.940404540023,
+       "excess_oos_t": -1.73223707047453,
+       "gate_specific_bp_per_year": -439.8286638871657,
+       "line_abs_err": 9.663381206337363e-13,
+       "line_expected_bp_per_year": -439.82866388716474,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 10.330476350067515
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -35.66943764347326,
+     "name": "tilt_linear",
+     "oos_decisions": 2108,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.09680095729501036,
+     "target_bp": null,
+     "turnover_differential_oos_per_year": 10.330476350067515,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    },
+    {
+     "assessable": true,
+     "at_model_cost": {
+      "bar_t": 2.8070337683438007,
+      "clears_bar": false,
+      "cost_bp_per_year": 49.012587631834975,
+      "cost_side_bp": 13.041,
+      "excess_bp_per_year": -987.4784418386198,
+      "excess_oos_t": -1.5923548677217552,
+      "gate_specific_bp_per_year": -393.46854133207785,
+      "turnover_oos_per_year": 3.7583458041434654
+     },
+     "break_even_cost_bp_excess_basis": -249.7018377532348,
+     "break_even_cost_bp_per_unit_turnover": -91.65094742492506,
+     "cost_ladder": [
+      {
+       "cost_mult": 0.0,
+       "cost_side_bp": 0.0,
+       "excess_bp_per_year": -938.4658542067824,
+       "excess_oos_t": -1.513905580734189,
+       "gate_specific_bp_per_year": -344.45595370024046,
+       "line_abs_err": 0.0,
+       "line_expected_bp_per_year": -344.45595370024046,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 0.25,
+       "cost_side_bp": 3.26025,
+       "excess_bp_per_year": -950.7190011147433,
+       "excess_oos_t": -1.5335295518013317,
+       "gate_specific_bp_per_year": -356.7091006082013,
+       "line_abs_err": 2.1032064978498966e-12,
+       "line_expected_bp_per_year": -356.7091006081992,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 0.5,
+       "cost_side_bp": 6.5205,
+       "excess_bp_per_year": -962.972148022703,
+       "excess_oos_t": -1.5531458559535485,
+       "gate_specific_bp_per_year": -368.962247516161,
+       "line_abs_err": 3.126388037344441e-12,
+       "line_expected_bp_per_year": -368.9622475161579,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 0.75,
+       "cost_side_bp": 9.780750000000001,
+       "excess_bp_per_year": -975.2252949306608,
+       "excess_oos_t": -1.5727543441757934,
+       "gate_specific_bp_per_year": -381.2153944241188,
+       "line_abs_err": 2.1600499167107046e-12,
+       "line_expected_bp_per_year": -381.21539442411665,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 1.0,
+       "cost_side_bp": 13.041,
+       "excess_bp_per_year": -987.4784418386198,
+       "excess_oos_t": -1.5923548677217552,
+       "gate_specific_bp_per_year": -393.46854133207785,
+       "line_abs_err": 2.4442670110147446e-12,
+       "line_expected_bp_per_year": -393.4685413320754,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 1.5,
+       "cost_side_bp": 19.561500000000002,
+       "excess_bp_per_year": -1011.9847356545362,
+       "excess_oos_t": -1.6315314271766157,
+       "gate_specific_bp_per_year": -417.9748351479942,
+       "line_abs_err": 1.3642420526593924e-12,
+       "line_expected_bp_per_year": -417.97483514799285,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 2.0,
+       "cost_side_bp": 26.082,
+       "excess_bp_per_year": -1036.491029470454,
+       "excess_oos_t": -1.6706743499329537,
+       "gate_specific_bp_per_year": -442.48112896391194,
+       "line_abs_err": 1.5916157281026244e-12,
+       "line_expected_bp_per_year": -442.48112896391035,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      },
+      {
+       "cost_mult": 3.0,
+       "cost_side_bp": 39.123000000000005,
+       "excess_bp_per_year": -1085.503617102287,
+       "excess_oos_t": -1.7488545712473607,
+       "gate_specific_bp_per_year": -491.4937165957451,
+       "line_abs_err": 1.1368683772161603e-13,
+       "line_expected_bp_per_year": -491.49371659574524,
+       "oos_decisions": 2108,
+       "turnover_oos_per_year": 3.7583458041434654
+      }
+     ],
+     "gate_specific_at_zero_cost_bp_per_year": -344.45595370024046,
+     "name": "voltarget",
+     "oos_decisions": 2108,
+     "root_fragility_bp_per_unit_per_bp_per_year": 0.26607450514466485,
+     "target_bp": 106.75548646759191,
+     "turnover_differential_oos_per_year": 3.7583458041434654,
+     "verdict": "DEAD_AT_ANY_PRICE",
+     "verdict_reason": "losses_before_the_toll"
+    }
+   ],
+   "best_break_even_arm": "binary_low",
+   "best_break_even_cost_bp": 37.38269431522491,
+   "best_gate_specific_arm": "binary_low",
+   "best_gate_specific_bp_per_year": 348.5741173909207,
+   "first": "2005-02-23",
+   "last": "2026-10-29",
+   "panel": "basket_equal_weight",
+   "sessions": 5269,
+   "split_date": "2018-02-14",
+   "split_session": 3161,
+   "symbol": "sh510050+sh510300+sh510500+sh512100+sh588000"
+  }
+ ],
+ "study": "E226",
+ "title": "break-even toll for the state tilt: is the rule wrong, or only dear?"
+}

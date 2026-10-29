@@ -1,0 +1,466 @@
+{
+ "study": "e61_shared_candidate_pool",
+ "evidence_cutoff": "2026-10-29",
+ "spec": {
+  "start": "2020-01-01",
+  "pick_n": 10,
+  "mid_month_day": 15,
+  "exclude_prefixes": [
+   "sh511"
+  ],
+  "universe_members": 1274,
+  "eras": [
+   "pre2017",
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "arms": {
+   "me": "month-end calendar, full eligible universe",
+   "mid": "mid-month calendar, full eligible universe",
+   "mid_shared": "mid-month calendar, candidate pool restricted at each session to the month-end book's holdings"
+  },
+  "decomposition": "total = mid - me; timing = mid_shared - me; selection = mid - mid_shared; residual = total - (timing + selection)"
+ },
+ "decision_days": {
+  "me": 70,
+  "mid": 70
+ },
+ "arms": {
+  "full_window": {
+   "me": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -1.62,
+    "max_drawdown_pct": -39.63
+   },
+   "mid": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -1.45,
+    "max_drawdown_pct": -39.97
+   },
+   "mid_shared": {
+    "from": "2020-01-03",
+    "to": "2026-10-29",
+    "bars": 1651,
+    "ann_return_pct": -0.78,
+    "max_drawdown_pct": -37.35
+   }
+  },
+  "eras": {
+   "me": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -11.14,
+     "max_drawdown_pct": -32.99
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 9.3,
+     "max_drawdown_pct": -28.24
+    }
+   },
+   "mid": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -11.3,
+     "max_drawdown_pct": -33.58
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 10.02,
+     "max_drawdown_pct": -27.83
+    }
+   },
+   "mid_shared": {
+    "2017_2020": {
+     "from": "2020-01-03",
+     "to": "2020-12-31",
+     "bars": 242,
+     "ann_return_pct": 0.0,
+     "max_drawdown_pct": 0.0
+    },
+    "2021_2023": {
+     "from": "2021-01-04",
+     "to": "2023-12-29",
+     "bars": 727,
+     "ann_return_pct": -10.88,
+     "max_drawdown_pct": -30.27
+    },
+    "2024_now": {
+     "from": "2024-01-02",
+     "to": "2026-10-29",
+     "bars": 682,
+     "ann_return_pct": 11.2,
+     "max_drawdown_pct": -25.66
+    }
+   }
+  },
+  "turnover": {
+   "me": {
+    "rebalances": 69,
+    "turnover_total": 9.825722041627696,
+    "cost_paid_frac": 0.01281372411448668
+   },
+   "mid": {
+    "rebalances": 70,
+    "turnover_total": 9.90640723674366,
+    "cost_paid_frac": 0.012918945677437416
+   },
+   "mid_shared": {
+    "rebalances": 69,
+    "turnover_total": 9.834529048790387,
+    "cost_paid_frac": 0.01282520933252754
+   }
+  }
+ },
+ "widths": {
+  "pick_n": 10,
+  "me_book_widths": [
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "mid_book_widths": [
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "pool_live_sizes": [
+   0,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   9,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10,
+   10
+  ],
+  "pool_median": 10,
+  "pool_binds": true,
+  "mid_shared_width_never_exceeds_pool": true
+ },
+ "full_window": {
+  "total_bp": 17.0,
+  "timing_bp": 84.0,
+  "selection_bp": -67.0,
+  "residual_bp": 0.0,
+  "identity_ok": true,
+  "dominant_part": "timing",
+  "res_a": "mid",
+  "ref": "me"
+ },
+ "eras": {
+  "pre2017": {
+   "cells": "missing_arm_in_era"
+  },
+  "2017_2020": {
+   "total_bp": 0.0,
+   "timing_bp": 0.0,
+   "selection_bp": 0.0,
+   "residual_bp": 0.0,
+   "identity_ok": true,
+   "dominant_part": null,
+   "arms_bp": {
+    "me": 0.0,
+    "mid": 0.0,
+    "mid_shared": 0.0
+   },
+   "degenerate": "degenerate_cash_slice"
+  },
+  "2021_2023": {
+   "total_bp": -16.0,
+   "timing_bp": 26.0,
+   "selection_bp": -42.0,
+   "residual_bp": 0.0,
+   "identity_ok": true,
+   "dominant_part": "selection",
+   "arms_bp": {
+    "me": -1114.0,
+    "mid": -1130.0,
+    "mid_shared": -1088.0
+   }
+  },
+  "2024_now": {
+   "total_bp": 72.0,
+   "timing_bp": 190.0,
+   "selection_bp": -118.0,
+   "residual_bp": 0.0,
+   "identity_ok": true,
+   "dominant_part": "timing",
+   "arms_bp": {
+    "me": 930.0,
+    "mid": 1002.0,
+    "mid_shared": 1120.0
+   }
+  }
+ },
+ "verdict": {
+  "full_window_dominant": "timing",
+  "newest_era_dominant": "timing",
+  "dominant_consistent_across_eras": false,
+  "eras_read": [
+   "2021_2023",
+   "2024_now"
+  ],
+  "eras_identity_ok": [
+   "2017_2020",
+   "2021_2023",
+   "2024_now"
+  ],
+  "degenerate_eras": [
+   "2017_2020"
+  ],
+  "unmeasured_eras": [
+   "pre2017"
+  ],
+  "label": "dominant_part_mixed_across_eras"
+ },
+ "answers": {
+  "full_window_total_bp": 17.0,
+  "full_window_timing_bp": 84.0,
+  "full_window_selection_bp": -67.0,
+  "identity_residual_bp": 0.0,
+  "identity_ok": true,
+  "dominant_label": "dominant_part_mixed_across_eras",
+  "dominant_part_by_era": {
+   "2021_2023": "selection",
+   "2024_now": "timing"
+  },
+  "degenerate_eras": [
+   "2017_2020"
+  ],
+  "pool_median": 10,
+  "pool_binds": true
+ },
+ "honest": [
+  "the pool is one-sided on purpose: it is what the month-end book holds at that session. Asking for names BOTH calendars hold at the same session would put the mid arm's own book in its own candidate set, which is circular",
+  "a restricted arm that cannot fill pick_n holds a narrower book, so widths are published per arm and pool_binds says whether the restriction actually bit; a width change is not a calendar effect",
+  "timing and selection are a two-way split of one published gap, not two independent measurements: the identity residual is an arithmetic check on how the arms were run",
+  "no cost arm is re-derived here: the cost question was answered on this family already, so every arm runs at x0 and the curves differ only in decision sessions and candidate pool",
+  "descriptive census only: no gate, no verdict on the strategy, no prereg, no trial count"
+ ],
+ "repair_factor": "a78d23e15b45",
+ "repair_factor_src": "split_events+neutralise+implied_ratio"
+}

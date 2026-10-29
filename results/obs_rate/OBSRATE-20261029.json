@@ -1,0 +1,665 @@
+{
+ "study": "e223_obs_rate_ladder",
+ "ts": "2026-10-30T07:22:43+08:00",
+ "evidence_cutoff": "2026-10-29",
+ "spec": {
+  "cost_side_bp": 13.041,
+  "cost_basis": "rules.py COST_BASIS_V1 flat 13.041bp per side",
+  "cost_x2_mult": 2.0,
+  "sides_per_period": 2,
+  "is_frac": 0.6,
+  "adopt_t_floor": 2.0,
+  "multiple_comparison_bar": 2.4977054744123723,
+  "z_80pct_two_sided": 2.802,
+  "arms": [
+   {
+    "name": "month_turn",
+    "bucket": "month",
+    "periods_per_year": 12,
+    "min_oos": 24,
+    "hold": [
+     "first_last"
+    ]
+   },
+   {
+    "name": "week_h1",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "min_oos": 104,
+    "hold": [
+     "first_n",
+     1
+    ]
+   },
+   {
+    "name": "week_h2",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "min_oos": 104,
+    "hold": [
+     "first_n",
+     2
+    ]
+   },
+   {
+    "name": "week_h3",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "min_oos": 104,
+    "hold": [
+     "first_n",
+     3
+    ]
+   }
+  ],
+  "primary_symbol": "sh510300",
+  "basket": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "decision_rule": "ADOPT iff OOS periods >= floor AND OOS net excess/yr > 0 AND OOS t >= the 4-way Bonferroni bar AND still net at x2 costs; REJECT if the OOS window is long enough and any test fails; UNRESOLVED below the floor. Frozen before reading.",
+  "resolution_rule": "the ladder's answer is the MDE at 80% power for each arm's own test length, not the observation count"
+ },
+ "ladder": {
+  "rows": [
+   {
+    "name": "month_turn",
+    "bucket": "month",
+    "periods_per_year": 12,
+    "periods": 173,
+    "oos_periods": 70,
+    "time_in_market_pct": null,
+    "net_bp_per_year": 250.35961132747948,
+    "excess_oos_bp_per_year": 416.90986309105494,
+    "excess_oos_t": 0.629407516922341,
+    "excess_sd_bp_per_period": 461.8256160726228,
+    "mde_bp_per_year": 1856.001723800943,
+    "periods_needed_for_observed": 1387.3002076018474,
+    "verdict": "REJECT",
+    "verdict_reason": "oos_t_0.63_below_bar_2.50",
+    "short_buckets": 0,
+    "mde_ratio_vs_month": 1.0
+   },
+   {
+    "name": "week_h1",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "periods": 738,
+    "oos_periods": 296,
+    "time_in_market_pct": null,
+    "net_bp_per_year": -1139.9836736596733,
+    "excess_oos_bp_per_year": -1083.2274189437162,
+    "excess_oos_t": -1.6063334637959281,
+    "excess_sd_bp_per_period": 223.11380846149214,
+    "mde_bp_per_year": 1889.522503445705,
+    "periods_needed_for_observed": 900.6510491395945,
+    "verdict": "REJECT",
+    "verdict_reason": "oos_net_excess_not_positive",
+    "short_buckets": 0,
+    "mde_ratio_vs_month": 1.0180607481204889
+   },
+   {
+    "name": "week_h2",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "periods": 738,
+    "oos_periods": 296,
+    "time_in_market_pct": null,
+    "net_bp_per_year": -850.2492651896551,
+    "excess_oos_bp_per_year": -1221.8943486875842,
+    "excess_oos_t": -2.342610931103223,
+    "excess_sd_bp_per_period": 172.57425316824907,
+    "mde_bp_per_year": 1461.5094293145128,
+    "periods_needed_for_observed": 423.4748686981538,
+    "verdict": "REJECT",
+    "verdict_reason": "oos_net_excess_not_positive",
+    "short_buckets": 8,
+    "mde_ratio_vs_month": 0.7874504697772902
+   },
+   {
+    "name": "week_h3",
+    "bucket": "week",
+    "periods_per_year": 52,
+    "periods": 738,
+    "oos_periods": 296,
+    "time_in_market_pct": null,
+    "net_bp_per_year": -886.0735857888978,
+    "excess_oos_bp_per_year": -1238.3023080893465,
+    "excess_oos_t": -2.7493622769548844,
+    "excess_sd_bp_per_period": 149.01748338572693,
+    "mde_bp_per_year": 1262.0101382598862,
+    "periods_needed_for_observed": 307.4425926229388,
+    "verdict": "REJECT",
+    "verdict_reason": "oos_net_excess_not_positive",
+    "short_buckets": 24,
+    "mde_ratio_vs_month": 0.6799617274467776
+   }
+  ],
+  "verdict": "REJECT",
+  "adopted_arms": [],
+  "unresolved_arms": [],
+  "obs_ratio_vs_month": 4.333333333333333,
+  "answer": "the 52-a-year arms carry 4.3x the observations of the 12-a-year anchor, yet their annual resolution spans 0.68x (tightest week_h3) to 1.02x (loosest week_h1) of the monthly anchor's -- so observing more often does not resolve a calendar question unless the per-period dispersion shrinks as fast as the frequency rises"
+ },
+ "arms": {
+  "primary_single": {
+   "symbol": "sh510300",
+   "sessions": 3504,
+   "panel_start": "2012-05-28",
+   "panel_end": "2026-10-29",
+   "always_in_bp_per_period": {
+    "month_turn": 45.59311226372631,
+    "week_h1": 10.687816289464292,
+    "week_h2": 10.687816289464292,
+    "week_h3": 10.687816289464292
+   },
+   "arms": {
+    "month_turn": {
+     "arm": {
+      "periods": 173,
+      "periods_per_year": 12,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": 20.863300943956624,
+      "net_bp_per_year": 250.35961132747948,
+      "excess_bp_per_period": -24.729811319769695,
+      "excess_bp_per_year": -296.75773583723634,
+      "excess_is_bp_per_period": -65.14787922023928,
+      "excess_oos_bp_per_period": 34.74248859092125,
+      "excess_oos_bp_per_year": 416.90986309105494,
+      "excess_sd_bp_per_period": 461.8256160726228,
+      "excess_oos_se_bp": 55.19871888534805,
+      "excess_oos_t": 0.629407516922341,
+      "oos_periods": 70,
+      "sharpe_oos_ann": 0.26059947013157847
+     },
+     "x2": {
+      "periods": 173,
+      "periods_per_year": 12,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -5.218699056043383,
+      "net_bp_per_year": -62.624388672520595,
+      "excess_bp_per_period": -50.811811319769674,
+      "excess_bp_per_year": -609.7417358372361,
+      "excess_is_bp_per_period": -91.22987922023925,
+      "excess_oos_bp_per_period": 8.660488590921247,
+      "excess_oos_bp_per_year": 103.92586309105496,
+      "excess_sd_bp_per_period": 461.8256160726228,
+      "excess_oos_se_bp": 55.19871888534805,
+      "excess_oos_t": 0.15689655060491065,
+      "oos_periods": 70,
+      "sharpe_oos_ann": 0.06496134357123819
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_t_0.63_below_bar_2.50",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 12,
+      "oos_periods": 70,
+      "mde_bp_per_period": 154.66681031674523,
+      "mde_bp_per_year": 1856.001723800943,
+      "periods_needed_for_observed": 1387.3002076018474,
+      "years_needed_for_observed": 115.60835063348729
+     },
+     "short_buckets": 0,
+     "held_sessions_total": 346,
+     "split": {
+      "is_periods": 103,
+      "oos_periods": 70,
+      "is_frac": 0.6,
+      "min_oos": 24
+     },
+     "buckets_total": 174
+    },
+    "week_h1": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -21.92276295499372,
+      "net_bp_per_year": -1139.9836736596733,
+      "excess_bp_per_period": -32.610579244457966,
+      "excess_bp_per_year": -1695.7501207118144,
+      "excess_is_bp_per_period": -40.498967676556745,
+      "excess_oos_bp_per_period": -20.83129651814839,
+      "excess_oos_bp_per_year": -1083.2274189437162,
+      "excess_sd_bp_per_period": 223.11380846149214,
+      "excess_oos_se_bp": 12.968226702394615,
+      "excess_oos_t": -1.6063334637959281,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -0.673273503316507
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -48.00476295499374,
+      "net_bp_per_year": -2496.2476736596745,
+      "excess_bp_per_period": -58.69257924445802,
+      "excess_bp_per_year": -3052.0141207118168,
+      "excess_is_bp_per_period": -66.58096767655672,
+      "excess_oos_bp_per_period": -46.91329651814841,
+      "excess_oos_bp_per_year": -2439.4914189437172,
+      "excess_sd_bp_per_period": 223.11380846149214,
+      "excess_oos_se_bp": 12.968226702394615,
+      "excess_oos_t": -3.617556786656556,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -1.5162512554790986
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 36.33697122010971,
+      "mde_bp_per_year": 1889.522503445705,
+      "periods_needed_for_observed": 900.6510491395945,
+      "years_needed_for_observed": 17.32021248345374
+     },
+     "short_buckets": 0,
+     "held_sessions_total": 738,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 739
+    },
+    "week_h2": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -16.35094740749337,
+      "net_bp_per_year": -850.2492651896551,
+      "excess_bp_per_period": -27.038763696957684,
+      "excess_bp_per_year": -1406.0157122417995,
+      "excess_is_bp_per_period": -29.409975131522913,
+      "excess_oos_bp_per_period": -23.497968243992002,
+      "excess_oos_bp_per_year": -1221.8943486875842,
+      "excess_sd_bp_per_period": 172.57425316824907,
+      "excess_oos_se_bp": 10.030674719393515,
+      "excess_oos_t": -2.342610931103223,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -0.9818745011787818
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -42.432947407493394,
+      "net_bp_per_year": -2206.5132651896565,
+      "excess_bp_per_period": -53.120763696957695,
+      "excess_bp_per_year": -2762.2797122418,
+      "excess_is_bp_per_period": -55.49197513152292,
+      "excess_oos_bp_per_period": -49.57996824399204,
+      "excess_oos_bp_per_year": -2578.158348687586,
+      "excess_sd_bp_per_period": 172.57425316824907,
+      "excess_oos_se_bp": 10.030674719393515,
+      "excess_oos_t": -4.942834817296299,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -2.071724077696651
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 28.105950563740628,
+      "mde_bp_per_year": 1461.5094293145128,
+      "periods_needed_for_observed": 423.4748686981538,
+      "years_needed_for_observed": 8.143747474964496
+     },
+     "short_buckets": 8,
+     "held_sessions_total": 1468,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 739
+    },
+    "week_h3": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -17.039876649786496,
+      "net_bp_per_year": -886.0735857888978,
+      "excess_bp_per_period": -27.727692939250744,
+      "excess_bp_per_year": -1441.8400328410387,
+      "excess_is_bp_per_period": -30.348958451193973,
+      "excess_oos_bp_per_period": -23.813505924795127,
+      "excess_oos_bp_per_year": -1238.3023080893465,
+      "excess_sd_bp_per_period": 149.01748338572693,
+      "excess_oos_se_bp": 8.661465287568538,
+      "excess_oos_t": -2.7493622769548844,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -1.1523589676812134
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -43.12187664978649,
+      "net_bp_per_year": -2242.3375857888977,
+      "excess_bp_per_period": -53.80969293925078,
+      "excess_bp_per_year": -2798.1040328410404,
+      "excess_is_bp_per_period": -56.430958451194016,
+      "excess_oos_bp_per_period": -49.89550592479518,
+      "excess_oos_bp_per_year": -2594.5663080893496,
+      "excess_sd_bp_per_period": 149.01748338572693,
+      "excess_oos_se_bp": 8.661465287568538,
+      "excess_oos_t": -5.760631055857056,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -2.414492594287059
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 24.269425735767044,
+      "mde_bp_per_year": 1262.0101382598862,
+      "periods_needed_for_observed": 307.4425926229388,
+      "years_needed_for_observed": 5.91235755044113
+     },
+     "short_buckets": 24,
+     "held_sessions_total": 2182,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 739
+    }
+   }
+  },
+  "basket_equal_weight": {
+   "symbol": "sh510050+sh510300+sh510500+sh512100+sh588000",
+   "sessions": 5269,
+   "panel_start": "2005-02-23",
+   "panel_end": "2026-10-29",
+   "always_in_bp_per_period": {
+    "month_turn": 52.9660631882598,
+    "week_h1": 12.401174775970572,
+    "week_h2": 12.401174775970572,
+    "week_h3": 12.401174775970572
+   },
+   "arms": {
+    "month_turn": {
+     "arm": {
+      "periods": 173,
+      "periods_per_year": 12,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": 24.025705798069225,
+      "net_bp_per_year": 288.3084695768307,
+      "excess_bp_per_period": -28.940357390190627,
+      "excess_bp_per_year": -347.2842886822875,
+      "excess_is_bp_per_period": -63.45462174239364,
+      "excess_oos_bp_per_period": 21.84491729947952,
+      "excess_oos_bp_per_year": 262.13900759375423,
+      "excess_sd_bp_per_period": 559.5924403663204,
+      "excess_oos_se_bp": 66.88408942930766,
+      "excess_oos_t": 0.3266085774041709,
+      "oos_periods": 70,
+      "sharpe_oos_ann": 0.13522879839145183
+     },
+     "x2": {
+      "periods": 173,
+      "periods_per_year": 12,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -2.0562942019307804,
+      "net_bp_per_year": -24.675530423169363,
+      "excess_bp_per_period": -55.022357390190656,
+      "excess_bp_per_year": -660.2682886822879,
+      "excess_is_bp_per_period": -89.5366217423936,
+      "excess_oos_bp_per_period": -4.237082700520512,
+      "excess_oos_bp_per_year": -50.84499240624614,
+      "excess_sd_bp_per_period": 559.5924403663203,
+      "excess_oos_se_bp": 66.88408942930765,
+      "excess_oos_t": -0.06334963571566368,
+      "oos_periods": 70,
+      "sharpe_oos_ann": -0.0262292410825583
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_t_0.33_below_bar_2.50",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 12,
+      "oos_periods": 70,
+      "mde_bp_per_period": 187.40921858092008,
+      "mde_bp_per_year": 2248.910622971041,
+      "periods_needed_for_observed": 5152.038857752448,
+      "years_needed_for_observed": 429.33657147937066
+     },
+     "short_buckets": 0,
+     "held_sessions_total": 346,
+     "split": {
+      "is_periods": 103,
+      "oos_periods": 70,
+      "is_frac": 0.6,
+      "min_oos": 24
+     },
+     "buckets_total": 261
+    },
+    "week_h1": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -17.841666716411908,
+      "net_bp_per_year": -927.7666692534192,
+      "excess_bp_per_period": -30.242841492382475,
+      "excess_bp_per_year": -1572.6277576038888,
+      "excess_is_bp_per_period": -35.36081742176057,
+      "excess_oos_bp_per_period": -22.600458516757058,
+      "excess_oos_bp_per_year": -1175.223842871367,
+      "excess_sd_bp_per_period": 256.0290952365497,
+      "excess_oos_se_bp": 14.881388885482668,
+      "excess_oos_t": -1.5187062639566271,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -0.6365457172426207
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -43.92366671641189,
+      "net_bp_per_year": -2284.030669253418,
+      "excess_bp_per_period": -56.32484149238247,
+      "excess_bp_per_year": -2928.8917576038884,
+      "excess_is_bp_per_period": -61.44281742176057,
+      "excess_oos_bp_per_period": -48.68245851675709,
+      "excess_oos_bp_per_year": -2531.4878428713687,
+      "excess_sd_bp_per_period": 256.0290952365497,
+      "excess_oos_se_bp": 14.881388885482668,
+      "excess_oos_t": -3.2713652530274633,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -1.3711496362211781
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 41.697651657122435,
+      "mde_bp_per_year": 2168.277886170367,
+      "periods_needed_for_observed": 1007.5820095439483,
+      "years_needed_for_observed": 19.37657710661439
+     },
+     "short_buckets": 0,
+     "held_sessions_total": 738,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 1106
+    },
+    "week_h2": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -12.406624772730055,
+      "net_bp_per_year": -645.1444881819629,
+      "excess_bp_per_period": -24.80779954870065,
+      "excess_bp_per_year": -1290.005576532434,
+      "excess_is_bp_per_period": -23.449183956561434,
+      "excess_oos_bp_per_period": -26.83654310182742,
+      "excess_oos_bp_per_year": -1395.500241295026,
+      "excess_sd_bp_per_period": 205.20359875288452,
+      "excess_oos_se_bp": 11.927216908378481,
+      "excess_oos_t": -2.2500255766268173,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -0.9430685699266084
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -38.488624772730034,
+      "net_bp_per_year": -2001.4084881819617,
+      "excess_bp_per_period": -50.88979954870059,
+      "excess_bp_per_year": -2646.2695765324306,
+      "excess_is_bp_per_period": -49.53118395656143,
+      "excess_oos_bp_per_period": -52.91854310182743,
+      "excess_oos_bp_per_year": -2751.7642412950263,
+      "excess_sd_bp_per_period": 205.2035987528845,
+      "excess_oos_se_bp": 11.927216908378481,
+      "excess_oos_t": -4.436788859323408,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -1.8596215830138598
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 33.42006177727651,
+      "mde_bp_per_year": 1737.8432124183782,
+      "periods_needed_for_observed": 459.04267659558803,
+      "years_needed_for_observed": 8.827743780684385
+     },
+     "short_buckets": 8,
+     "held_sessions_total": 1468,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 1106
+    },
+    "week_h3": {
+     "arm": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 13.041,
+      "cost_bp_per_period": 26.082,
+      "net_bp_per_period": -11.422431921875111,
+      "net_bp_per_year": -593.9664599375058,
+      "excess_bp_per_period": -23.823606697845655,
+      "excess_bp_per_year": -1238.827548287974,
+      "excess_is_bp_per_period": -23.48438160797899,
+      "excess_oos_bp_per_period": -24.33015227122773,
+      "excess_oos_bp_per_year": -1265.1679181038419,
+      "excess_sd_bp_per_period": 169.81071752685864,
+      "excess_oos_se_bp": 9.870047472945503,
+      "excess_oos_t": -2.4650491639395247,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -1.0331928729985271
+     },
+     "x2": {
+      "periods": 738,
+      "periods_per_year": 52,
+      "sides_per_period": 2,
+      "cost_side_bp": 26.082,
+      "cost_bp_per_period": 52.164,
+      "net_bp_per_period": -37.50443192187513,
+      "net_bp_per_year": -1950.2304599375068,
+      "excess_bp_per_period": -49.90560669784564,
+      "excess_bp_per_year": -2595.091548287973,
+      "excess_is_bp_per_period": -49.566381607979,
+      "excess_oos_bp_per_period": -50.41215227122773,
+      "excess_oos_bp_per_year": -2621.4319181038422,
+      "excess_sd_bp_per_period": 169.81071752685864,
+      "excess_oos_se_bp": 9.870047472945503,
+      "excess_oos_t": -5.107589645278911,
+      "oos_periods": 296,
+      "sharpe_oos_ann": -2.14077889272991
+     },
+     "verdict": "REJECT",
+     "verdict_reason": "oos_net_excess_not_positive",
+     "mde": {
+      "z_80pct_two_sided": 2.802,
+      "periods_per_year": 52,
+      "oos_periods": 296,
+      "mde_bp_per_period": 27.6558730191933,
+      "mde_bp_per_year": 1438.1053969980517,
+      "periods_needed_for_observed": 382.45188173060393,
+      "years_needed_for_observed": 7.354843879434691
+     },
+     "short_buckets": 24,
+     "held_sessions_total": 2182,
+     "split": {
+      "is_periods": 442,
+      "oos_periods": 296,
+      "is_frac": 0.6,
+      "min_oos": 104
+     },
+     "buckets_total": 1106
+    }
+   }
+  }
+ },
+ "honest": [
+  "cash leg earns 0%: the weekly arms sit out 40-80% of sessions and give up the risk-free rate, which FAVOURS the overlays",
+  "close-to-close fills with a per-side charge; no slippage, no open lag",
+  "one ETF (today's listing set) for the primary arm: survivorship applies",
+  "a truncated holiday week holds fewer sessions than the arm's nominal n; the count is published per arm as short_buckets rather than equalised",
+  "the ladder reads the SAME panel and the same toll as E222, so the only thing that moves between rungs is the anchor and its period count",
+  "no gate and no trial count consumed: the decision rule is the deliverable"
+ ]
+}

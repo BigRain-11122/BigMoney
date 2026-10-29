@@ -3,11 +3,13 @@
  "clock_cell": "ORANGE_COOL",
  "regime_v3": {
   "state": "ORANGE",
-  "asof": "2026-10-28",
-  "days_in_state": 9,
+  "asof": "2026-10-29",
+  "days_in_state": 10,
   "triggers": [
+   "breadth 0.88>=80% slope -0.0417<0",
    "hs300<MA200 (#10 collected)",
-   "breadth 0.88>=65%"
+   "breadth 0.88>=65%",
+   "event window (appendix A)"
   ]
  },
  "heat_composite": {
