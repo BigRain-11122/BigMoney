@@ -4276,3 +4276,34 @@ results/state_tilt/BANDPATH-<cutoff>.json + bandpath_latest.json + bandpath_by_c
 S6 leg band_path_test after hysteresis_toll; smoke leg cross-replays the global path against
 E230's published cell (1e-6 bp / 1e-9 t), refuses a survivor without a clean sweep, and keeps
 the two path families from being merged.
+
+### E232 -- a cost model is a design choice, so every conclusion through it owes a curvature sweep (r1258 bm-b)
+
+E226-E231 all charge |dw| at a fixed 13.041 bp/side, which makes every toll number in the
+family a fact about a LINEAR charge. Sweeping gamma in 0.75/1.00/1.25/1.50 with the unit cost
+of a full 1.0 move held fixed answers the question in three parts: the toll clears its bar on
+6/6 arm cells at every gamma and stays the ONLY channel past it (so the family's conclusion is
+curvature-invariant), the toll's SIZE is not (-247.3 -> -93.2 bp/yr on tilt_linear, a 2.6x
+erosion taking the pair from -788.1 to -634.0), and E230's single passing band dies: BAND_PAYS
+at gamma <= 1.00, BAND_NOISE at 1.25/1.50, ladder counts 2/1/0/0.
+
+Three rules:
+1. Parameterise the charge and hold the price of one full move fixed across the sweep. Then
+   require the SIGN of a claimed channel to survive every point before its magnitude is
+   discussed -- significance and size answer different questions.
+2. Discrete rules are degenerate cases of graded ones. A 0/1 gate only moves whole units and
+   1**gamma == 1, so its toll cannot respond to curvature at all (binary_low is flat to 1e-9
+   at four gammas and carries the family's only positive pair cell). Flag that as an invariant;
+   never read the gate's flatness as robustness.
+3. Selection and sizing never touch the charge, so they are the control:
+   pair(g) - pair(g') == toll(g) - toll(g'). Pin it in a selftest and no cross-gamma move in
+   the pair can later be re-narrated as skill.
+
+Sibling: a study ticket can carry an inverted premise and the face must measure the direction
+rather than repeat it -- the card claimed a concave charge makes many small steps cheaper per
+unit, and 0.5**0.75 = 0.594 > 0.5 is the opposite.
+
+Pieces: scripts/e232_cost_curvature.py (run / selftest, 10 hermetic legs); face
+results/state_tilt/COSTCURVE-<cutoff>.json + costcurve_latest.json; S6 leg cost_curvature after
+band_path_test; smoke leg requires >=3 gamma points, selection invariant on every arm cell,
+binary_low's toll unmoved across gammas, and a re-read of E230's focus cell.

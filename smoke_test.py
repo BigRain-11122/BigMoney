@@ -2852,6 +2852,46 @@ def main() -> int:
     except Exception as e:
         check("product: a band that passed on one path is path-tested before it is a finding",
               False, repr(e)[:160])
+    # E232: the charge function itself is the assumption under the whole E226-E231 family.
+    try:
+        _bad32 = []
+        _p32 = "results/state_tilt/costcurve_latest.json"
+        _g32 = []
+        _s32 = {}
+        if not os.path.exists(_p32):
+            _bad32.append("costcurve face missing")
+        else:
+            with open(_p32, encoding="utf-8") as _fh:
+                _f32 = json.load(_fh)
+            _rows32 = [r for r in (_f32.get("toll_channel") or [])]
+            _g32 = sorted({r.get("gamma") for r in _rows32})
+            if len(_g32) < 3:
+                _bad32.append("fewer than three curvature points published")
+            _ranges32 = _f32.get("arm_ranges") or []
+            _inv32 = [r for r in _ranges32 if r.get("selection_invariant")]
+            if _ranges32 and len(_inv32) != len(_ranges32):
+                _bad32.append("selection is not curvature-invariant on every arm cell")
+            # a 0/1 gate only moves whole units and 1**gamma == 1, so its toll cannot move
+            for _r32 in _ranges32:
+                if _r32.get("arm") == "binary_low":
+                    _lo32, _hi32 = _r32["toll_range_bp"]
+                    if abs(_hi32 - _lo32) > 1e-9:
+                        _bad32.append("binary_low toll moved across gamma (%.4f)"
+                                      % abs(_hi32 - _lo32))
+            _s32 = _f32.get("summary") or {}
+            if not _s32.get("e230_focus_verdicts_by_gamma"):
+                _bad32.append("face does not re-read E230's focus cell")
+            if not (_f32.get("answer") or "").strip():
+                _bad32.append("face publishes no answer sentence")
+        check("product: the family's toll conclusion is re-read under a non-linear charge",
+              not _bad32, "; ".join(_bad32)[:220]
+              or "%d gamma points, toll past the bar on %d arms at every gamma, "
+                 "E230 focus %s"
+                 % (len(_g32), (_s32.get("toll_single_channel_at_all_gammas") or 0),
+                    "/".join(_s32.get("e230_focus_verdicts_by_gamma") or [])))
+    except Exception as e:
+        check("product: the family's toll conclusion is re-read under a non-linear charge",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

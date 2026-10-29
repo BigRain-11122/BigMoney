@@ -1,21 +1,37 @@
 {
- "ts": "2026-10-29T20:53:42",
+ "ts": "2026-10-29T23:17:57",
  "mode": "probe",
- "py_faces_seen": 11,
+ "py_faces_seen": 21,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
+   "pid": 1612,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -m smoke_test",
+   "age_min": 6.2,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "powershell.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
    "pid": 3836,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 19.1,
+   "age_min": 163.6,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
+   "face3_cpu_stalled": true,
    "ancestor_chain": [
     "blender-mcp.exe",
     "codely.exe",
@@ -26,93 +42,46 @@
    ]
   },
   {
-   "pid": 8476,
+   "pid": 7532,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
-   "age_min": 27.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "blender-mcp.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 9612,
-   "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe -u smoke_test.py",
-   "age_min": 7.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "powershell.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 14248,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 27.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "mcp-for-unity.exe",
-    "codely.exe",
-    "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 27144,
-   "name": "python.exe",
-   "cmd": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\venvs\\whisperx\\Scripts\\python.exe E:\\Fluxgroup\\.codely-cli\\xlm_corpus.py",
-   "age_min": 3.9,
-   "cpu_delta_20s": 0.0,
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=32876, pipe",
+   "age_min": 5.9,
+   "cpu_delta_20s": 62.562,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
-    "powershell.exe",
-    "codely.exe",
-    "codely-binary.exe",
-    "cowork.exe",
-    "explorer.exe",
-    "DEAD"
-   ]
-  },
-  {
-   "pid": 28440,
-   "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 27.1,
-   "cpu_delta_20s": 0.0,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "python.exe",
-    "mcp-for-unity.exe",
-    "codely.exe",
+    "python.exe",
     "powershell.exe",
-    "wscript.exe"
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe"
    ]
   },
   {
-   "pid": 28748,
+   "pid": 8968,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=32876, pipe",
+   "age_min": 5.9,
+   "cpu_delta_20s": 66.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "python.exe",
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe"
+   ]
+  },
+  {
+   "pid": 10204,
    "name": "python.exe",
    "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
-   "age_min": 19.1,
+   "age_min": 19.4,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
@@ -127,16 +96,138 @@
    ]
   },
   {
-   "pid": 29272,
+   "pid": 12248,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe scripts/etf_book_forward.py --selftest",
-   "age_min": 1.5,
-   "cpu_delta_20s": 19.672,
+   "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
+   "age_min": 11.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "blender-mcp.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 12292,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -m pip install --disable-pip-version-check -i https://mirrors.aliyun.com/pypi/simp",
+   "age_min": 84.5,
+   "cpu_delta_20s": 0.609,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe"
+   ]
+  },
+  {
+   "pid": 20112,
+   "name": "python.exe",
+   "cmd": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\runtime\\Scripts\\python.exe -m pip install --disable-pip-version-chec",
+   "age_min": 84.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 20264,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
+   "age_min": 11.5,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
     "python.exe",
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 23864,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=32876, pipe",
+   "age_min": 5.9,
+   "cpu_delta_20s": 56.625,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "python.exe",
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe"
+   ]
+  },
+  {
+   "pid": 28516,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe -c from multiprocessing.spawn import spawn_main; spawn_main(parent_pid=32876, pipe",
+   "age_min": 5.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "python.exe",
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe"
+   ]
+  },
+  {
+   "pid": 28748,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Users\\Administrator\\.local\\bin\\mcp-for-unity.exe --transport stdio",
+   "age_min": 163.6,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "python.exe",
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe"
+   ]
+  },
+  {
+   "pid": 29356,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe Tools/orphan_face_probe.py",
+   "age_min": 0.6,
+   "cpu_delta_20s": 0.125,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
     "powershell.exe",
     "codely.exe",
     "powershell.exe",
@@ -147,7 +238,54 @@
    "pid": 29400,
    "name": "python.exe",
    "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
-   "age_min": 19.1,
+   "age_min": 163.6,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": true,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 31048,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 11.5,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "mcp-for-unity.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 31068,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\scripts\\update_astock_daily.py refresh",
+   "age_min": 139.6,
+   "cpu_delta_20s": 5.672,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 32460,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Administrator\\AppData\\Roaming\\uv\\tools\\mcpforunityserver\\Scripts\\python.exe C:\\Users\\Administrator\\.local\\bin\\m",
+   "age_min": 19.4,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
@@ -162,11 +300,11 @@
    ]
   },
   {
-   "pid": 29436,
+   "pid": 32876,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe E:\\Fluxgroup\\.codely-cli\\xlm_corpus.py",
-   "age_min": 3.9,
-   "cpu_delta_20s": 79.234,
+   "cmd": "C:\\Program Files\\Python311\\python.exe -u E:\\Fluxgroup\\.codely-cli\\vb_build.py --voice xlm-hq2 --raw E:\\Fluxgroup\\.codely",
+   "age_min": 5.9,
+   "cpu_delta_20s": 0.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": false,
@@ -180,19 +318,56 @@
    ]
   },
   {
-   "pid": 32260,
+   "pid": 33568,
    "name": "python.exe",
-   "cmd": "C:\\Program Files\\Python311\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.4,
-   "cpu_delta_20s": 0.047,
+   "cmd": "C:\\Program Files\\Blender Foundation\\Blender 5.2\\5.2\\python\\bin\\python.exe C:\\Program Files\\Blender Foundation\\Blender 5.",
+   "age_min": 19.4,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "blender-mcp.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 33996,
+   "name": "python.exe",
+   "cmd": "C:\\Program Files\\Python311\\python.exe scripts/etf_book_forward.py --selftest",
+   "age_min": 2.0,
+   "cpu_delta_20s": 12.594,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
+    "python.exe",
     "powershell.exe",
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
+   ]
+  },
+  {
+   "pid": 34076,
+   "name": "python.exe",
+   "cmd": "C:\\Fluxgroup\\FluxGroup\\media\\drama-tools\\GPT-SoVITS\\runtime\\Scripts\\python.exe -u E:\\Fluxgroup\\.codely-cli\\vb_build.py -",
+   "age_min": 5.9,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "powershell.exe",
+    "codely.exe",
+    "codely-binary.exe",
+    "cowork.exe",
+    "explorer.exe",
+    "DEAD"
    ]
   }
  ],

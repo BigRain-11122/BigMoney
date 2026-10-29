@@ -112,6 +112,12 @@ LEGS = [
     # grid on other paths (split offsets, execution lags, calendar eras) and publishes the
     # share of paths that keep the sign instead of the best cell.
     ("band_path_test", ["python", "scripts/e231_band_path_test.py", "run"]),
+    # E232: every toll number in this family charges |dw| at a fixed 13.041 bp, so the
+    # conclusion that the toll is the only separating channel rests on a LINEAR charge.
+    # This leg sweeps gamma in 0.75/1.00/1.25/1.50 (a 1.0 move costs the same at every
+    # point) and asks which conclusions are curvature-invariant and which are the cost
+    # model's.
+    ("cost_curvature", ["python", "scripts/e232_cost_curvature.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
