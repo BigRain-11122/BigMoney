@@ -23133,16 +23133,33 @@
    "title": "Does the toll channel survive a non-linear charge? Sweep cost = c*|dw|^gamma over gamma in 0.75/1.0/1.25/1.5 (normalised so a full 1.0 weight change costs the same at every gamma), re-derive the three channels and the E230 rung ladder on both panels, and publish which conclusions change sign and which are curvature-invariant. A toll finding that only exists at gamma=1 is a finding about the cost model, not about the rule"
   },
   {
+   "close_note": "in-window: runner e233_empirical_gamma.py (selftest 13/13) + S6 leg empirical_gamma + smoke leg + card E233 + digest; gamma measured 0.928 [0.830,1.026], family re-read on the interval and on the identification span 0.255..1.026",
+   "closed_at": "2026-10-30T00:25:00+08:00",
+   "closed_by": "bm-b r1259",
    "deliverable": "results/state_tilt/EMPIRICAL-GAMMA-<cutoff>.json",
+   "done_by": "bm-b r1259",
    "entered_at": "2026-10-29T23:59:00+08:00",
    "entered_by": "bm-b r1258",
    "evidence_cutoff": "2026-10-29",
    "id": "E233-EMPIRICAL-GAMMA",
    "lane": "cpu-only",
+   "result_ref": "results/state_tilt/EMPIRICAL-GAMMA-2026-10-29.json",
    "source": "E232 published that the family's toll significance is curvature-invariant while its size is not (tilt_linear -247.3 -> -93.2 bp/yr over gamma 0.75..1.50) and that E230's one passing band dies as soon as the charge turns convex. Both readings are only as good as the four-point grid they were read on. The family has never used the data to pick gamma; it has always assumed it. A measured gamma with an interval would also let the ladder publish 'BAND_PAYS only below gamma = X' as a conditional finding instead of a verdict that vanishes off the grid.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e233_empirical_gamma.py (new runner)",
    "title": "E232 swept the charge curvature over a grid nobody calibrated, so 'the toll shrinks 2.6x when the charge turns convex' is only a statement about the grid. Estimate the curvature from the panel instead of assuming it: fit the realised open-to-close response to a participation proxy (turnover x |ret| as the impact scale) as cost = c*|dw|^gamma with gamma free, per panel and per era, and publish the estimate with its interval. Then re-derive the E229 channels and E230's ladder at the measured gamma and say whether any family verdict sits inside the estimate's interval rather than on the grid."
+  },
+  {
+   "deliverable": "results/state_tilt/PER-MEMBER-GAMMA-<cutoff>.json",
+   "entered_at": "2026-10-30T00:25:00+08:00",
+   "entered_by": "bm-b r1259",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E234-PER-MEMBER-GAMMA",
+   "lane": "cpu-only",
+   "source": "E233 measured one exponent per panel (sh510300 0.928 [0.830,1.026]; equal-weight basket 0.917) and re-read the family on that interval and across the estimator-identification span 0.255..1.026. Two things it could not answer: (a) the basket exponent is an aggregate of five instruments with very different liquidity and history (588000 starts 2020), so a 5-member book charging one gamma may be charging the wrong number for four of its five sleeves -- estimate gamma per member, ask whether the member estimates are mutually compatible, and re-price the book-level charge bill when each sleeve is charged its own exponent; (b) the era split already showed 1.079 pre-2017 vs 0.883 after, a gap the sampling interval does not cover -- so re-derive the ladder at the era-specific points and count the cells whose verdict would have differed had the exponent been measured at the time instead of borrowed from the full sample (how much of the 2017+ conclusion is an artefact of using a pre-2017 exponent).",
+   "status": "ready",
+   "target": "scripts/e234_per_member_gamma.py (new runner)",
+   "title": "the family charges one exponent; the book holds five instruments -- is the aggregate gamma a per-member number or a mixture?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23157,6 +23174,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-29T23:59:00+08:00",
+ "updated_at": "2026-10-30T00:25:00+08:00",
  "version": 1
 }

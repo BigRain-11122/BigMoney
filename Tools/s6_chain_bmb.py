@@ -118,6 +118,12 @@ LEGS = [
     # point) and asks which conclusions are curvature-invariant and which are the cost
     # model's.
     ("cost_curvature", ["python", "scripts/e232_cost_curvature.py", "run"]),
+    # E233: E232's four curvature points were assumed, so this leg estimates the exponent
+    # from the panel (|r_oc| ~ k * amount ** gamma, HAC interval, era split) and then
+    # re-reads the same family verdicts on the measured interval AND across the whole
+    # estimator-identification span, so a verdict decided by where gamma is placed shows up
+    # as such instead of riding a grid.
+    ("empirical_gamma", ["python", "scripts/e233_empirical_gamma.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

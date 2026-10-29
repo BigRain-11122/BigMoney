@@ -2892,6 +2892,61 @@ def main() -> int:
     except Exception as e:
         check("product: the family's toll conclusion is re-read under a non-linear charge",
               False, repr(e)[:160])
+    # E233: E232's grid was assumed. This leg holds the face to its two obligations --
+    # publish a measured exponent with an interval, and re-read the family at every point
+    # of that interval plus the estimator dispute, so a verdict that only exists on the
+    # grid is labelled as such.
+    try:
+        _bad33 = []
+        _p33 = "results/state_tilt/empirical_gamma_latest.json"
+        _s33 = {}
+        _pe33 = {}
+        if not os.path.exists(_p33):
+            _bad33.append("empirical gamma face missing")
+        else:
+            with open(_p33, encoding="utf-8") as _fh:
+                _f33 = json.load(_fh)
+            _pe33 = _f33.get("primary_estimate") or {}
+            _s33 = _f33.get("summary") or {}
+            if _pe33.get("gamma") is None or not _pe33.get("gamma_ci"):
+                _bad33.append("primary estimate publishes no interval")
+            else:
+                _lo33, _hi33 = _pe33["gamma_ci"]
+                if not _lo33 < _pe33["gamma"] < _hi33:
+                    _bad33.append("point estimate sits outside its own interval")
+                _pts33 = _s33.get("gamma_points") or []
+                if len(_pts33) < 3:
+                    _bad33.append("fewer than three gamma points re-derived")
+                if any(not (_lo33 - 1e-9 <= p <= _hi33 + 1e-9) for p in _pts33[:3]):
+                    _bad33.append("an interval endpoint is missing from the point set")
+            if not _s33.get("toll_clears_bar_every_point"):
+                _bad33.append("the toll channel does not survive the measured interval")
+            _cells33 = _s33.get("ladder_cells") or 0
+            if not _cells33:
+                _bad33.append("no ladder cell was re-read at the measured gamma")
+            elif (_s33.get("ladder_verdicts_stable") or 0) + (
+                    _s33.get("ladder_verdicts_inside_interval") or 0) != _cells33:
+                _bad33.append("stable/inside counts do not partition the ladder cells")
+            if not isinstance(_s33.get("ladder_verdicts_sensitive_to_identification"), int):
+                _bad33.append("face does not report identification-span sensitivity")
+            if not (_f33.get("answer") or "").strip():
+                _bad33.append("face publishes no answer sentence")
+            # the bridge assumption must be stated on the face, not only in the docstring
+            if not ((_f33.get("frozen_spec") or {}).get("bridge") or "").strip():
+                _bad33.append("the market-to-own-charge bridge is not disclosed")
+        check("product: the charge curvature is measured, not assumed, before verdicts ride it",
+              not _bad33, "; ".join(_bad33)[:220]
+              or "gamma %.3f [%.3f, %.3f], %d/%d ladder cells stable inside the interval, "
+                 "%d decided by the identification span"
+                 % ((_pe33.get("gamma") or 0.0),
+                    ((_pe33.get("gamma_ci") or [0.0, 0.0])[0]),
+                    ((_pe33.get("gamma_ci") or [0.0, 0.0])[1]),
+                    (_s33.get("ladder_verdicts_stable") or 0),
+                    (_s33.get("ladder_cells") or 0),
+                    (_s33.get("ladder_verdicts_sensitive_to_identification") or 0)))
+    except Exception as e:
+        check("product: the charge curvature is measured, not assumed, before verdicts ride it",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

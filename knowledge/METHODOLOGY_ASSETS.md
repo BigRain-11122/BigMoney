@@ -4307,3 +4307,43 @@ Pieces: scripts/e232_cost_curvature.py (run / selftest, 10 hermetic legs); face
 results/state_tilt/COSTCURVE-<cutoff>.json + costcurve_latest.json; S6 leg cost_curvature after
 band_path_test; smoke leg requires >=3 gamma points, selection invariant on every arm cell,
 binary_low's toll unmoved across gammas, and a re-read of E230's focus cell.
+
+### E233 -- a swept parameter is still an assumed one; measure it, then publish the identification span (r1259 bm-b)
+
+E232 read the family under gamma = 0.75/1.00/1.25/1.50 -- four points nobody calibrated, while
+the production charge (13.041 bp/side on |dw|) is gamma = 1.0 by construction. Estimating the
+exponent from the panel itself (`|r_oc| = k * amount ** gamma`, HAC interval, era split)
+returns 0.928 [0.830, 1.026] on sh510300 and 0.917 on the basket, pre-2017 1.079 / 2017+ 0.883:
+the assumption was inside the measurement, and E232's headline erosion is real but far smaller
+at the measured exponent (toll -217.3/-187.3/-163.0 bp/yr over the interval, i.e. ~16% lost
+across the path, not 2.6x). The toll clears its bar on 6/6 arm cells at every point.
+
+Three rules:
+1. **The sampling interval is not the uncertainty.** One control set (same panel, same estimator
+   family) moves gamma from 0.928 to 0.255 and the intervals are disjoint; on the basket the
+   naive reading collapses to 0.003. Publish the identification span as an explicit point set
+   and re-derive every verdict inside it -- otherwise "gamma is known to +/- 0.10" is a claim
+   about the regression, not about the number.
+2. **A reverse regression's reciprocal is not the forward elasticity.** Publish the reverse fit
+   (amount on |r|) as a diagnostic, fence it in code so it can never be read as an estimate,
+   and pin that with a selftest leg: 1/0.169 = 5.9 is an object with no interpretation.
+3. **Fence the bridge in prose on the face itself.** What is measured is the market's elasticity
+   of price to aggregate turnover; using it as our own |dw| exponent assumes the traded amount
+   is proportional to |dw| and that our flow meets the same concavity. `frozen_spec.bridge`
+   carries that sentence and the smoke leg refuses a face without it.
+
+Sibling findings worth carrying: E230's one passing band is BAND_PAYS on the fine scan from
+gamma 0.25 all the way to 1.10, so it is not a curvature artefact inside the measured range
+(its limit is path fragility, E231: 12/12 positive, 4/12 clearing the strict bar); and 3 of 12
+ladder cells flip only at the naive gamma, all in the same direction -- counted, printed, not
+left for a reader to find.
+
+Pit: a constant regressor does not make X'X singular in floats (`1e8` columns invert to
+garbage and yield a confident gamma), so the collinearity guard must be scale aware -- test the
+determinant of the correlation form, not of the raw cross-product.
+
+Pieces: scripts/e233_empirical_gamma.py (run / selftest, 13 hermetic legs); face
+results/state_tilt/EMPIRICAL-GAMMA-<cutoff>.json + empirical_gamma_latest.json; S6 leg
+empirical_gamma after cost_curvature; smoke leg requires a published interval containing the
+point estimate, the interval endpoints among the re-derived points, a surviving toll channel,
+a stable/inside partition of the ladder cells, and the bridge disclosure.

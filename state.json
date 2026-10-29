@@ -25,8 +25,27 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
+ "dept": "research+engineering",
  "did": "E228-MATCHED-EXPOSURE-NULL: flat arm at each gated arm's own average weight under the same toll + paired daily difference + Newey-West t + three matched constants + the attribution identity; selftest 21/21; face results/state_tilt/MATCHED-2026-10-28.json",
  "did_round": 1254,
+ "e233": {
+  "finding": "the family's assumed gamma = 1.0 sits inside the measured interval: 0.928 [0.830, 1.026] on sh510300 (NW lag 20, n=3455), 0.917 on the basket, pre-2017 1.079 / 2017+ 0.883. The naive contemporaneous regression reads 0.255 (basket 0.003) with a disjoint interval, so the honest envelope is 0.255..1.026 and identification, not sampling error, is the dominant uncertainty. Re-read on both sets: toll clears 3.08 on 6/6 arm cells at every point (-217.3/-187.3/-163.0 bp/yr on tilt_linear, single); 12/12 ladder cells keep one verdict across the sampling interval; 3/12 flip only at the naive gamma, all towards BAND_PAYS at low gamma. E230's one passing band is BAND_PAYS across the whole fine scan 0.25..1.10, so it is not a curvature artefact in the measured range -- its limit is E231's path fragility.",
+  "not_run": "full S6 chain and the orphan probe are carried by their own scheduled legs this round (10-minute window); GPU untouched (parked, C-20261014-01); no cloud calls; no cleanup or quarantine actions",
+  "pit": "a constant regressor does not make X'X singular in floats -- a column of 1e8 inverts to garbage and yields a confident gamma, so the collinearity guard must test the determinant of the correlation form; e232.channel_rows publishes the OOS slice while e228.rows_for publishes the whole path, so an invariance leg compares per-session cost on the shared index set, never row counts",
+  "pool": "E233 done with result_ref; E234-PER-MEMBER-GAMMA seeded ready (704 done / 1 ready)",
+  "product": [
+   "scripts/e233_empirical_gamma.py (run / selftest 13/13)",
+   "results/state_tilt/EMPIRICAL-GAMMA-2026-10-29.json",
+   "results/state_tilt/empirical_gamma_latest.json",
+   "Tools/s6_chain_bmb.py leg empirical_gamma after cost_curvature",
+   "smoke_test.py leg on the measured-gamma face",
+   "research/digests/DIGEST-20261030-r1259-e233-empirical-gamma.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E233"
+  ],
+  "s7": "loop pin=2 no-op | attrition CLEAN 4 ledgers (3 historical shrinks healed) | idle_trigger --worked cleared idle_rounds to 0",
+  "selftest": "e233 13/13",
+  "ts": "2026-10-30T00:27:46+08:00"
+ },
  "free_ram_gb": 12.9,
  "free_ram_mb": 12184,
  "free_ram_pct": 54.0,
@@ -785,12 +804,12 @@
  "ram_free_pct": 35.1,
  "ram_load_pct": 64.0,
  "ram_total_gb": 23.9,
- "round": 1254,
- "round_no": 1254,
+ "round": 1259,
+ "round_no": 1259,
  "round_no_drift_healed": "state.json stood at 1244 while round reports and commits were at r1253 (r1020 double-drift class); healed to 1254 from the repo-root authority",
- "round_no_label": "r1254",
+ "round_no_label": "r1259",
  "round_no_note": "r1240: aligned to the report series (r1239 last report) instead of bumping the stale 1237 -- r1238/r1239 wrote reports only",
- "round_no_ts": "2026-10-29T19:01:48+08:00",
+ "round_no_ts": "2026-10-30T00:27:46+08:00",
  "sat_engine": {
   "checked_at": "2026-10-28T17:25:45+08:00",
   "status": "alive"
@@ -808,11 +827,11 @@
   "verified": "git ls-remote origin refs/heads/main == 610b61e504; rev-list --left-right --count origin/main...HEAD == 0 0"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
- "task": "E228 exposure-matched null: the drift split reproduced as a traded flat arm and judged on the paired daily series, so the tilt's timing value finally carries a standard error",
- "task_short": "E228 matched null",
+ "task": "E233 empirical gamma: measure the charge curvature from the panel, then re-read the family on the measured interval and on the estimator-identification span",
+ "task_short": "E233 empirical gamma",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
- "ts": "2026-10-29T19:01:48+08:00",
- "updated": "2026-10-29T19:01:48+08:00",
- "updated_at": "2026-10-29T19:01:48+08:00",
- "verdict": "WATERMARK GREEN at open (idle_trigger green_idle, ram_free 44.9%, pool ready 1) and the card on the board was real work, so the round burned it | E228: 0 of 8 gated cells survive the 2.7344 bar; the E225 attribution and the traded benchmark differ by 0.0 bp/yr on all 8 (0 sign changes, exact identity) | smoke 212/212 | orphan 0 | sat engine idle | pool 699 done / 1 ready"
+ "ts": "2026-10-30T00:27:46+08:00",
+ "updated": "2026-10-30T00:27:46+08:00",
+ "updated_at": "2026-10-30T00:27:46+08:00",
+ "verdict": "WATERMARK RED at open (pool-batch-runnable-idle-low-cpu, py 9.3%, pool ready 1 = E233 dev card) and the ready card was the red item, so the round burned it | gamma = 0.928 [0.830, 1.026] single / 0.917 basket; naive 0.255 with disjoint interval -> identification dominates sampling error (span 0.255..1.026) | family re-read: toll 6/6 arm cells clear the bar at every point, 12/12 ladder cells stable across the sampling interval, 3/12 flip only at the naive gamma | E230's band is BAND_PAYS from gamma 0.25 to 1.10 | e233 selftest 13/13 | pool 704 done / 1 ready (E234 seeded) | attrition CLEAN"
 }
