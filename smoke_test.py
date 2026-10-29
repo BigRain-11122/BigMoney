@@ -3010,6 +3010,67 @@ def main() -> int:
     except Exception as e:
         check("product: a book-level exponent is measured per member before it is charged",
               False, repr(e)[:160])
+    # E235: E234 priced a five-sleeve split without asking whether the market prices a
+    # sleeve's move against THAT sleeve's turnover or against the book's. The leg holds
+    # the face to: a joint own/aggregate fit with intervals, an explicit spec-adequacy
+    # red flag (a negative own elasticity is never read as a finding), and a bill that is
+    # re-derived under both granularities so the level is readable either way.
+    try:
+        _bad35 = []
+        _p35 = "results/state_tilt/granularity_latest.json"
+        _f35 = {}
+        if not os.path.exists(_p35):
+            _bad35.append("granularity face missing")
+        else:
+            with open(_p35, encoding="utf-8") as _fh:
+                _f35 = json.load(_fh)
+            _mem = _f35.get("members") or []
+            _est = [m for m in _mem if m.get("b_own") is not None]
+            if len(_est) < 2:
+                _bad35.append("fewer than two sleeves carry a joint estimate")
+            for _m in _est:
+                if not (_m.get("b_own_ci") and _m.get("b_agg_ci")):
+                    _bad35.append("%s publishes no interval" % _m.get("symbol"))
+                    break
+                if not (_m["b_own_ci"][0] < _m["b_own"] < _m["b_own_ci"][1]):
+                    _bad35.append("%s own point sits outside its interval"
+                                  % _m.get("symbol"))
+                    break
+                _g = _m.get("g_scaling")
+                if _g is None or abs(_g - (_m["b_own"] + _m["b_agg"])) > 1e-9:
+                    _bad35.append("%s book-scaling elasticity is not b_own + b_agg"
+                                  % _m.get("symbol"))
+                    break
+            _sum35 = _f35.get("summary") or {}
+            _neg = _sum35.get("negative_own_elasticity") or []
+            if _neg and _sum35.get("pooled_verdict_after_spec_check") != \
+                    "unresolved_spec_inadequate":
+                _bad35.append("a negative own elasticity was not carried into the verdict")
+            _bills35 = _sum35.get("bills") or {}
+            if not _bills35:
+                _bad35.append("no re-priced bill published")
+            for _arm, _v in _bills35.items():
+                if _v.get("per_sleeve_own_bp") is None:
+                    _bad35.append("%s lacks the per-sleeve bill" % _arm)
+                    break
+                if _v.get("linear_bp") is None:
+                    _bad35.append("%s lacks the linear bill" % _arm)
+                    break
+            if not (_f35.get("answer") or "").strip():
+                _bad35.append("face publishes no answer sentence")
+        check("product: the price of a sleeve move is measured against own and book "
+              "turnover before the book is charged",
+              not _bad35, "; ".join(_bad35)[:220]
+              or "%d sleeves, verdict %s, pooled b_own %s / b_agg %s vs the family's "
+                 "single exponent %s"
+                 % (len(_f35.get("members") or []),
+                    (_f35.get("summary") or {}).get("pooled_verdict_after_spec_check"),
+                    (_f35.get("summary") or {}).get("pooled_b_own"),
+                    (_f35.get("summary") or {}).get("pooled_b_agg"),
+                    (_f35.get("summary") or {}).get("family_single_regressor_gamma")))
+    except Exception as e:
+        check("product: the price of a sleeve move is measured against own and book "
+              "turnover before the book is charged", False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

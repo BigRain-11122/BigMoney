@@ -4387,3 +4387,42 @@ results/state_tilt/PER-MEMBER-GAMMA-<cutoff>.json + per_member_gamma_latest.json
 per_member_gamma after empirical_gamma; smoke leg requires per-member intervals containing
 their points, a pooled fit carrying the member specification, a compatibility verdict that
 names its breakers, and a bill whose mixture term closes against the granularity control.
+
+### E235 -- when two regressors can trade places, the split is unmeasured (r1261 bm-b)
+
+E234 priced the five-sleeve split without asking whose turnover the market prices. Fitting
+each sleeve's `log|r|` jointly on its own turnover share and the book's aggregate turnover
+(HAC 20, volatility-clustering control) gives two of five sleeves a NEGATIVE own elasticity
+(sh510500 -0.122, sh512100 -0.147) and signs that move in lock-step across sleeves, while the
+pooled book-scaling elasticity collapses to 0.068 against the family's single-regressor 0.622.
+That 5.5x attenuation is channel cancellation, not measured concavity.
+
+Three reusable pieces:
+1. **Write the regression in identified coordinates.** With `share = lo - la`, (share, la)
+   spans the same space as (lo, la) but is numerically well conditioned; the coefficient on
+   share IS the own-channel elasticity and the coefficient on la IS the book-scaling
+   elasticity, so `b_agg = beta_la - beta_share` and its error bar comes from the coefficient
+   COVARIANCE, not the sum of two standard errors. Pin that covariance against the family's
+   own estimator in a selftest leg (here: equal to `e233.ols_hac`'s published se to 1e-9).
+2. **A negative elasticity on its own channel is a specification verdict, not a number.**
+   No impact story prices a move smaller when turnover is larger. When it appears, the
+   published verdict is `unresolved_spec_inadequate` and no figure from the face becomes a
+   bill -- the pooled slope would otherwise have cleared the bar and been reported as a
+   finding.
+3. **A control block that cannot invert is a measurement, not a nuisance.** Aggregate
+   turnover is 0.936..0.968 autocorrelated on these panels, so `la` and `la_lag` are one
+   regressor: the E233 lagged block inverts on 2 of 5 sleeves and those two flip the sign of
+   every channel against the identified block. Publish `spec_stable` per sleeve and demand
+   sign agreement before any verdict, rather than reading the block that happened to invert.
+
+Selftest gotchas worth keeping: a single hermetic draw carries ~2.7 sigma of sampling error
+at n=4000 with R2~0.1, so recovery legs must average across seeds (a per-draw tolerance is
+either vacuous or fails a clean estimator); and pooled member dummies must be indexed by
+position among the members that ENTERED the design -- indexing by basket position makes the
+first surviving member a column of ones and the design exactly singular.
+
+Runner `scripts/e235_charge_granularity.py` (run / selftest, 18 hermetic legs); face
+`results/state_tilt/GRANULARITY-<cutoff>.json` + `granularity_latest.json`; S6 leg
+`charge_granularity` after `per_member_gamma`; smoke leg requires intervals containing their
+points, `g_scaling == b_own + b_agg` per sleeve, and a negative own elasticity carried into
+the published verdict. Follow-up card E236 (share-and-difference design) seeded in the pool.

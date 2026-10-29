@@ -131,6 +131,11 @@ LEGS = [
     # sleeve on its own exponent -- against a same-granularity control so the split of one
     # move into five concave charges is never read as the mixture effect.
     ("per_member_gamma", ["python", "scripts/e234_per_member_gamma.py", "run"]),
+    # E235: the split E234 priced has two possible readings -- each sleeve priced on its
+    # own turnover, or the book priced on its aggregate turnover. This leg measures which
+    # one the panel supports and re-prices the arms under both, disclosing when the level
+    # specification cannot tell them apart.
+    ("charge_granularity", ["python", "scripts/e235_charge_granularity.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
