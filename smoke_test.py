@@ -580,7 +580,7 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
-    # r1335 / E217: the book's six factor directions are the full-sample IC signs, so the
+    # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
     # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
     # is recomputable from the payload's own summary (never a stored string), and both arms
     # really traded -- an untraded arm would sail through every numeric comparison (r1261).
@@ -591,18 +591,18 @@ def main() -> int:
             _mod = __import__("importlib").import_module("scripts.etf_sign_pit")
             _g = _mod.gate(_doc)
             _s = _doc.get("summary") or {}
-            check("product: E218 sign-PIT verdict is recomputable from its own gate",
+            check("product: E222 sign-PIT verdict is recomputable from its own gate",
                   _g["all_ok"] and _g["verdict"] == _doc.get("verdict")
                   and bool(_s.get("fixed_traded")) and bool(_s.get("pit_traded")),
                   "verdict=%s ratio=%s fixed=%s pit=%s stable=%s"
                   % (_g["verdict"], _g["ratio"], _s.get("cagr_fixed"), _s.get("cagr_pit"),
                      _s.get("verdict_stable_across_cells")))
         else:
-            check("product: E218 sign-PIT verdict is recomputable from its own gate", True,
+            check("product: E222 sign-PIT verdict is recomputable from its own gate", True,
                   "sign-pit artifact absent -- soft-fails by design")
     except Exception as e:
-        check("product: E218 sign-PIT verdict is recomputable from its own gate", False, str(e))
-    # r1336 / E218: the sign-PIT leg prices the honest arm; this one prices the CHOICE --
+        check("product: E222 sign-PIT verdict is recomputable from its own gate", False, str(e))
+    # r1336 / E222: the sign-PIT leg prices the honest arm; this one prices the CHOICE --
     # all 64 sign sets on the same panel, so the card can say what the published signs rank
     # against. Same two rules: the verdict is recomputed from the arm table (never a stored
     # string), and every arm in the table must have traded (r1261: a flat table of untraded
@@ -614,18 +614,18 @@ def main() -> int:
             _mod2 = __import__("importlib").import_module("scripts.etf_sign_enum")
             _g2 = _mod2.gate(_doc2)
             _s2 = _doc2.get("summary") or {}
-            check("product: E219 sign-enum verdict is recomputable from its own arm table",
+            check("product: E223 sign-enum verdict is recomputable from its own arm table",
                   _g2["all_ok"] and _g2["verdict"] == _doc2.get("verdict")
                   and int(_s2.get("n_arms") or 0) == 64,
                   "verdict=%s rank=%s/%s median=%s prod=%s gap_pp=%s"
                   % (_g2["verdict"], _g2["rank"], _g2["n"], _s2.get("median_cagr"),
                      _s2.get("production_cagr"), _s2.get("no_hindsight_gap_pp")))
         else:
-            check("product: E219 sign-enum verdict is recomputable from its own arm table", True,
+            check("product: E223 sign-enum verdict is recomputable from its own arm table", True,
                   "sign-enum artifact absent -- soft-fails by design")
     except Exception as e:
-        check("product: E219 sign-enum verdict is recomputable from its own arm table", False, str(e))
-    # r1337 / E220: the arm table above is one window. This leg splits it and requires the
+        check("product: E223 sign-enum verdict is recomputable from its own arm table", False, str(e))
+    # r1337 / E224: the arm table above is one window. This leg splits it and requires the
     # verdict (and the "learnable chooser" number) to be recomputed from the per-period table,
     # so a stored string cannot outlive a panel move; the chance floor must be on the page,
     # or "the top deciles do not line up" is a shrug rather than a measurement (E199 rule).
@@ -636,7 +636,7 @@ def main() -> int:
             _mod3 = __import__("importlib").import_module("scripts.etf_sign_stability")
             _g3 = _mod3.gate(_doc3)
             _s3 = _doc3.get("summary") or {}
-            check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+            check("product: E224 sign-ordering transfer is recomputable from the per-period table",
                   _g3["all_ok"] and _g3["verdict"] == _doc3.get("verdict")
                   and int(_s3.get("n_arms") or 0) == 64
                   and _s3.get("top_decile_shared_p") is not None
@@ -649,10 +649,10 @@ def main() -> int:
                      _s3.get("top_decile_shared"), _s3.get("top_decile_chance_expected"),
                      _s3.get("top_decile_shared_p")))
         else:
-            check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+            check("product: E224 sign-ordering transfer is recomputable from the per-period table",
                   True, "sign-stability artifact absent -- soft-fails by design")
     except Exception as e:
-        check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+        check("product: E224 sign-ordering transfer is recomputable from the per-period table",
               False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))

@@ -1,6 +1,6 @@
-# E218 — the six factor directions were chosen with hindsight, and the honest book is negative (r1335 bm-c)
+# E222 — the six factor directions were chosen with hindsight, and the honest book is negative (r1335 bm-c)
 
-**Card:** E218 in `knowledge/METHODOLOGY_ASSETS.md`.
+**Card:** E222 in `knowledge/METHODOLOGY_ASSETS.md`.
 **Artifacts:** `results/etf_sign_pit.json` (re-emitted every chain run by the new
 `etf_sign_pit` leg) + the new first caveat on `results/etf_book_production/CARD.md`.
 **Code:** `scripts/etf_sign_pit.py` — `ic_table / pit_signs / ic_persistence / score_face /

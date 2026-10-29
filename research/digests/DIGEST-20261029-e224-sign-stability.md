@@ -1,14 +1,14 @@
-# E220 — the six sign directions rank 6 of 64 on one window, and the ordering does not survive a split of it (r1337 bm-c)
+# E224 — the six sign directions rank 6 of 64 on one window, and the ordering does not survive a split of it (r1337 bm-c)
 
-**Card:** E220 in `knowledge/METHODOLOGY_ASSETS.md`.
+**Card:** E224 in `knowledge/METHODOLOGY_ASSETS.md`.
 **Artifacts:** `results/etf_sign_stability.json` (re-emitted every chain run by the new
 `etf_sign_stability` leg) + a smoke leg that recomputes the verdict from the per-period table.
 **Code:** `scripts/etf_sign_stability.py` — selftest 21/21. One panel load, all 64 sign sets,
 sub-period numbers sliced off the same trading path (~100s, offline, deterministic).
 
-## The sentence E219 left open
+## The sentence E223 left open
 
-E219 ran all 2^6 sign sets and priced the choice: production rank 6/64, median arm −1.63%/yr,
+E223 ran all 2^6 sign sets and priced the choice: production rank 6/64, median arm −1.63%/yr,
 best-of-64 +8.56%, spread 20.8pp/yr. Every one of those numbers is **one window**
 (2020-01-01 → 2026-10-28). A rank only means something if the ranking is a property of the
 panel rather than of the period, so this face splits the window and re-ranks both halves:
@@ -18,7 +18,7 @@ panel rather than of the period, so this face splits the window and re-ranks bot
 
 Frozen before the run: `REBAL=20, N_HOLD=12, COST=10bp/side, TOP_DECILE=0.10,
 SPEARMAN_TRANSFER=0.50, MIN_BARS_PER_PERIOD=200`. Determinism check built in: the full-window
-rank recomputed here is **6/64, identical to E219's stored rank**.
+rank recomputed here is **6/64, identical to E223's stored rank**.
 
 ## What the split says
 
@@ -46,7 +46,7 @@ Three readings that matter, in order:
    "Some weak ordering exists" and "you can rank arms" are different claims; the second is false.
 3. **The level moved far more than the ordering.** The median arm went from −4.27%/yr in
    2020-2023 to +2.92%/yr in 2024-2026 (+7.2pp) with the *same* factors, same width, same
-   costs. What E219's single-window median (−1.63%) actually describes is the average of two
+   costs. What E223's single-window median (−1.63%) actually describes is the average of two
    very different periods. So the honest quote for "what picking directions blindly is worth"
    is a range, not a point.
 
@@ -76,7 +76,7 @@ by 6.39pp in IS and 9.89pp in OOS: two of six signs are period-stable and they c
 - The remaining defensible sign rule is the narrow one: **vol_60 negative, intraday_range
   negative, adx_14 positive** — the three directions that pay in both halves. Momentum and
   drawdown directions cannot be claimed to be more than period artefacts, which is exactly what
-  E218 predicted from the other end (trailing-IC reconstruction loses 17pp).
+  E222 predicted from the other end (trailing-IC reconstruction loses 17pp).
 - Sign selection still dominates the signal (spread 20.8pp/yr vs a ~4pp published advantage
   over the equal-weight control). The correct response is not another grid on signs — it is to
   stop publishing an arm-level rank as if it were a rule.
@@ -88,7 +88,7 @@ by 6.39pp in IS and 9.89pp in OOS: two of six signs are period-stable and they c
   describe "what this path did during those bars", which is what a rank-transfer test needs —
   not "what launching the book on 2024-01-01 earns".
 - Reference engine only (no impact cost, no gap risk), flat sizing: not the card's headline.
-- A dropped factor is a different question (E219 already priced the IC floor).
+- A dropped factor is a different question (E223 already priced the IC floor).
 - ETF pool is today's listed set (survivorship), unchanged caveat on this line.
 - The test asks about **order**, not level: a panel where all arms fall together can still show
   a stable ordering, and this one does not show one anyway.

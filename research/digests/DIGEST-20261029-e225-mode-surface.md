@@ -1,6 +1,6 @@
-# E221 — five census modes existed in the dispatch chain and in none of the CLI (r1338 bm-c)
+# E225 — five census modes existed in the dispatch chain and in none of the CLI (r1338 bm-c)
 
-**Card:** E221 in `knowledge/METHODOLOGY_ASSETS.md`.
+**Card:** E225 in `knowledge/METHODOLOGY_ASSETS.md`.
 **Code:** `scripts/e39_panel_census.py` — two new selftest legs, five names restored to the
 argparse `choices=[...]` list, selftest 743 (rc 0, no FAIL line).
 **Evidence:** `results/_r1337bmc_s6_chain.json` — the three previously red legs now rc=0.

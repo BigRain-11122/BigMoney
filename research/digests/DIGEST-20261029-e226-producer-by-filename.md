@@ -1,6 +1,6 @@
-# E222 — the coverage audit keyed on a study literal, not on the face (r1338 bm-c)
+# E226 — the coverage audit keyed on a study literal, not on the face (r1338 bm-c)
 
-**Card:** E222 in `knowledge/METHODOLOGY_ASSETS.md`.
+**Card:** E226 in `knowledge/METHODOLOGY_ASSETS.md`.
 **Code:** `scripts/e97_routing.py` — selftest 128 → 129 (new leg L37b), producer lookup gained
 a filename-witness fallback.
 **Was:** the only red in the full suite (`smoke 203/204`), `e97 selftest 127/128`.

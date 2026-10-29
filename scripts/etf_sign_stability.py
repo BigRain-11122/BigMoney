@@ -1,13 +1,13 @@
 """ETF book -- is the 64-arm sign ordering a property of the panel, or of one period?
 
-E219 priced the sign choice: the six production directions rank 6 of 64, the median arm
+E223 priced the sign choice: the six production directions rank 6 of 64, the median arm
 (what "pick one direction per factor" is worth without looking) earns -1.63%/yr, and one
 sign block moves the headline by 20.8pp/yr. Every number there is one window: 2020-01-01 to
 the panel cutoff. If the arm *ordering* does not survive a split of that window, then
 "production sits in the top decile" describes the window and nothing else -- there is no
 sign rule to learn, and the honest quote is a distribution, not a rank. If it does survive,
 the in-sample-best arm is a chooser a live operator could actually have run, and its
-out-of-sample number is the money figure E219 left open.
+out-of-sample number is the money figure E223 left open.
 
 Frozen before the first run (echoed into the payload, gate REDs on any drift):
     REBAL=20, N_HOLD=12, COST=10bp/side, START=2020-01-01, MIN_TRADED_BARS=30,
@@ -276,7 +276,7 @@ def run() -> dict:
     payload = {
         "evidence_cutoff": cutoff,
         "universe": int(close.shape[1]),
-        "question": "E219's 64-arm table is one window: does the arm ordering survive a split "
+        "question": "E223's 64-arm table is one window: does the arm ordering survive a split "
                     "of it, and what does the in-sample-best sign set earn out of sample?",
         "declared": {k: (dict(v) if k == "signs" else v) for k, v in DECLARED.items()},
         "production_key": prod_key,
@@ -288,7 +288,7 @@ def run() -> dict:
             "Reference engine only (no impact cost, no gap risk), flat sizing: the vol "
             "target/beta overlay is deliberately out, so this is not the card's headline.",
             "Signs are the six production factors: a dropped factor is a different question, "
-            "and E219 already priced the IC floor for that.",
+            "and E223 already priced the IC floor for that.",
             "ETF pool is today's listed set (survivorship), unchanged caveat on this line.",
             "The rank-transfer question is about ORDER, not level: a panel where every arm "
             "falls together can still show a stable ordering.",
@@ -341,7 +341,7 @@ def run() -> dict:
         "top_decile_overlap_is_oos": _overlap(g["is_ranks"], g["oos_ranks"], g["top_k"]),
         "elapsed_s": round(time.time() - t0, 1),
     }
-    # production's rank over the FULL window, for the E219 cross-check
+    # production's rank over the FULL window, for the E223 cross-check
     full_ranks = ranks_from({k: a["full"]["cagr"] for k, a in arms.items()})
     payload["summary"]["production_full_rank"] = full_ranks.get(prod_key)
     payload["summary"]["full_rank_matches_e219"] = (
@@ -349,7 +349,7 @@ def run() -> dict:
         ((json.loads(SE.OUT_JSON.read_text(encoding="utf-8")).get("summary") or {})
          .get("production_rank") if SE.OUT_JSON.exists() else None))
     payload["gate"]["checks"].append(
-        {"check": "full-window rank reproduces the stored E219 rank",
+        {"check": "full-window rank reproduces the stored E223 rank",
          "ok": bool(payload["summary"]["full_rank_matches_e219"]),
          "this_round": payload["summary"]["production_full_rank"],
          "e219": (json.loads(SE.OUT_JSON.read_text(encoding="utf-8")).get("summary") or {})
