@@ -110,7 +110,7 @@ The drawdown column above is one ordering of the trading days. Bootstrapping the
 
 Read the card's own -11.8% as the median of that ruler, not its tail: size the position against the p5 column, which is 13.2pp worse than the headline at the widest block.
 
-> Band priced on the **2026-10-29** bar from results/etf_book_bootstrap/BLOCKS-2026-10-29.json. A tail quoted without its block is a sentence without its parameter (E244).
+> Band priced on the **2026-10-29** bar from results/etf_book_bootstrap/BLOCKS-2026-10-29.json. A tail quoted without its block is a sentence without its parameter (E248).
 
 ## Caveats
 

@@ -5117,3 +5117,41 @@ Pos: scripts/etf_book_nav_envelope.py（`voltail` 子命令 + `voltail --check` 
 + results/etf_book_bootstrap/etf_book_voltarget_tail.json + PAIRROWS-<cutoff>-b<block>.json
 （逐块配对行，门从行重算每个引用数，无需 2000 次重抽）+ 链腿 etf_book_voltarget_tail
 + smoke 腿 "product: the vol overlay's tail is priced on the same draw as its middle"。
+
+### E254 「无法作证」必须带责任人，否则只是把困惑搬了个位置
+
+WHEN: 任何面诚实地说「这条数据我认证不了」（unverifiable / unknown / not assessed），
+却没有同时说出「谁本来该为它作证」。此时读者仍然无法行动：他既不能修数据，也不能修机器，
+只能把「我的数字不可信」这句空话继续往下传。
+
+HOW: 判词里钉三件：①责任人 = 该面在注册表里声明的宿主（`config.lane_io.lane_host`），
+不是「谁恰好跑了这条腿」；②责任人的活性 = 读它**自己写的心跳文件**
+（`fleet/machines/<host>.json` 的 `clock_read`/`last_seen`），算 age_h 并与阈值比；
+③责任面 = 把这个宿主压在下面的车道逐名列出来。判词分层：有真停摆 → `attention`；
+否则「认证不了 + 宿主已停报」→ `host_down`（附 hosts_down / lanes_hostage）；
+否则「认证不了但宿主未知或活着」→ 维持 `uncertified`。
+
+坑（本卡立卡理由）：
+1) **没有心跳文件 = 未知，不是死机**。fail-open 是硬律：alive=None 时不得进入 host_down，
+   否则第一次部署该板的机器会把「我还没写过心跳」读成「全公司数据停摆」。
+2) 阈值要跟**该机自己的轮频**对齐（本机队循环 5-10min，取 2h），不要抄日历级阈值——
+   否则一个正常在跑的机器会被 24h 阈值永久判活、一条真停摆永远看不见。
+3) 心跳是带 UTC 偏移的 ISO 串，比较前必须把 tzinfo 抹平（`when.replace(tzinfo=None)`），
+   否则 naive/aware 混算直接抛 TypeError，而这个异常若被 except 吞掉就会跌回「未知」的
+   合法-looking 结果（r1288 同族）。
+
+WHY: 一块说「七条车道认证不了」的板，读者只能围观；同一块板说「bm-b 10.27h 没报到，
+压着 moneyflow/heat/repo/astock_daily/marks/zt_pool」，读者立刻知道该去叫谁。
+诊断的价值不在诚实，而在可执行。
+
+READING: 2026-10-30 实跑：9 条车道（1 retired）→ in_sync 2 / unverifiable 7；7 条里 6 条
+归到 bm-b（心跳停在 2026-10-29T18:18:13+08:00），1 条归不到（无心跳证据，如实留白）。
+判词 uncertified → host_down。heat 车道缺的 7 个交易日不可复原（滚榜无历史），
+所以这块板真正的用途是**在还能救的时候叫醒宿主**，不是事后解释。
+
+Pos: scripts/data_lane_freshness.py（`_host_health` + audit 的 hosts/hosts_down/lanes_hostage
++ render_md「Hosts that stopped reporting」节；selftest 10->12，L11 死主机三面同现、
+L12 无心跳=未知非死）+ monitor/build_status.py（lane_freshness 面带 hosts_down/lanes_hostage）
++ results/data_lane_freshness.json + docs/data_lanes/FRESHNESS.md + smoke 腿
+"product: data lane freshness board agrees with the lanes and the calendar" 增两条断言
+（每条 lane 必带 host_alive/host_age_h；verdict=host_down 时 hosts_down 与 lanes_hostage 均非空）。

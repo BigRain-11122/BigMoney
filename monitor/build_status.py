@@ -146,7 +146,15 @@ def _lane_freshness_state() -> dict:
             "n_auditable": doc.get("n_auditable"),
             "counts": doc.get("counts") or {},
             "expected": doc.get("expected_last_official_day"),
-            "worst": doc.get("worst"), "behind": behind}
+            "worst": doc.get("worst"), "behind": behind,
+            # r1159: "seven lanes unverifiable" is not actionable; naming the
+            # machine that stopped reporting is (page shows who owes the data)
+            "hosts_down": doc.get("hosts_down") or [],
+            "lanes_hostage": doc.get("lanes_hostage") or [],
+            "hosts": {k: {kk: v.get(kk) for kk in
+                          ("last_seen", "age_h", "alive", "lanes_unverifiable")}
+                      for k, v in (doc.get("hosts") or {}).items()},
+            "host_down_hours": doc.get("host_down_hours")}
 
 
 def _update_state() -> dict:

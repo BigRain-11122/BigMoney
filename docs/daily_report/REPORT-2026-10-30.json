@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-30",
- "generated_at": "2026-10-30 02:21:31",
+ "generated_at": "2026-10-30 04:42:07",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-10-30.md"
  },
  "rd": {
-  "commits_24h": 105,
-  "result_jsons_landed_24h": 118,
-  "digests_landed_24h": 49,
-  "prereg_md_touched_24h": 8,
+  "commits_24h": 102,
+  "result_jsons_landed_24h": 125,
+  "digests_landed_24h": 50,
+  "prereg_md_touched_24h": 7,
   "compute_audit_latest": {
-   "ts": "2026-10-30 01:56:37",
-   "py_cpu_pct": 5.7,
+   "ts": "2026-10-30 04:41:27",
+   "py_cpu_pct": 0.1,
    "flags": [
-    "supply_gap"
+    "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap"
+   "verdict": "FLAG:supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -652,9 +652,9 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2347686,
+  "total_report_tokens_est": 2348137,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-30 00:59:38",
+   "prev_generated": "2026-10-30 01:31:07",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -667,63 +667,63 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-29 22:25:55",
-    "py_pct": 0.2,
-    "cpu_pct": 52.0,
+    "latest_ts": "2026-10-30 04:41:27",
+    "py_pct": 0.1,
+    "cpu_pct": 32.0,
     "ready": 0,
-    "streak_min": 2913.0,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "streak_min": 3288.5,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
      [
-      "16:00",
-      0.3
+      "23:24",
+      1.9
      ],
      [
-      "17:50",
-      2.2
+      "23:53",
+      5.2
      ],
      [
-      "18:12",
-      6.6
-     ],
-     [
-      "18:18",
-      9.4
-     ],
-     [
-      "19:30",
+      "00:28",
       0.4
      ],
      [
-      "19:52",
-      3.6
+      "00:34",
+      1.4
      ],
      [
-      "19:56",
-      2.5
+      "00:55",
+      5.1
      ],
      [
-      "19:56",
-      4.2
+      "01:28",
+      6.7
      ],
      [
-      "20:38",
-      5.3
+      "02:08",
+      0.3
      ],
      [
-      "20:55",
-      0.9
+      "02:18",
+      0.3
      ],
      [
-      "21:32",
-      0.6
+      "02:23",
+      0.3
      ],
      [
-      "22:25",
-      0.2
+      "03:17",
+      5.0
+     ],
+     [
+      "04:08",
+      4.9
+     ],
+     [
+      "04:41",
+      0.1
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 10,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -872,7 +872,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-29 22:25:55"
+     "audit_ts": "2026-10-30 04:41:27"
     }
    },
    "bm-b": {
@@ -1496,6 +1496,207 @@
    }
   },
   "source": "results/stagestyle_combo_p1/{FINALIZE-SSCOMBO-P1,STAGE-STYLE-MATRIX-v1}.json"
+ },
+ "market_risk": {
+  "present": true,
+  "panels": {
+   "zt": {
+    "key": "zt",
+    "label": "涨停池",
+    "status": "ok",
+    "cutoff": "2026-10-29",
+    "count": 39,
+    "prev_cutoff": "2026-10-28",
+    "prev_count": 72,
+    "days_tracked": 16,
+    "series": {
+     "2026-10-16": 61,
+     "2026-10-19": 46,
+     "2026-10-20": 54,
+     "2026-10-21": 50,
+     "2026-10-22": 33,
+     "2026-10-23": 82,
+     "2026-10-26": 55,
+     "2026-10-27": 41,
+     "2026-10-28": 72,
+     "2026-10-29": 39
+    },
+    "ladder": {
+     "1": 29,
+     "2": 6,
+     "3": 2,
+     "4": 2
+    },
+    "top_streak": {
+     "streak": 4,
+     "n": 2,
+     "names": [
+      "青岛食品",
+      "光洋股份"
+     ]
+    }
+   },
+   "zbgc": {
+    "key": "zbgc",
+    "label": "炸板池",
+    "status": "ok",
+    "cutoff": "2026-10-29",
+    "count": 25,
+    "prev_cutoff": "2026-10-28",
+    "prev_count": 69,
+    "days_tracked": 16,
+    "series": {
+     "2026-10-16": 49,
+     "2026-10-19": 21,
+     "2026-10-20": 29,
+     "2026-10-21": 19,
+     "2026-10-22": 23,
+     "2026-10-23": 12,
+     "2026-10-26": 23,
+     "2026-10-27": 28,
+     "2026-10-28": 69,
+     "2026-10-29": 25
+    }
+   },
+   "dtgc": {
+    "key": "dtgc",
+    "label": "跌停池",
+    "status": "ok",
+    "cutoff": "2026-10-29",
+    "count": 41,
+    "prev_cutoff": "2026-10-28",
+    "prev_count": 5,
+    "days_tracked": 16,
+    "series": {
+     "2026-10-16": 10,
+     "2026-10-19": 22,
+     "2026-10-20": 6,
+     "2026-10-21": 5,
+     "2026-10-22": 49,
+     "2026-10-23": 6,
+     "2026-10-26": 26,
+     "2026-10-27": 22,
+     "2026-10-28": 5,
+     "2026-10-29": 41
+    }
+   },
+   "strong": {
+    "key": "strong",
+    "label": "强势池",
+    "status": "ok",
+    "cutoff": "2026-10-29",
+    "count": 119,
+    "prev_cutoff": "2026-10-28",
+    "prev_count": 133,
+    "days_tracked": 16,
+    "series": {
+     "2026-10-16": 100,
+     "2026-10-19": 111,
+     "2026-10-20": 102,
+     "2026-10-21": 110,
+     "2026-10-22": 117,
+     "2026-10-23": 131,
+     "2026-10-26": 165,
+     "2026-10-27": 126,
+     "2026-10-28": 133,
+     "2026-10-29": 119
+    }
+   }
+  },
+  "cutoff": "2026-10-29",
+  "cutoffs": [
+   "2026-10-29"
+  ],
+  "aligned": true,
+  "seal_rate": 0.6094,
+  "down_over_up": 1.051,
+  "kill_day": true,
+  "ladder": {
+   "1": 29,
+   "2": 6,
+   "3": 2,
+   "4": 2
+  },
+  "top_streak": {
+   "streak": 4,
+   "n": 2,
+   "names": [
+    "青岛食品",
+    "光洋股份"
+   ]
+  },
+  "series": [
+   {
+    "date": "2026-10-16",
+    "zt": 61,
+    "zbgc": 49,
+    "dtgc": 10,
+    "seal_rate": 0.5545
+   },
+   {
+    "date": "2026-10-19",
+    "zt": 46,
+    "zbgc": 21,
+    "dtgc": 22,
+    "seal_rate": 0.6866
+   },
+   {
+    "date": "2026-10-20",
+    "zt": 54,
+    "zbgc": 29,
+    "dtgc": 6,
+    "seal_rate": 0.6506
+   },
+   {
+    "date": "2026-10-21",
+    "zt": 50,
+    "zbgc": 19,
+    "dtgc": 5,
+    "seal_rate": 0.7246
+   },
+   {
+    "date": "2026-10-22",
+    "zt": 33,
+    "zbgc": 23,
+    "dtgc": 49,
+    "seal_rate": 0.5893
+   },
+   {
+    "date": "2026-10-23",
+    "zt": 82,
+    "zbgc": 12,
+    "dtgc": 6,
+    "seal_rate": 0.8723
+   },
+   {
+    "date": "2026-10-26",
+    "zt": 55,
+    "zbgc": 23,
+    "dtgc": 26,
+    "seal_rate": 0.7051
+   },
+   {
+    "date": "2026-10-27",
+    "zt": 41,
+    "zbgc": 28,
+    "dtgc": 22,
+    "seal_rate": 0.5942
+   },
+   {
+    "date": "2026-10-28",
+    "zt": 72,
+    "zbgc": 69,
+    "dtgc": 5,
+    "seal_rate": 0.5106
+   },
+   {
+    "date": "2026-10-29",
+    "zt": 39,
+    "zbgc": 25,
+    "dtgc": 41,
+    "seal_rate": 0.6094
+   }
+  ]
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

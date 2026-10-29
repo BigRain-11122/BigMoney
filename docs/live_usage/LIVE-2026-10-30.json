@@ -1,8 +1,8 @@
 {
- "schema": "ceo_live_usage_v1_6",
+ "schema": "ceo_live_usage_v1_8",
  "ticket": "T-202609-28-105",
  "day": "2026-10-30",
- "generated": "2026-10-30T02:21:34",
+ "generated": "2026-10-30T04:42:08",
  "market": {
   "state": "ORANGE",
   "asof": "2026-10-29",
@@ -49,6 +49,66 @@
    "basis": "T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面标注（s4 spec 证据门控 IF-not 路径）",
    "universe_face_only": true
   }
+ },
+ "risk_tape": {
+  "source": "scripts/daily_report._zt_risk_face (same implementation as daily report §九)",
+  "panels": {
+   "zt": {
+    "label": "涨停池",
+    "status": "ok",
+    "count": 39,
+    "prev_count": 72,
+    "prev_cutoff": "2026-10-28",
+    "delta": -33
+   },
+   "zbgc": {
+    "label": "炸板池",
+    "status": "ok",
+    "count": 25,
+    "prev_count": 69,
+    "prev_cutoff": "2026-10-28",
+    "delta": -44
+   },
+   "dtgc": {
+    "label": "跌停池",
+    "status": "ok",
+    "count": 41,
+    "prev_count": 5,
+    "prev_cutoff": "2026-10-28",
+    "delta": 36
+   },
+   "strong": {
+    "label": "强势池",
+    "status": "ok",
+    "count": 119,
+    "prev_count": 133,
+    "prev_cutoff": "2026-10-28",
+    "delta": -14
+   }
+  },
+  "status": "ok",
+  "cutoff": "2026-10-29",
+  "cutoffs": [
+   "2026-10-29"
+  ],
+  "aligned": true,
+  "seal_rate": 0.6094,
+  "ladder": {
+   "1": 29,
+   "2": 6,
+   "3": 2,
+   "4": 2
+  },
+  "top_streak": {
+   "streak": 4,
+   "n": 2,
+   "names": [
+    "青岛食品",
+    "光洋股份"
+   ]
+  },
+  "down_over_up": 1.051,
+  "kill_day": true
  },
  "ladder": {
   "rungs": [
@@ -279,6 +339,22 @@
    ]
   }
  ],
+ "rollup": {
+  "n_traders": 6,
+  "initial_cny": 6000000.0,
+  "equity_cny": 5960060.18,
+  "cash_cny": 3994806.3,
+  "positions_cny": 1965253.88,
+  "pnl_cny": -39939.82,
+  "return_pct": -0.6657,
+  "day_prior": "2026-10-29",
+  "day_prior_equity_cny": 5960060.18,
+  "day_pnl_cny": 0.0,
+  "day_pct": 0.0,
+  "face_total_equity_cny": 5960060.18,
+  "face_agrees": true,
+  "source": "results/paper_export/latest.json"
+ },
  "intraday": {
   "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
   "today": "2026-10-30",
@@ -413,7 +489,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 32699.8
+    "last_append_age_min": 32833.1
    },
    {
     "family": "FUND-VALUE-P1",
@@ -421,7 +497,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 33544.3
+    "last_append_age_min": 33683.4
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -429,7 +505,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 30337.6
+    "last_append_age_min": 30480.5
    }
   ]
  },

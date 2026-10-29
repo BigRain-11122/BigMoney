@@ -1106,7 +1106,15 @@ def main() -> int:
                           # stall: the board's own L9b leg says so, and the smoke
                           # leg must judge the same rule (r1156 red caught here)
                           if r.get("copy_verdict") and r.get("verdict") != "retired")
-                  and (_lfz.get("verdict") in ("all_fresh", "attention", "uncertified"))
+                  and (_lfz.get("verdict") in ("all_fresh", "attention", "uncertified",
+                                               "host_down"))
+                  # r1159: an unverifiable board must name the machine that should
+                  # be vouching for those lanes, so the reader can act on it
+                  and all(isinstance(r.get("host_alive"), (bool, type(None)))
+                          and ("host_age_h" in r)
+                          for r in _lfz.get("lanes") or [])
+                  and (_lfz.get("verdict") != "host_down"
+                       or (_lfz.get("hosts_down") and _lfz.get("lanes_hostage")))
                   # a green headline with nothing certified is the failure this
                   # face exists to catch
                   and not (_lfz.get("verdict") == "all_fresh"

@@ -46,6 +46,11 @@ except Exception:                        # pragma: no cover - fail-open, disclos
 
 OUT_PATH = os.path.join(ROOT, "results", "data_lane_freshness.json")
 MD_PATH = os.path.join(ROOT, "docs", "data_lanes", "FRESHNESS.md")
+MACHINES_DIR = os.path.join(ROOT, "fleet", "machines")
+# A lane can only be certified by a host that is still reporting. The loop runs
+# every few minutes, so two hours of silence on the owning machine means nobody
+# is collecting, not that the copy on this disk is authoritative.
+HOST_DOWN_H = 2.0
 
 DAY8_RE = re.compile(r"^(\d{4})(\d{2})(\d{2})\.json$")
 # envelope keys that name the machine whose data the number describes
@@ -185,7 +190,39 @@ def judge(tail, days, now):
     return "stalled", missing, exp
 
 
-def audit(days, now, lanes=None, root=ROOT):
+def _host_health(host, now, machines_dir=None):
+    """How long ago the lane's host last wrote its heartbeat.
+
+    Measured 2026-10-30: the board printed seven `unverifiable` lanes and named
+    no culprit, so a reader could not tell a dead lane from a dead machine. The
+    host's own heartbeat answers that. `alive=None` means no usable heartbeat
+    file: unknown, never "dead" (an absent file is not evidence of a crash)."""
+    out = {"last_seen": None, "age_h": None, "alive": None}
+    if not host:
+        return out
+    p = os.path.join(machines_dir or MACHINES_DIR, f"{host}.json")
+    try:
+        d = read_json(p)
+    except Exception:
+        return out
+    raw = d.get("clock_read") or d.get("last_seen") or d.get("ts")
+    if not isinstance(raw, str) or not raw:
+        return out
+    try:
+        when = dt.datetime.fromisoformat(raw)
+    except Exception:
+        return out
+    if when.tzinfo is not None:
+        # heartbeat timestamps carry the machine's own UTC offset; `now` is the
+        # same wall clock without one, so borrow the offset instead of guessing
+        when = when.replace(tzinfo=None)
+    out["last_seen"] = raw
+    out["age_h"] = round((now - when).total_seconds() / 3600.0, 2)
+    out["alive"] = out["age_h"] <= HOST_DOWN_H
+    return out
+
+
+def audit(days, now, lanes=None, root=ROOT, machines_dir=None):
     rows = []
     here = _machine_id() or "unknown"
     for spec in (lanes if lanes is not None else LANES):
@@ -310,10 +347,37 @@ def audit(days, now, lanes=None, root=ROOT):
     stale = [r for r in rows if r["verdict"] in ("stalled", "behind_1d",
                                                  "unreadable", "absent")]
     uncertified = [r for r in rows if r["verdict"] == "unverifiable"]
+    # ---- who is supposed to vouch for the lanes nobody could certify
+    hosts = {}
+    for r in rows:
+        host = r.get("lane_host")
+        hh = _host_health(host, now, machines_dir)
+        r["host_last_seen"] = hh["last_seen"]
+        r["host_age_h"] = hh["age_h"]
+        r["host_alive"] = hh["alive"]
+        if not host or r["verdict"] == "retired":
+            continue
+        h = hosts.setdefault(host, {"host": host, "lanes": [],
+                                    "lanes_unverifiable": [], "last_seen": None,
+                                    "age_h": None, "alive": None})
+        h["lanes"].append(r["lane"])
+        if r["verdict"] == "unverifiable":
+            h["lanes_unverifiable"].append(r["lane"])
+        if hh["last_seen"] is not None:
+            h["last_seen"], h["age_h"], h["alive"] = (
+                hh["last_seen"], hh["age_h"], hh["alive"])
+    # a lane nobody can certify AND whose host stopped reporting is not an open
+    # question any more -- it is an outage with a name on it
+    hosts_down = sorted(h["host"] for h in hosts.values()
+                        if h["alive"] is False and h["lanes_unverifiable"])
+    lanes_hostage = sorted(r["lane"] for r in rows
+                           if r["verdict"] == "unverifiable"
+                           and r.get("host_alive") is False)
     # a board that reads green because it could not certify anything would be
     # the very failure it exists to catch: 'uncertified' is its own verdict.
     verdict = ("attention" if stale else
-               ("uncertified" if uncertified else "all_fresh"))
+               ("host_down" if hosts_down else
+                ("uncertified" if uncertified else "all_fresh")))
     live = [r for r in rows if r["verdict"] != "retired"]
     worst_row = max(live, key=lambda r: r.get("n_missing", 0)) if live else None
     exp = rows[0].get("expected") if rows else None
@@ -329,6 +393,10 @@ def audit(days, now, lanes=None, root=ROOT):
         "n_auditable": sum(1 for r in rows if r.get("auditable")),
         "unverifiable_lanes": [r["lane"] for r in uncertified],
         "verdict": verdict,
+        "hosts": {k: v for k, v in sorted(hosts.items())},
+        "hosts_down": hosts_down,
+        "lanes_hostage": lanes_hostage,
+        "host_down_hours": HOST_DOWN_H,
         "worst": (worst_row["lane"] if (stale or uncertified) and worst_row
                   and worst_row.get("n_missing") else None),
         "note": ("Descriptive face, one rule per lane: the official calendar is "
@@ -370,6 +438,19 @@ def render_md(report):
         for r in fatal:
             tailnote += f"- `{r['lane']}`: {r['loss_mode']}\n"
     why = [r for r in report["lanes"] if r.get("why")]
+    if report.get("hosts_down"):
+        tailnote += ("\n## Hosts that stopped reporting\n\n"
+                     "These lanes cannot be certified here and the machine that "
+                     "is supposed to collect them has not written a heartbeat "
+                     f"for more than {report.get('host_down_hours')}h. Until it "
+                     "comes back the numbers below are this machine's stale "
+                     "copies, not the company's data.\n\n")
+        for host in report["hosts_down"]:
+            h = (report.get("hosts") or {}).get(host) or {}
+            age = h.get("age_h")
+            tailnote += (f"- `{host}`: last seen {h.get('last_seen')}"
+                         + (f" ({age}h ago)" if age is not None else "")
+                         + f" -- holding back {', '.join(h.get('lanes_unverifiable') or [])}\n")
     if why:
         tailnote += ("\n## Why some lanes cannot be certified here\n\n"
                      "A status envelope is committed by whichever machine ran the "
@@ -533,7 +614,52 @@ def selftest():
     assert "| `heat` | bm-a | 2026-10-20 |" in md and "cannot be recovered" in md
     print("[PASS] L10 markdown names every lane + loss mode", flush=True)
 
-    print("selftest: 10/10 PASS", flush=True)
+    # L11 a lane nobody can certify whose host stopped reporting is an outage
+    # with a name on it, not an open question (2026-10-30: seven unverifiable
+    # lanes and no culprit printed -- the reader could not act on the board)
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"clock_read": "2026-10-29T04:18:13+08:00"},
+                  open(os.path.join(td, "m", "bm-b.json"), "w"))
+        json.dump({"clock_read": "2026-10-29T19:50:00+08:00"},
+                  open(os.path.join(td, "m", "bm-c.json"), "w"))
+        json.dump({"panel": {"cut": "2026-10-20"}, "machine": "bm-a"},
+                  open(os.path.join(td, "mf.json"), "w"))
+        json.dump({"panel": {"cut": "2026-10-29"}, "machine": "bm-c"},
+                  open(os.path.join(td, "ok.json"), "w"))
+        rep = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                    lanes=[
+                        {"lane": "moneyflow", "kind": "status",
+                         "path": "mf.json", "key": "panel.cut", "owner": "bm-b"},
+                        {"lane": "marks", "kind": "status", "path": "ok.json",
+                         "key": "panel.cut", "owner": "bm-c"}])
+        _o = {r["lane"]: r for r in rep["lanes"]}
+        assert _o["moneyflow"]["verdict"] == "unverifiable", _o["moneyflow"]
+        assert _o["moneyflow"]["host_alive"] is False, _o["moneyflow"]
+        assert _o["moneyflow"]["host_age_h"] > HOST_DOWN_H, _o["moneyflow"]
+        assert _o["marks"]["host_alive"] is True, _o["marks"]
+        assert rep["hosts_down"] == ["bm-b"], rep["hosts_down"]
+        assert rep["lanes_hostage"] == ["moneyflow"], rep["lanes_hostage"]
+        assert rep["verdict"] == "host_down", rep["verdict"]
+        md = render_md(rep)
+        assert "`bm-b`" in md and "holding back moneyflow" in md, md
+        print("[PASS] L11 a dead host is named and its hostage lanes listed",
+              flush=True)
+
+    # L12 an absent heartbeat is unknown, never "dead" (fail-open, no libel)
+    with tempfile.TemporaryDirectory() as td:
+        os.makedirs(os.path.join(td, "m"))
+        json.dump({"panel": {"cut": "2026-10-20"}, "machine": "bm-a"},
+                  open(os.path.join(td, "mf.json"), "w"))
+        rep = audit(days, now, root=td, machines_dir=os.path.join(td, "m"),
+                    lanes=[{"lane": "heat", "kind": "status", "path": "mf.json",
+                            "key": "panel.cut", "owner": "bm-b"}])
+        r = rep["lanes"][0]
+        assert r["verdict"] == "unverifiable" and r["host_alive"] is None, r
+        assert rep["hosts_down"] == [] and rep["verdict"] == "uncertified", rep
+        print("[PASS] L12 no heartbeat file reads unknown, not dead", flush=True)
+
+    print("selftest: 12/12 PASS", flush=True)
     return 0
 
 
