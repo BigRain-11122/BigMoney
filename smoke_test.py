@@ -580,6 +580,51 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # r1335 / E217: the book's six factor directions are the full-sample IC signs, so the
+    # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
+    # is recomputable from the payload's own summary (never a stored string), and both arms
+    # really traded -- an untraded arm would sail through every numeric comparison (r1261).
+    try:
+        _sp = os.path.join("results", "etf_sign_pit.json")
+        if os.path.exists(_sp):
+            _doc = json.load(open(_sp, encoding="utf-8"))
+            _mod = __import__("importlib").import_module("scripts.etf_sign_pit")
+            _g = _mod.gate(_doc)
+            _s = _doc.get("summary") or {}
+            check("product: E218 sign-PIT verdict is recomputable from its own gate",
+                  _g["all_ok"] and _g["verdict"] == _doc.get("verdict")
+                  and bool(_s.get("fixed_traded")) and bool(_s.get("pit_traded")),
+                  "verdict=%s ratio=%s fixed=%s pit=%s stable=%s"
+                  % (_g["verdict"], _g["ratio"], _s.get("cagr_fixed"), _s.get("cagr_pit"),
+                     _s.get("verdict_stable_across_cells")))
+        else:
+            check("product: E218 sign-PIT verdict is recomputable from its own gate", True,
+                  "sign-pit artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E218 sign-PIT verdict is recomputable from its own gate", False, str(e))
+    # r1336 / E218: the sign-PIT leg prices the honest arm; this one prices the CHOICE --
+    # all 64 sign sets on the same panel, so the card can say what the published signs rank
+    # against. Same two rules: the verdict is recomputed from the arm table (never a stored
+    # string), and every arm in the table must have traded (r1261: a flat table of untraded
+    # arms would sail through any comparison).
+    try:
+        _se = os.path.join("results", "etf_sign_enum.json")
+        if os.path.exists(_se):
+            _doc2 = json.load(open(_se, encoding="utf-8"))
+            _mod2 = __import__("importlib").import_module("scripts.etf_sign_enum")
+            _g2 = _mod2.gate(_doc2)
+            _s2 = _doc2.get("summary") or {}
+            check("product: E219 sign-enum verdict is recomputable from its own arm table",
+                  _g2["all_ok"] and _g2["verdict"] == _doc2.get("verdict")
+                  and int(_s2.get("n_arms") or 0) == 64,
+                  "verdict=%s rank=%s/%s median=%s prod=%s gap_pp=%s"
+                  % (_g2["verdict"], _g2["rank"], _g2["n"], _s2.get("median_cagr"),
+                     _s2.get("production_cagr"), _s2.get("no_hindsight_gap_pp")))
+        else:
+            check("product: E219 sign-enum verdict is recomputable from its own arm table", True,
+                  "sign-enum artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E219 sign-enum verdict is recomputable from its own arm table", False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -1636,7 +1681,7 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_order_card",
+                 "etf_book_order_card", "etf_sign_pit", "etf_sign_enum",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)

@@ -3726,6 +3726,33 @@ ref`), then resolve by CLASS, never by taste:
   (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
       them next round, so taking the owner's copy cannot lose information.
 
+
+
+Situation: one shared quantitative repo, three hosts, each round adding its own measurement legs
+to the same few monster files. Main drifted to 29 local commits vs 38 remote ones because every
+round deferred the merge: rebase hangs on this blob:none clone, and mktree replay is banned after a
+previous replay silently reverted another machine's ledger.
+
+WRONG: rebase the 29 commits one at a time (29 conflict resolutions, and a rewritten history that
+makes the other hosts' verification receipts meaningless), or "resolve by union" at the text level
+(`git merge-file --union`). The text union produces a file that will not parse: both sides inserted
+complete statements at the same anchor and one side's insert lands *inside* an open list literal
+(`_e190_pair = [`), so the merged list closes with the wrong bracket.
+
+RIGHT: merge the two tips with `-c merge.renames=false` (the rename pass is what makes a partial
+clone try to lazily fetch objects the promisor remote no longer carries -- `upload-pack: not our
+ref`), then resolve by CLASS, never by taste:
+
+  (a) leg containers (main/selftest bodies, smoke leg lists, chain tables): statement-level union
+      built on the AST, keep ours' order then theirs' statements not already present, tail return
+      last; assert the result parses, compiles, and passes *the file's own selftest*. A green
+      selftest is the only proof that nothing upstream was dropped.
+  (b) append-only ledgers (card registry, feedback, decision logs): line union, then re-check by
+      COUNTING the identities (cards by number) -- "0 lost from either side" is the acceptance,
+      not "the file got bigger".
+  (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
+      them next round, so taking the owner's copy cannot lose information.
+
 Three things that only show up when you actually run it: two lineages can define the same helper
 with different signatures (here `_wide_month_membership`, where each side spells the cash
 pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
@@ -3737,6 +3764,7 @@ not intend -- the first push was refused for 8 upstream artefacts this lineage h
 Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
 class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
 one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
+
 
 ## E217 A card whose deliverable is already on disk is not open work (2026-10-29 r1244 bm-b)
 
@@ -3881,6 +3909,20 @@ Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthsplit` + helpers `_wi
 both parts; selftest 803 -> 812 (9 legs: the identity at both ends, a rung with no selection term,
 3/3 timing agreement, 2/3 selection opposition, both ranges, the label, the invariance direction,
 and a single-rung face that must say insufficient_rungs).
+Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
+two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
+
+Three things that only show up when you actually run it: two lineages can define the same helper
+with different signatures (here `_wide_month_membership`, where each side spells the cash
+pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
+secondary worktree is not a comparable test bed (local untracked inputs such as fleet/machine.json
+are absent, and hook-path legs resolve to the worktree admin dir), so its reds must be attributed
+before they are believed; and the pre-push size claw is the real guard against the deletion you did
+not intend -- the first push was refused for 8 upstream artefacts this lineage had dropped.
+
+Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
+class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
+one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
 
 ### E221 — for a calendar effect the sample size is MONTHS, not names (r1248 bm-b)
 
@@ -4017,3 +4059,292 @@ obs_rate_ladder; smoke leg re-derives each MDE from its own dispersion, checks t
 one round trip, refuses an episode rate above 252/H and a naive day count that is not
 episodes x hold. Pit: a mean indistinguishable from zero produced years_needed = 3e5..1e8,
 which reads as a measurement -- now suppressed to null with years_needed_unbounded = true.
+||||||| parent of ed40e56da3 (round 1335: the book's six factor signs were chosen with hindsight -- repriced point-in-time, +6.14%/yr becomes -10.81%/yr, and the card now says so on its face)
+## E221 An audit that walks only the top level of a face passes a face hiding a whole generation one level down (2026-10-29 r1334 bm-c; the nested "gpu" block was 236 MiB stale while every flat key agreed)
+
+
+
+WHEN: a merge-only shared face (the heartbeat) is audited for internal consistency so no
+
+reader can pick up a random round's number.
+
+
+
+WRONG: enumerate the spellings visible at the top level. Another writer nests the same
+
+quantity -- face["gpu"]["free_gb"] -- and a flat-key audit neither rewrites nor reports it,
+
+so the consistency leg prints "clean" while a consumer reading the nested key gets a number
+
+from another hour (measured: nested 14.36 GB beside a flat family at 14.49 GB). Same class
+
+as the un-prefixed spelling, one level deeper: ownership has to be derived from the key's
+
+SHAPE, not from where the key happens to sit.
+
+
+
+RIGHT: derive family/unit from the key PATH (parent_sub), fold nested values into the same
+
+spread/balance legs, restate them from the ONE probe while preserving foreign sub-keys, and
+
+report a formatted nested value as unowned instead of ignoring it. Fix = ~50 lines + 4
+
+selftest legs (33->37), and the gate was already an S6 leg, so the healed face cannot
+
+silently re-age. Diagnosis note: what exposed it was a smoke leg, not a review -- the red
+
+leg was the only reader that compared the face with itself.
+
+
+
+Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
+
+two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
+
+
+
+
+
+
+## E222 A backtest whose factor SIGNS were read off the full sample is priced with hindsight, and the honest arm can be negative (2026-10-29 r1335 bm-c; signs matched the panel IC 6/6, pit arm -10.81%/yr vs +6.14%)
+
+
+
+WHEN: a composite score hard-codes factor directions (a SIGNS block) and every published
+
+number -- backtest, walk-forward, path test, card, ticket -- is produced by that one face.
+
+
+
+WRONG: run every path/robustness test you like on the ARM. The sign sits above the arm, so a
+
+sign read off the full-sample IC table is invisible to all of them. Measured here: the six
+
+production signs are exactly the panel's full-sample IC signs (6/6), and re-pricing the same
+
+engine with signs estimated only from already-realised windows returns -10.81%/yr (Sharpe
+
+-0.407, maxDD -67.5%) against +6.14%/yr (+0.645, -12.8%) for the fixed block -- and it is
+
+negative in BOTH halves, so it is not an early-learning artefact.
+
+
+
+RIGHT: (1) test the sign itself, point-in-time: at each decision, sign_k = sign of the mean
+
+IC over windows whose forward period had already finished; below the floor the factor is
+
+DROPPED (unknown is not a direction). (2) Publish the sensitivity grid, not one cell -- IC
+
+floor 0.01/0.02/0.05 and lookback 6/12/24 windows all read signs_in_sample, which kills the
+
+"my estimator was too noisy" defence. (3) Publish the mechanism beside the number: carry_corr
+
+(trailing mean IC vs next-window IC) is ~0 (mean -0.054) and the sign flip rate is 47% per
+
+factor per window -- the direction is a property of the PERIOD, not of the factor. (4) Test
+
+the reverse arm too: flipping the trailing sign is worth -0.09%/yr, not +10pp, so the sign is
+
+UNINFORMATIVE in both directions, and an uninformative direction selects worse names than not
+
+selecting at all (equal weight +1.92%). "Just adapt the signs" is therefore not a fix.
+
+(5) Pin the construction in selftest: with the signs held constant the new score must
+
+reproduce the production score exactly (max|diff| = 0.0 here), otherwise a gap between arms
+
+could be score arithmetic rather than signs. (6) Land the finding where the claim lives: the
+
+sentence the operator reads on the production card is derived from this artifact and rides the
+
+chain (r1290 class), not retyped into a doc.
+
+
+
+Consequence: the headline is the size of a REGIME, not of a rule. A defensible live claim
+
+needs a sign rule frozen before the sample (an economic prior per factor, or a per-regime sign
+
+with its own frozen test) -- that is a preregistered job, not a cleanup.
+
+
+
+Code: scripts/etf_sign_pit.py (ic_table/pit_signs/ic_persistence/score_face/gate, selftest
+
+15/15) + scripts/etf_book_production.py sign_pit_support() + S6 leg etf_sign_pit + smoke leg.
+
+Digest: research/digests/DIGEST-20261029-e222-sign-pit.md.
+
+
+
+
+
+
+## E223 A choice made above the test is priced by running the whole choice space, not by one more arm (2026-10-29 r1336 bm-c)
+
+
+
+WHEN: a published number rests on a free parameter that was set by looking at the data --
+
+here six factor directions that turn out to be exactly the full-sample IC signs -- and the
+
+honest question is not "was it fitted" (E207 already answered yes) but "how much is the fit
+
+worth".
+
+
+
+WRONG: answer it with a third arm. Fixed / trailing-IC / reversed all sit inside the same
+
+space, and any one of them is another point, not a distribution -- so "the honest arm is
+
+-10.81%" says the fit matters without saying by how much, and a reader can still believe the
+
+good arm is reproducible. The space here is 2^6 = 64, which is small enough to enumerate: one
+
+panel load, 82s, every sign set.
+
+
+
+RIGHT: run the whole space and publish three numbers -- where the production arm ranks
+
+(6/64, 92nd percentile), what a chooser with no hindsight earns (the MEDIAN, -1.63%/yr), and
+
+the ceiling (best-of-64, +8.56%) -- then price the gap between the rank and the median
+
+(7.77pp/yr) as the value of the hindsight. Free extra from a full factorial: each factor's
+
+main effect is one difference of half-means, because the other five signs are perfectly
+
+balanced across any one factor's halves; that is what shows the effect is two low-volatility
+
+signs (8.5 of 11.4pp) and that one published direction (momentum, -1.37pp) is a net drag --
+
+i.e. the headline is not even the best in-sample pick. Freeze the decision line (top decile of
+
+the space) and an all-arms-traded check, because a table of untraded arms passes everything.
+
+
+
+Code: scripts/etf_sign_enum.py (z_mats/score_from/main_effects/gate, selftest 13/13: the fast
+
+path reproduces build_score exactly, flipping all signs mirrors the score, a table where one
+
+factor pays shows that factor's effect and zero elsewhere, a flat table is refused as
+
+degenerate) + S6 leg etf_sign_enum + smoke leg that recomputes the verdict from the arm table.
+
+Digest: research/digests/DIGEST-20261029-e223-sign-enum.md.
+
+
+## E224 A rank inside one window is not a rule: split the window and re-rank (2026-10-29 r1337 bm-c)
+
+WHEN: E223 has just priced a free choice by enumerating its whole space and reporting a rank
+-- "the production signs sit 6th of 64, median arm -1.63%/yr". The next question is not "is
+that good" but "is that rank a property of the panel or of the period", and the difference
+decides whether an operator can ever choose that arm.
+
+WRONG: quote the rank as if arms had a stable quality ordering, or answer with one more
+in-sample arm. A single-window table cannot distinguish "these signs are better" from "these
+signs were better during these 1,500 bars", and re-running more sign sets inside the same
+window adds points, not a horizon. Equally wrong: declaring the ordering noise the moment it
+looks unstable -- this design measured a rank transfer of 0.308 against a null sd of 0.126,
+which is 2.4 sd above zero. "Some persistence exists" and "you can rank arms" are different
+claims and only the second one is false.
+
+RIGHT: split the same path in two, re-rank the arms in each half, and publish FOUR numbers --
+rho (spearman arm-rank transfer), the top-decile overlap WITH its chance expectation and exact
+hypergeometric tail, the out-of-sample outcome of the in-sample-best arm, and the production
+arm's rank in each half. Read: rho 0.308 against a frozen 0.50 line; 1 of 7 top-decile arms
+shared where chance is 0.77 (p 0.57); best-of-IS earns -2.34%/yr OOS at rank 45/64, i.e. 5.26pp
+BELOW the median arm; production ranks 8th (IS) and 10th (OOS) -- consistently just above the
+line, never inside it. Then decompose: the per-half factorial main effects show the two
+low-volatility directions keeping sign and strengthening, while momentum and drawdown swap
+places, so the production set's 6.4pp/9.9pp advantage over the median comes from the stable
+subset, not from the ranking being learnable. Also publish the level move: the median arm goes
+-4.27%/yr in 2020-2023 to +2.92%/yr in 2024-2026 with identical factors -- a one-window median
+is the average of two different regimes, so the honest quote is a range.
+
+TRAPS: (1) the engine returns an equity curve, not returns -- reading NAV as returns multiplies
+the curve by itself and prints `inf` (this module's first run did exactly that; the selftest now
+pins the convention on a growing NAV). (2) A transfer test whose halves are empty passes
+everything (r1261): gate on min bars per half and on every arm carrying both halves. (3) Null
+"the overlaps do not line up" is unreadable without the chance number -- publish k^2/n and the
+exact upper tail, or a 1-of-7 coincidence looks like a finding.
+
+EVIDENCE: `scripts/etf_sign_stability.py` (selftest 21/21: NAV-vs-return convention, rank
+helper permutation, identical/reversed/shuffled ordering fixtures, short-half refusal, gate
+constants drift, hand-checkable overlap tail 1/6) -> `results/etf_sign_stability.json`;
+full-window rank reproduces E223's stored 6/64 exactly, so the split did not change the panel.
+S6 leg `etf_sign_stability` + smoke leg that recomputes the verdict and the overlap tail from
+the per-period table.
+Digest: research/digests/DIGEST-20261029-e224-sign-stability.md.
+
+
+## E225 A mode that lives only in the dispatch is not a mode: five census modes were unreachable by name (2026-10-29 r1338 bm-c)
+
+WHEN: a script grows by accretion of `args.mode == "x"` branches, and the CLI surface is a
+hand-maintained `choices=[...]` list kept in a different place from the dispatch chain. Nothing
+in the test suite compares the two, so the file can hold a mode that no one can invoke.
+
+WRONG: assume "the function exists and the selftest covers it" means the mode is usable. It
+does not: this selftest calls `run_*()` directly, so it exercised five modes that argparse
+rejected before dispatch was ever reached. The observable damage is a silent, permanent red --
+three S6 chain legs (`tilt3ladderdropcarrier`, `reviewwindowcross`, `reviewwindowfloor`) returned
+rc=2 with an EMPTY tail every round for two rounds, because the failure is argparse's stderr
+(which the leg does not capture into the tail) and 0.4s elapsed looks like a fast healthy leg.
+The published faces kept their old numbers, so nothing looked wrong downstream: a face that is
+never re-derived looks exactly like a face that is stable.
+
+RIGHT: make the CLI list and the dispatch chain one table, and gate the difference. The choices
+list now carries the five missing names (`tilt3ladderdropfragility`, `tilt3ladderdropcarrier`,
+`reviewwindowcross`, `reviewwindowfloor`, `widechurntie`) and the selftest grew two legs that
+read `main`'s own source: every `args.mode == "x"` branch must appear in the argparse
+`choices=[...]` slice, and the slice must carry no duplicate names. The slice starts at
+`choices=[`, not at `ap.add_argument("mode"` -- the latter also matches `default="all"`, which
+manufactured a fake duplicate the first time this gate was written.
+
+FALSIFIED, not assumed: deleting one name from the list makes the leg report
+`every dispatched mode is accepted by the CLI (unreachable: ['widechurntie'])` and the suite exit
+1; restoring it returns rc=0 with no FAIL line. The three chain legs were then re-run through the
+chain runner itself (`Tools/s6_chain_bmc.py --only=...`) and returned rc=0 in 1.1s / 3.8s / 5.6s,
+reproducing the stored numbers exactly (perm_p 0.00225 / 0.00475 / 0.031, pooled 0.1885, floor
+1.4803 at 80% power) -- so the revival is a measurement, not a claim that the code compiles.
+
+EVIDENCE: `scripts/e39_panel_census.py` (selftest 743, two new legs) -> the three legs above rc=0
+via `results/_r1337bmc_s6_chain.json`; chain remains 81 legs.
+Digest: research/digests/DIGEST-20261029-e225-mode-surface.md.
+
+
+## E226 A coverage audit keyed on a study literal goes blind when the face publishes a title (2026-10-29 r1338 bm-c)
+
+WHEN: an audit answers "does every published face have a producer in the source?" by matching
+each face's `study` string to a literal inside a `def`. New faces start publishing human titles
+("E190 ladder-drop fragility curve") instead of machine literals ("e190_ladder_drop_curve"), and
+the audit immediately reports them as unindexed -- not because the producers vanished, but
+because the key it looks for is no longer in the file.
+
+WRONG: loosen the leg. The live assertion was red with two unindexed faces
+(`LADDERDROPCARRIER-20261027.json`, `LADDERDROPCURVE-20261027.json`), and the cheapest repair is
+to drop the equality -- which converts a coverage guarantee into a shrug (r1135 trap). Equally
+wrong: accept the first owner that contains the writer's filename literal. Those literals sit in
+the mode dispatch, so the owner is `main`, and `main` reaches every arithmetic helper in the
+module: the face silently inherits "producer uses daily terms" and its arithmetic class becomes
+whatever the module happens to contain.
+
+RIGHT: index the second witness, but resolve it to the real writer. `producer_index_by_filename`
+maps the output filename literal to its def and, when the owner is `main`, walks back to the
+nearest `run_*` call on that dispatch branch (within four lines). Reading now:
+LADDERDROPCARRIER -> `run_tilt3ladderdropcarrier`, LADDERDROPCURVE -> `run_tilt3ladderdropcurve`
++ `run_tilt3ladderdropfragility` (two writers share the prefix, and the audit publishes the set
+rather than guessing one). Both unindexed faces go away; the leak count stays 0, so the fix is
+coverage, not suppression. The face's study string is never renamed -- the published contract is
+not a testing convenience.
+
+EVIDENCE: `scripts/e97_routing.py` (selftest 128 -> 129; new leg L37b asserts the carrier face
+resolves to its writer AND that "main" is never the producer AND that the curve resolves to the
+fragility writer) -> live reading unindexed=[] leak=0. This was the only red in the full suite
+(203/204 before the fix).
+Digest: research/digests/DIGEST-20261029-e226-producer-by-filename.md.

@@ -357,6 +357,39 @@ def hysteresis_support():
         return None
 
 
+def sign_pit_support():
+    """Read results/etf_sign_pit.json -> are this book's factor signs knowable in real time?
+
+    E205 (r1335): the six SIGNS are exactly the panel's full-sample IC signs, so the book is
+    priced with knowledge of which way each factor paid. scripts/etf_sign_pit.py prices the
+    honest arm (signs from already-realised windows only) on the same engine. That number
+    belongs on the card: a reader deciding whether to run this book is reading a period, and
+    the card must say so. Soft-fails to None -- a missing artefact never breaks the face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_sign_pit.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        s = doc.get("summary") or {}
+        if s.get("cagr_fixed") is None or s.get("cagr_pit") is None:
+            return None
+        matches = doc.get("fixed_sign_matches_full_sample_ic") or {}
+        return {
+            "artifact": "results/etf_sign_pit.json",
+            "verdict": doc.get("verdict"),
+            "n_factors": len(matches),
+            "n_match": sum(1 for v in matches.values() if v),
+            "cagr_fixed": float(s["cagr_fixed"]),
+            "cagr_pit": float(s["cagr_pit"]),
+            "sharpe_fixed": float(s.get("sharpe_fixed") or 0.0),
+            "sharpe_pit": float(s.get("sharpe_pit") or 0.0),
+            "cagr_reversed": float(s.get("cagr_reversed_sign") or 0.0),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+        }
+    except Exception:
+        return None
+
+
 def load_names():
     """ETF code -> short name from the shipped list; empty on failure (never fatal)."""
     p = os.path.join(E.PATHS.data_dir, "basic", "etf_list.csv")
@@ -643,6 +676,19 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                               "already published. The names are that old, not a fresh call."
                               % (feed.get("ticket_bar"), feed.get("lag_days"),
                                  feed.get("expected_bar")))
+    sp = sign_pit_support()
+    if sp is not None:
+        out["caveats"].insert(0, "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every "
+                              "published number here uses a fixed sign block, and those signs are "
+                              "exactly this panel's full-sample IC signs (%d of %d factors match). "
+                              "Re-priced with signs estimated only from already-realised windows, "
+                              "the same engine returns %+.2f%%/yr (Sharpe %+.2f) against %+.2f%%/yr "
+                              "(%+.2f) for the fixed signs -- and reversing the trailing sign does "
+                              "not recover it (%+.2f%%/yr). Read the headline as the size of a "
+                              "period, not the size of a rule. See %s."
+                              % (sp["n_match"], sp["n_factors"], sp["cagr_pit"] * 100,
+                                 sp["sharpe_pit"], sp["cagr_fixed"] * 100, sp["sharpe_fixed"],
+                                 sp["cagr_reversed"] * 100, sp["artifact"]))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "PRODUCTION-%s.json" % last.date()), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

@@ -1,7 +1,7 @@
 {
- "ts": "2026-10-29T06:10:22",
+ "ts": "2026-10-29T08:50:06",
  "mode": "probe",
- "py_faces_seen": 2,
+ "py_faces_seen": 4,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
@@ -11,8 +11,8 @@
    "pid": 5036,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 4909.9,
-   "cpu_delta_20s": 2.609,
+   "age_min": 5069.7,
+   "cpu_delta_20s": 3.672,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -21,11 +21,11 @@
    ]
   },
   {
-   "pid": 108632,
+   "pid": 104944,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
-   "age_min": 0.5,
-   "cpu_delta_20s": 1.062,
+   "age_min": 0.6,
+   "cpu_delta_20s": 1.578,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -34,6 +34,33 @@
     "codely.exe",
     "powershell.exe",
     "wscript.exe"
+   ]
+  },
+  {
+   "pid": 112964,
+   "name": "python.exe",
+   "cmd": "python scripts/etf_sign_pit.py run",
+   "age_min": 0.8,
+   "cpu_delta_20s": 21.266,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 114252,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\s6_chain_bmc.py --only etf_sign_pit,etf_book_p",
+   "age_min": 0.8,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
    ]
   }
  ],
