@@ -316,6 +316,10 @@ def run(workers=None, k=0.0, cost=None, out=None):
     payload["evidence_cutoff"] = cutoff
     if out is not None:
         OUT_JSON = Path(out)
+        # --out is documented as a repo-relative path; without this a relative
+        # argument survives the whole 280-cell run and then dies in relative_to()
+        if not OUT_JSON.is_absolute():
+            OUT_JSON = ROOT / OUT_JSON
     payload["face"] = str(OUT_JSON.relative_to(ROOT)).replace("\\", "/")
     OUT_JSON.write_text(json.dumps(payload, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     if out is None:

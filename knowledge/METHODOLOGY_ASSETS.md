@@ -5286,3 +5286,32 @@ monitor/build_status.py（`lane_freshness.disk` 原样透传）· daily_report.p
 dashboard.html（「数据在谁的盘上」行，未报到的组标 warn）· smoke_test.py
 （「whose disk the lane numbers are on reaches both human faces」= 从已发布 lanes 重算
 必须等于发布句，禁手写；看板接线在位；战报 md 必须含其 JSON 双胞胎自己的句子且 offhost 数一致）。
+
+
+## E259 尺子比效应大两个数量级时，改的是「这句 REJECT 说得多细」，不是配置（2026-10-30 r1163 bm-a）
+
+相位图的三个臂（buffer k=0.05 / 成本 5bp / 20bp，各 280 次引擎跑），全部按**每格自己的 band** 判，
+而不是按单一决策日历时的那一个数：
+- buffer k=0.05：12/12 格判；不更差占比 0.667（底线 0.80）；**每格中位 Δ −0.030pp**；
+  **0/12 格可分辨**（|Δ| 超过本格 band，最小 band 2.19pp）。→ REJECT 成立，但它是个**方向**不是**尺寸**：
+  同一臂在不同格上能从 −0.31pp 读到 +0.40pp，r1325 的「−0.145pp 中位」从来不是一个可测的量。
+- 成本臂：5bp 每格都更好（中位 +0.712pp，占比 1.000），20bp 每格都更差（−1.410pp，占比 0.000），
+  但**两档都是 0/12 可分辨** → 省下的钱是机械必然、又小于相位噪声，不能据此换配置，只能说
+  「现行格不是靠便宜成本假设撑起来的」。
+- 成本臂的真问题不是收益而是 band 结构：R10/R20/R40 的 band 在 5bp=3.465/6.772/9.000、
+  20bp=3.293/6.600/8.948，基线 3.407/6.711/8.980；R40/R10 比 2.60/2.72 vs 基线 2.64，中位 band 只动
+  −1.7%/+0.9%。**band 是决策次数的性质，不是费率的性质** —— 这把 r1350 的节奏结论从「在 10bp 为真」
+  升格为「与我们收多少费无关」，而这正是路径依赖命题需要的东西。
+
+WHY: 相位图造出了一把尺子（每格自己的 band），却只用来判「哪个格最好」。池里那三条 ready 臂
+正是把它用在该用的地方：一个**早已发布**的 REJECT（r1325）和一个**即将被引用**的节奏结论（r1350），
+前者靠这把尺子才知道自己只是方向、后者靠它才知道自己不依赖费率。判官不改判、只改判词的颗粒度，
+这是最便宜的一类产出。
+READING: 面 results/etf_book_phase_atlas_arms.json｜脚本 scripts/etf_book_phase_atlas_arms.py
+（selftest 19 腿：基线 N5/R20 中位必须复现发布值 9.13pp=9.130；手造臂必须读出 ADOPT/REJECT/
+NOT-SEPARABLE/NOT-ASSESSED 四态；裁决必须能从自家行重算）｜prose research/ETF_BOOK_PHASE_ATLAS_ARMS.md｜
+digest research/digests/DIGEST-20261030-r1163-atlas-arms.md。
+附：etf_book_phase_atlas.py 的 --out 接受仓库相对路径却在 
+elative_to(ROOT) 处炸——**整条 280 格
+跑完才炸**（一个臂的算力白烧、exit 1、零面落盘），已修为相对路径按 ROOT 解析；诚实缺口=该修法目前
+没有自己的 selftest 腿（面里的 12 腿不碰写路径）。
