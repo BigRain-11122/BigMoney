@@ -38,6 +38,64 @@ IS_END = "2023-12-31"
 COST = 0.0010
 TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
+VT_TAIL_FILE = "etf_book_voltarget_tail.json"
+
+
+def vol_overlay_tail_support():
+    """Read the paired-bootstrap tail face (E253) -> what the 8% overlay is worth at the tail.
+
+    The card has always said the vol target "is a drawdown tool, not an edge", and every number
+    behind that sentence was a median or a single path (r1360 / E253). The face marks the same
+    overlay on the DRAWDOWN TAIL with both books sharing one draw per resample, so the sentence
+    can carry the number instead of the impression. Soft-fails to None: a missing face must
+    never invent a number or break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_bootstrap", VT_TAIL_FILE)
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    v = doc.get("verdict") or {}
+    share = v.get("tail_share_of_middle")
+    if share is None:
+        return None
+
+    def pp(key):
+        x = v.get(key)
+        return None if x is None else round(100.0 * float(x), 2)
+
+    return {
+        "artifact": "results/etf_book_bootstrap/" + VT_TAIL_FILE,
+        "evidence_cutoff": doc.get("evidence_cutoff"),
+        "bars": doc.get("bars"),
+        "resamples": doc.get("n_resamples"),
+        "blocks": [a.get("block") for a in (doc.get("arms") or [])],
+        "median_maxdd_delta_pp": pp("median_maxdd_delta_median"),
+        "p1_maxdd_delta_pp": pp("p1_maxdd_delta_median"),
+        "median_cagr_delta_pp": pp("p50_cagr_delta_median"),
+        "tail_share_of_middle": float(share),
+        "tail_is_mostly_a_middle_effect": v.get("tail_is_mostly_a_middle_effect"),
+    }
+
+
+def vol_overlay_tail_sentence(face=None):
+    """One sentence for a human, built from the measured face -- never from a literal number."""
+    line = "The vol target only de-levers; it is a drawdown tool, not an edge."
+    f = vol_overlay_tail_support() if face is None else face
+    if not f:
+        return line + " (its draw-tail price is not measured on this build)"
+    mid, p1, cagr = (f.get("median_maxdd_delta_pp"), f.get("p1_maxdd_delta_pp"),
+                     f.get("median_cagr_delta_pp"))
+    if mid is None or p1 is None:
+        return line + " (its draw-tail price is not measured on this build)"
+    return line + (
+        " Priced on the draw tail (paired bootstrap, %s resamples, blocks %s): the median "
+        "drawdown gain is %+.2fpp but only %.0f%% of it survives at the worst 1%% of histories "
+        "(%+.2fpp)%s -- mostly a middle-path tool."
+        % (f.get("resamples"), "/".join(str(b) for b in (f.get("blocks") or [])),
+           mid, 100.0 * f["tail_share_of_middle"], p1,
+           "" if cagr is None else ", bought with %+.2fpp of median CAGR" % cagr))
 
 
 def commodity_support():
@@ -706,6 +764,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     # r1287: the card is the sheet a human reads, so it states out loud which bar it was
     # priced on against the official calendar -- the panel cannot judge this by itself.
     feed = CA.live_ticket_feed_status(last)
+    vt_tail = vol_overlay_tail_support()
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
@@ -718,11 +777,12 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                    "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"},
         "backtest": runs,
         "vol_delivery": dv,
+        "vol_overlay_tail": vt_tail,
         "sheet": sheet,
         "caveats": [
             "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
             "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
-            "The vol target only de-levers; it is a drawdown tool, not an edge.",
+            vol_overlay_tail_sentence(vt_tail),
             "Delivered vol is not the label: %s. The label is a per-hold risk target, so an "
             "8%% label annualises near 10%% once hold-level vol dispersion is priced in -- a "
             "definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md)." % (dv.get("headline") or "no history"),
@@ -1500,6 +1560,30 @@ def selftest():
         E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
         chk("hysteresis face is not fatal when the artifact is missing",
             hysteresis_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
+
+    # 10f. the draw-tail price (r1360 / E253): the card's "a drawdown tool, not an edge"
+    #      sentence carried only medians. It now has to quote the measured tail share, and the
+    #      number has to be DERIVED from the face -- a literal in code goes stale in silence the
+    #      moment the bootstrap reruns, which is the defect this leg exists to prevent.
+    vtf = vol_overlay_tail_support()
+    chk("tail sentence reads the live face when the artifact is present",
+        vtf is None or (vtf.get("tail_share_of_middle") is not None
+                        and vtf.get("median_maxdd_delta_pp") is not None), str(bool(vtf)))
+    vfix = {"resamples": 2000, "blocks": [5, 20], "median_maxdd_delta_pp": 6.04,
+            "p1_maxdd_delta_pp": 1.26, "median_cagr_delta_pp": -4.61,
+            "tail_share_of_middle": 0.209}
+    vs = vol_overlay_tail_sentence(vfix)
+    chk("tail sentence carries the share AND the price paid for it",
+        "21%" in vs and "+6.04pp" in vs and "+1.26pp" in vs and "-4.61pp" in vs
+        and "drawdown tool, not an edge" in vs, vs[-70:])
+    chk("an unmeasured tail says so instead of quoting a number",
+        "not measured" in vol_overlay_tail_sentence({"tail_share_of_middle": None})
+        and "not measured" in vol_overlay_tail_sentence(dict(vfix, p1_maxdd_delta_pp=None)))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("a missing tail artifact is not fatal", vol_overlay_tail_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
 

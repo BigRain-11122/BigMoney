@@ -772,6 +772,42 @@ def main() -> int:
     except Exception as e:
         check("product: the vol overlay's tail is priced on the same draw as its middle",
               False, str(e))
+    # r1360 / E253 close: the measurement is worthless if the sentence a human reads still
+    # says only "a drawdown tool". The two human faces (order-sheet card + forward ledger)
+    # must quote the artifact's own share and price, formatted from its numbers -- a literal
+    # in code would keep reading green while the bootstrap moved underneath it.
+    try:
+        _vpath2 = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        _faces = [("production card", os.path.join("results", "etf_book_production", "latest.json")),
+                  ("forward ledger", os.path.join("results", "etf_book_forward", "LEDGER.json"))]
+        if os.path.exists(_vpath2):
+            _vv = (json.load(open(_vpath2, encoding="utf-8")).get("verdict") or {})
+            _share = _vv.get("tail_share_of_middle")
+            _want = ("only %.0f%% of it survives" % (100.0 * _share)) if _share is not None else None
+            # the price paid is formatted from the face's own number: a literal here would keep
+            # reading green while the bootstrap reran underneath it (the very defect this leg hunts)
+            _cagr = _vv.get("p50_cagr_delta_median")
+            _price = ("%+.2fpp" % (100.0 * _cagr)) if _cagr is not None else None
+            _says, _missing, _stale = [], [], []
+            for _nm, _fp in _faces:
+                if not os.path.exists(_fp):
+                    _missing.append(_nm)
+                    continue
+                _txt = " ".join(str(c) for c in
+                                (json.load(open(_fp, encoding="utf-8")).get("caveats") or []))
+                if _want and _want in _txt and _price and _price in _txt:
+                    _says.append(_nm)
+                elif "drawdown tool" in _txt:
+                    _stale.append(_nm)
+            check("product: the human faces quote the measured draw-tail share, not the impression",
+                  not _missing and not _stale and len(_says) == len(_faces),
+                  "want=%r price=%r says=%s missing=%s stale=%s" % (_want, _price, _says, _missing, _stale))
+        else:
+            check("product: the human faces quote the measured draw-tail share, not the impression",
+                  True, "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the human faces quote the measured draw-tail share, not the impression",
+              False, str(e))
     # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
     # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
     # is recomputable from the payload's own summary (never a stored string), and both arms

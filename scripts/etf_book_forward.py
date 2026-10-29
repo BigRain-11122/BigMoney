@@ -87,7 +87,9 @@ CONFIG = {
 CAVEATS = [
     "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
     "The seed bar begins the record; nothing before it is a track record, however good the backtest.",
-    "The vol target only de-levers -- a drawdown tool, not an edge.",
+    # r1360: the card's sentence was priced on medians only; both faces now quote the measured
+    # draw-tail share from one artifact instead of restating the impression in two dialects.
+    P.vol_overlay_tail_sentence(),
     ("Cash carry rides a repo ladder, not a money-market fund: it assumes the treasurer can "
      "roll GC007/GC014/GC028 on every maturity bar, and it uses the 2026 exchange commission "
      "table (re-derivable with RATES fee=0)."),
@@ -837,6 +839,12 @@ def run(rebase=False):
         led["book_in_force"] = fwd.last_decision
         led["engine"] = _engine_block(fwd)
         led["panel"] = {"n_instruments": len(cls), "flips_repaired": n_flip}
+        # r1360: the caveats are DERIVED text (the vol-overlay sentence now quotes the measured
+        # draw-tail share), so a no-op poll must still refresh them -- otherwise the ledger keeps
+        # publishing the pre-measurement wording until the next bar happens to arrive, and the two
+        # human faces disagree about what was measured. Numbers are untouched; the stub stays
+        # byte-identical across repeated no-ops because this is the same constant each time.
+        led["caveats"] = CAVEATS
         save_ledger(led)
         return 0
 

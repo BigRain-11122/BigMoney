@@ -120,7 +120,7 @@ Read the card's own -11.8% as the median of that ruler, not its tail: size the p
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
 - 2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.
-- The vol target only de-levers; it is a drawdown tool, not an edge.
+- The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.
 - Delivered vol is not the label: target 8% -> delivered 10.2% over the full window (1.27x). The label is a per-hold risk target, so an 8% label annualises near 10% once hold-level vol dispersion is priced in -- a definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md).
 - Order sheet is research output, not an investment recommendation.
 - The sheet is the book decided at book_decided_at, not a re-ranking of the latest bar: the engine only re-decides every 20 bars, so an off-grid ranking would trade names the book never held.

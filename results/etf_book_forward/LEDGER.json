@@ -230,9 +230,10 @@
  "caveats": [
   "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
   "The seed bar begins the record; nothing before it is a track record, however good the backtest.",
-  "The vol target only de-levers -- a drawdown tool, not an edge.",
-  "Cash earns 0 in the marks, so a de-levered book under-reports its true carry.",
-  "Research output, not an investment recommendation."
+  "The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.",
+  "Cash carry rides a repo ladder, not a money-market fund: it assumes the treasurer can roll GC007/GC014/GC028 on every maturity bar, and it uses the 2026 exchange commission table (re-derivable with RATES fee=0).",
+  "Research output, not an investment recommendation.",
+  "The basket benchmark is an equal-weight rebalanced basket of the four exposures in scripts/etf_book_spanning.py (gold 518880 / Nasdaq QDII 513100 / CSI300 510300 / bond 511010) priced on the BOOK's own decision grid. Both arms ride the engine's fixed-weight convention, which does not charge the weight drift inside a holding period; the basket's would-be drift turnover is published beside it so that omission is sized rather than hidden."
  ],
  "engine": {
   "book_return": "sum(w*r) over the actual (vol-targeted) weights",
