@@ -3234,7 +3234,89 @@ def main() -> int:
     except Exception as e:
         check("product: the own-turnover channel is re-measured against a book that does not "
               "contain it", False, repr(e)[:160])
+    # E239: the E238 leave-one-out ordering (own 0.596 < rest 0.771) may be a units artefact
+    # because the rest aggregate is a SUM of four members. This leg holds the per-pair face to
+    # the properties that make "one counterparty" a fair comparison: both designs publish
+    # intervals, each difference interval contains its own point, the published mean cross is
+    # the mean of the published per-pair numbers, and no charge is granted either way.
+    try:
+        _bad39 = []
+        _p39 = "results/state_tilt/owncross_latest.json"
+        _f39 = {}
+        if not os.path.exists(_p39):
+            _bad39.append("own-vs-cross face missing")
+        else:
+            with open(_p39, encoding="utf-8") as _fh:
+                _f39 = json.load(_fh)
+            if (_f39.get("study") or "") != "E239":
+                _bad39.append("face does not identify as E239")
+            _cut39 = _f39.get("evidence_cutoff")
+            if not _cut39:
+                _bad39.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/OWNCROSS-%s.json" % _cut39):
+                _bad39.append("the dated face beside the latest pointer is missing")
+            _sum39 = _f39.get("summary") or {}
+            for _name, _fit in (("pair_fe", _f39.get("pooled_pair_fe")),
+                                ("two_way_fe", _f39.get("two_way_fe_pair_test"))):
+                if not _fit or _fit.get("b_own") is None:
+                    _bad39.append("%s publishes no own slope" % _name)
+                    continue
+                if not _fit.get("diff_ci"):
+                    _bad39.append("%s publishes no difference interval" % _name)
+                    continue
+                _lo39, _hi39 = _fit["diff_ci"]
+                if not (_lo39 <= _fit["diff"] <= _hi39):
+                    _bad39.append("%s difference interval does not contain its point" % _name)
+                if _hi39 - _lo39 <= 0.0:
+                    _bad39.append("%s difference interval has zero width" % _name)
+            _vocab39 = ((_f39.get("frozen_spec") or {}).get("verdict_vocabulary") or [])
+            for _key in ("verdict", "verdict_two_way"):
+                _v39 = _sum39.get(_key)
+                if _v39 not in _vocab39:
+                    _bad39.append("%s %r is outside the frozen vocabulary" % (_key, _v39))
+            _pairs39 = [c for c in (_f39.get("pairs") or [])
+                        if c.get("b_cross") is not None]
+            if len(_pairs39) < 2:
+                _bad39.append("fewer than two fittable pairs published")
+            else:
+                _pub39 = ((_f39.get("mean_single_member_cross") or {}).get("mean"))
+                _own39 = sum(c["b_cross"] for c in _pairs39) / len(_pairs39)
+                if _pub39 is None or abs(_own39 - _pub39) > 1e-9:
+                    _bad39.append("the mean cross is not the mean of the published pairs")
+            for _k39, _v39 in ((_f39.get("pooled_pair_fe") or {}).get("regressor_sd")
+                               or {}).items():
+                if _v39 is None or _v39 <= 0.0:
+                    _bad39.append("regressor %s has no published variation" % _k39)
+            if (_f39.get("no_bill") or {}).get("permitted") is not False:
+                _bad39.append("the face granted a charge")
+            _ref39 = _f39.get("e238_reference") or {}
+            if _ref39.get("available") is not True and not _ref39.get("reason"):
+                _bad39.append("the E238 cross-check is neither read nor declared absent")
+            if not (_f39.get("summary") or {}).get("verdict_reason"):
+                _bad39.append("the verdict carries no reason")
+        check("product: own turnover is priced against ONE counterparty's turnover on the "
+              "same footing", not _bad39, "; ".join(_bad39)[:220]
+              or "own %s vs cross %s (diff %s %s); mean single cross %s; %s"
+                 % (_r39(_f39, "pooled_own"), _r39(_f39, "pooled_cross"),
+                    _r39(_f39, "pooled_diff"),
+                    _r39ci(_f39, "pooled_diff_ci"), _r39(_f39, "mean_cross"),
+                    (_f39.get("summary") or {}).get("verdict")))
+    except Exception as e:
+        check("product: own turnover is priced against ONE counterparty's turnover on the "
+              "same footing", False, repr(e)[:160])
     return _finish()
+
+
+def _r39(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if v is None else "%.3f" % v
+
+
+def _r39ci(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if not v else "[%.3f, %.3f]" % (v[0], v[1])
+
+
 def _r38(face, key):
     v = (face.get("summary") or {}).get(key)
     return "n/a" if v is None else "%.3f" % v

@@ -152,6 +152,11 @@ LEGS = [
     # three designs against it, publishing the gap with a block-bootstrap interval next to
     # the gap the share arithmetic predicts.
     ("leave_one_out_book", ["python", "scripts/e238_leave_one_out_book.py", "run"]),
+    # E239: E238's ordering (own 0.596 < rest 0.771) could be a units artefact -- the rest is
+    # a SUM of four members, so one log point of it is four participants' worth. Rescaling the
+    # sum by 1/4 only multiplies a coefficient, so this leg prices the own channel against ONE
+    # counterparty per pair, pooled with pair fixed effects and again with member+date FE.
+    ("own_vs_cross", ["python", "scripts/e239_own_vs_cross.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

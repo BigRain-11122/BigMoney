@@ -4555,3 +4555,60 @@ intervals, the identity as a number, and the artefact label only where the predi
 inside the measured gap interval. No charge, no adoption: E239 asks the next question the
 leave-one-out book raised (in the rest-free book the cross coefficient 0.771 exceeds the own
 0.596, which is either economics or the units of summing four members).
+
+### E239 -- a sum of four members is not four counterparties: price the channel per pair (r1265 bm-b)
+
+E238 left an ordering it could not price: in the leave-one-out book the REST coefficient
+(0.771) exceeded the own coefficient (0.596). Two readings survive -- an economic statement
+(a member's own turnover matters less than the rest of the book's) or a unit (the rest
+aggregate is the SUM of four members, so one log point of it is four participants' worth).
+Rescaling the sum to a mean cannot settle it: it multiplies the coefficient by four and leaves
+every t-statistic and every interval width unchanged. The only apples-to-apples form is per
+pair -- regress dy on d(log own) and on d(log other_j) for each other member separately, same
+HAC lag, same fixed effects, same break bar, then compare own against the MEAN single-member
+cross (13,911 pooled pair rows, 20 ordered pairs, cutoff 2026-10-29).
+
+The answer, and it is not the one E238's ordering suggested:
+
+- **pair fixed effects**: own 0.797 [0.748, 0.846] vs cross 0.314 [0.274, 0.353],
+  difference 0.484 [0.408, 0.560] against a multiplicity bar of |t| >= 3.227 (two-sided 5%
+  over 20 pairs).
+- **member + date fixed effects** (denominator-invariant per E238): own 0.539, cross 0.055,
+  difference 0.484 with interval [0.438, 0.530]. The difference point estimate is identical to
+  three decimals across the two designs, so the ordering is not an artefact of which fixed
+  effects are absorbed.
+- **the sum's own coefficient is only 54% of what four counterparties imply**: mean
+  single-member cross 0.356 (20 pairs, range -0.242..1.128, 15/20 positive), so 4 x 0.356 =
+  1.425 against E238's published rest 0.771 -> ratio 0.541. The aggregate is not an additive
+  sum of participant impact; roughly half of what a single counterparty carries does not
+  survive in the sum.
+
+Reusable pieces:
+
+1. **"Rescale the aggregate" is not a control.** Dividing a regressor by a constant changes a
+   coefficient by that constant and leaves the t-statistic, the interval width and the sign of
+   the difference untouched. When the units are the objection, the fix is a different
+   REGRESSOR (one counterparty, not the sum), not a different scaling.
+2. **Pair fixed effects belong in the demeaned coordinates, not in 20 dummies.** Within-block
+   demeaning of y, d(log own) and d(log other) is exactly the pair intercept and keeps the
+   design matrix at k=3, so the HAC sandwich stays tractable (20 pairs x ~1400 rows, lag 20).
+   Same estimator, different coordinates.
+3. **Publish the mean of the published members.** The mean cross must be machine-derived from
+   the per-pair list and the smoke leg asserts `|mean(list) - published_mean| < 1e-9`; a summary
+   that prints a mean no reader can recompute is a second estimator nobody audited.
+4. **Prove the machinery ran before believing any equality** (E188/r1261 family): assert pairs
+   fitted == pairs total == 20, pooled rows > 5000 and both regressor sds above the dust floor
+   inside the selftest, not only in the runner.
+5. **A dust counterparty regressor is refused per pair, not fitted.** A member whose turnover
+   never moves has no cross variation; that pair is reported with a reason, and if every block
+   is dust the pooled design returns `unresolved_no_pairs` rather than a number.
+6. **Read the previous face, never restate its numbers.** The 4x cross-versus-rest comparison
+   machine-reads `loobook_latest.json` and declares its own absence (`available: false`) if the
+   file is missing -- hand-copied constants in a follow-up face are how a family silently drifts.
+
+Runner `scripts/e239_own_vs_cross.py` (selftest 11/11), face
+`results/state_tilt/OWNCROSS-<cutoff>.json` + `owncross_pairs_<cutoff>.csv`, S6 leg
+`own_vs_cross` after `leave_one_out_book`, smoke leg requiring both designs' intervals to
+contain their own points, the mean cross to be the mean of the published pairs, and the frozen
+verdict vocabulary to be honoured. No charge, no adoption: the family still has no bill, and
+the next question is why the aggregate loses half of the single-counterparty channel.
