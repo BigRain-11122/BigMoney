@@ -76,6 +76,15 @@ v1.7 (r1152 bm-a, "how much money" roll-up -- CEO anchor "我要的是结果
   the export summary's total_equity_cny (tolerance = rounding of the member
   rows).  ZERO new judgment (no benchmark, no win/loss claim).
 
+v1.8 (r1154 bm-a): section 1 gains the market risk tape -- limit-up /
+  limit-down / broken-seal / strong member counts, the seal rate, the streak
+  ladder and the mechanical kill-day reading, on the same forward zt-pool
+  panels.  SINGLE IMPLEMENTATION: it calls scripts/daily_report._zt_risk_face,
+  the exact function that renders section 9 of the daily report, so the two
+  pages cannot drift into two different sets of reading rules (r1290
+  two-production-faces law).  A trading day that was never captured reads as
+  absent, never as 0 members (r1149 marks-coverage law).  ZERO new judgment.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -96,7 +105,9 @@ Exit codes: 0 = ok, 2 = mechanism fault (missing face / shape drift).
 import datetime as dt
 import json
 import os
+import re
 import sys
+import tempfile
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -113,6 +124,7 @@ NT_S2_VERDICT = os.path.join(ROOT, "results", "national_team",
 NT_S3_REVIEW = os.path.join(ROOT, "results", "national_team",
                             "s3_event_review.json")
 OUT_DIR = os.path.join(ROOT, "docs", "live_usage")
+REPORT_DIR = os.path.join(ROOT, "docs", "daily_report")        # v1.8 parity
 MINUTE_FEED_DIR = os.path.join(ROOT, "data", "minute_feed")   # T-104 (v1.4)
 # In-flight NULLS judgment batches (v1.5) -- pure counter faces:
 FUND_NULLS_TARGET = 2000
@@ -531,7 +543,7 @@ def build_payload(day: str) -> dict:
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_7",
+        "schema": "ceo_live_usage_v1_8",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -556,6 +568,7 @@ def build_payload(day: str) -> dict:
                 if (hc := clock.get("heat_composite") or {}) else ""),
         },
         "national_team": _national_team_face(),
+        "risk_tape": _risk_tape_face(),
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
                       for n, c, d in LADDER],
@@ -591,6 +604,58 @@ def build_payload(day: str) -> dict:
     }
 
 
+def _risk_tape_face(root=None):
+    """v1.8: today's market risk tape from the four forward zt-pool panels.
+
+    SINGLE IMPLEMENTATION -- this is scripts/daily_report._zt_risk_face, the
+    very function that renders section 9 of the daily report.  The one-pager
+    must not grow a second copy of the reading rules (r1290 law), and a day
+    that was never captured must read as absent rather than as 0 members
+    (r1149 law).  Pure aggregation: zero new thresholds, zero new judgment."""
+    root = root or ROOT
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import daily_report as _dr
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160], "panels": {}}
+    try:
+        raw = _dr._zt_risk_face(root=root)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160], "panels": {}}
+    panels = {}
+    for k, v in (raw.get("panels") or {}).items():
+        v = v or {}
+        cnt = v.get("count")
+        prev = v.get("prev_count")
+        panels[k] = {
+            "label": v.get("label") or k,
+            "status": v.get("status"),
+            "count": cnt,
+            "prev_count": prev,
+            "prev_cutoff": v.get("prev_cutoff"),
+            "delta": (cnt - prev) if (cnt is not None
+                                      and prev is not None) else None,
+        }
+    out = {"source": ("scripts/daily_report._zt_risk_face "
+                      "(same implementation as daily report §九)"),
+           "panels": panels}
+    if not raw.get("present"):
+        out["status"] = "absent"
+        out["note"] = raw.get("note") or "风险面未产出（缺面不读 0）"
+        return out
+    out.update({"status": "ok", "cutoff": raw.get("cutoff"),
+                "cutoffs": raw.get("cutoffs"),
+                "aligned": raw.get("aligned"),
+                "seal_rate": raw.get("seal_rate"),
+                "ladder": raw.get("ladder") or {},
+                "top_streak": raw.get("top_streak"),
+                "down_over_up": raw.get("down_over_up"),
+                "kill_day": raw.get("kill_day")})
+    return out
+
+
 def render_md(p: dict) -> str:
     m = p["market"]
     L = []
@@ -615,6 +680,39 @@ def render_md(p: dict) -> str:
              + (" + 温度计 HOT → **GREEN×HOT 满热档生效（95%）**"
                 if p['ladder']['current_state'] == "GREEN×HOT"
                 else f" + 温度计 {m['heat']} → 满热档未触发（需 GREEN+HOT）"))
+    rt = p.get("risk_tape") or {}
+    if rt.get("status") == "ok":
+        parts = []
+        for k in ("zt", "dtgc", "zbgc", "strong"):
+            pv = (rt.get("panels") or {}).get(k) or {}
+            if pv.get("count") is None:
+                parts.append("{}={}".format(pv.get("label") or k, "缺面"))
+                continue
+            seg = "{} {}".format(pv.get("label") or k, pv["count"])
+            if pv.get("delta") is not None:
+                seg += "（{:+.0f}）".format(pv["delta"])
+            parts.append(seg)
+        line = ("- **市场风险面（前向池四面板·与每日战报§九同一实现）**："
+                "截止 {} · {}".format(rt.get("cutoff"), " · ".join(parts)))
+        if rt.get("seal_rate") is not None:
+            line += " · 封板率 {:.1%}".format(rt["seal_rate"])
+        lad = rt.get("ladder") or {}
+        if lad:
+            lad_seg = " / ".join("{}板{}".format(k, v) for k, v in lad.items())
+            line += " · 连板 " + lad_seg
+        if rt.get("kill_day") is not None:
+            line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 "
+                     + ("是" if rt["kill_day"] else "否"))
+        L.append(line)
+        if rt.get("aligned") is False:
+            mism = "、".join(
+                "{}={}".format(k, (v or {}).get("cutoff"))
+                for k, v in (rt.get("panels") or {}).items()
+                if (v or {}).get("status") == "ok")
+            L.append("  - 四面板截止日不一致：{}（如实标注）".format(mism))
+    else:
+        L.append("- 市场风险面：{}（缺面不读 0）".format(
+            rt.get("note") or rt.get("detail") or "未产出"))
     nt = p["national_team"]
     # 3.11-safe: precompute the nominal join (bm-c r190 v1.2 nested
     # same-quote f-string was PEP 701 3.12-only = syntax death on the
@@ -824,7 +922,7 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.7", p1["schema"] == "ceo_live_usage_v1_7")
+    check("schema v1.8", p1["schema"] == "ceo_live_usage_v1_8")
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")
@@ -993,6 +1091,53 @@ def selftest() -> int:
     check("roll-up rendered in md with its own money (v1.7)",
           "六员合计" in md1 and _fmt_cny(ru["equity_cny"]) in md1
           and f"{ru['return_pct']:+.2f}%" in md1)
+    # ---- v1.8: market risk tape (single implementation, honest absence) ----
+    rt = p1["risk_tape"]
+    tape_ok = rt.get("status") == "ok"
+    shape_ok = True
+    for _k, _v in (rt.get("panels") or {}).items():
+        if _v.get("count") is not None and not isinstance(_v["count"], int):
+            shape_ok = False
+        if _v.get("status") == "ok" and _v.get("count") is None:
+            shape_ok = False
+    check("risk tape present and honestly shaped (v1.8)",
+          rt.get("status") in ("ok", "absent", "unavailable", "unreadable")
+          and shape_ok
+          and (not tape_ok
+               or (isinstance(rt.get("cutoff"), str)
+                   and len(rt["cutoff"]) == 10
+                   and (rt.get("seal_rate") is None
+                        or 0.0 <= rt["seal_rate"] <= 1.0))))
+    _tmp_rt = tempfile.mkdtemp(prefix="ceo_rt_empty_")
+    _absent = _risk_tape_face(root=_tmp_rt)
+    check("risk tape: absent panels read absent, never 0 members (v1.8)",
+          _absent.get("status") == "absent"
+          and all((v or {}).get("count") is None
+                  for v in (_absent.get("panels") or {}).values()))
+    _rep = os.path.join(REPORT_DIR, f"REPORT-{day}.md")
+    if os.path.exists(_rep):
+        with open(_rep, encoding="utf-8") as _fh:
+            _txt = _fh.read()
+        _got = {m.group(1): int(m.group(2)) for m in
+                re.finditer(r"\*\*(涨停池|跌停池|炸板池|强势池) (\d+)\*\*", _txt)}
+        _want = {}
+        for _k, _lab in (("zt", "涨停池"), ("dtgc", "跌停池"),
+                         ("zbgc", "炸板池"), ("strong", "强势池")):
+            _v = (rt.get("panels") or {}).get(_k) or {}
+            if _v.get("count") is not None:
+                _want[_lab] = _v["count"]
+        _cut = re.search(r"四面同为 \*\*(\d{4}-\d{2}-\d{2})\*\*", _txt)
+        _par_ok = (_got == _want)
+        if _cut and tape_ok:
+            _par_ok = _par_ok and (_cut.group(1) == rt.get("cutoff"))
+        check("risk tape agrees with daily report §九 (cross-face parity)",
+              _par_ok)
+    else:
+        print(f"  [SKIP] cross-face parity: {os.path.basename(_rep)} "
+              "not generated for today (absent, not 0)")
+    check("risk tape rendered in md (v1.8)",
+          "市场风险面" in md1
+          and (not tape_ok or str(rt.get("cutoff")) in md1))
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

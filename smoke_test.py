@@ -3016,6 +3016,70 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page prices the whole book in one line", False,
               repr(e)[:160])
+    # ---- v1.8: the CEO page must carry the market risk tape, recomputed ----
+    try:
+        _lu30p = os.path.join(PATHS.root, "docs", "live_usage",
+                              "LIVE-latest.json")
+        _bad30 = []
+        _info30 = ""
+        if not os.path.exists(_lu30p):
+            _bad30.append("docs/live_usage/LIVE-latest.json missing")
+        else:
+            with open(_lu30p, encoding="utf-8") as _fh30:
+                _lu30 = json.load(_fh30)
+            _rt30 = _lu30.get("risk_tape") or {}
+            _st30 = _rt30.get("status")
+            if _st30 not in ("ok", "absent", "unavailable", "unreadable"):
+                _bad30.append("risk tape publishes no honest status (%r)" % (_st30,))
+            if _st30 == "ok":
+                _dr30 = importlib.import_module("daily_report")
+                _pd30 = importlib.import_module("pandas")
+                _pn30 = _rt30.get("panels") or {}
+                _rec30 = []
+                for _k30 in ("zt", "dtgc", "zbgc", "strong"):
+                    _row30 = _pn30.get(_k30) or {}
+                    _cnt30 = _row30.get("count")
+                    _p30 = os.path.join(PATHS.root, "data", "zt_pool",
+                                        "%s.parquet" % _k30)
+                    if _cnt30 is None:
+                        if _row30.get("status") == "ok":
+                            _bad30.append("%s claims ok with no count" % _k30)
+                        continue
+                    if not os.path.exists(_p30):
+                        _bad30.append("%s publishes a count but the panel is absent"
+                                      % _k30)
+                        continue
+                    _df30 = _pd30.read_parquet(_p30)
+                    _d30 = _df30[_dr30.ZT_DATE_COL].map(
+                        lambda v: str(v)[:10])
+                    _cut30 = str(_d30.max())
+                    _n30 = int((_d30 == _cut30).sum())
+                    if _cut30 != str(_row30.get("prev_cutoff") or _cut30) and \
+                            _cut30 != str(_rt30.get("cutoff")):
+                        _bad30.append("%s recomputed bar %s not the published bar"
+                                      % (_k30, _cut30))
+                    if _n30 != int(_cnt30):
+                        _bad30.append("%s page says %s members, panel holds %d"
+                                      % (_k30, _cnt30, _n30))
+                    _rec30.append("%s %d" % (_k30, _n30))
+                _info30 = "cutoff %s | %s" % (_rt30.get("cutoff"),
+                                              " / ".join(_rec30))
+                _md30p = os.path.join(PATHS.root, "docs", "live_usage",
+                                      "LIVE-latest.md")
+                if not os.path.exists(_md30p):
+                    _bad30.append("the rendered one-pager is absent")
+                else:
+                    with open(_md30p, encoding="utf-8") as _fh30:
+                        _md30 = _fh30.read()
+                    if "市场风险面" not in _md30:
+                        _bad30.append("the one-pager has no risk-tape line")
+                    elif str(_rt30.get("cutoff")) not in _md30:
+                        _bad30.append("the risk line omits its cutoff bar")
+        check("product: the CEO page carries today's market risk tape",
+              not _bad30, "; ".join(_bad30)[:220] or _info30)
+    except Exception as e:
+        check("product: the CEO page carries today's market risk tape", False,
+              repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 
