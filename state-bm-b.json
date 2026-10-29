@@ -125,8 +125,9 @@
   "smoke_test.py leg on both denominators + the mechanical-prediction gate",
   "results/runnable_pool.json E238 done + E239 seeded (709 done / 1 ready)"
  ],
- "last_push": "HEAD -> machine/bm-b-r1262",
- "last_push_at": "2026-10-30T02:21:42+08:00",
+ "last_push": "HEAD -> machine/bm-b-r1264",
+ "last_push_at": "2026-10-30T03:51:42+08:00",
+ "last_push_sha": "1b321f5dcaf10b81b9bebe317c3f86afe4098fe2",
  "last_round": 1264,
  "last_round_at": "2026-10-30T03:50:11+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md r1260",
@@ -1818,6 +1819,16 @@
   "ts": "2026-10-30T03:50:11+08:00",
   "watermark_red": "RED pool-batch-runnable-idle-low-cpu -> burned the ready head E238 in-round"
  },
+ "r1264_push": {
+  "behind_origin_main": 38,
+  "branch": "machine/bm-b-r1264",
+  "local_not_on_origin_main": 26,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation",
+  "pushed_sha": "1b321f5dcaf10b81b9bebe317c3f86afe4098fe2",
+  "remote_ref_sha": "1b321f5dcaf10b81b9bebe317c3f86afe4098fe2",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-30T03:51:42+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -1840,9 +1851,13 @@
  "status": "green",
  "sync": {
   "behind_origin_main": 38,
-  "branch": "pending",
-  "local_not_on_origin_main": 25,
-  "note": "delivery target decided at push time"
+  "branch": "machine/bm-b-r1264",
+  "local_not_on_origin_main": 26,
+  "pushed_sha": "1b321f5dcaf10b81b9bebe317c3f86afe4098fe2",
+  "remote_ref_sha": "1b321f5dcaf10b81b9bebe317c3f86afe4098fe2",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-30T03:51:42+08:00",
+  "verified": true
  },
  "task": "E238 denominator test (measured) -- next E239 own-vs-single-cross elasticity",
  "task_short": "E238 leave-one-out book",
