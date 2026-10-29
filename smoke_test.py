@@ -654,6 +654,33 @@ def main() -> int:
     except Exception as e:
         check("product: E224 sign-ordering transfer is recomputable from the per-period table",
               False, str(e))
+    # r1339 / E227: both faces above price the sign question at ONE (rebal, n_hold) cell, and
+    # that cell was itself picked on the sample. This leg requires the three-cell leg to be
+    # recomputable -- the active-cell flags and the stable-factor count are re-derived from the
+    # per-cell arm tables, so "the ordering is cell dependent" cannot outlive a panel move.
+    try:
+        _sc = os.path.join("results", "etf_sign_cells.json")
+        if os.path.exists(_sc):
+            _doc4 = json.load(open(_sc, encoding="utf-8"))
+            _mod4 = __import__("importlib").import_module("scripts.etf_sign_cells")
+            _g4 = _mod4.gate(_doc4)
+            _c4 = _doc4.get("cells") or {}
+            check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+                  _g4["all_ok"] and _g4["verdict"] == _doc4.get("verdict")
+                  and len(_c4) == 3
+                  and all(int((c.get("n_arms") or 0)) == 64 for c in _c4.values())
+                  and _g4["cross_cell"]["n_factors_stable"] == int(
+                      ((_doc4.get("cross_cell") or {}).get("n_factors_stable")) or -1),
+                  "verdict=%s stable=%s/%s ranks=%s"
+                  % (_g4["verdict"], _g4["cross_cell"]["n_factors_stable"],
+                     _g4["cross_cell"]["n_factors"],
+                     (_doc4.get("summary") or {}).get("ranks_by_cell")))
+        else:
+            check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+                  True, "sign-cells artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+              False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -1711,6 +1738,7 @@ def main() -> int:
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
                  "etf_book_order_card", "etf_sign_pit", "etf_sign_enum", "etf_sign_stability",
+                 "etf_sign_cells",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)

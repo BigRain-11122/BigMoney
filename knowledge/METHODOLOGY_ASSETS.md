@@ -4348,3 +4348,36 @@ resolves to its writer AND that "main" is never the producer AND that the curve 
 fragility writer) -> live reading unindexed=[] leak=0. This was the only red in the full suite
 (203/204 before the fix).
 Digest: research/digests/DIGEST-20261029-e226-producer-by-filename.md.
+
+
+## E227 A sign ordering that survives one cell is not a property of the factors (2026-10-29 r1339 bm-c)
+
+WHEN: a book's free choices have each been priced by enumerating their own space -- "the
+production signs rank 6th of 64" -- and every one of those numbers was produced at ONE cell
+(`REBAL=20, N_HOLD=12`). Cadence and width are not physical constants: the walk-forward on
+this line selects among `N3/5/8 x R10/20/40`, so they were picked on the same sample. A rank
+quoted without its cell is a rank whose cell was also chosen by the data.
+
+HOW: run all 2^6 = 64 sign sets at three declared cells (`R20_N12`, `R10_N8`, `R40_N5`), same
+panel, same eligibility, same engine, same cost, and ask per factor whether the direction
+survives. The gate re-derives the stable count from the per-cell main-effect maps and each
+cell's `active` flag from its own trade census; a stored verdict cannot outlive a panel move.
+
+RIGHT READING: the top-decile result replicates (production ranks 4-6 of 64 at every cell, the
+no-hindsight median arm is negative at every cell), and only two directions are real --
+`vol_60-` and `intraday_range-` at -3.7 to -5.8pp/yr everywhere, the pair E219 already found
+carrying 8.5 of 11.4pp. Everything else moves 1-3pp, and `price_position` flips sign outright
+(+1.15/+3.09/-3.30). `mom_12_1` is the dangerous one: published as `+`, negative at every
+cell -- a drag that survives the cell choice, i.e. consistently wrong rather than sometimes
+wrong. Verdict `sign_order_cell_dependent`, 3 of 6 stable.
+
+WRONG: quote a per-factor direction as a property of the factor because the R20x12 factorial
+said so; or report "rank 6/64" without the cell, which reads as a property of the signs when
+it is a property of the (cadence, width) corner. Equally wrong: call the ordering unstable
+from two cells -- with two arms the count cannot separate "one factor flipped" from "the cells
+alternate", which is why the fixture set was measured before the run.
+
+EVIDENCE: `scripts/etf_sign_cells.py` (selftest 11/11) -> `results/etf_sign_cells.json`
+(three cells x 64 arms, `evidence_cutoff` 2026-10-28); S6 leg `etf_sign_cells` (~180s) + smoke
+leg that recomputes the verdict from the per-cell arm tables.
+Digest: research/digests/DIGEST-20261029-e227-sign-cell-dependence.md.

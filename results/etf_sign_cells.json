@@ -1,0 +1,3569 @@
+{
+ "evidence_cutoff": "2026-10-28",
+ "universe": 1609,
+ "question": "the sign ordering behind the published headline was measured at ONE (rebal, n_hold) cell that was itself chosen on the sample -- does the ordering survive the cells it was chosen among?",
+ "declared": {
+  "cells": [
+   {
+    "tag": "R20_N12",
+    "rebal": 20,
+    "n_hold": 12
+   },
+   {
+    "tag": "R10_N8",
+    "rebal": 10,
+    "n_hold": 8
+   },
+   {
+    "tag": "R40_N5",
+    "rebal": 40,
+    "n_hold": 5
+   }
+  ],
+  "cost_per_side": 0.001,
+  "start": "2020-01-01",
+  "min_traded_bars": 30,
+  "top_decile": 0.1,
+  "degenerate_spread": 0.01,
+  "stable_min_agree": 4,
+  "n_arms_per_cell": 64,
+  "signs": {
+   "mom_12_1": 1.0,
+   "price_position": 1.0,
+   "drawdown_60": 1.0,
+   "adx_14": 1.0,
+   "vol_60": -1.0,
+   "intraday_range": -1.0
+  },
+  "primary_cell": "R20_N12"
+ },
+ "production_key": "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-",
+ "cells": {
+  "R20_N12": {
+   "n_arms": 64,
+   "n_traded": 64,
+   "n_with_cagr": 64,
+   "production_rank": 6,
+   "production_cagr": 0.0614,
+   "production_percentile": 0.9206,
+   "top_decile_cut": 7,
+   "production_in_top_decile": true,
+   "median_cagr": -0.016300000000000002,
+   "best_cagr": 0.0856,
+   "worst_cagr": -0.1228,
+   "spread_cagr": 0.2084,
+   "main_effect_pp": {
+    "mom_12_1": -1.366,
+    "price_position": 1.153,
+    "drawdown_60": 1.058,
+    "adx_14": 2.006,
+    "vol_60": -4.873,
+    "intraday_range": -3.653
+   },
+   "active": true,
+   "rebal": 20,
+   "n_hold": 12,
+   "arms": {
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1122,
+     "sharpe": -0.233,
+     "maxdd": -0.6933,
+     "bars": 1651,
+     "turnover_per_rebal": 1.492,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0475,
+     "sharpe": 0.33,
+     "maxdd": -0.3423,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0036,
+     "sharpe": 0.097,
+     "maxdd": -0.4441,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5602,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0614,
+     "sharpe": 0.645,
+     "maxdd": -0.1284,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1687,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1228,
+     "sharpe": -0.284,
+     "maxdd": -0.6859,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5582,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0283,
+     "sharpe": 0.242,
+     "maxdd": -0.4705,
+     "bars": 1651,
+     "turnover_per_rebal": 1.506,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0005,
+     "sharpe": 0.107,
+     "maxdd": -0.407,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5683,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0769,
+     "sharpe": 0.758,
+     "maxdd": -0.209,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2831,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0952,
+     "sharpe": -0.161,
+     "maxdd": -0.675,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4317,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0159,
+     "sharpe": 0.196,
+     "maxdd": -0.4541,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5442,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0284,
+     "sharpe": 0.029,
+     "maxdd": -0.4663,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6928,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0687,
+     "sharpe": 0.642,
+     "maxdd": -0.2686,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3675,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0807,
+     "sharpe": -0.144,
+     "maxdd": -0.6733,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4056,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0567,
+     "sharpe": -0.147,
+     "maxdd": -0.5687,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5161,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0408,
+     "sharpe": -0.067,
+     "maxdd": -0.5024,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7108,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0521,
+     "sharpe": 0.536,
+     "maxdd": -0.2429,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4659,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1114,
+     "sharpe": -0.229,
+     "maxdd": -0.6848,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4578,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0581,
+     "sharpe": -0.164,
+     "maxdd": -0.4389,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6827,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0461,
+     "sharpe": -0.139,
+     "maxdd": -0.4904,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7209,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0241,
+     "sharpe": 0.333,
+     "maxdd": -0.1577,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2912,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0955,
+     "sharpe": -0.194,
+     "maxdd": -0.7086,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4779,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0285,
+     "sharpe": -0.054,
+     "maxdd": -0.6054,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6807,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0856,
+     "sharpe": 0.564,
+     "maxdd": -0.2943,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6265,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0517,
+     "sharpe": 0.676,
+     "maxdd": -0.1519,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1687,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0209,
+     "sharpe": 0.086,
+     "maxdd": -0.5135,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5582,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.089,
+     "sharpe": -0.228,
+     "maxdd": -0.5971,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6285,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0622,
+     "sharpe": -0.121,
+     "maxdd": -0.5189,
+     "bars": 1651,
+     "turnover_per_rebal": 1.749,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.035,
+     "sharpe": -0.142,
+     "maxdd": -0.423,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6968,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0178,
+     "sharpe": 0.091,
+     "maxdd": -0.5447,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4618,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.103,
+     "sharpe": -0.328,
+     "maxdd": -0.668,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5924,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0241,
+     "sharpe": 0.026,
+     "maxdd": -0.4648,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7249,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0013,
+     "sharpe": 0.09,
+     "maxdd": -0.4271,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5924,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0215,
+     "sharpe": 0.069,
+     "maxdd": -0.5001,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6506,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0148,
+     "sharpe": -0.004,
+     "maxdd": -0.3927,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5663,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0194,
+     "sharpe": 0.199,
+     "maxdd": -0.3778,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6084,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0075,
+     "sharpe": 0.148,
+     "maxdd": -0.1537,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1506,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1146,
+     "sharpe": -0.303,
+     "maxdd": -0.7062,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6787,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0122,
+     "sharpe": 0.161,
+     "maxdd": -0.4091,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6847,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0257,
+     "sharpe": 0.229,
+     "maxdd": -0.449,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6827,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0013,
+     "sharpe": 0.058,
+     "maxdd": -0.1325,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2972,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.0252,
+     "sharpe": 0.235,
+     "maxdd": -0.4326,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4839,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0357,
+     "sharpe": 0.272,
+     "maxdd": -0.4557,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5462,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0479,
+     "sharpe": 0.327,
+     "maxdd": -0.3257,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6325,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0333,
+     "sharpe": 0.39,
+     "maxdd": -0.1978,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2952,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0249,
+     "sharpe": 0.052,
+     "maxdd": -0.6191,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4478,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0943,
+     "sharpe": -0.333,
+     "maxdd": -0.7054,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6365,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0501,
+     "sharpe": -0.12,
+     "maxdd": -0.5863,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6988,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0139,
+     "sharpe": -0.078,
+     "maxdd": -0.3291,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5161,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.0144,
+     "sharpe": 0.192,
+     "maxdd": -0.3965,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6104,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0567,
+     "sharpe": 0.298,
+     "maxdd": -0.3663,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5924,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0373,
+     "sharpe": -0.153,
+     "maxdd": -0.3979,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6486,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0843,
+     "sharpe": 0.384,
+     "maxdd": -0.2244,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1245,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0791,
+     "sharpe": -0.188,
+     "maxdd": -0.6254,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5241,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0794,
+     "sharpe": -0.4,
+     "maxdd": -0.5805,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5141,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0146,
+     "sharpe": -0.002,
+     "maxdd": -0.3456,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5221,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0119,
+     "sharpe": 0.196,
+     "maxdd": -0.2757,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0803,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0209,
+     "sharpe": 0.066,
+     "maxdd": -0.426,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4378,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0082,
+     "sharpe": 0.157,
+     "maxdd": -0.3766,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5442,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0467,
+     "sharpe": -0.102,
+     "maxdd": -0.4253,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5723,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0747,
+     "sharpe": 0.35,
+     "maxdd": -0.3475,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5522,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0051,
+     "sharpe": 0.122,
+     "maxdd": -0.4985,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3775,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0768,
+     "sharpe": -0.215,
+     "maxdd": -0.6093,
+     "bars": 1651,
+     "turnover_per_rebal": 1.51,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0261,
+     "sharpe": 0.003,
+     "maxdd": -0.4063,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5482,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0191,
+     "sharpe": -0.044,
+     "maxdd": -0.428,
+     "bars": 1651,
+     "turnover_per_rebal": 1.508,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    }
+   }
+  },
+  "R10_N8": {
+   "n_arms": 64,
+   "n_traded": 64,
+   "n_with_cagr": 64,
+   "production_rank": 4,
+   "production_cagr": 0.0642,
+   "production_percentile": 0.9524,
+   "top_decile_cut": 7,
+   "production_in_top_decile": true,
+   "median_cagr": -0.048549999999999996,
+   "best_cagr": 0.1131,
+   "worst_cagr": -0.1726,
+   "spread_cagr": 0.2857,
+   "main_effect_pp": {
+    "mom_12_1": -0.815,
+    "price_position": 3.091,
+    "drawdown_60": 0.628,
+    "adx_14": -0.165,
+    "vol_60": -5.759,
+    "intraday_range": -4.493
+   },
+   "active": true,
+   "rebal": 10,
+   "n_hold": 8,
+   "arms": {
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1726,
+     "sharpe": -0.373,
+     "maxdd": -0.8082,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3924,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0932,
+     "sharpe": -0.271,
+     "maxdd": -0.65,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3364,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0811,
+     "sharpe": -0.219,
+     "maxdd": -0.5941,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4227,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0642,
+     "sharpe": 0.676,
+     "maxdd": -0.1664,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0182,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0606,
+     "sharpe": -0.034,
+     "maxdd": -0.5819,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4576,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0947,
+     "sharpe": 0.506,
+     "maxdd": -0.4677,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5076,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0146,
+     "sharpe": 0.183,
+     "maxdd": -0.3901,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0631,
+     "sharpe": 0.606,
+     "maxdd": -0.2652,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2667,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1184,
+     "sharpe": -0.2,
+     "maxdd": -0.7026,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3258,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0285,
+     "sharpe": 0.038,
+     "maxdd": -0.5152,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4515,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.1009,
+     "sharpe": -0.207,
+     "maxdd": -0.6412,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5273,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0578,
+     "sharpe": 0.58,
+     "maxdd": -0.2154,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2439,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0771,
+     "sharpe": -0.088,
+     "maxdd": -0.633,
+     "bars": 1651,
+     "turnover_per_rebal": 1.303,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.1031,
+     "sharpe": -0.32,
+     "maxdd": -0.6903,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3985,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0094,
+     "sharpe": 0.17,
+     "maxdd": -0.5688,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5727,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0491,
+     "sharpe": 0.474,
+     "maxdd": -0.2454,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3682,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1004,
+     "sharpe": -0.15,
+     "maxdd": -0.6326,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3545,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.1088,
+     "sharpe": -0.389,
+     "maxdd": -0.6261,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4773,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0757,
+     "sharpe": -0.283,
+     "maxdd": -0.5823,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5182,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0199,
+     "sharpe": 0.282,
+     "maxdd": -0.2009,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1379,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0439,
+     "sharpe": 0.008,
+     "maxdd": -0.6628,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4045,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0745,
+     "sharpe": -0.308,
+     "maxdd": -0.6727,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4985,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0222,
+     "sharpe": 0.213,
+     "maxdd": -0.3682,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5621,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0441,
+     "sharpe": 0.651,
+     "maxdd": -0.1308,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0833,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0043,
+     "sharpe": 0.147,
+     "maxdd": -0.486,
+     "bars": 1651,
+     "turnover_per_rebal": 1.347,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.1097,
+     "sharpe": -0.295,
+     "maxdd": -0.6364,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4409,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0662,
+     "sharpe": -0.125,
+     "maxdd": -0.4684,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5576,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.0437,
+     "sharpe": -0.169,
+     "maxdd": -0.5428,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4758,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1436,
+     "sharpe": -0.351,
+     "maxdd": -0.7534,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.124,
+     "sharpe": -0.377,
+     "maxdd": -0.6884,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5015,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0819,
+     "sharpe": -0.199,
+     "maxdd": -0.6785,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6424,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0023,
+     "sharpe": 0.068,
+     "maxdd": -0.3838,
+     "bars": 1651,
+     "turnover_per_rebal": 1.553,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1108,
+     "sharpe": -0.221,
+     "maxdd": -0.6586,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4939,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0691,
+     "sharpe": -0.343,
+     "maxdd": -0.5359,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3348,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0535,
+     "sharpe": -0.147,
+     "maxdd": -0.5594,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4561,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0118,
+     "sharpe": 0.219,
+     "maxdd": -0.1719,
+     "bars": 1651,
+     "turnover_per_rebal": 0.9652,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.053,
+     "sharpe": -0.032,
+     "maxdd": -0.6536,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0125,
+     "sharpe": 0.032,
+     "maxdd": -0.4388,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5561,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0145,
+     "sharpe": 0.048,
+     "maxdd": -0.4693,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6394,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0027,
+     "sharpe": 0.029,
+     "maxdd": -0.2127,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1409,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.0703,
+     "sharpe": 0.381,
+     "maxdd": -0.4996,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3424,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0513,
+     "sharpe": 0.339,
+     "maxdd": -0.418,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4273,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0082,
+     "sharpe": 0.153,
+     "maxdd": -0.4548,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5152,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0186,
+     "sharpe": 0.247,
+     "maxdd": -0.2126,
+     "bars": 1651,
+     "turnover_per_rebal": 1.1318,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0691,
+     "sharpe": -0.093,
+     "maxdd": -0.6408,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3197,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0625,
+     "sharpe": -0.144,
+     "maxdd": -0.5647,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4697,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0194,
+     "sharpe": 0.046,
+     "maxdd": -0.4462,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5697,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0391,
+     "sharpe": 0.412,
+     "maxdd": -0.227,
+     "bars": 1651,
+     "turnover_per_rebal": 1.397,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0601,
+     "sharpe": -0.067,
+     "maxdd": -0.5691,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4242,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0172,
+     "sharpe": -0.023,
+     "maxdd": -0.489,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0535,
+     "sharpe": -0.253,
+     "maxdd": -0.5131,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4848,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.0212,
+     "sharpe": -0.224,
+     "maxdd": -0.3017,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0455,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1526,
+     "sharpe": -0.482,
+     "maxdd": -0.7827,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4652,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0862,
+     "sharpe": -0.435,
+     "maxdd": -0.578,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4182,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0744,
+     "sharpe": -0.415,
+     "maxdd": -0.5031,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4621,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.1131,
+     "sharpe": 0.383,
+     "maxdd": -0.2385,
+     "bars": 1651,
+     "turnover_per_rebal": 0.9636,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0616,
+     "sharpe": -0.072,
+     "maxdd": -0.5122,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2985,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0162,
+     "sharpe": 0.058,
+     "maxdd": -0.4381,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4152,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0124,
+     "sharpe": 0.064,
+     "maxdd": -0.3221,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4712,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0057,
+     "sharpe": 0.117,
+     "maxdd": -0.4097,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1101,
+     "sharpe": -0.244,
+     "maxdd": -0.6844,
+     "bars": 1651,
+     "turnover_per_rebal": 1.3258,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.139,
+     "sharpe": -0.499,
+     "maxdd": -0.71,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4818,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.1169,
+     "sharpe": -0.405,
+     "maxdd": -0.6493,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4955,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0441,
+     "sharpe": -0.203,
+     "maxdd": -0.4613,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5379,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    }
+   }
+  },
+  "R40_N5": {
+   "n_arms": 64,
+   "n_traded": 64,
+   "n_with_cagr": 64,
+   "production_rank": 5,
+   "production_cagr": 0.0554,
+   "production_percentile": 0.9365,
+   "top_decile_cut": 7,
+   "production_in_top_decile": true,
+   "median_cagr": -0.017,
+   "best_cagr": 0.1342,
+   "worst_cagr": -0.2391,
+   "spread_cagr": 0.3733,
+   "main_effect_pp": {
+    "mom_12_1": -0.938,
+    "price_position": -3.303,
+    "drawdown_60": -0.446,
+    "adx_14": -0.48,
+    "vol_60": -4.872,
+    "intraday_range": -3.804
+   },
+   "active": true,
+   "rebal": 40,
+   "n_hold": 5,
+   "arms": {
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.2012,
+     "sharpe": -0.395,
+     "maxdd": -0.8578,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7762,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.001,
+     "sharpe": 0.116,
+     "maxdd": -0.4432,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6905,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.1361,
+     "sharpe": -0.339,
+     "maxdd": -0.7657,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7857,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0554,
+     "sharpe": 0.583,
+     "maxdd": -0.1282,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2714,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.2391,
+     "sharpe": -0.607,
+     "maxdd": -0.8992,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0412,
+     "sharpe": 0.287,
+     "maxdd": -0.6174,
+     "bars": 1651,
+     "turnover_per_rebal": 1.681,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0322,
+     "sharpe": 0.259,
+     "maxdd": -0.5757,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7667,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0844,
+     "sharpe": 0.839,
+     "maxdd": -0.1049,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5476,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.1169,
+     "sharpe": -0.182,
+     "maxdd": -0.6992,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6048,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0855,
+     "sharpe": -0.157,
+     "maxdd": -0.6551,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7286,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0331,
+     "sharpe": 0.264,
+     "maxdd": -0.4952,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8048,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0265,
+     "sharpe": 0.265,
+     "maxdd": -0.3178,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0585,
+     "sharpe": -0.018,
+     "maxdd": -0.6844,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0831,
+     "sharpe": -0.216,
+     "maxdd": -0.8206,
+     "bars": 1651,
+     "turnover_per_rebal": 1.881,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0519,
+     "sharpe": -0.066,
+     "maxdd": -0.5972,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7952,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.1177,
+     "sharpe": 0.869,
+     "maxdd": -0.2064,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0305,
+     "sharpe": 0.078,
+     "maxdd": -0.6543,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6905,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.1392,
+     "sharpe": -0.561,
+     "maxdd": -0.6877,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8905,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0134,
+     "sharpe": 0.038,
+     "maxdd": -0.3685,
+     "bars": 1651,
+     "turnover_per_rebal": 1.881,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0204,
+     "sharpe": 0.251,
+     "maxdd": -0.2529,
+     "bars": 1651,
+     "turnover_per_rebal": 1.5857,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": 0.0214,
+     "sharpe": 0.237,
+     "maxdd": -0.6026,
+     "bars": 1651,
+     "turnover_per_rebal": 1.719,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0011,
+     "sharpe": 0.119,
+     "maxdd": -0.5529,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": 0.0416,
+     "sharpe": 0.322,
+     "maxdd": -0.4725,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7762,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0036,
+     "sharpe": 0.091,
+     "maxdd": -0.2722,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.009,
+     "sharpe": 0.202,
+     "maxdd": -0.5433,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0604,
+     "sharpe": -0.087,
+     "maxdd": -0.5267,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0872,
+     "sharpe": -0.193,
+     "maxdd": -0.6157,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8905,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.0261,
+     "sharpe": -0.067,
+     "maxdd": -0.4044,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0316,
+     "sharpe": 0.048,
+     "maxdd": -0.6116,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7762,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": 0.0057,
+     "sharpe": 0.152,
+     "maxdd": -0.4476,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7571,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0013,
+     "sharpe": 0.13,
+     "maxdd": -0.4869,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1+|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.1026,
+     "sharpe": 0.739,
+     "maxdd": -0.2516,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": 1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0647,
+     "sharpe": -0.044,
+     "maxdd": -0.5376,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0394,
+     "sharpe": -0.133,
+     "maxdd": -0.4528,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": -0.0251,
+     "sharpe": -0.019,
+     "maxdd": -0.457,
+     "bars": 1651,
+     "turnover_per_rebal": 1.681,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.0113,
+     "sharpe": -0.165,
+     "maxdd": -0.1993,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0905,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.1173,
+     "sharpe": -0.226,
+     "maxdd": -0.7459,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.024,
+     "sharpe": -0.019,
+     "maxdd": -0.5394,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0381,
+     "sharpe": -0.091,
+     "maxdd": -0.474,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0159,
+     "sharpe": -0.213,
+     "maxdd": -0.2058,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": -0.0321,
+     "sharpe": 0.052,
+     "maxdd": -0.5241,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7095,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": -0.0709,
+     "sharpe": -0.196,
+     "maxdd": -0.614,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8143,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0157,
+     "sharpe": 0.189,
+     "maxdd": -0.3962,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7857,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": -0.0181,
+     "sharpe": -0.193,
+     "maxdd": -0.1822,
+     "bars": 1651,
+     "turnover_per_rebal": 1.2524,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0319,
+     "sharpe": 0.042,
+     "maxdd": -0.6454,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0494,
+     "sharpe": -0.101,
+     "maxdd": -0.5941,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0291,
+     "sharpe": -0.015,
+     "maxdd": -0.4857,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7762,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position+|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0111,
+     "sharpe": -0.021,
+     "maxdd": -0.3416,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": 1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.0347,
+     "sharpe": 0.268,
+     "maxdd": -0.4394,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.0409,
+     "sharpe": 0.325,
+     "maxdd": -0.312,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7571,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0171,
+     "sharpe": 0.188,
+     "maxdd": -0.3363,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7476,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.1342,
+     "sharpe": 0.357,
+     "maxdd": -0.2692,
+     "bars": 1651,
+     "turnover_per_rebal": 1.4714,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.0497,
+     "sharpe": -0.019,
+     "maxdd": -0.7021,
+     "bars": 1651,
+     "turnover_per_rebal": 1.719,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.001,
+     "sharpe": 0.088,
+     "maxdd": -0.4407,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6619,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0309,
+     "sharpe": -0.083,
+     "maxdd": -0.5274,
+     "bars": 1651,
+     "turnover_per_rebal": 1.6429,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60+|adx_14-|vol_60-|intraday_range-": {
+     "cagr": -0.0387,
+     "sharpe": -0.46,
+     "maxdd": -0.2643,
+     "bars": 1651,
+     "turnover_per_rebal": 1.0333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": 1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range+": {
+     "cagr": 0.037,
+     "sharpe": 0.275,
+     "maxdd": -0.3945,
+     "bars": 1651,
+     "turnover_per_rebal": 1.681,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60+|intraday_range-": {
+     "cagr": 0.015,
+     "sharpe": 0.19,
+     "maxdd": -0.4039,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8238,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range+": {
+     "cagr": 0.0096,
+     "sharpe": 0.163,
+     "maxdd": -0.3783,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8333,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14+|vol_60-|intraday_range-": {
+     "cagr": 0.0166,
+     "sharpe": 0.187,
+     "maxdd": -0.2454,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7857,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": 1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range+": {
+     "cagr": -0.057,
+     "sharpe": -0.066,
+     "maxdd": -0.5648,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7381,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60+|intraday_range-": {
+     "cagr": -0.0182,
+     "sharpe": 0.039,
+     "maxdd": -0.5068,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7857,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": 1.0,
+      "intraday_range": -1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range+": {
+     "cagr": -0.0335,
+     "sharpe": -0.028,
+     "maxdd": -0.5235,
+     "bars": 1651,
+     "turnover_per_rebal": 1.8048,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": 1.0
+     }
+    },
+    "mom_12_1-|price_position-|drawdown_60-|adx_14-|vol_60-|intraday_range-": {
+     "cagr": 0.0196,
+     "sharpe": 0.2,
+     "maxdd": -0.3581,
+     "bars": 1651,
+     "turnover_per_rebal": 1.7381,
+     "traded": true,
+     "signs": {
+      "mom_12_1": -1.0,
+      "price_position": -1.0,
+      "drawdown_60": -1.0,
+      "adx_14": -1.0,
+      "vol_60": -1.0,
+      "intraday_range": -1.0
+     }
+    }
+   }
+  }
+ },
+ "cross_cell": {
+  "active_cells": [
+   "R20_N12",
+   "R10_N8",
+   "R40_N5"
+  ],
+  "per_factor": {
+   "mom_12_1": {
+    "pp_by_cell": {
+     "R20_N12": -1.366,
+     "R10_N8": -0.815,
+     "R40_N5": -0.938
+    },
+    "sign_by_cell": {
+     "R20_N12": -1,
+     "R10_N8": -1,
+     "R40_N5": -1
+    },
+    "sign_stable": true
+   },
+   "price_position": {
+    "pp_by_cell": {
+     "R20_N12": 1.153,
+     "R10_N8": 3.091,
+     "R40_N5": -3.303
+    },
+    "sign_by_cell": {
+     "R20_N12": 1,
+     "R10_N8": 1,
+     "R40_N5": -1
+    },
+    "sign_stable": false
+   },
+   "drawdown_60": {
+    "pp_by_cell": {
+     "R20_N12": 1.058,
+     "R10_N8": 0.628,
+     "R40_N5": -0.446
+    },
+    "sign_by_cell": {
+     "R20_N12": 1,
+     "R10_N8": 1,
+     "R40_N5": -1
+    },
+    "sign_stable": false
+   },
+   "adx_14": {
+    "pp_by_cell": {
+     "R20_N12": 2.006,
+     "R10_N8": -0.165,
+     "R40_N5": -0.48
+    },
+    "sign_by_cell": {
+     "R20_N12": 1,
+     "R10_N8": -1,
+     "R40_N5": -1
+    },
+    "sign_stable": false
+   },
+   "vol_60": {
+    "pp_by_cell": {
+     "R20_N12": -4.873,
+     "R10_N8": -5.759,
+     "R40_N5": -4.872
+    },
+    "sign_by_cell": {
+     "R20_N12": -1,
+     "R10_N8": -1,
+     "R40_N5": -1
+    },
+    "sign_stable": true
+   },
+   "intraday_range": {
+    "pp_by_cell": {
+     "R20_N12": -3.653,
+     "R10_N8": -4.493,
+     "R40_N5": -3.804
+    },
+    "sign_by_cell": {
+     "R20_N12": -1,
+     "R10_N8": -1,
+     "R40_N5": -1
+    },
+    "sign_stable": true
+   }
+  },
+  "n_factors_stable": 3,
+  "n_factors": 6
+ },
+ "summary": {
+  "cells": [
+   {
+    "tag": "R20_N12",
+    "rebal": 20,
+    "n_hold": 12,
+    "production_rank": 6,
+    "production_cagr": 0.0614,
+    "median_cagr": -0.016300000000000002,
+    "spread_cagr": 0.2084
+   },
+   {
+    "tag": "R10_N8",
+    "rebal": 10,
+    "n_hold": 8,
+    "production_rank": 4,
+    "production_cagr": 0.0642,
+    "median_cagr": -0.048549999999999996,
+    "spread_cagr": 0.2857
+   },
+   {
+    "tag": "R40_N5",
+    "rebal": 40,
+    "n_hold": 5,
+    "production_rank": 5,
+    "production_cagr": 0.0554,
+    "median_cagr": -0.017,
+    "spread_cagr": 0.3733
+   }
+  ],
+  "active_cells": [
+   "R20_N12",
+   "R10_N8",
+   "R40_N5"
+  ],
+  "n_factors_stable": 3,
+  "n_factors": 6,
+  "ranks_by_cell": {
+   "R20_N12": 6,
+   "R10_N8": 4,
+   "R40_N5": 5
+  },
+  "rank_range": 2,
+  "production_in_top_decile_by_cell": {
+   "R20_N12": true,
+   "R10_N8": true,
+   "R40_N5": true
+  },
+  "elapsed_s": 181.4
+ },
+ "caveats": [
+  "All arms are in-sample by construction: this compares three in-sample optima, it does not estimate a live return (E219 caveat applies unchanged).",
+  "The three cells are not the full 9-cell walk-forward grid -- they are three declared corners of the same space, chosen before the run and echoed into the payload, so 'stable' means stable across THESE cells, not across all cells.",
+  "ETF pool is today's listed set (survivorship), unchanged caveat.",
+  "Engine is the reference one (no impact cost, no gap risk); only the cell changes."
+ ],
+ "verdict": "sign_order_cell_dependent",
+ "gate": {
+  "all_ok": true,
+  "checks": [
+   {
+    "check": "declared cells echoed",
+    "ok": true,
+    "payload": [
+     {
+      "tag": "R20_N12",
+      "rebal": 20,
+      "n_hold": 12
+     },
+     {
+      "tag": "R10_N8",
+      "rebal": 10,
+      "n_hold": 8
+     },
+     {
+      "tag": "R40_N5",
+      "rebal": 40,
+      "n_hold": 5
+     }
+    ],
+    "module": [
+     {
+      "tag": "R20_N12",
+      "rebal": 20,
+      "n_hold": 12
+     },
+     {
+      "tag": "R10_N8",
+      "rebal": 10,
+      "n_hold": 8
+     },
+     {
+      "tag": "R40_N5",
+      "rebal": 40,
+      "n_hold": 5
+     }
+    ]
+   },
+   {
+    "check": "declared cost_per_side echoed",
+    "ok": true,
+    "payload": 0.001,
+    "module": 0.001
+   },
+   {
+    "check": "declared start echoed",
+    "ok": true,
+    "payload": "2020-01-01",
+    "module": "2020-01-01"
+   },
+   {
+    "check": "declared min_traded_bars echoed",
+    "ok": true,
+    "payload": 30,
+    "module": 30
+   },
+   {
+    "check": "declared top_decile echoed",
+    "ok": true,
+    "payload": 0.1,
+    "module": 0.1
+   },
+   {
+    "check": "declared degenerate_spread echoed",
+    "ok": true,
+    "payload": 0.01,
+    "module": 0.01
+   },
+   {
+    "check": "declared stable_min_agree echoed",
+    "ok": true,
+    "payload": 4,
+    "module": 4
+   },
+   {
+    "check": "declared n_arms_per_cell echoed",
+    "ok": true,
+    "payload": 64,
+    "module": 64
+   },
+   {
+    "check": "declared cost_per_side matches module",
+    "ok": true,
+    "payload": 0.001,
+    "module": 0.001
+   },
+   {
+    "check": "declared start matches module",
+    "ok": true,
+    "payload": "2020-01-01",
+    "module": "2020-01-01"
+   },
+   {
+    "check": "declared min_traded_bars matches module",
+    "ok": true,
+    "payload": 30,
+    "module": 30
+   },
+   {
+    "check": "declared top_decile matches module",
+    "ok": true,
+    "payload": 0.1,
+    "module": 0.1
+   },
+   {
+    "check": "declared degenerate_spread matches module",
+    "ok": true,
+    "payload": 0.01,
+    "module": 0.01
+   },
+   {
+    "check": "declared stable_min_agree matches module",
+    "ok": true,
+    "payload": 4,
+    "module": 4
+   },
+   {
+    "check": "declared n_arms_per_cell matches module",
+    "ok": true,
+    "payload": 64,
+    "module": 64
+   },
+   {
+    "check": "declared signs matches module",
+    "ok": true,
+    "payload": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    },
+    "module": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   {
+    "check": "declared primary_cell matches module",
+    "ok": true,
+    "payload": "R20_N12",
+    "module": "R20_N12"
+   },
+   {
+    "check": "declared cells equal the module's frozen cells",
+    "ok": true,
+    "payload": [
+     "R10_N8",
+     "R20_N12",
+     "R40_N5"
+    ],
+    "module": [
+     "R20_N12",
+     "R10_N8",
+     "R40_N5"
+    ]
+   },
+   {
+    "check": "every cell carries all arms",
+    "ok": true,
+    "n_expected": 64,
+    "got": {
+     "R20_N12": 64,
+     "R10_N8": 64,
+     "R40_N5": 64
+    }
+   },
+   {
+    "check": "production rank recomputed from each cell's arm table",
+    "ok": true,
+    "recomputed": {
+     "R20_N12": 6,
+     "R10_N8": 4,
+     "R40_N5": 5
+    },
+    "payload": {
+     "R20_N12": 6,
+     "R10_N8": 4,
+     "R40_N5": 5
+    }
+   },
+   {
+    "check": "per-cell active flag recomputed from the arm census",
+    "ok": true,
+    "recomputed": {
+     "R20_N12": true,
+     "R10_N8": true,
+     "R40_N5": true
+    },
+    "payload": {
+     "R20_N12": true,
+     "R10_N8": true,
+     "R40_N5": true
+    }
+   },
+   {
+    "check": "stable-factor count recomputed from the per-cell effects",
+    "ok": true,
+    "recomputed": 3,
+    "payload": 3
+   },
+   {
+    "check": "verdict recomputed from the stable-factor count",
+    "ok": true,
+    "verdict": "sign_order_cell_dependent",
+    "active_cells": [
+     "R20_N12",
+     "R10_N8",
+     "R40_N5"
+    ],
+    "n_stable": 3
+   }
+  ],
+  "active_cells": [
+   "R20_N12",
+   "R10_N8",
+   "R40_N5"
+  ]
+ }
+}

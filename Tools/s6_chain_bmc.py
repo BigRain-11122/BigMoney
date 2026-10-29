@@ -115,6 +115,12 @@ LEGS = [
     # quoted without the transfer number beside it. ~100s, offline, deterministic (same panel
     # load, same engine; sub-period numbers read off the same trading path).
     ("etf_sign_stability", ["python", "scripts/etf_sign_stability.py", "run"]),
+    # r1339 / E227: both legs above rank the 64 sign sets at ONE cell (R20 x 12 names), but
+    # 20 and 12 were themselves picked on the sample -- the walk-forward on this line selects
+    # among N3/5/8 x R10/20/40. This leg runs all 64 arms at three declared cells and asks
+    # whether each factor's own direction survives the cell choice; it is what stops "rank 6
+    # of 64" from being quoted as a property of the factors. ~180s, offline, deterministic.
+    ("etf_sign_cells", ["python", "scripts/etf_sign_cells.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
