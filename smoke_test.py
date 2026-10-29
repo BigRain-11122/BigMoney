@@ -383,6 +383,10 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # the four risk tiers used to need four separate `--beta` runs read off two
+            # different files; this leg keeps the one-page menu callable (r1149).
+            ("product: etf_book_beta_menu (exit-code contract)",
+             "scripts/etf_book_beta_menu.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
             # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
@@ -1532,6 +1536,10 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # the four risk tiers used to need four separate `--beta` runs read off two
+            # different files; this leg keeps the one-page menu callable (r1149).
+            ("product: etf_book_beta_menu (exit-code contract)",
+             "scripts/etf_book_beta_menu.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
             # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the

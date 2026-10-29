@@ -24,6 +24,29 @@
   "verbatim": true
  },
  "d19_watermark_guard_round_ref": 1085,
+ "d19_watermark_v2": {
+  "compare_order": "repo+commit_sha+blob_bytes first, then sha256; source mismatch = stale",
+  "decisions": {
+   "blob_bytes": 215420,
+   "commit_sha": "778038bb4d8bee483a4242cf135e685ee63b4c91",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/decisions.md",
+   "path": "docs/decisions.md",
+   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
+   "sha256": "97fe122f24826ba5197468df485734d4682839cc666e634d6016db0da28cb38c"
+  },
+  "decisions_verdict": "changed",
+  "law": "D-20261025-08 watermark v2 quartet {repo, commit_sha, blob_bytes, sha256}",
+  "orders": {
+   "blob_bytes": 183986,
+   "commit_sha": "778038bb4d8bee483a4242cf135e685ee63b4c91",
+   "fetch_command": "git -C <group-tree> show origin/main:docs/orders.md",
+   "path": "docs/orders.md",
+   "repo": "git@github.com:BigRain-11122/FluxGroup.git",
+   "sha256": "122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c"
+  },
+  "orders_verdict": "changed",
+  "updated_at": "2026-10-29T19:35:38+08:00"
+ },
  "decisions_scan_r1105": "origin decisions.md hash advanced cf3cdeec->17c29359; decoded scan = 69 BigMoney rows, all 集团 dispatch echoes/尾行无新增 (latest rows 10-20 D-20261020-xx 派工通告板), zero rows requiring this repo to act -> watermark advanced, zero action",
  "decisions_scan_r1108": "origin decisions.md hash unchanged 17c2935984bd.. (== stored watermark); group orders.md hash unchanged 00caa345..; zero action",
  "decisions_scan_r1125": "dlatest origin decisions.md hash advanced fd9e59cd -> d39d33e (281828 -> 286825 B): 10 new rows (D-20261027-01..05, 08..10). Two name this repo: D-20261027-01 (bm-a Bigmoney 7/7 tasks Disabled; the 00:00 round already re-enabled 7/7 = verified nothing to do) and D-20261027-08 (CODELY.md damage + repair recipe) = executed this round with the acceptance asserts green. Others dispatch HQ tools / 夜轮 / 周轮, no BigMoney obligation.",
@@ -50,10 +73,10 @@
  "last_action_at": "2026-10-28T23:30:34+08:00",
  "last_artifact": "results/futures_overlay_sweep.json",
  "last_artifact_at": "2026-10-28T23:30:34+08:00",
- "last_decisions_at": "2026-10-29T06:34:32+08:00",
- "last_decisions_read_at": "2026-10-29T06:34:32+08:00",
+ "last_decisions_at": "2026-10-29T19:35:38+08:00",
+ "last_decisions_read_at": "2026-10-29T19:35:38+08:00",
  "last_decisions_seen": "r1110: group decisions.md origin tail still ends at the 2026-10-20 batch (D-20261020-01..12); zero rows dated 10-21..10-24, zero BigMoney obligation -> content adjudication = zero action",
- "last_decisions_sha": "eee7cbf062229705f35a998fd38143e226c2a37f0c0c8eb6cf0c292bfae65558",
+ "last_decisions_sha": "97fe122f24826ba5@778038b/215420",
  "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
  "last_decisions_ts": "2026-10-19T18:56:17+08:00",
  "last_decisions_watermark": "eee7cbf062229705@44fd0fd/208234",
@@ -63,7 +86,7 @@
  "last_orders_at": "2026-10-28T23:30:34+08:00",
  "last_orders_read_at": "2026-10-29T06:34:32+08:00",
  "last_orders_seen": "r1110: orders_ack scan CLEAN 109 orders / 118 acks / 0 stale / zero face divergence after the heal; no new O-file for BigMoney this round",
- "last_orders_sha": "122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c",
+ "last_orders_sha": "122ab70739b6119f@778038b/183986",
  "last_orders_ts": "2026-10-19T23:29:11+08:00",
  "last_orders_watermark": "122ab70739b6119f@44fd0fd/183986",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@44fd0fd6dbd8077329d844c6a97c44d145798869/183986#122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c",
@@ -293,7 +316,7 @@
  "ram_load_pct": 85.2,
  "recent_artifact": "results/futures_overlay_sweep.json + research/ETF_BOOK_FUTURES_OVERLAY_SWEEP.md",
  "round": 1147,
- "round_no": 1147,
+ "round_no": 1149,
  "round_no_label": "r1146",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
  "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
@@ -365,5 +388,6 @@
  "verify_r1142": "futures_tsmom_signal selftest 22/22 (L17 damper really cuts flips, L18 participation unchanged in both books, L19 theta=0 is exactly the identity, L20 the page must state whether today's two books agree, L21 absent artifact -> null + 'no candidate' sentence instead of an invented book, L22 the rule is read from the verdict artifact); live run rc0 bar 2026-10-28 gross 3.00 long3/short6/flat1 flips 1469->412 same_day=True; smoke 139/139 PASS 0 FAIL with a new leg that recomputes the published flip counts from the panel using the artifact's own rule (page drift or a damper that degenerates into sign(momentum) reads red); attrition CLEAN 4 ledgers (3 historical shrinks healed); orders_ack CLEAN 114/123/0 zero face divergence; D-19 decisions DELTA consumed (D-20261029-06..10; only D-06 touches BigMoney and retracts a bm-c gpu_lease auto-leg this repo never had) and advanced; dualrun ZERO-DRIFT 674 streak 51; token_meter L2 0 today",
  "verify_r1143": "s6_chain_bma --list 75 legs, names identical to Tools/s6_chain_bmc.py, zero missing scripts; live subset 11/11 rc0 (dualrun ZERO-DRIFT 674/51, etf_book_production 31.3s, build_status 45.6s, etf_book_ceo_page wrote LIVE-BOOK-20261029 with 5 names / 471226 / 528774); smoke 140/140 PASS 0 FAIL with the new leg asserting the two leg lists stay identical and every script resolves; FUTURES_OVERLAY_FLIPRATE_PATHS.md restored by line-level union after treasure_guard rc3 and is now byte-identical to HEAD; orphan 1/17 (group-repo pythonw fleet_agent pid 82980, parent dead, CPU stalled, 34.7h) | receipt 2: rebase onto 4bc2dfac11 took origin for all 22 computed faces, then re-derived 9/9 rc0 on the merged tree; smoke 141/141; attrition CLEAN; loop task pin=8 no-op; claws reinstalled; watchdog S4U flip failed (access denied) -> disclosed",
  "verify_r1144": "etf_book_ceo_page selftest 33/33 (L31 cash annual == cash x panel close, L32 absent/zero/out-of-band -> None never 0, L33 live page yuan == its own cash x its own rate with the rate date, L34 rendered block carries rate+date+not-a-return-source); live run rewrote LIVE-BOOK-20261029 (5 names, book 471226, cash 528774); the page now prices the idle half: GC001 1.09% @2026-10-27 -> +5,764/yr (23/session), 20d mean 1.24%; smoke 142/142 PASS 0 FAIL (new leg recomputes the cash yuan from data/repo_daily/GC001.csv last close, so a forgotten refresh reads red); attrition CLEAN 4 ledgers (2 historical shrinks healed); dualrun ZERO-DRIFT 674 streak 51; D-19 decisions/orders unchanged and reproducible; orphan 1/20 (group-repo pythonw fleet_agent, disclosed, not killed); sat engine alive; loop pin=8 no-op; watchdog S4U flip refused (no elevation, disclosed)",
- "verify_r1146": "smoke_test 219/219 PASS 0 FAIL; etf_book_ceo_page selftest 43/43"
+ "verify_r1146": "smoke_test 219/219 PASS 0 FAIL; etf_book_ceo_page selftest 43/43",
+ "verify_r1149": "etf_book_beta_menu selftest 13/13; live rc0 menu 2026-10-29 decided 2026-10-14 (beta 0.10/0.20/0.30/0.50 -> k 0.236/0.471/0.707/1.000, book 235267/471226/706896/999608, cash 764733/528774/293104/392); identity leg: 0.20 book == CEO page 471226; smoke 224/224 PASS 0 FAIL incl new leg product etf_book_beta_menu; dualrun ZERO-DRIFT 699/51; attrition CLEAN 4 ledgers; compute_audit FLAG:supply_floor; py_watermark py_low_with_work_cands (self-owned batch); orphan 0/10; also committed r1148 E228 face left uncommitted by the previous window"
 }

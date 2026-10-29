@@ -1,45 +1,41 @@
 {
   "latest": {
-    "ts": "2026-10-29 19:56:23",
+    "ts": "2026-10-29 20:55:07",
     "audit_version": "v2.4.2",
-    "cpu_total_pct": 41.0,
-    "py_cpu_pct": 4.2,
+    "cpu_total_pct": 56.0,
+    "py_cpu_pct": 0.9,
     "cores": 32,
     "py_procs": 16,
-    "result_stale_min": 0.3,
+    "result_stale_min": 0.1,
     "fleet_open_tasks": 0,
-    "pool_ready_count": 1,
-    "pool_ready_unclaimed": 1,
-    "load_state": "pool-supply-gap",
-    "pool_starvation_candidate": false,
+    "pool_ready_count": 0,
+    "pool_ready_unclaimed": 0,
+    "load_state": "idle-starvation",
+    "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "reason": "pool-supply-gap"
+      "run_samples": 2,
+      "span_min": null
     },
-    "supply_gap_candidate": true,
+    "supply_gap_candidate": false,
     "supply_gap_detail": {
-      "run_samples": 6,
-      "span_min": 104.0
+      "reason": "idle-starvation"
     },
     "supply_floor": {
-      "ready": 1,
+      "ready": 0,
       "floor": 3,
       "breach": true,
       "ready_ignitable": 0,
       "breach_ignitable": true
     },
     "pool_ignitable": {
-      "ready_total": 1,
+      "ready_total": 0,
       "ready_ignitable": 0,
       "ready_foreign_alive": 0,
       "ready_foreign_silent": 0,
       "ready_owner_unknown": 0,
-      "ready_runner_missing": 1,
-      "runner_missing_ids": [
-        "E228-MATCHED-EXPOSURE-NULL"
-      ],
-      "runner_missing_paths": {
-        "E228-MATCHED-EXPOSURE-NULL": "scripts/e228_matched_exposure.py"
-      },
+      "ready_runner_missing": 0,
+      "runner_missing_ids": [],
+      "runner_missing_paths": {},
       "takeover_candidate_ids": [],
       "takeover_needs_corroboration": true,
       "silent_owners": {},
@@ -49,11 +45,11 @@
       "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 2763.4,
+    "supply_family_streak_min": 2822.2,
     "gpu": {
       "present": true,
-      "util_pct": 95.0,
-      "mem_used_mb": 9973.0,
+      "util_pct": 96.0,
+      "mem_used_mb": 9985.0,
       "compute_apps_count": 34,
       "rogue_apps": []
     },
@@ -72,165 +68,11 @@
       "readable": true
     },
     "flags": [
-      "supply_gap",
-      "supply_floor",
-      "supply_runner_missing"
+      "supply_floor"
     ],
-    "verdict": "FLAG:supply_gap,supply_floor,supply_runner_missing"
+    "verdict": "FLAG:supply_floor"
   },
   "history": [
-    {
-      "ts": "2026-10-24 22:41:57",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 94.0,
-      "py_cpu_pct": 100.0,
-      "cores": 32,
-      "py_procs": 34,
-      "result_stale_min": 0.4,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 3,
-      "pool_ready_unclaimed": 3,
-      "load_state": "burning-healthy",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "burning-healthy"
-      },
-      "supply_gap_candidate": false,
-      "supply_gap_detail": {
-        "reason": "burning-healthy"
-      },
-      "supply_floor": {
-        "ready": 3,
-        "floor": 3,
-        "breach": false,
-        "ready_ignitable": 0,
-        "breach_ignitable": true
-      },
-      "pool_ignitable": {
-        "ready_total": 3,
-        "ready_ignitable": 0,
-        "ready_foreign_alive": 0,
-        "ready_foreign_silent": 3,
-        "ready_owner_unknown": 0,
-        "takeover_candidate_ids": [
-          "E81-EXPOSED-RUNNER-RAW-HOOKS",
-          "E90-CHURNSE-BLOCK-CLUSTER",
-          "E93-GAPSPLIT-ERA-SPREAD"
-        ],
-        "takeover_needs_corroboration": true,
-        "silent_owners": {
-          "bm-b": 2780.3
-        },
-        "unknown_owners": [],
-        "owner_silent_min": 120.0,
-        "self": "bm-c",
-        "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": null,
-      "gpu": {
-        "present": true,
-        "util_pct": 2.0,
-        "mem_used_mb": 2331.0,
-        "compute_apps_count": 27,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "wall_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "cap_violation",
-        "supply_owner_silent"
-      ],
-      "verdict": "FLAG:cap_violation,supply_owner_silent"
-    },
-    {
-      "ts": "2026-10-24 22:54:38",
-      "audit_version": "v2.4.2",
-      "cpu_total_pct": 25.0,
-      "py_cpu_pct": 6.9,
-      "cores": 32,
-      "py_procs": 10,
-      "result_stale_min": 0.6,
-      "fleet_open_tasks": 0,
-      "pool_ready_count": 3,
-      "pool_ready_unclaimed": 3,
-      "load_state": "pool-supply-gap",
-      "pool_starvation_candidate": false,
-      "pool_starvation_detail": {
-        "reason": "pool-supply-gap"
-      },
-      "supply_gap_candidate": true,
-      "supply_gap_detail": {
-        "run_samples": 1,
-        "span_min": null
-      },
-      "supply_floor": {
-        "ready": 3,
-        "floor": 3,
-        "breach": false,
-        "ready_ignitable": 0,
-        "breach_ignitable": true
-      },
-      "pool_ignitable": {
-        "ready_total": 3,
-        "ready_ignitable": 0,
-        "ready_foreign_alive": 0,
-        "ready_foreign_silent": 3,
-        "ready_owner_unknown": 0,
-        "takeover_candidate_ids": [
-          "E81-EXPOSED-RUNNER-RAW-HOOKS",
-          "E90-CHURNSE-BLOCK-CLUSTER",
-          "E93-GAPSPLIT-ERA-SPREAD"
-        ],
-        "takeover_needs_corroboration": true,
-        "silent_owners": {
-          "bm-b": 2793.0
-        },
-        "unknown_owners": [],
-        "owner_silent_min": 120.0,
-        "self": "bm-c",
-        "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
-      },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": null,
-      "gpu": {
-        "present": true,
-        "util_pct": 2.0,
-        "mem_used_mb": 2345.0,
-        "compute_apps_count": 27,
-        "rogue_apps": []
-      },
-      "zombies": [],
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "parallel_efficiency": {
-        "window_min": 60.0,
-        "batches_judged": 0,
-        "core_seconds": 0.0,
-        "wall_seconds": 0.0,
-        "effective_cores": null,
-        "multicore_burn": 0,
-        "single_core_burn": 0,
-        "too_short_to_sample": 0,
-        "readable": true
-      },
-      "flags": [
-        "supply_owner_silent"
-      ],
-      "verdict": "FLAG:supply_owner_silent"
-    },
     {
       "ts": "2026-10-24 23:54:36",
       "audit_version": "v2.4.2",
@@ -14986,6 +14828,152 @@
         "supply_runner_missing"
       ],
       "verdict": "FLAG:supply_gap,supply_floor,supply_runner_missing"
+    },
+    {
+      "ts": "2026-10-29 20:38:28",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 34.0,
+      "py_cpu_pct": 5.3,
+      "cores": 32,
+      "py_procs": 16,
+      "result_stale_min": 0.4,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 1,
+        "span_min": null
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true,
+        "ready_ignitable": 0,
+        "breach_ignitable": true
+      },
+      "pool_ignitable": {
+        "ready_total": 0,
+        "ready_ignitable": 0,
+        "ready_foreign_alive": 0,
+        "ready_foreign_silent": 0,
+        "ready_owner_unknown": 0,
+        "ready_runner_missing": 0,
+        "runner_missing_ids": [],
+        "runner_missing_paths": {},
+        "takeover_candidate_ids": [],
+        "takeover_needs_corroboration": true,
+        "silent_owners": {},
+        "unknown_owners": [],
+        "owner_silent_min": 120.0,
+        "self": "bm-a",
+        "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 2805.5,
+      "gpu": {
+        "present": true,
+        "util_pct": 76.0,
+        "mem_used_mb": 9977.0,
+        "compute_apps_count": 34,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
+    },
+    {
+      "ts": "2026-10-29 20:55:07",
+      "audit_version": "v2.4.2",
+      "cpu_total_pct": 56.0,
+      "py_cpu_pct": 0.9,
+      "cores": 32,
+      "py_procs": 16,
+      "result_stale_min": 0.1,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 2,
+        "span_min": null
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true,
+        "ready_ignitable": 0,
+        "breach_ignitable": true
+      },
+      "pool_ignitable": {
+        "ready_total": 0,
+        "ready_ignitable": 0,
+        "ready_foreign_alive": 0,
+        "ready_foreign_silent": 0,
+        "ready_owner_unknown": 0,
+        "ready_runner_missing": 0,
+        "runner_missing_ids": [],
+        "runner_missing_paths": {},
+        "takeover_candidate_ids": [],
+        "takeover_needs_corroboration": true,
+        "silent_owners": {},
+        "unknown_owners": [],
+        "owner_silent_min": 120.0,
+        "self": "bm-a",
+        "corroboration_note": "heartbeat silence is NOT machine death: 2026-10-24 live case had bm-b's heartbeat 31.8h stale while its zt_pool panel was written 4.5h earlier. Takeover of a lane or batch needs independent liveness evidence (lane file mtimes, commit activity) before the r1100/r1101 gate is satisfied -- these ids are candidates, not permits."
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 2822.2,
+      "gpu": {
+        "present": true,
+        "util_pct": 96.0,
+        "mem_used_mb": 9985.0,
+        "compute_apps_count": 34,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "parallel_efficiency": {
+        "window_min": 60.0,
+        "batches_judged": 0,
+        "core_seconds": 0.0,
+        "wall_seconds": 0.0,
+        "effective_cores": null,
+        "multicore_burn": 0,
+        "single_core_burn": 0,
+        "too_short_to_sample": 0,
+        "readable": true
+      },
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
     }
   ],
   "lane_machine": "bm-a"
