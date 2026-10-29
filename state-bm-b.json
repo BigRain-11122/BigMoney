@@ -1,10 +1,10 @@
 {
  "agenda_starved": false,
  "clock_read": "2026-10-29T11:52:12+08:00",
- "current": "r1245: E218 -- with both calendars drawing from one seeded same-size candidate pool, the E61 split is unresolvable: the control's own sd is 402-529bp/yr, 18bp needs 3,454 draws",
- "current_task": "pool: E209 sibling-length count proof + E210 counts on the CEO page (both ready, supply floor 3 breached at 2) -> main re-land backlog (deferred, 17 behind / 20 ahead)",
- "cyc_round": 1238,
- "d19_note": "r1235: decisions 93fa41e1 unchanged and orders 122ab707 unchanged -> zero new rows; orders_ack 114 files / 115 acked / 0 unacked",
+ "current": "r1246: E219 laddered the E218 matched-width control across book widths 10/25/50/100 -- the family becomes measurable at pick_n 50, and there the calendar gap does not reproduce (+7.6bp against -161.0bp); the gap itself moves 18 -> -50 -> -161 -> -45 across widths, so it is not width-invariant and the 18bp was a width-10 number",
+ "current_task": "next: E220 draft (width-declared calendar gate) — E219 closed, pool has no ready card this round",
+ "cyc_round": 1246,
+ "d19_note": "decisions advanced 97fe122f (D-20261029-06..14 read: 09 superseded by 12, 03(4) already satisfied here -- NatsHB/FleetLink/ProductionClaim all S4U and Ready/Running; the rest belong to other companies) -> zero order files unacked",
  "d19_probe_due": false,
  "d19_probe_due_note": "r1011: orders delta 193095774d consumed + advanced via d19_watermark.py update --advance; DEC 4cfdd17c hold",
  "d19_watermark_guard": {
@@ -78,7 +78,7 @@
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
  "last_decisions_read_at": "2026-10-29T07:50:25+08:00",
- "last_decisions_sha": "eee7cbf062229705f35a998fd38143e226c2a37f0c0c8eb6cf0c292bfae65558",
+ "last_decisions_sha": "97fe122f24826ba5197468df485734d4682839cc666e634d6016db0da28cb38c",
  "last_decisions_sha_method": "r1147: origin blob sha256 via git show in the C:\\Fluxgroup\\FluxGroup group tree (K: absent on this machine, D-20261004-02 fallback path)",
  "last_decisions_sha_probe": "17c2935984bde3ed8e1de2d998a4e67a646ce02b8cdad3dc6007c09a71ceafb6",
  "last_decisions_sha_recipe": "sha256 of git cat-file blob origin/main:docs/decisions.md in the group tree C:/Fluxgroup/FluxGroup (D-19 group-face fresh-read law)",
@@ -1380,7 +1380,7 @@
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1245,
- "round_no": 1245,
+ "round_no": 1246,
  "round_no_label": "r1242",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
  "round_no_ts": "2026-10-29T11:52:12+08:00",
@@ -1419,5 +1419,29 @@
   "pool": "E218 closed with result_ref; E219-WIDTH-LADDER-RESOLUTION seeded (ready 1)",
   "d19": "dec + ord unchanged/reproducible -> zero new rows; 114 order files / 115 acks / 0 unacked",
   "push": "PUSHED_VERIFIED d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46 (rev-list 0/0, ls-remote tip == HEAD)"
+ },
+ "decisions_consumed_r1246": {
+  "action": "ack only, nothing executed: 06 is the group POOL spec correction (@HQ dispatcher), 07 MiniGame .git, 08/09 HQ tooling (09 already superseded by 12), 10/14 collection faces, 11 BigCompute L1 endpoint, 13 BigStream. 03(4) telemetry repair is verified in place on this machine (FluxGroup-NatsHB Running, FleetLink + HQ-ProductionClaim Ready, all LogonType=S4U). 12 is a judging-口径 rule: this round's task-state line carries the yield-window reading (machine-state.flag absent/paused) instead of an absolute Ready/Disabled claim",
+  "rows": [
+   "D-20261029-06",
+   "D-20261029-07",
+   "D-20261029-08",
+   "D-20261029-09",
+   "D-20261029-10",
+   "D-20261029-11",
+   "D-20261029-12",
+   "D-20261029-13",
+   "D-20261029-14"
+  ],
+  "touching_this_repo": [
+   "D-20261029-12 (judging口径: ScheduledTask State readings must exclude the AutoYield window; applied in this round report as work_window=open with flag=absent)"
+  ]
+ },
+ "r1246": {
+  "product": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+  "runner": "scripts/e39_panel_census.py mode sharedbookwidthladder",
+  "chain": "Tools/s6_chain_bmb.py leg after sharedbookwidth, cutoff-idempotent",
+  "selftest": "803/803",
+  "card": "E219 closed with result_ref; E220 drafting window opened"
  }
 }

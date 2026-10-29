@@ -1154,6 +1154,38 @@ def main() -> int:
         check("product: the calendar split is re-read at matched candidate width, "
               "as a distribution rather than a point", False, str(e))
     try:
+        _wl_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
+        _wl_dir = os.path.join("results", "e44_midmonth")
+        _wl = sorted(f for f in os.listdir(_wl_dir)
+                     if f.startswith("WIDTHLADDER-")) \
+            if os.path.isdir(_wl_dir) else []
+        _wl_doc = None
+        if _wl:
+            with open(os.path.join(_wl_dir, _wl[-1]), encoding="utf-8") as _fh:
+                _wl_doc = json.load(_fh)
+        _wl_rows = (_wl_doc or {}).get("rows") or {}
+        _wl_v = (_wl_doc or {}).get("verdict") or {}
+        _wl_sds = [_wl_rows[k].get("matched_sd_bp") for k in sorted(_wl_rows)]
+        _wl_ok = ("sharedbookwidthladder" in _wl_order
+                  and "sharedbookwidth" in _wl_order
+                  and _wl_order.index("sharedbookwidthladder")
+                  > _wl_order.index("sharedbookwidth")
+                  and _wl_doc is not None
+                  and _wl_doc.get("study") == "e219_width_ladder_resolution"
+                  and len(_wl_rows) >= 2
+                  and all(s is not None for s in _wl_sds)
+                  and _wl_v.get("label")
+                  and (_wl_doc.get("spec") or {}).get("widths"))
+        check("product: the matched-width control is laddered across book widths, "
+              "with the invariance of the gap published beside it",
+              _wl_ok, "chain=%s face=%s rungs=%s label=%s sd=%s invariant=%s" % (
+                  "sharedbookwidthladder" in _wl_order,
+                  _wl[-1] if _wl else "MISSING", len(_wl_rows), _wl_v.get("label"),
+                  _wl_sds, _wl_v.get("gap_is_width_invariant")))
+    except Exception as e:
+        check("product: the matched-width control is laddered across book widths, "
+              "with the invariance of the gap published beside it", False, str(e))
+    try:
         _pd_order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmb").LEGS]
         _pd_cmd = dict(importlib.import_module("Tools.s6_chain_bmb").LEGS).get(
             "pool_deliverable") or []

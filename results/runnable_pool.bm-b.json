@@ -22663,12 +22663,17 @@
    "deliverable": "results/e44_midmonth/WIDTHLADDER-<cutoff>.json",
    "lane": "cpu-only",
    "lane_owner": "bm-b",
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-29T11:42:37+08:00",
    "entered_by": "bm-b r1245",
    "evidence_cutoff": "2026-10-28",
    "source": "r1245 E218: selection -66.0bp = width +189.4 (sd 402.4) + pool identity -255.4 (sd 402.4); calendar full +18.0 vs matched -92.4 (sd 528.9, n=5, SE 236.5, same-side share 0.4) -> unresolvable_at_matched_width, draws_needed=3454",
-   "runner_note": "reuse run_sharedbook_width with pick_n as the ladder axis; keep the seeded draws and the tri-state verdict; publish cost x0 and never call a wider book a strategy change"
+   "runner_note": "reuse run_sharedbook_width with pick_n as the ladder axis; keep the seeded draws and the tri-state verdict; publish cost x0 and never call a wider book a strategy change",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-29T12:29:00+08:00",
+   "done_at": "2026-10-29T12:47:00+08:00",
+   "result_ref": "results/e44_midmonth/WIDTHLADDER-20261028.json",
+   "result_summary": "ladder pick_n 10/25/50/100: control sd 528.9/237.3/124.8/97.3, draws needed for the gap showing at that width 3454/91/3/19 -> first resolvable width 50; but the gap itself moves 18 -> -50 -> -161 -> -45 (spread 179bp > tightest SE 43.5) so gap_is_width_invariant=false, and at width 50 the matched reading is +7.6bp against a -161.0bp gap (sign flips across draws) = resolvable but not a survival"
   },
   {
    "id": "E192-WIDE-CARRIER-PERSISTENCE",

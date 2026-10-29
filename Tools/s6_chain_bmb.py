@@ -54,6 +54,11 @@ LEGS = [
     # distribution, because a single ten-name draw is noisier than the gap
     ("sharedbookwidth", ["python", "scripts/e39_panel_census.py",
                          "sharedbookwidth"]),
+    # E219: the same matched-width control on a width ladder. Idempotent on the
+    # cutoff (a face for this cutoff is a no-op), so the chain does not re-pay four
+    # burns per round for identical numbers.
+    ("sharedbookwidthladder", ["python", "scripts/e39_panel_census.py",
+                               "sharedbookwidthladder"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

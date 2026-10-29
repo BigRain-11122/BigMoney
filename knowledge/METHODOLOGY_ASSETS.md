@@ -3812,3 +3812,36 @@ after `sharedbook`; a smoke leg pins the face and the chain position. Housekeepi
 the e39 selftest printed its total BEFORE the last ~50 legs were appended, so the printed count
 under-reported while the exit code stayed honest -- the print now sits after the last leg (796/796),
 which is why this round's number jumps from the 743 the previous round reported.
+
+## E219 One width is not a measurement of a family: ladder the control and prove the gap is width-invariant before calling a rung a resolution (2026-10-29 r1246 bm-b)
+
+Situation: E218 could not resolve E61's 18bp mid-month vs month-end gap at book width 10 -- a
+size-matched seeded control there carries 402-529bp/yr of draw noise, so 3,454 draws would be
+needed. A ten-name draw is the noisiest control the book can produce, so the honest follow-up is
+not "does the split survive" but "is this family measurable at any width this book actually runs".
+
+WRONG: read the ladder as the same gap measured more finely. It is only that if the gap itself is
+width-invariant, and here it is not: the same specification puts the calendar gap at +18.0bp at
+pick_n 10, -50.0 at 25, -161.0 at 50 and -45.0 at 100. A "resolved" rung therefore decides only
+that rung's number (at width 50 the matched reading is +7.6bp against a -161.0bp gap), and quoting
+the narrow rung's 18bp as the quantity being resolved would have been a different question.
+
+RIGHT: (a) burn the SAME seeded size-matched experiment on pick_n = 10/25/50/100, publishing per
+rung the control's own sd, the standard error at the draws actually used, and the draws needed to
+resolve both the local gap and the frozen reference gap; (b) name the first rung that is resolvable
+and re-read the split there, keeping "resolvable" separate from "survives" (a flipped sign at a
+resolvable rung is reported as flipped, not as resolved); (c) publish an explicit invariance check
+-- gap spread across rungs against the tightest control's standard error -- because without it the
+ladder silently licenses reading N different quantities as one.
+
+Live reading (cutoff 2026-10-28, 5 seeded draws per rung, cost x0): control sd 528.9 / 237.3 /
+124.8 / 97.3bp (monotone down, as width should), draws needed 3454 / 91 / 3 / 19 -> the family
+becomes measurable at pick_n 50 and stops being so at 100 only because the gap shrank to -45.0.
+Gap spread 179.0bp vs tightest SE 43.5bp -> gap_is_width_invariant = false. Verdict label
+`resolvable_from_width_50`, rung 50 `sign_flips_across_draws`.
+
+Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthladder` + helpers `_draws_to_resolve` /
+`_widthladder_row` / `_gap_width_stability` + constants WIDTHLADDER_{WIDTHS,TARGET_BP}; face
+`results/e44_midmonth/WIDTHLADDER-<cutoff>.json`; selftest 796 -> 803 (7 legs: the 3,454 figure
+reproduced by the shared formula, narrow/wide/two-target rung readings, frozen constants, and both
+directions of the invariance check).

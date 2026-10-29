@@ -9735,6 +9735,231 @@ def run_sharedbook_width(outdir, start="2020-01-01", pick_n=SHAREDBOOK_PICK_N,
             "descriptive census only: no gate, no prereq, no trial count",
         ],
     }
+WIDTHLADDER_WIDTHS = (10, 25, 50, 100)
+WIDTHLADDER_TARGET_BP = 18.0
+def _draws_to_resolve(gap_bp, sd_bp):
+    """Draws of this size needed before 2 standard errors fit inside the gap.
+
+    E219 asks E218's reverse question once per width instead of once per run:
+    the same gap is resolvable on a wide control and hopeless on a narrow one,
+    so this formula lives in one place and every rung is read with it.
+    """
+    if not sd_bp or not gap_bp:
+        return None
+    ratio = 2.0 * sd_bp / max(abs(gap_bp), 1e-9)
+    return int(ratio * ratio) + 1
+def _widthladder_row(width, faces, target_bp=WIDTHLADDER_TARGET_BP):
+    """One rung of the E219 ladder, read off one run_sharedbook_width result.
+
+    Per width the face publishes the control's own sd, the standard error at the
+    draw count actually used, and the draws it would take to resolve both the
+    gap this width shows and the E61 reference gap. Resolution is a
+    precondition, not a verdict: a rung can be resolvable and still fail the
+    sign/size gates, and both readings are published.
+    """
+    fw = faces["full_window"]
+    verdict = faces["verdict"]
+    ca = fw["calendar_at_matched"]
+    draws = fw["calendar_matched_draws"]
+    split = fw["selection_split"] or {}
+    widths = faces["widths"]
+    gap = fw["calendar_full_bp"]
+    sd = draws.get("sd_bp")
+    n = draws.get("n")
+    se = ca.get("standard_error_bp")
+    resolvable = None
+    gap_over_two_se = None
+    if se is not None and gap is not None:
+        resolvable = bool(abs(gap) >= 2.0 * se)
+        gap_over_two_se = (round(abs(gap) / se, 2) if se else None)
+    return {
+        "pick_n": width,
+        "decision_days": (faces.get("decision_days") or {}).get("mid"),
+        "book_pool_median": widths.get("book_pool_median"),
+        "pool_binds": widths.get("pool_binds"),
+        "matched_width_exact": widths.get("matched_width_exact"),
+        "calendar_full_bp": gap,
+        "calendar_matched_bp": fw["calendar_matched_bp"],
+        "matched_sd_bp": sd,
+        "n_draws": n,
+        "standard_error_bp": se,
+        "gap_over_two_se": gap_over_two_se,
+        "resolvable_at_this_width": resolvable,
+        "draws_needed_local_gap": _draws_to_resolve(gap, sd),
+        "draws_needed_target_bp": _draws_to_resolve(target_bp, sd),
+        "survives_matched_width": ca.get("survives_matched_width"),
+        "reason": ca.get("reason"),
+        "selection_width_bp": (fw["width_bp"] or {}).get("mean_bp"),
+        "selection_pool_identity_bp": (fw["pool_identity_bp"] or {}).get("mean_bp"),
+        "selection_carrier": split.get("selection_carrier"),
+        "identity_ok": split.get("identity_ok"),
+        "e61_selection_bp": fw["e61_selection_bp"],
+        "per_era_resolvable": sorted(
+            e for e, r in (verdict.get("per_era_reason") or {}).items()
+            if r == "survives"),
+        "per_era_unresolvable": verdict.get("eras_unresolvable") or [],
+    }
+def _gap_width_stability(rows, order):
+    """Is the ladder reading one effect measured more finely, or N effects?
+
+    E219 asks for a width ladder of the SAME experiment, which only means
+    something if the quantity being read is width-invariant. This checks it the
+    only cheap way available: the rung-to-rung spread of the gap against the
+    tightest control's own standard error. A gap that moves further than the
+    measurement noise is not one number getting sharper -- and a rung that
+    "resolves" it decides only that rung.
+    """
+    gaps = [rows[k]["calendar_full_bp"] for k in order
+            if rows[k].get("calendar_full_bp") is not None]
+    ses = [rows[k]["standard_error_bp"] for k in order
+           if rows[k].get("standard_error_bp")]
+    out = {"gap_by_width": {k: rows[k]["calendar_full_bp"] for k in order},
+           "gap_spread_bp": None, "tightest_standard_error_bp":
+               (min(ses) if ses else None),
+           "gap_sign_stable_across_widths": None,
+           "gap_is_width_invariant": None}
+    if len(gaps) > 1:
+        out["gap_spread_bp"] = round(max(gaps) - min(gaps), 1)
+        out["gap_sign_stable_across_widths"] = len({g > 0 for g in gaps}) == 1
+        if ses:
+            out["gap_is_width_invariant"] = bool(out["gap_spread_bp"] <= min(ses))
+    return out
+def run_sharedbook_width_ladder(outdir, start="2020-01-01",
+                                widths=WIDTHLADDER_WIDTHS,
+                                target_bp=WIDTHLADDER_TARGET_BP,
+                                exclude=("sh511",), mid_day=15,
+                                seed=SHAREDBOOK_WIDTH_SEED,
+                                keep=SHAREDBOOK_WIDTH_KEEP,
+                                n_draws=SHAREDBOOK_WIDTH_DRAWS):
+    """E219: the E218 matched-width experiment on a book-width ladder.
+
+    E218 read the E61 calendar split with the width matched at 10 names and
+    found the control so noisy (sd 402-529bp/yr) that 18bp would need 3,454
+    draws. A ten-name draw is the noisiest control the book can produce, so the
+    honest question is not "does the split survive" but "is this family
+    measurable at any width this book actually runs". The same seeded
+    experiment is therefore re-burned at pick_n in the ladder, and each rung
+    publishes its own control spread, the standard error at the draws used, and
+    the draws needed -- so the decision point is a width, not a number.
+    """
+    import e27_universe_expansion as e27
+
+    raw_all = e27.load_universe()
+    rows = {}
+    cutoff = None
+    for w in widths:
+        f = run_sharedbook_width(outdir, start=start, pick_n=int(w),
+                                 exclude=exclude, mid_day=mid_day,
+                                 raw=raw_all, seed=seed, keep=keep,
+                                 n_draws=n_draws)
+        cutoff = f["evidence_cutoff"]
+        rows[str(int(w))] = _widthladder_row(int(w), f, target_bp=target_bp)
+
+    order = [str(int(w)) for w in widths]
+    first_resolvable = None
+    for k in order:
+        if rows[k]["resolvable_at_this_width"]:
+            first_resolvable = int(k)
+            break
+    sds = [rows[k]["matched_sd_bp"] for k in order
+           if rows[k]["matched_sd_bp"] is not None]
+    sd_monotone_down = (all(sds[i] >= sds[i + 1] for i in range(len(sds) - 1))
+                        if len(sds) > 1 else None)
+    gaps = [rows[k]["calendar_full_bp"] for k in order
+            if rows[k]["calendar_full_bp"] is not None]
+    ses = [rows[k]["standard_error_bp"] for k in order
+           if rows[k]["standard_error_bp"]]
+    stability = _gap_width_stability(rows, order)
+    gap_spread = stability["gap_spread_bp"]
+    gap_within_noise = stability["gap_is_width_invariant"]
+    if first_resolvable is None:
+        label = "no_width_in_ladder_resolves"
+    elif first_resolvable == order[0]:
+        label = "resolvable_at_narrowest_width"
+    else:
+        label = "resolvable_from_width_%d" % first_resolvable
+    reread = None
+    if first_resolvable is not None:
+        r = rows[str(first_resolvable)]
+        reread = {
+            "pick_n": r["pick_n"],
+            "calendar_full_bp": r["calendar_full_bp"],
+            "calendar_matched_bp": r["calendar_matched_bp"],
+            "standard_error_bp": r["standard_error_bp"],
+            "survives_matched_width": r["survives_matched_width"],
+            "reason": r["reason"],
+            "selection_carrier": r["selection_carrier"],
+            "e61_selection_bp": r["e61_selection_bp"],
+            "note": ("the split is re-read at the narrowest width whose control "
+                     "can decide it; a rung that is resolvable but whose matched "
+                     "reading flips sign is reported as flipped, not as resolved"),
+        }
+    return {
+        "study": "e219_width_ladder_resolution",
+        "evidence_cutoff": cutoff,
+        "spec": {"start": start, "widths": [int(w) for w in widths],
+                 "target_bp": target_bp, "exclude_prefixes": list(exclude),
+                 "mid_month_day": mid_day, "seed": seed, "n_draws": n_draws,
+                 "keep_ratio": keep,
+                 "ladder_axis": "pick_n",
+                 "experiment_held_fixed": (
+                     "every rung is the same seeded size-matched control with the "
+                     "same two calendars and the same two draw arms; only the "
+                     "number of names on offer changes, so a rung-to-rung "
+                     "difference is width and nothing else"),
+                 "resolution_rule": (
+                     "a rung is resolvable when |gap at that width| >= 2 standard "
+                     "errors at the draw count used; draws_needed is the same "
+                     "condition solved for n, published for both the local gap and "
+                     "the frozen E61 reference gap")},
+        "rows": rows,
+        "verdict": {
+            "label": label,
+            "first_resolvable_width": first_resolvable,
+            "widths_probably_too_narrow": (
+                [int(k) for k in order
+                 if rows[k]["resolvable_at_this_width"] is False]),
+            "matched_sd_by_width": {k: rows[k]["matched_sd_bp"] for k in order},
+            "matched_sd_monotone_down_with_width": sd_monotone_down,
+            "gap_by_width": {k: rows[k]["calendar_full_bp"] for k in order},
+            "gap_spread_bp": gap_spread,
+            "tightest_standard_error_bp": (min(ses) if ses else None),
+            "gap_sign_stable_across_widths":
+                stability["gap_sign_stable_across_widths"],
+            "gap_is_width_invariant": gap_within_noise,
+            "draws_needed_by_width": {k: rows[k]["draws_needed_local_gap"]
+                                      for k in order},
+            "reread_at_first_resolvable": reread},
+        "answers": {
+            "first_width_that_can_decide": first_resolvable,
+            "calendar_gap_by_width": {k: rows[k]["calendar_full_bp"] for k in order},
+            "matched_gap_by_width": {k: rows[k]["calendar_matched_bp"]
+                                     for k in order},
+            "control_sd_by_width": {k: rows[k]["matched_sd_bp"] for k in order},
+            "draws_needed_by_width": {k: rows[k]["draws_needed_local_gap"]
+                                      for k in order},
+            "verdict_label": label,
+        },
+        "honest": [
+            "a wider book is not a strategy change and not a better strategy: "
+            "width is monotone in risk here, and this face only asks at which "
+            "width the calendar question becomes answerable at all",
+            "the draws are seeded and the seed list is published, so the same "
+            "cutoff reproduces the same names; the sd per width is the draw "
+            "distribution's own spread, not a confidence interval on returns",
+            "draws_needed assumes draws are independent; correlated draws (the "
+            "same month-end book recurring) would need more, so it is a floor",
+            "where pool_binds is true the wide rung could not fill pick_n at "
+            "some sessions, so that rung holds a narrower book than its label",
+            "each rung is burned at cost x0 and no cost arm is re-derived; "
+            "descriptive census only, no gate, no prereg, no trial count",
+            "gap_is_width_invariant is the precondition for reading the ladder as "
+            "one effect measured more finely: if the gap itself moves more than "
+            "the tightest control's standard error between rungs, each rung is "
+            "measuring a different quantity and a 'resolved' rung decides only "
+            "that rung's number, not the narrow one",
+        ],
+    }
 def run_chasescreen(outdir, start="2020-01-01", pick_n=9999, exclude=("sh511",),
                     mid_day=15, mode="neutralise_int", resume=True):
     """E115: re-derive the chase leg on the screened arm, beside the raw face.
@@ -19662,6 +19887,73 @@ def selftest():
         and run_sharedbook_width.__defaults__[8] == SHAREDBOOK_WIDTH_DRAWS,
         "E218 the adoption rule and the seed are frozen module constants echoed "
         "into the face, so a reader can see the rule was not fitted to this run")
+    def _e219_faces(gap, matched, sd, n):
+        return {
+            "full_window": {
+                "calendar_full_bp": gap,
+                "calendar_matched_bp": matched,
+                "calendar_matched_draws": {"sd_bp": sd, "n": n},
+                "calendar_at_matched": {
+                    "standard_error_bp": (round(sd / (float(n) ** 0.5), 1)
+                                          if sd is not None else None),
+                    "survives_matched_width": None,
+                    "reason": "unresolvable_at_matched_width"},
+                "width_bp": {"mean_bp": 189.4},
+                "pool_identity_bp": {"mean_bp": -255.4},
+                "selection_split": {"selection_carrier": "pool_identity",
+                                    "identity_ok": True},
+                "e61_selection_bp": -66.0},
+            "verdict": {"per_era_reason": {}, "eras_unresolvable": []},
+            "widths": {"book_pool_median": 10, "pool_binds": False,
+                       "matched_width_exact": True},
+            "decision_days": {"mid": 20},
+        }
+    chk(_draws_to_resolve(18.0, 528.9) == 3454
+        and _draws_to_resolve(18.0, None) is None,
+        "E219 the ladder reads draws-needed with the same formula E218 published, "
+        "so the 3,454 figure reproduces instead of being quoted from a note")
+    _e219_narrow = _widthladder_row(10, _e219_faces(18.0, -92.4, 528.9, 5))
+    chk(_e219_narrow["resolvable_at_this_width"] is False
+        and _e219_narrow["draws_needed_local_gap"] == 3454
+        and _e219_narrow["survives_matched_width"] is None,
+        "E219 the ten-name rung is published as not-yet-resolvable with its draws "
+        "needed beside it, and resolution is kept separate from the verdict")
+    _e219_wide = _widthladder_row(100, _e219_faces(18.0, 15.0, 10.0, 5))
+    chk(_e219_wide["resolvable_at_this_width"] is True
+        and _e219_wide["gap_over_two_se"] == 4.0
+        and _e219_wide["draws_needed_local_gap"] == 2,
+        "E219 a rung with a tight control is resolvable at the draws already used, "
+        "and it still has to pass the sign and size gates afterwards")
+    _e219_two = _widthladder_row(25, _e219_faces(34.0, 30.0, 10.0, 5))
+    chk(_e219_two["draws_needed_local_gap"] == 1
+        and _e219_two["draws_needed_target_bp"] == 2,
+        "E219 the local gap and the frozen reference gap are read separately, so a "
+        "wide rung showing a wide gap cannot borrow the reference gap's difficulty")
+    chk(WIDTHLADDER_WIDTHS == (10, 25, 50, 100)
+        and WIDTHLADDER_TARGET_BP == 18.0
+        and run_sharedbook_width_ladder.__defaults__[1] == WIDTHLADDER_WIDTHS
+        and run_sharedbook_width_ladder.__defaults__[2] == WIDTHLADDER_TARGET_BP,
+        "E219 the ladder rungs and the reference gap are frozen module constants "
+        "echoed into the face, so the rungs were not chosen after seeing them")
+    _e219_st_rows = {"10": {"calendar_full_bp": 18.0, "standard_error_bp": 236.5},
+                     "25": {"calendar_full_bp": -50.0, "standard_error_bp": 106.1},
+                     "50": {"calendar_full_bp": -161.0, "standard_error_bp": 55.8},
+                     "100": {"calendar_full_bp": -45.0, "standard_error_bp": 43.5}}
+    _e219_st = _gap_width_stability(_e219_st_rows, ["10", "25", "50", "100"])
+    chk(_e219_st["gap_spread_bp"] == 179.0
+        and _e219_st["gap_sign_stable_across_widths"] is False
+        and _e219_st["gap_is_width_invariant"] is False,
+        "E219 a gap that moves further than the tightest control's standard error "
+        "is not one number getting sharper, and a rung that resolves it decides "
+        "only that rung")
+    _e219_same = _gap_width_stability(
+        {"10": {"calendar_full_bp": 18.0, "standard_error_bp": 40.0},
+         "50": {"calendar_full_bp": 22.0, "standard_error_bp": 12.0}},
+        ["10", "50"])
+    chk(_e219_same["gap_sign_stable_across_widths"] is True
+        and _e219_same["gap_is_width_invariant"] is True,
+        "E219 a rung-to-rung move inside the noise band is read as stable, so the "
+        "invariance check is not a test that always fails")
     _e190_rows = [{"month": "m%02d" % i, "full_ret": 0.0,
                    "dropped_ret": 0.001 * i,
                    "delta_sum": 100.0 if i == 1 else 1.0,
@@ -26143,7 +26435,8 @@ def main(argv):
                              "e44", "burnin", "burninscreen", "knife", "skinloo", "e45", "warmspread",
                              "warmspreadscreened", "pairscreened",
                              "e46", "livespan", "livespanscreen", "cutcurve", "cutcurvescreen", "midmonth", "chase",
-                             "chasescreen", "offbookliq", "offbookera", "sharedbook", "sharedbookwidth",
+                             "chasescreen", "offbookliq", "offbookera", "sharedbook",
+                  "sharedbookwidth", "sharedbookwidthladder",
                              "midsweep", "midsweepburnin", "entrydelay", "entrydelayscreen",
                              "earlydelay", "earlydelayscreen",
                              "neighborhood",
@@ -26166,6 +26459,9 @@ def main(argv):
     ap.add_argument("--cost", type=float, default=1.0, help="cost multiple (e46 livespan leg)")
     ap.add_argument("--parts", type=int, default=2, help="chunks per era (e46 livespan leg)")
     ap.add_argument("--start", default="2020-01-01", help="window start (midmonth leg)")
+    ap.add_argument("--force", action="store_true",
+                    help="re-burn a face that is already on disk for this cutoff "
+                         "(sharedbookwidthladder is cutoff-idempotent by default)")
     ap.add_argument("--span-start", default=OFFBOOK_ERA_START,
                     help="window start for the off-book era leg; kept separate from "
                          "--start so widening the span cannot silently re-tune the "
@@ -26759,6 +27055,32 @@ def main(argv):
         p = write_json(outdir, "SHAREDBOOK-WIDTH-%s.json"
                        % f["evidence_cutoff"].replace("-", ""), f)
         print(json.dumps({"leg": "sharedbookwidth",
+                          "file": os.path.relpath(p, ROOT),
+                          "answers": f["answers"], "verdict": f["verdict"]["label"]},
+                         ensure_ascii=False))
+        return 0
+    if args.mode == "sharedbookwidthladder":
+        outdir = os.path.join(ROOT, "results", "e44_midmonth")
+        # E219 runs four full burns (~4min) against E218's one, so it is made
+        # idempotent on the cutoff: a face for the current cutoff means the ladder
+        # was already burned for this panel and the chain leg is a no-op. Without
+        # that the S6 chain would pay four minutes every round for identical
+        # numbers, which is how a wired face quietly becomes a stale one.
+        import e24_ladder_weighting as _base_ll
+        _cal = [d for d in _base_ll.load_panel()[0] if d >= args.start]
+        _want = os.path.join(outdir, "WIDTHLADDER-%s.json"
+                             % _cal[-1].replace("-", ""))
+        if (os.path.exists(_want) and os.path.getsize(_want) > 0
+                and not getattr(args, "force", False)):
+            print(json.dumps({"leg": "sharedbookwidthladder",
+                              "file": os.path.relpath(_want, ROOT),
+                              "noop": "face already burned for this cutoff",
+                              "evidence_cutoff": _cal[-1]}, ensure_ascii=False))
+            return 0
+        f = run_sharedbook_width_ladder(outdir, start=args.start)
+        p = write_json(outdir, "WIDTHLADDER-%s.json"
+                       % f["evidence_cutoff"].replace("-", ""), f)
+        print(json.dumps({"leg": "sharedbookwidthladder",
                           "file": os.path.relpath(p, ROOT),
                           "answers": f["answers"], "verdict": f["verdict"]["label"]},
                          ensure_ascii=False))
