@@ -23294,7 +23294,10 @@
    "id": "E251-BOOT-P1-TAIL",
    "lane": "cpu-only",
    "worker_class": "code-change",
-   "status": "ready",
+   "status": "done",
+   "claimed_by": "bm-a r1156",
+   "claimed_at": "2026-10-30T03:35:00+08:00",
+   "result_ref": "results/etf_book_bootstrap/BLOCKS-2026-10-29.json (p1/p99 on all 8 arms; worst-1% maxDD -30.87..-20.06%, CAGR p1 0.36..1.60%/yr; gate `blocks --check` rc0)",
    "runner": "scripts/etf_book_nav_envelope.py",
    "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
    "runner_args": [
@@ -23345,7 +23348,7 @@
    "id": "E253-VOLTARGET-TAIL",
    "lane": "cpu-only",
    "worker_class": "code-change",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_production.py",
    "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
    "runner_args": [
@@ -23359,7 +23362,13 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T00:48:14+08:00",
    "entered_by": "bm-c r1348",
-   "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator."
+   "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator.",
+   "claimed_by": "bm-a",
+   "closed_by": "bm-a r1350",
+   "result_ref": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
+   "result_ref_at": "2026-10-30T00:00:00+08:00",
+   "result_note": "paired bootstrap, 5 block arms x 2000 resamples: median drawdown delta +6.04pp vs p1 delta +1.26pp (tail keeps 21% of the middle gain) at -4.61pp median CAGR; the overlay is a middle-path tool, not crash insurance",
+   "verdict": "tail_is_mostly_a_middle_effect=True"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

@@ -5063,3 +5063,57 @@ replayed path. So the number to size against is the short-memory end, and the lo
 Pos: scripts/etf_book_nav_envelope.py (selftest 14/14; `blocks` globs the new arm; `blocks --check`
 re-judged 8 arms) + results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json + BLOCKS-2026-10-29.json
 + research/digests/DIGEST-20261030-e251-iid-zero-point.md.
+
+## E252 A percentile you did not publish may already be in the rows you kept (2026-10-30 r1156 bm-a)
+
+WHEN: a published distribution face quotes percentiles, and someone later asks for a percentile
+the face never printed ("how bad can it get" answered with p5, which is the deepest 5%, not the worst).
+
+DECISION: before re-running the 2,000-draw bootstrap to add p1/p99, check whether the artifact kept
+its per-resample rows. If it did, the missing percentile is a pure function of data already on
+disk -- recompute it from the stored rows, write it back into the ARM (so the arm stays the single
+source), and let the existing gate re-derive every quoted number. Disclose the refresh
+(`arm_pcts_refreshed`) and let a face whose arms predate the change say so ("the worst 1% is NOT
+published on these arms") instead of printing a nan range.
+
+WHY: a re-run is a second draw, and a second draw is a different experiment (E247: seed the
+resample, not the worker). Re-deriving from stored rows keeps the published tail and the published
+median on ONE draw, so the new column is comparable with the old ones by construction.
+
+READING: 8 block arms republished in ~0.7s with no resampling: worst-1% maxDD -30.87..-20.06%/yr
+CAGR p1 0.36..1.60% vs p5 -25.02..-17.08%; `blocks --check` rc0 re-judged all 8 arms from their
+own rows.
+
+Pos: scripts/etf_book_nav_envelope.py (PCTS 1..99; selftest 18->20 incl. L19 ordering and L20 the
+ultra-tail flag fires on 13pp and stays quiet on 0.50pp) + results/etf_book_bootstrap/BLOCKS-2026-10-29.json
++ smoke leg "product: the worst 1% is published on the block arms".
+
+### E252 配对尾测：同一抽签下对照组才算数（+ 中间效应冒充尾部效应）
+
+WHEN: 任何"这个风控开关保住了最坏情况吗"的问题。单条路径的回撤、甚至两条独立 bootstrap 的
+p5 摆在一起，都回答不了——它们是两次抽签，不是一个实验。
+
+HOW: 同一 resample 索引**只抽一组**块索引序列，把它同时索引两个臂的日收益（`resample_indices`
+产 idx，两臂共用 `r[idx]`）。逐 resample 求差，报差值的分位数与"变好/变坏"份额，再报一个比值
+`tail_share_of_middle = median(p1 差) / median(p50 差)`。
+
+坑（本窗实弹，两枚都吞过一次整跑）：
+1) `resample()` 每次调用都推进 rng——两臂各调一次，第二臂拿到的是**另一组**抽签，所谓配对其实是
+   两个独立带并排读数（selftest L21：同臂同数据竟读出 -10pp 中位差）。正法=先产索引，再索引两臂。
+2) 收益序列必须是 pct_change 而不是 `ser/ser.shift(1)`（那是比率，cumprod 后 CAGR=inf、maxDD=nan），
+   且 `bars_per_year()` 要喂**完整日期列**——喂 `[首日, 末日]` 两元素会得出 0.147 bars/yr。
+   两枚同时发生时，整面仍是合法 JSON、reading 仍照印 "+nanpp"。已在产出前加硬门：delta 非有限即
+   SystemExit，拒绝发布数字形状的空白。
+
+WHY: 一个 6pp 中位改善只换来 1.3pp 尾部改善（21%），"尾部也动了"字面为真、实操无用；卡片却因此
+被读成"崩盘保险"。判据要能把"中间动了"与"尾部动了"分开，并且能说出前者占多少。
+
+READING: 生产书 12 名 / R20 / 10bp，1650 bar 至 2026-10-29，5 个块长臂 × 2000 次重抽：
+叠加 8% 波动目标后，中位回撤差 +6.04pp、p1 差 +1.26pp（尾部只保住中间增益的 21%），且 100% 的
+重抽里两条臂都比不叠加更浅；代价是中位 CAGR -4.61pp。叠加后的最坏 1% 仍落在 -30%..-20% 之间。
+
+Pos: scripts/etf_book_nav_envelope.py（`voltail` 子命令 + `voltail --check` 门；selftest 20->29
+新增 L21-L29：同臂零差/份额守恒/分位有序/中间-only 与尾部同动两向/索引规则复现 resample/两臂共抽）
++ results/etf_book_bootstrap/etf_book_voltarget_tail.json + PAIRROWS-<cutoff>-b<block>.json
+（逐块配对行，门从行重算每个引用数，无需 2000 次重抽）+ 链腿 etf_book_voltarget_tail
++ smoke 腿 "product: the vol overlay's tail is priced on the same draw as its middle"。

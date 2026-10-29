@@ -240,6 +240,13 @@ LEGS = [
     # own rows rather than trusting the summary.
     ("etf_book_block_length", ["python", "scripts/etf_book_nav_envelope.py", "blocks", "--check"],
      ["python", "scripts/etf_book_nav_envelope.py", "blocks"]),
+    # r1350/E253: the card calls the 8% overlay "a drawdown tool" and every number behind
+    # that sentence is a median or one path. Both books are now bootstrapped on the SAME
+    # draw per resample, so the overlay's effect on the worst 1% is a measurement, not an
+    # inference from two published bands. Gate re-derives every quoted delta from the
+    # paired rows on disk (no 2,000-draw re-run).
+    ("etf_book_voltarget_tail", ["python", "scripts/etf_book_nav_envelope.py", "voltail", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "voltail"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

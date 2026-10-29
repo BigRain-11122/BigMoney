@@ -61,7 +61,7 @@ LOCK = os.path.join(DATA_DIR, "_refresh.lock")
 LOG = os.path.join(ROOT, "logs", "ths_refresh.log")
 
 sys.path.insert(0, ROOT)
-from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+from config.lane_io import lane_host, stamp_envelope  # noqa: E402 -- after ROOT pin
 LANE_OWNER = lane_host("update_ths_panel", "bm-a")          # R31 lane-ownership precedent
 COMPLETE_HOUR = dt.time(15, 30)
 INTRADAY_START = dt.time(9, 15)
@@ -247,6 +247,7 @@ def load_status():
 
 
 def write_status(payload):
+    payload = stamp_envelope(payload, "update_ths_panel")
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=1))
 
 

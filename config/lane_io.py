@@ -90,6 +90,31 @@ def lane_host(script, default):
     return str(got) if got else default
 
 
+def stamp_envelope(payload, writer=None):
+    """Name the machine whose reading a status envelope carries (r1156).
+
+    A collector writes its status face on whichever machine ran the leg, and
+    every machine also keeps its own gitignored copy of the data directory.
+    Without a name on the envelope, a reader cannot tell "the lane died" from
+    "this is my stale copy of a lane that is alive on its host" -- measured
+    2026-10-30: heat/repo/moneyflow/options tails read 7-8 days behind on bm-a
+    while the lanes were hosted by bm-b. So the reading is only auditable if
+    the envelope says who wrote it; `lane_host` says who is supposed to.
+
+    Fail-safe like ``lane_host``: an unknown writer leaves ``lane_host`` out
+    rather than inventing a host, and an unknown machine id is never guessed.
+    """
+    if not isinstance(payload, dict):
+        return payload
+    mid = machine_id() or "unknown"
+    out = dict(payload)
+    out["machine"] = mid
+    host = lane_host(writer, None) if writer else None
+    if host:
+        out["lane_host"] = host
+    return out
+
+
 def lane_path(face, machine=None):
     """results/<face>.<machine>.json (D-03(1) structural end-state)."""
     mid = machine if machine is not None else machine_id()
@@ -727,6 +752,21 @@ def _selftest():
         _reset_hosts('{"lane_hosts": {"update_x": ""}}')
         legs.append(("lane-host-empty-value-default",
                      li.lane_host("update_x", "bm-a") == "bm-a"))
+        # ST1/ST2: a status envelope that comes out of the stamper names the
+        # writing machine and (when the writer is mapped) the lane host, so a
+        # reader can tell a dead lane from this machine's stale copy
+        li.machine_id = lambda: "bm-z"
+        _reset_hosts('{"lane_hosts": {"update_x": "bm-b"}}')
+        _st = li.stamp_envelope({"tail": "2026-10-20"}, "update_x")
+        legs.append(("envelope-names-writer-and-host",
+                     _st.get("machine") == "bm-z"
+                     and _st.get("lane_host") == "bm-b"
+                     and _st.get("tail") == "2026-10-20"))
+        # ST2 an unmapped writer keeps the name and invents no host
+        _st2 = li.stamp_envelope({"tail": "2026-10-20"}, "update_unmapped")
+        legs.append(("envelope-unmapped-leaves-host-out",
+                     _st2.get("machine") == "bm-z"
+                     and "lane_host" not in _st2))
         li.LANE_HOSTS_PATH = saved_hosts_path
         li._LANE_HOSTS_CACHE["v"] = saved_hosts_cache
 

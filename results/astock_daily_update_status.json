@@ -1,21 +1,21 @@
 {
-  "ts": "2026-10-30T02:26:41",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-10-30T03:16:56",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-29",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 82.3,
-    "coverage_90": "2026-10-28",
+    "coverage_pct": 99.9,
+    "coverage_90": "2026-10-29",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-29",
-        4296
+        5215
       ],
       [
         "2026-10-28",
-        920
+        1
       ],
       [
         "2026-10-23",
@@ -35,9 +35,7 @@
       ]
     ],
     "universe_n": 5226,
-    "per_files": 5225,
-    "cycle_cutoff": "2026-10-28",
-    "cycle_cutoff_is": "the cutoff the last completed refresh cycle built its todo against -- always <= cutoff (cutoff is the disk max tail)"
+    "per_files": 5222
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
   "probe_ref": "results/_r280bmb_probe_akshare_daily.json",
@@ -51,41 +49,37 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 0,
-    "fetched": 0,
-    "appended": 0,
+    "todo": 5224,
+    "fetched": 5222,
+    "appended": 5215,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "failures_tail": [
+      "688827:KeyError:'date'",
+      "689009:JSONDecodeError:No value to decode"
+    ],
+    "failures_n": 2,
     "conn_stopped": false,
-    "elapsed_min": 0.0,
-    "vwap_anchor_max": null,
+    "elapsed_min": 287.8,
+    "vwap_anchor_max": 0.218772,
     "repull": false
   },
-  "quarantined_n": 6,
+  "quarantined_n": 2,
   "last_spawn_attempt": "2026-10-29T22:29:00",
-  "settled_n": 6,
-  "settled": [
-    "002717",
-    "002827",
-    "301468",
-    "601326",
-    "605258",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "per_files_on_disk": 5222,
   "validation": {
-    "suspended_rows": 0,
-    "bracket_tolerated_rows": 0,
+    "suspended_rows": 3,
+    "bracket_tolerated_rows": 1,
     "defect_rows": 0
   },
   "takeover": {
     "owner": "bm-b",
     "by": "bm-a",
-    "reason": "owner bm-b silent 8.1h >= 120min",
-    "ts": "2026-10-30T02:26:41"
+    "reason": "owner bm-b silent 4.2h >= 120min",
+    "ts": "2026-10-29T22:29:00"
   },
-  "spawn_reason": "refresh in progress: panel incomplete at cutoff 2026-10-29 (coverage 82.3%, 90% date 2026-10-28)",
+  "spawn_reason": "panel incomplete at cutoff 2026-10-28 (coverage 99.9%, expected 2026-10-29) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation"
 }

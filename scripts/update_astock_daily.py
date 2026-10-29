@@ -101,6 +101,14 @@ if os.path.join(ROOT, "scripts") not in sys.path:
 # single source: the r1100 cure's pure decision, never a second implementation
 from update_etf_daily import _owner_stale_min, takeover_decision  # noqa: E402
 
+# r1156: the status envelope must name the machine that wrote it, or a reader
+# cannot tell a dead lane from its own stale copy (data_lane_freshness board)
+try:
+    from config.lane_io import stamp_envelope  # noqa: E402
+except Exception:                                # pragma: no cover - fail-safe
+    def stamp_envelope(payload, writer=None):
+        return payload
+
 DATE_KEY = "date"
 BAR_COLS = ["open", "high", "low", "close", "volume", "amount",
             "outstanding_share", "turnover"]
@@ -450,6 +458,7 @@ def load_status():
 
 
 def write_status(payload):
+    payload = stamp_envelope(payload, "update_astock_daily")
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
 
 

@@ -692,6 +692,86 @@ def main() -> int:
                   "blocks/card/order absent -- face soft-fails by design")
     except Exception as e:
         check("product: E246 drawdown band reaches both trading pages", False, str(e))
+    # r1156 / E251: p5 is "the deepest 5%", not "the worst". The arms now carry p1/p99,
+    # so the leg asks the two questions the number must answer: is p1 actually deeper than
+    # the p5 beside it (ordering, not decoration), and does the published face say whether
+    # the ultra tail moves with the block length instead of shipping a silent False.
+    try:
+        _bl1 = sorted(__import__("glob").glob(os.path.join(
+            "results", "etf_book_bootstrap", "BLOCKS-*.json")))
+        if _bl1:
+            _b1 = json.load(open(_bl1[-1], encoding="utf-8"))
+            _deeper = []
+            for _a in _b1.get("arms") or []:
+                _m1 = (_a.get("maxdd") or {}).get("1")
+                _m5 = (_a.get("maxdd") or {}).get("5")
+                if _m1 is None or _m5 is None or not (_m1 <= _m5):
+                    _deeper.append(_a.get("block"))
+            _sp1 = _b1.get("spread") or {}
+            _rd1 = _b1.get("readings") or {}
+            _want_ultra = ((_sp1.get("maxdd_p1") or {}).get("range", 0.0) * 100.0) > 3.0
+            check("product: the worst 1% is published on the block arms",
+                  bool(_b1.get("arms")) and not _deeper
+                  and _sp1.get("maxdd_p1") is not None and _sp1.get("cagr_p1") is not None
+                  and _rd1.get("ultra_tail_is_block_dependent") is _want_ultra
+                  and _b1.get("ultra_tail_published") is True,
+                  "arms=%d not_deeper=%s maxdd_p1=%s published=%s flag=%s"
+                  % (len(_b1.get("arms") or []), _deeper or "none",
+                     _sp1.get("maxdd_p1"), _b1.get("ultra_tail_published"),
+                     _rd1.get("ultra_tail_is_block_dependent")))
+        else:
+            check("product: the worst 1% is published on the block arms", True,
+                  "no BLOCKS face -- soft-fails by design")
+    except Exception as e:
+        check("product: the worst 1% is published on the block arms", False, str(e))
+    # r1350 / E253: the card calls the 8% overlay "a drawdown tool". The face now answers it
+    # with a PAIRED bootstrap -- same draw, both books -- so this leg recomputes the two
+    # numbers the sentence rests on from the paired rows on disk: the median delta and the
+    # p1 delta, and refuses a face whose verdict disagrees with its own arms (a stored
+    # boolean that says "middle only" while the p1 moved, or the reverse).
+    try:
+        _vp = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        if os.path.exists(_vp):
+            _vt = json.load(open(_vp, encoding="utf-8"))
+            _v = _vt.get("verdict") or {}
+            _ad = _vt.get("arms_definition") or {}
+            _arms = _vt.get("arms") or []
+            _rows_ok, _deltas = True, []
+            for _a in _arms:
+                _rf = os.path.join("results", "etf_book_bootstrap", str(_a.get("rows_file")))
+                if not os.path.exists(_rf):
+                    _rows_ok = False
+                    continue
+                _rows = json.load(open(_rf, encoding="utf-8")).get("rows") or []
+                _dd = sorted(_r["on"]["maxdd"] - _r["off"]["maxdd"] for _r in _rows
+                             if _r.get("on", {}).get("maxdd") is not None)
+                if not _dd:
+                    _rows_ok = False
+                    continue
+                _mid = _dd[len(_dd) // 2]
+                _p1 = _dd[int(round((len(_dd) - 1) * 0.01))]
+                _deltas.append((_a.get("block"), _mid, _p1,
+                                abs(_mid - (_a.get("delta") or {}).get("maxdd", {})
+                                    .get("pct", {}).get("50", 1e9)) < 5e-3))
+            _med = sum(d[1] for d in _deltas) / len(_deltas) if _deltas else None
+            check("product: the vol overlay's tail is priced on the same draw as its middle",
+                  bool(_arms) and _rows_ok and len(_deltas) >= 2
+                  and all(d[3] for d in _deltas)
+                  and (_ad.get("on") or {}).get("vol_target") is not None
+                  and (_ad.get("off") or {}).get("vol_target") is None
+                  and _med is not None
+                  and abs(_med - (_v.get("median_maxdd_delta_median") or 1e9)) < 5e-3
+                  and ((_v.get("tail_share_of_middle") or 0.0) < 0.5)
+                  is bool(_v.get("tail_is_mostly_a_middle_effect")),
+                  "arms=%d rows_ok=%s median_delta=%s tail_share=%s flag=%s"
+                  % (len(_arms), _rows_ok, _med, _v.get("tail_share_of_middle"),
+                     _v.get("tail_is_mostly_a_middle_effect")))
+        else:
+            check("product: the vol overlay's tail is priced on the same draw as its middle",
+                  True, "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the vol overlay's tail is priced on the same draw as its middle",
+              False, str(e))
     # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
     # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
     # is recomputable from the payload's own summary (never a stored string), and both arms
@@ -1013,7 +1093,7 @@ def main() -> int:
         # anything -- 'uncertified' is its own verdict, and a lane whose evidence
         # came from another machine's copy must say so instead of publishing it.
         _states = ("in_sync", "today_pending", "behind_1d", "stalled", "absent",
-                   "unreadable", "unverifiable")
+                   "unreadable", "unverifiable", "retired")
         _ok_lf = (_rows["heat"]["tail"] == _heat_tail
                   and _rows["zt_pool"]["tail"] == _zt_tail
                   and _lfz.get("expected_last_official_day") == _exp
@@ -1022,7 +1102,10 @@ def main() -> int:
                           for r in _lfz.get("lanes") or [])
                   and all(r.get("verdict") == "unverifiable"
                           for r in _lfz.get("lanes") or []
-                          if r.get("copy_verdict"))
+                          # a retired face keeps its copy reading but is not a
+                          # stall: the board's own L9b leg says so, and the smoke
+                          # leg must judge the same rule (r1156 red caught here)
+                          if r.get("copy_verdict") and r.get("verdict") != "retired")
                   and (_lfz.get("verdict") in ("all_fresh", "attention", "uncertified"))
                   # a green headline with nothing certified is the failure this
                   # face exists to catch
