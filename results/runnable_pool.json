@@ -23182,44 +23182,58 @@
   },
   {
    "deliverable": "results/state_tilt/SHAREDIFF-<cutoff>.json",
+   "done_at": "2026-10-30T02:4x+08:00",
+   "done_note": "three stationary designs on the same five sleeves: differences b_own 0.431 / b_agg 0.879, frozen_z b_own 0.017 / b_agg 0.101, two_way_fe b_own 0.023 with b_agg absorbed by the 5,233 date fixed effects. Signs agree everywhere; sizes do not (span 0.017..0.431, ratio 25.4, disjoint intervals). Verdict unresolved_magnitude_disagreement -> no granularity charge is published and the family single exponent stays a price without a bill. E235 negative own elasticity does not survive.",
    "entered_at": "2026-10-30T02:5x+08:00",
    "entered_by": "bm-r1261",
    "evidence_cutoff": "2026-10-29",
    "id": "E236-SHARE-DIFFERENCE-GRANULARITY",
    "lane": "cpu-only",
+   "result_ref": "results/state_tilt/SHAREDIFF-2026-10-29.json",
    "source": "E235 measured the price of a sleeve move against own and aggregate turnover in LEVELS and could not separate them: aggregate turnover is 0.94..0.97 autocorrelated, the lagged control block inverts on 2 of 5 sleeves, and two sleeves come out with a negative own elasticity. The question is not answered, only shown to be unanswerable in levels. Re-ask it where the regressors are stationary: (a) first differences of log turnover, so a move is priced against that session's change in own and in book turnover; (b) a demeaned share and a roll-standardised aggregate level (z over a frozen window); (c) a panel fixed-effects form with member intercepts and time fixed effects, so the identification comes from cross-sectional share variation. Publish all three, demand sign agreement across them, and re-price the arms under whichever granularity survives. If none survives, that is the answer and the family's level stays a price without a bill.",
    "status": "done",
-   "done_at": "2026-10-30T02:4x+08:00",
-   "done_note": "three stationary designs on the same five sleeves: differences b_own 0.431 / b_agg 0.879, frozen_z b_own 0.017 / b_agg 0.101, two_way_fe b_own 0.023 with b_agg absorbed by the 5,233 date fixed effects. Signs agree everywhere; sizes do not (span 0.017..0.431, ratio 25.4, disjoint intervals). Verdict unresolved_magnitude_disagreement -> no granularity charge is published and the family single exponent stays a price without a bill. E235 negative own elasticity does not survive.",
-   "result_ref": "results/state_tilt/SHAREDIFF-2026-10-29.json",
    "target": "scripts/e236_share_difference.py (new runner)",
    "title": "can a share-and-difference design settle the granularity question the level regression could not?"
   },
   {
+   "closed_at": "2026-10-30T03:2x+08:00",
    "deliverable": "results/state_tilt/INFOSTRUCT-<cutoff>.json",
    "entered_at": "2026-10-30T02:4x+08:00",
    "entered_by": "bm-r1262",
    "evidence_cutoff": "2026-10-29",
    "id": "E237-INFORMATION-VS-TURNOVER-SHARED-RETURN",
    "lane": "cpu-only",
+   "result_ref": "results/state_tilt/INFOSTRUCT-2026-10-29.json",
    "source": "E236 showed the two granularity readings differ 25x and named the mechanism: the difference design prices a session against that session's own turnover CHANGE, which co-moves with the same information arrival that sets |r|, while the cross-sectional designs price the share of book turnover. Separate those two channels directly instead of inferring them: (a) decompose the session |r| into a market-common component (regress log|r| on the book's log|r_book| and take the residual) and a relative component, and fit each arm's elasticity separately -- an impact story predicts the OWN channel lives in the relative component and the aggregate channel in the common one; (b) test the co-movement directly by regressing d(log turnover) on |r| and on the market's |r|, publishing which driver dominates; (c) if the own channel survives only in the common component, that is evidence the difference-design elasticity was an information-arrival artefact and the granularity question is answered NEGATIVE for this panel. Publish the decomposition with intervals and refuse any bill unless both components agree in sign and size.",
    "status": "done",
-   "result_ref": "results/state_tilt/INFOSTRUCT-2026-10-29.json",
-   "closed_at": "2026-10-30T03:2x+08:00",
    "target": "scripts/e237_information_structure.py (new runner)",
    "title": "is the own-turnover channel an information-arrival artefact?"
   },
   {
+   "closed_at": "2026-10-30T04:0x+08:00",
    "deliverable": "results/state_tilt/LOOBOOK-<cutoff>.json",
    "entered_at": "2026-10-30T03:2x+08:00",
    "entered_by": "bm-r1263",
    "evidence_cutoff": "2026-10-29",
    "id": "E238-DENOMINATOR-CONTAINS-THE-NUMERATOR",
    "lane": "cpu-only",
+   "result_ref": "results/state_tilt/LOOBOOK-2026-10-29.json",
    "source": "E237 closed the artefact question in one direction and left the other open: the own-turnover coefficient (0.431 -> 0.394 under a market-return control) survives neither as market information (first stage t -1.23) nor as own information (share on own relative return 0.031, R2 0.0001), so what it measures is still unnamed. The cheapest remaining explanation is mechanical: the share is own turnover over BOOK turnover, and the book is the equal-weight basket, so each member's own turnover sits inside its own denominator with weight 1/5. A share regression on a denominator that contains the numerator can manufacture a coefficient from autocorrelation alone. Build the leave-one-out book (aggregate excluding the member) and re-run E236's three designs against it: publish b_own under both denominators with intervals, the difference between them with an interval, and refuse to attribute anything to the own channel unless the leave-one-out reading keeps the sign and overlaps the original interval. Report the mechanical size predicted by the 1/5 weight so a coincidence can be told from a measurement.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e238_leave_one_out_book.py (new runner)",
    "title": "is the own-turnover channel a denominator artefact of the book it is measured in?"
+  },
+  {
+   "deliverable": "results/state_tilt/OWNCROSS-<cutoff>.json",
+   "entered_at": "2026-10-30T04:0x+08:00",
+   "entered_by": "bm-r1264",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E239-OWN-VS-SINGLE-CROSS-ELASTICITY",
+   "lane": "cpu-only",
+   "source": "E238 removed each member from its own book and the differenced design's own coefficient got LARGER (0.437 -> 0.596), so the denominator is not the artefact -- but in the leave-one-out book the REST coefficient is bigger still (0.771 on d(log rest)). That ordering is either an economic statement (a member's own turnover matters less than the rest of the book's) or a units artefact: the rest aggregate is the sum of four members, so one log point of it is not one log point of a single participant. Rescaling the sum to a mean changes only a constant and cannot settle it. The apples-to-apples form is per pair: regress dy on d(log own) and on d(log other_j) for each of the four other members separately, pool the cross coefficients, and compare the own coefficient with the average single-member cross coefficient under the same specification, same HAC lag, same member dummies. Publish: own vs mean-cross with intervals and their difference with an interval, the per-pair cross coefficients, and the same pair test on the two-way FE design (which is denominator-invariant per E238). An impact story predicts own > cross on this footing; a common-liquidity story predicts no difference. Refuse any charge either way.",
+   "status": "ready",
+   "target": "scripts/e239_own_vs_cross.py (new runner)",
+   "title": "is the own-turnover elasticity larger than the cross elasticity to another member's turnover, on identical footing?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23234,6 +23248,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T00:25:00+08:00",
+ "updated_at": "2026-10-30T04:0x+08:00",
  "version": 1
 }

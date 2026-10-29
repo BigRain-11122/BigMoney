@@ -146,6 +146,12 @@ LEGS = [
     # components, plus a market-return control on the share coefficient -- and refuses a
     # granularity bill unless both components clear the bar with overlapping intervals.
     ("information_structure", ["python", "scripts/e237_information_structure.py", "run"]),
+    # E238: every member's own turnover sits inside the book turnover its share is divided
+    # by, so the family's own-channel coefficient may be the share arithmetic rather than a
+    # market object. This leg rebuilds the book EXCLUDING each member and re-runs the same
+    # three designs against it, publishing the gap with a block-bootstrap interval next to
+    # the gap the share arithmetic predicts.
+    ("leave_one_out_book", ["python", "scripts/e238_leave_one_out_book.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

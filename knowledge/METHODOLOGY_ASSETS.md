@@ -4501,3 +4501,57 @@ Runner `scripts/e237_information_structure.py` (selftest 18/18), face
 `results/state_tilt/INFOSTRUCT-<cutoff>.json`, S6 leg `information_structure` after
 `share_difference`, smoke leg requiring a live co-movement reading beside the verdict, the
 published identity residual, and a refused gate that prices no granularity charge.
+
+### E238 -- a denominator that contains the numerator is not a control, and the fix can go either way (r1264 bm-b)
+
+E236/E237 chased an own-turnover coefficient that came out 25x apart depending on design, and
+E237 left "what it measures" unnamed. The cheapest remaining explanation was arithmetic: the
+share is own turnover over BOOK turnover, and the book is the same five members, so every
+member's own turnover sits inside its own denominator. This face rebuilt the book EXCLUDING the
+member (leave-one-out) and re-ran the same three designs on the identical sessions
+(13,911 pooled differenced rows, 2026-10-29 cutoff).
+
+The answer splits by design, and that is the point:
+
+- **differences** (design A): inclusive 0.4371 [0.3467, 0.5275] -> leave-one-out
+  0.5963 [0.5100, 0.6825], gap -0.1592 with block-bootstrap [-0.1778, -0.1359]. Removing the
+  member from its own book makes the coefficient BIGGER, so the inclusive denominator
+  ATTENUATES; a denominator artefact would have killed it. Verdict
+  `own_channel_survives_the_denominator` (4 of 5 members, sh510300 unresolved).
+- **frozen_z** (design B): inclusive -0.0366 [t -3.68] -> leave-one-out +0.0013 [t 0.14]. The
+  level design's reading WAS the share arithmetic: gap -0.0379 against a predicted -0.0354
+  (93% of the gap), verdict `own_channel_is_a_denominator_artefact`.
+- **two_way_fe** (design C): 0.02346 -> 0.02289, invariant to three decimals. The date fixed
+  effects absorb the book, so the denominator never entered this design at all.
+
+Reusable pieces:
+
+1. **Publish the mechanical prediction, not just the gap.** With own share w the regression is a
+   reparameterisation of one object, so the gap the arithmetic predicts is
+   `kappa*(b_own_loo - b_agg_loo)` with `kappa = w/(1-w)`. Realised turnover share on this panel
+   is 0.218 (kappa 0.279), NOT the nominal 1/5 (kappa 0.25) - the book is equal-weight in
+   capital, not in turnover, and the per-member shares run 0.03..0.46. Only with that number
+   beside it can the measured gap (-0.159) be read: arithmetic accounts for 0.049 of it and
+   points the same way, so ~0.11 is a real effect and the artefact label is correct only for
+   the design where the prediction covers the whole gap.
+2. **A constant share makes the inclusive design degenerate.** If the own share never moves, the
+   inclusive regressor is constant up to floating-point dust and OLS on dust returns 3.8e13 with
+   a confident t. The runner refuses below `SHARE_SD_FLOOR=1e-8` and the selftest pins both the
+   refusal and the leave-one-out design staying estimable - "the coefficient exists only because
+   the share moves" is the sharpest form of the mechanical argument.
+3. **The regressor identity is exact, so pin it as an assertion.** d(share)_incl -
+   d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w)) to 0.0e+00 on every member. The two
+   denominators are two restrictions of one regression, so their disagreement is never evidence
+   about the market by itself.
+4. **Bootstrap the paired gap, but only the point estimate.** 400 block replicates (20-session
+   blocks, dates resampled jointly so the pooled cross-section stays aligned) of a lean normal-
+   equation fit ran in 29s; re-running the Newey-West covariance inside each replicate would buy
+   nothing and cost minutes.
+
+Runner `scripts/e238_leave_one_out_book.py` (selftest 8/8), face
+`results/state_tilt/LOOBOOK-<cutoff>.json` + `loo_by_member_<cutoff>.csv`, S6 leg
+`leave_one_out_book` after `information_structure`, smoke leg requiring both denominators with
+intervals, the identity as a number, and the artefact label only where the predicted gap sits
+inside the measured gap interval. No charge, no adoption: E239 asks the next question the
+leave-one-out book raised (in the rest-free book the cross coefficient 0.771 exceeds the own
+0.596, which is either economics or the units of summing four members).

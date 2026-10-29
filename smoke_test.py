@@ -3178,7 +3178,66 @@ def main() -> int:
     except Exception as e:
         check("product: the own-turnover channel is tested against information arrival "
               "before it is called an impact effect", False, repr(e)[:160])
+    # E238: every member's own turnover sits inside the book turnover its share is divided
+    # by. This leg holds the leave-one-out face to: both denominators published with
+    # intervals, the regressor identity pinned as a number, and the artefact label granted
+    # ONLY where the share arithmetic's predicted gap lies inside the measured gap interval.
+    try:
+        _bad38 = []
+        _p38 = "results/state_tilt/loobook_latest.json"
+        _f38 = {}
+        if not os.path.exists(_p38):
+            _bad38.append("leave-one-out face missing")
+        else:
+            with open(_p38, encoding="utf-8") as _fh:
+                _f38 = json.load(_fh)
+            _pool38 = _f38.get("pooled") or {}
+            _sum38 = _f38.get("summary") or {}
+            for _den in ("inclusive", "leave_one_out"):
+                _blk = _pool38.get(_den) or {}
+                for _des in ("differences", "frozen_z", "two_way_fe"):
+                    _row = _blk.get(_des) or {}
+                    if _row.get("b_own") is None or not _row.get("ci"):
+                        _bad38.append("%s/%s has no interval" % (_den, _des))
+            _ident38 = (_f38.get("identity") or {}).get("max_abs_deviation_all_members")
+            if _ident38 is None:
+                _bad38.append("the regressor identity is not published as a number")
+            elif _ident38 > (_f38.get("identity") or {}).get("tolerance", 1e-12):
+                _bad38.append("identity deviation %r over tolerance" % _ident38)
+            _vb38 = _pool38.get("verdict_bundle") or {}
+            if not _vb38.get("verdict"):
+                _bad38.append("no denominator verdict")
+            for _des, _v in (_pool38.get("verdict_by_design") or {}).items():
+                if _v.get("verdict") == "own_channel_is_a_denominator_artefact":
+                    _ci38 = _v.get("gap_ci") or _v.get("ci")
+                    _pred38 = _v.get("mechanical_prediction")
+                    if _ci38 and _pred38 is not None and not (
+                            _ci38[0] <= _pred38 <= _ci38[1]):
+                        _bad38.append("%s is called arithmetic but the prediction %r sits "
+                                      "outside the gap %r" % (_des, _pred38, _ci38))
+            _gap38 = (_pool38.get("gap_by_design") or {}).get("differences")
+            if _gap38 is None:
+                _bad38.append("the differenced-design gap is not published")
+            _mech38 = (_pool38.get("mechanical") or {}).get("predicted_gap")
+            if _gap38 is not None and _mech38 is None:
+                _bad38.append("no mechanical prediction next to the gap")
+            if _sum38.get("kappa_nominal") is None:
+                _bad38.append("the nominal 1/5 weight is not published")
+            if not (_f38.get("answer") or "").strip():
+                _bad38.append("face publishes no answer sentence")
+        check("product: the own-turnover channel is re-measured against a book that does not "
+              "contain it", not _bad38, "; ".join(_bad38)[:220]
+              or "b_own %s -> %s (gap %s), arithmetic predicts %s -> %s"
+                 % (_r38(_f38, "inclusive_b_own"), _r38(_f38, "loo_b_own"),
+                    _r38(_f38, "gap"), _r38(_f38, "predicted_gap"),
+                    (_f38.get("summary") or {}).get("verdict")))
+    except Exception as e:
+        check("product: the own-turnover channel is re-measured against a book that does not "
+              "contain it", False, repr(e)[:160])
     return _finish()
+def _r38(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if v is None else "%.3f" % v
 def _r37(face, key):
     v = (face.get("summary") or {}).get(key)
     return "n/a" if v is None else "%.3f" % v

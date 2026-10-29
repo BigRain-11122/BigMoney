@@ -1,0 +1,905 @@
+{
+ "answer": "own-channel denominator test: inclusive b_own 0.437 vs leave-one-out 0.596 (gap -0.159, bootstrap [-0.178, -0.136]; arithmetic predicts -0.049 at kappa 0.279) -> own_channel_survives_the_denominator | own share of book turnover 0.218 (nominal 0.200, kappa 0.250 vs nominal 0.250); members: 4 survive / 0 artefact of 5 fitted; identity worst deviation 0.00e+00",
+ "book": {
+  "first": "2012-05-28",
+  "last": "2026-10-29",
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "panel": "basket_equal_weight",
+  "sessions": 3504
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "bootstrap": "moving block, 20 sessions, 400 reps, dates resampled jointly",
+  "denominators": {
+   "inclusive": "log(aggregate turnover of the five-member book) -- E236's face",
+   "leave_one_out": "log(aggregate turnover EXCLUDING the member being fitted)"
+  },
+  "designs": [
+   "differences: dy on d(share), d(book turnover) -- E236 design A",
+   "frozen_z: level share + book level in frozen-window sd units -- B",
+   "two_way_fe: member + date fixed effects, b_own only -- C"
+  ],
+  "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w)), pinned to 1e-12",
+  "mechanical_prediction": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w); nominal w = 1/5 -> kappa = 0.25, realised shares published per member",
+  "multiplicity_bar_t": 2.6382572734767447,
+  "multiplicity_basis": "two-sided 5% over 6 pooled coefficients (3 designs x 2 denominators)",
+  "no_adoption": "this face re-prices nothing and adopts nothing",
+  "question": "the own turnover sits inside its own denominator with the book built from the same five members; remove the member and re-run",
+  "verdict_vocabulary": [
+   "own_channel_survives_the_denominator",
+   "own_channel_is_a_denominator_artefact",
+   "unresolved_gap_beyond_arithmetic",
+   "no_own_channel",
+   "unresolved_no_leave_one_out"
+  ]
+ },
+ "generated": "2026-10-30T03:48:09",
+ "identity": {
+  "max_abs_deviation_all_members": 0.0,
+  "note": "the two designs are two restrictions of one regression, so their disagreement cannot be evidence about the market",
+  "tolerance": 1e-12
+ },
+ "members": [
+  {
+   "gap_by_design": {
+    "differences": -0.4921236667905675,
+    "frozen_z": 0.0935014707103421,
+    "two_way_fe": null
+   },
+   "identity": {
+    "dl_mean": 0.0004535151959290292,
+    "dl_sd": 0.1324266484872143,
+    "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w))",
+    "max_abs_deviation": 0.0,
+    "rows": 3455
+   },
+   "inclusive": {
+    "differences": {
+     "b_agg": 1.399993216949137,
+     "b_agg_ci": [
+      1.0870277113055162,
+      1.7129587225927576
+     ],
+     "b_own": 0.2746878073641099,
+     "ci": [
+      0.0037779926715532097,
+      0.5455976220566666
+     ],
+     "r2": 0.1333036867727,
+     "reason": null,
+     "rows": 3455,
+     "se": 0.13821929321048812,
+     "t": 1.9873333236178532
+    },
+    "frozen_z": {
+     "b_agg": -0.20935736004390887,
+     "b_agg_ci": [
+      -0.3251465059562429,
+      -0.09356821413157486
+     ],
+     "b_own": 0.46955908853237505,
+     "ci": [
+      0.33921336106762046,
+      0.5999048159971296
+     ],
+     "r2": 0.04781611154260834,
+     "reason": null,
+     "rows": 3456,
+     "se": 0.06650292217589518,
+     "t": 7.060728659267436
+    },
+    "two_way_fe": null
+   },
+   "kappa_median": 0.5089188375415858,
+   "leave_one_out": {
+    "differences": {
+     "b_agg": 0.928688054652361,
+     "b_agg_ci": [
+      0.7343624089594865,
+      1.1230137003452356
+     ],
+     "b_own": 0.7668114741546774,
+     "ci": [
+      0.5871700138848741,
+      0.9464529344244808
+     ],
+     "r2": 0.13653879071771113,
+     "reason": null,
+     "rows": 3455,
+     "se": 0.09165380626010376,
+     "t": 8.366389847231744
+    },
+    "frozen_z": {
+     "b_agg": -0.1155246961746742,
+     "b_agg_ci": [
+      -0.18459941100251903,
+      -0.04644998134682936
+     ],
+     "b_own": 0.37605761782203295,
+     "ci": [
+      0.2866244647570394,
+      0.4654907708870265
+     ],
+     "r2": 0.04718845654673953,
+     "reason": null,
+     "rows": 3456,
+     "se": 0.04562915972703753,
+     "t": 8.241607342140036
+    },
+    "two_way_fe": null
+   },
+   "mechanical": {
+    "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+    "kappa": 0.5089188375415858,
+    "predicted_b_own_incl": 0.6844294329825895,
+    "predicted_gap": -0.08238204117208808
+   },
+   "own_share_mean": 0.3721044334217303,
+   "own_share_median": 0.3372738313551341,
+   "sessions": 3456,
+   "skipped_zero_book": 0,
+   "symbol": "sh510300",
+   "verdict_bundle": {
+    "clears_inclusive": false,
+    "clears_leave_one_out": true,
+    "gap": -0.4921236667905675,
+    "gap_ci": null,
+    "intervals_overlap": false,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": -0.08238204117208808,
+    "reason": "the leave-one-out reading clears but the gap is larger than the mechanical prediction can explain",
+    "same_sign": true,
+    "verdict": "unresolved_gap_beyond_arithmetic"
+   }
+  },
+  {
+   "gap_by_design": {
+    "differences": -0.3122399667583212,
+    "frozen_z": 0.13130540805425728,
+    "two_way_fe": null
+   },
+   "identity": {
+    "dl_mean": 2.4538719137847763e-05,
+    "dl_sd": 0.13753360950246055,
+    "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w))",
+    "max_abs_deviation": 0.0,
+    "rows": 3443
+   },
+   "inclusive": {
+    "differences": {
+     "b_agg": 0.8842402901440348,
+     "b_agg_ci": [
+      0.6274317855977168,
+      1.1410487946903527
+     ],
+     "b_own": 0.5468172237015957,
+     "ci": [
+      0.324697909109534,
+      0.7689365382936574
+     ],
+     "r2": 0.1222084278124802,
+     "reason": null,
+     "rows": 3443,
+     "se": 0.11332618091431719,
+     "t": 4.825162370159012
+    },
+    "frozen_z": {
+     "b_agg": -0.36003808798962245,
+     "b_agg_ci": [
+      -0.4402848723439653,
+      -0.2797913036352796
+     ],
+     "b_own": 0.7685018753566286,
+     "ci": [
+      0.6647827723576676,
+      0.8722209783555896
+     ],
+     "r2": 0.10093259807493904,
+     "reason": null,
+     "rows": 3444,
+     "se": 0.05291790969334744,
+     "t": 14.52252894738283
+    },
+    "two_way_fe": null
+   },
+   "kappa_median": 0.5082080506112523,
+   "leave_one_out": {
+    "differences": {
+     "b_agg": 0.5682693735505391,
+     "b_agg_ci": [
+      0.39879599467537563,
+      0.7377427524257025
+     ],
+     "b_own": 0.8590571904599169,
+     "ci": [
+      0.696339964762724,
+      1.0217744161571098
+     ],
+     "r2": 0.12196686831091408,
+     "reason": null,
+     "rows": 3443,
+     "se": 0.08301899270264942,
+     "t": 10.347718786914424
+    },
+    "frozen_z": {
+     "b_agg": -0.2361029847270602,
+     "b_agg_ci": [
+      -0.28922838380825033,
+      -0.1829775856458701
+     ],
+     "b_own": 0.6371964673023713,
+     "ci": [
+      0.5563852146599606,
+      0.7180077199447821
+     ],
+     "r2": 0.09972338439791006,
+     "reason": null,
+     "rows": 3444,
+     "se": 0.04123023094000548,
+     "t": 15.454593699209743
+    },
+    "two_way_fe": null
+   },
+   "mechanical": {
+    "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+    "kappa": 0.5082080506112523,
+    "predicted_b_own_incl": 1.0068379000329335,
+    "predicted_gap": 0.14778070957301664
+   },
+   "own_share_mean": 0.348238228558443,
+   "own_share_median": 0.3369615023638707,
+   "sessions": 3444,
+   "skipped_zero_book": 1730,
+   "symbol": "sh510050",
+   "verdict_bundle": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": -0.3122399667583212,
+    "gap_ci": null,
+    "intervals_overlap": true,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": 0.14778070957301664,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   }
+  },
+  {
+   "gap_by_design": {
+    "differences": -0.10103010866085815,
+    "frozen_z": -0.02801014406149499,
+    "two_way_fe": null
+   },
+   "identity": {
+    "dl_mean": -1.1070474938827018e-05,
+    "dl_sd": 0.069240801624893,
+    "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w))",
+    "max_abs_deviation": 0.0,
+    "rows": 3265
+   },
+   "inclusive": {
+    "differences": {
+     "b_agg": 1.0141645577549085,
+     "b_agg_ci": [
+      0.7963247184393164,
+      1.2320043970705006
+     ],
+     "b_own": 0.24271810836405583,
+     "ci": [
+      0.09154746225576468,
+      0.39388875447234695
+     ],
+     "r2": 0.07279375883167472,
+     "reason": null,
+     "rows": 3265,
+     "se": 0.07712788066749549,
+     "t": 3.146956797768542
+    },
+    "frozen_z": {
+     "b_agg": 0.3204442733254311,
+     "b_agg_ci": [
+      0.241359416122798,
+      0.39952913052806416
+     ],
+     "b_own": -0.1303763790315725,
+     "ci": [
+      -0.16488158818704962,
+      -0.09587116987609538
+     ],
+     "r2": 0.03376238208487059,
+     "reason": null,
+     "rows": 3266,
+     "se": 0.01760469854871282,
+     "t": -7.405771741607303
+    },
+    "two_way_fe": null
+   },
+   "kappa_median": 0.1704726090567882,
+   "leave_one_out": {
+    "differences": {
+     "b_agg": 0.8834448458474318,
+     "b_agg_ci": [
+      0.6890186644992597,
+      1.0778710271956038
+     ],
+     "b_own": 0.343748217024914,
+     "ci": [
+      0.1946530423112799,
+      0.4928433917385481
+     ],
+     "r2": 0.07043299691791627,
+     "reason": null,
+     "rows": 3265,
+     "se": 0.07606896669062964,
+     "t": 4.518902148663703
+    },
+    "frozen_z": {
+     "b_agg": 0.28202658152549565,
+     "b_agg_ci": [
+      0.20880086571118517,
+      0.3552522973398061
+     ],
+     "b_own": -0.10236623497007752,
+     "ci": [
+      -0.13338207394761492,
+      -0.07135039599254012
+     ],
+     "r2": 0.031097532949422413,
+     "reason": null,
+     "rows": 3266,
+     "se": 0.015824407641600716,
+     "t": -6.468882582433441
+    },
+    "two_way_fe": null
+   },
+   "mechanical": {
+    "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+    "kappa": 0.1704726090567882,
+    "predicted_b_own_incl": 0.25174472461038644,
+    "predicted_gap": -0.09200349241452761
+   },
+   "own_share_mean": 0.15406961180368944,
+   "own_share_median": 0.14564425321679383,
+   "sessions": 3266,
+   "skipped_zero_book": 0,
+   "symbol": "sh510500",
+   "verdict_bundle": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": -0.10103010866085815,
+    "gap_ci": null,
+    "intervals_overlap": true,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": -0.09200349241452761,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   }
+  },
+  {
+   "gap_by_design": {
+    "differences": -0.021325009888083446,
+    "frozen_z": -0.017974020889041098,
+    "two_way_fe": null
+   },
+   "identity": {
+    "dl_mean": 5.4961427803180675e-05,
+    "dl_sd": 0.030477817880886573,
+    "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w))",
+    "max_abs_deviation": 0.0,
+    "rows": 2350
+   },
+   "inclusive": {
+    "differences": {
+     "b_agg": 0.886275644488278,
+     "b_agg_ci": [
+      0.6958172930372577,
+      1.0767339959392983
+     ],
+     "b_own": 0.351021551099503,
+     "ci": [
+      0.23886456669871023,
+      0.46317853550029575
+     ],
+     "r2": 0.08753579389805166,
+     "reason": null,
+     "rows": 2350,
+     "se": 0.05722295122489427,
+     "t": 6.134279053870165
+    },
+    "frozen_z": {
+     "b_agg": 0.6438727661661212,
+     "b_agg_ci": [
+      0.5416237995303635,
+      0.7461217328018789
+     ],
+     "b_own": -0.14807047629529402,
+     "ci": [
+      -0.18058805582371223,
+      -0.1155528967668758
+     ],
+     "r2": 0.0831484540927594,
+     "reason": null,
+     "rows": 2351,
+     "se": 0.01659060180021337,
+     "t": -8.924961136333806
+    },
+    "two_way_fe": null
+   },
+   "kappa_median": 0.030569766509902955,
+   "leave_one_out": {
+    "differences": {
+     "b_agg": 0.8561927976647519,
+     "b_agg_ci": [
+      0.6714974273895088,
+      1.040888167939995
+     ],
+     "b_own": 0.37234656098758645,
+     "ci": [
+      0.26020532985096145,
+      0.48448779212421145
+     ],
+     "r2": 0.08700823897645449,
+     "reason": null,
+     "rows": 2350,
+     "se": 0.05721491384521683,
+     "t": 6.507858457934471
+    },
+    "frozen_z": {
+     "b_agg": 0.6259508859022243,
+     "b_agg_ci": [
+      0.5243230354371601,
+      0.7275787363672884
+     ],
+     "b_own": -0.13009645540625292,
+     "ci": [
+      -0.16071123237179546,
+      -0.09948167844071036
+     ],
+     "r2": 0.08451047850613336,
+     "reason": null,
+     "rows": 2351,
+     "se": 0.015619784166093142,
+     "t": -8.328953462024243
+    },
+    "two_way_fe": null
+   },
+   "mechanical": {
+    "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+    "kappa": 0.030569766509902955,
+    "predicted_b_own_incl": 0.35755549450567026,
+    "predicted_gap": -0.01479106648191619
+   },
+   "own_share_mean": 0.06329779269923645,
+   "own_share_median": 0.029662976251893767,
+   "sessions": 2351,
+   "skipped_zero_book": 0,
+   "symbol": "sh512100",
+   "verdict_bundle": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": -0.021325009888083446,
+    "gap_ci": null,
+    "intervals_overlap": true,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": -0.01479106648191619,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   }
+  },
+  {
+   "gap_by_design": {
+    "differences": 0.11331315359998717,
+    "frozen_z": -0.056041689091453684,
+    "two_way_fe": null
+   },
+   "identity": {
+    "dl_mean": -9.360820097669856e-07,
+    "dl_sd": 0.07737379020596187,
+    "identity": "d(share)_incl - d(share)_loo = d(log rest) - d(log agg) = -d(log(1-w))",
+    "max_abs_deviation": 0.0,
+    "rows": 1398
+   },
+   "inclusive": {
+    "differences": {
+     "b_agg": -0.48375165038918944,
+     "b_agg_ci": [
+      -0.7441950224018227,
+      -0.2233082783765562
+     ],
+     "b_own": 2.3434254647991475,
+     "ci": [
+      2.0755119751360143,
+      2.6113389544622807
+     ],
+     "r2": 0.22705511042560733,
+     "reason": null,
+     "rows": 1398,
+     "se": 0.13669055595057825,
+     "t": 17.144018827799886
+    },
+    "frozen_z": {
+     "b_agg": 0.24841368729357133,
+     "b_agg_ci": [
+      0.02035110225544079,
+      0.47647627233170187
+     ],
+     "b_own": 0.19336903550105378,
+     "ci": [
+      0.05906924158388316,
+      0.3276688294182244
+     ],
+     "r2": 0.08941264828871365,
+     "reason": null,
+     "rows": 1399,
+     "se": 0.0685203030189646,
+     "t": 2.822069182144953
+    },
+    "two_way_fe": null
+   },
+   "kappa_median": 0.2655834743366421,
+   "leave_one_out": {
+    "differences": {
+     "b_agg": -0.36108408870318964,
+     "b_agg_ci": [
+      -0.5705802168322407,
+      -0.15158796057413862
+     ],
+     "b_own": 2.2301123111991603,
+     "ci": [
+      1.98999917151039,
+      2.4702254508879307
+     ],
+     "r2": 0.2260406765862264,
+     "reason": null,
+     "rows": 1398,
+     "se": 0.12250670392284208,
+     "t": 18.204002228349424
+    },
+    "frozen_z": {
+     "b_agg": 0.18804733284142394,
+     "b_agg_ci": [
+      0.007584925703783829,
+      0.36850973997906405
+     ],
+     "b_own": 0.24941072459250746,
+     "ci": [
+      0.1519265314250408,
+      0.3468949177599741
+     ],
+     "r2": 0.0888198453557889,
+     "reason": null,
+     "rows": 1399,
+     "se": 0.04973683324870748,
+     "t": 5.0146080540620055
+    },
+    "two_way_fe": null
+   },
+   "mechanical": {
+    "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+    "kappa": 0.2655834743366421,
+    "predicted_b_own_incl": 2.9182912537738255,
+    "predicted_gap": 0.6881789425746652
+   },
+   "own_share_mean": 0.22255097856838363,
+   "own_share_median": 0.2098506180920608,
+   "sessions": 1399,
+   "skipped_zero_book": 0,
+   "symbol": "sh588000",
+   "verdict_bundle": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": 0.11331315359998717,
+    "gap_ci": null,
+    "intervals_overlap": true,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": 0.6881789425746652,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   }
+  }
+ ],
+ "no_bill": {
+  "permitted": false,
+  "reason": "this face decides whether an own channel is measurable at all; it publishes no charge and adopts no arm"
+ },
+ "pooled": {
+  "gap_bootstrap": {
+   "block": 20,
+   "ci": [
+    -0.1778313854613789,
+    -0.13594687950982626
+   ],
+   "median": -0.15574463270173156,
+   "method": "block bootstrap of the point estimate (no HAC inside the replicate)",
+   "reps_used": 400,
+   "sd": 0.010324556127045519
+  },
+  "gap_by_design": {
+   "differences": -0.15917365883586232,
+   "frozen_z": -0.03791959488587236,
+   "two_way_fe": 0.0005750234385922259
+  },
+  "inclusive": {
+   "differences": {
+    "b_agg": 0.9634201897956353,
+    "b_agg_ci": [
+     0.8525862047320072,
+     1.0742541748592633
+    ],
+    "b_own": 0.4371002321576988,
+    "ci": [
+     0.34667256981503525,
+     0.5275278945003623
+    ],
+    "r2": 0.102863522457183,
+    "reason": null,
+    "rows": 13911,
+    "se": 0.046136562419726274,
+    "t": 9.474052881989557
+   },
+   "frozen_z": {
+    "b_agg": 0.21801306260125725,
+    "b_agg_ci": [
+     0.18222720238597806,
+     0.25379892281653643
+    ],
+    "b_own": -0.03661383157438633,
+    "ci": [
+     -0.05613638196782131,
+     -0.017091281180951354
+    ],
+    "r2": 0.05883728046242931,
+    "reason": null,
+    "rows": 13916,
+    "se": 0.009960484894609682,
+    "t": -3.675908548809772
+   },
+   "two_way_fe": {
+    "b_agg": null,
+    "b_agg_ci": null,
+    "b_own": 0.023462943397860182,
+    "ci": [
+     0.01176256821248472,
+     0.035163318583235646
+    ],
+    "r2": 0.0013390169938524155,
+    "reason": null,
+    "rows": 13916,
+    "se": 0.00596957917621197,
+    "t": 3.930418326865835
+   }
+  },
+  "kappa_nominal": 0.25,
+  "kappa_used": 0.2789717346338854,
+  "leave_one_out": {
+   "differences": {
+    "b_agg": 0.770596628227935,
+    "b_agg_ci": [
+     0.6778906455513489,
+     0.863302610904521
+    ],
+    "b_own": 0.5962738909935611,
+    "ci": [
+     0.5100232779635806,
+     0.6825245040235416
+    ],
+    "r2": 0.09999028861829218,
+    "reason": null,
+    "rows": 13911,
+    "se": 0.04400541481121453,
+    "t": 13.550011823581402
+   },
+   "frozen_z": {
+    "b_agg": 0.12833952271293964,
+    "b_agg_ci": [
+     0.09939405320769822,
+     0.15728499221818107
+    ],
+    "b_own": 0.0013057633114860329,
+    "ci": [
+     -0.017010710292723167,
+     0.019622236915695233
+    ],
+    "r2": 0.05103282255765995,
+    "reason": null,
+    "rows": 13916,
+    "se": 0.009345139593984286,
+    "t": 0.13972646404625003
+   },
+   "two_way_fe": {
+    "b_agg": null,
+    "b_agg_ci": null,
+    "b_own": 0.022887919959267956,
+    "ci": [
+     0.012437844177799563,
+     0.03333799574073635
+    ],
+    "r2": 0.0016085357942913214,
+    "reason": null,
+    "rows": 13916,
+    "se": 0.005331671317075711,
+    "t": 4.292822756340016
+   }
+  },
+  "mechanical": {
+   "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+   "kappa": 0.2789717346338854,
+   "predicted_b_own_incl": 0.5476427746011607,
+   "predicted_gap": -0.04863111639240028
+  },
+  "mechanical_at_nominal_weight": {
+   "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+   "kappa": 0.25,
+   "predicted_b_own_incl": 0.5526932066849677,
+   "predicted_gap": -0.043580684308593465
+  },
+  "members": [
+   "sh510300",
+   "sh510050",
+   "sh510500",
+   "sh512100",
+   "sh588000"
+  ],
+  "own_share_turnover_weighted": 0.2181218920477105,
+  "verdict_bundle": {
+   "clears_inclusive": true,
+   "clears_leave_one_out": true,
+   "gap": -0.15917365883586232,
+   "gap_ci": [
+    -0.1778313854613789,
+    -0.13594687950982626
+   ],
+   "intervals_overlap": true,
+   "mechanical_explains_gap": false,
+   "mechanical_prediction": -0.04863111639240028,
+   "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+   "same_sign": true,
+   "verdict": "own_channel_survives_the_denominator"
+  },
+  "verdict_by_design": {
+   "differences": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": -0.15917365883586232,
+    "gap_ci": [
+     -0.2841389754833473,
+     -0.03420834218837729
+    ],
+    "gap_interval_method": "independent-se approximation",
+    "intervals_overlap": true,
+    "mechanical": {
+     "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+     "kappa": 0.2789717346338854,
+     "predicted_b_own_incl": 0.5476427746011607,
+     "predicted_gap": -0.04863111639240028
+    },
+    "mechanical_explains_gap": true,
+    "mechanical_prediction": -0.04863111639240028,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   },
+   "frozen_z": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": false,
+    "gap": -0.03791959488587236,
+    "gap_ci": [
+     -0.06468941332302094,
+     -0.011149776448723774
+    ],
+    "gap_interval_method": "independent-se approximation",
+    "intervals_overlap": false,
+    "mechanical": {
+     "formula": "gap = kappa*(b_own_loo - b_agg_loo), kappa = w/(1-w)",
+     "kappa": 0.2789717346338854,
+     "predicted_b_own_incl": -0.034133064905801126,
+     "predicted_gap": -0.035438828217287166
+    },
+    "mechanical_explains_gap": true,
+    "mechanical_prediction": -0.035438828217287166,
+    "reason": "the inclusive coefficient does not survive the member being removed from its own denominator, and the observed gap sits inside the interval the share arithmetic predicts",
+    "same_sign": false,
+    "verdict": "own_channel_is_a_denominator_artefact"
+   },
+   "two_way_fe": {
+    "clears_inclusive": true,
+    "clears_leave_one_out": true,
+    "gap": 0.0005750234385922259,
+    "gap_ci": [
+     -0.015112642522824151,
+     0.016262689400008603
+    ],
+    "gap_interval_method": "independent-se approximation",
+    "intervals_overlap": true,
+    "mechanical": null,
+    "mechanical_explains_gap": false,
+    "mechanical_prediction": null,
+    "reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval",
+    "same_sign": true,
+    "verdict": "own_channel_survives_the_denominator"
+   }
+  }
+ },
+ "study": "E238",
+ "summary": {
+  "bar_t": 2.6382572734767447,
+  "designs_where_the_gap_is_arithmetic": [
+   "frozen_z"
+  ],
+  "gap": -0.15917365883586232,
+  "gap_ci": [
+   -0.1778313854613789,
+   -0.13594687950982626
+  ],
+  "identity_max_deviation": 0.0,
+  "inclusive_b_own": 0.4371002321576988,
+  "inclusive_b_own_ci": [
+   0.34667256981503525,
+   0.5275278945003623
+  ],
+  "inclusive_clears_by_design": {
+   "differences": true,
+   "frozen_z": true,
+   "two_way_fe": true
+  },
+  "kappa_nominal": 0.25,
+  "kappa_used": 0.2789717346338854,
+  "loo_b_agg": 0.770596628227935,
+  "loo_b_own": 0.5962738909935611,
+  "loo_b_own_ci": [
+   0.5100232779635806,
+   0.6825245040235416
+  ],
+  "loo_survives_by_design": {
+   "differences": true,
+   "frozen_z": false,
+   "two_way_fe": true
+  },
+  "mechanical_explains_gap": false,
+  "member_artefact_count": 0,
+  "member_survives_count": 4,
+  "member_verdicts": {
+   "sh510050": "own_channel_survives_the_denominator",
+   "sh510300": "unresolved_gap_beyond_arithmetic",
+   "sh510500": "own_channel_survives_the_denominator",
+   "sh512100": "own_channel_survives_the_denominator",
+   "sh588000": "own_channel_survives_the_denominator"
+  },
+  "own_share_turnover_weighted": 0.2181218920477105,
+  "predicted_gap": -0.04863111639240028,
+  "predicted_gap_nominal": -0.043580684308593465,
+  "tests": 6,
+  "verdict": "own_channel_survives_the_denominator",
+  "verdict_by_design": {
+   "differences": [
+    "own_channel_survives_the_denominator",
+    0.4371002321576988,
+    0.5962738909935611,
+    -0.04863111639240028
+   ],
+   "frozen_z": [
+    "own_channel_is_a_denominator_artefact",
+    -0.03661383157438633,
+    0.0013057633114860329,
+    -0.035438828217287166
+   ],
+   "two_way_fe": [
+    "own_channel_survives_the_denominator",
+    0.023462943397860182,
+    0.022887919959267956,
+    null
+   ]
+  },
+  "verdict_reason": "the leave-one-out reading keeps the sign, clears the bar and overlaps the inclusive interval"
+ },
+ "title": "is the own-turnover channel a denominator artefact of the book it is measured in?"
+}
