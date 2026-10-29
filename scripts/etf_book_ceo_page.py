@@ -177,6 +177,228 @@ def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=2
     return out
 
 
+LADDER_TENORS = ("GC001", "GC003", "GC007", "GC014", "GC028", "GC091")
+LADDER_WINDOWS_YEARS = (1, 3, 5)
+# Frozen adoption rule. A longer tenor is only worth the lock-up if it pays at
+# least 20bp a year MORE than rolling the 1-day leg, in BOTH the 1-year and the
+# 3-year window (a single year can be a rate-regime accident), while leaving
+# <=1% of the calendar with the cash uninvested (maturity landing on a weekend),
+# and while being ahead in a majority of the complete calendar years on record.
+LADDER_MIN_EDGE_BP = 20.0
+LADDER_MAX_IDLE_SHARE = 0.01
+LADDER_MIN_POSITIVE_YEAR_SHARE = 0.60
+LADDER_YEARS_CHECKED = 5
+
+
+def repo_rows(symbol, panel_dir=REPO_DIR):
+    """(date, close) pairs from one repo panel, holding the collector's sanity band."""
+    path = os.path.join(panel_dir, "%s.csv" % symbol)
+    if not os.path.exists(path):
+        return []
+    rows = []
+    with open(path, encoding="utf-8") as fh:
+        next(fh, None)
+        for line in fh:
+            parts = line.strip().split(",")
+            if len(parts) < 5:
+                continue
+            try:
+                val = float(parts[4])
+                if 0.0 < val < 200.0:
+                    rows.append((dt.date.fromisoformat(parts[0]), val))
+            except ValueError:
+                continue
+    return rows
+
+
+def rolled_yield(rows, tenor_days, start=None, end=None):
+    """Annualised return of rolling a repo of this maturity, measured on the calendar.
+
+    A repo quote is per annum, so what the money earns is rate x days held / 365 --
+    and the days held are not the tenor. One-day money bought on a Friday is lent
+    over the weekend (that is why Friday's quote dips); a 3-day leg bought on a
+    Thursday matures on a Sunday and the cash sits idle until Monday. Both are read
+    off the panel's own calendar here instead of being assumed, and the idle days
+    are returned rather than hidden: they are the reason a longer tenor can pay
+    less, not more.
+    """
+    if not rows:
+        return None
+    dates = [d for d, _ in rows]
+    rate = dict(rows)
+    idx = [i for i, d in enumerate(dates)
+           if (start is None or d >= start) and (end is None or d <= end)]
+    if len(idx) < 2:
+        return None
+    i, last = idx[0], idx[-1]
+    tot = 0.0
+    days = 0
+    idle = 0
+    rolls = 0
+    while i < last:
+        d = dates[i]
+        tenor = int(tenor_days)
+        mat = d + dt.timedelta(days=tenor)
+        j = i + 1
+        while j < len(dates) and dates[j] < mat:
+            j += 1
+        if j > last:
+            break
+        accrue = (dates[j] - d).days if tenor == 1 else (mat - d).days
+        tot += rate[d] / 100.0 * accrue / 365.0
+        rolls += 1
+        idle += max(0, (dates[j] - max(mat, d + dt.timedelta(days=accrue))).days)
+        days += (dates[j] - d).days
+        i = j
+    if days <= 0:
+        return None
+    return {"realized_pct": round(tot / (days / 365.0) * 100.0, 4), "rolls": rolls,
+            "idle_days": idle, "days": days,
+            "idle_share": round(float(idle) / days, 4)}
+
+
+def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
+                windows=LADDER_WINDOWS_YEARS, years_checked=LADDER_YEARS_CHECKED,
+                min_edge_bp=LADDER_MIN_EDGE_BP, max_idle_share=LADDER_MAX_IDLE_SHARE,
+                min_positive_year_share=LADDER_MIN_POSITIVE_YEAR_SHARE):
+    """Should the idle half be laddered out to a longer repo, or left at one day?
+
+    The page already says "buy GC001"; the question a reader actually has is whether
+    a longer tenor pays for the lock-up. It does not follow from the quotes: they are
+    per annum, so a 7-day leg can only win if it clears the 1-day leg's own
+    quarter-end spikes plus its maturity friction. So every tenor is rolled on the
+    panel's own calendar and priced against rolling the 1-day leg in the same window.
+    The adoption rule is a frozen constant (see LADDER_MIN_EDGE_BP) and the verdict is
+    recomputed from those cells, never written by hand. Unreadable panels stay None.
+    """
+    base = tenors[0]
+    base_rows = repo_rows(base, panel_dir)
+    out = {"base": base, "tenors": [], "pick": None, "verdict": "NOT-ASSESSED",
+           "reason": None, "cash_amount_cny": None,
+           "forgotten_day_cny": None, "rolls": {}, "windows_years": list(windows),
+           "rule": {"min_edge_bp": min_edge_bp, "max_idle_share": max_idle_share,
+                    "min_positive_year_share": min_positive_year_share,
+                    "years_checked": years_checked,
+                    "basis": ("edge must clear min_edge_bp in the 1y AND 3y windows, "
+                              "idle <= max_idle_share, positive in "
+                              "min_positive_year_share of complete years")}}
+    if not base_rows:
+        out["reason"] = "一天期面板缺席，无法做基线"
+        return out
+    end = base_rows[-1][0]
+    cash = None if cash_amount is None else float(cash_amount)
+    out["cash_amount_cny"] = None if (cash is None or cash <= 0) else round(cash, 2)
+    base_by_window = {y: rolled_yield(base_rows, 1, end - dt.timedelta(days=365 * y))
+                      for y in windows}
+    base_spot = base_rows[-1][1]
+    if out["cash_amount_cny"]:
+        out["forgotten_day_cny"] = round(out["cash_amount_cny"] * base_spot / 100.0 / 365.0, 0)
+
+    complete_years = sorted({d.year for d, _ in base_rows if d.year < end.year})[-years_checked:]
+
+    for symbol in tenors:
+        rows = repo_rows(symbol, panel_dir)
+        tenor_days = {"GC001": 1, "GC003": 3, "GC004": 4, "GC007": 7,
+                      "GC014": 14, "GC028": 28, "GC091": 91, "GC182": 182}.get(
+            symbol, int(symbol[-3:]) if symbol[-3:].isdigit() else 1)
+        row = {"symbol": symbol, "tenor_days": tenor_days, "spot_pct": None,
+               "spot_date": None, "mean250_pct": None, "realized": {}, "edge_bp": {},
+               "rolls_1y": None, "idle_days_1y": None, "idle_share_1y": None,
+               "annual_cny_spot": None, "annual_cny_realized_1y": None,
+               "positive_years": None, "years_checked": None, "verdict": None,
+               "reason": None}
+        out["tenors"].append(row)
+        if not rows:
+            row["verdict"] = "NO-PANEL"
+            row["reason"] = "面板缺席"
+            continue
+        row["spot_date"], row["spot_pct"] = rows[-1][0].isoformat(), rows[-1][1]
+        tail = [v for _, v in rows[-250:]]
+        row["mean250_pct"] = round(sum(tail) / len(tail), 4)
+        if row["spot_pct"] is not None and out["cash_amount_cny"]:
+            row["annual_cny_spot"] = round(out["cash_amount_cny"] * row["spot_pct"] / 100.0, 0)
+        if symbol == base:
+            row["verdict"] = "BASELINE"
+            row["reason"] = "基线：一天期，季末飙高全部吃进"
+        for y in windows:
+            r = rolled_yield(rows, tenor_days, end - dt.timedelta(days=365 * y))
+            if r is None:
+                continue
+            row["realized"][str(y)] = r
+            if y == 1:
+                row["rolls_1y"] = r["rolls"]
+                row["idle_days_1y"] = r["idle_days"]
+                row["idle_share_1y"] = r["idle_share"]
+                if out["cash_amount_cny"]:
+                    row["annual_cny_realized_1y"] = round(
+                        out["cash_amount_cny"] * r["realized_pct"] / 100.0, 0)
+            b = base_by_window.get(y)
+            if b is not None and symbol != base:
+                row["edge_bp"][str(y)] = round((r["realized_pct"] - b["realized_pct"]) * 100.0, 1)
+        out["rolls"][symbol] = row["rolls_1y"]
+        if symbol != base:
+            pos = tot = 0
+            for yr in complete_years:
+                a = dt.date(yr, 1, 1)
+                b2 = dt.date(yr, 12, 31)
+                rr = rolled_yield(rows, tenor_days, a, b2)
+                bb = rolled_yield(base_rows, 1, a, b2)
+                if rr is None or bb is None:
+                    continue
+                tot += 1
+                if rr["realized_pct"] > bb["realized_pct"]:
+                    pos += 1
+            row["positive_years"] = pos
+            row["years_checked"] = tot
+            e1 = row["edge_bp"].get("1")
+            e3 = row["edge_bp"].get("3")
+
+            def _over(e):
+                return ("多 %.1f bp" % e) if e >= 0 else ("少 %.1f bp" % -e)
+
+            if e1 is None or e3 is None:
+                row["verdict"] = "NOT-ASSESSED"
+                row["reason"] = "窗口内历史不足"
+            else:
+                # every failing gate is named: reporting only the first one would tell the
+                # reader "idle days" when the real miss is a 12bp gap to the door
+                fails = []
+                if e1 < min_edge_bp or e3 < min_edge_bp:
+                    fails.append("%s（1年）/ %s（3年），门槛 %.0f bp"
+                                 % (_over(e1), _over(e3), min_edge_bp))
+                if row["idle_share_1y"] is not None and row["idle_share_1y"] > max_idle_share:
+                    fails.append("到期撞上休市日，一年空转 %d 天（%.1f%% > %.0f%%）"
+                                 % (row["idle_days_1y"], row["idle_share_1y"] * 100.0,
+                                    max_idle_share * 100.0))
+                if tot and (float(pos) / tot) < min_positive_year_share:
+                    fails.append("%d 个完整年只赢了 %d 年" % (tot, pos))
+                if fails:
+                    row["verdict"] = "REJECT"
+                    row["reason"] = "；".join(fails)
+                else:
+                    row["verdict"] = "ADOPT"
+                    row["reason"] = ("1年 %s / 3年 %s，%d/%d 年为正，空转 %.1f%%"
+                                     % (_over(e1), _over(e3), pos, tot,
+                                        (row["idle_share_1y"] or 0.0) * 100.0))
+
+    adopted = [r for r in out["tenors"] if r["verdict"] == "ADOPT"]
+    if adopted:
+        best = max(adopted, key=lambda r: min(float(r["edge_bp"]["1"]),
+                                              float(r["edge_bp"]["3"])))
+        out["pick"] = best["symbol"]
+        out["verdict"] = "ADOPT"
+        out["reason"] = "%s：%s" % (best["symbol"], best["reason"])
+    else:
+        out["pick"] = base
+        out["verdict"] = "KEEP-1D"
+        rejected = [r for r in out["tenors"] if r["verdict"] == "REJECT"]
+        if rejected:
+            out["reason"] = "；".join("%s %s" % (r["symbol"], r["reason"]) for r in rejected)
+        else:
+            out["reason"] = "没有可评估的长期限腿"
+    return out
+
+
 STRESS_DIR = os.path.join(ROOT, "results", "etf_book_stress")
 STRESS_WINDOWS = (1, 5, 20)
 
@@ -397,6 +619,7 @@ def build(with_stress=False):
         "cash_weight": round(cash_w, 4),
         "cash_leg": cash_leg,
         "cash_yield": cash_yield(cash_amt),
+        "cash_ladder": cash_ladder(cash_amt),
         "k_now": tk.get("k_now"),
         "n_hold": tk.get("n_hold"),
         "cost_bp_per_side": tk.get("cost_bp_per_side"),
@@ -496,6 +719,79 @@ def render_md(p):
                 "所以这笔钱是「现金不缩水」，不是收益来源。"
                 % (cy["window"], cy["rate_20d_pct"]))
         add("- 不买逆回购、留在活期，这 ¥%s 就是没有的。" % format(cy["annual_cny"], ",.0f"))
+        add("")
+    cl = p.get("cash_ladder") or {}
+    rows_l = cl.get("tenors") or []
+    if rows_l and cl.get("cash_amount_cny"):
+        add("## 现金腿要不要换长一点的期限")
+        add("")
+        add("逆回购报价是年化，所以「期限越长利率越高」不等于「赚得更多」——一天的腿季末会飙高，"
+            "长的腿到期撞周末还会空转。按这些面板自己的日历逐条滚出来：")
+        add("")
+        add("| 代码 | 期限 | 今日报价 | 过去 1 年实盘年化 | 比一天期 | 一年滚几次 | 空转天/年 | 一年约赚 |")
+        add("|---|---|---|---|---|---|---|---|")
+        for r in rows_l:
+            r1 = (r.get("realized") or {}).get("1") or {}
+            edge = (r.get("edge_bp") or {}).get("1")
+            add("| %s | %d 天 | %.2f%% | %s | %s | %s | %s | %s |"
+                % (r["symbol"], r["tenor_days"], r["spot_pct"],
+                   ("%.2f%%" % r1["realized_pct"]) if r1 else "—",
+                   ("%+.1f bp" % edge) if edge is not None else "基线",
+                   r.get("rolls_1y") if r.get("rolls_1y") is not None else "—",
+                   r.get("idle_days_1y") if r.get("idle_days_1y") is not None else "—",
+                   ("¥%s" % format(r["annual_cny_realized_1y"], ",.0f"))
+                   if r.get("annual_cny_realized_1y") is not None else "—"))
+        add("")
+        rule = cl.get("rule") or {}
+        if cl.get("verdict") == "KEEP-1D":
+            add("**结论：不换，继续一天期。** 过门的条件是三条一起满足：比一天期一年多赚 %.0f bp 以上、"
+                "1 年和 3 年都成立、空转不超过 %.0f%% 的日历日。没有一条腿过门——逐条见下表与下面三行。"
+                % (rule.get("min_edge_bp") or 0.0,
+                   (rule.get("max_idle_share") or 0.0) * 100.0))
+            add("")
+            for r in rows_l:
+                if r["symbol"] == cl.get("base"):
+                    continue
+                e = r.get("edge_bp") or {}
+                if not e:
+                    continue
+                add("- %s（%d 天）：1 年 %s -> 3 年 %s -> 5 年 %s，%d 个完整年里赢了 %s 年 —— %s。"
+                    % (r["symbol"], r["tenor_days"],
+                       "%+.1f bp" % float(e.get("1") or 0.0),
+                       "%+.1f bp" % float(e.get("3") or 0.0),
+                       "%+.1f bp" % float(e.get("5") or 0.0),
+                       int(r.get("years_checked") or 0),
+                       r.get("positive_years") if r.get("positive_years") is not None else "—",
+                       {"REJECT": "不选", "ADOPT": "选它",
+                        "NOT-ASSESSED": "历史不足"}.get(r.get("verdict"), r.get("verdict"))))
+            add("- 一句话：差价随窗口拉长而缩水，锁久了换不来确定性，只换来「这笔钱这几天不能动」。")
+            _horizon = [r for r in rows_l if int(r.get("tenor_days") or 0) >= 28]
+            if _horizon:
+                _h = _horizon[0]
+                _he = (_h.get("edge_bp") or {}).get("1")
+                add("- 这笔钱一个月才换一次仓，所以真正对得上闲置期的是 %s（%d 天，一年只滚 %s 次），"
+                    "它实测 %s、空转 %s 天——同样没过门，不是「期限没选对」。"
+                    % (_h["symbol"], _h["tenor_days"], _h.get("rolls_1y"),
+                       ("%+.1f bp" % float(_he)) if _he is not None else "—",
+                       _h.get("idle_days_1y")))
+            add("")
+            rolls_a = (cl.get("rolls") or {}).get(cl.get("base") or "GC001")
+            rolls_b = (cl.get("rolls") or {}).get("GC007")
+            if rolls_a and rolls_b:
+                add("- 换 7 天期唯一真实的好处不是收益，是按键次数：一年 %d 次 -> %d 次。"
+                    "代价是每忘记一天，那天的利息就没了，约 ¥%s。自己判断哪边更容易出错。"
+                    % (rolls_a, rolls_b,
+                       format(cl.get("forgotten_day_cny") or 0, ",.0f")))
+        elif cl.get("verdict") == "ADOPT":
+            add("**结论：换 %s。** %s。"
+                % (cl.get("pick"), cl.get("reason")))
+            add("")
+            add("- 门槛 %.0f bp 是写死在代码里的（1 年和 3 年都要过），不是事后挑的。"
+                % (rule.get("min_edge_bp") or 0.0))
+        else:
+            add("**结论：未判定。** %s" % (cl.get("reason") or "面板不足"))
+        add("")
+        add("- 这些都是「现金不缩水」的量级，不是收益来源；季末/节前的飙高是常态，别把它当稳定收益。")
         add("")
     add("## 账面与节奏")
     add("")
@@ -841,6 +1137,82 @@ def selftest():
     chk("L34 cash: the rendered page carries the rate, its date and the 'not a return source' line",
         "现金那一半在赚多少" in _md3 and "1.09%" in _md3 and "2026-10-27" in _md3
         and "+¥5,764" in _md3 and "不是收益来源" in _md3, "rendered cash block present")
+
+    # 35-38. the ladder question ("should the cash sit in a longer repo?") is answered by
+    # rolling each tenor on the panel's own calendar -- the adoption rule is a frozen
+    # constant, and the verdict has to be recomputed from the cells, never typed in.
+    import datetime as _dt
+
+    def _panel(dirpath, symbol, pairs):
+        with open(os.path.join(dirpath, "%s.csv" % symbol), "w",
+                  encoding="utf-8", newline="\n") as fh:
+            fh.write("date,open,high,low,close,volume\n")
+            for d, v in pairs:
+                fh.write("%s,%.4f,%.4f,%.4f,%.4f,100\n" % (d, v, v, v, v))
+
+    def _sessions(start, n, weekdays=(0, 1, 2, 3, 4)):
+        out = []
+        d = start
+        while len(out) < n:
+            if d.weekday() in weekdays:
+                out.append(d)
+            d += _dt.timedelta(days=1)
+        return out
+
+    _lad = tempfile.mkdtemp()
+    _days = _sessions(_dt.date(2021, 1, 4), 700)
+    # flat calendar: every tenor quoted at 2.0% -> identical realised yield, so no
+    # longer tenor may be adopted (an adoption here would be a rule bug, not an edge)
+    for _sym in ("GC001", "GC003", "GC007", "GC014"):
+        _panel(_lad, _sym, [(d.isoformat(), 2.0) for d in _days])
+    _cl_flat = cash_ladder(100000.0, panel_dir=_lad)
+    chk("L35 ladder: identical quotes -> nothing adopts, the 1-day leg is kept",
+        _cl_flat["verdict"] == "KEEP-1D" and _cl_flat["pick"] == "GC001"
+        and abs(_cl_flat["tenors"][0]["realized"]["1"]["realized_pct"] - 2.0) < 1e-9,
+        "verdict=%s pick=%s base1y=%s"
+        % (_cl_flat["verdict"], _cl_flat["pick"],
+           _cl_flat["tenors"][0]["realized"]["1"]["realized_pct"]))
+    chk("L36 ladder: rolling the 1-day leg covers every calendar day, no idle cash",
+        _cl_flat["tenors"][0]["idle_days_1y"] == 0
+        and _cl_flat["tenors"][0]["idle_share_1y"] == 0.0,
+        "idle=%s share=%s" % (_cl_flat["tenors"][0]["idle_days_1y"],
+                              _cl_flat["tenors"][0]["idle_share_1y"]))
+
+    _lad2 = tempfile.mkdtemp()
+    _panel(_lad2, "GC001", [(d.isoformat(), 2.0) for d in _days])
+    _panel(_lad2, "GC007", [(d.isoformat(), 2.60) for d in _days])   # +60bp: clears 20bp
+    _cl_wide = cash_ladder(100000.0, panel_dir=_lad2, tenors=("GC001", "GC007"))
+    chk("L37 ladder: a +60bp tenor that never sits idle adopts, and its yuan follows it",
+        _cl_wide["verdict"] == "ADOPT" and _cl_wide["pick"] == "GC007"
+        and abs(_cl_wide["tenors"][1]["annual_cny_realized_1y"] - 2600.0) < 20.0,
+        "verdict=%s pick=%s edge=%s yuan=%s"
+        % (_cl_wide["verdict"], _cl_wide["pick"],
+           _cl_wide["tenors"][1]["edge_bp"].get("1"),
+           _cl_wide["tenors"][1]["annual_cny_realized_1y"]))
+    _lad3 = tempfile.mkdtemp()
+    _panel(_lad3, "GC001", [(d.isoformat(), 2.0) for d in _days])
+    _panel(_lad3, "GC007", [(d.isoformat(), 2.10) for d in _days])   # +10bp: below the door
+    _cl_thin = cash_ladder(100000.0, panel_dir=_lad3, tenors=("GC001", "GC007"))
+    chk("L38 ladder: a +10bp edge is rejected by the frozen 20bp rule, not adopted",
+        _cl_thin["verdict"] == "KEEP-1D" and _cl_thin["tenors"][1]["verdict"] == "REJECT"
+        and "门槛" in (_cl_thin["tenors"][1]["reason"] or "")
+        and "20 bp" in (_cl_thin["tenors"][1]["reason"] or ""),
+        "verdict=%s arm=%s reason=%s"
+        % (_cl_thin["verdict"], _cl_thin["tenors"][1]["verdict"],
+           _cl_thin["tenors"][1]["reason"]))
+    _cl_live = page.get("cash_ladder") or {}
+    _ok_l = bool(_cl_live.get("tenors")) and _cl_live.get("verdict") in ("KEEP-1D", "ADOPT")
+    _ok_l = _ok_l and all(
+        (r.get("spot_pct") is None or 0.0 < float(r["spot_pct"]) < 200.0)
+        for r in _cl_live.get("tenors") or [])
+    _md4 = render_md(page)
+    _ok_l = _ok_l and ("现金腿要不要换长一点的期限" in _md4
+                       and ("继续一天期" in _md4 or "换 " in _md4)
+                       and "空转" in _md4)
+    chk("L39 ladder: the live page answers the ladder question with each tenor's own quote",
+        _ok_l, "verdict=%s pick=%s rows=%d"
+        % (_cl_live.get("verdict"), _cl_live.get("pick"),
+           len(_cl_live.get("tenors") or [])))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

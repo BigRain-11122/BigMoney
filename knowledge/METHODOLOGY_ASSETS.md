@@ -3039,3 +3039,31 @@ case worth warning about.
 Pos: scripts/etf_book_ceo_page.py (selftest 30->33: annual==cash x panel close, absent->
 None, live page yuan==its own cash x its own rate) + smoke leg that recomputes from
 data/repo_daily/GC001.csv so a forgotten panel refresh reads red.
+
+## E205 A tenor ladder must be rolled on the calendar, not read off the quotes (2026-10-29 r1145 bm-a)
+
+WHEN: a face has to answer "should this cash sit in a longer repo?" and the panels quote
+1/3/4/7/14-day legs. E204 priced the 1-day leg; the natural next sentence is "7 days pays
+1.35% and 1 day pays 1.09%, so lock it up".
+
+WRONG: compare the quoted rates. They are per annum, and the days actually held are not the
+tenor: 1-day money bought on a Friday is lent over the weekend (which is exactly why
+Friday's quote dips), while a 3-day leg bought on a Thursday matures on a Sunday and the
+cash sits idle until Monday. Comparing quotes would have moved half the capital (528,774)
+into GC003, which pays 18.4 bp LESS than rolling the 1-day leg, and into GC007 for a
+12.9 bp edge that decays to 5.4 bp at 3 years and 0.4 bp at 5 years.
+
+RIGHT: roll each tenor over the panel's own session calendar, charge rate x calendar-days-
+held / 365, reinvest at the first session >= maturity, and PUBLISH the idle days a longer
+tenor creates (GC003: 70 days/yr = 19.2% of the calendar; GC007/GC014: 10). Then freeze the
+adoption rule as a code constant (edge >= 20 bp in BOTH the 1y and 3y windows, idle <= 1%,
+ahead in a majority of complete years) and recompute the verdict from the cells. The first
+cut of the message also needed fixing: reporting only the first failing gate blamed GC007 on
+"weekend landings" when its real miss was the 20 bp door, and printed "-12.9 bp less" for a
+positive edge -- name every failing gate, with sign-preserving wording.
+
+Pos: scripts/etf_book_ceo_page.py cash_ladder()/rolled_yield() (selftest 33->38: flat quotes
+adopt nothing, the 1-day leg never idles, +60 bp adopts, +10 bp is rejected by the frozen
+door, the live page answers with each tenor's own quote) + the cash-section table in
+docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that re-rolls every arm from
+data/repo_daily and reds a typed-in verdict.

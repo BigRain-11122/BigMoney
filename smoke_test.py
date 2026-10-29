@@ -1235,6 +1235,88 @@ def main() -> int:
                           f"daily={_cy.get('daily_cny')}")
         check("product: ETF live-book cash leg is priced off the repo panel's own close", _ok_cy,
               _cy_detail)
+        # The cash block now also answers "should the idle half be laddered out to a
+        # longer repo?". That verdict must be the panels' own arithmetic: roll the legs
+        # here, independently, and require the page's edges and its pick to follow.
+        _cl = _page.get("cash_ladder") or {}
+        _ok_cl = False
+        _cl_detail = "block absent"
+        try:
+            import datetime as _dtc
+
+            def _repo(sym):
+                _rows = []
+                with open("data/repo_daily/%s.csv" % sym, encoding="utf-8") as _fh:
+                    next(_fh, None)
+                    for _ln in _fh:
+                        _p = _ln.strip().split(",")
+                        if len(_p) >= 5:
+                            try:
+                                _v = float(_p[4])
+                                if 0.0 < _v < 200.0:
+                                    _rows.append((_dtc.date.fromisoformat(_p[0]), _v))
+                            except ValueError:
+                                continue
+                return _rows
+
+            def _roll(_rows, tenor, start):
+                _dates = [d for d, _ in _rows]
+                _rate = dict(_rows)
+                _idx = [i for i, d in enumerate(_dates) if d >= start]
+                if len(_idx) < 2:
+                    return None
+                i, _last = _idx[0], _idx[-1]
+                _tot = 0.0
+                _days = 0
+                while i < _last:
+                    d = _dates[i]
+                    _mat = d + _dtc.timedelta(days=tenor)
+                    j = i + 1
+                    while j < len(_dates) and _dates[j] < _mat:
+                        j += 1
+                    if j > _last:
+                        break
+                    _acc = (_dates[j] - d).days if tenor == 1 else tenor
+                    _tot += _rate[d] / 100.0 * _acc / 365.0
+                    _days += (_dates[j] - d).days
+                    i = j
+                if _days <= 0:
+                    return None
+                return _tot / (_days / 365.0) * 100.0
+
+            _base_rows = _repo("GC001")
+            _end = _base_rows[-1][0]
+            _start = _end - _dtc.timedelta(days=365)
+            _b1 = _roll(_base_rows, 1, _start)
+            _arms = {r.get("symbol"): r for r in (_cl.get("tenors") or [])}
+            _mismatch = []
+            _passing = []
+            for _sym, _r in _arms.items():
+                if _sym == "GC001" or not _r.get("edge_bp"):
+                    continue
+                _tenor = int(_r.get("tenor_days") or 1)
+                _mine = _roll(_repo(_sym), _tenor, _start)
+                if _mine is None:
+                    continue
+                _edge = (_mine - _b1) * 100.0
+                if abs(_edge - float(_r["edge_bp"].get("1") or 0.0)) > 0.5:
+                    _mismatch.append("%s page %s vs recomputed %.1f"
+                                     % (_sym, _r["edge_bp"].get("1"), _edge))
+                if (float(_r["edge_bp"].get("1") or 0.0) >= 20.0
+                        and float(_r["edge_bp"].get("3") or 0.0) >= 20.0
+                        and float(_r.get("idle_share_1y") or 0.0) <= 0.01):
+                    _passing.append(_sym)
+            _ok_cl = (bool(_arms) and _b1 is not None and not _mismatch
+                      and (_cl.get("verdict") == "ADOPT") == bool(_passing)
+                      and (_cl.get("pick") in _passing if _passing
+                           else _cl.get("pick") == "GC001"))
+            _cl_detail = ("verdict=%s pick=%s arms=%d base1y=%.3f passing=%s mismatch=%s"
+                          % (_cl.get("verdict"), _cl.get("pick"), len(_arms), _b1 or 0.0,
+                             _passing, _mismatch))
+        except Exception as _e:
+            _cl_detail = "recompute failed: %s" % _e
+        check("product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
+              _ok_cl, _cl_detail)
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     # A panel cutoff is a MAX tail, so it is not a coverage claim: this box's

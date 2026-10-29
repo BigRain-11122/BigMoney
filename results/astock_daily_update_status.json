@@ -1,24 +1,28 @@
 {
-  "ts": "2026-10-29T06:57:48",
-  "mode": "refresh in progress (todo=5195/5227, quarantined=0, settled=0)",
+  "ts": "2026-10-29T08:41:13",
+  "mode": "refresh in progress (todo=3433/5226, quarantined=0, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-28",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 3.0,
-    "coverage_90": "2026-10-23",
+    "coverage_pct": 99.9,
+    "coverage_90": "2026-10-28",
     "coverage_floor_pct": 90,
     "dates_tail": [
       [
         "2026-10-28",
-        32
+        1793
       ],
       [
         "2026-10-23",
-        1032
+        1
+      ],
+      [
+        "2026-10-12",
+        1
       ]
     ],
-    "universe_n": 5227,
+    "universe_n": 5226,
     "per_files": 5223
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
@@ -46,7 +50,7 @@
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-10-29T06:57:45",
+  "last_spawn_attempt": "2026-10-29T08:41:11",
   "settled_n": 6,
   "settled": [
     "002717",
@@ -56,7 +60,7 @@
     "605258",
     "688496"
   ],
-  "per_files_on_disk": 1064,
+  "per_files_on_disk": 1795,
   "validation": {
     "suspended_rows": 0,
     "bracket_tolerated_rows": 0,
@@ -65,10 +69,9 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-a",
-    "reason": "owner bm-b silent 15.2h >= 120min",
-    "ts": "2026-10-29T06:57:45"
+    "reason": "owner bm-b silent 16.9h >= 120min",
+    "ts": "2026-10-29T08:41:11"
   },
-  "disk_truth_override": "status claims complete panel but per files on disk = 1064 (status 5223) -> disk face wins, rebuild (P0 r834-kin guard)",
-  "spawn_reason": "panel incomplete at cutoff 2026-10-28 (coverage 3.0%, expected 2026-10-28) -> continuation refresh, not a first pull",
+  "spawn_reason": "panel incomplete at cutoff 2026-10-28 (coverage 99.9%, expected 2026-10-28) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation"
 }

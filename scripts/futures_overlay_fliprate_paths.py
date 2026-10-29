@@ -192,7 +192,44 @@ def render_md(out):
                         r.get("base_cagr_10bp")))
         L.append("")
     L += ["## Not modelled", "", out["not_modelled"], ""]
+    L += consumer_section()
     return "\n".join(L) + "\n"
+
+
+def consumer_section(artifact=None):
+    """Who reads this verdict, rendered from the consumer's own artifact.
+
+    This block used to be hand-appended, so every regeneration silently deleted it and the
+    ADOPT verdict went back to having no reader on paper (r1143 caught the same deletion and
+    restored it by hand -- which is why it came back). Deriving it from the consumer's JSON
+    makes the section survive a re-run, and makes it say "nothing is wired" when nothing is.
+    """
+    if artifact is None:
+        artifact = os.path.join(PATHS.results_dir, "futures_tsmom_signal.json")
+    try:
+        with open(artifact, encoding="utf-8") as fh:
+            a = json.load(fh)
+    except (OSError, ValueError):
+        return ["## Consumer", "",
+                "No consumer artifact on disk (`results/futures_tsmom_signal.json`), so nothing "
+                "downstream is applying this verdict yet.", ""]
+    ao = a.get("adopted_overlay") or {}
+    fl = ao.get("flips") or {}
+    if not ao or not fl:
+        return ["## Consumer", "",
+                "`results/futures_tsmom_signal.json` carries no `adopted_overlay` block -- the "
+                "shadow face is not applying this verdict.", ""]
+    same = ao.get("differs_today") or []
+    return ["## Consumer", "",
+            "The shadow face `scripts/futures_tsmom_signal.py` reads this artifact's rule "
+            "(arm `%s`) and executes the same mechanism module, printing both books side by side. "
+            "On %s: flips %s -> %s (cut %s%%), today's legs %s, gross %s."
+            % (ao.get("arm"), a.get("generated_for_bar"), fl.get("raw"), fl.get("damped"),
+               fl.get("cut_pct"),
+               "identical" if not same else "%d differ" % len(same), ao.get("gross")), "",
+            "Page: `docs/futures_lane/TSMOM-%s.md`; machine face: `results/futures_tsmom_signal.json`"
+            " -> `adopted_overlay`. Re-running the path test rewrites that page on its next run; it "
+            "never applies a rule the verdict does not currently hold." % a.get("generated_for_bar"), ""]
 
 
 # ---------------------------------------------------------------- run
@@ -380,6 +417,28 @@ def selftest():
     chk("L11 a cell window really restricts the measured series",
         len(short_f) < len(long_f) and short_f.index.min() >= pd.Timestamp(OOS_START),
         "long=%d short=%d" % (len(long_f), len(short_f)))
+
+    # 12 the rendered doc must keep a Consumer section, derived from the consumer artifact
+    # (this section was hand-appended and every regeneration deleted it -- r1143/r1145)
+    import tempfile as _tf
+    _td = _tf.mkdtemp()
+    _fake = os.path.join(_td, "sig.json")
+    with open(_fake, "w", encoding="utf-8") as _fh:
+        json.dump({"generated_for_bar": "2026-10-28",
+                   "adopted_overlay": {"arm": "tsmom60_strength_hold_2pct", "gross": 3.0,
+                                       "differs_today": [],
+                                       "flips": {"raw": 1469, "damped": 412, "cut_pct": 72.0}}},
+                  _fh)
+    _sec = "\n".join(consumer_section(_fake))
+    _none_sec = "\n".join(consumer_section(os.path.join(_td, "absent.json")))
+    chk("L12 the doc keeps a Consumer block, and says so honestly when nothing consumes it",
+        "## Consumer" in _sec and "1469 -> 412" in _sec and "identical" in _sec
+        and "## Consumer" in _none_sec and "nothing downstream" in _none_sec
+        and "## Consumer" in render_md({"evidence_cutoff": "x", "adoption_rule": {},
+                                        "overall_verdict": "ADOPT",
+                                        "overall_reason": "r", "arms": {},
+                                        "not_modelled": "n"}),
+        "live-derived and absent-artifact both render")
 
     print("selftest %d/%d PASS" % (ok, total))
     return 0 if ok == total else 1
