@@ -1694,6 +1694,16 @@
   "status": "DELIVERED_ON_MACHINE_BRANCH",
   "ts": "2026-10-29T23:04:04+08:00"
  },
+ "r1258_push": {
+  "behind_origin_main": 29,
+  "branch": "machine/bm-b-r1258",
+  "local_not_on_origin_main": 10,
+  "main_push_blocker": "promisor lazy fetch requests ~85k objects before negotiation; the push and the merge both sat with no output until the 5-minute auto-cancel in r1255/r1257, so main was not attempted again",
+  "pushed_sha": "8b0c67889",
+  "remote_ref_sha": "8b0c67889",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-30T00:03:53+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -1714,22 +1724,21 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "behind_origin_main": 19,
-  "branch": "machine/bm-b-r1255",
-  "local_not_on_origin_main": 4,
-  "main_push_blocker": "promisor lazy fetch requests 85,599 objects before negotiation",
-  "note": "main was attempted and hangs, not rejected: `git push origin HEAD:main` starts a promisor lazy fetch -- the wrapper is `git index-pack --stdin --fix-thin --promisor --pack_header=2,85599`, i.e. it wants 85,599 objects materialised before it can even negotiate a non-fast-forward, and it sat there with no output until the 5-minute auto-cancel. The merge over origin/main dies the same way (1,880-object pack, 40+ min at 0.7s CPU). Both were killed with zero residue (no index.lock, no MERGE_HEAD, worktree intact, 320 dirty lines as at round open). Delivered instead on machine/bm-b-r1255 = 834894ac3: ls-remote returns that sha for the ref and its tree carries scripts/e229_timing_selection.py, both TIMINGSEL faces, both by-arm CSVs and the digest.",
-  "pushed_sha": "1e1cc854c",
-  "remote_ref_sha": "1e1cc854c",
+  "behind_origin_main": 29,
+  "branch": "machine/bm-b-r1258",
+  "local_not_on_origin_main": 10,
+  "main_push_blocker": "promisor lazy fetch requests ~85k objects before negotiation; the push and the merge both sat with no output until the 5-minute auto-cancel in r1255/r1257, so main was not attempted again",
+  "pushed_sha": "8b0c67889",
+  "remote_ref_sha": "8b0c67889",
   "status": "DELIVERED_ON_MACHINE_BRANCH",
-  "ts": "2026-10-29T21:15:06+08:00"
+  "ts": "2026-10-30T00:03:53+08:00"
  },
  "task": "r1258: the family's toll conclusion is re-read under a non-linear charge -- significance survives curvature, the level and E230's one passing band do not",
  "task_short": "E232 cost curvature",
  "task_short_note": "scripts/e223_obs_rate_ladder.py; selftest 26/26; face results/obs_rate/OBSRATE-20261028.json",
- "ts": "2026-10-30T00:01:59+08:00",
- "updated": "2026-10-30T00:01:59+08:00",
- "updated_at": "2026-10-30T00:01:59+08:00",
+ "ts": "2026-10-30T00:03:53+08:00",
+ "updated": "2026-10-30T00:03:53+08:00",
+ "updated_at": "2026-10-30T00:03:53+08:00",
  "verdict": "WATERMARK GREEN at open (red=false lane=healthy; idle_trigger green_idle=true, pool ready 1 = E232) and the ready card was real work, so E232 was burned in-window. | Every toll number in E226..E231 charges |dw| linearly, so the family's conclusion rested on the cost model. Swept gamma 0.75/1.00/1.25/1.50 with the price of one full move held fixed: the toll clears its bar on 6/6 arm cells at every gamma and stays the only channel past it (|t| <= 1.32 on selection), so the conclusion is curvature-invariant. Its SIZE is not: tilt_linear's toll falls -247.3 -> -93.2 bp/yr on the single (2.6x) and -194.9 -> -75.7 on the basket, dragging the pair from -788.1 to -634.0. A 0/1 gate is exactly invariant (-201.6/-121.6 bp/yr flat to 1e-9, because 1**gamma == 1) and carries the family's only positive pair cell (+227.0 basket), which is an artefact of being unreachable by the charge. E230's one passing band dies off the grid: BAND_PAYS at gamma 0.75/1.00, BAND_NOISE at 1.25/1.50, ladder BAND_PAYS counts 2/1/0/0. | smoke 216/216, S6 leg cost_curvature, orphan 0, pool 703 done / 1 ready",
  "work": "E232 face published and wired: runner + S6 leg cost_curvature + smoke leg + digest + card E232; E233 empirical gamma seeded; state face de-duplicated"
 }
