@@ -2612,7 +2612,8 @@ def main() -> int:
               not _frag,
               ("%d file(s): " % len(_frag)
                + "; ".join("%s:%d %s" % (p, ln, k) for p, ln, k in _frag[:4]))[:220]
-              or "balanced hunks only (probe fixtures that quote a whole hunk stay legal)")
+              if _frag else
+              "balanced hunks only (probe fixtures that quote a whole hunk stay legal)")
     except Exception as e:
         check("config: no tracked blob carries a conflict-marker fragment",
               False, repr(e)[:160])
