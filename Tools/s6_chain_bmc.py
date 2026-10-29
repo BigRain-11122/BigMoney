@@ -110,6 +110,11 @@ LEGS = [
     # the number the card quotes has to be re-derived with the panel, not quoted from a hand
     # run. ~82s, offline, deterministic (one panel load, then one engine call per sign set).
     ("etf_sign_enum", ["python", "scripts/etf_sign_enum.py", "run"]),
+    # r1337 / E220: the leg above ranks the 64 sign sets on ONE window; this one splits that
+    # window and asks whether the ordering survives the split -- so "rank 6 of 64" cannot be
+    # quoted without the transfer number beside it. ~100s, offline, deterministic (same panel
+    # load, same engine; sub-period numbers read off the same trading path).
+    ("etf_sign_stability", ["python", "scripts/etf_sign_stability.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger

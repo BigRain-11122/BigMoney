@@ -585,9 +585,9 @@ def main() -> int:
     # is recomputable from the payload's own summary (never a stored string), and both arms
     # really traded -- an untraded arm would sail through every numeric comparison (r1261).
     try:
-        _sp = os.path.join("results", "etf_sign_pit.json")
-        if os.path.exists(_sp):
-            _doc = json.load(open(_sp, encoding="utf-8"))
+        _sppath = os.path.join("results", "etf_sign_pit.json")
+        if os.path.exists(_sppath):
+            _doc = json.load(open(_sppath, encoding="utf-8"))
             _mod = __import__("importlib").import_module("scripts.etf_sign_pit")
             _g = _mod.gate(_doc)
             _s = _doc.get("summary") or {}
@@ -625,6 +625,35 @@ def main() -> int:
                   "sign-enum artifact absent -- soft-fails by design")
     except Exception as e:
         check("product: E219 sign-enum verdict is recomputable from its own arm table", False, str(e))
+    # r1337 / E220: the arm table above is one window. This leg splits it and requires the
+    # verdict (and the "learnable chooser" number) to be recomputed from the per-period table,
+    # so a stored string cannot outlive a panel move; the chance floor must be on the page,
+    # or "the top deciles do not line up" is a shrug rather than a measurement (E199 rule).
+    try:
+        _ss = os.path.join("results", "etf_sign_stability.json")
+        if os.path.exists(_ss):
+            _doc3 = json.load(open(_ss, encoding="utf-8"))
+            _mod3 = __import__("importlib").import_module("scripts.etf_sign_stability")
+            _g3 = _mod3.gate(_doc3)
+            _s3 = _doc3.get("summary") or {}
+            check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+                  _g3["all_ok"] and _g3["verdict"] == _doc3.get("verdict")
+                  and int(_s3.get("n_arms") or 0) == 64
+                  and _s3.get("top_decile_shared_p") is not None
+                  and _mod3.overlap_tail(64, int(_s3.get("top_k") or 7),
+                                         int(_s3.get("top_decile_shared") or 0))
+                  == _s3.get("top_decile_shared_p"),
+                  "verdict=%s rho=%s (null sd %s) prod is/oos rank=%s/%s shared=%s chance=%s p=%s"
+                  % (_g3["verdict"], _g3["spearman"], _g3["spearman_null_sd"],
+                     _g3["production_is_rank"], _g3["production_oos_rank"],
+                     _s3.get("top_decile_shared"), _s3.get("top_decile_chance_expected"),
+                     _s3.get("top_decile_shared_p")))
+        else:
+            check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+                  True, "sign-stability artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E220 sign-ordering transfer is recomputable from the per-period table",
+              False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -1681,7 +1710,7 @@ def main() -> int:
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_order_card", "etf_sign_pit", "etf_sign_enum",
+                 "etf_book_order_card", "etf_sign_pit", "etf_sign_enum", "etf_sign_stability",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)
@@ -1921,8 +1950,8 @@ def main() -> int:
     try:
         import glob as _glob
         import json as _json
-        _sp = os.path.join("scripts", "futures_tsmom_signal.py")
-        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+        _sppath = os.path.join("scripts", "futures_tsmom_signal.py")
+        _sr = subprocess.run([sys.executable, _sppath, "--selftest"], capture_output=True,
                              text=True, encoding="utf-8", errors="replace")
         _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
         check("product: futures TSMOM shadow face keeps its sizing rules",
@@ -1952,8 +1981,8 @@ def main() -> int:
         check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
     try:
         import json as _json
-        _sp = os.path.join("scripts", "futures_overlay_sweep.py")
-        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+        _sppath = os.path.join("scripts", "futures_overlay_sweep.py")
+        _sr = subprocess.run([sys.executable, _sppath, "--selftest"], capture_output=True,
                              text=True, encoding="utf-8", errors="replace")
         _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
         check("product: futures overlay sweep keeps its blend arithmetic",

@@ -876,26 +876,6 @@ def _def_table(source):
     return out
 
 
-def _producer_by_face_name(source, rel):
-    """(E207/E216) face stem -> the runner named after it, when exactly one exists.
-
-    Two upstream faces (LADDERDROPCARRIER/LADDERDROPCURVE, 2026-10-27) publish a prose
-    ``study`` ("E196 carrier-month identifiability"), so the study-literal index cannot see
-    their producer and the live leg counted them as unindexed. The face stem is itself the
-    contract the chain uses (mode ``ladderdropcarrier`` -> ``run_tilt3ladderdropcarrier``),
-    so use it as a second, strictly-scoped key: the single def whose name ENDS with the
-    stem. Ambiguous or absent -> [] and the face stays unindexed, because a guessed producer
-    is worse than a missing one.
-    """
-    stem = re.sub(r"-\d{8}$", "", os.path.basename(rel).rsplit(".", 1)[0]).lower()
-    stem = re.sub(r"[^a-z0-9]", "", stem)
-    if len(stem) < 6:
-        return []
-    hits = [name for name, _s, _e in _def_table(source)
-            if name.lower().endswith(stem)]
-    return hits if len(hits) == 1 else []
-
-
 def producer_index(source):
     """study literal -> the def(s) whose body contains it."""
     table = _def_table(source)
@@ -905,6 +885,32 @@ def producer_index(source):
         for name, start, end in table:
             if start <= m.start() < end:
                 owner = name
+        if owner:
+            index.setdefault(m.group(1), set()).add(owner)
+    return {k: sorted(v) for k, v in index.items()}
+
+def producer_index_by_filename(source):
+    """output filename literal -> the def(s) that write it.
+
+    E190/E196 publish a human study title ("E190 ladder-drop fragility curve") instead of
+    a machine literal, so `producer_index` (study literal -> def) cannot tie those faces to
+    the code that burns them. The writer's filename literal is the stronger witness: it is
+    the string that decides where the face lands, and when it sits in the mode dispatch the
+    nearest preceding `run_*` call on that branch names the writer.
+    """
+    table = _def_table(source)
+    index = {}
+    for m in re.finditer(r'"([A-Z][A-Z0-9_]{3,})(?:-%s)?\.json"', source):
+        owner = None
+        for name, start, end in table:
+            if start <= m.start() < end:
+                owner = name
+        if owner == "main":
+            call = None
+            for c in re.finditer(r"\b(run_[a-zA-Z0-9_]+)\s*\(", source[:m.start()]):
+                if source[c.end():m.start()].count("\n") <= 4:
+                    call = c.group(1)
+            owner = call or owner
         if owner:
             index.setdefault(m.group(1), set()).add(owner)
     return {k: sorted(v) for k, v in index.items()}
@@ -964,6 +970,7 @@ def level_quotes(root=None):
             with io.open(census_path, encoding="utf-8", errors="replace") as fh:
                 census_src = fh.read()
         studies = producer_index(census_src) if census_src else {}
+        by_name = producer_index_by_filename(census_src) if census_src else {}
         offsets, offset_face = decomoffset_index(root)
 
         rows, skipped, cutoffs = [], [], []
@@ -985,7 +992,10 @@ def level_quotes(root=None):
                     continue
                 producer = studies.get(study, [])
                 if not producer:
-                    producer = _producer_by_face_name(census_src, rel)
+                    # a human study title is not a source literal: fall back to the
+                    # filename the writer emits (coverage, never a weaker claim)
+                    _stem = os.path.basename(rel).split("-")[0]
+                    producer = by_name.get(_stem, [])
                 reach = producer_reach(census_src, producer) if producer else []
                 cells, retired = [], []
                 for cell_path, value in walk_numeric(doc):
@@ -5163,18 +5173,6 @@ def selftest():
     live_lq = level_quotes(root=_repo)
     live_derived = [r["face"] for r in live_lq["faces"] if r["derived_cells"]]
     live_by_face = {r["face"].split("/")[-1]: r for r in live_lq["faces"]}
-    _stem_src = ("def run_tilt3ladderdropcarrier():\n    pass\n"
-                 "def run_tilt3ladderdropcurve():\n    pass\n")
-    _stem_amb = ("def run_x_mysteryblob():\n    pass\n"
-                 "def run_y_mysteryblob():\n    pass\n")
-    chk("E216 a face carrying a prose study resolves to the single runner whose name ends "
-        "with the face stem, and an ambiguous stem stays unindexed instead of guessing",
-        _producer_by_face_name(_stem_src, "results/e43/LADDERDROPCURVE-20261027.json")
-        == ["run_tilt3ladderdropcurve"]
-        and _producer_by_face_name(_stem_src, "results/e43/LADDERDROPCARRIER-20261027.json")
-        == ["run_tilt3ladderdropcarrier"]
-        and _producer_by_face_name(_stem_src, "results/e43/MYSTERYX-20261027.json") == []
-        and _producer_by_face_name(_stem_amb, "results/e43/MYSTERYBLOB-20261027.json") == [])
     chk("L37 on the real disk every quoting face has a producer and E177 joins resolve",
         len(live_derived) >= 1
         and not live_lq["cross_check"]["faces_without_a_producer_in_the_census_source"]
@@ -5183,11 +5181,19 @@ def selftest():
         and live_lq["totals"]["offsets_compared_to_e177"] >= 1
         and live_lq["totals"]["max_abs_offset_diff_bp"] is not None
         and live_lq["totals"]["faces_quoting_derived_without_offset"] == 0)
+    # L37b: the filename fallback exists so a face publishing a human study title is
+    # still tied to the def that burns it -- and it must name the WRITER, never main,
+    # because a producer of "main" reaches every arithmetic in the module and would
+    # silently relabel the arithmetic class of the whole face.
+    chk("L37b a human-titled face resolves to its writer, never to main",
+        live_by_face["LADDERDROPCARRIER-20261027.json"]["producer"]
+        == ["run_tilt3ladderdropcarrier"]
+        and "main" not in live_by_face["LADDERDROPCARRIER-20261027.json"]["producer"]
+        and "run_tilt3ladderdropfragility" in
+        live_by_face["LADDERDROPCURVE-20261027.json"]["producer"])
 
-    # ---- E188 label duty ---------------------------------------------------------
-    # Fixture numbers are the REAL published pair on two eras, so the legs pin the
-    # identity a reader depends on rather than an invented round number.
     lf = os.path.join(tmp, "labelduty")
+
     os.makedirs(os.path.join(lf, "results", "e43_tilt_4member"), exist_ok=True)
     os.makedirs(os.path.join(lf, "results", "e79"), exist_ok=True)
 
