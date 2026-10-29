@@ -638,6 +638,15 @@
    "smoke_test.py leg on the artefact test and the refused bill gate",
    "results/runnable_pool.json E237 done + E238 seeded (708 done / 1 ready)"
   ],
+  "receipt": {
+   "behind_origin_main": 38,
+   "branch": "machine/bm-b-r1263",
+   "local_not_on_origin": 24,
+   "sha": "513f36b6c3963d260e95da221eef2100d0c76632",
+   "smoke": "221/221 PASS, 0 FAIL",
+   "ts": "2026-10-30T03:03:49+08:00",
+   "verified": true
+  },
   "ts": "2026-10-30T03:02:12+08:00",
   "watermark_red": "RED pool-batch-runnable-idle-low-cpu -> burned the ready head E237 in-round"
  },
@@ -656,15 +665,15 @@
  "seq": 20,
  "status": "green",
  "sync": {
-  "behind_origin_main": 19,
-  "branch": "machine/bm-b-r1255",
-  "local_not_on_origin_main": 4,
-  "main_push_blocker": "promisor lazy fetch requests 85,599 objects before negotiation",
-  "note": "main was attempted and hangs, not rejected: `git push origin HEAD:main` starts a promisor lazy fetch -- the wrapper is `git index-pack --stdin --fix-thin --promisor --pack_header=2,85599`, i.e. it wants 85,599 objects materialised before it can even negotiate a non-fast-forward, and it sat there with no output until the 5-minute auto-cancel. The merge over origin/main dies the same way (1,880-object pack, 40+ min at 0.7s CPU). Both were killed with zero residue (no index.lock, no MERGE_HEAD, worktree intact, 320 dirty lines as at round open). Delivered instead on machine/bm-b-r1255 = 834894ac3: ls-remote returns that sha for the ref and its tree carries scripts/e229_timing_selection.py, both TIMINGSEL faces, both by-arm CSVs and the digest.",
-  "pushed_sha": "1e1cc854c",
-  "remote_ref_sha": "1e1cc854c",
+  "behind_origin_main": 38,
+  "branch": "machine/bm-b-r1263",
+  "local_not_on_origin_main": 24,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation",
+  "pushed_sha": "513f36b6c3963d260e95da221eef2100d0c76632",
+  "remote_ref_sha": "513f36b6c3963d260e95da221eef2100d0c76632",
   "status": "DELIVERED_ON_MACHINE_BRANCH",
-  "ts": "2026-10-29T21:15:06+08:00"
+  "ts": "2026-10-30T03:03:49+08:00",
+  "verified": true
  },
  "sync_note": "r1256: HEAD is the local r1256 commit; origin/main was 21 ahead / 7 ahead local at open. main push/merge wedges in the promisor lazy fetch (r1255 measured 85,599 objects before negotiation), so delivery goes to machine/bm-b-r<N> and the divergence is disclosed rather than forced.",
  "task": "E237: is the own-turnover channel an information-arrival artefact? (measured, rejected) -- next E238 leave-one-out book",

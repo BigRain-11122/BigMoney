@@ -817,6 +817,15 @@
    "smoke_test.py leg on the artefact test and the refused bill gate",
    "results/runnable_pool.json E237 done + E238 seeded (708 done / 1 ready)"
   ],
+  "receipt": {
+   "behind_origin_main": 38,
+   "branch": "machine/bm-b-r1263",
+   "local_not_on_origin": 24,
+   "sha": "513f36b6c3963d260e95da221eef2100d0c76632",
+   "smoke": "221/221 PASS, 0 FAIL",
+   "ts": "2026-10-30T03:03:49+08:00",
+   "verified": true
+  },
   "ts": "2026-10-30T03:02:12+08:00",
   "watermark_red": "RED pool-batch-runnable-idle-low-cpu -> burned the ready head E237 in-round"
  },
@@ -845,13 +854,16 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "ahead": 0,
-  "behind": 0,
-  "local_not_on_origin_commits": 0,
-  "merge_sha": "610b61e504",
+  "ahead": 24,
+  "behind": 38,
+  "branch": "machine/bm-b-r1263",
+  "local_not_on_origin_commits": 24,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255 measured 85,599 objects); nine consecutive rounds",
   "peer": "origin",
-  "ts": "2026-10-29T10:37:15+08:00",
-  "verified": "git ls-remote origin refs/heads/main == 610b61e504; rev-list --left-right --count origin/main...HEAD == 0 0"
+  "pushed_sha": "513f36b6c3963d260e95da221eef2100d0c76632",
+  "remote_ref_sha": "513f36b6c3963d260e95da221eef2100d0c76632",
+  "ts": "2026-10-30T03:03:49+08:00",
+  "verified": "git ls-remote == git rev-parse HEAD"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
  "task": "E237 information structure: is the own-turnover channel an information-arrival artefact? Measured both stages -- the coefficient under a market-return control and the first stage on the share/information co-movement",
