@@ -1488,9 +1488,9 @@
  "task": "r1250: E223 observation-rate ladder -> 4 rungs all REJECT; 4.3x observations buy 0.68x-1.01x resolution | product results/obs_rate/OBSRATE-20261028.json",
  "task_short": "E223",
  "task_short_note": "scripts/e223_obs_rate_ladder.py; selftest 26/26; face results/obs_rate/OBSRATE-20261028.json",
- "ts": "2026-10-29T15:00:02+08:00",
- "updated": "2026-10-29T15:00:02+08:00",
- "updated_at": "2026-10-29T15:00:02+08:00",
+ "ts": "2026-10-29T15:35:00+08:00",
+ "updated": "2026-10-29T15:35:00+08:00",
+ "updated_at": "2026-10-29T15:35:00+08:00",
  "verdict": "E223 observation-rate ladder: a faster calendar anchor does not resolve a calendar question. sh510300, 173 monthly periods vs 738 weekly: monthly +428.97bp/yr excess (t=0.65), weekly -1,100.6/-1,239.2/-1,255.7bp/yr (t=-1.63/-2.38/-2.79); all REJECT. Resolution is MDE_ann = z*sd_per_period*sqrt(per_year/years), so 4.3x the observations buys 0.68x-1.01x of the annual bar and the thinnest high-frequency rung is worse than the slow one.",
  "r1249": {
   "finding": "the turn-of-month shape dies on contact: net +262.1bp/yr on 9.9% time in market against 554.0bp/yr buy-and-hold (full-sample excess -291.9bp/yr), and the excess sign flips across the split (IS -65.1, OOS +35.7 bp/mo). Power says 1,317 months / ~109.7 years, so this question cannot be settled on this instrument in this century's remaining data.",
@@ -1537,5 +1537,12 @@
   ],
   "tests": "e223 selftest 26/26 PASS",
   "d19": "decisions 97fe122f / orders 122ab707 unchanged -> zero new rows; 114 files / 115 acks / 0 unacked"
+ },
+ "r1250_receipt": {
+  "push": "9b4381ff0 PUSHED_VERIFIED (ahead 0 / behind 0)",
+  "smoke": "208/208 PASS",
+  "chain": "32/32 rc=0 (219.2s)",
+  "dualrun": "ZERO-DRIFT 695 entries streak 6",
+  "pit": "hand-writing a derived GPU key beside the canonical one is the r1315/r1284 face-split: the heartbeat must be rebuilt from the committed base, never from a second nvidia-smi read"
  }
 }
