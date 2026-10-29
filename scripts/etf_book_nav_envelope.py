@@ -846,7 +846,15 @@ def check_voltail(face_file=None):
 
 # ---------------------------------------------------------------- gate
 def check(env_file=None):
-    """Re-derive every published percentile from the stored resample rows."""
+    """Re-derive every published percentile from the stored resample rows.
+
+    r1349: the criteria-echo branch is a STALE branch and says so in that word -- the S6
+    runner pays a leg's declared refresh only when the probe output contains "stale"
+    (r1345/E237), so a face written under older CRITERIA stayed red through a whole chain
+    record this morning with its refresh declared and never spent. A published number that
+    disagrees with its own rows is still worded as a disagreement, never as staleness, so a
+    tampered digit can never trigger a silent regeneration.
+    """
     f = Path(env_file) if env_file else ENV_DIR / "latest.json"
     if not f.exists():
         print(f"FACE MISSING: {f}")
@@ -858,11 +866,13 @@ def check(env_file=None):
     crit = env.get("criteria") or {}
     frozen = {k: v for k, v in crit.items() if k != "bootstrap"}
     if frozen != {k: v for k, v in CRITERIA.items() if k != "bootstrap"}:
-        problems.append("criteria echo differs from the frozen constants")
+        problems.append("criteria echo is stale against the frozen constants "
+                        "(the face was written under older rules and needs a re-derive)")
     bootd = {k: v for k, v in (crit.get("bootstrap") or {}).items()
              if k not in ("block", "n_boot")}
     if bootd != {k: v for k, v in CRITERIA["bootstrap"].items() if k not in ("block", "n_boot")}:
-        problems.append("bootstrap criteria echo differs from the frozen constants")
+        problems.append("bootstrap criteria echo is stale against the frozen constants "
+                        "(block/n_boot are per-run knobs; every other field is fixed)")
     if not env.get("rows"):
         problems.append("no per-resample rows published -- the envelope cannot be re-judged")
         rows = []

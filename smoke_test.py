@@ -1822,6 +1822,12 @@ def main() -> int:
     for _label, _script, _args in (
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
+            # r1349 / E255: a percentile quoted from 2,000 draws has a resolution, and two
+            # arms whose gap sits inside it are one number. This leg pins the interval, the
+            # permutation test on both sides, and the rule that a disagreement between the
+            # two aggregators is published rather than resolved.
+            ("product: etf_book_quantile_floor (percentile resolution contract)",
+             "scripts/etf_book_quantile_floor.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",

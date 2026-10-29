@@ -5191,3 +5191,31 @@ Pos: scripts/update_heat.py（`_takeover_gate` + `save_status` 的 authority 块
 L13 宣言可审/无名封套不可审）· smoke_test.py（「a lane takeover declares whose disk
 holds the rows」：owner==host 全行、封套六键齐、data_face_machine==machine、
 declared_takeover_by 必须被认账）· 正典=config/lane_hosts.json。
+
+## E256 A quoted percentile has a resolution, and two arms inside it are one number (2026-10-30 r1349 bm-c)
+
+WHEN: a resampling study quotes percentiles of N draws and then compares those percentiles across
+arms -- block lengths, windows, seeds, phases. The comparison inherits a sampling error of order
+1/sqrt(N) that nobody printed, so "arm A is calmer than arm B by 0.3pp" may be a description of
+the draw count rather than of the market.
+
+WRONG: (a) asserting the noise cheaply ("the p5 is noisy at ~0.1pp") and then letting a 0.30pp gap
+through as if it were above it; (b) trusting one aggregator, so whichever arithmetic was coded
+first settles the sentence; (c) reading the spread of eight arms as eight measurements when most
+of the rungs sit inside each other's intervals.
+
+RIGHT: publish a distribution-free interval per quoted percentile (binomial ranks -- no density,
+no symmetry), publish the density-based SE beside it, and test every comparison with a permutation
+that re-derives the statistic from the rows (1,000 relabels). Price each unsettled gap with the
+E162 reader-horizon arithmetic applied to a quantile (n_needed = n*(z*se_diff/gap)^2), and when the
+two aggregators disagree, publish the disagreement instead of resolving it.
+
+READING (8 block arms, 2,000 resamples, 2026-10-29 bar): iid vs week maxDD p5 differ by 0.29pp and
+are NOT settled -- separating them would take 28,737 resamples -- while iid vs year differ by
+7.64pp and are (perm p 0.001). 4 of 7 adjacent-rung gaps separate; only 1 of 13 median gaps does,
+so the median is the least resolvable column in the family. Consequence published: the ladder may
+say "block length matters" and may not say "block 10 is calmer than block 20".
+
+Pos: scripts/etf_book_quantile_floor.py (selftest 17/17, gate re-derives 8 arms / 52 pairs from
+their own rows) + results/etf_book_bootstrap/NOISE-2026-10-29.json + S6 leg + smoke leg +
+research/digests/DIGEST-20261030-e255-percentile-resolution.md.
