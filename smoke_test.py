@@ -2930,6 +2930,78 @@ def main() -> int:
     except Exception as e:
         check("product: the carry split reproduces the ticket and stays ordered", False,
               repr(e)[:160])
+    # ---- v1.7: the CEO page must price the whole book in one line ----------
+    try:
+        _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
+        _pe28p = os.path.join(PATHS.results_dir, "paper_export", "latest.json")
+        _bad28 = []
+        if not os.path.exists(_lu28p):
+            _bad28.append("docs/live_usage/LIVE-latest.json missing")
+        elif not os.path.exists(_pe28p):
+            _bad28.append("results/paper_export/latest.json missing")
+        else:
+            with open(_lu28p, encoding="utf-8") as _fh28:
+                _lu28 = json.load(_fh28)
+            with open(_pe28p, encoding="utf-8") as _fh28:
+                _pe28 = json.load(_fh28)
+            _ru28 = _lu28.get("rollup") or {}
+            _mem28 = _lu28.get("members") or []
+            _tol28 = 0.5 * max(len(_mem28), 1)
+            _sum28e = sum(float(m["equity_cny"]) for m in _mem28)
+            _sum28c = sum(float(m["cash_cny"]) for m in _mem28)
+            _ex28 = (_pe28.get("summary") or {}).get("total_equity_cny")
+            if not _ru28:
+                _bad28.append("the page carries no roll-up block")
+            else:
+                if abs(_ru28["equity_cny"] - _sum28e) > _tol28:
+                    _bad28.append("roll-up equity %.2f != member sum %.2f"
+                                  % (_ru28["equity_cny"], _sum28e))
+                if abs(_ru28["cash_cny"] - _sum28c) > _tol28:
+                    _bad28.append("roll-up cash %.2f != member cash %.2f"
+                                  % (_ru28["cash_cny"], _sum28c))
+                if _ex28 is None:
+                    _bad28.append("export summary publishes no total equity")
+                elif abs(_ru28["equity_cny"] - float(_ex28)) > _tol28:
+                    _bad28.append("roll-up %.2f != export total %.2f"
+                                  % (_ru28["equity_cny"], float(_ex28)))
+                if abs(_ru28["pnl_cny"]
+                       - (_ru28["equity_cny"] - _ru28["initial_cny"])) > 0.05:
+                    _bad28.append("pnl is not equity - initial capital")
+                if _ru28.get("day_pnl_cny") is None:
+                    if _ru28.get("day_prior") is not None:
+                        _bad28.append("day change missing though a prior export exists")
+                elif _ru28.get("day_prior_equity_cny") is None:
+                    _bad28.append("day change printed without its comparison total")
+                elif abs(_ru28["day_pnl_cny"]
+                         - (_ru28["equity_cny"]
+                            - _ru28["day_prior_equity_cny"])) > 0.05:
+                    _bad28.append("day change is not today minus the prior export")
+                _md28p = os.path.join(PATHS.root, "docs", "live_usage",
+                                      "LIVE-%s.md" % str(_lu28.get("day") or "")
+                                      .replace("-", ""))
+                if not os.path.exists(_md28p):
+                    _md28p = os.path.join(PATHS.root, "docs", "live_usage",
+                                          "LIVE-latest.md")
+                if not os.path.exists(_md28p):
+                    _bad28.append("the rendered page is absent")
+                else:
+                    with open(_md28p, encoding="utf-8") as _fh28:
+                        _md28 = _fh28.read()
+                    if "六员合计" not in _md28:
+                        _bad28.append("the rendered page has no total line")
+                    elif _ru28.get("return_pct") is not None and \
+                            ("%+.2f%%" % _ru28["return_pct"]) not in _md28:
+                        _bad28.append("the total line omits the cumulative return")
+        check("product: the CEO page prices the whole book in one line",
+              not _bad28, "; ".join(_bad28)[:220]
+              or ("equity %.0f / initial %.0f / positions %.0f / day %s"
+                  % (float(_ru28.get("equity_cny") or 0),
+                     float(_ru28.get("initial_cny") or 0),
+                     float(_ru28.get("positions_cny") or 0),
+                     _ru28.get("day_pnl_cny"))))
+    except Exception as e:
+        check("product: the CEO page prices the whole book in one line", False,
+              repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 

@@ -4811,3 +4811,30 @@ N5 book's, and a wider cell pays less per name, so this is the *generous* readin
 
 Pos: scripts/etf_book_buffer_price_of_size.py (selftest 24, `--check` recomputes every crossing
 and flag) + results/etf_book_buffer_price_of_size.json + S6 leg + smoke leg.
+
+## E242 A page that prices every unit but never the total is not answerable (2026-10-29 r1152 bm-a)
+
+WHEN: a CEO-facing page lists money per unit (six paper traders, five book names, four tiers)
+and a reader asks the only question that matters -- "how much money did we make".
+
+WRONG: leaving the total to the reader. The 2026-10-29 page showed 6 x equity / cash blocks
+and per-position unrealised P&L, while `results/paper_export/export-<day>.json` already
+published `summary.total_equity_cny` and `daily_report` already printed the day P&L in money:
+the one face the CEO actually reads was the only one that could not answer.
+
+RIGHT: one derived line -- total equity, starting capital, cumulative return in % AND CNY,
+positions vs cash, and today's change against the *previous* export's own summary. Derive
+every input (each trader's own `capital_cny.initial`; never a 6,000,000 constant), assert the
+totals equal the sum of the page's own rows AND the sibling face's published total (tolerance
+= the rounding of the member rows), and let an absent prior export read `None` with a
+"no comparison face" sentence rather than a fabricated flat day. Fixture legs pin: absent
+starting capital -> `return_pct` None + the honest "missing" sentence; a query for a day
+before every export -> `(None, None)`.
+
+Same-round corroboration that the derive was right: the independent daily_report face printed
+day P&L -7,053.36 and this roll-up computed -7,053 from today minus the 10-28 export.
+
+Pos: scripts/ceo_live_usage.py (rollup face / prior-export selector / 8 new selftest legs) +
+docs/live_usage/LIVE-2026-10-29.md section 3 opening line + smoke leg "the CEO page prices the
+whole book in one line" (recomputes the roll-up from the page's own members and cross-checks
+the export summary).

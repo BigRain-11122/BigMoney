@@ -64,6 +64,18 @@ v1.6 (r1065 bm-b, recommendation-face surfacing -- CEO anchor "product
   insufficient-sample verdicts travel verbatim.  Missing face = honest
   absent disclosure (page still renders, exit 0 unchanged).
 
+v1.7 (r1152 bm-a, "how much money" roll-up -- CEO anchor "我要的是结果
+  能赚钱的结果"): section 3 opens with ONE line of money for the whole book:
+  total equity / starting capital / cumulative return in percent and CNY /
+  positions vs cash split / today's change against the previous export.
+  Every figure is derived from the paper face (each trader's own
+  capital_cny.initial, equity, cash, positions_value) and the previous
+  export's own summary -- no constant is assumed, and an absent prior
+  export reads None with a "no comparison face" sentence rather than a
+  fabricated flat day.  Cross-face assertion: the roll-up must agree with
+  the export summary's total_equity_cny (tolerance = rounding of the member
+  rows).  ZERO new judgment (no benchmark, no win/loss claim).
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -92,6 +104,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGIME_JSON = os.path.join(ROOT, "results", "regime_state.json")
 CLOCK_JSON = os.path.join(ROOT, "results", "market_clock", "call_latest.json")
 PAPER_LATEST = os.path.join(ROOT, "results", "paper_export", "latest.json")
+PAPER_EXPORT_DIR = os.path.join(ROOT, "results", "paper_export")
 BLEND_JSON = os.path.join(ROOT, "results",
                           "portfolio_blend_tournament.json")
 LEDGER_MD = os.path.join(ROOT, "research", "DECISION_CHAIN_LEDGER.md")
@@ -395,6 +408,82 @@ def _recommendation_face() -> dict:
     }
 
 
+def _prior_export_equity(day: str):
+    """Total equity (CNY) of the newest paper_export dated strictly before *day*.
+
+    Returns (date, total).  The date is the export file's own day; the total is
+    read from that file's own summary face.  A missing file or a summary
+    without the key reads (None, None) -- never 0, which would invent a loss.
+    """
+    if not os.path.isdir(PAPER_EXPORT_DIR):
+        return (None, None)
+    best = None
+    for name in os.listdir(PAPER_EXPORT_DIR):
+        if not (name.startswith("export-") and name.endswith(".json")):
+            continue
+        d = name[len("export-"):-len(".json")]
+        if len(d) != 10 or d >= day:
+            continue
+        if best is None or d > best:
+            best = d
+    if best is None:
+        return (None, None)
+    ex = _read_json(os.path.join(PAPER_EXPORT_DIR, "export-%s.json" % best))
+    tot = (ex.get("summary") or {}).get("total_equity_cny")
+    return (best, float(tot) if isinstance(tot, (int, float)) else None)
+
+
+def _rollup_face(paper: dict, day: str) -> dict:
+    """v1.7 six-member money roll-up: the page must answer "how much money".
+
+    Every number is derived from the paper face itself: initial capital from
+    each trader's own capital_cny.initial, equity/cash/positions from the same
+    block, and the day change from the *previous* export's summary.  No
+    constant is assumed; an absent prior file reads None (never 0) so a hole
+    cannot be mistaken for a flat day.
+    """
+    traders = {t.get("trader"): t for t in paper.get("traders", [])}
+    initial = equity = cash = pos = 0.0
+    n = 0
+    for tid in SIX:
+        c = (traders.get(tid) or {}).get("capital_cny") or {}
+        if not isinstance(c.get("equity"), (int, float)):
+            continue
+        n += 1
+        initial += float(c.get("initial") or 0.0)
+        equity += float(c["equity"])
+        cash += float(c.get("cash") or 0.0)
+        pos += float(c.get("positions_value") or 0.0)
+    prior_day, prior_eq = _prior_export_equity(day)
+    face_total = (paper.get("summary") or {}).get("total_equity_cny")
+    face_total = (float(face_total) if isinstance(face_total, (int, float))
+                  else None)
+    return {
+        "n_traders": n,
+        "initial_cny": round(initial, 2),
+        "equity_cny": round(equity, 2),
+        "cash_cny": round(cash, 2),
+        "positions_cny": round(pos, 2),
+        "pnl_cny": round(equity - initial, 2),
+        "return_pct": (round((equity / initial - 1.0) * 100.0, 4)
+                       if initial > 0 else None),
+        "day_prior": prior_day,
+        "day_prior_equity_cny": (round(prior_eq, 2)
+                                 if prior_eq is not None else None),
+        "day_pnl_cny": (round(equity - prior_eq, 2)
+                        if prior_eq is not None else None),
+        "day_pct": (round((equity / prior_eq - 1.0) * 100.0, 4)
+                    if prior_eq else None),
+        "face_total_equity_cny": face_total,
+        "face_agrees": (face_total is not None
+                        and abs(face_total - equity) <= 0.5 * max(n, 1)),
+        "source": ("results/paper_export/export-%s.json" % day
+                   if os.path.exists(os.path.join(PAPER_EXPORT_DIR,
+                                                  "export-%s.json" % day))
+                   else "results/paper_export/latest.json"),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -442,7 +531,7 @@ def build_payload(day: str) -> dict:
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_6",
+        "schema": "ceo_live_usage_v1_7",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -479,6 +568,7 @@ def build_payload(day: str) -> dict:
                        if state == "ORANGE" else
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
+        "rollup": _rollup_face(paper, day),
         "intraday": _intraday_face(held, day),
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
@@ -559,6 +649,23 @@ def render_md(p: dict) -> str:
     L.append(f"- {p['corps_note']}")
     L.append("- 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 "
              "SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：")
+    ru = p.get("rollup") or {}
+    if ru.get("return_pct") is None:
+        L.append("- **六员合计：口径缺件**（起始资本不可得=诚实空档，不填 0）")
+    else:
+        sgn_p = "+" if ru["pnl_cny"] >= 0 else "-"
+        if ru.get("day_pnl_cny") is None:
+            day_txt = "今日 —（无对照件，不填 0）"
+        else:
+            sgn_d = "+" if ru["day_pnl_cny"] >= 0 else "-"
+            day_txt = (f"今日 {sgn_d}¥{_fmt_cny(abs(ru['day_pnl_cny']))}"
+                       f"（对比 {ru['day_prior']}）")
+        L.append(f"- **六员合计：权益 ¥{_fmt_cny(ru['equity_cny'])}"
+                 f"（起始 ¥{_fmt_cny(ru['initial_cny'])}·累计 "
+                 f"{ru['return_pct']:+.2f}%·{sgn_p}¥"
+                 f"{_fmt_cny(abs(ru['pnl_cny']))}）**；其中持仓 ¥"
+                 f"{_fmt_cny(ru['positions_cny'])} / 现金 ¥"
+                 f"{_fmt_cny(ru['cash_cny'])}；{day_txt}")
     for mem in p["members"]:
         L.append("")
         L.append(f"### {mem['trader']}（权重 "
@@ -717,7 +824,7 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.6", p1["schema"] == "ceo_live_usage_v1_6")
+    check("schema v1.7", p1["schema"] == "ceo_live_usage_v1_7")
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")
@@ -841,6 +948,51 @@ def selftest() -> int:
           and (not rc["present"]
                or (rc["recommendation"][:12] in md1
                    and "全页指针" in md1)))
+    ru = p1["rollup"]
+    check("roll-up present and complete (v1.7)",
+          ru["n_traders"] == len(SIX) and ru["initial_cny"] > 0
+          and ru["equity_cny"] > 0)
+    check("roll-up arithmetic is self-consistent (v1.7)",
+          abs(ru["pnl_cny"] - (ru["equity_cny"] - ru["initial_cny"])) <= 0.05
+          and abs(ru["return_pct"]
+                  - (ru["equity_cny"] / ru["initial_cny"] - 1.0) * 100.0)
+          <= 1e-3
+          and abs(ru["positions_cny"] + ru["cash_cny"]
+                  - ru["equity_cny"]) <= 0.05 * ru["n_traders"])
+    _mem_sum = sum(m["equity_cny"] for m in p1["members"])
+    _mem_cash = sum(m["cash_cny"] for m in p1["members"])
+    check("roll-up equals the sum of its own member rows",
+          abs(ru["equity_cny"] - _mem_sum) <= 0.5 * ru["n_traders"]
+          and abs(ru["cash_cny"] - _mem_cash) <= 0.5 * ru["n_traders"])
+    check("roll-up agrees with the export summary face (cross-face)",
+          ru["face_agrees"] is True)
+    _pd, _pe = _prior_export_equity(day)
+    check("prior-export selector is strictly older than the day",
+          (_pd is None or _pd < day) and _pd == ru["day_prior"])
+    check("day change is derived or honestly absent, never 0",
+          (ru["day_pnl_cny"] is None
+           and ru["day_prior"] is None
+           and "无对照件" in md1)
+          or (ru["day_pnl_cny"] is not None
+              and abs(ru["day_pnl_cny"]
+                      - (ru["equity_cny"] - ru["day_prior_equity_cny"]))
+              <= 0.05
+              and ru["day_prior"] in md1))
+    check("no prior export -> None, never an invented zero",
+          _prior_export_equity("1990-01-01") == (None, None))
+    _deg_ru = {"return_pct": None}
+    _deg_p = dict(p1)
+    _deg_p["rollup"] = _deg_ru
+    try:
+        _deg_md = render_md(_deg_p)
+        check("absent starting capital degrades honestly (no raise)",
+              "口径缺件" in _deg_md and "④ 决策链版本横幅" in _deg_md)
+    except Exception as exc:                                     # noqa: BLE001
+        print(f"  roll-up degrade render raised: {exc}")
+        check("absent starting capital degrades honestly (no raise)", False)
+    check("roll-up rendered in md with its own money (v1.7)",
+          "六员合计" in md1 and _fmt_cny(ru["equity_cny"]) in md1
+          and f"{ru['return_pct']:+.2f}%" in md1)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
