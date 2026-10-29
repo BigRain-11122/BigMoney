@@ -1,0 +1,929 @@
+{
+ "book": {
+  "first": "2020-11-17",
+  "last": "2026-10-29",
+  "rows": 1328,
+  "sessions": 1328
+ },
+ "book_control": {
+  "book_control_identified": false,
+  "max_abs_book_minus_sum_over_k": 0.0,
+  "reason": "the leave-one-out book move is exactly SUM/4 on an equal-weight book, so (own, sum, book) is a singular design; the common component and the aggregate channel are the same variable here"
+ },
+ "bootstrap": {
+  "available": true,
+  "b_one_ci": [
+   0.1276241865714042,
+   0.22433444793633645
+  ],
+  "b_one_sd": 0.023948380930164787,
+  "b_rest3_ci": [
+   0.13610507218471646,
+   0.21603225299029577
+  ],
+  "b_rest3_sd": 0.02228767159385142,
+  "b_sum_ci": [
+   0.10010077610965484,
+   0.1689422935116257
+  ],
+  "b_sum_sd": 0.020888136906581853,
+  "block": 20,
+  "diff_ci": [
+   -0.011602675218921952,
+   0.02164837039953434
+  ],
+  "diff_sd": 0.009216301197784453,
+  "reps_requested": 60,
+  "reps_used": 60,
+  "seed": 20261030
+ },
+ "collinearity": {
+  "max": 0.6793185764463989,
+  "mean_rho": 0.424139220350359,
+  "min": 0.33470125227323577,
+  "n_pairs": 10,
+  "pairs": [
+   [
+    "sh510300",
+    "sh510050",
+    0.6793185764463989
+   ],
+   [
+    "sh510300",
+    "sh510500",
+    0.4633660644686602
+   ],
+   [
+    "sh510300",
+    "sh512100",
+    0.40131256404093013
+   ],
+   [
+    "sh510300",
+    "sh588000",
+    0.3981093792109505
+   ],
+   [
+    "sh510050",
+    "sh510500",
+    0.37442789977717816
+   ],
+   [
+    "sh510050",
+    "sh512100",
+    0.36845042542451645
+   ],
+   [
+    "sh510050",
+    "sh588000",
+    0.35800701625191245
+   ],
+   [
+    "sh510500",
+    "sh512100",
+    0.5275499550659037
+   ],
+   [
+    "sh510500",
+    "sh588000",
+    0.3361490705439048
+   ],
+   [
+    "sh512100",
+    "sh588000",
+    0.33470125227323577
+   ]
+  ]
+ },
+ "coordinate_map": {
+  "a_own": 0.6311384384404359,
+  "available": true,
+  "c_rest": 0.13945818978749908,
+  "kappa": 0.25,
+  "note": "constant-weight approximation: kappa is the nominal w/(1-w); the direct fit on the common grid is published beside it"
+ },
+ "designs": {
+  "aggregate_own_sum": {
+   "b_own": 0.865430313622829,
+   "b_own_ci": [
+    0.7262353337267592,
+    1.0046252935188988
+   ],
+   "b_sum": 0.1384009310074602,
+   "b_sum_ci": [
+    0.10011593138747152,
+    0.1766859306274489
+   ],
+   "design": "aggregate_own_plus_sum",
+   "r2": 0.10049778826437727,
+   "regressor_sd": {
+    "own": 0.39033714639871864,
+    "sum": 1.177361784547963
+   },
+   "rows_used": 6640
+  },
+  "aggregate_two_way_fe": {
+   "design": "aggregate_two_way_fe",
+   "identifiable": false,
+   "reason": "after member and date demeaning the sum regressor is minus own (the total book move is a date effect), so this design has no separate rest channel to estimate",
+   "residual_corr_own_sum": -0.9999999999999998
+  },
+  "pair_naive_cross": {
+   "cases": [
+    {
+     "b_cross": 0.3983277808632437,
+     "b_cross_ci": [
+      0.13418693647623398,
+      0.6624686252502534
+     ],
+     "cross_of": "sh510050",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.21875782134855803,
+     "b_cross_ci": [
+      0.009393832502317068,
+      0.428121810194799
+     ],
+     "cross_of": "sh510500",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.20791832392114662,
+     "b_cross_ci": [
+      -0.009185259748181324,
+      0.42502190759047453
+     ],
+     "cross_of": "sh512100",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.9257373161521409,
+     "b_cross_ci": [
+      0.6322724826675789,
+      1.2192021496367031
+     ],
+     "cross_of": "sh588000",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.556707383440729,
+     "b_cross_ci": [
+      0.31575641497914586,
+      0.7976583519023122
+     ],
+     "cross_of": "sh510300",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.1807793594458012,
+     "b_cross_ci": [
+      0.010178072948547917,
+      0.3513806459430545
+     ],
+     "cross_of": "sh510500",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.21848137631346898,
+     "b_cross_ci": [
+      0.020374807023167657,
+      0.4165879456037703
+     ],
+     "cross_of": "sh512100",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.4843442508868704,
+     "b_cross_ci": [
+      0.21585133188571182,
+      0.752837169888029
+     ],
+     "cross_of": "sh588000",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.4743566666737581,
+     "b_cross_ci": [
+      0.2316206645861848,
+      0.7170926687613314
+     ],
+     "cross_of": "sh510300",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.23896848130702603,
+     "b_cross_ci": [
+      0.009663531097904882,
+      0.4682734315161472
+     ],
+     "cross_of": "sh510050",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.4185025717516352,
+     "b_cross_ci": [
+      0.14333125505924904,
+      0.6936738884440213
+     ],
+     "cross_of": "sh512100",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 1.1071981014426222,
+     "b_cross_ci": [
+      0.7174158217620046,
+      1.4969803811232398
+     ],
+     "cross_of": "sh588000",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.3703167751781829,
+     "b_cross_ci": [
+      0.1764657787106435,
+      0.5641677716457223
+     ],
+     "cross_of": "sh510300",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.11229131180468871,
+     "b_cross_ci": [
+      -0.093158532585988,
+      0.3177411561953654
+     ],
+     "cross_of": "sh510050",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.4208810749038569,
+     "b_cross_ci": [
+      0.2100609861657804,
+      0.6317011636419334
+     ],
+     "cross_of": "sh510500",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": 0.9288014154362925,
+     "b_cross_ci": [
+      0.6452252696016391,
+      1.2123775612709458
+     ],
+     "cross_of": "sh588000",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": -0.1972846135483617,
+     "b_cross_ci": [
+      -0.3804423550195032,
+      -0.014126872077220187
+     ],
+     "cross_of": "sh510300",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": -0.22195837317268974,
+     "b_cross_ci": [
+      -0.408336138230565,
+      -0.03558060811481448
+     ],
+     "cross_of": "sh510050",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": -0.2002601994313925,
+     "b_cross_ci": [
+      -0.3669649611907436,
+      -0.03355543767204136
+     ],
+     "cross_of": "sh510500",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_cross": -0.14633782768306514,
+     "b_cross_ci": [
+      -0.35633617922239674,
+      0.06366052385626647
+     ],
+     "cross_of": "sh512100",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    }
+   ],
+   "cross_ci": [
+    0.16547960756481717,
+    0.48417329213863425
+   ],
+   "cross_sd": 0.36358201158516895,
+   "cross_se": 0.08129940933005537,
+   "design": "pair_naive_cross",
+   "mean_cross": 0.3248264498517257,
+   "n_pairs": 20
+  },
+  "pair_one_vs_rest": {
+   "cases": [
+    {
+     "b_one": 0.31469878811739743,
+     "b_one_ci": [
+      0.05275235208806334,
+      0.5766452241467315
+     ],
+     "b_rest3": 0.21953562519519448,
+     "b_rest3_ci": [
+      0.11373171379192111,
+      0.32533953659846787
+     ],
+     "diff": 0.09516316292220295,
+     "diff_ci": [
+      -0.1981394664913242,
+      0.3884657923357301
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.018473893402589425,
+     "b_one_ci": [
+      -0.20597952984198556,
+      0.2429273166471644
+     ],
+     "b_rest3": 0.34885301553351955,
+     "b_rest3_ci": [
+      0.2021467045886606,
+      0.4955593264783785
+     ],
+     "diff": -0.3303791221309301,
+     "diff_ci": [
+      -0.6433554597281321,
+      -0.017402784533728066
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.08243418699553706,
+     "b_one_ci": [
+      -0.32300776936884207,
+      0.15813939537776794
+     ],
+     "b_rest3": 0.36754110957428265,
+     "b_rest3_ci": [
+      0.22566633512095735,
+      0.509415884027608
+     ],
+     "diff": -0.4499752965698197,
+     "diff_ci": [
+      -0.7741564447533735,
+      -0.12579414838626585
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.8607278842790219,
+     "b_one_ci": [
+      0.5639579291089856,
+      1.1574978394490583
+     ],
+     "b_rest3": 0.09880760119695997,
+     "b_rest3_ci": [
+      -0.003880168044162663,
+      0.2014953704380826
+     ],
+     "diff": 0.7619202830820619,
+     "diff_ci": [
+      0.4268424729700418,
+      1.0969980931940821
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510300",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.47445059761851466,
+     "b_one_ci": [
+      0.20964925490509967,
+      0.7392519403319296
+     ],
+     "b_rest3": 0.09525637818567445,
+     "b_rest3_ci": [
+      -0.0025551838411101424,
+      0.19306794021245904
+     ],
+     "diff": 0.3791942194328402,
+     "diff_ci": [
+      0.06324544281081007,
+      0.6951429960548703
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.044146675325068885,
+     "b_one_ci": [
+      -0.24229341849042663,
+      0.15400006784028886
+     ],
+     "b_rest3": 0.28990619596252154,
+     "b_rest3_ci": [
+      0.16569606996163178,
+      0.4141163219634113
+     ],
+     "diff": -0.3340528712875904,
+     "diff_ci": [
+      -0.6206365650289261,
+      -0.04746917754625474
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.0031323248454958597,
+     "b_one_ci": [
+      -0.22547507783401902,
+      0.2192104281430273
+     ],
+     "b_rest3": 0.2386525016428196,
+     "b_rest3_ci": [
+      0.12628981186294513,
+      0.35101519142269405
+     ],
+     "diff": -0.24178482648831545,
+     "diff_ci": [
+      -0.5307343661041005,
+      0.047164713127469615
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.37157711535266,
+     "b_one_ci": [
+      0.08517320616324325,
+      0.6579810245420767
+     ],
+     "b_rest3": 0.13122887989848459,
+     "b_rest3_ci": [
+      0.03981694106939525,
+      0.2226408187275739
+     ],
+     "diff": 0.24034823545417544,
+     "diff_ci": [
+      -0.09344733527700916,
+      0.5741438061853601
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510050",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.1538352980817279,
+     "b_one_ci": [
+      -0.1383018095977943,
+      0.44597240576125013
+     ],
+     "b_rest3": 0.3016710896713737,
+     "b_rest3_ci": [
+      0.15012745511419812,
+      0.45321472422854925
+     ],
+     "diff": -0.14783579158964577,
+     "diff_ci": [
+      -0.5494906755060212,
+      0.25381909232672967
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.2271150968828971,
+     "b_one_ci": [
+      -0.4858683562744998,
+      0.0316381625087056
+     ],
+     "b_rest3": 0.49875309051035166,
+     "b_rest3_ci": [
+      0.35054186632147244,
+      0.6469643146992309
+     ],
+     "diff": -0.7258681873932488,
+     "diff_ci": [
+      -1.0769749505416821,
+      -0.37476142424481546
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.23524088260552295,
+     "b_one_ci": [
+      -0.06466851459651168,
+      0.5351502798075576
+     ],
+     "b_rest3": 0.26069814014248205,
+     "b_rest3_ci": [
+      0.13201306111843228,
+      0.38938321916653185
+     ],
+     "diff": -0.0254572575369591,
+     "diff_ci": [
+      -0.41262064683549327,
+      0.36170613176157507
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 1.0168870100480292,
+     "b_one_ci": [
+      0.5989938131127794,
+      1.434780206983279
+     ],
+     "b_rest3": 0.09415484295853527,
+     "b_rest3_ci": [
+      -0.013366521003829401,
+      0.20167620692089994
+     ],
+     "diff": 0.9227321670894939,
+     "diff_ci": [
+      0.45454233374606884,
+      1.390922000432919
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh510500",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.0644384322334488,
+     "b_one_ci": [
+      -0.18856445024344004,
+      0.31744131471033765
+     ],
+     "b_rest3": 0.25611537834133913,
+     "b_rest3_ci": [
+      0.11893427209769403,
+      0.39329648458498423
+     ],
+     "diff": -0.19167694610789032,
+     "diff_ci": [
+      -0.5511285317300503,
+      0.16777463951426969
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.3076746939664283,
+     "b_one_ci": [
+      -0.5481561832125933,
+      -0.06719320472026338
+     ],
+     "b_rest3": 0.4184377276552873,
+     "b_rest3_ci": [
+      0.3023416667939387,
+      0.5345337885166359
+     ],
+     "diff": -0.7261124216217156,
+     "diff_ci": [
+      -1.0463232548185109,
+      -0.40590158842492036
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.29869247694800694,
+     "b_one_ci": [
+      0.07059226344803773,
+      0.5267926904479762
+     ],
+     "b_rest3": 0.16725619527445484,
+     "b_rest3_ci": [
+      0.06762623492419657,
+      0.26688615562471313
+     ],
+     "diff": 0.1314362816735521,
+     "diff_ci": [
+      -0.15903324408955555,
+      0.42190580743665973
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_one": 0.853610901669251,
+     "b_one_ci": [
+      0.5471225643641933,
+      1.1600992389743088
+     ],
+     "b_rest3": 0.0723232002066932,
+     "b_rest3_ci": [
+      -0.018385731487525023,
+      0.16303213190091143
+     ],
+     "diff": 0.7812877014625579,
+     "diff_ci": [
+      0.43701558828808545,
+      1.1255598146370303
+     ],
+     "one_of": "sh588000",
+     "own_of": "sh512100",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.0652217256667405,
+     "b_one_ci": [
+      -0.27583224212931895,
+      0.14538879079583794
+     ],
+     "b_rest3": -0.09806538821548011,
+     "b_rest3_ci": [
+      -0.19549624586081002,
+      -0.0006345305701501991
+     ],
+     "diff": 0.032843662548739605,
+     "diff_ci": [
+      -0.23174111373139494,
+      0.29742843882887415
+     ],
+     "one_of": "sh510300",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.14120328239095897,
+     "b_one_ci": [
+      -0.35664521301914864,
+      0.07423864823723073
+     ],
+     "b_rest3": -0.0707536766255471,
+     "b_rest3_ci": [
+      -0.16569132391629798,
+      0.02418397066520378
+     ],
+     "diff": -0.07044960576541187,
+     "diff_ci": [
+      -0.342249929054091,
+      0.20135071752326728
+     ],
+     "one_of": "sh510050",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.11958681671885832,
+     "b_one_ci": [
+      -0.30885221428027754,
+      0.06967858084256093
+     ],
+     "b_rest3": -0.07846023549561082,
+     "b_rest3_ci": [
+      -0.17407291505546713,
+      0.017152444064245473
+     ],
+     "diff": -0.0411265812232475,
+     "diff_ci": [
+      -0.2971319131338168,
+      0.21487875068732185
+     ],
+     "one_of": "sh510500",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    },
+    {
+     "b_one": -0.012424940704218124,
+     "b_one_ci": [
+      -0.24041064726484113,
+      0.21556076585640488
+     ],
+     "b_rest3": -0.10929921250254798,
+     "b_rest3_ci": [
+      -0.19163961462647439,
+      -0.026958810378621564
+     ],
+     "diff": 0.09687427179832986,
+     "diff_ci": [
+      -0.18032529374906447,
+      0.3740738373457242
+     ],
+     "one_of": "sh512100",
+     "own_of": "sh588000",
+     "rows_used": 1328
+    }
+   ],
+   "design": "pair_one_vs_rest",
+   "diff_ci": [
+    -0.18521305025464918,
+    0.20092115802956712
+   ],
+   "diff_sd": 0.4405216011028419,
+   "diff_se": 0.09850362456230008,
+   "mean_b_one": 0.18298467684299835,
+   "mean_b_rest3": 0.17513062295553938,
+   "mean_diff": 0.00785405388745896,
+   "n_pairs": 20,
+   "pooled": {
+    "b_one": 0.13840017158812046,
+    "b_own": 0.8654333513001748,
+    "b_rest3": 0.13840017158812457,
+    "diff": -4.107825191113079e-15,
+    "diff_ci": [
+     -0.07425161427651542,
+     0.0742516142765072
+    ],
+    "rows_used": 26560
+   }
+  },
+  "share_book_reproduction": {
+   "A_share": -0.33297401246666736,
+   "A_share_ci": [
+    -0.49081519851338273,
+    -0.17513282641995195
+   ],
+   "B_book": -0.17418726756570735,
+   "B_book_ci": [
+    -0.29490045800357745,
+    -0.05347407712783728
+   ],
+   "design": "share_book_reproduction",
+   "measured_kappa": {
+    "kappa": 0.2499999999999998,
+    "mean_share": 0.19999999999999987,
+    "per_member": {
+     "sh510050": 0.21174788572584438,
+     "sh510300": 0.29463489706811097,
+     "sh510500": 0.16788786894291594,
+     "sh512100": 0.10227663368539074,
+     "sh588000": 0.2234527145777373
+    }
+   },
+   "note": "the share increment is taken from turnover levels on the common grid",
+   "r2": 0.00507852592305158,
+   "rows_used": 6635
+  }
+ },
+ "e238_reference": {
+  "A_share": 0.5962738909935611,
+  "B_book": 0.770596628227935,
+  "available": true,
+  "cross": null,
+  "face": "results/state_tilt/loobook_latest.json",
+  "note": "machine-read; never hand-copied",
+  "own": null,
+  "rest_b_agg": 0.770596628227935
+ },
+ "e239_reference": {
+  "A_share": 0.7972997933391482,
+  "B_book": null,
+  "available": true,
+  "cross": 0.3561521244057982,
+  "face": "results/state_tilt/owncross_latest.json",
+  "note": "machine-read; never hand-copied",
+  "own": 0.7972997933391482,
+  "rest_b_agg": null
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "book_control_refused": "the leave-one-out book move is exactly SUM/(k-1), so the control is collinear with the aggregate regressor",
+  "bootstrap": {
+   "block": 20,
+   "reps": 60,
+   "scheme": "moving block over sessions, point estimates per rep"
+  },
+  "coordinate_map": "B = a + c, A = a - kappa*c => c = (B-A)/(1+kappa), kappa = w/(1-w); nominal kappa = 0.25 on an equal-weight five-member book",
+  "identified_test": "y on (d log own, d log one counterparty, d log SUM of the other three): one and the sum of three are in the same units and the additive world predicts equality",
+  "inflation_factor": "(1 + (k-1)rho - k rho^2)/(1 - rho^2): the omission bias of a pair slope that stands in for k counterparties",
+  "no_adoption": "this face re-prices nothing and adopts no arm",
+  "question": "E239: own 0.797 vs one counterparty 0.314; E238's rest sum 0.771 vs 4x mean single cross 1.425 (ratio 0.541). Collinearity or a common component?",
+  "same_object_check": "E238's published loo_b_agg is the coefficient on d(log agg) -- the BOOK-SCALING coefficient -- in the (d share, d book) parametrisation, not the coefficient on d(log rest)",
+  "verdict_vocabulary": [
+   "rest_channel_is_additive",
+   "rest_channel_exceeds_one_counterparty",
+   "rest_channel_below_one_counterparty",
+   "unresolved_insufficient_rows"
+  ]
+ },
+ "generated": "2026-10-30T05:08:48",
+ "inflation_factor": 1.8934643768451538,
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "no_bill": {
+  "permitted": false,
+  "reason": "the face names a mechanism; any charge or configuration change is a separate pre-registered act"
+ },
+ "parametrisation_check": {
+  "A_fitted": -0.33297401246666736,
+  "A_implied": 0.8308300808709639,
+  "B_fitted": -0.17418726756570735,
+  "B_implied": 1.0038312446302893,
+  "a_own": 0.865430313622829,
+  "available": true,
+  "basis_note": "the published pair sits on the LEVEL rest -- d log(agg - own), i.e. the turnover-weighted average of the others' increments -- while the direct design here regresses on the SUM of the four other log increments. With exactly equal weights (w = 1/5, kappa = 1/4) the two coincide; the realised turnover shares span 0.10..0.29, so they do not. A numeric agreement between the mapped c and the direct b_sum is therefore not a proof of either, and the gap published here is the honest measure of that",
+  "c_rest": 0.1384009310074602,
+  "gap_A": -1.1638040933376312,
+  "gap_B": -1.1780185121959965,
+  "kappa": 0.2499999999999998,
+  "note": "a gap here means the two designs are not on identical rows or the weights are not constant -- both are disclosed rather than assumed away"
+ },
+ "study": "E240",
+ "summary": {
+  "b_one": 0.18298467684299835,
+  "b_own_direct": 0.865430313622829,
+  "b_rest3": 0.17513062295553938,
+  "b_sum_direct": 0.1384009310074602,
+  "b_sum_direct_ci": [
+   0.10011593138747152,
+   0.1766859306274489
+  ],
+  "b_sum_two_way": null,
+  "b_sum_two_way_ci": null,
+  "book_control_identified": false,
+  "boot_reps_used": 60,
+  "coordinate_map_available": true,
+  "diff_one_vs_rest3": 0.00785405388745896,
+  "diff_one_vs_rest3_ci": [
+   -0.011602675218921952,
+   0.02164837039953434
+  ],
+  "diff_pooled": -4.107825191113079e-15,
+  "diff_pooled_ci": [
+   -0.07425161427651542,
+   0.0742516142765072
+  ],
+  "e238_rest_b_agg": 0.770596628227935,
+  "e239_cross": 0.3561521244057982,
+  "e239_own": 0.7972997933391482,
+  "four_times_naive_cross": 1.2993057994069028,
+  "inflation_factor": 1.8934643768451538,
+  "mapped_a_own": 0.6311384384404359,
+  "mapped_c_rest": 0.13945818978749908,
+  "mean_rho": 0.424139220350359,
+  "naive_cross": 0.3248264498517257,
+  "naive_cross_ci": [
+   0.16547960756481717,
+   0.48417329213863425
+  ],
+  "sessions": 1328,
+  "share_book_A": -0.33297401246666736,
+  "share_book_B": -0.17418726756570735,
+  "verdict": "rest_channel_is_additive",
+  "verdict_reason": "one counterparty and the sum of three are indistinguishable (+0.0079, [-0.0116, +0.0216]): the rest channel adds up"
+ },
+ "title": "why does the book aggregate keep only a fraction of what four single-counterparty turnover channels carry?",
+ "verdict_bundle": {
+  "b_one": 0.18298467684299835,
+  "b_rest3": 0.17513062295553938,
+  "b_sum_aggregate": 0.1384009310074602,
+  "b_sum_aggregate_ci": [
+   0.10011593138747152,
+   0.1766859306274489
+  ],
+  "bar_t": 2.0,
+  "diff": 0.00785405388745896,
+  "diff_ci": [
+   -0.011602675218921952,
+   0.02164837039953434
+  ],
+  "mapped_c_rest": 0.13945818978749908,
+  "reason": "one counterparty and the sum of three are indistinguishable (+0.0079, [-0.0116, +0.0216]): the rest channel adds up",
+  "verdict": "rest_channel_is_additive"
+ }
+}

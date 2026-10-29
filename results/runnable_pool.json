@@ -23291,18 +23291,21 @@
    }
   },
   {
+   "claimed_at": "2026-10-30T03:35:00+08:00",
+   "claimed_by": "bm-a r1156",
    "deliverable": "results/etf_book_bootstrap/BLOCKS-<cutoff>.json with a p1 column",
    "entered_at": "2026-10-30T00:48:14+08:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
    "id": "E251-BOOT-P1-TAIL",
    "lane": "cpu-only",
+   "result_ref": "results/etf_book_bootstrap/BLOCKS-2026-10-29.json (p1/p99 on all 8 arms; worst-1% maxDD -30.87..-20.06%, CAGR p1 0.36..1.60%/yr; gate `blocks --check` rc0)",
    "runner": "scripts/etf_book_nav_envelope.py",
    "runner_args": [
     "blocks"
    ],
    "source": "r1348/E249: the card now prints the drawdown as a band, but the band is a p5 -- the deepest 5% of resamples, not the worst. 'How bad can it get' was answered with a percentile chosen because every other face uses p5, and that choice is exactly the kind this repo just priced for block length. Add p1/p99 to the same arms and publish whether the ultra tail is bounded (a real bound) or runs away (a fat tail the operator must size against).",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
    "worker_class": "code-change",
    "workers_plan": {
@@ -23342,19 +23345,25 @@
    }
   },
   {
+   "claimed_by": "bm-a",
+   "closed_by": "bm-a r1350",
    "deliverable": "the vol overlay's effect on the p5/p1 drawdown band, not just the median",
    "entered_at": "2026-10-30T00:48:14+08:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
    "id": "E253-VOLTARGET-TAIL",
    "lane": "cpu-only",
+   "result_note": "paired bootstrap, 5 block arms x 2000 resamples: median drawdown delta +6.04pp vs p1 delta +1.26pp (tail keeps 21% of the middle gain) at -4.61pp median CAGR; the overlay is a middle-path tool, not crash insurance",
+   "result_ref": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
+   "result_ref_at": "2026-10-30T00:00:00+08:00",
    "runner": "scripts/etf_book_production.py",
    "runner_args": [
     "--selftest"
    ],
    "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
+   "verdict": "tail_is_mostly_a_middle_effect=True",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
@@ -23532,16 +23541,90 @@
    "verdict": "own_exceeds_a_single_counterparty"
   },
   {
+   "claimed_at": "2026-10-30T05:2x+08:00",
+   "claimed_by": "bm-b",
+   "closed_at": "2026-10-30T05:3x+08:00",
    "deliverable": "results/state_tilt/AGGATT-<cutoff>.json",
    "entered_at": "2026-10-30T04:2x+08:00",
    "entered_by": "bm-r1265",
    "evidence_cutoff": "2026-10-29",
    "id": "E240-AGGREGATE-KEEPS-HALF",
    "lane": "cpu-only",
+   "outcome": "rest_channel_is_additive: one counterparty 0.183 vs the sum of the other three 0.175 (difference +0.008 [-0.012, +0.022]) on identical footing; the 0.541 came from reading E238 0.771 -- the BOOK-SCALING coefficient -- as the rest channel, and from a 4x comparator built on a pair slope already inflated 1.89x by omission (rho 0.424).",
+   "result_ref": "results/state_tilt/AGGATT-2026-10-29.json",
    "source": "E239 priced the own channel against ONE counterparty per pair (own 0.797 [0.748,0.846] vs cross 0.314 [0.274,0.353], difference 0.484 [0.408,0.560]; two-way FE gives the same 0.484 [0.438,0.530]) and found the aggregate rest coefficient from E238 (0.771) is only 54% of four times the mean single-member cross (4 x 0.356 = 1.425, ratio 0.541). Two explanations remain and they are separable: (a) attenuation from collinearity -- the five members turnovers move together, so a sum is measured against a regressor whose own variation is shared, or (b) a genuine common component that a single counterparty does not carry. The test: project each member d(log turnover) on the cross-sectional book move and re-run the pair design on the residualised increments; publish (i) the predicted aggregate coefficient under pure collinearity, (ii) the coefficient actually fitted on the orthogonalised increments, (iii) the share of the 1.425 -> 0.771 gap each explanation accounts for, with intervals, and (iv) the same decomposition on the two-way FE form. Refuse any charge either way; this face only names the mechanism.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e240_aggregate_attenuation.py (new runner)",
    "title": "why does the book aggregate keep only 54% of what four single-counterparty turnover channels carry?"
+  },
+  {
+   "deliverable": "results/state_tilt/REPRO-<cutoff>.json (a reproduction ladder over the three candidate causes: row set, denominator weights, response sign)",
+   "entered_at": "2026-10-30T05:4x+08:00",
+   "entered_by": "bm-b r1266",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E241-REPRODUCE-THE-PUBLISHED-PAIR",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 2,
+   "runner": "scripts/e241_pair_reproduction.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "E240 re-ran E238's own coordinates (dy on d(log share), d(log aggregate turnover)) on the common five-member grid and got (A, B) = (-0.333, -0.174), while E238 published (0.596, 0.771) on its 3,504-session panel. E240 published the gap as gap_A=-1.164 and gap_B=-1.178 rather than reconciling it by assertion. Three candidate causes are separable and must be tested one at a time: (1) ROWS -- E238 runs on each member's own date grid (3504 sessions), E240 on the intersection (1328); (2) WEIGHTS -- E238's kappa uses capital weights (nominal w=1/5, realised shares 0.10..0.29), E240's exposure is an equal-weight sum; (3) RESPONSE -- the sign of the fitted book-scaling coefficient flips, which no weighting choice can produce. Publish a ladder: reproduce E238 exactly on its own panel and rows (must match to the published precision or the face says plainly that it cannot), then relax one dimension at a time and report which single change carries the sign flip, with the residual attributed. Until this is settled the family must not quote 0.771 as a rest coefficient anywhere.",
+   "status": "ready",
+   "target": "scripts/e241_pair_reproduction.py (new runner)",
+   "title": "why does E238's published (A, B) pair not reproduce on the common grid?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/OMISSION-<cutoff>.json (each published slope with its identified counterpart and the measured inflation factor)",
+   "entered_at": "2026-10-30T05:4x+08:00",
+   "entered_by": "bm-b r1266",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E242-OMISSION-INFLATED-FAMILY-SLOPES",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 2,
+   "runner": "scripts/e242_omission_inflation_sweep.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "E240 measured the omission of the other members inside one pair regression: the naive pair cross slope is 0.325 against the identified one-counterparty slope of 0.183, a factor of 1.89 at rho = 0.424, matching the closed form (1+(k-1)rho-k rho^2)/(1-rho^2). Every face in this family that regresses on own plus ONE counterparty inherits that factor, and E239's published 0.314 is one of them. Sweep the published faces (E239 pair slopes, E236 share-difference slopes, E235 charge granularity) and for each one publish the identified counterpart (own + one + the rest) next to it, the implied inflation factor, and whether the face's VERDICT survives the re-pricing. A verdict that flips is the deliverable; a verdict that survives is the evidence that the family can keep quoting it. No new theory: only which published numbers were units artefacts.",
+   "status": "ready",
+   "target": "scripts/e242_omission_inflation_sweep.py (new runner)",
+   "title": "how many published family slopes are inflated by omitting the other members?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/ADDOS-<cutoff>.json (the one-vs-three difference by era, by member, and on the pre-2020 segment)",
+   "entered_at": "2026-10-30T05:4x+08:00",
+   "entered_by": "bm-b r1266",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E243-ADDITIVITY-OUT-OF-SAMPLE",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 2,
+   "runner": "scripts/e243_additivity_out_of_sample.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "E240 published the identified additivity test on the common grid: one counterparty 0.183 vs the sum of the other three 0.175, difference +0.008 [-0.012, +0.022] -> rest_channel_is_additive. That is a single window (2020-11-17 onwards, 1328 sessions) because two of the five members do not exist before 2020. Two of the family's own laws apply here: a single-arm result is not a rule until the neighbourhood is tested (E188/E231 path test), and a difference that only exists in one era is not a mechanism (E213 bucket reread). Run the same design on (i) the three pre-2020 members alone, (ii) each era split, (iii) leave-one-member-out variances, publishing the difference interval in each cell and the verdict stability across them. A verdict that only holds in the newest era must say so on the face.",
+   "status": "ready",
+   "target": "scripts/e243_additivity_out_of_sample.py (new runner)",
+   "title": "does 'the rest channel adds up' survive outside the window that produced it?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23556,6 +23639,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T04:0x+08:00",
+ "updated_at": "2026-10-30T05:4x+08:00",
  "version": 1
 }

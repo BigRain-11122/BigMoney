@@ -3304,6 +3304,70 @@ def main() -> int:
     except Exception as e:
         check("product: own turnover is priced against ONE counterparty's turnover on the "
               "same footing", False, repr(e)[:160])
+    # E240: E239's 0.541 divided a BOOK-SCALING coefficient by four times an inflated pair
+    # slope. This leg holds the follow-up face to what makes the repaired comparison readable:
+    # the identified one-vs-three interval exists and contains its point, the two designs that
+    # cannot be identified are published as refusals rather than skipped, the coordinate map
+    # carries its gaps, the verdict is inside the frozen vocabulary, and no charge is granted.
+    try:
+        _bad40 = []
+        _p40 = "results/state_tilt/aggatt_latest.json"
+        _f40 = {}
+        _sum40 = {}
+        if not os.path.exists(_p40):
+            _bad40.append("aggregate-attenuation face missing")
+        else:
+            with open(_p40, encoding="utf-8") as _fh:
+                _f40 = json.load(_fh)
+            if (_f40.get("study") or "") != "E240":
+                _bad40.append("face does not identify as E240")
+            _cut40 = _f40.get("evidence_cutoff")
+            if not _cut40:
+                _bad40.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/AGGATT-%s.json" % _cut40):
+                _bad40.append("the dated face beside the latest pointer is missing")
+            _sum40 = _f40.get("summary") or {}
+            _vocab40 = ((_f40.get("frozen_spec") or {}).get("verdict_vocabulary") or [])
+            if _sum40.get("verdict") not in _vocab40:
+                _bad40.append("verdict %r is outside the frozen vocabulary"
+                              % (_sum40.get("verdict"),))
+            _ci40 = _sum40.get("diff_one_vs_rest3_ci")
+            _d40 = _sum40.get("diff_one_vs_rest3")
+            if not _ci40:
+                _bad40.append("the identified difference publishes no interval")
+            elif _d40 is None or not (_ci40[0] <= _d40 <= _ci40[1]):
+                _bad40.append("the identified difference interval does not contain its point")
+            elif _ci40[1] - _ci40[0] <= 0.0:
+                _bad40.append("the identified difference interval has zero width")
+            _bc40 = _f40.get("book_control") or {}
+            if _bc40.get("book_control_identified") is not False:
+                _bad40.append("the singular book control is not published as a refusal")
+            elif not _bc40.get("reason"):
+                _bad40.append("the book-control refusal carries no reason")
+            _tw40 = (_f40.get("designs") or {}).get("aggregate_two_way_fe") or {}
+            if _tw40.get("identifiable") is not False:
+                _bad40.append("the non-identified two-way form is not published as a refusal")
+            elif not _tw40.get("reason"):
+                _bad40.append("the two-way refusal carries no reason")
+            _cm40 = _f40.get("coordinate_map") or {}
+            if _cm40.get("available") and _cm40.get("c_rest") is None:
+                _bad40.append("the coordinate map publishes no rest coefficient")
+            if not (_f40.get("frozen_spec") or {}).get("coordinate_map"):
+                _bad40.append("the parametrisation identity is not stated")
+            if (_f40.get("no_bill") or {}).get("permitted") is not False:
+                _bad40.append("the face granted a charge")
+        _ci40s = _sum40.get("diff_one_vs_rest3_ci")
+        check("product: the book aggregate is compared on ONE parametrisation", not _bad40,
+              "; ".join(_bad40)[:220]
+              or "one %s vs sum-of-three %s (diff %s %s); rest %s; 4x naive cross %s; %s"
+                 % (_r39(_f40, "b_one"), _r39(_f40, "b_rest3"),
+                    _r39(_f40, "diff_one_vs_rest3"),
+                    "n/a" if not _ci40s else "[%.3f, %.3f]" % tuple(_ci40s),
+                    _r39(_f40, "b_sum_direct"), _r39(_f40, "four_times_naive_cross"),
+                    (_sum40.get("verdict"))))
+    except Exception as e:
+        check("product: the book aggregate is compared on ONE parametrisation", False,
+              repr(e)[:160])
     return _finish()
 
 

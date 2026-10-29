@@ -4612,3 +4612,42 @@ Runner `scripts/e239_own_vs_cross.py` (selftest 11/11), face
 contain their own points, the mean cross to be the mean of the published pairs, and the frozen
 verdict vocabulary to be honoured. No charge, no adoption: the family still has no bill, and
 the next question is why the aggregate loses half of the single-counterparty channel.
+
+### E240 -- a published coefficient is only comparable inside its own parametrisation (r1266 bm-b)
+
+E239 published ratio 0.541 by dividing E238's rest coefficient (0.771) by four times the mean
+single-counterparty cross slope (1.425). Both halves of that division are read in the wrong
+coordinates, and the two errors do not cancel.
+
+1. **0.771 is the book-scaling coefficient, not the rest coefficient.** E238's design is
+   `dy on d(share_m), d(log agg)`; its published `loo_b_agg` is the coefficient on d(log agg).
+   Writing the same regression in per-counterparty coordinates, `B = a + c` and
+   `A = a - kappa*c` with `kappa = w/(1-w)`, so `c = (B - A)/(1 + kappa)`: the rest channel
+   behind the published pair (0.596, 0.771) is 0.140 at the nominal w = 1/5, not 0.771.
+   Reading `loo_b_agg` as "the rest channel" quotes the whole book against a quarter of one
+   counterparty.
+2. **Four times one counterparty is not the sum.** The right comparator is one counterparty,
+   because the additive world makes the sum-of-four slope EQUAL to the per-counterparty slope:
+   `y = c*S` partialled on own leaves the sum slope at exactly c, whatever rho is. So the
+   reading is not "keeps 54%" but "keeps 0.138 against one counterparty's 0.183".
+3. **The naive pair slope is inflated by omission, and the inflation is measurable.** A pair
+   regression with own and ONE counterparty stands in for k counterparties, so its slope is
+   `c*(1+(k-1)rho - k rho^2)/(1-rho^2)`: on this book rho = 0.424 and the factor is 1.89. Any
+   comparison that starts from the raw pair slope inherits that factor.
+4. **The identified test needs no algebra at all.** Regress on own, one counterparty, and the
+   sum of the other three -- one and the sum-of-three are in the same units, no channel is
+   omitted, and additivity predicts equal coefficients. Measured: one 0.183, three 0.175,
+   difference +0.008 [-0.012, +0.022] -> the rest channel adds up.
+5. **Two controls that cannot be built are published as refusals, not skipped.** The
+   leave-one-out book move is exactly SUM/(k-1) (measured max deviation 0.0), so (own, sum,
+   book) is singular; and the two-way FE form of the same design puts the total book move into
+   the date effect, which makes the within-transformed sum regressor minus own (residual
+   correlation -1.0). A face that quietly dropped these would look cleaner and say less.
+6. **A published pair that does not reproduce is a finding.** Re-running E238's coordinates on
+   this face's grid gives (A, B) = (-0.333, -0.174) against the published (0.596, 0.771). The
+   gap is published with the face (`parametrisation_check.gap_A/gap_B`) instead of being
+   reconciled by assertion; the rotation is next round's work, not a footnote.
+
+Runner `scripts/e240_aggregate_attenuation.py` (selftest 12/12), face
+`results/state_tilt/AGGATT-<cutoff>.json`, verdict `rest_channel_is_additive` on 1,328 common
+sessions to 2026-10-29. No charge, no adoption.
