@@ -1515,8 +1515,19 @@
   "orphan_face": 0,
   "pool": "E225 done + result_ref; E226-TILT-BREAKEVEN-COST seeded ready (ready 1)",
   "product": "results/state_tilt/TILT-2026-10-28.json",
+  "receipt": "delivery verified: push e30dab6dd..af2998a3f landed (origin tip == HEAD, rev-list 0/0) | smoke 210/210 PASS, 0 FAIL (new leg `product: the state tilt publishes its own effective sample size`) | S6 34/34 rc=0 (196.6s), `state_tilt rc=0 0.71s`, machine_health OK 8/8, gpu_face 32 keys no findings, dualrun ZERO-DRIFT 698 entries streak 9 | e225 selftest 18/18 | pre-commit + pre-push claws = source (reinstalled) | LoopWatchdog S4U SWA=false | loop pin=2 no-op | attrition CLEAN 4 ledgers | orphan=0 | D-19 decisions 97fe122f / orders 122ab707 unchanged -> zero rows, 0 unacked | local-LLM legs today = 0 | pool: E225 done + result_ref, E226-TILT-BREAKEVEN-COST seeded ready (ready 1)",
+  "s6": "34/34 rc=0 (196.6s), state_tilt rc=0",
   "selftest": "e225_state_tilt 18/18",
+  "smoke": "210/210 PASS",
   "summary": "E225 the continuously-held state tilt (E224's named successor): five arms on one volatility signal, weight continuous, unit turnover at 13.041bp, 1,401 OOS decisions on sh510300 to 2026-10-28. 0/5 primary and 0/5 basket arms adopt. The finding is the double edge of the escape: daily reweighting DOES break E224's episode cap (n_eff 1,363 of 1,401 = 97% independent) yet the annual bar lands at 1006bp/yr against the episode lock's 811 -- a 0.81x move the wrong way, because a fractional weight spreads the same signal over more observations at lower amplitude and pays the toll per unit of change (binary_low 11.0 turnover/yr = 199bp/yr). Second and load-bearing: the null arm reads -1628bp/yr, i.e. the OOS drift sits below the IS drift the face normalises to; charging each arm that deficit by its average exposure leaves gate_specific -200 (voltarget, the arm that traded least) to -703 (tilt_linear) bp/yr, so the tilt lost money beyond the drift and the loss tracks turnover, not timing"
+ },
+ "r1252_push": {
+  "behind_origin_main": 0,
+  "local_not_on_origin_main": 0,
+  "note": "clean first-attempt ff e30dab6dd..af2998a3f (70 files staged by pathspec; content/drama/* and the _tmp_* scratch left under cover because the tree was already dirty at round open). Line-ending trap caught before the commit: the state file was rewritten whole (1550/1542 lines) until it was restored to the CRLF convention HEAD uses, after which the diff is the 15 changed lines",
+  "pushed_sha": "af2998a3f",
+  "status": "PUSHED_VERIFIED",
+  "ts": "2026-10-29T17:07:11+08:00"
  },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
