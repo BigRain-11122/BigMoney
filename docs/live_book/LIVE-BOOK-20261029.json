@@ -1,8 +1,8 @@
 {
  "schema": "etf-book-ceo-page/v1",
  "generated_for_date": "2026-10-29",
- "evidence_cutoff": "2026-10-28",
- "priced_bar": "2026-10-28",
+ "evidence_cutoff": "2026-10-29",
+ "priced_bar": "2026-10-29",
  "feed_status": "current",
  "feed_lag_days": 0,
  "capital_cny": 1000000.0,
@@ -316,7 +316,7 @@
  "n_hold": 5,
  "cost_bp_per_side": 8.0,
  "book_decided_at": "2026-10-14",
- "next_decision_bars": 10,
+ "next_decision_bars": 9,
  "next_rebalance_date": "2026-11-11",
  "order": [
   {
@@ -371,17 +371,17 @@
   }
  ],
  "forward": {
-  "bars": 4,
+  "bars": 5,
   "inception": "2026-10-23",
-  "nav": 1.0154166137,
-  "since_inception_pct": 1.5417,
-  "as_of": "2026-10-28"
+  "nav": 1.014536476,
+  "since_inception_pct": 1.4536,
+  "as_of": "2026-10-29"
  },
  "vs_basket": {
-  "bar": "2026-10-28",
-  "book_nav": 1.0154166137,
-  "basket_nav": 1.0073762652,
-  "excess_pp": 0.7981,
+  "bar": "2026-10-29",
+  "book_nav": 1.014536476,
+  "basket_nav": 1.0022314905,
+  "excess_pp": 1.2278,
   "basket": {
    "518880": "gold ETF",
    "513100": "Nasdaq-100 QDII ETF",
@@ -391,10 +391,10 @@
   "basis": "等权 1/4、同一换仓日、次日开盘成交",
   "horizon": {
    "min_detectable_edge_pp": {
-    "6m": 33.506,
-    "1y": 23.692,
-    "2y": 16.753,
-    "3y": 13.679
+    "6m": 33.502,
+    "1y": 23.689,
+    "2y": 16.751,
+    "3y": 13.677
    },
    "years_for_80pct_power": {
     "pre-2020 measured alpha (single arm)": 136.2,
@@ -409,7 +409,7 @@
     "in-window measured alpha (single arm)": {
      "file": "results/etf_book_spanning.json",
      "field": "arms.book.full.alpha_annual",
-     "edge_pp_per_year": 5.9
+     "edge_pp_per_year": 5.91
     }
    }
   }
@@ -417,14 +417,14 @@
  "backtest_band": {
   "5 名·可执行单口径（本单这份账）": {
    "full": {
-    "cagr_pct": 11.39,
-    "sharpe": 1.4,
+    "cagr_pct": 11.33,
+    "sharpe": 1.39,
     "maxdd_pct": -6.01
    }
   },
   "5 名·beta 覆盖": {
    "full": {
-    "cagr_pct": 15.92,
+    "cagr_pct": 15.94,
     "sharpe": 1.02,
     "maxdd_pct": -16.04
    },
@@ -434,7 +434,7 @@
     "maxdd_pct": -14.18
    },
    "oos": {
-    "cagr_pct": 24.55,
+    "cagr_pct": 24.6,
     "sharpe": 1.54,
     "maxdd_pct": -16.04
    }
@@ -457,28 +457,28 @@
    }
   }
  },
- "excess_pp": 8.45,
+ "excess_pp": 8.47,
  "money_cny": {
   "capital_cny": 1000000.0,
-  "expected_annual_cny": 113900.0,
-  "benchmark_annual_cny": 29400.0,
-  "excess_annual_cny": 84500.0,
+  "expected_annual_cny": 113300.0,
+  "benchmark_annual_cny": 28600.0,
+  "excess_annual_cny": 84700.0,
   "worst_drawdown_cny": -60100.0,
   "basis": "backtest cagr/maxdd x this ticket's capital, no new assumption"
  },
  "ticket_book": {
-  "cagr": 0.1139,
-  "sharpe": 1.395,
+  "cagr": 0.1133,
+  "sharpe": 1.388,
   "maxdd": -0.0601,
   "vol": 0.0816,
-  "bars": 681
+  "bars": 682
  },
  "same_beta_benchmark": {
-  "cagr": 0.0294,
-  "sharpe": 0.773,
+  "cagr": 0.0286,
+  "sharpe": 0.754,
   "maxdd": -0.0379,
   "vol": 0.038,
-  "bars": 681
+  "bars": 682
  },
  "agreement": {
   "same_decision_bar": true,
@@ -486,14 +486,14 @@
   "card_names": 12
  },
  "sources": {
-  "ticket": "results\\etf_book_order\\TICKET-2026-10-28.json",
+  "ticket": "results\\etf_book_order\\TICKET-2026-10-29.json",
   "card": "results/etf_book_production/latest.json",
   "ledger": "results/etf_book_forward/LEDGER.json",
   "calendar": "data/exchange_calendar.csv"
  },
  "caveats": [
   "回测票池是现存 ETF（有幸存者偏差）；2020-2023 段弱、收益主要集中在 2024 之后。",
-  "前向账本只有 4 个交易日，自起始净值 1.0154 不构成业绩记录。",
+  "前向账本只有 5 个交易日，自起始净值 1.0145 不构成业绩记录。",
   "现金腿若不下单，账本按 GC001 (1-day repo, observed close) 计息；不买逆回购则实际是 0 息。",
   "这是研究产出，不是投资建议；实盘下单是 CEO 的直接权限，公司自动实盘仍是 CEO 唯一门。"
  ],
@@ -501,7 +501,7 @@
   "mode": "hold",
   "holding": true,
   "book_decided_at": "2026-10-14",
-  "priced_bar": "2026-10-28",
+  "priced_bar": "2026-10-29",
   "next_trade_date": "2026-11-11",
   "cost_if_retraded_pct_per_year": 18.86,
   "cost_basis": "2 sides x 8.0 bp x 250 sessions x book share 0.4715, on capital"
@@ -529,9 +529,9 @@
   "cash_amount_cny": 528774.5
  },
  "stress": {
-  "n_days": 5268,
+  "n_days": 5269,
   "first": "2005-02-23",
-  "last": "2026-10-28",
+  "last": "2026-10-29",
   "worst": {
    "1d": {
     "pct": -3.6,
