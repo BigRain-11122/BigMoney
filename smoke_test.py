@@ -542,7 +542,19 @@ def main() -> int:
             # silently, the published verdict must be recomputed rather than trusted, and
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
-             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1347: adoption tested one arm; the hysteresis face still publishes four more
+            # priced on a single sequence. These legs pin the breakeven-cost conversion and
+            # the family verdict reading its arms, and keep "behind the card" a third state
+            # instead of a permanently red gate (r1346).
+            ("product: buffer arm grid breakeven and family verdict (exit-code contract)",
+             "scripts/etf_book_hysteresis_paths.py", ["--selftest"]),
+            # r1347: a breakeven in bp/side is not a size. These legs pin the sqrt cost law
+            # and its inverse, the three crossing states (gains return / under the base / no
+            # impact component), and the share rule that keeps one lucky cell from reading as
+            # "pays at size".
+            ("product: buffer breakeven priced as a size (exit-code contract)",
+             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"])):
         try:
             _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
@@ -1690,6 +1702,21 @@ def main() -> int:
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
              "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1347: adoption tested one arm; the hysteresis face still publishes four more
+            # priced on a single sequence. These legs pin the breakeven-cost conversion
+            # (a return-losing arm needs a positive cost to break even, a return-gaining one
+            # needs none, zero turnover has no conversion path at all), the family verdict
+            # reading its arms rather than a stored string, and "behind the card" being a
+            # third state instead of a permanently red gate (r1346).
+            ("product: buffer arm grid breakeven and family verdict (exit-code contract)",
+             "scripts/etf_book_hysteresis_paths.py", ["--selftest"]),
+            # r1347: a breakeven in bp/side is not a size. These legs pin the sqrt cost law
+            # and its inverse, the three crossing states (gains return / under the base / no
+            # impact component), and the share rule that keeps one lucky cell from reading as
+            # "pays at size"; the gate leg pins that an edited cell or an edited flag is
+            # contradicted by the recompute.
+            ("product: buffer breakeven priced as a size (exit-code contract)",
+             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen

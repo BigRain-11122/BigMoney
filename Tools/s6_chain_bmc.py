@@ -201,6 +201,22 @@ LEGS = [
     # one the rule produces from the summary. 0.1s, no network.
     ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"],
      ["python", "scripts/etf_book_buffer_adoption.py", "run"]),
+    # r1347: r1325 path-tested ONE buffer arm (k=0.05) and rejected it, while the published
+    # hysteresis face still carries four more arms priced on a single decision sequence. This
+    # face re-prices the whole arm grid on 5 books x 4 phases (100 engine runs) and adds the
+    # per-cell breakeven cost. Heavy, so the chain runs the gate only: frozen rule echoed,
+    # grid complete, phases still distinct, every verdict recomputed, control reproducing the
+    # card -- and "behind the card" is the third state the runner pays a refresh for (r1346).
+    ("etf_book_hysteresis_paths", ["python", "scripts/etf_book_hysteresis_paths.py", "--check"],
+     ["python", "scripts/etf_book_hysteresis_paths.py", "run"]),
+    # r1347: a breakeven quoted in bp/side is not a decision anyone can make -- the book pays
+    # the impact model, not a flat cost. This face inverts the published sqrt cost law to the
+    # capital at which each cell's saving covers its loss, and compares that crossing to the
+    # size where the p90 trade already hits 1% of ADV. Two published faces, no engine: the
+    # chain runs the gate, and "behind the card" is paid by a refresh (r1346).
+    ("etf_book_buffer_price_of_size",
+     ["python", "scripts/etf_book_buffer_price_of_size.py", "--check"],
+     ["python", "scripts/etf_book_buffer_price_of_size.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

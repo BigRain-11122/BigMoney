@@ -4729,8 +4729,6 @@ reports "no legs wired" instead of crashing. Unpack the name position (`t[0] for
 and never let an excepted type error fabricate a plausible answer (r1288 family).
 
 Pos: Tools/s6_chain_bmc.py (run_leg + selftest 5/5, `--selftest`) + six legs wired with
-refresh + refreshed faces results/etf_book_{hysteresis,buffer_adoption,cagr_reconcile}.json
-on the 2026-10-29 bar + digest DIGEST-20261029-e237-stale-check-legs.md.
 
 ## E238 Reconcile two pages of the same book by the rule's own output, not by the row order (2026-10-29 r1151 bm-a)
 
@@ -4759,3 +4757,57 @@ carry `--takeover` + a 120-minute staleness threshold, recovered both missing da
 Pos: scripts/etf_book_beta_menu.py (ceo_page_face / reconcile_page / selftest 27/27 /
 page section 「与 CEO 一页纸对账」) + evidence results/etf_book_beta_menu/MENU-2026-10-29.json
 (ceo_page_recon.ok=true, matched beta 0.20, names=5) + chain leg etf_book_beta_menu.
+
+
+refresh + refreshed faces results/etf_book_{hysteresis,buffer_adoption,cagr_reconcile}.json
+on the 2026-10-29 bar + digest DIGEST-20261029-e237-stale-check-legs.md.
+
+
+## E240 A verdict is only a gate if its inputs are published and the recompute reads the raw rows (2026-10-29 r1347 bm-c)
+
+WHEN: a face publishes a per-arm verdict next to a frozen rule, and its `--check` re-judges
+the arms from the *stored summary* to prove the label was not hand-written.
+
+WRONG (live 2026-10-29): the arm publisher kept a whitelist of summary fields — and the
+whitelist dropped exactly the three the rule reads (`share_cagr_ok`, `share_cagr_up`,
+`share_sharpe_ok`). The face shipped a verdict it could no longer justify: `--check` died on
+`KeyError: 'share_cagr_ok'` on its first run. The same gate was blind in a second direction:
+feeding stored scalars back into `rule(summary)` accepts a hand-edited median as printed, so
+even a working version would have judged the number against itself.
+
+RIGHT: publish the rule's inputs **and** rebuild them from the per-cell rows before judging.
+The rebuilt cells are re-summarised through the *one* implementation that owns the arithmetic
+(`B.summarize`), never a second copy of the formulas — so a re-tuned rule cannot quietly
+disagree with its own gate — and every published scalar is compared against the rebuild.
+Selftest legs that pin it: a fresh publish rebuilds clean, an arm missing its share fields is
+still re-judgeable (the exact crash shape), an edited median is contradicted by the cells, and
+an edited verdict is contradicted by the rule.
+
+READING (r1347, `results/etf_book_hysteresis_paths.json`, 100 cells): family
+MIXED_NO_SURVIVOR, unchanged — k=0.05/0.35 REJECT, k=0.10/0.20 COST_KNOB_ONLY, return effect
+not monotone in k.
+
+Pos: scripts/etf_book_hysteresis_paths.py (rebuild_summary/recompute_verdicts, selftest 23->28)
++ S6 leg + smoke leg; digest DIGEST-20261029-r1347-buffer-price-of-size.md.
+
+## E241 A threshold quoted in cost units is not a size: invert the book's own cost law, then check the ceiling (2026-10-29 r1347 bm-c)
+
+WHEN: a face reports "arm X breaks even at N bp per side" and the operator has to decide.
+N bp is not a decision: the book never pays a flat cost, it pays its impact model, and the
+model's cost depends on capital.
+
+RIGHT: reuse the published law (`ImpactCost`: `base + k*sqrt(participation/1%)`) and invert it
+per cell — `NAV* = REF*((be-base)/(cost_ref-base))**2` — then report the crossing against the
+size at which the book's own p90 trade already hits 1% of ADV. Keep three crossing states, not
+one number: an arm that *gains* return has no cost story (crosses at 0), a breakeven under the
+base pays at any size (0), and a reference cost at the base has no impact component to cross
+(None). A share rule (>=80% of cells crossed) stops one lucky cell being read as "pays".
+
+READING (r1347, cost_ref 20.26bp/side at 10M from the published capacity ladder): the buffer
+does not pay at a size the book can run. k=0.20 needs >=30M, k=0.35 needs >=5M, k=0.05 needs
+122M, k=0.10 never reaches 80% — while the p90 trade is 1% of ADV at **0.94M**, so the entry
+price of every arm that pays at all is 5x the capacity ceiling. Honest bound: the curve is the
+N5 book's, and a wider cell pays less per name, so this is the *generous* reading.
+
+Pos: scripts/etf_book_buffer_price_of_size.py (selftest 24, `--check` recomputes every crossing
+and flag) + results/etf_book_buffer_price_of_size.json + S6 leg + smoke leg.

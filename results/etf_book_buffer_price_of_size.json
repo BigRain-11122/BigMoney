@@ -1,0 +1,826 @@
+{
+ "script": "scripts/etf_book_buffer_price_of_size.py",
+ "face": "results/etf_book_buffer_price_of_size.json",
+ "evidence_cutoff": "2026-10-29",
+ "units": {
+  "cost_bp_side": "basis points per side, the unit ImpactCost charges",
+  "breakeven_bp_side": "per-side cost at which the cell's turnover saving equals its return loss",
+  "crossing_nav_cny": "capital above which the cell's saving covers its loss (0 = at any size)",
+  "share_crossed": "share of the arm's cells whose crossing NAV is <= the column's NAV"
+ },
+ "criteria": {
+  "nav_grid": [
+   1000000.0,
+   5000000.0,
+   10000000.0,
+   30000000.0,
+   50000000.0,
+   100000000.0
+  ],
+  "ref_nav": 10000000.0,
+  "base_bp": 8.0,
+  "impact_bp_per_pct": 10.0,
+  "cost_law": "cost(NAV) = base + (cost_ref - base) * sqrt(NAV / REF_NAV)",
+  "crossing_law": "NAV* = REF_NAV * ((breakeven_bp - base) / (cost_ref - base))**2",
+  "cross_share_min": 0.8,
+  "frozen": "constants written before the first run; the gate refuses a face that echoes others"
+ },
+ "config": {
+  "parent_face": "results\\etf_book_hysteresis_paths.json",
+  "cost_face": "results\\etf_book_capacity.json",
+  "ref_nav_used": 10000000.0,
+  "cost_curve": [
+   {
+    "nav": 1000000.0,
+    "cost_bp_side": 11.877
+   },
+   {
+    "nav": 5000000.0,
+    "cost_bp_side": 16.668
+   },
+   {
+    "nav": 10000000.0,
+    "cost_bp_side": 20.259
+   },
+   {
+    "nav": 30000000.0,
+    "cost_bp_side": 29.233
+   },
+   {
+    "nav": 50000000.0,
+    "cost_bp_side": 35.412
+   },
+   {
+    "nav": 100000000.0,
+    "cost_bp_side": 46.766
+   }
+  ],
+  "absorption": "cost curve read from the published capacity ladder (the N5 book)"
+ },
+ "card_cutoff": "2026-10-29",
+ "family": {
+  "nav_where_p90_trade_is_1pct_adv": 940995.8,
+  "note": "the p90 trade is already 1% of ADV at about 0.94M of capital; a buffer that only pays above that size cannot be used, because the book cannot be run there without breaking the 1% participation cap",
+  "cost_at_ref_bp_side": 20.259
+ },
+ "arms": [
+  {
+   "k": 0.05,
+   "parent_verdict": "REJECT",
+   "parent_median_cagr_pp": -0.145,
+   "n_cells": 20,
+   "n_known": 20,
+   "median_crossing_nav_cny": 121719570.0,
+   "min_crossing_nav_cny": 0.0,
+   "max_crossing_nav_cny": 4718452910.9,
+   "share_crossed": {
+    "nav=1e+06": 0.3,
+    "nav=5e+06": 0.4,
+    "nav=1e+07": 0.4,
+    "nav=3e+07": 0.45,
+    "nav=5e+07": 0.45,
+    "nav=1e+08": 0.45
+   },
+   "pays_at": {
+    "nav=1e+06": false,
+    "nav=5e+06": false,
+    "nav=1e+07": false,
+    "nav=3e+07": false,
+    "nav=5e+07": false,
+    "nav=1e+08": false
+   },
+   "cells": [
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 57.63,
+     "crossing_nav_cny": 163899813.8,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 66.72,
+     "crossing_nav_cny": 229436233.1,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 67.63,
+     "crossing_nav_cny": 236602608.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 133.11,
+     "crossing_nav_cny": 1041535214.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 53.72,
+     "crossing_nav_cny": 139092064.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 15.55,
+     "crossing_nav_cny": 3793008.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 54.86,
+     "crossing_nav_cny": 146114891.0,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 15.41,
+     "crossing_nav_cny": 3653644.8,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -17.35,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 63.69,
+     "crossing_nav_cny": 206368945.8,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 28.52,
+     "crossing_nav_cny": 28018483.3,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -120.92,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 98.55,
+     "crossing_nav_cny": 545590524.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 274.29,
+     "crossing_nav_cny": 4718452910.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -46.36,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 72.82,
+     "crossing_nav_cny": 279581199.2,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -102.86,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 47.6,
+     "crossing_nav_cny": 104347075.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -177.01,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -22.65,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    }
+   ]
+  },
+  {
+   "k": 0.1,
+   "parent_verdict": "COST_KNOB_ONLY",
+   "parent_median_cagr_pp": 0.04,
+   "n_cells": 20,
+   "n_known": 20,
+   "median_crossing_nav_cny": 0.0,
+   "min_crossing_nav_cny": 0.0,
+   "max_crossing_nav_cny": 2941453036.9,
+   "share_crossed": {
+    "nav=1e+06": 0.6,
+    "nav=5e+06": 0.6,
+    "nav=1e+07": 0.6,
+    "nav=3e+07": 0.6,
+    "nav=5e+07": 0.6,
+    "nav=1e+08": 0.7
+   },
+   "pays_at": {
+    "nav=1e+06": false,
+    "nav=5e+06": false,
+    "nav=1e+07": false,
+    "nav=3e+07": false,
+    "nav=5e+07": false,
+    "nav=1e+08": false
+   },
+   "cells": [
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 47.06,
+     "crossing_nav_cny": 101520649.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -32.99,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 74.65,
+     "crossing_nav_cny": 295590326.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 54.76,
+     "crossing_nav_cny": 145491933.3,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 44.41,
+     "crossing_nav_cny": 88212731.0,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -27.0,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 43.31,
+     "crossing_nav_cny": 82963171.3,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -28.11,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -10.44,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -1.67,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 56.87,
+     "crossing_nav_cny": 158918547.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -85.43,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 83.97,
+     "crossing_nav_cny": 384037967.7,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 218.25,
+     "crossing_nav_cny": 2941453036.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -7.14,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -71.28,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -61.54,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -30.35,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -116.94,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -35.47,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    }
+   ]
+  },
+  {
+   "k": 0.2,
+   "parent_verdict": "COST_KNOB_ONLY",
+   "parent_median_cagr_pp": 0.065,
+   "n_cells": 20,
+   "n_known": 20,
+   "median_crossing_nav_cny": 0.0,
+   "min_crossing_nav_cny": 0.0,
+   "max_crossing_nav_cny": 3543324853.7,
+   "share_crossed": {
+    "nav=1e+06": 0.6,
+    "nav=5e+06": 0.65,
+    "nav=1e+07": 0.75,
+    "nav=3e+07": 0.8,
+    "nav=5e+07": 0.9,
+    "nav=1e+08": 0.95
+   },
+   "pays_at": {
+    "nav=1e+06": false,
+    "nav=5e+06": false,
+    "nav=1e+07": false,
+    "nav=3e+07": true,
+    "nav=5e+07": true,
+    "nav=1e+08": true
+   },
+   "cells": [
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 9.84,
+     "crossing_nav_cny": 225281.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -9.66,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 15.42,
+     "crossing_nav_cny": 3663512.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 34.62,
+     "crossing_nav_cny": 47152639.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 18.25,
+     "crossing_nav_cny": 6990973.3,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -9.28,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 17.59,
+     "crossing_nav_cny": 6119657.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -9.59,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -9.87,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 28.52,
+     "crossing_nav_cny": 28018483.3,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 34.81,
+     "crossing_nav_cny": 47828145.1,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -53.49,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -17.89,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 238.76,
+     "crossing_nav_cny": 3543324853.7,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 40.59,
+     "crossing_nav_cny": 70673830.5,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -38.89,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -13.43,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -1.62,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -72.58,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -30.8,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    }
+   ]
+  },
+  {
+   "k": 0.35,
+   "parent_verdict": "REJECT",
+   "parent_median_cagr_pp": -0.13,
+   "n_cells": 20,
+   "n_known": 20,
+   "median_crossing_nav_cny": 0.0,
+   "min_crossing_nav_cny": 0.0,
+   "max_crossing_nav_cny": 1623290921.2,
+   "share_crossed": {
+    "nav=1e+06": 0.65,
+    "nav=5e+06": 0.85,
+    "nav=1e+07": 0.9,
+    "nav=3e+07": 0.9,
+    "nav=5e+07": 0.9,
+    "nav=1e+08": 0.9
+   },
+   "pays_at": {
+    "nav=1e+06": false,
+    "nav=5e+06": true,
+    "nav=1e+07": true,
+    "nav=3e+07": true,
+    "nav=5e+07": true,
+    "nav=1e+08": true
+   },
+   "cells": [
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 47.61,
+     "crossing_nav_cny": 104399782.7,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -0.75,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -23.24,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -28.53,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 6.76,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "below the base cost -- pays at any size"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 15.66,
+     "crossing_nav_cny": 3904338.4,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 5.54,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "below the base cost -- pays at any size"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 15.77,
+     "crossing_nav_cny": 4017278.6,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 5.27,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "below the base cost -- pays at any size"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 17.67,
+     "crossing_nav_cny": 6222184.1,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": 11.18,
+     "crossing_nav_cny": 672890.1,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -60.82,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": 15.94,
+     "crossing_nav_cny": 4194989.9,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": 164.19,
+     "crossing_nav_cny": 1623290921.2,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -59.03,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": 14.5,
+     "crossing_nav_cny": 2811361.0,
+     "crossing_reason": "sqrt law inversion"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-02",
+     "breakeven_cost_bp_side": -13.21,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-09",
+     "breakeven_cost_bp_side": -8.89,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-16",
+     "breakeven_cost_bp_side": -39.47,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    },
+    {
+     "n_hold": 20,
+     "rebal": 20,
+     "phase": "2020-01-23",
+     "breakeven_cost_bp_side": -12.33,
+     "crossing_nav_cny": 0.0,
+     "crossing_reason": "arm gains return -- pays at any cost"
+    }
+   ]
+  }
+ ],
+ "caveats": [
+  "the cost curve is the N5 book's, so the wide cells' real bill is LOWER and every crossing NAV here is an optimistic bound",
+  "exploratory re-reading of two published faces: no preregistration, no verdict booking",
+  "NAV* inherits the parent face's phase luck (see its median phase IQR)",
+  "an arm that pays at size still failed the parent face's frozen per-cell rule"
+ ]
+}
