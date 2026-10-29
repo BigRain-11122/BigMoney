@@ -528,6 +528,93 @@
   "basis": "idle = book cash - recorded repo placements; gap = idle x (repo panel close - declared demand rate) / 100",
   "cash_amount_cny": 528774.5
  },
+ "carry_regime": {
+  "available": true,
+  "rows": [
+   {
+    "beta": 0.1,
+    "observed_pct": 6.47,
+    "flat_today_pct": 6.01,
+    "zero_pct": 5.12,
+    "carry_pp": 1.35,
+    "cash_share": 0.7751,
+    "pp_per_100bp": 0.516,
+    "maxdd_pct": -2.88,
+    "vol_pct": 4.09
+   },
+   {
+    "beta": 0.2,
+    "observed_pct": 11.33,
+    "flat_today_pct": 10.98,
+    "zero_pct": 10.32,
+    "carry_pp": 1.01,
+    "cash_share": 0.5501,
+    "pp_per_100bp": 0.392,
+    "maxdd_pct": -6.01,
+    "vol_pct": 8.16
+   },
+   {
+    "beta": 0.3,
+    "observed_pct": 16.22,
+    "flat_today_pct": 16.0,
+    "zero_pct": 15.59,
+    "carry_pp": 0.63,
+    "cash_share": 0.3252,
+    "pp_per_100bp": 0.247,
+    "maxdd_pct": -9.05,
+    "vol_pct": 12.23
+   },
+   {
+    "beta": 0.5,
+    "observed_pct": 22.65,
+    "flat_today_pct": 22.64,
+    "zero_pct": 22.63,
+    "carry_pp": 0.02,
+    "cash_share": 0.0087,
+    "pp_per_100bp": 0.011,
+    "maxdd_pct": -14.91,
+    "vol_pct": 17.52
+   }
+  ],
+  "base": {
+   "beta": 0.2,
+   "observed_pct": 11.33,
+   "flat_today_pct": 10.98,
+   "zero_pct": 10.32,
+   "carry_pp": 1.01,
+   "cash_share": 0.5501,
+   "pp_per_100bp": 0.392,
+   "maxdd_pct": -6.01,
+   "vol_pct": 8.16
+  },
+  "cash_rates": {
+   "observed_mean_pct": 1.9819,
+   "today_pct": 1.09,
+   "today_date": "2026-10-27",
+   "missing_bar_steps": 1,
+   "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
+  },
+  "identity": {
+   "published_file": "results\\etf_book_order\\TICKET-2026-10-29.json",
+   "published_cagr": 0.1133,
+   "published_bars": 682,
+   "rebuilt_cagr": 0.1133,
+   "rebuilt_bars": 682,
+   "matched": true,
+   "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
+  },
+  "window": {
+   "first": "2024-01-02",
+   "last": "2026-10-29"
+  },
+  "flags": {
+   "observed_ge_flat_ge_zero": true,
+   "carry_positive": true,
+   "selection_survives_zero_cash": true
+  },
+  "source": "results/etf_book_return_regime.json",
+  "evidence_cutoff": "2026-10-29"
+ },
  "stress": {
   "n_days": 5269,
   "first": "2005-02-23",

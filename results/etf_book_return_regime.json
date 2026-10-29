@@ -1,0 +1,265 @@
+{
+ "script": "scripts/etf_book_return_regime.py",
+ "evidence_cutoff": "2026-10-29",
+ "config": {
+  "rebal": 20,
+  "n_hold": 5,
+  "cost_bp_per_side": 8.0,
+  "start": "2024-01-01",
+  "betas": [
+   0.1,
+   0.2,
+   0.3,
+   0.5
+  ],
+  "regimes": [
+   "observed",
+   "flat_today",
+   "zero"
+  ],
+  "engine": "etf_composite_pf.run_next_open + etf_book_order.k_schedule + etf_phase_beta_target.apply_overlay + etf_phase_beta_window.repo_daily_cash + etf_book_order.metrics"
+ },
+ "cash_rates": {
+  "observed_mean_pct": 1.9819,
+  "today_pct": 1.09,
+  "today_date": "2026-10-27",
+  "missing_bar_steps": 1,
+  "convention": "rate(prior bar) * calendar_gap / 365, identical in all arms"
+ },
+ "cells": [
+  {
+   "beta": 0.1,
+   "regime": "observed",
+   "cagr_pct": 6.47,
+   "sharpe": 1.582,
+   "maxdd_pct": -2.88,
+   "vol_pct": 4.09,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.7751,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.1,
+   "regime": "flat_today",
+   "cagr_pct": 6.01,
+   "sharpe": 1.472,
+   "maxdd_pct": -2.99,
+   "vol_pct": 4.08,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.7751,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.1,
+   "regime": "zero",
+   "cagr_pct": 5.12,
+   "sharpe": 1.255,
+   "maxdd_pct": -3.13,
+   "vol_pct": 4.08,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.7751,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.2,
+   "regime": "observed",
+   "cagr_pct": 11.33,
+   "sharpe": 1.388,
+   "maxdd_pct": -6.01,
+   "vol_pct": 8.16,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.5501,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.2,
+   "regime": "flat_today",
+   "cagr_pct": 10.98,
+   "sharpe": 1.347,
+   "maxdd_pct": -6.08,
+   "vol_pct": 8.15,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.5501,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.2,
+   "regime": "zero",
+   "cagr_pct": 10.32,
+   "sharpe": 1.266,
+   "maxdd_pct": -6.19,
+   "vol_pct": 8.15,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.5501,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.3,
+   "regime": "observed",
+   "cagr_pct": 16.22,
+   "sharpe": 1.326,
+   "maxdd_pct": -9.05,
+   "vol_pct": 12.23,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.3252,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.3,
+   "regime": "flat_today",
+   "cagr_pct": 16.0,
+   "sharpe": 1.308,
+   "maxdd_pct": -9.1,
+   "vol_pct": 12.23,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.3252,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.3,
+   "regime": "zero",
+   "cagr_pct": 15.59,
+   "sharpe": 1.275,
+   "maxdd_pct": -9.17,
+   "vol_pct": 12.23,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.3252,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.5,
+   "regime": "observed",
+   "cagr_pct": 22.65,
+   "sharpe": 1.292,
+   "maxdd_pct": -14.91,
+   "vol_pct": 17.52,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.0087,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.5,
+   "regime": "flat_today",
+   "cagr_pct": 22.64,
+   "sharpe": 1.292,
+   "maxdd_pct": -14.91,
+   "vol_pct": 17.52,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.0087,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  },
+  {
+   "beta": 0.5,
+   "regime": "zero",
+   "cagr_pct": 22.63,
+   "sharpe": 1.291,
+   "maxdd_pct": -14.91,
+   "vol_pct": 17.52,
+   "bars": 682,
+   "first_bar": "2024-01-02",
+   "last_bar": "2026-10-29",
+   "cash_share": 0.0087,
+   "rate_observed_pct": 1.9819,
+   "rate_today_pct": 1.09
+  }
+ ],
+ "rate_pp": 0.8919,
+ "gate": {
+  "betas": {
+   "0.1": {
+    "observed_pct": 6.47,
+    "flat_today_pct": 6.01,
+    "zero_pct": 5.12,
+    "carry_pp": 1.35,
+    "carry_share_of_headline_pct": 20.9,
+    "flat_rate_cost_pp": 0.46,
+    "cash_share": 0.7751,
+    "pp_per_100bp": 0.516
+   },
+   "0.2": {
+    "observed_pct": 11.33,
+    "flat_today_pct": 10.98,
+    "zero_pct": 10.32,
+    "carry_pp": 1.01,
+    "carry_share_of_headline_pct": 8.9,
+    "flat_rate_cost_pp": 0.35,
+    "cash_share": 0.5501,
+    "pp_per_100bp": 0.392
+   },
+   "0.3": {
+    "observed_pct": 16.22,
+    "flat_today_pct": 16.0,
+    "zero_pct": 15.59,
+    "carry_pp": 0.63,
+    "carry_share_of_headline_pct": 3.9,
+    "flat_rate_cost_pp": 0.22,
+    "cash_share": 0.3252,
+    "pp_per_100bp": 0.247
+   },
+   "0.5": {
+    "observed_pct": 22.65,
+    "flat_today_pct": 22.64,
+    "zero_pct": 22.63,
+    "carry_pp": 0.02,
+    "carry_share_of_headline_pct": 0.1,
+    "flat_rate_cost_pp": 0.01,
+    "cash_share": 0.0087,
+    "pp_per_100bp": 0.011
+   }
+  },
+  "flags": {
+   "observed_ge_flat_ge_zero": true,
+   "carry_positive": true,
+   "selection_survives_zero_cash": true
+  },
+  "base_beta": 0.2
+ },
+ "identity": {
+  "published_file": "results\\etf_book_order\\TICKET-2026-10-29.json",
+  "published_cagr": 0.1133,
+  "published_bars": 682,
+  "rebuilt_cagr": 0.1133,
+  "rebuilt_bars": 682,
+  "matched": true,
+  "basis": "base cell (beta 0.20, observed repo) must equal the ticket's own headline"
+ },
+ "caveats": [
+  "cash-share is the mean of (1-k) over the printed window, so it moves with the beta ladder",
+  "flat_today holds one quote constant for years; the observed arm is what actually happened",
+  "survivorship: the panel holds ETFs that still exist",
+  "exploratory: no preregistration, no verdict, no ledger booking"
+ ]
+}

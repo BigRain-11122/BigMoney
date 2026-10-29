@@ -38,6 +38,7 @@ Subcommands:
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -288,7 +289,21 @@ def heartbeat_silence(machines_dir=None, now_epoch=None):
     return out
 
 
-def ignitable_face(entries, silence, machine_id, silent_min=None):
+def _missing_runner(entry, root):
+    """The repo-relative runner path a ready entry promises, if that file is absent.
+
+    Deliberately narrow: only a bare `scripts/...py` or `Tools/...py` path is treated as a
+    launchable promise. Anything else (a mode string, a tool name, a URL) says nothing
+    about whether the batch can be started, so it is left alone rather than guessed at.
+    """
+    m = re.search(r"((?:scripts|Tools)[/\\][A-Za-z0-9_.\-]+\.py)", str(entry.get("target") or ""))
+    if not m:
+        return None
+    rel = m.group(1).replace("\\", "/")
+    return None if os.path.exists(os.path.join(root, rel)) else rel
+
+
+def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None):
     """Split READY pool work by whether a live machine can actually ignite it.
 
     ready_total is the v2.4 supply-floor reading (status==ready, any owner).
@@ -309,11 +324,22 @@ def ignitable_face(entries, silence, machine_id, silent_min=None):
     if entries is None:
         return None
     silent_min = OWNER_SILENT_MIN if silent_min is None else silent_min
+    root = os.path.abspath(repo_root or ROOT)
     silence = silence or {}
     ready = [e for e in entries if e.get("status") == "ready"]
     ignitable, foreign_silent, foreign_alive, owner_unknown = 0, 0, 0, 0
     takeover, silent_owners, unknown_owners = [], {}, set()
+    runner_missing, runner_missing_paths = [], {}
     for e in ready:
+        # a ready entry whose runner does not exist yet is a PROPOSAL, not supply.
+        # 2026-10-29 live case: E228 sat in the pool as "scripts/e228_matched_exposure.py
+        # (new runner)" with no such file, so the floor read one ignitable batch on a
+        # script nobody could launch (the r1135 "assert the deployment layout" family).
+        miss = _missing_runner(e, root)
+        if miss:
+            runner_missing.append(e.get("id"))
+            runner_missing_paths[e.get("id")] = miss
+            continue
         owner = e.get("lane_owner")
         if owner in (None, "", "ANY", "any") or owner == machine_id:
             ignitable += 1
@@ -335,6 +361,9 @@ def ignitable_face(entries, silence, machine_id, silent_min=None):
         "ready_foreign_alive": foreign_alive,
         "ready_foreign_silent": foreign_silent,
         "ready_owner_unknown": owner_unknown,
+        "ready_runner_missing": len(runner_missing),
+        "runner_missing_ids": runner_missing,
+        "runner_missing_paths": runner_missing_paths,
         "takeover_candidate_ids": takeover,
         "takeover_needs_corroboration": True,
         "silent_owners": silent_owners,
@@ -682,7 +711,10 @@ def main():
     # ignitable, so the raw floor semantics stay readable for old consumers.
     _entries, _ = _merged_pool(os.path.join(ROOT, "results"))
     ignitable = ignitable_face(_entries, heartbeat_silence(), _self_machine_id())
-    if ignitable and ignitable["ready_total"] > 0 \
+    if ignitable and ignitable.get("ready_runner_missing"):
+        # distinct from owner-silence: the pool holds a promise, not a batch
+        flags.append("supply_runner_missing")
+    if ignitable and (ignitable["ready_total"] - ignitable.get("ready_runner_missing", 0)) > 0 \
             and ignitable["ready_ignitable"] == 0:
         flags.append("supply_owner_silent")
     streak_min = supply_family_streak_min(hist, flags, time.time())
@@ -984,6 +1016,38 @@ def _selftest():
           ignitable_face([{"id": "X", "status": "ready", "lane_owner": "bm-b"},
                           {"id": "Y", "status": "ready", "lane_owner": "bm-b"}],
                          {"bm-b": 1902.0}, "bm-a")["ready_ignitable"], 0)
+
+    # ---- r1147 legs: a ready entry with no runner is a proposal, not supply ----
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _rd:
+        os.makedirs(os.path.join(_rd, "scripts"), exist_ok=True)
+        with open(os.path.join(_rd, "scripts", "real_runner.py"), "w",
+                  encoding="utf-8") as f:
+            f.write("# present\n")
+        _mix = [{"id": "P", "status": "ready", "lane_owner": None,
+                 "target": "scripts/real_runner.py"},
+                {"id": "Q", "status": "ready", "lane_owner": None,
+                 "target": "scripts/ghost_runner.py (new runner)"},
+                {"id": "R", "status": "ready", "lane_owner": "bm-a",
+                 "target": "Tools\\ghost_tool.py"},
+                {"id": "S", "status": "ready", "lane_owner": None,
+                 "target": "some mode string, no path"}]
+        _ig = ignitable_face(_mix, {}, "bm-a", repo_root=_rd)
+        check("r1147 ready entry with a missing runner is not ignitable",
+              (_ig["ready_ignitable"], _ig["ready_runner_missing"]), (2, 2))
+        check("r1147 the two promise-only ids are named, with their paths",
+              (_ig["runner_missing_ids"], _ig["runner_missing_paths"].get("Q"),
+               _ig["runner_missing_paths"].get("R")),
+              (["Q", "R"], "scripts/ghost_runner.py", "Tools/ghost_tool.py"))
+        check("r1147 a present runner still counts (the fix must not hide real supply)",
+              _ig["ready_ignitable"], 2)
+        check("r1147 a target with no path is untouched by the runner check",
+              "S" in _ig["runner_missing_ids"], False)
+        _all_ghost = ignitable_face([{"id": "G", "status": "ready", "lane_owner": None,
+                                     "target": "scripts/ghost_runner.py"}],
+                                    {}, "bm-a", repo_root=_rd)
+        check("r1147 an all-ghost pool reads zero ignitable (no false floor)",
+              (_all_ghost["ready_ignitable"], _all_ghost["ready_runner_missing"]), (0, 1))
     # heartbeat_silence reads a real directory (hermetic temp dir)
     import tempfile
     with tempfile.TemporaryDirectory() as hdir:

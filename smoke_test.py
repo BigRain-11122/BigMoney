@@ -2754,6 +2754,77 @@ def main() -> int:
                          .get("any_survivor_clears_the_bar"))))
     except Exception as e:
         check("product: the state tilt prices the toll it would need", False, repr(e)[:160])
+
+    # the carry split: the page now says how much of the quoted headline is the repo leg.
+    # Two faces, one book -- the split artifact's base cell must be the ticket's own number,
+    # because a reader comparing them would otherwise be reading two different books.
+    try:
+        _rg27 = os.path.join(PATHS.results_dir, "etf_book_return_regime.json")
+        _tk27p = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _bad27 = []
+        if not os.path.exists(_rg27):
+            _bad27.append("results/etf_book_return_regime.json missing")
+        elif not os.path.exists(_tk27p):
+            _bad27.append("results/etf_book_order/latest.json missing")
+        else:
+            with open(_rg27, encoding="utf-8") as _fh27:
+                _rg = json.load(_fh27)
+            with open(_tk27p, encoding="utf-8") as _fh27:
+                _ptr27 = json.load(_fh27)
+            _tkf27 = os.path.join(os.path.dirname(_tk27p),
+                                  os.path.basename(str(_ptr27.get("file") or "")))
+            if not os.path.exists(_tkf27):
+                _bad27.append("ticket file named by the pointer is absent")
+                _tk27 = {}
+            else:
+                with open(_tkf27, encoding="utf-8") as _fh27:
+                    _tk27 = json.load(_fh27)
+            _pub27 = ((_tk27.get("metrics") or {}).get("book") or {}).get("cagr")
+            _gate27 = _rg.get("gate") or {}
+            _base27 = (_gate27.get("betas") or {}).get(str(_gate27.get("base_beta"))) or {}
+            if _pub27 is None:
+                _bad27.append("ticket publishes no book cagr")
+            elif _base27.get("observed_pct") is None:
+                _bad27.append("split artifact has no observed cell for the base beta")
+            elif abs(float(_base27["observed_pct"]) / 100.0 - float(_pub27)) > 5e-4:
+                _bad27.append("base cell %.4f%% != ticket %.4f%%"
+                              % (float(_base27["observed_pct"]), float(_pub27) * 100))
+            for _b27, _r27 in (_gate27.get("betas") or {}).items():
+                if not _r27:
+                    continue
+                if not (_r27["observed_pct"] >= _r27["flat_today_pct"]
+                        >= _r27["zero_pct"] - 1e-9):
+                    _bad27.append("beta %s ladder is not ordered observed>=today>=zero" % _b27)
+                if abs((_r27["observed_pct"] - _r27["zero_pct"]) - _r27["carry_pp"]) > 1e-3:
+                    _bad27.append("beta %s carry is not observed-zero" % _b27)
+            _idy27 = _rg.get("identity") or {}
+            if _idy27.get("matched") is not True:
+                _bad27.append("the artifact itself records a failed identity check")
+            _md27p = os.path.join(PATHS.root, "docs", "live_book",
+                                  "LIVE-BOOK-%s.md" % str(_rg.get("evidence_cutoff") or "")
+                                  .replace("-", ""))
+            if os.path.exists(_md27p):
+                with open(_md27p, encoding="utf-8") as _fh27:
+                    _md27 = _fh27.read()
+                if "这笔钱里有多少是" not in _md27:
+                    _bad27.append("live page carries no carry-split section")
+                elif "%.2f%%" % float(_base27.get("zero_pct") or 0.0) not in _md27:
+                    _bad27.append("live page omits the zero-cash number")
+            # the split must be strictly weaker than the headline: no cash leg pays nothing
+            _z27 = _base27.get("zero_pct")
+            _o27 = _base27.get("observed_pct")
+            if None not in (_z27, _o27) and not (_z27 < _o27):
+                _bad27.append("zero-cash arm is not below the observed arm")
+        check("product: the carry split reproduces the ticket and stays ordered",
+              not _bad27, "; ".join(_bad27)[:220]
+              or "base %.2f%% = ticket %.2f%% | today-flat %.2f%% | zero %.2f%%"
+                 % (float(_base27.get("observed_pct") or 0.0),
+                    float(_pub27 or 0.0) * 100,
+                    float(_base27.get("flat_today_pct") or 0.0),
+                    float(_base27.get("zero_pct") or 0.0)))
+    except Exception as e:
+        check("product: the carry split reproduces the ticket and stays ordered", False,
+              repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 
