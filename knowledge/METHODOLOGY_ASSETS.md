@@ -4607,3 +4607,32 @@ S6 leg tilt_breakeven immediately after state_tilt; smoke leg re-derives every p
 root from its own line (c**D == g0), refuses a root published without a positive toll
 differential, refuses a sweep that rises with cost, and refuses a survivor recorded with no
 excess read at that cost.
+## E206 An advice that is never reconciled with the account is only half a face (2026-10-29 r1146 bm-a)
+
+WHEN: a page tells the reader, every session, to do something outside this repo ("put the
+idle 528,774 into the 1-day repo") and no face can see whether it happened.
+
+WRONG: stop at the advice. The page was correct, priced (E204) and even ladder-tested (E205),
+and still a reader who placed nothing read byte-for-byte the same page as one who placed
+everything -- the 5,499 CNY/yr gap the page itself advertises was invisible in its own
+output. That is the E200 failure mode moved from research into operations: an instruction
+with no consumer that can contradict it.
+
+RIGHT: write the reconciliation as an explicit state face
+(state/account/cash_placement.json: recorded_by / asof / placements[instrument, amount_cny,
+rate_pct, rate_date]) and have the page derive, every run, idle = book cash - recorded repo
+placements and gap = idle x (repo panel close - declared demand rate) / 100. Five honest
+statuses, and the two that matter both refuse to round to a comfortable number: no record
+(file absent OR present-but-unfilled) reads UNRECORDED with gap=None -- unread is not zero --
+while still publishing the worst case priced off the panel; more placed than the book holds
+reads OVER-PLACED instead of being clamped to 0. A record older than 7 days keeps its
+numbers but says it is stale. The demand rate is a declared constant (0.05%), not a
+fabricated quote, and any recorded placement may override it.
+
+Pos: scripts/etf_book_ceo_page.py cash_handshake()/PLACEMENT (selftest 38->43: absent ->
+UNRECORDED, present-but-unfilled -> UNRECORDED, half placed -> PARTIAL with idle 60k and gap
+1,170 priced off the panel minus the declared demand rate, fully placed -> IN-PLACE at zero,
+over-placed -> OVER-PLACED, a 9-day-old record flagged stale) + state/account/
+cash_placement.json (shipped unfilled on purpose) + the cash-reconciliation block in
+docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that recomputes idle and the gap from the
+placement file and data/repo_daily/GC001.csv.

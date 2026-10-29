@@ -132,6 +132,18 @@ TRADING_DAYS_PER_YEAR = 250
 REPO_DIR = os.path.join(ROOT, "data", "repo_daily")
 CASH_LEG_SYMBOL = "GC001"
 
+# Where the cash ACTUALLY sits. The page can only advise; nothing in the repo could
+# read the account, so the gap between "advice" and "placement" was invisible -- and
+# invisible is exactly the 0% case the cash block warns about. This file is the
+# handshake: whoever places the order records it once, the page reconciles every run.
+PLACEMENT = os.path.join(ROOT, "state", "account", "cash_placement.json")
+# A current account pays something, so "idle" is not a 100% loss. No panel exists for
+# it, so the rate is a declared constant rather than a fabricated quote; a recorded
+# placement may override it in the file.
+DEMAND_RATE_PCT = 0.05
+PLACEMENT_MAX_AGE_DAYS = 7
+DEMAND_INSTRUMENTS = ("", "活期", "demand", "cash", "现金", "活期存款")
+
 
 def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=20):
     """What the idle half earns: cash x the repo panel's own quoted close.
@@ -399,6 +411,141 @@ def cash_ladder(cash_amount, panel_dir=REPO_DIR, tenors=LADDER_TENORS,
     return out
 
 
+def cash_handshake(cash_amount, ladder, placement_path=PLACEMENT, today=None,
+                   max_age_days=PLACEMENT_MAX_AGE_DAYS, demand_rate_pct=DEMAND_RATE_PCT):
+    """Is the cash where the page says it should be? (advice vs account, priced)
+
+    The page has been telling the reader to hold every idle yuan in the 1-day repo,
+    while nothing anywhere could see whether that happened -- so a reader who left it
+    in the current account read the same page as one who did not. This closes the loop
+    on the only side the company can observe: what the account says was placed.
+
+    Three honesty rules, learned from this file's own earlier faces:
+      - no recording -> UNRECORDED and a None gap, never "0 missing" (unread is not zero)
+      - the gap is priced from the repo panel's own close minus the declared demand
+        rate, so it moves with the market instead of being a typed-in number
+      - a revealed fact that contradicts the book (more placed than the book holds)
+        is surfaced as OVER-PLACED rather than silently clamped to a comfortable 0
+    """
+    out = {"status": "UNRECORDED", "recorded": False, "asof": None, "age_days": None,
+           "recorded_by": None, "placements": [], "placed_cny": None, "idle_cny": None,
+           "idle_share": None, "repo_rate_pct": None, "repo_rate_date": None,
+           "demand_rate_pct": float(demand_rate_pct),
+           "gap_annual_cny": None, "gap_daily_cny": None,
+           "worst_case_annual_cny": None, "stale": None, "reason": None,
+           "placement_file": os.path.relpath(placement_path, ROOT).replace("\\", "/"),
+           "basis": ("idle = book cash - recorded repo placements; gap = idle x "
+                     "(repo panel close - declared demand rate) / 100")}
+    cash = None if cash_amount is None else float(cash_amount)
+    out["cash_amount_cny"] = None if (cash is None or cash <= 0) else round(cash, 2)
+
+    # the rate the page already quotes -- one price source, never re-read here
+    base = None
+    for row in (ladder or {}).get("tenors") or []:
+        if row.get("symbol") == (ladder or {}).get("base"):
+            base = row
+            break
+    if base:
+        out["repo_rate_pct"] = base.get("spot_pct")
+        out["repo_rate_date"] = base.get("spot_date")
+    if out["cash_amount_cny"] and out["repo_rate_pct"] is not None:
+        out["worst_case_annual_cny"] = round(
+            out["cash_amount_cny"] * (float(out["repo_rate_pct"]) - float(demand_rate_pct))
+            / 100.0, 0)
+
+    if not os.path.exists(placement_path):
+        out["reason"] = "账户实况未登记，无法判断钱在不在逆回购里"
+        return out
+    try:
+        with open(placement_path, encoding="utf-8-sig") as fh:
+            rec = json.load(fh)
+    except Exception as exc:
+        out["reason"] = "登记件读不动（%s）" % exc
+        return out
+
+    out["recorded_by"] = rec.get("recorded_by")
+    out["asof"] = rec.get("asof")
+    rows = [r for r in (rec.get("placements") or []) if isinstance(r, dict)]
+    out["placements"] = [{"instrument": r.get("instrument"),
+                          "amount_cny": r.get("amount_cny"),
+                          "rate_pct": r.get("rate_pct"),
+                          "rate_date": r.get("rate_date")} for r in rows]
+    if rec.get("demand_rate_pct") is not None:
+        try:
+            out["demand_rate_pct"] = float(rec["demand_rate_pct"])
+            if out["cash_amount_cny"] and out["repo_rate_pct"] is not None:
+                out["worst_case_annual_cny"] = round(
+                    out["cash_amount_cny"]
+                    * (float(out["repo_rate_pct"]) - out["demand_rate_pct"]) / 100.0, 0)
+        except (TypeError, ValueError):
+            pass
+    if str(rec.get("recorded_by") or "").strip().lower() in ("", "unrecorded", "none", "null"):
+        out["reason"] = "账户实况未登记（登记件在位但没人填）"
+        return out
+
+    out["recorded"] = True
+    try:
+        placed = 0.0
+        for r in rows:
+            amt = r.get("amount_cny")
+            if amt is None:
+                continue
+            inst = str(r.get("instrument") or "").strip()
+            if inst.lower() in DEMAND_INSTRUMENTS:
+                continue
+            placed += float(amt)
+        out["placed_cny"] = round(placed, 2)
+    except (TypeError, ValueError) as exc:
+        out["recorded"] = False
+        out["reason"] = "登记件金额不可读（%s）" % exc
+        return out
+
+    ref = today or dt.date.today()
+    if isinstance(ref, str):
+        ref = dt.date.fromisoformat(ref[:10])
+    if out["asof"]:
+        try:
+            out["age_days"] = (ref - dt.date.fromisoformat(str(out["asof"])[:10])).days
+        except ValueError:
+            out["age_days"] = None
+    out["stale"] = (out["age_days"] is not None and out["age_days"] > int(max_age_days))
+
+    if out["cash_amount_cny"] is None:
+        out["reason"] = "账面现金不可读，无法对账"
+        out["recorded"] = False
+        return out
+
+    idle = out["cash_amount_cny"] - out["placed_cny"]
+    tol = max(1.0, 0.001 * out["cash_amount_cny"])
+    if idle < -tol:
+        out["status"] = "OVER-PLACED"
+        out["idle_cny"] = 0.0
+        out["idle_share"] = 0.0
+        out["reason"] = ("登记的在仓金额比账面现金还多 ¥%s：登记件与账本对不上，先核账再谈缺口"
+                         % format(-idle, ",.0f"))
+        return out
+    idle = max(0.0, idle)
+    out["idle_cny"] = round(idle, 2)
+    out["idle_share"] = round(idle / out["cash_amount_cny"], 4) if out["cash_amount_cny"] else None
+    if out["repo_rate_pct"] is not None:
+        out["gap_annual_cny"] = round(idle * (float(out["repo_rate_pct"])
+                                              - out["demand_rate_pct"]) / 100.0, 0)
+        out["gap_daily_cny"] = round(out["gap_annual_cny"] / TRADING_DAYS_PER_YEAR, 0)
+    if idle <= tol:
+        out["status"] = "IN-PLACE"
+        out["reason"] = "账面现金已全部登记在逆回购里"
+    elif idle >= out["cash_amount_cny"] * 0.995:
+        out["status"] = "IDLE"
+        out["reason"] = "登记件显示现金全部不在逆回购里（等于活期）"
+    else:
+        out["status"] = "PARTIAL"
+        out["reason"] = "只登记了一部分"
+    if out["stale"]:
+        out["reason"] = ("登记于 %s（%s 天前，已过期：超过 %s 天）：先重记一次再判断；%s"
+                         % (out["asof"], out["age_days"], max_age_days, out["reason"]))
+    return out
+
+
 STRESS_DIR = os.path.join(ROOT, "results", "etf_book_stress")
 STRESS_WINDOWS = (1, 5, 20)
 
@@ -653,6 +800,7 @@ def build(with_stress=False):
         ],
     }
     page["today_action"] = today_action(page)
+    page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -792,6 +940,60 @@ def render_md(p):
             add("**结论：未判定。** %s" % (cl.get("reason") or "面板不足"))
         add("")
         add("- 这些都是「现金不缩水」的量级，不是收益来源；季末/节前的飙高是常态，别把它当稳定收益。")
+        add("")
+    hs = p.get("cash_handshake") or {}
+    if hs:
+        add("## 现金现在到底在哪（账实对账）")
+        add("")
+        st = hs.get("status")
+        if st == "UNRECORDED":
+            add("**这一页不知道钱在哪。** 上面的建议是「¥%s 全部放 %s」，但账户里实际下了多少，"
+                "本仓库看不到——没人登记过。"
+                % (format(p["cash_amount_cny"], ",.0f"), p.get("cash_leg")))
+            add("")
+            add("- 差多少不猜：如果这 ¥%s 还在活期，按 %s 报的 %.2f%%（%s）减去活期 %.2f%%，"
+                "一年少赚约 **¥%s**（每个交易日约 ¥%s）。这是「全留活期」这个最坏情形的量级，不是实测。"
+                % (format(p["cash_amount_cny"], ",.0f"), p.get("cash_leg"),
+                   float(hs.get("repo_rate_pct") or 0.0), hs.get("repo_rate_date") or "—",
+                   float(hs.get("demand_rate_pct") or 0.0),
+                   format(hs.get("worst_case_annual_cny") or 0, ",.0f"),
+                   format(round((hs.get("worst_case_annual_cny") or 0) / TRADING_DAYS_PER_YEAR), ",.0f")))
+            add("- 怎么接上：把实际下单结果记一行到 `%s`（`recorded_by` 填你的名字、`asof` 填日期、"
+                "`placements` 里每条 `instrument/amount_cny/rate_pct/rate_date`）——下一轮这页就会自动对账。"
+                % hs.get("placement_file"))
+            add("- %s。" % (hs.get("reason") or ""))
+        elif st == "OVER-PLACED":
+            add("**登记件与账本对不上。** %s" % (hs.get("reason") or ""))
+            add("")
+            add("- 已登记在仓 ¥%s vs 账面现金 ¥%s —— 先核哪个数是对的，别在这基础上加仓。"
+                % (format(hs.get("placed_cny") or 0, ",.0f"),
+                   format(p["cash_amount_cny"], ",.0f")))
+        else:
+            if st == "IN-PLACE":
+                add("**对上了：** 登记的 ¥%s 全部在逆回购里，账面现金 ¥%s 没有缺口。"
+                    % (format(hs.get("placed_cny") or 0, ",.0f"),
+                       format(p["cash_amount_cny"], ",.0f")))
+            elif st == "IDLE":
+                add("**全在活期。** 登记件显示现金一分钱都没进逆回购——一年少赚约 **¥%s**。"
+                    % format(hs.get("gap_annual_cny") or 0, ",.0f"))
+            else:
+                add("**只放了一部分：** 已登记在仓 ¥%s，还剩 ¥%s（%.1f%%）没进逆回购，"
+                    "一年少赚约 **¥%s**（每个交易日约 ¥%s）。"
+                    % (format(hs.get("placed_cny") or 0, ",.0f"),
+                       format(hs.get("idle_cny") or 0, ",.0f"),
+                       (hs.get("idle_share") or 0.0) * 100.0,
+                       format(hs.get("gap_annual_cny") or 0, ",.0f"),
+                       format(hs.get("gap_daily_cny") or 0, ",.0f")))
+            add("")
+            add("- 登记于 %s（%s 天前，登记人 %s）。"
+                % (hs.get("asof") or "—",
+                   hs.get("age_days") if hs.get("age_days") is not None else "—",
+                   hs.get("recorded_by") or "—"))
+            if hs.get("stale"):
+                add("- **这条登记已经过期**（超过 %d 天），先重新记一次再看缺口。" % PLACEMENT_MAX_AGE_DAYS)
+            add("- 缺口按 %s 收盘年化 %.2f%%（%s）减活期 %.2f%% 计；利率是市场价，缺口会随它漂。"
+                % (p.get("cash_leg"), float(hs.get("repo_rate_pct") or 0.0),
+                   hs.get("repo_rate_date") or "—", float(hs.get("demand_rate_pct") or 0.0)))
         add("")
     add("## 账面与节奏")
     add("")
@@ -1213,6 +1415,76 @@ def selftest():
         _ok_l, "verdict=%s pick=%s rows=%d"
         % (_cl_live.get("verdict"), _cl_live.get("pick"),
            len(_cl_live.get("tenors") or [])))
+
+    # 40-44. the handshake: advice ("buy the repo") vs account ("what was placed").
+    # The failure mode this guards is the one the cash block has been advertising all
+    # along -- a reader who did nothing reads the same page as one who did.
+    _lad_h = tempfile.mkdtemp()
+    _panel(_lad_h, "GC001", [(d.isoformat(), 2.0) for d in _days])
+    _lad_v = cash_ladder(100000.0, panel_dir=_lad_h, tenors=("GC001",))
+    _rec = tempfile.mkdtemp()
+    _pfile = os.path.join(_rec, "cash_placement.json")
+
+    _h_absent = cash_handshake(100000.0, _lad_v, placement_path=_pfile,
+                               today="2026-10-29")
+    chk("L40 handshake: no record -> UNRECORDED with a None gap (unread is not zero), and the worst case is stated",
+        _h_absent["status"] == "UNRECORDED" and _h_absent["gap_annual_cny"] is None
+        and _h_absent["idle_cny"] is None
+        and abs(_h_absent["worst_case_annual_cny"] - 1950.0) < 1.0,
+        "status=%s gap=%s worst=%s" % (_h_absent["status"], _h_absent["gap_annual_cny"],
+                                       _h_absent["worst_case_annual_cny"]))
+
+    def _write_placements(rec, by, asof, rows, demand=0.05):
+        with open(_pfile, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump({"schema": "cash-placement/v1", "asof": asof, "recorded_by": by,
+                       "demand_rate_pct": demand, "placements": rows}, fh)
+        return _pfile
+
+    _write_placements(_rec, "unrecorded", "2026-10-29", [])
+    _h_blank = cash_handshake(100000.0, _lad_v, placement_path=_pfile, today="2026-10-29")
+    chk("L41 handshake: a file that exists but nobody filled is still UNRECORDED",
+        _h_blank["status"] == "UNRECORDED" and _h_blank["gap_annual_cny"] is None,
+        "status=%s" % _h_blank["status"])
+
+    _write_placements(_rec, "jason", "2026-10-29",
+                      [{"instrument": "GC001", "amount_cny": 40000.0,
+                        "rate_pct": 1.9, "rate_date": "2026-10-28"}])
+    _h_part = cash_handshake(100000.0, _lad_v, placement_path=_pfile, today="2026-10-29")
+    chk("L42 handshake: half placed -> PARTIAL, idle and the gap are the panel's rate minus the declared demand rate",
+        _h_part["status"] == "PARTIAL" and _h_part["idle_cny"] == 60000.0
+        and abs(_h_part["gap_annual_cny"] - 1170.0) < 1.0
+        and _h_part["gap_daily_cny"] == round(1170.0 / 250.0),
+        "status=%s idle=%s gap=%s daily=%s" % (_h_part["status"], _h_part["idle_cny"],
+                                               _h_part["gap_annual_cny"],
+                                               _h_part["gap_daily_cny"]))
+
+    _write_placements(_rec, "jason", "2026-10-29",
+                      [{"instrument": "GC001", "amount_cny": 100000.0,
+                        "rate_pct": 1.9, "rate_date": "2026-10-28"}])
+    _h_full = cash_handshake(100000.0, _lad_v, placement_path=_pfile, today="2026-10-29")
+    _write_placements(_rec, "jason", "2026-10-29",
+                      [{"instrument": "GC001", "amount_cny": 100000.0, "rate_pct": 1.9},
+                       {"instrument": "GC007", "amount_cny": 20000.0, "rate_pct": 2.0}])
+    _h_over = cash_handshake(100000.0, _lad_v, placement_path=_pfile, today="2026-10-29")
+    _write_placements(_rec, "jason", "2026-10-20",
+                      [{"instrument": "GC001", "amount_cny": 100000.0, "rate_pct": 1.9}])
+    _h_stale = cash_handshake(100000.0, _lad_v, placement_path=_pfile, today="2026-10-29")
+    chk("L43 handshake: fully placed -> IN-PLACE at zero gap; more placed than the book holds -> OVER-PLACED, not silently clamped; an old record says so",
+        _h_full["status"] == "IN-PLACE" and (_h_full["gap_annual_cny"] or 0) == 0.0
+        and _h_over["status"] == "OVER-PLACED" and _h_over["idle_cny"] == 0.0
+        and "对不上" in (_h_over["reason"] or "")
+        and _h_stale["status"] == "IN-PLACE" and _h_stale["stale"] is True
+        and "过期" in (_h_stale["reason"] or ""),
+        "in-place=%s over=%s stale=%s" % (_h_full["status"], _h_over["status"],
+                                          _h_stale["stale"]))
+
+    _hs_live = page.get("cash_handshake") or {}
+    _md5 = render_md(page)
+    chk("L44 handshake: the live page renders the reconciliation and its status is one of the five honest states",
+        "现金现在到底在哪" in _md5
+        and _hs_live.get("status") in ("UNRECORDED", "IN-PLACE", "PARTIAL", "IDLE", "OVER-PLACED")
+        and (("一年少赚约" in _md5) or ("没有缺口" in _md5) or ("对不上" in _md5)),
+        "status=%s gap=%s" % (_hs_live.get("status"), _hs_live.get("gap_annual_cny")))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

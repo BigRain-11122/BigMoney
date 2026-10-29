@@ -2018,6 +2018,73 @@ def main() -> int:
             _cl_detail = "recompute failed: %s" % _e
         check("product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
               _ok_cl, _cl_detail)
+        # The page advises "hold the idle half in the repo" but nothing could see whether
+        # it happened. The handshake face reconciles the recorded placement against the
+        # book's cash. Recomputed here from the placement file + the repo panel so that a
+        # hand-edited page (or an unfilled record printed as "all good") reads red.
+        _hs = _page.get("cash_handshake") or {}
+        _ok_hs = False
+        _hs_detail = "block absent"
+        try:
+            _pf = "state/account/cash_placement.json"
+            _rec = None
+            if os.path.exists(_pf):
+                with open(_pf, encoding="utf-8-sig") as _fh:
+                    _rec = json.load(_fh)
+            _cash_y = float(_page.get("cash_amount_cny") or 0.0)
+            _last_rate = None
+            with open("data/repo_daily/GC001.csv", encoding="utf-8") as _fh:
+                next(_fh, None)
+                for _ln in _fh:
+                    _p = _ln.strip().split(",")
+                    if len(_p) >= 5:
+                        try:
+                            _v = float(_p[4])
+                        except ValueError:
+                            continue
+                        if 0.0 < _v < 200.0:
+                            _last_rate = _v
+            _dem = 0.05
+            if _rec and _rec.get("demand_rate_pct") is not None:
+                _dem = float(_rec["demand_rate_pct"])
+            _by = str((_rec or {}).get("recorded_by") or "").strip().lower()
+            _unrec = (not _rec) or _by in ("", "unrecorded", "none", "null")
+            if _unrec:
+                _ok_hs = (_hs.get("status") == "UNRECORDED"
+                          and _hs.get("gap_annual_cny") is None
+                          and _hs.get("idle_cny") is None
+                          and _last_rate is not None
+                          and abs(float(_hs.get("worst_case_annual_cny") or 0)
+                                  - _cash_y * (_last_rate - _dem) / 100.0) < 2.0)
+                _hs_detail = ("unrecorded status=%s gap=%s worst=%s recomputed=%.0f"
+                              % (_hs.get("status"), _hs.get("gap_annual_cny"),
+                                 _hs.get("worst_case_annual_cny"),
+                                 _cash_y * ((_last_rate or 0.0) - _dem) / 100.0))
+            else:
+                _placed = 0.0
+                for _r in _rec.get("placements") or []:
+                    _inst = str((_r or {}).get("instrument") or "").strip().lower()
+                    if _inst in ("", "活期", "demand", "cash", "现金", "活期存款"):
+                        continue
+                    if (_r or {}).get("amount_cny") is not None:
+                        _placed += float(_r["amount_cny"])
+                _idle = max(0.0, _cash_y - _placed)
+                _gap = _idle * ((_last_rate or 0.0) - _dem) / 100.0
+                _over = (_cash_y - _placed) < -max(1.0, 0.001 * _cash_y)
+                _want = ("OVER-PLACED" if _over
+                         else "IN-PLACE" if _idle <= max(1.0, 0.001 * _cash_y)
+                         else "IDLE" if _idle >= _cash_y * 0.995 else "PARTIAL")
+                _ok_hs = (_hs.get("status") == _want
+                          and abs(float(_hs.get("idle_cny") or 0.0) - _idle) < 1.0
+                          and (_over or not _hs.get("gap_annual_cny") is None
+                               and abs(float(_hs.get("gap_annual_cny") or 0.0) - _gap) < 2.0))
+                _hs_detail = ("status=%s want=%s idle=%.0f/%.0f gap=%s/%.0f placed=%.0f"
+                              % (_hs.get("status"), _want, float(_hs.get("idle_cny") or 0),
+                                 _idle, _hs.get("gap_annual_cny"), _gap, _placed))
+        except Exception as _e:
+            _hs_detail = "recompute failed: %s" % _e
+        check("product: cash placement is reconciled against the book, and an unread account is not a zero gap",
+              _ok_hs, _hs_detail)
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     try:
