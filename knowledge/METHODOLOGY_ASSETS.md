@@ -4887,3 +4887,29 @@ no assertion is a claim, not a reading.
 Pos: smoke leg "product: dashboard carries the marks coverage gap" + results/dashboard_status.json
 (refreshed) vs results/t35_open_fill_verify.json + results/marks_coverage.json (both 19/16,
 84.21%, 3 holes, tier marks, PASS, day 2026-10-29).
+
+## E245 A level printed alone is not a reading, it is a snapshot of a regime (2026-10-30 r1154 bm-a)
+
+WHEN: a page reports a market-breadth count (limit-up 39, limit-down 41, seal rate 60.9%) and the
+reader's actual question is "is this a sell-off day or a normal day".
+
+WRONG: printing one bar plus a one-bar delta. The r1153 tape gave level and direction against the
+previous bar only, so 39 limit-ups with 41 limit-downs reads as "a kill day" -- and on the same page
+the prior ten tracked bars showed 82 limit-ups at 87% seal rate three sessions earlier. Same
+numbers, opposite conclusion about what kind of market it is, and the page could not tell.
+
+RIGHT: a bounded trajectory window beside every level (10 tracked bars here), with three rules:
+(a) the window is the UNION of the dates each panel actually captured, capped to the newest N --
+     one panel's older bar never silently extends another's;
+(b) each day's ratio is re-derived from that day's own two counts, never carried from the newest
+     bar (a carried rate is a quiet copy with no assertion -- E244 shape);
+(c) a day one panel never captured stays absent (`—`), and the summary line names the extreme
+     dates instead of a bare min/max, because "33~82" hides that the low and the high are two
+     consecutive sessions.
+
+The trajectory also makes the caveat legible: the panel started 2026-10-08, so the window is 10
+bars in a forward-accumulated face -- it bounds a regime, it does not test one.
+
+Pos: scripts/daily_report.py (`_zt_panel_day` series + `_zt_risk_face` union/rate-per-day +
+`ZT_SERIES_DAYS` + section 9 trajectory table + 6 selftest legs: two-date union, per-day rate,
+window cap, newest-kept, absent-path) + docs/daily_report/REPORT-2026-10-30.md.

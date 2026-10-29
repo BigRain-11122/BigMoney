@@ -37,6 +37,7 @@ import os
 import subprocess
 import sys
 from datetime import datetime, timedelta
+import statistics
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "docs", "daily_report")
@@ -579,6 +580,7 @@ ZT_PANEL_LABELS = {"zt": "涨停池", "zbgc": "炸板池", "dtgc": "跌停池",
 ZT_DATE_COL = "日期"
 ZT_NAME_COL = "名称"
 ZT_STREAK_COL = "连板数"
+ZT_SERIES_DAYS = 10   # r1154: how many tracked bars the tape shows as a trajectory
 
 
 def _zt_panel_day(key, root=None):
@@ -608,7 +610,8 @@ def _zt_panel_day(key, root=None):
     out = {"key": key, "label": ZT_PANEL_LABELS[key], "status": "ok",
            "cutoff": cutoff, "count": counts[cutoff],
            "prev_cutoff": prev, "prev_count": counts[prev] if prev else None,
-           "days_tracked": len(order)}
+           "days_tracked": len(order),
+           "series": {d: counts[d] for d in order[-ZT_SERIES_DAYS:]}}
     if key == "zt":
         row = df[days == cutoff]
         ladder = {}
@@ -657,6 +660,24 @@ def _zt_risk_face(day=None, root=None):
     if ok.get("zt", {}).get("ladder"):
         face["ladder"] = ok["zt"]["ladder"]
         face["top_streak"] = ok["zt"].get("top_streak")
+    # r1154 trajectory: a single bar's counts say nothing about direction, and a page
+    # that only ever shows one bar hides a regime. Union of the dates each panel
+    # actually captured (a day missing from a panel stays None = absent, never 0), and
+    # the seal rate is re-derived per day from that day's own two counts, not carried.
+    dates = sorted({d for v in ok.values() for d in (v.get("series") or {})})
+    dates = dates[-ZT_SERIES_DAYS:]
+    series = []
+    for d in dates:
+        row = {"date": d}
+        for k in ("zt", "zbgc", "dtgc"):
+            s = (ok.get(k) or {}).get("series") or {}
+            row[k] = s.get(d)
+        if isinstance(row["zt"], int) and isinstance(row["zbgc"], int) \
+                and (row["zt"] + row["zbgc"]) > 0:
+            row["seal_rate"] = round(row["zt"] / float(row["zt"] + row["zbgc"]), 4)
+        series.append(row)
+    if series:
+        face["series"] = series
     return face
 
 
@@ -921,6 +942,31 @@ def render_md(rep):
         if "kill_day" in mr:
             L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
                      f"今日 {'是' if mr.get('kill_day') else '否'}")
+        ser = mr.get("series") or []
+        if len(ser) > 1:
+            L.append("")
+            L.append(f"- **近 {len(ser)} 个采集日轨迹**（一格一日；缺面记 — 不记 0）：")
+            L.append("")
+            L.append("  | 日期 | 涨停 | 炸板 | 跌停 | 封板率 |")
+            L.append("  |---|---|---|---|---|")
+
+            def _cell(v):
+                return "—" if v is None else str(v)
+
+            for r in ser:
+                sr = r.get("seal_rate")
+                L.append(f"  | {r.get('date')} | {_cell(r.get('zt'))} | {_cell(r.get('zbgc'))} "
+                         f"| {_cell(r.get('dtgc'))} | {'—' if sr is None else f'{sr:.1%}'} |")
+            ups = [r["zt"] for r in ser if isinstance(r.get("zt"), int)]
+            srs = [r["seal_rate"] for r in ser if r.get("seal_rate") is not None]
+            if len(ups) > 1:
+                lo, hi = min(ups), max(ups)
+                lo_d = [r["date"][5:] for r in ser if r.get("zt") == lo]
+                hi_d = [r["date"][5:] for r in ser if r.get("zt") == hi]
+                L.append(f"  - 本窗涨停数 {lo}~{hi}，中位 {statistics.median(ups):g}"
+                         f"（低 {'/'.join(lo_d)} · 高 {'/'.join(hi_d)}）；"
+                         f"封板率中位 {'—' if not srs else f'{statistics.median(srs):.1%}'}")
+            L.append("")
         L.append("- 口径：前向积累制（2026-10-08 起），日账只有真正采到的日子——"
                  "缺日不补、不记 0；面板由宿主采集，他机接管时在 results/zt_pool_update_status.json 留痕")
     L.append("")
@@ -997,6 +1043,28 @@ def selftest():
     assert abs(f["seal_rate"] - 3 / 5.0) < 1e-9, f      # 涨停/(涨停+炸板)
     assert f["kill_day"] is False, f                   # 1 跌停 vs 3 涨停
     assert abs(f["down_over_up"] - 1 / 3.0) < 1e-3, f
+    # ---- r1154 trajectory legs: one bar is a level, two bars are not a trend; the
+    # series is the union of captured dates with per-day seal rates re-derived, and a
+    # day one panel never captured stays None instead of becoming a 0
+    ser = f.get("series") or []
+    assert [r["date"] for r in ser] == ["2026-10-28", "2026-10-29"], ser
+    assert ser[0]["zt"] == 1 and ser[0]["zbgc"] == 1 and ser[0]["dtgc"] is None, ser
+    assert abs(ser[0]["seal_rate"] - 0.5) < 1e-9, ser[0]
+    assert ser[1]["zt"] == 3 and ser[1]["zbgc"] == 2 and ser[1]["dtgc"] == 1, ser[1]
+    assert abs(ser[1]["seal_rate"] - 3 / 5.0) < 1e-9, ser[1]
+    _mk("zt", [{"日期": f"2026-09-{d:02d}", "名称": f"N{d}", "连板数": 1}
+               for d in range(1, 15)])
+    _p = _zt_panel_day("zt", root=tmp)
+    assert len(_p["series"]) == ZT_SERIES_DAYS, _p["series"]   # window capped
+    assert max(_p["series"]) == "2026-09-14", _p["series"]     # newest kept
+    long_s = (_zt_risk_face(root=tmp).get("series") or [])
+    assert len(long_s) == ZT_SERIES_DAYS, long_s               # union capped too
+    assert long_s[-1]["date"] == "2026-10-29", long_s          # other panels' newest wins
+    _mk("zt", [{"日期": "2026-10-28", "名称": "A", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "B", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "C", "连板数": 3},
+               {"日期": "2026-10-29", "名称": "D", "连板数": 2}])
+    assert _zt_risk_face(root=os.path.join(tmp, "nope")).get("series") is None
     empty = _zt_risk_face(root=os.path.join(tmp, "nope"))
     assert empty["present"] is False and "缺" in empty["note"], empty
     _combat_face = lambda: {
