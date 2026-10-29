@@ -217,6 +217,19 @@ LEGS = [
     ("etf_book_buffer_price_of_size",
      ["python", "scripts/etf_book_buffer_price_of_size.py", "--check"],
      ["python", "scripts/etf_book_buffer_price_of_size.py", "run"]),
+    # r1348: every published number is one point estimate on ONE ordering of 1,651 days, and
+    # the face that publishes the distribution (block bootstrap of the book's own return
+    # path) can be re-judged from its stored resample rows without re-running the 2000
+    # draw. The chain runs the gate only; the engine-free recompute re-derives every
+    # percentile and share, so a hand-edited p50 is contradicted by the rows.
+    ("etf_book_nav_envelope", ["python", "scripts/etf_book_nav_envelope.py", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "run"]),
+    # r1349: the block length was the one free parameter the envelope had to admit, so three
+    # arms (week 5 / quarter 60 / year 250) were run against it. The comparison face quotes
+    # numbers read off each arm, so the chain re-derives every quoted number from that arm's
+    # own rows rather than trusting the summary.
+    ("etf_book_block_length", ["python", "scripts/etf_book_nav_envelope.py", "blocks", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "blocks"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

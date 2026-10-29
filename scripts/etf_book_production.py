@@ -16,6 +16,7 @@ caveats (survivorship in the ETF pool, IS-heavy history, 2026 flat) travel on th
   python scripts/etf_book_production.py run [--capital=1000000] [--n=8] [--rebal=20]
   python scripts/etf_book_production.py --selftest      # offline invariants
 """
+import glob
 import json
 import os
 import shutil
@@ -258,6 +259,88 @@ def spanning_pre2020_support():
         }
     except Exception:
         return None
+
+
+def drawdown_band_support():
+    """Read the bootstrap block arms -> how bad can this book's drawdown be?
+
+    r1348: the card prints ONE drawdown (-12.5%) computed on one ordering of the trading
+    days, while the block bootstrap of the same book puts the 5th-percentile drawdown
+    between -17.1% and -25.0% depending on the block length -- i.e. the card's number is a
+    median of a ruler, not a tail. A tail sentence must travel with the parameter that
+    produced it (E248), and the page a human reads is where the tail matters most.
+    Soft-fails to None (a missing artefact must never break the production face) and
+    refuses to interpolate: if the arms are for a different cutoff than the card's bar,
+    the band is reported as stale rather than passed off as today's.
+    """
+    d = os.path.join(E.PATHS.results_dir, "etf_book_bootstrap")
+    try:
+        files = sorted(glob.glob(os.path.join(d, "BLOCKS-*.json")))
+        if not files:
+            return None
+        p = files[-1]
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or []
+        if len(arms) < 2:
+            return None
+        band = {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+            "block_set": [a.get("block") for a in arms],
+            "n_resamples": (arms[0].get("n_resamples")),
+            "arm_rows": [{"block": a.get("block"),
+                          "maxdd_p5": (a.get("maxdd") or {}).get("5"),
+                          "maxdd_p50": (a.get("maxdd") or {}).get("50"),
+                          "dd_break_share": (a.get("shares") or {}).get("maxdd_le_line"),
+                          "point_pctile_maxdd": (a.get("point_pctile") or {}).get("maxdd")}
+                         for a in arms],
+            "maxdd_p5_band": doc["spread"]["maxdd_p5"],
+            "maxdd_p50_band": doc["spread"]["maxdd_p50"],
+            "dd_break_band": doc["spread"]["dd_break_share"],
+            "readings": doc.get("readings"),
+        }
+        band["band_pp"] = abs(band["maxdd_p5_band"]["max"] - band["maxdd_p5_band"]["min"]) * 100
+        return band
+    except Exception:
+        return None
+
+
+def drawdown_band_paragraphs(band, card_maxdd):
+    if not band:
+        return ["No bootstrap band on disk: the drawdown above is a single-path number and "
+                "its tail is unpublished. Run scripts/etf_book_nav_envelope.py.", ""]
+    a = band["maxdd_p5_band"]
+    m = band["maxdd_p50_band"]
+    br = band["dd_break_band"]
+    lines = [
+        "The drawdown column above is one ordering of the trading days. Bootstrapping the "
+        "book's own return path (blocks %s bars, %d resamples) puts the 5th-percentile "
+        "drawdown between **%.1f%% and %.1f%%** and the median between %.1f%% and %.1f%% -- "
+        "a spread of %.1fpp produced by the block length alone, i.e. by how long the ruler "
+        "remembers dependence."
+        % ("/".join(str(b) for b in band["block_set"]), band["n_resamples"] or 0,
+           a["min"] * 100, a["max"] * 100, m["min"] * 100, m["max"] * 100, band["band_pp"]),
+        "",
+        "| block (bars) | maxDD p5 | maxDD p50 | share worse than -20% | point maxDD pctile |",
+        "|---|---|---|---|---|",
+    ]
+    for r in band["arm_rows"]:
+        lines.append("| %s | %s | %s | %s | %s |" % (
+            r["block"],
+            "-" if r["maxdd_p5"] is None else "%.2f%%" % (r["maxdd_p5"] * 100),
+            "-" if r["maxdd_p50"] is None else "%.2f%%" % (r["maxdd_p50"] * 100),
+            "-" if r["dd_break_share"] is None else "%.1f%%" % (r["dd_break_share"] * 100),
+            "-" if r["point_pctile_maxdd"] is None else "%.1f" % r["point_pctile_maxdd"]))
+    lines += ["",
+              "Read the card's own %.1f%% as the median of that ruler, not its tail: size the "
+              "position against the p5 column, which is %.1fpp worse than the headline at the "
+              "widest block." % (card_maxdd * 100, abs(card_maxdd - a["min"]) * 100), ""]
+    if band["evidence_cutoff"]:
+        lines += ["> Band priced on the **%s** bar from %s. A tail quoted without its block is "
+                  "a sentence without its parameter (E248)." % (band["evidence_cutoff"],
+                                                                band["artifact"]), ""]
+    return lines
 
 
 def preperiod_support():
@@ -655,6 +738,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "spanning": spanning_support(),
         "spanning_pre2020": spanning_pre2020_support(),
         "hysteresis": hysteresis_support(),
+        "drawdown_band": drawdown_band_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -710,6 +794,24 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                               % (sp["n_match"], sp["n_factors"], sp["cagr_pit"] * 100,
                                  sp["sharpe_pit"], sp["cagr_fixed"] * 100, sp["sharpe_fixed"],
                                  sp["cagr_reversed"] * 100, sp["artifact"]))
+    band = out["drawdown_band"]
+    card_dd = ((runs.get("n%d_vt08" % n_hold) or {}).get("full") or {}).get("maxdd")
+    if band and card_dd is not None:
+        a = band["maxdd_p5_band"]
+        stale = (band["evidence_cutoff"] or "") != str(last.date())
+        out["caveats"].insert(0, "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced "
+                              "on one ordering of the trading days. Bootstrapping this book's "
+                              "own return path at blocks %s (the block is a free parameter) puts "
+                              "the 5th-percentile drawdown between %.1f%% and %.1f%% and the "
+                              "share of resamples worse than -20%% between %.1f%% and %.1f%%. "
+                              "Size against the p5 column. See %s%s."
+                              % ("/".join(str(b) for b in band["block_set"]),
+                                 a["min"] * 100, a["max"] * 100,
+                                 band["dd_break_band"]["min"] * 100,
+                                 band["dd_break_band"]["max"] * 100, band["artifact"],
+                                 "" if not stale else
+                                 " (band priced on the %s bar, not this card's %s -- stale)"
+                                 % (band["evidence_cutoff"], last.date())))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "PRODUCTION-%s.json" % last.date()), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
@@ -796,6 +898,10 @@ def write_card(out):
     lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
     lines += ["## Does the book trade on noise?", ""]
     lines += hysteresis_paragraphs(out.get("hysteresis"))
+    full = b.get("full") or {}
+    if full.get("maxdd") is not None:
+        lines += ["## How bad can the drawdown be?", ""]
+        lines += drawdown_band_paragraphs(out.get("drawdown_band"), full["maxdd"])
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -1139,6 +1245,24 @@ def selftest():
         chk("card lists every leg", all(l["symbol"] in card for l in o["sheet"]["legs"]))
         chk("output carries the vol delivery block",
             (o.get("vol_delivery") or {}).get("headline") is not None)
+        # r1348: the card's single drawdown is the median of a ruler. The band must reach the
+        # page a human reads, and must not be invented when the arms are absent.
+        band = o.get("drawdown_band")
+        if band:
+            chk("card prices the drawdown band the arms measured",
+                ("How bad can the drawdown be?" in card
+                 and "%.1f%%" % (band["maxdd_p5_band"]["min"] * 100) in card),
+                band.get("block_set") and str(band.get("block_set")))
+            chk("band quotes its block set, not a bare tail",
+                all(str(b) in card for b in band["block_set"]))
+            chk("band is not silently stale",
+                (band["evidence_cutoff"] == o["evidence_cutoff"])
+                == ("stale" not in card.split("## Caveats")[0]))
+            chk("band carried as a caveat on the operator page",
+                any("MEDIAN, NOT A TAIL" in c for c in o["caveats"]))
+        else:
+            chk("card says the tail is unpublished when the arms are absent",
+                "No bootstrap band on disk" in drawdown_band_paragraphs(None, -0.1)[0])
         # 7. the sheet must be the book IN FORCE (the last on-grid decision), not today's
         #    ranking. Until r1277 the card re-ranked the panel's last bar and handed out a
         #    book 11/12 apart from the one the engine -- and the forward ledger -- held.

@@ -1,0 +1,45 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "script": "scripts/etf_book_nav_envelope.py",
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "universe_symbols": 1503,
+  "flips_repaired": 168
+ },
+ "backtest": {
+  "full": {
+   "cagr": 0.097,
+   "sharpe": 1.0,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82
+  },
+  "is": {
+   "cagr": 0.0384,
+   "sharpe": 0.442,
+   "maxdd": -0.1177,
+   "vol": 0.0997,
+   "years": 3.99
+  },
+  "oos": {
+   "cagr": 0.1864,
+   "sharpe": 1.763,
+   "maxdd": -0.107,
+   "vol": 0.1044,
+   "years": 2.82
+  },
+  "turnover_per_decision": 0.934,
+  "n_hold": 12,
+  "vol_target": 0.08,
+  "cost_bp": 10.0
+ },
+ "bars": 1651,
+ "bars_per_year": 241.936,
+ "first_bar": "2020-01-03",
+ "last_bar": "2026-10-29",
+ "note": "the production cell's own daily path, published so bootstrap/replay studies do not have to reload the panel; NAV is normalised to 1.0 at the first bar",
+ "file": "NAV-2026-10-29.json"
+}

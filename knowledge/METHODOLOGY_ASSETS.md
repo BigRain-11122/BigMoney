@@ -4913,3 +4913,153 @@ bars in a forward-accumulated face -- it bounds a regime, it does not test one.
 Pos: scripts/daily_report.py (`_zt_panel_day` series + `_zt_risk_face` union/rate-per-day +
 `ZT_SERIES_DAYS` + section 9 trajectory table + 6 selftest legs: two-date union, per-day rate,
 window cap, newest-kept, absent-path) + docs/daily_report/REPORT-2026-10-30.md.
+## E246 The book has one history: publish the distribution, then say where the point estimate sits (2026-10-29 r1348 bm-c) [filed as E242; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a book's headline (CAGR / Sharpe / maxDD) is quoted as if it were a property of the
+strategy, and every arm is compared against it in the same currency. A single realised path
+cannot tell a reader how much of the number is the book.
+
+WRONG: (a) adding another arm at the same resolution -- r1291/r1325 already showed arms can
+differ by less than a phase change; (b) quoting a bootstrap p50 as "the expected return"
+while the block length that produced it is an unstated free parameter; (c) reporting only the
+good tail (p95 CAGR) because it is the flattering side of a two-sided ruler.
+
+RIGHT: publish the book's own daily path as a face (`results/etf_book_series/NAV-<cutoff>.json`,
+normalised to 1.0), block-bootstrap it with the block set to one rebalance cycle, and publish
+**percentiles plus the position of the published point estimate inside them** (`point_pctile`).
+Report the loss share and the drawdown-break share as well as the percentiles, and register
+the block-length sensitivity as its own rows instead of pretending 20 bars is "the" answer.
+Gate: recompute every percentile and share from the published per-resample rows, so a
+hand-edited p50 is contradicted by its own rows (E240's law applied to a distribution).
+
+READING (block=20 arm, 2,000 resamples, 1,651 bars to 2026-10-29; **numbers republished at
+r1348 after the procs-dependent seeding fix, see E247**): CAGR p5/p50/p95 =
+3.43/9.69/16.46 %/yr, Sharpe 0.38/0.98/1.60, maxDD -20.58/-13.18/-8.92 %. The published
+point estimate 9.70% sits at the **50.1** pctile -- so the headline is not a lucky path, but
+the p5-p95 band is ~7x the largest single-arm effect published the same day. 0.3% of resamples
+lose money, 6.4% break -20% (a **block-20** sentence: E248 measures the same share at 16.1% for
+a week-block and 1.1% for a year-block): the card's -12.5% drawdown is the median of the ruler,
+not its tail.
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14, --check re-derives from rows and re-draws
+a sample from the seed rule) + results/etf_book_bootstrap/ENVELOPE-2026-10-29.json +
+results/etf_book_series/NAV-2026-10-29.json + chain legs + smoke leg + E247/E248 (block grid).
+
+## E247 The ruler may not move with the machine that holds it: seed the resample, not the worker (2026-10-29 r1348 bm-c) [filed as E243; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: any Monte Carlo / bootstrap / permutation face whose work is split across processes or shards.
+
+WRONG: seeding each job (`SEED + 7919 * k`) or each shard and letting the job decide how many draws
+it takes. The published percentiles then depend on --procs and on the shard count: the E246 envelope
+moved CAGR p5 3.79 -> 3.66 -> 3.43 and the point percentile 51.0 -> 49.8 -> 50.1 across three runs
+of the same face (published, default --procs, --procs 2). The rebuild gate did not catch it, because
+a procs-dependent face still agrees with its own rows.
+
+RIGHT: the seed belongs to the DRAW INDEX (`seed_i = SEED + 7919*i`); a job declares `(first_i, n)`
+and nothing else, and every row publishes its own `i`. Three cheap mechanical gate legs: (a)
+splitting one span across N jobs reproduces the same rows; (b) rows carry a contiguous 0..n-1 index;
+(c) the gate re-draws a deterministic sample of rows from the index rule, so a face produced by
+worker-dependent seeding is contradicted by its own rows. Also: a reading that names a parameter
+must be built AFTER that parameter is in the object -- `env.update({... 'reading': f(env) ...})`
+evaluates the reading first, which made all four block arms print "block=20".
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14: L12 split-invariance, L13 index on rows, L14
+re-draw identity) + `--check` seed-rule sample + research/digests/DIGEST-20261029-e246-block-length.md
+
+## E248 A distribution's tail is a parameter; its location is a measurement (2026-10-29 r1348 bm-c) [filed as E244; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a bootstrap/permutation envelope is quoted and one of its construction parameters (block
+length, holding window, burn-in) has never been varied.
+
+RIGHT: run the arms, publish ONE comparison face, and split the reading into what survives the
+parameter and what does not. ETF book, 2,000 resamples, block 5/20/60/250: point percentile
+49.6-53.6 and CAGR p50 9.21-9.74%/yr (location = the book), but maxDD p5 -25.02% to -17.08% and the
+share breaking -20% 1.1% to 16.1% (tail = the ruler, 14.6x). Two consequences worth carrying: (a) a
+tail sentence must be quoted with its parameter -- "6.6% break -20%" is a block-20 sentence; (b) the
+intuitive "longer block = wider band" is FALSE on the return side (CAGR p5 non-monotone
+2.92/3.43/3.18/3.57) and holds only on the drawdown side, because longer blocks keep the realised
+clustering inside a block.
+
+Pos: scripts/etf_book_nav_envelope.py blocks (+ `blocks --check`, which re-derives every quoted arm
+number from that arm's own rows) + results/etf_book_bootstrap/BLOCKS-2026-10-29.json + chain leg
+etf_book_block_length
+
+## E249 A verdict in mixed units is a verdict nobody can read: state the unit at every comparison, and gate the flag (2026-10-29 r1348 bm-c) [filed as E245; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: any face that publishes BOOLEAN readings next to the numbers they summarise ("is the tail
+block-dependent", "is the median stable", "is the headline a lucky path"). The inputs are fractions
+(cagr, maxdd) in one place and percentile units in another, while the thresholds are stated in pp.
+
+WRONG: writing the comparison straight against the threshold. `maxdd_p5.range > 3.0` reads a
+FRACTION span (0.2502-0.1708 -> 0.0794) against a 3-percentage-point threshold and published
+`drawdown_tail_is_block_dependent: false` on a face whose own reading string, digest and every
+downstream sentence said the opposite -- a 7.94pp tail read as 0.08pp. The gate did not catch it
+because `--check` re-derived every percentile and share from the rows and never re-derived the
+SUMMARY: the flag was a computation, not a measurement, so nothing contradicted it.
+
+RIGHT: (a) one pure function computes all flags and each line states its unit (`range*100 > 3.0`
+for pp, percentile points for `point_pctile`); (b) the gate re-derives the spread AND the flags
+from the re-judged arms and diffs them against what is published, so a stored boolean that
+contradicts its own inputs fails the leg (`readings.X: published False but the arms say True`);
+(c) selftest holds both directions of the same rule (a 7.94pp span must read True, a 0.50pp span
+must read False) so the flag is neither stuck nor wired to a constant.
+
+READING: on the published block arms {5,20,60,250} the three flags are now all true --
+headline_not_a_lucky_path (point pctile span 4.0 against 5), drawdown_tail_is_block_dependent
+(7.94pp against 3) and median_cagr_stable (0.52pp against 1). No number changed; only the sentence
+the face is willing to say about them did.
+
+How to apply: a boolean is a published NUMBER. Every `readings`/`verdict`/`is_*` block needs
+(a) a single builder, (b) an explicit unit per comparison, (c) a gate that recomputes it from the
+same inputs the numbers came from, and (d) a selftest leg on each side of the threshold. Otherwise
+the cheapest repair for a red flag is to relax the threshold -- the exact failure the flag exists
+to prevent.
+
+Pos: scripts/etf_book_nav_envelope.py (blocks_readings + blocks --check + selftest 14->18)
+
+## E250 A tail sentence must travel to the page a human trades from (2026-10-29 r1348 bm-c) [filed as E246; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: research measures a risk band (bootstrap percentile, tail share) that differs from the
+single realised number printed on the operator-facing card or order sheet.
+
+WRONG: leaving the band in a digest and a research face. The card printed ONE drawdown (-12.5%),
+the executable sheet printed one drawdown, while the arms said the 5th-percentile drawdown is
+-17.08% to -25.02% depending on block length -- an operator sizing to the printed number was
+sizing to a median, and nothing on the page they read said so.
+
+RIGHT: the band reaches both production faces, as a card caveat and as its own sheet section,
+quoting the block set that produced it plus the share of resamples worse than -20% (1.1%-16.1%).
+Each face soft-fails honestly ("No bootstrap band on disk: the tail is unpublished") and prints a
+`stale` marker when the arms are priced on an older bar than the card. Gates: the production
+selftest asserts the band is on the page, that every block value appears, and that a mismatched
+cutoff reads as stale; the order selftest asserts the present and the absent case.
+
+Pos: scripts/etf_book_production.py (drawdown_band_support) + scripts/etf_book_order.py
+(drawdown_band) + chain legs etf_book_production / etf_book_order / etf_book_order_card
+
+## E251 An independence arm is a zero point, not a floor: without it "the tail is a parameter" cannot be told from "the tail is what dependence does" (2026-10-30 r1348 bm-c) [filed as E247; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a resampling study prices one free parameter (here the block length of a block
+bootstrap) across a grid, and the grid never contains the no-dependence limit. Every arm then
+shares the same assumption, so the spread measures sensitivity to a *degree* of an assumption
+whose zero was never set.
+
+WRONG: (a) treating the longest block as the conservative end because it is "less
+independent" -- measured, the year-block arm gives the *shallowest* p5 drawdown; (b) quoting
+"the tail is the ruler" with no zero point, which leaves open whether the band is memory or
+finite-sample noise; (c) reading the iid arm as a bound -- a p5 is a percentile, and the worst
+single resample sits 20pp below it.
+
+RIGHT: add block = 1 (resample single days) with the same seed rule and the same draw count,
+publish it as its own arm inside the same comparison face, and let the gate re-derive every
+quoted number from that arm's own rows. Then state what the zero point does to the sentence.
+
+READING (same book, 1,651 bars, 2,000 resamples): iid p5 maxDD -24.72% vs week-block -25.02%
+(0.30pp apart) vs year-block -17.08%; worst single iid ordering -44.92%; the full 8-arm spread
+is 7.94pp and the improvement is bought entirely by *assuming* long memory, which smooths the
+replayed path. So the number to size against is the short-memory end, and the location claims
+(point CAGR pctile 49.2-53.6, median CAGR 9.21-9.79%/yr) are unchanged by the new arm.
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14; `blocks` globs the new arm; `blocks --check`
+re-judged 8 arms) + results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json + BLOCKS-2026-10-29.json
++ research/digests/DIGEST-20261030-e251-iid-zero-point.md.

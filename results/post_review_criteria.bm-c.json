@@ -5305,6 +5305,134 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-78-WINNER-WIRING",
+   "claim": "T-78 s4 winner wiring: 3 members registered with maximal WIN cells (COMPOSITE-CE-01 ov_tp_ladder; COMPOSITE-CE-02 + ENGULF-CE-01 ov_full), registered evidence re-derived same round at evidence_cutoff 09-22 per prereg sec.10, smoke anchor gates reflect wired configs (25/25 incl anchor COMPOSITE-CE-01 IS 0.4696/OOS 1.7479), x2 margins honest (C01 0.1238 ok; C02 0.0491 + ENGULF 0.0143 probation disclosed)",
+   "claim_source": "research/EXIT_OVERLAY_P1.md sec.10 wiring rule (frozen pre-run) + T-78 progress_r242 (commit f95adf89, rebase re-anchor d65f2d4a) -- smoke 25/25 anchor-gate face re-derives wired configs every round",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/COMPOSITE-CE-01.json",
+      "params.take_profit_levels.0",
+      "0.05"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/COMPOSITE-CE-01.json",
+      "backtest.out_sample.sharpe",
+      "0.862"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/COMPOSITE-CE-02.json",
+      "backtest.out_sample.sharpe",
+      "1.5605"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/COMPOSITE-CE-02.json",
+      "params.trailing_stop_activate",
+      "0.03"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/ENGULF-CE-01.json",
+      "backtest.out_sample.sharpe",
+      "0.1686"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/ENGULF-CE-01.json",
+      "paper.x2_watch.margin",
+      "*"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/ENGULF-CE-01.json",
+      "paper.x2_watch.source",
+      "paper_window"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/traders/COMPOSITE-CE-02.json",
+      "ov_full"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/traders/ENGULF-CE-01.json",
+      "ov_full"
+     ]
+    }
+   ],
+   "evidence_pointer": "firm/traders/COMPOSITE-CE-01.json (+COMPOSITE-CE-02, ENGULF-CE-01)",
+   "due": "delivered 2026-09-26 r242",
+   "re_anchor": "r295 bm-c per D-20260930-22 (RW-1 T+1-open exit fix; old pre-fix Sharpe VOID firm-wide): sharpe wants re-anchored to post-fix authoritative member evidence CE-01 0.862 / CE-02 1.5605 / ENGULF-CE-01 0.1686 (evidence=results/RW1_MEMBER_DIFF_20260930.md); claim text kept as frozen r242 history",
+   "note": "reconciled r1349: 0.0143 was the registration-time x2 reading of a LIVE paper metric. As of evidence_cutoff 2026-10-29 the same field reads -4.4725 with status=probation, probation=true, survive=false. A frozen value cannot be re-derived from a moving face, so the gate now asserts the durable facts (source tag + field present); the live reading is already published on two existing faces -- results/strategy_scorecard.json and results/daily_scorecard.json (both carry -4.4725 at cutoff 2026-10-29) -- so no new face was minted and no second truth source exists. Reading for the operator: ENGULF-CE-01 is a registered member whose x2 probation has turned negative; demotion is a month-boundary registration action, not something this gate can or should force."
+  },
+  {
+   "id": "T-78-GRID-PAPER-WIRING",
+   "claim": "T-78 s5c: GRID-* 5-cell paper observation-account family wired (scripts/grid_paper.py run/selftest hermetic 6/6 + E2E results/_r245bmb_grid_paper_e2e.py ALL PASS; honest labels loaded per account from frozen batch product results/grid_sleeve_p1.json single truth source zero hand-copy; panel-cutoff idempotency real-run honest no-op exit 0 with panel cutoff 09-24 == evidence_cutoff; S6 chain leg inserted after alloc_paper); marks start 2026-09-28 first bar strictly after evidence_cutoff",
+   "claim_source": "research/GRID_SLEEVE_P1.md sec.8 GRID paper family contract (frozen pre-run) + CEO O-20260926-0958 'GRID accounts paper-wired' + T-78 progress_r245 (commit c06d9284)",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/grid_paper.py"
+     ]
+    },
+    {
+     "kind": "git_log_file",
+     "args": [
+      "results/_r245bmb_grid_paper_e2e.py",
+      "*",
+      3
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/grid_paper.py",
+      "grid_sleeve_p1.json"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "Tools/iteration_prompt.txt",
+      "grid_paper.py run"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "Tools/iteration_prompt.txt",
+      "T-78 s5c"
+     ]
+    }
+   ],
+   "evidence_pointer": "scripts/grid_paper.py",
+   "due": "delivered 2026-09-26 r245; marks window opens 2026-09-28 (forward observation, not a claimed result)",
+   "note": "reconciled r1349: this criterion asserted a face that a later law removed from the tree (r1031 repo-slim untracked bm-b scratch faces, commit 862997eec6). The durable fact is the wiring commit, so the e2e file check became a git-history check (the E2E face existed in tracked history at the r245 wiring commit; the slim law later untracked it, so existence in history -- not on disk -- is what still holds); the deliverable itself (scripts/grid_paper.py, the per-account paper faces) is still asserted."
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened) | 2026-09-27 12:13 r320 bm-a: T-90-V1-E2E-FINALIZE check-path reconciliation -- json_field path 'verdict.ring_table.base.ring2_routing.bull.mean_a1_minus_d_12m' -> 'ring_table.base.ring2_routing.bull.mean_a1_minus_d_12m' (registration-side path typo: product keeps ring_table at top level parallel to verdict per bm-b r318 finalize structure + r319 D4 wiring claim + monthly_briefing sec-6 consumer; frozen value -0.0528 verified equal both sides pre-edit; science values zero-change; ledger verdict re-derived by reviewer, not hand-flipped)",

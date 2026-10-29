@@ -34,6 +34,7 @@ Outputs:
 
 Exploratory: not a verdict, not investment advice, no ledger booking.
 """
+import glob
 import json
 import os
 import sys
@@ -219,6 +220,33 @@ def live_feed_status(ticket_bar, now=None):
     return CA.live_ticket_feed_status(ticket_bar, now=now)
 
 
+def drawdown_band():
+    """How bad can the drawdown be, per the bootstrap block arms (r1348).
+
+    The order sheet prints one realised maxDD for a book that has one history. The same
+    book, resampled, has a 5th-percentile drawdown several pp deeper -- so an operator
+    sizing to the printed number is sizing to a median. Soft-fails to None.
+    """
+    try:
+        files = sorted(glob.glob(os.path.join(BASE, "results", "etf_book_bootstrap",
+                                              "BLOCKS-*.json")))
+        if not files:
+            return None
+        with open(files[-1], "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or []
+        if len(arms) < 2:
+            return None
+        return {"artifact": os.path.relpath(files[-1], BASE).replace("\\", "/"),
+                "evidence_cutoff": doc.get("evidence_cutoff"),
+                "block_set": [a.get("block") for a in arms],
+                "maxdd_p5": doc["spread"]["maxdd_p5"],
+                "maxdd_p50": doc["spread"]["maxdd_p50"],
+                "dd_break": doc["spread"]["dd_break_share"]}
+    except Exception:
+        return None
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -270,6 +298,20 @@ def card(ticket, mk, sched, asof, beta, extra):
                                                              b["maxdd"] * 100))
         if "excess_pp" in mk:
             L += ["", "超额 %+.2fpp/年（同 β 基准对照，成本双层已计）。" % mk["excess_pp"]]
+    db = drawdown_band()
+    if db:
+        L += ["", "## 最大回撤：本单上面那个数是中位数，不是尾部（r1348）",
+              "本账簿只有一个历史。对同一条收益路径做块自助（块长 %s 根 bar，块长本身是自由参数），"
+              "%s 百分位最大回撤落在 **%.1f%% ~ %.1f%%**，中位落在 %.1f%% ~ %.1f%%，"
+              "跌破 -20%% 的重采样占比 %.1f%% ~ %.1f%%。"
+              % ("/".join(str(b) for b in db["block_set"]), "5",
+                 db["maxdd_p5"]["min"] * 100, db["maxdd_p5"]["max"] * 100,
+                 db["maxdd_p50"]["min"] * 100, db["maxdd_p50"]["max"] * 100,
+                 db["dd_break"]["min"] * 100, db["dd_break"]["max"] * 100),
+              "- 口径：band 定价于 %s bar（%s）。按 p5 一档定仓位，不按中位一档。"
+              % (db["evidence_cutoff"] or "未知", db["artifact"])]
+    else:
+        L += ["", "## 最大回撤的尾部", "- 无自助带在盘：上面只有单路径回撤，尾部未发布。"]
     ag = extra.get("agreement")
     if ag:
         L += ["", "## 两张生产面是不是同一天",
@@ -1382,6 +1424,46 @@ def selftest():
               {"inception": "2024-01-01", "feed": lag1})
     chk("leg24 the stale warning reaches the one-page face a human reads",
         "\u26a0" in md and "stale_feed" in md, "chars=%d" % len(md))
+
+    # leg24b/c (r1348): the sheet prints one realised drawdown, but the bootstrap arms put
+    # the p5 several pp deeper. A tail quoted without its block is a sentence without its
+    # parameter, so the sheet must carry both -- and must say 'unpublished' when absent.
+    _db_keep = glob.glob
+    try:
+        doc = {"evidence_cutoff": "2026-10-29", "arms": [{"block": 5}, {"block": 250}],
+               "spread": {"maxdd_p5": {"min": -0.2502, "max": -0.1708},
+                          "maxdd_p50": {"min": -0.1459, "max": -0.1214},
+                          "dd_break_share": {"min": 0.011, "max": 0.161}}}
+        glob.glob = lambda *a, **k: [os.path.join("X", "BLOCKS-2026-10-29.json")]
+        _open = open
+
+        class _F:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def read(self, *a):
+                return json.dumps(doc)
+
+        import builtins
+        builtins.open = lambda *a, **k: _F()
+        try:
+            band = drawdown_band()
+            md_band = card(None, None, None, "2026-10-29", 0.2, {"inception": "2024-01-01"})
+        finally:
+            builtins.open = _open
+        chk("leg24b sheet carries the drawdown band with its block set",
+            band is not None and "-25.0%" in md_band and "5/250" in md_band,
+            "band=%s" % (band or {}).get("block_set"))
+        glob.glob = lambda *a, **k: []
+        chk("leg24c no band on disk is disclosed, never invented",
+            drawdown_band() is None
+            and "无自助带在盘" in card(None, None, None, "2026-10-29", 0.2,
+                                       {"inception": "2024-01-01"}))
+    finally:
+        glob.glob = _db_keep
 
     # legs 25-26: two faces can share a decision bar and still price a day apart -- on a
     # HOLD bar the vol overlay re-sizes weights and the cash slot every single day, so the

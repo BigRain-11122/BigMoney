@@ -331,7 +331,10 @@ def main() -> int:
               "+ x2-watch escalation(F3)")
     except Exception as e:
         check("paper: pipeline selftest", False, str(e))
-    import subprocess as _sp
+    # r1349: no local alias here. The module-level `subprocess` import is used
+    # directly because a local binding in this function scope is clobberable by
+    # any later leg -- r1348's E246 leg assigned `_sp` to a spread value and 56
+    # contract legs below it died with "'dict' object has no attribute 'run'".
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
             ("lhb", "scripts/update_lhb.py", ["selftest"]),
@@ -364,7 +367,7 @@ def main() -> int:
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
+            _r = subprocess.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
@@ -561,9 +564,16 @@ def main() -> int:
             # impact component), and the share rule that keeps one lucky cell from reading as
             # "pays at size".
             ("product: buffer breakeven priced as a size (exit-code contract)",
-             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"])):
+             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"]),
+            # r1348: the book has one history, so every headline is a point estimate on one
+            # ordering of the panel. These legs pin the bootstrap's determinism, its
+            # block-length semantics, the "zero is not a null" Sharpe, the monotone
+            # percentiles, the activity leg (a resample that changed nothing fails), and the
+            # gate's ability to catch a hand-edited percentile from the stored rows.
+            ("product: book envelope by block bootstrap (exit-code contract)",
+             "scripts/etf_book_nav_envelope.py", ["--selftest"])):
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
+            _r = subprocess.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
@@ -644,6 +654,44 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # r1348 / E246: a risk band is only a law if it reaches the page a human trades from.
+    # The card renders one row per block arm and the order sheet prints the p5 range, so
+    # both faces are recomputed here from BLOCKS-<cutoff>.json instead of grepping for a
+    # sentence: a card priced on an older bar than the arms, or a band left in a digest,
+    # fails this leg. r1315 family -- a fixture proves the shape, only the live file
+    # proves the delivery.
+    try:
+        _bl = sorted(__import__("glob").glob(os.path.join("results", "etf_book_bootstrap",
+                                                          "BLOCKS-*.json")))
+        _card_p = os.path.join("results", "etf_book_production", "CARD.md")
+        _ord = [p for p in sorted(__import__("glob").glob(
+            os.path.join("results", "etf_book_order", "ORDER-*.md")))
+            if not p.endswith("-card.md")]
+        if _bl and os.path.exists(_card_p) and _ord:
+            _b = json.load(open(_bl[-1], encoding="utf-8"))
+            _ct = open(_card_p, encoding="utf-8").read()
+            _rows_missing = []
+            for _a in _b.get("arms") or []:
+                _row = "| %d | %.2f%% | %.2f%% | %.1f%% | %.1f |" % (
+                    int(_a["block"]), _a["maxdd"]["5"] * 100, _a["maxdd"]["50"] * 100,
+                    _a["shares"]["maxdd_le_line"] * 100, _a["point_pctile"]["maxdd"])
+                if _row not in _ct:
+                    _rows_missing.append(_a["block"])
+            _p5 = _b["spread"]["maxdd_p5"]
+            _want = "%.1f%% ~ %.1f%%" % (_p5["min"] * 100, _p5["max"] * 100)
+            _ot = open(_ord[-1], encoding="utf-8").read()
+            _cut = _b.get("evidence_cutoff") or ""
+            check("product: E246 drawdown band reaches both trading pages",
+                  bool(_b.get("arms")) and not _rows_missing and _cut in _ct
+                  and _want in _ot and _cut in _ot,
+                  "arms=%d missing_rows=%s card_cut=%s order=%s(%s)"
+                  % (len(_b.get("arms") or []), _rows_missing or "none",
+                     _cut in _ct, _want in _ot, _want))
+        else:
+            check("product: E246 drawdown band reaches both trading pages", True,
+                  "blocks/card/order absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: E246 drawdown band reaches both trading pages", False, str(e))
     # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
     # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
     # is recomputable from the payload's own summary (never a stored string), and both arms
@@ -1509,8 +1557,8 @@ def main() -> int:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
     _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
     def _selftest_run(script, args, timeout):
-        return _sp.run([sys.executable, script, *args], capture_output=True,
-                       text=True, encoding="utf-8", errors="replace",
+        return subprocess.run([sys.executable, script, *args], capture_output=True,
+                              text=True, encoding="utf-8", errors="replace",
                        env=_sp_env, timeout=timeout)
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
@@ -1731,6 +1779,11 @@ def main() -> int:
             # contradicted by the recompute.
             ("product: buffer breakeven priced as a size (exit-code contract)",
              "scripts/etf_book_buffer_price_of_size.py", ["--selftest"]),
+            # r1348: the same ruler, pointed at the distribution instead of an arm -- the
+            # block bootstrap of the book's own daily path, and the gate that re-derives
+            # every percentile from the published resample rows.
+            ("product: book envelope by block bootstrap (exit-code contract)",
+             "scripts/etf_book_nav_envelope.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
