@@ -93,11 +93,12 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_push": {
-  "behind_origin_main": 0,
-  "note": "ff after one --autostash rebase over bm-c r1309; E146->E147 card yield; lane state mirror repaired by key patch (49 keys had been lost by a copy)",
-  "pushed_sha": "d30356e54",
+  "pushed_sha": "d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46",
   "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-27T15:26:56+08:00"
+  "ts": "2026-10-29T11:56:02+08:00",
+  "local_not_on_origin": 0,
+  "behind_origin_main": 0,
+  "note": "ff push to main; ls-remote tip == HEAD; rev-list 0/0"
  },
  "last_round": 1245,
  "last_round_at": "2026-10-29T11:52:12+08:00",
@@ -107,7 +108,7 @@
  "last_seen": "2026-10-29T11:52:12+08:00",
  "last_updated": "2026-10-27T15:57:48+08:00",
  "latest_artifact": "results/e44_midmonth/SHAREDBOOK-WIDTH-20261028.json + research/digests/DIGEST-20261029-r1245-e218-width-matched.md",
- "local_not_on_origin": 26,
+ "local_not_on_origin": 0,
  "local_not_on_origin_commits": 26,
  "machine_id": "bm-b",
  "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
@@ -1416,6 +1417,7 @@
   "honest": "the split's arithmetic identity holds; neither part is measurable at book width 10 with a random-draw control, so no survival claim is made",
   "s6": "26/27 rc=0 (185.9s); machine_health rc=2 attributed: the bm-b row in fleet/machine-health.json is written by the deployed oversight copy and carries neither cpu nor gpu.util while the same heartbeat holds cpu_pct=4.5 / gpu_util_pct=2.0",
   "pool": "E218 closed with result_ref; E219-WIDTH-LADDER-RESOLUTION seeded (ready 1)",
-  "d19": "dec + ord unchanged/reproducible -> zero new rows; 114 order files / 115 acks / 0 unacked"
+  "d19": "dec + ord unchanged/reproducible -> zero new rows; 114 order files / 115 acks / 0 unacked",
+  "push": "PUSHED_VERIFIED d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46 (rev-list 0/0, ls-remote tip == HEAD)"
  }
 }
