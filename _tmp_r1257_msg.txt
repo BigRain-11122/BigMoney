@@ -1,0 +1,26 @@
+round 1257: E231 path-tests E230's one passing band -- the sign survives every path, the size does not
+
+E230 left exactly one of thirty rungs above its bar, at the smallest band in the grid
+(tilt_linear / single / f=0.10, t=4.04, +286 bp/yr), which is the shape E188 warns about.
+This re-measures the whole fine grid (0.02..0.20) on 25 panel-paths in three families --
+IS/OOS split moved +/-10/20/40 sessions, decision lagged 1-3 sessions, calendar eras
+re-derived end to end -- and publishes the share of paths that keep the sign instead of the
+best cell.
+
+Reading: positive on 12 of 12 paths, above E230's own bar (3.34, reused verbatim so the band
+gets the weaker line) on 8 of 12. Structural paths hold 145.2..290.0 bp/yr with the two
+misses at lag 2 and lag 3; era paths collapse to 77.1..80.8 bp/yr at t 1.36/1.75, so the
++286 is a full-sample effect that shrinks ~3.5x inside either era and cannot be resolved
+there. 0 of 48 cells survive every path; 7 are sign-unstable, 41 hold sign and miss the bar
+somewhere. The cell's level is a loss on both sides (-878.7 base vs -592.8 banded at x2
+costs), disclosed so the improvement cannot be misread as a return.
+
+Also fixed in-window: the smoke gate's GPU-face leg went red on this machine (free family
+spread 307.2 MiB across 17 keys, two lanes stamping from different samples). Healed only
+through the Tools.gpu_face chokepoint, and the closeout writer no longer touches GPU keys at
+all, because that is exactly what produced the half-owned face.
+
+Product: scripts/e231_band_path_test.py (selftest 18/18), BANDPATH face + by-cell csv,
+digest, methodology card E231, S6 leg band_path_test, smoke leg cross-replaying the global
+path against E230's published cell. Pool: E231 done with result_ref, E232-COST-CURVATURE
+seeded. smoke 215/215, S6 39/39 rc=0, orphan 0.
