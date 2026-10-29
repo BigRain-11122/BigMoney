@@ -69,6 +69,10 @@ LEGS = [
     # zero network, ~10s on the full panel, so it re-derives every round rather than
     # caching to a cutoff.
     ("dom_profile", ["python", "scripts/e221_dom_profile.py", "run"]),
+    # E222: E221 left the turn-of-month shape as a post-hoc candidate; this leg asks
+    # whether it survives as a tradable rule with costs, a frozen IS/OOS split and a
+    # decision rule in code. Same panel, deterministic, ~2s, so it re-derives each round.
+    ("tom_overlay", ["python", "scripts/e222_tom_overlay.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

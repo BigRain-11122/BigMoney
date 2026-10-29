@@ -3918,3 +3918,36 @@ published group stats and fails if the power block, the multiple-comparison bar 
 coverage count disappears. Pit caught in-window: testing `se_bp` for truthiness reported
 "insufficient_days" for a perfectly measured 100bp gap (a zero-variance group has se ==
 0.0) -- test against None.
+
+### E222 — a post-hoc shape is not a rule until it pays the toll (r1249 bm-b)
+
+E221 shipped the turn-of-month shape as a candidate. E222 is the cheap test that turns a
+candidate into a verdict: same calendar shape, one tradable instrument, costs, an IS/OOS
+split frozen before reading, and a decision rule that lives in code and is echoed on the
+face so a gate can reject a mismatch.
+
+Rule: **one round trip per month.** Holding a month's first and last session is a
+contiguous hold across the boundary (last of M is adjacent to first of M+1), so the toll
+is 2 sides at 13.041bp = 26.08bp/month, not 2 sides per held session. Getting that wrong
+doubles the cost and manufactures a REJECT.
+
+Reading (sh510300, 173 months to 2026-10-28, IS 103 / OOS 70): overlay nets +262.1bp/yr
+on 9.9% time in market against 554.0bp/yr for buy-and-hold -> excess -291.9bp/yr full
+sample, but IS -65.1bp/mo and OOS +35.7bp/mo. The sign disagrees across the split, OOS
+t=0.65 against a 2.39 bar, and the price of settling it is 1,317 months (~109.7 years)
+at 80% power. Verdict REJECT on all three variants, single instrument and basket alike.
+
+Two statistical rules come out of it. (1) A calendar rule is observed once per MONTH, so
+widening from 1 ETF to 5 moved the excess by 1.5x and the t from 0.65 to 0.36 -- noise,
+not resolution; history is the only currency and this instrument has 173 months of it.
+(2) A sign flip across IS/OOS is not a boundary case to argue about, it is two samples
+of noise.
+
+Pieces: `scripts/e222_tom_overlay.py` (`run` / `selftest`, 24 hermetic legs); face
+`results/tom_overlay/TOMO-<cutoff>.json` + `latest.json`; S6 leg `tom_overlay` after
+`dom_profile`; smoke leg recomputing the excess identity and rejecting an ADOPT that
+never cleared the bar. Pits: a zero-variance fixture makes REJECT unreachable (se==0 ->
+`oos_series_unusable`; assert dispersion first, r1261 family); filtering unpriced months
+inside the arm instead of before the split reads OOS one month short against its floor;
+month boundaries are session-adjacent by construction, so the face publishes
+`single_session_months` instead of a vacuous adjacency check.

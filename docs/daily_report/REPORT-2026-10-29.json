@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-29",
- "generated_at": "2026-10-29 13:43:27",
+ "generated_at": "2026-10-29 14:19:14",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,12 +297,12 @@
   "md_link": "../live_usage/LIVE-2026-10-29.md"
  },
  "rd": {
-  "commits_24h": 102,
-  "result_jsons_landed_24h": 112,
-  "digests_landed_24h": 32,
+  "commits_24h": 103,
+  "result_jsons_landed_24h": 113,
+  "digests_landed_24h": 33,
   "prereg_md_touched_24h": 10,
   "compute_audit_latest": {
-   "ts": "2026-10-29 13:41:31",
+   "ts": "2026-10-29 14:17:29",
    "py_cpu_pct": 0.1,
    "flags": [
     "pool_starvation",
@@ -310,7 +310,7 @@
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -653,11 +653,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 15889,
-  "total_report_tokens_est": 2342753,
+  "total_report_tokens_est": 2344387,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-29 12:36:14",
+   "prev_generated": "2026-10-29 14:16:14",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 458,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -730,25 +730,13 @@
     "today_supply_gap_flags": 16
    },
    "bm-b": {
-    "latest_ts": "2026-10-29 13:41:31",
+    "latest_ts": "2026-10-29 14:17:29",
     "py_pct": 0.1,
-    "cpu_pct": 15.0,
+    "cpu_pct": 8.0,
     "ready": 0,
-    "streak_min": 2388.6,
+    "streak_min": 2424.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "05:12",
-      3.5
-     ],
-     [
-      "06:33",
-      0.2
-     ],
-     [
-      "06:54",
-      0.4
-     ],
      [
       "07:19",
       0.5
@@ -784,9 +772,21 @@
      [
       "13:41",
       0.1
+     ],
+     [
+      "14:12",
+      9.7
+     ],
+     [
+      "14:13",
+      9.6
+     ],
+     [
+      "14:17",
+      0.1
      ]
     ],
-    "today_samples": 20,
+    "today_samples": 23,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 17
@@ -889,7 +889,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-29 13:41:31"
+     "audit_ts": "2026-10-29 14:17:29"
     }
    },
    "bm-c": {

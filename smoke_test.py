@@ -2202,6 +2202,53 @@ def main() -> int:
               or "gap, power block and best-of-ladder bar all recompute from the face")
     except Exception as e:
         check("product: the day-of-month face counts sessions, not name-days", False, str(e))
+    try:
+        # E222: the turn-of-month overlay face must keep its decision rule, its
+        # out-of-sample record and its cost arithmetic honest. This leg recomputes the
+        # net-excess identity from the published per-month fields and fails if the face
+        # quotes a verdict without the months it rests on, or a toll that is not one
+        # round trip per month.
+        _bad = []
+        _face = os.path.join("results", "tom_overlay", "latest.json")
+        if not os.path.exists(_face):
+            _bad.append("no results/tom_overlay/latest.json on disk")
+        else:
+            with open(_face, encoding="utf-8") as _fh:
+                _f = json.load(_fh)
+            _spec = _f.get("spec") or {}
+            _a = _f.get("primary_arm") or {}
+            if not _f.get("evidence_cutoff"):
+                _bad.append("face carries no evidence_cutoff")
+            if _f.get("verdict") not in ("ADOPT", "REJECT", "UNRESOLVED"):
+                _bad.append("face carries no frozen verdict")
+            if not (_spec.get("decision_rule") or "").startswith("ADOPT iff"):
+                _bad.append("the decision rule is not published on the face")
+            if (_spec.get("sides_per_month") or 0) != 2:
+                _bad.append("cost model is not one round trip per month")
+            if abs((_a.get("cost_bp_per_month") or 0)
+                   - 2 * (_spec.get("cost_side_bp") or 0)) > 1e-9:
+                _bad.append("per-month toll != 2 sides")
+            if (_a.get("oos_months") or 0) < 1:
+                _bad.append("out-of-sample record is empty")
+            _e = _a.get("excess_bp_per_month")
+            _net, _ai = _a.get("net_bp_per_month"), (_f.get("arms") or {}).get(
+                "primary_single", {}).get("always_in_bp_per_month")
+            if None not in (_e, _net, _ai) and abs((_net - _ai) - _e) > 1e-6:
+                _bad.append("excess != net overlay - always-in")
+            _pw = _f.get("primary_power") or {}
+            if _pw.get("months_needed") is None and _e:
+                _bad.append("power block does not price the question")
+            if _f.get("verdict") == "ADOPT" and (_a.get("excess_oos_t") or 0) < (
+                    _spec.get("multiple_comparison_bar") or 2.0):
+                _bad.append("ADOPT without clearing the multiple-comparison bar")
+        check("product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+              not _bad, "; ".join(_bad)[:220]
+              or "verdict %s at t=%.2f over %d OOS months, toll = one round trip/month"
+                 % (_f.get("verdict"), _a.get("excess_oos_t") or 0.0,
+                    _a.get("oos_months") or 0))
+    except Exception as e:
+        check("product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+              False, str(e))
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

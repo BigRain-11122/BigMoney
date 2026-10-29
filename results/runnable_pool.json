@@ -22980,6 +22980,20 @@
    "title": "Day-of-month return profile over the full ETF universe, counted per SESSION with a stated power floor",
    "result_ref": "results/dom_profile/PROFILE-20261028.json",
    "done_note": "1,725 ETFs x 5,268 sessions, 3,786 scored cross-sections (median 148 names/session). Month-end (last 2 sessions) +8.31bp vs rest-of-month +3.91bp -> gap +4.40bp at SE 6.84 (t=0.64). The whole-month ladder's best cell is the LAST session alone (+19.20bp, t=2.13 over 188 months) but it must clear 3.07 for 23 buckets and does not. Power: a 4.40bp gap needs 3,567 months (~297 years) -- widening from 5 names to 1,725 buys nothing because a calendar effect is observed once per month, not once per name."
+  },
+  {
+   "id": "E222-TURN-OF-MONTH-OVERLAY",
+   "lane": "cpu-only",
+   "status": "done",
+   "deliverable": "results/tom_overlay/TOMO-<cutoff>.json",
+   "target": "scripts/e222_tom_overlay.py (new runner)",
+   "evidence_cutoff": "2026-10-28",
+   "entered_at": "2026-10-29T14:20:00+08:00",
+   "entered_by": "bm-b r1249",
+   "source": "E221 closed the turn-of-month shape as a post-hoc candidate, not a finding. The next question is the one a book asks: if you traded it, would it survive costs, an IS/OOS split and its own power floor?",
+   "title": "Turn-of-month overlay as a tradable rule: one round trip per month, frozen IS/OOS split, decision rule in code",
+   "result_ref": "results/tom_overlay/TOMO-20261028.json",
+   "done_note": "sh510300 173 months to 2026-10-28 (IS 103 / OOS 70, 9.9% time in market). Net +262.1bp/yr vs always-in 554.0bp/yr -> full-sample excess -291.9bp/yr; IS -65.1bp/mo, OOS +35.7bp/mo (t=0.65 vs 2.39 bar), x2 costs still +116bp/yr. REJECT on all three variants and on the five-ETF basket arm. Settling it needs 1,317 months (~109.7 years) at 80% power: a calendar rule is observed once per month, so width buys nothing."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
