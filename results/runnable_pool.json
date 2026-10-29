@@ -23008,6 +23008,46 @@
       "title": "Observation-rate ladder: does anchoring 52 times a year instead of 12 resolve a calendar question, or only pay the toll more often?",
       "result_ref": "results/obs_rate/OBSRATE-20261028.json",
       "done_note": "4 rungs on sh510300: monthly +428.97bp/yr excess t=0.65 MDE 1,860.6; week_h1/h2/h3 -1,100.6/-1,239.2/-1,255.7bp/yr at t=-1.63/-2.38/-2.79 MDE 1,888.2/1,461.9/1,261.1 -> all REJECT. 4.3x observations buys 0.68x-1.01x annual resolution; resolution = sd_per_period*sqrt(periods_per_year), not the observation count."
+    },
+    {
+      "id": "E224-VOLATILITY-STATE-GATE",
+      "lane": "cpu-only",
+      "status": "done",
+      "deliverable": "results/vol_gate/VOLGATE-<cutoff>.json",
+      "target": "scripts/e224_vol_gate.py (new runner)",
+      "evidence_cutoff": "2026-10-28",
+      "entered_at": "2026-10-29T16:10:00+08:00",
+      "entered_by": "bm-b r1251",
+      "source": "E223 rejected the frequency ladder and named its successor: a rule whose INDEPENDENT observations rise without cutting the exposure per observation. A volatility state gate is the obvious candidate, and it was never measured against the same accounting.",
+      "title": "Volatility state gate: does continuous sampling buy the resolution a calendar anchor cannot, once the held DAYS and the EPISODES behind them are counted separately?",
+      "result_ref": "results/vol_gate/VOLGATE-2026-10-28.json",
+      "done_note": "sh510300 3,503 sessions to 2026-10-28, four arms (vol low/high tercile x hold 10/20), one round trip per episode, 8-test bar 2.73. All 4 primary arms and all 4 basket arms REJECT: OOS excess -377 to -836bp/yr at t -0.65..-1.92. The finding is the ceiling: a hold caps episodes at 252/H, so at H=10 the gate reached 10.5/yr (41.7% of the 25.2 ceiling) -- BELOW the calendar's 12. Its bar is nonetheless 2.30x tighter (810.7 vs 1860.6bp/yr) purely from smaller per-episode dispersion. Naive per-day t is 0.31-0.88x the episode t, so overlapping windows understate here rather than inflate."
+    },
+    {
+      "id": "E225-CONTINUOUS-STATE-TILT",
+      "lane": "cpu-only",
+      "status": "done",
+      "deliverable": "results/state_tilt/TILT-<cutoff>.json",
+      "target": "scripts/e225_state_tilt.py (new runner)",
+      "evidence_cutoff": "2026-10-28",
+      "entered_at": "2026-10-29T16:52:00+08:00",
+      "entered_by": "bm-b r1252",
+      "source": "E224 ended on a cap rather than a discovery: a hold of H sessions limits a gate to 252/H independent episodes a year. Its named successor was the design the accounting does not throttle -- a continuously-held tilt whose weight varies with the state and never restarts an episode.",
+      "title": "The continuously-held state tilt: does daily reweighting buy the resolution an episode-locked gate cannot?",
+      "result_ref": "results/state_tilt/TILT-2026-10-28.json",
+      "done_note": "sh510300 3,503 sessions to 2026-10-28, 1,401 OOS decisions, five arms on one signal (always_on / binary_low / tilt_step / tilt_linear / voltarget), unit turnover |dw| at 13.041bp, 10-test bar. 0 of 5 primary arms and 0 of 5 basket arms adopt. The finding is the double edge of the escape: daily reweighting DOES escape E224's cap (n_eff 1,363 of 1,401 = 97% independent) yet the annual bar lands at 1,006bp/yr against the episode lock's 811 -- a 0.81x move the wrong way, because a fractional weight spreads the same signal over more observations at lower amplitude and pays the toll per unit of change (binary_low 11.0 turnover/yr = 199bp/yr of cost). Second and load-bearing: the null arm reads -1,628bp/yr, i.e. the OOS drift sits below the IS drift the face normalises to; charging each arm that deficit by its average exposure leaves gate_specific -200 (voltarget) to -704 (tilt_linear) bp/yr, so the tilt lost money beyond the drift, least where it traded least."
+    },
+    {
+      "id": "E226-TILT-BREAKEVEN-COST",
+      "lane": "cpu-only",
+      "status": "ready",
+      "deliverable": "results/state_tilt/BREAKEVEN-<cutoff>.json",
+      "target": "scripts/e226_tilt_breakeven.py (new runner)",
+      "evidence_cutoff": "2026-10-28",
+      "entered_at": "2026-10-29T16:52:00+08:00",
+      "entered_by": "bm-b r1252",
+      "source": "E225 left one arithmetic question unanswered: the tilt's gate-specific residuals are all negative, but the toll is a per-unit-turnover charge that this design pays 4-11 times a year. Whether the rule is wrong or merely expensive is a single monotone sweep, not a new study.",
+      "title": "Breakeven toll for the state tilt: at what cost per unit of turnover does the best gate-specific arm cross zero, and is that below a plausible traded cost?"
     }
   ],
   "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

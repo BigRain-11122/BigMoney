@@ -744,7 +744,12 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
              "ledger_book_bar": led.get("book_bar"), "ledger_last_bar": led.get("last_bar"),
              "ledger_last_nav": led.get("last_nav"), "ledger_status": led.get("status"),
              "card_cash_weight": sh.get("cash_weight"),
-             "card_cash_amount": sh.get("cash_amount_cny"),
+             # r1342 / E230: the card now prints the EXECUTABLE cash row, so the ticket
+             # reconciles against that one. A card that predates the fix has no
+             # cash_executable_cny and still gets the legacy target-row disclosure.
+             "card_cash_amount": sh.get("cash_executable_cny", sh.get("cash_amount_cny")),
+             "card_cash_is_executable": sh.get("cash_executable_cny") is not None,
+             "card_cash_target_amount": sh.get("cash_amount_cny"),
              "card_config": {k: cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
                                                      "cost_bp_per_side")},
              "ledger_config": {k: led_cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
@@ -890,6 +895,11 @@ def lot_point(legs, capital, scale=None, lot=LOT):
     ``capital - spent``. The difference is the price of lot granularity, and
     ``max_abs_weight_drift_pp`` is the same thing seen from the book's side -- a leg
     that misses its weight by half a lot is mis-sized, not merely cheap.
+
+    r1342: the production card PRINTS the executable cash (``capital - spent``) now, so
+    ``cash_vs_target_cny`` no longer measures a card defect -- it measures the money the
+    desk holds beyond the risk scale's own cash slot, most of it the lot residue. Read it
+    as "cash above the slot", not "the card is wrong".
     """
     cap = float(capital)
     rows, spent, zero, max_drift, tot_w = [], 0.0, 0, 0.0, 0.0
@@ -1053,7 +1063,7 @@ def run_card(nav=None):
     own = [p for p in curve["points"] if abs(p["capital_cny"] - tk["nav"]) < 1.0]
     if own:
         print("lot curve at this capital: drift %.2f%% max | %d legs below one lot | "
-              "cash vs card row +%s" % (own[0]["max_abs_weight_drift_pp"],
+              "cash vs risk-scale slot +%s" % (own[0]["max_abs_weight_drift_pp"],
                                         own[0]["legs_with_zero_lots"],
                                         format(int(round(own[0]["cash_vs_target_cny"])), ",")))
     print("wrote", os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof))
@@ -1521,6 +1531,57 @@ def selftest():
                 - lc["points"][-1]["cash_vs_target_cny"])
             < lc["shortfall_bound_cny"],
         "bound=%s max=%s" % (lc["shortfall_bound_cny"], lc["max_observed_shortfall_cny"]))
+
+    # ---- r1342: the card's cash row is now the EXECUTABLE cash, so the ticket must agree
+    # with it to the yuan and stop printing the "card row is only a target" disclosure.
+    # Both directions are asserted on the same fixture: a card that prints
+    # capital - spent closes the gap, a legacy card that prints (1 - k) * capital still
+    # gets called out. One-sided, this leg would pass on the old renderer too.
+    cdt3 = tempfile.mkdtemp()
+    try:
+        leg_fx = [{"symbol": s, "name": s, "class": "equity", "weight": 0.35,
+                   "ref_price": 2.194, "lots_100": 159500, "amount_cny": 350000.0,
+                   "actual_amount_cny": 349943.0} for s in ("AAA", "BBB")]
+        sheet_fx = {"as_of_bar": "2026-10-29", "book_decided_at": "2026-10-14",
+                    "capital_cny": 1000000.0, "risk_scale": 0.7, "target_vol": 0.08,
+                    "cash_weight": 0.3, "legs": leg_fx,
+                    "bars_until_next_decision": 9}
+        cfg_fx = {"n_hold": 2, "rebal": 20, "vol_target": 0.08,
+                  "capital_cny": 1000000.0, "cost_bp_per_side": 10.0}
+        lp4 = os.path.join(cdt3, "LEDGER.json")
+        with open(lp4, "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 2, "vol_target": 0.08, "rebal": 20,
+                                  "cost_per_side": 0.001},
+                       "book_in_force": {"bar": "2026-10-14", "scale": 0.7,
+                                         "names": ["AAA", "BBB"]},
+                       "bars": [{"bar": "2026-10-29", "nav": 1.0}], "status": "live"},
+                      f, ensure_ascii=False)
+        printed = {}
+        for label, cash_row in (("executable", {"cash_executable_cny": 1000000.0 - 2 * 349943.0,
+                                                "cash_amount_cny": 300000.0}),
+                                ("target", {"cash_amount_cny": 300000.0})):
+            doc = {"config": cfg_fx,
+                   "feed_status": {"status": "current", "ticket_bar": "2026-10-29",
+                                   "expected_bar": "2026-10-29", "lag_days": 0},
+                   "sheet": dict(sheet_fx, **cash_row)}
+            with open(os.path.join(cdt3, "latest.json"), "w", encoding="utf-8") as f:
+                json.dump(doc, f, ensure_ascii=False)
+            tk_fx = card_config_ticket(card_dir=cdt3, ledger_path=lp4)
+            md_fx = card_config_card(tk_fx, None) if tk_fx else ""
+            printed[label] = (tk_fx, md_fx)
+        tk_e, md_e = printed["executable"]
+        tk_t, md_t = printed["target"]
+        chk("leg38 an executable cash row closes the ticket gap to the yuan",
+            bool(tk_e) and abs(tk_e["cash_amount"]
+                               - (1000000.0 - 2 * 349943.0)) <= 1e-6
+            and "卡片现金行是目标口径" not in md_e,
+            "cash=%.2f gap_paragraph=%s" % (tk_e["cash_amount"] if tk_e else -1,
+                                            "卡片现金行是目标口径" in md_e))
+        chk("leg39 a legacy target cash row is still called out as a target",
+            bool(tk_t) and "卡片现金行是目标口径" in md_t,
+            "legacy_paragraph=%s" % ("卡片现金行是目标口径" in md_t))
+    finally:
+        shutil.rmtree(cdt3, ignore_errors=True)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

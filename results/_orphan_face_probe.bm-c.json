@@ -1,18 +1,58 @@
 {
- "ts": "2026-10-29T15:15:21",
+ "ts": "2026-10-29T17:57:54",
  "mode": "probe",
- "py_faces_seen": 2,
+ "py_faces_seen": 4,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 0,
  "faces": [
   {
-   "pid": 27532,
+   "pid": 109292,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m Tools.s6_chain_bmc",
+   "age_min": 8.7,
+   "cpu_delta_20s": 0.0,
+   "face1_parent_dead": true,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 110956,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
+   "age_min": 104.5,
+   "cpu_delta_20s": 3.891,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": false,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "wscript.exe"
+   ]
+  },
+  {
+   "pid": 114948,
+   "name": "python.exe",
+   "cmd": "python scripts/etf_book_forward.py",
+   "age_min": 0.7,
+   "cpu_delta_20s": 21.344,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 116112,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
    "age_min": 0.6,
-   "cpu_delta_20s": 1.438,
+   "cpu_delta_20s": 1.781,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -20,19 +60,6 @@
     "pwsh.exe",
     "codely.exe",
     "powershell.exe",
-    "wscript.exe"
-   ]
-  },
-  {
-   "pid": 117452,
-   "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 43.9,
-   "cpu_delta_20s": 4.203,
-   "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": false,
-   "face3_cpu_stalled": false,
-   "ancestor_chain": [
     "wscript.exe"
    ]
   }

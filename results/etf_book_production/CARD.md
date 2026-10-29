@@ -17,23 +17,23 @@ Config: 12 names of a 1503-instrument bond-free pool, rebalance every 20 bars, 1
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
-| code | name | sleeve | weight | cash out (CNY, whole lots) | target (CNY) | 100-share lots |
+| code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |
 |---|---|---|---|---|---|---|
-| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,340 | 58,398 | 26700 |
-| 513100 | 纳指ETF国泰 | equity | 5.8% | 57,398 | 58,398 | 4900 |
-| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,300 | 58,398 | 53000 |
-| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,311 | 58,398 | 34200 |
-| 159263 | 价值ETF易方达 | equity | 5.8% | 58,344 | 58,398 | 52000 |
-| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,360 | 58,398 | 37700 |
-| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,194 | 58,398 | 21200 |
-| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,262 | 58,398 | 30600 |
-| 159207 | 高股息ETF广发 | equity | 5.8% | 58,300 | 58,398 | 50000 |
-| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,374 | 58,398 | 56400 |
-| 513870 | 纳指ETF富国 | equity | 5.8% | 58,328 | 58,398 | 27500 |
-| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,297 | 58,398 | 23300 |
-| cash | - | money | 29.9% | 301,192 | 299,225 | - |
+| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 58,340 | 26700 |
+| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 57,398 | 4900 |
+| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 58,300 | 53000 |
+| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 58,311 | 34200 |
+| 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 58,344 | 52000 |
+| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,398 | 58,360 | 37700 |
+| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,398 | 58,194 | 21200 |
+| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,398 | 58,262 | 30600 |
+| 159207 | 高股息ETF广发 | equity | 5.8% | 58,398 | 58,300 | 50000 |
+| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 58,374 | 56400 |
+| 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 58,328 | 27500 |
+| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 58,297 | 23300 |
+| cash | - | money | 29.9% | 299,225 | 301,192 | - |
 
-**Which column is money.** `cash out` is executable: lots x ref price, summed, plus the cash row = the stated capital exactly. The `target` column is the weight x capital figure the weights imply and is NOT spendable — whole 100-share lots leave 1,968 CNY (+0.20% of NAV) uninvested, and the cash row above already carries it.
+**Which column is money.** A weight times capital is the sizing INTENT; only whole 100-share lots can be placed. So the executable column can only spend 698,808 of the 700,776 target book, and the desk keeps 1,968 (0.20% NAV) in cash that the risk scale never asked for -- that residue is the price of lot granularity, not a position. Place the executable column. Until r1342 this card printed the target column as if it were the order, which is why the ticket disagreed with it by 0.13% NAV (E201); the two faces now reconcile to the yuan.
 
 ## What the rotation is worth
 

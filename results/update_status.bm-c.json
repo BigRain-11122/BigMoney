@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-29 15:38:19",
- "now": "2026-10-29 15:38:14.486616",
+ "updated": "2026-10-29 17:50:16",
+ "now": "2026-10-29 17:50:12.886721",
  "close_accept_time": "15:30:00",
  "symbols": 48,
  "total_new_rows": 0,
  "failures": [],
  "overlap_mismatches": [],
- "data_cutoff": "2026-10-28",
+ "data_cutoff": "2026-10-29",
  "per_symbol": [
   {
    "symbol": "510300",
@@ -26,7 +26,7 @@
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "catchup_fetch": true
   },
   {
    "symbol": "159919",
@@ -103,7 +103,7 @@
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "catchup_fetch": true
   },
   {
    "symbol": "510310",
@@ -131,7 +131,7 @@
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "catchup_fetch": true
   },
   {
    "symbol": "511090",
@@ -345,18 +345,30 @@
   }
  ],
  "catchup": {
-  "laggards": [],
-  "fetched": [],
+  "laggards": [
+   "159915",
+   "510050",
+   "511010"
+  ],
+  "fetched": [
+   "159915",
+   "510050",
+   "511010"
+  ],
   "backoff": [],
   "stale_dead": []
  },
- "catchup_attempts": {},
+ "catchup_attempts": {
+  "159915": "2026-10-29T17:50:12",
+  "510050": "2026-10-29T17:50:12",
+  "511010": "2026-10-29T17:50:12"
+ },
  "cutoff_error": null,
  "source_used": "sina",
  "fallback_events": [
   {
    "symbol": "510300",
-   "diagnosis": "upstream_has_newer_bar",
+   "diagnosis": "upstream_equal",
    "tencent_latest": "2026-10-29",
    "note": "zero-row ambiguity: upstream bar-existence probe"
   }

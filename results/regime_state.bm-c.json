@@ -1,43 +1,43 @@
 {
-  "updated": "2026-10-29 15:38:23",
-  "asof": "2026-10-28",
+  "updated": "2026-10-29 17:50:22",
+  "asof": "2026-10-29",
   "mode": "shadow",
   "state": "ORANGE",
   "state_cn": "橙·高危",
   "raw_level": "ORANGE",
   "green_streak": 0,
-  "days_in_state": 9,
+  "days_in_state": 10,
   "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
-      "asof": "2026-10-28",
-      "close": 4.152,
-      "crash_10d": -0.03306939916162077,
-      "panic_1d": 0.007033713315546919,
-      "vol20": 0.009252,
+      "asof": "2026-10-29",
+      "close": 4.111,
+      "crash_10d": -0.03088165959453093,
+      "panic_1d": -0.009874759152215917,
+      "vol20": 0.00931,
       "vol_p95": 0.0173,
       "vol_p80": 0.01184,
       "vol_status": "ok",
-      "ma200": 4.701,
+      "ma200": 4.6976,
       "below_ma200": true,
-      "event_fomc": false,
+      "event_fomc": true,
       "event_pre_holiday": null,
       "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
     },
     "breadth": {
       "share_below_ma20": 0.875,
-      "share_slope_5d": 0.0,
-      "share_5d_ago": 0.875,
+      "share_slope_5d": -0.0417,
+      "share_5d_ago": 0.9167,
       "status": "ok",
       "n_symbols": 48,
       "interpretation": "slope = share_now - share_5d_ago (literal s1)"
     },
     "bear_r_pei3": {
       "status": "ok",
-      "as_of": "2026-10-28",
-      "close": 4.152,
-      "ma250": 4.7028,
-      "dd_from_250d_high": -0.1844,
+      "as_of": "2026-10-29",
+      "close": 4.111,
+      "ma250": 4.7007,
+      "dd_from_250d_high": -0.1925,
       "below_ma250": true,
       "dd_triggered": false,
       "is_major_bear": false,
@@ -46,8 +46,10 @@
     }
   },
   "triggers": [
+    "breadth 0.88>=80% slope -0.0417<0",
     "hs300<MA200 (#10 collected)",
-    "breadth 0.88>=65%"
+    "breadth 0.88>=65%",
+    "event window (appendix A)"
   ],
   "transitions": [],
   "history": [
@@ -113,6 +115,13 @@
       "state": "ORANGE",
       "green_streak": 0,
       "days_in_state": 9
+    },
+    {
+      "asof": "2026-10-29",
+      "raw": "ORANGE",
+      "state": "ORANGE",
+      "green_streak": 0,
+      "days_in_state": 10
     }
   ],
   "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)",

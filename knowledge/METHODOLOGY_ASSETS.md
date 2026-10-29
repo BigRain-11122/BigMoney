@@ -4447,3 +4447,23 @@ cell or a stale verdict) -> `results/etf_lowvol_book.json`; smoke leg
 `product: E229 the quotable subset is priced against the full vector` recomputes the
 verdict from the per-cell tables.
 Digest: research/digests/DIGEST-20261029-e229-lowvol-book.md.
+
+## E230 - a printed amount column that cannot be placed is not an order (r1342 bm-c)
+
+E201 built the executable ticket from the production card and measured a standing 0.13%
+NAV (1,255 CNY) disagreement between the two faces on the same bar; the cause was that the
+card printed `weight x capital` targets and `(1 - scale) x capital` cash while orders can
+only be placed in whole 100-share lots. The card now publishes the sizing intent AND the
+executable column side by side (`book_target_cny` / `book_executable_cny` /
+`lot_residual_cny`, with `cash_amount_cny` left as the risk scale's own slot and
+`cash_executable_cny` added as `capital - executable`), states in words that the executable
+column is the order and the residue is the price of granularity, and the ticket reads the
+executable row when present while still calling out a legacy target row. Live 2026-10-29:
+residue 1,968 CNY (0.197% NAV), card-vs-ticket cash gap 0.94 CNY (integer yuan only) where
+it had been 1,255; the legacy disclosure paragraph disappears on its own condition.
+Rule: when a face's printed numbers cannot be executed, publish the executable number
+beside the intent and make the difference a named reading, never a footnote on the
+downstream ticket. Code: `scripts/etf_book_production.py` (49 selftest legs, 5 of them
+new), `scripts/etf_book_order.py` (41 legs, 2 new: executable row closes the gap, legacy
+target row still gets called out). Digest:
+research/digests/DIGEST-20261029-e230-executable-cash-row.md.

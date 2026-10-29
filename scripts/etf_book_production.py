@@ -576,6 +576,17 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         })
     legs.sort(key=lambda r: -r["amount_cny"])
 
+    # r1342: the printed amount column is the EXECUTABLE one. A weight times capital is a
+    # target, not an order: only whole 100-share lots can be placed, so the desk can only
+    # spend less than the target and the difference lands in cash. Until now the card
+    # printed targets and a cash row of (1 - k) * capital, which overstated money at work
+    # (E201 measured 0.13% NAV) and made a cross-face check against the ticket read
+    # "different book" every round. Targets are still published beside the executable
+    # column -- the fix is a second column, not a hidden rounding.
+    target_book = sum(float(l["amount_cny"]) for l in legs)
+    spent = sum(float(l["actual_amount_cny"]) for l in legs
+                if l["actual_amount_cny"] is not None)
+
     op_dates = [d for d in openp.index if d >= pd.Timestamp(R.START)]
     grid = grid_position(op_dates, last, rebal)
 
@@ -594,7 +605,17 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "realised_book_vol_60d": None if realised_vol is None else round(realised_vol, 4),
         "risk_scale": round(scale, 4),
         "cash_weight": round(cash, 4),
+        # E230: two cash readings, both published. cash_amount_cny keeps its old meaning
+        # (the risk scale's own slot, (1 - scale) * capital) because other faces already
+        # consume it; cash_executable_cny is the money that actually cannot be invested
+        # once lots are whole, and it is the row the ticket reconciles against.
         "cash_amount_cny": round(cash * capital, 0),
+        "cash_executable_cny": round(capital - spent, 0),
+        "amount_column": "executable",
+        "book_target_cny": round(target_book, 0),
+        "book_executable_cny": round(spent, 0),
+        "lot_residual_cny": round(target_book - spent, 0),
+        "lot_residual_pct_nav": round(100.0 * (target_book - spent) / capital, 4) if capital else None,
         "legs": legs,
     }
 
@@ -741,15 +762,31 @@ def write_card(out):
         "Realised 60d book vol %.1f%% -> risk scale %.2f, cash slot %.1f%%."
         % ((s["realised_book_vol_60d"] or 0) * 100, s["risk_scale"], s["cash_weight"] * 100),
         "",
-        "| code | name | sleeve | weight | amount (CNY) | 100-share lots |",
-        "|---|---|---|---|---|---|",
+        "| code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |",
+        "|---|---|---|---|---|---|---|",
     ]
     for leg in s["legs"]:
-        lines.append("| %s | %s | %s | %.1f%% | %s | %s |" % (
+        exec_amt = leg.get("actual_amount_cny")
+        lines.append("| %s | %s | %s | %.1f%% | %s | %s | %s |" % (
             leg["symbol"], leg["name"], leg["class"], leg["weight"] * 100,
-            format(int(leg["amount_cny"]), ","), leg["lots_100"]))
-    lines += ["| cash | - | money | %.1f%% | %s | - |" % (
-        s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ",")), ""]
+            format(int(leg["amount_cny"]), ","),
+            "-" if exec_amt is None else format(int(exec_amt), ","), leg["lots_100"]))
+    lines += ["| cash | - | money | %.1f%% | %s | %s | - |" % (
+        s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ","),
+        format(int(s["cash_executable_cny"]), ",")), ""]
+    lines += [
+        "**Which column is money.** A weight times capital is the sizing INTENT; only "
+        "whole 100-share lots can be placed. So the executable column can only spend %s "
+        "of the %s target book, and the desk keeps %s (%.2f%% NAV) in cash that the risk "
+        "scale never asked for -- that residue is the price of lot granularity, not a "
+        "position. Place the executable column. Until r1342 this card printed the target "
+        "column as if it were the order, which is why the ticket disagreed with it by "
+        "0.13%% NAV (E201); the two faces now reconcile to the yuan." % (
+            format(int(s["book_executable_cny"]), ","),
+            format(int(s["book_target_cny"]), ","),
+            format(int(s["lot_residual_cny"]), ","),
+            s["lot_residual_pct_nav"] or 0.0), "",
+    ]
     lines += ["## What the rotation is worth", ""]
     lines += passive_mix_paragraphs(out.get("passive_mix"))
     lines += decomp_paragraphs(out.get("window_decomp"))
@@ -1122,6 +1159,38 @@ def selftest():
         chk("sheet cash equals 1 - risk_scale",
             abs(o["sheet"]["cash_weight"] - (1.0 - o["sheet"]["risk_scale"])) < 1e-3,
             "cash=%.4f scale=%.4f" % (o["sheet"]["cash_weight"], o["sheet"]["risk_scale"]))
+        # r1342: the printed amount column must be the executable one. Three legs, in a
+        # row, because each of them fails differently: (a) the legs really are lot-rounded
+        # on this fixture, so the assertion is not comparing two identical sums; (b) the
+        # cash row is capital minus what lots actually spend, not (1 - scale) * capital;
+        # (c) the card carries both columns, so the fix adds a reading rather than hiding
+        # the rounding inside a single number.
+        _sh = o["sheet"]
+        _spent = sum(float(l["actual_amount_cny"]) for l in _sh["legs"])
+        chk("executable amounts are lot * price, not weight * capital",
+            all(abs(float(l["actual_amount_cny"]) - l["lots_100"] * float(l["ref_price"])) <= 1.0
+                for l in _sh["legs"]),
+            "spent=%.0f target=%.0f" % (_spent, _sh["book_target_cny"]))
+        chk("executable book never exceeds its target",
+            _sh["book_executable_cny"] <= _sh["book_target_cny"] + 1.0,
+            "exec=%.0f target=%.0f" % (_sh["book_executable_cny"], _sh["book_target_cny"]))
+        chk("the published executable book is what the lots actually spend",
+            abs(_sh["book_executable_cny"] - _spent) <= 2.0,
+            "published=%.0f legs=%.0f" % (_sh["book_executable_cny"], _spent))
+        chk("executable cash is capital minus what lots spend",
+            abs(_sh["cash_executable_cny"] - (_sh["capital_cny"] - _spent)) <= 2.0,
+            "exec-cash=%.0f exec=%.0f cap=%.0f" % (_sh["cash_executable_cny"], _spent,
+                                                   _sh["capital_cny"]))
+        chk("target cash keeps the risk scale's slot, executable cash does not",
+            abs(_sh["cash_amount_cny"] + _sh["book_target_cny"] - _sh["capital_cny"]) <= 2.0
+            and _sh["cash_executable_cny"] >= _sh["cash_amount_cny"] - 1.0
+            and _sh["lot_residual_cny"] >= -1.0,
+            "slot-cash=%.0f exec-cash=%.0f residue=%.0f"
+            % (_sh["cash_amount_cny"], _sh["cash_executable_cny"], _sh["lot_residual_cny"]))
+        chk("card prints target and executable side by side",
+            "executable (CNY)" in card and "target (CNY)" in card
+            and "Which column is money" in card
+            and format(int(_sh["cash_executable_cny"]), ",") in card)
     finally:
         globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
         shutil.rmtree(tmp, ignore_errors=True)
