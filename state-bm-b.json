@@ -84,7 +84,7 @@
  },
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
- "delivery": "main, ahead 0 / behind 0 (ls-remote 54e4b535b1 verified)",
+ "delivery": "machine/bm-b-r1260 = b4b93f8a5 (ls-remote verified); main 33 behind / 14 ahead",
  "delivery_note": "r1235 estate on machine/bm-b-r1235 (ls-remote verified); main merge deferred to a quiet window (16 behind / 17 ahead, auto-generated faces)",
  "dept": "research+engineering",
  "did": "e234_per_member_gamma",
@@ -125,7 +125,7 @@
  "last_updated": "2026-10-30T01:27:13+08:00",
  "latest_artifact": "results/state_tilt/PER-MEMBER-GAMMA-2026-10-29.json + research/digests/DIGEST-20261030-r1260-e234-per-member-gamma.md",
  "local_not_on_origin": 0,
- "local_not_on_origin_commits": 26,
+ "local_not_on_origin_commits": 14,
  "machine_id": "bm-b",
  "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
@@ -1750,6 +1750,13 @@
   },
   "verdict": "mixture"
  },
+ "r1260_receipt": {
+  "delivery": "commit b4b93f8a5 on machine/bm-b-r1260, ls-remote == rev-parse HEAD",
+  "dualrun": "ZERO-DRIFT 706 entries streak 17",
+  "orphan": 0,
+  "s6": "41/42 rc=0 (317.8s); single non-zero = cal_audit rc=1 panel_gap: the 2026-10-29 astock bar is still in flight (update_astock_daily rc=0 'refresh already in progress (lock alive)'), so the expected-date miss is a supply-in-flight read, not a mechanism failure",
+  "smoke": "218/218 PASS, 0 FAIL (217 -> 218 with the E234 leg)"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -1770,14 +1777,14 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "behind_origin_main": 29,
-  "branch": "machine/bm-b-r1258",
-  "local_not_on_origin_main": 10,
-  "main_push_blocker": "promisor lazy fetch requests ~85k objects before negotiation; the push and the merge both sat with no output until the 5-minute auto-cancel in r1255/r1257, so main was not attempted again",
-  "pushed_sha": "8b0c67889",
-  "remote_ref_sha": "8b0c67889",
+  "behind_origin_main": 33,
+  "branch": "machine/bm-b-r1260",
+  "local_not_on_origin_main": 14,
+  "main_push_blocker": "promisor lazy fetch requests ~85k objects before negotiation; main push and rebase have wedged every round since r1255, so delivery rides the machine branch",
+  "pushed_sha": "b4b93f8a5",
+  "remote_ref_sha": "b4b93f8a5",
   "status": "DELIVERED_ON_MACHINE_BRANCH",
-  "ts": "2026-10-30T00:03:53+08:00"
+  "ts": "2026-10-30T01:27:13+08:00"
  },
  "task": "r1260: per-member charge curvature -- the book's single exponent is a mixture, and the granularity split dominates the bill",
  "task_short": "E234 per-member gamma",
