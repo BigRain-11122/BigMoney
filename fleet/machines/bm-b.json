@@ -20,8 +20,8 @@
  "cyc_round": 1238,
  "d19_note": "decisions advanced 97fe122f (D-20261029-06..14 read: 09 superseded by 12, 03(4) already satisfied here -- NatsHB/FleetLink/ProductionClaim all S4U and Ready/Running; the rest belong to other companies) -> zero order files unacked",
  "decisions_delta_pending": false,
- "delivery": "main, ahead 0 / behind 0 (ls-remote verified)",
- "delivery_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
+ "delivery": "main, ahead 0 / behind 0 (ls-remote 54e4b535b1 verified)",
+ "delivery_note": "r1246 committed and pushed on main directly; no branch fallback needed",
  "dept": "research+engineering",
  "did": "burned E218: SHAREDBOOK-WIDTH-20261028 + e39 mode sharedbookwidth + tri-state resolution verdict + S6 leg + smoke leg; card E218 in METHODOLOGY_ASSETS; closed the card, seeded E219 width ladder",
  "did_round": 1245,
@@ -88,13 +88,9 @@
  "last_orders_sha": "122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c",
  "last_orders_watermark": "122ab70739b6119f@44fd0fd/183986",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@44fd0fd6dbd8077329d844c6a97c44d145798869/183986#122ab70739b6119fbb796bdb87a295cd69867bb12260985d7dd713c17424023c",
- "last_push": {
-  "pushed_sha": "d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46",
-  "status": "PUSHED_VERIFIED",
-  "ts": "2026-10-29T11:56:02+08:00"
- },
- "last_push_sha": "d43ed3e3979dd3ad1e565a3bc5ae4c13a454ea46",
- "last_push_ts": "2026-10-29T11:56:02+08:00",
+ "last_push": "54e4b535b1",
+ "last_push_sha": "54e4b535b1",
+ "last_push_ts": "2026-10-29T12:34:22+08:00",
  "last_round": 1246,
  "last_round_at": "2026-10-29T12:34:22+08:00",
  "last_seen": "2026-10-29T12:34:22+08:00",
@@ -229,10 +225,7 @@
  "orders_ack_note": "114 order files / 115 acked / unacked 0 (r1209 scan)",
  "orphan_face": 0,
  "orphan_faces": 0,
- "pool_claims": [
-  "E189-DROP-CURVE-CROSSING@bm-b@2026-10-28T15:52+08:00",
-  "E190-DROP-FRAGILITY-SWEEP@seeded@2026-10-28T16:05+08:00"
- ],
+ "pool_claims": "E219-WIDTH-LADDER-RESOLUTION done (result_ref results/e44_midmonth/WIDTHLADDER-20261028.json); ready 0",
  "pos": "PUSHED_VERIFIED 1ba96b3c3 (ed9464c21..1ba96b3c3 clean ff, first attempt)",
  "postscript_sha": "3c3d0bd56",
  "py_cpu_pct": 0.0,
@@ -547,6 +540,6 @@
  "vram_free_gb": 4.1,
  "vram_used_gb": 3.9,
  "work": "E214 shipped; delivery rides machine branch (main behind)",
- "r1246_push": "pending (receipt row follows the push)",
+ "r1246_push": "54e4b535b1 -> origin/main (ls-remote verified, ahead/behind 0/0)",
  "r1246_face": "results/e44_midmonth/WIDTHLADDER-20261028.json"
 }
