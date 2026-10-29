@@ -23188,9 +23188,24 @@
    "id": "E236-SHARE-DIFFERENCE-GRANULARITY",
    "lane": "cpu-only",
    "source": "E235 measured the price of a sleeve move against own and aggregate turnover in LEVELS and could not separate them: aggregate turnover is 0.94..0.97 autocorrelated, the lagged control block inverts on 2 of 5 sleeves, and two sleeves come out with a negative own elasticity. The question is not answered, only shown to be unanswerable in levels. Re-ask it where the regressors are stationary: (a) first differences of log turnover, so a move is priced against that session's change in own and in book turnover; (b) a demeaned share and a roll-standardised aggregate level (z over a frozen window); (c) a panel fixed-effects form with member intercepts and time fixed effects, so the identification comes from cross-sectional share variation. Publish all three, demand sign agreement across them, and re-price the arms under whichever granularity survives. If none survives, that is the answer and the family's level stays a price without a bill.",
-   "status": "ready",
+   "status": "done",
+   "done_at": "2026-10-30T02:4x+08:00",
+   "done_note": "three stationary designs on the same five sleeves: differences b_own 0.431 / b_agg 0.879, frozen_z b_own 0.017 / b_agg 0.101, two_way_fe b_own 0.023 with b_agg absorbed by the 5,233 date fixed effects. Signs agree everywhere; sizes do not (span 0.017..0.431, ratio 25.4, disjoint intervals). Verdict unresolved_magnitude_disagreement -> no granularity charge is published and the family single exponent stays a price without a bill. E235 negative own elasticity does not survive.",
+   "result_ref": "results/state_tilt/SHAREDIFF-2026-10-29.json",
    "target": "scripts/e236_share_difference.py (new runner)",
    "title": "can a share-and-difference design settle the granularity question the level regression could not?"
+  },
+  {
+   "deliverable": "results/state_tilt/INFOSTRUCT-<cutoff>.json",
+   "entered_at": "2026-10-30T02:4x+08:00",
+   "entered_by": "bm-r1262",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E237-INFORMATION-VS-TURNOVER-SHARED-RETURN",
+   "lane": "cpu-only",
+   "source": "E236 showed the two granularity readings differ 25x and named the mechanism: the difference design prices a session against that session's own turnover CHANGE, which co-moves with the same information arrival that sets |r|, while the cross-sectional designs price the share of book turnover. Separate those two channels directly instead of inferring them: (a) decompose the session |r| into a market-common component (regress log|r| on the book's log|r_book| and take the residual) and a relative component, and fit each arm's elasticity separately -- an impact story predicts the OWN channel lives in the relative component and the aggregate channel in the common one; (b) test the co-movement directly by regressing d(log turnover) on |r| and on the market's |r|, publishing which driver dominates; (c) if the own channel survives only in the common component, that is evidence the difference-design elasticity was an information-arrival artefact and the granularity question is answered NEGATIVE for this panel. Publish the decomposition with intervals and refuse any bill unless both components agree in sign and size.",
+   "status": "ready",
+   "target": "scripts/e237_information_structure.py (new runner)",
+   "title": "is the own-turnover channel an information-arrival artefact?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

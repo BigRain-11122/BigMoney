@@ -136,6 +136,10 @@ LEGS = [
     # one the panel supports and re-prices the arms under both, disclosing when the level
     # specification cannot tell them apart.
     ("charge_granularity", ["python", "scripts/e235_charge_granularity.py", "run"]),
+    # E236: the granularity question re-asked with stationary regressors (differences,
+    # frozen-standardised level, two-way fixed effects). It refuses a verdict when the
+    # designs agree only about a channel's SIGN and not its SIZE.
+    ("share_difference", ["python", "scripts/e236_share_difference.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

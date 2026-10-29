@@ -4426,3 +4426,45 @@ Runner `scripts/e235_charge_granularity.py` (run / selftest, 18 hermetic legs); 
 `charge_granularity` after `per_member_gamma`; smoke leg requires intervals containing their
 points, `g_scaling == b_own + b_agg` per sleeve, and a negative own elasticity carried into
 the published verdict. Follow-up card E236 (share-and-difference design) seeded in the pool.
+
+### E236 -- sign agreement is not size agreement (r1262 bm-b)
+
+E235 left the granularity question open on levels. This face re-asks it with three stationary
+designs on the same five sleeves and the answer changes shape rather than settling:
+
+- **differences** `dy on d(share), d(book)` -> b_own 0.431 [0.341, 0.520] t 9.43, b_agg 0.879
+  [0.769, 0.990] t 15.57
+- **frozen_z** (demeaned share + aggregate level in frozen-first-half sd units) -> b_own 0.017
+  [-0.004, 0.038] t 1.59, b_agg 0.101 [0.065, 0.138] t 5.43
+- **two_way_fe** (member intercepts + date FE) -> b_own 0.023 [0.012, 0.035] t 3.93, b_agg
+  absorbed (the aggregate turnover takes one value per date, so date FE eat it entirely)
+
+Every design agrees b_own is POSITIVE and every one has non-overlapping intervals with the
+difference design: span 0.017..0.431, ratio 25.4. Verdict `unresolved_magnitude_disagreement`
+-- so the family's single exponent stays a price without a bill and E234's per-sleeve sum is
+not a substitute. The negative own elasticity E235 saw does NOT survive (negative_survives
+false), and per member 2 of 5 sleeves are sign-fragile.
+
+Four reusable pieces:
+
+1. **Demand size agreement, not just sign agreement.** Two designs returning +0.43 and +0.017
+   are not "agreed"; a bill built on the first is 25x the bill built on the second. Frozen
+   rule: 95% intervals of any two identifying designs must overlap, and the ratio is
+   published beside the verdict. Without this gate the same data names `both_channels_live`.
+2. **A design that cannot see a regressor must publish `identifies: false`, never a number.**
+   Date fixed effects and a date-common aggregate are collinear by construction; the face
+   reports `b_agg: null` with `absorbed.date_fixed_effects = 5233` and the agreement test then
+   scores b_agg over 2 readers instead of pretending to 3.
+3. **A design with one observation per cell identifies nothing, and must say so.** With a
+   single member, within-date demeaning removes the share along with everything else -- the
+   fit returns `identifiable: false` ("share carries no within-date variation"). A selftest leg
+   pins that a single-member panel never publishes b_own.
+4. **Two quantities can wear one name.** The difference design prices a session against that
+   session's own turnover change, which co-moves with the same information arrival that sets
+   `|r|`; the cross-sectional designs price the share. That asymmetry is the mechanism behind
+   the 25x gap and is what makes the surface reading ("both channels live") wrong.
+
+Runner `scripts/e236_share_difference.py` (selftest 18/18), face
+`results/state_tilt/SHAREDIFF-<cutoff>.json`, S6 leg `share_difference` after
+`charge_granularity`, smoke leg requiring the absorbed-aggregate disclosure and that an
+unresolved verdict publishes no granularity charge.

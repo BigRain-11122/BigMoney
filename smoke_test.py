@@ -3071,6 +3071,55 @@ def main() -> int:
     except Exception as e:
         check("product: the price of a sleeve move is measured against own and book "
               "turnover before the book is charged", False, repr(e)[:160])
+    # E236: E235's level regression could not separate the channels, so the question is
+    # re-asked with stationary regressors. The leg holds the face to the three properties
+    # that make the re-ask meaningful: a design that cannot see a regressor must not report
+    # a coefficient for it; agreement in SIGN alone must never name a channel (the sizes
+    # have to match too); and an unresolved verdict must not be accompanied by a charge
+    # that pretends the bill was settled.
+    try:
+        _bad36 = []
+        _p36 = "results/state_tilt/sharediff_latest.json"
+        _f36 = {}
+        if not os.path.exists(_p36):
+            _bad36.append("share-difference face missing")
+        else:
+            with open(_p36, encoding="utf-8") as _fh:
+                _f36 = json.load(_fh)
+            _sum36 = _f36.get("summary") or {}
+            _dsg = (_f36.get("pooled") or {}).get("designs") or []
+            _names = {d.get("design") for d in _dsg}
+            for _want in ("differences", "frozen_z", "two_way_fe"):
+                if _want not in _names:
+                    _bad36.append("pooled record misses design %s" % _want)
+            _fe = next((d for d in _dsg if d.get("design") == "two_way_fe"), None)
+            if _fe and (_fe.get("b_agg") is not None
+                        or _fe.get("identifies_b_agg") is not False):
+                _bad36.append("the date-FE design reports an aggregate it cannot see")
+            _verdict36 = _sum36.get("pooled_verdict")
+            if _sum36.get("b_own_magnitude_agreement") is False and \
+                    _verdict36 != "unresolved_magnitude_disagreement":
+                _bad36.append("a size disagreement between designs was not carried into "
+                              "the verdict")
+            _charged = _sum36.get("charges_priced") or []
+            if _verdict36 in ("unresolved", "unresolved_sign_fragile",
+                              "unresolved_magnitude_disagreement",
+                              "unresolved_spec_inadequate") and \
+                    any(c != "linear" for c in _charged):
+                _bad36.append("an unresolved verdict still prices a granularity charge")
+            if not (_f36.get("answer") or "").strip():
+                _bad36.append("face publishes no answer sentence")
+        check("product: a share-and-difference design may only settle a channel whose "
+              "size the designs agree on",
+              not _bad36, "; ".join(_bad36)[:220]
+              or "verdict %s, b_own span %s (ratio %s), charges priced %s"
+                 % ((_f36.get("summary") or {}).get("pooled_verdict"),
+                    (_f36.get("summary") or {}).get("b_own_magnitude_span"),
+                    (_f36.get("summary") or {}).get("b_own_magnitude_ratio"),
+                    (_f36.get("summary") or {}).get("charges_priced")))
+    except Exception as e:
+        check("product: a share-and-difference design may only settle a channel whose "
+              "size the designs agree on", False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)
