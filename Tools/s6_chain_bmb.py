@@ -101,6 +101,17 @@ LEGS = [
     # what the movement costs) as an exact identity, so a losing pair can be attributed
     # to the days it dodged, the weights it held or the toll it paid.
     ("timing_selection", ["python", "scripts/e229_timing_selection.py", "run"]),
+    # E230: E229 named the toll as the only channel that clears its bar, and the toll is
+    # charged on |dw|, so the mechanical follow-up is whether the rule can move less
+    # often. This leg ladders a hysteresis deadband on the same volatility signal,
+    # publishes all three channels per rung at x1 and x2 costs, and refuses to call a
+    # band a fix unless the toll saving covers the selection it gives up.
+    ("hysteresis_toll", ["python", "scripts/e230_hysteresis_toll.py", "run"]),
+    # E231: exactly one of E230's thirty rungs cleared the bar, and it was the smallest
+    # band in the grid -- the shape E188 warns about. This leg re-measures the whole fine
+    # grid on other paths (split offsets, execution lags, calendar eras) and publishes the
+    # share of paths that keep the sign instead of the best cell.
+    ("band_path_test", ["python", "scripts/e231_band_path_test.py", "run"]),
     # CEO-facing pages
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),

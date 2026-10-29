@@ -2656,6 +2656,202 @@ def main() -> int:
     except Exception as e:
         check("product: the paired timing value splits into selection, sizing and toll",
               False, repr(e)[:160])
+
+    # E230: E229 named the toll as the only channel that clears its bar, so the study
+    # that follows asks whether the rule can buy it back by moving less often. The leg
+    # re-derives every published rung: a rung's own channels must reconstruct its own
+    # pair, the rung at band 0 must be the base arm itself, and a rung whose deltas are
+    # inside the noise must not be labelled a fix -- the ladder may never print a verdict
+    # its own numbers cannot carry.
+    try:
+        _f30 = {}
+        _bad30 = []
+        _face30 = "results/state_tilt/hysteresis_latest.json"
+        if not os.path.exists(_face30):
+            _bad30.append("no results/state_tilt/hysteresis_latest.json on disk")
+        else:
+            with open(_face30, encoding="utf-8") as _fh:
+                _f30 = json.load(_fh)
+            _cut30 = _f30.get("evidence_cutoff")
+            if not _cut30:
+                _bad30.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/HYSTERESIS-%s.json" % _cut30):
+                _bad30.append("the dated face beside the latest pointer is missing")
+            if (_f30.get("study") or "") != "E230":
+                _bad30.append("face is not the E230 band ladder")
+            _spec30 = _f30.get("frozen_spec") or {}
+            if list(_spec30.get("channels") or []) != ["selection", "sizing", "toll"]:
+                _bad30.append("the channel list is not the frozen three")
+            _bar30 = _spec30.get("bar_t")
+            if not isinstance(_bar30, (int, float)) or _bar30 < 2.0:
+                _bad30.append("the published bar is not a Bonferroni bar")
+            _ladder30 = _f30.get("ladder_summary") or {}
+            _rows30 = _ladder30.get("rows") or []
+            if not _rows30:
+                _bad30.append("the ladder covers no rung")
+            if _ladder30.get("cells") != len(_rows30):
+                _bad30.append("the published cell count does not match the rows")
+            if _ladder30.get("ladder_vacuous") is not False:
+                _bad30.append("the band never moved a weight -- the ladder tested nothing")
+            _pays30 = [r for r in _rows30 if r.get("verdict") == "BAND_PAYS"]
+            for _r30 in _rows30:
+                _nm30 = "%s/%s/f=%.2f" % (_r30.get("panel") or "-",
+                                          _r30.get("arm"), _r30.get("band_frac") or 0.0)
+                _pair30 = _r30.get("pair_ann_bp_per_year")
+                _parts30 = [_r30.get(_c30 + "_ann_bp_per_year")
+                            for _c30 in ("selection", "sizing", "toll")]
+                if _pair30 is None or any(x is None for x in _parts30):
+                    _bad30.append("%s publishes an incomplete split" % _nm30)
+                    continue
+                if abs(sum(_parts30) - _pair30) > 1e-6:
+                    _bad30.append("%s channels do not reconstruct its pair" % _nm30)
+                _v30 = _r30.get("verdict")
+                if _v30 not in {"BASELINE", "NO_EFFECT", "BAND_COSTS", "BAND_NOISE",
+                                "BAND_PAYS", "BAND_PAYS_TOLL_SHORT", "UNRESOLVED"}:
+                    _bad30.append("%s carries an unpublished verdict %r" % (_nm30, _v30))
+                if _v30 == "BAND_PAYS" and (_r30.get("d_pair_t_nw") or 0.0) < _bar30:
+                    _bad30.append("%s is called a fix without clearing the bar" % _nm30)
+                if _v30 == "BAND_PAYS" and (_r30.get("d_pair_ann_bp_per_year") or 0.0) <= 0.0:
+                    _bad30.append("%s is called a fix on a non-positive delta" % _nm30)
+                _save30 = _r30.get("weight_changes_saved")
+                if _v30 == "NO_EFFECT" and (_save30 or 0) != 0:
+                    _bad30.append("%s says no effect but saved changes" % _nm30)
+                if "rule_collapsed" not in _r30:
+                    _bad30.append("%s does not disclose whether the rule survived" % _nm30)
+                elif _v30 == "BAND_PAYS" and _r30.get("rule_collapsed"):
+                    _bad30.append("%s is called a fix after the rule collapsed to a "
+                                  "buy-and-hold" % _nm30)
+            # the base rung has to exist for every arm or the ladder has no origin
+            for _p30 in (_f30.get("panels") or []):
+                for _a30 in (_p30.get("arms") or []):
+                    _rungs30 = _a30.get("rungs") or []
+                    if not _rungs30 or _rungs30[0].get("verdict") != "BASELINE":
+                        _bad30.append("%s/%s has no band-0 baseline rung"
+                                      % (_p30.get("panel"), _a30.get("name")))
+            if not (_f30.get("answer") or "").strip():
+                _bad30.append("face publishes no answer sentence")
+        check("product: a hysteresis band's toll saving is judged against its selection loss",
+              not _bad30, "; ".join(_bad30)[:220]
+              or "%d rungs, %d called a fix at bar %.2f, %d lose to the base arm, "
+                 "%d point-estimate only, band %s"
+                 % (len(_rows30), len(_pays30), _bar30 or 0.0,
+                    sum(1 for r in _rows30 if r.get("verdict") == "BAND_COSTS"),
+                    sum(1 for r in _rows30 if r.get("verdict") == "BAND_NOISE"),
+                    "moves the rule" if not (_f30.get("ladder_summary") or {})
+                    .get("ladder_vacuous") else "VACUOUS"))
+    except Exception as e:
+        check("product: a hysteresis band's toll saving is judged against its selection loss",
+              False, repr(e)[:160])
+
+    # E231: E230's one passing rung sat at the smallest band in the grid, which is the
+    # shape E188 warned about -- a single decision sequence dressed as an optimum. This
+    # leg re-derives the path test rather than trusting it: the focus cell's global path
+    # must reproduce E230's own published number to the bit, a survival claim must be
+    # backed by every measured path, a share can never exceed one, and a cell measured on
+    # too few paths may not be called stable.
+    try:
+        _f31 = {}
+        _bad31 = []
+        _face31 = "results/state_tilt/bandpath_latest.json"
+        if not os.path.exists(_face31):
+            _bad31.append("no results/state_tilt/bandpath_latest.json on disk")
+        else:
+            with open(_face31, encoding="utf-8") as _fh:
+                _f31 = json.load(_fh)
+            _cut31 = _f31.get("evidence_cutoff")
+            if not _cut31:
+                _bad31.append("face carries no evidence_cutoff")
+            elif not os.path.exists("results/state_tilt/BANDPATH-%s.json" % _cut31):
+                _bad31.append("the dated face beside the latest pointer is missing")
+            if (_f31.get("study") or "") != "E231":
+                _bad31.append("face is not the E231 path test")
+            _spec31 = _f31.get("frozen_spec") or {}
+            _vocab31 = set(_spec31.get("vocabulary") or [])
+            _minp31 = _spec31.get("min_paths_per_cell")
+            _rows31 = _f31.get("cell_summary") or []
+            _pc31 = _f31.get("path_count") or {}
+            if not _rows31:
+                _bad31.append("the summary covers no cell")
+            if _pc31.get("panel_paths", 0) < 2:
+                _bad31.append("the study ran on fewer than two paths")
+            for _r31 in _rows31:
+                _nm31 = "%s/%s/f=%.2f" % (_r31.get("panel") or "-", _r31.get("arm"),
+                                          _r31.get("band_frac") or 0.0)
+                _v31 = _r31.get("verdict")
+                if _v31 not in _vocab31:
+                    _bad31.append("%s carries an unpublished verdict %r" % (_nm31, _v31))
+                _fp31 = _r31.get("frac_positive")
+                _fl31 = _r31.get("frac_clears_lenient")
+                if _fp31 is None or _fl31 is None:
+                    _bad31.append("%s publishes no share" % _nm31)
+                    continue
+                if not (0.0 <= _fp31 <= 1.0 and 0.0 <= _fl31 <= 1.0):
+                    _bad31.append("%s publishes a share outside [0,1]" % _nm31)
+                if _r31.get("paths_positive", 0) > _r31.get("paths_measured", 0):
+                    _bad31.append("%s counts more positives than paths" % _nm31)
+                if _v31 == "SURVIVES_EVERY_PATH":
+                    if _fp31 != 1.0 or _fl31 != 1.0:
+                        _bad31.append("%s survives without a clean sweep" % _nm31)
+                    if _r31.get("paths_measured", 0) < (_minp31 or 0):
+                        _bad31.append("%s survives on %d paths" % (_nm31,
+                                                                   _r31.get("paths_measured", 0)))
+                    if _r31.get("rule_collapsed_paths", 0) > 0:
+                        _bad31.append("%s survives with a collapsed rule on some path"
+                                      % _nm31)
+                if _v31 == "NOT_MEASURED" and _r31.get("paths_measured", 0) >= (_minp31 or 0):
+                    _bad31.append("%s is called unmeasurable while measured" % _nm31)
+            # the two families must stay separate: a full-sample number may not stand in
+            # for a statement about a period
+            _fam31 = _f31.get("focus_families") or {}
+            if not (_fam31.get("structural") or {}).get("paths"):
+                _bad31.append("the focus cell has no structural family")
+            if not (_fam31.get("era") or {}).get("paths"):
+                _bad31.append("the focus cell has no era family")
+            # survivors list must agree with the rows it summarises
+            _sv31 = _f31.get("survivors") or []
+            if len(_sv31) != sum(1 for r in _rows31
+                                 if r.get("verdict") == "SURVIVES_EVERY_PATH"):
+                _bad31.append("the survivor list disagrees with the verdicts")
+            # cross-face: the global path must reproduce E230's own cell for the overlap
+            _rep31 = _f31.get("focus_replay_of_e230_global_path") or {}
+            _focus31 = _f31.get("focus_cell") or {}
+            _e230cell = None
+            if os.path.exists("results/state_tilt/hysteresis_latest.json"):
+                with open("results/state_tilt/hysteresis_latest.json", encoding="utf-8") as _fh:
+                    _f30b = json.load(_fh)
+                for _r30b in ((_f30b.get("ladder_summary") or {}).get("rows") or []):
+                    if (_r30b.get("panel") == _focus31.get("panel")
+                            and _r30b.get("arm") == _focus31.get("arm")
+                            and abs((_r30b.get("band_frac") or 0.0)
+                                    - (_focus31.get("band_frac") or 0.0)) < 1e-12):
+                        _e230cell = _r30b
+            if _rep31.get("d_pair_ann_bp_per_year") is None:
+                _bad31.append("the global path published no replay value")
+            elif _e230cell is None:
+                _bad31.append("E230 publishes no cell for the focus (cannot cross-check)")
+            else:
+                _d31 = abs(_rep31["d_pair_ann_bp_per_year"]
+                           - (_e230cell.get("d_pair_ann_bp_per_year") or 0.0))
+                _t31 = abs((_rep31.get("d_pair_t_nw") or 0.0)
+                           - (_e230cell.get("d_pair_t_nw") or 0.0))
+                if _d31 > 1e-6 or _t31 > 1e-9:
+                    _bad31.append("the global path does not reproduce E230 "
+                                  "(delta %.3g bp, t %.3g)" % (_d31, _t31))
+            if not (_f31.get("answer") or "").strip():
+                _bad31.append("face publishes no answer sentence")
+        check("product: a band that passed on one path is path-tested before it is a finding",
+              not _bad31, "; ".join(_bad31)[:220]
+              or "%d cells over %s panel-paths, %d survivors, focus %s/%s/f=%.2f positive "
+                 "on %.0f%% of paths"
+                 % (len(_rows31), _pc31.get("panel_paths", 0),
+                    len(_f31.get("survivors") or []),
+                    (_f31.get("focus_cell") or {}).get("panel"),
+                    (_f31.get("focus_cell") or {}).get("arm"),
+                    (_f31.get("focus_cell") or {}).get("band_frac") or 0.0,
+                    100.0 * ((_f31.get("focus_cell") or {}).get("frac_positive") or 0.0)))
+    except Exception as e:
+        check("product: a band that passed on one path is path-tested before it is a finding",
+              False, repr(e)[:160])
     return _finish()
 def _finish() -> int:
     n_pass = sum(1 for _, ok, _ in RESULTS if ok)

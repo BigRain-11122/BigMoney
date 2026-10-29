@@ -4202,3 +4202,77 @@ results/state_tilt/TIMINGSEL-<cutoff>.json + timingsel_latest.json + timingsel_b
 S6 leg timing_selection immediately after matched_exposure; smoke leg re-adds the published
 channels, refuses a face whose parts do not reconstruct its own pair, and refuses a binary
 arm that publishes a covariance.
+
+
+### E230 -- the toll is buyable, but the buy rarely pays for itself (r1256 bm-b)
+
+E229 established that the only channel separating these gated rules from a flat constant is
+the TOLL (t ~ -10 on the basket). The toll is charged on |dw|, so the next question is
+mechanical: can a hysteresis deadband on the same volatility signal buy it back? A five-rung
+ladder (0, 0.10, 0.25, 0.50, 1.00, 2.00 x in-sample sd of the signal), three arms, two
+panels, x1 and x2 costs, answered it: the band removes 36-1,138 weight changes per cell and
+the toll falls by +81..+399 bp/yr -- but only 1 of 30 cells clears a Bonferroni bar of 3.34
+on the PAIRED delta, 5 lose to the base arm and 24 are point-estimate-only.
+
+What to keep:
+
+* **A mechanical saving is not a paid-for improvement.** Every rung saved toll; almost none
+  of them improved the pair enough to resolve. The selection channel gave back -243..+290
+  bp/yr of the same order. Report the saving and the bar together or the saving reads as a
+  result.
+* **A rule that stops trading is not a rule that trades cheaply.** At the widest bands 6 of
+  30 cells sat at or below 5 weight changes over the whole sample: the band had replaced the
+  arm with a buy-and-hold at roughly the base exposure -- the null arm. Any toll saving
+  there is the null's zero turnover. Publish a collapse floor and refuse a PAYS verdict on a
+  collapsed rung (smoke leg enforces it); this is the difference between "the rule got
+  cheaper" and "the rule left".
+* **Freeze one constant when you ladder.** E229's per-arm exposure match re-derives the
+  constant from each arm's own OOS average weight; applied per rung, every rung would have
+  its own benchmark and the rungs would not be comparable. Fix c at the base arm, and the
+  identity pair = selection + sizing + toll still holds for any c.
+* **Print the identities that make a gate look strong.** The toll is exactly linear in the
+  cost parameter, so d_toll(x2) == 2*d_toll(x1) identically and the x2 limb of any "still
+  pays at double cost" condition is mechanically weaker than the x1 limb. A selftest leg
+  pins the factor of two so the disclosure cannot drift.
+* **The base rung has to be the thing the ladder is about.** band = 0 must reproduce E225's
+  weights series exactly (asserted per arm, not tested once), and the published base numbers
+  must equal E229's to the decimal -- otherwise the ladder's origin is a lookalike.
+
+How to apply:
+1. Before declaring a "cost fix", ask whether the rule still exists at the setting that
+   produced it; if the change count collapsed, the fix is the null arm.
+2. Ladder one knob at a time against a frozen benchmark, and put the bar on the paired
+   difference, not on either level.
+3. Write the mechanical scale identities (toll ~ cost) into the face as disclosures with a
+   selftest pin, so the face cannot later claim them as findings.
+
+Pieces: scripts/e230_hysteresis_toll.py (run / selftest, 15 hermetic legs); face
+results/state_tilt/HYSTERESIS-<cutoff>.json + hysteresis_latest.json + hysteresis_by_rung
+csv; S6 leg hysteresis_toll after timing_selection; smoke leg re-adds each rung's split,
+refuses a fix under the bar or on a collapsed rule, and requires a rung-0 baseline per arm.
+
+### E231 -- a path test answers with a share, and the families must stay apart (r1257 bm-b)
+
+E230 left one of thirty cells above its bar, at the smallest band in the grid. Re-measuring
+that grid on 25 panel-paths (split offsets, execution lags, calendar eras) separates three
+facts that a single cell conflates: the SIGN is robust (12/12 paths positive), the SIZE is
+not (8/12 clear the bar; lags 2-3 miss), and the MAGNITUDE is a full-sample artefact (inside
+either era the improvement shrinks ~3.5x to 77-81 bp/yr at t 1.4-1.8 and cannot resolve).
+Zero of 48 cells survive every path.
+
+Three rules:
+1. Report the share of paths that keep the sign AND the share that clear the bar. They are
+   different claims; printing only the first reads as a confirmation.
+2. Never merge path families into one range. Moving the split/lag re-measures one sample;
+   re-deriving inside an era is a different experiment. Merged, the median is the
+   full-sample number and it stands in for a statement about a period. Publish the families
+   apart and pin the separation in a selftest leg.
+3. Give the arm the weaker bar deliberately -- reuse the previous study's frozen bar rather
+   than deriving one that fits this sweep, so the rejection is a line the arm was already
+   granted. Publish the strict bar beside it without letting it rescue anything.
+
+Pieces: scripts/e231_band_path_test.py (run / selftest, 18 hermetic legs); face
+results/state_tilt/BANDPATH-<cutoff>.json + bandpath_latest.json + bandpath_by_cell csv;
+S6 leg band_path_test after hysteresis_toll; smoke leg cross-replays the global path against
+E230's published cell (1e-6 bp / 1e-9 t), refuses a survivor without a clean sweep, and keeps
+the two path families from being merged.
