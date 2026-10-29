@@ -1,6 +1,6 @@
-# ETF book -- production candidate, order sheet (2026-10-28 bar)
+# ETF book -- production candidate, order sheet (2026-10-29 bar)
 
-Config: 12 names of a 1500-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
+Config: 12 names of a 1503-instrument bond-free pool, rebalance every 20 bars, 10 bp/side, 8% vol target (de-lever only).
 
 | window | CAGR | Sharpe | max drawdown | realised vol | target |
 |---|---|---|---|---|---|
@@ -11,27 +11,29 @@ Config: 12 names of a 1500-instrument bond-free pool, rebalance every 20 bars, 1
 **Vol label vs delivered risk: target 8% -> delivered 10.2% over the full window (1.27x).** The overlay only de-levers, so a sleeve sized on its own backward vol can run hotter than 8%; read the risk column, not the label.
 
 
-**Feed: current** -- priced on the 2026-10-28 bar; the official calendar expects 2026-10-28 (lag 0 official day(s)).
+**Feed: current** -- priced on the 2026-10-29 bar; the official calendar expects 2026-10-29 (lag 0 official day(s)).
 
-**Today (2026-10-28 bar): HOLD: 10 bars until the next decision point** (last grid decision 2026-10-14).
+**Today (2026-10-29 bar): HOLD: 9 bars until the next decision point** (last grid decision 2026-10-14).
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.
 
-| code | name | sleeve | weight | amount (CNY) | 100-share lots |
-|---|---|---|---|---|---|
-| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,398 | 26600 |
-| 513100 | 纳指ETF国泰 | equity | 5.8% | 58,398 | 4900 |
-| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,398 | 53300 |
-| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,398 | 34000 |
-| 159263 | 价值ETF易方达 | equity | 5.8% | 58,398 | 52100 |
-| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,398 | 38300 |
-| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,398 | 21000 |
-| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,398 | 30500 |
-| 159207 | 高股息ETF广发 | equity | 5.8% | 58,398 | 50600 |
-| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,398 | 56600 |
-| 513870 | 纳指ETF富国 | equity | 5.8% | 58,398 | 27200 |
-| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,398 | 23100 |
-| cash | - | money | 29.9% | 299,225 | - |
+| code | name | sleeve | weight | cash out (CNY, whole lots) | target (CNY) | 100-share lots |
+|---|---|---|---|---|---|---|
+| 159501 | 纳指ETF嘉实 | equity | 5.8% | 58,340 | 58,398 | 26700 |
+| 513100 | 纳指ETF国泰 | equity | 5.8% | 57,398 | 58,398 | 4900 |
+| 513690 | 港股红利ETF博时 | equity | 5.8% | 58,300 | 58,398 | 53000 |
+| 159577 | 美国50ETF汇添富 | equity | 5.8% | 58,311 | 58,398 | 34200 |
+| 159263 | 价值ETF易方达 | equity | 5.8% | 58,344 | 58,398 | 52000 |
+| 513630 | 港股低波红利ETF摩根 | equity | 5.8% | 58,360 | 58,398 | 37700 |
+| 513300 | 纳斯达克ETF华夏 | equity | 5.8% | 58,194 | 58,398 | 21200 |
+| 513850 | 美国50ETF易方达 | equity | 5.8% | 58,262 | 58,398 | 30600 |
+| 159207 | 高股息ETF广发 | equity | 5.8% | 58,300 | 58,398 | 50000 |
+| 159307 | 红利低波100ETF博时 | equity | 5.8% | 58,374 | 58,398 | 56400 |
+| 513870 | 纳指ETF富国 | equity | 5.8% | 58,328 | 58,398 | 27500 |
+| 159632 | 纳斯达克ETF华安 | equity | 5.8% | 58,297 | 58,398 | 23300 |
+| cash | - | money | 29.9% | 301,192 | 299,225 | - |
+
+**Which column is money.** `cash out` is executable: lots x ref price, summed, plus the cash row = the stated capital exactly. The `target` column is the weight x capital figure the weights imply and is NOT spendable — whole 100-share lots leave 1,968 CNY (+0.20% of NAV) uninvested, and the cash row above already carries it.
 
 ## What the rotation is worth
 
@@ -47,7 +49,7 @@ So the pre-2020 failure belongs to the bond-inclusive, unsized cell (-5.0%/yr) a
 
 ## What is left after the four betas
 
-Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.96** and R2=0.43, as of 2026-10-28. The equal-weight four-ETF basket itself returns 10.2%/yr at Sharpe 0.99 and worst drawdown -11.3%, against the book's 9.7%/yr, Sharpe 1.00 and -11.8%.
+Regressed on the four exposures an account could hold instead of this book (gold / Nasdaq-100 QDII / CSI300 / treasury bond, same execution basis, same cost), the book's daily returns leave an intercept of **+5.9%/yr with t=1.96** and R2=0.43, as of 2026-10-29. The equal-weight four-ETF basket itself returns 10.2%/yr at Sharpe 0.99 and worst drawdown -11.3%, against the book's 9.7%/yr, Sharpe 1.00 and -11.8%.
 
 Read that as **not distinguishable from a fixed loadings mix**, not as zero and not as proven skill: the in-sample half of the window prints t=1.16 and the out-of-sample half t=1.99, so the point estimate is carried by the later period and the line is a risk statement rather than a return one.
 
@@ -93,7 +95,7 @@ k=0.05 is the only arm that lowers turnover (0.934 -> 0.901), keeps the return (
 
 ## Caveats
 
-- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.81%/yr (Sharpe -0.41) against +6.14%/yr (+0.65) for the fixed signs -- and reversing the trailing sign does not recover it (-0.09%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
+- THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every published number here uses a fixed sign block, and those signs are exactly this panel's full-sample IC signs (6 of 6 factors match). Re-priced with signs estimated only from already-realised windows, the same engine returns -10.81%/yr (Sharpe -0.41) against +6.14%/yr (+0.64) for the fixed signs -- and reversing the trailing sign does not recover it (-0.87%/yr). Read the headline as the size of a period, not the size of a rule. See results/etf_sign_pit.json.
 - ONE REGIME, NOT A VERIFIED EDGE: on the 224 ETFs that existed before 2020, priced 2015-2019 (a window this card never covered) the same engine returned -4.97%/yr against +3.89%/yr equal weight = -8.86pp excess, worse in 6 of 6 grid cells, random-score p=0.96. The published CAGR is the 2020+ regime, not a property of the factors. That cell is bond-inclusive, 5 names wide and has no sizing rule; 'The 2015-2019 reconciliation' below prices what each of those differences is worth. See results/etf_book_pre2020.json.
 - THE COMMODITY SLEEVE IS MOSTLY METAL BETA WITH A MODEST RANKING OVERLAY: it produced 30.1% of gross return; the same engine restricted to the 41 commodity ETFs returned +16.31%/yr against +11.45%/yr for holding those names equally (+4.86pp), and the deepest-turnover commodity name (518880) returned +13.91%/yr passively, i.e. the book beat holding the metal by +2.40pp. Read the sleeve as commodity/gold exposure plus a small selection add-on, not a commodity ranking that pays. See results/etf_book_commodity_split.json.
 - ETF pool is today's listed set: survivorship inflates the equity sleeve.
