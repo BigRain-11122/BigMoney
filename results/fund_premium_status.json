@@ -1,15 +1,19 @@
 {
  "lane_owner": "bm-c",
- "ts": "2026-10-30T13:22:10",
- "mode": "no-op: before close",
+ "ts": "2026-10-30T17:01:07",
+ "mode": "no-op: fresh",
  "snapshot": {
-  "no_op_reason": "before 15:30:00",
-  "last_attempt": "2026-10-29T16:07:43",
-  "latest_nav_date": "2026-10-28",
-  "last_fetch": "2026-10-29T16:07:47",
-  "rows": 1689,
+  "no_op_reason": "snapshot 2026-10-29 already covers expected NAV date 2026-10-29",
+  "last_attempt": "2026-10-30T16:58:51",
+  "latest_nav_date": "2026-10-29",
+  "last_fetch": "2026-10-30T16:58:53",
+  "rows": 1690,
   "last_error": null,
-  "prev_pair_present": false
+  "prev_pair_present": false,
+  "throttle_reset_note": "r1364: 30min backoff cleared after fixing newest-published-NAV-pair selection (the failure it guarded is the one fixed)",
+  "unpublished_dates_skipped": [
+   "2026-10-30"
+  ]
  },
  "nav": {
   "done": 48,

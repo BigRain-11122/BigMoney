@@ -168,6 +168,15 @@ def _extract_nav_dates(cols) -> list:
     return sorted(set(out))
 
 
+def _pair_fill_rate(df, d, base="单位净值") -> float:
+    """Share of rows carrying a numeric 单位净值 for date d (0.0 when the pair is absent)."""
+    import pandas as pd
+    for c in df.columns:
+        if str(c) == f"{d}-{base}":
+            return float(pd.to_numeric(df[c], errors="coerce").notna().mean())
+    return 0.0
+
+
 def normalize_snapshot(df):
     """bulk face → (nav_date, norm_df)。取列名最大日期 D 为 nav/acc_nav，次大为 *_prev。
     返回 (D, DataFrame) 或抛 ValueError（shape 违约诚实炸，不静默）。"""
@@ -175,7 +184,22 @@ def normalize_snapshot(df):
     dates = _extract_nav_dates(df.columns)
     if len(dates) < 2:
         raise ValueError(f"bulk face: expected >=2 date-stamped NAV column pairs, got {dates}")
-    d_max, d_prev = dates[-1], dates[-2]
+    # E136 class: a date stamp is not a publication date -- the bulk face carries the
+    # newest column pair with an empty NAV for hours before it publishes. Taking
+    # dates[-1] blindly froze this lane (2026-10-30: 0/1690 non-null on the 10-30
+    # pair, 1648/1690 on 10-29 -> exit 2 every round). Take the newest pair that
+    # actually carries NAV and name the ones skipped so the gap is visible.
+    fills = {d: _pair_fill_rate(df, d) for d in dates}
+    published = [d for d in dates if fills[d] >= SNAP_NAV_NONNULL]
+    if not published:
+        raise ValueError("bulk face: no published NAV date pair (fills="
+                         + ", ".join(f"{d}:{fills[d]:.3f}" for d in dates[-4:]) + ")")
+    # The bulk face carries only the two most recent date pairs, so the newest
+    # published pair usually has NO published predecessor inside the frame.
+    # Then nav_prev is honestly NaN rather than silently the blank pair.
+    d_max = published[-1]
+    d_prev = published[-2] if len(published) >= 2 else None
+    skipped_unpublished = [d for d in dates if d > d_max]
 
     def col(base, d):
         for c in df.columns:
@@ -189,14 +213,21 @@ def normalize_snapshot(df):
         "ftype": df["类型"].astype(str).str.strip(),
         "nav": pd.to_numeric(df[col("单位净值", d_max)], errors="coerce"),
         "acc_nav": pd.to_numeric(df[col("累计净值", d_max)], errors="coerce"),
-        "nav_prev": pd.to_numeric(df[col("单位净值", d_prev)], errors="coerce"),
-        "acc_nav_prev": pd.to_numeric(df[col("累计净值", d_prev)], errors="coerce"),
         "growth": pd.to_numeric(df.get("增长值"), errors="coerce"),
         "growth_rate": df.get("增长率").astype(str).str.strip() if "增长率" in df.columns else "",
         "mkt_price": pd.to_numeric(df.get("市价"), errors="coerce"),
         "discount_rate": df.get("折价率").astype(str).str.strip() if "折价率" in df.columns else "",
     })
+    if d_prev is None:
+        out["nav_prev"] = float("nan")
+        out["acc_nav_prev"] = float("nan")
+    else:
+        out["nav_prev"] = pd.to_numeric(df[col("单位净值", d_prev)], errors="coerce")
+        out["acc_nav_prev"] = pd.to_numeric(df[col("累计净值", d_prev)], errors="coerce")
+    out = out[SNAP_COLS]
     out["code"] = out["code"].str.zfill(6)
+    out.attrs["skipped_unpublished_dates"] = skipped_unpublished
+    out.attrs["nav_prev_date"] = d_prev
     return d_max, out
 
 
@@ -366,10 +397,11 @@ def cmd_snapshot() -> int:
         print(f"snapshot validation FAILED: {snap['last_error']} -> honest exit 2")
         return 2
 
+    skipped = list(getattr(norm, "attrs", {}).get("skipped_unpublished_dates") or [])
     out_path = os.path.join(SNAP_DIR, f"{nav_date}.csv")
     if os.path.exists(out_path):
         snap = st.get("snapshot") or {}
-        snap.update({"latest_nav_date": nav_date, "no_op_reason": "file already on disk",
+        snap.update({"latest_nav_date": nav_date, "no_op_reason": "file already on disk", "unpublished_dates_skipped": skipped,
                      "last_error": None})
         st.update({"ts": dt.datetime.now().isoformat(timespec="seconds"),
                    "mode": "no-op: idempotent", "snapshot": snap})
@@ -383,7 +415,7 @@ def cmd_snapshot() -> int:
     os.replace(tmp, out_path)
     snap = st.get("snapshot") or {}
     snap.update({"latest_nav_date": nav_date, "last_fetch": dt.datetime.now().isoformat(timespec="seconds"),
-                 "rows": int(len(norm)), "last_error": None})
+                 "rows": int(len(norm)), "unpublished_dates_skipped": skipped, "last_error": None})
     st.update({"ts": dt.datetime.now().isoformat(timespec="seconds"),
                "mode": "snapshot stored",
                "snapshot": snap})
@@ -684,15 +716,29 @@ def selftest() -> int:
     })
     d_max, norm = normalize_snapshot(bulk)
     chk("normalize nav_date", d_max == "2026-09-23")
+    bulk_unpub = bulk.copy()
+    bulk_unpub["2026-09-24-单位净值"] = [None, None]
+    bulk_unpub["2026-09-24-累计净值"] = [None, None]
+    d_unpub, norm_unpub = normalize_snapshot(bulk_unpub)
+    chk("normalize skips unpublished newest pair", d_unpub == "2026-09-23")
+    chk("normalize names skipped dates",
+        norm_unpub.attrs.get("skipped_unpublished_dates") == ["2026-09-24"])
     chk("normalize nav pair", abs(float(norm["nav"].iloc[0]) - 4.5904) < 1e-9
         and abs(float(norm["nav_prev"].iloc[0]) - 4.58) < 1e-9)
     chk("normalize discount passthrough", norm["discount_rate"].iloc[0] == "0.01%")
     chk("normalize code zfill", norm["code"].iloc[0] == "510300")
+    d_one, norm_one = normalize_snapshot(bulk.drop(columns=["2026-09-22-单位净值"]))
+    chk("normalize single published pair keeps d_max", d_one == "2026-09-23")
+    chk("normalize single published pair leaves nav_prev NaN",
+        norm_one["nav_prev"].isna().all() and norm_one.attrs.get("nav_prev_date") is None)
+    bulk_blank = bulk.copy()
+    bulk_blank["2026-09-23-单位净值"] = [None, None]
+    bulk_blank["2026-09-22-单位净值"] = [None, None]
     try:
-        normalize_snapshot(bulk.drop(columns=["2026-09-22-单位净值"]))
-        chk("normalize missing pair raises", False)
+        normalize_snapshot(bulk_blank)
+        chk("normalize all-blank NAV raises", False)
     except ValueError:
-        chk("normalize missing pair raises", True)
+        chk("normalize all-blank NAV raises", True)
 
     # S4 snapshot validation gates
     ok_norm = norm.copy()

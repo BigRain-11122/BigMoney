@@ -320,6 +320,14 @@ LEGS = [
     ("etf_book_atlas_toll_ladder",
      ["python", "scripts/etf_book_atlas_toll_ladder.py", "--check"],
      ["python", "scripts/etf_book_atlas_toll_ladder.py", "run"]),
+    # r1362: E275's one sign-stable direction (wider = better) was measured inside one grid on
+    # one panel. This leg re-asks it on the E198 18-name cross and rebuilds the verdict from the
+    # stored arm summaries, so a hand-edited verdict or a rung that never traded is red. It also
+    # carries the seeded random-score control that separates a width sign from a volatility sign.
+    # Gate-only in the chain (--check reads 20KB); the run costs ~4 min of panel build.
+    ("etf_book_width_cross",
+     ["python", "scripts/etf_book_width_cross.py", "--check"],
+     ["python", "scripts/etf_book_width_cross.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
@@ -609,12 +617,36 @@ def selftest():
            "bad=%r" % ([t[0] for t in LEGS if not (len(t) in (2, 3) and isinstance(t[1], list))],))
     n_refresh = sum(1 for t in LEGS if len(t) == 3)
     _check("the six check-only legs declare a refresh", n_refresh >= 6, "n=%d" % n_refresh)
+    full = chain_record_path(1364)
+    scoped = chain_record_path(1364, "fund_premium")
+    _check("a --only record cannot overwrite the full-chain record",
+           full == "results/_r1364bmc_s6_chain.json"
+           and scoped == "results/_r1364bmc_s6_chain.only-fund_premium.json"
+           and full != scoped, "full=%r scoped=%r" % (full, scoped))
+    _check("a --only record name survives commas and odd characters",
+           chain_record_path(1364, "a, b/c") == "results/_r1364bmc_s6_chain.only-a-b_c.json",
+           "got=%r" % (chain_record_path(1364, "a, b/c"),))
 
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:
         print(("[PASS] " if ok else "[FAIL] ") + name + ("" if ok else " | " + detail))
     print("%d/%d PASS" % (passed, len(legs)))
     return 0 if passed == len(legs) else 1
+
+
+def chain_record_path(round_no, only=None) -> str:
+    """Where a chain record goes: the run scope belongs in the name.
+
+    r1364: `--only <leg>` wrote to the same path as a full-chain run and clobbered
+    results/_r1361bmc_s6_chain.json (101 legs -> 1). An atomic replace (r1343)
+    protects against a torn write, not against a smaller run wearing the big
+    run's name -- the file has to say what it measured.
+    """
+    if only:
+        slug = "-".join(sorted(w.strip() for w in str(only).split(",") if w.strip()))
+        slug = "".join(c if (c.isalnum() or c in "-_") else "_" for c in slug)
+        return f"results/_r{round_no}bmc_s6_chain.only-{slug}.json"
+    return f"results/_r{round_no}bmc_s6_chain.json"
 
 
 def main():
@@ -665,7 +697,7 @@ def main():
             sys.exit(2)
     out = [run_leg(name, cmd, *rest) for name, cmd, *rest in legs]
 
-    path = f"results/_r{round_no}bmc_s6_chain.json"
+    path = chain_record_path(round_no, only)
     # r1343: an interrupted json.dump leaves a one-byte record behind
     # (results/_r1314bmc_s6_chain.json carries 161 bytes from a one-leg run, and the
     # 12:47 record from r1337 is a three-leg fragment). Write beside the target and
