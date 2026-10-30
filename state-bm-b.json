@@ -2132,6 +2132,17 @@
    "results/_r1293bmb_e267_smokeleg_harness.py (verbatim leg extraction, PASS)",
    "results/runnable_pool.json E267 done + E265 superseded + E268/E269 seeded (763 entries)"
   ],
+  "receipt": {
+   "behind_origin_main": 120,
+   "branch": "machine/bm-b-r1293",
+   "local_not_on_origin_main": 35,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1292 family); not attempted",
+   "orphan_face": 0,
+   "remote_ref_sha": "a7616052157bf04c2b59033970c9c6a9c58d66b2",
+   "sha": "a7616052157bf04c2b59033970c9c6a9c58d66b2",
+   "ts": "2026-10-31T00:08:00+08:00",
+   "verified": true
+  },
   "s1": "smoke_test.py compiles clean (py_compile rc=0) and the new product leg ran green through a verbatim-source harness (results/_r1293bmb_e267_smokeleg_harness.py; the full ~246-leg suite takes ~35 min and does not fit the window)",
   "s6": "orphan 0 of 7 py faces | sat engine rc=0 idle | dualrun ZERO-DRIFT 763 entries streak 46 | compute_audit FLAG supply_gap,supply_floor (ready 2 < floor 3, breach_ignitable; cpu 10%, py 0%) | py_watermark py_low_board_clear (py 0.0%, 2 ready) | attrition CLEAN 4 ledgers (3 historical shrink rows healed)",
   "s7": "loop pin=2 no-op (machine=bm-b pin=2 current=2, first fire 2026-10-31T00:07) | Bigmoney-LoopWatchdog present | pre-commit and pre-push claws both MATCH | orders 114 files / 115 acks / 0 unacked | decisions face unchanged (sha 97fe122f, zero-delta since r1287)",
@@ -2169,19 +2180,19 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
  "status": "green",
  "sync": {
-  "ahead": 32,
+  "ahead": 35,
   "behind": 120,
   "branch": "machine/bm-b-r1293",
   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1291 family); delivery on the machine branch",
   "peer": "origin",
-  "ts": "2026-10-31T00:05:25+08:00"
+  "ts": "2026-10-31T00:08:00+08:00"
  },
  "task": "E267 screen buffer margin (done)",
  "task_short": "E267 buffer margin",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
  "ts": "2026-10-31T00:05:25+08:00",
- "updated": "2026-10-31T00:05:25+08:00",
- "updated_at": "2026-10-31T00:05:25+08:00",
+ "updated": "2026-10-31T00:08:00+08:00",
+ "updated_at": "2026-10-31T00:08:00+08:00",
  "verdict": "buffer_cannot_buy_precision_itself",
  "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu: py 0% of 16 cores, 2 ready pool rows, supply_floor breach); the round burned the head card E267 in-round",
  "work": "a buffer alone peaks at precision 0.154 in a 0.00116-wide b window and never reaches 1; the largest non-move clears by 246% so no buffer that keeps a move can clear it; the own-side guard is exact at b=0 and stays exact for every b up to 0.0454"
