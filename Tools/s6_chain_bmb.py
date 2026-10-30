@@ -328,6 +328,18 @@ LEGS = [
     ("screen_buffer_margin",
      ["python", "scripts/e267_screen_buffer_margin.py", "verify"]),
 
+    # E268: E267's operative half is the own-side guard, which needs the row's own p95 -- the one
+    # number a reader of the table does not have. This leg re-derives the two substitutes that do
+    # live in the published face: the (leg, base) pooled TIGHT end answers the guard identically on
+    # all 36 comparisons (24 below t, 12 above) and reproduces both published moves, while the
+    # pooled WIDE end flips 6 comparisons (misses both moves) and the per-row published BOOLEAN
+    # flips 3 (it inherits E259's self-arm judgement on row 13, which E262 disclosed as
+    # interval-dependent). It also re-derives that the equivalence is carried by distance -- the
+    # nearest comparison sits 0.0835 off its threshold -- so it holds only outside that band.
+    # Reads the published transfer face only, no draw, no panel. <1s.
+    ("screen_on_pooled_end",
+     ["python", "scripts/e268_screen_on_pooled_end.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

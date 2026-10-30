@@ -5471,6 +5471,121 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E268: E267 left the screen resting on the row's OWN p95 -- the one number a reader of the
+    # table does not have. This leg guards the face that asks whether the published pooled end (or
+    # the published boolean) can stand in for it. What can fabricate a claim here: calling a
+    # substitute "usable" while it answers the guard differently on the comparisons that did not
+    # move (exactness on two moves is not agreement on the table), an `exact` flag that does not
+    # follow its own tp/fp/fn, re-deriving the published boolean from own_p95 and then finding it
+    # agrees (a tautology), and an equivalence claimed with no distance-to-threshold band -- 0
+    # disagreements only means nothing sits close enough to split them.
+    try:
+        _bad68 = []
+        _p68 = os.path.join("results", "state_tilt", "bandpooled_latest.json")
+        _f68 = None
+        if not os.path.exists(_p68):
+            _bad68.append("face missing: %s" % _p68)
+        else:
+            with io.open(_p68, encoding="utf-8") as _fh68:
+                _f68 = json.load(_fh68)
+        if _f68 is not None:
+            _s68 = _f68.get("summary") or {}
+            _cells68 = _s68.get("cells") or {}
+            _perm68 = _f68.get("permissiveness") or {}
+            _read68 = _f68.get("substitution_reading") or {}
+            _band68 = _f68.get("ambiguity_band") or {}
+            # (a) exact must follow its own counts, per screen x variant
+            for _scr68, _per68 in sorted(_cells68.items()):
+                for _var68, _c68 in sorted((_per68 or {}).items()):
+                    _want68 = bool((_c68.get("fp") or 0) == 0 and (_c68.get("fn") or 0) == 0
+                                   and (_c68.get("undefined") or 0) == 0)
+                    if bool(_c68.get("exact")) is not _want68:
+                        _bad68.append("%s/%s: exact=%r but tp/fp/fn/undef %r/%r/%r/%r"
+                                      % (_scr68, _var68, _c68.get("exact"), _c68.get("tp"),
+                                         _c68.get("fp"), _c68.get("fn"), _c68.get("undefined")))
+                        break
+            # (b) a substitute that answers differently elsewhere is not a disclosure
+            for _var68, _rd68 in sorted(_read68.items()):
+                _diff68 = _rd68.get("differs_from_row_own")
+                if not isinstance(_diff68, int):
+                    _bad68.append("%s: differs_from_row_own is not an int (%r)"
+                                  % (_var68, _diff68))
+                    continue
+                if _diff68 > 0 and str(_rd68.get("reading", "")).startswith("disclosure"):
+                    _bad68.append("%s: called a disclosure while answering %d comparison(s) the "
+                                  "other way" % (_var68, _diff68))
+                if (_diff68 == 0 and _rd68.get("guarded_exact")
+                        and _var68 != "row_own"
+                        and not str(_rd68.get("reading", "")).startswith("disclosure")):
+                    _bad68.append("%s: identical calls and exact, yet not read as a disclosure"
+                                  % _var68)
+                _per_v68 = _perm68.get(_var68) or {}
+                if _per_v68.get("differs_from_row_own") != _diff68:
+                    _bad68.append("%s: permissiveness and the reading disagree on %r vs %r"
+                                  % (_var68, _per_v68.get("differs_from_row_own"), _diff68))
+            # (c) the boolean variant may not be a free pass: if the published verdict disagrees
+            # with the recomputed one, that variant cannot be exact
+            _ag68 = _s68.get("published_verdict_agreement") or {}
+            _pub68 = ((_cells68.get("guarded_side") or {}).get("row_published_verdict") or {})
+            if _ag68.get("agrees") is False and _pub68.get("exact"):
+                _bad68.append("the published boolean disagrees with the recomputed own-side verdict "
+                              "and still scores exact -- it is being re-derived, not read")
+            if _ag68.get("agrees") is False and not _ag68.get("disagreement_rows"):
+                _bad68.append("a disagreement is reported with no row index")
+            # (d) a pooled end outside its rows' range must be disclosed, and the band must exist
+            for _g68 in (_f68.get("group_spread") or []):
+                if "flat_tight_inside_row_range" not in _g68:
+                    _bad68.append("group %r does not disclose whether the tight pooled end sits "
+                                  "inside its rows' range" % (_g68.get("group"),))
+                    break
+            _tb68 = _band68.get("group_flat_tight")
+            if not _tb68 or _tb68.get("gap") is None:
+                _bad68.append("no distance-to-threshold band for the pooled tight end: agreement "
+                              "at 0 disagreements is unmeasured")
+            if _band68.get("row_published_verdict") is not None:
+                _bad68.append("a boolean end publishes a distance to a line")
+            # (e) counts are ints and the verdict is in the frozen vocabulary
+            for _k68 in ("comparisons", "moves_published", "groups"):
+                if not isinstance(_s68.get(_k68), int):
+                    _bad68.append("summary field %s is not an int (%r)" % (_k68, _s68.get(_k68)))
+            if _f68.get("verdict") not in (
+                    "a_pooled_group_end_runs_the_screen",
+                    "the_published_verdict_runs_it_a_pooled_end_does_not",
+                    "a_pooled_end_is_not_a_substitute_for_the_rows_own_draws",
+                    "the_screen_is_not_exact_on_the_rows_own_draws",
+                    "screen_untested_no_moves", "no_published_pair_carries_a_row"):
+                _bad68.append("verdict %r is outside the frozen vocabulary" % (_f68.get("verdict"),))
+            if _s68.get("underpowered") is True and "below the" not in str(
+                    _f68.get("verdict_reason")):
+                _bad68.append("an underpowered reading does not say so in the verdict reason")
+            # (f) the comparison rows must carry the substitution inputs, not just the verdict
+            _rows68 = _f68.get("comparisons") or []
+            if not _rows68:
+                _bad68.append("no comparison rows published")
+            for _r68 in _rows68[:40]:
+                if "group_flat_tight_p95" not in _r68 or "predicted" not in _r68:
+                    _bad68.append("comparison row %r does not carry its substitution inputs"
+                                  % (_r68.get("index"),))
+                    break
+            check("product: a pooled end is not the row's own end until it answers the same way "
+                  "elsewhere", not _bad68,
+                  "%r | %d comparison(s), %d move(s), %d group(s); guarded side holds with own "
+                  "end / pooled tight / pooled wide / published boolean = %r/%r/%r/%r; nearest gap "
+                  "to a threshold %s"
+                  % ((_f68.get("verdict"), _s68.get("comparisons") or 0,
+                      _s68.get("moves_published") or 0, _s68.get("groups") or 0,
+                      ((_cells68.get("guarded_side") or {}).get("row_own") or {}).get("exact"),
+                      ((_cells68.get("guarded_side") or {}).get("group_flat_tight") or {}).get("exact"),
+                      ((_cells68.get("guarded_side") or {}).get("group_flat_wide") or {}).get("exact"),
+                      ((_cells68.get("guarded_side") or {}) .get("row_published_verdict") or {}).get("exact"),
+                      ("%.4f" % abs((_tb68 or {}).get("gap"))
+                       if (_tb68 or {}).get("gap") is not None else "n/a")))
+                  + (" | " + "; ".join(_bad68[:4]) if _bad68 else ""))
+    except Exception as e:
+        check("product: a pooled end is not the row's own end until it answers the same way "
+              "elsewhere", False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

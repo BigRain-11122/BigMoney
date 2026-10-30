@@ -24671,11 +24671,15 @@
   },
   {
    "deliverable": "results/state_tilt/BANDPOOLED-<cutoff>.json",
+   "done_at": "2026-10-31 02:20",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E268-SCREEN-ON-POOLED-END",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_note": "verdict=a_pooled_group_end_runs_the_screen; 36 comparisons / 2 moves / 4 groups. The guarded screen needs the row's own p95; substituting the (leg, base) pooled TIGHT end answers the guard identically on all 36 comparisons (24 below t, 12 above) and reproduces both published moves with 0 false positives, while the pooled WIDE end flips 6 comparisons (misses both moves) and the per-row published BOOLEAN flips 3 (row 13, disclosed by E262 as interval-dependent: the boolean is E259's self-arm judgement, not the resolved leg). The equivalence is carried by DISTANCE -- the nearest comparison sits 0.0835 off its threshold (4.43%) -- and only 2 moves exist, so it is a consistency read, not a validation. Reading: pooled tight end = disclosure; wide end and boolean = change of meaning.",
+   "result_ref": "results/state_tilt/BANDPOOLED-2026-10-29.json",
    "runner": "scripts/e268_screen_on_pooled_end.py",
    "runner_args": [
     "run"
@@ -24683,7 +24687,7 @@
    "seeded_at": "2026-10-31T00:12:00+08:00",
    "seeded_by": "bm-b r1293",
    "source": "E267 showed the operative half of the screen is the own-side guard (own_p95 < t_side) and that the guard alone is exact on the published comparisons -- but the guard needs the row's own p95, which is exactly what a reader who did not draw that row's band does not have. E262 published a pooled 'flat' wide end per (leg, base) group, so the testable substitute exists in the same face: replace own_p95 with the group's flat p95 (and separately with the group's flat tight end) and measure whether the screen stays exact, which rows it mislabels, and whether the substitution is a disclosure or a change of meaning. The answer decides whether this screen is usable by anyone who reads the published tables rather than re-running the engine.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e268_screen_on_pooled_end.py (new runner)",
    "title": "can a reader without the row's own draws still run the screen?",
    "worker_class": "code-change"
@@ -24706,6 +24710,44 @@
    "target": "scripts/e269_tight_end_transfer.py (new runner)",
    "title": "does the tight end of another window transfer as badly as its wide end?",
    "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDFIELDS-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E270-GUARD-FIELD-AUDIT",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e270_guard_field_audit.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T02:20:00+08:00",
+   "seeded_by": "bm-b r1294",
+   "source": "E268 answered the question for ONE face (BANDTRANSFER) and found the answer depends on which published quantities a reader holds. The obvious follow-up is the wider audit: walk every face under results/state_tilt/ that a screen reads and record, per row, which guard inputs are present (own_p95, own_p05, b, band_lo/hi, t_side, t_max_end, published verdict, the group's pooled ends) and which faces would leave a reader unable to run the screen at all. That turns 'the table is enough' from a statement about one face into a table of which faces are self-sufficient and why the others are not -- and it is the cheapest possible check, since everything it needs is already on disk.",
+   "status": "ready",
+   "target": "scripts/e270_guard_field_audit.py (new runner)",
+   "title": "does every published face a screen reads actually carry the guard's inputs?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDDONORCHOICE-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E271-DONOR-CHOICE-SENSITIVITY",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e271_donor_choice_sensitivity.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T02:20:00+08:00",
+   "seeded_by": "bm-b r1294",
+   "source": "E262 published 48 ordered (donor, recipient) pairs and E266/E267/E268 all scored the screen against the donor's p95 already fixed by the pair. But the published face also carries every other cell's p95 for the same (leg, base) group, so the question 'does it matter which donor you borrowed' is answerable on the same numbers: for each recipient, recompute the moved set under every available donor end and report how many recipients change verdict, which cell is pivotal, and whether the published pair choice is the conservative one. If the moved set is donor-invariant then 'do not borrow' is the whole instruction; if it is not, the instruction is 'do not borrow from this cell', which is materially different and currently unpublished.",
+   "status": "ready",
+   "target": "scripts/e271_donor_choice_sensitivity.py (new runner)",
+   "title": "does the moved set depend on WHICH donor a reader picks, not just how wide it is?",
+   "worker_class": "code-change"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24720,6 +24762,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T00:20:00+08:00",
+ "updated_at": "2026-10-31T02:20:00+08:00",
  "version": 1
 }
