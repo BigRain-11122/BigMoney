@@ -23685,7 +23685,7 @@
   {
    "id": "E246-STAR-OR-COMMON-FACTOR",
    "title": "is the star a factor in one sleeve's turnover, or the same commonality with a lead?",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "lane": "cpu-only",
    "worker_class": "code-change",
@@ -23699,7 +23699,29 @@
    ],
    "deliverable": "results/state_tilt/STARDIR-<cutoff>.json",
    "owner": null,
-   "source": "E245 found the 'rest channel' is a star: sh588000's turnover is decisive for 4 of 4 members (mean slope 0.769) in the five-member window and the cell resolves at 0.264, while pre-2020 -- before that sleeve prints -- the columns are diffuse (0.36/0.43/0.33) and no star exists. Two mechanisms produce identical simultaneity: (a) that sleeve's turnover carries a book-wide factor, (b) all five sleeves load on one common driver and the star is whichever one the regression is best at reading. The design that separates them is the LEAD: re-fit the matrix with the star's turnover lagged one and two sessions (and the reverse direction, everyone's turnover against its own lag) and publish which direction survives HAC. If nothing leads anything, the star is a contemporaneous common factor and must be published as such -- a common factor is not a channel a single sleeve's flow can be blamed for. Carry E245's resolution gate per cell and its member-named cell rule (an empty intersection reports zero sessions, not a green cell)."
+   "source": "E245 found the 'rest channel' is a star: sh588000's turnover is decisive for 4 of 4 members (mean slope 0.769) in the five-member window and the cell resolves at 0.264, while pre-2020 -- before that sleeve prints -- the columns are diffuse (0.36/0.43/0.33) and no star exists. Two mechanisms produce identical simultaneity: (a) that sleeve's turnover carries a book-wide factor, (b) all five sleeves load on one common driver and the star is whichever one the regression is best at reading. The design that separates them is the LEAD: re-fit the matrix with the star's turnover lagged one and two sessions (and the reverse direction, everyone's turnover against its own lag) and publish which direction survives HAC. If nothing leads anything, the star is a contemporaneous common factor and must be published as such -- a common factor is not a channel a single sleeve's flow can be blamed for. Carry E245's resolution gate per cell and its member-named cell rule (an empty intersection reports zero sessions, not a green cell).",
+   "finished_at": "2026-10-30T09:44:03",
+   "result_ref": "results/state_tilt/stardir_latest.json",
+   "result_note": "headline star_flow_leads_with_sign_flip: lag0 +0.769 (5/5 decisive), lag1 -0.527 (5/5), lag2 +0.397 (5/5) on 1328 sessions at resolution 0.264; reverse 0/4; pre-2020 four reads contemporaneous_common_factor (lag1 -0.117 at 0/4); placebo band on permuted star -0.019 (se 0.106); own-lag AR1 -0.33..-0.44 disclosed"
+  },
+  {
+   "id": "E247-OSCILLATION-OR-COEFFICIENT-BAND",
+   "title": "is the alternating star lead a two-session oscillation or a decaying coefficient with no band?",
+   "status": "ready",
+   "priority": 3,
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "entered_by": "bm-b r1272",
+   "entered_at": "2026-10-30T09:44:03",
+   "evidence_cutoff": "2026-10-29",
+   "target": "scripts/e247_star_lag_band.py (new runner)",
+   "runner": "scripts/e247_star_lag_band.py",
+   "runner_args": [
+    "run"
+   ],
+   "deliverable": "results/state_tilt/STARLAGBAND-<cutoff>.json",
+   "owner": null,
+   "source": "E246 read the star column as +0.769 / -0.527 / +0.397 at lags 0/1/2 and published the verdict as a sign flip, but it only tested two lags and it quoted each coefficient against its HAC interval without an empirical null. Extend the distributed-lag row to lags 1..5, publish a 200-draw permutation band per lag (star series shuffled in time, same design), and decide with that band whether the pattern is a period-2 oscillation (lag2 near lag1 in magnitude with opposite sign, lag3 falling back toward zero), a monotone decay (each lag smaller than the last in the same direction), or inside the band. Also re-run the row with the dependent variable as a two-session sum so overlapping windows cannot manufacture an alternation. Carry E246 own-lag persistence disclosure and refusal of too-few-session cells."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23714,6 +23736,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T09:07:01",
+ "updated_at": "2026-10-30T09:44:03",
  "version": 1
 }

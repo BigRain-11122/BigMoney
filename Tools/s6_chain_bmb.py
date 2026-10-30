@@ -175,6 +175,11 @@ LEGS = [
     # un-summed matrix (own + each other member separately, jointly, one HAC per cell), tests row
     # equality against column concentration, and publishes the resolution the matrix carries.
     ("pair_slope_matrix", ["python", "scripts/e245_pair_slope_matrix.py", "run"]),
+    # E246: the matrix leg named a star but could not say whether that sleeve's flow moves the
+    # book or whether all five load on one driver it happens to read best. This leg refits every
+    # row with the counterparties' PAST turnover in the same regression as their present one, so
+    # the lag coefficient is a lead rather than a proxy for a persistent column.
+    ("star_direction", ["python", "scripts/e246_star_direction.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

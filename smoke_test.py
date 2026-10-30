@@ -3653,6 +3653,95 @@ def main() -> int:
     except Exception as e:
         check("product: the un-summed matrix names structure without a sum regressor",
               False, repr(e)[:160])
+    # E246: the matrix face named a star but could not say whether that sleeve's flow moves the
+    # book or whether every sleeve loads on one driver it reads best. This leg re-derives the
+    # lead claims from the face's own counts, so a cell that names a lead without a decisive
+    # lagged column behind it cannot pass merely because the runner printed a verdict.
+    try:
+        _bad46 = []
+        _p46 = os.path.join("results", "state_tilt", "stardir_latest.json")
+        _f46 = None
+        if os.path.exists(_p46):
+            with io.open(_p46, encoding="utf-8") as _fh46:
+                _f46 = json.load(_fh46)
+        if not _f46:
+            _bad46.append("star-direction face missing")
+        else:
+            _spec46 = _f46.get("frozen_spec") or {}
+            _vocab46 = set(_spec46.get("verdicts") or []) | {
+                "verdict_era_dependent", "verdict_mixed_across_cells"}
+            _cells46 = [c for c in (_f46.get("cells") or []) if c.get("decided")]
+            _share46 = _spec46.get("star_decisive_share")
+            _abs46 = _spec46.get("lead_min_abs")
+            _bound46 = _spec46.get("resolution_max_halfwidth")
+            if not _cells46:
+                _bad46.append("no decided cell")
+            _saw_lead = 0
+            _saw_lagdesign = 0
+            for _c46 in _cells46:
+                if _c46.get("verdict") not in _vocab46:
+                    _bad46.append("cell %s verdict outside the frozen vocabulary" % _c46.get("label"))
+                _cn46 = _c46.get("counts") or {}
+                _lead46 = _cn46.get("lead") or {}
+                if "1" in _lead46 and "2" in _lead46:
+                    _saw_lagdesign += 1
+                else:
+                    _bad46.append("cell %s does not carry both lag designs" % _c46.get("label"))
+                _half46 = _c46.get("resolution_median_halfwidth")
+                if _half46 is not None and _bound46 is not None and _half46 > _bound46 \
+                        and _c46.get("verdict") in ("star_flow_leads_members",
+                                                    "flow_leads_and_contemporaneous",
+                                                    "star_flow_leads_with_sign_flip",
+                                                    "star_flow_leads_inverse",
+                                                    "contemporaneous_common_factor",
+                                                    "members_lead_the_star"):
+                    _bad46.append("cell %s names a direction on a %.2f half-width"
+                                  % (_c46.get("label"), _half46))
+                _declared = set(_c46.get("lead_lags_decisive") or [])
+                _real = set()
+                _signs = set()
+                for _L46, _b46 in _lead46.items():
+                    _sh46 = _b46.get("decisive_share")
+                    _mu46 = _b46.get("mean_slope")
+                    if _sh46 is not None and _mu46 is not None and _share46 is not None \
+                            and _sh46 >= _share46 and _abs46 is not None and abs(_mu46) >= _abs46:
+                        _real.add(int(_L46))
+                        _signs.add(1 if _mu46 > 0 else -1)
+                if _declared and _declared != _real:
+                    _bad46.append("cell %s declares lags %s but its counts carry %s"
+                                  % (_c46.get("label"), sorted(_declared), sorted(_real)))
+                if _declared:
+                    _saw_lead += 1
+                if _c46.get("verdict") == "star_flow_leads_with_sign_flip" and len(_signs) < 2:
+                    _bad46.append("cell %s calls a sign flip with %d sign(s)" % (_c46.get("label"), len(_signs)))
+                if _c46.get("verdict") in ("star_flow_leads_members",
+                                           "flow_leads_and_contemporaneous") and _signs and 1 not in _signs:
+                    _bad46.append("cell %s calls a positive lead with no positive lag" % _c46.get("label"))
+                for _r46 in _c46.get("rows") or []:
+                    pass
+                _pers46 = _c46.get("own_lag_persistence") or {}
+                if _pers46 and not any(v.get("decided") for v in _pers46.values()):
+                    _bad46.append("cell %s publishes no own-lag persistence" % _c46.get("label"))
+            _roll46 = (_f46.get("rollup") or {}).get("verdict")
+            _by46 = (_f46.get("rollup") or {}).get("cells_by_verdict") or {}
+            if _roll46 in ("verdict_mixed_across_cells", "verdict_era_dependent") and len(_by46) < 2:
+                _bad46.append("a mixed verdict with fewer than two verdict classes")
+            if _roll46 not in _vocab46 and _roll46 is not None:
+                _bad46.append("rollup verdict outside the frozen vocabulary")
+            if not _f46.get("no_bill"):
+                _bad46.append("the face does not carry its no-bill line")
+            _ones46 = (_f46.get("summary") or {}).get("one_line") or ""
+            if "no direction resolved in any counted cell" in _ones46 and _by46:
+                _bad46.append("the one-line answer contradicts the rollup")
+        check("product: star direction is decided from lag designs, not asserted",
+              not _bad46, "; ".join(_bad46)[:220]
+              or "verdict %s; cells with a lead %d of %d; headline %s"
+                 % ((_f46 or {}).get("rollup", {}).get("verdict"),
+                    _saw_lead, _saw_lagdesign,
+                    ((_f46 or {}).get("summary") or {}).get("headline_verdict")))
+    except Exception as e:
+        check("product: star direction is decided from lag designs, not asserted",
+              False, repr(e)[:160])
     return _finish()
 
 
