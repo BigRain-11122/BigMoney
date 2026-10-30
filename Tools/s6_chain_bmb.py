@@ -340,6 +340,16 @@ LEGS = [
     ("screen_on_pooled_end",
      ["python", "scripts/e268_screen_on_pooled_end.py", "verify"]),
 
+    # E269: every arm in E259 also publishes a p05 and every row a verdict_tight, so the tight half
+    # of the same transfer question had never been scored. This leg re-derives that the tight end
+    # moves no verdict on any of the 48 ordered pairs while the wide end moves 2 -- and, so that
+    # "zero moves" is not a tautology, that no measured row could flip at ANY p05 its group
+    # actually published (each row publishes its flip multiplier; the nearest one sits 13.5%
+    # outside the widest observed p05 swing). The reading is inertness on this population, not a
+    # clean transfer, which is why the verdict is named that way. Published faces only. <1s.
+    ("tight_end_transfer",
+     ["python", "scripts/e269_tight_end_transfer.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

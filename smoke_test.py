@@ -5586,6 +5586,160 @@ def main() -> int:
               "elsewhere", False, repr(e)[:160])
 
 
+    # E269: the tight end (p05) of the same transfer question. Two things can fabricate a reading
+    # here. (i) A "zero moves" that is really "nothing could have moved": every row publishes the
+    # multiplier at which its verdict flips, so the face must state whether ANY p05 its group
+    # actually published reaches that flip -- inertness and a clean transfer are different verdicts
+    # and may not be confused. (ii) A wide-end comparison copied by hand: the tight/wide move
+    # counts printed side by side must equal the source face's own summary, and every moved row
+    # must be a real verdict change under the borrowed p05.
+    try:
+        _bad69 = []
+        _p69 = os.path.join("results", "state_tilt", "bandtight_latest.json")
+        _f69 = None
+        if not os.path.exists(_p69):
+            _bad69.append("face missing: %s" % _p69)
+        else:
+            with io.open(_p69, encoding="utf-8") as _fh69:
+                _f69 = json.load(_fh69)
+
+        def _out69(_val, _lo, _hi):
+            if _val is None or _lo is None or _hi is None:
+                return None
+            return bool(_val < _lo or _val > _hi)
+
+        if _f69 is not None:
+            _s69 = _f69.get("summary") or {}
+            # (a) every published tight verdict is reproducible from its own p05
+            _rows69 = _f69.get("rows") or []
+            if not _rows69:
+                _bad69.append("no rows published")
+            for _r69 in _rows69:
+                if _r69.get("status") != "measured":
+                    if _r69.get("verdict_tight") is not None:
+                        _bad69.append("row %r is not measured yet carries a tight verdict"
+                                      % (_r69.get("index"),))
+                        break
+                    continue
+                _want69 = _out69(_r69.get("b"), (_r69.get("band_lo") or 0) * _r69.get("own_p05"),
+                                 (_r69.get("band_hi") or 0) * _r69.get("own_p05"))
+                if _want69 is not None and bool(_want69) is not bool(_r69.get("verdict_tight")):
+                    _bad69.append("row %r: tight verdict %r does not follow from its own p05"
+                                  % (_r69.get("index"), _r69.get("verdict_tight")))
+                    break
+            # (b) the transfer block must count what it lists
+            _tt69 = _f69.get("transfer_tight") or {}
+            _moved69, _pairs69, _moving69 = 0, 0, 0
+            for _k69, _blk69 in sorted(_tt69.items()):
+                for _pr69 in (_blk69.get("pairs") or []):
+                    _pairs69 += 1
+                    _n69 = len(_pr69.get("moved") or [])
+                    if _pr69.get("n_moved") != _n69:
+                        _bad69.append("%s %s->%s: n_moved %r but %d moved record(s)"
+                                      % (_k69, _pr69.get("donor"), _pr69.get("recipient"),
+                                         _pr69.get("n_moved"), _n69))
+                    if _n69:
+                        _moving69 += 1
+                        _moved69 += _n69
+                    for _m69 in (_pr69.get("moved") or []):
+                        if _m69.get("before") == _m69.get("after"):
+                            _bad69.append("%s: a 'move' whose before equals its after" % (_k69,))
+                        if _m69.get("direction") not in ("rejections_invented", "rejections_lost"):
+                            _bad69.append("%s: move direction %r is outside the vocabulary"
+                                          % (_k69, _m69.get("direction")))
+            if _s69.get("tight_pairs") != _pairs69:
+                _bad69.append("summary pairs %r vs %d counted" % (_s69.get("tight_pairs"), _pairs69))
+            if _s69.get("tight_pairs_moving_a_verdict") != _moving69:
+                _bad69.append("summary moving pairs %r vs %d counted"
+                              % (_s69.get("tight_pairs_moving_a_verdict"), _moving69))
+            # (c) the wide column is not hand-typed: it must equal the source face's summary
+            _src69 = os.path.join("results", "state_tilt", "bandtransfer_latest.json")
+            if os.path.exists(_src69):
+                with io.open(_src69, encoding="utf-8") as _fh69s:
+                    _ws69 = (json.load(_fh69s).get("summary") or {})
+                for _k69a, _k69b in (("wide_pairs", "pairs"),
+                                     ("wide_pairs_moving_a_verdict", "pairs_moving_a_verdict"),
+                                     ("wide_rejections_invented", "rejections_invented"),
+                                     ("wide_rejections_lost", "rejections_lost")):
+                    if _s69.get(_k69a) != _ws69.get(_k69b):
+                        _bad69.append("%s is %r but the source face says %r"
+                                      % (_k69a, _s69.get(_k69a), _ws69.get(_k69b)))
+            else:
+                _bad69.append("the source wide face is missing: the comparison is unverified")
+            # (d) sensitivity must be measured, not asserted
+            _sens69 = _f69.get("sensitivity") or {}
+            _could69 = 0
+            for _k69c, _blk69c in sorted(_sens69.items()):
+                if _blk69c.get("reason"):
+                    continue
+                _cc69 = 0
+                for _r69c in (_blk69c.get("rows") or []):
+                    _flip69 = (_r69c.get("verdict_at_min_p05")
+                               != _r69c.get("verdict_at_max_p05"))
+                    if bool(_r69c.get("could_move")) is not bool(_flip69):
+                        _bad69.append("%s row %r: could_move %r but the two ends disagree %r"
+                                      % (_k69c, _r69c.get("index"), _r69c.get("could_move"),
+                                         _flip69))
+                        break
+                    _cc69 += 1 if _flip69 else 0
+                if _blk69c.get("n_could_move") != _cc69:
+                    _bad69.append("%s: n_could_move %r vs %d counted"
+                                  % (_k69c, _blk69c.get("n_could_move"), _cc69))
+                _could69 += _cc69
+            if _s69.get("rows_could_move_within_observed_p05_range") != _could69:
+                _bad69.append("summary could-move %r vs %d counted"
+                              % (_s69.get("rows_could_move_within_observed_p05_range"), _could69))
+            # (e) inertness may not be claimed when a row could have moved, and vice versa
+            _v69 = _f69.get("verdict")
+            if _v69 == "the_tight_end_is_inert_on_this_population" and _could69 != 0:
+                _bad69.append("verdict says inert while %d row(s) could flip" % _could69)
+            if _v69 != "the_tight_end_is_inert_on_this_population" and _could69 == 0 \
+                    and _moving69 == 0:
+                _bad69.append("zero moves with zero could-move rows is not reported as inert")
+            if _v69 not in ("the_tight_end_is_inert_on_this_population",
+                            "the_tight_end_transfers_without_moving_a_verdict",
+                            "the_tight_end_moves_as_the_wide_end_does",
+                            "the_tight_end_moves_where_the_wide_end_does_not",
+                            "no_transfer_possible", "no_tight_rows_measured"):
+                _bad69.append("verdict %r is outside the frozen vocabulary" % (_v69,))
+            # (f) 'use the tightest' adopts the MINIMUM p05 of its group -- never the maximum
+            for _k69f, _blk69f in sorted((_f69.get("flat_tight") or {}).items()):
+                if _blk69f.get("reason"):
+                    continue
+                _dom69 = ((_f69.get("dominator_tight") or {}).get(_k69f) or {})
+                _vals69 = [_v for _v in (_dom69.get("p05") or {}).values() if _v is not None]
+                if not _vals69:
+                    _bad69.append("%s publishes a flat p05 with no arm values behind it" % (_k69f,))
+                    continue
+                if abs(_blk69f.get("flat_p05") - min(_vals69)) > 1e-12:
+                    _bad69.append("%s: flat_p05 %r is not the group minimum %r"
+                                  % (_k69f, _blk69f.get("flat_p05"), min(_vals69)))
+                if abs(_blk69f.get("flat_loose_p05") - max(_vals69)) > 1e-12:
+                    _bad69.append("%s: the loose twin is not the group maximum" % (_k69f,))
+            # (g) ints stay ints and the cut is carried
+            for _k69g in ("tight_rows_measured", "tight_pairs", "tight_pairs_moving_a_verdict",
+                          "wide_pairs_moving_a_verdict", "rows_could_move_within_observed_p05_range"):
+                if not isinstance(_s69.get(_k69g), int):
+                    _bad69.append("summary field %s is not an int (%r)"
+                                  % (_k69g, _s69.get(_k69g)))
+            if _f69.get("evidence_cutoff") is None:
+                _bad69.append("no evidence_cutoff on the face")
+            check("product: the tight end cannot transfer badly if it cannot move anything -- and "
+                  "a zero has to say which one it measured", not _bad69,
+                  "%r | tight %d pair(s) %d moving / wide %d moving; rows %d measured, %d could "
+                  "move at any published p05; nearest flip %.1f%% outside the widest p05 swing"
+                  % ((_f69.get("verdict") if _f69 else None,
+                      _s69.get("tight_pairs") or 0, _s69.get("tight_pairs_moving_a_verdict") or 0,
+                      _s69.get("wide_pairs_moving_a_verdict") or 0,
+                      _s69.get("tight_rows_measured") or 0,
+                      _s69.get("rows_could_move_within_observed_p05_range") or 0,
+                      float(_s69.get("nearest_flip_gap_pct") or 0.0)))
+                  + (" | " + "; ".join(_bad69[:4]) if _bad69 else ""))
+    except Exception as e:
+        check("product: the tight end cannot transfer badly if it cannot move anything -- and "
+              "a zero has to say which one it measured", False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

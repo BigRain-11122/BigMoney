@@ -1,0 +1,1292 @@
+{
+ "dominator_tight": {
+  "cross:200": {
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "dominator": null,
+   "max": 1.0,
+   "min": 1.0,
+   "p05": {
+    "all_five": 1.0,
+    "early_three": 1.0,
+    "era_2023_2024": 1.0,
+    "era_2025_now": 1.0
+   },
+   "spread_pct": 0.0,
+   "tied_at_min": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ]
+  },
+  "cross:60": {
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "dominator": "era_2023_2024",
+   "max": 1.1008218707620367,
+   "min": 1.0,
+   "p05": {
+    "all_five": 1.1008218707620367,
+    "early_three": 1.0437901478662597,
+    "era_2023_2024": 1.0,
+    "era_2025_now": 1.0961484198644305
+   },
+   "spread_pct": 10.082187076203674,
+   "tied_at_min": []
+  },
+  "self:200": {
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "dominator": null,
+   "max": 1.068797342014263,
+   "min": 1.0,
+   "p05": {
+    "all_five": 1.068797342014263,
+    "early_three": 1.0,
+    "era_2023_2024": 1.0,
+    "era_2025_now": 1.0
+   },
+   "spread_pct": 6.879734201426291,
+   "tied_at_min": [
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ]
+  },
+  "self:60": {
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "dominator": "era_2023_2024",
+   "max": 1.1064853190231985,
+   "min": 1.009502997066893,
+   "p05": {
+    "all_five": 1.1064853190231985,
+    "early_three": 1.0666547450688164,
+    "era_2023_2024": 1.009502997066893,
+    "era_2025_now": 1.0931596394888732
+   },
+   "spread_pct": 9.606937496776858,
+   "tied_at_min": []
+  }
+ },
+ "evidence_cutoff": "2026-10-29",
+ "flat_tight": {
+  "cross:200": {
+   "base": 200,
+   "flat_loose_from": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "flat_loose_p05": 1.0,
+   "flat_p05": 1.0,
+   "flat_p05_from": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "cross",
+   "moved_at_flat": [],
+   "moved_at_loose": [],
+   "n_moved_at_flat": 0,
+   "n_moved_at_loose": 0,
+   "n_rows": 2
+  },
+  "cross:60": {
+   "base": 60,
+   "flat_loose_from": [
+    "all_five"
+   ],
+   "flat_loose_p05": 1.1008218707620367,
+   "flat_p05": 1.0,
+   "flat_p05_from": [
+    "era_2023_2024"
+   ],
+   "leg": "cross",
+   "moved_at_flat": [],
+   "moved_at_loose": [],
+   "n_moved_at_flat": 0,
+   "n_moved_at_loose": 0,
+   "n_rows": 6
+  },
+  "self:200": {
+   "base": 200,
+   "flat_loose_from": [
+    "all_five"
+   ],
+   "flat_loose_p05": 1.068797342014263,
+   "flat_p05": 1.0,
+   "flat_p05_from": [
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "self",
+   "moved_at_flat": [],
+   "moved_at_loose": [],
+   "n_moved_at_flat": 0,
+   "n_moved_at_loose": 0,
+   "n_rows": 1
+  },
+  "self:60": {
+   "base": 60,
+   "flat_loose_from": [
+    "all_five"
+   ],
+   "flat_loose_p05": 1.1064853190231985,
+   "flat_p05": 1.009502997066893,
+   "flat_p05_from": [
+    "era_2023_2024"
+   ],
+   "leg": "self",
+   "moved_at_flat": [],
+   "moved_at_loose": [],
+   "n_moved_at_flat": 0,
+   "n_moved_at_loose": 0,
+   "n_rows": 3
+  }
+ },
+ "frozen_spec": {
+  "design": "read E259's published p05..p95 interval per (window, leg, base count) and judge each published row with a donor window's TIGHT end instead of its own -- the mirror of E262, on the same rows",
+  "dominator_rule": "'use the tightest' is a safe single number only when one arm's p05 is <= every other arm's p05 in the same (leg, base)",
+  "flat_rule": "one number per (leg, base) = the pooled MINIMUM p05, which is what 'use the tightest' actually adopts; the pooled maximum is published beside it as the loose alternative",
+  "judge_rule": "verdict = outside(b, band*m) with m the borrowed p05; a smaller multiplier NARROWS the band, so a donor p05 above the row's own INVENTS a rejection rather than losing one -- direction is published",
+  "match_rule": "a transfer is published only within one (leg, base count); the multiplier's denominator is the base count itself",
+  "no_new_draws": "no shuffle stream is drawn; every number is a function of the two faces",
+  "tolerance": 1e-12,
+  "verdict_rule": "the tight end 'transfers' only if no pair moves a verdict; a moved verdict is published with its direction, never netted out"
+ },
+ "generated": "2026-10-31T02:30:19",
+ "no_bill": "measurement only: E259's published intervals and E262's published rows are re-read; no shuffle stream is drawn, no band is rebuilt, no engine runs. A tight verdict that moves here is a statement about the published numbers, not about the market.",
+ "rows": [
+  {
+   "b": -0.7338669780097795,
+   "band_hi": 0.22694777216938677,
+   "band_lo": -0.31482186746270696,
+   "base": 200,
+   "cell": "all_five",
+   "index": 0,
+   "leg": "self",
+   "own_p05": 1.068797342014263,
+   "own_p95": 1.5875552821701537,
+   "row": "self",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.7250430277727764,
+   "band_hi": 0.2579169304029064,
+   "band_lo": -0.2680802007904303,
+   "base": 200,
+   "cell": "all_five",
+   "index": 1,
+   "leg": "cross",
+   "own_p05": 1.0,
+   "own_p95": 1.5254615980540964,
+   "row": "cross",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": null,
+   "band_hi": null,
+   "band_lo": null,
+   "base": null,
+   "cell": "pre2020_four",
+   "index": 2,
+   "leg": null,
+   "own_p05": null,
+   "own_p95": null,
+   "row": "self",
+   "status": "unjudgeable",
+   "verdict_tight": null,
+   "verdict_wide": null
+  },
+  {
+   "b": null,
+   "band_hi": null,
+   "band_lo": null,
+   "base": null,
+   "cell": "pre2020_four",
+   "index": 3,
+   "leg": null,
+   "own_p05": null,
+   "own_p95": null,
+   "row": "cross",
+   "status": "unjudgeable",
+   "verdict_tight": null,
+   "verdict_wide": null
+  },
+  {
+   "b": null,
+   "band_hi": null,
+   "band_lo": null,
+   "base": null,
+   "cell": "era_2020_2022",
+   "index": 4,
+   "leg": null,
+   "own_p05": null,
+   "own_p95": null,
+   "row": "self",
+   "status": "unjudgeable",
+   "verdict_tight": null,
+   "verdict_wide": null
+  },
+  {
+   "b": null,
+   "band_hi": null,
+   "band_lo": null,
+   "base": null,
+   "cell": "era_2020_2022",
+   "index": 5,
+   "leg": null,
+   "own_p05": null,
+   "own_p95": null,
+   "row": "cross",
+   "status": "unjudgeable",
+   "verdict_tight": null,
+   "verdict_wide": null
+  },
+  {
+   "b": -0.8027254787526823,
+   "band_hi": 0.38241486006464576,
+   "band_lo": -0.3009172041368989,
+   "base": 60,
+   "cell": "era_2023_2024",
+   "index": 6,
+   "leg": "self",
+   "own_p05": 1.009502997066893,
+   "own_p95": 2.1747873393781756,
+   "row": "self",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.8332269315437407,
+   "band_hi": 0.3612981017916428,
+   "band_lo": -0.33888786748973576,
+   "base": 60,
+   "cell": "era_2023_2024",
+   "index": 7,
+   "leg": "cross",
+   "own_p05": 1.0,
+   "own_p95": 2.0161164653210557,
+   "row": "cross",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.46348275881928647,
+   "band_hi": 0.4510867343946797,
+   "band_lo": -0.5211261029119459,
+   "base": 60,
+   "cell": "era_2025_now",
+   "index": 8,
+   "leg": "self",
+   "own_p05": 1.0931596394888732,
+   "own_p95": 2.133627900040008,
+   "row": "self",
+   "status": "measured",
+   "verdict_tight": false,
+   "verdict_wide": false
+  },
+  {
+   "b": -0.9113353718550754,
+   "band_hi": 0.46536854590686627,
+   "band_lo": -0.4149041386090875,
+   "base": 60,
+   "cell": "era_2025_now",
+   "index": 9,
+   "leg": "cross",
+   "own_p05": 1.0961484198644305,
+   "own_p95": 1.9677724487432138,
+   "row": "cross",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.2034528182205142,
+   "band_hi": 0.20152376421923934,
+   "band_lo": -0.3227391896025501,
+   "base": 60,
+   "cell": "early_three",
+   "index": 10,
+   "leg": "self",
+   "own_p05": 1.0666547450688164,
+   "own_p95": 1.9881347977384831,
+   "row": "self",
+   "status": "measured",
+   "verdict_tight": false,
+   "verdict_wide": false
+  },
+  {
+   "b": -0.4942013405547795,
+   "band_hi": 0.30837107575218653,
+   "band_lo": -0.27410275200467416,
+   "base": 60,
+   "cell": "early_three",
+   "index": 11,
+   "leg": "cross",
+   "own_p05": 1.0437901478662597,
+   "own_p95": 2.066627768797113,
+   "row": "cross",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": false
+  },
+  {
+   "b": -0.7250430277727764,
+   "band_hi": 0.23568968080162994,
+   "band_lo": -0.2227898080428957,
+   "base": 200,
+   "cell": "all_five",
+   "index": 12,
+   "leg": "cross",
+   "own_p05": 1.0,
+   "own_p95": 1.5254615980540964,
+   "row": "star_lag1_residual",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.8332269315437407,
+   "band_hi": 0.34628292300900926,
+   "band_lo": -0.38965397709569133,
+   "base": 60,
+   "cell": "era_2023_2024",
+   "index": 13,
+   "leg": "cross",
+   "own_p05": 1.0,
+   "own_p95": 2.0161164653210557,
+   "row": "star_lag1_residual",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.9113353718550754,
+   "band_hi": 0.37517005828954664,
+   "band_lo": -0.3828993236712511,
+   "base": 60,
+   "cell": "era_2025_now",
+   "index": 14,
+   "leg": "cross",
+   "own_p05": 1.0961484198644305,
+   "own_p95": 1.9677724487432138,
+   "row": "star_lag1_residual",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": true
+  },
+  {
+   "b": -0.4942013405547795,
+   "band_hi": 0.29882489984854366,
+   "band_lo": -0.26227210344102825,
+   "base": 60,
+   "cell": "early_three",
+   "index": 15,
+   "leg": "cross",
+   "own_p05": 1.0437901478662597,
+   "own_p95": 2.066627768797113,
+   "row": "star_lag1_residual",
+   "status": "measured",
+   "verdict_tight": true,
+   "verdict_wide": false
+  }
+ ],
+ "sensitivity": {
+  "cross:200": {
+   "base": 200,
+   "leg": "cross",
+   "n_could_move": 0,
+   "n_rows": 2,
+   "p05_max": 1.0,
+   "p05_min": 1.0,
+   "p05_spread_pct": 0.0,
+   "reason": null,
+   "rows": [
+    {
+     "b": -0.7250430277727764,
+     "could_move": false,
+     "flip_multiplier": 2.704575069829843,
+     "gap_to_p05_range_pct": 63.025614960544814,
+     "index": 1,
+     "row": "cross",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.7250430277727764,
+     "could_move": false,
+     "flip_multiplier": 3.254381491424318,
+     "gap_to_p05_range_pct": 69.27219495823958,
+     "index": 12,
+     "row": "star_lag1_residual",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    }
+   ]
+  },
+  "cross:60": {
+   "base": 60,
+   "leg": "cross",
+   "n_could_move": 0,
+   "n_rows": 6,
+   "p05_max": 1.1008218707620367,
+   "p05_min": 1.0,
+   "p05_spread_pct": 10.082187076203674,
+   "reason": null,
+   "rows": [
+    {
+     "b": -0.8332269315437407,
+     "could_move": false,
+     "flip_multiplier": 2.4587098314134175,
+     "gap_to_p05_range_pct": 55.227662219530124,
+     "index": 7,
+     "row": "cross",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.9113353718550754,
+     "could_move": false,
+     "flip_multiplier": 2.1964962193681883,
+     "gap_to_p05_range_pct": 49.88282424275317,
+     "index": 9,
+     "row": "cross",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.4942013405547795,
+     "could_move": false,
+     "flip_multiplier": 1.8029783974819489,
+     "gap_to_p05_range_pct": 38.944256220737216,
+     "index": 11,
+     "row": "cross",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.8332269315437407,
+     "could_move": false,
+     "flip_multiplier": 2.1383765610561616,
+     "gap_to_p05_range_pct": 48.520672606964425,
+     "index": 13,
+     "row": "star_lag1_residual",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.9113353718550754,
+     "could_move": false,
+     "flip_multiplier": 2.380091359569827,
+     "gap_to_p05_range_pct": 53.748755637640855,
+     "index": 14,
+     "row": "star_lag1_residual",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.4942013405547795,
+     "could_move": false,
+     "flip_multiplier": 1.88430768682915,
+     "gap_to_p05_range_pct": 41.5795053824536,
+     "index": 15,
+     "row": "star_lag1_residual",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    }
+   ]
+  },
+  "self:200": {
+   "base": 200,
+   "leg": "self",
+   "n_could_move": 0,
+   "n_rows": 1,
+   "p05_max": 1.068797342014263,
+   "p05_min": 1.0,
+   "p05_spread_pct": 6.879734201426291,
+   "reason": null,
+   "rows": [
+    {
+     "b": -0.7338669780097795,
+     "could_move": false,
+     "flip_multiplier": 2.331054649806725,
+     "gap_to_p05_range_pct": 54.149623128617755,
+     "index": 0,
+     "row": "self",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    }
+   ]
+  },
+  "self:60": {
+   "base": 60,
+   "leg": "self",
+   "n_could_move": 0,
+   "n_rows": 3,
+   "p05_max": 1.1064853190231985,
+   "p05_min": 1.009502997066893,
+   "p05_spread_pct": 9.606937496776858,
+   "reason": null,
+   "rows": [
+    {
+     "b": -0.8027254787526823,
+     "could_move": false,
+     "flip_multiplier": 2.6675958294079174,
+     "gap_to_p05_range_pct": 58.52125322640098,
+     "index": 6,
+     "row": "self",
+     "verdict_at_max_p05": true,
+     "verdict_at_min_p05": true
+    },
+    {
+     "b": -0.46348275881928647,
+     "could_move": false,
+     "flip_multiplier": 0.8893869568794188,
+     "gap_to_p05_range_pct": 13.505487038951403,
+     "index": 8,
+     "row": "self",
+     "verdict_at_max_p05": false,
+     "verdict_at_min_p05": false
+    },
+    {
+     "b": -0.2034528182205142,
+     "could_move": false,
+     "flip_multiplier": 0.6303939055900345,
+     "gap_to_p05_range_pct": 60.13844488582434,
+     "index": 10,
+     "row": "self",
+     "verdict_at_max_p05": false,
+     "verdict_at_min_p05": false
+    }
+   ]
+  }
+ },
+ "source_faces": [
+  "BANDWINDIST-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json"
+ ],
+ "study": "E269_tight_end_transfer",
+ "summary": {
+  "dominators_tight": {
+   "cross:200": null,
+   "cross:60": "era_2023_2024",
+   "self:200": null,
+   "self:60": "era_2023_2024"
+  },
+  "dominators_wide": {
+   "cross:200": {
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "dominator": "era_2025_now",
+    "max": 1.7815713243912,
+    "min": 1.5254615980540964,
+    "p95": {
+     "all_five": 1.5254615980540964,
+     "early_three": 1.624509263847406,
+     "era_2023_2024": 1.645727384584811,
+     "era_2025_now": 1.7815713243912
+    },
+    "spread_pct": 16.788998599755068,
+    "tied_at_max": []
+   },
+   "cross:60": {
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "dominator": "all_five",
+    "max": 2.2963286417094975,
+    "min": 1.9677724487432138,
+    "p95": {
+     "all_five": 2.2963286417094975,
+     "early_three": 2.066627768797113,
+     "era_2023_2024": 2.0161164653210557,
+     "era_2025_now": 1.9677724487432138
+    },
+    "spread_pct": 16.696859089379345,
+    "tied_at_max": []
+   },
+   "self:200": {
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "dominator": "early_three",
+    "max": 1.7185953310281559,
+    "min": 1.575580063460192,
+    "p95": {
+     "all_five": 1.5875552821701537,
+     "early_three": 1.7185953310281559,
+     "era_2023_2024": 1.606588938388609,
+     "era_2025_now": 1.575580063460192
+    },
+    "spread_pct": 9.076991444908389,
+    "tied_at_max": []
+   },
+   "self:60": {
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "dominator": "all_five",
+    "max": 2.1808219171985748,
+    "min": 1.9881347977384831,
+    "p95": {
+     "all_five": 2.1808219171985748,
+     "early_three": 1.9881347977384831,
+     "era_2023_2024": 2.1747873393781756,
+     "era_2025_now": 2.133627900040008
+    },
+    "spread_pct": 9.691853876270095,
+    "tied_at_max": []
+   }
+  },
+  "flat_moved_at_flat": 0,
+  "flat_moved_at_loose": 0,
+  "nearest_flip_gap_pct": 13.505487038951403,
+  "p05_spread_pct_max": 10.082187076203674,
+  "resolution_note": "12 measured row(s), of which 0 could change verdict at some p05 actually published for their group: a zero here is a measurement of insensitivity, not an untested screen",
+  "rows": 16,
+  "rows_could_move_within_observed_p05_range": 0,
+  "rows_insensitive_to_observed_p05_range": 12,
+  "rows_measured": 12,
+  "tight_end_inert": true,
+  "tight_moved_row_readings": 0,
+  "tight_pairs": 48,
+  "tight_pairs_moving_a_verdict": 0,
+  "tight_rejections_invented": 0,
+  "tight_rejections_lost": 0,
+  "tight_rows_inside": 2,
+  "tight_rows_measured": 12,
+  "tight_rows_outside": 10,
+  "verdict": "the_tight_end_is_inert_on_this_population",
+  "wide_pairs": 48,
+  "wide_pairs_moving_a_verdict": 2,
+  "wide_rejections_invented": 0,
+  "wide_rejections_lost": 2,
+  "wide_rows_outside": 8
+ },
+ "title": "does the tight end of another window transfer as badly as its wide end?",
+ "transfer_tight": {
+  "cross:200": {
+   "base": 200,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "cross",
+   "pairs": [
+    {
+     "delta_pct": 0.0,
+     "donor": "all_five",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "all_five",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "all_five",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "all_five",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "all_five",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "all_five",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    }
+   ],
+   "reason": null
+  },
+  "cross:60": {
+   "base": 60,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "cross",
+   "pairs": [
+    {
+     "delta_pct": 5.463906994366896,
+     "donor": "all_five",
+     "donor_p05": 1.1008218707620367,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "early_three",
+     "recipient_p05": 1.0437901478662597
+    },
+    {
+     "delta_pct": 10.082187076203674,
+     "donor": "all_five",
+     "donor_p05": 1.1008218707620367,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.4263520170183055,
+     "donor": "all_five",
+     "donor_p05": 1.1008218707620367,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0961484198644305
+    },
+    {
+     "delta_pct": -5.180831196267677,
+     "donor": "early_three",
+     "donor_p05": 1.0437901478662597,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1008218707620367
+    },
+    {
+     "delta_pct": 4.379014786625968,
+     "donor": "early_three",
+     "donor_p05": 1.0437901478662597,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": -4.776567757552974,
+     "donor": "early_three",
+     "donor_p05": 1.0437901478662597,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0961484198644305
+    },
+    {
+     "delta_pct": -9.158781583095132,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1008218707620367
+    },
+    {
+     "delta_pct": -4.195301896245763,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "early_three",
+     "recipient_p05": 1.0437901478662597
+    },
+    {
+     "delta_pct": -8.771478216090657,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0961484198644305
+    },
+    {
+     "delta_pct": -0.4245419737501366,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0961484198644305,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1008218707620367
+    },
+    {
+     "delta_pct": 5.016168442018998,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0961484198644305,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "early_three",
+     "recipient_p05": 1.0437901478662597
+    },
+    {
+     "delta_pct": 9.614841986443047,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0961484198644305,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 2,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    }
+   ],
+   "reason": null
+  },
+  "self:200": {
+   "base": 200,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "self",
+   "pairs": [
+    {
+     "delta_pct": 6.879734201426291,
+     "donor": "all_five",
+     "donor_p05": 1.068797342014263,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 6.879734201426291,
+     "donor": "all_five",
+     "donor_p05": 1.068797342014263,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 6.879734201426291,
+     "donor": "all_five",
+     "donor_p05": 1.068797342014263,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": -6.436893067548888,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "all_five",
+     "recipient_p05": 1.068797342014263
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "early_three",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": -6.436893067548888,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "all_five",
+     "recipient_p05": 1.068797342014263
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": -6.436893067548888,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "all_five",
+     "recipient_p05": 1.068797342014263
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "early_three",
+     "recipient_p05": 1.0
+    },
+    {
+     "delta_pct": 0.0,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.0
+    }
+   ],
+   "reason": null
+  },
+  "self:60": {
+   "base": 60,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "leg": "self",
+   "pairs": [
+    {
+     "delta_pct": 3.7341580430331645,
+     "donor": "all_five",
+     "donor_p05": 1.1064853190231985,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "early_three",
+     "recipient_p05": 1.0666547450688164
+    },
+    {
+     "delta_pct": 9.606937496776858,
+     "donor": "all_five",
+     "donor_p05": 1.1064853190231985,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.009502997066893
+    },
+    {
+     "delta_pct": 1.219005811498497,
+     "donor": "all_five",
+     "donor_p05": 1.1064853190231985,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0931596394888732
+    },
+    {
+     "delta_pct": -3.599738132047192,
+     "donor": "early_three",
+     "donor_p05": 1.0666547450688164,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1064853190231985
+    },
+    {
+     "delta_pct": 5.661374772336258,
+     "donor": "early_three",
+     "donor_p05": 1.0666547450688164,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.009502997066893
+    },
+    {
+     "delta_pct": -2.424613337577086,
+     "donor": "early_three",
+     "donor_p05": 1.0666547450688164,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0931596394888732
+    },
+    {
+     "delta_pct": -8.764899116955405,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.009502997066893,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1064853190231985
+    },
+    {
+     "delta_pct": -5.3580362592617785,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.009502997066893,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "early_three",
+     "recipient_p05": 1.0666547450688164
+    },
+    {
+     "delta_pct": -7.65273793506458,
+     "donor": "era_2023_2024",
+     "donor_p05": 1.009502997066893,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2025_now",
+     "recipient_p05": 1.0931596394888732
+    },
+    {
+     "delta_pct": -1.2043250195211908,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0931596394888732,
+     "donor_tighter": true,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 0,
+     "recipient": "all_five",
+     "recipient_p05": 1.1064853190231985
+    },
+    {
+     "delta_pct": 2.484861623931245,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0931596394888732,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "early_three",
+     "recipient_p05": 1.0666547450688164
+    },
+    {
+     "delta_pct": 8.286913725372225,
+     "donor": "era_2025_now",
+     "donor_p05": 1.0931596394888732,
+     "donor_tighter": false,
+     "moved": [],
+     "n_moved": 0,
+     "n_rows": 1,
+     "recipient": "era_2023_2024",
+     "recipient_p05": 1.009502997066893
+    }
+   ],
+   "reason": null
+  }
+ },
+ "verdict": "the_tight_end_is_inert_on_this_population",
+ "verdict_reason": "no pair moves AND no measured row could change verdict at any p05 actually published for its group (nearest flip sits 13.5% away from the widest observed p05 swing): the tight end cannot transfer BADLY because it cannot move anything here, while the wide end moves 2 pair(s) -- the instruction is 'do not borrow the wide end', and the tight half is untested rather than safe"
+}
