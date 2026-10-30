@@ -115,6 +115,35 @@ def verdict(reading):
     return "ONE_WORLD", "all %d faces priced %s" % (len(reading["stamped"]), worlds[0])
 
 
+AUDIT_SCRIPT = os.path.join(ROOT, "scripts", "etf_book_phase_atlas_arms.py")
+
+
+def audit_steps(group):
+    """Which audit runs this unit must do afterwards.
+
+    r1181: proving the faces are one world is only half the job -- the arms face
+    that HOLDS the per-cell verdicts is a separate artifact built FROM those
+    source faces. Rebuilding eleven faces on one panel and only `--check`-ing
+    left the published comparison on the old world: the check honestly answered
+    "face is stale ... cutoff 2026-10-29" while the family had already been made
+    uniform (2026-10-31 live: receipt verdict ONE_WORLD / audit_check_rc 2, and
+    the ten withheld labels stayed withheld). A partial group only checks (it is
+    genuinely stale by design); the `all` group must republish and then check.
+    """
+    if group == "all":
+        return [[], ["--check"]]
+    return [["--check"]]
+
+
+def success(group, kind, publish_rc, check_rc):
+    """r1181: the family unit is done only when the reader's face is rebuilt."""
+    if kind != "ONE_WORLD":
+        return False
+    if group == "all":
+        return publish_rc == 0 and check_rc == 0
+    return True
+
+
 def run(group, workers=None):
     arms = GROUPS[group]
     written = []
@@ -126,20 +155,35 @@ def run(group, workers=None):
         written.append(os.path.relpath(face_for(arm), ROOT).replace("\\", "/"))
     reading = digests(written)
     kind, detail = verdict(reading)
-    audit_rc = subprocess.call([sys.executable,
-                                os.path.join(ROOT, "scripts", "etf_book_phase_atlas_arms.py"),
-                                "--check"], cwd=ROOT)
+    publish_rc, audit_rc = None, None
+    for step in audit_steps(group):
+        label = " ".join(step) or "(publish)"
+        print("[rebuild] audit %s" % label, flush=True)
+        rc = subprocess.call([sys.executable, AUDIT_SCRIPT] + step, cwd=ROOT)
+        print("[rebuild] audit %s rc=%d" % (label, rc), flush=True)
+        if step == []:
+            publish_rc = rc
+        else:
+            audit_rc = rc
+    ok = success(group, kind, publish_rc, audit_rc)
     out = {"group": group, "arms": arms, "faces": written, "panel": reading,
-           "verdict": kind, "detail": detail, "audit_check_rc": audit_rc,
-           "stamp_law": "every face in a rebuilt group must price one panel (r1179)"}
+           "verdict": kind, "detail": detail,
+           "audit_publish_rc": publish_rc, "audit_check_rc": audit_rc,
+           "audit_steps": [" ".join(s) or "(publish)" for s in audit_steps(group)],
+           "success": ok,
+           "stamp_law": "every face in a rebuilt group must price one panel (r1179)",
+           "publish_law": ("the `all` unit also republishes the arms face and then "
+                           "checks it (r1181): a rebuilt family behind a stale "
+                           "comparison face is still unread")}
     with io.open(RECEIPT, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
-    print("[rebuild] %s: %s (%s); audit --check rc=%d" % (group, kind, detail, audit_rc),
-          flush=True)
-    # the group's own coherence is what this unit promises; the family-level audit verdict is
-    # recorded, not fatal -- a partial rebuild of the family is honestly "stale", and making
-    # that fatal would fail every unit except the last one.
-    return 0 if kind == "ONE_WORLD" else 2
+    print("[rebuild] %s: %s (%s); publish rc=%s check rc=%s -> %s"
+          % (group, kind, detail, publish_rc, audit_rc,
+             "OK" if ok else "NOT DONE"), flush=True)
+    # a partial rebuild of the family is honestly "stale", and making that fatal
+    # would fail every unit except the last one. The `all` group has nothing
+    # behind it: it must leave a reader-usable, checked arms face (r1181).
+    return 0 if ok else 2
 
 
 def selftest():
@@ -190,9 +234,26 @@ def selftest():
     # an absent face is never invented as stamped
     if digests(["results/__no_such_face__.json"])["stamped"]:
         bad.append("a missing file was read as a stamped face")
+    # r1181: the family unit must republish the reader's face, then check it;
+    # a partial unit only checks (it is stale by design).
+    if audit_steps("all") != [[], ["--check"]]:
+        bad.append("the all group does not republish the arms face before checking")
+    if audit_steps("buffer") != [["--check"]]:
+        bad.append("a partial group must not republish the family face")
+    if not success("all", "ONE_WORLD", 0, 0):
+        bad.append("a republished + checked family does not count as done")
+    if success("all", "ONE_WORLD", 0, 2):
+        bad.append("a stale arms face still counts as done")
+    if success("all", "ONE_WORLD", 2, 0):
+        bad.append("a failed publish still counts as done")
+    if not success("buffer", "ONE_WORLD", None, 2):
+        bad.append("a partial group is judged by its own coherence, not the family's")
+    if success("all", "SPLIT_WORLDS", 0, 0):
+        bad.append("a split family counts as done")
+    n_legs = 16  # 9 pre-r1181 + the 7 publish-contract assertions above
     for b in bad:
         print("[FAIL] %s" % b)
-    print("selftest: %d legs, %d failed" % (9 + len(bad), len(bad)))
+    print("selftest: %d legs, %d failed" % (n_legs, len(bad)))
     return 0 if not bad else 1
 
 

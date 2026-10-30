@@ -71,13 +71,89 @@ SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
 OWNER_SILENT_MIN = 120.0      # r1100/r1101 takeover gate: an owner heartbeat
                               # this stale makes its ready work un-ignitable
                               # (reported, not auto-claimed, by the audit)
-AUDIT_VERSION = "v2.4.2"     # v2.4 standing saturation mechanism;
+POOL_CLAIM_STALE_MIN = 20.0   # fleet law = Tools/pool_worker.STALE_MIN (a claim
+                              # whose heartbeat is older than this is takeable)
+AUDIT_VERSION = "v2.4.3"     # v2.4 standing saturation mechanism;
                               # v2.4.1 r179 bm-c: ignition_sla 10min -> 60s
                               # acceptance line (D2 live r175 + ladder
                               # adoption slice r179; charter synced);
                               # v2.4.2 T-134 s4: parallel-efficiency row
                               # (core-seconds/wall-seconds per batch, law-2
-                              # sampler aggregate -- observational, no flag)
+                              # sampler aggregate -- observational, no flag);
+                              # v2.4.3 r1181 bm-a: the supply face reads the
+                              # CLAIM-BY-FILE truth (a burning unit is not
+                              # unclaimed supply)
+
+
+_POOL_WORKER = None
+
+
+def _pool_worker():
+    """The claim-by-file protocol's OWN reader (Tools/pool_worker.py).
+
+    Single implementation on purpose: "which claim files count" must have one
+    answer. A second copy inside the audit would let the reader that claims
+    and the reader that reports drift apart (r1375 family)."""
+    global _POOL_WORKER
+    if _POOL_WORKER is None:
+        import importlib.util as _ilu
+        spec = _ilu.spec_from_file_location(
+            "_bigmoney_pool_worker",
+            os.path.join(ROOT, "Tools", "pool_worker.py"))
+        mod = _ilu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        _POOL_WORKER = mod
+    return _POOL_WORKER
+
+
+def claim_by_file_face(entries):
+    """{entry_id: {"age_min", "live", "shards"}} for claim-by-file claims.
+
+    O-20260928-2210: a worker claims by writing
+    results/pool_claims/<entry>/<shard>.<machine>.json. It never touches the
+    pool entry's `shards[].owner` (that field belongs to the fleet autofill
+    path), so a unit being burned by pool_worker is invisible to every reader
+    that only looks at the pool JSON.
+
+    2026-10-31 live case (r1180/r1181 bm-a): the ATLAS-ARMS-ONEWORLD unit was
+    claimed and burning from 04:42 while the next audit sample published
+    pool_ready_unclaimed=1, ready_ignitable=1 and a supply-floor breach over
+    it -- the board said a machine could still start work that was already
+    running. A stale claim (> POOL_CLAIM_STALE_MIN) is NOT liveness: it is
+    takeable, and it reports live=False.
+
+    Returns {} for an unreadable pool (None != empty; never accuse).
+    """
+    if entries is None:
+        return {}
+    try:
+        pw = _pool_worker()
+    except Exception:
+        return {}
+    out = {}
+    for e in entries:
+        if e.get("status") != "ready":
+            continue
+        eid = e.get("id")
+        ages = []
+        shards = 0
+        for s in (e.get("shards") or []):
+            key = s.get("key")
+            if not key:
+                continue
+            shards += 1
+            try:
+                age = pw._shard_claim_age_min(eid, key)
+            except Exception:
+                age = None
+            if age is not None:
+                ages.append(age)
+        if not ages:
+            continue
+        best = min(ages)
+        out[eid] = {"age_min": round(best, 1), "shards": shards,
+                    "live": best <= POOL_CLAIM_STALE_MIN}
+    return out
 
 
 def cpu_total():
@@ -347,7 +423,8 @@ def _unresolved_dep(entry, root):
     return None
 
 
-def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None):
+def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None,
+                   claims=None):
     """Split READY pool work by whether a live machine can actually ignite it.
 
     ready_total is the v2.4 supply-floor reading (status==ready, any owner).
@@ -371,12 +448,22 @@ def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None
     root = os.path.abspath(repo_root or ROOT)
     silence = silence or {}
     ready = [e for e in entries if e.get("status") == "ready"]
+    if claims is None:
+        claims = claim_by_file_face(entries)
     ignitable, foreign_silent, foreign_alive, owner_unknown = 0, 0, 0, 0
     takeover, silent_owners, unknown_owners = [], {}, set()
     runner_missing, runner_missing_paths = [], {}
     unclaimable, dep_broken = [], []
+    claimed_ids, claimed_ages = [], {}
     launchable = 0
     for e in ready:
+        # r1181: a unit somebody is already burning is not supply you can
+        # start -- the claim-by-file heartbeat is the second claim face.
+        _c = claims.get(e.get("id")) or {}
+        if _c.get("live"):
+            claimed_ids.append(e.get("id"))
+            claimed_ages[e.get("id")] = _c.get("age_min")
+            continue
         # a ready entry whose runner does not exist yet is a PROPOSAL, not supply.
         # 2026-10-29 live case: E228 sat in the pool as "scripts/e228_matched_exposure.py
         # (new runner)" with no such file, so the floor read one ignitable batch on a
@@ -419,6 +506,10 @@ def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None
     return {
         "ready_total": len(ready),
         "ready_ignitable": ignitable,
+        "ready_claimed_by_file": len(claimed_ids),
+        "claimed_by_file_ids": claimed_ids,
+        "claimed_by_file_ages_min": claimed_ages,
+        "claim_stale_min": POOL_CLAIM_STALE_MIN,
         "ready_foreign_alive": foreign_alive,
         "ready_foreign_silent": foreign_silent,
         "ready_owner_unknown": owner_unknown,
@@ -538,21 +629,31 @@ def supply_gap_decision(hist, now_epoch, cur_py, cur_ready, cur_ts):
     return True, False, {"run_samples": len(run), "span_min": span_min}
 
 
-def pool_ready_entries():
+def pool_ready_entries(entries=None, claims=None):
     """[(id, ready_since, claimed)] for status==ready entries; None =
     unreadable pool (r98 unknown-law: None != empty, never flag on None).
-    ready_since = armed_at (r391 arming precedent) else entered_at;
-    claimed = any shard carries a non-null owner (ignition in progress).
+    ready_since = armed_at (r391 arming precedent) else entered_at.
+
+    claimed = the unit is already being executed, read on BOTH faces:
+      * a shard carries a non-null owner (fleet autofill claim), or
+      * a fresh claim-by-file heartbeat exists (Tools/pool_worker path).
+    Reading only the pool face made a burning unit look claimable (r1181).
     T-116 s3 wave-1: reads the lane-merged view (see _merged_pool)."""
-    entries, _why = _merged_pool(os.path.join(ROOT, "results"))
+    if entries is None:
+        entries, _why = _merged_pool(os.path.join(ROOT, "results"))
     if entries is None:
         return None
+    if claims is None:
+        claims = claim_by_file_face(entries)
     out = []
     for e in entries:
         if e.get("status") != "ready":
             continue
         since = e.get("armed_at") or e.get("entered_at")
         claimed = any(s.get("owner") for s in (e.get("shards") or []))
+        if not claimed:
+            c = claims.get(e.get("id")) or {}
+            claimed = bool(c.get("live"))
         out.append((e.get("id"), since, claimed))
     return out
 
@@ -762,7 +863,9 @@ def main():
         time.strftime("%Y-%m-%d %H:%M:%S"))
     if gap_flag:
         flags.append("supply_gap")
-    ready_entries = pool_ready_entries()
+    _entries, _ = _merged_pool(os.path.join(ROOT, "results"))
+    claims = claim_by_file_face(_entries)   # r1181: claim-by-file truth face
+    ready_entries = pool_ready_entries(_entries, claims)
     sla_ids = ignition_sla_breaches(ready_entries, time.time())
     if sla_ids:
         flags.append("ignition_sla")
@@ -775,12 +878,20 @@ def main():
     # owned by a bm-b silent 31.7h). Reported beside the raw reading; the
     # distinct flag fires only when ready work exists and NONE of it is
     # ignitable, so the raw floor semantics stay readable for old consumers.
-    _entries, _ = _merged_pool(os.path.join(ROOT, "results"))
-    ignitable = ignitable_face(_entries, heartbeat_silence(), _self_machine_id())
+    _entries2, _ = _merged_pool(os.path.join(ROOT, "results"))
+    ignitable = ignitable_face(_entries2 if _entries2 is not None else _entries,
+                               heartbeat_silence(), _self_machine_id(),
+                               claims=claims)
     if ignitable and ignitable.get("ready_runner_missing"):
         # distinct from owner-silence: the pool holds a promise, not a batch
         flags.append("supply_runner_missing")
-    if ignitable and (ignitable["ready_total"] - ignitable.get("ready_runner_missing", 0)) > 0 \
+    # r1181: a unit already burning is neither silent-owned nor startable --
+    # it leaves the denominator before the "nobody can take it" verdict, or
+    # the cure would manufacture a red of its own class.
+    _live_open = ((ignitable or {}).get("ready_total", 0)
+                  - (ignitable or {}).get("ready_runner_missing", 0)
+                  - (ignitable or {}).get("ready_claimed_by_file", 0))
+    if ignitable and _live_open > 0 \
             and ignitable["ready_ignitable"] == 0:
         flags.append("supply_owner_silent")
     # r1360 supply_unstartable: allowed-to-take and able-to-start are different
@@ -809,6 +920,18 @@ def main():
         "pool_ready_count": ready,
         "pool_ready_unclaimed": (None if ready_entries is None else
                                  sum(1 for _, _, c in ready_entries if not c)),
+        "pool_claim_by_file": {
+            "ids": sorted(i for i, c in (claims or {}).items() if c.get("live")),
+            "ages_min": {i: c.get("age_min") for i, c in (claims or {}).items()
+                         if c.get("live")},
+            "stale_ids": sorted(i for i, c in (claims or {}).items()
+                                if not c.get("live")),
+            "stale_min": POOL_CLAIM_STALE_MIN,
+            "note": ("claim-by-file (results/pool_claims/) is a second claim "
+                     "face; the pool shard owner is written only by the fleet "
+                     "autofill path -- reading one without the other makes a "
+                     "burning unit look claimable (r1181)"),
+        },
         "load_state": load_state(py_cpu_pct, ready),
         "pool_starvation_candidate": starve_cand,
         "pool_starvation_detail": starve_detail,
@@ -1180,6 +1303,72 @@ def _selftest():
         except Exception as _e:  # pragma: no cover - launcher absent is a real skip
             check("r1360 launcher parity leg ran (Tools/autofill.py importable)",
                   "skip:" + type(_e).__name__, "ran")
+    # r1181: the supply face must read the claim-by-file truth. Hermetic: the
+    # claims directory is redirected into a temp dir, so nothing on disk leaks
+    # into the verdict.
+    import tempfile
+    with tempfile.TemporaryDirectory() as cdir:
+        try:
+            _pw = _pool_worker()
+            _saved_claims = _pw.CLAIMS
+        except Exception:  # pragma: no cover
+            _pw, _saved_claims = None, None
+        if _pw is not None:
+            _pw.CLAIMS = cdir
+            try:
+                def _claim(eid, shard, mins_ago, machine="bm-a", state="running"):
+                    d = os.path.join(cdir, eid)
+                    os.makedirs(d, exist_ok=True)
+                    with open(os.path.join(d, "%s.%s.json" % (shard, machine)),
+                              "w", encoding="utf-8") as f:
+                        json.dump({"machine_id": machine, "state": state,
+                                   "heartbeat": _ts(mins_ago)}, f)
+
+                _ce = [{"id": "LIVE", "status": "ready", "entered_at": _ts(60),
+                        "lane_owner": None, "runner": "scripts/e999_ok.py",
+                        "shards": [{"key": "live-0of1"}]},
+                       {"id": "STALE", "status": "ready", "entered_at": _ts(60),
+                        "lane_owner": None, "runner": "scripts/e999_ok.py",
+                        "shards": [{"key": "stale-0of1"}]},
+                       {"id": "FREE", "status": "ready", "entered_at": _ts(60),
+                        "lane_owner": None, "runner": "scripts/e999_ok.py",
+                        "shards": [{"key": "free-0of1"}]}]
+                _claim("LIVE", "live-0of1", 2)
+                _claim("STALE", "stale-0of1", 40)      # > POOL_CLAIM_STALE_MIN
+                _claim("FREE", "free-0of1", 3, state="failed")  # fail frees
+                _cf = claim_by_file_face(_ce)
+                check("r1181 a fresh claim-by-file heartbeat is liveness",
+                      (_cf.get("LIVE", {}).get("live"), _cf.get("STALE", {}).get("live")),
+                      (True, False))
+                check("r1181 a failed claim frees the shard (not accused)",
+                      "FREE" in _cf, False)
+                _re = pool_ready_entries(_ce, _cf)
+                check("r1181 ready entry claimed on the file face reads claimed",
+                      [(i, c) for i, _, c in _re], [("LIVE", True),
+                                                    ("STALE", False), ("FREE", False)])
+                _ig = ignitable_face(_ce, {}, "bm-z", repo_root=_ld, claims=_cf)
+                check("r1181 a burning unit is not counted as ignitable supply",
+                      (_ig["ready_total"], _ig["ready_ignitable"],
+                       _ig["ready_claimed_by_file"], _ig["claimed_by_file_ids"]),
+                      (3, 2, 1, ["LIVE"]))
+                check("r1181 the claim face publishes its own age",
+                      _ig["claimed_by_file_ages_min"], {"LIVE": 2.0})
+                check("r1181 stale claim replays as takeable, not silent-owner",
+                      _ig["ready_owner_unknown"], 0)
+            finally:
+                _pw.CLAIMS = _saved_claims
+    # absent claims dir = no claim face at all (never accuse from absence)
+    with tempfile.TemporaryDirectory() as edir:
+        if _pw is not None:
+            _saved = _pw.CLAIMS
+            _pw.CLAIMS = os.path.join(edir, "nope")
+            try:
+                check("r1181 absent claims dir reads no claim (not a fault)",
+                      claim_by_file_face([{"id": "X", "status": "ready",
+                                           "shards": [{"key": "x-0of1"}]}]),
+                      {})
+            finally:
+                _pw.CLAIMS = _saved
     # heartbeat_silence reads a real directory (hermetic temp dir)
     import tempfile
     with tempfile.TemporaryDirectory() as hdir:

@@ -1,0 +1,69 @@
+{
+ "group": "all",
+ "arms": [
+  "base",
+  "buffer_k02",
+  "buffer_k05",
+  "buffer_k10",
+  "buffer_k20",
+  "buffer_k40",
+  "cost0",
+  "cost05",
+  "cost20",
+  "cost40",
+  "buffer_k05_cost20"
+ ],
+ "faces": [
+  "results/etf_book_phase_atlas.json",
+  "results/etf_book_phase_atlas_buffer_k02.json",
+  "results/etf_book_phase_atlas_buffer_k05.json",
+  "results/etf_book_phase_atlas_buffer_k10.json",
+  "results/etf_book_phase_atlas_buffer_k20.json",
+  "results/etf_book_phase_atlas_buffer_k40.json",
+  "results/etf_book_phase_atlas_cost0.json",
+  "results/etf_book_phase_atlas_cost05.json",
+  "results/etf_book_phase_atlas_cost20.json",
+  "results/etf_book_phase_atlas_cost40.json",
+  "results/etf_book_phase_atlas_buffer_k05_cost20.json"
+ ],
+ "panel": {
+  "stamped": {
+   "results/etf_book_phase_atlas.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k02.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k05.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k10.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k20.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k40.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_cost0.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_cost05.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_cost20.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_cost40.json": "a1a42aee64453839",
+   "results/etf_book_phase_atlas_buffer_k05_cost20.json": "a1a42aee64453839"
+  },
+  "unstamped": [],
+  "absent": []
+ },
+ "verdict": "ONE_WORLD",
+ "detail": "all 11 faces priced a1a42aee64453839",
+ "audit_check_rc": 2,
+ "stamp_law": "every face in a rebuilt group must price one panel (r1179)",
+ "completion_r1181": {
+  "note": "the worker's run predates the publish-contract fix (r1181): it rebuilt all 11 faces on one panel and only --check-ed, so it lawfully reported audit_check_rc=2 with a stale arms face. The missing half was executed by hand in the same window and the runner now does it itself (`audit_steps`: publish then check).",
+  "audit_publish": {
+   "cmd": "etf_book_phase_atlas_arms.py",
+   "rc": 0,
+   "wrote": [
+    "results/etf_book_phase_atlas_arms.json",
+    "research/ETF_BOOK_PHASE_ATLAS_ARMS.md"
+   ]
+  },
+  "audit_check": {
+   "cmd": "etf_book_phase_atlas_arms.py --check",
+   "rc": 0
+  },
+  "labels": {
+   "published": 10,
+   "withheld": 0
+  }
+ }
+}

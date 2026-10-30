@@ -4310,6 +4310,46 @@ def main() -> int:
     except Exception as e:
         check("product: the width sign is read against a noise score, not just another grid",
               False, repr(e)[:160])
+    try:
+        # r1181: the compute audit's supply face must read the CLAIM-BY-FILE truth. Two
+        # readers of "is this unit being burned" must agree, so the staleness line is read
+        # from the claimer itself rather than restated here.
+        import importlib.util as _ilu
+        def _load(path, name):
+            _s = _ilu.spec_from_file_location(name, path)
+            _m = _ilu.module_from_spec(_s)
+            _s.loader.exec_module(_m)
+            return _m
+        _ca = _load(os.path.join("scripts", "compute_audit.py"), "_smoke_ca")
+        _pw = _load(os.path.join("Tools", "pool_worker.py"), "_smoke_pw")
+        _bad = []
+        if float(_ca.POOL_CLAIM_STALE_MIN) != float(_pw.STALE_MIN):
+            _bad.append("audit staleness %s != claimer %s"
+                        % (_ca.POOL_CLAIM_STALE_MIN, _pw.STALE_MIN))
+        _aj = os.path.join("results", "compute_audit.json")
+        if os.path.exists(_aj):
+            _doc = json.load(open(_aj, encoding="utf-8"))
+            _cur = (_doc.get("latest") if isinstance(_doc, dict)
+                    and isinstance(_doc.get("latest"), dict) else _doc)
+            _face = _cur.get("pool_claim_by_file")
+            if not isinstance(_face, dict):
+                _bad.append("the published audit has no claim-by-file face")
+            else:
+                # a ready row that a fresh claim covers must NOT be published as unclaimed
+                for _eid in (_face.get("ids") or []):
+                    if (_cur.get("pool_ignitable") or {}).get("claimed_by_file_ids") \
+                            and _eid not in _cur["pool_ignitable"]["claimed_by_file_ids"]:
+                        _bad.append("%s claimed but not named in the ignitable face" % _eid)
+                if _face.get("ids") and (_cur.get("pool_ready_unclaimed") or 0) > 0:
+                    _bad.append("claim face names a live burn while unclaimed=%s"
+                                % _cur.get("pool_ready_unclaimed"))
+        check("product: the compute audit reads the claim face, not just the pool row",
+              not _bad, "; ".join(_bad)[:200]
+              or "staleness line == Tools/pool_worker.STALE_MIN (%.0f min)"
+              % float(_ca.POOL_CLAIM_STALE_MIN))
+    except Exception as e:
+        check("product: the compute audit reads the claim face, not just the pool row",
+              False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 

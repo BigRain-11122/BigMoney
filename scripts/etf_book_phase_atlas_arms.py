@@ -1309,11 +1309,22 @@ def _selftest():
     # L2 cutoffs identical across faces (a face priced on another panel must not compare)
     cut = {a["evidence_cutoff"] for a in p["arms"].values()} | {base["evidence_cutoff"]}
     chk(len(cut) == 1, "every face is priced on the same evidence cutoff (%s)" % sorted(cut))
-    # L3 the baseline path is reproduced, not re-implemented: N5/R20 median must be the
-    # published production number
+    # L3 the baseline path is reproduced, not re-implemented. r1181: this leg used to pin the
+    # literal 9.13pp, which is a stale literal the moment the panel gains a bar (2026-10-31:
+    # 9.13 -> 9.085 on one added session, and the literal's own failure message could not tell
+    # a re-implementation from a data advance). The honest form compares the arm's baseline
+    # column against the BASELINE ATLAS FACE on the same cell -- two faces, one number, no
+    # remembered constant -- and the panel check above proves they priced the same world.
     n5r20 = [r for r in p["arms"]["cost05"]["rows"] if (r["n_hold"], r["rebal"]) == (5, 20)][0]
-    chk(abs(n5r20["baseline_cagr_pp"] - 9.13) < 0.02,
-        "baseline N5/R20 median reproduces the published 9.13pp (got %.3fpp)" % n5r20["baseline_cagr_pp"])
+    _base_cell = [c for c in (base.get("per_cell") or [])
+                  if (c.get("n_hold"), c.get("rebal")) == (5, 20)]
+    if _base_cell:
+        _want = _base_cell[0].get("median_cagr_pp")
+        chk(abs(n5r20["baseline_cagr_pp"] - _want) < 0.02,
+            "baseline N5/R20 reproduces the baseline face on the same panel "
+            "(arm %.3f vs face %.3f pp)" % (n5r20["baseline_cagr_pp"], _want))
+    else:
+        chk(False, "the baseline face carries no N5/R20 cell to compare against")
     # L4 the arms really are different experiments (activity precondition, r1261 lesson)
     chk(p["arms"]["cost05"]["median_band_pp"] != p["arms"]["cost20"]["median_band_pp"],
         "the two cost arms do not produce an identical band (they are distinct runs)")

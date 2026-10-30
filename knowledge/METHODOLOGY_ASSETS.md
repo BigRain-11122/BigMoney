@@ -7143,3 +7143,33 @@ raises. Reading the list is the work; the count was never the deliverable.
 Pos: scripts/cn_mkneutral_p1.py `panel_digest()` / `load_cell_ck()` / `_shard_stamp_ok()`
 (selftest 51/51) / Tools/live_value_cache_audit.py `_memo_names()` / `_ruler_names()` / `TRIAGE`
 (selftest 24/24) / results/live_value_cache_audit.json (`closed_by_reading`).
+
+### E297 -- a unit being burned is not supply: read the claim face the claimer writes (r1181 bm-a)
+
+Two paths claim pool work and each writes a different file. The fleet autofill path sets
+`shards[].owner` inside results/runnable_pool.json; the pool_worker path (O-20260928-2210) writes
+results/pool_claims/<entry>/<shard>.<machine>.json and never touches the pool row. Every reader
+that consults only the pool JSON therefore sees a unit being burned as `status=ready, unclaimed`.
+
+2026-10-31 live: the ATLAS-ARMS-ONEWORLD unit burned from 04:42 at 8 workers while the next audit
+published pool_ready_unclaimed=1, ready_ignitable=1 and a supply-floor breach over it -- the board
+said a machine could start work that was already running.
+
+Cure: claim truth is the UNION of both faces, read through the claimer's own parser
+(Tools/pool_worker._shard_claim_age_min, one implementation, no second copy) with ONE staleness
+line (20 min = the claimer's STALE_MIN, and a smoke leg asserts the two constants are equal). A
+stale claim is not liveness; a failed claim is not occupancy.
+
+The trap inside the cure: subtracting claimed rows from `ready_ignitable` alone leaves the
+owner-silence test reading `ready_total - runner_missing > 0` and fires a false red of exactly the
+class just healed. A burning unit must leave every denominator, not one.
+
+Sibling lesson, same window: proving a family priced one panel is not the same as republishing the
+comparison built FROM those panels. The rebuild ran only `--check` and got rc 2 ("face is stale,
+cutoff 2026-10-29") while all eleven faces were already uniform -- the arms face that holds the ten
+labels is a separate artifact and had to be rebuilt. A unit whose deliverable is a reader's face
+must run its producer, not only its verifier.
+
+Pos: scripts/compute_audit.py (`claim_by_file_face`/`POOL_CLAIM_STALE_MIN`, selftest 64/64) /
+scripts/etf_book_atlas_arms_rebuild.py (`audit_steps`/`success`, selftest 16 legs) / smoke leg
+"the compute audit reads the claim face, not just the pool row".
