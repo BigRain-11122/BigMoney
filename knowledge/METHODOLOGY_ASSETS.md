@@ -4813,3 +4813,41 @@ panel first wrote the effect through the *contemporaneous* aggregate while the p
 `t−1`; it passed only because an off-by-one in the real series happened to compensate. Three legs
 went red the moment the real alignment was fixed. Generate the fixture's effect at the same lag the
 face estimates, and prefer an independent truth (a written coefficient) over a reassuring pass.
+
+## E251 — a decomposition of a different number is not a decomposition (r1277 bm-b)
+
+`scripts/e251_star_own_component.py` (selftest 18/18) · face `results/state_tilt/STAROWN-2026-10-29.json`
+
+E250 took the book aggregate away and left one number standing: the star kept 90% of its −0.805
+lag-1 while every other column lost 60–130%. E251 decomposes that residual with the same members,
+rows and estimator — own turnover (D0), plus the star's own lagged `|move|` (D1), plus member age
+(D2) — and decides each addition against the band its *own time-shuffle* produces. Read:
+**b1 = −0.72504 → −0.73008 (vol, share −0.0070) → −0.73005 (vol+age, share −0.0069)**;
+verdict `residual_is_own_turnover` in all four cells where a star exists (era 2023–24 −0.833,
+2025–now −0.911, early-three −0.494). Volatility coefficients are all small and positive
+(0.027–0.044) and the drop they cause (−0.00504) sits inside the shuffled-drop band
+[−0.00888, +0.01343].
+
+Three reusable findings:
+
+(1) **A decomposition of a different number is not a decomposition.** The residual had to be
+E250's published `b1_with_loo_aggregate`, and the two faces agree to 0.0 (both
+−0.7250430277727764). Pin that identity to 1e−9 in the smoke leg, and factor the star rule into one
+shared function (`e250.name_star`) rather than re-typing it: a copied rule that drifts answers
+about a different sleeve while every leg stays green.
+
+(2) **An addition must clear its own null.** "b1 fell when I added X" is not evidence unless the
+drop beats the drops produced by shuffling X in time. A big share without a clear band is
+`partially_explained`, never `explained` — the frozen verdict table encodes exactly that.
+
+(3) **Inside one window, a member's age is a row index.** Age correlates 0.99998 with t, so its
+fitted coefficient is a trend wearing a label: publish `age_identified: false` and read age only
+cross-sectionally (n = members, descriptive, `decided: false`). A face that quietly reports the
+trend as an age effect reports a mechanism it never measured.
+
+Fixture lesson (one red leg, no re-burn): write the fixture's truth in the coordinates the design
+actually uses. The first volatility fixture drove the outcome with `|0.7·dx_star + noise|` — the
+absolute value of a small noise-dominated series — so the proxy link was too weak, the base
+coefficient collapsed to 0.005 and the face correctly answered `residual_inside_shuffled_band`.
+Rebuilding it around the star's exogenous `|dy_star|` (with turnover `0.6·|dy_star| + noise`)
+reproduced the intended branch on the first re-run.

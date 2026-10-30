@@ -200,6 +200,12 @@ LEGS = [
     # (the column's turnover is a component of the aggregate, so the inclusive share is the
     # E238 denominator-contains-the-numerator reading). ~30s.
     ("book_echo", ["python", "scripts/e250_book_turnover_echo.py", "run"]),
+    # E251: E250 left exactly one number unexplained -- the star kept ~90% of its lag-1 once the
+    # book aggregate was in the row, against 0.10-0.60 everywhere else. This leg decomposes that
+    # residual (own turnover vs the star's own lagged |move| vs member age) and decides each
+    # addition against the band its OWN time-shuffle produces, so an addition that merely fits
+    # cannot claim the coefficient. ~20s.
+    ("star_own_component", ["python", "scripts/e251_star_own_component.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

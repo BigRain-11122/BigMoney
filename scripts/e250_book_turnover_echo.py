@@ -295,6 +295,31 @@ def _amplification(panel, syms):
                     "single-column reading is amplified by this factor under additive truth"}
 
 
+def name_star(panel, syms):
+    """E245/E246's published lag-0 star rule, as one object for the whole family.
+
+    Extracted in r1277 (E251) so a successor face names the same sleeve by calling this rather
+    than re-typing the rule -- a copy that drifts would silently answer about a different sleeve.
+    """
+    rows0 = [e248.fit_row_zero(panel, syms, m) for m in syms]
+    decided0 = [r for r in rows0 if r.get("decided")]
+    star, star_source = None, "no_star_at_lag0"
+    if len(decided0) >= 3:
+        columns0 = [e246._column(decided0, j) for j in syms]
+        mags = sorted(c["mean_abs_slope"] for c in columns0 if c["mean_abs_slope"] is not None)
+        med = mags[len(mags) // 2] if mags else 0.0
+        stars = [c for c in columns0
+                 if c.get("decisive_share") is not None
+                 and c["decisive_share"] >= e245.STAR_DECISIVE_SHARE
+                 and c["mean_abs_slope"] is not None
+                 and c["mean_abs_slope"] >= e245.STAR_MIN_ABS_SLOPE
+                 and (med <= 0.0 or c["mean_abs_slope"] >= e245.STAR_RATIO_MIN * med)]
+        stars.sort(key=lambda c: (-c["decisive_share"], -c["mean_abs_slope"]))
+        if stars:
+            star, star_source = stars[0]["one_of"], "e245_star_rule"
+    return star, star_source
+
+
 def cell(per, syms, lo=None, hi=None, label="", kind="window", draws=COLUMN_DRAWS,
          star_override=None):
     syms = [s for s in syms if per.get(s) and len(per[s]) > 2]
@@ -314,22 +339,7 @@ def cell(per, syms, lo=None, hi=None, label="", kind="window", draws=COLUMN_DRAW
         return out
 
     # the star, named by E246's published lag-0 rule (same object E248/E249 read)
-    rows0 = [e248.fit_row_zero(panel, syms, m) for m in syms]
-    decided0 = [r for r in rows0 if r.get("decided")]
-    star, star_source = None, "no_star_at_lag0"
-    if len(decided0) >= 3:
-        columns0 = [e246._column(decided0, j) for j in syms]
-        mags = sorted(c["mean_abs_slope"] for c in columns0 if c["mean_abs_slope"] is not None)
-        med = mags[len(mags) // 2] if mags else 0.0
-        stars = [c for c in columns0
-                 if c.get("decisive_share") is not None
-                 and c["decisive_share"] >= e245.STAR_DECISIVE_SHARE
-                 and c["mean_abs_slope"] is not None
-                 and c["mean_abs_slope"] >= e245.STAR_MIN_ABS_SLOPE
-                 and (med <= 0.0 or c["mean_abs_slope"] >= e245.STAR_RATIO_MIN * med)]
-        stars.sort(key=lambda c: (-c["decisive_share"], -c["mean_abs_slope"]))
-        if stars:
-            star, star_source = stars[0]["one_of"], "e245_star_rule"
+    star, star_source = name_star(panel, syms)
     if star_override:
         star, star_source = (star_override if star_override in syms else star), "caller_override"
     out["star"] = star

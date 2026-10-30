@@ -23777,11 +23777,11 @@
   {
    "id": "E251-STAR-OWN-COMPONENT",
    "title": "what is left of the star column once the book-wide aggregate is removed?",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "worker_class": "code-change",
    "priority": 3,
-   "owner": null,
+   "owner": "bm-b",
    "entered_at": "2026-10-30T12:05:00+08:00",
    "entered_by": "bm-b r1276",
    "evidence_cutoff": "2026-10-29",
@@ -23791,7 +23791,30 @@
    ],
    "target": "scripts/e251_star_own_component.py (new runner)",
    "deliverable": "results/state_tilt/STAROWN-<cutoff>.json",
-   "source": "E250 measured that the book-wide aggregate lag-1 carries the shared negative lead (c1 -0.521 outside a shuffled band in 5/6 cells, mean leave-one-out share 0.91), but the star column sh588000 kept ~90% of its -0.805 after the leave-one-out aggregate was in the row -- against 0.10-0.60 for every other column. That residual is the only part of the star reading E248/E249 attributed to a sleeve and E250 did not take away, and it is now the whole question: is the star's own residual its own turnover, its own volatility, or the fact that it is the newest and shortest member? Test it as a decomposition -- own lag-1 with the leave-one-out aggregate controlled, then add the star's own lagged |move| and the member's listing age as separate regressors, and report which part of the residual each one takes. Publish the residual before and after each addition, and decide against the same 200-draw shuffled band the family uses. Identification note: the newest member carries the shortest history, so age and identity are not separable in the headline cell -- say so and read the age effect wherever the window makes it measurable. NO BILL."
+   "source": "E250 measured that the book-wide aggregate lag-1 carries the shared negative lead (c1 -0.521 outside a shuffled band in 5/6 cells, mean leave-one-out share 0.91), but the star column sh588000 kept ~90% of its -0.805 after the leave-one-out aggregate was in the row -- against 0.10-0.60 for every other column. That residual is the only part of the star reading E248/E249 attributed to a sleeve and E250 did not take away, and it is now the whole question: is the star's own residual its own turnover, its own volatility, or the fact that it is the newest and shortest member? Test it as a decomposition -- own lag-1 with the leave-one-out aggregate controlled, then add the star's own lagged |move| and the member's listing age as separate regressors, and report which part of the residual each one takes. Publish the residual before and after each addition, and decide against the same 200-draw shuffled band the family uses. Identification note: the newest member carries the shortest history, so age and identity are not separable in the headline cell -- say so and read the age effect wherever the window makes it measurable. NO BILL.",
+   "done_at": "2026-10-30T12:35:00+08:00",
+   "done_by": "bm-b r1277",
+   "result_ref": "results/state_tilt/STAROWN-2026-10-29.json",
+   "result_note": "residual_is_own_turnover: the star's b1 of -0.72504 moves to -0.73008 when its own lagged |move| joins the row (share -0.0070) and -0.73005 with age (share -0.0069); the drop -0.00504 sits inside the shuffled-drop band [-0.00888, +0.01343], so volatility explains nothing. Age is not identified inside one window (corr 0.99998 with the row index) and is published as such. NO BILL."
+  },
+  {
+   "id": "E252-STAR-PRICES-ITSELF",
+   "title": "the star's turnover prices everyone else -- does it price the star?",
+   "status": "ready",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "priority": 3,
+   "owner": null,
+   "entered_at": "2026-10-30T12:35:00+08:00",
+   "entered_by": "bm-b r1277",
+   "evidence_cutoff": "2026-10-29",
+   "runner": "scripts/e252_star_prices_itself.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e252_star_prices_itself.py (new runner)",
+   "deliverable": "results/state_tilt/STARSELF-<cutoff>.json",
+   "source": "E251 settled what the star's residual is: the star's own lagged turnover, with volatility and age both taking nothing. But all of E251's fits price OTHER members' moves (dy_m for m != star) -- the reading is 'the star's turnover moves the rest of the book'. E246/E249 also found the star's own row carries a negative lead whose sign alternates by era, and E248 published +-0.805 without ever asking whether the star prices ITSELF. Run E251's identical decomposition with the star as the outcome (dy_star on its own contemporaneous turnover + its own lag-1 + the leave-one-out aggregate + lagged |move| + age), same cells, same 200-draw shuffled bands, and publish the star's self-coefficient beside the coefficient it carries for others. The question is whether a member that moves the book is moved by the same quantity, or whether its own row is a different mechanism (E246's alternating sign is the prior). Do not bill either reading: this is a channel identification, and a self-coefficient is not a cost."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

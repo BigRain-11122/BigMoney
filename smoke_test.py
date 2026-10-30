@@ -3972,6 +3972,95 @@ def main() -> int:
     except Exception as e:
         check("product: the shared lead is tested against the book's own aggregate turnover",
               False, repr(e)[:160])
+
+    # E251: E250 left one number standing -- the star kept ~90% of its lag-1 once the book
+    # aggregate was in the row. This leg re-derives that decomposition from the published face
+    # and refuses the two ways it could lie: a verdict that its own numbers do not reproduce, and
+    # a "residual" that is not the same object E250 published (the identity to bookecho is
+    # checked to 1e-9, because a decomposition of a different number is not a decomposition).
+    try:
+        _bad51 = []
+        _p51 = os.path.join("results", "state_tilt", "starown_latest.json")
+        _f51 = None
+        if os.path.exists(_p51):
+            with io.open(_p51, encoding="utf-8") as _fh51:
+                _f51 = json.load(_fh51)
+        _cells51 = []
+        if not _f51:
+            _bad51.append("star-own-component face missing")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            import e251_star_own_component as _m51
+            _vocab51 = set(((_f51.get("frozen_spec") or {}).get("verdicts")) or [])
+            _cells51 = [c for c in (_f51.get("cells") or []) if c.get("verdict")]
+            if not _cells51:
+                _bad51.append("no cell carries a verdict")
+            for _c51 in _cells51:
+                if _c51.get("verdict") not in _vocab51:
+                    _bad51.append("cell %s outside the frozen vocabulary" % _c51.get("label"))
+                _r51 = _c51.get("star_residual") or {}
+                _reb51 = _m51.derive_verdict(_r51.get("b1"), _c51.get("star_outside_band"),
+                                             _r51.get("share_taken_by_vol"),
+                                             _c51.get("vol_addition_outside_band"),
+                                             len(_c51.get("columns") or {}))
+                if _reb51 != _c51.get("verdict"):
+                    _bad51.append("cell %s publishes %s but its numbers re-derive %s"
+                                  % (_c51.get("label"), _c51.get("verdict"), _reb51))
+                _b51, _bv51 = _r51.get("b1"), _r51.get("b1_with_vol")
+                if _b51 is not None and _bv51 is not None and abs(_b51) > 1e-12:
+                    _sh51 = 1.0 - (_bv51 / _b51)
+                    if _r51.get("share_taken_by_vol") is None \
+                            or abs(_sh51 - _r51["share_taken_by_vol"]) > 1e-9:
+                        _bad51.append("cell %s publishes a share its own betas "
+                                      "do not produce" % _c51.get("label"))
+                if not _c51.get("star") and "no member was named star" not in (
+                        _c51.get("reason") or ""):
+                    _bad51.append("cell %s has no star and no explicit reason"
+                                  % _c51.get("label"))
+                if _c51.get("verdict") == "residual_is_own_volatility" \
+                        and _c51.get("vol_addition_outside_band") is not True:
+                    _bad51.append("cell %s names volatility without clearing the drop band"
+                                  % _c51.get("label"))
+            _head51 = next((c for c in _cells51 if c.get("label") == "all_five"), None)
+            if _head51 is None:
+                _bad51.append("no headline cell")
+            else:
+                _st51 = (_head51.get("columns") or {}).get(_head51.get("star")) or {}
+                if _st51.get("age_identified") is not False:
+                    _bad51.append("the headline star does not publish age as unidentified")
+                _bid51 = os.path.join("results", "state_tilt", "bookecho_latest.json")
+                if os.path.exists(_bid51):
+                    with io.open(_bid51, encoding="utf-8") as _fh51b:
+                        _f51b = json.load(_fh51b)
+                    _hb51 = next((c for c in (_f51b.get("cells") or [])
+                                  if c.get("label") == "all_five"), None)
+                    if _hb51 and _hb51.get("star") == _head51.get("star"):
+                        _e250v51 = ((_hb51.get("columns") or {}).get(_hb51["star"])
+                                    or {}).get("b1_with_loo_aggregate")
+                        _our51 = (_head51.get("star_residual") or {}).get("b1")
+                        if _e250v51 is None or _our51 is None \
+                                or abs(_e250v51 - _our51) > 1e-9:
+                            _bad51.append("the decomposed residual is not E250's published "
+                                          "number (%s vs %s)" % (_e250v51, _our51))
+                    else:
+                        _bad51.append("the two faces do not name the same star")
+                else:
+                    _bad51.append("bookecho face missing, so the identity cannot be checked")
+            if not _f51.get("no_bill"):
+                _bad51.append("the face does not carry its no-bill line")
+            if not _f51.get("identification_caveat"):
+                _bad51.append("the face does not carry its age caveat")
+        _s51 = (_f51 or {}).get("summary") or {}
+        check("product: the star's residual is decomposed and split from volatility and age",
+              not _bad51, "; ".join(_bad51)[:220]
+              or "verdict %s; star %s; b1 %s -> with vol %s (share %s); cells %d"
+                 % (_s51.get("verdict"), _s51.get("headline_star"),
+                    _r39(_f51 or {}, "headline_star_b1"),
+                    _r39(_f51 or {}, "headline_star_b1_with_vol"),
+                    _r39(_f51 or {}, "headline_star_share_vol"), len(_cells51)))
+    except Exception as e:
+        check("product: the star's residual is decomposed and split from volatility and age",
+              False, repr(e)[:160])
     return _finish()
 
 
