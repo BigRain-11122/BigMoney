@@ -26,12 +26,11 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "behind_origin_main": 99,
-  "branch": "machine/bm-b-r1279",
-  "local_not_on_origin_main": 2,
-  "main_blocked": "behind origin/main 99; main carries 2 commits this branch does not (this round + the r1278 merge)",
-  "sha": "459bb3809b4b32db5b5ea515f8a15345eeba6345",
-  "ts": "2026-10-30T14:00:52+08:00",
+  "behind_origin_main": 102,
+  "branch": "machine/bm-b-r1282",
+  "local_not_on_origin_main": 9,
+  "sha": "8806271e3e93c1f446215c0d4730af8dfbc700c6",
+  "ts": "2026-10-30T18:05:00+08:00",
   "verified": "git ls-remote == git rev-parse HEAD"
  },
  "dept": "research+engineering",
@@ -764,6 +763,14 @@
   "smoke": "baseline 233/234 (one GPU-face FAIL, healed); full re-run with the E252 leg in flight at closeout",
   "ts": "2026-10-30T13:49:47+08:00"
  },
+ "r1282_push": {
+  "behind_origin_main": 102,
+  "branch": "machine/bm-b-r1282",
+  "local_not_on_origin_main": 9,
+  "note": "first attempt succeeded, zero claw blocks; payload = the E255 runner + face + digest + card, the S6 and smoke legs, the pool audit's runner-presence fix, the pool (E255 closed, E256 seeded) and the closeout trio. The drama lane, post_review, machine-health, token_usage.json and the unsuffixed collector status faces were dirty at open and were left untouched.",
+  "pushed_sha": "8806271e3e",
+  "status": "PUSHED_VERIFIED"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -791,16 +798,16 @@
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face is state-bm-b.json",
  "status": "green",
  "sync": {
-  "ahead": 2,
-  "behind": 99,
-  "branch": "machine/bm-b-r1279",
-  "local_not_on_origin_commits": 2,
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255 measured 85,599 objects); nine consecutive rounds",
+  "ahead": 9,
+  "behind": 102,
+  "branch": "machine/bm-b-r1282",
+  "local_not_on_origin_commits": 9,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation; ten consecutive rounds",
   "peer": "origin",
-  "pushed_sha": "459bb3809b4b32db5b5ea515f8a15345eeba6345",
-  "remote_ref_sha": "459bb3809b4b32db5b5ea515f8a15345eeba6345",
-  "ts": "2026-10-30T14:00:52+08:00",
-  "verified": "git ls-remote == git rev-parse HEAD"
+  "pushed_sha": "8806271e3e",
+  "remote_ref_sha": "8806271e3e",
+  "ts": "2026-10-30T18:05:00+08:00",
+  "verified": "ls-remote == rev-parse HEAD"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
  "task": "E255 band draw starvation (done) -- next E256 draw continuation to 960/1920",
