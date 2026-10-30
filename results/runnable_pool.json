@@ -24718,7 +24718,7 @@
   {
    "deliverable": "results/state_tilt/BANDFIELDS-<cutoff>.json",
    "evidence_cutoff": "2026-10-29",
-   "id": "E270-GUARD-FIELD-AUDIT",
+   "id": "E270-GUARD-FIELD-AUDIT", "done_at": "2026-10-31 03:1x", "done_by": "bm-b", "result_note": "verdict=guard_inputs_are_face_local; 18 dated BAND* faces scanned (mirrors and this study's own face excluded), 25 collections carry at least one of the four guard inputs but only 4 carry the FULL triple (b, band_lo, band_hi, own_p95) -- 72 record-readings, 3 of the 4 on measured rows only -- while 27 verdict-bearing collections (584 records) publish a judgement with none of them. The value cross-check is clean: 216 records joined to the canonical /rows collection of BANDTRANSFER, 420 of 420 shared cells agree with max |diff| 0.0, so the gap is COVERAGE, not disagreement -- the same row is never published as two numbers. Also disclosed: `b` has two meanings in this family (the row's own move, and the clearance curves' buffer grid, 9 collections) and buffer grids are kept out of the row census.", "result_ref": "results/state_tilt/BANDFIELDS-2026-10-29.json",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
@@ -24729,10 +24729,27 @@
    "seeded_at": "2026-10-31T02:20:00+08:00",
    "seeded_by": "bm-b r1294",
    "source": "E268 answered the question for ONE face (BANDTRANSFER) and found the answer depends on which published quantities a reader holds. The obvious follow-up is the wider audit: walk every face under results/state_tilt/ that a screen reads and record, per row, which guard inputs are present (own_p95, own_p05, b, band_lo/hi, t_side, t_max_end, published verdict, the group's pooled ends) and which faces would leave a reader unable to run the screen at all. That turns 'the table is enough' from a statement about one face into a table of which faces are self-sufficient and why the others are not -- and it is the cheapest possible check, since everything it needs is already on disk.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e270_guard_field_audit.py (new runner)",
    "title": "does every published face a screen reads actually carry the guard's inputs?",
    "worker_class": "code-change"
+  },
+  {
+   "id": "E273-GUARD-FROM-THRESHOLD",
+   "title": "is a published THRESHOLD enough to re-run the guard, or does it need the triple?",
+   "target": "scripts/e273_guard_from_threshold.py (new runner)",
+   "deliverable": "results/state_tilt/BANDTHRESHGUARD-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e273_guard_from_threshold.py",
+   "runner_args": ["run"],
+   "seeded_at": "2026-10-31T03:10:00+08:00",
+   "seeded_by": "bm-b r1296",
+   "status": "ready",
+   "worker_class": "cpu",
+   "source": "E270 measured that the guard's four inputs live on 4 of the 17 published band faces, but a missing triple is not necessarily a missing SCREEN: BANDMARGIN publishes t_side and t_max_end per comparison and BANDSCREEN publishes the same thresholds for the rows it flags, so the decision may be reachable from a threshold alone (donor_p95 > t) without b/band_lo/band_hi. The question is whether that substitute is exact or merely plausible: score the threshold rule against the published actual_moved on the same comparisons, publish a false-positive/missed-move split, and state which faces a reader can run the screen from WITHOUT the triple."
   },
   {
    "deliverable": "results/state_tilt/BANDDONORCHOICE-<cutoff>.json",

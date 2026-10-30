@@ -5140,3 +5140,51 @@ Evidence: scripts/e268_screen_on_pooled_end.py (selftest 41/41, verify 0 problem
 Engineering pits born here: (1) BANDTRANSFER's `rows` are E262's resolved records, not raw source rows -- re-running `e262.row_records` on them marks all 16 unjudgeable for a missing `band_draws`, and the face cheerfully published a verdict over 0 measured rows; `verify` re-derived the same wrong answer, so only the printed run output caught it (check that a verdict's population is non-empty before believing it); (2) a comprehension filter referencing its own loop variable (`d` inside its own `for ... if d is not None`) is a run-time NameError that compiles clean -- `verify` cannot see it either; (3) a selftest fixture placed the flip exactly on the boundary (`-0.45` vs `-0.3*1.5`), where binary floating point puts it below the edge, so a correct implementation "failed" -- move the fixture off the tie, never loosen the leg (r1281 family, fourth sighting).
 
 Evidence: scripts/e269_tight_end_transfer.py (selftest 35/35, verify 0 problems), results/state_tilt/BANDTIGHT-2026-10-29.json (verdict=the_tight_end_is_inert_on_this_population; 48 pairs / 0 tight moves / 2 wide moves; 0 rows could move at any published p05; nearest flip 13.5% outside the range), source faces BANDWINDIST-2026-10-29 (E259) + BANDTRANSFER-2026-10-29 (E262), digest research/digests/DIGEST-20261031-r1295-e269-tight-end.md.
+
+
+## E270 -- a screen's reach is what the published faces carry, and presence is not agreement
+
+> E267/E268's guard consumes four per-row numbers (b, band_lo, band_hi, own_p95). This audit walks
+> every dated BAND* face and asks which of them actually publish those four -- the rule being
+> published is not the same thing as the rule being re-runnable from the tables.
+
+**Reading.** 18 dated faces, 86 record collections, 25 collections carry at least one guard input,
+but only 4 carry the FULL triple on every record they measure: 72 record-readings (3 of the 4
+collections on measured rows only -- unmeasured rows legitimately hold None in the very fields the
+join checks). Against that, 27 verdict-bearing collections (584 records) publish a judgement with
+none of the four. So the screen is a table recipe on the faces that carry the triple and a black
+box everywhere else -- `guard_inputs_are_face_local`.
+
+**The cross-check, which is the load-bearing half.** Presence is not agreement: the same row index
+appears in six faces and its own_p95 could be six different numbers. Joining 216 records to the
+canonical `/rows` collection of the face that published them compares 420 shared guard cells:
+420 agree, 0 disagree, max |diff| 0.0. The family's problem is therefore COVERAGE, not
+inconsistency -- and that distinction cannot be made by counting fields.
+
+**Disclosures that keep the census honest.** (i) `b` is two different quantities in this family:
+the row's own move, and the clearance curves' buffer grid (9 collections). Buffer grids are named
+separately (`b_without_a_band`) and kept out of the row census, or a buffer sweep of 43 values
+reads as 43 half-instrumented rows. (ii) The domain excludes the `_latest.json` mirrors (byte
+copies of a dated face) and the study's own output -- a second burn would otherwise audit the audit
+and answer differently, which is exactly the r1238 self-inclusion defect. (iii) A record without an
+`index` is counted as unjoined, never dropped; `unjoined` is published beside `joined`.
+
+**Pit.** The first burn published `canonical: none` with 0 cells compared, because `canon_map`
+required a collection whose EVERY record carried all four inputs -- but unmeasured rows hold None
+in exactly those fields, so the canonical face was rejected in favour of nothing and the value
+cross-check silently measured zero cells while the verdict still read as a coverage finding. The
+rule is now "the collection with the most complete records", and the standard error of that
+mistake is visible: the face publishes `canonical_basis` and `cells_compared`.
+
+**Second pit (a count that moves is not a re-derivable count).** The domain grew mid-round -- a
+downstream leg published `BANDPATH-2026-10-30.json` while this face was being written -- and every
+total moved (17 -> 18 faces, 536 -> 584 records). A scan whose input is a directory must publish
+the inventory it measured and re-derive over THAT list: `verify` now takes `source_faces` as its
+scope and reports a domain that has grown or shrunk as a notice ("re-run to republish"), never as a
+silent change of the published numbers.
+
+Evidence: scripts/e270_guard_field_audit.py (selftest 29/29, verify 0 problems),
+results/state_tilt/BANDFIELDS-2026-10-29.json (verdict=guard_inputs_are_face_local; 17 faces,
+4 guard-complete collections / 72 record-readings, 26 verdict collections without inputs / 536
+records, 420 of 420 joined cells agree max |diff| 0.0), S6 leg `guard_field_audit`,
+digest research/digests/DIGEST-20261031-r1296-e270-guard-field-audit.md.

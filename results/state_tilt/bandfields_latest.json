@@ -1,0 +1,3731 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "faces": [
+  {
+   "face": "BANDARRIVAL-2026-10-29.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/cross_check/arms",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/rows",
+      "verdict_fields": [
+       "verdict"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/rows"
+    ],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 16
+   },
+   "verdict": "published_base_below_arrival"
+  },
+  {
+   "face": "BANDARRIVALATE-2026-10-29.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 8,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 8,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 8,
+      "n_records": 8,
+      "partial_fields": [],
+      "path": "/arms",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 8,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 8,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 8,
+      "n_records": 8,
+      "partial_fields": [],
+      "path": "/channels/per_seed/rows",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "arrival_is_neither_channel"
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 16,
+     "unjoined": 16
+    }
+   },
+   "scan": {
+    "b_without_a_band": [
+     "/rows"
+    ],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/arms",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 10,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 10,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 10,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 10,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 10,
+      "n_records": 10,
+      "partial_fields": [],
+      "path": "/leg_key_audit/rows_on_another_leg",
+      "verdict_fields": [
+       "verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [
+       "b"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/windows_skipped",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/leg_key_audit/rows_on_another_leg"
+    ],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 26
+   },
+   "verdict": "floor_at_one_is_the_attained_bucket"
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d1920.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 5,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 5,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 5,
+      "n_records": 5,
+      "partial_fields": [],
+      "path": "/continuation/head/steps",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 5,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 5,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 5,
+      "n_records": 5,
+      "partial_fields": [],
+      "path": "/continuation/tail/steps",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 14,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 14,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 14,
+      "n_records": 14,
+      "partial_fields": [],
+      "path": "/rungs",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 6,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 6,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 6,
+      "n_records": 6,
+      "partial_fields": [],
+      "path": "/tables/head/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 6,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 6,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 6,
+      "n_records": 6,
+      "partial_fields": [],
+      "path": "/tables/tail/rows",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "increments_do_not_decay_with_draws"
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d960.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/continuation/head/steps",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/continuation/tail/steps",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 14,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 14,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 14,
+      "n_records": 14,
+      "partial_fields": [],
+      "path": "/rungs",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 5,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 5,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 5,
+      "n_records": 5,
+      "partial_fields": [],
+      "path": "/tables/head/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 5,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 5,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 5,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 5,
+      "n_records": 5,
+      "partial_fields": [],
+      "path": "/tables/tail/rows",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "increments_do_not_decay_with_draws"
+  },
+  {
+   "face": "BANDDRAW-2026-10-29.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 14,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 14,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 14,
+      "n_records": 14,
+      "partial_fields": [],
+      "path": "/rungs",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 7,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 7,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 7,
+      "n_records": 7,
+      "partial_fields": [],
+      "path": "/secondary_reads/endpoint_convergence/head/rises_240_to_last",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 7,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 7,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 7,
+      "n_records": 7,
+      "partial_fields": [],
+      "path": "/secondary_reads/endpoint_convergence/tail/rises_240_to_last",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 7,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 7,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 7,
+      "n_records": 7,
+      "partial_fields": [],
+      "path": "/summary/secondary_reads/endpoint_convergence/head/rises_240_to_last",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 7,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 7,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 7,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 7,
+      "n_records": 7,
+      "partial_fields": [],
+      "path": "/summary/secondary_reads/endpoint_convergence/tail/rises_240_to_last",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/tables/head/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/tables/tail/rows",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "exponent_clears_on_draws_alone"
+  },
+  {
+   "face": "BANDEXP-2026-10-29.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 14,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 14,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 14,
+      "n_records": 14,
+      "partial_fields": [],
+      "path": "/points",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "exponent_undetermined_inside_the_cell"
+  },
+  {
+   "face": "BANDMARGIN-2026-10-29.json",
+   "joins": {
+    "/comparison_margins": {
+     "agree": 36,
+     "cells_compared": 36,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 36,
+     "max_abs_diff": 0.0,
+     "n_records": 36,
+     "unjoined": 0
+    },
+    "/curves/guarded_maxend": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 43,
+     "unjoined": 43
+    },
+    "/curves/guarded_side": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 43,
+     "unjoined": 43
+    },
+    "/curves/single_maxend": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 43,
+     "unjoined": 43
+    },
+    "/curves/single_side": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 43,
+     "unjoined": 43
+    }
+   },
+   "scan": {
+    "b_without_a_band": [
+     "/curves/guarded_maxend",
+     "/curves/guarded_side",
+     "/curves/single_maxend",
+     "/curves/single_side"
+    ],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 36,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 36,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 36,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 36
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 36,
+      "n_partial": 36,
+      "n_records": 36,
+      "partial_fields": [],
+      "path": "/comparison_margins",
+      "verdict_fields": [
+       "actual_moved",
+       "own_verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 43
+       },
+       "band_hi": {
+        "absent": 43,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 43,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 43,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 43,
+      "n_records": 43,
+      "partial_fields": [],
+      "path": "/curves/guarded_maxend",
+      "verdict_fields": [
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 43
+       },
+       "band_hi": {
+        "absent": 43,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 43,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 43,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 43,
+      "n_records": 43,
+      "partial_fields": [],
+      "path": "/curves/guarded_side",
+      "verdict_fields": [
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 43
+       },
+       "band_hi": {
+        "absent": 43,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 43,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 43,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 43,
+      "n_records": 43,
+      "partial_fields": [],
+      "path": "/curves/single_maxend",
+      "verdict_fields": [
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 43
+       },
+       "band_hi": {
+        "absent": 43,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 43,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 43,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 43,
+      "n_records": 43,
+      "partial_fields": [],
+      "path": "/curves/single_side",
+      "verdict_fields": [
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/groups",
+      "verdict_fields": [
+       "moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/summary/moves_detail",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/comparison_margins",
+     "/groups"
+    ],
+    "guard_collections": [
+     "/comparison_margins",
+     "/curves/guarded_maxend",
+     "/curves/guarded_side",
+     "/curves/single_maxend",
+     "/curves/single_side"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 212
+   },
+   "verdict": "buffer_cannot_buy_precision_itself"
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 48,
+     "cells_compared": 48,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 16,
+     "max_abs_diff": 0.0,
+     "n_records": 16,
+     "unjoined": 0
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/borrowed_flip_check/moved_rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/borrowed_flip_check/moved_rows_inside_the_top3_closest",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 3,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 3,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 3,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 3,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 3,
+      "n_partial": 3,
+      "n_records": 3,
+      "partial_fields": [],
+      "path": "/borrowed_flip_check/top3_closest",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 12,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/closest/rows",
+      "verdict_fields": [
+       "m_star",
+       "verdict_tight",
+       "verdict_wide"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 4,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/floor_rows",
+      "verdict_fields": [
+       "m_star",
+       "moved",
+       "verdict_tight"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 12
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [],
+      "n_complete": 12,
+      "n_indexed": 16,
+      "n_partial": 4,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "m_star",
+       "published_verdict_wide",
+       "verdict_tight",
+       "verdict_wide"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/closest/rows",
+     "/floor_rows"
+    ],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 12,
+    "n_records_with_verdict_but_no_inputs": 16
+   },
+   "verdict": "closest_row_survives_without_them"
+  },
+  {
+   "face": "BANDPATH-2026-10-29.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 48,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 48,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 48,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 48,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 48,
+      "n_records": 48,
+      "partial_fields": [],
+      "path": "/cell_summary",
+      "verdict_fields": [
+       "verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/focus_cell/per_path",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/panels",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/skipped_paths",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/cell_summary"
+    ],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 48
+   },
+   "verdict": null
+  },
+  {
+   "face": "BANDPATH-2026-10-30.json",
+   "joins": {},
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 48,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 48,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 48,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 48,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 48,
+      "n_records": 48,
+      "partial_fields": [],
+      "path": "/cell_summary",
+      "verdict_fields": [
+       "verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/focus_cell/per_path",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/panels",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/skipped_paths",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/cell_summary"
+    ],
+    "guard_collections": [],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 48
+   },
+   "verdict": null
+  },
+  {
+   "face": "BANDPOOLED-2026-10-29.json",
+   "joins": {
+    "/comparisons": {
+     "agree": 36,
+     "cells_compared": 36,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 36,
+     "max_abs_diff": 0.0,
+     "n_records": 36,
+     "unjoined": 0
+    },
+    "/mislabelled/bracket_side|group_flat_wide": {
+     "agree": 6,
+     "cells_compared": 6,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 6,
+     "max_abs_diff": 0.0,
+     "n_records": 6,
+     "unjoined": 0
+    },
+    "/mislabelled/bracket_side|row_published_verdict": {
+     "agree": 3,
+     "cells_compared": 3,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 3,
+     "max_abs_diff": 0.0,
+     "n_records": 3,
+     "unjoined": 0
+    },
+    "/mislabelled/guarded_side|group_flat_wide": {
+     "agree": 2,
+     "cells_compared": 2,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 2,
+     "max_abs_diff": 0.0,
+     "n_records": 2,
+     "unjoined": 0
+    },
+    "/mislabelled/guarded_side|row_published_verdict": {
+     "agree": 1,
+     "cells_compared": 1,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 1,
+     "max_abs_diff": 0.0,
+     "n_records": 1,
+     "unjoined": 0
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 36,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 36,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 36,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 36
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 36,
+      "n_partial": 36,
+      "n_records": 36,
+      "partial_fields": [],
+      "path": "/comparisons",
+      "verdict_fields": [
+       "actual_moved",
+       "predicted",
+       "published_verdict_wide"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/group_spread",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/groups",
+      "verdict_fields": [
+       "moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 6,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 6
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 6,
+      "n_partial": 6,
+      "n_records": 6,
+      "partial_fields": [],
+      "path": "/mislabelled/bracket_side|group_flat_wide",
+      "verdict_fields": [
+       "actual_moved",
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 3,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 3,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 3,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 3
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 3,
+      "n_partial": 3,
+      "n_records": 3,
+      "partial_fields": [],
+      "path": "/mislabelled/bracket_side|row_published_verdict",
+      "verdict_fields": [
+       "actual_moved",
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 2
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/mislabelled/guarded_side|group_flat_wide",
+      "verdict_fields": [
+       "actual_moved",
+       "predicted"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 1,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 1
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 1,
+      "n_partial": 1,
+      "n_records": 1,
+      "partial_fields": [],
+      "path": "/mislabelled/guarded_side|row_published_verdict",
+      "verdict_fields": [
+       "actual_moved",
+       "predicted"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/comparisons",
+     "/groups",
+     "/mislabelled/bracket_side|group_flat_wide",
+     "/mislabelled/bracket_side|row_published_verdict",
+     "/mislabelled/guarded_side|group_flat_wide",
+     "/mislabelled/guarded_side|row_published_verdict"
+    ],
+    "guard_collections": [
+     "/comparisons",
+     "/mislabelled/bracket_side|group_flat_wide",
+     "/mislabelled/bracket_side|row_published_verdict",
+     "/mislabelled/guarded_side|group_flat_wide",
+     "/mislabelled/guarded_side|row_published_verdict"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 52
+   },
+   "verdict": "a_pooled_group_end_runs_the_screen"
+  },
+  {
+   "face": "BANDSCREEN-2026-10-29.json",
+   "joins": {
+    "/comparison_rows": {
+     "agree": 144,
+     "cells_compared": 144,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 36,
+     "max_abs_diff": 0.0,
+     "n_records": 36,
+     "unjoined": 0
+    },
+    "/counterexamples_of_the_written_screen": {
+     "agree": 16,
+     "cells_compared": 16,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 16,
+     "max_abs_diff": 0.0,
+     "n_records": 16,
+     "unjoined": 0
+    },
+    "/summary/rows_moved": {
+     "agree": 2,
+     "cells_compared": 2,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 2,
+     "max_abs_diff": 0.0,
+     "n_records": 2,
+     "unjoined": 0
+    },
+    "/thresholds_that_differ": {
+     "agree": 18,
+     "cells_compared": 18,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 18,
+     "max_abs_diff": 0.0,
+     "n_records": 18,
+     "unjoined": 0
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 36
+       },
+       "band_hi": {
+        "absent": 0,
+        "present": 36
+       },
+       "band_lo": {
+        "absent": 0,
+        "present": 36
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 36
+       }
+      },
+      "guard_runnable": true,
+      "missing_fields": [],
+      "n_complete": 36,
+      "n_indexed": 36,
+      "n_partial": 0,
+      "n_records": 36,
+      "partial_fields": [],
+      "path": "/comparison_rows",
+      "verdict_fields": [
+       "actual_moved",
+       "own_verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 16
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 16,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/counterexamples_of_the_written_screen",
+      "verdict_fields": [
+       "own_verdict"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 4,
+      "n_records": 4,
+      "partial_fields": [],
+      "path": "/groups",
+      "verdict_fields": [
+       "moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 2
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/summary/rows_moved",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 18,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 18,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 18,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 0,
+        "present": 18
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "n_complete": 0,
+      "n_indexed": 18,
+      "n_partial": 18,
+      "n_records": 18,
+      "partial_fields": [],
+      "path": "/thresholds_that_differ",
+      "verdict_fields": [
+       "actual_moved"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/counterexamples_of_the_written_screen",
+     "/groups",
+     "/thresholds_that_differ"
+    ],
+    "guard_collections": [
+     "/comparison_rows",
+     "/counterexamples_of_the_written_screen",
+     "/summary/rows_moved",
+     "/thresholds_that_differ"
+    ],
+    "guard_runnable_collections": [
+     "/comparison_rows"
+    ],
+    "n_records_guard_runnable": 36,
+    "n_records_with_verdict_but_no_inputs": 38
+   },
+   "verdict": "donor_above_the_row_is_not_a_screen"
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 48,
+     "cells_compared": 48,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 16,
+     "max_abs_diff": 0.0,
+     "n_records": 16,
+     "unjoined": 0
+    },
+    "/sensitivity/cross:200/rows": {
+     "agree": 2,
+     "cells_compared": 2,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 2,
+     "max_abs_diff": 0.0,
+     "n_records": 2,
+     "unjoined": 0
+    },
+    "/sensitivity/cross:60/rows": {
+     "agree": 6,
+     "cells_compared": 6,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 6,
+     "max_abs_diff": 0.0,
+     "n_records": 6,
+     "unjoined": 0
+    },
+    "/sensitivity/self:200/rows": {
+     "agree": 1,
+     "cells_compared": 1,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 1,
+     "max_abs_diff": 0.0,
+     "n_records": 1,
+     "unjoined": 0
+    },
+    "/sensitivity/self:60/rows": {
+     "agree": 3,
+     "cells_compared": 3,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 3,
+     "max_abs_diff": 0.0,
+     "n_records": 3,
+     "unjoined": 0
+    }
+   },
+   "scan": {
+    "b_without_a_band": [
+     "/sensitivity/cross:200/rows",
+     "/sensitivity/cross:60/rows",
+     "/sensitivity/self:200/rows",
+     "/sensitivity/self:60/rows"
+    ],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 12
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [],
+      "n_complete": 12,
+      "n_indexed": 16,
+      "n_partial": 4,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "verdict_tight",
+       "verdict_wide"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 2
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/sensitivity/cross:200/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 6
+       },
+       "band_hi": {
+        "absent": 6,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 6,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 6,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 6,
+      "n_partial": 6,
+      "n_records": 6,
+      "partial_fields": [],
+      "path": "/sensitivity/cross:60/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 1
+       },
+       "band_hi": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 1,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 1,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 1,
+      "n_partial": 1,
+      "n_records": 1,
+      "partial_fields": [],
+      "path": "/sensitivity/self:200/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 0,
+        "present": 3
+       },
+       "band_hi": {
+        "absent": 3,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 3,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 3,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 3,
+      "n_partial": 3,
+      "n_records": 3,
+      "partial_fields": [],
+      "path": "/sensitivity/self:60/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer_tight/cross:200/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer_tight/cross:60/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer_tight/self:200/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer_tight/self:60/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/transfer_tight/cross:200/pairs",
+     "/transfer_tight/cross:60/pairs",
+     "/transfer_tight/self:200/pairs",
+     "/transfer_tight/self:60/pairs"
+    ],
+    "guard_collections": [
+     "/rows",
+     "/sensitivity/cross:200/rows",
+     "/sensitivity/cross:60/rows",
+     "/sensitivity/self:200/rows",
+     "/sensitivity/self:60/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 12,
+    "n_records_with_verdict_but_no_inputs": 48
+   },
+   "verdict": "the_tight_end_is_inert_on_this_population"
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 16,
+     "unjoined": 16
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 14,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 14,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 14,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 14,
+      "n_records": 14,
+      "partial_fields": [],
+      "path": "/multiplier_table/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "verdict"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/rows"
+    ],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 16
+   },
+   "verdict": "flips_depend_on_the_measurement_only"
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 48,
+     "cells_compared": 48,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 16,
+     "max_abs_diff": 0.0,
+     "n_records": 16,
+     "unjoined": 0
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/arms",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 2,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/flat/cross:60/moved_at_flat",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 1,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 1,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 1,
+      "n_partial": 1,
+      "n_records": 1,
+      "partial_fields": [],
+      "path": "/rejudge_note/rows_where_e259_wide_verdict_differs",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 4,
+        "present": 12
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [],
+      "n_complete": 12,
+      "n_indexed": 16,
+      "n_partial": 4,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "published_verdict_wide",
+       "verdict_tight",
+       "verdict_wide"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer/cross:200/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer/cross:60/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer/self:200/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/transfer/self:60/pairs",
+      "verdict_fields": [
+       "moved",
+       "n_moved"
+      ]
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/transfer/cross:200/pairs",
+     "/transfer/cross:60/pairs",
+     "/transfer/self:200/pairs",
+     "/transfer/self:60/pairs"
+    ],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 12,
+    "n_records_with_verdict_but_no_inputs": 48
+   },
+   "verdict": "a_foreign_wide_end_is_not_a_bound"
+  },
+  {
+   "face": "BANDWINDIST-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 16,
+     "unjoined": 16
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 16,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 16,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [],
+      "path": "/interval_spread/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "path": "/rows",
+      "verdict_fields": [
+       "flips_from_published_at_any_end",
+       "inside_at_every_end",
+       "verdict_tight",
+       "verdict_wide"
+      ]
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/windows_skipped",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [
+     "/rows"
+    ],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 16
+   },
+   "verdict": "interval_is_wider_than_the_three_seed_range"
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "joins": {
+    "/rows": {
+     "agree": 0,
+     "cells_compared": 0,
+     "disagree": 0,
+     "disagreeing": [],
+     "joined": 0,
+     "max_abs_diff": null,
+     "n_records": 16,
+     "unjoined": 16
+    }
+   },
+   "scan": {
+    "b_without_a_band": [],
+    "collections": [
+     {
+      "fields": {
+       "b": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_hi": {
+        "absent": 4,
+        "present": 12
+       },
+       "band_lo": {
+        "absent": 4,
+        "present": 12
+       },
+       "own_p95": {
+        "absent": 16,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 16,
+      "n_records": 16,
+      "partial_fields": [
+       "b",
+       "band_lo",
+       "band_hi"
+      ],
+      "path": "/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 12,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 12,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 12,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 12,
+      "n_records": 12,
+      "partial_fields": [],
+      "path": "/rows_vs_borrowed_range/rows",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 2,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 2,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 2,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 2,
+      "n_records": 2,
+      "partial_fields": [],
+      "path": "/windows_skipped",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 1,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 1,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 1,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 1,
+      "n_records": 1,
+      "partial_fields": [],
+      "path": "/windows_vs_borrowed_range/outside",
+      "verdict_fields": []
+     },
+     {
+      "fields": {
+       "b": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_hi": {
+        "absent": 8,
+        "present": 0
+       },
+       "band_lo": {
+        "absent": 8,
+        "present": 0
+       },
+       "own_p95": {
+        "absent": 8,
+        "present": 0
+       }
+      },
+      "guard_runnable": false,
+      "missing_fields": [
+       "b",
+       "band_lo",
+       "band_hi",
+       "own_p95"
+      ],
+      "n_complete": 0,
+      "n_indexed": 0,
+      "n_partial": 8,
+      "n_records": 8,
+      "partial_fields": [],
+      "path": "/windows_vs_borrowed_range/windows",
+      "verdict_fields": []
+     }
+    ],
+    "collections_with_verdict_but_no_inputs": [],
+    "guard_collections": [
+     "/rows"
+    ],
+    "guard_runnable_collections": [],
+    "n_records_guard_runnable": 0,
+    "n_records_with_verdict_but_no_inputs": 0
+   },
+   "verdict": "local_verdicts_depend_on_seed_scatter"
+  }
+ ],
+ "frozen_spec": {
+  "complete_rule": "a record is guard-runnable iff it carries all four inputs",
+  "domain_rule": "every BAND*.json in results/state_tilt except the _latest.json byte mirrors: the mirrors are the same face twice",
+  "guard_inputs": [
+   "b",
+   "band_lo",
+   "band_hi",
+   "own_p95"
+  ],
+  "join_rule": "a collection is joined against the canonical row collection of the face that published the rows; a shared number must match to 1e-09, so presence alone cannot pass",
+  "presence_rule": "a field is present iff the key exists and its value is not None; 0.0 is a value -- a zero is a measurement, not a missing number",
+  "tolerance": 1e-09,
+  "verdict_rule": "disagreement outranks incompleteness: two faces publishing different values for one row is a stronger finding than a face that publishes no value at all",
+  "verdict_vocabulary": [
+   "guard_inputs_are_published_where_the_screen_runs",
+   "guard_inputs_are_face_local",
+   "guard_inputs_disagree_across_faces",
+   "no_guard_bearing_record"
+  ]
+ },
+ "generated": "2026-10-31T02:48:23",
+ "guard_complete_collections": [
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "n_complete": 12,
+   "n_records": 16,
+   "path": "/rows"
+  },
+  {
+   "face": "BANDSCREEN-2026-10-29.json",
+   "n_complete": 36,
+   "n_records": 36,
+   "path": "/comparison_rows"
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "n_complete": 12,
+   "n_records": 16,
+   "path": "/rows"
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "n_complete": 12,
+   "n_records": 16,
+   "path": "/rows"
+  }
+ ],
+ "inventory_note": "the counts below are those of THIS inventory: the domain grows whenever the machine publishes another dated BAND* face, so verify re-derives over the published list rather than over whatever is on disk at verification time",
+ "no_bill": "measurement only: the published band faces are re-read and field-checked; no shuffle stream is drawn, no band is rebuilt, no engine runs. A field that is present here is present on disk -- nothing is re-derived from the market.",
+ "self_excluded_faces": [
+  "BANDFIELDS*.json",
+  "*_latest.json"
+ ],
+ "source_faces": [
+  "BANDARRIVAL-2026-10-29.json",
+  "BANDARRIVALATE-2026-10-29.json",
+  "BANDBUCKET-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json",
+  "BANDDRAW-2026-10-29-d960.json",
+  "BANDDRAW-2026-10-29.json",
+  "BANDEXP-2026-10-29.json",
+  "BANDMARGIN-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDPATH-2026-10-29.json",
+  "BANDPATH-2026-10-30.json",
+  "BANDPOOLED-2026-10-29.json",
+  "BANDSCREEN-2026-10-29.json",
+  "BANDTIGHT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json",
+  "BANDWINDIST-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json"
+ ],
+ "study": "E270_guard_field_audit",
+ "summary": {
+  "canonical_basis": "index",
+  "canonical_face": "BANDTRANSFER",
+  "canonical_path": "/rows",
+  "canonical_records": 16,
+  "cells_compared": 420,
+  "collections_carrying_b_without_a_band": 9,
+  "collections_scanned": 86,
+  "faces_scanned": 18,
+  "guard_columns": 25,
+  "guard_complete_collections": 4,
+  "guard_complete_on_measured_rows_only": 3,
+  "guard_runnable_columns": 1,
+  "joined_records": 216,
+  "max_abs_diff": 0.0,
+  "records_guard_runnable": 72,
+  "records_with_verdict_but_no_inputs": 584,
+  "resolve_note": "join keys are (index) when unique in the canonical face, else (index, leg, base, cell); records without an index are counted as unjoined, never dropped",
+  "unjoined_records": 236,
+  "value_agreements": 420,
+  "value_disagreements": 0,
+  "verdict": "guard_inputs_are_face_local",
+  "verdict_collections_without_inputs": 27
+ },
+ "title": "does every published face a screen reads actually carry the guard's inputs?",
+ "verdict": "guard_inputs_are_face_local",
+ "verdict_reason": "27 verdict-bearing collection(s) (584 records) publish a judgement without the four inputs, while the guard's own triple lives on 4 collection(s) (72 record(s), 3 of them on measured rows only): the screen is a table recipe on the faces that carry it and a black box on the rest"
+}

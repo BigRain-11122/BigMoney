@@ -5740,6 +5740,119 @@ def main() -> int:
               "a zero has to say which one it measured", False, repr(e)[:160])
 
 
+    # E270: the guard E267/E268 published consumes four per-row numbers (b, band_lo, band_hi,
+    # own_p95), so its reach is what the published faces actually carry -- not what the rule says.
+    # Three things can fabricate a reading here: (i) a count taken over the audit's own face
+    # (self-inclusion turns a second burn into a different answer), (ii) "present" counted as
+    # "agreeing" -- two faces can both carry own_p95 and publish different numbers, so the join
+    # must be re-added from the face, not trusted, (iii) a buffer-grid collection filed as a row
+    # because `b` is spelled the same in both meanings.
+    _name70 = ("product: a screen's reach is what the published faces carry, and presence is not "
+               "agreement")
+    try:
+        _bad70 = []
+        _p70 = os.path.join("results", "state_tilt", "bandfields_latest.json")
+        _f70 = None
+        if not os.path.exists(_p70):
+            _bad70.append("face missing: %s" % _p70)
+        else:
+            with io.open(_p70, encoding="utf-8") as _fh70:
+                _f70 = json.load(_fh70)
+        if _f70 is not None:
+            _s70 = _f70.get("summary") or {}
+            # (a) no self-inclusion: the audit may not be one of its own inputs
+            _src70 = _f70.get("source_faces") or []
+            for _n70 in _src70:
+                if str(_n70).startswith("BANDFIELDS"):
+                    _bad70.append("the audit lists its own face as an input: %s" % (_n70,))
+                if str(_n70).endswith("_latest.json"):
+                    _bad70.append("an undated mirror is counted as a face: %s" % (_n70,))
+            if len(set(_src70)) != len(_src70):
+                _bad70.append("a source face is listed twice")
+            # (b) the counts are re-added from the per-face scans, never trusted
+            _guard_cols, _complete_cols, _runnable, _verdict_cols, _verdict_recs = 0, 0, 0, 0, 0
+            for _e70 in (_f70.get("faces") or []):
+                _sc70 = _e70.get("scan") or {}
+                _guard_cols += len(_sc70.get("guard_collections") or [])
+                _verdict_cols += len(_sc70.get("collections_with_verdict_but_no_inputs") or [])
+                _verdict_recs += _sc70.get("n_records_with_verdict_but_no_inputs") or 0
+                for _c70 in (_sc70.get("collections") or []):
+                    if (_c70.get("n_complete") or 0) > 0:
+                        _complete_cols += 1
+                        _runnable += _c70.get("n_complete") or 0
+            for _k70a, _k70b, _v70 in (("guard_columns", _guard_cols, "guard_columns"),
+                                       ("guard_complete_collections", _complete_cols,
+                                        "complete collections"),
+                                       ("records_guard_runnable", _runnable,
+                                        "records with all four inputs"),
+                                       ("verdict_collections_without_inputs", _verdict_cols,
+                                        "verdict collections without inputs"),
+                                       ("records_with_verdict_but_no_inputs", _verdict_recs,
+                                        "records with a verdict and no inputs")):
+                if _s70.get(_k70a) != _k70b:
+                    _bad70.append("%s is %r but the per-face scans add up to %r (%s)"
+                                  % (_k70a, _s70.get(_k70a), _k70b, _v70))
+            # (c) the join must partition: every compared cell agreed or disagreed, and a
+            # disagreement can never be reported as a clean pass
+            _cells = _s70.get("cells_compared") or 0
+            _agree = _s70.get("value_agreements") or 0
+            _dis = _s70.get("value_disagreements") or 0
+            if _cells != _agree + _dis:
+                _bad70.append("cells %r != agree %r + disagree %r" % (_cells, _agree, _dis))
+            if _dis and _f70.get("verdict") != "guard_inputs_disagree_across_faces":
+                _bad70.append("disagreements published under verdict %r" % (_f70.get("verdict"),))
+            if _s70.get("canonical_basis") not in ("index", "composite", "none"):
+                _bad70.append("canonical basis %r is outside the vocabulary"
+                              % (_s70.get("canonical_basis"),))
+            if _s70.get("joined_records") and _cells == 0:
+                _bad70.append("records joined with zero cells compared")
+            # (d) a buffer grid may not be filed as a half-instrumented row
+            _buf70, _gap70 = 0, 0
+            for _e70 in (_f70.get("faces") or []):
+                _sc70 = (_e70.get("scan") or {})
+                _buf70 += len(_sc70.get("b_without_a_band") or [])
+                for _c70 in (_sc70.get("collections") or []):
+                    if _c70.get("path") in (_sc70.get("b_without_a_band") or []):
+                        if _c70.get("path") in (_sc70.get("collections_with_verdict_but_no_inputs")
+                                                or []):
+                            _gap70 += 1
+            if _gap70:
+                _bad70.append("%d buffer-grid collection(s) filed as rows without inputs" % _gap70)
+            # (e) the verdict is in the frozen vocabulary and the cut is carried
+            _v70 = _f70.get("verdict")
+            if _v70 not in ("guard_inputs_are_published_where_the_screen_runs",
+                            "guard_inputs_are_face_local",
+                            "guard_inputs_disagree_across_faces",
+                            "no_guard_bearing_record"):
+                _bad70.append("verdict %r is outside the frozen vocabulary" % (_v70,))
+            if _f70.get("evidence_cutoff") is None:
+                _bad70.append("no evidence_cutoff on the face")
+            for _k70g in ("faces_scanned", "guard_columns", "guard_complete_collections",
+                          "records_guard_runnable", "cells_compared", "value_agreements",
+                          "value_disagreements"):
+                if not isinstance(_s70.get(_k70g), int):
+                    _bad70.append("summary field %s is not an int (%r)"
+                                  % (_k70g, _s70.get(_k70g)))
+        check(_name70, not _bad70,
+              "%r | %d face(s), guard on %d collection(s) / %d record(s), %d verdict "
+              "collection(s) without inputs (%d records), join %d cell(s) %d agree / %d disagree "
+              "max|diff| %r (buffer grids kept apart: %d)"
+              % ((_f70.get("verdict") if _f70 else None,
+                  (_f70.get("summary") or {}).get("faces_scanned") or 0,
+                  (_f70.get("summary") or {}).get("guard_complete_collections") or 0,
+                  (_f70.get("summary") or {}).get("records_guard_runnable") or 0,
+                  (_f70.get("summary") or {}).get("verdict_collections_without_inputs") or 0,
+                  (_f70.get("summary") or {}).get("records_with_verdict_but_no_inputs") or 0,
+                  (_f70.get("summary") or {}).get("cells_compared") or 0,
+                  (_f70.get("summary") or {}).get("value_agreements") or 0,
+                  (_f70.get("summary") or {}).get("value_disagreements") or 0,
+                  (_f70.get("summary") or {}).get("max_abs_diff"),
+                  _buf70))
+              + (" | " + "; ".join(_bad70[:4]) if _bad70 else ""))
+    except Exception as e:
+        check(_name70, False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

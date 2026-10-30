@@ -350,6 +350,16 @@ LEGS = [
     ("tight_end_transfer",
      ["python", "scripts/e269_tight_end_transfer.py", "verify"]),
 
+    # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
+    # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
+    # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
+    # triple on 4 collections / 72 record-readings while 26 verdict-bearing collections (536
+    # records) state a judgement without any of the four -- and cross-checks the shared values
+    # instead of assuming presence: 420 of 420 joined cells agree with the canonical row
+    # (max |diff| 0.0), so the gap is coverage, not disagreement. Published faces only. <1s.
+    ("guard_field_audit",
+     ["python", "scripts/e270_guard_field_audit.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
