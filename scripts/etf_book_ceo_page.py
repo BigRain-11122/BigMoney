@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import datetime as dt
+import hashlib
 import json
 import os
 import sys
@@ -75,7 +76,7 @@ def carry_regime(path=REGIME_PATH):
     """
     out = {"available": False, "rows": [], "base": None, "cash_rates": None,
            "identity": None, "window": None, "flags": None,
-           "source": os.path.relpath(path, ROOT).replace("\\", "/")}
+           "source": _rel(path, ROOT).replace("\\", "/")}
     if not os.path.exists(path):
         return out
     obj = _load(path)
@@ -215,6 +216,19 @@ PLACEMENT_MAX_AGE_DAYS = 7
 DEMAND_INSTRUMENTS = ("", "活期", "demand", "cash", "现金", "活期存款")
 
 
+def _rel(path, base=ROOT):
+    """Repository-relative when both live on one drive, the absolute path otherwise.
+
+    os.path.relpath raises ValueError across drives, and the selftest pins its fixtures
+    under %TEMP% (C:) while the repo sits on K: -- a display string must never be able
+    to abort a run (same family as pool_deliverable_audit in r1371).
+    """
+    try:
+        return os.path.relpath(path, base)
+    except ValueError:
+        return os.path.abspath(path)
+
+
 def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=20):
     """What the idle half earns: cash x the repo panel's own quoted close.
 
@@ -228,7 +242,7 @@ def cash_yield(cash_amount, symbol=CASH_LEG_SYMBOL, panel_dir=REPO_DIR, window=2
     out = {"leg": symbol, "quoted_as": "收盘年化利率 %", "rate_date": None,
            "rate_pct": None, "rate_20d_pct": None, "annual_cny": None,
            "daily_cny": None, "window": int(window), "basis": None,
-           "panel": os.path.relpath(os.path.join(panel_dir, "%s.csv" % symbol), ROOT)
+           "panel": _rel(os.path.join(panel_dir, "%s.csv" % symbol), ROOT)
            .replace("\\", "/")}
     if cash_amount is None or float(cash_amount) <= 0:
         return out
@@ -503,7 +517,7 @@ def cash_handshake(cash_amount, ladder, placement_path=PLACEMENT, today=None,
            "demand_rate_pct": float(demand_rate_pct),
            "gap_annual_cny": None, "gap_daily_cny": None,
            "worst_case_annual_cny": None, "stale": None, "reason": None,
-           "placement_file": os.path.relpath(placement_path, ROOT).replace("\\", "/"),
+           "placement_file": _rel(placement_path, ROOT).replace("\\", "/"),
            "basis": ("idle = book cash - recorded repo placements; gap = idle x "
                      "(repo panel close - declared demand rate) / 100")}
     cash = None if cash_amount is None else float(cash_amount)
@@ -654,29 +668,76 @@ def stress_stats(daily, windows=STRESS_WINDOWS, capital=None):
     return out
 
 
+def panel_fingerprint(close):
+    """Content hash of the panel a replay was priced against -- not its date.
+
+    A flip repair inside the panel rewrites today's worst window without moving today's
+    date, so a cache keyed on the bar alone hands back numbers for a world that has
+    since been corrected (r1374 hit exactly this on the per-tier replay; this is the
+    one implementation, imported there as well).
+    """
+    h = hashlib.sha256()
+    if close is not None and len(getattr(close, "index", [])):
+        try:
+            import pandas as _pd
+            h.update(("shape|%d,%d" % close.shape).encode())
+            h.update(_pd.util.hash_pandas_object(close.fillna(0.0), index=True)
+                     .values.tobytes())
+        except Exception:
+            h.update(b"|unhashable")
+    return h.hexdigest()
+
+
+def stress_cache_digest(close, priced_bar, capital, windows, order):
+    """What the cached replay was computed FROM: bar, capital, weights, panel bytes.
+
+    Every one of these can move while the priced bar stays put: a repaired print, a
+    re-priced ticket (weights rescale), a different capital figure. Keying on the date
+    alone would answer a question nobody asked.
+    """
+    h = hashlib.sha256()
+    h.update(("bar|%s|cap|%.4f|win|%s" % (
+        priced_bar, float(capital or 0.0),
+        ",".join(str(int(w)) for w in windows or STRESS_WINDOWS))).encode())
+    h.update(("|w|" + ",".join(
+        "%s:%.10f" % (o.get("symbol"), float(o.get("weight") or 0.0))
+        for o in order or [])).encode())
+    h.update(("|panel|" + panel_fingerprint(close)).encode())
+    return h.hexdigest()
+
+
 def build_stress(order, capital, priced_bar, close=None):
     """Data path: replay today's weights over the whole panel, worst-window report.
 
-    Cached per priced bar -- the answer only changes when the panel or the book does, and
-    re-walking 20 years of a 1,500-column panel every tick is cost without information.
+    Cached per (priced bar, capital, weights, panel content) -- re-walking 20 years of a
+    1,500-column panel every tick is cost without information, but the bar alone is not
+    an identity: a repaired print rewrites the worst window without moving the date, and
+    a re-priced ticket changes the weights on the very same bar. A cache written before
+    this digest existed has no `inputs_sha256` and is a MISS, not a hit.
     """
     if not order:
         return None
+    if close is None:
+        try:
+            import sys as _sys
+            _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+            import etf_book_forward as F
+            close, _o, _a, _f, _sc, _cls, _nf = F.build_inputs()
+        except Exception as exc:
+            return {"error": "%s: %s" % (type(exc).__name__, exc), "worst": {},
+                    "capital_cny": capital}
+    inputs_sha = stress_cache_digest(close, priced_bar, capital, STRESS_WINDOWS, order)
     cache = os.path.join(STRESS_DIR, "STRESS-%s.json" % str(priced_bar).replace("-", ""))
     if os.path.exists(cache):
         try:
             with open(cache, encoding="utf-8") as fh:
                 c = json.load(fh)
-            if c.get("capital_cny") == round(float(capital or 0.0), 2):
+            if (c.get("inputs_sha256") == inputs_sha
+                    and c.get("priced_bar") == str(priced_bar)):
                 return c
         except (OSError, ValueError):
             pass
     try:
-        if close is None:
-            import sys as _sys
-            _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-            import etf_book_forward as F
-            close, _o, _a, _f, _sc, _cls, _nf = F.build_inputs()
         import numpy as _np
         import pandas as _pd
         names = [o.get("symbol") for o in order]
@@ -699,6 +760,8 @@ def build_stress(order, capital, priced_bar, close=None):
     try:
         os.makedirs(STRESS_DIR, exist_ok=True)
         with open(cache, "w", encoding="utf-8", newline="\n") as fh:
+            st["priced_bar"] = str(priced_bar)
+            st["inputs_sha256"] = inputs_sha
             json.dump(st, fh, ensure_ascii=False, indent=1)
             fh.write("\n")
     except OSError:
@@ -858,7 +921,7 @@ def build(with_stress=False):
         "agreement": {"same_decision_bar": agree.get("same_decision_bar"),
                       "same_priced_bar": agree.get("same_priced_bar"),
                       "card_names": agree.get("card_names")},
-        "sources": {"ticket": os.path.relpath(tk_path, ROOT),
+        "sources": {"ticket": _rel(tk_path, ROOT),
                     "card": "results/etf_book_production/latest.json",
                     "ledger": "results/etf_book_forward/LEDGER.json",
                     "calendar": "data/exchange_calendar.csv"},
@@ -1292,12 +1355,12 @@ def run():
     ptr = os.path.join(OUT_DIR, "latest.json")
     with open(ptr, "w", encoding="utf-8", newline="\n") as fh:
         json.dump({"generated_for_date": today,
-                   "page": os.path.relpath(md_path, ROOT).replace("\\", "/"),
-                   "json": os.path.relpath(js_path, ROOT).replace("\\", "/")},
+                   "page": _rel(md_path, ROOT).replace("\\", "/"),
+                   "json": _rel(js_path, ROOT).replace("\\", "/")},
                   fh, ensure_ascii=False, indent=1)
         fh.write("\n")
     print("LIVE-BOOK written: %s (order %d names, book %.0f, cash %.0f, next rebalance %s)"
-          % (os.path.relpath(md_path, ROOT), len(page["order"]), page["book_amount_cny"],
+          % (_rel(md_path, ROOT), len(page["order"]), page["book_amount_cny"],
              page["cash_amount_cny"], page["next_rebalance_date"]))
     return 0
 
@@ -1720,6 +1783,29 @@ def selftest():
         chk("L49 bet count: an absent artifact reads as absent, never as five bets",
             ("缺面不读成一个赌注" in _md7) and ("数方向" not in _md7),
             "status=%s" % _bf_pub.get("status"))
+
+    # 51-53. the replay cache must key on what it was computed FROM, not on the date.
+    # A repaired print (flip fix) rewrites today's worst window without moving today's
+    # date, and a re-priced ticket changes the weights on the very same bar -- the cache
+    # form of the staleness family closed in r1372-r1374.
+    _pf = _pd.DataFrame({"AAA": [1.0, 1.01, 1.02, 1.0],
+                         "BBB": [1.0, 0.99, 1.0, 1.01]},
+                        index=_pd.to_datetime(["2020-01-02", "2020-01-03",
+                                               "2020-01-06", "2020-01-07"]))
+    _ord_a = [{"symbol": "AAA", "weight": 0.5}, {"symbol": "BBB", "weight": 0.5}]
+    _d_a = stress_cache_digest(_pf, "2020-01-07", 1000000.0, STRESS_WINDOWS, _ord_a)
+    chk("L51 stress cache: same bar, same weights, same panel -> same key (a hit is a hit)",
+        _d_a == stress_cache_digest(_pf.copy(), "2020-01-07", 1000000.0,
+                                    STRESS_WINDOWS, list(_ord_a)), "digest=%s" % _d_a[:12])
+    _ord_b = [{"symbol": "AAA", "weight": 0.6}, {"symbol": "BBB", "weight": 0.4}]
+    chk("L52 stress cache: re-pricing the ticket on the SAME bar changes the key",
+        _d_a != stress_cache_digest(_pf, "2020-01-07", 1000000.0, STRESS_WINDOWS, _ord_b),
+        "weights 50/50 vs 60/40")
+    _pf2 = _pf.copy()
+    _pf2.iloc[1, 0] = 1.03                  # a repaired print: same shape, same date
+    chk("L53 stress cache: a repaired print on the SAME date changes the key",
+        _d_a != stress_cache_digest(_pf2, "2020-01-07", 1000000.0, STRESS_WINDOWS, _ord_a),
+        "identical bar and weights")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
