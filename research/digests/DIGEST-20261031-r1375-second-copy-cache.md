@@ -1,4 +1,4 @@
-# DIGEST — r1375 (bm-c, 2026-10-31): the same defect, one file over (card E288)
+# DIGEST — r1375 (bm-c, 2026-10-31): the same defect, one file over (card E289)
 
 **Question.** r1374 fixed the per-tier stress replay cache and wrote the rule down as
 `stress_inputs_digest`. A rule written down is not a rule applied. Does the same pattern —
