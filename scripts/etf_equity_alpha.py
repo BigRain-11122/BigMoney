@@ -86,6 +86,30 @@ def flip_census(close, cols=None, thr=FLIP_THR):
             "symbols": int((bad.sum() > 0).sum()), "columns": int(px.shape[1])}
 
 
+def panel_digest(close, openp=None, ndigits=6):
+    """A 16-hex fingerprint of the exact prices a face measured on.
+
+    The book has three published faces (production card, executable sheet, forward
+    ledger) and each one builds the panel and repairs the same flips before it ranks.
+    "We all repaired" was a claim, never a measurement: the ledger once froze a bar three
+    rounds running while the panel under it was still gaining symbols (r1366), and two
+    faces that quote the same number can still be pricing two different worlds (E292/E293).
+
+    Sorted by symbol and rounded to `ndigits` so a re-read cannot differ in the last bit.
+    NaN is kept: an unpriced bar is part of the world, not an absence of one.
+    """
+    import hashlib
+    cols = sorted(close.columns, key=lambda c: str(c))
+    idx = [str(d)[:10] for d in close.index]
+    h = hashlib.sha256()
+    h.update(("|".join(idx) + "#" + "|".join(str(c) for c in cols) + "#").encode("utf-8"))
+    for fr in ((close,) if openp is None else (close, openp)):
+        for c in cols:
+            h.update(np.round(fr[c].to_numpy(dtype="float64"), ndigits).tobytes())
+    return {"digest": h.hexdigest()[:16], "dates": len(idx), "columns": len(cols),
+            "first": idx[0] if idx else None, "last": idx[-1] if idx else None}
+
+
 def price_basis_line(repaired, prints, thr=FLIP_THR, symbols=None, artifact=None,
                      columns=None):
     """The sentence a reader-facing sheet prints about the panel its numbers sit on.

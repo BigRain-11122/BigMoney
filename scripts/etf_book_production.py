@@ -670,6 +670,7 @@ def delivered_vs_target(bt_row, target):
 
 
 PANEL_CENSUS = {}
+PANEL_DIGEST = {}
 
 
 def prep_panel(repair=True, repair_fn=None):
@@ -687,7 +688,7 @@ def prep_panel(repair=True, repair_fn=None):
     # it the count is zero by construction). The card has to state how wide the panel it
     # counted was, otherwise its total and the ticket's -- which censuses only the classes it
     # ranks -- read as an arithmetic drift instead of a universe difference.
-    global PANEL_CENSUS
+    global PANEL_CENSUS, PANEL_DIGEST
     try:
         PANEL_CENSUS = A.flip_census(close)
     except Exception:
@@ -702,6 +703,13 @@ def prep_panel(repair=True, repair_fn=None):
         # the raw twin: the panel exactly as the source prints it, for audits that have
         # to price what the repair is worth instead of assuming it (etf_book_split_audit).
         n_flip = 0
+    # r1178: the fingerprint is taken on the FULL repaired panel, before this face narrows
+    # to the classes it ranks -- otherwise the card's digest would only ever match itself,
+    # and "we all repair" would stay a claim instead of a comparable number.
+    try:
+        PANEL_DIGEST = A.panel_digest(close, openp)
+    except Exception:
+        PANEL_DIGEST = {}
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     cols = [c for c in close.columns if cls[c] in USE_CLASSES]
@@ -826,6 +834,8 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     basis = A.price_basis_line(True, n_flip, A.FLIP_THR, PANEL_CENSUS.get("symbols"),
                                "results/etf_book_flip_contamination.json",
                                columns=PANEL_CENSUS.get("columns"))
+    if PANEL_DIGEST:
+        basis["panel_digest"] = PANEL_DIGEST
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
@@ -984,6 +994,13 @@ def write_card(out):
     _pb = out.get("price_basis") or {}
     if _pb.get("sentence"):
         lines += ["**Price basis:** %s" % _pb["sentence"], ""]
+    _pdg = _pb.get("panel_digest") or {}
+    if _pdg.get("digest"):
+        lines += ["**Panel digest:** `%s` (%d bars x %d symbols, %s->%s) -- the executable "
+                  "sheet and the forward ledger print the same fingerprint only when all "
+                  "three priced one panel." % (
+                      _pdg["digest"], _pdg["dates"], _pdg["columns"],
+                      _pdg["first"], _pdg["last"]), ""]
     lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),

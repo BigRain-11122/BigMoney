@@ -114,10 +114,32 @@ CAVEATS = [
 ]
 
 
+PANEL_DIGEST = {}
+
+
+def _panel_block(cls, n_flip):
+    """The ledger's own statement of WHICH panel it priced, not just that it repaired (r1178)."""
+    blk = {"n_instruments": len(cls), "flips_repaired": n_flip}
+    if PANEL_DIGEST:
+        blk["digest"] = PANEL_DIGEST["digest"]
+        blk["bars_named"] = PANEL_DIGEST["dates"]
+        blk["first_bar"] = PANEL_DIGEST["first"]
+        blk["last_bar"] = PANEL_DIGEST["last"]
+    return blk
+
+
 def build_inputs():
     """Same panel prep as etf_book_production.run(), so the ledger rides the same config."""
     close, openp, amt, feats = E.build_panel()
     close, openp, n_flip = A.repair_flips(close, openp)
+    # r1178: fingerprint on the FULL repaired panel, before this face narrows to the classes
+    # it ranks -- the card and the executable sheet print the same number only if they are
+    # pricing the same world, and until now nothing could tell.
+    global PANEL_DIGEST
+    try:
+        PANEL_DIGEST = A.panel_digest(close, openp)
+    except Exception:
+        PANEL_DIGEST = {}
     cmap = A.load_class_map()
     cls = A.classify(close.columns, cmap, close)
     cols = [c for c in close.columns if cls[c] in P.USE_CLASSES]
@@ -821,7 +843,7 @@ def _fresh(fwd, dates, cls, n_flip, capital):
         "migrations": [],
         "provisional_flags": PROVISIONAL_FLAG_VERSION,
         "runs": [],
-        "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
+        "panel": _panel_block(cls, n_flip),
         "caveats": CAVEATS,
     }
 
@@ -1018,7 +1040,7 @@ def run(rebase=False):
         led["books"] = _books_after(fwd, led["seed"]["bar"])
         led["book_in_force"] = fwd.last_decision
         led["engine"] = _engine_block(fwd)
-        led["panel"] = {"n_instruments": len(cls), "flips_repaired": n_flip}
+        led["panel"] = _panel_block(cls, n_flip)
         # r1360: the caveats are DERIVED text (the vol-overlay sentence now quotes the measured
         # draw-tail share), so a no-op poll must still refresh them -- otherwise the ledger keeps
         # publishing the pre-measurement wording until the next bar happens to arrive, and the two
@@ -1040,7 +1062,7 @@ def run(rebase=False):
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
     led["engine"] = _engine_block(fwd)
-    led["panel"] = {"n_instruments": len(cls), "flips_repaired": n_flip}
+    led["panel"] = _panel_block(cls, n_flip)
     led["status"] = "live"
     led["runs"] = (led.get("runs", []) + [{
         "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "new_bars": len(new_bars),
@@ -1109,7 +1131,7 @@ def calibrate():
                  "difference, not two portfolios: the sign of the gap is not alpha and must "
                  "not be read as one -- it says the headline is sensitive to which single "
                  "bar the holding period starts on."),
-        "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
+        "panel": _panel_block(cls, n_flip),
     }
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "BASIS.json"), "w", encoding="utf-8") as f:
@@ -1208,7 +1230,7 @@ def carry(fee_free=False):
             "annualised_uplift_pp": round(((1.0 + up_cum) ** (1.0 / yrs) - 1.0) * 100, 3),
             "fees": "waived" if fee_free else "charged",
         },
-        "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
+        "panel": _panel_block(cls, n_flip),
         "note": ("fixed_carry is the config the forward ledger now accrues. The uplift is "
                  "carry on money the vol target had already parked, not alpha."),
     }

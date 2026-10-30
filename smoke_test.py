@@ -3812,6 +3812,76 @@ def main() -> int:
     except Exception as e:
         check("product: both reader faces state which price panel their numbers sit on",
               False, repr(e)[:160])
+    # ---- r1178: the three published faces must price ONE panel, and say which ----
+    # r1177 made the ticket repair; that closed the rule gap but did not make the faces
+    # comparable. "We all repaired" is still a claim, and two faces quoting the same number
+    # can be pricing two different worlds (a late bar, a wider universe, a re-pulled panel)
+    # -- the ledger once froze a bar three rounds running while its panel was still gaining
+    # symbols. Each face now publishes a digest of the repaired panel it measured on, so a
+    # reader (and this leg) can tell same-world from same-number.
+    try:
+        _bad45 = []
+        _ord45 = os.path.join(PATHS.results_dir, "etf_book_order")
+        _ptr45 = os.path.join(_ord45, "latest.json")
+        _card45 = os.path.join(PATHS.results_dir, "etf_book_production", "latest.json")
+        _fwd45 = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
+        _dig45 = {}
+        for _p45 in (_ptr45, _card45, _fwd45):
+            if not os.path.exists(_p45):
+                _bad45.append("%s missing" % os.path.basename(_p45))
+        if not _bad45:
+            with open(_ptr45, encoding="utf-8") as _fh45:
+                _pt45 = json.load(_fh45) or {}
+            _tkp45 = os.path.join(_ord45, str(_pt45.get("file") or ""))
+            if not os.path.exists(_tkp45):
+                _bad45.append("ticket file missing")
+            else:
+                with open(_tkp45, encoding="utf-8") as _fh45:
+                    _tk45 = json.load(_fh45) or {}
+                with open(_card45, encoding="utf-8") as _fh45:
+                    _cd45 = json.load(_fh45) or {}
+                with open(_fwd45, encoding="utf-8") as _fh45:
+                    _fw45 = json.load(_fh45) or {}
+                _dig45["ticket"] = ((_tk45.get("price_basis") or {})
+                                    .get("panel_digest") or {}).get("digest")
+                _dig45["card"] = ((_cd45.get("price_basis") or {})
+                                  .get("panel_digest") or {}).get("digest")
+                _dig45["ledger"] = (_fw45.get("panel") or {}).get("digest")
+                for _lab45, _v45 in _dig45.items():
+                    if not _v45:
+                        _bad45.append("%s publishes no panel digest" % _lab45)
+                    elif not (len(_v45) == 16 and all(c in "0123456789abcdef" for c in _v45)):
+                        _bad45.append("%s digest is not 16 hex chars: %r" % (_lab45, _v45))
+                _seen45 = {v for v in _dig45.values() if v}
+                if len(_seen45) > 1:
+                    _bad45.append("three faces, %d panels: %s"
+                                  % (len(_seen45), sorted(_seen45)))
+                # the digest has to be able to move, or "same world" is unfalsifiable
+                _sys45 = os.path.join(PATHS.root, "scripts")
+                if _sys45 not in sys.path:
+                    sys.path.insert(0, _sys45)
+                import etf_equity_alpha as _A45
+                import pandas as _pd45
+                _idx45 = _pd45.date_range("2024-01-01", periods=3)
+                _c45 = _pd45.DataFrame({"A": [1.0, 2.0, 3.0], "B": [1.0, 1.0, 1.0]},
+                                       index=_idx45)
+                _o45 = _c45.copy()
+                _d1_45 = _A45.panel_digest(_c45, _o45)["digest"]
+                _d2_45 = _A45.panel_digest(_c45.copy(), _o45.copy())["digest"]
+                if _d1_45 != _d2_45:
+                    _bad45.append("the digest is not stable for the same panel")
+                _c45b = _c45.copy()
+                _c45b.loc[_idx45[1], "B"] = 1.01
+                if _A45.panel_digest(_c45b, _o45)["digest"] == _d1_45:
+                    _bad45.append("the digest ignores a changed price")
+                if _A45.panel_digest(_c45, _o45.iloc[::-1][::-1])["digest"] != _d1_45:
+                    _bad45.append("the digest depends on row order")
+        check("product: three faces of one book price one panel, and the digest can move",
+              not _bad45, "; ".join(_bad45)[:220]
+              or "ticket/card/ledger agree: %s" % (_dig45.get("ticket") or "-"))
+    except Exception as e:
+        check("product: three faces of one book price one panel, and the digest can move",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

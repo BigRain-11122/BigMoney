@@ -488,6 +488,11 @@ def card(ticket, mk, sched, asof, beta, extra):
     pb = extra.get("price_basis") or {}
     if pb.get("sentence"):
         L += ["- **价格面板**：%s" % pb["sentence"]]
+    pdg = pb.get("panel_digest") or {}
+    if pdg.get("digest"):
+        L += ["- **面板指纹**：`%s`（%d 个交易日 × %d 只票，%s→%s）——卡片和账本印同一个"
+              "指纹才叫同一本书；指纹不同不是算错，是两张纸在给不同的世界定价。"
+              % (pdg["digest"], pdg["dates"], pdg["columns"], pdg["first"], pdg["last"])]
     L += ["- 票池=现存 ETF，存在幸存者偏差；票面仅按收盘价折算，未计冲击成本与涨跌停。",
           "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
           "- k 每 %d 个交易日才重算，段内实际 β 仍会漂移。" % REBAL]
@@ -570,6 +575,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         close, openp, _n_flip = AE.repair_flips(close, openp)
         print("price basis: repaired %d flip prints on %s symbols before any measurement"
               % (basis["flip_prints"], basis["symbols_with_a_flip"]), flush=True)
+    # r1178: the world this sheet priced, not just the rule it applied. The card and the
+    # ledger print the same digest when -- and only when -- all three priced one panel.
+    basis["panel_digest"] = AE.panel_digest(close, openp)
     score = F.build_score(close[cols], amt[cols], feats)
     stale = staleness_stats(score, close[cols])
     print("staleness: %d/%d picks (%.1f%%) priced before the decision bar | panel live on "
