@@ -6882,3 +6882,41 @@ the same risk.
 Pos: scripts/etf_book_drawdown_guard.py (selftest 12/12, run/check modes) +
 results/etf_book_drawdown_guard.json + research/ETF_BOOK_DRAWDOWN_GUARD.md. Verdict REJECT
 (8 arms x 4 calendars, 0 adopted; 3 arms INERT at 8/10/15%).
+
+## E288 A return statistic that no market move can explain is a data defect, and the arithmetic the face already prints is the detector (2026-10-31 r1175 bm-a)
+
+The book published a worst day of -4.70% (2025-07-07) while 510300 moved -0.02% that day.
+A book built to a 0.20 beta cannot lose 4.7% on a flat index day -- the magnitude was
+impossible, not merely surprising. The cause was a unit-change print (512800 halves from
+1.777 to 0.894 and never returns) read as a return.
+
+Two transferable rules:
+
+(1) **A face that only sees returns cannot see a print.** Nothing downstream of a price
+panel can tell a -50% print from a -50% crash, so the defect has to be caught by a
+magnitude argument made against the thing the number is supposed to track. Cheap form:
+multiply the beta the rule already trades to by the worst move of the market it is
+measured against, and compare. If the book's worst loss is deeper than that, stop and
+look at the prices before publishing.
+
+(2) **The cheapest sound repair measurement is the same rule twice on the same dates.**
+One call to the published 
+epair_flips, one re-run of capture(), and the delta is the
+contamination: +1.17pp of annual return, +1.13pp of drawdown, +0.286 of Sharpe on the full
+history, and a worst day that more than halves (-4.70% → -2.88%). Freeze the materiality
+band before the run (0.50pp CAGR / 0.50pp drawdown / 0.10 Sharpe) and let the gate
+recompute the verdict, or the finding becomes an opinion about how much is too much.
+
+(3) **Measure the contamination, do not absorb it.** Repairing the production panel moves
+every published number of the book at once; doing it in the same round that discovered
+the size would hide which face changed. Publish the delta, name the consumers that still
+read raw prices (the CEO page's stress block replays today's weights over history), and
+let the repair be one deliberate, all-at-once decision.
+
+How: when a published risk statistic looks large, bound it from above with the exposure
+the rule claims, then compare the same rule on repaired prices. A magnitude that cannot
+be produced by the market is a property of the data, never of the strategy.
+Pos: scripts/etf_book_shock_day.py (selftest 19/19) + scripts/etf_book_flip_contamination.py
+(selftest 15/15) + results/etf_book_shock_day.json + results/etf_book_flip_contamination.json
++ research/ETF_BOOK_SHOCK_DAY.md + research/ETF_BOOK_FLIP_CONTAMINATION.md. Verdict: shock
+beta MATCHED (0.12 full / 0.21 recent); contamination MATERIAL (168 prints).

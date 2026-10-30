@@ -177,6 +177,13 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1175: the book publishes an annual return and a drawdown, and never what a bad
+    # open costs. Two legs answer that, and the ORDER matters: the contamination face
+    # runs first because the shock face quotes it (one reader, E270) -- behind it, the
+    # shock face would disclose yesterday's clean worst day beside today's raw one.
+    # ~35s + ~21s on the warmed panel, no network, single writer each.
+    ("etf_book_flip_contamination", ["python", "scripts/etf_book_flip_contamination.py", "run"]),
+    ("etf_book_shock_day", ["python", "scripts/etf_book_shock_day.py", "run"]),
     # r1366: the carry split answers "how much of the quoted return is repo interest",
     # and it must be priced on the same bar as the ticket it explains. Hand-run only
     # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that

@@ -1,0 +1,204 @@
+{
+ "script": "scripts/etf_book_shock_day.py",
+ "face": "results/etf_book_shock_day.json",
+ "evidence_cutoff": "2026-10-30",
+ "market": "510300",
+ "production_rule": {
+  "beta_target": 0.2,
+  "rebal": 20,
+  "cost_bp_per_side": 8.0,
+  "min_hist": 126
+ },
+ "criteria": {
+  "beta_band": [
+   0.1,
+   0.3
+  ],
+  "recent_bars": 250,
+  "worst_days": 20,
+  "shocks": [
+   -0.03,
+   -0.05,
+   -0.08
+  ],
+  "sd_floor": 1e-08,
+  "frozen": "constants above were written before the first run; the loader refuses a face that echoes others"
+ },
+ "ticket": {
+  "file": "results/etf_book_order/TICKET-2026-10-30.json",
+  "as_of": "2026-10-30",
+  "nav": 1000000.0,
+  "book_amount": 471225.5,
+  "cash_amount": 528774.5,
+  "deployed_share": 0.47149,
+  "beta_target": 0.2
+ },
+ "beta": {
+  "full": 0.119962,
+  "recent": 0.209036,
+  "recent_bars": 250,
+  "bars": 1525
+ },
+ "book_distribution": {
+  "bars": 1524,
+  "worst": -0.04701,
+  "worst_date": "2025-07-07",
+  "second_worst": -0.029914,
+  "p01": -0.012241,
+  "p05": -0.005292,
+  "p50": 0.000312,
+  "mean": 0.00026967,
+  "sd": 0.00405226
+ },
+ "market_distribution": {
+  "bars": 1525,
+  "worst": -0.088395,
+  "worst_date": "2024-10-09",
+  "second_worst": -0.066684,
+  "p01": -0.030378,
+  "p05": -0.017189,
+  "p50": -0.000245,
+  "mean": -3.994e-05,
+  "sd": 0.01156521
+ },
+ "conditional_stress": {
+  "n_days": 20,
+  "market_mean": -0.038656,
+  "book_mean": -0.004677,
+  "book_worst": -0.01963,
+  "book_worst_date": "2025-04-07",
+  "book_positive_share": 0.15,
+  "mean_ratio": 0.121,
+  "days": [
+   {
+    "date": "2024-10-09",
+    "market": -0.088395,
+    "book": -0.003494
+   },
+   {
+    "date": "2025-04-07",
+    "market": -0.066684,
+    "book": -0.01963
+   },
+   {
+    "date": "2022-04-25",
+    "market": -0.048178,
+    "book": -0.013014
+   },
+   {
+    "date": "2022-03-15",
+    "market": -0.047699,
+    "book": -0.005711
+   },
+   {
+    "date": "2020-07-24",
+    "market": -0.044482,
+    "book": -0.014607
+   },
+   {
+    "date": "2021-02-22",
+    "market": -0.035714,
+    "book": -0.007356
+   },
+   {
+    "date": "2021-03-08",
+    "market": -0.035321,
+    "book": -0.000698
+   },
+   {
+    "date": "2021-07-27",
+    "market": -0.034725,
+    "book": -0.003138
+   },
+   {
+    "date": "2026-07-17",
+    "market": -0.034505,
+    "book": -0.000544
+   },
+   {
+    "date": "2021-07-26",
+    "market": -0.033934,
+    "book": -0.00106
+   },
+   {
+    "date": "2022-03-07",
+    "market": -0.032933,
+    "book": 0.007742
+   },
+   {
+    "date": "2022-03-14",
+    "market": -0.032468,
+    "book": -0.001995
+   },
+   {
+    "date": "2026-03-23",
+    "market": -0.031906,
+    "book": -0.015152
+   },
+   {
+    "date": "2022-04-11",
+    "market": -0.031184,
+    "book": -0.005605
+   },
+   {
+    "date": "2021-03-04",
+    "market": -0.03062,
+    "book": -0.003877
+   },
+   {
+    "date": "2026-07-02",
+    "market": -0.029612,
+    "book": -0.002897
+   },
+   {
+    "date": "2024-11-22",
+    "market": -0.029462,
+    "book": 0.003874
+   },
+   {
+    "date": "2026-06-23",
+    "market": -0.029267,
+    "book": -0.003835
+   },
+   {
+    "date": "2025-01-02",
+    "market": -0.028095,
+    "book": 0.003696
+   },
+   {
+    "date": "2026-06-26",
+    "market": -0.027932,
+    "book": -0.006232
+   }
+  ]
+ },
+ "scenarios": [
+  {
+   "market_shock": -0.03,
+   "book_return": -0.00359886,
+   "cny": -3598.86,
+   "naive_deployed_cny": -14144.7
+  },
+  {
+   "market_shock": -0.05,
+   "book_return": -0.0059981,
+   "cny": -5998.1,
+   "naive_deployed_cny": -23574.5
+  },
+  {
+   "market_shock": -0.08,
+   "book_return": -0.00959696,
+   "cny": -9596.96,
+   "naive_deployed_cny": -37719.2
+  }
+ ],
+ "price_quality": {
+  "face": "results/etf_book_flip_contamination.json",
+  "verdict": "MATERIAL",
+  "flip_prints": 168,
+  "clean_worst": -0.028845,
+  "clean_worst_date": "2025-04-23"
+ },
+ "verdict": "BETA_MATCHED",
+ "sentence": "the book's realized beta to 510300 is 0.12 over its whole history and 0.21 on the last 250 bars (the ticket trades to 0.20) -- on the 20 worst index days the book averaged -0.47% while the index averaged -3.87%, so an index gap costs that beta's share of the shock, never the deployed share"
+}

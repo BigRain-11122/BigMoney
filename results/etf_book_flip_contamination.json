@@ -1,0 +1,179 @@
+{
+ "script": "scripts/etf_book_flip_contamination.py",
+ "face": "results/etf_book_flip_contamination.json",
+ "evidence_cutoff": "2026-10-30",
+ "criteria": {
+  "material_cagr_pp": 0.5,
+  "material_maxdd_pp": 0.5,
+  "material_sharpe": 0.1,
+  "flip_thr": 0.35,
+  "frozen": "constants above were written before the first run"
+ },
+ "panel": {
+  "symbols": 1613,
+  "bars": 5270,
+  "flip_prints_flattened": 168,
+  "symbols_with_a_flip": 158,
+  "days_with_a_flip": 125
+ },
+ "windows": {
+  "full_history": {
+   "bars": 1525,
+   "inception": null,
+   "raw": {
+    "label": "book",
+    "years": 6.29,
+    "start_level": 0.9857,
+    "cagr": 0.0654,
+    "vol": 0.0643,
+    "sharpe": 1.056,
+    "maxdd": -0.0691,
+    "worst_year": -0.0082,
+    "neg_years": 1.0,
+    "worst_month": -0.0272,
+    "pos_months_pct": 0.68
+   },
+   "clean": {
+    "label": "book",
+    "years": 6.29,
+    "start_level": 0.9857,
+    "cagr": 0.0771,
+    "vol": 0.0588,
+    "sharpe": 1.342,
+    "maxdd": -0.0578,
+    "worst_year": 0.021,
+    "neg_years": 0.0,
+    "worst_month": -0.0166,
+    "pos_months_pct": 0.707
+   },
+   "delta": {
+    "cagr_pp": 1.17,
+    "maxdd_pp": 1.13,
+    "sharpe": 0.286,
+    "vol_pp": -0.55
+   },
+   "material": {
+    "cagr": true,
+    "maxdd": true,
+    "sharpe": true,
+    "any": true
+   },
+   "worst_day": {
+    "raw": {
+     "value": -0.04701,
+     "date": "2025-07-07"
+    },
+    "clean": {
+     "value": -0.028845,
+     "date": "2025-04-23"
+    }
+   }
+  },
+  "since_inception": {
+   "bars": 555,
+   "inception": "2024-01-01",
+   "raw": {
+    "label": "book",
+    "years": 2.29,
+    "start_level": 0.9998,
+    "cagr": 0.1732,
+    "vol": 0.1745,
+    "sharpe": 1.042,
+    "maxdd": -0.1306,
+    "worst_year": -0.0312,
+    "neg_years": 1.0,
+    "worst_month": -0.0592,
+    "pos_months_pct": 0.593
+   },
+   "clean": {
+    "label": "book",
+    "years": 2.29,
+    "start_level": 0.9998,
+    "cagr": 0.2285,
+    "vol": 0.1624,
+    "sharpe": 1.401,
+    "maxdd": -0.1306,
+    "worst_year": -0.0312,
+    "neg_years": 1.0,
+    "worst_month": -0.033,
+    "pos_months_pct": 0.63
+   },
+   "delta": {
+    "cagr_pp": 5.53,
+    "maxdd_pp": 0.0,
+    "sharpe": 0.359,
+    "vol_pp": -1.21
+   },
+   "material": {
+    "cagr": true,
+    "maxdd": false,
+    "sharpe": true,
+    "any": true
+   },
+   "worst_day": {
+    "raw": {
+     "value": -0.09663,
+     "date": "2025-07-07"
+    },
+    "clean": {
+     "value": -0.060707,
+     "date": "2025-04-23"
+    }
+   }
+  }
+ },
+ "worst_prints": [
+  {
+   "symbol": "510150",
+   "date": "2021-05-31",
+   "return": -0.916459
+  },
+  {
+   "symbol": "159943",
+   "date": "2021-10-22",
+   "return": -0.914804
+  },
+  {
+   "symbol": "510180",
+   "date": "2009-05-21",
+   "return": -0.902265
+  },
+  {
+   "symbol": "511220",
+   "date": "2023-01-16",
+   "return": -0.900659
+  },
+  {
+   "symbol": "510580",
+   "date": "2021-07-19",
+   "return": -0.900543
+  },
+  {
+   "symbol": "159975",
+   "date": "2021-01-29",
+   "return": -0.900394
+  },
+  {
+   "symbol": "511030",
+   "date": "2021-01-11",
+   "return": -0.899677
+  },
+  {
+   "symbol": "159909",
+   "date": "2021-03-11",
+   "return": -0.897149
+  },
+  {
+   "symbol": "510030",
+   "date": "2021-06-21",
+   "return": -0.876681
+  },
+  {
+   "symbol": "159970",
+   "date": "2025-12-22",
+   "return": -0.830782
+  }
+ ],
+ "verdict": "MATERIAL",
+ "sentence": "168 flip prints on the panel move the book's own numbers by +1.17pp of annual return, +1.13pp of drawdown and +0.286 of Sharpe (full history) -- and the worst day it publishes, -4.70% on 2025-07-07, is one of them: on repaired prices the worst day is -2.88%"
+}

@@ -427,6 +427,15 @@ def main() -> int:
             # a confident NAV ladder that no longer belongs to the delivered rule.
             ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
              "scripts/etf_book_capacity_rule.py", ["selftest"]),
+            # r1175: "the market gaps 5%, so what do I lose" (answered through the
+            # measured beta, not the deployed share) and "how much of the book's own
+            # numbers is quote-flip contamination" (answered by running the same rule on
+            # repaired prices). Both gates recompute their verdict from their published
+            # columns, so a hand-edited verdict fails here instead of reading as done.
+            ("product: etf_book_shock_day (exit-code contract)",
+             "scripts/etf_book_shock_day.py", ["--selftest"]),
+            ("product: etf_book_flip_contamination (exit-code contract)",
+             "scripts/etf_book_flip_contamination.py", ["--selftest"]),
             # r1317: the 10-31 month-exam package is assembled by one generator.
             # Nothing in this file ever called it, so the assembly face and its
             # freeze-fingerprint gate could rot silently before exam day.
@@ -2103,6 +2112,15 @@ def main() -> int:
             # a confident NAV ladder that no longer belongs to the delivered rule.
             ("product: etf_book_capacity_rule impact ladder (exit-code contract)",
              "scripts/etf_book_capacity_rule.py", ["selftest"]),
+            # r1175: "the market gaps 5%, so what do I lose" (answered through the
+            # measured beta, not the deployed share) and "how much of the book's own
+            # numbers is quote-flip contamination" (answered by running the same rule on
+            # repaired prices). Both gates recompute their verdict from their published
+            # columns, so a hand-edited verdict fails here instead of reading as done.
+            ("product: etf_book_shock_day (exit-code contract)",
+             "scripts/etf_book_shock_day.py", ["--selftest"]),
+            ("product: etf_book_flip_contamination (exit-code contract)",
+             "scripts/etf_book_flip_contamination.py", ["--selftest"]),
             # r1317: the 10-31 month-exam package is assembled by one generator.
             # Nothing in this file ever called it, so the assembly face and its
             # freeze-fingerprint gate could rot silently before exam day.
@@ -2566,6 +2584,38 @@ def main() -> int:
                   _ok_bf, f"effective={_bfl.get('effective_bets')} quoted={bool(_sent and _sent in _md_page)}")
         except Exception as e:
             check("product: ETF live-book page says how many independent bets the holdings are",
+                  False, str(e))
+        # r1175: two faces now answer "what does a bad day cost". The shock face quotes
+        # the contamination face rather than recomputing it (one reader, E270), and the
+        # book's worst day is a unit-change print rather than a market day -- so a shock
+        # face that stopped disclosing, or disclosed a different clean worst day than the
+        # one published, must fail here rather than quietly mislead the operator.
+        try:
+            _flip = json.load(open("results/etf_book_flip_contamination.json",
+                                   encoding="utf-8"))
+            _shock = json.load(open("results/etf_book_shock_day.json", encoding="utf-8"))
+            _fl = ((_flip.get("windows") or {}).get("full_history") or {})
+            _clean = ((_fl.get("worst_day") or {}).get("clean") or {})
+            _pq = _shock.get("price_quality") or {}
+            _beta = float((_shock.get("beta") or {}).get("full") or 0.0)
+            _nav = float(((_shock.get("ticket") or {}).get("nav")) or 0.0)
+            _money_ok = True
+            for _row in (_shock.get("scenarios") or []):
+                if _nav and abs(float(_row["cny"]) - float(_row["market_shock"]) * _beta
+                                * _nav) > 1.0:
+                    _money_ok = False
+            _ok_pq = (bool(_pq) and _nav > 0 and _money_ok
+                      and _pq.get("flip_prints") == (_flip.get("panel") or {}).get(
+                          "flip_prints_flattened")
+                      and abs(float(_pq.get("clean_worst") or 0.0)
+                              - float(_clean.get("value") or 1.0)) < 1e-9
+                      and _pq.get("clean_worst_date") == _clean.get("date"))
+            check("product: shock face prices its shocks off its own beta and ticket",
+                  _ok_pq,
+                  f"beta={_beta} nav={_nav} flips={_pq.get('flip_prints')} "
+                  f"clean_worst={_pq.get('clean_worst')} published={_clean.get('value')}")
+        except Exception as e:
+            check("product: shock face prices its shocks off its own beta and ticket",
                   False, str(e))
         # The page told the reader to buy GC001 but never said what the cash is worth.
         # Assert the block exists AND that its yuan is the page's own cash x the repo
