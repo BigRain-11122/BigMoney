@@ -86,7 +86,7 @@ def flip_census(close, cols=None, thr=FLIP_THR):
             "symbols": int((bad.sum() > 0).sum()), "columns": int(px.shape[1])}
 
 
-def panel_digest(close, openp=None, ndigits=6):
+def panel_digest(close, openp=None, amt=None, ndigits=6):
     """A 16-hex fingerprint of the exact prices a face measured on.
 
     The book has three published faces (production card, executable sheet, forward
@@ -95,19 +95,40 @@ def panel_digest(close, openp=None, ndigits=6):
     rounds running while the panel under it was still gaining symbols (r1366), and two
     faces that quote the same number can still be pricing two different worlds (E292/E293).
 
+    Since r1179 the fingerprint names its blocks and covers the turnover panel too, when
+    the caller passes it: the book's universe is filtered on 20-day amount, so two faces
+    can agree on every close and still rank different names off different amounts. Each
+    block is labelled in the hash, so a digest over a different set of blocks cannot pass
+    for a digest over this one.
+
     Sorted by symbol and rounded to `ndigits` so a re-read cannot differ in the last bit.
     NaN is kept: an unpriced bar is part of the world, not an absence of one.
     """
     import hashlib
     cols = sorted(close.columns, key=lambda c: str(c))
     idx = [str(d)[:10] for d in close.index]
+    frames = [("close", close)]
+    if openp is not None:
+        frames.append(("open", openp))
+    amt_cols = 0
+    if amt is not None:
+        have = [c for c in cols if c in amt.columns]
+        amt_cols = len(have)
+        if have:
+            frames.append(("amount", amt[have]))
     h = hashlib.sha256()
     h.update(("|".join(idx) + "#" + "|".join(str(c) for c in cols) + "#").encode("utf-8"))
-    for fr in ((close,) if openp is None else (close, openp)):
-        for c in cols:
+    for name, fr in frames:
+        sel = [c for c in cols if c in fr.columns]
+        h.update(("%s#%d#" % (name, len(sel))).encode("utf-8"))
+        for c in sel:
             h.update(np.round(fr[c].to_numpy(dtype="float64"), ndigits).tobytes())
-    return {"digest": h.hexdigest()[:16], "dates": len(idx), "columns": len(cols),
-            "first": idx[0] if idx else None, "last": idx[-1] if idx else None}
+    out = {"digest": h.hexdigest()[:16], "dates": len(idx), "columns": len(cols),
+           "first": idx[0] if idx else None, "last": idx[-1] if idx else None,
+           "blocks": [n for n, _ in frames]}
+    if amt is not None:
+        out["amount_columns"] = amt_cols
+    return out
 
 
 def price_basis_line(repaired, prints, thr=FLIP_THR, symbols=None, artifact=None,

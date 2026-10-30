@@ -3876,6 +3876,25 @@ def main() -> int:
                     _bad45.append("the digest ignores a changed price")
                 if _A45.panel_digest(_c45, _o45.iloc[::-1][::-1])["digest"] != _d1_45:
                     _bad45.append("the digest depends on row order")
+                # r1179: the fingerprint has to name its blocks, or "same world" means
+                # "same closes" while the book's universe is chosen on turnover.
+                _blk45 = {"ticket": ((_tk45.get("price_basis") or {}).get("panel_digest") or {}),
+                          "card": ((_cd45.get("price_basis") or {}).get("panel_digest") or {}),
+                          "ledger": (_fw45.get("panel") or {})}
+                for _lab45, _b45 in _blk45.items():
+                    if "amount" not in (_b45.get("blocks") or _b45.get("covers") or []):
+                        _bad45.append("%s does not say it priced the turnover panel" % _lab45)
+                _a45 = _pd45.DataFrame({"A": [10.0, 20.0, 30.0], "B": [5.0, 5.0, 5.0]},
+                                       index=_idx45)
+                _d3_45 = _A45.panel_digest(_c45, _o45, _a45)["digest"]
+                if _d3_45 == _d1_45:
+                    _bad45.append("a token panel and a turnover panel share one digest")
+                _a45b = _a45.copy()
+                _a45b.loc[_idx45[2], "B"] = 6.0
+                if _A45.panel_digest(_c45, _o45, _a45b)["digest"] == _d3_45:
+                    _bad45.append("the digest ignores a changed turnover figure")
+                if _A45.panel_digest(_c45, _o45, _a45)["digest"] != _d3_45:
+                    _bad45.append("the digest is not stable on the turnover block")
         check("product: three faces of one book price one panel, and the digest can move",
               not _bad45, "; ".join(_bad45)[:220]
               or "ticket/card/ledger agree: %s" % (_dig45.get("ticket") or "-"))

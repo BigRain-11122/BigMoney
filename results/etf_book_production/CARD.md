@@ -15,7 +15,7 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Price basis:** 本面的数字算在**已修复**的面板上：**168 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 158 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1613 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
 
-**Panel digest:** `9bb14c81f6e79bf7` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel.
+**Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
 **Today (2026-10-30 bar): HOLD: 8 bars until the next decision point** (last grid decision 2026-10-14).
 

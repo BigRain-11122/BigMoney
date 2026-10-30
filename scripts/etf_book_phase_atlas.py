@@ -326,6 +326,10 @@ def run(workers=None, k=0.0, cost=None, out=None):
     payload["units"] = UNITS
     cutoff = str(max(close.index).date())
     payload["evidence_cutoff"] = cutoff
+    # r1179: an arm face states WHICH world it measured on. The arms audit (E256/E259) reads
+    # faces produced hours apart and compares their bands; without a stamp a reading from one
+    # panel can sit beside a reading from another and read as a rule effect (E293 class).
+    payload["panel"] = dict(P.PANEL_DIGEST or {})
     if out is not None:
         OUT_JSON = Path(out)
         # --out is documented as a repo-relative path; without this a relative

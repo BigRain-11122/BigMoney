@@ -125,6 +125,7 @@ def _panel_block(cls, n_flip):
         blk["bars_named"] = PANEL_DIGEST["dates"]
         blk["first_bar"] = PANEL_DIGEST["first"]
         blk["last_bar"] = PANEL_DIGEST["last"]
+        blk["covers"] = PANEL_DIGEST.get("blocks") or []
     return blk
 
 
@@ -137,7 +138,7 @@ def build_inputs():
     # pricing the same world, and until now nothing could tell.
     global PANEL_DIGEST
     try:
-        PANEL_DIGEST = A.panel_digest(close, openp)
+        PANEL_DIGEST = A.panel_digest(close, openp, amt)
     except Exception:
         PANEL_DIGEST = {}
     cmap = A.load_class_map()

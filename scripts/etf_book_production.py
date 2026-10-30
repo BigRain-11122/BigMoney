@@ -707,7 +707,7 @@ def prep_panel(repair=True, repair_fn=None):
     # to the classes it ranks -- otherwise the card's digest would only ever match itself,
     # and "we all repair" would stay a claim instead of a comparable number.
     try:
-        PANEL_DIGEST = A.panel_digest(close, openp)
+        PANEL_DIGEST = A.panel_digest(close, openp, amt)
     except Exception:
         PANEL_DIGEST = {}
     cmap = A.load_class_map()
@@ -996,11 +996,11 @@ def write_card(out):
         lines += ["**Price basis:** %s" % _pb["sentence"], ""]
     _pdg = _pb.get("panel_digest") or {}
     if _pdg.get("digest"):
-        lines += ["**Panel digest:** `%s` (%d bars x %d symbols, %s->%s) -- the executable "
+        lines += ["**Panel digest:** `%s` (%d bars x %d symbols, %s->%s, covers %s) -- the executable "
                   "sheet and the forward ledger print the same fingerprint only when all "
-                  "three priced one panel." % (
+                  "three priced one panel, on the same blocks." % (
                       _pdg["digest"], _pdg["dates"], _pdg["columns"],
-                      _pdg["first"], _pdg["last"]), ""]
+                      _pdg["first"], _pdg["last"], "/".join(_pdg.get("blocks") or [])), ""]
     lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),

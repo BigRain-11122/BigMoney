@@ -7068,3 +7068,22 @@ still on the old panel rather than the one it is being compared against.
 
 Pos: `scripts/etf_equity_alpha.py` `price_basis_line(columns=)` / `scripts/etf_book_return_regime.py`
 `build()` / `smoke_test.py` (r1177 leg: width on both faces + same-panel-different-total is red).
+
+## E294 A fingerprint that covers what a face PRINTS is not a certificate for what it CHOSE (2026-10-31 r1179 bm-a)
+
+r1178 made the three faces of this book publish a panel digest, and the digest was built from
+close/open only. The book's universe is not chosen on close: it is filtered on 20-day turnover.
+So two faces could agree to the bit on every price and still rank different names off different
+amount panels -- "we priced one world" would stay a claim one field away from being false. The fix
+is not a bigger hash but a NAMED one: `panel_digest(close, openp, amt)` labels each block in the
+stream and reports `blocks`, and every face now says which blocks it covered (ticket/card/ledger
+all read `close/open/amount`, digest `a1a42aee64453839` over 5,270 bars x 1,613 symbols).
+The atlas arm face carries the same stamp for the same reason: the arms audit (E256/E259) compares
+faces produced hours apart, and without a stamp a band measured on one panel can sit beside a band
+measured on another and read as a rule effect -- the E293 class one level up.
+Two negative tests make it falsifiable rather than decorative: an amount-only perturbation must
+move the digest, and a two-block digest must never equal a three-block one.
+
+Pos: scripts/etf_equity_alpha.py `panel_digest(amt=)` / scripts/etf_book_{production,order,forward}.py
+/ scripts/etf_book_phase_atlas.py `payload["panel"]` / smoke_test.py r1179 leg (blocks named, amount
+moves the digest, two-block != three-block).

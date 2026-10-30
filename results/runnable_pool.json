@@ -24088,6 +24088,75 @@
    "closed_by": "Tools/pool_deliverable_audit.py apply",
    "closed_at": "2026-10-30T19:14:10+0800",
    "close_note": "duplicate supply: the deliverable was committed 6.44h BEFORE this card was registered, so nothing was burned and nothing is owed -- closed by the reconciliation audit on git stamps"
+  },
+  {
+   "id": "ATLAS-ARMS-ONEWORLD-20261031-BUFFER",
+   "title": "buffer family (k=0.02/0.05/0.10/0.20/0.40) re-derived onto today's panel: the atlas now stamps the panel it priced (r1179), and this unit rebuilds the five buffer arms so the family is measured on ONE world instead of five files written hours apart (E293/E294).",
+   "target": "scripts/etf_book_atlas_arms_rebuild.py",
+   "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=buffer",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "ready",
+   "deliverable": "results/etf_book_atlas_arms_rebuild.json",
+   "evidence_cutoff": "2026-10-30",
+   "entered_at": "2026-10-31T04:00:19+08:00",
+   "entered_by": "bm-a r1179",
+   "source": "r1179: arm faces now stamp their panel; the rebuild runner asserts one digest across the group and then lets the arms audit decide coherence",
+   "shards": [
+    {
+     "key": "atlas-arms-buffer-0of1",
+     "owner": "",
+     "owner_since": "",
+     "status": "ready",
+     "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
+    }
+   ]
+  },
+  {
+   "id": "ATLAS-ARMS-ONEWORLD-20261031-COST",
+   "title": "toll ladder (0/5/20/40bp) re-derived onto today's panel for the same reason as the buffer unit; the ladder's break-even reading is only a reading if every rung priced the same bars.",
+   "target": "scripts/etf_book_atlas_arms_rebuild.py",
+   "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=cost",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "ready",
+   "deliverable": "results/etf_book_atlas_arms_rebuild.json",
+   "evidence_cutoff": "2026-10-30",
+   "entered_at": "2026-10-31T04:00:19+08:00",
+   "entered_by": "bm-a r1179",
+   "source": "r1179: arm faces now stamp their panel; the rebuild runner asserts one digest across the group and then lets the arms audit decide coherence",
+   "shards": [
+    {
+     "key": "atlas-arms-cost-0of1",
+     "owner": "",
+     "owner_since": "",
+     "status": "ready",
+     "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
+    }
+   ]
+  },
+  {
+   "id": "ATLAS-ARMS-ONEWORLD-20261031-COMBO",
+   "title": "the interaction arm (buffer k=0.05 at 20bp) plus the base face at the production toll: the one cell pair the other two groups do not cover, and the arm that decides whether the buffer recovers any of the 20bp toll.",
+   "target": "scripts/etf_book_atlas_arms_rebuild.py",
+   "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=combo",
+   "lane": "cpu-only",
+   "lane_owner": "",
+   "status": "ready",
+   "deliverable": "results/etf_book_atlas_arms_rebuild.json",
+   "evidence_cutoff": "2026-10-30",
+   "entered_at": "2026-10-31T04:00:19+08:00",
+   "entered_by": "bm-a r1179",
+   "source": "r1179: arm faces now stamp their panel; the rebuild runner asserts one digest across the group and then lets the arms audit decide coherence",
+   "shards": [
+    {
+     "key": "atlas-arms-combo-0of1",
+     "owner": "",
+     "owner_since": "",
+     "status": "ready",
+     "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
+    }
+   ]
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24102,6 +24171,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T19:14:10+0800",
+ "updated_at": "2026-10-31T04:00:40+08:00",
  "version": 1
 }
