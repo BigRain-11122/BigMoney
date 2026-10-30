@@ -1,6 +1,10 @@
 {
  "agenda_starved": false,
  "agent": "bm-b",
+ "claws": {
+  "pre-commit": "MATCH",
+  "pre-push": "MATCH"
+ },
  "clock_note": "offset is a relayed-Tailscale estimate: probe precision +/-200-500ms and point estimates scatter by the same magnitude (+16/+204/-114ms measured 10-27), so clock_offset_trusted=false here means 'unknown at the ms level', not 'broken'",
  "clock_offset_age_s": 0,
  "clock_offset_ms": 152.9,
@@ -24,11 +28,12 @@
  "d19_note": "decisions 97fe122f / orders 2e5b6165 == stored watermark (repro@e2d59df) -> zero new rows; 114 order files / 115 acks / 0 unacked",
  "decisions_delta_pending": false,
  "delivery": {
-  "behind_origin_main": 112,
-  "branch": "machine/bm-b-r1291",
-  "local_not_on_origin": 30,
-  "sha": "352adf99da0074a2fc213162a6e5f263e5a29b5d",
-  "verified": true
+  "behind_origin_main": 120,
+  "branch": "machine/bm-b-r1292",
+  "local_not_on_origin": 33,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1292 family)",
+  "sha": "8eff184e3054fc3bc0c92784973670f00483fbb5",
+  "status": "PUSHED_VERIFIED"
  },
  "delivery_note": "r1253 push verified: cf68ee7cb..32aa83a7a",
  "dept": "research+engineering",
@@ -97,16 +102,16 @@
  "last_orders_watermark": "2e5b6165b8e38834@013f59c/187847",
  "last_orders_watermark_v2": "v2:BigRain-11122/FluxGroup@013f59cbe96f169218a8e855ce50b24d440ba056/187847#2e5b6165b8e38834b519863daa7bf3cf662a937f56a9f30cc8a4eb0daf16a10a",
  "last_product": "results/state_tilt/BANDSCREEN-2026-10-29.json",
- "last_push": "machine/bm-b-r1291",
- "last_push_sha": "352adf99d",
+ "last_push": "machine/bm-b-r1292",
+ "last_push_sha": "8eff184e3",
  "last_push_ts": "2026-10-30T23:39:28+08:00",
  "last_round": 1292,
  "last_round_at": "2026-10-30T23:47:45+08:00",
  "last_round_ts": "2026-10-30T23:47:45+08:00",
  "last_seen": "2026-10-30T23:47:45+08:00",
  "latest_artifact": "results/state_tilt/BANDSCREEN-2026-10-29.json",
- "local_not_on_origin": 30,
- "local_not_on_origin_commits": 30,
+ "local_not_on_origin": 33,
+ "local_not_on_origin_commits": 33,
  "machine_id": "bm-b",
  "next": "E267: how much margin must a donor clear before the flip is worth acting on?",
  "next_milestone": "E267 margin trade curve published (36 published comparisons) -- within 48h",
@@ -778,14 +783,10 @@
  "smoke": "245/245",
  "status": "green",
  "sync": {
-  "behind_origin_main": 109,
-  "branch": "machine/bm-b-r1288",
-  "local_not_on_origin_commits": 21,
-  "main_push_blocker": "bounded 100s attempt on main did not return: its own promisor lazy fetch is hydrating objects (nine rounds of the same wall); no push process left behind, no index.lock",
-  "pushed_sha": "db5b8ae4367fe359c820b5430811f83065ba7889",
-  "remote_ref_sha": "db5b8ae4367fe359c820b5430811f83065ba7889",
-  "ts": "2026-10-30T21:50:00",
-  "verified": true
+  "ahead": 33,
+  "behind": 120,
+  "branch": "machine/bm-b-r1292",
+  "peer": "origin"
  },
  "sync_note": "r1256: HEAD is the local r1256 commit; origin/main was 21 ahead / 7 ahead local at open. main push/merge wedges in the promisor lazy fetch (r1255 measured 85,599 objects before negotiation), so delivery goes to machine/bm-b-r<N> and the divergence is disclosed rather than forced.",
  "task": "E266 wide-end screen holdout (done)",
