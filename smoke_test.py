@@ -5739,6 +5739,83 @@ def main() -> int:
         check("product: the tight end cannot transfer badly if it cannot move anything -- and "
               "a zero has to say which one it measured", False, repr(e)[:160])
 
+    # E274: the straddle screen read as two published numbers (m_flip, the range an axis offers)
+    # is scored against every moved set the band family itself published. The leg re-derives the
+    # reading per row from the face (a row is flagged iff its flip sits inside its range), pins
+    # that the flag reproduces the published moved set on every axis, and pins the trap that broke
+    # the first cut: BANDTOPFLIP's flipped_ids is "flips at EVERY measurement" (empty) while
+    # depends_ids is "at SOME" (2 rows) -- scoring the stricter set would read 2 real moves as
+    # screen misses, so the gap between the two sets must be disclosed, not silently chosen.
+    try:
+        _p274 = os.path.join("results", "state_tilt", "bandstraddlesweep_latest.json")
+        _f274 = None
+        if os.path.exists(_p274):
+            with io.open(_p274, encoding="utf-8") as _fh274:
+                _f274 = json.load(_fh274)
+        _bad274 = []
+        if not _f274:
+            _bad274.append("no published straddle-sweep face")
+        else:
+            _s274 = _f274.get("summary") or {}
+            _scores274 = _f274.get("scores") or []
+            if not _scores274:
+                _bad274.append("the face publishes no per-axis scores")
+            if _f274.get("evidence_cutoff") is None:
+                _bad274.append("no evidence_cutoff on the face")
+            if _s274.get("verdict") not in (
+                    "two_published_numbers_predict_every_scored_axis",
+                    "screen_is_vacuously_exact_no_axis_moves_anything",
+                    "the_screen_is_unsafe_on_some_axis",
+                    "the_screen_over_flags_on_some_axis"):
+                _bad274.append("verdict %r is outside the frozen vocabulary" % (_s274.get("verdict"),))
+            _rows274 = (_f274.get("axes") or {})
+            for _sc274 in _scores274:
+                _ax = _rows274.get(_sc274.get("axis")) or {}
+                # (a) the flag must be re-derivable from the two published numbers, per row
+                for _r274 in (_ax.get("rows") or []):
+                    _m274, _rg274 = _r274.get("flip_multiplier"), _r274.get("range") or [None, None]
+                    _reading274 = _r274.get("straddle")
+                    if _reading274 not in ("inside", "near_edge", "outside", "untested"):
+                        _bad274.append("%s row %r reading %r is outside the four-way set"
+                                       % (_sc274.get("axis"), _r274.get("index"), _reading274))
+                        continue
+                    _lo274, _hi274 = _rg274[0], _rg274[1]
+                    if _m274 is None or _lo274 is None or _hi274 is None or _hi274 <= _lo274:
+                        if _reading274 != "untested":
+                            _bad274.append("%s row %r has no usable range but is not untested"
+                                           % (_sc274.get("axis"), _r274.get("index")))
+                        continue
+                    _inside274 = _lo274 <= _m274 <= _hi274
+                    if _inside274 != (_reading274 in ("inside", "near_edge")):
+                        _bad274.append("%s row %r: reading %r contradicts its own range"
+                                       % (_sc274.get("axis"), _r274.get("index"), _reading274))
+                # (b) the flag's promise is that it reproduces the published moved set
+                if _sc274.get("missed_by_screen"):
+                    _bad274.append("%s missed published moves %r"
+                                   % (_sc274.get("axis"), _sc274.get("missed_by_screen")))
+                if _sc274.get("flagged_never_moved"):
+                    _bad274.append("%s flagged rows that never moved %r"
+                                   % (_sc274.get("axis"), _sc274.get("flagged_never_moved")))
+                # (c) the weaker/stricter gap is arithmetic, not asserted
+                _weak274 = set(_sc274.get("published_moved") or [])
+                _strict274 = set(_sc274.get("published_moved_stricter") or [])
+                if sorted(_weak274 - _strict274) != (_sc274.get("moves_only_in_the_weaker_set") or []):
+                    _bad274.append("%s: the weaker/stricter gap does not re-derive"
+                                   % (_sc274.get("axis"),))
+            check("product: two published numbers -- the flip multiplier and the range an axis "
+                  "offers -- reproduce every moved set the band family published", not _bad274,
+                  "%r | axes %s; %d moved observation(s), %d hit(s), %d missed, %d inert"
+                  % ((_f274.get("verdict") if _f274 else None,
+                      ",".join(_s274.get("axes") or []),
+                      _s274.get("n_moved_observations") or 0,
+                      len(_s274.get("hits") or []),
+                      len(_s274.get("missed_by_screen") or []),
+                      len(_s274.get("flagged_never_moved") or [])))
+                  + (" | " + "; ".join(_bad274[:4]) if _bad274 else ""))
+    except Exception as e:
+        check("product: two published numbers -- the flip multiplier and the range an axis "
+              "offers -- reproduce every moved set the band family published", False, repr(e)[:160])
+
 
     # E270: the guard E267/E268 published consumes four per-row numbers (b, band_lo, band_hi,
     # own_p95), so its reach is what the published faces actually carry -- not what the rule says.

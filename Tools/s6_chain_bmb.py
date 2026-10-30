@@ -350,6 +350,17 @@ LEGS = [
     ("tight_end_transfer",
      ["python", "scripts/e269_tight_end_transfer.py", "verify"]),
 
+    # E274: E271's mechanism was a case report on one axis. This leg turns it into a family census:
+    # for every measured BAND* row it re-derives the flip multiplier, the multiplier range that axis
+    # actually offers and a four-way straddle reading, then scores the flag against the moved sets
+    # the faces themselves published -- wide_donor (E271's set), tight_p05 and top_ladder. All three
+    # reproduce exactly (4 moved observations, 4 hits, 0 missed, 0 flagged-but-inert). It also pins
+    # the "same name, different quantity" trap that broke the first cut: BANDTOPFLIP publishes
+    # flipped_ids (flips at EVERY measurement, empty) and depends_ids (flips at SOME, 2 rows); the
+    # flag answers "can move", so the SOME set is the one to score and both are carried. <1s.
+    ("spread_straddle_sweep",
+     ["python", "scripts/e274_spread_straddle_sweep.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

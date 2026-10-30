@@ -24798,7 +24798,7 @@
   {
    "deliverable": "results/state_tilt/BANDSTRADDLESWEEP-<cutoff>.json",
    "evidence_cutoff": "2026-10-29",
-   "id": "E274-SPREAD-STRADDLE-SWEEP",
+   "id": "E274-SPREAD-STRADDLE-SWEEP", "done_at": "2026-10-31 04:1x", "done_by": "bm-b", "result_note": "verdict=two_published_numbers_predict_every_scored_axis; 12 measured rows x 3 scored axes. For each row the flip multiplier is published beside the multiplier range the axis actually offers, and the four-way straddle reading (inside/near_edge/outside/untested) reproduces the moved set each face itself published EXACTLY: wide_donor (E271's donor sweep) flags {9,13} = its published moves; tight_p05 flags none = its published none; top_ladder flags the two rows BANDTOPFLIP publishes as movement-dependent. 4 moved observations / 4 hits / 0 missed / 0 flagged-but-inert. So 'do not borrow from this cell' is decidable from two numbers without re-running a sweep. Two disclosures: (a) the first cut scored BANDTOPFLIP.summary.flipped_ids ('flips at EVERY measurement', empty) instead of depends_ids ('at SOME', 2 rows) and reported two real moves as screen misses -- both sets are now carried and their gap published as moves_only_in_the_weaker_set; (b) 4 moved observations is above the 3-positive floor but the population is 12 rows on one book, so exactness is untested at scale and the near_edge band (5% of range width) is disclosed rather than absorbed.", "result_ref": "results/state_tilt/BANDSTRADDLESWEEP-2026-10-29.json",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
@@ -24809,10 +24809,27 @@
    "seeded_at": "2026-10-31T03:40:00+08:00",
    "seeded_by": "bm-b r1298",
    "source": "E271 found that the donor axis is decisive on exactly the rows whose flip multiplier falls inside the p95 spread their (leg, base) group actually offers, and idle everywhere else (2 of 12 rows, 1 of 4 groups, 15 of 16 donor ends move nothing). That is a predictive screen rather than a case report: for every row-in-a-group in the whole BAND* family publish the flip multiplier, the spread the group offers and a straddle flag, then score the screen against the moved sets the faces themselves already published (how many published moved rows are straddlers, how many straddlers never moved). The question is whether a reader can decide 'do not borrow' vs 'do not borrow from this cell' from two published numbers without re-running any sweep.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e274_spread_straddle_sweep.py (new runner)",
    "title": "can a row's own numbers say, in advance, whether the donor choice will matter?",
    "worker_class": "code-change"
+  },
+  {
+   "id": "E275-SCREEN-MARGIN-BUDGET",
+   "title": "is a cleared row equally cleared, or does one perturbation spend its whole margin?",
+   "target": "scripts/e275_screen_margin_budget.py (new runner)",
+   "deliverable": "results/state_tilt/BANDSCREENBUDGET-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e275_screen_margin_budget.py",
+   "runner_args": ["run"],
+   "seeded_at": "2026-10-31T04:10:00+08:00",
+   "seeded_by": "bm-b r1299",
+   "status": "ready",
+   "worker_class": "cpu",
+   "source": "E274 turned the straddle mechanism into an exact screen: a row moves only if its flip multiplier falls inside the range the axis offers. That is still a binary reading, and it says nothing about how much room a CLEARED row has left. Every measured row publishes margin_wide (its distance from the band edge at the published multiplier) and every group publishes the widest multiplier its cells offer, so the share of that margin the widest offered multiplier would consume is computable without new draws. The question: is the cleared set homogeneous, or does it contain rows whose margin is nearly spent -- and do those rows coincide with the ones BANDNEAR1 already publishes as near-one-dependent? A screen that is exact but leaves one row with 2% of margin is a different instruction than one that leaves every cleared row room."
   }
 
  ],

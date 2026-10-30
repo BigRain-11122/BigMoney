@@ -5258,3 +5258,17 @@ results/state_tilt/BANDDONORCHOICE-2026-10-29.json (verdict=
 donor_choice_matters_do_not_borrow_from_this_cell; 12 measured rows / 4 groups / 36 foreign pairs;
 2 rows moved, both straddlers; pivotal cross:60=all_five), S6 leg `donor_choice_sensitivity`,
 digest research/digests/DIGEST-20261031-r1298-e271-donor-choice.md.
+
+## E275 -- a flip multiplier plus the range an axis offers predicts, in advance, whether that axis can move a row -- and the predicted set is the one the faces published
+
+> Card number vs pool id: this study ran as pool entry E274-SPREAD-STRADDLE-SWEEP; the card is E275 because E274 was already assigned to the r1298 donor-axis card by a concurrent seat. Pool ids and card ids drift in this repo and are recorded separately.
+
+> A mechanism becomes a screen only when it is scored on more than the one axis it was found on. E271 showed the donor axis is decisive exactly on rows whose flip multiplier sits inside the p95 spread their group offers; this face walks the whole BAND* family on the three axes that publish **both** a range and a moved set (wide_donor = group p95 spread vs BANDDONORCHOICE's moved rows; tight_p05 = group p05 spread vs BANDTIGHT's could-move rows; top_ladder = the row's own multiplier span vs BANDTOPFLIP's movement-dependent rows). The four-way reading (inside / near_edge / outside / untested) reproduces **every** published moved set exactly: **4 moved observations, 4 hits, 0 missed, 0 flagged-but-inert** on 12 measured rows.
+
+> The reading rule: **"do not borrow from this cell" is decidable from two published numbers** (`m_flip`, the offered range) without re-running any sweep -- but only as far as the moved observations reach. 4 is above the 3-positive floor and still 12 rows on one book, so the verdict carries its own power caveat, and a flip within 5% of the range width is published as `near_edge` rather than counted as a decided `inside`.
+
+> The pit is the family's recurring one: **same name, different quantity**. BANDTOPFLIP publishes `flipped_ids` ("flips at EVERY measurement", empty) beside `depends_ids` ("at SOME", 2 rows); the first cut scored the former -- it reads like "the rows that moved" -- and would have published `the_screen_is_unsafe_on_some_axis` off a lookup error rather than a measurement. Fix pattern: carry **both** sets and publish their arithmetic gap (`moves_only_in_the_weaker_set`) so the choice is auditable; then pin it with a leg whose fixture has a row that moves sometimes but not always.
+
+> Two smaller generalisations: a **join key shape is part of the contract** (published ids are `source/cell/row`; a `source/row` key silently matches nothing and reads exactly like a failing screen), and a **zero-width range cannot decide anything** -- `straddle(m, 3.0, 3.0)` must read `untested`, not `inside`, because a single point offers no spread to be inside of.
+
+Evidence: scripts/e274_spread_straddle_sweep.py (selftest 29/29, verify 0 problems), results/state_tilt/BANDSTRADDLESWEEP-2026-10-29.json (verdict=two_published_numbers_predict_every_scored_axis; 12 rows x 3 axes, 4 moved observations, 4 hits), S6 leg `spread_straddle_sweep` (rc=0, 0.16s), digest research/digests/DIGEST-20261031-r1299-e274-straddle-sweep.md.
