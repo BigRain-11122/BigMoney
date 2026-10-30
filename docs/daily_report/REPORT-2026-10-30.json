@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-30",
- "generated_at": "2026-10-30 22:44:14",
+ "generated_at": "2026-10-30 22:46:41",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,18 +294,19 @@
   "md_link": "../live_usage/LIVE-2026-10-30.md"
  },
  "rd": {
-  "commits_24h": 134,
-  "result_jsons_landed_24h": 129,
-  "digests_landed_24h": 44,
+  "commits_24h": 137,
+  "result_jsons_landed_24h": 131,
+  "digests_landed_24h": 45,
   "prereg_md_touched_24h": 25,
   "compute_audit_latest": {
-   "ts": "2026-10-30 21:12:24",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-10-30 21:34:06",
+   "py_cpu_pct": 0.6,
    "flags": [
+    "cap_violation",
     "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:cap_violation,pool_starvation,supply_floor"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -789,12 +790,12 @@
     "today_supply_gap_flags": 7
    },
    "bm-c": {
-    "latest_ts": "2026-10-30 17:51:35",
-    "py_pct": 0.0,
-    "cpu_pct": 50.0,
-    "ready": 1,
-    "streak_min": 217.4,
-    "verdict": "FLAG:supply_gap,supply_floor,supply_unstartable",
+    "latest_ts": "2026-10-30 21:34:06",
+    "py_pct": 0.6,
+    "cpu_pct": 91.0,
+    "ready": 0,
+    "streak_min": 127.9,
+    "verdict": "FLAG:cap_violation,pool_starvation,supply_floor",
     "py_series_tail": [
      [
       "09:43",
@@ -833,22 +834,22 @@
       7.2
      ],
      [
-      "14:14",
-      0.3
+      "19:26",
+      5.0
      ],
      [
-      "16:13",
-      0.1
+      "21:28",
+      0.2
      ],
      [
-      "17:51",
-      0.0
+      "21:34",
+      0.6
      ]
     ],
     "today_samples": 27,
-    "today_floor_ok": 6,
+    "today_floor_ok": 5,
     "today_sla_flags": 0,
-    "today_supply_gap_flags": 3
+    "today_supply_gap_flags": 0
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -902,7 +903,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-30 17:51:35"
+     "audit_ts": "2026-10-30 21:34:06"
     }
    }
   },
@@ -1254,8 +1255,8 @@
     "rows": [
      {
       "status": "ok",
-      "asof": "2026-10-29",
-      "prior": "2026-10-28",
+      "asof": "2026-10-30",
+      "prior": "2026-10-29",
       "day_pnl_cny": 0.0,
       "day_ret": 0.0,
       "equity_cny": 897879.56,
@@ -1263,8 +1264,8 @@
      },
      {
       "status": "ok",
-      "asof": "2026-10-29",
-      "prior": "2026-10-28",
+      "asof": "2026-10-30",
+      "prior": "2026-10-29",
       "day_pnl_cny": 0.0,
       "day_ret": 0.0,
       "equity_cny": 979151.98,
@@ -1272,17 +1273,17 @@
      },
      {
       "status": "ok",
-      "asof": "2026-10-29",
-      "prior": "2026-10-28",
-      "day_pnl_cny": 145.39,
-      "day_ret": 0.000145,
-      "equity_cny": 1001393.51,
+      "asof": "2026-10-30",
+      "prior": "2026-10-29",
+      "day_pnl_cny": -341.36,
+      "day_ret": -0.000341,
+      "equity_cny": 1001052.15,
       "account": "GRID-511010"
      },
      {
       "status": "ok",
-      "asof": "2026-10-29",
-      "prior": "2026-10-28",
+      "asof": "2026-10-30",
+      "prior": "2026-10-29",
       "day_pnl_cny": 0.0,
       "day_ret": 0.0,
       "equity_cny": 979822.37,
@@ -1290,16 +1291,16 @@
      },
      {
       "status": "ok",
-      "asof": "2026-10-29",
-      "prior": "2026-10-28",
+      "asof": "2026-10-30",
+      "prior": "2026-10-29",
       "day_pnl_cny": 0.0,
       "day_ret": 0.0,
       "equity_cny": 950354.32,
       "account": "GRID-518880"
      }
     ],
-    "asof": "2026-10-29",
-    "family_day_pnl_cny": 145.39,
+    "asof": "2026-10-30",
+    "family_day_pnl_cny": -341.36,
     "missing_n": 0
    },
    {
@@ -1349,7 +1350,7 @@
     "missing_n": 0
    }
   ],
-  "grand_day_pnl_cny": -43858.42,
+  "grand_day_pnl_cny": -44345.17,
   "accounts_attributed": 40,
   "accounts_missing": 0,
   "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
@@ -1698,14 +1699,14 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-10-30T19:33:07",
-  "verdict": "host_down",
-  "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（6.83h 未报到）；留在本机盘上的 3 条里 0 条可核实，3 条连署名都没有。",
+  "as_of": "2026-10-30T21:34:25",
+  "verdict": "attention",
+  "sentence": "9 条在役车道里有 9 条的数字不在本机盘上：6 条在 bm-b 的盘上（8.86h 未报到）、3 条在 bm-a 的盘上（心跳 1.04h 前）；留在本机盘上的 0 条里 0 条可核实。",
   "n_lanes": 9,
-  "n_offhost": 6,
-  "n_here": 3,
+  "n_offhost": 9,
+  "n_here": 0,
   "n_auditable_here": 0,
-  "n_unsigned_here": 3,
+  "n_unsigned_here": 0,
   "groups": [
    {
     "machine": "bm-b",
@@ -1719,13 +1720,28 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 6.83,
+    "age_h": 8.86,
     "last_seen": "2026-10-30T12:43:06+08:00"
+   },
+   {
+    "machine": "bm-a",
+    "lanes": [
+     "etf_panel",
+     "futures",
+     "lhb"
+    ],
+    "n": 3,
+    "alive": true,
+    "age_h": 1.04,
+    "last_seen": "2026-10-30T20:32:05+08:00"
    }
   ],
   "offhost_lanes": [
    "astock_daily",
+   "etf_panel",
+   "futures",
    "heat",
+   "lhb",
    "marks",
    "moneyflow",
    "repo",
@@ -1733,14 +1749,14 @@
   ],
   "labels": {
    "moneyflow": "无主封套",
-   "heat": "无主封套",
    "repo": "无主封套",
    "astock_daily": "无主封套",
+   "marks": "无主封套",
+   "zt_pool": "他机本地副本",
    "etf_panel": "无主封套",
    "futures": "他机写的封套",
-   "lhb": "他机写的封套",
-   "marks": "无主封套",
-   "zt_pool": "他机本地副本"
+   "heat": "无主封套",
+   "lhb": "他机写的封套"
   }
  },
  "cap_vs_book": {
