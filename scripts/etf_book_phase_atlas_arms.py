@@ -1307,6 +1307,29 @@ def _selftest():
             os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
             rc = check()
             chk(rc == 1, "an edited verdict with no source moved stays inconsistent (rc=%r)" % rc)
+
+            # L11b r1371: a source face regenerated after this face was written shows up as a
+            # COPIED leaf moving. That is proof the source advanced, so the face is stale -- and
+            # the old mtime test could not see it, because every checkout gives old content a
+            # fresh mtime (this leg keeps the face NEWER than its sources on purpose).
+            p3 = build()
+            p3["arms"]["cost0"]["audit"]["workers"] = int(
+                p3["arms"]["cost0"]["audit"].get("workers") or 1) + 3
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(p3, f, ensure_ascii=False, indent=1)
+            os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
+            rc = check()
+            chk(rc == 2, "copied run-metadata drift reads stale even when the face looks newest "
+                         "(rc=%r)" % rc)
+
+            # L11c the same drift may not launder a hand edit: move a computed number too and
+            # the face is inconsistent again, with the stale signal only disclosed.
+            p3["arms"]["cost05"]["verdict"] = "ADOPT"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(p3, f, ensure_ascii=False, indent=1)
+            os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
+            rc = check()
+            chk(rc == 1, "copy drift does not launder a hand-edited verdict (rc=%r)" % rc)
             OUT_JSON = os.path.join(td, "missing.json")
             rc = check()
             chk(rc == 2, "a missing face is stale, not inconsistent (rc=%r)" % rc)
@@ -1643,6 +1666,24 @@ def _diff(a, b, path="", out=None, limit=8):
     return out
 
 
+def _is_copied(drift_line):
+    """True when the drifting leaf is copied VERBATIM from a source face, not derived here.
+
+    build() carries `audit` blocks through untouched (baseline.audit, arms.<n>.audit). A
+    disagreement in one of those is not a computed number going wrong -- it is the source face
+    saying something different from what this face recorded about it, i.e. the source was
+    regenerated. Which means it is evidence ABOUT the source, at content level.
+    """
+    p = drift_line.split(" (")[0].lstrip(".")
+    return p.startswith("baseline.audit") or (p.startswith("arms.") and ".audit." in p)
+
+
+def _classify_drift(drift):
+    copied = [d for d in drift if _is_copied(d)]
+    derived = [d for d in drift if not _is_copied(d)]
+    return copied, derived
+
+
 def check():
     """Gate: the published face must equal a re-derivation from the four arm faces.
 
@@ -1650,6 +1691,14 @@ def check():
     it is 'stale' and the chain pays the declared refresh; a face that disagrees with its own
     sources while the sources have not moved is 'inconsistent' and stays red, because that is a
     hand-edited or half-written face and re-deriving it would launder the edit.
+
+    r1371: the split is decided by WHAT drifted, not by a timestamp. mtime cannot answer this
+    question at all -- every `git checkout` gives a file a fresh mtime with old content, so a
+    face restored from history looks newer than the source that overtook it (this gate spent a
+    chain leg calling a genuinely stale face 'hand-edited' for exactly that reason). Copy-drift
+    is the honest signal: if a leaf build() copies verbatim differs, the source moved, whatever
+    the clocks say; if every copy still matches while a computed number differs, no source
+    moved and the edit is somebody's hand.
     """
     if not os.path.exists(OUT_JSON):
         print("face is stale: no published arms face at %s" % _rel(OUT_JSON))
@@ -1665,6 +1714,16 @@ def check():
         print("arms face matches its own sources on cutoff %s: %s"
               % (rebuilt["baseline"]["evidence_cutoff"], verdicts))
         return 0
+
+    copied, derived = _classify_drift(drift)
+    if copied and not derived:
+        # nothing computed here disagrees: a source face was regenerated (its run metadata is
+        # what build() copies). Refresh, never call this an edit.
+        print("face is stale: a source face was regenerated since this face was written -- "
+              "copied run metadata moved (%s), cutoff stays %r; refresh re-derives it"
+              % ("; ".join(copied)[:300], pub.get("baseline", {}).get("evidence_cutoff")))
+        return 2
+
     src = [BASE] + [p for p, _ in ARMS.values()]
     try:
         face_mtime = os.path.getmtime(OUT_JSON)
@@ -1676,8 +1735,11 @@ def check():
               % (pub.get("baseline", {}).get("evidence_cutoff"), ",".join(sorted(newer))[:160],
                  "; ".join(drift)[:300]))
         return 2
-    print("face is inconsistent: %d field(s) disagree with a re-derivation and no source moved: %s"
-          % (len(drift), "; ".join(drift)[:400]))
+    extra = (" (copied run metadata also moved: %s -- that alone would not make this an edit)"
+             % "; ".join(copied)[:160]) if copied else ""
+    print("face is inconsistent: %d field(s) disagree with a re-derivation while every copied "
+          "field still matches: %s%s"
+          % (len(derived), "; ".join(derived)[:400], extra))
     return 1
 
 

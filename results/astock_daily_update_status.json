@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-30T17:56:04",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-10-30T21:41:55",
+  "mode": "refresh in progress (todo=5222/5226, quarantined=5, settled=0)",
   "panel": {
-    "complete": true,
+    "complete": false,
     "cutoff": "2026-10-29",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
     "coverage_pct": 99.8,
@@ -62,7 +62,7 @@
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-10-30T05:46:52",
+  "last_spawn_attempt": "2026-10-30T21:40:55",
   "settled_n": 7,
   "settled": [
     "002717",
@@ -82,8 +82,9 @@
   "takeover": {
     "owner": "bm-b",
     "by": "bm-c",
-    "reason": "owner bm-b silent 5.2h >= 120min",
-    "ts": "2026-10-30T17:56:04"
+    "reason": "owner bm-b silent 9.0h >= 120min",
+    "ts": "2026-10-30T21:40:55"
   },
-  "no_op_reason": "panel fresh (cutoff 2026-10-29 >= expected 2026-10-29)"
+  "spawn_reason": "panel lags expected bar date (2026-10-29 < 2026-10-30)",
+  "spawn_mode": "continuation"
 }

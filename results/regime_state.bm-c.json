@@ -1,57 +1,68 @@
 {
-  "updated": "2026-10-30 17:51:47",
-  "asof": "2026-10-29",
+  "updated": "2026-10-30 21:34:26",
+  "asof": "2026-10-30",
   "mode": "shadow",
-  "state": "ORANGE",
-  "state_cn": "橙·高危",
-  "raw_level": "ORANGE",
+  "state": "RED",
+  "state_cn": "红·危机",
+  "raw_level": "RED",
   "green_streak": 0,
-  "days_in_state": 10,
+  "days_in_state": 1,
   "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
-      "asof": "2026-10-29",
-      "close": 4.111,
-      "crash_10d": -0.03088165959453093,
-      "panic_1d": -0.009874759152215917,
-      "vol20": 0.00931,
+      "asof": "2026-10-30",
+      "close": 4.065,
+      "crash_10d": -0.04036827195467407,
+      "panic_1d": -0.011189491607881186,
+      "vol20": 0.009061,
       "vol_p95": 0.0173,
       "vol_p80": 0.01184,
       "vol_status": "ok",
-      "ma200": 4.6976,
+      "ma200": 4.6942,
       "below_ma200": true,
-      "event_fomc": true,
+      "event_fomc": false,
       "event_pre_holiday": null,
       "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
     },
     "breadth": {
-      "share_below_ma20": 0.875,
-      "share_slope_5d": -0.0417,
-      "share_5d_ago": 0.9167,
+      "share_below_ma20": 0.8333,
+      "share_slope_5d": -0.0208,
+      "share_5d_ago": 0.8542,
       "status": "ok",
       "n_symbols": 48,
       "interpretation": "slope = share_now - share_5d_ago (literal s1)"
     },
     "bear_r_pei3": {
       "status": "ok",
-      "as_of": "2026-10-29",
-      "close": 4.111,
-      "ma250": 4.7007,
-      "dd_from_250d_high": -0.1925,
+      "as_of": "2026-10-30",
+      "close": 4.065,
+      "ma250": 4.6984,
+      "dd_from_250d_high": -0.2015,
       "below_ma250": true,
-      "dd_triggered": false,
-      "is_major_bear": false,
-      "position_cap": 0.8,
-      "cash_floor": 0.2
+      "dd_triggered": true,
+      "is_major_bear": true,
+      "position_cap": 0.2,
+      "cash_floor": 0.8
     }
   },
   "triggers": [
-    "breadth 0.88>=80% slope -0.0417<0",
+    "R-配3 major bear (regime.py)",
+    "breadth 0.83>=80% slope -0.0208<0",
     "hs300<MA200 (#10 collected)",
-    "breadth 0.88>=65%",
-    "event window (appendix A)"
+    "breadth 0.83>=65%"
   ],
-  "transitions": [],
+  "transitions": [
+    {
+      "asof": "2026-10-30",
+      "from": "ORANGE",
+      "to": "RED"
+    },
+    {
+      "asof": "2026-10-30",
+      "from": "ORANGE",
+      "to": "RED"
+    }
+  ],
   "history": [
     {
       "asof": "2026-10-16",
@@ -122,6 +133,13 @@
       "state": "ORANGE",
       "green_streak": 0,
       "days_in_state": 10
+    },
+    {
+      "asof": "2026-10-30",
+      "raw": "RED",
+      "state": "RED",
+      "green_streak": 0,
+      "days_in_state": 1
     }
   ],
   "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)",

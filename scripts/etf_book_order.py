@@ -319,6 +319,7 @@ def card(ticket, mk, sched, asof, beta, extra):
         if feed.get("status") in ("stale_feed", "feed_broken"):
             L += ["> ⚠ 提醒：本单的定价 bar 落后市场 %s 个交易日 —— 这是数据面的滞后，"
                   "不是书换了判断。照此单下手前必须知道这一点。" % ("?" if lag is None else lag), ""]
+    L += restatement_md(extra.get("restatements"))
     if ticket:
         L += ["## 今日目标（NAV ¥%s）" % format(int(ticket["nav"]), ","),
               "k=%.2f（书内 %.0f%%、现金 %.0f%%）｜ 现金腿=%s ｜ 现金 ¥%s"
@@ -676,6 +677,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "carry_split": carry,
+               "restatements": _ledger_restatements(),
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
@@ -698,7 +700,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement, "ruler": ruler,
-                      "carry": carry}))
+                      "carry": carry, "restatements": payload["restatements"]}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -847,6 +849,99 @@ def _ledger_book(ledger_path=None):
             "status": led.get("status"), "source": p}
 
 
+def _ledger_restatements(ledger_path=None):
+    """Bars the ledger restated AFTER they settled -- a history change nobody was told about.
+
+    The forward ledger is allowed to move a mark once, for a bar that was published while
+    its panel was still filling (see etf_book_forward.restate_provisional): it keeps both
+    values, the delta and the run that did it. That record only helped whoever opened
+    LEDGER.json. The operator holds the ticket, so the ticket has to carry the notice.
+
+    Three states are kept apart on purpose: unreadable, readable-and-empty, readable with
+    notices. Collapsing the first into the second would let a missing ledger read as
+    "your history is clean".
+    """
+    p = ledger_path or LEDGER_PATH_DEFAULT
+    out = {"path": p, "readable": False, "source": None, "notices": [],
+           "bars": [], "bars_published": None}
+    try:
+        with open(p, encoding="utf-8") as f:
+            led = json.load(f)
+    except Exception:
+        return out
+    out["readable"] = True
+    bars = led.get("bars") or []
+    out["bars_published"] = len(bars)
+    lst = led.get("restatements")
+    if isinstance(lst, list):
+        out["source"] = "restatements"
+        for n in lst:
+            if not isinstance(n, dict) or not n.get("bar"):
+                continue
+            out["notices"].append({"bar": n.get("bar"), "ts": n.get("ts"),
+                                   "nav_published": n.get("nav_published"),
+                                   "nav_settled": n.get("nav_settled"),
+                                   "delta": n.get("delta"), "reason": n.get("reason")})
+    else:
+        # ledgers written before the top-level list existed carry the marks on the bars
+        out["source"] = "bars"
+        for b in bars:
+            if not isinstance(b, dict) or not b.get("restated_at"):
+                continue
+            pub = b.get("nav_published")
+            stl = b.get("nav_settled", b.get("nav"))
+            out["notices"].append({
+                "bar": b.get("bar"), "ts": b.get("restated_at"),
+                "nav_published": pub, "nav_settled": stl,
+                "delta": (None if pub is None or stl is None else float(stl) - float(pub)),
+                "reason": b.get("restate_reason")})
+    out["bars"] = [n["bar"] for n in out["notices"]]
+    return out
+
+
+def _relpath_safe(p, base=None):
+    """Relative path for display; a fixture or ledger on another drive is printed absolute."""
+    p = str(p or "")
+    try:
+        return os.path.relpath(p, base or BASE).replace("\\", "/")
+    except Exception:
+        return p.replace("\\", "/")
+
+
+def restatement_md(rst, base=None):
+    """The notice block: which published bars moved after they settled -- or that none did."""
+    base = base or BASE
+    if not rst or not rst.get("readable"):
+        return ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
+                "- **无法核验**：读不到前向账本（%s），所以本单不能回答这个问题 —— "
+                "这不是「没有被改述」。"
+                % _relpath_safe((rst or {}).get("path") or LEDGER_PATH_DEFAULT, base)]
+    notices = rst.get("notices") or []
+    if not notices:
+        return ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
+                "- 已核验：前向账本已发布 %s 根 bar，其中**没有一根在定格之后被改述**（%s）。"
+                % (rst.get("bars_published") if rst.get("bars_published") is not None else "?",
+                   "账本顶层 restatements 清单为空"
+                   if rst.get("source") == "restatements"
+                   else "账本无顶层清单，已按每根 bar 的 restated_at 标记逐根核对")]
+    L = ["", "## 历史变更通知：本单引用的历史有没有被改过", "",
+         "**有 %d 根 bar 在定格之后又被改述**（=历史变了，两个值都留着）：" % len(notices),
+         "", "| bar | 当时发布(NAV) | 定格后(NAV) | 差 | 何时 |", "|---|---|---|---|---|"]
+    for n in notices:
+        pub, stl, dl = n.get("nav_published"), n.get("nav_settled"), n.get("delta")
+        L.append("| %s | %s | %s | %s | %s |"
+                 % (n.get("bar") or "-",
+                    ("%.8f" % float(pub)) if pub is not None else "-",
+                    ("%.8f" % float(stl)) if stl is not None else "-",
+                    ("%+.2e" % float(dl)) if dl is not None else "-",
+                    n.get("ts") or "-"))
+    relist = "；".join(sorted({str(n.get("reason") or "未注明") for n in notices}))
+    L += ["", "- 读法：被改述的是「当天面板还在补数就先定过的价」，不是有人事后改了历史；"
+          "本单引用的行以「定格后」那一列为准。原因：%s。" % relist,
+          "- 出处：%s。" % _relpath_safe(rst.get("path") or LEDGER_PATH_DEFAULT, base)]
+    return L
+
+
 def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
     """Broker-followable ticket for the book the production card publishes.
 
@@ -893,6 +988,7 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
     cash = stated - spent
     names = [r["symbol"] for r in rows]
     led = _ledger_book(ledger_path) or {}
+    rst = _ledger_restatements(ledger_path)
     led_cfg = led.get("config") or {}
     card_scale = sh.get("risk_scale")
     recon = {"card_priced_bar": sh.get("as_of_bar"),
@@ -905,6 +1001,12 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
              "same_scale_as_ledger": None,
              "ledger_book_bar": led.get("book_bar"), "ledger_last_bar": led.get("last_bar"),
              "ledger_last_nav": led.get("last_nav"), "ledger_status": led.get("status"),
+             "ledger_source": led.get("source"),
+             "restatements_readable": rst["readable"],
+             "restatements_source": rst["source"],
+             "restated_bars": rst["bars"],
+             "restatements": rst["notices"],
+             "ledger_bars_published": rst["bars_published"],
              "card_cash_weight": sh.get("cash_weight"),
              # r1342 / E230: the card now prints the EXECUTABLE cash row, so the ticket
              # reconciles against that one. A card that predates the fix has no
@@ -968,6 +1070,11 @@ def card_config_card(tk, width=None, ruler=None):
           "- 前向账本最后一行 bar：%s（NAV %.6f，status=%s）"
           % (rc.get("ledger_last_bar") or "未知",
              float(rc.get("ledger_last_nav") or 0.0), rc.get("ledger_status") or "未知"), ""]
+    L += restatement_md({"readable": rc.get("restatements_readable"),
+                         "path": rc.get("ledger_source"),
+                         "source": rc.get("restatements_source"),
+                         "notices": rc.get("restatements") or [],
+                         "bars_published": rc.get("ledger_bars_published")})
     L += ["## 今日目标（NAV ¥%s）" % format(int(round(tk["nav"])), ","),
           "风险缩放 k=%.3f（书内 %.1f%%、现金 %.1f%%）｜现金腿=%s｜现金 ¥%s"
           % (tk["scale"], tk["book_weight"] * 100, tk["cash_weight"] * 100,
@@ -1917,6 +2024,64 @@ def selftest():
             "三面是不是同一本书" in md_card and "本单 vs 卡片 一致" in md_card
             and "本单 vs 账本 一致" in md_card and "2.000" in md_card,
             "chars=%d" % len(md_card))
+
+        # ---- restated-bar notice (r1371): a mark that moves after the bar settled is a
+        # history change, and the operator holding the sheet was the last to hear about it.
+        led_rst = json.loads(json.dumps(led_same))
+        led_rst["restatements"] = [{"ts": "2026-10-30T19:18:29+0800", "bar": "2026-10-28",
+                                    "reason": "published while the panel was still filling",
+                                    "nav_published": 1.00053, "nav_settled": 1.00052,
+                                    "delta": -1e-05}]
+        lp3 = os.path.join(cdt, "LEDGER-rst.json")
+        with open(lp3, "w", encoding="utf-8") as f:
+            json.dump(led_rst, f, ensure_ascii=False)
+        tk4 = card_config_ticket(card_dir=cdt, ledger_path=lp3)
+        md4 = card_config_card(tk4, None) if tk4 else ""
+        chk("leg31b a bar restated after settling reaches the ticket instead of being silent history",
+            bool(tk4) and tk4["recon"]["restated_bars"] == ["2026-10-28"]
+            and "定格之后又被改述" in md4 and "1.00053000" in md4 and "1.00052000" in md4,
+            "bars=%s in_md=%s" % (tk4["recon"]["restated_bars"] if tk4 else None,
+                                  "定格之后又被改述" in md4))
+
+        # the record existed on the bars before it existed at the ledger's top level
+        led_rst2 = json.loads(json.dumps(led_same))
+        led_rst2["bars"] = [{"bar": "2026-10-28", "nav": 1.00052,
+                             "restated_at": "2026-10-30T19:18:29+0800",
+                             "nav_published": 1.00053, "nav_settled": 1.00052}]
+        led_rst2.pop("restatements", None)
+        lp4 = os.path.join(cdt, "LEDGER-rst-on-bars.json")
+        with open(lp4, "w", encoding="utf-8") as f:
+            json.dump(led_rst2, f, ensure_ascii=False)
+        tk5 = card_config_ticket(card_dir=cdt, ledger_path=lp4)
+        _r5 = (tk5 or {}).get("recon") or {}
+        chk("leg31c an older ledger that records restatements only on its bars still reaches the sheet",
+            bool(tk5) and _r5.get("restatements_source") == "bars"
+            and _r5.get("restated_bars") == ["2026-10-28"]
+            and abs((_r5.get("restatements") or [{}])[0].get("delta") + 1e-05) < 1e-9,
+            "source=%s bars=%s" % (_r5.get("restatements_source"), _r5.get("restated_bars")))
+
+        # "no restatement" must be something the sheet checked, never the default when the
+        # ledger is missing -- otherwise a deleted artifact reads as a clean history.
+        tk6 = card_config_ticket(card_dir=cdt, ledger_path=os.path.join(cdt, "NO-LEDGER.json"))
+        md6 = card_config_card(tk6, None) if tk6 else ""
+        chk("leg31d an unreadable ledger prints 'cannot verify', not 'no restatements'",
+            bool(tk6) and tk6["recon"]["restatements_readable"] is False
+            and "无法核验" in md6 and "没有一根在定格之后被改述" not in md6,
+            "readable=%s" % (tk6["recon"]["restatements_readable"] if tk6 else None))
+
+        led_clean = json.loads(json.dumps(led_same))
+        led_clean["restatements"] = []
+        lp5 = os.path.join(cdt, "LEDGER-clean.json")
+        with open(lp5, "w", encoding="utf-8") as f:
+            json.dump(led_clean, f, ensure_ascii=False)
+        tk7 = card_config_ticket(card_dir=cdt, ledger_path=lp5)
+        md7 = card_config_card(tk7, None) if tk7 else ""
+        chk("leg31e a readable ledger with an empty restatement list says so as a checked fact",
+            bool(tk7) and tk7["recon"]["restatements_readable"] is True
+            and tk7["recon"]["restated_bars"] == []
+            and "没有一根在定格之后被改述" in md7 and "1 根 bar" in md7,
+            "readable=%s bars=%s" % (tk7["recon"].get("restatements_readable") if tk7 else None,
+                                     tk7["recon"]["restated_bars"] if tk7 else None))
     finally:
         shutil.rmtree(cdt, ignore_errors=True)
 

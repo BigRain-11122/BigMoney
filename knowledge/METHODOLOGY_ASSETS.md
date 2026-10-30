@@ -6684,3 +6684,63 @@ from the page that prints it (`ceo_live_usage.LADDER`), and a second source that
 Reading at cutoff 2026-10-29: cap 0.20 from both sources (clock ladder + engine
 `risk_regime.position_cap`), 3 of 6 ladder-governed accounts above it, widest COMPOSITE-CE-01
 76.8% (56.8pp over, 3.84x). Exploration only: it books no position and changes no rung.
+## E281 A correction that only the artifact's own readers can see is not a disclosure (2026-10-30 r1371 bm-c; renumbered from E279 -- bm-a r1170 landed E279 on origin first)
+The forward ledger has been allowed since r1366 to move a mark once, for a bar published while its
+panel was still filling: it keeps the published value, the settled value, the delta and the run that
+did it, in 
+estatements and on each bar. That record satisfied the settle gate, satisfied the audit
+face, and told the operator nothing -- the trader holds ORDER-*.md, which quoted 11.19% next to a
+NAV whose history had silently moved, and the only way to learn that was to open LEDGER.json.
+(1) **A correction has to be shipped by every face that quotes the corrected series.** Recording it
+in the artifact is the wrong side of the boundary: the artifact is what the *producers* read. The
+test is mechanical -- for each human-facing face that prints the number, is the notice printed on
+that same file? Here the answer is now yes on both sheets (beta ticket + executable card ticket),
+and the row prints both values so the reader can see which one the sheet now uses.
+(2) **Missing input must not read as "nothing happened".** Three states, never two: unreadable,
+readable-and-empty, readable-with-notices. A reader that returns [] on a missing or corrupt ledger
+turns a deleted file into a clean bill of health -- the same shape as the r1288 fallback that
+silently replaced the main path.
+(3) **"Checked and clean" has to be a printed sentence, not a missing section.** Absence of a notice
+block is indistinguishable from a face that never looked. So the sheet says it in words ("已核验：6
+根 bar 中没有任何一根在定格之后被改述") and names which source it checked (top-level list vs the
+per-bar 
+estated_at marks), because ledgers written before the list existed carry the marks only.
+Law: a correction record is disclosed when the face that quotes the series prints it, states the
+three-state outcome in words, and names the source it read; a correction that lives only where the
+producer reads is still a silent history change.
+Pos: scripts/etf_book_order.py (_ledger_restatements + 
+estatement_md, selftest 65->69/69: a
+restated bar reaches the sheet with both values, a bars-only older ledger still reaches it, an
+unreadable ledger prints "cannot verify" instead of "none", a clean ledger is stated as a checked
+fact) + both ORDER sheets + smoke leg product: a bar restated after settling reaches the ticket's
+own ledger line that recomputes the notice from LEDGER.json rather than trusting the sentence.
+## E280 A staleness gate that asks the filesystem instead of the data will call a stale face hand-edited (2026-10-30 r1371 bm-c)
+The arms gate (`scripts/etf_book_phase_atlas_arms.py --check`) has carried two red states since
+r1346: *stale* (a source advanced, so the chain pays the declared refresh) and *inconsistent*
+(sources unmoved, so a re-derive would launder a hand edit). Choosing between them used mtime --
+"is any source file newer than the face". A chain leg then went red on
+`.arms.cost0.audit.workers (4 vs 8)`, which is genuine staleness: the cost0 arm face was
+regenerated at 14:05, while the published arms face was restored by a checkout at 20:46 -- which
+handed the OLD content a NEW mtime. The gate concluded "no source moved" and reported an edit.
+(1) **mtime cannot answer "did the source move".** Every checkout, clone, rebase or file restore
+rewrites mtimes in arbitrary order, so "source older than face" is fully compatible with "source
+content is newer". The probe measured the filesystem, not the data.
+(2) **The face already carries the evidence.** `build()` copies each source's `audit` block
+verbatim into the face. A differing copied leaf means the source now says something different
+from what the face recorded about it -- content-level proof that the source moved, at any clock.
+Every copied leaf intact while a computed number differs means no source moved and the edit is
+somebody's hand. The split needs no timestamp at all, and it is *stronger* than the old test
+(every copy matching is positive evidence, not merely absence of a newer mtime).
+(3) **The leg has to perturb the class it claims to classify.** The first version of the new
+selftest leg failed for a reason worth the line: `_diff` emits paths with a leading dot
+(`.arms.cost0.audit.workers ...`), so the prefix test classified every leaf as derived and the
+face read "inconsistent". A leg that only asserted the right answer on the right face would have
+passed while the classifier was wrong.
+Law: a staleness verdict must come from content the face records about its source (a copied field,
+a digest), never from file timestamps; and the leg proving it must move exactly the field class it
+distinguishes -- both directions, one at a time.
+Pos: `scripts/etf_book_phase_atlas_arms.py` (`_is_copied` / `_classify_drift` + `check()`,
+selftest 100->102 legs: copy-drift reads stale with the face deliberately NEWER than its sources;
+copy-drift plus a moved verdict still reads inconsistent) + refreshed
+`results/etf_book_phase_atlas_arms.json` (one line changed -- the worker count; every published
+reading identical) + digest `DIGEST-20261030-r1371-copy-drift-vs-mtime.md`.

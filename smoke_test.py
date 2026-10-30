@@ -3556,6 +3556,68 @@ def main() -> int:
     except Exception as e:
         check("product: the executable ticket decomposes its own headline", False,
               repr(e)[:160])
+    # r1371: a bar restated after it settled is a history change, and the ledger used to
+    # keep that fact to itself. The leg recomputes the notice from LEDGER.json and demands
+    # it on the sheet the operator actually holds -- a missing ledger must read as
+    # "cannot verify", never as "nothing was restated".
+    try:
+        _bad30 = []
+        _rst30 = []
+        _ledp = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
+        _tkp = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        if not os.path.exists(_ledp):
+            _bad30.append("results/etf_book_forward/LEDGER.json missing")
+        elif not os.path.exists(_tkp):
+            _bad30.append("results/etf_book_order/latest.json missing")
+        else:
+            with open(_ledp, encoding="utf-8") as _fh30:
+                _led30 = json.load(_fh30) or {}
+            with open(_tkp, encoding="utf-8") as _fh30:
+                _ptr30 = json.load(_fh30) or {}
+            _asof30 = str(_ptr30.get("as_of") or "")
+            _tkf30 = os.path.join(os.path.dirname(_tkp), str(_ptr30.get("file") or ""))
+            _mdp30 = os.path.join(os.path.dirname(_tkp), "ORDER-%s.md" % _asof30)
+            _rst30 = _led30.get("restatements")
+            if not isinstance(_rst30, list):
+                _bad30.append("ledger publishes no top-level restatements list")
+                _rst30 = []
+            if not os.path.exists(_tkf30):
+                _bad30.append("ticket JSON named by the pointer is absent")
+            if not os.path.exists(_mdp30):
+                _bad30.append("ORDER-%s.md missing" % _asof30)
+            if not _bad30:
+                with open(_tkf30, encoding="utf-8") as _fh30:
+                    _tk30 = json.load(_fh30) or {}
+                with open(_mdp30, encoding="utf-8") as _fh30:
+                    _md30 = _fh30.read()
+                _pub30 = (_tk30.get("restatements") or {})
+                if _pub30.get("readable") is not True:
+                    _bad30.append("ticket says it could not verify the ledger")
+                if [_n.get("bar") for _n in (_pub30.get("notices") or [])] != \
+                        [_n.get("bar") for _n in _rst30]:
+                    _bad30.append("ticket's restated bars are not the ledger's own list")
+                if "历史变更通知" not in _md30:
+                    _bad30.append("the sheet carries no restatement notice")
+                for _n30 in _rst30:
+                    if not _n30.get("bar"):
+                        continue
+                    if _n30["bar"] not in _md30:
+                        _bad30.append("sheet omits restated bar %s" % _n30["bar"])
+                    for _k30 in ("nav_published", "nav_settled"):
+                        _v30 = _n30.get(_k30)
+                        if _v30 is not None and ("%.8f" % float(_v30)) not in _md30:
+                            _bad30.append("sheet omits %s=%.8f for %s"
+                                          % (_k30, float(_v30), _n30["bar"]))
+                if not _rst30 and "没有一根在定格之后被改述" not in _md30:
+                    _bad30.append("a clean ledger is not stated as a checked fact")
+        check("product: a bar restated after settling reaches the ticket's own ledger line",
+              not _bad30,
+              "; ".join(_bad30)[:220]
+              or "%d restated bar(s): %s"
+                 % (len(_rst30), ", ".join(str(_n.get("bar")) for _n in _rst30) or "none"))
+    except Exception as e:
+        check("product: a bar restated after settling reaches the ticket's own ledger line",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

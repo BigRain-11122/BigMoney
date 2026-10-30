@@ -41,6 +41,28 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_POOL = os.path.join(ROOT, "results", "runnable_pool.json")
 DEFAULT_OUT = os.path.join(ROOT, "results", "pool_deliverable_audit.json")
 
+
+def _under(root, p):
+    """Absolute path for a face/pool path that may be written relative to `root`.
+
+    `expand` hands back paths relative to the root it searched, so feeding one straight
+    into os.path.relpath resolves it against the CURRENT DIRECTORY instead -- on a host
+    whose repo lives on another drive than the temp root that raises
+    ValueError('path is on mount ...') and kills the whole audit (r1371: selftest temp
+    root on C: vs the repo on K:).
+    """
+    if not p:
+        return p
+    return str(p) if os.path.isabs(str(p)) else os.path.join(root, str(p))
+
+
+def _rel_under(root, p):
+    """Display path for a face/pool: root-relative when possible, absolute otherwise."""
+    try:
+        return os.path.relpath(_under(root, p), root).replace("\\", "/")
+    except Exception:  # noqa: BLE001 -- another drive has no relative form
+        return str(p).replace("\\", "/")
+
 STAR = re.compile(r"<[^<>/\\]+>")
 # A deliverable field sometimes carries a description after the filename
 # ("results/e44_midmonth/MIDSWEEP-<cutoff>.json (cash_share_pct per era)").
@@ -177,8 +199,11 @@ def provenance(entry, face_path, pool_path=DEFAULT_POOL, root=ROOT):
     """
     if not pool_path:
         return None
-    face_rel = os.path.relpath(face_path, root).replace("\\", "/")
-    pool_rel = os.path.relpath(pool_path, root).replace("\\", "/")
+    try:
+        face_rel = os.path.relpath(_under(root, face_path), root).replace("\\", "/")
+        pool_rel = os.path.relpath(_under(root, pool_path), root).replace("\\", "/")
+    except Exception:  # noqa: BLE001 -- a face on another drive has no repo-relative form
+        return None
     face_ts = _git_ts(face_rel, root)
     entry_ts = _git_intro_ts(str(entry.get("id") or ""), pool_rel, root)
     if face_ts is None or entry_ts is None:
@@ -279,7 +304,7 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
     return {
         "audit": "pool deliverable reconciliation",
         "ts": _now(),
-        "pool": os.path.relpath(pool_path, root).replace("\\", "/"),
+        "pool": _rel_under(root, pool_path),
         "open_cards": len(rows),
         "counts": counts,
         "stale_evidence": [r for r in rows if r["reading"] == "AFTER_ENTRY"],
@@ -532,6 +557,17 @@ def selftest():
             by["E-NOENTER"]["reading"] == "AMBIGUOUS"
             and by["E-NOENTER"]["entry_stamp_source"] is None,
             (by["E-NOENTER"]["reading"], by["E-NOENTER"]["entry_stamp_source"]))
+        # r1371: this suite crashed here on a host whose repo sits on another drive than
+        # temp -- relpath resolved the fixture's ROOT-RELATIVE face path against the cwd.
+        # A face that has no root-relative form is unanswerable, so it must read AMBIGUOUS.
+        leg("L25 a face on another drive reads AMBIGUOUS instead of killing the audit",
+            provenance({"id": "X-DRIVE"},
+                       os.path.join(ROOT, "Tools", "pool_deliverable_audit.py"),
+                       ppath, tmp) is None
+            and classify({"id": "X-DRIVE2", "status": "ready",
+                          "deliverable": "results/x/FACE-<cutoff>.json",
+                          "entered_at": "2026-10-30T13:4x+08:00"}, tmp, ppath)
+                ["reading"] in ("AFTER_ENTRY", "BEFORE_ENTRY_GIT", "AMBIGUOUS"))
         print("pool_deliverable_audit selftest: %d/%d legs pass"
               % (len(legs) - len(fails), len(legs)))
         for f in fails:
