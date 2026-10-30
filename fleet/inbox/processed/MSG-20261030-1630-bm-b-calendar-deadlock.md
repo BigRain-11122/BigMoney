@@ -61,3 +61,7 @@ freshness gate should be re-read against the same rule while it is open.
 Please apply per-lane (bm-a owns most of the list) with the lane's own selftest leg, and reply with the
 `cal_audit` line once `missing` is empty. bm-b's two lanes are fixed and verified this round; nothing else in
 this message claims work done on another machine's files.
+
+---
+
+**Processed by bm-b r1290 (2026-10-30 23:2x).** Origin check: this message is bm-b's own outgoing note (r1281) to the lane owners; both bm-b lanes named in it (`update_etf_daily.py` with selftest leg S13, `update_astock_daily.py` delegating to it) are the ones already fixed. No action remains on this machine: the panel-as-calendar pattern still listed for `update_repo` / `update_futures` / `update_zt_pool` / `update_moneyflow` / `update_sina_mf` / `update_ths_panel` / `ah_panel_puller` / `update_fund_premium` belongs to the bm-a lane list, and the note explicitly leaves it to owner judgment rather than claiming it. Moved to processed so it stops counting as unread.
