@@ -5615,3 +5615,26 @@ line instead of letting it read as corroboration.
 READING: same face as E268 (`engine_disagreement.rung_disagreement_pp` /
 `level_gap_pp`) + `as_issued.coincidences` + selftest legs L26 (level gap is not the gate) and
 L28 (the collision is published, not merged).
+
+## E270 A published verdict must be recomputed where it is used, and the same rule spelled two ways is not two rules (2026-10-30 r1356b bm-c)
+
+Two defects, one face, both found only because the number was pushed onto the order sheet:
+
+(a) **A label carried across a boundary stops being a measurement.** `results/etf_book_live_width_ruler.json`
+publishes `verdict = COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT`. The order sheet now recomputes that
+verdict from the face's own published numbers (`|paired median| < |5->12 rung disagreement|` and
+`sign_agreement <= sign_split_max`) instead of copying the string; if the two disagree the state is
+`inconsistent` and the reader is told. Cheap to write, and it is the only thing that keeps the
+label from surviving the numbers that produced it (r1266 family).
+
+(b) **Two faces spelling one arm differently will look like two different books.** The card
+artefact writes its leverage rule as `vol`, the atlas writes the same arm as `vol_target`. The
+first version of the widths check compared those strings literally, so a healthy face reported
+`widths_moved` on every read -- a gate that fires always is a gate nobody reads. Fix: compare a
+normalised key (`lower().replace("_target","")`) and keep the raw spellings in the published block
+so the mismatch stays visible rather than erased.
+
+READING: fresh states worth having on any read-back face -- `inside_disagreement` / `separated` /
+`inconsistent` / `widths_moved` / `stale` (cutoff age) / `unavailable`. Each needs its own fixture:
+the stale and the widths-moved cases are exactly the ones a clean "verdict" would otherwise keep
+printing forever.
