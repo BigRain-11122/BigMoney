@@ -6798,3 +6798,28 @@ see. Published face refreshed: +4 lines, every reading byte-identical
 
 Pos: scripts/etf_book_rule_null.py (source_digest / check / selftest L6) + results/etf_book_rule_null.json
 + digest DIGEST-20261030-r1373-null-gate-source-digest.md.
+
+## E285 Quote a corrected count where the reader does the counting, not where a writer is handy (2026-10-31 r1173 bm-a; renumbered from E284 -- bm-c r1373 landed E284 on origin first, r1349 law)
+The bet-count face (r1172) answered a real misreading -- "five tickers look like five bets" -- but
+its only consumer was the executable ticket's limitations block. The reader who forms that belief
+is looking at the live-book page's order table, where five rows sit under a total, and that page
+said nothing. A correction published anywhere other than the place the wrong belief is formed
+keeps the belief alive, however many machines can recompute it.
+(1) **Pick the consumer by where the misreading happens, not by where the plumbing is easiest.**
+The ticket was the cheap wire (same script family, same run); the page was the right wire. This
+round added one section to the live-book page and no new numbers -- the two faces had already
+agreed for a round.
+(2) **Quote through the reader, then assert the quote.** The page calls
+`etf_book_bets_face.read_published()`; the smoke leg re-reads the published artifact and demands
+the sentence appear in the rendered markdown, so a page that quietly stops quoting reads red. It
+resolves the page path from `docs/live_book/latest.json` -- the first version rebuilt the filename
+from the date and failed on that alone (262/263), which is the same class of defect it hunts.
+(3) **Absent must not degrade into the myth.** The failure mode of a missing artifact here is not
+a blank line, it is "5 names = 5 bets"; the page prints the honest-absence line instead of a
+count, and the selftest has a branch asserting exactly that when the artifact is missing.
+(4) **Counts printed on the page come from the artifact, formatted -- never recomputed.** The
+selftest leg compares the rendered numbers against the artifact's own fields, so a second
+computation cannot drift in.
+Pos: scripts/etf_book_ceo_page.py (bets_face / render_md bet-count section / selftest 49 legs incl.
+L48-L50) + smoke leg "product: ETF live-book page says how many independent bets the holdings are"
++ docs/live_book/LIVE-BOOK-20261031.md.

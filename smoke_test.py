@@ -2550,6 +2550,23 @@ def main() -> int:
         check("product: ETF live-book stress rows are their own percentages x capital", _ok_st,
               f"days={_st.get('n_days')} 1d={_w.get('1d', {}).get('pct')} "
               f"5d={_w.get('5d', {}).get('pct')} 20d={_w.get('20d', {}).get('pct')}")
+        # Five tickers are not five bets: the page must quote the bet-count face's own
+        # sentence (recomputed here from the published artifact, never from a copy) and
+        # must never fall back to counting names when that artifact is missing.
+        try:
+            _bfp = json.load(open("results/etf_book_bets_face.json", encoding="utf-8"))
+            _bfl = _bfp.get("long") or {}
+            _sent = _bfl.get("sentence")
+            _md_page = open(_ptr.get("page"), encoding="utf-8").read()
+            _ok_bf = (bool(_sent) and _sent in _md_page
+                      and "这几只票到底有几个赌注" in _md_page)
+            if not _sent:
+                _ok_bf = False
+            check("product: ETF live-book page says how many independent bets the holdings are",
+                  _ok_bf, f"effective={_bfl.get('effective_bets')} quoted={bool(_sent and _sent in _md_page)}")
+        except Exception as e:
+            check("product: ETF live-book page says how many independent bets the holdings are",
+                  False, str(e))
         # The page told the reader to buy GC001 but never said what the cash is worth.
         # Assert the block exists AND that its yuan is the page's own cash x the repo
         # panel's own last close -- a rate the page forgot to refresh would otherwise

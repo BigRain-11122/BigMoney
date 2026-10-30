@@ -31,6 +31,7 @@ CARD = os.path.join(ROOT, "results", "etf_book_production", "latest.json")
 LEDGER = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 CAL = os.path.join(ROOT, "data", "exchange_calendar.csv")
 REGIME_PATH = os.path.join(ROOT, "results", "etf_book_return_regime.json")
+BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -111,6 +112,26 @@ def carry_regime(path=REGIME_PATH):
         "evidence_cutoff": obj.get("evidence_cutoff"),
     })
     return out
+
+
+def bets_face(path=BETS_JSON):
+    """How many independent bets the holdings on this page actually are.
+
+    Single implementation: the reader is `etf_book_bets_face.read_published`, so
+    the page quotes the same sentence the executable ticket carries (r1290).  A
+    missing or unreadable artifact reads as absent -- never as "five tickers means
+    five bets", which is exactly the reading this face exists to correct."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_bets_face as _bf
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160]}
+    try:
+        return dict(_bf.read_published(path))
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160]}
 
 
 def _load_ticket():
@@ -849,6 +870,7 @@ def build(with_stress=False):
         ],
     }
     page["today_action"] = today_action(page)
+    page["bets"] = bets_face()
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
@@ -903,6 +925,26 @@ def render_md(p):
     add("")
     add("剩余现金 ¥%s 买 %s（或等价），不要留活期。" % (format(p["cash_amount_cny"], ",.0f"), p["cash_leg"]))
     add("")
+    bf = p.get("bets") or {}
+    if bf.get("status") == "ok" and bf.get("sentence"):
+        add("## 这几只票到底有几个赌注")
+        add("")
+        add("**%s**" % bf["sentence"])
+        add("")
+        if bf.get("effective_bets") is not None and bf.get("nominal_bets") is not None:
+            add("- 数票数 %d 只，数方向 **%.2f** 个（这两个数不一样的原因：相关性）。"
+                % (round(float(bf["nominal_bets"])), float(bf["effective_bets"])))
+        if bf.get("risk_split") is not None:
+            add("- 风险不是按钱分的：按波动与相关拆到每只身上，等效 **%.2f** 个下注。"
+                % float(bf["risk_split"]))
+        if bf.get("evidence_cutoff"):
+            add("- 计价截止 %s（读的是这张单自己的持仓权重，不是另抄一份书）。"
+                % bf["evidence_cutoff"])
+        add("")
+    elif bf:
+        add("- 这几只票到底有几个赌注：%s（缺面不读成一个赌注）"
+            % (bf.get("note") or bf.get("detail") or "未产出"))
+        add("")
     cy = p.get("cash_yield") or {}
     if cy.get("annual_cny") is not None:
         add("## 现金那一半在赚多少")
@@ -1649,6 +1691,35 @@ def selftest():
         and _fake_ok["base"]["beta"] == 0.2 and _fake_ok["base"]["pp_per_100bp"] == 1.0
         and _fake_ok["window"]["first"] == "2024-01-02",
         "rows=%d base=%s" % (len(_fake_ok.get("rows") or []), (_fake_ok.get("base") or {}).get("beta")))
+
+    # 48-50. the bet count: five tickers are not five bets (r1172 face). The page must
+    # quote the artifact's own sentence, and must never fall back to counting names.
+    _sdir = os.path.dirname(os.path.abspath(__file__))
+    if _sdir not in sys.path:
+        sys.path.insert(0, _sdir)
+    import etf_book_bets_face as _bfm
+    _bf_live2 = bets_face()
+    _bf_pub = _bfm.read_published()
+    _md7 = render_md(page)
+    chk("L48 bet count: the page goes through the one reader the ticket also quotes (no second copy)",
+        _bf_live2.get("sentence") == _bf_pub.get("sentence")
+        and _bf_live2.get("effective_bets") == _bf_pub.get("effective_bets"),
+        "status=%s" % _bf_pub.get("status"))
+    if _bf_pub.get("status") == "ok" and _bf_pub.get("sentence"):
+        chk("L49 bet count: the live page prints the published sentence verbatim beside the order table",
+            _bf_pub["sentence"] in _md7 and "这几只票到底有几个赌注" in _md7,
+            "eff=%s nominal=%s" % (_bf_pub.get("effective_bets"), _bf_pub.get("nominal_bets")))
+        chk("L50 bet count: the counts printed are the artifact's numbers, not a fresh computation",
+            ("%.2f" % float(_bf_pub["effective_bets"])) in _md7
+            and ("%.2f" % float(_bf_pub["risk_split"])) in _md7
+            and ("数票数 %d 只" % round(float(_bf_pub["nominal_bets"]))) in _md7,
+            "eff=%s nominal=%s split=%s" % (_bf_pub.get("effective_bets"),
+                                            _bf_pub.get("nominal_bets"),
+                                            _bf_pub.get("risk_split")))
+    else:
+        chk("L49 bet count: an absent artifact reads as absent, never as five bets",
+            ("缺面不读成一个赌注" in _md7) and ("数方向" not in _md7),
+            "status=%s" % _bf_pub.get("status"))
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1
