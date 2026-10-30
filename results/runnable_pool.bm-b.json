@@ -24267,7 +24267,10 @@
    "worker_class": "code-change"
   },
   {
+   "claimed_at": "2026-10-30T14:20:00+08:00",
+   "claimed_by": "bm-b",
    "deliverable": "results/state_tilt/SELFRES-<cutoff>.json",
+   "done_at": "2026-10-30T14:55:00+08:00",
    "entered_at": "2026-10-30T13:52:00+08:00",
    "entered_by": "bm-b r1279",
    "evidence_cutoff": "2026-10-29",
@@ -24275,6 +24278,8 @@
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_note": "self row needs 515.8 sessions and has 408 (+107.8, eta 2027-04-23 at the cell density); cross column in the same cell needed 84.6, so the cross row had 4.8x what it needed and the self row is the one waiting; the observation sits 11.1% under its own floor (margin 0.889); prior -0.8027 (era_2023_2024, non-overlapping) would have needed 172.0 sessions, and the shortfall reads z=1.70 (60-draw band sd) to 1.98 (200-draw read), under the frozen 2.0 line so not distinguishable; early_three unreachable (2091 needed of 831 ever available); verdict self_row_resolves_with_more_sessions with a frozen continuation rule at n>=516. Card E253, digest DIGEST-20261030-r1280-e253",
+   "result_ref": "results/state_tilt/SELFRES-2026-10-29.json",
    "runner": "scripts/e253_self_row_resolution.py",
    "runner_args": [
     "run"
@@ -24283,32 +24288,103 @@
    "status": "done",
    "target": "scripts/e253_self_row_resolution.py (new runner)",
    "title": "the star's self row is unmeasured after 2025 while its cross column is not -- waiting state or a weaker channel?",
-   "worker_class": "code-change",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-30T14:20:00+08:00",
-   "done_at": "2026-10-30T14:55:00+08:00",
-   "result_ref": "results/state_tilt/SELFRES-2026-10-29.json",
-   "result_note": "self row needs 515.8 sessions and has 408 (+107.8, eta 2027-04-23 at the cell density); cross column in the same cell needed 84.6, so the cross row had 4.8x what it needed and the self row is the one waiting; the observation sits 11.1% under its own floor (margin 0.889); prior -0.8027 (era_2023_2024, non-overlapping) would have needed 172.0 sessions, and the shortfall reads z=1.70 (60-draw band sd) to 1.98 (200-draw read), under the frozen 2.0 line so not distinguishable; early_three unreachable (2091 needed of 831 ever available); verdict self_row_resolves_with_more_sessions with a frozen continuation rule at n>=516. Card E253, digest DIGEST-20261030-r1280-e253"
+   "worker_class": "code-change"
   },
   {
+   "claimed_by": "bm-b",
+   "closed_by": "bm-b r1281",
+   "deliverable": "results/state_tilt/BANDEXP-<cutoff>.json",
+   "entered_at": "2026-10-30T14:55:00+08:00",
+   "entered_by": "bm-b r1280",
+   "evidence_cutoff": "2026-10-29",
    "id": "E254-BAND-EXPONENT-INSIDE-THE-CELL",
    "lane": "cpu-only",
-   "worker_class": "code-change",
-   "status": "ready",
+   "owner": null,
+   "priority": 3,
+   "result_note": "band rebuilt inside era_2025_now at 7 session counts x 2 families, 7 seeds, 60 draws: the band DOES shrink within both families (head gamma 0.3186 r2 0.67, tail 0.6854 r2 0.85), but the head ladder's r2 sits under the frozen 0.80 floor, so the exponent is published as undetermined rather than as either the frozen 0.5 or the cross-era 0.244. E253's 516-session target becomes a range 434/420 sessions under the measured exponents (442/424 under the two reference exponents), so 'short by ~108 sessions' reads 'short by ~12..26' and the 2027-04-23 ETA is not a date the ladder supports. Draw-count sensitivity (60 vs 200 draws, 3 rungs) moves head 0.200 / tail 0.758: the endpoint noise is the binding constraint, not the exponent.",
+   "result_ref": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "result_ref_at": "2026-10-30T16:18:54",
    "runner": "scripts/e254_band_exponent_inside_cell.py",
-   "target": "scripts/e254_band_exponent_inside_cell.py (new runner)",
    "runner_args": [
     "run"
    ],
-   "deliverable": "results/state_tilt/BANDEXP-<cutoff>.json",
-   "priority": 3,
-   "owner": null,
-   "evidence_cutoff": "2026-10-29",
-   "entered_at": "2026-10-30T14:55:00+08:00",
-   "entered_by": "bm-b r1280",
-   "title": "does the shuffled band really shrink as 1/sqrt(n) inside one era, or was E253's 516-session target an artefact of the exponent?",
    "source": "E253 turned E252's bands into session counts and had to assume edge(n') = edge(n)*(n/n')**gamma. It checked the assumption ACROSS cells and got gamma=0.244 (r2 0.28) instead of 0.5, which moved the star's self-row target from 516 to 660 sessions -- but that fit compares four heterogeneous eras, so the discrepancy is as likely to be era heterogeneity as a wrong exponent. Measure the exponent INSIDE one cell instead: take era_2025_now's rows, cut them to n=200/300/408 prefixes, and rebuild only the shuffled band at each length (same permutation design, same 60 draws, same star column -- no new coefficient, no re-pricing). Then fit gamma on that cell's own three points and publish the star's self-row target under the measured exponent. If gamma is near 0.5 inside the cell, E253's 516 stands and the cross-era 0.244 is heterogeneity; if it is near 0.24, the row needs ~660 sessions and the 2027-04 ETA is optimistic by two quarters.",
-   "result_note": null
+   "status": "done",
+   "target": "scripts/e254_band_exponent_inside_cell.py (new runner)",
+   "title": "does the shuffled band really shrink as 1/sqrt(n) inside one era, or was E253's 516-session target an artefact of the exponent?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDDRAW-<cutoff>.json",
+   "done_at": "2026-10-30T17:5x+08:00",
+   "done_note": "verdict exponent_clears_on_draws_alone: r2 clears the 0.80 floor at 480 draws (HEAD 0.890, TAIL 0.933, draws_needed 480/240), BUT the endpoint is still rising with draws (per-rung rise 240->480 median +9.8% HEAD / +11.7% TAIL, 6 of 7 rungs each, endpoint_converged=false) so the 5% quantile under-reads the boundary and E253/E254 session targets were optimistic: the same inversion on the 480-draw edges asks 1055 (HEAD) / 681 (TAIL) sessions against 408 available. E254's rule re-applied at 480 draws still says undetermined, reason changed to families-straddle (gap 0.270 = 2.7x tol).",
+   "entered_at": "2026-10-30T16:18:54",
+   "entered_by": "bm-b r1281",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E255-BAND-DRAW-STARVATION",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "result_ref": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "runner": "scripts/e255_band_draw_starvation.py",
+   "runner_args": [
+    "run"
+   ],
+   "source": "E254 rebuilt the shuffled band inside one cell and could not name an exponent: head r2 0.67 against a 0.80 floor, while a 3-rung re-read at 200 draws gave head 0.200 vs tail 0.758. Two readings survive and they cost very different amounts: the min-over-60-shuffles endpoint is too noisy (more draws buys it), or seven rungs on 408 sessions cannot identify a slope at all (only a longer window buys it). Measure the endpoint spread as a function of draws at a FIXED rung set (60/120/240/480), propagate it into gamma's standard error, and publish the draw count at which the head family would clear the frozen 0.80 r2 floor -- or the statement that no draw count does, which closes the 'add more permutations' line for good.",
+   "status": "done",
+   "status_note": "r1282 bm-b: burned in-window (code-change card, autofill cannot ignite it)",
+   "target": "scripts/e255_band_draw_starvation.py (new runner)",
+   "title": "is E254's undetermined exponent starved of DRAWS or of RUNGS?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDDRAW-<cutoff>-d1920.json",
+   "done_at": "2026-10-30T18:5x+08:00",
+   "done_by": "bm-b r1283",
+   "done_note": "verdict increments_do_not_decay_with_draws: the endpoint never settles in the grid (settled_after_draws null in both families) and later doublings add no less than earlier ones -- median rise per doubling HEAD 8.85/1.59/9.83/5.25/10.27%, TAIL 5.45/0.00/11.67/6.99/8.82%; second-half-over-first ratio 1.88 (HEAD) / 3.23 (TAIL) at the 1920 top. Edge at n=408: 0.4549 (60) -> 0.6255 (480) -> 0.6691 (960) -> 0.7479 (1920), i.e. ~D^0.13. So the E253 session target is a function of the draw budget, not a number: 516 (E253) -> 1055/681 (480) -> 1250/735 (960) -> 1999/951 (1920) against 408 available, every value a floor. HEAD r2 is not monotone in draws either (0.890/0.924/0.825), so draws_needed=480 read off one grid point is not a settled property. Family gap 0.264 keeps E254's rule at undetermined, now for the straddle rather than the fit. Both faces (d960, d1920) published and verified; prefix nesting proved, not assumed (the 1920 rung table re-read on the 960 grid reproduces the 960 face's verdict).",
+   "entered_at": "2026-10-30T18:05:00+08:00",
+   "entered_by": "bm-b r1282",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E256-BAND-DRAW-CONTINUATION",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "result_ref": "results/state_tilt/BANDDRAW-2026-10-29-d1920.json",
+   "runner": "scripts/e256_band_draw_continuation.py",
+   "runner_args": [
+    "run",
+    "--grid",
+    "60,120,240,480,960,1920",
+    "--tag=-d1920"
+   ],
+   "source": "E255 measured the same seven rungs at 60/120/240/480 draws and found the endpoint still rising at the top of the grid (per-rung rise 240->480 median +9.8% HEAD / +11.7% TAIL, 6 of 7 rungs each; endpoint_converged=false), so the exponent had not converged either (HEAD 0.3481->0.3155, TAIL 0.6468->0.5855) and every session target derived from the band is a floor. Extend to 960 and 1920 draws (the same prefix machinery, so the 480 point is re-read as a prefix and nothing is re-priced) and publish: (a) the rung-by-rung rise at each count, (b) the count at which no rung moves more than 2%, and (c) gamma and the session targets at that count -- or the statement that the increment per doubling is flat (a heavy tail, where no count converges), which closes the band-target line for good.",
+   "status": "done",
+   "status_note": "r1283 bm-b: burned in-window (code-change card, no runner existed before this round)",
+   "target": "scripts/e255_band_draw_starvation.py (same runner, draws 960 and 1920)",
+   "title": "where does the band endpoint actually stop rising?",
+   "verdict": "increments_do_not_decay_with_draws",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDTOPFLIP-<cutoff>.json",
+   "entered_at": "2026-10-30T18:5x+08:00",
+   "entered_by": "bm-b r1283",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E257-BAND-AT-TOP-FLIPS",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e257_band_at_top_flips.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-30T18:5x+08:00",
+   "seeded_by": "bm-b r1283",
+   "source": "E255/E256 established that the shuffled band's 5% endpoint is still rising at 1920 draws and does not decay, so every 'inside the band' / 'outside the band' verdict in the star / own-row / band-exponent families was judged against edges measured at 60 draws. Take the published cells (E251/E252/E253/E254/E255 faces carry per-rung edges at 60/120/240/480/960/1920) and re-judge each cell against the top-draw edge: publish which verdicts FLIP, which survive, and by how much of the frozen tolerance. No new estimation, no panel re-read -- the band is already measured, the question is what the measurement changed.",
+   "status": "ready",
+   "target": "scripts/e257_band_at_top_flips.py (new runner)",
+   "title": "which published verdicts change when the band is taken at the top draw count?",
+   "worker_class": "code-change"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24323,7 +24399,7 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T14:55:00+08:00",
+ "updated_at": "2026-10-30T18:5x+08:00",
  "version": 1,
  "lane_machine": "bm-b"
 }

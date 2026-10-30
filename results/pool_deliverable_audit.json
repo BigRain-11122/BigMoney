@@ -1,6 +1,6 @@
 {
  "audit": "pool deliverable reconciliation",
- "ts": "2026-10-30T17:44:58+0800",
+ "ts": "2026-10-30T18:21:12+0800",
  "pool": "results/runnable_pool.json",
  "open_cards": 3,
  "counts": {
@@ -21,13 +21,18 @@
   {
    "id": "E272-ATLAS-COST20",
    "runner": "scripts/etf_book_phase_atlas.py"
+  },
+  {
+   "id": "E257-BAND-AT-TOP-FLIPS",
+   "runner": "scripts/e257_band_at_top_flips.py"
   }
  ],
  "runner_absent_ids": [
   "E272-ATLAS-COST0",
-  "E272-ATLAS-COST20"
+  "E272-ATLAS-COST20",
+  "E257-BAND-AT-TOP-FLIPS"
  ],
- "runnable_open_cards": 1,
+ "runnable_open_cards": 0,
  "cards": [
   {
    "id": "E272-ATLAS-COST0",
@@ -68,13 +73,13 @@
    "runner_evidence": "the declared runner is not on disk in this worktree"
   },
   {
-   "id": "E256-BAND-DRAW-CONTINUATION",
+   "id": "E257-BAND-AT-TOP-FLIPS",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/BANDDRAW-<cutoff>-d960.json",
-   "deliverable_template": "results/state_tilt/BANDDRAW-<cutoff>-d960.json",
+   "deliverable": "results/state_tilt/BANDTOPFLIP-<cutoff>.json",
+   "deliverable_template": "results/state_tilt/BANDTOPFLIP-<cutoff>.json",
    "declared_prose_stripped": false,
-   "entered_at": "2026-10-30T18:05:00+08:00",
+   "entered_at": "2026-10-30T18:5x+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
@@ -82,9 +87,9 @@
    "reading": "NO_FACE",
    "evidence": "no file matches the declared deliverable template",
    "near_miss": [],
-   "runner_reading": "RUNNER_PRESENT",
-   "runner": "scripts/e255_band_draw_starvation.py",
-   "runner_evidence": "runner is on disk"
+   "runner_reading": "RUNNER_ABSENT",
+   "runner": "scripts/e257_band_at_top_flips.py",
+   "runner_evidence": "the declared runner is not on disk in this worktree"
   }
  ]
 }

@@ -236,6 +236,15 @@ LEGS = [
     # sits inside the true boundary), so the shortfall is DRAWS, not rungs -- and the exponent
     # itself has not converged either. Reads the published face only, no panel, no refit. <1s.
     ("band_draw_starvation", ["python", "scripts/e255_band_draw_starvation.py", "verify"]),
+    # E256: E255 left the endpoint rising 9.8%/11.7% per doubling at 480 draws and asked at which
+    # count no rung moves more than 2%, or whether the increment per doubling is flat. This leg
+    # carries the answer: on the same prefix-nested ladder stretched to 960 and 1920 draws the
+    # endpoint moves 5.2/7.0% and then 10.3/8.8% per doubling -- it never settles, and the rise is
+    # not decaying (later doublings add more than earlier ones), so the band has no countable
+    # stopping point inside the budget and every session target divided by it is a floor.
+    # Reads the published faces only, no panel, no refit. <1s.
+    ("band_draw_continuation", ["python", "scripts/e256_band_draw_continuation.py", "verify",
+                                "--tag=-d1920"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

@@ -4460,6 +4460,104 @@ def main() -> int:
     except Exception as e:
         check("product: draws move the band's LEVEL, not only its noise",
               False, repr(e)[:160])
+
+    # E256: E255 left the endpoint rising at 480 draws and asked where it stops moving. This leg
+    # guards the continuation face. What can fabricate a claim here: a "settled at N" flag on a
+    # ladder whose own steps still move, an edge that is not the one its rungs carry, and -- the
+    # load-bearing one -- a face whose shorter draw grid is not actually a PREFIX of the longer
+    # one, which would make the whole prefix argument an assumption rather than a measurement.
+    try:
+        _bad56 = []
+        _p56 = os.path.join("results", "state_tilt", "banddraw-d1920_latest.json")
+        _p56s = os.path.join("results", "state_tilt", "banddraw-d960_latest.json")
+        _f56 = _f56s = None
+        for _p in (_p56, _p56s):
+            if not os.path.exists(_p):
+                _bad56.append("face missing: %s" % _p)
+        if not _bad56:
+            with io.open(_p56, encoding="utf-8") as _fh56:
+                _f56 = json.load(_fh56)
+            with io.open(_p56s, encoding="utf-8") as _fh56s:
+                _f56s = json.load(_fh56s)
+        _m56 = None
+        if _f56 is not None:
+            try:
+                import e256_band_draw_continuation as _m56
+            except Exception as _e56:
+                _bad56.append("module does not import: %r" % (_e56,))
+        if _m56 is not None:
+            for _tag, _face in (("-d1920", _f56), ("-d960", _f56s)):
+                for _p in (_m56.verify(tag=_tag).get("problems") or []):
+                    _bad56.append("verify%s: %s" % (_tag, _p))
+            _grid56 = (_f56.get("frozen_spec") or {}).get("draw_grid") or []
+            if len(_grid56) < 3:
+                _bad56.append("the face measured %d draw counts (need >=3)" % len(_grid56))
+            # ACTIVITY: the experiment must have moved something between the smallest count and top
+            _moved56 = 0
+            for _r in (_f56.get("rungs") or []):
+                _bd = _r.get("by_draws") or {}
+                _lo = _bd.get(str(_grid56[0])) or {}
+                _hi = _bd.get(str(_grid56[-1])) or {}
+                if (_lo.get("edge_self") is not None and _hi.get("edge_self") is not None
+                        and _hi["edge_self"] > _lo["edge_self"]):
+                    _moved56 += 1
+            if not _moved56:
+                _bad56.append("no rung's edge moved across the whole draw grid")
+            for _k in ("head", "tail"):
+                _rows = [r for r in (_f56.get("rungs") or []) if r.get("family") == _k]
+                if not _rows:
+                    _bad56.append("family %s measured no rungs" % _k)
+                    continue
+                _big = max(_rows, key=lambda r: r.get("sessions") or 0)
+                _want_edge = ((_big.get("by_draws") or {}).get(str(_grid56[-1])) or {})
+                _got = (((_f56.get("continuation") or {}).get(_k) or {}).get("tops") or {})
+                if _want_edge.get("edge_self") is None or _got.get("edge_at_largest_rung") is None:
+                    _bad56.append("family %s publishes no top edge" % _k)
+                elif abs(_want_edge["edge_self"] - _got["edge_at_largest_rung"]) > 1e-12:
+                    _bad56.append("family %s top edge does not reproduce from its rungs" % _k)
+                _an = _m56.analyse(_rows, tuple(_grid56))
+                if _an["settled"]["draws"] != (((_f56.get("continuation") or {}).get(_k)
+                                                or {}).get("settled") or {}).get("draws"):
+                    _bad56.append("family %s settled_at does not reproduce" % _k)
+                # PREFIX: the 960 face must be the 1920 rung table read on the first five counts.
+                # If this fails the two faces are two experiments and the continuation is invalid.
+                _grid960 = tuple((_f56s.get("frozen_spec") or {}).get("draw_grid") or [])
+                if _grid960:
+                    _an960 = _m56.analyse(_rows, _grid960)
+                    _pub960 = ((_f56s.get("continuation") or {}).get(_k) or {}).get("state")
+                    if _an960["state"] != _pub960:
+                        _bad56.append("family %s: the 1920 rungs read on %s say %r, the 960 face "
+                                      "published %r -- the grids are not prefixes of one run"
+                                      % (_k, list(_grid960), _an960["state"], _pub960))
+            _grid960 = tuple((_f56s.get("frozen_spec") or {}).get("draw_grid") or [])
+            if _grid960:
+                _an_all = {_k: _m56.analyse([r for r in (_f56.get("rungs") or [])
+                                             if r.get("family") == _k], _grid960)
+                           for _k in ("head", "tail")}
+                _tot56 = _m56.verdict_from(_an_all, top=_grid960[-1])[0]
+                if _tot56 != _f56s.get("verdict"):
+                    _bad56.append("the 960 verdict does not follow from the 1920 rung table "
+                                  "(%r vs %r)" % (_tot56, _f56s.get("verdict")))
+        _s56 = (_f56 or {}).get("summary") or {}
+        check("product: the band endpoint is scheduled, not waited out",
+              not _bad56, "; ".join(_bad56)[:220]
+              or "verdict %s; settled after %s; state %s; rise/doubling %s; plateau %s; "
+                 "edge@%s head %.4f tail %.4f; targets %s of %s available"
+                 % (_s56.get("verdict"), _s56.get("settled_after_draws"),
+                    _s56.get("family_state"),
+                    {k: {kk: (None if vv is None else round(vv, 2)) for kk, vv in v.items()}
+                     for k, v in (_s56.get("median_rise_pct_by_step") or {}).items()},
+                    {k: (None if v is None else round(v, 2))
+                     for k, v in (_s56.get("plateau_pct_per_doubling") or {}).items()},
+                    ((_f56 or {}).get("frozen_spec") or {}).get("draw_grid", [None])[-1],
+                    ((_s56.get("edge_at_largest_rung") or {}).get("head") or 0.0),
+                    ((_s56.get("edge_at_largest_rung") or {}).get("tail") or 0.0),
+                    {k: (None if v is None else round(v))
+                     for k, v in (((_s56.get("secondary_reads") or {})
+                                   .get("target_sessions_at_top_gamma")) or {}).items()},
+                    (_s56.get("secondary_reads") or {}).get("target_sessions_available")))
+    except Exception as e:
+        check("product: the band endpoint is scheduled, not waited out", False, repr(e)[:160])
     return _finish()
 
 
