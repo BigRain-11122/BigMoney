@@ -34,7 +34,7 @@ from scripts import etf_phase_beta_target as BT     # noqa: E402
 from scripts import etf_book_order as O             # noqa: E402
 from scripts import etf_variants_null_rolling as V  # noqa: E402
 from scripts.etf_asset_class import classify        # noqa: E402
-from scripts.etf_book_ceo_page import stress_stats  # noqa: E402
+from scripts.etf_book_ceo_page import panel_fingerprint, stress_stats  # noqa: E402
 from config import PATHS                            # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -207,12 +207,8 @@ def stress_inputs_digest(close, priced_bar, capital, windows, menu):
     ks = ",".join("%.8f:%s" % (float(r.get("beta")), "none" if r.get("k") is None else "%.10f" % float(r["k"]))
                   for r in menu or [])
     h.update(("|k|" + ks).encode())
-    if close is not None and len(getattr(close, "index", [])):
-        try:
-            h.update(("|shape|%d,%d" % close.shape).encode())
-            h.update(pd.util.hash_pandas_object(close.fillna(0.0), index=True).values.tobytes())
-        except Exception:
-            h.update(b"|unhashable")
+    # one implementation of the panel hash, shared with the CEO page's own replay cache
+    h.update(("|panel|" + panel_fingerprint(close)).encode())
     return h.hexdigest()
 
 

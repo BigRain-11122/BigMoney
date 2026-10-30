@@ -6856,3 +6856,33 @@ Pos: scripts/etf_book_production.py (control_moved) + scripts/etf_book_buffer_ad
 scripts/etf_book_hysteresis.py + scripts/etf_book_beta_menu.py (stress_inputs_digest)
 + digest DIGEST-20261031-r1374-date-only-gates.md.
 
+
+## E287 A defect fixed in one copy is still live in the other: the CEO page kept its own replay cache keyed on the date (2026-10-31 r1375 bm-c)
+
+r1374 fixed the per-tier stress replay cache and wrote the rule down as `stress_inputs_digest`. The
+same pattern lived one file away: `etf_book_ceo_page.build_stress` replays today's weights over the
+panel and caches the answer in its OWN directory keyed on the priced bar, guarding the hit with a
+capital equality check. That guard answers "was this priced with the same money", never "with the
+same book, on the same panel". Both inputs move while the date does not: a flip repair inside the
+panel rewrites the worst N-day window on an unchanged bar, and a re-priced ticket rescales the
+weights on the very same bar. A reader hitting either would be quoted last world's drawdown with a
+today date beside it.
+
+The fix is the same shape, and it is deliberately NOT a second implementation: `panel_fingerprint()`
+now hashes the panel's values (shape + hash_pandas_object) in the CEO page, and
+`etf_book_beta_menu.stress_inputs_digest` imports it instead of hashing the panel itself. One rule,
+two call sites -- the copy is what the next defect grows from.
+
+Two smaller lessons rode along. First, a display string must never be able to abort a run:
+`build_stress` now resolves the panel BEFORE the cache probe (so the probe can hash what it would
+use), and its error path still returns an honest error dict rather than raising. Second, the
+selftest itself was red for weeks in a way no one had harvested: `cash_yield` formatted its panel
+path with a bare os.path.relpath, which raises ValueError across drives -- and the selftest pins
+fixtures under %TEMP% (C:) while the repo sits on K:, so `etf_book_ceo_page.py selftest` died at
+L1473 before printing a count. `_rel()` now falls back to the absolute path (same family as
+pool_deliverable_audit._under in r1371). The suite reads 49/49 PASS after the fix, 52/52 with the
+three new cache legs.
+
+Pos: scripts/etf_book_ceo_page.py (panel_fingerprint / stress_cache_digest / build_stress /
+_rel, selftest L51-L53) + scripts/etf_book_beta_menu.py (panel_fingerprint import)
++ digest DIGEST-20261031-r1375-second-copy-cache.md.
