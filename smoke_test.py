@@ -4649,6 +4649,93 @@ def main() -> int:
         check("product: the published band verdicts are re-judged at the top draw count",
               False, repr(e)[:160])
 
+    # E259: E258 published each window's multiplier as min..max over three seeds. Three draws are
+    # not a distribution, so this leg guards the face that replaces the range with the sample's own
+    # [p05, p95]. What can fabricate a claim here: an interval that is not read off the stored
+    # per-seed multipliers, a row judged against another window's interval, and -- the degenerate
+    # reading this family admits -- an interval whose lower end sits at exactly 1.0 without naming
+    # a seed whose band endpoint really never moved again.
+    try:
+        _bad59 = []
+        _p59 = os.path.join("results", "state_tilt", "bandwindist_latest.json")
+        _f59 = None
+        if not os.path.exists(_p59):
+            _bad59.append("face missing: %s" % _p59)
+        else:
+            with io.open(_p59, encoding="utf-8") as _fh59:
+                _f59 = json.load(_fh59)
+        _m59 = None
+        if _f59 is not None:
+            try:
+                import e259_band_multiplier_distribution as _m59
+            except Exception as _e59:
+                _bad59.append("module does not import: %r" % (_e59,))
+        if _m59 is not None:
+            _v59 = _m59.verify()
+            for _p in (_v59.get("problems") or [])[:4]:
+                _bad59.append("verify: %s" % _p)
+        _w59 = (_f59 or {}).get("windows") or {}
+        _spread = (_f59 or {}).get("interval_spread") or {}
+        if len(_w59) < 3:
+            _bad59.append("fewer than three published windows were measured (%d)" % len(_w59))
+        _widths = []
+        for _cell, _tab in _w59.items():
+            for _arm, _rec in (_tab or {}).items():
+                _ms59 = _rec.get("seed_multipliers") or []
+                if len(_ms59) < 3:
+                    _bad59.append("%s/%s carries fewer than three streams" % (_cell, _arm))
+                    continue
+                _lo59, _hi59 = _rec.get("interval") or [None, None]
+                if _lo59 is None or _hi59 is None:
+                    _bad59.append("%s/%s has no interval" % (_cell, _arm))
+                    continue
+                _widths.append(_hi59 - _lo59)
+                # the interval must be the sample's own p05/p95, not a min/max dressed up
+                _srt59 = sorted(_ms59)
+                _med59 = _srt59[(len(_srt59) - 1) // 2]
+                if not (min(_ms59) <= _lo59 <= _med59 <= _hi59 <= max(_ms59)):
+                    _bad59.append("%s/%s: interval is not inside its own sample" % (_cell, _arm))
+                if abs(_lo59 - 1.0) <= 1e-12 and not (_rec.get("n_endpoint_already_attained") or 0):
+                    _bad59.append("%s/%s: lower end is exactly one but no seed reads one -- the "
+                                  "interval is not read off the streams" % (_cell, _arm))
+        if not _widths or max(_widths) <= 0:
+            _bad59.append("every interval has zero width -- one number copied, not measured")
+        # a row judged locally must carry ITS OWN window's interval
+        for _r in (_f59 or {}).get("rows") or []:
+            if _r.get("verdict_median") in (None, "unjudgeable",
+                                            "published_flag_not_reproduced"):
+                continue
+            _arm59 = "self:%d" % int(float(_r.get("band_draws") or 200))
+            _rec59 = ((_w59.get(_r.get("cell")) or {}).get(_arm59)) or {}
+            _iv = _rec59.get("interval")
+            if not _iv:
+                _bad59.append("%s/%s says it was judged but its arm has no interval"
+                              % (_r.get("cell"), _r.get("row")))
+            elif (_r.get("interval") or [None, None]) != _iv:
+                _bad59.append("%s/%s carries interval %r, its arm's is %r"
+                              % (_r.get("cell"), _r.get("row"), _r.get("interval"), _iv))
+        _s59 = (_f59 or {}).get("summary") or {}
+        check("product: the draw multiplier is a distribution, not a three-seed range",
+              not _bad59, "; ".join(_bad59)[:220]
+              or "verdict %s; %s intervals over %s streams, width %.3f..%.3f median %.3f; "
+                 "%.2f..%.2f x the three-seed range (median %.2f, %s of %s wider); %s row(s) "
+                 "interval-dependent, %s survive outside at every end; %s seed(s) read exactly "
+                 "one because their endpoint never moved again"
+                 % ((_f59 or {}).get("verdict"), _s59.get("intervals"), _s59.get("seeds"),
+                    _s59.get("interval_width_min") or 0, _s59.get("interval_width_max") or 0,
+                    _s59.get("interval_width_median") or 0,
+                    _s59.get("ratio_vs_three_seed_min") or 0,
+                    _s59.get("ratio_vs_three_seed_max") or 0,
+                    _s59.get("ratio_vs_three_seed_median") or 0,
+                    _s59.get("intervals_wider_than_three_seeds"), _s59.get("intervals"),
+                    _s59.get("rows_interval_dependent"),
+                    _s59.get("rows_survive_outside_at_every_end"),
+                    _s59.get("seeds_endpoint_already_attained")))
+    except Exception as e:
+        check("product: the draw multiplier is a distribution, not a three-seed range",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

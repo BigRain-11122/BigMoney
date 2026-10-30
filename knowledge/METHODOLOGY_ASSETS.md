@@ -4944,3 +4944,45 @@ What the measurement actually buys: **resolution, not correction**. Same-base co
 Pits this round: ① the first cut measured every window on the five-member basket; `early_three` is a THREE-member window, so intersecting five level series over 2013-2016 returned 0 sessions and the face read as "unmeasurable" when the cause was the wrong universe -- pin dates + star + MEMBERS. ② `published_verdicts()` returned only the verdict string and a later `rec.update(...)` overwrote the attached value with `None`, so the comparison column printed `n/a..n/a` for all sixteen rows (worse than absent: it reads as "E257 has no range"). ③ the first narrative claimed early_three was "under-widened by 10.5%", which compared a 60-draw measurement against a 200-draw table range; re-read at the same base it was inside its own range. The cross-base block is still published with a `BASIS_WARNING`, and the same-base block is the headline. ④ the seeded card declared `..._per_window.py` / `BANDWINMULT-<cutoff>.json`; writing `..._in_each_window.py` / `WINDOWMULT-*` would have left a phantom card (`runner_absent`) -- names come from the card.
 
 How to apply: > when a face borrows a parameter measured elsewhere, treat the borrow as a named compromise and measure it where it is applied as soon as a build exists; > anything pinned from a published cell must pin the whole universe (dates + star + MEMBERS) -- a star pinned into a wider basket is a different experiment whose failure looks like "no data"; > before comparing a multiplier (or any scaled quantity) to a published range, check that both sides were read at the SAME base -- two bases, one subtraction is not a comparison; > a borrowed range that spans rungs the row never had is wide for a reason that has nothing to do with the row: publish the width beside the point and let the reader see the resolution gain; > a multiplier from 3 seeds is a range -- say `depends_on_seed_scatter` rather than picking the median.
+
+
+### E259 -- a multiplier published as min..max over three seeds is a range, not a distribution (r1286 bm-b)
+
+`scripts/e259_band_multiplier_distribution.py` (selftest 30/30) -- face `results/state_tilt/BANDWINDIST-2026-10-29.json`
+
+E258 published each window's draw multiplier as `min..max` over **three** shuffle streams, and every
+"outside at every seed" statement in the star family rested on that range. Three draws are not a
+distribution. E259 rebuilds the same band inside the same four published windows with **40**
+independent prefix-nested streams (the first three are E258's exact seeds) and publishes the
+sample's own `[p05, p95]` per (window, leg, published base count), then re-judges every published
+row at the interval's tight end, its median, and its wide end.
+
+Reading: 16 of 16 intervals are **wider** than the three-seed range they replace -- ratios 1.09..
+**11.77**, median **2.25**. Width 0.519..1.196 (median 0.827). Of 16 re-judged rows, 10 are outside
+at the median, 2 inside, 4 unjudgeable; **3 change verdict inside their own interval** (outside at
+the tight end and at the median, inside at the wide end -- `early_three` cross and `early_three`
+star lag-1 residual, both `b = -0.4942`, plus `era_2023_2024`'s residual at `b = -0.8332`); 7 are
+outside at every end. The worst understatement is `era_2025_now self:60`: three seeds said the range
+was 0.088 wide, forty streams say 1.040 (11.77x). E258's own three-seed per-seed table reproduces
+bit-for-bit on 8/8 of the arms it published.
+
+Degenerate reading, published rather than cleaned: **52 of 640** per-seed multipliers are *exactly*
+1.0, because a prefix-nested band's endpoint cannot move again once the draw that sets it has
+already arrived inside the base prefix. Those seeds drag `p05` to 1.000 in 14 of 16 arms; dropping
+them as degenerate would make the interval narrower and prettier than the streams it came from.
+
+Pit this round: **a lookup keyed more coarsely than the arm it claims to read silently returns
+another arm's numbers.** E258's window record is keyed by base count alone and carries the default
+leg, so it holds the SELF stream; this face's first run looked up `cross:60`, read the self stream,
+and reported `8/16` "non-reproducing" rows -- a pure lookup error dressed as a non-reproduction.
+The pin now covers only the arm E258 published (8/8) and the other eight say
+`e258_published = no`. Sibling: `run` and `verify` are a pair -- `verify` re-derives each interval
+from the stored per-seed streams and each row's median verdict from its own arm's multiplier.
+
+How to apply: > never publish a Monte-Carlo parameter as `min..max` over a handful of seeds --
+publish the sample's quantiles and the seed count so the reader sees the resolution; > when a face
+stores a table under a coarser key than the arm it belongs to, every downstream lookup must carry
+the arm name or it will read the wrong stream and blame the upstream face; > count and publish the
+degenerate streams that a prefix-nest admits (multiplier exactly 1.0) instead of letting them set
+the interval's floor invisibly; > a verdict that only holds at one end of a published interval is
+`interval_dependent`, not flipped.

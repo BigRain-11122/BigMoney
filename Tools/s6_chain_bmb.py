@@ -264,6 +264,15 @@ LEGS = [
     ("band_multiplier_in_each_window",
      ["python", "scripts/e258_band_multiplier_per_window.py", "verify"]),
 
+    # E259: E258 published each window's multiplier as min..max over THREE seeds. Three draws are
+    # not a distribution: this leg re-derives, from the published 40-stream sample, that every
+    # interval [p05,p95] is wider than the three-seed range it replaces (16/16, ratio median 2.25)
+    # and that three published rows change verdict between the tight and the wide end inside their
+    # own interval. Reads the published face only (raw per-seed edge tables are on it), no panel,
+    # no refit, no re-pricing. <1s.
+    ("band_multiplier_distribution",
+     ["python", "scripts/e259_band_multiplier_distribution.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
