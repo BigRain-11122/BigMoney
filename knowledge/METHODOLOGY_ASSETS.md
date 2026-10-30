@@ -5334,3 +5334,54 @@ Evidence: `scripts/e275_screen_margin_budget.py` (selftest 25/25, verify 0 probl
 4 open / 2 spent / 4 spent_by_build / 2 straddles), S6 leg `screen_margin_budget` (rc=0, 0.14s),
 smoke leg `a cleared row is not equally cleared` (1/1 PASS standalone), digest
 `research/digests/DIGEST-20261031-r1301-e275-screen-margin-budget.md`.
+
+## E278 -- a floor that cannot move is a property of the BAND BUILD, not of the windows: census every published lower end, then re-read the same stream through a different band rule
+
+E272 put both tails of the flip budget on one ruler and found the tight tail reaching none of the 12
+measured rows, because every published p05 in the family is >= 1.0000 while 10 of 12 flips need a
+multiplier LARGER than that.  "The tight end never narrows" is a claim about windows, and it is
+decidable without a single new draw.
+
+What the build actually does, read off the source rather than assumed: `BAND_PCT = (0.0, 100.0)` and
+`lo = vals[floor(pct/100 * (n-1))]`, so **lo is the MINIMUM of the per-draw coefficient** over a
+NESTED prefix.  The minimum of a growing sample can only move outward, so |lo| is monotone
+non-decreasing in draws and m = |lo|(top) / |lo|(base) cannot fall below 1 for base < top whenever the
+extreme sits on the negative side.  The endpoint's own draw exponent is already published
+(BANDDRAW: gamma 0.348 head / 0.647 tail, endpoint rose on 6 of 7 rungs with a minimum rise of 0.0%),
+which is the same statement measured rather than derived.
+
+The census, on every published BAND* face on disk: **140 multiplier lower ends (68 p05 + 72 range
+lows), not one below 1.0, 39 exactly 1.0.**  The exact ones are not a window that narrowed and then
+stopped -- they are the degenerate branch (the extremum arrived inside the base prefix), and
+BANDNEAR1 already publishes the proof: drop one seed and those rows lift to 1.11..1.20.  The
+counterfactual closes it: the SAME synthetic stream read as a 5% band yields m = 0.922, so the floor
+comes from the rule, and a percentile band would revive every tight-end question the family has been
+answering with zeros.
+
+Three reusable pieces:
+
+> when a measurement sits exactly on a floor, ask whether the floor is reachable at all -- write the
+> statistic's definition (which index, of what, over which sample) and check whether the floor is a
+> property of the DEFINITION.  A tail that can only ever return zero is not evidence about the world;
+> publishing it repeatedly manufactures a finding out of an identity.
+> the counterfactual must run on the same stream: rerunning a different sample with a different rule
+> confounds two changes, and the only clean reading is one sample through two rules (here extremum
+> band m = 1.000 vs 5% band m = 0.922).
+> publish the branch that would falsify you -- the monotonicity holds only while the extreme is
+> negative; an all-positive draw stream shrinks |min| and m < 1 becomes reachable.  Carrying that
+> branch as a named alternative (with a leg that exercises it) is what keeps the verdict scoped
+> instead of absolute.
+
+Two pits caught in the same round: (1) the first census walked the `*_latest` MIRRORS beside their
+dated twins and counted 136 p05 where there are 68 -- a family census must exclude mirrors explicitly
+and list them; (2) the face's own counterfactual first returned m = 1.0000 for the *extremum* leg
+because the synthetic gaussian happened to put its minimum inside the base prefix, i.e. the very
+degeneracy the face is about -- strictness needed a stream whose extreme arrives after the base, and
+degeneracy needed its own separate assertion.
+
+Evidence: `scripts/e277_tight_multiplier_floor.py` (selftest 23/23, verify 0 problems),
+`results/state_tilt/BANDFLOOR-2026-10-29.json`
+(verdict=`tight_end_dead_by_construction_family_should_stop_publishing_tight_pass_checks`; 140 lower
+ends, 0 below 1.0, 39 exactly 1.0; counterfactual 5% band m=0.922), S6 leg `tight_multiplier_floor`
+(rc=0, 0.11s), smoke leg `the tight multiplier floor is the band build` (1/1 PASS standalone), digest
+`research/digests/DIGEST-20261031-r1302-e277-tight-multiplier-floor.md`.

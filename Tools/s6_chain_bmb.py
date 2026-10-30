@@ -381,6 +381,16 @@ LEGS = [
     ("flip_budget_two_tails",
      ["python", "scripts/e272_flip_budget_two_tails.py", "verify"]),
 
+    # E277: why the tight tail is inert -- it is a property of the BAND BUILD, not of the windows.
+    # lo is the MINIMUM of a nested draw prefix (BAND_PCT 0..100), so |lo| can only widen and
+    # m = |lo|(top)/|lo|(base) cannot fall below 1 while the published draw exponent is positive
+    # (0.348 head / 0.647 tail, endpoint never narrowed on 6 of 7 rungs). All 140 published
+    # multiplier lower ends on disk sit >= 1.0, 39 of them exactly 1.0 (the degenerate branch: one
+    # seed away they lift to 1.11..1.20). A 5% band on the same stream yields m = 0.92, so the
+    # floor comes from the build. The leg re-derives the census and the counterfactual. <1s.
+    ("tight_multiplier_floor",
+     ["python", "scripts/e277_tight_multiplier_floor.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

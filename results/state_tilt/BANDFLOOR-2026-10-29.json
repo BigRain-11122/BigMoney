@@ -1,0 +1,377 @@
+{
+ "band_build": {
+  "band_mode": "full_draw_range_%d",
+  "band_pct": [
+   0.0,
+   100.0
+  ],
+  "full_draw_range": true,
+  "lo_is_the_lowest_draw": true,
+  "reading": "lo is the minimum of the per-draw coefficient over the nested prefix, so the lower endpoint is an extremum of a growing sample",
+  "source": "e251_star_own_component.py"
+ },
+ "census": [
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "n_p05": 32,
+   "n_range_lo": 0,
+   "p05_below_one": 0,
+   "p05_exactly_one": 8,
+   "p05_max": 1.2005464006484903,
+   "p05_min": 1.0,
+   "range_lo_below_one": 0
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "n_p05": 4,
+   "n_range_lo": 0,
+   "p05_below_one": 0,
+   "p05_exactly_one": 4,
+   "p05_max": 1.0,
+   "p05_min": 1.0,
+   "range_lo_below_one": 0
+  },
+  {
+   "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+   "n_p05": 0,
+   "n_range_lo": 72,
+   "p05_below_one": 0,
+   "p05_exactly_one": 0,
+   "p05_max": null,
+   "p05_min": null,
+   "range_lo_below_one": 0
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "n_p05": 16,
+   "n_range_lo": 0,
+   "p05_below_one": 0,
+   "p05_exactly_one": 8,
+   "p05_max": 1.1064853190231985,
+   "p05_min": 1.0,
+   "range_lo_below_one": 0
+  },
+  {
+   "face": "BANDWINDIST-2026-10-29.json",
+   "n_p05": 16,
+   "n_range_lo": 0,
+   "p05_below_one": 0,
+   "p05_exactly_one": 8,
+   "p05_max": 1.1064853190231985,
+   "p05_min": 1.0,
+   "range_lo_below_one": 0
+  }
+ ],
+ "counterfactual_percentile_band": {
+  "band_pct": 5.0,
+  "extremum_multiplier": 1.0,
+  "lo_base": 0.9912570596797203,
+  "lo_top": 0.913960434052951,
+  "multiplier": 0.9220216139981448
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "branch_disclosure": "the claim holds only where the endpoint's extreme is on the negative side; if every draw were positive |min| would shrink and m < 1 would be reachable -- published as a branch, not assumed away",
+  "design": "census every published multiplier lower end on the BAND* family and read the band build (percentile + which end lo takes) off the source",
+  "no_new_draws": "no shuffle stream is drawn from the panel; the counterfactual runs on a fixed synthetic stream whose seed is frozen below",
+  "synthetic_seed": 20261031,
+  "why_not_min_max": "a range over three seeds cannot answer this: p05 interpolates inside the seed sample, so the floor can sit at exactly 1.0 without any seed having narrowed"
+ },
+ "generated": "2026-10-31T04:50:11",
+ "ledger_sample": [
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1099878591283634
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.1008218707620367
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1780607719943013
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.068797342014263
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0977247568597515
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.1064853190231985
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1064853190231985
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0665877170056068
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0437901478662597
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1283141147767746
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0412099636517933
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0666547450688164
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1002638071885753
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0801924945534283
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.2005464006484903
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.032712941494945
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.009502997066893
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.118195226230823
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0456918932465946
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0961484198644305
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.0961484198644305
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.1001339858206338
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/full/p05",
+   "value": 1.0931596394888732
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "kind": "p05",
+   "path": "/arms/[]/trimmed/p05",
+   "value": 1.183416233649121
+  }
+ ],
+ "mirrors_excluded": [
+  "bandarrival_latest.json",
+  "bandarrivalate_latest.json",
+  "bandbucket_latest.json",
+  "banddonorchoice_latest.json",
+  "banddraw-d1920_latest.json",
+  "banddraw-d960_latest.json",
+  "banddraw_latest.json",
+  "bandexp_latest.json",
+  "bandfields_latest.json",
+  "bandflipbudget_latest.json",
+  "bandmargin_latest.json",
+  "bandnear1_latest.json",
+  "bandpath_latest.json",
+  "bandpooled_latest.json",
+  "bandscreen_latest.json",
+  "bandscreenbudget_latest.json",
+  "bandstraddlesweep_latest.json",
+  "bandthreshguard_latest.json",
+  "bandtight_latest.json",
+  "bandtopflip_latest.json",
+  "bandtransfer_latest.json",
+  "bandwindist_latest.json",
+  "bandwinmult_latest.json"
+ ],
+ "no_bill": "descriptive census over published faces; no trial, no ledger booking",
+ "published_draw_exponent": {
+  "any_family_narrowed": false,
+  "degenerate_branch": {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "lift_max": 1.2005464006484903,
+   "lift_min": 1.1099878591283634,
+   "reading": "every exact-1.0 row on BANDNEAR1 is ONE seed away from a multiplier above 1, so those ones are the degenerate branch, not a window that narrowed and then stopped",
+   "rows_at_the_floor": 4
+  },
+  "families": {
+   "head": {
+    "gamma": 0.348092935027523,
+    "median_rise_pct": 9.832374322399993,
+    "min_rise_pct": 0.0,
+    "never_narrowed": true,
+    "r2": 0.5390723169699619,
+    "rungs": 7,
+    "rungs_that_rose": 6
+   },
+   "tail": {
+    "gamma": 0.6467563021416926,
+    "median_rise_pct": 11.669183764412148,
+    "min_rise_pct": 0.0,
+    "never_narrowed": true,
+    "r2": 0.6974275991072029,
+    "rungs": 7,
+    "rungs_that_rose": 6
+   }
+  },
+  "gamma_max": 0.6467563021416926,
+  "gamma_min": 0.348092935027523,
+  "gammas_positive": true,
+  "published_tight_reach": {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "p05_floor": 1.0,
+   "reachable_tight_indices": [],
+   "rows_flip_needs_narrowing": 2,
+   "rows_measured": 12
+  }
+ },
+ "source_code": "e251_star_own_component.py",
+ "source_faces": [
+  "BANDDRAW-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDFLIPBUDGET-2026-10-29.json"
+ ],
+ "study": "e277_tight_multiplier_floor",
+ "summary": {
+  "any_family_narrowed": false,
+  "band_pct": [
+   0.0,
+   100.0
+  ],
+  "below_one": 0,
+  "counterfactual_breaks_the_floor": true,
+  "counterfactual_extremum_multiplier": 1.0,
+  "counterfactual_pct_multiplier": 0.9220216139981448,
+  "degenerate_rows": 4,
+  "exactly_one": 39,
+  "faces_with_multiplier_numbers": 5,
+  "full_draw_range": true,
+  "gamma_max": 0.6467563021416926,
+  "gamma_min": 0.348092935027523,
+  "gammas_positive": true,
+  "lo_is_the_lowest_draw": true,
+  "max": 2.2963286417094975,
+  "min": 1.0,
+  "published_lower_ends": 140,
+  "published_p05": 68,
+  "tight_reach": [],
+  "tight_rows_measured": 12,
+  "verdict": "tight_end_dead_by_construction_family_should_stop_publishing_tight_pass_checks"
+ },
+ "title": "is 'the tight end never narrows' a property of these windows or of how a band is built?",
+ "verdict": "tight_end_dead_by_construction_family_should_stop_publishing_tight_pass_checks",
+ "verdict_reason": "lo is the MINIMUM of a nested prefix (BAND_PCT 0..100) and the endpoint's draw exponent is positive on every published family (gamma 0.348..0.647), so the lower endpoint only moves outward and m = |lo|(top)/|lo|(base) cannot go below 1 unless every draw were positive -- which never happens on this population (140 published lower ends, all >= 1.0, 39 exactly 1.0).  The exact ones are the degenerate branch, not a window that narrowed and stopped: one seed away they lift to 1.11..1.20.  A tight-pass check on this family can therefore only ever return zero"
+}

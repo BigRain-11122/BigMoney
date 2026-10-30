@@ -6429,7 +6429,82 @@ def main() -> int:
     except Exception as e:
         check(_name75, False, repr(e)[:160])
 
+    # E277: the tight tail is inert by BUILD, not by window. lo is the minimum of a nested draw
+    # prefix, so |lo| can only widen; with a positive draw exponent m >= 1 by construction. The
+    # leg re-derives the census, checks that not one published lower end sits below 1.0, and
+    # requires the counterfactual (a 5% band on the same stream) to break the floor -- otherwise
+    # the floor would be a property of the data and the verdict would be wrong.
+    _name77 = ("product: the tight multiplier floor is the band build, not the windows -- a "
+               "tight-pass check on this family can only return zero")
+    _bad77 = []
+    try:
+        _p77 = os.path.join("results", "state_tilt", "bandfloor_latest.json")
+        _f77 = None
+        if not os.path.exists(_p77):
+            _bad77.append("face missing: %s" % _p77)
+        else:
+            with io.open(_p77, encoding="utf-8") as _fh77:
+                _f77 = json.load(_fh77)
+        if _f77 is not None:
+            _s77 = _f77.get("summary") or {}
+            if _f77.get("evidence_cutoff") is None:
+                _bad77.append("no evidence_cutoff on the face")
+            if _s77.get("verdict") not in (
+                    "tight_end_dead_by_construction_family_should_stop_publishing_tight_pass_checks",
+                    "tight_end_is_a_property_of_these_windows",
+                    "tight_end_is_construction_limited_and_windows_not_yet_tested"):
+                _bad77.append("verdict %r is outside the frozen set" % (_s77.get("verdict"),))
+            _bb77 = _f77.get("band_build") or {}
+            if _bb77.get("band_pct") != [0.0, 100.0] or not _bb77.get("lo_is_the_lowest_draw"):
+                _bad77.append("the band build on the face is not the one the verdict reasons about")
+            _led77 = (_f77.get("census") or [])
+            if not _led77:
+                _bad77.append("the census carries no face")
+            if any((x.get("p05_below_one") or 0) > 0 for x in _led77):
+                _bad77.append("a published face carries a p05 below 1.0 but the verdict says the "
+                              "floor is constructional")
+            if any((x.get("range_lo_below_one") or 0) > 0 for x in _led77):
+                _bad77.append("a published multiplier range opens below 1.0")
+            _tot77 = (_s77.get("published_lower_ends") or 0)
+            if _tot77 <= 0:
+                _bad77.append("no lower end was censused -- an empty census cannot support a floor")
+            if _s77.get("counterfactual_breaks_the_floor") is not True:
+                _bad77.append("the counterfactual did not break the floor, so the floor is not "
+                              "demonstrably a property of the build")
+            _ex77 = _f77.get("published_draw_exponent") or {}
+            if not _ex77.get("gammas_positive"):
+                _bad77.append("a published draw exponent is not positive")
+            _d77 = (_ex77.get("degenerate_branch") or {})
+            if _d77.get("rows_at_the_floor") and not (
+                    _d77.get("lift_min") is not None and _d77["lift_min"] > 1.0):
+                _bad77.append("exact-1.0 rows are published without a lift above 1")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m77 = __import__("importlib").import_module("e277_tight_multiplier_floor")
+            _fresh77 = _m77.run(save=False)
+            if _fresh77.get("summary") != _s77:
+                _bad77.append("summary does not re-derive from the published faces")
+            if _fresh77.get("census") != _led77:
+                _bad77.append("the census does not re-derive")
+        check(_name77, not _bad77,
+              "; ".join(_bad77)[:220]
+              or "verdict %r | %d published lower ends (%d p05) all >= 1.0, %d exactly 1.0; "
+                 "band_pct %s, gammas %s..%s; a 5%% band on the same stream gives m = %s"
+                 % ((_f77 or {}).get("verdict"),
+                    (_f77.get("summary") or {}).get("published_lower_ends"),
+                    (_f77.get("summary") or {}).get("published_p05"),
+                    (_f77.get("summary") or {}).get("exactly_one"),
+                    (_f77.get("summary") or {}).get("band_pct"),
+                    _r77(_f77, "gamma_min"), _r77(_f77, "gamma_max"),
+                    _r77(_f77, "counterfactual_pct_multiplier")))
+    except Exception as e:
+        check(_name77, False, repr(e)[:160])
+
     return _finish()
+
+
+def _r77(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if v is None else "%.3f" % v
 
 
 def _r39(face, key):
