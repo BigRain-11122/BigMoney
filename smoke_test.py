@@ -3600,6 +3600,59 @@ def main() -> int:
     except Exception as e:
         check("product: the spread is attributed to a named counterparty that repeats",
               False, repr(e)[:160])
+    # E245: every reading in this family came out of a SUM design (`rest` = one member against an
+    # average of the others). This leg reads the un-summed matrix face and re-derives its claims
+    # from the face's OWN frozen spec, so a face that names a star without the decisive share
+    # behind it cannot pass merely because the runner said so.
+    try:
+        _bad45 = []
+        _p45 = os.path.join("results", "state_tilt", "slopematrix_latest.json")
+        _f45 = None
+        if os.path.exists(_p45):
+            with io.open(_p45, encoding="utf-8") as _fh45:
+                _f45 = json.load(_fh45)
+        if not _f45:
+            _bad45.append("slope-matrix face missing")
+        else:
+            _spec45 = _f45.get("frozen_spec") or {}
+            _vocab45 = set(_spec45.get("verdicts") or []) | {
+                "verdict_era_dependent", "verdict_mixed_across_cells"}
+            _cells45 = [c for c in (_f45.get("cells") or []) if c.get("decided")]
+            if not _cells45:
+                _bad45.append("no decided cell")
+            for _c45 in _cells45:
+                if _c45.get("verdict") not in _vocab45:
+                    _bad45.append("cell %s verdict outside the frozen vocabulary" % _c45.get("label"))
+                _half45 = _c45.get("resolution_median_halfwidth")
+                _bound45 = _spec45.get("resolution_max_halfwidth")
+                if _half45 is not None and _bound45 is not None and _half45 > _bound45 \
+                        and _c45.get("verdict") in ("counterparty_concentration", "heterogeneous_rows",
+                                                    "coherent_rest_channel"):
+                    _bad45.append("cell %s names a structure on a %.2f half-width"
+                                  % (_c45.get("label"), _half45))
+                for _r45 in _c45.get("rows") or []:
+                    if _r45.get("decided") and len(_r45.get("cross") or []) != len(_c45["members"]) - 1:
+                        _bad45.append("row %s does not carry k-1 slopes" % _r45.get("own_of"))
+                _min45 = _spec45.get("star_decisive_share")
+                for _nm45 in _c45.get("stars") or []:
+                    _col45 = next((c for c in _c45.get("columns") or [] if c["one_of"] == _nm45), None)
+                    if not _col45 or (_min45 is not None and _col45["decisive_share"] < _min45):
+                        _bad45.append("star %s does not meet the face's own threshold" % _nm45)
+            _roll45 = (_f45.get("rollup") or {}).get("verdict")
+            _by45 = (_f45.get("rollup") or {}).get("cells_by_verdict") or {}
+            if _roll45 in ("verdict_mixed_across_cells", "verdict_era_dependent") and len(_by45) < 2:
+                _bad45.append("a mixed verdict with fewer than two verdict classes")
+            if not _f45.get("no_bill"):
+                _bad45.append("the face does not carry its no-bill line")
+        check("product: the un-summed matrix names structure without a sum regressor",
+              not _bad45, "; ".join(_bad45)[:220]
+              or "verdict %s; classes %s; headline %s"
+                 % ((_f45 or {}).get("rollup", {}).get("verdict"),
+                    ",".join(sorted((((_f45 or {}).get("rollup") or {}).get("cells_by_verdict") or {}).keys())),
+                    ((_f45 or {}).get("summary") or {}).get("headline_verdict")))
+    except Exception as e:
+        check("product: the un-summed matrix names structure without a sum regressor",
+              False, repr(e)[:160])
     return _finish()
 
 

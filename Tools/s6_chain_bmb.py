@@ -170,6 +170,11 @@ LEGS = [
     # than the rest casts a NEGATIVE mirror on every ordinary member because it sits inside the
     # sum they are priced against, so a sign split alone cannot name two channels.
     ("pair_heterogeneity", ["python", "scripts/e244_pair_heterogeneity.py", "run"]),
+    # E245: every reading above came out of a SUM design, where `rest` is one member against an
+    # average of the others -- a number no single counterparty reports. This leg fits the
+    # un-summed matrix (own + each other member separately, jointly, one HAC per cell), tests row
+    # equality against column concentration, and publishes the resolution the matrix carries.
+    ("pair_slope_matrix", ["python", "scripts/e245_pair_slope_matrix.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

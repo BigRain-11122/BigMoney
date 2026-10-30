@@ -23663,7 +23663,7 @@
   {
    "id": "E245-PAIR-SLOPE-MATRIX",
    "title": "publish the full cross-member slope matrix before any rest channel is named again",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "lane": "cpu-only",
    "worker_class": "code-change",
@@ -23672,10 +23672,34 @@
    "evidence_cutoff": "2026-10-29",
    "target": "scripts/e245_pair_slope_matrix.py (new runner)",
    "runner": "scripts/e245_pair_slope_matrix.py",
-   "runner_args": ["run"],
+   "runner_args": [
+    "run"
+   ],
    "deliverable": "results/state_tilt/SLOPEMATRIX-<cutoff>.json",
    "owner": null,
-   "source": "E244 attributed the spread to the counterparty identity (51% vs 0.1% own, 49% residual) and named two carriers, but it could only read the intervals E243 had already published: 152 rows over 11 overlapping cells, and half the variance is pair idiosyncrasy the sum design cannot explain. The unfiltered object is the slope matrix -- each member's move regressed on every OTHER member separately (k-1 slopes per member, no sum regressor, no kappa), with a HAC interval per cell. Publish the full 5x4 matrix per cell, test row equality (a coherent rest channel) against column concentration (one counterparty), and check that the residual half of E244's split is a property of the SUM DESIGN rather than of the book. E244's own caveat must be carried: its cells overlap in time, so repeats are not replications."
+   "source": "E244 attributed the spread to the counterparty identity (51% vs 0.1% own, 49% residual) and named two carriers, but it could only read the intervals E243 had already published: 152 rows over 11 overlapping cells, and half the variance is pair idiosyncrasy the sum design cannot explain. The unfiltered object is the slope matrix -- each member's move regressed on every OTHER member separately (k-1 slopes per member, no sum regressor, no kappa), with a HAC interval per cell. Publish the full 5x4 matrix per cell, test row equality (a coherent rest channel) against column concentration (one counterparty), and check that the residual half of E244's split is a property of the SUM DESIGN rather than of the book. E244's own caveat must be carried: its cells overlap in time, so repeats are not replications.",
+   "finished_at": "2026-10-30T09:07:01",
+   "result_ref": "results/state_tilt/slopematrix_latest.json",
+   "result_note": "headline: row equality rejected in 4/5 rows, one column (sh588000) decisive 4/4 at mean slope 0.769 while every other column sits 0.07..0.28; pre-2020 (before that sleeve prints) no star at all"
+  },
+  {
+   "id": "E246-STAR-OR-COMMON-FACTOR",
+   "title": "is the star a factor in one sleeve's turnover, or the same commonality with a lead?",
+   "status": "ready",
+   "priority": 3,
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "entered_by": "bm-b r1271",
+   "entered_at": "2026-10-30T09:07:01",
+   "evidence_cutoff": "2026-10-29",
+   "target": "scripts/e246_star_direction.py (new runner)",
+   "runner": "scripts/e246_star_direction.py",
+   "runner_args": [
+    "run"
+   ],
+   "deliverable": "results/state_tilt/STARDIR-<cutoff>.json",
+   "owner": null,
+   "source": "E245 found the 'rest channel' is a star: sh588000's turnover is decisive for 4 of 4 members (mean slope 0.769) in the five-member window and the cell resolves at 0.264, while pre-2020 -- before that sleeve prints -- the columns are diffuse (0.36/0.43/0.33) and no star exists. Two mechanisms produce identical simultaneity: (a) that sleeve's turnover carries a book-wide factor, (b) all five sleeves load on one common driver and the star is whichever one the regression is best at reading. The design that separates them is the LEAD: re-fit the matrix with the star's turnover lagged one and two sessions (and the reverse direction, everyone's turnover against its own lag) and publish which direction survives HAC. If nothing leads anything, the star is a contemporaneous common factor and must be published as such -- a common factor is not a channel a single sleeve's flow can be blamed for. Carry E245's resolution gate per cell and its member-named cell rule (an empty intersection reports zero sessions, not a green cell)."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23690,6 +23714,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T07:50:15",
+ "updated_at": "2026-10-30T09:07:01",
  "version": 1
 }
