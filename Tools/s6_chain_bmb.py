@@ -180,6 +180,11 @@ LEGS = [
     # row with the counterparties' PAST turnover in the same regression as their present one, so
     # the lag coefficient is a lead rather than a proxy for a persistent column.
     ("star_direction", ["python", "scripts/e246_star_direction.py", "run"]),
+    # E247: three of E246's undecided cells sit in CLOSED calendar windows, so "collect more
+    # data" is not available to them. This leg turns each cell's published half-width into the
+    # session count a verdict would need, and names which cells can never reach it -- derived
+    # from the published face only, no re-estimation, no network.
+    ("era_power", ["python", "scripts/e247_era_cell_power.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

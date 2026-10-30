@@ -1,0 +1,148 @@
+{
+ "cells": [
+  {
+   "decided_now": true,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.2640519749202488,
+   "kind": "headline",
+   "label": "all_five",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.3774865478196618,
+   "sessions": 1328,
+   "sessions_for": {
+    "0.15": 4116,
+    "0.20": 2315,
+    "0.30": 0
+   },
+   "sessions_short": null,
+   "verdict": "decided_at_published_bound",
+   "window_closed": false
+  },
+  {
+   "decided_now": true,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.2690984420924871,
+   "kind": "window",
+   "label": "pre2020_four",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.3847009360934433,
+   "sessions": 891,
+   "sessions_for": {
+    "0.15": 2868,
+    "0.20": 1614,
+    "0.30": 0
+   },
+   "sessions_short": null,
+   "verdict": "decided_at_published_bound",
+   "window_closed": true
+  },
+  {
+   "decided_now": false,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.4335787016237204,
+   "kind": "era",
+   "label": "era_2020_2022",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.6198405724232983,
+   "sessions": 474,
+   "sessions_for": {
+    "0.15": 3961,
+    "0.20": 2228,
+    "0.30": 991
+   },
+   "sessions_short": 517,
+   "verdict": "unreachable_window_closed",
+   "window_closed": true
+  },
+  {
+   "decided_now": false,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.4237357357983107,
+   "kind": "era",
+   "label": "era_2023_2024",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.605769148830034,
+   "sessions": 446,
+   "sessions_for": {
+    "0.15": 3560,
+    "0.20": 2003,
+    "0.30": 890
+   },
+   "sessions_short": 444,
+   "verdict": "unreachable_window_closed",
+   "window_closed": true
+  },
+  {
+   "decided_now": false,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.5053790862175502,
+   "kind": "era",
+   "label": "era_2025_now",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.7224858161130489,
+   "sessions": 408,
+   "sessions_for": {
+    "0.15": 4632,
+    "0.20": 2606,
+    "0.30": 1158
+   },
+   "sessions_short": 750,
+   "verdict": "open_but_needs_sessions",
+   "window_closed": false
+  },
+  {
+   "decided_now": false,
+   "frozen_bound": 0.3,
+   "halfwidth": 0.3161499527285512,
+   "kind": "neighbour",
+   "label": "early_three",
+   "min_detectable_slope_at_bound": 0.4288775510204082,
+   "min_detectable_slope_now": 0.45196539160479615,
+   "sessions": 831,
+   "sessions_for": {
+    "0.15": 3692,
+    "0.20": 2077,
+    "0.30": 923
+   },
+   "sessions_short": 92,
+   "verdict": "unreachable_window_closed",
+   "window_closed": true
+  }
+ ],
+ "evidence_cutoff": "2026-10-29",
+ "formula": {
+  "frozen_bound": 0.3,
+  "minimum_detectable_slope": "2.802 * (halfwidth / 1.96)",
+  "power": {
+   "power": 0.8,
+   "two_sided_alpha": 0.05,
+   "z": 2.802
+  },
+  "sessions_needed": "ceil(n0 * (h0/target)**2)",
+  "targets": [
+   0.3,
+   0.2,
+   0.15
+  ]
+ },
+ "source_face": "results/state_tilt/STARDIR-2026-10-29.json",
+ "study": "E247",
+ "summary": {
+  "decided": [
+   "all_five",
+   "pre2020_four"
+  ],
+  "honest_note": "Sessions, not days: a closed calendar slice cannot be extended, so an 'unreachable_window_closed' cell needs a different design (a longer window or a different star), never more patience.",
+  "largest_session_shortfall": 750,
+  "unresolved_closed": [
+   "era_2020_2022",
+   "era_2023_2024",
+   "early_three"
+  ],
+  "unresolved_open": [
+   "era_2025_now"
+  ],
+  "verdict": "some_unresolved_cells_are_closed_windows"
+ },
+ "title": "What it would take for the era cells of the star-direction matrix to decide"
+}
