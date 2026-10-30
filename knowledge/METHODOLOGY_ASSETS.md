@@ -7205,3 +7205,26 @@ anything was committed.
 Pos: Tools/live_value_cache_audit.py (`helper_facts`/`_call_targets`/`_json_payload_names`/`_taint`,
 selftest 37/37) + results/live_value_cache_audit.json + scripts/member_reinforce_p1.py (`_chain_base`)
 + research/digests/DIGEST-20261031-r1379-delegation-blind-spot.md
+
+## E299 A license that lives on one face is not a license the operator holds (2026-10-31 r1184 bm-a)
+
+E293 taught the production CARD to print the panel fingerprint; E295 made the consumer withhold a
+label whose stamp nobody read. Then the card learned which world its WIDTH came from (r1183: "Family
+coherence: ONE_WORLD -- all 10 width arms priced one panel"). Two other faces quote the same width
+family and carried none of it: the executable sheet an operator actually holds, and the CEO one-page.
+A reader on either could not tell a measured width from a configured one, and nothing on those pages
+was wrong -- they simply inherited a licence that was only written down somewhere else.
+
+Publishing a verdict is not propagating it. Count the faces a reader can hold, and make each carry
+the same sentence from ONE reader (`etf_book_production.family_coherence`), never a second derivation.
+Three states must be distinguishable in the text of every face -- licensed / withheld / absent -- or
+"unproven" reads as "fine". The two failure directions are not symmetric: an affirmative-only leg is
+satisfied by a page that prints the good word unconditionally, so the leg has to (a) recompute the
+verdict from the artifact, (b) require the arm count beside the word, and (c) assert that a withheld or
+absent family never prints the affirmative token. A fixture that swaps the field on the LIVE page
+(rather than a hand-built dict) keeps the leg failing only for the reason it is about.
+
+Pos: scripts/etf_book_production.py::family_coherence (the one implementation) +
+scripts/etf_book_order.py (ORDER sheet + card-config sheet, selftest 77/77, legs 46g/46h) +
+scripts/etf_book_ceo_page.py (L54-L56, selftest 59/59) + smoke_test.py leg "every face a reader
+holds says whether the width's family was one world" + research/digests/DIGEST-20261031-r1184-width-license.md

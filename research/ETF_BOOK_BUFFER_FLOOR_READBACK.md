@@ -6,30 +6,30 @@ r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=
 
 | 读数 | 值 |
 |---|---|
-| 拟合预测 (k=0.30) | +0.228pp |
-| 实测中位 | +0.260pp |
-| 差 | +0.032pp (容差 0.127pp) |
-| 拟合自身最大样本内残差 | 0.042pp |
+| 拟合预测 (k=0.30) | +0.371pp |
+| 实测中位 | +0.323pp |
+| 差 | -0.048pp (容差 0.972pp) |
+| 拟合自身最大样本内残差 | 0.324pp |
 
 判决：**HOLDS**
 
 | n | R | 中位 CAGR | 基线 | Δ |
 |---|---|---|---|---|
-| 3 | 10 | +12.16pp | +10.93pp | +1.240pp |
-| 3 | 20 | +9.76pp | +8.71pp | +1.040pp |
-| 3 | 40 | +6.06pp | +6.78pp | -0.720pp |
-| 5 | 10 | +12.31pp | +11.51pp | +0.805pp |
-| 5 | 20 | +9.79pp | +9.13pp | +0.660pp |
-| 5 | 40 | +8.06pp | +8.32pp | -0.255pp |
-| 8 | 10 | +12.22pp | +12.00pp | +0.225pp |
-| 8 | 20 | +10.00pp | +10.13pp | -0.130pp |
-| 8 | 40 | +8.60pp | +8.30pp | +0.295pp |
-| 12 | 10 | +11.64pp | +11.63pp | +0.005pp |
-| 12 | 20 | +9.82pp | +9.64pp | +0.175pp |
+| 3 | 10 | +12.16pp | +10.87pp | +1.300pp |
+| 3 | 20 | +9.76pp | +8.58pp | +1.175pp |
+| 3 | 40 | +6.06pp | +6.69pp | -0.630pp |
+| 5 | 10 | +12.31pp | +11.51pp | +0.800pp |
+| 5 | 20 | +9.79pp | +9.09pp | +0.705pp |
+| 5 | 40 | +8.06pp | +8.22pp | -0.155pp |
+| 8 | 10 | +12.22pp | +11.96pp | +0.265pp |
+| 8 | 20 | +10.00pp | +10.12pp | -0.115pp |
+| 8 | 40 | +8.60pp | +8.22pp | +0.380pp |
+| 12 | 10 | +11.64pp | +11.61pp | +0.035pp |
+| 12 | 20 | +9.82pp | +9.59pp | +0.230pp |
 | 12 | 40 | +8.37pp | +7.55pp | +0.815pp |
 
-- the fit says +0.228pp at k=0.30 (slope +0.862, intercept -0.031)
-- the harvested arm's own 12 cells say +0.260pp (median)
-- gap +0.032pp against tolerance 0.127pp = 3.0x the fit's largest in-sample residual (0.042pp, floored at 0.05)
-- cell spread of the same arm: -0.720 .. +1.240pp (12 cells), i.e. the median is not the book
+- the fit says +0.371pp at k=0.30 (slope +1.266, intercept -0.009)
+- the harvested arm's own 12 cells say +0.323pp (median)
+- gap -0.048pp against tolerance 0.972pp = 3.0x the fit's largest in-sample residual (0.324pp, floored at 0.05)
+- cell spread of the same arm: -0.630 .. +1.300pp (12 cells), i.e. the median is not the book
 - the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess

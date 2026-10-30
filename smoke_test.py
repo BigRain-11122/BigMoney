@@ -3908,6 +3908,98 @@ def main() -> int:
     except Exception as e:
         check("product: three faces of one book price one panel, and the digest can move",
               False, repr(e)[:160])
+    # ---- r1184: the width's license must reach every face a reader actually holds ----
+    # r1183 taught the CARD to say which world its width came from. The executable sheet and
+    # the CEO page kept quoting the same family of widths without that sentence, so whoever
+    # held either of them could not tell a measured width from a configured one. This leg
+    # recomputes the verdict from the arms artifact, proves the reader can move, and requires
+    # all three faces to carry the answer -- arm count included, not just the word.
+    try:
+        _bad46 = []
+        _verd46 = None
+        _n46 = 0
+        _sys46 = os.path.join(PATHS.root, "scripts")
+        if _sys46 not in sys.path:
+            sys.path.insert(0, _sys46)
+        import etf_book_production as _P46
+        _arms46 = os.path.join(PATHS.results_dir, "etf_book_phase_atlas_arms.json")
+        if not os.path.exists(_arms46):
+            _bad46.append("arms face missing")
+        else:
+            with open(_arms46, encoding="utf-8") as _fh46:
+                _ar46 = json.load(_fh46) or {}
+            _verd46 = (_ar46.get("panel_coherence") or {}).get("verdict")
+            _n46 = len(_ar46.get("arms") or {})
+            _fc46 = _P46.family_coherence()
+            if _fc46.get("verdict") != _verd46:
+                _bad46.append("reader %r != artifact %r" % (_fc46.get("verdict"), _verd46))
+            if (_fc46.get("arms") or 0) != _n46:
+                _bad46.append("reader arms %s != artifact %s" % (_fc46.get("arms"), _n46))
+            # the reader has to be able to move, or "one world" is unfalsifiable
+            import tempfile as _tf46
+            with _tf46.TemporaryDirectory() as _td46:
+                if _P46.family_coherence(results_dir=_td46).get("priced_same_panel") is not None:
+                    _bad46.append("a missing family reads as a verdict")
+                _fake46 = {"panel_coherence": {"verdict": "MIXED_WORLDS",
+                                               "panels": ["a", "b"], "detail": "two panels"},
+                           "arms": {"x": {}, "y": {}},
+                           "baseline": {"evidence_cutoff": "2026-01-01"}}
+                with open(os.path.join(_td46, "etf_book_phase_atlas_arms.json"), "w",
+                          encoding="utf-8") as _fh46:
+                    json.dump(_fake46, _fh46)
+                _mx46 = _P46.family_coherence(results_dir=_td46)
+                if (_mx46.get("verdict") != "MIXED_WORLDS"
+                        or _mx46.get("priced_same_panel") is not False):
+                    _bad46.append("a mixed family reads as %r/%r"
+                                  % (_mx46.get("verdict"), _mx46.get("priced_same_panel")))
+            # three human faces: the card, the executable sheet, the CEO page
+            _faces46 = {}
+            _card46 = os.path.join(PATHS.results_dir, "etf_book_production", "CARD.md")
+            if os.path.exists(_card46):
+                with open(_card46, encoding="utf-8") as _fh46:
+                    _faces46["card"] = _fh46.read()
+            _ptr46 = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+            if os.path.exists(_ptr46):
+                with open(_ptr46, encoding="utf-8") as _fh46:
+                    _p46 = json.load(_fh46) or {}
+                _md46 = os.path.join(PATHS.results_dir, "etf_book_order",
+                                     "ORDER-%s.md" % (_p46.get("as_of") or ""))
+                if os.path.exists(_md46):
+                    with open(_md46, encoding="utf-8") as _fh46:
+                        _faces46["ticket"] = _fh46.read()
+            _lb46 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            if _lb46:
+                with open(_lb46[-1], encoding="utf-8") as _fh46:
+                    _faces46["page"] = _fh46.read()
+            for _lab46 in ("card", "ticket", "page"):
+                if _lab46 not in _faces46:
+                    _bad46.append("%s face missing" % _lab46)
+            if not _bad46:
+                if _verd46 == "ONE_WORLD":
+                    if "ONE_WORLD" not in _faces46["card"]:
+                        _bad46.append("card does not print ONE_WORLD")
+                    if "名数的来历" not in _faces46["ticket"]:
+                        _bad46.append("ticket does not print the width's lineage")
+                    if "有。" not in _faces46["page"]:
+                        _bad46.append("page does not print the licensed state")
+                    for _lab46 in ("ticket", "page"):
+                        if ("%d 个宽度臂" % _n46) not in _faces46[_lab46]:
+                            _bad46.append("%s does not print the arm count" % _lab46)
+                else:
+                    for _lab46, _txt46 in _faces46.items():
+                        if "ONE_WORLD" in _txt46:
+                            _bad46.append("%s prints ONE_WORLD for %r" % (_lab46, _verd46))
+                    if "名数没被证过" not in _faces46["ticket"]:
+                        _bad46.append("ticket does not say the width is unproven")
+                    if not ("没有。" in _faces46["page"] or "不知道。" in _faces46["page"]):
+                        _bad46.append("page does not say the width is unproven")
+        check("product: every face a reader holds says whether the width's family was one world",
+              not _bad46, "; ".join(_bad46)[:220]
+              or "card/ticket/page agree on %r (%d arms)" % (_verd46, _n46))
+    except Exception as e:
+        check("product: every face a reader holds says whether the width's family was one world",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

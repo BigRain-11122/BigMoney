@@ -135,6 +135,28 @@ def bets_face(path=BETS_JSON):
         return {"status": "unreadable", "detail": str(exc)[:160]}
 
 
+def family_coherence():
+    """Whether the width family behind this page's name count was one measurement (r1184).
+
+    Single implementation: `etf_book_production.family_coherence()` owns the rule; this
+    page quotes it, exactly as the card does, so the two faces cannot drift into two
+    definitions. The page quotes a backtest band whose width was chosen out of a family of
+    arm cells -- if that family never priced one panel, the band is a configuration, not a
+    measurement, and the reader has to be told which of the two it is. Absent or
+    unreadable reads "unproven here", never a pass."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_production as _P
+        return _P.family_coherence()
+    except Exception as exc:                                    # noqa: BLE001
+        return {"artifact": "results/etf_book_phase_atlas_arms.json", "verdict": None,
+                "detail": "arm family face unreadable (%s)" % str(exc)[:120],
+                "panels": [], "arms": 0, "evidence_cutoff": None,
+                "priced_same_panel": None}
+
+
 def _load_ticket():
     """Pointer -> the dated ticket file it names."""
     ptr = _load(TICKET_PTR)
@@ -1028,6 +1050,7 @@ def build(with_stress=False):
     }
     page["today_action"] = today_action(page)
     page["bets"] = bets_face()
+    page["family_coherence"] = family_coherence()
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
@@ -1302,6 +1325,25 @@ def render_md(p):
         add("关键一句：**在同样的风险敞口下（beta 基准年化 %.2f%%、夏普 %.2f），这本账回测年化 %.2f%%、夏普 %.2f，多赚 %.2f 个百分点/年**——超额来自选券，不是来自加杠杆。"
             % (b["cagr"] * 100, b["sharpe"], bk["cagr"] * 100, bk["sharpe"], p["excess_pp"]))
     cr = p.get("carry_regime") or {}
+    add("")
+    add("## 这张表里的名数，是不是有实测撑腰")
+    add("")
+    fc = p.get("family_coherence") or {}
+    if fc.get("verdict") == "ONE_WORLD":
+        add("- **有。** %d 个宽度臂的判词全部算在同一张面板 `%s`（截至 %s）——卡片跑的那个名数是比出来的，"
+            "不是配出来的。这张表之所以能对你说「该期待什么」，靠的就是这一句。"
+            % (fc.get("arms") or 0, ((fc.get("panels") or [""])[0] or "?"),
+               fc.get("evidence_cutoff")))
+    elif fc.get("verdict"):
+        add("- **没有。** 宽度臂家族已经收回了自己的判词（%s：%s）。所以上表里的名数只是配置，"
+            "不是测出来的最优——读数照给，但别把它当「选过」的证据。"
+            % (fc["verdict"], fc.get("detail") or "无细节"))
+    else:
+        add("- **不知道。** 读不到宽度臂家族的面（%s）。这是「没验」，不是「没问题」——"
+            "上表的读数仍然有效，但它选的那个名数没有实测撑着。"
+            % (fc.get("detail") or "家族面缺席"))
+    add("")
+    add("> 判词来源：`%s`。" % (fc.get("artifact") or "results/etf_book_phase_atlas_arms.json"))
     add("")
     add("## 这笔钱里有多少是「把现金借出去」挣的")
     add("")
@@ -1939,6 +1981,33 @@ def selftest():
     chk("L53 stress cache: a repaired print on the SAME date changes the key",
         _d_a != stress_cache_digest(_pf2, "2020-01-07", 1000000.0, STRESS_WINDOWS, _ord_a),
         "identical bar and weights")
+
+    # L54-L56 (r1184): the page quotes a band whose width was chosen out of a family of arm
+    # cells. If that family never priced one panel, the band is a configuration -- and the
+    # three states must read differently, or "unproven" and "proven" look identical.
+    def _render_fc(fc):
+        # the fixture is the LIVE page with one field swapped, so this leg fails only for
+        # the reason it is about; a hand-built dict would rot the moment the page grows.
+        _p, _ = build(with_stress=False)
+        _p["family_coherence"] = fc
+        return render_md(_p)
+
+    _md_one = _render_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["deadbeef"],
+                          "evidence_cutoff": "2026-10-30",
+                          "artifact": "results/etf_book_phase_atlas_arms.json"})
+    _md_mixed = _render_fc({"verdict": "MIXED_WORLDS", "arms": 11, "panels": ["a", "b"],
+                            "detail": "two panels", "evidence_cutoff": None,
+                            "artifact": "results/etf_book_phase_atlas_arms.json"})
+    _md_absent = _render_fc(None)
+    chk("L54 family coherence: one world names the arm count, the panel and the cutoff",
+        "有。" in _md_one and "11 个宽度臂" in _md_one and "deadbeef" in _md_one
+        and "2026-10-30" in _md_one, "")
+    chk("L55 family coherence: a withheld family reads 'no' and says the width is a config",
+        "没有。" in _md_mixed and "MIXED_WORLDS" in _md_mixed
+        and "ONE_WORLD" not in _md_mixed, "")
+    chk("L56 family coherence: an absent face reads 'unknown', never a pass",
+        "不知道。" in _md_absent and "ONE_WORLD" not in _md_absent
+        and "没验" in _md_absent, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

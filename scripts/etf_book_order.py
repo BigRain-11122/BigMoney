@@ -494,6 +494,18 @@ def card(ticket, mk, sched, asof, beta, extra):
               "指纹才叫同一本书；指纹不同不是算错，是两张纸在给不同的世界定价。"
               % (pdg["digest"], pdg["dates"], pdg["columns"], pdg["first"], pdg["last"],
                  "/".join(pdg.get("blocks") or []))]
+    fcs = extra.get("family_coherence") or {}
+    if fcs.get("verdict") == "ONE_WORLD":
+        L += ["- **名数的来历**：%d 个宽度臂的判词全部算在同一张面板 `%s`（截至 %s）——本单这个名数是"
+              "比出来的宽度，不是拍出来的配置。"
+              % (fcs.get("arms") or 0, ((fcs.get("panels") or [""])[0] or "?"),
+                 fcs.get("evidence_cutoff"))]
+    elif fcs.get("verdict"):
+        L += ["- **名数没被证过**：宽度臂家族已收回自己的判词（%s，%s），所以本单这个名数只是配置，"
+              "不是测出来的最优。" % (fcs["verdict"], fcs.get("detail") or "无细节")]
+    else:
+        L += ["- **名数没被证过**：读不到宽度臂家族的面（%s）——这是「没验」，不是「没问题」。"
+              % (fcs.get("detail") or "家族面缺席")]
     L += ["- 票池=现存 ETF，存在幸存者偏差；票面仅按收盘价折算，未计冲击成本与涨跌停。",
           "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
           "- k 每 %d 个交易日才重算，段内实际 β 仍会漂移。" % REBAL]
@@ -560,6 +572,28 @@ def price_basis(close, cols, repaired=None):
                               PRICE_BASIS_ARTIFACT, columns=cen["columns"])
     line["columns"] = cen["columns"]
     return line
+
+
+def family_coherence():
+    """Whether the width family that licenses this sheet's name count was one measurement.
+
+    One implementation: `etf_book_production.family_coherence()` owns the rule and this
+    sheet only quotes it (E289). The card has carried the verdict since r1183, but the
+    executable sheet -- the face an operator actually holds -- printed a width and its
+    CAGR without ever saying whether the arms behind that width priced one panel. A
+    missing or unreadable face reads "unproven here", never a pass.
+    """
+    try:
+        import sys as _sys
+        _d = os.path.dirname(os.path.abspath(__file__))
+        if _d not in _sys.path:
+            _sys.path.insert(0, _d)
+        import etf_book_production as _P
+        return _P.family_coherence()
+    except Exception as e:
+        return {"artifact": "results/etf_book_phase_atlas_arms.json", "verdict": None,
+                "detail": "arm family face unreadable (%r)" % (e,), "panels": [],
+                "arms": 0, "evidence_cutoff": None, "priced_same_panel": None}
 
 
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
@@ -711,6 +745,10 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     mk = metrics(slip, blip)
     wd = width_disclosure()
     ruler = live_width_ruler(asof=asof, card_n=(wd or {}).get("card_names"))
+    # r1184: a width without its license is a config, not a measurement. Quote the family
+    # verdict here too (same reader as the card), so the sheet an operator holds says
+    # whether the arm family that picked this name count priced one panel.
+    fam = family_coherence()
     carry = carry_split(beta)
     # r1172: five tickers are not five bets. The face that measures how many independent
     # directions the sleeve spans is quoted HERE, verbatim, so the operator reading this
@@ -745,6 +783,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "width_disclosure": wd,
                "live_width_ruler": ruler,
                "price_basis": basis,
+               "family_coherence": fam,
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
@@ -773,6 +812,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
                       "bets_line": bets_line,
+                      "family_coherence": fam,
                       "price_basis": payload["price_basis"]}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
@@ -1232,6 +1272,18 @@ def card_config_card(tk, width=None, ruler=None):
               "- 出处：%s（cutoff %s）。" % (ru.get("source"), ru.get("evidence_cutoff"))]
     L += ["", "## 诚实面", "",
           "- 探索件：无预注册、无判决、不入成绩账本；本单只是把卡片已经公布的那本书变成可下手的单。"]
+    _fcc = (tk.get("family_coherence") if isinstance(tk, dict) else None) or family_coherence()
+    if _fcc.get("verdict") == "ONE_WORLD":
+        L += ["- **名数的来历**：%d 个宽度臂的判词全部算在同一张面板 `%s`（截至 %s）——本单这个名数是"
+              "比出来的宽度，不是拍出来的配置。"
+              % (_fcc.get("arms") or 0, ((_fcc.get("panels") or [""])[0] or "?"),
+                 _fcc.get("evidence_cutoff"))]
+    elif _fcc.get("verdict"):
+        L += ["- **名数没被证过**：宽度臂家族已收回自己的判词（%s，%s），所以本单这个名数只是配置，"
+              "不是测出来的最优。" % (_fcc["verdict"], _fcc.get("detail") or "无细节")]
+    else:
+        L += ["- **名数没被证过**：读不到宽度臂家族的面（%s）——这是「没验」，不是「没问题」。"
+              % (_fcc.get("detail") or "家族面缺席")]
     gap = None
     if rc.get("card_cash_amount") is not None:
         gap = tk["cash_amount"] - float(rc["card_cash_amount"])
@@ -1419,6 +1471,9 @@ def run_card(nav=None):
     # so this sheet says which face it is on that ruler rather than borrowing the gap.
     ruler = live_width_ruler(asof=tk["priced_bar"], card_n=len(tk["order"]), sheet="card")
     doc["live_width_ruler"] = ruler
+    # r1184: this sheet IS the card's width, so it is the face that most needs to say
+    # whether the arm family licensing that width priced one panel.
+    doc["family_coherence"] = family_coherence()
     _write("TICKET-%s-card.json" % asof, doc)
     md = "\n".join([card_config_card(tk, wd, ruler).rstrip(),
                     "\n".join(lot_curve_md(curve, tk["nav"])).rstrip(),
@@ -2509,6 +2564,24 @@ def selftest():
             columns=_pb_ok.get("columns"))["sentence"], "")
     chk("leg46f this sheet repairs its panel (r1177): the module constant is on",
         REPAIR_PANEL is True, "")
+
+    # 46g-h. a width without its license is a config, not a measurement (r1184). The sheet
+    # quotes the family verdict; the three render states must be distinct on the page, or
+    # "unproven" and "proven" look the same to the operator holding the sheet.
+    _fc_one = {"verdict": "ONE_WORLD", "arms": 10, "panels": ["abc123"], "evidence_cutoff": "2026-10-30"}
+    _fc_mixed = {"verdict": "MIXED_WORLDS", "arms": 10, "panels": ["a", "b"], "detail": "2 panels"}
+    _md_one = card(None, None, None, "2026-10-30", 0.2,
+                   {"inception": "2024-01-01", "family_coherence": _fc_one})
+    _md_mixed = card(None, None, None, "2026-10-30", 0.2,
+                     {"inception": "2024-01-01", "family_coherence": _fc_mixed})
+    _md_absent = card(None, None, None, "2026-10-30", 0.2,
+                      {"inception": "2024-01-01", "family_coherence": None})
+    chk("leg46g family coherence: one world names the arm count and the panel",
+        "名数的来历" in _md_one and "10 个宽度臂" in _md_one and "abc123" in _md_one
+        and "2026-10-30" in _md_one, "")
+    chk("leg46h family coherence: withheld and absent never read as a pass",
+        "名数没被证过" in _md_mixed and "ONE_WORLD" not in _md_mixed
+        and "名数没被证过" in _md_absent and "ONE_WORLD" not in _md_absent, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

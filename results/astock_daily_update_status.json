@@ -1,11 +1,11 @@
 {
-  "ts": "2026-10-30T21:41:55",
-  "mode": "refresh in progress (todo=5222/5226, quarantined=5, settled=0)",
+  "ts": "2026-10-31T06:27:53",
+  "mode": "refresh in progress (todo=5224/5226, quarantined=2, settled=0)",
   "panel": {
     "complete": false,
     "cutoff": "2026-10-29",
     "cutoff_is": "max tail across all per/*.csv -- read coverage_pct/coverage_90 before calling the panel current",
-    "coverage_pct": 99.8,
+    "coverage_pct": 99.9,
     "coverage_90": "2026-10-29",
     "coverage_floor_pct": 90,
     "dates_tail": [
@@ -18,10 +18,6 @@
         1
       ],
       [
-        "2026-10-26",
-        1
-      ],
-      [
         "2026-10-23",
         2
       ],
@@ -31,6 +27,10 @@
       ],
       [
         "2026-10-16",
+        1
+      ],
+      [
+        "2026-10-12",
         1
       ]
     ],
@@ -62,7 +62,7 @@
     "repull": false
   },
   "quarantined_n": 5,
-  "last_spawn_attempt": "2026-10-30T21:40:55",
+  "last_spawn_attempt": "2026-10-31T06:27:49",
   "settled_n": 7,
   "settled": [
     "002717",
@@ -73,7 +73,7 @@
     "688121",
     "688496"
   ],
-  "per_files_on_disk": 5223,
+  "per_files_on_disk": 5222,
   "validation": {
     "suspended_rows": 0,
     "bracket_tolerated_rows": 0,
@@ -81,10 +81,10 @@
   },
   "takeover": {
     "owner": "bm-b",
-    "by": "bm-c",
-    "reason": "owner bm-b silent 9.0h >= 120min",
-    "ts": "2026-10-30T21:40:55"
+    "by": "bm-a",
+    "reason": "owner bm-b silent 17.7h >= 120min",
+    "ts": "2026-10-31T06:27:49"
   },
-  "spawn_reason": "panel lags expected bar date (2026-10-29 < 2026-10-30)",
+  "spawn_reason": "panel incomplete at cutoff 2026-10-29 (coverage 99.9%, expected 2026-10-30) -> continuation refresh, not a first pull",
   "spawn_mode": "continuation"
 }

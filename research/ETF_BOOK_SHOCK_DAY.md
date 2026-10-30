@@ -43,7 +43,7 @@ Mean on those days: index -3.87% / book -0.47% (ratio 0.121) · book worst -1.96
 
 ## Tomorrow, in money
 
-Priced on results/etf_book_order/TICKET-2026-10-30.json: NAV +1,000,000 CNY, deployed +471,226 CNY (47.1%), cash +528,774 CNY.
+Priced on results/etf_book_order/TICKET-2026-10-30.json: NAV +1,000,000 CNY, deployed +470,208 CNY (47.1%), cash +529,792 CNY.
 
 | index gaps | book returns | costs you | the naive 'shock x deployed' |
 | --- | --- | --- | --- |

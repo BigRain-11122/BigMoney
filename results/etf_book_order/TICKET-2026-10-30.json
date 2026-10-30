@@ -155,15 +155,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1197,
-    "card_width_cagr": 0.1221,
-    "pp": 0.24
-   },
    "beta": {
     "ticket_width_cagr": 0.1119,
     "card_width_cagr": 0.0966,
     "pp": -1.53
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1197,
+    "card_width_cagr": 0.1221,
+    "pp": 0.24
    }
   },
   "rules_differ": true,
@@ -229,28 +229,28 @@
  },
  "live_width_ruler": {
   "state": "inside_disagreement",
-  "detail": "paired median +0.090pp inside a 2.045pp engine disagreement",
+  "detail": "paired median +0.120pp inside a 2.035pp engine disagreement",
   "sheet": null,
   "sheet_role": null,
   "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
   "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
-  "gap_pp": 0.09,
-  "disagreement_pp": 2.045,
-  "share_of_disagreement": 0.044,
-  "resolution_pp": 0.786,
-  "gap_over_resolution": 0.114,
+  "gap_pp": 0.12,
+  "disagreement_pp": 2.035,
+  "share_of_disagreement": 0.059,
+  "resolution_pp": 0.793,
+  "gap_over_resolution": 0.151,
   "below_own_resolution": true,
   "power_target": 0.8,
-  "paired_sd_pp": 1.255,
-  "atlas_rung_pp": 0.515,
+  "paired_sd_pp": 1.265,
+  "atlas_rung_pp": 0.505,
   "capacity_rung_pp": -1.53,
   "sign_flips": true,
   "sign_agreement": 0.5,
   "pairs": 20,
   "positive_phases": 10,
-  "min_pp": -2.05,
-  "max_pp": 2.89,
-  "spread_pp": 4.94,
+  "min_pp": -2.01,
+  "max_pp": 2.86,
+  "spread_pp": 4.87,
   "widths": {
    "ticket": {
     "live_n_hold": 5,
@@ -265,8 +265,8 @@
     "priced_rule": "vol_target"
    }
   },
-  "age_days": 1,
-  "evidence_cutoff": "2026-10-29",
+  "age_days": 0,
+  "evidence_cutoff": "2026-10-30",
   "asof": "2026-10-30",
   "source": "results/etf_book_live_width_ruler.json"
  },
@@ -291,6 +291,17 @@
    ],
    "amount_columns": 1613
   }
+ },
+ "family_coherence": {
+  "artifact": "results/etf_book_phase_atlas_arms.json",
+  "verdict": "ONE_WORLD",
+  "detail": "all 11 faces priced a1a42aee64453839",
+  "panels": [
+   "a1a42aee64453839"
+  ],
+  "arms": 10,
+  "evidence_cutoff": "2026-10-30",
+  "priced_same_panel": true
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
