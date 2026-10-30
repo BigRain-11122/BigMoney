@@ -381,6 +381,7 @@ LEGS = [
     # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
     # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.
     ("etf_book_beta_menu", ["python", "scripts/etf_book_beta_menu.py"]),
+    ("etf_book_width_null_production", ["python", "scripts/etf_book_width_null_production.py"]),
     # Fourth instance of the orphan-face class, and the worst-placed one: the staggered
     # 5+5 book is the config this firm calls its production book, but its accrual ran only
     # off a scheduled task that no longer exists on this host (schtasks: not found), so the

@@ -6623,3 +6623,38 @@ answers for a tracked face and refuses an untracked one, L23 an unregistered car
 ambiguous, L24 a non-repo fixture cannot be closed) + `duplicate_supply` block in
 results/pool_deliverable_audit.json + the three closed cards' close_note + smoke leg
 "pool: a card whose deliverable already existed is not supply".
+
+## E278 A width sign belongs to a (panel, leverage rule) pair; a null answers only the panel half (2026-10-30 r1169 bm-a)
+
+E276 asked the right question and answered it on the E198 18-name cross, closing with the demand
+that the family's width direction needs its own null on its own panel. Running that null on the
+production panel (5,270 bars x 1,504 equity/commodity/convertible names, repaired prints, same
+builder as the card, cadence 20, 10bp, no vol target) delivers three separable facts.
+
+(1) **The width direction on this panel is not the noise direction.** Real rank corr(width, CAGR)
+= -0.80 (narrower earns more: 15.58 / 15.73 / 15.15 / 14.21% at widths 3/5/8/12) while six seeded
+random score sets on the SAME eligibility mask give +0.40 (0.77 / 0.30 / 0.48 / 1.77%). So the
+decay is a property of the score, not diversification arithmetic on a rising panel -- the opposite
+verdict to E276's cross-panel read, which is exactly why the null has to run where the number lives.
+
+(2) **Publish the null's own spread, or the headline is a fiction of the estimator.** Per-seed
+ranges are wide (-6.5..+3.4% at width 3) while real sits 10.5-13.5pp above the BEST draw; the gap
+is decisive but the null's *trend* (rho +0.4) is not a measurement at six seeds. A face that prints
+real-minus-median only makes both look equally precise.
+
+(3) **The sign is also rule-bound, and that half survives this face.** The ticket already publishes
+the same two widths under two leverage rules: beta-scaled says 12 names cost 1.53pp vs 5, vol-target
+says 12 names gain 0.24pp -- a disagreement smaller than the 2.045pp engine disagreement the ticket
+itself declares. So "narrow beats wide" is a statement about (panel, rule), and a width question
+asked without naming the rule is not answered by any amount of panel evidence.
+
+Law: a knob direction needs (a) its own null on the panel it was measured on and (b) the leverage
+rule named, because the sign can survive (a) and still flip on (b); publish the null's per-seed range
+and quote the gap to its best draw, not to its median.
+
+Pos: scripts/etf_book_width_null_production.py (selftest 14/14: spearman/ties/constant refusal,
+same-sign vs differing-sign verdicts, NOT-ASSESSED on a None or non-finite rung, gap column is
+real-minus-null, the null keeps the eligibility mask and replays by seed, and the cross-rule reader
+names a disagreeing ticket instead of averaging it) + results/etf_book_width_null_production.json
+(+ .md) + chain leg `etf_book_width_null_production` + smoke leg that recomputes the verdict from
+the published columns.
