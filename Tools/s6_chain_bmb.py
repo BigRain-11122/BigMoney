@@ -273,6 +273,14 @@ LEGS = [
     ("band_multiplier_distribution",
      ["python", "scripts/e259_band_multiplier_distribution.py", "verify"]),
 
+    # E260: E259 published 52 of 640 per-seed multipliers reading exactly 1.0 -- that is a
+    # prefix-nested endpoint which already arrived before the base count. This leg re-derives the
+    # arrival count per seed off E259's own edge tables and pins the arm-by-arm cross-check
+    # (16 arms x 40 seeds = 52), so "the published base count sits below the arrival count" cannot
+    # go stale silently. Reads the published face only, no panel, no refit, no re-pricing. <1s.
+    ("band_endpoint_arrival",
+     ["python", "scripts/e260_band_endpoint_arrival.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

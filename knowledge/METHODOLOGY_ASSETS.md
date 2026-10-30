@@ -4986,3 +4986,29 @@ the arm name or it will read the wrong stream and blame the upstream face; > cou
 degenerate streams that a prefix-nest admits (multiplier exactly 1.0) instead of letting them set
 the interval's floor invisibly; > a verdict that only holds at one end of a published interval is
 `interval_dependent`, not flipped.
+
+## E260 -- the published base draw count sits below the endpoint arrival count
+
+A Monte-Carlo band's draw count can be *below settlement*, and that is measurable rather than a
+worry. Because E259's streams are prefix-nested, each seed's band endpoint is non-decreasing in the
+draw count, so for every seed there is a first count at which it stops moving: its ARRIVAL. Read
+back at every grid point, arrival becomes a distribution per window, and the question "is the
+published band a converged band?" becomes an arithmetic comparison instead of an opinion.
+
+Measured on the E252/E257/E258/E259 band family (4 windows x 2 legs x 40 seeds, no new draws):
+median arrival **1440 draws** against published base counts of **60 / 200**; **174 of 320** seeds
+reach their final endpoint only at the top of the grid; **12 of 16** published rows sit below their
+own arrival count and **0 of 16** settle at their base. A multiplier of exactly 1.0 is the
+degenerate reading of the same object: the endpoint already arrived before the base count, which is
+why E259 counted 52 of 640 -- this face reproduces that count arm by arm (16/16, 52/52).
+
+How to apply: > before reading a Monte-Carlo band as converged, publish the arrival distribution of
+the draw count and compare it with the count actually used -- "the endpoint is still rising" is a
+statement about a knob, "the median seed needs 1440 draws and the band is published at 200" is a
+statement a reader can act on; > a prefix-nested sample makes arrival *well defined*, which is the
+reason to nest rather than to redraw independently at each count; > when the arrival floor sits at
+the top of the grid, the grid is the binding constraint -- publish that instead of implying the
+sample converged; > pin a cross-face reproduction ARM BY ARM (key = base count *and* leg), never by
+summing whatever rows happen to be published: the published rows and the distribution arms were two
+different 16s, and the 29-vs-52 "reproduction failure" was that mistake, not a broken upstream.
+

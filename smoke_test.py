@@ -4736,6 +4736,98 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E260: E259 exposed the degenerate reading -- 52 of 640 per-seed multipliers sit at exactly
+    # 1.0 because a prefix-nested endpoint cannot move again once the draw that set it arrived.
+    # This leg asks the question that turns the degeneracy into a number: at how many draws does
+    # each seed's endpoint stop moving, and is the published base count below it? What can
+    # fabricate a claim here: an arrival read off the wrong arm's stream, a "median arrival" that
+    # is a grid point rather than a median of the seeds, a cross-check that sums the published
+    # rows (a different 16 than E259's distribution arms) and calls the mismatch a reproduction,
+    # and an arrival table that does not reproduce E259 arm by arm.
+    try:
+        _bad60 = []
+        _p60 = os.path.join("results", "state_tilt", "bandarrival_latest.json")
+        _f60 = None
+        if not os.path.exists(_p60):
+            _bad60.append("face missing: %s" % _p60)
+        else:
+            with io.open(_p60, encoding="utf-8") as _fh60:
+                _f60 = json.load(_fh60)
+        _m60 = None
+        if _f60 is not None:
+            try:
+                import e260_band_endpoint_arrival as _m60
+            except Exception as _e60:
+                _bad60.append("module does not import: %r" % (_e60,))
+        if _m60 is not None:
+            for _p in (_m60.verify() or [])[:4]:
+                _bad60.append("verify: %s" % _p)
+        _w60 = (_f60 or {}).get("windows") or {}
+        _grid = ((_f60 or {}).get("frozen_spec") or {}).get("grid") or []
+        if len(_w60) < 3:
+            _bad60.append("fewer than three windows carry an arrival table (%d)" % len(_w60))
+        for _cell, _tab in _w60.items():
+            for _leg, _rec in (_tab or {}).items():
+                _arr = ((_f60.get("arrivals_per_seed") or {}).get(_cell) or {}).get(_leg) or []
+                _vals = [int(v) for v in _arr if v is not None]
+                if not _vals:
+                    _bad60.append("%s/%s has no judged seed" % (_cell, _leg))
+                    continue
+                # every arrival must be a grid point -- an interpolated arrival is not an arrival
+                if any(v not in _grid for v in _vals):
+                    _bad60.append("%s/%s: an arrival is not on the draw grid" % (_cell, _leg))
+                # the published median must be the median of those seeds, not a grid point
+                _sorted60 = sorted(_vals)
+                _n60 = len(_sorted60)
+                _med60 = (_sorted60[_n60 // 2] if _n60 % 2
+                          else (_sorted60[_n60 // 2 - 1] + _sorted60[_n60 // 2]) / 2.0)
+                if _rec.get("arrival_median") != _med60:
+                    _bad60.append("%s/%s: arrival median %r != median of its seeds %r"
+                                  % (_cell, _leg, _rec.get("arrival_median"), _med60))
+                if _rec.get("n_judged") != _n60:
+                    _bad60.append("%s/%s: n_judged %r != %d arrivals"
+                                  % (_cell, _leg, _rec.get("n_judged"), _n60))
+                if sum((_rec.get("arrival_hist") or {}).values()) != _n60:
+                    _bad60.append("%s/%s: arrival hist does not sum to the judged seeds"
+                                  % (_cell, _leg))
+        # the pin: E259's published degeneracy must reappear ARM BY ARM, not as a total
+        _cc = (_f60 or {}).get("cross_check") or {}
+        if _cc.get("matches") is not True:
+            _bad60.append("cross-check does not reproduce E259 (%r vs %r, %r arm(s) mismatch)"
+                          % (_cc.get("recomputed"), _cc.get("e259_published"),
+                             _cc.get("arms_mismatched")))
+        _arms60 = _cc.get("arms") or []
+        if len(_arms60) < 8:
+            _bad60.append("cross-check carries only %d arm(s)" % len(_arms60))
+        for _a in _arms60:
+            _vals60 = ((_f60.get("arrivals_per_seed") or {}).get(_a.get("cell")) or {}).get(
+                _a.get("leg")) or []
+            _mine = sum(1 for v in _vals60 if v is not None and v <= (_a.get("base_draws") or 200))
+            if _mine != _a.get("n_at_base"):
+                _bad60.append("%s/%s: arm count %r is not what the arrival table gives (%d)"
+                              % (_a.get("cell"), _a.get("arm"), _a.get("n_at_base"), _mine))
+        _s60 = (_f60 or {}).get("summary") or {}
+        if (_s60.get("rows_pre_settlement") or 0) == 0:
+            _bad60.append("no published row is flagged pre_settlement, yet the family publishes "
+                          "at 60/200 draws")
+        check("product: the published base draw count sits below the endpoint arrival count",
+              not _bad60, "; ".join(_bad60)[:220]
+              or "verdict %s; median arrival %s draws across %s windows (%s..%s) against "
+                 "published bases 60/200; %s of %s seeds reach their final endpoint only at the "
+                 "top of the grid; %s of %s published rows read off a stream that was still "
+                 "moving, %s settled, %s not measured; cross-check %s/%s arm-by-arm"
+                 % ((_f60 or {}).get("verdict"), _s60.get("arrival_median_across_windows"),
+                    _s60.get("windows_measured"), _s60.get("arrival_min_across_windows"),
+                    _s60.get("arrival_max_across_windows"), _s60.get("seeds_only_at_top"),
+                    _s60.get("seeds"), _s60.get("rows_pre_settlement"), _s60.get("rows"),
+                    _s60.get("rows_settled_at_base"), _s60.get("rows_window_not_measured"),
+                    (_s60.get("cross_check_arms") or 0) - (_s60.get("cross_check_arms_mismatched") or 0),
+                    _s60.get("cross_check_arms")))
+    except Exception as e:
+        check("product: the published base draw count sits below the endpoint arrival count",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:
