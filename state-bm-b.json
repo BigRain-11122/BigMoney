@@ -2014,7 +2014,7 @@
    "results/t35_open_fill_verify.json (PASS, matched 0 dropped 0 breach 0)",
    "results/daily_scorecard.html + results/strategy_scorecard.json + monitor status rebuilt"
   ],
-  "s1": "full suite 241/242 at 21:1x: the ONLY FAIL was my own heartbeat write -- I hand-wrote free_vram_gb/gpu_util_pct instead of going through the GPU chokepoint, so 17 GPU aliases disagreed by 205 MiB and the \"fleet: GPU face self-consistent\" leg went red (the r1284 pit recurring at a third site). Healed with Tools/gpu_face.py apply (32 keys, one probe, audit findings=[]); the E259 leg itself PASSed; the full suite was re-started after the heal and is not claimed green here",
+  "s1": "full suite 242/242 PASS 0 FAIL: at 21:1x it read 241/242 with the only FAIL being my own heartbeat GPU face (hand-written aliases, 205 MiB spread); healed with Tools/gpu_face.py apply (audit findings=[]), the suite re-ran clean at 21:4x, and the E259 leg passed in both runs",
   "s6": "orphan 0 of 13 | dualrun ZERO-DRIFT 754 streak 39 | compute_audit FLAG supply_gap,supply_floor -> seeded E260/E261/E262 | py_watermark insufficient_history | attrition CLEAN 4 ledgers | new bar 2026-10-30: update_daily + update_etf_daily wrote, live.paper rc=0 (22 bars, dd -0.0078), t35 PASS, t24 22/22, aggr 20/20, alloc 7 files, grid 5/5, system_v1 honest bm-a no-op, daily_report/scorecard/live_usage/monitor rebuilt, token_meter +0 LLM tokens today",
   "s7": "loop pin=2 no-op | LoopWatchdog S4U SWA=false re-registered | both claws reinstalled | D-19 decisions unchanged / orders face moved (go-ahead row read)",
   "ts": "2026-10-30T20:57:08+08:00"
@@ -2037,7 +2037,7 @@
  "sat_engine": "rc=0 idle",
  "selftest": "e259_band_multiplier_distribution 30/30",
  "seq": 27,
- "smoke": "full suite 241/242 at 21:1x; the single FAIL was my own heartbeat GPU face (healed via gpu_face apply, audit findings=[]); re-running after the heal",
+ "smoke": "full suite 242/242 PASS 0 FAIL after the GPU-face heal (21:2x-21:4x); baseline 239 -> 242 with r1285 two legs + this round E259 leg",
  "smoke_note": "smoke 225/225 PASS (224 -> 225 with the E241 leg)",
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -2057,9 +2057,9 @@
  "task": "E259 band multiplier distribution",
  "task_short": "E259 band multiplier distribution",
  "task_short_note": "scripts/e259_band_multiplier_distribution.py; selftest 30/30; face results/state_tilt/BANDWINDIST-2026-10-29.json",
- "ts": "2026-10-30T21:05:10+08:00",
- "updated": "2026-10-30T21:05:10+08:00",
- "updated_at": "2026-10-30T21:05:10+08:00",
+ "ts": "2026-10-30T21:15:16+08:00",
+ "updated": "2026-10-30T21:15:16+08:00",
+ "updated_at": "2026-10-30T21:15:16+08:00",
  "verdict": "E259: the draw multiplier is a distribution, not a three-seed range -- 16 of 16 intervals [p05,p95] over 40 streams are wider than E258 three-seed range (1.09..11.77x, median 2.25; width 0.519..1.196 median 0.827); 3 of 16 published rows change verdict inside their own interval and 7 survive outside at every end; 52 of 640 per-seed multipliers read exactly 1.0 because the prefix-nested endpoint already arrived; E258 per-seed table reproduces 8/8 on the arm it published and the 8 cross arms were never published by it",
  "watermark_red": "no red at open (py 1.8%, pool ready 1 = the stale E258 row) -- E258 was already delivered in r1285, so this round burned the NEXT question E259",
  "work": "scripts/e259_band_multiplier_distribution.py (run / selftest 30/30 / verify OK) + BANDWINDIST face + S6 leg band_multiplier_distribution + smoke leg + digest + card E259"
