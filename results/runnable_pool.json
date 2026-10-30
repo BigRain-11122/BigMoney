@@ -24603,10 +24603,14 @@
   },
   {
    "deliverable": "results/state_tilt/BANDTHRESHOLD-<cutoff>.json",
+   "done_at": "2026-10-31 00:12",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E265-DONOR-THRESHOLD-PER-ROW",
    "lane": "cpu-only",
    "priority": 3,
+   "result_note": "closed as SUPERSEDED before burning: the per-row threshold m* it asks to test (m* = |b|/max(|lo|,|hi|), any donor p95 above m* flips the row) was measured by E264 (BANDNEAR1: m* is the whole row-side story, 12 of 16 rows readable with no draws, both E262 moves inside the top-3 closest, third-closest did not move -> ranking is a superset) and then scored as a screen by E266 (BANDSCREEN: flags 18 of 36 with 2 moves, the max-end form is the wrong threshold on 18 of 36, only the own-side bracket is exact). No separate runner was written.",
+   "result_ref": "results/state_tilt/BANDNEAR1-2026-10-29.json",
    "runner": "scripts/e265_donor_threshold_per_row.py",
    "runner_args": [
     "run"
@@ -24614,7 +24618,7 @@
    "seeded_at": "2026-10-30T23:2x+08:00",
    "seeded_by": "bm-b r1290",
    "source": "E262 showed a borrowed wide end moves 2 of 12 judged rows and that the pooled maximum is harmless in 3 of 4 (leg, base) groups. Both moved rows sat just outside their own band, so the mechanism is a per-row threshold, not a window property: the multiplier that flips a row is m* = |b| / max(|lo|, |hi|) and any donor p95 above it flips that row. The untested claim is whether the E262 moves are exactly the rows with the smallest m* (i.e. the transfer damage is predictable from the row alone, no draws needed), which would turn 'do not borrow' into a per-row screen",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e265_donor_threshold_per_row.py (new runner)",
    "title": "how close to its band must a row sit for a borrowed wide end to flip it?",
    "worker_class": "code-change"
@@ -24644,11 +24648,15 @@
   },
   {
    "deliverable": "results/state_tilt/BANDMARGIN-<cutoff>.json",
+   "done_at": "2026-10-31 00:12",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E267-SCREEN-BUFFER-MARGIN",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_note": "verdict=buffer_cannot_buy_precision_itself; 36 comparisons / 2 moves; unbuffered side rule flags 14 (precision 0.143), best buffer 0.154 in a 0.00116-wide b window, never 1; largest non-move clears by 246% so a buffer that clears every non-move clears every move; guarded side rule exact at b=0 and at all 12 b<=0.0454",
+   "result_ref": "results/state_tilt/BANDMARGIN-2026-10-29.json",
    "runner": "scripts/e267_screen_buffer_margin.py",
    "runner_args": [
     "run"
@@ -24656,9 +24664,47 @@
    "seeded_at": "2026-10-30T23:47:45+08:00",
    "seeded_by": "bm-b r1292",
    "source": "E266's bracket screen is exact on 2 positives out of 36 published comparisons, but it has no predictive margin: a donor 0.001 above the row's own-side threshold counts exactly the same as one 0.3 above it. Anyone acting on the screen needs a buffer, and the cost of demanding one is already measurable on the same 36 comparisons -- sweep b in donor > t*(1+b) and publish the false-positive/missed-move trade curve plus the actual margins of the two real moves (0.074 and 0.045 above t as published)",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e267_screen_buffer_margin.py (new runner)",
    "title": "how much margin must a donor clear before the flip is worth acting on?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDPOOLED-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E268-SCREEN-ON-POOLED-END",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e268_screen_on_pooled_end.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T00:12:00+08:00",
+   "seeded_by": "bm-b r1293",
+   "source": "E267 showed the operative half of the screen is the own-side guard (own_p95 < t_side) and that the guard alone is exact on the published comparisons -- but the guard needs the row's own p95, which is exactly what a reader who did not draw that row's band does not have. E262 published a pooled 'flat' wide end per (leg, base) group, so the testable substitute exists in the same face: replace own_p95 with the group's flat p95 (and separately with the group's flat tight end) and measure whether the screen stays exact, which rows it mislabels, and whether the substitution is a disclosure or a change of meaning. The answer decides whether this screen is usable by anyone who reads the published tables rather than re-running the engine.",
+   "status": "ready",
+   "target": "scripts/e268_screen_on_pooled_end.py (new runner)",
+   "title": "can a reader without the row's own draws still run the screen?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDTIGHT-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E269-TIGHT-END-TRANSFER",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e269_tight_end_transfer.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T00:20:00+08:00",
+   "seeded_by": "bm-b r1293",
+   "source": "E262, E264, E266 and E267 all swept the WIDE end (p95) only -- every published arm also carries a p05 and every row carries own_p05 and a verdict_tight, so the tight half of the transfer question has never been scored. The asymmetry is not obvious a priori: the wide end decides rejections on the side a row sits beyond, the tight end decides how much a row can be over-credited, and the two are drawn from the same shuffle stream but from opposite tails, so 'the wide end does not transfer' is not evidence that the tight end does not. Measure it on the same 48 published pairs: borrow a donor's p05, rejudge each row's tight-end verdict, count moves and their direction, and compare the move counts and the per-group dominator against the wide end. If the tight end transfers cleanly while the wide end does not, the operational rule is not 'do not borrow' but 'do not borrow the wide end', which is a materially different instruction.",
+   "status": "ready",
+   "target": "scripts/e269_tight_end_transfer.py (new runner)",
+   "title": "does the tight end of another window transfer as badly as its wide end?",
    "worker_class": "code-change"
   }
  ],
@@ -24674,6 +24720,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T23:47:45+08:00",
+ "updated_at": "2026-10-31T00:20:00+08:00",
  "version": 1
 }

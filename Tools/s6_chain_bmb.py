@@ -318,6 +318,16 @@ LEGS = [
     ("wide_end_screen",
      ["python", "scripts/e266_wide_end_screen_holdout.py", "verify"]),
 
+    # E267: E266's bracket screen is exact but is a knife edge -- a donor 0.0001 above the row's
+    # own-side threshold counts the same as one 0.3 above. This leg re-derives the clearance curve
+    # "donor_p95 > t*(1+b)" over 4 rules: the unbuffered single rule flags 14 of 36 comparisons
+    # with 2 moves (precision 0.143); a buffer alone peaks at 0.154 in a 0.0012-wide b window and
+    # never reaches 1, because a non-move clearing by 246% of its threshold answers to no margin;
+    # the own-side guard alone is 2/2 exact and tolerates a buffer up to the closest move's 0.0455.
+    # Re-reads the published faces only, no draw, no panel, no re-pricing. <1s.
+    ("screen_buffer_margin",
+     ["python", "scripts/e267_screen_buffer_margin.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

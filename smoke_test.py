@@ -5358,6 +5358,119 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E267: E266's bracket screen is exact but is a knife edge -- a donor 0.0001 above the row's
+    # own-side threshold reads the same as one 0.3 above. This leg guards the face that asks how
+    # much clearance to demand. What can fabricate a claim here: a curve scored against a threshold
+    # that is not the row's own (max-end vs own side), precision published as 0.0 where it is
+    # undefined (no positives), a b ladder that does not actually ladder (predicted count rising
+    # with b), and a "separable" claim made from the NEAREST non-move instead of the largest one --
+    # one non-move clearing more than a move is what makes a buffer useless, and it is the margin
+    # ordering, not the counts, that says so. No draws, no panel.
+    try:
+        _bad67 = []
+        _p67 = os.path.join("results", "state_tilt", "bandmargin_latest.json")
+        _f67 = None
+        if not os.path.exists(_p67):
+            _bad67.append("face missing: %s" % _p67)
+        else:
+            with io.open(_p67, encoding="utf-8") as _fh67:
+                _f67 = json.load(_fh67)
+        if _f67 is not None:
+            _s67 = (_f67.get("summary") or {})
+            _cur67 = (_f67.get("curves") or {})
+            if not _cur67:
+                _bad67.append("no curve published -- then the card measured nothing")
+            for _name67, _rows67 in sorted(_cur67.items()):
+                # (a) b must ladder: predictions non-increasing, so are tp/fp
+                _prev67 = None
+                for _r67 in sorted(_rows67, key=lambda r: r.get("b") or 0.0):
+                    if _prev67 is not None:
+                        for _k67 in ("predicted", "tp", "fp"):
+                            if (int(_r67.get(_k67) or 0) > int(_prev67.get(_k67) or 0)):
+                                _bad67.append("%s: %s rises from %r to %r as b grows"
+                                              % (_name67, _k67, _prev67.get(_k67),
+                                                 _r67.get(_k67)))
+                                break
+                    _prev67 = _r67
+                # (b) the published precision is the tp/predicted ratio, and None when no flag
+                for _r67 in _rows67:
+                    _pred67 = int(_r67.get("predicted") or 0)
+                    if _pred67 == 0:
+                        if _r67.get("precision") is not None:
+                            _bad67.append("%s at b=%r publishes precision %r with zero flags"
+                                          % (_name67, _r67.get("b"), _r67.get("precision")))
+                            break
+                    elif abs(float(_r67.get("precision") or 0.0)
+                             - float(_r67.get("tp") or 0) / float(_pred67)) > 1e-12:
+                        _bad67.append("%s at b=%r: precision is not tp/predicted"
+                                      % (_name67, _r67.get("b")))
+                        break
+                # (c) the b=0 row of the guarded rule must agree with E266's bracket counts
+                if _name67 == "guarded_side":
+                    _zero67 = next((r for r in _rows67 if abs(float(r.get("b") or 0.0)) < 1e-12),
+                                   None)
+                    _s66r = None
+                    _p66r = os.path.join("results", "state_tilt", "bandscreen_latest.json")
+                    if os.path.exists(_p66r):
+                        with io.open(_p66r, encoding="utf-8") as _fh66r:
+                            _s66r = (json.load(_fh66r).get("summary") or {}).get("S3_bracket")
+                    if _zero67 is None:
+                        _bad67.append("the guarded rule publishes no unbuffered reading")
+                    elif _s66r:
+                        for _k67 in ("tp", "fp", "fn"):
+                            if int(_zero67.get(_k67) or 0) != int(_s66r.get(_k67) or 0):
+                                _bad67.append("b=0 %s=%r but E266's own bracket says %r -- one "
+                                              "screen, two numbers"
+                                              % (_k67, _zero67.get(_k67), _s66r.get(_k67)))
+                                break
+            # (d) separability is a margin ordering, and the verdict must follow it
+            _sep67 = (_s67.get("separation") or {})
+            _lg67 = _sep67.get("largest_false_positive_margin")
+            _nt67 = _sep67.get("nearest_true_positive_margin")
+            if _lg67 is not None and _nt67 is not None:
+                _want67 = bool(float(_lg67) < float(_nt67))
+                if _sep67.get("separable") is not _want67:
+                    _bad67.append("separable says %r but the largest non-move clears %r against "
+                                  "the closest move %r"
+                                  % (_sep67.get("separable"), _lg67, _nt67))
+            else:
+                _bad67.append("separation publishes no margin ordering")
+            # (e) a verdict of "the buffer cannot buy precision" needs the guard to be exact
+            _g67 = (_s67.get("guard_only") or {})
+            if (_f67.get("verdict") == "buffer_cannot_buy_precision_itself"
+                    and not (_g67.get("exact") and int(_g67.get("tp") or 0) > 0)):
+                _bad67.append("verdict says the buffer cannot replace the guard, but the guard is "
+                              "not exact itself (tp %r)" % (_g67.get("tp"),))
+            # (f) headline counts are ints (A-or-{}.get family)
+            for _k67 in ("comparisons", "moves_published", "breakpoints"):
+                if not isinstance(_s67.get(_k67), int):
+                    _bad67.append("summary field %s is not an int (%r)" % (_k67, _s67.get(_k67)))
+            # one name, one quantity: the count and the list must not share a key (E207 family)
+            if isinstance(_s67.get("moves"), list) or isinstance(_s67.get("moves"), int):
+                _bad67.append("summary carries a bare 'moves' key alongside moves_published")
+            _side67 = ((_s67.get("rules") or {}).get("single_side") or {})
+            _zero67s = _side67.get("at_zero") or {}
+            if (_zero67s.get("tp") or 0) + (_zero67s.get("fp") or 0) > (_s67.get("comparisons") or 0):
+                _bad67.append("the unbuffered rule flags more comparisons than exist")
+            check("product: a margin is not a substitute for the row's own side",
+                  not _bad67,
+                  "%r | %d comparison(s), %d move(s); unbuffered side rule flags %d (tp %d, "
+                  "precision %.3f), best buffer precision %s at b=%s, guard alone tp/fp %r/%r, "
+                  "largest non-move margin %s vs closest move %s (separable=%r)"
+                  % ((_f67.get("verdict"), _s67.get("comparisons") or 0,
+                      _s67.get("moves_published") or 0,
+                      _zero67s.get("predicted") or 0, _zero67s.get("tp") or 0,
+                      _zero67s.get("precision") or 0.0,
+                      ("%.3f" % _side67["best_precision"]
+                       if _side67.get("best_precision") is not None else "n/a"),
+                      _side67.get("best_b"), _g67.get("tp"), _g67.get("fp"),
+                      _lg67, _nt67, _sep67.get("separable")))
+                  + (" | " + "; ".join(_bad67[:4]) if _bad67 else ""))
+    except Exception as e:
+        check("product: a margin is not a substitute for the row's own side",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:
