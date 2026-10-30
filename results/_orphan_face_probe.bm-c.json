@@ -1,17 +1,31 @@
 {
- "ts": "2026-10-30T13:25:20",
+ "ts": "2026-10-30T14:36:56",
  "mode": "probe",
- "py_faces_seen": 6,
+ "py_faces_seen": 7,
  "orphans": 0,
  "killed": [],
  "idle_servers_exempt": 0,
  "resident_servers_exempt": 1,
  "faces": [
   {
-   "pid": 73468,
+   "pid": 27708,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py",
-   "age_min": 26.0,
+   "cmd": "python scripts/etf_book_capacity_rule.py run",
+   "age_min": 0.9,
+   "cpu_delta_20s": 20.047,
+   "face1_parent_dead": false,
+   "face2_no_hidden_host_ancestor": true,
+   "face3_cpu_stalled": false,
+   "ancestor_chain": [
+    "python.exe",
+    "DEAD"
+   ]
+  },
+  {
+   "pid": 36456,
+   "name": "python.exe",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -u Tools\\s6_chain_bmc.py 1360",
+   "age_min": 23.3,
    "cpu_delta_20s": 0.0,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
@@ -21,18 +35,15 @@
    ]
   },
   {
-   "pid": 78212,
+   "pid": 46700,
    "name": "python.exe",
-   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\resident",
    "age_min": 0.4,
-   "cpu_delta_20s": 0.156,
+   "cpu_delta_20s": 999.0,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "pwsh.exe",
-    "codely.exe",
-    "powershell.exe",
     "wscript.exe"
    ]
   },
@@ -40,8 +51,8 @@
    "pid": 92024,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 143.4,
-   "cpu_delta_20s": 0.0,
+   "age_min": 215.0,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,
@@ -53,25 +64,27 @@
    ]
   },
   {
-   "pid": 108964,
+   "pid": 92100,
    "name": "python.exe",
-   "cmd": "python scripts/reader_text_audit.py run",
-   "age_min": 0.7,
-   "cpu_delta_20s": 19.938,
+   "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe Tools\\orphan_face_probe.py",
+   "age_min": 0.5,
+   "cpu_delta_20s": 0.203,
    "face1_parent_dead": false,
-   "face2_no_hidden_host_ancestor": true,
+   "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
    "ancestor_chain": [
-    "python.exe",
-    "DEAD"
+    "pwsh.exe",
+    "codely.exe",
+    "powershell.exe",
+    "wscript.exe"
    ]
   },
   {
    "pid": 110956,
    "name": "python.exe",
    "cmd": "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\Tools\\saturati",
-   "age_min": 1271.8,
-   "cpu_delta_20s": 2.516,
+   "age_min": 1343.4,
+   "cpu_delta_20s": 2.078,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -83,8 +96,8 @@
    "pid": 111672,
    "name": "python.exe",
    "cmd": "python",
-   "age_min": 147.0,
-   "cpu_delta_20s": 0.172,
+   "age_min": 218.6,
+   "cpu_delta_20s": 0.156,
    "face1_parent_dead": false,
    "face2_no_hidden_host_ancestor": false,
    "face3_cpu_stalled": false,
@@ -101,8 +114,8 @@
    "pid": 92024,
    "name": "python.exe",
    "cmd": "D:\\ComfyUI\\python_embeded\\python.exe -s D:\\ComfyUI\\ComfyUI\\main.py --listen 127.0.0.1 --port 8188",
-   "age_min": 143.4,
-   "cpu_delta_20s": 0.0,
+   "age_min": 215.0,
+   "cpu_delta_20s": 0.016,
    "face1_parent_dead": true,
    "face2_no_hidden_host_ancestor": true,
    "face3_cpu_stalled": true,

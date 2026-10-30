@@ -6449,3 +6449,79 @@ Pos: scripts/etf_book_phase_atlas_arms.py LIVE_RULE power_z/power_target + `reso
 (selftest 88->91 legs) ; scripts/etf_book_order.py `_resolution_md` + re-derived
 resolution_pp/gap_over_resolution/below_own_resolution on both sheets (selftest 56->59) ; smoke
 leg E272 recomputes the floor from the face's own sd and requires it on BOTH order documents.
+
+
+## E273 A supply floor is only green over work that can be STARTED (2026-10-30 r1360 bm-c)
+
+The v2.4 supply floor asked one question -- "is this ready row allowed to be taken by a live
+machine?" -- and the answer was yes three times over on 2026-10-30 while python sat at 0.1%:
+`ready=3 / floor=3 / breach=false`. The launcher, asked the same pool, said
+`ghost_ready_no_shards` for all three. Two faces, one pool, two worlds.
+
+What the three rows actually were, measured rather than assumed:
+
+* `E272-ATLAS-COST0` -- deliverable already in git since r1163 (commit d0cdc4e44b). Re-ran
+  today: every published number reproduced bit-for-bit, the only difference being
+  `audit.workers` 4 -> 8. A determinism proof, not new supply.
+* `E272-ATLAS-COST20` -- deliverable also in git since r1163, but the row could not be re-run
+  at all: it was stocked with `--cost=20`, and the atlas takes cost as a FRACTION per side,
+  so that is 2000%/side. The equity level crosses zero, `growth ** (1/yr)` returns a complex
+  number, and the run dies 280 cells deep with `TypeError: float() argument must be a string
+  or a real number, not 'complex'`.
+* `E243-ADDITIVITY-OUT-OF-SAMPLE` -- never deliverable here: its runner imports
+  `e235_charge_granularity`, which imports `e230_hysteresis_toll`, a module present in NO
+  commit (only the digest landed), so it cannot start on any clean checkout. The publishing
+  machine held the file untracked, which is exactly why the pool has to check the tree and
+  not the author's disk.
+
+The rule, in three separable questions that must not be collapsed: (1) may a live machine take
+it, (2) can it be claimed and can it import, (3) does its deliverable already exist. Only (1)
+existed. Adding (2) without touching (1) is the point: `ready_ignitable` keeps its history,
+`ready_launchable` is published beside it, and the flag `supply_unstartable` fires when
+ignitable>0 and launchable==0 under low py. Params with no unit validation are a separate
+defect of the same shape -- a cost in the wrong unit is not a bigger cost, it is an unusable
+argument, and it must be refused where it is entered (the atlas now rejects anything outside
+0..0.05 with the message naming 0.0020 vs 20).
+
+How to apply: when a gate publishes a count as "work available", say which executor answered
+and what it would refuse. A count of rows is not a count of batches; a matched set of numbers
+re-run to the last digit is a determinism check, not supply. One launcher rule, two readers:
+the new selftest leg imports the launcher's own `unclaimable_ready_ids` and requires it to
+name exactly the ids the audit calls unclaimable.
+
+Pos: scripts/compute_audit.py `_unsharded`/`_unresolved_dep` + `ignitable_face`
+ready_unclaimable/ready_launchable + flag supply_unstartable (selftest 51->57, incl. the
+launcher-parity leg) ; Tools/autofill.py `unclaimable_ready_ids` (public face of the r1353
+ghost rule) ; scripts/etf_book_phase_atlas.py cost unit guard (selftest 12->13) ;
+results/runnable_pool.json three rows retired with typed evidence ;
+research/digests/DIGEST-20261030-r1360-supply-floor-unstartable.md
+
+## E274 A red card that counts debt as work stays red forever (2026-10-30 r1360 bm-c)
+
+`results/watermark_red.json` -- the face that decides whether a round opens with a P0
+escalation -- was written by a fresh ad-hoc closeout script in every window
+(`_rNNNbmc_closeout.py`, one per round, kept in scratch/tmp). Every copy inherited the same
+defect: a pool row that declares `blocked_by` but still carries `status="ready"` was counted
+as "work waiting for you".
+
+Measured, not assumed: 738 pool rows, and after the supply floor (E273) retired the three
+unstartable rows, exactly ONE row was left in that state -- `E243-ADDITIVITY-OUT-OF-SAMPLE`,
+blocked on `runner-import-missing:e230_hysteresis_toll` (a module present in no commit, so it
+cannot start on any clean checkout). The red card's *entire* claim of available work was
+therefore the one row no machine could start: autofill refused it every tick
+(`ghost_ready_no_shards`), no round could consume it, and the card stayed red for as long as
+it stayed blocked.
+
+Law: the red card's input must be work that can be CONSUMED, not rows that exist. A row that
+declares itself blocked is a named debt, and debt must be printed on its own line rather than
+added to the work count. A permanently red gate ends one way only -- somebody relaxes the
+assertion (the r1135 trap), which is why this is fixed at the reader with the debt still
+visible (`pool_blocked_ids` + `blocked_reasons`), not by quieting the alarm.
+
+Pos: Tools/watermark_red.py (single derived producer: write/show/selftest, 12 legs; lane
+`board-clear-and-pool-empty` names the legal idle and prints the debt separately) ;
+scripts/py_watermark.py `_pool_blocked_claimable` + `_pool_ready_claimable` skips declared
+blockers + `pool_blocked_ids` on the probe record (selftest leg "a ready row that declares a
+blocker is debt, not work"). Fixture lesson caught by the new leg itself: the selftest first
+reused one filename per series, so a later fixture shadowed an earlier one and the reader
+looked like it disagreed when only the fixture aliased itself (r1261 family).

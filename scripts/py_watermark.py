@@ -109,18 +109,44 @@ def _bandit_open(path=BANDIT):
         return 0
 
 
+def _pool_blocked_claimable(machine_id, pool_path=POOL):
+    """Ready rows that declare themselves blocked: debt, not work (r1361 bm-c).
+
+    A row carrying `blocked_by` stays status=ready until someone fixes the
+    blocker, and autofill cannot launch it (ghost_ready_no_shards). Counting it
+    as a claimable batch kept this probe red on a phantom for as long as the
+    row stayed blocked. Named separately so the debt is still visible."""
+    ids = []
+    try:
+        with open(pool_path, encoding="utf-8") as f:
+            entries = json.load(f).get("entries", [])
+        for e in entries:
+            if e.get("status") != "ready" or not e.get("blocked_by"):
+                continue
+            lane = e.get("lane_owner")
+            if lane in (None, "", "ANY", "any") or lane == machine_id:
+                ids.append(e.get("id") or "?")
+    except Exception:
+        return []
+    return ids
+
+
 def _pool_ready_claimable(machine_id, pool_path=POOL):
     """Ready pool entries claimable by THIS machine (fact only): status=ready
-    AND lane_owner null/ANY/unset/== this machine. Tech-queue T7/T14 lesson:
-    the pool face is the real 'runnable CPU batch' candidate list (O-1136
-    CPU-dense criterion); board tickets / bandit pointers are control-plane
-    work, not pool batches. Corrupt/missing file -> [] (honest, non-fatal)."""
+    AND no declared blocker AND lane_owner null/ANY/unset/== this machine.
+    Tech-queue T7/T14 lesson: the pool face is the real 'runnable CPU batch'
+    candidate list (O-1136 CPU-dense criterion); board tickets / bandit pointers
+    are control-plane work, not pool batches. A blocked row is a named debt
+    (_pool_blocked_claimable), never a candidate (r1361). Corrupt/missing file
+    -> [] (honest, non-fatal)."""
     ids = []
     try:
         with open(pool_path, encoding="utf-8") as f:
             entries = json.load(f).get("entries", [])
         for e in entries:
             if e.get("status") != "ready":
+                continue
+            if e.get("blocked_by"):
                 continue
             lane = e.get("lane_owner")
             if lane in (None, "", "ANY", "any") or lane == machine_id:
@@ -285,6 +311,7 @@ def probe():
         "bandit_open": bandit_open,
         "pool_ready_ids": pool_ready,
         "pool_ready_count": len(pool_ready),
+        "pool_blocked_ids": _pool_blocked_claimable(mid),
         "board_inflight_ids": board_inflight,
         "work_cand_buckets": {
             "pool_batch": len(pool_ready),
@@ -464,12 +491,17 @@ def selftest():
             {"id": "P-OTHER", "status": "ready", "lane_owner": "bm-c"},
             {"id": "P-DONE", "status": "done", "lane_owner": None},
             {"id": "P-WAIT", "status": "waiting", "lane_owner": None},
+            {"id": "P-BLOCKED", "status": "ready", "lane_owner": None,
+             "blocked_by": "runner-import-missing:some_module"},
         ]
         with open(pp, "w", encoding="utf-8") as f:
             json.dump({"entries": entries}, f)
         check("pool ready claimable (null/ANY/mine only)",
               _pool_ready_claimable("bm-b", pp)
               == ["P-ANY-NULL", "P-ANY-STR", "P-MINE"])
+        check("a ready row that declares a blocker is debt, not work",
+              _pool_ready_claimable("bm-b", pp).count("P-BLOCKED") == 0
+              and _pool_blocked_claimable("bm-b", pp) == ["P-BLOCKED"])
         check("pool missing file -> []", _pool_ready_claimable(
             "bm-b", os.path.join(tmpd4b, "nope.json")) == [])
         with open(pp, "w", encoding="utf-8") as f:
