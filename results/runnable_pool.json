@@ -23724,7 +23724,7 @@
    "id": "E266-ATLAS-BUFFER-K005-COST05",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.05 at 5bp/side)",
    "runner_args": [
@@ -23746,12 +23746,18 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "open",
+     "status": "done",
      "owner": null,
-     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost05.json -- one whole face per invocation; same bar set reproduces the same bytes"
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost05.json -- one whole face per invocation; same bar set reproduces the same bytes",
+     "owner_since": "2026-10-30 10:26:03",
+     "done_at": "2026-10-30 10:26:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
     }
    ],
-   "priority": 2
+   "priority": 2,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 10:26:03"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
