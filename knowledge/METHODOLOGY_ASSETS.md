@@ -6772,3 +6772,29 @@ Pos: scripts/etf_book_phase_atlas_arms.py (_cutoff_of / _source_advanced / _sour
 check/floor_check/width_check/live_width_check/readback_check; selftest 102->109) +
 scripts/etf_book_rule_null.py (same rule, its own copy of the read) + digest
 DIGEST-20261030-r1372-clock-free-staleness-sweep.md. All five gates green on the 2026-10-29 bar.
+## E284 A source can be regenerated on the bar it already carries, so a date comparison cannot decide "refresh me" vs "someone edited me" (2026-10-30 r1373 bm-c)
+
+`etf_book_rule_null.check()` split two red states by one signal: is the source (the arms face)
+priced on a LATER bar? The arms face is re-derived on the SAME bar several times a day (r1361
+regenerated it at 14:05 and 14:20 on 2026-10-29 while the bar stayed put), and then the null
+face's numbers move -- every label frequency is simulated from those rows -- while the cutoff
+does not move at all. The gate reported `inconsistent` (rc=1, "hand-edited, do not re-derive"),
+which under its own contract must stay red forever; the truth was `stale` (rc=2, "source moved,
+refresh me"). The plausible wrong fix under pressure is to re-derive it anyway, which is exactly
+the laundering the split exists to prevent.
+
+Rule: to tell "my source moved" from "I was edited", compare **the inputs this face consumed**,
+not a clock and not a date. `source_digest()` hashes the bar, every cell's band and each arm's own
+rows and verdict (canonical JSON, sha256); `build()` publishes it; `check()` re-hashes the source
+and answers one question. Same hash = no source moved = rc1. Different hash, absent hash, or a
+missing source file = rc2, and none of those three may crash the gate. The date comparison is
+demoted to a second signal and IMPORTED (`_source_advanced`) rather than re-implemented, closing
+the duplicate-read debt r1372 left on the page.
+
+Selftest 10 -> 14 legs; the load-bearing one rebuilds the null face against a perturbed band and
+then points the gate back at the real source, demanding rc=2 -- the case the old gate could not
+see. Published face refreshed: +4 lines, every reading byte-identical
+(REJECT_IS_THE_DEFAULT, REJECT 96.48% under the null).
+
+Pos: scripts/etf_book_rule_null.py (source_digest / check / selftest L6) + results/etf_book_rule_null.json
++ digest DIGEST-20261030-r1373-null-gate-source-digest.md.
