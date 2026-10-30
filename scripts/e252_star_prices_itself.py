@@ -699,6 +699,14 @@ def selftest():
                         and any("cross coefficient" in p for p in vr["problems"]),
                         "verify refuses a cross column that is not E251's statistic",
                         vr.get("problems")))
+        # a newer E251 vintage is a different panel, not a different implementation
+        _stub(td, {"evidence_cutoff": "1999-01-01",
+                   "cells": [{"label": "all_five", "star": "s0",
+                              "star_residual": {"b1": (hc or 0.0) + 0.5}}]})
+        vv = verify(outdir=td)
+        legs.append(leg(vv["ok"] is True and bool(vv.get("vintage_lag")),
+                        "verify discloses a cross-vintage E251 face instead of calling it drift",
+                        vv.get("problems")))
         _stub(td, {"cells": [{"label": "all_five", "star": "s0",
                               "star_residual": {"b1": hc}}]})
         face_path = os.path.join(td, "starself_latest.json")
@@ -773,7 +781,14 @@ def verify(outdir=None):
     if head is None:
         bad.append("no headline cell")
     else:
-        other = os.path.join(outdir, "starown_latest.json")
+        # The identity is a same-panel statement: b_cross here and b1 there are the same
+        # regression only if both faces priced the same bars. Prefer E251's face at THIS
+        # face's own cutoff; a newer vintage is disclosed, never compared (E280).
+        cut = face.get("evidence_cutoff")
+        same = os.path.join(outdir, "STAROWN-%s.json" % cut) if cut else None
+        other = same if (same and os.path.exists(same)) else os.path.join(outdir,
+                                                                          "starown_latest.json")
+        vintage_lag = {}
         if not os.path.exists(other):
             bad.append("starown face missing, so the cross identity cannot be checked")
         else:
@@ -783,6 +798,13 @@ def verify(outdir=None):
                               if c.get("label") == "all_five"), None)
             if not prev_head or prev_head.get("star") != head.get("star"):
                 bad.append("the two faces do not name the same star")
+            elif cut and prev.get("evidence_cutoff") and prev["evidence_cutoff"] != cut:
+                # one extra bar moves the point estimate and every shuffled band; that is a
+                # panel difference, not a disagreement between the two implementations
+                vintage_lag = {"this_face": cut, "starown_face": prev["evidence_cutoff"],
+                               "starown_file": os.path.basename(other),
+                               "note": "cross-vintage: identity not comparable, "
+                                       "E251's same-cutoff face is not on disk"}
             else:
                 want = (prev_head.get("star_residual") or {}).get("b1")
                 got = (head.get("cross_row") or {}).get("b_cross")
@@ -794,7 +816,7 @@ def verify(outdir=None):
     if not face.get("comparability_note"):
         bad.append("the face does not carry its comparability note")
     s = face.get("summary") or {}
-    return {"ok": not bad, "problems": bad, "cells": len(cells),
+    return {"ok": not bad, "problems": bad, "cells": len(cells), "vintage_lag": vintage_lag,
             "verdict": s.get("verdict"), "star": s.get("headline_star"),
             "b_self": s.get("headline_b_self"), "b_cross": s.get("headline_b_cross"),
             "diff_ci": s.get("headline_diff_ci"), "face": os.path.relpath(path, ROOT)}

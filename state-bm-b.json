@@ -2299,6 +2299,26 @@
   "ts": "2026-10-31T04:5x",
   "verified": true
  },
+ "r1304": {
+  "dept": "research+engineering",
+  "finding": "the star_self_price red was a calendar difference, not an RNG drift. Two exact readings: (a) published same-vintage bytes -- STAROWN-2026-10-29 and STARSELF-2026-10-29 both carry -0.7250430277727764, abs diff 0.0; (b) one panel (1329 sessions), both implementations in one process -- e251.b1 = e252.b_cross = -0.7252014696754883, abs diff 0.0. So the two are ONE regression; the 177 moved leaves came from one extra bar (1328->1329), which moves the point estimate 1.6e-4 and the 200-draw max-statistic band by a third (hi 0.2357->0.3514). The r1277 star-rule refactor never touched the draw stream -- r1303's 'the face is stale' diagnosis was wrong and is corrected here.",
+  "identity": "same-panel identity is the property, verified twice (published bytes and a live rerun), both 0.0; the RNG pin reproduces the band under the same seed and moves it under seed+1",
+  "not_run": "full smoke suite not re-run (~35 min); the two touched legs were exercised offline against the published faces (both PASS). GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted, no quarantine action; bm-a/bm-c lane collectors honoured their guards",
+  "pit": "(1) the first RNG pin leg was VACUOUS: with 8 draws _band returns band=None, so 'same input, same band' was true because neither side had a band -- the leg now requires measurable before it may pass; (2) a cross-vintage comparison can pass as a drift claim for two rounds; the gates that read two faces must key on the vintage, not on the file name",
+  "product": [
+   "scripts/e280_e251_rng_drift_repin.py (run / selftest 9/9)",
+   "results/state_tilt/STAROWNREPIN-2026-10-30.json + starownrepin_latest.json",
+   "research/digests/DIGEST-20261031-r1304-e280-rng-drift-repin.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E280",
+   "Tools/s6_chain_bmb.py leg star_own_rng_repin (after star_self_price)",
+   "smoke_test.py: E252 leg made vintage-aware + new E280 leg",
+   "results/runnable_pool.json E280 done with result_ref"
+  ],
+  "repair": "decision rule D1 (declared in the runner before reading any number): gate repair, no reburn, no stream restore. e252 verify now prefers STAROWN-<the face's own cutoff> and publishes vintage_lag instead of comparing coefficients across vintages; smoke's E252 leg had the same latent flaw and was fixed the same way",
+  "s6": "orphan 0 (7 py faces) | sat engine rc=0 idle | dualrun ZERO-DRIFT 777 entries streak 51 | attrition CLEAN 4 ledgers (2 healed) | D-19 zero delta (dec 97fe122f / ord 4348aa21)",
+  "s7": "loop pin=2 no-op; watchdog and claws checked",
+  "ts": "2026-10-31T05:27:15+08:00"
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
@@ -2306,8 +2326,8 @@
  "ram_load_pct": 57,
  "ram_total_gb": 23.92,
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1303,
- "round_no": 1303,
+ "round": 1304,
+ "round_no": 1304,
  "round_no_label": "r1300",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T04:14:44+08:00",
@@ -2319,7 +2339,7 @@
  "s7": "loop/watchdog/claws checked; orphan 0; sat idle; attrition CLEAN; dualrun ZERO-DRIFT streak 51",
  "sat_engine": "rc=0 idle",
  "selftest": "e278_spread_floor 13/13 (e277 23/23 after census-mirror fix)",
- "seq": 1300,
+ "seq": 1301,
  "smoke": "new leg standalone 1/1 PASS (full suite not re-run)",
  "smoke_note": "the suite was re-run to completion after the leg was registered; the earlier 244/244 was the same suite before the leg existed",
  "snapshot": {},
@@ -2334,13 +2354,13 @@
   "peer": "origin",
   "ts": "2026-10-31T00:08:00+08:00"
  },
- "task": "E278 spread floor done -> next head E279 substitution soundness",
- "task_short": "E278 spread floor",
+ "task": "E280 rng drift re-pin done -> next head E279 substitution soundness",
+ "task_short": "E280 rng drift re-pin",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T05:14:21+08:00",
- "updated": "2026-10-31T05:14:21+08:00",
- "updated_at": "2026-10-31T05:14:21+08:00",
+ "ts": "2026-10-31T05:27:15+08:00",
+ "updated": "2026-10-31T05:27:15+08:00",
+ "updated_at": "2026-10-31T05:27:15+08:00",
  "verdict": "healthy",
- "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu, 2 ready pool rows, py low of 16 cores); the round burned the head card E274 in-round",
- "work": "E278 done"
+ "watermark_red": "py_low_board_clear at open (py 0.2%, 3 pool rows ready) -> burned the ready head E280 in-round",
+ "work": "E280 done"
 }

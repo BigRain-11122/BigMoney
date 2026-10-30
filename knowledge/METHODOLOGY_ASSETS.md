@@ -5429,3 +5429,42 @@ cross:200 tight only, 8/16 tight values at the floor, wide min spread 9.08%, 2 r
 `spread_floor` (rc=0, <1s), smoke leg `the one zero-spread tail is the band floor at the thin
 shuffle` (1/1 PASS standalone), digest
 `research/digests/DIGEST-20261031-r1303-e278-spread-floor.md`.
+
+## E280 -- "these two faces disagree" is not a finding until both were priced on the same bars: one extra bar moves the point estimate and every shuffled band
+
+The chain leg `star_self_price` went red at r1303. E252's verify reported the star's cross
+coefficient as -0.7252014696754883 against E251's published -0.7250430277727764, and a field diff
+said **177 leaves moved** -- including the shuffled band (`band_star_lag1.hi` 0.2357 -> 0.3514).
+The seeded hypothesis was that r1277's star-rule refactor changed how the shared draw stream is
+consumed, i.e. that a published band had been silently re-randomised. That hypothesis is **false**,
+and measurement says so in two independent ways:
+
+1. **Published bytes, same vintage.** `STAROWN-2026-10-29.json` and `STARSELF-2026-10-29.json`
+   carry the same number to the last digit: b1 = b_cross = -0.7250430277727764, abs diff 0.0.
+2. **One panel, both implementations.** Run E251's cell and E252's cell in one process on today's
+   panel (1329 sessions): b1 = b_cross = -0.7252014696754883, **abs diff 0.0**. They are the same
+   regression, not two.
+
+What moved is the **vintage**: 1328 -> 1329 sessions. `starown_latest.json` had been advanced to the
+10-30 face by an unrelated chain run, while E252's face still sat on 10-29, and the verify compared
+them across that boundary. The 177 "drifted" fields are one extra bar propagating through a
+200-draw max-statistic band -- not a stream change.
+
+Repair (rule D1, declared in the runner before the numbers were read): the identity is a
+**same-panel** statement, so the gate now prefers `STAROWN-<the face's own cutoff>` and, when only a
+newer vintage exists, publishes `vintage_lag` and refuses to call the two implementations different.
+No face was reburned; no draw stream was restored -- both repairs on the card were unnecessary.
+
+Second deliverable, which outlives this case: the RNG pin is a **property, not a number**.
+`own_column_band` with the same (panel, star, draws, seed) reproduces the same band, and seed+1
+moves it; the selftest asserts both directions, and the first version of the leg was **vacuous**
+with 8 draws because `_band` returns `band=None` below 20 draws -- "same input, same band" was
+true because both sides had no band. The leg now requires `measurable` before it can pass.
+
+Evidence: `scripts/e280_e251_rng_drift_repin.py` (selftest 9/9),
+`results/state_tilt/STAROWNREPIN-2026-10-30.json` (branch D1, same-panel identity 0.0,
+177 moved leaves, band pinned), `scripts/e252_star_prices_itself.py` verify (vintage-aware, selftest
+21/21), S6 leg `star_own_rng_repin`, smoke legs
+`product: the star's own row is priced against ...` (vintage-aware) and
+`product: a claimed RNG drift is decided by measurement, and the stream is pinned`, digest
+`research/digests/DIGEST-20261031-r1304-e280-rng-drift-repin.md`.

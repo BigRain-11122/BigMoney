@@ -215,6 +215,13 @@ LEGS = [
     # published statistic. Re-burning each cycle would be a re-measurement, not a check. <1s.
     ("star_self_price", ["python", "scripts/e252_star_prices_itself.py", "verify"]),
 
+    # E280: the star_self_price leg went red at r1303 claiming an RNG drift (177 fields moved
+    # between E251's face and its rerun). Measured: the two implementations are one regression on
+    # one panel (0.0 difference), and the move came from one extra bar -- the verify was comparing
+    # faces priced on different worlds. This leg re-publishes the decision and re-pins E251's draw
+    # stream: same (panel, seed, draws) must reproduce the band, another seed must move it. ~4s.
+    ("star_own_rng_repin", ["python", "scripts/e280_e251_rng_drift_repin.py", "selftest"]),
+
     # E253: E252 left one cell unmeasured (era_2025_now: the star's self coefficient -0.463 sits
     # inside its own shuffled band while its cross column stays outside its own). This leg does
     # the arithmetic that face did not: every band becomes the session count its own width implies,

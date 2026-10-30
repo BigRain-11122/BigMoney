@@ -4122,19 +4122,29 @@ def main() -> int:
             if _head52 is None:
                 _bad52.append("no headline cell")
             else:
-                _p51b = os.path.join("results", "state_tilt", "starown_latest.json")
+                # the identity is a same-panel statement (E280): prefer E251's face priced on
+                # this face's own cutoff, and disclose a newer vintage instead of failing on it
+                _cut52 = (_f52 or {}).get("evidence_cutoff")
+                _same52 = (os.path.join("results", "state_tilt", "STAROWN-%s.json" % _cut52)
+                           if _cut52 else None)
+                _p51b = (_same52 if (_same52 and os.path.exists(_same52))
+                         else os.path.join("results", "state_tilt", "starown_latest.json"))
                 if os.path.exists(_p51b):
                     with io.open(_p51b, encoding="utf-8") as _fh52b:
                         _f52b = json.load(_fh52b)
                     _h51b = next((c for c in (_f52b.get("cells") or [])
                                   if c.get("label") == "all_five"), None)
                     if _h51b and _h51b.get("star") == _head52.get("star"):
-                        _e251v52 = (_h51b.get("star_residual") or {}).get("b1")
-                        _our52 = (_head52.get("cross_row") or {}).get("b_cross")
-                        if _e251v52 is None or _our52 is None \
-                                or abs(_e251v52 - _our52) > 1e-9:
-                            _bad52.append("the cross coefficient is not E251's published "
-                                          "number (%s vs %s)" % (_e251v52, _our52))
+                        if _f52b.get("evidence_cutoff") and _cut52 \
+                                and _f52b.get("evidence_cutoff") != _cut52:
+                            _vint52 = (_f52b.get("evidence_cutoff"), _cut52)
+                        else:
+                            _e251v52 = (_h51b.get("star_residual") or {}).get("b1")
+                            _our52 = (_head52.get("cross_row") or {}).get("b_cross")
+                            if _e251v52 is None or _our52 is None \
+                                    or abs(_e251v52 - _our52) > 1e-9:
+                                _bad52.append("the cross coefficient is not E251's published "
+                                              "number (%s vs %s)" % (_e251v52, _our52))
                     else:
                         _bad52.append("the two faces do not name the same star")
                 else:
@@ -4153,6 +4163,45 @@ def main() -> int:
                     _r39ci(_f52 or {}, "headline_diff_ci"), len(_cells52)))
     except Exception as e:
         check("product: the star's own row is priced against the column it carries for others",
+              False, repr(e)[:160])
+
+    # E280: the star_self_price red at r1303 claimed an RNG drift. The published decision face
+    # says otherwise -- the two implementations are one regression on one panel, and the 177 moved
+    # fields came from one extra bar. This leg pins the decision AND the draw stream: a refactor
+    # that silently re-randomises a published band has to make this fail.
+    try:
+        _bad80 = []
+        _p80 = os.path.join("results", "state_tilt", "starownrepin_latest.json")
+        _f80 = None
+        if os.path.exists(_p80):
+            with io.open(_p80, encoding="utf-8") as _fh80:
+                _f80 = json.load(_fh80)
+        if not _f80:
+            _bad80.append("E280 decision face missing")
+        else:
+            _d80 = _f80.get("decision") or {}
+            _pin80 = _f80.get("rng_pin") or {}
+            if (_d80.get("branch") or "") not in ("D1", "D2"):
+                _bad80.append("decision face publishes no rule branch")
+            if _d80.get("branch") == "D1" and _d80.get("reburn"):
+                _bad80.append("D1 says the move is vintage but still reburns a face")
+            if _pin80.get("measurable") is True:
+                if _pin80.get("same_input_same_band") is not True:
+                    _bad80.append("E251's band does not reproduce under its own seed")
+                if _pin80.get("different_seed_moves_band") is not True:
+                    _bad80.append("the draw stream pin is vacuous (another seed moves nothing)")
+            _sp80 = _f80.get("same_panel_identity") or {}
+            if _sp80.get("abs_diff") is not None and _sp80["abs_diff"] > 1e-9:
+                # a measured disagreement on ONE panel means the faces must not be trusted
+                _bad80.append("E251/E252 disagree on one panel by %s" % _sp80["abs_diff"])
+        check("product: a claimed RNG drift is decided by measurement, and the stream is pinned",
+              not _bad80, "; ".join(_bad80)[:220]
+              or "branch %s; same-panel identity %s; band hi %s reproducible"
+                 % ((_f80 or {}).get("decision", {}).get("branch"),
+                    (((_f80 or {}).get("same_panel_identity") or {}).get("abs_diff")),
+                    (((_f80 or {}).get("rng_pin") or {}).get("band_hi"))))
+    except Exception as e:
+        check("product: a claimed RNG drift is decided by measurement, and the stream is pinned",
               False, repr(e)[:160])
 
     # E253: E252 published one cell the design could not read (the star's self coefficient inside

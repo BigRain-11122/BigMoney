@@ -1,0 +1,73 @@
+{
+ "cards_that_move": {
+  "e251_cutoff_29": -0.7250430277727764,
+  "e251_cutoff_30": -0.7252014696754883,
+  "note": "nothing is republished: every field that differs between the two E251 faces is a different panel, and E252's face still equals E251's on its own vintage"
+ },
+ "decision": {
+  "branch": "D1",
+  "reason": "the two implementations are one regression on one panel (published same-vintage pair abs_diff=0.0, rerun abs_diff=0.0)",
+  "reburn": false,
+  "repair": "gate: compare the two faces on the same bars, disclose a newer vintage instead of calling it drift (e252 verify, r1304)",
+  "restore_stream": false,
+  "verdict": "drift_is_vintage_not_rng"
+ },
+ "decision_rule": {
+  "D1": "same-panel identity <=1e-9 -> the move is vintage, fix the gate, reburn nothing",
+  "D2": "disagree on one panel -> stream was re-randomised, reburn and disclose",
+  "D3": "published same-vintage bytes decide it before any rerun"
+ },
+ "evidence_cutoff": "2026-10-30",
+ "generated": "2026-10-31T05:23:35",
+ "no_bill": "no new coefficient is claimed here; this face repairs a gate and decides between two repairs that were both already on the table",
+ "published_same_vintage": {
+  "abs_diff": 0.0,
+  "available": true,
+  "e251_b1": -0.7250430277727764,
+  "e252_b_cross": -0.7250430277727764
+ },
+ "rng_pin": {
+  "band_hi": 0.15588825691878616,
+  "band_hi_other_seed": 0.16810160989893985,
+  "different_seed_moves_band": true,
+  "draws_used": 30,
+  "measurable": true,
+  "same_input_same_band": true,
+  "seed_used": 20261111,
+  "star": "sh588000"
+ },
+ "same_panel_identity": {
+  "abs_diff": 0.0,
+  "e251_b1": -0.7252014696754883,
+  "e252_b_cross": -0.7252014696754883,
+  "sessions_e251": 1329,
+  "sessions_e252": 1329
+ },
+ "study": "E280",
+ "title": "a published face and its own runner disagree: re-pin, or restore the stream?",
+ "vintage_gap": {
+  "available": true,
+  "b1_shift": -0.00015844190271185887,
+  "band_hi_29": 0.23568968080162994,
+  "band_hi_30": 0.35142217138287624,
+  "band_width_29": 0.4584794888445256,
+  "band_width_30": 0.537115894193936,
+  "cutoff_29": "2026-10-29",
+  "cutoff_30": "2026-10-30",
+  "e251_b1_29": -0.7250430277727764,
+  "e251_b1_30": -0.7252014696754883,
+  "moved_leaf_fields": 177,
+  "moved_paths_sample": [
+   "/cells[0]/age_drop",
+   "/cells[0]/age_gradient_across_members/corr_residual_vs_age_at_mid",
+   "/cells[0]/band_age_addition/band/hi",
+   "/cells[0]/band_age_addition/band/lo",
+   "/cells[0]/band_age_addition/band/median",
+   "/cells[0]/band_age_addition/band/width",
+   "/cells[0]/band_age_addition/family/max_abs",
+   "/cells[0]/band_age_addition/family/median_abs"
+  ],
+  "sessions_29": 1328,
+  "sessions_30": 1329
+ }
+}
