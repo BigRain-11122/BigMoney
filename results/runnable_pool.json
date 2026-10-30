@@ -23071,18 +23071,17 @@
    "title": "Does the tilt survive an exposure-matched null? Replace the drift split with a flat arm held at each gated arm's own average weight, so the comparison is exposure for exposure instead of an attributed share of the null's drift, and report how many arms change sign between the two benchmarks."
   },
   {
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b5.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E247-BOOT-BLOCK5",
-   "lane": "cpu-only",
-   "result_note": "block=5 arm: CAGR p5/p50/p95 2.92/9.74/16.98%, maxDD p5 -25.02%, 16.1% of resamples break -20%, point at 49.6 pctile",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b5.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=5 (one week): does the envelope shrink or widen?",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 5)",
    "runner_args": [
     "run",
     "--block",
@@ -23092,29 +23091,29 @@
     "--procs",
     "6"
    ],
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 5)",
-   "title": "Bootstrap envelope at block=5 (one week): does the envelope shrink or widen?",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b5.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b5.json",
+   "result_note": "block=5 arm: CAGR p5/p50/p95 2.92/9.74/16.98%, maxDD p5 -25.02%, 16.1% of resamples break -20%, point at 49.6 pctile"
   },
   {
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b60.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E248-BOOT-BLOCK60",
-   "lane": "cpu-only",
-   "result_note": "block=60 arm: CAGR p5/p50/p95 3.18/9.53/16.93%, maxDD p5 -21.36%, 7.5% break -20%, point at 51.6 pctile",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b60.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=60 (one quarter): does the p5 tail depend on the block?",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 60)",
    "runner_args": [
     "run",
     "--block",
@@ -23124,29 +23123,29 @@
     "--procs",
     "6"
    ],
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 60)",
-   "title": "Bootstrap envelope at block=60 (one quarter): does the p5 tail depend on the block?",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b60.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b60.json",
+   "result_note": "block=60 arm: CAGR p5/p50/p95 3.18/9.53/16.93%, maxDD p5 -21.36%, 7.5% break -20%, point at 51.6 pctile"
   },
   {
-   "claimed_at": "2026-10-29T23:54:36+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-29T23:54:36+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b250.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:15:00",
    "entered_by": "bm-c r1348",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
    "id": "E249-BOOT-BLOCK250",
-   "lane": "cpu-only",
-   "result_note": "block=250 arm: CAGR p5/p50/p95 3.57/9.21/18.18%, maxDD p5 -17.08%, 1.1% break -20%, point at 53.6 pctile; comparison face results/etf_book_bootstrap/BLOCKS-2026-10-29.json",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b250.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=250 (one year): the widest honest dependence the ruler can keep",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 250)",
    "runner_args": [
     "run",
     "--block",
@@ -23156,29 +23155,29 @@
     "--procs",
     "6"
    ],
-   "source": "r1348: the book has one history and every published number is a point estimate on it. The envelope (block bootstrap, block=20) puts CAGR p5/p50/p95 at 3.79/9.60/16.23%/yr and the point estimate at the 51st percentile, but the block length is a FREE parameter nobody has priced. These three rows price it: the same 2000 resamples at block=5 (week), 60 (quarter) and 250 (year), which bounds how much of the envelope is the block choice and how much is the book.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 250)",
-   "title": "Bootstrap envelope at block=250 (one year): the widest honest dependence the ruler can keep",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b250.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-29T23:54:36+08:00",
+   "completed_at": "2026-10-29T23:54:36+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b250.json",
+   "result_note": "block=250 arm: CAGR p5/p50/p95 3.57/9.21/18.18%, maxDD p5 -17.08%, 1.1% break -20%, point at 53.6 pctile; comparison face results/etf_book_bootstrap/BLOCKS-2026-10-29.json"
   },
   {
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b10.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E251-BOOT-GRID10",
-   "lane": "cpu-only",
-   "result_note": "block=10 arm: CAGR p5/p50/p95 2.84/9.70/16.79%, maxDD p5 -23.16%, 11.8% of resamples break -20%, point at 50.0 pctile",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b10.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=10: the missing rung between week and rebalance cycle",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 10)",
    "runner_args": [
     "run",
     "--block",
@@ -23188,29 +23187,29 @@
     "--procs",
     "6"
    ],
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 10)",
-   "title": "Bootstrap envelope at block=10: the missing rung between week and rebalance cycle",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b10.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b10.json",
+   "result_note": "block=10 arm: CAGR p5/p50/p95 2.84/9.70/16.79%, maxDD p5 -23.16%, 11.8% of resamples break -20%, point at 50.0 pctile"
   },
   {
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b40.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E248-BOOT-GRID40",
-   "lane": "cpu-only",
-   "result_note": "block=40 arm: CAGR p5/p50/p95 3.59/9.65/16.72%, maxDD p5 -20.54%, 6.1% break -20%, point at 50.8 pctile",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b40.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=40: two rebalance cycles",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 40)",
    "runner_args": [
     "run",
     "--block",
@@ -23220,29 +23219,29 @@
     "--procs",
     "6"
    ],
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 40)",
-   "title": "Bootstrap envelope at block=40: two rebalance cycles",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b40.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b40.json",
+   "result_note": "block=40 arm: CAGR p5/p50/p95 3.59/9.65/16.72%, maxDD p5 -20.54%, 6.1% break -20%, point at 50.8 pctile"
   },
   {
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b120.json",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_nav_envelope.py",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
    "id": "E249-BOOT-GRID120",
-   "lane": "cpu-only",
-   "result_note": "block=120 arm: CAGR p5/p50/p95 3.18/9.54/17.61%, maxDD p5 -19.44%, 4.2% break -20%, point at 51.8 pctile",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b120.json",
-   "runner": "scripts/etf_book_nav_envelope.py",
+   "title": "Bootstrap envelope at block=120: half a year, between quarter and year",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 120)",
    "runner_args": [
     "run",
     "--block",
@@ -23252,80 +23251,75 @@
     "--procs",
     "6"
    ],
-   "source": "r1349/E248: the block grid {5,20,60,250} priced the parameter but with only four rungs the 'longer block = wider band' question is answered by interpolation, not measurement -- CAGR p5 came out non-monotone (2.92/3.43/3.18/3.57). These rows fill the grid so the shape of the tail-vs-block curve is measured instead of guessed, and so the reported 7.94pp maxDD span has interior evidence.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 120)",
-   "title": "Bootstrap envelope at block=120: half a year, between quarter and year",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b120.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b120.json",
+   "result_note": "block=120 arm: CAGR p5/p50/p95 3.18/9.54/17.61%, maxDD p5 -19.44%, 4.2% break -20%, point at 51.8 pctile"
   },
   {
-   "claimed_at": "2026-10-30T00:46:55+08:00",
-   "claimed_by": "bm-c",
-   "completed_at": "2026-10-30T00:46:55+08:00",
-   "deliverable": "card caveat line + ORDER sheet line citing p5/p50 maxDD and the block set",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "status": "done",
+   "runner": "scripts/etf_book_production.py",
    "entered_at": "2026-10-29T23:54:53+08:00",
    "entered_by": "bm-c r1349",
    "evidence_cutoff": "2026-10-29",
+   "source": "r1349/E248: the operator-facing card still prints a single -12.5% drawdown while the block arms put the honest tail at -17.1% to -25.0% and the -20% break share at 1.1%-16.1%. The card is the page a human reads, so it must carry the band and name the block assumption it rests on; a tail sentence without its parameter is exactly the defect this round paid for.",
    "id": "E250-CARD-DRAWDOWN-BAND",
-   "lane": "cpu-only",
-   "result_note": "card caveat + card section + order-sheet section carry maxDD p5 -25.0..-17.1% and the block set; both faces disclose 'unpublished' when the arms are absent and mark stale when priced on an older bar; 4 production + 2 order selftest legs",
-   "result_ref": "scripts/etf_book_production.py + scripts/etf_book_order.py",
-   "runner": "scripts/etf_book_production.py",
+   "title": "Put the drawdown band (and the block that produced it) on the production card",
+   "target": "scripts/etf_book_production.py card + scripts/etf_book_order.py sheet",
    "runner_args": [
     "card",
     "--drawdown-band-from",
     "results/etf_book_bootstrap/BLOCKS-2026-10-29.json"
    ],
-   "source": "r1349/E248: the operator-facing card still prints a single -12.5% drawdown while the block arms put the honest tail at -17.1% to -25.0% and the -20% break share at 1.1%-16.1%. The card is the page a human reads, so it must carry the band and name the block assumption it rests on; a tail sentence without its parameter is exactly the defect this round paid for.",
-   "status": "done",
-   "target": "scripts/etf_book_production.py card + scripts/etf_book_order.py sheet",
-   "title": "Put the drawdown band (and the block that produced it) on the production card",
-   "worker_class": "code-change",
+   "deliverable": "card caveat line + ORDER sheet line citing p5/p50 maxDD and the block set",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-30T00:46:55+08:00",
+   "completed_at": "2026-10-30T00:46:55+08:00",
+   "result_ref": "scripts/etf_book_production.py + scripts/etf_book_order.py",
+   "result_note": "card caveat + card section + order-sheet section carry maxDD p5 -25.0..-17.1% and the block set; both faces disclose 'unpublished' when the arms are absent and mark stale when priced on an older bar; 4 production + 2 order selftest legs"
   },
   {
-   "claimed_at": "2026-10-30T03:35:00+08:00",
-   "claimed_by": "bm-a r1156",
-   "deliverable": "results/etf_book_bootstrap/BLOCKS-<cutoff>.json with a p1 column",
-   "entered_at": "2026-10-30T00:48:14+08:00",
-   "entered_by": "bm-c r1348",
-   "evidence_cutoff": "2026-10-29",
    "id": "E251-BOOT-P1-TAIL",
    "lane": "cpu-only",
+   "worker_class": "code-change",
+   "status": "done",
+   "claimed_by": "bm-a r1156",
+   "claimed_at": "2026-10-30T03:35:00+08:00",
    "result_ref": "results/etf_book_bootstrap/BLOCKS-2026-10-29.json (p1/p99 on all 8 arms; worst-1% maxDD -30.87..-20.06%, CAGR p1 0.36..1.60%/yr; gate `blocks --check` rc0)",
    "runner": "scripts/etf_book_nav_envelope.py",
+   "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
    "runner_args": [
     "blocks"
    ],
-   "source": "r1348/E249: the card now prints the drawdown as a band, but the band is a p5 -- the deepest 5% of resamples, not the worst. 'How bad can it get' was answered with a percentile chosen because every other face uses p5, and that choice is exactly the kind this repo just priced for block length. Add p1/p99 to the same arms and publish whether the ultra tail is bounded (a real bound) or runs away (a fat tail the operator must size against).",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (add p1/p99 to summarize + arms + blocks)",
-   "worker_class": "code-change",
+   "deliverable": "results/etf_book_bootstrap/BLOCKS-<cutoff>.json with a p1 column",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
-  },
-  {
-   "claimed_at": "2026-10-30T02:25:12+08:00",
-   "claimed_by": "bm-c",
-   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b1.json",
-   "done_at": "2026-10-30T02:29:32+08:00",
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T00:48:14+08:00",
    "entered_by": "bm-c r1348",
-   "evidence_cutoff": "2026-10-29",
+   "source": "r1348/E249: the card now prints the drawdown as a band, but the band is a p5 -- the deepest 5% of resamples, not the worst. 'How bad can it get' was answered with a percentile chosen because every other face uses p5, and that choice is exactly the kind this repo just priced for block length. Add p1/p99 to the same arms and publish whether the ultra tail is bounded (a real bound) or runs away (a fat tail the operator must size against)."
+  },
+  {
    "id": "E252-BOOT-BLOCK1-IID",
    "lane": "cpu-only",
-   "result_note": "iid zero point: p5 maxDD -24.72% vs week-block -25.02% vs year-block -17.08%; worst ordering -44.92%; card E251, digest DIGEST-20261030-e247",
-   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json",
+   "worker_class": "self-contained",
+   "status": "done",
    "runner": "scripts/etf_book_nav_envelope.py",
+   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 1)",
    "runner_args": [
     "run",
     "--block",
@@ -23335,486 +23329,443 @@
     "--procs",
     "6"
    ],
-   "source": "r1348/E249: the grid ran 5..250 bars and the tail fell from -25.02pp to -17.08pp, but every arm keeps SOME dependence -- none prices the iid limit. block=1 is the dependence-free bound, so the gap between block=1 and block=5 is the part of the drawdown band that pure day-to-day dependence owns, and the rest is the length of the memory. Without it 'the tail is the ruler' has no zero point.",
-   "status": "done",
-   "target": "scripts/etf_book_nav_envelope.py (runner_args run --block 1)",
-   "worker_class": "self-contained",
+   "deliverable": "results/etf_book_bootstrap/ENVELOPE-<cutoff>-b1.json",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 6
-   }
-  },
-  {
-   "claimed_by": "bm-a",
-   "closed_by": "bm-a r1350",
-   "deliverable": "the vol overlay's effect on the p5/p1 drawdown band, not just the median",
+    "workers": 6,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T00:48:14+08:00",
    "entered_by": "bm-c r1348",
-   "evidence_cutoff": "2026-10-29",
+   "source": "r1348/E249: the grid ran 5..250 bars and the tail fell from -25.02pp to -17.08pp, but every arm keeps SOME dependence -- none prices the iid limit. block=1 is the dependence-free bound, so the gap between block=1 and block=5 is the part of the drawdown band that pure day-to-day dependence owns, and the rest is the length of the memory. Without it 'the tail is the ruler' has no zero point.",
+   "claimed_by": "bm-c",
+   "claimed_at": "2026-10-30T02:25:12+08:00",
+   "done_at": "2026-10-30T02:29:32+08:00",
+   "result_ref": "results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json",
+   "result_note": "iid zero point: p5 maxDD -24.72% vs week-block -25.02% vs year-block -17.08%; worst ordering -44.92%; card E251, digest DIGEST-20261030-e247"
+  },
+  {
    "id": "E253-VOLTARGET-TAIL",
    "lane": "cpu-only",
-   "result_note": "paired bootstrap, 5 block arms x 2000 resamples: median drawdown delta +6.04pp vs p1 delta +1.26pp (tail keeps 21% of the middle gain) at -4.61pp median CAGR; the overlay is a middle-path tool, not crash insurance",
-   "result_ref": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
-   "result_ref_at": "2026-10-30T00:00:00+08:00",
+   "worker_class": "code-change",
+   "status": "done",
    "runner": "scripts/etf_book_production.py",
+   "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
    "runner_args": [
     "--selftest"
    ],
+   "deliverable": "the vol overlay's effect on the p5/p1 drawdown band, not just the median",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T00:48:14+08:00",
+   "entered_by": "bm-c r1348",
    "source": "r1348/E250: the card now says its -12.5% is a median and the p5 band is -25%..-17%, but the 8% vol target was never priced on the TAIL. Every statement about it is about the main path (delivered vol ratio 1.27x, 'a drawdown tool'). If the overlay only shortens the median while leaving the p5 band where it was, the card's risk advice is wrong in the direction that matters to an operator.",
+   "claimed_by": "bm-a",
+   "closed_by": "bm-a r1350",
+   "result_ref": "results/etf_book_bootstrap/etf_book_voltarget_tail.json",
+   "result_ref_at": "2026-10-30T00:00:00+08:00",
+   "result_note": "paired bootstrap, 5 block arms x 2000 resamples: median drawdown delta +6.04pp vs p1 delta +1.26pp (tail keeps 21% of the middle gain) at -4.61pp median CAGR; the overlay is a middle-path tool, not crash insurance",
+   "verdict": "tail_is_mostly_a_middle_effect=True"
+  },
+  {
+   "id": "E256-PHASE-ATLAS-BUFFER-K05",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/etf_book_production.py (arm: vol target on/off, resampled by block)",
-   "verdict": "tail_is_mostly_a_middle_effect=True",
-   "worker_class": "code-change",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: incumbent buffer k=0.05 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.05",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_buffer_k05.json"
+   ],
+   "deliverable": "whether r1325's buffer REJECT was itself phase luck: the k=0.05 arm re-priced on every decision origin of every cell (280 runs), judged against each cell's own band instead of one calendar",
    "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
-  },
-  {
-   "deliverable": "results/state_tilt/TIMINGSEL-<cutoff>.json",
-   "done_by": "bm-b r1255",
-   "entered_at": "2026-10-29T19:12:00+08:00",
-   "entered_by": "bm-b r1254",
-   "evidence_cutoff": "2026-10-28",
-   "id": "E229-TIMING-VS-SELECTION-DECOMPOSITION",
-   "lane": "cpu-only",
-   "result_ref": "results/state_tilt/TIMINGSEL-2026-10-29.json",
-   "source": "E228 gave the paired timing value a standard error for the first time (-524..-704 bp/yr on the single panel, +218 at t=0.71 on the basket) but did not ask WHERE it comes from. A gated rule differs from a flat arm in two separable ways: it is in the market a different share of the time (which days) and it holds a different weight on the days both arms share (how much). Splitting the pair into those two channels is arithmetic on an existing series, not a new study, and it is the difference between 'the gate cannot time' and 'the gate picks days but sizes them wrong'.",
-   "status": "done",
-   "target": "scripts/e229_timing_selection.py (new runner)",
-   "title": "Decompose E228's paired timing value into a day-selection channel and a sizing channel: on the days both arms hold, is the gate's weight better or worse than the flat constant, and on the days only the gate holds, does that extra exposure earn or lose?"
-  },
-  {
-   "deliverable": "results/state_tilt/HYSTERESIS-<cutoff>.json",
-   "done_by": "bm-b r1256",
-   "entered_at": "2026-10-29T21:05:00+08:00",
-   "entered_by": "bm-b r1255",
-   "evidence_cutoff": "2026-10-28",
-   "id": "E230-HYSTERESIS-TOLL-BAND",
-   "lane": "cpu-only",
-   "result_ref": "results/state_tilt/HYSTERESIS-2026-10-29.json",
-   "source": "E229 split every gated arm's pair into selection, sizing and toll and found the toll is the ONLY channel that clears its bar (tilt_step/tilt_linear on the basket, t=-10.0): what separates these rules from a flat constant is measured as the cost of moving, not timing skill. The obvious next question is whether that channel can be bought back -- if a deadband on the state signal cuts the number of weight changes, does the toll channel fall faster than the selection channel falls with it?",
-   "status": "done",
-   "target": "scripts/e230_hysteresis_toll.py (new runner)",
-   "title": "Does a hysteresis deadband on the volatility state cut the toll channel (E229's only resolvable one) more than it costs in selection? Ladder the band from 0 to a coarse grid on the same signal, publish all three channels per rung, and refuse to call a band a fix unless the toll saving exceeds the selection loss at x2 costs"
-  },
-  {
-   "close_note": "deliverable landed on disk 8.09h after entry; closed by the reconciliation audit",
-   "closed_at": "2026-10-29T22:30:17+0800",
-   "closed_by": "Tools/pool_deliverable_audit.py apply",
-   "deliverable": "results/state_tilt/BANDPATH-<cutoff>.json",
-   "done_by": "bm-b r1257",
-   "entered_at": "2026-10-29T22:10:00+08:00",
-   "entered_by": "bm-b r1256",
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
    "evidence_cutoff": "2026-10-29",
-   "id": "E231-PATH-TEST-THE-BAND",
-   "lane": "cpu-only",
-   "result_ref": "results/state_tilt/BANDPATH-2026-10-29.json",
-   "source": "E230 ladders the band 0..2.0 sd_is and exactly one of thirty cells clears the bar (tilt_linear, single panel, the narrowest rung f=0.10, t=4.04). The point estimates are not monotone in the band, and the passing cell is the smallest band in the grid -- which is also the rung closest to the base arm. That is exactly the shape E188 warned about: a single decision sequence dressed as an optimum. Before any band is treated as a finding it has to survive a path test.",
-   "status": "done",
-   "target": "scripts/e231_band_path_test.py (new runner)",
-   "title": "Is E230's one passing band a real optimum or one draw from the grid? Path-test the band the way E188 path-tests a rule: era splits (every decade boundary the data allows), decision-phase offsets within the band, and a finer band grid inside the neighbourhood of f=0.10. Publish the fraction of paths that keep the sign and the band that survives every path, not the best cell."
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "r1325 tested ONE buffer arm on 5 books x 4 phases and rejected it on a -0.145pp median; r1350 priced the same question one level up and found the grid's between-cell spread (5.22pp) inside its own phase band (6.68pp) -- so a 0.145pp effect was never separable on that design. The honest completion of the REJECT is to price the same arm where the noise is measured, per cell.",
+   "claimed_by": "bm-a",
+   "claimed_at": "2026-10-30T07:2x+08:00",
+   "claimed_round": "r1163",
+   "done_at": "2026-10-30T07:21+08:00",
+   "result_ref": "results/etf_book_phase_atlas_arms.json",
+   "result_note": "buffered-k05 REJECT / cost05 NOT-SEPARABLE / cost20 REJECT; all three band structures unchanged -> cadence claim independent of the toll"
   },
   {
-   "close_note": "deliverable landed on disk in-window; runner + S6 leg cost_curvature + smoke leg + card E232 + digest",
-   "closed_at": "2026-10-29T23:59:00+08:00",
-   "closed_by": "bm-b r1258",
-   "deliverable": "results/state_tilt/COSTCURVE-<cutoff>.json",
-   "done_by": "bm-b r1258",
-   "entered_at": "2026-10-29T22:50:00+08:00",
-   "entered_by": "bm-b r1257",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E232-COST-CURVATURE",
+   "id": "E256-PHASE-ATLAS-COST05",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/COSTCURVE-2026-10-29.json",
-   "source": "Every toll number in E226..E231 charges |dw| at a fixed 13.041 bp/side, so the whole family conclusion (the toll is the only channel that ever separates these rules from a flat constant) rests on a LINEAR charge. E231 removed the last chance to read that as an accident of one path: the band improvement is a full-sample effect that shrinks 3.5x inside an era. What has never been tested is the charge function itself -- if impact is concave in the weight moved (square-root, as participation-based models imply), a rule that moves a lot in small steps pays relatively less than the linear model says, and the ordering between the arms and between the banded rungs can change sign.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e232_cost_curvature.py (new runner)",
-   "title": "Does the toll channel survive a non-linear charge? Sweep cost = c*|dw|^gamma over gamma in 0.75/1.0/1.25/1.5 (normalised so a full 1.0 weight change costs the same at every gamma), re-derive the three channels and the E230 rung ladder on both panels, and publish which conclusions change sign and which are curvature-invariant. A toll finding that only exists at gamma=1 is a finding about the cost model, not about the rule"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: 5bp/side on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0005",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_cost05.json"
+   ],
+   "deliverable": "does the cadence conclusion (R10 quotable, R40 not) survive at half the cost, or does the band structure move with the toll",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "r1350 measured bands at 10bp/side. The cadence gap (R10 2.8-4.2pp bands vs R40 6.9-12.4pp) is a path-dependence claim, not a return claim, so it should NOT depend on the toll -- that prediction is testable for 280 runs and it decides whether the reading is a mechanism or a cost artefact.",
+   "claimed_by": "bm-a",
+   "claimed_at": "2026-10-30T07:2x+08:00",
+   "claimed_round": "r1163",
+   "done_at": "2026-10-30T07:21+08:00",
+   "result_ref": "results/etf_book_phase_atlas_arms.json",
+   "result_note": "buffered-k05 REJECT / cost05 NOT-SEPARABLE / cost20 REJECT; all three band structures unchanged -> cadence claim independent of the toll"
   },
   {
-   "close_note": "in-window: runner e233_empirical_gamma.py (selftest 13/13) + S6 leg empirical_gamma + smoke leg + card E233 + digest; gamma measured 0.928 [0.830,1.026], family re-read on the interval and on the identification span 0.255..1.026",
-   "closed_at": "2026-10-30T00:25:00+08:00",
-   "closed_by": "bm-b r1259",
-   "deliverable": "results/state_tilt/EMPIRICAL-GAMMA-<cutoff>.json",
-   "done_by": "bm-b r1259",
-   "entered_at": "2026-10-29T23:59:00+08:00",
-   "entered_by": "bm-b r1258",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E233-EMPIRICAL-GAMMA",
+   "id": "E256-PHASE-ATLAS-COST20",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/EMPIRICAL-GAMMA-2026-10-29.json",
-   "source": "E232 published that the family's toll significance is curvature-invariant while its size is not (tilt_linear -247.3 -> -93.2 bp/yr over gamma 0.75..1.50) and that E230's one passing band dies as soon as the charge turns convex. Both readings are only as good as the four-point grid they were read on. The family has never used the data to pick gamma; it has always assumed it. A measured gamma with an interval would also let the ladder publish 'BAND_PAYS only below gamma = X' as a conditional finding instead of a verdict that vanishes off the grid.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e233_empirical_gamma.py (new runner)",
-   "title": "E232 swept the charge curvature over a grid nobody calibrated, so 'the toll shrinks 2.6x when the charge turns convex' is only a statement about the grid. Estimate the curvature from the panel instead of assuming it: fit the realised open-to-close response to a participation proxy (turnover x |ret| as the impact scale) as cost = c*|dw|^gamma with gamma free, per panel and per era, and publish the estimate with its interval. Then re-derive the E229 channels and E230's ladder at the measured gamma and say whether any family verdict sits inside the estimate's interval rather than on the grid."
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: 20bp/side on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0020",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_cost20.json"
+   ],
+   "deliverable": "the upper-cost arm of the same question: if the bands widen with the toll, the 'which cell is best' question is a cost question in disguise; if they do not, the band is a property of the decision count",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T06:2x+08:00",
+   "entered_by": "bm-c r1350",
+   "source": "see E256-PHASE-ATLAS-COST05 -- the pair brackets the production toll and turns a one-arm observation into a cost curve of the band itself.",
+   "claimed_by": "bm-a",
+   "claimed_at": "2026-10-30T07:2x+08:00",
+   "claimed_round": "r1163",
+   "done_at": "2026-10-30T07:21+08:00",
+   "result_ref": "results/etf_book_phase_atlas_arms.json",
+   "result_note": "buffered-k05 REJECT / cost05 NOT-SEPARABLE / cost20 REJECT; all three band structures unchanged -> cadence claim independent of the toll"
   },
   {
-   "deliverable": "results/state_tilt/PER-MEMBER-GAMMA-<cutoff>.json",
-   "done_at": "2026-10-30T01:05:00+08:00",
-   "done_by": "bm-b r1260",
-   "done_note": "mixture, not one exponent: per-member gamma 0.414..1.456 with 8 of 10 member pairs disjoint and a pooled slope 0.622 [0.567, 0.676] that 4 of 5 members sit outside; the bill multiplies 1.6x..3.5x but nearly all of it is the five-sleeve SPLIT (+1289/+2193/+4015 bp) against a mixture term of -305/-319/+289 bp; toll still clears the bar on 3 of 3 arms and 2 of 6 ladder cells move; the 2017+ exponent 0.883 sits inside the full-sample interval and changes 0 of 6 era cells",
-   "entered_at": "2026-10-30T00:25:00+08:00",
-   "entered_by": "bm-b r1259",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E234-PER-MEMBER-GAMMA",
+   "id": "E259-ATLAS-BUFFER-K10",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/PER-MEMBER-GAMMA-2026-10-29.json",
-   "source": "E233 measured one exponent per panel (sh510300 0.928 [0.830,1.026]; equal-weight basket 0.917) and re-read the family on that interval and across the estimator-identification span 0.255..1.026. Two things it could not answer: (a) the basket exponent is an aggregate of five instruments with very different liquidity and history (588000 starts 2020), so a 5-member book charging one gamma may be charging the wrong number for four of its five sleeves -- estimate gamma per member, ask whether the member estimates are mutually compatible, and re-price the book-level charge bill when each sleeve is charged its own exponent; (b) the era split already showed 1.079 pre-2017 vs 0.883 after, a gap the sampling interval does not cover -- so re-derive the ladder at the era-specific points and count the cells whose verdict would have differed had the exponent been measured at the time instead of borrowed from the full sample (how much of the 2017+ conclusion is an artefact of using a pre-2017 exponent).",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e234_per_member_gamma.py (new runner)",
-   "title": "the family charges one exponent; the book holds five instruments -- is the aggregate gamma a per-member number or a mixture?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: incumbent buffer k=0.10 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.10",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_buffer_k10.json"
+   ],
+   "deliverable": "r1325 classified k=0.10 as COST_KNOB_ONLY (it survives only if the toll is real and high). Priced per cell with each cell's own band, that label becomes a number: how many of the 12 cells move beyond their own noise, and at which cadence",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T07:2x+08:00",
+   "entered_by": "bm-c r1351",
+   "source": "r1351 closed the k=0.05 arm in the phase frame (0/12 cells beyond their band, median -0.030pp); the k=0.10 and k=0.20 arms are the rest of the family r1325 named and were never priced where the noise is measured",
+   "done_at": "2026-10-30T08:5x+08:00",
+   "result_ref": "results/etf_book_phase_atlas_buffer_k10.json + results/etf_book_phase_atlas_arms.json (arms.buffer_k10) + research/digests/DIGEST-20261030-r1352-buffer-family.md",
+   "result_note": "answered: median per-cell delta +0.072pp, 0/12 cells beyond their own band -> NOT-SEPARABLE. The family's weakest arm (k=0.05) reads REJECT only because its not-worse share is 0.667 against a -0.15pp floor that is 45x smaller than the 6.85pp band it lives in"
   },
   {
-   "deliverable": "results/state_tilt/GRANULARITY-<cutoff>.json",
-   "done_at": "2026-10-30T02:5x+08:00",
-   "entered_at": "2026-10-30T01:05:00+08:00",
-   "entered_by": "bm-r1260",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E235-CHARGE-GRANULARITY",
+   "id": "E259-ATLAS-BUFFER-K20",
    "lane": "cpu-only",
-   "note": "identified-coordinate joint fit: own and aggregate turnover trade places (2 of 5 sleeves carry a negative own elasticity), the family's single exponent is a mixture of two offsetting channels, verdict unresolved_spec_inadequate",
-   "result_ref": "results/state_tilt/GRANULARITY-2026-10-29.json",
-   "source": "E234 separated the two channels it found: moving the book from one linear charge to five per-member charges multiplies the bill 1.6x..3.5x, and almost all of that is the five-sleeve SPLIT (+1289/+2193/+4015 bp) while the mixture itself is only -305/-319/+289 bp. Which granularity is right is therefore a first-order question the family has never asked: does the market price a sleeve move against THAT sleeve's own turnover, or against the book's aggregate turnover? Fit each member's session move jointly on its own log turnover and the basket's total log turnover (HAC, member intercepts per estimator) and publish the partial elasticities. If the aggregate partial dominates, a five-sleeve book should be charged ONE aggregate-exponent bill (the per-sleeve sum overstates by the split term); if the own partial dominates, the split is the correct bill and the family is mis-specified today. Either answer re-prices E226..E234's levels without touching a single verdict.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e235_charge_granularity.py (new runner)",
-   "title": "does a five-sleeve book pay five concave charges or one aggregate charge?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.20 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.20",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_buffer_k20.json"
+   ],
+   "deliverable": "the strongest buffering arm: if even k=0.20 stays inside every cell's band, the buffer family is closed as unmeasurable on this design rather than as negative, and the price-of-size face (E239) already says it only pays above ~30M of capital",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T07:2x+08:00",
+   "entered_by": "bm-c r1351",
+   "source": "see E259-ATLAS-BUFFER-K10 -- one arm (k=0.05) is a data point, the family needs its ends",
+   "done_at": "2026-10-30T08:5x+08:00",
+   "result_ref": "results/etf_book_phase_atlas_buffer_k20.json + results/etf_book_phase_atlas_arms.json (arms.buffer_k20) + research/digests/DIGEST-20261030-r1352-buffer-family.md",
+   "result_note": "answered: median per-cell delta +0.138pp, 0/12 cells beyond their own band -> NOT-SEPARABLE. With all three arms priced (k=0.05 -0.030 / k=0.10 +0.072 / k=0.20 +0.138) and a sign flip in 3 of 12 cells, the buffer knob is unmeasurable on this design, not negative -- do not re-stock the family"
   },
   {
-   "deliverable": "results/state_tilt/SHAREDIFF-<cutoff>.json",
-   "done_at": "2026-10-30T02:4x+08:00",
-   "done_note": "three stationary designs on the same five sleeves: differences b_own 0.431 / b_agg 0.879, frozen_z b_own 0.017 / b_agg 0.101, two_way_fe b_own 0.023 with b_agg absorbed by the 5,233 date fixed effects. Signs agree everywhere; sizes do not (span 0.017..0.431, ratio 25.4, disjoint intervals). Verdict unresolved_magnitude_disagreement -> no granularity charge is published and the family single exponent stays a price without a bill. E235 negative own elasticity does not survive.",
-   "entered_at": "2026-10-30T02:5x+08:00",
-   "entered_by": "bm-r1261",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E236-SHARE-DIFFERENCE-GRANULARITY",
+   "id": "E259-ATLAS-COST40",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/SHAREDIFF-2026-10-29.json",
-   "source": "E235 measured the price of a sleeve move against own and aggregate turnover in LEVELS and could not separate them: aggregate turnover is 0.94..0.97 autocorrelated, the lagged control block inverts on 2 of 5 sleeves, and two sleeves come out with a negative own elasticity. The question is not answered, only shown to be unanswerable in levels. Re-ask it where the regressors are stationary: (a) first differences of log turnover, so a move is priced against that session's change in own and in book turnover; (b) a demeaned share and a roll-standardised aggregate level (z over a frozen window); (c) a panel fixed-effects form with member intercepts and time fixed effects, so the identification comes from cross-sectional share variation. Publish all three, demand sign agreement across them, and re-price the arms under whichever granularity survives. If none survives, that is the answer and the family's level stays a price without a bill.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e236_share_difference.py (new runner)",
-   "title": "can a share-and-difference design settle the granularity question the level regression could not?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: 40bp/side on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0040",
+    "--workers=8",
+    "--out=results/etf_book_phase_atlas_cost40.json"
+   ],
+   "deliverable": "the top of the band's cost curve: r1351 showed the band is invariant from 5 to 20bp while the between-cell spread compresses 6.06 -> 3.55pp, so at 40bp the ordering may vanish entirely (spread -> band) while the cadence structure still holds; that is the arm that decides whether 'the cadence is quotable' has a toll ceiling",
+   "workers_plan": {
+    "workers": 8,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T07:2x+08:00",
+   "entered_by": "bm-c r1351",
+   "source": "r1351 (E259): band 3.29-3.46pp at R10 across 5/10/20bp while the level fell 12.79 -> 9.18pp -- the band looks like a property of the decision count, but the tested range stops at 20bp and the compression of the grid's ordering is monotone in the toll",
+   "done_at": "2026-10-30T08:2x+08:00",
+   "result_ref": "results/etf_book_phase_atlas_cost40.json + results/etf_book_phase_atlas_arms.json (arms.cost40) + research/digests/DIGEST-20261030-r1351-arms-gate.md",
+   "result_note": "answered: band R10 3.08pp / R40 8.86pp at 4x the toll (vs 3.38/9.01 at base) while the between-cell spread compresses 6.06 -> 3.01pp -- no toll ceiling for the cadence reading; the ordering is what the toll erases first"
   },
   {
-   "closed_at": "2026-10-30T03:2x+08:00",
-   "deliverable": "results/state_tilt/INFOSTRUCT-<cutoff>.json",
-   "entered_at": "2026-10-30T02:4x+08:00",
-   "entered_by": "bm-r1262",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E237-INFORMATION-VS-TURNOVER-SHARED-RETURN",
+   "id": "E262-ATLAS-BUFFER-K02",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/INFOSTRUCT-2026-10-29.json",
-   "source": "E236 showed the two granularity readings differ 25x and named the mechanism: the difference design prices a session against that session's own turnover CHANGE, which co-moves with the same information arrival that sets |r|, while the cross-sectional designs price the share of book turnover. Separate those two channels directly instead of inferring them: (a) decompose the session |r| into a market-common component (regress log|r| on the book's log|r_book| and take the residual) and a relative component, and fit each arm's elasticity separately -- an impact story predicts the OWN channel lives in the relative component and the aggregate channel in the common one; (b) test the co-movement directly by regressing d(log turnover) on |r| and on the market's |r|, publishing which driver dominates; (c) if the own channel survives only in the common component, that is evidence the difference-design elasticity was an information-arrival artefact and the granularity question is answered NEGATIVE for this panel. Publish the decomposition with intervals and refuse any bill unless both components agree in sign and size.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e237_information_structure.py (new runner)",
-   "title": "is the own-turnover channel an information-arrival artefact?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.02 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.02",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k02.json"
+   ],
+   "deliverable": "the near-zero end of the knob axis. Since k=0.05/0.10/0.20 all sit inside their own band with the sign flipping between the outer arms, the family is closed as unmeasurable; k=0.02 anchors the low end so 'the axis is flat' is a three-point statement instead of a claim about where the axis would have to start",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T09:1x+08:00",
+   "entered_by": "bm-c r1352",
+   "source": "r1352 buffer family closure (0/36 cells beyond band; k05 -0.030 / k10 +0.072 / k20 +0.138; 3/12 sign flips)",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": "bm-c",
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k02.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 09:25:45",
+     "done_at": "2026-10-30 09:42:47",
+     "done_by": "bm-c",
+     "landed_via": "session flip: etf_book_phase_atlas_buffer_k02.json"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1
   },
   {
-   "closed_at": "2026-10-30T04:0x+08:00",
-   "deliverable": "results/state_tilt/LOOBOOK-<cutoff>.json",
-   "entered_at": "2026-10-30T03:2x+08:00",
-   "entered_by": "bm-r1263",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E238-DENOMINATOR-CONTAINS-THE-NUMERATOR",
+   "id": "E262-ATLAS-BUFFER-K40",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/LOOBOOK-2026-10-29.json",
-   "source": "E237 closed the artefact question in one direction and left the other open: the own-turnover coefficient (0.431 -> 0.394 under a market-return control) survives neither as market information (first stage t -1.23) nor as own information (share on own relative return 0.031, R2 0.0001), so what it measures is still unnamed. The cheapest remaining explanation is mechanical: the share is own turnover over BOOK turnover, and the book is the equal-weight basket, so each member's own turnover sits inside its own denominator with weight 1/5. A share regression on a denominator that contains the numerator can manufacture a coefficient from autocorrelation alone. Build the leave-one-out book (aggregate excluding the member) and re-run E236's three designs against it: publish b_own under both denominators with intervals, the difference between them with an interval, and refuse to attribute anything to the own channel unless the leave-one-out reading keeps the sign and overlaps the original interval. Report the mechanical size predicted by the 1/5 weight so a coincidence can be told from a measurement.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e238_leave_one_out_book.py (new runner)",
-   "title": "is the own-turnover channel a denominator artefact of the book it is measured in?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.40 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.40",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k40.json"
+   ],
+   "deliverable": "the far end: 8x the r1325 arm. If even k=0.40 stays inside every cell's band, no buffer strength is measurable on this design and the family can be retired outright rather than kept at 'small k might work'",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T09:1x+08:00",
+   "entered_by": "bm-c r1352",
+   "source": "r1352 buffer family closure -- one arm is a data point, the axis needs both ends",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k40.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 09:31:25",
+     "done_at": "2026-10-30 09:31:25",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 09:31:25"
   },
   {
-   "claimed_by": "bm-b",
-   "closed_at": "2026-10-30T04:2x+08:00",
-   "deliverable": "results/state_tilt/OWNCROSS-<cutoff>.json",
-   "entered_at": "2026-10-30T04:0x+08:00",
-   "entered_by": "bm-r1264",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E239-OWN-VS-SINGLE-CROSS-ELASTICITY",
+   "id": "E262-ATLAS-BUFFER-TOLL-INTERACTION",
    "lane": "cpu-only",
-   "result_ref": "results/state_tilt/OWNCROSS-2026-10-29.json",
-   "runner": "scripts/e239_own_vs_cross.py",
-   "source": "E238 removed each member from its own book and the differenced design's own coefficient got LARGER (0.437 -> 0.596), so the denominator is not the artefact -- but in the leave-one-out book the REST coefficient is bigger still (0.771 on d(log rest)). That ordering is either an economic statement (a member's own turnover matters less than the rest of the book's) or a units artefact: the rest aggregate is the sum of four members, so one log point of it is not one log point of a single participant. Rescaling the sum to a mean changes only a constant and cannot settle it. The apples-to-apples form is per pair: regress dy on d(log own) and on d(log other_j) for each of the four other members separately, pool the cross coefficients, and compare the own coefficient with the average single-member cross coefficient under the same specification, same HAC lag, same member dummies. Publish: own vs mean-cross with intervals and their difference with an interval, the per-pair cross coefficients, and the same pair test on the two-way FE design (which is denominator-invariant per E238). An impact story predicts own > cross on this footing; a common-liquidity story predicts no difference. Refuse any charge either way.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e239_own_vs_cross.py (new runner)",
-   "title": "is the own-turnover elasticity larger than the cross elasticity to another member's turnover, on identical footing?",
-   "verdict": "own_exceeds_a_single_counterparty"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.05 at 20bp/side -- the interaction the two closed families never tested)",
+   "runner_args": [
+    "run",
+    "--k=0.05",
+    "--cost=0.002",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k05_cost20.json"
+   ],
+   "deliverable": "E260 said the toll moves the level and the ordering but not the band; r1352 said buffering moves nothing measurable. The untested cell is the interaction: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs? A cell that sits at -1.41pp answers 'no, the buffer is not a toll hedge'",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T09:1x+08:00",
+   "entered_by": "bm-c r1352",
+   "source": "r1352 arms gate + E260: both families were judged separately and never against each other",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": "bm-c",
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost20.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 09:31:47",
+     "done_at": "2026-10-30 09:42:47",
+     "done_by": "bm-c",
+     "landed_via": "session flip: etf_book_phase_atlas_buffer_k05_cost20.json"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1
   },
   {
-   "claimed_at": "2026-10-30T05:2x+08:00",
-   "claimed_by": "bm-b",
-   "closed_at": "2026-10-30T05:3x+08:00",
-   "deliverable": "results/state_tilt/AGGATT-<cutoff>.json",
-   "entered_at": "2026-10-30T04:2x+08:00",
-   "entered_by": "bm-r1265",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E240-AGGREGATE-KEEPS-HALF",
+   "id": "E266-ATLAS-COST0",
    "lane": "cpu-only",
-   "outcome": "rest_channel_is_additive: one counterparty 0.183 vs the sum of the other three 0.175 (difference +0.008 [-0.012, +0.022]) on identical footing; the 0.541 came from reading E238 0.771 -- the BOOK-SCALING coefficient -- as the rest channel, and from a 4x comparator built on a pair slope already inflated 1.89x by omission (rho 0.424).",
-   "result_ref": "results/state_tilt/AGGATT-2026-10-29.json",
-   "source": "E239 priced the own channel against ONE counterparty per pair (own 0.797 [0.748,0.846] vs cross 0.314 [0.274,0.353], difference 0.484 [0.408,0.560]; two-way FE gives the same 0.484 [0.438,0.530]) and found the aggregate rest coefficient from E238 (0.771) is only 54% of four times the mean single-member cross (4 x 0.356 = 1.425, ratio 0.541). Two explanations remain and they are separable: (a) attenuation from collinearity -- the five members turnovers move together, so a sum is measured against a regressor whose own variation is shared, or (b) a genuine common component that a single counterparty does not carry. The test: project each member d(log turnover) on the cross-sectional book move and re-run the pair design on the residualised increments; publish (i) the predicted aggregate coefficient under pure collinearity, (ii) the coefficient actually fitted on the orthogonalised increments, (iii) the share of the 1.425 -> 0.771 gap each explanation accounts for, with intervals, and (iv) the same decomposition on the two-way FE form. Refuse any charge either way; this face only names the mechanism.",
+   "worker_class": "self-contained",
    "status": "done",
-   "target": "scripts/e240_aggregate_attenuation.py (new runner)",
-   "title": "why does the book aggregate keep only 54% of what four single-counterparty turnover channels carry?"
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: zero toll on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_cost0.json"
+   ],
+   "deliverable": "the clean end of the toll axis. cost05/cost20/cost40 all keep the band structure, which was read as 'the band is a property of the decision count, not the toll' -- but every one of those arms still pays a toll, so the claim has never been measured at zero. If the band survives with no cost at all the reading holds; if it collapses, 'survives the toll' at 5bp was already the toll talking",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265 floor: the buffer axis is closed at 0.050 of the ruler, so the open axis is the toll. cost05/20/40 bracket the production 10bp but none of them is zero, and the band-vs-toll claim rests on that extrapolation",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": "bm-c",
+     "checkpoint": "results/etf_book_phase_atlas_cost0.json -- the atlas writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 11:12:04",
+     "done_at": "2026-10-30 11:12:04",
+     "done_by": "bm-c",
+     "landed_via": "declared_out_etf_book_phase_atlas_cost0.json",
+     "claimed_since": "2026-10-30 11:08:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
+    }
+   ],
+   "priority": 1,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 11:12:04"
   },
   {
-   "deliverable": "results/state_tilt/REPRO-<cutoff>.json (a reproduction ladder over the three candidate causes: row set, denominator weights, response sign)",
-   "done_note": "r1267: rung0 reproduces E238 exactly; the non-reproduction is E240 one session out of step -- 6630 of 6635 rows carry the previous session; corrected pair 0.791/1.343; reader repaired as F-20261030-01",
-   "entered_at": "2026-10-30T05:4x+08:00",
-   "entered_by": "bm-b r1266",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E241-REPRODUCE-THE-PUBLISHED-PAIR",
+   "id": "E266-ATLAS-BUFFER-K030",
    "lane": "cpu-only",
-   "owner": null,
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.30 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.30",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k30.json"
+   ],
+   "deliverable": "one measured point inside the segment the floor extrapolates across. r1354 fits +0.862pp per unit k (r2 0.965) over 0.02..0.40 and answers k_required=7.79 by continuing that line; k=0.30 is the midpoint of the widest gap (0.20->0.40) and the natural place for a bend to hide. If it sits off the line, the extrapolation is disclosed as wrong rather than quietly inherited by whoever next asks about a strong buffer",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265: the floor's verdict is an EXTRAPOLATION (UNREACHABLE at k=7.79) and the only cheap way to test a straight line is to measure a point on it",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k30.json -- one whole face per invocation; same bar set reproduces the same bytes",
+     "owner_since": "2026-10-30 10:22:03",
+     "done_at": "2026-10-30 10:22:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
+    }
+   ],
    "priority": 2,
-   "result_ref": "results/state_tilt/REPRO-2026-10-29.json",
-   "runner": "scripts/e241_pair_reproduction.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E240 re-ran E238's own coordinates (dy on d(log share), d(log aggregate turnover)) on the common five-member grid and got (A, B) = (-0.333, -0.174), while E238 published (0.596, 0.771) on its 3,504-session panel. E240 published the gap as gap_A=-1.164 and gap_B=-1.178 rather than reconciling it by assertion. Three candidate causes are separable and must be tested one at a time: (1) ROWS -- E238 runs on each member's own date grid (3504 sessions), E240 on the intersection (1328); (2) WEIGHTS -- E238's kappa uses capital weights (nominal w=1/5, realised shares 0.10..0.29), E240's exposure is an equal-weight sum; (3) RESPONSE -- the sign of the fitted book-scaling coefficient flips, which no weighting choice can produce. Publish a ladder: reproduce E238 exactly on its own panel and rows (must match to the published precision or the face says plainly that it cannot), then relax one dimension at a time and report which single change carries the sign flip, with the residual attributed. Until this is settled the family must not quote 0.771 as a rest coefficient anywhere.",
-   "status": "done",
-   "target": "scripts/e241_pair_reproduction.py (new runner)",
-   "title": "why does E238's published (A, B) pair not reproduce on the common grid?",
-   "worker_class": "code-change",
-   "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 10:22:03"
   },
   {
-   "deliverable": "results/state_tilt/OMISSION-<cutoff>.json (each published slope with its identified counterpart and the measured inflation factor)",
-   "done_by": "bm-b",
-   "done_note": "r1268: 15 published slopes read / 7 re-priceable; omission lifts the single-counterparty cross level x1.53 (own+four form) to x1.78 (one+sum form) against a closed form x1.89 at rho 0.424; the paired difference is structurally spared (E239 0.4837 published, 0.7270 same naive design on the common grid, 0.6675 [0.4978, 0.8373] identified -> verdict survives); the grid moves that difference 4x more than the omission does; no verdict flips",
-   "done_round": 1268,
-   "entered_at": "2026-10-30T05:4x+08:00",
-   "entered_by": "bm-b r1266",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E242-OMISSION-INFLATED-FAMILY-SLOPES",
+   "id": "E266-ATLAS-BUFFER-K005-COST05",
    "lane": "cpu-only",
-   "owner": null,
+   "worker_class": "self-contained",
+   "status": "done",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.05 at 5bp/side)",
+   "runner_args": [
+    "run",
+    "--k=0.05",
+    "--cost=0.0005",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k05_cost05.json"
+   ],
+   "deliverable": "the cheap end of the buffer x toll interaction. At 20bp the interaction was -0.05pp (same sign and size as the buffer's own 10bp reading, i.e. no recovery of the toll). 5bp is the other side: if the interaction is the same -0.05pp there it is a property of the buffer, not of the toll level -- and if it vanishes, the 20bp number was the toll's own scaling",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265 / r1353 E264: the interaction was measured at ONE toll level, so 'the buffer buys nothing back' is currently a single point",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "done",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost05.json -- one whole face per invocation; same bar set reproduces the same bytes",
+     "owner_since": "2026-10-30 10:26:03",
+     "done_at": "2026-10-30 10:26:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
+    }
+   ],
    "priority": 2,
-   "result_ref": "results/state_tilt/OMISSION-2026-10-29.json",
-   "runner": "scripts/e242_omission_inflation_sweep.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E240 measured the omission of the other members inside one pair regression: the naive pair cross slope is 0.325 against the identified one-counterparty slope of 0.183, a factor of 1.89 at rho = 0.424, matching the closed form (1+(k-1)rho-k rho^2)/(1-rho^2). Every face in this family that regresses on own plus ONE counterparty inherits that factor, and E239's published 0.314 is one of them. Sweep the published faces (E239 pair slopes, E236 share-difference slopes, E235 charge granularity) and for each one publish the identified counterpart (own + one + the rest) next to it, the implied inflation factor, and whether the face's VERDICT survives the re-pricing. A verdict that flips is the deliverable; a verdict that survives is the evidence that the family can keep quoting it. No new theory: only which published numbers were units artefacts.",
-   "status": "done",
-   "target": "scripts/e242_omission_inflation_sweep.py (new runner)",
-   "title": "how many published family slopes are inflated by omitting the other members?",
-   "worker_class": "code-change",
-   "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
-  },
-  {
-   "deliverable": "results/state_tilt/ADDOS-<cutoff>.json (the one-vs-three difference by era, by member, and on the pre-2020 segment)",
-   "entered_at": "2026-10-30T05:4x+08:00",
-   "entered_by": "bm-b r1266",
-   "evidence_cutoff": "2026-10-29",
-   "finished_at": "2026-10-30T07:50:15",
-   "id": "E243-ADDITIVITY-OUT-OF-SAMPLE",
-   "lane": "cpu-only",
-   "owner": "bm-b",
-   "priority": 2,
-   "result_note": "10 decided cells + 1 labelled degenerate; headline replays E240 (diff 0.00785 to 1e-9); verdict additivity_only_in_the_mean -- 9/20 counterparty pairs exclude zero with mixed signs while the mean interval covers it; pooled aggregator published identifies:false",
-   "result_ref": "results/state_tilt/ADDOS-2026-10-29.json",
-   "runner": "scripts/e243_additivity_out_of_sample.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E240 published the identified additivity test on the common grid: one counterparty 0.183 vs the sum of the other three 0.175, difference +0.008 [-0.012, +0.022] -> rest_channel_is_additive. That is a single window (2020-11-17 onwards, 1328 sessions) because two of the five members do not exist before 2020. Two of the family's own laws apply here: a single-arm result is not a rule until the neighbourhood is tested (E188/E231 path test), and a difference that only exists in one era is not a mechanism (E213 bucket reread). Run the same design on (i) the three pre-2020 members alone, (ii) each era split, (iii) leave-one-member-out variances, publishing the difference interval in each cell and the verdict stability across them. A verdict that only holds in the newest era must say so on the face.",
-   "status": "done",
-   "target": "scripts/e243_additivity_out_of_sample.py (new runner)",
-   "title": "does 'the rest channel adds up' survive outside the window that produced it?",
-   "worker_class": "code-change",
-   "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
-  },
-  {
-   "deliverable": "results/state_tilt/PAIRHET-<cutoff>.json",
-   "done_note": "E244 burned in-window (r1270). Verdict two_members_pay_differently: sh588000 as the singled counterparty reads +0.80 over 22 decisive pairs in 8 cells with ONE sign, sh512100 reads -0.50 over 9 pairs in 6 cells with one sign, and every other member carries mixed signs (not a carrier). Variance decomposition over 152 published pairs: counterparty identity 50.7%, own identity 0.1%, residual 49.5% -- the heterogeneity sits on WHO you single out, not on whose return is explained. Mirror ratio 1.61 over the frozen floor 1.50. Delivered as the (a) path of this card's own source text was NOT followed: the slope matrix (regress each member on every other separately) is seeded as E245 instead, because E243's published intervals already carry the pair structure and re-deriving it would have been a second burn of the same numbers.",
-   "entered_at": "2026-10-30T07:50:15",
-   "entered_by": "bm-b r1269",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E244-ADDITIVITY-WHICH-COUNTERPARTY",
-   "lane": "cpu-only",
-   "owner": null,
-   "priority": 3,
-   "result_ref": "results/state_tilt/PAIRHET-2026-10-29.json",
-   "runner": "scripts/e244_pair_heterogeneity.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E243 killed the additivity verdict but left the structure unnamed: 9 of 20 ordered pairs exclude zero with MIXED signs, and the per-pair difference has no obvious predictor. E240's design prices the difference as b_one - b_rest, where `rest` is the sum of k-2 members -- so the pair statistic is not a pair at all, it is one member against an average of the others, and a heterogeneous set of slopes averages into a number that no single counterparty reports. The follow-up must identify the CHANNEL STRUCTURE rather than the difference: (a) regress each member's move on every OTHER member separately (k-1 slopes per member, no sum regressor) and publish the full slope matrix with intervals; (b) test whether the rows of that matrix are equal across counterparties (a coherent rest channel) or concentrated on a few names (a star structure); (c) report the size of the matrix the design can resolve, since E243 showed the per-pair intervals are +/-0.2..0.6 and that is a statement about session counts, not about the market. No bill, no adoption.",
-   "status": "done",
-   "target": "scripts/e244_pair_heterogeneity.py (new runner)",
-   "title": "if the rest channel is not one channel, which counterparties carry it?",
-   "worker_class": "code-change",
-   "workers_plan": {
-    "priority": "BelowNormal",
-    "workers": 1
-   }
-  },
-  {
-   "deliverable": "results/state_tilt/SLOPEMATRIX-<cutoff>.json",
-   "entered_at": "2026-10-30T08:52:00",
-   "entered_by": "bm-b r1270",
-   "evidence_cutoff": "2026-10-29",
-   "finished_at": "2026-10-30T09:07:01",
-   "id": "E245-PAIR-SLOPE-MATRIX",
-   "lane": "cpu-only",
-   "owner": null,
-   "priority": 3,
-   "result_note": "headline: row equality rejected in 4/5 rows, one column (sh588000) decisive 4/4 at mean slope 0.769 while every other column sits 0.07..0.28; pre-2020 (before that sleeve prints) no star at all",
-   "result_ref": "results/state_tilt/slopematrix_latest.json",
-   "runner": "scripts/e245_pair_slope_matrix.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E244 attributed the spread to the counterparty identity (51% vs 0.1% own, 49% residual) and named two carriers, but it could only read the intervals E243 had already published: 152 rows over 11 overlapping cells, and half the variance is pair idiosyncrasy the sum design cannot explain. The unfiltered object is the slope matrix -- each member's move regressed on every OTHER member separately (k-1 slopes per member, no sum regressor, no kappa), with a HAC interval per cell. Publish the full 5x4 matrix per cell, test row equality (a coherent rest channel) against column concentration (one counterparty), and check that the residual half of E244's split is a property of the SUM DESIGN rather than of the book. E244's own caveat must be carried: its cells overlap in time, so repeats are not replications.",
-   "status": "done",
-   "target": "scripts/e245_pair_slope_matrix.py (new runner)",
-   "title": "publish the full cross-member slope matrix before any rest channel is named again",
-   "worker_class": "code-change"
-  },
-  {
-   "deliverable": "results/state_tilt/STARDIR-<cutoff>.json",
-   "entered_at": "2026-10-30T09:07:01",
-   "entered_by": "bm-b r1271",
-   "evidence_cutoff": "2026-10-29",
-   "finished_at": "2026-10-30T09:44:03",
-   "id": "E246-STAR-OR-COMMON-FACTOR",
-   "lane": "cpu-only",
-   "owner": null,
-   "priority": 3,
-   "result_note": "headline star_flow_leads_with_sign_flip: lag0 +0.769 (5/5 decisive), lag1 -0.527 (5/5), lag2 +0.397 (5/5) on 1328 sessions at resolution 0.264; reverse 0/4; pre-2020 four reads contemporaneous_common_factor (lag1 -0.117 at 0/4); placebo band on permuted star -0.019 (se 0.106); own-lag AR1 -0.33..-0.44 disclosed",
-   "result_ref": "results/state_tilt/stardir_latest.json",
-   "runner": "scripts/e246_star_direction.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E245 found the 'rest channel' is a star: sh588000's turnover is decisive for 4 of 4 members (mean slope 0.769) in the five-member window and the cell resolves at 0.264, while pre-2020 -- before that sleeve prints -- the columns are diffuse (0.36/0.43/0.33) and no star exists. Two mechanisms produce identical simultaneity: (a) that sleeve's turnover carries a book-wide factor, (b) all five sleeves load on one common driver and the star is whichever one the regression is best at reading. The design that separates them is the LEAD: re-fit the matrix with the star's turnover lagged one and two sessions (and the reverse direction, everyone's turnover against its own lag) and publish which direction survives HAC. If nothing leads anything, the star is a contemporaneous common factor and must be published as such -- a common factor is not a channel a single sleeve's flow can be blamed for. Carry E245's resolution gate per cell and its member-named cell rule (an empty intersection reports zero sessions, not a green cell).",
-   "status": "done",
-   "target": "scripts/e246_star_direction.py (new runner)",
-   "title": "is the star a factor in one sleeve's turnover, or the same commonality with a lead?",
-   "worker_class": "code-change"
-  },
-  {
-   "claimed_at": "2026-10-30T10:20:00+08:00",
-   "deliverable": "results/state_tilt/STARLAGBAND-<cutoff>.json",
-   "done_at": "2026-10-30T10:58:00+08:00",
-   "entered_at": "2026-10-30T09:44:03",
-   "entered_by": "bm-b r1272",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E247-OSCILLATION-OR-COEFFICIENT-BAND",
-   "lane": "cpu-only",
-   "numbering_note": "delivered as card E248 and runner e248_*: the card number E247 was already issued to era-cell power (r1273) while this pool row still carried E247 in its id; the pool id is kept as entered, the product carries the free number",
-   "owner": "bm-b",
-   "priority": 3,
-   "result_note": "verdict band_without_shape in 5 of 6 cells (era_2020_2022 inside_permutation_band); only lag 1 crosses the family-wise shuffled band, negative, in 5 of 6 cells; the lag-2 rebound E246 published never crosses anywhere",
-   "result_ref": "results/state_tilt/STARLAGBAND-2026-10-29.json",
-   "runner": "scripts/e248_star_lag_band.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E246 read the star column as +0.769 / -0.527 / +0.397 at lags 0/1/2 and published the verdict as a sign flip, but it only tested two lags and it quoted each coefficient against its HAC interval without an empirical null. Extend the distributed-lag row to lags 1..5, publish a 200-draw permutation band per lag (star series shuffled in time, same design), and decide with that band whether the pattern is a period-2 oscillation (lag2 near lag1 in magnitude with opposite sign, lag3 falling back toward zero), a monotone decay (each lag smaller than the last in the same direction), or inside the band. Also re-run the row with the dependent variable as a two-session sum so overlapping windows cannot manufacture an alternation. Carry E246 own-lag persistence disclosure and refusal of too-few-session cells.",
-   "status": "done",
-   "target": "scripts/e248_star_lag_band.py (new runner)",
-   "title": "is the alternating star lead a two-session oscillation or a decaying coefficient with no band?",
-   "worker_class": "code-change"
-  },
-  {
-   "deliverable": "results/state_tilt/LEADCOUNTER-<cutoff>.json",
-   "entered_at": "2026-10-30T11:00:00+08:00",
-   "entered_by": "bm-b r1274",
-   "evidence_cutoff": "2026-10-29",
-   "id": "E249-NEGATIVE-LEAD-STAR-SPECIFIC",
-   "lane": "cpu-only",
-   "owner": "bm-b",
-   "priority": 3,
-   "runner": "scripts/e249_lead_counterfactual.py",
-   "runner_args": [
-    "run"
-   ],
-   "source": "E248 spent the shuffled null and found exactly one crossing: lag 1, negative, -0.586 on the star column with the family-wise line at 0.351. A negative coefficient on the counterparty's PAST turnover has two readings and the star column cannot separate them: (a) that sleeve's flow is absorbed (its turnover spikes, the book's next move is smaller -- a source with a negative sign), or (b) every column pays the same lag-1 negative because a book-wide liquidity proxy mean-reverts and the star is simply the column the fit reads best. The counterfactual is direct: run the same 5-lag row with EACH member as the 'column of interest' against the other four, publish the lag-1 coefficient per column with its own 200-draw shuffled band, and ask whether the star's -0.586 is distinguishable from the other columns' lag-1 readings. If all five sit at the same negative value the lead is book-wide reversion and no sleeve may be billed for it; if the star is an outlier the channel is specific and E246/E248's naming survives with its sign inverted. Carry E248's family-wise band (max |coefficient| over lags 1..5 of every draw) and its refusal of cells under the session floor, and publish the column-to-column spread against the within-column band so 'specific' is a comparison and not an impression.",
-   "status": "done",
-   "target": "scripts/e249_lead_counterfactual.py (new runner)",
-   "title": "is the negative one-session lead the star's own flow, or does every column pay it?",
-   "worker_class": "code-change",
-   "completed_at": "2026-10-30T11:33:23",
-   "result_ref": "results/state_tilt/LEADCOUNTER-2026-10-29.json + research/digests/DIGEST-20261030-r1275-e249-lead-counterfactual.md + knowledge/METHODOLOGY_ASSETS.md E249",
-   "outcome": "book_wide_same_sign, not star-specific: all five columns read negative (-0.233/-0.238/-0.280/-0.303/-0.586), spread 0.352 vs median within-column band 0.384 (ratio 0.92). The two column_specific era cells are power readings (gap/band 0.441/0.509), reclassified by the post-hoc separation block; spread/band never exceeds 1.01 in any cell. E248's -0.585816805 OR reproduced to 12 digits."
-  },
-  {
-   "id": "E250-BOOK-WIDE-LIQUIDITY-ECHO",
-   "title": "is the shared negative lag-1 lead the book's OWN lagged turnover?",
-   "status": "done",
-   "lane": "cpu-only",
-   "worker_class": "code-change",
-   "priority": 3,
-   "owner": null,
-   "entered_at": "2026-10-30T11:33:23",
-   "entered_by": "bm-b r1275",
-   "evidence_cutoff": "2026-10-29",
-   "runner": "scripts/e250_book_turnover_echo.py",
-   "runner_args": [
-    "run"
-   ],
-   "target": "scripts/e250_book_turnover_echo.py (new runner)",
-   "deliverable": "results/state_tilt/BOOKECHO-<cutoff>.json",
-   "source": "E249 read all five columns of the star row and found every one of them negative at comparable magnitude (spread 0.352 inside a 0.384 band), in every era. That kills the star-specific naming but leaves the mechanism unnamed: something makes each member's move respond negatively to any member's previous turnover. The obvious candidate is that the five columns are all proxies for ONE book-level quantity -- aggregate turnover -- and that the book's next move loadings on it. Test it directly: put the book's own lagged aggregate turnover (the sum over members, one value per session) in as the single regressor of interest against each member's move, with that member's own contemporaneous turnover controlled, and ask (a) is the aggregate lag-1 coefficient negative and does it clear a 200-draw shuffled band of the aggregate series, (b) does the per-column negative coefficient SHRINK toward zero once the aggregate is in the row -- if the columns are proxies for the aggregate, adding it should soak their coefficients up, and (c) what share of each column's lag-1 is accounted for. Publish the coefficient with and without the aggregate, the shrinkage per column, and decide with the same family-wise line E248/E249 used. Note the identification caveat up front: E240 found the aggregate turnover absorbed by date fixed effects in a cross-sectional design, so this is the TIME-SERIES version of the same regressor and the two must not be quoted against each other -- if date effects cannot be included, say so and publish the omitted-variable amplification factor the way E240 did. NO BILL.",
-   "claimed_by": "bm-b",
-   "claimed_at": "2026-10-30T12:05:00+08:00",
-   "completed_at": "2026-10-30T12:05:00+08:00",
-   "result_ref": "scripts/e250_book_turnover_echo.py + results/state_tilt/BOOKECHO-2026-10-29.json",
-   "result_note": "the shared negative lag-1 IS the book's own lagged aggregate turnover: c1 -0.521 against a 200-draw shuffled band [-0.206, 0.201] on the headline cell, negative and outside the band in 5 of 6 cells (era_2020_2022 inside at -0.316). Per-column lag-1 shrinks toward zero once the LEAVE-ONE-OUT aggregate is in (mean share 0.91 headline, 0.49-1.19 across cells), while the star's own reading (-0.805) keeps ~90% of its size -> the star is not merely a proxy. NO BILL."
-  },
-  {
-   "id": "E251-STAR-OWN-COMPONENT",
-   "title": "what is left of the star column once the book-wide aggregate is removed?",
-   "status": "done",
-   "lane": "cpu-only",
-   "worker_class": "code-change",
-   "priority": 3,
-   "owner": "bm-b",
-   "entered_at": "2026-10-30T12:05:00+08:00",
-   "entered_by": "bm-b r1276",
-   "evidence_cutoff": "2026-10-29",
-   "runner": "scripts/e251_star_own_component.py",
-   "runner_args": [
-    "run"
-   ],
-   "target": "scripts/e251_star_own_component.py (new runner)",
-   "deliverable": "results/state_tilt/STAROWN-<cutoff>.json",
-   "source": "E250 measured that the book-wide aggregate lag-1 carries the shared negative lead (c1 -0.521 outside a shuffled band in 5/6 cells, mean leave-one-out share 0.91), but the star column sh588000 kept ~90% of its -0.805 after the leave-one-out aggregate was in the row -- against 0.10-0.60 for every other column. That residual is the only part of the star reading E248/E249 attributed to a sleeve and E250 did not take away, and it is now the whole question: is the star's own residual its own turnover, its own volatility, or the fact that it is the newest and shortest member? Test it as a decomposition -- own lag-1 with the leave-one-out aggregate controlled, then add the star's own lagged |move| and the member's listing age as separate regressors, and report which part of the residual each one takes. Publish the residual before and after each addition, and decide against the same 200-draw shuffled band the family uses. Identification note: the newest member carries the shortest history, so age and identity are not separable in the headline cell -- say so and read the age effect wherever the window makes it measurable. NO BILL.",
-   "done_at": "2026-10-30T12:35:00+08:00",
-   "done_by": "bm-b r1277",
-   "result_ref": "results/state_tilt/STAROWN-2026-10-29.json",
-   "result_note": "residual_is_own_turnover: the star's b1 of -0.72504 moves to -0.73008 when its own lagged |move| joins the row (share -0.0070) and -0.73005 with age (share -0.0069); the drop -0.00504 sits inside the shuffled-drop band [-0.00888, +0.01343], so volatility explains nothing. Age is not identified inside one window (corr 0.99998 with the row index) and is published as such. NO BILL."
-  },
-  {
-   "id": "E252-STAR-PRICES-ITSELF",
-   "title": "the star's turnover prices everyone else -- does it price the star?",
-   "status": "ready",
-   "lane": "cpu-only",
-   "worker_class": "code-change",
-   "priority": 3,
-   "owner": null,
-   "entered_at": "2026-10-30T12:35:00+08:00",
-   "entered_by": "bm-b r1277",
-   "evidence_cutoff": "2026-10-29",
-   "runner": "scripts/e252_star_prices_itself.py",
-   "runner_args": [
-    "run"
-   ],
-   "target": "scripts/e252_star_prices_itself.py (new runner)",
-   "deliverable": "results/state_tilt/STARSELF-<cutoff>.json",
-   "source": "E251 settled what the star's residual is: the star's own lagged turnover, with volatility and age both taking nothing. But all of E251's fits price OTHER members' moves (dy_m for m != star) -- the reading is 'the star's turnover moves the rest of the book'. E246/E249 also found the star's own row carries a negative lead whose sign alternates by era, and E248 published +-0.805 without ever asking whether the star prices ITSELF. Run E251's identical decomposition with the star as the outcome (dy_star on its own contemporaneous turnover + its own lag-1 + the leave-one-out aggregate + lagged |move| + age), same cells, same 200-draw shuffled bands, and publish the star's self-coefficient beside the coefficient it carries for others. The question is whether a member that moves the book is moved by the same quantity, or whether its own row is a different mechanism (E246's alternating sign is the prior). Do not bill either reading: this is a channel identification, and a self-coefficient is not a cost."
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 10:26:03"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -23829,6 +23780,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T11:00:00+08:00",
+ "updated_at": "2026-10-30T09:1x+08:00",
  "version": 1
 }

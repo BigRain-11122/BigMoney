@@ -1,0 +1,112 @@
+{
+ "script": "scripts/etf_book_phase_atlas_arms.py --readback",
+ "question": "the buffer floor answers k=7.79 by continuing a line past its last arm. Price the midpoint of its widest gap and ask whether the line still holds there.",
+ "evidence_cutoff": "2026-10-29",
+ "rule": {
+  "tol_multiple": 3.0,
+  "tol_floor_pp": 0.05,
+  "frozen": "declared before reading the k=0.30 face: the reading holds if the observed median delta is within tol of slope*k+intercept and carries the same sign"
+ },
+ "buffer_k": 0.3,
+ "floor_face": "etf_book_buffer_resolution_floor.json",
+ "arm_face": "etf_book_phase_atlas_buffer_k30.json",
+ "predicted_pp": 0.228,
+ "observed_pp": 0.26,
+ "gap_pp": 0.032,
+ "tolerance_pp": 0.127,
+ "max_in_sample_residual_pp": 0.042,
+ "cells": [
+  {
+   "n_hold": 3,
+   "rebal": 10,
+   "median_cagr_pp": 12.165,
+   "baseline_cagr_pp": 10.925,
+   "delta_pp": 1.24
+  },
+  {
+   "n_hold": 3,
+   "rebal": 20,
+   "median_cagr_pp": 9.755,
+   "baseline_cagr_pp": 8.715,
+   "delta_pp": 1.04
+  },
+  {
+   "n_hold": 3,
+   "rebal": 40,
+   "median_cagr_pp": 6.06,
+   "baseline_cagr_pp": 6.78,
+   "delta_pp": -0.72
+  },
+  {
+   "n_hold": 5,
+   "rebal": 10,
+   "median_cagr_pp": 12.31,
+   "baseline_cagr_pp": 11.505,
+   "delta_pp": 0.805
+  },
+  {
+   "n_hold": 5,
+   "rebal": 20,
+   "median_cagr_pp": 9.79,
+   "baseline_cagr_pp": 9.13,
+   "delta_pp": 0.66
+  },
+  {
+   "n_hold": 5,
+   "rebal": 40,
+   "median_cagr_pp": 8.065,
+   "baseline_cagr_pp": 8.32,
+   "delta_pp": -0.255
+  },
+  {
+   "n_hold": 8,
+   "rebal": 10,
+   "median_cagr_pp": 12.225,
+   "baseline_cagr_pp": 12.0,
+   "delta_pp": 0.225
+  },
+  {
+   "n_hold": 8,
+   "rebal": 20,
+   "median_cagr_pp": 10.0,
+   "baseline_cagr_pp": 10.13,
+   "delta_pp": -0.13
+  },
+  {
+   "n_hold": 8,
+   "rebal": 40,
+   "median_cagr_pp": 8.6,
+   "baseline_cagr_pp": 8.305,
+   "delta_pp": 0.295
+  },
+  {
+   "n_hold": 12,
+   "rebal": 10,
+   "median_cagr_pp": 11.64,
+   "baseline_cagr_pp": 11.635,
+   "delta_pp": 0.005
+  },
+  {
+   "n_hold": 12,
+   "rebal": 20,
+   "median_cagr_pp": 9.82,
+   "baseline_cagr_pp": 9.645,
+   "delta_pp": 0.175
+  },
+  {
+   "n_hold": 12,
+   "rebal": 40,
+   "median_cagr_pp": 8.365,
+   "baseline_cagr_pp": 7.55,
+   "delta_pp": 0.815
+  }
+ ],
+ "verdict": "HOLDS",
+ "verdict_reasons": [
+  "the fit says +0.228pp at k=0.30 (slope +0.862, intercept -0.031)",
+  "the harvested arm's own 12 cells say +0.260pp (median)",
+  "gap +0.032pp against tolerance 0.127pp = 3.0x the fit's largest in-sample residual (0.042pp, floored at 0.05)",
+  "cell spread of the same arm: -0.720 .. +1.240pp (12 cells), i.e. the median is not the book",
+  "the line predicts a point it never saw, on the widest gap it spans -- the extrapolated k is a continuation of a measured slope, not a guess"
+ ]
+}

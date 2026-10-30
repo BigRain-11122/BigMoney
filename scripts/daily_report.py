@@ -37,6 +37,7 @@ import os
 import subprocess
 import sys
 from datetime import datetime, timedelta
+import statistics
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "docs", "daily_report")
@@ -573,6 +574,149 @@ def _stage_style_face():
     }
 
 
+# ------------------------------------- market risk tape (r1153 bm-a)
+ZT_PANEL_LABELS = {"zt": "涨停池", "zbgc": "炸板池", "dtgc": "跌停池",
+                   "strong": "强势池"}
+ZT_DATE_COL = "日期"
+ZT_NAME_COL = "名称"
+ZT_STREAK_COL = "连板数"
+ZT_SERIES_DAYS = 10   # r1154: how many tracked bars the tape shows as a trajectory
+
+
+def _zt_panel_day(key, root=None):
+    """One forward-accumulated zt-pool panel: the last two bar dates and their
+    row counts (a row IS a member, so the count is the member count).
+
+    Forward panels (O-20261001-2103): a trading day either got captured or it is
+    permanently gone -- so an absent panel or a missing day must read as absent,
+    never as 0 members (r1149 marks-coverage law)."""
+    root = root or ROOT
+    path = os.path.join(root, "data", "zt_pool", f"{key}.parquet")
+    if not os.path.exists(path):
+        return {"key": key, "label": ZT_PANEL_LABELS[key], "status": "absent"}
+    try:
+        import pandas as pd
+        df = pd.read_parquet(path)
+    except Exception as exc:                                  # noqa: BLE001
+        return {"key": key, "label": ZT_PANEL_LABELS[key],
+                "status": "unreadable", "detail": str(exc)[:120]}
+    if df is None or len(df) == 0 or ZT_DATE_COL not in df.columns:
+        return {"key": key, "label": ZT_PANEL_LABELS[key], "status": "empty"}
+    days = df[ZT_DATE_COL].map(lambda v: str(v)[:10])
+    counts = {d: int(n) for d, n in days.value_counts().items()}
+    order = sorted(counts)
+    cutoff = order[-1]
+    prev = order[-2] if len(order) > 1 else None
+    out = {"key": key, "label": ZT_PANEL_LABELS[key], "status": "ok",
+           "cutoff": cutoff, "count": counts[cutoff],
+           "prev_cutoff": prev, "prev_count": counts[prev] if prev else None,
+           "days_tracked": len(order),
+           "series": {d: counts[d] for d in order[-ZT_SERIES_DAYS:]}}
+    if key == "zt":
+        row = df[days == cutoff]
+        ladder = {}
+        if ZT_STREAK_COL in row.columns:
+            for v in row[ZT_STREAK_COL]:
+                try:
+                    k = int(v)
+                except (TypeError, ValueError):
+                    continue
+                ladder[k] = ladder.get(k, 0) + 1
+        out["ladder"] = {str(k): ladder[k] for k in sorted(ladder)}
+        if ladder and ZT_NAME_COL in row.columns:
+            top_k = max(ladder)
+            names = [str(n) for n, v in zip(row[ZT_NAME_COL], row[ZT_STREAK_COL])
+                     if str(v).strip().split(".")[0] == str(top_k)]
+            out["top_streak"] = {"streak": top_k, "n": ladder[top_k],
+                                 "names": names[:5]}
+    return out
+
+
+def _zt_risk_face(day=None, root=None):
+    """Market risk tape from the four forward zt-pool panels.
+
+    Aggregation only: member counts on each panel's newest bar, the same number
+    on the bar before it (direction), the sealed rate = 涨停/(涨停+炸板), and the
+    streak ladder carried straight out of the panel's 连板数 column.  The two
+    reading rules are mechanical and printed on the page, so nothing here is a
+    hidden threshold."""
+    panels = {k: _zt_panel_day(k, root) for k in ZT_PANEL_LABELS}
+    ok = {k: v for k, v in panels.items() if v.get("status") == "ok"}
+    if not ok:
+        return {"present": False, "panels": panels,
+                "note": "四面板全缺——前向池未采（缺面禁读成 0）"}
+    cutoffs = sorted({v["cutoff"] for v in ok.values()})
+    face = {"present": True, "panels": panels, "cutoff": cutoffs[-1],
+            "cutoffs": cutoffs,
+            "aligned": len(cutoffs) == 1 and len(ok) == len(panels)}
+    up = ok.get("zt", {}).get("count")
+    dn = ok.get("dtgc", {}).get("count")
+    broke = ok.get("zbgc", {}).get("count")
+    if up is not None and broke is not None and (up + broke) > 0:
+        face["seal_rate"] = round(up / float(up + broke), 4)
+    if isinstance(up, int) and isinstance(dn, int):
+        face["down_over_up"] = round(dn / float(up), 3) if up else None
+        face["kill_day"] = dn >= up
+    if ok.get("zt", {}).get("ladder"):
+        face["ladder"] = ok["zt"]["ladder"]
+        face["top_streak"] = ok["zt"].get("top_streak")
+    # r1154 trajectory: a single bar's counts say nothing about direction, and a page
+    # that only ever shows one bar hides a regime. Union of the dates each panel
+    # actually captured (a day missing from a panel stays None = absent, never 0), and
+    # the seal rate is re-derived per day from that day's own two counts, not carried.
+    dates = sorted({d for v in ok.values() for d in (v.get("series") or {})})
+    dates = dates[-ZT_SERIES_DAYS:]
+    series = []
+    for d in dates:
+        row = {"date": d}
+        for k in ("zt", "zbgc", "dtgc"):
+            s = (ok.get(k) or {}).get("series") or {}
+            row[k] = s.get(d)
+        if isinstance(row["zt"], int) and isinstance(row["zbgc"], int) \
+                and (row["zt"] + row["zbgc"]) > 0:
+            row["seal_rate"] = round(row["zt"] / float(row["zt"] + row["zbgc"]), 4)
+        series.append(row)
+    if series:
+        face["series"] = series
+    return face
+
+
+# --------------------------------- data-lane authorship (r1162 bm-a)
+def _lane_authority_face(root=None):
+    """Whose disk the forward data lanes' numbers are on (r1162).
+
+    Aggregation only. The board (scripts/data_lane_freshness.py) derives the
+    sentence once from each lane's own `authority` field, and this face prints
+    it verbatim: re-judging authorship here would be a second implementation of
+    the same rule, and the two would drift the first time a lane changed host.
+    """
+    root = root or ROOT
+    doc = _read_json(os.path.join(root, "results",
+                                  "data_lane_freshness.json")) or {}
+    if not doc:
+        return {"present": False,
+                "note": "车道归属面未产出（results/data_lane_freshness.json 缺件）——如实标注"}
+    disk = doc.get("disk") or {}
+    if not disk.get("sentence"):
+        return {"present": False, "as_of": doc.get("as_of"),
+                "note": "板面存在但未带归属块（旧版本）——如实标注"}
+    return {"present": True, "as_of": doc.get("as_of"),
+            "verdict": doc.get("verdict"),
+            "sentence": disk.get("sentence"),
+            "n_lanes": disk.get("n_lanes"),
+            "n_offhost": disk.get("n_offhost"),
+            "n_here": disk.get("n_here"),
+            "n_auditable_here": disk.get("n_auditable_here"),
+            "n_unsigned_here": disk.get("n_unsigned_here"),
+            "groups": [{"machine": g.get("machine"),
+                        "lanes": g.get("lanes") or [], "n": g.get("n"),
+                        "alive": g.get("alive"), "age_h": g.get("age_h"),
+                        "last_seen": g.get("last_seen")}
+                       for g in (disk.get("groups") or [])],
+            "offhost_lanes": disk.get("offhost_lanes") or [],
+            "labels": disk.get("labels") or {}}
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -588,6 +732,8 @@ def build_report(now):
         "pnl_attribution": _attribution_face(now),
         "engine_wave": _engine_wave_face(),
         "stage_style": _stage_style_face(),
+        "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
+        "lane_authority": _lane_authority_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
@@ -789,6 +935,98 @@ def render_md(rep):
         if seg:
             L.append(f"- **各阶段态最优袖**（state 内 sharpe 排序，{len(ss.get('cells') or [])} 袖面）：{seg}")
     L.append("")
+    L.append("## 九、市场风险面（涨跌停/炸板/连板梯队 · 前向池四面板）")
+    mr = rep.get("market_risk") or {}
+    if not mr.get("present"):
+        L.append(f"- {mr.get('note') or '风险面未产出——如实标注'}")
+        absent = [v.get("label") for v in (mr.get("panels") or {}).values()
+                  if v.get("status") != "ok"]
+        if absent:
+            L.append(f"  - 缺面：{'、'.join(str(a) for a in absent)}（缺面禁读成 0）")
+    else:
+        pn = mr.get("panels") or {}
+
+        def _cnt(k):
+            v = pn.get(k) or {}
+            if v.get("status") != "ok":
+                return f"{v.get('label')}=缺面"
+            seg = f"**{v.get('label')} {v.get('count')}**"
+            if v.get("prev_count") is not None:
+                seg += f"（前 {v.get('prev_cutoff')} {v.get('prev_count')}，{v.get('count') - v.get('prev_count'):+d}）"
+            else:
+                seg += "（无前一日对照）"
+            return seg
+
+        L.append("- 截止日：" + (
+            f"四面同为 **{mr.get('cutoff')}**"
+            if mr.get("aligned") else
+            "各面板不一致（" + "、".join(f"{k}={v.get('cutoff')}"
+                                       for k, v in pn.items() if v.get("status") == "ok")
+            + "）——如实标注"))
+        L.append("- " + " · ".join(_cnt(k) for k in ("zt", "dtgc", "zbgc", "strong")))
+        if mr.get("seal_rate") is not None:
+            L.append(f"- **封板率 {mr.get('seal_rate'):.1%}**（涨停/(涨停+炸板)，机械口径）")
+        lad = mr.get("ladder") or {}
+        if lad:
+            seg = " / ".join(f"{k} 板 {v}" for k, v in lad.items())
+            L.append(f"- 连板梯队：{seg}")
+        top = mr.get("top_streak") or {}
+        if top.get("streak"):
+            names = "、".join(top.get("names") or []) or "（名册缺）"
+            L.append(f"- 最高 **{top.get('streak')} 连板**（{top.get('n')} 只）：{names}")
+        if mr.get("down_over_up") is not None:
+            L.append(f"- 跌停/涨停 = **{mr.get('down_over_up')}**")
+        if "kill_day" in mr:
+            L.append("- 读法（机械口径，不含判据）：跌停数 ≥ 涨停数 → 记为**杀跌日**；"
+                     f"今日 {'是' if mr.get('kill_day') else '否'}")
+        ser = mr.get("series") or []
+        if len(ser) > 1:
+            L.append("")
+            L.append(f"- **近 {len(ser)} 个采集日轨迹**（一格一日；缺面记 — 不记 0）：")
+            L.append("")
+            L.append("  | 日期 | 涨停 | 炸板 | 跌停 | 封板率 |")
+            L.append("  |---|---|---|---|---|")
+
+            def _cell(v):
+                return "—" if v is None else str(v)
+
+            for r in ser:
+                sr = r.get("seal_rate")
+                L.append(f"  | {r.get('date')} | {_cell(r.get('zt'))} | {_cell(r.get('zbgc'))} "
+                         f"| {_cell(r.get('dtgc'))} | {'—' if sr is None else f'{sr:.1%}'} |")
+            ups = [r["zt"] for r in ser if isinstance(r.get("zt"), int)]
+            srs = [r["seal_rate"] for r in ser if r.get("seal_rate") is not None]
+            if len(ups) > 1:
+                lo, hi = min(ups), max(ups)
+                lo_d = [r["date"][5:] for r in ser if r.get("zt") == lo]
+                hi_d = [r["date"][5:] for r in ser if r.get("zt") == hi]
+                L.append(f"  - 本窗涨停数 {lo}~{hi}，中位 {statistics.median(ups):g}"
+                         f"（低 {'/'.join(lo_d)} · 高 {'/'.join(hi_d)}）；"
+                         f"封板率中位 {'—' if not srs else f'{statistics.median(srs):.1%}'}")
+            L.append("")
+        L.append("- 口径：前向积累制（2026-10-08 起），日账只有真正采到的日子——"
+                 "缺日不补、不记 0；面板由宿主采集，他机接管时在 results/zt_pool_update_status.json 留痕")
+    L.append("")
+    L.append("## 十、数据的盘上归属（这批数字在谁的盘上）")
+    la = rep.get("lane_authority") or {}
+    if not la.get("present"):
+        L.append(f"- {la.get('note') or '归属面未产出——如实标注'}")
+    else:
+        L.append(f"- **{la.get('sentence')}**")
+        for g in la.get("groups") or []:
+            down = "（已停报）" if g.get("alive") is False else ""
+            age = (f" · 心跳 {g.get('age_h')}h 前"
+                   if g.get("alive") is not False and g.get("age_h") is not None
+                   else "")
+            L.append(f"  - `{g.get('machine')}`{down}{age}: "
+                     f"{', '.join(g.get('lanes') or []) or '—'}")
+        if la.get("n_unsigned_here"):
+            L.append(f"- 本机盘上有 {la.get('n_unsigned_here')} 条封套没有署名——"
+                     "读到的是本机副本，不是有作者的权威面（缺面禁读成 0/禁读成绿）")
+        L.append(f"- 判据=板面逐车道 authority（宿主封套/宿主本机副本/他机封套/"
+                 f"他机副本/申报接管/无主）· 板面 {la.get('as_of')} · "
+                 f"verdict `{la.get('verdict')}` · 本行零重判")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -815,7 +1053,8 @@ def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
     global _utilization_face, _live_face, _core_spread_face, _engine_wave_face
-    global _attribution_face, _stage_style_face
+    global _attribution_face, _stage_style_face, _zt_risk_face
+    global _lane_authority_face
     # ---- A2/G4 helper legs (series tail delta, honest degrade paths)
     d = _series_tail_delta([{"date": "2026-09-01", "equity_cny": 100.0},
                             {"date": "2026-09-02", "equity_cny": 101.0}])
@@ -832,6 +1071,60 @@ def selftest():
                              {"date": "2026-09-03", "equity_cny": 102.0,
                               "daily_ret": 0.0099}])
     assert abs(d5["day_ret"] - 0.0099) < 1e-9, d5  # stored face preferred
+    # ---- r1153 market risk tape legs: real parquet fixture, counts + direction +
+    # ladder + the honest absence path (an uncaptured forward day is not "0 members")
+    import tempfile
+    import pandas as pd
+    tmp = tempfile.mkdtemp()
+    os.makedirs(os.path.join(tmp, "data", "zt_pool"), exist_ok=True)
+
+    def _mk(key, rows):
+        pd.DataFrame(rows).to_parquet(
+            os.path.join(tmp, "data", "zt_pool", f"{key}.parquet"), index=False)
+
+    _mk("zt", [{"日期": "2026-10-28", "名称": "A", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "B", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "C", "连板数": 3},
+               {"日期": "2026-10-29", "名称": "D", "连板数": 2}])
+    _mk("zbgc", [{"日期": "2026-10-28"}, {"日期": "2026-10-29"},
+                 {"日期": "2026-10-29"}])
+    _mk("dtgc", [{"日期": "2026-10-29"}])
+    f = _zt_risk_face(root=tmp)
+    assert f["present"] and f["cutoff"] == "2026-10-29", f
+    assert f["panels"]["zt"]["count"] == 3, f          # rows are members
+    assert f["panels"]["zt"]["prev_count"] == 1, f     # direction needs the prior bar
+    assert f["panels"]["strong"]["status"] == "absent", f
+    assert "count" not in f["panels"]["strong"], f     # absence is never 0 members
+    assert f["aligned"] is False, f                    # one panel missing = not aligned
+    assert f["ladder"] == {"1": 1, "2": 1, "3": 1}, f
+    assert f["top_streak"]["streak"] == 3 and f["top_streak"]["names"] == ["C"], f
+    assert abs(f["seal_rate"] - 3 / 5.0) < 1e-9, f      # 涨停/(涨停+炸板)
+    assert f["kill_day"] is False, f                   # 1 跌停 vs 3 涨停
+    assert abs(f["down_over_up"] - 1 / 3.0) < 1e-3, f
+    # ---- r1154 trajectory legs: one bar is a level, two bars are not a trend; the
+    # series is the union of captured dates with per-day seal rates re-derived, and a
+    # day one panel never captured stays None instead of becoming a 0
+    ser = f.get("series") or []
+    assert [r["date"] for r in ser] == ["2026-10-28", "2026-10-29"], ser
+    assert ser[0]["zt"] == 1 and ser[0]["zbgc"] == 1 and ser[0]["dtgc"] is None, ser
+    assert abs(ser[0]["seal_rate"] - 0.5) < 1e-9, ser[0]
+    assert ser[1]["zt"] == 3 and ser[1]["zbgc"] == 2 and ser[1]["dtgc"] == 1, ser[1]
+    assert abs(ser[1]["seal_rate"] - 3 / 5.0) < 1e-9, ser[1]
+    _mk("zt", [{"日期": f"2026-09-{d:02d}", "名称": f"N{d}", "连板数": 1}
+               for d in range(1, 15)])
+    _p = _zt_panel_day("zt", root=tmp)
+    assert len(_p["series"]) == ZT_SERIES_DAYS, _p["series"]   # window capped
+    assert max(_p["series"]) == "2026-09-14", _p["series"]     # newest kept
+    long_s = (_zt_risk_face(root=tmp).get("series") or [])
+    assert len(long_s) == ZT_SERIES_DAYS, long_s               # union capped too
+    assert long_s[-1]["date"] == "2026-10-29", long_s          # other panels' newest wins
+    _mk("zt", [{"日期": "2026-10-28", "名称": "A", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "B", "连板数": 1},
+               {"日期": "2026-10-29", "名称": "C", "连板数": 3},
+               {"日期": "2026-10-29", "名称": "D", "连板数": 2}])
+    assert _zt_risk_face(root=os.path.join(tmp, "nope")).get("series") is None
+    empty = _zt_risk_face(root=os.path.join(tmp, "nope"))
+    assert empty["present"] is False and "缺" in empty["note"], empty
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -934,6 +1227,22 @@ def selftest():
         "method_note": "日对日差分=各面自带序列尾两行/六员逐日 export 链（聚合面零新判据）",
         "leg_note": "六员=一员一腿；AGGR/ALLOC/GRID=一账户一腿；SYSV1=route 腿权重面",
     }
+    _zt_risk_face = lambda day=None, root=None: {
+        "present": True, "cutoff": "2026-09-26", "cutoffs": ["2026-09-26"],
+        "aligned": True,
+        "panels": {
+            "zt": {"label": "涨停池", "status": "ok", "count": 39,
+                   "prev_cutoff": "2026-09-25", "prev_count": 44},
+            "dtgc": {"label": "跌停池", "status": "ok", "count": 141,
+                     "prev_cutoff": "2026-09-25", "prev_count": 35},
+            "zbgc": {"label": "炸板池", "status": "ok", "count": 25,
+                     "prev_cutoff": "2026-09-25", "prev_count": 20},
+            "strong": {"label": "强势池", "status": "ok", "count": 119,
+                       "prev_cutoff": "2026-09-25", "prev_count": 100}},
+        "seal_rate": 0.6094, "down_over_up": 3.615, "kill_day": True,
+        "ladder": {"1": 33, "2": 4, "3": 1, "4": 1},
+        "top_streak": {"streak": 4, "n": 1, "names": ["TEST股份"]},
+    }
     _stage_style_face = lambda: {
         "present": True, "cutoff": "2026-10-19",
         "window": {"lo": "2013-04-01", "hi": "2026-10-19", "bars": 3290},
@@ -948,6 +1257,16 @@ def selftest():
         "best_by_state": {"BEAR": {"cell": "U-EW", "sharpe": 0.11, "n_days": 786},
                           "BULL": {"cell": "C1", "sharpe": 2.98, "n_days": 201}},
     }
+    _lane_authority_face = lambda root=None: {
+        "present": True, "as_of": "2026-09-26T10:00:00", "verdict": "host_down",
+        "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上"
+                    "（12.3h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
+        "n_lanes": 9, "n_offhost": 6, "n_here": 3, "n_auditable_here": 2,
+        "n_unsigned_here": 1,
+        "groups": [{"machine": "bm-b", "lanes": ["heat", "repo"], "n": 2,
+                    "alive": False, "age_h": 12.3,
+                    "last_seen": "2026-09-25T22:00:00+08:00"}],
+        "offhost_lanes": ["heat", "repo"], "labels": {"heat": "他机本地副本"}}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
@@ -975,8 +1294,24 @@ def selftest():
                    "可归因账户 3 · 缺数据 2", "腿级注记",
                    "八、阶段×风格组合面", "UNSUPPORTED (honest negative)",
                    "C1 sharpe 1.082985 vs 无条件 U-divlowvol 1.208542",
-                   "margin -0.1256", "各阶段态最优袖", "BULL **C1** +2.98（201d）"):
+                   "margin -0.1256", "各阶段态最优袖", "BULL **C1** +2.98（201d）",
+                   "九、市场风险面", "四面同为 **2026-09-26**",
+                   "**涨停池 39**（前 2026-09-25 44，-5）",
+                   "**跌停池 141**（前 2026-09-25 35，+106）",
+                   "封板率 60.9%", "连板梯队：1 板 33 / 2 板 4 / 3 板 1 / 4 板 1",
+                   "最高 **4 连板**（1 只）：TEST股份", "跌停/涨停 = **3.615**",
+                   "记为**杀跌日**；今日 是"):
         assert marker in md, marker
+    # r1162: the authorship section must print the board's OWN sentence, and an
+    # absent/garbled board must read absent -- never an empty attribution table
+    assert rep["lane_authority"]["sentence"] in md
+    _saved_la = _lane_authority_face
+    _lane_authority_face = lambda root=None: {
+        "present": False, "note": "车道归属面未产出（fixture）——如实标注"}
+    _md_absent = render_md(build_report(datetime(2026, 9, 26, 10, 0, 0)))
+    _lane_authority_face = _saved_la
+    assert "车道归属面未产出（fixture）" in _md_absent, "absent authorship not printed"
+    assert "6 条在 bm-b" not in _md_absent, "absent board leaked a stale sentence"
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
     assert rep["live_usage"]["status"] == "ok"

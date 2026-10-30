@@ -1,9 +1,9 @@
 {
- "ts": "2026-10-30T07:20:49",
+ "ts": "2026-10-30T11:22:23",
  "machine": "bm-c",
  "lane_owner": "bm-c",
  "status": "ok",
- "last_attempt": "2026-10-30T07:20:49",
+ "last_attempt": "2026-10-30T11:22:23",
  "mode": "no-op: panel cutoff covered",
  "no_op_reason": "panel cutoff 2026-10-29 covers expected complete-bar date 2026-10-29",
  "expected_cutoff": "2026-10-29",
@@ -25,57 +25,62 @@
   {
    "code": "510300",
    "tier": "tier1-HS300",
-   "appended": 1,
+   "appended": 0,
    "overlap": 3503,
    "mismatch": null,
    "error": null,
-   "rows_local": 3504,
+   "source_lag": [],
+   "rows_local": 3503,
    "first": "2012-05-28",
-   "last": "2026-10-29"
+   "last": "2026-10-28"
   },
   {
    "code": "510050",
    "tier": "tier1-SSE50",
-   "appended": 1,
+   "appended": 0,
    "overlap": 5268,
    "mismatch": null,
    "error": null,
-   "rows_local": 5269,
+   "source_lag": [],
+   "rows_local": 5268,
    "first": "2005-02-23",
-   "last": "2026-10-29"
+   "last": "2026-10-28"
   },
   {
    "code": "510500",
    "tier": "tier2-CSI500",
    "appended": 1,
-   "overlap": 3306,
+   "overlap": 3305,
    "mismatch": null,
    "error": null,
-   "rows_local": 3307,
+   "source_lag": [],
+   "rows_local": 3306,
    "first": "2013-03-15",
-   "last": "2026-10-29"
+   "last": "2026-10-28"
   },
   {
    "code": "512100",
    "tier": "tier2-CSI1000",
-   "appended": 1,
+   "appended": 0,
    "overlap": 2422,
    "mismatch": null,
    "error": null,
-   "rows_local": 2423,
+   "source_lag": [],
+   "rows_local": 2422,
    "first": "2016-11-04",
-   "last": "2026-10-29"
+   "last": "2026-10-28"
   },
   {
    "code": "588000",
    "tier": "tier2-STAR50-20cm",
-   "appended": 1,
+   "appended": 0,
    "overlap": 1442,
    "mismatch": null,
    "error": null,
-   "rows_local": 1443,
+   "source_lag": [],
+   "rows_local": 1442,
    "first": "2020-11-16",
-   "last": "2026-10-29"
+   "last": "2026-10-28"
   }
  ],
  "files_written": 5,
@@ -83,8 +88,9 @@
   "members": 5,
   "failures": 0,
   "mismatches": 0,
-  "total_appended": 5,
-  "data_cutoff": "2026-10-29"
+  "source_lag_rows": 0,
+  "total_appended": 1,
+  "data_cutoff": "2026-10-28"
  },
  "claim": "T-2026-09-28-111-bm-b-five-member-etf-daily-refresh-leg",
  "note": "as-traded basis (sina klc_kl.js; ETF qfq factor s=1.0 all events -- fund-share dividends not back-priced); frozen consumers truncate post-cutoff rows via D2 lockbox"

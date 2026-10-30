@@ -1134,6 +1134,23 @@ def _sig(e):
             + ",".join(str(a) for a in e.get("runner_args", [])))
 
 
+def _declared_out(e):
+    """The deliverable an entry writes, when it declares one.
+
+    r1353 bm-c live: three atlas rows finished in ~2 minutes, wrote their
+    `--out=results/...json` face, and were still counted as CRASHES by the
+    confirmer ('runner dead + shard not landed'), so the crash fuse locked
+    two of them out of the pool after they had already succeeded. A runner
+    whose declared face exists and is newer than the launch did not crash;
+    the shard flip is what failed."""
+    for a in e.get("runner_args", []) or []:
+        s = str(a)
+        if s.startswith("--out=") and len(s) > 6:
+            p = s.split("=", 1)[1]
+            return p if os.path.isabs(p) else os.path.join(ROOT, p)
+    return None
+
+
 def _ckpt_no_progress_since(sh, ts):
     """r177bm-c fast-confirm discriminator: True when the shard's
     checkpoint face shows ZERO progress since the given launch ts --
@@ -1227,11 +1244,11 @@ def _confirm_crashes(state, pool, myid, fuse):
     Returns True if the registry changed (caller saves)."""
     dirty = False
     parked = []
+    landed = []
     sigs = fuse.setdefault("sigs", {})
     for rec in state.get("launches", []):
         if (rec.get("machine") != myid
-                or rec.get("verdict") != "launched"
-                or rec.get("crash_counted")):
+                or rec.get("verdict") != "launched"):
             continue
         ent = shard = None
         for en in pool.get("entries", []):
@@ -1253,6 +1270,39 @@ def _confirm_crashes(state, pool, myid, fuse):
         except Exception:
             continue
         if _runner_alive(ent.get("runner", "")):
+            continue
+        # r1353: a dead runner is only a crash if its declared deliverable
+        # did not land. Check the face BEFORE any crash accounting, or the
+        # fuse locks out a row that already succeeded (live: k02 / toll).
+        out = _declared_out(ent)
+        try:
+            out_ts = os.path.getmtime(out) if out and os.path.exists(out) else None
+            rec_ts = datetime.strptime(
+                rec["ts"], "%Y-%m-%d %H:%M:%S").timestamp()
+        except Exception:
+            out_ts = None
+            rec_ts = None
+        if out_ts is not None and rec_ts is not None and out_ts >= rec_ts - 1.0:
+            shard["status"] = "done"
+            shard["done_at"] = _now()
+            shard["done_by"] = myid
+            shard["landed_via"] = "declared_out_" + os.path.basename(out)
+            rec["crash_counted"] = True      # landed -> never a crash
+            reg = sigs.get(_sig(ent))
+            if reg and int(reg.get("count", 0)):
+                reg["count"] = 0
+                reg["cleared_reason"] = "deliverable landed: " + out
+            landed.append((rec.get("entry"), rec.get("shard")))
+            dirty = True
+            _log(f"crash-fuse LANDED-NOT-CRASH {rec.get('entry')}/"
+                 f"{rec.get('shard')}: {os.path.basename(out)} is newer "
+                 f"than the launch -> shard done, fuse count cleared "
+                 "(r1353: a face on disk outranks a missing shard flip)")
+            continue
+        if rec.get("crash_counted"):
+            # counted earlier (possibly a false crash now that the
+            # deliverable exists) -- the landed check above already had
+            # its chance to correct it
             continue
         # r177bm-c fast-confirm: runner dead + checkpoint face untouched
         # since spawn + age >= FAST_CONFIRM_MIN -> instant deterministic
@@ -1304,7 +1354,7 @@ def _confirm_crashes(state, pool, myid, fuse):
              f"(entry {rec.get('entry')} shard {rec.get('shard')} "
              f"launched {rec.get('ts')}: runner dead + shard not landed) "
              f"-- same-version relaunch refused (O-0947 fix-first)")
-    if parked:
+    if parked or landed:
         # Persist the park exactly like a harvest flip (lane-strict
         # authority write + union settle); no git here -- the tick-owned
         # dirt law carries the lane/shared faces on the next daemon git
@@ -1322,7 +1372,7 @@ def _confirm_crashes(state, pool, myid, fuse):
         except Exception as ex:
             _log(f"park persist fault ({ex}) -- lane-local only, next "
                  f"tick re-confirms and retries (r491 fail-soft)")
-    return dirty or bool(parked)
+    return dirty or bool(parked) or bool(landed)
 
 
 def _host_gate_reason(e):
@@ -1610,6 +1660,27 @@ def _pick(pool, myid, skip=None):
             return e, sh
         _log(f"skip {e['id']}: no takeable shard")
     return None, None
+
+
+def _ghost_ready_ids(pool, myid, skip=None):
+    """Ready entries the picker can NEVER take because they carry no
+    shards (r1353 bm-c live: three r1352 rows entered without a shards
+    array were reported as 'pool_empty_or_busy' while py sat at 6% --
+    the same ghost shape the submit gate exists to refuse, r301 law).
+    A named list instead of a silent empty pool: an entry that looks
+    ready on every published face but has no shard to claim is a supply
+    defect, not an idle machine."""
+    skip = skip or set()
+    out = []
+    for e in pool.get("entries", []):
+        if (e.get("status") != "ready" or not e.get("runner")
+                or e.get("id") in skip):
+            continue
+        if e.get("lane_owner") not in (None, "", "ANY", myid):
+            continue
+        if not (e.get("shards") or []):
+            out.append(e["id"])
+    return out
 
 
 def _git(args):
@@ -2357,6 +2428,21 @@ def tick(dry=False, _saturate_depth=0):
             _log(f"tick py={py}% every takeable entry refused by "
                  f"closed-family gate x{len(cf_refused)} "
                  f"(A3 G1 runtime kill-line enforcement)")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
+        ghost = _ghost_ready_ids(pool, rec["machine"], skip=skip)
+        if ghost:
+            # r1353 bm-c: a ready row with no shard is not an idle pool.
+            # Publishing it under the empty-pool verdict hid 3 takeable-
+            # looking rows for a whole tick (py 6%, RED watermark), so the
+            # audit face gets a name it can act on.
+            rec["verdict"] = "ghost_ready_no_shards"
+            rec["ghost_ready_no_shards"] = ghost
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% {len(ghost)} ready entr(ies) carry no "
+                 f"shards -> unclaimable: {', '.join(ghost)} "
+                 "(r301 submit law; repair the shards array)")
             print(json.dumps(rec, ensure_ascii=False))
             return 0
         rec["verdict"] = "pool_empty_or_busy"
@@ -3777,6 +3863,47 @@ def selftest():
            and not st16i2["launches"][0].get("crash_counted"))
         os.remove(_f16i)
         os.rmdir(os.path.join(os.path.dirname(POOL), "fake_ns_ckpt"))
+        # S16l r1353 landed-not-crash: a dead runner whose DECLARED
+        # deliverable (--out=file) exists and is newer than the launch
+        # did not crash -- the shard flip is what failed. Live: three
+        # atlas rows finished in ~2 min, wrote their face, and the fuse
+        # locked two of them out after they had already succeeded.
+        _out16l = os.path.join(os.path.dirname(POOL), "fake_landed.json")
+        with open(_out16l, "w", encoding="utf-8") as fh:
+            fh.write("{}")
+        st16l = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16l = {"entries": [dict(
+            entry, runner_args=["run", "--out=" + _out16l],
+            shards=[{"key": "s0", "status": "ready", "owner": None}])]}
+        fu16l = {"sigs": {}}
+        d16l = _confirm_crashes(st16l, pool16l, "bm-b", fu16l)
+        ok("S16l landed-not-crash: declared face newer than launch -> "
+           "shard done, fuse empty",
+           d16l and not fu16l["sigs"]
+           and pool16l["entries"][0]["shards"][0]["status"] == "done"
+           and st16l["launches"][0]["crash_counted"])
+        # the same shape with a STALE deliverable (older than the launch)
+        # is still a crash -- the guard must not swallow real failures
+        os.utime(_out16l, (0, 0))
+        st16l2 = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16l2 = {"entries": [dict(
+            entry, runner_args=["run", "--out=" + _out16l],
+            shards=[{"key": "s0", "status": "ready", "owner": None}])]}
+        fu16l2 = {"sigs": {}}
+        _confirm_crashes(st16l2, pool16l2, "bm-b", fu16l2)
+        ok("S16l2 stale deliverable (older than the launch) is NOT read "
+           "as landed -- the shard stays un-flipped",
+           pool16l2["entries"][0]["shards"][0]["status"] == "ready"
+           and not pool16l2["entries"][0]["shards"][0].get("landed_via"))
+        os.remove(_out16l)
         # S16p r491 data-wait park: a dead launch whose log carries a
         # FRESH timestamped AUTOFILL-PARK marker parks entry+shard
         # (waiting + park_note) and NEVER enters the crash registry; an
@@ -4178,6 +4305,24 @@ def selftest():
         e20, sh20 = _pick({"entries": [dict(entry, id="E20")]}, "bm-x")
         ok("S20g no host_gates field -> claimable (back-compat)",
            e20 is not None and e20["id"] == "E20")
+        # S20g2 r1353: a ready row without shards is unclaimable BY
+        # CONSTRUCTION -- and must be named, never folded into 'pool is
+        # empty' (live: 3 such rows sat invisible while py read 6%).
+        ghost_entry = dict(entry, id="E20g")
+        ghost_entry.pop("shards", None)
+        e20, sh20 = _pick({"entries": [ghost_entry]}, "bm-x")
+        ok("S20g2 ready row without shards -> picker takes nothing",
+           e20 is None and sh20 is None)
+        g = _ghost_ready_ids({"entries": [ghost_entry,
+                                          dict(entry, id="E20s2")]}, "bm-x")
+        ok("S20g3 ghost detector names only the shardless row",
+           g == ["E20g"])
+        g = _ghost_ready_ids({"entries": [dict(ghost_entry,
+                                               status="done")]}, "bm-x")
+        ok("S20g4 a done row is not a ghost", g == [])
+        g = _ghost_ready_ids({"entries": [dict(ghost_entry,
+                                               lane_owner="bm-y")]}, "bm-x")
+        ok("S20g5 another host's lane row is not our ghost", g == [])
         # S20h submit carries host_gates through (structure-only check:
         # submitter != burn host is legal, e.g. lane owner elsewhere)
         with open(POOL, "w", encoding="utf-8") as fh:

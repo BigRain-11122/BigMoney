@@ -3726,6 +3726,33 @@ ref`), then resolve by CLASS, never by taste:
   (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
       them next round, so taking the owner's copy cannot lose information.
 
+
+
+Situation: one shared quantitative repo, three hosts, each round adding its own measurement legs
+to the same few monster files. Main drifted to 29 local commits vs 38 remote ones because every
+round deferred the merge: rebase hangs on this blob:none clone, and mktree replay is banned after a
+previous replay silently reverted another machine's ledger.
+
+WRONG: rebase the 29 commits one at a time (29 conflict resolutions, and a rewritten history that
+makes the other hosts' verification receipts meaningless), or "resolve by union" at the text level
+(`git merge-file --union`). The text union produces a file that will not parse: both sides inserted
+complete statements at the same anchor and one side's insert lands *inside* an open list literal
+(`_e190_pair = [`), so the merged list closes with the wrong bracket.
+
+RIGHT: merge the two tips with `-c merge.renames=false` (the rename pass is what makes a partial
+clone try to lazily fetch objects the promisor remote no longer carries -- `upload-pack: not our
+ref`), then resolve by CLASS, never by taste:
+
+  (a) leg containers (main/selftest bodies, smoke leg lists, chain tables): statement-level union
+      built on the AST, keep ours' order then theirs' statements not already present, tail return
+      last; assert the result parses, compiles, and passes *the file's own selftest*. A green
+      selftest is the only proof that nothing upstream was dropped.
+  (b) append-only ledgers (card registry, feedback, decision logs): line union, then re-check by
+      COUNTING the identities (cards by number) -- "0 lost from either side" is the acceptance,
+      not "the file got bigger".
+  (c) faces another host is the single writer of: owner-verbatim. Whoever writes them re-derives
+      them next round, so taking the owner's copy cannot lose information.
+
 Three things that only show up when you actually run it: two lineages can define the same helper
 with different signatures (here `_wide_month_membership`, where each side spells the cash
 pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
@@ -3737,6 +3764,7 @@ not intend -- the first push was refused for 8 upstream artefacts this lineage h
 Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
 class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
 one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
+
 
 ## E217 A card whose deliverable is already on disk is not open work (2026-10-29 r1244 bm-b)
 
@@ -3881,6 +3909,20 @@ Pieces: `scripts/e39_panel_census.py` mode `sharedbookwidthsplit` + helpers `_wi
 both parts; selftest 803 -> 812 (9 legs: the identity at both ends, a rung with no selection term,
 3/3 timing agreement, 2/3 selection opposition, both ranges, the label, the invariance direction,
 and a single-rung face that must say insufficient_rungs).
+Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
+two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
+
+Three things that only show up when you actually run it: two lineages can define the same helper
+with different signatures (here `_wide_month_membership`, where each side spells the cash
+pseudo-name differently) -- that surfaces as 2 failing legs out of 745, not as a conflict; a
+secondary worktree is not a comparable test bed (local untracked inputs such as fleet/machine.json
+are absent, and hook-path legs resolve to the worktree admin dir), so its reds must be attributed
+before they are believed; and the pre-push size claw is the real guard against the deletion you did
+not intend -- the first push was refused for 8 upstream artefacts this lineage had dropped.
+
+Pos: the throwaway-worktree merge recipe (git worktree add --detach + merge -c merge.renames=false +
+class-based resolution + ast/py_compile/selftest gates) landed 29 local and 38 remote commits into
+one merge commit b768f21763 with ahead 0 / behind 0 and zero files deleted relative to origin.
 
 ### E221 — for a calendar effect the sample size is MONTHS, not names (r1248 bm-b)
 
@@ -4017,7 +4059,1585 @@ obs_rate_ladder; smoke leg re-derives each MDE from its own dispersion, checks t
 one round trip, refuses an episode rate above 252/H and a naive day count that is not
 episodes x hold. Pit: a mean indistinguishable from zero produced years_needed = 3e5..1e8,
 which reads as a measurement -- now suppressed to null with years_needed_unbounded = true.
+## E221 An audit that walks only the top level of a face passes a face hiding a whole generation one level down (2026-10-29 r1334 bm-c; the nested "gpu" block was 236 MiB stale while every flat key agreed)
 
+
+
+WHEN: a merge-only shared face (the heartbeat) is audited for internal consistency so no
+
+reader can pick up a random round's number.
+
+
+
+WRONG: enumerate the spellings visible at the top level. Another writer nests the same
+
+quantity -- face["gpu"]["free_gb"] -- and a flat-key audit neither rewrites nor reports it,
+
+so the consistency leg prints "clean" while a consumer reading the nested key gets a number
+
+from another hour (measured: nested 14.36 GB beside a flat family at 14.49 GB). Same class
+
+as the un-prefixed spelling, one level deeper: ownership has to be derived from the key's
+
+SHAPE, not from where the key happens to sit.
+
+
+
+RIGHT: derive family/unit from the key PATH (parent_sub), fold nested values into the same
+
+spread/balance legs, restate them from the ONE probe while preserving foreign sub-keys, and
+
+report a formatted nested value as unowned instead of ignoring it. Fix = ~50 lines + 4
+
+selftest legs (33->37), and the gate was already an S6 leg, so the healed face cannot
+
+silently re-age. Diagnosis note: what exposed it was a smoke leg, not a review -- the red
+
+leg was the only reader that compared the face with itself.
+
+
+
+Code: Tools/gpu_face.py (deep_family/_deep_unowned/restate/audit). Live: findings=[] after
+
+two applies (28 flat keys + the nested block rewritten from one nvidia-smi probe).
+
+
+
+
+
+
+## E222 A backtest whose factor SIGNS were read off the full sample is priced with hindsight, and the honest arm can be negative (2026-10-29 r1335 bm-c; signs matched the panel IC 6/6, pit arm -10.81%/yr vs +6.14%)
+
+
+
+WHEN: a composite score hard-codes factor directions (a SIGNS block) and every published
+
+number -- backtest, walk-forward, path test, card, ticket -- is produced by that one face.
+
+
+
+WRONG: run every path/robustness test you like on the ARM. The sign sits above the arm, so a
+
+sign read off the full-sample IC table is invisible to all of them. Measured here: the six
+
+production signs are exactly the panel's full-sample IC signs (6/6), and re-pricing the same
+
+engine with signs estimated only from already-realised windows returns -10.81%/yr (Sharpe
+
+-0.407, maxDD -67.5%) against +6.14%/yr (+0.645, -12.8%) for the fixed block -- and it is
+
+negative in BOTH halves, so it is not an early-learning artefact.
+
+
+
+RIGHT: (1) test the sign itself, point-in-time: at each decision, sign_k = sign of the mean
+
+IC over windows whose forward period had already finished; below the floor the factor is
+
+DROPPED (unknown is not a direction). (2) Publish the sensitivity grid, not one cell -- IC
+
+floor 0.01/0.02/0.05 and lookback 6/12/24 windows all read signs_in_sample, which kills the
+
+"my estimator was too noisy" defence. (3) Publish the mechanism beside the number: carry_corr
+
+(trailing mean IC vs next-window IC) is ~0 (mean -0.054) and the sign flip rate is 47% per
+
+factor per window -- the direction is a property of the PERIOD, not of the factor. (4) Test
+
+the reverse arm too: flipping the trailing sign is worth -0.09%/yr, not +10pp, so the sign is
+
+UNINFORMATIVE in both directions, and an uninformative direction selects worse names than not
+
+selecting at all (equal weight +1.92%). "Just adapt the signs" is therefore not a fix.
+
+(5) Pin the construction in selftest: with the signs held constant the new score must
+
+reproduce the production score exactly (max|diff| = 0.0 here), otherwise a gap between arms
+
+could be score arithmetic rather than signs. (6) Land the finding where the claim lives: the
+
+sentence the operator reads on the production card is derived from this artifact and rides the
+
+chain (r1290 class), not retyped into a doc.
+
+
+
+Consequence: the headline is the size of a REGIME, not of a rule. A defensible live claim
+
+needs a sign rule frozen before the sample (an economic prior per factor, or a per-regime sign
+
+with its own frozen test) -- that is a preregistered job, not a cleanup.
+
+
+
+Code: scripts/etf_sign_pit.py (ic_table/pit_signs/ic_persistence/score_face/gate, selftest
+
+15/15) + scripts/etf_book_production.py sign_pit_support() + S6 leg etf_sign_pit + smoke leg.
+
+Digest: research/digests/DIGEST-20261029-e222-sign-pit.md.
+
+
+
+
+
+
+## E223 A choice made above the test is priced by running the whole choice space, not by one more arm (2026-10-29 r1336 bm-c)
+
+
+
+WHEN: a published number rests on a free parameter that was set by looking at the data --
+
+here six factor directions that turn out to be exactly the full-sample IC signs -- and the
+
+honest question is not "was it fitted" (E207 already answered yes) but "how much is the fit
+
+worth".
+
+
+
+WRONG: answer it with a third arm. Fixed / trailing-IC / reversed all sit inside the same
+
+space, and any one of them is another point, not a distribution -- so "the honest arm is
+
+-10.81%" says the fit matters without saying by how much, and a reader can still believe the
+
+good arm is reproducible. The space here is 2^6 = 64, which is small enough to enumerate: one
+
+panel load, 82s, every sign set.
+
+
+
+RIGHT: run the whole space and publish three numbers -- where the production arm ranks
+
+(6/64, 92nd percentile), what a chooser with no hindsight earns (the MEDIAN, -1.63%/yr), and
+
+the ceiling (best-of-64, +8.56%) -- then price the gap between the rank and the median
+
+(7.77pp/yr) as the value of the hindsight. Free extra from a full factorial: each factor's
+
+main effect is one difference of half-means, because the other five signs are perfectly
+
+balanced across any one factor's halves; that is what shows the effect is two low-volatility
+
+signs (8.5 of 11.4pp) and that one published direction (momentum, -1.37pp) is a net drag --
+
+i.e. the headline is not even the best in-sample pick. Freeze the decision line (top decile of
+
+the space) and an all-arms-traded check, because a table of untraded arms passes everything.
+
+
+
+Code: scripts/etf_sign_enum.py (z_mats/score_from/main_effects/gate, selftest 13/13: the fast
+
+path reproduces build_score exactly, flipping all signs mirrors the score, a table where one
+
+factor pays shows that factor's effect and zero elsewhere, a flat table is refused as
+
+degenerate) + S6 leg etf_sign_enum + smoke leg that recomputes the verdict from the arm table.
+
+Digest: research/digests/DIGEST-20261029-e223-sign-enum.md.
+
+
+## E224 A rank inside one window is not a rule: split the window and re-rank (2026-10-29 r1337 bm-c)
+
+WHEN: E223 has just priced a free choice by enumerating its whole space and reporting a rank
+-- "the production signs sit 6th of 64, median arm -1.63%/yr". The next question is not "is
+that good" but "is that rank a property of the panel or of the period", and the difference
+decides whether an operator can ever choose that arm.
+
+WRONG: quote the rank as if arms had a stable quality ordering, or answer with one more
+in-sample arm. A single-window table cannot distinguish "these signs are better" from "these
+signs were better during these 1,500 bars", and re-running more sign sets inside the same
+window adds points, not a horizon. Equally wrong: declaring the ordering noise the moment it
+looks unstable -- this design measured a rank transfer of 0.308 against a null sd of 0.126,
+which is 2.4 sd above zero. "Some persistence exists" and "you can rank arms" are different
+claims and only the second one is false.
+
+RIGHT: split the same path in two, re-rank the arms in each half, and publish FOUR numbers --
+rho (spearman arm-rank transfer), the top-decile overlap WITH its chance expectation and exact
+hypergeometric tail, the out-of-sample outcome of the in-sample-best arm, and the production
+arm's rank in each half. Read: rho 0.308 against a frozen 0.50 line; 1 of 7 top-decile arms
+shared where chance is 0.77 (p 0.57); best-of-IS earns -2.34%/yr OOS at rank 45/64, i.e. 5.26pp
+BELOW the median arm; production ranks 8th (IS) and 10th (OOS) -- consistently just above the
+line, never inside it. Then decompose: the per-half factorial main effects show the two
+low-volatility directions keeping sign and strengthening, while momentum and drawdown swap
+places, so the production set's 6.4pp/9.9pp advantage over the median comes from the stable
+subset, not from the ranking being learnable. Also publish the level move: the median arm goes
+-4.27%/yr in 2020-2023 to +2.92%/yr in 2024-2026 with identical factors -- a one-window median
+is the average of two different regimes, so the honest quote is a range.
+
+TRAPS: (1) the engine returns an equity curve, not returns -- reading NAV as returns multiplies
+the curve by itself and prints `inf` (this module's first run did exactly that; the selftest now
+pins the convention on a growing NAV). (2) A transfer test whose halves are empty passes
+everything (r1261): gate on min bars per half and on every arm carrying both halves. (3) Null
+"the overlaps do not line up" is unreadable without the chance number -- publish k^2/n and the
+exact upper tail, or a 1-of-7 coincidence looks like a finding.
+
+EVIDENCE: `scripts/etf_sign_stability.py` (selftest 21/21: NAV-vs-return convention, rank
+helper permutation, identical/reversed/shuffled ordering fixtures, short-half refusal, gate
+constants drift, hand-checkable overlap tail 1/6) -> `results/etf_sign_stability.json`;
+full-window rank reproduces E223's stored 6/64 exactly, so the split did not change the panel.
+S6 leg `etf_sign_stability` + smoke leg that recomputes the verdict and the overlap tail from
+the per-period table.
+Digest: research/digests/DIGEST-20261029-e224-sign-stability.md.
+
+
+## E225 A mode that lives only in the dispatch is not a mode: five census modes were unreachable by name (2026-10-29 r1338 bm-c)
+
+WHEN: a script grows by accretion of `args.mode == "x"` branches, and the CLI surface is a
+hand-maintained `choices=[...]` list kept in a different place from the dispatch chain. Nothing
+in the test suite compares the two, so the file can hold a mode that no one can invoke.
+
+WRONG: assume "the function exists and the selftest covers it" means the mode is usable. It
+does not: this selftest calls `run_*()` directly, so it exercised five modes that argparse
+rejected before dispatch was ever reached. The observable damage is a silent, permanent red --
+three S6 chain legs (`tilt3ladderdropcarrier`, `reviewwindowcross`, `reviewwindowfloor`) returned
+rc=2 with an EMPTY tail every round for two rounds, because the failure is argparse's stderr
+(which the leg does not capture into the tail) and 0.4s elapsed looks like a fast healthy leg.
+The published faces kept their old numbers, so nothing looked wrong downstream: a face that is
+never re-derived looks exactly like a face that is stable.
+
+RIGHT: make the CLI list and the dispatch chain one table, and gate the difference. The choices
+list now carries the five missing names (`tilt3ladderdropfragility`, `tilt3ladderdropcarrier`,
+`reviewwindowcross`, `reviewwindowfloor`, `widechurntie`) and the selftest grew two legs that
+read `main`'s own source: every `args.mode == "x"` branch must appear in the argparse
+`choices=[...]` slice, and the slice must carry no duplicate names. The slice starts at
+`choices=[`, not at `ap.add_argument("mode"` -- the latter also matches `default="all"`, which
+manufactured a fake duplicate the first time this gate was written.
+
+FALSIFIED, not assumed: deleting one name from the list makes the leg report
+`every dispatched mode is accepted by the CLI (unreachable: ['widechurntie'])` and the suite exit
+1; restoring it returns rc=0 with no FAIL line. The three chain legs were then re-run through the
+chain runner itself (`Tools/s6_chain_bmc.py --only=...`) and returned rc=0 in 1.1s / 3.8s / 5.6s,
+reproducing the stored numbers exactly (perm_p 0.00225 / 0.00475 / 0.031, pooled 0.1885, floor
+1.4803 at 80% power) -- so the revival is a measurement, not a claim that the code compiles.
+
+EVIDENCE: `scripts/e39_panel_census.py` (selftest 743, two new legs) -> the three legs above rc=0
+via `results/_r1337bmc_s6_chain.json`; chain remains 81 legs.
+Digest: research/digests/DIGEST-20261029-e225-mode-surface.md.
+
+
+## E226 A coverage audit keyed on a study literal goes blind when the face publishes a title (2026-10-29 r1338 bm-c)
+
+WHEN: an audit answers "does every published face have a producer in the source?" by matching
+each face's `study` string to a literal inside a `def`. New faces start publishing human titles
+("E190 ladder-drop fragility curve") instead of machine literals ("e190_ladder_drop_curve"), and
+the audit immediately reports them as unindexed -- not because the producers vanished, but
+because the key it looks for is no longer in the file.
+
+WRONG: loosen the leg. The live assertion was red with two unindexed faces
+(`LADDERDROPCARRIER-20261027.json`, `LADDERDROPCURVE-20261027.json`), and the cheapest repair is
+to drop the equality -- which converts a coverage guarantee into a shrug (r1135 trap). Equally
+wrong: accept the first owner that contains the writer's filename literal. Those literals sit in
+the mode dispatch, so the owner is `main`, and `main` reaches every arithmetic helper in the
+module: the face silently inherits "producer uses daily terms" and its arithmetic class becomes
+whatever the module happens to contain.
+
+RIGHT: index the second witness, but resolve it to the real writer. `producer_index_by_filename`
+maps the output filename literal to its def and, when the owner is `main`, walks back to the
+nearest `run_*` call on that dispatch branch (within four lines). Reading now:
+LADDERDROPCARRIER -> `run_tilt3ladderdropcarrier`, LADDERDROPCURVE -> `run_tilt3ladderdropcurve`
++ `run_tilt3ladderdropfragility` (two writers share the prefix, and the audit publishes the set
+rather than guessing one). Both unindexed faces go away; the leak count stays 0, so the fix is
+coverage, not suppression. The face's study string is never renamed -- the published contract is
+not a testing convenience.
+
+EVIDENCE: `scripts/e97_routing.py` (selftest 128 -> 129; new leg L37b asserts the carrier face
+resolves to its writer AND that "main" is never the producer AND that the curve resolves to the
+fragility writer) -> live reading unindexed=[] leak=0. This was the only red in the full suite
+(203/204 before the fix).
+Digest: research/digests/DIGEST-20261029-e226-producer-by-filename.md.
+
+
+## E227 A sign ordering that survives one cell is not a property of the factors (2026-10-29 r1339 bm-c)
+
+WHEN: a book's free choices have each been priced by enumerating their own space -- "the
+production signs rank 6th of 64" -- and every one of those numbers was produced at ONE cell
+(`REBAL=20, N_HOLD=12`). Cadence and width are not physical constants: the walk-forward on
+this line selects among `N3/5/8 x R10/20/40`, so they were picked on the same sample. A rank
+quoted without its cell is a rank whose cell was also chosen by the data.
+
+HOW: run all 2^6 = 64 sign sets at three declared cells (`R20_N12`, `R10_N8`, `R40_N5`), same
+panel, same eligibility, same engine, same cost, and ask per factor whether the direction
+survives. The gate re-derives the stable count from the per-cell main-effect maps and each
+cell's `active` flag from its own trade census; a stored verdict cannot outlive a panel move.
+
+RIGHT READING: the top-decile result replicates (production ranks 4-6 of 64 at every cell, the
+no-hindsight median arm is negative at every cell), and only two directions are real --
+`vol_60-` and `intraday_range-` at -3.7 to -5.8pp/yr everywhere, the pair E219 already found
+carrying 8.5 of 11.4pp. Everything else moves 1-3pp, and `price_position` flips sign outright
+(+1.15/+3.09/-3.30). `mom_12_1` is the dangerous one: published as `+`, negative at every
+cell -- a drag that survives the cell choice, i.e. consistently wrong rather than sometimes
+wrong. Verdict `sign_order_cell_dependent`, 3 of 6 stable.
+
+WRONG: quote a per-factor direction as a property of the factor because the R20x12 factorial
+said so; or report "rank 6/64" without the cell, which reads as a property of the signs when
+it is a property of the (cadence, width) corner. Equally wrong: call the ordering unstable
+from two cells -- with two arms the count cannot separate "one factor flipped" from "the cells
+alternate", which is why the fixture set was measured before the run.
+
+EVIDENCE: `scripts/etf_sign_cells.py` (selftest 11/11) -> `results/etf_sign_cells.json`
+(three cells x 64 arms, `evidence_cutoff` 2026-10-28); S6 leg `etf_sign_cells` (~180s) + smoke
+leg that recomputes the verdict from the per-cell arm tables.
+Digest: research/digests/DIGEST-20261029-e227-sign-cell-dependence.md.
+
+## E228 An amount column that is a target is not money, and the gap always runs one way (2026-10-29 r1334 bm-c)
+
+WHEN: a sheet prints an order amount computed as `weight x capital` with a lot count beside
+it. The two cannot agree -- 100-share lots cannot spend the remainder -- so the row labelled
+"amount (CNY)" overstates money at work and the cash row understates what is left, by the
+same residual on every bar. Downstream faces that re-price the book (ticket, paper ledger, an
+operator's broker screen) then absorb the gap differently, and the card -- the face a human
+reads -- is the only one still quoting the target.
+
+HOW: publish both faces and say which is executable. Per leg `amount_cny` stays the target
+and `actual_amount_cny` = lots x price is the executable; per sheet `book_target_cny` /
+`book_executable_cny` / `lot_residual_cny` / `cash_executable_cny` / `unpriced_legs`, with two
+identities a reader can re-add by hand: target legs + target cash = capital, and executable
+legs + executable cash = capital. Keep the legacy key (`cash_amount_cny`) at its old target
+semantics so existing consumers do not silently change meaning; print the executable column
+plus one sentence naming the residual and its NAV share.
+
+RIGHT READING: live 2026-10-28 (12 names, NAV 1,000,000, k=0.7008) target 700,776 + 299,225
+vs executable 699,520 + 300,480 -> residual 1,256 CNY = +0.13% NAV, shrinking with capital
+(~0.013% at 10M). Publishing it moves no backtest number: the engine trades continuous
+weights, so the CAGR was never a lot-constrained figure.
+
+WRONG: patch the ticket instead of the card (that moves the wrong number to the other file and
+leaves the headline face wrong); or call the two columns "the same number, rounded" and loosen
+a cross-face equality check until it passes -- r1333's ticket had exactly that temptation and
+compared at the card's published 4-dp precision with the tolerance named instead. Equally
+wrong: assert the identity on a fixture where the lots divide evenly, which proves the
+arithmetic and never fires the disclosure (r1261).
+
+EVIDENCE: `scripts/etf_book_production.py` (selftest +5 legs, including an activity leg that
+requires the fixture to strand a residual: 15,940 CNY) -> `results/etf_book_production/CARD.md`
++ `PRODUCTION-2026-10-28.json`; smoke leg `product: card amount column is executable money`
+recomputes the identities from the published sheet.
+Digest: research/digests/DIGEST-20261029-e228-executable-amount-column.md.
+## E229 A direction that survives is still not a book: the quotable subset, priced (2026-10-29 r1341 bm-c)
+
+WHEN: a factorial sweep has certified that only SOME factor directions keep their sign
+across the cells it was chosen among (E227), and the obvious next sentence is therefore
+"the edge is that subset". That sentence is a construction claim hiding in an attribution
+claim, and it is testable for the price of two arms per cell.
+
+WHAT: run the quotable subset as its own book against the full published vector, on the SAME
+panel, engine, cost and start, over the FULL selection grid (9 cells here, not the three
+corners the attribution ran on). 5,269 bars x 1,612 symbols, 10bp/side: the two-direction
+book (vol_60-, intraday_range-) loses to the six-sign book at 9 of 9 cells, median
+-6.41pp/yr, inside the 1pp tolerance at 0 of 9, better on Sharpe at 1 of 9 (the slowest
+cell). It is not a return book with a loss -- maxDD shrinks from -13..-20% to -1.2..-9.5%
+and turnover from 1.02-1.28 to 0.21-0.75, so it is a DEFENSIVE book whose gross return is
+nominally zero and whose Sharpe is monotone in turnover (R10_N8 -0.458 at 0.209 turns to
+R40_N8 +0.552 at 0.327): a low-information score dies of its own toll.
+
+THE TRAP: a main-effect decomposition inside a full factorial (E219: 8.5 of 11.4pp) and a
+reduced-book price are different measurements. The first says nothing about deleting the
+other factors; the second prices the deletion. Roughly 6.4pp/yr of the book lives in the
+combination, not in any single direction -- which is exactly why per-factor quotation is
+banned while the six-sign vector stays. Also: a delta of exactly 0.0 is a legitimate
+measurement, so never write a null test as `x or default` (this round's own selftest caught
+a 0.0 Sharpe delta being read as missing and demoting the verdict).
+
+EVIDENCE: `scripts/etf_lowvol_book.py` (selftest 9/9; gate re-derives every per-cell delta
+from the arm tables, echoes the declared grid, and refuses a hand-edited delta, a dropped
+cell or a stale verdict) -> `results/etf_lowvol_book.json`; smoke leg
+`product: E229 the quotable subset is priced against the full vector` recomputes the
+verdict from the per-cell tables.
+Digest: research/digests/DIGEST-20261029-e229-lowvol-book.md.
+
+## E230 - a printed amount column that cannot be placed is not an order (r1342 bm-c)
+
+E201 built the executable ticket from the production card and measured a standing 0.13%
+NAV (1,255 CNY) disagreement between the two faces on the same bar; the cause was that the
+card printed `weight x capital` targets and `(1 - scale) x capital` cash while orders can
+only be placed in whole 100-share lots. The card now publishes the sizing intent AND the
+executable column side by side (`book_target_cny` / `book_executable_cny` /
+`lot_residual_cny`, with `cash_amount_cny` left as the risk scale's own slot and
+`cash_executable_cny` added as `capital - executable`), states in words that the executable
+column is the order and the residue is the price of granularity, and the ticket reads the
+executable row when present while still calling out a legacy target row. Live 2026-10-29:
+residue 1,968 CNY (0.197% NAV), card-vs-ticket cash gap 0.94 CNY (integer yuan only) where
+it had been 1,255; the legacy disclosure paragraph disappears on its own condition.
+Rule: when a face's printed numbers cannot be executed, publish the executable number
+beside the intent and make the difference a named reading, never a footnote on the
+downstream ticket. Code: `scripts/etf_book_production.py` (49 selftest legs, 5 of them
+new), `scripts/etf_book_order.py` (41 legs, 2 new: executable row closes the gap, legacy
+target row still gets called out). Digest:
+research/digests/DIGEST-20261029-e230-executable-cash-row.md.
+
+### E231 -- a continuous weight buys sessions, not resolution; their payoff is not the gate's (r1252 bm-b) [renumbered E225->E231 on merge, 2026-10-29 r1343 bm-c: bm-c's own E225 kept its number]
+
+E224 ended on a cap: a hold of H sessions limits a gate to 252/H independent episodes a
+year, so no sampling rate can raise the count. Its named successor was the one design the
+accounting does not throttle -- a weight that varies continuously with the state, decided
+at every close, with no per-episode round trip. E225 prices that on the SAME signal and the
+SAME toll: trailing 20-session vol, tercile thresholds from its own previous 250 values,
+unit turnover |dw| pays 13.041bp, decision at the close of t applies to the return of t+1.
+
+Result on sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions): 0 of 5 arms adopt.
+The load-bearing number is not the verdict, it is that the sample is nearly independent:
+n_eff/sessions = 97% (1,363 of 1,401), so daily reweighting genuinely escapes E224's
+episode cap -- and the annual bar still lands at 1,006bp/yr against the episode-locked
+gate's 811bp/yr, a 0.81x move in the WRONG direction. More independent observations, worse
+annual resolution. Why: a weight between 0 and 1 spreads the same signal over more
+observations at lower amplitude, so per-observation dispersion falls by less than the count
+grows, and the toll is charged per unit of weight change (11.0 round-trip units a year for
+binary_low, 199bp/yr of cost) -- a cost the episode lock pays once per hold instead.
+
+The second rule is the one that keeps a negative result readable: **the null arm already
+prices the drift, so a gated arm's excess is not a verdict on the gate**. always_on (w=1,
+no turnover) reads -1,628bp/yr on the OOS window: that is the out-of-sample drift sitting
+below the in-sample drift the face normalises to, not a property of gating. Charging every
+arm that deficit in proportion to its average exposure leaves the gate-specific residual:
+binary_low -524, tilt_step -637, tilt_linear -704, voltarget -200 bp/yr -- so the tilt
+genuinely lost money beyond the drift, and the smallest loss (voltarget, 93.5% exposure,
+2.8 turnover/yr) is the arm that traded least, not the one that timed best.
+
+How to apply: any continuously-held overlay must publish (a) n_eff beside its session count
+or "more data" is an assumption, (b) the null arm's excess as the drift deficit, and (c)
+gate_specific = excess - avg_weight x null_excess, or a market-wide drift miss gets read as
+a verdict on the rule. Pieces: scripts/e225_state_tilt.py (run / selftest, 18 hermetic
+legs); face results/state_tilt/TILT-<cutoff>.json + latest.json + by_arm csv; S6 leg
+state_tilt after vol_gate; smoke leg re-derives each MDE from z*se_nw*252, refuses n_eff >
+n, and refuses a drift split that does not re-add. Pit: a HAC leg whose fixture is a
+sawtooth carries negative lag-1 correlation and fails the "NW >= iid" assertion the method
+needs -- the fixture noise must be white (LCG) before that leg means anything.
+
+## E232 A guard on the added diff is not a guard on the tree: a surviving marker has to be found by balance, not by a list of names (2026-10-29 r1343 bm-c)
+
+The pre-commit claw written at r1305 blocks `<<<<<<<` / `|||||||` lines that are being
+ADDED. Any path that does not run the hook -- a rebase replay, a `--no-verify` commit --
+puts the fragment straight into the blob, where nothing reads it again. The live case was
+found by this round, not hypothesised: at HEAD c07483b9 `knowledge/METHODOLOGY_ASSETS.md`
+carried a lone `||||||| parent of ed40e56da3` line at line 4062, inside the shared card
+ledger, surviving the eight hours in which five cards were appended below it.
+
+The mechanical rule is a state machine, not a path filter: open `<<<<<<<` -> optional
+`|||||||` -> `=======` -> `>>>>>>>` close. Anything else is a fragment, and an unclosed
+hunk at EOF is one too. Balance is what separates a leftover from a fixture: a probe file
+that quotes a whole hunk is balanced and stays legal, which is exactly the property a list
+of exempt filenames cannot express (and `=======` as a markdown underline cannot trip the
+gate because a separator only counts inside an open hunk).
+
+The one scope decision is stated rather than hidden: `results/_*` are raw diff captures and
+six of them hold 103 unbalanced marker lines by design, so the scan skips them by the
+repo's own underscore convention rather than by naming the six.
+
+Face: smoke leg `config: no tracked blob carries a conflict-marker fragment`, ~1.5s (one
+`git grep -l` plus a `git show` per candidate file). Live reading 0 fragments at HEAD
+0034e48e9 and 1 at c07483b9 (the ledger) -- the gate is red exactly on the case it was
+written for, which is how it is verified instead of asserted.
+
+How to apply: when a defect is blocked at one stage, ask which stages bypass the block
+(replay, --no-verify, another machine's tool) and assert the invariant over the artefact
+those stages produce. Balance/lint-type rules beat name lists because they need no upkeep.
+
+## E233 A flag is not an identity: `--all` was being consumed as the round number (2026-10-29 r1343 bm-c)
+
+Three committed chain records are named after flags rather than rounds:
+`results/_r--allbmc_s6_chain.json` (8021B), `results/_r--roundbmc_s6_chain.json` (7116B)
+and `results/_rrunbmc_s6_chain.json` (14544B). Cause: `Tools/s6_chain_bmc.py` took
+`sys.argv`'s first surviving token as the round, so any invocation that expressed intent
+(`--all`, the next token after `--round`) became a filename. Consequence is not cosmetic:
+the round that actually ran is unrecoverable from the name, and a second run of the same
+kind overwrites the first record silently -- a chain record is the evidence for the whole
+S6 sweep, so an untraceable name is a lost receipt.
+
+Fix: flags are parsed as flags (`--all`, `--only`, `--round N`); the round comes from
+`--round N`, else a bare numeric token, else this machine's own `state-bm-c.json`
+round_no; a non-numeric round now exits 2 with the reason instead of inventing a filename.
+Sister fix in the same leg: the record is written to `path + ".tmp"` then `os.replace`d
+after fsync, so a record on disk is either the whole chain or the previous one -- the
+interrupted-dump case leaves a one-byte/stub file that reads as a legitimately short chain.
+
+How to apply: any tool that names an artefact after a positional argument must validate
+that argument's shape before the write, and must never treat an intent flag as data. Write
+evidence files atomically; a truncated receipt is worse than a missing one because it is
+readable.
+
+### E234 -- a break-even toll is a property of the line, and clearing a toll is not clearing a bar (r1253 bm-b; filed as E227, renumbered on merge because bm-c E227 already exists)
+
+E225 left one arithmetic question open and it did not need a new study. Its gate-specific
+residual runs on a per-unit-turnover toll, so in the cost `c` it is a straight line:
+
+    gate_specific(c) = gate_specific(0) - c * D,   D = arm turnover/yr - avg_w * null turnover/yr
+
+One root, `c* = gate_specific(0) / D`, in bp per unit of turnover. The sweep (0 -> 3x the
+frozen 13.041bp) is the evidence and the closed form is the answer; they are asserted equal
+to 4.5e-13 bp/yr, and the root re-evaluated through the engine reads 1.1e-13.
+
+Result. On sh510300 (3,503 sessions to 2026-10-28, 1,401 OOS decisions) every gated arm is
+DEAD AT ANY PRICE: the largest gross gate-specific residual (voltarget) is -174 bp/yr before
+paying anything, and the highest break-even belongs to a DIFFERENT arm (binary_low, -21.2
+bp/unit) -- a negative cost would be needed, i.e. the gross rule loses before it trades. All
+four gated arms share that state. On the equal-weight basket one root does land above the
+model cost (binary_low, 36.5 bp/unit), and that is exactly where the second rule earns its
+keep: at 13.041bp that arm's excess is +1.8 bp/yr at t=0.01. It survives the toll by standing
+at ZERO, after a null arm that lost -662 bp/yr -- its +340 bp/yr gate-specific residual is
+the drift attribution, not money the tilt earned. 0 of 1 survivors clear the bar.
+
+**Ranking by residual and ranking by break-even name different arms** once every arm is
+below zero. The first version of this face printed "the best gate-specific arm (binary_low)
+stands at -324 bp/yr": binary_low has the highest ROOT, voltarget the highest residual.
+Publish both selectors separately (`best_gate_specific_arm` / `best_break_even_arm`) and
+have a selftest leg feed a fixture where they disagree -- a label picked by one criterion and
+written as the other is how a face lies with every number correct.
+
+How to apply:
+1. When an arm's residual is linear in a cost, publish the ROOT rather than only the
+   verdict at one cost -- and publish the ladder so the line is visible.
+2. Always read a "survives the cost" verdict again at that cost, with its t beside its
+   annual excess. Toll survival and statistical survival are different claims and a face
+   that prints only the first will be read as the second.
+3. Publish 1/D as root fragility: voltarget pays only 2.0 units/yr on the single panel, so
+   100bp/yr of measurement error moves its root 50 bp/unit. A flat line makes the root a
+   wild extrapolation even when the arithmetic is exact.
+4. **Do not assert an ORDERING between two roots whose direction depends on the sign of an
+   intercept.** gate_specific(c) and excess(c) differ by avg_w * null_excess, constant in c,
+   so which root is larger flips with the sign of the null arm's drift. My first leg
+   asserted "the excess-basis root is stricter" and failed on a negative root -- the fix is
+   to assert the IDENTITY `excess_root - gate_root == avg_w * null_excess / D`, which holds
+   whichever way the signs fall (measured 22.2140 vs expected 22.2140 bp/unit).
+
+Pieces: scripts/e226_tilt_breakeven.py (run / selftest, 18 hermetic legs); face
+results/state_tilt/BREAKEVEN-<cutoff>.json + breakeven_latest.json + breakeven_by_arm csv;
+S6 leg tilt_breakeven immediately after state_tilt; smoke leg re-derives every published
+root from its own line (c**D == g0), refuses a root published without a positive toll
+differential, refuses a sweep that rises with cost, and refuses a survivor recorded with no
+excess read at that cost.
+## E206 An advice that is never reconciled with the account is only half a face (2026-10-29 r1146 bm-a)
+
+WHEN: a page tells the reader, every session, to do something outside this repo ("put the
+idle 528,774 into the 1-day repo") and no face can see whether it happened.
+
+WRONG: stop at the advice. The page was correct, priced (E204) and even ladder-tested (E205),
+and still a reader who placed nothing read byte-for-byte the same page as one who placed
+everything -- the 5,499 CNY/yr gap the page itself advertises was invisible in its own
+output. That is the E200 failure mode moved from research into operations: an instruction
+with no consumer that can contradict it.
+
+RIGHT: write the reconciliation as an explicit state face
+(state/account/cash_placement.json: recorded_by / asof / placements[instrument, amount_cny,
+rate_pct, rate_date]) and have the page derive, every run, idle = book cash - recorded repo
+placements and gap = idle x (repo panel close - declared demand rate) / 100. Five honest
+statuses, and the two that matter both refuse to round to a comfortable number: no record
+(file absent OR present-but-unfilled) reads UNRECORDED with gap=None -- unread is not zero --
+while still publishing the worst case priced off the panel; more placed than the book holds
+reads OVER-PLACED instead of being clamped to 0. A record older than 7 days keeps its
+numbers but says it is stale. The demand rate is a declared constant (0.05%), not a
+fabricated quote, and any recorded placement may override it.
+
+Pos: scripts/etf_book_ceo_page.py cash_handshake()/PLACEMENT (selftest 38->43: absent ->
+UNRECORDED, present-but-unfilled -> UNRECORDED, half placed -> PARTIAL with idle 60k and gap
+1,170 priced off the panel minus the declared demand rate, fully placed -> IN-PLACE at zero,
+over-placed -> OVER-PLACED, a 9-day-old record flagged stale) + state/account/
+cash_placement.json (shipped unfilled on purpose) + the cash-reconciliation block in
+docs/live_book/LIVE-BOOK-20261029.md + a smoke leg that recomputes idle and the gap from the
+placement file and data/repo_daily/GC001.csv.
+## E235 The card tripwire read one heading level, and a number-keyed loss check cannot see a collided card (2026-10-29 r1344 bm-c)
+
+WHEN: the ledger's own guard exists to notice that a committed card vanished, and two
+machines file cards at two heading levels (bm-c `## E232`, bm-b `### E221`).
+
+WRONG: match only `^## E(\d{3})\b`. The guard then reported `head=152 tree=152 lost=[]` on a
+158-card ledger -- a balanced file, not a visible blind spot. Six of the 158 cards were
+outside its eyes, and four of them (E221-E224) share a number with a `##` card this machine
+filed about different work, so even a wider reader leaves the second defect intact: a
+number-keyed loss check (`set(head) - set(tree)`) cannot fire for a collided card, because
+its disappearance moves no number.
+
+RIGHT: read level-agnostically (`^#{2,3}`) and publish `cards_by_level` in the payload so a
+future scope change is legible in the output instead of being inferred from a total that
+"looks right"; the collision itself is published (named numbers) rather than repaired,
+because renumbering another machine's recorded cards rewrites its record. The smoke leg
+re-derives the card count by hand from the ledger bytes and requires the guard to agree --
+a leg that asks the reader to check its own regex would have passed through the whole
+defect (and the first draft, using the compiled regex without `re.MULTILINE`, returned a
+vacuous zero -- the r1261 trap one level down).
+
+Pos: Tools/card_ledger_guard.py (reader widened, selftest 7->10 legs: a dropped `###` card
+must be ACTIVE_LOSS, both levels counted, a level-1 heading / a plain `### Notes` heading /
+a 4-digit number must not read as cards) + one smoke scope leg + face
+results/_r1344bmc_card_scope.json (two readers on the same blob: 152 vs 158 visible).
+
+## E236 The operator picks a vector, not six IC signs -- and that procedure earns nothing (2026-10-29 r1345 bm-c)
+
+WHEN: three faces already price "were the six signs knowable?" -- per-factor IC re-signing
+(-10.81%/yr against a published +6.14%), all 64 vectors on one window (published vector
+rank 6 of 64), and sign stability across cells. None of them is the operator's actual
+alternative, because an operator does not sign six factors independently: it picks one
+vector out of 64 and runs it.
+
+WRONG: treat "rank 6 of 64" as a near-best vector, or quote the full-sample +9.13%/yr as if
+it had a live counterpart. The in-sample optimum shares only three of six signs with the
+published vector, and the only shippable procedure -- rank the 64 by trailing Sharpe
+strictly before the date, run the winner for the next block -- loses in every cell.
+
+RIGHT: price the procedure itself. 2 cells x 64 vectors through the same reference engine,
+then 3 reselect x 2 lookback = 6 walk-forward variants per cell = 12 declared tests, paired
+against an equal-weight control at the same cadence. 0 of 12 clear the control + 1pp, 1 of
+12 is positive, median gap -6.52pp/yr; the diagnostic that outranks the CAGR is the
+selection lift (chosen vector's forward mean minus the mean across all valid vectors):
+positive in 40-67% of events, median 0.50, size flipping sign across variants -- a rank-1
+trailing Sharpe earns what the mean vector earns. The loss is not a bad rule, it is an
+empty rule, and the book bleeds the switch toll on top (the most-switching variant is the
+worst in both cells). A price face must publish the oracle arms as in-sample and keep the
+headline beside the PIT numbers.
+
+Pos: scripts/etf_sign_pit_combo.py (run/check/selftest 18/18) + face
+results/etf_sign_pit_combo.json (verdict recomputed by its own gate: pit_combo_no_value) +
+S6 leg etf_sign_pit_combo + one smoke leg that re-derives the verdict from the published
+per-variant table instead of asking the module.
+
+## E237 A check-only gate goes red on every panel advance: stale and inconsistent must be different exits (2026-10-29 r1346 bm-c)
+
+WHEN: a chain leg is an engine-free gate over a published face (0.1s, no panel build) rather
+than a re-derivation, and that gate refuses a face priced on an older bar than the
+production card. Correct assertion, broken mechanism: the panel advances daily, so the leg
+is red on every bar it is not manually re-derived, and the round that advances the panel is
+the round that turns it red.
+
+WRONG: read the NONZERO line as "three faces are wrong" and move on. On 2026-10-29 three
+legs (etf_book_cagr_reconcile, etf_book_hysteresis, etf_book_buffer_adoption) were red from
+19:27 to 20:57 through two complete chain runs, and the only reason in all three was *"face
+is stale: priced on 2026-10-28 while the production card is on 2026-10-29"*. Nothing was
+inconsistent. Also wrong: relax the assertion until the leg stops firing -- the r1135 trap
+(a gate that is permanently red on inherited state invites exactly that repair).
+
+RIGHT: give the gate two exits. A leg may carry a third element, the refresh command, and
+the runner pays it **only** when the probe's own output says the face is stale; after paying
+it the probe is re-run and the record carries `refreshed={cmd, rc, elapsed}` so the round
+report shows a face was re-derived, not quietly replaced. The selftest pins both directions,
+including the one that keeps the gate honest: an *inconsistent* probe must stay red **with
+its refresh unspent** (the fixture asserts the refresh's marker file was never written).
+
+READING (2026-10-29 bar, after refresh): hysteresis green (k=0.50: CAGR 9.66%, Sharpe 0.997,
+maxDD -13.48%); buffer adoption REJECT over 60 cells, median dCAGR -0.145pp against a
+-0.05pp floor (turnover down in 100% of cells, CAGR better in 55%, phase IQR 0.70pp) -- the
+buffer buys turnover, not return; cagr reconcile OK, card 9.70% vs executable ticket 13.50%,
+total gap 3.80pp, interaction -1.24pp. That third face had gone stale for a different
+reason -- a source face it reconciles was re-derived to a new headline (capacity_ceiling_pp
+7.28 -> 7.27) -- which is the dependency it exists to catch; it caught it and nobody
+re-derived it.
+
+TWO READERS BROKE SILENTLY when LEGS grew from 2-tuples to 3-tuples: six smoke sites, and
+`scripts/etf_book_registry.py::chain_legs()`, which wraps its import in
+`except Exception: return None` -- a swallowed `ValueError: too many values to unpack`
+reports "no legs wired" instead of crashing. Unpack the name position (`t[0] for t in LEGS`)
+and never let an excepted type error fabricate a plausible answer (r1288 family).
+
+Pos: Tools/s6_chain_bmc.py (run_leg + selftest 5/5, `--selftest`) + six legs wired with
+
+## E238 Reconcile two pages of the same book by the rule's own output, not by the row order (2026-10-29 r1151 bm-a)
+
+WHEN: two live faces describe one book -- here a menu that recomputes four risk tiers and a
+CEO page that mirrors the one published executable ticket. Both are derived from the same
+engine, so a reader must never be able to see two different books.
+
+WRONG: (a) diffing rows by position or by beta label -- the page has no beta on it, only the
+multiplier `k` the rule produced; (b) treating an absent counterpart file as agreement;
+(c) reporting the nearest tier when nothing reproduces `k`, which hides "these are different
+books" behind a plausible-looking diff.
+
+RIGHT: `reconcile_page(menu, page, dec_bar)` -- pick the tier by `page.k_now` (that IS the
+rule's output), require `|Δk| <= 5e-3` or raise "k not reproduced" as the finding, then
+compare name set, lots per name, book and cash amounts to the cent, and the decision bar.
+Absent page -> `None`, and the page prints "对账跳过——不是「已对账」". Diffs are listed, never
+smoothed. Fixture legs L22-L27 pin all six paths, including a one-lot drift and a 5-yuan cash
+drift (the ballpark that a rounding change would produce).
+
+Companion finding from the same round: a forward-accrual lane with no declared-takeover path
+loses days *permanently* whenever its host is out (data/heat/popularity tail 2026-10-20 while
+bm-b heartbeat was 4.2h stale: 7 trading days unrecoverable). The zt-pool lane, which does
+carry `--takeover` + a 120-minute staleness threshold, recovered both missing days (10-28,
+10-29) in 22s once declared. Freezing a lane is a choice; it is not a safe default.
+
+Pos: scripts/etf_book_beta_menu.py (ceo_page_face / reconcile_page / selftest 27/27 /
+page section 「与 CEO 一页纸对账」) + evidence results/etf_book_beta_menu/MENU-2026-10-29.json
+(ceo_page_recon.ok=true, matched beta 0.20, names=5) + chain leg etf_book_beta_menu.
+
+
+refresh + refreshed faces results/etf_book_{hysteresis,buffer_adoption,cagr_reconcile}.json
+on the 2026-10-29 bar + digest DIGEST-20261029-e237-stale-check-legs.md.
+
+
+## E240 A verdict is only a gate if its inputs are published and the recompute reads the raw rows (2026-10-29 r1347 bm-c)
+
+WHEN: a face publishes a per-arm verdict next to a frozen rule, and its `--check` re-judges
+the arms from the *stored summary* to prove the label was not hand-written.
+
+WRONG (live 2026-10-29): the arm publisher kept a whitelist of summary fields — and the
+whitelist dropped exactly the three the rule reads (`share_cagr_ok`, `share_cagr_up`,
+`share_sharpe_ok`). The face shipped a verdict it could no longer justify: `--check` died on
+`KeyError: 'share_cagr_ok'` on its first run. The same gate was blind in a second direction:
+feeding stored scalars back into `rule(summary)` accepts a hand-edited median as printed, so
+even a working version would have judged the number against itself.
+
+RIGHT: publish the rule's inputs **and** rebuild them from the per-cell rows before judging.
+The rebuilt cells are re-summarised through the *one* implementation that owns the arithmetic
+(`B.summarize`), never a second copy of the formulas — so a re-tuned rule cannot quietly
+disagree with its own gate — and every published scalar is compared against the rebuild.
+Selftest legs that pin it: a fresh publish rebuilds clean, an arm missing its share fields is
+still re-judgeable (the exact crash shape), an edited median is contradicted by the cells, and
+an edited verdict is contradicted by the rule.
+
+READING (r1347, `results/etf_book_hysteresis_paths.json`, 100 cells): family
+MIXED_NO_SURVIVOR, unchanged — k=0.05/0.35 REJECT, k=0.10/0.20 COST_KNOB_ONLY, return effect
+not monotone in k.
+
+Pos: scripts/etf_book_hysteresis_paths.py (rebuild_summary/recompute_verdicts, selftest 23->28)
++ S6 leg + smoke leg; digest DIGEST-20261029-r1347-buffer-price-of-size.md.
+
+## E241 A threshold quoted in cost units is not a size: invert the book's own cost law, then check the ceiling (2026-10-29 r1347 bm-c)
+
+WHEN: a face reports "arm X breaks even at N bp per side" and the operator has to decide.
+N bp is not a decision: the book never pays a flat cost, it pays its impact model, and the
+model's cost depends on capital.
+
+RIGHT: reuse the published law (`ImpactCost`: `base + k*sqrt(participation/1%)`) and invert it
+per cell — `NAV* = REF*((be-base)/(cost_ref-base))**2` — then report the crossing against the
+size at which the book's own p90 trade already hits 1% of ADV. Keep three crossing states, not
+one number: an arm that *gains* return has no cost story (crosses at 0), a breakeven under the
+base pays at any size (0), and a reference cost at the base has no impact component to cross
+(None). A share rule (>=80% of cells crossed) stops one lucky cell being read as "pays".
+
+READING (r1347, cost_ref 20.26bp/side at 10M from the published capacity ladder): the buffer
+does not pay at a size the book can run. k=0.20 needs >=30M, k=0.35 needs >=5M, k=0.05 needs
+122M, k=0.10 never reaches 80% — while the p90 trade is 1% of ADV at **0.94M**, so the entry
+price of every arm that pays at all is 5x the capacity ceiling. Honest bound: the curve is the
+N5 book's, and a wider cell pays less per name, so this is the *generous* reading.
+
+Pos: scripts/etf_book_buffer_price_of_size.py (selftest 24, `--check` recomputes every crossing
+and flag) + results/etf_book_buffer_price_of_size.json + S6 leg + smoke leg.
+
+## E242 A page that prices every unit but never the total is not answerable (2026-10-29 r1152 bm-a)
+
+WHEN: a CEO-facing page lists money per unit (six paper traders, five book names, four tiers)
+and a reader asks the only question that matters -- "how much money did we make".
+
+WRONG: leaving the total to the reader. The 2026-10-29 page showed 6 x equity / cash blocks
+and per-position unrealised P&L, while `results/paper_export/export-<day>.json` already
+published `summary.total_equity_cny` and `daily_report` already printed the day P&L in money:
+the one face the CEO actually reads was the only one that could not answer.
+
+RIGHT: one derived line -- total equity, starting capital, cumulative return in % AND CNY,
+positions vs cash, and today's change against the *previous* export's own summary. Derive
+every input (each trader's own `capital_cny.initial`; never a 6,000,000 constant), assert the
+totals equal the sum of the page's own rows AND the sibling face's published total (tolerance
+= the rounding of the member rows), and let an absent prior export read `None` with a
+"no comparison face" sentence rather than a fabricated flat day. Fixture legs pin: absent
+starting capital -> `return_pct` None + the honest "missing" sentence; a query for a day
+before every export -> `(None, None)`.
+
+Same-round corroboration that the derive was right: the independent daily_report face printed
+day P&L -7,053.36 and this roll-up computed -7,053 from today minus the 10-28 export.
+
+Pos: scripts/ceo_live_usage.py (rollup face / prior-export selector / 8 new selftest legs) +
+docs/live_usage/LIVE-2026-10-29.md section 3 opening line + smoke leg "the CEO page prices the
+whole book in one line" (recomputes the roll-up from the page's own members and cross-checks
+the export summary).
+
+## E243 A forward panel nobody reads is inventory, not a product (2026-10-29 r1153 bm-a)
+
+WHEN: a dataset is being accumulated correctly (16 trading days captured, four panels,
+`data/zt_pool/{zt,zbgc,dtgc,strong}.parquet`) and the question is "are we producing anything".
+
+WRONG: counting the accumulation as output. The four panels had a collector, a status face and
+a lane-ownership contract -- and zero readers. On 2026-10-29 the market's own tape (limit-up 72
+-> 39, limit-down 5 -> 41, broken-seal 69 -> 25) was sitting in parquet and appeared on no page
+anyone opens. A panel that only its own collector touches is inventory; the money question it
+answers ("is today a sell-off day") stayed unanswerable for 16 days.
+
+RIGHT: one derived section on the page people actually read (the daily battle report), with
+three hard rules: (a) counts are row counts = member counts, never inferred; (b) a missing
+panel or a missing day reads ABSENT, never 0 -- forward-accumulated days are permanently gone,
+so a fabricated zero is the one error this face cannot recover from; (c) every reading rule is
+printed beside the number ("limit-down >= limit-up => sell-off day") so the page describes and
+does not judge. Panels that disagree on their cutoff are shown per-panel rather than silently
+max-ed into one date.
+
+Corroboration catch: the previous round's spoken reading said 141 limit-downs; the panel says
+41. Deriving from the stored rows (and printing the previous bar for direction) is what makes
+that discrepancy visible instead of inherited.
+
+Pos: scripts/daily_report.py (_zt_panel_day/_zt_risk_face + section 9 + parquet-fixture
+selftest legs incl. the absent-panel path) + docs/daily_report/REPORT-2026-10-29.md + smoke leg
+"daily report risk tape (zt pools, honest absence)".
+
+## E244 A mirrored status line rots unless something asserts parity (2026-10-29 r1153 bm-a)
+
+WHEN: a dashboard (or any page) copies a number that another script owns -- here
+`dashboard_status.json.trading.paper.fill_verify_{tier,verdict,day}` mirroring
+`results/t35_open_fill_verify.json`.
+
+WRONG: trusting the copy. Re-running the owning leg (a routine S6 step, not a fault) advanced
+the source's day 2026-10-27 -> 2026-10-29 while the dashboard kept publishing the two-day-old
+line, so the page told readers a fill check that no longer existed. Nothing was broken; the
+mirror simply aged.
+
+RIGHT: a parity assertion in the suite that compares every mirrored field against its source
+face, with the source leg's own re-run in between. The existing smoke leg did exactly this and
+was the only thing that noticed; the fix is one `monitor.build_status` re-run (bm-a is the
+single writer), and the leg then reads green with all three fields equal. Rule: whenever a page
+copies a number, name the owner and let a leg compare the copy to the source -- a mirror with
+no assertion is a claim, not a reading.
+
+Pos: smoke leg "product: dashboard carries the marks coverage gap" + results/dashboard_status.json
+(refreshed) vs results/t35_open_fill_verify.json + results/marks_coverage.json (both 19/16,
+84.21%, 3 holes, tier marks, PASS, day 2026-10-29).
+
+## E245 A level printed alone is not a reading, it is a snapshot of a regime (2026-10-30 r1154 bm-a)
+
+WHEN: a page reports a market-breadth count (limit-up 39, limit-down 41, seal rate 60.9%) and the
+reader's actual question is "is this a sell-off day or a normal day".
+
+WRONG: printing one bar plus a one-bar delta. The r1153 tape gave level and direction against the
+previous bar only, so 39 limit-ups with 41 limit-downs reads as "a kill day" -- and on the same page
+the prior ten tracked bars showed 82 limit-ups at 87% seal rate three sessions earlier. Same
+numbers, opposite conclusion about what kind of market it is, and the page could not tell.
+
+RIGHT: a bounded trajectory window beside every level (10 tracked bars here), with three rules:
+(a) the window is the UNION of the dates each panel actually captured, capped to the newest N --
+     one panel's older bar never silently extends another's;
+(b) each day's ratio is re-derived from that day's own two counts, never carried from the newest
+     bar (a carried rate is a quiet copy with no assertion -- E244 shape);
+(c) a day one panel never captured stays absent (`—`), and the summary line names the extreme
+     dates instead of a bare min/max, because "33~82" hides that the low and the high are two
+     consecutive sessions.
+
+The trajectory also makes the caveat legible: the panel started 2026-10-08, so the window is 10
+bars in a forward-accumulated face -- it bounds a regime, it does not test one.
+
+Pos: scripts/daily_report.py (`_zt_panel_day` series + `_zt_risk_face` union/rate-per-day +
+`ZT_SERIES_DAYS` + section 9 trajectory table + 6 selftest legs: two-date union, per-day rate,
+window cap, newest-kept, absent-path) + docs/daily_report/REPORT-2026-10-30.md.
+## E246 The book has one history: publish the distribution, then say where the point estimate sits (2026-10-29 r1348 bm-c) [filed as E242; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a book's headline (CAGR / Sharpe / maxDD) is quoted as if it were a property of the
+strategy, and every arm is compared against it in the same currency. A single realised path
+cannot tell a reader how much of the number is the book.
+
+WRONG: (a) adding another arm at the same resolution -- r1291/r1325 already showed arms can
+differ by less than a phase change; (b) quoting a bootstrap p50 as "the expected return"
+while the block length that produced it is an unstated free parameter; (c) reporting only the
+good tail (p95 CAGR) because it is the flattering side of a two-sided ruler.
+
+RIGHT: publish the book's own daily path as a face (`results/etf_book_series/NAV-<cutoff>.json`,
+normalised to 1.0), block-bootstrap it with the block set to one rebalance cycle, and publish
+**percentiles plus the position of the published point estimate inside them** (`point_pctile`).
+Report the loss share and the drawdown-break share as well as the percentiles, and register
+the block-length sensitivity as its own rows instead of pretending 20 bars is "the" answer.
+Gate: recompute every percentile and share from the published per-resample rows, so a
+hand-edited p50 is contradicted by its own rows (E240's law applied to a distribution).
+
+READING (block=20 arm, 2,000 resamples, 1,651 bars to 2026-10-29; **numbers republished at
+r1348 after the procs-dependent seeding fix, see E247**): CAGR p5/p50/p95 =
+3.43/9.69/16.46 %/yr, Sharpe 0.38/0.98/1.60, maxDD -20.58/-13.18/-8.92 %. The published
+point estimate 9.70% sits at the **50.1** pctile -- so the headline is not a lucky path, but
+the p5-p95 band is ~7x the largest single-arm effect published the same day. 0.3% of resamples
+lose money, 6.4% break -20% (a **block-20** sentence: E248 measures the same share at 16.1% for
+a week-block and 1.1% for a year-block): the card's -12.5% drawdown is the median of the ruler,
+not its tail.
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14, --check re-derives from rows and re-draws
+a sample from the seed rule) + results/etf_book_bootstrap/ENVELOPE-2026-10-29.json +
+results/etf_book_series/NAV-2026-10-29.json + chain legs + smoke leg + E247/E248 (block grid).
+
+## E247 The ruler may not move with the machine that holds it: seed the resample, not the worker (2026-10-29 r1348 bm-c) [filed as E243; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: any Monte Carlo / bootstrap / permutation face whose work is split across processes or shards.
+
+WRONG: seeding each job (`SEED + 7919 * k`) or each shard and letting the job decide how many draws
+it takes. The published percentiles then depend on --procs and on the shard count: the E246 envelope
+moved CAGR p5 3.79 -> 3.66 -> 3.43 and the point percentile 51.0 -> 49.8 -> 50.1 across three runs
+of the same face (published, default --procs, --procs 2). The rebuild gate did not catch it, because
+a procs-dependent face still agrees with its own rows.
+
+RIGHT: the seed belongs to the DRAW INDEX (`seed_i = SEED + 7919*i`); a job declares `(first_i, n)`
+and nothing else, and every row publishes its own `i`. Three cheap mechanical gate legs: (a)
+splitting one span across N jobs reproduces the same rows; (b) rows carry a contiguous 0..n-1 index;
+(c) the gate re-draws a deterministic sample of rows from the index rule, so a face produced by
+worker-dependent seeding is contradicted by its own rows. Also: a reading that names a parameter
+must be built AFTER that parameter is in the object -- `env.update({... 'reading': f(env) ...})`
+evaluates the reading first, which made all four block arms print "block=20".
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14: L12 split-invariance, L13 index on rows, L14
+re-draw identity) + `--check` seed-rule sample + research/digests/DIGEST-20261029-e246-block-length.md
+
+## E248 A distribution's tail is a parameter; its location is a measurement (2026-10-29 r1348 bm-c) [filed as E244; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a bootstrap/permutation envelope is quoted and one of its construction parameters (block
+length, holding window, burn-in) has never been varied.
+
+RIGHT: run the arms, publish ONE comparison face, and split the reading into what survives the
+parameter and what does not. ETF book, 2,000 resamples, block 5/20/60/250: point percentile
+49.6-53.6 and CAGR p50 9.21-9.74%/yr (location = the book), but maxDD p5 -25.02% to -17.08% and the
+share breaking -20% 1.1% to 16.1% (tail = the ruler, 14.6x). Two consequences worth carrying: (a) a
+tail sentence must be quoted with its parameter -- "6.6% break -20%" is a block-20 sentence; (b) the
+intuitive "longer block = wider band" is FALSE on the return side (CAGR p5 non-monotone
+2.92/3.43/3.18/3.57) and holds only on the drawdown side, because longer blocks keep the realised
+clustering inside a block.
+
+Pos: scripts/etf_book_nav_envelope.py blocks (+ `blocks --check`, which re-derives every quoted arm
+number from that arm's own rows) + results/etf_book_bootstrap/BLOCKS-2026-10-29.json + chain leg
+etf_book_block_length
+
+## E249 A verdict in mixed units is a verdict nobody can read: state the unit at every comparison, and gate the flag (2026-10-29 r1348 bm-c) [filed as E245; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: any face that publishes BOOLEAN readings next to the numbers they summarise ("is the tail
+block-dependent", "is the median stable", "is the headline a lucky path"). The inputs are fractions
+(cagr, maxdd) in one place and percentile units in another, while the thresholds are stated in pp.
+
+WRONG: writing the comparison straight against the threshold. `maxdd_p5.range > 3.0` reads a
+FRACTION span (0.2502-0.1708 -> 0.0794) against a 3-percentage-point threshold and published
+`drawdown_tail_is_block_dependent: false` on a face whose own reading string, digest and every
+downstream sentence said the opposite -- a 7.94pp tail read as 0.08pp. The gate did not catch it
+because `--check` re-derived every percentile and share from the rows and never re-derived the
+SUMMARY: the flag was a computation, not a measurement, so nothing contradicted it.
+
+RIGHT: (a) one pure function computes all flags and each line states its unit (`range*100 > 3.0`
+for pp, percentile points for `point_pctile`); (b) the gate re-derives the spread AND the flags
+from the re-judged arms and diffs them against what is published, so a stored boolean that
+contradicts its own inputs fails the leg (`readings.X: published False but the arms say True`);
+(c) selftest holds both directions of the same rule (a 7.94pp span must read True, a 0.50pp span
+must read False) so the flag is neither stuck nor wired to a constant.
+
+READING: on the published block arms {5,20,60,250} the three flags are now all true --
+headline_not_a_lucky_path (point pctile span 4.0 against 5), drawdown_tail_is_block_dependent
+(7.94pp against 3) and median_cagr_stable (0.52pp against 1). No number changed; only the sentence
+the face is willing to say about them did.
+
+How to apply: a boolean is a published NUMBER. Every `readings`/`verdict`/`is_*` block needs
+(a) a single builder, (b) an explicit unit per comparison, (c) a gate that recomputes it from the
+same inputs the numbers came from, and (d) a selftest leg on each side of the threshold. Otherwise
+the cheapest repair for a red flag is to relax the threshold -- the exact failure the flag exists
+to prevent.
+
+Pos: scripts/etf_book_nav_envelope.py (blocks_readings + blocks --check + selftest 14->18)
+
+## E250 A tail sentence must travel to the page a human trades from (2026-10-29 r1348 bm-c) [filed as E246; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: research measures a risk band (bootstrap percentile, tail share) that differs from the
+single realised number printed on the operator-facing card or order sheet.
+
+WRONG: leaving the band in a digest and a research face. The card printed ONE drawdown (-12.5%),
+the executable sheet printed one drawdown, while the arms said the 5th-percentile drawdown is
+-17.08% to -25.02% depending on block length -- an operator sizing to the printed number was
+sizing to a median, and nothing on the page they read said so.
+
+RIGHT: the band reaches both production faces, as a card caveat and as its own sheet section,
+quoting the block set that produced it plus the share of resamples worse than -20% (1.1%-16.1%).
+Each face soft-fails honestly ("No bootstrap band on disk: the tail is unpublished") and prints a
+`stale` marker when the arms are priced on an older bar than the card. Gates: the production
+selftest asserts the band is on the page, that every block value appears, and that a mismatched
+cutoff reads as stale; the order selftest asserts the present and the absent case.
+
+Pos: scripts/etf_book_production.py (drawdown_band_support) + scripts/etf_book_order.py
+(drawdown_band) + chain legs etf_book_production / etf_book_order / etf_book_order_card
+
+## E251 An independence arm is a zero point, not a floor: without it "the tail is a parameter" cannot be told from "the tail is what dependence does" (2026-10-30 r1348 bm-c) [filed as E247; renumbered on merge 2026-10-30 r1348 bm-c]
+
+WHEN: a resampling study prices one free parameter (here the block length of a block
+bootstrap) across a grid, and the grid never contains the no-dependence limit. Every arm then
+shares the same assumption, so the spread measures sensitivity to a *degree* of an assumption
+whose zero was never set.
+
+WRONG: (a) treating the longest block as the conservative end because it is "less
+independent" -- measured, the year-block arm gives the *shallowest* p5 drawdown; (b) quoting
+"the tail is the ruler" with no zero point, which leaves open whether the band is memory or
+finite-sample noise; (c) reading the iid arm as a bound -- a p5 is a percentile, and the worst
+single resample sits 20pp below it.
+
+RIGHT: add block = 1 (resample single days) with the same seed rule and the same draw count,
+publish it as its own arm inside the same comparison face, and let the gate re-derive every
+quoted number from that arm's own rows. Then state what the zero point does to the sentence.
+
+READING (same book, 1,651 bars, 2,000 resamples): iid p5 maxDD -24.72% vs week-block -25.02%
+(0.30pp apart) vs year-block -17.08%; worst single iid ordering -44.92%; the full 8-arm spread
+is 7.94pp and the improvement is bought entirely by *assuming* long memory, which smooths the
+replayed path. So the number to size against is the short-memory end, and the location claims
+(point CAGR pctile 49.2-53.6, median CAGR 9.21-9.79%/yr) are unchanged by the new arm.
+
+Pos: scripts/etf_book_nav_envelope.py (selftest 14/14; `blocks` globs the new arm; `blocks --check`
+re-judged 8 arms) + results/etf_book_bootstrap/ENVELOPE-2026-10-29-b1.json + BLOCKS-2026-10-29.json
++ research/digests/DIGEST-20261030-e251-iid-zero-point.md.
+
+## E252 A percentile you did not publish may already be in the rows you kept (2026-10-30 r1156 bm-a)
+
+WHEN: a published distribution face quotes percentiles, and someone later asks for a percentile
+the face never printed ("how bad can it get" answered with p5, which is the deepest 5%, not the worst).
+
+DECISION: before re-running the 2,000-draw bootstrap to add p1/p99, check whether the artifact kept
+its per-resample rows. If it did, the missing percentile is a pure function of data already on
+disk -- recompute it from the stored rows, write it back into the ARM (so the arm stays the single
+source), and let the existing gate re-derive every quoted number. Disclose the refresh
+(`arm_pcts_refreshed`) and let a face whose arms predate the change say so ("the worst 1% is NOT
+published on these arms") instead of printing a nan range.
+
+WHY: a re-run is a second draw, and a second draw is a different experiment (E247: seed the
+resample, not the worker). Re-deriving from stored rows keeps the published tail and the published
+median on ONE draw, so the new column is comparable with the old ones by construction.
+
+READING: 8 block arms republished in ~0.7s with no resampling: worst-1% maxDD -30.87..-20.06%/yr
+CAGR p1 0.36..1.60% vs p5 -25.02..-17.08%; `blocks --check` rc0 re-judged all 8 arms from their
+own rows.
+
+Pos: scripts/etf_book_nav_envelope.py (PCTS 1..99; selftest 18->20 incl. L19 ordering and L20 the
+ultra-tail flag fires on 13pp and stays quiet on 0.50pp) + results/etf_book_bootstrap/BLOCKS-2026-10-29.json
++ smoke leg "product: the worst 1% is published on the block arms".
+
+### E252 配对尾测：同一抽签下对照组才算数（+ 中间效应冒充尾部效应）
+
+WHEN: 任何"这个风控开关保住了最坏情况吗"的问题。单条路径的回撤、甚至两条独立 bootstrap 的
+p5 摆在一起，都回答不了——它们是两次抽签，不是一个实验。
+
+HOW: 同一 resample 索引**只抽一组**块索引序列，把它同时索引两个臂的日收益（`resample_indices`
+产 idx，两臂共用 `r[idx]`）。逐 resample 求差，报差值的分位数与"变好/变坏"份额，再报一个比值
+`tail_share_of_middle = median(p1 差) / median(p50 差)`。
+
+坑（本窗实弹，两枚都吞过一次整跑）：
+1) `resample()` 每次调用都推进 rng——两臂各调一次，第二臂拿到的是**另一组**抽签，所谓配对其实是
+   两个独立带并排读数（selftest L21：同臂同数据竟读出 -10pp 中位差）。正法=先产索引，再索引两臂。
+2) 收益序列必须是 pct_change 而不是 `ser/ser.shift(1)`（那是比率，cumprod 后 CAGR=inf、maxDD=nan），
+   且 `bars_per_year()` 要喂**完整日期列**——喂 `[首日, 末日]` 两元素会得出 0.147 bars/yr。
+   两枚同时发生时，整面仍是合法 JSON、reading 仍照印 "+nanpp"。已在产出前加硬门：delta 非有限即
+   SystemExit，拒绝发布数字形状的空白。
+
+WHY: 一个 6pp 中位改善只换来 1.3pp 尾部改善（21%），"尾部也动了"字面为真、实操无用；卡片却因此
+被读成"崩盘保险"。判据要能把"中间动了"与"尾部动了"分开，并且能说出前者占多少。
+
+READING: 生产书 12 名 / R20 / 10bp，1650 bar 至 2026-10-29，5 个块长臂 × 2000 次重抽：
+叠加 8% 波动目标后，中位回撤差 +6.04pp、p1 差 +1.26pp（尾部只保住中间增益的 21%），且 100% 的
+重抽里两条臂都比不叠加更浅；代价是中位 CAGR -4.61pp。叠加后的最坏 1% 仍落在 -30%..-20% 之间。
+
+Pos: scripts/etf_book_nav_envelope.py（`voltail` 子命令 + `voltail --check` 门；selftest 20->29
+新增 L21-L29：同臂零差/份额守恒/分位有序/中间-only 与尾部同动两向/索引规则复现 resample/两臂共抽）
++ results/etf_book_bootstrap/etf_book_voltarget_tail.json + PAIRROWS-<cutoff>-b<block>.json
+（逐块配对行，门从行重算每个引用数，无需 2000 次重抽）+ 链腿 etf_book_voltarget_tail
++ smoke 腿 "product: the vol overlay's tail is priced on the same draw as its middle"。
+
+### E254 「无法作证」必须带责任人，否则只是把困惑搬了个位置
+
+WHEN: 任何面诚实地说「这条数据我认证不了」（unverifiable / unknown / not assessed），
+却没有同时说出「谁本来该为它作证」。此时读者仍然无法行动：他既不能修数据，也不能修机器，
+只能把「我的数字不可信」这句空话继续往下传。
+
+HOW: 判词里钉三件：①责任人 = 该面在注册表里声明的宿主（`config.lane_io.lane_host`），
+不是「谁恰好跑了这条腿」；②责任人的活性 = 读它**自己写的心跳文件**
+（`fleet/machines/<host>.json` 的 `clock_read`/`last_seen`），算 age_h 并与阈值比；
+③责任面 = 把这个宿主压在下面的车道逐名列出来。判词分层：有真停摆 → `attention`；
+否则「认证不了 + 宿主已停报」→ `host_down`（附 hosts_down / lanes_hostage）；
+否则「认证不了但宿主未知或活着」→ 维持 `uncertified`。
+
+坑（本卡立卡理由）：
+1) **没有心跳文件 = 未知，不是死机**。fail-open 是硬律：alive=None 时不得进入 host_down，
+   否则第一次部署该板的机器会把「我还没写过心跳」读成「全公司数据停摆」。
+2) 阈值要跟**该机自己的轮频**对齐（本机队循环 5-10min，取 2h），不要抄日历级阈值——
+   否则一个正常在跑的机器会被 24h 阈值永久判活、一条真停摆永远看不见。
+3) 心跳是带 UTC 偏移的 ISO 串，比较前必须把 tzinfo 抹平（`when.replace(tzinfo=None)`），
+   否则 naive/aware 混算直接抛 TypeError，而这个异常若被 except 吞掉就会跌回「未知」的
+   合法-looking 结果（r1288 同族）。
+
+WHY: 一块说「七条车道认证不了」的板，读者只能围观；同一块板说「bm-b 10.27h 没报到，
+压着 moneyflow/heat/repo/astock_daily/marks/zt_pool」，读者立刻知道该去叫谁。
+诊断的价值不在诚实，而在可执行。
+
+READING: 2026-10-30 实跑：9 条车道（1 retired）→ in_sync 2 / unverifiable 7；7 条里 6 条
+归到 bm-b（心跳停在 2026-10-29T18:18:13+08:00），1 条归不到（无心跳证据，如实留白）。
+判词 uncertified → host_down。heat 车道缺的 7 个交易日不可复原（滚榜无历史），
+所以这块板真正的用途是**在还能救的时候叫醒宿主**，不是事后解释。
+
+Pos: scripts/data_lane_freshness.py（`_host_health` + audit 的 hosts/hosts_down/lanes_hostage
++ render_md「Hosts that stopped reporting」节；selftest 10->12，L11 死主机三面同现、
+L12 无心跳=未知非死）+ monitor/build_status.py（lane_freshness 面带 hosts_down/lanes_hostage）
++ results/data_lane_freshness.json + docs/data_lanes/FRESHNESS.md + smoke 腿
+"product: data lane freshness board agrees with the lanes and the calendar" 增两条断言
+（每条 lane 必带 host_alive/host_age_h；verdict=host_down 时 hosts_down 与 lanes_hostage 均非空）。
+
+## E255 机器本地面无�?扔过去」：接管只能改宣言，读者必须认宣言（2026-10-30 r1161 bm-a）
+
+WHEN: 一条车道的原始因子落在 **gitignored 的机器本地面**（`data/heat/popularity` 这类
+逐日前向目录），而它的状态封套是入库的共享面。此时宿主一停，别人接管只能在**自己硬盘**
+上继续攒——原宿主的目录不会因此多出一行。若接管只写自己的快照，它就产出一份没人读的
+副本（T25 原话「否则接管只产出一份没人读的副本」）；若接管连封套也不写，读者看到的是
+一台死机器的旧数字，且不知道数字在哪块盘上。
+
+HOW: 三件一起做，缺一件接管就是假接管——
+① 授权：接管不是默认行为，`--takeover` 显式声明 **且** 宿主心跳静默 ≥120min，
+判据从 `update_etf_daily.takeover_decision` **import**（r1100 单源律，禁重实现）；
+② 宣言：封套写 `authority` 块——`lane_owner` / `writer_machine` / `data_face_machine` /
+`declared_takeover` / `took_over_by` / `took_over_at` / `reason`。`data_face_machine`
+是唯一能回答「这批行现在在谁的盘上」的字段；
+③ 认账：读者（新鲜度板）遇到「封套不是宿主写的」时，先看宣言——宣言点名的接管者
+== 写封套者 → `declared_takeover`（可审）；只是外人写的无名封套 → 仍判 `unverifiable`。
+同一个「谁属主」只能有一个真相：配置（`config/lane_hosts.json`）压过代码里的硬编码
+兜底（实测 2026-10-30：heat 行同时印着 owner=bm-a 与 lane_host=bm-b）。
+
+坑（立卡理由）：接管的价值不在搬数据，而在**把「谁负责」从一个死机器转交给一台活机器，
+并让所有读物立刻知道这件事**。指标面（tail/缺日数）可以不因此变好，但归属必须变清楚。
+
+WHY: 前向滚榜无历史，缺一天就是永远缺一天。所以这条车道的正确目标不是「事后补数据」，
+而是「在还能救的那一天把责任转出去」；而责任只有在**读者认得**的地方写下来才算转交。
+
+READING: 2026-10-30 实跑——heat 尾件 2026-10-20、缺 7 个交易日不可复原；
+修正前该行同时标注 owner=bm-a / lane_host=bm-b（自相矛盾），修正后 owner=lane_host=bm-b，
+且热车道对 bm-a 的诚实判决从「无理由 no-op」变成「no-op：宿主管辖；接管被拒：无 --takeover」。
+
+Pos: scripts/update_heat.py（`_takeover_gate` + `save_status` 的 authority 块 +
+「只有当局才写共享车道」；selftest 增 authority 双面腿）· scripts/data_lane_freshness.py
+（读 `authority` 块 → `declared_takeover` 可审；owner 一律取 lane_host；selftest 12->13
+L13 宣言可审/无名封套不可审）· smoke_test.py（「a lane takeover declares whose disk
+holds the rows」：owner==host 全行、封套六键齐、data_face_machine==machine、
+declared_takeover_by 必须被认账）· 正典=config/lane_hosts.json。
+
+## E256 A quoted percentile has a resolution, and two arms inside it are one number (2026-10-30 r1349 bm-c)
+
+WHEN: a resampling study quotes percentiles of N draws and then compares those percentiles across
+arms -- block lengths, windows, seeds, phases. The comparison inherits a sampling error of order
+1/sqrt(N) that nobody printed, so "arm A is calmer than arm B by 0.3pp" may be a description of
+the draw count rather than of the market.
+
+WRONG: (a) asserting the noise cheaply ("the p5 is noisy at ~0.1pp") and then letting a 0.30pp gap
+through as if it were above it; (b) trusting one aggregator, so whichever arithmetic was coded
+first settles the sentence; (c) reading the spread of eight arms as eight measurements when most
+of the rungs sit inside each other's intervals.
+
+RIGHT: publish a distribution-free interval per quoted percentile (binomial ranks -- no density,
+no symmetry), publish the density-based SE beside it, and test every comparison with a permutation
+that re-derives the statistic from the rows (1,000 relabels). Price each unsettled gap with the
+E162 reader-horizon arithmetic applied to a quantile (n_needed = n*(z*se_diff/gap)^2), and when the
+two aggregators disagree, publish the disagreement instead of resolving it.
+
+READING (8 block arms, 2,000 resamples, 2026-10-29 bar): iid vs week maxDD p5 differ by 0.29pp and
+are NOT settled -- separating them would take 28,737 resamples -- while iid vs year differ by
+7.64pp and are (perm p 0.001). 4 of 7 adjacent-rung gaps separate; only 1 of 13 median gaps does,
+so the median is the least resolvable column in the family. Consequence published: the ladder may
+say "block length matters" and may not say "block 10 is calmer than block 20".
+
+Pos: scripts/etf_book_quantile_floor.py (selftest 17/17, gate re-derives 8 arms / 52 pairs from
+their own rows) + results/etf_book_bootstrap/NOISE-2026-10-29.json + S6 leg + smoke leg +
+research/digests/DIGEST-20261030-e255-percentile-resolution.md.
+
+## E257 A grid cell is only a cell if it beats the calendar it was measured on (2026-10-30 r1350 bm-c)
+
+WHEN: a strategy's configuration is chosen by comparing (names, cadence) cells on one decision
+calendar -- the usual "N5/R20 is the best cell" -- and the headline number of each cell is then
+repeated as a property of the strategy. The engine decides every `rebal` bars counted from one
+fixed origin bar, so every cell's whole equity path is a function of a choice nobody made
+deliberately: which day of the cycle the book starts on.
+
+WRONG: (a) reporting the cell's point estimate with no band, so a 9.13%/yr cell and a 9.64%/yr
+cell look like a decision when they may be two draws of one number; (b) sampling four phases
+(one arm, one cadence) and concluding the mechanism is phase-insensitive in general -- r1325's
+four phases were inside ONE cadence, which is precisely the one that hides the effect; (c)
+counting decisions instead of comparing decision DATES to prove the phases moved (83/83/82/82
+counts hid four different calendars).
+
+RIGHT: for every cell, burn EVERY decision origin inside one rebalance cycle (10/20/40 origins =
+a complete cycle, not a sample), take the cell's band as p95-p5 of its CAGR across that cycle,
+and compare the grid's between-cell spread (max-min of cell medians) against the median band. If
+the spread is inside the band, the ordering is a calendar artefact and the honest publication is
+the band. Rank the grid per aligned slot (offsets present for every cell) and count how often the
+top cell changes -- the churn is the cheapest way to say it in one number.
+
+READING (12 cells, 280 engine runs, 8 workers, 2026-10-29 bar, 10bp/side, 8% vol target):
+between-cell spread **5.22pp** vs median cell band **6.68pp** -> the grid ordering is NOT
+separated from phase luck; the top cell changes **5 times** across the 10 aligned slots
+(N3R10, N3R20, N5R10, N8R10, N12R20) while the ranking itself stays broadly stable (Spearman
+0.58-0.90 vs slot 0). The real structure is the CADENCE, not the width: R10 cells sit at
+10.9-12.0pp with bands of 2.8-4.2pp, R40 cells at 6.8-8.3pp with bands of 6.9-12.4pp, and
+width alone moves the median by ~1.1pp inside a fixed cadence. Fewer decisions per window means
+each decision carries more path dependence -- so of the two knobs, only the cadence is quotable.
+The published cells are named from their own artifacts, not from constants: production card
+N12/R20 = 9.64pp median over a 7.87pp band, executable ticket N5/R20 = 9.13pp over 6.25pp.
+
+Pos: scripts/etf_book_phase_atlas.py (selftest 12/12; `--check` rebuilds every per-cell scalar
+and the verdict from the 280 raw rows, and refuses an edited median or verdict) +
+results/etf_book_phase_atlas.json + S6 leg `etf_book_phase_atlas` + smoke leg +
+research/digests/DIGEST-20261030-e257-phase-atlas.md.
+## E258 「本机核实不了」与「这批数在谁的盘上」是两个问题，混成一个就没人能动手 (2026-10-30 r1162 bm-a)
+
+WHEN: 任何一张面在判断「我能不能为这份数据背书」——审计、新鲜度、看板、战报。
+
+DECISION: 归属拆成两问，分别回答，禁互相顶替：
+① **在哪块盘上**（where the bytes are）：`data_face_machine` → 车道宿主
+   （`config/lane_hosts.json`）→ 封套署名者，逐级回退；**他机写封套不等于他机管数据**，
+   署名者只作最后兜底；
+② **有没有人背书**（auditable）：宿主封套 / 宿主本机副本 / 申报接管 = 可审，
+   无主封套 = 在盘上但不可审。
+一句人话=「N 条在役车道里有 X 条的数字不在本机盘上：……（M 台机，几小时未报到）；
+留在本机盘上的 K 条里 A 条可核实、B 条连署名都没有」。已退役面不计（关掉的车道不欠谁一根 bar）。
+
+WHY: r1159 把「7 条车道无法作证」变成了「bm-b 10.3h 未报到、压着六条车道」——诊断进了一步，
+但读者拿到的仍是关于**我们这份副本**的事实；真正可执行的是「这些行在别的机器盘上」
+以及「本机盘上的那几条里还有一条根本没人署名」。两问一混，就会出现两种假象：
+把本机副本当成公司数据（假绿），或把在盘的未署名面算成在别人手里（假缺席）。
+
+READING: 2026-10-30 实跑（bm-a）：9 条在役车道 / 6 条在 bm-b 盘上（12.3h 未报到）/
+留在本机 3 条（2 条可核实、1 条 etf_panel 无署名）。旧口径会把 etf_panel 记成「在 bm-a 的盘上」
+——本机说自己——这正是不拆两问的产物。
+
+Pos: scripts/data_lane_freshness.py（`disk_face()` 单一格式化器 + 报告 `disk` 块；
+selftest 13->15：L14 他机/退役面、L15 全本机/未署名/空板三pole）·
+monitor/build_status.py（`lane_freshness.disk` 原样透传）· daily_report.py（第十节
+「数据的盘上归属」只读板面句子，零重判；selftest 新增两句 marker + 缺面诚实腿）·
+dashboard.html（「数据在谁的盘上」行，未报到的组标 warn）· smoke_test.py
+（「whose disk the lane numbers are on reaches both human faces」= 从已发布 lanes 重算
+必须等于发布句，禁手写；看板接线在位；战报 md 必须含其 JSON 双胞胎自己的句子且 offhost 数一致）。
+
+
+## E259 尺子比效应大两个数量级时，改的是「这句 REJECT 说得多细」，不是配置（2026-10-30 r1163 bm-a）
+
+相位图的三个臂（buffer k=0.05 / 成本 5bp / 20bp，各 280 次引擎跑），全部按**每格自己的 band** 判，
+而不是按单一决策日历时的那一个数：
+- buffer k=0.05：12/12 格判；不更差占比 0.667（底线 0.80）；**每格中位 Δ −0.030pp**；
+  **0/12 格可分辨**（|Δ| 超过本格 band，最小 band 2.19pp）。→ REJECT 成立，但它是个**方向**不是**尺寸**：
+  同一臂在不同格上能从 −0.31pp 读到 +0.40pp，r1325 的「−0.145pp 中位」从来不是一个可测的量。
+- 成本臂：5bp 每格都更好（中位 +0.712pp，占比 1.000），20bp 每格都更差（−1.410pp，占比 0.000），
+  但**两档都是 0/12 可分辨** → 省下的钱是机械必然、又小于相位噪声，不能据此换配置，只能说
+  「现行格不是靠便宜成本假设撑起来的」。
+- 成本臂的真问题不是收益而是 band 结构：R10/R20/R40 的 band 在 5bp=3.465/6.772/9.000、
+  20bp=3.293/6.600/8.948，基线 3.407/6.711/8.980；R40/R10 比 2.60/2.72 vs 基线 2.64，中位 band 只动
+  −1.7%/+0.9%。**band 是决策次数的性质，不是费率的性质** —— 这把 r1350 的节奏结论从「在 10bp 为真」
+  升格为「与我们收多少费无关」，而这正是路径依赖命题需要的东西。
+
+WHY: 相位图造出了一把尺子（每格自己的 band），却只用来判「哪个格最好」。池里那三条 ready 臂
+正是把它用在该用的地方：一个**早已发布**的 REJECT（r1325）和一个**即将被引用**的节奏结论（r1350），
+前者靠这把尺子才知道自己只是方向、后者靠它才知道自己不依赖费率。判官不改判、只改判词的颗粒度，
+这是最便宜的一类产出。
+READING: 面 results/etf_book_phase_atlas_arms.json｜脚本 scripts/etf_book_phase_atlas_arms.py
+（selftest 19 腿：基线 N5/R20 中位必须复现发布值 9.13pp=9.130；手造臂必须读出 ADOPT/REJECT/
+NOT-SEPARABLE/NOT-ASSESSED 四态；裁决必须能从自家行重算）｜prose research/ETF_BOOK_PHASE_ATLAS_ARMS.md｜
+digest research/digests/DIGEST-20261030-r1163-atlas-arms.md。
+附：etf_book_phase_atlas.py 的 --out 接受仓库相对路径却在 
+elative_to(ROOT) 处炸——**整条 280 格
+跑完才炸**（一个臂的算力白烧、exit 1、零面落盘），已修为相对路径按 ROOT 解析；诚实缺口=该修法目前
+没有自己的 selftest 腿（面里的 12 腿不碰写路径）。
+
+## E260 A toll moves the level and the ordering; it does not move the band (2026-10-30 r1351 bm-c)
+
+WHEN: a path-dependence number (a per-cell band across one complete decision cycle) is being
+quoted as a property of the strategy, and a reader asks "at what cost does that stop holding".
+The instinct is to look for a toll ceiling -- the cost at which the band collapses. On this
+design there is none, because the toll and the band are not on the same axis.
+
+RIGHT: bracket the toll by 8x (5 / 10 / 20 / 40bp per side) on the same 12-cell grid and read
+all three quantities per arm, not one:
+
+  * the BAND (p95-p05 per cell, medianed per cadence) barely moves: R10 3.47 / 3.38 / 3.29 /
+    3.08pp and R40 9.00 / (base) / 8.95 / 8.86pp across 5/10/20/40bp -- and the R40:R10 ratio
+    RISES (2.60 -> 2.88) because the fast cells lose more of their own level than of their
+    spread. "The cadence is quotable" therefore has no toll ceiling at 4x production.
+  * the LEVEL moves monotonically: median per-cell delta vs the 10bp base is +0.71 / 0 / -1.41 /
+    -4.19pp at 5 / 10 / 20 / 40bp.
+  * the ORDERING dissolves: between-cell spread 6.06 / 5.22 / 3.55 / 3.01pp against a band that
+    sits at ~6.5-6.9pp the whole time -- as the toll rises the grid becomes more of one number
+    (a common cost shrinks relative differences), which is the opposite of "the toll separates
+    the configs".
+
+WRONG: (a) reading a level effect at another cost as evidence about the band (they move on the
+same axis, at different rates); (b) treating "ordering not separated from phase noise" as a
+statement about the band -- the two rulings are computed from the same rows and disagree by
+construction, which is the point; (c) stocking a variant arm without a consumer: r1163
+published this face and no leg re-read it, so an edited scalar could have sat there (fixed this
+round: scripts/etf_book_phase_atlas_arms.py --check, whose two red states are STALE = a source
+moved and the chain pays the refresh, vs INCONSISTENT = nobody moved and the face is edited,
+which stays red; see E237 for why that distinction is the whole gate).
+
+READING (12 cells x 280 runs per arm, 8% vol target, 2026-10-29 bar): buffer k=0.05 REJECT
+(median -0.030pp, 0/12 cells beyond their own band); cost 5bp NOT-SEPARABLE (+0.71pp, inside
+the band); 20bp REJECT (-1.41pp); 40bp REJECT (-4.19pp) with band_verdict
+CADENCE_BAND_SURVIVES_THE_TOLL. The grid's own verdict stays CONFIG_ORDER_WITHIN_PHASE_NOISE in
+5 of 5 arms.
+
+Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + results/etf_book_phase_atlas_arms.json
++ results/etf_book_phase_atlas_cost40.json (280 engine runs, 5 workers, 3.5 min) + S6 leg
+etf_book_phase_atlas_arms + research/digests/DIGEST-20261030-r1351-arms-gate.md.
+
+## E261 A tripwire that cannot be told "I meant that" gets relaxed instead of believed (2026-10-30 r1166 bm-a)
+
+WHEN: a guard fires on an action that was deliberate. Here the tree-shrink tripwire went red because
+r1164 deleted three scratch dumps on purpose (`results/_catalog_view.txt`, `results/_queue_open_bma.txt`,
+`results/_smoke_bma.err`), and its only exemptions were "the drop is under --max-drop" and "the tip
+recovers the files later" — neither can be true for a real, permanent, small deletion.
+
+WRONG: three tempting responses, all of which destroy the mechanism. (a) raise `--max-drop`, which
+also silences the 3,494-file partial-index shape the guard exists for; (b) restore files nobody reads
+so the count matches again; (c) leave it red and let the commit scroll out of the 20-commit window —
+which trains the next window to treat a red guard as weather.
+
+RIGHT: give the tripwire a declaration channel and make the declaration exact. `fleet/tree_shrink_declarations.json`
+lists commit + the paths it intends to delete. The guard clears a shrink ONLY when the declared path set
+EQUALS the commit's actual `D` set after normalisation; a wrong path, a subset, a superset or an
+unreadable file all stay red (selftest L13-L17). Mass deletion, partial index and "declare everything"
+are all still caught — the only thing that changed is that an honest deletion now has a legal way to say so.
+
+WHY: an alarm nobody can satisfy honestly is an alarm that gets muted. The failure mode is not the
+false positive itself but the fix it invites: r1135 already recorded the same shape in one sentence —
+"the cheapest fix for a permanently-red local leg is to relax the assertion". A tripwire needs an
+expiry for legitimate alarms, and that expiry must be narrower than the thing it guards.
+
+READING: Tool `Tools/tree_shrink_guard.py` (selftest 12 -> 17 legs) | declaration file
+`fleet/tree_shrink_declarations.json` (schema 1, `_law` header) | live check
+`python Tools/tree_shrink_guard.py check` -> CLEAN, "1 declared deletion(s), paths match exactly".
+Sibling face, same round: the heartbeat GPU face was half-owned again (free=2069 MiB beside
+free_vram_gb=1.7 from a 05:58 sample) and one `python Tools/gpu_face.py apply` healed all 29 keys
+back to a single probe — r1284's chokepoint worked exactly as designed once it was actually called.
+
+## E262 Before building the face, read the book page -- the ladder was already priced there (2026-10-30 r1167 bm-a)
+
+WHEN: this window opened with a real question -- the executable ticket parks ~53% of NAV in a
+one-day repo and labels it "cash at GC001", and nothing in the ticket said why o/n is the right
+tenor. I built a full `repo_ladder_menu` face for it: 12 selftest legs, aligned-date means, rolling
+realisation, a liquidity gate tied to the 28-day rebalance grid, yuan per year, chain + smoke legs.
+
+WHAT THE DUPLICATE CHECK FOUND: `scripts/etf_book_ceo_page.py::cash_ladder()` already answers it,
+and answers it better. It rolls every tenor on the panel's own calendar, models maturity friction
+(`idle_days`: a Thursday 7-day roll matures on a Sunday), reports the edge at 1y/3y/5y, counts
+positive years, applies a frozen adoption rule and prints a verdict -- and it already carries the
+rebalance-grid caveat ("if you only rebalance once a month, GC028 has 12 rolls and 10 idle days").
+The face I was writing was a strictly weaker second copy of a live, published, CEO-visible number.
+
+THE TWO THINGS WORTH KEEPING FROM THE EXERCISE:
+1. **The numbers agree, so the duplicate would have been invisible.** My aligned 250-session spread
+   (GC007 +11.5bp / GC014 +11.9bp) lands within a rounding of the page's +12.9/+13.2bp, and the
+   engine's own accrual over the last year (1.3217%) lands within 1bp of the page's rolled 1.3131%.
+   A second face that agrees is not a check -- it is a second thing to keep in step.
+2. **A window label is load-bearing when two right numbers disagree.** The ticket json carries
+   `cash_leg.mean_accrual_ann_pct = 2.087` (mean over the whole backtest) while the CEO page quotes
+   1.31%/1.09% (last 12 months / last quote). Both are correct; side by side they read as a
+   contradiction, and I chased that as a suspected bug for a probe before the windows explained it.
+   Fix: the ticket now ships `accrual_window {first,last,years}` beside the rate, and a selftest leg
+   pins it to the panel index it was averaged over.
+
+HOW TO APPLY: a round whose idea is "nobody prices X" must first grep the *consumer* faces, not the
+producer list -- `docs/live_book/`, `docs/live_usage/`, `results/etf_book_order/` -- because the
+expensive duplicates live where a reader already looks. Deleted rather than merged: the weaker copy
+was not worth keeping in step, and the selftest legs went with it.
+
+READING: removed `scripts/repo_ladder_menu.py` + `results/repo_ladder/` + chain leg `repo_ladder_menu`
++ the two smoke legs (tree returns to origin for all four) | kept `scripts/etf_book_order.py:cash_leg
+.accrual_window` + its selftest leg | the live answer stays
+`docs/live_book/LIVE-BOOK-<date>.md` section "现金腿要不要放长一期" -- verdict: do not lengthen.
+
+
+## E263 A label that an effect-free panel also receives is not a measurement (2026-10-30 r1352 bm-c)
+
+WHEN: a rule hands out categorical verdicts (REJECT / NOT-SEPARABLE / ADOPT) over a handful of
+cells whose own noise band is wider than the rule's numeric thresholds, and the verdict is about
+to be quoted as a finding. On this repo's phase grid the band is ~6.6pp per cell while the cell
+floor was −0.15pp, so the two quantities never met.
+
+RIGHT: calibrate the labeler before reading its output. Re-run the same rule on the same cell
+widths with the effect removed (each cell's delta drawn from N(0, band/3.2905) -- p95-p05 of a
+normal is 3.2905 sigma), seeded, many trials, importing the rule rather than copying it. Then:
+  * a label that the null panel also receives is not evidence. Measured here: REJECT **96.48%**,
+    NOT-SEPARABLE 3.52%, ADOPT 0.00% over 20,000 trials;
+  * only the rare branches carry information. The three arms reading NOT-SEPARABLE (p = 0.035)
+    say "not worse" -- a statement about sign, still silent about size;
+  * the mechanism is arithmetic and should be printed with the result: a cell floor 13.5x smaller
+    than one sigma makes about half the cells land under it by chance, so the "not-worse share
+    >= 0.80" condition fails by construction.
+
+WRONG: (a) reading a REJECT as a refutation when the empty panel reads REJECT by default -- it
+is the branch the rule takes when its own threshold is inside the noise; (b) answering the
+"tiny real effect vs noise" question by adding more arms (k=0.05 / 0.10 / 0.20 all sit inside
+their bands and the sign flips between the outer two in 3 of 12 cells): arm count cannot fix a
+degenerate label distribution, only the ruler can; (c) fixing the ruler by editing the frozen
+constants -- that is the E188 line, so it has to be a new pre-registered rule applied
+prospectively.
+
+READING: faces `results/etf_book_rule_null.json` (label frequencies + per-arm
+`null_p_same_or_worse`) and `results/etf_book_phase_atlas_arms.json` (six arms);
+scripts `scripts/etf_book_rule_null.py` (selftest 10) and `scripts/etf_book_phase_atlas_arms.py`
+(selftest 38, including "each face carries the knob its own name declares");
+digest `research/digests/DIGEST-20261030-r1352-buffer-family.md`.
+Buffer family closed: 0 of 36 cell deltas beyond their own band -- not adopted, not re-stocked;
+the three follow-up rows stocked instead are k=0.02, k=0.40 and the buffer x toll interaction.
+
+## E264 A knob has no size until both ends are priced -- and a toll is not a thing you can buffer away (2026-10-30 r1353 bm-c)
+
+WHEN: a family is closed on the strength of several arms that all landed inside their own noise
+band, and the closing sentence is "the effect is small". On this repo's phase grid the three
+buffer arms (k=0.05 / 0.10 / 0.20) read -0.030 / +0.072 / +0.138pp against a per-cell band of
+~6.6pp -- methodologically "inside the band", but only about the MIDDLE of an axis nobody had
+measured the ends of.
+
+RIGHT: before quoting "small", price the axis at both ends with the same frozen rule:
+  * k=0.02 -> -0.018pp, 0/12 cells clear their band, NOT-SEPARABLE;
+  * k=0.40 (8x the original arm) -> +0.318pp, still 0/12 clearing, and the only buffer arm to
+    read REJECT -- because the far end raises the spread with the mean (3/12 cells under the
+    -0.15pp floor, not-worse share 0.750 < 0.80);
+  * the sweep 0.02 -> 0.40 spans 0.34pp, i.e. 1/20th of one band. Monotone, real, unresolvable.
+Then test the interaction the two closed families never met: buffer k=0.05 at 20bp/side reads
+-1.460pp against the no-buffer toll's -1.410pp -- the buffer recovers NOTHING of the 1.41pp,
+and its interaction (-0.05pp) is the same size and sign as its own 10bp reading.
+
+WRONG: (a) calling a family closed on its middle and leaving "maybe a different strength" alive;
+(b) reading the far end's REJECT as "the buffer hurts" when its median is the most positive of the
+five arms -- the label moved because dispersion moved; (c) assuming a benign knob will neutralise
+a cost axis just because both are "small effects"; (d) leaving a stocked row unignitable. The three
+follow-up rows had been entered without a `shards` array, so the picker skipped them as "no
+takeable shard" and the tick published `pool_empty_or_busy` while py sat at 5-7%. The submit gate
+already refuses that shape (r301); it came back by hand. `_ghost_ready_ids()` now reports such rows
+as `ghost_ready_no_shards` instead of letting them hide inside an empty-pool reading.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` (9 arms, selftest 50, `--check` green) +
+`results/etf_book_phase_atlas_arms.json` + `research/ETF_BOOK_PHASE_ATLAS_ARMS.md` +
+`Tools/autofill.py::_ghost_ready_ids` (selftest S20g2-S20g5) +
+`research/digests/DIGEST-20261030-r1353-buffer-axis-ends.md`.
+
+## E265 A retired family owes a SIZE in the knob's own units, not just a verdict (2026-10-30 r1354 bm-c)
+
+WHEN: a family closes as "unmeasurable at every strength". That is a statement about the ruler
+relative to a DIRECTION, and it leaves the natural follow-up unanswered: how strong would the knob
+have to be to be seen? Without that number the closure is one bad day away from being re-litigated
+("what about k=0.35?") at 280 engine runs a try.
+
+RIGHT: fit the axis you already measured and answer in the knob's own units. Five buffer arms
+(k=0.02 / 0.05 / 0.10 / 0.20 / 0.40) plus the k=0 IDENTITY anchor give +0.862pp of median CAGR per
+unit k, r2 0.965 -- near-linear across a 20x sweep. Against the ruler (baseline median cell band
+6.68pp) the axis would have to reach k=7.79 to register. k is the SHARE OF A TRADE the book is
+willing to execute, so k=1.0 already means "trade the whole move instantly" and k>1.0 is not a
+bigger buffer, it is refusing to trade -- the requirement is UNREACHABLE BY CONSTRUCTION, which is
+a different fact from "untested". The whole measured sweep spans 0.318pp = 0.050 of the ruler.
+
+WRONG: (a) publishing "0/12 cells at every strength" and calling the axis closed -- true, and
+re-openable by anyone who names a different k; (b) extrapolating a k into existence without
+publishing the fit's r2 and the axis END (an answer outside the knob's domain is arithmetic, not a
+candidate); (c) treating the k=0 baseline as a sixth experiment (its delta is zero by definition --
+an identity anchor, and it must be labelled as one); (d) fitting through zero without checking the
+intercept, which for this axis is -0.031pp, i.e. the line does pass near the identity.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--floor` / `--floor-check` (selftest 60) +
+`results/etf_book_buffer_resolution_floor.json` + `research/ETF_BOOK_BUFFER_RESOLUTION_FLOOR.md` +
+`Tools/s6_chain_bmc.py` leg `etf_book_buffer_floor` +
+`research/digests/DIGEST-20261030-r1354-buffer-floor.md`.
+
+## E266 Test the SIGN of the rungs before you fit a slope (2026-10-30 r1355 bm-c)
+
+WHEN: a knob is retired as "not quotable" and someone asks the E265 question of it. A line through
+a hill has a slope, and that slope will happily produce a "names/units required" number with an r2
+attached.
+
+RIGHT: run a sign test over the adjacent rungs FIRST, and fit only if the rungs agree. On the width
+ladder (N=3/5/8/12 x R=10/20/40, published baseline grid, cutoff 2026-10-29) 5 of 9 rungs point up:
+R10 +0.58 / +0.50 / -0.37, R20 +0.42 / +1.00 / -0.49, R40 +1.54 / -0.02 / -0.76. Sign agreement
+0.556 against a 0.75 floor, peak at N=8 with N=12 worse in ALL THREE cadences, so the verdict is
+DIRECTION_NOT_A_SIZE before any arithmetic. The arithmetic is still worth publishing beside it
+(+0.114pp per name, r2 0.525, so a full 6.68pp ruler would need 58.7 names of runway, i.e. width
+61.7 against the widest rung anyone has priced, N=20) -- but as a coda, not as the answer.
+
+WRONG: (a) fitting first and reporting "width 61.7 needed" -- true arithmetic, and it invites
+someone to buy 61 names and expect a ruler-width move out of a non-monotone ladder; (b) borrowing
+the buffer floor's continuous-k machinery for a discrete knob: k has an algebraic end (k=1.0 =
+never trade), names have only a PRICED envelope, so the envelope has to be named with a source
+("widest rung in results/etf_capacity_frontier.json") instead of derived; (c) quoting the hill
+without a second engine. The capacity face prices the same ladder on its own universe: R20 descends
+monotonically (15.56/15.00/14.03/12.64) while R40 ascends monotonically (10.04/10.71/11.28/11.32),
+so the sign flips between cadences and the atlas's hill does not reproduce. A shape a second engine
+cannot reproduce is a panel artefact and belongs next to the verdict, not in a drawer.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--width` / `--width-check` (selftest 74) +
+`results/etf_book_width_resolution_floor.json` + `research/ETF_BOOK_WIDTH_RESOLUTION_FLOOR.md` +
+chain leg `etf_book_width_floor` + `research/digests/DIGEST-20261030-r1355-width-floor.md`.
+
+## E267 An extrapolated fit is tested by whichever pool row lands in its widest gap (2026-10-30 r1355 bm-c)
+
+WHEN: a published fit answers by continuing a line past its last measured point (E265's k=7.79 came
+from 0.02..0.40 and was quoted for a knob range it never touched).
+
+RIGHT: stock the row that lands inside the fit's widest gap, and when the pool harvests it, read it
+back against the line -- with the tolerance derived from the fit's OWN residual scale rather than
+chosen. Here the harvested arm is buffer k=0.30 (the midpoint of 0.20->0.40): the fit predicted
++0.228pp, the arm's 12 cells say +0.260pp, gap +0.032pp against a tolerance of 0.127pp (= 3x the
+largest in-sample residual, 0.042pp, floored at 0.05). Verdict HOLDS, and the line gains a point it
+never saw. The same arm publishes its own spread (-0.72 .. +1.24pp across cells): the median
+agreeing with the line is not the book agreeing with the line.
+
+WRONG: (a) reading a harvested face without checking the knob it declares -- a face wired to the
+wrong arm answers a different question, so the read-back refuses to assess unless the face's own
+audit says k=0.30; (b) a fixed "0.1pp is close enough" tolerance, which is either loose enough to
+pass anything or tight enough to fail a correct fit depending on the axis; (c) publishing the
+verdict only in the round report, where an untested extrapolation and a tested one look identical.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--readback` / `--readback-check` +
+`results/etf_book_buffer_floor_readback.json` + `research/ETF_BOOK_BUFFER_FLOOR_READBACK.md` +
+chain leg `etf_book_buffer_readback` + `smoke_test.py` leg that re-derives both r1355 verdicts from
+the published numbers.
+
+## E268 A rung taken as a difference of medians is not the median of the paired differences (2026-10-30 r1356 bm-c)
+
+WHEN: two configurations are compared by subtracting their summary medians (a "ladder rung", a
+"cell delta"), and the same two configurations were measured on the SAME sample points.
+
+RIGHT: pair first. The atlas carries one row per decision origin of a complete rebalance cycle, so
+the 12-name vs 5-name step is a vector of 20 paired differences; its median is **+0.090pp** with
+**10 up / 10 down**, while the ladder's published rung (difference of the two medians) is
++0.515pp. The 0.425pp between them is the aggregation, not the book — 83% of the published number.
+Publish the deltas on the face (`paired.deltas_pp`) so a reader and the smoke leg rebuild the
+median, the sign split and the verdict from the face itself.
+
+WRONG: (a) reporting only the difference of medians because that is how the ladder was built —
+it silently mixes the phase-level variation of the two cells into the effect; (b) repairing the
+gap by re-running the engine on "the same" calendar, which is what r1325 already showed is one
+sample of the cycle, not a pairing; (c) quoting the magnitude once it is smaller without saying
+its direction is a coin flip — 10/20 up means the step has no sign to interpret.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--live-widths` /
+`--live-widths-check` + `results/etf_book_live_width_ruler.json` +
+`research/ETF_BOOK_LIVE_WIDTH_RULER.md` + chain leg `etf_book_live_widths` + smoke leg that
+recomputes the paired median, sign agreement and label from `paired.deltas_pp`.
+
+## E269 Compare a rung to a rung: a level gap and a difference are different units (2026-10-30 r1356 bm-c)
+
+WHEN: one published engine's result is used to falsify another's, and the two engines report
+numbers at different points of the same axis (atlas 9.64pp vs capacity 14.03pp at 12 names = a
+4.38pp LEVEL gap; the same two faces give a 0.515pp RUNG at the same step).
+
+RIGHT: the comparator is the difference-of-differences — this engine's 5→12 step against the other
+engine's 5→12 step — because that is the only pair of quantities with the same units. Here the
+rung reads +0.515pp on the atlas engine and −1.530pp on the capacity engine: 2.045pp of
+disagreement **with the sign flipping**, which is what makes the step unadjudicable. The level gap
+is published beside it as a disclosure with the sentence "a level is not a rung" and it never
+enters the gate. A fixture with a 10pp level gap and a 0.5pp rung confirms the gate reads the rung.
+
+WRONG: (a) letting a 6.4pp level gap absorb a 0.09pp rung, which turns any second engine into a
+free pass — "the engines disagree by more than the effect, therefore the effect is unresolved"
+would be true for every effect on that axis; (b) the mirror error, using a level gap to *confirm*
+an effect because it is "large enough"; (c) merging two numbers from different quantities that
+happen to land on the same basis point — here the beta-rule width effect and the capacity rung are
+both −1.530pp, and the face publishes the collision with an explicit "coincidence, not agreement"
+line instead of letting it read as corroboration.
+
+READING: same face as E268 (`engine_disagreement.rung_disagreement_pp` /
+`level_gap_pp`) + `as_issued.coincidences` + selftest legs L26 (level gap is not the gate) and
+L28 (the collision is published, not merged).
+
+## E270 A published verdict must be recomputed where it is used, and the same rule spelled two ways is not two rules (2026-10-30 r1356b bm-c)
+
+Two defects, one face, both found only because the number was pushed onto the order sheet:
+
+(a) **A label carried across a boundary stops being a measurement.** `results/etf_book_live_width_ruler.json`
+publishes `verdict = COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT`. The order sheet now recomputes that
+verdict from the face's own published numbers (`|paired median| < |5->12 rung disagreement|` and
+`sign_agreement <= sign_split_max`) instead of copying the string; if the two disagree the state is
+`inconsistent` and the reader is told. Cheap to write, and it is the only thing that keeps the
+label from surviving the numbers that produced it (r1266 family).
+
+(b) **Two faces spelling one arm differently will look like two different books.** The card
+artefact writes its leverage rule as `vol`, the atlas writes the same arm as `vol_target`. The
+first version of the widths check compared those strings literally, so a healthy face reported
+`widths_moved` on every read -- a gate that fires always is a gate nobody reads. Fix: compare a
+normalised key (`lower().replace("_target","")`) and keep the raw spellings in the published block
+so the mismatch stays visible rather than erased.
+
+READING: fresh states worth having on any read-back face -- `inside_disagreement` / `separated` /
+`inconsistent` / `widths_moved` / `stale` (cutoff age) / `unavailable`. Each needs its own fixture:
+the stale and the widths-moved cases are exactly the ones a clean "verdict" would otherwise keep
+printing forever.
 
 ### E225 -- a continuous weight buys sessions, not resolution; their payoff is not the gate's (r1252 bm-b)
 
@@ -4203,7 +5823,6 @@ S6 leg timing_selection immediately after matched_exposure; smoke leg re-adds th
 channels, refuses a face whose parts do not reconstruct its own pair, and refuses a binary
 arm that publishes a covariance.
 
-
 ### E230 -- the toll is buyable, but the buy rarely pays for itself (r1256 bm-b)
 
 E229 established that the only channel separating these gated rules from a flat constant is
@@ -4250,32 +5869,6 @@ Pieces: scripts/e230_hysteresis_toll.py (run / selftest, 15 hermetic legs); face
 results/state_tilt/HYSTERESIS-<cutoff>.json + hysteresis_latest.json + hysteresis_by_rung
 csv; S6 leg hysteresis_toll after timing_selection; smoke leg re-adds each rung's split,
 refuses a fix under the bar or on a collapsed rule, and requires a rung-0 baseline per arm.
-
-### E231 -- a path test answers with a share, and the families must stay apart (r1257 bm-b)
-
-E230 left one of thirty cells above its bar, at the smallest band in the grid. Re-measuring
-that grid on 25 panel-paths (split offsets, execution lags, calendar eras) separates three
-facts that a single cell conflates: the SIGN is robust (12/12 paths positive), the SIZE is
-not (8/12 clear the bar; lags 2-3 miss), and the MAGNITUDE is a full-sample artefact (inside
-either era the improvement shrinks ~3.5x to 77-81 bp/yr at t 1.4-1.8 and cannot resolve).
-Zero of 48 cells survive every path.
-
-Three rules:
-1. Report the share of paths that keep the sign AND the share that clear the bar. They are
-   different claims; printing only the first reads as a confirmation.
-2. Never merge path families into one range. Moving the split/lag re-measures one sample;
-   re-deriving inside an era is a different experiment. Merged, the median is the
-   full-sample number and it stands in for a statement about a period. Publish the families
-   apart and pin the separation in a selftest leg.
-3. Give the arm the weaker bar deliberately -- reuse the previous study's frozen bar rather
-   than deriving one that fits this sweep, so the rejection is a line the arm was already
-   granted. Publish the strict bar beside it without letting it rescue anything.
-
-Pieces: scripts/e231_band_path_test.py (run / selftest, 18 hermetic legs); face
-results/state_tilt/BANDPATH-<cutoff>.json + bandpath_latest.json + bandpath_by_cell csv;
-S6 leg band_path_test after hysteresis_toll; smoke leg cross-replays the global path against
-E230's published cell (1e-6 bp / 1e-9 t), refuses a survivor without a clean sweep, and keeps
-the two path families from being merged.
 
 ### E232 -- a cost model is a design choice, so every conclusion through it owes a curvature sweep (r1258 bm-b)
 
@@ -4347,46 +5940,6 @@ results/state_tilt/EMPIRICAL-GAMMA-<cutoff>.json + empirical_gamma_latest.json; 
 empirical_gamma after cost_curvature; smoke leg requires a published interval containing the
 point estimate, the interval endpoints among the re-derived points, a surviving toll channel,
 a stable/inside partition of the ladder cells, and the bridge disclosure.
-
-### E234 -- a book-level parameter is an average until you measure its members (r1260 bm-b)
-
-E233 measured ONE exponent per panel, but the book holds five instruments with different
-liquidity and history (sh588000 only starts in 2020), so the book-level number could be a
-mixture charged to four sleeves that do not share it. Estimator B per member gives
-sh510300 0.928 [0.830, 1.026], sh510050 0.760 [0.674, 0.847], sh510500 0.416 [0.306, 0.527],
-sh512100 0.414 [0.332, 0.496], sh588000 1.456 [1.310, 1.602]: eight of ten member pairs have
-DISJOINT intervals, and a pooled fit with five member intercepts lands at 0.622 [0.567, 0.676]
-with four of five members outside it. The single exponent is a summary of a spread, not a
-property of the book.
-
-The load-bearing part is the cost of acting on that: re-pricing the movement bill with each
-sleeve on its own exponent (cost_book(dw) = sum_i c*(|dw|/N)**gamma_i, which collapses to the
-linear bill only when every gamma_i = 1) multiplies the bill 1.6x..3.5x -- but almost all of
-that is the SPLIT, not the mixture. Charging the same five-sleeve formula with one pooled
-exponent already accounts for +1289/+2193/+4015 bp (binary_low/tilt_step/tilt_linear) while the
-per-member exponents add only -305/-319/+289 bp. Granularity is a first-order design choice;
-the mixture is a second-order correction that can take either sign.
-
-The family verdicts survive both: the toll clears its bar (3.26 over the 15 cells) on 3 of 3
-arms under the per-member charge with |t| -6.37/-9.97/-10.27, selection stays inside it
-(binary_low +1.32, the tilt arms -0.34), and only 2 of 6 ladder cells change verdict (both the
-0.10 band, which is E230's own focus band). The era question closes honestly too: the 2017+
-exponent 0.883 sits INSIDE the full-sample interval 0.928 [0.830, 1.026], and re-deriving the
-ladder at the era-measured exponent changes 0 of 6 cells -- so no part of that conclusion was
-an artefact of borrowing a longer sample's number.
-
-Pit: a pooled fit that drops the lagged magnitude/volume controls is the naive estimator
-wearing the controlled one's name, and it reported 0.051 with "5 of 5 members outside the
-pooled interval" -- comparing a naive pooled slope against controlled member slopes. Caught
-before the face was published, pinned by a selftest leg that asserts the pooled specification
-carries the same regressors as the member fits. Sibling: the per-member bill alone would have
-been read as the mixture effect, so the same-granularity control is mandatory, not decorative.
-
-Pieces: scripts/e234_per_member_gamma.py (run / selftest, 14 hermetic legs); face
-results/state_tilt/PER-MEMBER-GAMMA-<cutoff>.json + per_member_gamma_latest.json; S6 leg
-per_member_gamma after empirical_gamma; smoke leg requires per-member intervals containing
-their points, a pooled fit carrying the member specification, a compatibility verdict that
-names its breakers, and a bill whose mixture term closes against the granularity control.
 
 ### E235 -- when two regressors can trade places, the split is unmeasured (r1261 bm-b)
 
@@ -4468,7 +6021,6 @@ Runner `scripts/e236_share_difference.py` (selftest 18/18), face
 `results/state_tilt/SHAREDIFF-<cutoff>.json`, S6 leg `share_difference` after
 `charge_granularity`, smoke leg requiring the absorbed-aggregate disclosure and that an
 unresolved verdict publishes no granularity charge.
-
 
 ### E237 -- an artefact claim needs a control that is not a component of the dependent variable (r1263 bm-b)
 
@@ -4681,6 +6233,7 @@ Three mechanics, each of which invalidated something E240 published:
 (3) `b_one - b_rest` is not a pair. It prices one member against the SUM of k-2 others, so its sign is a property of the sum's composition. When the rest channel is heterogeneous there is no single difference to estimate, and 9/20 mixed-sign exclusions are what that looks like from outside.
 
 How to apply: (1) before publishing a mean across pairs/cells, count how many of those cells' own intervals exclude zero and publish the count -- a mean of heterogeneous quantities is a number that no cell reports; (2) an interval built from a spread across units is a precision statement about the mean, not an identification statement about the effect -- pair it with the units' own intervals and use the wider one; (3) when a second aggregator "confirms" a verdict, prove that it can DISAGREE first: run it on a fixture whose truth is the opposite sign (the pooled design here fails that test at 1e-15); (4) a verdict whose interval exceeds the resolution line is NOT-ASSESSED, and "failed to reject" must never be journaled as "supported".
+
 ### E244 -- two signs are not two channels: a member that pays more than the rest casts its mirror into the sum (r1270 bm-b)
 
 E243 killed the additivity verdict and left the structure unnamed (9 of 20 ordered pairs clear of zero, both signs). E244 reads those published intervals (sha256 recorded, nothing transcribed) and asks where the spread lives. Answer: on WHO is singled out. Variance over 152 pairs: counterparty identity 50.7% / own identity 0.1% / residual 49.5%; two repeatable carriers with one sign each -- sh588000 +0.800 over 22 decisive pairs in 8 cells, sh512100 -0.498 over 9 pairs in 6 cells -- every other member mixing signs and therefore not a carrier.
@@ -4688,7 +6241,6 @@ E243 killed the additivity verdict and left the structure unnamed (9 of 20 order
 The reusable law: since diff = b_one - b_rest3, a member that pays MORE than the rest reads POSITIVE when it is the counterparty and NEGATIVE for every ordinary member, because it sits INSIDE the sum they are priced against. That mirror is arithmetic, not a second channel -- the deviant has three roles (own / counterparty / inside the sum) and only the third casts it. So a sign split can never name two channels; a split needs a repeatable name on each side, and the mirror ratio must be published beside it (1.61 against a frozen floor 1.50).
 
 Two traps: (1) a NOISELESS fixture makes every regression fit exactly, every interval zero-width and every pair 'decisive' -- the carrier test named three carriers on a one-deviant book (same family as E238's degenerate-panel refusal: put noise in the fixture); (2) 'ordinary-vs-ordinary pairs read ~0' is false -- they read the mirror too, so the structural claim has to be about the deviant's three roles, and the stragglers that appear off the deviant in small cells are counted, not denied. Overlapping cells are repeats, never replications (published as independent_observations=false).
-
 
 ### E245 -- "the rest channel" is a star, and the sum design is what hid it (r1271 bm-b)
 
@@ -4715,7 +6267,6 @@ E246 left four of six cells undecided (median half-widths 0.42..0.51 against a f
 The reusable law: **before recommending "more data", ask whether the window can produce it.** A calendar slice with a closed upper bound converts an unresolved coefficient into a permanently unresolved one, and the two cases must not share a verdict word -- unreachable_window_closed versus open_but_needs_sessions is the whole product. A session shortfall is also not a date: it is a lower bound that assumes the design and the effect's variance hold.
 
 Three traps: (1) half-width arithmetic is only valid for a fixed design -- it says nothing about a redesign that trades history for members; (2) a "decided" cell must be read against the same bound the face froze, not a bound re-chosen after the fact; (3) a closed-window cell still reports its shortfall number, but the verdict must not let a reader act on it (the count exists, the sessions do not).
-
 
 ### E248 -- a coefficient read against a model is not a coefficient: spend the design's own null (r1274 bm-b)
 

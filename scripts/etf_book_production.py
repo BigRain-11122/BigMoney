@@ -16,6 +16,7 @@ caveats (survivorship in the ETF pool, IS-heavy history, 2026 flat) travel on th
   python scripts/etf_book_production.py run [--capital=1000000] [--n=8] [--rebal=20]
   python scripts/etf_book_production.py --selftest      # offline invariants
 """
+import glob
 import json
 import os
 import shutil
@@ -37,6 +38,64 @@ IS_END = "2023-12-31"
 COST = 0.0010
 TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
+VT_TAIL_FILE = "etf_book_voltarget_tail.json"
+
+
+def vol_overlay_tail_support():
+    """Read the paired-bootstrap tail face (E253) -> what the 8% overlay is worth at the tail.
+
+    The card has always said the vol target "is a drawdown tool, not an edge", and every number
+    behind that sentence was a median or a single path (r1360 / E253). The face marks the same
+    overlay on the DRAWDOWN TAIL with both books sharing one draw per resample, so the sentence
+    can carry the number instead of the impression. Soft-fails to None: a missing face must
+    never invent a number or break the production face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_book_bootstrap", VT_TAIL_FILE)
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    v = doc.get("verdict") or {}
+    share = v.get("tail_share_of_middle")
+    if share is None:
+        return None
+
+    def pp(key):
+        x = v.get(key)
+        return None if x is None else round(100.0 * float(x), 2)
+
+    return {
+        "artifact": "results/etf_book_bootstrap/" + VT_TAIL_FILE,
+        "evidence_cutoff": doc.get("evidence_cutoff"),
+        "bars": doc.get("bars"),
+        "resamples": doc.get("n_resamples"),
+        "blocks": [a.get("block") for a in (doc.get("arms") or [])],
+        "median_maxdd_delta_pp": pp("median_maxdd_delta_median"),
+        "p1_maxdd_delta_pp": pp("p1_maxdd_delta_median"),
+        "median_cagr_delta_pp": pp("p50_cagr_delta_median"),
+        "tail_share_of_middle": float(share),
+        "tail_is_mostly_a_middle_effect": v.get("tail_is_mostly_a_middle_effect"),
+    }
+
+
+def vol_overlay_tail_sentence(face=None):
+    """One sentence for a human, built from the measured face -- never from a literal number."""
+    line = "The vol target only de-levers; it is a drawdown tool, not an edge."
+    f = vol_overlay_tail_support() if face is None else face
+    if not f:
+        return line + " (its draw-tail price is not measured on this build)"
+    mid, p1, cagr = (f.get("median_maxdd_delta_pp"), f.get("p1_maxdd_delta_pp"),
+                     f.get("median_cagr_delta_pp"))
+    if mid is None or p1 is None:
+        return line + " (its draw-tail price is not measured on this build)"
+    return line + (
+        " Priced on the draw tail (paired bootstrap, %s resamples, blocks %s): the median "
+        "drawdown gain is %+.2fpp but only %.0f%% of it survives at the worst 1%% of histories "
+        "(%+.2fpp)%s -- mostly a middle-path tool."
+        % (f.get("resamples"), "/".join(str(b) for b in (f.get("blocks") or [])),
+           mid, 100.0 * f["tail_share_of_middle"], p1,
+           "" if cagr is None else ", bought with %+.2fpp of median CAGR" % cagr))
 
 
 def commodity_support():
@@ -260,6 +319,88 @@ def spanning_pre2020_support():
         return None
 
 
+def drawdown_band_support():
+    """Read the bootstrap block arms -> how bad can this book's drawdown be?
+
+    r1348: the card prints ONE drawdown (-12.5%) computed on one ordering of the trading
+    days, while the block bootstrap of the same book puts the 5th-percentile drawdown
+    between -17.1% and -25.0% depending on the block length -- i.e. the card's number is a
+    median of a ruler, not a tail. A tail sentence must travel with the parameter that
+    produced it (E248), and the page a human reads is where the tail matters most.
+    Soft-fails to None (a missing artefact must never break the production face) and
+    refuses to interpolate: if the arms are for a different cutoff than the card's bar,
+    the band is reported as stale rather than passed off as today's.
+    """
+    d = os.path.join(E.PATHS.results_dir, "etf_book_bootstrap")
+    try:
+        files = sorted(glob.glob(os.path.join(d, "BLOCKS-*.json")))
+        if not files:
+            return None
+        p = files[-1]
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or []
+        if len(arms) < 2:
+            return None
+        band = {
+            "artifact": os.path.relpath(p, os.path.dirname(E.PATHS.results_dir)).replace("\\", "/"),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
+            "block_set": [a.get("block") for a in arms],
+            "n_resamples": (arms[0].get("n_resamples")),
+            "arm_rows": [{"block": a.get("block"),
+                          "maxdd_p5": (a.get("maxdd") or {}).get("5"),
+                          "maxdd_p50": (a.get("maxdd") or {}).get("50"),
+                          "dd_break_share": (a.get("shares") or {}).get("maxdd_le_line"),
+                          "point_pctile_maxdd": (a.get("point_pctile") or {}).get("maxdd")}
+                         for a in arms],
+            "maxdd_p5_band": doc["spread"]["maxdd_p5"],
+            "maxdd_p50_band": doc["spread"]["maxdd_p50"],
+            "dd_break_band": doc["spread"]["dd_break_share"],
+            "readings": doc.get("readings"),
+        }
+        band["band_pp"] = abs(band["maxdd_p5_band"]["max"] - band["maxdd_p5_band"]["min"]) * 100
+        return band
+    except Exception:
+        return None
+
+
+def drawdown_band_paragraphs(band, card_maxdd):
+    if not band:
+        return ["No bootstrap band on disk: the drawdown above is a single-path number and "
+                "its tail is unpublished. Run scripts/etf_book_nav_envelope.py.", ""]
+    a = band["maxdd_p5_band"]
+    m = band["maxdd_p50_band"]
+    br = band["dd_break_band"]
+    lines = [
+        "The drawdown column above is one ordering of the trading days. Bootstrapping the "
+        "book's own return path (blocks %s bars, %d resamples) puts the 5th-percentile "
+        "drawdown between **%.1f%% and %.1f%%** and the median between %.1f%% and %.1f%% -- "
+        "a spread of %.1fpp produced by the block length alone, i.e. by how long the ruler "
+        "remembers dependence."
+        % ("/".join(str(b) for b in band["block_set"]), band["n_resamples"] or 0,
+           a["min"] * 100, a["max"] * 100, m["min"] * 100, m["max"] * 100, band["band_pp"]),
+        "",
+        "| block (bars) | maxDD p5 | maxDD p50 | share worse than -20% | point maxDD pctile |",
+        "|---|---|---|---|---|",
+    ]
+    for r in band["arm_rows"]:
+        lines.append("| %s | %s | %s | %s | %s |" % (
+            r["block"],
+            "-" if r["maxdd_p5"] is None else "%.2f%%" % (r["maxdd_p5"] * 100),
+            "-" if r["maxdd_p50"] is None else "%.2f%%" % (r["maxdd_p50"] * 100),
+            "-" if r["dd_break_share"] is None else "%.1f%%" % (r["dd_break_share"] * 100),
+            "-" if r["point_pctile_maxdd"] is None else "%.1f" % r["point_pctile_maxdd"]))
+    lines += ["",
+              "Read the card's own %.1f%% as the median of that ruler, not its tail: size the "
+              "position against the p5 column, which is %.1fpp worse than the headline at the "
+              "widest block." % (card_maxdd * 100, abs(card_maxdd - a["min"]) * 100), ""]
+    if band["evidence_cutoff"]:
+        lines += ["> Band priced on the **%s** bar from %s. A tail quoted without its block is "
+                  "a sentence without its parameter (E248)." % (band["evidence_cutoff"],
+                                                                band["artifact"]), ""]
+    return lines
+
+
 def preperiod_support():
     """Read results/etf_book_pre2020.json -> the one-line out-of-period verdict.
 
@@ -352,6 +493,39 @@ def hysteresis_support():
                       "maxdd": stats(a).get("maxdd")} for a in arms],
             "best_arm_k": (best or {}).get("k"),
             "caveats": (doc.get("caveats") or [])[:2],
+        }
+    except Exception:
+        return None
+
+
+def sign_pit_support():
+    """Read results/etf_sign_pit.json -> are this book's factor signs knowable in real time?
+
+    E205 (r1335): the six SIGNS are exactly the panel's full-sample IC signs, so the book is
+    priced with knowledge of which way each factor paid. scripts/etf_sign_pit.py prices the
+    honest arm (signs from already-realised windows only) on the same engine. That number
+    belongs on the card: a reader deciding whether to run this book is reading a period, and
+    the card must say so. Soft-fails to None -- a missing artefact never breaks the face.
+    """
+    p = os.path.join(E.PATHS.results_dir, "etf_sign_pit.json")
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        s = doc.get("summary") or {}
+        if s.get("cagr_fixed") is None or s.get("cagr_pit") is None:
+            return None
+        matches = doc.get("fixed_sign_matches_full_sample_ic") or {}
+        return {
+            "artifact": "results/etf_sign_pit.json",
+            "verdict": doc.get("verdict"),
+            "n_factors": len(matches),
+            "n_match": sum(1 for v in matches.values() if v),
+            "cagr_fixed": float(s["cagr_fixed"]),
+            "cagr_pit": float(s["cagr_pit"]),
+            "sharpe_fixed": float(s.get("sharpe_fixed") or 0.0),
+            "sharpe_pit": float(s.get("sharpe_pit") or 0.0),
+            "cagr_reversed": float(s.get("cagr_reversed_sign") or 0.0),
+            "evidence_cutoff": doc.get("evidence_cutoff"),
         }
     except Exception:
         return None
@@ -543,6 +717,17 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         })
     legs.sort(key=lambda r: -r["amount_cny"])
 
+    # r1342: the printed amount column is the EXECUTABLE one. A weight times capital is a
+    # target, not an order: only whole 100-share lots can be placed, so the desk can only
+    # spend less than the target and the difference lands in cash. Until now the card
+    # printed targets and a cash row of (1 - k) * capital, which overstated money at work
+    # (E201 measured 0.13% NAV) and made a cross-face check against the ticket read
+    # "different book" every round. Targets are still published beside the executable
+    # column -- the fix is a second column, not a hidden rounding.
+    target_book = sum(float(l["amount_cny"]) for l in legs)
+    spent = sum(float(l["actual_amount_cny"]) for l in legs
+                if l["actual_amount_cny"] is not None)
+
     op_dates = [d for d in openp.index if d >= pd.Timestamp(R.START)]
     grid = grid_position(op_dates, last, rebal)
 
@@ -561,7 +746,17 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "realised_book_vol_60d": None if realised_vol is None else round(realised_vol, 4),
         "risk_scale": round(scale, 4),
         "cash_weight": round(cash, 4),
+        # E230: two cash readings, both published. cash_amount_cny keeps its old meaning
+        # (the risk scale's own slot, (1 - scale) * capital) because other faces already
+        # consume it; cash_executable_cny is the money that actually cannot be invested
+        # once lots are whole, and it is the row the ticket reconciles against.
         "cash_amount_cny": round(cash * capital, 0),
+        "cash_executable_cny": round(capital - spent, 0),
+        "amount_column": "executable",
+        "book_target_cny": round(target_book, 0),
+        "book_executable_cny": round(spent, 0),
+        "lot_residual_cny": round(target_book - spent, 0),
+        "lot_residual_pct_nav": round(100.0 * (target_book - spent) / capital, 4) if capital else None,
         "legs": legs,
     }
 
@@ -569,6 +764,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     # r1287: the card is the sheet a human reads, so it states out loud which bar it was
     # priced on against the official calendar -- the panel cannot judge this by itself.
     feed = CA.live_ticket_feed_status(last)
+    vt_tail = vol_overlay_tail_support()
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
@@ -581,11 +777,12 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                    "execution": "decide at close t -> fill at open t+1 -> hold to next rebalance"},
         "backtest": runs,
         "vol_delivery": dv,
+        "vol_overlay_tail": vt_tail,
         "sheet": sheet,
         "caveats": [
             "ETF pool is today's listed set: survivorship inflates the equity sleeve.",
             "2020-2023 contributes ~5.8%/yr; most of the return sits in 2024+.",
-            "The vol target only de-levers; it is a drawdown tool, not an edge.",
+            vol_overlay_tail_sentence(vt_tail),
             "Delivered vol is not the label: %s. The label is a per-hold risk target, so an "
             "8%% label annualises near 10%% once hold-level vol dispersion is priced in -- a "
             "definition gap, not a sizing bug (research/ETF_VOL_CALIBRATION.md)." % (dv.get("headline") or "no history"),
@@ -601,6 +798,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "spanning": spanning_support(),
         "spanning_pre2020": spanning_pre2020_support(),
         "hysteresis": hysteresis_support(),
+        "drawdown_band": drawdown_band_support(),
     }
     pp = out["preperiod"]
     if pp is not None:
@@ -643,6 +841,37 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
                               "already published. The names are that old, not a fresh call."
                               % (feed.get("ticket_bar"), feed.get("lag_days"),
                                  feed.get("expected_bar")))
+    sp = sign_pit_support()
+    if sp is not None:
+        out["caveats"].insert(0, "THE SIX FACTOR DIRECTIONS WERE CHOSEN WITH HINDSIGHT: every "
+                              "published number here uses a fixed sign block, and those signs are "
+                              "exactly this panel's full-sample IC signs (%d of %d factors match). "
+                              "Re-priced with signs estimated only from already-realised windows, "
+                              "the same engine returns %+.2f%%/yr (Sharpe %+.2f) against %+.2f%%/yr "
+                              "(%+.2f) for the fixed signs -- and reversing the trailing sign does "
+                              "not recover it (%+.2f%%/yr). Read the headline as the size of a "
+                              "period, not the size of a rule. See %s."
+                              % (sp["n_match"], sp["n_factors"], sp["cagr_pit"] * 100,
+                                 sp["sharpe_pit"], sp["cagr_fixed"] * 100, sp["sharpe_fixed"],
+                                 sp["cagr_reversed"] * 100, sp["artifact"]))
+    band = out["drawdown_band"]
+    card_dd = ((runs.get("n%d_vt08" % n_hold) or {}).get("full") or {}).get("maxdd")
+    if band and card_dd is not None:
+        a = band["maxdd_p5_band"]
+        stale = (band["evidence_cutoff"] or "") != str(last.date())
+        out["caveats"].insert(0, "THE DRAWDOWN LINE ABOVE IS A MEDIAN, NOT A TAIL: it is priced "
+                              "on one ordering of the trading days. Bootstrapping this book's "
+                              "own return path at blocks %s (the block is a free parameter) puts "
+                              "the 5th-percentile drawdown between %.1f%% and %.1f%% and the "
+                              "share of resamples worse than -20%% between %.1f%% and %.1f%%. "
+                              "Size against the p5 column. See %s%s."
+                              % ("/".join(str(b) for b in band["block_set"]),
+                                 a["min"] * 100, a["max"] * 100,
+                                 band["dd_break_band"]["min"] * 100,
+                                 band["dd_break_band"]["max"] * 100, band["artifact"],
+                                 "" if not stale else
+                                 " (band priced on the %s bar, not this card's %s -- stale)"
+                                 % (band["evidence_cutoff"], last.date())))
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, "PRODUCTION-%s.json" % last.date()), "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
@@ -695,15 +924,31 @@ def write_card(out):
         "Realised 60d book vol %.1f%% -> risk scale %.2f, cash slot %.1f%%."
         % ((s["realised_book_vol_60d"] or 0) * 100, s["risk_scale"], s["cash_weight"] * 100),
         "",
-        "| code | name | sleeve | weight | amount (CNY) | 100-share lots |",
-        "|---|---|---|---|---|---|",
+        "| code | name | sleeve | weight | target (CNY) | executable (CNY) | 100-share lots |",
+        "|---|---|---|---|---|---|---|",
     ]
     for leg in s["legs"]:
-        lines.append("| %s | %s | %s | %.1f%% | %s | %s |" % (
+        exec_amt = leg.get("actual_amount_cny")
+        lines.append("| %s | %s | %s | %.1f%% | %s | %s | %s |" % (
             leg["symbol"], leg["name"], leg["class"], leg["weight"] * 100,
-            format(int(leg["amount_cny"]), ","), leg["lots_100"]))
-    lines += ["| cash | - | money | %.1f%% | %s | - |" % (
-        s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ",")), ""]
+            format(int(leg["amount_cny"]), ","),
+            "-" if exec_amt is None else format(int(exec_amt), ","), leg["lots_100"]))
+    lines += ["| cash | - | money | %.1f%% | %s | %s | - |" % (
+        s["cash_weight"] * 100, format(int(s["cash_amount_cny"]), ","),
+        format(int(s["cash_executable_cny"]), ",")), ""]
+    lines += [
+        "**Which column is money.** A weight times capital is the sizing INTENT; only "
+        "whole 100-share lots can be placed. So the executable column can only spend %s "
+        "of the %s target book, and the desk keeps %s (%.2f%% NAV) in cash that the risk "
+        "scale never asked for -- that residue is the price of lot granularity, not a "
+        "position. Place the executable column. Until r1342 this card printed the target "
+        "column as if it were the order, which is why the ticket disagreed with it by "
+        "0.13%% NAV (E201); the two faces now reconcile to the yuan." % (
+            format(int(s["book_executable_cny"]), ","),
+            format(int(s["book_target_cny"]), ","),
+            format(int(s["lot_residual_cny"]), ","),
+            s["lot_residual_pct_nav"] or 0.0), "",
+    ]
     lines += ["## What the rotation is worth", ""]
     lines += passive_mix_paragraphs(out.get("passive_mix"))
     lines += decomp_paragraphs(out.get("window_decomp"))
@@ -713,6 +958,10 @@ def write_card(out):
     lines += spanning_pre2020_paragraphs(out.get("spanning_pre2020"))
     lines += ["## Does the book trade on noise?", ""]
     lines += hysteresis_paragraphs(out.get("hysteresis"))
+    full = b.get("full") or {}
+    if full.get("maxdd") is not None:
+        lines += ["## How bad can the drawdown be?", ""]
+        lines += drawdown_band_paragraphs(out.get("drawdown_band"), full["maxdd"])
     lines += ["## Caveats", ""] + ["- " + c for c in out["caveats"]] + [""]
     with open(os.path.join(OUT_DIR, "CARD.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
@@ -1056,6 +1305,24 @@ def selftest():
         chk("card lists every leg", all(l["symbol"] in card for l in o["sheet"]["legs"]))
         chk("output carries the vol delivery block",
             (o.get("vol_delivery") or {}).get("headline") is not None)
+        # r1348: the card's single drawdown is the median of a ruler. The band must reach the
+        # page a human reads, and must not be invented when the arms are absent.
+        band = o.get("drawdown_band")
+        if band:
+            chk("card prices the drawdown band the arms measured",
+                ("How bad can the drawdown be?" in card
+                 and "%.1f%%" % (band["maxdd_p5_band"]["min"] * 100) in card),
+                band.get("block_set") and str(band.get("block_set")))
+            chk("band quotes its block set, not a bare tail",
+                all(str(b) in card for b in band["block_set"]))
+            chk("band is not silently stale",
+                (band["evidence_cutoff"] == o["evidence_cutoff"])
+                == ("stale" not in card.split("## Caveats")[0]))
+            chk("band carried as a caveat on the operator page",
+                any("MEDIAN, NOT A TAIL" in c for c in o["caveats"]))
+        else:
+            chk("card says the tail is unpublished when the arms are absent",
+                "No bootstrap band on disk" in drawdown_band_paragraphs(None, -0.1)[0])
         # 7. the sheet must be the book IN FORCE (the last on-grid decision), not today's
         #    ranking. Until r1277 the card re-ranked the panel's last bar and handed out a
         #    book 11/12 apart from the one the engine -- and the forward ledger -- held.
@@ -1076,6 +1343,38 @@ def selftest():
         chk("sheet cash equals 1 - risk_scale",
             abs(o["sheet"]["cash_weight"] - (1.0 - o["sheet"]["risk_scale"])) < 1e-3,
             "cash=%.4f scale=%.4f" % (o["sheet"]["cash_weight"], o["sheet"]["risk_scale"]))
+        # r1342: the printed amount column must be the executable one. Three legs, in a
+        # row, because each of them fails differently: (a) the legs really are lot-rounded
+        # on this fixture, so the assertion is not comparing two identical sums; (b) the
+        # cash row is capital minus what lots actually spend, not (1 - scale) * capital;
+        # (c) the card carries both columns, so the fix adds a reading rather than hiding
+        # the rounding inside a single number.
+        _sh = o["sheet"]
+        _spent = sum(float(l["actual_amount_cny"]) for l in _sh["legs"])
+        chk("executable amounts are lot * price, not weight * capital",
+            all(abs(float(l["actual_amount_cny"]) - l["lots_100"] * float(l["ref_price"])) <= 1.0
+                for l in _sh["legs"]),
+            "spent=%.0f target=%.0f" % (_spent, _sh["book_target_cny"]))
+        chk("executable book never exceeds its target",
+            _sh["book_executable_cny"] <= _sh["book_target_cny"] + 1.0,
+            "exec=%.0f target=%.0f" % (_sh["book_executable_cny"], _sh["book_target_cny"]))
+        chk("the published executable book is what the lots actually spend",
+            abs(_sh["book_executable_cny"] - _spent) <= 2.0,
+            "published=%.0f legs=%.0f" % (_sh["book_executable_cny"], _spent))
+        chk("executable cash is capital minus what lots spend",
+            abs(_sh["cash_executable_cny"] - (_sh["capital_cny"] - _spent)) <= 2.0,
+            "exec-cash=%.0f exec=%.0f cap=%.0f" % (_sh["cash_executable_cny"], _spent,
+                                                   _sh["capital_cny"]))
+        chk("target cash keeps the risk scale's slot, executable cash does not",
+            abs(_sh["cash_amount_cny"] + _sh["book_target_cny"] - _sh["capital_cny"]) <= 2.0
+            and _sh["cash_executable_cny"] >= _sh["cash_amount_cny"] - 1.0
+            and _sh["lot_residual_cny"] >= -1.0,
+            "slot-cash=%.0f exec-cash=%.0f residue=%.0f"
+            % (_sh["cash_amount_cny"], _sh["cash_executable_cny"], _sh["lot_residual_cny"]))
+        chk("card prints target and executable side by side",
+            "executable (CNY)" in card and "target (CNY)" in card
+            and "Which column is money" in card
+            and format(int(_sh["cash_executable_cny"]), ",") in card)
     finally:
         globals()["prep_panel"], globals()["load_names"], globals()["OUT_DIR"] = keep
         shutil.rmtree(tmp, ignore_errors=True)
@@ -1261,6 +1560,30 @@ def selftest():
         E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
         chk("hysteresis face is not fatal when the artifact is missing",
             hysteresis_support() is None)
+    finally:
+        E.PATHS.results_dir = _keep_results
+
+    # 10f. the draw-tail price (r1360 / E253): the card's "a drawdown tool, not an edge"
+    #      sentence carried only medians. It now has to quote the measured tail share, and the
+    #      number has to be DERIVED from the face -- a literal in code goes stale in silence the
+    #      moment the bootstrap reruns, which is the defect this leg exists to prevent.
+    vtf = vol_overlay_tail_support()
+    chk("tail sentence reads the live face when the artifact is present",
+        vtf is None or (vtf.get("tail_share_of_middle") is not None
+                        and vtf.get("median_maxdd_delta_pp") is not None), str(bool(vtf)))
+    vfix = {"resamples": 2000, "blocks": [5, 20], "median_maxdd_delta_pp": 6.04,
+            "p1_maxdd_delta_pp": 1.26, "median_cagr_delta_pp": -4.61,
+            "tail_share_of_middle": 0.209}
+    vs = vol_overlay_tail_sentence(vfix)
+    chk("tail sentence carries the share AND the price paid for it",
+        "21%" in vs and "+6.04pp" in vs and "+1.26pp" in vs and "-4.61pp" in vs
+        and "drawdown tool, not an edge" in vs, vs[-70:])
+    chk("an unmeasured tail says so instead of quoting a number",
+        "not measured" in vol_overlay_tail_sentence({"tail_share_of_middle": None})
+        and "not measured" in vol_overlay_tail_sentence(dict(vfix, p1_maxdd_delta_pp=None)))
+    try:
+        E.PATHS.results_dir = os.path.join(tmp, "no_such_results")
+        chk("a missing tail artifact is not fatal", vol_overlay_tail_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
 

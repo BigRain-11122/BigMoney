@@ -32,6 +32,13 @@ import tempfile
 
 DEFAULT_COMMITS = 20
 DEFAULT_MAX_DROP = 0
+# Deliberate deletions are legal, but they have to be declared by name. A
+# declaration that does not match the commit's actual deletion set byte for
+# byte is NOT an excuse -- it stays red, so "declare everything" cannot be used
+# to silence the tripwire (r1165: r1164 dropped three scratch files and the guard
+# would have stayed red for twenty commits, inviting someone to just raise
+# --max-drop, which is the one fix that destroys the mechanism).
+DECLARATIONS_PATH = os.path.join("fleet", "tree_shrink_declarations.json")
 
 
 def _git(repo: str, *args: str) -> str:
@@ -50,6 +57,55 @@ def file_count(repo: str, rev: str) -> int:
         # A root commit has no parent to compare against; anything else is real.
         raise
     return len([ln for ln in out.splitlines() if ln.strip()])
+
+
+def dropped_paths(repo: str, sha: str, parent: str) -> list[str]:
+    """Paths a commit deleted relative to <parent> (D entries only, sorted)."""
+    out = _git(repo, "diff-tree", "-r", "--no-commit-id", "--name-status", parent, sha)
+    paths = []
+    for ln in out.splitlines():
+        parts = ln.split("\t")
+        if len(parts) >= 2 and parts[0].strip().startswith("D"):
+            paths.append(parts[1].strip().replace("\\", "/"))
+    return sorted(paths)
+
+
+def load_declarations(repo: str) -> dict:
+    """{sha_prefix_lower: {"paths": [...], "by": ..., "reason": ...}}.
+
+    A missing file is the normal state. A malformed file returns {} plus an
+    error string: the caller reports it, and nothing gets cleared by accident.
+    """
+    path = os.path.join(repo, DECLARATIONS_PATH)
+    if not os.path.isfile(path):
+        return {"declarations": {}, "error": None}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+    except (OSError, ValueError) as e:
+        return {"declarations": {}, "error": f"unreadable declaration file: {e}"}
+    out = {}
+    for d in raw.get("declarations") or []:
+        sha = str(d.get("commit", "")).strip().lower()
+        if not sha:
+            continue
+        out[sha] = {
+            "paths": sorted(str(p).replace("\\", "/") for p in (d.get("paths") or [])),
+            "by": d.get("by"),
+            "reason": d.get("reason"),
+        }
+    return {"declarations": out, "error": None}
+
+
+def match_declaration(decl: dict, sha: str, actual: list[str]) -> tuple[bool, str]:
+    """Exact-set match: the declared paths must BE the deleted paths."""
+    hit = decl.get(sha.lower()) or decl.get(sha.lower()[:12])
+    if not hit:
+        return False, "undeclared"
+    if hit["paths"] == [p.replace("\\", "/") for p in actual]:
+        return True, "declared"
+    return False, (f"declaration mismatch: declared {len(hit['paths'])} "
+                   f"path(s), commit deleted {len(actual)}")
 
 
 def parents(repo: str, rev: str) -> list[str]:
@@ -78,6 +134,7 @@ def scan(repo: str, commits: int = DEFAULT_COMMITS,
     # otherwise the guard would stay red until the bad commit scrolled out of
     # the window and nobody would read it any more.
     tip_files = file_count(repo, rev)
+    decl = load_declarations(repo)
     hits = []
     for r in rows:
         if r["drop"] <= max_drop:
@@ -85,10 +142,24 @@ def scan(repo: str, commits: int = DEFAULT_COMMITS,
         r = dict(r)
         r["repaired"] = tip_files >= r["parent_files"]
         hits.append(r)
-    live = [r for r in hits if not r["repaired"]]
+    live, declared = [], []
+    for r in hits:
+        if r["repaired"]:
+            continue
+        full = _git(repo, "rev-parse", r["commit"]).strip()
+        par = parents(repo, full)
+        actual = dropped_paths(repo, full, par[0]) if par else []
+        ok, why = match_declaration(decl["declarations"], full, actual)
+        r["declaration"] = why
+        r["dropped_paths"] = actual
+        if ok:
+            declared.append(r)
+        else:
+            live.append(r)
     return {"repo": os.path.abspath(repo), "scanned": len(rows), "rev": rev,
             "tip_files": tip_files, "max_drop_allowed": max_drop,
-            "shrinks": hits, "unrepaired": live, "rows": rows,
+            "shrinks": hits, "declared": declared, "unrepaired": live,
+            "declaration_error": decl["error"], "rows": rows,
             "clean": not live}
 
 
@@ -101,9 +172,15 @@ def cmd_check(args) -> int:
     if args.json:
         print(json.dumps(res, ensure_ascii=False, indent=1))
     else:
+        if res.get("declaration_error"):
+            print(f"tree-shrink guard: {res['declaration_error']} "
+                  f"(nothing else was cleared by it)")
         if res["clean"]:
             extra = (f" ({len(res['shrinks'])} repaired shrink(s) earlier in history)"
                      if res["shrinks"] else "")
+            if res["declared"]:
+                extra += (f"; {len(res['declared'])} declared deletion(s), "
+                          f"paths match exactly")
             print(f"tree-shrink guard CLEAN: {res['scanned']} commit(s) in "
                   f"{res['repo']}, tip has {res['tip_files']} file(s), "
                   f"no unrepaired loss > {args.max_drop}{extra}")
@@ -113,6 +190,10 @@ def cmd_check(args) -> int:
             for r in res["unrepaired"]:
                 print(f"  {r['commit']} {r['parent_files']} -> {r['files']} "
                       f"(-{r['drop']}) {r['subject']}")
+                if r.get("dropped_paths"):
+                    print(f"    dropped: {', '.join(r['dropped_paths'])}")
+                if r.get("declaration") and r["declaration"] != "undeclared":
+                    print(f"    declaration: {r['declaration']}")
     return 0 if res["clean"] else 1
 
 
@@ -349,6 +430,59 @@ def cmd_selftest() -> int:
             res5["clean"] and len(res5["shrinks"]) == 1
             and res5["shrinks"][0]["repaired"] is True,
             f"clean={res5['clean']} hits={len(res5['shrinks'])} tip={res5['tip_files']}")
+
+        # L13-L17: a deliberate deletion is legal only when it is declared by
+        # name, and only when the declared set IS the deleted set. Everything
+        # short of an exact match must stay red, otherwise "declare it" would be
+        # a cheaper way to silence the tripwire than raising --max-drop.
+        drepo = os.path.join(tmp, "declrepo")
+        os.makedirs(drepo)
+        _g(drepo, "init", "-q", "-b", "main")
+        for i in range(4):
+            with open(os.path.join(drepo, f"d{i}.txt"), "w", encoding="utf-8") as f:
+                f.write(f"{i}\n")
+        _g(drepo, "add", "-A")
+        _g(drepo, "commit", "-qm", "four files")
+        os.makedirs(os.path.join(drepo, "fleet"), exist_ok=True)
+
+        def write_decl(entries) -> None:
+            with open(os.path.join(drepo, DECLARATIONS_PATH), "w", encoding="utf-8") as f:
+                json.dump({"schema": 1, "declarations": entries}, f, indent=1)
+
+        os.remove(os.path.join(drepo, "d3.txt"))
+        _g(drepo, "add", "-A")
+        _g(drepo, "commit", "-qm", "drop one scratch file")
+        dsha = _g(drepo, "rev-parse", "HEAD")
+        res6 = scan(drepo, commits=3)
+        leg("L13 an undeclared deletion is still a defect",
+            not res6["clean"] and res6["unrepaired"][0]["dropped_paths"] == ["d3.txt"],
+            f"clean={res6['clean']} paths={res6['unrepaired'][0]['dropped_paths'] if res6['unrepaired'] else None}")
+
+        write_decl([{"commit": dsha, "paths": ["d3.txt"], "by": "fixture",
+                     "reason": "scratch"}])
+        res7 = scan(drepo, commits=3)
+        leg("L14 an exact declaration clears it",
+            res7["clean"] and len(res7["declared"]) == 1
+            and res7["unrepaired"] == [], f"clean={res7['clean']} declared={len(res7['declared'])}")
+
+        write_decl([{"commit": dsha, "paths": ["d2.txt"], "by": "fixture",
+                     "reason": "wrong path"}])
+        res8 = scan(drepo, commits=3)
+        leg("L15 a declaration naming a different path does not clear it",
+            not res8["clean"], f"clean={res8['clean']}")
+
+        write_decl([{"commit": dsha, "paths": ["d2.txt", "d3.txt"], "by": "fixture",
+                     "reason": "superset"}])
+        res9 = scan(drepo, commits=3)
+        leg("L16 a declaration that also claims a surviving file does not clear it",
+            not res9["clean"], f"clean={res9['clean']}")
+
+        with open(os.path.join(drepo, DECLARATIONS_PATH), "w", encoding="utf-8") as f:
+            f.write("{not json")
+        res10 = scan(drepo, commits=3)
+        leg("L17 a corrupt declaration file is reported and clears nothing",
+            not res10["clean"] and "unreadable declaration file" in str(res10["declaration_error"]),
+            f"clean={res10['clean']} err={res10['declaration_error']}")
 
         # L8-L11: the real gate, exercised through git's own hook machinery
         # (a check the tool can compute is not the same thing as a push that

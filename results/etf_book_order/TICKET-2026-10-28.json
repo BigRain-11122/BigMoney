@@ -12,7 +12,7 @@
   "stale_picks": 0,
   "stale_share": 0.0,
   "worst_stale_gap_days": 0,
-  "symbols_with_value_on_last_bar": 1489,
+  "symbols_with_value_on_last_bar": 1490,
   "symbols_total": 1499,
   "decisions_with_too_few_picks": 0
  },
@@ -129,8 +129,8 @@
  "ledger": {
   "bars": 681,
   "nav": 1.47447153,
-  "rows_added": 1,
-  "engine_naive_vs_ledger": 0.116587749
+  "rows_added": 0,
+  "engine_naive_vs_ledger": null
  },
  "width_disclosure": {
   "ticket_names": 5,
@@ -138,89 +138,89 @@
   "ticket_rule": "beta",
   "card_rule": "vol",
   "ticket": {
-   "cagr": 0.111,
-   "sharpe": 1.361,
+   "cagr": 0.1139,
+   "sharpe": 1.395,
    "maxdd": -0.0601,
    "vol": 0.0816
   },
   "card": {
-   "cagr": 0.1203,
-   "sharpe": 1.373,
+   "cagr": 0.1257,
+   "sharpe": 1.429,
    "maxdd": -0.0795,
-   "vol": 0.0876
+   "vol": 0.0879
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.118,
-    "card_width_cagr": 0.1203,
-    "pp": 0.23
-   },
    "beta": {
-    "ticket_width_cagr": 0.111,
-    "card_width_cagr": 0.0958,
-    "pp": -1.52
+    "ticket_width_cagr": 0.1139,
+    "card_width_cagr": 0.0983,
+    "pp": -1.56
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1229,
+    "card_width_cagr": 0.1257,
+    "pp": 0.28
    }
   },
   "rules_differ": true,
   "delta_ticket_minus_card": {
-   "cagr_pp": -0.93,
-   "sharpe": -0.012,
+   "cagr_pp": -1.18,
+   "sharpe": -0.034,
    "maxdd_pp": 1.94,
-   "vol_pp": -0.6
+   "vol_pp": -0.63
   },
   "square": {
    "cells": {
     "beta@5": {
-     "cagr": 0.111,
-     "sharpe": 1.361,
+     "cagr": 0.1139,
+     "sharpe": 1.395,
      "maxdd": -0.0601,
      "turnover": 1.5301,
      "cash_share": 0.5502
     },
     "beta@12": {
-     "cagr": 0.0958,
-     "sharpe": 1.571,
+     "cagr": 0.0983,
+     "sharpe": 1.61,
      "maxdd": -0.0417,
      "turnover": 1.3032,
      "cash_share": 0.6192
     },
     "vol@5": {
-     "cagr": 0.118,
-     "sharpe": 1.366,
+     "cagr": 0.1229,
+     "sharpe": 1.419,
      "maxdd": -0.0756,
      "turnover": 1.5301,
-     "cash_share": 0.4804
+     "cash_share": 0.48
     },
     "vol@12": {
-     "cagr": 0.1203,
-     "sharpe": 1.373,
+     "cagr": 0.1257,
+     "sharpe": 1.429,
      "maxdd": -0.0795,
      "turnover": 1.3032,
-     "cash_share": 0.4283
+     "cash_share": 0.4279
     }
    },
    "width_effect_pp": {
-    "beta": -1.52,
-    "vol": 0.23
+    "beta": -1.56,
+    "vol": 0.28
    },
    "rule_effect_pp": {
-    "n5": 0.7,
-    "n12": 2.45
+    "n5": 0.9,
+    "n12": 2.74
    },
-   "interaction_pp": 1.75,
-   "published_diagonal_pp": 0.93,
+   "interaction_pp": 1.84,
+   "published_diagonal_pp": 1.18,
    "sharpe_width_effect": {
-    "beta": 0.21,
-    "vol": 0.007
+    "beta": 0.215,
+    "vol": 0.01
    },
    "sharpe_rule_effect": {
-    "n5": 0.005,
-    "n12": -0.198
+    "n5": 0.024,
+    "n12": -0.181
    }
   },
   "same_accounting": "one ledger (GC001 cash leg, next-open fills, 8bp/side); width and leverage rule each varied in turn",
   "source": "results/etf_book_width_audit.json",
-  "evidence_cutoff": "2026-10-27"
+  "evidence_cutoff": "2026-10-28"
  },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",

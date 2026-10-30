@@ -36,10 +36,10 @@
   "entries": 30,
   "unfillable": 0,
   "exits": {
-   "time": 7,
+   "time": 12,
    "tp": 4,
    "tp_gap": 1,
-   "sl": 12
+   "sl": 13
   },
   "cohort_buckets": [
    0,
@@ -47,88 +47,27 @@
    0
   ]
  },
- "open_positions": [
-  {
-   "code": "603308",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 32.2,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "688333",
-   "board": "star",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 82.89,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "600547",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 26.11,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "000426",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 28.4,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "002545",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 12.67,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  },
-  {
-   "code": "600141",
-   "board": "main",
-   "bucket": 0,
-   "grid_date": "2026-10-16",
-   "entry_date": "2026-10-19",
-   "entry_px": 22.83,
-   "last_activity_date": "2026-10-27",
-   "status": "open (bars exhausted or data end; no fake tail exit -- live-ops law)"
-  }
- ],
+ "open_positions": [],
  "lane_files": {
-  "sig": 12,
-  "bars": 12
+  "sig": 13,
+  "bars": 13
  },
- "panel_cutoff": "2026-10-27",
- "etf_calendar_last": "2026-10-28",
+ "panel_cutoff": "2026-10-28",
+ "etf_calendar_last": "2026-10-29",
  "staleness": {
-  "calendar_last": "2026-10-28",
-  "panel_cutoff": "2026-10-27",
+  "calendar_last": "2026-10-29",
+  "panel_cutoff": "2026-10-28",
   "lag_trading_days": 1,
   "stale": true,
-  "reason": "priced 1 trading day(s) before the last trading day; equity_cny and open positions are NOT current -- and the panel's own coverage date is 2026-10-28, so the book sits behind the widest available cross-section",
+  "reason": "priced 1 trading day(s) before the last trading day; equity_cny and open positions are NOT current -- but this IS the panel's widest current date (82.3% of names there), so the book is not quoting a lonely price",
   "upstream_lane": "results/rev_osc_live SIG/BARS bridge (rev_osc_signal_export owner lane)",
   "price_face_coverage": {
-   "panel_cutoff_max": "2026-10-28",
+   "panel_cutoff_max": "2026-10-29",
    "panel_coverage_90": "2026-10-28",
-   "panel_coverage_pct": 99.9,
+   "panel_coverage_pct": 82.3,
    "panel_coverage_floor_pct": 90,
-   "priced_at_widest_current_date": false,
-   "price_face_note": "priced behind the panel's own widest current date 2026-10-28 (book at 2026-10-27, panel max tail 2026-10-28)"
+   "priced_at_widest_current_date": true,
+   "price_face_note": "priced at the widest current date (82.3% of names at 2026-10-29); the panel itself has no more current cross-section"
   }
  },
  "awaiting_lane_data": false,
@@ -378,17 +317,31 @@
    "series": -0.00643606,
    "ret": -0.00643606,
    "equity_cny": 938360.96
+  },
+  {
+   "date": "2026-10-28",
+   "state": "ORANGE",
+   "route": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "w_eff": 1.0,
+   "series": 0.00092271,
+   "ret": 0.00092271,
+   "equity_cny": 939226.79
   }
  ],
  "marks_summary": {
-  "bars": 17,
+  "bars": 18,
   "first_date": "2026-09-28",
-  "last_date": "2026-10-27",
-  "cumulative_ret": -0.06163904,
+  "last_date": "2026-10-28",
+  "cumulative_ret": -0.06077321,
   "current_dd": -0.061639,
-  "active_days": 17,
+  "active_days": 18,
   "fail_closed_route_days": 0
  },
- "equity_cny": 938360.96,
- "updated": "2026-10-29 08:36:28"
+ "equity_cny": 939226.79,
+ "updated": "2026-10-30 02:37:05"
 }

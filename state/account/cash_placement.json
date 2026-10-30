@@ -1,0 +1,15 @@
+{
+ "schema": "cash-placement/v1",
+ "asof": null,
+ "recorded_by": "unrecorded",
+ "demand_rate_pct": 0.05,
+ "placements": [],
+ "how_to": [
+  "This file is the handshake between the CEO page's advice and the account.",
+  "Fill it once after placing the order: recorded_by = who recorded, asof = YYYY-MM-DD.",
+  "placements entries: instrument (e.g. GC001), amount_cny, rate_pct (the rate you got), rate_date.",
+  "A row with instrument 'demand' counts as NOT placed (current account), so leave idle cash out.",
+  "The page reconciles every round: idle = book cash - sum(placements); gap priced from the repo panel."
+ ],
+ "notes": "Empty on purpose. Nothing in this repo can read the account, so an absent or unfilled record must read as UNRECORDED (gap unknown), never as a comfortable zero."
+}

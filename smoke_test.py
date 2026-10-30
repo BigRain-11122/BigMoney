@@ -8,7 +8,6 @@ appended to logs/smoke.log so the 10-minute iteration loop can audit runs.
 """
 import sys
 import os
-import io
 import json
 import datetime as dt
 import importlib
@@ -332,7 +331,10 @@ def main() -> int:
               "+ x2-watch escalation(F3)")
     except Exception as e:
         check("paper: pipeline selftest", False, str(e))
-    import subprocess as _sp
+    # r1349: no local alias here. The module-level `subprocess` import is used
+    # directly because a local binding in this function scope is clobberable by
+    # any later leg -- r1348's E246 leg assigned `_sp` to a spread value and 56
+    # contract legs below it died with "'dict' object has no attribute 'run'".
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
             ("lhb", "scripts/update_lhb.py", ["selftest"]),
@@ -365,13 +367,20 @@ def main() -> int:
              ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
+            _r = subprocess.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
     for _label, _script, _args in (
+            # r1346: the chain runner pays a leg's declared refresh when its probe
+            # says the face is stale, and must NOT pay it when the probe says
+            # inconsistent. That branch is what stops a check-only gate from being
+            # permanently red on inherited state (r1135 trap), so it is priced here
+            # every suite instead of once in a digest.
+            ("product: S6 chain refresh branch (stale pays, inconsistent does not)",
+             "Tools/s6_chain_bmc.py", ["--selftest"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
@@ -384,6 +393,17 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # r1153: the battle report now names the market's risk tape (limit-up /
+            # limit-down / broken-seal / strong counts + the streak ladder) instead of
+            # leaving it in a forward panel nobody reads. Its selftest builds a real
+            # parquet fixture, so a column rename or a "missing day = 0 members"
+            # regression reads red instead of shipping a quiet zero.
+            ("product: daily report risk tape (zt pools, honest absence)",
+             "scripts/daily_report.py", ["selftest"]),
+            # the four risk tiers used to need four separate `--beta` runs read off two
+            # different files; this leg keeps the one-page menu callable (r1149).
+            ("product: etf_book_beta_menu (exit-code contract)",
+             "scripts/etf_book_beta_menu.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
             # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
@@ -532,9 +552,28 @@ def main() -> int:
             # silently, the published verdict must be recomputed rather than trusted, and
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
-             "scripts/etf_book_buffer_adoption.py", ["--selftest"])):
+             "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1347: adoption tested one arm; the hysteresis face still publishes four more
+            # priced on a single sequence. These legs pin the breakeven-cost conversion and
+            # the family verdict reading its arms, and keep "behind the card" a third state
+            # instead of a permanently red gate (r1346).
+            ("product: buffer arm grid breakeven and family verdict (exit-code contract)",
+             "scripts/etf_book_hysteresis_paths.py", ["--selftest"]),
+            # r1347: a breakeven in bp/side is not a size. These legs pin the sqrt cost law
+            # and its inverse, the three crossing states (gains return / under the base / no
+            # impact component), and the share rule that keeps one lucky cell from reading as
+            # "pays at size".
+            ("product: buffer breakeven priced as a size (exit-code contract)",
+             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"]),
+            # r1348: the book has one history, so every headline is a point estimate on one
+            # ordering of the panel. These legs pin the bootstrap's determinism, its
+            # block-length semantics, the "zero is not a null" Sharpe, the monotone
+            # percentiles, the activity leg (a resample that changed nothing fails), and the
+            # gate's ability to catch a hand-edited percentile from the stored rows.
+            ("product: book envelope by block bootstrap (exit-code contract)",
+             "scripts/etf_book_nav_envelope.py", ["--selftest"])):
         try:
-            _r = _sp.run([sys.executable, _script, *_args],
+            _r = subprocess.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=300)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
@@ -554,9 +593,43 @@ def main() -> int:
                   "card or reconciliation artifact absent -- face soft-fails by design")
     except Exception as e:
         check("product: card reconciles its two 2015-2019 readings", False, str(e))
+    # r1334 / E229: the card's printed amount column used to be a TARGET (weights x
+    # capital), so a reader wiring it into a ticket came up short by the lot rounding
+    # every single time. The face now prints an executable column; this leg recomputes
+    # the identity from the published sheet, never from a sentence on the card.
+    try:
+        _lp = os.path.join("results", "etf_book_production", "latest.json")
+        _card = os.path.join("results", "etf_book_production", "CARD.md")
+        if os.path.exists(_lp) and os.path.exists(_card):
+            _doc = json.load(open(_lp, encoding="utf-8"))
+            _sh = (_doc.get("sheet") or {})
+            _cap = _sh.get("capital_cny")
+            _keys = ("book_target_cny", "book_executable_cny", "lot_residual_cny",
+                     "cash_executable_cny")
+            _have = all(_sh.get(k) is not None for k in _keys)
+            _id1 = _have and abs(_sh["book_target_cny"] + _sh["cash_amount_cny"] - _cap) <= 2
+            _id2 = _have and abs(_sh["book_executable_cny"] + _sh["cash_executable_cny"]
+                                 - _cap) <= 2
+            _id3 = _have and abs(_sh["lot_residual_cny"]
+                                 - (_sh["book_target_cny"] - _sh["book_executable_cny"])) <= 2
+            _txt = open(_card, encoding="utf-8").read()
+            _tw = "Which column is money" in _txt
+            _nym = _sh.get("cash_executable_cny")
+            _printed = _nym is not None and format(int(_nym), ",") in _txt
+            check("product: card amount column is executable money",
+                  _have and _id1 and _id2 and _id3 and _tw and _printed,
+                  "keys=%s target=%.0f exec=%.0f residual=%.0f card=%s/%s"
+                  % (_have, _sh.get("book_target_cny") or -1,
+                     _sh.get("book_executable_cny") or -1,
+                     _sh.get("lot_residual_cny") or -1, _tw, _printed))
+        else:
+            check("product: card amount column is executable money", True,
+                  "production sheet absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: card amount column is executable money", False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
-        _names = {n for n, _c in _legs}
+        _names = {t[0] for t in _legs}
         # etf_book_production belongs here as much as the ticket: r1290 caught the card
         # (the headline face) a full refresh behind the ticket because only the ticket
         # was wired -- an unwired face reads as current to everything downstream.
@@ -581,6 +654,318 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # r1348 / E246: a risk band is only a law if it reaches the page a human trades from.
+    # The card renders one row per block arm and the order sheet prints the p5 range, so
+    # both faces are recomputed here from BLOCKS-<cutoff>.json instead of grepping for a
+    # sentence: a card priced on an older bar than the arms, or a band left in a digest,
+    # fails this leg. r1315 family -- a fixture proves the shape, only the live file
+    # proves the delivery.
+    try:
+        _bl = sorted(__import__("glob").glob(os.path.join("results", "etf_book_bootstrap",
+                                                          "BLOCKS-*.json")))
+        _card_p = os.path.join("results", "etf_book_production", "CARD.md")
+        _ord = [p for p in sorted(__import__("glob").glob(
+            os.path.join("results", "etf_book_order", "ORDER-*.md")))
+            if not p.endswith("-card.md")]
+        if _bl and os.path.exists(_card_p) and _ord:
+            _b = json.load(open(_bl[-1], encoding="utf-8"))
+            _ct = open(_card_p, encoding="utf-8").read()
+            _rows_missing = []
+            for _a in _b.get("arms") or []:
+                _row = "| %d | %.2f%% | %.2f%% | %.1f%% | %.1f |" % (
+                    int(_a["block"]), _a["maxdd"]["5"] * 100, _a["maxdd"]["50"] * 100,
+                    _a["shares"]["maxdd_le_line"] * 100, _a["point_pctile"]["maxdd"])
+                if _row not in _ct:
+                    _rows_missing.append(_a["block"])
+            _p5 = _b["spread"]["maxdd_p5"]
+            _want = "%.1f%% ~ %.1f%%" % (_p5["min"] * 100, _p5["max"] * 100)
+            _ot = open(_ord[-1], encoding="utf-8").read()
+            _cut = _b.get("evidence_cutoff") or ""
+            check("product: E246 drawdown band reaches both trading pages",
+                  bool(_b.get("arms")) and not _rows_missing and _cut in _ct
+                  and _want in _ot and _cut in _ot,
+                  "arms=%d missing_rows=%s card_cut=%s order=%s(%s)"
+                  % (len(_b.get("arms") or []), _rows_missing or "none",
+                     _cut in _ct, _want in _ot, _want))
+        else:
+            check("product: E246 drawdown band reaches both trading pages", True,
+                  "blocks/card/order absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: E246 drawdown band reaches both trading pages", False, str(e))
+    # r1156 / E251: p5 is "the deepest 5%", not "the worst". The arms now carry p1/p99,
+    # so the leg asks the two questions the number must answer: is p1 actually deeper than
+    # the p5 beside it (ordering, not decoration), and does the published face say whether
+    # the ultra tail moves with the block length instead of shipping a silent False.
+    try:
+        _bl1 = sorted(__import__("glob").glob(os.path.join(
+            "results", "etf_book_bootstrap", "BLOCKS-*.json")))
+        if _bl1:
+            _b1 = json.load(open(_bl1[-1], encoding="utf-8"))
+            _deeper = []
+            for _a in _b1.get("arms") or []:
+                _m1 = (_a.get("maxdd") or {}).get("1")
+                _m5 = (_a.get("maxdd") or {}).get("5")
+                if _m1 is None or _m5 is None or not (_m1 <= _m5):
+                    _deeper.append(_a.get("block"))
+            _sp1 = _b1.get("spread") or {}
+            _rd1 = _b1.get("readings") or {}
+            _want_ultra = ((_sp1.get("maxdd_p1") or {}).get("range", 0.0) * 100.0) > 3.0
+            check("product: the worst 1% is published on the block arms",
+                  bool(_b1.get("arms")) and not _deeper
+                  and _sp1.get("maxdd_p1") is not None and _sp1.get("cagr_p1") is not None
+                  and _rd1.get("ultra_tail_is_block_dependent") is _want_ultra
+                  and _b1.get("ultra_tail_published") is True,
+                  "arms=%d not_deeper=%s maxdd_p1=%s published=%s flag=%s"
+                  % (len(_b1.get("arms") or []), _deeper or "none",
+                     _sp1.get("maxdd_p1"), _b1.get("ultra_tail_published"),
+                     _rd1.get("ultra_tail_is_block_dependent")))
+        else:
+            check("product: the worst 1% is published on the block arms", True,
+                  "no BLOCKS face -- soft-fails by design")
+    except Exception as e:
+        check("product: the worst 1% is published on the block arms", False, str(e))
+    # r1350 / E253: the card calls the 8% overlay "a drawdown tool". The face now answers it
+    # with a PAIRED bootstrap -- same draw, both books -- so this leg recomputes the two
+    # numbers the sentence rests on from the paired rows on disk: the median delta and the
+    # p1 delta, and refuses a face whose verdict disagrees with its own arms (a stored
+    # boolean that says "middle only" while the p1 moved, or the reverse).
+    try:
+        _vp = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        if os.path.exists(_vp):
+            _vt = json.load(open(_vp, encoding="utf-8"))
+            _v = _vt.get("verdict") or {}
+            _ad = _vt.get("arms_definition") or {}
+            _arms = _vt.get("arms") or []
+            _rows_ok, _deltas = True, []
+            for _a in _arms:
+                _rf = os.path.join("results", "etf_book_bootstrap", str(_a.get("rows_file")))
+                if not os.path.exists(_rf):
+                    _rows_ok = False
+                    continue
+                _rows = json.load(open(_rf, encoding="utf-8")).get("rows") or []
+                _dd = sorted(_r["on"]["maxdd"] - _r["off"]["maxdd"] for _r in _rows
+                             if _r.get("on", {}).get("maxdd") is not None)
+                if not _dd:
+                    _rows_ok = False
+                    continue
+                _mid = _dd[len(_dd) // 2]
+                _p1 = _dd[int(round((len(_dd) - 1) * 0.01))]
+                _deltas.append((_a.get("block"), _mid, _p1,
+                                abs(_mid - (_a.get("delta") or {}).get("maxdd", {})
+                                    .get("pct", {}).get("50", 1e9)) < 5e-3))
+            _med = sum(d[1] for d in _deltas) / len(_deltas) if _deltas else None
+            check("product: the vol overlay's tail is priced on the same draw as its middle",
+                  bool(_arms) and _rows_ok and len(_deltas) >= 2
+                  and all(d[3] for d in _deltas)
+                  and (_ad.get("on") or {}).get("vol_target") is not None
+                  and (_ad.get("off") or {}).get("vol_target") is None
+                  and _med is not None
+                  and abs(_med - (_v.get("median_maxdd_delta_median") or 1e9)) < 5e-3
+                  and ((_v.get("tail_share_of_middle") or 0.0) < 0.5)
+                  is bool(_v.get("tail_is_mostly_a_middle_effect")),
+                  "arms=%d rows_ok=%s median_delta=%s tail_share=%s flag=%s"
+                  % (len(_arms), _rows_ok, _med, _v.get("tail_share_of_middle"),
+                     _v.get("tail_is_mostly_a_middle_effect")))
+        else:
+            check("product: the vol overlay's tail is priced on the same draw as its middle",
+                  True, "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the vol overlay's tail is priced on the same draw as its middle",
+              False, str(e))
+    # r1360 / E253 close: the measurement is worthless if the sentence a human reads still
+    # says only "a drawdown tool". The two human faces (order-sheet card + forward ledger)
+    # must quote the artifact's own share and price, formatted from its numbers -- a literal
+    # in code would keep reading green while the bootstrap moved underneath it.
+    try:
+        _vpath2 = os.path.join("results", "etf_book_bootstrap", "etf_book_voltarget_tail.json")
+        _faces = [("production card", os.path.join("results", "etf_book_production", "latest.json")),
+                  ("forward ledger", os.path.join("results", "etf_book_forward", "LEDGER.json"))]
+        if os.path.exists(_vpath2):
+            _vv = (json.load(open(_vpath2, encoding="utf-8")).get("verdict") or {})
+            _share = _vv.get("tail_share_of_middle")
+            _want = ("only %.0f%% of it survives" % (100.0 * _share)) if _share is not None else None
+            # the price paid is formatted from the face's own number: a literal here would keep
+            # reading green while the bootstrap reran underneath it (the very defect this leg hunts)
+            _cagr = _vv.get("p50_cagr_delta_median")
+            _price = ("%+.2fpp" % (100.0 * _cagr)) if _cagr is not None else None
+            _says, _missing, _stale = [], [], []
+            for _nm, _fp in _faces:
+                if not os.path.exists(_fp):
+                    _missing.append(_nm)
+                    continue
+                _txt = " ".join(str(c) for c in
+                                (json.load(open(_fp, encoding="utf-8")).get("caveats") or []))
+                if _want and _want in _txt and _price and _price in _txt:
+                    _says.append(_nm)
+                elif "drawdown tool" in _txt:
+                    _stale.append(_nm)
+            check("product: the human faces quote the measured draw-tail share, not the impression",
+                  not _missing and not _stale and len(_says) == len(_faces),
+                  "want=%r price=%r says=%s missing=%s stale=%s" % (_want, _price, _says, _missing, _stale))
+        else:
+            check("product: the human faces quote the measured draw-tail share, not the impression",
+                  True, "no voltail face -- soft-fails by design")
+    except Exception as e:
+        check("product: the human faces quote the measured draw-tail share, not the impression",
+              False, str(e))
+    # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
+    # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
+    # is recomputable from the payload's own summary (never a stored string), and both arms
+    # really traded -- an untraded arm would sail through every numeric comparison (r1261).
+    try:
+        _sppath = os.path.join("results", "etf_sign_pit.json")
+        if os.path.exists(_sppath):
+            _doc = json.load(open(_sppath, encoding="utf-8"))
+            _mod = __import__("importlib").import_module("scripts.etf_sign_pit")
+            _g = _mod.gate(_doc)
+            _s = _doc.get("summary") or {}
+            check("product: E222 sign-PIT verdict is recomputable from its own gate",
+                  _g["all_ok"] and _g["verdict"] == _doc.get("verdict")
+                  and bool(_s.get("fixed_traded")) and bool(_s.get("pit_traded")),
+                  "verdict=%s ratio=%s fixed=%s pit=%s stable=%s"
+                  % (_g["verdict"], _g["ratio"], _s.get("cagr_fixed"), _s.get("cagr_pit"),
+                     _s.get("verdict_stable_across_cells")))
+        else:
+            check("product: E222 sign-PIT verdict is recomputable from its own gate", True,
+                  "sign-pit artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E222 sign-PIT verdict is recomputable from its own gate", False, str(e))
+    # r1336 / E222: the sign-PIT leg prices the honest arm; this one prices the CHOICE --
+    # all 64 sign sets on the same panel, so the card can say what the published signs rank
+    # against. Same two rules: the verdict is recomputed from the arm table (never a stored
+    # string), and every arm in the table must have traded (r1261: a flat table of untraded
+    # arms would sail through any comparison).
+    try:
+        _se = os.path.join("results", "etf_sign_enum.json")
+        if os.path.exists(_se):
+            _doc2 = json.load(open(_se, encoding="utf-8"))
+            _mod2 = __import__("importlib").import_module("scripts.etf_sign_enum")
+            _g2 = _mod2.gate(_doc2)
+            _s2 = _doc2.get("summary") or {}
+            check("product: E223 sign-enum verdict is recomputable from its own arm table",
+                  _g2["all_ok"] and _g2["verdict"] == _doc2.get("verdict")
+                  and int(_s2.get("n_arms") or 0) == 64,
+                  "verdict=%s rank=%s/%s median=%s prod=%s gap_pp=%s"
+                  % (_g2["verdict"], _g2["rank"], _g2["n"], _s2.get("median_cagr"),
+                     _s2.get("production_cagr"), _s2.get("no_hindsight_gap_pp")))
+        else:
+            check("product: E223 sign-enum verdict is recomputable from its own arm table", True,
+                  "sign-enum artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E223 sign-enum verdict is recomputable from its own arm table", False, str(e))
+    # r1337 / E224: the arm table above is one window. This leg splits it and requires the
+    # verdict (and the "learnable chooser" number) to be recomputed from the per-period table,
+    # so a stored string cannot outlive a panel move; the chance floor must be on the page,
+    # or "the top deciles do not line up" is a shrug rather than a measurement (E199 rule).
+    try:
+        _ss = os.path.join("results", "etf_sign_stability.json")
+        if os.path.exists(_ss):
+            _doc3 = json.load(open(_ss, encoding="utf-8"))
+            _mod3 = __import__("importlib").import_module("scripts.etf_sign_stability")
+            _g3 = _mod3.gate(_doc3)
+            _s3 = _doc3.get("summary") or {}
+            check("product: E224 sign-ordering transfer is recomputable from the per-period table",
+                  _g3["all_ok"] and _g3["verdict"] == _doc3.get("verdict")
+                  and int(_s3.get("n_arms") or 0) == 64
+                  and _s3.get("top_decile_shared_p") is not None
+                  and _mod3.overlap_tail(64, int(_s3.get("top_k") or 7),
+                                         int(_s3.get("top_decile_shared") or 0))
+                  == _s3.get("top_decile_shared_p"),
+                  "verdict=%s rho=%s (null sd %s) prod is/oos rank=%s/%s shared=%s chance=%s p=%s"
+                  % (_g3["verdict"], _g3["spearman"], _g3["spearman_null_sd"],
+                     _g3["production_is_rank"], _g3["production_oos_rank"],
+                     _s3.get("top_decile_shared"), _s3.get("top_decile_chance_expected"),
+                     _s3.get("top_decile_shared_p")))
+        else:
+            check("product: E224 sign-ordering transfer is recomputable from the per-period table",
+                  True, "sign-stability artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E224 sign-ordering transfer is recomputable from the per-period table",
+              False, str(e))
+    # r1339 / E227: both faces above price the sign question at ONE (rebal, n_hold) cell, and
+    # that cell was itself picked on the sample. This leg requires the three-cell leg to be
+    # recomputable -- the active-cell flags and the stable-factor count are re-derived from the
+    # per-cell arm tables, so "the ordering is cell dependent" cannot outlive a panel move.
+    try:
+        _sc = os.path.join("results", "etf_sign_cells.json")
+        if os.path.exists(_sc):
+            _doc4 = json.load(open(_sc, encoding="utf-8"))
+            _mod4 = __import__("importlib").import_module("scripts.etf_sign_cells")
+            _g4 = _mod4.gate(_doc4)
+            _c4 = _doc4.get("cells") or {}
+            check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+                  _g4["all_ok"] and _g4["verdict"] == _doc4.get("verdict")
+                  and len(_c4) == 3
+                  and all(int((c.get("n_arms") or 0)) == 64 for c in _c4.values())
+                  and _g4["cross_cell"]["n_factors_stable"] == int(
+                      ((_doc4.get("cross_cell") or {}).get("n_factors_stable")) or -1),
+                  "verdict=%s stable=%s/%s ranks=%s"
+                  % (_g4["verdict"], _g4["cross_cell"]["n_factors_stable"],
+                     _g4["cross_cell"]["n_factors"],
+                     (_doc4.get("summary") or {}).get("ranks_by_cell")))
+        else:
+            check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+                  True, "sign-cells artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E227 sign ordering across cells is recomputable from the per-cell arm tables",
+              False, str(e))
+    # r1341 / E229: E227 leaves two directions quotable, and "the edge is that subset" is a
+    # construction claim. This leg requires the reduced book to be priced against the full
+    # vector across the whole declared grid, with the verdict recomputed from the per-cell
+    # tables rather than read off the payload.
+    try:
+        _lv = os.path.join("results", "etf_lowvol_book.json")
+        if os.path.exists(_lv):
+            _doc5 = json.load(open(_lv, encoding="utf-8"))
+            _mod5 = __import__("importlib").import_module("scripts.etf_lowvol_book")
+            _g5 = _mod5.gate(_doc5)
+            _c5 = _doc5.get("cells") or {}
+            check("product: E229 the quotable subset is priced against the full vector",
+                  _g5["all_ok"] and _g5["verdict"] == _doc5.get("verdict")
+                  and len(_c5) == 9
+                  and all(bool(v.get("active")) for v in _c5.values())
+                  and _g5["detail"]["n_active"] == len(_c5),
+                  "verdict=%s active=%s beat=%s median_d=%.4f"
+                  % (_g5["verdict"], _g5["detail"]["n_active"], _g5["detail"]["n_beat"],
+                     _g5["detail"]["median_d_cagr"] or 0.0))
+        else:
+            check("product: E229 the quotable subset is priced against the full vector",
+                  True, "lowvol artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E229 the quotable subset is priced against the full vector",
+              False, str(e))
+    # r1345 / E236: the operator's real alternative is not a per-factor IC sign, it is
+    # "pick ONE of the 64 vectors from history and run it". This leg re-derives the verdict
+    # by hand from the published per-variant table and requires the face's own gate to
+    # agree -- a leg that asked the module for its verdict could not notice a rule drift.
+    try:
+        _pc = os.path.join("results", "etf_sign_pit_combo.json")
+        if os.path.exists(_pc):
+            _doc6 = json.load(open(_pc, encoding="utf-8"))
+            _cells6 = _doc6.get("cells") or {}
+            _n6 = _nbeat6 = _npos6 = 0
+            for _tag6, _c6 in _cells6.items():
+                _ctrl6 = (_c6.get("control") or {}).get("cagr")
+                for _vt6, _v6 in (_c6.get("variants") or {}).items():
+                    _cg6 = _v6.get("cagr")
+                    if not isinstance(_ctrl6, (int, float)) or not isinstance(_cg6, (int, float)):
+                        continue
+                    _n6 += 1
+                    _nbeat6 += 1 if float(_cg6) > float(_ctrl6) + 0.01 else 0
+                    _npos6 += 1 if float(_cg6) > 0.0 else 0
+            _want6 = ("pit_combo_value" if (_nbeat6 >= 9 and _npos6 >= 9)
+                      else "pit_combo_no_value" if _nbeat6 <= 3 else "pit_combo_fragile")
+            _g6 = __import__("importlib").import_module("scripts.etf_sign_pit_combo").gate(_doc6)
+            check("product: E236 the sign-vector re-selection procedure is priced",
+                  _g6["all_ok"] and _doc6.get("verdict") == _want6
+                  and _n6 == 12 and len(_cells6) == 2,
+                  "verdict=%s n=%d beat=%d pos=%d"
+                  % (_doc6.get("verdict"), _n6, _nbeat6, _npos6))
+        else:
+            check("product: E236 the sign-vector re-selection procedure is priced",
+                  True, "pit_combo artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E236 the sign-vector re-selection procedure is priced", False, str(e))
     try:
         _fwd = json.load(open("results/etf_book_forward/LEDGER.json", encoding="utf-8"))
         _sig = (_fwd.get("benchmark") or {}).get("significance") or {}
@@ -715,6 +1100,162 @@ def main() -> int:
               f"/{_c2.get('closed_days')}")
     except Exception as e:
         check("product: dashboard carries the marks coverage gap", False, str(e))
+    try:
+        # T25 (r1161): a takeover cannot move machine-local rows, so it has to
+        # re-declare the writer -- the envelope must say whose disk holds the
+        # rows, and the board must print ONE owner (config beats the hardcoded
+        # fallback) and honour a declaration instead of refusing it.
+        _lfz2 = json.load(open("results/data_lane_freshness.json", encoding="utf-8"))
+        _rws = _lfz2.get("lanes") or []
+        _owner_ok = all((r.get("owner") == r.get("lane_host"))
+                        for r in _rws if r.get("lane_host"))
+        _env = None
+        for _p in ("results/heat_update_status.json",
+                   "results/heat_update_status.bm-a.json"):
+            if os.path.exists(_p):
+                _doc = json.load(open(_p, encoding="utf-8"))
+                if isinstance(_doc.get("authority"), dict):
+                    _env = (_p, _doc)
+                    break
+        _auth_ok, _auth_why = True, "no envelope carries an authority block yet"
+        if _env:
+            _a = _env[1]["authority"]
+            _need = ("lane_owner", "writer_machine", "data_face_machine",
+                     "declared_takeover", "took_over_by", "reason")
+            _auth_ok = (all(k in _a for k in _need)
+                        and bool(_a.get("data_face_machine"))
+                        and (_a.get("data_face_machine") == _env[1].get("machine"))
+                        and (_a.get("lane_owner")
+                             == next((r.get("lane_host") for r in _rws
+                                      if r["lane"] == "heat"), None)))
+            _auth_why = f"{_env[0]}: {_a}"
+        _tk_ok = all(
+            (r.get("authority") != "non_host_envelope"
+             or not r.get("declared_takeover_by")
+             or r.get("declared_takeover_by") != r.get("reported_by"))
+            for r in _rws)
+        check("product: a lane takeover declares whose disk holds the rows",
+              _owner_ok and _auth_ok and _tk_ok,
+              f"owner==host={_owner_ok} auth={_auth_ok} ({_auth_why}) "
+              f"declared-takeover-honoured={_tk_ok}")
+    except Exception as e:
+        check("product: a lane takeover declares whose disk holds the rows",
+              False, str(e))
+    try:
+        # r1162: "cannot certify here" is about our copy; whose disk the rows are
+        # on is the actionable half. The board derives that sentence ONCE, and the
+        # two faces a human opens must carry it verbatim -- so this leg recomputes
+        # the block from the published lanes (a typed-in sentence reads red) and
+        # then checks the dashboard wiring and the report's own md/json twin.
+        import data_lane_freshness as _dlf
+        _lfdoc = json.load(open("results/data_lane_freshness.json",
+                                encoding="utf-8"))
+        _dk = _lfdoc.get("disk") or {}
+        _re = _dlf.disk_face(_lfdoc.get("lanes") or [],
+                             _lfdoc.get("hosts") or {}, here=_dk.get("here"))
+        _same = (_re["sentence"] == _dk.get("sentence")
+                 and _re["n_offhost"] == _dk.get("n_offhost")
+                 and _re["n_lanes"] == _dk.get("n_lanes")
+                 and _re["offhost_lanes"] == (_dk.get("offhost_lanes") or []))
+        _html = open("dashboard.html", encoding="utf-8").read()
+        _dash = ("lf.disk" in _html and "lfd.sentence" in _html)
+        import glob as _g2
+        _rep_js = sorted(_g2.glob(os.path.join("docs", "daily_report",
+                                               "REPORT-*.json")))
+        _rep_ok, _rep_why = True, "no report yet"
+        if _rep_js:
+            _rj = json.load(open(_rep_js[-1], encoding="utf-8"))
+            _la = _rj.get("lane_authority") or {}
+            _rmd_p = _rep_js[-1][:-5] + ".md"
+            if _la.get("present") and os.path.exists(_rmd_p):
+                _rmd = open(_rmd_p, encoding="utf-8").read()
+                _rep_ok = (_la.get("sentence") in _rmd
+                           and _la.get("n_offhost") == _dk.get("n_offhost"))
+                _rep_why = (f"{os.path.basename(_rmd_p)} "
+                            f"offhost={_la.get('n_offhost')}=={_dk.get('n_offhost')} "
+                            f"sentence-in-page={_la.get('sentence') in _rmd}")
+        check("product: whose disk the lane numbers are on reaches both human faces",
+              _same and _dash and _rep_ok,
+              f"recomputed={_same} dashboard-wired={_dash} report={_rep_why} "
+              f"disk_sentence={(_dk.get('sentence') or '')[:60]}")
+    except Exception as e:
+        check("product: whose disk the lane numbers are on reaches both human faces",
+              False, str(e))
+    try:
+        # r1156: the lane-freshness board must agree with the lanes' OWN bytes and
+        # with the official calendar. Re-reading the published JSON would only prove
+        # the file parses, so the two tails a reader acts on are recomputed here from
+        # the artifact on disk, and the expectation is rebuilt from the calendar.
+        import glob as _glob
+        _lfz = json.load(open("results/data_lane_freshness.json", encoding="utf-8"))
+        _rows = {r["lane"]: r for r in _lfz.get("lanes") or []}
+        _heat_files = [os.path.basename(p)[:-5] for p in
+                       _glob.glob(os.path.join("data", "heat", "popularity", "*.json"))]
+        _heat_tail = None
+        for _n in _heat_files:
+            if len(_n) == 8 and _n.isdigit():
+                _d = f"{_n[:4]}-{_n[4:6]}-{_n[6:]}"
+                _heat_tail = max(_heat_tail or _d, _d)
+        _zt = json.load(open(os.path.join("data", "zt_pool", "collected_days.json"),
+                             encoding="utf-8"))
+        _zt_tail = max(max(v) for v in _zt.values() if v)
+        _cal = [ln.strip() for ln in
+                open("data/exchange_calendar.csv", encoding="utf-8") if ln.strip()]
+        _asof = dt.datetime.fromisoformat(_lfz["as_of"])
+        _today = _asof.date().isoformat()
+        _upto = [d for d in _cal if d < _today or
+                 (d == _today and _asof.time() >= dt.time(15, 30))]
+        _exp = _upto[-1]
+        # r1156: the board must not read green because it could not certify
+        # anything -- 'uncertified' is its own verdict, and a lane whose evidence
+        # came from another machine's copy must say so instead of publishing it.
+        _states = ("in_sync", "today_pending", "behind_1d", "stalled", "absent",
+                   "unreadable", "unverifiable", "retired")
+        # r1349: `data/heat/` is gitignored (.gitignore:35), so its bytes exist only on the
+        # machine that collects them. Requiring the board's heat tail to equal a directory
+        # that is empty here asserts a deployment layout, not a fact -- it was red on this
+        # host for a lane the board already declares unverifiable/stalled. Strict when the
+        # local bytes exist; when they do not, the board must NOT claim a certified tail for
+        # that lane (its own verdict must say unverifiable/absent/retired).
+        _heat_row = _rows.get("heat") or {}
+        _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
+            _heat_row.get("verdict") in ("unverifiable", "absent", "retired")
+            and bool(_heat_row.get("tail_source")))
+        _ok_lf = (_heat_matches
+                  and _rows["zt_pool"]["tail"] == _zt_tail
+                  and _lfz.get("expected_last_official_day") == _exp
+                  and sum((_lfz.get("counts") or {}).values()) == _lfz.get("n_lanes")
+                  and all(r.get("verdict") in _states
+                          for r in _lfz.get("lanes") or [])
+                  and all(r.get("verdict") == "unverifiable"
+                          for r in _lfz.get("lanes") or []
+                          # a retired face keeps its copy reading but is not a
+                          # stall: the board's own L9b leg says so, and the smoke
+                          # leg must judge the same rule (r1156 red caught here)
+                          if r.get("copy_verdict") and r.get("verdict") != "retired")
+                  and (_lfz.get("verdict") in ("all_fresh", "attention", "uncertified",
+                                               "host_down"))
+                  # r1159: an unverifiable board must name the machine that should
+                  # be vouching for those lanes, so the reader can act on it
+                  and all(isinstance(r.get("host_alive"), (bool, type(None)))
+                          and ("host_age_h" in r)
+                          for r in _lfz.get("lanes") or [])
+                  and (_lfz.get("verdict") != "host_down"
+                       or (_lfz.get("hosts_down") and _lfz.get("lanes_hostage")))
+                  # a green headline with nothing certified is the failure this
+                  # face exists to catch
+                  and not (_lfz.get("verdict") == "all_fresh"
+                           and _lfz.get("unverifiable_lanes")))
+        check("product: data lane freshness board agrees with the lanes and the calendar",
+              _ok_lf,
+              f"heat={_rows.get('heat', {}).get('tail')}=={_heat_tail} "
+              f"zt={_rows.get('zt_pool', {}).get('tail')}=={_zt_tail} "
+              f"expected={_lfz.get('expected_last_official_day')}=={_exp} "
+              f"verdict={_lfz.get('verdict')} counts={_lfz.get('counts')} "
+              f"auditable={_lfz.get('n_auditable')}/{_lfz.get('n_lanes')}")
+    except Exception as e:
+        check("product: data lane freshness board agrees with the lanes and the calendar",
+              False, str(e))
     try:
         _ofv = json.load(open("results/t35_open_fill_verify.json",
                               encoding="utf-8"))
@@ -902,7 +1443,7 @@ def main() -> int:
         _fnd = _gf.audit(_hb)
         check("fleet: GPU face self-consistent on heartbeat", not _fnd,
               f"{_mid}: findings={_fnd or 'none'} stamped={bool(_hb.get('gpu_face_ts'))}")
-        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        _legs = {t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: GPU face leg wired into the S6 chain", "gpu_face" in _legs,
               f"legs={len(_legs)}")
     except Exception as e:
@@ -1028,13 +1569,13 @@ def main() -> int:
                 _face_ok = True
         check("fleet: panel carries the machine-health verdict, not a row count",
               _face_ok, _why)
-        _legs = {n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS}
+        _legs = {t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS}
         check("fleet: machine-health gate leg wired into the S6 chain",
               "machine_health_face" in _legs, f"legs={len(_legs)}")
         # r1318: the panel READS the health face, so the writer has to run first.
         # It did not -- build_status copied a thinned row and the heal happened
         # behind it, which is why this very leg went red on a healthy fleet.
-        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         check("fleet: health writer runs before the panel that reads it",
               _order.index("machine_health_write") < _order.index("build_status"),
               "write=%d build_status=%d" % (_order.index("machine_health_write"),
@@ -1288,8 +1829,8 @@ def main() -> int:
         check("fleet: the tree-shrink push gate is installed in both repos", False, str(e))
     _sp_env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
     def _selftest_run(script, args, timeout):
-        return _sp.run([sys.executable, script, *args], capture_output=True,
-                       text=True, encoding="utf-8", errors="replace",
+        return subprocess.run([sys.executable, script, *args], capture_output=True,
+                              text=True, encoding="utf-8", errors="replace",
                        env=_sp_env, timeout=timeout)
     for _name, _script, _args in (
             ("daily", "scripts/update_daily.py", ["--selftest"]),
@@ -1331,6 +1872,30 @@ def main() -> int:
     for _label, _script, _args in (
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
+            # r1349 / E255: a percentile quoted from 2,000 draws has a resolution, and two
+            # arms whose gap sits inside it are one number. This leg pins the interval, the
+            # permutation test on both sides, and the rule that a disagreement between the
+            # two aggregators is published rather than resolved.
+            ("product: etf_book_quantile_floor (percentile resolution contract)",
+             "scripts/etf_book_quantile_floor.py", ["--selftest"]),
+            # r1350 / E257: a grid cell quoted from one decision calendar is not a level. The
+            # suite prices the rule that decides whether the grid's ordering is separated from
+            # phase luck, including the two branches a permissive rule would take (an edited
+            # median, an edited verdict) and a cell judged on too few phases.
+            ("product: etf_book_phase_atlas (grid vs its own calendar)",
+             "scripts/etf_book_phase_atlas.py", ["--selftest"]),
+            # r1351: the arms face (r1163) turns the atlas ruler on the buffer and cost arms.
+            # The suite pins the frozen rule, the three-way verdict split, and the gate itself:
+            # a face that equals its re-derivation is green, an edited verdict with no source
+            # moved stays inconsistent, and a missing face reads stale (never "fine").
+            ("product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
+             "scripts/etf_book_phase_atlas_arms.py", ["--selftest"]),
+            # r1352 / E261: a label is a measurement only if it is rare when nothing happened.
+            # The suite pins the null (seeded, reproducible), the activity preconditions (zero
+            # noise is NOT-SEPARABLE, a 50pp shift is ADOPT -- so the rule really ran), that the
+            # published verdict follows from its own frequencies, and the gate's three states.
+            ("product: etf_book_rule_null (labeler on an effect-free panel)",
+             "scripts/etf_book_rule_null.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",
@@ -1341,6 +1906,17 @@ def main() -> int:
              "scripts/etf_book_order.py", ["--selftest"]),
             ("product: etf_book_width_audit (exit-code contract)",
              "scripts/etf_book_width_audit.py", ["--selftest"]),
+            # r1153: the battle report now names the market's risk tape (limit-up /
+            # limit-down / broken-seal / strong counts + the streak ladder) instead of
+            # leaving it in a forward panel nobody reads. Its selftest builds a real
+            # parquet fixture, so a column rename or a "missing day = 0 members"
+            # regression reads red instead of shipping a quiet zero.
+            ("product: daily report risk tape (zt pools, honest absence)",
+             "scripts/daily_report.py", ["selftest"]),
+            # the four risk tiers used to need four separate `--beta` runs read off two
+            # different files; this leg keeps the one-page menu callable (r1149).
+            ("product: etf_book_beta_menu (exit-code contract)",
+             "scripts/etf_book_beta_menu.py", ["--selftest"]),
             ("product: etf_book_split_audit repair value (exit-code contract)",
              "scripts/etf_book_split_audit.py", ["selftest"]),
             # The r1310/r1311 span regressions only ever ran on 2020+ data, i.e. inside the
@@ -1484,6 +2060,26 @@ def main() -> int:
             # both tables must keep their header rows.
             ("product: incumbent-buffer adoption across books and phases (exit-code contract)",
              "scripts/etf_book_buffer_adoption.py", ["--selftest"]),
+            # r1347: adoption tested one arm; the hysteresis face still publishes four more
+            # priced on a single sequence. These legs pin the breakeven-cost conversion
+            # (a return-losing arm needs a positive cost to break even, a return-gaining one
+            # needs none, zero turnover has no conversion path at all), the family verdict
+            # reading its arms rather than a stored string, and "behind the card" being a
+            # third state instead of a permanently red gate (r1346).
+            ("product: buffer arm grid breakeven and family verdict (exit-code contract)",
+             "scripts/etf_book_hysteresis_paths.py", ["--selftest"]),
+            # r1347: a breakeven in bp/side is not a size. These legs pin the sqrt cost law
+            # and its inverse, the three crossing states (gains return / under the base / no
+            # impact component), and the share rule that keeps one lucky cell from reading as
+            # "pays at size"; the gate leg pins that an edited cell or an edited flag is
+            # contradicted by the recompute.
+            ("product: buffer breakeven priced as a size (exit-code contract)",
+             "scripts/etf_book_buffer_price_of_size.py", ["--selftest"]),
+            # r1348: the same ruler, pointed at the distribution instead of an arm -- the
+            # block bootstrap of the book's own daily path, and the gate that re-derives
+            # every percentile from the published resample rows.
+            ("product: book envelope by block bootstrap (exit-code contract)",
+             "scripts/etf_book_nav_envelope.py", ["--selftest"]),
             # r1326: the same ruler applied to the claim the whole card rests on (+6.36pp/yr
             # of selection premium over the book's own static class mix). The legs pin the
             # two ways this face can lie in either direction: a premium under the frozen
@@ -1630,14 +2226,15 @@ def main() -> int:
               False, str(e))
     try:
         _legs = __import__("importlib").import_module("Tools.s6_chain_bmc").LEGS
-        _names = {n for n, _c in _legs}
+        _names = {t[0] for t in _legs}
         # etf_book_production belongs here as much as the ticket: r1290 caught the card
         # (the headline face) a full refresh behind the ticket because only the ticket
         # was wired -- an unwired face reads as current to everything downstream.
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
-                 "etf_book_order_card",
+                 "etf_book_order_card", "etf_sign_pit", "etf_sign_enum", "etf_sign_stability",
+                 "etf_sign_cells", "etf_sign_pit_combo",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
                  "etf_book_card_track", "etf_paper_signal", "cal_audit"}
         _miss = sorted(_want - _names)
@@ -1646,7 +2243,7 @@ def main() -> int:
     except Exception as e:
         check("product: ETF book legs wired into the S6 chain", False, str(e))
     try:
-        _order = [n for n, _c in importlib.import_module("Tools.s6_chain_bmc").LEGS]
+        _order = [t[0] for t in importlib.import_module("Tools.s6_chain_bmc").LEGS]
         _ri = _order.index("etf_book_registry")
         _behind = [(f.get("id"), f.get("chain_leg")) for f in (_rg.get("faces") or [])
                    if f.get("chain_leg") in _order and _order.index(f["chain_leg"]) > _ri]
@@ -1858,16 +2455,86 @@ def main() -> int:
             _cl_detail = "recompute failed: %s" % _e
         check("product: cash-leg ladder verdict is the panels' own rolls, not a typed-in answer",
               _ok_cl, _cl_detail)
+        # The page advises "hold the idle half in the repo" but nothing could see whether
+        # it happened. The handshake face reconciles the recorded placement against the
+        # book's cash. Recomputed here from the placement file + the repo panel so that a
+        # hand-edited page (or an unfilled record printed as "all good") reads red.
+        _hs = _page.get("cash_handshake") or {}
+        _ok_hs = False
+        _hs_detail = "block absent"
+        try:
+            _pf = "state/account/cash_placement.json"
+            _rec = None
+            if os.path.exists(_pf):
+                with open(_pf, encoding="utf-8-sig") as _fh:
+                    _rec = json.load(_fh)
+            _cash_y = float(_page.get("cash_amount_cny") or 0.0)
+            _last_rate = None
+            with open("data/repo_daily/GC001.csv", encoding="utf-8") as _fh:
+                next(_fh, None)
+                for _ln in _fh:
+                    _p = _ln.strip().split(",")
+                    if len(_p) >= 5:
+                        try:
+                            _v = float(_p[4])
+                        except ValueError:
+                            continue
+                        if 0.0 < _v < 200.0:
+                            _last_rate = _v
+            _dem = 0.05
+            if _rec and _rec.get("demand_rate_pct") is not None:
+                _dem = float(_rec["demand_rate_pct"])
+            _by = str((_rec or {}).get("recorded_by") or "").strip().lower()
+            _unrec = (not _rec) or _by in ("", "unrecorded", "none", "null")
+            if _unrec:
+                _ok_hs = (_hs.get("status") == "UNRECORDED"
+                          and _hs.get("gap_annual_cny") is None
+                          and _hs.get("idle_cny") is None
+                          and _last_rate is not None
+                          and abs(float(_hs.get("worst_case_annual_cny") or 0)
+                                  - _cash_y * (_last_rate - _dem) / 100.0) < 2.0)
+                _hs_detail = ("unrecorded status=%s gap=%s worst=%s recomputed=%.0f"
+                              % (_hs.get("status"), _hs.get("gap_annual_cny"),
+                                 _hs.get("worst_case_annual_cny"),
+                                 _cash_y * ((_last_rate or 0.0) - _dem) / 100.0))
+            else:
+                _placed = 0.0
+                for _r in _rec.get("placements") or []:
+                    _inst = str((_r or {}).get("instrument") or "").strip().lower()
+                    if _inst in ("", "活期", "demand", "cash", "现金", "活期存款"):
+                        continue
+                    if (_r or {}).get("amount_cny") is not None:
+                        _placed += float(_r["amount_cny"])
+                _idle = max(0.0, _cash_y - _placed)
+                _gap = _idle * ((_last_rate or 0.0) - _dem) / 100.0
+                _over = (_cash_y - _placed) < -max(1.0, 0.001 * _cash_y)
+                _want = ("OVER-PLACED" if _over
+                         else "IN-PLACE" if _idle <= max(1.0, 0.001 * _cash_y)
+                         else "IDLE" if _idle >= _cash_y * 0.995 else "PARTIAL")
+                _ok_hs = (_hs.get("status") == _want
+                          and abs(float(_hs.get("idle_cny") or 0.0) - _idle) < 1.0
+                          and (_over or not _hs.get("gap_annual_cny") is None
+                               and abs(float(_hs.get("gap_annual_cny") or 0.0) - _gap) < 2.0))
+                _hs_detail = ("status=%s want=%s idle=%.0f/%.0f gap=%s/%.0f placed=%.0f"
+                              % (_hs.get("status"), _want, float(_hs.get("idle_cny") or 0),
+                                 _idle, _hs.get("gap_annual_cny"), _gap, _placed))
+        except Exception as _e:
+            _hs_detail = "recompute failed: %s" % _e
+        check("product: cash placement is reconciled against the book, and an unread account is not a zero gap",
+              _ok_hs, _hs_detail)
     except Exception as e:
         check("product: ETF live-book page current and its money closes", False, str(e))
     try:
         _bma = importlib.import_module("Tools.s6_chain_bma")
         _canon = importlib.import_module("Tools.s6_chain_bmc")
-        _a = [n for n, _c in _bma.LEGS]
-        _c = [n for n, _c in _canon.LEGS]
-        _miss = [p for _n, _cmd in _bma.LEGS
-                 if _bma.leg_script(_cmd) and not os.path.exists(
-                     os.path.join(_bma.ROOT, _bma.leg_script(_cmd)))]
+        # r1346: LEGS entries may carry a third element (the refresh command paid on a
+        # stale face), so unpack by position -- or n, c in LEGS fails on the first
+        # such leg and this check then reads as a fleet red instead of a tuple bug.
+        _a = [t[0] for t in _bma.LEGS]
+        _c = [t[0] for t in _canon.LEGS]
+        _miss = [t[0] for t in _bma.LEGS
+                 if _bma.leg_script(t[1]) and not os.path.exists(
+                     os.path.join(_bma.ROOT, _bma.leg_script(t[1])))]
         check("fleet: bm-a's chain runner is the shared leg list, not a snapshot",
               _a == _c and not _miss,
               f"legs={len(_a)} canonical={len(_c)} missing_scripts={_miss or '-'}")
@@ -1877,8 +2544,8 @@ def main() -> int:
     try:
         import glob as _glob
         import json as _json
-        _sp = os.path.join("scripts", "futures_tsmom_signal.py")
-        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+        _sppath = os.path.join("scripts", "futures_tsmom_signal.py")
+        _sr = subprocess.run([sys.executable, _sppath, "--selftest"], capture_output=True,
                              text=True, encoding="utf-8", errors="replace")
         _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
         check("product: futures TSMOM shadow face keeps its sizing rules",
@@ -1908,8 +2575,8 @@ def main() -> int:
         check("product: futures TSMOM shadow face keeps its sizing rules", False, str(e))
     try:
         import json as _json
-        _sp = os.path.join("scripts", "futures_overlay_sweep.py")
-        _sr = subprocess.run([sys.executable, _sp, "--selftest"], capture_output=True,
+        _sppath = os.path.join("scripts", "futures_overlay_sweep.py")
+        _sr = subprocess.run([sys.executable, _sppath, "--selftest"], capture_output=True,
                              text=True, encoding="utf-8", errors="replace")
         _st = ((_sr.stdout or "").strip().splitlines() or [""])[-1]
         check("product: futures overlay sweep keeps its blend arithmetic",
@@ -2442,6 +3109,49 @@ def main() -> int:
     except Exception as e:
         check("product: the state tilt publishes its own effective sample size",
               False, repr(e)[:160])
+    # r1343: the pre-commit claw only looks at markers being ADDED, so a marker that
+    # entered through a rebase replay or --no-verify sits in the blob forever. The live
+    # case was knowledge/METHODOLOGY_ASSETS.md at c07483b9 carrying a lone
+    # "||||||| parent of ed40e56da3" line, which no leg read.
+    try:
+        _frag = _marker_fragments()
+        check("config: no tracked blob carries a conflict-marker fragment",
+              not _frag,
+              ("%d file(s): " % len(_frag)
+               + "; ".join("%s:%d %s" % (p, ln, k) for p, ln, k in _frag[:4]))[:220]
+              if _frag else
+              "balanced hunks only (probe fixtures that quote a whole hunk stay legal)")
+    except Exception as e:
+        check("config: no tracked blob carries a conflict-marker fragment",
+              False, repr(e)[:160])
+
+    # r1344: the card-ledger tripwire must see every card at either heading level.
+    # bm-b files `### E221`, this machine files `## E232`, and the first version of
+    # the guard matched only `##` -- so 6 of 158 cards were invisible to the one gate
+    # whose job is noticing that a card disappeared. The leg is a SCOPE assertion,
+    # not a count: it re-derives the number of card headings from the ledger bytes
+    # and requires the guard's own reader to agree, so the scope cannot shrink again.
+    try:
+        _cl = importlib.import_module("Tools.card_ledger_guard")
+        _led = open("knowledge/METHODOLOGY_ASSETS.md", encoding="utf-8",
+                    newline="").read().replace("\r", "")
+        # re-derived here by hand, not through the guard's own regex: a leg that asks
+        # the reader to check itself cannot notice that the reader got narrower.
+        _want = 0
+        for _l in _led.split("\n"):
+            _body = _l[4:] if _l.startswith("### ") else (
+                _l[3:] if _l.startswith("## ") else "")
+            if (len(_body) > 4 and _body[0] == "E" and _body[1:4].isdigit()
+                    and not _body[4].isalnum()):
+                _want += 1
+        _src, _p = _cl.check(head_text=_led, tree_text=_led)
+        check("config: the card ledger guard sees every card heading level",
+              _src == 0 and _want > 0 and _p["tree_cards"] == _want,
+              "guard sees %d of %d cards (levels %s)"
+              % (_p["tree_cards"], _want, _p["cards_by_level"]))
+    except Exception as e:
+        check("config: the card ledger guard sees every card heading level",
+              False, repr(e)[:160])
 
     # --- E226 the break-even toll: the published root must be the zero of the
     # published line, and surviving the toll must not read as clearing the bar
@@ -2513,1573 +3223,393 @@ def main() -> int:
     except Exception as e:
         check("product: the state tilt prices the toll it would need", False, repr(e)[:160])
 
-    # --- E228 the exposure-matched null: the drift split must be reproduced as a
-    # TRADED arm, the paired series must carry its own standard error, and the two
-    # ways of asking the question must differ by exactly the matched arm's own toll
+    # the carry split: the page now says how much of the quoted headline is the repo leg.
+    # Two faces, one book -- the split artifact's base cell must be the ticket's own number,
+    # because a reader comparing them would otherwise be reading two different books.
     try:
-        _f28 = {}
-        _bad = []
-        _face28 = "results/state_tilt/matched_latest.json"
-        if not os.path.exists(_face28):
-            _bad.append("no results/state_tilt/matched_latest.json on disk")
+        _rg27 = os.path.join(PATHS.results_dir, "etf_book_return_regime.json")
+        _tk27p = os.path.join(PATHS.results_dir, "etf_book_order", "latest.json")
+        _bad27 = []
+        if not os.path.exists(_rg27):
+            _bad27.append("results/etf_book_return_regime.json missing")
+        elif not os.path.exists(_tk27p):
+            _bad27.append("results/etf_book_order/latest.json missing")
         else:
-            with open(_face28, encoding="utf-8") as _fh:
-                _f28 = json.load(_fh)
-            _cut28 = _f28.get("evidence_cutoff")
-            if not _cut28:
-                _bad.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/MATCHED-%s.json" % _cut28):
-                _bad.append("the dated face beside the latest pointer is missing")
-            if not (_f28.get("answer") or "").strip():
-                _bad.append("face publishes no answer sentence")
-            _spec28 = (_f28.get("frozen_spec") or {})
-            if _spec28.get("tests") != 4 * max(1, len(_f28.get("panels") or [])):
-                _bad.append("the bar is not built from the gated-arm x panel count")
-            if (_f28.get("benchmark_agreement") or {}).get("cells") != sum(
-                    len(p.get("arms") or []) for p in (_f28.get("panels") or [])):
-                _bad.append("the agreement table does not cover every gated cell")
-            for _p28 in (_f28.get("panels") or []):
-                for _a28 in (_p28.get("arms") or []):
-                    _n28 = _a28.get("name")
-                    if _a28.get("verdict") not in {"TIMING_SURVIVES", "TIMING_DEAD",
-                                                   "UNRESOLVED"}:
-                        _bad.append("arm %s carries an unpublished verdict" % _n28)
-                    _mo28 = ((_a28.get("matched") or {}).get("oos") or {})
-                    _pa28 = _mo28.get("paired") or {}
-                    if _mo28.get("const_weight") is None:
-                        _bad.append("arm %s publishes no matched constant" % _n28)
-                    elif (_mo28.get("turnover_total") or 0.0) > _mo28["const_weight"] + 1e-9:
-                        _bad.append("arm %s matched arm trades more than its entry" % _n28)
-                    elif (_mo28.get("cost_bp_per_year_oos") or 0.0) != 0.0:
-                        _bad.append("arm %s matched arm pays a toll out of sample" % _n28)
-                    if _pa28.get("se_nw"):
-                        if abs((_pa28.get("mde_ann_bp_per_year") or 0.0)
-                               - 2.802 * _pa28["se_nw"] * 252.0) > 1e-6:
-                            _bad.append("arm %s prints an MDE its own SE cannot produce"
-                                        % _n28)
-                    elif _pa28.get("t_nw") is not None:
-                        _bad.append("arm %s prints a t with no standard error" % _n28)
-                    _bc28 = _a28.get("benchmark_comparison") or {}
-                    if _bc28.get("attribution_minus_paired_bp") is not None and \
-                            abs(_bc28["attribution_minus_paired_bp"]
-                                + (_mo28.get("cost_bp_per_year_oos") or 0.0)) > 1e-6:
-                        _bad.append("arm %s: attribution minus pair is not the matched toll"
-                                    % _n28)
-                    if _a28.get("verdict") == "TIMING_SURVIVES" and \
-                            (_pa28.get("t_nw") or 0.0) < (_spec28.get("bar_t") or 0.0):
-                        _bad.append("arm %s survives below the bar" % _n28)
-        check("product: the drift split is reproduced as a traded exposure-matched arm",
-              not _bad, "; ".join(_bad)[:220]
-              or "%d panels, %d gated arms, %d sign changes, max attribution gap %.1fbp/yr, "
-                 "verdicts %s"
-                 % (len(_f28.get("panels") or []),
-                    sum(len(p.get("arms") or []) for p in (_f28.get("panels") or [])),
-                    (_f28.get("benchmark_agreement") or {}).get("sign_changes"),
-                    (_f28.get("benchmark_agreement") or {}).get("max_abs_gap_bp_per_year")
-                    or 0.0,
-                    ",".join(sorted({a.get("verdict") for p in (_f28.get("panels") or [])
-                                     for a in (p.get("arms") or [])}))))
+            with open(_rg27, encoding="utf-8") as _fh27:
+                _rg = json.load(_fh27)
+            with open(_tk27p, encoding="utf-8") as _fh27:
+                _ptr27 = json.load(_fh27)
+            _tkf27 = os.path.join(os.path.dirname(_tk27p),
+                                  os.path.basename(str(_ptr27.get("file") or "")))
+            if not os.path.exists(_tkf27):
+                _bad27.append("ticket file named by the pointer is absent")
+                _tk27 = {}
+            else:
+                with open(_tkf27, encoding="utf-8") as _fh27:
+                    _tk27 = json.load(_fh27)
+            _pub27 = ((_tk27.get("metrics") or {}).get("book") or {}).get("cagr")
+            _gate27 = _rg.get("gate") or {}
+            _base27 = (_gate27.get("betas") or {}).get(str(_gate27.get("base_beta"))) or {}
+            if _pub27 is None:
+                _bad27.append("ticket publishes no book cagr")
+            elif _base27.get("observed_pct") is None:
+                _bad27.append("split artifact has no observed cell for the base beta")
+            elif abs(float(_base27["observed_pct"]) / 100.0 - float(_pub27)) > 5e-4:
+                _bad27.append("base cell %.4f%% != ticket %.4f%%"
+                              % (float(_base27["observed_pct"]), float(_pub27) * 100))
+            for _b27, _r27 in (_gate27.get("betas") or {}).items():
+                if not _r27:
+                    continue
+                if not (_r27["observed_pct"] >= _r27["flat_today_pct"]
+                        >= _r27["zero_pct"] - 1e-9):
+                    _bad27.append("beta %s ladder is not ordered observed>=today>=zero" % _b27)
+                if abs((_r27["observed_pct"] - _r27["zero_pct"]) - _r27["carry_pp"]) > 1e-3:
+                    _bad27.append("beta %s carry is not observed-zero" % _b27)
+            _idy27 = _rg.get("identity") or {}
+            if _idy27.get("matched") is not True:
+                _bad27.append("the artifact itself records a failed identity check")
+            _md27p = os.path.join(PATHS.root, "docs", "live_book",
+                                  "LIVE-BOOK-%s.md" % str(_rg.get("evidence_cutoff") or "")
+                                  .replace("-", ""))
+            if os.path.exists(_md27p):
+                with open(_md27p, encoding="utf-8") as _fh27:
+                    _md27 = _fh27.read()
+                if "这笔钱里有多少是" not in _md27:
+                    _bad27.append("live page carries no carry-split section")
+                elif "%.2f%%" % float(_base27.get("zero_pct") or 0.0) not in _md27:
+                    _bad27.append("live page omits the zero-cash number")
+            # the split must be strictly weaker than the headline: no cash leg pays nothing
+            _z27 = _base27.get("zero_pct")
+            _o27 = _base27.get("observed_pct")
+            if None not in (_z27, _o27) and not (_z27 < _o27):
+                _bad27.append("zero-cash arm is not below the observed arm")
+        check("product: the carry split reproduces the ticket and stays ordered",
+              not _bad27, "; ".join(_bad27)[:220]
+              or "base %.2f%% = ticket %.2f%% | today-flat %.2f%% | zero %.2f%%"
+                 % (float(_base27.get("observed_pct") or 0.0),
+                    float(_pub27 or 0.0) * 100,
+                    float(_base27.get("flat_today_pct") or 0.0),
+                    float(_base27.get("zero_pct") or 0.0)))
     except Exception as e:
-        check("product: the drift split is reproduced as a traded exposure-matched arm",
-              False, repr(e)[:160])
-
-    # E229: the pair E228 judged is split three ways -- selection (which days), sizing
-    # (how much) and toll. The leg re-adds the published channels and refuses a face
-    # whose own parts do not reconstruct its own pair, so the attribution cannot drift
-    # away from the series it claims to explain.
+        check("product: the carry split reproduces the ticket and stays ordered", False,
+              repr(e)[:160])
+    # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
-        _f29 = {}
-        _bad29 = []
-        _face29 = "results/state_tilt/timingsel_latest.json"
-        if not os.path.exists(_face29):
-            _bad29.append("no results/state_tilt/timingsel_latest.json on disk")
+        _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
+        _pe28p = os.path.join(PATHS.results_dir, "paper_export", "latest.json")
+        _bad28 = []
+        if not os.path.exists(_lu28p):
+            _bad28.append("docs/live_usage/LIVE-latest.json missing")
+        elif not os.path.exists(_pe28p):
+            _bad28.append("results/paper_export/latest.json missing")
         else:
-            with open(_face29, encoding="utf-8") as _fh:
-                _f29 = json.load(_fh)
-            _cut29 = _f29.get("evidence_cutoff")
-            if not _cut29:
-                _bad29.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/TIMINGSEL-%s.json" % _cut29):
-                _bad29.append("the dated face beside the latest pointer is missing")
-            if (_f29.get("study") or "") != "E229":
-                _bad29.append("face is not the E229 decomposition")
-            _spec29 = _f29.get("frozen_spec") or {}
-            if list(_spec29.get("channels") or []) != ["selection", "sizing", "toll"]:
-                _bad29.append("the channel list is not the frozen three")
-            _cells29 = 0
-            for _p29 in (_f29.get("panels") or []):
-                for _a29 in (_p29.get("arms") or []):
-                    _n29 = _a29.get("name")
-                    _c29 = _a29.get("channels") or {}
-                    _cells29 += 1
-                    _pair29 = _c29.get("pair_ann_bp_per_year")
-                    _parts = [(_c29.get(_ch) or {}).get("ann_bp_per_year")
-                              for _ch in ("selection", "sizing", "toll")]
-                    if _pair29 is None or any(x is None for x in _parts):
-                        _bad29.append("arm %s publishes an incomplete split" % _n29)
-                        continue
-                    if abs(sum(_parts) - _pair29) > 1e-6:
-                        _bad29.append("arm %s channels do not reconstruct its pair" % _n29)
-                    if abs(_c29.get("identity_residual_bp") or 0.0) > 1e-6:
-                        _bad29.append("arm %s carries a non-zero identity residual" % _n29)
-                    if _a29.get("verdict") not in {"NO_STRUCTURE", "SELECTION_DOMINANT",
-                                                   "SIZING_DOMINANT", "TOLL_DOMINANT",
-                                                   "UNRESOLVED"}:
-                        _bad29.append("arm %s carries an unpublished verdict" % _n29)
-                    if _a29.get("dominant") not in {None, "selection", "sizing", "toll"}:
-                        _bad29.append("arm %s names a channel outside the frozen three"
-                                      % _n29)
-                    _si29 = (_c29.get("sizing_level") or {}).get("ann_bp_per_year")
-                    _sc29 = (_c29.get("sizing_covariance") or {}).get("ann_bp_per_year")
-                    _sz29 = (_c29.get("sizing") or {}).get("ann_bp_per_year")
-                    if _si29 is not None and _sc29 is not None and _sz29 is not None \
-                            and abs((_si29 + _sc29) - _sz29) > 1e-6:
-                        _bad29.append("arm %s sizing split does not add up" % _n29)
-                    if (_n29 or "").startswith("binary") and abs(_sc29 or 0.0) > 1e-6:
-                        _bad29.append("arm %s: a 0/1 gate cannot have a covariance term"
-                                      % _n29)
-            if _cells29 == 0:
-                _bad29.append("the face covers no arms")
-            if not (_f29.get("answer") or "").strip():
-                _bad29.append("face publishes no answer sentence")
-        check("product: the paired timing value splits into selection, sizing and toll",
-              not _bad29, "; ".join(_bad29)[:220]
-              or "%d cells, dominant channels %s, resolvable %d, max |identity residual| "
-                 "%.1e bp"
-                 % (_cells29,
-                    ",".join(sorted({str(a.get("dominant"))
-                                     for p in (_f29.get("panels") or [])
-                                     for a in (p.get("arms") or [])})),
-                    len(_f29.get("resolvable_dominant_channels") or []),
-                    max(abs((a.get("channels") or {}).get("identity_residual_bp") or 0.0)
-                        for p in (_f29.get("panels") or [])
-                        for a in (p.get("arms") or [])) if _cells29 else 0.0))
+            with open(_lu28p, encoding="utf-8") as _fh28:
+                _lu28 = json.load(_fh28)
+            with open(_pe28p, encoding="utf-8") as _fh28:
+                _pe28 = json.load(_fh28)
+            _ru28 = _lu28.get("rollup") or {}
+            _mem28 = _lu28.get("members") or []
+            _tol28 = 0.5 * max(len(_mem28), 1)
+            _sum28e = sum(float(m["equity_cny"]) for m in _mem28)
+            _sum28c = sum(float(m["cash_cny"]) for m in _mem28)
+            _ex28 = (_pe28.get("summary") or {}).get("total_equity_cny")
+            if not _ru28:
+                _bad28.append("the page carries no roll-up block")
+            else:
+                if abs(_ru28["equity_cny"] - _sum28e) > _tol28:
+                    _bad28.append("roll-up equity %.2f != member sum %.2f"
+                                  % (_ru28["equity_cny"], _sum28e))
+                if abs(_ru28["cash_cny"] - _sum28c) > _tol28:
+                    _bad28.append("roll-up cash %.2f != member cash %.2f"
+                                  % (_ru28["cash_cny"], _sum28c))
+                if _ex28 is None:
+                    _bad28.append("export summary publishes no total equity")
+                elif abs(_ru28["equity_cny"] - float(_ex28)) > _tol28:
+                    _bad28.append("roll-up %.2f != export total %.2f"
+                                  % (_ru28["equity_cny"], float(_ex28)))
+                if abs(_ru28["pnl_cny"]
+                       - (_ru28["equity_cny"] - _ru28["initial_cny"])) > 0.05:
+                    _bad28.append("pnl is not equity - initial capital")
+                if _ru28.get("day_pnl_cny") is None:
+                    if _ru28.get("day_prior") is not None:
+                        _bad28.append("day change missing though a prior export exists")
+                elif _ru28.get("day_prior_equity_cny") is None:
+                    _bad28.append("day change printed without its comparison total")
+                elif abs(_ru28["day_pnl_cny"]
+                         - (_ru28["equity_cny"]
+                            - _ru28["day_prior_equity_cny"])) > 0.05:
+                    _bad28.append("day change is not today minus the prior export")
+                _md28p = os.path.join(PATHS.root, "docs", "live_usage",
+                                      "LIVE-%s.md" % str(_lu28.get("day") or "")
+                                      .replace("-", ""))
+                if not os.path.exists(_md28p):
+                    _md28p = os.path.join(PATHS.root, "docs", "live_usage",
+                                          "LIVE-latest.md")
+                if not os.path.exists(_md28p):
+                    _bad28.append("the rendered page is absent")
+                else:
+                    with open(_md28p, encoding="utf-8") as _fh28:
+                        _md28 = _fh28.read()
+                    if "六员合计" not in _md28:
+                        _bad28.append("the rendered page has no total line")
+                    elif _ru28.get("return_pct") is not None and \
+                            ("%+.2f%%" % _ru28["return_pct"]) not in _md28:
+                        _bad28.append("the total line omits the cumulative return")
+        check("product: the CEO page prices the whole book in one line",
+              not _bad28, "; ".join(_bad28)[:220]
+              or ("equity %.0f / initial %.0f / positions %.0f / day %s"
+                  % (float(_ru28.get("equity_cny") or 0),
+                     float(_ru28.get("initial_cny") or 0),
+                     float(_ru28.get("positions_cny") or 0),
+                     _ru28.get("day_pnl_cny"))))
     except Exception as e:
-        check("product: the paired timing value splits into selection, sizing and toll",
-              False, repr(e)[:160])
-
-    # E230: E229 named the toll as the only channel that clears its bar, so the study
-    # that follows asks whether the rule can buy it back by moving less often. The leg
-    # re-derives every published rung: a rung's own channels must reconstruct its own
-    # pair, the rung at band 0 must be the base arm itself, and a rung whose deltas are
-    # inside the noise must not be labelled a fix -- the ladder may never print a verdict
-    # its own numbers cannot carry.
+        check("product: the CEO page prices the whole book in one line", False,
+              repr(e)[:160])
+    # ---- v1.8: the CEO page must carry the market risk tape, recomputed ----
     try:
-        _f30 = {}
+        _lu30p = os.path.join(PATHS.root, "docs", "live_usage",
+                              "LIVE-latest.json")
         _bad30 = []
-        _face30 = "results/state_tilt/hysteresis_latest.json"
-        if not os.path.exists(_face30):
-            _bad30.append("no results/state_tilt/hysteresis_latest.json on disk")
+        _info30 = ""
+        if not os.path.exists(_lu30p):
+            _bad30.append("docs/live_usage/LIVE-latest.json missing")
         else:
-            with open(_face30, encoding="utf-8") as _fh:
-                _f30 = json.load(_fh)
-            _cut30 = _f30.get("evidence_cutoff")
-            if not _cut30:
-                _bad30.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/HYSTERESIS-%s.json" % _cut30):
-                _bad30.append("the dated face beside the latest pointer is missing")
-            if (_f30.get("study") or "") != "E230":
-                _bad30.append("face is not the E230 band ladder")
-            _spec30 = _f30.get("frozen_spec") or {}
-            if list(_spec30.get("channels") or []) != ["selection", "sizing", "toll"]:
-                _bad30.append("the channel list is not the frozen three")
-            _bar30 = _spec30.get("bar_t")
-            if not isinstance(_bar30, (int, float)) or _bar30 < 2.0:
-                _bad30.append("the published bar is not a Bonferroni bar")
-            _ladder30 = _f30.get("ladder_summary") or {}
-            _rows30 = _ladder30.get("rows") or []
-            if not _rows30:
-                _bad30.append("the ladder covers no rung")
-            if _ladder30.get("cells") != len(_rows30):
-                _bad30.append("the published cell count does not match the rows")
-            if _ladder30.get("ladder_vacuous") is not False:
-                _bad30.append("the band never moved a weight -- the ladder tested nothing")
-            _pays30 = [r for r in _rows30 if r.get("verdict") == "BAND_PAYS"]
-            for _r30 in _rows30:
-                _nm30 = "%s/%s/f=%.2f" % (_r30.get("panel") or "-",
-                                          _r30.get("arm"), _r30.get("band_frac") or 0.0)
-                _pair30 = _r30.get("pair_ann_bp_per_year")
-                _parts30 = [_r30.get(_c30 + "_ann_bp_per_year")
-                            for _c30 in ("selection", "sizing", "toll")]
-                if _pair30 is None or any(x is None for x in _parts30):
-                    _bad30.append("%s publishes an incomplete split" % _nm30)
-                    continue
-                if abs(sum(_parts30) - _pair30) > 1e-6:
-                    _bad30.append("%s channels do not reconstruct its pair" % _nm30)
-                _v30 = _r30.get("verdict")
-                if _v30 not in {"BASELINE", "NO_EFFECT", "BAND_COSTS", "BAND_NOISE",
-                                "BAND_PAYS", "BAND_PAYS_TOLL_SHORT", "UNRESOLVED"}:
-                    _bad30.append("%s carries an unpublished verdict %r" % (_nm30, _v30))
-                if _v30 == "BAND_PAYS" and (_r30.get("d_pair_t_nw") or 0.0) < _bar30:
-                    _bad30.append("%s is called a fix without clearing the bar" % _nm30)
-                if _v30 == "BAND_PAYS" and (_r30.get("d_pair_ann_bp_per_year") or 0.0) <= 0.0:
-                    _bad30.append("%s is called a fix on a non-positive delta" % _nm30)
-                _save30 = _r30.get("weight_changes_saved")
-                if _v30 == "NO_EFFECT" and (_save30 or 0) != 0:
-                    _bad30.append("%s says no effect but saved changes" % _nm30)
-                if "rule_collapsed" not in _r30:
-                    _bad30.append("%s does not disclose whether the rule survived" % _nm30)
-                elif _v30 == "BAND_PAYS" and _r30.get("rule_collapsed"):
-                    _bad30.append("%s is called a fix after the rule collapsed to a "
-                                  "buy-and-hold" % _nm30)
-            # the base rung has to exist for every arm or the ladder has no origin
-            for _p30 in (_f30.get("panels") or []):
-                for _a30 in (_p30.get("arms") or []):
-                    _rungs30 = _a30.get("rungs") or []
-                    if not _rungs30 or _rungs30[0].get("verdict") != "BASELINE":
-                        _bad30.append("%s/%s has no band-0 baseline rung"
-                                      % (_p30.get("panel"), _a30.get("name")))
-            if not (_f30.get("answer") or "").strip():
-                _bad30.append("face publishes no answer sentence")
-        check("product: a hysteresis band's toll saving is judged against its selection loss",
-              not _bad30, "; ".join(_bad30)[:220]
-              or "%d rungs, %d called a fix at bar %.2f, %d lose to the base arm, "
-                 "%d point-estimate only, band %s"
-                 % (len(_rows30), len(_pays30), _bar30 or 0.0,
-                    sum(1 for r in _rows30 if r.get("verdict") == "BAND_COSTS"),
-                    sum(1 for r in _rows30 if r.get("verdict") == "BAND_NOISE"),
-                    "moves the rule" if not (_f30.get("ladder_summary") or {})
-                    .get("ladder_vacuous") else "VACUOUS"))
-    except Exception as e:
-        check("product: a hysteresis band's toll saving is judged against its selection loss",
-              False, repr(e)[:160])
-
-    # E231: E230's one passing rung sat at the smallest band in the grid, which is the
-    # shape E188 warned about -- a single decision sequence dressed as an optimum. This
-    # leg re-derives the path test rather than trusting it: the focus cell's global path
-    # must reproduce E230's own published number to the bit, a survival claim must be
-    # backed by every measured path, a share can never exceed one, and a cell measured on
-    # too few paths may not be called stable.
-    try:
-        _f31 = {}
-        _bad31 = []
-        _face31 = "results/state_tilt/bandpath_latest.json"
-        if not os.path.exists(_face31):
-            _bad31.append("no results/state_tilt/bandpath_latest.json on disk")
-        else:
-            with open(_face31, encoding="utf-8") as _fh:
-                _f31 = json.load(_fh)
-            _cut31 = _f31.get("evidence_cutoff")
-            if not _cut31:
-                _bad31.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/BANDPATH-%s.json" % _cut31):
-                _bad31.append("the dated face beside the latest pointer is missing")
-            if (_f31.get("study") or "") != "E231":
-                _bad31.append("face is not the E231 path test")
-            _spec31 = _f31.get("frozen_spec") or {}
-            _vocab31 = set(_spec31.get("vocabulary") or [])
-            _minp31 = _spec31.get("min_paths_per_cell")
-            _rows31 = _f31.get("cell_summary") or []
-            _pc31 = _f31.get("path_count") or {}
-            if not _rows31:
-                _bad31.append("the summary covers no cell")
-            if _pc31.get("panel_paths", 0) < 2:
-                _bad31.append("the study ran on fewer than two paths")
-            for _r31 in _rows31:
-                _nm31 = "%s/%s/f=%.2f" % (_r31.get("panel") or "-", _r31.get("arm"),
-                                          _r31.get("band_frac") or 0.0)
-                _v31 = _r31.get("verdict")
-                if _v31 not in _vocab31:
-                    _bad31.append("%s carries an unpublished verdict %r" % (_nm31, _v31))
-                _fp31 = _r31.get("frac_positive")
-                _fl31 = _r31.get("frac_clears_lenient")
-                if _fp31 is None or _fl31 is None:
-                    _bad31.append("%s publishes no share" % _nm31)
-                    continue
-                if not (0.0 <= _fp31 <= 1.0 and 0.0 <= _fl31 <= 1.0):
-                    _bad31.append("%s publishes a share outside [0,1]" % _nm31)
-                if _r31.get("paths_positive", 0) > _r31.get("paths_measured", 0):
-                    _bad31.append("%s counts more positives than paths" % _nm31)
-                if _v31 == "SURVIVES_EVERY_PATH":
-                    if _fp31 != 1.0 or _fl31 != 1.0:
-                        _bad31.append("%s survives without a clean sweep" % _nm31)
-                    if _r31.get("paths_measured", 0) < (_minp31 or 0):
-                        _bad31.append("%s survives on %d paths" % (_nm31,
-                                                                   _r31.get("paths_measured", 0)))
-                    if _r31.get("rule_collapsed_paths", 0) > 0:
-                        _bad31.append("%s survives with a collapsed rule on some path"
-                                      % _nm31)
-                if _v31 == "NOT_MEASURED" and _r31.get("paths_measured", 0) >= (_minp31 or 0):
-                    _bad31.append("%s is called unmeasurable while measured" % _nm31)
-            # the two families must stay separate: a full-sample number may not stand in
-            # for a statement about a period
-            _fam31 = _f31.get("focus_families") or {}
-            if not (_fam31.get("structural") or {}).get("paths"):
-                _bad31.append("the focus cell has no structural family")
-            if not (_fam31.get("era") or {}).get("paths"):
-                _bad31.append("the focus cell has no era family")
-            # survivors list must agree with the rows it summarises
-            _sv31 = _f31.get("survivors") or []
-            if len(_sv31) != sum(1 for r in _rows31
-                                 if r.get("verdict") == "SURVIVES_EVERY_PATH"):
-                _bad31.append("the survivor list disagrees with the verdicts")
-            # cross-face: the global path must reproduce E230's own cell for the overlap
-            _rep31 = _f31.get("focus_replay_of_e230_global_path") or {}
-            _focus31 = _f31.get("focus_cell") or {}
-            _e230cell = None
-            if os.path.exists("results/state_tilt/hysteresis_latest.json"):
-                with open("results/state_tilt/hysteresis_latest.json", encoding="utf-8") as _fh:
-                    _f30b = json.load(_fh)
-                for _r30b in ((_f30b.get("ladder_summary") or {}).get("rows") or []):
-                    if (_r30b.get("panel") == _focus31.get("panel")
-                            and _r30b.get("arm") == _focus31.get("arm")
-                            and abs((_r30b.get("band_frac") or 0.0)
-                                    - (_focus31.get("band_frac") or 0.0)) < 1e-12):
-                        _e230cell = _r30b
-            if _rep31.get("d_pair_ann_bp_per_year") is None:
-                _bad31.append("the global path published no replay value")
-            elif _e230cell is None:
-                _bad31.append("E230 publishes no cell for the focus (cannot cross-check)")
-            else:
-                _d31 = abs(_rep31["d_pair_ann_bp_per_year"]
-                           - (_e230cell.get("d_pair_ann_bp_per_year") or 0.0))
-                _t31 = abs((_rep31.get("d_pair_t_nw") or 0.0)
-                           - (_e230cell.get("d_pair_t_nw") or 0.0))
-                if _d31 > 1e-6 or _t31 > 1e-9:
-                    _bad31.append("the global path does not reproduce E230 "
-                                  "(delta %.3g bp, t %.3g)" % (_d31, _t31))
-            if not (_f31.get("answer") or "").strip():
-                _bad31.append("face publishes no answer sentence")
-        check("product: a band that passed on one path is path-tested before it is a finding",
-              not _bad31, "; ".join(_bad31)[:220]
-              or "%d cells over %s panel-paths, %d survivors, focus %s/%s/f=%.2f positive "
-                 "on %.0f%% of paths"
-                 % (len(_rows31), _pc31.get("panel_paths", 0),
-                    len(_f31.get("survivors") or []),
-                    (_f31.get("focus_cell") or {}).get("panel"),
-                    (_f31.get("focus_cell") or {}).get("arm"),
-                    (_f31.get("focus_cell") or {}).get("band_frac") or 0.0,
-                    100.0 * ((_f31.get("focus_cell") or {}).get("frac_positive") or 0.0)))
-    except Exception as e:
-        check("product: a band that passed on one path is path-tested before it is a finding",
-              False, repr(e)[:160])
-    # E232: the charge function itself is the assumption under the whole E226-E231 family.
-    try:
-        _bad32 = []
-        _p32 = "results/state_tilt/costcurve_latest.json"
-        _g32 = []
-        _s32 = {}
-        if not os.path.exists(_p32):
-            _bad32.append("costcurve face missing")
-        else:
-            with open(_p32, encoding="utf-8") as _fh:
-                _f32 = json.load(_fh)
-            _rows32 = [r for r in (_f32.get("toll_channel") or [])]
-            _g32 = sorted({r.get("gamma") for r in _rows32})
-            if len(_g32) < 3:
-                _bad32.append("fewer than three curvature points published")
-            _ranges32 = _f32.get("arm_ranges") or []
-            _inv32 = [r for r in _ranges32 if r.get("selection_invariant")]
-            if _ranges32 and len(_inv32) != len(_ranges32):
-                _bad32.append("selection is not curvature-invariant on every arm cell")
-            # a 0/1 gate only moves whole units and 1**gamma == 1, so its toll cannot move
-            for _r32 in _ranges32:
-                if _r32.get("arm") == "binary_low":
-                    _lo32, _hi32 = _r32["toll_range_bp"]
-                    if abs(_hi32 - _lo32) > 1e-9:
-                        _bad32.append("binary_low toll moved across gamma (%.4f)"
-                                      % abs(_hi32 - _lo32))
-            _s32 = _f32.get("summary") or {}
-            if not _s32.get("e230_focus_verdicts_by_gamma"):
-                _bad32.append("face does not re-read E230's focus cell")
-            if not (_f32.get("answer") or "").strip():
-                _bad32.append("face publishes no answer sentence")
-        check("product: the family's toll conclusion is re-read under a non-linear charge",
-              not _bad32, "; ".join(_bad32)[:220]
-              or "%d gamma points, toll past the bar on %d arms at every gamma, "
-                 "E230 focus %s"
-                 % (len(_g32), (_s32.get("toll_single_channel_at_all_gammas") or 0),
-                    "/".join(_s32.get("e230_focus_verdicts_by_gamma") or [])))
-    except Exception as e:
-        check("product: the family's toll conclusion is re-read under a non-linear charge",
-              False, repr(e)[:160])
-    # E233: E232's grid was assumed. This leg holds the face to its two obligations --
-    # publish a measured exponent with an interval, and re-read the family at every point
-    # of that interval plus the estimator dispute, so a verdict that only exists on the
-    # grid is labelled as such.
-    try:
-        _bad33 = []
-        _p33 = "results/state_tilt/empirical_gamma_latest.json"
-        _s33 = {}
-        _pe33 = {}
-        if not os.path.exists(_p33):
-            _bad33.append("empirical gamma face missing")
-        else:
-            with open(_p33, encoding="utf-8") as _fh:
-                _f33 = json.load(_fh)
-            _pe33 = _f33.get("primary_estimate") or {}
-            _s33 = _f33.get("summary") or {}
-            if _pe33.get("gamma") is None or not _pe33.get("gamma_ci"):
-                _bad33.append("primary estimate publishes no interval")
-            else:
-                _lo33, _hi33 = _pe33["gamma_ci"]
-                if not _lo33 < _pe33["gamma"] < _hi33:
-                    _bad33.append("point estimate sits outside its own interval")
-                _pts33 = _s33.get("gamma_points") or []
-                if len(_pts33) < 3:
-                    _bad33.append("fewer than three gamma points re-derived")
-                if any(not (_lo33 - 1e-9 <= p <= _hi33 + 1e-9) for p in _pts33[:3]):
-                    _bad33.append("an interval endpoint is missing from the point set")
-            if not _s33.get("toll_clears_bar_every_point"):
-                _bad33.append("the toll channel does not survive the measured interval")
-            _cells33 = _s33.get("ladder_cells") or 0
-            if not _cells33:
-                _bad33.append("no ladder cell was re-read at the measured gamma")
-            elif (_s33.get("ladder_verdicts_stable") or 0) + (
-                    _s33.get("ladder_verdicts_inside_interval") or 0) != _cells33:
-                _bad33.append("stable/inside counts do not partition the ladder cells")
-            if not isinstance(_s33.get("ladder_verdicts_sensitive_to_identification"), int):
-                _bad33.append("face does not report identification-span sensitivity")
-            if not (_f33.get("answer") or "").strip():
-                _bad33.append("face publishes no answer sentence")
-            # the bridge assumption must be stated on the face, not only in the docstring
-            if not ((_f33.get("frozen_spec") or {}).get("bridge") or "").strip():
-                _bad33.append("the market-to-own-charge bridge is not disclosed")
-        check("product: the charge curvature is measured, not assumed, before verdicts ride it",
-              not _bad33, "; ".join(_bad33)[:220]
-              or "gamma %.3f [%.3f, %.3f], %d/%d ladder cells stable inside the interval, "
-                 "%d decided by the identification span"
-                 % ((_pe33.get("gamma") or 0.0),
-                    ((_pe33.get("gamma_ci") or [0.0, 0.0])[0]),
-                    ((_pe33.get("gamma_ci") or [0.0, 0.0])[1]),
-                    (_s33.get("ladder_verdicts_stable") or 0),
-                    (_s33.get("ladder_cells") or 0),
-                    (_s33.get("ladder_verdicts_sensitive_to_identification") or 0)))
-    except Exception as e:
-        check("product: the charge curvature is measured, not assumed, before verdicts ride it",
-              False, repr(e)[:160])
-    # E234: E233 measured one exponent per panel; the book holds five instruments, so a
-    # book-level gamma may be a mixture. The leg holds the face to: per-member estimates
-    # with intervals, a pooled fit that carries the SAME controls as the member fits, an
-    # explicit compatibility verdict, and a bill comparison that separates the five-sleeve
-    # split from the mixture (the split alone inflates the bill on a concave charge).
-    try:
-        _bad34 = []
-        _p34 = "results/state_tilt/per_member_gamma_latest.json"
-        _f34 = {}
-        if not os.path.exists(_p34):
-            _bad34.append("per-member gamma face missing")
-        else:
-            with open(_p34, encoding="utf-8") as _fh:
-                _f34 = json.load(_fh)
-            _mel = _f34.get("member_estimates") or []
-            if len(_mel) < 2:
-                _bad34.append("fewer than two member estimates published")
-            for _m in _mel:
-                if _m.get("gamma") is None:
-                    continue
-                if not _m.get("gamma_ci"):
-                    _bad34.append("%s publishes no interval" % _m.get("symbol"))
-                    break
-                _lo, _hi = _m["gamma_ci"]
-                if not _lo < _m["gamma"] < _hi:
-                    _bad34.append("%s point sits outside its own interval" % _m.get("symbol"))
-                    break
-            _pool = _f34.get("pooled_fit") or {}
-            if _pool.get("n_regressors") != len(_pool.get("controls") or []) + len(
-                    _pool.get("members") or []) - 1:
-                _bad34.append("the pooled fit does not carry the member specification")
-            _c34 = _f34.get("compatibility") or {}
-            if _c34.get("verdict") not in ("one_exponent_holds", "mixture"):
-                _bad34.append("compatibility publishes no verdict")
-            elif _c34["verdict"] == "mixture" and not (
-                    _c34.get("pairwise_disjoint") or _c34.get("members_outside_pooled_interval")):
-                _bad34.append("a mixture verdict names no breaker")
-            _b34 = (_f34.get("summary") or {}).get("bill_by_arm") or []
-            if not _b34:
-                _bad34.append("no book bill published")
-            for _r in _b34:
-                if _r.get("uniform_same_granularity_bp") is None:
-                    _bad34.append("%s lacks the same-granularity control" % _r.get("arm"))
-                    break
-                _mix = (_r.get("per_member_bp") or 0.0) - (
-                    _r.get("uniform_same_granularity_bp") or 0.0)
-                if abs(_mix - (_r.get("mixture_effect_bp") or 0.0)) > 1e-6:
-                    _bad34.append("%s mixture term does not close the bill" % _r.get("arm"))
-                    break
-            if not (_f34.get("answer") or "").strip():
-                _bad34.append("face publishes no answer sentence")
-        check("product: a book-level exponent is measured per member before it is charged",
-              not _bad34, "; ".join(_bad34)[:220]
-              or "%d members, verdict %s, mixture effect %s bp against a %s bp split"
-                 % (len(_f34.get("member_estimates") or []),
-                    (_f34.get("compatibility") or {}).get("verdict"),
-                    ", ".join("%+.0f" % (r.get("mixture_effect_bp") or 0.0)
-                              for r in (_f34.get("summary") or {}).get("bill_by_arm") or []),
-                    ", ".join("%+.0f" % (r.get("granularity_effect_bp") or 0.0)
-                              for r in (_f34.get("summary") or {}).get("bill_by_arm") or [])))
-    except Exception as e:
-        check("product: a book-level exponent is measured per member before it is charged",
-              False, repr(e)[:160])
-    # E235: E234 priced a five-sleeve split without asking whether the market prices a
-    # sleeve's move against THAT sleeve's turnover or against the book's. The leg holds
-    # the face to: a joint own/aggregate fit with intervals, an explicit spec-adequacy
-    # red flag (a negative own elasticity is never read as a finding), and a bill that is
-    # re-derived under both granularities so the level is readable either way.
-    try:
-        _bad35 = []
-        _p35 = "results/state_tilt/granularity_latest.json"
-        _f35 = {}
-        if not os.path.exists(_p35):
-            _bad35.append("granularity face missing")
-        else:
-            with open(_p35, encoding="utf-8") as _fh:
-                _f35 = json.load(_fh)
-            _mem = _f35.get("members") or []
-            _est = [m for m in _mem if m.get("b_own") is not None]
-            if len(_est) < 2:
-                _bad35.append("fewer than two sleeves carry a joint estimate")
-            for _m in _est:
-                if not (_m.get("b_own_ci") and _m.get("b_agg_ci")):
-                    _bad35.append("%s publishes no interval" % _m.get("symbol"))
-                    break
-                if not (_m["b_own_ci"][0] < _m["b_own"] < _m["b_own_ci"][1]):
-                    _bad35.append("%s own point sits outside its interval"
-                                  % _m.get("symbol"))
-                    break
-                _g = _m.get("g_scaling")
-                if _g is None or abs(_g - (_m["b_own"] + _m["b_agg"])) > 1e-9:
-                    _bad35.append("%s book-scaling elasticity is not b_own + b_agg"
-                                  % _m.get("symbol"))
-                    break
-            _sum35 = _f35.get("summary") or {}
-            _neg = _sum35.get("negative_own_elasticity") or []
-            if _neg and _sum35.get("pooled_verdict_after_spec_check") != \
-                    "unresolved_spec_inadequate":
-                _bad35.append("a negative own elasticity was not carried into the verdict")
-            _bills35 = _sum35.get("bills") or {}
-            if not _bills35:
-                _bad35.append("no re-priced bill published")
-            for _arm, _v in _bills35.items():
-                if _v.get("per_sleeve_own_bp") is None:
-                    _bad35.append("%s lacks the per-sleeve bill" % _arm)
-                    break
-                if _v.get("linear_bp") is None:
-                    _bad35.append("%s lacks the linear bill" % _arm)
-                    break
-            if not (_f35.get("answer") or "").strip():
-                _bad35.append("face publishes no answer sentence")
-        check("product: the price of a sleeve move is measured against own and book "
-              "turnover before the book is charged",
-              not _bad35, "; ".join(_bad35)[:220]
-              or "%d sleeves, verdict %s, pooled b_own %s / b_agg %s vs the family's "
-                 "single exponent %s"
-                 % (len(_f35.get("members") or []),
-                    (_f35.get("summary") or {}).get("pooled_verdict_after_spec_check"),
-                    (_f35.get("summary") or {}).get("pooled_b_own"),
-                    (_f35.get("summary") or {}).get("pooled_b_agg"),
-                    (_f35.get("summary") or {}).get("family_single_regressor_gamma")))
-    except Exception as e:
-        check("product: the price of a sleeve move is measured against own and book "
-              "turnover before the book is charged", False, repr(e)[:160])
-    # E236: E235's level regression could not separate the channels, so the question is
-    # re-asked with stationary regressors. The leg holds the face to the three properties
-    # that make the re-ask meaningful: a design that cannot see a regressor must not report
-    # a coefficient for it; agreement in SIGN alone must never name a channel (the sizes
-    # have to match too); and an unresolved verdict must not be accompanied by a charge
-    # that pretends the bill was settled.
-    try:
-        _bad36 = []
-        _p36 = "results/state_tilt/sharediff_latest.json"
-        _f36 = {}
-        if not os.path.exists(_p36):
-            _bad36.append("share-difference face missing")
-        else:
-            with open(_p36, encoding="utf-8") as _fh:
-                _f36 = json.load(_fh)
-            _sum36 = _f36.get("summary") or {}
-            _dsg = (_f36.get("pooled") or {}).get("designs") or []
-            _names = {d.get("design") for d in _dsg}
-            for _want in ("differences", "frozen_z", "two_way_fe"):
-                if _want not in _names:
-                    _bad36.append("pooled record misses design %s" % _want)
-            _fe = next((d for d in _dsg if d.get("design") == "two_way_fe"), None)
-            if _fe and (_fe.get("b_agg") is not None
-                        or _fe.get("identifies_b_agg") is not False):
-                _bad36.append("the date-FE design reports an aggregate it cannot see")
-            _verdict36 = _sum36.get("pooled_verdict")
-            if _sum36.get("b_own_magnitude_agreement") is False and \
-                    _verdict36 != "unresolved_magnitude_disagreement":
-                _bad36.append("a size disagreement between designs was not carried into "
-                              "the verdict")
-            _charged = _sum36.get("charges_priced") or []
-            if _verdict36 in ("unresolved", "unresolved_sign_fragile",
-                              "unresolved_magnitude_disagreement",
-                              "unresolved_spec_inadequate") and \
-                    any(c != "linear" for c in _charged):
-                _bad36.append("an unresolved verdict still prices a granularity charge")
-            if not (_f36.get("answer") or "").strip():
-                _bad36.append("face publishes no answer sentence")
-        check("product: a share-and-difference design may only settle a channel whose "
-              "size the designs agree on",
-              not _bad36, "; ".join(_bad36)[:220]
-              or "verdict %s, b_own span %s (ratio %s), charges priced %s"
-                 % ((_f36.get("summary") or {}).get("pooled_verdict"),
-                    (_f36.get("summary") or {}).get("b_own_magnitude_span"),
-                    (_f36.get("summary") or {}).get("b_own_magnitude_ratio"),
-                    (_f36.get("summary") or {}).get("charges_priced")))
-    except Exception as e:
-        check("product: a share-and-difference design may only settle a channel whose "
-              "size the designs agree on", False, repr(e)[:160])
-    # E237: E236 named the mechanism behind the 25x size gap (the difference design prices a
-    # session against its own turnover CHANGE, which co-moves with the information arrival
-    # that sets |r|) but never measured it. The leg holds the face to: a first-stage
-    # co-movement reading next to the artefact verdict, an identity residual published as a
-    # number (the two component designs agree by algebra, never as evidence), and a bill
-    # that stays refused unless both components clear the bar with overlapping intervals.
-    try:
-        _bad37 = []
-        _p37 = "results/state_tilt/infostruct_latest.json"
-        _f37 = {}
-        if not os.path.exists(_p37):
-            _bad37.append("information-structure face missing")
-        else:
-            with open(_p37, encoding="utf-8") as _fh:
-                _f37 = json.load(_fh)
-            _sum37 = _f37.get("summary") or {}
-            _pooled37 = _f37.get("pooled") or {}
-            for _want in ("components", "direct", "share", "share_controlled", "comove"):
-                if not isinstance(_pooled37.get(_want), dict):
-                    _bad37.append("pooled record misses %s" % _want)
-            _vb37 = (_pooled37.get("verdict_bundle") or {})
-            if not _vb37.get("verdict"):
-                _bad37.append("no artefact verdict")
-            if _vb37.get("verdict") == "own_channel_is_information_artefact" \
-                    and _vb37.get("comovement_clears") is not True:
-                _bad37.append("an artefact verdict without a live co-movement reading")
-            _resid37 = _pooled37.get("c_rel_minus_dy")
-            if _resid37 is None:
-                _bad37.append("the identity residual is not published")
-            _share37 = _pooled37.get("share") or {}
-            if _sum37.get("uncontrolled_b_own") is None or \
-                    abs((_sum37.get("uncontrolled_b_own") or 0.0)
-                        - (_share37.get("b_own") or 0.0)) > 1e-9:
-                _bad37.append("the summary's uncontrolled coefficient is not the share "
-                              "design's")
-            _gate37 = _f37.get("bill_gate") or {}
-            _charges37 = [c.get("key") for c in (_f37.get("charges") or [])]
-            if _gate37.get("permitted") is False and any(k != "linear" for k in _charges37):
-                _bad37.append("a refused bill gate still prices a granularity charge")
-            if _gate37.get("permitted") is True and \
-                    not _gate37.get("gamma"):
-                _bad37.append("a permitted bill publishes no exponent")
-            if not (_f37.get("answer") or "").strip():
-                _bad37.append("face publishes no answer sentence")
-        check("product: the own-turnover channel is tested against information arrival "
-              "before it is called an impact effect",
-              not _bad37, "; ".join(_bad37)[:220]
-              or "verdict %s, b_own %s -> %s, co-movement %s (t %s), bill %s"
-                 % ((_f37.get("summary") or {}).get("verdict"),
-                    _r37(_f37, "uncontrolled_b_own"),
-                    _r37(_f37, "controlled_b_own"),
-                    _r37(_f37, "comove_coef"),
-                    _r37(_f37, "comove_t"),
-                    "permitted" if (_f37.get("bill_gate") or {}).get("permitted")
-                    else "refused"))
-    except Exception as e:
-        check("product: the own-turnover channel is tested against information arrival "
-              "before it is called an impact effect", False, repr(e)[:160])
-    # E238: every member's own turnover sits inside the book turnover its share is divided
-    # by. This leg holds the leave-one-out face to: both denominators published with
-    # intervals, the regressor identity pinned as a number, and the artefact label granted
-    # ONLY where the share arithmetic's predicted gap lies inside the measured gap interval.
-    try:
-        _bad38 = []
-        _p38 = "results/state_tilt/loobook_latest.json"
-        _f38 = {}
-        if not os.path.exists(_p38):
-            _bad38.append("leave-one-out face missing")
-        else:
-            with open(_p38, encoding="utf-8") as _fh:
-                _f38 = json.load(_fh)
-            _pool38 = _f38.get("pooled") or {}
-            _sum38 = _f38.get("summary") or {}
-            for _den in ("inclusive", "leave_one_out"):
-                _blk = _pool38.get(_den) or {}
-                for _des in ("differences", "frozen_z", "two_way_fe"):
-                    _row = _blk.get(_des) or {}
-                    if _row.get("b_own") is None or not _row.get("ci"):
-                        _bad38.append("%s/%s has no interval" % (_den, _des))
-            _ident38 = (_f38.get("identity") or {}).get("max_abs_deviation_all_members")
-            if _ident38 is None:
-                _bad38.append("the regressor identity is not published as a number")
-            elif _ident38 > (_f38.get("identity") or {}).get("tolerance", 1e-12):
-                _bad38.append("identity deviation %r over tolerance" % _ident38)
-            _vb38 = _pool38.get("verdict_bundle") or {}
-            if not _vb38.get("verdict"):
-                _bad38.append("no denominator verdict")
-            for _des, _v in (_pool38.get("verdict_by_design") or {}).items():
-                if _v.get("verdict") == "own_channel_is_a_denominator_artefact":
-                    _ci38 = _v.get("gap_ci") or _v.get("ci")
-                    _pred38 = _v.get("mechanical_prediction")
-                    if _ci38 and _pred38 is not None and not (
-                            _ci38[0] <= _pred38 <= _ci38[1]):
-                        _bad38.append("%s is called arithmetic but the prediction %r sits "
-                                      "outside the gap %r" % (_des, _pred38, _ci38))
-            _gap38 = (_pool38.get("gap_by_design") or {}).get("differences")
-            if _gap38 is None:
-                _bad38.append("the differenced-design gap is not published")
-            _mech38 = (_pool38.get("mechanical") or {}).get("predicted_gap")
-            if _gap38 is not None and _mech38 is None:
-                _bad38.append("no mechanical prediction next to the gap")
-            if _sum38.get("kappa_nominal") is None:
-                _bad38.append("the nominal 1/5 weight is not published")
-            if not (_f38.get("answer") or "").strip():
-                _bad38.append("face publishes no answer sentence")
-        check("product: the own-turnover channel is re-measured against a book that does not "
-              "contain it", not _bad38, "; ".join(_bad38)[:220]
-              or "b_own %s -> %s (gap %s), arithmetic predicts %s -> %s"
-                 % (_r38(_f38, "inclusive_b_own"), _r38(_f38, "loo_b_own"),
-                    _r38(_f38, "gap"), _r38(_f38, "predicted_gap"),
-                    (_f38.get("summary") or {}).get("verdict")))
-    except Exception as e:
-        check("product: the own-turnover channel is re-measured against a book that does not "
-              "contain it", False, repr(e)[:160])
-    # E239: the E238 leave-one-out ordering (own 0.596 < rest 0.771) may be a units artefact
-    # because the rest aggregate is a SUM of four members. This leg holds the per-pair face to
-    # the properties that make "one counterparty" a fair comparison: both designs publish
-    # intervals, each difference interval contains its own point, the published mean cross is
-    # the mean of the published per-pair numbers, and no charge is granted either way.
-    try:
-        _bad39 = []
-        _p39 = "results/state_tilt/owncross_latest.json"
-        _f39 = {}
-        if not os.path.exists(_p39):
-            _bad39.append("own-vs-cross face missing")
-        else:
-            with open(_p39, encoding="utf-8") as _fh:
-                _f39 = json.load(_fh)
-            if (_f39.get("study") or "") != "E239":
-                _bad39.append("face does not identify as E239")
-            _cut39 = _f39.get("evidence_cutoff")
-            if not _cut39:
-                _bad39.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/OWNCROSS-%s.json" % _cut39):
-                _bad39.append("the dated face beside the latest pointer is missing")
-            _sum39 = _f39.get("summary") or {}
-            for _name, _fit in (("pair_fe", _f39.get("pooled_pair_fe")),
-                                ("two_way_fe", _f39.get("two_way_fe_pair_test"))):
-                if not _fit or _fit.get("b_own") is None:
-                    _bad39.append("%s publishes no own slope" % _name)
-                    continue
-                if not _fit.get("diff_ci"):
-                    _bad39.append("%s publishes no difference interval" % _name)
-                    continue
-                _lo39, _hi39 = _fit["diff_ci"]
-                if not (_lo39 <= _fit["diff"] <= _hi39):
-                    _bad39.append("%s difference interval does not contain its point" % _name)
-                if _hi39 - _lo39 <= 0.0:
-                    _bad39.append("%s difference interval has zero width" % _name)
-            _vocab39 = ((_f39.get("frozen_spec") or {}).get("verdict_vocabulary") or [])
-            for _key in ("verdict", "verdict_two_way"):
-                _v39 = _sum39.get(_key)
-                if _v39 not in _vocab39:
-                    _bad39.append("%s %r is outside the frozen vocabulary" % (_key, _v39))
-            _pairs39 = [c for c in (_f39.get("pairs") or [])
-                        if c.get("b_cross") is not None]
-            if len(_pairs39) < 2:
-                _bad39.append("fewer than two fittable pairs published")
-            else:
-                _pub39 = ((_f39.get("mean_single_member_cross") or {}).get("mean"))
-                _own39 = sum(c["b_cross"] for c in _pairs39) / len(_pairs39)
-                if _pub39 is None or abs(_own39 - _pub39) > 1e-9:
-                    _bad39.append("the mean cross is not the mean of the published pairs")
-            for _k39, _v39 in ((_f39.get("pooled_pair_fe") or {}).get("regressor_sd")
-                               or {}).items():
-                if _v39 is None or _v39 <= 0.0:
-                    _bad39.append("regressor %s has no published variation" % _k39)
-            if (_f39.get("no_bill") or {}).get("permitted") is not False:
-                _bad39.append("the face granted a charge")
-            _ref39 = _f39.get("e238_reference") or {}
-            if _ref39.get("available") is not True and not _ref39.get("reason"):
-                _bad39.append("the E238 cross-check is neither read nor declared absent")
-            if not (_f39.get("summary") or {}).get("verdict_reason"):
-                _bad39.append("the verdict carries no reason")
-        check("product: own turnover is priced against ONE counterparty's turnover on the "
-              "same footing", not _bad39, "; ".join(_bad39)[:220]
-              or "own %s vs cross %s (diff %s %s); mean single cross %s; %s"
-                 % (_r39(_f39, "pooled_own"), _r39(_f39, "pooled_cross"),
-                    _r39(_f39, "pooled_diff"),
-                    _r39ci(_f39, "pooled_diff_ci"), _r39(_f39, "mean_cross"),
-                    (_f39.get("summary") or {}).get("verdict")))
-    except Exception as e:
-        check("product: own turnover is priced against ONE counterparty's turnover on the "
-              "same footing", False, repr(e)[:160])
-    # E240: E239's 0.541 divided a BOOK-SCALING coefficient by four times an inflated pair
-    # slope. This leg holds the follow-up face to what makes the repaired comparison readable:
-    # the identified one-vs-three interval exists and contains its point, the two designs that
-    # cannot be identified are published as refusals rather than skipped, the coordinate map
-    # carries its gaps, the verdict is inside the frozen vocabulary, and no charge is granted.
-    try:
-        _bad40 = []
-        _p40 = "results/state_tilt/aggatt_latest.json"
-        _f40 = {}
-        _sum40 = {}
-        if not os.path.exists(_p40):
-            _bad40.append("aggregate-attenuation face missing")
-        else:
-            with open(_p40, encoding="utf-8") as _fh:
-                _f40 = json.load(_fh)
-            if (_f40.get("study") or "") != "E240":
-                _bad40.append("face does not identify as E240")
-            _cut40 = _f40.get("evidence_cutoff")
-            if not _cut40:
-                _bad40.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/AGGATT-%s.json" % _cut40):
-                _bad40.append("the dated face beside the latest pointer is missing")
-            _sum40 = _f40.get("summary") or {}
-            _vocab40 = ((_f40.get("frozen_spec") or {}).get("verdict_vocabulary") or [])
-            if _sum40.get("verdict") not in _vocab40:
-                _bad40.append("verdict %r is outside the frozen vocabulary"
-                              % (_sum40.get("verdict"),))
-            _ci40 = _sum40.get("diff_one_vs_rest3_ci")
-            _d40 = _sum40.get("diff_one_vs_rest3")
-            if not _ci40:
-                _bad40.append("the identified difference publishes no interval")
-            elif _d40 is None or not (_ci40[0] <= _d40 <= _ci40[1]):
-                _bad40.append("the identified difference interval does not contain its point")
-            elif _ci40[1] - _ci40[0] <= 0.0:
-                _bad40.append("the identified difference interval has zero width")
-            _bc40 = _f40.get("book_control") or {}
-            if _bc40.get("book_control_identified") is not False:
-                _bad40.append("the singular book control is not published as a refusal")
-            elif not _bc40.get("reason"):
-                _bad40.append("the book-control refusal carries no reason")
-            _tw40 = (_f40.get("designs") or {}).get("aggregate_two_way_fe") or {}
-            if _tw40.get("identifiable") is not False:
-                _bad40.append("the non-identified two-way form is not published as a refusal")
-            elif not _tw40.get("reason"):
-                _bad40.append("the two-way refusal carries no reason")
-            _cm40 = _f40.get("coordinate_map") or {}
-            if _cm40.get("available") and _cm40.get("c_rest") is None:
-                _bad40.append("the coordinate map publishes no rest coefficient")
-            if not (_f40.get("frozen_spec") or {}).get("coordinate_map"):
-                _bad40.append("the parametrisation identity is not stated")
-            if (_f40.get("no_bill") or {}).get("permitted") is not False:
-                _bad40.append("the face granted a charge")
-        _ci40s = _sum40.get("diff_one_vs_rest3_ci")
-        check("product: the book aggregate is compared on ONE parametrisation", not _bad40,
-              "; ".join(_bad40)[:220]
-              or "one %s vs sum-of-three %s (diff %s %s); rest %s; 4x naive cross %s; %s"
-                 % (_r39(_f40, "b_one"), _r39(_f40, "b_rest3"),
-                    _r39(_f40, "diff_one_vs_rest3"),
-                    "n/a" if not _ci40s else "[%.3f, %.3f]" % tuple(_ci40s),
-                    _r39(_f40, "b_sum_direct"), _r39(_f40, "four_times_naive_cross"),
-                    (_sum40.get("verdict"))))
-    except Exception as e:
-        check("product: the book aggregate is compared on ONE parametrisation", False,
-              repr(e)[:160])
-    # E241: the reproduction ladder. What makes it readable is that rung0 must BE E238
-    # (otherwise nothing downstream is attributable), that each rung changes one thing and
-    # names it, that the misalignment claim is a COUNT rather than an opinion, and that the
-    # published face's A/B pair is disclosed as superseded once the reader is repaired.
-    try:
-        _bad41 = []
-        _p41 = "results/state_tilt/repro_latest.json"
-        _f41 = {}
-        if not os.path.exists(_p41):
-            _bad41.append("reproduction face missing")
-        else:
-            with open(_p41, encoding="utf-8") as _fh:
-                _f41 = json.load(_fh)
-            if (_f41.get("study") or "") != "E241":
-                _bad41.append("face does not identify as E241")
-            _cut41 = _f41.get("evidence_cutoff")
-            if not _cut41:
-                _bad41.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/REPRO-%s.json" % str(_cut41)[:10]):
-                _bad41.append("the dated face beside the latest pointer is missing")
-            if ((_f41.get("reproduction") or {}).get("reproduced")) is not True:
-                _bad41.append("rung0 does not reproduce the published pair")
-            _l41 = [r for r in (_f41.get("ladder") or []) if r.get("step")]
-            _steps41 = [r.get("step") for r in _l41]
-            for _want in ("r0_published_rows_loo", "r1_common_rows_loo",
-                          "r2_common_rows_inclusive", "r3_common_grid_e240_code_path",
-                          "r3b_e240_code_y_realigned", "r4_aligned_comparison"):
-                if _want not in _steps41:
-                    _bad41.append("ladder rung %s missing" % _want)
-            for _r41 in _l41[1:-1]:
-                if not _r41.get("change_vs_previous"):
-                    _bad41.append("rung %s does not name the change it makes"
-                                  % _r41.get("step"))
-                if _r41.get("a_share") is None or _r41.get("g_denominator") is None:
-                    _bad41.append("rung %s does not publish both coefficients"
-                                  % _r41.get("step"))
-            _mp41 = _f41.get("misalignment") or {}
-            _prev41 = _mp41.get("dy_matches_the_previous_session")
-            _same41 = _mp41.get("dy_matches_the_same_session")
-            _n41 = _mp41.get("rows_tested")
-            if _mp41.get("available"):
-                if None in (_prev41, _same41, _n41) or _prev41 + _same41 > _n41:
-                    _bad41.append("the misalignment counts do not add up")
-                elif _mp41.get("dy_is_one_session_behind") and _prev41 < 0.9 * _n41:
-                    _bad41.append("a one-session-behind claim without the matching count")
-            _pf41 = _f41.get("published_face_check") or {}
-            if _pf41.get("reproduced") is True and _pf41.get("superseded") is not True:
-                _bad41.append("the published pair reproduces and is repaired but is not "
-                              "disclosed as superseded")
-            _al41 = _f41.get("alignment") or {}
-            if _al41.get("available"):
-                _par41 = ((_al41.get("rows_part") or 0.0)
-                          + (_al41.get("weights_part") or 0.0)
-                          + (_al41.get("reader_part") or 0.0))
-                if abs((_al41.get("aligned_gap") or 0.0) - _par41) > 1e-6:
-                    _bad41.append("the aligned change does not add up to its parts")
-            if not (_f41.get("answer") or "").strip():
-                _bad41.append("the face carries no answer sentence")
-            if (_f41.get("no_bill") or {}).get("permitted") is not False:
-                _bad41.append("the face granted a charge")
-        check("product: a non-reproducing pair is traced rung by rung to the reader",
-              not _bad41, "; ".join(_bad41)[:220]
-              or "rung0 a_share %s; misaligned rows %s of %s; corrected rest %s"
-                 % (_r39(_f41.get("reproduction") or {}, "rung0_a_share"),
-                    (_f41.get("misalignment") or {}).get("dy_matches_the_previous_session"),
-                    (_f41.get("misalignment") or {}).get("rows_tested"),
-                    _r39((_f41.get("verdict_block") or {}).get("realigned_pair") or {},
-                         "b_agg")))
-    except Exception as e:
-        check("product: a non-reproducing pair is traced rung by rung to the reader", False,
-              repr(e)[:160])
-    # E242: the omission sweep. What makes it readable is that the inflation factor is
-    # measured against a NAMED identified form, that the closed form is published beside the
-    # measurement instead of standing in for it, that the paired difference is shown to be the
-    # quantity omission spares (so a verdict resting on a level is the one at risk), and that
-    # every re-priceable verdict carries the numbers it was re-priced from.
-    try:
-        _bad42 = []
-        _p42 = "results/state_tilt/omission_latest.json"
-        _f42 = {}
-        if not os.path.exists(_p42):
-            _bad42.append("omission face missing")
-        else:
-            with open(_p42, encoding="utf-8") as _fh:
-                _f42 = json.load(_fh)
-            if (_f42.get("study") or "") != "E242":
-                _bad42.append("face does not identify as E242")
-            _cut42 = _f42.get("evidence_cutoff")
-            if not _cut42:
-                _bad42.append("face carries no evidence_cutoff")
-            elif not os.path.exists("results/state_tilt/OMISSION-%s.json"
-                                    % str(_cut42)[:10]):
-                _bad42.append("the dated face beside the latest pointer is missing")
-            _inf42 = _f42.get("inflation") or {}
-            _c42 = _inf42.get("cross") or {}
-            if not (_c42.get("factor_by_identified_form") or {}):
-                _bad42.append("the factor is quoted without naming its identified form")
-            if _c42.get("measured_factor") is None or _inf42.get("closed_form") is None:
-                _bad42.append("measured factor and closed form are not both published")
-            if _c42.get("closed_form_gap_relative") is None:
-                _bad42.append("the closed form is not compared with the measurement")
-            _dv42 = _f42.get("difference_insulation") or {}
-            if _dv42.get("identified_pooled_diff") is None:
-                _bad42.append("the paired difference is not published")
-            if not _dv42.get("reading"):
-                _bad42.append("the face does not say why the difference is spared")
-            if not (_f42.get("level_claims") or []):
-                _bad42.append("no level claims are re-priced")
-            for _r42 in _f42.get("level_claims") or []:
-                _gw42 = _r42.get("gate_window") or []
-                if len(_gw42) != 2 or _gw42[0] > _gw42[1]:
-                    _bad42.append("a level claim carries no gate window")
-                    break
-            _pr42 = [v for v in (_f42.get("verdicts") or []) if v.get("repriced_diff") is not None]
-            for _v42 in _pr42:
-                if _v42.get("repriced_diff_ci") is None:
-                    _bad42.append("%s publishes a re-priced difference without its interval"
-                                  % _v42.get("face"))
-                if _v42.get("gap_from_omission") is None or _v42.get("gap_from_grid") is None:
-                    _bad42.append("%s does not split its gap into grid and omission"
-                                  % _v42.get("face"))
-            if (_f42.get("no_bill") or {}).get("permitted") is not False:
-                _bad42.append("the face granted a charge")
-        check("product: an omission-inflated slope is re-priced against a named identified form",
-              not _bad42, "; ".join(_bad42)[:220]
-              or "naive cross %.3f -> identified %.3f (x%.2f, closed form x%.2f); difference "
-                 "spared %.3f; levels at risk %d"
-                 % ((_f42.get("inflation") or {}).get("cross", {}).get("naive_own_plus_one") or 0.0,
-                    (_f42.get("inflation") or {}).get("cross", {}).get(
-                        "identified_own_plus_all") or 0.0,
-                    (_f42.get("inflation") or {}).get("cross", {}).get("measured_factor") or 0.0,
-                    (_f42.get("inflation") or {}).get("closed_form") or 0.0,
-                    (_f42.get("difference_insulation") or {}).get(
-                        "identified_pooled_diff") or 0.0,
-                    len((_f42.get("summary") or {}).get("levels_at_risk") or [])))
-    except Exception as e:
-        check("product: an omission-inflated slope is re-priced against a named identified form",
-              False, repr(e)[:160])
-    # E243: the portability test. What makes it readable is that the headline cell must REPLAY the
-    # published E240 numbers rather than resemble them, that the pooled aggregator is published as
-    # identifies:false (its zero is the symmetric split of an annihilated direction, proven on a
-    # fixture whose truth differs 45x), that a cell wider than the resolution line is NOT-ASSESSED
-    # instead of additive, and that no cell grants a bill.
-    try:
-        _bad43 = []
-        _p43 = "results/state_tilt/addos_latest.json"
-        _f43 = {}
-        if not os.path.exists(_p43):
-            _bad43.append("addos face missing")
-        else:
-            _f43 = json.load(open(_p43, encoding="utf-8"))
-            _rep43 = _f43.get("e240_replay") or {}
-            if _rep43.get("reproduced") is not True:
-                _bad43.append("headline cell does not replay E240 (%s)" % _rep43.get("status"))
-            _art43 = _f43.get("pooled_split_is_an_artifact") or {}
-            if _art43.get("pooled_identifies") is not False:
-                _bad43.append("the pooled aggregator claims to identify the gap")
-            if not _art43.get("per_pair_reads_the_gap"):
-                _bad43.append("the artifact fixtures do not carry a gap the pair design can see")
-            _cells43 = [c for c in (_f43.get("cells") or []) if c.get("decided")]
-            if len(_cells43) < 5:
-                _bad43.append("only %d decided cells" % len(_cells43))
-            for _c43 in _cells43:
-                # a cell wider than the resolution line must never read as additive; the
-                # pair-unanimity reading is published beside it, not instead of it
-                if (_c43.get("diff_ci_halfwidth") or 0.0) > (_c43.get("resolution_max") or 99.0) \
-                        and _c43.get("verdict") == "rest_channel_is_additive":
-                    _bad43.append("cell %s has a %.2f half-width and still claims additivity"
-                                  % (_c43.get("label"), _c43.get("diff_ci_halfwidth") or 0.0))
-            if (_f43.get("rollup") or {}).get("verdict") not in (
-                    "rest_channel_is_additive", "additivity_only_in_the_mean",
-                    "additivity_era_dependent", "additivity_rejected_out_of_sample",
-                    "additivity_not_resolved_out_of_sample", "unresolved_insufficient_rows"):
-                _bad43.append("rollup verdict outside the frozen vocabulary")
-            if (_f43.get("no_bill") or {}).get("permitted") is not False:
-                _bad43.append("the face granted a charge")
-        check("product: a verdict survives its own out-of-sample path",
-              not _bad43, "; ".join(_bad43)[:220]
-              or "cells %d; headline %s; mean-only %s; pooled identifies %s"
-                 % (len(_cells43 if _f43 else []),
-                    (_f43.get("rollup") or {}).get("verdict"),
-                    (_f43.get("rollup") or {}).get("additivity_only_in_the_mean"),
-                    (_f43.get("summary") or {}).get("pooled_aggregator_identifies")))
-    except Exception as e:
-        check("product: a verdict survives its own out-of-sample path", False, repr(e)[:160])
-    # E244: where the heterogeneity sits. What makes it readable is that it reads E243's published
-    # intervals rather than re-deriving them, that the variance is attributed (counterparty
-    # identity vs own identity vs residual) instead of asserted, that a named carrier must REPEAT
-    # across cells with one sign, and that the mirror ratio is published so a one-member spread is
-    # not read as two channels.
-    try:
-        _bad44 = []
-        _p44 = "results/state_tilt/pairhet_latest.json"
-        _f44 = {}
-        if not os.path.exists(_p44):
-            _bad44.append("pairhet face missing")
-        else:
-            _f44 = json.load(open(_p44, encoding="utf-8"))
-            _src44 = _f44.get("source_face") or {}
-            if not _src44.get("sha256"):
-                _bad44.append("the source face was not fingerprinted")
-            if _f44.get("verdict") not in (
-                    "one_member_pays_differently_the_others_are_its_mirror",
-                    "two_members_pay_differently", "several_members_pay_differently",
-                    "no_repeatable_counterparty_effect", "unresolved_pairs_too_few"):
-                _bad44.append("verdict outside the frozen vocabulary")
-            for _c44 in _f44.get("carriers") or []:
-                if (_c44.get("cell_share") or 0.0) < 0.5:
-                    _bad44.append("carrier %s stands on %.2f of its cells"
-                                  % (_c44.get("name"), _c44.get("cell_share") or 0.0))
-                if len(_c44.get("cells") or []) < 2:
-                    _bad44.append("carrier %s does not repeat" % _c44.get("name"))
-            _vs44 = _f44.get("variance_split") or {}
-            _sh44 = [(_vs44.get("share_counterparty") or 0.0),
-                     (_vs44.get("share_own") or 0.0),
-                     (_vs44.get("share_residual") or 0.0)]
-            if abs(sum(_sh44) - 1.0) > 0.02:
-                _bad44.append("variance shares sum to %.3f" % sum(_sh44))
-            if ((_f44.get("overlap") or {}).get("independent_observations")) is not False:
-                _bad44.append("overlapping cells published as independent observations")
-            if ((_f44.get("no_bill") or {}).get("permitted")) is not False:
-                _bad44.append("the classification granted a charge")
-        check("product: the spread is attributed to a named counterparty that repeats",
-              not _bad44, "; ".join(_bad44)[:220]
-              or "verdict %s; carriers %s; variance counterparty %.2f / own %.2f"
-                 % ((_f44.get("verdict")),
-                    ",".join(c.get("name") or "" for c in (_f44.get("carriers") or [])) or "none",
-                    (_f44.get("variance_split") or {}).get("share_counterparty") or 0.0,
-                    (_f44.get("variance_split") or {}).get("share_own") or 0.0))
-    except Exception as e:
-        check("product: the spread is attributed to a named counterparty that repeats",
-              False, repr(e)[:160])
-    # E245: every reading in this family came out of a SUM design (`rest` = one member against an
-    # average of the others). This leg reads the un-summed matrix face and re-derives its claims
-    # from the face's OWN frozen spec, so a face that names a star without the decisive share
-    # behind it cannot pass merely because the runner said so.
-    try:
-        _bad45 = []
-        _p45 = os.path.join("results", "state_tilt", "slopematrix_latest.json")
-        _f45 = None
-        if os.path.exists(_p45):
-            with io.open(_p45, encoding="utf-8") as _fh45:
-                _f45 = json.load(_fh45)
-        if not _f45:
-            _bad45.append("slope-matrix face missing")
-        else:
-            _spec45 = _f45.get("frozen_spec") or {}
-            _vocab45 = set(_spec45.get("verdicts") or []) | {
-                "verdict_era_dependent", "verdict_mixed_across_cells"}
-            _cells45 = [c for c in (_f45.get("cells") or []) if c.get("decided")]
-            if not _cells45:
-                _bad45.append("no decided cell")
-            for _c45 in _cells45:
-                if _c45.get("verdict") not in _vocab45:
-                    _bad45.append("cell %s verdict outside the frozen vocabulary" % _c45.get("label"))
-                _half45 = _c45.get("resolution_median_halfwidth")
-                _bound45 = _spec45.get("resolution_max_halfwidth")
-                if _half45 is not None and _bound45 is not None and _half45 > _bound45 \
-                        and _c45.get("verdict") in ("counterparty_concentration", "heterogeneous_rows",
-                                                    "coherent_rest_channel"):
-                    _bad45.append("cell %s names a structure on a %.2f half-width"
-                                  % (_c45.get("label"), _half45))
-                for _r45 in _c45.get("rows") or []:
-                    if _r45.get("decided") and len(_r45.get("cross") or []) != len(_c45["members"]) - 1:
-                        _bad45.append("row %s does not carry k-1 slopes" % _r45.get("own_of"))
-                _min45 = _spec45.get("star_decisive_share")
-                for _nm45 in _c45.get("stars") or []:
-                    _col45 = next((c for c in _c45.get("columns") or [] if c["one_of"] == _nm45), None)
-                    if not _col45 or (_min45 is not None and _col45["decisive_share"] < _min45):
-                        _bad45.append("star %s does not meet the face's own threshold" % _nm45)
-            _roll45 = (_f45.get("rollup") or {}).get("verdict")
-            _by45 = (_f45.get("rollup") or {}).get("cells_by_verdict") or {}
-            if _roll45 in ("verdict_mixed_across_cells", "verdict_era_dependent") and len(_by45) < 2:
-                _bad45.append("a mixed verdict with fewer than two verdict classes")
-            if not _f45.get("no_bill"):
-                _bad45.append("the face does not carry its no-bill line")
-        check("product: the un-summed matrix names structure without a sum regressor",
-              not _bad45, "; ".join(_bad45)[:220]
-              or "verdict %s; classes %s; headline %s"
-                 % ((_f45 or {}).get("rollup", {}).get("verdict"),
-                    ",".join(sorted((((_f45 or {}).get("rollup") or {}).get("cells_by_verdict") or {}).keys())),
-                    ((_f45 or {}).get("summary") or {}).get("headline_verdict")))
-    except Exception as e:
-        check("product: the un-summed matrix names structure without a sum regressor",
-              False, repr(e)[:160])
-    # E246: the matrix face named a star but could not say whether that sleeve's flow moves the
-    # book or whether every sleeve loads on one driver it reads best. This leg re-derives the
-    # lead claims from the face's own counts, so a cell that names a lead without a decisive
-    # lagged column behind it cannot pass merely because the runner printed a verdict.
-    try:
-        _bad46 = []
-        _p46 = os.path.join("results", "state_tilt", "stardir_latest.json")
-        _f46 = None
-        if os.path.exists(_p46):
-            with io.open(_p46, encoding="utf-8") as _fh46:
-                _f46 = json.load(_fh46)
-        if not _f46:
-            _bad46.append("star-direction face missing")
-        else:
-            _spec46 = _f46.get("frozen_spec") or {}
-            _vocab46 = set(_spec46.get("verdicts") or []) | {
-                "verdict_era_dependent", "verdict_mixed_across_cells"}
-            _cells46 = [c for c in (_f46.get("cells") or []) if c.get("decided")]
-            _share46 = _spec46.get("star_decisive_share")
-            _abs46 = _spec46.get("lead_min_abs")
-            _bound46 = _spec46.get("resolution_max_halfwidth")
-            if not _cells46:
-                _bad46.append("no decided cell")
-            _saw_lead = 0
-            _saw_lagdesign = 0
-            for _c46 in _cells46:
-                if _c46.get("verdict") not in _vocab46:
-                    _bad46.append("cell %s verdict outside the frozen vocabulary" % _c46.get("label"))
-                _cn46 = _c46.get("counts") or {}
-                _lead46 = _cn46.get("lead") or {}
-                if "1" in _lead46 and "2" in _lead46:
-                    _saw_lagdesign += 1
+            with open(_lu30p, encoding="utf-8") as _fh30:
+                _lu30 = json.load(_fh30)
+            _rt30 = _lu30.get("risk_tape") or {}
+            _st30 = _rt30.get("status")
+            if _st30 not in ("ok", "absent", "unavailable", "unreadable"):
+                _bad30.append("risk tape publishes no honest status (%r)" % (_st30,))
+            if _st30 == "ok":
+                _dr30 = importlib.import_module("daily_report")
+                _pd30 = importlib.import_module("pandas")
+                _pn30 = _rt30.get("panels") or {}
+                _rec30 = []
+                for _k30 in ("zt", "dtgc", "zbgc", "strong"):
+                    _row30 = _pn30.get(_k30) or {}
+                    _cnt30 = _row30.get("count")
+                    _p30 = os.path.join(PATHS.root, "data", "zt_pool",
+                                        "%s.parquet" % _k30)
+                    if _cnt30 is None:
+                        if _row30.get("status") == "ok":
+                            _bad30.append("%s claims ok with no count" % _k30)
+                        continue
+                    if not os.path.exists(_p30):
+                        _bad30.append("%s publishes a count but the panel is absent"
+                                      % _k30)
+                        continue
+                    _df30 = _pd30.read_parquet(_p30)
+                    _d30 = _df30[_dr30.ZT_DATE_COL].map(
+                        lambda v: str(v)[:10])
+                    _cut30 = str(_d30.max())
+                    _n30 = int((_d30 == _cut30).sum())
+                    if _cut30 != str(_row30.get("prev_cutoff") or _cut30) and \
+                            _cut30 != str(_rt30.get("cutoff")):
+                        _bad30.append("%s recomputed bar %s not the published bar"
+                                      % (_k30, _cut30))
+                    if _n30 != int(_cnt30):
+                        _bad30.append("%s page says %s members, panel holds %d"
+                                      % (_k30, _cnt30, _n30))
+                    _rec30.append("%s %d" % (_k30, _n30))
+                _info30 = "cutoff %s | %s" % (_rt30.get("cutoff"),
+                                              " / ".join(_rec30))
+                _md30p = os.path.join(PATHS.root, "docs", "live_usage",
+                                      "LIVE-latest.md")
+                if not os.path.exists(_md30p):
+                    _bad30.append("the rendered one-pager is absent")
                 else:
-                    _bad46.append("cell %s does not carry both lag designs" % _c46.get("label"))
-                _half46 = _c46.get("resolution_median_halfwidth")
-                if _half46 is not None and _bound46 is not None and _half46 > _bound46 \
-                        and _c46.get("verdict") in ("star_flow_leads_members",
-                                                    "flow_leads_and_contemporaneous",
-                                                    "star_flow_leads_with_sign_flip",
-                                                    "star_flow_leads_inverse",
-                                                    "contemporaneous_common_factor",
-                                                    "members_lead_the_star"):
-                    _bad46.append("cell %s names a direction on a %.2f half-width"
-                                  % (_c46.get("label"), _half46))
-                _declared = set(_c46.get("lead_lags_decisive") or [])
-                _real = set()
-                _signs = set()
-                for _L46, _b46 in _lead46.items():
-                    _sh46 = _b46.get("decisive_share")
-                    _mu46 = _b46.get("mean_slope")
-                    if _sh46 is not None and _mu46 is not None and _share46 is not None \
-                            and _sh46 >= _share46 and _abs46 is not None and abs(_mu46) >= _abs46:
-                        _real.add(int(_L46))
-                        _signs.add(1 if _mu46 > 0 else -1)
-                if _declared and _declared != _real:
-                    _bad46.append("cell %s declares lags %s but its counts carry %s"
-                                  % (_c46.get("label"), sorted(_declared), sorted(_real)))
-                if _declared:
-                    _saw_lead += 1
-                if _c46.get("verdict") == "star_flow_leads_with_sign_flip" and len(_signs) < 2:
-                    _bad46.append("cell %s calls a sign flip with %d sign(s)" % (_c46.get("label"), len(_signs)))
-                if _c46.get("verdict") in ("star_flow_leads_members",
-                                           "flow_leads_and_contemporaneous") and _signs and 1 not in _signs:
-                    _bad46.append("cell %s calls a positive lead with no positive lag" % _c46.get("label"))
-                for _r46 in _c46.get("rows") or []:
-                    pass
-                _pers46 = _c46.get("own_lag_persistence") or {}
-                if _pers46 and not any(v.get("decided") for v in _pers46.values()):
-                    _bad46.append("cell %s publishes no own-lag persistence" % _c46.get("label"))
-            _roll46 = (_f46.get("rollup") or {}).get("verdict")
-            _by46 = (_f46.get("rollup") or {}).get("cells_by_verdict") or {}
-            if _roll46 in ("verdict_mixed_across_cells", "verdict_era_dependent") and len(_by46) < 2:
-                _bad46.append("a mixed verdict with fewer than two verdict classes")
-            if _roll46 not in _vocab46 and _roll46 is not None:
-                _bad46.append("rollup verdict outside the frozen vocabulary")
-            if not _f46.get("no_bill"):
-                _bad46.append("the face does not carry its no-bill line")
-            _ones46 = (_f46.get("summary") or {}).get("one_line") or ""
-            if "no direction resolved in any counted cell" in _ones46 and _by46:
-                _bad46.append("the one-line answer contradicts the rollup")
-        check("product: star direction is decided from lag designs, not asserted",
-              not _bad46, "; ".join(_bad46)[:220]
-              or "verdict %s; cells with a lead %d of %d; headline %s"
-                 % ((_f46 or {}).get("rollup", {}).get("verdict"),
-                    _saw_lead, _saw_lagdesign,
-                    ((_f46 or {}).get("summary") or {}).get("headline_verdict")))
+                    with open(_md30p, encoding="utf-8") as _fh30:
+                        _md30 = _fh30.read()
+                    if "市场风险面" not in _md30:
+                        _bad30.append("the one-pager has no risk-tape line")
+                    elif str(_rt30.get("cutoff")) not in _md30:
+                        _bad30.append("the risk line omits its cutoff bar")
+        check("product: the CEO page carries today's market risk tape",
+              not _bad30, "; ".join(_bad30)[:220] or _info30)
     except Exception as e:
-        check("product: star direction is decided from lag designs, not asserted",
-              False, repr(e)[:160])
-    # E248: E246 read the star lead off its HAC intervals at two lags. This leg re-derives every
-    # published shape from the face's own lag column against its own shuffled band, so a cell
-    # that names an oscillation its band does not carry cannot pass on the runner's word.
+        check("product: the CEO page carries today's market risk tape", False,
+              repr(e)[:160])
     try:
-        _bad48 = []
-        _p48 = os.path.join("results", "state_tilt", "starlagband_latest.json")
-        _f48 = None
-        if os.path.exists(_p48):
-            with io.open(_p48, encoding="utf-8") as _fh48:
-                _f48 = json.load(_fh48)
-        if not _f48:
-            _bad48.append("star-lag-band face missing")
+        # r1355: the width floor and the buffer read-back are published verdicts, so a reader
+        # must be able to re-derive each one from the numbers ON the face -- not from the script
+        # that wrote it. The label is recomputed here from the published rungs and the face's
+        # own frozen thresholds, and a verdict that no longer follows from its numbers is red.
+        _wf = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_width_resolution_floor.json"),
+                             encoding="utf-8"))
+        _wrule = _wf.get("rule") or {}
+        _wr = _wf.get("rungs") or []
+        _wups = sum(1 for _r in _wr if _r.get("up"))
+        _wagree = round(max(_wups, len(_wr) - _wups) / float(len(_wr)), 3) if _wr else None
+        _wslope = (_wf.get("fit") or {}).get("slope_pp_per_name")
+        _wreq = _wf.get("width_required")
+        if _wagree is None or _wslope is None:
+            _wlab = "NOT-ASSESSED"
+        elif _wagree < _wrule.get("sign_agreement_min", 0.75):
+            _wlab = "DIRECTION_NOT_A_SIZE"
+        elif _wslope <= 0:
+            _wlab = "UNREACHABLE_BY_CONSTRUCTION"
+        elif _wreq is not None and _wreq > _wrule.get("priced_width_max", 20):
+            _wlab = "UNREACHABLE_INSIDE_PRICED_ENVELOPE"
         else:
-            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
-            import e248_star_lag_band as _m48
-            _cells48 = [c for c in (_f48.get("cells") or []) if c.get("decided")]
-            _spec48 = _f48.get("frozen_spec") or {}
-            _vocab48 = set(_spec48.get("verdicts") or [])
-            if not _cells48:
-                _bad48.append("no decided cell")
-            for _c48 in _cells48:
-                _col = [_c48.get("lag_column", {}).get("lag%d" % _k) for _k in range(6)]
-                _v, _cross = _m48.derive_verdict(_col, _c48.get("band") or [],
-                                                 _c48.get("band_family"))
-                if _v != _c48.get("verdict"):
-                    _bad48.append("cell %s: numbers say %s, face says %s"
-                                  % (_c48.get("label"), _v, _c48.get("verdict")))
-                if _v not in _vocab48:
-                    _bad48.append("cell %s verdict outside the frozen vocabulary"
-                                  % _c48.get("label"))
-                _fam = (_c48.get("band_family") or {}).get("max_abs")
-                if _c48.get("band_draws_used") != _spec48.get("perm_draws"):
-                    _bad48.append("cell %s used %s draws, spec says %s"
-                                  % (_c48.get("label"), _c48.get("band_draws_used"),
-                                     _spec48.get("perm_draws")))
-                for _k in (_cross or []):
-                    if _fam is None or abs(_col[_k]) <= _fam:
-                        _bad48.append("cell %s declares lag %d crossing a band it does not clear"
-                                      % (_c48.get("label"), _k))
-                if _v == "period2_oscillation" and _col[1] * _col[2] >= 0.0:
-                    _bad48.append("cell %s calls an oscillation with lags of equal sign"
-                                  % _c48.get("label"))
-                _ts = _c48.get("two_session_sum") or {}
-                if not (_ts.get("overlapping") or {}).get("lag_column"):
-                    _bad48.append("cell %s publishes no two-session-sum row"
-                                  % _c48.get("label"))
-                if _c48.get("oscillation_survives_two_session_sum") is True \
-                        and len(((_ts.get("disjoint") or {}).get("lag_column") or {})) < 6:
-                    _bad48.append("cell %s claims survival without a disjoint row"
-                                  % _c48.get("label"))
-            _roll48 = (_f48.get("rollup") or {}).get("verdict")
-            _by48 = (_f48.get("rollup") or {}).get("cells_by_verdict") or {}
-            if _roll48 in ("verdict_mixed_across_cells", "verdict_era_dependent") \
-                    and len(_by48) < 2:
-                _bad48.append("a mixed verdict with fewer than two verdict classes")
-            if _roll48 not in _vocab48 | {"verdict_era_dependent", "verdict_mixed_across_cells"}:
-                _bad48.append("rollup verdict outside the frozen vocabulary")
-            if not _f48.get("no_bill"):
-                _bad48.append("the face does not carry its no-bill line")
-        check("product: the star lag band is re-derived from its own shuffled null",
-              not _bad48, "; ".join(_bad48)[:220]
-              or "verdict %s; cells %d; headline %s"
-                 % ((_f48 or {}).get("rollup", {}).get("verdict"), len(_cells48),
-                    ((_f48 or {}).get("summary") or {}).get("headline_verdict")))
+            _wlab = "REACHABLE_DECLARE_A_RUN"
+        _wbad = []
+        if _wagree != _wf.get("sign_agreement"):
+            _wbad.append("sign agreement says %s, its own rungs say %s"
+                         % (_wf.get("sign_agreement"), _wagree))
+        if _wlab != _wf.get("verdict"):
+            _wbad.append("verdict says %s, its own numbers say %s"
+                         % (_wf.get("verdict"), _wlab))
+        if (_wf.get("priced_envelope_crosscheck") or {}).get("sign_flips_by_cadence") is None:
+            _wbad.append("the second engine's cross-check is absent")
+        _rb = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_buffer_floor_readback.json"),
+                             encoding="utf-8"))
+        if _rb.get("verdict") == "NOT-ASSESSED":
+            _wbad.append("the read-back refused to answer")
+        else:
+            _gap = abs(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")))
+            if _gap > float(_rb.get("tolerance_pp")):
+                _wbad.append("the harvested point sits %.3fpp off the line, past the %.3fpp "
+                             "tolerance, but the face still says %s"
+                             % (_gap, float(_rb.get("tolerance_pp")), _rb.get("verdict")))
+            if (_rb.get("gap_pp") is None
+                    or abs(round(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")), 3)
+                           - float(_rb.get("gap_pp"))) > 1e-9):
+                _wbad.append("the published gap is not observed minus predicted")
+        check("product: the width ladder names why it cannot be quoted, and the buffer line "
+              "is tested on a point it never saw", not _wbad,
+              "; ".join(_wbad)[:220] or "width=%s (agree %s, needs width %s) | readback=%s "
+              "(gap %+.3fpp/%.3fpp)" % (_wf.get("verdict"), _wagree, _wreq,
+                                        _rb.get("verdict"), float(_rb.get("gap_pp") or 0.0),
+                                        float(_rb.get("tolerance_pp") or 0.0)))
     except Exception as e:
-        check("product: the star lag band is re-derived from its own shuffled null",
-              False, repr(e)[:160])
-    # E249: E248 read one column and named the star. This leg re-derives every cell from the
-    # five published column readings against their own bands, and refuses the trap the frozen
-    # vocabulary cannot express on its own -- a lone crossing whose gap to the other columns
-    # sits inside one band width is a power reading, and the post-hoc block must say so.
+        check("product: the width ladder names why it cannot be quoted, and the buffer line "
+              "is tested on a point it never saw", False, repr(e)[:160])
     try:
-        _bad49 = []
-        _p49 = os.path.join("results", "state_tilt", "leadcounter_latest.json")
-        _f49 = None
-        if os.path.exists(_p49):
-            with io.open(_p49, encoding="utf-8") as _fh49:
-                _f49 = json.load(_fh49)
-        _cells49 = []
-        if not _f49:
-            _bad49.append("lead-counterfactual face missing")
+        # r1356: the two live faces (card 12 names, ticket 5 names) are compared on the same
+        # ruler, and the answer is a verdict about whether the gap is even a width effect. A
+        # reader must be able to rebuild that verdict from the face's own published deltas and
+        # its own frozen thresholds -- a stored label that no longer follows from the numbers is
+        # red, and so is a face that publishes a gap without the per-phase differences behind it.
+        _lv = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_live_width_ruler.json"),
+                             encoding="utf-8"))
+        _lrule = _lv.get("rule") or {}
+        _lpr = _lv.get("paired") or {}
+        _ld = [float(x) for x in (_lpr.get("deltas_pp") or [])]
+        _led = _lv.get("engine_disagreement") or {}
+        _lbad = []
+        if len(_ld) < int(_lrule.get("pairs_min", 20)):
+            _lbad.append("%d paired phase differences published, floor is %s"
+                         % (len(_ld), _lrule.get("pairs_min")))
         else:
-            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
-            import e249_lead_counterfactual as _m49
-            _cells49 = [c for c in (_f49.get("cells") or []) if c.get("decided")]
-            _spec49 = _f49.get("frozen_spec") or {}
-            _vocab49 = set(_spec49.get("verdicts") or [])
-            if not _cells49:
-                _bad49.append("no decided cell")
-            for _c49 in _cells49:
-                _cols49 = _c49.get("columns_read") or {}
-                _d49 = _m49.derive_verdict(_cols49, _c49.get("star"))
-                if _d49["verdict"] != _c49.get("verdict"):
-                    _bad49.append("cell %s: numbers say %s, face says %s"
-                                  % (_c49.get("label"), _d49["verdict"], _c49.get("verdict")))
-                if _d49["verdict"] not in _vocab49:
-                    _bad49.append("cell %s verdict outside the frozen vocabulary"
-                                  % _c49.get("label"))
-                # every declared crossing must actually clear its OWN shuffled band
-                for _k49 in (_d49.get("crossed") or []):
-                    _band49 = (_cols49.get(_k49) or {}).get("band_lag1") or {}
-                    _b49 = (_cols49.get(_k49) or {}).get("b1")
-                    _fam49 = ((_cols49.get(_k49) or {}).get("band_family") or {}).get("max_abs")
-                    _line49 = abs(_fam49) if _fam49 is not None else None
-                    if _b49 is None or (_line49 is not None and abs(_b49) <= _line49):
-                        _bad49.append("cell %s declares %s crossing a band it does not clear"
-                                      % (_c49.get("label"), _k49))
-                    elif _line49 is None and (_band49.get("lo") is None
-                                              or _band49["lo"] < _b49 < _band49["hi"]):
-                        _bad49.append("cell %s declares %s outside a band it sits inside"
-                                      % (_c49.get("label"), _k49))
-                # the separation test: 'specific' must be a comparison, not an impression
-                if _d49["verdict"] == "column_specific":
-                    if _d49.get("specific_is_separated") is None:
-                        _bad49.append("cell %s calls a column specific without a separation "
-                                      "test" % _c49.get("label"))
-                    elif _d49["specific_is_separated"] is False:
-                        _ph49 = _m49.reclassify(_c49) or {}
-                        if _ph49.get("post_hoc") == "column_specific":
-                            _bad49.append("cell %s keeps a lone crossing it cannot separate"
-                                          % _c49.get("label"))
-                _sp49 = _d49.get("column_spread")
-                _w49 = _d49.get("median_within_band_width")
-                _ratio49 = _d49.get("spread_over_band")
-                if _sp49 is not None and _w49:
-                    if _ratio49 is None or abs(_ratio49 - _sp49 / _w49) > 1e-9:
-                        _bad49.append("cell %s publishes a spread/band its numbers do not "
-                                      "produce" % _c49.get("label"))
-            _ph49 = _f49.get("rollup_post_hoc") or {}
-            _moved49 = [m["cell"] for m in (_ph49.get("reclassified") or [])]
-            for _c49 in _cells49:
-                if _c49.get("verdict") == "column_specific" \
-                        and _c49.get("kind") in ("headline", "window", "era", "neighbour"):
-                    _r49 = _m49.reclassify(_c49) or {}
-                    if _r49.get("post_hoc") != "column_specific" \
-                            and _c49["label"] not in _moved49:
-                        _bad49.append("cell %s is reclassified but the post-hoc block does "
-                                      "not name it" % _c49["label"])
-            if _ph49.get("frozen_verdict_kept") != (_f49.get("rollup") or {}).get("verdict"):
-                _bad49.append("the post-hoc block does not carry the frozen rollup verdict")
-            # cross-face identity: the star's lag-1 here must be E248's published number
-            _rep49 = _f49.get("e248_reproduction_ref") or {}
-            if _rep49.get("available"):
-                _head49 = next((c for c in _cells49 if c.get("label") == "all_five"), {})
-                _star49 = _head49.get("star")
-                _b149 = ((_head49.get("decision") or {}).get("b1") or {}).get(_star49)
-                _ref49 = _rep49.get("e248_lag1")
-                if _b149 is None or _ref49 is None or abs(_b149 - _ref49) > 1e-9:
-                    _bad49.append("the star column reads %s but E248 published %s"
-                                  % (_b149, _ref49))
-            if not _f49.get("no_bill"):
-                _bad49.append("the face does not carry its no-bill line")
-        check("product: the negative lead is read column by column, not off one column",
-              not _bad49, "; ".join(_bad49)[:220]
-              or "verdict %s (post-hoc %s); cells %d; headline %s; spread/band %s"
-                 % ((_f49 or {}).get("rollup", {}).get("verdict"),
-                    ((_f49 or {}).get("rollup_post_hoc") or {}).get("verdict"),
-                    len(_cells49),
-                    ((_f49 or {}).get("summary") or {}).get("headline_verdict"),
-                    _r39((_f49 or {}).get("summary") or {}, "spread_over_band")))
-    except Exception as e:
-        check("product: the negative lead is read column by column, not off one column",
-              False, repr(e)[:160])
-    # E250: E249 found every column negative, so the naming was not the star's. This leg asks the
-    # question E249 left open -- is the shared lead the book's own lagged aggregate turnover? --
-    # and refuses the two traps that would make a "yes" meaningless: the aggregate series must be
-    # aligned to the panel rows (an increment-date grid is one row short and slides every lag by
-    # one session), and the per-column "share absorbed" must be the LEAVE-ONE-OUT reading,
-    # because the column's turnover is a component of the aggregate (E238 family).
-    try:
-        _bad50 = []
-        _p50 = os.path.join("results", "state_tilt", "bookecho_latest.json")
-        _f50 = None
-        if os.path.exists(_p50):
-            with io.open(_p50, encoding="utf-8") as _fh50:
-                _f50 = json.load(_fh50)
-        _cells50 = []
-        if not _f50:
-            _bad50.append("book-echo face missing")
-        else:
-            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
-            import e250_book_turnover_echo as _m50
-            _cells50 = [c for c in (_f50.get("cells") or []) if c.get("verdict")]
-            _vocab50 = set(((_f50.get("frozen_spec") or {}).get("verdicts")) or [])
-            if not _cells50:
-                _bad50.append("no cell carries a verdict")
-            for _c50 in _cells50:
-                if _c50.get("verdict") not in _vocab50:
-                    _bad50.append("cell %s outside the frozen vocabulary" % _c50.get("label"))
-                _d50 = _c50.get("design_B_alone") or {}
-                _reb50 = _m50.derive_verdict(_d50.get("c1"), _c50.get("aggregate_outside_band"),
-                                             _c50.get("mean_share_accounted"),
-                                             len(_c50.get("columns") or {}))
-                if _reb50 != _c50.get("verdict"):
-                    _bad50.append("cell %s publishes %s but its numbers re-derive %s"
-                                  % (_c50.get("label"), _c50.get("verdict"), _reb50))
-                if (_c50.get("aggregate") or {}).get("aligned_to_panel_rows") is not True:
-                    _bad50.append("cell %s has an aggregate series off the panel grid"
-                                  % _c50.get("label"))
-                _cols50 = _c50.get("columns") or {}
-                _shares50 = [v.get("share_accounted_loo") for k, v in _cols50.items()
-                             if k != _c50.get("star")]
-                _shares50 = [v for v in _shares50 if v is not None]
-                if _shares50 and _c50.get("mean_share_accounted") is not None:
-                    _mean50 = sum(_shares50) / float(len(_shares50))
-                    if abs(_mean50 - _c50["mean_share_accounted"]) > 1e-9:
-                        _bad50.append("cell %s publishes a leave-one-out mean its own columns "
-                                      "do not produce" % _c50.get("label"))
-                for _k50, _v50 in _cols50.items():
-                    if _v50.get("share_accounted_loo") is None:
-                        _bad50.append("cell %s column %s has no leave-one-out share"
-                                      % (_c50.get("label"), _k50))
-                if _c50.get("verdict") == "aggregate_carries_the_lead" \
-                        and (_d50.get("c1") or 0.0) >= 0.0:
-                    _bad50.append("cell %s names a negative lead carrying a non-negative "
-                                  "aggregate coefficient" % _c50.get("label"))
-            if not _f50.get("no_bill"):
-                _bad50.append("the face does not carry its no-bill line")
-            if not _f50.get("identification_caveat"):
-                _bad50.append("the face does not carry the time-series vs date-FE caveat")
-        _s50 = (_f50 or {}).get("summary") or {}
-        check("product: the shared lead is tested against the book's own aggregate turnover",
-              not _bad50, "; ".join(_bad50)[:220]
-              or "verdict %s; cells %d; c1 %s; mean leave-one-out share %s"
-                 % (_s50.get("verdict"), len(_cells50), _r39(_f50 or {}, "headline_c1_alone"),
-                    _r39(_f50 or {}, "headline_mean_share_accounted")))
-    except Exception as e:
-        check("product: the shared lead is tested against the book's own aggregate turnover",
-              False, repr(e)[:160])
-
-    # E251: E250 left one number standing -- the star kept ~90% of its lag-1 once the book
-    # aggregate was in the row. This leg re-derives that decomposition from the published face
-    # and refuses the two ways it could lie: a verdict that its own numbers do not reproduce, and
-    # a "residual" that is not the same object E250 published (the identity to bookecho is
-    # checked to 1e-9, because a decomposition of a different number is not a decomposition).
-    try:
-        _bad51 = []
-        _p51 = os.path.join("results", "state_tilt", "starown_latest.json")
-        _f51 = None
-        if os.path.exists(_p51):
-            with io.open(_p51, encoding="utf-8") as _fh51:
-                _f51 = json.load(_fh51)
-        _cells51 = []
-        if not _f51:
-            _bad51.append("star-own-component face missing")
-        else:
-            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
-            import e251_star_own_component as _m51
-            _vocab51 = set(((_f51.get("frozen_spec") or {}).get("verdicts")) or [])
-            _cells51 = [c for c in (_f51.get("cells") or []) if c.get("verdict")]
-            if not _cells51:
-                _bad51.append("no cell carries a verdict")
-            for _c51 in _cells51:
-                if _c51.get("verdict") not in _vocab51:
-                    _bad51.append("cell %s outside the frozen vocabulary" % _c51.get("label"))
-                _r51 = _c51.get("star_residual") or {}
-                _reb51 = _m51.derive_verdict(_r51.get("b1"), _c51.get("star_outside_band"),
-                                             _r51.get("share_taken_by_vol"),
-                                             _c51.get("vol_addition_outside_band"),
-                                             len(_c51.get("columns") or {}))
-                if _reb51 != _c51.get("verdict"):
-                    _bad51.append("cell %s publishes %s but its numbers re-derive %s"
-                                  % (_c51.get("label"), _c51.get("verdict"), _reb51))
-                _b51, _bv51 = _r51.get("b1"), _r51.get("b1_with_vol")
-                if _b51 is not None and _bv51 is not None and abs(_b51) > 1e-12:
-                    _sh51 = 1.0 - (_bv51 / _b51)
-                    if _r51.get("share_taken_by_vol") is None \
-                            or abs(_sh51 - _r51["share_taken_by_vol"]) > 1e-9:
-                        _bad51.append("cell %s publishes a share its own betas "
-                                      "do not produce" % _c51.get("label"))
-                if not _c51.get("star") and "no member was named star" not in (
-                        _c51.get("reason") or ""):
-                    _bad51.append("cell %s has no star and no explicit reason"
-                                  % _c51.get("label"))
-                if _c51.get("verdict") == "residual_is_own_volatility" \
-                        and _c51.get("vol_addition_outside_band") is not True:
-                    _bad51.append("cell %s names volatility without clearing the drop band"
-                                  % _c51.get("label"))
-            _head51 = next((c for c in _cells51 if c.get("label") == "all_five"), None)
-            if _head51 is None:
-                _bad51.append("no headline cell")
+            _ls = sorted(_ld)
+            _lmed = round(_ls[len(_ls) // 2] if len(_ls) % 2 else
+                          (_ls[len(_ls) // 2 - 1] + _ls[len(_ls) // 2]) / 2.0, 3)
+            _lups = sum(1 for _d in _ld if _d > 0)
+            _lagree = round(max(_lups, len(_ld) - _lups) / float(len(_ld)), 3)
+            if abs(_lmed - float(_lpr.get("median_pp"))) > 1e-9:
+                _lbad.append("published median %s, the deltas say %s"
+                             % (_lpr.get("median_pp"), _lmed))
+            if _lagree != _lpr.get("sign_agreement"):
+                _lbad.append("published sign agreement %s, the deltas say %s"
+                             % (_lpr.get("sign_agreement"), _lagree))
+            _ldis = _led.get("rung_disagreement_pp")
+            if _ldis is None:
+                _lbad.append("no rung disagreement: the second engine's face is missing")
             else:
-                _st51 = (_head51.get("columns") or {}).get(_head51.get("star")) or {}
-                if _st51.get("age_identified") is not False:
-                    _bad51.append("the headline star does not publish age as unidentified")
-                _bid51 = os.path.join("results", "state_tilt", "bookecho_latest.json")
-                if os.path.exists(_bid51):
-                    with io.open(_bid51, encoding="utf-8") as _fh51b:
-                        _f51b = json.load(_fh51b)
-                    _hb51 = next((c for c in (_f51b.get("cells") or [])
-                                  if c.get("label") == "all_five"), None)
-                    if _hb51 and _hb51.get("star") == _head51.get("star"):
-                        _e250v51 = ((_hb51.get("columns") or {}).get(_hb51["star"])
-                                    or {}).get("b1_with_loo_aggregate")
-                        _our51 = (_head51.get("star_residual") or {}).get("b1")
-                        if _e250v51 is None or _our51 is None \
-                                or abs(_e250v51 - _our51) > 1e-9:
-                            _bad51.append("the decomposed residual is not E250's published "
-                                          "number (%s vs %s)" % (_e250v51, _our51))
-                    else:
-                        _bad51.append("the two faces do not name the same star")
+                _labs = abs(_lmed)
+                if _lagree <= float(_lrule.get("sign_split_max", 0.6)) and _labs < float(_ldis):
+                    _llab = "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"
+                elif _labs < float(_ldis):
+                    _llab = "SIGNED_BUT_INSIDE_ENGINE_DISAGREEMENT"
+                elif _lagree > float(_lrule.get("sign_split_max", 0.6)):
+                    _llab = "RESOLVED_BEYOND_ENGINE_DISAGREEMENT"
                 else:
-                    _bad51.append("bookecho face missing, so the identity cannot be checked")
-            if not _f51.get("no_bill"):
-                _bad51.append("the face does not carry its no-bill line")
-            if not _f51.get("identification_caveat"):
-                _bad51.append("the face does not carry its age caveat")
-        _s51 = (_f51 or {}).get("summary") or {}
-        check("product: the star's residual is decomposed and split from volatility and age",
-              not _bad51, "; ".join(_bad51)[:220]
-              or "verdict %s; star %s; b1 %s -> with vol %s (share %s); cells %d"
-                 % (_s51.get("verdict"), _s51.get("headline_star"),
-                    _r39(_f51 or {}, "headline_star_b1"),
-                    _r39(_f51 or {}, "headline_star_b1_with_vol"),
-                    _r39(_f51 or {}, "headline_star_share_vol"), len(_cells51)))
+                    _llab = "UNSIGNED_AND_BEYOND"
+                if _llab != _lv.get("verdict"):
+                    _lbad.append("verdict says %s, its own deltas say %s"
+                                 % (_lv.get("verdict"), _llab))
+                # the comparator must be a difference minus a difference: had the gate used the
+                # LEVEL gap (~6.4pp) instead of the rung (2.0pp), a 0.09pp gap would have read
+                # "resolved", which is the r1292 unit trap in this face's own clothes
+                _llev = max((_led.get("level_gap_pp") or {"0": 0}).values())
+                if _llev > float(_ldis) * 2 and _labs < float(_ldis) and _labs >= _llev:
+                    _lbad.append("the level gap %.2fpp decided the verdict" % _llev)
+        _lai = _lv.get("as_issued") or {}
+        if _lai:
+            if not (_lai.get("decomposition") or {}).get("paths_agree"):
+                _lbad.append("the two decomposition paths disagree, so the 2x2 is inconsistent")
+            _lw = _lai.get("width_effect_pp") or {}
+            _lcell = _lai.get("cells_cagr_pp") or {}
+            if all(k in _lcell for k in ("beta@5", "beta@12")):
+                _lrb = round(_lcell["beta@12"] - _lcell["beta@5"], 3)
+                if abs(_lrb - float(_lw.get("beta", 0.0))) > 0.011:
+                    _lbad.append("the beta-rule width effect is not beta@12 minus beta@5")
+        check("product: the two live widths are priced on one ruler and the gap is inside the "
+              "engines' own disagreement", not _lbad,
+              "; ".join(_lbad)[:220] or "%s | paired %+.3fpp over %d phases, engine "
+              "disagreement %.3fpp" % (_lv.get("verdict"),
+                                       float(_lpr.get("median_pp") or 0.0), len(_ld),
+                                       float(_led.get("rung_disagreement_pp") or 0.0)))
     except Exception as e:
-        check("product: the star's residual is decomposed and split from volatility and age",
-              False, repr(e)[:160])
+        check("product: the two live widths are priced on one ruler and the gap is inside the "
+              "engines' own disagreement", False, repr(e)[:160])
     return _finish()
+_MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 
 
-def _r39(face, key):
-    v = (face.get("summary") or {}).get(key)
-    return "n/a" if v is None else "%.3f" % v
+def _hunk_state(text: str, rev: str = "HEAD"):
+    """Marker lines that are NOT part of a complete open/base/sep/close hunk.
+
+    A probe fixture may legitimately quote a whole conflict hunk; a leftover is a
+    fragment of one (git applies half of a resolution, or a base marker survives a
+    replay). Balance is mechanical, so no path whitelist is needed -- and a
+    markdown "=======" underline cannot trip the gate because a separator only
+    counts inside an open hunk.
+    """
+    out = []
+    state = None
+    for ln, line in enumerate(text.split("\n"), 1):
+        kind = next((k for tok, k in _MARK if line.startswith(tok)), None)
+        if kind is None:
+            continue
+        if kind == "open" and state is None:
+            state = "open"
+            continue
+        if kind == "base" and state == "open":
+            state = "base"
+            continue
+        if kind == "sep" and state in ("open", "base"):
+            state = "sep"
+            continue
+        if kind == "close" and state == "sep":
+            state = None
+            continue
+        out.append((ln, kind))
+    return out, state
 
 
-def _r39ci(face, key):
-    v = (face.get("summary") or {}).get(key)
-    return "n/a" if not v else "[%.3f, %.3f]" % (v[0], v[1])
-
-
-def _r38(face, key):
-    v = (face.get("summary") or {}).get(key)
-    return "n/a" if v is None else "%.3f" % v
-def _r37(face, key):
-    v = (face.get("summary") or {}).get(key)
-    return "n/a" if v is None else "%.3f" % v
+def _marker_fragments():
+    """Live faces only: results/_* are scratch captures that quote raw diffs on purpose
+    (six of them hold unbalanced hunks by design), so the gate is scoped there by the
+    repo's own underscore convention instead of by a list of names."""
+    r = subprocess.run(["git", "grep", "-l", "-I", "-E",
+                        r"^(<<<<<<<|\|\|\|\|\|\|\||=======|>>>>>>>)", "HEAD", "--", ".",
+                        ":(exclude,glob)results/_*"], capture_output=True)
+    bad = []
+    for row in r.stdout.decode("utf-8", "replace").split("\n"):
+        if ":" not in row:
+            continue
+        path = row.split(":", 1)[1]
+        blob = subprocess.run(["git", "show", "HEAD:%s" % path], capture_output=True)
+        frag, open_state = _hunk_state(blob.stdout.decode("utf-8", "replace"))
+        for ln, kind in frag:
+            bad.append((path, ln, kind))
+        if open_state is not None:
+            bad.append((path, blob.stdout.count(b"\n") + 1, "unclosed-hunk"))
+    return bad
 
 
 def _finish() -> int:

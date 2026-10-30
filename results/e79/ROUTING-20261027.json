@@ -172,8 +172,7 @@
     "func": "run_pairscreened",
     "face": "results/e40_pair_drawdown/PAIRSCREEN-20261027.json",
     "calls": [
-     "run_pair",
-     "run_tilt4"
+     "run_pair"
     ]
    },
    {
@@ -191,6 +190,34 @@
     "calls": [
      "run_cashdrag"
     ]
+   },
+   {
+    "leg": "tilt3screensign",
+    "func": "run_tilt3screensign",
+    "face": "results/e43_tilt_4member/TILT3SCREENSIGN-20261027.json",
+    "calls": [
+     "run_tilt3sign"
+    ]
+   },
+   {
+    "leg": "tilt3screened",
+    "func": "run_tilt3screened",
+    "face": "results/e43_tilt_4member/TILT3SCREEN-20261027.json",
+    "calls": [
+     "run_tilt3"
+    ]
+   },
+   {
+    "leg": "tilt3signnames",
+    "func": "run_tilt3signnames",
+    "face": "results/e43_tilt_4member/TILT3SIGNNAMES-20261027.json",
+    "calls": []
+   },
+   {
+    "leg": "tilt3signdropsweep",
+    "func": "run_tilt3signdropsweep",
+    "face": "results/e43_tilt_4member/TILT3SIGNDROPSWEEP-20261027.json",
+    "calls": []
    }
   ],
   "coverage_rule": "covered_twin = a twin leg's body calls this mode's runner AND that twin's screened face exists on disk; coverage is a code-graph fact, not a column match",
@@ -365,7 +392,6 @@
    "published_cells": 91,
    "coverage": "covered_twin",
    "twin_legs": [
-    "pairscreened",
     "tilt4screened"
    ],
    "twin_by_name": [],
@@ -391,7 +417,6 @@
    "published_cells": 91,
    "coverage": "covered_twin",
    "twin_legs": [
-    "pairscreened",
     "tilt4screened"
    ],
    "twin_by_name": [],
@@ -417,7 +442,6 @@
    "published_cells": 91,
    "coverage": "covered_twin",
    "twin_legs": [
-    "pairscreened",
     "tilt4screened"
    ],
    "twin_by_name": [],

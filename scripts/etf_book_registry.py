@@ -268,16 +268,23 @@ READERS = {
 
 
 def chain_legs():
-    """Leg names wired into the runner that actually executes them."""
+    """Leg names wired into the runner that actually executes them.
+
+    r1346: a leg may carry a third element (the refresh command paid when its probe
+    says the face is stale), so unpack the NAME POSITION rather than the tuple --
+    `for n, _c in LEGS` raises on a 3-tuple and the except below would have turned
+    that into a silent `None` (the r1288 family: a swallowed type error fabricating
+    a plausible answer -- "no legs wired").
+    """
     try:
         import importlib
         mod = importlib.import_module("Tools.s6_chain_bmc")
-        return sorted({n for n, _c in mod.LEGS})
+        return sorted({t[0] for t in mod.LEGS})
     except Exception:
         try:
             import importlib
             mod = importlib.import_module("scripts.s6_chain")
-            return sorted({n for n, _c in mod.LEGS})
+            return sorted({t[0] for t in mod.LEGS})
         except Exception:
             return None
 

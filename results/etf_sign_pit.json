@@ -1,0 +1,565 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "universe": 1612,
+ "question": "were the six composite-factor SIGNS knowable in real time, or are they a full-sample reading that inflates every published number on this line?",
+ "declared": {
+  "rebal": 20,
+  "horizon": 20,
+  "n_hold": 12,
+  "cost_per_side": 0.001,
+  "start": "2020-01-01",
+  "ic_win": 12,
+  "ic_min": 0.02,
+  "ic_min_arms": [
+   0.01,
+   0.02,
+   0.05
+  ],
+  "ic_win_arms": [
+   6,
+   12,
+   24
+  ],
+  "ic_min_active": 4,
+  "min_cross_section": 20,
+  "adopt_ratio": 0.7,
+  "partial_ratio": 0.3,
+  "signs": {
+   "mom_12_1": 1.0,
+   "price_position": 1.0,
+   "drawdown_60": 1.0,
+   "adx_14": 1.0,
+   "vol_60": -1.0,
+   "intraday_range": -1.0
+  }
+ },
+ "full_sample_ic_mean": {
+  "mom_12_1": 0.06087593601390063,
+  "price_position": 0.07747113882314678,
+  "drawdown_60": 0.02851294711389625,
+  "adx_14": 0.0446000921533155,
+  "vol_60": -0.054905106066908876,
+  "intraday_range": -0.04081597385935423
+ },
+ "fixed_sign_matches_full_sample_ic": {
+  "mom_12_1": true,
+  "price_position": true,
+  "drawdown_60": true,
+  "adx_14": true,
+  "vol_60": true,
+  "intraday_range": true
+ },
+ "pit_sign_match_fraction_vs_fixed": {
+  "mom_12_1": 0.6709,
+  "price_position": 0.7595,
+  "drawdown_60": 0.3924,
+  "adx_14": 0.6456,
+  "vol_60": 0.5443,
+  "intraday_range": 0.481
+ },
+ "pit_dropped_fraction": {
+  "mom_12_1": 0.2785,
+  "price_position": 0.1392,
+  "drawdown_60": 0.2658,
+  "adx_14": 0.2278,
+  "vol_60": 0.1139,
+  "intraday_range": 0.1646
+ },
+ "ic_persistence": {
+  "mom_12_1": {
+   "n": 77,
+   "carry_corr": -0.0578,
+   "sign_flip_rate": 0.4545,
+   "trailing_mean_ic": 0.08111
+  },
+  "price_position": {
+   "n": 77,
+   "carry_corr": -0.0211,
+   "sign_flip_rate": 0.4805,
+   "trailing_mean_ic": 0.06332
+  },
+  "drawdown_60": {
+   "n": 77,
+   "carry_corr": 0.0232,
+   "sign_flip_rate": 0.4156,
+   "trailing_mean_ic": 0.00179
+  },
+  "adx_14": {
+   "n": 77,
+   "carry_corr": -0.2215,
+   "sign_flip_rate": 0.4805,
+   "trailing_mean_ic": 0.03984
+  },
+  "vol_60": {
+   "n": 77,
+   "carry_corr": -0.0284,
+   "sign_flip_rate": 0.4935,
+   "trailing_mean_ic": -0.02974
+  },
+  "intraday_range": {
+   "n": 77,
+   "carry_corr": -0.0206,
+   "sign_flip_rate": 0.5065,
+   "trailing_mean_ic": -0.01705
+  }
+ },
+ "arms": {
+  "fixed": {
+   "turnover_per_rebal": 1.1687,
+   "open_gapfill": 6,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": 0.5013,
+    "cagr": 0.0614,
+    "vol": 0.1049,
+    "sharpe": 0.644,
+    "maxdd": -0.1284
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": 0.0839,
+    "cagr": 0.0204,
+    "vol": 0.1073,
+    "sharpe": 0.25,
+    "maxdd": -0.1284
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 1.0847,
+    "total_ret": 0.3841,
+    "cagr": 0.122,
+    "vol": 0.1016,
+    "sharpe": 1.235,
+    "maxdd": -0.0943
+   }
+  },
+  "pit@0.01": {
+   "turnover_per_rebal": 1.5,
+   "open_gapfill": 3,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.5483,
+    "cagr": -0.11,
+    "vol": 0.234,
+    "sharpe": -0.4,
+    "maxdd": -0.6691
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": -0.3698,
+    "cagr": -0.1093,
+    "vol": 0.1779,
+    "sharpe": -0.585,
+    "maxdd": -0.4789
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 0.6307,
+    "total_ret": -0.2838,
+    "cagr": -0.1115,
+    "vol": 0.2963,
+    "sharpe": -0.266,
+    "maxdd": -0.5578
+   }
+  },
+  "pit@0.02": {
+   "turnover_per_rebal": 1.5063,
+   "open_gapfill": 3,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.5419,
+    "cagr": -0.1081,
+    "vol": 0.2281,
+    "sharpe": -0.407,
+    "maxdd": -0.6745
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": -0.3438,
+    "cagr": -0.1002,
+    "vol": 0.1681,
+    "sharpe": -0.567,
+    "maxdd": -0.4736
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 0.6564,
+    "total_ret": -0.3021,
+    "cagr": -0.1196,
+    "vol": 0.2932,
+    "sharpe": -0.304,
+    "maxdd": -0.5584
+   }
+  },
+  "pit@0.05": {
+   "turnover_per_rebal": 1.4286,
+   "open_gapfill": 10,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.466,
+    "cagr": -0.0878,
+    "vol": 0.2393,
+    "sharpe": -0.279,
+    "maxdd": -0.6294
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": -0.2995,
+    "cagr": -0.0854,
+    "vol": 0.1927,
+    "sharpe": -0.384,
+    "maxdd": -0.4498
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 0.7007,
+    "total_ret": -0.2379,
+    "cagr": -0.0917,
+    "vol": 0.2934,
+    "sharpe": -0.193,
+    "maxdd": -0.6004
+   }
+  },
+  "pit_w6": {
+   "turnover_per_rebal": 1.5169,
+   "open_gapfill": 1,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.2734,
+    "cagr": -0.0457,
+    "vol": 0.1902,
+    "sharpe": -0.161,
+    "maxdd": -0.4646
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": -0.2441,
+    "cagr": -0.0678,
+    "vol": 0.1831,
+    "sharpe": -0.306,
+    "maxdd": -0.4387
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 0.7564,
+    "total_ret": -0.0394,
+    "cagr": -0.0142,
+    "vol": 0.2,
+    "sharpe": 0.027,
+    "maxdd": -0.2907
+   }
+  },
+  "pit_w24": {
+   "turnover_per_rebal": 1.3101,
+   "open_gapfill": 8,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.263,
+    "cagr": -0.0438,
+    "vol": 0.2282,
+    "sharpe": -0.089,
+    "maxdd": -0.5425
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": -0.238,
+    "cagr": -0.0659,
+    "vol": 0.1963,
+    "sharpe": -0.261,
+    "maxdd": -0.4083
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 0.7625,
+    "total_ret": -0.0335,
+    "cagr": -0.012,
+    "vol": 0.2675,
+    "sharpe": 0.089,
+    "maxdd": -0.5425
+   }
+  },
+  "reversed_sign_exploratory": {
+   "turnover_per_rebal": 1.4831,
+   "open_gapfill": 0,
+   "traded": true,
+   "full": {
+    "label": "full",
+    "bars": 1652,
+    "years": 6.82,
+    "start_level": 1.0,
+    "total_ret": -0.0581,
+    "cagr": -0.0087,
+    "vol": 0.2406,
+    "sharpe": 0.081,
+    "maxdd": -0.4339
+   },
+   "is_2020_2023": {
+    "label": "is_2020_2023",
+    "bars": 970,
+    "years": 3.99,
+    "start_level": 1.0,
+    "total_ret": 0.0484,
+    "cagr": 0.0119,
+    "vol": 0.1941,
+    "sharpe": 0.16,
+    "maxdd": -0.3126
+   },
+   "oos_2024_plus": {
+    "label": "oos_2024_plus",
+    "bars": 682,
+    "years": 2.82,
+    "start_level": 1.0265,
+    "total_ret": -0.0824,
+    "cagr": -0.03,
+    "vol": 0.2945,
+    "sharpe": 0.037,
+    "maxdd": -0.3304
+   }
+  }
+ },
+ "control_equal_weight": {
+  "label": "equal_weight_eligible",
+  "bars": 1651,
+  "years": 6.82,
+  "start_level": 1.0009,
+  "total_ret": 0.1185,
+  "cagr": 0.0166,
+  "vol": 0.1817,
+  "sharpe": 0.185,
+  "maxdd": -0.3991
+ },
+ "summary": {
+  "cagr_fixed": 0.0614,
+  "cagr_pit": -0.1081,
+  "sharpe_fixed": 0.644,
+  "sharpe_pit": -0.407,
+  "maxdd_fixed": -0.1284,
+  "maxdd_pit": -0.6745,
+  "fixed_traded": true,
+  "pit_traded": true,
+  "n_decision_dates": 83,
+  "n_sign_dates": 79,
+  "primary_arm": "pit@0.02",
+  "cagr_by_cell": {
+   "pit@0.01": -0.11,
+   "pit@0.02": -0.1081,
+   "pit@0.05": -0.0878,
+   "pit_w6": -0.0457,
+   "pit_w24": -0.0438
+  },
+  "verdict_by_cell": {
+   "pit@0.01": "signs_in_sample",
+   "pit@0.02": "signs_in_sample",
+   "pit@0.05": "signs_in_sample",
+   "pit_w6": "signs_in_sample",
+   "pit_w24": "signs_in_sample"
+  },
+  "ratio_by_cell": {
+   "pit@0.01": -1.7915,
+   "pit@0.02": -1.7606,
+   "pit@0.05": -1.43,
+   "pit_w6": -0.7443,
+   "pit_w24": -0.7134
+  },
+  "verdict_stable_across_cells": true,
+  "cagr_reversed_sign": -0.0087,
+  "sharpe_reversed_sign": 0.081,
+  "cagr_equal_weight_control": 0.0166,
+  "mean_carry_corr": -0.0544,
+  "mean_sign_flip_rate": 0.4718
+ },
+ "caveats": [
+  "Reference engine only (no impact cost, no gap risk); paired A/B on one engine call.",
+  "The vol target / beta overlay is NOT applied here -- the sign question is orthogonal to sizing, and both arms are sized flat so the comparison stays paired. That is why the fixed arm's 6.14% is below the published overlay headline (9.13%).",
+  "IC windows are the decision grid itself; a faster IC estimator was not tried.",
+  "ETF pool is today's listed set (survivorship) -- unaffected by this face, unchanged.",
+  "The pit arm trades only once >= IC_MIN_ACTIVE windows have closed (~4 months), so its first decisions are 'no position', not a different position.",
+  "The reversed-sign arm is exploratory: one sign rule, one estimator, no prereg, no proposal. A sign rule that only works backwards needs its own frozen test."
+ ],
+ "verdict": "signs_in_sample",
+ "gate": {
+  "ratio": -1.760586319218241,
+  "all_ok": true,
+  "checks": [
+   {
+    "check": "declared rebal echoed",
+    "ok": true,
+    "payload": 20,
+    "module": 20
+   },
+   {
+    "check": "declared horizon echoed",
+    "ok": true,
+    "payload": 20,
+    "module": 20
+   },
+   {
+    "check": "declared n_hold echoed",
+    "ok": true,
+    "payload": 12,
+    "module": 12
+   },
+   {
+    "check": "declared cost_per_side echoed",
+    "ok": true,
+    "payload": 0.001,
+    "module": 0.001
+   },
+   {
+    "check": "declared start echoed",
+    "ok": true,
+    "payload": "2020-01-01",
+    "module": "2020-01-01"
+   },
+   {
+    "check": "declared ic_win echoed",
+    "ok": true,
+    "payload": 12,
+    "module": 12
+   },
+   {
+    "check": "declared ic_min echoed",
+    "ok": true,
+    "payload": 0.02,
+    "module": 0.02
+   },
+   {
+    "check": "declared ic_min_arms echoed",
+    "ok": true,
+    "payload": [
+     0.01,
+     0.02,
+     0.05
+    ],
+    "module": [
+     0.01,
+     0.02,
+     0.05
+    ]
+   },
+   {
+    "check": "declared ic_win_arms echoed",
+    "ok": true,
+    "payload": [
+     6,
+     12,
+     24
+    ],
+    "module": [
+     6,
+     12,
+     24
+    ]
+   },
+   {
+    "check": "declared ic_min_active echoed",
+    "ok": true,
+    "payload": 4,
+    "module": 4
+   },
+   {
+    "check": "declared min_cross_section echoed",
+    "ok": true,
+    "payload": 20,
+    "module": 20
+   },
+   {
+    "check": "declared adopt_ratio echoed",
+    "ok": true,
+    "payload": 0.7,
+    "module": 0.7
+   },
+   {
+    "check": "declared partial_ratio echoed",
+    "ok": true,
+    "payload": 0.3,
+    "module": 0.3
+   },
+   {
+    "check": "declared signs echoed",
+    "ok": true,
+    "payload": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    },
+    "module": {
+     "mom_12_1": 1.0,
+     "price_position": 1.0,
+     "drawdown_60": 1.0,
+     "adx_14": 1.0,
+     "vol_60": -1.0,
+     "intraday_range": -1.0
+    }
+   },
+   {
+    "check": "both arms actually traded (r1261: an untraded arm passes everything)",
+    "ok": true,
+    "fixed_traded": true,
+    "pit_traded": true
+   },
+   {
+    "check": "ratio recomputed",
+    "ok": true,
+    "ratio": -1.760586319218241
+   }
+  ]
+ }
+}

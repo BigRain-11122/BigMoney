@@ -70,7 +70,11 @@ def _norm_host(h):
     return h
 
 
-HOST = _norm_host(os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
+# D-20261029-11 ③: the group L1 lane retired :8090 and pins its endpoint through one
+# switch, L1_ENDPOINT. Honour it first so this repo cannot point at a dead port while
+# the company's answer is :11434 (OLLAMA_HOST keeps working for machine-local setups).
+HOST = _norm_host(os.environ.get("L1_ENDPOINT")
+                  or os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
 MODEL = os.environ.get("BIGMONEY_LLM_MODEL", "qwen3.8:4b")
 # C-machine Ollama over tailnet (O-20261006-1845 令2): bm-b's primary LLM
 # channel; local serve demoted to fallback. Route is resolved once per

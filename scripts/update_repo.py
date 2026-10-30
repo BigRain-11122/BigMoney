@@ -76,7 +76,7 @@ RATE_BAND = (0.0, 200.0)      # annualized % sanity band; >200 = nonsense.
 # is a GENUINE pre-CNY squeeze print -- both faces agree + sibling terms
 # confirm (GC003 close 22.275, GC007 13.845 same day) + seasonal pattern.
 sys.path.insert(0, ROOT)
-from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+from config.lane_io import lane_host, stamp_envelope  # noqa: E402 -- after ROOT pin
 LANE_OWNER = lane_host("update_repo", "bm-a")           # R31 lane-ownership precedent (T-88 claim)
 
 
@@ -297,6 +297,7 @@ def load_status():
 
 
 def write_status(payload):
+    payload = stamp_envelope(payload, "update_repo")
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
 
 

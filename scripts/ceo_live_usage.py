@@ -64,6 +64,27 @@ v1.6 (r1065 bm-b, recommendation-face surfacing -- CEO anchor "product
   insufficient-sample verdicts travel verbatim.  Missing face = honest
   absent disclosure (page still renders, exit 0 unchanged).
 
+v1.7 (r1152 bm-a, "how much money" roll-up -- CEO anchor "我要的是结果
+  能赚钱的结果"): section 3 opens with ONE line of money for the whole book:
+  total equity / starting capital / cumulative return in percent and CNY /
+  positions vs cash split / today's change against the previous export.
+  Every figure is derived from the paper face (each trader's own
+  capital_cny.initial, equity, cash, positions_value) and the previous
+  export's own summary -- no constant is assumed, and an absent prior
+  export reads None with a "no comparison face" sentence rather than a
+  fabricated flat day.  Cross-face assertion: the roll-up must agree with
+  the export summary's total_equity_cny (tolerance = rounding of the member
+  rows).  ZERO new judgment (no benchmark, no win/loss claim).
+
+v1.8 (r1154 bm-a): section 1 gains the market risk tape -- limit-up /
+  limit-down / broken-seal / strong member counts, the seal rate, the streak
+  ladder and the mechanical kill-day reading, on the same forward zt-pool
+  panels.  SINGLE IMPLEMENTATION: it calls scripts/daily_report._zt_risk_face,
+  the exact function that renders section 9 of the daily report, so the two
+  pages cannot drift into two different sets of reading rules (r1290
+  two-production-faces law).  A trading day that was never captured reads as
+  absent, never as 0 members (r1149 marks-coverage law).  ZERO new judgment.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -84,7 +105,9 @@ Exit codes: 0 = ok, 2 = mechanism fault (missing face / shape drift).
 import datetime as dt
 import json
 import os
+import re
 import sys
+import tempfile
 import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -92,6 +115,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REGIME_JSON = os.path.join(ROOT, "results", "regime_state.json")
 CLOCK_JSON = os.path.join(ROOT, "results", "market_clock", "call_latest.json")
 PAPER_LATEST = os.path.join(ROOT, "results", "paper_export", "latest.json")
+PAPER_EXPORT_DIR = os.path.join(ROOT, "results", "paper_export")
 BLEND_JSON = os.path.join(ROOT, "results",
                           "portfolio_blend_tournament.json")
 LEDGER_MD = os.path.join(ROOT, "research", "DECISION_CHAIN_LEDGER.md")
@@ -100,6 +124,7 @@ NT_S2_VERDICT = os.path.join(ROOT, "results", "national_team",
 NT_S3_REVIEW = os.path.join(ROOT, "results", "national_team",
                             "s3_event_review.json")
 OUT_DIR = os.path.join(ROOT, "docs", "live_usage")
+REPORT_DIR = os.path.join(ROOT, "docs", "daily_report")        # v1.8 parity
 MINUTE_FEED_DIR = os.path.join(ROOT, "data", "minute_feed")   # T-104 (v1.4)
 # In-flight NULLS judgment batches (v1.5) -- pure counter faces:
 FUND_NULLS_TARGET = 2000
@@ -395,6 +420,82 @@ def _recommendation_face() -> dict:
     }
 
 
+def _prior_export_equity(day: str):
+    """Total equity (CNY) of the newest paper_export dated strictly before *day*.
+
+    Returns (date, total).  The date is the export file's own day; the total is
+    read from that file's own summary face.  A missing file or a summary
+    without the key reads (None, None) -- never 0, which would invent a loss.
+    """
+    if not os.path.isdir(PAPER_EXPORT_DIR):
+        return (None, None)
+    best = None
+    for name in os.listdir(PAPER_EXPORT_DIR):
+        if not (name.startswith("export-") and name.endswith(".json")):
+            continue
+        d = name[len("export-"):-len(".json")]
+        if len(d) != 10 or d >= day:
+            continue
+        if best is None or d > best:
+            best = d
+    if best is None:
+        return (None, None)
+    ex = _read_json(os.path.join(PAPER_EXPORT_DIR, "export-%s.json" % best))
+    tot = (ex.get("summary") or {}).get("total_equity_cny")
+    return (best, float(tot) if isinstance(tot, (int, float)) else None)
+
+
+def _rollup_face(paper: dict, day: str) -> dict:
+    """v1.7 six-member money roll-up: the page must answer "how much money".
+
+    Every number is derived from the paper face itself: initial capital from
+    each trader's own capital_cny.initial, equity/cash/positions from the same
+    block, and the day change from the *previous* export's summary.  No
+    constant is assumed; an absent prior file reads None (never 0) so a hole
+    cannot be mistaken for a flat day.
+    """
+    traders = {t.get("trader"): t for t in paper.get("traders", [])}
+    initial = equity = cash = pos = 0.0
+    n = 0
+    for tid in SIX:
+        c = (traders.get(tid) or {}).get("capital_cny") or {}
+        if not isinstance(c.get("equity"), (int, float)):
+            continue
+        n += 1
+        initial += float(c.get("initial") or 0.0)
+        equity += float(c["equity"])
+        cash += float(c.get("cash") or 0.0)
+        pos += float(c.get("positions_value") or 0.0)
+    prior_day, prior_eq = _prior_export_equity(day)
+    face_total = (paper.get("summary") or {}).get("total_equity_cny")
+    face_total = (float(face_total) if isinstance(face_total, (int, float))
+                  else None)
+    return {
+        "n_traders": n,
+        "initial_cny": round(initial, 2),
+        "equity_cny": round(equity, 2),
+        "cash_cny": round(cash, 2),
+        "positions_cny": round(pos, 2),
+        "pnl_cny": round(equity - initial, 2),
+        "return_pct": (round((equity / initial - 1.0) * 100.0, 4)
+                       if initial > 0 else None),
+        "day_prior": prior_day,
+        "day_prior_equity_cny": (round(prior_eq, 2)
+                                 if prior_eq is not None else None),
+        "day_pnl_cny": (round(equity - prior_eq, 2)
+                        if prior_eq is not None else None),
+        "day_pct": (round((equity / prior_eq - 1.0) * 100.0, 4)
+                    if prior_eq else None),
+        "face_total_equity_cny": face_total,
+        "face_agrees": (face_total is not None
+                        and abs(face_total - equity) <= 0.5 * max(n, 1)),
+        "source": ("results/paper_export/export-%s.json" % day
+                   if os.path.exists(os.path.join(PAPER_EXPORT_DIR,
+                                                  "export-%s.json" % day))
+                   else "results/paper_export/latest.json"),
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -442,7 +543,7 @@ def build_payload(day: str) -> dict:
     held = sorted({pos["symbol"] for m in members
                    for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_6",
+        "schema": "ceo_live_usage_v1_8",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -467,6 +568,7 @@ def build_payload(day: str) -> dict:
                 if (hc := clock.get("heat_composite") or {}) else ""),
         },
         "national_team": _national_team_face(),
+        "risk_tape": _risk_tape_face(),
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
                       for n, c, d in LADDER],
@@ -479,6 +581,7 @@ def build_payload(day: str) -> dict:
                        if state == "ORANGE" else
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
+        "rollup": _rollup_face(paper, day),
         "intraday": _intraday_face(held, day),
         "recommendation": _recommendation_face(),
         "judgment_burns": _judgment_burn_face(),
@@ -499,6 +602,58 @@ def build_payload(day: str) -> dict:
             "（v1.4 已接线·③节），09:15 起随源点亮·平行读出非重估值；",
         ],
     }
+
+
+def _risk_tape_face(root=None):
+    """v1.8: today's market risk tape from the four forward zt-pool panels.
+
+    SINGLE IMPLEMENTATION -- this is scripts/daily_report._zt_risk_face, the
+    very function that renders section 9 of the daily report.  The one-pager
+    must not grow a second copy of the reading rules (r1290 law), and a day
+    that was never captured must read as absent rather than as 0 members
+    (r1149 law).  Pure aggregation: zero new thresholds, zero new judgment."""
+    root = root or ROOT
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import daily_report as _dr
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160], "panels": {}}
+    try:
+        raw = _dr._zt_risk_face(root=root)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160], "panels": {}}
+    panels = {}
+    for k, v in (raw.get("panels") or {}).items():
+        v = v or {}
+        cnt = v.get("count")
+        prev = v.get("prev_count")
+        panels[k] = {
+            "label": v.get("label") or k,
+            "status": v.get("status"),
+            "count": cnt,
+            "prev_count": prev,
+            "prev_cutoff": v.get("prev_cutoff"),
+            "delta": (cnt - prev) if (cnt is not None
+                                      and prev is not None) else None,
+        }
+    out = {"source": ("scripts/daily_report._zt_risk_face "
+                      "(same implementation as daily report §九)"),
+           "panels": panels}
+    if not raw.get("present"):
+        out["status"] = "absent"
+        out["note"] = raw.get("note") or "风险面未产出（缺面不读 0）"
+        return out
+    out.update({"status": "ok", "cutoff": raw.get("cutoff"),
+                "cutoffs": raw.get("cutoffs"),
+                "aligned": raw.get("aligned"),
+                "seal_rate": raw.get("seal_rate"),
+                "ladder": raw.get("ladder") or {},
+                "top_streak": raw.get("top_streak"),
+                "down_over_up": raw.get("down_over_up"),
+                "kill_day": raw.get("kill_day")})
+    return out
 
 
 def render_md(p: dict) -> str:
@@ -525,6 +680,39 @@ def render_md(p: dict) -> str:
              + (" + 温度计 HOT → **GREEN×HOT 满热档生效（95%）**"
                 if p['ladder']['current_state'] == "GREEN×HOT"
                 else f" + 温度计 {m['heat']} → 满热档未触发（需 GREEN+HOT）"))
+    rt = p.get("risk_tape") or {}
+    if rt.get("status") == "ok":
+        parts = []
+        for k in ("zt", "dtgc", "zbgc", "strong"):
+            pv = (rt.get("panels") or {}).get(k) or {}
+            if pv.get("count") is None:
+                parts.append("{}={}".format(pv.get("label") or k, "缺面"))
+                continue
+            seg = "{} {}".format(pv.get("label") or k, pv["count"])
+            if pv.get("delta") is not None:
+                seg += "（{:+.0f}）".format(pv["delta"])
+            parts.append(seg)
+        line = ("- **市场风险面（前向池四面板·与每日战报§九同一实现）**："
+                "截止 {} · {}".format(rt.get("cutoff"), " · ".join(parts)))
+        if rt.get("seal_rate") is not None:
+            line += " · 封板率 {:.1%}".format(rt["seal_rate"])
+        lad = rt.get("ladder") or {}
+        if lad:
+            lad_seg = " / ".join("{}板{}".format(k, v) for k, v in lad.items())
+            line += " · 连板 " + lad_seg
+        if rt.get("kill_day") is not None:
+            line += (" · 读法（机械口径）：跌停≥涨停 → 杀跌日，今日 "
+                     + ("是" if rt["kill_day"] else "否"))
+        L.append(line)
+        if rt.get("aligned") is False:
+            mism = "、".join(
+                "{}={}".format(k, (v or {}).get("cutoff"))
+                for k, v in (rt.get("panels") or {}).items()
+                if (v or {}).get("status") == "ok")
+            L.append("  - 四面板截止日不一致：{}（如实标注）".format(mism))
+    else:
+        L.append("- 市场风险面：{}（缺面不读 0）".format(
+            rt.get("note") or rt.get("detail") or "未产出"))
     nt = p["national_team"]
     # 3.11-safe: precompute the nominal join (bm-c r190 v1.2 nested
     # same-quote f-string was PEP 701 3.12-only = syntax death on the
@@ -559,6 +747,23 @@ def render_md(p: dict) -> str:
     L.append(f"- {p['corps_note']}")
     L.append("- 六员权重=B_MAXDIV 冠军组合面（T-27 锦标赛 winner，10-01 起 "
              "SPM-v1 enforce 接线）；持仓=纸盘在册实况（T-35 导出面）：")
+    ru = p.get("rollup") or {}
+    if ru.get("return_pct") is None:
+        L.append("- **六员合计：口径缺件**（起始资本不可得=诚实空档，不填 0）")
+    else:
+        sgn_p = "+" if ru["pnl_cny"] >= 0 else "-"
+        if ru.get("day_pnl_cny") is None:
+            day_txt = "今日 —（无对照件，不填 0）"
+        else:
+            sgn_d = "+" if ru["day_pnl_cny"] >= 0 else "-"
+            day_txt = (f"今日 {sgn_d}¥{_fmt_cny(abs(ru['day_pnl_cny']))}"
+                       f"（对比 {ru['day_prior']}）")
+        L.append(f"- **六员合计：权益 ¥{_fmt_cny(ru['equity_cny'])}"
+                 f"（起始 ¥{_fmt_cny(ru['initial_cny'])}·累计 "
+                 f"{ru['return_pct']:+.2f}%·{sgn_p}¥"
+                 f"{_fmt_cny(abs(ru['pnl_cny']))}）**；其中持仓 ¥"
+                 f"{_fmt_cny(ru['positions_cny'])} / 现金 ¥"
+                 f"{_fmt_cny(ru['cash_cny'])}；{day_txt}")
     for mem in p["members"]:
         L.append("")
         L.append(f"### {mem['trader']}（权重 "
@@ -717,7 +922,7 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.6", p1["schema"] == "ceo_live_usage_v1_6")
+    check("schema v1.8", p1["schema"] == "ceo_live_usage_v1_8")
     rc = p1["recommendation"]
     check("recommendation face wired (v1.6)",
           rc["path"].endswith("REC-latest.json")
@@ -841,6 +1046,98 @@ def selftest() -> int:
           and (not rc["present"]
                or (rc["recommendation"][:12] in md1
                    and "全页指针" in md1)))
+    ru = p1["rollup"]
+    check("roll-up present and complete (v1.7)",
+          ru["n_traders"] == len(SIX) and ru["initial_cny"] > 0
+          and ru["equity_cny"] > 0)
+    check("roll-up arithmetic is self-consistent (v1.7)",
+          abs(ru["pnl_cny"] - (ru["equity_cny"] - ru["initial_cny"])) <= 0.05
+          and abs(ru["return_pct"]
+                  - (ru["equity_cny"] / ru["initial_cny"] - 1.0) * 100.0)
+          <= 1e-3
+          and abs(ru["positions_cny"] + ru["cash_cny"]
+                  - ru["equity_cny"]) <= 0.05 * ru["n_traders"])
+    _mem_sum = sum(m["equity_cny"] for m in p1["members"])
+    _mem_cash = sum(m["cash_cny"] for m in p1["members"])
+    check("roll-up equals the sum of its own member rows",
+          abs(ru["equity_cny"] - _mem_sum) <= 0.5 * ru["n_traders"]
+          and abs(ru["cash_cny"] - _mem_cash) <= 0.5 * ru["n_traders"])
+    check("roll-up agrees with the export summary face (cross-face)",
+          ru["face_agrees"] is True)
+    _pd, _pe = _prior_export_equity(day)
+    check("prior-export selector is strictly older than the day",
+          (_pd is None or _pd < day) and _pd == ru["day_prior"])
+    check("day change is derived or honestly absent, never 0",
+          (ru["day_pnl_cny"] is None
+           and ru["day_prior"] is None
+           and "无对照件" in md1)
+          or (ru["day_pnl_cny"] is not None
+              and abs(ru["day_pnl_cny"]
+                      - (ru["equity_cny"] - ru["day_prior_equity_cny"]))
+              <= 0.05
+              and ru["day_prior"] in md1))
+    check("no prior export -> None, never an invented zero",
+          _prior_export_equity("1990-01-01") == (None, None))
+    _deg_ru = {"return_pct": None}
+    _deg_p = dict(p1)
+    _deg_p["rollup"] = _deg_ru
+    try:
+        _deg_md = render_md(_deg_p)
+        check("absent starting capital degrades honestly (no raise)",
+              "口径缺件" in _deg_md and "④ 决策链版本横幅" in _deg_md)
+    except Exception as exc:                                     # noqa: BLE001
+        print(f"  roll-up degrade render raised: {exc}")
+        check("absent starting capital degrades honestly (no raise)", False)
+    check("roll-up rendered in md with its own money (v1.7)",
+          "六员合计" in md1 and _fmt_cny(ru["equity_cny"]) in md1
+          and f"{ru['return_pct']:+.2f}%" in md1)
+    # ---- v1.8: market risk tape (single implementation, honest absence) ----
+    rt = p1["risk_tape"]
+    tape_ok = rt.get("status") == "ok"
+    shape_ok = True
+    for _k, _v in (rt.get("panels") or {}).items():
+        if _v.get("count") is not None and not isinstance(_v["count"], int):
+            shape_ok = False
+        if _v.get("status") == "ok" and _v.get("count") is None:
+            shape_ok = False
+    check("risk tape present and honestly shaped (v1.8)",
+          rt.get("status") in ("ok", "absent", "unavailable", "unreadable")
+          and shape_ok
+          and (not tape_ok
+               or (isinstance(rt.get("cutoff"), str)
+                   and len(rt["cutoff"]) == 10
+                   and (rt.get("seal_rate") is None
+                        or 0.0 <= rt["seal_rate"] <= 1.0))))
+    _tmp_rt = tempfile.mkdtemp(prefix="ceo_rt_empty_")
+    _absent = _risk_tape_face(root=_tmp_rt)
+    check("risk tape: absent panels read absent, never 0 members (v1.8)",
+          _absent.get("status") == "absent"
+          and all((v or {}).get("count") is None
+                  for v in (_absent.get("panels") or {}).values()))
+    _rep = os.path.join(REPORT_DIR, f"REPORT-{day}.md")
+    if os.path.exists(_rep):
+        with open(_rep, encoding="utf-8") as _fh:
+            _txt = _fh.read()
+        _got = {m.group(1): int(m.group(2)) for m in
+                re.finditer(r"\*\*(涨停池|跌停池|炸板池|强势池) (\d+)\*\*", _txt)}
+        _want = {}
+        for _k, _lab in (("zt", "涨停池"), ("dtgc", "跌停池"),
+                         ("zbgc", "炸板池"), ("strong", "强势池")):
+            _v = (rt.get("panels") or {}).get(_k) or {}
+            if _v.get("count") is not None:
+                _want[_lab] = _v["count"]
+        _cut = re.search(r"四面同为 \*\*(\d{4}-\d{2}-\d{2})\*\*", _txt)
+        _par_ok = (_got == _want)
+        if _cut and tape_ok:
+            _par_ok = _par_ok and (_cut.group(1) == rt.get("cutoff"))
+        check("risk tape agrees with daily report §九 (cross-face parity)",
+              _par_ok)
+    else:
+        print(f"  [SKIP] cross-face parity: {os.path.basename(_rep)} "
+              "not generated for today (absent, not 0)")
+    check("risk tape rendered in md (v1.8)",
+          "市场风险面" in md1
+          and (not tape_ok or str(rt.get("cutoff")) in md1))
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

@@ -34,6 +34,7 @@ Outputs:
 
 Exploratory: not a verdict, not investment advice, no ledger booking.
 """
+import glob
 import json
 import os
 import sys
@@ -219,6 +220,33 @@ def live_feed_status(ticket_bar, now=None):
     return CA.live_ticket_feed_status(ticket_bar, now=now)
 
 
+def drawdown_band():
+    """How bad can the drawdown be, per the bootstrap block arms (r1348).
+
+    The order sheet prints one realised maxDD for a book that has one history. The same
+    book, resampled, has a 5th-percentile drawdown several pp deeper -- so an operator
+    sizing to the printed number is sizing to a median. Soft-fails to None.
+    """
+    try:
+        files = sorted(glob.glob(os.path.join(BASE, "results", "etf_book_bootstrap",
+                                              "BLOCKS-*.json")))
+        if not files:
+            return None
+        with open(files[-1], "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+        arms = doc.get("arms") or []
+        if len(arms) < 2:
+            return None
+        return {"artifact": os.path.relpath(files[-1], BASE).replace("\\", "/"),
+                "evidence_cutoff": doc.get("evidence_cutoff"),
+                "block_set": [a.get("block") for a in arms],
+                "maxdd_p5": doc["spread"]["maxdd_p5"],
+                "maxdd_p50": doc["spread"]["maxdd_p50"],
+                "dd_break": doc["spread"]["dd_break_share"]}
+    except Exception:
+        return None
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -270,6 +298,20 @@ def card(ticket, mk, sched, asof, beta, extra):
                                                              b["maxdd"] * 100))
         if "excess_pp" in mk:
             L += ["", "超额 %+.2fpp/年（同 β 基准对照，成本双层已计）。" % mk["excess_pp"]]
+    db = drawdown_band()
+    if db:
+        L += ["", "## 最大回撤：本单上面那个数是中位数，不是尾部（r1348）",
+              "本账簿只有一个历史。对同一条收益路径做块自助（块长 %s 根 bar，块长本身是自由参数），"
+              "%s 百分位最大回撤落在 **%.1f%% ~ %.1f%%**，中位落在 %.1f%% ~ %.1f%%，"
+              "跌破 -20%% 的重采样占比 %.1f%% ~ %.1f%%。"
+              % ("/".join(str(b) for b in db["block_set"]), "5",
+                 db["maxdd_p5"]["min"] * 100, db["maxdd_p5"]["max"] * 100,
+                 db["maxdd_p50"]["min"] * 100, db["maxdd_p50"]["max"] * 100,
+                 db["dd_break"]["min"] * 100, db["dd_break"]["max"] * 100),
+              "- 口径：band 定价于 %s bar（%s）。按 p5 一档定仓位，不按中位一档。"
+              % (db["evidence_cutoff"] or "未知", db["artifact"])]
+    else:
+        L += ["", "## 最大回撤的尾部", "- 无自助带在盘：上面只有单路径回撤，尾部未发布。"]
     ag = extra.get("agreement")
     if ag:
         L += ["", "## 两张生产面是不是同一天",
@@ -313,6 +355,30 @@ def card(ticket, mk, sched, asof, beta, extra):
               "基本等价——两者之间选，是选承担多少波动，不是选谁更会选股。"
               % d["sharpe"],
               "出处：%s（cutoff %s）。" % (wd["source"], wd["evidence_cutoff"])]
+    ru = extra.get("ruler") or {}
+    if ru.get("state") == "inside_disagreement":
+        L += ["", "## 两张面之间的差，落在两台引擎自己打架的范围里",
+              "把本单和卡片放到同一条尺子上、逐相位配对：中位差 **%+.2fpp**"
+              "（%d 个相位，%s 个往上、%s 个往下，区间 %+.2f ~ %+.2f）；"
+              "同一档 5→12 名在另一台引擎上是 **%+.2fpp** —— 两台引擎对这一档的分歧 "
+              "**%.2fpp**（方向还相反）。"
+              % (float(ru["gap_pp"]), ru["pairs"], ru.get("positive_phases"),
+                 (ru["pairs"] - (ru.get("positive_phases") or 0)) if ru.get("pairs") else "?",
+                 float(ru.get("min_pp") if ru.get("min_pp") is not None
+                       else -abs(float(ru.get("spread_pp") or 0)) / 2),
+                 float(ru.get("max_pp") if ru.get("max_pp") is not None
+                       else abs(float(ru.get("spread_pp") or 0)) / 2),
+                 float(ru.get("capacity_rung_pp") or 0), float(ru["disagreement_pp"])),
+              "- 读法：这个差只有引擎分歧的 **%.1f%%**，所以「本单比卡片差多少」这句话"
+              "在本窗读不出来——能读出来的是：两张面之间的大部分差来自杠杆规则（β 覆盖 vs "
+              "8%% 波动目标），不是名数。挑哪张面照旧看愿意承担多少波动。"
+              % (100.0 * (ru.get("share_of_disagreement") or 0.0)),
+              "- 出处：%s（cutoff %s，%s 个相位配对）。"
+              % (ru["source"], ru["evidence_cutoff"], ru["pairs"])]
+    elif ru.get("state") and ru["state"] != "unavailable":
+        L += ["", "## 两张面之间的差（尺子没给出干净的读数）",
+              "- 尺子状态：**%s** —— %s" % (ru["state"], ru.get("detail") or ""),
+              "- 出处：%s（cutoff %s）。" % (ru.get("source"), ru.get("evidence_cutoff"))]
     L += ["", "## 诚实面", "",
           "- 探索件：无预注册、无判决、不入成绩账本。"]
     if not wd:
@@ -508,6 +574,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                  agreement["same_priced_bar"], cb.get("priced_bar"), asof), flush=True)
     mk = metrics(slip, blip)
     wd = width_disclosure()
+    ruler = live_width_ruler(asof=asof, card_n=(wd or {}).get("card_names"))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -522,10 +589,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                             "open_gapfill": int(gapfill)},
                "cash_leg": {"source": "data/repo_daily/GC001.csv",
                             "mean_accrual_ann_pct": round(float(cash_rf.mean() * 252.0) * 100, 3),
+                            "accrual_window": accrual_window(idx),
                             "missing_bar_steps": int(cash_missing)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "width_disclosure": wd,
+               "live_width_ruler": ruler,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
@@ -536,7 +605,9 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                               % (N_HOLD, wd["card_names"])] if wd else
                              ["width disclosure unavailable: run "
                               "scripts/etf_book_width_audit.py run to price the %d-name ticket "
-                              "against the production card" % N_HOLD])}
+                              "against the production card" % N_HOLD])
+                          + ([] if ruler["state"] == "inside_disagreement" else
+                             ["live width ruler %s: %s" % (ruler["state"], ruler["detail"])])}
 
     _write("state.json", state)
     _write("TICKET-%s.json" % asof, payload)
@@ -545,7 +616,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
-                      "feed": feed, "agreement": agreement}))
+                      "feed": feed, "agreement": agreement, "ruler": ruler}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -571,6 +642,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
 
 CARD_DIR = os.path.join(PATHS.results_dir, "etf_book_production")
 AUDIT_PATH = os.path.join(PATHS.results_dir, "etf_book_width_audit.json")
+RULER_PATH = os.path.join(PATHS.results_dir, "etf_book_live_width_ruler.json")
+RULER_STALE_DAYS = 10
 
 
 def card_width(card_dir=None):
@@ -744,7 +817,12 @@ def card_config_ticket(card_dir=None, nav=None, ledger_path=None):
              "ledger_book_bar": led.get("book_bar"), "ledger_last_bar": led.get("last_bar"),
              "ledger_last_nav": led.get("last_nav"), "ledger_status": led.get("status"),
              "card_cash_weight": sh.get("cash_weight"),
-             "card_cash_amount": sh.get("cash_amount_cny"),
+             # r1342 / E230: the card now prints the EXECUTABLE cash row, so the ticket
+             # reconciles against that one. A card that predates the fix has no
+             # cash_executable_cny and still gets the legacy target-row disclosure.
+             "card_cash_amount": sh.get("cash_executable_cny", sh.get("cash_amount_cny")),
+             "card_cash_is_executable": sh.get("cash_executable_cny") is not None,
+             "card_cash_target_amount": sh.get("cash_amount_cny"),
              "card_config": {k: cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
                                                      "cost_bp_per_side")},
              "ledger_config": {k: led_cfg.get(k) for k in ("n_hold", "vol_target", "rebal",
@@ -890,6 +968,11 @@ def lot_point(legs, capital, scale=None, lot=LOT):
     ``capital - spent``. The difference is the price of lot granularity, and
     ``max_abs_weight_drift_pp`` is the same thing seen from the book's side -- a leg
     that misses its weight by half a lot is mis-sized, not merely cheap.
+
+    r1342: the production card PRINTS the executable cash (``capital - spent``) now, so
+    ``cash_vs_target_cny`` no longer measures a card defect -- it measures the money the
+    desk holds beyond the risk scale's own cash slot, most of it the lot residue. Read it
+    as "cash above the slot", not "the card is wrong".
     """
     cap = float(capital)
     rows, spent, zero, max_drift, tot_w = [], 0.0, 0, 0.0, 0.0
@@ -1053,7 +1136,7 @@ def run_card(nav=None):
     own = [p for p in curve["points"] if abs(p["capital_cny"] - tk["nav"]) < 1.0]
     if own:
         print("lot curve at this capital: drift %.2f%% max | %d legs below one lot | "
-              "cash vs card row +%s" % (own[0]["max_abs_weight_drift_pp"],
+              "cash vs risk-scale slot +%s" % (own[0]["max_abs_weight_drift_pp"],
                                         own[0]["legs_with_zero_lots"],
                                         format(int(round(own[0]["cash_vs_target_cny"])), ",")))
     print("wrote", os.path.join(OUT_DIR, "ORDER-%s-card.md" % asof))
@@ -1142,6 +1225,135 @@ def width_disclosure(card_n=None, audit_path=None, card_dir=None):
             "evidence_cutoff": audit.get("evidence_cutoff")}
 
 
+def live_width_ruler(asof=None, card_n=None, card_dir=None, path=None,
+                     stale_days=RULER_STALE_DAYS):
+    """Is the gap between the two live faces bigger than the engines' own disagreement?
+
+    ``scripts/etf_book_phase_atlas_arms.py --live-widths`` puts both live cells on one
+    ruler, paired phase by phase. This reads that face back so the number reaches the
+    person placing the order (r1275: a difference that only lives in research/ is a
+    difference nobody was told about).
+
+    The verdict is re-derived here from the face's own published numbers rather than
+    copied off its label: a verdict that can drift away from the numbers that produced
+    it is a receipt, not a gate (r1266).
+
+    States, in precedence order:
+      unavailable        -- no face on disk
+      inconsistent       -- the face's own verdict contradicts the numbers it published
+      widths_moved       -- the face priced widths the live faces no longer run
+      stale              -- cutoff older than ``stale_days`` calendar days before asof
+      inside_disagreement-- |paired median| < |5->12 rung disagreement| and signs split
+      separated          -- the paired gap is at least the size of the disagreement
+    """
+    p = path or RULER_PATH
+    try:
+        with open(p, encoding="utf-8") as f:
+            doc = json.load(f)
+    except Exception:
+        return {"state": "unavailable",
+                "detail": "no live-width ruler on disk; run scripts/etf_book_phase_atlas_arms.py "
+                          "--live-widths", "source": p.replace("\\", "/")}
+    pr = doc.get("paired") or {}
+    ed = doc.get("engine_disagreement") or {}
+    lf = doc.get("live_faces") or {}
+    rule = doc.get("rule") or {}
+    gap = pr.get("median_pp")
+    dis = ed.get("rung_disagreement_pp")
+    sign = pr.get("sign_agreement")
+    pairs = pr.get("pairs") or 0
+    pairs_min = rule.get("pairs_min") or 20
+    split_max = rule.get("sign_split_max") or 0.6
+    cutoff = doc.get("evidence_cutoff")
+
+    # re-derive rather than trust the label
+    inside = (gap is not None and dis is not None and abs(float(gap)) < abs(float(dis)))
+    split = (sign is not None and float(sign) <= float(split_max))
+    if pairs < pairs_min:
+        derived = "NOT_ENOUGH_PAIRS"
+    elif inside and split:
+        derived = "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"
+    elif inside:
+        derived = "INSIDE_DISAGREEMENT_NO_SIGN_SPLIT"
+    else:
+        derived = "SEPARATED"
+    published = doc.get("verdict")
+    published_inside = bool(published) and str(published).startswith("COIN_FLIP")
+    relabel = bool(published) and published_inside != (derived ==
+                                                       "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT")
+
+    # are the priced widths still the ones the faces run?
+    n_card = card_n if card_n is not None else card_width(card_dir)
+    c_rule = card_rule(card_dir)
+    widths = {}
+    moved = []
+    # rule labels are not written identically by the two faces ("vol" off the card
+    # artefact, "vol_target" off the atlas), so compare them on a normalised spelling --
+    # otherwise every read of a healthy face would report widths_moved.
+    def _rule_key(x):
+        return (str(x or "").lower().replace("_target", "").strip()) or None
+    for name, live_n, live_rule in (("ticket", int(N_HOLD), TICKET_RULE),
+                                    ("card", n_card, c_rule)):
+        cell = lf.get(name) or {}
+        widths[name] = {"live_n_hold": live_n, "priced_n_hold": cell.get("n_hold"),
+                        "live_rule": live_rule, "priced_rule": cell.get("rule")}
+        if cell.get("n_hold") is not None and live_n is not None \
+                and int(cell["n_hold"]) != int(live_n):
+            moved.append(name)
+        if _rule_key(cell.get("rule")) and _rule_key(live_rule) \
+                and _rule_key(cell["rule"]) != _rule_key(live_rule):
+            moved.append(name)
+
+    age = None
+    try:
+        if cutoff and asof:
+            age = (pd.Timestamp(asof) - pd.Timestamp(cutoff)).days
+    except Exception:
+        age = None
+    stale = age is not None and age > stale_days
+
+    if relabel:
+        state, detail = "inconsistent", (
+            "face says %s but its own numbers give %s" % (published, derived))
+    elif moved:
+        state, detail = "widths_moved", (
+            "face priced %s width(s) the live faces no longer run (%s)"
+            % ("/".join(sorted(set(moved))), ", ".join(
+                "%s priced %s vs live %s" % (k, widths[k]["priced_n_hold"],
+                                             widths[k]["live_n_hold"]) for k in widths)))
+    elif stale:
+        state, detail = "stale", ("cutoff %s is %d days behind asof %s (limit %d)"
+                                  % (cutoff, age, asof, stale_days))
+    elif derived == "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT":
+        state, detail = "inside_disagreement", (
+            "paired median %+.3fpp inside a %0.3fpp engine disagreement"
+            % (float(gap), float(dis)))
+    elif derived == "NOT_ENOUGH_PAIRS":
+        state, detail = "separated", ("only %d paired phases (need %d)" % (pairs, pairs_min))
+    else:
+        state, detail = "separated", (
+            "paired median %+.3fpp vs %0.3fpp disagreement" % (float(gap), float(dis)))
+
+    try:
+        src = os.path.relpath(p, BASE).replace("\\", "/")
+    except ValueError:
+        src = p.replace("\\", "/")
+    share = (abs(float(gap)) / abs(float(dis))) if (gap is not None and dis) else None
+    return {"state": state, "detail": detail,
+            "verdict": derived, "published_verdict": published,
+            "gap_pp": gap, "disagreement_pp": dis,
+            "share_of_disagreement": round(share, 4) if share is not None else None,
+            "atlas_rung_pp": ed.get("atlas_rung_pp"),
+            "capacity_rung_pp": ed.get("capacity_rung_pp"),
+            "sign_flips": ed.get("sign_flips"),
+            "sign_agreement": sign, "pairs": pairs,
+            "positive_phases": pr.get("positive"),
+            "min_pp": pr.get("min_pp"), "max_pp": pr.get("max_pp"),
+            "spread_pp": pr.get("spread_pp"),
+            "widths": widths, "age_days": age,
+            "evidence_cutoff": cutoff, "asof": asof, "source": src}
+
+
 def _next_decision(score_dates, last_bar, rebal=REBAL, start="2020-01-01"):
     """Trading bars until the next decision on the engine's own grid (no future dates exist)."""
     dates = [d for d in score_dates if d >= pd.Timestamp(start)]
@@ -1152,6 +1364,20 @@ def _next_decision(score_dates, last_bar, rebal=REBAL, start="2020-01-01"):
 
 
 # --------------------------------------------------------------------------- selftest
+def accrual_window(idx):
+    """Which bars the cash carry was averaged over.
+
+    Three faces quote a cash yield and none of them say over what: this ticket's backtest mean,
+    the book page's last-12-months roll, and the last quote. All three are correct and they differ
+    by a factor of two, so the window travels with the number (r1167).
+    """
+    idx = pd.DatetimeIndex(idx)
+    if len(idx) == 0:
+        return None
+    return {"first": str(idx[0].date()), "last": str(idx[-1].date()),
+            "years": round((idx[-1] - idx[0]).days / 365.25, 2)}
+
+
 def selftest():
     ok = total = 0
 
@@ -1187,6 +1413,15 @@ def selftest():
     chk("leg4 Fri->Mon cash earns 3 calendar days",
         abs(float(cash.iloc[1]) - 3.65 / 100.0 * 3 / 365.0) < 1e-15 and miss == 0,
         "mon=%.8f" % float(cash.iloc[1]))
+
+    # leg4b: the cash carry must say which bars it averaged. Three live faces quote a cash yield
+    # (this ticket's backtest mean 2.087%, the book page's 1y roll 1.313%, the last quote 1.09%)
+    # and without the window they read as a contradiction (r1167).
+    chk("leg4b the cash carry states the window it averaged",
+        accrual_window(d2 := pd.DatetimeIndex(["2021-01-04", "2021-01-07"]))
+        == {"first": "2021-01-04", "last": "2021-01-07", "years": 0.01}
+        and accrual_window(pd.DatetimeIndex([])) is None,
+        str(accrual_window(d2)))
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])
@@ -1373,6 +1608,46 @@ def selftest():
     chk("leg24 the stale warning reaches the one-page face a human reads",
         "\u26a0" in md and "stale_feed" in md, "chars=%d" % len(md))
 
+    # leg24b/c (r1348): the sheet prints one realised drawdown, but the bootstrap arms put
+    # the p5 several pp deeper. A tail quoted without its block is a sentence without its
+    # parameter, so the sheet must carry both -- and must say 'unpublished' when absent.
+    _db_keep = glob.glob
+    try:
+        doc = {"evidence_cutoff": "2026-10-29", "arms": [{"block": 5}, {"block": 250}],
+               "spread": {"maxdd_p5": {"min": -0.2502, "max": -0.1708},
+                          "maxdd_p50": {"min": -0.1459, "max": -0.1214},
+                          "dd_break_share": {"min": 0.011, "max": 0.161}}}
+        glob.glob = lambda *a, **k: [os.path.join("X", "BLOCKS-2026-10-29.json")]
+        _open = open
+
+        class _F:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def read(self, *a):
+                return json.dumps(doc)
+
+        import builtins
+        builtins.open = lambda *a, **k: _F()
+        try:
+            band = drawdown_band()
+            md_band = card(None, None, None, "2026-10-29", 0.2, {"inception": "2024-01-01"})
+        finally:
+            builtins.open = _open
+        chk("leg24b sheet carries the drawdown band with its block set",
+            band is not None and "-25.0%" in md_band and "5/250" in md_band,
+            "band=%s" % (band or {}).get("block_set"))
+        glob.glob = lambda *a, **k: []
+        chk("leg24c no band on disk is disclosed, never invented",
+            drawdown_band() is None
+            and "无自助带在盘" in card(None, None, None, "2026-10-29", 0.2,
+                                       {"inception": "2024-01-01"}))
+    finally:
+        glob.glob = _db_keep
+
     # legs 25-26: two faces can share a decision bar and still price a day apart -- on a
     # HOLD bar the vol overlay re-sizes weights and the cash slot every single day, so the
     # priced bar has to travel with the book (r1290: card at 10-23/stale_feed, ticket at
@@ -1521,6 +1796,134 @@ def selftest():
                 - lc["points"][-1]["cash_vs_target_cny"])
             < lc["shortfall_bound_cny"],
         "bound=%s max=%s" % (lc["shortfall_bound_cny"], lc["max_observed_shortfall_cny"]))
+
+    # ---- r1342: the card's cash row is now the EXECUTABLE cash, so the ticket must agree
+    # with it to the yuan and stop printing the "card row is only a target" disclosure.
+    # Both directions are asserted on the same fixture: a card that prints
+    # capital - spent closes the gap, a legacy card that prints (1 - k) * capital still
+    # gets called out. One-sided, this leg would pass on the old renderer too.
+    cdt3 = tempfile.mkdtemp()
+    try:
+        leg_fx = [{"symbol": s, "name": s, "class": "equity", "weight": 0.35,
+                   "ref_price": 2.194, "lots_100": 159500, "amount_cny": 350000.0,
+                   "actual_amount_cny": 349943.0} for s in ("AAA", "BBB")]
+        sheet_fx = {"as_of_bar": "2026-10-29", "book_decided_at": "2026-10-14",
+                    "capital_cny": 1000000.0, "risk_scale": 0.7, "target_vol": 0.08,
+                    "cash_weight": 0.3, "legs": leg_fx,
+                    "bars_until_next_decision": 9}
+        cfg_fx = {"n_hold": 2, "rebal": 20, "vol_target": 0.08,
+                  "capital_cny": 1000000.0, "cost_bp_per_side": 10.0}
+        lp4 = os.path.join(cdt3, "LEDGER.json")
+        with open(lp4, "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 2, "vol_target": 0.08, "rebal": 20,
+                                  "cost_per_side": 0.001},
+                       "book_in_force": {"bar": "2026-10-14", "scale": 0.7,
+                                         "names": ["AAA", "BBB"]},
+                       "bars": [{"bar": "2026-10-29", "nav": 1.0}], "status": "live"},
+                      f, ensure_ascii=False)
+        printed = {}
+        for label, cash_row in (("executable", {"cash_executable_cny": 1000000.0 - 2 * 349943.0,
+                                                "cash_amount_cny": 300000.0}),
+                                ("target", {"cash_amount_cny": 300000.0})):
+            doc = {"config": cfg_fx,
+                   "feed_status": {"status": "current", "ticket_bar": "2026-10-29",
+                                   "expected_bar": "2026-10-29", "lag_days": 0},
+                   "sheet": dict(sheet_fx, **cash_row)}
+            with open(os.path.join(cdt3, "latest.json"), "w", encoding="utf-8") as f:
+                json.dump(doc, f, ensure_ascii=False)
+            tk_fx = card_config_ticket(card_dir=cdt3, ledger_path=lp4)
+            md_fx = card_config_card(tk_fx, None) if tk_fx else ""
+            printed[label] = (tk_fx, md_fx)
+        tk_e, md_e = printed["executable"]
+        tk_t, md_t = printed["target"]
+        chk("leg38 an executable cash row closes the ticket gap to the yuan",
+            bool(tk_e) and abs(tk_e["cash_amount"]
+                               - (1000000.0 - 2 * 349943.0)) <= 1e-6
+            and "卡片现金行是目标口径" not in md_e,
+            "cash=%.2f gap_paragraph=%s" % (tk_e["cash_amount"] if tk_e else -1,
+                                            "卡片现金行是目标口径" in md_e))
+        chk("leg39 a legacy target cash row is still called out as a target",
+            bool(tk_t) and "卡片现金行是目标口径" in md_t,
+            "legacy_paragraph=%s" % ("卡片现金行是目标口径" in md_t))
+    finally:
+        shutil.rmtree(cdt3, ignore_errors=True)
+
+    # ---- r1356b: the live-width ruler has to reach the ticket, and its verdict has to be
+    # re-derived from the numbers it publishes (r1266: a label copied blind is a receipt).
+    # Every state gets its own fixture, and the widths/staleness ones are the two ways a
+    # stale face would otherwise keep printing a clean "coin flip" forever.
+    cdt5 = tempfile.mkdtemp()
+    try:
+        def _ruler_doc(**over):
+            d = {"script": "scripts/etf_book_phase_atlas_arms.py --live-widths",
+                 "rule": {"pairs_min": 20, "sign_split_max": 0.6},
+                 "evidence_cutoff": "2026-10-29",
+                 "live_faces": {"card": {"n_hold": 12, "rule": "vol_target"},
+                                "ticket": {"n_hold": 5, "rule": "beta"}},
+                 "paired": {"pairs": 20, "median_pp": 0.09, "positive": 10,
+                            "sign_agreement": 0.5, "spread_pp": 4.94},
+                 "engine_disagreement": {"atlas_rung_pp": 0.515, "capacity_rung_pp": -1.53,
+                                         "rung_disagreement_pp": 2.045, "sign_flips": True},
+                 "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"}
+            d.update(over)
+            return d
+
+        def _put(name, doc):
+            fp = os.path.join(cdt5, name)
+            with open(fp, "w", encoding="utf-8") as f:
+                json.dump(doc, f)
+            return fp
+
+        cd5 = os.path.join(cdt5, "card")
+        os.makedirs(cd5, exist_ok=True)
+        with open(os.path.join(cd5, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12, "vol_target": 0.08, "rebal": 20}}, f)
+
+        r_in = live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                                path=_put("in.json", _ruler_doc()))
+        chk("leg40 a paired gap inside the engines' own disagreement reads as a coin flip",
+            r_in["state"] == "inside_disagreement"
+            and abs(r_in["share_of_disagreement"] - 0.044) < 5e-3,
+            "state=%s share=%.4f" % (r_in["state"], r_in["share_of_disagreement"] or -1))
+        chk("leg40b a gap larger than the disagreement stops being a coin flip",
+            live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                             path=_put("wide.json", _ruler_doc(
+                                 paired={"pairs": 20, "median_pp": 3.0, "positive": 18,
+                                         "sign_agreement": 0.9, "spread_pp": 4.94},
+                                 verdict="SEPARATED")))["state"] == "separated",
+            "")
+        chk("leg40c a face whose label contradicts its own numbers is flagged, not trusted",
+            live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                             path=_put("lab.json", _ruler_doc(
+                                 paired={"pairs": 20, "median_pp": 3.0, "positive": 18,
+                                         "sign_agreement": 0.9, "spread_pp": 4.94})
+                             ))["state"] == "inconsistent", "")
+        chk("leg40d a face pricing widths the live faces no longer run says so",
+            live_width_ruler(asof="2026-10-29", card_n=8, card_dir=cd5,
+                             path=_put("mov.json", _ruler_doc()))["state"] == "widths_moved",
+            "")
+        chk("leg40e an old cutoff is stale rather than a standing verdict",
+            live_width_ruler(asof="2026-11-20", card_n=12, card_dir=cd5,
+                             path=_put("old.json", _ruler_doc(evidence_cutoff="2026-10-20"))
+                             )["state"] == "stale", "")
+        chk("leg40f no face on disk is unavailable, never silently clean",
+            live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                             path=os.path.join(cdt5, "nope.json"))["state"] == "unavailable",
+            "")
+
+        md_r = card(None, None, None, "2026-10-29", 0.2,
+                    {"ruler": r_in, "width": None, "feed": None, "agreement": None})
+        chk("leg41 the order page prints the ruler (a number in research/ reaches nobody)",
+            "## 两张面之间的差" in md_r and "+0.09pp" in md_r and "2.0" in md_r
+            and "%" in md_r,
+            "chars=%d gap=%s" % (len(md_r), "+0.09pp" in md_r))
+        bad_r = dict(r_in, state="stale", detail="cutoff 2026-10-01 is 28 days behind")
+        md_st = card(None, None, None, "2026-10-29", 0.2,
+                     {"ruler": bad_r, "width": None, "feed": None, "agreement": None})
+        chk("leg41b a non-clean ruler changes what the page says",
+            md_st != md_r and "尺子状态" in md_st, "")
+    finally:
+        shutil.rmtree(cdt5, ignore_errors=True)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

@@ -665,7 +665,15 @@
      "args": [
       "firm/traders/ENGULF-CE-01.json",
       "paper.x2_watch.margin",
-      "0.0143"
+      "*"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "firm/traders/ENGULF-CE-01.json",
+      "paper.x2_watch.source",
+      "paper_window"
      ]
     },
     {
@@ -685,7 +693,8 @@
    ],
    "evidence_pointer": "firm/traders/COMPOSITE-CE-01.json (+COMPOSITE-CE-02, ENGULF-CE-01)",
    "due": "delivered 2026-09-26 r242",
-   "re_anchor": "r295 bm-c per D-20260930-22 (RW-1 T+1-open exit fix; old pre-fix Sharpe VOID firm-wide): sharpe wants re-anchored to post-fix authoritative member evidence CE-01 0.862 / CE-02 1.5605 / ENGULF-CE-01 0.1686 (evidence=results/RW1_MEMBER_DIFF_20260930.md); claim text kept as frozen r242 history"
+   "re_anchor": "r295 bm-c per D-20260930-22 (RW-1 T+1-open exit fix; old pre-fix Sharpe VOID firm-wide): sharpe wants re-anchored to post-fix authoritative member evidence CE-01 0.862 / CE-02 1.5605 / ENGULF-CE-01 0.1686 (evidence=results/RW1_MEMBER_DIFF_20260930.md); claim text kept as frozen r242 history",
+   "note": "reconciled r1349: 0.0143 was the registration-time x2 reading of a LIVE paper metric. As of evidence_cutoff 2026-10-29 the same field reads -4.4725 with status=probation, probation=true, survive=false. A frozen value cannot be re-derived from a moving face, so the gate now asserts the durable facts (source tag + field present); the live reading is already published on two existing faces -- results/strategy_scorecard.json and results/daily_scorecard.json (both carry -4.4725 at cutoff 2026-10-29) -- so no new face was minted and no second truth source exists. Reading for the operator: ENGULF-CE-01 is a registered member whose x2 probation has turned negative; demotion is a month-boundary registration action, not something this gate can or should force."
   },
   {
    "id": "T-78-GRID-SLEEVE-P1",
@@ -767,9 +776,11 @@
      ]
     },
     {
-     "kind": "file_exists",
+     "kind": "git_log_file",
      "args": [
-      "results/_r245bmb_grid_paper_e2e.py"
+      "results/_r245bmb_grid_paper_e2e.py",
+      "*",
+      3
      ]
     },
     {
@@ -795,7 +806,8 @@
     }
    ],
    "evidence_pointer": "scripts/grid_paper.py",
-   "due": "delivered 2026-09-26 r245; marks window opens 2026-09-28 (forward observation, not a claimed result)"
+   "due": "delivered 2026-09-26 r245; marks window opens 2026-09-28 (forward observation, not a claimed result)",
+   "note": "reconciled r1349: this criterion asserted a face that a later law removed from the tree (r1031 repo-slim untracked bm-b scratch faces, commit 862997eec6). The durable fact is the wiring commit, so the e2e file check became a git-history check (the E2E face existed in tracked history at the r245 wiring commit; the slim law later untracked it, so existence in history -- not on disk -- is what still holds); the deliverable itself (scripts/grid_paper.py, the per-account paper faces) is still asserted."
   },
   {
    "id": "T-73-CN-REV-TILT-P1",

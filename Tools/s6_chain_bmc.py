@@ -13,6 +13,7 @@ every window (r1179..r1182 clones) which cost most of the round's wall time in
 generation rather than measurement.
 """
 import json
+import os
 import subprocess
 import sys
 import time
@@ -28,6 +29,16 @@ LEGS = [
     # feed had simply not published. The audit reads the sina trading-day list
     # (one request, then local for the rest of the year) and names the verdict.
     ("cal_audit", ["python", "scripts/exchange_calendar_audit.py", "run"]),
+    # r1156: cal_audit gave ONE panel an independent reference and a verdict; every
+    # other forward lane still judged "am I late?" from its own bytes, so a lane that
+    # stops produces no error at all -- it just stops writing and its callers keep
+    # reading yesterday's tail. Measured on 2026-10-30: popularity last wrote 10-20,
+    # moneyflow 10-19 at a source block, repo 10-28, while every leg returned rc0.
+    # The board re-judges every lane's declared tail against the same official
+    # calendar (~0.2s, no network, no engine) and refuses to certify a tail whose
+    # envelope does not name the machine that wrote it. It must run BEFORE
+    # build_status (the dashboard renders it) -- r1290 class otherwise.
+    ("data_lane_freshness", ["python", "scripts/data_lane_freshness.py", "run"]),
     ("market_regime", ["python", "scripts/market_regime.py"]),
     ("scorecard", ["python", "scripts/strategy_scorecard.py"]),
     ("market_clock", ["python", "scripts/market_clock_call.py", "run"]),
@@ -98,6 +109,39 @@ LEGS = [
     # chain for the same reason the capacity face does: a hand-run audit is a face that
     # silently ages (r1257/r1290/r1291/r1293/r1295 class). ~90s, no network.
     ("etf_book_spanning", ["python", "scripts/etf_book_spanning.py"]),
+    # r1335 / E207: the book's six SIGNS are exactly this panel's full-sample IC signs, so
+    # every number the legs below publish rests on a direction chosen after the fact. This leg
+    # prices the honest arm (signs from already-realised windows only) so the caveat the card
+    # now prints is re-derived with the panel instead of quoted from a hand run (r1290 class).
+    # ~110s, offline. Ordered BEFORE production: the card reads its artifact.
+    ("etf_sign_pit", ["python", "scripts/etf_sign_pit.py", "run"]),
+    # r1336 / E208: the leg above says the signs were read off the sample; this one prices
+    # HOW MUCH that reading is worth by running all 2^6 sign sets on the same panel -- the
+    # production signs rank 6th of 64 against a median arm of -1.63%/yr. Same r1290 reason:
+    # the number the card quotes has to be re-derived with the panel, not quoted from a hand
+    # run. ~82s, offline, deterministic (one panel load, then one engine call per sign set).
+    ("etf_sign_enum", ["python", "scripts/etf_sign_enum.py", "run"]),
+    # r1337 / E220: the leg above ranks the 64 sign sets on ONE window; this one splits that
+    # window and asks whether the ordering survives the split -- so "rank 6 of 64" cannot be
+    # quoted without the transfer number beside it. ~100s, offline, deterministic (same panel
+    # load, same engine; sub-period numbers read off the same trading path).
+    ("etf_sign_stability", ["python", "scripts/etf_sign_stability.py", "run"]),
+    # r1339 / E227: both legs above rank the 64 sign sets at ONE cell (R20 x 12 names), but
+    # 20 and 12 were themselves picked on the sample -- the walk-forward on this line selects
+    # among N3/5/8 x R10/20/40. This leg runs all 64 arms at three declared cells and asks
+    # whether each factor's own direction survives the cell choice; it is what stops "rank 6
+    # of 64" from being quoted as a property of the factors. ~180s, offline, deterministic.
+    ("etf_sign_cells", ["python", "scripts/etf_sign_cells.py", "run"]),
+    # r1341 / E229: the attribution above leaves two quotable directions; a reduced book
+    # built from only them is the construction claim that has to be priced, across the full
+    # 9-cell grid (two arms per cell). ~60s after the panel is warm, offline, deterministic.
+    ("etf_lowvol_book", ["python", "scripts/etf_lowvol_book.py", "run"]),
+    # r1345 / E236: the three sign legs above price a per-factor IC sign and all 64 vectors
+    # on one window, but an operator picks ONE vector from history and runs it. This leg
+    # prices that procedure (trailing-Sharpe re-selection, 3 reselect x 2 lookback x 2 cells)
+    # against the equal-weight control, so "rank 6 of 64" cannot be quoted as if the ranking
+    # were reachable live. ~150s, offline, deterministic (one panel load, 64 engine calls/cell).
+    ("etf_sign_pit_combo", ["python", "scripts/etf_sign_pit_combo.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
@@ -149,28 +193,130 @@ LEGS = [
     # costs ~5 min (the panel build dominates), so the chain runs the ENGINE-FREE audit:
     # the face must stay internally consistent, and must go red the moment a source face
     # it reconciles is re-derived to a new headline. 0.1s, no network.
-    ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"]),
+    ("etf_book_cagr_reconcile", ["python", "scripts/etf_book_cagr_reconcile.py", "--check"],
+     ["python", "scripts/etf_book_cagr_reconcile.py"]),
     # r1323: the book is turnover-bound, so "does it trade on noise" is a money question.
     # Re-deriving the six buffer arms costs the panel build (~80s), so the chain runs the
     # engine-free gate: the control arm must still reproduce the published cell, turnover
     # must stay non-increasing in the buffer, the census arithmetic must hold, and the face
     # must go RED the moment the production card advances past the bar it was priced on.
     # 0.1s, no network.
-    ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"]),
+    ("etf_book_hysteresis", ["python", "scripts/etf_book_hysteresis.py", "--check"],
+     ["python", "scripts/etf_book_hysteresis.py", "run"]),
     # r1325: r1324's buffer arm carried its own refutation in a caveat -- "a single better
     # arm can be one decision sequence". The adoption face re-priced the same k=0.05 arm on
     # 5 books x 4 decision phases (60 engine runs, ~3 min), so the chain runs the ENGINE-FREE
     # gate: frozen criteria must be echoed unchanged, the cell grid must be complete, the
     # phase signature must still be a real calendar, and the published verdict must be the
     # one the rule produces from the summary. 0.1s, no network.
-    ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"]),
+    ("etf_book_buffer_adoption", ["python", "scripts/etf_book_buffer_adoption.py", "--check"],
+     ["python", "scripts/etf_book_buffer_adoption.py", "run"]),
+    # r1347: r1325 path-tested ONE buffer arm (k=0.05) and rejected it, while the published
+    # hysteresis face still carries four more arms priced on a single decision sequence. This
+    # face re-prices the whole arm grid on 5 books x 4 phases (100 engine runs) and adds the
+    # per-cell breakeven cost. Heavy, so the chain runs the gate only: frozen rule echoed,
+    # grid complete, phases still distinct, every verdict recomputed, control reproducing the
+    # card -- and "behind the card" is the third state the runner pays a refresh for (r1346).
+    ("etf_book_hysteresis_paths", ["python", "scripts/etf_book_hysteresis_paths.py", "--check"],
+     ["python", "scripts/etf_book_hysteresis_paths.py", "run"]),
+    # r1347: a breakeven quoted in bp/side is not a decision anyone can make -- the book pays
+    # the impact model, not a flat cost. This face inverts the published sqrt cost law to the
+    # capital at which each cell's saving covers its loss, and compares that crossing to the
+    # size where the p90 trade already hits 1% of ADV. Two published faces, no engine: the
+    # chain runs the gate, and "behind the card" is paid by a refresh (r1346).
+    ("etf_book_buffer_price_of_size",
+     ["python", "scripts/etf_book_buffer_price_of_size.py", "--check"],
+     ["python", "scripts/etf_book_buffer_price_of_size.py", "run"]),
+    # r1348: every published number is one point estimate on ONE ordering of 1,651 days, and
+    # the face that publishes the distribution (block bootstrap of the book's own return
+    # path) can be re-judged from its stored resample rows without re-running the 2000
+    # draw. The chain runs the gate only; the engine-free recompute re-derives every
+    # percentile and share, so a hand-edited p50 is contradicted by the rows.
+    ("etf_book_nav_envelope", ["python", "scripts/etf_book_nav_envelope.py", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "run"]),
+    # r1349: the block length was the one free parameter the envelope had to admit, so three
+    # arms (week 5 / quarter 60 / year 250) were run against it. The comparison face quotes
+    # numbers read off each arm, so the chain re-derives every quoted number from that arm's
+    # own rows rather than trusting the summary.
+    ("etf_book_block_length", ["python", "scripts/etf_book_nav_envelope.py", "blocks", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "blocks"]),
+    # r1350/E253: the card calls the 8% overlay "a drawdown tool" and every number behind
+    # that sentence is a median or one path. Both books are now bootstrapped on the SAME
+    # draw per resample, so the overlay's effect on the worst 1% is a measurement, not an
+    # inference from two published bands. Gate re-derives every quoted delta from the
+    # paired rows on disk (no 2,000-draw re-run).
+    ("etf_book_voltarget_tail", ["python", "scripts/etf_book_nav_envelope.py", "voltail", "--check"],
+     ["python", "scripts/etf_book_nav_envelope.py", "voltail"]),
+    # r1349 / E255: every percentile in the block ladder carries its own sampling error, so
+    # "arm A is calmer than arm B by 0.3pp" can be a description of the draw count rather
+    # than of the market. This leg re-derives each interval, each permutation p and each
+    # verdict from the arms' own rows (~1s; it reads NOISE rows, never a 2,000-draw re-run).
+    ("etf_book_quantile_floor", ["python", "scripts/etf_book_quantile_floor.py", "--check"],
+     ["python", "scripts/etf_book_quantile_floor.py", "run"]),
+    # r1350 / E257: the production config is a cell in a 3x3 (names x cadence) grid chosen by
+    # comparing single-calendar numbers, and r1325 showed that one calendar is not a level.
+    # The atlas burns every decision origin inside one rebalance cycle for all 12 cells (280
+    # engine runs, multicore, ~2 min), so the chain runs the ENGINE-FREE gate: the frozen cell
+    # grid and criteria are echoed, every per-cell scalar and the grid's spread/band are
+    # rebuilt from the 280 raw rows, and the verdict is the one the rule produces -- an edited
+    # median or an edited verdict is red. 0.9s, no network, no panel build.
+    ("etf_book_phase_atlas", ["python", "scripts/etf_book_phase_atlas.py", "--check"]),
+    # r1351: the atlas measured ONE arm (the production toll). r1163 (bm-a) priced the three
+    # stockable follow-ups as variants of the same grid -- buffer k=0.05, 5bp/side, 20bp/side --
+    # and published the verdicts, but no leg anywhere read that face back: a published verdict
+    # with nothing consuming it is the r1266 line ("a ruling that lives only in a receipt is
+    # not a gate"). This leg re-derives the whole payload from the four arm faces and refuses a
+    # face that disagrees with its own sources; "source moved" is stale (the chain pays the
+    # refresh, which is one JSON re-read, not an engine), an edit that no source explains stays
+    # red. 0.4s, no network, no engine.
+    ("etf_book_phase_atlas_arms", ["python", "scripts/etf_book_phase_atlas_arms.py", "--check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "run"]),
+    # r1354: the arms face retires the buffer family on a DIRECTION ("inside the band at every
+    # strength"). A direction is not a knapsack: this leg re-derives the floor face, which fits
+    # the axis and answers in the knob's own units -- the k that would be needed for the ruler
+    # to see it -- and refuses the face if the fit or the answer was edited. Engine-free, 0.1s.
+    ("etf_book_buffer_floor",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor"]),
+    # r1355: the floor answered with a k on ONE axis. This leg re-derives the width axis -- the
+    # knob r1350 refused to quote -- and it tests the SIGNS of the rungs before it fits a slope,
+    # because a line through a hill has a slope that means nothing. Engine-free, reads the
+    # published baseline grid, 0.05s.
+    ("etf_book_width_floor",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--width-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--width"]),
+    # r1355: the buffer floor extrapolates k=7.79 past its last arm. The pool harvested the row
+    # stocked at k=0.30 (the midpoint of the widest fitted gap) during the same round, so this
+    # leg re-derives the read-back: predicted vs observed, with the tolerance set to 3x the fit's
+    # own largest in-sample residual. A fit that is never tested is a claim, not a fit. 0.05s.
+    ("etf_book_buffer_readback",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback"]),
+    # r1356: the ladder's rung was a difference of two medians, and the two faces an operator
+    # actually holds (card 12 names, ticket 5 names) are two points on that same ladder. This leg
+    # re-derives the paired comparison over one complete R20 cycle, the second engine's rung on
+    # the same step, and the as-issued 2x2 -- then rebuilds the verdict from those numbers. A
+    # face whose stored label no longer follows from its own deltas is red. Engine-free: it reads
+    # three published faces (atlas rows, capacity rungs, the live ticket), 0.1s.
+    ("etf_book_live_widths",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths"]),
+    # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
+    # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
+    # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel
+    # reads REJECT 96.5% of the time, so the published REJECTs (buffer k=0.05 and both cost arms)
+    # carry almost nothing while the rare NOT-SEPARABLE branch is the informative one. Engine-free,
+    # ~2s; the refresh is a re-simulation, not an engine run.
+    ("etf_book_rule_null", ["python", "scripts/etf_book_rule_null.py", "--check"],
+     ["python", "scripts/etf_book_rule_null.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs
     # the gate: frozen criteria echoed, control arm still reproducing the published cell,
     # the lag block still carrying measured slots, and the verdict still the one the rule
     # produces. 0.1s + one rebuild, no network.
-    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"]),
+    ("etf_book_voltarget_lag", ["python", "scripts/etf_book_voltarget_lag.py", "--check"],
+     ["python", "scripts/etf_book_voltarget_lag.py", "run"]),
     # r1328: r1327's four-window face printed +1.60pp/yr for the 20-bar estimator -- on ONE
     # decision calendar, which is exactly the reading r1325 showed is not a level. Re-pricing
     # 4 windows x 4 phases costs 16 engine runs (~5 min), so the chain runs the ENGINE-FREE
@@ -178,13 +324,18 @@ LEGS = [
     # phase calendars still distinct, the control still reproducing the published cell, and
     # the published verdict still the one the rule produces from the summary.
     # 0.1s, no network.
-    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"]),
+    ("etf_book_voltarget_phase", ["python", "scripts/etf_book_voltarget_phase.py", "--check"],
+     ["python", "scripts/etf_book_voltarget_phase.py", "run"]),
     # Fifth instance of the same class, one layer up: every face above is machine-shaped,
     # so the one thing a human can actually read about the only money-making structure we
     # have did not exist. docs/live_book/<date>.md is a pure mirror (order, money split,
     # forward nav, backtest band, next rebalance) with zero new judgement; single writer
     # = bm-a, other hosts print an honest no-op. <1s, no network.
     ("etf_book_ceo_page", ["python", "scripts/etf_book_ceo_page.py", "run"]),
+    # r1150: the four-tier ticket menu is the same book sold at four betas, and it
+    # lived a full round with no scheduled producer -- the r1290 two-face class. bm-a
+    # is the writer; other hosts print an honest no-op. ~2s warm / ~30s on a new bar.
+    ("etf_book_beta_menu", ["python", "scripts/etf_book_beta_menu.py"]),
     # Fourth instance of the orphan-face class, and the worst-placed one: the staggered
     # 5+5 book is the config this firm calls its production book, but its accrual ran only
     # off a scheduled task that no longer exists on this host (schtasks: not found), so the
@@ -308,7 +459,8 @@ LEGS = [
     # reversed on 70% of four phase-shifted ones. The face re-prices the premium across
     # four phases; the leg runs its gate (criteria echo + verdict recomputed + four
     # distinct decision signatures), which is a JSON read, not another engine run.
-    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"]),
+    ("premium_phases", ["python", "scripts/etf_book_premium_phases.py", "--check"],
+     ["python", "scripts/etf_book_premium_phases.py", "run"]),
     # r1331: E196 answers the question E190 left open -- whether the month the
     # ladder-drop verdict rests on is knowable in advance. It is a ~1s JSON read of
     # the E186 month table (no panel, no network, no engine), and it belongs on the
@@ -346,7 +498,117 @@ LEGS = [
 ]
 
 
+def run_leg(name, cmd, refresh=None, quiet=False):
+    """Run one leg; pay the declared refresh ONLY when the probe says the face is stale.
+
+    r1345: a check-only leg goes red the moment the panel advances past the bar its
+    face was priced on, and stays red until somebody re-derives it by hand -- three
+    legs sat red across two chain records (r1343/r1344) that reported NONZERO and
+    moved on. A gate that is permanently red on inherited state is the r1135 trap
+    (the cheap repair becomes loosening the assertion). So a leg may declare a
+    refresh command, paid only when the probe itself says STALE -- never when it
+    says INCONSISTENT, which stays red.
+    """
+    t0 = time.time()
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=900)
+        rc = r.returncode
+        text = (r.stdout or "") + (r.stderr or "")
+        tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
+    except subprocess.TimeoutExpired:
+        rc = 124
+        text = ""
+        tail = ["TIMEOUT"]
+    refreshed = None
+    if rc != 0 and refresh and "stale" in text.lower():
+        tr = time.time()
+        try:
+            rr = subprocess.run(refresh, capture_output=True, text=True,
+                                encoding="utf-8", errors="replace", timeout=900)
+            refresh_rc = rr.returncode
+        except subprocess.TimeoutExpired:
+            refresh_rc = 124
+        refreshed = {"cmd": refresh, "rc": refresh_rc,
+                     "elapsed_sec": round(time.time() - tr, 1)}
+        try:
+            r2 = subprocess.run(cmd, capture_output=True, text=True,
+                                encoding="utf-8", errors="replace", timeout=900)
+            rc = r2.returncode
+            tail = (r2.stdout or "").strip().splitlines()[-1:] or [""]
+        except subprocess.TimeoutExpired:
+            rc = 124
+            tail = ["TIMEOUT"]
+    rec = {"leg": name, "rc": rc,
+           "elapsed_sec": round(time.time() - t0, 1), "tail": tail[0][:220]}
+    if refreshed:
+        rec["refreshed"] = refreshed
+    if not quiet:
+        note = (" +refresh(rc=%s,%ss)" % (refreshed["rc"], refreshed["elapsed_sec"])) if refreshed else ""
+        print(f"{rc:3d} {name:18s} {rec['elapsed_sec']:7.1f}s {tail[0][:110]}{note}",
+              flush=True)
+    return rec
+
+
+def selftest():
+    """Prove the branch that matters: stale pays the refresh, inconsistent does not.
+
+    Two fixtures, both rc=2 with a refresh declared. Only the one whose probe says
+    "stale" may run its refresh; the other must stay red WITH the refresh unspent --
+    otherwise the gate has become a machine for making red go away.
+    """
+    import tempfile
+    py = sys.executable
+    legs = []
+
+    def _check(name, ok, detail=""):
+        legs.append((name, ok, detail))
+
+    with tempfile.TemporaryDirectory() as td:
+        flag = os.path.join(td, "refreshed.flag")
+        # The probe reads the marker file the refresh writes: red until refreshed.
+        probe = [py, "-c",
+                 "import os,sys;p=r'%s';done=os.path.exists(p);"
+                 "print('ok' if done else 'face is stale: priced on 2026-10-28 while the card is on 2026-10-29');"
+                 "sys.exit(0 if done else 2)" % flag]
+        refresh_cmd = [py, "-c", "open(r'%s','w').write('1')" % flag]
+        rec = run_leg("stale_fixture", probe, refresh_cmd, quiet=True)
+        _check("a stale probe pays its refresh once and comes back green",
+               rec["rc"] == 0 and rec.get("refreshed", {}).get("rc") == 0,
+               "rec=%r" % (rec,))
+
+        flag2 = os.path.join(td, "must_stay_unspent.flag")
+        bad_probe = [py, "-c",
+                     "import sys;print('face is inconsistent: control arm does not reproduce the cell');sys.exit(2)"]
+        bad_refresh = [py, "-c", "open(r'%s','w').write('1')" % flag2]
+        rec2 = run_leg("inconsistent_fixture", bad_probe, bad_refresh, quiet=True)
+        _check("an inconsistent probe stays red with its refresh unspent",
+               rec2["rc"] == 2 and "refreshed" not in rec2 and not os.path.exists(flag2),
+               "rec=%r spent=%r" % (rec2, os.path.exists(flag2)))
+
+        rec3 = run_leg("no_refresh_fixture", bad_probe, None, quiet=True)
+        _check("a leg without a refresh declared is unaffected",
+               rec3["rc"] == 2 and "refreshed" not in rec3, "rec=%r" % (rec3,))
+
+    # The leg table must be structurally readable by the new unpacking, and every
+    # declared refresh must be a real argument vector (not a bare string).
+    _check("every leg is (name, cmd[, refresh]) with list commands",
+           all(len(t) in (2, 3) and isinstance(t[0], str) and isinstance(t[1], list)
+               and (len(t) == 2 or isinstance(t[2], list)) for t in LEGS),
+           "bad=%r" % ([t[0] for t in LEGS if not (len(t) in (2, 3) and isinstance(t[1], list))],))
+    n_refresh = sum(1 for t in LEGS if len(t) == 3)
+    _check("the six check-only legs declare a refresh", n_refresh >= 6, "n=%d" % n_refresh)
+
+    passed = sum(1 for _, ok, _ in legs if ok)
+    for name, ok, detail in legs:
+        print(("[PASS] " if ok else "[FAIL] ") + name + ("" if ok else " | " + detail))
+    print("%d/%d PASS" % (passed, len(legs)))
+    return 0 if passed == len(legs) else 1
+
+
 def main():
+    if "--selftest" in sys.argv[1:]:
+        sys.exit(selftest())
     args = [a for a in sys.argv[1:]]
     only = None
     for a in list(args):
@@ -355,34 +617,54 @@ def main():
             args.remove(a)
             if only is None:
                 only = args.pop(0) if args else ""
-    round_no = args[0] if args else "0"
+    # r1343: `--all` used to be swallowed as the round number, so a chain run that way
+    # wrote results/_r--allbmc_s6_chain.json (three such junk names are committed:
+    # _r--all, _r--round, and _rrun). A flag is not an identity: take the round from
+    # --round N / the first bare number, and refuse to invent a filename for anything
+    # else instead of guessing.
+    round_no = "0"
+    for a in list(args):
+        if a.startswith("--round"):
+            args.remove(a)
+            round_no = a.split("=", 1)[1] if "=" in a else (args.pop(0) if args else "")
+        elif a == "--all":
+            args.remove(a)
+    if args:
+        round_no = args[0]
+    if round_no == "0":
+        # `--all` is a legitimate "run every leg" call, but it says nothing about which
+        # round this is: name the record after this machine's own state instead of "0".
+        try:
+            with open("state-bm-c.json", encoding="utf-8") as f:
+                round_no = str(json.load(f).get("round_no") or "0")
+        except Exception:
+            pass
+    if not str(round_no).isdigit():
+        print("refusing: round number must be numeric (got %r); "
+              "use --round N --all/--only ... so the chain record is not named after a flag"
+              % (round_no,))
+        sys.exit(2)
     legs = LEGS
     if only is not None:
         want = [w.strip() for w in only.split(",") if w.strip()]
-        legs = [(n, c) for n, c in LEGS if n in want]
-        missing = sorted(set(want) - {n for n, _ in legs})
+        legs = [t for t in LEGS if t[0] in want]
+        missing = sorted(set(want) - {t[0] for t in legs})
         if missing:
-            print(f"unknown leg(s): {missing}; known={[n for n, _ in LEGS]}")
+            print(f"unknown leg(s): {missing}; known={[t[0] for t in LEGS]}")
             sys.exit(2)
-    out = []
-    for name, cmd in legs:
-        t0 = time.time()
-        try:
-            r = subprocess.run(cmd, capture_output=True, text=True,
-                               encoding="utf-8", errors="replace", timeout=900)
-            rc = r.returncode
-            tail = (r.stdout or "").strip().splitlines()[-1:] or [""]
-        except subprocess.TimeoutExpired:
-            rc = 124
-            tail = ["TIMEOUT"]
-        el = round(time.time() - t0, 1)
-        out.append({"leg": name, "rc": rc, "elapsed_sec": el,
-                    "tail": tail[0][:220]})
-        print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}", flush=True)
+    out = [run_leg(name, cmd, *rest) for name, cmd, *rest in legs]
 
     path = f"results/_r{round_no}bmc_s6_chain.json"
-    with open(path, "w", encoding="utf-8") as f:
+    # r1343: an interrupted json.dump leaves a one-byte record behind
+    # (results/_r1314bmc_s6_chain.json carries 161 bytes from a one-leg run, and the
+    # 12:47 record from r1337 is a three-leg fragment). Write beside the target and
+    # rename, so a record on disk is either the whole chain or the previous one.
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
     bad = [o for o in out if o["rc"] != 0]
     print(f"chain: {len(out)-len(bad)}/{len(out)} rc0 -> {path} "
           f"({datetime.now().isoformat(timespec='seconds')})")

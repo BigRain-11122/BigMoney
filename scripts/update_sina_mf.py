@@ -74,7 +74,7 @@ LOG = os.path.join(ROOT, "logs", "sina_mf_refresh.log")
 ELIG = os.path.join(ROOT, "data", "fundamental", "eligibility.csv")
 
 sys.path.insert(0, ROOT)
-from config.lane_io import lane_host  # noqa: E402 -- after ROOT pin
+from config.lane_io import lane_host, stamp_envelope  # noqa: E402 -- after ROOT pin
 LANE_OWNER = lane_host("update_sina_mf", "bm-a")          # R31 lane-ownership precedent
 BASE_URL = ("https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
             "MoneyFlow.ssl_qsfx_lscjfb")
@@ -450,6 +450,7 @@ def load_status():
 
 
 def write_status(payload):
+    payload = stamp_envelope(payload, "update_sina_mf")
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
 
 

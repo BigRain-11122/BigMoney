@@ -265,3 +265,8 @@ results/d19_watermark.bm-*.json
 
 # local p1c-compatible panel cache built from data/astock_daily (regenerable, ~1.3GB)
 data/cache/
+
+# r1350 bm-c: block-bootstrap sharding intermediates and the pre-publish copy are regenerable
+# from the seed rule (E243); the ENVELOPE faces carry every row, so only those are tracked.
+results/etf_book_bootstrap/SHARD-*.json
+results/etf_book_bootstrap/_p2.json

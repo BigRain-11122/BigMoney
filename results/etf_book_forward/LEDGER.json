@@ -63,8 +63,8 @@
   },
   {
    "bar": "2026-10-29",
-   "nav": 1.0154278238,
-   "dd": 0.0,
+   "nav": 1.014536476,
+   "dd": -0.000867,
    "cash": 0.299225,
    "carry": 1.10399e-05,
    "n_held": 12,
@@ -208,31 +208,32 @@
    "last_bar": "2026-10-28"
   },
   {
-   "ts": "2026-10-29T21:00:46+0800",
+   "ts": "2026-10-29T15:52:25+0800",
    "new_bars": 1,
    "last_bar": "2026-10-29"
   },
   {
-   "ts": "2026-10-29T21:53:49+0800",
+   "ts": "2026-10-29T17:58:58+0800",
    "new_bars": 0,
    "last_bar": "2026-10-29"
   },
   {
-   "ts": "2026-10-30T01:19:19+0800",
+   "ts": "2026-10-30T00:32:30+0800",
    "new_bars": 0,
    "last_bar": "2026-10-29"
   }
  ],
  "panel": {
-  "n_instruments": 1609,
+  "n_instruments": 1612,
   "flips_repaired": 168
  },
  "caveats": [
   "The ETF pool is today's listed set: survivorship is still in the equity sleeve.",
   "The seed bar begins the record; nothing before it is a track record, however good the backtest.",
-  "The vol target only de-levers -- a drawdown tool, not an edge.",
-  "Cash earns 0 in the marks, so a de-levered book under-reports its true carry.",
-  "Research output, not an investment recommendation."
+  "The vol target only de-levers; it is a drawdown tool, not an edge. Priced on the draw tail (paired bootstrap, 2000 resamples, blocks 5/20/60/120/250): the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool.",
+  "Cash carry rides a repo ladder, not a money-market fund: it assumes the treasurer can roll GC007/GC014/GC028 on every maturity bar, and it uses the 2026 exchange commission table (re-derivable with RATES fee=0).",
+  "Research output, not an investment recommendation.",
+  "The basket benchmark is an equal-weight rebalanced basket of the four exposures in scripts/etf_book_spanning.py (gold 518880 / Nasdaq QDII 513100 / CSI300 510300 / bond 511010) priced on the BOOK's own decision grid. Both arms ride the engine's fixed-weight convention, which does not charge the weight drift inside a holding period; the basket's would-be drift turnover is published beside it so that omission is sized rather than hidden."
  ],
  "engine": {
   "book_return": "sum(w*r) over the actual (vol-targeted) weights",
@@ -286,10 +287,10 @@
    },
    {
     "bar": "2026-10-29",
-    "nav": 1.0048893657,
+    "nav": 1.0022314905,
     "filled": false,
-    "book_nav": 1.0154278238,
-    "excess": 0.0104871824
+    "book_nav": 1.014536476,
+    "excess": 0.0122775882
    }
   ],
   "rebalance_friction": {
@@ -300,33 +301,33 @@
   "decisions": 83,
   "latest": {
    "bar": "2026-10-29",
-   "book_nav": 1.0154278238,
-   "basket_nav": 1.0048893657,
-   "excess_pp": 1.0487
+   "book_nav": 1.014536476,
+   "basket_nav": 1.0022314905,
+   "excess_pp": 1.2278
   },
   "significance": {
    "available": true,
    "bars_used": 1651,
    "windows": "2020-01-02..2026-10-29",
-   "daily_vol_pct": 0.54117,
-   "annual_vol_pct": 8.453,
+   "daily_vol_pct": 0.54124,
+   "annual_vol_pct": 8.454,
    "noise_band_pp": {
     "1m": 4.744,
-    "3m": 8.216,
-    "1y": 16.569,
-    "3y": 28.698
+    "3m": 8.217,
+    "1y": 16.571,
+    "3y": 28.701
    },
    "noise_band_pp_at_published": 2.372,
    "published_bars": 5,
    "bars_needed_for_edge": {
-    "3pp/yr": 7750,
-    "5pp/yr": 2790,
+    "3pp/yr": 7752,
+    "5pp/yr": 2791,
     "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.907,
-    "3y": 9.761,
-    "5y": 7.561
+    "1y": 16.909,
+    "3y": 9.762,
+    "5y": 7.562
    },
    "power": {
     "units": {
@@ -337,15 +338,15 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.453,
+    "annual_vol_pct": 8.454,
     "min_detectable_edge_pp": {
-     "6m": 33.498,
-     "1y": 23.686,
-     "2y": 16.749,
-     "3y": 13.675
+     "6m": 33.502,
+     "1y": 23.689,
+     "2y": 16.751,
+     "3y": 13.677
     },
     "years_for_80pct_power": {
-     "pre-2020 measured alpha (single arm)": 136.1,
+     "pre-2020 measured alpha (single arm)": 136.2,
      "in-window measured alpha (single arm)": 16.1
     },
     "candidate_sources": {
@@ -357,13 +358,13 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.9
+      "edge_pp_per_year": 5.91
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.27,
+   "book_cagr_pct_on_same_window": 9.256,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
  }
