@@ -564,6 +564,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                             "open_gapfill": int(gapfill)},
                "cash_leg": {"source": "data/repo_daily/GC001.csv",
                             "mean_accrual_ann_pct": round(float(cash_rf.mean() * 252.0) * 100, 3),
+                            "accrual_window": accrual_window(idx),
                             "missing_bar_steps": int(cash_missing)},
                "ledger": {"bars": int(state.get("rows", 0)), "nav": round(float(state["nav"]), 8),
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
@@ -1204,6 +1205,20 @@ def _next_decision(score_dates, last_bar, rebal=REBAL, start="2020-01-01"):
 
 
 # --------------------------------------------------------------------------- selftest
+def accrual_window(idx):
+    """Which bars the cash carry was averaged over.
+
+    Three faces quote a cash yield and none of them say over what: this ticket's backtest mean,
+    the book page's last-12-months roll, and the last quote. All three are correct and they differ
+    by a factor of two, so the window travels with the number (r1167).
+    """
+    idx = pd.DatetimeIndex(idx)
+    if len(idx) == 0:
+        return None
+    return {"first": str(idx[0].date()), "last": str(idx[-1].date()),
+            "years": round((idx[-1] - idx[0]).days / 365.25, 2)}
+
+
 def selftest():
     ok = total = 0
 
@@ -1239,6 +1254,15 @@ def selftest():
     chk("leg4 Fri->Mon cash earns 3 calendar days",
         abs(float(cash.iloc[1]) - 3.65 / 100.0 * 3 / 365.0) < 1e-15 and miss == 0,
         "mon=%.8f" % float(cash.iloc[1]))
+
+    # leg4b: the cash carry must say which bars it averaged. Three live faces quote a cash yield
+    # (this ticket's backtest mean 2.087%, the book page's 1y roll 1.313%, the last quote 1.09%)
+    # and without the window they read as a contradiction (r1167).
+    chk("leg4b the cash carry states the window it averaged",
+        accrual_window(d2 := pd.DatetimeIndex(["2021-01-04", "2021-01-07"]))
+        == {"first": "2021-01-04", "last": "2021-01-07", "years": 0.01}
+        and accrual_window(pd.DatetimeIndex([])) is None,
+        str(accrual_window(d2)))
 
     # leg5: the incremental ledger reproduces the engine on a hand-built path
     d2 = pd.DatetimeIndex(["2021-01-04", "2021-01-05", "2021-01-06", "2021-01-07"])

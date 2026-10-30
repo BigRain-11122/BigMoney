@@ -5384,3 +5384,39 @@ READING: Tool `Tools/tree_shrink_guard.py` (selftest 12 -> 17 legs) | declaratio
 Sibling face, same round: the heartbeat GPU face was half-owned again (free=2069 MiB beside
 free_vram_gb=1.7 from a 05:58 sample) and one `python Tools/gpu_face.py apply` healed all 29 keys
 back to a single probe — r1284's chokepoint worked exactly as designed once it was actually called.
+
+## E262 Before building the face, read the book page -- the ladder was already priced there (2026-10-30 r1167 bm-a)
+
+WHEN: this window opened with a real question -- the executable ticket parks ~53% of NAV in a
+one-day repo and labels it "cash at GC001", and nothing in the ticket said why o/n is the right
+tenor. I built a full `repo_ladder_menu` face for it: 12 selftest legs, aligned-date means, rolling
+realisation, a liquidity gate tied to the 28-day rebalance grid, yuan per year, chain + smoke legs.
+
+WHAT THE DUPLICATE CHECK FOUND: `scripts/etf_book_ceo_page.py::cash_ladder()` already answers it,
+and answers it better. It rolls every tenor on the panel's own calendar, models maturity friction
+(`idle_days`: a Thursday 7-day roll matures on a Sunday), reports the edge at 1y/3y/5y, counts
+positive years, applies a frozen adoption rule and prints a verdict -- and it already carries the
+rebalance-grid caveat ("if you only rebalance once a month, GC028 has 12 rolls and 10 idle days").
+The face I was writing was a strictly weaker second copy of a live, published, CEO-visible number.
+
+THE TWO THINGS WORTH KEEPING FROM THE EXERCISE:
+1. **The numbers agree, so the duplicate would have been invisible.** My aligned 250-session spread
+   (GC007 +11.5bp / GC014 +11.9bp) lands within a rounding of the page's +12.9/+13.2bp, and the
+   engine's own accrual over the last year (1.3217%) lands within 1bp of the page's rolled 1.3131%.
+   A second face that agrees is not a check -- it is a second thing to keep in step.
+2. **A window label is load-bearing when two right numbers disagree.** The ticket json carries
+   `cash_leg.mean_accrual_ann_pct = 2.087` (mean over the whole backtest) while the CEO page quotes
+   1.31%/1.09% (last 12 months / last quote). Both are correct; side by side they read as a
+   contradiction, and I chased that as a suspected bug for a probe before the windows explained it.
+   Fix: the ticket now ships `accrual_window {first,last,years}` beside the rate, and a selftest leg
+   pins it to the panel index it was averaged over.
+
+HOW TO APPLY: a round whose idea is "nobody prices X" must first grep the *consumer* faces, not the
+producer list -- `docs/live_book/`, `docs/live_usage/`, `results/etf_book_order/` -- because the
+expensive duplicates live where a reader already looks. Deleted rather than merged: the weaker copy
+was not worth keeping in step, and the selftest legs went with it.
+
+READING: removed `scripts/repo_ladder_menu.py` + `results/repo_ladder/` + chain leg `repo_ladder_menu`
++ the two smoke legs (tree returns to origin for all four) | kept `scripts/etf_book_order.py:cash_leg
+.accrual_window` + its selftest leg | the live answer stays
+`docs/live_book/LIVE-BOOK-<date>.md` section "现金腿要不要放长一期" -- verdict: do not lengthen.

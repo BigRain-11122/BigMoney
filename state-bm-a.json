@@ -14,15 +14,15 @@
  "current_task": "r1161: heat lane declared-takeover path -- explicit --takeover + owner silence >=120min, authority block names whose disk holds the rows",
  "current_task_short": "heat takeover: declared writer + authority block",
  "d19_watermark_guard": {
-  "advance": true,
-  "method_decisions": "sha256",
-  "method_orders": "sha256",
+  "tool": "scripts/d19_watermark.py",
   "probe": "results/_r686bmb_d19_check.py",
   "probe_evidence": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\_r686bmb_d19_check.bm-a.json",
-  "round_ref": 1155,
-  "tool": "scripts/d19_watermark.py",
-  "ts": "2026-10-30T03:07:50+08:00",
-  "verbatim": true
+  "method_decisions": "sha256",
+  "method_orders": "sha256",
+  "verbatim": true,
+  "advance": true,
+  "round_ref": 1166,
+  "ts": "2026-10-30T09:03:59+08:00"
  },
  "d19_watermark_guard_round_ref": 1085,
  "d19_watermark_v2": {
@@ -79,7 +79,7 @@
  "last_artifact": "results/data_lane_freshness.json",
  "last_artifact_at": "2026-10-30T06:19:32+08:00",
  "last_decisions_at": "2026-10-30T03:07:50+08:00",
- "last_decisions_read_at": "2026-10-30T03:07:50+08:00",
+ "last_decisions_read_at": "2026-10-30T09:03:59+08:00",
  "last_decisions_seen": "r1152: decisions.md origin sha 517eb444 (batches 30/31, D-20261029-06..14) -- D-11 already applied at r1150 (L1_ENDPOINT first), D-12 adds the AutoYield N/A-YIELD clause for ScheduledTask-state criteria (group Tools face, noted), D-13/14 BigStream + collection no-op for this repo -> zero BigMoney obligation",
  "last_decisions_sha": "97fe122f24826ba5197468df485734d4682839cc666e634d6016db0da28cb38c",
  "last_decisions_src": "group origin/main via C: real-path (C:/Users/sjs20/Desktop/FluxGroup) fetch + git show (python subprocess raw-bytes canonical)",
@@ -89,7 +89,7 @@
  "last_delivery_verified_at": "2026-10-28T23:30:34+08:00",
  "last_heartbeat_epoch_utc": 1792420245,
  "last_orders_at": "2026-10-28T23:30:34+08:00",
- "last_orders_read_at": "2026-10-30T03:07:50+08:00",
+ "last_orders_read_at": "2026-10-30T09:03:59+08:00",
  "last_orders_seen": "r1152: orders.md origin tail still ends at the 2026-10-27 batch -- zero new BigMoney rows; O-file ack diff = 114 orders / 123 acks / 0 missing",
  "last_orders_sha": "3fa305a67467413d0c34d2de7458124b0bcec84368fb8983fcd265938d53edc8",
  "last_orders_ts": "2026-10-29T23:24:57+08:00",
@@ -328,7 +328,7 @@
  "ram_load_pct": 85.2,
  "recent_artifact": "results/data_lane_freshness.json",
  "round": 1161,
- "round_no": 1166,
+ "round_no": 1167,
  "round_no_label": "r1155",
  "s4u_regression_r1108": "P0-ish finding, NOT fixable this window: Bigmoney-IterationLoop and Bigmoney-LoopWatchdog are BOTH at LogonType=Interactive (S4U law face); register_loop_task was a pin no-op so the loop was already regressed, and the watchdog re-register's S4U XML flip failed with access denied (elevation-blocked, same family as carried C-20261016-04). No popup/no UAC prompt was raised. Lane still fires (user logged on); needs one elevated pass to flip both to S4U + SWA=false.",
  "s6_face_r1086": "S6 42-leg chain: dualrun ZERO-DRIFT (616 entries, streak 51) | compute_audit rc0 | py_watermark rc0 | update_daily rc0 (core48 cutoff 2026-10-23) | market_regime ORANGE breadth 0.85 | market_clock CALL-2026-10-23 ORANGE_HOT sleeves=4 | strategy_scorecard 6/28/7 | zt_pool TAKEOVER +9703 rows | marks_coverage rc=3 (10-22/10-23 permanently missing) | t35_open_fill_verify rc=1 (downstream of that gap) | t24 prospect 22/22 drift 0 | daily_report/live_usage/dashboard refreshed | attrition CLEAN | token_meter 0 local LLM legs today",
@@ -415,5 +415,7 @@
  "verify_r1160": "etf_book_production selftest PASS incl. 4 new legs (the tail sentence reads the live face; it carries the share AND the price paid; an unmeasured tail says so instead of quoting a number; a missing artifact is not fatal); live run rc0 rewrote CARD.md + latest.json + PRODUCTION-2026-10-29.json with vol_overlay_tail {median 6.04pp / p1 1.26pp / cagr -4.61pp / share 0.209 / blocks 5/20/60/120/250} and the sentence 'the median drawdown gain is +6.04pp but only 21% of it survives at the worst 1% of histories (+1.26pp), bought with -4.61pp of median CAGR -- mostly a middle-path tool'; etf_book_forward run rc0 NO-OP (no new bar) and its ledger caveats now carry the same sentence; smoke 240/240 PASS 0 FAIL -- the new leg formats BOTH the share and the price from the artifact's own verdict numbers (a hard-coded '-4.61pp' was replaced in-window because a literal is exactly the defect the leg hunts); dualrun ZERO-DRIFT 709 streak 2; compute_audit rc0 FLAG:pool_starvation,supply_floor (ready 0 / floor 3); attrition CLEAN 4 ledgers (2 shrinks healed); orders_ack CLEAN 114/123/0; D-19 both faces unchanged and reproducible @5a9919f; orphan face 0/11",
  "verify_r1163": "atlas arms claimed from the pool and priced: 3x280 engine runs rc0 (buffer k=0.05 / cost 5bp / cost 20bp, 92.4/87.2/80.7s, 8 workers), then scripts/etf_book_phase_atlas_arms.py reads the four faces under one frozen rule (selftest 19/19). Readings: buffer k=0.05 not-worse share 0.667 -> REJECT upheld but median per-cell delta only -0.030pp and 0/12 cells clear their own band (smallest 2.19pp), so r1325 的 -0.145pp was a direction not a measurement; cost 5bp +0.712pp (share 1.000) / 20bp -1.410pp (share 0.000) but 0/12 resolvable at either level; band by cadence stays 3.4-3.5 / 6.6-6.8 / 8.9-9.0pp at all three tolls (R40/R10 2.60/2.72 vs baseline 2.64, median band shift -1.7%/+0.9%) so the cadence conclusion is a property of the decision count, not of the toll. Bug found and fixed: etf_book_phase_atlas.py died in relative_to() on a repo-relative --out AFTER the full 280-cell run (a whole arm of compute thrown away) -> relative --out now resolves against ROOT (disclosed gap: no selftest leg guards the write path). smoke 244/244 PASS 0 FAIL; pool 3 entries closed with result_ref; E259 card + digest landed.",
  "last_pool_close_r1163": "E256-PHASE-ATLAS-BUFFER-K05/COST05/COST20 -> done",
- "verify_r1166": "tree_shrink_guard: a deliberate deletion now has a legal, narrow channel (selftest 12->17 legs). r1164 had dropped three scratch dumps from results/ on purpose and the tripwire would have stayed red for twenty commits; the fix is NOT a bigger --max-drop (that also mutes the 3,494-file partial-index shape) but a declaration file fleet/tree_shrink_declarations.json whose declared path set must EQUAL the commit's actual D set -- wrong path / subset / superset / corrupt file all stay red (L15/L16/L17). check -> CLEAN '1 declared deletion(s), paths match exactly'. Heartbeat GPU face was half-owned again (free=2069 MiB beside free_vram_gb=1.7 from the 05:58 sample, 17 keys in the finding); one Tools/gpu_face.py apply healed all 29 keys to a single probe -> audit findings=[] and the smoke leg reads findings=none. smoke 244/244 PASS 0 FAIL (the two reds at 07:56 were exactly these: fleet GPU face self-consistent / fleet tree-shrink); attrition CLEAN 4 ledgers (1 historical shrink healed); orphan face 0/10; sat engine idle; loop pin=8 no-op; watchdog S4U flip refused (no elevation, carried); methodology card E261."
+ "verify_r1166": "tree_shrink_guard: a deliberate deletion now has a legal, narrow channel (selftest 12->17 legs). r1164 had dropped three scratch dumps from results/ on purpose and the tripwire would have stayed red for twenty commits; the fix is NOT a bigger --max-drop (that also mutes the 3,494-file partial-index shape) but a declaration file fleet/tree_shrink_declarations.json whose declared path set must EQUAL the commit's actual D set -- wrong path / subset / superset / corrupt file all stay red (L15/L16/L17). check -> CLEAN '1 declared deletion(s), paths match exactly'. Heartbeat GPU face was half-owned again (free=2069 MiB beside free_vram_gb=1.7 from the 05:58 sample, 17 keys in the finding); one Tools/gpu_face.py apply healed all 29 keys to a single probe -> audit findings=[] and the smoke leg reads findings=none. smoke 244/244 PASS 0 FAIL (the two reds at 07:56 were exactly these: fleet GPU face self-consistent / fleet tree-shrink); attrition CLEAN 4 ledgers (1 historical shrink healed); orphan face 0/10; sat engine idle; loop pin=8 no-op; watchdog S4U flip refused (no elevation, carried); methodology card E261.",
+ "verify_r1167": "repo_ladder_menu (new face, selftest 12/12): the cash half of the book is a tenor choice, not a constant. Priced the whole repo ladder against GC001 on SHARED dates, 528,510 yuan of idle cash derived from the newest ticket (nav x (1-book_weight)), cutoff 2026-10-27. Term premium is flat-bodied: GC007 +0.115pp / GC014 +0.119pp on the 250-session mean (~608/631 yuan/yr), rolled realisation +0.164/+0.172pp, while the spot spread is +0.260/+0.270pp (1,374/1,427 yuan/yr) because today's o/n quote is an unusually low day -- quoting spot alone would overstate the annual pickup ~2.3x. 91d/182d pay LESS than 14d and lock cash past the 28d rebalance gap. selftest legs: flat curve -> every spread exactly 0; money == cash x spread; a tenor's own wider sample never becomes the comparison (aligned 1.0 vs own 15.5); absent tenor reads None not 0; rolling a constant 3% compounds to its 52 weekly segments; a spike the day AFTER a roll is never read; the gate is the gap inclusive; an inverted ladder is reported not recommended; the headline comes from the gate-safe subset only; json headline == md sentence; spot spread is last-quote minus last-quote; the parked cash is derived from the newest ticket with a disclosed fallback. Wired: chain leg repo_ladder_menu (shared list, 0.7s rc0) + smoke leg 'product: repo ladder menu'. S1 smoke on the pre-change tree 245/245 PASS 0 FAIL (subset run, full suite re-run in flight at close); attrition CLEAN 4 ledgers (2 historical shrinks healed); dualrun ZERO-DRIFT 712 entries streak 5; compute_audit FLAG:supply_floor (ready 0 / floor 3, idle-starvation); orphan face 0/11; D-19 decisions/orders NOOP (97fe122f/3fa305a6 reproduced, advance written back with heartbeat mirrors synced 2) -- also read origin/main:docs/decisions.md directly: tail rows D-20261029-11..14, only D-11 touches BigMoney and it was applied at r1150 (L1_ENDPOINT override), the rest are group-housekeeping; orders_ack 123/123 zero new orders.",
+ "last_verify_round": 1167
 }

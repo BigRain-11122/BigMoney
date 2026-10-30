@@ -124,6 +124,11 @@
  "cash_leg": {
   "source": "data/repo_daily/GC001.csv",
   "mean_accrual_ann_pct": 2.087,
+  "accrual_window": {
+   "first": "2020-01-02",
+   "last": "2026-10-29",
+   "years": 6.82
+  },
   "missing_bar_steps": 1
  },
  "ledger": {
@@ -150,15 +155,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1219,
-    "card_width_cagr": 0.1251,
-    "pp": 0.32
-   },
    "beta": {
     "ticket_width_cagr": 0.1133,
     "card_width_cagr": 0.098,
     "pp": -1.53
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1219,
+    "card_width_cagr": 0.1251,
+    "pp": 0.32
    }
   },
   "rules_differ": true,
