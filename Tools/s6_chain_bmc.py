@@ -271,6 +271,13 @@ LEGS = [
     # red. 0.4s, no network, no engine.
     ("etf_book_phase_atlas_arms", ["python", "scripts/etf_book_phase_atlas_arms.py", "--check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "run"]),
+    # r1354: the arms face retires the buffer family on a DIRECTION ("inside the band at every
+    # strength"). A direction is not a knapsack: this leg re-derives the floor face, which fits
+    # the axis and answers in the knob's own units -- the k that would be needed for the ruler
+    # to see it -- and refuses the face if the fit or the answer was edited. Engine-free, 0.1s.
+    ("etf_book_buffer_floor",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor"]),
     # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
     # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
     # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel

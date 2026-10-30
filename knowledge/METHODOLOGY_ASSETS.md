@@ -5456,3 +5456,62 @@ scripts `scripts/etf_book_rule_null.py` (selftest 10) and `scripts/etf_book_phas
 digest `research/digests/DIGEST-20261030-r1352-buffer-family.md`.
 Buffer family closed: 0 of 36 cell deltas beyond their own band -- not adopted, not re-stocked;
 the three follow-up rows stocked instead are k=0.02, k=0.40 and the buffer x toll interaction.
+
+## E264 A knob has no size until both ends are priced -- and a toll is not a thing you can buffer away (2026-10-30 r1353 bm-c)
+
+WHEN: a family is closed on the strength of several arms that all landed inside their own noise
+band, and the closing sentence is "the effect is small". On this repo's phase grid the three
+buffer arms (k=0.05 / 0.10 / 0.20) read -0.030 / +0.072 / +0.138pp against a per-cell band of
+~6.6pp -- methodologically "inside the band", but only about the MIDDLE of an axis nobody had
+measured the ends of.
+
+RIGHT: before quoting "small", price the axis at both ends with the same frozen rule:
+  * k=0.02 -> -0.018pp, 0/12 cells clear their band, NOT-SEPARABLE;
+  * k=0.40 (8x the original arm) -> +0.318pp, still 0/12 clearing, and the only buffer arm to
+    read REJECT -- because the far end raises the spread with the mean (3/12 cells under the
+    -0.15pp floor, not-worse share 0.750 < 0.80);
+  * the sweep 0.02 -> 0.40 spans 0.34pp, i.e. 1/20th of one band. Monotone, real, unresolvable.
+Then test the interaction the two closed families never met: buffer k=0.05 at 20bp/side reads
+-1.460pp against the no-buffer toll's -1.410pp -- the buffer recovers NOTHING of the 1.41pp,
+and its interaction (-0.05pp) is the same size and sign as its own 10bp reading.
+
+WRONG: (a) calling a family closed on its middle and leaving "maybe a different strength" alive;
+(b) reading the far end's REJECT as "the buffer hurts" when its median is the most positive of the
+five arms -- the label moved because dispersion moved; (c) assuming a benign knob will neutralise
+a cost axis just because both are "small effects"; (d) leaving a stocked row unignitable. The three
+follow-up rows had been entered without a `shards` array, so the picker skipped them as "no
+takeable shard" and the tick published `pool_empty_or_busy` while py sat at 5-7%. The submit gate
+already refuses that shape (r301); it came back by hand. `_ghost_ready_ids()` now reports such rows
+as `ghost_ready_no_shards` instead of letting them hide inside an empty-pool reading.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` (9 arms, selftest 50, `--check` green) +
+`results/etf_book_phase_atlas_arms.json` + `research/ETF_BOOK_PHASE_ATLAS_ARMS.md` +
+`Tools/autofill.py::_ghost_ready_ids` (selftest S20g2-S20g5) +
+`research/digests/DIGEST-20261030-r1353-buffer-axis-ends.md`.
+
+## E265 A retired family owes a SIZE in the knob's own units, not just a verdict (2026-10-30 r1354 bm-c)
+
+WHEN: a family closes as "unmeasurable at every strength". That is a statement about the ruler
+relative to a DIRECTION, and it leaves the natural follow-up unanswered: how strong would the knob
+have to be to be seen? Without that number the closure is one bad day away from being re-litigated
+("what about k=0.35?") at 280 engine runs a try.
+
+RIGHT: fit the axis you already measured and answer in the knob's own units. Five buffer arms
+(k=0.02 / 0.05 / 0.10 / 0.20 / 0.40) plus the k=0 IDENTITY anchor give +0.862pp of median CAGR per
+unit k, r2 0.965 -- near-linear across a 20x sweep. Against the ruler (baseline median cell band
+6.68pp) the axis would have to reach k=7.79 to register. k is the SHARE OF A TRADE the book is
+willing to execute, so k=1.0 already means "trade the whole move instantly" and k>1.0 is not a
+bigger buffer, it is refusing to trade -- the requirement is UNREACHABLE BY CONSTRUCTION, which is
+a different fact from "untested". The whole measured sweep spans 0.318pp = 0.050 of the ruler.
+
+WRONG: (a) publishing "0/12 cells at every strength" and calling the axis closed -- true, and
+re-openable by anyone who names a different k; (b) extrapolating a k into existence without
+publishing the fit's r2 and the axis END (an answer outside the knob's domain is arithmetic, not a
+candidate); (c) treating the k=0 baseline as a sixth experiment (its delta is zero by definition --
+an identity anchor, and it must be labelled as one); (d) fitting through zero without checking the
+intercept, which for this axis is -0.031pp, i.e. the line does pass near the identity.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--floor` / `--floor-check` (selftest 60) +
+`results/etf_book_buffer_resolution_floor.json` + `research/ETF_BOOK_BUFFER_RESOLUTION_FLOOR.md` +
+`Tools/s6_chain_bmc.py` leg `etf_book_buffer_floor` +
+`research/digests/DIGEST-20261030-r1354-buffer-floor.md`.

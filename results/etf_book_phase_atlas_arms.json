@@ -1083,6 +1083,525 @@
     "median per-cell delta +0.138pp (floor -0.05pp)",
     "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
    ]
+  },
+  "buffer_k02": {
+   "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)",
+   "face": "results/etf_book_phase_atlas_buffer_k02.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 4,
+    "jobs": 280,
+    "cost": 0.001,
+    "buffer_k": 0.02,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 10.94,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": 0.015,
+     "band_pp": 4.519,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 1.0835,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 8.44,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": -0.275,
+     "band_pp": 7.015,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.815,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 6.755,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -0.025,
+     "band_pp": 12.387,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.647,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 11.68,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": 0.175,
+     "band_pp": 3.424,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 1.1455,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 9.1,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": -0.03,
+     "band_pp": 6.131,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.8905,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 8.34,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": 0.02,
+     "band_pp": 9.62,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.7985,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 11.965,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": -0.035,
+     "band_pp": 3.335,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 1.1905,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 10.095,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -0.035,
+     "band_pp": 6.217,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 1.019,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 8.295,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": -0.01,
+     "band_pp": 8.335,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.7465,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 11.58,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": -0.055,
+     "band_pp": 2.332,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 1.1695,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 9.65,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": 0.005,
+     "band_pp": 7.63,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 0.96,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 7.595,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": 0.045,
+     "band_pp": 7.259,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.699,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 7.015,
+   "band_by_cadence": {
+    "10": 3.38,
+    "20": 6.616,
+    "40": 8.977
+   },
+   "verdict": "NOT-SEPARABLE",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.917 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta -0.018pp (floor -0.05pp)",
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+   ]
+  },
+  "buffer_k40": {
+   "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)",
+   "face": "results/etf_book_phase_atlas_buffer_k40.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 4,
+    "jobs": 280,
+    "cost": 0.001,
+    "buffer_k": 0.4,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 12.08,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": 1.155,
+     "band_pp": 3.586,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 1.1225,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 9.42,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": 0.705,
+     "band_pp": 6.78,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.9095,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 6.34,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -0.44,
+     "band_pp": 12.562,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.614,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 12.23,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": 0.725,
+     "band_pp": 3.927,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 1.1995,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 10.445,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": 1.315,
+     "band_pp": 5.806,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.965,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 8.09,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": -0.23,
+     "band_pp": 11.041,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.7985,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 12.065,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": 0.065,
+     "band_pp": 2.722,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 1.2105,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 9.785,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -0.345,
+     "band_pp": 6.037,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 1.0045,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 8.61,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": 0.305,
+     "band_pp": 9.214,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.811,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 11.525,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": -0.11,
+     "band_pp": 2.722,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 1.1465,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 9.975,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": 0.33,
+     "band_pp": 5.499,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 1.0265,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 8.31,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": 0.76,
+     "band_pp": 8.098,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.8025,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 6.037,
+   "band_by_cadence": {
+    "10": 3.154,
+    "20": 5.921,
+    "40": 10.128
+   },
+   "verdict": "REJECT",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.750 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta +0.318pp (floor -0.05pp)",
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+   ]
+  },
+  "buffer_k05_cost20": {
+   "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?",
+   "face": "results/etf_book_phase_atlas_buffer_k05_cost20.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 4,
+    "jobs": 280,
+    "cost": 0.002,
+    "buffer_k": 0.05,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 8.535,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": -2.39,
+     "band_pp": 4.998,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 0.878,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 7.205,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": -1.51,
+     "band_pp": 6.736,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.7005,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 5.73,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -1.05,
+     "band_pp": 12.553,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.564,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 9.435,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": -2.07,
+     "band_pp": 3.027,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 0.949,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 7.72,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": -1.41,
+     "band_pp": 6.055,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.759,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 7.38,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": -0.94,
+     "band_pp": 9.791,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.706,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 9.765,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": -2.235,
+     "band_pp": 3.533,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 0.99,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 8.425,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -1.705,
+     "band_pp": 6.034,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 0.8675,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 7.35,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": -0.955,
+     "band_pp": 8.116,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.6725,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 9.45,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": -2.185,
+     "band_pp": 2.159,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 0.971,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 8.425,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": -1.22,
+     "band_pp": 7.21,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 0.8505,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 7.04,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": -0.51,
+     "band_pp": 7.115,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.658,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 6.736,
+   "band_by_cadence": {
+    "10": 3.28,
+    "20": 6.396,
+    "40": 8.953
+   },
+   "verdict": "REJECT",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.000 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta -1.460pp (floor -0.05pp)",
+    "resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)"
+   ]
   }
  }
 }

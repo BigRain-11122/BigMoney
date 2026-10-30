@@ -51,6 +51,19 @@ ARMS = {
                    "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside "
                    "every cell's band, the buffer family is unmeasurable on this design, not "
                    "negative)"),
+    # r1353: the three rows r1352 stocked, read back by the same rule. The first three buffer
+    # arms all landed inside their bands, so 'flat' was a claim about the middle of an axis
+    # nobody had measured the ends of.
+    "buffer_k02": (os.path.join(RES, "etf_book_phase_atlas_buffer_k02.json"),
+                   "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same "
+                   "at 0.02 and at 0.20 is flat, not merely small)"),
+    "buffer_k40": (os.path.join(RES, "etf_book_phase_atlas_buffer_k40.json"),
+                   "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real "
+                   "buffer finally has to hurt)"),
+    "buffer_k05_cost20": (os.path.join(RES, "etf_book_phase_atlas_buffer_k05_cost20.json"),
+                          "buffer k=0.05 at 20bp/side -- the interaction neither family tested: "
+                          "does a buffer that is harmless at 10bp recover any of the -1.41pp the "
+                          "20bp toll costs?"),
 }
 
 # the knob each arm declares in its own name; the face must carry the same number (a face wired
@@ -62,6 +75,9 @@ DECLARED = {
     "cost05": {"cost": 0.0005},
     "cost20": {"cost": 0.002},
     "cost40": {"cost": 0.004},
+    "buffer_k02": {"buffer_k": 0.02},
+    "buffer_k40": {"buffer_k": 0.40},
+    "buffer_k05_cost20": {"buffer_k": 0.05, "cost": 0.002},
 }
 
 # ---- the frozen rule (written before the first read; echoed into the payload) -------------
@@ -219,6 +235,177 @@ def build():
     return payload
 
 
+# ---- r1354: the resolution floor of the buffer axis -- a size, not a direction ------------
+FLOOR_OUT = os.path.join(RES, "etf_book_buffer_resolution_floor.json")
+BUFFER_ARMS = {"buffer_k02": 0.02, "buffer_k05": 0.05, "buffer_k10": 0.10,
+               "buffer_k20": 0.20, "buffer_k40": 0.40}
+FLOOR_RULE = {
+    # buffer k is the share of a target weight change the book trades per rebalance, so the
+    # axis ENDS at 1.0 ("trade the whole move the moment the signal moves") and k>1.0 has no
+    # meaning. A requirement past that end is unreachable by construction, not untested --
+    # which is the difference between "we have not looked" and "there is nothing there".
+    "degenerate_k": 1.0,
+    "min_points": 4,
+    "sweep_band_share_max": 0.25,   # the whole axis should span a small share of the ruler
+    "frozen": ("written before the first read of the floor: the axis is fitted linearly on the "
+               "published medians and the answer is a k, which only means anything inside [0,1]"),
+}
+
+
+def _median(a):
+    a = sorted(a)
+    n = len(a)
+    return a[n // 2] if n % 2 else (a[n // 2 - 1] + a[n // 2]) / 2.0
+
+
+def _ols(points):
+    """Least squares y = intercept + slope*x -> (slope, intercept, r2). Pure function."""
+    n = len(points)
+    mx = sum(p[0] for p in points) / n
+    my = sum(p[1] for p in points) / n
+    sxx = sum((p[0] - mx) ** 2 for p in points)
+    sxy = sum((p[0] - mx) * (p[1] - my) for p in points)
+    slope = sxy / sxx if sxx else 0.0
+    inter = my - slope * mx
+    ss_tot = sum((p[1] - my) ** 2 for p in points)
+    ss_res = sum((p[1] - (inter + slope * p[0])) ** 2 for p in points)
+    return slope, inter, (1.0 - ss_res / ss_tot if ss_tot else 0.0)
+
+
+def floor_of(payload):
+    """How strong would k have to be for THIS design's ruler to register it? Pure function.
+
+    The five buffer arms are five settings of one knob, so the published medians are a curve
+    and the curve has a slope. The ruler is the baseline grid's median cell band (the atlas
+    already showed the band follows the decision count, not the toll). The answer is the k at
+    which the median effect would equal the band -- and a k above 1.0 is not a big buffer, it
+    is refusing to trade at all.
+    """
+    base_band = payload["baseline"]["median_cell_band_pp"]
+    pts, arms = [], {}
+    for name, k in sorted(BUFFER_ARMS.items(), key=lambda kv: kv[1]):
+        a = payload["arms"].get(name)
+        if not a:
+            continue
+        rows = a["rows"]
+        d = _median([r["delta_pp"] for r in rows])
+        res = sum(1 for r in rows if abs(r["delta_pp"]) > r["band_pp"]) / float(len(rows))
+        arms[name] = {"buffer_k": k, "median_delta_pp": round(d, 3),
+                      "median_band_pp": a["median_band_pp"],
+                      "resolvable_share": round(res, 3), "verdict": a["verdict"]}
+        pts.append((k, d))
+    out = {"script": "scripts/etf_book_phase_atlas_arms.py --floor",
+           "question": ("the buffer family retired as 'unmeasurable at every strength'. Turn that "
+                        "direction into a size: how strong would k have to be for this ruler to "
+                        "register it, and is that strength still a buffer?"),
+           "units": {"k": "share of a target weight change traded per rebalance (1.0 = trade the "
+                          "whole move at once, the axis end)",
+                     "slope_pp_per_k": "pp of median CAGR per unit k",
+                     "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"},
+           "evidence_cutoff": payload["baseline"]["evidence_cutoff"],
+           "rule": FLOOR_RULE, "ruler_pp": base_band, "arms": arms}
+    reasons = ["%d buffer arms on the axis (need >= %d, or the slope is one point)"
+               % (len(pts), FLOOR_RULE["min_points"])]
+    if len(pts) < FLOOR_RULE["min_points"]:
+        out.update({"fit": None, "k_required": None, "verdict": "NOT-ASSESSED",
+                    "verdict_reasons": reasons})
+        return out
+    # the k=0 point is the baseline itself, whose median delta is zero BY DEFINITION: an
+    # identity anchor, not a sixth experiment, and it is named as one wherever it is used
+    slope, inter, r2 = _ols([(0.0, 0.0)] + pts)
+    k_req = (base_band - inter) / slope if slope > 0 else None
+    sweep = pts[-1][1] - pts[0][1]
+    share = sweep / base_band if base_band else 0.0
+    reasons = [
+        "slope %+.3fpp per unit k, r2 %.3f on %d arms + the k=0 identity"
+        % (slope, r2, len(pts)),
+        "ruler = baseline median cell band %.2fpp (a median effect that size is the floor)"
+        % base_band,
+        "k required to reach the floor = %s"
+        % ("n/a (the axis does not rise)" if k_req is None else "%.2f" % k_req),
+        "the whole axis spans %.3fpp = %.3f of the ruler (flag if >= %.2f)"
+        % (sweep, share, FLOOR_RULE["sweep_band_share_max"]),
+    ]
+    if k_req is None:
+        label = "UNREACHABLE_BY_CONSTRUCTION"
+        reasons.append("no measured strength rises with k, so no strength reaches the ruler")
+    elif k_req > FLOOR_RULE["degenerate_k"]:
+        label = "UNREACHABLE_BY_CONSTRUCTION"
+        reasons.append("k=%.2f sits past k=%.0f, which is 'never trade': this design cannot "
+                       "resolve the axis at any setting that is still a buffer"
+                       % (k_req, FLOOR_RULE["degenerate_k"]))
+    else:
+        label = "REACHABLE_DECLARE_A_RUN"
+        reasons.append("k=%.2f is inside the axis: declare a run there instead of extrapolating "
+                       "into it" % k_req)
+    out.update({"fit": {"slope_pp_per_k": round(slope, 4), "intercept_pp": round(inter, 4),
+                        "r2": round(r2, 4), "n_points": len(pts) + 1,
+                        "anchor": "k=0 (identity: the baseline's own delta is 0.0)"},
+                "k_required": None if k_req is None else round(k_req, 3),
+                "sweep_span_pp": round(sweep, 3),
+                "sweep_share_of_ruler": round(share, 4),
+                "verdict": label, "verdict_reasons": reasons})
+    return out
+
+
+def build_floor():
+    return floor_of(build())
+
+
+def floor_check():
+    """Gate: the published floor must equal a re-derivation. Same two red states as check()."""
+    if not os.path.exists(FLOOR_OUT):
+        print("floor is stale: no published floor face at %s" % _rel(FLOOR_OUT))
+        return 2
+    pub = face(FLOOR_OUT)
+    if pub.get("rule") != FLOOR_RULE:
+        print("floor is inconsistent: the published rule is not the rule in this file")
+        return 1
+    rebuilt = json.loads(json.dumps(build_floor()))
+    drift = _diff(pub, rebuilt)
+    if not drift:
+        print("floor face matches its own sources on cutoff %s: %s (k required %s)"
+              % (rebuilt["evidence_cutoff"], rebuilt["verdict"], rebuilt["k_required"]))
+        return 0
+    src = [BASE] + [p for p, _ in ARMS.values()]
+    try:
+        face_mtime = os.path.getmtime(FLOOR_OUT)
+    except OSError:
+        face_mtime = 0.0
+    newer = [os.path.basename(p) for p in src if os.path.getmtime(p) > face_mtime + 1.0]
+    if newer:
+        print("floor is stale: priced on cutoff %r while its sources moved (%s)"
+              % (pub.get("evidence_cutoff"), ",".join(sorted(newer))[:160]))
+        return 2
+    print("floor is inconsistent: %d field(s) disagree with a re-derivation and no source moved: %s"
+          % (len(drift), "; ".join(drift)[:300]))
+    return 1
+
+
+def render_floor_md(p):
+    L = ["# Buffer axis resolution floor (r1354 bm-c)\n",
+         "Face: `results/etf_book_buffer_resolution_floor.json`; script: "
+         "`scripts/etf_book_phase_atlas_arms.py --floor`; cutoff %s.\n" % p["evidence_cutoff"],
+         "The family retired as 'unmeasurable at every strength'. This face is the size of that "
+         "sentence.\n",
+         "| arm | k | median delta | median band | resolvable share | label |",
+         "|---|---|---|---|---|---|"]
+    for name, a in p["arms"].items():
+        L.append("| %s | %.2f | %+.3fpp | %.3fpp | %.3f | %s |"
+                 % (name, a["buffer_k"], a["median_delta_pp"], a["median_band_pp"],
+                    a["resolvable_share"], a["verdict"]))
+    L.append("")
+    if p.get("fit"):
+        L.append("Fit (through the k=0 identity): **%+.3fpp per unit k**, r2 %.3f, %d points. "
+                 "Ruler = **%.2fpp**. k needed to reach the ruler = **%s**."
+                 % (p["fit"]["slope_pp_per_k"], p["fit"]["r2"], p["fit"]["n_points"],
+                    p["ruler_pp"], p["k_required"]))
+        L.append("\nVerdict: **%s**\n" % p["verdict"])
+    for x in p["verdict_reasons"]:
+        L.append("- %s" % x)
+    return "\n".join(L) + "\n"
+
+
 def _selftest():
     bad = []
     CHECKS = [0]
@@ -320,6 +507,70 @@ def _selftest():
             chk(rc == 2, "a missing face is stale, not inconsistent (rc=%r)" % rc)
         finally:
             OUT_JSON = keep
+
+    # L12-L17 the resolution floor: a size needs the same guards a direction does. Every leg
+    # below re-derives from the published medians, then moves ONE thing in a fixture.
+    fl = floor_of(p)
+    chk(fl["fit"] is not None and fl["k_required"] is not None,
+        "the floor fits a k from %d buffer arms (k required %r)" % (len(fl["arms"]),
+                                                                   fl["k_required"]))
+    # L12 fit reproduces each published arm median to the rounding it publishes
+    worst = 0.0
+    for name, a in fl["arms"].items():
+        rows = p["arms"][name]["rows"]
+        worst = max(worst, abs(a["median_delta_pp"] - round(_median([r["delta_pp"] for r in rows]), 3)))
+    chk(worst < 1e-9, "every arm median in the floor equals the arm face's own rows (max %r)" % worst)
+    # L13 the fitted line passes through the k=0 identity: at k=0 the effect must be zero-ish
+    chk(abs(fl["fit"]["intercept_pp"]) < 0.15,
+        "the fit's intercept stays near the k=0 identity (%+.3fpp)" % fl["fit"]["intercept_pp"])
+    # L14 the published reading: the whole axis spans a small share of the ruler. This is the
+    # sentence the family retires on, so it is asserted rather than narrated.
+    chk(fl["sweep_share_of_ruler"] < FLOOR_RULE["sweep_band_share_max"],
+        "the full 20x sweep spans %.3f of the ruler (flag at %.2f)"
+        % (fl["sweep_share_of_ruler"], FLOOR_RULE["sweep_band_share_max"]))
+    # L15 direction test on fixtures: a steep axis is reachable, a flat one is not
+    def _fix(slope):
+        f = json.loads(json.dumps(p))
+        for name, k in BUFFER_ARMS.items():
+            for r in f["arms"][name]["rows"]:
+                r["delta_pp"] = slope * k
+        return f
+    reach = floor_of(_fix(60.0))     # 60pp per unit k: k ~ 0.11 clears a 6.68pp ruler
+    chk(reach["verdict"] == "REACHABLE_DECLARE_A_RUN",
+        "a steep axis is reachable by a real k (%s, k=%r)" % (reach["verdict"],
+                                                             reach["k_required"]))
+    flat = floor_of(_fix(1.0))
+    chk(flat["verdict"] == "UNREACHABLE_BY_CONSTRUCTION",
+        "a shallow axis stays unreachable (%s, k=%r)" % (flat["verdict"], flat["k_required"]))
+    # L16 a short axis is not assessed, not zero-sloped
+    thin = json.loads(json.dumps(p))
+    for name in ("buffer_k02", "buffer_k40"):
+        thin["arms"].pop(name, None)
+    chk(floor_of(thin)["verdict"] == "NOT-ASSESSED",
+        "three arms is not a slope (NOT-ASSESSED, not a verdict)")
+    # L17 the floor gate has the same three states as the arms gate
+    global FLOOR_OUT
+    keepf = FLOOR_OUT
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            ftmp = os.path.join(td, "floor.json")
+            with open(ftmp, "w", encoding="utf-8") as f:
+                json.dump(build_floor(), f, ensure_ascii=False, indent=1)
+            os.utime(ftmp, (os.path.getmtime(ftmp) + 3600, os.path.getmtime(ftmp) + 3600))
+            FLOOR_OUT = ftmp
+            rc = floor_check()
+            chk(rc == 0, "an unedited floor passes its gate (rc=%r)" % rc)
+            d2 = json.loads(json.dumps(build_floor()))
+            d2["k_required"] = 0.5
+            with open(ftmp, "w", encoding="utf-8") as f:
+                json.dump(d2, f, ensure_ascii=False, indent=1)
+            os.utime(ftmp, (os.path.getmtime(ftmp) + 3600, os.path.getmtime(ftmp) + 3600))
+            rc = floor_check()
+            chk(rc == 1, "an edited k with no source moved stays inconsistent (rc=%r)" % rc)
+            FLOOR_OUT = os.path.join(td, "missing.json")
+            chk(floor_check() == 2, "a missing floor is stale, not inconsistent")
+        finally:
+            FLOOR_OUT = keepf
 
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
@@ -431,6 +682,22 @@ def main(argv):
         return _selftest()
     if "--check" in argv:
         return check()
+    if "--floor-check" in argv:
+        return floor_check()
+    if "--floor" in argv:
+        f = build_floor()
+        with open(FLOOR_OUT, "w", encoding="utf-8") as fh:
+            json.dump(f, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        md = os.path.join(ROOT, "research", "ETF_BOOK_BUFFER_RESOLUTION_FLOOR.md")
+        with open(md, "w", encoding="utf-8") as fh:
+            fh.write(render_floor_md(f))
+        print("%s: k required %s, ruler %.2fpp, sweep share %.3f"
+              % (f["verdict"], f["k_required"], f["ruler_pp"],
+                 f.get("sweep_share_of_ruler") or 0.0))
+        print("wrote", os.path.relpath(FLOOR_OUT, ROOT),
+              "and research/ETF_BOOK_BUFFER_RESOLUTION_FLOOR.md")
+        return 0
     p = build()
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(p, f, ensure_ascii=False, indent=1)

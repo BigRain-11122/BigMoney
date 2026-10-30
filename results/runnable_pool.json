@@ -23539,7 +23539,7 @@
    "id": "E262-ATLAS-BUFFER-K02",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.02 on the whole grid)",
    "runner_args": [
@@ -23560,10 +23560,13 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-c",
      "checkpoint": "results/etf_book_phase_atlas_buffer_k02.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
-     "owner_since": "2026-10-30 09:25:45"
+     "owner_since": "2026-10-30 09:25:45",
+     "done_at": "2026-10-30 09:42:47",
+     "done_by": "bm-c",
+     "landed_via": "session flip: etf_book_phase_atlas_buffer_k02.json"
     }
    ],
    "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
@@ -23612,7 +23615,7 @@
    "id": "E262-ATLAS-BUFFER-TOLL-INTERACTION",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.05 at 20bp/side -- the interaction the two closed families never tested)",
    "runner_args": [
@@ -23634,14 +23637,114 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-c",
      "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost20.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
-     "owner_since": "2026-10-30 09:31:47"
+     "owner_since": "2026-10-30 09:31:47",
+     "done_at": "2026-10-30 09:42:47",
+     "done_by": "bm-c",
+     "landed_via": "session flip: etf_book_phase_atlas_buffer_k05_cost20.json"
     }
    ],
    "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
    "priority": 1
+  },
+  {
+   "id": "E266-ATLAS-COST0",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: zero toll on the whole grid)",
+   "runner_args": [
+    "run",
+    "--cost=0.0",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_cost0.json"
+   ],
+   "deliverable": "the clean end of the toll axis. cost05/cost20/cost40 all keep the band structure, which was read as 'the band is a property of the decision count, not the toll' -- but every one of those arms still pays a toll, so the claim has never been measured at zero. If the band survives with no cost at all the reading holds; if it collapses, 'survives the toll' at 5bp was already the toll talking",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265 floor: the buffer axis is closed at 0.050 of the ruler, so the open axis is the toll. cost05/20/40 bracket the production 10bp but none of them is zero, and the band-vs-toll claim rests on that extrapolation",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "open",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_cost0.json -- the atlas writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)"
+    }
+   ],
+   "priority": 1
+  },
+  {
+   "id": "E266-ATLAS-BUFFER-K030",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.30 on the whole grid)",
+   "runner_args": [
+    "run",
+    "--k=0.30",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k30.json"
+   ],
+   "deliverable": "one measured point inside the segment the floor extrapolates across. r1354 fits +0.862pp per unit k (r2 0.965) over 0.02..0.40 and answers k_required=7.79 by continuing that line; k=0.30 is the midpoint of the widest gap (0.20->0.40) and the natural place for a bend to hide. If it sits off the line, the extrapolation is disclosed as wrong rather than quietly inherited by whoever next asks about a strong buffer",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265: the floor's verdict is an EXTRAPOLATION (UNREACHABLE at k=7.79) and the only cheap way to test a straight line is to measure a point on it",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "open",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k30.json -- one whole face per invocation; same bar set reproduces the same bytes"
+    }
+   ],
+   "priority": 2
+  },
+  {
+   "id": "E266-ATLAS-BUFFER-K005-COST05",
+   "lane": "cpu-only",
+   "worker_class": "self-contained",
+   "status": "ready",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.05 at 5bp/side)",
+   "runner_args": [
+    "run",
+    "--k=0.05",
+    "--cost=0.0005",
+    "--workers=4",
+    "--out=results/etf_book_phase_atlas_buffer_k05_cost05.json"
+   ],
+   "deliverable": "the cheap end of the buffer x toll interaction. At 20bp the interaction was -0.05pp (same sign and size as the buffer's own 10bp reading, i.e. no recovery of the toll). 5bp is the other side: if the interaction is the same -0.05pp there it is a property of the buffer, not of the toll level -- and if it vanishes, the 20bp number was the toll's own scaling",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal"
+   },
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T10:1x+08:00",
+   "entered_by": "bm-c r1354",
+   "source": "r1354 E265 / r1353 E264: the interaction was measured at ONE toll level, so 'the buffer buys nothing back' is currently a single point",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "open",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost05.json -- one whole face per invocation; same bar set reproduces the same bytes"
+    }
+   ],
+   "priority": 2
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

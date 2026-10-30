@@ -148,3 +148,75 @@ buffer k=0.20 on every cell (the strongest arm -- if even this stays inside ever
 - median per-cell delta +0.138pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 
+## buffer_k02 — **NOT-SEPARABLE**
+
+buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +10.94pp | +10.93pp | +0.015pp | 4.52pp |
+| 3 | 20 | +8.44pp | +8.71pp | -0.275pp | 7.01pp |
+| 3 | 40 | +6.75pp | +6.78pp | -0.025pp | 12.39pp |
+| 5 | 10 | +11.68pp | +11.51pp | +0.175pp | 3.42pp |
+| 5 | 20 | +9.10pp | +9.13pp | -0.030pp | 6.13pp |
+| 5 | 40 | +8.34pp | +8.32pp | +0.020pp | 9.62pp |
+| 8 | 10 | +11.96pp | +12.00pp | -0.035pp | 3.33pp |
+| 8 | 20 | +10.10pp | +10.13pp | -0.035pp | 6.22pp |
+| 8 | 40 | +8.29pp | +8.30pp | -0.010pp | 8.34pp |
+| 12 | 10 | +11.58pp | +11.63pp | -0.055pp | 2.33pp |
+| 12 | 20 | +9.65pp | +9.64pp | +0.005pp | 7.63pp |
+| 12 | 40 | +7.59pp | +7.55pp | +0.045pp | 7.26pp |
+
+- cells 12/12 judged
+- not-worse share 0.917 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta -0.018pp (floor -0.05pp)
+- resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+
+## buffer_k40 — **REJECT**
+
+buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +12.08pp | +10.93pp | +1.155pp | 3.59pp |
+| 3 | 20 | +9.42pp | +8.71pp | +0.705pp | 6.78pp |
+| 3 | 40 | +6.34pp | +6.78pp | -0.440pp | 12.56pp |
+| 5 | 10 | +12.23pp | +11.51pp | +0.725pp | 3.93pp |
+| 5 | 20 | +10.45pp | +9.13pp | +1.315pp | 5.81pp |
+| 5 | 40 | +8.09pp | +8.32pp | -0.230pp | 11.04pp |
+| 8 | 10 | +12.06pp | +12.00pp | +0.065pp | 2.72pp |
+| 8 | 20 | +9.79pp | +10.13pp | -0.345pp | 6.04pp |
+| 8 | 40 | +8.61pp | +8.30pp | +0.305pp | 9.21pp |
+| 12 | 10 | +11.53pp | +11.63pp | -0.110pp | 2.72pp |
+| 12 | 20 | +9.97pp | +9.64pp | +0.330pp | 5.50pp |
+| 12 | 40 | +8.31pp | +7.55pp | +0.760pp | 8.10pp |
+
+- cells 12/12 judged
+- not-worse share 0.750 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta +0.318pp (floor -0.05pp)
+- resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+
+## buffer_k05_cost20 — **REJECT**
+
+buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +8.54pp | +10.93pp | -2.390pp | 5.00pp |
+| 3 | 20 | +7.21pp | +8.71pp | -1.510pp | 6.74pp |
+| 3 | 40 | +5.73pp | +6.78pp | -1.050pp | 12.55pp |
+| 5 | 10 | +9.44pp | +11.51pp | -2.070pp | 3.03pp |
+| 5 | 20 | +7.72pp | +9.13pp | -1.410pp | 6.05pp |
+| 5 | 40 | +7.38pp | +8.32pp | -0.940pp | 9.79pp |
+| 8 | 10 | +9.77pp | +12.00pp | -2.235pp | 3.53pp |
+| 8 | 20 | +8.43pp | +10.13pp | -1.705pp | 6.03pp |
+| 8 | 40 | +7.35pp | +8.30pp | -0.955pp | 8.12pp |
+| 12 | 10 | +9.45pp | +11.63pp | -2.185pp | 2.16pp |
+| 12 | 20 | +8.43pp | +9.64pp | -1.220pp | 7.21pp |
+| 12 | 40 | +7.04pp | +7.55pp | -0.510pp | 7.12pp |
+
+- cells 12/12 judged
+- not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta -1.460pp (floor -0.05pp)
+- resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)
+
