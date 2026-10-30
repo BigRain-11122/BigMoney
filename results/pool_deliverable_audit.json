@@ -1,31 +1,71 @@
 {
  "audit": "pool deliverable reconciliation",
- "ts": "2026-10-30T14:02:22+0800",
+ "ts": "2026-10-30T17:23:16+0800",
  "pool": "results/runnable_pool.json",
- "open_cards": 1,
+ "open_cards": 2,
  "counts": {
-  "NO_FACE": 1
+  "NO_FACE": 2
  },
  "stale_evidence": [],
  "ambiguous": [],
  "misnamed": [],
- "prose_deliverables": [],
+ "prose_deliverables": [
+  "E272-ATLAS-COST0",
+  "E272-ATLAS-COST20"
+ ],
+ "runner_absent": [
+  {
+   "id": "E272-ATLAS-COST0",
+   "runner": "scripts/etf_book_phase_atlas.py"
+  },
+  {
+   "id": "E272-ATLAS-COST20",
+   "runner": "scripts/etf_book_phase_atlas.py"
+  }
+ ],
+ "runner_absent_ids": [
+  "E272-ATLAS-COST0",
+  "E272-ATLAS-COST20"
+ ],
+ "runnable_open_cards": 0,
  "cards": [
   {
-   "id": "E253-STAR-SELF-RESOLUTION",
+   "id": "E272-ATLAS-COST0",
    "status": "ready",
    "lane_owner": null,
-   "deliverable": "results/state_tilt/SELFRES-<cutoff>.json",
-   "deliverable_template": "results/state_tilt/SELFRES-<cutoff>.json",
-   "declared_prose_stripped": false,
-   "entered_at": "2026-10-30T13:52:00+08:00",
+   "deliverable": "results/etf_book_phase_atlas_cost0.json -- the same 12 cells / 280 phase runs at 0bp. r1350's 'cadence is the quotable knob, width sits inside the band' was measured at 10bp only; at zero toll the band should collapse and the ordering, if it is real, must survive. A verdict that only holds at one cost level is a cost statement wearing a structure's clothes.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost0.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
    "faces_found": 0,
    "face_newest": null,
    "face_newest_bytes": null,
    "face_bytes_zero_any": false,
    "reading": "NO_FACE",
    "evidence": "no file matches the declared deliverable template",
-   "near_miss": []
+   "near_miss": [],
+   "runner_reading": "RUNNER_ABSENT",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "runner_evidence": "the declared runner is not on disk in this worktree"
+  },
+  {
+   "id": "E272-ATLAS-COST20",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/etf_book_phase_atlas_cost20.json -- the band as a function of toll. The atlas quotes one band (6.68pp) as the ruler every later arm is judged against; if the band itself is a toll artefact then every 'inside the band' verdict in the buffer/width families inherits that error. 20bp is the stress point the capacity ladder already prices.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost20.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
+   "faces_found": 0,
+   "face_newest": null,
+   "face_newest_bytes": null,
+   "face_bytes_zero_any": false,
+   "reading": "NO_FACE",
+   "evidence": "no file matches the declared deliverable template",
+   "near_miss": [],
+   "runner_reading": "RUNNER_ABSENT",
+   "runner": "scripts/etf_book_phase_atlas.py",
+   "runner_evidence": "the declared runner is not on disk in this worktree"
   }
  ]
 }

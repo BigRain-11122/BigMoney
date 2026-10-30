@@ -24318,7 +24318,7 @@
    "id": "E255-BAND-DRAW-STARVATION",
    "lane": "cpu-only",
    "worker_class": "code-change",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/e255_band_draw_starvation.py",
    "target": "scripts/e255_band_draw_starvation.py (new runner)",
    "runner_args": [
@@ -24330,8 +24330,31 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T16:18:54",
    "entered_by": "bm-b r1281",
+   "status_note": "r1282 bm-b: burned in-window (code-change card, autofill cannot ignite it)",
+   "result_ref": "results/state_tilt/BANDDRAW-2026-10-29.json",
+   "done_at": "2026-10-30T17:5x+08:00",
+   "done_note": "verdict exponent_clears_on_draws_alone: r2 clears the 0.80 floor at 480 draws (HEAD 0.890, TAIL 0.933, draws_needed 480/240), BUT the endpoint is still rising with draws (per-rung rise 240->480 median +9.8% HEAD / +11.7% TAIL, 6 of 7 rungs each, endpoint_converged=false) so the 5% quantile under-reads the boundary and E253/E254 session targets were optimistic: the same inversion on the 480-draw edges asks 1055 (HEAD) / 681 (TAIL) sessions against 408 available. E254's rule re-applied at 480 draws still says undetermined, reason changed to families-straddle (gap 0.270 = 2.7x tol).",
    "title": "is E254's undetermined exponent starved of DRAWS or of RUNGS?",
    "source": "E254 rebuilt the shuffled band inside one cell and could not name an exponent: head r2 0.67 against a 0.80 floor, while a 3-rung re-read at 200 draws gave head 0.200 vs tail 0.758. Two readings survive and they cost very different amounts: the min-over-60-shuffles endpoint is too noisy (more draws buys it), or seven rungs on 408 sessions cannot identify a slope at all (only a longer window buys it). Measure the endpoint spread as a function of draws at a FIXED rung set (60/120/240/480), propagate it into gamma's standard error, and publish the draw count at which the head family would clear the frozen 0.80 r2 floor -- or the statement that no draw count does, which closes the 'add more permutations' line for good."
+  },
+  {
+   "id": "E256-BAND-DRAW-CONTINUATION",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "status": "ready",
+   "runner": "scripts/e255_band_draw_starvation.py",
+   "target": "scripts/e255_band_draw_starvation.py (same runner, draws 960 and 1920)",
+   "runner_args": [
+    "--draws=960"
+   ],
+   "deliverable": "results/state_tilt/BANDDRAW-<cutoff>.json",
+   "priority": 3,
+   "owner": null,
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T18:05:00+08:00",
+   "entered_by": "bm-b r1282",
+   "title": "where does the band endpoint actually stop rising?",
+   "source": "E255 measured the same seven rungs at 60/120/240/480 draws and found the endpoint still rising at the top of the grid (per-rung rise 240->480 median +9.8% HEAD / +11.7% TAIL, 6 of 7 rungs each; endpoint_converged=false), so the exponent had not converged either (HEAD 0.3481->0.3155, TAIL 0.6468->0.5855) and every session target derived from the band is a floor. Extend to 960 and 1920 draws (the same prefix machinery, so the 480 point is re-read as a prefix and nothing is re-priced) and publish: (a) the rung-by-rung rise at each count, (b) the count at which no rung moves more than 2%, and (c) gamma and the session targets at that count -- or the statement that the increment per doubling is flat (a heavy tail, where no count converges), which closes the band-target line for good."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

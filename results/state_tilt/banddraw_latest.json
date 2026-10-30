@@ -1,0 +1,1805 @@
+{
+ "era": {
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sessions": 408
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "base_seed": 20261130,
+  "cell_label": "era_2025_now",
+  "draw_budget": 2000,
+  "draw_grid": [
+   60,
+   120,
+   240,
+   480
+  ],
+  "era": [
+   "2025-01-01",
+   null
+  ],
+  "families": [
+   "head",
+   "tail"
+  ],
+  "frozen_gamma": 0.5,
+  "gamma_tol": 0.1,
+  "mc_fraction_floor": 0.5,
+  "n_grid": [
+   100,
+   150,
+   200,
+   250,
+   300,
+   350,
+   408
+  ],
+  "n_min": 60,
+  "prefix_nesting": "one draw stream at max(draw_grid) per seed; every smaller draw count reads its own PREFIX, so the four ladders are one experiment read four ways",
+  "r2_floor": 0.8,
+  "seeds": 3,
+  "verdict_vocabulary": [
+   "draws_are_the_constraint",
+   "rungs_are_the_constraint",
+   "exponent_clears_on_draws_alone",
+   "undetermined"
+  ],
+  "what_is_not_done": [
+   "no coefficient is re-priced: only the shuffled band is rebuilt",
+   "no bootstrap, no bill, no adoption",
+   "the rung set is identical at every draw count"
+  ]
+ },
+ "generated": "2026-10-30T17:18:44",
+ "pinned_star": "sh588000",
+ "pinned_star_source": "e245_star_rule",
+ "rungs": [
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 1.098431319290805,
+     "edge_cross_per_seed": [
+      1.217800269585127,
+      1.098431319290805,
+      0.9207889502664747
+     ],
+     "edge_cross_seed_spread": 0.29701131931865243,
+     "edge_self": 0.8318524579761816,
+     "edge_self_per_seed": [
+      0.7741161209818304,
+      0.9509885631054391,
+      0.8318524579761816
+     ],
+     "edge_self_seed_spread": 0.17687244212360875,
+     "half_cross": 0.9677692814334198,
+     "half_self": 0.8345413280614092
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 1.098431319290805,
+     "edge_cross_per_seed": [
+      1.217800269585127,
+      1.098431319290805,
+      0.9207889502664747
+     ],
+     "edge_cross_seed_spread": 0.29701131931865243,
+     "edge_self": 0.8318524579761816,
+     "edge_self_per_seed": [
+      0.7741161209818304,
+      1.3409593792208416,
+      0.8318524579761816
+     ],
+     "edge_self_seed_spread": 0.5668432582390113,
+     "half_cross": 1.0645021163835766,
+     "half_self": 0.9025408224279996
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 1.098431319290805,
+     "edge_cross_per_seed": [
+      1.217800269585127,
+      1.098431319290805,
+      0.9207889502664747
+     ],
+     "edge_cross_seed_spread": 0.29701131931865243,
+     "edge_self": 0.9914323855771564,
+     "edge_self_per_seed": [
+      0.9914323855771564,
+      1.3409593792208416,
+      0.8318524579761816
+     ],
+     "edge_self_seed_spread": 0.5091069212446601,
+     "half_cross": 1.094545781150404,
+     "half_self": 0.9989193183756817
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 1.098431319290805,
+     "edge_cross_per_seed": [
+      1.217800269585127,
+      1.098431319290805,
+      0.9207889502664747
+     ],
+     "edge_cross_seed_spread": 0.29701131931865243,
+     "edge_self": 0.7247698323528692,
+     "edge_self_per_seed": [
+      0.5974826832622983,
+      0.7247698323528692,
+      0.7712189338651403
+     ],
+     "edge_self_seed_spread": 0.17373625060284204,
+     "half_cross": 0.9677692814334198,
+     "half_self": 0.7819531507889041
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2025-06-18",
+   "n_requested": 100,
+   "seeds": 3,
+   "sessions": 100,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.664878979374892,
+     "edge_cross_per_seed": [
+      0.664878979374892,
+      0.4985270000054211,
+      0.7369038707670856
+     ],
+     "edge_cross_seed_spread": 0.23837687076166453,
+     "edge_self": 0.7833801540637697,
+     "edge_self_per_seed": [
+      0.6818563985592002,
+      0.7833801540637697,
+      0.9860894864398191
+     ],
+     "edge_self_seed_spread": 0.30423308788061887,
+     "half_cross": 0.6351995440335274,
+     "half_self": 0.8286483340743487
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.664878979374892,
+     "edge_cross_per_seed": [
+      0.664878979374892,
+      0.6307124123325677,
+      0.7369038707670856
+     ],
+     "edge_cross_seed_spread": 0.10619145843451794,
+     "edge_self": 0.8412313831874618,
+     "edge_self_per_seed": [
+      0.6945761854053636,
+      0.8412313831874618,
+      0.9860894864398191
+     ],
+     "edge_self_seed_spread": 0.2915133010344555,
+     "half_cross": 0.7320784518309038,
+     "half_self": 0.8575739486361946
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.664878979374892,
+     "edge_cross_per_seed": [
+      0.664878979374892,
+      0.658421430336424,
+      0.7485587499654238
+     ],
+     "edge_cross_seed_spread": 0.09013731962899985,
+     "edge_self": 0.8776819181369684,
+     "edge_self_per_seed": [
+      0.8519294779118072,
+      0.8776819181369684,
+      0.9860894864398191
+     ],
+     "edge_self_seed_spread": 0.1341600085280119,
+     "half_cross": 0.7379058914300729,
+     "half_self": 0.928208518036993
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.664878979374892,
+     "edge_cross_per_seed": [
+      0.664878979374892,
+      0.4813054372181098,
+      0.7369038707670856
+     ],
+     "edge_cross_seed_spread": 0.2555984335489758,
+     "edge_self": 0.779233222438455,
+     "edge_self_per_seed": [
+      0.6818563985592002,
+      0.7833801540637697,
+      0.779233222438455
+     ],
+     "edge_self_seed_spread": 0.10152375550456949,
+     "half_cross": 0.6351995440335274,
+     "half_self": 0.7634986322654218
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2025-09-02",
+   "n_requested": 150,
+   "seeds": 3,
+   "sessions": 150,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.5800589194894508,
+     "edge_cross_per_seed": [
+      0.6106988987875748,
+      0.5800589194894508,
+      0.5680461170499826
+     ],
+     "edge_cross_seed_spread": 0.04265278173759213,
+     "edge_self": 0.8439737937205944,
+     "edge_self_per_seed": [
+      0.8439737937205944,
+      0.8871514151671868,
+      0.7717107188494741
+     ],
+     "edge_self_seed_spread": 0.1154406963177127,
+     "half_cross": 0.552400014569091,
+     "half_self": 0.8139282169006636
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.6870883384744128,
+     "edge_cross_per_seed": [
+      0.6870883384744128,
+      0.6133099077465131,
+      0.7256589450662171
+     ],
+     "edge_cross_seed_spread": 0.11234903731970403,
+     "edge_self": 0.8439737937205944,
+     "edge_self_per_seed": [
+      0.8439737937205944,
+      0.8871514151671868,
+      0.7845154301423674
+     ],
+     "edge_self_seed_spread": 0.10263598502481941,
+     "half_cross": 0.699384763292435,
+     "half_self": 0.8139282169006636
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.7353204940794128,
+     "edge_cross_per_seed": [
+      0.6877825377672409,
+      0.7353204940794128,
+      0.7510784332110878
+     ],
+     "edge_cross_seed_spread": 0.06329589544384695,
+     "edge_self": 0.8982085164632747,
+     "edge_self_per_seed": [
+      0.8982085164632747,
+      0.8871514151671868,
+      0.9407335034978099
+     ],
+     "edge_self_seed_spread": 0.05358208833062317,
+     "half_cross": 0.7350924473240611,
+     "half_self": 0.8520451496502912
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.5800589194894508,
+     "edge_cross_per_seed": [
+      0.6106988987875748,
+      0.5800589194894508,
+      0.5680461170499826
+     ],
+     "edge_cross_seed_spread": 0.04265278173759213,
+     "edge_self": 0.8439737937205944,
+     "edge_self_per_seed": [
+      0.8439737937205944,
+      0.8871514151671868,
+      0.7717107188494741
+     ],
+     "edge_self_seed_spread": 0.1154406963177127,
+     "half_cross": 0.5120073736256818,
+     "half_self": 0.7445948502234148
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2025-11-25",
+   "n_requested": 200,
+   "seeds": 3,
+   "sessions": 200,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.7041063399888525,
+     "edge_cross_per_seed": [
+      0.7041063399888525,
+      0.6909178576700812,
+      0.7762827747631311
+     ],
+     "edge_cross_seed_spread": 0.08536491709304994,
+     "edge_self": 0.7561395326055051,
+     "edge_self_per_seed": [
+      0.8681275624134088,
+      0.7010377742508254,
+      0.7561395326055051
+     ],
+     "edge_self_seed_spread": 0.16708978816258346,
+     "half_cross": 0.6394491665316016,
+     "half_self": 0.7278286433336434
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.7041063399888525,
+     "edge_cross_per_seed": [
+      0.7041063399888525,
+      0.6909178576700812,
+      0.7762827747631311
+     ],
+     "edge_cross_seed_spread": 0.08536491709304994,
+     "edge_self": 0.7681719066988224,
+     "edge_self_per_seed": [
+      0.8681275624134088,
+      0.7010377742508254,
+      0.7681719066988224
+     ],
+     "edge_self_seed_spread": 0.16708978816258346,
+     "half_cross": 0.6771227458234143,
+     "half_self": 0.733844830380302
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.7078258858528972,
+     "edge_cross_per_seed": [
+      0.7078258858528972,
+      0.6909178576700812,
+      0.7762827747631311
+     ],
+     "edge_cross_seed_spread": 0.08536491709304994,
+     "edge_self": 0.7681719066988224,
+     "edge_self_per_seed": [
+      0.8681275624134088,
+      0.7444284260194999,
+      0.7681719066988224
+     ],
+     "edge_self_seed_spread": 0.12369913639390895,
+     "half_cross": 0.712222435147084,
+     "half_self": 0.733844830380302
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.6909178576700812,
+     "edge_cross_per_seed": [
+      0.6671788728224433,
+      0.6909178576700812,
+      0.7762827747631311
+     ],
+     "edge_cross_seed_spread": 0.10910390194068786,
+     "edge_self": 0.7010377742508254,
+     "edge_self_per_seed": [
+      0.8681275624134088,
+      0.7010377742508254,
+      0.613236615569077
+     ],
+     "edge_self_seed_spread": 0.2548909468443318,
+     "half_cross": 0.6394491665316016,
+     "half_self": 0.5845975977392409
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2026-02-24",
+   "n_requested": 250,
+   "seeds": 3,
+   "sessions": 250,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.4813336997462623,
+     "edge_cross_per_seed": [
+      0.42897747376730144,
+      0.4813336997462623,
+      0.5821273233130697
+     ],
+     "edge_cross_seed_spread": 0.15314984954576827,
+     "edge_self": 0.5560699761353088,
+     "edge_self_per_seed": [
+      0.5505070874423981,
+      0.7818344041749494,
+      0.5560699761353088
+     ],
+     "edge_self_seed_spread": 0.23132731673255136,
+     "half_cross": 0.4889770068109754,
+     "half_self": 0.5421546509804616
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.5060689847977758,
+     "edge_cross_per_seed": [
+      0.5060689847977758,
+      0.4813336997462623,
+      0.5821273233130697
+     ],
+     "edge_cross_seed_spread": 0.10079362356680743,
+     "edge_self": 0.5704082002797016,
+     "edge_self_per_seed": [
+      0.5575756981136806,
+      0.7818344041749494,
+      0.5704082002797016
+     ],
+     "edge_self_seed_spread": 0.22425870606126885,
+     "half_cross": 0.5281311370963289,
+     "half_self": 0.5993163572169555
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.5821273233130697,
+     "edge_cross_per_seed": [
+      0.5229352239094738,
+      0.5948337317146831,
+      0.5821273233130697
+     ],
+     "edge_cross_seed_spread": 0.07189850780520934,
+     "edge_self": 0.6780218227621364,
+     "edge_self_per_seed": [
+      0.6780218227621364,
+      0.7818344041749494,
+      0.6388493424300166
+     ],
+     "edge_self_seed_spread": 0.14298506174493286,
+     "half_cross": 0.5912460254918164,
+     "half_self": 0.6911200305790712
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.47726642633377225,
+     "edge_cross_per_seed": [
+      0.41559263341597374,
+      0.47726642633377225,
+      0.5485477292199619
+     ],
+     "edge_cross_seed_spread": 0.13295509580398812,
+     "edge_self": 0.489512540324095,
+     "edge_self_per_seed": [
+      0.489512540324095,
+      0.4836921631227052,
+      0.5560699761353088
+     ],
+     "edge_self_seed_spread": 0.07237781301260365,
+     "half_cross": 0.45667498217672425,
+     "half_self": 0.5116573774213101
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2026-05-15",
+   "n_requested": 300,
+   "seeds": 3,
+   "sessions": 300,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.5251908570236544,
+     "edge_cross_per_seed": [
+      0.47838411356231664,
+      0.5614878334249787,
+      0.5251908570236544
+     ],
+     "edge_cross_seed_spread": 0.08310371986266202,
+     "edge_self": 0.6587039387119851,
+     "edge_self_per_seed": [
+      0.7176733851887087,
+      0.6190161364537383,
+      0.6587039387119851
+     ],
+     "edge_self_seed_spread": 0.09865724873497039,
+     "half_cross": 0.46704225593801807,
+     "half_self": 0.6367923013130818
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.5251908570236544,
+     "edge_cross_per_seed": [
+      0.47838411356231664,
+      0.5614878334249787,
+      0.5251908570236544
+     ],
+     "edge_cross_seed_spread": 0.08310371986266202,
+     "edge_self": 0.6587039387119851,
+     "edge_self_per_seed": [
+      0.7176733851887087,
+      0.6391614901310743,
+      0.6587039387119851
+     ],
+     "edge_self_seed_spread": 0.07851189505763445,
+     "half_cross": 0.49410746320537824,
+     "half_self": 0.6367923013130818
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.6151541978795335,
+     "edge_cross_per_seed": [
+      0.6357489681559132,
+      0.5614878334249787,
+      0.6151541978795335
+     ],
+     "edge_cross_seed_spread": 0.07426113473093454,
+     "edge_self": 0.7234701756425397,
+     "edge_self_per_seed": [
+      0.7234701756425397,
+      0.6391614901310743,
+      0.9394196260090162
+     ],
+     "edge_self_seed_spread": 0.3002581358779419,
+     "half_cross": 0.5422274352685932,
+     "half_self": 0.7029806295283132
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.5251908570236544,
+     "edge_cross_per_seed": [
+      0.47838411356231664,
+      0.5614878334249787,
+      0.5251908570236544
+     ],
+     "edge_cross_seed_spread": 0.08310371986266202,
+     "edge_self": 0.5976155921372696,
+     "edge_self_per_seed": [
+      0.5163910888268202,
+      0.6190161364537383,
+      0.5976155921372696
+     ],
+     "edge_self_seed_spread": 0.10262504762691815,
+     "half_cross": 0.4496201279940485,
+     "half_self": 0.5928095842667196
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2026-07-29",
+   "n_requested": 350,
+   "seeds": 3,
+   "sessions": 350,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.4388680774571212,
+     "edge_cross_per_seed": [
+      0.4388680774571212,
+      0.44838934826507443,
+      0.437665150723105
+     ],
+     "edge_cross_seed_spread": 0.010724197541969405,
+     "edge_self": 0.4951072330585032,
+     "edge_self_per_seed": [
+      0.4107354234204791,
+      0.4951072330585032,
+      0.5968430615022958
+     ],
+     "edge_self_seed_spread": 0.18610763808181674,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.5441080891068073
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.484739471097654,
+     "edge_cross_per_seed": [
+      0.5117985768518414,
+      0.44838934826507443,
+      0.484739471097654
+     ],
+     "edge_cross_seed_spread": 0.06340922858676695,
+     "edge_self": 0.5600988394037456,
+     "edge_self_per_seed": [
+      0.5463951192001119,
+      0.5600988394037456,
+      0.5968430615022958
+     ],
+     "edge_self_seed_spread": 0.05044794230218397,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.5505018148922912
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.484739471097654,
+     "edge_cross_per_seed": [
+      0.5117985768518414,
+      0.44838934826507443,
+      0.484739471097654
+     ],
+     "edge_cross_seed_spread": 0.06340922858676695,
+     "edge_self": 0.6254578022361084,
+     "edge_self_per_seed": [
+      0.6254578022361084,
+      0.5600988394037456,
+      0.6691479632878377
+     ],
+     "edge_self_seed_spread": 0.10904912388409205,
+     "half_cross": 0.522267328145978,
+     "half_self": 0.6098363694301121
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.4388680774571212,
+     "edge_cross_per_seed": [
+      0.4388680774571212,
+      0.44838934826507443,
+      0.3637704279828905
+     ],
+     "edge_cross_seed_spread": 0.08461892028218393,
+     "edge_self": 0.4548663297709018,
+     "edge_self_per_seed": [
+      0.4107354234204791,
+      0.4951072330585032,
+      0.4548663297709018
+     ],
+     "edge_self_seed_spread": 0.0843718096380241,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.4727212329347504
+    }
+   },
+   "family": "head",
+   "first": "2025-01-02",
+   "last": "2026-10-29",
+   "n_requested": 408,
+   "seeds": 3,
+   "sessions": 408,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.8634887028096612,
+     "edge_cross_per_seed": [
+      0.9965569196744962,
+      0.8634887028096612,
+      0.8228985723055466
+     ],
+     "edge_cross_seed_spread": 0.17365834736894958,
+     "edge_self": 1.5666792842884907,
+     "edge_self_per_seed": [
+      1.5666792842884907,
+      1.2862533281062325,
+      1.7401433587364479
+     ],
+     "edge_self_seed_spread": 0.4538900306302154,
+     "half_cross": 0.8043972141028362,
+     "half_self": 1.4001418939519732
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.9441808018010014,
+     "edge_cross_per_seed": [
+      0.9965569196744962,
+      0.8893765275663256,
+      0.9441808018010014
+     ],
+     "edge_cross_seed_spread": 0.10718039210817065,
+     "edge_self": 1.5666792842884907,
+     "edge_self_per_seed": [
+      1.5666792842884907,
+      1.2862533281062325,
+      1.7401433587364479
+     ],
+     "edge_self_seed_spread": 0.4538900306302154,
+     "half_cross": 0.8774589970216209,
+     "half_self": 1.4243286543526623
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.9965569196744962,
+     "edge_cross_per_seed": [
+      0.9965569196744962,
+      0.9218409331927082,
+      1.0103769765437527
+     ],
+     "edge_cross_seed_spread": 0.08853604335104448,
+     "edge_self": 1.5666792842884907,
+     "edge_self_per_seed": [
+      1.5666792842884907,
+      1.2865503875416826,
+      1.7401433587364479
+     ],
+     "edge_self_seed_spread": 0.45359297119476527,
+     "half_cross": 0.9309592851005126,
+     "half_self": 1.5538045513459964
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.8228985723055466,
+     "edge_cross_per_seed": [
+      0.9965569196744962,
+      0.7473730514636571,
+      0.8228985723055466
+     ],
+     "edge_cross_seed_spread": 0.24918386821083915,
+     "edge_self": 1.5605348278655884,
+     "edge_self_per_seed": [
+      1.5605348278655884,
+      0.6939274701914108,
+      1.7401433587364479
+     ],
+     "edge_self_seed_spread": 1.0462158885450372,
+     "half_cross": 0.7883850340863587,
+     "half_self": 1.3288958633626944
+    }
+   },
+   "family": "tail",
+   "first": "2026-05-28",
+   "last": "2026-10-29",
+   "n_requested": 100,
+   "seeds": 3,
+   "sessions": 100,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.6360206387020173,
+     "edge_cross_per_seed": [
+      0.8462487566146258,
+      0.544182010182044,
+      0.6360206387020173
+     ],
+     "edge_cross_seed_spread": 0.3020667464325818,
+     "edge_self": 0.6955402973726336,
+     "edge_self_per_seed": [
+      0.6955402973726336,
+      0.6656314996369458,
+      0.9055797902216897
+     ],
+     "edge_self_seed_spread": 0.23994829058474387,
+     "half_cross": 0.6994817911780253,
+     "half_self": 0.8416763909223378
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.812121007586589,
+     "edge_cross_per_seed": [
+      0.8462487566146258,
+      0.6032221274846461,
+      0.812121007586589
+     ],
+     "edge_cross_seed_spread": 0.24302662912997974,
+     "edge_self": 0.8336023137309565,
+     "edge_self_per_seed": [
+      0.7778787560146158,
+      0.8336023137309565,
+      0.9115178719334844
+     ],
+     "edge_self_seed_spread": 0.13363911591886868,
+     "half_cross": 0.7875319756203112,
+     "half_self": 1.038702890616859
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.812121007586589,
+     "edge_cross_per_seed": [
+      0.8462487566146258,
+      0.6192401252221422,
+      0.812121007586589
+     ],
+     "edge_cross_seed_spread": 0.22700863139248362,
+     "edge_self": 1.037931546703698,
+     "edge_self_per_seed": [
+      1.037931546703698,
+      0.9439733919454489,
+      1.2859852081164593
+     ],
+     "edge_self_seed_spread": 0.3420118161710104,
+     "half_cross": 0.7875319756203112,
+     "half_self": 1.1358611296950403
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.544182010182044,
+     "edge_cross_per_seed": [
+      0.4705953357742769,
+      0.544182010182044,
+      0.6360206387020173
+     ],
+     "edge_cross_seed_spread": 0.16542530292774038,
+     "edge_self": 0.6595707462700655,
+     "edge_self_per_seed": [
+      0.5602216112871674,
+      0.6656314996369458,
+      0.6595707462700655
+     ],
+     "edge_self_seed_spread": 0.10540988834977838,
+     "half_cross": 0.612741517439475,
+     "half_self": 0.7740170478796047
+    }
+   },
+   "family": "tail",
+   "first": "2026-03-10",
+   "last": "2026-10-29",
+   "n_requested": 150,
+   "seeds": 3,
+   "sessions": 150,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.5255191201583644,
+     "edge_cross_per_seed": [
+      0.38754894215500285,
+      0.5255191201583644,
+      0.7682813543063287
+     ],
+     "edge_cross_seed_spread": 0.38073241215132586,
+     "edge_self": 0.8208936244164765,
+     "edge_self_per_seed": [
+      0.8157466477551745,
+      0.8208936244164765,
+      0.9403618829350286
+     ],
+     "edge_self_seed_spread": 0.12461523517985418,
+     "half_cross": 0.6537001457343836,
+     "half_self": 0.8450310868247009
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.5255191201583644,
+     "edge_cross_per_seed": [
+      0.5016070633261963,
+      0.5255191201583644,
+      0.7682813543063287
+     ],
+     "edge_cross_seed_spread": 0.2666742909801324,
+     "edge_self": 0.8208936244164765,
+     "edge_self_per_seed": [
+      0.8157466477551745,
+      0.8208936244164765,
+      0.9403618829350286
+     ],
+     "edge_self_seed_spread": 0.12461523517985418,
+     "half_cross": 0.6825791118954097,
+     "half_self": 0.8450310868247009
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.6807452811642387,
+     "edge_cross_per_seed": [
+      0.6807452811642387,
+      0.676407549862962,
+      0.8225467007928747
+     ],
+     "edge_cross_seed_spread": 0.1461391509299127,
+     "edge_self": 1.0239218043185105,
+     "edge_self_per_seed": [
+      1.0239218043185105,
+      0.8208936244164765,
+      1.0427761165758924
+     ],
+     "edge_self_seed_spread": 0.2218824921594159,
+     "half_cross": 0.7097117851386827,
+     "half_self": 0.9719467911302258
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.5255191201583644,
+     "edge_cross_per_seed": [
+      0.3221709093204413,
+      0.5255191201583644,
+      0.7682813543063287
+     ],
+     "edge_cross_seed_spread": 0.4461104449858874,
+     "edge_self": 0.7610566682859212,
+     "edge_self_per_seed": [
+      0.7610566682859212,
+      0.8208936244164765,
+      0.7463683179161383
+     ],
+     "edge_self_seed_spread": 0.07452530650033817,
+     "half_cross": 0.6163545246203023,
+     "half_self": 0.7902373116273735
+    }
+   },
+   "family": "tail",
+   "first": "2025-12-08",
+   "last": "2026-10-29",
+   "n_requested": 200,
+   "seeds": 3,
+   "sessions": 200,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.5290382356899492,
+     "edge_cross_per_seed": [
+      0.4835710629792661,
+      0.7352320137548976,
+      0.5290382356899492
+     ],
+     "edge_cross_seed_spread": 0.25166095077563144,
+     "edge_self": 0.8569818502837181,
+     "edge_self_per_seed": [
+      0.7381041617332568,
+      0.8839018304049442,
+      0.8569818502837181
+     ],
+     "edge_self_seed_spread": 0.14579766867168742,
+     "half_cross": 0.5852667290289536,
+     "half_self": 0.9155892131076367
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.6158546407587503,
+     "edge_cross_per_seed": [
+      0.6158546407587503,
+      0.7352320137548976,
+      0.5487314422436965
+     ],
+     "edge_cross_seed_spread": 0.18650057151120103,
+     "edge_self": 0.8569818502837181,
+     "edge_self_per_seed": [
+      0.7381041617332568,
+      0.8839018304049442,
+      0.8569818502837181
+     ],
+     "edge_self_seed_spread": 0.14579766867168742,
+     "half_cross": 0.6352215418824178,
+     "half_self": 0.9575021279753182
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.7196310692707715,
+     "edge_cross_per_seed": [
+      0.6158546407587503,
+      0.7352320137548976,
+      0.7196310692707715
+     ],
+     "edge_cross_seed_spread": 0.11937737299614726,
+     "edge_self": 0.8839018304049442,
+     "edge_self_per_seed": [
+      0.9275139578702624,
+      0.8839018304049442,
+      0.8648852436410686
+     ],
+     "edge_self_seed_spread": 0.0626287142291938,
+     "half_cross": 0.7147868255376375,
+     "half_self": 0.9614538246539934
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.4835710629792661,
+     "edge_cross_per_seed": [
+      0.4835710629792661,
+      0.7352320137548976,
+      0.4829885463041984
+     ],
+     "edge_cross_seed_spread": 0.25224346745069914,
+     "edge_self": 0.8569818502837181,
+     "edge_self_per_seed": [
+      0.7381041617332568,
+      0.8839018304049442,
+      0.8569818502837181
+     ],
+     "edge_self_seed_spread": 0.14579766867168742,
+     "half_cross": 0.5463122348377083,
+     "half_self": 0.8000363164541184
+    }
+   },
+   "family": "tail",
+   "first": "2025-09-16",
+   "last": "2026-10-29",
+   "n_requested": 250,
+   "seeds": 3,
+   "sessions": 250,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.47446372692195393,
+     "edge_cross_per_seed": [
+      0.4788302425295422,
+      0.47446372692195393,
+      0.3732221986085897
+     ],
+     "edge_cross_seed_spread": 0.10560804392095252,
+     "edge_self": 0.7736673151945374,
+     "edge_self_per_seed": [
+      0.6608053016887598,
+      0.8405272699636365,
+      0.7736673151945374
+     ],
+     "edge_self_seed_spread": 0.17972196827487663,
+     "half_cross": 0.44924905100987467,
+     "half_self": 0.7177543526881893
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.5049225637548485,
+     "edge_cross_per_seed": [
+      0.4788302425295422,
+      0.5049225637548485,
+      0.5203259503269797
+     ],
+     "edge_cross_seed_spread": 0.0414957077974375,
+     "edge_self": 0.7736673151945374,
+     "edge_self_per_seed": [
+      0.7284846614201489,
+      1.1132469724460192,
+      0.7736673151945374
+     ],
+     "edge_self_seed_spread": 0.38476231102587033,
+     "half_cross": 0.5815045896883347,
+     "half_self": 0.799941499167347
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.5203259503269797,
+     "edge_cross_per_seed": [
+      0.606504941902458,
+      0.5049225637548485,
+      0.5203259503269797
+     ],
+     "edge_cross_seed_spread": 0.10158237814760951,
+     "edge_self": 0.8822847191374832,
+     "edge_self_per_seed": [
+      0.8822847191374832,
+      1.1132469724460192,
+      0.7736673151945374
+     ],
+     "edge_self_seed_spread": 0.33957965725148187,
+     "half_cross": 0.5849771133913715,
+     "half_self": 0.8183955024053996
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.3732221986085897,
+     "edge_cross_per_seed": [
+      0.4788302425295422,
+      0.33945888569301247,
+      0.3732221986085897
+     ],
+     "edge_cross_seed_spread": 0.13937135683652974,
+     "edge_self": 0.6145737742685762,
+     "edge_self_per_seed": [
+      0.5994921035005837,
+      0.6145737742685762,
+      0.7736673151945374
+     ],
+     "edge_self_seed_spread": 0.17417521169395367,
+     "half_cross": 0.44924905100987467,
+     "half_self": 0.6632376095351037
+    }
+   },
+   "family": "tail",
+   "first": "2025-07-01",
+   "last": "2026-10-29",
+   "n_requested": 300,
+   "seeds": 3,
+   "sessions": 300,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.41283826963532355,
+     "edge_cross_per_seed": [
+      0.4103139939115804,
+      0.6635134648307002,
+      0.41283826963532355
+     ],
+     "edge_cross_seed_spread": 0.25319947091911976,
+     "edge_self": 0.63624264038343,
+     "edge_self_per_seed": [
+      0.5806624227670777,
+      0.63624264038343,
+      0.6915693026415272
+     ],
+     "edge_self_seed_spread": 0.11090687987444947,
+     "half_cross": 0.4690308201941608,
+     "half_self": 0.5821155202189969
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.42782160899392463,
+     "edge_cross_per_seed": [
+      0.424818736911427,
+      0.6635134648307002,
+      0.42782160899392463
+     ],
+     "edge_cross_seed_spread": 0.23869472791927315,
+     "edge_self": 0.6708408867719856,
+     "edge_self_per_seed": [
+      0.5806624227670777,
+      0.6708408867719856,
+      0.6915693026415272
+     ],
+     "edge_self_seed_spread": 0.11090687987444947,
+     "half_cross": 0.47652248987346135,
+     "half_self": 0.687476397880078
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.47517424014860193,
+     "edge_cross_per_seed": [
+      0.47517424014860193,
+      0.6635134648307002,
+      0.42782160899392463
+     ],
+     "edge_cross_seed_spread": 0.23569185583677554,
+     "edge_self": 0.6915693026415272,
+     "edge_self_per_seed": [
+      0.938543271053926,
+      0.6708408867719856,
+      0.6915693026415272
+     ],
+     "edge_self_seed_spread": 0.2677023842819404,
+     "half_cross": 0.47907627247263374,
+     "half_self": 0.7837728051748798
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.41283826963532355,
+     "edge_cross_per_seed": [
+      0.37784614650154175,
+      0.4150827962192446,
+      0.41283826963532355
+     ],
+     "edge_cross_seed_spread": 0.03723664971770285,
+     "edge_self": 0.63624264038343,
+     "edge_self_per_seed": [
+      0.5806624227670777,
+      0.63624264038343,
+      0.6915693026415272
+     ],
+     "edge_self_seed_spread": 0.11090687987444947,
+     "half_cross": 0.41472936533111104,
+     "half_self": 0.5821155202189969
+    }
+   },
+   "family": "tail",
+   "first": "2025-04-10",
+   "last": "2026-10-29",
+   "n_requested": 350,
+   "seeds": 3,
+   "sessions": 350,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  },
+  {
+   "by_draws": {
+    "120": {
+     "draws": 120,
+     "edge_cross": 0.4388680774571212,
+     "edge_cross_per_seed": [
+      0.4388680774571212,
+      0.44838934826507443,
+      0.437665150723105
+     ],
+     "edge_cross_seed_spread": 0.010724197541969405,
+     "edge_self": 0.4951072330585032,
+     "edge_self_per_seed": [
+      0.4107354234204791,
+      0.4951072330585032,
+      0.5968430615022958
+     ],
+     "edge_self_seed_spread": 0.18610763808181674,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.5441080891068073
+    },
+    "240": {
+     "draws": 240,
+     "edge_cross": 0.484739471097654,
+     "edge_cross_per_seed": [
+      0.5117985768518414,
+      0.44838934826507443,
+      0.484739471097654
+     ],
+     "edge_cross_seed_spread": 0.06340922858676695,
+     "edge_self": 0.5600988394037456,
+     "edge_self_per_seed": [
+      0.5463951192001119,
+      0.5600988394037456,
+      0.5968430615022958
+     ],
+     "edge_self_seed_spread": 0.05044794230218397,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.5505018148922912
+    },
+    "480": {
+     "draws": 480,
+     "edge_cross": 0.484739471097654,
+     "edge_cross_per_seed": [
+      0.5117985768518414,
+      0.44838934826507443,
+      0.484739471097654
+     ],
+     "edge_cross_seed_spread": 0.06340922858676695,
+     "edge_self": 0.6254578022361084,
+     "edge_self_per_seed": [
+      0.6254578022361084,
+      0.5600988394037456,
+      0.6691479632878377
+     ],
+     "edge_self_seed_spread": 0.10904912388409205,
+     "half_cross": 0.522267328145978,
+     "half_self": 0.6098363694301121
+    },
+    "60": {
+     "draws": 60,
+     "edge_cross": 0.4388680774571212,
+     "edge_cross_per_seed": [
+      0.4388680774571212,
+      0.44838934826507443,
+      0.3637704279828905
+     ],
+     "edge_cross_seed_spread": 0.08461892028218393,
+     "edge_self": 0.4548663297709018,
+     "edge_self_per_seed": [
+      0.4107354234204791,
+      0.4951072330585032,
+      0.4548663297709018
+     ],
+     "edge_self_seed_spread": 0.0843718096380241,
+     "half_cross": 0.4764761757320616,
+     "half_self": 0.4727212329347504
+    }
+   },
+   "family": "tail",
+   "first": "2025-01-02",
+   "last": "2026-10-29",
+   "n_requested": 408,
+   "seeds": 3,
+   "sessions": 408,
+   "star": "sh588000",
+   "star_source": "pinned_to_whole_era"
+  }
+ ],
+ "rungs_missing": [],
+ "secondary_reads": {
+  "caveats": [
+   "the seed scatter is a 2-degree-of-freedom estimate (3 seeds) and it did NOT fall with more draws, so mc_over_fit is published as a flag, not as a precise ratio",
+   "draw counts above 480 were not measured",
+   "the two families are different experiments (fixed start vs fixed end), so a gamma gap is a statement that the ladder is not one object, not a measurement error",
+   "target_sessions_at_converged_gamma is a FLOOR while endpoint_converged is false: the endpoint is still rising with draws, and a larger edge asks for more sessions"
+  ],
+  "converged_draws": 480,
+  "e254_reason_at_converged_draws": "families straddle the line",
+  "e254_verdict_at_converged_draws": "exponent_undetermined_inside_the_cell",
+  "endpoint_convergence": {
+   "head": {
+    "endpoint_converged": false,
+    "median_rise_pct": 9.832374322399993,
+    "median_rise_pct_vs_60": 21.05945446556587,
+    "min_rise_pct": 0.0,
+    "rises_240_to_last": [
+     {
+      "edge_240": 0.8318524579761816,
+      "edge_last": 0.9914323855771564,
+      "n": 100,
+      "rise_pct": 19.183681681871533
+     },
+     {
+      "edge_240": 0.8412313831874618,
+      "edge_last": 0.8776819181369684,
+      "n": 150,
+      "rise_pct": 4.332997517448044
+     },
+     {
+      "edge_240": 0.8439737937205944,
+      "edge_last": 0.8982085164632747,
+      "n": 200,
+      "rise_pct": 6.426114548366556
+     },
+     {
+      "edge_240": 0.7681719066988224,
+      "edge_last": 0.7681719066988224,
+      "n": 250,
+      "rise_pct": 0.0
+     },
+     {
+      "edge_240": 0.5704082002797016,
+      "edge_last": 0.6780218227621364,
+      "n": 300,
+      "rise_pct": 18.866072126884934
+     },
+     {
+      "edge_240": 0.6587039387119851,
+      "edge_last": 0.7234701756425397,
+      "n": 350,
+      "rise_pct": 9.832374322399993
+     },
+     {
+      "edge_240": 0.5600988394037456,
+      "edge_last": 0.6254578022361084,
+      "n": 408,
+      "rise_pct": 11.669183764412148
+     }
+    ],
+    "rungs": 7,
+    "rungs_that_rose": 6,
+    "verdict_note": "endpoint still moving: the 5% quantile under-reads the boundary at small draw counts"
+   },
+   "tail": {
+    "endpoint_converged": false,
+    "median_rise_pct": 11.669183764412148,
+    "median_rise_pct_vs_60": 34.53949580714186,
+    "min_rise_pct": 0.0,
+    "rises_240_to_last": [
+     {
+      "edge_240": 1.5666792842884907,
+      "edge_last": 1.5666792842884907,
+      "n": 100,
+      "rise_pct": 0.0
+     },
+     {
+      "edge_240": 0.8336023137309565,
+      "edge_last": 1.037931546703698,
+      "n": 150,
+      "rise_pct": 24.511596190061482
+     },
+     {
+      "edge_240": 0.8208936244164765,
+      "edge_last": 1.0239218043185105,
+      "n": 200,
+      "rise_pct": 24.73258091708953
+     },
+     {
+      "edge_240": 0.8569818502837181,
+      "edge_last": 0.8839018304049442,
+      "n": 250,
+      "rise_pct": 3.141254404899449
+     },
+     {
+      "edge_240": 0.7736673151945374,
+      "edge_last": 0.8822847191374832,
+      "n": 300,
+      "rise_pct": 14.039290766165323
+     },
+     {
+      "edge_240": 0.6708408867719856,
+      "edge_last": 0.6915693026415272,
+      "n": 350,
+      "rise_pct": 3.0899153999519116
+     },
+     {
+      "edge_240": 0.5600988394037456,
+      "edge_last": 0.6254578022361084,
+      "n": 408,
+      "rise_pct": 11.669183764412148
+     }
+    ],
+    "rungs": 7,
+    "rungs_that_rose": 6,
+    "verdict_note": "endpoint still moving: the 5% quantile under-reads the boundary at small draw counts"
+   }
+  },
+  "family_gamma_gap": 0.2700688709741623,
+  "gamma_head": 0.31545189073364543,
+  "gamma_tail": 0.5855207617078078,
+  "gamma_tol": 0.1,
+  "target_b_self": -0.46348275881928647,
+  "target_sessions_at_converged_gamma": {
+   "head": 1055.0878776522998,
+   "tail": 680.7153905401127
+  },
+  "target_sessions_available": 408
+ },
+ "study": "E255",
+ "summary": {
+  "draws_needed": {
+   "head": 480,
+   "tail": 240
+  },
+  "era_sessions": 408,
+  "extrapolation": {
+   "head": {
+    "draws": 480,
+    "reaches_floor": true,
+    "reason": "the largest measured draw count already clears the floor"
+   },
+   "tail": {
+    "draws": 480,
+    "reaches_floor": true,
+    "reason": "the largest measured draw count already clears the floor"
+   }
+  },
+  "fit_scatter_by_draws": {
+   "head": {
+    "120": 0.11123662086194185,
+    "240": 0.09311291935821968,
+    "480": 0.04971323236100878,
+    "60": 0.14394715566752672
+   },
+   "tail": {
+    "120": 0.17868013972756902,
+    "240": 0.12131303197059329,
+    "480": 0.07022305480585923,
+    "60": 0.19051130765368365
+   }
+  },
+  "gamma_by_draws": {
+   "head": {
+    "120": 0.33661230539399595,
+    "240": 0.3025931701335673,
+    "480": 0.31545189073364543,
+    "60": 0.348092935027523
+   },
+   "tail": {
+    "120": 0.5947094974300635,
+    "240": 0.5821964860068236,
+    "480": 0.5855207617078078,
+    "60": 0.6467563021416926
+   }
+  },
+  "mc_fraction_floor": 0.5,
+  "mc_over_fit": {
+   "head": 3.810602381911123,
+   "tail": 2.0092375004195224
+  },
+  "pinned_star": "sh588000",
+  "r2_by_draws": {
+   "head": {
+    "120": 0.6468237133634253,
+    "240": 0.6786805316916995,
+    "480": 0.8895381489206747,
+    "60": 0.5390723169699619
+   },
+   "tail": {
+    "120": 0.6890139847840174,
+    "240": 0.8216299207340366,
+    "480": 0.9329061377881841,
+    "60": 0.6974275991072029
+   }
+  },
+  "r2_floor": 0.8,
+  "rungs": {
+   "head": 7,
+   "tail": 7
+  },
+  "rungs_missing": 0,
+  "secondary_reads": {
+   "caveats": [
+    "the seed scatter is a 2-degree-of-freedom estimate (3 seeds) and it did NOT fall with more draws, so mc_over_fit is published as a flag, not as a precise ratio",
+    "draw counts above 480 were not measured",
+    "the two families are different experiments (fixed start vs fixed end), so a gamma gap is a statement that the ladder is not one object, not a measurement error",
+    "target_sessions_at_converged_gamma is a FLOOR while endpoint_converged is false: the endpoint is still rising with draws, and a larger edge asks for more sessions"
+   ],
+   "converged_draws": 480,
+   "e254_reason_at_converged_draws": "families straddle the line",
+   "e254_verdict_at_converged_draws": "exponent_undetermined_inside_the_cell",
+   "endpoint_convergence": {
+    "head": {
+     "endpoint_converged": false,
+     "median_rise_pct": 9.832374322399993,
+     "median_rise_pct_vs_60": 21.05945446556587,
+     "min_rise_pct": 0.0,
+     "rises_240_to_last": [
+      {
+       "edge_240": 0.8318524579761816,
+       "edge_last": 0.9914323855771564,
+       "n": 100,
+       "rise_pct": 19.183681681871533
+      },
+      {
+       "edge_240": 0.8412313831874618,
+       "edge_last": 0.8776819181369684,
+       "n": 150,
+       "rise_pct": 4.332997517448044
+      },
+      {
+       "edge_240": 0.8439737937205944,
+       "edge_last": 0.8982085164632747,
+       "n": 200,
+       "rise_pct": 6.426114548366556
+      },
+      {
+       "edge_240": 0.7681719066988224,
+       "edge_last": 0.7681719066988224,
+       "n": 250,
+       "rise_pct": 0.0
+      },
+      {
+       "edge_240": 0.5704082002797016,
+       "edge_last": 0.6780218227621364,
+       "n": 300,
+       "rise_pct": 18.866072126884934
+      },
+      {
+       "edge_240": 0.6587039387119851,
+       "edge_last": 0.7234701756425397,
+       "n": 350,
+       "rise_pct": 9.832374322399993
+      },
+      {
+       "edge_240": 0.5600988394037456,
+       "edge_last": 0.6254578022361084,
+       "n": 408,
+       "rise_pct": 11.669183764412148
+      }
+     ],
+     "rungs": 7,
+     "rungs_that_rose": 6,
+     "verdict_note": "endpoint still moving: the 5% quantile under-reads the boundary at small draw counts"
+    },
+    "tail": {
+     "endpoint_converged": false,
+     "median_rise_pct": 11.669183764412148,
+     "median_rise_pct_vs_60": 34.53949580714186,
+     "min_rise_pct": 0.0,
+     "rises_240_to_last": [
+      {
+       "edge_240": 1.5666792842884907,
+       "edge_last": 1.5666792842884907,
+       "n": 100,
+       "rise_pct": 0.0
+      },
+      {
+       "edge_240": 0.8336023137309565,
+       "edge_last": 1.037931546703698,
+       "n": 150,
+       "rise_pct": 24.511596190061482
+      },
+      {
+       "edge_240": 0.8208936244164765,
+       "edge_last": 1.0239218043185105,
+       "n": 200,
+       "rise_pct": 24.73258091708953
+      },
+      {
+       "edge_240": 0.8569818502837181,
+       "edge_last": 0.8839018304049442,
+       "n": 250,
+       "rise_pct": 3.141254404899449
+      },
+      {
+       "edge_240": 0.7736673151945374,
+       "edge_last": 0.8822847191374832,
+       "n": 300,
+       "rise_pct": 14.039290766165323
+      },
+      {
+       "edge_240": 0.6708408867719856,
+       "edge_last": 0.6915693026415272,
+       "n": 350,
+       "rise_pct": 3.0899153999519116
+      },
+      {
+       "edge_240": 0.5600988394037456,
+       "edge_last": 0.6254578022361084,
+       "n": 408,
+       "rise_pct": 11.669183764412148
+      }
+     ],
+     "rungs": 7,
+     "rungs_that_rose": 6,
+     "verdict_note": "endpoint still moving: the 5% quantile under-reads the boundary at small draw counts"
+    }
+   },
+   "family_gamma_gap": 0.2700688709741623,
+   "gamma_head": 0.31545189073364543,
+   "gamma_tail": 0.5855207617078078,
+   "gamma_tol": 0.1,
+   "target_b_self": -0.46348275881928647,
+   "target_sessions_at_converged_gamma": {
+    "head": 1055.0878776522998,
+    "tail": 680.7153905401127
+   },
+   "target_sessions_available": 408
+  },
+  "seed_scatter_by_draws": {
+   "head": {
+    "120": 0.03930450469171389,
+    "240": 0.1717075948028324,
+    "480": 0.1894373616473612,
+    "60": 0.043917092849101516
+   },
+   "tail": {
+    "120": 0.14168867349731043,
+    "240": 0.13660521965683234,
+    "480": 0.14109479510994774,
+    "60": 0.2844564938124389
+   }
+  },
+  "verdict": "exponent_clears_on_draws_alone",
+  "verdict_reason": "both families clear the r2 floor inside the measured draw grid"
+ },
+ "tables": {
+  "head": {
+   "draws_needed": 480,
+   "extrapolation": {
+    "draws": 480,
+    "reaches_floor": true,
+    "reason": "the largest measured draw count already clears the floor"
+   },
+   "gamma_at_main": 0.348092935027523,
+   "r2_at_main": 0.5390723169699619,
+   "rows": [
+    {
+     "draws": 60,
+     "edge_hi": 0.8439737937205944,
+     "edge_lo": 0.4548663297709018,
+     "gamma": 0.348092935027523,
+     "gamma_per_seed": [
+      0.27168333901127006,
+      0.312708772852027,
+      0.3594553933249285
+     ],
+     "gamma_sd_seed": 0.043917092849101516,
+     "gamma_se": 0.14394715566752672,
+     "r2": 0.5390723169699619,
+     "resid_sd": 0.15974628460993517,
+     "rungs": 7
+    },
+    {
+     "draws": 120,
+     "edge_hi": 0.8439737937205944,
+     "edge_lo": 0.4951072330585032,
+     "gamma": 0.33661230539399595,
+     "gamma_per_seed": [
+      0.29907350915235503,
+      0.3752585736525167,
+      0.32039078499567614
+     ],
+     "gamma_sd_seed": 0.03930450469171389,
+     "gamma_se": 0.11123662086194185,
+     "r2": 0.6468237133634253,
+     "resid_sd": 0.12344555759268748,
+     "rungs": 7
+    },
+    {
+     "draws": 240,
+     "edge_hi": 0.8439737937205944,
+     "edge_lo": 0.5600988394037456,
+     "gamma": 0.3025931701335673,
+     "gamma_per_seed": [
+      0.18966174739661065,
+      0.5294045929337096,
+      0.3161558313960835
+     ],
+     "gamma_sd_seed": 0.1717075948028324,
+     "gamma_se": 0.09311291935821968,
+     "r2": 0.6786805316916995,
+     "resid_sd": 0.10333266293232954,
+     "rungs": 7
+    },
+    {
+     "draws": 480,
+     "edge_hi": 0.9914323855771564,
+     "edge_lo": 0.6254578022361084,
+     "gamma": 0.31545189073364543,
+     "gamma_per_seed": [
+      0.29941814764818847,
+      0.5377102809087126,
+      0.16347170873712585
+     ],
+     "gamma_sd_seed": 0.1894373616473612,
+     "gamma_se": 0.04971323236100878,
+     "r2": 0.8895381489206747,
+     "resid_sd": 0.05516958031434788,
+     "rungs": 7
+    }
+   ]
+  },
+  "tail": {
+   "draws_needed": 240,
+   "extrapolation": {
+    "draws": 480,
+    "reaches_floor": true,
+    "reason": "the largest measured draw count already clears the floor"
+   },
+   "gamma_at_main": 0.6467563021416926,
+   "r2_at_main": 0.6974275991072029,
+   "rows": [
+    {
+     "draws": 60,
+     "edge_hi": 1.5605348278655884,
+     "edge_lo": 0.4548663297709018,
+     "gamma": 0.6467563021416926,
+     "gamma_per_seed": [
+      0.6809564621928315,
+      0.16861477204743688,
+      0.6389724164809226
+     ],
+     "gamma_sd_seed": 0.2844564938124389,
+     "gamma_se": 0.19051130765368365,
+     "r2": 0.6974275991072029,
+     "resid_sd": 0.21142115266346884,
+     "rungs": 7
+    },
+    {
+     "draws": 120,
+     "edge_hi": 1.5666792842884907,
+     "edge_lo": 0.4951072330585032,
+     "gamma": 0.5947094974300635,
+     "gamma_per_seed": [
+      0.7326339139153827,
+      0.45491052145868055,
+      0.6425505792220173
+     ],
+     "gamma_sd_seed": 0.14168867349731043,
+     "gamma_se": 0.17868013972756902,
+     "r2": 0.6890139847840174,
+     "resid_sd": 0.19829143773420457,
+     "rungs": 7
+    },
+    {
+     "draws": 240,
+     "edge_hi": 1.5666792842884907,
+     "edge_lo": 0.5600988394037456,
+     "gamma": 0.5821964860068236,
+     "gamma_per_seed": [
+      0.6340004807092448,
+      0.40276681695060546,
+      0.6444042926587901
+     ],
+     "gamma_sd_seed": 0.13660521965683234,
+     "gamma_se": 0.12131303197059329,
+     "r2": 0.8216299207340366,
+     "resid_sd": 0.1346279198237772,
+     "rungs": 7
+    },
+    {
+     "draws": 480,
+     "edge_hi": 1.5666792842884907,
+     "edge_lo": 0.6254578022361084,
+     "gamma": 0.5855207617078078,
+     "gamma_per_seed": [
+      0.49406937073311485,
+      0.4381619249809484,
+      0.7056547714954382
+     ],
+     "gamma_sd_seed": 0.14109479510994774,
+     "gamma_se": 0.07022305480585923,
+     "r2": 0.9329061377881841,
+     "resid_sd": 0.07793048808206862,
+     "rungs": 7
+    }
+   ]
+  }
+ },
+ "title": "is the undetermined band exponent starved of draws or of rungs?",
+ "verdict": "exponent_clears_on_draws_alone",
+ "verdict_inputs": {
+  "draws_needed": {
+   "head": 480,
+   "tail": 240
+  },
+  "mc_fraction_floor": 0.5,
+  "r2_floor": 0.8
+ },
+ "verdict_reason": "both families clear the r2 floor inside the measured draw grid"
+}

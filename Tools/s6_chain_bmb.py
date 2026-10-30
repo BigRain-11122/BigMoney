@@ -229,6 +229,13 @@ LEGS = [
     # not a date, and refuses to claim an exponent the rungs do not carry. Reads the published
     # face only -- no panel, no refit -- and runs --verify. <1s.
     ("band_exponent_inside_cell", ["python", "scripts/e254_band_exponent_inside_cell.py", "verify"]),
+    # E255: E254 could not name the exponent and blamed either too few permutation draws or too
+    # few rungs. This leg measures the same seven rungs at 60/120/240/480 draws, reading every
+    # smaller count as the PREFIX of one 480-draw stream so the four ladders are one experiment.
+    # Result: the band endpoint is still rising with draws (a 5% quantile read off too few draws
+    # sits inside the true boundary), so the shortfall is DRAWS, not rungs -- and the exponent
+    # itself has not converged either. Reads the published face only, no panel, no refit. <1s.
+    ("band_draw_starvation", ["python", "scripts/e255_band_draw_starvation.py", "verify"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

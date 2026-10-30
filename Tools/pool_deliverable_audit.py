@@ -187,6 +187,28 @@ def load_pool(path):
         return json.load(fh)
 
 
+def runner_presence(entry, root=ROOT):
+    """Is the card's declared RUNNER on disk in THIS worktree?
+
+    r1282 measured why this matters: two ready cards (E272-ATLAS-COST0 / E272-ATLAS-COST20) declare
+    scripts/etf_book_phase_atlas.py, which exists at origin/main but NOT in this worktree -- the
+    runner landed on another machine's lineage and this tree is many commits behind. compute_audit
+    counted them as ready_ignitable=2 and the watermark read "pool ready 3", but nothing here can
+    ignite them: a card whose runner is absent is supply the machine cannot consume, and counting it
+    as ignitable makes an idle machine look idle by choice.
+    """
+    runner = (entry.get("runner") or "").strip()
+    if not runner:
+        return {"runner_reading": "RUNNER_UNDECLARED", "runner": None,
+                "runner_evidence": "the card declares no runner: only a bespoke worker can run it"}
+    path = os.path.join(root, runner.replace("/", os.sep))
+    if not os.path.exists(path):
+        return {"runner_reading": "RUNNER_ABSENT", "runner": runner,
+                "runner_evidence": "the declared runner is not on disk in this worktree"}
+    return {"runner_reading": "RUNNER_PRESENT", "runner": runner,
+            "runner_evidence": "runner is on disk"}
+
+
 def _entries(doc):
     e = doc.get("entries", doc)
     return e if isinstance(e, list) else list(e.values())
@@ -199,9 +221,13 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
         if entry.get("status") not in OPEN_STATUSES:
             continue
         rows.append(classify(entry, root))
+        rows[-1].update(runner_presence(entry, root))
     counts = {}
     for r in rows:
         counts[r["reading"]] = counts.get(r["reading"], 0) + 1
+    absent = [{"id": r["id"], "runner": r.get("runner")}
+              for r in rows if r.get("runner_reading") in ("RUNNER_ABSENT",
+                                                           "RUNNER_UNDECLARED")]
     return {
         "audit": "pool deliverable reconciliation",
         "ts": _now(),
@@ -215,6 +241,11 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
                      for r in rows if r["reading"] == "NO_FACE" and r.get("near_miss")],
         "prose_deliverables": [r["id"] for r in rows
                                if r.get("declared_prose_stripped")],
+        # r1282: open cards whose declared runner is not in this worktree -- supply the machine
+        # cannot consume, and the reason a "ready N" count can disagree with a cold CPU
+        "runner_absent": absent,
+        "runner_absent_ids": [a["id"] for a in absent],
+        "runnable_open_cards": len(rows) - len(absent),
         "cards": rows,
     }
 
@@ -428,6 +459,36 @@ def selftest():
         leg("L20 the prose card is closed, the misnamed one is not",
             sorted(c["id"] for c in c3["closed"]) == ["A-BURNED", "G-PROSE"],
             [c["id"] for c in c3["closed"]])
+
+        # L21-L23 (r1282): the card's RUNNER may not exist in this worktree. Two ready cards in
+        # the live pool declared scripts/etf_book_phase_atlas.py, which is on origin/main but not
+        # here -- so "ready N" outweighed what the machine could actually ignite. The presence
+        # reading must be per-card, must name the absent runner, and must not be confused with a
+        # missing deliverable (one is supply you cannot consume, the other is work not yet done).
+        make("results/x/runner_present.py", 1)
+        pool["entries"].append(
+            {"id": "I-RUNNER-ABSENT", "status": "ready", "runner": "results/x/runner_absent.py",
+             "deliverable": "results/x/NONE2-<cutoff>.json", "entered_at": entry_ts})
+        pool["entries"].append(
+            {"id": "J-RUNNER-PRESENT", "status": "ready", "runner": "results/x/runner_present.py",
+             "deliverable": "results/x/NONE3-<cutoff>.json", "entered_at": entry_ts})
+        with io.open(ppath, "w", encoding="utf-8") as fh:
+            json.dump(pool, fh, ensure_ascii=False)
+        face4 = audit(ppath, tmp)
+        by4 = {r["id"]: r for r in face4["cards"]}
+        leg("L21 a card whose declared runner is absent reads RUNNER_ABSENT",
+            by4["I-RUNNER-ABSENT"]["runner_reading"] == "RUNNER_ABSENT",
+            by4["I-RUNNER-ABSENT"]["runner_reading"])
+        leg("L22 a present runner is not blamed for an unborn face",
+            by4["J-RUNNER-PRESENT"]["runner_reading"] == "RUNNER_PRESENT"
+            and by4["J-RUNNER-PRESENT"]["reading"] == "NO_FACE",
+            [by4["J-RUNNER-PRESENT"]["runner_reading"], by4["J-RUNNER-PRESENT"]["reading"]])
+        leg("L23 the absent-runner ids are published and subtract from the runnable count",
+            "I-RUNNER-ABSENT" in face4["runner_absent_ids"]
+            and "J-RUNNER-PRESENT" not in face4["runner_absent_ids"]
+            and face4["runnable_open_cards"] == face4["open_cards"] - len(face4["runner_absent"]),
+            {"absent": face4["runner_absent_ids"], "runnable": face4["runnable_open_cards"],
+             "open": face4["open_cards"]})
         print("pool_deliverable_audit selftest: %d/%d legs pass"
               % (len(legs) - len(fails), len(legs)))
         for f in fails:

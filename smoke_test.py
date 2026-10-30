@@ -4362,6 +4362,104 @@ def main() -> int:
     except Exception as e:
         check("product: the band's own ladder decides the exponent, not the assumed one",
               False, repr(e)[:160])
+
+    # E255: E254 answered "undetermined" and left two readings alive -- too few permutation draws,
+    # or too few rungs. This leg guards the face that settles it. What can fabricate a claim here:
+    # a gamma its own rung table does not reproduce, an "endpoint converged" flag the rungs
+    # contradict, a "more draws move the answer" sentence on a face whose rungs never moved (the
+    # r1261 family: two equal curves may both be flat), and a verdict outside the frozen
+    # vocabulary. The activity leg is first, because it is the only one that proves the experiment
+    # happened at all.
+    try:
+        _bad55 = []
+        _p55 = os.path.join("results", "state_tilt", "banddraw_latest.json")
+        _f55 = None
+        if not os.path.exists(_p55):
+            _bad55.append("face missing: %s" % _p55)
+        else:
+            with io.open(_p55, encoding="utf-8") as _fh55:
+                _f55 = json.load(_fh55)
+        if _f55 is not None:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            try:
+                import e255_band_draw_starvation as _m55
+            except Exception as _e55:
+                _m55 = None
+                _bad55.append("module does not import: %r" % (_e55,))
+            _vocab55 = set(((_f55.get("frozen_spec") or {}).get("verdict_vocabulary")) or [])
+            if not _vocab55:
+                _bad55.append("the face publishes no frozen verdict vocabulary")
+            if _f55.get("verdict") not in _vocab55:
+                _bad55.append("verdict %r is outside the frozen vocabulary"
+                              % (_f55.get("verdict"),))
+            if _m55 is not None:
+                _v55 = _m55.verify()
+                for _p in (_v55.get("problems") or []):
+                    _bad55.append("verify: %s" % _p)
+                _conv = ((_f55.get("secondary_reads") or {}).get("endpoint_convergence") or {})
+                for _k in ("head", "tail"):
+                    _rows = [r for r in (_f55.get("rungs") or []) if r.get("family") == _k]
+                    _dmax = str(((_f55.get("frozen_spec") or {}).get("draw_grid") or [0])[-1])
+                    # ACTIVITY: the ladder must actually have been measured at more than one
+                    # draw count, and at least one rung must have moved -- otherwise
+                    # "more draws move the answer" is being printed on a static face.
+                    _moved = 0
+                    _read = 0
+                    for _r in _rows:
+                        _bd = _r.get("by_draws") or {}
+                        _lo = (_bd.get("60") or {}).get("edge_self")
+                        _hi = (_bd.get(_dmax) or {}).get("edge_self")
+                        _read += 1 if (_lo is not None and _hi is not None) else 0
+                        _moved += 1 if (_lo is not None and _hi is not None and _hi > _lo) else 0
+                    if _read < 3:
+                        _bad55.append("family %s has %d rungs with two draw counts (need >=3)"
+                                      % (_k, _read))
+                    elif _moved == 0:
+                        _bad55.append("family %s: no rung's edge moved between 60 and %s draws"
+                                      % (_k, _dmax))
+                    # the published convergence flag must match its own rise table
+                    _want_conv = bool(_conv.get(_k)) and all(
+                        x.get("rise_pct") is not None
+                        and x["rise_pct"] <= _m55.CONV_PCT
+                        for x in (_conv[_k].get("rises_240_to_last") or []))
+                    if bool(_conv.get(_k, {}).get("endpoint_converged")) != _want_conv:
+                        _bad55.append("family %s publishes endpoint_converged that its own rise "
+                                      "table does not support" % _k)
+                _sec = (_f55.get("secondary_reads") or {})
+                if _sec.get("e254_verdict_at_converged_draws") not in (
+                        "exponent_is_half_inside_the_cell", "exponent_is_lower_inside_the_cell",
+                        "exponent_is_higher_inside_the_cell",
+                        "exponent_undetermined_inside_the_cell"):
+                    _bad55.append("the secondary E254 verdict is outside E254's vocabulary: %r"
+                                  % (_sec.get("e254_verdict_at_converged_draws"),))
+                if not _sec.get("caveats"):
+                    _bad55.append("the face publishes no caveats beside its 3-seed scatter")
+            if not _f55.get("evidence_cutoff"):
+                _bad55.append("the face carries no evidence_cutoff")
+        _s55 = (_f55 or {}).get("summary") or {}
+        _r55 = (_s55.get("r2_by_draws") or {})
+        _g55 = (_s55.get("gamma_by_draws") or {})
+
+        def _curve(grp, fam):
+            body = (grp or {}).get(fam) or {}
+            return "n/a" if not body else " ".join(
+                "%s:%s" % (k, "n/a" if v is None else "%.3f" % v) for k, v in body.items())
+
+        check("product: draws move the band's LEVEL, not only its noise",
+              not _bad55, "; ".join(_bad55)[:220]
+              or "verdict %s; r2 %s | %s; gamma %s | %s; gap %s; converged %s"
+                 % (_s55.get("verdict"),
+                    _curve(_r55, "head"), _curve(_r55, "tail"),
+                    _curve(_g55, "head"), _curve(_g55, "tail"),
+                    "n/a" if (_s55.get("secondary_reads") or {}).get(
+                        "family_gamma_gap") is None
+                    else "%.3f" % _s55["secondary_reads"]["family_gamma_gap"],
+                    {k: v.get("endpoint_converged")
+                     for k, v in ((_s55.get("secondary_reads") or {})
+                                  .get("endpoint_convergence") or {}).items()}))
+    except Exception as e:
+        check("product: draws move the band's LEVEL, not only its noise",
+              False, repr(e)[:160])
     return _finish()
 
 
