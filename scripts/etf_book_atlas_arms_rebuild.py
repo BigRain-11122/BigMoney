@@ -43,6 +43,11 @@ GROUPS = {
     "buffer": ["buffer_k02", "buffer_k05", "buffer_k10", "buffer_k20", "buffer_k40"],
     "cost": ["cost0", "cost05", "cost20", "cost40"],
     "combo": ["base", "buffer_k05_cost20"],
+    # one group = one world. A knob family rebuilt on its own leaves the FAMILY split across
+    # two panels, and the arms audit (correctly) reports the older faces as stale -- so the
+    # pool unit is the whole set, not a third of it. r1179 lost one burn to learning this.
+    "all": ["base", "buffer_k02", "buffer_k05", "buffer_k10", "buffer_k20", "buffer_k40",
+            "cost0", "cost05", "cost20", "cost40", "buffer_k05_cost20"],
 }
 
 BASE_FACE = AUDIT.BASE
@@ -131,24 +136,33 @@ def run(group, workers=None):
         fh.write(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
     print("[rebuild] %s: %s (%s); audit --check rc=%d" % (group, kind, detail, audit_rc),
           flush=True)
-    return 0 if (kind == "ONE_WORLD" and audit_rc == 0) else 2
+    # the group's own coherence is what this unit promises; the family-level audit verdict is
+    # recorded, not fatal -- a partial rebuild of the family is honestly "stale", and making
+    # that fatal would fail every unit except the last one.
+    return 0 if kind == "ONE_WORLD" else 2
 
 
 def selftest():
     bad = []
-    # every group arm exists in the audit's own table, and every arm lands in exactly one group
+    # `all` is the pool unit (one family, one world); the knob groups are the parts it covers.
+    knob_groups = {g: arms for g, arms in GROUPS.items() if g != "all"}
     seen = {}
-    for group, arms in GROUPS.items():
+    for group, arms in knob_groups.items():
         for arm in arms:
             if arm != "base" and arm not in AUDIT.ARMS:
                 bad.append("%s/%s is not an arm the audit knows" % (group, arm))
             seen[arm] = seen.get(arm, 0) + 1
     for arm, n in seen.items():
         if n != 1:
-            bad.append("%s appears in %d groups" % (arm, n))
+            bad.append("%s appears in %d knob groups" % (arm, n))
+    covered = set()
+    for arms in knob_groups.values():
+        covered.update(arms)
+    if set(GROUPS["all"]) != covered:
+        bad.append("the all group is not exactly the union of the knob groups")
     for arm in AUDIT.ARMS:
-        if arm not in seen:
-            bad.append("%s is audited but no group rebuilds it" % arm)
+        if arm not in GROUPS["all"]:
+            bad.append("%s is audited but no rebuild covers it" % arm)
     # the knob in the command line is the knob the audit declares
     for arm in ("buffer_k05", "cost20", "buffer_k05_cost20", "cost0"):
         cmd = " ".join(command_for(arm))
