@@ -4743,3 +4743,38 @@ face publishes `band_without_shape` and puts the descriptive reading next to it,
 Implementation note: the numpy Newey-West fit is pinned to e235's pure-python estimator (beta and
 covariance diagonal to 1e-9) and the lag-0 row is pinned to E246's published row, so the ~8s face
 is the same estimator rather than a re-estimation.
+
+### E249 -- one column read on its own is not a channel: read every column before naming one (r1275 bm-b)
+
+E248 spent the design's own null and found exactly one crossing: lag 1, negative, -0.586 on the
+star column, against a family-wise line of 0.351. That result admits two readings a single-column
+row cannot separate -- that sleeve's flow is absorbed (a source with a negative sign), or a
+book-wide liquidity proxy mean-reverts and the star is simply the column the fit reads cleanest.
+The counterfactual is cheap and direct: refit the same lags-1..5 row with EACH member as the
+column of interest (the other four are the rows), give every column its own 200-draw shuffled
+band, and compare the column-to-column spread against the measured within-column band.
+
+The answer flips the naming. All five columns are negative: -0.233 / -0.238 / -0.280 / -0.303 /
+-0.586. Four of five clear their own nulls, and the spread across columns (0.352) is SMALLER than
+the median within-column band width (0.384) -- spread/band 0.92. The star is the largest of five
+negatives, not an outlier, so the negative one-session lead is a BOOK-WIDE number and no member
+may be billed for it. The star column reproduces E248's published -0.585816805073 to twelve
+digits, so the two faces are the same design and the difference is the question, not the data.
+
+Three reusable laws. (1) **One column, one reading**: "the star is negative" and "every column is
+negative" are the same number until the columns are read side by side; a channel claim needs the
+rest of the columns as controls, and the cheapest control is refitting with the column of interest
+moved. (2) **Specificity needs a separation test, not a crossing count**: "exactly one column
+crossed" is a statement about power. Two of the six cells here are labelled `column_specific` on
+the frozen vocabulary and both are low-power cells where the other columns carry the SAME sign and
+sit just inside their own nulls (gap/band 0.441 and 0.509 -- well inside one band width). The face
+keeps the frozen label and publishes a post-hoc separation block that reclassifies both to
+`book_wide_same_sign` and names them, so the vocabulary is not rewritten after the fact.
+(3) **Compare a spread to a measured band, never to a constant**: the same five readings are
+`multiple_crossings_differ` against a 0.05-wide band and `book_wide_same_sign` against a 0.60-wide
+one; the gate is pinned to move with the band it is handed.
+
+Implementation note: the estimator, the shuffled band and the star rule are E248/E245/E246
+verbatim (no re-estimation), the whole 6-cell five-column sweep takes ~14s, and a smoke leg
+re-derives every verdict from the published per-column numbers and pins the star's lag-1 to
+E248's published value to 1e-9.

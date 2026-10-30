@@ -3809,6 +3809,102 @@ def main() -> int:
     except Exception as e:
         check("product: the star lag band is re-derived from its own shuffled null",
               False, repr(e)[:160])
+    # E249: E248 read one column and named the star. This leg re-derives every cell from the
+    # five published column readings against their own bands, and refuses the trap the frozen
+    # vocabulary cannot express on its own -- a lone crossing whose gap to the other columns
+    # sits inside one band width is a power reading, and the post-hoc block must say so.
+    try:
+        _bad49 = []
+        _p49 = os.path.join("results", "state_tilt", "leadcounter_latest.json")
+        _f49 = None
+        if os.path.exists(_p49):
+            with io.open(_p49, encoding="utf-8") as _fh49:
+                _f49 = json.load(_fh49)
+        _cells49 = []
+        if not _f49:
+            _bad49.append("lead-counterfactual face missing")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            import e249_lead_counterfactual as _m49
+            _cells49 = [c for c in (_f49.get("cells") or []) if c.get("decided")]
+            _spec49 = _f49.get("frozen_spec") or {}
+            _vocab49 = set(_spec49.get("verdicts") or [])
+            if not _cells49:
+                _bad49.append("no decided cell")
+            for _c49 in _cells49:
+                _cols49 = _c49.get("columns_read") or {}
+                _d49 = _m49.derive_verdict(_cols49, _c49.get("star"))
+                if _d49["verdict"] != _c49.get("verdict"):
+                    _bad49.append("cell %s: numbers say %s, face says %s"
+                                  % (_c49.get("label"), _d49["verdict"], _c49.get("verdict")))
+                if _d49["verdict"] not in _vocab49:
+                    _bad49.append("cell %s verdict outside the frozen vocabulary"
+                                  % _c49.get("label"))
+                # every declared crossing must actually clear its OWN shuffled band
+                for _k49 in (_d49.get("crossed") or []):
+                    _band49 = (_cols49.get(_k49) or {}).get("band_lag1") or {}
+                    _b49 = (_cols49.get(_k49) or {}).get("b1")
+                    _fam49 = ((_cols49.get(_k49) or {}).get("band_family") or {}).get("max_abs")
+                    _line49 = abs(_fam49) if _fam49 is not None else None
+                    if _b49 is None or (_line49 is not None and abs(_b49) <= _line49):
+                        _bad49.append("cell %s declares %s crossing a band it does not clear"
+                                      % (_c49.get("label"), _k49))
+                    elif _line49 is None and (_band49.get("lo") is None
+                                              or _band49["lo"] < _b49 < _band49["hi"]):
+                        _bad49.append("cell %s declares %s outside a band it sits inside"
+                                      % (_c49.get("label"), _k49))
+                # the separation test: 'specific' must be a comparison, not an impression
+                if _d49["verdict"] == "column_specific":
+                    if _d49.get("specific_is_separated") is None:
+                        _bad49.append("cell %s calls a column specific without a separation "
+                                      "test" % _c49.get("label"))
+                    elif _d49["specific_is_separated"] is False:
+                        _ph49 = _m49.reclassify(_c49) or {}
+                        if _ph49.get("post_hoc") == "column_specific":
+                            _bad49.append("cell %s keeps a lone crossing it cannot separate"
+                                          % _c49.get("label"))
+                _sp49 = _d49.get("column_spread")
+                _w49 = _d49.get("median_within_band_width")
+                _ratio49 = _d49.get("spread_over_band")
+                if _sp49 is not None and _w49:
+                    if _ratio49 is None or abs(_ratio49 - _sp49 / _w49) > 1e-9:
+                        _bad49.append("cell %s publishes a spread/band its numbers do not "
+                                      "produce" % _c49.get("label"))
+            _ph49 = _f49.get("rollup_post_hoc") or {}
+            _moved49 = [m["cell"] for m in (_ph49.get("reclassified") or [])]
+            for _c49 in _cells49:
+                if _c49.get("verdict") == "column_specific" \
+                        and _c49.get("kind") in ("headline", "window", "era", "neighbour"):
+                    _r49 = _m49.reclassify(_c49) or {}
+                    if _r49.get("post_hoc") != "column_specific" \
+                            and _c49["label"] not in _moved49:
+                        _bad49.append("cell %s is reclassified but the post-hoc block does "
+                                      "not name it" % _c49["label"])
+            if _ph49.get("frozen_verdict_kept") != (_f49.get("rollup") or {}).get("verdict"):
+                _bad49.append("the post-hoc block does not carry the frozen rollup verdict")
+            # cross-face identity: the star's lag-1 here must be E248's published number
+            _rep49 = _f49.get("e248_reproduction_ref") or {}
+            if _rep49.get("available"):
+                _head49 = next((c for c in _cells49 if c.get("label") == "all_five"), {})
+                _star49 = _head49.get("star")
+                _b149 = ((_head49.get("decision") or {}).get("b1") or {}).get(_star49)
+                _ref49 = _rep49.get("e248_lag1")
+                if _b149 is None or _ref49 is None or abs(_b149 - _ref49) > 1e-9:
+                    _bad49.append("the star column reads %s but E248 published %s"
+                                  % (_b149, _ref49))
+            if not _f49.get("no_bill"):
+                _bad49.append("the face does not carry its no-bill line")
+        check("product: the negative lead is read column by column, not off one column",
+              not _bad49, "; ".join(_bad49)[:220]
+              or "verdict %s (post-hoc %s); cells %d; headline %s; spread/band %s"
+                 % ((_f49 or {}).get("rollup", {}).get("verdict"),
+                    ((_f49 or {}).get("rollup_post_hoc") or {}).get("verdict"),
+                    len(_cells49),
+                    ((_f49 or {}).get("summary") or {}).get("headline_verdict"),
+                    _r39((_f49 or {}).get("summary") or {}, "spread_over_band")))
+    except Exception as e:
+        check("product: the negative lead is read column by column, not off one column",
+              False, repr(e)[:160])
     return _finish()
 
 

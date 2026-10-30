@@ -23735,17 +23735,39 @@
    "evidence_cutoff": "2026-10-29",
    "id": "E249-NEGATIVE-LEAD-STAR-SPECIFIC",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "runner": "scripts/e249_lead_counterfactual.py",
    "runner_args": [
     "run"
    ],
    "source": "E248 spent the shuffled null and found exactly one crossing: lag 1, negative, -0.586 on the star column with the family-wise line at 0.351. A negative coefficient on the counterparty's PAST turnover has two readings and the star column cannot separate them: (a) that sleeve's flow is absorbed (its turnover spikes, the book's next move is smaller -- a source with a negative sign), or (b) every column pays the same lag-1 negative because a book-wide liquidity proxy mean-reverts and the star is simply the column the fit reads best. The counterfactual is direct: run the same 5-lag row with EACH member as the 'column of interest' against the other four, publish the lag-1 coefficient per column with its own 200-draw shuffled band, and ask whether the star's -0.586 is distinguishable from the other columns' lag-1 readings. If all five sit at the same negative value the lead is book-wide reversion and no sleeve may be billed for it; if the star is an outlier the channel is specific and E246/E248's naming survives with its sign inverted. Carry E248's family-wise band (max |coefficient| over lags 1..5 of every draw) and its refusal of cells under the session floor, and publish the column-to-column spread against the within-column band so 'specific' is a comparison and not an impression.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e249_lead_counterfactual.py (new runner)",
    "title": "is the negative one-session lead the star's own flow, or does every column pay it?",
-   "worker_class": "code-change"
+   "worker_class": "code-change",
+   "completed_at": "2026-10-30T11:33:23",
+   "result_ref": "results/state_tilt/LEADCOUNTER-2026-10-29.json + research/digests/DIGEST-20261030-r1275-e249-lead-counterfactual.md + knowledge/METHODOLOGY_ASSETS.md E249",
+   "outcome": "book_wide_same_sign, not star-specific: all five columns read negative (-0.233/-0.238/-0.280/-0.303/-0.586), spread 0.352 vs median within-column band 0.384 (ratio 0.92). The two column_specific era cells are power readings (gap/band 0.441/0.509), reclassified by the post-hoc separation block; spread/band never exceeds 1.01 in any cell. E248's -0.585816805 OR reproduced to 12 digits."
+  },
+  {
+   "id": "E250-BOOK-WIDE-LIQUIDITY-ECHO",
+   "title": "is the shared negative lag-1 lead the book's OWN lagged turnover?",
+   "status": "ready",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "priority": 3,
+   "owner": null,
+   "entered_at": "2026-10-30T11:33:23",
+   "entered_by": "bm-b r1275",
+   "evidence_cutoff": "2026-10-29",
+   "runner": "scripts/e250_book_turnover_echo.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e250_book_turnover_echo.py (new runner)",
+   "deliverable": "results/state_tilt/BOOKECHO-<cutoff>.json",
+   "source": "E249 read all five columns of the star row and found every one of them negative at comparable magnitude (spread 0.352 inside a 0.384 band), in every era. That kills the star-specific naming but leaves the mechanism unnamed: something makes each member's move respond negatively to any member's previous turnover. The obvious candidate is that the five columns are all proxies for ONE book-level quantity -- aggregate turnover -- and that the book's next move loadings on it. Test it directly: put the book's own lagged aggregate turnover (the sum over members, one value per session) in as the single regressor of interest against each member's move, with that member's own contemporaneous turnover controlled, and ask (a) is the aggregate lag-1 coefficient negative and does it clear a 200-draw shuffled band of the aggregate series, (b) does the per-column negative coefficient SHRINK toward zero once the aggregate is in the row -- if the columns are proxies for the aggregate, adding it should soak their coefficients up, and (c) what share of each column's lag-1 is accounted for. Publish the coefficient with and without the aggregate, the shrinkage per column, and decide with the same family-wise line E248/E249 used. Note the identification caveat up front: E240 found the aggregate turnover absorbed by date fixed effects in a cross-sectional design, so this is the TIME-SERIES version of the same regressor and the two must not be quoted against each other -- if date effects cannot be included, say so and publish the omitted-variable amplification factor the way E240 did. NO BILL."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

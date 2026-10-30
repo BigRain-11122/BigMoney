@@ -189,6 +189,11 @@ LEGS = [
     # its own HAC interval. This leg spends the same design's null instead -- 200 shuffled-star
     # draws, family-wise over lags 1..5 -- and needs ~8s because the fits run in numpy.
     ("star_lag_band", ["python", "scripts/e248_star_lag_band.py", "run"]),
+    # E249: E248 found exactly one crossing and named the star. This leg re-fits the same row
+    # with EACH member as the column of interest -- five readings of one design, each against
+    # its own 200-draw shuffled band -- because "the star is negative" and "every column is
+    # negative" are the same number until the columns are read side by side. ~14s.
+    ("lead_counterfactual", ["python", "scripts/e249_lead_counterfactual.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
