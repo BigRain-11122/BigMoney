@@ -37,6 +37,55 @@ CALL_DIGEST_WORDS = DIGEST_WORDS + ("sha", "hash", "checksum")
 VERDICT_ORDER = ("no_digest_anywhere", "module_has_digest_key_does_not",
                  "digest_argument_to_cache_read", "digest_in_key")
 
+# r1378: the sweep's own reading list, closed. Each row below was READ (not inferred)
+# and assigned a class; a row that does not appear here is published as "unread", so
+# the next round sees the work that is still owed instead of a list of names.
+# classes: fixed (was a defect, a digest now decides) / defect (serves a stale value) /\
+#          guarded (a live gate upstream refuses first) /\
+#          not_a_cache (memo or input panel, nothing crosses a tick) / refuses (already safe)
+TRIAGE = {
+    ("scripts/alloc_backtest.py", "run_cell_faces"): (
+        "fixed", "r1377: keyed on rule x panel digest, with a leg that perturbs the panel"),
+    ("scripts/etf_book_beta_menu.py", "selftest"): (
+        "not_a_cache", "the reader under test keys on inputs_sha256; the row is the fixture"),
+    ("scripts/etf_book_commodity_split.py", "run"): (
+        "refuses", "raises on a stored-vs-recomputed mismatch instead of serving it"),
+    ("scripts/regime_p0_slice5.py", "run"): (
+        "refuses", "same shape: identity gate raises, so no stale number leaves the function"),
+    ("scripts/cn_mkneutral_p1.py", "cmd_run"): (
+        "fixed", "r1378: the upstream panel gate pins the meta stamp and the last bar but not "
+                  "the bytes inside the window, so a same-date repair left cells AND null/sobol "
+                  "shards serving an old world; all three families now carry a panel digest"),
+    ("scripts/member_reinforce_p1.py", "cmd_run"): (
+        "guarded", "G-ANCHOR re-runs the anchor backtest on the live panel and refuses on drift "
+                   "BEFORE the cell cache is read (line ~458 vs ~495), so a moved panel stops the "
+                   "run; the cell key only decides resume-vs-recompute, not what the panel is"),
+    ("scripts/member_reinforce_p1.py", "finalize"): (
+        "not_a_cache", "`replays` is the in-memory dict the same run just built"),
+    ("scripts/fund_avail_notice.py", "status"): (
+        "not_a_cache", "counts which period files EXIST to publish a coverage number; it never "
+                       "reads a stored value back as today's answer"),
+    ("scripts/fund_avail_filing_event.py", "cross_face_agreement"): (
+        "not_a_cache", "`cache = {}` memo of faces loaded once per call"),
+    ("scripts/p1e_turnover_derive.py", "main"): (
+        "not_a_cache", "the .npy 'cache' is the INPUT panel it derives from, and the shape assert "
+                       "plus the stored-vs-derived gate refuse on disagreement"),
+    ("scripts/t73_mktcap_sidecar.py", "main"): (
+        "not_a_cache", "same input-panel shape as p1e; the recon gate raises on mismatch"),
+    ("scripts/alphagen_rl_p1.py", "selftest"): (
+        "not_a_cache", "`cache` is the autodiff activation dict returned by forward(); "
+                       "env_replay/eps_replay are determinism fixtures, not stored values"),
+    ("scripts/e39_panel_census.py", "selftest"): (
+        "not_a_cache", "`_caches` is a hand-written fixture dict"),
+    ("scripts/innovation_quota_w7.py", "cmd_selftest"): (
+        "not_a_cache", "`pos_cache` is the in-memory batch the same call built"),
+    ("scripts/innovation_quota_w9.py", "cmd_selftest"): (
+        "not_a_cache", "same in-memory batch memo"),
+    ("scripts/etf_book_ceo_page.py", "selftest"): (
+        "not_a_cache", "the cached replay lives in stress_table and keys on stress_cache_digest(); "
+                       "the selftest row is the digest function's own NAME, not a store"),
+}
+
 
 def _strs_in(node):
     out = []
@@ -153,10 +202,44 @@ def _digest_argument_evidence(fn, cacheish):
     return sorted(set(hits))
 
 
+def _memo_names(fn):
+    """Names bound to an in-memory literal -- the function's own scratch, not a cache.
+
+    ``cache = {}`` filled and read inside one call cannot hand a stale value to a later
+    tick: nothing crosses the process boundary. r1378 read the sweep's list and five of
+    the sixteen rows were exactly this shape, which is why the list never shrank. The
+    test is deliberately narrow -- an empty Dict/List/Set literal as the assignment value
+    -- so a cache loaded from disk can never be excused by it.
+    """
+    memo = set()
+    for sub in ast.walk(fn):
+        if isinstance(sub, ast.Assign):
+            v = sub.value
+            empty_lit = ((isinstance(v, ast.Dict) and not v.keys)
+                         or (isinstance(v, (ast.List, ast.Set)) and not v.elts)
+                         or (isinstance(v, ast.Call) and isinstance(v.func, ast.Name)
+                             and v.func.id in ("dict", "list", "set") and not v.args))
+            if empty_lit:
+                for t in sub.targets:
+                    if isinstance(t, ast.Name):
+                        memo.add(t.id.lower())
+    return memo
+
+
+def _ruler_names(names):
+    """Cache-ish names that are also digest-ish: the ruler, not the thing measured.
+
+    ``stress_cache_digest`` names the fingerprint of a replay; reading it as "a cache
+    store" is how a digest function's own selftest became a row (r1378).
+    """
+    return set(n for n in names if any(w in n for w in DIGEST_WORDS))
+
+
 def audit_source(text, path="<mem>"):
-    """(rows, ignored) for one python source. Deterministic; no filesystem, no clock."""
+    """(rows, ignored, dropped) for one source. Deterministic; no fs, no clock."""
     tree = ast.parse(text)
     ignored = 0
+    dropped = {"memo": 0, "ruler": 0}
     module_names = set(n.lower() for n in _names_in(tree))
     # `import hashlib` never creates a Name node -- without this the half-covered
     # fixture (a digest in the module, a date in the key) reads as "no digest anywhere",
@@ -178,6 +261,12 @@ def audit_source(text, path="<mem>"):
         # an audit of this shape unreadable.
         local_names = set(n.lower() for n in _names_in(fn))
         cacheish = set(n for n in local_names for w in CACHE_WORDS if w in n)
+        rulers = _ruler_names(cacheish)
+        cacheish = cacheish - rulers
+        memos = _memo_names(fn) & cacheish
+        cacheish = cacheish - memos
+        dropped["ruler"] += len(rulers)
+        dropped["memo"] += len(memos)
         if not cacheish or not _writes_json(fn):
             continue
         fields = _cache_key_fields(fn, cacheish)
@@ -205,8 +294,10 @@ def audit_source(text, path="<mem>"):
             "module_has_digest": has_digest,
             "on_mismatch": _mismatch_policy(fn, cacheish),
             "verdict": verdict,
+            "triage_class": TRIAGE.get((path, fn.name), ("unread", ""))[0],
+            "triage_why": TRIAGE.get((path, fn.name), ("unread", ""))[1],
         })
-    return rows, ignored
+    return rows, ignored, dropped
 
 
 def run(scan_dirs=SCAN_DIRS, root=ROOT):
@@ -214,6 +305,7 @@ def run(scan_dirs=SCAN_DIRS, root=ROOT):
     files = 0
     skipped = 0
     ignored = 0
+    dropped = {"memo": 0, "ruler": 0}
     for d in scan_dirs:
         full = os.path.join(root, d)
         if not os.path.isdir(full):
@@ -230,14 +322,17 @@ def run(scan_dirs=SCAN_DIRS, root=ROOT):
             rel = os.path.relpath(p, root).replace("\\", "/")
             try:
                 text = io.open(p, encoding="utf-8-sig", errors="replace").read()
-                rws, ign = audit_source(text, rel)
+                rws, ign, drp = audit_source(text, rel)
                 rows.extend(rws)
                 ignored += ign
+                for k in dropped:
+                    dropped[k] += drp[k]
                 files += 1
             except SyntaxError:
                 rows.append({"file": rel, "function": None, "line": None, "key_fields": [],
                              "module_has_digest": False, "on_mismatch": "unknown",
-                             "verdict": "unreadable"})
+                             "verdict": "unreadable", "triage_class": "unread",
+                             "triage_why": "file does not parse"})
     rows.sort(key=lambda r: (r["verdict"] == "digest_in_key",
                              r["on_mismatch"] == "refuses",
                              r["file"], r["line"] or 0))
@@ -246,6 +341,8 @@ def run(scan_dirs=SCAN_DIRS, root=ROOT):
         "files_skipped_scratch": skipped,
         "cache_names_that_never_compare": ignored,
         "cache_writers": len(rows),
+        "memo_names_dropped": dropped["memo"],
+        "ruler_names_dropped": dropped["ruler"],
     }
     for v in VERDICT_ORDER + ("unreadable",):
         summary[v] = sum(1 for r in rows if r["verdict"] == v)
@@ -262,17 +359,36 @@ def run(scan_dirs=SCAN_DIRS, root=ROOT):
         1 for r in rows
         if r["verdict"] not in ("digest_in_key", "digest_argument_to_cache_read")
         and r["on_mismatch"] in ("serves", "unknown"))
+    # r1378: the reading list is closed by CLASS, not by count. A row nobody has read
+    # is published as its own number -- that is the work still owed, and it cannot hide
+    # inside a total that mixes "read and fine" with "never looked at".
+    summary["read_by_class"] = {}
+    for r in rows:
+        c = r["triage_class"]
+        summary["read_by_class"][c] = summary["read_by_class"].get(c, 0) + 1
+    summary["rows_still_unread"] = sum(1 for r in rows if r["triage_class"] == "unread")
+    # r1378: a face that was flagged and then fixed (or found to be a memo) leaves the
+    # list entirely. Without this block its disappearance would be indistinguishable
+    # from "the scanner stopped seeing it", which is the wrong kind of quiet.
+    seen = set((r["file"], r["function"]) for r in rows)
+    closed = [{"file": f, "function": n, "class": c, "why": w}
+              for (f, n), (c, w) in sorted(TRIAGE.items()) if (f, n) not in seen]
+    summary["closed_by_reading"] = len(closed)
     out = {
         "evidence_cutoff": "2026-10-31",
         "method": "static AST read: function writes JSON + mentions cache/replay -> the literal "
                   "keys it reads back off the cache name, the digest names it hands to the call "
-                  "that returns the cache, and whether the module has any digest",
+                  "that returns the cache, and whether the module has any digest; names bound to "
+                  "an in-memory literal are memos and names that also carry a digest word are "
+                  "rulers (r1378), both dropped and counted",
         "limits": "a key listed here is not proof the cache is safe, a digest in the module is "
                   "not proof it reaches this key, and a digest passed as an argument is not "
-                  "proof it is compared -- rows are a reading list, not a verdict list",
+                  "proof it is compared -- the verdict is a reading order; the triage class is a "
+                  "person having read the function, and 'unread' means exactly that",
         "scan_dirs": list(scan_dirs),
         "summary": summary,
         "rows": rows,
+        "closed_by_reading": closed,
     }
     return out
 
@@ -346,19 +462,49 @@ def build(x):
 '''
 
 
+_FIX_MEMO = '''
+import json
+def build(x):
+    cache = {}
+    cache["bar"] = x["bar"]
+    if cache.get("bar") == x["bar"]:
+        return cache
+    json.dump({"bar": 1}, open("c.json", "w"))
+'''
+
+_FIX_MEMO_PLUS_PERSIST = '''
+import json
+def build(x):
+    cache = {}
+    cache["k"] = x["bar"]
+    cached = _load()
+    if cached.get("bar") == x["bar"]:
+        return cached
+    json.dump({"bar": 1}, open("c.json", "w"))
+'''
+
+_FIX_RULER = '''
+import json
+def build(x):
+    replay_digest = panel_digest(x)
+    if replay_digest == x["sha"]:
+        return replay_digest
+    json.dump({"d": replay_digest}, open("c.json", "w"))
+'''
+
 def selftest():
     ok = []
 
     def chk(name, cond):
         ok.append((name, bool(cond)))
 
-    bad, _ig1 = audit_source(_FIX_BAD, "bad.py")
+    bad, _ig1, _d1 = audit_source(_FIX_BAD, "bad.py")
     chk("L1 a date-keyed cache writer is listed", len(bad) == 1 and bad[0]["function"] == "build")
     chk("L2 its key fields are the literal keys it reads back",
         bad[0]["key_fields"] == ["bar", "capital"])
     chk("L3 and it is flagged as having no digest", bad[0]["verdict"] == "no_digest_anywhere")
 
-    good, _ig2 = audit_source(_FIX_GOOD, "good.py")
+    good, _ig2, _d2 = audit_source(_FIX_GOOD, "good.py")
     chk("L4 a digest-keyed writer is listed too (the audit does not only find defects)",
         len(good) == 1)
     chk("L5 digest in the key field wins", good[0]["verdict"] == "digest_in_key")
@@ -375,18 +521,18 @@ def selftest():
         live["summary"]["cache_writers"] == len(live["rows"]))
     chk("L11 the run is deterministic", run()["rows"] == live["rows"])
 
-    half, _ig3 = audit_source(_FIX_HALF, "half.py")
+    half, _ig3, _d3 = audit_source(_FIX_HALF, "half.py")
     chk("L12 a module that hashes something else does NOT cover a date-keyed cache",
         len(half) == 1 and half[0]["verdict"] == "module_has_digest_key_does_not")
 
-    refus, _ig4 = audit_source(_FIX_REFUSES, "ref.py")
+    refus, _ig4, _d4 = audit_source(_FIX_REFUSES, "ref.py")
     chk("L13 a gate that raises on mismatch is told apart from one that serves a cache",
         len(refus) == 1 and refus[0]["on_mismatch"] == "refuses")
     chk("L14 and the date-keyed cache that SERVES is the one called serves",
         bad[0]["on_mismatch"] == "serves")
 
     # r1377: a digest handed to the call that reads the cache is evidence, not a key.
-    arg, _ig5 = audit_source(_FIX_ARG, "arg.py")
+    arg, _ig5, _d5 = audit_source(_FIX_ARG, "arg.py")
     argrow = [r for r in arg if r["function"] == "build"]
     chk("L15 a digest passed into the cache reader has its own verdict",
         len(argrow) == 1 and argrow[0]["verdict"] == "digest_argument_to_cache_read")
@@ -394,7 +540,7 @@ def selftest():
         "sha" in (argrow[0]["digest_argument_names"] if argrow else []))
     chk("L17 such a row still needs confirmation, so it stays in the conservative total",
         any(r["verdict"] == "digest_argument_to_cache_read" for r in arg))
-    unused, _ig6 = audit_source(_FIX_ARG_UNUSED, "unused.py")
+    unused, _ig6, _d6 = audit_source(_FIX_ARG_UNUSED, "unused.py")
     chk("L18 a cache read with no digest in the call stays a defect",
         len(unused) == 1 and unused[0]["verdict"] == "no_digest_anywhere")
     # The live row this round fixed must now carry the weaker-but-real evidence.
@@ -402,6 +548,26 @@ def selftest():
     chk("L19 the alloc cell checkpoint no longer reads as digest-free",
         len(alloc) == 1 and alloc[0]["verdict"] == "digest_argument_to_cache_read"
         and "data_sha" in alloc[0]["digest_argument_names"])
+
+    # r1378: the sweep never shrank because most rows were not caches at all.
+    memo, _ig7, _d7 = audit_source(_FIX_MEMO, "memo.py")
+    chk("L20 a dict filled and read inside one call is a memo, not a cache",
+        memo == [] and _d7["memo"] >= 1)
+    both, _ig8, _d8 = audit_source(_FIX_MEMO_PLUS_PERSIST, "both.py")
+    chk("L21 a persisted cache next to a memo is still a row (the rule does not over-drop)",
+        len(both) == 1 and both[0]["key_fields"] == ["bar"] and _d8["memo"] == 1)
+    ruler, _ig9, _d9 = audit_source(_FIX_RULER, "ruler.py")
+    chk("L22 a cache-ish name that also carries a digest word is the ruler",
+        ruler == [] and _d9["ruler"] >= 1)
+    classes = set(r["triage_class"] for r in live["rows"])
+    chk("L23 every live row carries a reading class, and the classes add up",
+        classes <= {"fixed", "defect", "guarded", "not_a_cache", "refuses", "unread"}
+        and sum(live["summary"]["read_by_class"].values()) == len(live["rows"]))
+    chk("L24 the rows read this round are named as closed, not silently dropped",
+        any(c["file"] == "scripts/cn_mkneutral_p1.py" and c["class"] == "fixed"
+            for c in live["closed_by_reading"])
+        and any(c["file"] == "scripts/member_reinforce_p1.py" and c["class"] == "guarded"
+                for c in live["closed_by_reading"]))
 
     npass = sum(1 for _, c in ok if c)
     for name, c in ok:

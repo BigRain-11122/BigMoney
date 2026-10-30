@@ -451,8 +451,78 @@ def load_panel():
          "adv_exec": adv_exec, "slip_exec": slip_exec,
          "sse_j": sse_v[p0:p_end + 1], "ma200_j": ma200[p0:p_end + 1],
          "ew": ew, "face": face}
+    P["panel_sha"] = panel_digest(P)
     return P, None
 
+
+
+# ------------------------------------------------- panel identity (r1378)
+# The gate in load_panel pins the meta stamp, the last bar and the shape. None of
+# those move when a print INSIDE the window is repaired (E289 flip class), so a
+# cell / null shard / sobol shard written before the repair would keep serving the
+# old world -- the exact defect r1377 fixed one lane over. Every checkpoint below
+# now carries a digest of the data it was computed from, and a checkpoint written
+# before this change carries none, which reads as MISS (unreadable is never clean).
+
+def panel_digest(P):
+    """sha256[:16] of the numbers simulate()/null_draw() consume."""
+    import hashlib
+    h = hashlib.sha256()
+    jc = P["jcal"]
+    jc = jc.values if hasattr(jc, "values") else jc
+    h.update(np.ascontiguousarray(np.asarray(jc, dtype="datetime64[D]")).tobytes())
+    for key in ("close_u", "amt_u", "ic_c", "ic_o", "sse_j", "ma200_j", "ew"):
+        a = np.array(P[key], dtype=np.float64, copy=True)
+        # one NaN spelling: a payload built by a different route must not move the
+        # digest, and a real repaired print must still move it
+        a[np.isnan(a)] = -9.87654321e300
+        h.update(b"\x00" + key.encode())
+        h.update(np.ascontiguousarray(a).tobytes())
+    h.update(b"\x00ic_bar")
+    h.update(np.ascontiguousarray(np.asarray(P["ic_bar"], dtype=bool)).tobytes())
+    return h.hexdigest()[:16]
+
+
+def load_cell_ck(ck_json, panel_sha):
+    """Resume a cell only if it was computed from THIS panel (r1378)."""
+    if not os.path.exists(ck_json):
+        return None
+    npy = ck_json.replace(".json", ".npy")
+    if not os.path.exists(npy):
+        return None
+    try:
+        blob = json.load(open(ck_json, encoding="utf-8"))
+    except Exception:
+        return None
+    got = blob.get("panel_sha")
+    if got is None:
+        print("  cell %s: no panel digest in the checkpoint -> re-simulating"
+              % os.path.basename(ck_json), flush=True)
+        return None
+    if got != panel_sha:
+        print("  cell %s: panel moved %s -> %s -> re-simulating"
+              % (os.path.basename(ck_json), got, panel_sha), flush=True)
+        return None
+    blob["series"] = np.load(npy)
+    return blob
+
+
+def _shard_stamp_ok(dirpath, panel_sha):
+    """Shards carry their panel identity in one sidecar per directory."""
+    p = os.path.join(dirpath, "_panel.json")
+    if not os.path.exists(p):
+        return False
+    try:
+        return json.load(open(p, encoding="utf-8")).get("panel_sha") == panel_sha
+    except Exception:
+        return False
+
+
+def _write_shard_stamp(dirpath, panel_sha):
+    os.makedirs(dirpath, exist_ok=True)
+    with open(os.path.join(dirpath, "_panel.json"), "w", encoding="utf-8") as fh:
+        json.dump({"panel_sha": panel_sha, "schema": "cn-mkneutral-shard/v2"},
+                  fh, ensure_ascii=False, indent=1)
 
 # ------------------------------------------------------------------ masks
 def rev_masks(P, W):
@@ -692,9 +762,10 @@ def run_cell_nulls(P, cell, n_ks):
     """K=2000 own-null pool, sharded npy checkpoints (idempotent)."""
     per = K_NULLS // NULL_SHARDS
     vals = np.empty(K_NULLS)
+    reuse = _shard_stamp_ok(NULL_DIR, P["panel_sha"])
     for s in range(NULL_SHARDS):
         path = os.path.join(NULL_DIR, f"{cell['name']}_shard{s}.npy")
-        if os.path.exists(path):
+        if reuse and os.path.exists(path):
             vals[s * per:(s + 1) * per] = np.load(path)
             continue
         chunk = np.empty(per)
@@ -705,6 +776,7 @@ def run_cell_nulls(P, cell, n_ks):
         vals[s * per:(s + 1) * per] = chunk
         print(f"  nulls {cell['name']} shard {s + 1}/{NULL_SHARDS} done",
               flush=True)
+    _write_shard_stamp(NULL_DIR, P["panel_sha"])
     cov = {"mu": round(float(vals.mean()), 4),
            "sigma": round(float(vals.std(ddof=1)), 4),
            "n_values": int(len(vals))}
@@ -871,9 +943,10 @@ def run_sobol(P, mask_cache):
     params = sobol_params()
     per = SOBOL_N // SOBOL_SHARDS
     rows_all = np.empty((SOBOL_N, 7))
+    reuse = _shard_stamp_ok(SOBOL_DIR, P["panel_sha"])
     for s in range(SOBOL_SHARDS):
         path = os.path.join(SOBOL_DIR, f"shard{s}.npy")
-        if os.path.exists(path):
+        if reuse and os.path.exists(path):
             rows_all[s * per:(s + 1) * per] = np.load(path)
             continue
         chunk = np.empty((per, 7))
@@ -894,6 +967,7 @@ def run_sobol(P, mask_cache):
         np.save(path, chunk)
         rows_all[s * per:(s + 1) * per] = chunk
         print(f"  sobol shard {s + 1}/{SOBOL_SHARDS} done", flush=True)
+    _write_shard_stamp(SOBOL_DIR, P["panel_sha"])
     desc = {}
     for nm, arr in (("sharpe", rows_all[:, 3]), ("mean_daily", rows_all[:, 4]),
                     ("max_dd", rows_all[:, 5])):
@@ -1101,6 +1175,8 @@ def cmd_run():
           f"({time.time() - t0:.0f}s)", flush=True)
     os.makedirs(CELL_DIR, exist_ok=True)
     os.makedirs(NULL_DIR, exist_ok=True)
+    panel_sha = P.get("panel_sha") or panel_digest(P)
+    print(f"panel digest {panel_sha}", flush=True)
 
     mask_cache = {}
     cells_out = {}
@@ -1115,10 +1191,8 @@ def cmd_run():
         cells_out[name] = {}
         for face in ("x1", "x2"):
             ck = os.path.join(CELL_DIR, f"{name}_{face}.json")
-            if os.path.exists(ck):
-                blob = json.load(open(ck, encoding="utf-8"))
-                blob["series"] = np.load(ck.replace(".json", ".npy"))
-            else:
+            blob = load_cell_ck(ck, panel_sha)
+            if blob is None:
                 r = simulate(P, masks, n_ks, beta_mode=cell["beta_mode"],
                              cost_mult=2.0 if face == "x2" else 1.0,
                              want_audit=True)
@@ -1133,6 +1207,7 @@ def cmd_run():
                                   if k not in ("series", "n_rebalances",
                                                "n_entries")}}
                 dump = {k: v for k, v in blob.items() if k != "series"}
+                dump["panel_sha"] = panel_sha
                 with open(ck + ".tmp", "w", encoding="utf-8") as fh:
                     json.dump(dump, fh, ensure_ascii=False, indent=1)
                 os.replace(ck + ".tmp", ck)
@@ -1620,6 +1695,46 @@ def cmd_selftest():
                   and r[2] in SOBOL_CAP_GRID
                   and np.isfinite(r[3]) and np.isfinite(r[5])
                   for r in rows1))
+
+        # ---- r1378: a checkpoint carries the panel it was computed from.
+        # The gate in load_panel pins the meta stamp, the last bar and the shape; a
+        # repaired print inside the window moves all three of nothing, so resume must
+        # ask the data question. These legs perturb the panel directly.
+        _sha = P["panel_sha"]
+        check("panel digest is deterministic", panel_digest(P) == _sha)
+        _fi = tuple(np.argwhere(np.isfinite(P["close_u"]))[0])
+        _P2 = dict(P)
+        _P2["close_u"] = np.array(P["close_u"], copy=True)
+        _P2["close_u"][_fi] = _P2["close_u"][_fi] * 1.0000001
+        check("one repaired print moves the digest",
+              panel_digest(_P2) != _sha)
+        _P3 = dict(P)
+        _P3["amt_u"] = np.array(P["amt_u"], copy=True)
+        _P3["amt_u"][0, 0] = np.nan
+        _P4 = dict(P)
+        _P4["amt_u"] = np.array(P["amt_u"], copy=True)
+        _P4["amt_u"][0, 0] = float("nan")
+        check("the NaN spelling alone does NOT move the digest",
+              panel_digest(_P3) == panel_digest(_P4))
+        _ck = os.path.join(CELL_DIR, "LEGCELL_x1.json")
+        np.save(_ck.replace(".json", ".npy"), np.zeros(3))
+        with open(_ck, "w", encoding="utf-8") as fh:
+            json.dump({"panel_sha": _sha, "stats": {}}, fh)
+        check("cell: the same panel resumes",
+              load_cell_ck(_ck, _sha) is not None)
+        check("cell: a moved panel re-simulates instead of serving",
+              load_cell_ck(_ck, "0" * 16) is None)
+        with open(_ck, "w", encoding="utf-8") as fh:
+            json.dump({"stats": {}}, fh)
+        check("cell: a checkpoint with no digest is a MISS, never clean",
+              load_cell_ck(_ck, _sha) is None)
+        _write_shard_stamp(NULL_DIR, _sha)
+        check("shard stamp: the same panel reuses its shards",
+              _shard_stamp_ok(NULL_DIR, _sha))
+        check("shard stamp: a moved panel recomputes them",
+              not _shard_stamp_ok(NULL_DIR, "0" * 16))
+        check("shard stamp: a directory that never had one recomputes",
+              not _shard_stamp_ok(os.path.join(CELL_DIR, "never"), _sha))
 
         # ---- D6 stub (real member files read repo paths; hermetic tmp
         # has none -- arg face, SECTOR precedent)

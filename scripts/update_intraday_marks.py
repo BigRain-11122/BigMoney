@@ -664,7 +664,21 @@ def _selftest() -> bool:
     ok &= takeover_decision(False, TAKEOVER_STALE_MIN)[0] is False
     ok_t, why_t = takeover_decision(True, TAKEOVER_STALE_MIN)
     ok &= ok_t is True and "silent" in why_t
-    ok &= _machine_id() != ""                                   # identity read
+    # S17: the identity reader is tested on a FIXTURE, not on this checkout.
+    # fleet/machine.json is a per-host untracked file, so asserting `!= ""` against
+    # the live one makes a fresh clone or a detached worktree unable to pass smoke
+    # (r1135 class: the leg assumed a deployment layout). What the function promises
+    # is two states, and both are testable anywhere.
+    _mid = tempfile.mkdtemp(prefix="marks_id_")
+    try:
+        os.makedirs(os.path.join(_mid, "fleet"), exist_ok=True)
+        with open(os.path.join(_mid, "fleet", "machine.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"machine_id": "bm-x"}, fh)
+        ok &= _machine_id(root=_mid) == "bm-x"
+        ok &= _machine_id(root=os.path.join(_mid, "absent")) == ""   # never a guess
+    finally:
+        shutil.rmtree(_mid, ignore_errors=True)
     return bool(ok)
 
 

@@ -1,25 +1,34 @@
 {
  "evidence_cutoff": "2026-10-31",
- "method": "static AST read: function writes JSON + mentions cache/replay -> the literal keys it reads back off the cache name, the digest names it hands to the call that returns the cache, and whether the module has any digest",
- "limits": "a key listed here is not proof the cache is safe, a digest in the module is not proof it reaches this key, and a digest passed as an argument is not proof it is compared -- rows are a reading list, not a verdict list",
+ "method": "static AST read: function writes JSON + mentions cache/replay -> the literal keys it reads back off the cache name, the digest names it hands to the call that returns the cache, and whether the module has any digest; names bound to an in-memory literal are memos and names that also carry a digest word are rulers (r1378), both dropped and counted",
+ "limits": "a key listed here is not proof the cache is safe, a digest in the module is not proof it reaches this key, and a digest passed as an argument is not proof it is compared -- the verdict is a reading order; the triage class is a person having read the function, and 'unread' means exactly that",
  "scan_dirs": [
   "scripts",
   "Tools"
  ],
  "summary": {
-  "files_scanned": 698,
-  "files_skipped_scratch": 1464,
+  "files_scanned": 699,
+  "files_skipped_scratch": 1460,
   "cache_names_that_never_compare": 83,
-  "cache_writers": 16,
-  "no_digest_anywhere": 8,
-  "module_has_digest_key_does_not": 6,
+  "cache_writers": 12,
+  "memo_names_dropped": 45,
+  "ruler_names_dropped": 6,
+  "no_digest_anywhere": 6,
+  "module_has_digest_key_does_not": 4,
   "digest_argument_to_cache_read": 1,
   "digest_in_key": 1,
   "unreadable": 0,
-  "serves_without_digest": 13,
+  "serves_without_digest": 9,
   "refuses_on_mismatch": 2,
   "digest_argument_evidence": 1,
-  "serves_with_no_digest_and_no_argument": 12
+  "serves_with_no_digest_and_no_argument": 8,
+  "read_by_class": {
+   "fixed": 1,
+   "not_a_cache": 9,
+   "refuses": 2
+  },
+  "rows_still_unread": 0,
+  "closed_by_reading": 4
  },
  "rows": [
   {
@@ -33,7 +42,9 @@
    ],
    "module_has_digest": true,
    "on_mismatch": "serves",
-   "verdict": "digest_argument_to_cache_read"
+   "verdict": "digest_argument_to_cache_read",
+   "triage_class": "fixed",
+   "triage_why": "r1377: keyed on rule x panel digest, with a leg that perturbs the panel"
   },
   {
    "file": "scripts/alphagen_rl_p1.py",
@@ -43,17 +54,9 @@
    "digest_argument_names": [],
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
-  },
-  {
-   "file": "scripts/cn_mkneutral_p1.py",
-   "function": "cmd_run",
-   "line": 1089,
-   "key_fields": [],
-   "digest_argument_names": [],
-   "module_has_digest": true,
-   "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
+   "verdict": "module_has_digest_key_does_not",
+   "triage_class": "not_a_cache",
+   "triage_why": "`cache` is the autodiff activation dict returned by forward(); env_replay/eps_replay are determinism fixtures, not stored values"
   },
   {
    "file": "scripts/e39_panel_census.py",
@@ -65,27 +68,9 @@
    "digest_argument_names": [],
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
-  },
-  {
-   "file": "scripts/etf_book_ceo_page.py",
-   "function": "selftest",
-   "line": 1368,
-   "key_fields": [],
-   "digest_argument_names": [],
-   "module_has_digest": true,
-   "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
-  },
-  {
-   "file": "scripts/fund_avail_filing_event.py",
-   "function": "cross_face_agreement",
-   "line": 208,
-   "key_fields": [],
-   "digest_argument_names": [],
-   "module_has_digest": false,
-   "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
+   "verdict": "module_has_digest_key_does_not",
+   "triage_class": "not_a_cache",
+   "triage_why": "`_caches` is a hand-written fixture dict"
   },
   {
    "file": "scripts/fund_avail_notice.py",
@@ -95,7 +80,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "not_a_cache",
+   "triage_why": "counts which period files EXIST to publish a coverage number; it never reads a stored value back as today's answer"
   },
   {
    "file": "scripts/innovation_quota_w7.py",
@@ -108,7 +95,9 @@
    "digest_argument_names": [],
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
+   "verdict": "module_has_digest_key_does_not",
+   "triage_class": "not_a_cache",
+   "triage_why": "`pos_cache` is the in-memory batch the same call built"
   },
   {
    "file": "scripts/innovation_quota_w9.py",
@@ -121,7 +110,9 @@
    "digest_argument_names": [],
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not"
+   "verdict": "module_has_digest_key_does_not",
+   "triage_class": "not_a_cache",
+   "triage_why": "same in-memory batch memo"
   },
   {
    "file": "scripts/member_reinforce_p1.py",
@@ -134,24 +125,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
-  },
-  {
-   "file": "scripts/member_reinforce_p1.py",
-   "function": "cmd_run",
-   "line": 420,
-   "key_fields": [
-    "n_trades",
-    "ser",
-    "sharpe_full",
-    "stats",
-    "x1",
-    "x2"
-   ],
-   "digest_argument_names": [],
-   "module_has_digest": false,
-   "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "not_a_cache",
+   "triage_why": "`replays` is the in-memory dict the same run just built"
   },
   {
    "file": "scripts/p1e_turnover_derive.py",
@@ -164,7 +140,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "not_a_cache",
+   "triage_why": "the .npy 'cache' is the INPUT panel it derives from, and the shape assert plus the stored-vs-derived gate refuse on disagreement"
   },
   {
    "file": "scripts/t73_mktcap_sidecar.py",
@@ -177,7 +155,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "not_a_cache",
+   "triage_why": "same input-panel shape as p1e; the recon gate raises on mismatch"
   },
   {
    "file": "scripts/etf_book_commodity_split.py",
@@ -187,7 +167,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "refuses",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "refuses",
+   "triage_why": "raises on a stored-vs-recomputed mismatch instead of serving it"
   },
   {
    "file": "scripts/regime_p0_slice5.py",
@@ -200,7 +182,9 @@
    "digest_argument_names": [],
    "module_has_digest": false,
    "on_mismatch": "refuses",
-   "verdict": "no_digest_anywhere"
+   "verdict": "no_digest_anywhere",
+   "triage_class": "refuses",
+   "triage_why": "same shape: identity gate raises, so no stale number leaves the function"
   },
   {
    "file": "scripts/etf_book_beta_menu.py",
@@ -212,7 +196,35 @@
    "digest_argument_names": [],
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "digest_in_key"
+   "verdict": "digest_in_key",
+   "triage_class": "not_a_cache",
+   "triage_why": "the reader under test keys on inputs_sha256; the row is the fixture"
+  }
+ ],
+ "closed_by_reading": [
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_run",
+   "class": "fixed",
+   "why": "r1378: the upstream panel gate pins the meta stamp and the last bar but not the bytes inside the window, so a same-date repair left cells AND null/sobol shards serving an old world; all three families now carry a panel digest"
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "selftest",
+   "class": "not_a_cache",
+   "why": "the cached replay lives in stress_table and keys on stress_cache_digest(); the selftest row is the digest function's own NAME, not a store"
+  },
+  {
+   "file": "scripts/fund_avail_filing_event.py",
+   "function": "cross_face_agreement",
+   "class": "not_a_cache",
+   "why": "`cache = {}` memo of faces loaded once per call"
+  },
+  {
+   "file": "scripts/member_reinforce_p1.py",
+   "function": "cmd_run",
+   "class": "guarded",
+   "why": "G-ANCHOR re-runs the anchor backtest on the live panel and refuses on drift BEFORE the cell cache is read (line ~458 vs ~495), so a moved panel stops the run; the cell key only decides resume-vs-recompute, not what the panel is"
   }
  ]
 }

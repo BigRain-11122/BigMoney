@@ -2075,6 +2075,13 @@ def main() -> int:
             # and a gate that raises must not be reported as one that serves.
             ("audit: which caches serve a live value on a key with no digest",
              "Tools/live_value_cache_audit.py", ["selftest"]),
+            # r1378: the same question one lane over. cn_mkneutral_p1 gates its panel on the
+            # asset STAMP, the last bar and the shape -- a repaired print inside the window moves
+            # none of them, so cells and null/sobol shards were resumable against a world that no
+            # longer existed. The suite pins the digest (a repaired print moves it, a NaN spelling
+            # does not), the cell MISS on a moved panel, and the shard sidecar stamp.
+            ("product: cn_mkneutral cells/shard checkpoints carry the panel digest",
+             "scripts/cn_mkneutral_p1.py", ["selftest"]),
             # r1377: the audit's first row fixed, plus the leg its own new verdict demands --
             # the digest reaches the cache read as an argument, so a leg that perturbs the
             # panel and demands a recompute is the only thing that proves it is compared.

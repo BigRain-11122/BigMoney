@@ -7110,3 +7110,36 @@ from the label, never a replacement for it.
 Pos: scripts/etf_book_phase_atlas_arms.py `world_of`/`coherence`/`withhold_verdicts` (+7 selftest
 legs, 109 -> 117) / scripts/etf_book_rule_null.py `label_of` / pool unit
 ATLAS-ARMS-ONEWORLD-20261031-ALL (the rebuild that returns the labels).
+||||||| parent of 4cef66836d (round 1378: a gate that pins the stamp of a panel is not pinning the panel, and a memo is not a cache)
+
+## E296 A gate that pins the STAMP of a panel is not pinning the panel, and a memo is not a cache (2026-10-31 r1378 bm-c)
+
+Two questions from one round of reading a list.
+
+First. `cn_mkneutral_p1` gates its panel on the asset meta stamp, the last bar, the shape and a
+universe re-derive -- four facts about the FILE. A repaired print inside the window moves none of
+them (the E289 flip class rewrites a price and keeps the date), so the eleven cell checkpoints and
+the null/sobol shard pools were still resumable against a world that no longer existed. The fix is
+the r1377 rule one lane over: `panel_digest(P)` over the numbers `simulate()`/`null_draw()`
+consume (joint calendar, close, amount, the IC close/open pair, the SSE bridge, EW passive, the IC
+bar mask), carried in the cell JSON and in one `_panel.json` sidecar per shard directory. A
+checkpoint written before this change carries no digest and reads as MISS -- unreadable is never
+clean, and the cost of having been wrong is one recompute.
+
+Second, and the reusable half. The sweep r1376 built to answer "which faces cache a live value"
+produced sixteen rows and never shrank, because most rows were not caches: `cache = {}` filled and
+read inside one call is the function's own scratch (five rows), and `stress_cache_digest` is the
+RULER, not the thing measured (one row). Two syntactic rules -- a name bound to an empty literal
+is a memo, a name that also carries a digest word is a ruler -- drop 45 memo names and 6 rulers
+and leave twelve decisions. The remaining twelve were then READ, one line each, and published with
+a class (`fixed` / `guarded` / `refuses` / `not_a_cache`) plus the sentence that justifies it; a
+row nobody has read is published as `unread`, so the work still owed is its own number instead of
+hiding inside a total. A face that leaves the list is named in `closed_by_reading` -- otherwise
+"fixed" and "the scanner stopped seeing it" look identical. Two of the twelve were real:
+`member_reinforce_p1` is `guarded` because G-ANCHOR re-runs the anchor backtest on the live panel
+and refuses BEFORE the cell cache is read, and `p1e`/`t73` are input panels whose recon gate
+raises. Reading the list is the work; the count was never the deliverable.
+
+Pos: scripts/cn_mkneutral_p1.py `panel_digest()` / `load_cell_ck()` / `_shard_stamp_ok()`
+(selftest 51/51) / Tools/live_value_cache_audit.py `_memo_names()` / `_ruler_names()` / `TRIAGE`
+(selftest 24/24) / results/live_value_cache_audit.json (`closed_by_reading`).

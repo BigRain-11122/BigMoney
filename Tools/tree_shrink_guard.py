@@ -263,6 +263,24 @@ def _read_norm(path: str) -> str:
         return f.read().decode("utf-8", errors="replace").replace("\r\n", "\n")
 
 
+def _hooks_dir(repo: str) -> str:
+    """Where git actually looks for hooks in THIS checkout.
+
+    A linked worktree has `.git` as a FILE pointing at the real git dir, so
+    `repo/.git/hooks` does not exist there and a correct installation reads as
+    BROKEN (r1378: the same class as legs that assert on a per-host untracked
+    file -- the check assumed a primary checkout). `git rev-parse --git-path
+    hooks` answers for both layouts.
+    """
+    try:
+        out = _git(repo, "rev-parse", "--git-path", "hooks").strip()
+    except RuntimeError:
+        out = ""
+    if out:
+        return out if os.path.isabs(out) else os.path.join(repo, out)
+    return os.path.join(repo, ".git", "hooks")
+
+
 def cmd_check_gates(args) -> int:
     here = os.path.dirname(os.path.abspath(__file__))
     repo = os.path.dirname(here)
@@ -270,7 +288,7 @@ def cmd_check_gates(args) -> int:
 
     canon = os.path.join(here, "git-hooks", "tree-shrink-gate.sh")
     hook_src = os.path.join(here, "git-hooks", "pre-push")
-    installed = os.path.join(repo, ".git", "hooks", "pre-push")
+    installed = os.path.join(_hooks_dir(repo), "pre-push")
     for p in (canon, hook_src):
         if not os.path.isfile(p):
             problems.append(f"missing committed gate file: {p}")
