@@ -5385,3 +5385,47 @@ Evidence: `scripts/e277_tight_multiplier_floor.py` (selftest 23/23, verify 0 pro
 ends, 0 below 1.0, 39 exactly 1.0; counterfactual 5% band m=0.922), S6 leg `tight_multiplier_floor`
 (rc=0, 0.11s), smoke leg `the tight multiplier floor is the band build` (1/1 PASS standalone), digest
 `research/digests/DIGEST-20261031-r1302-e277-tight-multiplier-floor.md`.
+
+## E279 -- a zero-spread tail is a hole in a NORMALISED ruler: censused by base count it is the floor landing where the percentile has least support, so publish "unmeasurable" and never a default
+
+E272 published one ruler for both tails: normalised gap = gap_pct / that tail's own spread.  The
+ruler is undefined when the spread is exactly 0, and cross:200 was exactly that (p05 = 1.0000 on all
+four windows), stranding 2 published rows.  "One group can be bad luck" is decidable without a new
+draw: census every published arm-table group at both tails and ask whether the zeros cluster.
+
+Census (16 arm rows -> 4 (leg, base) groups x 4 cells): **3 of 4 groups measurable at both tails.  The
+single zero spread is cross:200's tight tail, and all four of its cells sit on the 1.0 floor.**  The
+floor's reach is what explains it, not the group: **8 of 16 published tight values are exactly 1.0,
+and 7 of those 8 are at base 200** (base 60 contributes 1).  A thin shuffle across few base counts
+leaves the percentile with almost no support, so its cells collapse onto the floor together -- the
+hole is E277's build property showing up where resolution is lowest, and a 60-window group never
+spreads to zero at all.  The wide tail is clean: no zero anywhere, smallest spread 9.08%.
+
+So the reading is not "the ruler broke on one group"; it is "the tight tail's spread is a function of
+the shuffle depth, and at base 200 it can reach exactly 0".  The published policy carries that:
+a group whose tail spread is 0 is flagged, and a row in it stays unmeasured rather than being given a
+default; a group flagged on BOTH tails has no usable ruler at all.
+
+Two reusable pieces:
+
+> normalise only by a quantity that can be nonzero, and publish the degenerate branch as
+> UNMEASURABLE.  Substituting a default (other tail, pooled spread, 1.0) turns "we could not read
+> this" into a reading, and the substitution is invisible in the table.
+> when a degenerate cell appears, census its neighbours before calling it luck: 1 zero in 4 groups
+> looks like an outlier until you count where the underlying floor sits (7 of 8 floor hits at one
+> base count).  The concentration is the diagnosis.
+
+Two pits caught in the same round: (1) a group with ONE published cell has min == max by construction,
+so a naive `spread == 0` test flags it as a zero spread -- counting "nothing to compare" as evidence
+of a hole; the selftest fixture caught it before publish and the class is now explicit
+(`single_cell_group`, never `zero_spread`).  (2) one cell publishing two different values must poison
+the group (`conflicting_cell_values`) rather than quietly taking one of them -- otherwise the ruler is
+built on an arbitrary choice of duplicate.
+
+Evidence: `scripts/e278_spread_floor.py` (selftest 13/13, verify 0 problems),
+`results/state_tilt/BANDSPREADFLOOR-2026-10-29.json`
+(verdict=`the_zero_spread_tail_is_the_band_floor_landing_on_the_thin_shuffle`; 4 groups, zero at
+cross:200 tight only, 8/16 tight values at the floor, wide min spread 9.08%, 2 rows stranded), S6 leg
+`spread_floor` (rc=0, <1s), smoke leg `the one zero-spread tail is the band floor at the thin
+shuffle` (1/1 PASS standalone), digest
+`research/digests/DIGEST-20261031-r1303-e278-spread-floor.md`.

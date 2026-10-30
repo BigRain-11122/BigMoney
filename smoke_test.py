@@ -6499,7 +6499,86 @@ def main() -> int:
     except Exception as e:
         check(_name77, False, repr(e)[:160])
 
+    # E278: a normalised gap divides by a tail's spread, so a spread of exactly 0 strands the
+    # ruler. The leg requires the zero to be the E277 floor (every cell at 1.0) rather than an
+    # unexplained collapse, requires every flagged zero to be covered by the published policy,
+    # and requires each stranded row to be genuinely unmeasurable on that tail.
+    _name78 = ("product: the one zero-spread tail is the band floor at the thin shuffle, not an "
+               "unlucky group -- the stranded rows stay unmeasured")
+    _bad78 = []
+    try:
+        _p78 = os.path.join("results", "state_tilt", "bandspreadfloor_latest.json")
+        _f78 = None
+        if not os.path.exists(_p78):
+            _bad78.append("face missing: %s" % _p78)
+        else:
+            with io.open(_p78, encoding="utf-8") as _fh78:
+                _f78 = json.load(_fh78)
+        if _f78 is not None:
+            _s78 = _f78.get("summary") or {}
+            if _f78.get("evidence_cutoff") is None:
+                _bad78.append("no evidence_cutoff on the face")
+            if _s78.get("verdict") not in (
+                    "the_zero_spread_tail_is_the_band_floor_landing_on_the_thin_shuffle",
+                    "zero_spread_is_one_bad_group",
+                    "zero_spread_clusters_by_base_count_without_being_the_floor",
+                    "the_same_group_degenerates_at_both_tails",
+                    "no_zero_spread_tails_published"):
+                _bad78.append("verdict %r is outside the frozen set" % (_s78.get("verdict"),))
+            _cen78 = _f78.get("census") or []
+            if not _cen78:
+                _bad78.append("the census carries no group")
+            _zero78 = [(r.get("group_id"), t) for r in _cen78 for t in ("tight", "wide")
+                       if (r.get(t) or {}).get("zero_spread")]
+            if not _zero78:
+                _bad78.append("no zero spread published -- the face would be about nothing")
+            for _gid, _t in _zero78:
+                _rec = [r for r in _cen78 if r.get("group_id") == _gid][0]
+                if _rec[_t].get("class") != "all_cells_at_the_floor":
+                    _bad78.append("%s/%s is zero but not explained by the floor" % (_gid, _t))
+                if _rec[_t].get("n_published", 0) < 2:
+                    _bad78.append("%s/%s is a single-cell group treated as a zero spread"
+                                  % (_gid, _t))
+            _flag78 = {(x.get("group"), x.get("tail")) for x in
+                       (_f78.get("minimum_spread_policy") or {}).get("flagged") or []}
+            if _flag78 != set(_zero78):
+                _bad78.append("the published policy does not cover exactly the zero spreads")
+            _aff78 = _f78.get("affected_rows") or []
+            if any(not a.get("unmeasurable_here") for a in _aff78):
+                _bad78.append("a stranded row is in fact measurable on that tail")
+            _idc78 = _f78.get("identity_check") or {}
+            if _idc78.get("mismatched"):
+                _bad78.append("a group's spread disagrees with E272's published spread")
+            if not _idc78.get("checked"):
+                _bad78.append("the identity check never ran against E272")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m78 = __import__("importlib").import_module("e278_spread_floor")
+            _fresh78 = _m78.build()
+            if _fresh78.get("summary") != _s78:
+                _bad78.append("summary does not re-derive from the published faces")
+            if _fresh78.get("census") != _cen78:
+                _bad78.append("the census does not re-derive")
+        check(_name78, not _bad78,
+              "; ".join(_bad78)[:220]
+              or "verdict %r | %d groups, %d measurable on both tails, %d zero spread (%s); "
+                 "%d of %d tight values at the 1.0 floor; wide min spread %s; %d row(s) stranded"
+                 % ((_f78 or {}).get("verdict"),
+                    (_f78.get("summary") or {}).get("n_groups"),
+                    (_f78.get("summary") or {}).get("n_groups_measurable_both_tails"),
+                    len(_zero78), ",".join("%s/%s" % z for z in _zero78) or "-",
+                    (_f78.get("summary") or {}).get("floor_hits_tight"),
+                    (_f78.get("summary") or {}).get("published_tight_values"),
+                    _r78(_f78, "min_nonzero_spread_pct"),
+                    (_f78.get("summary") or {}).get("rows_stranded")))
+    except Exception as e:
+        check(_name78, False, repr(e)[:160])
+
     return _finish()
+
+
+def _r78(face, key):
+    v = (face.get("summary") or {}).get(key)
+    return "n/a" if v is None else "%.2f%%" % v
 
 
 def _r77(face, key):

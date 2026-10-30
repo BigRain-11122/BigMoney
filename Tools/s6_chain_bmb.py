@@ -391,6 +391,16 @@ LEGS = [
     ("tight_multiplier_floor",
      ["python", "scripts/e277_tight_multiplier_floor.py", "verify"]),
 
+    # E278: the normalised ruler divides a gap by the spread a tail offers, so a spread of exactly
+    # 0 leaves it undefined. Census every published arm-table group at both tails: 4 groups, 3
+    # measurable on both; the ONE zero spread is cross:200's tight tail where all four cells sit on
+    # the 1.0 floor (E277). 8 of 16 published tight values are exactly 1.0 and 7 of those 8 are at
+    # base 200, so the hole is the floor landing where the percentile has least support -- not one
+    # bad group. Wide tail: no zero anywhere, min spread 9.1%. The 2 published E272 rows that sit
+    # in it stay unmeasured. Verify re-derives and crosses the spreads against E272. <1s.
+    ("spread_floor",
+     ["python", "scripts/e278_spread_floor.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

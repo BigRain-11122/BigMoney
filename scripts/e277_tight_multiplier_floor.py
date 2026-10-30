@@ -424,6 +424,18 @@ def verify(outdir=None):
     for key in sorted(set(got) | set(fresh)):
         if key == "generated":
             continue
+        if key == "mirrors_excluded":
+            # the mirror list is a function of the directory, not of the numbers: ANY later round
+            # that publishes a new BAND*_latest.json grows it (r1303: bandspreadfloor_latest.json),
+            # and requiring byte equality would make every new face break this verify. Assert the
+            # structure instead -- every entry really is a mirror and none of them was counted.
+            mirrors = got.get(key) or []
+            if any(not str(m).endswith("_latest.json") for m in mirrors):
+                problems.append("mirrors_excluded carries a non-mirror: %s" % mirrors)
+            if sorted(set(mirrors) - set(fresh.get(key) or [])) != []:
+                problems.append("mirrors_excluded carries an entry no longer on disk: %s"
+                                % sorted(set(mirrors) - set(fresh.get(key) or [])))
+            continue
         if got.get(key) != fresh.get(key):
             problems.append("%s does not re-derive" % key)
     return problems

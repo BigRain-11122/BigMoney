@@ -24986,11 +24986,17 @@
   },
   {
    "deliverable": "results/state_tilt/BANDSPREADFLOOR-<cutoff>.json",
+   "done_at": "2026-10-31T05:12+08:00",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E278-SPREAD-FLOOR",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_card": "knowledge/METHODOLOGY_ASSETS.md E279",
+   "result_note": "verdict=the_zero_spread_tail_is_the_band_floor_landing_on_the_thin_shuffle; 16 arm rows -> 4 (leg, base) groups x 4 cells, 3 measurable at both tails. The single zero spread is cross:200's tight tail and all four cells sit on the 1.0 floor (E277); 8 of 16 published tight values are exactly 1.0 and 7 of those 8 are at base 200, so the hole is the floor landing where the percentile has least support, not one bad group. Wide tail: 0 zeros, min spread 9.08%. Published minimum_spread_policy: a zero-spread tail is UNMEASURABLE, never a default; the 2 stranded E272 rows stay unmeasured. identity_check re-derives 8 group-tail spreads against E272's published per-row spread_pct, 0 mismatches.",
+   "result_ref": "results/state_tilt/BANDSPREADFLOOR-2026-10-29.json",
+   "result_round": 1303,
    "runner": "scripts/e278_spread_floor.py",
    "runner_args": [
     "run"
@@ -24998,10 +25004,56 @@
    "seeded_at": "2026-10-31T04:35:00+08:00",
    "seeded_by": "bm-b r1300",
    "source": "E272's ruler divides a gap by the spread the tail offers, and cross:200 turned out to publish p05=1.0000 on all four windows (spread exactly 0), which made 2 of 12 rows unmeasurable on that tail. One group can be bad luck; if zero-spread tails cluster by base count (a thin shuffle across few base counts collapses the percentile), then the normalised ruler needs a published minimum-spread policy instead of per-row notes. Census every published BAND* face: how many groups have spread 0 at each tail, at which base counts, and does the same group degenerate at both tails?",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e278_spread_floor.py (new runner)",
    "title": "is a zero-spread tail a systematic hole in the normalised ruler, or one bad group?",
    "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDSUBSTITUTE-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E279-SUBSTITUTION-SOUNDNESS",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e279_substitution_soundness.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T05:12+08:00",
+   "seeded_by": "bm-b r1303",
+   "source": "E278 published a minimum-spread policy: a group whose tail spread is exactly 0 is flagged and its rows stay unmeasured, with 'read the other tail' as the substitution. That substitution has never been tested. Every measured row publishes a reading at each tail, so for each row we can ask whether the two tails agree on the instruction a reader needs: on the 2 stranded rows, does the wide tail reach the same conclusion the tight tail is unable to deliver, and across all 12 measured rows, on how many would a forced substitution flip the conclusion? If the substitute is sound only because the two stranded rows happen to be far out, say so and scope the policy to 'substitute only when the other tail's normalised gap exceeds X'.",
+   "status": "ready",
+   "target": "scripts/e279_substitution_soundness.py (new runner)",
+   "title": "when one tail cannot be read, is reading the OTHER tail sound -- or does the substitute ever contradict the instruction?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/STAROWNREPIN-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E280-E251-RNG-DRIFT-REPIN",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 2,
+   "runner": "scripts/e280_e251_rng_drift_repin.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T05:12+08:00",
+   "seeded_by": "bm-b r1303",
+   "source": "r1303's chain run reds on star_self_price: E252's verify recomputes the star's cross coefficient as -0.7252014696754883 while E251's published face carries -0.7250430277727764. Re-running e251 now reproduces E252's number, and the diff is not a rounding pin: 177 fields move, including the SHUFFLE BANDS (band_star_lag1 hi 0.3514->0.2357, band_vol_addition width 0.0200->0.0223), i.e. the r1277 star-rule refactor changed how the shared draw stream is consumed while its own selftest stayed green. Decide with measurement: which published E251/E252/E253 claims survive, which verdicts flip, and whether the honest repair is (a) reburn E251 with the new stream and disclose every moved card, or (b) restore the old consumption order and leave the face alone. Publish the decision rule BEFORE looking at which claims move, and a leg that pins the star rule's RNG consumption so a future refactor cannot silently re-randomise a published band.",
+   "status": "ready",
+   "target": "scripts/e280_e251_rng_drift_repin.py (new runner)",
+   "title": "a published face and its own runner now disagree: re-pin, or restore the stream?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 2
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25016,6 +25068,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T04:35:00+08:00",
+ "updated_at": "2026-10-31T05:12+08:00",
  "version": 1
 }
