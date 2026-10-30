@@ -2253,6 +2253,47 @@ def main() -> int:
         check("product: E198 cross-panel verdict is recomputable from its own gate",
               False, str(e))
     try:
+        # r1361: the toll ladder judges the atlas ordering against each cell's own phase band.
+        # Re-derive every rung's spread straight off the SOURCE arm face (so an edited ladder
+        # row is red even if the ladder face agrees with itself), then re-derive the verdict
+        # from the numbers it is attached to.
+        _lp = os.path.join("results", "etf_book_atlas_toll_ladder.json")
+        if os.path.exists(_lp):
+            _lj = json.load(open(_lp, encoding="utf-8"))
+            _t = _lj.get("toll_ladder") or {}
+            _lok = (_t.get("rungs") or 0) >= 2 and bool(_t.get("spread_pp"))
+            _lv = []
+            for _row in (_t.get("argmax_cells") or []):
+                _src = os.path.join("results", _row.get("file") or "")
+                if not os.path.exists(_src):
+                    _lok = False
+                    continue
+                _pc = json.load(open(_src, encoding="utf-8")).get("per_cell") or []
+                _meds = [c["median_cagr_pp"] for c in _pc]
+                _lv.append(round(max(_meds) - min(_meds), 3) if _meds else None)
+            _lok = _lok and _lv and all(
+                a is not None and abs(a - b) < 1e-6 for a, b in zip(_lv, _t["spread_pp"]))
+            if _t.get("verdict") == "ORDERING_IS_A_TOLL_ARTEFACT":
+                _lok = (_lok and _t.get("break_even_toll_bp") is not None
+                        and _t["spread_at_production_toll_pp"] is not None
+                        and _t["spread_at_production_toll_pp"]
+                        <= _t["band_at_production_toll_pp"] + 1e-9
+                        and (_t.get("spread_rank_corr_with_toll") or 0) <= -0.90)
+            _b = _lj.get("buffer_ladder") or {}
+            if _b.get("verdict") == "SINGLE_RUNG_CROSSING_IS_ONE_DRAW":
+                _lok = _lok and _b.get("n_clearing_rungs") == 1
+            check("product: toll-ladder verdict is recomputable from the arm faces",
+                  _lok, "verdict=%s break_even=%s rungs=%d spread@8bp=%s band=%s"
+                  % (_t.get("verdict"), _t.get("break_even_toll_bp"), _t.get("rungs") or 0,
+                     _t.get("spread_at_production_toll_pp"),
+                     _t.get("band_at_production_toll_pp")))
+        else:
+            check("product: toll-ladder verdict is recomputable from the arm faces",
+                  True, "toll-ladder face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: toll-ladder verdict is recomputable from the arm faces",
+              False, str(e))
+    try:
         _fdir = os.path.join("results", "reviewwindow_floor")
         _ff = sorted(f for f in os.listdir(_fdir)
                      if f.startswith("REVIEWWINDOWFLOOR-") and f.endswith(".json")) \

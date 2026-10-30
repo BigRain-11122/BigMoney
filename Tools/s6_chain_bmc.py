@@ -309,6 +309,17 @@ LEGS = [
     # ~2s; the refresh is a re-simulation, not an engine run.
     ("etf_book_rule_null", ["python", "scripts/etf_book_rule_null.py", "--check"],
      ["python", "scripts/etf_book_rule_null.py", "run"]),
+    # r1361: every reader of the toll-bracketing arms so far consumed them one arm at a time,
+    # and the arms leg reads them for the BAND. The complementary question -- the atlas judges
+    # its 12-cell ordering against each cell's own phase band, so at what toll does the ordering
+    # stop clearing its own noise? -- had never been read as a ladder. This leg re-derives the
+    # whole read-back from the published arm faces: rung membership comes off each face's audit
+    # block (a face that moves two knobs is refused, not averaged in), the crossing is
+    # interpolated, and the verdict must follow from its own numbers. Engine-free, reads six
+    # JSONs, 0.1s.
+    ("etf_book_atlas_toll_ladder",
+     ["python", "scripts/etf_book_atlas_toll_ladder.py", "--check"],
+     ["python", "scripts/etf_book_atlas_toll_ladder.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

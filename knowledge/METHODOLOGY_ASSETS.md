@@ -6525,3 +6525,32 @@ blockers + `pool_blocked_ids` on the probe record (selftest leg "a ready row tha
 blocker is debt, not work"). Fixture lesson caught by the new leg itself: the selftest first
 reused one filename per series, so a later fixture shadowed an earlier one and the reader
 looked like it disagreed when only the fixture aliased itself (r1261 family).
+
+## E275 An ordering judged against a band must be read as a ladder in the knob that moves both (2026-10-30 r1361 bm-c)
+
+A grid's "config A beats config B" claim is usually published against a noise floor computed
+from the same grid (here: between-cell spread vs median cell band). The trap is that the
+*quantity being judged* and the *quantity judging it* can both move with a third thing -- the
+toll -- and a one-arm reading cannot tell "the structure decays" from "the floor rises".
+
+Measured on the ETF atlas across 5 toll rungs (0/5/10/20/40 bp per side, same 12 cells):
+spread falls 6.92 -> 3.00pp with rank corr **-1.000** while the band barely moves (6.75 ->
+6.47pp), crossing at **1.045 bp/side** -- one eighth of the 8bp toll the production card is
+charged. The verdict flipped at exactly one rung (cost zero). Two by-products neither a single
+arm nor a band-only reader could produce: the **fast cadence inverts** (+5.54pp at zero cost,
+-1.32pp at 40bp/side, argmax migrating n8/R10 -> n8/R40), and the **width knob is the only
+sign-stable direction** (+0.69 -> +1.56pp, rank corr +1.000) -- the exact inverse of the
+one-arm headline that dismissed width as "inside the band". A strength ladder read the same
+way (7 buffer strengths at one toll) produced one non-monotone crossing out of seven: a ladder
+whose only crossing is not a dose is not a rule.
+
+Law: (1) read every bracket as a ladder and publish the crossing, not just the endpoints;
+(2) a rung must be produced by the face's own `audit` block, never by its file name, and a face
+that moves two knobs is excluded rather than averaged in; (3) the only defensible claim from
+such a ladder is usually directional -- sign stability across rungs is a measurement, magnitude
+inside the band is not a quotable number.
+
+Pos: scripts/etf_book_atlas_toll_ladder.py (selftest 32/32; rung membership off `audit`,
+two-knob faces refused; crossing interpolated; `--check` recomputes the verdict from frozen
+constants) + results/etf_book_atlas_toll_ladder.json (+ .md) + smoke leg that rebuilds every
+rung's spread from the source arm faces + chain leg `etf_book_atlas_toll_ladder`.
