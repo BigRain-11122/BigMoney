@@ -136,7 +136,7 @@
  "orphan_face": 0,
  "orphan_face_note": "r1282: Tools/orphan_face_probe.py -> py_faces 8, orphans 0",
  "orphan_faces": 0,
- "pit": "(1) a quantile read off too few permutation draws sits INSIDE the true boundary and the bias is n-dependent, so draw starvation bends the ladder as well as blurring it -- r2 improving with draws is not the same as the band being measured; (2) a three-seed scatter is a two-degree-of-freedom estimate: it did NOT fall with draws here (0.0439/0.0393/0.1717/0.1894), so publishing mc_over_fit as a ratio would have overstated what the design can support; (3) a pool card whose runner is not in the worktree is supply the machine cannot consume -- 'ready N' and a cold CPU are compatible for that reason, and compute_audit's ignitable count is a name-level inference; (4) Tools/Invoke-SilentExe.ps1 -Args takes a single string: an array made the probe throw and the caller read 'MISSING', the R49 false-negative family again",
+ "pit": "(1) a quantile read off too few permutation draws sits INSIDE the true boundary and the bias is n-dependent, so draw starvation bends the ladder as well as blurring it -- r2 improving with draws is not the same as the band being measured; (2) a three-seed scatter is a two-degree-of-freedom estimate: it did NOT fall with draws here (0.0439/0.0393/0.1717/0.1894), so publishing mc_over_fit as a ratio would have overstated what the design can support; (3) a pool card whose runner is not in the worktree is supply the machine cannot consume -- 'ready N' and a cold CPU are compatible for that reason, and compute_audit's ignitable count is a name-level inference; (4) Tools/Invoke-SilentExe.ps1 -Args takes a single string: an array made the probe throw and the caller read 'MISSING', the R49 false-negative family again (5) an ISO stamp carrying an explicit offset is NOT a naive local time: parsing it with mktime and then subtracting the offset dates the record 8h early, which is enough to auto-close a card against the wrong face -- use datetime.fromisoformat().timestamp(); and a continuation card must never share its predecessor's deliverable filename ('--tag' or the base ladder is silently replaced).",
  "pool": "747 done / 3 ready (E272-COST0, E272-COST20 phantom -- runner absent in this tree; E256 seeded)",
  "pool_claims": [
   "E255-BAND-DRAW-STARVATION done r1282",
@@ -762,6 +762,12 @@
   ],
   "smoke": "baseline 233/234 (one GPU-face FAIL, healed); full re-run with the E252 leg in flight at closeout",
   "ts": "2026-10-30T13:49:47+08:00"
+ },
+ "r1282_amendment": {
+  "audit_live": "open=3 no_face=3 runner_absent=2 -> runnable 1",
+  "audit_stamp_bug": "explicit +08:00 offsets were double-shifted by 8h -> AFTER_ENTRY on a 4-minute-old card; fixed with datetime.fromisoformat",
+  "smoke": "238/238 PASS 0 FAIL after both fixes",
+  "tag_option": "scripts/e255_band_draw_starvation.py --tag so a variant face cannot overwrite the base ladder (r1135 pit); E256 now writes BANDDRAW-<cutoff>-d960.json"
  },
  "r1282_push": {
   "behind_origin_main": 102,

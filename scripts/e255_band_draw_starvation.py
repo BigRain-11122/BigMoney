@@ -375,7 +375,7 @@ def _summary(face):
     return s
 
 
-def run(per=None, save=True, outdir=None, seeds=SEEDS, d_grid=D_GRID, n_grid=N_GRID):
+def run(per=None, save=True, outdir=None, seeds=SEEDS, d_grid=D_GRID, n_grid=N_GRID, tag=""):
     per = per if per is not None else e239.panels()
     syms = [s for s in e252.BASKET if per.get(s)]
     m = measure(per, syms, seeds=seeds, d_grid=d_grid, n_grid=n_grid)
@@ -490,15 +490,19 @@ def run(per=None, save=True, outdir=None, seeds=SEEDS, d_grid=D_GRID, n_grid=N_G
                                "mc_fraction_floor": MC_FRACTION_FLOOR}}
     face["summary"] = _summary(face)
     if save:
-        face["written"] = _write(face, outdir or OUTDIR)
+        face["written"] = _write(face, outdir or OUTDIR, tag)
     return face
 
 
-def _write(face, outdir):
+def _write(face, outdir, tag=""):
+    """Write the face. `tag` names a VARIANT (e.g. a longer draw grid) so a re-read can never
+    overwrite the base face -- r1135's pit: a variant run whose filename does not carry the
+    variant key silently replaces the base face and the next reader quotes the wrong ladder.
+    """
     os.makedirs(outdir, exist_ok=True)
     cutoff = face.get("evidence_cutoff") or "unknown"
-    path = os.path.join(outdir, "BANDDRAW-%s.json" % cutoff)
-    latest = os.path.join(outdir, "banddraw_latest.json")
+    path = os.path.join(outdir, "BANDDRAW-%s%s.json" % (cutoff, tag))
+    latest = os.path.join(outdir, "banddraw%s_latest.json" % tag)
     body = json.dumps(face, indent=1, sort_keys=True, ensure_ascii=False)
     for p in (path, latest):
         with open(p, "w", encoding="utf-8", newline="\n") as fh:
@@ -699,6 +703,8 @@ def main():
     ap.add_argument("--seeds", type=int, default=SEEDS)
     ap.add_argument("--draws", type=int, default=0,
                     help="override the draw grid's top (single-value grid when given)")
+    ap.add_argument("--tag", default="",
+                    help="suffix for the face filename, so a variant never overwrites the base")
     args = ap.parse_args()
     if args.mode == "selftest":
         r = selftest()
@@ -716,7 +722,7 @@ def main():
               % (r.get("rungs"), r.get("verdict"), "OK" if r["ok"] else "FAIL"))
         return 0 if r["ok"] else 1
     grid = D_GRID if not args.draws else (args.draws,)
-    face = run(seeds=args.seeds, d_grid=grid)
+    face = run(seeds=args.seeds, d_grid=grid, tag=args.tag)
     print(_fmt(face))
     print("written: %s" % (face.get("written") or {}).get("face"))
     return 0

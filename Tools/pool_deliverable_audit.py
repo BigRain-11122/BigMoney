@@ -35,6 +35,7 @@ import shutil
 import sys
 import tempfile
 import time
+from datetime import datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_POOL = os.path.join(ROOT, "results", "runnable_pool.json")
@@ -70,24 +71,11 @@ def _stamp(text):
         return None
     t = text.strip()
     if t.endswith("Z"):
-        t = t[:-1] + "+0000"
-    for fmt in ("%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S",
-                "%Y-%m-%d"):
-        try:
-            return time.mktime(time.strptime(t, fmt)) if fmt != "%Y-%m-%dT%H:%M:%S%z" \
-                else time.mktime(time.strptime(t[:19], "%Y-%m-%dT%H:%M:%S")) - _offset(t)
-        except ValueError:
-            continue
-    return None
-
-
-def _offset(t):
-    """Seconds east of UTC carried by an ISO-8601 +hhmm suffix."""
-    m = re.search(r"([+-])(\d{2}):?(\d{2})$", t)
-    if not m:
-        return 0
-    sign = 1 if m.group(1) == "+" else -1
-    return sign * (int(m.group(2)) * 3600 + int(m.group(3)) * 60)
+        t = t[:-1] + "+00:00"
+    try:
+        return datetime.fromisoformat(t).timestamp()
+    except ValueError:
+        return None
 
 
 def expand(deliverable, root=ROOT):
