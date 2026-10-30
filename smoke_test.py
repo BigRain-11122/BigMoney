@@ -6031,6 +6031,101 @@ def main() -> int:
     except Exception as e:
         check("product: a published threshold re-runs the guard, and the face says which form",
               False, repr(e)[:160])
+    # E271: the transfer table published its moved sets ONE donor at a time, so a reader of one
+    # recipient could not tell whether "borrowing" or "borrowing from this cell" was the finding.
+    # What can fabricate a claim here: a donor sweep that skips the own-cell control, a "donor
+    # matters" verdict no flip multiplier explains, and a pivotal cell named without the numbers
+    # that make it pivotal.
+    try:
+        _bad74 = []
+        _p74 = os.path.join("results", "state_tilt", "banddonorchoice_latest.json")
+        _f74 = None
+        if not os.path.exists(_p74):
+            _bad74.append("face missing: %s" % _p74)
+        else:
+            with io.open(_p74, encoding="utf-8") as _fh74:
+                _f74 = json.load(_fh74)
+        _s74 = (_f74 or {}).get("summary") or {}
+        if (_f74 or {}).get("verdict") not in (
+                "donor_irrelevant_nothing_moves",
+                "donor_invariant_do_not_borrow_is_the_instruction",
+                "donor_choice_matters_do_not_borrow_from_this_cell"):
+            _bad74.append("verdict %r is outside the frozen vocabulary"
+                          % ((_f74 or {}).get("verdict"),))
+        if (_f74 or {}).get("evidence_cutoff") is None:
+            _bad74.append("no evidence_cutoff on the face")
+        if not (_f74 or {}).get("no_bill"):
+            _bad74.append("no_bill missing")
+        # (a) the own-cell donor is a CONTROL and must reproduce every published verdict
+        _rows74 = [_r for _v in ((_f74 or {}).get("groups") or {}).values()
+                   for _r in (_v.get("rows") or [])]
+        if not _rows74:
+            _bad74.append("no measured row on the face")
+        for _r74 in _rows74:
+            if _r74.get("own_reproduces") is not True:
+                _bad74.append("row %r does not reproduce its own published verdict"
+                              % (_r74.get("index"),))
+        # (b) the moved rows must be exactly the rows whose flip multiplier the group's own p95
+        #     spread straddles -- otherwise "the donor matters" is an unexplained coincidence
+        _moved74 = set(_s74.get("moved_row_indices") or [])
+        _straddle74 = set()
+        for _v in ((_f74 or {}).get("groups") or {}).values():
+            for _r74 in _v.get("rows") or []:
+                _mf74 = _r74.get("flip_multiplier")
+                _sp74 = _v.get("p95_spread") or {}
+                if _mf74 is not None and _sp74.get("min") is not None and \
+                        _sp74["min"] <= _mf74 <= _sp74["max"]:
+                    _straddle74.add(_r74.get("index"))
+        if _straddle74 != _moved74:
+            _bad74.append("straddled rows %r != moved rows %r"
+                          % (sorted(_straddle74), sorted(_moved74)))
+        if _s74.get("flip_straddle_explains_moves") is not True:
+            _bad74.append("the face does not claim the straddle explains the moves")
+        # (c) a group that names a pivotal cell must have a donor that actually moves rows, and a
+        #     group that reads one moved set must not name one
+        for _k74, _v in ((_f74 or {}).get("groups") or {}).items():
+            if not _v.get("rows"):
+                continue
+            _mv74 = [d for d in (_v.get("donors") or []) if d.get("n_moved")]
+            if _v.get("donor_invariant") is False and not _mv74:
+                _bad74.append("%s is variant but no donor moves a row" % _k74)
+            if _v.get("donor_invariant") is True and _v.get("pivotal_cell"):
+                _bad74.append("%s is invariant yet names a pivotal cell" % _k74)
+            if _v.get("pivotal_cell") and _v["pivotal_cell"] not in [d.get("donor") for d in _mv74]:
+                _bad74.append("%s names %r pivotal while that donor moves nothing"
+                              % (_k74, _v.get("pivotal_cell")))
+            _pub74 = _v.get("published_choice")
+            if _pub74 is not None:
+                _rec74 = [d for d in (_v.get("donors") or []) if d.get("donor") == _pub74]
+                if _rec74 and _v.get("published_choice_moves") != _rec74[0].get("n_moved"):
+                    _bad74.append("%s published choice moves %r but its donor record says %r"
+                                  % (_k74, _v.get("published_choice_moves"),
+                                     _rec74[0].get("n_moved")))
+        # (d) the face must re-derive from its source face, not from its own summary
+        sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+        _m74 = __import__("importlib").import_module("e271_donor_choice_sensitivity")
+        _fresh74 = _m74.run(save=False)
+        if _fresh74.get("summary") != _s74:
+            _bad74.append("summary does not re-derive from the source face")
+        if _fresh74.get("verdict") != (_f74 or {}).get("verdict"):
+            _bad74.append("verdict does not re-derive")
+        check("product: the moved set is scored donor by donor, and a pivotal cell is named",
+              not _bad74,
+              "; ".join(_bad74)[:220]
+              or "verdict %r | %d measured row(s) over %d group(s), %d foreign donor-row pair(s); "
+                 "%d row(s) move under some donor, %d donor end(s) move nothing; %d group(s) "
+                 "variant (pivotal %s); published choices %s"
+              % ((_f74 or {}).get("verdict"), _s74.get("rows_measured"), _s74.get("groups"),
+                 _s74.get("donor_row_pairs"), _s74.get("rows_moved_by_any_donor"),
+                 (_s74.get("donor_ends") or 0) - (_s74.get("donor_ends_moving_a_row") or 0),
+                 _s74.get("donor_variant_groups") or 0,
+                 _s74.get("pivotal_cells"),
+                 "conservative in every group"
+                 if _s74.get("published_choice_conservative_in_all_groups")
+                 else "move %s row(s) total" % (_s74.get("published_choice_moves_total"),)))
+    except Exception as e:
+        check("product: the moved set is scored donor by donor, and a pivotal cell is named",
+              False, repr(e)[:160])
 
     return _finish()
 

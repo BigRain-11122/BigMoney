@@ -5221,3 +5221,40 @@ threshold_substitutes_for_the_triple_only_alongside_its_rule; 36 comparisons, re
 rules 36/36 exact, 18 rows with two thresholds / 6 own-verdict ambiguous / 1 guarded ambiguous,
 9 newly threshold-runnable collections / 120 records), S6 leg `guard_from_threshold`,
 digest research/digests/DIGEST-20261031-r1297-e273-threshold-guard.md.
+
+
+## E274 -- a donor axis is decisive only for the rows whose flip multiplier sits inside the
+spread the group offers
+
+E262 published 48 ordered (donor, recipient) pairs and every consumer since (E266/E267/E268) read
+them one donor at a time, so a reader of a single recipient could not tell whether the finding was
+"do not borrow" or "do not borrow from THIS cell". Sweeping every donor end each (leg, base) group
+offers -- own cell included as the control, which reproduces the published verdict on 12/12 rows --
+answers it on the same published numbers: 3 of 4 groups are donor-invariant, and the one that is not
+(cross:60) moves 2 of its 6 rows under exactly one donor, `all_five` (p95 2.2963, which is also
+E262's published dominator there). 15 of the 16 donor ends move nothing.
+
+**The mechanism is two published numbers, not a re-run.** A row only moves when its flip multiplier
+`m_flip` (= b/band_lo on the negative side) falls inside the p95 spread the group actually offers;
+cross:60 offers [1.9678, 2.2963] and the two movers sit at 2.1965 / 2.1384, while every other group
+straddles nothing (spreads 9.1-16.8%) and nothing moves. So the measurable content of "the donor
+matters" is "this row's flip multiplier is inside this group's spread", and the pivotal cell is
+simply whichever end lies beyond it.
+
+**Corollary that changes an instruction.** The published pair choice (the group's dominator) is the
+LEAST conservative donor in the only group where the axis is live -- it is the single donor that
+overturns verdicts, while all three narrow ends preserve them. A table that highlights its dominator
+is therefore highlighting its most aggressive borrow, not a safe one; conservative means the
+narrowest end.
+
+**Pit.** The face's first `verdict_of` divided a per-group count by the foreign-pair count and read
+"15 of 16 donor ends move nothing" off a mixed denominator; it now publishes donor_ends and
+donor_ends_moving_a_row separately, because "donor-row pairs" and "donor ends" are different
+populations and the whole sentence is about the second. Sibling: the own-cell donor must stay in the
+sweep as a control -- drop it and "0 moves" becomes untestable.
+
+Evidence: scripts/e271_donor_choice_sensitivity.py (selftest 22/22, verify 0 problems),
+results/state_tilt/BANDDONORCHOICE-2026-10-29.json (verdict=
+donor_choice_matters_do_not_borrow_from_this_cell; 12 measured rows / 4 groups / 36 foreign pairs;
+2 rows moved, both straddlers; pivotal cross:60=all_five), S6 leg `donor_choice_sensitivity`,
+digest research/digests/DIGEST-20261031-r1298-e271-donor-choice.md.

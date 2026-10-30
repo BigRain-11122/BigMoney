@@ -369,6 +369,18 @@ LEGS = [
     ("guard_from_threshold",
      ["python", "scripts/e273_guard_from_threshold.py", "verify"]),
 
+    # E271: the 48 published (donor, recipient) pairs were always read ONE donor at a time, so a
+    # reader of a single recipient could not tell whether "do not borrow" or "do not borrow from
+    # THIS cell" was the finding. This leg sweeps every donor end each (leg, base) group offers
+    # for every measured row (own cell as the control) and asks whether the moved ROW SET is the
+    # same across donors: 3 of 4 groups are invariant, cross:60 is not -- only all_five (the
+    # widest end 2.2963, and E262's published dominator there) moves anything, the 2 rows it
+    # moves are exactly the 2 whose flip multiplier (2.1965 / 2.1384) falls inside the group's
+    # p95 spread [1.9678, 2.2963], so the published choice is the LEAST conservative in that
+    # group. Verify mode re-derives from the source face, never from its own summary. <1s.
+    ("donor_choice_sensitivity",
+     ["python", "scripts/e271_donor_choice_sensitivity.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

@@ -24768,7 +24768,10 @@
    "seeded_at": "2026-10-31T02:20:00+08:00",
    "seeded_by": "bm-b r1294",
    "source": "E262 published 48 ordered (donor, recipient) pairs and E266/E267/E268 all scored the screen against the donor's p95 already fixed by the pair. But the published face also carries every other cell's p95 for the same (leg, base) group, so the question 'does it matter which donor you borrowed' is answerable on the same numbers: for each recipient, recompute the moved set under every available donor end and report how many recipients change verdict, which cell is pivotal, and whether the published pair choice is the conservative one. If the moved set is donor-invariant then 'do not borrow' is the whole instruction; if it is not, the instruction is 'do not borrow from this cell', which is materially different and currently unpublished.",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/BANDDONORCHOICE-2026-10-29.json",
+   "result_round": 1298,
+   "done_note": "donor_choice_matters in 1 of 4 groups: cross:60's all_five end (2.2963, the published dominator) is the only donor that moves anything, and the two rows it moves are exactly the two whose flip multipliers (2.1965/2.1384) fall inside the group's p95 spread [1.9678, 2.2963]; 15 of 16 donor ends move nothing, so the instruction is 'do not borrow from this cell', not 'do not borrow'.",
    "target": "scripts/e271_donor_choice_sensitivity.py (new runner)",
    "title": "does the moved set depend on WHICH donor a reader picks, not just how wide it is?",
    "worker_class": "code-change"
@@ -24791,7 +24794,27 @@
    "target": "scripts/e272_flip_budget_two_tails.py (new runner)",
    "title": "is one tail closer to mattering than the other, on one ruler?",
    "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDSTRADDLESWEEP-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E274-SPREAD-STRADDLE-SWEEP",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e274_spread_straddle_sweep.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T03:40:00+08:00",
+   "seeded_by": "bm-b r1298",
+   "source": "E271 found that the donor axis is decisive on exactly the rows whose flip multiplier falls inside the p95 spread their (leg, base) group actually offers, and idle everywhere else (2 of 12 rows, 1 of 4 groups, 15 of 16 donor ends move nothing). That is a predictive screen rather than a case report: for every row-in-a-group in the whole BAND* family publish the flip multiplier, the spread the group offers and a straddle flag, then score the screen against the moved sets the faces themselves already published (how many published moved rows are straddlers, how many straddlers never moved). The question is whether a reader can decide 'do not borrow' vs 'do not borrow from this cell' from two published numbers without re-running any sweep.",
+   "status": "ready",
+   "target": "scripts/e274_spread_straddle_sweep.py (new runner)",
+   "title": "can a row's own numbers say, in advance, whether the donor choice will matter?",
+   "worker_class": "code-change"
   }
+
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
  "schema": {

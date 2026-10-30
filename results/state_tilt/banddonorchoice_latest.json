@@ -1,0 +1,494 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "conservative": "a donor is conservative for this population when it moves the fewest row verdicts; E262's dominator per group is the published pair choice and is scored against that",
+  "control": "the own-cell donor must reproduce the published verdict_wide on every row; a control failure is published, not silently dropped",
+  "design": "for every measured row, judge it against EVERY donor end its own (leg, base) group publishes, own cell included as the control; compare the moved ROW SET across donors",
+  "mechanism": "a row can only move if its flip multiplier falls inside the p95 spread the group actually offers, so flip_inside_spread is published per row",
+  "no_new_draws": "no shuffle stream is drawn; every number is a function of one face"
+ },
+ "generated": "2026-10-31T03:31:34",
+ "groups": {
+  "cross:200": {
+   "base": 200,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "donor_invariant": true,
+   "donors": [
+    {
+     "donor": "all_five",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 0,
+     "n_moved": 0,
+     "p95": 1.5254615980540964
+    },
+    {
+     "donor": "early_three",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 1.624509263847406
+    },
+    {
+     "donor": "era_2023_2024",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 1.645727384584811
+    },
+    {
+     "donor": "era_2025_now",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 1.7815713243912
+    }
+   ],
+   "leg": "cross",
+   "max_moves_across_donors": 0,
+   "min_moves_across_donors": 0,
+   "moving_donors": [],
+   "n_distinct_moved_sets": 1,
+   "n_foreign_pairs": 6,
+   "n_rows": 2,
+   "p95_spread": {
+    "max": 1.7815713243912,
+    "min": 1.5254615980540964,
+    "narrowest": "all_five",
+    "spread_pct": 16.788998599755068,
+    "widest": "era_2025_now"
+   },
+   "pivotal_cell": null,
+   "published_choice": "era_2025_now",
+   "published_choice_is_conservative": true,
+   "published_choice_moves": 0,
+   "rows": [
+    {
+     "b": -0.7250430277727764,
+     "band_hi": 0.2579169304029064,
+     "band_lo": -0.2680802007904303,
+     "cell": "all_five",
+     "flip_inside_spread": false,
+     "flip_multiplier": 2.704575069829843,
+     "index": 1,
+     "own_p95": 1.5254615980540964,
+     "own_reproduces": true,
+     "row": "cross",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.7250430277727764,
+     "band_hi": 0.23568968080162994,
+     "band_lo": -0.2227898080428957,
+     "cell": "all_five",
+     "flip_inside_spread": false,
+     "flip_multiplier": 3.254381491424318,
+     "index": 12,
+     "own_p95": 1.5254615980540964,
+     "own_reproduces": true,
+     "row": "star_lag1_residual",
+     "verdict_wide": true
+    }
+   ],
+   "rows_with_flip_inside_spread": []
+  },
+  "cross:60": {
+   "base": 60,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "donor_invariant": false,
+   "donors": [
+    {
+     "donor": "all_five",
+     "moved": [
+      {
+       "after": "inside",
+       "before": "outside",
+       "direction": "rejections_lost",
+       "flip_multiplier": 2.1964962193681883,
+       "index": 9,
+       "margin_to_flip_pct": 4.545075992437875,
+       "recipient": "era_2025_now",
+       "row": "cross"
+      },
+      {
+       "after": "inside",
+       "before": "outside",
+       "direction": "rejections_lost",
+       "flip_multiplier": 2.1383765610561616,
+       "index": 13,
+       "margin_to_flip_pct": 7.38654189958583,
+       "recipient": "era_2023_2024",
+       "row": "star_lag1_residual"
+      }
+     ],
+     "moved_set": [
+      9,
+      13
+     ],
+     "n_foreign_rows": 6,
+     "n_moved": 2,
+     "p95": 2.2963286417094975
+    },
+    {
+     "donor": "early_three",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 4,
+     "n_moved": 0,
+     "p95": 2.066627768797113
+    },
+    {
+     "donor": "era_2023_2024",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 4,
+     "n_moved": 0,
+     "p95": 2.0161164653210557
+    },
+    {
+     "donor": "era_2025_now",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 4,
+     "n_moved": 0,
+     "p95": 1.9677724487432138
+    }
+   ],
+   "leg": "cross",
+   "max_moves_across_donors": 2,
+   "min_moves_across_donors": 0,
+   "moving_donors": [
+    "all_five"
+   ],
+   "n_distinct_moved_sets": 2,
+   "n_foreign_pairs": 18,
+   "n_rows": 6,
+   "p95_spread": {
+    "max": 2.2963286417094975,
+    "min": 1.9677724487432138,
+    "narrowest": "era_2025_now",
+    "spread_pct": 16.696859089379345,
+    "widest": "all_five"
+   },
+   "pivotal_cell": "all_five",
+   "published_choice": "all_five",
+   "published_choice_is_conservative": false,
+   "published_choice_moves": 2,
+   "rows": [
+    {
+     "b": -0.8332269315437407,
+     "band_hi": 0.3612981017916428,
+     "band_lo": -0.33888786748973576,
+     "cell": "era_2023_2024",
+     "flip_inside_spread": false,
+     "flip_multiplier": 2.4587098314134175,
+     "index": 7,
+     "own_p95": 2.0161164653210557,
+     "own_reproduces": true,
+     "row": "cross",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.9113353718550754,
+     "band_hi": 0.46536854590686627,
+     "band_lo": -0.4149041386090875,
+     "cell": "era_2025_now",
+     "flip_inside_spread": true,
+     "flip_multiplier": 2.1964962193681883,
+     "index": 9,
+     "own_p95": 1.9677724487432138,
+     "own_reproduces": true,
+     "row": "cross",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.4942013405547795,
+     "band_hi": 0.30837107575218653,
+     "band_lo": -0.27410275200467416,
+     "cell": "early_three",
+     "flip_inside_spread": false,
+     "flip_multiplier": 1.8029783974819489,
+     "index": 11,
+     "own_p95": 2.066627768797113,
+     "own_reproduces": true,
+     "row": "cross",
+     "verdict_wide": false
+    },
+    {
+     "b": -0.8332269315437407,
+     "band_hi": 0.34628292300900926,
+     "band_lo": -0.38965397709569133,
+     "cell": "era_2023_2024",
+     "flip_inside_spread": true,
+     "flip_multiplier": 2.1383765610561616,
+     "index": 13,
+     "own_p95": 2.0161164653210557,
+     "own_reproduces": true,
+     "row": "star_lag1_residual",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.9113353718550754,
+     "band_hi": 0.37517005828954664,
+     "band_lo": -0.3828993236712511,
+     "cell": "era_2025_now",
+     "flip_inside_spread": false,
+     "flip_multiplier": 2.380091359569827,
+     "index": 14,
+     "own_p95": 1.9677724487432138,
+     "own_reproduces": true,
+     "row": "star_lag1_residual",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.4942013405547795,
+     "band_hi": 0.29882489984854366,
+     "band_lo": -0.26227210344102825,
+     "cell": "early_three",
+     "flip_inside_spread": false,
+     "flip_multiplier": 1.88430768682915,
+     "index": 15,
+     "own_p95": 2.066627768797113,
+     "own_reproduces": true,
+     "row": "star_lag1_residual",
+     "verdict_wide": false
+    }
+   ],
+   "rows_with_flip_inside_spread": [
+    9,
+    13
+   ]
+  },
+  "self:200": {
+   "base": 200,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "donor_invariant": true,
+   "donors": [
+    {
+     "donor": "all_five",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 0,
+     "n_moved": 0,
+     "p95": 1.5875552821701537
+    },
+    {
+     "donor": "early_three",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 1,
+     "n_moved": 0,
+     "p95": 1.7185953310281559
+    },
+    {
+     "donor": "era_2023_2024",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 1,
+     "n_moved": 0,
+     "p95": 1.606588938388609
+    },
+    {
+     "donor": "era_2025_now",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 1,
+     "n_moved": 0,
+     "p95": 1.575580063460192
+    }
+   ],
+   "leg": "self",
+   "max_moves_across_donors": 0,
+   "min_moves_across_donors": 0,
+   "moving_donors": [],
+   "n_distinct_moved_sets": 1,
+   "n_foreign_pairs": 3,
+   "n_rows": 1,
+   "p95_spread": {
+    "max": 1.7185953310281559,
+    "min": 1.575580063460192,
+    "narrowest": "era_2025_now",
+    "spread_pct": 9.076991444908389,
+    "widest": "early_three"
+   },
+   "pivotal_cell": null,
+   "published_choice": "early_three",
+   "published_choice_is_conservative": true,
+   "published_choice_moves": 0,
+   "rows": [
+    {
+     "b": -0.7338669780097795,
+     "band_hi": 0.22694777216938677,
+     "band_lo": -0.31482186746270696,
+     "cell": "all_five",
+     "flip_inside_spread": false,
+     "flip_multiplier": 2.331054649806725,
+     "index": 0,
+     "own_p95": 1.5875552821701537,
+     "own_reproduces": true,
+     "row": "self",
+     "verdict_wide": true
+    }
+   ],
+   "rows_with_flip_inside_spread": []
+  },
+  "self:60": {
+   "base": 60,
+   "cells": [
+    "all_five",
+    "early_three",
+    "era_2023_2024",
+    "era_2025_now"
+   ],
+   "donor_invariant": true,
+   "donors": [
+    {
+     "donor": "all_five",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 3,
+     "n_moved": 0,
+     "p95": 2.1808219171985748
+    },
+    {
+     "donor": "early_three",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 1.9881347977384831
+    },
+    {
+     "donor": "era_2023_2024",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 2.1747873393781756
+    },
+    {
+     "donor": "era_2025_now",
+     "moved": [],
+     "moved_set": [],
+     "n_foreign_rows": 2,
+     "n_moved": 0,
+     "p95": 2.133627900040008
+    }
+   ],
+   "leg": "self",
+   "max_moves_across_donors": 0,
+   "min_moves_across_donors": 0,
+   "moving_donors": [],
+   "n_distinct_moved_sets": 1,
+   "n_foreign_pairs": 9,
+   "n_rows": 3,
+   "p95_spread": {
+    "max": 2.1808219171985748,
+    "min": 1.9881347977384831,
+    "narrowest": "early_three",
+    "spread_pct": 9.691853876270095,
+    "widest": "all_five"
+   },
+   "pivotal_cell": null,
+   "published_choice": "all_five",
+   "published_choice_is_conservative": true,
+   "published_choice_moves": 0,
+   "rows": [
+    {
+     "b": -0.8027254787526823,
+     "band_hi": 0.38241486006464576,
+     "band_lo": -0.3009172041368989,
+     "cell": "era_2023_2024",
+     "flip_inside_spread": false,
+     "flip_multiplier": 2.6675958294079174,
+     "index": 6,
+     "own_p95": 2.1747873393781756,
+     "own_reproduces": true,
+     "row": "self",
+     "verdict_wide": true
+    },
+    {
+     "b": -0.46348275881928647,
+     "band_hi": 0.4510867343946797,
+     "band_lo": -0.5211261029119459,
+     "cell": "era_2025_now",
+     "flip_inside_spread": false,
+     "flip_multiplier": 0.8893869568794188,
+     "index": 8,
+     "own_p95": 2.133627900040008,
+     "own_reproduces": true,
+     "row": "self",
+     "verdict_wide": false
+    },
+    {
+     "b": -0.2034528182205142,
+     "band_hi": 0.20152376421923934,
+     "band_lo": -0.3227391896025501,
+     "cell": "early_three",
+     "flip_inside_spread": false,
+     "flip_multiplier": 0.6303939055900345,
+     "index": 10,
+     "own_p95": 1.9881347977384831,
+     "own_reproduces": true,
+     "row": "self",
+     "verdict_wide": false
+    }
+   ],
+   "rows_with_flip_inside_spread": []
+  }
+ },
+ "no_bill": "descriptive census over one published face; no trial, no ledger booking",
+ "source_faces": [
+  "BANDTRANSFER-2026-10-29.json"
+ ],
+ "study": "e271_donor_choice_sensitivity",
+ "summary": {
+  "donor_ends": 16,
+  "donor_ends_moving_a_row": 1,
+  "donor_invariant_groups": 3,
+  "donor_row_pairs": 36,
+  "donor_variant_groups": 1,
+  "flip_straddle_explains_moves": true,
+  "groups": 4,
+  "moved_row_indices": [
+   9,
+   13
+  ],
+  "pivotal_cells": {
+   "cross:60": "all_five"
+  },
+  "published_choice_conservative_in_all_groups": false,
+  "published_choice_moves_total": 2,
+  "rows_measured": 12,
+  "rows_moved_by_any_donor": 2,
+  "rows_with_flip_inside_spread": [
+   9,
+   13
+  ],
+  "variant_group_keys": [
+   "cross:60"
+  ],
+  "verdict": "donor_choice_matters_do_not_borrow_from_this_cell"
+ },
+ "title": "does the moved set depend on WHICH donor a reader picks, not just how wide it is?",
+ "verdict": "donor_choice_matters_do_not_borrow_from_this_cell",
+ "verdict_reason": "1 of 4 groups read different moved sets by donor (pivotal: cross:60=all_five); 2 of 12 measured rows move under at least one donor while 15 of 16 donor ends move nothing, so the instruction is 'do not borrow from this cell', not 'do not borrow'"
+}
