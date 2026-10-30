@@ -24,7 +24,7 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 21,
+  "bars": 22,
   "months_tracked": 0,
   "monthly_returns": [],
   "current_dd": 0.0,
@@ -40,7 +40,7 @@
     {
       "month": "2026-10",
       "return": 0.0,
-      "bars": 16,
+      "bars": 17,
       "month_ended": false,
       "full_from_hire": true,
       "counted": false
@@ -83,12 +83,12 @@
     "survive": false,
     "source": "paper_window"
   },
-  "cutoff": "2026-10-29",
-  "updated": "2026-10-29 22:31:09",
+  "cutoff": "2026-10-30",
+  "updated": "2026-10-30 21:00:50",
   "risk_regime": {
-    "is_major_bear": false,
-    "position_cap": 0.8,
-    "as_of": "2026-10-29"
+    "is_major_bear": true,
+    "position_cap": 0.2,
+    "as_of": "2026-10-30"
   },
   "regime_guard": {
     "mode": "enforce",
@@ -96,7 +96,6 @@
     "active_from": "2026-10-01",
     "gate_note": null,
     "v3_state_tail": {
-      "2026-10-16": "YELLOW",
       "2026-10-19": "YELLOW",
       "2026-10-20": "YELLOW",
       "2026-10-21": "YELLOW",
@@ -105,17 +104,18 @@
       "2026-10-26": "YELLOW",
       "2026-10-27": "YELLOW",
       "2026-10-28": "YELLOW",
-      "2026-10-29": "YELLOW"
+      "2026-10-29": "YELLOW",
+      "2026-10-30": "YELLOW"
     },
     "enforced": {
       "active_from": "2026-10-01",
-      "days_enforced": 16,
+      "days_enforced": 17,
       "entries_blocked": 0,
       "entries_halved": 0
     },
     "shadow_ref": {
-      "state": "ORANGE",
-      "asof": "2026-10-29"
+      "state": "RED",
+      "asof": "2026-10-30"
     },
     "note": "v3-enforced paper window (T-21); exits never forced; RED new-cash parking is structurally inert in paper (fixed INITIAL_CASH) -- live-gate concern, disclosed"
   },
@@ -127,7 +127,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-10-29 22:31:09",
+    "as_of": "2026-10-30 21:00:50",
     "note": "composition: buy_rejected_n may include T-21 regime-matrix drops (guard faces ANDed on the buy leg)",
     "consolidation": {
       "enabled": true,
