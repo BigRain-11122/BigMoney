@@ -283,6 +283,18 @@ def summarize(cells):
 def run(workers=None, k=0.0, cost=None, out=None):
     global OUT_JSON
     cost = H.COST if cost is None else cost
+    # r1360 unit guard: cost is a FRACTION per side, so 10bp is 0.0010 and a
+    # caller who writes --cost=20 (2000%/side) must be told so here rather than
+    # discovering it as `TypeError: float() argument must be ... not 'complex'`
+    # 280 cells later -- the equity level crosses zero, growth becomes negative
+    # and `growth ** (1/yrs)` returns a complex number inside stats2 (live case:
+    # pool row E272-ATLAS-COST20, stocked 2026-10-30 with --cost=20).
+    if not (0.0 <= float(cost) <= 0.05):
+        raise SystemExit(
+            "etf_book_phase_atlas: --cost=%r is not a fraction per side "
+            "(0 <= cost <= 0.05 = 500bp). 10bp is 0.0010, not 10; 20bp is "
+            "0.0020, not 20. Refusing to price a book at %.1f%% per side."
+            % (cost, float(cost) * 100.0))
     close, _o, _a, _s, _c, _nf = P.prep_panel()   # index only; workers load their own copy
     jobs = []
     for (n_hold, rebal) in CELLS:
@@ -538,6 +550,20 @@ def selftest():
     scratch.write_text(json.dumps({"rows": []}), encoding="utf-8")
     rc_empty = check(scratch)
     leg("gate: a face with no rows is red", rc_empty == 2, "rc=%d" % rc_empty)
+
+    # 9. r1360 unit guard: a cost written as basis points instead of a fraction is
+    # refused up front. --cost=20 crashed 280 cells deep in stats2 (negative equity
+    # -> growth ** (1/yr) is complex); the guard must name the unit, not fail later.
+    try:
+        run(workers=1, cost=20.0)
+        leg("unit guard: --cost=20 (2000%/side) is refused, not run", False, "no refusal")
+    except SystemExit as exc:
+        msg = str(exc)
+        leg("unit guard: --cost=20 (2000%/side) is refused, not run",
+            "0.0020" in msg and "fraction" in msg, msg[:70])
+    except Exception as exc:  # a TypeError here would mean the guard did not fire
+        leg("unit guard: --cost=20 (2000%/side) is refused, not run", False,
+            type(exc).__name__ + ": " + str(exc)[:50])
     # the scratch file is the only path selftest writes; the real face at OUT_JSON is never
     # created or removed by a test run
     try:

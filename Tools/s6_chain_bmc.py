@@ -96,6 +96,16 @@ LEGS = [
     # ticket. Both were hand-run only until r1275, so the accrual depended on a session
     # remembering to call them -- r1267, r1269 and r1273 each named that as owed.
     ("etf_book_forward", ["python", "scripts/etf_book_forward.py"]),
+    # r1366 (r1365's own owed item 2): when the forward leg freezes on a drift, the
+    # next question is whether a PUBLISHED bar was rewritten or whether the newest
+    # bar's panel was still filling -- and until now that question was answered by a
+    # session, one or two rounds later, by hand. It rides directly behind the leg it
+    # explains so a freeze is classified in the round it happens. Read-only by
+    # construction: it never writes the ledger, never re-runs the engine, never touches
+    # data/. ~2s. Exit 0 on all three verdicts (no_drift / provisional-only /
+    # settled_bar_drift) because a classified freeze is an observation, not a fault;
+    # `check` re-derives the stored verdict instead of trusting it.
+    ("etf_book_settle_audit", ["python", "scripts/etf_book_forward_settle_audit.py", "run"]),
     # The card is the headline face and the ticket the executable one; both are sold as
     # "the production book". r1290 found the card stranded a full refresh behind (priced
     # 2026-10-23/stale_feed while this ticket was already 2026-10-26/current) because only
@@ -150,6 +160,14 @@ LEGS = [
     # card, nothing re-ranked), so the operator's sheet cannot drift into the other book.
     # ~1s, offline, idempotent.
     ("etf_book_order_card", ["python", "scripts/etf_book_order.py", "card"]),
+    # r1366: the carry split answers "how much of the quoted return is repo interest",
+    # and it must be priced on the same bar as the ticket it explains. Hand-run only
+    # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that
+    # day's ticket already read 11.19%, i.e. the same orphan-face class as r1257
+    # (wide panel), r1290 (card), r1291 (width face) and r1295 (capacity): a face
+    # refreshed by hand reads as current to every reader that only checks existence.
+    # Rides behind the ticket leg (~5s on the warmed panel, no network).
+    ("etf_book_return_regime", ["python", "scripts/etf_book_return_regime.py", "run"]),
     # r1314: the card and the forward ledger are two independent records of ONE frozen
     # decision, and nothing compared them. Every leg above refreshes a face; this one asks
     # whether the paper book actually owns the book the card sells (names, weights, scale,

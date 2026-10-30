@@ -1,26 +1,28 @@
 {
- "as_of": "2026-10-30T13:24:09",
+ "as_of": "2026-10-30T18:12:53",
  "lane_start": "2026-09-24",
  "first_trading_day_seen": "1990-12-19",
  "last_trading_day_seen": "2026-10-30",
- "capture_window_open": true,
+ "capture_window_open": false,
  "counters": {
   "trading_days_since_lane_start": 21,
   "closed_days": 20,
   "captured": 17,
-  "holes": 3,
-  "pending": 1,
+  "holes": 4,
+  "pending": 0,
   "coverage_pct_closed": 85.0
  },
  "holes": [
   "2026-10-22",
   "2026-10-23",
-  "2026-10-26"
+  "2026-10-26",
+  "2026-10-30"
  ],
  "lane_owner": "bm-b",
  "holes_by_cause": {
   "host_offhours": 2,
-  "takeover_possible": 1
+  "takeover_possible": 1,
+  "lane_missed": 1
  },
  "hole_detail": [
   {
@@ -34,10 +36,14 @@
   {
    "date": "2026-10-26",
    "cause": "takeover_possible"
+  },
+  {
+   "date": "2026-10-30",
+   "cause": "lane_missed"
   }
  ],
  "last_captured": "2026-10-29",
- "verdict": "holes=3",
+ "verdict": "holes=4",
  "days": [
   {
    "date": "2026-09-24",
@@ -175,7 +181,8 @@
   },
   {
    "date": "2026-10-30",
-   "status": "pending"
+   "status": "missing_today",
+   "cause": "lane_missed"
   }
  ]
 }

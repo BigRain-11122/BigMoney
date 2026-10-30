@@ -24027,13 +24027,16 @@
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "blocked_by": "runner-import-missing:e230_hysteresis_toll",
+   "blocked_at": "2026-10-30T14:15+08:00",
+   "blocked_note": "runner scripts/e243_additivity_out_of_sample.py imports e235_charge_granularity, which imports e230_hysteresis_toll -- a file present in NO commit (digest only), so the row cannot start on a clean checkout. Publishing machine held it untracked (r1360)."
   },
   {
    "id": "E272-ATLAS-COST0",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (whole grid at zero toll)",
    "runner_args": [
@@ -24051,13 +24054,17 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T13:4x+08:00",
    "entered_by": "bm-c r1359",
-   "source": "r1350 phase atlas (band 6.68pp, between-cell spread 5.22pp, CONFIG_ORDER_WITHIN_PHASE_NOISE) measured at 10bp/side only"
+   "source": "r1350 phase atlas (band 6.68pp, between-cell spread 5.22pp, CONFIG_ORDER_WITHIN_PHASE_NOISE) measured at 10bp/side only",
+   "completed_at": "2026-10-30T14:15+08:00",
+   "completed_by": "bm-c r1360",
+   "result_ref": "results/etf_book_phase_atlas_cost0.json",
+   "result_note": "delivered r1163; re-derived today and every published number reproduced bit-for-bit (only audit.workers 4->8). Already-delivered row, not new supply -- the supply floor counted it anyway (r1360)."
   },
   {
    "id": "E272-ATLAS-COST20",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (whole grid at doubled toll)",
    "runner_args": [
@@ -24075,7 +24082,11 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T13:4x+08:00",
    "entered_by": "bm-c r1359",
-   "source": "same r1350 atlas face; band-vs-toll is a single-point measurement today"
+   "source": "same r1350 atlas face; band-vs-toll is a single-point measurement today",
+   "completed_at": "2026-10-30T14:15+08:00",
+   "completed_by": "bm-c r1360",
+   "result_ref": "results/etf_book_phase_atlas_cost20.json",
+   "result_note": "delivered r1163 (band 6.60pp vs between-cell spread 3.55pp -> CONFIG_ORDER_WITHIN_PHASE_NOISE); RE-RUN FAILS TODAY: TypeError float() got complex in the vol-target path at cost=20bp, so this published face currently has no working runner (r1360 defect, unfixed)."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

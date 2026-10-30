@@ -49,6 +49,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 
 from config import PATHS
+from etf_book_forward import partition_settled
 
 SCHEMA = "etf-book-forward-settle-audit/v1"
 LEDGER = os.path.join(PATHS.results_dir, "etf_book_forward", "LEDGER.json")
@@ -107,14 +108,13 @@ def _classify(ledger, coverage, universe_total, drift_tol):
     bars = [b["bar"] for b in ledger.get("bars") or []]
     if not bars:
         return {"verdict": "no_published_bars", "settled": [], "provisional": [], "checks": {}}
-    newest = bars[-1]
     # "settled" = the panel for that date has stopped growing, which we can only judge
     # by the panel as it stands: a date is provisional while later data is still arriving
-    # for the newest panel date. Empirical form: provisional = the newest published bar,
-    # and any bar whose date sits on the newest panel date.
+    # for the newest panel date. The rule itself lives in the engine (partition_settled)
+    # and is imported, not restated: this audit and the ledger gate must never disagree
+    # about which bars are open (E270 -- one rule spelled twice is not two rules).
     panel_last = max(coverage) if coverage else None
-    provisional = [b for b in bars if b == newest or b == panel_last]
-    settled = [b for b in bars if b not in provisional]
+    settled, provisional = partition_settled(bars, panel_last)
 
     drift = ledger.get("drift") or {}
     faces = drift.get("faces") or []
@@ -138,7 +138,7 @@ def _classify(ledger, coverage, universe_total, drift_tol):
         verdict = "drift_on_settled_bar"
     return {"verdict": verdict, "settled": settled, "provisional": provisional,
             "drifted_bars": drifted, "max_abs": worst, "checks": checks,
-            "newest_bar": newest, "panel_last_date": panel_last}
+            "newest_bar": bars[-1], "panel_last_date": panel_last}
 
 
 def build():
@@ -292,6 +292,11 @@ def selftest():
     tol, src = _ledger_drift_tol()
     chk("drift tolerance is quoted from the engine", tol > 0 and "engine" in src.lower() or
         "etf_book_forward" in src, src)
+
+    # L7: the settled/provisional rule is the engine's, not a local copy of it. If the two
+    #     ever diverge, the audit would classify a freeze under a rule the gate does not use.
+    chk("the settlement rule is imported from the engine",
+        partition_settled.__module__ == "etf_book_forward", partition_settled.__module__)
 
     ok = sum(1 for _, p, _ in legs if p)
     for name, passed, note in legs:

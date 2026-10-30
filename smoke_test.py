@@ -635,9 +635,13 @@ def main() -> int:
         # was wired -- an unwired face reads as current to everything downstream.
         # etf_book_width_audit prices the disagreement between the card and the ticket,
         # so it goes stale the moment either moves: r1291 found it two bars behind both.
+        # r1366: etf_book_return_regime is the carry split behind the ticket's cagr --
+        # it was hand-run and sat a full session behind (11.33% vs the ticket's 11.19%),
+        # so the face that explains the headline number was explaining yesterday's book.
         _want = {"etf_book_forward", "etf_book_production", "etf_book_order",
                  "etf_book_width_audit", "etf_book_registry", "etf_book_ceo_page",
-                 "etf_book_card_track", "etf_paper_signal", "cal_audit"}
+                 "etf_book_card_track", "etf_paper_signal", "cal_audit",
+                 "etf_book_return_regime", "etf_book_settle_audit"}
         _miss = sorted(_want - _names)
         check("product: ETF book legs wired into the S6 chain",
               not _miss, f"legs={len(_names)} missing={_miss or 'none'}")
@@ -3380,10 +3384,21 @@ def main() -> int:
             _idy27 = _rg.get("identity") or {}
             if _idy27.get("matched") is not True:
                 _bad27.append("the artifact itself records a failed identity check")
+            # The page is bm-a's to write (scripts/etf_book_ceo_page.py HOST). Asking any
+            # other machine to police its text is the r1135 mistake: a leg that assumes a
+            # deployment layout is permanently red on the machines that do not own it.
+            # Every host still checks the artifact; only the writer checks the page.
             _md27p = os.path.join(PATHS.root, "docs", "live_book",
                                   "LIVE-BOOK-%s.md" % str(_rg.get("evidence_cutoff") or "")
                                   .replace("-", ""))
-            if os.path.exists(_md27p):
+            try:
+                import etf_book_ceo_page as _pg27
+                _pgwriter27 = _pg27.writer_allowed(None)
+            except Exception:
+                _pgwriter27 = True
+            if not _pgwriter27:
+                pass
+            elif os.path.exists(_md27p):
                 with open(_md27p, encoding="utf-8") as _fh27:
                     _md27 = _fh27.read()
                 if "这笔钱里有多少是" not in _md27:
@@ -3668,6 +3683,58 @@ def main() -> int:
     except Exception as e:
         check("product: the two live widths are priced on one ruler and the gap is inside the "
               "engines' own disagreement", False, repr(e)[:160])
+    try:
+        # r1362: a width sign is only a sign if it survives off the grid that produced it AND
+        # is not what a noise score produces. Re-derive both from the face's own numbers: every
+        # rung must have traded, the arm states must follow from their rank correlations, and the
+        # real-minus-null difference must be the difference of the two published columns.
+        _wp = os.path.join("results", "etf_book_width_cross.json")
+        if os.path.exists(_wp):
+            _wj = json.load(open(_wp, encoding="utf-8"))
+            _wbad = []
+            _spec = _wj.get("spec") or {}
+            for _a in (_wj.get("arms") or []):
+                _rho = _a.get("rho_cagr_width")
+                _share = (_a.get("paired_cagr") or {}).get("share_up")
+                if _rho is None or _share is None:
+                    _wbad.append("arm %s has no rank corr / paired share" % _a.get("cost_bp"))
+                    continue
+                _want = ("replicates" if (_rho >= float(_spec.get("rho_min", 0.7))
+                                          and _share >= float(_spec.get("phase_share_min", 0.6)))
+                         else "flips" if (_rho <= -float(_spec.get("rho_min", 0.7))
+                                          or _share <= float(_spec.get("phase_share_flip", 0.4)))
+                         else "undecided")
+                if _want != _a.get("state"):
+                    _wbad.append("arm %s stored %s, its numbers say %s"
+                                 % (_a.get("cost_bp"), _a.get("state"), _want))
+                for _w, _row in (_a.get("per_width") or {}).items():
+                    if (_row.get("turnover_median") or 0) <= 0:
+                        _wbad.append("width %s at %sbp never traded"
+                                     % (_w, _a.get("cost_bp")))
+            _att = _wj.get("attribution") or {}
+            if _att.get("status") == "read":
+                _r = _att.get("real_cagr_pp") or []
+                _n = _att.get("null_cagr_pp") or []
+                _d = _att.get("deltas_pp") or []
+                if len(_r) == len(_n) == len(_d):
+                    for _i in range(len(_d)):
+                        if abs((_r[_i] - _n[_i]) - _d[_i]) > 0.02:
+                            _wbad.append("delta[%d] is not real minus null" % _i)
+                else:
+                    _wbad.append("attribution columns are ragged")
+            else:
+                _wbad.append("no random-score control on the face")
+            check("product: the width sign is read against a noise score, not just another grid",
+                  not _wbad, "; ".join(_wbad)[:220]
+                  or "%s | real-null %spp | rho null %s"
+                  % (_wj.get("verdict"), (_att.get("deltas_pp") or [])[:4],
+                     _att.get("rho_null_width")))
+        else:
+            check("product: the width sign is read against a noise score, not just another grid",
+                  True, "width-cross face absent -- soft-fails by design")
+    except Exception as e:
+        check("product: the width sign is read against a noise score, not just another grid",
+              False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 

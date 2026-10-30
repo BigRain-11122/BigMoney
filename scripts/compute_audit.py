@@ -67,7 +67,7 @@ IGNITION_SLA_MIN = 1.0        # O-20260928-1614 sec.2 acceptance line:
                               # 10-min tick stays as the backstop lane
 SUPPLY_GAP_SUSTAIN_MIN = 15.0  # O-20260928-1614 sec.5 P0 window
 SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
-                       "ignition_sla")
+                       "ignition_sla", "supply_unstartable")
 OWNER_SILENT_MIN = 120.0      # r1100/r1101 takeover gate: an owner heartbeat
                               # this stale makes its ready work un-ignitable
                               # (reported, not auto-claimed, by the audit)
@@ -303,6 +303,50 @@ def _missing_runner(entry, root):
     return None if os.path.exists(os.path.join(root, rel)) else rel
 
 
+def _unsharded(entry):
+    """True when a READY entry carries no shard for any launcher to claim.
+
+    2026-10-30 bm-c live: the floor read ready=3 / floor=3 / breach=false over
+    E243-ADDITIVITY-OUT-OF-SAMPLE (whose import chain names a module that is in
+    no commit) plus two atlas rows with no `shards` array -- `Tools/autofill.py
+    tick` answered `ghost_ready_no_shards` for all three while py sat at 0.1%.
+    The shard is the claim unit (r301 submit law, r1353 ghost naming), so an
+    entry without one is a PROPOSAL exactly like a runner path that does not
+    exist; counting it as supply greens the floor over work no executor takes.
+    """
+    return not (entry.get("shards") or [])
+
+
+def _unresolved_dep(entry, root):
+    """The first repo-owning module a ready entry's runner imports that is absent.
+
+    Deliberately narrow, like _missing_runner: only `import eNNN_*` / `from eNNN_*`
+    names are treated as promises, because that is this repo's own script naming.
+    A third-party or stdlib name is left alone rather than guessed at.
+
+    2026-10-30 live case: E243's runner imports e235_charge_granularity, which
+    imports e230_hysteresis_toll -- a file that has never been in any commit
+    (only its digest landed), so a row published as ready supply cannot start on
+    any clean checkout. The publishing machine held the file untracked locally,
+    which is why the pool has to check the tree rather than trust the author.
+    """
+    m = re.search(r"((?:scripts|Tools)[/\\][A-Za-z0-9_.\-]+\.py)", str(entry.get("runner") or ""))
+    if not m:
+        return None
+    rel = m.group(1).replace("\\", "/")
+    path = os.path.join(root, rel)
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            src = fh.read()
+    except OSError:
+        return None
+    here = os.path.dirname(path)
+    for name in re.findall(r"^\s*(?:import|from)\s+(e\d{3}_[A-Za-z0-9_]+)", src, re.M):
+        if not os.path.exists(os.path.join(here, name + ".py")):
+            return {"entry": entry.get("id"), "runner": rel, "missing_module": name}
+    return None
+
+
 def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None):
     """Split READY pool work by whether a live machine can actually ignite it.
 
@@ -330,6 +374,8 @@ def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None
     ignitable, foreign_silent, foreign_alive, owner_unknown = 0, 0, 0, 0
     takeover, silent_owners, unknown_owners = [], {}, set()
     runner_missing, runner_missing_paths = [], {}
+    unclaimable, dep_broken = [], []
+    launchable = 0
     for e in ready:
         # a ready entry whose runner does not exist yet is a PROPOSAL, not supply.
         # 2026-10-29 live case: E228 sat in the pool as "scripts/e228_matched_exposure.py
@@ -340,9 +386,24 @@ def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None
             runner_missing.append(e.get("id"))
             runner_missing_paths[e.get("id")] = miss
             continue
+        # r1360: the question the LAUNCHER asks, kept SEPARATE from ready_ignitable
+        # ("would a live machine be allowed to take it") so the published owner-law
+        # number keeps its history. r1353/r1360 live: three ready rows, none
+        # startable, floor read breach=false while py sat at 0.1%.
+        structurally_ok = True
+        if _unsharded(e):
+            unclaimable.append(e.get("id"))
+            structurally_ok = False
+        else:
+            dep = _unresolved_dep(e, root)
+            if dep:
+                dep_broken.append(dep)
+                structurally_ok = False
         owner = e.get("lane_owner")
         if owner in (None, "", "ANY", "any") or owner == machine_id:
             ignitable += 1
+            if structurally_ok:
+                launchable += 1
             continue
         age = silence.get(owner)
         if age is None:
@@ -364,6 +425,11 @@ def ignitable_face(entries, silence, machine_id, silent_min=None, repo_root=None
         "ready_runner_missing": len(runner_missing),
         "runner_missing_ids": runner_missing,
         "runner_missing_paths": runner_missing_paths,
+        "ready_unclaimable": len(unclaimable),
+        "unclaimable_ids": unclaimable,
+        "ready_dep_broken": len(dep_broken),
+        "dep_broken": dep_broken,
+        "ready_launchable": launchable,
         "takeover_candidate_ids": takeover,
         "takeover_needs_corroboration": True,
         "silent_owners": silent_owners,
@@ -717,6 +783,18 @@ def main():
     if ignitable and (ignitable["ready_total"] - ignitable.get("ready_runner_missing", 0)) > 0 \
             and ignitable["ready_ignitable"] == 0:
         flags.append("supply_owner_silent")
+    # r1360 supply_unstartable: allowed-to-take and able-to-start are different
+    # questions. 2026-10-30 bm-c live: ready=3/floor=3/breach=false looked fine
+    # to every owner-law reader while the launcher answered
+    # `ghost_ready_no_shards` for all three (two atlas rows with no shard, one
+    # runner whose import chain names a module absent from every commit) and py
+    # sat at 0.1%. The floor is only green over work that can be launched.
+    unstartable_face = bool(
+        ignitable and ignitable.get("ready_ignitable")
+        and ignitable.get("ready_launchable") == 0
+        and py_cpu_pct is not None and py_cpu_pct < STARVATION_PY_CPU)
+    if unstartable_face:
+        flags.append("supply_unstartable")
     streak_min = supply_family_streak_min(hist, flags, time.time())
 
     record = {
@@ -738,6 +816,11 @@ def main():
         "supply_gap_detail": gap_detail,
         "supply_floor": {"ready": ready, "floor": SUPPLY_FLOOR_READY,
                          "breach": floor_breach,
+                         "ready_launchable": (None if ignitable is None else
+                                              ignitable.get("ready_launchable")),
+                         "breach_launchable": (None if ignitable is None else
+                                               (ignitable.get("ready_launchable") or 0)
+                                               < SUPPLY_FLOOR_READY),
                          "ready_ignitable": (None if ignitable is None else
                                              ignitable["ready_ignitable"]),
                          "breach_ignitable": (None if ignitable is None else
@@ -1048,6 +1131,55 @@ def _selftest():
                                     {}, "bm-a", repo_root=_rd)
         check("r1147 an all-ghost pool reads zero ignitable (no false floor)",
               (_all_ghost["ready_ignitable"], _all_ghost["ready_runner_missing"]), (0, 1))
+
+    # ---- r1360 legs: launchable != ignitable (shardless rows, broken imports) ----
+    with _tf.TemporaryDirectory() as _ld:
+        os.makedirs(os.path.join(_ld, "scripts"), exist_ok=True)
+        with open(os.path.join(_ld, "scripts", "e999_ok.py"), "w", encoding="utf-8") as f:
+            f.write("import e998_present\n")
+        with open(os.path.join(_ld, "scripts", "e998_present.py"), "w", encoding="utf-8") as f:
+            f.write("# fine\n")
+        with open(os.path.join(_ld, "scripts", "e997_broken.py"), "w", encoding="utf-8") as f:
+            f.write("import e996_absent_core\n")
+        _shard = [{"key": "s0", "status": "open"}]
+        _lp = [{"id": "OK", "status": "ready", "lane_owner": None,
+                "runner": "scripts/e999_ok.py", "shards": _shard},
+               {"id": "NOSHARD", "status": "ready", "lane_owner": None,
+                "runner": "scripts/e999_ok.py"},
+               {"id": "DELIB", "status": "ready", "lane_owner": None,
+                "runner": "scripts/e997_broken.py", "shards": _shard}]
+        _l = ignitable_face(_lp, {}, "bm-a", repo_root=_ld)
+        check("r1360 owner law unchanged: all three allowed to be taken",
+              _l["ready_ignitable"], 3)
+        check("r1360 shardless ready row is unclaimable, named",
+              (_l["ready_unclaimable"], _l["unclaimable_ids"]), (1, ["NOSHARD"]))
+        check("r1360 runner importing a module absent from the tree is named",
+              (_l["ready_dep_broken"],
+               ([(d["entry"], d["missing_module"]) for d in _l["dep_broken"]])),
+              (1, [("DELIB", "e996_absent_core")]))
+        check("r1360 launchable counts only rows that can actually start",
+              _l["ready_launchable"], 1)
+        _all_un = ignitable_face([{"id": "N1", "status": "ready", "lane_owner": None,
+                                  "runner": "scripts/e999_ok.py"},
+                                 {"id": "N2", "status": "ready", "lane_owner": None,
+                                  "runner": "scripts/e999_ok.py"}],
+                                 {}, "bm-a", repo_root=_ld)
+        check("r1360 the live 10-30 shape: ignitable 2 but launchable 0",
+              (_all_un["ready_ignitable"], _all_un["ready_launchable"]), (2, 0))
+        # cross-face parity: the launcher's own ghost rule must name the same rows.
+        try:
+            import importlib.util as _ilu
+            _spec = _ilu.spec_from_file_location(
+                "_bigmoney_autofill", os.path.join(ROOT, "Tools", "autofill.py"))
+            _af = _ilu.module_from_spec(_spec)
+            _spec.loader.exec_module(_af)
+            _pool = {"entries": _lp}
+            _ghost = sorted(_af.unclaimable_ready_ids(_pool, "bm-a"))
+            check("r1360 launcher ghost list == audit unclaimable ids (one rule, two readers)",
+                  (_ghost, sorted(_l["unclaimable_ids"])), (["NOSHARD"], ["NOSHARD"]))
+        except Exception as _e:  # pragma: no cover - launcher absent is a real skip
+            check("r1360 launcher parity leg ran (Tools/autofill.py importable)",
+                  "skip:" + type(_e).__name__, "ran")
     # heartbeat_silence reads a real directory (hermetic temp dir)
     import tempfile
     with tempfile.TemporaryDirectory() as hdir:

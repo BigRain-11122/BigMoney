@@ -39,7 +39,9 @@
    "carry": 3.31197e-05,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0
+   "turn": 0.0,
+   "provisional": false,
+   "settled_at": "2026-10-30T19:18:29+0800"
   },
   {
    "bar": "2026-10-27",
@@ -49,7 +51,9 @@
    "carry": 1.10399e-05,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0
+   "turn": 0.0,
+   "provisional": false,
+   "settled_at": "2026-10-30T19:18:29+0800"
   },
   {
    "bar": "2026-10-28",
@@ -59,17 +63,32 @@
    "carry": 1.10399e-05,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0
+   "turn": 0.0,
+   "provisional": false,
+   "settled_at": "2026-10-30T19:18:29+0800"
   },
   {
    "bar": "2026-10-29",
-   "nav": 1.014536476,
-   "dd": -0.000867,
+   "nav": 1.0145314121,
+   "dd": -0.000872,
    "cash": 0.299225,
-   "carry": 1.10399e-05,
+   "carry": 6.0528e-06,
    "n_held": 12,
    "filled": false,
-   "turn": 0.0
+   "turn": 0.0,
+   "provisional": false,
+   "restated_at": "2026-10-30T19:18:29+0800"
+  },
+  {
+   "bar": "2026-10-30",
+   "nav": 1.0085993056,
+   "dd": -0.006714,
+   "cash": 0.299225,
+   "carry": 1.11219e-05,
+   "n_held": 12,
+   "filled": false,
+   "turn": 0.0,
+   "provisional": true
   }
  ],
  "books": {},
@@ -97,7 +116,23 @@
  "drift": {
   "faces": [],
   "max_abs": 0.0,
-  "checked_bars": 5
+  "checked_bars": 6,
+  "gate": "settled_bars_only",
+  "settled_bars": [
+   "2026-10-23",
+   "2026-10-26",
+   "2026-10-27",
+   "2026-10-28",
+   "2026-10-29"
+  ],
+  "provisional_bars": [
+   "2026-10-30"
+  ],
+  "settled_faces": [],
+  "provisional_faces": [],
+  "benchmark_settled_faces": [],
+  "benchmark_provisional_faces": [],
+  "restated_bars": []
  },
  "rebases": [],
  "runs": [
@@ -221,10 +256,20 @@
    "ts": "2026-10-30T00:32:30+0800",
    "new_bars": 0,
    "last_bar": "2026-10-29"
+  },
+  {
+   "ts": "2026-10-30T19:06:46+0800",
+   "new_bars": 1,
+   "last_bar": "2026-10-30"
+  },
+  {
+   "ts": "2026-10-30T19:18:33+0800",
+   "new_bars": 0,
+   "last_bar": "2026-10-30"
   }
  ],
  "panel": {
-  "n_instruments": 1612,
+  "n_instruments": 1613,
   "flips_repaired": 168
  },
  "caveats": [
@@ -289,8 +334,15 @@
     "bar": "2026-10-29",
     "nav": 1.0022314905,
     "filled": false,
-    "book_nav": 1.014536476,
-    "excess": 0.0122775882
+    "book_nav": 1.0145314121,
+    "excess": 0.0122725356
+   },
+   {
+    "bar": "2026-10-30",
+    "nav": 0.9902396044,
+    "filled": false,
+    "book_nav": 1.0085993056,
+    "excess": 0.0185406654
    }
   ],
   "rebalance_friction": {
@@ -300,34 +352,34 @@
   },
   "decisions": 83,
   "latest": {
-   "bar": "2026-10-29",
-   "book_nav": 1.014536476,
-   "basket_nav": 1.0022314905,
-   "excess_pp": 1.2278
+   "bar": "2026-10-30",
+   "book_nav": 1.0085993056,
+   "basket_nav": 0.9902396044,
+   "excess_pp": 1.8541
   },
   "significance": {
    "available": true,
-   "bars_used": 1651,
-   "windows": "2020-01-02..2026-10-29",
-   "daily_vol_pct": 0.54124,
-   "annual_vol_pct": 8.454,
+   "bars_used": 1652,
+   "windows": "2020-01-02..2026-10-30",
+   "daily_vol_pct": 0.54129,
+   "annual_vol_pct": 8.455,
    "noise_band_pp": {
-    "1m": 4.744,
-    "3m": 8.217,
-    "1y": 16.571,
-    "3y": 28.701
+    "1m": 4.745,
+    "3m": 8.218,
+    "1y": 16.572,
+    "3y": 28.704
    },
-   "noise_band_pp_at_published": 2.372,
-   "published_bars": 5,
+   "noise_band_pp_at_published": 2.599,
+   "published_bars": 6,
    "bars_needed_for_edge": {
-    "3pp/yr": 7752,
-    "5pp/yr": 2791,
+    "3pp/yr": 7753,
+    "5pp/yr": 2792,
     "10pp/yr": 698
    },
    "min_detectable_edge_pp": {
-    "1y": 16.909,
-    "3y": 9.762,
-    "5y": 7.562
+    "1y": 16.91,
+    "3y": 9.763,
+    "5y": 7.563
    },
    "power": {
     "units": {
@@ -338,16 +390,16 @@
     "power": 0.8,
     "alpha_two_sided": 0.05,
     "z": 2.802,
-    "annual_vol_pct": 8.454,
+    "annual_vol_pct": 8.455,
     "min_detectable_edge_pp": {
-     "6m": 33.502,
-     "1y": 23.689,
-     "2y": 16.751,
-     "3y": 13.677
+     "6m": 33.505,
+     "1y": 23.692,
+     "2y": 16.752,
+     "3y": 13.678
     },
     "years_for_80pct_power": {
      "pre-2020 measured alpha (single arm)": 136.2,
-     "in-window measured alpha (single arm)": 16.1
+     "in-window measured alpha (single arm)": 15.8
     },
     "candidate_sources": {
      "pre-2020 measured alpha (single arm)": {
@@ -358,14 +410,58 @@
      "in-window measured alpha (single arm)": {
       "file": "results/etf_book_spanning.json",
       "field": "arms.book.full.alpha_annual",
-      "edge_pp_per_year": 5.91
+      "edge_pp_per_year": 5.96
      }
     },
     "available": true,
     "read": "a spread inside these bands is not evidence either way: at 12 months this ledger can only resolve edges above its 1y band, and the two edges this book actually published need years, not months"
    },
-   "book_cagr_pct_on_same_window": 9.256,
+   "book_cagr_pct_on_same_window": 9.155,
    "read": "a spread smaller than the band at the bar count it was measured over is indistinguishable from noise; the band shrinks as sqrt(bars), not faster"
   }
- }
+ },
+ "unfreezes": [
+  {
+   "ts": "2026-10-30T19:06:43+0800",
+   "reason": "no settled bar failed to re-derive; the freeze came from a provisional bar (2026-10-29)",
+   "restated_bars": []
+  },
+  {
+   "ts": "2026-10-30T19:18:30+0800",
+   "reason": "no settled bar failed to re-derive; the freeze came from a provisional bar (2026-10-30)",
+   "restated_bars": [
+    "2026-10-29"
+   ]
+  }
+ ],
+ "migrations": [
+  {
+   "ts": "2026-10-30T19:09:50+0800",
+   "bar": "2026-10-30",
+   "reason": "publish-time provisional flags did not exist when this bar was written; treated as provisional once so a panel that was still filling cannot become a settled-bar drift on the next run"
+  },
+  {
+   "ts": "2026-10-30T19:17:44+0800",
+   "bars": [
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30"
+   ],
+   "reason": "publish-time provisional flags did not exist when these bars were written; each was appended on its own bar date (close-day panel still gaining symbols), so each is treated as provisional until it settles"
+  }
+ ],
+ "provisional_flags": 2,
+ "restatements": [
+  {
+   "ts": "2026-10-30T19:18:29+0800",
+   "bar": "2026-10-29",
+   "reason": "published while the panel for that date was still gaining symbols",
+   "panel_last_date": "2026-10-30",
+   "nav_published": 1.014536476,
+   "nav_settled": 1.0145314121,
+   "delta": 5.0639e-06
+  }
+ ]
 }

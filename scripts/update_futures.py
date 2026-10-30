@@ -82,32 +82,60 @@ _DATES_CACHE = None
 COMPLETE_HOUR = dt.time(15, 30)  # mirrors completeness_filter convention
 
 
+def merge_trading_dates(cal_dates, panel_dates):
+    """Union of the official calendar and the panel dates (pure; r1366).
+
+    Calendar first: a late vendor bar must not be able to shorten the exchange
+    calendar, and a panel date the calendar has not published yet must not be
+    dropped (union is the honest read of two witnesses)."""
+    out = set()
+    for seq in (cal_dates or [], panel_dates or []):
+        out.update(str(d) for d in seq if d)
+    return sorted(out) if out else None
+
+
 def _load_trading_dates():
-    """Local ETF trading-day calendar as sorted ISO strings (update_lhb
-    pattern: data/daily 510300.csv primary, glob fallback, None -> weekday
-    approximation). Same exchange-day fabric as futures (R50 G3: two
-    cross-exchange gap dates in 21k rows = 0.009%, accepted)."""
+    """Local exchange-day calendar as sorted ISO strings.
+
+    r1366: the OFFICIAL calendar (data/exchange_calendar.csv, sina-built) is
+    primary and the ETF panels are only a supplement. Until this fix the panels
+    were primary, so whichever file the loader landed on first decided whether
+    today was an exchange day: on 2026-10-30 510300.csv's vendor bar was a
+    session late, this function answered "today is not a trading day", the
+    cutoff gate said "nothing to fetch", the whole futures lane no-op'd at
+    17:48 -- and the TSMOM face next door flagged itself stale against the same
+    calendar it never asked. A panel is not a calendar (E136 family).
+    """
     global _DATES_CACHE
     if _DATES_CACHE is not None:
         return _DATES_CACHE
     import csv as _csv
     import glob as _glob
+
+    def _dates_in(p):
+        with io.open(p, "r", encoding="utf-8") as f:
+            ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
+        return sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
+
+    cal = None
+    try:
+        cal = _dates_in(os.path.join(ROOT, "data", "exchange_calendar.csv"))
+    except Exception:
+        cal = None
     cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
     cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data", "daily", "*.csv")))
               if p != cands[0]]
-    dates = None
+    panel = None
     for p in dict.fromkeys(cands):
         try:
-            with io.open(p, "r", encoding="utf-8") as f:
-                ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
-            ds = sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
+            ds = _dates_in(p)
             if len(ds) >= 100:
-                dates = ds
+                panel = ds
                 break
         except Exception:
             continue
-    _DATES_CACHE = dates
-    return dates
+    _DATES_CACHE = merge_trading_dates(cal, panel)
+    return _DATES_CACHE
 
 
 def expected_latest_bar_date(now, dates=None):
@@ -352,14 +380,18 @@ def run():
     st = load_status()
     now = dt.datetime.now()
     # Daily-cutoff gate FIRST: verified zero-network no-op when the local
-    # chain already covers the latest possible complete-bar date. Bumps
-    # ts+last_attempt so the panel reader stays fresh; throttle window also
-    # restarts (benign: worst case the new daily bar lands ~30min after
-    # publication -- same-evening source lag self-heals, update_lhb precedent).
+    # chain already covers the latest possible complete-bar date. Bumps ts so
+    # the panel reader stays fresh.
+    # r1366: it no longer bumps last_attempt. That field is the NETWORK budget
+    # (r18 lesson: crash mid-run still throttles), and a gate reading is not an
+    # attempt -- on 2026-10-30 the gate answered wrongly at 17:48 (panel-vs-
+    # calendar bug above), the no-op stamped 17:48, and the corrected run was
+    # then locked out until 18:18 by a window it never used. A field that names
+    # an attempt must record attempts (r1315 family: name vs value).
     local_cut = local_data_cutoff()
     needs_fetch, expected, gate_reason = cutoff_gate(local_cut, now)
     if not needs_fetch:
-        st["last_attempt"] = st["ts"] = now.isoformat(timespec="seconds")
+        st["ts"] = now.isoformat(timespec="seconds")
         st["mode"] = "no-op: cutoff covered"
         st["no_op_reason"] = gate_reason
         st["expected_cutoff"] = expected
@@ -527,6 +559,16 @@ def _selftest():
     assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 16, 0), []) == "2026-09-24"  # degenerate/absent calendar -> weekday fallback, post-15:30 Thu
     assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 7, 0), []) == "2026-09-23"
     assert expected_latest_bar_date(dt.datetime(2026, 9, 26, 16, 0), []) == "2026-09-25"  # Sat -> walk back
+    # S8b (r1366) a late vendor bar must not shorten the exchange calendar: the live
+    # 2026-10-30 case was panel tail 10-29 / official calendar 10-30, which made the
+    # gate say "nothing to fetch" for a whole session. Union -> today counts.
+    assert merge_trading_dates(["2026-10-30"], ["2026-10-29"]) == ["2026-10-29", "2026-10-30"]
+    assert merge_trading_dates(None, None) is None
+    assert merge_trading_dates(["2026-10-30"], None) == ["2026-10-30"]
+    assert expected_latest_bar_date(dt.datetime(2026, 10, 30, 16, 0),
+                                    merge_trading_dates(["2026-10-30"], ["2026-10-29"])) == "2026-10-30"
+    # and the self-heal is preserved: panel-only calendar without today still defers
+    assert expected_latest_bar_date(dt.datetime(2026, 10, 30, 16, 0), ["2026-10-29"]) == "2026-10-29"
     # S9 cutoff_gate
     needs, exp, _ = cutoff_gate("2026-09-23", dt.datetime(2026, 9, 24, 7, 0), cal)
     assert not needs and exp == "2026-09-23"

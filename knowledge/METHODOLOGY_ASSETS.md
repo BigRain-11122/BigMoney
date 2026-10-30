@@ -6554,3 +6554,37 @@ Pos: scripts/etf_book_atlas_toll_ladder.py (selftest 32/32; rung membership off 
 two-knob faces refused; crossing interpolated; `--check` recomputes the verdict from frozen
 constants) + results/etf_book_atlas_toll_ladder.json (+ .md) + smoke leg that rebuilds every
 rung's spread from the source arm faces + chain leg `etf_book_atlas_toll_ladder`.
+
+## E276 A width sign measured inside one grid is not portable until it is read against a noise score (2026-10-30 r1362 bm-c)
+
+E275 published exactly one stable direction: wider books earn more, +0.69 -> +1.56pp median CAGR
+at rank corr +1.000 across five toll rungs. It was measured inside one grid on one panel. Re-asked
+on the E198 18-name cross (widths 3/5/8/12, cadence 20, costs 0 and 8bp, 5 decision phases), the
+sign flips: rank corr(width, CAGR) -1.000 at BOTH cost arms, widest beats narrowest in 0 of 5
+paired phases, and narrow 3 names beats wide 12 names by 6.4pp/yr at the production toll (12.76%
+vs 6.34%). Vol goes UP with width there (13.8% -> 18.5%) because the composite's negative-sign
+factors (vol_60, intraday_range) mean widening adds the high-vol names -- so the flip is not a
+"narrow book is riskier" artefact; Sharpe falls 1.06 -> 0.44 alongside.
+
+Then the control that makes the reading usable: a SEEDED random score on the same panel, same
+engine, same widths (20 seeds x 2 phases x 4 widths = 160 runs) earns MORE as the book widens
+(1.25/1.76/2.85/3.04%, rank corr +1.000) while its vol FALLS (22.8% -> 20.5%). That is
+diversification arithmetic on a rising panel, and it is the same direction E275 quoted -- so the
+family's width sign is the sign a signal-free book has, and cannot be credited to the signal until
+a null runs on the family panel. Real-minus-null decays monotonically 11.51/7.28/5.92/3.30pp:
+the edge lives in the top few names.
+
+Law: (1) any knob direction quoted from one grid on one panel is a naming until it is re-read on an
+independent panel -- and "independent" means the ranks are recomputed there, so the instrument
+differs too; (2) a width sign without a null is a volatility sign: read real and noise on the SAME
+panel and publish the difference, per rung; (3) when the quoted family direction equals the noise
+direction, the honest output is "needs its own null", never "confirmed"; (4) publish every cost
+arm's state and let a disagreement become WIDTH_SIGN_ARM_DEPENDENT rather than rounding to the
+friendlier arm, and refuse a rung that never traded (turnover 0 is not a measurement).
+
+Pos: scripts/etf_book_width_cross.py (selftest 25/25; frozen spec/verdict rule; paired-by-phase
+shares; null keeps the real eligibility mask; attribution separates arithmetic from score;
+`--check` recomputes every arm state and rejects a zero-turnover rung) +
+results/etf_book_width_cross.json (+ .md) + digest DIGEST-20261030-r1362-width-sign-cross-panel.md
++ smoke leg that rebuilds the arm states and the real-minus-null deltas from the published columns
++ chain leg `etf_book_width_cross`.

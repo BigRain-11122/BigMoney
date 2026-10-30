@@ -1683,6 +1683,18 @@ def _ghost_ready_ids(pool, myid, skip=None):
     return out
 
 
+def unclaimable_ready_ids(pool, myid, skip=None):
+    """Public name for _ghost_ready_ids (r1360 bm-c).
+
+    The round-side audit (scripts/compute_audit.py ignitable_face) has to report
+    the SAME answer as the launcher about the same pool, or the published floor
+    and the published tick describe two different worlds -- the r1360 live case:
+    floor read breach=false over three rows this function names as unclaimable.
+    One rule, two readers (E270: one rule spelled twice is not two rules).
+    """
+    return _ghost_ready_ids(pool, myid, skip=skip)
+
+
 def _git(args):
     """Central git runner (selftest stubs this for hermetic claim legs).
     r790 bm-c: 60s hard timeout -- a hung network fetch/push must fail

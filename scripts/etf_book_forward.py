@@ -56,6 +56,17 @@ SCHEMA = "etf-book-forward/v1"
 OUT_DIR = os.path.join(PATHS.results_dir, "etf_book_forward")
 LEDGER = os.path.join(OUT_DIR, "LEDGER.json")
 DRIFT_TOL = 1e-9
+# A drift gate may only police SETTLED bars. The newest published bar is provisional until
+# the panel for its date stops gaining symbols: a late print replaces a stale ffill, which
+# moves that symbol's cross-sectional features and can flip the book's ranked selection on
+# an already-published date -- with no revision anywhere and no row rewritten. Freezing on
+# it (r1362/r1364/r1365, three rounds on the 2026-10-29 face, 5.064e-06) makes the gate
+# answer a question nobody asked, and the only escape it offers rewrites the history it
+# exists to protect. Settings: a provisional bar that comes back different once its panel
+# settles gets ONE disclosed restatement; every other bar must re-derive bit-for-bit.
+# Bumping this re-runs the one-time grandfathering; v1 flagged only the newest bar and left
+# the bar published the day before it stranded as a settled-bar drift (seen live, r1366).
+PROVISIONAL_FLAG_VERSION = 2
 MAX_RUNS = 40
 BARS_PER_YEAR = 244.0   # the repo's trading-year convention, used everywhere else for CAGR
 T_CRIT = 2.0            # the t a forward spread has to reach before it means anything
@@ -608,6 +619,104 @@ def bench_drift(published, fresh, tol=DRIFT_TOL):
     return faces[:20]
 
 
+def partition_settled(bars, panel_last_date):
+    """(settled, provisional) published bar dates -- the ONE implementation.
+
+    A bar is provisional if it is the newest published bar or if its date is the newest
+    date in the panel: either way more prints for that date can still arrive. Everything
+    older has stopped gaining symbols and must reproduce exactly. The settle audit imports
+    this rather than deciding settledness a second time (E270: one rule spelled twice is
+    not two rules).
+    """
+    bars = list(bars)
+    if not bars:
+        return [], []
+    newest = bars[-1]
+    provisional = [b for b in bars if b == newest or b == panel_last_date]
+    settled = [b for b in bars if b not in provisional]
+    return settled, provisional
+
+
+def split_faces(faces, settled):
+    """Drift faces split by whether the bar they name has settled (blocking) or not."""
+    settled = set(settled)
+    blocking, provisional = [], []
+    for f in faces or []:
+        bar = str(f).split(":")[0]
+        (blocking if bar in settled else provisional).append(f)
+    return blocking, provisional
+
+
+def restate_provisional(led, rec, fresh, delta, panel_last_date):
+    """Accept a settled re-derivation for a bar that was PUBLISHED while still filling.
+
+    Recorded, never silent: the published value, the settled value, the delta and the
+    panel date that was still growing are all kept. This is the one case where a
+    published mark may move, and it is announced as a restatement rather than sold as a
+    rebase -- `--rebase` rewrites history on purpose and stays reserved for a real
+    settled-bar drift an operator has inspected.
+    """
+    ent = {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "bar": rec["bar"],
+        "reason": "published while the panel for that date was still gaining symbols",
+        "panel_last_date": panel_last_date,
+        "nav_published": rec["nav"],
+        "nav_settled": fresh["nav"],
+        "delta": round(float(delta), 12),
+    }
+    for k in ("nav", "cash", "carry", "n_held", "filled", "turn"):
+        if k in fresh:
+            rec[k] = fresh[k]
+    rec["provisional"] = False
+    rec["restated_at"] = ent["ts"]
+    led.setdefault("restatements", []).append(ent)
+    return ent
+
+
+def migrate_provisional(led):
+    """Grandfather the newest published bar ONCE, for ledgers written before the flag existed.
+
+    A bar published before this schema cannot say whether its panel was still filling, so
+    the next run would read it as settled and freeze on a difference that is not a revision
+    -- the deferred form of the false positive this rule removes. The newest bar is
+    therefore treated as provisional exactly once and any difference is recorded as a
+    restatement carrying both values. Older bars stay settled and must re-derive, so the
+    gate keeps everything it can actually enforce. Self-disabling.
+    """
+    if led.get("provisional_flags") == PROVISIONAL_FLAG_VERSION:
+        return led, None
+    if not led.get("bars"):
+        led["provisional_flags"] = PROVISIONAL_FLAG_VERSION
+        return led, None
+    # Which bars were priced on their OWN close-day panel is recoverable from the run log:
+    # the first run whose last_bar is that bar is the run that appended it, and if its stamp
+    # falls on the bar's own date the panel for that date had just closed and was still
+    # gaining symbols (r1365 measured 1,710/1,725 symbols 43 min after the close). Those
+    # bars were provisional in fact even though nothing recorded it.
+    first_stamp = {}
+    for r in led.get("runs") or []:
+        lb = r.get("last_bar")
+        if lb and lb not in first_stamp:
+            first_stamp[lb] = str(r.get("ts") or "")[:10]
+    flagged = [b for b in led["bars"] if first_stamp.get(b["bar"]) == b["bar"]]
+    if not flagged:
+        led["provisional_flags"] = PROVISIONAL_FLAG_VERSION
+        return led, None
+    for b in flagged:
+        b["provisional"] = True
+    ent = {
+        "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "bars": [b["bar"] for b in flagged],
+        "reason": "publish-time provisional flags did not exist when these bars were "
+                  "written; each was appended on its own bar date (close-day panel still "
+                  "gaining symbols), so each is treated as provisional until it settles",
+    }
+    led["migrations"] = (led.get("migrations") or []) + [ent]
+    led["provisional_flags"] = PROVISIONAL_FLAG_VERSION
+    return led, ent
+
+
 def compute_marks(vol_target=CONFIG["vol_target"], carry_on=True):
     close, openp, amt, feats, score, cls, n_flip = build_inputs()
     px = close.reindex(columns=close.columns).ffill()
@@ -707,6 +816,10 @@ def _fresh(fwd, dates, cls, n_flip, capital):
         "status": "live",
         "drift": {"faces": [], "max_abs": 0.0, "checked_bars": 0},
         "rebases": [],
+        "restatements": [],
+        "unfreezes": [],
+        "migrations": [],
+        "provisional_flags": PROVISIONAL_FLAG_VERSION,
         "runs": [],
         "panel": {"n_instruments": len(cls), "flips_repaired": n_flip},
         "caveats": CAVEATS,
@@ -736,6 +849,10 @@ def seed(capital=1_000_000.0):
         "note": "marks are indexed to 1.0 at this bar; nothing before it is a track record",
     }
     led["bars"] = _indexed(marks, last_bar)
+    # the seed bar is priced on the panel as it stands at seeding time; say so, so a later
+    # settle-time restatement is a recorded promotion rather than a silent mark change
+    for b in led["bars"]:
+        b["provisional"] = (b["bar"] == last_bar)
     led["benchmark"] = _bench_with_book(led["bars"], dates, last_bar)
     led["books"] = _books_after(fwd, led["seed"]["bar"])
     led["book_in_force"] = fwd.last_decision
@@ -780,50 +897,113 @@ def run(rebase=False):
     led = load_ledger()
     if led is None:
         return seed()
-    if led.get("status") == "frozen" and not rebase:
-        print("FROZEN: ledger froze on drift; inspect results/etf_book_forward/LEDGER.json "
-              "and rerun with --rebase to adopt the re-derived history", flush=True)
-        return 3
+    was_frozen = led.get("status") == "frozen"
+    led, migrated = migrate_provisional(led)
+    if migrated:
+        print("MIGRATED provisional flags onto %s (%s)" %
+              (",".join(migrated["bars"]), migrated["reason"]), flush=True)
 
     fwd, marks, dates, cls, n_flip = compute_marks()
     seed_bar = led["seed"]["bar"]
     fresh = {b["bar"]: b for b in _indexed(marks, seed_bar)}
+    panel_last = str(dates[-1].date()) if dates else None
+    settled, provisional = partition_settled([b["bar"] for b in led["bars"]], panel_last)
 
-    # drift gate: every already-published mark must re-derive exactly
-    faces, worst = [], 0.0
+    # drift gate: every published mark on a SETTLED bar must re-derive exactly. A bar
+    # that was published while its panel was still filling and has since settled gets one
+    # disclosed restatement instead (see restate_provisional); a bar still filling is not
+    # asked the question at all, because its answer is not final yet.
+    faces, restated, worst = [], [], 0.0
     for b in led["bars"]:
         f = fresh.get(b["bar"])
         if f is None:
             faces.append(b["bar"] + ":missing")
             continue
         d = abs(f["nav"] - b["nav"])
+        if b.get("provisional") and b["bar"] in settled:
+            # the panel for this date has stopped growing: promote the bar. A difference is
+            # recorded as a restatement (both values kept); no difference just closes the
+            # flag, so the bar is policed like every other settled bar from now on.
+            if d > DRIFT_TOL:
+                restated.append(restate_provisional(led, b, f, d, panel_last))
+            else:
+                b["provisional"] = False
+                b["settled_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+            continue
+        if b["bar"] in provisional:
+            continue
         worst = max(worst, d)
         if d > DRIFT_TOL:
             faces.append("%s:%.3e" % (b["bar"], d))
-    led["drift"] = {"faces": faces[:20], "max_abs": worst, "checked_bars": len(led["bars"])}
+    if restated:
+        # dd is a running peak over the published series, so it has to be rebuilt whenever
+        # a mark in the middle of that series moves -- appending already does this for the
+        # same reason.
+        peak = 1.0
+        for b in led["bars"]:
+            peak = max(peak, b["nav"])
+            b["dd"] = round(b["nav"] / peak - 1.0, 6)
 
     # the basket benchmark is regenerated every run for the same reason: a published
     # daily answer that stopped re-deriving must freeze the ledger, not be overwritten
-    bench_faces = bench_drift(led.get("benchmark"), _bench_with_book(led["bars"], dates, seed_bar))
+    bench_all = bench_drift(led.get("benchmark"), _bench_with_book(led["bars"], dates, seed_bar))
+    bench_faces, bench_prov = split_faces(bench_all, settled)
+    faces_settled, faces_prov = split_faces(faces, settled)
+    blocking = bool(faces_settled or bench_faces)
+    led["drift"] = {
+        "faces": (faces_settled + faces_prov)[:20],
+        "max_abs": worst,
+        "checked_bars": len(led["bars"]),
+        "gate": "settled_bars_only",
+        "settled_bars": settled[-10:],
+        "provisional_bars": provisional,
+        "settled_faces": faces_settled,
+        "provisional_faces": faces_prov,
+        "benchmark_settled_faces": bench_faces,
+        "benchmark_provisional_faces": bench_prov,
+        "restated_bars": [r["bar"] for r in restated],
+    }
 
     new_bars = [f for f in _indexed(marks, seed_bar) if f["bar"] > led["bars"][-1]["bar"]]
-    if (faces or bench_faces) and not rebase:
+    for nb in new_bars:
+        nb["provisional"] = (nb["bar"] == panel_last)
+    if blocking and not rebase:
         led["status"] = "frozen"
-        led["drift"]["benchmark_faces"] = bench_faces
         save_ledger(led)
-        print("DRIFT %d faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); "
-              "--rebase is the logged escape" % (len(faces), len(bench_faces), worst), flush=True)
+        print("DRIFT %d settled faces (bench %d) max_abs=%.3e -> FROZEN (exit 3); "
+              "inspect the panel for a revision before --rebase rewrites the history"
+              % (len(faces_settled), len(bench_faces), worst), flush=True)
         return 3
-    if (faces or bench_faces) and rebase:
+    if blocking and rebase:
         led["rebases"].append({
             "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-            "n_faces": len(faces), "n_bench_faces": len(bench_faces),
-            "max_abs": worst, "sample": (faces + bench_faces)[:10],
+            "n_faces": len(faces_settled), "n_bench_faces": len(bench_faces),
+            "max_abs": worst, "sample": (faces_settled + bench_faces)[:10],
         })
         led["bars"] = _indexed(marks, seed_bar)
+        # the re-derived series already contains every bar, so nothing is left to append
+        new_bars = []
         led["status"] = "live"
-        print("REBASED %d faces (bench %d) max_abs=%.3e (logged in rebases)" %
-              (len(faces), len(bench_faces), worst), flush=True)
+        print("REBASED %d settled faces (bench %d) max_abs=%.3e (logged in rebases)" %
+              (len(faces_settled), len(bench_faces), worst), flush=True)
+    elif was_frozen:
+        # a freeze raised by a bar whose inputs were still arriving clears itself: nothing
+        # published on a settled bar moved, so there is no history to adopt and no reason
+        # to spend a rebase on one.
+        led["unfreezes"] = (led.get("unfreezes") or []) + [{
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+            "reason": "no settled bar failed to re-derive; the freeze came from a "
+                      "provisional bar (%s)" % ", ".join(provisional),
+            "restated_bars": [r["bar"] for r in restated],
+        }]
+        led["status"] = "live"
+        print("UNFROZEN no settled bar drifted (provisional=%s, restated=%s) -> live" %
+              (",".join(provisional) or "none", ",".join(r["bar"] for r in restated) or "none"),
+              flush=True)
+    if faces_prov or bench_prov:
+        print("PROVISIONAL drift on %s (%d faces, bench %d): panel for that date is still "
+              "gaining symbols -- reported, not frozen, not rebased" %
+              (",".join(provisional) or "none", len(faces_prov), len(bench_prov)), flush=True)
 
     if not new_bars:
         headed = led["bars"][-1] if led["bars"] else {}
@@ -1127,6 +1307,45 @@ def selftest():
     doctored["nav"] = doctored["nav"] + 1e-6
     d = abs(fresh[doctored["bar"]]["nav"] - doctored["nav"])
     chk("drift gate fires on a doctored mark", d > DRIFT_TOL, "delta=%.2e" % d)
+
+    # 7b. the settled-bar rule (r1366): a bar whose panel date is still gaining symbols is
+    #     asked no question, an older one must reproduce. Both halves are asserted, because
+    #     a partition that returned "everything provisional" would also pass a one-sided leg.
+    bd = ["2026-10-26", "2026-10-27", "2026-10-28", "2026-10-29"]
+    st, pv = partition_settled(bd, "2026-10-30")
+    chk("partition: only the newest published bar is provisional while the panel date is ahead",
+        pv == ["2026-10-29"] and st == bd[:3], "settled=%s provisional=%s" % (st, pv))
+    st2, pv2 = partition_settled(bd, "2026-10-29")
+    chk("partition: a bar matching the newest panel date is provisional too",
+        pv2 == ["2026-10-29"] and st2 == bd[:3], "settled=%s provisional=%s" % (st2, pv2))
+    chk("partition: empty ledger has no settled bars", partition_settled([], "2026-10-30") == ([], []))
+    blk, prov = split_faces(["2026-10-28:5.064e-06", "2026-10-29:1.0e-07",
+                             "2026-10-27:missing"], st)
+    chk("faces: only provisional-bar drift is non-blocking",
+        blk == ["2026-10-28:5.064e-06", "2026-10-27:missing"] and prov == ["2026-10-29:1.0e-07"],
+        "blocking=%s provisional=%s" % (blk, prov))
+    # the restatement is recorded, and the published value is recoverable from the record
+    _led = {"restatements": []}
+    _rec = {"bar": "2026-10-29", "nav": 1.1, "cash": 0.5, "provisional": True}
+    _freshrec = {"nav": 1.100001, "cash": 0.61, "carry": 1e-5, "n_held": 5, "filled": 0,
+                 "turn": 0.02}
+    ent = restate_provisional(_led, _rec, _freshrec, 1e-6, "2026-10-30")
+    # a ledger written before the flag existed must not turn its own legacy bar into a
+    # settled-bar drift on the next run; the migration is one bar, logged, and self-disabling
+    _old = {"bars": [{"bar": "2026-10-28", "nav": 1.0}, {"bar": "2026-10-29", "nav": 1.1}],
+            "runs": [{"ts": "2026-10-29T00:20:00+0800", "last_bar": "2026-10-28"},
+                     {"ts": "2026-10-29T15:52:25+0800", "last_bar": "2026-10-29"}]}
+    _mig, _ent = migrate_provisional(_old)
+    chk("legacy ledger: a bar appended on its own date is grandfathered, an older one is not",
+        _mig["bars"][-1].get("provisional") is True
+        and "provisional" not in _mig["bars"][0] and _ent["bars"] == ["2026-10-29"]
+        and _mig["provisional_flags"] == PROVISIONAL_FLAG_VERSION, str(_ent))
+    _mig2, _ent2 = migrate_provisional(_mig)
+    chk("migration runs once, never again", _ent2 is None and len(_mig2["migrations"]) == 1)
+    chk("restatement moves the mark, records both values, and clears the provisional flag",
+        _rec["nav"] == 1.100001 and _rec["provisional"] is False
+        and _led["restatements"][0]["nav_published"] == 1.1
+        and abs(ent["delta"] - 1e-6) < 1e-15, str(ent))
 
     # 8. THE BUG CATCHER: with the vol target ON the accrual must still be the book's
     #    weighted return. r1267's equivalence leg ran with vol_target=None, where every
