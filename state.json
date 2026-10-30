@@ -772,8 +772,8 @@
  "ram_free_pct": 35.1,
  "ram_load_pct": 64.0,
  "ram_total_gb": 23.9,
- "round": 1279,
- "round_no": 1279,
+ "round": 1280,
+ "round_no": 1280,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
  "round_no_label": "r1279",
  "round_no_note": "r1240: aligned to the report series (r1239 last report) instead of bumping the stale 1237 -- r1238/r1239 wrote reports only",
@@ -788,7 +788,7 @@
  "selftest": "e252 20/20",
  "seq": 21,
  "smoke": "235/235 PASS, 0 FAIL (serial full suite with the E252 leg; the round's only red leg at open, the bm-b GPU face disagreeing with itself by 204.8 MiB, was healed from one probe before the run)",
- "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+ "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face is state-bm-b.json",
  "status": "green",
  "sync": {
   "ahead": 2,
@@ -803,12 +803,12 @@
   "verified": "git ls-remote == git rev-parse HEAD"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
- "task": "E252 star prices itself: does the star's turnover move the star at the price it charges others?",
- "task_short": "E252 star prices itself",
+ "task": "E253 self row resolution (done) -- next E254 band exponent inside the cell (seeded ready)",
+ "task_short": "E253 self row resolution",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
- "ts": "2026-10-30T14:00:52+08:00",
- "updated": "2026-10-30T14:00:52+08:00",
- "updated_at": "2026-10-30T14:00:52+08:00",
+ "ts": "2026-10-30T14:58:00+08:00",
+ "updated": "2026-10-30T14:58:00+08:00",
+ "updated_at": "2026-10-30T14:58:00+08:00",
  "verdict": "WATERMARK RED at open (pool-batch-runnable-idle-low-cpu, pool_ready_ids carried the stale name E251 while the pool audit says the one open card is E252 with no face = genuinely open) -> the card WAS the red item and was burned in-window | the star (sh588000) prices ITSELF at the price it charges everyone else: b_self -0.7339 vs b_cross -0.7250, both far outside their paired-shuffle bands ([-0.3148,0.2269] / [-0.2681,0.2579]); difference -0.0088 under a paired block-bootstrap CI [-0.3049,+0.2986] -> nothing above 0.30 is detectable | volatility takes nothing in this direction either (b2 +0.3209, share -0.068) | era_2025_now self row inside its band while the cross column stays -0.911 outside | selftest 17/17 | pool 732 done / 1 ready (E253)",
  "work": "E252 face published and wired: runner scripts/e252_star_prices_itself.py + results/state_tilt/STARSELF-2026-10-29.json + starself_latest.json + S6 leg star_self_price + smoke leg + digest + card E252; pool E252 done / E253 seeded; bm-b GPU face healed from one probe (the round's only red smoke leg at open)"
 }

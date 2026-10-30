@@ -215,6 +215,14 @@ LEGS = [
     # published statistic. Re-burning each cycle would be a re-measurement, not a check. <1s.
     ("star_self_price", ["python", "scripts/e252_star_prices_itself.py", "verify"]),
 
+    # E253: E252 left one cell unmeasured (era_2025_now: the star's self coefficient -0.463 sits
+    # inside its own shuffled band while its cross column stays outside its own). This leg does
+    # the arithmetic that face did not: every band becomes the session count its own width implies,
+    # so "waiting for sessions" and "the channel weakened" stop being the same sentence. It reads
+    # the published face only -- no panel, no refit -- and the chain runs --verify, which re-derives
+    # every published number from the saved face. <1s.
+    ("self_row_resolution", ["python", "scripts/e253_self_row_resolution.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

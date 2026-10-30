@@ -4866,3 +4866,23 @@ The reusable laws:
 (3) **A paired resample is required whenever two fits share a regressor.** Both coefficients come from the same column on the same rows, so their difference has to be bootstrapped jointly (one draw refits BOTH rows); building the interval from two independent fits either over- or under-states precision depending on the sign of the shared correlation, and nothing in the output would reveal which.
 
 How to apply: before comparing two published coefficients, ask (a) are they the same regressor in the same units, (b) do they share rows/regressors so the difference needs a joint resample, (c) what difference can the design even see, and publish that number; a channel identification never bills a member, and a "self" effect is still a channel.
+
+### E253 · a session count, not a verdict: telling "waiting for data" apart from "the channel weakened" (r1280 bm-b)
+
+`scripts/e253_self_row_resolution.py` (selftest 16/16) · face `results/state_tilt/SELFRES-2026-10-29.json`
+
+E252 published a cell it could not read: after 2025 the star's self coefficient (-0.463) sits inside its own shuffled band [-0.521, +0.451] while its cross column stays at -0.911 outside its own, on 408 sessions. Two sentences were live -- "the window is too short" and "the channel weakened" -- and the published face could not choose. E253 reads no panel and fits nothing: every number here is a band width, a session count, or a ratio of the two. Band width shrinks with n, so `edge(n') = edge(n)*(n/n')**gamma` inverts to `n'(b) = n*(edge/|b|)**(1/gamma)`. The self row needs **515.8** sessions and has 408 (**+107.8**, calendar ETA 2027-04-23 at the cell's own 0.6126 sessions/day); the cross column needed only **84.6**, i.e. the cross row had 4.8x the sessions it needed and the self row is the one waiting. The observation sits **11.1% under its own floor** (margin 0.889). Against the last non-overlapping published prior (era_2023_2024, -0.8027): a channel of that size needed **172.0** sessions, so the window was already long enough for the earlier size to have spoken, and the shortfall reads **z = 1.70** (band's own 60-draw sd) to **1.98** (200-draw read) -- under the frozen 2.0 line, so not distinguishable, but the closest call in the face. Verdict `self_row_resolves_with_more_sessions`, with a frozen continuation rule: re-read at n >= 516.
+
+The reusable laws:
+
+(1) **"We need more data" is a number, and the number is computable from the null you already own.** A shuffled band is a function of n; inverting it gives the sessions a coefficient of a given size needs to clear it. Publishing that count converts a shrug into a scheduled measurement with a date and a stopping rule.
+
+(2) **The prior must not overlap the cell it judges.** Taking "the most recent cell in which the coefficient cleared" gives `all_five` (-0.7339) -- a cell that CONTAINS the era being judged, so the prior carries the very sessions under scrutiny. Requiring `prior.last < cell.first` gives the honest prior (era_2023_2024, -0.8027); the two choices differ by 0.07 in the target and by a different verdict story.
+
+(3) **A calendar belongs only to a window that still accrues.** `early_three` (closed 2016-11) was first handed an ETA of 2022-05-09 -- a date in the past -- because the arithmetic ran without asking whether sessions could still arrive. Its honest reading is `silent_unreachable`: 2,091 sessions needed, 831 ever available, so the silence carries no information at all.
+
+(4) **Check the exponent you are dividing by.** Fitting log|edge| on log(n) across the four published star cells gives gamma = 0.244 (r2 0.28) against the assumed 0.5, i.e. bands shrink slower than 1/sqrt(n) because the eras differ. Under the fitted exponent the same coefficient needs 659.8 sessions (about 2027-12); the 0.35/0.5/0.65 sweep spans 570/516/489. The deliverable is a range; the fit is published and never decides.
+
+(5) **A full-draw-range band's sd depends on the draw count.** E252 publishes min/max of the shuffles, not percentiles, and its era cells carry 60 draws against the headline's 200: the same band yields z = 1.70 or 1.98 -- straddling the neighbourhood of the 2.0 line. Requiring BOTH readings to clear the line before "weakened" may be called keeps a coarse band from manufacturing a regime change.
+
+How to apply: when a face says "this coefficient is inside its band", do not stop at "not measured". Compute the sessions it needs, the prior-size channel's requirement, and whether the window can still supply them; then freeze the stopping rule so the next round cannot move the line after seeing the number.

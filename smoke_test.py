@@ -4154,6 +4154,99 @@ def main() -> int:
     except Exception as e:
         check("product: the star's own row is priced against the column it carries for others",
               False, repr(e)[:160])
+
+    # E253: E252 published one cell the design could not read (the star's self coefficient inside
+    # its own shuffled band after 2025) and left two sentences live: the window is short, or the
+    # channel weakened. This leg refuses the ways a resolution arithmetic can lie -- a session
+    # count its own band does not produce, a verdict its own numbers do not re-derive, a calendar
+    # ETA invented for a window that no longer accrues, and a "weakened" call that the band's own
+    # coarse sd would not support.
+    try:
+        _bad53 = []
+        _p53 = os.path.join("results", "state_tilt", "selfres_latest.json")
+        _f53 = None
+        if not os.path.exists(_p53):
+            _bad53.append("face missing: %s" % _p53)
+        else:
+            with io.open(_p53, encoding="utf-8") as _fh53:
+                _f53 = json.load(_fh53)
+        if _f53 is not None:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            try:
+                import e253_self_row_resolution as _m53
+            except Exception as _e53:
+                _m53 = None
+                _bad53.append("module does not import: %r" % (_e53,))
+            _vocab53 = set(((_f53.get("frozen_spec") or {}).get("verdicts")) or [])
+            _cells53 = _f53.get("cells") or []
+            if not _cells53:
+                _bad53.append("no cells published")
+            if _m53 is not None:
+                for _c53 in _cells53:
+                    _sr53 = _c53.get("self_row") or {}
+                    if _sr53.get("b") is None or _sr53.get("edge") is None:
+                        if _c53.get("status") != "not_a_star_cell":
+                            _bad53.append("cell %s has a self row without a band but is judged"
+                                          % _c53.get("label"))
+                        continue
+                    _need53 = _m53.needed_sessions(_c53.get("sessions"), _sr53["b"],
+                                                   _sr53["edge"], _m53.GAMMA)
+                    if _need53 is None or _sr53.get("needed") is None \
+                            or abs(_need53 - _sr53["needed"]) > 1e-6:
+                        _bad53.append("cell %s publishes a session count its own band does not "
+                                      "produce" % _c53.get("label"))
+                    _out53 = abs(_sr53["b"]) > abs(_sr53["edge"])
+                    if _out53 != bool(_sr53.get("outside_band")):
+                        _bad53.append("cell %s mislabels the outside-band reading"
+                                      % _c53.get("label"))
+                    if _c53.get("status") == "silent_unreachable" and _c53.get("window_open"):
+                        _bad53.append("cell %s is called unreachable inside an open window"
+                                      % _c53.get("label"))
+                    if _c53.get("status") == "silent_reachable" \
+                            and not (_c53.get("eta") or "").startswith("20"):
+                        _bad53.append("cell %s schedules sessions but names no calendar eta"
+                                      % _c53.get("label"))
+                    if _c53.get("status") == "measured_outside" and _c53.get("eta"):
+                        _bad53.append("cell %s names an eta while already measured"
+                                      % _c53.get("label"))
+                    _pr53 = _c53.get("prior") or {}
+                    _z53, _z20053 = _pr53.get("z_vs_prior"), _pr53.get("z_vs_prior_200_draws")
+                    if _z53 is not None and _z20053 is not None:
+                        if bool(_pr53.get("z_line_cleared")) != (abs(_z53) >= _m53.Z_WEAK):
+                            _bad53.append("cell %s mislabels the z line" % _c53.get("label"))
+                        if abs(_z20053) < abs(_z53):
+                            _bad53.append("cell %s reads a sharper sd as a wider z"
+                                          % _c53.get("label"))
+                for _c53 in _cells53:
+                    _v53 = _c53.get("verdict")
+                    if _v53 is not None and _vocab53 and _v53 not in _vocab53 \
+                            and _v53 != "measured":
+                        _bad53.append("cell %s carries a verdict outside the frozen vocabulary"
+                                      % _c53.get("label"))
+                _ver53, _ = _m53.decide(_cells53)
+                if _ver53 != (_f53.get("rollup") or {}).get("verdict"):
+                    _bad53.append("the published verdict does not re-derive (%s vs %s)"
+                                  % ((_f53.get("rollup") or {}).get("verdict"), _ver53))
+            if not _f53.get("no_bill"):
+                _bad53.append("the face does not carry its no-bill line")
+            if not _f53.get("evidence_cutoff"):
+                _bad53.append("the face carries no evidence_cutoff")
+            if not (_f53.get("frozen_spec") or {}).get("no_refit"):
+                _bad53.append("the face does not declare that it fits nothing")
+        _s53 = (_f53 or {}).get("summary") or {}
+        check("product: the star's unread self row is scheduled, not excused",
+              not _bad53, "; ".join(_bad53)[:220]
+              or "verdict %s; cell %s n=%s needs %s sessions (short %s, eta %s); "
+                 "cross needs %s; z %s/%s"
+                 % (_s53.get("verdict"), _s53.get("headline_cell"), _s53.get("headline_sessions"),
+                    _r39(_f53 or {}, "headline_self_sessions_needed"),
+                    _r39(_f53 or {}, "headline_sessions_short"), _s53.get("headline_eta"),
+                    _r39(_f53 or {}, "headline_cross_sessions_needed"),
+                    _r39(_f53 or {}, "headline_z_vs_prior"),
+                    _r39(_f53 or {}, "headline_z_vs_prior_200_draws")))
+    except Exception as e:
+        check("product: the star's unread self row is scheduled, not excused",
+              False, repr(e)[:160])
     return _finish()
 
 
