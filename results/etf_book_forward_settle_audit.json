@@ -1,0 +1,104 @@
+{
+ "schema": "etf-book-forward-settle-audit/v1",
+ "generated": "2026-10-30T17:20:31+0800",
+ "evidence_cutoff": "2026-10-30",
+ "ledger": {
+  "path": "results\\etf_book_forward\\LEDGER.json",
+  "status": "frozen",
+  "published_bars": [
+   "2026-10-23",
+   "2026-10-26",
+   "2026-10-27",
+   "2026-10-28",
+   "2026-10-29"
+  ],
+  "drift": {
+   "faces": [
+    "2026-10-29:5.064e-06"
+   ],
+   "max_abs": 5.063899999990795e-06,
+   "checked_bars": 5,
+   "benchmark_faces": []
+  },
+  "rebases": 0,
+  "drift_tol": 1e-09,
+  "drift_tol_source": "read from scripts/etf_book_forward.py"
+ },
+ "panel": {
+  "daily_dir": "data\\daily",
+  "universe_symbols": 1725,
+  "coverage_by_day": {
+   "2026-10-19": 1722,
+   "2026-10-20": 1723,
+   "2026-10-21": 1721,
+   "2026-10-22": 1722,
+   "2026-10-23": 1723,
+   "2026-10-26": 1723,
+   "2026-10-27": 1720,
+   "2026-10-28": 1721,
+   "2026-10-29": 1723,
+   "2026-10-30": 1710
+  },
+  "pending_symbols_by_day": {
+   "2026-10-19": 3,
+   "2026-10-20": 2,
+   "2026-10-21": 4,
+   "2026-10-22": 3,
+   "2026-10-23": 2,
+   "2026-10-26": 2,
+   "2026-10-27": 5,
+   "2026-10-28": 4,
+   "2026-10-29": 2,
+   "2026-10-30": 15
+  }
+ },
+ "classification": {
+  "verdict": "drift_only_on_unsettled_bar",
+  "settled": [
+   "2026-10-23",
+   "2026-10-26",
+   "2026-10-27",
+   "2026-10-28"
+  ],
+  "provisional": [
+   "2026-10-29"
+  ],
+  "drifted_bars": [
+   "2026-10-29"
+  ],
+  "max_abs": 5.063899999990795e-06,
+  "checks": {
+   "drift_faces_are_provisional": true,
+   "no_settled_bar_drifted": true,
+   "worst_within_tol": false,
+   "checked_bars": 5,
+   "published_bars": 5
+  },
+  "newest_bar": "2026-10-29",
+  "panel_last_date": "2026-10-30"
+ },
+ "data_lag_audit": {
+  "as_of": "2026-10-30T16:13:37",
+  "coverage_by_day": {
+   "2026-10-19": 1.0,
+   "2026-10-20": 1.0,
+   "2026-10-21": 1.0,
+   "2026-10-22": 1.0,
+   "2026-10-23": 1.0,
+   "2026-10-26": 1.0,
+   "2026-10-27": 1.0,
+   "2026-10-28": 1.0,
+   "2026-10-29": 0.9965,
+   "2026-10-30": 0.0
+  },
+  "detail": "2026-10-30 is an official trading day; the market closed 0.7h ago and no bar has been published to this panel yet",
+  "ledger_last_bar": "2026-10-29"
+ },
+ "headline": "freeze is a false positive for revision: the only face that failed is the bar whose panel was still filling -- no settled bar moved",
+ "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",
+ "caveats": [
+  "Point-in-time coverage at pricing time is not recorded anywhere, so 'the panel was still filling' is inferred from the panel's current shape (post-close arrivals) plus the timestamp of the run that priced the bar, not observed directly.",
+  "This audit reads the panel's date columns only; it does not re-run the engine, so it cannot attribute the 5.064e-06 to a named symbol.",
+  "0 removed 2026-10-2x rows in git diff over data/daily is evidence of no rewritten price, not proof: a symbol that arrived late is an addition, and an addition is exactly what this audit says moved the mark."
+ ]
+}
