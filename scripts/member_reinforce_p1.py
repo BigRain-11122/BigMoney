@@ -342,16 +342,40 @@ def _attr_row(batch, delta, total, gates, entries):
     os.replace(ATT_JSON + ".tmp", ATT_JSON)
 
 
+def _chain_base(path):
+    """(prev_total, source) read off a landed product -- only from OUR OWN batch.
+
+    The ledger head this batch chains onto lives inside its own product, so a
+    re-run after a crash keeps the head it was born with instead of adopting
+    whatever the global chain says today. That is lawful only while the file on
+    disk is this batch at this cutoff: a foreign product under the same name (a
+    different batch, or this batch recomputed at another evidence_cutoff) would
+    hand its head over silently and put this batch's cells on someone else's
+    chain (r1378: an operator-facing value served with no gate at all). Identity
+    fields are therefore checked BEFORE the value is trusted; unreadable or
+    foreign is never clean -- the caller falls back to the live ledger head and
+    the source is published in the product.
+    """
+    if not os.path.exists(path):
+        return None, "absent"
+    try:
+        with open(path, encoding="utf-8") as fh:
+            old = json.load(fh)
+    except Exception:
+        return None, "unreadable"
+    if old.get("batch") != BATCH_NAME:
+        return None, "foreign-batch"
+    if old.get("evidence_cutoff") != EVIDENCE_CUTOFF:
+        return None, "foreign-cutoff"
+    prev = (old.get("trials_ledger") or {}).get("prev_total")
+    if prev is None:
+        return None, "own-batch-no-head"
+    return int(prev), "own-batch"
+
+
 def finalize(roster_face, panel_face, g_anchor, replays, densities, nulls,
              seeds, f3, f4, d6, f1_flags, f2_stability):
-    prev_total = None
-    if os.path.exists(OUT_JSON):
-        try:
-            with open(OUT_JSON, encoding="utf-8") as fh:
-                old = json.load(fh)
-            prev_total = (old.get("trials_ledger") or {}).get("prev_total")
-        except Exception:
-            prev_total = None
+    prev_total, chain_base_src = _chain_base(OUT_JSON)
     seed1 = seeds[0]
     pool1 = nulls[seed1]
     gates = {}
@@ -400,6 +424,8 @@ def finalize(roster_face, panel_face, g_anchor, replays, densities, nulls,
                    "g2_registration_v2 NOT called); consumption = scorecard "
                    "robustness dims + promotion-gate evidence faces",
         "trials_ledger": ledger,
+        "trials_chain_base": {"source": chain_base_src,
+                              "prev_total": prev_total},
     }
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_JSON + ".tmp", "w", encoding="utf-8") as fh:
@@ -740,6 +766,34 @@ def cmd_selftest():
             SG.n_eff, SG.passive_baseline, SG.append_ledger = _ne, _pb, _al
             SG.ledger_head = _lh
             globals()["cscv_pbo"] = _real_cscv
+
+        # r1378: the ledger head is inherited only from OUR batch at OUR cutoff
+        _cb = os.path.join(tmp, "chain_base.json")
+        prev, src = _chain_base(_cb)
+        ok.append(("chain base: absent product is not trusted",
+                   prev is None and src == "absent"))
+        prev, src = _chain_base(OUT_JSON)
+        ok.append(("chain base: our own product is trusted",
+                   prev is not None and src == "own-batch"))
+        json.dump({"batch": "OTHER_BATCH",
+                   "evidence_cutoff": EVIDENCE_CUTOFF,
+                   "trials_ledger": {"prev_total": 777}},
+                  open(_cb, "w"))
+        prev, src = _chain_base(_cb)
+        ok.append(("chain base: a foreign batch's head is refused",
+                   prev is None and src == "foreign-batch"))
+        json.dump({"batch": BATCH_NAME, "evidence_cutoff": "1999-01-01",
+                   "trials_ledger": {"prev_total": 777}},
+                  open(_cb, "w"))
+        prev, src = _chain_base(_cb)
+        ok.append(("chain base: same batch at another cutoff is refused",
+                   prev is None and src == "foreign-cutoff"))
+        json.dump({"batch": BATCH_NAME, "evidence_cutoff": EVIDENCE_CUTOFF,
+                   "trials_ledger": {"prev_total": 777}},
+                  open(_cb, "w"))
+        prev, src = _chain_base(_cb)
+        ok.append(("chain base: our own head is inherited",
+                   prev == 777 and src == "own-batch"))
 
         # drift refusal paths
         real_id = probe["roster_face"]["members"][0]["anchor_is_sharpe"]

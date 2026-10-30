@@ -1,35 +1,2068 @@
 {
  "evidence_cutoff": "2026-10-31",
- "method": "static AST read: function writes JSON + mentions cache/replay -> the literal keys it reads back off the cache name, the digest names it hands to the call that returns the cache, and whether the module has any digest; names bound to an in-memory literal are memos and names that also carry a digest word are rulers (r1378), both dropped and counted",
- "limits": "a key listed here is not proof the cache is safe, a digest in the module is not proof it reaches this key, and a digest passed as an argument is not proof it is compared -- the verdict is a reading order; the triage class is a person having read the function, and 'unread' means exactly that",
+ "method": "static AST read: function writes JSON + mentions cache/replay -> the literal keys it reads back off the cache name, the digest names it hands to the call that returns the cache, and whether the module has any digest; then (r1378) whether the value it reads came off disk and reaches a caller, because only then can it be an earlier tick's number",
+ "limits": "a key listed here is not proof the cache is safe, a digest in the module is not proof it reaches this key, and a digest passed as an argument is not proof it is compared -- rows are a reading list, not a verdict list. reads_a_stored_value is a NAMED-BINDING read of a load call in the same function, plus (r1379) a value returned by a helper that checks identity keys before handing it over; a value handed in as an argument is still invisible. served_to_caller is a taint through `return` or into a json.dump payload -- a face that writes the number into its product serves it to whoever reads the product",
  "scan_dirs": [
   "scripts",
   "Tools"
  ],
  "summary": {
   "files_scanned": 699,
-  "files_skipped_scratch": 1460,
-  "cache_names_that_never_compare": 83,
-  "cache_writers": 12,
-  "memo_names_dropped": 45,
-  "ruler_names_dropped": 6,
-  "no_digest_anywhere": 6,
-  "module_has_digest_key_does_not": 4,
+  "files_skipped_scratch": 1464,
+  "cache_names_that_never_compare": 68,
+  "cache_writers": 31,
+  "no_digest_anywhere": 5,
+  "module_has_digest_key_does_not": 2,
+  "identity_checked_read": 19,
   "digest_argument_to_cache_read": 1,
-  "digest_in_key": 1,
+  "digest_in_key": 4,
   "unreadable": 0,
-  "serves_without_digest": 9,
-  "refuses_on_mismatch": 2,
+  "serves_without_digest": 23,
+  "refuses_on_mismatch": 4,
   "digest_argument_evidence": 1,
-  "serves_with_no_digest_and_no_argument": 8,
-  "read_by_class": {
-   "fixed": 1,
-   "not_a_cache": 9,
-   "refuses": 2
-  },
-  "rows_still_unread": 0,
-  "closed_by_reading": 4
+  "serves_with_no_digest_and_no_argument": 5,
+  "fixture_readback": 11,
+  "no_stored_value_read": 2,
+  "persisted_read_not_served": 8,
+  "reads_a_stored_value": 29,
+  "serves_stored_value_without_digest": 1,
+  "identity_checked_evidence": 19,
+  "blind_spot_persisted_serving": 152,
+  "blind_spot_digested": 12,
+  "faces_serving_a_stored_value": [
+   {
+    "file": "scripts/alloc_backtest.py",
+    "function": "run_cell_faces",
+    "verdict": "digest_argument_to_cache_read",
+    "on_mismatch": "serves",
+    "identity_keys": []
+   }
+  ]
  },
+ "blind_spot": [
+  {
+   "file": "scripts/a158_gate_recheck.py",
+   "function": "_member_face",
+   "line": 81,
+   "key_fields": [
+    "close"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/a158_truegap_ic.py",
+   "function": "run",
+   "line": 671,
+   "key_fields": [
+    "close",
+    "meta",
+    "workers"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/a158_tsgate_probe.py",
+   "function": "preflight_gates",
+   "line": 358,
+   "key_fields": [
+    "close"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/a158_tsgate_probe.py",
+   "function": "read_all_rows",
+   "line": 484,
+   "key_fields": [
+    "inst",
+    "skip",
+    "xdays"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/aggr_fullpool_battery.py",
+   "function": "_load_frozen_anchors",
+   "line": 408,
+   "key_fields": [
+    "batch"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/aggr_fullpool_battery.py",
+   "function": "_out_complete",
+   "line": 452,
+   "key_fields": [
+    "batch",
+    "variants"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/alloc_backtest.py",
+   "function": "load_valid_cell",
+   "line": 408,
+   "key_fields": [
+    "config_sha",
+    "panel_sha"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/alphagen_rg_census.py",
+   "function": "ensure_cache",
+   "line": 597,
+   "key_fields": [
+    "cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/alphagen_rg_roster.py",
+   "function": "universe_faces",
+   "line": 95,
+   "key_fields": [
+    "eligible",
+    "ok_static"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/alphagen_rl_p1.py",
+   "function": "_train_complete_face",
+   "line": 871,
+   "key_fields": [
+    "episodes",
+    "face"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/alphagen_rl_p1.py",
+   "function": "_core48_face",
+   "line": 1497,
+   "key_fields": [
+    "510300"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/backfill_heat_history.py",
+   "function": "file_is_valid",
+   "line": 151,
+   "key_fields": [
+    "n_rows",
+    "rows"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/bond_carry_w3a.py",
+   "function": "load_manifest",
+   "line": 165,
+   "key_fields": [
+    "candidates",
+    "n_candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/build_growth_faces.py",
+   "function": "cmd_verify",
+   "line": 221,
+   "key_fields": [
+    "avail_date",
+    "np_yoy",
+    "period_end",
+    "rev_yoy"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/ce_admission_intake.py",
+   "function": "run_batch",
+   "line": 124,
+   "key_fields": [
+    "census",
+    "evidence_cutoff",
+    "per_member_beat_rates",
+    "prospect"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/census_fusion_s2_w2.py",
+   "function": "load_roster",
+   "line": 115,
+   "key_fields": [
+    "enumeration",
+    "faces",
+    "null_base",
+    "seeds",
+    "w2a"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/census_fusion_s2_w2b.py",
+   "function": "load_roster_w2b",
+   "line": 129,
+   "key_fields": [
+    "artifact_anchors",
+    "enumeration",
+    "faces",
+    "gates",
+    "null_base",
+    "seeds",
+    "sina_mf_panel",
+    "state",
+    "w2b"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/census_fusion_s2_w2b.py",
+   "function": "load_d8_artifact",
+   "line": 180,
+   "key_fields": [
+    "bytes",
+    "panel_report",
+    "sha256"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/census_fusion_s2_w2b.py",
+   "function": "validate_a_sidecars",
+   "line": 238,
+   "key_fields": [
+    "cutoff_real",
+    "faces",
+    "gate",
+    "ok"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/ceo_live_usage.py",
+   "function": "_national_team_face",
+   "line": 206,
+   "key_fields": [
+    "evidence_cutoff",
+    "n_cells",
+    "n_eff",
+    "per_etf",
+    "segment_share_fingerprints",
+    "subset",
+    "universe"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/cn_kline_pattern_p1.py",
+   "function": "load_panel",
+   "line": 279,
+   "key_fields": [
+    "amount",
+    "boards",
+    "census",
+    "close",
+    "cutoff",
+    "date",
+    "high",
+    "low",
+    "n",
+    "ok_static",
+    "open",
+    "panel",
+    "universe",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "load_panel",
+   "line": 245,
+   "key_fields": [
+    "N",
+    "T",
+    "amount",
+    "bars_files",
+    "cache_last_date",
+    "close",
+    "date",
+    "generated",
+    "ok_static",
+    "shape",
+    "universe_n",
+    "universe_skipped"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/cn_regime_policy_p1.py",
+   "function": "load_panel",
+   "line": 163,
+   "key_fields": [
+    "close",
+    "date",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/cn_regime_policy_p1.py",
+   "function": "_ckpt_load",
+   "line": 545,
+   "key_fields": [
+    "first",
+    "last",
+    "meta",
+    "n_days"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/cn_sector_leader_p1.py",
+   "function": "load_panel",
+   "line": 317,
+   "key_fields": [
+    "EF_params",
+    "N",
+    "T",
+    "amount",
+    "bars_files",
+    "cache_last_date",
+    "census",
+    "close",
+    "cutoff",
+    "date",
+    "generated",
+    "ok_static",
+    "panel",
+    "shape",
+    "universe_n",
+    "universe_skipped"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/cn_trend_etf_p1.py",
+   "function": "load_panel",
+   "line": 240,
+   "key_fields": [
+    "close",
+    "date",
+    "open",
+    "universe",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/corr_watch.py",
+   "function": "run",
+   "line": 145,
+   "key_fields": [
+    "avg_pairwise",
+    "corr_iv6_ew6",
+    "correlation",
+    "cutoff",
+    "full",
+    "head_to_head",
+    "iv_weights",
+    "members",
+    "portfolios",
+    "portfolios_iv",
+    "sharpe",
+    "weights",
+    "x1",
+    "x2"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/decision_chain_v3_tournament.py",
+   "function": "load_axes_artifact",
+   "line": 346,
+   "key_fields": [
+    "axes",
+    "axes_sha256",
+    "batch",
+    "evidence_cutoff",
+    "schema"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/div_lowvol_backtest.py",
+   "function": "regime_faces",
+   "line": 199,
+   "key_fields": [
+    "episodes",
+    "false_alarm",
+    "orange",
+    "state_counts",
+    "window"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/div_lowvol_probe.py",
+   "function": "main",
+   "line": 99,
+   "key_fields": [
+    "episodes",
+    "false_alarm",
+    "orange",
+    "state_counts",
+    "verdict",
+    "window"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_midsweepburnin",
+   "line": 9754,
+   "key_fields": [
+    "eras",
+    "gap_bp",
+    "gaps",
+    "spec",
+    "study"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdropcross",
+   "line": 22865,
+   "key_fields": [
+    "eras",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdropcurve",
+   "line": 23099,
+   "key_fields": [
+    "eras",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdroprules",
+   "line": 23341,
+   "key_fields": [
+    "eras",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdropedge",
+   "line": 23623,
+   "key_fields": [
+    "eras",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdropplacebo",
+   "line": 23963,
+   "key_fields": [
+    "eras",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "main",
+   "line": 25655,
+   "key_fields": [
+    "additivity_max_abs_residual_bp",
+    "all_eras_positive",
+    "all_positive",
+    "anomaly_flags",
+    "answers",
+    "arms",
+    "arrows",
+    "band_by_cost",
+    "band_max_minus_min_bp",
+    "band_widening_x1_to_x3_bp",
+    "bands",
+    "beta_by_arm_era",
+    "book",
+    "brackets",
+    "by_era",
+    "by_gap_limit",
+    "by_gap_sessions",
+    "calendar_rows",
+    "calendar_verdict",
+    "cell_now",
+    "cells",
+    "cells_measured",
+    "cells_moved",
+    "cells_sig",
+    "cells_tested",
+    "census",
+    "churn_gap_by_era",
+    "class_counts",
+    "composition_summary",
+    "control",
+    "control_reproduces_published",
+    "cost_shift",
+    "coverage",
+    "cuts_swept",
+    "decomposition",
+    "degenerate",
+    "delay_gap_bp",
+    "delta",
+    "delta_cells",
+    "delta_moves_eras",
+    "delta_span_bp",
+    "delta_stable_eras",
+    "delta_vs_full_skin_bp",
+    "dispersion",
+    "distinct_carrier_months",
+    "early_gap_bp",
+    "early_newest_era_gap_bp",
+    "end_choice_answers",
+    "equal_weight_month_return_pct",
+    "era",
+    "era_level_drift_bp",
+    "era_rows",
+    "era_spans_warm",
+    "era_stability_mean",
+    "era_stability_median",
+    "eras",
+    "eras_whose_gap_changes_sign",
+    "events_indexed",
+    "evidence_cutoff",
+    "face",
+    "family_identity",
+    "fee_channel_reading",
+    "files_touched",
+    "findings",
+    "first_invested_bar",
+    "first_invested_bar_by_start",
+    "flagged_windows",
+    "gap_cells",
+    "gap_spectrum",
+    "gap_survival",
+    "gate_dates_moved",
+    "incomplete_eras",
+    "informative",
+    "join_ok",
+    "joins",
+    "label",
+    "ladder",
+    "ladder_exposure",
+    "largest_unchanged_holding_splits",
+    "late_rows_source",
+    "level_mean_over_eras_bp",
+    "level_sign_flips_across_arms",
+    "level_span_bp",
+    "magnitude_remaining_pct",
+    "mean_bp",
+    "measured_eras",
+    "members",
+    "meta",
+    "mid15",
+    "missing_files",
+    "moves_named",
+    "neighbor_gap_bp",
+    "newest_era_by_arm_cell_bp",
+    "newest_era_churn_alpha_gap_bp",
+    "newest_era_gap_bp",
+    "newest_era_gap_x1_bp",
+    "newest_era_level_bp",
+    "newest_era_negative_churn_share_pct",
+    "newest_era_residual_bp",
+    "non_zero_delta_cells",
+    "orders",
+    "pair_verdicts",
+    "pairs",
+    "pairs_measured",
+    "panel",
+    "per_era",
+    "per_trim",
+    "pooled",
+    "populated_eras",
+    "published_control",
+    "range_bp",
+    "ratio_product_mismatch",
+    "reading",
+    "reads_as",
+    "refresh_wave",
+    "regressions",
+    "removed_window",
+    "residual_bp_by_cost",
+    "residual_survival",
+    "residual_worst_correction",
+    "results",
+    "rows_after_bulk_import_carried",
+    "rule_verdict",
+    "screen_reports",
+    "series_by_cost",
+    "sessions_uninvested_by_start",
+    "sign_flips_vs_unscreened",
+    "size_neutral_by_arm_era_bp",
+    "skin_comparison",
+    "skins",
+    "skipped",
+    "spec",
+    "stability_answers",
+    "stale_panels",
+    "start",
+    "status",
+    "step_arms",
+    "steps_tested",
+    "summary",
+    "tilt_annualised_bp",
+    "tilt_by_arm_era_bp",
+    "tilt_range_by_arm_bp",
+    "top_events",
+    "totals",
+    "turnover_per_year_control",
+    "turnover_ratio_vs_me",
+    "universe",
+    "verdict",
+    "verdict_tally",
+    "verdicts",
+    "week_overlap",
+    "widest_correction",
+    "widest_moves",
+    "windows",
+    "worst",
+    "worst_cell",
+    "worst_correction",
+    "zero_ends"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "run_tilt3ladderdropfragility",
+   "line": 27559,
+   "key_fields": [
+    "disagree",
+    "effect_arith_bp",
+    "effect_comp_bp",
+    "eras",
+    "evidence_cutoff",
+    "months_kept",
+    "sign_arith",
+    "sign_comp"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_beta_menu.py",
+   "function": "tier_stress",
+   "line": 215,
+   "key_fields": [
+    "inputs_sha256",
+    "priced_bar",
+    "tiers"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "_load_ticket",
+   "line": 138,
+   "key_fields": [
+    "file",
+    "path",
+    "ticket_file"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "build_stress",
+   "line": 799,
+   "key_fields": [
+    "inputs_sha256",
+    "priced_bar"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/etf_book_forward_settle_audit.py",
+   "function": "check",
+   "line": 230,
+   "key_fields": [
+    "classification",
+    "verdict"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_order.py",
+   "function": "accrue",
+   "line": 151,
+   "key_fields": [
+    "last_bar",
+    "last_k",
+    "nav",
+    "rows"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_order.py",
+   "function": "_load_state",
+   "line": 184,
+   "key_fields": [
+    "beta_target"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_phase_atlas_arms.py",
+   "function": "_selftest",
+   "line": 1288,
+   "key_fields": [
+    "arms",
+    "evidence_cutoff",
+    "k_required",
+    "per_cell",
+    "rows",
+    "verdict",
+    "width_required"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_registry.py",
+   "function": "_ticket_face",
+   "line": 114,
+   "key_fields": [
+    "as_of",
+    "beta_target",
+    "evidence_cutoff",
+    "file",
+    "k_now",
+    "n_hold",
+    "ticket"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_book_registry.py",
+   "function": "_ceo_page_face",
+   "line": 215,
+   "key_fields": [
+    "beta_target",
+    "evidence_cutoff",
+    "feed_lag_days",
+    "generated_for_date",
+    "json",
+    "k_now",
+    "n_hold",
+    "order",
+    "priced_bar",
+    "sources",
+    "ticket"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_composite_live.py",
+   "function": "accrue",
+   "line": 59,
+   "key_fields": [
+    "bars_since_decision",
+    "equity",
+    "fills",
+    "holdings",
+    "last_bar",
+    "open_gapfill",
+    "pending",
+    "rows",
+    "turnover_sum"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_ops_bp1.py",
+   "function": "load_member",
+   "line": 214,
+   "key_fields": [
+    "close",
+    "date",
+    "high",
+    "low",
+    "open"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/etf_ops_bp1.py",
+   "function": "cmd_finalize",
+   "line": 662,
+   "key_fields": [
+    "evidence_cutoff",
+    "grammar_sha16",
+    "member",
+    "trials_ledger"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/etf_ops_bp2.py",
+   "function": "cmd_finalize",
+   "line": 735,
+   "key_fields": [
+    "cells",
+    "crisis_days_gt_threshold",
+    "evidence_cutoff",
+    "grammar_sha16",
+    "isolated_days",
+    "ledger",
+    "member",
+    "monthly_signals",
+    "pure_dca",
+    "science_gates",
+    "trials_ledger",
+    "x2"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/etf_sign_pit.py",
+   "function": "selftest",
+   "line": 475,
+   "key_fields": [
+    "all_ok",
+    "cagr_pit",
+    "declared",
+    "n_hold",
+    "pit_traded",
+    "summary",
+    "verdict"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/exchange_calendar_audit.py",
+   "function": "forward_impact",
+   "line": 346,
+   "key_fields": [
+    "bar",
+    "bars",
+    "status"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/f1_bull_cond_p1.py",
+   "function": "load_labels",
+   "line": 55,
+   "key_fields": [
+    "cutoff",
+    "labels"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/fund_nulls_gap_repair.py",
+   "function": "_claim_closed",
+   "line": 116,
+   "key_fields": [
+    "result_ref",
+    "state"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/fund_vq_p2_probe.py",
+   "function": "leg2_face_structural",
+   "line": 121,
+   "key_fields": [
+    "_a",
+    "_pe",
+    "code",
+    "code_s",
+    "period_end"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/futures_tsmom_signal.py",
+   "function": "load_adopted",
+   "line": 73,
+   "key_fields": [
+    "adopted_arm",
+    "arms",
+    "cells",
+    "evidence_cutoff",
+    "overall_verdict",
+    "spec"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/grid_dualface_backtest.py",
+   "function": "load_member",
+   "line": 251,
+   "key_fields": [
+    "close",
+    "date",
+    "high",
+    "low",
+    "open"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/grid_dualface_backtest.py",
+   "function": "cmd_finalize",
+   "line": 942,
+   "key_fields": [
+    "_series",
+    "cells",
+    "eval_start_idx",
+    "evidence_cutoff",
+    "grammar_sha16",
+    "member",
+    "minute_face",
+    "trials_ledger"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/grid_p1_screen.py",
+   "function": "cmd_run",
+   "line": 452,
+   "key_fields": [
+    "510300",
+    "level",
+    "status"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/grid_sleeve_p1.py",
+   "function": "main",
+   "line": 306,
+   "key_fields": [
+    "close",
+    "open"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/innovation_quota_w3.py",
+   "function": "load_panel",
+   "line": 169,
+   "key_fields": [
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/innovation_quota_w4.py",
+   "function": "load_panel",
+   "line": 237,
+   "key_fields": [
+    "close",
+    "date",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/innovation_quota_w5.py",
+   "function": "load_panel",
+   "line": 321,
+   "key_fields": [
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/innovation_quota_w7.py",
+   "function": "derive_faces",
+   "line": 363,
+   "key_fields": [
+    "b",
+    "valid"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/iv6_portfolio.py",
+   "function": "main",
+   "line": 307,
+   "key_fields": [
+    "C_passive",
+    "ew48_buyhold",
+    "ew48_monthly_rebal",
+    "families",
+    "g1_prime_gate",
+    "members",
+    "runs"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/lhb_seat_pull.py",
+   "function": "main",
+   "line": 267,
+   "key_fields": [
+    "errors",
+    "first_window_gated",
+    "first_window_overlap",
+    "rows_total",
+    "stage",
+    "windows_done"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/lhb_thermo_ic_p1.py",
+   "function": "load_faces",
+   "line": 141,
+   "key_fields": [
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/mass_trial_w1.py",
+   "function": "cmd_finalize",
+   "line": 947,
+   "key_fields": [
+    "complete",
+    "trials_ledger"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/member_reinforce_p1.py",
+   "function": "_chain_base",
+   "line": 345,
+   "key_fields": [
+    "batch",
+    "evidence_cutoff",
+    "prev_total",
+    "trials_ledger"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/mf_rot_backtest.py",
+   "function": "run_cell",
+   "line": 547,
+   "key_fields": [
+    "config_sha"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/mf_rot_backtest.py",
+   "function": "run_nulls",
+   "line": 630,
+   "key_fields": [
+    "config_sha",
+    "n_values"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/monthly_briefing.py",
+   "function": "gather",
+   "line": 61,
+   "key_fields": [
+    "anchor_ok",
+    "attack_corps_live_count",
+    "audit",
+    "backtest",
+    "bars",
+    "batch_trials",
+    "calibration_consumed",
+    "created",
+    "current_dd",
+    "evidence_cutoff",
+    "forward_guard",
+    "generated",
+    "id",
+    "level",
+    "lines",
+    "months_tracked",
+    "name",
+    "paper",
+    "per_trader",
+    "portfolio_cards",
+    "portfolios",
+    "portfolios_iv",
+    "ring_table",
+    "school",
+    "seat_vacancy",
+    "skill_line_v2",
+    "status",
+    "trader",
+    "trader_cards",
+    "trials_ledger",
+    "updated",
+    "verdict",
+    "void"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/mp1_gate_recheck.py",
+   "function": "_member_face",
+   "line": 112,
+   "key_fields": [
+    "close"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/mp1_tsgate_probe.py",
+   "function": "read_all_rows",
+   "line": 561,
+   "key_fields": [
+    "inst",
+    "skip",
+    "xdays"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/o2115_acceptance_pack.py",
+   "function": "item1_fundamentals",
+   "line": 138,
+   "key_fields": [
+    "complete",
+    "done_symbols",
+    "n_stay_locked",
+    "n_unlock"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/o2115_acceptance_pack.py",
+   "function": "item3_w2_judgment",
+   "line": 180,
+   "key_fields": [
+    "complete",
+    "evidence_cutoff",
+    "n_eligible_g2",
+    "n_judge_cells",
+    "n_stage1_survivors"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1c_bigpanel_ops.py",
+   "function": "real_slice",
+   "line": 482,
+   "key_fields": [
+    "N",
+    "shape"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1c_stage_b_probe.py",
+   "function": "run_gates",
+   "line": 215,
+   "key_fields": [
+    "N",
+    "shape"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1c_stock_ic_batch.py",
+   "function": "load_universe",
+   "line": 75,
+   "key_fields": [
+    "N",
+    "shape"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1d_ext_slots_ic.py",
+   "function": "load_panel",
+   "line": 163,
+   "key_fields": [
+    "ok_static"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1e_ic_batch.py",
+   "function": "load_sidecar_tr",
+   "line": 138,
+   "key_fields": [
+    "N",
+    "T",
+    "generated",
+    "shape"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1e_ic_batch.py",
+   "function": "equivalence_gate",
+   "line": 195,
+   "key_fields": [
+    "max_abs_diff",
+    "pass"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p1e_neighbor_corr.py",
+   "function": "_selfconsistent",
+   "line": 154,
+   "key_fields": [
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p3_portfolio.py",
+   "function": "main",
+   "line": 184,
+   "key_fields": [
+    "full",
+    "i_bar",
+    "passive_ew48_buyhold",
+    "prior_n",
+    "sharpe",
+    "vi_bar"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p4_batch2_gates.py",
+   "function": "gate_g1",
+   "line": 130,
+   "key_fields": [
+    "equity_curve",
+    "metrics",
+    "n_trades"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p4_batch3_dca.py",
+   "function": "cmd_run",
+   "line": 745,
+   "key_fields": [
+    "510300",
+    "exit_reasons",
+    "full",
+    "level",
+    "max_drawdown",
+    "n_trades",
+    "sharpe",
+    "staged_metrics",
+    "status",
+    "stop_bite",
+    "stop_bite_rate"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p4_stock_panel.py",
+   "function": "process_one",
+   "line": 34,
+   "key_fields": [
+    "amount",
+    "close",
+    "date",
+    "high",
+    "open",
+    "pct_chg",
+    "preclose"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p5b_new_traders.py",
+   "function": "main",
+   "line": 127,
+   "key_fields": [
+    "entry",
+    "exit_overrides",
+    "id",
+    "level",
+    "params"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/p5c_virtual_timepoint.py",
+   "function": "_load_leg",
+   "line": 136,
+   "key_fields": [
+    "amount",
+    "close",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/parking_p1.py",
+   "function": "load_panels",
+   "line": 110,
+   "key_fields": [
+    "amount",
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/parking_p1.py",
+   "function": "bear_face",
+   "line": 152,
+   "key_fields": [
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/perpetual_faces_n1.py",
+   "function": "_shard_valid",
+   "line": 14248,
+   "key_fields": [
+    "a_range",
+    "b_range",
+    "batch",
+    "families",
+    "nshards",
+    "shard"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/perpetual_faces_n3.py",
+   "function": "_r1_center_cell",
+   "line": 665,
+   "key_fields": [
+    "kind"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/perpetual_faces_n4.py",
+   "function": "_shard_valid",
+   "line": 244,
+   "key_fields": [
+    "L",
+    "batch",
+    "evidence_cutoff",
+    "k_expected",
+    "member",
+    "nshards",
+    "shard"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/regime_axis_m1.py",
+   "function": "_derive",
+   "line": 36,
+   "key_fields": [
+    "crit"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/regime_calibration.py",
+   "function": "replay",
+   "line": 334,
+   "key_fields": [
+    "state_share",
+    "verdict",
+    "window"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/regime_calibration.py",
+   "function": "counterfactual",
+   "line": 477,
+   "key_fields": [
+    "backtest",
+    "counterfactual",
+    "entry",
+    "exit_overrides",
+    "in_sample",
+    "out_sample",
+    "params",
+    "state_counts",
+    "trials_ledger"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/regime_deep_replay.py",
+   "function": "run_matrices",
+   "line": 296,
+   "key_fields": [
+    "n_valid",
+    "share_below_ma20",
+    "share_slope_5d"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/regime_matrix_p0.py",
+   "function": "load_cont_stream",
+   "line": 213,
+   "key_fields": [
+    "face",
+    "n_days",
+    "nav_first",
+    "nav_last",
+    "pos",
+    "returns",
+    "start"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/rev_osc_signal_export.py",
+   "function": "load_mask",
+   "line": 84,
+   "key_fields": [
+    "ok_static"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/rev_osc_stock_p1.py",
+   "function": "load_panel",
+   "line": 199,
+   "key_fields": [
+    "board",
+    "close",
+    "date",
+    "ok_static",
+    "shape"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/saturation_engine.py",
+   "function": "tick",
+   "line": 581,
+   "key_fields": [
+    "active",
+    "crashes",
+    "last_flush_at",
+    "last_shard_done_at",
+    "last_tick",
+    "ledger_buffer",
+    "queue",
+    "shards_done_total",
+    "skips",
+    "ts"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/science_audit.py",
+   "function": "check_attrition",
+   "line": 257,
+   "key_fields": [
+    "batches",
+    "entries"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/southbound_reprobe.py",
+   "function": "_selftest",
+   "line": 246,
+   "key_fields": [
+    "batch",
+    "head_repr",
+    "history",
+    "machine",
+    "meta",
+    "page_rows",
+    "total",
+    "ts",
+    "verdict"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/sscombo_pit_drift_audit.py",
+   "function": "audit",
+   "line": 58,
+   "key_fields": [
+    "cutoff",
+    "labels"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/stock_face_furnace.py",
+   "function": "build_panel",
+   "line": 224,
+   "key_fields": [
+    "amount",
+    "close",
+    "date",
+    "high",
+    "low",
+    "open"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/stock_face_furnace.py",
+   "function": "_panel_from_cache",
+   "line": 307,
+   "key_fields": [
+    "board",
+    "drop20",
+    "drop60",
+    "elig",
+    "elig_median",
+    "ew_ret",
+    "fl",
+    "idx",
+    "ma200",
+    "sse",
+    "syms"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/strategy_scorecard.py",
+   "function": "_load_calib_for_emission",
+   "line": 628,
+   "key_fields": [
+    "batch",
+    "evidence_cutoff",
+    "grade_bands",
+    "portfolios",
+    "traders",
+    "weights"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/strategy_scorecard.py",
+   "function": "build_profile_cards",
+   "line": 937,
+   "key_fields": [
+    "complete",
+    "dates",
+    "shadow_regime_states",
+    "x1"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/strategy_scorecard.py",
+   "function": "landing_hooks",
+   "line": 1071,
+   "key_fields": [
+    "cells",
+    "evidence_cutoff",
+    "family_verdicts",
+    "paper_candidates",
+    "stage",
+    "survivors_science",
+    "verdict"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a13_predface.py",
+   "function": "load_panel",
+   "line": 94,
+   "key_fields": [
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a14_predface.py",
+   "function": "load_panel",
+   "line": 128,
+   "key_fields": [
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a158_fv.py",
+   "function": "g_accept_check",
+   "line": 226,
+   "key_fields": [
+    "cells",
+    "evidence_cutoff"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a2_prescreen.py",
+   "function": "load_panel",
+   "line": 36,
+   "key_fields": [
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a7_prescreen.py",
+   "function": "load_panel",
+   "line": 46,
+   "key_fields": [
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t101_v4_a7_prescreen.py",
+   "function": "load_signal",
+   "line": 58,
+   "key_fields": [
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_nulls",
+   "line": 631,
+   "key_fields": [
+    "manifest_sha256",
+    "panel_start",
+    "verdict"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_reval",
+   "line": 960,
+   "key_fields": [
+    "manifest_sha256",
+    "panel_start",
+    "verdict"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_pbo",
+   "line": 1191,
+   "key_fields": [
+    "anchor_gate",
+    "manifest_sha256",
+    "traders",
+    "verdict"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "scripts/t19_adjust_view.py",
+   "function": "_load_registry",
+   "line": 69,
+   "key_fields": [
+    "counts",
+    "events",
+    "symbols"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t33_attack_wave.py",
+   "function": "run_gates",
+   "line": 382,
+   "key_fields": [
+    "510300",
+    "id",
+    "level"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t34_early_signal.py",
+   "function": "_gate_v3",
+   "line": 424,
+   "key_fields": [
+    "end",
+    "start",
+    "state_counts",
+    "window"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t35_paper_export.py",
+   "function": "_marks_face",
+   "line": 109,
+   "key_fields": [
+    "kind",
+    "source",
+    "traders",
+    "ts"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/t35_paper_export.py",
+   "function": "build_export",
+   "line": 147,
+   "key_fields": [
+    "active_from",
+    "bars",
+    "capital",
+    "current_dd",
+    "cutoff",
+    "mode",
+    "months_tracked",
+    "open_positions",
+    "paper_start",
+    "regime_guard",
+    "updated",
+    "window_metrics"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/theme_ignition_face_probe.py",
+   "function": "probe_event",
+   "line": 119,
+   "key_fields": [
+    "amount",
+    "close",
+    "date"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/theme_methodology_report.py",
+   "function": "assemble",
+   "line": 194,
+   "key_fields": [
+    "evidence_cutoff",
+    "exploration_labeled",
+    "zero_registration_claims"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/thermo_overlay_p1.py",
+   "function": "load_faces",
+   "line": 144,
+   "key_fields": [
+    "date",
+    "max_height",
+    "n_sealed_down",
+    "preclose"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w16.py",
+   "function": "_max_state_full",
+   "line": 459,
+   "key_fields": [
+    "MAX30_q10",
+    "candidates",
+    "extreme_day_states",
+    "rows",
+    "warmup_first_decidable_idx"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w16.py",
+   "function": "_rank_state_full",
+   "line": 521,
+   "key_fields": [
+    "RANK30_q90",
+    "candidates",
+    "extreme_day_states",
+    "rows",
+    "warmup_first_decidable_idx"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w17.py",
+   "function": "_entry_load",
+   "line": 451,
+   "key_fields": [
+    "candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w18.py",
+   "function": "_entry_load",
+   "line": 421,
+   "key_fields": [
+    "candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w19.py",
+   "function": "_entry_load",
+   "line": 448,
+   "key_fields": [
+    "candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w20.py",
+   "function": "_entry_load",
+   "line": 333,
+   "key_fields": [
+    "candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w20.py",
+   "function": "_probe_face",
+   "line": 404,
+   "key_fields": [
+    "close",
+    "date",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w20.py",
+   "function": "_maskdays_alignment_gate",
+   "line": 434,
+   "key_fields": [
+    "cells",
+    "n_bars"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w21.py",
+   "function": "_entry_load",
+   "line": 356,
+   "key_fields": [
+    "candidates"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w21.py",
+   "function": "_probe_face",
+   "line": 430,
+   "key_fields": [
+    "close",
+    "date",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w5.py",
+   "function": "_yang_face_full",
+   "line": 304,
+   "key_fields": [
+    "close",
+    "date",
+    "open"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w6.py",
+   "function": "_vconf_face_full",
+   "line": 365,
+   "key_fields": [
+    "close",
+    "date",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w7.py",
+   "function": "_streak_face_full",
+   "line": 263,
+   "key_fields": [
+    "close",
+    "date",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/trial_labor_w8.py",
+   "function": "_tstate_face_full",
+   "line": 396,
+   "key_fields": [
+    "close",
+    "date",
+    "high",
+    "low",
+    "open",
+    "volume"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/update_fund_history.py",
+   "function": "lock_alive",
+   "line": 220,
+   "key_fields": [
+    "pid"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/xstock_tilt.py",
+   "function": "frozen_members",
+   "line": 86,
+   "key_fields": [
+    "cutoff",
+    "evidence_cutoff",
+    "members",
+    "meta",
+    "primary",
+    "sign"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "scripts/zt_pool_pilot_replay.py",
+   "function": "_index_crisis_days",
+   "line": 107,
+   "key_fields": [
+    "r1"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/autofill.py",
+   "function": "_ext_claim_age_min",
+   "line": 416,
+   "key_fields": [
+    "closed_at",
+    "heartbeat",
+    "outcome",
+    "state"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/heartbeat_write.py",
+   "function": "write",
+   "line": 122,
+   "key_fields": [
+    "heartbeat_epoch_utc",
+    "machine_id",
+    "orders_ack",
+    "orders_ack_last"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/idle_trigger.py",
+   "function": "bookkeeping",
+   "line": 239,
+   "key_fields": [
+    "dedupe",
+    "last_touch",
+    "streak"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/n1_freeze_face_adjudicate.py",
+   "function": "main",
+   "line": 99,
+   "key_fields": [
+    "eol",
+    "n1_sha16_post",
+    "n1_sha16_pre",
+    "origin_base",
+    "own_seat_face",
+    "parity",
+    "pf_sha16_post",
+    "pf_sha16_pre",
+    "prereg_commit",
+    "seat_origin",
+    "total_parity_rows"
+   ],
+   "digest_in_key": true
+  },
+  {
+   "file": "Tools/orders_ack_append.py",
+   "function": "selftest",
+   "line": 216,
+   "key_fields": [
+    "last_decisions_sha",
+    "last_orders_sha",
+    "orders_ack",
+    "orders_ack_last"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/pool_worker.py",
+   "function": "_shard_claim_age_min",
+   "line": 249,
+   "key_fields": [
+    "closed_at",
+    "heartbeat",
+    "outcome",
+    "state"
+   ],
+   "digest_in_key": false
+  },
+  {
+   "file": "Tools/pool_worker.py",
+   "function": "_claim_age_min_local",
+   "line": 363,
+   "key_fields": [
+    "heartbeat",
+    "state"
+   ],
+   "digest_in_key": false
+  }
+ ],
  "rows": [
   {
    "file": "scripts/alloc_backtest.py",
@@ -40,11 +2073,41 @@
     "data_sha",
     "sha"
    ],
+   "identity_keys": [],
+   "delegated_identity": {
+    "load_valid_cell": [
+     "config_sha"
+    ]
+   },
    "module_has_digest": true,
    "on_mismatch": "serves",
    "verdict": "digest_argument_to_cache_read",
-   "triage_class": "fixed",
-   "triage_why": "r1377: keyed on rule x panel digest, with a leg that perturbs the panel"
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "cached"
+   ],
+   "served_to_caller": true
+  },
+  {
+   "file": "scripts/alphagen_rg_census.py",
+   "function": "cmd_run",
+   "line": 766,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "ensure_cache": [
+     "cutoff"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [],
+   "served_to_caller": true
   },
   {
    "file": "scripts/alphagen_rl_p1.py",
@@ -52,25 +2115,165 @@
    "line": 1971,
    "key_fields": [],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
    "verdict": "module_has_digest_key_does_not",
-   "triage_class": "not_a_cache",
-   "triage_why": "`cache` is the autodiff activation dict returned by forward(); env_replay/eps_replay are determinism fixtures, not stored values"
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "meta"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_run",
+   "line": 1163,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "load_panel": [
+     "shape"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "blob"
+   ],
+   "served_to_caller": true
   },
   {
    "file": "scripts/e39_panel_census.py",
    "function": "selftest",
    "line": 15267,
    "key_fields": [
-    "symbols_with_changed_prices"
+    "2020-01-01",
+    "answers",
+    "cash_mechanism",
+    "cells_moved",
+    "cold_order",
+    "delta_bp",
+    "effect_arith_bp",
+    "effect_comp_bp",
+    "eras",
+    "first_invested_bar",
+    "gap",
+    "ladder_cash_attributable_bp",
+    "ladder_cash_sign",
+    "max_abs_read",
+    "name",
+    "ordering",
+    "persistent_names",
+    "pre2017",
+    "read_gap_pct",
+    "reads_beyond_100pct",
+    "residual_bp",
+    "share_eligible",
+    "share_of_window_mean_pct",
+    "spread_size_component_ann_bp",
+    "summary",
+    "symbols_with_changed_prices",
+    "tilt_annualised_bp",
+    "tilt_sign",
+    "to",
+    "top",
+    "underwater_delta_sessions",
+    "underwater_delta_sign",
+    "unscreened",
+    "warm_order",
+    "windows",
+    "worst_month_same_month"
    ],
    "digest_argument_names": [],
+   "identity_keys": [
+    "share_eligible",
+    "share_of_window_mean_pct"
+   ],
+   "delegated_identity": {},
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "_cash_flip",
+    "_cash_orig",
+    "_cash_shift",
+    "_e190_rd",
+    "_hs",
+    "_hs2",
+    "_hs3",
+    "_hs4",
+    "_hs5",
+    "_hs6",
+    "_hs7",
+    "_hs8",
+    "_pbr",
+    "_pr",
+    "_pr_absent",
+    "_pr_flip",
+    "_pr_uw",
+    "_sr",
+    "_t4_flip",
+    "_t4_gap",
+    "_t4_orig",
+    "_t4_short",
+    "_ws_cells",
+    "_ws_dates",
+    "_ws_order"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "selftest",
+   "line": 1477,
+   "key_fields": [
+    "effective_bets",
+    "nominal_bets",
+    "risk_split",
+    "sentence",
+    "status"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
    "verdict": "module_has_digest_key_does_not",
-   "triage_class": "not_a_cache",
-   "triage_why": "`_caches` is a hand-written fixture dict"
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "_bf_pub"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/fund_avail_filing_event.py",
+   "function": "cross_face_agreement",
+   "line": 208,
+   "key_fields": [
+    "first_notice"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "frame"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/fund_avail_notice.py",
@@ -78,26 +2281,41 @@
    "line": 376,
    "key_fields": [],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
    "verdict": "no_digest_anywhere",
-   "triage_class": "not_a_cache",
-   "triage_why": "counts which period files EXIST to publish a coverage number; it never reads a stored value back as today's answer"
+   "evidence_class": "no_stored_value_read",
+   "reads_a_stored_value": false,
+   "stored_read_names": [],
+   "served_to_caller": false
   },
   {
    "file": "scripts/innovation_quota_w7.py",
    "function": "cmd_selftest",
    "line": 1048,
    "key_fields": [
+    "batch",
     "bottom",
+    "cells_ledger_delta",
+    "entries",
     "held"
    ],
    "digest_argument_names": [],
+   "identity_keys": [
+    "batch"
+   ],
+   "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not",
-   "triage_class": "not_a_cache",
-   "triage_why": "`pos_cache` is the in-memory batch the same call built"
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "att"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/innovation_quota_w9.py",
@@ -105,29 +2323,125 @@
    "line": 1053,
    "key_fields": [
     "asym",
+    "batch",
+    "cells_ledger_delta",
+    "entries",
     "held"
    ],
    "digest_argument_names": [],
+   "identity_keys": [
+    "batch"
+   ],
+   "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
-   "verdict": "module_has_digest_key_does_not",
-   "triage_class": "not_a_cache",
-   "triage_why": "same in-memory batch memo"
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "att"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/member_reinforce_p1.py",
    "function": "finalize",
-   "line": 345,
+   "line": 376,
    "key_fields": [
     "ser",
     "stats"
    ],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "_chain_base": [
+     "batch",
+     "evidence_cutoff"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [],
+   "served_to_caller": true
+  },
+  {
+   "file": "scripts/member_reinforce_p1.py",
+   "function": "cmd_run",
+   "line": 446,
+   "key_fields": [
+    "n_trades",
+    "ser",
+    "sharpe_full",
+    "stats",
+    "x1",
+    "x2"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
    "verdict": "no_digest_anywhere",
-   "triage_class": "not_a_cache",
-   "triage_why": "`replays` is the in-memory dict the same run just built"
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "st",
+    "states_raw"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/p1c_stock_ic_batch.py",
+   "function": "probe_wq",
+   "line": 327,
+   "key_fields": [
+    "close"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "load_universe": [
+     "shape"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "panels",
+    "panels48"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/p1e_neighbor_corr.py",
+   "function": "run",
+   "line": 164,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "_selfconsistent": [
+     "evidence_cutoff"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "close",
+    "mm",
+    "mod",
+    "open_"
+   ],
+   "served_to_caller": true
   },
   {
    "file": "scripts/p1e_turnover_derive.py",
@@ -138,11 +2452,104 @@
     "shape"
    ],
    "digest_argument_names": [],
+   "identity_keys": [
+    "shape"
+   ],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere",
-   "triage_class": "not_a_cache",
-   "triage_why": "the .npy 'cache' is the INPUT panel it derives from, and the shape assert plus the stored-vs-derived gate refuse on disagreement"
+   "verdict": "identity_checked_read",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "dates",
+    "meta_cache",
+    "stored"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/perpetual_faces_n3.py",
+   "function": "cmd_probe_r2",
+   "line": 771,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "load_members": [
+     "evidence_cutoff"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "read"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/perpetual_faces_n4.py",
+   "function": "cmd_selftest",
+   "line": 965,
+   "key_fields": [
+    "batch",
+    "seed"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "batch"
+   ],
+   "delegated_identity": {
+    "_shard_valid": [
+     "batch",
+     "evidence_cutoff",
+     "nshards",
+     "shard"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "rows_a",
+    "rows_b",
+    "rows_b2",
+    "t"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/t18_deep_axis.py",
+   "function": "_selftest",
+   "line": 1481,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "_nulls_resume": [
+     "manifest_sha"
+    ],
+    "_reval_resume": [
+     "manifest_sha"
+    ],
+    "_pbo_resume": [
+     "manifest_sha"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "bad"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/t73_mktcap_sidecar.py",
@@ -153,11 +2560,168 @@
     "shape"
    ],
    "digest_argument_names": [],
+   "identity_keys": [
+    "shape"
+   ],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
-   "verdict": "no_digest_anywhere",
-   "triage_class": "not_a_cache",
-   "triage_why": "same input-panel shape as p1e; the recon gate raises on mismatch"
+   "verdict": "identity_checked_read",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "dates",
+    "meta_cache",
+    "stored"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/wild_route_lab.py",
+   "function": "run_shard",
+   "line": 807,
+   "key_fields": [
+    "cell_id",
+    "key"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "build_panels_from_cache": [
+     "shape"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "rec"
+   ],
+   "served_to_caller": true
+  },
+  {
+   "file": "scripts/wild_route_lab.py",
+   "function": "run_nulls",
+   "line": 927,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "build_panels_from_cache": [
+     "shape"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/wild_route_lab.py",
+   "function": "finalize",
+   "line": 1017,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "build_panels_from_cache": [
+     "shape"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [],
+   "served_to_caller": true
+  },
+  {
+   "file": "scripts/wild_route_lab.py",
+   "function": "selftest",
+   "line": 1233,
+   "key_fields": [
+    "cliff",
+    "frozen_thresholds"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "build_panels_from_cache": [
+     "shape"
+    ]
+   },
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "probe"
+   ],
+   "served_to_caller": false
+  },
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_selftest",
+   "line": 1378,
+   "key_fields": [
+    "batch",
+    "date",
+    "entries"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "batch"
+   ],
+   "delegated_identity": {
+    "load_panel": [
+     "shape"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "refuses",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "att",
+    "ic_df"
+   ],
+   "served_to_caller": true
+  },
+  {
+   "file": "scripts/cn_sector_leader_p1.py",
+   "function": "cmd_selftest",
+   "line": 1399,
+   "key_fields": [
+    "batch",
+    "entries"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "batch"
+   ],
+   "delegated_identity": {
+    "load_panel": [
+     "cutoff",
+     "shape"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "refuses",
+   "verdict": "identity_checked_read",
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "att"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/etf_book_commodity_split.py",
@@ -165,11 +2729,15 @@
    "line": 139,
    "key_fields": [],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "refuses",
    "verdict": "no_digest_anywhere",
-   "triage_class": "refuses",
-   "triage_why": "raises on a stored-vs-recomputed mismatch instead of serving it"
+   "evidence_class": "no_stored_value_read",
+   "reads_a_stored_value": false,
+   "stored_read_names": [],
+   "served_to_caller": false
   },
   {
    "file": "scripts/regime_p0_slice5.py",
@@ -180,11 +2748,20 @@
     "returns"
    ],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "refuses",
    "verdict": "no_digest_anywhere",
-   "triage_class": "refuses",
-   "triage_why": "same shape: identity gate raises, so no stale number leaves the function"
+   "evidence_class": "persisted_read_not_served",
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "labels",
+    "lp3",
+    "panic",
+    "stored"
+   ],
+   "served_to_caller": false
   },
   {
    "file": "scripts/etf_book_beta_menu.py",
@@ -194,37 +2771,109 @@
     "inputs_sha256"
    ],
    "digest_argument_names": [],
+   "identity_keys": [],
+   "delegated_identity": {
+    "tier_stress": [
+     "inputs_sha256"
+    ]
+   },
    "module_has_digest": true,
    "on_mismatch": "unknown",
    "verdict": "digest_in_key",
-   "triage_class": "not_a_cache",
-   "triage_why": "the reader under test keys on inputs_sha256; the row is the fixture"
-  }
- ],
- "closed_by_reading": [
-  {
-   "file": "scripts/cn_mkneutral_p1.py",
-   "function": "cmd_run",
-   "class": "fixed",
-   "why": "r1378: the upstream panel gate pins the meta stamp and the last bar but not the bytes inside the window, so a same-date repair left cells AND null/sobol shards serving an old world; all three families now carry a panel digest"
+   "evidence_class": "fixture_readback",
+   "reads_a_stored_value": true,
+   "stored_read_names": [],
+   "served_to_caller": false
   },
   {
-   "file": "scripts/etf_book_ceo_page.py",
-   "function": "selftest",
-   "class": "not_a_cache",
-   "why": "the cached replay lives in stress_table and keys on stress_cache_digest(); the selftest row is the digest function's own NAME, not a store"
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_nulls",
+   "line": 631,
+   "key_fields": [
+    "manifest_sha256",
+    "panel_start",
+    "verdict"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "manifest_sha256"
+   ],
+   "delegated_identity": {
+    "_nulls_resume": [
+     "manifest_sha"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "digest_in_key",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "man",
+    "meta"
+   ],
+   "served_to_caller": true
   },
   {
-   "file": "scripts/fund_avail_filing_event.py",
-   "function": "cross_face_agreement",
-   "class": "not_a_cache",
-   "why": "`cache = {}` memo of faces loaded once per call"
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_reval",
+   "line": 960,
+   "key_fields": [
+    "manifest_sha256",
+    "panel_start",
+    "verdict"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "manifest_sha256"
+   ],
+   "delegated_identity": {
+    "_reval_resume": [
+     "manifest_sha"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "digest_in_key",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "man",
+    "meta",
+    "prices_full"
+   ],
+   "served_to_caller": true
   },
   {
-   "file": "scripts/member_reinforce_p1.py",
-   "function": "cmd_run",
-   "class": "guarded",
-   "why": "G-ANCHOR re-runs the anchor backtest on the live panel and refuses on drift BEFORE the cell cache is read (line ~458 vs ~495), so a moved panel stops the run; the cell key only decides resume-vs-recompute, not what the panel is"
+   "file": "scripts/t18_deep_axis.py",
+   "function": "cmd_pbo",
+   "line": 1191,
+   "key_fields": [
+    "anchor_gate",
+    "manifest_sha256",
+    "traders",
+    "verdict"
+   ],
+   "digest_argument_names": [],
+   "identity_keys": [
+    "manifest_sha256"
+   ],
+   "delegated_identity": {
+    "_pbo_resume": [
+     "manifest_sha"
+    ]
+   },
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "digest_in_key",
+   "evidence_class": null,
+   "reads_a_stored_value": true,
+   "stored_read_names": [
+    "man",
+    "meta",
+    "prod"
+   ],
+   "served_to_caller": true
   }
  ]
 }

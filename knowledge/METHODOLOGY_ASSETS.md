@@ -7173,3 +7173,36 @@ must run its producer, not only its verifier.
 Pos: scripts/compute_audit.py (`claim_by_file_face`/`POOL_CLAIM_STALE_MIN`, selftest 64/64) /
 scripts/etf_book_atlas_arms_rebuild.py (`audit_steps`/`success`, selftest 16 legs) / smoke leg
 "the compute audit reads the claim face, not just the pool row".
+
+## E298 A gate that moves into a helper leaves the census reading a row that says the opposite of the truth (2026-10-31 r1379 bm-c)
+
+r1378 made a face safer by moving its disk read AND its provenance gate into `_chain_base()`. The
+census that watches such faces (Tools/live_value_cache_audit.py) enters a function through a cache-ish
+NAME plus a literal-key read. Once both went into the helper, `finalize` contained no comparison, only
+a call -- so the scanner published `reads_a_stored_value: false, evidence_class:
+no_stored_value_read` about a face whose ledger head comes straight off disk. The live row was not a
+miss; it was a false sentence. And the leg written for it (L35, "a gate that lives in a helper is
+still a gate on the face that uses it") could never pass, because its fixture was ignored for the same
+reason; meanwhile the sibling leg L34 passed for the wrong reason -- the value had vanished from the
+table, not been gated.
+
+Three edges have to be in any "who reads disk" census: the delegation edge (admit a caller only when
+the helper it calls actually checks identity keys, not merely because the helper exists), the binding
+(the call's targets include tuple unpacking -- reading only `ast.Name` made `prev_total, src =
+_chain_base(...)` look like a call returning nothing), and the product (a value served by being written
+into the JSON payload counts as served; a return-only taint rule says "serves nothing").
+
+Effect on the published face: cache decisions 16 -> 31, identity-checked 0 -> 19, rows that serve a
+stored value with no digest anywhere 2 -> 1 (alloc_backtest.run_cell_faces, whose digest is handed in
+as an argument and whose F9-d leg already forces the recompute). Six faces left the headline each with
+the helper name and its identity keys published beside it; nothing was downgraded -- the memo rows
+stayed memos.
+
+Sibling lesson from the same estate: a worktree rebuilt from an older base had deleted two legs bm-a
+added upstream (`etf_book_flip_contamination`, `etf_book_shock_day`); only the pre-push ownership claw
+would have caught it. An inherited tree is a subject, not a summary -- every leg was re-run here before
+anything was committed.
+
+Pos: Tools/live_value_cache_audit.py (`helper_facts`/`_call_targets`/`_json_payload_names`/`_taint`,
+selftest 37/37) + results/live_value_cache_audit.json + scripts/member_reinforce_p1.py (`_chain_base`)
++ research/digests/DIGEST-20261031-r1379-delegation-blind-spot.md
