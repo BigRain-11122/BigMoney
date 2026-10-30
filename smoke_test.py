@@ -3486,6 +3486,76 @@ def main() -> int:
     except Exception as e:
         check("product: the width ladder names why it cannot be quoted, and the buffer line "
               "is tested on a point it never saw", False, repr(e)[:160])
+    try:
+        # r1356: the two live faces (card 12 names, ticket 5 names) are compared on the same
+        # ruler, and the answer is a verdict about whether the gap is even a width effect. A
+        # reader must be able to rebuild that verdict from the face's own published deltas and
+        # its own frozen thresholds -- a stored label that no longer follows from the numbers is
+        # red, and so is a face that publishes a gap without the per-phase differences behind it.
+        _lv = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_live_width_ruler.json"),
+                             encoding="utf-8"))
+        _lrule = _lv.get("rule") or {}
+        _lpr = _lv.get("paired") or {}
+        _ld = [float(x) for x in (_lpr.get("deltas_pp") or [])]
+        _led = _lv.get("engine_disagreement") or {}
+        _lbad = []
+        if len(_ld) < int(_lrule.get("pairs_min", 20)):
+            _lbad.append("%d paired phase differences published, floor is %s"
+                         % (len(_ld), _lrule.get("pairs_min")))
+        else:
+            _ls = sorted(_ld)
+            _lmed = round(_ls[len(_ls) // 2] if len(_ls) % 2 else
+                          (_ls[len(_ls) // 2 - 1] + _ls[len(_ls) // 2]) / 2.0, 3)
+            _lups = sum(1 for _d in _ld if _d > 0)
+            _lagree = round(max(_lups, len(_ld) - _lups) / float(len(_ld)), 3)
+            if abs(_lmed - float(_lpr.get("median_pp"))) > 1e-9:
+                _lbad.append("published median %s, the deltas say %s"
+                             % (_lpr.get("median_pp"), _lmed))
+            if _lagree != _lpr.get("sign_agreement"):
+                _lbad.append("published sign agreement %s, the deltas say %s"
+                             % (_lpr.get("sign_agreement"), _lagree))
+            _ldis = _led.get("rung_disagreement_pp")
+            if _ldis is None:
+                _lbad.append("no rung disagreement: the second engine's face is missing")
+            else:
+                _labs = abs(_lmed)
+                if _lagree <= float(_lrule.get("sign_split_max", 0.6)) and _labs < float(_ldis):
+                    _llab = "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"
+                elif _labs < float(_ldis):
+                    _llab = "SIGNED_BUT_INSIDE_ENGINE_DISAGREEMENT"
+                elif _lagree > float(_lrule.get("sign_split_max", 0.6)):
+                    _llab = "RESOLVED_BEYOND_ENGINE_DISAGREEMENT"
+                else:
+                    _llab = "UNSIGNED_AND_BEYOND"
+                if _llab != _lv.get("verdict"):
+                    _lbad.append("verdict says %s, its own deltas say %s"
+                                 % (_lv.get("verdict"), _llab))
+                # the comparator must be a difference minus a difference: had the gate used the
+                # LEVEL gap (~6.4pp) instead of the rung (2.0pp), a 0.09pp gap would have read
+                # "resolved", which is the r1292 unit trap in this face's own clothes
+                _llev = max((_led.get("level_gap_pp") or {"0": 0}).values())
+                if _llev > float(_ldis) * 2 and _labs < float(_ldis) and _labs >= _llev:
+                    _lbad.append("the level gap %.2fpp decided the verdict" % _llev)
+        _lai = _lv.get("as_issued") or {}
+        if _lai:
+            if not (_lai.get("decomposition") or {}).get("paths_agree"):
+                _lbad.append("the two decomposition paths disagree, so the 2x2 is inconsistent")
+            _lw = _lai.get("width_effect_pp") or {}
+            _lcell = _lai.get("cells_cagr_pp") or {}
+            if all(k in _lcell for k in ("beta@5", "beta@12")):
+                _lrb = round(_lcell["beta@12"] - _lcell["beta@5"], 3)
+                if abs(_lrb - float(_lw.get("beta", 0.0))) > 0.011:
+                    _lbad.append("the beta-rule width effect is not beta@12 minus beta@5")
+        check("product: the two live widths are priced on one ruler and the gap is inside the "
+              "engines' own disagreement", not _lbad,
+              "; ".join(_lbad)[:220] or "%s | paired %+.3fpp over %d phases, engine "
+              "disagreement %.3fpp" % (_lv.get("verdict"),
+                                       float(_lpr.get("median_pp") or 0.0), len(_ld),
+                                       float(_led.get("rung_disagreement_pp") or 0.0)))
+    except Exception as e:
+        check("product: the two live widths are priced on one ruler and the gap is inside the "
+              "engines' own disagreement", False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 

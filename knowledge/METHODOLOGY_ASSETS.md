@@ -5567,3 +5567,51 @@ READING: `scripts/etf_book_phase_atlas_arms.py` mode `--readback` / `--readback-
 `results/etf_book_buffer_floor_readback.json` + `research/ETF_BOOK_BUFFER_FLOOR_READBACK.md` +
 chain leg `etf_book_buffer_readback` + `smoke_test.py` leg that re-derives both r1355 verdicts from
 the published numbers.
+
+## E268 A rung taken as a difference of medians is not the median of the paired differences (2026-10-30 r1356 bm-c)
+
+WHEN: two configurations are compared by subtracting their summary medians (a "ladder rung", a
+"cell delta"), and the same two configurations were measured on the SAME sample points.
+
+RIGHT: pair first. The atlas carries one row per decision origin of a complete rebalance cycle, so
+the 12-name vs 5-name step is a vector of 20 paired differences; its median is **+0.090pp** with
+**10 up / 10 down**, while the ladder's published rung (difference of the two medians) is
++0.515pp. The 0.425pp between them is the aggregation, not the book — 83% of the published number.
+Publish the deltas on the face (`paired.deltas_pp`) so a reader and the smoke leg rebuild the
+median, the sign split and the verdict from the face itself.
+
+WRONG: (a) reporting only the difference of medians because that is how the ladder was built —
+it silently mixes the phase-level variation of the two cells into the effect; (b) repairing the
+gap by re-running the engine on "the same" calendar, which is what r1325 already showed is one
+sample of the cycle, not a pairing; (c) quoting the magnitude once it is smaller without saying
+its direction is a coin flip — 10/20 up means the step has no sign to interpret.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--live-widths` /
+`--live-widths-check` + `results/etf_book_live_width_ruler.json` +
+`research/ETF_BOOK_LIVE_WIDTH_RULER.md` + chain leg `etf_book_live_widths` + smoke leg that
+recomputes the paired median, sign agreement and label from `paired.deltas_pp`.
+
+## E269 Compare a rung to a rung: a level gap and a difference are different units (2026-10-30 r1356 bm-c)
+
+WHEN: one published engine's result is used to falsify another's, and the two engines report
+numbers at different points of the same axis (atlas 9.64pp vs capacity 14.03pp at 12 names = a
+4.38pp LEVEL gap; the same two faces give a 0.515pp RUNG at the same step).
+
+RIGHT: the comparator is the difference-of-differences — this engine's 5→12 step against the other
+engine's 5→12 step — because that is the only pair of quantities with the same units. Here the
+rung reads +0.515pp on the atlas engine and −1.530pp on the capacity engine: 2.045pp of
+disagreement **with the sign flipping**, which is what makes the step unadjudicable. The level gap
+is published beside it as a disclosure with the sentence "a level is not a rung" and it never
+enters the gate. A fixture with a 10pp level gap and a 0.5pp rung confirms the gate reads the rung.
+
+WRONG: (a) letting a 6.4pp level gap absorb a 0.09pp rung, which turns any second engine into a
+free pass — "the engines disagree by more than the effect, therefore the effect is unresolved"
+would be true for every effect on that axis; (b) the mirror error, using a level gap to *confirm*
+an effect because it is "large enough"; (c) merging two numbers from different quantities that
+happen to land on the same basis point — here the beta-rule width effect and the capacity rung are
+both −1.530pp, and the face publishes the collision with an explicit "coincidence, not agreement"
+line instead of letting it read as corroboration.
+
+READING: same face as E268 (`engine_disagreement.rung_disagreement_pp` /
+`level_gap_pp`) + `as_issued.coincidences` + selftest legs L26 (level gap is not the gate) and
+L28 (the collision is published, not merged).

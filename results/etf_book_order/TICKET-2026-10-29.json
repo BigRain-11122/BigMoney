@@ -227,6 +227,42 @@
   "source": "results/etf_book_width_audit.json",
   "evidence_cutoff": "2026-10-29"
  },
+ "live_width_ruler": {
+  "state": "inside_disagreement",
+  "detail": "paired median +0.090pp inside a 2.045pp engine disagreement",
+  "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "published_verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+  "gap_pp": 0.09,
+  "disagreement_pp": 2.045,
+  "share_of_disagreement": 0.044,
+  "atlas_rung_pp": 0.515,
+  "capacity_rung_pp": -1.53,
+  "sign_flips": true,
+  "sign_agreement": 0.5,
+  "pairs": 20,
+  "positive_phases": 10,
+  "min_pp": -2.05,
+  "max_pp": 2.89,
+  "spread_pp": 4.94,
+  "widths": {
+   "ticket": {
+    "live_n_hold": 5,
+    "priced_n_hold": 5,
+    "live_rule": "beta",
+    "priced_rule": "beta"
+   },
+   "card": {
+    "live_n_hold": 12,
+    "priced_n_hold": 12,
+    "live_rule": "vol",
+    "priced_rule": "vol_target"
+   }
+  },
+  "age_days": 0,
+  "evidence_cutoff": "2026-10-29",
+  "asof": "2026-10-29",
+  "source": "results/etf_book_live_width_ruler.json"
+ },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",
   "ticket prices are closes; no impact cost, no limit-move guard",

@@ -1,0 +1,164 @@
+{
+ "script": "scripts/etf_book_phase_atlas_arms.py --live-widths",
+ "question": "the production card runs 12 names and the executable ticket runs 5. Put both live widths on the same ruler and say whether the gap between them is inside the disagreement between the two published engines.",
+ "units": {
+  "gap_pp": "pp of CAGR, card width minus ticket width, paired by phase",
+  "rung_disagreement_pp": "|atlas 5->12 rung - capacity 5->12 rung| (a difference minus a difference)",
+  "level_gap_pp": "|atlas cell - capacity cell| at the same width: reported, never used as the gate, because a level is not a rung"
+ },
+ "rule": {
+  "pairs_min": 20,
+  "sign_split_max": 0.6,
+  "coincidence_tol_pp": 0.005,
+  "frozen": "written before the first read of the two live faces: the comparator is the difference-of-differences (this rung on the atlas engine vs the same rung on the capacity engine), never a level gap, because a level gap and a difference are different units"
+ },
+ "evidence_cutoff": "2026-10-29",
+ "live_faces": {
+  "card": {
+   "n_hold": 12,
+   "rebal": 20,
+   "rule": "vol_target",
+   "median_cagr_pp": 9.645,
+   "band_pp": 7.8665,
+   "phases": 20,
+   "min_pp": 5.28,
+   "max_pp": 13.46
+  },
+  "ticket": {
+   "n_hold": 5,
+   "rebal": 20,
+   "rule": "beta",
+   "median_cagr_pp": 9.13,
+   "band_pp": 6.246,
+   "phases": 20,
+   "min_pp": 4.35,
+   "max_pp": 13.56
+  }
+ },
+ "paired": {
+  "pairs": 20,
+  "median_pp": 0.09,
+  "mean_pp": 0.129,
+  "min_pp": -2.05,
+  "max_pp": 2.89,
+  "spread_pp": 4.94,
+  "sd_pp": 1.255,
+  "positive": 10,
+  "sign_agreement": 0.5,
+  "phase_offsets": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19
+  ],
+  "deltas_pp": [
+   -2.05,
+   -1.36,
+   -0.19,
+   1.37,
+   -1.78,
+   0.37,
+   1.25,
+   -0.67,
+   1.27,
+   1.11,
+   1.3,
+   -1.1,
+   1.17,
+   0.64,
+   -0.24,
+   2.89,
+   -1.01,
+   -0.21,
+   0.78,
+   -0.97
+  ]
+ },
+ "aggregation": {
+  "difference_of_medians_pp": 0.515,
+  "median_of_differences_pp": 0.09,
+  "shrink_pp": 0.425,
+  "ratio": 5.722,
+  "note": "the ladder's rung is a difference of two medians; the same rung taken across paired phases is a different number, and the gap between the two is the aggregation, not the book"
+ },
+ "rulers": {
+  "atlas_ruler_pp": 6.683,
+  "card_band_pp": 7.8665,
+  "ticket_band_pp": 6.246
+ },
+ "engine_disagreement": {
+  "atlas_rung_pp": 0.515,
+  "capacity_rung_pp": -1.53,
+  "rung_disagreement_pp": 2.045,
+  "sign_flips": true,
+  "level_gap_pp": {
+   "5": 6.43,
+   "12": 4.385
+  },
+  "capacity_evidence_cutoff": null
+ },
+ "as_issued": {
+  "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
+  "cells_cagr_pp": {
+   "beta@5": 11.33,
+   "beta@12": 9.8,
+   "vol@5": 12.19,
+   "vol@12": 12.51
+  },
+  "card_cagr_pp": 12.51,
+  "ticket_cagr_pp": 11.33,
+  "diagonal_pp": 1.18,
+  "width_effect_pp": {
+   "beta": -1.53,
+   "vol": 0.32
+  },
+  "rule_effect_pp": {
+   "n5": 0.86,
+   "n12": 2.71
+  },
+  "interaction_pp": 1.85,
+  "decomposition": {
+   "width_first": 1.18,
+   "rule_first": 1.18,
+   "paths_agree": true
+  },
+  "interaction_exceeds_both_width_effects": true,
+  "coincidences": [
+   {
+    "value_pp": -1.53,
+    "same_as": "capacity engine's 5->12 rung",
+    "note": "the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
+   }
+  ],
+  "window": "ticket inception 2024-01-02, 682 bars (not the atlas window)",
+  "rules_differ": true
+ },
+ "verdict": "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+ "verdict_reasons": [
+  "20 paired phases of one R20 cycle (need >= 20)",
+  "paired gap +0.090pp (median of 20 phase differences; range -2.050..+2.890, sd 1.255)",
+  "direction splits 10/10 (sign agreement 0.500; floor 0.60)",
+  "the same rung costs +0.515pp on the atlas engine and -1.530pp on the capacity engine, a disagreement of 2.045pp with the sign flipping = True",
+  "difference of medians +0.515pp vs median of differences +0.090pp: the ladder's rung is 83% aggregation",
+  "gap is 4.4% of the engine disagreement and 1.3% of the atlas ruler 6.68pp",
+  "the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect",
+  "as issued the two faces print 12.51pp vs 11.33pp (+1.18pp diagonal), but the 2x2 moves two knobs at once: width effect -1.53pp under the beta rule and +0.32pp under the vol rule, with an interaction of +1.85pp (bigger than both width effects = True)",
+  "COINCIDENCE, not agreement: the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation"
+ ]
+}

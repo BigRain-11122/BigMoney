@@ -656,6 +656,388 @@ READBACK_RULE = {
 }
 
 
+# ---- r1356: the two LIVE widths on the same ruler -----------------------------------------
+# r1355 turned the width ladder into a resolution floor and found the axis is a direction, not a
+# size. That answers the ladder; it does not answer the two faces a reader actually sees. The
+# production card runs 12 names (8% vol target) and the executable ticket runs 5 names (beta 0.20
+# with a cash leg), and the ticket's own card_agreement block says the five are a PREFIX of the
+# twelve -- so "two live widths" is one book truncated, not two books. r1355 already published
+# that the two engines disagree about the direction of the 5->12 rung; the only question left
+# for somebody holding the ticket is whether the gap between the two live faces is inside that
+# disagreement, i.e. whether any part of it may be read as a width effect at all.
+LIVE_OUT = os.path.join(RES, "etf_book_live_width_ruler.json")
+TICKET_DIR = os.path.join(RES, "etf_book_order")
+TICKET_LATEST = os.path.join(TICKET_DIR, "latest.json")
+LIVE_RULE = {
+    # one complete R20 rebalance cycle: the atlas carries one row per decision origin, so a
+    # paired comparison must pair EVERY origin of the cycle rather than sample it
+    "pairs_min": 20,
+    # a rung whose direction splits more evenly than this is a coin flip and no magnitude
+    # rescues it -- the sign test runs before the magnitude test, as it did at r1355
+    "sign_split_max": 0.60,
+    # two published numbers closer than this are reported as a collision between two different
+    # quantities (the r1292 family) rather than allowed to pass for agreement
+    "coincidence_tol_pp": 0.005,
+    "frozen": ("written before the first read of the two live faces: the comparator is the "
+               "difference-of-differences (this rung on the atlas engine vs the same rung on "
+               "the capacity engine), never a level gap, because a level gap and a difference "
+               "are different units"),
+}
+
+
+def _pp(x):
+    return 100.0 * x
+
+
+def _live_rows(payload, n_hold, rebal):
+    """One row per decision origin of the cycle, keyed by phase offset."""
+    return {r["phase_offset"]: r for r in payload.get("rows", [])
+            if r["n_hold"] == n_hold and r["rebal"] == rebal}
+
+
+def _cap_ladder(cap, rebal):
+    """The capacity engine's own median CAGR per width, on its own universe."""
+    out = {}
+    for c in (cap or {}).get("cells", []):
+        m = re.match(r"N(\d+)_R(\d+)", c.get("cell", ""))
+        if m and int(m.group(2)) == rebal:
+            out[int(m.group(1))] = round(_pp(c["cagr"]), 3)
+    return out
+
+
+def _ticket_payload():
+    """The executable ticket the operator is actually holding (resolve latest -> dated file)."""
+    if not os.path.exists(TICKET_LATEST):
+        return None
+    latest = face(TICKET_LATEST)
+    name = latest.get("file")
+    if not name:
+        return None
+    path = os.path.join(TICKET_DIR, name)
+    return face(path) if os.path.exists(path) else None
+
+
+def live_width_of(payload, capacity, ticket):
+    """Is the gap between the two live widths inside the two engines' disagreement?
+
+    Three quantities, deliberately never mixed:
+      * the PAIRED gap -- card minus ticket CAGR at every decision origin of one complete R20
+        cycle, on the atlas engine (one book, two widths, same phases);
+      * the RUNG DISAGREEMENT -- the same 5->12 rung priced by the capacity engine, compared as
+        a difference to a difference (the only comparator with matching units);
+      * the AS-ISSUED diagonal -- what the two live faces actually print, which also moves the
+        rule (vol target vs beta) and therefore is not a width number at all.
+    """
+    cards = payload.get("authoritative_cells") or {}
+    card = cards.get("production_card")
+    tick = cards.get("executable_ticket")
+    out = {"script": "scripts/etf_book_phase_atlas_arms.py --live-widths",
+           "question": ("the production card runs 12 names and the executable ticket runs 5. "
+                        "Put both live widths on the same ruler and say whether the gap between "
+                        "them is inside the disagreement between the two published engines."),
+           "units": {"gap_pp": "pp of CAGR, card width minus ticket width, paired by phase",
+                     "rung_disagreement_pp": "|atlas 5->12 rung - capacity 5->12 rung| (a "
+                                             "difference minus a difference)",
+                     "level_gap_pp": "|atlas cell - capacity cell| at the same width: reported, "
+                                     "never used as the gate, because a level is not a rung"},
+           "rule": LIVE_RULE,
+           "evidence_cutoff": payload.get("evidence_cutoff")}
+    if not card or not tick or not capacity:
+        out.update({"verdict": "NOT-ASSESSED",
+                    "verdict_reasons": ["a live cell or the second engine's face is missing"]})
+        return out
+    cad = card["rebal"]
+    A = _live_rows(payload, card["n_hold"], cad)
+    B = _live_rows(payload, tick["n_hold"], cad)
+    keys = sorted(set(A) & set(B))
+    deltas = [round(_pp(A[k]["cagr"]) - _pp(B[k]["cagr"]), 3) for k in keys]
+    n = len(deltas)
+    ups = sum(1 for d in deltas if d > 0)
+    sign_agree = max(ups, n - ups) / float(n) if n else 0.0
+    med_paired = round(_median(deltas), 3) if deltas else None
+    dif_medians = round(card["median_cagr_pp"] - tick["median_cagr_pp"], 3)
+    ladder = _cap_ladder(capacity, cad)
+    w_small, w_big = tick["n_hold"], card["n_hold"]
+    cap_rung = (round(ladder[w_big] - ladder[w_small], 3)
+                if w_big in ladder and w_small in ladder else None)
+    atlas_rung = dif_medians
+    out.update({
+        "live_faces": {
+            "card": {"n_hold": w_big, "rebal": cad, "rule": "vol_target",
+                     "median_cagr_pp": card["median_cagr_pp"], "band_pp": card["band_pp"],
+                     "phases": card.get("phases"), "min_pp": card.get("min_cagr_pp"),
+                     "max_pp": card.get("max_cagr_pp")},
+            "ticket": {"n_hold": w_small, "rebal": cad, "rule": "beta",
+                       "median_cagr_pp": tick["median_cagr_pp"], "band_pp": tick["band_pp"],
+                       "phases": tick.get("phases"), "min_pp": tick.get("min_cagr_pp"),
+                       "max_pp": tick.get("max_cagr_pp")},
+        },
+        "paired": {
+            "pairs": n, "median_pp": med_paired,
+            "mean_pp": round(sum(deltas) / n, 3) if n else None,
+            "min_pp": min(deltas) if deltas else None,
+            "max_pp": max(deltas) if deltas else None,
+            "spread_pp": round(max(deltas) - min(deltas), 3) if deltas else None,
+            "sd_pp": round(_sd(deltas), 3) if deltas else None,
+            "positive": ups, "sign_agreement": round(sign_agree, 3),
+            "phase_offsets": keys,
+            # published so a reader (and the smoke leg) can rebuild every number above from the
+            # face itself instead of from the script that wrote it
+            "deltas_pp": deltas,
+        },
+        "aggregation": {
+            "difference_of_medians_pp": dif_medians,
+            "median_of_differences_pp": med_paired,
+            "shrink_pp": (None if med_paired is None
+                          else round(abs(dif_medians) - abs(med_paired), 3)),
+            "ratio": (None if not med_paired else round(dif_medians / med_paired, 3)),
+            "note": ("the ladder's rung is a difference of two medians; the same rung taken "
+                     "across paired phases is a different number, and the gap between the two "
+                     "is the aggregation, not the book"),
+        },
+        "rulers": {
+            "atlas_ruler_pp": round(_median([c["p95_cagr_pp"] - c["p05_cagr_pp"]
+                                             for c in payload["per_cell"]]), 3),
+            "card_band_pp": card["band_pp"], "ticket_band_pp": tick["band_pp"],
+        },
+        "engine_disagreement": {
+            "atlas_rung_pp": atlas_rung, "capacity_rung_pp": cap_rung,
+            "rung_disagreement_pp": (None if cap_rung is None
+                                     else round(abs(atlas_rung - cap_rung), 3)),
+            "sign_flips": (None if cap_rung is None
+                           else bool((atlas_rung > 0) != (cap_rung > 0))),
+            "level_gap_pp": {str(w): round(abs(ladder[w] -
+                                               [c["median_cagr_pp"] for c in payload["per_cell"]
+                                                if c["n_hold"] == w and c["rebal"] == cad][0]), 3)
+                             for w in (w_small, w_big) if w in ladder},
+            "capacity_evidence_cutoff": capacity.get("evidence_cutoff"),
+        },
+    })
+    as_issued = None
+    if ticket and ticket.get("width_disclosure"):
+        as_issued = _as_issued_block(ticket["width_disclosure"], out, LIVE_RULE)
+        out["as_issued"] = as_issued
+    reasons = ["%d paired phases of one R%d cycle (need >= %d)"
+               % (n, cad, LIVE_RULE["pairs_min"])]
+    if n < LIVE_RULE["pairs_min"] or med_paired is None or cap_rung is None:
+        out.update({"verdict": "NOT-ASSESSED", "verdict_reasons": reasons})
+        return out
+    dis = out["engine_disagreement"]["rung_disagreement_pp"]
+    abs_gap = abs(med_paired)
+    reasons += [
+        "paired gap %+.3fpp (median of %d phase differences; range %+.3f..%+.3f, sd %.3f)"
+        % (med_paired, n, out["paired"]["min_pp"], out["paired"]["max_pp"],
+           out["paired"]["sd_pp"]),
+        "direction splits %d/%d (sign agreement %.3f; floor %.2f)"
+        % (ups, n - ups, sign_agree, LIVE_RULE["sign_split_max"]),
+        "the same rung costs %+.3fpp on the atlas engine and %+.3fpp on the capacity engine, a "
+        "disagreement of %.3fpp with the sign flipping = %s"
+        % (atlas_rung, cap_rung, dis, out["engine_disagreement"]["sign_flips"]),
+        "difference of medians %+.3fpp vs median of differences %+.3fpp: the ladder's rung is "
+        "%.0f%% aggregation"
+        % (dif_medians, med_paired,
+           0.0 if not med_paired else 100.0 * abs(dif_medians - med_paired) / abs(dif_medians)),
+        "gap is %.1f%% of the engine disagreement and %.1f%% of the atlas ruler %.2fpp"
+        % (100.0 * abs_gap / dis if dis else float("nan"),
+           100.0 * abs_gap / out["rulers"]["atlas_ruler_pp"]
+           if out["rulers"]["atlas_ruler_pp"] else float("nan"),
+           out["rulers"]["atlas_ruler_pp"]),
+    ]
+    if sign_agree <= LIVE_RULE["sign_split_max"] and abs_gap < dis:
+        label = "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"
+        reasons.append("the two live widths are not separated by their own phases AND the "
+                       "engine disagreement on the same rung is wider than the gap: no part of "
+                       "the difference between card and ticket is quotable as a width effect")
+    elif abs_gap < dis:
+        label = "SIGNED_BUT_INSIDE_ENGINE_DISAGREEMENT"
+        reasons.append("the direction is stable but the rung is narrower than what the two "
+                       "engines disagree about on the same rung -- second engine wins nothing")
+    elif sign_agree > LIVE_RULE["sign_split_max"]:
+        label = "RESOLVED_BEYOND_ENGINE_DISAGREEMENT"
+        reasons.append("the gap is wider than the engines' own disagreement on this rung and "
+                       "its direction is stable across the cycle")
+    else:
+        label = "UNSIGNED_AND_BEYOND"
+        reasons.append("the magnitude clears the engines but the direction is a coin flip: a "
+                       "magnitude without a sign is not an effect")
+    if as_issued:
+        reasons.append(
+            "as issued the two faces print %.2fpp vs %.2fpp (%+.2fpp diagonal), but the 2x2 "
+            "moves two knobs at once: width effect %+.2fpp under the beta rule and %+.2fpp "
+            "under the vol rule, with an interaction of %+.2fpp (bigger than both width "
+            "effects = %s)"
+            % (as_issued["card_cagr_pp"], as_issued["ticket_cagr_pp"], as_issued["diagonal_pp"],
+               as_issued["width_effect_pp"]["beta"], as_issued["width_effect_pp"]["vol"],
+               as_issued["interaction_pp"],
+               as_issued["interaction_exceeds_both_width_effects"]))
+        for c in as_issued.get("coincidences", []):
+            reasons.append("COINCIDENCE, not agreement: %s" % c["note"])
+    out.update({"verdict": label, "verdict_reasons": reasons})
+    return out
+
+
+def _sd(a):
+    if not a:
+        return 0.0
+    m = sum(a) / float(len(a))
+    return (sum((x - m) ** 2 for x in a) / float(len(a))) ** 0.5
+
+
+def _as_issued_block(wd, ctx, rule):
+    """Re-derive the ticket's own 2x2 from its four cells instead of trusting its summaries."""
+    sq = ((wd.get("square") or {}).get("cells") or {})
+    need = ("beta@5", "beta@12", "vol@5", "vol@12")
+    if not all(k in sq for k in need):
+        return None
+    g = {k: round(_pp(sq[k]["cagr"]), 3) for k in need}
+    width = {"beta": round(g["beta@12"] - g["beta@5"], 3),
+             "vol": round(g["vol@12"] - g["vol@5"], 3)}
+    rulef = {"n5": round(g["vol@5"] - g["beta@5"], 3),
+             "n12": round(g["vol@12"] - g["beta@12"], 3)}
+    diag = round(g["vol@12"] - g["beta@5"], 3)
+    path_width_first = round(width["beta"] + rulef["n12"], 3)
+    path_rule_first = round(rulef["n5"] + width["vol"], 3)
+    inter = round(width["vol"] - width["beta"], 3)
+    coincidences = []
+    cap = ctx["engine_disagreement"]["capacity_rung_pp"]
+    atlas = ctx["engine_disagreement"]["atlas_rung_pp"]
+    for name, val in (("capacity engine's 5->12 rung", cap),
+                      ("atlas engine's 5->12 rung", atlas)):
+        if val is not None and abs(abs(width["beta"]) - abs(val)) <= rule["coincidence_tol_pp"]:
+            coincidences.append({
+                "value_pp": width["beta"], "same_as": name,
+                "note": ("the beta-rule width effect (%+.3fpp) equals the %s (%+.3fpp) to the "
+                         "basis point. They are different quantities on different windows -- "
+                         "one is a live 2x2 cell difference, the other a second engine's rung. "
+                         "Recording the collision so nobody reads it as confirmation"
+                         % (width["beta"], name, val)),
+            })
+    return {
+        "source": "results/etf_book_order/TICKET-*.json width_disclosure.square",
+        "cells_cagr_pp": g,
+        "card_cagr_pp": g["vol@12"], "ticket_cagr_pp": g["beta@5"],
+        "diagonal_pp": diag,
+        "width_effect_pp": width, "rule_effect_pp": rulef, "interaction_pp": inter,
+        "decomposition": {"width_first": path_width_first, "rule_first": path_rule_first,
+                          "paths_agree": abs(path_width_first - path_rule_first) <= 0.011},
+        "interaction_exceeds_both_width_effects": bool(
+            abs(inter) > abs(width["beta"]) and abs(inter) > abs(width["vol"])),
+        "coincidences": coincidences,
+        "window": "ticket inception 2024-01-02, 682 bars (not the atlas window)",
+        "rules_differ": bool(wd.get("rules_differ")),
+    }
+
+
+def build_live_widths():
+    cap = face(CAPACITY_FACE) if os.path.exists(CAPACITY_FACE) else None
+    return live_width_of(face(BASE), cap, _ticket_payload())
+
+
+def live_width_check():
+    """Gate: the published live-width face must equal a re-derivation from three faces."""
+    if not os.path.exists(LIVE_OUT):
+        print("live-width face is stale: no published face at %s" % _rel(LIVE_OUT))
+        return 2
+    pub = face(LIVE_OUT)
+    if pub.get("rule") != LIVE_RULE:
+        print("live-width face is inconsistent: published frozen rule is not the rule in this file")
+        return 1
+    rebuilt = json.loads(json.dumps(build_live_widths()))
+    drift = _diff(pub, rebuilt)
+    if not drift:
+        print("live-width face matches its own sources on cutoff %s: %s (paired gap %spp, "
+              "engine disagreement %spp)"
+              % (rebuilt["evidence_cutoff"], rebuilt["verdict"],
+                 rebuilt["paired"]["median_pp"],
+                 rebuilt["engine_disagreement"]["rung_disagreement_pp"]))
+        return 0
+    try:
+        face_mtime = os.path.getmtime(LIVE_OUT)
+    except OSError:
+        face_mtime = 0.0
+    src = [BASE, CAPACITY_FACE, TICKET_LATEST]
+    newer = [os.path.basename(p) for p in src
+             if os.path.exists(p) and os.path.getmtime(p) > face_mtime + 1.0]
+    if newer:
+        print("live-width face is stale: sourced before %s moved; drift=%s"
+              % (",".join(sorted(newer)), "; ".join(drift)[:200]))
+        return 2
+    print("live-width face is inconsistent: %d field(s) disagree with a re-derivation and no "
+          "source moved: %s" % (len(drift), "; ".join(drift)[:300]))
+    return 1
+
+
+def render_live_widths_md(p):
+    L = ["# 两个活宽度放同一把尺子（r1356 bm-c）\n",
+         "面：`results/etf_book_live_width_ruler.json`｜脚本：`scripts/etf_book_phase_atlas_arms.py "
+         "--live-widths`｜源面：`results/etf_book_phase_atlas.json` + "
+         "`results/etf_capacity_frontier.json` + `results/etf_book_order/TICKET-*.json`｜cutoff %s\n"
+         % p["evidence_cutoff"]]
+    if p["verdict"] == "NOT-ASSESSED":
+        L.append("未评估：%s" % "; ".join(p["verdict_reasons"]))
+        return "\n".join(L) + "\n"
+    f = p["live_faces"]
+    L.append("生产卡跑 %d 名（%s），可执行单跑 %d 名（%s），都是 R%s。\n"
+             % (f["card"]["n_hold"], f["card"]["rule"], f["ticket"]["n_hold"],
+                f["ticket"]["rule"], f["card"]["rebal"]))
+    L.append("| 面 | 名数 | 规则 | 中位 CAGR | 本格 band | 相位 |")
+    L.append("|---|---|---|---|---|---|")
+    for k in ("card", "ticket"):
+        L.append("| %s | %d | %s | %+.2fpp | %.2fpp | %s |"
+                 % (k, f[k]["n_hold"], f[k]["rule"], f[k]["median_cagr_pp"],
+                    f[k]["band_pp"], f[k]["phases"]))
+    L.append("")
+    pr = p["paired"]
+    L.append("## 一、逐相位配对（同一台引擎、同一批 %d 个决策起点）\n" % pr["pairs"])
+    L.append("中位差 **%+.3fpp**，均值 %+.3fpp，区间 %+.3f..%+.3fpp（跨度 %.3f，sd %.3f），"
+             "方向 %d 上 / %d 下。\n"
+             % (pr["median_pp"], pr["mean_pp"], pr["min_pp"], pr["max_pp"], pr["spread_pp"],
+                pr["sd_pp"], pr["positive"], pr["pairs"] - pr["positive"]))
+    ag = p["aggregation"]
+    L.append("**聚合假象**：阶梯上的这一格是「两个中位数相减」= %+.3fpp，同一件事按逐相位配对取中位数 "
+             "= %+.3fpp —— 差的 %.3fpp（%.0f%%）是聚合方式，不是书。\n"
+             % (ag["difference_of_medians_pp"], ag["median_of_differences_pp"],
+                abs(ag["difference_of_medians_pp"] - ag["median_of_differences_pp"]),
+                0.0 if not ag["median_of_differences_pp"]
+                else 100.0 * abs(ag["difference_of_medians_pp"] - ag["median_of_differences_pp"])
+                / abs(ag["difference_of_medians_pp"])))
+    ed = p["engine_disagreement"]
+    L.append("## 二、两台引擎在同一级上的分歧（唯一可比的量：差减差）\n")
+    L.append("| 引擎 | 5 -> 12 这一级 |")
+    L.append("|---|---|")
+    L.append("| atlas（相位图，vol 规则） | %+.3fpp |" % ed["atlas_rung_pp"])
+    L.append("| capacity（容量面，自有宇宙） | %+.3fpp |" % ed["capacity_rung_pp"])
+    L.append("")
+    L.append("分歧 **%.3fpp**，符号相反 = %s。两面对同一条阶梯连方向都不一致，所以这一级本身不可裁决。\n"
+             % (ed["rung_disagreement_pp"], ed["sign_flips"]))
+    L.append("同宽度的**水平差**（%s）只作披露、不作判据：水平差与「级差」不是同一个单位，"
+             "拿 6pp 的水平差去卡 0.1pp 的级差就是 r1292 那一族。\n"
+             % ", ".join("N%s %.2fpp" % (k, v) for k, v in sorted(ed["level_gap_pp"].items())))
+    ai = p.get("as_issued")
+    if ai:
+        L.append("## 三、两张面「照发出去的样子」（同时动了两个旋钮，不是宽度）\n")
+        L.append("| 规则 \\ 名数 | 5 | 12 |")
+        L.append("|---|---|---|")
+        L.append("| beta | %+.2fpp | %+.2fpp |"
+                 % (ai["cells_cagr_pp"]["beta@5"], ai["cells_cagr_pp"]["beta@12"]))
+        L.append("| vol | %+.2fpp | %+.2fpp |"
+                 % (ai["cells_cagr_pp"]["vol@5"], ai["cells_cagr_pp"]["vol@12"]))
+        L.append("")
+        L.append("对角差 %+.2fpp，但宽度效应在 beta 规则下是 %+.2fpp、在 vol 规则下是 %+.2fpp，"
+                 "交互项 %+.2fpp %s。两条分解路径分别得 %+.2f / %+.2f（一致 = %s）。\n"
+                 % (ai["diagonal_pp"], ai["width_effect_pp"]["beta"],
+                    ai["width_effect_pp"]["vol"], ai["interaction_pp"],
+                    "大于任一主效应" if ai["interaction_exceeds_both_width_effects"] else "小于主效应",
+                    ai["decomposition"]["width_first"], ai["decomposition"]["rule_first"],
+                    ai["decomposition"]["paths_agree"]))
+        for c in ai.get("coincidences", []):
+            L.append("> 巧合而告：%s\n" % c["note"])
+    L.append("\nVerdict: **%s**\n" % p["verdict"])
+    for x in p["verdict_reasons"]:
+        L.append("- %s" % x)
+    return "\n".join(L) + "\n"
+
+
 def readback_of(floor, arm, base):
     """Did the fit predict the point it never saw? Pure function over three published faces."""
     k_arm = (arm.get("audit") or {}).get("buffer_k")
@@ -1038,6 +1420,106 @@ def _selftest():
         finally:
             WIDTH_OUT = keepw
 
+    # L24 the live-width face separates "difference of medians" from "median of differences"
+    def _lw_fix(card_vals, tick_vals, cap5, cap12, ticket=None):
+        """Fixture: two live widths over one cycle plus a second engine's rung."""
+        rows = []
+        for i, (c, t) in enumerate(zip(card_vals, tick_vals)):
+            rows.append({"n_hold": 5, "rebal": 20, "phase_offset": i, "cagr": t / 100.0})
+            rows.append({"n_hold": 12, "rebal": 20, "phase_offset": i, "cagr": c / 100.0})
+
+        def cell(n, vals):
+            med = _median(vals)
+            lo, hi = min(vals), max(vals)
+            return {"n_hold": n, "rebal": 20, "median_cagr_pp": med, "band_pp": 6.0,
+                    "phases": len(vals), "min_cagr_pp": lo, "max_cagr_pp": hi,
+                    "p05_cagr_pp": med - 3.0, "p95_cagr_pp": med + 3.0}
+
+        payload = {"evidence_cutoff": "fixture", "rows": rows,
+                   "per_cell": [cell(5, tick_vals), cell(12, card_vals)],
+                   "authoritative_cells": {"production_card": cell(12, card_vals),
+                                           "executable_ticket": cell(5, tick_vals)}}
+        cap = {"evidence_cutoff": "fixture",
+               "cells": [{"cell": "N5_R20", "cagr": cap5 / 100.0},
+                         {"cell": "N12_R20", "cagr": cap12 / 100.0}]}
+        return payload, cap, ticket
+
+    # a pairing where the two aggregations provably disagree: 21 points, medians 14 vs 5 (+9)
+    # while 11 of the 21 paired differences are exactly zero (median 0)
+    _card = [5.0] + [14.0] * 20
+    _tick = [5.0] * 11 + [14.0] * 10
+    f_pay, f_cap, _ = _lw_fix(_card, _tick, 10.0, 11.0)
+    lw = live_width_of(f_pay, f_cap, None)
+    chk(abs(lw["aggregation"]["difference_of_medians_pp"] - 9.0) < 1e-9,
+        "fixture reproduces the ladder's rung as a difference of medians (%+.3fpp)"
+        % lw["aggregation"]["difference_of_medians_pp"])
+    chk(abs(lw["aggregation"]["median_of_differences_pp"]) < 1e-9,
+        "the same rung paired across phases is a different number (%+.3fpp)"
+        % lw["aggregation"]["median_of_differences_pp"])
+    chk(lw["verdict"] == "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT",
+        "a rung that is aggregation is published as a coin flip (%s)" % lw["verdict"])
+
+    # L25 the sign test runs before the magnitude test
+    p_stable = live_width_of(*_lw_fix([10.5] * 20, [10.0] * 20, 10.5, 10.0)[:2], None)
+    chk(p_stable["verdict"] == "SIGNED_BUT_INSIDE_ENGINE_DISAGREEMENT",
+        "a small rung with a stable sign is named as signed-but-inside (%s)"
+        % p_stable["verdict"])
+    p_big = live_width_of(*_lw_fix([13.0] * 20, [10.0] * 20, 10.0, 11.0)[:2], None)
+    chk(p_big["verdict"] == "RESOLVED_BEYOND_ENGINE_DISAGREEMENT",
+        "a rung past the engines' disagreement with a stable sign is resolved (%s)"
+        % p_big["verdict"])
+
+    # L26 a LEVEL gap is never the gate: 10pp of level disagreement must not swallow a rung
+    p_level = live_width_of(*_lw_fix([13.0] * 20, [10.0] * 20, 20.0, 21.0)[:2], None)
+    chk(max(p_level["engine_disagreement"]["level_gap_pp"].values()) > 9.0,
+        "fixture carries a %.1fpp level gap (so a level-based gate would swallow the rung)"
+        % max(p_level["engine_disagreement"]["level_gap_pp"].values()))
+    chk(p_level["verdict"] == "RESOLVED_BEYOND_ENGINE_DISAGREEMENT",
+        "the rung, not the level gap, decides (%s)" % p_level["verdict"])
+
+    # L27 the as-issued 2x2 is re-derived from its four cells, and a lying summary is ignored
+    _sq = {"cells": {"beta@5": {"cagr": 0.1000}, "beta@12": {"cagr": 0.0847},
+                     "vol@5": {"cagr": 0.1086}, "vol@12": {"cagr": 0.1118}},
+           "width_effect_pp": {"beta": 999.0, "vol": 999.0}, "rules_differ": True}
+    ai = _as_issued_block({"square": _sq}, lw, LIVE_RULE)
+    chk(abs(ai["width_effect_pp"]["beta"] + 1.53) < 0.011,
+        "as-issued width effect recomputed from cells (%+.3fpp), not read off the summary"
+        % ai["width_effect_pp"]["beta"])
+    chk(abs(ai["diagonal_pp"] - 1.18) < 0.011 and ai["decomposition"]["paths_agree"],
+        "the two decomposition paths both reproduce the diagonal (%+.3f | %+.3f)"
+        % (ai["decomposition"]["width_first"], ai["decomposition"]["rule_first"]))
+    chk(ai["interaction_exceeds_both_width_effects"],
+        "the fixture's interaction exceeds both width effects, so the diagonal is not a width")
+
+    # L28 two different quantities landing on the same basis point are reported, not merged
+    pay2, cap2, _ = _lw_fix([10.0] * 20, [10.0] * 20, 15.56, 14.03)
+    lw2 = live_width_of(pay2, cap2, {"width_disclosure": {"square": _sq, "rules_differ": True}})
+    chk(len(lw2["as_issued"]["coincidences"]) >= 1,
+        "the beta-rule width effect and the capacity rung collision is published as a "
+        "coincidence (%d found)" % len(lw2["as_issued"]["coincidences"]))
+
+    # L29 the live-width gate has the same three states as the other gates
+    global LIVE_OUT
+    keepl = LIVE_OUT
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            ltmp = os.path.join(td, "live.json")
+            with open(ltmp, "w", encoding="utf-8") as fh:
+                json.dump(build_live_widths(), fh, ensure_ascii=False, indent=1)
+            os.utime(ltmp, (os.path.getmtime(ltmp) + 3600, os.path.getmtime(ltmp) + 3600))
+            LIVE_OUT = ltmp
+            chk(live_width_check() == 0, "an unedited live-width face passes its gate")
+            l2 = json.loads(json.dumps(build_live_widths()))
+            l2["verdict"] = "RESOLVED_BEYOND_ENGINE_DISAGREEMENT"
+            with open(ltmp, "w", encoding="utf-8") as fh:
+                json.dump(l2, fh, ensure_ascii=False, indent=1)
+            os.utime(ltmp, (os.path.getmtime(ltmp) + 3600, os.path.getmtime(ltmp) + 3600))
+            chk(live_width_check() == 1, "an edited live-width verdict stays inconsistent")
+            LIVE_OUT = os.path.join(td, "missing.json")
+            chk(live_width_check() == 2, "a missing live-width face is stale, not inconsistent")
+        finally:
+            LIVE_OUT = keepl
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
 
@@ -1152,6 +1634,23 @@ def main(argv):
         return floor_check()
     if "--width-check" in argv:
         return width_check()
+    if "--live-widths-check" in argv:
+        return live_width_check()
+    if "--live-widths" in argv:
+        lv = build_live_widths()
+        with open(LIVE_OUT, "w", encoding="utf-8") as fh:
+            json.dump(lv, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        md = os.path.join(ROOT, "research", "ETF_BOOK_LIVE_WIDTH_RULER.md")
+        with open(md, "w", encoding="utf-8") as fh:
+            fh.write(render_live_widths_md(lv))
+        print("%s: paired gap %spp on %s phases, engine disagreement %spp"
+              % (lv["verdict"], lv.get("paired", {}).get("median_pp"),
+                 lv.get("paired", {}).get("pairs"),
+                 lv.get("engine_disagreement", {}).get("rung_disagreement_pp")))
+        print("wrote", os.path.relpath(LIVE_OUT, ROOT),
+              "and research/ETF_BOOK_LIVE_WIDTH_RULER.md")
+        return 0
     if "--readback-check" in argv:
         return readback_check()
     if "--readback" in argv:

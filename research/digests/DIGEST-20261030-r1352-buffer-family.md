@@ -4,7 +4,7 @@
 `scripts/etf_book_rule_null.py` (new, selftest 10/10) · `results/etf_book_phase_atlas_buffer_k10.json`
 + `_k20.json` (280 engine runs each, 4 workers) · `results/etf_book_rule_null.json` ·
 S6 legs `etf_book_phase_atlas_arms` / `etf_book_rule_null` · smoke legs for both ·
-card E261.
+card E263 (renumbered from E261 in r1353: bm-a r1166 landed E261 on origin first).
 
 ## Absorbed from the dead window
 

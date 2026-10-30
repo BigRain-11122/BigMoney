@@ -292,6 +292,15 @@ LEGS = [
     ("etf_book_buffer_readback",
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback-check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback"]),
+    # r1356: the ladder's rung was a difference of two medians, and the two faces an operator
+    # actually holds (card 12 names, ticket 5 names) are two points on that same ladder. This leg
+    # re-derives the paired comparison over one complete R20 cycle, the second engine's rung on
+    # the same step, and the as-issued 2x2 -- then rebuilds the verdict from those numbers. A
+    # face whose stored label no longer follows from its own deltas is red. Engine-free: it reads
+    # three published faces (atlas rows, capacity rungs, the live ticket), 0.1s.
+    ("etf_book_live_widths",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--live-widths"]),
     # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
     # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
     # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel

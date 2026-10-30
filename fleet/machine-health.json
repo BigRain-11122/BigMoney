@@ -1,35 +1,33 @@
 {
- "bm-a": {
-  "cpu": 9.0,
-  "gpu": {
-   "free_gb": 2.0,
-   "util": 100.0
-  },
-  "ram_free_gb": 42.8,
-  "ts": "2026-10-30T07:44",
-  "util": "ok",
-  "work": "r1164 S6 chain + ETF book ticket 2026-10-29 + smoke 244/244"
- },
- "bm-b": {
-  "cpu": 1.4,
-  "gpu": {
-   "free_gb": 4.1,
-   "util": 2.0
-  },
-  "ram_free_gb": 13.2,
-  "ts": "2026-10-29T18:18",
-  "util": "ok",
-  "work": "E226 breakeven toll published + chain leg wired + card E227 (round closed)"
- },
- "bm-c": {
-  "cpu": 15.2,
-  "gpu": {
-   "free_gb": 14.6,
-   "util": 0.0
-  },
-  "ram_free_gb": 9.96,
-  "ts": "2026-10-30T06:54",
-  "util": "r1333 closed",
-  "work": "r1350 closed (smoke 243/243, chain leg green, 3 pool rows stocked, compute_audit CLEAN)"
- }
+    "bm-a":  {
+                 "cpu":  97.0,
+                 "gpu":  {
+                             "free_gb":  2.0,
+                             "util":  100.0
+                         },
+                 "ram_free_gb":  42.8,
+                 "ts":  "2026-10-30T09:18",
+                 "util":  "ok",
+                 "work":  "r1167: cash carry now carries its window (ticket 2.087%/6.82y vs page 1.313%/1y vs spot 1.09% -- three right numbers); a duplicate repo-ladder face was built, checked against the live book page, delet"
+             },
+    "bm-b":  {
+                 "cpu":  1.4,
+                 "gpu":  {
+                             "free_gb":  4.1,
+                             "util":  2.0
+                         },
+                 "ram_free_gb":  13.2,
+                 "ts":  "2026-10-29T18:18",
+                 "util":  "ok",
+                 "work":  "E226 breakeven toll published + chain leg wired + card E227 (round closed)"
+             },
+    "bm-c":  {
+                 "ts":  "2026-10-30 12:06",
+                 "util":  "red",
+                 "work":  "oversight: cpu=GREEN gpu=RED llm=RETIRED engine_q=0 wave=329 flags=8",
+                 "ram_free_gb":  11,
+                 "gpu":  {
+                             "free_gb":  14.2
+                         }
+             }
 }
