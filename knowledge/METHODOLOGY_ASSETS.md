@@ -5658,3 +5658,22 @@ Evidence: `scripts/e284_disagreement_field_scope.py` (selftest 23/23, run/verify
 repaired at cell scope`, digest `research/digests/DIGEST-20261031-r1309-e287-field-scope.md`.
 Pool item `E284-DISAGREEMENT-FIELD-SCOPE` (pool E284 -> card E287). Next card
 `E286-COUNT-FIELD-SCOPE` (pool, seeded this round: 1338 integer count fields unassessed).
+### E288 - unreachable is not one thing: the gap between two ranges and the zone beyond the ceiling
+Two published tails with different ranges leave a space BETWEEN them, and a reading that lands there
+is reachable by neither -- but so is every reading beyond the widest published ceiling, and only the
+first of those is widening headroom. Measure the classes as an exclusive partition
+(reachable_tight -> reachable_wide -> in_gap -> above_ceiling -> below_floor) and assert the counts
+sum to the rows censused, so no reading can be counted twice or quietly dropped. Price the gap in
+each tail's own spread (the family's only ruler) and publish null where the ruler does not exist (a
+degenerate tail has spread 0). Case measured (12 rows, 4 arms): 2 in a positive gap (20 pct of the
+10 unresolvable), 6 above the published ceiling of 2.2963 (up to 1.417x it), 2 below the floor --
+so any widening inside the published evidence can add at most the 2 gap rows while the extrapolation
+zone is three times larger, and the two must never be summed into one "unreachable" number. The
+identity that makes the counts believable: the class totals re-derive the source face's own
+reachable counts (2 wide / 0 tight) and every gap row is published unreachable by both tails.
+Evidence: `scripts/e285_interrange_gap_ceiling.py` (selftest 23/23, run/verify green),
+`results/state_tilt/BANDGAPCEILING-2026-10-29.json`, S6 leg `interrange_gap_ceiling` (verify,
+0.17s), smoke leg `product: the inter-range gap is a smaller widening target than the area beyond
+the published ceiling`, digest `research/digests/DIGEST-20261031-r1310-e288-gap-ceiling.md`.
+Pool item `E285-INTERRANGE-GAP-CEILING` (pool E285 -> card E288). Next card `E286-COUNT-FIELD-SCOPE`
+(pool). Seeded this round: `E287-ABOVE-CEILING-CROSS-FACE`, `E288-BELOW-FLOOR-NARROWING`.

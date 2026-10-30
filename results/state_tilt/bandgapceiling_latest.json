@@ -1,0 +1,646 @@
+{
+ "study": "E285_interrange_gap_ceiling",
+ "title": "the substitution can only add a can-move on rows whose flip falls in the gap between the two tails ranges -- how much widening headroom is spent on rows that stay unresolvable, and where does that headroom run out?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T07:24:25",
+ "no_bill": "measurement only: E272's published per-arm tail intervals and flips are re-read and arithmetic is done on them. No draw stream is drawn, no band rebuilt, no engine runs. A verdict here is a statement about the published numbers, not about the market.",
+ "source_faces": [
+  "BANDFLIPBUDGET-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "D1_arm_interval": "the two tails are published per (leg, base) arm; the arm's interval is the hull of its rows' ranges and every row must match the hull (per-row disagreement is published, not smoothed)",
+  "D2_gap": "gap = wide.lo - tight.hi, positive only when the tight interval ends before the wide one starts; a flip inside it is unreachable by both tails at publication (arithmetic on published intervals)",
+  "D3_exclusive_partition": "each row takes one class by fixed order reachable_tight -> reachable_wide -> in_gap -> above_ceiling -> below_floor and the class counts must sum to the rows censused",
+  "D4_ceiling_is_the_family_s": "the published p95 ceiling is read off the source summary; a flip above it needs a range this family never published and is reported as extrapolation, not headroom",
+  "D5_no_reburn": "published faces re-read only; no draw stream, no band rebuild, no engine",
+  "tolerance": 1e-12,
+  "verdict_vocab": [
+   "no_arm_publishes_a_positive_gap",
+   "no_row_falls_in_the_inter_range_gap",
+   "the_gap_holds_fewer_rows_than_the_area_beyond_the_published_ceiling",
+   "the_gap_is_the_only_widening_target"
+  ]
+ },
+ "arms": [
+  {
+   "arm": "cross:200",
+   "leg": "cross",
+   "base": 200,
+   "n_rows": 2,
+   "tight_interval": {
+    "lo": 1.0,
+    "hi": 1.0,
+    "spread": 0.0,
+    "n_rows_with_interval": 2
+   },
+   "wide_interval": {
+    "lo": 1.5254615980540964,
+    "hi": 1.7815713243912,
+    "spread": 0.2561097263371035,
+    "n_rows_with_interval": 2
+   },
+   "gap": {
+    "lo": 1.0,
+    "hi": 1.5254615980540964,
+    "width": 0.5254615980540964,
+    "positive": true,
+    "width_in_tight_spreads": null,
+    "width_in_wide_spreads": 2.0517049686838504
+   },
+   "range_identity": {
+    "tight": {
+     "identical": true,
+     "off_hull_rows": []
+    },
+    "wide": {
+     "identical": true,
+     "off_hull_rows": []
+    }
+   },
+   "rows": [
+    {
+     "row_key": "cross|200|1",
+     "row": "cross",
+     "cell": "all_five",
+     "index": 1,
+     "flip": 2.704575069829843,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 34.12749587670766,
+     "flip_over_wide_hi": 1.5180840827431104,
+     "flip_over_published_ceiling": 1.177782230602858
+    },
+    {
+     "row_key": "star_lag1_residual|200|12",
+     "row": "star_lag1_residual",
+     "cell": "all_five",
+     "index": 12,
+     "flip": 3.254381491424318,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 45.25622367611628,
+     "flip_over_wide_hi": 1.8266916664346335,
+     "flip_over_published_ceiling": 1.4172106867950747
+    }
+   ],
+   "counts": {
+    "above_ceiling": 2
+   },
+   "partition_sums_to_rows": true
+  },
+  {
+   "arm": "cross:60",
+   "leg": "cross",
+   "base": 60,
+   "n_rows": 6,
+   "tight_interval": {
+    "lo": 1.0,
+    "hi": 1.1008218707620367,
+    "spread": 0.10082187076203675,
+    "n_rows_with_interval": 6
+   },
+   "wide_interval": {
+    "lo": 1.9677724487432138,
+    "hi": 2.2963286417094975,
+    "spread": 0.3285561929662837,
+    "n_rows_with_interval": 6
+   },
+   "gap": {
+    "lo": 1.1008218707620367,
+    "hi": 1.9677724487432138,
+    "width": 0.866950577981177,
+    "positive": true,
+    "width_in_tight_spreads": 8.598834473398968,
+    "width_in_wide_spreads": 2.6386675903264534
+   },
+   "range_identity": {
+    "tight": {
+     "identical": true,
+     "off_hull_rows": []
+    },
+    "wide": {
+     "identical": true,
+     "off_hull_rows": []
+    }
+   },
+   "rows": [
+    {
+     "row_key": "cross|60|7",
+     "row": "cross",
+     "cell": "era_2023_2024",
+     "index": 7,
+     "flip": 2.4587098314134175,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 6.604325066312251,
+     "flip_over_wide_hi": 1.0707133930024213,
+     "flip_over_published_ceiling": 1.0707133930024213
+    },
+    {
+     "row_key": "cross|60|9",
+     "row": "cross",
+     "cell": "era_2025_now",
+     "index": 9,
+     "flip": 2.1964962193681883,
+     "class": "reachable_wide",
+     "published_reachable": {
+      "tight": false,
+      "wide": true
+     }
+    },
+    {
+     "row_key": "cross|60|11",
+     "row": "cross",
+     "cell": "early_three",
+     "index": 11,
+     "flip": 1.8029783974819489,
+     "class": "in_gap",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_to_tight_hi_pct": 38.94425622073722,
+     "distance_to_wide_lo_pct": 9.14010126196838,
+     "required_widening_of_wide_lo_pct": 8.374649790757886,
+     "required_widening_of_tight_hi_pct": 38.94425622073722,
+     "gap_fraction_below_wide_floor": 0.190084712377737
+    },
+    {
+     "row_key": "star_lag1_residual|60|13",
+     "row": "star_lag1_residual",
+     "cell": "era_2023_2024",
+     "index": 13,
+     "flip": 2.1383765610561616,
+     "class": "reachable_wide",
+     "published_reachable": {
+      "tight": false,
+      "wide": true
+     }
+    },
+    {
+     "row_key": "star_lag1_residual|60|14",
+     "row": "star_lag1_residual",
+     "cell": "era_2025_now",
+     "index": 14,
+     "flip": 2.380091359569827,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 3.519306833476704,
+     "flip_over_wide_hi": 1.0364767988078452,
+     "flip_over_published_ceiling": 1.0364767988078452
+    },
+    {
+     "row_key": "star_lag1_residual|60|15",
+     "row": "star_lag1_residual",
+     "cell": "early_three",
+     "index": 15,
+     "flip": 1.88430768682915,
+     "class": "in_gap",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_to_tight_hi_pct": 41.57950538245359,
+     "distance_to_wide_lo_pct": 4.4294656598527995,
+     "required_widening_of_wide_lo_pct": 4.241586061811745,
+     "required_widening_of_tight_hi_pct": 41.57950538245359,
+     "gap_fraction_below_wide_floor": 0.09627395613302883
+    }
+   ],
+   "counts": {
+    "above_ceiling": 2,
+    "reachable_wide": 2,
+    "in_gap": 2
+   },
+   "partition_sums_to_rows": true
+  },
+  {
+   "arm": "self:200",
+   "leg": "self",
+   "base": 200,
+   "n_rows": 1,
+   "tight_interval": {
+    "lo": 1.0,
+    "hi": 1.068797342014263,
+    "spread": 0.06879734201426291,
+    "n_rows_with_interval": 1
+   },
+   "wide_interval": {
+    "lo": 1.575580063460192,
+    "hi": 1.7185953310281559,
+    "spread": 0.1430152675679639,
+    "n_rows_with_interval": 1
+   },
+   "gap": {
+    "lo": 1.068797342014263,
+    "hi": 1.575580063460192,
+    "width": 0.5067827214459291,
+    "positive": true,
+    "width_in_tight_spreads": 7.366312514528018,
+    "width_in_wide_spreads": 3.543556782880507
+   },
+   "range_identity": {
+    "tight": {
+     "identical": true,
+     "off_hull_rows": []
+    },
+    "wide": {
+     "identical": true,
+     "off_hull_rows": []
+    }
+   },
+   "rows": [
+    {
+     "row_key": "self|200|0",
+     "row": "self",
+     "cell": "all_five",
+     "index": 0,
+     "flip": 2.331054649806725,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 26.273915063696595,
+     "flip_over_wide_hi": 1.356372036930976,
+     "flip_over_published_ceiling": 1.0151224034166886
+    }
+   ],
+   "counts": {
+    "above_ceiling": 1
+   },
+   "partition_sums_to_rows": true
+  },
+  {
+   "arm": "self:60",
+   "leg": "self",
+   "base": 60,
+   "n_rows": 3,
+   "tight_interval": {
+    "lo": 1.009502997066893,
+    "hi": 1.1064853190231985,
+    "spread": 0.09698232195630552,
+    "n_rows_with_interval": 3
+   },
+   "wide_interval": {
+    "lo": 1.9881347977384831,
+    "hi": 2.1808219171985748,
+    "spread": 0.19268711946009165,
+    "n_rows_with_interval": 3
+   },
+   "gap": {
+    "lo": 1.1064853190231985,
+    "hi": 1.9881347977384831,
+    "width": 0.8816494787152847,
+    "positive": true,
+    "width_in_tight_spreads": 9.090826667487953,
+    "width_in_wide_spreads": 4.575549632926488
+   },
+   "range_identity": {
+    "tight": {
+     "identical": true,
+     "off_hull_rows": []
+    },
+    "wide": {
+     "identical": true,
+     "off_hull_rows": []
+    }
+   },
+   "rows": [
+    {
+     "row_key": "self|60|6",
+     "row": "self",
+     "cell": "era_2023_2024",
+     "index": 6,
+     "flip": 2.6675958294079174,
+     "class": "above_ceiling",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_above_wide_hi_pct": 18.24766356443824,
+     "flip_over_wide_hi": 1.223206630660902,
+     "flip_over_published_ceiling": 1.161678594672769
+    },
+    {
+     "row_key": "self|60|8",
+     "row": "self",
+     "cell": "era_2025_now",
+     "index": 8,
+     "flip": 0.8893869568794188,
+     "class": "below_floor",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_below_tight_lo_pct": 13.505487038951394
+    },
+    {
+     "row_key": "self|60|10",
+     "row": "self",
+     "cell": "early_three",
+     "index": 10,
+     "flip": 0.6303939055900345,
+     "class": "below_floor",
+     "published_reachable": {
+      "tight": false,
+      "wide": false
+     },
+     "distance_below_tight_lo_pct": 60.13844488582435
+    }
+   ],
+   "counts": {
+    "above_ceiling": 1,
+    "below_floor": 2
+   },
+   "partition_sums_to_rows": true
+  }
+ ],
+ "gap_by_arm": [
+  {
+   "arm": "cross:200",
+   "lo": 1.0,
+   "hi": 1.5254615980540964,
+   "width": 0.5254615980540964,
+   "positive": true,
+   "width_in_tight_spreads": null,
+   "width_in_wide_spreads": 2.0517049686838504
+  },
+  {
+   "arm": "cross:60",
+   "lo": 1.1008218707620367,
+   "hi": 1.9677724487432138,
+   "width": 0.866950577981177,
+   "positive": true,
+   "width_in_tight_spreads": 8.598834473398968,
+   "width_in_wide_spreads": 2.6386675903264534
+  },
+  {
+   "arm": "self:200",
+   "lo": 1.068797342014263,
+   "hi": 1.575580063460192,
+   "width": 0.5067827214459291,
+   "positive": true,
+   "width_in_tight_spreads": 7.366312514528018,
+   "width_in_wide_spreads": 3.543556782880507
+  },
+  {
+   "arm": "self:60",
+   "lo": 1.1064853190231985,
+   "hi": 1.9881347977384831,
+   "width": 0.8816494787152847,
+   "positive": true,
+   "width_in_tight_spreads": 9.090826667487953,
+   "width_in_wide_spreads": 4.575549632926488
+  }
+ ],
+ "widening_target": {
+  "class": "in_gap",
+  "rows": [
+   {
+    "row_key": "cross|60|11",
+    "row": "cross",
+    "cell": "early_three",
+    "index": 11,
+    "flip": 1.8029783974819489,
+    "class": "in_gap",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_to_tight_hi_pct": 38.94425622073722,
+    "distance_to_wide_lo_pct": 9.14010126196838,
+    "required_widening_of_wide_lo_pct": 8.374649790757886,
+    "required_widening_of_tight_hi_pct": 38.94425622073722,
+    "gap_fraction_below_wide_floor": 0.190084712377737
+   },
+   {
+    "row_key": "star_lag1_residual|60|15",
+    "row": "star_lag1_residual",
+    "cell": "early_three",
+    "index": 15,
+    "flip": 1.88430768682915,
+    "class": "in_gap",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_to_tight_hi_pct": 41.57950538245359,
+    "distance_to_wide_lo_pct": 4.4294656598527995,
+    "required_widening_of_wide_lo_pct": 4.241586061811745,
+    "required_widening_of_tight_hi_pct": 41.57950538245359,
+    "gap_fraction_below_wide_floor": 0.09627395613302883
+   }
+  ],
+  "statement": "these rows are reachable by no published tail; covering them requires extending one interval into the gap, and the gap is measured against each tail's own spread so the extension can be priced in the family's ruler",
+  "max_rows_any_gap_widening_could_add": 2
+ },
+ "beyond_ceiling": {
+  "rows": [
+   {
+    "row_key": "cross|200|1",
+    "row": "cross",
+    "cell": "all_five",
+    "index": 1,
+    "flip": 2.704575069829843,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 34.12749587670766,
+    "flip_over_wide_hi": 1.5180840827431104,
+    "flip_over_published_ceiling": 1.177782230602858
+   },
+   {
+    "row_key": "star_lag1_residual|200|12",
+    "row": "star_lag1_residual",
+    "cell": "all_five",
+    "index": 12,
+    "flip": 3.254381491424318,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 45.25622367611628,
+    "flip_over_wide_hi": 1.8266916664346335,
+    "flip_over_published_ceiling": 1.4172106867950747
+   },
+   {
+    "row_key": "cross|60|7",
+    "row": "cross",
+    "cell": "era_2023_2024",
+    "index": 7,
+    "flip": 2.4587098314134175,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 6.604325066312251,
+    "flip_over_wide_hi": 1.0707133930024213,
+    "flip_over_published_ceiling": 1.0707133930024213
+   },
+   {
+    "row_key": "star_lag1_residual|60|14",
+    "row": "star_lag1_residual",
+    "cell": "era_2025_now",
+    "index": 14,
+    "flip": 2.380091359569827,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 3.519306833476704,
+    "flip_over_wide_hi": 1.0364767988078452,
+    "flip_over_published_ceiling": 1.0364767988078452
+   },
+   {
+    "row_key": "self|200|0",
+    "row": "self",
+    "cell": "all_five",
+    "index": 0,
+    "flip": 2.331054649806725,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 26.273915063696595,
+    "flip_over_wide_hi": 1.356372036930976,
+    "flip_over_published_ceiling": 1.0151224034166886
+   },
+   {
+    "row_key": "self|60|6",
+    "row": "self",
+    "cell": "era_2023_2024",
+    "index": 6,
+    "flip": 2.6675958294079174,
+    "class": "above_ceiling",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_above_wide_hi_pct": 18.24766356443824,
+    "flip_over_wide_hi": 1.223206630660902,
+    "flip_over_published_ceiling": 1.161678594672769
+   }
+  ],
+  "statement": "these flips lie above the highest published multiplier in the family; they are not widening headroom -- reaching them requires a range outside every interval this family published",
+  "n_rows": 6,
+  "published_ceiling": 2.2963286417094975
+ },
+ "below_floor": {
+  "rows": [
+   {
+    "row_key": "self|60|8",
+    "row": "self",
+    "cell": "era_2025_now",
+    "index": 8,
+    "flip": 0.8893869568794188,
+    "class": "below_floor",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_below_tight_lo_pct": 13.505487038951394
+   },
+   {
+    "row_key": "self|60|10",
+    "row": "self",
+    "cell": "early_three",
+    "index": 10,
+    "flip": 0.6303939055900345,
+    "class": "below_floor",
+    "published_reachable": {
+     "tight": false,
+     "wide": false
+    },
+    "distance_below_tight_lo_pct": 60.13844488582435
+   }
+  ],
+  "statement": "these flips lie below the lowest published multiplier in the family; they need a narrower range or a different instrument",
+  "n_rows": 2,
+  "published_floor": 1.0
+ },
+ "identity_check": {
+  "rows_censused": 12,
+  "rows_measured_in_source": 12,
+  "rows_match_source": true,
+  "reachable_wide_mine": 2,
+  "reachable_wide_source": 2,
+  "reachable_tight_mine": 0,
+  "reachable_tight_source": 0,
+  "reachable_either_source": 2,
+  "reachable_either_mine": 2,
+  "gap_rows_are_unreachable_by_construction": true,
+  "partition_sums_to_rows": true,
+  "arm_hulls_are_row_identical": {
+   "cross:200": {
+    "tight": true,
+    "wide": true
+   },
+   "cross:60": {
+    "tight": true,
+    "wide": true
+   },
+   "self:200": {
+    "tight": true,
+    "wide": true
+   },
+   "self:60": {
+    "tight": true,
+    "wide": true
+   }
+  },
+  "counts_agree_with_source": true
+ },
+ "summary": {
+  "rows_censused": 12,
+  "arms_measured": 4,
+  "n_gap_rows": 2,
+  "n_above_ceiling": 6,
+  "n_below_floor": 2,
+  "n_reachable_tight": 0,
+  "n_reachable_wide": 2,
+  "gap_rows": [
+   "cross|60|11",
+   "star_lag1_residual|60|15"
+  ],
+  "above_ceiling_rows": [
+   "cross|200|1",
+   "star_lag1_residual|200|12",
+   "cross|60|7",
+   "star_lag1_residual|60|14",
+   "self|200|0",
+   "self|60|6"
+  ],
+  "below_floor_rows": [
+   "self|60|8",
+   "self|60|10"
+  ],
+  "published_ceiling": 2.2963286417094975,
+  "published_floor": 1.0,
+  "share_of_unresolvable_in_gap": 0.2,
+  "share_above_ceiling": 0.5,
+  "widening_ceiling_rows": 2,
+  "calibrated": false,
+  "verdict": "the_gap_holds_fewer_rows_than_the_area_beyond_the_published_ceiling"
+ },
+ "verdict": "the_gap_holds_fewer_rows_than_the_area_beyond_the_published_ceiling",
+ "verdict_reason": "2 of 12 row(s) fall in a positive inter-range gap (share of all unresolvable rows: 20.0 pct), while 6 row(s) sit above the family's published ceiling of 2.296329 -- the gap is a smaller widening target than the extrapolation zone, and any widening inside the published evidence can add at most those 2 row(s)."
+}

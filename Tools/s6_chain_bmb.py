@@ -456,6 +456,16 @@ LEGS = [
     ("disagreement_field_scope",
      ["python", "scripts/e284_disagreement_field_scope.py", "verify"]),
 
+    # E285: the two tails' ranges leave a gap between them, and a flip landing in that gap is
+    # reachable by NEITHER. This leg measures that gap per (leg, base) arm and, more importantly,
+    # separates it from the rows that sit above the family's published ceiling entirely: of 12
+    # rows, 2 fall in a positive gap (20 pct of the 10 unresolvable) while 6 sit above the ceiling
+    # of 2.2963 (up to 1.417x it) -- any widening that stays inside the published evidence can add
+    # at most those 2 rows, so the substitution's headroom is spent on the gap, not on the
+    # extrapolation zone. Published faces only, no draw. <1s.
+    ("interrange_gap_ceiling",
+     ["python", "scripts/e285_interrange_gap_ceiling.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

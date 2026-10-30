@@ -25179,14 +25179,18 @@
    "seeded_at": "2026-10-31T06:32+08:00",
    "seeded_by": "bm-b r1307",
    "source": "E282 measured that the two disagreement cells sit strictly interior to the wide range (positions 0.70/0.52) with the tight tail 48-50 pct away. But two rows on the same face (cross|60|11 at 1.803, cross|60|15 at 1.884) fall INSIDE the inter-range gap (tight hi 1.1008 .. wide lo 1.9678) and are unreachable by BOTH tails. So the wide tail does not sweep the whole gap: publish, per (leg,base) group, the inter-range gap, how many rows fall in it, how many of those the wide tail resolves, and the ceiling on what any widening could add.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e285_interrange_gap_ceiling.py (new runner)",
    "title": "the substitution can only add a can-move on rows whose flip falls in the gap between the two tails ranges -- how much widening headroom is spent on rows that stay unresolvable, and where does that headroom run out?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
+   "done_at": "2026-10-31T07:45+08:00",
+   "done_by": "bm-b r1310",
+   "done_note": "12 rows / 4 arms: 2 in a positive inter-range gap (cross|60|11 1.8030, star_lag1_residual|60|15 1.8843 -- unreachable by both tails), 6 above the family's published ceiling 2.2963 (max 3.2544 = 1.417x), 2 below the floor, 2 reachable by the wide tail, 0 by the tight. Widening inside the published evidence can add at most the 2 gap rows; the extrapolation zone is 3x larger and is not headroom. Face BANDGAPCEILING-2026-10-29."
   },
   {
    "deliverable": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
@@ -25209,6 +25213,50 @@
    "target": "scripts/e286_count_field_scope.py (new runner)",
    "source": "E284 swept all 30 dated BAND faces for name/value scope slips and classified every label list, but 1338 integer fields (n_rows 116, n_records 115, n_moved 112, n_seeds 96, n_at_base 28, cells_compared 26 ...) could not be judged because their scope depends on each face's own census semantics. Those fields are the same defect class one level down: a count whose name says rows may be counting cells, arms, or draws. The next unit should pick the count keys that carry an explicit unit on their own face (rows/cells/arms/draws/seeds) and re-derive each from the face's published records, publishing per key: measured unit, name-claimed unit, agrees, and the faces where the count cannot be re-derived. No reburn: published records only.",
    "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDCEILINGFAMILY-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E287-ABOVE-CEILING-CROSS-FACE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e287_above_ceiling_cross_face.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T07:45+08:00",
+   "seeded_by": "bm-b r1310",
+   "source": "E285 had to read the family ceiling off one face's summary (BANDFLIPBUDGET published_p95_ceiling 2.2963) and found 6 of 12 flips above it (max 3.2544 = 1.417x). But that ceiling is only this face's ceiling: sibling BAND faces (BANDTOPFLIP, BANDWINMULT, BANDSCREEN, BANDNEAR1 ...) publish their own multiplier maxima, some possibly above 3.25. If a sibling range already covers those rows they are not extrapolation at all and E285's framing is the narrower one. Harvest every published multiplier-like ceiling with its own unit from the dated BAND family, publish per above-ceiling row whether an existing sibling range already reaches it, and name the faces that would have to be read instead. No reburn: published records only.",
+   "status": "ready",
+   "target": "scripts/e287_above_ceiling_cross_face.py (new runner)",
+   "title": "is the family's published ceiling one ceiling or many -- do any sibling faces publish a wider multiplier that would already reach the rows E285 called extrapolation?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "deliverable": "results/state_tilt/BANDFLOORMIRROR-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E288-BELOW-FLOOR-NARROWING",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e288_below_floor_narrowing.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T07:45+08:00",
+   "seeded_by": "bm-b r1310",
+   "source": "E285's partition has a bottom class it did not open: 2 of 12 flips sit below the published floor of 1.0 (self|60|8 0.8894, self|60|10 0.6304) and the source summary already counts them as rows_flip_needs_narrowing=2 -- a multiplier below 1 means the band must NARROW, the mirror of the widening every other row needs. Measure: how far below the floor each sits (absolute and relative), whether any face in the family publishes a sub-1.0 multiplier at all (i.e. whether a narrowing instrument exists in the published evidence), and what a narrowed tight tail would cost in rows it currently reaches (0 of 12 at publication). Publish the mirror verdict so 'unreachable' is never reported as a single direction of fix. No reburn: published records only.",
+   "status": "ready",
+   "target": "scripts/e288_below_floor_narrowing.py (new runner)",
+   "title": "a flip below 1.0 needs the band NARROWED, not widened -- does the family publish any narrowing instrument, and what would narrowing cost?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

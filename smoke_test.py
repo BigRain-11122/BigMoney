@@ -7034,6 +7034,109 @@ def main() -> int:
     except Exception as e:
         check(_name84, False, repr(e)[:160])
 
+    # E285: the two tails publish different ranges, so there is a space BETWEEN them. A flip that
+    # lands in that gap is reachable by neither tail and only widening could ever pick it up -- but
+    # the reader also needs to know how much of the unresolvable set the gap actually accounts for.
+    # This leg requires (a) every row takes exactly one class and the classes sum to the rows
+    # censused, (b) gap rows are published unreachable by both tails and sit inside a POSITIVE gap
+    # on their own arm, (c) rows above the family's published ceiling are counted separately from
+    # the gap (they are extrapolation, not headroom) and each is verified to be above that ceiling,
+    # and (d) the verdict and gap set re-derive on a fresh build.
+    _name85 = ("product: the inter-range gap is a smaller widening target than the area beyond the "
+               "published ceiling -- both must be counted, not added")
+    _bad85 = []
+    try:
+        _p85 = os.path.join("results", "state_tilt", "bandgapceiling_latest.json")
+        _f85 = None
+        if not os.path.exists(_p85):
+            _bad85.append("face missing: %s" % _p85)
+        else:
+            with io.open(_p85, encoding="utf-8") as _fh85:
+                _f85 = json.load(_fh85)
+        if _f85 is not None:
+            if _f85.get("evidence_cutoff") is None:
+                _bad85.append("no evidence_cutoff on the face")
+            if _f85.get("verdict") not in (
+                    "no_arm_publishes_a_positive_gap",
+                    "no_row_falls_in_the_inter_range_gap",
+                    "the_gap_holds_fewer_rows_than_the_area_beyond_the_published_ceiling",
+                    "the_gap_is_the_only_widening_target"):
+                _bad85.append("verdict %r is outside the frozen set" % (_f85.get("verdict"),))
+            _s85 = _f85.get("summary") or {}
+            _arms85 = _f85.get("arms") or []
+            _classes85 = {}
+            for _a in _arms85:
+                for _k, _v in (_a.get("counts") or {}).items():
+                    _classes85[_k] = _classes85.get(_k, 0) + _v
+                if not _a.get("partition_sums_to_rows"):
+                    _bad85.append("arm %s classes do not sum to its rows" % _a.get("arm"))
+            if sum(_classes85.values()) != _s85.get("rows_censused"):
+                _bad85.append("the class partition does not sum to the rows censused")
+            _gap85 = _f85.get("widening_target") or {}
+            _gap_rows85 = _gap85.get("rows") or []
+            if _s85.get("n_gap_rows") != len(_gap_rows85):
+                _bad85.append("n_gap_rows disagrees with the published gap rows")
+            if _gap85.get("max_rows_any_gap_widening_could_add") != len(_gap_rows85):
+                _bad85.append("the widening ceiling is not the gap row count")
+            for _r in _gap_rows85:
+                if (_r.get("published_reachable") or {}).get("tight") or \
+                        (_r.get("published_reachable") or {}).get("wide"):
+                    _bad85.append("a gap row is published reachable by a tail")
+            if any(_r.get("class") != "in_gap" for _r in _gap_rows85):
+                _bad85.append("a gap row is not of the in_gap class")
+            _gap_arms85 = {g.get("arm") for g in (_f85.get("gap_by_arm") or [])
+                           if g.get("positive")}
+            _arm_of85 = {}
+            for _a in _arms85:
+                for _r in (_a.get("rows") or []):
+                    _arm_of85[_r.get("row_key")] = _a.get("arm")
+            for _r in _gap_rows85:
+                if _arm_of85.get(_r.get("row_key")) not in _gap_arms85:
+                    _bad85.append("gap row %s sits on an arm with no positive gap"
+                                  % _r.get("row_key"))
+            _ceiling85 = _s85.get("published_ceiling")
+            _above85 = (_f85.get("beyond_ceiling") or {}).get("rows") or []
+            if _s85.get("n_above_ceiling") != len(_above85):
+                _bad85.append("n_above_ceiling disagrees with the published rows")
+            if _ceiling85 is None:
+                _bad85.append("no published ceiling is carried")
+            elif any(not (_r.get("flip") or 0) > _ceiling85 for _r in _above85):
+                _bad85.append("an above-ceiling row is not above the published ceiling")
+            _ic85 = _f85.get("identity_check") or {}
+            if not _ic85.get("rows_match_source") or not _ic85.get("counts_agree_with_source"):
+                _bad85.append("the counts do not agree with the source face")
+            if not _ic85.get("gap_rows_are_unreachable_by_construction"):
+                _bad85.append("the gap rows are not unreachable by construction")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m85 = __import__("importlib").import_module("e285_interrange_gap_ceiling")
+            _fresh85 = _m85.build()
+            if _fresh85.get("verdict") != _f85.get("verdict"):
+                _bad85.append("the verdict does not re-derive")
+            if (_fresh85.get("summary") or {}).get("gap_rows") != _s85.get("gap_rows"):
+                _bad85.append("the gap rows do not re-derive")
+            if (_fresh85.get("summary") or {}).get("above_ceiling_rows") != \
+                    _s85.get("above_ceiling_rows"):
+                _bad85.append("the above-ceiling rows do not re-derive")
+        check(_name85, not _bad85,
+              "; ".join(_bad85)[:220]
+              or "verdict %r | %d arm(s), %d row(s): %d in a positive gap (%s), %d above the "
+                 "published ceiling %s (max %s), %d below the floor, %d reachable; widening can "
+                 "add at most the gap rows"
+                 % ((_f85 or {}).get("verdict"),
+                    _s85.get("arms_measured") or 0,
+                    _s85.get("rows_censused") or 0,
+                    _s85.get("n_gap_rows") or 0,
+                    ",".join(_s85.get("gap_rows") or []) or "none",
+                    _s85.get("n_above_ceiling") or 0,
+                    "n/a" if _s85.get("published_ceiling") is None
+                    else "%.4f" % _s85["published_ceiling"],
+                    "n/a" if not _above85 else "%.4fx" % max(
+                        _r.get("flip_over_published_ceiling") or 0 for _r in _above85),
+                    _s85.get("n_below_floor") or 0,
+                    (_s85.get("n_reachable_tight") or 0) + (_s85.get("n_reachable_wide") or 0)))
+    except Exception as e:
+        check(_name85, False, repr(e)[:160])
+
     return _finish()
 
 
