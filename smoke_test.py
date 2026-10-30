@@ -2069,6 +2069,17 @@ def main() -> int:
             # the newer/older split, and that a card git has never seen stays ambiguous.
             ("pool: a card whose deliverable already existed is not supply",
              "Tools/pool_deliverable_audit.py", ["--selftest"]),
+            # r1376: r1374 and r1375 each ended by admitting their sweep was the etf_book
+            # family, not the repo. This leg keeps the scanner honest: a date-keyed fixture
+            # must be found, a module that hashes something ELSE must not count as covered,
+            # and a gate that raises must not be reported as one that serves.
+            ("audit: which caches serve a live value on a key with no digest",
+             "Tools/live_value_cache_audit.py", ["selftest"]),
+            # r1377: the audit's first row fixed, plus the leg its own new verdict demands --
+            # the digest reaches the cache read as an argument, so a leg that perturbs the
+            # panel and demands a recompute is the only thing that proves it is compared.
+            ("product: alloc cell checkpoint is keyed on the panel, not just the rule",
+             "scripts/alloc_backtest.py", ["selftest"]),
             # r1352 / E261: a label is a measurement only if it is rare when nothing happened.
             # The suite pins the null (seeded, reproducible), the activity preconditions (zero
             # noise is NOT-SEPARABLE, a 50pp shift is ADOPT -- so the rule really ran), that the

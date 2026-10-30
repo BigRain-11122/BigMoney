@@ -360,19 +360,52 @@ def completeness_gate(panel, symbols):
     return ok, rows
 
 
-def config_sha(weights, mode, p2, capital, start, cutoff):
+def config_sha(weights, mode, p2, capital, start, cutoff, data_sha=None):
     import hashlib
     cfg = json.dumps({"w": weights, "mode": mode, "p2": p2,
-                      "capital": capital, "start": start, "cutoff": cutoff},
+                      "capital": capital, "start": start, "cutoff": cutoff,
+                      "data": data_sha},
                      sort_keys=True)
     return hashlib.sha256(cfg.encode()).hexdigest()[:16]
+
+
+def _num_str(v):
+    try:
+        return repr(float(v))
+    except (TypeError, ValueError):
+        return "?"
+
+
+def panel_sha(dates, prices, adv20_map, cash_ret):
+    """Digest of the DATA a cell was computed from (r1377).
+
+    config_sha answers "is this the same rule"; this answers "is this the same panel".
+    Until r1377 the checkpoint only asked the first question, so a quote-flip repair
+    (E289 / etf_book_flip_contamination) or any late bar inside the batch window left
+    the old cell serving numbers for a panel that no longer existed. repr() of a float
+    round-trips exactly, so a repaired print moves this digest and nothing else does.
+    """
+    import hashlib
+    h = hashlib.sha256()
+    h.update("|".join(str(d) for d in dates).encode())
+    for name in sorted(prices):
+        h.update(b"\x00p")
+        h.update(str(name).encode())
+        h.update(",".join(_num_str(v) for v in prices[name]).encode())
+    for name in sorted(adv20_map):
+        h.update(b"\x00a")
+        h.update(str(name).encode())
+        h.update(",".join(_num_str(v) for v in adv20_map[name]).encode())
+    h.update(b"\x00c")
+    h.update(",".join(_num_str(v) for v in cash_ret).encode())
+    return h.hexdigest()[:16]
 
 
 def cell_file(name):
     return os.path.join(CELLS_DIR, f"{name}.json")
 
 
-def load_valid_cell(name, sha):
+def load_valid_cell(name, sha, data_sha=None):
     p = cell_file(name)
     if not os.path.exists(p):
         return None
@@ -380,6 +413,16 @@ def load_valid_cell(name, sha):
         j = json.load(open(p, encoding="utf-8"))
     except Exception:
         return None
+    if data_sha is not None:
+        got = j.get("panel_sha")
+        if got is None:
+            _log(f"cell {name}: checkpoint carries no panel digest -> MISS "
+                 "(a rule match is not a data match)")
+            return None
+        if got != data_sha:
+            _log(f"cell {name}: panel digest moved {got} -> {data_sha} "
+                 "-> re-simulate")
+            return None
     return j if j.get("config_sha") == sha else None
 
 
@@ -392,10 +435,11 @@ def _month_shift(ym, k):
 def run_cell_faces(name, weights, dates, prices, adv20_map, cash_ret,
                    mode, p2):
     """All faces for one cell: v2 main (+extreme/month-end) + v1 + x2 +
-    inception offsets +1/+2. Checkpoint-resumable via config sha."""
+    inception offsets +1/+2. Checkpoint-resumable via rule sha x panel digest."""
+    data_sha = panel_sha(dates, prices, adv20_map, cash_ret)
     sha = config_sha(weights if not p2 else P2_RULE_LABEL, mode, p2,
-                     CAPITAL, START, CUTOFF)
-    cached = load_valid_cell(name, sha)
+                     CAPITAL, START, CUTOFF, data_sha=data_sha)
+    cached = load_valid_cell(name, sha, data_sha)
     if cached is not None:
         _log(f"cell {name}: checkpoint valid (sha {sha}), resume-load")
         return cached
@@ -424,6 +468,7 @@ def run_cell_faces(name, weights, dates, prices, adv20_map, cash_ret,
                     base["eq"].groupby(base["eq"].index.str[:7]).last().items()]
     out = {
         "config_sha": sha,
+        "panel_sha": data_sha,
         "weights": (P2_RULE_LABEL if p2 else weights),
         "mode": mode,
         "faces": faces,
@@ -861,6 +906,51 @@ def cmd_selftest(_):
                                   "monthly", False)
             s2 = json.dumps(out2, sort_keys=True)
             check("F8-det-byte-identity", s1 == s2)
+        finally:
+            CELLS_DIR = keep
+
+    # F9 data identity is not rule identity (r1377): the checkpoint used to be keyed
+    # on the rule alone, so a repaired print inside the batch window -- the E289
+    # defect shape, one level down -- left the old cell serving. A cell computed on
+    # a different panel must be a MISS even when the rule key still matches.
+    with tempfile.TemporaryDirectory() as td:
+        keep = CELLS_DIR
+        CELLS_DIR = os.path.join(td, "cells")
+        try:
+            w9 = {"AAA": 0.5, "BBB": 0.5}
+            dates9 = [f"2021-01-{d:02d}" for d in range(4, 28)]
+            am9 = {"AAA": [float("nan")] * len(dates9),
+                   "BBB": [float("nan")] * len(dates9)}
+            cr9 = [0.0001] * len(dates9)
+            pr_a = {"AAA": [10.0 + 0.01 * i for i in range(len(dates9))],
+                    "BBB": [100.0] * len(dates9)}
+            out_a = run_cell_faces("PANEL-CELL", w9, dates9, pr_a, am9, cr9,
+                                   "monthly", False)
+            check("F9-a-cell-records-its-panel-digest",
+                  out_a.get("panel_sha") == panel_sha(dates9, pr_a, am9, cr9),
+                  f"panel_sha={out_a.get('panel_sha')}")
+            check("F9-b-same-panel-resumes",
+                  run_cell_faces("PANEL-CELL", w9, dates9, pr_a, am9, cr9,
+                                 "monthly", False) == out_a)
+            # A repaired print does not move the rule, so the OLD key still matches.
+            pr_b = dict(pr_a)
+            pr_b["BBB"] = [101.0] * len(dates9)
+            legacy_sha = config_sha(w9, "monthly", False, CAPITAL, START, CUTOFF)
+            check("F9-c-rule-key-alone-does-not-serve-a-new-panel",
+                  load_valid_cell("PANEL-CELL", legacy_sha,
+                                  panel_sha(dates9, pr_b, am9, cr9)) is None)
+            out_b = run_cell_faces("PANEL-CELL", w9, dates9, pr_b, am9, cr9,
+                                   "monthly", False)
+            check("F9-d-repaired-panel-recomputes",
+                  out_b["panel_sha"] != out_a["panel_sha"]
+                  and out_b["faces"]["v2_main"] != out_a["faces"]["v2_main"],
+                  f"{out_a['faces']['v2_main']} vs {out_b['faces']['v2_main']}")
+            # A cell written before this change stores no digest at all: unreadable
+            # is never clean, so it must be a MISS rather than a silent resume.
+            with open(cell_file("LEGACY-CELL"), "w", encoding="utf-8") as fh:
+                json.dump({"config_sha": legacy_sha, "faces": {}}, fh)
+            check("F9-e-legacy-cell-without-digest-is-a-miss",
+                  load_valid_cell("LEGACY-CELL", legacy_sha, "0" * 16) is None)
         finally:
             CELLS_DIR = keep
 

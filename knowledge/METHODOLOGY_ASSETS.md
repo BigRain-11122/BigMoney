@@ -6980,3 +6980,66 @@ Pos: scripts/etf_book_ceo_page.py (clean_panel / contamination_block / book_retu
 L27b-L27e) + scripts/etf_book_order.py (price_basis, selftest leg46a-c, payload + sheet line)
 + results/etf_book_order/ORDER-2026-10-30.md + docs/live_book/LIVE-BOOK-20261031.md.
 
+
+## E291 A sweep you keep deferring is not a sweep until it has a count, and the count depends on three judgements (2026-10-31 r1376 bm-c)
+
+r1374 and r1375 each closed with the same sentence: the rule was applied inside the etf_book family,
+the rest of the repo was never asked. Twice-deferred work is work nobody owns, so it was replaced
+with a number: 698 files scanned, 16 places that actually decide whether to reuse a live value,
+13 of them serving on a key with no digest in it, 1 fully digested, 2 that raise on mismatch and so
+cannot serve a stale number at all.
+
+Three judgements moved that number and each one is a reusable rule. (1) NAMES ONLY: matching the word
+"cache" in docstrings/comments turned 21 real decisions into 194 rows of prose, and the row count is
+what a reader uses to decide whether the audit is worth reading. (2) IMPORT TABLE IS NOT AN AST Name:
+`import hashlib` creates no Name node, so a module that hashes something ELSE was reported as
+"no digest anywhere" -- the exact wrong sentence about a wrong file; the half-covered case is now its
+own verdict with its own leg, because it is precisely r1375's defect shape (a digest existed, one
+cache used it). (3) ASK WHAT HAPPENS ON MISMATCH: a gate that raises cannot serve a stale value while
+a face that returns the cached payload is the whole family -- collapsing both into one count produces
+a list where most rows are harmless.
+
+One pit was worth more than the report: six working files were silently outside the sweep because
+they start with a UTF-8 BOM and `ast.parse` rejects U+FEFF at line 1. Reading utf-8-sig fixed it. The
+general rule is the r1375 relpath lesson in a new axis -- a scanner that cannot read a file must never
+report it as clean, and here it is only findable because the row said `unreadable` instead of being
+dropped.
+
+Pos: Tools/live_value_cache_audit.py (selftest 14/14) + results/live_value_cache_audit.json + smoke
+leg "audit: which caches serve a live value on a key with no digest" + digest
+DIGEST-20261031-r1376-cache-sweep.md.
+
+## E292 A checkpoint that asks "same rule" is not asking "same world", and a scanner that reads keys
+cannot see a digest passed as an argument (2026-10-31 r1377 bm-c)
+
+r1376's sweep ended with one name: `alloc_backtest.run_cell_faces` — the only row in the list that both
+serves a value someone acts on (the ALLOC-P1..P6 cell faces) and already carries digest machinery
+elsewhere in its module. Read one function and the answer is immediate: `config_sha` hashed
+`(weights, mode, p2, capital, start, cutoff)` and the panel the cell was computed from — prices,
+amounts, the repo-rate cash leg — never entered the key. Every way a panel moves while the rule stands
+still (a quote-flip repair inside the window, a late bar, a repaired rate print) left the old cell
+serving. Rule identity and data identity are two questions; a checkpoint that answers only the first is
+a cache that cannot notice the world under it changing.
+
+Two reusable rules came out of fixing it.
+
+(1) **A cell must publish the digest it was keyed on, and a pre-digest record is a MISS.** Not "resume,
+this is probably fine" — unreadable/absent evidence is never clean. The cost is a one-time recompute of
+the live cells on their lane owner, which is what having been wrong costs; the alternative is a cache
+whose only failure mode is silence.
+
+(2) **When you make a cache safe by passing a digest into the reader, a keys-only scanner will still
+call it unsafe.** r1376's audit re-ran after the change and the row did not move, because it looked for
+`cached.get("something_sha")` and this face writes `cached = load_valid_cell(name, sha, data_sha)`. A
+scanner that under-reports is worse than no scanner: it regenerates the same work every round. The fix
+is a third evidence class (`digest_argument_to_cache_read`) that is *published with the names it saw*
+and deliberately kept OUT of the "digested" bucket — a name in a call is a clue, not a proof, and the
+whole point of the sweep was that the copy-in-name evidence is what lies. Its headline keeps the
+conservative total and prints the split.
+
+The general form: a sweep that produces a reading list must also be able to see the fix, or the next
+round will re-open a closed row.
+
+Pos: scripts/alloc_backtest.py (panel_sha / config_sha(data_sha=) / load_valid_cell, selftest 21 -> 26,
+F9-a..e) + Tools/live_value_cache_audit.py (digest_argument_to_cache_read, selftest 14 -> 19, L15-L19) +
+results/live_value_cache_audit.json + 2 smoke legs + digest DIGEST-20261031-r1377-panel-digest-checkpoint.md.

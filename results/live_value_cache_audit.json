@@ -1,0 +1,218 @@
+{
+ "evidence_cutoff": "2026-10-31",
+ "method": "static AST read: function writes JSON + mentions cache/replay -> the literal keys it reads back off the cache name, the digest names it hands to the call that returns the cache, and whether the module has any digest",
+ "limits": "a key listed here is not proof the cache is safe, a digest in the module is not proof it reaches this key, and a digest passed as an argument is not proof it is compared -- rows are a reading list, not a verdict list",
+ "scan_dirs": [
+  "scripts",
+  "Tools"
+ ],
+ "summary": {
+  "files_scanned": 698,
+  "files_skipped_scratch": 1464,
+  "cache_names_that_never_compare": 83,
+  "cache_writers": 16,
+  "no_digest_anywhere": 8,
+  "module_has_digest_key_does_not": 6,
+  "digest_argument_to_cache_read": 1,
+  "digest_in_key": 1,
+  "unreadable": 0,
+  "serves_without_digest": 13,
+  "refuses_on_mismatch": 2,
+  "digest_argument_evidence": 1,
+  "serves_with_no_digest_and_no_argument": 12
+ },
+ "rows": [
+  {
+   "file": "scripts/alloc_backtest.py",
+   "function": "run_cell_faces",
+   "line": 435,
+   "key_fields": [],
+   "digest_argument_names": [
+    "data_sha",
+    "sha"
+   ],
+   "module_has_digest": true,
+   "on_mismatch": "serves",
+   "verdict": "digest_argument_to_cache_read"
+  },
+  {
+   "file": "scripts/alphagen_rl_p1.py",
+   "function": "selftest",
+   "line": 1971,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/cn_mkneutral_p1.py",
+   "function": "cmd_run",
+   "line": 1089,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/e39_panel_census.py",
+   "function": "selftest",
+   "line": 15267,
+   "key_fields": [
+    "symbols_with_changed_prices"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/etf_book_ceo_page.py",
+   "function": "selftest",
+   "line": 1368,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/fund_avail_filing_event.py",
+   "function": "cross_face_agreement",
+   "line": 208,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/fund_avail_notice.py",
+   "function": "status",
+   "line": 376,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/innovation_quota_w7.py",
+   "function": "cmd_selftest",
+   "line": 1048,
+   "key_fields": [
+    "bottom",
+    "held"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/innovation_quota_w9.py",
+   "function": "cmd_selftest",
+   "line": 1053,
+   "key_fields": [
+    "asym",
+    "held"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "module_has_digest_key_does_not"
+  },
+  {
+   "file": "scripts/member_reinforce_p1.py",
+   "function": "finalize",
+   "line": 345,
+   "key_fields": [
+    "ser",
+    "stats"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/member_reinforce_p1.py",
+   "function": "cmd_run",
+   "line": 420,
+   "key_fields": [
+    "n_trades",
+    "ser",
+    "sharpe_full",
+    "stats",
+    "x1",
+    "x2"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/p1e_turnover_derive.py",
+   "function": "main",
+   "line": 65,
+   "key_fields": [
+    "N",
+    "shape"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/t73_mktcap_sidecar.py",
+   "function": "main",
+   "line": 125,
+   "key_fields": [
+    "N",
+    "shape"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "unknown",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/etf_book_commodity_split.py",
+   "function": "run",
+   "line": 139,
+   "key_fields": [],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "refuses",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/regime_p0_slice5.py",
+   "function": "run",
+   "line": 133,
+   "key_fields": [
+    "n_days",
+    "returns"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": false,
+   "on_mismatch": "refuses",
+   "verdict": "no_digest_anywhere"
+  },
+  {
+   "file": "scripts/etf_book_beta_menu.py",
+   "function": "selftest",
+   "line": 453,
+   "key_fields": [
+    "inputs_sha256"
+   ],
+   "digest_argument_names": [],
+   "module_has_digest": true,
+   "on_mismatch": "unknown",
+   "verdict": "digest_in_key"
+  }
+ ]
+}
