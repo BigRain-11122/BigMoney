@@ -1,0 +1,456 @@
+{
+ "study": "E244",
+ "title": "if the rest channel is not one channel, which counterparties carry it?",
+ "generated": "2026-10-30T08:45:19",
+ "evidence_cutoff": "2026-10-29",
+ "source_face": {
+  "path": "results\\state_tilt\\addos_latest.json",
+  "sha256": "3e6ee9ac747d34b89532f8b218b3058b647831a03254a4dfb710dbc2c3b5e9f7",
+  "verdict": "additivity_only_in_the_mean",
+  "note": "machine-read; this face writes its own file and never the source"
+ },
+ "frozen_spec": {
+  "question": "E243 published 9 of 20 ordered pairs excluding zero with mixed signs on its headline cell. Does the heterogeneity sit on the counterparty identity, on the own identity, or on neither?",
+  "input": "E243's published per-pair intervals (cells of kind headline/window/era/neighbour; degenerate k=3 cells excluded)",
+  "orientation": "diff = b_one - b_rest3; POSITIVE means the sum of the remaining members pays more than the singled counterparty",
+  "carrier_rule": {
+   "min_decisive_pairs": 2,
+   "min_cell_share": 0.5,
+   "min_abs_mean_diff": 0.3,
+   "sign_consistency": "required -- a carrier that flips sign across cells is not a carrier"
+  },
+  "verdict_vocabulary": [
+   "one_member_pays_differently_the_others_are_its_mirror",
+   "two_members_pay_differently",
+   "several_members_pay_differently",
+   "no_repeatable_counterparty_effect",
+   "unresolved_pairs_too_few"
+  ],
+  "independence": "the cells overlap in time; cross-cell counts are NOT independent observations and are published as repeats, not as replications"
+ },
+ "rows": 152,
+ "counterparty_stats": [
+  {
+   "name": "sh510050",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 9,
+   "decisive_pairs": 14,
+   "decisive_share": 0.45161290322580644,
+   "cell_share": 1.0,
+   "mean_diff": -0.2829733970232682,
+   "mean_diff_decisive": -0.5427320445219436,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510300",
+    "loo_drop_sh510500",
+    "loo_drop_sh512100",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh510300",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 6,
+   "decisive_pairs": 6,
+   "decisive_share": 0.1935483870967742,
+   "cell_share": 0.6666666666666666,
+   "mean_diff": 0.05251427085044087,
+   "mean_diff_decisive": 0.13994278561743193,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh510500",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 6,
+   "decisive_pairs": 9,
+   "decisive_share": 0.2903225806451613,
+   "cell_share": 0.6666666666666666,
+   "mean_diff": -0.08812759645005284,
+   "mean_diff_decisive": -0.16639200987663816,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2023_2024",
+    "loo_drop_sh510050",
+    "loo_drop_sh512100",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh512100",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 6,
+   "decisive_pairs": 9,
+   "decisive_share": 0.2903225806451613,
+   "cell_share": 0.6666666666666666,
+   "mean_diff": -0.2000492875769025,
+   "mean_diff_decisive": -0.4978237561947734,
+   "decisive_signs": [
+    -1
+   ],
+   "sign_consistent": true,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510500",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh588000",
+   "pairs": 28,
+   "cells": 8,
+   "cells_with_decisive": 8,
+   "decisive_pairs": 22,
+   "decisive_share": 0.7857142857142857,
+   "cell_share": 1.0,
+   "mean_diff": 0.6809501728354954,
+   "mean_diff_decisive": 0.7997642488589531,
+   "decisive_signs": [
+    1
+   ],
+   "sign_consistent": true,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510300",
+    "loo_drop_sh510500",
+    "loo_drop_sh512100"
+   ]
+  }
+ ],
+ "own_stats": [
+  {
+   "name": "sh510050",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 7,
+   "decisive_pairs": 13,
+   "decisive_share": 0.41935483870967744,
+   "cell_share": 0.7777777777777778,
+   "mean_diff": 0.04324745679710897,
+   "mean_diff_decisive": 0.04402975522275431,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2023_2024",
+    "loo_drop_sh510300",
+    "loo_drop_sh510500",
+    "loo_drop_sh512100",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh510300",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 9,
+   "decisive_pairs": 17,
+   "decisive_share": 0.5483870967741935,
+   "cell_share": 1.0,
+   "mean_diff": 0.03640596629039971,
+   "mean_diff_decisive": 0.08193187431186659,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510500",
+    "loo_drop_sh512100",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  },
+  {
+   "name": "sh510500",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 7,
+   "decisive_pairs": 13,
+   "decisive_share": 0.41935483870967744,
+   "cell_share": 0.7777777777777778,
+   "mean_diff": 0.013199802451068223,
+   "mean_diff_decisive": 0.1440134308924867,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510300",
+    "loo_drop_sh512100"
+   ]
+  },
+  {
+   "name": "sh512100",
+   "pairs": 31,
+   "cells": 9,
+   "cells_with_decisive": 8,
+   "decisive_pairs": 16,
+   "decisive_share": 0.5161290322580645,
+   "cell_share": 0.8888888888888888,
+   "mean_diff": -0.0026714472205556423,
+   "mean_diff_decisive": 0.027662149725531292,
+   "decisive_signs": [
+    -1,
+    1
+   ],
+   "sign_consistent": false,
+   "cell_labels_with_decisive": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510300",
+    "loo_drop_sh510500",
+    "loo_drop_sh588000"
+   ]
+  },
+  {
+   "name": "sh588000",
+   "pairs": 28,
+   "cells": 8,
+   "cells_with_decisive": 1,
+   "decisive_pairs": 1,
+   "decisive_share": 0.03571428571428571,
+   "cell_share": 0.125,
+   "mean_diff": 0.006901906976498405,
+   "mean_diff_decisive": 0.578281992243286,
+   "decisive_signs": [
+    1
+   ],
+   "sign_consistent": true,
+   "cell_labels_with_decisive": [
+    "era_2025_now"
+   ]
+  }
+ ],
+ "variance_split": {
+  "rows": 152,
+  "grand_mean": 0.01966374028421457,
+  "ss_total": 33.48392853176847,
+  "ss_own": 0.04725144709346015,
+  "ss_counterparty": 16.97378949935253,
+  "ss_residual": 16.581892211120802,
+  "share_own": 0.0014111679592384001,
+  "share_counterparty": 0.5069234777289752,
+  "share_residual": 0.4952194362554692,
+  "cell_means": {
+   "all_five": 0.00785405388745896,
+   "era_2020_2022": -0.0001745871783353392,
+   "era_2023_2024": 0.0025502775949409083,
+   "era_2025_now": 0.026419976667369772,
+   "loo_drop_sh510050": 0.018839128939161967,
+   "loo_drop_sh510300": 0.0405260078987845,
+   "loo_drop_sh510500": -0.002080876103364072,
+   "loo_drop_sh512100": 0.010945256485308641,
+   "loo_drop_sh588000": 0.031276121852203034,
+   "pre2020_four": 0.08848553624223332
+  },
+  "note": "unbalanced grid: eta^2-style shares, descriptive only; the two main effects are not orthogonal here"
+ },
+ "carriers": [
+  {
+   "name": "sh588000",
+   "sign": 1,
+   "mean_diff_decisive": 0.7997642488589531,
+   "decisive_pairs": 22,
+   "cell_share": 1.0,
+   "cells": [
+    "all_five",
+    "era_2020_2022",
+    "era_2023_2024",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510300",
+    "loo_drop_sh510500",
+    "loo_drop_sh512100"
+   ]
+  },
+  {
+   "name": "sh512100",
+   "sign": -1,
+   "mean_diff_decisive": -0.4978237561947734,
+   "decisive_pairs": 9,
+   "cell_share": 0.6666666666666666,
+   "cells": [
+    "all_five",
+    "era_2025_now",
+    "loo_drop_sh510050",
+    "loo_drop_sh510500",
+    "loo_drop_sh588000",
+    "pre2020_four"
+   ]
+  }
+ ],
+ "mirror": {
+  "ratio": 1.6065208598563656,
+  "floor": 1.5,
+  "reading": "the positive member's own reading over the mean absolute reading of the negative set; a member that pays more than the rest casts a negative mirror on every ordinary member because it sits inside the sum they are priced against"
+ },
+ "overlap": {
+  "cells": 10,
+  "cell_spans": [
+   {
+    "cell": "all_five",
+    "first": "2020-11-17",
+    "last": "2026-10-29",
+    "sessions": 1328
+   },
+   {
+    "cell": "pre2020_four",
+    "first": "2016-11-07",
+    "last": "2020-11-16",
+    "sessions": 892
+   },
+   {
+    "cell": "era_2020_2022",
+    "first": "2020-11-17",
+    "last": "2022-12-30",
+    "sessions": 474
+   },
+   {
+    "cell": "era_2023_2024",
+    "first": "2023-01-03",
+    "last": "2024-12-31",
+    "sessions": 446
+   },
+   {
+    "cell": "era_2025_now",
+    "first": "2025-01-02",
+    "last": "2026-10-29",
+    "sessions": 408
+   },
+   {
+    "cell": "loo_drop_sh510300",
+    "first": "2020-11-17",
+    "last": "2026-10-29",
+    "sessions": 1343
+   },
+   {
+    "cell": "loo_drop_sh510050",
+    "first": "2020-11-17",
+    "last": "2026-10-29",
+    "sessions": 1351
+   },
+   {
+    "cell": "loo_drop_sh510500",
+    "first": "2020-11-17",
+    "last": "2026-10-29",
+    "sessions": 1337
+   },
+   {
+    "cell": "loo_drop_sh512100",
+    "first": "2020-11-17",
+    "last": "2026-10-29",
+    "sessions": 1350
+   },
+   {
+    "cell": "loo_drop_sh588000",
+    "first": "2016-11-07",
+    "last": "2026-10-29",
+    "sessions": 2262
+   }
+  ],
+  "cells_inside_headline_window": [
+   "all_five",
+   "era_2020_2022",
+   "era_2023_2024",
+   "era_2025_now",
+   "loo_drop_sh510300",
+   "loo_drop_sh510050",
+   "loo_drop_sh510500",
+   "loo_drop_sh512100"
+  ],
+  "independent_observations": false,
+  "note": "era and leave-one-out cells are subsets of the headline window; the pair counts measure REPEAT, not independent replication"
+ },
+ "verdict": "two_members_pay_differently",
+ "no_bill": {
+  "permitted": false,
+  "reason": "classification of a published spread; any charge or configuration change is a separate pre-registered act"
+ },
+ "summary": {
+  "verdict": "two_members_pay_differently",
+  "carriers": [
+   {
+    "name": "sh588000",
+    "sign": 1,
+    "mean_diff_decisive": 0.7998,
+    "decisive_pairs": 22,
+    "cells": 8
+   },
+   {
+    "name": "sh512100",
+    "sign": -1,
+    "mean_diff_decisive": -0.4978,
+    "decisive_pairs": 9,
+    "cells": 6
+   }
+  ],
+  "positive_carriers": [
+   "sh588000"
+  ],
+  "negative_carriers": [
+   "sh512100"
+  ],
+  "mirror_ratio": 1.6065208598563656,
+  "rows": 152,
+  "share_counterparty": 0.5069234777289752,
+  "share_own": 0.0014111679592384001,
+  "share_residual": 0.4952194362554692,
+  "one_line": "two counterparties carry the spread (sh588000, sh512100); variance counterparty identity 51% / own identity 0% / residual 50%"
+ }
+}

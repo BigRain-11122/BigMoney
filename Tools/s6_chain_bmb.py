@@ -164,6 +164,12 @@ LEGS = [
     # member's response across its counterfactual blocks and annihilates the very direction that
     # separates the one from the rest channel.
     ("additivity_out_of_sample", ["python", "scripts/e243_additivity_out_of_sample.py", "run"]),
+    # E244: E243's headline cell excludes zero on 9 of 20 ordered pairs in mixed signs. This leg
+    # reads those published intervals (machine-read, never transcribed) and asks where the spread
+    # sits -- counterparty identity, own identity, or pair idiosyncrasy. A member that pays more
+    # than the rest casts a NEGATIVE mirror on every ordinary member because it sits inside the
+    # sum they are priced against, so a sign split alone cannot name two channels.
+    ("pair_heterogeneity", ["python", "scripts/e244_pair_heterogeneity.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

@@ -3553,6 +3553,53 @@ def main() -> int:
                     (_f43.get("summary") or {}).get("pooled_aggregator_identifies")))
     except Exception as e:
         check("product: a verdict survives its own out-of-sample path", False, repr(e)[:160])
+    # E244: where the heterogeneity sits. What makes it readable is that it reads E243's published
+    # intervals rather than re-deriving them, that the variance is attributed (counterparty
+    # identity vs own identity vs residual) instead of asserted, that a named carrier must REPEAT
+    # across cells with one sign, and that the mirror ratio is published so a one-member spread is
+    # not read as two channels.
+    try:
+        _bad44 = []
+        _p44 = "results/state_tilt/pairhet_latest.json"
+        _f44 = {}
+        if not os.path.exists(_p44):
+            _bad44.append("pairhet face missing")
+        else:
+            _f44 = json.load(open(_p44, encoding="utf-8"))
+            _src44 = _f44.get("source_face") or {}
+            if not _src44.get("sha256"):
+                _bad44.append("the source face was not fingerprinted")
+            if _f44.get("verdict") not in (
+                    "one_member_pays_differently_the_others_are_its_mirror",
+                    "two_members_pay_differently", "several_members_pay_differently",
+                    "no_repeatable_counterparty_effect", "unresolved_pairs_too_few"):
+                _bad44.append("verdict outside the frozen vocabulary")
+            for _c44 in _f44.get("carriers") or []:
+                if (_c44.get("cell_share") or 0.0) < 0.5:
+                    _bad44.append("carrier %s stands on %.2f of its cells"
+                                  % (_c44.get("name"), _c44.get("cell_share") or 0.0))
+                if len(_c44.get("cells") or []) < 2:
+                    _bad44.append("carrier %s does not repeat" % _c44.get("name"))
+            _vs44 = _f44.get("variance_split") or {}
+            _sh44 = [(_vs44.get("share_counterparty") or 0.0),
+                     (_vs44.get("share_own") or 0.0),
+                     (_vs44.get("share_residual") or 0.0)]
+            if abs(sum(_sh44) - 1.0) > 0.02:
+                _bad44.append("variance shares sum to %.3f" % sum(_sh44))
+            if ((_f44.get("overlap") or {}).get("independent_observations")) is not False:
+                _bad44.append("overlapping cells published as independent observations")
+            if ((_f44.get("no_bill") or {}).get("permitted")) is not False:
+                _bad44.append("the classification granted a charge")
+        check("product: the spread is attributed to a named counterparty that repeats",
+              not _bad44, "; ".join(_bad44)[:220]
+              or "verdict %s; carriers %s; variance counterparty %.2f / own %.2f"
+                 % ((_f44.get("verdict")),
+                    ",".join(c.get("name") or "" for c in (_f44.get("carriers") or [])) or "none",
+                    (_f44.get("variance_split") or {}).get("share_counterparty") or 0.0,
+                    (_f44.get("variance_split") or {}).get("share_own") or 0.0))
+    except Exception as e:
+        check("product: the spread is attributed to a named counterparty that repeats",
+              False, repr(e)[:160])
     return _finish()
 
 

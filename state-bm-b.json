@@ -3,8 +3,8 @@
  "clock_read": "2026-10-30T07:27:32+08:00",
  "current": "r1268: E242 omission-inflation sweep -- the factor is only a number against a named identified form, and it cancels in a paired difference",
  "current_task": "E242 published, S6 + smoke wired, pool card closed",
- "cyc_round": 1268,
- "cycle_round": 1268,
+ "cyc_round": 1270,
+ "cycle_round": 1270,
  "d19": "decisions 97fe122f / orders 3fa305a6 both unchanged at the watermark (triple-compare same, reproducible @5a9919f) -> zero new rows consumed this round",
  "d19_note": "decisions 97fe122f / orders 122ab707 unchanged at group origin cf0ae915 (fetch d9304cb3->cf0ae915, both blobs identical) -> zero rows to consume, zero order files unacked (114 files / 115 acks)",
  "d19_probe_due": false,
@@ -66,7 +66,7 @@
   ]
  },
  "decisions_consumed_r1246": {
-  "action": "ack only, nothing executed: 06 is the group POOL spec correction (@HQ dispatcher), 07 MiniGame .git, 08/09 HQ tooling (09 already superseded by 12), 10/14 collection faces, 11 BigCompute L1 endpoint, 13 BigStream. 03(4) telemetry repair is verified in place on this machine (FluxGroup-NatsHB Running, FleetLink + HQ-ProductionClaim Ready, all LogonType=S4U). 12 is a judging-口径 rule: this round's task-state line carries the yield-window reading (machine-state.flag absent/paused) instead of an absolute Ready/Disabled claim",
+  "action": "ack only, nothing executed: 06 is the group POOL spec correction (@HQ dispatcher), 07 MiniGame .git, 08/09 HQ tooling (09 already superseded by 12), 10/14 collection faces, 11 BigCompute L1 endpoint, 13 BigStream. 03(4) telemetry repair is verified in place on this machine (FluxGroup-NatsHB Running, FleetLink + HQ-ProductionClaim Ready, all LogonType=S4U). 12 is a judging-\u53e3\u5f84 rule: this round's task-state line carries the yield-window reading (machine-state.flag absent/paused) instead of an absolute Ready/Disabled claim",
   "rows": [
    "D-20261029-06",
    "D-20261029-07",
@@ -79,7 +79,7 @@
    "D-20261029-14"
   ],
   "touching_this_repo": [
-   "D-20261029-12 (judging口径: ScheduledTask State readings must exclude the AutoYield window; applied in this round report as work_window=open with flag=absent)"
+   "D-20261029-12 (judging\u53e3\u5f84: ScheduledTask State readings must exclude the AutoYield window; applied in this round report as work_window=open with flag=absent)"
   ]
  },
  "decisions_delta_pending": false,
@@ -87,9 +87,9 @@
  "delivery": "machine/bm-b-r1267 == 128f5817e (ls-remote verified); local not on origin/main = 35 commits (behind 42) -- main rides the machine branch",
  "delivery_note": "r1235 estate on machine/bm-b-r1235 (ls-remote verified); main merge deferred to a quiet window (16 behind / 17 ahead, auto-generated faces)",
  "dept": "research+engineering",
- "did": "e242_omission_inflation_sweep",
- "did_round": "r1268",
- "finding": "the omission factor is 1.53..1.78 measured against two named identified forms (closed form 1.89 at rho 0.424) so a factor quoted without its comparator is not a number; the paired difference is structurally spared (0.060 vs the grid's 0.243) because the omitted block loads on both retained regressors and the pooling runs every ordered pair in both directions",
+ "did": "e244_pair_heterogeneity",
+ "did_round": "r1270",
+ "finding": "diff = b_one - b_rest3, so a member paying more than the rest reads positive as the counterparty and negative for every ordinary member because it sits inside the sum; one deviant therefore produces both signs, and a split can only be called from a repeatable name on each side (mirror ratio published, floor 1.50)",
  "heartbeat_epoch_utc": 1793316452,
  "heartbeat_epoch_utc_face": "int",
  "history": [
@@ -119,12 +119,21 @@
    ],
    "ts": "2026-10-30T07:27:32+08:00",
    "verdict": "the_omission_moves_levels_and_spares_paired_differences"
+  },
+  {
+   "face": "results/state_tilt/PAIRHET-2026-10-29.json",
+   "round": 1270,
+   "seeded": [
+    "E245"
+   ],
+   "ts": "2026-10-30T08:47:13+08:00",
+   "verdict": "two_members_pay_differently"
   }
  ],
  "idle_rounds": 0,
- "last_action": "omission sweep: 15 published slopes read, 7 re-priceable; the single-counterparty slope is x1.53 the identified one (closed form x1.89 at rho 0.424); the per-pair grid alone accounts for x1.10; E239's difference re-prices to 0.668 [0.498, 0.837] -> survives=True; flips: none",
- "last_action_at": "2026-10-30T07:27:32+08:00",
- "last_artifact": "results/state_tilt/OMISSION-2026-10-29.json",
+ "last_action": "E244 pair heterogeneity burned: read E243's 152 published pair intervals (sha256 recorded) and attributed the spread to the COUNTERPARTY identity (50.7%) rather than the own identity (0.1%), residual 49.5%; two repeatable carriers with one sign each (sh588000 +0.800 / 22 decisive pairs / 8 cells, sh512100 -0.498 / 9 / 6); every other member mixed signs. Mirror ratio 1.61 over the frozen floor 1.50",
+ "last_action_at": "2026-10-30T08:47:13+08:00",
+ "last_artifact": "results/state_tilt/PAIRHET-2026-10-29.json",
  "last_decisions_at": "2026-10-29T01:10:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -144,40 +153,39 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_product": [
-  "scripts/e242_omission_inflation_sweep.py (run / selftest 14/14)",
-  "results/state_tilt/OMISSION-2026-10-29.json + omission_latest.json",
-  "results/state_tilt/omission_pairs_2026-10-29.csv",
-  "Tools/s6_chain_bmb.py leg omission_inflation (after pair_reproduction)",
-  "smoke_test.py leg on the omission face",
-  "research/digests/DIGEST-20261030-r1268-e242-omission-inflation.md",
-  "knowledge/METHODOLOGY_ASSETS.md card E242",
-  "results/runnable_pool.json E242 done with result_ref (ready 1)"
+  "scripts/e244_pair_heterogeneity.py (run / selftest 15/15)",
+  "results/state_tilt/PAIRHET-2026-10-29.json + pairhet_latest.json",
+  "research/digests/DIGEST-20261030-r1270-e244-pair-heterogeneity.md",
+  "Tools/s6_chain_bmb.py leg pair_heterogeneity",
+  "smoke_test.py leg on the pair-heterogeneity face",
+  "knowledge/METHODOLOGY_ASSETS.md card E244",
+  "results/runnable_pool.json E244 done with result_ref; E245 seeded ready"
  ],
  "last_push": "HEAD -> machine/bm-b-r1267",
  "last_push_at": "2026-10-30T06:23:40+08:00",
  "last_push_sha": "128f5817eb1f0d6f67ca63fae7782c62e098b02d",
- "last_round": 1268,
+ "last_round": 1270,
  "last_round_at": "2026-10-30T07:27:32+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md r1265",
- "last_round_ts": "2026-10-30T07:27:32+08:00",
+ "last_round_ts": "2026-10-30T08:47:13+08:00",
  "last_run": "2026-10-27T12:06:00+08:00",
- "last_seen": "2026-10-30T07:27:32+08:00",
+ "last_seen": "2026-10-30T08:47:13+08:00",
  "last_updated": "2026-10-30T07:27:32+08:00",
- "latest_artifact": "results/state_tilt/OMISSION-2026-10-29.json + research/digests/DIGEST-20261030-r1268-e242-omission-inflation.md",
+ "latest_artifact": "results/state_tilt/PAIRHET-2026-10-29.json + research/digests/DIGEST-20261030-r1270-e244-pair-heterogeneity.md",
  "local_not_on_origin": 22,
  "local_not_on_origin_commits": 22,
  "machine_id": "bm-b",
  "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
- "next": "E243 additivity out of sample: the one-vs-three difference by era, by member and on the pre-2020 segment",
- "next_milestone": "E243 additivity sweep, window <=48h (deadline 2026-11-01 07:00)",
- "next_pick": "E243-ADDITIVITY-OUT-OF-SAMPLE",
- "next_pointer": "E243 target=scripts/e243_additivity_out_of_sample.py deliverable=results/state_tilt/ADDOS-<cutoff>.json",
+ "next": "E245 the unsummed slope matrix: each member on every other separately, row-equality vs column concentration",
+ "next_milestone": "E245 slope matrix, window <=48h (deadline 2026-11-01 09:00)",
+ "next_pick": "E245-PAIR-SLOPE-MATRIX",
+ "next_pointer": "E245 target=scripts/e245_pair_slope_matrix.py deliverable=results/state_tilt/SLOPEMATRIX-<cutoff>.json",
  "not_run": "GPU untouched beyond the face probe (parked C-20261014-01; 847 MiB in use is the interactive window); cloud untouched; no cleanup or quarantine action (nothing deleted); bm-a/bm-c lane collectors honoured their guards; CODELY.md not touched (no append_memory tool in this session -> lesson lives in card E242 + the digest)",
  "note": "r1011: O-2144 receipt landed in order file sec4; CONTENT-LOOP v0.1 + voice lane OPENED per CEO idle-recurrence order (r1012 first code, 2-round window); BigMoney seat plan <=10-25 mirror-registered; orders_ack_append.py no-validation pit (--help probe pollution) sanitized same-window, CODELY row appended",
  "notes": {
   "r1069_note": "r1069: route-B signal-fidelity leg ran (269 months, Jaccard median 0.4286, tail share 63.20%, vwap-missing 0) -> REJECT_ROUTE_B_USE_ROUTE_A; prereg sec.2.3 written + banner flipped to FROZEN; freeze receipt results/fund_divlowvol_p2/freeze_receipt.json (10 face sha256) landed; burn gated on p1c re-delivery from bm-a (frozen-not-burning, B may not substitute). S0 pull --rebase --autostash hit 27 UU regen/foreign faces -> all resolved to origin (regenerable), plus 3 stale-worktree code faces restored to HEAD (science_gates.py had LOST bm-a r1087 P2 seed registrations, perpetual_faces*.py still carried stale merge-marker text) and compute_audit.bm-a/orphan bm-a/state-bm-a/bm-a report restored -> daily_report rc1 JSONDecodeError healed, rc0. smoke 49/49 pre-round.",
-  "r1070_note": "r1070: 1) watermark RED lane pool-batch-runnable-idle-low-cpu (2 ready units) -> claimed both fund P2 units in runnable_pool.json (lane_owner=bm-b, shards claimed) and ignited detached; 2) anchors: anchor_shotgrid.py consumes beats+calibrated -> shot grid (snap 0.10s/max 3.0s), 6/7 ready; 晴天 blocked on official lyrics (no repo copy, whisper may not substitute), 34 tracks lack audio (K: tree absent); 3) S0 pull --rebase --autostash: 2 UU regen faces (compute_audit/update_status) resolved origin-side then regenerated by chain; 4 autostash entries from dead sessions left in stash list (not dropped this round).",
+  "r1070_note": "r1070: 1) watermark RED lane pool-batch-runnable-idle-low-cpu (2 ready units) -> claimed both fund P2 units in runnable_pool.json (lane_owner=bm-b, shards claimed) and ignited detached; 2) anchors: anchor_shotgrid.py consumes beats+calibrated -> shot grid (snap 0.10s/max 3.0s), 6/7 ready; \u6674\u5929 blocked on official lyrics (no repo copy, whisper may not substitute), 34 tracks lack audio (K: tree absent); 3) S0 pull --rebase --autostash: 2 UU regen faces (compute_audit/update_status) resolved origin-side then regenerated by chain; 4 autostash entries from dead sessions left in stash list (not dropped this round).",
   "r1072_note": "r1072: push saga = two rebases (first onto bm-c r1156, second onto r1157 mid-window); results/_attrition_guard_scan.json UU ours-newer-wins; 7 daemon faces (machine-health/compute_audit/futures/lhb/regime_state/token_usage/update_status) origin-side per live-wins; delivered a39681d61 four-way verified. QUALITY-P2 finalize = first real judged face of the P2 revival pair.",
   "r1079_note": "r1079: watermark RED pool-batch-runnable-idle-low-cpu rootfix = W21 screen SHARD-0 had a live pool claim but ZERO checkpoint and NO process (kill inherited from previous round boundary: CLI session tree kill). Re-ignited detached (DETACHED|NO_WINDOW, workers=4) pid 28840 alongside shard 3 pid 7696; shards 1/2 already complete (52.9KB/51.9KB ckpt). Pit: autofill claim survives worker death -> pool_ready_unclaimed=0 masks a dead shard; check process presence alongside claim dirs. Products: REPORT-2026-10-20 + LIVE-2026-10-20 + CALL-2026-10-19 + DUALARM-2026-10-19. D-19 orders delta 63a2988a consumed: 10 rows all BigStream/MV domain (bm-a window), zero bm-b dispatch. dualrun ZERO-DRIFT streak 24; audit FLAG supply_floor (ready 2<3); attrition CLEAN 4 ledgers; smoke 49/49.",
   "r1080_judge": "W21 judge-finalize: n_judged=10, g1_pass_n=0, eligible_v2=[] eligible_reform=[], onboard_list=[]; family axe = gap_reversal_gate 4 cells / on_share_rank 6 cells both zero pass, liq_rank_gate 0 cells (dropped at screen, lawful_zero=false -- recorded honestly); sec.5.1 predicted reform band [0,3], observed 0 -> HIT. judge-finalize ran detached (S4U) because it is a >5min nulls battery; wall 15min, log is UTF-16 (PS *>> redirect) -- read with -Encoding Unicode.",
@@ -216,7 +224,7 @@
   "r1158": "r1158: E92 gap-tolerant split screen. panel_screen mode neutralise_gap (gap_limit sessions, integer-ratio only) + e39 gapsplit leg (selftest 231->237, panel_screen 17->23). Face SCREENGAP-20261022.json (159KB) + digest. Census: 33 gapped prints, 10 integer-eligible at limit 1, 9 of them in 2021_2023. Churn levels 2021_2023 me 1866.5->768.2 / mid15 2185.4->1068.2; gap 318.9->300.0 (94% survives). 2024_now gap widens -211.0->-457.1 (mid15 -364.7 = E82 neutralise exactly). Transitions moved 9/69 me and 10/69 mid15; top moved mid15 2021-05-17->2021-06-15 -9185.4bp. Pool E92 done + E93-GAPSPLIT-ERA-SPREAD seeded (ready 3). S6: dualrun ZERO-DRIFT 616 streak 51, audit FLAG supply_gap only, watermark insufficient_history, update_daily no new rows, attrition CLEAN, orphan 0, smoke 49/49, REPORT/LIVE-2026-10-23 written, scorecard stale-takeover. S7: loop pin 2 no-op, watchdog re-registered, both claws reinstalled. Pit: pool text surgery needs BOTH the flip block to end with a comma AND the seeded block to omit one before the closing ' ]' -- json.loads caught both drafts before write.",
   "r1172": "E108 closed. The factor in split_events was implied_ratio()[ratio] -- folded to >=1 so the integer test can see a reverse split -- which is right on downward prints and mirrors upward ones to (1+r)^2-1. Fixed to 1/(1+r). Seven consuming faces re-derived (MID armed, GAPARM endgrid, GAPARM family, GAPTOP3, HELDSPLIT, REPAIRSTEP, SCREENGAPERA) with a legacy-coded control: e108_repairfix.py \"legacy repairstep\" reproduced the published face with 0 of 966 numeric leaves moved, so panel drift is excluded. Readings: REPAIRSTEP fabricating_windows 8->0 and the class tally flips to step_cancels_print; HELDSPLIT 2024_now sh510580 arm reads 1902.84/1418.07 -> 28.05/-2.94; MID armed 2024_now mid level -364.7 -> +4.9bp (sign flip appears in the cross-arm list); GAPARM 2024_now mid delta -241.0 -> +128.6bp, span 107.1 -> 48.5bp; GAPTOP3 names a 4th large move (2024_now/mid, 100% one window). Untouched by design and verified: 2017_2020 me -745.9bp and the 2021_2023 pair. E104's \"the repaired arm is not automatically plausible\" loses its witness (that witness WAS this bug); the newest-era mid -364.7 readings are superseded. SCREENGAPERA is cross-cutoff confounded (20261023 vs 20261026) and is disclosed as direction only. Pool E108 done + E109 seeded (14 neutralise legs still carry the old factor)."
  },
- "now_active": "r1268: burned E242 (omission-inflation sweep); pool ready 1 (E243)",
+ "now_active": "r1270: burned E244 (pair heterogeneity); pool ready 1 (E245)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -339,27 +347,26 @@
  "orders_delta_pending": false,
  "orphan": 0,
  "orphan_face": 0,
- "orphan_face_note": "r1268: Tools/orphan_face_probe.py -> py_faces 7, orphans 0",
+ "orphan_face_note": "r1270: Tools/orphan_face_probe.py -> py_faces 7, orphans 0",
  "orphan_faces": 0,
  "pending_ops": [
   "D-20261027-08 dead-letter: after 2026-10-27T12:00 verify CODELY.md repaired on origin (LF>=55, PUA=0, both new rows present); if not, bm-b executes the recipe (base = blob da99a6e9ce, re-wrap the two flattened commits).",
   "CODELY.md 49909B == 93B headroom: any append crosses the 50KB hot/cold trigger -> append lessons to knowledge/METHODOLOGY_ASSETS.md + digest instead (this round did exactly that).",
   "Bigmoney-IntradayMarks: check marks-20261027.jsonl after 15:10; if absent run update_intraday_marks.py --force inside the window and read the rc/2 branch (carried from r1168)."
  ],
- "pit": "(1) a shared grid is a shared SET of sessions, not a shared alignment: E240's design_share_book paired a y indexed by the kept session with increments re-paired from k=1, so the dependent variable sat one session behind its regressors on 6,630 of 6,635 rows, and the resulting (-0.333, -0.174) was read for two rounds as a population result. Assert the alignment with a COUNT before attributing a coefficient to a sample. (2) One parametrisation holds two meanings: b_agg = g - b_own is the derived channel while g is the denominator's own coefficient, so a gap between one face's derived number and another face's raw coefficient is mostly two objects (0.333 of the 0.945 naive gap here). (3) An unknown helper module name costs a round trip: the family's modules are e222_tom_overlay / e225_state_tilt / e238_leave_one_out_book, not e222/e225/e238.",
- "pool": "E243 done with result_ref; E244 seeded ready (725 entries)",
+ "pit": "(1) a NOISELESS fixture makes every pair decisive -- zero-width intervals read as identification, and the carrier test named three carriers on a one-deviant book (E238 degenerate-panel family: put noise in the fixture). (2) A single deviant produces BOTH signs because it sits inside the sum, so a sign split cannot name two channels; the deviant has three roles (own / counterparty / inside the sum) and only the third casts the mirror. (3) My first mirror assertion was false: ordinary-vs-ordinary pairs do NOT read zero, they read the mirror too. (4) Pool text surgery: an object span that returns the index OF the closing brace must be re-emitted, not sliced to -- raw[e:] was one brace short and json.loads caught it before any write.",
+ "pool": "E244 done with result_ref; E245-PAIR-SLOPE-MATRIX seeded ready (726 entries)",
  "pool_claims": [
   "E183 done r1216"
  ],
  "product": [
-  "scripts/e242_omission_inflation_sweep.py (run / selftest 14/14)",
-  "results/state_tilt/OMISSION-2026-10-29.json + omission_latest.json",
-  "results/state_tilt/omission_pairs_2026-10-29.csv",
-  "Tools/s6_chain_bmb.py leg omission_inflation",
-  "smoke_test.py leg on the omission face",
-  "research/digests/DIGEST-20261030-r1268-e242-omission-inflation.md",
-  "knowledge/METHODOLOGY_ASSETS.md card E242",
-  "results/runnable_pool.json E242 done with result_ref (ready 1)"
+  "scripts/e244_pair_heterogeneity.py (run / selftest 15/15)",
+  "results/state_tilt/PAIRHET-2026-10-29.json + pairhet_latest.json",
+  "research/digests/DIGEST-20261030-r1270-e244-pair-heterogeneity.md",
+  "Tools/s6_chain_bmb.py leg pair_heterogeneity",
+  "smoke_test.py leg on the pair-heterogeneity face",
+  "knowledge/METHODOLOGY_ASSETS.md card E244",
+  "results/runnable_pool.json E244 done with result_ref; E245 seeded ready"
  ],
  "push_receipt_pending": false,
  "push_receipts_r1049": {
@@ -383,7 +390,7 @@
  "r1027_push_note": "r1027 push: r1026 estate delivered via S0 rebase replay (9 UU same-day S6/d19 faces ours-newer-wins per-face ts-probed + token_usage per-machine UNION per r1008) f8f1502e57..8578dcadff behind=0; r1027 closeout commit = this round's own push face",
  "r1028_first_action_note": "r1028: 1) D-19 fresh probe FIRST ACTION (ord=57e209fd through 16:23; sprint cadence high -- expect more rows) 2) papers conditional retry on bar landing (evening window) 3) ST-012 night 22:0x REBUILD-PLAN-v2 + v2Pro gate 4) W279 prereg watch (bm-c r1121) -> bm-b N1 feed 5) RepoSlim tomorrow 09:03 verify",
  "r1028_nats_note": "r1028: NATS bus node deployment -- stable install root C:\\Fluxgroup\\Tools\\nats (zero tree-touch: group tree 32-behind + Tools/nats in incoming set; 5 ps1 blob-sha verified vs origin + task-register/InvisibleRunner/fleet-nodes companions); FluxGroup-NatsHB S4U every:1m fire result=0; KV state.bm-b rev 79 continuous; bootstrap GitHub-direct hang 5min -> gh-proxy machine recipe; state.bm-c pending bm-c side; receipt MSG-1648-bmb-natsbus.md in group inbox; card-lint --min rc=2 exception (missing receipt-window + O-number) resolved by CEO-order-immediacy precedence + cure-in-receipt",
- "r1028_ord_note": "r1028: ORD consumed 5 rows -- first delta 57e209fd->3311145e (16:1x NATS dispatch 【@bm-b】EXECUTED + 16:14 bm-d hardware row informational), S7-tail delta ->bd527746 (16:26 daily-output-report order: BigMoney row deferred to 22:0x self-report per carrier / 16:39 unified-quality-soul law: content domain zero BM obligation / 16:4x MV directors closeout: BigStream domain); advance read-back OK, dec 95879dd9 hold, mirrors synced 3 (r1090 dual-face)",
+ "r1028_ord_note": "r1028: ORD consumed 5 rows -- first delta 57e209fd->3311145e (16:1x NATS dispatch \u3010@bm-b\u3011EXECUTED + 16:14 bm-d hardware row informational), S7-tail delta ->bd527746 (16:26 daily-output-report order: BigMoney row deferred to 22:0x self-report per carrier / 16:39 unified-quality-soul law: content domain zero BM obligation / 16:4x MV directors closeout: BigStream domain); advance read-back OK, dec 95879dd9 hold, mirrors synced 3 (r1090 dual-face)",
  "r1029_first_action_note": "r1029: 1) D-19 fresh probe FIRST ACTION (ord=bd527746 through 16:4x; sprint cadence) 2) papers conditional retry on bar landing (evening) 3) 22:0x shift: DOR BigMoney row self-report via inbox MSG channel (tracked-file zero-touch) 4) ST-012 night 22:0x REBUILD-PLAN-v2 + v2Pro gate 5) NATS state.bm-c watch 6) RepoSlim tomorrow 09:03",
  "r1029_main_push": {
   "behind_origin_main": 0,
@@ -424,7 +431,7 @@
   "pushed_sha": "e4dc0861f6 (replayed, ancestor of origin 756c11218e)",
   "status": "PUSHED_VERIFIED (delivered by r1035 closeout push 756c11218e line, after r1035 S0 replay + r1035-end rebase onto 9cc7061b7; original claw-timeout deferral closed)"
  },
- "r1034_ord_note": "r1034: ORD delta 662a6c86->dda073d1 = 1 new row (19:35 O-20261019-1935 机队 B/C 满负荷执行令) consumed same-round: @bm-b legs = POOL-0018/0019 claim (DONE 20:2x, card-lint 9/9 x2) + audio Taildrop receive (2/7 done, 5 streaming) + ST-012 22:0x yield (drama lane owns) + papers/N1 cadence as usual; @bm-c legs out of bm-b scope; cadence-v2 (11:53) + repo-slim (12:21) rows dedup-verified already executed (r1023 MSG-1315/1327 + r1031 862997eec); dec 60a98a02 hold; advance read-back OK, mirrors synced 3 (r1090 dual-face)",
+ "r1034_ord_note": "r1034: ORD delta 662a6c86->dda073d1 = 1 new row (19:35 O-20261019-1935 \u673a\u961f B/C \u6ee1\u8d1f\u8377\u6267\u884c\u4ee4) consumed same-round: @bm-b legs = POOL-0018/0019 claim (DONE 20:2x, card-lint 9/9 x2) + audio Taildrop receive (2/7 done, 5 streaming) + ST-012 22:0x yield (drama lane owns) + papers/N1 cadence as usual; @bm-c legs out of bm-b scope; cadence-v2 (11:53) + repo-slim (12:21) rows dedup-verified already executed (r1023 MSG-1315/1327 + r1031 862997eec); dec 60a98a02 hold; advance read-back OK, mirrors synced 3 (r1090 dual-face)",
  "r1034_pool_claim": {
   "POOL-0018": {
    "action": "claimed",
@@ -446,7 +453,7 @@
  "r1034_push_saga": "r1034 push saga: commit 6f947cccd (24 own faces) landed locally; pre-push claw diff-tree deletion-check hit promisor lazy-blob 60s TimeoutExpired (range 34cc60a24..6f947cccd, zero-deletion payload, fail-close family r1033 precedent); post-fetch behind=4 ahead=1 (origin advanced during round); 25min wall risk -> no second attempt this window per r1026 law; r1035 FIRST ACTION = surgery replay on fresh tip + per-face newer-wins on shared regen + push + verify",
  "r1035_chain_kill_note": "r1035: S6 chain child powershell killed by 5min zero-output auto-cancel at papers-SKIP position; violation noted: spawned powershell.exe child from session (zero-window law) -- r1036 chain runs IN-PROCESS via & only; post-kill leg re-runs: S7-critical trio done standalone, papers+marks deferred (bar landed 21:0x after gate probe)",
  "r1035_env_bootstrap_note": "r1035: anchor_env_bootstrap.py DETACHED pid 15928; venv-anchor; tsinghua mirror; status face stage=torch_cpu RUN 20:58; whisperx model pulls need HF_ENDPOINT=https://hf-mirror.com (set at generation time)",
- "r1035_first_action_note": "r1035: 1) POOL-0018/0019 env bootstrap FIRST ACTION (pip CPU torch + whisperx + allin1, time-boxed) then first anchor outputs for staged 2 曲 2) papers conditional retry on 10-19 bar landing (evening window) 3) audio remaining 5 件 Taildrop receive 4) ST-012 22:0x drama yield 5) W280 prereg (bm-c r1125) watch -> W281 seat post-REGISTER 6) RepoSlim 09:03 verify tomorrow",
+ "r1035_first_action_note": "r1035: 1) POOL-0018/0019 env bootstrap FIRST ACTION (pip CPU torch + whisperx + allin1, time-boxed) then first anchor outputs for staged 2 \u66f2 2) papers conditional retry on 10-19 bar landing (evening window) 3) audio remaining 5 \u4ef6 Taildrop receive 4) ST-012 22:0x drama yield 5) W280 prereg (bm-c r1125) watch -> W281 seat post-REGISTER 6) RepoSlim 09:03 verify tomorrow",
  "r1035_main_push": {
   "behind_origin_main": 0,
   "consumed_at": "2026-10-19T21:10:42+08:00",
@@ -454,12 +461,12 @@
   "pushed_sha": "756c11218e",
   "status": "PUSHED_VERIFIED (verified: 756c11218e line on origin at r1036 S0 FF)"
  },
- "r1036_first_action_note": "r1037: 1) words-gen outputs harvest (anchor_words_status.json -> anchors/<曲>-words.json receipt: word 数/时间戳/覆盖面 + lyric_calibration.py 消费验证 1 曲 + 7th mp3 arrival + remaining Taildrop) 2) POOL-0019 madmom: INCLUDE env 修补一次探针 + WSL 通道探测 (72h 窗) 3) ST-012 22:0x drama lane yield (drama executor owns) 4) W280 prereg (bm-c) watch -> W281 seat post-REGISTER 5) RepoSlim first daily run 09:03 verify 6) first-batch-7 receipt <=2026-10-20 20:2x",
+ "r1036_first_action_note": "r1037: 1) words-gen outputs harvest (anchor_words_status.json -> anchors/<\u66f2>-words.json receipt: word \u6570/\u65f6\u95f4\u6233/\u8986\u76d6\u9762 + lyric_calibration.py \u6d88\u8d39\u9a8c\u8bc1 1 \u66f2 + 7th mp3 arrival + remaining Taildrop) 2) POOL-0019 madmom: INCLUDE env \u4fee\u8865\u4e00\u6b21\u63a2\u9488 + WSL \u901a\u9053\u63a2\u6d4b (72h \u7a97) 3) ST-012 22:0x drama lane yield (drama executor owns) 4) W280 prereg (bm-c) watch -> W281 seat post-REGISTER 5) RepoSlim first daily run 09:03 verify 6) first-batch-7 receipt <=2026-10-20 20:2x",
  "r1036_madmom_note": "r1036: madmom build attempts x2 FAIL -- attempt1 Cython missing at build-req stage (fixed by pip install cython); attempt2 --no-build-isolation reached cl.exe (MSVC 2022 Community 14.44 present) but fatal C1083 io.h missing = Windows SDK ucrt include gap; evidence madmom_err.txt/madmom_err2.txt; POOL-0019 structure lane blocked on Windows toolchain, r1037 = INCLUDE env repair probe + WSL check",
  "r1036_ord_note": "r1036: D-19 dual probe ZERO-DELTA (dec 60a98a02 / ord dda073d1 hold, advance NOOP read-back OK, mirrors synced 2); no new orders this window",
- "r1036_words_gen_note": "r1036: anchor_words_gen.py DETACHED pid 1080 21:2x; venv-anchor whisperx small/int8; HF_ENDPOINT=hf-mirror.com; output cph4/fleet/mv-album-001-jay/anchors/<曲>-words.json {words:[{word,start,end}], lines:[{t0,t1,text}]}; idempotent skip-existing; status face C:\\Fluxgroup\\Tools\\mv-audio-bmb\\anchor_words_status.json live per-song",
- "r1037_calibration_note": "r1037: lyric_calibration.py SONGS 接线——+晴天→晴天-words（词面缺位 MISS 卡住=供给线决策件）；安静 anjing→安静-words 翻面（消费验证载体）；开不了口→kaibuliaokou、简单爱→jiandanan 仍指 10-15 legacy 拼音面（翻面即再生幂等零风险=下一次校准批派单决策）；venv 缺 zhconv=系统 Python311 执笔链实证",
- "r1037_madmom_sdk_note": "r1037: madmom Windows 通道判决——INCLUDE 修补判死（Windows Kits\\10\\Include 目录空=io.h 不在盘·r1036 计划的修补探测实证不可行）+ WSL 判死（wsl.exe 文件不存在）；第三通道点火=bm-b-MadmomSDK-r1037 单发 S4U 任务（21:38:33·VS setup.exe modify --add Win11SDK.26100 --quiet --norestart + INCLUDE/LIB 动态补丁 + venv pip install madmom --no-build-isolation + madmom_sdk_marker.txt 收成面 + 任务自禁用）；r1038 首动作=marker 双 rc 收成",
+ "r1036_words_gen_note": "r1036: anchor_words_gen.py DETACHED pid 1080 21:2x; venv-anchor whisperx small/int8; HF_ENDPOINT=hf-mirror.com; output cph4/fleet/mv-album-001-jay/anchors/<\u66f2>-words.json {words:[{word,start,end}], lines:[{t0,t1,text}]}; idempotent skip-existing; status face C:\\Fluxgroup\\Tools\\mv-audio-bmb\\anchor_words_status.json live per-song",
+ "r1037_calibration_note": "r1037: lyric_calibration.py SONGS \u63a5\u7ebf\u2014\u2014+\u6674\u5929\u2192\u6674\u5929-words\uff08\u8bcd\u9762\u7f3a\u4f4d MISS \u5361\u4f4f=\u4f9b\u7ed9\u7ebf\u51b3\u7b56\u4ef6\uff09\uff1b\u5b89\u9759 anjing\u2192\u5b89\u9759-words \u7ffb\u9762\uff08\u6d88\u8d39\u9a8c\u8bc1\u8f7d\u4f53\uff09\uff1b\u5f00\u4e0d\u4e86\u53e3\u2192kaibuliaokou\u3001\u7b80\u5355\u7231\u2192jiandanan \u4ecd\u6307 10-15 legacy \u62fc\u97f3\u9762\uff08\u7ffb\u9762\u5373\u518d\u751f\u5e42\u7b49\u96f6\u98ce\u9669=\u4e0b\u4e00\u6b21\u6821\u51c6\u6279\u6d3e\u5355\u51b3\u7b56\uff09\uff1bvenv \u7f3a zhconv=\u7cfb\u7edf Python311 \u6267\u7b14\u94fe\u5b9e\u8bc1",
+ "r1037_madmom_sdk_note": "r1037: madmom Windows \u901a\u9053\u5224\u51b3\u2014\u2014INCLUDE \u4fee\u8865\u5224\u6b7b\uff08Windows Kits\\10\\Include \u76ee\u5f55\u7a7a=io.h \u4e0d\u5728\u76d8\u00b7r1036 \u8ba1\u5212\u7684\u4fee\u8865\u63a2\u6d4b\u5b9e\u8bc1\u4e0d\u53ef\u884c\uff09+ WSL \u5224\u6b7b\uff08wsl.exe \u6587\u4ef6\u4e0d\u5b58\u5728\uff09\uff1b\u7b2c\u4e09\u901a\u9053\u70b9\u706b=bm-b-MadmomSDK-r1037 \u5355\u53d1 S4U \u4efb\u52a1\uff0821:38:33\u00b7VS setup.exe modify --add Win11SDK.26100 --quiet --norestart + INCLUDE/LIB \u52a8\u6001\u8865\u4e01 + venv pip install madmom --no-build-isolation + madmom_sdk_marker.txt \u6536\u6210\u9762 + \u4efb\u52a1\u81ea\u7981\u7528\uff09\uff1br1038 \u9996\u52a8\u4f5c=marker \u53cc rc \u6536\u6210",
  "r1037_main_push": {
   "behind_origin_main": 0,
   "consumed_at": "2026-10-19T21:4x+08:00 (this postscript push second leg)",
@@ -467,9 +474,9 @@
   "pushed_sha": "7e46b9e257",
   "status": "PUSHED_VERIFIED (four-way: fetch behind=0 ahead=0, origin tip 7e46b9e257)"
  },
- "r1037_ord_note": "r1037: O-20261019-2047 全员复工广播 consumed（bm-b=无 pause 面零恢复动作·常设任务 schtasks 全量 ready 实证；满负荷令 O-20261019-1935 照旧推进=POOL-0018 收官+POOL-0019 SDK 通道点火）；D-19 双面零增量（dec/ord hash hold·内容级 diff 零新行·watermark 不动）",
- "r1037_sdk_chain_note": "r1037-sdk-chain-honest-face: bm-b-MadmomSDK-r1037 S4U one-shot 21:38:33 秒死链——真因双叠：①setup.exe 为 GUI 子系统应用，PS & 调用不等待不设 $LASTEXITCODE（marker sdk_rc= 空·vs log 未生成为证）；②链设计按同步 rc 流跑（INCLUDE 空判断→跳过 pip→自禁用）=GUI no-wait 竞态。S4U+RunLevel Highest 提权探针：IsInRole(Administrator)=True（S4U 令牌 admin 域在位）；首版探针 high_integrity=False 系字符串-vs-SecurityIdentifier 对比 bug 不可信。r1038 首动作=硬化重launch：Start-Process -Wait 承载 setup.exe modify --add Win11SDK.26100 --quiet --norestart（真等待真 rc）+完成后 INCLUDE/LIB 动态补丁+venv pip install madmom --no-build-isolation+marker 双 rc；若 S4U 仍拒（UAC/完整性面），降级路径=轮内 in-session 提权跑（VS modify 事务性可中断重跑）。",
- "r1037_words_harvest_note": "r1037: words-gen batch ok=4 fail=0（21:31:37 words_gen_done；安静447/11、开不了口311/7、晴天372/8、简单爱301/5 words+lines；首跑 'str' object 瞬态崩自愈非病理性）；消费验证 CALIBRATED 安静 mode=whisper exact=9 approx=39 none=3 total=51 PASS；回执=cph4/fleet/mv-album-001-jay/POOL-0018-wordanchor-firstbatch7-receipt-r1037bmb.md（6/7 面·第 7 曲 mp3 未到）",
+ "r1037_ord_note": "r1037: O-20261019-2047 \u5168\u5458\u590d\u5de5\u5e7f\u64ad consumed\uff08bm-b=\u65e0 pause \u9762\u96f6\u6062\u590d\u52a8\u4f5c\u00b7\u5e38\u8bbe\u4efb\u52a1 schtasks \u5168\u91cf ready \u5b9e\u8bc1\uff1b\u6ee1\u8d1f\u8377\u4ee4 O-20261019-1935 \u7167\u65e7\u63a8\u8fdb=POOL-0018 \u6536\u5b98+POOL-0019 SDK \u901a\u9053\u70b9\u706b\uff09\uff1bD-19 \u53cc\u9762\u96f6\u589e\u91cf\uff08dec/ord hash hold\u00b7\u5185\u5bb9\u7ea7 diff \u96f6\u65b0\u884c\u00b7watermark \u4e0d\u52a8\uff09",
+ "r1037_sdk_chain_note": "r1037-sdk-chain-honest-face: bm-b-MadmomSDK-r1037 S4U one-shot 21:38:33 \u79d2\u6b7b\u94fe\u2014\u2014\u771f\u56e0\u53cc\u53e0\uff1a\u2460setup.exe \u4e3a GUI \u5b50\u7cfb\u7edf\u5e94\u7528\uff0cPS & \u8c03\u7528\u4e0d\u7b49\u5f85\u4e0d\u8bbe $LASTEXITCODE\uff08marker sdk_rc= \u7a7a\u00b7vs log \u672a\u751f\u6210\u4e3a\u8bc1\uff09\uff1b\u2461\u94fe\u8bbe\u8ba1\u6309\u540c\u6b65 rc \u6d41\u8dd1\uff08INCLUDE \u7a7a\u5224\u65ad\u2192\u8df3\u8fc7 pip\u2192\u81ea\u7981\u7528\uff09=GUI no-wait \u7ade\u6001\u3002S4U+RunLevel Highest \u63d0\u6743\u63a2\u9488\uff1aIsInRole(Administrator)=True\uff08S4U \u4ee4\u724c admin \u57df\u5728\u4f4d\uff09\uff1b\u9996\u7248\u63a2\u9488 high_integrity=False \u7cfb\u5b57\u7b26\u4e32-vs-SecurityIdentifier \u5bf9\u6bd4 bug \u4e0d\u53ef\u4fe1\u3002r1038 \u9996\u52a8\u4f5c=\u786c\u5316\u91cdlaunch\uff1aStart-Process -Wait \u627f\u8f7d setup.exe modify --add Win11SDK.26100 --quiet --norestart\uff08\u771f\u7b49\u5f85\u771f rc\uff09+\u5b8c\u6210\u540e INCLUDE/LIB \u52a8\u6001\u8865\u4e01+venv pip install madmom --no-build-isolation+marker \u53cc rc\uff1b\u82e5 S4U \u4ecd\u62d2\uff08UAC/\u5b8c\u6574\u6027\u9762\uff09\uff0c\u964d\u7ea7\u8def\u5f84=\u8f6e\u5185 in-session \u63d0\u6743\u8dd1\uff08VS modify \u4e8b\u52a1\u6027\u53ef\u4e2d\u65ad\u91cd\u8dd1\uff09\u3002",
+ "r1037_words_harvest_note": "r1037: words-gen batch ok=4 fail=0\uff0821:31:37 words_gen_done\uff1b\u5b89\u9759447/11\u3001\u5f00\u4e0d\u4e86\u53e3311/7\u3001\u6674\u5929372/8\u3001\u7b80\u5355\u7231301/5 words+lines\uff1b\u9996\u8dd1 'str' object \u77ac\u6001\u5d29\u81ea\u6108\u975e\u75c5\u7406\u6027\uff09\uff1b\u6d88\u8d39\u9a8c\u8bc1 CALIBRATED \u5b89\u9759 mode=whisper exact=9 approx=39 none=3 total=51 PASS\uff1b\u56de\u6267=cph4/fleet/mv-album-001-jay/POOL-0018-wordanchor-firstbatch7-receipt-r1037bmb.md\uff086/7 \u9762\u00b7\u7b2c 7 \u66f2 mp3 \u672a\u5230\uff09",
  "r1038_first_action_note": "r1038: SDK hardened relaunch FIRST ACTION executed same-round to CLOSURE: S4U+Highest task fired (Start-Process -Wait fix) -> 87 again -> in-session 30s probe -> 87 in-session too (args face, not context) -> stdout capture probe WITHOUT --log -> REAL RUN 3.8min exit 0 -> SDK installed; lesson: VS setup.exe rc87 = --log arg rejection; --log dropped, installer's own %TEMP% logs suffice; Start-Process -ArgumentList array form does not auto-quote (first 87)",
  "r1039_first_action_note": "r1039: D-19 fresh probe FIRST ACTION (2 group rows consumed = O-2230 group-order rows, zero new dispatch); P2 freeze window = CEO order O-20261019-2230 sec.2.1 first-batch ticket same-round advance; remaining freeze legs are panel-dependent - dual-channel receipt (bm-a host OR local after re-delivery), freeze commit fires when D6 + completeness gates land",
  "r1040_first_action_note": "r1041: 1) beats harvest FIRST ACTION (status face -> POOL-0019 receipt + consumption verify) 2) 7th mp3 watch 3) MSG-2350 receipt -> panel legs -> FREEZE commit -> execution ticket 4) RepoSlim 09:03 verify 5) W280/W281 seat watch; madmom downbeats API pit row appended CODELY",
@@ -488,7 +495,7 @@
  "r1058_push": "r1058 push receipt: commit f2495ae7cc pushed to origin fallback branch machine/bm-b-r1058 (ls-remote verified); origin/main push blocked by pre-push claw (stale base would delete bm-c shards results/p2cal_ext/n1_w284/shard-*.json - foreign owner fail-closed, expected while 5 commits behind). Local-not-on-origin-main commit count=6 (r1055..r1058 + 2 postscripts), all preserved on the fallback branch; rebase deferred to a clean-tree round.",
  "r1061_main_push": {
   "behind_origin_main": 0,
-  "note": "first push claw-blocked (stale base would delete bm-c _w285bmc_* — correct fail-closed); second attempt non-ff (origin advanced to 49d16c526a mid-window, bm-c r1148); resolved by r1032-family tree surgery replay of the 15-face changed set + inbox-move deletion; delivery four-way verified (behind=0 ahead=0, ls-tree product faces present)",
+  "note": "first push claw-blocked (stale base would delete bm-c _w285bmc_* \u2014 correct fail-closed); second attempt non-ff (origin advanced to 49d16c526a mid-window, bm-c r1148); resolved by r1032-family tree surgery replay of the 15-face changed set + inbox-move deletion; delivery four-way verified (behind=0 ahead=0, ls-tree product faces present)",
   "pushed_sha": "00a94da34b",
   "status": "PUSHED_VERIFIED",
   "ts": "2026-10-20T08:01:58+08:00"
@@ -722,7 +729,7 @@
  "r1185": {
   "d19": "dec=DELTA->same/repro@1e87fbf ord=DELTA->same/repro@1e87fbf, advanced on 3 new decision rows + 1 new order row",
   "fix": "1 leg pair in Tools/gpu_face.py selftest: L3e the residue is caught by audit(); L3f one probe heals it -- fields_from covers the key even though restate() skips anything already in fields. Then python Tools/gpu_face.py apply on the live face: 23 keys replaced + gpu_vram_free_gb rewritten, audit findings [] (29 gpu keys).",
-  "group_rows_consumed": "D-20261027-14 (five-company read; bigmoney 当日零新行 -> no action), D-20261027-15 (ledger split, HQ-owned), D-20261027-16 (machine-state.ps1 now declares the quant family 8 tasks so the 19:00 resume revives them -- HQ-owned, verification point 19:07, this lane owes nothing), OB row 17:3x CEO-PROXY (bm-b 8-day zero-claim RCA = no production claim task on this machine; ours is the S8 registry lane, which was not starved this round)",
+  "group_rows_consumed": "D-20261027-14 (five-company read; bigmoney \u5f53\u65e5\u96f6\u65b0\u884c -> no action), D-20261027-15 (ledger split, HQ-owned), D-20261027-16 (machine-state.ps1 now declares the quant family 8 tasks so the 19:00 resume revives them -- HQ-owned, verification point 19:07, this lane owes nothing), OB row 17:3x CEO-PROXY (bm-b 8-day zero-claim RCA = no production claim task on this machine; ours is the S8 registry lane, which was not starved this round)",
   "law": "a unit-naming fix must ship with the face heal: the code path stops writing the bad number, but the number already written only clears if a probe runs on the same round. Sibling: this is why the residue leg belongs in selftest next to the writer leg -- L3c proved the writer, which was already true at 17:41, while the face was still red.",
   "not_run": "heavy S6 pandas chain (previous round ran 50 legs rc0 at 11:50); E118 staletail twin left ready for the next round per the S1 sole-mission rule",
   "product": "Tools/gpu_face.py (33/33 selftest) + healed fleet/machines/bm-b.json GPU face",
@@ -922,30 +929,30 @@
  },
  "r1196_pit": "An \"arrow\" list is a claim about which answers the reader consumes as a direction, so it must be enumerated from the published answers, not picked by whoever writes the twin: the first cut of E123 listed the spread sign and the drawdown-delta sign, missed the underwater sign, and printed arrows_survive=true directly beside a +48 -> -92 flip. Fix belongs at module level with an explicit column tuple and a selftest leg per column (a wider if-statement inside the runner cannot be pinned). Sibling: a cutoff control of the same SIZE as the repair does not rank them -- E122 repair 3.6x the refresh, E123 refresh ~= repair (28 vs 30 cells) -- so each face ships its own two controls and neither is quoted alone.",
  "r1197": {
-  "attribution_of_flip": "cutoff 对照同一格只走 -35.1 -> -21.6(+13.5bp 同向、跨不过零)，repair 再补 +46.7 —— 故符号翻面归 repair；但纪元 tilt 水平是 refresh 主导(246.5 -> 132.1，-114.4bp，为 repair 最大格的 2 倍)，水平不可脱离 cutoff 引用（r1162 律再现）",
-  "controls": "same-arm 0/93；cutoff 对照(旧 raw HIST-20261020 vs 今日 raw) 29 格 max 131bp —— 本次 refresh(1.7x 格 / 2.3x 量级) 大于 repair(17 格/57bp)，与 E122(repair 3.6x)、E123(等量) 构成三种排序；单看任一数字都会读错，故两控并陈",
-  "d19": "decisions 未变 / orders 有增量(11 行，均为 BigStream/硬件/机队派单面，无涉本仓机制) -> update --advance 已消费，水位同步 9 面",
-  "decomposition": "两臂逐纪元 gap 全 0（incomplete_eras=[]，容差 0.2bp），归因可读非假设",
-  "defect_fixed": "F-20261028-05: run_tilt4 docstring 声称四员 skin 'reaches back to 2013'，而面上 pre2017 两臂各 1 个可用月、months4 起于 2016-12；真正的捆绑成员已从 STAR 腿(588000, 2020-11-13) 换成 sh512100(2016-11-04)，实际 reach-back=2017-01(48 个月，五员 skin 只有 1 个月)。当窗就地改正 + 播种 E126 去实测三员 skin 的 2013 段",
-  "finding": "repair 落到分解式的一支、也落到一部分纪元：size base 项全区间只动 <=3.1bp，而 size-neutral alpha 动 +26.2/+47.0/+22.3bp；2017_2020 的 24 格一格不动，2021_2023/2024_now/full 动；最新纪元 spread 由 -21.6 翻到 +25.1bp（20 条 arrow 里唯 1 条翻面）",
-  "lane_note": "update_zt_pool/update_repo/update_moneyflow/update_ths_panel/ah_panel_puller 的模块 docstring 仍写 'bm-a lane'，而 config.lane_io.lane_host() 实读这五条车道属主全是 bm-b —— 守卫按注册表走，故本次真跑属合法；陈旧的是散文不是机制（与本轮 run_tilt4 docstring 同族），留一行不另开活",
-  "mission": "水位红牌(pool-batch-runnable-idle-low-cpu) -> 烧池中 E124，顺带把 E97 路由面的 uncovered 从 4 压到 1",
-  "not_run": "bm-a 宿主守卫之外的其余长跑采集链未逐条跑；GPU 面未手写（心跳 GPU 键不传，由 gpu_face 单点探针持有）",
+  "attribution_of_flip": "cutoff \u5bf9\u7167\u540c\u4e00\u683c\u53ea\u8d70 -35.1 -> -21.6(+13.5bp \u540c\u5411\u3001\u8de8\u4e0d\u8fc7\u96f6)\uff0crepair \u518d\u8865 +46.7 \u2014\u2014 \u6545\u7b26\u53f7\u7ffb\u9762\u5f52 repair\uff1b\u4f46\u7eaa\u5143 tilt \u6c34\u5e73\u662f refresh \u4e3b\u5bfc(246.5 -> 132.1\uff0c-114.4bp\uff0c\u4e3a repair \u6700\u5927\u683c\u7684 2 \u500d)\uff0c\u6c34\u5e73\u4e0d\u53ef\u8131\u79bb cutoff \u5f15\u7528\uff08r1162 \u5f8b\u518d\u73b0\uff09",
+  "controls": "same-arm 0/93\uff1bcutoff \u5bf9\u7167(\u65e7 raw HIST-20261020 vs \u4eca\u65e5 raw) 29 \u683c max 131bp \u2014\u2014 \u672c\u6b21 refresh(1.7x \u683c / 2.3x \u91cf\u7ea7) \u5927\u4e8e repair(17 \u683c/57bp)\uff0c\u4e0e E122(repair 3.6x)\u3001E123(\u7b49\u91cf) \u6784\u6210\u4e09\u79cd\u6392\u5e8f\uff1b\u5355\u770b\u4efb\u4e00\u6570\u5b57\u90fd\u4f1a\u8bfb\u9519\uff0c\u6545\u4e24\u63a7\u5e76\u9648",
+  "d19": "decisions \u672a\u53d8 / orders \u6709\u589e\u91cf(11 \u884c\uff0c\u5747\u4e3a BigStream/\u786c\u4ef6/\u673a\u961f\u6d3e\u5355\u9762\uff0c\u65e0\u6d89\u672c\u4ed3\u673a\u5236) -> update --advance \u5df2\u6d88\u8d39\uff0c\u6c34\u4f4d\u540c\u6b65 9 \u9762",
+  "decomposition": "\u4e24\u81c2\u9010\u7eaa\u5143 gap \u5168 0\uff08incomplete_eras=[]\uff0c\u5bb9\u5dee 0.2bp\uff09\uff0c\u5f52\u56e0\u53ef\u8bfb\u975e\u5047\u8bbe",
+  "defect_fixed": "F-20261028-05: run_tilt4 docstring \u58f0\u79f0\u56db\u5458 skin 'reaches back to 2013'\uff0c\u800c\u9762\u4e0a pre2017 \u4e24\u81c2\u5404 1 \u4e2a\u53ef\u7528\u6708\u3001months4 \u8d77\u4e8e 2016-12\uff1b\u771f\u6b63\u7684\u6346\u7ed1\u6210\u5458\u5df2\u4ece STAR \u817f(588000, 2020-11-13) \u6362\u6210 sh512100(2016-11-04)\uff0c\u5b9e\u9645 reach-back=2017-01(48 \u4e2a\u6708\uff0c\u4e94\u5458 skin \u53ea\u6709 1 \u4e2a\u6708)\u3002\u5f53\u7a97\u5c31\u5730\u6539\u6b63 + \u64ad\u79cd E126 \u53bb\u5b9e\u6d4b\u4e09\u5458 skin \u7684 2013 \u6bb5",
+  "finding": "repair \u843d\u5230\u5206\u89e3\u5f0f\u7684\u4e00\u652f\u3001\u4e5f\u843d\u5230\u4e00\u90e8\u5206\u7eaa\u5143\uff1asize base \u9879\u5168\u533a\u95f4\u53ea\u52a8 <=3.1bp\uff0c\u800c size-neutral alpha \u52a8 +26.2/+47.0/+22.3bp\uff1b2017_2020 \u7684 24 \u683c\u4e00\u683c\u4e0d\u52a8\uff0c2021_2023/2024_now/full \u52a8\uff1b\u6700\u65b0\u7eaa\u5143 spread \u7531 -21.6 \u7ffb\u5230 +25.1bp\uff0820 \u6761 arrow \u91cc\u552f 1 \u6761\u7ffb\u9762\uff09",
+  "lane_note": "update_zt_pool/update_repo/update_moneyflow/update_ths_panel/ah_panel_puller \u7684\u6a21\u5757 docstring \u4ecd\u5199 'bm-a lane'\uff0c\u800c config.lane_io.lane_host() \u5b9e\u8bfb\u8fd9\u4e94\u6761\u8f66\u9053\u5c5e\u4e3b\u5168\u662f bm-b \u2014\u2014 \u5b88\u536b\u6309\u6ce8\u518c\u8868\u8d70\uff0c\u6545\u672c\u6b21\u771f\u8dd1\u5c5e\u5408\u6cd5\uff1b\u9648\u65e7\u7684\u662f\u6563\u6587\u4e0d\u662f\u673a\u5236\uff08\u4e0e\u672c\u8f6e run_tilt4 docstring \u540c\u65cf\uff09\uff0c\u7559\u4e00\u884c\u4e0d\u53e6\u5f00\u6d3b",
+  "mission": "\u6c34\u4f4d\u7ea2\u724c(pool-batch-runnable-idle-low-cpu) -> \u70e7\u6c60\u4e2d E124\uff0c\u987a\u5e26\u628a E97 \u8def\u7531\u9762\u7684 uncovered \u4ece 4 \u538b\u5230 1",
+  "not_run": "bm-a \u5bbf\u4e3b\u5b88\u536b\u4e4b\u5916\u7684\u5176\u4f59\u957f\u8dd1\u91c7\u96c6\u94fe\u672a\u9010\u6761\u8dd1\uff1bGPU \u9762\u672a\u624b\u5199\uff08\u5fc3\u8df3 GPU \u952e\u4e0d\u4f20\uff0c\u7531 gpu_face \u5355\u70b9\u63a2\u9488\u6301\u6709\uff09",
   "orphan": 0,
-  "pit": "池卡写的交付目录是 results/e43_neutral_robust/（那是 ROBUST 腿的目录），而 tilt4 原始面发在 results/e43_tilt_4member/ —— twin 写在原始面旁边（cutoff 对照要读该目录历史），偏离已在摘要与池条 done_note 显式披露，未静默改写交付面",
+  "pit": "\u6c60\u5361\u5199\u7684\u4ea4\u4ed8\u76ee\u5f55\u662f results/e43_neutral_robust/\uff08\u90a3\u662f ROBUST \u817f\u7684\u76ee\u5f55\uff09\uff0c\u800c tilt4 \u539f\u59cb\u9762\u53d1\u5728 results/e43_tilt_4member/ \u2014\u2014 twin \u5199\u5728\u539f\u59cb\u9762\u65c1\u8fb9\uff08cutoff \u5bf9\u7167\u8981\u8bfb\u8be5\u76ee\u5f55\u5386\u53f2\uff09\uff0c\u504f\u79bb\u5df2\u5728\u6458\u8981\u4e0e\u6c60\u6761 done_note \u663e\u5f0f\u62ab\u9732\uff0c\u672a\u9759\u9ed8\u6539\u5199\u4ea4\u4ed8\u9762",
   "product": [
    "results/e43_tilt_4member/TILT4SCREEN-20261027.json (new twin face, 93 cells)",
    "results/e43_tilt_4member/TILT4-arm-raw-20261027.json / -neutralise_int- (per-arm checkpoints)",
    "research/digests/DIGEST-20261028-r1197-e124-tilt4-screened.md",
    "knowledge/METHODOLOGY_ASSETS.md E163",
-   "scripts/e39_panel_census.py: run_tilt4 加 raw= seam + _tilt4_decomposition_gap / _tilt4_arm_cells / _tilt4_arm_dates / _tilt4_arrows / run_tilt4screened + CLI mode tilt4screened (selftest 442 -> 459)",
+   "scripts/e39_panel_census.py: run_tilt4 \u52a0 raw= seam + _tilt4_decomposition_gap / _tilt4_arm_cells / _tilt4_arm_dates / _tilt4_arrows / run_tilt4screened + CLI mode tilt4screened (selftest 442 -> 459)",
    "scripts/e97_routing.py TWIN_FUNCS += run_tilt4screened",
    "results/e79/ROUTING-20261027.json re-derived (covered_twin 20 -> 23, uncovered 4 -> 1)",
    "results/runnable_pool.json E124 -> done (result_ref filed), E126-TILT3-REACHBACK seeded ready"
   ],
   "push": "7f8a2dcd7 PUSHED_VERIFIED",
-  "s6": "dualrun ZERO-DRIFT 649 entries streak 1 | compute_audit FLAG:gpu_unauthorized,supply_gap,supply_floor(ready 2<3) | watermark py_low_with_work_cands(pool 2 ready，本轮已烧 1) | update_daily 0 新行(cutoff 2026-10-27, 15:30 门) | market_regime 三触(hs300<MA200 / crash10d -5.1% / breadth 85%) | etf_daily no-op | astock refresh 锁在飞 no-op | dualarm DUALARM-2026-10-19 | rev_osc awaiting panel(57.7%) | zt_pool +3242 行 | repo R-007 +1 | attrition CLEAN 4 ledgers(3 历史缩行 healed) | orphan face=0(10 py 面)",
-  "s7": "loop task pin 2 no-op | LoopWatchdog 重建 S4U SWA=false（本轮查无=真缺） | pre-commit + pre-push 爪重装",
+  "s6": "dualrun ZERO-DRIFT 649 entries streak 1 | compute_audit FLAG:gpu_unauthorized,supply_gap,supply_floor(ready 2<3) | watermark py_low_with_work_cands(pool 2 ready\uff0c\u672c\u8f6e\u5df2\u70e7 1) | update_daily 0 \u65b0\u884c(cutoff 2026-10-27, 15:30 \u95e8) | market_regime \u4e09\u89e6(hs300<MA200 / crash10d -5.1% / breadth 85%) | etf_daily no-op | astock refresh \u9501\u5728\u98de no-op | dualarm DUALARM-2026-10-19 | rev_osc awaiting panel(57.7%) | zt_pool +3242 \u884c | repo R-007 +1 | attrition CLEAN 4 ledgers(3 \u5386\u53f2\u7f29\u884c healed) | orphan face=0(10 py \u9762)",
+  "s7": "loop task pin 2 no-op | LoopWatchdog \u91cd\u5efa S4U SWA=false\uff08\u672c\u8f6e\u67e5\u65e0=\u771f\u7f3a\uff09 | pre-commit + pre-push \u722a\u91cd\u88c5",
   "selftest": "e39 442 -> 459/459; e97 15/15",
   "smoke": "108/108 PASS"
  },
@@ -1228,7 +1235,7 @@
   "branch": "machine/bm-b-r1225",
   "branch_sha": "df1715160382fc506be8923244c47e027f4df380",
   "local_not_on_origin_main": 5,
-  "method": "machine branch fallback (D-20260925-01③)",
+  "method": "machine branch fallback (D-20260925-01\u2462)",
   "note": "git rebase origin/main hung for 5 minutes with ZERO commits applied and was cancelled; the in-progress rebase left an orphan index.lock and a worktree with 5 of this round's faces showing as deleted. Recovered: lock cleared (zero git processes alive), rebase --abort, git checkout -- . to restore HEAD, then every product face re-verified present on disk (WIDECARRIERPERSIST-20261028.json, the E192 digest, 6 tilt3widecarrierpersist hits in e39). The stash was popped back so the other lanes' dirty faces are exactly as they were at open. Why the rebase could not be pushed through: this is a partial clone (promisor, blob:none) and origin's blobs for the four CONTESTED paths are not local - scripts/e39_panel_census.py, knowledge/METHODOLOGY_ASSETS.md, results/runnable_pool.json, results/e43_tilt_4member/WIDECHURNTIE-20261028.json (all four were also touched by bm-c r1326). A surgical mktree replay of my working copies onto the origin base would silently revert bm-c r1326 on those paths - the exact overwrite that lost 33 LEDGER lines and 90 QC lines before - so it was deliberately NOT attempted. Delivery is therefore the full 5-commit chain on the machine branch: r1222, r1223, r1224 (work + receipt) and r1225.",
   "status": "DELIVERED_ON_MACHINE_BRANCH",
   "ts": "2026-10-28T22:45:00+08:00"
@@ -1261,7 +1268,7 @@
  },
  "r1228": {
   "collateral": {
-   "gpu": "nvidia-smi this round: util 100%, 7903/8192 MiB used. NOT from this chain (gpu_face findings=[]); the GPU is parked per C-20261014-01 and the occupant is the interactive window's IndexTTS dubbing batch (fleet/inbox/MSG-20261029-0026 §三). Reported, not touched.",
+   "gpu": "nvidia-smi this round: util 100%, 7903/8192 MiB used. NOT from this chain (gpu_face findings=[]); the GPU is parked per C-20261014-01 and the occupant is the interactive window's IndexTTS dubbing batch (fleet/inbox/MSG-20261029-0026 \u00a7\u4e09). Reported, not touched.",
    "inbox": "both fleet/inbox/MSG-*-bmb-fleet-sync.md files show as untracked locally because they are bm-b-AUTHORED messages that already exist on origin/main while this clone is 5 commits behind; they are not unread asks, so nothing was moved to inbox/processed/. The 00:26 message's two asks are addressed to bm-a and bm-c.",
    "nats": "TCP 100.110.185.62:4222 reachable at 01:0x (Test-NetConnection True) - the telemetry break looks resolved",
    "orders": "orders_ack scan CLEAN: 114 orders, 115 acks, unacked [], 1 stale ack (O-20261020-1335-bmc-w288-seat.md, bm-c lane)"
@@ -1326,7 +1333,7 @@
   "finding": "E205 asked for the PRODUCER half (a silent face may not grow a delta number) and r1233 shipped the READER half instead, leaving the card ready. The gate now records 319 delta names across 14 silent faces (list indices elided) and fails on a new name in a face that still needs its sign line; baseline seeded, first live run clean (0 grown / 0 shrunk / 0 born).",
   "mission": "watermark RED at open (pool-batch-runnable-idle-low-cpu, py 1.7%, pool ready 1 = E205 card) -> the card was built as written and closed in-window",
   "not_run": "GPU untouched (parked C-20261014-01; nvidia-smi shows the interactive window's occupancy, not this chain); cloud untouched; bm-a/bm-c lane collectors honoured their guards",
-  "orders_delta": "orders 122ab707 delta consumed (R2.47/R2.48 事件班): the only bm-b item was FleetLink 1.9.3 -> 1.9.5; the group worktree copy was stale while the index already held origin 1.9.5, so the file was restored from the index (no local work discarded) and the listener self-upgrades on the next supervisor fire.",
+  "orders_delta": "orders 122ab707 delta consumed (R2.47/R2.48 \u4e8b\u4ef6\u73ed): the only bm-b item was FleetLink 1.9.3 -> 1.9.5; the group worktree copy was stale while the index already held origin 1.9.5, so the file was restored from the index (no local work discarded) and the listener self-upgrades on the next supervisor fire.",
   "orphan_face": 0,
   "pit": "publishing that residue as {\"offset\": 71} put a COUNT under a key the family's level-quote audit classifies BY NAME: level_quotes() read it as a 71bp offset cell and smoke L37 (\"every quoting face has a producer\") went red. Restructured to a list of records -- and the same defect reappeared immediately as `of_which_arm_paired_levels`, where the token `level` alone fabricated one more anchored cell. Now `unit_names_in_arm_pairs`, pinned by leg L94.",
   "product": [
@@ -1397,7 +1404,7 @@
   "signature": "family (page path with digits masked) | unit context | snippet with every digit masked -> REPORT-2026-10-29.md and REPORT-2026-10-30.md are one family, -701 and -702 in one sentence are one signature. A value-keyed ratchet would go red every morning and be disabled within a week."
  },
  "r1239": {
-  "delivery": "main is 29 behind / 26 ahead and rebase in this blob:none promisor clone has hung in every prior round, so the estate rides machine/bm-b-r1239 per D-20260925-01③",
+  "delivery": "main is 29 behind / 26 ahead and rebase in this blob:none promisor clone has hung in every prior round, so the estate rides machine/bm-b-r1239 per D-20260925-01\u2462",
   "finding": "the mid-sweep 2017_2020 column is a burn-in cash block: at start 2020 the first invested decision is 2021-01-29 (idx 262, 12 decision bars late) so 100% of that era slice sits before the engine ever buys and all five off-cycle days print gap 0.0 -- 10 of 84 cells tagged degenerate_cash_slice; at start 2013 the same era is fully invested (pre share 0.0) and reads -27..+1bp",
   "mission": "watermark green at open (red=false, pool ready 0, py 1%), smoke 126/126, board clear -> the round owed the standing agenda's waiting card E64",
   "not_run": "GPU untouched (parked C-20261014-01; the 3982 MiB in use is the interactive window's, not this chain); cloud untouched; E60/E61 left waiting -- both need new legs and E61 needs per-session holdings e27.simulate does not expose",
@@ -1862,19 +1869,19 @@
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1269,
- "round_no": 1269,
- "round_no_label": "r1269",
+ "round": 1270,
+ "round_no": 1270,
+ "round_no_label": "r1270",
  "round_no_note": "r1233 closeout left state at 1233 (git log is the canvas); anchored to r1234 here",
- "round_no_ts": "2026-10-30T08:13:41",
+ "round_no_ts": "2026-10-30T08:47:13+08:00",
  "round_no_ts_note": "r1214 closeout",
  "round_pit": "r1265: rescaling an aggregate is not a control -- dividing a regressor by a constant moves the coefficient and leaves every t-statistic and interval width unchanged, so a units objection is answered by a different REGRESSOR (one counterparty per pair), not a different scaling. Pair fixed effects belong in demeaned coordinates (k=3, tractable HAC) rather than 20 dummies, and a follow-up face must machine-read the previous face (loobook_latest.json) instead of transcribing its numbers.",
- "s6": "49 legs, 47 rc=0 (366.3s); omission_inflation rc=0 7.11s; NONZERO cal_audit rc=1 panel_gap (2026-10-29 astock bar in flight = supply read, not a mechanism failure) and machine_health rc=2 (bm-b missing cpu+gpu.util) healed in-window -> check OK 8/8",
+ "s6": "S6 suite not run as a fleet leg this round (a full pass needs the 228-leg smoke suite plus the chain inside one 10-minute window); the cheap lane legs that ran: orphan 0 (7 py faces), d19 probe zero delta both faces (decisions 97fe122f / orders 3fa305a6, triple-compare same, reproducible @5a9919f)",
  "s7": "loop task pin=2 no-op (first fire 08:17) | LoopWatchdog re-registered (S4U, SWA=false, first fire 08:14) | pre-commit + pre-push claws match their sources",
  "sat_engine": "rc=0 idle",
- "selftest": "e243_additivity_out_of_sample 14/14",
+ "selftest": "e244_pair_heterogeneity 15/15",
  "seq": 25,
- "smoke": "227/227 PASS, 0 FAIL (226 -> 227 with the E243 leg; the leg first landed inverted and flagged the CORRECT state as a failure -- the fix is the leg, not the face)",
+ "smoke": "228 legs registered; the new E244 leg PASSES on the published face and the e244 selftest is 15/15 -- the full 228-leg suite was NOT re-run this round (it takes ~8 minutes alone). Disclosed rather than claimed as green.",
  "smoke_note": "smoke 225/225 PASS (224 -> 225 with the E241 leg)",
  "snapshot": {},
  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
@@ -1889,15 +1896,15 @@
   "ts": "2026-10-30T08:25:17",
   "verified": true
  },
- "task": "E243 additivity out of sample (done) -- next E244 which counterparty carries the rest channel",
- "task_short": "E243 additivity out of sample",
+ "task": "E244 pair heterogeneity (done) -- next E245 which the face seeded: the unsummed slope matrix",
+ "task_short": "E244 pair heterogeneity",
  "task_short_note": "scripts/e223_obs_rate_ladder.py; selftest 26/26; face results/obs_rate/OBSRATE-20261028.json",
- "ts": "2026-10-30T08:25:17",
- "updated": "2026-10-30T08:25:17",
- "updated_at": "2026-10-30T08:25:17",
- "verdict": "green: E240's additivity verdict is carried by its aggregator -- 0 of 10 cells support it, the pairs disagree 9/20 with mixed signs, and the pooled aggregator that corroborated it reports zero on any data by construction",
+ "ts": "2026-10-30T08:47:13+08:00",
+ "updated": "2026-10-30T08:47:13+08:00",
+ "updated_at": "2026-10-30T08:47:13+08:00",
+ "verdict": "two_members_pay_differently: the heterogeneity sits on WHO is singled out (counterparty identity 50.7% vs own identity 0.1%), and the two signs are not two channels -- a member that pays more than the rest casts its mirror into the sum",
  "work": "scripts/e243_additivity_out_of_sample.py (run / selftest 14/14 / artifact); results/state_tilt/ADDOS-2026-10-29.json + addos_latest.json; research/digests/DIGEST-20261030-r1269-e243-additivity-out-of-sample.md; knowledge/METHODOLOGY_ASSETS.md card E243; Tools/s6_chain_bmb.py leg additivity_out_of_sample; smoke_test.py leg on the out-of-sample path",
  "note_r1269": "the S6 chain was not run as a suite this round: the smoke suite alone holds the window (a full pass is ~8 minutes and two attempts were cut at the 5-minute no-output limit before it was moved to a redirected child). The cheap lane legs that did run: attrition CLEAN (4 ledgers, 3 historical shrinks healed) | idle_trigger declared worked (idle_rounds 0) | d19 zero delta",
- "s6_note": "the S6 suite was not run as a fleet leg this round: it needs a full smoke pass (227 legs) plus the chain inside one window, and smoke alone took 480s. The legs that did run: attrition CLEAN, idle_trigger worked, d19 zero delta, orphan 0.",
+ "s6_note": "S6 suite not run as a fleet leg this round (a full pass needs the 228-leg smoke suite plus the chain inside one 10-minute window); the cheap lane legs that ran: orphan 0 (7 py faces), d19 probe zero delta both faces (decisions 97fe122f / orders 3fa305a6, triple-compare same, reproducible @5a9919f)",
  "heartbeat_note": "cpu_pct from two GetSystemTimes samples, not the memory-load field (E235 pit)"
 }

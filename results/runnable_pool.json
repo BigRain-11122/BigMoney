@@ -23638,7 +23638,7 @@
   {
    "id": "E244-ADDITIVITY-WHICH-COUNTERPARTY",
    "title": "if the rest channel is not one channel, which counterparties carry it?",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "lane": "cpu-only",
    "worker_class": "code-change",
@@ -23656,7 +23656,26 @@
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal"
-   }
+   },
+   "result_ref": "results/state_tilt/PAIRHET-2026-10-29.json",
+   "done_note": "E244 burned in-window (r1270). Verdict two_members_pay_differently: sh588000 as the singled counterparty reads +0.80 over 22 decisive pairs in 8 cells with ONE sign, sh512100 reads -0.50 over 9 pairs in 6 cells with one sign, and every other member carries mixed signs (not a carrier). Variance decomposition over 152 published pairs: counterparty identity 50.7%, own identity 0.1%, residual 49.5% -- the heterogeneity sits on WHO you single out, not on whose return is explained. Mirror ratio 1.61 over the frozen floor 1.50. Delivered as the (a) path of this card's own source text was NOT followed: the slope matrix (regress each member on every other separately) is seeded as E245 instead, because E243's published intervals already carry the pair structure and re-deriving it would have been a second burn of the same numbers."
+  },
+  {
+   "id": "E245-PAIR-SLOPE-MATRIX",
+   "title": "publish the full cross-member slope matrix before any rest channel is named again",
+   "status": "ready",
+   "priority": 3,
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "entered_by": "bm-b r1270",
+   "entered_at": "2026-10-30T08:52:00",
+   "evidence_cutoff": "2026-10-29",
+   "target": "scripts/e245_pair_slope_matrix.py (new runner)",
+   "runner": "scripts/e245_pair_slope_matrix.py",
+   "runner_args": ["run"],
+   "deliverable": "results/state_tilt/SLOPEMATRIX-<cutoff>.json",
+   "owner": null,
+   "source": "E244 attributed the spread to the counterparty identity (51% vs 0.1% own, 49% residual) and named two carriers, but it could only read the intervals E243 had already published: 152 rows over 11 overlapping cells, and half the variance is pair idiosyncrasy the sum design cannot explain. The unfiltered object is the slope matrix -- each member's move regressed on every OTHER member separately (k-1 slopes per member, no sum regressor, no kappa), with a HAC interval per cell. Publish the full 5x4 matrix per cell, test row equality (a coherent rest channel) against column concentration (one counterparty), and check that the residual half of E244's split is a property of the SUM DESIGN rather than of the book. E244's own caveat must be carried: its cells overlap in time, so repeats are not replications."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
