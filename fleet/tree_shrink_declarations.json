@@ -1,0 +1,16 @@
+{
+ "schema": 1,
+ "_law": "A commit may delete files on purpose, but only by declaring them here by name. Tools/tree_shrink_guard.py clears a shrink ONLY when this file's declared path set equals the commit's actual deletion set exactly -- a partial, superset or wrong-path declaration stays red (selftest L13-L17). Never raise --max-drop to silence a real shrink.",
+ "declarations": [
+  {
+   "commit": "cc8d2da139e8604b0255c325eb3071293b14439b",
+   "paths": [
+    "results/_catalog_view.txt",
+    "results/_queue_open_bma.txt",
+    "results/_smoke_bma.err"
+   ],
+   "by": "bm-a r1164",
+   "reason": "scratch inspection output from the previous window (catalog dump, queue-open dump, smoke stderr tail); none of it is an artifact any consumer reads, and results/ underscore-prefixed dumps are working files, not faces"
+  }
+ ]
+}

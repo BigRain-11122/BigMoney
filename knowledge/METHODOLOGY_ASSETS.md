@@ -5355,3 +5355,32 @@ CADENCE_BAND_SURVIVES_THE_TOLL. The grid's own verdict stays CONFIG_ORDER_WITHIN
 Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + results/etf_book_phase_atlas_arms.json
 + results/etf_book_phase_atlas_cost40.json (280 engine runs, 5 workers, 3.5 min) + S6 leg
 etf_book_phase_atlas_arms + research/digests/DIGEST-20261030-r1351-arms-gate.md.
+## E261 A tripwire that cannot be told "I meant that" gets relaxed instead of believed (2026-10-30 r1166 bm-a)
+
+WHEN: a guard fires on an action that was deliberate. Here the tree-shrink tripwire went red because
+r1164 deleted three scratch dumps on purpose (`results/_catalog_view.txt`, `results/_queue_open_bma.txt`,
+`results/_smoke_bma.err`), and its only exemptions were "the drop is under --max-drop" and "the tip
+recovers the files later" — neither can be true for a real, permanent, small deletion.
+
+WRONG: three tempting responses, all of which destroy the mechanism. (a) raise `--max-drop`, which
+also silences the 3,494-file partial-index shape the guard exists for; (b) restore files nobody reads
+so the count matches again; (c) leave it red and let the commit scroll out of the 20-commit window —
+which trains the next window to treat a red guard as weather.
+
+RIGHT: give the tripwire a declaration channel and make the declaration exact. `fleet/tree_shrink_declarations.json`
+lists commit + the paths it intends to delete. The guard clears a shrink ONLY when the declared path set
+EQUALS the commit's actual `D` set after normalisation; a wrong path, a subset, a superset or an
+unreadable file all stay red (selftest L13-L17). Mass deletion, partial index and "declare everything"
+are all still caught — the only thing that changed is that an honest deletion now has a legal way to say so.
+
+WHY: an alarm nobody can satisfy honestly is an alarm that gets muted. The failure mode is not the
+false positive itself but the fix it invites: r1135 already recorded the same shape in one sentence —
+"the cheapest fix for a permanently-red local leg is to relax the assertion". A tripwire needs an
+expiry for legitimate alarms, and that expiry must be narrower than the thing it guards.
+
+READING: Tool `Tools/tree_shrink_guard.py` (selftest 12 -> 17 legs) | declaration file
+`fleet/tree_shrink_declarations.json` (schema 1, `_law` header) | live check
+`python Tools/tree_shrink_guard.py check` -> CLEAN, "1 declared deletion(s), paths match exactly".
+Sibling face, same round: the heartbeat GPU face was half-owned again (free=2069 MiB beside
+free_vram_gb=1.7 from a 05:58 sample) and one `python Tools/gpu_face.py apply` healed all 29 keys
+back to a single probe — r1284's chokepoint worked exactly as designed once it was actually called.
