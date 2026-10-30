@@ -823,35 +823,15 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-11 13:14:09"
   },
-  "scripts/trial_labor_w18.py|screen,5,8": {
-   "count": 1,
-   "refusals": 3,
-   "code_sha256": "df427ae2d58ee639",
-   "last_crash_ts": "2026-10-11 17:42:07",
-   "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-5",
-   "shard": "w18-screen-5of8",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-11 17:46:22"
-  },
-  "scripts/trial_labor_w18.py|screen,6,8": {
-   "count": 1,
+  "scripts/etf_book_phase_atlas.py|run,--k=0.02,--workers=4,--out=results/etf_book_phase_atlas_buffer_k02.json": {
+   "count": 2,
    "refusals": 2,
-   "code_sha256": "df427ae2d58ee639",
-   "last_crash_ts": "2026-10-11 17:44:05",
-   "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-6",
-   "shard": "w18-screen-6of8",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-11 17:46:26"
-  },
-  "scripts/trial_labor_w18.py|screen,7,8": {
-   "count": 1,
-   "refusals": 2,
-   "code_sha256": "df427ae2d58ee639",
-   "last_crash_ts": "2026-10-11 17:44:07",
-   "entry": "TRIAL-LABOR-W18-SCREEN-SHARD-7",
-   "shard": "w18-screen-7of8",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-11 17:46:30"
+   "code_sha256": "9574a60f01a2fdd6",
+   "last_crash_ts": "2026-10-30 09:31:43",
+   "entry": "E262-ATLAS-BUFFER-K02",
+   "shard": "atlas-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-30 09:31:43"
   }
  },
  "cleared": {
@@ -1409,6 +1389,41 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "df427ae2d58ee639"
+  },
+  "scripts/trial_labor_w18.py|screen,5,8": {
+   "cleared_ts": "2026-10-11 18:12:12",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "df427ae2d58ee639"
+  },
+  "scripts/trial_labor_w18.py|screen,6,8": {
+   "cleared_ts": "2026-10-11 18:18:14",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "df427ae2d58ee639"
+  },
+  "scripts/trial_labor_w18.py|screen,7,8": {
+   "cleared_ts": "2026-10-11 18:26:16",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "df427ae2d58ee639"
+  },
+  "scripts/alphagen_rl_p1.py|probe,--episodes,256": {
+   "crashes": 1,
+   "old_code_sha256": "7ff16c44cc73ca3a",
+   "cleared_by": "bm-b",
+   "cleared_ts": "2026-10-11T19:25:52+08:00",
+   "reason": "r893 bm-b manual tombstone: 19:12:06 crash = post-completion 25-min confirm artifact (probe burn COMPLETED 19:06:39: ckpt/probe_receipt.json face=probe episodes=256 updates=8 pool_members=8 workers=8 elapsed_sec=1237.9 + train/pretrain receipts; r860 gap = trial-labor runner writes no pool_claims handshake; confirmer killed lingering pid-25280 tree after ok-summary). Claim file + harvest flip landed this window (r860 three-piece). Runner code unchanged (frozen wave, commit 8f49d6eea)."
+  },
+  "scripts/alphagen_rl_p1.py|train,--episodes,4096": {
+   "cleared_ts": "2026-10-14 04:26:04",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "7ff16c44cc73ca3a"
   }
  },
  "lane_machine": "bm-c"
