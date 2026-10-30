@@ -1,0 +1,1388 @@
+{
+ "study": "E284_disagreement_field_scope",
+ "title": "is any other published summary field keyed at the wrong scope -- a group label where the finding is cell-scoped, or a cell where the finding is group-scoped?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T07:15:18",
+ "no_bill": "measurement only: E279's published census and the family's published summary fields are re-read. No draw stream is drawn, no band rebuilt, no engine runs. A verdict here is a statement about the published numbers, not about the market.",
+ "source_faces": [
+  "BANDSUBSTITUTE-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "D1_label_universe": "a group label is a `row`/`leg` value published in a row-bearing BAND face; derived on this run, never hard-coded",
+  "D2_cell_key": "row|cell|index (the spelling E279 already publishes for its swap rows), with leg|base|index carried alongside for readers keyed on E282; group labels and cell keys are disjoint by construction and the disjointness is asserted",
+  "D3_name_promise": "group/leg/arm/family => group scope; row without group => row scope; otherwise un-named (reported, not judged)",
+  "D4_upper_bound": "group scope bounds cell scope only when no group holds a second matching cell; per-group cell lists are published",
+  "D5_no_reburn": "published faces re-read only; no draw stream, no band rebuild, no engine",
+  "verdict_vocab": [
+   "no_summary_field_publishes_group_labels_under_a_row_name",
+   "the_slip_is_unique_to_one_field",
+   "multiple_faces_carry_the_same_slip",
+   "the_field_cannot_be_repaired_from_its_own_census"
+  ]
+ },
+ "repair": {
+  "known_slip": {
+   "old_field": "rows_where_tails_disagree_on_reachability",
+   "old_value": [
+    "cross",
+    "star_lag1_residual"
+   ],
+   "old_lists_group_labels": true,
+   "group_scope_count": 2,
+   "cell_scope_count": 2,
+   "cells": [
+    "cross|era_2025_now|9",
+    "star_lag1_residual|era_2023_2024|13"
+   ],
+   "cells_leg_base_index": [
+    "cross|60|9",
+    "cross|60|13"
+   ],
+   "cells_per_group": {
+    "cross": [
+     "cross|era_2025_now|9"
+    ],
+    "star_lag1_residual": [
+     "star_lag1_residual|era_2023_2024|13"
+    ]
+   },
+   "max_cells_in_one_group": 1,
+   "groups_match": true,
+   "group_scope_is_upper_bound": true,
+   "group_scope_is_lower_bound": false,
+   "repairable": true,
+   "published_swap_rows": [
+    "cross|era_2025_now|9",
+    "star_lag1_residual|era_2023_2024|13"
+   ],
+   "matches_published_swap_rows": true
+  },
+  "repaired_keys": {
+   "cells_where_tails_disagree_on_reachability": [
+    "cross|era_2025_now|9",
+    "star_lag1_residual|era_2023_2024|13"
+   ],
+   "groups_containing_a_disagreeing_cell": [
+    "cross",
+    "star_lag1_residual"
+   ]
+  },
+  "note": "the old field stays readable as a group-scope upper bound; readers that need the cells use cells_where_tails_disagree_on_reachability"
+ },
+ "sweep": {
+  "label_universe": {
+   "labels": [
+    "cross",
+    "self",
+    "star_lag1_residual"
+   ],
+   "faces": [
+    {
+     "face": "BANDFLIPBUDGET-2026-10-29.json",
+     "rows": 12,
+     "labels": [
+      "cross",
+      "self",
+      "star_lag1_residual"
+     ]
+    }
+   ]
+  },
+  "faces_scanned": 30,
+  "faces_with_label_fields": [
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "fields_walked": 548,
+    "by_class": {
+     "group_scope_named_correctly": 1
+    },
+    "classified": [
+     {
+      "class": "group_scope_named_correctly",
+      "value_kind": "group_labels",
+      "n_items": 2,
+      "name_promises_group": true,
+      "name_promises_rows": false,
+      "face": "BANDARRIVAL-2026-10-29.json",
+      "path": "summary.legs",
+      "key": "legs",
+      "value": [
+       "self",
+       "cross"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDARRIVALATE-2026-10-29.json",
+    "fields_walked": 430,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDBUCKET-2026-10-29.json",
+    "fields_walked": 1184,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDDEFLATE-2026-10-29.json",
+    "fields_walked": 257,
+    "by_class": {
+     "cell_scope": 4
+    },
+    "classified": [
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 19,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDEFLATE-2026-10-29.json",
+      "path": "discrimination_at_band.newly_reachable_at_band",
+      "key": "newly_reachable_at_band",
+      "value": [
+       "cross|200|12@wide",
+       "cross|200|1@tight",
+       "cross|200|1@wide",
+       "cross|60|11@tight",
+       "cross|60|11@wide",
+       "cross|60|13@tight",
+       "cross|60|14@tight",
+       "cross|60|14@wide",
+       "cross|60|15@tight",
+       "cross|60|15@wide",
+       "cross|60|7@tight",
+       "cross|60|7@wide",
+       "cross|60|9@tight",
+       "self|200|0@tight",
+       "self|200|0@wide",
+       "self|60|10@tight",
+       "self|60|6@tight",
+       "self|60|6@wide",
+       "self|60|8@tight"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDDEFLATE-2026-10-29.json",
+      "path": "identity_check.stranded_rows_mine",
+      "key": "stranded_rows_mine",
+      "value": [
+       "cross|200|1",
+       "cross|200|12"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDDEFLATE-2026-10-29.json",
+      "path": "identity_check.stranded_rows_per_e279",
+      "key": "stranded_rows_per_e279",
+      "value": [
+       "cross|200|1",
+       "cross|200|12"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 1,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDDEFLATE-2026-10-29.json",
+      "path": "tolerance_band.binding_rows",
+      "key": "binding_rows",
+      "value": [
+       "cross|200|1@tight"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDDISAGREE-2026-10-29.json",
+    "fields_walked": 691,
+    "by_class": {
+     "cell_scope": 6
+    },
+    "classified": [
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "hypothesis_test.interior_cells",
+      "key": "interior_cells",
+      "value": [
+       "cross|60|9",
+       "cross|60|13"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "hypothesis_test.refuted_by",
+      "key": "refuted_by",
+      "value": [
+       "cross|60|9",
+       "cross|60|13"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "identity_check.disagreement_cells_here",
+      "key": "disagreement_cells_here",
+      "value": [
+       "cross|60|13",
+       "cross|60|9"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "identity_check.disagreement_cells_per_e279",
+      "key": "disagreement_cells_per_e279",
+      "value": [
+       "cross|60|13",
+       "cross|60|9"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "summary.disagreement_cells",
+      "key": "disagreement_cells",
+      "value": [
+       "cross|60|9",
+       "cross|60|13"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDDISAGREE-2026-10-29.json",
+      "path": "summary.interior_cells",
+      "key": "interior_cells",
+      "value": [
+       "cross|60|9",
+       "cross|60|13"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDDONORCHOICE-2026-10-29.json",
+    "fields_walked": 373,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDDRAW-2026-10-29-d1920.json",
+    "fields_walked": 1378,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDDRAW-2026-10-29-d960.json",
+    "fields_walked": 1196,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDDRAW-2026-10-29.json",
+    "fields_walked": 1070,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDEXP-2026-10-29.json",
+    "fields_walked": 391,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDFIELDS-2026-10-29.json",
+    "fields_walked": 2375,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDFLIPBUDGET-2026-10-29.json",
+    "fields_walked": 735,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "fields_walked": 255,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDMARGIN-2026-10-29.json",
+    "fields_walked": 2880,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDNEAR1-2026-10-29.json",
+    "fields_walked": 751,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDPATH-2026-10-29.json",
+    "fields_walked": 14096,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDPATH-2026-10-30.json",
+    "fields_walked": 14096,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDPOOLED-2026-10-29.json",
+    "fields_walked": 1435,
+    "by_class": {
+     "cell_scope": 1
+    },
+    "classified": [
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 4,
+      "cell_vs_name": "unnamed",
+      "merged_name": false,
+      "face": "BANDPOOLED-2026-10-29.json",
+      "path": "summary.exact_cells",
+      "key": "exact_cells",
+      "value": [
+       "bracket_side|group_flat_tight",
+       "bracket_side|row_own",
+       "guarded_side|group_flat_tight",
+       "guarded_side|row_own"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDSCREEN-2026-10-29.json",
+    "fields_walked": 1412,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDSCREENBUDGET-2026-10-29.json",
+    "fields_walked": 199,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDSPREADFLOOR-2026-10-29.json",
+    "fields_walked": 271,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+    "fields_walked": 457,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDSUBSTITUTE-2026-10-29.json",
+    "fields_walked": 746,
+    "by_class": {
+     "group_labels_under_row_name": 1,
+     "cell_scope": 2
+    },
+    "classified": [
+     {
+      "class": "group_labels_under_row_name",
+      "value_kind": "group_labels",
+      "n_items": 2,
+      "name_promises_group": false,
+      "name_promises_rows": true,
+      "face": "BANDSUBSTITUTE-2026-10-29.json",
+      "path": "summary.rows_where_tails_disagree_on_reachability",
+      "key": "rows_where_tails_disagree_on_reachability",
+      "value": [
+       "cross",
+       "star_lag1_residual"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDSUBSTITUTE-2026-10-29.json",
+      "path": "summary.swap_deflation_rows",
+      "key": "swap_deflation_rows",
+      "value": [
+       "cross|era_2025_now|9",
+       "star_lag1_residual|era_2023_2024|13"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDSUBSTITUTE-2026-10-29.json",
+      "path": "summary.swap_inflation_rows",
+      "key": "swap_inflation_rows",
+      "value": [
+       "cross|era_2025_now|9",
+       "star_lag1_residual|era_2023_2024|13"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+    "fields_walked": 879,
+    "by_class": {
+     "cell_scope": 3,
+     "group_labels_unnamed_scope": 1
+    },
+    "classified": [
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+      "path": "identity_check.disagree_rows_here",
+      "key": "disagree_rows_here",
+      "value": [
+       "cross|era_2025_now|9",
+       "star_lag1_residual|era_2023_2024|13"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+      "path": "identity_check.disagree_rows_per_e279_census",
+      "key": "disagree_rows_per_e279_census",
+      "value": [
+       "cross|era_2025_now|9",
+       "star_lag1_residual|era_2023_2024|13"
+      ]
+     },
+     {
+      "class": "group_labels_unnamed_scope",
+      "value_kind": "group_labels",
+      "n_items": 2,
+      "name_promises_group": false,
+      "name_promises_rows": false,
+      "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+      "path": "identity_check.e279_summary_field",
+      "key": "e279_summary_field",
+      "value": [
+       "cross",
+       "star_lag1_residual"
+      ]
+     },
+     {
+      "class": "cell_scope",
+      "value_kind": "cell_keys",
+      "n_items": 2,
+      "cell_vs_name": "name_promises_rows",
+      "merged_name": false,
+      "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+      "path": "summary.rows_where_the_two_tails_disagree",
+      "key": "rows_where_the_two_tails_disagree",
+      "value": [
+       "cross|era_2025_now|9",
+       "star_lag1_residual|era_2023_2024|13"
+      ]
+     }
+    ]
+   },
+   {
+    "face": "BANDTHRESHGUARD-2026-10-29.json",
+    "fields_walked": 292,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDTIGHT-2026-10-29.json",
+    "fields_walked": 997,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDTOPFLIP-2026-10-29.json",
+    "fields_walked": 539,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDTRANSFER-2026-10-29.json",
+    "fields_walked": 1046,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDWINDIST-2026-10-29.json",
+    "fields_walked": 1105,
+    "by_class": {},
+    "classified": []
+   },
+   {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "fields_walked": 863,
+    "by_class": {},
+    "classified": []
+   }
+  ],
+  "flagged_fields": [
+   {
+    "class": "group_labels_under_row_name",
+    "value_kind": "group_labels",
+    "n_items": 2,
+    "name_promises_group": false,
+    "name_promises_rows": true,
+    "face": "BANDSUBSTITUTE-2026-10-29.json",
+    "path": "summary.rows_where_tails_disagree_on_reachability",
+    "key": "rows_where_tails_disagree_on_reachability",
+    "value": [
+     "cross",
+     "star_lag1_residual"
+    ]
+   }
+  ],
+  "n_flagged": 1,
+  "count_fields_not_assessed": {
+   "n_total": 1338,
+   "n_distinct_keys": 149,
+   "by_key": [
+    {
+     "key": "n_rows",
+     "occurrences": 116,
+     "n_faces": 4
+    },
+    {
+     "key": "n_records",
+     "occurrences": 115,
+     "n_faces": 1
+    },
+    {
+     "key": "n_moved",
+     "occurrences": 112,
+     "n_faces": 3
+    },
+    {
+     "key": "n_seeds",
+     "occurrences": 96,
+     "n_faces": 4
+    },
+    {
+     "key": "n_complete",
+     "occurrences": 90,
+     "n_faces": 1
+    },
+    {
+     "key": "n_indexed",
+     "occurrences": 86,
+     "n_faces": 1
+    },
+    {
+     "key": "n_partial",
+     "occurrences": 86,
+     "n_faces": 1
+    },
+    {
+     "key": "n_requested",
+     "occurrences": 56,
+     "n_faces": 4
+    },
+    {
+     "key": "n_cells",
+     "occurrences": 49,
+     "n_faces": 3
+    },
+    {
+     "key": "n_pairs",
+     "occurrences": 48,
+     "n_faces": 1
+    },
+    {
+     "key": "n_at_base",
+     "occurrences": 28,
+     "n_faces": 1
+    },
+    {
+     "key": "cells_compared",
+     "occurrences": 26,
+     "n_faces": 1
+    },
+    {
+     "key": "rows",
+     "occurrences": 20,
+     "n_faces": 13
+    },
+    {
+     "key": "n_records_guard_runnable",
+     "occurrences": 18,
+     "n_faces": 1
+    },
+    {
+     "key": "n_records_with_verdict_but_no_inputs",
+     "occurrences": 18,
+     "n_faces": 1
+    },
+    {
+     "key": "n_attained",
+     "occurrences": 16,
+     "n_faces": 1
+    },
+    {
+     "key": "n_endpoint_already_attained",
+     "occurrences": 16,
+     "n_faces": 1
+    },
+    {
+     "key": "n_foreign_rows",
+     "occurrences": 16,
+     "n_faces": 1
+    },
+    {
+     "key": "n_kept",
+     "occurrences": 16,
+     "n_faces": 1
+    },
+    {
+     "key": "n_near_one_seeds",
+     "occurrences": 13,
+     "n_faces": 1
+    },
+    {
+     "key": "n_seeds_read",
+     "occurrences": 13,
+     "n_faces": 1
+    },
+    {
+     "key": "n_seeds_without_near_one",
+     "occurrences": 13,
+     "n_faces": 1
+    },
+    {
+     "key": "pairs_with_rows",
+     "occurrences": 13,
+     "n_faces": 3
+    },
+    {
+     "key": "differs_from_row_own",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_endpoint_already_attained_at_60",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_judged",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_moved_at_flat",
+     "occurrences": 8,
+     "n_faces": 2
+    },
+    {
+     "key": "n_nonmonotone",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_only_at_top",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_published",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_uncensored",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "n_unjudgeable",
+     "occurrences": 8,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_measured",
+     "occurrences": 6,
+     "n_faces": 6
+    },
+    {
+     "key": "n_min",
+     "occurrences": 5,
+     "n_faces": 5
+    },
+    {
+     "key": "n_p05",
+     "occurrences": 5,
+     "n_faces": 1
+    },
+    {
+     "key": "n_range_lo",
+     "occurrences": 5,
+     "n_faces": 1
+    },
+    {
+     "key": "n_could_move",
+     "occurrences": 4,
+     "n_faces": 1
+    },
+    {
+     "key": "n_distinct_moved_sets",
+     "occurrences": 4,
+     "n_faces": 1
+    },
+    {
+     "key": "n_foreign_pairs",
+     "occurrences": 4,
+     "n_faces": 1
+    },
+    {
+     "key": "n_groups",
+     "occurrences": 4,
+     "n_faces": 2
+    },
+    {
+     "key": "n_moved_at_flat_tight",
+     "occurrences": 4,
+     "n_faces": 1
+    },
+    {
+     "key": "n_moved_at_loose",
+     "occurrences": 4,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_censused",
+     "occurrences": 4,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_unjudgeable",
+     "occurrences": 4,
+     "n_faces": 4
+    },
+    {
+     "key": "n_published_moved",
+     "occurrences": 3,
+     "n_faces": 1
+    },
+    {
+     "key": "all_cells_at_the_floor",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "cells",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "cells_per_path",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "conflicting_cell_values",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "disagreeing_cells",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "min_paths_per_cell",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "n_deflatable",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "n_degenerate_readings",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "n_excluded",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "n_outside",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "n_qualifying",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_flip_needs_narrowing",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_guarded_screen_ambiguous",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_judged",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_judged_on_a_leg_other_than_the_one_they_name",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_leg_ambiguous",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_newly_outside_at_the_tight_end",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_own_verdict_ambiguous",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_published",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_survive_outside",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "rows_verdict_changes_under_trimming",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_whose_verdict_changes_on_their_own_leg",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_with_two_different_thresholds",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "single_cell_group",
+     "occurrences": 2,
+     "n_faces": 1
+    },
+    {
+     "key": "tight_rows_measured",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "total_cells_tested",
+     "occurrences": 2,
+     "n_faces": 2
+    },
+    {
+     "key": "arm_rows",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "cell_sessions",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "degenerate_rows",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "donor_ends_moving_a_row",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "donor_row_pairs",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "guard_complete_on_measured_rows_only",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "judged_rows",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_arms",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_candidate_readings",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_differs",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_groups_measurable_both_tails",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_mismatched",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_moved_and_closest",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_moved_observations",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_narrower_than_three_seeds",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_not_published_by_e258",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_open",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_spent",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_spent_by_build",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_straddles",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_stranded_readings",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_tied_at_the_top",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_untested",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_wider_than_three_seeds",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_zero_tight",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "n_zero_wide",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "narrowing_escapes",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "row name",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "row_tail_readings_in_zero_groups",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_at_the_floor",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_censused_per_e272",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_closer_tie",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_closer_unmeasured",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_could_move_within_observed_p05_range",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_below_published_multiplier_floor",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_every_measurement",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_every_seed",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_for_some_measurement",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_needs_widening",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_on_the_boundary",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_flip_some_seed",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_in_budget_summary",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_insensitive_to_observed_p05_range",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_interval_dependent",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_leg_unresolved",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_measured_per_e272",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_moved_by_a_borrowed_end",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_moved_by_any_donor",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_near_one_dependent",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_no_arm",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_on_another_leg_that_carry_a_band",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_outside_at_published",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_pre_settlement",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_reachable_either",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_reachable_tight",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_reachable_wide",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_read",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_scored",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_settled_at_base",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_stranded",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_survive_outside_at_every_end",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_tight_closer",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_tight_end_at_the_floor",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_unreadable_seed_list",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_where_substitution_fires",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_where_tails_disagree",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_where_the_two_thresholds_differ",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_wide_closer",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_window_not_measured",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_with_a_trimmed_interval",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_with_blocked_substitution",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_with_stranded_tail",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_without_flip",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "rows_without_flip_multiplier",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "tight_moved_row_readings",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "tight_rows_inside",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "tight_rows_outside",
+     "occurrences": 1,
+     "n_faces": 1
+    },
+    {
+     "key": "wide_rows_outside",
+     "occurrences": 1,
+     "n_faces": 1
+    }
+   ]
+  },
+  "n_count_fields_not_assessed": 1338,
+  "unreadable_faces": [],
+  "mirrors_excluded": [
+   "bandarrival_latest.json",
+   "bandarrivalate_latest.json",
+   "bandbucket_latest.json",
+   "banddeflate_latest.json",
+   "banddisagree_latest.json",
+   "banddonorchoice_latest.json",
+   "banddraw-d1920_latest.json",
+   "banddraw-d960_latest.json",
+   "banddraw_latest.json",
+   "bandexp_latest.json",
+   "bandfields_latest.json",
+   "bandflipbudget_latest.json",
+   "bandfloor_latest.json",
+   "bandmargin_latest.json",
+   "bandnear1_latest.json",
+   "bandpath_latest.json",
+   "bandpooled_latest.json",
+   "bandscreen_latest.json",
+   "bandscreenbudget_latest.json",
+   "bandspreadfloor_latest.json",
+   "bandstraddlesweep_latest.json",
+   "bandsubstitute_latest.json",
+   "bandsubstituteaudit_latest.json",
+   "bandthreshguard_latest.json",
+   "bandtight_latest.json",
+   "bandtopflip_latest.json",
+   "bandtransfer_latest.json",
+   "bandwindist_latest.json",
+   "bandwinmult_latest.json"
+  ],
+  "self_faces_excluded": [
+   "BANDDISAGREESCOPE-2026-10-29.json",
+   "banddisagreescope_latest.json"
+  ],
+  "count_not_assessed_reason": "an integer count's scope depends on that face's own census semantics; guessing it here would publish a number this face did not measure (E207)"
+ },
+ "verdict": "the_slip_is_unique_to_one_field",
+ "verdict_reason": "the known slip is 2 group label(s) for 2 cell(s): group_scope_is_upper_bound=True, max cells in one group=1. flagged: BANDSUBSTITUTE-2026-10-29.json :: rows_where_tails_disagree_on_reachability -> ['cross', 'star_lag1_residual'].",
+ "no_summary_field_is_silently_wrong": false
+}

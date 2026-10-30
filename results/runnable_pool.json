@@ -25154,14 +25154,17 @@
    "seeded_at": "2026-10-31T06:25+08:00",
    "seeded_by": "bm-b r1306",
    "source": "E281 re-derived E279's census cell by cell and found its summary field rows_where_tails_disagree_on_reachability is keyed on the group label while the disagreement is cell-scoped: cross and star_lag1_residual each have 4 cells and exactly 1 disagreeing cell, so the field names a whole group for one cell (group-scope over-claim, the same-name-different-quantity family of E240/E253). Repair = publish the cell-scoped keys (row|cell|index) alongside the group names and keep the old field readable as a group-scope upper bound; no BAND face needs a reburn because the census already carries the cells, only the summary projection changes. The card must also sweep every other summary field in the family for the same scope slip and publish which are ambiguous.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e284_disagreement_field_scope.py (new runner)",
    "title": "is any other published summary field keyed at the wrong scope -- a group label where the finding is cell-scoped, or a cell where the finding is group-scoped?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
-   }
+   },
+   "result_ref": "results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json",
+   "done_at": "2026-10-31T08:15+08:00",
+   "done_by": "bm-b r1309"
   },
   {
    "deliverable": "results/state_tilt/BANDGAPCEILING-<cutoff>.json",
@@ -25184,6 +25187,28 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "deliverable": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E286-COUNT-FIELD-SCOPE",
+   "status": "ready",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e286_count_field_scope.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T08:15+08:00",
+   "seeded_by": "bm-b r1309",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "target": "scripts/e286_count_field_scope.py (new runner)",
+   "source": "E284 swept all 30 dated BAND faces for name/value scope slips and classified every label list, but 1338 integer fields (n_rows 116, n_records 115, n_moved 112, n_seeds 96, n_at_base 28, cells_compared 26 ...) could not be judged because their scope depends on each face's own census semantics. Those fields are the same defect class one level down: a count whose name says rows may be counting cells, arms, or draws. The next unit should pick the count keys that carry an explicit unit on their own face (rows/cells/arms/draws/seeds) and re-derive each from the face's published records, publishing per key: measured unit, name-claimed unit, agrees, and the faces where the count cannot be re-derived. No reburn: published records only.",
+   "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25198,6 +25223,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T06:32+08:00",
+ "updated_at": "2026-10-31T08:15+08:00",
  "version": 1
 }

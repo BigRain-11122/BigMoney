@@ -447,6 +447,15 @@ LEGS = [
     ("degenerate_range_reachable",
      ["python", "scripts/e283_degenerate_range_reachable.py", "verify"]),
 
+    # E284: E281 found one summary field whose NAME says rows while its VALUE is a list of group
+    # labels (cross and star_lag1_residual each hold 4 cells, one of which disagrees). This leg
+    # re-derives the disagreeing CELLS out of E279's own per-tail booleans (landing exactly on the
+    # face's published swap rows, identity True) and sweeps the whole family for the same shape:
+    # 30 dated faces, 1 flagged field -- the slip is unique -- while 1338 integer count fields are
+    # reported as NOT assessed rather than guessed at. Published faces only. <1s.
+    ("disagreement_field_scope",
+     ["python", "scripts/e284_disagreement_field_scope.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

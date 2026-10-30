@@ -6947,6 +6947,93 @@ def main() -> int:
     except Exception as e:
         check(_name83, False, repr(e)[:160])
 
+    # E284: E281 caught one summary field that names ROWS while publishing GROUP labels (cross
+    # and star_lag1_residual each carry 4 cells, exactly one of which disagrees). A label that
+    # names a whole group for a one-cell finding tells the reader four cells were measured when
+    # one was. This leg requires (a) the disagreement is republished at CELL scope, re-derived
+    # from E279's own per-tail booleans and landing exactly on the cells that face already
+    # publishes as its swap rows, (b) the old group field is kept but its bound direction is
+    # published rather than assumed, (c) the family-wide sweep reports how many fields it
+    # classified and does NOT claim the integer count fields it could not judge, and (d) the
+    # flagged set re-derives on a fresh build.
+    _name84 = ("product: a field that names rows while publishing group labels must be repaired "
+               "at cell scope -- and the sweep must not call unjudged counts clean")
+    _bad84 = []
+    try:
+        _p84 = os.path.join("results", "state_tilt", "banddisagreescope_latest.json")
+        _f84 = None
+        if not os.path.exists(_p84):
+            _bad84.append("face missing: %s" % _p84)
+        else:
+            with io.open(_p84, encoding="utf-8") as _fh84:
+                _f84 = json.load(_fh84)
+        if _f84 is not None:
+            if _f84.get("evidence_cutoff") is None:
+                _bad84.append("no evidence_cutoff on the face")
+            if _f84.get("verdict") not in (
+                    "no_summary_field_publishes_group_labels_under_a_row_name",
+                    "the_slip_is_unique_to_one_field",
+                    "multiple_faces_carry_the_same_slip",
+                    "the_field_cannot_be_repaired_from_its_own_census"):
+                _bad84.append("verdict %r is outside the frozen set" % (_f84.get("verdict"),))
+            _rp84 = (_f84.get("repair") or {}).get("known_slip") or {}
+            if not _rp84.get("repairable"):
+                _bad84.append("the known slip was not repaired")
+            _cells84 = _rp84.get("cells") or []
+            if not _cells84:
+                _bad84.append("no cell-scoped key was published")
+            if any(c.count("|") != 2 for c in _cells84):
+                _bad84.append("a published cell key is not row|cell|index")
+            if _rp84.get("group_scope_count") and len(_cells84) and \
+                    _rp84.get("group_scope_is_upper_bound") is not True:
+                _bad84.append("the group field is kept but its bound direction is not published")
+            if _rp84.get("matches_published_swap_rows") is not True:
+                _bad84.append("the repaired cells do not land on the face's own swap rows")
+            if not _rp84.get("groups_match"):
+                _bad84.append("the group labels do not match the re-derived groups")
+            _rk84 = (_f84.get("repair") or {}).get("repaired_keys") or {}
+            if sorted(_rk84.get("cells_where_tails_disagree_on_reachability") or []) != sorted(_cells84):
+                _bad84.append("the cell keys are published once but not re-derived in the repair block")
+            _sw84 = _f84.get("sweep") or {}
+            _fl84 = _sw84.get("flagged_fields") or []
+            if _sw84.get("n_flagged") != len(_fl84):
+                _bad84.append("n_flagged disagrees with the flagged list")
+            if any(f.get("class") != "group_labels_under_row_name" for f in _fl84):
+                _bad84.append("a flagged field is not of the slip class")
+            _sk84 = _sw84.get("count_fields_not_assessed") or {}
+            if not _sk84.get("n_total"):
+                _bad84.append("no unassessed count field is disclosed")
+            if _sk84.get("n_total") != sum(k.get("occurrences") or 0
+                                           for k in (_sk84.get("by_key") or [])):
+                _bad84.append("the unassessed count keys do not add up to their own total")
+            if not _sw84.get("faces_scanned"):
+                _bad84.append("no face was scanned")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m84 = __import__("importlib").import_module("e284_disagreement_field_scope")
+            _fresh84 = _m84.build()
+            if _fresh84.get("verdict") != _f84.get("verdict"):
+                _bad84.append("the verdict does not re-derive")
+            if (_fresh84.get("repair") or {}).get("known_slip", {}).get("cells") != _cells84:
+                _bad84.append("the cell keys do not re-derive")
+            if sorted(f.get("path") for f in (_fresh84.get("sweep") or {}).get("flagged_fields") or []) \
+                    != sorted(f.get("path") for f in _fl84):
+                _bad84.append("the flagged set does not re-derive")
+        check(_name84, not _bad84,
+              "; ".join(_bad84)[:220]
+              or "verdict %r | %d group label(s) repaired to %s, upper_bound=%s, swap-row identity=%s; "
+                 "%d face(s) scanned, %d flagged, %d count field(s) left unassessed over %d key(s)"
+                 % ((_f84 or {}).get("verdict"),
+                    _rp84.get("group_scope_count") or 0,
+                    ",".join(_cells84),
+                    _rp84.get("group_scope_is_upper_bound"),
+                    _rp84.get("matches_published_swap_rows"),
+                    (_sw84.get("faces_scanned") or 0),
+                    (_sw84.get("n_flagged") or 0),
+                    (_sk84.get("n_total") or 0),
+                    (_sk84.get("n_distinct_keys") or 0)))
+    except Exception as e:
+        check(_name84, False, repr(e)[:160])
+
     return _finish()
 
 

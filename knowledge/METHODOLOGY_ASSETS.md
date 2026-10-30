@@ -5642,3 +5642,19 @@ Evidence: `scripts/e283_degenerate_range_reachable.py` (selftest 16/16, run/veri
 digest `research/digests/DIGEST-20261031-r1308-e283-degenerate-range.md`. Pool item
 `E283-DEGENERATE-RANGE-REACHABLE` (card ids drift from pool ids: pool E283 -> card E286).
 Next card `E285-INTERRANGE-GAP-CEILING` (pool).
+### E287 - a field that names one unit while publishing another (scope slip)
+A summary field is all most readers see, so a field whose NAME promises rows while its VALUE is a
+list of group labels over-claims coverage by the cells per group (4x in the case measured) and prints
+identically to the correct reading. Repair = publish cell-scoped keys alongside, re-derived from the
+face's own census (never re-typed from the summary), keep the old field as a group-scope bound, and
+MEASURE the bound direction: group scope bounds cell scope from above only when no group holds a
+second matching cell. Sweep the family mechanically by name vocabulary (group/leg/arm/family vs row)
+-- 30 faces, 1 hit -- and disclose the integer count fields the sweep could not judge (1338) instead
+of calling them clean. The identity partner is what makes the repair believable: the derived cells
+must land exactly on the keys the face already published elsewhere (here its swap rows).
+Evidence: `scripts/e284_disagreement_field_scope.py` (selftest 23/23, run/verify green),
+`results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json`, S6 leg `disagreement_field_scope`
+(verify, 0.3s), smoke leg `product: a field that names rows while publishing group labels must be
+repaired at cell scope`, digest `research/digests/DIGEST-20261031-r1309-e287-field-scope.md`.
+Pool item `E284-DISAGREEMENT-FIELD-SCOPE` (pool E284 -> card E287). Next card
+`E286-COUNT-FIELD-SCOPE` (pool, seeded this round: 1338 integer count fields unassessed).
