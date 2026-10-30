@@ -5468,3 +5468,34 @@ Evidence: `scripts/e280_e251_rng_drift_repin.py` (selftest 9/9),
 `product: the star's own row is priced against ...` (vintage-aware) and
 `product: a claimed RNG drift is decided by measurement, and the stream is pinned`, digest
 `research/digests/DIGEST-20261031-r1304-e280-rng-drift-repin.md`.
+
+## E281 -- an agreement the other side could not have avoided is not evidence: when one tail is degenerate, "they agree" measures nothing
+
+E278's policy said: when a tail's spread is 0, "read the other tail". E279 tested it on the 12
+measurable rows of E272's two-tail budget and found **2 substitution events, 0 contradictions, 2
+inflations** -- and every one of the 2 agreements is **vacuous**. The stranded tail publishes a
+degenerate multiplier range (`min == max == 1.0`), so it is mechanically unable to reach any flip;
+its "unreachable" is a property of the build, not a reading. The substitute therefore had nothing to
+contradict, and the rows that needed the policy carry **no evidence** that the policy is sound.
+
+The general rule: **when one side of a comparison is degenerate, agreement on those units cannot
+support a soundness claim.** Split the counts into *informatively agreeing* and *vacuously agreeing*
+and publish both; a policy that was never exercised reads exactly like a policy that passed. This is
+the same shape as r1261's equivalence leg, which passed because neither arm had traded.
+
+Second half of the card: substitution here is **monotone**, and monotonicity is measurable. The swap
+view names the same 2 rows in both directions (tight->wide adds the claim on 2 of 12; wide->tight
+removes it on the same 2), and `wide_dominates_tight_violations = []`. So a substituted reading is an
+**upper bound**: it can prove a row *can* move and can never prove it *cannot*. Publish the row set,
+not just the two counts -- "inflates 2 / deflates 2" without the set identity invites the false
+reading of two independent events.
+
+Scope: with n=2 agree and n=2 disagree, the bracket is `(0.0, 2.0327]` with `calibrated = false`, and
+the disagreement is exactly where the substitute's normalised gap is 0.0 (it sits on the flip).
+Published as an interval so nobody reads "X = 1.0" as validated.
+
+Evidence: `scripts/e279_substitution_soundness.py` (selftest 26/26),
+`results/state_tilt/BANDSUBSTITUTE-2026-10-29.json` (2 events, 0 deflations, 2 vacuous; 24/24
+identity to E272; stranded set == E278's `["cross:200"]`), S6 leg `substitution_soundness`, smoke leg
+`product: reading the other tail never contradicts ...`, digest
+`research/digests/DIGEST-20261031-r1305-e279-substitution.md`.

@@ -6622,6 +6622,84 @@ def main() -> int:
     except Exception as e:
         check(_name78, False, repr(e)[:160])
 
+    # E279: E278's "read the other tail" policy tested for the first time. The leg requires the
+    # substitution to be reported as vacuous where it is vacuous (the stranded tail publishes a
+    # degenerate multiplier range, so it could not have disagreed), requires zero deflations, and
+    # requires the swap view to name the same rows in both directions -- a reversal, not two events.
+    _name79 = ("product: reading the other tail never contradicts, but where it fires the agreement "
+               "is vacuous -- substitution is an upper bound, not a reading")
+    _bad79 = []
+    try:
+        _p79 = os.path.join("results", "state_tilt", "bandsubstitute_latest.json")
+        _f79 = None
+        if not os.path.exists(_p79):
+            _bad79.append("face missing: %s" % _p79)
+        else:
+            with io.open(_p79, encoding="utf-8") as _fh79:
+                _f79 = json.load(_fh79)
+        if _f79 is not None:
+            _s79 = _f79.get("summary") or {}
+            _ev79 = [e for _r in (_f79.get("census") or [])
+                     for e in (_r.get("substitutions") or [])]
+            if _f79.get("evidence_cutoff") is None:
+                _bad79.append("no evidence_cutoff on the face")
+            if _s79.get("verdict") not in (
+                    "the_substitute_agrees_only_where_agreement_is_vacuous",
+                    "the_substitute_contradicts_on_a_row_that_needs_it",
+                    "the_substitute_moves_the_claim_where_the_pair_disagrees",
+                    "the_substitute_agrees_where_it_fires",
+                    "no_stranded_tails_published"):
+                _bad79.append("verdict %r is outside the frozen set" % (_s79.get("verdict"),))
+            if not _ev79:
+                _bad79.append("no substitution event -- the face would be about nothing")
+            for _e79 in _ev79:
+                if not _e79.get("stranded_range_degenerate"):
+                    _bad79.append("an event substitutes for a tail whose range is not degenerate")
+                if _e79.get("deflating"):
+                    _bad79.append("a substitution deflates a reaching conclusion")
+                if _e79.get("verdict_agrees") and not _e79.get("vacuous"):
+                    # non-vacuous agreement would be real evidence; publish it only with a reason
+                    _bad79.append("a non-vacuous agreement is published as a soundness proof")
+            _idc79 = _f79.get("identity_check") or {}
+            if _idc79.get("mismatched"):
+                _bad79.append("our reachability disagrees with E272's published boolean")
+            if not _idc79.get("checked"):
+                _bad79.append("the identity check never ran against E272")
+            if _idc79.get("stranding_agrees_with_e278") is not True:
+                _bad79.append("our stranded set disagrees with E278's flagged groups")
+            if (_s79.get("wide_dominates_tight_violations") or []) != []:
+                _bad79.append("the wide tail does not weakly dominate the tight tail")
+            _b79 = _f79.get("scope_bracket") or {}
+            if _b79.get("calibrated") is not False:
+                _bad79.append("the scope bracket claims calibration off n=2")
+            if _s79.get("swap_rows_match") is not True:
+                _bad79.append("the two swap directions do not name the same rows")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m79 = __import__("importlib").import_module("e279_substitution_soundness")
+            _fresh79 = _m79.build()
+            if _fresh79.get("summary") != _s79:
+                _bad79.append("summary does not re-derive from the published faces")
+            if _fresh79.get("census") != (_f79.get("census") or []):
+                _bad79.append("the census does not re-derive")
+        check(_name79, not _bad79,
+              "; ".join(_bad79)[:220]
+              or "verdict %r | %d/%d rows measured, %d with a stranded tail, %d event(s) "
+                 "(deflations %d, vacuous %d); tails disagree on %d row(s); swap names the same "
+                 "%d row(s) both ways; scope bracket [%s, %s] calibrated=%r"
+                 % ((_f79 or {}).get("verdict"),
+                    (_s79.get("rows_measured") or 0), (_s79.get("rows_published") or 0),
+                    (_s79.get("rows_with_stranded_tail") or 0),
+                    (_s79.get("substitution_events") or 0),
+                    (_s79.get("events_with_deflation") or 0),
+                    (_s79.get("events_vacuous_agreement") or 0),
+                    len(_s79.get("rows_where_tails_disagree_on_reachability") or []),
+                    len(_s79.get("swap_inflation_rows") or []),
+                    _s79.get("scope_bracket", {}).get("must_exceed_observed"),
+                    _s79.get("scope_bracket", {}).get("may_go_as_high_as"),
+                    _s79.get("scope_bracket", {}).get("calibrated")))
+    except Exception as e:
+        check(_name79, False, repr(e)[:160])
+
     return _finish()
 
 

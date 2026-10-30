@@ -408,6 +408,16 @@ LEGS = [
     ("spread_floor",
      ["python", "scripts/e278_spread_floor.py", "verify"]),
 
+    # E279: E278 left a policy nobody had tested -- when a tail's spread is 0, "read the other
+    # tail". Both substitution events agree, and both agree vacuously: a stranded tail publishes a
+    # degenerate multiplier range (min == max), so its "unreachable" is mechanical and the
+    # substitute had nothing to contradict. Where the two tails genuinely differ (2 rows) the tail
+    # you read decides the answer, and the swap view names the same rows in both directions --
+    # substitution is monotone (it can only add a "can move"), never a proof a row cannot. Verify
+    # re-derives reachability from the published ranges and crosses the stranded set against E278. <1s.
+    ("substitution_soundness",
+     ["python", "scripts/e279_substitution_soundness.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
