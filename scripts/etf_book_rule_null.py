@@ -26,6 +26,7 @@ Usage:
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import random
 import sys
@@ -33,7 +34,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from etf_book_phase_atlas_arms import judge, CRITERIA, _cutoff_of  # single source of the rule
+# single source of the rule AND of the staleness rule: r1373 dropped this file's own copy of the
+# cutoff read, which could only drift away from the arms module's (the r1292 unit family again).
+from etf_book_phase_atlas_arms import judge, CRITERIA, _source_advanced
 
 RES = os.path.join(ROOT, "results")
 ARMS_FACE = os.path.join(RES, "etf_book_phase_atlas_arms.json")
@@ -59,6 +62,29 @@ def base_bands(payload):
     """Each cell's own baseline band, taken from the published rows (never recomputed here)."""
     any_arm = next(iter(payload["arms"].values()))
     return {(r["n_hold"], r["rebal"]): r["baseline_band_pp"] for r in any_arm["rows"]}
+
+
+def source_digest(payload):
+    """Identity of the INPUT this face consumes, so the gate can tell 'source regenerated' from
+    'face hand-edited' without asking a clock (r1371/r1372 family).
+
+    Everything below is read off the arms face: the band of every cell, each arm's own delta and
+    band rows, its verdict, and the bar the whole thing is priced on. If these bytes are the same
+    as when this face was written, no source moved -- so a drifting null face is somebody's edit.
+    If they differ, the arms face was regenerated and the honest answer is 'stale, refresh me'
+    (rc=2), not 'inconsistent' (rc=1), which would leave a green chain permanently red.
+    """
+    inputs = {
+        "cutoff": payload.get("baseline", {}).get("evidence_cutoff"),
+        "bands": [[k[0], k[1], v] for k, v in sorted(base_bands(payload).items())],
+        "arms": [[name,
+                  [[r["n_hold"], r["rebal"], round(float(r["delta_pp"]), 9),
+                    round(float(r["band_pp"]), 9)] for r in a["rows"]],
+                  a["verdict"]]
+                 for name, a in sorted(payload["arms"].items())],
+    }
+    blob = json.dumps(inputs, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(blob).hexdigest()
 
 
 def median_sigma(bands):
@@ -142,6 +168,8 @@ def build():
                   "band_pp": "p95-p05 of a cell's median CAGR over its decision origins"},
         "criteria": PARAMS,
         "rules_source": "scripts/etf_book_phase_atlas_arms.py::judge (imported, not copied)",
+        "source": {"face": "results/etf_book_phase_atlas_arms.json",
+                   "inputs_sha256": source_digest(payload)},
         "null": {"trials": n, "label_frequency": labels,
                  "shift_pp": 0.0, "band_source": "results/etf_book_phase_atlas_arms.json rows"},
         "observed": observed,
@@ -183,35 +211,52 @@ def _diff(a, b, path="", out=None, limit=6):
 
 
 def check():
+    """Gate: this face must equal a re-simulation from the arms face.
+
+    Two red states, and the difference is the whole point (r1346): a face whose SOURCE has moved
+    is 'stale' and the chain pays the declared refresh; a face that disagrees with its own source
+    while the source has not moved is 'inconsistent' and stays red, because re-deriving it would
+    launder a hand edit.
+
+    r1373: this gate used to answer that question by looking for a LATER bar on the arms face
+    alone, which cannot see the common case -- a regenerated arms face whose cutoff did not move
+    (the same 2026-10-29 bar re-derived with different cells). That drift was reported as a hand
+    edit (rc=1) and would have sat permanently red in the chain while the truth was 'refresh me'.
+    Now the ONLY question asked is whether the inputs this face consumed still hash the same; the
+    cutoff comparison imports the arms module's own implementation rather than keeping a second
+    copy of it.
+    """
     if not os.path.exists(OUT_JSON):
         print("face is stale: no published null face at %s" % os.path.basename(OUT_JSON))
         return 2
     with open(OUT_JSON, encoding="utf-8") as f:
         pub = json.load(f)
+    if not os.path.exists(ARMS_FACE):
+        print("face is stale: its source face %s is missing, so no re-simulation is possible"
+              % os.path.basename(ARMS_FACE))
+        return 2
     rebuilt = json.loads(json.dumps(build()))
     drift = _diff(pub, rebuilt)
     if not drift:
         print("null face matches a re-simulation (seed %d, %d trials): %s"
               % (PARAMS["seed"], pub["null"]["trials"], pub["verdict"]))
         return 0
-    # r1372: content, not clock. A checkout rewrites mtimes in arbitrary order, so the arms face
-    # can look newer with the same bytes (or older after a restore); the bar it is priced on
-    # cannot be moved that way.
-    adv = []
-    mine = _cutoff_of(pub)
-    if mine and os.path.exists(ARMS_FACE):
-        try:
-            with open(ARMS_FACE, encoding="utf-8") as f:
-                c = _cutoff_of(json.load(f))
-        except (OSError, ValueError):
-            c = None
-        if c and c > mine:
-            adv.append("arms(%s>%s)" % (c, mine))
+    recorded = (pub.get("source") or {}).get("inputs_sha256")
+    now = rebuilt["source"]["inputs_sha256"]
+    if recorded != now:
+        if not recorded:
+            print("face is stale: the published face carries no source-input digest, so it "
+                  "predates this gate; drift=%s" % "; ".join(drift)[:300])
+        else:
+            print("face is stale: the arms face's inputs changed since this one was written "
+                  "(inputs %s -> %s); drift=%s" % (recorded[:12], now[:12], "; ".join(drift)[:300]))
+        return 2
+    adv = _source_advanced(pub, [ARMS_FACE])
     if adv:
         print("face is stale: a source face is priced later than this one (%s); drift=%s"
               % (",".join(adv), "; ".join(drift)[:300]))
         return 2
-    print("face is inconsistent: %d field(s) disagree and no source is priced later: %s"
+    print("face is inconsistent: %d field(s) disagree while the arms face's inputs are unchanged: %s"
           % (len(drift), "; ".join(drift)[:400]))
     return 1
 
@@ -263,8 +308,9 @@ def _selftest():
         chk(freq.get("NOT-SEPARABLE", 0) > PARAMS["materiality_p"],
             "SEPARABILITY_IS_NOT requires NOT-SEPARABLE to be common under the null")
     # L6 the gate: an edited face with no source moved stays red; a missing face is stale
-    global OUT_JSON
+    global OUT_JSON, ARMS_FACE
     keep = OUT_JSON
+    keep_arms = ARMS_FACE
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         tmp = os.path.join(td, "null.json")
@@ -274,14 +320,44 @@ def _selftest():
         os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
         OUT_JSON = tmp
         chk(check() == 0, "a face that equals a re-simulation passes the gate")
+        chk(p2["source"]["inputs_sha256"] == source_digest(arms_face()),
+            "the recorded source-input digest is the one the arms face hashes to today")
         p2["null"]["label_frequency"]["REJECT"] = 0.999
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(p2, f, ensure_ascii=False, indent=1)
         os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
         chk(check() == 1, "an edited face with no source moved stays inconsistent")
+        # r1373: the case the old gate could not see -- the arms face regenerated on the SAME
+        # bar (same cutoff, different cells). That is 'refresh me', not 'somebody edited me'.
+        p3 = json.loads(json.dumps(arms_face()))
+        first = next(iter(p3["arms"].values()))
+        first["rows"][0]["baseline_band_pp"] = round(first["rows"][0]["baseline_band_pp"] + 0.05, 6)
+        arms2 = os.path.join(td, "arms.json")
+        with open(arms2, "w", encoding="utf-8") as f:
+            json.dump(p3, f, ensure_ascii=False, indent=1)
+        ARMS_FACE = arms2
+        old_face = os.path.join(td, "null_same_bar.json")
+        with open(old_face, "w", encoding="utf-8") as f:
+            json.dump(build(), f, ensure_ascii=False, indent=1)
+        ARMS_FACE = keep_arms
+        OUT_JSON = old_face
+        chk(check() == 2,
+            "a regenerated arms face on the same bar reads stale (refresh), not hand-edited")
+        p4 = json.loads(json.dumps(build()))
+        p4.pop("source", None)
+        nodigest = os.path.join(td, "null_nodigest.json")
+        with open(nodigest, "w", encoding="utf-8") as f:
+            json.dump(p4, f, ensure_ascii=False, indent=1)
+        OUT_JSON = nodigest
+        chk(check() == 2, "a face published before the digest existed is stale, not inconsistent")
+        ARMS_FACE = os.path.join(td, "no_arms.json")
+        OUT_JSON = tmp
+        chk(check() == 2, "a missing source face is stale, never a crash")
+        ARMS_FACE = keep_arms
         OUT_JSON = os.path.join(td, "missing.json")
         chk(check() == 2, "a missing face is stale, not inconsistent")
     OUT_JSON = keep
+    ARMS_FACE = keep_arms
 
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
