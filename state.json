@@ -923,7 +923,17 @@
   "ts": "2026-10-30T18:28:34+08:00",
   "watermark_red": "RED at open -> burned the head E256 in-round"
  },
- "r1299_delivery": "main-branch push not attempted (promisor lazy fetch wedges before negotiation, r1255..r1298 family); delivery on machine/bm-b-r1299",
+ "r1299_delivery": {
+  "behind_origin_main": 137,
+  "branch": "machine/bm-b-r1299",
+  "local_not_on_origin_main": 47,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1298 family); not re-attempted",
+  "pushed_sha": "b924fe4ac969d2584e4f71d5eb1f9c096aff5bc2",
+  "remote_ref_sha": "b924fe4ac969d2584e4f71d5eb1f9c096aff5bc2",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-31T04:2x",
+  "verified": true
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",

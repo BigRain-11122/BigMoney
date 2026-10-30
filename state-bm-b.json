@@ -2243,7 +2243,17 @@
  "r1298_delivery": "see round report amendment for the ls-remote-verified sha; main-branch push is not attempted (promisor lazy fetch wedges before negotiation, r1255..r1297 family), so the machine branch is the delivery channel",
  "r1298_pit": "verdict_of's first cut read '15 of 16 donor ends move nothing' off a mixed denominator (36 foreign row-pairs minus moved rows); donor_ends and donor_ends_moving_a_row are now published separately. Sibling: the own-cell donor must stay in the sweep as the control or '0 moves' is untestable. Also re-learned r1280's GPU face law -- hand-writing free_vram_gb from a second probe is the caller-owns-the-face trap; GPU keys go through gpu_face apply only, and the machine-health INCOMPLETE it opened with was healed by write --machine bm-b.",
  "r1298_pool": "E271 done + result_ref; E274-SPREAD-STRADDLE-SWEEP seeded ready; ready 2 (E272, E274)",
- "r1299_delivery": "main-branch push not attempted (promisor lazy fetch wedges before negotiation, r1255..r1298 family); delivery on machine/bm-b-r1299",
+ "r1299_delivery": {
+  "behind_origin_main": 137,
+  "branch": "machine/bm-b-r1299",
+  "local_not_on_origin_main": 47,
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1298 family); not re-attempted",
+  "pushed_sha": "b924fe4ac969d2584e4f71d5eb1f9c096aff5bc2",
+  "remote_ref_sha": "b924fe4ac969d2584e4f71d5eb1f9c096aff5bc2",
+  "status": "DELIVERED_ON_MACHINE_BRANCH",
+  "ts": "2026-10-31T04:2x",
+  "verified": true
+ },
  "r964_correction": "breaker-claim fixed in-window per r949 (closeout prose said not-tripped while same-window evidence showed tripped; round report row + state + heartbeat fixed on binary/verbatim faces; C-r964 commit body on origin carries the stale clause, correction reaches origin via C-r965 state.did",
  "r992_collision_note": "r992 number taken by the 17:52-18:17 timeout-killed orphan round (delivered anchors 1bd21af, zero closeout); this session renumbered to r993 per collision-yield law",
  "r996_absorb_note": "r996 emergency commit d452d780 (round_reports.md +1 row) unpushed; content included in r997 disk face; local divergence heals next S0 rebase (r988 replay pattern)",
