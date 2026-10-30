@@ -437,6 +437,16 @@ LEGS = [
     ("substitution_disagreement_census",
      ["python", "scripts/e282_substitution_disagreement_census.py", "verify"]),
 
+    # E283: E279's contradiction branch (the substitute DEFLATES the conclusion) reported 0 events
+    # on 2 substitution events. A degenerate tail can only reach a row when the flip equals its
+    # single multiplier, so this leg measures the shape that event would need: both candidates sit
+    # 2.70x / 3.25x from their degenerate value, the tolerance band that would fire the branch is
+    # [63.03 pct, +inf), and at that tolerance 21 of 24 published readings read reachable against 2
+    # published -- the test that fires the branch is not the test that published the family. It
+    # also re-derives 24/24 published booleans and E279's stranded set. Published faces only. <1s.
+    ("degenerate_range_reachable",
+     ["python", "scripts/e283_degenerate_range_reachable.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

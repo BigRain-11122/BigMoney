@@ -25119,10 +25119,12 @@
   },
   {
    "deliverable": "results/state_tilt/BANDDEFLATE-<cutoff>.json",
+   "done_note": "measurement only: 2 degenerate readings (cross:200 tight, value 1.0) against flips 2.7046/3.2544; 0 reach at the published tolerance; branch becomes reachable only at a 63.03 pct relative tolerance, where 21 of 24 published readings read reachable (2 published) -- the branch is untested, not passed. Face BANDDEFLATE-2026-10-29.",
    "evidence_cutoff": "2026-10-29",
    "id": "E283-DEGENERATE-RANGE-REACHABLE",
    "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDDEFLATE-2026-10-29.json",
    "runner": "scripts/e283_degenerate_range_reachable.py",
    "runner_args": [
     "run"
@@ -25130,7 +25132,7 @@
    "seeded_at": "2026-10-31T05:58+08:00",
    "seeded_by": "bm-b r1305",
    "source": "E279's D4 defines a contradiction as a DEFLATION: the stranded tail reaches the row and the substitute says it cannot. But a stranded tail has a degenerate range by D3, so it can only reach when the flip multiplier equals that degenerate value exactly -- an untested branch. If no published row has that shape, the contradiction branch is unreachable in practice and must be disclosed as such (a test whose failure mode cannot fire is not a test). Census the family for flip == degenerate value within tolerance, and publish whether the branch is reachable, plus the tolerance band where it would become reachable.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e283_degenerate_range_reachable.py (new runner)",
    "title": "is the deflation branch reachable at all -- do any rows put the flip exactly on the degenerate stranded value, so a substitution could remove a real claim?",
    "worker_class": "code-change",

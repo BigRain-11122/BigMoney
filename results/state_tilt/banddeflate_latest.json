@@ -1,0 +1,455 @@
+{
+ "branch": {
+  "deflatable": [
+   {
+    "deflates_at_published_tolerance": false,
+    "degenerate_value": 1.0,
+    "flip_multiplier": 2.704575069829843,
+    "flip_to_degenerate_ratio": 2.704575069829843,
+    "required_tolerance_pct": 63.025614960544814,
+    "row_key": "cross|200|1",
+    "stranded": true,
+    "substitute_measurable": true,
+    "substitute_reachable": false,
+    "substitute_tail": "wide",
+    "tail": "tight"
+   },
+   {
+    "deflates_at_published_tolerance": false,
+    "degenerate_value": 1.0,
+    "flip_multiplier": 3.254381491424318,
+    "flip_to_degenerate_ratio": 3.254381491424318,
+    "required_tolerance_pct": 69.27219495823958,
+    "row_key": "cross|200|12",
+    "stranded": true,
+    "substitute_measurable": true,
+    "substitute_reachable": false,
+    "substitute_tail": "wide",
+    "tail": "tight"
+   }
+  ],
+  "fires": false,
+  "fires_on": [],
+  "n_candidate_readings": 2,
+  "n_deflatable": 2,
+  "n_stranded_readings": 2
+ },
+ "decision_rule": {
+  "D1": "reachability is E272's published contract (flip inside the tail's published multiplier range), imported from e272, not copied",
+  "D2": "the branch is E279's deflation: a stranded tail reaches while the substitute does not; only rows carrying a degenerate range are candidates",
+  "D3": "a row needs relative tolerance tau_r = gap_pct_r / 100, so the band is [min tau_r, +infinity); reachable at the published tolerance iff min tau_r <= TOL/100",
+  "D4": "the band is only a tolerance if the instrument still discriminates inside it: at the band's lower end the same test is applied to every reading and a share >= 0.5 counts as a collapse",
+  "D5": "no reburn: published faces re-read only, no draw, no band rebuilt, no engine",
+  "D6": "scope is measured; <slug>_latest mirrors are dropped by name and the drop is published"
+ },
+ "degenerate_readings": [
+  {
+   "base": 200,
+   "cell": "all_five",
+   "degenerate": true,
+   "flip_multiplier": 2.704575069829843,
+   "flip_to_degenerate_ratio": 2.704575069829843,
+   "gap_pct": 63.025614960544814,
+   "index": 1,
+   "leg": "cross",
+   "multiplier_max": 1.0,
+   "multiplier_min": 1.0,
+   "n_cells": 4,
+   "polarity_agrees": true,
+   "published_reachable": false,
+   "reachable_at_published_tolerance": false,
+   "rederived_reachable": false,
+   "required_tolerance_fraction": 0.6302561496054482,
+   "required_tolerance_pct": 63.025614960544814,
+   "row": "cross",
+   "row_key": "cross|200|1",
+   "spread_pct": 0.0,
+   "stranded": true,
+   "tail": "tight"
+  },
+  {
+   "base": 200,
+   "cell": "all_five",
+   "degenerate": true,
+   "flip_multiplier": 3.254381491424318,
+   "flip_to_degenerate_ratio": 3.254381491424318,
+   "gap_pct": 69.27219495823958,
+   "index": 12,
+   "leg": "cross",
+   "multiplier_max": 1.0,
+   "multiplier_min": 1.0,
+   "n_cells": 4,
+   "polarity_agrees": true,
+   "published_reachable": false,
+   "reachable_at_published_tolerance": false,
+   "rederived_reachable": false,
+   "required_tolerance_fraction": 0.6927219495823959,
+   "required_tolerance_pct": 69.27219495823958,
+   "row": "star_lag1_residual",
+   "row_key": "cross|200|12",
+   "spread_pct": 0.0,
+   "stranded": true,
+   "tail": "tight"
+  }
+ ],
+ "discrimination_at_band": {
+  "collapse": true,
+  "collapse_share_frozen": 0.5,
+  "newly_reachable_at_band": [
+   "cross|200|12@wide",
+   "cross|200|1@tight",
+   "cross|200|1@wide",
+   "cross|60|11@tight",
+   "cross|60|11@wide",
+   "cross|60|13@tight",
+   "cross|60|14@tight",
+   "cross|60|14@wide",
+   "cross|60|15@tight",
+   "cross|60|15@wide",
+   "cross|60|7@tight",
+   "cross|60|7@wide",
+   "cross|60|9@tight",
+   "self|200|0@tight",
+   "self|200|0@wide",
+   "self|60|10@tight",
+   "self|60|6@tight",
+   "self|60|6@wide",
+   "self|60|8@tight"
+  ],
+  "readings_reachable_at_band": 21,
+  "readings_reachable_published": 2,
+  "readings_total": 24,
+  "share_reachable_at_band": 0.875,
+  "tolerance_fraction": 0.6302561496054482,
+  "tolerance_pct": 63.025614960544814
+ },
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T07:04:32",
+ "identity_check": {
+  "mismatched": [],
+  "n_mismatched": 0,
+  "readings_checked": 24,
+  "rows_censused_per_e272": 12,
+  "stranded_pairs_agree": true,
+  "stranded_rows_mine": [
+   "cross|200|1",
+   "cross|200|12"
+  ],
+  "stranded_rows_per_e279": [
+   "cross|200|1",
+   "cross|200|12"
+  ],
+  "stranded_set_agrees": true
+ },
+ "n_degenerate_readings": 2,
+ "no_bill": "measurement only: E272's published per-row tail ranges and E279's stranded census are re-read. No draw stream is drawn, no band rebuilt, no engine runs. A verdict here is a statement about the published numbers, not about the market.",
+ "scope": {
+  "dated_faces_scanned": 29,
+  "faces_excluded": [
+   {
+    "face": "bandarrival_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandarrivalate_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandbucket_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "banddisagree_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "banddonorchoice_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "banddraw-d1920_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "banddraw-d960_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "banddraw_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandexp_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandfields_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandflipbudget_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandfloor_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandmargin_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandnear1_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandpath_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandpooled_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandscreen_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandscreenbudget_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandspreadfloor_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandstraddlesweep_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandsubstitute_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandsubstituteaudit_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandthreshguard_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandtight_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandtopflip_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandtransfer_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandwindist_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "bandwinmult_latest.json",
+    "reason": "mirror of a dated face (same rows, censused once via the dated face)"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDARRIVALATE-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDBUCKET-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDDISAGREE-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDDONORCHOICE-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDDRAW-2026-10-29-d1920.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDDRAW-2026-10-29-d960.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDDRAW-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDEXP-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDFIELDS-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDMARGIN-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDNEAR1-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDPATH-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDPATH-2026-10-30.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDPOOLED-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSCREEN-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSCREENBUDGET-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSPREADFLOOR-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSUBSTITUTE-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDTHRESHGUARD-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDTIGHT-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDTOPFLIP-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDTRANSFER-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDWINDIST-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   },
+   {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "reason": "publishes no row carrying both tails' multiplier range and a flip multiplier"
+   }
+  ],
+  "faces_qualifying": [
+   {
+    "face": "BANDFLIPBUDGET-2026-10-29.json",
+    "rows": 12
+   }
+  ],
+  "files_scanned": 57,
+  "mirrors": [
+   "bandarrival_latest.json",
+   "bandarrivalate_latest.json",
+   "bandbucket_latest.json",
+   "banddisagree_latest.json",
+   "banddonorchoice_latest.json",
+   "banddraw-d1920_latest.json",
+   "banddraw-d960_latest.json",
+   "banddraw_latest.json",
+   "bandexp_latest.json",
+   "bandfields_latest.json",
+   "bandflipbudget_latest.json",
+   "bandfloor_latest.json",
+   "bandmargin_latest.json",
+   "bandnear1_latest.json",
+   "bandpath_latest.json",
+   "bandpooled_latest.json",
+   "bandscreen_latest.json",
+   "bandscreenbudget_latest.json",
+   "bandspreadfloor_latest.json",
+   "bandstraddlesweep_latest.json",
+   "bandsubstitute_latest.json",
+   "bandsubstituteaudit_latest.json",
+   "bandthreshguard_latest.json",
+   "bandtight_latest.json",
+   "bandtopflip_latest.json",
+   "bandtransfer_latest.json",
+   "bandwindist_latest.json",
+   "bandwinmult_latest.json"
+  ],
+  "mirrors_dropped": 28,
+  "n_excluded": 56,
+  "n_qualifying": 1,
+  "rows_censused": 12,
+  "self_faces_excluded": [
+   "BANDDEFLATE-2026-10-29.json",
+   "banddeflate_latest.json"
+  ],
+  "tail_readings_censused": 24
+ },
+ "source_faces": [
+  "BANDFLIPBUDGET-2026-10-29.json",
+  "BANDSUBSTITUTE-2026-10-29.json"
+ ],
+ "study": "E283_degenerate_range_reachable",
+ "summary": {
+  "branch_fires": false,
+  "collapse_at_band": true,
+  "identity_mismatched": 0,
+  "n_deflatable": 2,
+  "n_degenerate_readings": 2,
+  "reachable_at_published_tolerance": false,
+  "readings_reachable_at_band": 21,
+  "readings_reachable_published": 2,
+  "required_tolerance_pct": 63.025614960544814,
+  "rows_censused": 12,
+  "tail_readings_censused": 24,
+  "verdict": "the_branch_needs_a_tolerance_that_erases_the_reading"
+ },
+ "title": "a degenerate tail can only reach a row when the flip equals its single multiplier -- does that ever happen, and how loose a tolerance would it take?",
+ "tolerance_band": {
+  "band_is_half_open_above": true,
+  "binding_rows": [
+   "cross|200|1@tight"
+  ],
+  "lower_fraction": 0.6302561496054482,
+  "lower_pct": 63.025614960544814,
+  "published_tolerance_pct": 1e-12,
+  "reachable_at_published_tolerance": false,
+  "statement": "the branch becomes reachable only at a relative tolerance of at least 63.0256 pct (0.6303 of the flip); every looser test fires it",
+  "upper_pct": null
+ },
+ "verdict": "the_branch_needs_a_tolerance_that_erases_the_reading",
+ "verdict_reason": "0 of 2 candidate readings reach at the published tolerance; the nearest needs a relative tolerance of 63.0256 pct (a flip 2.705x its degenerate value), and at that tolerance 21 of 24 published tail readings -- 87.5 pct, against 2 published -- would read reachable, so the test that fires the branch is not the test that published the family."
+}

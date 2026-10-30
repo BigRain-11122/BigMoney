@@ -6853,6 +6853,100 @@ def main() -> int:
     except Exception as e:
         check(_name82, False, repr(e)[:160])
 
+    # E283: E279's contradiction branch ("the substitute deflates the conclusion") publishes 0
+    # events, and a zero is not a measurement until the shape the event would need is quantified.
+    # A stranded tail is degenerate, so it reaches a row only when the flip EQUALS its single
+    # multiplier. This leg requires (a) the face publishes how far each candidate is and the
+    # tolerance band that would fire the branch, (b) the band's own loosened test was applied to
+    # every reading and the resulting split published -- a band that calls most of the family
+    # reachable is a collapse, not a tolerance, and must be named as such, (c) the branch-fires
+    # flag agrees with the candidates, and (d) the published booleans and E279's stranded set both
+    # re-derive.
+    _name83 = ("product: a contradiction branch that needs a 63 pct tolerance is not a test -- "
+               "publish the split the tolerance would produce, not only the tolerance")
+    _bad83 = []
+    try:
+        _p83 = os.path.join("results", "state_tilt", "banddeflate_latest.json")
+        _f83 = None
+        if not os.path.exists(_p83):
+            _bad83.append("face missing: %s" % _p83)
+        else:
+            with io.open(_p83, encoding="utf-8") as _fh83:
+                _f83 = json.load(_fh83)
+        if _f83 is not None:
+            _s83 = _f83.get("summary") or {}
+            if _f83.get("evidence_cutoff") is None:
+                _bad83.append("no evidence_cutoff on the face")
+            if _s83.get("verdict") not in (
+                    "no_degenerate_tail_is_published",
+                    "the_deflation_branch_fires_on_a_published_row",
+                    "the_branch_needs_a_tolerance_that_erases_the_reading",
+                    "the_branch_is_unreachable_but_a_narrow_band_would_reach_it"):
+                _bad83.append("verdict %r is outside the frozen set" % (_s83.get("verdict"),))
+            if _f83.get("verdict") != _s83.get("verdict"):
+                _bad83.append("verdict disagrees with its own summary")
+            if not _s83.get("tail_readings_censused"):
+                _bad83.append("no tail reading was censused")
+            _br83 = _f83.get("branch") or {}
+            _bd83 = _f83.get("tolerance_band") or {}
+            _dc83 = _f83.get("discrimination_at_band") or {}
+            if not _br83.get("n_candidate_readings"):
+                _bad83.append("no degenerate candidate reading is published")
+            if _br83.get("fires") is not _s83.get("branch_fires"):
+                _bad83.append("the branch-fires flag disagrees with its summary copy")
+            if _br83.get("fires") and not _br83.get("fires_on"):
+                _bad83.append("the branch is claimed to fire without naming the row")
+            if not _br83.get("fires"):
+                if _bd83.get("lower_pct") is None:
+                    _bad83.append("the branch does not fire and no tolerance band is published")
+                elif float(_bd83["lower_pct"]) <= 0:
+                    _bad83.append("the tolerance band has no positive lower end")
+                if _bd83.get("upper_pct") is not None:
+                    _bad83.append("the band is claimed bounded above")
+                if _dc83.get("readings_total") != _s83.get("tail_readings_censused"):
+                    _bad83.append("the band's test was not applied to every censused reading")
+                if not isinstance(_dc83.get("collapse"), bool):
+                    _bad83.append("no collapse verdict on the band's discrimination")
+                if _dc83.get("collapse") and _dc83.get("readings_reachable_at_band") is not None \
+                        and float(_dc83["readings_reachable_at_band"]) <= float(
+                            _dc83.get("readings_reachable_published") or 0):
+                    _bad83.append("a collapse is claimed but the loosened test adds nothing")
+                if (_dc83.get("collapse") is True
+                        and _s83.get("verdict")
+                        == "the_branch_is_unreachable_but_a_narrow_band_would_reach_it"):
+                    _bad83.append("a collapsing band is published as a narrow band")
+            _ic83 = _f83.get("identity_check") or {}
+            if _ic83.get("n_mismatched"):
+                _bad83.append("a published boolean contradicts the range that published it")
+            if _ic83.get("stranded_set_agrees") is not True \
+                    or _ic83.get("stranded_pairs_agree") is not True:
+                _bad83.append("our stranded set disagrees with E279's census")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m83 = __import__("importlib").import_module("e283_degenerate_range_reachable")
+            _fresh83 = _m83.build()
+            if _fresh83.get("summary") != _s83:
+                _bad83.append("summary does not re-derive from the published faces")
+            if _fresh83.get("branch") != (_f83.get("branch") or {}):
+                _bad83.append("the branch measurement does not re-derive")
+            if _fresh83.get("tolerance_band") != (_f83.get("tolerance_band") or {}):
+                _bad83.append("the tolerance band does not re-derive")
+        check(_name83, not _bad83,
+              "; ".join(_bad83)[:220]
+              or "verdict %r | %d reading(s), %d degenerate, %d deflatable, fires=%s; band %s pct, "
+                 "and at that tolerance %s of %s reading(s) read reachable against %s published"
+                 % ((_f83 or {}).get("verdict"),
+                    (_s83.get("tail_readings_censused") or 0),
+                    (_s83.get("n_degenerate_readings") or 0),
+                    (_s83.get("n_deflatable") or 0),
+                    _s83.get("branch_fires"),
+                    "n/a" if _s83.get("required_tolerance_pct") is None
+                    else "%.2f" % _s83["required_tolerance_pct"],
+                    _s83.get("readings_reachable_at_band"),
+                    _s83.get("tail_readings_censused"),
+                    _s83.get("readings_reachable_published")))
+    except Exception as e:
+        check(_name83, False, repr(e)[:160])
+
     return _finish()
 
 

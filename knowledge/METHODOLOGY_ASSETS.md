@@ -5603,3 +5603,42 @@ boundary tie impossible in principle), S6 leg `substitution_disagreement_census`
 `product: the two disagreeing tails are a RANGE difference …`, digest
 `research/digests/DIGEST-20261031-r1307-e282-disagreement-census.md`, next card
 `E285-INTERRANGE-GAP-CEILING`.
+
+## E286 -- a test whose failure mode needs a tolerance that destroys the test has not been run
+
+E279 declared its contradiction branch (the substitute *deflates* the conclusion) and reported
+`events_with_deflation = 0` on two substitution events. Zero events is not a measurement until you
+ask what shape the event would have to have. E281 had already noticed that every stranded tail
+publishes a **degenerate** multiplier range (`min == max == 1.0`), so this card turned that into a
+quantity.
+
+**The branch is a single point in multiplier space.** Reachability is E272's published contract
+(`flip` inside the tail's published range), and a degenerate range `[v, v]` reduces the whole test to
+`flip == v` at the published tolerance. Both stranded readings here sit at `v = 1.0` while their
+flips are **2.7046** and **3.2544** -- the flip would have to be `2.70x` / `3.25x` smaller, or the
+degenerate value that much larger, before the branch could fire.
+
+**Turn the distance into the tolerance it would take.** Each candidate publishes
+`tau_r = gap_pct_r / 100` (E272's own percent ruler, sign-free), so the branch becomes reachable
+exactly when the tolerance is loosened to `tau* = min_r tau_r = 63.03 pct`, i.e. the band
+`[63.03 pct, +inf)`. At the published tolerance (`1e-12` pct = multiplier equality to ~1e-14) it is
+`False`, published as measured, not asserted.
+
+**Then apply the loosened test to the whole family, because that is what loosening means.** At
+`tau*` the *same* rule calls **21 of 24** published tail readings reachable (published: **2 of 24**,
+87.5 pct of the face). So the tolerance that fires the branch is not a tolerance, it is a different
+instrument: it declares almost everything reachable, which is exactly the state the family's
+findings exist to distinguish rows from. That is the reusable point -- a "reachability threshold"
+is only a threshold while the population still splits; publish the split at the threshold you are
+proposing, not only the number.
+
+Companion reading (same face, unasked): the *word* "inert" in the family is a claim about the
+published multipliers, not about the tight tail's real behaviour -- the tail is inert because no
+arm published a multiplier below 1.0, which E272 already disclosed. This card does not revise it.
+
+Evidence: `scripts/e283_degenerate_range_reachable.py` (selftest 16/16, run/verify green),
+`results/state_tilt/BANDDEFLATE-2026-10-29.json`, S6 leg `degenerate_range_reachable` (verify,
+<1s), smoke leg `product: a contradiction branch that needs a 63 pct tolerance is not a test`,
+digest `research/digests/DIGEST-20261031-r1308-e283-degenerate-range.md`. Pool item
+`E283-DEGENERATE-RANGE-REACHABLE` (card ids drift from pool ids: pool E283 -> card E286).
+Next card `E285-INTERRANGE-GAP-CEILING` (pool).
