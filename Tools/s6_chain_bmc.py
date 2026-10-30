@@ -153,6 +153,17 @@ LEGS = [
     # were reachable live. ~150s, offline, deterministic (one panel load, 64 engine calls/cell).
     ("etf_sign_pit_combo", ["python", "scripts/etf_sign_pit_combo.py", "run"]),
     ("etf_book_production", ["python", "scripts/etf_book_production.py"]),
+    # r1366: the carry split answers "how much of the quoted return is repo interest",
+    # and it must be priced on the same bar as the ticket it explains. Hand-run only
+    # until now -- r1366 found it frozen on 2026-10-29 (base cell 11.33%) while that
+    # day's ticket already read 11.19%, i.e. the same orphan-face class as r1257
+    # (wide panel), r1290 (card), r1291 (width face) and r1295 (capacity): a face
+    # refreshed by hand reads as current to every reader that only checks existence.
+    # r1367: and it runs BEFORE the ticket, because the ticket now quotes the split --
+    # behind it, every chain run would have the executable sheet reading yesterday's
+    # decomposition of today's headline (the r1290 two-days-one-sheet class, moved into
+    # the sheet itself). ~5s on the warmed panel, no network.
+    ("etf_book_return_regime", ["python", "scripts/etf_book_return_regime.py", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
@@ -166,8 +177,8 @@ LEGS = [
     # day's ticket already read 11.19%, i.e. the same orphan-face class as r1257
     # (wide panel), r1290 (card), r1291 (width face) and r1295 (capacity): a face
     # refreshed by hand reads as current to every reader that only checks existence.
-    # Rides behind the ticket leg (~5s on the warmed panel, no network).
-    ("etf_book_return_regime", ["python", "scripts/etf_book_return_regime.py", "run"]),
+    # r1367: this leg now sits AHEAD of etf_book_order (above) so the executable sheet
+    # never quotes yesterday's split next to today's headline.
     # r1314: the card and the forward ledger are two independent records of ONE frozen
     # decision, and nothing compared them. Every leg above refreshes a face; this one asks
     # whether the paper book actually owns the book the card sells (names, weights, scale,

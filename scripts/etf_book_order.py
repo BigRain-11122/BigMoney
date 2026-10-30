@@ -247,6 +247,59 @@ def drawdown_band():
         return None
 
 
+def carry_split(beta=None, path=None):
+    """How much of the quoted headline is the 1-day repo leg (r1367).
+
+    The sheet quotes one CAGR for a book that parks roughly half its NAV in GC001, so a
+    reader cannot tell whether the selection machinery pays or the parking does. The split
+    is measured once by ``scripts/etf_book_return_regime.py``; this reads that artifact at
+    the beta the ticket is actually running instead of re-running the engine (and instead
+    of hand-copying a number that would rot).
+
+    Soft-fails to None -- the caller must say so, because silence reads as "all alpha".
+    """
+    p = path or os.path.join(BASE, "results", "etf_book_return_regime.json")
+    want = float(DEFAULT_BETA if beta is None else beta)
+    try:
+        with open(p, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        gate = doc.get("gate") or {}
+        cells = gate.get("betas") or {}
+        if not cells:
+            return None
+        key = min(cells, key=lambda k: abs(float(k) - want))
+        cell = cells[key] or {}
+        obs, flat, zero = (cell.get("observed_pct"), cell.get("flat_today_pct"),
+                           cell.get("zero_pct"))
+        if None in (obs, flat, zero):
+            return None
+        rates = doc.get("cash_rates") or {}
+        try:
+            artifact = os.path.relpath(p, BASE).replace("\\", "/")
+        except Exception:                       # fixture on another drive
+            artifact = str(p)
+        return {"artifact": artifact,
+                "evidence_cutoff": doc.get("evidence_cutoff"),
+                "beta": float(key),
+                "beta_requested": want,
+                "observed_pct": float(obs),
+                "flat_today_pct": float(flat),
+                "zero_pct": float(zero),
+                "carry_pp": round(float(obs) - float(zero), 4),
+                "flat_rate_cost_pp": round(float(obs) - float(flat), 4),
+                "carry_share_pct": round(cell.get("carry_share_of_headline_pct")
+                                         if cell.get("carry_share_of_headline_pct") is not None
+                                         else 100.0 * (float(obs) - float(zero)) / float(obs), 3),
+                "pp_per_100bp": cell.get("pp_per_100bp"),
+                "cash_share": cell.get("cash_share"),
+                "rate_today_pct": rates.get("today_pct"),
+                "rate_today_date": rates.get("today_date"),
+                "rate_observed_pct": rates.get("observed_mean_pct"),
+                "identity_matched": (doc.get("identity") or {}).get("matched")}
+    except Exception:
+        return None
+
+
 def card(ticket, mk, sched, asof, beta, extra):
     L = ["# ETF 复合书 · 可执行订单单（%s）" % asof, "",
          "当前活：β 目标 %.2f 的单本 R%d N%d + GC001 现金腿，每 %d 个交易日重算一次 k。"
@@ -298,6 +351,31 @@ def card(ticket, mk, sched, asof, beta, extra):
                                                              b["maxdd"] * 100))
         if "excess_pp" in mk:
             L += ["", "超额 %+.2fpp/年（同 β 基准对照，成本双层已计）。" % mk["excess_pp"]]
+    cs = extra.get("carry")
+    if cs:
+        L += ["", "## 这条年化里有多少是现金利息",
+              "同一本书换三种现金利率重算（β %.2f 档）：按全窗真实 repo 利率年化 **%.2f%%** → "
+              "按今天利率持平年化 **%.2f%%** → 现金零收益年化 **%.2f%%**。"
+              % (cs["beta"], cs["observed_pct"], cs["flat_today_pct"], cs["zero_pct"]),
+              "- 现金利息贡献 **%.2fpp = 年化的 %.1f%%**；现金占比 %.0f%%，利率每降 100bp "
+              "年化约少 %.2fpp。"
+              % (cs["carry_pp"], cs["carry_share_pct"], (cs["cash_share"] or 0.0) * 100,
+                 cs["pp_per_100bp"] or 0.0),
+              "- 读法：把现金腿按零利率计这本书仍有 %.2f%% —— 选股机器本身不是靠停车费活着；"
+              "但今天报价里的 %.1f%% 确实是 repo 利息，利率掉到今天的 %.2f%%（%s 报价）"
+              "就是少赚 %.2fpp，不是这个月选错了票。"
+              % (cs["zero_pct"], cs["carry_share_pct"], cs["rate_today_pct"] or 0.0,
+                 cs["rate_today_date"] or "未知", cs["flat_rate_cost_pp"])]
+        if cs["evidence_cutoff"] and asof and cs["evidence_cutoff"] != asof:
+            L += ["- ⚠ 拆解定价 bar %s 落后本单 %s：这是拆解面没跟上，不是利率变了，"
+                  "按旧 bar 的数字只当量级读。" % (cs["evidence_cutoff"], asof)]
+        L += ["- 出处：%s（cutoff %s；探索件，无预注册、无判决、不入账本）。"
+              % (cs["artifact"], cs["evidence_cutoff"] or "未知")]
+    else:
+        L += ["", "## 这条年化里有多少是现金利息",
+              "- 拆解面在盘上没有可用读数（results/etf_book_return_regime.json 缺失或"
+              "缺本 β 档）：上面那个年化含现金利息，具体多少本单不报 —— "
+              "这正是 r1367 要修的那个空白。"]
     db = drawdown_band()
     if db:
         L += ["", "## 最大回撤：本单上面那个数是中位数，不是尾部（r1348）",
@@ -576,6 +654,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     mk = metrics(slip, blip)
     wd = width_disclosure()
     ruler = live_width_ruler(asof=asof, card_n=(wd or {}).get("card_names"))
+    carry = carry_split(beta)
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -596,6 +675,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "width_disclosure": wd,
                "live_width_ruler": ruler,
+               "carry_split": carry,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
@@ -617,7 +697,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     with open(os.path.join(OUT_DIR, "ORDER-%s.md" % asof), "w", encoding="utf-8") as f:
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
-                      "feed": feed, "agreement": agreement, "ruler": ruler}))
+                      "feed": feed, "agreement": agreement, "ruler": ruler,
+                      "carry": carry}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -637,6 +718,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                  wd["delta_ticket_minus_card"]["maxdd_pp"], wd["evidence_cutoff"]))
     else:
         print("width: disclosure unavailable (width audit or card width missing)")
+    if carry:
+        print("carry split: headline %.2f%% = cash %.2fpp (%.1f%% of it) | zero-cash %.2f%% | "
+              "flat-today %.2f%%"
+              % (carry["observed_pct"], carry["carry_pp"], carry["carry_share_pct"],
+                 carry["zero_pct"], carry["flat_today_pct"]))
+    else:
+        print("carry split: unavailable -- the sheet says the headline is not decomposed")
     print("wrote", os.path.join(OUT_DIR, "TICKET-%s.json" % asof))
     return 0
 
@@ -2099,6 +2187,59 @@ def selftest():
                                  path=_put("nosd.json", _ruler_doc()))), "")
     finally:
         shutil.rmtree(cdt5, ignore_errors=True)
+
+    # ---- r1367: the sheet quotes one CAGR for a book that parks half its NAV in repo.
+    # The split lives in one artifact; the ticket must carry it at ITS OWN beta, must do
+    # the arithmetic rather than trust a field name, and must say so when the artifact is
+    # missing or priced on another bar -- silence reads as "the whole number is alpha".
+    cdt7 = tempfile.mkdtemp()
+    try:
+        rg = {"evidence_cutoff": "2026-10-30",
+              "cash_rates": {"today_pct": 1.09, "today_date": "2026-10-27",
+                             "observed_mean_pct": 1.9819},
+              "gate": {"base_beta": 0.2,
+                       "betas": {"0.1": {"observed_pct": 6.4, "flat_today_pct": 5.95,
+                                         "zero_pct": 5.05, "carry_share_of_headline_pct": 21.1,
+                                         "pp_per_100bp": 0.505, "cash_share": 0.775},
+                                 "0.2": {"observed_pct": 11.19, "flat_today_pct": 10.85,
+                                         "zero_pct": 10.19, "carry_share_of_headline_pct": 8.9,
+                                         "pp_per_100bp": 0.381, "cash_share": 0.5501}}},
+              "identity": {"matched": True}}
+        rp7 = os.path.join(cdt7, "regime.json")
+        with open(rp7, "w", encoding="utf-8") as f:
+            json.dump(rg, f)
+        cs = carry_split(0.2, path=rp7)
+        chk("leg43 the ticket reads the carry split at its own beta and re-derives the pp",
+            bool(cs) and cs["beta"] == 0.2
+            and abs(cs["carry_pp"] - 1.00) < 1e-6
+            and abs(cs["flat_rate_cost_pp"] - 0.34) < 1e-6
+            and abs(cs["carry_share_pct"] - 8.9) < 1e-6
+            and cs["identity_matched"] is True,
+            "carry=%s flat=%s" % (cs and cs["carry_pp"], cs and cs["flat_rate_cost_pp"]))
+        chk("leg43b an off-grid beta snaps to the nearest published cell, never to the base",
+            (carry_split(0.45, path=rp7) or {}).get("beta") == 0.2
+            and (carry_split(0.12, path=rp7) or {}).get("beta") == 0.1, "")
+        md7 = card(None, None, None, "2026-10-30", 0.2, {"inception": "2024-01-01", "carry": cs})
+        chk("leg44 the sheet prints the split: headline / zero-cash / the pp it costs",
+            "这条年化里有多少是现金利息" in md7 and "8.9%" in md7
+            and "10.19%" in md7 and "1.00pp" in md7, "chars=%d" % len(md7))
+        chk("leg44b a split priced on another bar is flagged, not quietly quoted",
+            "\u26a0" in card(None, None, None, "2026-11-05", 0.2,
+                             {"inception": "2024-01-01", "carry": cs})
+            and "\u26a0" not in md7, "")
+        chk("leg45 no artifact is disclosed on the sheet instead of leaving a bare headline",
+            carry_split(0.2, path=os.path.join(cdt7, "absent.json")) is None
+            and "拆解面在盘上没有可用读数" in card(None, None, None, "2026-10-30", 0.2,
+                                          {"inception": "2024-01-01", "carry": None}), "")
+        broken = dict(rg)
+        broken["gate"] = {"base_beta": 0.2, "betas": {"0.2": {"observed_pct": 11.19}}}
+        bp7 = os.path.join(cdt7, "broken.json")
+        with open(bp7, "w", encoding="utf-8") as f:
+            json.dump(broken, f)
+        chk("leg45b a half-written cell returns None rather than an invented zero",
+            carry_split(0.2, path=bp7) is None, "")
+    finally:
+        shutil.rmtree(cdt7, ignore_errors=True)
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

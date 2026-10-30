@@ -3449,6 +3449,81 @@ def main() -> int:
     except Exception as e:
         check("product: the carry split reproduces the ticket and stays ordered", False,
               repr(e)[:160])
+
+    # r1367: the split must reach the EXECUTABLE sheet, not just the CEO page -- an
+    # operator who holds only ORDER-*.md was quoting a headline with no idea that ~9% of
+    # it is repo interest. The leg recomputes the printed numbers from the artifact, so a
+    # hand-written sentence cannot pass it.
+    try:
+        _bad29 = []
+        _cs29 = {}
+        _tk29 = json.load(open(os.path.join(PATHS.results_dir, "etf_book_order",
+                                            "latest.json"), encoding="utf-8"))
+        _asof29 = str(_tk29.get("as_of") or "")
+        _orderp = os.path.join(PATHS.results_dir, "etf_book_order",
+                               "ORDER-%s.md" % _asof29)
+        _rgp = os.path.join(PATHS.results_dir, "etf_book_return_regime.json")
+        if not _asof29:
+            _bad29.append("ticket pointer carries no as_of")
+        elif not os.path.exists(_orderp):
+            _bad29.append("results/etf_book_order/ORDER-%s.md missing" % _asof29)
+        elif not os.path.exists(_rgp):
+            _bad29.append("results/etf_book_return_regime.json missing")
+        else:
+            with open(_rgp, encoding="utf-8") as _fh29:
+                _rg29 = json.load(_fh29)
+            with open(_orderp, encoding="utf-8") as _fh29:
+                _md29 = _fh29.read()
+            _g29 = _rg29.get("gate") or {}
+            _beta29 = float(_tk29.get("beta_target") or 0.0)
+            _tkf29 = os.path.join(os.path.dirname(_orderp),
+                                  "%s" % str(_tk29.get("file") or ""))
+            if not os.path.exists(_tkf29):
+                _bad29.append("ticket JSON named by the pointer is absent")
+                _cs29 = {}
+            else:
+                with open(_tkf29, encoding="utf-8") as _fh29:
+                    _cs29 = (json.load(_fh29) or {}).get("carry_split") or {}
+            if "这条年化里有多少是现金利息" not in _md29:
+                _bad29.append("the executable ticket carries no carry-split section")
+            if not _cs29:
+                _bad29.append("ticket publishes no carry_split block")
+            else:
+                # the block must be the artifact's own cell for the beta it claims
+                _cell29 = (_g29.get("betas") or {}).get(str(_cs29.get("beta"))) or {}
+                if not _cell29:
+                    _bad29.append("split artifact has no cell for beta %s"
+                                  % _cs29.get("beta"))
+                else:
+                    for _k29 in ("observed_pct", "flat_today_pct", "zero_pct"):
+                        if _cell29.get(_k29) is None or \
+                                abs(float(_cell29[_k29]) - float(_cs29.get(_k29))) > 1e-9:
+                            _bad29.append("ticket's %s is not the artifact's cell" % _k29)
+                    if abs((float(_cs29["observed_pct"]) - float(_cs29["zero_pct"]))
+                           - float(_cs29["carry_pp"])) > 1e-3:
+                        _bad29.append("published carry is not observed-minus-zero")
+                if abs(float(_cs29.get("beta") or -1) - _beta29) > 0.051:
+                    _bad29.append("split is priced at beta %s, ticket runs %.2f"
+                                  % (_cs29.get("beta"), _beta29))
+                for _k29, _fmt in (("observed_pct", "%.2f%%"), ("flat_today_pct", "%.2f%%"),
+                                   ("zero_pct", "%.2f%%")):
+                    if _fmt % float(_cs29.get(_k29) or 0.0) not in _md29:
+                        _bad29.append("ticket omits %s=%.2f%%"
+                                      % (_k29, float(_cs29.get(_k29) or 0.0)))
+                if "%.1f%%" % float(_cs29.get("carry_share_pct") or 0.0) not in _md29:
+                    _bad29.append("ticket omits the carry share of the headline")
+                if "%.2fpp" % float(_cs29.get("carry_pp") or 0.0) not in _md29:
+                    _bad29.append("ticket omits the carry in pp")
+        check("product: the executable ticket decomposes its own headline", not _bad29,
+              "; ".join(_bad29)[:220]
+              or "headline %.2f%% = %.2fpp cash (%.1f%%) | zero-cash %.2f%%"
+                 % (float(_cs29.get("observed_pct") or 0.0),
+                    float(_cs29.get("carry_pp") or 0.0),
+                    float(_cs29.get("carry_share_pct") or 0.0),
+                    float(_cs29.get("zero_pct") or 0.0)))
+    except Exception as e:
+        check("product: the executable ticket decomposes its own headline", False,
+              repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")
