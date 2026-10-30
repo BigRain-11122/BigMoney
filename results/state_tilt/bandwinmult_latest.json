@@ -1,0 +1,1154 @@
+{
+ "study": "E258_band_multiplier_per_window",
+ "title": "does every published window have its own draw multiplier?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-30T20:06:26",
+ "frozen_spec": {
+  "design": "rebuild the paired shuffled band INSIDE each published window and measure that window's own draw multiplier; no panel trade, no re-pricing",
+  "window": "the published cell's own first/last dates (the sessions the band was built on)",
+  "star": "pinned to the star the cell published (cell.star); a re-named star would price a different sleeve's null and the multiplier would not belong to this band",
+  "base_draws": "each row's own published band draw count (60 for the era cells, 200 for all_five), read off the row",
+  "top_draws": 1920,
+  "draw_grid": [
+   60,
+   120,
+   200,
+   480,
+   960,
+   1920
+  ],
+  "prefix_nesting": "one draw stream per seed at max(draw_grid); every smaller count reads its own PREFIX, so the columns are one experiment read several ways",
+  "seeds": 3,
+  "base_seed": 20261130,
+  "n_min": 60,
+  "multiplier": "m = edge(top)/edge(published draws), both edges through E257's log-log interpolation in the draw count; published with the per-seed scatter",
+  "rejudge_rule": "the published rule, unchanged: outside = value < lo or value > hi, applied to a band whose two edges are both scaled by the window's own multiplier",
+  "what_is_not_done": [
+   "no coefficient is re-priced",
+   "no member is billed",
+   "no verdict in the source faces is rewritten",
+   "no adoption and no bill"
+  ]
+ },
+ "source_faces": {
+  "starself": "results/state_tilt/STARSELF-2026-10-29.json",
+  "starown": "results/state_tilt/STAROWN-2026-10-29.json",
+  "e257": "results/state_tilt/BANDTOPFLIP-2026-10-29.json"
+ },
+ "faces_missing": [],
+ "windows": {
+  "all_five": {
+   "cell": "all_five",
+   "sessions": 1328,
+   "first": "2020-11-17",
+   "last": "2026-10-29",
+   "star": "sh588000",
+   "by_base": {
+    "60": {
+     "base_draws": 60.0,
+     "top_draws": 1920,
+     "edge_base": 0.2199631392755218,
+     "edge_top": 0.32961527876123287,
+     "multiplier": 1.4985023392867785,
+     "multiplier_per_seed": [
+      1.1391851958933774,
+      1.4754935732230132,
+      1.6651308048472273
+     ],
+     "multiplier_min": 1.1391851958933774,
+     "multiplier_max": 1.6651308048472273,
+     "seed_scatter": 0.5259456089538499
+    },
+    "200": {
+     "base_draws": 200.0,
+     "top_draws": 1920,
+     "edge_base": 0.25034163449408137,
+     "edge_top": 0.32961527876123287,
+     "multiplier": 1.3166618466295334,
+     "multiplier_per_seed": [
+      1.1046343939394732,
+      1.2964451518537328,
+      1.3369005899072757
+     ],
+     "multiplier_min": 1.1046343939394732,
+     "multiplier_max": 1.3369005899072757,
+     "seed_scatter": 0.2322661959678025
+    }
+   }
+  },
+  "early_three": {
+   "cell": "early_three",
+   "sessions": 831,
+   "first": "2013-03-18",
+   "last": "2016-11-03",
+   "star": "sh510050",
+   "by_base": {
+    "60": {
+     "base_draws": 60.0,
+     "top_draws": 1920,
+     "edge_base": 0.23563928040046617,
+     "edge_top": 0.43316422595914844,
+     "multiplier": 1.8382513527582964,
+     "multiplier_per_seed": [
+      2.2320136621902,
+      1.4022025093409514,
+      2.245734429868289
+     ],
+     "multiplier_min": 1.4022025093409514,
+     "multiplier_max": 2.245734429868289,
+     "seed_scatter": 0.8435319205273377
+    },
+    "200": {
+     "base_draws": 200.0,
+     "top_draws": 1920,
+     "edge_base": 0.3418998631469403,
+     "edge_top": 0.43316422595914844,
+     "multiplier": 1.266933019429098,
+     "multiplier_per_seed": [
+      1.1120196931084714,
+      1.1654267606340787,
+      1.717145349746085
+     ],
+     "multiplier_min": 1.1120196931084714,
+     "multiplier_max": 1.717145349746085,
+     "seed_scatter": 0.6051256566376135
+    }
+   }
+  },
+  "era_2023_2024": {
+   "cell": "era_2023_2024",
+   "sessions": 446,
+   "first": "2023-01-03",
+   "last": "2024-12-31",
+   "star": "sh588000",
+   "by_base": {
+    "60": {
+     "base_draws": 60.0,
+     "top_draws": 1920,
+     "edge_base": 0.38010159356248546,
+     "edge_top": 0.5599589382717475,
+     "multiplier": 1.4731822958792595,
+     "multiplier_per_seed": [
+      1.3382959296771073,
+      1.6180914021424722,
+      1.42517656037328
+     ],
+     "multiplier_min": 1.3382959296771073,
+     "multiplier_max": 1.6180914021424722,
+     "seed_scatter": 0.27979547246536485
+    },
+    "200": {
+     "base_draws": 200.0,
+     "top_draws": 1920,
+     "edge_base": 0.43149473917260744,
+     "edge_top": 0.5599589382717475,
+     "multiplier": 1.2977190390443012,
+     "multiplier_per_seed": [
+      1.3382959296771073,
+      1.425368758060526,
+      1.2443697464873256
+     ],
+     "multiplier_min": 1.2443697464873256,
+     "multiplier_max": 1.425368758060526,
+     "seed_scatter": 0.18099901157320053
+    }
+   }
+  },
+  "era_2025_now": {
+   "cell": "era_2025_now",
+   "sessions": 408,
+   "first": "2025-01-02",
+   "last": "2026-10-29",
+   "star": "sh588000",
+   "by_base": {
+    "60": {
+     "base_draws": 60.0,
+     "top_draws": 1920,
+     "edge_base": 0.4548663297709018,
+     "edge_top": 0.747866240534736,
+     "multiplier": 1.6441450852416506,
+     "multiplier_per_seed": [
+      1.6661891111598466,
+      1.5777731687311436,
+      1.6441450852416506
+     ],
+     "multiplier_min": 1.5777731687311436,
+     "multiplier_max": 1.6661891111598466,
+     "seed_scatter": 0.08841594242870299
+    },
+    "200": {
+     "base_draws": 200.0,
+     "top_draws": 1920,
+     "edge_base": 0.5600988394037456,
+     "edge_top": 0.747866240534736,
+     "multiplier": 1.335239761130158,
+     "multiplier_per_seed": [
+      1.252505496521813,
+      1.3946947449418323,
+      1.2530366670466173
+     ],
+     "multiplier_min": 1.252505496521813,
+     "multiplier_max": 1.3946947449418323,
+     "seed_scatter": 0.14218924842001934
+    }
+   }
+  }
+ },
+ "windows_skipped": [
+  {
+   "cell": "era_2020_2022",
+   "window": [
+    "2020-11-17",
+    "2022-12-30"
+   ],
+   "reason": "the published cell names no star, so there is no sleeve whose null this band is"
+  },
+  {
+   "cell": "pre2020_four",
+   "window": [
+    "2016-11-07",
+    "2020-11-13"
+   ],
+   "reason": "the published cell names no star, so there is no sleeve whose null this band is"
+  }
+ ],
+ "windows_measured": [
+  "all_five",
+  "early_three",
+  "era_2023_2024",
+  "era_2025_now"
+ ],
+ "multiplier_spread": {
+  "n": 8,
+  "min": 1.266933019429098,
+  "max": 1.8382513527582964,
+  "median": 1.404211028504709,
+  "ratio_max_over_min": 1.450945965230778,
+  "min_at": {
+   "cell": "early_three",
+   "base_draws": 200,
+   "multiplier": 1.266933019429098
+  },
+  "max_at": {
+   "cell": "early_three",
+   "base_draws": 60,
+   "multiplier": 1.8382513527582964
+  },
+  "differs_by_more_than_15pct": true,
+  "spread_note": "the spread is the measured statement: one multiplier per window replaces E257's borrowed range"
+ },
+ "windows_vs_borrowed_range": {
+  "borrowed_range": [
+   1.0983237432239998,
+   1.6634829352378064
+  ],
+  "windows": [
+   {
+    "cell": "all_five",
+    "base_draws": 60,
+    "multiplier": 1.4985023392867785,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.9008221891212591
+   },
+   {
+    "cell": "all_five",
+    "base_draws": 200,
+    "multiplier": 1.3166618466295334,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.7915090793770647
+   },
+   {
+    "cell": "early_three",
+    "base_draws": 60,
+    "multiplier": 1.8382513527582964,
+    "inside_borrowed_range": false,
+    "gap_vs_nearest_edge": 0.17476841752049,
+    "ratio_to_borrowed_max": 1.105061743537216
+   },
+   {
+    "cell": "early_three",
+    "base_draws": 200,
+    "multiplier": 1.266933019429098,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.7616146776089296
+   },
+   {
+    "cell": "era_2023_2024",
+    "base_draws": 60,
+    "multiplier": 1.4731822958792595,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.8856010871362848
+   },
+   {
+    "cell": "era_2023_2024",
+    "base_draws": 200,
+    "multiplier": 1.2977190390443012,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.7801216421007549
+   },
+   {
+    "cell": "era_2025_now",
+    "base_draws": 60,
+    "multiplier": 1.6441450852416506,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.9883750836353536
+   },
+   {
+    "cell": "era_2025_now",
+    "base_draws": 200,
+    "multiplier": 1.335239761130158,
+    "inside_borrowed_range": true,
+    "gap_vs_nearest_edge": 0.0,
+    "ratio_to_borrowed_max": 0.8026771617824119
+   }
+  ],
+  "n": 8,
+  "n_outside": 1,
+  "outside": [
+   {
+    "cell": "early_three",
+    "base_draws": 60,
+    "multiplier": 1.8382513527582964
+   }
+  ],
+  "max_ratio_to_borrowed_max": 1.105061743537216,
+  "BASIS_WARNING": "E257's table range was read at ITS OWN default base draw count (200). A cell measured at 60 draws is not comparable to it, so this block is published for completeness only -- the same-base comparison is rows_vs_borrowed_range, which uses each row's own published draw count on both sides.",
+  "note": "the borrowed range was measured on era_2025_now's head/tail ladder and applied to every window; a measured window outside it was widened by the wrong amount -- but only if the two numbers were read at the same base"
+ },
+ "rows_vs_borrowed_range": {
+  "rows": [
+   {
+    "cell": "all_five",
+    "row": "self",
+    "source": "E252:STARSELF",
+    "base_draws": 200.0,
+    "local_multiplier": 1.3166618466295334,
+    "borrowed_range_at_same_base": [
+     1.0983237432239998,
+     1.6634829352378064
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.5651591920138066,
+    "local_seed_range_width": 0.2322661959678025
+   },
+   {
+    "cell": "all_five",
+    "row": "cross",
+    "source": "E252:STARSELF",
+    "base_draws": 200.0,
+    "local_multiplier": 1.3166618466295334,
+    "borrowed_range_at_same_base": [
+     1.0983237432239998,
+     1.6634829352378064
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.5651591920138066,
+    "local_seed_range_width": 0.2322661959678025
+   },
+   {
+    "cell": "era_2023_2024",
+    "row": "self",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.4731822958792595,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.27979547246536485
+   },
+   {
+    "cell": "era_2023_2024",
+    "row": "cross",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.4731822958792595,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.27979547246536485
+   },
+   {
+    "cell": "era_2025_now",
+    "row": "self",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.6441450852416506,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.08841594242870299
+   },
+   {
+    "cell": "era_2025_now",
+    "row": "cross",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.6441450852416506,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.08841594242870299
+   },
+   {
+    "cell": "early_three",
+    "row": "self",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.8382513527582964,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.8435319205273377
+   },
+   {
+    "cell": "early_three",
+    "row": "cross",
+    "source": "E252:STARSELF",
+    "base_draws": 60.0,
+    "local_multiplier": 1.8382513527582964,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.8435319205273377
+   },
+   {
+    "cell": "all_five",
+    "row": "star_lag1_residual",
+    "source": "E251:STAROWN",
+    "base_draws": 200.0,
+    "local_multiplier": 1.3166618466295334,
+    "borrowed_range_at_same_base": [
+     1.0983237432239998,
+     1.6634829352378064
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.5651591920138066,
+    "local_seed_range_width": 0.2322661959678025
+   },
+   {
+    "cell": "era_2023_2024",
+    "row": "star_lag1_residual",
+    "source": "E251:STAROWN",
+    "base_draws": 60.0,
+    "local_multiplier": 1.4731822958792595,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.27979547246536485
+   },
+   {
+    "cell": "era_2025_now",
+    "row": "star_lag1_residual",
+    "source": "E251:STAROWN",
+    "base_draws": 60.0,
+    "local_multiplier": 1.6441450852416506,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.08841594242870299
+   },
+   {
+    "cell": "early_three",
+    "row": "star_lag1_residual",
+    "source": "E251:STAROWN",
+    "base_draws": 60.0,
+    "local_multiplier": 1.8382513527582964,
+    "borrowed_range_at_same_base": [
+     1.1054370312936626,
+     1.9254493445621528
+    ],
+    "inside_borrowed_range": true,
+    "borrowed_range_width": 0.8200123132684902,
+    "local_seed_range_width": 0.8435319205273377
+   }
+  ],
+  "n": 12,
+  "n_outside": 0,
+  "median_borrowed_width": 0.8200123132684902,
+  "note": "same-base comparison: E257's per-row range was the ladder read at that row's own published draw count, so unlike the table range it IS comparable"
+ },
+ "e257_borrowed_range": {
+  "min": 1.0983237432239998,
+  "max": 1.6634829352378064,
+  "median": 1.2323333287536493,
+  "note": "E257 read this off era_2025_now's head/tail ladder and applied it to every window as a range; this face measures each window instead"
+ },
+ "rows": [
+  {
+   "source": "E252:STARSELF",
+   "cell": "all_five",
+   "row": "self",
+   "sessions": 1328,
+   "b": -0.7338669780097795,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.31482186746270696,
+   "band_hi": 0.22694777216938677,
+   "band_draws": 200,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_median": 1.2323333287536493,
+   "margin_at_top_median": 1.8933746003444223,
+   "outside_at_published": true,
+   "local_multiplier": 1.3166618466295334,
+   "local_multiplier_min": 1.1046343939394732,
+   "local_multiplier_max": 1.3369005899072757,
+   "local_seed_scatter": 0.2322661959678025,
+   "local_base_draws": 200.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.25034163449408137,
+   "local_edge_top": 0.32961527876123287,
+   "edge_at_published": 0.31482186746270696,
+   "band_at_local": [
+    -0.414513941372806,
+    0.2988134727930034
+   ],
+   "edge_at_local": 0.414513941372806,
+   "margin_at_published": 2.331054649806725,
+   "margin_at_local": 1.7704277341778316,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "all_five",
+   "row": "cross",
+   "sessions": 1328,
+   "b": -0.7250430277727764,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.2680802007904303,
+   "band_hi": 0.2579169304029064,
+   "band_draws": 200,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_median": 1.2323333287536493,
+   "margin_at_top_median": 2.196762629466944,
+   "outside_at_published": true,
+   "local_multiplier": 1.3166618466295334,
+   "local_multiplier_min": 1.1046343939394732,
+   "local_multiplier_max": 1.3369005899072757,
+   "local_seed_scatter": 0.2322661959678025,
+   "local_base_draws": 200.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.25034163449408137,
+   "local_edge_top": 0.32961527876123287,
+   "edge_at_published": 0.2680802007904303,
+   "band_at_local": [
+    -0.3529709722175441,
+    0.3395893818613116
+   ],
+   "edge_at_local": 0.3529709722175441,
+   "margin_at_published": 2.704575069829843,
+   "margin_at_local": 2.054115167651565,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "pre2020_four",
+   "row": "self",
+   "sessions": 891,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "e257_verdict": "unjudgeable",
+   "e257_row_present": true,
+   "local_verdict": "unjudgeable",
+   "local_reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "pre2020_four",
+   "row": "cross",
+   "sessions": 891,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "e257_verdict": "unjudgeable",
+   "e257_row_present": true,
+   "local_verdict": "unjudgeable",
+   "local_reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2020_2022",
+   "row": "self",
+   "sessions": 474,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "e257_verdict": "unjudgeable",
+   "e257_row_present": true,
+   "local_verdict": "unjudgeable",
+   "local_reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2020_2022",
+   "row": "cross",
+   "sessions": 474,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "e257_verdict": "unjudgeable",
+   "e257_row_present": true,
+   "local_verdict": "unjudgeable",
+   "local_reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2023_2024",
+   "row": "self",
+   "sessions": 446,
+   "b": -0.8027254787526823,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.3009172041368989,
+   "band_hi": 0.38241486006464576,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.5953787601288045,
+   "outside_at_published": true,
+   "local_multiplier": 1.4731822958792595,
+   "local_multiplier_min": 1.3382959296771073,
+   "local_multiplier_max": 1.6180914021424722,
+   "local_seed_scatter": 0.27979547246536485,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.38010159356248546,
+   "local_edge_top": 0.5599589382717475,
+   "edge_at_published": 0.38241486006464576,
+   "band_at_local": [
+    -0.4433058976599645,
+    0.5633668015283806
+   ],
+   "edge_at_local": 0.5633668015283806,
+   "margin_at_published": 2.0990959363268065,
+   "margin_at_local": 1.4248718181031184,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2023_2024",
+   "row": "cross",
+   "sessions": 446,
+   "b": -0.8332269315437407,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.33888786748973576,
+   "band_hi": 0.3612981017916428,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.7527869731793349,
+   "outside_at_published": true,
+   "local_multiplier": 1.4731822958792595,
+   "local_multiplier_min": 1.3382959296771073,
+   "local_multiplier_max": 1.6180914021424722,
+   "local_seed_scatter": 0.27979547246536485,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.38010159356248546,
+   "local_edge_top": 0.5599589382717475,
+   "edge_at_published": 0.3612981017916428,
+   "band_at_local": [
+    -0.4992436066741552,
+    0.5322579670942308
+   ],
+   "edge_at_local": 0.5322579670942308,
+   "margin_at_published": 2.30620345751015,
+   "margin_at_local": 1.5654569457975374,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2025_now",
+   "row": "self",
+   "sessions": 408,
+   "b": -0.46348275881928647,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.5211261029119459,
+   "band_hi": 0.4510867343946797,
+   "band_draws": 60,
+   "published_outside": false,
+   "e257_verdict": "stays_inside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 0.6759619872467366,
+   "outside_at_published": false,
+   "local_multiplier": 1.6441450852416506,
+   "local_multiplier_min": 1.5777731687311436,
+   "local_multiplier_max": 1.6661891111598466,
+   "local_seed_scatter": 0.08841594242870299,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.4548663297709018,
+   "local_edge_top": 0.747866240534736,
+   "edge_at_published": 0.5211261029119459,
+   "band_at_local": [
+    -0.8568069208938105,
+    0.7416520373727185
+   ],
+   "edge_at_local": 0.8568069208938105,
+   "margin_at_published": 0.8893869568794188,
+   "margin_at_local": 0.5409418942785696,
+   "outside_at_local_seeds": [
+    false,
+    false,
+    false
+   ],
+   "outside_at_local_all_seeds": false,
+   "outside_at_local_any_seed": false,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "stays_inside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2025_now",
+   "row": "cross",
+   "sessions": 408,
+   "b": -0.9113353718550754,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.4149041386090875,
+   "band_hi": 0.46536854590686627,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.4883762068598987,
+   "outside_at_published": true,
+   "local_multiplier": 1.6441450852416506,
+   "local_multiplier_min": 1.5777731687311436,
+   "local_multiplier_max": 1.6661891111598466,
+   "local_seed_scatter": 0.08841594242870299,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.4548663297709018,
+   "local_edge_top": 0.747866240534736,
+   "edge_at_published": 0.46536854590686627,
+   "band_at_local": [
+    -0.6821626003405518,
+    0.7651334075788276
+   ],
+   "edge_at_local": 0.7651334075788276,
+   "margin_at_published": 1.9583089142373193,
+   "margin_at_local": 1.191080356481736,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "early_three",
+   "row": "self",
+   "sessions": 831,
+   "b": -0.2034528182205142,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.3227391896025501,
+   "band_hi": 0.20152376421923934,
+   "band_draws": 60,
+   "published_outside": false,
+   "e257_verdict": "stays_inside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 0.47911914366947944,
+   "outside_at_published": false,
+   "local_multiplier": 1.8382513527582964,
+   "local_multiplier_min": 1.4022025093409514,
+   "local_multiplier_max": 2.245734429868289,
+   "local_seed_scatter": 0.8435319205273377,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.23563928040046617,
+   "local_edge_top": 0.43316422595914844,
+   "edge_at_published": 0.3227391896025501,
+   "band_at_local": [
+    -0.593275751875004,
+    0.3704513321889607
+   ],
+   "edge_at_local": 0.593275751875004,
+   "margin_at_published": 0.6303939055900345,
+   "margin_at_local": 0.3429312888273567,
+   "outside_at_local_seeds": [
+    false,
+    false,
+    false
+   ],
+   "outside_at_local_all_seeds": false,
+   "outside_at_local_any_seed": false,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "stays_inside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "early_three",
+   "row": "cross",
+   "sessions": 831,
+   "b": -0.4942013405547795,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.27410275200467416,
+   "band_hi": 0.30837107575218653,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "flips_depends_on_measurement",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.218040702985692,
+   "outside_at_published": true,
+   "local_multiplier": 1.8382513527582964,
+   "local_multiplier_min": 1.4022025093409514,
+   "local_multiplier_max": 2.245734429868289,
+   "local_seed_scatter": 0.8435319205273377,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.23563928040046617,
+   "local_edge_top": 0.43316422595914844,
+   "edge_at_published": 0.30837107575218653,
+   "band_at_local": [
+    -0.5038697546673642,
+    0.566863547152988
+   ],
+   "edge_at_local": 0.566863547152988,
+   "margin_at_published": 1.6026189854197936,
+   "margin_at_local": 0.8718171119608118,
+   "outside_at_local_seeds": [
+    false,
+    true,
+    false
+   ],
+   "outside_at_local_all_seeds": false,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": true,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": true,
+   "local_verdict": "flips_depends_on_seed_scatter"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "all_five",
+   "row": "star_lag1_residual",
+   "sessions": 1328,
+   "b": -0.7250430277727764,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.2227898080428957,
+   "band_hi": 0.23568968080162994,
+   "band_draws": 200,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_median": 1.2323333287536493,
+   "margin_at_top_median": 2.498660801751739,
+   "outside_at_published": true,
+   "local_multiplier": 1.3166618466295334,
+   "local_multiplier_min": 1.1046343939394732,
+   "local_multiplier_max": 1.3369005899072757,
+   "local_seed_scatter": 0.2322661959678025,
+   "local_base_draws": 200.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.25034163449408137,
+   "local_edge_top": 0.32961527876123287,
+   "edge_at_published": 0.23568968080162994,
+   "band_at_local": [
+    -0.2933388400679983,
+    0.31032361035579936
+   ],
+   "edge_at_local": 0.31032361035579936,
+   "margin_at_published": 3.076261231746563,
+   "margin_at_local": 2.3364094886028277,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "era_2023_2024",
+   "row": "star_lag1_residual",
+   "sessions": 446,
+   "b": -0.8332269315437407,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.38965397709569133,
+   "band_hi": 0.34628292300900926,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.625233267154083,
+   "outside_at_published": true,
+   "local_multiplier": 1.4731822958792595,
+   "local_multiplier_min": 1.3382959296771073,
+   "local_multiplier_max": 1.6180914021424722,
+   "local_seed_scatter": 0.27979547246536485,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.38010159356248546,
+   "local_edge_top": 0.5599589382717475,
+   "edge_at_published": 0.38965397709569133,
+   "band_at_local": [
+    -0.574031340576315,
+    0.5101378715421931
+   ],
+   "edge_at_local": 0.574031340576315,
+   "margin_at_published": 2.1383765610561616,
+   "margin_at_local": 1.451535609026502,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "era_2025_now",
+   "row": "star_lag1_residual",
+   "sessions": 408,
+   "b": -0.9113353718550754,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.3828993236712511,
+   "band_hi": 0.37517005828954664,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "survives_outside",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.8089440966039851,
+   "outside_at_published": true,
+   "local_multiplier": 1.6441450852416506,
+   "local_multiplier_min": 1.5777731687311436,
+   "local_multiplier_max": 1.6661891111598466,
+   "local_seed_scatter": 0.08841594242870299,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.4548663297709018,
+   "local_edge_top": 0.747866240534736,
+   "edge_at_published": 0.3828993236712511,
+   "band_at_local": [
+    -0.6295420411564395,
+    0.6168340074665817
+   ],
+   "edge_at_local": 0.6295420411564395,
+   "margin_at_published": 2.380091359569827,
+   "margin_at_local": 1.4476163818718042,
+   "outside_at_local_seeds": [
+    true,
+    true,
+    true
+   ],
+   "outside_at_local_all_seeds": true,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": false,
+   "local_verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "early_three",
+   "row": "star_lag1_residual",
+   "sessions": 831,
+   "b": -0.4942013405547795,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.26227210344102825,
+   "band_hi": 0.29882489984854366,
+   "band_draws": 60,
+   "published_outside": true,
+   "e257_verdict": "flips_depends_on_measurement",
+   "e257_row_present": true,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_median": 1.3178150594826112,
+   "margin_at_top_median": 1.256951887476648,
+   "outside_at_published": true,
+   "local_multiplier": 1.8382513527582964,
+   "local_multiplier_min": 1.4022025093409514,
+   "local_multiplier_max": 2.245734429868289,
+   "local_seed_scatter": 0.8435319205273377,
+   "local_base_draws": 60.0,
+   "local_top_draws": 1920,
+   "local_edge_base": 0.23563928040046617,
+   "local_edge_top": 0.43316422595914844,
+   "edge_at_published": 0.29882489984854366,
+   "band_at_local": [
+    -0.482122048941234,
+    0.5493152763844479
+   ],
+   "edge_at_local": 0.5493152763844479,
+   "margin_at_published": 1.6538157991695484,
+   "margin_at_local": 0.8996679353386562,
+   "outside_at_local_seeds": [
+    false,
+    true,
+    false
+   ],
+   "outside_at_local_all_seeds": false,
+   "outside_at_local_any_seed": true,
+   "flips_at_local": false,
+   "flips_on_every_seed": false,
+   "flips_on_any_seed": true,
+   "local_verdict": "flips_depends_on_seed_scatter"
+  }
+ ],
+ "verdict": "local_verdicts_depend_on_seed_scatter",
+ "verdict_reason": "no row flips on every seed, but 2 flip for some seeds",
+ "no_bill": "measurement only: each band is rebuilt inside its own published window; no coefficient is re-priced, no member is billed, nothing is adopted",
+ "summary": {
+  "windows_measured": 4,
+  "windows_skipped": 2,
+  "rows": 16,
+  "rows_judged": 12,
+  "rows_by_local_verdict": {
+   "survives_outside": 8,
+   "unjudgeable": 4,
+   "stays_inside": 2,
+   "flips_depends_on_seed_scatter": 2
+  },
+  "rows_flip_every_seed": 0,
+  "rows_flip_some_seed": 2,
+  "rows_survive_outside": 8,
+  "agreement_with_e257_range": {
+   "same": 10,
+   "not_comparable": 4,
+   "same_shape_different_axis": 2
+  },
+  "multiplier_min": 1.266933019429098,
+  "multiplier_max": 1.8382513527582964,
+  "multiplier_median": 1.404211028504709,
+  "multiplier_spread_ratio": 1.450945965230778,
+  "multiplier_differs_by_more_than_15pct": true,
+  "rows_counts_add_up": true,
+  "tightest_survivor_margin_at_local": 1.191080356481736
+ }
+}

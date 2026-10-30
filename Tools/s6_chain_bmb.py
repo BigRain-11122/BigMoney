@@ -254,6 +254,16 @@ LEGS = [
     # no refit, no coefficient re-priced. <1s.
     ("band_at_top_flips", ["python", "scripts/e257_band_at_top_flips.py", "verify"]),
 
+    # E258: E257 borrowed era_2025_now's draw ladder and applied it to every window as a RANGE,
+    # because a fixed published window is neither that era's head nor its tail. This leg rebuilds
+    # the band INSIDE each published window (same dates, same published star, same published
+    # members, prefix-nested draw streams) and measures that window's OWN multiplier. The measured
+    # spread (1.27..1.84 at each window's own base count, ratio 1.45) is the finding: the borrowed
+    # range was not one object, and early_three's band was under-widened by the borrowed table
+    # range. Reads the panel (five-member ETF basket only), 3 seeds x 4 windows, ~85s.
+    ("band_multiplier_in_each_window",
+     ["python", "scripts/e258_band_multiplier_per_window.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

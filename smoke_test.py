@@ -4648,6 +4648,86 @@ def main() -> int:
     except Exception as e:
         check("product: the published band verdicts are re-judged at the top draw count",
               False, repr(e)[:160])
+
+    # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
+    # range, because a fixed published window is neither that era's head nor its tail. This leg
+    # guards the face that measures each window's own multiplier. What can fabricate a claim here:
+    # a row that borrows another window's multiplier (cross-window leakage), a multiplier that is
+    # not the one its own edge table carries, and -- the activity face -- a "measured spread" that
+    # is really one constant number copied into every window.
+    try:
+        _bad58 = []
+        _p58 = os.path.join("results", "state_tilt", "bandwinmult_latest.json")
+        _f58 = None
+        if not os.path.exists(_p58):
+            _bad58.append("face missing: %s" % _p58)
+        else:
+            with io.open(_p58, encoding="utf-8") as _fh58:
+                _f58 = json.load(_fh58)
+        _m58 = None
+        if _f58 is not None:
+            try:
+                import e258_band_multiplier_per_window as _m58
+            except Exception as _e58:
+                _bad58.append("module does not import: %r" % (_e58,))
+        if _m58 is not None:
+            _v58 = _m58.verify()
+            for _p in (_v58.get("problems") or []):
+                _bad58.append("verify: %s" % _p)
+            _w58 = _f58.get("windows") or {}
+            if len(_w58) < 3:
+                _bad58.append("fewer than three published windows were measured (%d)"
+                              % len(_w58))
+            # iterate ITEMS: .values() yields the window dicts, and using one of those as the
+            # key of _w58.get() is an unhashable-dict TypeError (caught on the first live run).
+            _ms58 = [m.get("multiplier") for _cn, _rw in _w58.items()
+                     for m in ((_rw or {}).get("by_base") or {}).values()
+                     if m.get("multiplier")]
+            if not _ms58:
+                _bad58.append("no window carries a multiplier")
+            else:
+                # ACTIVITY: the band must really rise with draws somewhere
+                if max(_ms58) <= 1.02:
+                    _bad58.append("no window's band rises with the draw count -- nothing was "
+                                  "measured")
+                # ...and the spread must be a real spread, not one number copied around
+                if (max(_ms58) - min(_ms58)) <= 1e-6:
+                    _bad58.append("every window reports the identical multiplier -- one number "
+                                  "copied, not measured")
+            # cross-window leakage: a judged row must carry ITS OWN window's multiplier
+            for _r in (_f58.get("rows") or []):
+                _cell = _r.get("cell")
+                _lv = _r.get("local_verdict")
+                if _lv in (None, "unjudgeable", "published_flag_not_reproduced"):
+                    continue
+                _rec = _w58.get(_cell) or {}
+                _base = str(int(_r.get("local_base_draws") or 0))
+                _tab = (_rec.get("by_base") or {}).get(_base) or {}
+                _want = _tab.get("multiplier")
+                if _want is None:
+                    _bad58.append("%s/%s says it was judged locally but its window has no "
+                                  "multiplier at %s draws"
+                                  % (_cell, _r.get("row"), _base))
+                elif _r.get("local_multiplier") is None or                         abs(_r["local_multiplier"] - _want) > 1e-12:
+                    _bad58.append("%s/%s: local multiplier %r is not its own window's value %r"
+                                  % (_cell, _r.get("row"), _r.get("local_multiplier"), _want))
+        _s58 = (_f58 or {}).get("summary") or {}
+        _br58 = (_f58 or {}).get("windows_vs_borrowed_range") or {}
+        check("product: each published window's draw multiplier is measured, not borrowed",
+              not _bad58, "; ".join(_bad58)[:220]
+              or "verdict %s; %s window(s) measured (%s skipped), multiplier %.3f..%.3f median "
+                 "%.3f (ratio %.2f); %s row(s) judged: %s flip on every seed, %s on some, %s "
+                 "survive; %s of %s window/base cells outside E257's borrowed range"
+                 % ((_f58 or {}).get("verdict"), _s58.get("windows_measured"),
+                    _s58.get("windows_skipped"), _s58.get("multiplier_min") or 0,
+                    _s58.get("multiplier_max") or 0, _s58.get("multiplier_median") or 0,
+                    _s58.get("multiplier_spread_ratio") or 0, _s58.get("rows_judged"),
+                    _s58.get("rows_flip_every_seed"), _s58.get("rows_flip_some_seed"),
+                    _s58.get("rows_survive_outside"),
+                    _br58.get("n_outside"), _br58.get("n")))
+    except Exception as e:
+        check("product: each published window's draw multiplier is measured, not borrowed",
+              False, repr(e)[:160])
     return _finish()
 
 

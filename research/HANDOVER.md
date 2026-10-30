@@ -707,3 +707,14 @@ Checklist status (r1316-r1320, the five rounds since the last bm-c checkpoint):
 交付状态：本机提交已推到 `machine/bm-b-r1265`（`de23c09eb` 产物 / `6ad6ab442` 收口 / `2a9cb8aa5` 回执 / `d1b061884` 回执校时 / 本轮 HANDOVER 提交），
 ls-remote == HEAD；**origin/main 未推**——领先 31 / 落后 40，promisor 懒取让 main 的 push/merge 连续十一轮挂死，
 且上游重写了同一批自动生成面（runnable_pool / machine-health / 状态孪生），rebase 属已付过两次代价（LEDGER 丢 33 行 / QC 清单丢 90 行）的覆盖风险，留给干净窗口处理。
+
+### bm-b round 1285 五倍数核对（2026-10-30 19:56）
+
+自上一份 HANDOVER 面（r1265）以来的产品增量以口径链形式落地，全部带 runner + face + S6 腿 + smoke 腿 + 方法论卡：
+
+- 状态倾斜/星面链：E239（own vs cross，`results/state_tilt/OWNCROSS-2026-10-29.json`）→ E240/E241（参数化与复现）→ E252（星自己定价，`STARSELF-2026-10-29.json`，6 cells）→ E253（自身行分辨率，`SELFRES-2026-10-29.json`，needed 515.8 期 / 现有 408）→ E254/E255/E256（带窗指数-抽样饥饿-抽样延续三点链，`BANDDRAW-2026-10-29-d1920.json`）→ E257（顶格抽样重判，`BANDTOPFLIP-2026-10-29.json`，16 行：8 存活 / 1 个系数仅在部分测量下翻转）→ **E258（本轮，`BANDWINMULT-2026-10-29.json`）**。
+- E258 结论：抽样倍率是**窗的属性**，不是族的属性。四个可测窗在各自发布抽样数上的倍率为 all_five 1.317 / early_three 1.838 / era_2023_2024 1.473 / era_2025_now 1.644（八格全谱 1.267..1.838，比值 1.45）；E257 借用区间 1.098..1.664 对 early_three 低估 10.5%，而 early_three 正是 E257 里唯一动过的系数 b=-0.4942 所在窗。按各行自己的窗倍率重判：8 行仍在带外、2 行仅部分种子翻转、4 行不可判（两窗无星）。与 E257 借用区间判定一致 10 行、同形异轴 2 行。
+- 工程面：`Tools/s6_chain_bmb.py` 65 腿（本轮 +`band_multiplier_in_each_window`）；本轮星/带腿族 7/7 rc=0 复跑绿。
+- 任务板 `results/runnable_pool.json`：E257 已 done；**E258 卡当前仍为 ready**——状态迁移归代理席写手制，本机禁写 POOL.json，只在此声明其产物已在盘（runner + face + 验证）。
+- 机队面：`fleet/machines/bm-b.json` round 1285，`state.json` 与 `state-bm-b.json` **双写**同步到 1285（双 state 面并存=既有面，双写腿按 r1020 判例保留）。
+- 交付面：main 仍落后远端一大截且 push 在 promisor 懒取上卡死（既有面），本机持续走 `machine/bm-b-r<N>` 分支交付。

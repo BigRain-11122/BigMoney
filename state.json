@@ -5,7 +5,7 @@
  "cpu_load_pct": 12.0,
  "cpu_pct": 7.6,
  "cpu_util_pct": 7.6,
- "current": "r1282 E255 band draw starvation",
+ "current": "E258 window multiplier (done)",
  "current_task": "E256 band draw continuation (done) -- next E257 band at top flips (seeded ready)",
  "cyc_round": 1254,
  "cycle_round": 1254,
@@ -929,7 +929,7 @@
  "ram_load_pct": 66,
  "ram_total_gb": 23.9,
  "round": 1283,
- "round_no": 1283,
+ "round_no": 1285,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
  "round_no_label": "r1283",
  "round_no_note": "r1240: aligned to the report series (r1239 last report) instead of bumping the stale 1237 -- r1238/r1239 wrote reports only",
@@ -963,5 +963,7 @@
  "updated_at": "2026-10-30T18:28:34+08:00",
  "verdict": "E256: the band endpoint is scheduled, not waited out. Stretching E255's prefix-nested ladder to 960 then 1920 draws gives median rise per doubling HEAD 8.85/1.59/9.83/5.25/10.27% and TAIL 5.45/0.00/11.67/6.99/8.82% -- settled_after_draws is null in both families and the second-half-over-first ratio is 1.88 (HEAD) / 3.23 (TAIL), so later doublings add no less than earlier ones and the band has no countable stopping point. Edge at n=408: 0.4549 (60) -> 0.6255 (480) -> 0.6691 (960) -> 0.7479 (1920) = ~D^0.13. Consequence: the same E253 inversion asks 1999/951 sessions against 408, and the number moves with every doubling -- every session target taken from this band is a floor whose own value depends on the draw count. HEAD r2 is not monotone in draws either (0.890/0.924/0.825), so draws_needed=480 read off one grid point is not a settled property. Family gap 0.264 keeps E254's rule at undetermined, now for the straddle rather than the fit. Second fix: state.json's orders_ack held a prose sentence instead of the list the ack scanner reads, so orders_ack_scan exited 4 with a face fault and the two-face divergence check never ran; the heartbeat list (115) is now the state list too, and the scanner reads CLEAN with heart_only=[] state_only=[]",
  "watermark_red": "RED pool-batch-runnable-idle-low-cpu at open (py 0.1-6.9%%, 3 ready: 2 phantom E272 cards + my own E256 code-change card) -> burned E256 in-round",
- "work": "scripts/e255_band_draw_starvation.py (run / selftest 15/15 / verify) + face + digest + card + S6 leg + smoke leg + audit fix"
+ "work": "scripts/e255_band_draw_starvation.py (run / selftest 15/15 / verify) + face + digest + card + S6 leg + smoke leg + audit fix",
+ "last_round_utc": "2026-10-30T11:55:35+00:00",
+ "next_task": "E259-BAND-MULTIPLIER-ACROSS-SEED-STREAMS (seeded ready): 3 seeds is not a distribution -- measure the band's drawn-share distribution at the top count so the multiplier can be published as an interval rather than a seed range"
 }
