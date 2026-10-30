@@ -23686,7 +23686,7 @@
    "id": "E266-ATLAS-BUFFER-K030",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.30 on the whole grid)",
    "runner_args": [
@@ -23707,12 +23707,18 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "open",
+     "status": "done",
      "owner": null,
-     "checkpoint": "results/etf_book_phase_atlas_buffer_k30.json -- one whole face per invocation; same bar set reproduces the same bytes"
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k30.json -- one whole face per invocation; same bar set reproduces the same bytes",
+     "owner_since": "2026-10-30 10:22:03",
+     "done_at": "2026-10-30 10:22:03",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
     }
    ],
-   "priority": 2
+   "priority": 2,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 10:22:03"
   },
   {
    "id": "E266-ATLAS-BUFFER-K005-COST05",
