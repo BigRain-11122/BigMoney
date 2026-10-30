@@ -300,6 +300,15 @@ LEGS = [
     ("p95_transfer_across_windows",
      ["python", "scripts/e262_p95_transfer_across_windows.py", "verify"]),
 
+    # E264: a row's whole verdict is its threshold m* = |b|/max(|lo|,|hi|) (outside <=> m < m*),
+    # so the row side needs no draws. This leg re-derives which published row sits closest to its
+    # band (era_2025_now cross:60, m*=1.9583 against its own p95=1.9678, a 0.0095 gap) and that
+    # the p05 == 1 floor the near-one seeds create is NOT load-bearing for any of the 4 rows that
+    # end on it (their thresholds are all >= 2.1). Also re-derives that both rows E262 moved by
+    # borrowing sit inside the top-3 closest. Reads the published E259 face only, no draw. <1s.
+    ("near_one_seed_reading",
+     ["python", "scripts/e264_near_one_seeds_reading.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

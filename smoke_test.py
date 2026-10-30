@@ -5178,6 +5178,105 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E264: a row's whole verdict is its threshold m* = |b|/max(|lo|,|hi|) (outside <=> m < m*),
+    # so the row side needs no draws. This leg guards the face that asks which row sits closest to
+    # its band and whether the p05 == 1 floor those near-one seeds create is load-bearing for it.
+    # What can fabricate a claim here: a row read against another arm's seeds, a threshold that is
+    # not the published margin at m = 1, a "near-one dependent" flag set on existence instead of
+    # the conjunction (E207/E208 family), and a closest row named on a tie.
+    try:
+        _bad64 = []
+        _p64 = os.path.join("results", "state_tilt", "bandnear1_latest.json")
+        _f64 = None
+        if not os.path.exists(_p64):
+            _bad64.append("face missing: %s" % _p64)
+        else:
+            with io.open(_p64, encoding="utf-8") as _fh64:
+                _f64 = json.load(_fh64)
+        if _f64 is not None:
+            _rows64 = _f64.get("rows") or []
+            _measured64 = [r for r in _rows64 if r.get("m_star") is not None]
+            _s64 = _f64.get("summary") or {}
+            # (a) the read count is a count of READ rows, not of published rows
+            if _s64.get("rows_read") != len(_measured64):
+                _bad64.append("summary rows_read %r but %d row(s) carry a threshold"
+                              % (_s64.get("rows_read"), len(_measured64)))
+            if _s64.get("rows_published") != len(_rows64):
+                _bad64.append("summary rows_published %r but the face lists %d"
+                              % (_s64.get("rows_published"), len(_rows64)))
+            # (b) m* is the published margin at m = 1, recomputed here
+            for _r64 in _measured64:
+                _b, _lo, _hi = _r64.get("b"), _r64.get("band_lo"), _r64.get("band_hi")
+                _span = max(abs(float(_lo)), abs(float(_hi)))
+                if abs(float(_r64["m_star"]) - abs(float(_b)) / _span) > 1e-12:
+                    _bad64.append("row %r: m_star is not |b|/max(|lo|,|hi|)" % (_r64.get("index"),))
+                    break
+            # (c) the flag is the conjunction, never mere existence
+            for _r64 in _measured64:
+                if _r64.get("near_one_dependent"):
+                    if not _r64.get("tight_end_was_the_floor") or not \
+                            _r64.get("tight_verdict_moves_without_near_one"):
+                        _bad64.append("row %r carries near_one_dependent without the conjunction"
+                                      % (_r64.get("index"),))
+                        break
+            _dep64 = [r for r in _measured64 if r.get("near_one_dependent")]
+            if _s64.get("rows_near_one_dependent") != len(_dep64):
+                _bad64.append("summary counts %r near-one dependent rows but the rows say %d"
+                              % (_s64.get("rows_near_one_dependent"), len(_dep64)))
+            # (d) the closest row is named only when it is strictly closest; a tie says so
+            _cl64 = _f64.get("closest") or {}
+            _gaps64 = [r.get("gap_to_nearest_end") for r in _cl64.get("rows") or []
+                       if r.get("gap_to_nearest_end") is not None]
+            if _gaps64:
+                _best64 = min(_gaps64)
+                _tied64 = [g for g in _gaps64 if abs(g - _best64) <= 1e-12]
+                if len(_tied64) > 1 and _cl64.get("closest") is not None:
+                    _bad64.append("a tied top names a single closest row")
+                if len(_tied64) == 1 and (_cl64.get("closest") or {}).get(
+                        "gap_to_nearest_end") is None:
+                    _bad64.append("a strictly closest row is not named")
+            # (e) the ranking agrees with the rows a borrowed wide end moved (disclosure present)
+            _bc64 = _f64.get("borrowed_flip_check") or {}
+            if not isinstance(_bc64.get("n_moved_and_closest"), int):
+                _bad64.append("the borrowed-end cross-check is missing or not a count")
+            # (f) no row is read against seeds it does not own
+            for _r64 in _measured64:
+                if _r64.get("status") not in ("measured", "measured_no_seed_list"):
+                    _bad64.append("row %r is read but its status is %r"
+                                  % (_r64.get("index"), _r64.get("status")))
+                    break
+            _want64 = ("closest_row_reads_a_near_one_seed" if _dep64 else
+                       ("closest_row_survives_without_them"
+                        if _s64.get("rows_tight_end_at_the_floor") else
+                        "no_row_sits_close_enough_to_matter"))
+            if _f64.get("verdict") != _want64:
+                _bad64.append("verdict %r does not follow from the rows (%d dependent, %r floor)"
+                              % (_f64.get("verdict"), len(_dep64),
+                                 _s64.get("rows_tight_end_at_the_floor")))
+        _top64 = ((_f64 or {}).get("closest") or {}).get("rows") or [{}]
+        check("product: a row's verdict is its own threshold, not a neighbour's draws",
+              not _bad64,
+              "%s; %d of %d row(s) read, %r on the floor, %d near-one dependent, closest row "
+              "%r/%r at m*=%.4f vs %s=%.4f (gap %.4f), borrowed-end cross-check %r of %d moved "
+              "row(s) inside the top 3"
+              % ((_f64 or {}).get("verdict"),
+                 ((_f64 or {}).get("summary") or {}).get("rows_read") or 0,
+                 ((_f64 or {}).get("summary") or {}).get("rows_published") or 0,
+                 ((_f64 or {}).get("summary") or {}).get("rows_tight_end_at_the_floor"),
+                 ((_f64 or {}).get("summary") or {}).get("rows_near_one_dependent") or 0,
+                 _top64[0].get("cell"), _top64[0].get("row"),
+                 _top64[0].get("m_star") or 0.0, _top64[0].get("nearest_end_name") or "end",
+                 _top64[0].get("nearest_end") or 0.0,
+                 _top64[0].get("gap_to_nearest_end") or 0.0,
+                 ((_f64 or {}).get("borrowed_flip_check") or {}).get("n_moved_and_closest"),
+                 ((_f64 or {}).get("borrowed_flip_check") or {})
+                 .get("rows_moved_by_a_borrowed_end") or 0)
+              + (" | " + "; ".join(_bad64[:4]) if _bad64 else ""))
+    except Exception as e:
+        check("product: a row's verdict is its own threshold, not a neighbour's draws",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

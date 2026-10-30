@@ -5066,3 +5066,24 @@ Three reusable pieces:
 Engineering pits caught in the same round: a fixture that already sits inside its own band cannot test a WIDENING (b=-0.5 against band +-0.3 scaled by 2 is inside both before and after; a direction leg needs a row just outside the own band, b=-0.7 vs +-0.6); `dominator()` returns None on a tie at the maximum by design, so the leg asserting a named winner on a tie was the wrong assertion, not the wrong code (r1281 shape); a two-cell group has 2 ordered pairs but only 1 donor per named recipient, and conflating the two fails three correct assertions; and PowerShell does not take heredocs (`python - <<'PY'`), so the patch round must go through a file or the edit tool (r1288 pit re-confirmed).
 
 Evidence: scripts/e262_p95_transfer_across_windows.py (selftest 43/43, verify 0 problems), results/state_tilt/BANDTRANSFER-2026-10-29.json (verdict=a_foreign_wide_end_is_not_a_bound; 48 pairs, 2 moved, 0 invented), source face BANDWINDIST-2026-10-29 (E259), digest research/digests/DIGEST-20261030-r1290-e262-p95-transfer.md.
+
+
+## E264 -- the floor at one is a bucket, not a row-side hazard, and every row that sits close sits close to the WIDE end
+
+E259 published 40 independent multipliers per (window, leg, base count) and E261 showed the floor at exactly one belongs to the endpoint-already-attained bucket. Both are statements about the band. The row side is one number: a row's verdict at multiplier m is `outside <=> m < m*` with `m* = |b| / max(|lo|,|hi|)`, so m* -- not the interval -- decides where the row flips, and no draw is needed to compute it.
+
+Measured on E259's published face only: 12 of 16 rows are readable (the 4 unread are pre2020_four and era_2020_2022, self and cross -- no coefficient or no band, disclosed not absorbed). 4 rows end exactly on the floor, and dropping every near-one seed lifts p05 to 1.110..1.201 (median shift 0.090, max 0.201) while moving ZERO tight-end verdicts: those four carry m* between 2.14 and 3.08, so the floor would have to roughly double to reach them. The floor is real, and nothing is standing on it.
+
+Where rows DO sit close is the wide end: era_2025_now cross:60 has m*=1.9583 against its own p95=1.9678 -- a 0.0095 gap, 0.48% of the multiplier; then era_2023_2024 self:60 (0.0757) and era_2023_2024 star_lag1_residual cross:60 (0.1223). Median gap over the twelve is 0.413, max 1.551, so the distribution is lopsided rather than uniformly tight.
+
+Three reusable pieces:
+
+> when a band interval has a floor and you worry the floor is propping up rejections, ASK THE ROWS IN THEIR OWN UNITS -- m* = |b|/max(|lo|,|hi|) is the entire row-side story, it costs one division, and it turns a qualitative worry into a distance. Here the distance was >= 1.1 in every case, which is a much stronger statement than "the floor moved by 0.2".
+
+> an interval end that is exactly a constant (p05 == 1.0) is a MEASUREMENT, not a margin -- its membership is a bucket (E261), so the counterfactual that matters is "drop the bucket and re-read", and the answer must be published as a verdict change count, not as a shift size. A 0.20 shift with zero verdict moves and a 0.02 shift with two are the same number of words and opposite findings.
+
+> a "closest rows" ranking must disclose its tie rule and its top-k agreement with whatever independently moved rows -- here both rows E262 moved by borrowing sit inside the top-3 closest, and the third-closest did not move because no published donor reaches its m*=2.10, so the ranking is a SUPERSET of the damage rather than an equivalence. Publishing the superset/equivalence distinction is what keeps the ranking from being read as a screen it has not been tested as.
+
+Engineering pits caught in the same round: the first fixture asserted "inside at the floor, outside without it" while the code returned outside -> inside -- at `outside <=> m < m*` dropping the floor RAISES m past m*, losing the rejection, so the assertion had the flip backwards (r1281 shape, the assertion was wrong); e262.row_records reads `band_draws` off the row while the fixture carried `base`, which fails on a missing key rather than a wrong number; and a near-one flag tested on existence would flag rows whose floor is nowhere near their threshold, so it is the conjunction of "tight end was the floor" AND "dropping it moves the verdict" (E207/E208 family).
+
+Evidence: scripts/e264_near_one_seeds_reading.py (selftest 26/26, verify 0 problems), results/state_tilt/BANDNEAR1-2026-10-29.json (verdict=closest_row_survives_without_them; 12/16 read, 4 on the floor, 0 dependent, closest gap 0.0095), source faces BANDWINDIST-2026-10-29 (E259) + BANDTRANSFER-2026-10-29 (E262), digest research/digests/DIGEST-20261030-r1291-e264-near-one-rows.md.

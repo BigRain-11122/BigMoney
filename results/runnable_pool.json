@@ -24578,12 +24578,17 @@
    "worker_class": "code-change"
   },
   {
+   "claimed_by": "bm-b",
    "deliverable": "results/state_tilt/BANDNEAR1-<cutoff>.json",
+   "done_at": "2026-10-30T23:59:00",
+   "done_by": "bm-b r1291",
+   "done_note": "closest_row_survives_without_them: 12 of 16 rows read, 4 end on the p05=1 floor and none moves when it is dropped (their m* >= 2.14), closest row is era_2025_now cross:60 at m*=1.9583 vs p95=1.9678 (gap 0.0095)",
    "evidence_cutoff": "2026-10-29",
    "id": "E264-NEAR-ONE-SEEDS-WHAT-THEY-READ-AS",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDNEAR1-2026-10-29.json",
    "runner": "scripts/e264_near_one_seeds_reading.py",
    "runner_args": [
     "run"
@@ -24591,7 +24596,7 @@
    "seeded_at": "2026-10-30T21:40:46",
    "seeded_by": "bm-b r1288",
    "source": "E261 removed the attained bucket and the floor left one in 8 of 8 floored arms, but the rows that sit closest to their band do not read the floor -- they read whichever multiplier is near one for another reason. E259 published 52 seeds at one; this face asks which PUBLISHED ROW is closest to its band and whether the interpretation of that row depends on a near-one seed. Reads the E259 face only, no new draws",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e264_near_one_seeds_reading.py (new runner)",
    "title": "what does a near-one multiplier mean for the rows that sit closest to the band?",
    "worker_class": "code-change"
@@ -24612,6 +24617,25 @@
    "status": "ready",
    "target": "scripts/e265_donor_threshold_per_row.py (new runner)",
    "title": "how close to its band must a row sit for a borrowed wide end to flip it?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDSCREEN-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E266-WIDE-END-SCREEN-OUT-OF-SAMPLE",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e266_wide_end_screen_holdout.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T00:05:00+08:00",
+   "seeded_by": "bm-b r1291",
+   "source": "E264 ranked all 12 read rows by m* = |b|/max(|lo|,|hi|) and both rows E262 moved sit in the top 3, but the third-closest did not move (no published donor reaches its m*=2.10), so the ranking is a superset of the damage. A screen must say how much of the pool it would have flagged and how many it would have missed -- in-sample the answer is 2/2 found with 1/10 false positive at top-3, which is too small a pool to mean anything. The untested question is whether the screen is EXACT at m*, i.e. whether every (row, donor) pair whose donor p95 exceeds the row's m* is exactly the set that moved. That is a mechanical predicate over the 48 ordered pairs E262 already published -- no new draws, no new panel -- and it either reproduces the moved set exactly or publishes the counterexamples",
+   "status": "ready",
+   "target": "scripts/e266_wide_end_screen_holdout.py (new runner)",
+   "title": "does the wide-end threshold screen hold on rows it was not fitted on?",
    "worker_class": "code-change"
   }
  ],
