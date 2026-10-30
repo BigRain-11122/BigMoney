@@ -4,7 +4,13 @@
 
 同日基线网格：格间 spread 5.22pp，格内 band 中位 6.68pp。
 
-## buffer_k05 — **REJECT**
+**面板一致性：UNSTAMPED** — 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
+
+（判词不发布：本表的每个 Δ 都是「同一格、臂减基线」，跨面板相减得到的是世界差，不是规则效应。标签原文保留在 `verdict_if_coherent`；把臂重建到同一面板后自动恢复。）
+
+## buffer_k05 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **REJECT**）
 
 buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 
@@ -27,8 +33,11 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - not-worse share 0.667 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -0.030pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## cost05 — **NOT-SEPARABLE**
+## cost05 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 5bp/side on the whole grid (half the production toll)
 
@@ -51,8 +60,11 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta +0.712pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## cost20 — **REJECT**
+## cost20 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **REJECT**）
 
 20bp/side on the whole grid (double the production toll)
 
@@ -75,8 +87,11 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -1.410pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## cost40 — **REJECT**
+## cost40 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **REJECT**）
 
 40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)
 
@@ -99,8 +114,11 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -4.185pp (floor -0.05pp)
 - resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## buffer_k10 — **NOT-SEPARABLE**
+## buffer_k10 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)
 
@@ -123,8 +141,11 @@ buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob
 - not-worse share 0.833 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta +0.072pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## buffer_k20 — **NOT-SEPARABLE**
+## buffer_k20 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)
 
@@ -147,8 +168,11 @@ buffer k=0.20 on every cell (the strongest arm -- if even this stays inside ever
 - not-worse share 0.917 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta +0.138pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## buffer_k02 — **NOT-SEPARABLE**
+## buffer_k02 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)
 
@@ -171,8 +195,11 @@ buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 
 - not-worse share 0.917 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -0.018pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## buffer_k40 — **REJECT**
+## buffer_k40 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **REJECT**）
 
 buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)
 
@@ -195,8 +222,11 @@ buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffe
 - not-worse share 0.750 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta +0.318pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## buffer_k05_cost20 — **REJECT**
+## buffer_k05_cost20 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **REJECT**）
 
 buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?
 
@@ -219,8 +249,11 @@ buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buff
 - not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -1.460pp (floor -0.05pp)
 - resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 
-## cost0 — **NOT-SEPARABLE**
+## cost0 — **WORLDS_NOT_COMPARABLE**
+
+（withheld: if coherent it would read **NOT-SEPARABLE**）
 
 0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands
 
@@ -243,4 +276,5 @@ buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buff
 - not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta +1.427pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+- label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven
 

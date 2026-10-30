@@ -24096,7 +24096,7 @@
    "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=buffer",
    "lane": "cpu-only",
    "lane_owner": "",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/etf_book_atlas_arms_rebuild.json",
    "evidence_cutoff": "2026-10-30",
    "entered_at": "2026-10-31T04:00:19+08:00",
@@ -24107,10 +24107,15 @@
      "key": "atlas-arms-buffer-0of1",
      "owner": "",
      "owner_since": "",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
     }
-   ]
+   ],
+   "outcome": "superseded",
+   "closed_by": "bm-a r1180",
+   "closed_at": "2026-10-31T04:2x+08:00",
+   "result_ref": "results/etf_book_atlas_arms_rebuild.json",
+   "settle_note": "superseded by ATLAS-ARMS-ONEWORLD-20261031-ALL: a knob-group rebuild leaves the family split across two panels, and the audit now withholds every cross-panel label (r1180). These three rows also stored a whole command string in runner, which the worker protocol (Popen([python, ROOT/runner, *runner_args])) can never launch -- the two claim/fail pairs in the log are that, not a failing batch."
   },
   {
    "id": "ATLAS-ARMS-ONEWORLD-20261031-COST",
@@ -24119,7 +24124,7 @@
    "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=cost",
    "lane": "cpu-only",
    "lane_owner": "",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/etf_book_atlas_arms_rebuild.json",
    "evidence_cutoff": "2026-10-30",
    "entered_at": "2026-10-31T04:00:19+08:00",
@@ -24130,10 +24135,15 @@
      "key": "atlas-arms-cost-0of1",
      "owner": "",
      "owner_since": "",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
     }
-   ]
+   ],
+   "outcome": "superseded",
+   "closed_by": "bm-a r1180",
+   "closed_at": "2026-10-31T04:2x+08:00",
+   "result_ref": "results/etf_book_atlas_arms_rebuild.json",
+   "settle_note": "superseded by ATLAS-ARMS-ONEWORLD-20261031-ALL: a knob-group rebuild leaves the family split across two panels, and the audit now withholds every cross-panel label (r1180). These three rows also stored a whole command string in runner, which the worker protocol (Popen([python, ROOT/runner, *runner_args])) can never launch -- the two claim/fail pairs in the log are that, not a failing batch."
   },
   {
    "id": "ATLAS-ARMS-ONEWORLD-20261031-COMBO",
@@ -24142,7 +24152,7 @@
    "runner": "python scripts/etf_book_atlas_arms_rebuild.py run --only=combo",
    "lane": "cpu-only",
    "lane_owner": "",
-   "status": "ready",
+   "status": "done",
    "deliverable": "results/etf_book_atlas_arms_rebuild.json",
    "evidence_cutoff": "2026-10-30",
    "entered_at": "2026-10-31T04:00:19+08:00",
@@ -24153,10 +24163,15 @@
      "key": "atlas-arms-combo-0of1",
      "owner": "",
      "owner_since": "",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/etf_book_atlas_arms_rebuild.json (single-writer shard; a group that ends split across two panels fails its own receipt)"
     }
-   ]
+   ],
+   "outcome": "superseded",
+   "closed_by": "bm-a r1180",
+   "closed_at": "2026-10-31T04:2x+08:00",
+   "result_ref": "results/etf_book_atlas_arms_rebuild.json",
+   "settle_note": "superseded by ATLAS-ARMS-ONEWORLD-20261031-ALL: a knob-group rebuild leaves the family split across two panels, and the audit now withholds every cross-panel label (r1180). These three rows also stored a whole command string in runner, which the worker protocol (Popen([python, ROOT/runner, *runner_args])) can never launch -- the two claim/fail pairs in the log are that, not a failing batch."
   },
   {
    "id": "ATLAS-ARMS-ONEWORLD-20261031-ALL",
@@ -24198,6 +24213,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T04:03:22+08:00",
+ "updated_at": "2026-10-31T04:25:00+08:00",
  "version": 1
 }

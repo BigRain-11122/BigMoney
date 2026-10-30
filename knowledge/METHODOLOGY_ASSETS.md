@@ -7087,3 +7087,26 @@ move the digest, and a two-block digest must never equal a three-block one.
 Pos: scripts/etf_equity_alpha.py `panel_digest(amt=)` / scripts/etf_book_{production,order,forward}.py
 / scripts/etf_book_phase_atlas.py `payload["panel"]` / smoke_test.py r1179 leg (blocks named, amount
 moves the digest, two-block != three-block).
+
+
+## E295 A stamp that nobody consumes is still a claim: make the consumer withhold the label (2026-10-31 r1180 bm-a)
+
+E294 taught every atlas arm face to say which panel it priced. It did not teach the AUDIT that
+compares them to do anything with the answer -- the stamp was published and read by nobody, and
+the family kept publishing ten per-cell verdicts whose arithmetic (arm minus baseline, same cell)
+is only a measurement inside one panel. Measured here: all eleven faces on disk carry no stamp at
+all (they predate r1179), so the honest reading of the whole family is not "buffer k=0.05 REJECT"
+but "one world unproven". The cure belongs at the consumer, and it distinguishes three states
+rather than two: MIXED_WORLDS (a delta across panels is a world difference wearing a rule-effect
+label -> verdict withheld), UNSTAMPED (predates the stamp -> unproven, not disproven, also
+withheld), ONE_WORLD (labels publish). A withheld label is not deleted -- it travels as
+`verdict_if_coherent` beside its reason, so the reading stays on the record and returns as a
+measurement the moment the arms are rebuilt onto one panel.
+The second half of the same lesson: a downstream face that asks "what does this RULE say under a
+null" must keep reading the rule's own answer (`verdict_if_coherent`), or every arm silently
+scores 0.0 against the null and the null looks decisive. Publication status is a separate column
+from the label, never a replacement for it.
+
+Pos: scripts/etf_book_phase_atlas_arms.py `world_of`/`coherence`/`withhold_verdicts` (+7 selftest
+legs, 109 -> 117) / scripts/etf_book_rule_null.py `label_of` / pool unit
+ATLAS-ARMS-ONEWORLD-20261031-ALL (the rebuild that returns the labels).

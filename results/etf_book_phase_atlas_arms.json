@@ -28,7 +28,8 @@
    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
   },
   "grid_between_cell_spread_pp": 5.22,
-  "median_cell_band_pp": 6.683
+  "median_cell_band_pp": 6.683,
+  "panel_digest": null
  },
  "arms": {
   "buffer_k05": {
@@ -196,13 +197,17 @@
     "20": 6.469,
     "40": 9.008
    },
-   "verdict": "REJECT",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.667 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta -0.030pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "REJECT"
   },
   "cost05": {
    "description": "5bp/side on the whole grid (half the production toll)",
@@ -369,19 +374,24 @@
     "20": 6.772,
     "40": 9.0
    },
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 1.000 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta +0.712pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
    ],
-   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL",
+   "band_verdict": "WORLDS_NOT_COMPARABLE",
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.597 (must exceed 1.00)",
     "median band +0.06pp vs baseline (+0.9%, tolerance 25%)"
    ],
-   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is NOT-SEPARABLE). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption."
+   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is NOT-SEPARABLE). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption.",
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "NOT-SEPARABLE",
+   "band_verdict_if_coherent": "CADENCE_BAND_SURVIVES_THE_TOLL"
   },
   "cost20": {
    "description": "20bp/side on the whole grid (double the production toll)",
@@ -548,19 +558,24 @@
     "20": 6.6,
     "40": 8.948
    },
-   "verdict": "REJECT",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.000 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta -1.410pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
    ],
-   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL",
+   "band_verdict": "WORLDS_NOT_COMPARABLE",
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.717 (must exceed 1.00)",
     "median band -0.11pp vs baseline (-1.7%, tolerance 25%)"
    ],
-   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is REJECT). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption."
+   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is REJECT). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption.",
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "REJECT",
+   "band_verdict_if_coherent": "CADENCE_BAND_SURVIVES_THE_TOLL"
   },
   "cost40": {
    "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)",
@@ -727,19 +742,24 @@
     "20": 6.469,
     "40": 8.857
    },
-   "verdict": "REJECT",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.000 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta -4.185pp (floor -0.05pp)",
-    "resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)"
+    "resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
    ],
-   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL",
+   "band_verdict": "WORLDS_NOT_COMPARABLE",
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.880 (must exceed 1.00)",
     "median band -0.24pp vs baseline (-3.6%, tolerance 25%)"
    ],
-   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is REJECT). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption."
+   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is REJECT). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption.",
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "REJECT",
+   "band_verdict_if_coherent": "CADENCE_BAND_SURVIVES_THE_TOLL"
   },
   "buffer_k10": {
    "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)",
@@ -906,13 +926,17 @@
     "20": 6.522,
     "40": 9.144
    },
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.833 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta +0.072pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "NOT-SEPARABLE"
   },
   "buffer_k20": {
    "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)",
@@ -1079,13 +1103,17 @@
     "20": 6.162,
     "40": 9.497
    },
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.917 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta +0.138pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "NOT-SEPARABLE"
   },
   "buffer_k02": {
    "description": "buffer k=0.02 on every cell (the near-zero end -- a knob that reads the same at 0.02 and at 0.20 is flat, not merely small)",
@@ -1252,13 +1280,17 @@
     "20": 6.616,
     "40": 8.977
    },
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.917 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta -0.018pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "NOT-SEPARABLE"
   },
   "buffer_k40": {
    "description": "buffer k=0.40 on every cell (8x the r1325 arm -- the far end, where a real buffer finally has to hurt)",
@@ -1425,13 +1457,17 @@
     "20": 5.921,
     "40": 10.128
    },
-   "verdict": "REJECT",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.750 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta +0.318pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "REJECT"
   },
   "buffer_k05_cost20": {
    "description": "buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buffer that is harmless at 10bp recover any of the -1.41pp the 20bp toll costs?",
@@ -1598,13 +1634,17 @@
     "20": 6.396,
     "40": 8.953
    },
-   "verdict": "REJECT",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 0.000 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta -1.460pp (floor -0.05pp)",
-    "resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)"
-   ]
+    "resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
+   ],
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "REJECT"
   },
   "cost0": {
    "description": "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands",
@@ -1771,19 +1811,30 @@
     "20": 6.822,
     "40": 9.021
    },
-   "verdict": "NOT-SEPARABLE",
+   "verdict": "WORLDS_NOT_COMPARABLE",
    "verdict_reasons": [
     "cells 12/12 judged",
     "not-worse share 1.000 (floor 0.80, cell floor -0.15pp)",
     "median per-cell delta +1.427pp (floor -0.05pp)",
-    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)",
+    "label withheld: UNSTAMPED -- 11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven"
    ],
-   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL",
+   "band_verdict": "WORLDS_NOT_COMPARABLE",
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.558 (must exceed 1.00)",
     "median band +0.11pp vs baseline (+1.7%, tolerance 25%)"
    ],
-   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is NOT-SEPARABLE). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption."
+   "returns_are_toll_arithmetic": "a cost arm does not change the strategy; its returns delta is the toll it removes or adds (this arm's label is NOT-SEPARABLE). Read band_verdict -- and read the toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict across rungs; never this label as an adoption.",
+   "panel_digest": null,
+   "verdict_publishable": false,
+   "verdict_if_coherent": "NOT-SEPARABLE",
+   "band_verdict_if_coherent": "CADENCE_BAND_SURVIVES_THE_TOLL"
   }
+ },
+ "panel_coherence": {
+  "verdict": "UNSTAMPED",
+  "detail": "11 face(s) carry no panel stamp (baseline, buffer_k02, buffer_k05, buffer_k05_cost20, buffer_k10, buffer_k20, buffer_k40, cost0, cost05, cost20, cost40): they predate r1179, so one world is unproven rather than disproven",
+  "panels": [],
+  "law": "a per-cell delta is arm minus baseline on the same cell, which is only a measurement inside one panel (r1180, consuming the r1179 stamp)"
  }
 }

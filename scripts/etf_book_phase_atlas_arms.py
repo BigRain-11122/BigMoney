@@ -118,6 +118,78 @@ def band_pp(c):
     return c["p95_cagr_pp"] - c["p05_cagr_pp"]
 
 
+# ---- r1180: the panel stamp is CONSUMED, not merely published ---------------------------
+def world_of(payload):
+    """The panel a face was priced on, or None when it carries no stamp.
+
+    Since r1179 every atlas sweep writes `panel.digest`; a face that predates the stamp
+    answers None, and None is treated as 'coherence unproven', never as 'same world'.
+    """
+    if not isinstance(payload, dict):
+        return None
+    blk = payload.get("panel")
+    if not isinstance(blk, dict):
+        return None
+    dig = blk.get("digest")
+    return dig if isinstance(dig, str) and dig else None
+
+
+def coherence(worlds):
+    """Can these faces be subtracted from each other at all? Returns (verdict, detail, panels).
+
+    Every number this audit publishes is arm-minus-baseline on the SAME cell, so the
+    subtraction is only a measurement inside one world. Two internally correct faces written
+    hours apart can price different panels (E293/E294: a band on one panel beside a band on
+    another reads as a rule effect), and a delta across worlds is a world difference wearing a
+    rule-effect label. r1179 taught the faces to say which world they measured; this decides
+    what the audit is allowed to do with that answer.
+    """
+    stamped = {k: v for k, v in worlds.items() if v}
+    missing = sorted(k for k, v in worlds.items() if not v)
+    panels = sorted(set(stamped.values()))
+    if missing:
+        return ("UNSTAMPED",
+                "%d face(s) carry no panel stamp (%s): they predate r1179, so one world is "
+                "unproven rather than disproven" % (len(missing), ", ".join(missing)),
+                panels)
+    if not stamped:
+        return "INCOMPLETE", "no face carries a panel stamp", panels
+    if len(panels) > 1:
+        return ("MIXED_WORLDS",
+                "%d faces priced %d different panels (%s): per-cell deltas across worlds are "
+                "world differences, not rule effects"
+                % (len(stamped), len(panels), ", ".join(p[:8] for p in panels)), panels)
+    return "ONE_WORLD", "all %d faces priced %s" % (len(stamped), panels[0]), panels
+
+
+def withhold_verdicts(payload, worlds):
+    """Publish the coherence verdict, and withhold every label it does not license.
+
+    A withheld label is not deleted: it travels as `verdict_if_coherent` beside the reason, so
+    the reading stays on the record while the face stops claiming it. When the arms are rebuilt
+    onto one panel (pool unit ATLAS-ARMS-ONEWORLD) the same labels return as measurements.
+    """
+    kind, detail, panels = coherence(worlds)
+    payload["panel_coherence"] = {
+        "verdict": kind, "detail": detail, "panels": panels,
+        "law": ("a per-cell delta is arm minus baseline on the same cell, which is only a "
+                "measurement inside one panel (r1180, consuming the r1179 stamp)"),
+    }
+    licensed = kind == "ONE_WORLD"
+    for name, entry in payload["arms"].items():
+        entry["panel_digest"] = worlds.get(name)
+        entry["verdict_publishable"] = licensed
+        if not licensed:
+            entry["verdict_if_coherent"] = entry["verdict"]
+            entry["verdict_reasons"] = list(entry["verdict_reasons"]) + [
+                "label withheld: %s -- %s" % (kind, detail)]
+            entry["verdict"] = "WORLDS_NOT_COMPARABLE"
+            if "band_verdict" in entry:
+                entry["band_verdict_if_coherent"] = entry["band_verdict"]
+                entry["band_verdict"] = "WORLDS_NOT_COMPARABLE"
+    return payload
+
+
 def band_by_cadence(f):
     """Median band per rebalance cadence -- the quantity the cost arms are actually about."""
     groups = {}
@@ -189,6 +261,7 @@ def build():
     base = face(BASE)
     bcells = cells_of(base)
     base_bands = band_by_cadence(base)
+    worlds = {"baseline": world_of(base)}
     payload = {
         "script": "scripts/etf_book_phase_atlas_arms.py",
         "question": ("do the follow-ups the atlas left behind (buffer k=0.05 / 0.10 / 0.20, cost "
@@ -201,11 +274,13 @@ def build():
         "baseline": {"face": base["face"], "evidence_cutoff": base["evidence_cutoff"],
                      "audit": base["audit"], "grid_between_cell_spread_pp":
                          base["grid"]["between_cell_spread_pp"],
-                     "median_cell_band_pp": base["grid"]["median_cell_band_pp"]},
+                     "median_cell_band_pp": base["grid"]["median_cell_band_pp"],
+                     "panel_digest": world_of(base)},
         "arms": {},
     }
     for name, (path, desc) in ARMS.items():
         f = face(path)
+        worlds[name] = world_of(f)
         rows = []
         for (nh, rb), c in sorted(cells_of(f).items()):
             b = bcells[(nh, rb)]
@@ -245,7 +320,9 @@ def build():
                 "toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict "
                 "across rungs; never this label as an adoption." % label)
         payload["arms"][name] = entry
-    return payload
+    # r1180: the stamp each face carries is CONSUMED here -- a label that compares two panels
+    # is withheld rather than published (see withhold_verdicts).
+    return withhold_verdicts(payload, worlds)
 
 
 # ---- r1354: the resolution floor of the buffer axis -- a size, not a direction ------------
@@ -1260,10 +1337,15 @@ def _selftest():
     c05 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost05"]["rows"]}
     c20 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost20"]["rows"]}
     chk(all(c20[k] < c05[k] for k in c05), "every cell earns less at 20bp than at 5bp")
-    # L6 the rule is recomputable: a published verdict must follow from its own rows
+    # L6 the rule is recomputable: a published verdict must follow from its own rows. A
+    # withheld label is checked against the reading it was withheld from (r1180) -- the rule
+    # still has to follow, or the label that returns when the arms are one world is fiction.
     for name, a in p["arms"].items():
         label, _ = judge(a["rows"])
-        chk(label == a["verdict"], "%s verdict follows from its own rows (%s)" % (name, label))
+        published = a.get("verdict")
+        held = a.get("verdict_if_coherent", published)
+        chk(label == held and (published == label or published == "WORLDS_NOT_COMPARABLE"),
+            "%s verdict follows from its own rows (%s, published %s)" % (name, label, published))
     # L7 a hand-made arm that clears every threshold reads ADOPT, one that loses reads REJECT
     good = [{"delta_pp": 1.0, "band_pp": 0.2} for _ in range(12)]
     chk(judge(good)[0] == "ADOPT", "a uniformly improving, resolvable arm reads ADOPT")
@@ -1669,6 +1751,39 @@ def _selftest():
         chk(_source_advanced(face(LIVE_OUT), [TICKET_LATEST]) == [],
             "the ticket pointer never makes the live-width face stale on its own")
 
+    # L39-L44 r1180: the panel stamp is consumed. The three states above are decided on a
+    # payload-level answer, and each one must move the published labels -- a coherence block
+    # that nobody reads would be the "stamp nobody consumes" defect r1179 left open.
+    chk(world_of({"panel": {"digest": "abc123"}}) == "abc123",
+        "a stamped face reports the panel it priced")
+    chk(world_of({"panel": {}}) is None and world_of({}) is None
+        and world_of({"panel": {"digest": ""}}) is None,
+        "a face without a stamp answers None, never an empty 'same world'")
+    chk(coherence({"baseline": "a", "x": "a"})[0] == "ONE_WORLD",
+        "one panel across every face is ONE_WORLD")
+    chk(coherence({"baseline": "a", "x": "b"})[0] == "MIXED_WORLDS",
+        "two panels in one family is MIXED_WORLDS")
+    chk(coherence({"baseline": "a", "x": None})[0] == "UNSTAMPED",
+        "a missing stamp is unproven, not the same world")
+
+    def _fake():
+        return {"arms": {"k05": {"verdict": "REJECT", "verdict_reasons": ["r"],
+                                  "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL"}},
+                "panel_coherence": {}}
+
+    one = withhold_verdicts(_fake(), {"k05": "a"})
+    chk(one["arms"]["k05"]["verdict"] == "REJECT"
+        and one["arms"]["k05"]["verdict_publishable"] is True,
+        "a coherent family publishes the label it computed")
+    mixed = withhold_verdicts(_fake(), {"k05": "a", "baseline": "b"})
+    chk(mixed["arms"]["k05"]["verdict"] == "WORLDS_NOT_COMPARABLE"
+        and mixed["arms"]["k05"]["verdict_if_coherent"] == "REJECT"
+        and mixed["arms"]["k05"]["verdict_publishable"] is False,
+        "a label comparing two panels is withheld, and the reading is kept beside it")
+    chk(mixed["arms"]["k05"]["band_verdict"] == "WORLDS_NOT_COMPARABLE"
+        and mixed["panel_coherence"]["verdict"] == "MIXED_WORLDS",
+        "the band verdict and the published coherence sentence agree")
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
 
@@ -1859,8 +1974,17 @@ def render_md(p):
              "基线面：`%s`（cutoff %s）\n" % (p["baseline"]["face"], p["baseline"]["evidence_cutoff"]))
     L.append("同日基线网格：格间 spread %.2fpp，格内 band 中位 %.2fpp。\n" % (
         p["baseline"]["grid_between_cell_spread_pp"], p["baseline"]["median_cell_band_pp"]))
+    coh = p.get("panel_coherence") or {}
+    L.append("**面板一致性：%s** — %s\n" % (coh.get("verdict", "UNKNOWN"),
+                                          coh.get("detail", "no coherence block")))
+    if coh.get("verdict") != "ONE_WORLD":
+        L.append("（判词不发布：本表的每个 Δ 都是「同一格、臂减基线」，跨面板相减得到的是世界差，"
+                 "不是规则效应。标签原文保留在 `verdict_if_coherent`；把臂重建到同一面板后自动恢复。）\n")
     for name, a in p["arms"].items():
         L.append("## %s — **%s**\n" % (name, a["verdict"]))
+        if not a.get("verdict_publishable", True):
+            L.append("（withheld: if coherent it would read **%s**）\n"
+                     % a.get("verdict_if_coherent"))
         L.append(a["description"] + "\n")
         L.append("| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |")
         L.append("|---|---|---|---|---|---|")

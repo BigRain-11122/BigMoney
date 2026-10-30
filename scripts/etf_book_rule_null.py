@@ -80,11 +80,23 @@ def source_digest(payload):
         "arms": [[name,
                   [[r["n_hold"], r["rebal"], round(float(r["delta_pp"]), 9),
                     round(float(r["band_pp"]), 9)] for r in a["rows"]],
-                  a["verdict"]]
+                  label_of(a)]
                  for name, a in sorted(payload["arms"].items())],
     }
     blob = json.dumps(inputs, sort_keys=True, ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(blob).hexdigest()
+
+
+def label_of(a):
+    """The label an arm reads as a RULE OUTPUT, whether or not the arms face publishes it.
+
+    r1180: the arms audit withholds a verdict whose comparison spans two panels and keeps the
+    reading in `verdict_if_coherent`. This face asks 'what does this rule say under a null',
+    which is a question about the rule, so it must keep reading the rule's own answer --
+    otherwise every arm silently scores 0.0 against the null and the null looks decisive.
+    Publication status travels with the row instead.
+    """
+    return a.get("verdict_if_coherent") or a.get("verdict")
 
 
 def median_sigma(bands):
@@ -127,8 +139,9 @@ def build():
             "arm": name,
             "median_delta_pp": round(med, 3),
             "cells_beyond_own_band": resolvable,
-            "verdict": a["verdict"],
-            "null_p_same_or_worse": labels.get(a["verdict"], 0.0),
+            "verdict": label_of(a),
+            "verdict_published_on_arms_face": a.get("verdict_publishable", True),
+            "null_p_same_or_worse": labels.get(label_of(a), 0.0),
         })
     p_reject = labels.get("REJECT", 0.0)
     p_sep = labels.get("NOT-SEPARABLE", 0.0)

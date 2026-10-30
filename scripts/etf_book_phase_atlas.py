@@ -296,6 +296,13 @@ def run(workers=None, k=0.0, cost=None, out=None):
             "0.0020, not 20. Refusing to price a book at %.1f%% per side."
             % (cost, float(cost) * 100.0))
     close, _o, _a, _s, _c, _nf = P.prep_panel()   # index only; workers load their own copy
+    # r1180: the arms audit now WITHHOLDS every cross-panel label, so an unstamped face is not
+    # decoration -- it is a face whose readings can never be published. Fail here, before the
+    # 280-cell burn, rather than after it.
+    if not P.PANEL_DIGEST:
+        raise SystemExit(
+            "etf_book_phase_atlas: the panel stamp is empty after prep_panel -- refusing to "
+            "price 280 cells on a world this face cannot name (r1180).")
     jobs = []
     for (n_hold, rebal) in CELLS:
         for offset, d in enumerate(cell_phases(close.index, rebal)):
