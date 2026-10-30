@@ -17,6 +17,8 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Panel digest:** `a1a42aee64453839` (5270 bars x 1613 symbols, 2005-02-23->2026-10-30, covers close/open/amount) -- the executable sheet and the forward ledger print the same fingerprint only when all three priced one panel, on the same blocks.
 
+**Family coherence: ONE_WORLD** -- all 10 width arms priced `a1a42aee64453839` (cutoff 2026-10-30); the verdicts that license this card's width are measurements on one panel.
+
 **Today (2026-10-30 bar): HOLD: 8 bars until the next decision point** (last grid decision 2026-10-14).
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.

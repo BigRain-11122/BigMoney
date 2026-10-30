@@ -39,6 +39,7 @@ COST = 0.0010
 TARGET_VOL = 0.08
 USE_CLASSES = ("equity", "commodity", "convertible")
 VT_TAIL_FILE = "etf_book_voltarget_tail.json"
+ARMS_FACE_FILE = "etf_book_phase_atlas_arms.json"
 
 
 def vol_overlay_tail_support():
@@ -96,6 +97,37 @@ def vol_overlay_tail_sentence(face=None):
         % (f.get("resamples"), "/".join(str(b) for b in (f.get("blocks") or [])),
            mid, 100.0 * f["tail_share_of_middle"], p1,
            "" if cagr is None else ", bought with %+.2fpp of median CAGR" % cagr))
+
+
+def family_coherence(results_dir=None):
+    """Which world the width arms behind this card were priced on (r1183).
+
+    The card quotes one width out of a family of arms; that family's verdicts are only
+    measurements if every arm face priced ONE panel. When the family withholds its labels
+    ("WORLDS_NOT_COMPARABLE") or was never stamped, the card has to say so instead of
+    quoting a verdict as if it had been measured. Absence reads "not assessable", never
+    "fine" -- a missing artifact is not a pass.
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    p = os.path.join(d, ARMS_FACE_FILE)
+    try:
+        with open(p, "r", encoding="utf-8") as fh:
+            doc = json.load(fh)
+    except (OSError, ValueError):
+        return {"artifact": "results/" + ARMS_FACE_FILE, "verdict": None,
+                "detail": "arm family face absent -- coherence not assessable",
+                "panels": [], "arms": 0, "evidence_cutoff": None,
+                "priced_same_panel": None}
+    coh = doc.get("panel_coherence") or {}
+    return {
+        "artifact": "results/" + ARMS_FACE_FILE,
+        "verdict": coh.get("verdict"),
+        "detail": coh.get("detail"),
+        "panels": coh.get("panels") or [],
+        "arms": len(doc.get("arms") or {}),
+        "evidence_cutoff": (doc.get("baseline") or {}).get("evidence_cutoff"),
+        "priced_same_panel": (coh.get("verdict") == "ONE_WORLD"),
+    }
 
 
 def commodity_support():
@@ -841,6 +873,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "evidence_cutoff": str(last.date()),
         "feed_status": feed,
         "price_basis": basis,
+        "family_coherence": family_coherence(),
         "script": "scripts/etf_book_production.py",
         "config": {"universe_classes": list(USE_CLASSES), "n_hold": n_hold, "rebal": rebal,
                    "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL,
@@ -1001,6 +1034,19 @@ def write_card(out):
                   "three priced one panel, on the same blocks." % (
                       _pdg["digest"], _pdg["dates"], _pdg["columns"],
                       _pdg["first"], _pdg["last"], "/".join(_pdg.get("blocks") or [])), ""]
+    _fc = out.get("family_coherence") or {}
+    if _fc.get("verdict") == "ONE_WORLD":
+        lines += ["**Family coherence: ONE_WORLD** -- all %d width arms priced `%s` (cutoff %s); "
+                  "the verdicts that license this card's width are measurements on one panel." % (
+                      _fc.get("arms") or 0, ((_fc.get("panels") or [""])[0] or "?)"),
+                      _fc.get("evidence_cutoff")), ""]
+    elif _fc.get("verdict"):
+        lines += ["**Family coherence: %s** -- %s. The width verdicts are withheld "
+                  "(`WORLDS_NOT_COMPARABLE`), so the width this card uses is not licensed by a "
+                  "measured family." % (_fc["verdict"], _fc.get("detail") or "no detail"), ""]
+    else:
+        lines += ["**Family coherence: not assessable** -- %s; the width is unproven here, "
+                  "not verified." % (_fc.get("detail") or "arm family face absent"), ""]
     lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),
@@ -1712,6 +1758,67 @@ def selftest():
         OUT_DIR = _keep_out
     shutil.rmtree(_pb_dir, ignore_errors=True)
     chk("no price basis -> no invented line", "**Price basis:**" not in _txt2)
+
+    # 10h. the width this card uses is licensed by the arm family, and a family can only
+    #      license anything if every arm face priced ONE panel (r1183, consuming the r1180
+    #      coherence block). Three states, three sentences, and absence is never a pass.
+    _keep_res = E.PATHS.results_dir
+    _fc_dir = tempfile.mkdtemp(prefix="etf_book_prod_fc_")
+    try:
+        E.PATHS.results_dir = _fc_dir
+        _absent = family_coherence()
+        chk("no arm family face -> coherence not assessable, never a pass",
+            _absent["verdict"] is None and _absent["priced_same_panel"] is None
+            and "not assessable" in (_absent["detail"] or ""), str(_absent["detail"])[:50])
+
+        def _write_fc(coh, arms):
+            with open(os.path.join(_fc_dir, ARMS_FACE_FILE), "w", encoding="utf-8") as fh:
+                json.dump({"panel_coherence": coh, "arms": arms,
+                           "baseline": {"evidence_cutoff": "2026-10-30"}}, fh)
+
+        _write_fc({"verdict": "ONE_WORLD", "detail": "all 11 faces priced a1a4",
+                   "panels": ["a1a4"]}, {("k%02d" % i): {} for i in range(11)})
+        _one = family_coherence()
+        chk("one panel -> ONE_WORLD with the arm count and the cutoff",
+            _one["verdict"] == "ONE_WORLD" and _one["priced_same_panel"] is True
+            and _one["arms"] == 11 and _one["evidence_cutoff"] == "2026-10-30")
+        _write_fc({"verdict": "MIXED_WORLDS", "detail": "two panels", "panels": ["a", "b"]}, {"k": {}})
+        chk("two panels -> NOT licensed",
+            family_coherence()["priced_same_panel"] is False)
+    finally:
+        E.PATHS.results_dir = _keep_res
+        shutil.rmtree(_fc_dir, ignore_errors=True)
+
+    def _render_with_fc(fc):
+        global OUT_DIR
+        p = dict(_pb_out)
+        p["family_coherence"] = fc
+        try:
+            OUT_DIR = _pb_dir2
+            write_card(p)
+            return open(os.path.join(_pb_dir2, "CARD.md"), encoding="utf-8").read()
+        finally:
+            OUT_DIR = _keep_out2
+
+    _pb_dir2 = tempfile.mkdtemp(prefix="etf_book_prod_fc_render_")
+    _keep_out2 = OUT_DIR
+    try:
+        _t_one = _render_with_fc({"verdict": "ONE_WORLD", "arms": 11, "panels": ["a1a4"],
+                                  "evidence_cutoff": "2026-10-30", "priced_same_panel": True})
+        chk("card states ONE_WORLD with the panel and the arm count",
+            "Family coherence: ONE_WORLD" in _t_one and "11" in _t_one and "a1a4" in _t_one)
+        _t_mixed = _render_with_fc({"verdict": "MIXED_WORLDS", "detail": "two panels",
+                                    "arms": 11, "panels": ["a", "b"], "priced_same_panel": False})
+        chk("card says the width is NOT licensed when the family is mixed",
+            "MIXED_WORLDS" in _t_mixed and "not licensed" in _t_mixed
+            and "ONE_WORLD" not in _t_mixed)
+        _t_none = _render_with_fc({"verdict": None, "detail": "arm family face absent",
+                                   "arms": 0, "panels": [], "priced_same_panel": None})
+        chk("card says not assessable when the family face is absent",
+            "not assessable" in _t_none and "ONE_WORLD" not in _t_none)
+    finally:
+        OUT_DIR = _keep_out2
+        shutil.rmtree(_pb_dir2, ignore_errors=True)
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
