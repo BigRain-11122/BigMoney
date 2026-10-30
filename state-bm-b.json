@@ -2466,6 +2466,16 @@
   "watermark_red": "red at open (pool-batch-runnable-idle-low-cpu, py 0.0%) -> E283 burned in-round"
  },
  "r1309": {
+  "delivery": {
+   "behind_origin_main": 166,
+   "branch": "machine/bm-b-r1309",
+   "local_not_on_origin_main": 69,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1308 family); main push not attempted",
+   "pushed_sha": "7b015cd0df1cb87bbe4fb3e79d1dedc33b8d108c",
+   "remote_ref_sha": "7b015cd0df1cb87bbe4fb3e79d1dedc33b8d108c",
+   "ts": "2026-10-31T07:24:00+08:00",
+   "verified": true
+  },
   "dept": "research+engineering",
   "face": "results/state_tilt/BANDDISAGREESCOPE-2026-10-29.json",
   "finding": "a summary field names ROWS while publishing GROUP labels: rows_where_tails_disagree_on_reachability lists cross and star_lag1_residual, each carrying 4 cells of which exactly 1 disagrees -- 4x over-claim with no visible error. Repaired at cell scope (cross|era_2025_now|9, star_lag1_residual|era_2023_2024|13) re-derived from E279's own per-tail booleans and landing EXACTLY on the keys that face already publishes as swap_deflation_rows (identity true). The old field is kept as a group-scope upper bound and the direction is measured, not assumed (max_cells_in_one_group=1). Family sweep over 30 dated BAND faces flags exactly that one field; 1338 integer count fields are disclosed as NOT assessed (aggregated by key name, occurrences asserted to sum to n_total) instead of being called clean.",
@@ -2535,12 +2545,12 @@
  "status": "green",
  "study": "E284_disagreement_field_scope",
  "sync": {
-  "ahead": 35,
-  "behind": 120,
-  "branch": "machine/bm-b-r1293",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1291 family); delivery on the machine branch",
+  "ahead": 69,
+  "behind": 166,
+  "branch": "machine/bm-b-r1309",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation",
   "peer": "origin",
-  "ts": "2026-10-31T00:08:00+08:00"
+  "ts": "2026-10-31T07:24:00+08:00"
  },
  "task": "E284 disagreement field scope (done) -> next head E285 interrange gap ceiling",
  "task_short": "E283 degenerate range",
