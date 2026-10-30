@@ -6772,6 +6772,87 @@ def main() -> int:
     except Exception as e:
         check(_name81, False, repr(e)[:160])
 
+    # E282: the seed wanted to know whether the two disagreement cells are a rounding boundary
+    # artefact, reading their gap of 0.0 as "the substitute lands on the flip". This leg requires
+    # (a) the census actually fired, (b) the clamp claim is measured consistently, (c) no cell is
+    # published as a boundary tie while its non-reaching gap exceeds the tolerance -- a cell cannot
+    # disagree on the boundary alone under the contract that made it disagree, and (d) the row
+    # identity with E272 and the cell identity with E279 both hold.
+    _name82 = ("product: the two disagreeing tails are a RANGE difference, not a rounding tie -- "
+               "the gap field reads 0 for every interior reading, so it cannot say 'on the flip'")
+    _bad82 = []
+    try:
+        _p82 = os.path.join("results", "state_tilt", "banddisagree_latest.json")
+        _f82 = None
+        if not os.path.exists(_p82):
+            _bad82.append("face missing: %s" % _p82)
+        else:
+            with io.open(_p82, encoding="utf-8") as _fh82:
+                _f82 = json.load(_fh82)
+        if _f82 is not None:
+            _s82 = _f82.get("summary") or {}
+            if _f82.get("evidence_cutoff") is None:
+                _bad82.append("no evidence_cutoff on the face")
+            if _s82.get("verdict") not in (
+                    "no_disagreement_cells_published",
+                    "every_disagreement_is_a_boundary_tie",
+                    "the_disagreement_is_a_range_difference_not_a_boundary_tie",
+                    "disagreements_mix_boundary_ties_and_range_differences",
+                    "the_gap_field_varies_inside_the_range_so_the_hypothesis_is_testable"):
+                _bad82.append("verdict %r is outside the frozen set" % (_s82.get("verdict"),))
+            if not _s82.get("faces_censused"):
+                _bad82.append("no face qualified -- the census would be about nothing")
+            if not _s82.get("rows_censused"):
+                _bad82.append("no row was censused")
+            if _s82.get("reaching_readings") != _s82.get("reaching_readings_with_zero_gap") \
+                    and _s82.get("gap_is_clamped"):
+                _bad82.append("the clamp is claimed while a reaching reading has a non-zero gap")
+            if _f82.get("verdict") != _s82.get("verdict"):
+                _bad82.append("verdict disagrees with its own summary")
+            for _c82 in _f82.get("disagreement_cells") or []:
+                if _c82.get("boundary_tie"):
+                    _bad82.append("a cell is published as a boundary tie: %s" % _c82.get("row_key"))
+                if _c82.get("non_reaching_gap_pct") is None:
+                    _bad82.append("a disagreement cell publishes no gap: %s" % _c82.get("row_key"))
+                elif abs(float(_c82["non_reaching_gap_pct"])) <= float(
+                        _f82.get("frozen_spec", {}).get("tolerance") or 1e-12):
+                    _bad82.append("a non-reaching tail's gap is inside tolerance")
+                if not _c82.get("interior_of_reaching_tail") and not _c82.get("boundary_tie"):
+                    _bad82.append("a cell is neither a tie nor interior -- unexplained")
+            _ic82 = _f82.get("identity_check") or {}
+            if _ic82.get("mismatched"):
+                _bad82.append("our re-derivation disagrees with the published booleans")
+            if _ic82.get("disagreement_set_agrees") is not True:
+                _bad82.append("our disagreement set disagrees with E279's census")
+            _cc82 = _f82.get("clamp_check") or {}
+            if not _cc82.get("gap_is_clamped_for_every_reaching_reading"):
+                _bad82.append("the clamp check did not hold on the published data")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m82 = __import__("importlib").import_module("e282_substitution_disagreement_census")
+            _fresh82 = _m82.build()
+            if _fresh82.get("summary") != _s82:
+                _bad82.append("summary does not re-derive from the published faces")
+            if _fresh82.get("disagreement_cells") != (_f82.get("disagreement_cells") or []):
+                _bad82.append("the disagreement census does not re-derive")
+        check(_name82, not _bad82,
+              "; ".join(_bad82)[:220]
+              or "verdict %r | %d/%d face(s), %d row(s), %d disagreement cell(s) at position %s "
+                 "with the other tail %s pct away (gap 0 on %d/%d reaching readings = clamped)"
+                 % ((_f82 or {}).get("verdict"),
+                    (_s82.get("faces_censused") or 0), (_s82.get("faces_scanned") or 0),
+                    (_s82.get("rows_censused") or 0),
+                    (_s82.get("rows_where_tails_disagree") or 0),
+                    ",".join("%.3f" % p for p in
+                             ((_f82 or {}).get("distributions") or {}).get(
+                                 "reaching_position") or []) or "n/a",
+                    ",".join("%.1f" % g for g in
+                             ((_f82 or {}).get("distributions") or {}).get(
+                                 "non_reaching_gap_pct") or []) or "n/a",
+                    (_s82.get("reaching_readings_with_zero_gap") or 0),
+                    (_s82.get("reaching_readings") or 0)))
+    except Exception as e:
+        check(_name82, False, repr(e)[:160])
+
     return _finish()
 
 

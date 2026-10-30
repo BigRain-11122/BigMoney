@@ -429,6 +429,14 @@ LEGS = [
     ("substitution_dependency_audit",
      ["python", "scripts/e281_substitution_dependency_audit.py", "verify"]),
 
+    # E282: the seed read the two disagreement cells' gap of 0.0 as "the substitute lands on the
+    # flip" and hypothesised a rounding boundary artefact. The gap reads 0.0 for EVERY interior
+    # reading because it is clamped inside the range, so the census re-measures the flip's position
+    # instead: both cells sit at 0.52/0.70 of the way into the reaching range while the other tail
+    # is 48-50 pct away. Range difference, not a tie. Published faces only, no draw. <1s.
+    ("substitution_disagreement_census",
+     ["python", "scripts/e282_substitution_disagreement_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

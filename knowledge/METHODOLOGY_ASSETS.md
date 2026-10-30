@@ -5553,3 +5553,53 @@ E279 summary field ambiguous with per-group counts 1-of-4), S6 leg
 `substitution_dependency_audit` (0.19s), smoke leg `product: a cannot on a stranded tail needs no
 withdrawal here ...`, repair card E284-DISAGREEMENT-FIELD-SCOPE, digest
 `research/digests/DIGEST-20261031-r1306-e281-dependency-audit.md`.
+## E283 -- a statistic that is clamped cannot answer a question about position: read the clamp, then measure the position
+
+E279 bracketed the substitution threshold from two disagreeing rows and left a hypothesis: both sat at
+a dominant-tail **normalised gap of exactly 0.0**, so perhaps every disagreement is a *rounding boundary
+artefact* rather than a distance effect. The census said no -- but the interesting part is **why the
+hypothesis could never have been true**, and that reason is reusable.
+
+**First: the gap field is clamped.** Upstream computes `gap_pct` as a distance *from the range*, and
+returns **exactly `0.0` for any flip inside it**. So `normalised_gap == 0` is true for **every interior
+reading**, not just for one sitting on the flip. Reading it as "the substitute lands on the flip" is a
+fallback masquerading as a measurement: the field cannot express the question being asked of it. The
+census re-measured on `p = (flip − lo)/(hi − lo)` and found the two cells at **p = 0.696 / 0.519**,
+strictly interior, with the other tail **48–50 pct** away.
+
+**Second: a boundary-only disagreement is excluded by the contract that produced it.** `reachable` is
+defined as `gap ≤ TOL`, so a non-reaching tail's gap is **strictly greater than `TOL` by construction**.
+Two verdicts produced by one contract with one tolerance cannot differ *only* on the inclusive edge --
+that branch is unreachable, not merely unobserved. Two independent grounds, both published as measured
+identities on the face rather than asserted in prose, and both are one line in a selftest.
+
+**Third: scope is a number, not an adjective.** "Family-wide" turned out to be **1 qualifying face of
+55** (`BANDFLIPBUDGET`) and 12 rows: 54 files publish prose or verdicts and carry neither tail's range.
+Publishing the qualifying/excluded split stops a census of one face from being read as a census of the
+family, and the `_latest` mirrors had to be dropped **by name** -- counting them censused the same cells
+twice and doubled every count on the first run.
+
+**Fourth: the surviving disagreement is not noise, it is geometry.** The two tails' ranges are
+**disjoint intervals**, not nested ones (tight `[1.000, 1.101]` vs wide `[1.968, 2.296]` on `cross:60`),
+so disagreement simply means the flip landed in one band and not the other. And the wide band is not a
+sweep: two rows on the same face fall **inside the inter-range gap** and are unreachable by **both**
+tails -- headroom the widening spends without resolving anything, which is the next card.
+
+That fourth rule earned its place immediately: the two rows are invisible from any per-tail summary,
+because each tail is internally consistent about them; only the *gap between the ranges* shows that the
+widening was spent for nothing.
+
+Two reusable lessons. **(a)** Before testing a hypothesis with a published statistic, ask whether that
+statistic is **monotone or clamped** over the region where the hypothesis lives: a clamped field reads
+the same value across the entire interior, so agreement with it is vacuous in the same way E281's
+degenerate tail was. **(b)** When two verdicts are produced by one contract, disagreements can only come
+from where the contract's inputs differ -- publish that region (here, the inter-range gap) and the
+"is this a boundary artefact" question answers itself without a threshold.
+
+Evidence: `scripts/e282_substitution_disagreement_census.py` (selftest 23/23, run/verify green),
+`results/state_tilt/BANDDISAGREE-2026-10-29.json` (1/55 faces qualifying, 12 rows, 2 disagreement cells
+at position 0.696/0.519 with the tight tail 48.5/49.9 pct away, gap 0 on 2/2 reaching readings = clamped,
+boundary tie impossible in principle), S6 leg `substitution_disagreement_census` (0.17s), smoke leg
+`product: the two disagreeing tails are a RANGE difference …`, digest
+`research/digests/DIGEST-20261031-r1307-e282-disagreement-census.md`, next card
+`E285-INTERRANGE-GAP-CEILING`.

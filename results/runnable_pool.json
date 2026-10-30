@@ -25094,10 +25094,13 @@
   },
   {
    "deliverable": "results/state_tilt/BANDDISAGREE-<cutoff>.json",
+   "done_at": "2026-10-31T06:32+08:00",
+   "done_by": "bm-b r1307",
    "evidence_cutoff": "2026-10-29",
    "id": "E282-SUBSTITUTION-DISAGREEMENT-CENSUS",
    "lane": "cpu-only",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDDISAGREE-2026-10-29.json",
    "runner": "scripts/e282_substitution_disagreement_census.py",
    "runner_args": [
     "run"
@@ -25105,7 +25108,7 @@
    "seeded_at": "2026-10-31T05:58+08:00",
    "seeded_by": "bm-b r1305",
    "source": "E279 could only bracket the substitution threshold as (0.0, 2.0327] from n=2 agree and n=2 disagree. The two disagreeing rows it found both sit at a dominant-tail normalised gap of exactly 0.0 -- i.e. the substitute lands on the flip. If that is the ONLY shape that produces disagreement, then the disagreement is a boundary artefact of the rounding, not a distance effect, and the threshold question collapses into 'does the substitute sit exactly on the flip'. Census every dated BAND* face for rows where the two tails disagree, publish the normalised-gap distribution of every such row, and test whether the disagreement set is confined to gap == 0 within tolerance.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e282_substitution_disagreement_census.py (new runner)",
    "title": "family-wide: where do the two tails disagree about reachability, and is the disagreement always a substitute sitting exactly on the flip (normalised gap 0)?",
    "worker_class": "code-change",
@@ -25157,6 +25160,28 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "deliverable": "results/state_tilt/BANDGAPCEILING-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E285-INTERRANGE-GAP-CEILING",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e285_interrange_gap_ceiling.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T06:32+08:00",
+   "seeded_by": "bm-b r1307",
+   "source": "E282 measured that the two disagreement cells sit strictly interior to the wide range (positions 0.70/0.52) with the tight tail 48-50 pct away. But two rows on the same face (cross|60|11 at 1.803, cross|60|15 at 1.884) fall INSIDE the inter-range gap (tight hi 1.1008 .. wide lo 1.9678) and are unreachable by BOTH tails. So the wide tail does not sweep the whole gap: publish, per (leg,base) group, the inter-range gap, how many rows fall in it, how many of those the wide tail resolves, and the ceiling on what any widening could add.",
+   "status": "ready",
+   "target": "scripts/e285_interrange_gap_ceiling.py (new runner)",
+   "title": "the substitution can only add a can-move on rows whose flip falls in the gap between the two tails ranges -- how much widening headroom is spent on rows that stay unresolvable, and where does that headroom run out?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25171,6 +25196,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T06:25+08:00",
+ "updated_at": "2026-10-31T06:32+08:00",
  "version": 1
 }

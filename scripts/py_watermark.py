@@ -297,6 +297,12 @@ def probe():
     }
     work_cands = (len(ticket_ids) > 0 or bandit_open > 0
                   or local_batch)
+    # The verdict face is frozen by T7/T14 (it counts BOARD work only), so a machine whose only
+    # available work is pool cards reads "py_low_board_clear". That is a fact, not a legal-idle
+    # proof: O-1136's whitelist also requires "no runnable batch", and pool-ready cards ARE
+    # runnable. Publish the whitelist decision itself so the verdict cannot be read as idle.
+    record["legal_idle_whitelist"] = _legal_idle_whitelist(
+        len(ticket_ids) == 0 and bandit_open == 0, local_batch, len(pool_ready))
     # post-append trailing-sample view computed pre-write so the verdict is
     # persisted IN the record (round reports / T-75 daily report consume the
     # file, not stdout); sample set identical to the old load-after-append view.
@@ -310,6 +316,24 @@ def probe():
     out["series_kept"] = n_kept
     print(json.dumps(out, ensure_ascii=False))
     return 0
+
+
+def _legal_idle_whitelist(board_closed, local_batch, n_pool_ready):
+    """O-1136 sec.4: legal idle needs every condition, and a settled pool is one of them.
+
+    Kept separate from the frozen verdict face so neither can be tuned against the other.
+    """
+    no_runnable_batch = (not local_batch) and int(n_pool_ready) == 0
+    out = {"board_closed": bool(board_closed),
+           "no_runnable_batch": bool(no_runnable_batch),
+           "pool_ready_cards": int(n_pool_ready),
+           "satisfied": bool(board_closed and no_runnable_batch)}
+    if not out["satisfied"]:
+        out["why_not"] = ("board closed but %d pool-ready card(s) are runnable -- the verdict face "
+                          "counts board work only, so a 'board_clear' verdict is not by itself a "
+                          "legal-idle proof" % int(n_pool_ready)
+                          if board_closed else "board work is open")
+    return out
 
 
 def _machine_id():
@@ -359,6 +383,17 @@ def selftest():
           and abs(f["span_min"] - 15.8) < 0.1)
     v, _ = _window_verdict(s_low, False)
     check("py_low_board_clear", v == "py_low_board_clear")
+    # a frozen board_clear verdict is NOT a legal-idle proof while pool cards are runnable
+    w = _legal_idle_whitelist(True, False, 0)
+    check("legal idle when the pool is settled", w["satisfied"] is True)
+    w = _legal_idle_whitelist(True, False, 3)
+    check("pool cards block legal idle though the verdict stays board_clear",
+          w["satisfied"] is False and w["no_runnable_batch"] is False
+          and w["pool_ready_cards"] == 3)
+    w = _legal_idle_whitelist(True, True, 0)
+    check("a local batch blocks legal idle", w["satisfied"] is False)
+    w = _legal_idle_whitelist(False, False, 0)
+    check("an open board blocks legal idle", w["satisfied"] is False)
     v, f = _window_verdict([(t0, 5.0), (t0 + 120, 5.0)], True)
     check("insufficient span", v == "insufficient_history")
     v, _ = _window_verdict([(t0, 5.0)], True)
