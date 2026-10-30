@@ -692,6 +692,77 @@ def main() -> int:
                   "blocks/card/order absent -- face soft-fails by design")
     except Exception as e:
         check("product: E246 drawdown band reaches both trading pages", False, str(e))
+    # r1357 / E271: the width ruler now has to reach BOTH documents a reader can hold, and
+    # the number on each page is recomputed here from the ruler face rather than grepped as
+    # a sentence: if the face moves, both pages fail. The card sheet is additionally asked
+    # to say which face on that ruler it is -- the paired gap is between the two live
+    # books, so printing it as "this sheet vs the card" would quote a difference between
+    # two other books (r1280 family: a label that outlives its numbers).
+    try:
+        _rp = os.path.join("results", "etf_book_live_width_ruler.json")
+        _ord_all = sorted(__import__("glob").glob(
+            os.path.join("results", "etf_book_order", "ORDER-*.md")))
+        _ord_beta = [p for p in _ord_all if not p.endswith("-card.md")]
+        _ord_card = [p for p in _ord_all if p.endswith("-card.md")]
+        if os.path.exists(_rp) and _ord_beta and _ord_card:
+            _r = json.load(open(_rp, encoding="utf-8"))
+            _pr = _r.get("paired") or {}
+            _ed = _r.get("engine_disagreement") or {}
+            _rl = _r.get("rule") or {}
+            _med = _pr.get("median_pp")
+            _dis = _ed.get("rung_disagreement_pp")
+            _split_max = _rl.get("sign_split_max") or 0.6
+            _coin = (_med is not None and _dis is not None
+                     and abs(float(_med)) < abs(float(_dis))
+                     and float(_pr.get("sign_agreement") or 1.0) <= float(_split_max)
+                     and int(_pr.get("pairs") or 0) >= int(_rl.get("pairs_min") or 20))
+            _want = "%+.2fpp" % float(_med) if _med is not None else ""
+            _bt = open(_ord_beta[-1], encoding="utf-8").read()
+            _ct2 = open(_ord_card[-1], encoding="utf-8").read()
+            check("product: E271 the width ruler reaches both order documents",
+                  bool(_coin) and bool(_want) and _want in _bt and _want in _ct2
+                  and ("%+.2fpp" % float(_dis)) in _bt
+                  and ("%+.2fpp" % float(_dis)) in _ct2
+                  and "覆盖那张单" in _ct2,
+                  "coin=%s want=%s beta=%s card=%s names_other=%s"
+                  % (_coin, _want, _want in _bt, _want in _ct2, "覆盖那张单" in _ct2))
+        else:
+            check("product: E271 the width ruler reaches both order documents", True,
+                  "ruler/order absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: E271 the width ruler reaches both order documents", False, str(e))
+    # r1358 / E272: a paired gap is only readable against the resolution of its own pairing.
+    # Recompute z*sd/sqrt(n) here from the face's published sd and phase count -- never read the
+    # stored mde -- and require the same floor on BOTH documents. If the face moves, both pages
+    # fail; if someone deletes the line from one page, that page fails.
+    try:
+        _rp2 = os.path.join("results", "etf_book_live_width_ruler.json")
+        _ob = sorted(__import__("glob").glob(
+            os.path.join("results", "etf_book_order", "ORDER-*.md")))
+        _ob2 = [p for p in _ob if not p.endswith("-card.md")]
+        _oc2 = [p for p in _ob if p.endswith("-card.md")]
+        if os.path.exists(_rp2) and _ob2 and _oc2:
+            _r2 = json.load(open(_rp2, encoding="utf-8"))
+            _pr2 = _r2.get("paired") or {}
+            _sd2 = _pr2.get("sd_pp")
+            _n2 = int(_pr2.get("pairs") or 0)
+            if _sd2 and _n2:
+                _mde2 = 2.802 * float(_sd2) / (_n2 ** 0.5)
+                _bis = open(_ob2[-1], encoding="utf-8").read()
+                _cis = open(_oc2[-1], encoding="utf-8").read()
+                _str2 = "%.2fpp" % _mde2
+                check("product: E272 each sheet says what its pairing could have detected",
+                      _str2 in _bis and _str2 in _cis and "分辨下限" in _bis
+                      and "分辨下限" in _cis,
+                      "floor=%s beta=%s card=%s" % (_str2, _str2 in _bis, _str2 in _cis))
+            else:
+                check("product: E272 each sheet says what its pairing could have detected", True,
+                      "face publishes no dispersion -- soft-fails by design")
+        else:
+            check("product: E272 each sheet says what its pairing could have detected", True,
+                  "ruler/order absent -- face soft-fails by design")
+    except Exception as e:
+        check("product: E272 each sheet says what its pairing could have detected", False, str(e))
     # r1156 / E251: p5 is "the deepest 5%", not "the worst". The arms now carry p1/p99,
     # so the leg asks the two questions the number must answer: is p1 actually deeper than
     # the p5 beside it (ordering, not decoration), and does the published face say whether

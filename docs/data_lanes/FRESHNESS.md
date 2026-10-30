@@ -7,10 +7,10 @@ Verdict: **attention** -- 0/10 lanes in sync, 0/10 auditable from this machine, 
 
 ## Whose disk these numbers are on
 
-9 条在役车道里有 9 条的数字不在本机盘上：6 条在 bm-b 的盘上（16.96h 未报到）、3 条在 bm-a 的盘上（心跳 1.95h 前）；留在本机盘上的 0 条里 0 条可核实。
+9 条在役车道里有 9 条的数字不在本机盘上：6 条在 bm-b 的盘上（18.7h 未报到）、3 条在 bm-a 的盘上（3.69h 未报到）；留在本机盘上的 0 条里 0 条可核实。
 
 - `bm-b`: astock_daily, heat, marks, moneyflow, repo, zt_pool (host down)
-- `bm-a`: etf_panel, futures, lhb
+- `bm-a`: etf_panel, futures, lhb (host down)
 | lane | host | tail | missing (official days) | verdict | authority |
 |---|---|---|---|---|---|
 | `options` | bm-b | 2026-09-30 | 16: 2026-10-08, 2026-10-09, 2026-10-12, 2026-10-13, 2026-10-14, 2026-10-15 … | retired (copy said `stalled`) | unattributed |
@@ -28,7 +28,8 @@ Verdict: **attention** -- 0/10 lanes in sync, 0/10 auditable from this machine, 
 
 These lanes cannot be certified here and the machine that is supposed to collect them has not written a heartbeat for more than 2.0h. Until it comes back the numbers below are this machine's stale copies, not the company's data.
 
-- `bm-b`: last seen 2026-10-29T18:18:13+08:00 (16.96h ago) -- holding back moneyflow, repo, astock_daily, marks, zt_pool
+- `bm-a`: last seen 2026-10-30T09:18:44+08:00 (3.69h ago) -- holding back etf_panel, futures, lhb
+- `bm-b`: last seen 2026-10-29T18:18:13+08:00 (18.7h ago) -- holding back moneyflow, repo, astock_daily, marks, zt_pool
 
 ## Why some lanes cannot be certified here
 

@@ -6402,3 +6402,50 @@ absolute value of a small noise-dominated series — so the proxy link was too w
 coefficient collapsed to 0.005 and the face correctly answered `residual_inside_shuffled_band`.
 Rebuilding it around the star's exogenous `|dy_star|` (with turnover `0.6·|dy_star| + noise`)
 reproduced the intended branch on the first re-run.
+
+## E271 A paired gap belongs to the pair, not to the sheet in your hand (2026-10-30 r1357 bm-c)
+
+The live-width ruler is a *paired* statistic: it pairs two live faces phase by phase, so its
+number is a statement about the pair, never about one of them. Once the same number is printed
+on two documents a reader can hold, the document that **is** one of the measured faces must be
+told which face it is, or it will read the gap as "my book vs the reference book" -- a
+difference between two other books, phrased as a defect of the sheet in hand.
+
+Derive the role, never accept it from the caller: ``live_width_ruler(sheet="card")`` returns
+``sheet_role`` in {measured_card, measured_ticket, None}, and downgrades to **unverified** when
+the face prices a width the live faces no longer run. An unverified sheet is not allowed to
+print the clean reading -- same family as E270 (a label that outlives its numbers).
+
+Cross-document assertions surface spelling drift that single-document greps never can: the beta
+page wrote the disagreement as ``%.2f`` while the new card block wrote ``%+.2f``. Assert the same
+derived numbers on both pages (smoke leg E271) rather than a sentence on either.
+
+Two consequences worth quoting: a reader of the card sheet learns that choosing between the two
+sheets is a **volatility-budget** choice (the +0.09pp median is 4.4% of the engines' own 2.045pp
+disagreement), and no sheet is allowed to say "the ruler is fine because we said so".
+
+## E272 "The gap is small" and "this ruler could not have seen a gap this small" are different sentences (2026-10-30 r1358 bm-c)
+
+WHEN: a comparison is published as a PAIRED statistic over a small, fixed sample -- here the card
+width vs the ticket width, paired across the 20 decision origins of one rebalance cycle, per-phase
+differences with sd 1.255pp. Every face in this family says "the gap is inside the engine
+disagreement", which reads as "the widths are equivalent".
+
+WRONG: quote the effect-size comparison alone. At 20 pairs and sd 1.255pp the smallest paired
+difference this design can detect (two-sided 5%, 80% power, z=2.802) is **0.786pp**; the measured
+gap is 0.09pp, i.e. **11% of its own floor**. Two different readings output the same sentence:
+"the widths do not differ" and "this pairing cannot tell them apart". Only the second one is
+supported, and the first one is the sentence an operator would act on.
+
+RIGHT: publish the resolution beside the gap, derived from the numbers the face already carries
+(mde = z*sd/sqrt(n)) and re-derived at every consumer, never copied off a stored field. Every
+sheet prints it, and a sheet whose face publishes no dispersion says so instead of printing 0.00.
+The consequence is a quotable rule for the family: a 20-phase cycle cannot resolve anything
+smaller than ~0.8pp, so the card-vs-ticket question is answerable only as a volatility-budget
+choice, never as a return difference -- and any future arm has to reach ~0.79pp before this
+ruler may call it separated.
+
+Pos: scripts/etf_book_phase_atlas_arms.py LIVE_RULE power_z/power_target + `resolution` block
+(selftest 88->91 legs) ; scripts/etf_book_order.py `_resolution_md` + re-derived
+resolution_pp/gap_over_resolution/below_own_resolution on both sheets (selftest 56->59) ; smoke
+leg E272 recomputes the floor from the face's own sd and requires it on BOTH order documents.

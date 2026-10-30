@@ -13,6 +13,8 @@
 
 中位差 **+0.090pp**，均值 +0.129pp，区间 -2.050..+2.890pp（跨度 4.940，sd 1.255），方向 10 上 / 10 下。
 
+**这把尺子自己的分辨下限**：20 个相位、逐相位差 sd 1.255pp，在 80% 功效（双侧 5%）下能分辨的最小差值 = **0.786pp**；本次 +0.090pp 是它下限的 11% —— 低于自己的分辨下限：所以「两者没差别」也不是结论，结论是这把尺子分不开。
+
 **聚合假象**：阶梯上的这一格是「两个中位数相减」= +0.515pp，同一件事按逐相位配对取中位数 = +0.090pp —— 差的 0.425pp（83%）是聚合方式，不是书。
 
 ## 二、两台引擎在同一级上的分歧（唯一可比的量：差减差）
@@ -46,6 +48,7 @@ Verdict: **COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT**
 - the same rung costs +0.515pp on the atlas engine and -1.530pp on the capacity engine, a disagreement of 2.045pp with the sign flipping = True
 - difference of medians +0.515pp vs median of differences +0.090pp: the ladder's rung is 83% aggregation
 - gap is 4.4% of the engine disagreement and 1.3% of the atlas ruler 6.68pp
+- this pairing's own resolution is 0.786pp at 80% power (20 phases, sd 1.255), so a gap of +0.090pp is 11% of what it could have detected -- below its own ruler, so 'no difference' is not the finding either
 - the two live widths are not separated by their own phases AND the engine disagreement on the same rung is wider than the gap: no part of the difference between card and ticket is quotable as a width effect
 - as issued the two faces print 12.51pp vs 11.33pp (+1.18pp diagonal), but the 2x2 moves two knobs at once: width effect -1.53pp under the beta rule and +0.32pp under the vol rule, with an interaction of +1.85pp (bigger than both width effects = True)
 - COINCIDENCE, not agreement: the beta-rule width effect (-1.530pp) equals the capacity engine's 5->12 rung (-1.530pp) to the basis point. They are different quantities on different windows -- one is a live 2x2 cell difference, the other a second engine's rung. Recording the collision so nobody reads it as confirmation

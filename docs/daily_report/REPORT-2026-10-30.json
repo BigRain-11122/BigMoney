@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-30",
- "generated_at": "2026-10-30 11:39:08",
+ "generated_at": "2026-10-30 13:24:10",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,21 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-30.md"
  },
  "rd": {
-  "commits_24h": 112,
+  "commits_24h": 107,
   "result_jsons_landed_24h": 133,
-  "digests_landed_24h": 34,
+  "digests_landed_24h": 37,
   "prereg_md_touched_24h": 24,
   "compute_audit_latest": {
-   "ts": "2026-10-30 11:15:12",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-10-30 12:59:55",
+   "py_cpu_pct": 5.7,
    "flags": [
+    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -654,7 +655,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2347686,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-30 09:13:57",
+   "prev_generated": "2026-10-30 11:39:41",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -791,21 +792,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-10-30 11:15:12",
-    "py_pct": 0.0,
-    "cpu_pct": 70.0,
+    "latest_ts": "2026-10-30 12:59:55",
+    "py_pct": 5.7,
+    "cpu_pct": 59.0,
     "ready": 0,
-    "streak_min": 0.0,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 104.7,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "03:17",
-      5.0
-     ],
-     [
-      "04:08",
-      4.9
-     ],
      [
       "04:41",
       0.1
@@ -845,9 +838,17 @@
      [
       "11:15",
       0.0
+     ],
+     [
+      "12:33",
+      2.8
+     ],
+     [
+      "12:59",
+      5.7
      ]
     ],
-    "today_samples": 19,
+    "today_samples": 21,
     "today_floor_ok": 3,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -903,8 +904,8 @@
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 1,
-     "audit_ts": "2026-10-30 11:15:12"
+     "audit_batches": 0,
+     "audit_ts": "2026-10-30 12:59:55"
     }
    }
   },
@@ -1700,9 +1701,9 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-10-30T11:15:31",
+  "as_of": "2026-10-30T13:00:06",
   "verdict": "attention",
-  "sentence": "9 条在役车道里有 9 条的数字不在本机盘上：6 条在 bm-b 的盘上（16.96h 未报到）、3 条在 bm-a 的盘上（心跳 1.95h 前）；留在本机盘上的 0 条里 0 条可核实。",
+  "sentence": "9 条在役车道里有 9 条的数字不在本机盘上：6 条在 bm-b 的盘上（18.7h 未报到）、3 条在 bm-a 的盘上（3.69h 未报到）；留在本机盘上的 0 条里 0 条可核实。",
   "n_lanes": 9,
   "n_offhost": 9,
   "n_here": 0,
@@ -1721,7 +1722,7 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 16.96,
+    "age_h": 18.7,
     "last_seen": "2026-10-29T18:18:13+08:00"
    },
    {
@@ -1732,8 +1733,8 @@
      "lhb"
     ],
     "n": 3,
-    "alive": true,
-    "age_h": 1.95,
+    "alive": false,
+    "age_h": 3.69,
     "last_seen": "2026-10-30T09:18:44+08:00"
    }
   ],

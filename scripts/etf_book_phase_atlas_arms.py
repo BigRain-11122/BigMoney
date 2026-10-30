@@ -678,6 +678,11 @@ LIVE_RULE = {
     # two published numbers closer than this are reported as a collision between two different
     # quantities (the r1292 family) rather than allowed to pass for agreement
     "coincidence_tol_pp": 0.005,
+    # r1358: a paired mean over one cycle is a small-sample test, so the face must publish the
+    # difference this pairing COULD have detected, not only the one it found (E162 reader-horizon
+    # law applied to a paired difference instead of a trend). Two-sided 5%, 80% power => z=2.802.
+    "power_z": 2.802,
+    "power_target": 0.80,
     "frozen": ("written before the first read of the two live faces: the comparator is the "
                "difference-of-differences (this rung on the atlas engine vs the same rung on "
                "the capacity engine), never a level gap, because a level gap and a difference "
@@ -813,6 +818,25 @@ def live_width_of(payload, capacity, ticket):
             "capacity_evidence_cutoff": capacity.get("evidence_cutoff"),
         },
     })
+    # The pairing's own resolution (r1358). "The gap is small" and "this pairing could not have
+    # seen a gap this small" are different statements, and only the second one is true of a
+    # 20-phase cycle whose per-phase differences have sd ~1.3pp. Derive it from the sd the face
+    # itself publishes, so a reader can rebuild it without the script.
+    _sdv = out["paired"].get("sd_pp") or 0.0
+    _mde = (LIVE_RULE["power_z"] * _sdv / (n ** 0.5)) if (n and _sdv) else None
+    out["resolution"] = {
+        "pairs": n, "sd_pp": out["paired"].get("sd_pp"),
+        "power_z": LIVE_RULE["power_z"], "power_target": LIVE_RULE["power_target"],
+        "mde_pp": round(_mde, 3) if _mde is not None else None,
+        "gap_over_mde": (round(abs(med_paired) / _mde, 3)
+                         if (_mde and med_paired is not None) else None),
+        "readable": (None if (_mde is None or med_paired is None)
+                     else bool(abs(med_paired) >= _mde)),
+        "note": ("minimum paired difference this cycle could detect at %.0f%% power "
+                 "(two-sided 5%%). A gap under it is not evidence of no difference; it is "
+                 "evidence that this pairing cannot tell the two widths apart"
+                 % (100.0 * LIVE_RULE["power_target"])),
+    }
     as_issued = None
     if ticket and ticket.get("width_disclosure"):
         as_issued = _as_issued_block(ticket["width_disclosure"], out, LIVE_RULE)
@@ -842,6 +866,13 @@ def live_width_of(payload, capacity, ticket):
            100.0 * abs_gap / out["rulers"]["atlas_ruler_pp"]
            if out["rulers"]["atlas_ruler_pp"] else float("nan"),
            out["rulers"]["atlas_ruler_pp"]),
+        "this pairing's own resolution is %.3fpp at %.0f%% power (%d phases, sd %.3f), so a gap "
+        "of %+.3fpp is %.0f%% of what it could have detected -- %s"
+        % (out["resolution"]["mde_pp"] or float("nan"),
+           100.0 * LIVE_RULE["power_target"], n, out["paired"]["sd_pp"] or 0.0, med_paired,
+           100.0 * (out["resolution"]["gap_over_mde"] or 0.0),
+           "readable against its own ruler" if out["resolution"]["readable"]
+           else "below its own ruler, so 'no difference' is not the finding either"),
     ]
     if sign_agree <= LIVE_RULE["sign_split_max"] and abs_gap < dis:
         label = "COIN_FLIP_INSIDE_ENGINE_DISAGREEMENT"
@@ -993,6 +1024,14 @@ def render_live_widths_md(p):
              "方向 %d 上 / %d 下。\n"
              % (pr["median_pp"], pr["mean_pp"], pr["min_pp"], pr["max_pp"], pr["spread_pp"],
                 pr["sd_pp"], pr["positive"], pr["pairs"] - pr["positive"]))
+    rs = p.get("resolution") or {}
+    if rs.get("mde_pp") is not None:
+        L.append("**这把尺子自己的分辨下限**：%d 个相位、逐相位差 sd %.3fpp，在 %.0f%% 功效（双侧 5%%）下"
+                 "能分辨的最小差值 = **%.3fpp**；本次 %+.3fpp 是它下限的 %.0f%% —— %s。\n"
+                 % (rs["pairs"], rs["sd_pp"] or 0.0, 100.0 * rs["power_target"],
+                    rs["mde_pp"], pr["median_pp"], 100.0 * (rs["gap_over_mde"] or 0.0),
+                    "在该尺子射程内" if rs.get("readable")
+                    else "低于自己的分辨下限：所以「两者没差别」也不是结论，结论是这把尺子分不开"))
     ag = p["aggregation"]
     L.append("**聚合假象**：阶梯上的这一格是「两个中位数相减」= %+.3fpp，同一件事按逐相位配对取中位数 "
              "= %+.3fpp —— 差的 %.3fpp（%.0f%%）是聚合方式，不是书。\n"
@@ -1476,6 +1515,21 @@ def _selftest():
         % max(p_level["engine_disagreement"]["level_gap_pp"].values()))
     chk(p_level["verdict"] == "RESOLVED_BEYOND_ENGINE_DISAGREEMENT",
         "the rung, not the level gap, decides (%s)" % p_level["verdict"])
+
+    # L26b (r1358) the pairing publishes its own resolution; a gap under it is not equivalence
+    _r = lw["resolution"]
+    _mde_hand = LIVE_RULE["power_z"] * lw["paired"]["sd_pp"] / (lw["paired"]["pairs"] ** 0.5)
+    chk(abs(_r["mde_pp"] - _mde_hand) < 2e-3,
+        "the resolution is z*sd/sqrt(n) from the face's own numbers (%.3f vs hand %.3f)"
+        % (_r["mde_pp"], _mde_hand))
+    chk(_r["readable"] is False and _r["gap_over_mde"] < 1.0,
+        "a coin-flip fixture whose gap sits under its own ruler says so (%r, %.2f of the floor)"
+        % (_r["readable"], _r["gap_over_mde"]))
+    _pay_r = live_width_of(*_lw_fix([10.0, 11.0] * 10, [10.0] * 20, 10.5, 10.0)[:2], None)
+    chk(_pay_r["resolution"]["readable"] is True,
+        "a gap above the same ruler is readable (%+.3fpp vs floor %.3fpp = %.2f of it)"
+        % (_pay_r["paired"]["median_pp"], _pay_r["resolution"]["mde_pp"],
+           _pay_r["resolution"]["gap_over_mde"]))
 
     # L27 the as-issued 2x2 is re-derived from its four cells, and a lying summary is ignored
     _sq = {"cells": {"beta@5": {"cagr": 0.1000}, "beta@12": {"cagr": 0.0847},

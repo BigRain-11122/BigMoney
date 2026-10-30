@@ -361,7 +361,7 @@ def card(ticket, mk, sched, asof, beta, extra):
               "把本单和卡片放到同一条尺子上、逐相位配对：中位差 **%+.2fpp**"
               "（%d 个相位，%s 个往上、%s 个往下，区间 %+.2f ~ %+.2f）；"
               "同一档 5→12 名在另一台引擎上是 **%+.2fpp** —— 两台引擎对这一档的分歧 "
-              "**%.2fpp**（方向还相反）。"
+              "**%+.2fpp**（方向还相反）。"
               % (float(ru["gap_pp"]), ru["pairs"], ru.get("positive_phases"),
                  (ru["pairs"] - (ru.get("positive_phases") or 0)) if ru.get("pairs") else "?",
                  float(ru.get("min_pp") if ru.get("min_pp") is not None
@@ -373,6 +373,7 @@ def card(ticket, mk, sched, asof, beta, extra):
               "在本窗读不出来——能读出来的是：两张面之间的大部分差来自杠杆规则（β 覆盖 vs "
               "8%% 波动目标），不是名数。挑哪张面照旧看愿意承担多少波动。"
               % (100.0 * (ru.get("share_of_disagreement") or 0.0)),
+              _resolution_md(ru),
               "- 出处：%s（cutoff %s，%s 个相位配对）。"
               % (ru["source"], ru["evidence_cutoff"], ru["pairs"])]
     elif ru.get("state") and ru["state"] != "unavailable":
@@ -858,7 +859,7 @@ def _verdict(b):
     return "unknown" if b is None else ("一致" if b else "不一致")
 
 
-def card_config_card(tk, width=None):
+def card_config_card(tk, width=None, ruler=None):
     """Markdown for the card-config order, with the three-face reconciliation on it."""
     rc = tk["recon"]
     cfg = tk["config"]
@@ -934,6 +935,33 @@ def card_config_card(tk, width=None):
                           for r, v in sorted((width.get("width_effect") or {}).items()))
                  or "本窗未取到同规则两宽度格"),
               "出处：%s（cutoff %s）。" % (width["source"], width["evidence_cutoff"])]
+    ru = (ruler or {})
+    if ru.get("state") == "inside_disagreement" and ru.get("sheet_role") == "measured_card":
+        L += ["", "## 另一张单和本单的差（两张面逐相位配对）",
+              "本单**就是卡片那一本书**（%d 名 / vol %.0f%%），所以下面这个差不是「本单 vs 卡片」，"
+              "而是「%d 名 %s 覆盖那张单 vs 本单」：中位 **%+.2fpp**"
+              "（%d 个相位，%s 个往上、%s 个往下，区间 %+.2f ~ %+.2f）；同一档 5→12 名在另一台引擎上"
+              "是 **%+.2fpp** —— 两台引擎对这一档的分歧 **%+.2fpp**（方向还相反）。"
+              % (len(tk["order"]), 100.0 * float(cfg.get("vol_target") or 0.0),
+                 ru["widths"]["ticket"]["live_n_hold"], ru["widths"]["ticket"]["live_rule"],
+                 float(ru["gap_pp"]), ru["pairs"], ru.get("positive_phases"),
+                 (ru["pairs"] - (ru.get("positive_phases") or 0)) if ru.get("pairs") else "?",
+                 float(ru.get("min_pp") or 0.0), float(ru.get("max_pp") or 0.0),
+                 float(ru.get("capacity_rung_pp") or 0), float(ru["disagreement_pp"])),
+              "- 读法：这个差只有引擎分歧的 **%.1f%%**，所以两张单之间选哪张读不出收益差——"
+              "读得出来的是要在哪一档波动预算上：β 覆盖固定杠杆，本单按 8%% 目标只降不升。"
+              % (100.0 * (ru.get("share_of_disagreement") or 0.0)),
+              _resolution_md(ru),
+              "- 出处：%s（cutoff %s，%s 个相位配对）。"
+              % (ru["source"], ru["evidence_cutoff"], ru["pairs"])]
+    elif ru.get("state") and ru["state"] != "unavailable":
+        L += ["", "## 另一张单和本单的差（尺子没给出干净读数）",
+              "- 尺子状态：**%s** —— %s" % (ru["state"], ru.get("detail") or ""),
+              "- 本单在这把尺子上的身份：%s。"
+              % {"measured_card": "卡片面（可读）",
+                 "unverified": "**未核实**——尺子量的是旧宽度，本单不能引用它的读数",
+                 None: "未声明"}.get(ru.get("sheet_role"), ru.get("sheet_role")),
+              "- 出处：%s（cutoff %s）。" % (ru.get("source"), ru.get("evidence_cutoff"))]
     L += ["", "## 诚实面", "",
           "- 探索件：无预注册、无判决、不入成绩账本；本单只是把卡片已经公布的那本书变成可下手的单。"]
     gap = None
@@ -1113,13 +1141,18 @@ def run_card(nav=None):
            "caveats": ["exploratory: no prereg, no verdict, not in the scorecard",
                        "survivorship in the ETF pool; reference prices only, no impact cost",
                        "cash leg is GC001 single tenor, rolls at zero fee"]}
-    _write("TICKET-%s-card.json" % asof, doc)
     wd = width_disclosure()
     curve = lot_curve(tk["order"], scale=tk["scale"])
     curve["asof_bar"] = asof
     curve["scale_of_capital_cny"] = tk["nav"]
     _write("LOTCURVE-%s-card.json" % asof, curve)
-    md = "\n".join([card_config_card(tk, wd).rstrip(),
+    # r1357: the ruler reaches the card sheet too -- both documents a reader can hold must
+    # answer "what did the other sheet measure", and the paired gap is between the faces,
+    # so this sheet says which face it is on that ruler rather than borrowing the gap.
+    ruler = live_width_ruler(asof=tk["priced_bar"], card_n=len(tk["order"]), sheet="card")
+    doc["live_width_ruler"] = ruler
+    _write("TICKET-%s-card.json" % asof, doc)
+    md = "\n".join([card_config_card(tk, wd, ruler).rstrip(),
                     "\n".join(lot_curve_md(curve, tk["nav"])).rstrip(),
                     ""])
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -1225,8 +1258,28 @@ def width_disclosure(card_n=None, audit_path=None, card_dir=None):
             "evidence_cutoff": audit.get("evidence_cutoff")}
 
 
+def _resolution_md(ru):
+    """One line: how big a difference this pairing could have seen (r1358).
+
+    Kept as a helper because both sheets print it and a second copy would drift from the first
+    (the E271 cross-document lesson). A face that publishes no per-phase dispersion cannot have
+    its resolution computed, and that absence is printed rather than filled with a zero.
+    """
+    mde = ru.get("resolution_pp")
+    if mde is None:
+        return ("- 这一面没有公布逐相位离散度（sd），分辨下限算不出来——"
+                "「两张单差不多」这句话在这张单上没有尺子支撑，按未核实读。")
+    return ("- 这把尺子自己的分辨下限：%d 个相位、逐相位差 sd %.2fpp，在 %.0f%% 功效"
+            "（双侧 5%%）下能分辨的最小差值 **%.2fpp**；本次差是它下限的 %.0f%% —— %s"
+            % (ru.get("pairs") or 0, float(ru.get("paired_sd_pp") or 0.0),
+               100.0 * float(ru.get("power_target") or 0.8), float(mde),
+               100.0 * float(ru.get("gap_over_resolution") or 0.0),
+               "在射程内，差值可读" if ru.get("below_own_resolution") is False
+               else "低于下限：所以「两者没差别」也不是本窗的结论，结论是这把尺子分不开"))
+
+
 def live_width_ruler(asof=None, card_n=None, card_dir=None, path=None,
-                     stale_days=RULER_STALE_DAYS):
+                     sheet=None, stale_days=RULER_STALE_DAYS):
     """Is the gap between the two live faces bigger than the engines' own disagreement?
 
     ``scripts/etf_book_phase_atlas_arms.py --live-widths`` puts both live cells on one
@@ -1339,10 +1392,38 @@ def live_width_ruler(asof=None, card_n=None, card_dir=None, path=None,
     except ValueError:
         src = p.replace("\\", "/")
     share = (abs(float(gap)) / abs(float(dis))) if (gap is not None and dis) else None
-    return {"state": state, "detail": detail,
+    # r1358: the pairing's own resolution, re-derived here from the sd and the phase count the
+    # face publishes -- never copied off a stored field. "The gap is small" and "this pairing
+    # could not have seen a gap this small" are different sentences, and a sheet that prints
+    # only the first one invites a reader to conclude the widths are equivalent.
+    res = doc.get("resolution") or {}
+    sd_p = pr.get("sd_pp")
+    z = res.get("power_z") or 2.802
+    mde = None
+    if sd_p and pairs:
+        mde = (float(z) * float(sd_p)) / (float(pairs) ** 0.5)
+    gap_over_mde = (abs(float(gap)) / mde) if (mde and gap is not None) else None
+    # which of the two measured faces is the sheet asking for this reading? The paired gap
+    # is between the faces, so a sheet that IS one of them is told what the OTHER one
+    # measured -- printing the gap as if it were "this sheet vs the card" would be a
+    # sentence about two different books. If the face no longer prices this sheet's width
+    # the role goes unverified, so the page cannot keep printing a clean reading for a
+    # book the face never measured (r1280 family: a label that outlives its numbers).
+    sheet_role = None
+    if sheet in ("card", "ticket"):
+        sheet_role = ("unverified" if sheet in moved else
+                      {"card": "measured_card", "ticket": "measured_ticket"}[sheet])
+    return {"state": state, "detail": detail, "sheet": sheet, "sheet_role": sheet_role,
             "verdict": derived, "published_verdict": published,
             "gap_pp": gap, "disagreement_pp": dis,
             "share_of_disagreement": round(share, 4) if share is not None else None,
+            "resolution_pp": round(mde, 3) if mde is not None else None,
+            "gap_over_resolution": (round(gap_over_mde, 3)
+                                    if gap_over_mde is not None else None),
+            "below_own_resolution": (None if gap_over_mde is None
+                                     else bool(gap_over_mde < 1.0)),
+            "power_target": res.get("power_target"),
+            "paired_sd_pp": sd_p,
             "atlas_rung_pp": ed.get("atlas_rung_pp"),
             "capacity_rung_pp": ed.get("capacity_rung_pp"),
             "sign_flips": ed.get("sign_flips"),
@@ -1922,6 +2003,100 @@ def selftest():
                      {"ruler": bad_r, "width": None, "feed": None, "agreement": None})
         chk("leg41b a non-clean ruler changes what the page says",
             md_st != md_r and "尺子状态" in md_st, "")
+
+        # ---- r1357: the SAME ruler has to reach the card sheet, and it has to say which
+        # face on that ruler this sheet is. The paired gap is between the two live faces,
+        # so a card sheet that printed "gap vs the card" would be quoting a difference
+        # between two other books. Three legs: the reading is there and names the other
+        # face, a moved-widths face leaves the sheet unverified instead of clean, and the
+        # caller's sheet label alone cannot invent a role.
+        chk("leg42 the ruler knows which face the asking sheet is (and never for free)",
+            live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5, sheet="card",
+                             path=_put("s_card.json", _ruler_doc()))["sheet_role"]
+            == "measured_card"
+            and live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5, sheet="ticket",
+                                 path=_put("s_tk.json", _ruler_doc()))["sheet_role"]
+            == "measured_ticket"
+            and live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5, sheet="x",
+                                 path=_put("s_x.json", _ruler_doc()))["sheet_role"] is None,
+            "")
+        r_moved = live_width_ruler(asof="2026-10-29", card_n=8, card_dir=cd5, sheet="card",
+                                   path=_put("s_mv.json", _ruler_doc()))
+        chk("leg42b a face pricing a width we no longer run leaves this sheet unverified",
+            r_moved["state"] == "widths_moved" and r_moved["sheet_role"] == "unverified",
+            "state=%s role=%s" % (r_moved["state"], r_moved["sheet_role"]))
+
+        # a 12-leg card sheet, so the rendered page is the one a reader would hold
+        cd6 = os.path.join(cdt5, "card12")
+        os.makedirs(cd6, exist_ok=True)
+        legs12 = [{"symbol": "S%02d" % i, "name": "S%02d" % i, "class": "equity",
+                   "weight": 0.058, "ref_price": 2.0, "lots_100": 29000,
+                   "amount_cny": 58000.0, "actual_amount_cny": 58000.0} for i in range(12)]
+        with open(os.path.join(cd6, "latest.json"), "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12, "rebal": 20, "vol_target": 0.08,
+                                  "capital_cny": 1000000.0, "cost_bp_per_side": 10.0},
+                       "feed_status": {"status": "current", "ticket_bar": "2026-10-29",
+                                       "expected_bar": "2026-10-29", "lag_days": 0},
+                       "sheet": {"as_of_bar": "2026-10-29", "book_decided_at": "2026-10-14",
+                                 "capital_cny": 1000000.0, "risk_scale": 0.7,
+                                 "target_vol": 0.08, "cash_weight": 0.3, "legs": legs12,
+                                 "bars_until_next_decision": 9}}, f, ensure_ascii=False)
+        lp6 = os.path.join(cdt5, "LEDGER6.json")
+        with open(lp6, "w", encoding="utf-8") as f:
+            json.dump({"config": {"n_hold": 12, "vol_target": 0.08, "rebal": 20,
+                                  "cost_per_side": 0.001},
+                       "book_in_force": {"bar": "2026-10-14", "scale": 0.7,
+                                         "names": [r["symbol"] for r in legs12]},
+                       "bars": [{"bar": "2026-10-29", "nav": 1.0}], "status": "live"},
+                      f, ensure_ascii=False)
+        tk12 = card_config_ticket(card_dir=cd6, ledger_path=lp6)
+        r_card = live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5, sheet="card",
+                                  path=_put("s_card2.json", _ruler_doc()))
+        md_c = card_config_card(tk12, None, r_card) if tk12 else ""
+        chk("leg42c the card sheet prints the other sheet's measured gap, not its own",
+            bool(tk12) and "+0.09pp" in md_c and "5 名 beta 覆盖那张单 vs 本单" in md_c
+            and "另一张单和本单的差" in md_c and "4.4%" in md_c,
+            "chars=%d has_gap=%s" % (len(md_c), "+0.09pp" in md_c))
+        md_cu = card_config_card(tk12, None, r_moved) if tk12 else ""
+        chk("leg42d an unverified sheet cannot print the clean reading",
+            bool(md_cu) and "未核实" in md_cu and "+0.09pp" not in md_cu
+            and md_cu != md_c, "")
+        # r1358: the resolution is re-derived from the face's own sd and phase count. A face that
+        # publishes a stored mde has no say here -- a number that can be edited independently of
+        # the numbers that produce it is a receipt (r1266), so feed a poisoned one and demand the
+        # derived value.
+        r_res = live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                                 path=_put("res.json", _ruler_doc(
+                                     paired={"pairs": 20, "median_pp": 0.09, "positive": 10,
+                                             "sign_agreement": 0.5, "spread_pp": 4.94,
+                                             "sd_pp": 1.255},
+                                     resolution={"mde_pp": 9.99, "power_z": 2.802,
+                                                 "power_target": 0.8})))
+        chk("leg42e the resolution is re-derived from sd and pairs, never read off the face",
+            r_res.get("resolution_pp") is not None
+            and abs(r_res["resolution_pp"] - 0.786) < 2e-3
+            and r_res["resolution_pp"] != 9.99,
+            "mde=%r" % (r_res.get("resolution_pp"),))
+        r_wide = live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                                  path=_put("wide2.json", _ruler_doc(
+                                      paired={"pairs": 20, "median_pp": 0.09, "positive": 10,
+                                              "sign_agreement": 0.5, "spread_pp": 4.94,
+                                              "sd_pp": 4.0})))
+        r_big = live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                                 path=_put("big.json", _ruler_doc(
+                                     paired={"pairs": 20, "median_pp": 3.0, "positive": 18,
+                                             "sign_agreement": 0.9, "spread_pp": 4.94,
+                                             "sd_pp": 1.0},
+                                     verdict="SEPARATED")))
+        chk("leg42f a gap under the pairing's own resolution is flagged, a big one is not",
+            r_wide.get("below_own_resolution") is True
+            and r_big.get("below_own_resolution") is False,
+            "wide=%r big=%r" % (r_wide.get("below_own_resolution"),
+                                r_big.get("below_own_resolution")))
+        chk("leg42g a face with no published dispersion says so instead of printing a zero",
+            "没有公布逐相位离散度" in _resolution_md(
+                live_width_ruler(asof="2026-10-29", card_n=12, card_dir=cd5,
+                                 path=_put("nosd.json", _ruler_doc()))), "")
     finally:
         shutil.rmtree(cdt5, ignore_errors=True)
 
