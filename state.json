@@ -771,5 +771,13 @@
   "Tools/s6_chain_bmb.py leg star_direction (after pair_slope_matrix)",
   "smoke_test.py leg on the lag designs and the re-derived lead claims (229 -> 230 legs)",
   "results/runnable_pool.json E246 done + E247 seeded (727 done / 1 ready)"
- ]
+ ],
+ "smoke": "233/233 PASS serial (opened 227/233 at S1; both causes fixed in-window)",
+ "s1": "opened RED 227/233: (a) smoke_test.py lacked a module-level `import io` so five product legs died with NameError; (b) bm-b GPU face self-inconsistent -> rebuilt from one probe. Serial rerun 233/233 PASS 0 FAIL.",
+ "delivery": {
+  "branch": "machine/bm-b-r1276",
+  "sha": "dbcbaa41cf85186642a8bba92d04ee4e6c8811ab",
+  "verified": "ls-remote == rev-parse HEAD",
+  "main_blocked": "behind origin/main 92; promisor lazy fetch"
+ }
 }

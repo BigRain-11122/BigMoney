@@ -8,6 +8,7 @@ appended to logs/smoke.log so the 10-minute iteration loop can audit runs.
 """
 import sys
 import os
+import io
 import json
 import datetime as dt
 import importlib
