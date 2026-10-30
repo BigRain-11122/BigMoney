@@ -2099,19 +2099,19 @@
  "status": "green",
  "sync": {
   "behind_origin_main": 112,
-  "branch": "machine/bm-b-r1290",
-  "local_not_on_origin_commits": 27,
-  "main_push_blocker": "bounded attempt on main hangs in its own promisor lazy fetch; no push process is left behind and no index.lock is created",
-  "pushed_sha": "8b68d35668e21acd712990c05bc5179f076c96c0",
-  "remote_ref_sha": "8b68d35668e21acd712990c05bc5179f076c96c0",
+  "branch": "machine/bm-b-r1291",
+  "local_not_on_origin_commits": 30,
+  "main_push_blocker": "bounded attempts on main hang in their own promisor lazy fetch; no push process is left behind and no index.lock is created",
+  "pushed_sha": "352adf99da0074a2fc213162a6e5f263e5a29b5d",
+  "remote_ref_sha": "352adf99da0074a2fc213162a6e5f263e5a29b5d",
   "verified": true
  },
  "task": "E264 near-one seeds reading",
  "task_short": "E264 near-one rows",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-30T23:38:11+08:00",
- "updated": "2026-10-30T23:38:11+08:00",
- "updated_at": "2026-10-30T23:38:11+08:00",
+ "ts": "2026-10-30T23:39:28+08:00",
+ "updated": "2026-10-30T23:39:28+08:00",
+ "updated_at": "2026-10-30T23:39:28+08:00",
  "verdict": "closest_row_survives_without_them",
  "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu, 2 ready pool rows, py 0-7% of 16 cores); the round burned the head card E264 in-round",
  "work": "12 of 16 published rows are readable via m* = |b|/max(|lo|,|hi|) (outside <=> m < m*), which is the entire row-side story and needs no draws. 4 rows end exactly on the p05==1 floor and dropping every near-one seed moves zero tight-end verdicts: their m* are 2.14..3.08, so the floor would have to roughly double to reach them -- the floor is a bucket, not a row-side hazard. Every row that sits close sits close to the WIDE end: era_2025_now cross:60 m*=1.9583 vs own p95=1.9678 (gap 0.0095 = 0.48% of the multiplier), then era_2023_2024 self:60 (0.0757) and era_2023_2024 star_lag1_residual cross:60 (0.1223); median gap 0.413, max 1.551. Both rows E262 moved by borrowing sit inside the top-3 closest while the third-closest did not move, so the ranking is a superset of the transfer damage, not an equivalence.",
@@ -2146,7 +2146,16 @@
   "study": "E264_near_one_seeds_reading",
   "face": "results/state_tilt/BANDNEAR1-2026-10-29.json",
   "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu, 2 ready pool rows, py 0-7% of 16 cores); the round burned the head card E264 in-round",
-  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face."
+  "state_face_note": "r1033: mirror-written per r1020 dual-face law. authoritative face.",
+  "delivery": {
+   "behind_origin_main": 112,
+   "branch": "machine/bm-b-r1291",
+   "local_not_on_origin_commits": 30,
+   "main_push_blocker": "bounded attempts on main hang in their own promisor lazy fetch; no push process is left behind and no index.lock is created",
+   "pushed_sha": "352adf99da0074a2fc213162a6e5f263e5a29b5d",
+   "remote_ref_sha": "352adf99da0074a2fc213162a6e5f263e5a29b5d",
+   "verified": true
+  }
  },
  "py_watermark_note": "dualrun ZERO-DRIFT (760 entries, streak 44) -> pool_deliverable closed=0 skipped=2 (NO_FACE) -> compute_audit rc=0 (cpu 4.0%, py 0.1% of 16 cores) -> py_watermark rc=0; attrition CLEAN 4 ledgers (3 historical shrink rows healed); orphan face not re-probed this window"
 }
