@@ -23573,7 +23573,7 @@
    "id": "E262-ATLAS-BUFFER-K40",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: buffer k=0.40 on the whole grid)",
    "runner_args": [
@@ -23594,13 +23594,19 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": null,
-     "checkpoint": "results/etf_book_phase_atlas_buffer_k40.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)"
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k40.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 09:31:25",
+     "done_at": "2026-10-30 09:31:25",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
     }
    ],
    "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
-   "priority": 1
+   "priority": 1,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 09:31:25"
   },
   {
    "id": "E262-ATLAS-BUFFER-TOLL-INTERACTION",
