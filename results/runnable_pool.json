@@ -24513,19 +24513,35 @@
   },
   {
    "deliverable": "results/state_tilt/BANDTRANSFER-<cutoff>.json",
+   "done_at": "2026-10-30 23:2x",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E262-P95-TRANSFER-ACROSS-WINDOWS",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_note": "48 ordered (donor, recipient) pairs; 2 move a verdict, both outside->inside from all_five's cross:60 wide end (+13.9%/+16.7%); no window is the widest at every (leg, base count); the pooled flat maximum moves 2 rows at cross:60 and 0 at the other three groups",
+   "result_ref": "results/state_tilt/BANDTRANSFER-2026-10-29.json",
    "runner": "scripts/e262_p95_transfer_across_windows.py",
    "runner_args": [
     "run"
    ],
    "seeded_at": "2026-10-30T21:15:00+08:00",
    "seeded_by": "bm-b r1286",
+   "shards": [
+    {
+     "checkpoint": "results/state_tilt/BANDTRANSFER-2026-10-29.json -- the run writes one whole face per invocation and re-derives the same bytes from the same source face",
+     "done_at": "2026-10-30 23:2x",
+     "done_by": "bm-b",
+     "key": "transfer-0of1",
+     "landed_via": "session run: scripts/e262_p95_transfer_across_windows.py run",
+     "owner": "bm-b",
+     "owner_since": "2026-10-30 23:1x",
+     "status": "done"
+    }
+   ],
    "source": "E258 showed the MEDIAN multiplier is not one object across windows (1.27..1.84). E259 measured the tails. The open question a reader actually needs: if a row is judged with another window p95 instead of its own, does the verdict change? Published as a transfer matrix over the four measured windows x two base counts, on the E259 face only",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e262_p95_transfer_across_windows.py (new runner)",
    "title": "is the wide end of one window an upper bound for another?",
    "worker_class": "code-change"
@@ -24579,6 +24595,24 @@
    "target": "scripts/e264_near_one_seeds_reading.py (new runner)",
    "title": "what does a near-one multiplier mean for the rows that sit closest to the band?",
    "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDTHRESHOLD-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E265-DONOR-THRESHOLD-PER-ROW",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e265_donor_threshold_per_row.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-30T23:2x+08:00",
+   "seeded_by": "bm-b r1290",
+   "source": "E262 showed a borrowed wide end moves 2 of 12 judged rows and that the pooled maximum is harmless in 3 of 4 (leg, base) groups. Both moved rows sat just outside their own band, so the mechanism is a per-row threshold, not a window property: the multiplier that flips a row is m* = |b| / max(|lo|, |hi|) and any donor p95 above it flips that row. The untested claim is whether the E262 moves are exactly the rows with the smallest m* (i.e. the transfer damage is predictable from the row alone, no draws needed), which would turn 'do not borrow' into a per-row screen",
+   "status": "ready",
+   "target": "scripts/e265_donor_threshold_per_row.py (new runner)",
+   "title": "how close to its band must a row sit for a borrowed wide end to flip it?",
+   "worker_class": "code-change"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24593,6 +24627,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T22:41:24+08:00",
+ "updated_at": "2026-10-30T23:2x+08:00",
  "version": 1
 }

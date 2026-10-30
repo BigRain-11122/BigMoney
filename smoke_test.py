@@ -5040,6 +5040,144 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E262: E259 published a p05..p95 interval per (window, leg, base count), and the thing a
+    # reader does with those numbers is borrow one. This leg guards the face that measures that
+    # act. What can fabricate a claim here: a pair that crosses a leg or a base count (the
+    # multiplier's denominator IS the base count, so those are two different quantities), a moved
+    # row with no direction or with before == after (a "move" that moved nothing), a verdict that
+    # is read off the interval spread instead of off the rows (name-is-semantics), a flat number
+    # that is not the pooled maximum of its own group, and an arm set whose wide ends are all one
+    # constant (then nothing was measured and no transfer exists).
+    try:
+        _bad62 = []
+        _p62 = os.path.join("results", "state_tilt", "bandtransfer_latest.json")
+        _f62 = None
+        if not os.path.exists(_p62):
+            _bad62.append("face missing: %s" % _p62)
+        else:
+            with io.open(_p62, encoding="utf-8") as _fh62:
+                _f62 = json.load(_fh62)
+        _m62 = None
+        if _f62 is not None:
+            try:
+                import e262_p95_transfer_across_windows as _m62
+            except Exception as _e62:
+                _bad62.append("module does not import: %r" % (_e62,))
+        if _m62 is not None:
+            for _p in (_m62.verify() or [])[:4]:
+                _bad62.append("verify: %s" % _p)
+        _arms62 = (_f62 or {}).get("arms") or []
+        if len(_arms62) != 16:
+            _bad62.append("the arm set is not the 16 windows x legs x base counts (%d)"
+                          % len(_arms62))
+        _key62 = {}
+        for _a in _arms62:
+            _k = (_a.get("cell"), _a.get("leg"), int(_a.get("base") or 0))
+            _key62[_k] = _a
+            if _a.get("p95") is None or _a.get("p05") is None:
+                _bad62.append("%s/%s:%s: an arm published no interval"
+                              % (_a.get("cell"), _a.get("leg"), _a.get("base")))
+            elif float(_a["p95"]) < float(_a["p05"]):
+                _bad62.append("%s/%s:%s: p95 sits below p05"
+                              % (_a.get("cell"), _a.get("leg"), _a.get("base")))
+        # ACTIVITY: a set of identical wide ends measures nothing
+        _p95s = [float(a["p95"]) for a in _arms62 if a.get("p95") is not None]
+        if _p95s and (max(_p95s) - min(_p95s)) <= 1e-9:
+            _bad62.append("every arm publishes the same wide end -- nothing was measured")
+        _tr62 = (_f62 or {}).get("transfer") or {}
+        _moved62 = 0
+        for _g, _blk in sorted(_tr62.items()):
+            _leg, _base = _g.split(":")
+            _base = int(_base)
+            for _p in (_blk.get("pairs") or []):
+                # (a) a pair never crosses a leg or a base count
+                if (_p.get("donor"), _leg, _base) not in _key62:
+                    _bad62.append("%s: donor %r has no arm in this group"
+                                  % (_g, _p.get("donor")))
+                if (_p.get("recipient"), _leg, _base) not in _key62:
+                    _bad62.append("%s: recipient %r has no arm in this group"
+                                  % (_g, _p.get("recipient")))
+                # (b) the donor's number is its own arm's p95, not another group's
+                _da = _key62.get((_p.get("donor"), _leg, _base)) or {}
+                if _da and _p.get("donor_p95") is not None and _da.get("p95") is not None:
+                    if abs(float(_da["p95"]) - float(_p["donor_p95"])) > 1e-12:
+                        _bad62.append("%s: donor %r contributes %.6f but its arm says %.6f"
+                                      % (_g, _p.get("donor"), _p["donor_p95"], _da["p95"]))
+                # (c) a moved row must have moved, and say which way
+                for _mv in (_p.get("moved") or []):
+                    _moved62 += 1
+                    if _mv.get("before") == _mv.get("after"):
+                        _bad62.append("%s: %r/%r is listed as moved with before == after"
+                                      % (_g, _p.get("donor"), _mv.get("index")))
+                    elif _mv.get("direction") != (("rejections_lost"
+                                                   if _mv.get("before") == "outside"
+                                                   else "rejections_invented")):
+                        _bad62.append("%s: %r/%r carries the wrong direction (%r)"
+                                      % (_g, _p.get("donor"), _mv.get("index"),
+                                         _mv.get("direction")))
+                if (_p.get("n_moved") or 0) != len(_p.get("moved") or []):
+                    _bad62.append("%s: %r->%r counts %r moves but lists %d"
+                                  % (_g, _p.get("donor"), _p.get("recipient"),
+                                     _p.get("n_moved"), len(_p.get("moved") or [])))
+        # (d) the verdict is read off the rows, never off the spread
+        _want62 = ("a_foreign_wide_end_is_not_a_bound" if _moved62 else
+                   "the_wide_end_transfers_without_moving_a_verdict")
+        if (_f62 or {}).get("verdict") != _want62:
+            _bad62.append("verdict says %r but %d row(s) moved -- a verdict must be recomputed "
+                          "from the rows" % ((_f62 or {}).get("verdict"), _moved62))
+        # (e) the flat number is the pooled maximum of its own group (and the tight one the min)
+        for _g, _fl in sorted(((_f62 or {}).get("flat") or {}).items()):
+            if _fl.get("flat_p95") is None:
+                continue
+            _leg, _base = _g.split(":")
+            _vals = [float(_a["p95"]) for _k, _a in _key62.items()
+                     if _k[1] == _leg and _k[2] == int(_base) and _a.get("p95") is not None]
+            if not _vals:
+                _bad62.append("%s: the flat read exists with no arm to read" % _g)
+                continue
+            if abs(float(_fl["flat_p95"]) - max(_vals)) > 1e-12:
+                _bad62.append("%s: the flat wide end is not the pooled maximum" % _g)
+            if _fl.get("flat_tight_p95") is not None and abs(
+                    float(_fl["flat_tight_p95"]) - min(_vals)) > 1e-12:
+                _bad62.append("%s: the flat tight end is not the pooled minimum" % _g)
+        _s62 = (_f62 or {}).get("summary") or {}
+        # (f) the headline counts are ints, not prose or None (A-or-{}.get family)
+        for _k in ("rows_measured", "pairs", "verdicts_moved", "rejections_lost",
+                   "e259_wide_verdict_differs"):
+            if not isinstance(_s62.get(_k), int):
+                _bad62.append("summary field %s is not an int (%r)" % (_k, _s62.get(_k)))
+        if _s62.get("verdicts_moved") != _moved62:
+            _bad62.append("the summary counts %r moved verdicts but the pairs list %d"
+                          % (_s62.get("verdicts_moved"), _moved62))
+        # (g) the cross-base disclosure is present and points the way it must: the smaller base
+        # count divides by an edge taken lower on the curve, so its wide end is larger
+        for _leg in ("self", "cross"):
+            _off = ((_f62 or {}).get("cross_base_offset") or {}).get(_leg) or {}
+            if _off.get("ratio_median") is None:
+                _bad62.append("the %s leg publishes no cross-base offset" % _leg)
+            elif float(_off["ratio_median"]) <= 1.0:
+                _bad62.append("the %s leg's smaller base count is not the larger wide end (%r)"
+                              % (_leg, _off["ratio_median"]))
+        _d62 = (_f62 or {}).get("dominator") or {}
+        if not any(_d62.get(k, {}).get("dominator") for k in _d62):
+            _bad62.append("no group names a dominating window -- then the face measured nothing")
+        check("product: another window's wide end is not a bound",
+              not _bad62,
+              "%s; %d arm(s), %d measured row(s), %d ordered pair(s), %d verdict(s) moved "
+              "(%d lost, %d invented), flat maximum moves %s at cross:60, widest window differs "
+              "by group %s"
+              % ((_f62 or {}).get("verdict"), len(_arms62), _s62.get("rows_measured") or 0,
+                 _s62.get("pairs") or 0, _moved62, _s62.get("rejections_lost") or 0,
+                 _s62.get("rejections_invented") or 0,
+                 ((_f62 or {}).get("flat") or {}).get("cross:60", {}).get("n_moved_at_flat"),
+                 ",".join("%s=%s" % (k, (v or {}).get("dominator"))
+                          for k, v in sorted(_d62.items())))
+              + (" | " + "; ".join(_bad62[:4]) if _bad62 else ""))
+    except Exception as e:
+        check("product: another window's wide end is not a bound",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

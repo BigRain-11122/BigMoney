@@ -291,6 +291,15 @@ LEGS = [
     ("degenerate_seeds_leave_one_bucket",
      ["python", "scripts/e261_degenerate_seeds_leave_one_bucket.py", "verify"]),
 
+    # E262: E259 published a p05..p95 interval per (window, leg, base count). A reader borrows one:
+    # judge a row with another window's wide end. This leg re-derives that 2 of 48 ordered
+    # (donor, recipient) pairs move a verdict -- all_five's cross:60 p95 (2.2963, +13.9%/+16.7%)
+    # flips two cross rows outside->inside -- and that no single window is the widest at every
+    # (leg, base count) (all_five at base 60 both legs, early_three at self:200, era_2025_now at
+    # cross:200). Reads the published E259 face only, no draw, no panel, no re-pricing. <1s.
+    ("p95_transfer_across_windows",
+     ["python", "scripts/e262_p95_transfer_across_windows.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
