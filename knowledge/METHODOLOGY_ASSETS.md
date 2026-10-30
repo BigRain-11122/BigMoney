@@ -6658,3 +6658,29 @@ real-minus-null, the null keeps the eligibility mask and replays by seed, and th
 names a disagreeing ticket instead of averaging it) + results/etf_book_width_null_production.json
 (+ .md) + chain leg `etf_book_width_null_production` + smoke leg that recomputes the verdict from
 the published columns.
+
+
+## E279 A cap printed on one face and the money printed on another are never compared by construction (2026-10-30 r1170 bm-a)
+
+The market clock flipped to RED for the first time since the guard went `enforce`, so the CEO
+page started printing "RED caps new risk at 20%" directly above six paper accounts holding
+4.6%..76.8% of equity. Both numbers were correct and neither face could see the other: the cap
+comes from the clock's ladder, the book comes from the paper engine, and no code path joined
+them. A reader had to choose between "the guard is broken" and "the cap means something
+narrower" -- and the truthful answer (the cap gates *new entries*; the accounts predate the
+flip) was written nowhere.
+
+Three laws. (1) **A published limit and a published book are two faces until something
+subtracts them.** Wire the comparison as a face of its own (results/regime_cap_vs_book.json +
+chain leg + smoke leg that recomputes the verdict from the published rows), never as a sentence
+inside one of the two producers. (2) **The comparison must know which accounts are not governed
+by that cap.** The ETF book carries its own rule (beta target x vol target, r1167/r1169);
+grading it against the ladder manufactures a breach the same way mixing cost arms manufactures
+an edge. It is printed in the same table as `own_rule` and excluded from the verdict.
+(3) **A disagreement between cap sources is reported, not averaged** -- the ladder is imported
+from the page that prints it (`ceo_live_usage.LADDER`), and a second source that differs yields
+`CAP_SOURCES_DISAGREE` in the sentence instead of a silent blend.
+
+Reading at cutoff 2026-10-29: cap 0.20 from both sources (clock ladder + engine
+`risk_regime.position_cap`), 3 of 6 ladder-governed accounts above it, widest COMPOSITE-CE-01
+76.8% (56.8pp over, 3.84x). Exploration only: it books no position and changes no rung.

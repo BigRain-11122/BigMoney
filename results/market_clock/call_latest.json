@@ -1,13 +1,16 @@
 {
  "asof": "2026-10-29",
- "clock_cell": "ORANGE_COOL",
+ "clock_cell": "RED_COOL",
  "regime_v3": {
-  "state": "ORANGE",
-  "asof": "2026-10-29",
-  "days_in_state": 10,
+  "state": "RED",
+  "asof": "2026-10-30",
+  "days_in_state": 1,
   "triggers": [
-   "breadth 0.88>=80% slope -0.0417<0",
+   "R-配3 major bear (regime.py)",
+   "breadth 0.83>=80% slope -0.0208<0",
    "hs300<MA200 (#10 collected)",
+   "breadth 0.83>=65%",
+   "breadth 0.88>=80% slope -0.0417<0",
    "breadth 0.88>=65%",
    "event window (appendix A)"
   ]
@@ -44,42 +47,10 @@
    "r60": 0.0009
   },
   {
-   "symbol": "512010",
-   "r5": 0.019,
-   "r20": -0.0234,
-   "r60": 0.0054
-  },
-  {
    "symbol": "sh513820",
    "r5": 0.0103,
    "r20": -0.0264,
    "r60": -0.0657
-  },
-  {
-   "symbol": "510050",
-   "r5": 0.0123,
-   "r20": -0.043,
-   "r60": -0.0503
-  },
-  {
-   "symbol": "510310",
-   "r5": 0.002,
-   "r20": -0.1028,
-   "r60": -0.1163
-  }
- ],
- "sector_board_bottom5": [
-  {
-   "symbol": "510330",
-   "r5": 0.0,
-   "r20": -0.1041,
-   "r60": -0.1166
-  },
-  {
-   "symbol": "510300",
-   "r5": 0.001,
-   "r20": -0.1044,
-   "r60": -0.1172
   },
   {
    "symbol": "sh560510",
@@ -88,10 +59,36 @@
    "r60": -0.137
   },
   {
-   "symbol": "512100",
-   "r5": -0.0284,
-   "r20": -0.1748,
-   "r60": -0.098
+   "symbol": "159915",
+   "r5": -0.022,
+   "r20": -0.2542,
+   "r60": -0.2549
+  }
+ ],
+ "sector_board_bottom5": [
+  {
+   "symbol": "sz159332",
+   "r5": 0.0194,
+   "r20": 0.0269,
+   "r60": 0.0457
+  },
+  {
+   "symbol": "sz159355",
+   "r5": -0.0028,
+   "r20": 0.0231,
+   "r60": 0.0009
+  },
+  {
+   "symbol": "sh513820",
+   "r5": 0.0103,
+   "r20": -0.0264,
+   "r60": -0.0657
+  },
+  {
+   "symbol": "sh560510",
+   "r5": -0.0155,
+   "r20": -0.1341,
+   "r60": -0.137
   },
   {
    "symbol": "159915",
@@ -100,21 +97,20 @@
    "r60": -0.2549
   }
  ],
- "fresh_universe_n": 13,
- "breadth_r20_pos": 0.308,
+ "fresh_universe_n": 7,
+ "breadth_r20_pos": 0.571,
  "active_sleeves": [
-  "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
-  "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
-  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
-  "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
+  "air-defense cash leg ACTIVATED (structural cash >=80%; strategy risk-leg NOT activated -- no RED-state evidence)"
  ],
  "l3_evidence": {
-  "activated": [],
+  "activated": [
+   "airdefense_cash"
+  ],
   "evidence_face": "results/strategy_scorecard.json profile_cards",
   "evidence_cutoff": "2026-09-24",
   "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
   "prereg_sha256_16": "3304f84f60826cd6"
  },
- "position_cap_ladder": 0.5,
+ "position_cap_ladder": 0.2,
  "canon": "research/MARKET_CLOCK_COMBO.md s0 v1.2 (L3 evidence-driven per O-20260926-1342 sec.3; L1/L2/L5 v1.0 lines)"
 }

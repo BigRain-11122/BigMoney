@@ -660,6 +660,38 @@ def main() -> int:
               f"verdict={_rg.get('verdict')} configs={_rg.get('distinct_configs')}")
     except Exception as e:
         check("product: ETF book registry published", False, str(e))
+    # r1170: the CEO page prints the regime cap (RED 20%) and the ticket prints a deployed
+    # book; nothing compared them, and the same face must never read a cap as a rule for a
+    # book that has its own one. This leg recomputes the verdict from the published rows
+    # and the published cap, so a face that says "inside" while a row is over reads red,
+    # and a row governed by its own rule can never be counted as a breach.
+    try:
+        _rc = json.load(open(os.path.join("results", "regime_cap_vs_book.json"),
+                             encoding="utf-8"))
+        _cap = _rc.get("ladder_cap")
+        _rows = _rc.get("accounts") or []
+        _judged = [r for r in _rows if r.get("kind") == "ladder"
+                   and r.get("deployed_weight") is not None]
+        _over = [r for r in _judged
+                 if _cap is not None and r["deployed_weight"] > _cap + 0.002]
+        _want_v = ("NOTHING_TO_COMPARE" if not _judged else
+                   ("ABOVE_CAP" if _over else "INSIDE_CAP"))
+        _v = (_rc.get("verdict") or {}).get("book")
+        _worst = max(_judged, key=lambda r: r["deployed_weight"]) if _judged else None
+        _sent = _rc.get("sentence") or ""
+        _quotes = _worst is None or (
+            _worst["name"].split(" ")[0] in _sent
+            and "%.1f%%" % (_worst["deployed_weight"] * 100) in _sent)
+        _leg_ok = "regime_cap_vs_book" in {
+            t[0] for t in __import__("importlib")
+            .import_module("Tools.s6_chain_bmc").LEGS}
+        check("product: the regime cap is compared with the money actually deployed",
+              _v == _want_v and _quotes and _leg_ok,
+              f"cap={_cap} verdict={_v} recomputed={_want_v} "
+              f"n_over={len(_over)}/{len(_judged)} sentence_quotes_worst={_quotes} "
+              f"leg_wired={_leg_ok}")
+    except Exception as e:
+        check("product: the regime cap is compared with the money actually deployed", False, str(e))
     # r1348 / E246: a risk band is only a law if it reaches the page a human trades from.
     # The card renders one row per block arm and the order sheet prints the p5 range, so
     # both faces are recomputed here from BLOCKS-<cutoff>.json instead of grepping for a

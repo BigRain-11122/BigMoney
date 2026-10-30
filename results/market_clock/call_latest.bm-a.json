@@ -1,13 +1,16 @@
 {
  "asof": "2026-10-29",
- "clock_cell": "ORANGE_COOL",
+ "clock_cell": "RED_COOL",
  "regime_v3": {
-  "state": "ORANGE",
-  "asof": "2026-10-29",
-  "days_in_state": 10,
+  "state": "RED",
+  "asof": "2026-10-30",
+  "days_in_state": 1,
   "triggers": [
-   "breadth 0.88>=80% slope -0.0417<0",
+   "R-配3 major bear (regime.py)",
+   "breadth 0.83>=80% slope -0.0208<0",
    "hs300<MA200 (#10 collected)",
+   "breadth 0.83>=65%",
+   "breadth 0.88>=80% slope -0.0417<0",
    "breadth 0.88>=65%",
    "event window (appendix A)"
   ]
@@ -20,102 +23,95 @@
  },
  "sector_board_top8": [
   {
-   "symbol": "sz159518",
-   "r5": 0.0492,
-   "r20": 0.1808,
-   "r60": 0.2719
+   "symbol": "sh560150",
+   "r5": 0.0147,
+   "r20": 0.0399,
+   "r60": 0.0335
   },
   {
-   "symbol": "sh513350",
-   "r5": 0.0188,
-   "r20": 0.17,
-   "r60": 0.2512
+   "symbol": "sh563980",
+   "r5": 0.0172,
+   "r20": 0.0393,
+   "r60": 0.0111
   },
   {
-   "symbol": "sz159981",
-   "r5": 0.0481,
-   "r20": 0.1424,
-   "r60": 0.2944
+   "symbol": "sz159332",
+   "r5": 0.0194,
+   "r20": 0.0269,
+   "r60": 0.0457
   },
   {
-   "symbol": "sz159529",
-   "r5": 0.0252,
-   "r20": 0.0846,
-   "r60": 0.1036
+   "symbol": "sz159355",
+   "r5": -0.0028,
+   "r20": 0.0231,
+   "r60": 0.0009
   },
   {
-   "symbol": "sh517180",
-   "r5": 0.0278,
-   "r20": 0.0735,
-   "r60": 0.0481
+   "symbol": "sh513820",
+   "r5": 0.0103,
+   "r20": -0.0264,
+   "r60": -0.0657
   },
   {
-   "symbol": "sz159719",
-   "r5": 0.0262,
-   "r20": 0.072,
-   "r60": 0.046
+   "symbol": "sh560510",
+   "r5": -0.0155,
+   "r20": -0.1341,
+   "r60": -0.137
   },
   {
-   "symbol": "sz159887",
-   "r5": 0.0297,
-   "r20": 0.0697,
-   "r60": 0.0905
-  },
-  {
-   "symbol": "sh512820",
-   "r5": 0.0303,
-   "r20": 0.0677,
-   "r60": 0.084
+   "symbol": "159915",
+   "r5": -0.022,
+   "r20": -0.2542,
+   "r60": -0.2549
   }
  ],
  "sector_board_bottom5": [
   {
-   "symbol": "sz159516",
-   "r5": -0.1165,
-   "r20": -0.3454,
-   "r60": -0.3343
+   "symbol": "sz159332",
+   "r5": 0.0194,
+   "r20": 0.0269,
+   "r60": 0.0457
   },
   {
-   "symbol": "sh560780",
-   "r5": -0.1173,
-   "r20": -0.3466,
-   "r60": -0.3353
+   "symbol": "sz159355",
+   "r5": -0.0028,
+   "r20": 0.0231,
+   "r60": 0.0009
   },
   {
-   "symbol": "sh588710",
-   "r5": -0.1402,
-   "r20": -0.3738,
-   "r60": -0.7852
+   "symbol": "sh513820",
+   "r5": 0.0103,
+   "r20": -0.0264,
+   "r60": -0.0657
   },
   {
-   "symbol": "sh588170",
-   "r5": -0.1409,
-   "r20": -0.3745,
-   "r60": -0.3592
+   "symbol": "sh560510",
+   "r5": -0.0155,
+   "r20": -0.1341,
+   "r60": -0.137
   },
   {
-   "symbol": "sh589020",
-   "r5": -0.1395,
-   "r20": -0.3745,
-   "r60": -0.6782
+   "symbol": "159915",
+   "r5": -0.022,
+   "r20": -0.2542,
+   "r60": -0.2549
   }
  ],
- "fresh_universe_n": 1649,
- "breadth_r20_pos": 0.123,
+ "fresh_universe_n": 7,
+ "breadth_r20_pos": 0.571,
  "active_sleeves": [
-  "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
-  "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",
-  "dividend-lowvol base position (divlowvol) NOT activated (NOT_ACTIVATED_JUDGED_NEGATIVE; JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2))",
-  "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
+  "air-defense cash leg ACTIVATED (structural cash >=80%; strategy risk-leg NOT activated -- no RED-state evidence)"
  ],
  "l3_evidence": {
-  "activated": [],
+  "activated": [
+   "airdefense_cash"
+  ],
   "evidence_face": "results/strategy_scorecard.json profile_cards",
   "evidence_cutoff": "2026-09-24",
   "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
   "prereg_sha256_16": "3304f84f60826cd6"
  },
- "position_cap_ladder": 0.5,
+ "position_cap_ladder": 0.2,
  "canon": "research/MARKET_CLOCK_COMBO.md s0 v1.2 (L3 evidence-driven per O-20260926-1342 sec.3; L1/L2/L5 v1.0 lines)",
  "lane_machine": "bm-a"
 }

@@ -1,6 +1,6 @@
 {
  "schema": "etf-book-forward-settle-audit/v1",
- "generated": "2026-10-30T19:19:38+0800",
+ "generated": "2026-10-30T21:13:06+0800",
  "evidence_cutoff": "2026-10-30",
  "ledger": {
   "path": "results\\etf_book_forward\\LEDGER.json",
@@ -51,7 +51,7 @@
    "2026-10-27": 1720,
    "2026-10-28": 1721,
    "2026-10-29": 1723,
-   "2026-10-30": 1710
+   "2026-10-30": 1716
   },
   "pending_symbols_by_day": {
    "2026-10-19": 3,
@@ -63,7 +63,7 @@
    "2026-10-27": 5,
    "2026-10-28": 4,
    "2026-10-29": 2,
-   "2026-10-30": 15
+   "2026-10-30": 9
   }
  },
  "classification": {
@@ -91,7 +91,7 @@
   "panel_last_date": "2026-10-30"
  },
  "data_lag_audit": {
-  "as_of": "2026-10-30T17:51:45",
+  "as_of": "2026-10-30T21:12:31",
   "coverage_by_day": {
    "2026-10-19": 1.0,
    "2026-10-20": 1.0,
@@ -102,10 +102,10 @@
    "2026-10-27": 1.0,
    "2026-10-28": 1.0,
    "2026-10-29": 1.0,
-   "2026-10-30": 0.9925
+   "2026-10-30": 0.9959
   },
   "detail": "the maintained panel covers every official trading day it should by now",
-  "ledger_last_bar": "2026-10-29"
+  "ledger_last_bar": "2026-10-30"
  },
  "headline": "ledger re-derives clean",
  "recommended_rule": "A drift gate may only police SETTLED bars. The newest published bar is provisional until its panel date stops gaining symbols (coverage stable across consecutive runs); while it is provisional, a re-derivation mismatch is expected and must be reported, not frozen on -- and never bought with a history rewrite.",

@@ -12,6 +12,7 @@ Why a shared runner: the per-round chain used to be an ad-hoc script rebuilt
 every window (r1179..r1182 clones) which cost most of the round's wall time in
 generation rather than measurement.
 """
+import hashlib
 import json
 import os
 import subprocess
@@ -433,6 +434,10 @@ LEGS = [
     ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
     ("daily_report", ["python", "scripts/daily_report.py", "run"]),
     ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
+    # r1170: the page prints the regime cap and the ticket prints the deployed book, and
+    # nothing compared them. On the first RED day (cap 20%) three of six paper accounts
+    # sat above it. Reads published faces only; changes no rule.
+    ("regime_cap_vs_book", ["python", "scripts/regime_cap_vs_book.py", "run"]),
     # ORDER MATTERS (r1318): the panel READS fleet/machine-health.json, and the
     # hourly oversight task independently writes that file with a thin row. When
     # these legs ran after build_status, the panel was built from the thinned face
@@ -664,12 +669,27 @@ def selftest():
     _check("a --only record name survives commas and odd characters",
            chain_record_path(1364, "a, b/c") == "results/_r1364bmc_s6_chain.only-a-b_c.json",
            "got=%r" % (chain_record_path(1364, "a, b/c"),))
+    _long = ",".join(t[0] for t in LEGS[:23])
+    _long_path = chain_record_path(1170, _long)
+    _check("a long --only list still yields a writable record name",
+           len(_long_path) + len(".tmp") < 120 and "+23-" in _long_path,
+           "len=%d path=%r" % (len(_long_path), _long_path))
+    _same_prefix = chain_record_path(1170, _long + ",union_one")
+    _check("a capped name still separates two subsets sharing a prefix",
+           _long_path != _same_prefix and "+24-" in _same_prefix,
+           "a=%r b=%r" % (_long_path, _same_prefix))
 
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:
         print(("[PASS] " if ok else "[FAIL] ") + name + ("" if ok else " | " + detail))
     print("%d/%d PASS" % (passed, len(legs)))
     return 0 if passed == len(legs) else 1
+
+
+# Windows refuses a path over MAX_PATH (260) with OSError [Errno 22]; the repo root alone
+# eats ~50 chars on the shallowest machine, so the scope slug gets a fixed budget rather
+# than the whole leg list.
+ONLY_SLUG_MAX = 60
 
 
 def chain_record_path(round_no, only=None) -> str:
@@ -681,8 +701,18 @@ def chain_record_path(round_no, only=None) -> str:
     run's name -- the file has to say what it measured.
     """
     if only:
-        slug = "-".join(sorted(w.strip() for w in str(only).split(",") if w.strip()))
-        slug = "".join(c if (c.isalnum() or c in "-_") else "_" for c in slug)
+        names = sorted(w.strip() for w in str(only).split(",") if w.strip())
+        raw = "-".join(names)
+        slug = "".join(c if (c.isalnum() or c in "-_") else "_" for c in raw)
+        # r1170: a 23-leg --only run produced a 208-char file name and the record write died
+        # with OSError [Errno 22] *after* every leg had already returned rc0 -- the work was
+        # real and the evidence was thrown away by the naming rule. Cap the readable prefix
+        # and fingerprint the full list, so the name still says what it measured and two
+        # different subsets can never share one file.
+        if len(slug) > ONLY_SLUG_MAX:
+            digest = hashlib.sha1(raw.encode("utf-8")).hexdigest()[:8]
+            head = "".join(c if (c.isalnum() or c in "-_") else "_" for c in raw[:ONLY_SLUG_MAX - 22])
+            slug = "%s+%d-%s" % (head.rstrip("-_"), len(names), digest)
         return f"results/_r{round_no}bmc_s6_chain.only-{slug}.json"
     return f"results/_r{round_no}bmc_s6_chain.json"
 

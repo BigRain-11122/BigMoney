@@ -1,0 +1,123 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "clock": {
+  "cell": "RED_COOL",
+  "asof": "2026-10-29",
+  "regime_state": "RED",
+  "regime_asof": "2026-10-30",
+  "days_in_state": 1
+ },
+ "ladder_cap": 0.2,
+ "cap_sources": {
+  "verdict": "CAP_SOURCES_AGREE",
+  "ladder_cap": 0.2,
+  "n_agree": 2,
+  "n_disagree": 0,
+  "rows": [
+   {
+    "source": "market_clock",
+    "cap": 0.2,
+    "status": "agrees"
+   },
+   {
+    "source": "paper_engine",
+    "cap": 0.2,
+    "status": "agrees"
+   }
+  ]
+ },
+ "accounts": [
+  {
+   "name": "COMPOSITE-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.768,
+   "deployed_cny": 758482.35,
+   "equity_cny": 987555.99,
+   "status": "above_cap",
+   "gap_pp": 56.8,
+   "headroom_pp": -56.8,
+   "multiple_of_cap": 3.84
+  },
+  {
+   "name": "COMPOSITE-CE-02",
+   "kind": "ladder",
+   "deployed_weight": 0.6645,
+   "deployed_cny": 654008.64,
+   "equity_cny": 984228.08,
+   "status": "above_cap",
+   "gap_pp": 46.45,
+   "headroom_pp": -46.45,
+   "multiple_of_cap": 3.32
+  },
+  {
+   "name": "ETF-BOOK (beta x vol target, own rule)",
+   "kind": "own_rule",
+   "deployed_weight": 0.4715,
+   "deployed_cny": 471225.5,
+   "equity_cny": 1000000.0,
+   "status": "own_rule",
+   "gap_pp": 27.15,
+   "headroom_pp": -27.15,
+   "multiple_of_cap": 2.36
+  },
+  {
+   "name": "VOLATILITY-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.4025,
+   "deployed_cny": 399423.7,
+   "equity_cny": 992310.08,
+   "status": "above_cap",
+   "gap_pp": 20.25,
+   "headroom_pp": -20.25,
+   "multiple_of_cap": 2.01
+  },
+  {
+   "name": "ENGULF-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.0464,
+   "deployed_cny": 45801.53,
+   "equity_cny": 986511.45,
+   "status": "inside_cap",
+   "gap_pp": -15.36,
+   "headroom_pp": 15.36,
+   "multiple_of_cap": 0.23
+  },
+  {
+   "name": "DROUGHT-CE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.0463,
+   "deployed_cny": 45948.62,
+   "equity_cny": 992173.23,
+   "status": "inside_cap",
+   "gap_pp": -15.37,
+   "headroom_pp": 15.37,
+   "multiple_of_cap": 0.23
+  },
+  {
+   "name": "NEEDLE-DE-01",
+   "kind": "ladder",
+   "deployed_weight": 0.0,
+   "deployed_cny": 0,
+   "equity_cny": 1000000.0,
+   "status": "inside_cap",
+   "gap_pp": -20.0,
+   "headroom_pp": 20.0,
+   "multiple_of_cap": 0.0
+  }
+ ],
+ "verdict": {
+  "cap": "CAP_SOURCES_AGREE",
+  "book": "ABOVE_CAP",
+  "n_compared": 6,
+  "n_above": 3
+ },
+ "sentence": "Market state RED caps new risk at 20% of equity. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 76.8% (56.8pp over, 3.84x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+ "engine_caps_seen": {
+  "COMPOSITE-CE-01_paper.json": 0.2,
+  "COMPOSITE-CE-02_paper.json": 0.2,
+  "DROUGHT-CE-01_paper.json": 0.2,
+  "ENGULF-CE-01_paper.json": 0.2,
+  "NEEDLE-DE-01_paper.json": 0.2,
+  "VOLATILITY-CE-01_paper.json": 0.2
+ }
+}
