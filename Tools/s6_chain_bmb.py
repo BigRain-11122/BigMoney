@@ -206,6 +206,14 @@ LEGS = [
     # addition against the band its OWN time-shuffle produces, so an addition that merely fits
     # cannot claim the coefficient. ~20s.
     ("star_own_component", ["python", "scripts/e251_star_own_component.py", "run"]),
+    # E252: E251 priced the star's effect on OTHER members and settled its shape (its own lagged
+    # turnover, with volatility and age taking nothing). This leg turns the same design around --
+    # the star as the outcome -- and reads the coefficient it carries for others beside the one it
+    # carries for itself, with the difference on a paired block bootstrap. The burn costs minutes
+    # (200 permutation + 400 bootstrap draws on six cells), so the chain runs --verify: re-derive
+    # every published verdict from the face's own numbers and pin the cross column to E251's
+    # published statistic. Re-burning each cycle would be a re-measurement, not a check. <1s.
+    ("star_self_price", ["python", "scripts/e252_star_prices_itself.py", "verify"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

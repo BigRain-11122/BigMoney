@@ -4061,6 +4061,99 @@ def main() -> int:
     except Exception as e:
         check("product: the star's residual is decomposed and split from volatility and age",
               False, repr(e)[:160])
+
+    # E252: E251 priced the star's effect on OTHER members. This leg closes the loop with the
+    # star as the outcome -- same regressor, same estimator, same rows -- and refuses the two ways
+    # the comparison could lie: a verdict its own published numbers do not re-derive, and a cross
+    # coefficient that is not E251's published statistic (identity to 1e-9, because a comparison
+    # built on a different number is not a comparison).
+    try:
+        _bad52 = []
+        _p52 = os.path.join("results", "state_tilt", "starself_latest.json")
+        _f52 = None
+        if os.path.exists(_p52):
+            with io.open(_p52, encoding="utf-8") as _fh52:
+                _f52 = json.load(_fh52)
+        _cells52 = []
+        if not _f52:
+            _bad52.append("star-self face missing")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            import e252_star_prices_itself as _m52
+            _vocab52 = set(((_f52.get("frozen_spec") or {}).get("verdicts")) or [])
+            _cells52 = [c for c in (_f52.get("cells") or []) if c.get("verdict")]
+            if not _cells52:
+                _bad52.append("no cell carries a verdict")
+            for _c52 in _cells52:
+                if _c52.get("verdict") not in _vocab52:
+                    _bad52.append("cell %s outside the frozen vocabulary" % _c52.get("label"))
+                _sr52 = _c52.get("self_row") or {}
+                _cr52 = _c52.get("cross_row") or {}
+                if _sr52.get("b_self") is not None and _cr52.get("b_cross") is not None:
+                    _reb52 = _m52.derive_verdict(_sr52.get("b_self"), _cr52.get("b_cross"),
+                                                 _c52.get("self_outside_band"),
+                                                 _c52.get("cross_outside_band"),
+                                                 _c52.get("diff_ci"))
+                    if _reb52 != _c52.get("verdict"):
+                        _bad52.append("cell %s publishes %s but its numbers re-derive %s"
+                                      % (_c52.get("label"), _c52.get("verdict"), _reb52))
+                    _d52 = _c52.get("b_self_minus_b_cross")
+                    if _d52 is None \
+                            or abs(_d52 - (_sr52["b_self"] - _cr52["b_cross"])) > 1e-12:
+                        _bad52.append("cell %s publishes a difference its own betas do not "
+                                      "produce" % _c52.get("label"))
+                    if _c52.get("verdict") == "own_row_is_the_same_quantity":
+                        _ci52 = _c52.get("diff_ci")
+                        if not _ci52 or not (_ci52[0] <= 0.0 <= _ci52[1]):
+                            _bad52.append("cell %s names one quantity without an interval that "
+                                          "covers zero" % _c52.get("label"))
+                _b52, _bv52 = _sr52.get("b_self"), _sr52.get("b_self_with_vol")
+                if _b52 is not None and _bv52 is not None and abs(_b52) > 1e-12:
+                    _sh52 = 1.0 - (_bv52 / _b52)
+                    if _sr52.get("share_taken_by_vol") is None \
+                            or abs(_sh52 - _sr52["share_taken_by_vol"]) > 1e-9:
+                        _bad52.append("cell %s publishes a vol share its own betas do not "
+                                      "produce" % _c52.get("label"))
+                if not _c52.get("star") and "no member was named star" not in (
+                        _c52.get("reason") or ""):
+                    _bad52.append("cell %s has no star and no explicit reason"
+                                  % _c52.get("label"))
+            _head52 = next((c for c in _cells52 if c.get("label") == "all_five"), None)
+            if _head52 is None:
+                _bad52.append("no headline cell")
+            else:
+                _p51b = os.path.join("results", "state_tilt", "starown_latest.json")
+                if os.path.exists(_p51b):
+                    with io.open(_p51b, encoding="utf-8") as _fh52b:
+                        _f52b = json.load(_fh52b)
+                    _h51b = next((c for c in (_f52b.get("cells") or [])
+                                  if c.get("label") == "all_five"), None)
+                    if _h51b and _h51b.get("star") == _head52.get("star"):
+                        _e251v52 = (_h51b.get("star_residual") or {}).get("b1")
+                        _our52 = (_head52.get("cross_row") or {}).get("b_cross")
+                        if _e251v52 is None or _our52 is None \
+                                or abs(_e251v52 - _our52) > 1e-9:
+                            _bad52.append("the cross coefficient is not E251's published "
+                                          "number (%s vs %s)" % (_e251v52, _our52))
+                    else:
+                        _bad52.append("the two faces do not name the same star")
+                else:
+                    _bad52.append("starown face missing, so the identity cannot be checked")
+            if not _f52.get("no_bill"):
+                _bad52.append("the face does not carry its no-bill line")
+            if not _f52.get("comparability_note"):
+                _bad52.append("the face does not carry its comparability note")
+        _s52 = (_f52 or {}).get("summary") or {}
+        check("product: the star's own row is priced against the column it carries for others",
+              not _bad52, "; ".join(_bad52)[:220]
+              or "verdict %s; star %s; b_self %s vs b_cross %s; diff ci %s; cells %d"
+                 % (_s52.get("verdict"), _s52.get("headline_star"),
+                    _r39(_f52 or {}, "headline_b_self"),
+                    _r39(_f52 or {}, "headline_b_cross"),
+                    _r39ci(_f52 or {}, "headline_diff_ci"), len(_cells52)))
+    except Exception as e:
+        check("product: the star's own row is priced against the column it carries for others",
+              False, repr(e)[:160])
     return _finish()
 
 

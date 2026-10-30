@@ -4851,3 +4851,18 @@ absolute value of a small noise-dominated series — so the proxy link was too w
 coefficient collapsed to 0.005 and the face correctly answered `residual_inside_shuffled_band`.
 Rebuilding it around the star's exogenous `|dy_star|` (with turnover `0.6·|dy_star| + noise`)
 reproduced the intended branch on the first re-run.
+### E252 — the star prices itself at the price it charges everyone else, to the resolution the design can see (r1279 bm-b)
+
+`scripts/e252_star_prices_itself.py` (selftest 17/17) · face `results/state_tilt/STARSELF-2026-10-29.json`
+
+E251 priced the star's effect on everyone else and never asked whether it prices itself, while E246/E249 had the star's own row carrying a negative lead that flips sign by era. E252 turns the same design around — same regressor (the star's lag-1 turnover), same estimator, same rows, star as outcome — and reads the two coefficients side by side. Headline (5 members, 1,328 sessions): **b_self −0.7339 vs b_cross −0.7250**, both far outside their own paired-shuffle bands ([−0.315, 0.227] and [−0.268, 0.258]), difference **−0.0088** with a paired block-bootstrap CI **[−0.305, +0.299]** (400 draws, 20-session blocks, sd 0.155). Volatility takes nothing in this direction either (b2 = +0.3209, share −0.068), so the self coefficient is not the star's own return autocorrelation wearing a turnover label. Per-member cross slopes span −0.418 (sh510050) to −0.878 (sh510300); the star's own row sits in the middle of the range it charges.
+
+The reusable laws:
+
+(1) **"The same number" is a resolution claim, not an equality.** A 0.009 point difference under a ±0.30 interval means "no difference larger than 0.30 is detectable", and that sentence must be published beside the point estimate — otherwise an unresolved comparison reads as an identity. Compute the resolution from the SAME resample that produced the difference (here 1.96 × 0.155 ≈ 0.30, i.e. 40% of the level being compared).
+
+(2) **Silence is per-side, and the two sides do not share a verdict.** In 2025–now the cross coefficient is still −0.911 and outside its band while the self coefficient (−0.463) falls inside its own: 408 sessions cannot measure the star's own row. A single rollup verdict for the pair would have manufactured a regime change out of a width difference; the frozen vocabulary therefore carries `self_row_inside_shuffled_band` and `cross_column_inside_shuffled_band` as separate branches that both outrank the comparison.
+
+(3) **A paired resample is required whenever two fits share a regressor.** Both coefficients come from the same column on the same rows, so their difference has to be bootstrapped jointly (one draw refits BOTH rows); building the interval from two independent fits either over- or under-states precision depending on the sign of the shared correlation, and nothing in the output would reveal which.
+
+How to apply: before comparing two published coefficients, ask (a) are they the same regressor in the same units, (b) do they share rows/regressors so the difference needs a joint resample, (c) what difference can the design even see, and publish that number; a channel identification never bills a member, and a "self" effect is still a channel.

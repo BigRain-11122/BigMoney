@@ -1,0 +1,806 @@
+{
+ "cells": [
+  {
+   "age_corr_with_row_index": 0.999983623374336,
+   "age_identified": false,
+   "b_self_minus_b_cross": -0.008823950237003109,
+   "band_cross": {
+    "band": {
+     "draws": 200,
+     "hi": 0.2579169304029064,
+     "lo": -0.2680802007904303,
+     "median": 0.01733924314499955,
+     "width": 0.5259971311933367
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.2680802007904303,
+     "median_abs": 0.07360169633203498
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261138
+   },
+   "band_self": {
+    "band": {
+     "draws": 200,
+     "hi": 0.22694777216938677,
+     "lo": -0.31482186746270696,
+     "median": 0.0010289823868680822,
+     "width": 0.5417696396320937
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.31482186746270696,
+     "median_abs": 0.07488569498558678
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261138
+   },
+   "bootstrap": {
+    "block": 20,
+    "cross": {
+     "ci": [
+      -0.9754017809549185,
+      -0.4996759281153581
+     ],
+     "median": -0.7235405900602889,
+     "sd": 0.12357747093776364,
+     "used": 400
+    },
+    "diff": {
+     "ci": [
+      -0.3049046390827158,
+      0.298596942894476
+     ],
+     "median": -0.017416790674485094,
+     "sd": 0.15531220585254762,
+     "used": 400
+    },
+    "draws_requested": 400,
+    "draws_used": 400,
+    "note": "paired: each draw re-fits BOTH rows on the same resampled sessions, so the interval on the difference carries the correlation the two fits share",
+    "seed": 20269057,
+    "self": {
+     "ci": [
+      -0.960964355722833,
+      -0.495668569810894
+     ],
+     "median": -0.7296040819865612,
+     "sd": 0.12025068408564399,
+     "used": 400
+    }
+   },
+   "cross_outside_band": true,
+   "cross_row": {
+    "b_cross": -0.7250430277727764,
+    "decided": true,
+    "max": -0.41809673978759304,
+    "members_fitted": 4,
+    "min": -0.8776680220026446,
+    "per_member": {
+     "sh510050": {
+      "b_cross": -0.41809673978759304,
+      "b_own": 0.9076065109883628,
+      "c1": -0.1300854155832964,
+      "rows_used": 1326
+     },
+     "sh510300": {
+      "b_cross": -0.8776680220026446,
+      "b_own": 1.146614409520026,
+      "c1": -0.14122224155638785,
+      "rows_used": 1326
+     },
+     "sh510500": {
+      "b_cross": -0.8556604794568131,
+      "b_own": 0.8179569253999499,
+      "c1": -0.3428374345578631,
+      "rows_used": 1326
+     },
+     "sh512100": {
+      "b_cross": -0.7487468698440545,
+      "b_own": 0.7456552000447852,
+      "c1": -0.047774365921798845,
+      "rows_used": 1326
+     }
+    },
+    "reason": null,
+    "spread": 0.45957128221505156
+   },
+   "decided": true,
+   "diff_ci": [
+    -0.3049046390827158,
+    0.298596942894476
+   ],
+   "draws": {
+    "block": 20,
+    "bootstrap": 400,
+    "permutation": 200
+   },
+   "first": "2020-11-17",
+   "kind": "headline",
+   "label": "all_five",
+   "last": "2026-10-29",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "self_outside_band": true,
+   "self_row": {
+    "age_omitted": false,
+    "b2_vol": 0.32091336753539695,
+    "b3_age": -1.4453534319521336e-06,
+    "b_own": 1.7527928137415896,
+    "b_self": -0.7338669780097795,
+    "b_self_with_vol": -0.7835941724547779,
+    "b_self_with_vol_age": -0.7835659215702144,
+    "c1_loo": 0.2191355084043709,
+    "decided": true,
+    "r2": 0.2218559184945763,
+    "reason": null,
+    "rows_used": 1326,
+    "share_taken_by_vol": -0.0677605014737912,
+    "share_taken_by_vol_and_age": -0.06772200555367225
+   },
+   "sessions": 1328,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "verdict": "own_row_is_the_same_quantity",
+   "window_inclusive": [
+    null,
+    null
+   ]
+  },
+  {
+   "decided": false,
+   "draws": {
+    "block": 20,
+    "bootstrap": 60,
+    "permutation": 60
+   },
+   "first": "2016-11-07",
+   "kind": "window",
+   "label": "pre2020_four",
+   "last": "2020-11-13",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100"
+   ],
+   "reason": "no member was named star in this window (E245 lag-0 rule)",
+   "sessions": 891,
+   "star": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "unresolved_too_few_rows",
+   "window_inclusive": [
+    null,
+    "2020-11-15"
+   ]
+  },
+  {
+   "decided": false,
+   "draws": {
+    "block": 20,
+    "bootstrap": 60,
+    "permutation": 60
+   },
+   "first": "2020-11-17",
+   "kind": "era",
+   "label": "era_2020_2022",
+   "last": "2022-12-30",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "reason": "no member was named star in this window (E245 lag-0 rule)",
+   "sessions": 474,
+   "star": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "unresolved_too_few_rows",
+   "window_inclusive": [
+    "2020-11-16",
+    "2022-12-31"
+   ]
+  },
+  {
+   "age_corr_with_row_index": 0.9998982018752473,
+   "age_identified": false,
+   "b_self_minus_b_cross": 0.030501452791058425,
+   "band_cross": {
+    "band": {
+     "draws": 60,
+     "hi": 0.3612981017916428,
+     "lo": -0.33888786748973576,
+     "median": 0.016099710683017986,
+     "width": 0.7001859692813786
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.3612981017916428,
+     "median_abs": 0.09719873989462655
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261143
+   },
+   "band_self": {
+    "band": {
+     "draws": 60,
+     "hi": 0.38241486006464576,
+     "lo": -0.3009172041368989,
+     "median": -0.013180041100862197,
+     "width": 0.6833320642015446
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.38241486006464576,
+     "median_abs": 0.11997243922272256
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261143
+   },
+   "bootstrap": {
+    "block": 20,
+    "cross": {
+     "ci": [
+      -1.3378210457684219,
+      -0.4570737481006155
+     ],
+     "median": -0.7713547779217043,
+     "sd": 0.20007011710951197,
+     "used": 60
+    },
+    "diff": {
+     "ci": [
+      -0.5279151130361451,
+      0.6180120204927413
+     ],
+     "median": 0.023944404529006924,
+     "sd": 0.3366056899125026,
+     "used": 60
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "note": "paired: each draw re-fits BOTH rows on the same resampled sessions, so the interval on the difference carries the correlation the two fits share",
+    "seed": 20269062,
+    "self": {
+     "ci": [
+      -1.331040373517809,
+      -0.284844969001371
+     ],
+     "median": -0.7558723030951255,
+     "sd": 0.2868335880411564,
+     "used": 60
+    }
+   },
+   "cross_outside_band": true,
+   "cross_row": {
+    "b_cross": -0.8332269315437407,
+    "decided": true,
+    "max": -0.6268026478066401,
+    "members_fitted": 4,
+    "min": -1.090066384723375,
+    "per_member": {
+     "sh510050": {
+      "b_cross": -0.7358004442807127,
+      "b_own": 0.901517845472464,
+      "c1": -0.1377755647828247,
+      "rows_used": 444
+     },
+     "sh510300": {
+      "b_cross": -1.090066384723375,
+      "b_own": 1.049861177176752,
+      "c1": -0.0415951639150951,
+      "rows_used": 444
+     },
+     "sh510500": {
+      "b_cross": -0.8802382493642353,
+      "b_own": 1.0733181835636942,
+      "c1": -0.1349642114291244,
+      "rows_used": 444
+     },
+     "sh512100": {
+      "b_cross": -0.6268026478066401,
+      "b_own": 0.9890473518260773,
+      "c1": -0.031095856501551944,
+      "rows_used": 444
+     }
+    },
+    "reason": null,
+    "spread": 0.46326373691673484
+   },
+   "decided": true,
+   "diff_ci": [
+    -0.5279151130361451,
+    0.6180120204927413
+   ],
+   "draws": {
+    "block": 20,
+    "bootstrap": 60,
+    "permutation": 60
+   },
+   "first": "2023-01-03",
+   "kind": "era",
+   "label": "era_2023_2024",
+   "last": "2024-12-31",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "self_outside_band": true,
+   "self_row": {
+    "age_omitted": false,
+    "b2_vol": 0.24302185550482933,
+    "b3_age": 4.302304894163045e-06,
+    "b_own": 1.9611973748803153,
+    "b_self": -0.8027254787526823,
+    "b_self_with_vol": -0.8494909440210583,
+    "b_self_with_vol_age": -0.8494870470342211,
+    "c1_loo": -0.10822446198652402,
+    "decided": true,
+    "r2": 0.30416095995122705,
+    "reason": null,
+    "rows_used": 444,
+    "share_taken_by_vol": -0.0582583542022892,
+    "share_taken_by_vol_and_age": -0.05825349950795067
+   },
+   "sessions": 446,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "verdict": "own_row_is_the_same_quantity",
+   "window_inclusive": [
+    "2023-01-01",
+    "2024-12-31"
+   ]
+  },
+  {
+   "age_corr_with_row_index": 0.999793620539984,
+   "age_identified": false,
+   "b_self_minus_b_cross": 0.44785261303578894,
+   "band_cross": {
+    "band": {
+     "draws": 60,
+     "hi": 0.46536854590686627,
+     "lo": -0.4149041386090875,
+     "median": -0.07320300733600983,
+     "width": 0.8802726845159538
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.46536854590686627,
+     "median_abs": 0.15201869542679441
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261142
+   },
+   "band_self": {
+    "band": {
+     "draws": 60,
+     "hi": 0.4510867343946797,
+     "lo": -0.5211261029119459,
+     "median": -0.07107796143439979,
+     "width": 0.9722128373066257
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.5211261029119459,
+     "median_abs": 0.15994301934684976
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261142
+   },
+   "bootstrap": {
+    "block": 20,
+    "cross": {
+     "ci": [
+      -1.4980372794826269,
+      -0.37140994339285477
+     ],
+     "median": -0.9400930883265057,
+     "sd": 0.29360255234464405,
+     "used": 60
+    },
+    "diff": {
+     "ci": [
+      -0.47192503645269696,
+      1.0181190126410185
+     ],
+     "median": 0.48204385806576233,
+     "sd": 0.3978947904717486,
+     "used": 60
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "note": "paired: each draw re-fits BOTH rows on the same resampled sessions, so the interval on the difference carries the correlation the two fits share",
+    "seed": 20269061,
+    "self": {
+     "ci": [
+      -1.1655276205493692,
+      -0.11793439483027157
+     ],
+     "median": -0.5869068389068863,
+     "sd": 0.26215693923990346,
+     "used": 60
+    }
+   },
+   "cross_outside_band": true,
+   "cross_row": {
+    "b_cross": -0.9113353718550754,
+    "decided": true,
+    "max": -0.1380736046752635,
+    "members_fitted": 4,
+    "min": -1.3561462276449863,
+    "per_member": {
+     "sh510050": {
+      "b_cross": -0.1380736046752635,
+      "b_own": 0.7188311283239289,
+      "c1": 0.01997087107994744,
+      "rows_used": 406
+     },
+     "sh510300": {
+      "b_cross": -0.8062387177381385,
+      "b_own": 1.424306023767965,
+      "c1": -0.23746864117743927,
+      "rows_used": 406
+     },
+     "sh510500": {
+      "b_cross": -1.3448829373619131,
+      "b_own": 0.5402608663995354,
+      "c1": -0.5667048550866991,
+      "rows_used": 406
+     },
+     "sh512100": {
+      "b_cross": -1.3561462276449863,
+      "b_own": 0.6856709361574775,
+      "c1": -0.06416939079262907,
+      "rows_used": 406
+     }
+    },
+    "reason": null,
+    "spread": 1.2180726229697227
+   },
+   "decided": true,
+   "diff_ci": [
+    -0.47192503645269696,
+    1.0181190126410185
+   ],
+   "draws": {
+    "block": 20,
+    "bootstrap": 60,
+    "permutation": 60
+   },
+   "first": "2025-01-02",
+   "kind": "era",
+   "label": "era_2025_now",
+   "last": "2026-10-29",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "self_outside_band": false,
+   "self_row": {
+    "age_omitted": false,
+    "b2_vol": 0.3530572557288213,
+    "b3_age": -2.9423587386123715e-05,
+    "b_own": 1.5166993282442527,
+    "b_self": -0.46348275881928647,
+    "b_self_with_vol": -0.5181678239931803,
+    "b_self_with_vol_age": -0.5177240970687585,
+    "c1_loo": 0.17510208539570038,
+    "decided": true,
+    "r2": 0.13454099073835402,
+    "reason": null,
+    "rows_used": 406,
+    "share_taken_by_vol": -0.11798726950103378,
+    "share_taken_by_vol_and_age": -0.1170298942460144
+   },
+   "sessions": 408,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "verdict": "self_row_inside_shuffled_band",
+   "window_inclusive": [
+    "2025-01-01",
+    null
+   ]
+  },
+  {
+   "age_corr_with_row_index": 0.9998756522817819,
+   "age_identified": false,
+   "b_self_minus_b_cross": 0.2907485223342653,
+   "band_cross": {
+    "band": {
+     "draws": 60,
+     "hi": 0.30837107575218653,
+     "lo": -0.27410275200467416,
+     "median": 0.01146896308600124,
+     "width": 0.5824738277568606
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.30837107575218653,
+     "median_abs": 0.05726707540469988
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261141
+   },
+   "band_self": {
+    "band": {
+     "draws": 60,
+     "hi": 0.20152376421923934,
+     "lo": -0.3227391896025501,
+     "median": 0.021767940567562073,
+     "width": 0.5242629538217894
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.3227391896025501,
+     "median_abs": 0.08994368761565291
+    },
+    "note": "one screened regressor at a time -> pointwise band == family-wise line",
+    "seed": 20261141
+   },
+   "bootstrap": {
+    "block": 20,
+    "cross": {
+     "ci": [
+      -0.7489954608817062,
+      -0.22517248688774685
+     ],
+     "median": -0.5122575515201419,
+     "sd": 0.15080994054088098,
+     "used": 60
+    },
+    "diff": {
+     "ci": [
+      -0.04782470589099147,
+      0.5651964614611635
+     ],
+     "median": 0.33975971685947104,
+     "sd": 0.17295490283525572,
+     "used": 60
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "note": "paired: each draw re-fits BOTH rows on the same resampled sessions, so the interval on the difference carries the correlation the two fits share",
+    "seed": 20269060,
+    "self": {
+     "ci": [
+      -0.5101006251419555,
+      0.07983177844607325
+     ],
+     "median": -0.1840323478791625,
+     "sd": 0.1466524446463681,
+     "used": 60
+    }
+   },
+   "cross_outside_band": true,
+   "cross_row": {
+    "b_cross": -0.4942013405547795,
+    "decided": true,
+    "max": -0.3470723737446421,
+    "members_fitted": 2,
+    "min": -0.6413303073649168,
+    "per_member": {
+     "sh510300": {
+      "b_cross": -0.6413303073649168,
+      "b_own": 1.0314905503487732,
+      "c1": -0.09189451394340686,
+      "rows_used": 829
+     },
+     "sh510500": {
+      "b_cross": -0.3470723737446421,
+      "b_own": 0.23104557959528674,
+      "c1": -0.21283240318007351,
+      "rows_used": 829
+     }
+    },
+    "reason": null,
+    "spread": 0.2942579336202747
+   },
+   "decided": true,
+   "diff_ci": [
+    -0.04782470589099147,
+    0.5651964614611635
+   ],
+   "draws": {
+    "block": 20,
+    "bootstrap": 60,
+    "permutation": 60
+   },
+   "first": "2013-03-18",
+   "kind": "neighbour",
+   "label": "early_three",
+   "last": "2016-11-03",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500"
+   ],
+   "self_outside_band": false,
+   "self_row": {
+    "age_omitted": false,
+    "b2_vol": 0.17717901598831004,
+    "b3_age": 1.2541277882840355e-05,
+    "b_own": 1.037271794646817,
+    "b_self": -0.2034528182205142,
+    "b_self_with_vol": -0.23226342980287046,
+    "b_self_with_vol_age": -0.23219452432541857,
+    "c1_loo": -0.20868420400361487,
+    "decided": true,
+    "r2": 0.11028414785379614,
+    "reason": null,
+    "rows_used": 829,
+    "share_taken_by_vol": -0.14160831899182447,
+    "share_taken_by_vol_and_age": -0.14126963861347153
+   },
+   "sessions": 831,
+   "star": "sh510050",
+   "star_source": "e245_star_rule",
+   "verdict": "self_row_inside_shuffled_band",
+   "window_inclusive": [
+    "2013-03-15",
+    "2016-11-03"
+   ]
+  }
+ ],
+ "comparability_note": "b_self and b_cross are the same regressor (the star's lag-1 turnover) against two outcomes under one estimator and one row grid; the difference is read on a paired bootstrap, not on two independently built intervals",
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "age_trend_collinear": 0.98,
+  "band_mode": "full_draw_range_200",
+  "base_seed": 20261130,
+  "block_sessions": 20,
+  "bootstrap_draws": 400,
+  "ci_pct": [
+   2.5,
+   97.5
+  ],
+  "designs": [
+   "S0 self row: own contemporaneous + own lag-1 + LOO agg",
+   "S1 S0 + star's own lagged |move|",
+   "S2 S1 + age in days (headline only)",
+   "C cross rows: member own + star lag-1 + LOO agg"
+  ],
+  "era_draws": 60,
+  "min_sessions": 200,
+  "nulls": [
+   "paired time-shuffled permutation band (one shuffle destroys the regressor for both fits)",
+   "paired block bootstrap on the difference"
+  ],
+  "permutation_draws": 200,
+  "reuse": "estimator e248._ols, star rule e250.name_star, LOO aggregate e250.aggregate_moves, band/_outside e251, grid e240/e243",
+  "share_vol_strong": 0.5,
+  "share_vol_weak": 0.35,
+  "verdicts": [
+   "own_row_is_the_same_quantity",
+   "own_row_is_a_different_mechanism",
+   "self_row_inside_shuffled_band",
+   "cross_column_inside_shuffled_band",
+   "unresolved_too_few_rows"
+  ]
+ },
+ "generated": "2026-10-30T13:48:56",
+ "identification_caveat": "inside one window a member's age is a monotone function of the row index, so age is not separable from any slow trend there; the age extra is fitted and published with age_identified per cell, never used to decide",
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "no_bill": "channel identification only: no adoption, no re-pricing, no member billed",
+ "rollup": {
+  "cells_by_verdict": {
+   "own_row_is_the_same_quantity": 2,
+   "self_row_inside_shuffled_band": 2,
+   "unresolved_too_few_rows": 2
+  },
+  "cells_counted": 6,
+  "stable_across_cells": false,
+  "verdict": "own_row_is_the_same_quantity"
+ },
+ "study": "E252",
+ "summary": {
+  "cells_by_verdict": {
+   "own_row_is_the_same_quantity": 2,
+   "self_row_inside_shuffled_band": 2,
+   "unresolved_too_few_rows": 2
+  },
+  "cells_counted": 6,
+  "headline_b2_vol": 0.32091336753539695,
+  "headline_b_cross": -0.7250430277727764,
+  "headline_b_own_self": 1.7527928137415896,
+  "headline_b_self": -0.7338669780097795,
+  "headline_b_self_with_vol": -0.7835941724547779,
+  "headline_band_cross": {
+   "draws": 200,
+   "hi": 0.2579169304029064,
+   "lo": -0.2680802007904303,
+   "median": 0.01733924314499955,
+   "width": 0.5259971311933367
+  },
+  "headline_band_self": {
+   "draws": 200,
+   "hi": 0.22694777216938677,
+   "lo": -0.31482186746270696,
+   "median": 0.0010289823868680822,
+   "width": 0.5417696396320937
+  },
+  "headline_cross_boot_ci": [
+   -0.9754017809549185,
+   -0.4996759281153581
+  ],
+  "headline_cross_outside_band": true,
+  "headline_cross_per_member": {
+   "sh510050": {
+    "b_cross": -0.41809673978759304,
+    "b_own": 0.9076065109883628,
+    "c1": -0.1300854155832964,
+    "rows_used": 1326
+   },
+   "sh510300": {
+    "b_cross": -0.8776680220026446,
+    "b_own": 1.146614409520026,
+    "c1": -0.14122224155638785,
+    "rows_used": 1326
+   },
+   "sh510500": {
+    "b_cross": -0.8556604794568131,
+    "b_own": 0.8179569253999499,
+    "c1": -0.3428374345578631,
+    "rows_used": 1326
+   },
+   "sh512100": {
+    "b_cross": -0.7487468698440545,
+    "b_own": 0.7456552000447852,
+    "c1": -0.047774365921798845,
+    "rows_used": 1326
+   }
+  },
+  "headline_diff": -0.008823950237003109,
+  "headline_diff_ci": [
+   -0.3049046390827158,
+   0.298596942894476
+  ],
+  "headline_self_boot_ci": [
+   -0.960964355722833,
+   -0.495668569810894
+  ],
+  "headline_self_outside_band": true,
+  "headline_sessions": 1328,
+  "headline_share_vol": -0.0677605014737912,
+  "headline_star": "sh588000",
+  "headline_verdict": "own_row_is_the_same_quantity",
+  "stable_across_cells": false,
+  "verdict": "own_row_is_the_same_quantity"
+ },
+ "title": "the star's turnover prices everyone else -- does it price the star?",
+ "written": null
+}
