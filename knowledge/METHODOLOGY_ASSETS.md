@@ -6856,3 +6856,29 @@ Pos: scripts/etf_book_production.py (control_moved) + scripts/etf_book_buffer_ad
 scripts/etf_book_hysteresis.py + scripts/etf_book_beta_menu.py (stress_inputs_digest)
 + digest DIGEST-20261031-r1374-date-only-gates.md.
 
+## E287 A risk rule priced on a book whose own worst loss is shallower than the trigger is not a safety net, it is an untested branch (2026-10-31 r1174 bm-a)
+
+The live book published what it expects to earn and how deep it has fallen, and nothing about what
+the operator should do when it falls. The obvious answer -- a pre-committed stop at 8%/10%/15% --
+turns out to be three empty branches: over 1,652 bars and four decision calendars the book's own
+worst drawdown is -6.8..-6.9%, because the beta overlay (k = 0.20/beta) already de-levers. A
+threshold above the book's realised risk envelope never fires, so it costs nothing and protects
+nothing, and any test of it returns exactly zero. The levels that DO fire sit below the envelope: at
+5% the switch cuts CAGR by 5.3pp for 0.8pp of shallower drawdown, and proportional de-leverage buys
+1.1-2.1pp of drawdown for 1.0-3.1pp of return at every threshold tested.
+(1) **Print the envelope beside the rule.** A drawdown-rule face that does not state its baseline's
+own max drawdown cannot distinguish "the rule is good" from "the rule never fired"; INERT must be a
+first-class verdict, not a silent pass.
+(2) **Two de-risking mechanisms on the same losses pay the protection twice.** The book already
+scales exposure continuously; a second mechanism reacting to the same drawdown charges fees on every
+re-arm to buy risk it is already rid of.
+(3) **Path test before the verdict, identity control before the cells.** Four schedules started
+0/5/10/15 bars into history each re-price the rule on its own decision sequence, and the no-guard arm
+must reproduce the published overlay bit for bit (max abs diff 0.0) or the face is measuring its own
+arithmetic.
+How: when a risk overlay is proposed, first ask where the instrument's worst loss sits relative to
+the trigger, then charge it for the trades it moves, then check whether another rule already handles
+the same risk.
+Pos: scripts/etf_book_drawdown_guard.py (selftest 12/12, run/check modes) +
+results/etf_book_drawdown_guard.json + research/ETF_BOOK_DRAWDOWN_GUARD.md. Verdict REJECT
+(8 arms x 4 calendars, 0 adopted; 3 arms INERT at 8/10/15%).
