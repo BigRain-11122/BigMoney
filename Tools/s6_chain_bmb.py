@@ -194,6 +194,12 @@ LEGS = [
     # its own 200-draw shuffled band -- because "the star is negative" and "every column is
     # negative" are the same number until the columns are read side by side. ~14s.
     ("lead_counterfactual", ["python", "scripts/e249_lead_counterfactual.py", "run"]),
+    # E250: E249 read every column negative, so the naming was never the star's. This leg asks
+    # the open question directly -- is the shared lead the book's own lagged aggregate turnover?
+    # -- with the aggregate in the row alone, beside each column, and as a LEAVE-ONE-OUT sum
+    # (the column's turnover is a component of the aggregate, so the inclusive share is the
+    # E238 denominator-contains-the-numerator reading). ~30s.
+    ("book_echo", ["python", "scripts/e250_book_turnover_echo.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

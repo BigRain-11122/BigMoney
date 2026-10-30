@@ -4778,3 +4778,38 @@ Implementation note: the estimator, the shuffled band and the star rule are E248
 verbatim (no re-estimation), the whole 6-cell five-column sweep takes ~14s, and a smoke leg
 re-derives every verdict from the published per-column numbers and pins the star's lag-1 to
 E248's published value to 1e-9.
+
+## E250 — the shared lead is a book-wide quantity, and the column sits inside its own denominator
+
+`scripts/e250_book_turnover_echo.py` (selftest 15/15) · face `results/state_tilt/BOOKECHO-2026-10-29.json`
+
+E249 read every column of the star row and found them all negative at comparable magnitude, which
+named no sleeve. E250 tests the obvious mechanism — all five columns are proxies for ONE book-level
+quantity, aggregate turnover — with the aggregate in the row alone, beside each column, and as a
+leave-one-out sum. Read: **c1 = −0.521** against a 200-draw shuffled-aggregate band
+**[−0.206, 0.201]** on the headline cell, −0.50…−0.68 across cells, negative and outside its band
+in 5 of 6 (era_2020_2022 at −0.316 sits inside, so that cell is silent, not contrary). Per-column
+lag-1 shrinks toward zero once the leave-one-out aggregate is in: **mean share 0.913**, while the
+star keeps ~90% of its −0.805 — the star is not merely the most readable proxy, and its residual is
+the only sleeve-attributed part of the E248/E249 reading still standing (E251).
+
+Three reusable findings:
+
+(1) **A grid has two lists, and using the wrong one slides every lag.** `panel["dates"]` are the
+INCREMENT dates; a level-difference series built from that list comes out exactly one row short
+(1,327 vs 1,328), so `dy[t] on series[t−1]` is quietly a two-session lag. The first burn of this
+face reported c1 = **+0.644**, positive and outside the band, on a panel whose every column is
+negative. Assert the alignment (`len(series) == len(panel rows)`) inside the cell builder, not in
+the caller, and put the same assertion in the selftest — the number moves the entire conclusion.
+
+(2) **A column inside the sum is not a share.** "How much of each column's lag-1 does the aggregate
+account for?" is the E238 denominator-contains-the-numerator reading whenever the column's own
+turnover is a component of the aggregate: three of five columns read a share > 2 there. The
+leave-one-out sum is the readable number (0.10–1.32, mean 0.91); publish both and label which is
+which, or the arithmetic channel hides inside a "finding".
+
+(3) **A fixture answers the design it was written for, not the one you published.** The synthetic
+panel first wrote the effect through the *contemporaneous* aggregate while the published row reads
+`t−1`; it passed only because an off-by-one in the real series happened to compensate. Three legs
+went red the moment the real alignment was fixed. Generate the fixture's effect at the same lag the
+face estimates, and prefer an independent truth (a written coefficient) over a reassuring pass.

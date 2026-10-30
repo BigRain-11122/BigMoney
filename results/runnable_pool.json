@@ -23753,7 +23753,7 @@
   {
    "id": "E250-BOOK-WIDE-LIQUIDITY-ECHO",
    "title": "is the shared negative lag-1 lead the book's OWN lagged turnover?",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "worker_class": "code-change",
    "priority": 3,
@@ -23767,7 +23767,31 @@
    ],
    "target": "scripts/e250_book_turnover_echo.py (new runner)",
    "deliverable": "results/state_tilt/BOOKECHO-<cutoff>.json",
-   "source": "E249 read all five columns of the star row and found every one of them negative at comparable magnitude (spread 0.352 inside a 0.384 band), in every era. That kills the star-specific naming but leaves the mechanism unnamed: something makes each member's move respond negatively to any member's previous turnover. The obvious candidate is that the five columns are all proxies for ONE book-level quantity -- aggregate turnover -- and that the book's next move loadings on it. Test it directly: put the book's own lagged aggregate turnover (the sum over members, one value per session) in as the single regressor of interest against each member's move, with that member's own contemporaneous turnover controlled, and ask (a) is the aggregate lag-1 coefficient negative and does it clear a 200-draw shuffled band of the aggregate series, (b) does the per-column negative coefficient SHRINK toward zero once the aggregate is in the row -- if the columns are proxies for the aggregate, adding it should soak their coefficients up, and (c) what share of each column's lag-1 is accounted for. Publish the coefficient with and without the aggregate, the shrinkage per column, and decide with the same family-wise line E248/E249 used. Note the identification caveat up front: E240 found the aggregate turnover absorbed by date fixed effects in a cross-sectional design, so this is the TIME-SERIES version of the same regressor and the two must not be quoted against each other -- if date effects cannot be included, say so and publish the omitted-variable amplification factor the way E240 did. NO BILL."
+   "source": "E249 read all five columns of the star row and found every one of them negative at comparable magnitude (spread 0.352 inside a 0.384 band), in every era. That kills the star-specific naming but leaves the mechanism unnamed: something makes each member's move respond negatively to any member's previous turnover. The obvious candidate is that the five columns are all proxies for ONE book-level quantity -- aggregate turnover -- and that the book's next move loadings on it. Test it directly: put the book's own lagged aggregate turnover (the sum over members, one value per session) in as the single regressor of interest against each member's move, with that member's own contemporaneous turnover controlled, and ask (a) is the aggregate lag-1 coefficient negative and does it clear a 200-draw shuffled band of the aggregate series, (b) does the per-column negative coefficient SHRINK toward zero once the aggregate is in the row -- if the columns are proxies for the aggregate, adding it should soak their coefficients up, and (c) what share of each column's lag-1 is accounted for. Publish the coefficient with and without the aggregate, the shrinkage per column, and decide with the same family-wise line E248/E249 used. Note the identification caveat up front: E240 found the aggregate turnover absorbed by date fixed effects in a cross-sectional design, so this is the TIME-SERIES version of the same regressor and the two must not be quoted against each other -- if date effects cannot be included, say so and publish the omitted-variable amplification factor the way E240 did. NO BILL.",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-30T12:05:00+08:00",
+   "completed_at": "2026-10-30T12:05:00+08:00",
+   "result_ref": "scripts/e250_book_turnover_echo.py + results/state_tilt/BOOKECHO-2026-10-29.json",
+   "result_note": "the shared negative lag-1 IS the book's own lagged aggregate turnover: c1 -0.521 against a 200-draw shuffled band [-0.206, 0.201] on the headline cell, negative and outside the band in 5 of 6 cells (era_2020_2022 inside at -0.316). Per-column lag-1 shrinks toward zero once the LEAVE-ONE-OUT aggregate is in (mean share 0.91 headline, 0.49-1.19 across cells), while the star's own reading (-0.805) keeps ~90% of its size -> the star is not merely a proxy. NO BILL."
+  },
+  {
+   "id": "E251-STAR-OWN-COMPONENT",
+   "title": "what is left of the star column once the book-wide aggregate is removed?",
+   "status": "ready",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "priority": 3,
+   "owner": null,
+   "entered_at": "2026-10-30T12:05:00+08:00",
+   "entered_by": "bm-b r1276",
+   "evidence_cutoff": "2026-10-29",
+   "runner": "scripts/e251_star_own_component.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e251_star_own_component.py (new runner)",
+   "deliverable": "results/state_tilt/STAROWN-<cutoff>.json",
+   "source": "E250 measured that the book-wide aggregate lag-1 carries the shared negative lead (c1 -0.521 outside a shuffled band in 5/6 cells, mean leave-one-out share 0.91), but the star column sh588000 kept ~90% of its -0.805 after the leave-one-out aggregate was in the row -- against 0.10-0.60 for every other column. That residual is the only part of the star reading E248/E249 attributed to a sleeve and E250 did not take away, and it is now the whole question: is the star's own residual its own turnover, its own volatility, or the fact that it is the newest and shortest member? Test it as a decomposition -- own lag-1 with the leave-one-out aggregate controlled, then add the star's own lagged |move| and the member's listing age as separate regressors, and report which part of the residual each one takes. Publish the residual before and after each addition, and decide against the same 200-draw shuffled band the family uses. Identification note: the newest member carries the shortest history, so age and identity are not separable in the headline cell -- say so and read the age effect wherever the window makes it measurable. NO BILL."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

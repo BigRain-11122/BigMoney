@@ -3905,6 +3905,72 @@ def main() -> int:
     except Exception as e:
         check("product: the negative lead is read column by column, not off one column",
               False, repr(e)[:160])
+    # E250: E249 found every column negative, so the naming was not the star's. This leg asks the
+    # question E249 left open -- is the shared lead the book's own lagged aggregate turnover? --
+    # and refuses the two traps that would make a "yes" meaningless: the aggregate series must be
+    # aligned to the panel rows (an increment-date grid is one row short and slides every lag by
+    # one session), and the per-column "share absorbed" must be the LEAVE-ONE-OUT reading,
+    # because the column's turnover is a component of the aggregate (E238 family).
+    try:
+        _bad50 = []
+        _p50 = os.path.join("results", "state_tilt", "bookecho_latest.json")
+        _f50 = None
+        if os.path.exists(_p50):
+            with io.open(_p50, encoding="utf-8") as _fh50:
+                _f50 = json.load(_fh50)
+        _cells50 = []
+        if not _f50:
+            _bad50.append("book-echo face missing")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            import e250_book_turnover_echo as _m50
+            _cells50 = [c for c in (_f50.get("cells") or []) if c.get("verdict")]
+            _vocab50 = set(((_f50.get("frozen_spec") or {}).get("verdicts")) or [])
+            if not _cells50:
+                _bad50.append("no cell carries a verdict")
+            for _c50 in _cells50:
+                if _c50.get("verdict") not in _vocab50:
+                    _bad50.append("cell %s outside the frozen vocabulary" % _c50.get("label"))
+                _d50 = _c50.get("design_B_alone") or {}
+                _reb50 = _m50.derive_verdict(_d50.get("c1"), _c50.get("aggregate_outside_band"),
+                                             _c50.get("mean_share_accounted"),
+                                             len(_c50.get("columns") or {}))
+                if _reb50 != _c50.get("verdict"):
+                    _bad50.append("cell %s publishes %s but its numbers re-derive %s"
+                                  % (_c50.get("label"), _c50.get("verdict"), _reb50))
+                if (_c50.get("aggregate") or {}).get("aligned_to_panel_rows") is not True:
+                    _bad50.append("cell %s has an aggregate series off the panel grid"
+                                  % _c50.get("label"))
+                _cols50 = _c50.get("columns") or {}
+                _shares50 = [v.get("share_accounted_loo") for k, v in _cols50.items()
+                             if k != _c50.get("star")]
+                _shares50 = [v for v in _shares50 if v is not None]
+                if _shares50 and _c50.get("mean_share_accounted") is not None:
+                    _mean50 = sum(_shares50) / float(len(_shares50))
+                    if abs(_mean50 - _c50["mean_share_accounted"]) > 1e-9:
+                        _bad50.append("cell %s publishes a leave-one-out mean its own columns "
+                                      "do not produce" % _c50.get("label"))
+                for _k50, _v50 in _cols50.items():
+                    if _v50.get("share_accounted_loo") is None:
+                        _bad50.append("cell %s column %s has no leave-one-out share"
+                                      % (_c50.get("label"), _k50))
+                if _c50.get("verdict") == "aggregate_carries_the_lead" \
+                        and (_d50.get("c1") or 0.0) >= 0.0:
+                    _bad50.append("cell %s names a negative lead carrying a non-negative "
+                                  "aggregate coefficient" % _c50.get("label"))
+            if not _f50.get("no_bill"):
+                _bad50.append("the face does not carry its no-bill line")
+            if not _f50.get("identification_caveat"):
+                _bad50.append("the face does not carry the time-series vs date-FE caveat")
+        _s50 = (_f50 or {}).get("summary") or {}
+        check("product: the shared lead is tested against the book's own aggregate turnover",
+              not _bad50, "; ".join(_bad50)[:220]
+              or "verdict %s; cells %d; c1 %s; mean leave-one-out share %s"
+                 % (_s50.get("verdict"), len(_cells50), _r39(_f50 or {}, "headline_c1_alone"),
+                    _r39(_f50 or {}, "headline_mean_share_accounted")))
+    except Exception as e:
+        check("product: the shared lead is tested against the book's own aggregate turnover",
+              False, repr(e)[:160])
     return _finish()
 
 

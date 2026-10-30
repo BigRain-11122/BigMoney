@@ -1,0 +1,985 @@
+{
+ "cells": [
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": 0.0012733868540381282,
+    "n": 1328,
+    "sd": 0.3061985494785588
+   },
+   "aggregate_outside_band": true,
+   "amplification": {
+    "factor": 2.191285835793539,
+    "k": 5,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.4241392203503591
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 200,
+     "hi": 0.20063052335421458,
+     "lo": -0.2058911626463243,
+     "median": 0.00922516731178118,
+     "width": 0.40652168600053884
+    },
+    "draws_requested": 200,
+    "draws_used": 200,
+    "family": {
+     "draws": 200,
+     "max_abs": 0.2058911626463243,
+     "median_abs": 0.06177416248200922
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261110
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": 0.24150303910400084,
+     "b1_with_loo_aggregate": 0.07066986747513004,
+     "b1_without_aggregate": -0.22443922313733394,
+     "c1_in_joint": -0.8181425043958461,
+     "c1_in_loo_joint": -0.6509171743633285,
+     "collinear_with_aggregate": -0.30374401867944395,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 2.076028671495737,
+     "share_accounted_loo": 1.3148730711471375,
+     "shrinkage": -0.4659422622413348,
+     "shrinkage_loo": -0.295109090612464
+    },
+    "sh510300": {
+     "b1_with_aggregate": 0.25986939760622807,
+     "b1_with_loo_aggregate": 0.04846487657205076,
+     "b1_without_aggregate": -0.24257957385154716,
+     "c1_in_joint": -0.7859047377247775,
+     "c1_in_loo_joint": -0.6017568275527149,
+     "collinear_with_aggregate": -0.2939053616235827,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 2.0712748541856287,
+     "share_accounted_loo": 1.1997896022428916,
+     "shrinkage": -0.5024489714577752,
+     "shrinkage_loo": -0.29104445042359794
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.1014335661864606,
+     "b1_with_loo_aggregate": -0.15221384135020088,
+     "b1_without_aggregate": -0.258191760278075,
+     "c1_in_joint": -0.33498759002009476,
+     "c1_in_loo_joint": -0.2988376711425709,
+     "collinear_with_aggregate": -0.18371225848505507,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.6071386396017608,
+     "share_accounted_loo": 0.41046204888078097,
+     "shrinkage": -0.1567581940916144,
+     "shrinkage_loo": -0.10597791892787412
+    },
+    "sh512100": {
+     "b1_with_aggregate": -0.03270232551088098,
+     "b1_with_loo_aggregate": -0.07460720827428748,
+     "b1_without_aggregate": -0.27430227508802885,
+     "c1_in_joint": -0.5045226898717408,
+     "c1_in_loo_joint": -0.48056294781405606,
+     "collinear_with_aggregate": -0.17841537104633712,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.8807799698329656,
+     "share_accounted_loo": 0.7280109752996231,
+     "shrinkage": -0.24159994957714787,
+     "shrinkage_loo": -0.19969506681374138
+    },
+    "sh588000": {
+     "b1_with_aggregate": -0.6825127160435969,
+     "b1_with_loo_aggregate": -0.7250430277727764,
+     "b1_without_aggregate": -0.8053871644189505,
+     "c1_in_joint": -0.20609726300545647,
+     "c1_in_loo_joint": -0.16547986440483653,
+     "collinear_with_aggregate": -0.1833520854567205,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.15256568989897157,
+     "share_accounted_loo": 0.09975840216442822,
+     "shrinkage": -0.12287444837535366,
+     "shrinkage_loo": -0.08034413664617412
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.5206856998281111,
+    "decided": true,
+    "members_fitted": 5,
+    "per_member": {
+     "sh510050": -0.4077668212720951,
+     "sh510300": -0.7006267461731615,
+     "sh510500": -0.8734270961244223,
+     "sh512100": -0.4993240072879774,
+     "sh588000": -0.12228382828289933
+    },
+    "rows_used": 1326
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.3138706223629307,
+    "corr_dagg_lag1_mean_dy_now": -0.25071030861236493,
+    "dagg_autocorr1": -0.3309594932367878,
+    "mean_dx_now_autocorr1": -0.31923141811807915,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 200,
+   "first": "2020-11-17",
+   "kind": "headline",
+   "label": "all_five",
+   "last": "2026-10-29",
+   "mean_share_accounted": 0.9132839243926083,
+   "mean_share_inclusive": 1.408805533779023,
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 1328,
+   "star": "sh588000",
+   "star_share_accounted": 0.09975840216442822,
+   "star_source": "e245_star_rule",
+   "verdict": "aggregate_carries_the_lead",
+   "window_inclusive": [
+    null,
+    null
+   ]
+  },
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": 0.001853092584342015,
+    "n": 891,
+    "sd": 0.33769460769540777
+   },
+   "aggregate_outside_band": true,
+   "amplification": {
+    "factor": 1.798129009421087,
+    "k": 4,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.3624776441653578
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.20726065356345733,
+     "lo": -0.2502871989349823,
+     "median": 0.0002954808767955241,
+     "width": 0.45754785249843966
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.2502871989349823,
+     "median_abs": 0.06216999830247594
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261114
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": -0.09591101020705055,
+     "b1_with_loo_aggregate": -0.29897862959584204,
+     "b1_without_aggregate": -0.4130569835830142,
+     "c1_in_joint": -0.42539450970074766,
+     "c1_in_loo_joint": -0.2277311678999224,
+     "collinear_with_aggregate": -0.36474798634613215,
+     "decided": true,
+     "members_fitted": 3,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.7678019885414313,
+     "share_accounted_loo": 0.2761806688210737,
+     "shrinkage": -0.3171459733759636,
+     "shrinkage_loo": -0.11407835398717214
+    },
+    "sh510300": {
+     "b1_with_aggregate": -0.054895834144249665,
+     "b1_with_loo_aggregate": -0.2097694417935234,
+     "b1_without_aggregate": -0.42566566856137805,
+     "c1_in_joint": -0.5151571374002158,
+     "c1_in_loo_joint": -0.3686681847659556,
+     "collinear_with_aggregate": -0.3869694006978455,
+     "decided": true,
+     "members_fitted": 3,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.8710353260816615,
+     "share_accounted_loo": 0.5071967102668133,
+     "shrinkage": -0.3707698344171284,
+     "shrinkage_loo": -0.21589622676785467
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.013233245914058092,
+     "b1_with_loo_aggregate": -0.09110979458348435,
+     "b1_without_aggregate": -0.23832967834982047,
+     "c1_in_joint": -0.4584672281633684,
+     "c1_in_loo_joint": -0.3914561822092055,
+     "collinear_with_aggregate": -0.2283182029897022,
+     "decided": true,
+     "members_fitted": 3,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.9444750397613749,
+     "share_accounted_loo": 0.6177152790440419,
+     "shrinkage": -0.22509643243576238,
+     "shrinkage_loo": -0.1472198837663361
+    },
+    "sh512100": {
+     "b1_with_aggregate": 0.0075721535503402715,
+     "b1_with_loo_aggregate": 0.00671121855460106,
+     "b1_without_aggregate": -0.037520848534339776,
+     "c1_in_joint": -0.42376597259114407,
+     "c1_in_loo_joint": -0.42245471762822556,
+     "collinear_with_aggregate": -0.04891988264291748,
+     "decided": true,
+     "members_fitted": 3,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 1.2018118951497085,
+     "share_accounted_loo": 1.1788663854032733,
+     "shrinkage": -0.04509300208468005,
+     "shrinkage_loo": -0.044232067088940834
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.4963894044830518,
+    "decided": true,
+    "members_fitted": 4,
+    "per_member": {
+     "sh510050": -0.39323589251861635,
+     "sh510300": -0.27582111988110314,
+     "sh510500": -0.5774559039115238,
+     "sh512100": -0.7390447016209638
+    },
+    "rows_used": 889
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.30393020421521366,
+    "corr_dagg_lag1_mean_dy_now": -0.2627008323428075,
+    "dagg_autocorr1": -0.42037338173951083,
+    "mean_dx_now_autocorr1": -0.3756632744816472,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 60,
+   "first": "2016-11-07",
+   "kind": "window",
+   "label": "pre2020_four",
+   "last": "2020-11-13",
+   "mean_share_accounted": 0.6449897608838006,
+   "mean_share_inclusive": 0.946281062383544,
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100"
+   ],
+   "sessions": 891,
+   "star": null,
+   "star_share_accounted": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "aggregate_carries_the_lead",
+   "window_inclusive": [
+    null,
+    "2020-11-15"
+   ]
+  },
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": 0.0005572101533957377,
+    "n": 474,
+    "sd": 0.2934096466012295
+   },
+   "aggregate_outside_band": false,
+   "amplification": {
+    "factor": 1.965881194280173,
+    "k": 5,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.31833993858754767
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.2366270936516761,
+     "lo": -0.3763010915436605,
+     "median": -0.005407776821982385,
+     "width": 0.6129281851953365
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.3763010915436605,
+     "median_abs": 0.08698047459893739
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261115
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": 0.3203525297291,
+     "b1_with_loo_aggregate": 0.14087787117402653,
+     "b1_without_aggregate": -0.06855649606273405,
+     "c1_in_joint": -0.6154971987910016,
+     "c1_in_loo_joint": -0.4431274321526233,
+     "collinear_with_aggregate": -0.306518357292324,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 5.672825306531926,
+     "share_accounted_loo": 3.0549164450457518,
+     "shrinkage": -0.38890902579183406,
+     "shrinkage_loo": -0.20943436723676057
+    },
+    "sh510300": {
+     "b1_with_aggregate": 0.05661089601566563,
+     "b1_with_loo_aggregate": -0.024139874919698302,
+     "b1_without_aggregate": -0.12696338506333735,
+     "c1_in_joint": -0.2999398402570187,
+     "c1_in_loo_joint": -0.23322111395299705,
+     "collinear_with_aggregate": -0.3488236765329582,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 1.4458836379277737,
+     "share_accounted_loo": 0.8098674282537772,
+     "shrinkage": -0.18357428107900298,
+     "shrinkage_loo": -0.10282351014363905
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.09646234835340814,
+     "b1_with_loo_aggregate": -0.1281332690466162,
+     "b1_without_aggregate": -0.1688358353310766,
+     "c1_in_joint": -0.17116243334614437,
+     "c1_in_loo_joint": -0.1461180268186764,
+     "collinear_with_aggregate": -0.23039293121004395,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.42866188232935587,
+     "share_accounted_loo": 0.2410777676708572,
+     "shrinkage": -0.07237348697766846,
+     "shrinkage_loo": -0.040702566284460395
+    },
+    "sh512100": {
+     "b1_with_aggregate": -0.06069033494426217,
+     "b1_with_loo_aggregate": -0.0741322791873473,
+     "b1_without_aggregate": -0.16830277076091205,
+     "c1_in_joint": -0.3410341128880144,
+     "c1_in_loo_joint": -0.34144194504143366,
+     "collinear_with_aggregate": -0.07349986521299512,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.6393978859060034,
+     "share_accounted_loo": 0.5595302510339636,
+     "shrinkage": -0.10761243581664988,
+     "shrinkage_loo": -0.09417049157356475
+    },
+    "sh588000": {
+     "b1_with_aggregate": -0.5008395859793564,
+     "b1_with_loo_aggregate": -0.5248840102558545,
+     "b1_without_aggregate": -0.5818048594993367,
+     "c1_in_joint": -0.17518162924928907,
+     "c1_in_loo_joint": -0.15519833074532643,
+     "collinear_with_aggregate": -0.13483147051242747,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.13916225036286856,
+     "share_accounted_loo": 0.09783494983604046,
+     "shrinkage": -0.08096527351998029,
+     "shrinkage_loo": -0.056920849243482174
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.3156962033548213,
+    "decided": true,
+    "members_fitted": 5,
+    "per_member": {
+     "sh510050": -0.5048266852099883,
+     "sh510300": -0.6578641079359231,
+     "sh510500": -0.5412716481179033,
+     "sh512100": -0.14342816923761442,
+     "sh588000": 0.26890959372732265
+    },
+    "rows_used": 472
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.3396033664979097,
+    "corr_dagg_lag1_mean_dy_now": -0.19413689014745883,
+    "dagg_autocorr1": -0.3690114369696929,
+    "mean_dx_now_autocorr1": -0.34238713115501446,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 60,
+   "first": "2020-11-17",
+   "kind": "era",
+   "label": "era_2020_2022",
+   "last": "2022-12-30",
+   "mean_share_accounted": 0.9526453683680781,
+   "mean_share_inclusive": 1.6651861926115856,
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 474,
+   "star": null,
+   "star_share_accounted": null,
+   "star_source": "no_star_at_lag0",
+   "verdict": "aggregate_inside_band",
+   "window_inclusive": [
+    "2020-11-16",
+    "2022-12-31"
+   ]
+  },
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": 0.002564288061827765,
+    "n": 446,
+    "sd": 0.32221219328595735
+   },
+   "aggregate_outside_band": true,
+   "amplification": {
+    "factor": 2.2576372967888463,
+    "k": 5,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.45859626639329054
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.22104117670375362,
+     "lo": -0.25820534340533646,
+     "median": -0.031367275232892,
+     "width": 0.4792465201090901
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.25820534340533646,
+     "median_abs": 0.11701259739100581
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261115
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": -0.03955375394694327,
+     "b1_with_loo_aggregate": -0.14452960626217368,
+     "b1_without_aggregate": -0.3285792360344496,
+     "c1_in_joint": -0.5229257310061206,
+     "c1_in_loo_joint": -0.42370643108548295,
+     "collinear_with_aggregate": -0.319038751731889,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.8796218701330345,
+     "share_accounted_loo": 0.560137737227496,
+     "shrinkage": -0.28902548208750634,
+     "shrinkage_loo": -0.18404962977227593
+    },
+    "sh510300": {
+     "b1_with_aggregate": 0.8200237835708598,
+     "b1_with_loo_aggregate": 0.36546410605775215,
+     "b1_without_aggregate": -0.19459076558342253,
+     "c1_in_joint": -1.5223397923163298,
+     "c1_in_loo_joint": -1.1044764787046868,
+     "collinear_with_aggregate": -0.3409818060749488,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 5.214094030167683,
+     "share_accounted_loo": 2.878116389346723,
+     "shrinkage": -1.0146145491542824,
+     "shrinkage_loo": -0.5600548716411746
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.14463459694800507,
+     "b1_with_loo_aggregate": -0.19767841756405127,
+     "b1_without_aggregate": -0.3415574911055458,
+     "c1_in_joint": -0.42142101334590676,
+     "c1_in_loo_joint": -0.39483360315695987,
+     "collinear_with_aggregate": -0.1854563554203078,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.5765439180389369,
+     "share_accounted_loo": 0.4212440871250983,
+     "shrinkage": -0.19692289415754072,
+     "shrinkage_loo": -0.1438790735414945
+    },
+    "sh512100": {
+     "b1_with_aggregate": -0.08707084308520247,
+     "b1_with_loo_aggregate": -0.13641136134880624,
+     "b1_without_aggregate": -0.37263044035775034,
+     "c1_in_joint": -0.5497018306181243,
+     "c1_in_loo_joint": -0.5187306116159732,
+     "collinear_with_aggregate": -0.2707041787106444,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.7663345941313635,
+     "share_accounted_loo": 0.6339231942032375,
+     "shrinkage": -0.28555959727254787,
+     "shrinkage_loo": -0.2362190790089441
+    },
+    "sh588000": {
+     "b1_with_aggregate": -0.8137286328624818,
+     "b1_with_loo_aggregate": -0.8332269315437407,
+     "b1_without_aggregate": -0.8807136446959947,
+     "c1_in_joint": -0.10067669971687052,
+     "c1_in_loo_joint": -0.08635769915714904,
+     "collinear_with_aggregate": -0.19883342497078738,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.07605765192457625,
+     "share_accounted_loo": 0.053918448338160396,
+     "shrinkage": -0.06698501183351291,
+     "shrinkage_loo": -0.047486713152253945
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.5725016244559002,
+    "decided": true,
+    "members_fitted": 5,
+    "per_member": {
+     "sh510050": -0.5914599685259809,
+     "sh510300": -0.7070791594775785,
+     "sh510500": -0.6403773756897909,
+     "sh512100": -0.39130568039397795,
+     "sh588000": -0.5322859381921725
+    },
+    "rows_used": 444
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.3514173916079945,
+    "corr_dagg_lag1_mean_dy_now": -0.2840692924438746,
+    "dagg_autocorr1": -0.35860165544032474,
+    "mean_dx_now_autocorr1": -0.3541269640848713,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 60,
+   "first": "2023-01-03",
+   "kind": "era",
+   "label": "era_2023_2024",
+   "last": "2024-12-31",
+   "mean_share_accounted": 1.1233553519756387,
+   "mean_share_inclusive": 1.8591486031177542,
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 446,
+   "star": "sh588000",
+   "star_share_accounted": 0.053918448338160396,
+   "star_source": "e245_star_rule",
+   "verdict": "aggregate_carries_the_lead",
+   "window_inclusive": [
+    "2023-01-01",
+    "2024-12-31"
+   ]
+  },
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": 0.0006942834653869396,
+    "n": 408,
+    "sd": 0.3027593029878463
+   },
+   "aggregate_outside_band": true,
+   "amplification": {
+    "factor": 2.297354529863279,
+    "k": 5,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.4800313412168148
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.38320024669863073,
+     "lo": -0.5022883311163163,
+     "median": -0.0336530592492914,
+     "width": 0.885488577814947
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.5022883311163163,
+     "median_abs": 0.09737351944519677
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261114
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": 0.527375055206532,
+     "b1_with_loo_aggregate": 0.33687253872437006,
+     "b1_without_aggregate": -0.233016636326412,
+     "c1_in_joint": -1.4306239234788598,
+     "c1_in_loo_joint": -1.2593484191177904,
+     "collinear_with_aggregate": -0.282431655468812,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 3.263250656780488,
+     "share_accounted_loo": 2.445701663345941,
+     "shrinkage": -0.7603916915329441,
+     "shrinkage_loo": -0.5698891750507821
+    },
+    "sh510300": {
+     "b1_with_aggregate": -0.07631250516158428,
+     "b1_with_loo_aggregate": -0.22482683364878575,
+     "b1_without_aggregate": -0.4303666906837838,
+     "c1_in_joint": -0.5535441383158552,
+     "c1_in_loo_joint": -0.40594553424375635,
+     "collinear_with_aggregate": -0.17584046125785616,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.8226802705378153,
+     "share_accounted_loo": 0.4775923915218162,
+     "shrinkage": -0.3540541855221995,
+     "shrinkage_loo": -0.20553985703499805
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.028277742616704342,
+     "b1_with_loo_aggregate": -0.09213234634888315,
+     "b1_without_aggregate": -0.25788221976170345,
+     "c1_in_joint": -0.44302582786639894,
+     "c1_in_loo_joint": -0.3915064487435288,
+     "collinear_with_aggregate": -0.12531704348500688,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.8903462881511007,
+     "share_accounted_loo": 0.642734786314395,
+     "shrinkage": -0.2296044771449991,
+     "shrinkage_loo": -0.1657498734128203
+    },
+    "sh512100": {
+     "b1_with_aggregate": 0.1506204080076739,
+     "b1_with_loo_aggregate": 0.04836766401564011,
+     "b1_without_aggregate": -0.24264271578154425,
+     "c1_in_joint": -0.7566359648183807,
+     "c1_in_loo_joint": -0.651417644429815,
+     "collinear_with_aggregate": -0.1565317076586204,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 1.620749761733133,
+     "share_accounted_loo": 1.199336971068138,
+     "shrinkage": -0.3932631237892181,
+     "shrinkage_loo": -0.29101037979718436
+    },
+    "sh588000": {
+     "b1_with_aggregate": -0.8406026583531456,
+     "b1_with_loo_aggregate": -0.9113353718550754,
+     "b1_without_aggregate": -1.0319972965470796,
+     "c1_in_joint": -0.2756619575124031,
+     "c1_in_loo_joint": -0.212093003994205,
+     "collinear_with_aggregate": -0.22982086437271837,
+     "decided": true,
+     "members_fitted": 4,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.18546040656725948,
+     "share_accounted_loo": 0.1169207759513734,
+     "shrinkage": -0.19139463819393399,
+     "shrinkage_loo": -0.12066192469200421
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.6756896908910583,
+    "decided": true,
+    "members_fitted": 5,
+    "per_member": {
+     "sh510050": -0.07993749333191306,
+     "sh510300": -0.8161394517853697,
+     "sh510500": -1.4834978290698824,
+     "sh512100": -0.9569999342095741,
+     "sh588000": -0.04187374605855266
+    },
+    "rows_used": 406
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.24924911563314722,
+    "corr_dagg_lag1_mean_dy_now": -0.268698984854796,
+    "dagg_autocorr1": -0.2560323520813688,
+    "mean_dx_now_autocorr1": -0.26391372462762347,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 60,
+   "first": "2025-01-02",
+   "kind": "era",
+   "label": "era_2025_now",
+   "last": "2026-10-29",
+   "mean_share_accounted": 1.1913414530625726,
+   "mean_share_inclusive": 1.6492567443006343,
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "sessions": 408,
+   "star": "sh588000",
+   "star_share_accounted": 0.1169207759513734,
+   "star_source": "e245_star_rule",
+   "verdict": "aggregate_carries_the_lead",
+   "window_inclusive": [
+    "2025-01-01",
+    null
+   ]
+  },
+  {
+   "aggregate": {
+    "aligned_to_panel_rows": true,
+    "definition": "d log(sum_s turnover_s) on the common grid",
+    "mean": -0.0007350829338068875,
+    "n": 831,
+    "sd": 0.35433279175128374
+   },
+   "aggregate_outside_band": true,
+   "amplification": {
+    "factor": 1.5242164667389688,
+    "k": 3,
+    "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+    "rho": 0.35521230243070323
+   },
+   "band_dagg_lag1": {
+    "band": {
+     "draws": 60,
+     "hi": 0.2505113142584375,
+     "lo": -0.252943364540672,
+     "median": 0.00721301088882222,
+     "width": 0.5034546787991094
+    },
+    "draws_requested": 60,
+    "draws_used": 60,
+    "family": {
+     "draws": 60,
+     "max_abs": 0.252943364540672,
+     "median_abs": 0.09490939865341567
+    },
+    "note": "one regressor of interest -> pointwise band == family-wise line",
+    "seed": 20261113
+   },
+   "columns": {
+    "sh510050": {
+     "b1_with_aggregate": -0.34806165516906395,
+     "b1_with_loo_aggregate": -0.4942013405547795,
+     "b1_without_aggregate": -0.5756377703448128,
+     "c1_in_joint": -0.30359184530209804,
+     "c1_in_loo_joint": -0.1523634585617402,
+     "collinear_with_aggregate": -0.28663174222816473,
+     "decided": true,
+     "members_fitted": 2,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.3953460438140264,
+     "share_accounted_loo": 0.1414716580207238,
+     "shrinkage": -0.22757611517574883,
+     "shrinkage_loo": -0.0814364297900333
+    },
+    "sh510300": {
+     "b1_with_aggregate": 0.2100037611449549,
+     "b1_with_loo_aggregate": -0.11645059860865545,
+     "b1_without_aggregate": -0.32111731994674075,
+     "c1_in_joint": -0.6819539128571782,
+     "c1_in_loo_joint": -0.369789938098362,
+     "collinear_with_aggregate": -0.32516826112331293,
+     "decided": true,
+     "members_fitted": 2,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 1.6539783066817613,
+     "share_accounted_loo": 0.6373580888506123,
+     "shrinkage": -0.5311210810916956,
+     "shrinkage_loo": -0.2046667213380853
+    },
+    "sh510500": {
+     "b1_with_aggregate": -0.07458557133579993,
+     "b1_with_loo_aggregate": -0.09819742954022317,
+     "b1_without_aggregate": -0.14716819456129274,
+     "c1_in_joint": -0.49018354409658976,
+     "c1_in_loo_joint": -0.43646120008558453,
+     "collinear_with_aggregate": -0.07801418954918216,
+     "decided": true,
+     "members_fitted": 2,
+     "note": "share_accounted uses the aggregate the column sits INSIDE (E238 family: denominator contains the numerator); share_accounted_loo drops the column from the sum and is the readable one",
+     "share_accounted": 0.4931950374322458,
+     "share_accounted_loo": 0.3327537255386671,
+     "shrinkage": -0.0725826232254928,
+     "shrinkage_loo": -0.04897076502106956
+    }
+   },
+   "design_B_alone": {
+    "c1": -0.5539619742541875,
+    "decided": true,
+    "members_fitted": 3,
+    "per_member": {
+     "sh510050": -0.3766125056126225,
+     "sh510300": -0.7224959495397464,
+     "sh510500": -0.5627774676101935
+    },
+    "rows_used": 829
+   },
+   "diagnostics": {
+    "corr_dagg_lag1_dagg_now": 1.0,
+    "corr_dagg_lag1_mean_dx_now": -0.25528350696439006,
+    "corr_dagg_lag1_mean_dy_now": -0.23666214841055258,
+    "dagg_autocorr1": -0.3555391582061422,
+    "mean_dx_now_autocorr1": -0.3582033329036994,
+    "note": "dy = dlog|session move|; a positive c1 with a positive corr(dagg_lag1, mean_dx_now) is the turnover-clustering channel, not a lead"
+   },
+   "draws": 60,
+   "first": "2013-03-18",
+   "kind": "neighbour",
+   "label": "early_three",
+   "last": "2016-11-03",
+   "mean_share_accounted": 0.4850559071946397,
+   "mean_share_inclusive": 1.0735866720570035,
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500"
+   ],
+   "sessions": 831,
+   "star": "sh510050",
+   "star_share_accounted": 0.1414716580207238,
+   "star_source": "e245_star_rule",
+   "verdict": "aggregate_partially_absorbs",
+   "window_inclusive": [
+    "2013-03-15",
+    "2016-11-03"
+   ]
+  }
+ ],
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "absorb_share_strong": 0.5,
+  "aggregate": "d log(sum_s turnover_s) on the common grid",
+  "band_mode": "full_draw_range_200",
+  "base_seed": 20261102,
+  "column_draws": 200,
+  "designs": [
+   "A per-column lag-1",
+   "B aggregate lag-1",
+   "C both jointly"
+  ],
+  "era_draws": 60,
+  "min_sessions": 200,
+  "reuse": "estimator e248._ols, star rule e245/e246, grid e240",
+  "verdicts": [
+   "aggregate_carries_the_lead",
+   "aggregate_partially_absorbs",
+   "aggregate_does_not_absorb",
+   "aggregate_inside_band",
+   "unresolved_too_few_rows"
+  ]
+ },
+ "generated": "2026-10-30T11:41:25",
+ "identification_caveat": "E240 read this regressor in a CROSS-SECTIONAL design where date effects absorbed it; this is the TIME-SERIES version, date effects cannot be included because the regressor of interest is per-date. Do not quote the two against each other; see amplification per cell.",
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "no_bill": "channel naming only: no adoption, no re-pricing",
+ "rollup": {
+  "cells_by_verdict": {
+   "aggregate_carries_the_lead": 4,
+   "aggregate_inside_band": 1,
+   "aggregate_partially_absorbs": 1
+  },
+  "cells_counted": 6,
+  "stable_across_cells": false,
+  "verdict": "aggregate_carries_the_lead"
+ },
+ "study": "E250",
+ "summary": {
+  "cells_by_verdict": {
+   "aggregate_carries_the_lead": 4,
+   "aggregate_inside_band": 1,
+   "aggregate_partially_absorbs": 1
+  },
+  "cells_counted": 6,
+  "headline_aggregate_outside_band": true,
+  "headline_amplification": {
+   "factor": 2.191285835793539,
+   "k": 5,
+   "note": "time-series version: date effects cannot absorb the regressor, so a single-column reading is amplified by this factor under additive truth",
+   "rho": 0.4241392203503591
+  },
+  "headline_b1_with": {
+   "sh510050": 0.24150303910400084,
+   "sh510300": 0.25986939760622807,
+   "sh510500": -0.1014335661864606,
+   "sh512100": -0.03270232551088098,
+   "sh588000": -0.6825127160435969
+  },
+  "headline_b1_without": {
+   "sh510050": -0.22443922313733394,
+   "sh510300": -0.24257957385154716,
+   "sh510500": -0.258191760278075,
+   "sh512100": -0.27430227508802885,
+   "sh588000": -0.8053871644189505
+  },
+  "headline_band": {
+   "draws": 200,
+   "hi": 0.20063052335421458,
+   "lo": -0.2058911626463243,
+   "median": 0.00922516731178118,
+   "width": 0.40652168600053884
+  },
+  "headline_c1_alone": -0.5206856998281111,
+  "headline_c1_joint_star": -0.20609726300545647,
+  "headline_family": {
+   "draws": 200,
+   "max_abs": 0.2058911626463243,
+   "median_abs": 0.06177416248200922
+  },
+  "headline_mean_share_accounted": 0.9132839243926083,
+  "headline_share_by_column": {
+   "sh510050": 2.076028671495737,
+   "sh510300": 2.0712748541856287,
+   "sh510500": 0.6071386396017608,
+   "sh512100": 0.8807799698329656,
+   "sh588000": 0.15256568989897157
+  },
+  "headline_star": "sh588000",
+  "headline_star_share_accounted": 0.09975840216442822,
+  "headline_verdict": "aggregate_carries_the_lead",
+  "stable_across_cells": false,
+  "verdict": "aggregate_carries_the_lead"
+ },
+ "title": "is the shared negative lag-1 lead the book's own lagged aggregate turnover?",
+ "written": null
+}
