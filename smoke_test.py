@@ -5932,6 +5932,106 @@ def main() -> int:
     except Exception as e:
         check("product: each published window's draw multiplier is measured, not borrowed",
               False, repr(e)[:160])
+    # E273: a published threshold is a faithful substitute for the guard's triple -- but only the
+    # form the face actually fitted. What can fabricate a claim here: an "exact" substitution whose
+    # residual is not zero, a rule re-run that only agrees because nothing moved, and an ambiguity
+    # count that is typed instead of re-derived from the two published thresholds.
+    try:
+        _bad73 = []
+        _p73 = os.path.join("results", "state_tilt", "bandthreshguard_latest.json")
+        _f73 = None
+        if not os.path.exists(_p73):
+            _bad73.append("face missing: %s" % _p73)
+        else:
+            with io.open(_p73, encoding="utf-8") as _fh73:
+                _f73 = json.load(_fh73)
+        _s73 = (_f73 or {}).get("summary") or {}
+        # (a) the substitution is exact: zero residual and zero band columns consulted
+        if (_f73 or {}).get("rederivation", {}).get("max_abs_diff_t_max_end") != 0.0:
+            _bad73.append("t_max_end does not re-derive from the band exactly")
+        if (_f73 or {}).get("rederivation", {}).get("max_abs_diff_t_side") != 0.0:
+            _bad73.append("t_side does not re-derive from the band exactly")
+        if _s73.get("triple_columns_consulted_to_rerun") != 0:
+            _bad73.append("the re-run consulted %r band column(s) but claims thresholds alone"
+                          % (_s73.get("triple_columns_consulted_to_rerun"),))
+        # (b) every published rule reproduced, and reproduced on a population that MOVED
+        _rules73 = (_f73 or {}).get("rederivation", {}).get("rules_rerun_from_thresholds") or {}
+        if sorted(_rules73) != ["predicted_bracket", "predicted_guarded", "predicted_single"]:
+            _bad73.append("rule set %r is not the three published screens" % (sorted(_rules73),))
+        _pos73 = 0
+        for _name73, _v73 in _rules73.items():
+            if not _v73.get("of"):
+                _bad73.append("rule %s was compared on zero rows" % _name73)
+            elif _v73.get("agree") != _v73.get("of"):
+                _bad73.append("rule %s reproduced %r of %r" % (_name73, _v73.get("agree"),
+                                                               _v73.get("of")))
+            _pos73 += 1 if _v73.get("of") else 0
+        if _pos73 == 0 or not _s73.get("rules_reproduced_exactly"):
+            _bad73.append("rules_reproduced_exactly is %r over %d rule(s)"
+                          % (_s73.get("rules_reproduced_exactly"), _pos73))
+        # (c) the ambiguity count is re-derived from the two published thresholds on the source face
+        _src73 = os.path.join("results", "state_tilt", "BANDSCREEN-2026-10-29.json")
+        if not os.path.exists(_src73):
+            _bad73.append("source face missing: %s" % _src73)
+        else:
+            with io.open(_src73, encoding="utf-8") as _fh73s:
+                _rows73 = json.load(_fh73s).get("comparison_rows") or []
+            _own73 = _grd73 = _two73 = 0
+            for _r73 in _rows73:
+                if abs(_r73["t_side"] - _r73["t_max_end"]) > 1e-12:
+                    _two73 += 1
+                _a73 = _r73["own_p95"] < _r73["t_side"]
+                _b73 = _r73["own_p95"] < _r73["t_max_end"]
+                if _a73 != _b73:
+                    _own73 += 1
+                if (((_r73["donor_p95"] > _r73["t_side"]) and _a73) !=
+                        ((_r73["donor_p95"] > _r73["t_max_end"]) and _b73)):
+                    _grd73 += 1
+            for _k73, _want73 in (("rows_with_two_different_thresholds", _two73),
+                                  ("rows_own_verdict_ambiguous", _own73),
+                                  ("rows_guarded_screen_ambiguous", _grd73)):
+                if _s73.get(_k73) != _want73:
+                    _bad73.append("%s published %r, re-derived %r"
+                                  % (_k73, _s73.get(_k73), _want73))
+            if _own73 == 0:
+                _bad73.append("an ambiguity of zero is not a finding -- re-check the population")
+        # (d) every collection claimed newly runnable really carries a threshold and a p95
+        for _e73 in ((_f73 or {}).get("census") or {}).get("newly_runnable") or []:
+            if not _e73.get("thresholds") or not _e73.get("p95"):
+                _bad73.append("%s %s is claimed runnable without a threshold or a p95"
+                              % (_e73.get("face"), _e73.get("path")))
+            if _e73.get("guard_complete_in_e270"):
+                _bad73.append("%s %s was already guard-complete, so it is not newly runnable"
+                              % (_e73.get("face"), _e73.get("path")))
+        # (e) verdict in the frozen vocabulary, cut and no_bill carried
+        if (_f73 or {}).get("verdict") not in ("threshold_substitutes_for_the_triple",
+                                               "threshold_substitutes_for_the_triple_only_alongside_its_rule",
+                                               "threshold_is_not_a_substitute",
+                                               "published_threshold_is_not_the_published_bands_threshold"):
+            _bad73.append("verdict %r is outside the frozen vocabulary"
+                          % ((_f73 or {}).get("verdict"),))
+        if (_f73 or {}).get("evidence_cutoff") is None:
+            _bad73.append("no evidence_cutoff on the face")
+        if not (_f73 or {}).get("no_bill"):
+            _bad73.append("no_bill missing")
+        check("product: a published threshold re-runs the guard, and the face says which form",
+              not _bad73,
+              "%r | %d comparison(s) re-run from thresholds with %r band column(s), rules exact %r, "
+              "two thresholds on %d row(s) / own verdict ambiguous on %d / guarded on %d, "
+              "%d collection(s) newly runnable"
+              % ((_f73 or {}).get("verdict") if _f73 else None,
+                 _s73.get("comparisons") or 0,
+                 _s73.get("triple_columns_consulted_to_rerun"),
+                 _s73.get("rules_reproduced_exactly"),
+                 _s73.get("rows_with_two_different_thresholds") or 0,
+                 _s73.get("rows_own_verdict_ambiguous") or 0,
+                 _s73.get("rows_guarded_screen_ambiguous") or 0,
+                 _s73.get("collections_newly_runnable") or 0)
+              + (" | " + "; ".join(_bad73[:4]) if _bad73 else ""))
+    except Exception as e:
+        check("product: a published threshold re-runs the guard, and the face says which form",
+              False, repr(e)[:160])
+
     return _finish()
 
 

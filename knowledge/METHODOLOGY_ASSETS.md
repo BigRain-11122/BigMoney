@@ -5188,3 +5188,36 @@ results/state_tilt/BANDFIELDS-2026-10-29.json (verdict=guard_inputs_are_face_loc
 4 guard-complete collections / 72 record-readings, 26 verdict collections without inputs / 536
 records, 420 of 420 joined cells agree max |diff| 0.0), S6 leg `guard_field_audit`,
 digest research/digests/DIGEST-20261031-r1296-e270-guard-field-audit.md.
+
+## E273 -- a threshold replaces the triple exactly, but only with its rule attached
+
+E270 measured the family's reach: the guard consumes `b`, `band_lo`, `band_hi`, `own_p95`, only 4 of
+17 published collections carry all four, and 27 verdict-bearing collections (584 records) publish a
+judgement a reader cannot re-decide. But every rule here is `multiplier vs threshold` --
+`t_max_end = |b|/max(|lo|,|hi|)` is EXACT (`outside(m) <=> m < t`), `t_side = |b|/|own-side edge|`
+is the form S3 was fitted on -- so the band is redundant arithmetic *if the published threshold is
+that band's threshold*. Re-deriving on the 36 comparisons that publish both spellings: residual
+0.0 / 0.0, the literal band test agrees with `m < t_max_end` on 36/36, the side test with
+`m < t_side` on 36/36, and all three published screens (S1 single / S2 guarded / S3 bracket)
+re-run from threshold columns alone at 36/36 with **zero** band columns consulted. Reach: 9
+collections / 120 records that E270 called not-guard-runnable are threshold-runnable (BANDMARGIN
+`/comparison_margins`, BANDPOOLED `/comparisons` + its four `mislabelled` sub-collections,
+BANDSCREEN's three secondary collections). The substitute is exact, so the missing triple is a
+documentation gap, not a barrier -- but 18 of 36 rows publish two DIFFERENT thresholds and 6 of
+those read a different verdict on them (1 flips the guarded screen), so a threshold without the
+face's rule label is ambiguous on 16.7% of the population. Rule of use: publish `t_max_end` (the
+exact form) beside `own_p95`/`donor_p95`, and if you publish `t_side` instead, name which screen it
+belongs to.
+
+**Pit.** `census()` was right and my selftest expectation was wrong: the fixture published two
+threshold collections, not one. A leg that widens the code to match a hand-typed expectation is how
+a detector stops detecting -- the fix went into L17/L18. Sibling, guarded by construction: `verify`
+re-derives from the sources, never from its own summary (L20 pins that a doctored `rederivation`
+block is caught), because a verdict that lives only in a face's summary is not a gate (r1266).
+
+Evidence: scripts/e273_guard_from_threshold.py (selftest 20/20, verify 0 problems),
+results/state_tilt/BANDTHRESHGUARD-2026-10-29.json (verdict=
+threshold_substitutes_for_the_triple_only_alongside_its_rule; 36 comparisons, residual 0.0/0.0,
+rules 36/36 exact, 18 rows with two thresholds / 6 own-verdict ambiguous / 1 guarded ambiguous,
+9 newly threshold-runnable collections / 120 records), S6 leg `guard_from_threshold`,
+digest research/digests/DIGEST-20261031-r1297-e273-threshold-guard.md.

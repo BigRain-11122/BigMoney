@@ -24747,7 +24747,10 @@
    "runner_args": ["run"],
    "seeded_at": "2026-10-31T03:10:00+08:00",
    "seeded_by": "bm-b r1296",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/BANDTHRESHGUARD-2026-10-29.json",
+   "done_note": "r1297 bm-b: threshold re-derives from the band to 0.0/0.0, all three published screens re-run 36/36 from threshold columns alone with zero band columns consulted, but 18 of 36 rows carry two different published thresholds and 6 read a different verdict on them -> a threshold substitutes for the triple only alongside its rule label; 9 collections / 120 records newly runnable",
+   "done_at": "2026-10-31T03:10:35",
    "worker_class": "cpu",
    "source": "E270 measured that the guard's four inputs live on 4 of the 17 published band faces, but a missing triple is not necessarily a missing SCREEN: BANDMARGIN publishes t_side and t_max_end per comparison and BANDSCREEN publishes the same thresholds for the rows it flags, so the decision may be reachable from a threshold alone (donor_p95 > t) without b/band_lo/band_hi. The question is whether that substitute is exact or merely plausible: score the threshold rule against the published actual_moved on the same comparisons, publish a false-positive/missed-move split, and state which faces a reader can run the screen from WITHOUT the triple."
   },

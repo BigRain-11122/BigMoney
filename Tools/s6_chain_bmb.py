@@ -360,6 +360,15 @@ LEGS = [
     ("guard_field_audit",
      ["python", "scripts/e270_guard_field_audit.py", "verify"]),
 
+    # E273: the guard's missing triple is not a barrier -- outside(m) <=> m < t_max_end is exact,
+    # so a face publishing the threshold plus own_p95 (and donor_p95 for pair screens) is fully
+    # re-runnable (36/36 on all three published rules, residual 0.0/0.0, zero band columns
+    # consulted). What it cannot survive is dropping the RULE: 18 of 36 rows carry two different
+    # published thresholds and 6 read a different verdict on them. Verify mode re-derives from the
+    # sources, never from its own summary. <1s.
+    ("guard_from_threshold",
+     ["python", "scripts/e273_guard_from_threshold.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
