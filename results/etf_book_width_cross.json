@@ -1,0 +1,407 @@
+{
+ "study": "E276 width sign, read on a panel the atlas never touched",
+ "evidence_cutoff": "2026-10-29",
+ "script": "scripts/etf_book_width_cross.py",
+ "spec": {
+  "panel": "E198 declared 17-ETF cross + its 510300 benchmark (18 usable names)",
+  "basket": [
+   "510300",
+   "510050",
+   "510500",
+   "512100",
+   "588000",
+   "159915",
+   "159919",
+   "512880",
+   "518880",
+   "511010",
+   "159928",
+   "159920",
+   "512170",
+   "512480",
+   "515000",
+   "510310",
+   "513100",
+   "159949"
+  ],
+  "missing_declared": [
+   "510880",
+   "510180"
+  ],
+  "widths": [
+   3,
+   5,
+   8,
+   12
+  ],
+  "cadence": 20,
+  "costs": [
+   0.0,
+   0.0008
+  ],
+  "phases": [
+   0,
+   4,
+   8,
+   12,
+   16
+  ],
+  "start": "2020-01-01",
+  "null_seeds": 20,
+  "null_phases": [
+   0,
+   8
+  ],
+  "null_cost": 0.0008,
+  "rho_min": 0.7,
+  "phase_share_min": 0.6,
+  "phase_share_flip": 0.4,
+  "score": "composite of the six E-composite factors, ranks computed INSIDE this panel",
+  "execution": "decide at close t, fill at open t+1, hold to the next rebalance open",
+  "verdict_rule": "arm replicates if rho_cagr_width>=rho_min and paired share_up>=phase_share_min; flips if rho<=-rho_min or share<=phase_share_flip; full replicate needs every arm; any flip = family naming"
+ },
+ "coverage": {
+  "names_loaded": 18,
+  "missing_declared": [
+   "510180",
+   "510880"
+  ],
+  "eligible_names_min": 13,
+  "eligible_names_median": 18,
+  "eligible_names_max": 18,
+  "decision_days": 1652
+ },
+ "arms": [
+  {
+   "cost": 0.0,
+   "cost_bp": 0.0,
+   "rungs": 20,
+   "per_width": {
+    "3": {
+     "phases": 5,
+     "cagr_median": 0.1369,
+     "cagr_min": 0.1126,
+     "cagr_max": 0.1598,
+     "vol_median": 0.1379,
+     "sharpe_median": 1.128,
+     "maxdd_median": -0.2118,
+     "turnover_median": 0.888,
+     "bars_median": 1643
+    },
+    "5": {
+     "phases": 5,
+     "cagr_median": 0.0987,
+     "cagr_min": 0.08,
+     "cagr_max": 0.1372,
+     "vol_median": 0.1556,
+     "sharpe_median": 0.766,
+     "maxdd_median": -0.2892,
+     "turnover_median": 0.788,
+     "bars_median": 1643
+    },
+    "8": {
+     "phases": 5,
+     "cagr_median": 0.0938,
+     "cagr_min": 0.0825,
+     "cagr_max": 0.1128,
+     "vol_median": 0.1697,
+     "sharpe_median": 0.635,
+     "maxdd_median": -0.2965,
+     "turnover_median": 0.558,
+     "bars_median": 1643
+    },
+    "12": {
+     "phases": 5,
+     "cagr_median": 0.0667,
+     "cagr_min": 0.053,
+     "cagr_max": 0.0831,
+     "vol_median": 0.1851,
+     "sharpe_median": 0.459,
+     "maxdd_median": -0.3539,
+     "turnover_median": 0.333,
+     "bars_median": 1643
+    }
+   },
+   "cagr_by_width_pp": [
+    13.69,
+    9.87,
+    9.38,
+    6.67
+   ],
+   "rho_cagr_width": -1.0,
+   "rho_sharpe_width": -1.0,
+   "paired_cagr": {
+    "share_up": 0.0,
+    "n_paired": 5,
+    "deltas": [
+     -0.0712,
+     -0.0459,
+     -0.0797,
+     -0.0933,
+     -0.0538
+    ],
+    "median_delta": -0.0712
+   },
+   "paired_sharpe": {
+    "share_up": 0.0,
+    "n_paired": 5,
+    "deltas": [
+     -0.572,
+     -0.272,
+     -0.654,
+     -0.739,
+     -0.582
+    ],
+    "median_delta": -0.582
+   },
+   "paired_vol": {
+    "share_up": 1.0,
+    "n_paired": 5,
+    "deltas": [
+     0.0472,
+     0.0104,
+     0.0468,
+     0.045,
+     0.0566
+    ],
+    "median_delta": 0.0468
+   },
+   "turnover_by_width": {
+    "3": 0.888,
+    "5": 0.788,
+    "8": 0.558,
+    "12": 0.333
+   },
+   "state": "flips"
+  },
+  {
+   "cost": 0.0008,
+   "cost_bp": 8.0,
+   "rungs": 20,
+   "per_width": {
+    "3": {
+     "phases": 5,
+     "cagr_median": 0.1276,
+     "cagr_min": 0.1029,
+     "cagr_max": 0.1502,
+     "vol_median": 0.1378,
+     "sharpe_median": 1.06,
+     "maxdd_median": -0.2148,
+     "turnover_median": 0.888,
+     "bars_median": 1643
+    },
+    "5": {
+     "phases": 5,
+     "cagr_median": 0.0904,
+     "cagr_min": 0.0715,
+     "cagr_max": 0.1288,
+     "vol_median": 0.1554,
+     "sharpe_median": 0.71,
+     "maxdd_median": -0.2912,
+     "turnover_median": 0.788,
+     "bars_median": 1643
+    },
+    "8": {
+     "phases": 5,
+     "cagr_median": 0.0877,
+     "cagr_min": 0.0769,
+     "cagr_max": 0.1069,
+     "vol_median": 0.1696,
+     "sharpe_median": 0.6,
+     "maxdd_median": -0.3061,
+     "turnover_median": 0.558,
+     "bars_median": 1643
+    },
+    "12": {
+     "phases": 5,
+     "cagr_median": 0.0634,
+     "cagr_min": 0.0494,
+     "cagr_max": 0.0798,
+     "vol_median": 0.185,
+     "sharpe_median": 0.441,
+     "maxdd_median": -0.3598,
+     "turnover_median": 0.333,
+     "bars_median": 1643
+    }
+   },
+   "cagr_by_width_pp": [
+    12.76,
+    9.04,
+    8.77,
+    6.34
+   ],
+   "rho_cagr_width": -1.0,
+   "rho_sharpe_width": -1.0,
+   "paired_cagr": {
+    "share_up": 0.0,
+    "n_paired": 5,
+    "deltas": [
+     -0.0652,
+     -0.0395,
+     -0.0722,
+     -0.087,
+     -0.0478
+    ],
+    "median_delta": -0.0652
+   },
+   "paired_sharpe": {
+    "share_up": 0.0,
+    "n_paired": 5,
+    "deltas": [
+     -0.527,
+     -0.238,
+     -0.6,
+     -0.693,
+     -0.532
+    ],
+    "median_delta": -0.532
+   },
+   "paired_vol": {
+    "share_up": 1.0,
+    "n_paired": 5,
+    "deltas": [
+     0.0472,
+     0.0105,
+     0.0469,
+     0.0449,
+     0.0566
+    ],
+    "median_delta": 0.0469
+   },
+   "turnover_by_width": {
+    "3": 0.888,
+    "5": 0.788,
+    "8": 0.558,
+    "12": 0.333
+   },
+   "state": "flips"
+  }
+ ],
+ "null": {
+  "seeds": 20,
+  "phases": [
+   0,
+   8
+  ],
+  "cost": 0.0008,
+  "trials": 160,
+  "rungs_read": 160,
+  "by_width": {
+   "3": {
+    "phases": 40,
+    "cagr_median": 0.0125,
+    "cagr_min": -0.0466,
+    "cagr_max": 0.0764,
+    "vol_median": 0.2278,
+    "sharpe_median": 0.169,
+    "maxdd_median": -0.4541,
+    "turnover_median": 1.651,
+    "bars_median": 1647
+   },
+   "5": {
+    "phases": 40,
+    "cagr_median": 0.0176,
+    "cagr_min": -0.0466,
+    "cagr_max": 0.0723,
+    "vol_median": 0.2165,
+    "sharpe_median": 0.193,
+    "maxdd_median": -0.4439,
+    "turnover_median": 1.424,
+    "bars_median": 1647
+   },
+   "8": {
+    "phases": 40,
+    "cagr_median": 0.0285,
+    "cagr_min": -0.0094,
+    "cagr_max": 0.0706,
+    "vol_median": 0.2086,
+    "sharpe_median": 0.245,
+    "maxdd_median": -0.4242,
+    "turnover_median": 1.075,
+    "bars_median": 1647
+   },
+   "12": {
+    "phases": 40,
+    "cagr_median": 0.0304,
+    "cagr_min": 0.0059,
+    "cagr_max": 0.0608,
+    "vol_median": 0.2048,
+    "sharpe_median": 0.255,
+    "maxdd_median": -0.4194,
+    "turnover_median": 0.623,
+    "bars_median": 1647
+   }
+  },
+  "cagr_by_width_pp": [
+   1.25,
+   1.76,
+   2.85,
+   3.04
+  ],
+  "rho_cagr_width": 1.0
+ },
+ "attribution": {
+  "status": "read",
+  "real_cagr_pp": [
+   12.76,
+   9.04,
+   8.77,
+   6.34
+  ],
+  "null_cagr_pp": [
+   1.25,
+   1.76,
+   2.85,
+   3.04
+  ],
+  "deltas_pp": [
+   11.51,
+   7.28,
+   5.92,
+   3.3
+  ],
+  "rho_real_width": -1.0,
+  "rho_null_width": 1.0,
+  "rho_delta_width": -1.0,
+  "null_shares_the_width_sign": false,
+  "reading": "the width sign is not reproduced by noise, so it belongs to the score"
+ },
+ "null_vs_family": {
+  "status": "read",
+  "family_rho": 1.0,
+  "null_rho_on_this_panel": 1.0,
+  "aligned": true,
+  "reading": "the family's width direction is the direction noise produces -- it cannot be credited to the family signal until the null runs on the family panel"
+ },
+ "verdict": "WIDTH_SIGN_IS_FAMILY_NAMING",
+ "family_reference": {
+  "face": "results/etf_book_atlas_toll_ladder.json",
+  "width_effect_median_pp": [
+   0.685,
+   0.73,
+   0.77,
+   1.14,
+   1.56
+  ],
+  "width_effect_rank_corr_with_toll": 1.0,
+  "width_pair": [
+   3,
+   12
+  ],
+  "panel": "full ETF pool (1653 names), 12 cells, 10 phases each"
+ },
+ "trials": {
+  "real_rungs": 40,
+  "null_runs": 160,
+  "note": "N counts engine runs, not independent draws: the phase shifts reuse the same bars, so N is a workload record and not a multiple-testing denominator"
+ },
+ "honest": [
+  "The score is re-ranked inside 18 names, so this is a different instrument, not the same book on new data: a null here says the sign does not travel, not that the family reading was wrong.",
+  "CAGR is confounded with volatility -- fewer names means a more volatile book. Vol and Sharpe are published per rung for that reason; the paired Sharpe/vol shares are printed beside the CAGR share and can disagree with it.",
+  "80 monthly bars per name is thin for a CAGR claim; the phase draws are the same data shifted, not new data, so the phase range is a stability read and not a p-value.",
+  "510880 and 510180 have no local file and were declared missing, not replaced.",
+  "Zero-cost arm is a diagnostic rung (the arm the family sign was read at), not a tradeable configuration.",
+  "The null runs on THIS panel only. It can show that the family's direction is the direction noise produces, but only a null on the family panel can price the family's own width effect (that is the next round, not a claim made here)."
+ ],
+ "statement": "Family reading (quoted): wider books earned [0.685, 0.73, 0.77, 1.14, 1.56]pp more per rung at rank corr 1.0 inside a 1653-name pool. On the 18-name cross: the sign does not travel -- it flips on this panel (cagr rank corr -1.0 at 0.0bp, -1.0 at 8.0bp), so the width direction is that family's naming, not a portable mechanism. Random-score control (N=160 runs): real-minus-null [11.51, 7.28, 5.92, 3.3]pp across widths (rank corr -1.0), so the width sign belongs to the score, not to noise. The quoted family direction (1.0) is the same direction the noise arm takes on this panel (1.0), so the family width sign is not yet evidence about the signal: it needs its own null."
+}
