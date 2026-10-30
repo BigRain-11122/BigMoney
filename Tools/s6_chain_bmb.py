@@ -185,6 +185,10 @@ LEGS = [
     # session count a verdict would need, and names which cells can never reach it -- derived
     # from the published face only, no re-estimation, no network.
     ("era_power", ["python", "scripts/e247_era_cell_power.py", "run"]),
+    # E248: E246 published the star lead as a lag0/lag1/lag2 sign flip, each coefficient against
+    # its own HAC interval. This leg spends the same design's null instead -- 200 shuffled-star
+    # draws, family-wise over lags 1..5 -- and needs ~8s because the fits run in numpy.
+    ("star_lag_band", ["python", "scripts/e248_star_lag_band.py", "run"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by

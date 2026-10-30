@@ -3742,6 +3742,73 @@ def main() -> int:
     except Exception as e:
         check("product: star direction is decided from lag designs, not asserted",
               False, repr(e)[:160])
+    # E248: E246 read the star lead off its HAC intervals at two lags. This leg re-derives every
+    # published shape from the face's own lag column against its own shuffled band, so a cell
+    # that names an oscillation its band does not carry cannot pass on the runner's word.
+    try:
+        _bad48 = []
+        _p48 = os.path.join("results", "state_tilt", "starlagband_latest.json")
+        _f48 = None
+        if os.path.exists(_p48):
+            with io.open(_p48, encoding="utf-8") as _fh48:
+                _f48 = json.load(_fh48)
+        if not _f48:
+            _bad48.append("star-lag-band face missing")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            import e248_star_lag_band as _m48
+            _cells48 = [c for c in (_f48.get("cells") or []) if c.get("decided")]
+            _spec48 = _f48.get("frozen_spec") or {}
+            _vocab48 = set(_spec48.get("verdicts") or [])
+            if not _cells48:
+                _bad48.append("no decided cell")
+            for _c48 in _cells48:
+                _col = [_c48.get("lag_column", {}).get("lag%d" % _k) for _k in range(6)]
+                _v, _cross = _m48.derive_verdict(_col, _c48.get("band") or [],
+                                                 _c48.get("band_family"))
+                if _v != _c48.get("verdict"):
+                    _bad48.append("cell %s: numbers say %s, face says %s"
+                                  % (_c48.get("label"), _v, _c48.get("verdict")))
+                if _v not in _vocab48:
+                    _bad48.append("cell %s verdict outside the frozen vocabulary"
+                                  % _c48.get("label"))
+                _fam = (_c48.get("band_family") or {}).get("max_abs")
+                if _c48.get("band_draws_used") != _spec48.get("perm_draws"):
+                    _bad48.append("cell %s used %s draws, spec says %s"
+                                  % (_c48.get("label"), _c48.get("band_draws_used"),
+                                     _spec48.get("perm_draws")))
+                for _k in (_cross or []):
+                    if _fam is None or abs(_col[_k]) <= _fam:
+                        _bad48.append("cell %s declares lag %d crossing a band it does not clear"
+                                      % (_c48.get("label"), _k))
+                if _v == "period2_oscillation" and _col[1] * _col[2] >= 0.0:
+                    _bad48.append("cell %s calls an oscillation with lags of equal sign"
+                                  % _c48.get("label"))
+                _ts = _c48.get("two_session_sum") or {}
+                if not (_ts.get("overlapping") or {}).get("lag_column"):
+                    _bad48.append("cell %s publishes no two-session-sum row"
+                                  % _c48.get("label"))
+                if _c48.get("oscillation_survives_two_session_sum") is True \
+                        and len(((_ts.get("disjoint") or {}).get("lag_column") or {})) < 6:
+                    _bad48.append("cell %s claims survival without a disjoint row"
+                                  % _c48.get("label"))
+            _roll48 = (_f48.get("rollup") or {}).get("verdict")
+            _by48 = (_f48.get("rollup") or {}).get("cells_by_verdict") or {}
+            if _roll48 in ("verdict_mixed_across_cells", "verdict_era_dependent") \
+                    and len(_by48) < 2:
+                _bad48.append("a mixed verdict with fewer than two verdict classes")
+            if _roll48 not in _vocab48 | {"verdict_era_dependent", "verdict_mixed_across_cells"}:
+                _bad48.append("rollup verdict outside the frozen vocabulary")
+            if not _f48.get("no_bill"):
+                _bad48.append("the face does not carry its no-bill line")
+        check("product: the star lag band is re-derived from its own shuffled null",
+              not _bad48, "; ".join(_bad48)[:220]
+              or "verdict %s; cells %d; headline %s"
+                 % ((_f48 or {}).get("rollup", {}).get("verdict"), len(_cells48),
+                    ((_f48 or {}).get("summary") or {}).get("headline_verdict")))
+    except Exception as e:
+        check("product: the star lag band is re-derived from its own shuffled null",
+              False, repr(e)[:160])
     return _finish()
 
 

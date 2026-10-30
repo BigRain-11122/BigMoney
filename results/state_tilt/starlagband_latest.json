@@ -1,0 +1,1331 @@
+{
+ "study": "E248",
+ "title": "oscillation or coefficient band: the star lead against a shuffled null",
+ "generated": "2026-10-30T10:25:53",
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "lags": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "perm_draws": 200,
+  "band_pct": [
+   0.0,
+   100.0
+  ],
+  "band_mode": "full_draw_range_200",
+  "family_wise_line": "a lag must exceed the largest |coefficient| any shuffled draw produced anywhere in lags 1..5",
+  "osc_ratio_min": 0.5,
+  "osc_fall_max": 0.5,
+  "decay_min_lags": 4,
+  "decay_shrink_max": 0.95,
+  "min_sessions": 200,
+  "nw_lag": 20,
+  "perm_seed": 20261030,
+  "verdicts": [
+   "period2_oscillation",
+   "monotone_decay",
+   "inside_permutation_band",
+   "band_without_shape",
+   "unresolved_too_few_rows"
+  ]
+ },
+ "members": [
+  "sh510300",
+  "sh510050",
+  "sh510500",
+  "sh512100",
+  "sh588000"
+ ],
+ "cells": [
+  {
+   "label": "all_five",
+   "kind": "headline",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "window_inclusive": [
+    null,
+    null
+   ],
+   "note": null,
+   "sessions": 1328,
+   "first": "2020-11-17",
+   "last": "2026-10-29",
+   "decided": true,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "lag_column": {
+    "lag0": 0.6529721963723715,
+    "lag1": -0.5858168050727722,
+    "lag2": 0.09148860973538506,
+    "lag3": -0.20366317469491407,
+    "lag4": 0.07733372768988005,
+    "lag5": 0.027180042822540967
+   },
+   "band": [
+    {
+     "lo": -0.21688635389670383,
+     "hi": 0.29368486878249245,
+     "median": 0.0057760844247959214,
+     "draws": 200,
+     "width": 0.5105712226791963
+    },
+    {
+     "lo": -0.233596327312182,
+     "hi": 0.29514273785726086,
+     "median": -0.0059244703184693015,
+     "draws": 200,
+     "width": 0.5287390651694428
+    },
+    {
+     "lo": -0.2594606154269997,
+     "hi": 0.23074248102052436,
+     "median": 0.008396480574372454,
+     "draws": 200,
+     "width": 0.4902030964475241
+    },
+    {
+     "lo": -0.21760003065082714,
+     "hi": 0.22099829118519296,
+     "median": -0.0016799516379717482,
+     "draws": 200,
+     "width": 0.4385983218360201
+    },
+    {
+     "lo": -0.35063054282369155,
+     "hi": 0.20906340793630407,
+     "median": -0.0010037094388934166,
+     "draws": 200,
+     "width": 0.5596939507599956
+    },
+    {
+     "lo": -0.2901398805862655,
+     "hi": 0.2335097090327882,
+     "median": 0.0015651423205875845,
+     "draws": 200,
+     "width": 0.5236495896190537
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.35063054282369155,
+    "median_max_abs": 0.12304062705279373,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": true,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "band_without_shape",
+   "crossing_lags": [
+    1
+   ],
+   "descriptive_pattern": "single_lag_lead_no_rebound",
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 0.8782235599884931,
+      "lag1": 0.5150586239990805,
+      "lag2": -0.44772327993837646,
+      "lag3": -0.15700542717945737,
+      "lag4": -0.16447421319529504,
+      "lag5": 0.0857315406246422
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 0.8390557375150337,
+      "lag1": 0.45764274958608614,
+      "lag2": -0.5366417016135316,
+      "lag3": -0.30897140223804626,
+      "lag4": -0.15926728610354057,
+      "lag5": 0.0450916576503119
+     },
+     "band": [
+      {
+       "lo": -0.3853049911106829,
+       "hi": 0.4420152262632639,
+       "median": -0.0052937350954820606,
+       "draws": 200,
+       "width": 0.8273202173739468
+      },
+      {
+       "lo": -0.4156545993967127,
+       "hi": 0.4563179431507871,
+       "median": -0.029040588117109134,
+       "draws": 200,
+       "width": 0.8719725425474998
+      },
+      {
+       "lo": -0.3366181357909353,
+       "hi": 0.3237409747683569,
+       "median": 0.016943887277545807,
+       "draws": 200,
+       "width": 0.6603591105592922
+      },
+      {
+       "lo": -0.3114475623015742,
+       "hi": 0.5290184518356363,
+       "median": 0.001171731781365433,
+       "draws": 200,
+       "width": 0.8404660141372106
+      },
+      {
+       "lo": -0.373966833923204,
+       "hi": 0.28760584623598623,
+       "median": -0.0072639068346812274,
+       "draws": 200,
+       "width": 0.6615726801591902
+      },
+      {
+       "lo": -0.3816846051770837,
+       "hi": 0.3915174156391088,
+       "median": 0.004506559946983058,
+       "draws": 200,
+       "width": 0.7732020208161925
+      }
+     ],
+     "verdict": "band_without_shape",
+     "crossing_lags": [
+      2
+     ]
+    }
+   },
+   "oscillation_survives_two_session_sum": false,
+   "own_lag_persistence": {
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.33791144727074285,
+     "t_nw": -12.85822655665538,
+     "rows_used": 1327
+    },
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.4369496976762641,
+     "t_nw": -16.718251370725486,
+     "rows_used": 1327
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.3454185182870682,
+     "t_nw": -13.852571086151993,
+     "rows_used": 1327
+    },
+    "sh512100": {
+     "decided": true,
+     "ar1": -0.3501861513784398,
+     "t_nw": -11.86325715567044,
+     "rows_used": 1327
+    },
+    "sh588000": {
+     "decided": true,
+     "ar1": -0.33394242011910047,
+     "t_nw": -12.553209720739707,
+     "rows_used": 1327
+    }
+   },
+   "resolution_median_halfwidth": 0.2640519749202549
+  },
+  {
+   "label": "pre2020_four",
+   "kind": "window",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500",
+    "sh512100"
+   ],
+   "window_inclusive": [
+    null,
+    "2020-11-15"
+   ],
+   "note": null,
+   "sessions": 891,
+   "first": "2016-11-07",
+   "last": "2020-11-13",
+   "decided": true,
+   "star": "sh510300",
+   "star_source": "max_mean_abs_slope_disclosure_only",
+   "lag_column": {
+    "lag0": 0.5028694536751969,
+    "lag1": -0.31547396882215234,
+    "lag2": -0.16816814103885222,
+    "lag3": 0.0008255474167260893,
+    "lag4": 0.07112087032603856,
+    "lag5": -0.0538087643465961
+   },
+   "band": [
+    {
+     "lo": -0.250761523541666,
+     "hi": 0.18648437775402482,
+     "median": 0.009708464693698855,
+     "draws": 200,
+     "width": 0.4372459012956908
+    },
+    {
+     "lo": -0.25984265643404114,
+     "hi": 0.17101420384809804,
+     "median": -0.002946423947789869,
+     "draws": 200,
+     "width": 0.4308568602821392
+    },
+    {
+     "lo": -0.2852652352211417,
+     "hi": 0.21904210315345987,
+     "median": -0.0017451429578756266,
+     "draws": 200,
+     "width": 0.5043073383746016
+    },
+    {
+     "lo": -0.21168126467317283,
+     "hi": 0.2515494807985527,
+     "median": 0.00648597514392286,
+     "draws": 200,
+     "width": 0.46323074547172555
+    },
+    {
+     "lo": -0.2751291580793452,
+     "hi": 0.21514246189510602,
+     "median": -0.0044631298113288614,
+     "draws": 200,
+     "width": 0.49027161997445123
+    },
+    {
+     "lo": -0.20961434607338905,
+     "hi": 0.22362870631855195,
+     "median": 0.0018607346759941686,
+     "draws": 200,
+     "width": 0.433243052391941
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.2852652352211417,
+    "median_max_abs": 0.11371218289877094,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": true,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "band_without_shape",
+   "crossing_lags": [
+    1
+   ],
+   "descriptive_pattern": "single_lag_lead_no_rebound",
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 0.5595006530520809,
+      "lag1": 0.5817839269534942,
+      "lag2": -0.4586618228479442,
+      "lag3": -0.17286473408259892,
+      "lag4": 0.09100126975712343,
+      "lag5": 0.02473566685850818
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 0.6988745090991909,
+      "lag1": 0.7034864220448669,
+      "lag2": -0.49563238261210035,
+      "lag3": -0.21440176186382953,
+      "lag4": -0.007868678058913151,
+      "lag5": -0.04622437826594636
+     },
+     "band": [
+      {
+       "lo": -0.2577586320168856,
+       "hi": 0.30407501528332387,
+       "median": 0.002159344352491067,
+       "draws": 200,
+       "width": 0.5618336473002095
+      },
+      {
+       "lo": -0.29499486937957525,
+       "hi": 0.3504906067090198,
+       "median": 0.003688101359335542,
+       "draws": 200,
+       "width": 0.6454854760885951
+      },
+      {
+       "lo": -0.34401440971037983,
+       "hi": 0.30653174033796143,
+       "median": 0.006025545034001013,
+       "draws": 200,
+       "width": 0.6505461500483413
+      },
+      {
+       "lo": -0.3357025481854354,
+       "hi": 0.2509672399056176,
+       "median": -0.005067221886791748,
+       "draws": 200,
+       "width": 0.586669788091053
+      },
+      {
+       "lo": -0.3250581335875505,
+       "hi": 0.27235769103404733,
+       "median": -0.007860643841817477,
+       "draws": 200,
+       "width": 0.5974158246215978
+      },
+      {
+       "lo": -0.29850253122349063,
+       "hi": 0.33815645190927235,
+       "median": 0.010182241286287386,
+       "draws": 200,
+       "width": 0.6366589831327629
+      }
+     ],
+     "verdict": "period2_oscillation",
+     "crossing_lags": [
+      1,
+      2
+     ]
+    }
+   },
+   "oscillation_survives_two_session_sum": true,
+   "own_lag_persistence": {
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.40574530463828173,
+     "t_nw": -13.57118056931809,
+     "rows_used": 890
+    },
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.4439596527747178,
+     "t_nw": -15.704430454008918,
+     "rows_used": 890
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.39824294224594364,
+     "t_nw": -13.195407944034907,
+     "rows_used": 890
+    },
+    "sh512100": {
+     "decided": true,
+     "ar1": -0.39649276344081047,
+     "t_nw": -10.275025107819793,
+     "rows_used": 890
+    }
+   },
+   "resolution_median_halfwidth": 0.2690984420924872
+  },
+  {
+   "label": "era_2020_2022",
+   "kind": "era",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "window_inclusive": [
+    "2020-11-16",
+    "2022-12-31"
+   ],
+   "note": null,
+   "sessions": 474,
+   "first": "2020-11-17",
+   "last": "2022-12-30",
+   "decided": true,
+   "star": "sh588000",
+   "star_source": "max_mean_abs_slope_disclosure_only",
+   "lag_column": {
+    "lag0": 0.5317435662440175,
+    "lag1": -0.4223284122913451,
+    "lag2": 0.08800652133497251,
+    "lag3": -0.29869937620670806,
+    "lag4": 0.029160999596251822,
+    "lag5": 0.019539437831249326
+   },
+   "band": [
+    {
+     "lo": -0.37030667945153867,
+     "hi": 0.3620530019048546,
+     "median": -0.005838402302795864,
+     "draws": 200,
+     "width": 0.7323596813563933
+    },
+    {
+     "lo": -0.31296643941456004,
+     "hi": 0.3516015785795515,
+     "median": -0.0013117431992608307,
+     "draws": 200,
+     "width": 0.6645680179941116
+    },
+    {
+     "lo": -0.45324051033114005,
+     "hi": 0.37729864438087296,
+     "median": 0.002115103795421923,
+     "draws": 200,
+     "width": 0.830539154712013
+    },
+    {
+     "lo": -0.2924845729971679,
+     "hi": 0.348023632801311,
+     "median": -0.012435466698242286,
+     "draws": 200,
+     "width": 0.6405082057984789
+    },
+    {
+     "lo": -0.3120358851189571,
+     "hi": 0.37575844145144915,
+     "median": -0.0016588921807415419,
+     "draws": 200,
+     "width": 0.6877943265704063
+    },
+    {
+     "lo": -0.3175896312538522,
+     "hi": 0.41822650120601246,
+     "median": 0.00041003530826633737,
+     "draws": 200,
+     "width": 0.7358161324598647
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.45324051033114005,
+    "median_max_abs": 0.19070423639157286,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "inside_permutation_band",
+   "crossing_lags": [],
+   "descriptive_pattern": null,
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 0.6590569024211206,
+      "lag1": 0.38417675955912434,
+      "lag2": -0.367060757357645,
+      "lag3": -0.29049856603607505,
+      "lag4": -0.3228641643017164,
+      "lag5": 0.0558252049969236
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 0.4569077558805792,
+      "lag1": 0.33377439409483556,
+      "lag2": -0.40210468223498735,
+      "lag3": -0.4544464127471487,
+      "lag4": -0.32827895587159206,
+      "lag5": -0.09784554445520631
+     },
+     "band": [
+      {
+       "lo": -0.536347083393431,
+       "hi": 0.5530767983318206,
+       "median": -0.023626429019883557,
+       "draws": 200,
+       "width": 1.0894238817252515
+      },
+      {
+       "lo": -0.49832044416940874,
+       "hi": 0.499262054097153,
+       "median": 0.00038209394715377903,
+       "draws": 200,
+       "width": 0.9975824982665618
+      },
+      {
+       "lo": -0.598457705237759,
+       "hi": 0.5291424600610023,
+       "median": 0.002104522339800609,
+       "draws": 200,
+       "width": 1.1276001652987613
+      },
+      {
+       "lo": -0.671232406223374,
+       "hi": 0.5493239536327037,
+       "median": 0.03324714644947212,
+       "draws": 200,
+       "width": 1.2205563598560776
+      },
+      {
+       "lo": -0.5515557976085075,
+       "hi": 0.6998120236255326,
+       "median": 0.0143526017061828,
+       "draws": 200,
+       "width": 1.25136782123404
+      },
+      {
+       "lo": -0.5417104201713032,
+       "hi": 0.4459938256258973,
+       "median": -0.011391808295550143,
+       "draws": 200,
+       "width": 0.9877042457972005
+      }
+     ],
+     "verdict": "inside_permutation_band",
+     "crossing_lags": []
+    }
+   },
+   "oscillation_survives_two_session_sum": false,
+   "own_lag_persistence": {
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.38727069033959366,
+     "t_nw": -9.540870980720628,
+     "rows_used": 473
+    },
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.4067791573748499,
+     "t_nw": -9.030612067801826,
+     "rows_used": 473
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.4069276788527459,
+     "t_nw": -11.302509709540221,
+     "rows_used": 473
+    },
+    "sh512100": {
+     "decided": true,
+     "ar1": -0.3334854381453698,
+     "t_nw": -6.365341511157277,
+     "rows_used": 473
+    },
+    "sh588000": {
+     "decided": true,
+     "ar1": -0.3286026932524211,
+     "t_nw": -8.144826821186061,
+     "rows_used": 473
+    }
+   },
+   "resolution_median_halfwidth": 0.43357870162372236
+  },
+  {
+   "label": "era_2023_2024",
+   "kind": "era",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "window_inclusive": [
+    "2023-01-01",
+    "2024-12-31"
+   ],
+   "note": null,
+   "sessions": 446,
+   "first": "2023-01-03",
+   "last": "2024-12-31",
+   "decided": true,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "lag_column": {
+    "lag0": 0.762850433402591,
+    "lag1": -0.6823829947974688,
+    "lag2": 0.022309249503972575,
+    "lag3": -0.1555595245453995,
+    "lag4": 0.044856233817648895,
+    "lag5": 0.12404318949710524
+   },
+   "band": [
+    {
+     "lo": -0.4972615846395497,
+     "hi": 0.4690407836903333,
+     "median": -0.013785901243509507,
+     "draws": 200,
+     "width": 0.966302368329883
+    },
+    {
+     "lo": -0.479412287070862,
+     "hi": 0.42693180553483123,
+     "median": -0.01191840942821993,
+     "draws": 200,
+     "width": 0.9063440926056932
+    },
+    {
+     "lo": -0.4562033614356499,
+     "hi": 0.5543839054318211,
+     "median": 0.012901255652895766,
+     "draws": 200,
+     "width": 1.010587266867471
+    },
+    {
+     "lo": -0.6625520114736807,
+     "hi": 0.4743726335425878,
+     "median": 0.016156425816447557,
+     "draws": 200,
+     "width": 1.1369246450162684
+    },
+    {
+     "lo": -0.446911612737049,
+     "hi": 0.552921522567384,
+     "median": 0.003924694528143469,
+     "draws": 200,
+     "width": 0.999833135304433
+    },
+    {
+     "lo": -0.39261396720561,
+     "hi": 0.37296568848175965,
+     "median": 0.017141260946423348,
+     "draws": 200,
+     "width": 0.7655796556873696
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.6625520114736807,
+    "median_max_abs": 0.2438093323461205,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": true,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "band_without_shape",
+   "crossing_lags": [
+    1
+   ],
+   "descriptive_pattern": "single_lag_lead_no_rebound",
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 1.181726437538409,
+      "lag1": 0.6491474851733212,
+      "lag2": -0.5830582727806249,
+      "lag3": -0.13436441480035188,
+      "lag4": -0.1063573699796637,
+      "lag5": 0.11835656493910339
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 0.9540711880453354,
+      "lag1": 0.381403515454312,
+      "lag2": -0.7785463385748551,
+      "lag3": -0.25979550940201723,
+      "lag4": -0.07328391374649305,
+      "lag5": 0.28002464746345734
+     },
+     "band": [
+      {
+       "lo": -0.5916723983295533,
+       "hi": 0.7719646040728432,
+       "median": 0.012288953364400276,
+       "draws": 200,
+       "width": 1.3636370024023965
+      },
+      {
+       "lo": -0.7561362308574833,
+       "hi": 0.9172755444545144,
+       "median": 0.02882514817352437,
+       "draws": 200,
+       "width": 1.6734117753119977
+      },
+      {
+       "lo": -0.7980559858930397,
+       "hi": 0.6868335566158184,
+       "median": -0.02218705645808658,
+       "draws": 200,
+       "width": 1.4848895425088582
+      },
+      {
+       "lo": -0.6930283288943175,
+       "hi": 0.8590622676025212,
+       "median": -0.05460667128309901,
+       "draws": 200,
+       "width": 1.5520905964968388
+      },
+      {
+       "lo": -0.5583134269403353,
+       "hi": 0.6618338743265759,
+       "median": 0.02914090114739199,
+       "draws": 200,
+       "width": 1.2201473012669113
+      },
+      {
+       "lo": -0.7050404265577963,
+       "hi": 0.9027666734527161,
+       "median": 0.05944801871268403,
+       "draws": 200,
+       "width": 1.6078071000105125
+      }
+     ],
+     "verdict": "inside_permutation_band",
+     "crossing_lags": []
+    }
+   },
+   "oscillation_survives_two_session_sum": false,
+   "own_lag_persistence": {
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.3615211420185837,
+     "t_nw": -8.522925242593503,
+     "rows_used": 445
+    },
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.4557939894206896,
+     "t_nw": -11.805852463529707,
+     "rows_used": 445
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.3460244480896524,
+     "t_nw": -8.223671932538561,
+     "rows_used": 445
+    },
+    "sh512100": {
+     "decided": true,
+     "ar1": -0.39164795435288496,
+     "t_nw": -8.266407316117718,
+     "rows_used": 445
+    },
+    "sh588000": {
+     "decided": true,
+     "ar1": -0.29856416928293755,
+     "t_nw": -5.699805763095557,
+     "rows_used": 445
+    }
+   },
+   "resolution_median_halfwidth": 0.42373573579830737
+  },
+  {
+   "label": "era_2025_now",
+   "kind": "era",
+   "members": [
+    "sh510300",
+    "sh510050",
+    "sh510500",
+    "sh512100",
+    "sh588000"
+   ],
+   "window_inclusive": [
+    "2025-01-01",
+    null
+   ],
+   "note": null,
+   "sessions": 408,
+   "first": "2025-01-02",
+   "last": "2026-10-29",
+   "decided": true,
+   "star": "sh588000",
+   "star_source": "e245_star_rule",
+   "lag_column": {
+    "lag0": 0.6767024991537223,
+    "lag1": -0.6946999674579174,
+    "lag2": 0.2196641958697675,
+    "lag3": -0.09577185645266037,
+    "lag4": 0.18574583025374675,
+    "lag5": -0.023962900312281085
+   },
+   "band": [
+    {
+     "lo": -0.4836458069704704,
+     "hi": 0.46854807359586,
+     "median": 0.008676676522002574,
+     "draws": 200,
+     "width": 0.9521938805663304
+    },
+    {
+     "lo": -0.5532327262855483,
+     "hi": 0.5641673465584025,
+     "median": -0.004463118175366234,
+     "draws": 200,
+     "width": 1.1174000728439508
+    },
+    {
+     "lo": -0.4004779200858303,
+     "hi": 0.4747754515870612,
+     "median": -0.013930860314132446,
+     "draws": 200,
+     "width": 0.8752533716728914
+    },
+    {
+     "lo": -0.35248616321585013,
+     "hi": 0.4265776567082053,
+     "median": 0.01615679603896516,
+     "draws": 200,
+     "width": 0.7790638199240554
+    },
+    {
+     "lo": -0.48666735162912644,
+     "hi": 0.4526542399370122,
+     "median": -0.005923352550193377,
+     "draws": 200,
+     "width": 0.9393215915661386
+    },
+    {
+     "lo": -0.5998107887323801,
+     "hi": 0.4462047205096532,
+     "median": 0.02037778189972845,
+     "draws": 200,
+     "width": 1.0460155092420333
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.5998107887323801,
+    "median_max_abs": 0.2494261265431189,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": true,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "band_without_shape",
+   "crossing_lags": [
+    1
+   ],
+   "descriptive_pattern": "single_lag_lead_no_rebound",
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 0.7803341829161567,
+      "lag1": 0.4545886810439063,
+      "lag2": -0.3998926862688693,
+      "lag3": 0.08710754708079523,
+      "lag4": 0.06703159000636386,
+      "lag5": 0.1930393704069318
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 1.2151189690138708,
+      "lag1": 0.5804681274560338,
+      "lag2": -0.4531241467850089,
+      "lag3": -0.06806925953712449,
+      "lag4": 0.019570392985055363,
+      "lag5": 0.14454391684005607
+     },
+     "band": [
+      {
+       "lo": -0.7096732326815636,
+       "hi": 0.8506345617521572,
+       "median": -0.0012652455697534093,
+       "draws": 200,
+       "width": 1.560307794433721
+      },
+      {
+       "lo": -0.6593472805766366,
+       "hi": 0.8306559198455562,
+       "median": -0.0168555569089191,
+       "draws": 200,
+       "width": 1.4900032004221928
+      },
+      {
+       "lo": -0.5773891224512334,
+       "hi": 0.6366262115876735,
+       "median": -0.009585649183847918,
+       "draws": 200,
+       "width": 1.214015334038907
+      },
+      {
+       "lo": -0.6827863347774332,
+       "hi": 0.7720493636270084,
+       "median": 0.016740648441980397,
+       "draws": 200,
+       "width": 1.4548356984044415
+      },
+      {
+       "lo": -0.638640379341683,
+       "hi": 0.5916399748827413,
+       "median": 0.008428750565886284,
+       "draws": 200,
+       "width": 1.2302803542244245
+      },
+      {
+       "lo": -0.6485208600926381,
+       "hi": 0.6265113893774614,
+       "median": -0.018194826920557905,
+       "draws": 200,
+       "width": 1.2750322494700996
+      }
+     ],
+     "verdict": "inside_permutation_band",
+     "crossing_lags": []
+    }
+   },
+   "oscillation_survives_two_session_sum": false,
+   "own_lag_persistence": {
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.2491254061277694,
+     "t_nw": -5.113278359774534,
+     "rows_used": 407
+    },
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.44144395485400845,
+     "t_nw": -8.477155235102986,
+     "rows_used": 407
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.276043566072139,
+     "t_nw": -5.572608482021915,
+     "rows_used": 407
+    },
+    "sh512100": {
+     "decided": true,
+     "ar1": -0.31720241803591726,
+     "t_nw": -6.643482789620572,
+     "rows_used": 407
+    },
+    "sh588000": {
+     "decided": true,
+     "ar1": -0.3803933294208778,
+     "t_nw": -9.08674089906007,
+     "rows_used": 407
+    }
+   },
+   "resolution_median_halfwidth": 0.5053790862175486
+  },
+  {
+   "label": "early_three",
+   "kind": "neighbour",
+   "members": [
+    "sh510050",
+    "sh510300",
+    "sh510500"
+   ],
+   "window_inclusive": [
+    "2013-03-15",
+    "2016-11-03"
+   ],
+   "note": null,
+   "sessions": 831,
+   "first": "2013-03-18",
+   "last": "2016-11-03",
+   "decided": true,
+   "star": "sh510050",
+   "star_source": "e245_star_rule",
+   "lag_column": {
+    "lag0": 0.6627286154923373,
+    "lag1": -0.44239998871677255,
+    "lag2": -0.18251063768374945,
+    "lag3": -0.18168784338050945,
+    "lag4": -0.10216679779640796,
+    "lag5": -0.25958672491121515
+   },
+   "band": [
+    {
+     "lo": -0.36176492569038765,
+     "hi": 0.2829162202193291,
+     "median": -0.011441258408170766,
+     "draws": 200,
+     "width": 0.6446811459097168
+    },
+    {
+     "lo": -0.2676628474738268,
+     "hi": 0.2694744447816081,
+     "median": -0.007437463914073454,
+     "draws": 200,
+     "width": 0.5371372922554349
+    },
+    {
+     "lo": -0.2840295628532874,
+     "hi": 0.279050243396859,
+     "median": -0.0022253419927400625,
+     "draws": 200,
+     "width": 0.5630798062501464
+    },
+    {
+     "lo": -0.21710356987937118,
+     "hi": 0.21675541677197566,
+     "median": 0.006916633302868368,
+     "draws": 200,
+     "width": 0.4338589866513468
+    },
+    {
+     "lo": -0.2965402954595601,
+     "hi": 0.30316762088218824,
+     "median": -0.007721133996203694,
+     "draws": 200,
+     "width": 0.5997079163417484
+    },
+    {
+     "lo": -0.3305560789076888,
+     "hi": 0.25572167551835523,
+     "median": 0.021095045062501757,
+     "draws": 200,
+     "width": 0.586277754426044
+    }
+   ],
+   "band_family": {
+    "max_abs": 0.3305560789076888,
+    "median_max_abs": 0.15354094304347615,
+    "draws": 200
+   },
+   "band_mode": "full_draw_range_200",
+   "band_draws_used": 200,
+   "outside_band": {
+    "1": true,
+    "2": false,
+    "3": false,
+    "4": false,
+    "5": false
+   },
+   "verdict": "band_without_shape",
+   "crossing_lags": [
+    1
+   ],
+   "descriptive_pattern": "single_lag_lead_no_rebound",
+   "descriptive_pattern_note": "post-hoc reading of the crossing set, NOT a pre-registered verdict; the verdict above is the frozen four-name vocabulary",
+   "two_session_sum": {
+    "overlapping": {
+     "lag_column": {
+      "lag0": 0.8601272256651811,
+      "lag1": 0.5652285834244319,
+      "lag2": -0.5411323710996615,
+      "lag3": -0.2999936392260166,
+      "lag4": -0.20761387301134698,
+      "lag5": -0.22453965399343317
+     }
+    },
+    "disjoint": {
+     "lag_column": {
+      "lag0": 0.860058987192705,
+      "lag1": 0.5095451946639116,
+      "lag2": -0.4629950251890159,
+      "lag3": -0.14866124199630232,
+      "lag4": -0.19497795756980119,
+      "lag5": -0.19229002368516315
+     },
+     "band": [
+      {
+       "lo": -0.4074883532518764,
+       "hi": 0.4616231113739008,
+       "median": -0.002855633154551663,
+       "draws": 200,
+       "width": 0.8691114646257772
+      },
+      {
+       "lo": -0.42284150371801515,
+       "hi": 0.3398469599865948,
+       "median": 0.015952149436427452,
+       "draws": 200,
+       "width": 0.76268846370461
+      },
+      {
+       "lo": -0.4329438522446482,
+       "hi": 0.5622882818077468,
+       "median": -0.022474302263267295,
+       "draws": 200,
+       "width": 0.9952321340523951
+      },
+      {
+       "lo": -0.3999321780453361,
+       "hi": 0.37840464376273963,
+       "median": 0.004488381710601855,
+       "draws": 200,
+       "width": 0.7783368218080757
+      },
+      {
+       "lo": -0.36784780339773726,
+       "hi": 0.49649634765652784,
+       "median": -0.0007887995292553754,
+       "draws": 200,
+       "width": 0.8643441510542651
+      },
+      {
+       "lo": -0.5404089336138999,
+       "hi": 0.4487171031716747,
+       "median": 0.0056879667467993646,
+       "draws": 200,
+       "width": 0.9891260367855745
+      }
+     ],
+     "verdict": "inside_permutation_band",
+     "crossing_lags": []
+    }
+   },
+   "oscillation_survives_two_session_sum": false,
+   "own_lag_persistence": {
+    "sh510050": {
+     "decided": true,
+     "ar1": -0.3728242096505434,
+     "t_nw": -11.098299717496515,
+     "rows_used": 830
+    },
+    "sh510300": {
+     "decided": true,
+     "ar1": -0.33489672722580616,
+     "t_nw": -10.318145775975006,
+     "rows_used": 830
+    },
+    "sh510500": {
+     "decided": true,
+     "ar1": -0.4049204709702402,
+     "t_nw": -9.878053672267725,
+     "rows_used": 830
+    }
+   },
+   "resolution_median_halfwidth": 0.31614995272855095
+  }
+ ],
+ "no_bill": "shape only: no adoption, no re-pricing, and a period-2 oscillation may not be billed to the star as a one-way flow",
+ "rollup": {
+  "cells_counted": 6,
+  "cells_by_verdict": {
+   "band_without_shape": [
+    "all_five",
+    "pre2020_four",
+    "era_2023_2024",
+    "era_2025_now",
+    "early_three"
+   ],
+   "inside_permutation_band": [
+    "era_2020_2022"
+   ]
+  },
+  "verdict": "verdict_era_dependent",
+  "headline_verdict": "band_without_shape",
+  "headline_star": "sh588000",
+  "headline_crossing_lags": [
+   1
+  ],
+  "headline_descriptive_pattern": "single_lag_lead_no_rebound",
+  "cells_descriptive": {
+   "all_five": "single_lag_lead_no_rebound",
+   "pre2020_four": "single_lag_lead_no_rebound",
+   "era_2020_2022": null,
+   "era_2023_2024": "single_lag_lead_no_rebound",
+   "era_2025_now": "single_lag_lead_no_rebound",
+   "early_three": "single_lag_lead_no_rebound"
+  },
+  "stable_across_cells": false,
+  "overlapping_cells_note": "the era cells overlap in time, so a verdict that repeats is corroboration, not replication (E244 caveat)"
+ },
+ "summary": {
+  "verdict": "verdict_era_dependent",
+  "headline_verdict": "band_without_shape",
+  "headline_star": "sh588000",
+  "headline_star_source": "e245_star_rule",
+  "lag_column": {
+   "lag0": 0.6529721963723715,
+   "lag1": -0.5858168050727722,
+   "lag2": 0.09148860973538506,
+   "lag3": -0.20366317469491407,
+   "lag4": 0.07733372768988005,
+   "lag5": 0.027180042822540967
+  },
+  "band": [
+   {
+    "lo": -0.21688635389670383,
+    "hi": 0.29368486878249245,
+    "median": 0.0057760844247959214,
+    "draws": 200,
+    "width": 0.5105712226791963
+   },
+   {
+    "lo": -0.233596327312182,
+    "hi": 0.29514273785726086,
+    "median": -0.0059244703184693015,
+    "draws": 200,
+    "width": 0.5287390651694428
+   },
+   {
+    "lo": -0.2594606154269997,
+    "hi": 0.23074248102052436,
+    "median": 0.008396480574372454,
+    "draws": 200,
+    "width": 0.4902030964475241
+   },
+   {
+    "lo": -0.21760003065082714,
+    "hi": 0.22099829118519296,
+    "median": -0.0016799516379717482,
+    "draws": 200,
+    "width": 0.4385983218360201
+   },
+   {
+    "lo": -0.35063054282369155,
+    "hi": 0.20906340793630407,
+    "median": -0.0010037094388934166,
+    "draws": 200,
+    "width": 0.5596939507599956
+   },
+   {
+    "lo": -0.2901398805862655,
+    "hi": 0.2335097090327882,
+    "median": 0.0015651423205875845,
+    "draws": 200,
+    "width": 0.5236495896190537
+   }
+  ],
+  "band_family": {
+   "max_abs": 0.35063054282369155,
+   "median_max_abs": 0.12304062705279373,
+   "draws": 200
+  },
+  "band_mode": "full_draw_range_200",
+  "outside_band": {
+   "1": true,
+   "2": false,
+   "3": false,
+   "4": false,
+   "5": false
+  },
+  "crossing_lags": [
+   1
+  ],
+  "two_session_sum_verdict": "band_without_shape",
+  "two_session_sum_crossing": [
+   2
+  ],
+  "oscillation_survives_two_session_sum": false,
+  "band_draws_used": 200,
+  "cells_counted": 6,
+  "stable_across_cells": false,
+  "cells_by_verdict": {
+   "band_without_shape": [
+    "all_five",
+    "pre2020_four",
+    "era_2023_2024",
+    "era_2025_now",
+    "early_three"
+   ],
+   "inside_permutation_band": [
+    "era_2020_2022"
+   ]
+  },
+  "one_line": "the cells do not read the same way (band_without_shape=5, inside_permutation_band=1): the eras disagree"
+ }
+}

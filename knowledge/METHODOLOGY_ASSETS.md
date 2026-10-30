@@ -4715,3 +4715,31 @@ E246 left four of six cells undecided (median half-widths 0.42..0.51 against a f
 The reusable law: **before recommending "more data", ask whether the window can produce it.** A calendar slice with a closed upper bound converts an unresolved coefficient into a permanently unresolved one, and the two cases must not share a verdict word -- unreachable_window_closed versus open_but_needs_sessions is the whole product. A session shortfall is also not a date: it is a lower bound that assumes the design and the effect's variance hold.
 
 Three traps: (1) half-width arithmetic is only valid for a fixed design -- it says nothing about a redesign that trades history for members; (2) a "decided" cell must be read against the same bound the face froze, not a bound re-chosen after the fact; (3) a closed-window cell still reports its shortfall number, but the verdict must not let a reader act on it (the count exists, the sessions do not).
+
+
+### E248 -- a coefficient read against a model is not a coefficient: spend the design's own null (r1274 bm-b)
+
+E246 published the star lead as a lag0/lag1/lag2 sign flip (+0.769 / -0.527 / +0.397), each
+coefficient against its own HAC interval. Two holes: two lags cannot separate a two-session
+oscillation from a decay into noise, and an HAC interval is a MODEL -- on a persistent series the
+model is the question. The fix is to spend the design's own null: shuffle the star's turnover
+series in time, refit the same regression 200 times, and require the coefficient to beat what a
+shuffled series produced. Extended to lags 1..5 in ONE regression (each lag a partial effect),
+the row reads +0.653 / -0.586 / +0.091 / -0.204 / +0.077 / +0.027: only lag 1 crosses, at
+negative sign, in five of six cells; the published "rebound" at lag 2 never crosses anywhere
+(0.09 / -0.17 / 0.09 / 0.02 / 0.22 / -0.18 against lines 0.35..0.66). The shapeless verdict is
+`band_without_shape` with the post-hoc label `single_lag_lead_no_rebound` beside it.
+
+Three reusable laws. (1) **A per-lag band is not a screen**: five lags at 95% is a discovery
+machine -- a pure-noise fixture crossed at lag 5 in one screen out of four -- so the decision line
+must be the max |coefficient| any draw produced ANYWHERE in the screened set (family-wise, ~1/201
+with 200 draws). (2) **More lags change the partials**: going from {1,2} to {0..5} moved lag 2
+from +0.397 to +0.091 because that coefficient was carrying lag 3; a distributed-lag row is only
+comparable with the same lag set. (3) **A frozen vocabulary must be allowed to fail**: the
+observed shape (one decaying negative lead) is in none of the four pre-registered names, so the
+face publishes `band_without_shape` and puts the descriptive reading next to it, labelled post-hoc
+-- publishing the closest name would have been the dishonest option.
+
+Implementation note: the numpy Newey-West fit is pinned to e235's pure-python estimator (beta and
+covariance diagonal to 1e-9) and the lag-0 row is pinned to E246's published row, so the ~8s face
+is the same estimator rather than a re-estimation.
