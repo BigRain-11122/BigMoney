@@ -1612,6 +1612,27 @@ def _pick(pool, myid, skip=None):
     return None, None
 
 
+def _ghost_ready_ids(pool, myid, skip=None):
+    """Ready entries the picker can NEVER take because they carry no
+    shards (r1353 bm-c live: three r1352 rows entered without a shards
+    array were reported as 'pool_empty_or_busy' while py sat at 6% --
+    the same ghost shape the submit gate exists to refuse, r301 law).
+    A named list instead of a silent empty pool: an entry that looks
+    ready on every published face but has no shard to claim is a supply
+    defect, not an idle machine."""
+    skip = skip or set()
+    out = []
+    for e in pool.get("entries", []):
+        if (e.get("status") != "ready" or not e.get("runner")
+                or e.get("id") in skip):
+            continue
+        if e.get("lane_owner") not in (None, "", "ANY", myid):
+            continue
+        if not (e.get("shards") or []):
+            out.append(e["id"])
+    return out
+
+
 def _git(args):
     """Central git runner (selftest stubs this for hermetic claim legs).
     r790 bm-c: 60s hard timeout -- a hung network fetch/push must fail
@@ -2357,6 +2378,21 @@ def tick(dry=False, _saturate_depth=0):
             _log(f"tick py={py}% every takeable entry refused by "
                  f"closed-family gate x{len(cf_refused)} "
                  f"(A3 G1 runtime kill-line enforcement)")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
+        ghost = _ghost_ready_ids(pool, rec["machine"], skip=skip)
+        if ghost:
+            # r1353 bm-c: a ready row with no shard is not an idle pool.
+            # Publishing it under the empty-pool verdict hid 3 takeable-
+            # looking rows for a whole tick (py 6%, RED watermark), so the
+            # audit face gets a name it can act on.
+            rec["verdict"] = "ghost_ready_no_shards"
+            rec["ghost_ready_no_shards"] = ghost
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% {len(ghost)} ready entr(ies) carry no "
+                 f"shards -> unclaimable: {', '.join(ghost)} "
+                 "(r301 submit law; repair the shards array)")
             print(json.dumps(rec, ensure_ascii=False))
             return 0
         rec["verdict"] = "pool_empty_or_busy"
@@ -4178,6 +4214,24 @@ def selftest():
         e20, sh20 = _pick({"entries": [dict(entry, id="E20")]}, "bm-x")
         ok("S20g no host_gates field -> claimable (back-compat)",
            e20 is not None and e20["id"] == "E20")
+        # S20g2 r1353: a ready row without shards is unclaimable BY
+        # CONSTRUCTION -- and must be named, never folded into 'pool is
+        # empty' (live: 3 such rows sat invisible while py read 6%).
+        ghost_entry = dict(entry, id="E20g")
+        ghost_entry.pop("shards", None)
+        e20, sh20 = _pick({"entries": [ghost_entry]}, "bm-x")
+        ok("S20g2 ready row without shards -> picker takes nothing",
+           e20 is None and sh20 is None)
+        g = _ghost_ready_ids({"entries": [ghost_entry,
+                                          dict(entry, id="E20s2")]}, "bm-x")
+        ok("S20g3 ghost detector names only the shardless row",
+           g == ["E20g"])
+        g = _ghost_ready_ids({"entries": [dict(ghost_entry,
+                                               status="done")]}, "bm-x")
+        ok("S20g4 a done row is not a ghost", g == [])
+        g = _ghost_ready_ids({"entries": [dict(ghost_entry,
+                                               lane_owner="bm-y")]}, "bm-x")
+        ok("S20g5 another host's lane row is not our ghost", g == [])
         # S20h submit carries host_gates through (structure-only check:
         # submitter != burn host is legal, e.g. lane owner elsewhere)
         with open(POOL, "w", encoding="utf-8") as fh:
