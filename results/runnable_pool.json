@@ -23653,7 +23653,7 @@
    "id": "E266-ATLAS-COST0",
    "lane": "cpu-only",
    "worker_class": "self-contained",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/etf_book_phase_atlas.py",
    "target": "scripts/etf_book_phase_atlas.py (arm: zero toll on the whole grid)",
    "runner_args": [
@@ -23674,16 +23674,21 @@
    "shards": [
     {
      "key": "atlas-0of1",
-     "status": "open",
+     "status": "done",
      "owner": "bm-c",
      "checkpoint": "results/etf_book_phase_atlas_cost0.json -- the atlas writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
-     "owner_since": "2026-10-30 11:08:04",
-     "done_at": "2026-10-30 10:26:22",
+     "owner_since": "2026-10-30 11:12:04",
+     "done_at": "2026-10-30 11:12:04",
      "done_by": "bm-c",
-     "landed_via": "declared_out_etf_book_phase_atlas_cost0.json"
+     "landed_via": "declared_out_etf_book_phase_atlas_cost0.json",
+     "claimed_since": "2026-10-30 11:08:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "atlas-0of1.bm-c.json"
     }
    ],
-   "priority": 1
+   "priority": 1,
+   "done_by": "bm-c",
+   "done_at": "2026-10-30 11:12:04"
   },
   {
    "id": "E266-ATLAS-BUFFER-K030",
