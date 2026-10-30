@@ -261,6 +261,16 @@ LEGS = [
     # rebuilt from the 280 raw rows, and the verdict is the one the rule produces -- an edited
     # median or an edited verdict is red. 0.9s, no network, no panel build.
     ("etf_book_phase_atlas", ["python", "scripts/etf_book_phase_atlas.py", "--check"]),
+    # r1351: the atlas measured ONE arm (the production toll). r1163 (bm-a) priced the three
+    # stockable follow-ups as variants of the same grid -- buffer k=0.05, 5bp/side, 20bp/side --
+    # and published the verdicts, but no leg anywhere read that face back: a published verdict
+    # with nothing consuming it is the r1266 line ("a ruling that lives only in a receipt is
+    # not a gate"). This leg re-derives the whole payload from the four arm faces and refuses a
+    # face that disagrees with its own sources; "source moved" is stale (the chain pays the
+    # refresh, which is one JSON re-read, not an engine), an edit that no source explains stays
+    # red. 0.4s, no network, no engine.
+    ("etf_book_phase_atlas_arms", ["python", "scripts/etf_book_phase_atlas_arms.py", "--check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

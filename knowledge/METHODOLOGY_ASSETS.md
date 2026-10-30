@@ -5315,3 +5315,43 @@ digest research/digests/DIGEST-20261030-r1163-atlas-arms.md。
 elative_to(ROOT) 处炸——**整条 280 格
 跑完才炸**（一个臂的算力白烧、exit 1、零面落盘），已修为相对路径按 ROOT 解析；诚实缺口=该修法目前
 没有自己的 selftest 腿（面里的 12 腿不碰写路径）。
+
+## E260 A toll moves the level and the ordering; it does not move the band (2026-10-30 r1351 bm-c)
+
+WHEN: a path-dependence number (a per-cell band across one complete decision cycle) is being
+quoted as a property of the strategy, and a reader asks "at what cost does that stop holding".
+The instinct is to look for a toll ceiling -- the cost at which the band collapses. On this
+design there is none, because the toll and the band are not on the same axis.
+
+RIGHT: bracket the toll by 8x (5 / 10 / 20 / 40bp per side) on the same 12-cell grid and read
+all three quantities per arm, not one:
+
+  * the BAND (p95-p05 per cell, medianed per cadence) barely moves: R10 3.47 / 3.38 / 3.29 /
+    3.08pp and R40 9.00 / (base) / 8.95 / 8.86pp across 5/10/20/40bp -- and the R40:R10 ratio
+    RISES (2.60 -> 2.88) because the fast cells lose more of their own level than of their
+    spread. "The cadence is quotable" therefore has no toll ceiling at 4x production.
+  * the LEVEL moves monotonically: median per-cell delta vs the 10bp base is +0.71 / 0 / -1.41 /
+    -4.19pp at 5 / 10 / 20 / 40bp.
+  * the ORDERING dissolves: between-cell spread 6.06 / 5.22 / 3.55 / 3.01pp against a band that
+    sits at ~6.5-6.9pp the whole time -- as the toll rises the grid becomes more of one number
+    (a common cost shrinks relative differences), which is the opposite of "the toll separates
+    the configs".
+
+WRONG: (a) reading a level effect at another cost as evidence about the band (they move on the
+same axis, at different rates); (b) treating "ordering not separated from phase noise" as a
+statement about the band -- the two rulings are computed from the same rows and disagree by
+construction, which is the point; (c) stocking a variant arm without a consumer: r1163
+published this face and no leg re-read it, so an edited scalar could have sat there (fixed this
+round: scripts/etf_book_phase_atlas_arms.py --check, whose two red states are STALE = a source
+moved and the chain pays the refresh, vs INCONSISTENT = nobody moved and the face is edited,
+which stays red; see E237 for why that distinction is the whole gate).
+
+READING (12 cells x 280 runs per arm, 8% vol target, 2026-10-29 bar): buffer k=0.05 REJECT
+(median -0.030pp, 0/12 cells beyond their own band); cost 5bp NOT-SEPARABLE (+0.71pp, inside
+the band); 20bp REJECT (-1.41pp); 40bp REJECT (-4.19pp) with band_verdict
+CADENCE_BAND_SURVIVES_THE_TOLL. The grid's own verdict stays CONFIG_ORDER_WITHIN_PHASE_NOISE in
+5 of 5 arms.
+
+Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + results/etf_book_phase_atlas_arms.json
++ results/etf_book_phase_atlas_cost40.json (280 engine runs, 5 workers, 3.5 min) + S6 leg
+etf_book_phase_atlas_arms + research/digests/DIGEST-20261030-r1351-arms-gate.md.

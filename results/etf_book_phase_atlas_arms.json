@@ -19,7 +19,7 @@
   "face": "results/etf_book_phase_atlas.json",
   "evidence_cutoff": "2026-10-29",
   "audit": {
-   "workers": 8,
+   "workers": 20,
    "jobs": 280,
    "cost": 0.001,
    "buffer_k": 0.0,
@@ -558,6 +558,184 @@
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.717 (must exceed 1.00)",
     "median band -0.11pp vs baseline (-1.7%, tolerance 25%)"
+   ]
+  },
+  "cost40": {
+   "description": "40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)",
+   "face": "results/etf_book_phase_atlas_cost40.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 5,
+    "jobs": 280,
+    "cost": 0.004,
+    "buffer_k": 0.0,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 3.16,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": -7.765,
+     "band_pp": 3.755,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 0.3525,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 4.29,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": -4.425,
+     "band_pp": 6.594,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.4465,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 4.565,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -2.215,
+     "band_pp": 12.387,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.4465,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 4.015,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": -7.49,
+     "band_pp": 3.12,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 0.448,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 4.9,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": -4.23,
+     "band_pp": 6.07,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.512,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 6.16,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": -2.16,
+     "band_pp": 9.357,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.6075,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 4.925,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": -7.075,
+     "band_pp": 3.03,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 0.533,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 5.99,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -4.14,
+     "band_pp": 6.344,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 0.6325,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 6.165,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": -2.14,
+     "band_pp": 8.358,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.578,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 5.09,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": -6.545,
+     "band_pp": 2.629,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 0.553,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 5.85,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": -3.795,
+     "band_pp": 7.656,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 0.607,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 5.505,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": -2.045,
+     "band_pp": 6.754,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.5265,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 6.594,
+   "band_by_cadence": {
+    "10": 3.075,
+    "20": 6.469,
+    "40": 8.857
+   },
+   "verdict": "REJECT",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.000 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta -4.185pp (floor -0.05pp)",
+    "resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)"
+   ],
+   "band_verdict": "CADENCE_BAND_SURVIVES_THE_TOLL",
+   "band_verdict_reasons": [
+    "R40/R10 band ratio 2.880 (must exceed 1.00)",
+    "median band -0.24pp vs baseline (-3.6%, tolerance 25%)"
    ]
   }
  }

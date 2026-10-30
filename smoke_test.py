@@ -1884,6 +1884,12 @@ def main() -> int:
             # median, an edited verdict) and a cell judged on too few phases.
             ("product: etf_book_phase_atlas (grid vs its own calendar)",
              "scripts/etf_book_phase_atlas.py", ["--selftest"]),
+            # r1351: the arms face (r1163) turns the atlas ruler on the buffer and cost arms.
+            # The suite pins the frozen rule, the three-way verdict split, and the gate itself:
+            # a face that equals its re-derivation is green, an edited verdict with no source
+            # moved stays inconsistent, and a missing face reads stale (never "fine").
+            ("product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
+             "scripts/etf_book_phase_atlas_arms.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",

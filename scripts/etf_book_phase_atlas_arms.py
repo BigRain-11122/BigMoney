@@ -19,6 +19,7 @@ later "small adjustment" cannot pass for the same rule (the E188 line).
 
 Usage:
   python scripts/etf_book_phase_atlas_arms.py run
+  python scripts/etf_book_phase_atlas_arms.py --check      # gate: published face vs a re-derivation
   python scripts/etf_book_phase_atlas_arms.py --selftest
 """
 
@@ -40,6 +41,9 @@ ARMS = {
                "5bp/side on the whole grid (half the production toll)"),
     "cost20": (os.path.join(RES, "etf_book_phase_atlas_cost20.json"),
                "20bp/side on the whole grid (double the production toll)"),
+    "cost40": (os.path.join(RES, "etf_book_phase_atlas_cost40.json"),
+               "40bp/side on the whole grid (4x the production toll -- does 'the cadence is "
+               "quotable' have a toll ceiling, and does the ordering vanish first?)"),
 }
 
 # ---- the frozen rule (written before the first read; echoed into the payload) -------------
@@ -254,8 +258,114 @@ def _selftest():
     chk(judge_bands(squeezed, {10: 3.0, 20: 6.0, 40: 9.0})[0] == "BAND_FOLLOWS_THE_TOLL",
         "a band that collapses with the toll is the toll talking")
 
+    # L9-L11 the gate itself: a face that equals its re-derivation is green, an edited face is
+    # inconsistent (stays red), a missing face is stale (the chain pays the refresh).
+    global OUT_JSON
+    keep = OUT_JSON
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        tmp = os.path.join(td, "arms.json")
+        try:
+            p2 = build()
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(p2, f, ensure_ascii=False, indent=1)
+            # far future mtime: the source faces can never look "newer" than it
+            os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
+            OUT_JSON = tmp
+            rc = check()
+            chk(rc == 0, "a face that equals its re-derivation passes the gate (rc=%r)" % rc)
+            p2["arms"]["cost05"]["verdict"] = "ADOPT"
+            with open(tmp, "w", encoding="utf-8") as f:
+                json.dump(p2, f, ensure_ascii=False, indent=1)
+            os.utime(tmp, (os.path.getmtime(tmp) + 3600, os.path.getmtime(tmp) + 3600))
+            rc = check()
+            chk(rc == 1, "an edited verdict with no source moved stays inconsistent (rc=%r)" % rc)
+            OUT_JSON = os.path.join(td, "missing.json")
+            rc = check()
+            chk(rc == 2, "a missing face is stale, not inconsistent (rc=%r)" % rc)
+        finally:
+            OUT_JSON = keep
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
+
+
+def _rel(path):
+    """Path relative to the repo, or the bare name when it lives outside it (a test fixture)."""
+    try:
+        return os.path.relpath(path, ROOT)
+    except ValueError:
+        return os.path.basename(path)
+
+
+def _diff(a, b, path="", out=None, limit=8):
+    """Structural diff of two payloads; returns up to `limit` leaf paths that differ."""
+    if out is None:
+        out = []
+    if len(out) >= limit:
+        return out
+    if isinstance(a, dict) and isinstance(b, dict):
+        for k in sorted(set(a) | set(b), key=str):
+            if len(out) >= limit:
+                break
+            if k not in a or k not in b:
+                out.append("%s.%s (only on one side)" % (path, k))
+            else:
+                _diff(a[k], b[k], "%s.%s" % (path, k), out, limit)
+        return out
+    if isinstance(a, list) and isinstance(b, list):
+        if len(a) != len(b):
+            out.append("%s (len %d vs %d)" % (path, len(a), len(b)))
+            return out
+        for i, (x, y) in enumerate(zip(a, b)):
+            if len(out) >= limit:
+                break
+            _diff(x, y, "%s[%d]" % (path, i), out, limit)
+        return out
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)) and not isinstance(a, bool):
+        if abs(a - b) > 1e-9:
+            out.append("%s (%r vs %r)" % (path, a, b))
+    elif a != b:
+        out.append("%s (%r vs %r)" % (path, a, b))
+    return out
+
+
+def check():
+    """Gate: the published face must equal a re-derivation from the four arm faces.
+
+    Two red states, and the difference matters (r1346): a face whose SOURCE has advanced past
+    it is 'stale' and the chain pays the declared refresh; a face that disagrees with its own
+    sources while the sources have not moved is 'inconsistent' and stays red, because that is a
+    hand-edited or half-written face and re-deriving it would launder the edit.
+    """
+    if not os.path.exists(OUT_JSON):
+        print("face is stale: no published arms face at %s" % _rel(OUT_JSON))
+        return 2
+    pub = face(OUT_JSON)
+    if pub.get("criteria") != CRITERIA:
+        print("face is inconsistent: the published frozen rule is not the rule in this file")
+        return 1
+    rebuilt = json.loads(json.dumps(build()))   # compare what a reader sees, not Python types
+    drift = _diff(pub, rebuilt)
+    if not drift:
+        verdicts = " | ".join("%s=%s" % (k, v["verdict"]) for k, v in rebuilt["arms"].items())
+        print("arms face matches its own sources on cutoff %s: %s"
+              % (rebuilt["baseline"]["evidence_cutoff"], verdicts))
+        return 0
+    src = [BASE] + [p for p, _ in ARMS.values()]
+    try:
+        face_mtime = os.path.getmtime(OUT_JSON)
+    except OSError:
+        face_mtime = 0.0
+    newer = [os.path.basename(p) for p in src if os.path.getmtime(p) > face_mtime + 1.0]
+    if newer:
+        print("face is stale: priced on cutoff %r while its sources moved (%s); drift=%s"
+              % (pub.get("baseline", {}).get("evidence_cutoff"), ",".join(sorted(newer))[:160],
+                 "; ".join(drift)[:300]))
+        return 2
+    print("face is inconsistent: %d field(s) disagree with a re-derivation and no source moved: %s"
+          % (len(drift), "; ".join(drift)[:400]))
+    return 1
 
 
 def render_md(p):
@@ -284,6 +394,8 @@ def render_md(p):
 def main(argv):
     if "--selftest" in argv:
         return _selftest()
+    if "--check" in argv:
+        return check()
     p = build()
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(p, f, ensure_ascii=False, indent=1)

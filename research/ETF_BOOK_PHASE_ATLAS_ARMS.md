@@ -76,3 +76,27 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - median per-cell delta -1.410pp (floor -0.05pp)
 - resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 
+## cost40 — **REJECT**
+
+40bp/side on the whole grid (4x the production toll -- does 'the cadence is quotable' have a toll ceiling, and does the ordering vanish first?)
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +3.16pp | +10.93pp | -7.765pp | 3.75pp |
+| 3 | 20 | +4.29pp | +8.71pp | -4.425pp | 6.59pp |
+| 3 | 40 | +4.57pp | +6.78pp | -2.215pp | 12.39pp |
+| 5 | 10 | +4.01pp | +11.51pp | -7.490pp | 3.12pp |
+| 5 | 20 | +4.90pp | +9.13pp | -4.230pp | 6.07pp |
+| 5 | 40 | +6.16pp | +8.32pp | -2.160pp | 9.36pp |
+| 8 | 10 | +4.92pp | +12.00pp | -7.075pp | 3.03pp |
+| 8 | 20 | +5.99pp | +10.13pp | -4.140pp | 6.34pp |
+| 8 | 40 | +6.17pp | +8.30pp | -2.140pp | 8.36pp |
+| 12 | 10 | +5.09pp | +11.63pp | -6.545pp | 2.63pp |
+| 12 | 20 | +5.85pp | +9.64pp | -3.795pp | 7.66pp |
+| 12 | 40 | +5.50pp | +7.55pp | -2.045pp | 6.75pp |
+
+- cells 12/12 judged
+- not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta -4.185pp (floor -0.05pp)
+- resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)
+
