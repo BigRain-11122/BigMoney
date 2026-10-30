@@ -7110,7 +7110,6 @@ from the label, never a replacement for it.
 Pos: scripts/etf_book_phase_atlas_arms.py `world_of`/`coherence`/`withhold_verdicts` (+7 selftest
 legs, 109 -> 117) / scripts/etf_book_rule_null.py `label_of` / pool unit
 ATLAS-ARMS-ONEWORLD-20261031-ALL (the rebuild that returns the labels).
-||||||| parent of 4cef66836d (round 1378: a gate that pins the stamp of a panel is not pinning the panel, and a memo is not a cache)
 
 ## E296 A gate that pins the STAMP of a panel is not pinning the panel, and a memo is not a cache (2026-10-31 r1378 bm-c)
 
