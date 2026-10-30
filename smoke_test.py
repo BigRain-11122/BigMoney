@@ -7137,6 +7137,98 @@ def main() -> int:
     except Exception as e:
         check(_name85, False, repr(e)[:160])
 
+    # 86) E286 count-field scope (r1311 bm-b): a count whose name claims a unit is checkable
+    # only when the records it points at sit in the SAME scope.  The leg asserts (a) only
+    # same-scope counts are published as re-derivable and each agrees with its own records,
+    # (b) the un-derivable set splits into "unit published elsewhere" and "unit never published"
+    # (two different fixes, D4), (c) re-derivable + cannot sums to the census and the per-key
+    # aggregates sum back to the field census, and (d) the verdict and the counts re-derive.
+    _name86 = ("product: a unit-named count is checkable only inside its own scope -- and the "
+               "share that is checkable must be reported, not assumed whole")
+    _bad86 = []
+    try:
+        _p86 = os.path.join("results", "state_tilt", "bandcountscope_latest.json")
+        _f86 = None
+        if not os.path.exists(_p86):
+            _bad86.append("face missing: %s" % _p86)
+        else:
+            with io.open(_p86, encoding="utf-8") as _fh86:
+                _f86 = json.load(_fh86)
+        if _f86 is not None:
+            if _f86.get("evidence_cutoff") is None:
+                _bad86.append("no evidence_cutoff on the face")
+            if _f86.get("verdict") not in (
+                    "some_unit_named_counts_count_something_other_than_the_unit_their_name_claims",
+                    "no_unit_named_count_can_be_re_derived_from_its_own_scope",
+                    "the_checkable_share_of_unit_named_counts_is_a_minority_and_every_one_agrees",
+                    "every_unit_named_count_is_re_derivable_and_agrees"):
+                _bad86.append("verdict %r is outside the frozen set" % (_f86.get("verdict"),))
+            _s86 = _f86.get("summary") or {}
+            _rr86 = _f86.get("re_derivable_rows") or []
+            if _s86.get("n_re_derivable") != len(_rr86):
+                _bad86.append("n_re_derivable disagrees with the published rows")
+            if _s86.get("n_agree") != len([_r for _r in _rr86 if _r.get("agrees")]):
+                _bad86.append("n_agree disagrees with the published rows")
+            for _r in _rr86:
+                if _r.get("derivation") != "exact_sibling":
+                    _bad86.append("row %s is published as re-derivable without a same-scope sibling"
+                                  % _r.get("path"))
+                if _r.get("agrees") and _r.get("measured_unit_count") != _r.get("published_value"):
+                    _bad86.append("row %s is marked agreeing but its count differs" % _r.get("path"))
+            _cant86 = _f86.get("cannot_rederive") or {}
+            _why86 = _cant86.get("by_why") or {}
+            if _s86.get("of_which_unit_list_exists_elsewhere") != _why86.get("unit_list_exists_elsewhere", 0):
+                _bad86.append("the elsewhere-scope count disagrees with by_why")
+            if _s86.get("of_which_unit_never_published") != _why86.get("unit_never_published", 0):
+                _bad86.append("the never-published count disagrees with by_why")
+            if (_s86.get("n_re_derivable") or 0) + (_s86.get("n_cannot_rederive") or 0) != \
+                    _s86.get("unit_named_int_fields"):
+                _bad86.append("re-derivable + cannot does not sum to the census")
+            if (_why86.get("unit_list_exists_elsewhere", 0)
+                    + _why86.get("unit_never_published", 0)) != _s86.get("n_cannot_rederive"):
+                _bad86.append("the two halves of cannot-check do not sum to the un-derivable total")
+            _pk86 = _f86.get("per_key") or []
+            if sum(_k.get("occurrences") or 0 for _k in _pk86) != _s86.get("unit_named_int_fields"):
+                _bad86.append("per-key occurrences do not sum to the census")
+            if sum(_k.get("re_derivable") or 0 for _k in _pk86) != _s86.get("n_re_derivable"):
+                _bad86.append("per-key re-derivable counts do not sum to the census")
+            _ic86 = _f86.get("identity_check") or {}
+            for _k in ("partition_sums_to_fields", "why_partition_sums_to_cannot",
+                       "by_key_occurrences_sum", "no_bool_reached_the_census"):
+                if not _ic86.get(_k):
+                    _bad86.append("identity check %s is false" % _k)
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m86 = __import__("importlib").import_module("e286_count_field_scope")
+            _fresh86 = _m86.build()
+            _fs86 = _fresh86.get("summary") or {}
+            if _fresh86.get("verdict") != _f86.get("verdict"):
+                _bad86.append("the verdict does not re-derive")
+            for _k in ("n_re_derivable", "n_agree", "n_disagree", "n_cannot_rederive",
+                       "unit_named_int_fields", "disagree_rows"):
+                if _fs86.get(_k) != _s86.get(_k):
+                    _bad86.append("summary.%s does not re-derive" % _k)
+            if [(_r.get("face"), _r.get("path")) for _r in (_fresh86.get("re_derivable_rows") or [])] \
+                    != [(_r.get("face"), _r.get("path")) for _r in _rr86]:
+                _bad86.append("the re-derivable row set does not re-derive")
+        check(_name86, not _bad86,
+              "; ".join(_bad86)[:220]
+              or "verdict %r | %d face(s), %d unit-named count(s): %d re-derivable (%s) and all "
+                 "%d agree; %d un-derivable = %d elsewhere-scope + %d never published; %d qualified "
+                 "subset names not judged"
+                 % ((_f86 or {}).get("verdict"),
+                    _s86.get("faces_censused") or 0,
+                    _s86.get("unit_named_int_fields") or 0,
+                    _s86.get("n_re_derivable") or 0,
+                    "n/a" if _s86.get("re_derivable_share") is None
+                    else "%.1f pct" % (100.0 * _s86["re_derivable_share"]),
+                    _s86.get("n_agree") or 0,
+                    _s86.get("n_cannot_rederive") or 0,
+                    _s86.get("of_which_unit_list_exists_elsewhere") or 0,
+                    _s86.get("of_which_unit_never_published") or 0,
+                    _s86.get("qualified_unit_named_fields_not_judged") or 0))
+    except Exception as e:
+        check(_name86, False, repr(e)[:160])
+
     return _finish()
 
 

@@ -5677,3 +5677,32 @@ Evidence: `scripts/e285_interrange_gap_ceiling.py` (selftest 23/23, run/verify g
 the published ceiling`, digest `research/digests/DIGEST-20261031-r1310-e288-gap-ceiling.md`.
 Pool item `E285-INTERRANGE-GAP-CEILING` (pool E285 -> card E288). Next card `E286-COUNT-FIELD-SCOPE`
 (pool). Seeded this round: `E287-ABOVE-CEILING-CROSS-FACE`, `E288-BELOW-FLOOR-NARROWING`.
+
+### E289 - a unit word in a count's name is a checkable claim only inside its own scope (r1311 bm-b)
+
+A count field's name (`n_rows`, `n_seeds`, `cells_compared`) reads like a claim a reader can audit,
+but it is auditable only when the records the name points at are published in the SAME scope as the
+count. Measure the two halves separately or the honest answer ("nobody can check this") gets reported
+as a clean bill. Case measured (32 dated BAND faces): 894 unit-named integer fields, of which 27
+(3.0 pct) sit next to a sibling list keyed exactly the claimed unit -- and all 27 count what their
+name says (0 slips). The other 867 split into 301 where the face publishes that unit somewhere else
+(the NAME lacks a scope: BANDTRANSFER publishes `flat.cross:200.n_rows = 2` beside a single unrelated
+16-row `rows` list, so a face-wide lookup would publish a slip that does not exist) and 566 where the
+face publishes no records of that unit at all (the count is a design parameter such as a draw budget).
+The two halves need different fixes -- a name change versus a missing record face -- so summing them
+into one "unchecked" number tells a reader to fix the wrong thing.
+
+Three rules that make the census trustworthy: (1) the claimed unit is read STRICTLY (`n_rows`,
+`num_rows`, `rows_count`, bare `rows`); subset names (`rows_where_tails_disagree`,
+`arms_mismatched`) are disclosed as qualified and never judged -- judging them by their unit word is
+the E208 false positive (a real quote rejected by a naive word match), and there are 557 of them here,
+more than half the field count; (2) re-derivation needs a SIBLING list, never a face-wide search, and
+booleans are filtered before classification (Python `bool` is an `int`); (3) publish the checkable
+SHARE, because "every checkable count agrees" and "the name is a checkable claim" are different
+statements and only the first one is true at 3 pct.
+
+Evidence: `scripts/e286_count_field_scope.py` (selftest 24/24, run/verify green),
+`results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json`, S6 leg `count_field_scope` (verify, <1s),
+smoke leg `product: a unit-named count is checkable only inside its own scope`,
+digest `research/digests/DIGEST-20261031-r1311-e289-count-scope.md`.
+Pool item `E286-COUNT-FIELD-SCOPE` (pool E286 -> card E289).

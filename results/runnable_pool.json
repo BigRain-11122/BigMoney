@@ -25196,7 +25196,7 @@
    "deliverable": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
    "evidence_cutoff": "2026-10-29",
    "id": "E286-COUNT-FIELD-SCOPE",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "priority": 3,
    "runner": "scripts/e286_count_field_scope.py",
@@ -25212,7 +25212,10 @@
    },
    "target": "scripts/e286_count_field_scope.py (new runner)",
    "source": "E284 swept all 30 dated BAND faces for name/value scope slips and classified every label list, but 1338 integer fields (n_rows 116, n_records 115, n_moved 112, n_seeds 96, n_at_base 28, cells_compared 26 ...) could not be judged because their scope depends on each face's own census semantics. Those fields are the same defect class one level down: a count whose name says rows may be counting cells, arms, or draws. The next unit should pick the count keys that carry an explicit unit on their own face (rows/cells/arms/draws/seeds) and re-derive each from the face's published records, publishing per key: measured unit, name-claimed unit, agrees, and the faces where the count cannot be re-derived. No reburn: published records only.",
-   "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?"
+   "title": "does any published COUNT field count the unit its name claims -- n_rows that counts cells, n_cells that counts arms, n_seeds that counts draws?",
+   "result_ref": "results/state_tilt/BANDCOUNTSCOPE-2026-10-29.json",
+   "done_at": "2026-10-31T07:48+08:00",
+   "claimed_by": "bm-b"
   },
   {
    "deliverable": "results/state_tilt/BANDCEILINGFAMILY-<cutoff>.json",
@@ -25257,6 +25260,28 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "id": "E290-SELF-AUDITABLE-FACE-PROFILE",
+   "title": "what do the few self-auditable faces have in common -- if a new face published its counts the way these five do, would the counts be checkable?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "runner": "scripts/e290_selfauditable_face_profile.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e290_selfauditable_face_profile.py (new runner)",
+   "deliverable": "results/state_tilt/BANDSELFAUDIT-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "seeded_at": "2026-10-31T07:48+08:00",
+   "seeded_by": "bm-b r1311",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "source": "E286 found that only 27 of 894 unit-named counts (3.0 pct) can be re-derived from the records their name points at, and that those 27 live in just 5 of 32 dated faces. The actionable question is not which counts are wrong (none of the checkable ones are) but what the 5 self-auditable faces do differently: do they place the record list as a sibling of the count, do they publish one record per arm instead of a rolled-up total, do they avoid design-parameter names (draws, seeds) in count position? Profile every face on structure alone (records-adjacent-to-count, per-arm record lists, count keys with a published unit list anywhere) and publish a checkable recipe with the number of faces that would pass it today, plus the per-face gap. No reburn: published records only."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

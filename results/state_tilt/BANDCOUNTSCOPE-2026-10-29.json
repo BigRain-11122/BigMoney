@@ -1,0 +1,1354 @@
+{
+ "study": "E286_count_field_scope",
+ "title": "a count whose name says rows may be counting cells -- which published counts can be re-derived from the face's own records, which agree with the unit their name claims, and which can never be checked because the records are not in the count's scope?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T07:35:26",
+ "no_bill": "measurement only: the dated BAND faces are re-read and their own published records are counted. No draw stream is drawn, no band rebuilt, no engine runs, no verdict about the market. A verdict here is a statement about the published numbers and their names.",
+ "source_faces": [
+  "BANDDISAGREESCOPE-2026-10-29.json"
+ ],
+ "faces_censused": [
+  "BANDARRIVAL-2026-10-29.json",
+  "BANDARRIVALATE-2026-10-29.json",
+  "BANDBUCKET-2026-10-29.json",
+  "BANDDEFLATE-2026-10-29.json",
+  "BANDDISAGREE-2026-10-29.json",
+  "BANDDISAGREESCOPE-2026-10-29.json",
+  "BANDDONORCHOICE-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json",
+  "BANDDRAW-2026-10-29-d960.json",
+  "BANDDRAW-2026-10-29.json",
+  "BANDEXP-2026-10-29.json",
+  "BANDFIELDS-2026-10-29.json",
+  "BANDFLIPBUDGET-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json",
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDMARGIN-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDPATH-2026-10-29.json",
+  "BANDPATH-2026-10-30.json",
+  "BANDPOOLED-2026-10-29.json",
+  "BANDSCREEN-2026-10-29.json",
+  "BANDSCREENBUDGET-2026-10-29.json",
+  "BANDSPREADFLOOR-2026-10-29.json",
+  "BANDSTRADDLESWEEP-2026-10-29.json",
+  "BANDSUBSTITUTE-2026-10-29.json",
+  "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+  "BANDTHRESHGUARD-2026-10-29.json",
+  "BANDTIGHT-2026-10-29.json",
+  "BANDTOPFLIP-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json",
+  "BANDWINDIST-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json"
+ ],
+ "frozen_spec": {
+  "D1_claim_from_name": "a key claims a unit only when the unit word is the whole name or its only qualifier (bare <unit>, n_<unit>, num_<unit>, <unit>_count); subset names are counted as qualified and never judged (E208: a naive word match rejects real quotes)",
+  "D2_same_scope_only": "re-derivation requires a SIBLING list keyed exactly the claimed unit; a face-wide <unit> lookup is not a derivation and would publish slips that do not exist",
+  "D3_bools_excluded": "bool is not an integer count and is filtered before classification",
+  "D4_two_halves_of_cannot": "unit_list_exists_elsewhere (name lacks a scope) versus unit_never_published (name is a design parameter) are published separately because they need different fixes",
+  "D5_no_reburn": "published faces re-read only; no draw stream, no band rebuild, no engine",
+  "units": [
+   "rows",
+   "records",
+   "cells",
+   "arms",
+   "draws",
+   "seeds",
+   "keys",
+   "faces",
+   "labels",
+   "legs",
+   "bases",
+   "dates",
+   "bars"
+  ],
+  "count_name_shapes": [
+   "<unit>",
+   "n_<unit>",
+   "num_<unit>",
+   "<unit>_count"
+  ],
+  "checkable_share_floor": 0.1,
+  "verdict_vocab": [
+   "some_unit_named_counts_count_something_other_than_the_unit_their_name_claims",
+   "no_unit_named_count_can_be_re_derived_from_its_own_scope",
+   "the_checkable_share_of_unit_named_counts_is_a_minority_and_every_one_agrees",
+   "every_unit_named_count_is_re_derivable_and_agrees"
+  ]
+ },
+ "re_derivable_rows": [
+  {
+   "face": "BANDARRIVAL-2026-10-29.json",
+   "path": "cross_check.n_arms",
+   "key": "n_arms",
+   "claimed_unit": "arms",
+   "published_value": 16,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 16,
+   "measured_from": "arms",
+   "agrees": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 2,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 2,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 6,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 6,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 1,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 1,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "path": "groups.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 3,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 3,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 2,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 2,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:200.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 6,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 6,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.cross:60.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 1,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 1,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:200.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 3,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 3,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.tight_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "path": "tail_budget.self:60.wide_range.n_cells",
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "published_value": 4,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 4,
+   "measured_from": "cells",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[0].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 2,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 2,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[1].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 6,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 6,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[2].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 1,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 1,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "arms[3].n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 3,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 3,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "beyond_ceiling.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 6,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 6,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "path": "below_floor.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 2,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 2,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.cross:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 2,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 2,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.cross:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 6,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 6,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.self:200.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 1,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 1,
+   "measured_from": "rows",
+   "agrees": true
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "path": "sensitivity.self:60.n_rows",
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "published_value": 3,
+   "derivation": "exact_sibling",
+   "measured_unit_count": 3,
+   "measured_from": "rows",
+   "agrees": true
+  }
+ ],
+ "per_key": [
+  {
+   "key": "draws",
+   "claimed_unit": "draws",
+   "occurrences": 253,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 253,
+   "faces_cannot_rederive": [
+    "BANDDRAW-2026-10-29-d1920.json",
+    "BANDDRAW-2026-10-29-d960.json",
+    "BANDDRAW-2026-10-29.json",
+    "BANDEXP-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 253
+   }
+  },
+  {
+   "key": "n_faces",
+   "claimed_unit": "faces",
+   "occurrences": 149,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 149,
+   "faces_cannot_rederive": [
+    "BANDDISAGREESCOPE-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_list_exists_elsewhere": 149
+   }
+  },
+  {
+   "key": "n_rows",
+   "claimed_unit": "rows",
+   "occurrences": 122,
+   "re_derivable": 18,
+   "agree": 18,
+   "disagree": 0,
+   "cannot_rederive": 104,
+   "faces_cannot_rederive": [
+    "BANDTIGHT-2026-10-29.json",
+    "BANDTRANSFER-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_list_exists_elsewhere": 104
+   }
+  },
+  {
+   "key": "n_records",
+   "claimed_unit": "records",
+   "occurrences": 115,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 115,
+   "faces_cannot_rederive": [
+    "BANDFIELDS-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 115
+   }
+  },
+  {
+   "key": "n_seeds",
+   "claimed_unit": "seeds",
+   "occurrences": 96,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 96,
+   "faces_cannot_rederive": [
+    "BANDARRIVAL-2026-10-29.json",
+    "BANDARRIVALATE-2026-10-29.json",
+    "BANDBUCKET-2026-10-29.json",
+    "BANDWINDIST-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 96
+   }
+  },
+  {
+   "key": "seeds",
+   "claimed_unit": "seeds",
+   "occurrences": 56,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 56,
+   "faces_cannot_rederive": [
+    "BANDARRIVAL-2026-10-29.json",
+    "BANDARRIVALATE-2026-10-29.json",
+    "BANDBUCKET-2026-10-29.json",
+    "BANDDRAW-2026-10-29-d1920.json",
+    "BANDDRAW-2026-10-29-d960.json",
+    "BANDDRAW-2026-10-29.json",
+    "BANDEXP-2026-10-29.json",
+    "BANDWINDIST-2026-10-29.json",
+    "BANDWINMULT-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 56
+   }
+  },
+  {
+   "key": "n_cells",
+   "claimed_unit": "cells",
+   "occurrences": 49,
+   "re_derivable": 8,
+   "agree": 8,
+   "disagree": 0,
+   "cannot_rederive": 41,
+   "faces_cannot_rederive": [
+    "BANDDEFLATE-2026-10-29.json",
+    "BANDFLIPBUDGET-2026-10-29.json",
+    "BANDSPREADFLOOR-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 17,
+    "unit_list_exists_elsewhere": 24
+   }
+  },
+  {
+   "key": "rows",
+   "claimed_unit": "rows",
+   "occurrences": 21,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 21,
+   "faces_cannot_rederive": [
+    "BANDARRIVAL-2026-10-29.json",
+    "BANDBUCKET-2026-10-29.json",
+    "BANDDEFLATE-2026-10-29.json",
+    "BANDDISAGREE-2026-10-29.json",
+    "BANDDISAGREESCOPE-2026-10-29.json",
+    "BANDFLIPBUDGET-2026-10-29.json",
+    "BANDPOOLED-2026-10-29.json",
+    "BANDSCREENBUDGET-2026-10-29.json",
+    "BANDSTRADDLESWEEP-2026-10-29.json",
+    "BANDTIGHT-2026-10-29.json",
+    "BANDTOPFLIP-2026-10-29.json",
+    "BANDTRANSFER-2026-10-29.json",
+    "BANDWINDIST-2026-10-29.json",
+    "BANDWINMULT-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_list_exists_elsewhere": 13,
+    "unit_never_published": 8
+   }
+  },
+  {
+   "key": "records",
+   "claimed_unit": "records",
+   "occurrences": 19,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 19,
+   "faces_cannot_rederive": [
+    "BANDTHRESHGUARD-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 19
+   }
+  },
+  {
+   "key": "arms",
+   "claimed_unit": "arms",
+   "occurrences": 11,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 11,
+   "faces_cannot_rederive": [
+    "BANDARRIVALATE-2026-10-29.json",
+    "BANDBUCKET-2026-10-29.json",
+    "BANDTRANSFER-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_list_exists_elsewhere": 11
+   }
+  },
+  {
+   "key": "cells",
+   "claimed_unit": "cells",
+   "occurrences": 2,
+   "re_derivable": 0,
+   "agree": 0,
+   "disagree": 0,
+   "cannot_rederive": 2,
+   "faces_cannot_rederive": [
+    "BANDSUBSTITUTEAUDIT-2026-10-29.json"
+   ],
+   "why_counts": {
+    "unit_never_published": 2
+   }
+  },
+  {
+   "key": "n_arms",
+   "claimed_unit": "arms",
+   "occurrences": 1,
+   "re_derivable": 1,
+   "agree": 1,
+   "disagree": 0,
+   "cannot_rederive": 0,
+   "faces_cannot_rederive": [],
+   "why_counts": {}
+  }
+ ],
+ "per_face": [
+  {
+   "face": "BANDARRIVAL-2026-10-29.json",
+   "unit_named_fields": 47,
+   "re_derivable": 1,
+   "cannot_rederive": 46,
+   "units_published_as_lists": [
+    "arms",
+    "legs",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDARRIVALATE-2026-10-29.json",
+   "unit_named_fields": 14,
+   "re_derivable": 0,
+   "cannot_rederive": 14,
+   "units_published_as_lists": [
+    "arms",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDBUCKET-2026-10-29.json",
+   "unit_named_fields": 24,
+   "re_derivable": 0,
+   "cannot_rederive": 24,
+   "units_published_as_lists": [
+    "arms",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDDEFLATE-2026-10-29.json",
+   "unit_named_fields": 3,
+   "re_derivable": 0,
+   "cannot_rederive": 3,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDDISAGREE-2026-10-29.json",
+   "unit_named_fields": 2,
+   "re_derivable": 0,
+   "cannot_rederive": 2,
+   "units_published_as_lists": [
+    "faces"
+   ]
+  },
+  {
+   "face": "BANDDISAGREESCOPE-2026-10-29.json",
+   "unit_named_fields": 150,
+   "re_derivable": 0,
+   "cannot_rederive": 150,
+   "units_published_as_lists": [
+    "cells",
+    "faces",
+    "labels"
+   ]
+  },
+  {
+   "face": "BANDDONORCHOICE-2026-10-29.json",
+   "unit_named_fields": 4,
+   "re_derivable": 4,
+   "cannot_rederive": 0,
+   "units_published_as_lists": [
+    "cells",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d1920.json",
+   "unit_named_fields": 115,
+   "re_derivable": 0,
+   "cannot_rederive": 115,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDDRAW-2026-10-29-d960.json",
+   "unit_named_fields": 99,
+   "re_derivable": 0,
+   "cannot_rederive": 99,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDDRAW-2026-10-29.json",
+   "unit_named_fields": 83,
+   "re_derivable": 0,
+   "cannot_rederive": 83,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDEXP-2026-10-29.json",
+   "unit_named_fields": 2,
+   "re_derivable": 0,
+   "cannot_rederive": 2,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDFIELDS-2026-10-29.json",
+   "unit_named_fields": 115,
+   "re_derivable": 0,
+   "cannot_rederive": 115,
+   "units_published_as_lists": [
+    "faces"
+   ]
+  },
+  {
+   "face": "BANDFLIPBUDGET-2026-10-29.json",
+   "unit_named_fields": 37,
+   "re_derivable": 12,
+   "cannot_rederive": 25,
+   "units_published_as_lists": [
+    "cells",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDFLOOR-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDGAPCEILING-2026-10-29.json",
+   "unit_named_fields": 6,
+   "re_derivable": 6,
+   "cannot_rederive": 0,
+   "units_published_as_lists": [
+    "arms",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDMARGIN-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDNEAR1-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": [
+    "arms",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDPATH-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": [
+    "arms",
+    "cells"
+   ]
+  },
+  {
+   "face": "BANDPATH-2026-10-30.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": [
+    "arms",
+    "cells"
+   ]
+  },
+  {
+   "face": "BANDPOOLED-2026-10-29.json",
+   "unit_named_fields": 4,
+   "re_derivable": 0,
+   "cannot_rederive": 4,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDSCREEN-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDSCREENBUDGET-2026-10-29.json",
+   "unit_named_fields": 1,
+   "re_derivable": 0,
+   "cannot_rederive": 1,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDSPREADFLOOR-2026-10-29.json",
+   "unit_named_fields": 15,
+   "re_derivable": 0,
+   "cannot_rederive": 15,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDSTRADDLESWEEP-2026-10-29.json",
+   "unit_named_fields": 3,
+   "re_derivable": 0,
+   "cannot_rederive": 3,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDSUBSTITUTE-2026-10-29.json",
+   "unit_named_fields": 0,
+   "re_derivable": 0,
+   "cannot_rederive": 0,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+   "unit_named_fields": 2,
+   "re_derivable": 0,
+   "cannot_rederive": 2,
+   "units_published_as_lists": [
+    "faces"
+   ]
+  },
+  {
+   "face": "BANDTHRESHGUARD-2026-10-29.json",
+   "unit_named_fields": 19,
+   "re_derivable": 0,
+   "cannot_rederive": 19,
+   "units_published_as_lists": []
+  },
+  {
+   "face": "BANDTIGHT-2026-10-29.json",
+   "unit_named_fields": 57,
+   "re_derivable": 4,
+   "cannot_rederive": 53,
+   "units_published_as_lists": [
+    "cells",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDTOPFLIP-2026-10-29.json",
+   "unit_named_fields": 1,
+   "re_derivable": 0,
+   "cannot_rederive": 1,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDTRANSFER-2026-10-29.json",
+   "unit_named_fields": 54,
+   "re_derivable": 0,
+   "cannot_rederive": 54,
+   "units_published_as_lists": [
+    "arms",
+    "cells",
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDWINDIST-2026-10-29.json",
+   "unit_named_fields": 35,
+   "re_derivable": 0,
+   "cannot_rederive": 35,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  },
+  {
+   "face": "BANDWINMULT-2026-10-29.json",
+   "unit_named_fields": 2,
+   "re_derivable": 0,
+   "cannot_rederive": 2,
+   "units_published_as_lists": [
+    "rows"
+   ]
+  }
+ ],
+ "cannot_rederive": {
+  "n_rows": 867,
+  "by_why": {
+   "unit_never_published": 566,
+   "unit_list_exists_elsewhere": 301
+  },
+  "sample": [
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[0].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[1].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[2].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[3].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[4].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[5].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[6].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[7].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[8].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[9].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[10].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[11].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[12].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[13].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[14].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "cross_check.arms[15].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.all_five.cross.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.all_five.self.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.early_three.cross.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.early_three.self.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.era_2023_2024.cross.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.era_2023_2024.self.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.era_2025_now.cross.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "monotone_audit.era_2025_now.self.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[0].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[1].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[6].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[7].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[8].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[9].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[10].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[11].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[12].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[13].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[14].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "rows[15].n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "summary.rows",
+    "key": "rows",
+    "claimed_unit": "rows",
+    "published_value": 16,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_list_exists_elsewhere"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "summary.seeds",
+    "key": "seeds",
+    "claimed_unit": "seeds",
+    "published_value": 320,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "windows.all_five.cross.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   },
+   {
+    "face": "BANDARRIVAL-2026-10-29.json",
+    "path": "windows.all_five.self.n_seeds",
+    "key": "n_seeds",
+    "claimed_unit": "seeds",
+    "published_value": 40,
+    "derivation": null,
+    "cannot_rederive": true,
+    "why": "unit_never_published"
+   }
+  ],
+  "statement": "these counts name a unit the face does not publish in that count's scope; the unit word in the name is not a checkable claim here and is not reported as either correct or wrong"
+ },
+ "identity_check": {
+  "partition_sums_to_fields": true,
+  "why_partition_sums_to_cannot": true,
+  "by_key_occurrences_sum": true,
+  "by_key_re_derivable_sum": true,
+  "by_key_cannot_sum": true,
+  "by_key_disagree_sum": true,
+  "by_face_fields_sum": true,
+  "no_bool_reached_the_census": true,
+  "self_faces_absent_from_universe": true,
+  "source_scope_face_censused": true,
+  "universe_is_superset_of_e284_scope": true,
+  "e284_faces_scanned": 30,
+  "faces_added_since_e284": [
+   "BANDDISAGREESCOPE-2026-10-29.json",
+   "BANDGAPCEILING-2026-10-29.json"
+  ],
+  "faces_dropped_since_e284": []
+ },
+ "summary": {
+  "faces_censused": 32,
+  "unit_named_int_fields": 894,
+  "qualified_unit_named_fields_not_judged": 557,
+  "distinct_count_keys": 12,
+  "n_re_derivable": 27,
+  "re_derivable_share": 0.030201342281879196,
+  "n_agree": 27,
+  "n_disagree": 0,
+  "disagree_rows": [],
+  "n_cannot_rederive": 867,
+  "of_which_unit_list_exists_elsewhere": 301,
+  "of_which_unit_never_published": 566,
+  "faces_with_a_re_derivable_count": [
+   "BANDARRIVAL-2026-10-29.json",
+   "BANDDONORCHOICE-2026-10-29.json",
+   "BANDFLIPBUDGET-2026-10-29.json",
+   "BANDGAPCEILING-2026-10-29.json",
+   "BANDTIGHT-2026-10-29.json"
+  ],
+  "faces_where_no_count_can_be_checked": [
+   "BANDARRIVALATE-2026-10-29.json",
+   "BANDBUCKET-2026-10-29.json",
+   "BANDDEFLATE-2026-10-29.json",
+   "BANDDISAGREE-2026-10-29.json",
+   "BANDDISAGREESCOPE-2026-10-29.json",
+   "BANDDRAW-2026-10-29-d1920.json",
+   "BANDDRAW-2026-10-29-d960.json",
+   "BANDDRAW-2026-10-29.json",
+   "BANDEXP-2026-10-29.json",
+   "BANDFIELDS-2026-10-29.json",
+   "BANDPOOLED-2026-10-29.json",
+   "BANDSCREENBUDGET-2026-10-29.json",
+   "BANDSPREADFLOOR-2026-10-29.json",
+   "BANDSTRADDLESWEEP-2026-10-29.json",
+   "BANDSUBSTITUTEAUDIT-2026-10-29.json",
+   "BANDTHRESHGUARD-2026-10-29.json",
+   "BANDTOPFLIP-2026-10-29.json",
+   "BANDTRANSFER-2026-10-29.json",
+   "BANDWINDIST-2026-10-29.json",
+   "BANDWINMULT-2026-10-29.json"
+  ],
+  "checkable_share_floor": 0.1,
+  "calibrated": false,
+  "verdict": "the_checkable_share_of_unit_named_counts_is_a_minority_and_every_one_agrees"
+ },
+ "verdict": "the_checkable_share_of_unit_named_counts_is_a_minority_and_every_one_agrees",
+ "verdict_reason": "only 27 of 894 unit-named count(s) (3.0 pct) can be re-derived from the records their name points at, and every one of those counts the unit it claims -- so the name is a checkable claim for a minority and a promise nobody can audit for the rest (301 elsewhere-scope, 566 never published)."
+}

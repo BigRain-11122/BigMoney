@@ -466,6 +466,18 @@ LEGS = [
     ("interrange_gap_ceiling",
      ["python", "scripts/e285_interrange_gap_ceiling.py", "verify"]),
 
+    # E286 (r1311 bm-b): E284 had to leave 1338 integer fields unjudged because an integer count's
+    # scope depends on that face's own census semantics. This leg judges the half that can be judged
+    # without guessing: of 894 unit-named counts across 32 dated faces, only 27 (3.0 pct) publish the
+    # records they name in the SAME scope -- and all 27 count the unit they claim, so the name is a
+    # checkable claim for a minority. The other 867 split into 301 where the face publishes that unit
+    # elsewhere (the name lacks a scope) and 566 where it publishes no records of that unit at all
+    # (the name is a design parameter) -- two different fixes that must never be reported as one
+    # number. 557 subset-named counts are disclosed as not judged (E208: a naive unit-word match
+    # rejects real quotes). Published faces only, no draw. <1s.
+    ("count_field_scope",
+     ["python", "scripts/e286_count_field_scope.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
