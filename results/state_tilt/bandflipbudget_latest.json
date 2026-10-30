@@ -1,0 +1,1002 @@
+{
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "design": "one flip multiplier per row (E269's flip_multiplier, imported not re-implemented), then each tail's published multiplier range in the row's own (leg, base count) placed on it",
+  "gap_rule": "gap = 0 when the flip sits inside the range, else the distance to the nearer end as a percent of the flip (E269's published convention)",
+  "match_rule": "a tail's range is only taken from windows sharing the row's (leg, base count)",
+  "no_new_draws": "no shuffle stream is drawn; every number is a function of the faces",
+  "normalised_rule": "normalised gap = gap_pct / that tail's own spread_pct -- the number of spreads of draw budget before this tail could matter; a tail publishing one multiplier has spread 0 and is reported unmeasurable rather than infinite",
+  "polarity_rule": "a flip above 1 needs a LARGER multiplier (widening, the wide tail); below 1 needs a smaller one (narrowing, the tight tail); direction is published per row, never assumed",
+  "reachable_rule": "reachable_strict requires a published multiplier STRICTLY past the flip, because e257.outside is strict: a multiplier exactly at the flip leaves the row inside",
+  "tight_availability": "the range of p05 across the windows sharing (leg, base)",
+  "tolerance": 1e-12,
+  "wide_availability": "the same range of p95"
+ },
+ "generated": "2026-10-31T04:10:24",
+ "no_bill": "measurement only: E259's published p05/p95 arms, E262's published rows and E269's published flip gaps are re-read; no shuffle stream is drawn, no band is rebuilt, no engine runs. A flip that is or is not reachable here is a statement about the published numbers, not about the market.",
+ "source_faces": [
+  "BANDWINDIST-2026-10-29.json",
+  "BANDTRANSFER-2026-10-29.json",
+  "BANDTIGHT-2026-10-29.json"
+ ],
+ "study": "E272_flip_budget_two_tails",
+ "summary": {
+  "arms_measured": 16,
+  "arms_where_p95_exceeds_p05": 16,
+  "nearest_flip": {
+   "gap_pct": 0.0,
+   "index": 9,
+   "tail": "wide"
+  },
+  "published_p05_floor": 1.0,
+  "published_p95_ceiling": 2.2963286417094975,
+  "reachable_tight_indices": [],
+  "reachable_wide_indices": [
+   9,
+   13
+  ],
+  "rows": 16,
+  "rows_closer_tie": 0,
+  "rows_closer_unmeasured": 0,
+  "rows_flip_below_published_multiplier_floor": 2,
+  "rows_flip_needs_narrowing": 2,
+  "rows_flip_needs_widening": 10,
+  "rows_flip_on_the_boundary": 0,
+  "rows_measured": 12,
+  "rows_reachable_either": 2,
+  "rows_reachable_tight": 0,
+  "rows_reachable_wide": 2,
+  "rows_scored": 12,
+  "rows_tight_closer": 2,
+  "rows_unjudgeable": 4,
+  "rows_wide_closer": 10,
+  "rows_without_flip_multiplier": 0,
+  "tight_gap_pct_median": 53.94918938312931,
+  "tight_normalised_gap_median": 5.139340259068831,
+  "tight_tails_unmeasurable": 2,
+  "verdict": "the_wide_tail_is_the_only_tail_that_can_reach_a_row",
+  "wide_face_verdict": "a_foreign_wide_end_is_not_a_bound",
+  "wide_gap_pct_median": 13.693882413203312,
+  "wide_normalised_gap_median": 1.2150990065232163,
+  "wide_tails_unmeasurable": 0
+ },
+ "tail_budget": {
+  "cross:200": {
+   "base": 200,
+   "leg": "cross",
+   "n_rows": 2,
+   "rows": [
+    {
+     "b": -0.7250430277727764,
+     "band_hi": 0.2579169304029064,
+     "band_lo": -0.2680802007904303,
+     "base": 200,
+     "cell": "all_five",
+     "closer_note": "only the wide tail has a measurable spread here",
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.704575069829843,
+     "index": 1,
+     "leg": "cross",
+     "margin_wide_published": 1.7729551981379557,
+     "own_p05": 1.0,
+     "own_p95": 1.5254615980540964,
+     "row": "cross",
+     "tight": {
+      "argmax": [
+       "all_five",
+       "early_three",
+       "era_2023_2024",
+       "era_2025_now"
+      ],
+      "argmin": [
+       "all_five",
+       "early_three",
+       "era_2023_2024",
+       "era_2025_now"
+      ],
+      "gap_pct": 63.025614960544814,
+      "multiplier_max": 1.0,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": null,
+      "normalised_note": "this tail publishes a single multiplier (spread 0): nothing to normalise against",
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 0.0,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "era_2025_now"
+      ],
+      "argmin": [
+       "all_five"
+      ],
+      "gap_pct": 34.127495876707655,
+      "multiplier_max": 1.7815713243912,
+      "multiplier_min": 1.5254615980540964,
+      "n_cells": 4,
+      "normalised_gap": 2.0327296874755554,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.788998599755068,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.7250430277727764,
+     "band_hi": 0.23568968080162994,
+     "band_lo": -0.2227898080428957,
+     "base": 200,
+     "cell": "all_five",
+     "closer_note": "only the wide tail has a measurable spread here",
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 3.254381491424318,
+     "index": 12,
+     "leg": "cross",
+     "margin_wide_published": 2.016610077677925,
+     "own_p05": 1.0,
+     "own_p95": 1.5254615980540964,
+     "row": "star_lag1_residual",
+     "tight": {
+      "argmax": [
+       "all_five",
+       "early_three",
+       "era_2023_2024",
+       "era_2025_now"
+      ],
+      "argmin": [
+       "all_five",
+       "early_three",
+       "era_2023_2024",
+       "era_2025_now"
+      ],
+      "gap_pct": 69.27219495823958,
+      "multiplier_max": 1.0,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": null,
+      "normalised_note": "this tail publishes a single multiplier (spread 0): nothing to normalise against",
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 0.0,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "era_2025_now"
+      ],
+      "argmin": [
+       "all_five"
+      ],
+      "gap_pct": 45.25622367611627,
+      "multiplier_max": 1.7815713243912,
+      "multiplier_min": 1.5254615980540964,
+      "n_cells": 4,
+      "normalised_gap": 2.6955880308892577,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.788998599755068,
+      "tail": "wide",
+      "unavailable": null
+     }
+    }
+   ],
+   "tight_range": {
+    "argmax": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "argmin": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "base": 200,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "cross",
+    "max": 1.0,
+    "min": 1.0,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 0.0,
+    "tail": "p05"
+   },
+   "wide_range": {
+    "argmax": [
+     "era_2025_now"
+    ],
+    "argmin": [
+     "all_five"
+    ],
+    "base": 200,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "cross",
+    "max": 1.7815713243912,
+    "min": 1.5254615980540964,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 16.788998599755068,
+    "tail": "p95"
+   }
+  },
+  "cross:60": {
+   "base": 60,
+   "leg": "cross",
+   "n_rows": 6,
+   "rows": [
+    {
+     "b": -0.8332269315437407,
+     "band_hi": 0.3612981017916428,
+     "band_lo": -0.33888786748973576,
+     "base": 60,
+     "cell": "era_2023_2024",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.4587098314134175,
+     "index": 7,
+     "leg": "cross",
+     "margin_wide_published": 1.143884044983929,
+     "own_p05": 1.0,
+     "own_p95": 2.0161164653210557,
+     "row": "cross",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 55.227662219530124,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 5.477746227292326,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 6.6043250663122555,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.3955429599638402,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.9113353718550754,
+     "band_hi": 0.46536854590686627,
+     "band_lo": -0.4149041386090875,
+     "base": 60,
+     "cell": "era_2025_now",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.1964962193681883,
+     "index": 9,
+     "leg": "cross",
+     "margin_wide_published": 0.9951907373680638,
+     "own_p05": 1.0961484198644305,
+     "own_p95": 1.9677724487432138,
+     "row": "cross",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 49.88282424275317,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 4.947619387115751,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 0.0,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.0,
+      "normalised_note": null,
+      "reachable": true,
+      "reachable_from_below": true,
+      "reachable_strict": true,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.4942013405547795,
+     "band_hi": 0.30837107575218653,
+     "band_lo": -0.27410275200467416,
+     "base": 60,
+     "cell": "early_three",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 1.8029783974819489,
+     "index": 11,
+     "leg": "cross",
+     "margin_wide_published": 0.7754753950454284,
+     "own_p05": 1.0437901478662597,
+     "own_p95": 2.066627768797113,
+     "row": "cross",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 38.944256220737216,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 3.862679389539874,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": false,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 9.14010126196838,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.5474144096827337,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.8332269315437407,
+     "band_hi": 0.34628292300900926,
+     "band_lo": -0.38965397709569133,
+     "base": 60,
+     "cell": "era_2023_2024",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.1383765610561616,
+     "index": 13,
+     "leg": "cross",
+     "margin_wide_published": 1.0606413854745422,
+     "own_p05": 1.0,
+     "own_p95": 2.0161164653210557,
+     "row": "star_lag1_residual",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 48.520672606964425,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 4.812514610196491,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 0.0,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.0,
+      "normalised_note": null,
+      "reachable": true,
+      "reachable_from_below": true,
+      "reachable_strict": true,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.9113353718550754,
+     "band_hi": 0.37517005828954664,
+     "band_lo": -0.3828993236712511,
+     "base": 60,
+     "cell": "era_2025_now",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.380091359569827,
+     "index": 14,
+     "leg": "cross",
+     "margin_wide_published": 1.209535869398901,
+     "own_p05": 1.0961484198644305,
+     "own_p95": 1.9677724487432138,
+     "row": "star_lag1_residual",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 53.748755637640855,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 5.331061131021912,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 3.5193068334767097,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.21077657867492547,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.4942013405547795,
+     "band_hi": 0.29882489984854366,
+     "band_lo": -0.26227210344102825,
+     "base": 60,
+     "cell": "early_three",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 1.88430768682915,
+     "index": 15,
+     "leg": "cross",
+     "margin_wide_published": 0.8002485131283013,
+     "own_p05": 1.0437901478662597,
+     "own_p95": 2.066627768797113,
+     "row": "star_lag1_residual",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 41.5795053824536,
+      "multiplier_max": 1.1008218707620367,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 4.124056126729783,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 10.082187076203674,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": false,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 4.429465659852805,
+      "multiplier_max": 2.2963286417094975,
+      "multiplier_min": 1.9677724487432138,
+      "n_cells": 4,
+      "normalised_gap": 0.2652873595052575,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 16.696859089379345,
+      "tail": "wide",
+      "unavailable": null
+     }
+    }
+   ],
+   "tight_range": {
+    "argmax": [
+     "all_five"
+    ],
+    "argmin": [
+     "era_2023_2024"
+    ],
+    "base": 60,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "cross",
+    "max": 1.1008218707620367,
+    "min": 1.0,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 10.082187076203674,
+    "tail": "p05"
+   },
+   "wide_range": {
+    "argmax": [
+     "all_five"
+    ],
+    "argmin": [
+     "era_2025_now"
+    ],
+    "base": 60,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "cross",
+    "max": 2.2963286417094975,
+    "min": 1.9677724487432138,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 16.696859089379345,
+    "tail": "p95"
+   }
+  },
+  "self:200": {
+   "base": 200,
+   "leg": "self",
+   "n_rows": 1,
+   "rows": [
+    {
+     "b": -0.7338669780097795,
+     "band_hi": 0.22694777216938677,
+     "band_lo": -0.31482186746270696,
+     "base": 200,
+     "cell": "all_five",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.331054649806725,
+     "index": 0,
+     "leg": "self",
+     "margin_wide_published": 1.4683297495128633,
+     "own_p05": 1.068797342014263,
+     "own_p95": 1.5875552821701537,
+     "row": "self",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "early_three",
+       "era_2023_2024",
+       "era_2025_now"
+      ],
+      "gap_pct": 54.149623128617755,
+      "multiplier_max": 1.068797342014263,
+      "multiplier_min": 1.0,
+      "n_cells": 4,
+      "normalised_gap": 7.87088883715763,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 6.879734201426291,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "early_three"
+      ],
+      "argmin": [
+       "era_2025_now"
+      ],
+      "gap_pct": 26.273915063696595,
+      "multiplier_max": 1.7185953310281559,
+      "multiplier_min": 1.575580063460192,
+      "n_cells": 4,
+      "normalised_gap": 2.8945620609166247,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.076991444908389,
+      "tail": "wide",
+      "unavailable": null
+     }
+    }
+   ],
+   "tight_range": {
+    "argmax": [
+     "all_five"
+    ],
+    "argmin": [
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "base": 200,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "self",
+    "max": 1.068797342014263,
+    "min": 1.0,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 6.879734201426291,
+    "tail": "p05"
+   },
+   "wide_range": {
+    "argmax": [
+     "early_three"
+    ],
+    "argmin": [
+     "era_2025_now"
+    ],
+    "base": 200,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "self",
+    "max": 1.7185953310281559,
+    "min": 1.575580063460192,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 9.076991444908389,
+    "tail": "p95"
+   }
+  },
+  "self:60": {
+   "base": 60,
+   "leg": "self",
+   "n_rows": 3,
+   "rows": [
+    {
+     "b": -0.8027254787526823,
+     "band_hi": 0.38241486006464576,
+     "band_lo": -0.3009172041368989,
+     "base": 60,
+     "cell": "era_2023_2024",
+     "closer_note": null,
+     "closer_tail": "wide",
+     "flip_direction": "widening_reenters",
+     "flip_multiplier": 2.6675958294079174,
+     "index": 6,
+     "leg": "self",
+     "margin_wide_published": 0.9651959519531639,
+     "own_p05": 1.009502997066893,
+     "own_p95": 2.1747873393781756,
+     "row": "self",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 58.52125322640098,
+      "multiplier_max": 1.1064853190231985,
+      "multiplier_min": 1.009502997066893,
+      "n_cells": 4,
+      "normalised_gap": 6.091561774606626,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.606937496776858,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": true,
+     "verdict_wide": true,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "early_three"
+      ],
+      "gap_pct": 18.247663564438245,
+      "multiplier_max": 2.1808219171985748,
+      "multiplier_min": 1.9881347977384831,
+      "n_cells": 4,
+      "normalised_gap": 1.882783603363699,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.691853876270095,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.46348275881928647,
+     "band_hi": 0.4510867343946797,
+     "band_lo": -0.5211261029119459,
+     "base": 60,
+     "cell": "era_2025_now",
+     "closer_note": null,
+     "closer_tail": "tight",
+     "flip_direction": "narrowing_escapes",
+     "flip_multiplier": 0.8893869568794188,
+     "index": 8,
+     "leg": "self",
+     "margin_wide_published": 0.41684257918765577,
+     "own_p05": 1.0931596394888732,
+     "own_p95": 2.133627900040008,
+     "row": "self",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 13.505487038951403,
+      "multiplier_max": 1.1064853190231985,
+      "multiplier_min": 1.009502997066893,
+      "n_cells": 4,
+      "normalised_gap": 1.4058056527881557,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.606937496776858,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": false,
+     "verdict_wide": false,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "early_three"
+      ],
+      "gap_pct": 123.53990941290927,
+      "multiplier_max": 2.1808219171985748,
+      "multiplier_min": 1.9881347977384831,
+      "n_cells": 4,
+      "normalised_gap": 12.746777963232514,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.691853876270095,
+      "tail": "wide",
+      "unavailable": null
+     }
+    },
+    {
+     "b": -0.2034528182205142,
+     "band_hi": 0.20152376421923934,
+     "band_lo": -0.3227391896025501,
+     "base": 60,
+     "cell": "early_three",
+     "closer_note": null,
+     "closer_tail": "tight",
+     "flip_direction": "narrowing_escapes",
+     "flip_multiplier": 0.6303939055900345,
+     "index": 10,
+     "leg": "self",
+     "margin_wide_published": 0.3170780503953312,
+     "own_p05": 1.0666547450688164,
+     "own_p95": 1.9881347977384831,
+     "row": "self",
+     "tight": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "era_2023_2024"
+      ],
+      "gap_pct": 60.13844488582434,
+      "multiplier_max": 1.1064853190231985,
+      "multiplier_min": 1.009502997066893,
+      "n_cells": 4,
+      "normalised_gap": 6.2598975902571325,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.606937496776858,
+      "tail": "tight",
+      "unavailable": null
+     },
+     "verdict_tight": false,
+     "verdict_wide": false,
+     "wide": {
+      "argmax": [
+       "all_five"
+      ],
+      "argmin": [
+       "early_three"
+      ],
+      "gap_pct": 215.37976178206128,
+      "multiplier_max": 2.1808219171985748,
+      "multiplier_min": 1.9881347977384831,
+      "n_cells": 4,
+      "normalised_gap": 22.222761974301463,
+      "normalised_note": null,
+      "reachable": false,
+      "reachable_from_below": false,
+      "reachable_strict": false,
+      "spread_pct": 9.691853876270095,
+      "tail": "wide",
+      "unavailable": null
+     }
+    }
+   ],
+   "tight_range": {
+    "argmax": [
+     "all_five"
+    ],
+    "argmin": [
+     "era_2023_2024"
+    ],
+    "base": 60,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "self",
+    "max": 1.1064853190231985,
+    "min": 1.009502997066893,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 9.606937496776858,
+    "tail": "p05"
+   },
+   "wide_range": {
+    "argmax": [
+     "all_five"
+    ],
+    "argmin": [
+     "early_three"
+    ],
+    "base": 60,
+    "cells": [
+     "all_five",
+     "early_three",
+     "era_2023_2024",
+     "era_2025_now"
+    ],
+    "leg": "self",
+    "max": 2.1808219171985748,
+    "min": 1.9881347977384831,
+    "n_cells": 4,
+    "reason": null,
+    "spread_pct": 9.691853876270095,
+    "tail": "p95"
+   }
+  }
+ },
+ "title": "is one tail closer to mattering than the other, on one ruler?",
+ "verdict": "the_wide_tail_is_the_only_tail_that_can_reach_a_row",
+ "verdict_reason": "2 row(s) sit at a published multiplier past their flip: wide [9, 13] / tight []; every published p05 is >= 1.0000 while 10 of 12 flips need a multiplier LARGER than 1 (so a smaller multiplier cannot re-enter them); 10 of 12 scored row(s) put the wide tail closer on the normalised ruler, 2 the tight tail, 0 tie -- the tight end is inert here, but inert because the population never publishes a narrowing multiplier, not because the tight tail is safe"
+}

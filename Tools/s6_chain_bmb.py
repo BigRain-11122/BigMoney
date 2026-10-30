@@ -361,6 +361,16 @@ LEGS = [
     ("spread_straddle_sweep",
      ["python", "scripts/e274_spread_straddle_sweep.py", "verify"]),
 
+    # E272: E269 measured the tight half's draw budget and left the wide half's unmeasured on the
+    # same ruler. One flip multiplier per row, then each tail's own published multiplier range in
+    # the row's (leg, base) group placed on it: the wide tail reaches 2 rows (exactly E262's two
+    # moved rows, re-derived from that face), the tight tail reaches none because every published
+    # p05 sits at >= 1.0 while 10 of 12 flips need a LARGER multiplier -- and on the normalised
+    # ruler (gap / that tail's own spread) the wide tail is closer on 10 of 12. The leg re-derives
+    # the face and crosses it against E269's published gaps plus E262's moved set. <1s.
+    ("flip_budget_two_tails",
+     ["python", "scripts/e272_flip_budget_two_tails.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

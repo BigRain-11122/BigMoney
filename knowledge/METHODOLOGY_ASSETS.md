@@ -5272,3 +5272,19 @@ digest research/digests/DIGEST-20261031-r1298-e271-donor-choice.md.
 > Two smaller generalisations: a **join key shape is part of the contract** (published ids are `source/cell/row`; a `source/row` key silently matches nothing and reads exactly like a failing screen), and a **zero-width range cannot decide anything** -- `straddle(m, 3.0, 3.0)` must read `untested`, not `inside`, because a single point offers no spread to be inside of.
 
 Evidence: scripts/e274_spread_straddle_sweep.py (selftest 29/29, verify 0 problems), results/state_tilt/BANDSTRADDLESWEEP-2026-10-29.json (verdict=two_published_numbers_predict_every_scored_axis; 12 rows x 3 axes, 4 moved observations, 4 hits), S6 leg `spread_straddle_sweep` (rc=0, 0.16s), digest research/digests/DIGEST-20261031-r1299-e274-straddle-sweep.md.
+
+## E276 -- "this tail is inert" is a statement about the published multipliers, not about the tail: put both tails on one ruler before spending draw budget
+
+> Card number vs pool id: this study ran as pool entry E272-TIGHT-FLIP-BUDGET; the card is E276 because pool ids and card ids have drifted apart in this repo (pool id E272 was already used by an earlier atlas pair).
+
+> A zero on one tail is only a finding if the OTHER tail can move something. E269 published the flip multiplier of every row and found the nearest one 13.5% outside the widest p05 swing its group publishes; that is a tight-half budget. E272 puts the wide half on the SAME number -- one m_flip per row, imported from E269 rather than re-implemented -- and measures each tail by how much room it actually offers: the p05 range vs the p95 range across the windows sharing the row's (leg, base count).
+
+> The ruler that makes the two comparable is gap / that tail's own spread ("how many spreads of draw budget before this tail could matter"). Tight normalised-gap median 5.14 spreads vs wide 1.22; the wide tail is closer on 10 of 12 rows and is the only measurable tail on 2 more (where p05 is 1.0000 on all four windows). The tight end never wins on a row it can actually move.
+
+> Polarity decides reachability, and it is published per row. A flip above 1 needs a LARGER multiplier (widening -- the wide tail); below 1 needs a smaller one (narrowing -- the tight tail). 10 of 12 flips need widening while every published p05 in the family is >= 1.0000, so no published p05 can re-enter any row: the tight end is inert by construction of the published multipliers, which is exactly why "the tight end transferred cleanly" was never the right reading of E269's zero.
+
+> A zero gap is necessary but not sufficient for a move. e257.outside is strict, so a flip sitting exactly on a published end is still inside; the face publishes reachable and reachable_strict separately and only the strict set feeds the verdict. Soundness is then checked against the other face: the wide-reachable set must contain every row E262 actually moved -- here it equals it (rows 9 and 13), and verify fails if they diverge.
+
+> A spread of zero is unmeasurable, never infinite. cross:200 publishes p05 = 1.0000 on all four windows; dividing a gap by that spread would print an infinite budget and rank that tail first. Those readings are reported as unmeasurable with a reason, and whichever tail remains measurable is named in closer_note rather than assumed.
+
+Evidence: scripts/e272_flip_budget_two_tails.py (selftest 39/39, verify 0 problems), results/state_tilt/BANDFLIPBUDGET-2026-10-29.json (verdict=the_wide_tail_is_the_only_tail_that_can_reach_a_row; 12 measured rows, wide-reachable [9, 13] = E262's moved set, tight-reachable []), S6 leg flip_budget_two_tails (rc=0, 0.15s), digest research/digests/DIGEST-20261031-r1300-e272-flip-budget.md.

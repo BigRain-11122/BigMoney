@@ -5817,6 +5817,136 @@ def main() -> int:
               "offers -- reproduce every moved set the band family published", False, repr(e)[:160])
 
 
+    # E272: E269 measured the tight half's draw budget and left the wide half unmeasured on the
+    # same ruler. The leg re-derives the one reading this face exists to publish -- which tail is
+    # closer -- from the face's own two gaps and two spreads (gap / that tail's spread), so a
+    # closer_tail that disagrees with its own numbers is red. It also pins the two ways the face
+    # could lie: (i) calling a tail "reachable" at a flip it never crosses (a flip exactly ON a
+    # published end is still INSIDE, because outside() is strict), (ii) reporting a spread-0 tail
+    # as if it were measurable (cross:200 publishes p05=1.0000 on all four windows) rather than
+    # naming it unmeasurable.
+    _name72 = ("product: one ruler puts both tails of the screen's flip budget side by side -- "
+               "and a tail that cannot move anything is named inert, not safe")
+
+    def _nrm72(_gap, _spread):
+        if _gap is None or _spread is None or _spread <= 0:
+            return None
+        return _gap / _spread
+
+    try:
+        _bad72 = []
+        _p72 = os.path.join("results", "state_tilt", "bandflipbudget_latest.json")
+        _f72 = None
+        if not os.path.exists(_p72):
+            _bad72.append("face missing: %s" % _p72)
+        else:
+            with io.open(_p72, encoding="utf-8") as _fh72:
+                _f72 = json.load(_fh72)
+        if _f72 is not None:
+            _s72 = _f72.get("summary") or {}
+            if _f72.get("evidence_cutoff") is None:
+                _bad72.append("no evidence_cutoff on the face")
+            if _s72.get("verdict") not in (
+                    "the_wide_tail_is_the_only_tail_that_can_reach_a_row",
+                    "the_tight_tail_is_the_only_tail_that_can_reach_a_row",
+                    "both_tails_reach_at_least_one_row",
+                    "neither_tail_is_reachable_at_published_spreads",
+                    "the_wide_tail_is_closer_on_a_normalised_ruler",
+                    "the_tight_tail_is_closer_on_a_normalised_ruler",
+                    "the_two_tails_are_equally_out_of_reach",
+                    "no_rows_measured"):
+                _bad72.append("verdict %r is outside the frozen vocabulary" % (_s72.get("verdict"),))
+            _scored72, _reach_w, _reach_t = [], [], []
+            for _k72 in sorted(_f72.get("tail_budget") or {}):
+                for _r72 in ((_f72.get("tail_budget") or {}).get(_k72) or {}).get("rows") or []:
+                    _scored72.append(_r72)
+                    _mf72 = _r72.get("flip_multiplier")
+                    _dir72 = _r72.get("flip_direction")
+                    if _mf72 is not None:
+                        _want72 = ("widening_reenters" if _mf72 > 1.0 + 1e-12 else
+                                   "narrowing_escapes" if _mf72 < 1.0 - 1e-12 else "boundary")
+                        if _dir72 != _want72:
+                            _bad72.append("row %r: direction %r does not follow flip %r"
+                                          % (_r72.get("index"), _dir72, _mf72))
+                    _n72 = {}
+                    for _t72 in ("tight", "wide"):
+                        _b72 = _r72.get(_t72) or {}
+                        _gn72 = _nrm72(_b72.get("gap_pct"), _b72.get("spread_pct"))
+                        _pub72 = _b72.get("normalised_gap")
+                        if _gn72 is None:
+                            if _pub72 is not None:
+                                _bad72.append("row %r %s: normalised gap %r but spread %r"
+                                              % (_r72.get("index"), _t72, _pub72,
+                                                 _b72.get("spread_pct")))
+                            elif not _b72.get("normalised_note"):
+                                _bad72.append("row %r %s: unmeasurable tail without a reason"
+                                              % (_r72.get("index"), _t72))
+                        elif _pub72 is None or abs(_pub72 - _gn72) > 1e-9:
+                            _bad72.append("row %r %s: normalised gap %r does not re-derive (%r)"
+                                          % (_r72.get("index"), _t72, _pub72, _gn72))
+                        _n72[_t72] = _gn72
+                        # reachability: a zero gap is not enough -- the tail must publish a
+                        # multiplier STRICTLY past the flip, or the row is still inside
+                        if _b72.get("reachable_strict"):
+                            if (_b72.get("gap_pct") or 0) > 1e-12:
+                                _bad72.append("row %r %s: reachable with gap %r"
+                                              % (_r72.get("index"), _t72, _b72.get("gap_pct")))
+                            if not (_b72.get("multiplier_max") or 0) > (_mf72 or 0) + 1e-12:
+                                _bad72.append("row %r %s: reachable but no end passes the flip"
+                                              % (_r72.get("index"), _t72))
+                            (_reach_w if _t72 == "wide" else _reach_t).append(_r72.get("index"))
+                    # the closer-tail reading is arithmetic on the two normalised gaps
+                    if _n72["tight"] is None and _n72["wide"] is None:
+                        if _r72.get("closer_tail") is not None:
+                            _bad72.append("row %r: a closer tail from two unmeasurable tails"
+                                          % (_r72.get("index"),))
+                        elif not _r72.get("closer_note"):
+                            _bad72.append("row %r: no closer tail and no reason"
+                                          % (_r72.get("index"),))
+                    else:
+                        _meas72 = {k: v for k, v in _n72.items() if v is not None}
+                        if len(_meas72) == 1:
+                            _wantc72 = list(_meas72)[0]
+                        else:
+                            _a72, _c72 = _meas72.get("tight"), _meas72.get("wide")
+                            _wantc72 = ("tie" if abs(_a72 - _c72) <= 1e-12 else
+                                        ("wide" if _c72 < _a72 else "tight"))
+                        if _r72.get("closer_tail") != _wantc72:
+                            _bad72.append("row %r: closer_tail %r but the ruler says %r"
+                                          % (_r72.get("index"), _r72.get("closer_tail"), _wantc72))
+            # counts must sum to the population, and the reachable sets must re-derive
+            if len(_scored72) != (_s72.get("rows_scored") or 0):
+                _bad72.append("scored %d row(s) but the summary says %r"
+                              % (len(_scored72), _s72.get("rows_scored")))
+            if len(_scored72) != (_s72.get("rows_measured") or 0):
+                _bad72.append("scored %d row(s) against %r measured"
+                              % (len(_scored72), _s72.get("rows_measured")))
+            if sorted(_reach_w) != sorted(_s72.get("reachable_wide_indices") or []):
+                _bad72.append("wide-reachable indices %r do not re-derive (%r)"
+                              % (_s72.get("reachable_wide_indices"), sorted(_reach_w)))
+            if sorted(_reach_t) != sorted(_s72.get("reachable_tight_indices") or []):
+                _bad72.append("tight-reachable indices %r do not re-derive (%r)"
+                              % (_s72.get("reachable_tight_indices"), sorted(_reach_t)))
+            _parts72 = ((_s72.get("rows_wide_closer") or 0) + (_s72.get("rows_tight_closer") or 0)
+                        + (_s72.get("rows_closer_tie") or 0) + (_s72.get("rows_closer_unmeasured") or 0))
+            if _parts72 != len(_scored72):
+                _bad72.append("closer-tail counts sum to %d over %d row(s)"
+                              % (_parts72, len(_scored72)))
+            check(_name72, not _bad72,
+                  "%r | reached by %d row(s): wide %r / tight %r; wide-closer %r, tight-closer "
+                  "%r; medians tight %s / wide %s"
+                  % ((_f72.get("verdict") if _f72 else None,
+                      len(set(_reach_w) | set(_reach_t)), sorted(set(_reach_w)),
+                      sorted(set(_reach_t)),
+                      _s72.get("rows_wide_closer"), _s72.get("rows_tight_closer"),
+                      ("%.2f" % _s72["tight_normalised_gap_median"])
+                      if _s72.get("tight_normalised_gap_median") is not None else "n/a",
+                      ("%.2f" % _s72["wide_normalised_gap_median"])
+                      if _s72.get("wide_normalised_gap_median") is not None else "n/a"))
+                  + (" | " + "; ".join(_bad72[:4]) if _bad72 else ""))
+    except Exception as e:
+        check(_name72, False, repr(e)[:160])
+
     # E270: the guard E267/E268 published consumes four per-row numbers (b, band_lo, band_hi,
     # own_p95), so its reach is what the published faces actually carry -- not what the rule says.
     # Three things can fabricate a reading here: (i) a count taken over the audit's own face
