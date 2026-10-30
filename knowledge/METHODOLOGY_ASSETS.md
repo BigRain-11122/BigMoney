@@ -5288,3 +5288,49 @@ Evidence: scripts/e274_spread_straddle_sweep.py (selftest 29/29, verify 0 proble
 > A spread of zero is unmeasurable, never infinite. cross:200 publishes p05 = 1.0000 on all four windows; dividing a gap by that spread would print an infinite budget and rank that tail first. Those readings are reported as unmeasurable with a reason, and whichever tail remains measurable is named in closer_note rather than assumed.
 
 Evidence: scripts/e272_flip_budget_two_tails.py (selftest 39/39, verify 0 problems), results/state_tilt/BANDFLIPBUDGET-2026-10-29.json (verdict=the_wide_tail_is_the_only_tail_that_can_reach_a_row; 12 measured rows, wide-reachable [9, 13] = E262's moved set, tight-reachable []), S6 leg flip_budget_two_tails (rc=0, 0.15s), digest research/digests/DIGEST-20261031-r1300-e272-flip-budget.md.
+
+## E277 -- a cleared screen row is not equally cleared: publish the margin the offered range has already spent, and say which zone it is in
+
+> Card number vs pool id: this study ran as pool entry `E275-SCREEN-MARGIN-BUDGET`; the card is
+> E277 because E275 and E276 were already assigned by the r1299 and r1300 windows. Pool ids and
+> card ids drift in this repo and are recorded separately.
+
+> An exact screen is not a finished instruction. E274 scored the straddle flag against every moved
+> set the band family published and it reproduced all of them (**4 moved observations, 4 hits, 0
+> missed, 0 flagged-but-inert**), so a reader can now decide "do not borrow from this cell" from
+> two published numbers. What that reading does **not** say is how much room a cleared row has
+> left: `outside` covers a row whose flip sits 6% above the widest multiplier its group ever
+> offered and a row whose flip sits 45% above it, and the two are different instructions.
+
+> **The budget is one ratio.** For a measured row, `budget_spent = hi / m_flip` where `hi` is the
+> widest multiplier the row's (leg, base) group actually offers and `m_flip` is the multiplier at
+> which the row's verdict flips. It is the share of the way from "no perturbation" (1.0) to the
+> flip that the group's widest offer already travels; `room_left = 1 - budget_spent`. Both are
+> functions of published numbers — no draws, no panel, no engine call.
+
+> **"Cleared" is five zones, and two of them mean opposite things.** `spent_by_build` is a row
+> whose flip sits at or below the group's **tightest** offered multiplier: it is not nearly spent,
+> it is spent before the budget starts, so a slightly wider perturbation cannot be what moves it.
+> `spent` is a row outside the range whose widest end already reaches >= 90% of the flip. Keeping
+> them in one "at risk" bucket loses the only distinction the budget adds.
+
+> Reading (12 measured rows, one book): 2 straddle, 4 spent_by_build, 2 spent, 4 open. The
+> straddle zone **is** the guard screen's moved set `{9, 13}`; the open rows have spent 54.7%,
+> 65.9%, 73.7% and 81.8% of their threshold while the spent rows have spent 93.4% and 96.5%. None
+> of the six near-spent rows is named by BANDNEAR1's `near_one_dependent_rows` (empty) or by
+> BANDMARGIN's guard moves (exactly the two straddlers), so the budget names rows nothing else
+> flags — it is neither a restatement nor corroboration.
+
+> **What the zone is not.** It is a statement about the published range, not a movement
+> prediction, and that is pinned rather than claimed: none of the six near-spent rows moved in the
+> published donor sweep. `spent_by_build` is the sharpest case — the tightest offer already passes
+> the flip and the row still did not move, because the sweep moves a specific borrowed quantity,
+> not the bare multiplier. Publish the zone and the non-prediction together or the next reader
+> treats it as a second screen.
+
+Evidence: `scripts/e275_screen_margin_budget.py` (selftest 25/25, verify 0 problems),
+`results/state_tilt/BANDSCREENBUDGET-2026-10-29.json`
+(verdict=`cleared_is_not_one_reading_the_budget_names_rows_nothing_else_flags`; 12 rows:
+4 open / 2 spent / 4 spent_by_build / 2 straddles), S6 leg `screen_margin_budget` (rc=0, 0.14s),
+smoke leg `a cleared row is not equally cleared` (1/1 PASS standalone), digest
+`research/digests/DIGEST-20261031-r1301-e275-screen-margin-budget.md`.

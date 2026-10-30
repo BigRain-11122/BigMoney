@@ -24938,10 +24938,14 @@
    "seeded_at": "2026-10-31T04:10:00+08:00",
    "seeded_by": "bm-b r1299",
    "source": "E274 turned the straddle mechanism into an exact screen: a row moves only if its flip multiplier falls inside the range the axis offers. That is still a binary reading, and it says nothing about how much room a CLEARED row has left. Every measured row publishes margin_wide (its distance from the band edge at the published multiplier) and every group publishes the widest multiplier its cells offer, so the share of that margin the widest offered multiplier would consume is computable without new draws. The question: is the cleared set homogeneous, or does it contain rows whose margin is nearly spent -- and do those rows coincide with the ones BANDNEAR1 already publishes as near-one-dependent? A screen that is exact but leaves one row with 2% of margin is a different instruction than one that leaves every cleared row room.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e275_screen_margin_budget.py (new runner)",
    "title": "is a cleared row equally cleared, or does one perturbation spend its whole margin?",
-   "worker_class": "cpu"
+   "worker_class": "cpu",
+   "done_at": "2026-10-31T04:5x+08:00",
+   "done_by": "bm-b r1301",
+   "result_ref": "results/state_tilt/BANDSCREENBUDGET-2026-10-29.json",
+   "result_card": "knowledge/METHODOLOGY_ASSETS.md E277"
   },
   {
    "deliverable": "results/state_tilt/BANDFLOOR-<cutoff>.json",

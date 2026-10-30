@@ -361,6 +361,16 @@ LEGS = [
     ("spread_straddle_sweep",
      ["python", "scripts/e274_spread_straddle_sweep.py", "verify"]),
 
+    # E275: E274's screen is binary -- a cleared row is 'safe' and nothing is said about how
+    # much room is left. This leg puts a budget on the cleared set from the same two published
+    # numbers: the share of the flip threshold the group's widest offered multiplier already
+    # eats, plus a five-way zone. On 12 measured rows the cleared set splits 4 open / 2 spent /
+    # 4 spent-by-build while the 2 straddlers are exactly the guard screen's moved rows, and
+    # none of the near-spent rows is a row the near-one or guard screen already names -- so
+    # "outside the range" is one reading with room and another with almost none. Faces only.
+    ("screen_margin_budget",
+     ["python", "scripts/e275_screen_margin_budget.py", "verify"]),
+
     # E272: E269 measured the tight half's draw budget and left the wide half's unmeasured on the
     # same ruler. One flip multiplier per row, then each tail's own published multiplier range in
     # the row's (leg, base) group placed on it: the wide tail reaches 2 rows (exactly E262's two

@@ -1,0 +1,385 @@
+{
+ "axis": "wide_donor",
+ "coincidence": {
+  "budget_named": {
+   "named": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    13,
+    14,
+    15
+   ],
+   "zones": {
+    "open": [
+     0,
+     1,
+     6,
+     12
+    ],
+    "spent": [
+     7,
+     14
+    ],
+    "spent_by_build": [
+     8,
+     10,
+     11,
+     15
+    ],
+    "straddles": [
+     9,
+     13
+    ]
+   }
+  },
+  "budget_names_nothing_else_does": [
+   7,
+   8,
+   10,
+   11,
+   14,
+   15
+  ],
+  "guard_moves": {
+   "named": [
+    9,
+    13
+   ],
+   "not_in_face": [],
+   "zones": {
+    "straddles": [
+     9,
+     13
+    ]
+   }
+  },
+  "near_one_dependent": {
+   "named": [],
+   "not_in_face": [],
+   "zones": {}
+  }
+ },
+ "evidence_cutoff": "2026-10-29",
+ "frozen_spec": {
+  "coincidence": "scored against BANDNEAR1.near_one_dependent_rows and BANDMARGIN's guard move indices; disjointness is measured, not assumed",
+  "design": "for every measured row of E274's wide axis publish the flip multiplier, the multiplier range its group offers, the share of the threshold the widest offered multiplier eats and a five-way zone",
+  "m_flip_provenance": "imported from e274 (which re-derives it from the published b and band edges) rather than retyped, so the two faces cannot drift",
+  "no_new_draws": "no shuffle stream is drawn; every number is a function of published faces",
+  "spent_by_build": "a row whose flip sits at or below the group's TIGHTEST end is not nearly spent, it is spent before the budget starts; published apart from 'spent' because the two mean opposite things about the next perturbation",
+  "spent_share": "a cleared row whose widest offered multiplier reaches >= 0.90 of its flip is 'spent'; the cut is frozen here, not tuned on the output"
+ },
+ "generated": "2026-10-31T04:39:44",
+ "named_sets": {
+  "guard_moves": [
+   9,
+   13
+  ],
+  "near_one_dependent": []
+ },
+ "no_bill": "descriptive census over published faces; no trial, no ledger booking",
+ "rows": [
+  {
+   "base": 200,
+   "budget_spent": 0.737260849363034,
+   "cell": "all_five",
+   "index": 0,
+   "leg": "self",
+   "m_flip": 2.331054649806725,
+   "offered_range": [
+    1.575580063460192,
+    1.7185953310281559
+   ],
+   "room_left": 0.26273915063696596,
+   "row": "self",
+   "straddle": "outside",
+   "zone": "open"
+  },
+  {
+   "base": 200,
+   "budget_spent": 0.6587250412329234,
+   "cell": "all_five",
+   "index": 1,
+   "leg": "cross",
+   "m_flip": 2.704575069829843,
+   "offered_range": [
+    1.5254615980540964,
+    1.7815713243912
+   ],
+   "room_left": 0.3412749587670766,
+   "row": "cross",
+   "straddle": "outside",
+   "zone": "open"
+  },
+  {
+   "base": 60,
+   "budget_spent": 0.8175233643556176,
+   "cell": "era_2023_2024",
+   "index": 6,
+   "leg": "self",
+   "m_flip": 2.6675958294079174,
+   "offered_range": [
+    1.9881347977384831,
+    2.1808219171985748
+   ],
+   "room_left": 0.18247663564438243,
+   "row": "self",
+   "straddle": "outside",
+   "zone": "open"
+  },
+  {
+   "base": 60,
+   "budget_spent": 0.9339567493368774,
+   "cell": "era_2023_2024",
+   "index": 7,
+   "leg": "cross",
+   "m_flip": 2.4587098314134175,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": 0.06604325066312255,
+   "row": "cross",
+   "straddle": "outside",
+   "zone": "spent"
+  },
+  {
+   "base": 60,
+   "budget_spent": 2.4520507078835494,
+   "cell": "era_2025_now",
+   "index": 8,
+   "leg": "self",
+   "m_flip": 0.8893869568794188,
+   "offered_range": [
+    1.9881347977384831,
+    2.1808219171985748
+   ],
+   "room_left": -1.4520507078835494,
+   "row": "self",
+   "straddle": "outside",
+   "zone": "spent_by_build"
+  },
+  {
+   "base": 60,
+   "budget_spent": 1.0454507599243787,
+   "cell": "era_2025_now",
+   "index": 9,
+   "leg": "cross",
+   "m_flip": 2.1964962193681883,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": -0.04545075992437875,
+   "row": "cross",
+   "straddle": "inside",
+   "zone": "straddles"
+  },
+  {
+   "base": 60,
+   "budget_spent": 3.4594590744930738,
+   "cell": "early_three",
+   "index": 10,
+   "leg": "self",
+   "m_flip": 0.6303939055900345,
+   "offered_range": [
+    1.9881347977384831,
+    2.1808219171985748
+   ],
+   "room_left": -2.4594590744930738,
+   "row": "self",
+   "straddle": "outside",
+   "zone": "spent_by_build"
+  },
+  {
+   "base": 60,
+   "budget_spent": 1.2736307017968516,
+   "cell": "early_three",
+   "index": 11,
+   "leg": "cross",
+   "m_flip": 1.8029783974819489,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": -0.27363070179685156,
+   "row": "cross",
+   "straddle": "outside",
+   "zone": "spent_by_build"
+  },
+  {
+   "base": 200,
+   "budget_spent": 0.5474377632388373,
+   "cell": "all_five",
+   "index": 12,
+   "leg": "cross",
+   "m_flip": 3.254381491424318,
+   "offered_range": [
+    1.5254615980540964,
+    1.7815713243912
+   ],
+   "room_left": 0.4525622367611627,
+   "row": "star_lag1_residual",
+   "straddle": "outside",
+   "zone": "open"
+  },
+  {
+   "base": 60,
+   "budget_spent": 1.0738654189958583,
+   "cell": "era_2023_2024",
+   "index": 13,
+   "leg": "cross",
+   "m_flip": 2.1383765610561616,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": -0.0738654189958583,
+   "row": "star_lag1_residual",
+   "straddle": "inside",
+   "zone": "straddles"
+  },
+  {
+   "base": 60,
+   "budget_spent": 0.9648069316652329,
+   "cell": "era_2025_now",
+   "index": 14,
+   "leg": "cross",
+   "m_flip": 2.380091359569827,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": 0.0351930683347671,
+   "row": "star_lag1_residual",
+   "straddle": "outside",
+   "zone": "spent"
+  },
+  {
+   "base": 60,
+   "budget_spent": 1.218659063888702,
+   "cell": "early_three",
+   "index": 15,
+   "leg": "cross",
+   "m_flip": 1.88430768682915,
+   "offered_range": [
+    1.9677724487432138,
+    2.2963286417094975
+   ],
+   "room_left": -0.21865906388870204,
+   "row": "star_lag1_residual",
+   "straddle": "outside",
+   "zone": "spent_by_build"
+  }
+ ],
+ "source_faces": [
+  "BANDSTRADDLESWEEP-2026-10-29.json",
+  "BANDNEAR1-2026-10-29.json",
+  "BANDMARGIN-2026-10-29.json"
+ ],
+ "study": "e275_screen_margin_budget",
+ "summary": {
+  "budget_names_nothing_else_does": [
+   7,
+   8,
+   10,
+   11,
+   14,
+   15
+  ],
+  "cleared_but_not_open": [
+   7,
+   8,
+   10,
+   11,
+   14,
+   15
+  ],
+  "cleared_rows": [
+   0,
+   1,
+   6,
+   7,
+   8,
+   10,
+   11,
+   12,
+   14,
+   15
+  ],
+  "coincides_with_guard_moves": false,
+  "coincides_with_near_one": false,
+  "moved_here": [
+   9,
+   13
+  ],
+  "n_open": 4,
+  "n_spent": 2,
+  "n_spent_by_build": 4,
+  "n_straddles": 2,
+  "n_untested": 0,
+  "open_budget_max": 0.8175233643556176,
+  "open_budget_min": 0.5474377632388373,
+  "rows": 12,
+  "spent_rows": [
+   7,
+   8,
+   10,
+   11,
+   14,
+   15
+  ],
+  "verdict": "cleared_is_not_one_reading_the_budget_names_rows_nothing_else_flags",
+  "zones": {
+   "open": [
+    0,
+    1,
+    6,
+    12
+   ],
+   "spent": [
+    7,
+    14
+   ],
+   "spent_by_build": [
+    8,
+    10,
+    11,
+    15
+   ],
+   "straddles": [
+    9,
+    13
+   ],
+   "untested": []
+  }
+ },
+ "title": "is a cleared row equally cleared, or does one perturbation spend its whole margin?",
+ "verdict": "cleared_is_not_one_reading_the_budget_names_rows_nothing_else_flags",
+ "verdict_reason": "2 of 12 measured rows straddles -- exactly the rows the guard screen publishes as moved; of the remaining 10 cleared rows 4 sit past the group's tightest offered multiplier and 2 are within 90% of the flip, while the 4 open rows have already spent 54.7%..81.8% of their own threshold. No near-spent row is a row the near-one screen or the guard screen names, so 'outside the range' is one reading with room left and another with almost none; the zone is a statement about the published range, not a movement prediction -- none of the spent_by_build rows moved in the published sweep",
+ "zones": {
+  "open": [
+   0,
+   1,
+   6,
+   12
+  ],
+  "spent": [
+   7,
+   14
+  ],
+  "spent_by_build": [
+   8,
+   10,
+   11,
+   15
+  ],
+  "straddles": [
+   9,
+   13
+  ],
+  "untested": []
+ }
+}

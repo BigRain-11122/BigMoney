@@ -6334,6 +6334,101 @@ def main() -> int:
         check("product: the moved set is scored donor by donor, and a pivotal cell is named",
               False, repr(e)[:160])
 
+    # E275: E274's straddle screen is binary -- a cleared row reads "safe" and nothing is said
+    # about how much room is left. The leg re-derives the budget zone of every row from the face's
+    # own two numbers (m_flip and the offered range) with an INDEPENDENT implementation of the
+    # five-way rule, so a zone that disagrees with its own arithmetic is red; it pins that the
+    # straddle zone IS the guard screen's published moved set (otherwise "cleared" and "moved" are
+    # two unrelated readings); and it pins the disclosure that keeps the zone honest -- a
+    # spent_by_build row MOVED NOWHERE, so the zone is a statement about the range, not a movement
+    # prediction (without it the face reads as a second screen and fails silently).
+    _name75 = ("product: a cleared row is not equally cleared -- the margin left is measured, and "
+               "a zone is not a movement claim")
+    _bad75 = []
+    try:
+        _p75 = os.path.join("results", "state_tilt", "bandscreenbudget_latest.json")
+        _f75 = None
+        if not os.path.exists(_p75):
+            _bad75.append("face missing: %s" % _p75)
+        else:
+            with io.open(_p75, encoding="utf-8") as _fh75:
+                _f75 = json.load(_fh75)
+        _z75 = {}
+        if _f75 is not None:
+            _s75 = _f75.get("summary") or {}
+            if _f75.get("evidence_cutoff") is None:
+                _bad75.append("no evidence_cutoff on the face")
+            if _s75.get("verdict") not in (
+                    "cleared_is_not_one_reading_the_budget_names_rows_nothing_else_flags",
+                    "the_budget_mostly_restates_a_named_row_set",
+                    "cleared_set_is_one_reading",
+                    "no_rows_to_budget"):
+                _bad75.append("verdict %r is outside the frozen set" % (_s75.get("verdict"),))
+            _rows75 = _f75.get("rows") or []
+            if not _rows75:
+                _bad75.append("the face publishes no rows")
+
+            def _zone75(_m, _lo, _hi, _reading):
+                if _reading == "untested":
+                    return "untested"
+                if _reading in ("inside", "near_edge"):
+                    return "straddles"
+                if _m is None or _lo is None or _hi is None:
+                    return "untested"
+                if _m <= _lo:
+                    return "spent_by_build"
+                if _m <= 0:
+                    return "untested"
+                return "spent" if (_hi / _m) >= 0.90 else "open"
+
+            for _r75 in _rows75:
+                _rg75 = _r75.get("offered_range") or [None, None]
+                _want75 = _zone75(_r75.get("m_flip"), _rg75[0], _rg75[1], _r75.get("straddle"))
+                if _want75 != _r75.get("zone"):
+                    _bad75.append("row %r zone %r != its own arithmetic %r"
+                                  % (_r75.get("index"), _r75.get("zone"), _want75))
+                _z75.setdefault(_r75.get("zone"), []).append(_r75.get("index"))
+                _sp75 = _r75.get("budget_spent")
+                _m75v = _r75.get("m_flip")
+                if _m75v:
+                    _calc75 = (_rg75[1] / _m75v) if _rg75[1] is not None else None
+                    if (_calc75 is None) != (_sp75 is None) or (
+                            _calc75 is not None and abs(_calc75 - _sp75) > 1e-12):
+                        _bad75.append("row %r budget does not re-derive" % (_r75.get("index"),))
+                elif _sp75 is not None:
+                    _bad75.append("row %r has no flip but a budget" % (_r75.get("index"),))
+            for _k75, _v75 in (_f75.get("zones") or {}).items():
+                if sorted(_v75) != sorted(_z75.get(_k75) or []):
+                    _bad75.append("zone block %r disagrees with the rows" % (_k75,))
+            _guard75 = ((_f75.get("coincidence") or {}).get("guard_moves") or {}).get("named") or []
+            if sorted(_z75.get("straddles") or []) != sorted(_guard75):
+                _bad75.append("straddles %r != guard moves %r"
+                              % (sorted(_z75.get("straddles") or []), sorted(_guard75)))
+            if set(_z75.get("spent_by_build") or []) & set(_guard75):
+                _bad75.append("a spent_by_build row is also a moved row -- the zone would then "
+                              "be a movement claim and the disclosure is false")
+            if set(_z75.get("spent") or []) & set(_guard75):
+                _bad75.append("a spent row is also a moved row (same contradiction)")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m75 = __import__("importlib").import_module("e275_screen_margin_budget")
+            _fresh75 = _m75.run(save=False)
+            if _fresh75.get("summary") != _s75:
+                _bad75.append("summary does not re-derive from the published faces")
+            if _fresh75.get("rows") != _rows75:
+                _bad75.append("row list does not re-derive")
+        check(_name75, not _bad75,
+              "; ".join(_bad75)[:220]
+              or "verdict %r | %d row(s): %d open / %d spent / %d spent-by-build / %d straddle; "
+                 "straddles == guard moves (%s); no near-spent row is a row another screen names"
+                 % ((_f75 or {}).get("verdict"), len((_f75 or {}).get("rows") or []),
+                    len(_z75.get("open") or []), len(_z75.get("spent") or []),
+                    len(_z75.get("spent_by_build") or []), len(_z75.get("straddles") or []),
+                    ",".join(str(x) for x in sorted(
+                        ((_f75 or {}).get("coincidence") or {}).get("guard_moves", {}).get("named")
+                        or [])) or "-"))
+    except Exception as e:
+        check(_name75, False, repr(e)[:160])
+
     return _finish()
 
 
