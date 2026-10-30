@@ -477,6 +477,9 @@ def card(ticket, mk, sched, asof, beta, extra):
               % (len(ticket["basket_drift"]), len(ticket["order"]))]
     if extra.get("bets_line"):
         L += ["- **五只名字不是五个赌注**：%s" % extra["bets_line"]]
+    pb = extra.get("price_basis") or {}
+    if pb.get("sentence"):
+        L += ["- **价格面板**：%s" % pb["sentence"]]
     L += ["- 票池=现存 ETF，存在幸存者偏差；票面仅按收盘价折算，未计冲击成本与涨跌停。",
           "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
           "- k 每 %d 个交易日才重算，段内实际 β 仍会漂移。" % REBAL]
@@ -517,6 +520,41 @@ def staleness_stats(score, close, rebal=REBAL, n_hold=N_HOLD, start="2020-01-01"
             "symbols_with_value_on_last_bar": live_last,
             "symbols_total": int(close.shape[1]),
             "decisions_with_too_few_picks": impossible}
+
+
+def price_basis(close, cols):
+    """Which prices this sheet's numbers are computed on, and how many prints that costs.
+
+    The production card (`etf_book_production`) and the forward ledger
+    (`etf_book_forward`) both call `repair_flips` before they measure anything; this
+    sheet does not. So a share-count flip that reads as a -90% day can enter a ranking
+    here and nowhere else. The number is published on the sheet rather than repaired
+    inside it: repairing moves every figure this book has published, which is a separate,
+    deliberate decision (its size is results/etf_book_flip_contamination.json).
+    """
+    try:
+        import etf_equity_alpha as A
+        thr = float(getattr(A, "FLIP_THR", 0.35))
+    except Exception:
+        return {"panel": "raw (no flip repair)", "flip_thr": None, "flip_prints": None,
+                "sentence": ("本单的数字算在未修复的原始面板上；修复阈值读不到，所以无法报告"
+                             "面板里有多少处报价翻转。")}
+    bad = (close[cols].ffill().pct_change().abs() > thr)
+    n = int(bad.to_numpy().sum())
+    syms = int((bad.sum() > 0).sum())
+    if n == 0:
+        sentence = ("本单的数字算在**未修复**的原始面板上，但这批票里没有单日超过 %.0f%% 的"
+                    "报价翻转——就本面板而言，修与不修读到的是同一批数字。" % (thr * 100.0))
+    else:
+        sentence = ("本单的数字算在**未修复**的原始面板上，其中有 **%d 处**单日超过 %.0f%% 的"
+                    "报价翻转（份额变动被读成暴跌，涉及 %d 只票）。生产卡片与账本在测量前都先"
+                    "调用 `etf_equity_alpha.repair_flips`，本单没有——两侧因此不在同一张价格"
+                    "面板上。这里只报数，不在本单里悄悄改：修一次会挪动这本书全部已发布数字。"
+                    "差额量在 results/etf_book_flip_contamination.json。"
+                    % (n, thr * 100.0, syms))
+    return {"panel": "raw (no flip repair)", "flip_thr": thr, "flip_prints": n,
+            "symbols_with_a_flip": syms, "columns": int(len(cols)),
+            "sentence": sentence}
 
 
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
@@ -691,6 +729,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "width_disclosure": wd,
                "live_width_ruler": ruler,
+               "price_basis": price_basis(close, cols),
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
@@ -718,7 +757,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
-                      "bets_line": bets_line}))
+                      "bets_line": bets_line,
+                      "price_basis": payload["price_basis"]}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))
@@ -2423,6 +2463,24 @@ def selftest():
             carry_split(0.2, path=bp7) is None, "")
     finally:
         shutil.rmtree(cdt7, ignore_errors=True)
+
+    # 46a-c. the sheet has to say which price panel its own numbers were computed on
+    _pb_idx = pd.bdate_range("2026-01-01", periods=4)
+    _pb_flip = pd.DataFrame({"A": [10.0, 10.0, 1.0, 1.05]}, index=_pb_idx)
+    _pb_ok = price_basis(_pb_flip, ["A"])
+    chk("leg46a price basis: a -90% print on the panel is counted and called out",
+        _pb_ok["flip_prints"] == 1 and "1 处" in _pb_ok["sentence"]
+        and _pb_ok["panel"] == "raw (no flip repair)", _pb_ok["sentence"][:60])
+    _pb_clean = pd.DataFrame({"B": [10.0, 10.1, 10.2, 10.3]}, index=_pb_idx)
+    _pb_none = price_basis(_pb_clean, ["B"])
+    chk("leg46b price basis: a panel with no flip says the repair would change nothing",
+        _pb_none["flip_prints"] == 0 and "同一批数字" in _pb_none["sentence"], "")
+    _pb_md = card(None, None, None, "2026-10-30", 0.2,
+                  {"inception": "2024-01-01", "price_basis": _pb_ok})
+    chk("leg46c price basis: the sheet prints the line (and nothing when it is absent)",
+        "价格面板" in _pb_md and "1 处" in _pb_md
+        and "价格面板" not in card(None, None, None, "2026-10-30", 0.2,
+                                   {"inception": "2024-01-01"}), "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

@@ -6950,3 +6950,33 @@ three new cache legs.
 Pos: scripts/etf_book_ceo_page.py (panel_fingerprint / stress_cache_digest / build_stress /
 _rel, selftest L51-L53) + scripts/etf_book_beta_menu.py (panel_fingerprint import)
 + digest DIGEST-20261031-r1375-second-copy-cache.md.
+
+## E290 Two sheets of paper, two price panels: the repair has to be declared where the reader trades (2026-10-31 r1176 bm-a)
+
+E288 measured what the flip prints do to the book and closed with a disclosure naming the CEO page's
+stress block as "the next consumer face to fix". That sentence was an inference, not a measurement,
+and it is wrong: `etf_book_forward.build_inputs` -- the loader both the CEO page and the forward
+ledger use -- already calls `repair_flips` before it returns anything. Measured on the live panel:
+1504 columns, 5270 bars, **zero** prints beyond 35% (max |r| 0.3447), so the page's own worst window
+(-3.60% on 2025-04-07) is a market day and always was. The face now prints that proof instead of
+asserting it, and it will print the opposite the moment a flip enters the panel.
+
+The measurement did find the real hole one layer sideways. `etf_book_order.run()` builds its panel
+with `F.build_panel()` and never repairs it: **164 flip prints on 155 names** inside its own
+1503-name universe. So the production card (`etf_book_production`, repairs at line 688) and the
+executable ticket measure the same book on two different price panels, and the ticket is the one the
+operator trades from. No single number can be compared across them, and nobody noticed because both
+faces print a CAGR in the same format.
+
+Three transferable rules. (1) "Which panel did this number come from" is a first-class disclosure,
+not a footnote: the sheet now carries `price_basis` (panel kind, flip threshold, flip count, symbols)
+and prints it in its honesty section, so the reader learns it where the trade happens. (2) A repair
+applied in one consumer and not another is worse than no repair, because it manufactures an apparent
+disagreement between two faces of one book. (3) Correcting a prior round's disclosure costs one cheap
+measurement and buys the right to keep trusting the rest of it -- the stress block needed twelve
+lines and four selftest legs to answer a question a sentence had already answered wrongly.
+
+Pos: scripts/etf_book_ceo_page.py (clean_panel / contamination_block / book_returns, selftest
+L27b-L27e) + scripts/etf_book_order.py (price_basis, selftest leg46a-c, payload + sheet line)
++ results/etf_book_order/ORDER-2026-10-30.md + docs/live_book/LIVE-BOOK-20261031.md.
+

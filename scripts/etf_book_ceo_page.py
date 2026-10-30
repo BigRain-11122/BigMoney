@@ -688,7 +688,96 @@ def panel_fingerprint(close):
     return h.hexdigest()
 
 
-def stress_cache_digest(close, priced_bar, capital, windows, order):
+def book_returns(close, names, wts):
+    """Fixed-weight book return series for a panel -- one arithmetic, both runs use it."""
+    import pandas as _pd
+    legs = {}
+    for n, w in zip(names, wts):
+        if n in close.columns:
+            legs[n] = close[n].astype(float).pct_change().fillna(0.0) * w
+        else:
+            legs[n] = _pd.Series(0.0, index=close.index)
+    return _pd.DataFrame(legs).sum(axis=1)
+
+
+def flip_threshold():
+    """The published repair threshold, read from its owner -- None when it cannot be read."""
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import etf_equity_alpha as A
+        return float(getattr(A, "FLIP_THR", 0.35))
+    except Exception:
+        return None
+
+
+def clean_panel(close):
+    """The same panel with repairable price flips flattened -- published rule, imported.
+
+    `etf_equity_alpha.repair_flips` is the single implementation (E270). It wants the
+    open face as well; this page is close-only, so the open argument is the close face
+    and the repaired open result is discarded. Returns (clean_close, n_flattened, thr),
+    or (None, 0, None) when the rule cannot be imported -- no clean claim rather than a
+    fabricated one.
+    """
+    try:
+        import sys as _sys
+        _sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import etf_equity_alpha as A
+    except Exception:
+        return None, 0, None
+    thr = float(getattr(A, "FLIP_THR", 0.35))
+    try:
+        adj, _open_ignored, n = A.repair_flips(close, close, thr)
+        return adj, int(n), thr
+    except Exception:
+        return None, 0, None
+
+
+def contamination_block(raw_st, clean_st, n_flattened, thr):
+    """Which part of the printed worst window is a data print rather than a market day.
+
+    The stress table replays today's weights over the raw panel; the raw panel carries
+    single-day quote flips (share-count changes read as -90% returns), and the book's own
+    worst day sits on one of them. This block answers that question in the page's own
+    construction -- same weights, same windows, the published repair applied -- instead of
+    quoting a number from a different face. It decides nothing: switching production onto
+    the repaired panel moves every number this book has published, which is a separate,
+    deliberate decision.
+    """
+    out = {"flip_thr": thr, "flip_prints_flattened": int(n_flattened),
+           "raw_worst": {}, "clean_worst": {}, "differs": False, "sentence": None}
+    for n in STRESS_WINDOWS:
+        r = ((raw_st or {}).get("worst") or {}).get("%dd" % n)
+        c = ((clean_st or {}).get("worst") or {}).get("%dd" % n)
+        out["raw_worst"]["%dd" % n] = None if not r else {
+            "pct": r.get("pct"), "end_date": r.get("end_date"), "cny": r.get("cny")}
+        out["clean_worst"]["%dd" % n] = None if not c else {
+            "pct": c.get("pct"), "end_date": c.get("end_date"), "cny": c.get("cny")}
+    r1 = out["raw_worst"].get("1d")
+    c1 = out["clean_worst"].get("1d")
+    if not r1:
+        return out
+    if not c1:
+        out["sentence"] = ("这里没有可比对的修复版读数（修复规则没有返回本页需要的窗口，"
+                           "或者它根本读不到），所以不主张这个最差日是干净还是脏。")
+        return out
+    out["differs"] = abs(float(r1["pct"]) - float(c1["pct"])) > 0.005
+    if not out["differs"]:
+        out["sentence"] = ("按同一条修复规则把面板里的单日翻转压平（共 %d 处，阈值 %.0f%%）之后，"
+                           "这张表最差的一天没有变化（%+.2f%%），也就是说它是行情，不是报价。"
+                           % (n_flattened, (thr or 0.0) * 100.0, float(r1["pct"])))
+        return out
+    out["sentence"] = ("面板里有 %d 处单日超过 %.0f%% 的报价翻转（份额变动被读成暴跌），这张表最差的一天 "
+                       "%+.2f%%（%s）就是其中之一；按同一条规则（etf_equity_alpha.repair_flips，"
+                       "导入未改写）把翻转压平后，最差的一天是 %+.2f%%（%s）。修与不修是一次单独的决定："
+                       "它会把这本书已发布的每一个数字一起挪动，不在本页里悄悄生效。"
+                       % (n_flattened, (thr or 0.0) * 100.0, float(r1["pct"]), r1.get("end_date"),
+                          float(c1["pct"]), c1.get("end_date")))
+    return out
+
+
+def stress_cache_digest(close, priced_bar, capital, windows, order, flip_thr=None):
     """What the cached replay was computed FROM: bar, capital, weights, panel bytes.
 
     Every one of these can move while the priced bar stays put: a repaired print, a
@@ -703,6 +792,7 @@ def stress_cache_digest(close, priced_bar, capital, windows, order):
         "%s:%.10f" % (o.get("symbol"), float(o.get("weight") or 0.0))
         for o in order or [])).encode())
     h.update(("|panel|" + panel_fingerprint(close)).encode())
+    h.update(("|flipthr|%.4f" % (flip_thr if flip_thr is not None else -1.0)).encode())
     return h.hexdigest()
 
 
@@ -726,7 +816,8 @@ def build_stress(order, capital, priced_bar, close=None):
         except Exception as exc:
             return {"error": "%s: %s" % (type(exc).__name__, exc), "worst": {},
                     "capital_cny": capital}
-    inputs_sha = stress_cache_digest(close, priced_bar, capital, STRESS_WINDOWS, order)
+    inputs_sha = stress_cache_digest(close, priced_bar, capital, STRESS_WINDOWS, order,
+                                     flip_thr=flip_threshold())
     cache = os.path.join(STRESS_DIR, "STRESS-%s.json" % str(priced_bar).replace("-", ""))
     if os.path.exists(cache):
         try:
@@ -738,22 +829,25 @@ def build_stress(order, capital, priced_bar, close=None):
         except (OSError, ValueError):
             pass
     try:
-        import numpy as _np
-        import pandas as _pd
         names = [o.get("symbol") for o in order]
         wts = [float(o.get("weight") or 0.0) for o in order]
-        legs = {}
-        for n, w in zip(names, wts):
-            if n in close.columns:
-                legs[n] = close[n].astype(float).pct_change().fillna(0.0) * w
-            else:
-                legs[n] = _pd.Series(0.0, index=close.index)
-        book = _pd.DataFrame(legs).sum(axis=1)
+        book = book_returns(close, names, wts)
     except Exception as exc:               # honest: no panel -> no stress claim
         return {"error": "%s: %s" % (type(exc).__name__, exc), "worst": {}, "capital_cny": capital}
     st = stress_stats(book, capital=capital)
     if st is None:
         return None
+    # the same replay on the repaired panel, so the page can say whether its own worst
+    # day is a market day or a quote flip -- exactly one number (the raw one) is published
+    clean, n_flat, thr = clean_panel(close)
+    clean_st = None
+    if clean is not None:
+        try:
+            import pandas as _pd
+            clean_st = stress_stats(book_returns(clean, names, wts), capital=capital)
+        except Exception:
+            clean_st = None
+    st["contamination"] = contamination_block(st, clean_st, n_flat, thr)
     st["capital_cny"] = round(float(capital or 0.0), 2)
     st["basis"] = ("今天的权重原封不动摆回整段面板（现金 0 息），取最坏的连续 N 个交易日；"
                    "不是策略实际路径，是同一批票的最坏窗口")
@@ -1325,6 +1419,21 @@ def render_md(p):
         add("读法：这是「同一批票、同样权重、最倒霉的一段」值多少钱，不是预测，也不是这本账实际走过的路"
             "（实际路径的回撤见上一张表的最大回撤列）。")
         add("")
+        cont = st.get("contamination") or {}
+        if cont.get("sentence"):
+            add("**这张表最差的一天，是行情还是报价？** " + cont["sentence"])
+            add("")
+            raw_c, clean_c = cont.get("raw_worst") or {}, cont.get("clean_worst") or {}
+            if clean_c.get("1d"):
+                add("| 同一批票、同一权重 | 最差 1 日 | 最差 5 日 | 最差 20 日 |")
+                add("|---|---|---|---|")
+                for label, block in (("现在的面板", raw_c), ("把翻转压平后", clean_c)):
+                    cells = []
+                    for n in STRESS_WINDOWS:
+                        r = block.get("%dd" % n)
+                        cells.append("—" if not r else "%+.2f%%（%s）" % (r["pct"], r.get("end_date")))
+                    add("| %s | %s |" % (label, " | ".join(cells)))
+                add("")
     add("## 必须记住的四条")
     add("")
     for c in p["caveats"]:
@@ -1486,6 +1595,30 @@ def selftest():
         "empty panel -> None, capital-less yuan -> None")
     chk("L27 stress: a window longer than the history says 'no row', never a fabricated number",
         stress_stats(_s, windows=(50,))["worst"]["50d"] is None)
+    # 27b-27e. the stress table's worst day has to be graded: a market day or a quote flip
+    _cl = _pd.DataFrame({"A": [10.0, 10.0, 1.0, 1.05], "B": [10.0, 10.2, 10.3, 10.4]},
+                        index=["2026-01-0%d" % i for i in range(1, 5)])
+    _cleanA, _nflat, _thr = clean_panel(_cl)
+    chk("L27b flip: the imported repair flattens a -90%% quote flip and keeps the level",
+        _nflat == 1 and abs(float(_cleanA["A"].pct_change().iloc[2])) < 1e-12
+        and abs(float(_cleanA["A"].iloc[3]) - 10.5) < 1e-9,
+        "n=%s thr=%s last=%.4f" % (_nflat, _thr, float(_cleanA["A"].iloc[3])))
+    _raws = stress_stats(book_returns(_cl, ["A"], [1.0]), capital=1000000.0)
+    _cleans = stress_stats(book_returns(_cleanA, ["A"], [1.0]), capital=1000000.0)
+    _cb = contamination_block(_raws, _cleans, _nflat, _thr)
+    chk("L27c flip: the block names the raw worst day as a print and quotes both numbers",
+        _cb["differs"] and _cb["raw_worst"]["1d"]["pct"] == -90.0
+        and _cb["clean_worst"]["1d"]["pct"] == 0.0
+        and ("-90.00%" in _cb["sentence"] and "repair_flips" in _cb["sentence"]),
+        _cb["sentence"][:80])
+    _cb_same = contamination_block(_raws, _raws, 0, _thr)
+    chk("L27d flip: an unchanged worst day reads as a market move, not as clean-by-absence",
+        (not _cb_same["differs"]) and ("行情" in _cb_same["sentence"])
+        and ("-90.00%" in _cb_same["sentence"]), _cb_same["sentence"][:80])
+    _cb_absent = contamination_block(_raws, None, 0, None)
+    chk("L27e flip: no repaired panel -> no claim, never 'it is clean'",
+        _cb_absent["clean_worst"]["1d"] is None and "不主张" in _cb_absent["sentence"],
+        _cb_absent["sentence"][:80])
 
     # 28-29. the basket line must be the LEDGER's own number, and its absence must read as
     # absence -- re-pricing it here would be a second price source for the same claim

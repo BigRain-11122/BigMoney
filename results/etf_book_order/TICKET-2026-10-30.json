@@ -155,15 +155,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "vol": {
-    "ticket_width_cagr": 0.1197,
-    "card_width_cagr": 0.1221,
-    "pp": 0.24
-   },
    "beta": {
     "ticket_width_cagr": 0.1119,
     "card_width_cagr": 0.0966,
     "pp": -1.53
+   },
+   "vol": {
+    "ticket_width_cagr": 0.1197,
+    "card_width_cagr": 0.1221,
+    "pp": 0.24
    }
   },
   "rules_differ": true,
@@ -269,6 +269,14 @@
   "evidence_cutoff": "2026-10-29",
   "asof": "2026-10-30",
   "source": "results/etf_book_live_width_ruler.json"
+ },
+ "price_basis": {
+  "panel": "raw (no flip repair)",
+  "flip_thr": 0.35,
+  "flip_prints": 164,
+  "symbols_with_a_flip": 155,
+  "columns": 1503,
+  "sentence": "本单的数字算在**未修复**的原始面板上，其中有 **164 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 155 只票）。生产卡片与账本在测量前都先调用 `etf_equity_alpha.repair_flips`，本单没有——两侧因此不在同一张价格面板上。这里只报数，不在本单里悄悄改：修一次会挪动这本书全部已发布数字。差额量在 results/etf_book_flip_contamination.json。"
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
