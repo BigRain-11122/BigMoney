@@ -3754,6 +3754,93 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page carries today's market risk tape", False,
               repr(e)[:160])
+    # ---- r1171: the cap a page prints must be reconciled with the book it prices ----
+    # The whole point of the cap-vs-book face is that no reader should have to guess
+    # whether a 76.8% book beside a "RED, cap 20%" line means the guard broke. That
+    # only holds while BOTH human faces say the same sentence as the artifact, so the
+    # leg recomputes the verdict from the published rows and demands the sentence
+    # verbatim on the page AND in the newest battle report (a hand-written second
+    # sentence on either face reads red here).
+    try:
+        _cvbp = os.path.join(PATHS.root, "results", "regime_cap_vs_book.json")
+        _bad31 = []
+        _info31 = ""
+        if not os.path.exists(_cvbp):
+            _bad31.append("results/regime_cap_vs_book.json missing")
+        else:
+            with open(_cvbp, encoding="utf-8") as _fh31:
+                _cvb31 = json.load(_fh31)
+            _sen31 = _cvb31.get("sentence") or ""
+            _v31 = _cvb31.get("verdict") or {}
+            _cap31 = _cvb31.get("ladder_cap")
+            _acc31 = _cvb31.get("accounts") or []
+            _rows31 = [r for r in _acc31
+                       if r.get("kind") == "ladder"
+                       and r.get("deployed_weight") is not None]
+            _above31 = [r for r in _rows31 if r.get("status") == "above_cap"]
+            if not _sen31:
+                _bad31.append("the verdict publishes no sentence")
+            if (_v31.get("n_above") != len(_above31)
+                    or _v31.get("n_compared") != len(_rows31)):
+                _bad31.append("verdict says %s/%s but the rows hold %d/%d"
+                              % (_v31.get("n_above"), _v31.get("n_compared"),
+                                 len(_above31), len(_rows31)))
+            for _r31 in _above31:
+                if not (_cap31 and _r31["deployed_weight"] > _cap31):
+                    _bad31.append("%s reads above_cap at %.4f vs cap %s"
+                                  % (_r31.get("name"), _r31["deployed_weight"],
+                                     _cap31))
+            if any(r.get("kind") == "own_rule" and r.get("status") == "above_cap"
+                   for r in _acc31):
+                _bad31.append("an own-rule book was graded against the ladder")
+            _widest31 = (max(_above31, key=lambda r: r["deployed_weight"])
+                         if _above31 else None)
+            _p31 = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.md")
+            if not os.path.exists(_p31):
+                _bad31.append("docs/live_usage/LIVE-latest.md missing")
+            else:
+                with open(_p31, encoding="utf-8") as _fh31:
+                    _md31 = _fh31.read()
+                if _sen31 not in _md31:
+                    _bad31.append("the CEO page does not quote the published sentence")
+                if _widest31 and "%s" % _widest31["name"] not in _md31:
+                    _bad31.append("the CEO page omits the widest over-cap account")
+            _rep31 = sorted(glob.glob(os.path.join(
+                PATHS.root, "docs", "daily_report", "REPORT-*.md")))
+            if not _rep31:
+                _bad31.append("no battle report on disk")
+            else:
+                with open(_rep31[-1], encoding="utf-8") as _fh31:
+                    _rmd31 = _fh31.read()
+                if _sen31 not in _rmd31:
+                    _bad31.append("the newest battle report (%s) does not carry the "
+                                  "same sentence" % os.path.basename(_rep31[-1]))
+            _info31 = ("cap %s | %d of %d over | widest %s"
+                       % (_cap31, len(_above31), len(_rows31),
+                          _widest31["name"] if _widest31 else "none"))
+        check("product: the printed cap is reconciled with the priced book on both faces",
+              not _bad31, "; ".join(_bad31)[:220] or _info31)
+    except Exception as e:
+        check("product: the printed cap is reconciled with the priced book on both faces",
+              False, repr(e)[:160])
+    # ---- r1171: a consumer leg must not run before the producer it quotes (r1318) ----
+    try:
+        _ord31 = [t[0] for t in importlib.import_module(
+            "Tools.s6_chain_bmc").LEGS]
+        _bad32 = []
+        if "regime_cap_vs_book" not in _ord31:
+            _bad32.append("regime_cap_vs_book is not on the chain")
+        else:
+            _i31 = _ord31.index("regime_cap_vs_book")
+            for _c31 in ("daily_report", "ceo_live_usage"):
+                if _c31 in _ord31 and _ord31.index(_c31) < _i31:
+                    _bad32.append("%s runs before the verdict it quotes" % _c31)
+        check("config: the cap-vs-book producer runs before the faces that quote it",
+              not _bad32, "; ".join(_bad32)[:220]
+              or "producer at position %d of %d legs" % (_i31 + 1, len(_ord31)))
+    except Exception as e:
+        check("config: the cap-vs-book producer runs before the faces that quote it",
+              False, repr(e)[:160])
     try:
         # r1355: the width floor and the buffer read-back are published verdicts, so a reader
         # must be able to re-derive each one from the numbers ON the face -- not from the script

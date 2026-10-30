@@ -2,7 +2,7 @@
  "schema": "ceo_live_usage_v1_8",
  "ticket": "T-202609-28-105",
  "day": "2026-10-30",
- "generated": "2026-10-30T21:14:41",
+ "generated": "2026-10-30T22:44:15",
  "market": {
   "state": "RED",
   "asof": "2026-10-30",
@@ -332,6 +332,25 @@
    ]
   }
  ],
+ "cap_vs_book": {
+  "status": "ok",
+  "source": "results/regime_cap_vs_book.json",
+  "sentence": "Market state RED caps new risk at 20% of equity. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 76.8% (56.8pp over, 3.84x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+  "cap": 0.2,
+  "cap_verdict": "CAP_SOURCES_AGREE",
+  "book_verdict": "ABOVE_CAP",
+  "n_compared": 6,
+  "n_above": 3,
+  "widest_above": {
+   "name": "COMPOSITE-CE-01",
+   "deployed_weight": 0.768,
+   "gap_pp": 56.8,
+   "multiple_of_cap": 3.84
+  },
+  "state": "RED",
+  "priced_on": "2026-10-30",
+  "stale": false
+ },
  "rollup": {
   "n_traders": 6,
   "initial_cny": 6000000.0,
@@ -477,7 +496,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 33825.6
+    "last_append_age_min": 33915.2
    },
    {
     "family": "FUND-VALUE-P1",
@@ -485,7 +504,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 34676.0
+    "last_append_age_min": 34765.6
    },
    {
     "family": "FUND-DIVLOWVOL-P1",
@@ -493,7 +512,7 @@
     "have": 2000,
     "target": 2000,
     "dup_k": 0,
-    "last_append_age_min": 31473.0
+    "last_append_age_min": 31562.6
    }
   ]
  },

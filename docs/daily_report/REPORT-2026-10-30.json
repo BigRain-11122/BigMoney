@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-30",
- "generated_at": "2026-10-30 21:14:40",
+ "generated_at": "2026-10-30 22:44:14",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,9 +294,9 @@
   "md_link": "../live_usage/LIVE-2026-10-30.md"
  },
  "rd": {
-  "commits_24h": 144,
-  "result_jsons_landed_24h": 133,
-  "digests_landed_24h": 45,
+  "commits_24h": 134,
+  "result_jsons_landed_24h": 129,
+  "digests_landed_24h": 44,
   "prereg_md_touched_24h": 25,
   "compute_audit_latest": {
    "ts": "2026-10-30 21:12:24",
@@ -652,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2370765,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-30 20:52:14",
+   "prev_generated": "2026-10-30 21:11:31",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -1742,6 +1742,24 @@
    "marks": "无主封套",
    "zt_pool": "他机本地副本"
   }
+ },
+ "cap_vs_book": {
+  "status": "ok",
+  "source": "results/regime_cap_vs_book.json",
+  "sentence": "Market state RED caps new risk at 20% of equity. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 76.8% (56.8pp over, 3.84x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.",
+  "cap": 0.2,
+  "cap_verdict": "CAP_SOURCES_AGREE",
+  "book_verdict": "ABOVE_CAP",
+  "n_compared": 6,
+  "n_above": 3,
+  "widest_above": {
+   "name": "COMPOSITE-CE-01",
+   "deployed_weight": 0.768,
+   "gap_pp": 56.8,
+   "multiple_of_cap": 3.84
+  },
+  "state": "RED",
+  "priced_on": "2026-10-30"
  },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",

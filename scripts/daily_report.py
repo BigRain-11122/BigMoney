@@ -717,6 +717,26 @@ def _lane_authority_face(root=None):
             "labels": disk.get("labels") or {}}
 
 
+def _cap_vs_book_face():
+    """The cap sec.1 prints and the paper money sec.1 also prints, now compared.
+
+    Single implementation (r1290): the reader lives in the producer
+    (`scripts/regime_cap_vs_book.py`), which is also what the CEO one-pager
+    calls -- so the report and the page cannot drift into two sentences about
+    one number.  An absent artifact reads absent, never "inside the cap"."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import regime_cap_vs_book as _rcvb
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160]}
+    try:
+        return dict(_rcvb.read_published())
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160]}
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -734,6 +754,7 @@ def build_report(now):
         "stage_style": _stage_style_face(),
         "market_risk": _zt_risk_face(now.strftime("%Y-%m-%d")),
         "lane_authority": _lane_authority_face(),
+        "cap_vs_book": _cap_vs_book_face(),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
@@ -753,6 +774,11 @@ def render_md(rep):
     L.append("## 一、实战面")
     mc = c.get("market_clock") or {}
     L.append(f"- **市场时钟**：`{mc.get('clock_cell')}`（asof {mc.get('asof')}）· 仓位阶梯帽 {mc.get('position_cap_ladder')}")
+    cvb = rep.get("cap_vs_book") or {}
+    if cvb.get("status") == "ok":
+        L.append(f"- **这个帽子和账面仓位对过账**：{cvb['sentence']}")
+    else:
+        L.append(f"- 帽子 vs 账面仓位：{cvb.get('detail') or '对账面未产出（缺面不读合规）'}")
     L.append(f"- **激活袖**：{'；'.join(mc.get('active_sleeves') or ['N/A'])}")
     ps = c.get("paper_summary") or {}
     L.append(f"- **在册交易员**（{ps.get('traders')} 员 · marks {c.get('marks_asof')}）：总权益 "

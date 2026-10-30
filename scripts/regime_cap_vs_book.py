@@ -243,6 +243,44 @@ def run():
     return 0
 
 
+def read_published(path=None):
+    """The verdict as published, for pages that must quote it rather than re-read it.
+
+    Single implementation (r1290): the CEO one-pager (sec.2 prints the cap) and the
+    daily report (sec.1 prints the cap) both call this, so the number they print and
+    the number the artifact judges can never drift apart.  A missing or unreadable
+    artifact reads as absent -- never as "inside the cap", which is the failure the
+    whole face exists to prevent.  `widest_above` only ever names a ladder-governed
+    account: an own-rule book (the ETF beta x vol target) is never a breach number.
+    """
+    face = _read_json(OUT if path is None else path)
+    if not isinstance(face, dict) or not face.get("sentence"):
+        return {"status": "absent"}
+    verdict = face.get("verdict") or {}
+    ladder_rows = [r for r in (face.get("accounts") or [])
+                   if r.get("kind") == "ladder" and r.get("deployed_weight") is not None]
+    above = [r for r in ladder_rows if r.get("status") == "above_cap"]
+    widest = max(above, key=lambda r: r["deployed_weight"]) if above else None
+    clock = face.get("clock") or {}
+    return {
+        "status": "ok",
+        "source": "results/regime_cap_vs_book.json",
+        "sentence": face["sentence"],
+        "cap": face.get("ladder_cap"),
+        "cap_verdict": verdict.get("cap"),
+        "book_verdict": verdict.get("book"),
+        "n_compared": verdict.get("n_compared"),
+        "n_above": verdict.get("n_above"),
+        "widest_above": (None if widest is None else {
+            "name": widest.get("name"),
+            "deployed_weight": widest.get("deployed_weight"),
+            "gap_pp": widest.get("gap_pp"),
+            "multiple_of_cap": widest.get("multiple_of_cap")}),
+        "state": clock.get("regime_state"),
+        "priced_on": clock.get("regime_asof"),
+    }
+
+
 # ---------------------------------------------------------------- selftest
 def _selftest():
     ok = 0
@@ -306,6 +344,36 @@ def _selftest():
         "disagree" in sentence("RED", 0.2, j, cap_agreement({"a": 0.5}, 0.2)))
     chk("no ladder cap -> the sentence refuses to read a breach",
         "nothing here can be read as a breach" in sentence("PURPLE", None, j, {"verdict": "NO_CAP_SOURCE"}))
+
+    # --- reader face: pages quote the published verdict, they do not re-read it
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "face.json")
+        chk("a missing artifact reads absent, never 'inside the cap'",
+            read_published(p)["status"] == "absent")
+        with open(p, "w", encoding="utf-8") as fh:
+            json.dump({"verdict": {"cap": "CAP_SOURCES_AGREE", "book": "ABOVE_CAP",
+                                   "n_compared": 6, "n_above": 2},
+                       "clock": {"regime_state": "RED", "regime_asof": "2026-10-30"},
+                       "ladder_cap": 0.20,
+                       "accounts": [
+                           {"name": "SMALL", "kind": "ladder", "status": "above_cap",
+                            "deployed_weight": 0.25, "gap_pp": 5.0, "multiple_of_cap": 1.25},
+                           {"name": "WIDE", "kind": "ladder", "status": "above_cap",
+                            "deployed_weight": 0.60, "gap_pp": 40.0, "multiple_of_cap": 3.0},
+                           {"name": "BOOK", "kind": "own_rule", "status": "own_rule",
+                            "deployed_weight": 0.90, "gap_pp": 70.0, "multiple_of_cap": 4.5},
+                           {"name": "FLAT", "kind": "ladder", "status": "inside_cap",
+                            "deployed_weight": 0.04, "gap_pp": -16.0, "multiple_of_cap": 0.2}],
+                       "sentence": "quoted verbatim"}, fh)
+        rp = read_published(p)
+        chk("the reader quotes the sentence and the verdict verbatim",
+            rp["status"] == "ok" and rp["sentence"] == "quoted verbatim"
+            and rp["book_verdict"] == "ABOVE_CAP" and rp["n_above"] == 2
+            and rp["cap"] == 0.20)
+        chk("widest_above is the widest LADDER account over the cap, never an own-rule book",
+            rp["widest_above"]["name"] == "WIDE"
+            and rp["widest_above"]["deployed_weight"] == 0.60)
 
     print("selftest %d/%d PASS" % (ok, ok))
     return 0

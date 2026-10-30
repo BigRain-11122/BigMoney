@@ -1,6 +1,6 @@
 # CEO 实盘使用一页纸 · 2026-10-30
 
-> 自动生成 2026-10-30T21:14:41 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
+> 自动生成 2026-10-30T22:44:15 · T-105 v1.2 · 纯聚合面（零新判据）· [版本台账](../../research/DECISION_CHAIN_LEDGER.md)
 
 ## ① 市场判定
 
@@ -17,6 +17,8 @@
 ## ② 仓位指令（阶梯总帽）
 
 - **当前态 RED → 股票敞口总帽 20%**
+- **这个帽子和下面的钱对过账**：Market state RED caps new risk at 20% of equity. 3 of 6 ladder-governed accounts sit above it; the widest is COMPOSITE-CE-01 at 76.8% (56.8pp over, 3.84x the cap). Those positions predate the state flip, so the cap gates new entries rather than forcing a sale.
+  - 超帽最多的是 COMPOSITE-CE-01：仓位 76.8%（超 56.8pp·3.84 倍帽）；ETF 复合书按自己的规则（β 目标×波动目标）列在同一张表但不进裁决
 - 阶梯全表（冻结）：
   - RED：20% — 红色急跌/熔断态：股票敞口上限 20% ←当前
   - YELLOW：65% — 黄色过渡态：上限 65%

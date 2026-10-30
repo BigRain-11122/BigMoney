@@ -432,12 +432,15 @@ LEGS = [
     ("marks_coverage", ["python", "scripts/marks_coverage.py"]),
     ("t35_export", ["python", "scripts/t35_paper_export.py", "run"]),
     ("scorecard_daily", ["python", "scripts/daily_scorecard.py"]),
-    ("daily_report", ["python", "scripts/daily_report.py", "run"]),
-    ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
     # r1170: the page prints the regime cap and the ticket prints the deployed book, and
     # nothing compared them. On the first RED day (cap 20%) three of six paper accounts
     # sat above it. Reads published faces only; changes no rule.
+    # r1171: ORDER MATTERS (r1318 class) -- the daily report (sec.1) and the CEO page
+    # (sec.2) now QUOTE this verdict, so the producer has to run before both consumers
+    # or two human faces print yesterday's sentence all round.
     ("regime_cap_vs_book", ["python", "scripts/regime_cap_vs_book.py", "run"]),
+    ("daily_report", ["python", "scripts/daily_report.py", "run"]),
+    ("ceo_live_usage", ["python", "scripts/ceo_live_usage.py"]),
     # ORDER MATTERS (r1318): the panel READS fleet/machine-health.json, and the
     # hourly oversight task independently writes that file with a thin row. When
     # these legs ran after build_status, the panel was built from the thinned face

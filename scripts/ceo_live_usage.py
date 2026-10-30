@@ -141,6 +141,12 @@ REC_JSON = os.path.join(ROOT, "docs", "portfolio_recommendation",
                         "REC-latest.json")
 REC_REL = "docs/portfolio_recommendation/REC-latest.json"
 
+# v1.9: sec.2 prints the cap and sec.3 prints the money, and until r1170 nothing
+# subtracted them. The verdict now exists (scripts/regime_cap_vs_book.py); this
+# page QUOTES it through the producer's own reader so the two faces cannot drift
+# into two different sentences (r1290 law).
+CAP_VS_BOOK_JSON = os.path.join(ROOT, "results", "regime_cap_vs_book.json")
+
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
 LADDER = [
@@ -496,6 +502,33 @@ def _rollup_face(paper: dict, day: str) -> dict:
     }
 
 
+def _cap_vs_book_face(regime_asof=None):
+    """v1.9: put the published cap-vs-book verdict next to the cap it is about.
+
+    Single implementation: the reader is `regime_cap_vs_book.read_published`, so
+    the CEO page and the daily report quote one sentence (r1290).  A missing
+    artifact reads as absent -- never as "everyone is inside the cap".  The
+    `stale` flag is honest bookkeeping: the artifact prices the regime state it
+    saw, and a page rendered on a later state says so instead of implying it
+    compared today's cap with today's book."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import regime_cap_vs_book as _rcvb
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unavailable", "detail": str(exc)[:160]}
+    try:
+        face = dict(_rcvb.read_published(CAP_VS_BOOK_JSON))
+    except Exception as exc:                                   # noqa: BLE001
+        return {"status": "unreadable", "detail": str(exc)[:160]}
+    if face.get("status") != "ok":
+        return face
+    face["stale"] = (regime_asof is not None
+                     and face.get("priced_on") not in (None, regime_asof))
+    return face
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -581,6 +614,7 @@ def build_payload(day: str) -> dict:
                        if state == "ORANGE" else
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
+        "cap_vs_book": _cap_vs_book_face(regime.get("asof")),
         "rollup": _rollup_face(paper, day),
         "intraday": _intraday_face(held, day),
         "recommendation": _recommendation_face(),
@@ -732,6 +766,21 @@ def render_md(p: dict) -> str:
     L.append("")
     L.append(f"- **当前态 {p['ladder']['current_state']} → 股票敞口总帽 "
              f"{p['ladder']['current_cap']:.0%}**")
+    cvb = p.get("cap_vs_book") or {}
+    if cvb.get("status") == "ok":
+        L.append(f"- **这个帽子和下面的钱对过账**：{cvb['sentence']}")
+        wa = cvb.get("widest_above") or {}
+        if wa.get("name"):
+            L.append(f"  - 超帽最多的是 {wa['name']}：仓位 "
+                     f"{wa['deployed_weight']:.1%}（超 {wa['gap_pp']:.1f}pp·"
+                     f"{wa['multiple_of_cap']:.2f} 倍帽）；ETF 复合书按自己的规则"
+                     "（β 目标×波动目标）列在同一张表但不进裁决")
+        if cvb.get("stale"):
+            L.append(f"  - 注：该对账面按政体态 asof {cvb.get('priced_on')} 计价，"
+                     "与本页当前态不同（如实标注，未外推）")
+    else:
+        L.append("- 上限 vs 实际仓位：{}".format(
+            cvb.get("detail") or '对账面未产出（缺面不读合规）'))
     L.append("- 阶梯全表（冻结）：")
     for r in p["ladder"]["rungs"]:
         mark = " ←当前" if r["state"] == p["ladder"]["current_state"] else ""
