@@ -2353,6 +2353,7 @@
   "ts": "2026-10-31T06:00:30+08:00"
  },
  "r1306": {
+  "cpu_note": "cpu 86.5% over a 3s window is NOT this repo: a 3s per-process delta names dotnet 5.17s, Unity Platform 2.45s, Tuanjie 1.62s, bee_backend 0.80s, Unity.ILPP.Runner 0.33s -- the Tuanjie/Unity editor is compiling on this machine (CEO interactive work). compute_audit read 21.0% before the editor picked up; no batch of ours is running (py_cpu 0.0-0.3%). Next round must not read this as a burn.",
   "defect_found": "E279's summary field rows_where_tails_disagree_on_reachability publishes GROUP labels (['cross','star_lag1_residual']) while the disagreement is cell-scoped: each group has 4 cells and exactly 1 disagreeing cell. Not wrong about which groups contain a disagreement; it over-claims at group scope and the cells are unrecoverable from it. r1305's digest prose wrote the cells correctly -- only the machine-readable projection is lossy. Disclosed under D7 and seeded as E284-DISAGREEMENT-FIELD-SCOPE rather than repaired in the round that found it.",
   "delivery": {
    "behind_origin_main": 164,
@@ -2428,9 +2429,9 @@
  "task": "E281 substitution dependency audit (done) -> next head E282 substitution disagreement census",
  "task_short": "E281 dependency audit",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T06:20:24+08:00",
- "updated": "2026-10-31T06:20:24+08:00",
- "updated_at": "2026-10-31T06:20:24+08:00",
+ "ts": "2026-10-31T06:21:43+08:00",
+ "updated": "2026-10-31T06:21:43+08:00",
+ "updated_at": "2026-10-31T06:21:43+08:00",
  "verdict": "healthy",
  "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu, 3 ready pool rows, py 0.0% of 16 cores); the round burned the head card E281 in-round",
  "work": "E281 done"
