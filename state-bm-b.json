@@ -2354,6 +2354,16 @@
  },
  "r1306": {
   "defect_found": "E279's summary field rows_where_tails_disagree_on_reachability publishes GROUP labels (['cross','star_lag1_residual']) while the disagreement is cell-scoped: each group has 4 cells and exactly 1 disagreeing cell. Not wrong about which groups contain a disagreement; it over-claims at group scope and the cells are unrecoverable from it. r1305's digest prose wrote the cells correctly -- only the machine-readable projection is lossy. Disclosed under D7 and seeded as E284-DISAGREEMENT-FIELD-SCOPE rather than repaired in the round that found it.",
+  "delivery": {
+   "behind_origin_main": 164,
+   "branch": "machine/bm-b-r1306",
+   "local_not_on_origin_main": 62,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1305 family); delivery stays on the machine branch, not re-attempted this round",
+   "pushed_sha": "63e9c6c9cb3abf3e15e5604aa1d0d64b3b1f49cf",
+   "remote_ref_sha": "63e9c6c9cb3abf3e15e5604aa1d0d64b3b1f49cf",
+   "ts": "2026-10-31T06:20:24+08:00",
+   "verified": true
+  },
   "dept": "research+engineering",
   "finding": "the E278 substitution policy is load-bearing in exactly one place, and that place already says it is vacuous. 27 dated BAND faces scanned structurally; only 1 publishes reachability for both tails (24 claims, 22 'cannot'). Exactly 2 'cannot's rest on a stranded tail (cross|all_five|1 and star_lag1_residual|all_five|12, both cross:200 tight), both substitutes are measurable and both agree VACUOUSLY, none would add the claim. Load-bearing = 0 because BANDFLIPBUDGET already publishes 'inert because the population never publishes a narrowing multiplier, not because the tight tail is safe', and BANDFLOOR/BANDTIGHT separately publish the same vacuity. The two tails genuinely disagree on 2 cells: cross|era_2025_now|9 and star_lag1_residual|era_2023_2024|13. No published conclusion needs withdrawal; the standing rule is that a 'cannot' on a stranded tail is never a measurement.",
   "identity": "24/24 published tail booleans re-derived from their own ranges; stranded set equals E279's census stranded set; disagreement set equals E279's census swap-disagreement set cell by cell (both are cross|era_2025_now|9 and star_lag1_residual|era_2023_2024|13). The group-keyed field is the only place the projection loses information.",
@@ -2418,9 +2428,9 @@
  "task": "E281 substitution dependency audit (done) -> next head E282 substitution disagreement census",
  "task_short": "E281 dependency audit",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T06:19:16+08:00",
- "updated": "2026-10-31T06:19:16+08:00",
- "updated_at": "2026-10-31T06:19:16+08:00",
+ "ts": "2026-10-31T06:20:24+08:00",
+ "updated": "2026-10-31T06:20:24+08:00",
+ "updated_at": "2026-10-31T06:20:24+08:00",
  "verdict": "healthy",
  "watermark_red": "red at open (lane pool-batch-runnable-idle-low-cpu, 3 ready pool rows, py 0.0% of 16 cores); the round burned the head card E281 in-round",
  "work": "E281 done"
