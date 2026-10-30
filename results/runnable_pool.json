@@ -24621,11 +24621,15 @@
   },
   {
    "deliverable": "results/state_tilt/BANDSCREEN-<cutoff>.json",
+   "done_at": "2026-10-30 23:47",
+   "done_by": "bm-b",
    "evidence_cutoff": "2026-10-29",
    "id": "E266-WIDE-END-SCREEN-OUT-OF-SAMPLE",
    "lane": "cpu-only",
    "owner": null,
    "priority": 3,
+   "result_note": "verdict=donor_above_the_row_is_not_a_screen; 36 comparisons over 48 pairs, 2 moves, written screen flags 18 (precision 0.111), bracket on the row's own side exact 2/0/0; 18 of 36 comparisons carry a side-dependent threshold",
+   "result_ref": "results/state_tilt/BANDSCREEN-2026-10-29.json",
    "runner": "scripts/e266_wide_end_screen_holdout.py",
    "runner_args": [
     "run"
@@ -24633,9 +24637,28 @@
    "seeded_at": "2026-10-31T00:05:00+08:00",
    "seeded_by": "bm-b r1291",
    "source": "E264 ranked all 12 read rows by m* = |b|/max(|lo|,|hi|) and both rows E262 moved sit in the top 3, but the third-closest did not move (no published donor reaches its m*=2.10), so the ranking is a superset of the damage. A screen must say how much of the pool it would have flagged and how many it would have missed -- in-sample the answer is 2/2 found with 1/10 false positive at top-3, which is too small a pool to mean anything. The untested question is whether the screen is EXACT at m*, i.e. whether every (row, donor) pair whose donor p95 exceeds the row's m* is exactly the set that moved. That is a mechanical predicate over the 48 ordered pairs E262 already published -- no new draws, no new panel -- and it either reproduces the moved set exactly or publishes the counterexamples",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e266_wide_end_screen_holdout.py (new runner)",
    "title": "does the wide-end threshold screen hold on rows it was not fitted on?",
+   "worker_class": "code-change"
+  },
+  {
+   "deliverable": "results/state_tilt/BANDMARGIN-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E267-SCREEN-BUFFER-MARGIN",
+   "lane": "cpu-only",
+   "owner": null,
+   "priority": 3,
+   "runner": "scripts/e267_screen_buffer_margin.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-30T23:47:45+08:00",
+   "seeded_by": "bm-b r1292",
+   "source": "E266's bracket screen is exact on 2 positives out of 36 published comparisons, but it has no predictive margin: a donor 0.001 above the row's own-side threshold counts exactly the same as one 0.3 above it. Anyone acting on the screen needs a buffer, and the cost of demanding one is already measurable on the same 36 comparisons -- sweep b in donor > t*(1+b) and publish the false-positive/missed-move trade curve plus the actual margins of the two real moves (0.074 and 0.045 above t as published)",
+   "status": "ready",
+   "target": "scripts/e267_screen_buffer_margin.py (new runner)",
+   "title": "how much margin must a donor clear before the flip is worth acting on?",
    "worker_class": "code-change"
   }
  ],
@@ -24651,6 +24674,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T23:2x+08:00",
+ "updated_at": "2026-10-30T23:47:45+08:00",
  "version": 1
 }

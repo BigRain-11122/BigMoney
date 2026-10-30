@@ -309,6 +309,15 @@ LEGS = [
     ("near_one_seed_reading",
      ["python", "scripts/e264_near_one_seeds_reading.py", "verify"]),
 
+    # E266: E265's per-row screen ("any donor p95 above the row's threshold m* flips it") scored
+    # against E262's 48 published ordered pairs. This leg re-derives that the written screen flags
+    # 18 of 36 comparisons while only 2 move (precision 0.111), that guarding on the row's own end
+    # removes the false positives but loses one real move, and that only the BRACKET with the row's
+    # OWN SIDE reproduces the moved set exactly -- 18 of the 36 comparisons carry a side-dependent
+    # threshold, so max(|lo|,|hi|) is not a detail. Reads the published transfer face only. <1s.
+    ("wide_end_screen",
+     ["python", "scripts/e266_wide_end_screen_holdout.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

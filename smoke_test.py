@@ -5277,6 +5277,87 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E266: E265 wrote the wide-end screen as "any donor p95 above the row's threshold m* flips it".
+    # This leg guards the face that tests that screen against E262's 48 already-published ordered
+    # pairs. What can fabricate a claim here: a screen scored against its own definition (the
+    # comparison set must be re-derivable from the rows), a counterexample list that does not match
+    # the confusion counts, and a threshold that drops the row's own SIDE -- the max(|lo|,|hi|) form
+    # understates how close a narrow-side row is (18 of 36 comparisons here). No draws.
+    try:
+        _bad66 = []
+        _p66 = os.path.join("results", "state_tilt", "bandscreen_latest.json")
+        _f66 = None
+        if not os.path.exists(_p66):
+            _bad66.append("face missing: %s" % _p66)
+        else:
+            with io.open(_p66, encoding="utf-8") as _fh66:
+                _f66 = json.load(_fh66)
+        if _f66 is not None:
+            _s66 = _f66.get("summary") or {}
+            _rows66 = _f66.get("comparison_rows") or []
+            if _s66.get("comparisons") != len(_rows66):
+                _bad66.append("summary comparisons %r but the face lists %d comparison row(s)"
+                              % (_s66.get("comparisons"), len(_rows66)))
+            for _k66, _n66 in (("predicted_single", "S1_single"),
+                               ("predicted_guarded", "S2_guarded"),
+                               ("predicted_bracket", "S3_bracket")):
+                _tp66 = sum(1 for r in _rows66 if r.get(_k66) and r.get("actual_moved"))
+                _fp66 = sum(1 for r in _rows66 if r.get(_k66) and not r.get("actual_moved"))
+                _fn66 = sum(1 for r in _rows66
+                            if r.get(_k66) is False and r.get("actual_moved"))
+                _got66 = _s66.get(_n66) or {}
+                if (_got66.get("tp"), _got66.get("fp"), _got66.get("fn")) != (_tp66, _fp66, _fn66):
+                    _bad66.append("%s says tp/fp/fn %r/%r/%r but the comparison rows give %d/%d/%d"
+                                  % (_n66, _got66.get("tp"), _got66.get("fp"), _got66.get("fn"),
+                                     _tp66, _fp66, _fn66))
+                    break
+            # every actual move has to be predicted by the screen the verdict rests on
+            _missed66 = [r for r in _rows66 if r.get("actual_moved") and not r.get("predicted_bracket")]
+            if _missed66:
+                _bad66.append("%d published move(s) are not predicted by the bracket screen"
+                              % len(_missed66))
+            # the counterexample list IS the written screen's false positives -- not a summary of them
+            _fp66_all = sum(1 for r in _rows66
+                            if r.get("predicted_single") and not r.get("actual_moved"))
+            if len(_f66.get("counterexamples_of_the_written_screen") or []) != _fp66_all:
+                _bad66.append("counterexample list has %d row(s), the comparison rows carry %d"
+                              % (len(_f66.get("counterexamples_of_the_written_screen") or []),
+                                 _fp66_all))
+            # the side has to be exercised by the published pairs, or the reading means nothing
+            if (_s66.get("rows_where_the_two_thresholds_differ") or 0) <= 0:
+                _bad66.append("no row has a side-dependent threshold: the max-end form was never "
+                              "tested")
+            for _r66 in _rows66:
+                if _r66.get("side") not in ("lo", "hi", None):
+                    _bad66.append("row %r carries an unknown side %r"
+                                  % (_r66.get("index"), _r66.get("side")))
+                    break
+                _lo66, _hi66, _b66 = (_r66.get("band_lo"), _r66.get("band_hi"), _r66.get("b"))
+                if None not in (_lo66, _hi66, _b66) and float(_b66) < 0 and float(_lo66) < 0:
+                    if abs(float(_r66.get("t_side") or 0.0)
+                           - abs(float(_b66)) / abs(float(_lo66))) > 1e-12:
+                        _bad66.append("row %r: t_side is not |b|/|lo| on the negative side"
+                                      % (_r66.get("index"),))
+                        break
+            check("product: a donor above the row is not yet a screen (it needs the row's own side)",
+                  not _bad66,
+                  "%r | %d comparison(s) over %d pair(s), %d move(s), S1 flags %d (precision %.3f), "
+                  "S3 tp/fp/fn %d/%d/%d, thresholds side-dependent on %d row(s)"
+                  % ((_f66 or {}).get("verdict"),
+                     (_s66.get("comparisons") or 0), (_s66.get("pairs") or 0),
+                     (_s66.get("moves_published") or 0),
+                     ((_s66.get("S1_single") or {}).get("predicted") or 0),
+                     (_s66.get("S1_precision") or 0.0),
+                     ((_s66.get("S3_bracket") or {}).get("tp") or 0),
+                     ((_s66.get("S3_bracket") or {}).get("fp") or 0),
+                     ((_s66.get("S3_bracket") or {}).get("fn") or 0),
+                     (_s66.get("rows_where_the_two_thresholds_differ") or 0))
+                  + (" | " + "; ".join(_bad66[:4]) if _bad66 else ""))
+    except Exception as e:
+        check("product: a donor above the row is not yet a screen (it needs the row's own side)",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:
