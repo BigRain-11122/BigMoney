@@ -223,6 +223,13 @@ LEGS = [
     # every published number from the saved face. <1s.
     ("self_row_resolution", ["python", "scripts/e253_self_row_resolution.py", "verify"]),
 
+    # E254: E253's session counts rest on edge(n) ~ n**-0.5, an exponent it only checked ACROSS
+    # heterogeneous eras (0.244). This leg rebuilds the shuffled band inside ONE cell at seven
+    # session counts and fits the exponent on the cell's own rungs; it answers with the ladder,
+    # not a date, and refuses to claim an exponent the rungs do not carry. Reads the published
+    # face only -- no panel, no refit -- and runs --verify. <1s.
+    ("band_exponent_inside_cell", ["python", "scripts/e254_band_exponent_inside_cell.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

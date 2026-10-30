@@ -24294,7 +24294,7 @@
    "id": "E254-BAND-EXPONENT-INSIDE-THE-CELL",
    "lane": "cpu-only",
    "worker_class": "code-change",
-   "status": "ready",
+   "status": "done",
    "runner": "scripts/e254_band_exponent_inside_cell.py",
    "target": "scripts/e254_band_exponent_inside_cell.py (new runner)",
    "runner_args": [
@@ -24308,7 +24308,30 @@
    "entered_by": "bm-b r1280",
    "title": "does the shuffled band really shrink as 1/sqrt(n) inside one era, or was E253's 516-session target an artefact of the exponent?",
    "source": "E253 turned E252's bands into session counts and had to assume edge(n') = edge(n)*(n/n')**gamma. It checked the assumption ACROSS cells and got gamma=0.244 (r2 0.28) instead of 0.5, which moved the star's self-row target from 516 to 660 sessions -- but that fit compares four heterogeneous eras, so the discrepancy is as likely to be era heterogeneity as a wrong exponent. Measure the exponent INSIDE one cell instead: take era_2025_now's rows, cut them to n=200/300/408 prefixes, and rebuild only the shuffled band at each length (same permutation design, same 60 draws, same star column -- no new coefficient, no re-pricing). Then fit gamma on that cell's own three points and publish the star's self-row target under the measured exponent. If gamma is near 0.5 inside the cell, E253's 516 stands and the cross-era 0.244 is heterogeneity; if it is near 0.24, the row needs ~660 sessions and the 2027-04 ETA is optimistic by two quarters.",
-   "result_note": null
+   "result_note": "band rebuilt inside era_2025_now at 7 session counts x 2 families, 7 seeds, 60 draws: the band DOES shrink within both families (head gamma 0.3186 r2 0.67, tail 0.6854 r2 0.85), but the head ladder's r2 sits under the frozen 0.80 floor, so the exponent is published as undetermined rather than as either the frozen 0.5 or the cross-era 0.244. E253's 516-session target becomes a range 434/420 sessions under the measured exponents (442/424 under the two reference exponents), so 'short by ~108 sessions' reads 'short by ~12..26' and the 2027-04-23 ETA is not a date the ladder supports. Draw-count sensitivity (60 vs 200 draws, 3 rungs) moves head 0.200 / tail 0.758: the endpoint noise is the binding constraint, not the exponent.",
+   "claimed_by": "bm-b",
+   "closed_by": "bm-b r1281",
+   "result_ref": "results/state_tilt/BANDEXP-2026-10-29.json",
+   "result_ref_at": "2026-10-30T16:18:54"
+  },
+  {
+   "id": "E255-BAND-DRAW-STARVATION",
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "status": "ready",
+   "runner": "scripts/e255_band_draw_starvation.py",
+   "target": "scripts/e255_band_draw_starvation.py (new runner)",
+   "runner_args": [
+    "run"
+   ],
+   "deliverable": "results/state_tilt/BANDDRAW-<cutoff>.json",
+   "priority": 3,
+   "owner": null,
+   "evidence_cutoff": "2026-10-29",
+   "entered_at": "2026-10-30T16:18:54",
+   "entered_by": "bm-b r1281",
+   "title": "is E254's undetermined exponent starved of DRAWS or of RUNGS?",
+   "source": "E254 rebuilt the shuffled band inside one cell and could not name an exponent: head r2 0.67 against a 0.80 floor, while a 3-rung re-read at 200 draws gave head 0.200 vs tail 0.758. Two readings survive and they cost very different amounts: the min-over-60-shuffles endpoint is too noisy (more draws buys it), or seven rungs on 408 sessions cannot identify a slope at all (only a longer window buys it). Measure the endpoint spread as a function of draws at a FIXED rung set (60/120/240/480), propagate it into gamma's standard error, and publish the draw count at which the head family would clear the frozen 0.80 r2 floor -- or the statement that no draw count does, which closes the 'add more permutations' line for good."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24323,6 +24346,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T14:55:00+08:00",
+ "updated_at": "2026-10-30T16:18:54",
  "version": 1
 }

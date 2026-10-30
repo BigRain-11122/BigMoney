@@ -131,11 +131,22 @@ _DATES_CACHE = None
 
 
 def _load_trading_dates():
-    """Local ETF trading-day calendar (update_lhb/update_futures family:
-    data/daily 510300.csv primary, glob fallback, None -> weekday approx)."""
+    """Trading-day calendar. OFFICIAL face first (E136): the panel can only
+    learn about today once today's bar is written, so a panel-derived calendar
+    deadlocks this gate one session behind. Single source = update_etf_daily's
+    loader (official calendar, then data/daily 510300.csv, then glob, then
+    weekday approximation)."""
     global _DATES_CACHE
     if _DATES_CACHE is not None:
         return _DATES_CACHE
+    try:
+        from update_etf_daily import _load_trading_dates as _etf_dates
+        off = _etf_dates()
+        if off:
+            _DATES_CACHE = off
+            return off
+    except Exception:
+        pass
     cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
     cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data", "daily", "*.csv")))
               if p != cands[0]]

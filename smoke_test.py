@@ -4247,6 +4247,121 @@ def main() -> int:
     except Exception as e:
         check("product: the star's unread self row is scheduled, not excused",
               False, repr(e)[:160])
+
+    # E254: E253's session counts ride on edge(n) ~ n**-0.5, an exponent it only checked ACROSS
+    # four heterogeneous eras (0.244). This leg rebuilds the band inside one cell. The ways it
+    # can lie are the ways a published field can drift from its own numbers: a gamma its rungs do
+    # not reproduce, a "band shrinks" flag the ladder does not show, a target count the published
+    # b_self does not produce, an exponent announced while its own r2 floor fails -- and, the one
+    # this round found, a verdict arriving with its REASON silently blanked by a reused name.
+    try:
+        _bad54 = []
+        _p54 = os.path.join("results", "state_tilt", "bandexp_latest.json")
+        _f54 = None
+        if not os.path.exists(_p54):
+            _bad54.append("face missing: %s" % _p54)
+        else:
+            with io.open(_p54, encoding="utf-8") as _fh54:
+                _f54 = json.load(_fh54)
+        if _f54 is not None:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            try:
+                import e254_band_exponent_inside_cell as _m54
+            except Exception as _e54:
+                _m54 = None
+                _bad54.append("module does not import: %r" % (_e54,))
+            _fam54 = _f54.get("families") or {}
+            _vocab54 = set(((_f54.get("frozen_spec") or {}).get("verdict_vocabulary")) or [])
+            if not _vocab54:
+                _bad54.append("the face publishes no frozen verdict vocabulary")
+            if _f54.get("verdict") not in _vocab54:
+                _bad54.append("verdict %r is outside the frozen vocabulary"
+                              % (_f54.get("verdict"),))
+            if _m54 is not None:
+                _v54 = _m54.verify()
+                for _p in (_v54.get("problems") or []):
+                    _bad54.append("verify: %s" % _p)
+                _g54 = {k: ((_fam54.get(k) or {}).get("fit_edge") or {}).get("gamma")
+                        for k in ("head", "tail")}
+                _r54 = {k: ((_fam54.get(k) or {}).get("fit_edge") or {}).get("r2")
+                        for k in ("head", "tail")}
+                _want54, _why54 = _m54.verdict_from(_g54, _r54)
+                if _f54.get("verdict") != _want54:
+                    _bad54.append("the verdict does not re-derive from its published inputs")
+                # the reason a verdict is undetermined must survive the sensitivity pass
+                if not _why54:
+                    _bad54.append("the frozen verdict rule yields no reason")
+                elif _f54.get("verdict_reason") != _why54:
+                    _bad54.append("the published reason (%r) is not the one its own inputs give "
+                                  "(%r)" % (_f54.get("verdict_reason"), _why54))
+                # an exponent may not be announced while its own r2 floor fails
+                _floor54 = (_f54.get("frozen_spec") or {}).get("r2_floor")
+                if _floor54 is not None and any(
+                        (_r54.get(k) is None or _r54[k] < _floor54) for k in _r54) \
+                        and _f54.get("verdict") != "exponent_undetermined_inside_the_cell":
+                    _bad54.append("an exponent is claimed while a family sits under the r2 floor")
+                # "the band shrinks" must be something the ladder itself shows
+                _shrinks54 = (_f54.get("summary") or {}).get("band_shrinks_within_family") or {}
+                for _k in ("head", "tail"):
+                    _rows54 = sorted([p for p in (_f54.get("points") or [])
+                                      if p.get("family") == _k],
+                                     key=lambda p: p.get("sessions") or 0)
+                    _edges54 = [p.get("edge_self") for p in _rows54]
+                    if len(_edges54) < 3:
+                        _bad54.append("family %s carries %d rungs (need >=3)"
+                                      % (_k, len(_edges54)))
+                        continue
+                    if any(a is None or b is None for a, b in zip(_edges54, _edges54[1:])):
+                        _bad54.append("family %s has a blank edge" % _k)
+                        continue
+                    _obs54 = all(b < a for a, b in zip(_edges54, _edges54[1:]))
+                    _net54 = _edges54[-1] < _edges54[0]
+                    _steps54 = sum(1 for a, b in zip(_edges54, _edges54[1:]) if b >= a)
+                    if bool(_shrinks54.get(_k)) != _net54:
+                        _bad54.append("family %s publishes band_shrinks=%s but its ladder's "
+                                      "longest rung is %s the shortest"
+                                      % (_k, _shrinks54.get(_k),
+                                         "below" if _net54 else "not below"))
+                    _nm54 = ((_f54.get("summary") or {}).get("rungs_non_monotone")
+                             or {}).get(_k)
+                    if _nm54 != _steps54:
+                        _bad54.append("family %s publishes %s non-monotone rungs but its ladder "
+                                      "has %d" % (_k, _nm54, _steps54))
+                    if not (_f54.get("summary") or {}).get("band_shrinks_definition"):
+                        _bad54.append("the shrink flag is published without its definition "
+                                      "(net vs monotone)")
+                    # the target count is E253's inversion re-run on this cell's own anchor
+                    _b54 = (_f54.get("published") or {}).get("b_self")
+                    _tgt54 = (_f54.get("target_sessions") or {}).get(_k)
+                    _anchor54 = _rows54[-1]
+                    if _b54 and _g54.get(_k) is not None:
+                        _re54 = _m54.target_sessions(_anchor54["sessions"], _b54,
+                                                     _anchor54["edge_self"], _g54[_k])
+                        if _tgt54 is None or _re54 is None or abs(_re54 - _tgt54) > 1e-6:
+                            _bad54.append("family %s publishes a target count its own anchor and "
+                                          "b_self do not produce" % _k)
+            if not _f54.get("evidence_cutoff"):
+                _bad54.append("the face carries no evidence_cutoff")
+            if not (_f54.get("frozen_spec") or {}).get("what_is_not_done"):
+                _bad54.append("the face does not declare what it does not do")
+        _s54 = (_f54 or {}).get("summary") or {}
+
+        def _n54(grp, fam):
+            v = (_s54.get(grp) or {}).get(fam)
+            return "n/a" if v is None else "%.3f" % v
+
+        check("product: the band's own ladder decides the exponent, not the assumed one",
+              not _bad54, "; ".join(_bad54)[:220]
+              or "verdict %s (%s); gamma head %s r2 %s / tail %s r2 %s; targets %s/%s "
+                 "vs E253's %s"
+                 % (_s54.get("verdict"), _s54.get("verdict_reason"),
+                    _n54("gamma", "head"), _n54("r2", "head"),
+                    _n54("gamma", "tail"), _n54("r2", "tail"),
+                    _n54("target_sessions", "head"), _n54("target_sessions", "tail"),
+                    _r39(_f54 or {}, "e253_needed")))
+    except Exception as e:
+        check("product: the band's own ladder decides the exponent, not the assumed one",
+              False, repr(e)[:160])
     return _finish()
 
 

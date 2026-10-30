@@ -154,13 +154,41 @@ def completeness_filter(rows, now=None):
 _DATES_CACHE = None
 
 
+CAL_PATH = os.path.join(ROOT, "data", "exchange_calendar.csv")
+
+
+def _official_trading_dates():
+    """Official exchange sessions (data/exchange_calendar.csv, E136).
+
+    This face is FETCHED from the source and only ever unioned, so it knows
+    today is a session before any bar exists. That is the whole point: a
+    panel-derived calendar cannot decide whether today should have a bar.
+    """
+    try:
+        with io.open(CAL_PATH, "r", encoding="utf-8") as f:
+            ds = sorted({ln.strip()[:10] for ln in f
+                         if re.match(r"^\d{4}-\d{2}-\d{2}", ln.strip())})
+        return ds if len(ds) >= 200 else None
+    except Exception:
+        return None
+
+
 def _load_trading_dates():
-    """Local ETF trading-day calendar as sorted ISO strings (update_futures/
-    update_repo master: data/daily/510300.csv primary, glob fallback,
-    None -> weekday approximation)."""
+    """Trading-day calendar as sorted ISO strings.
+
+    OFFICIAL face first (`data/exchange_calendar.csv`): the panel-derived list
+    below only learns about today once today's bar is already written, so using
+    it as the calendar deadlocks the gate -- on the first session after the last
+    written row, `today in dates` is false forever and every lane reports
+    "panel fresh" one session behind. Fallbacks: data/daily/510300.csv primary,
+    glob, None -> weekday approximation."""
     global _DATES_CACHE
     if _DATES_CACHE is not None:
         return _DATES_CACHE
+    off = _official_trading_dates()
+    if off:
+        _DATES_CACHE = off
+        return off
     import csv as _csv
     import glob as _glob
     cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
@@ -713,7 +741,27 @@ def _selftest():
                        "counts": {"appended": 1697}})
     assert st == {"ts": "x", "members_planned": ["510300"]}, st
     assert owned_status({}) == {} and owned_status(None) == {}
-    print("selftest: 12/12 PASS")
+
+    # S13 the calendar that opens the gate must be able to know about TODAY
+    # before today's bar exists (E136 + r1281). A panel-derived calendar knows
+    # today only after the write, so a gate keyed on it deadlocks: on the first
+    # session past the last written row it answers "panel fresh" forever.
+    off = _official_trading_dates()
+    assert off and len(off) >= 200, "official calendar unusable"
+    TODAY = "2026-10-30"
+    after = dt.datetime(2026, 10, 30, 16, 0)
+    before = dt.datetime(2026, 10, 30, 9, 0)
+    # the panel is a session behind (10-29) while the official calendar has today
+    assert expected_latest_bar_date(after, off) == TODAY
+    assert expected_latest_bar_date(after, [d for d in off if d < TODAY]) == "2026-10-29"
+    needs, exp, why = cutoff_gate("2026-10-29", after, off)
+    assert needs and exp == TODAY, (needs, exp, why)
+    # before the close the same calendar must NOT ask for today's bar
+    assert expected_latest_bar_date(before, off) == "2026-10-29"
+    assert cutoff_gate("2026-10-29", before, off)[0] is False
+    # a non-session (Saturday) still resolves to the prior session
+    assert expected_latest_bar_date(dt.datetime(2026, 10, 31, 16, 0), off) == TODAY
+    print("selftest: 13/13 PASS")
     return 0
 
 
