@@ -220,3 +220,27 @@ buffer k=0.05 at 20bp/side -- the interaction neither family tested: does a buff
 - median per-cell delta -1.460pp (floor -0.05pp)
 - resolvable share 0.083 (|delta| > the cell's own band; floor 0.50)
 
+## cost0 — **NOT-SEPARABLE**
+
+0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, the ordering is bought with the toll and the 10bp reading stands
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +13.68pp | +10.93pp | +2.750pp | 4.41pp |
+| 3 | 20 | +10.23pp | +8.71pp | +1.515pp | 7.11pp |
+| 3 | 40 | +7.54pp | +6.78pp | +0.755pp | 12.41pp |
+| 5 | 10 | +14.13pp | +11.51pp | +2.630pp | 3.64pp |
+| 5 | 20 | +10.57pp | +9.13pp | +1.440pp | 6.31pp |
+| 5 | 40 | +9.04pp | +8.32pp | +0.720pp | 9.60pp |
+| 8 | 10 | +14.46pp | +12.00pp | +2.455pp | 3.42pp |
+| 8 | 20 | +11.54pp | +10.13pp | +1.415pp | 6.54pp |
+| 8 | 40 | +9.03pp | +8.30pp | +0.725pp | 8.44pp |
+| 12 | 10 | +13.90pp | +11.63pp | +2.270pp | 2.82pp |
+| 12 | 20 | +10.91pp | +9.64pp | +1.270pp | 7.94pp |
+| 12 | 40 | +8.24pp | +7.55pp | +0.690pp | 6.95pp |
+
+- cells 12/12 judged
+- not-worse share 1.000 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta +1.427pp (floor -0.05pp)
+- resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+

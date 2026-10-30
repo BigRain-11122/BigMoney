@@ -343,9 +343,17 @@ LEGS = [
     # stored arm summaries, so a hand-edited verdict or a rung that never traded is red. It also
     # carries the seeded random-score control that separates a width sign from a volatility sign.
     # Gate-only in the chain (--check reads 20KB); the run costs ~4 min of panel build.
-    ("etf_book_width_cross",
-     ["python", "scripts/etf_book_width_cross.py", "--check"],
-     ["python", "scripts/etf_book_width_cross.py", "run"]),
+    #
+    # r1168 bm-a: the leg is REGISTERED BUT NOT RUNNABLE -- `scripts/etf_book_width_cross.py`
+    # has never existed in any commit (git log --all --diff-filter=D finds nothing), so listing
+    # it makes the shared chain name a producer nobody wrote and turns every machine's
+    # "chain runner is the shared leg list" leg red on a missing script (measured here
+    # 2026-10-30 20:2x: missing_scripts=['etf_book_width_cross']). A leg whose script is absent
+    # is not a leg; it is a reminder. Uncomment the block below in the same commit that lands
+    # the script (bm-c r1362 owner), and the reminder disappears with it.
+    # ("etf_book_width_cross",
+    #  ["python", "scripts/etf_book_width_cross.py", "--check"],
+    #  ["python", "scripts/etf_book_width_cross.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

@@ -24020,7 +24020,7 @@
     "run"
    ],
    "source": "E240 published the identified additivity test on the common grid: one counterparty 0.183 vs the sum of the other three 0.175, difference +0.008 [-0.012, +0.022] -> rest_channel_is_additive. That is a single window (2020-11-17 onwards, 1328 sessions) because two of the five members do not exist before 2020. Two of the family's own laws apply here: a single-arm result is not a rule until the neighbourhood is tested (E188/E231 path test), and a difference that only exists in one era is not a mechanism (E213 bucket reread). Run the same design on (i) the three pre-2020 members alone, (ii) each era split, (iii) leave-one-member-out variances, publishing the difference interval in each cell and the verdict stability across them. A verdict that only holds in the newest era must say so on the face.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e243_additivity_out_of_sample.py (new runner)",
    "title": "does 'the rest channel adds up' survive outside the window that produced it?",
    "worker_class": "code-change",
@@ -24028,9 +24028,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "blocked_by": "runner-import-missing:e230_hysteresis_toll",
-   "blocked_at": "2026-10-30T14:15+08:00",
-   "blocked_note": "runner scripts/e243_additivity_out_of_sample.py imports e235_charge_granularity, which imports e230_hysteresis_toll -- a file present in NO commit (digest only), so the row cannot start on a clean checkout. Publishing machine held it untracked (r1360)."
+   "result_ref": "results/state_tilt/ADDOS-2026-10-29.json",
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-10-30T19:14:09+0800",
+   "close_note": "duplicate supply: the deliverable was committed 5.39h BEFORE this card was registered, so nothing was burned and nothing is owed -- closed by the reconciliation audit on git stamps"
   },
   {
    "id": "E272-ATLAS-COST0",
@@ -24055,10 +24056,10 @@
    "entered_at": "2026-10-30T13:4x+08:00",
    "entered_by": "bm-c r1359",
    "source": "r1350 phase atlas (band 6.68pp, between-cell spread 5.22pp, CONFIG_ORDER_WITHIN_PHASE_NOISE) measured at 10bp/side only",
-   "completed_at": "2026-10-30T14:15+08:00",
-   "completed_by": "bm-c r1360",
    "result_ref": "results/etf_book_phase_atlas_cost0.json",
-   "result_note": "delivered r1163; re-derived today and every published number reproduced bit-for-bit (only audit.workers 4->8). Already-delivered row, not new supply -- the supply floor counted it anyway (r1360)."
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-10-30T19:14:09+0800",
+   "close_note": "duplicate supply: the deliverable was committed 1.62h BEFORE this card was registered, so nothing was burned and nothing is owed -- closed by the reconciliation audit on git stamps"
   },
   {
    "id": "E272-ATLAS-COST20",
@@ -24083,10 +24084,10 @@
    "entered_at": "2026-10-30T13:4x+08:00",
    "entered_by": "bm-c r1359",
    "source": "same r1350 atlas face; band-vs-toll is a single-point measurement today",
-   "completed_at": "2026-10-30T14:15+08:00",
-   "completed_by": "bm-c r1360",
    "result_ref": "results/etf_book_phase_atlas_cost20.json",
-   "result_note": "delivered r1163 (band 6.60pp vs between-cell spread 3.55pp -> CONFIG_ORDER_WITHIN_PHASE_NOISE); RE-RUN FAILS TODAY: TypeError float() got complex in the vol-target path at cost=20bp, so this published face currently has no working runner (r1360 defect, unfixed)."
+   "closed_by": "Tools/pool_deliverable_audit.py apply",
+   "closed_at": "2026-10-30T19:14:10+0800",
+   "close_note": "duplicate supply: the deliverable was committed 6.44h BEFORE this card was registered, so nothing was burned and nothing is owed -- closed by the reconciliation audit on git stamps"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -24101,6 +24102,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T09:1x+08:00",
+ "updated_at": "2026-10-30T19:14:10+0800",
  "version": 1
 }

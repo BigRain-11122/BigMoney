@@ -1293,11 +1293,30 @@ def main() -> int:
         # local bytes exist; when they do not, the board must NOT claim a certified tail for
         # that lane (its own verdict must say unverifiable/absent/retired).
         _heat_row = _rows.get("heat") or {}
-        _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
-            _heat_row.get("verdict") in ("unverifiable", "absent", "retired")
-            and bool(_heat_row.get("tail_source")))
+        # r1168: this face is a SHARED, git-tracked file -- whichever machine ran the leg
+        # writes it, and it describes THAT machine's disk. A face computed elsewhere has no
+        # local heat files at all, so comparing them here asserts a deployment layout instead
+        # of a fact (the r1135 family, again). The face names its own disk (`disk.here`), so a
+        # foreign face is judged on that declaration: it must name the disk it read and the
+        # lanes it could not certify from here.
+        _here = None
+        try:
+            with open(os.path.join("fleet", "machine.json"), encoding="utf-8") as _fh:
+                _here = (json.load(_fh) or {}).get("machine_id")
+        except Exception:
+            _here = None
+        _disk = _lfz.get("disk") or {}
+        _foreign = bool(_here and _disk.get("here") and _disk["here"] != _here)
+        if _foreign:
+            _heat_matches = bool(_disk.get("sentence"))
+            _zt_ok = bool(_disk.get("offhost_lanes") or _disk.get("groups"))
+        else:
+            _heat_matches = (_heat_row.get("tail") == _heat_tail) if _heat_tail else (
+                _heat_row.get("verdict") in ("unverifiable", "absent", "retired")
+                and bool(_heat_row.get("tail_source")))
+            _zt_ok = _rows["zt_pool"]["tail"] == _zt_tail
         _ok_lf = (_heat_matches
-                  and _rows["zt_pool"]["tail"] == _zt_tail
+                  and _zt_ok
                   and _lfz.get("expected_last_official_day") == _exp
                   and sum((_lfz.get("counts") or {}).values()) == _lfz.get("n_lanes")
                   and all(r.get("verdict") in _states
@@ -1325,6 +1344,7 @@ def main() -> int:
               _ok_lf,
               f"heat={_rows.get('heat', {}).get('tail')}=={_heat_tail} "
               f"zt={_rows.get('zt_pool', {}).get('tail')}=={_zt_tail} "
+              f"face_computed_on={_disk.get('here')} here={_here} "
               f"expected={_lfz.get('expected_last_official_day')}=={_exp} "
               f"verdict={_lfz.get('verdict')} counts={_lfz.get('counts')} "
               f"auditable={_lfz.get('n_auditable')}/{_lfz.get('n_lanes')}")
@@ -1965,6 +1985,11 @@ def main() -> int:
             # moved stays inconsistent, and a missing face reads stale (never "fine").
             ("product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
              "scripts/etf_book_phase_atlas_arms.py", ["--selftest"]),
+            # r1168: a card whose deliverable was committed BEFORE it was registered is supply
+            # on paper only. The suite pins the git-stamp fallback for an unparsable entered_at,
+            # the newer/older split, and that a card git has never seen stays ambiguous.
+            ("pool: a card whose deliverable already existed is not supply",
+             "Tools/pool_deliverable_audit.py", ["--selftest"]),
             # r1352 / E261: a label is a measurement only if it is rare when nothing happened.
             # The suite pins the null (seeded, reproducible), the activity preconditions (zero
             # noise is NOT-SEPARABLE, a 50pp shift is ADOPT -- so the rule really ran), that the

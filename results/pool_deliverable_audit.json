@@ -1,16 +1,77 @@
 {
  "audit": "pool deliverable reconciliation",
- "ts": "2026-10-30T07:20:24+0800",
+ "ts": "2026-10-30T19:14:09+0800",
  "pool": "results/runnable_pool.json",
- "open_cards": 1,
+ "open_cards": 3,
  "counts": {
-  "NO_FACE": 1
+  "BEFORE_ENTRY_GIT": 3
  },
  "stale_evidence": [],
+ "duplicate_supply": [
+  {
+   "id": "E243-ADDITIVITY-OUT-OF-SAMPLE",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/state_tilt/ADDOS-<cutoff>.json (the one-vs-three difference by era, by member, and on the pre-2020 segment)",
+   "deliverable_template": "results/state_tilt/ADDOS-<cutoff>.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T05:4x+08:00",
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/state_tilt/ADDOS-2026-10-29.json",
+   "face_newest_bytes": 49363,
+   "face_bytes_zero_any": false,
+   "face_commit_ts": 1793319974,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -5.39,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 5.39h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
+  },
+  {
+   "id": "E272-ATLAS-COST0",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/etf_book_phase_atlas_cost0.json -- the same 12 cells / 280 phase runs at 0bp. r1350's 'cadence is the quotable knob, width sits inside the band' was measured at 10bp only; at zero toll the band should collapse and the ordering, if it is real, must survive. A verdict that only holds at one cost level is a cost statement wearing a structure's clothes.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost0.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/etf_book_phase_atlas_cost0.json",
+   "face_newest_bytes": 101223,
+   "face_bytes_zero_any": false,
+   "face_commit_ts": 1793333572,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -1.62,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 1.62h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
+  },
+  {
+   "id": "E272-ATLAS-COST20",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/etf_book_phase_atlas_cost20.json -- the band as a function of toll. The atlas quotes one band (6.68pp) as the ruler every later arm is judged against; if the band itself is a toll artefact then every 'inside the band' verdict in the buffer/width families inherits that error. 20bp is the stress point the capacity ladder already prices.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost20.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/etf_book_phase_atlas_cost20.json",
+   "face_newest_bytes": 101289,
+   "face_bytes_zero_any": false,
+   "face_commit_ts": 1793316200,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -6.44,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 6.44h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
+  }
+ ],
  "ambiguous": [],
  "misnamed": [],
  "prose_deliverables": [
-  "E243-ADDITIVITY-OUT-OF-SAMPLE"
+  "E243-ADDITIVITY-OUT-OF-SAMPLE",
+  "E272-ATLAS-COST0",
+  "E272-ATLAS-COST20"
  ],
  "cards": [
   {
@@ -21,28 +82,80 @@
    "deliverable_template": "results/state_tilt/ADDOS-<cutoff>.json",
    "declared_prose_stripped": true,
    "entered_at": "2026-10-30T05:4x+08:00",
-   "faces_found": 0,
-   "face_newest": null,
-   "face_newest_bytes": null,
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/state_tilt/ADDOS-2026-10-29.json",
+   "face_newest_bytes": 49363,
    "face_bytes_zero_any": false,
-   "reading": "NO_FACE",
-   "evidence": "no file matches the declared deliverable template",
-   "near_miss": []
+   "face_commit_ts": 1793319974,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -5.39,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 5.39h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
+  },
+  {
+   "id": "E272-ATLAS-COST0",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/etf_book_phase_atlas_cost0.json -- the same 12 cells / 280 phase runs at 0bp. r1350's 'cadence is the quotable knob, width sits inside the band' was measured at 10bp only; at zero toll the band should collapse and the ordering, if it is real, must survive. A verdict that only holds at one cost level is a cost statement wearing a structure's clothes.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost0.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/etf_book_phase_atlas_cost0.json",
+   "face_newest_bytes": 101223,
+   "face_bytes_zero_any": false,
+   "face_commit_ts": 1793333572,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -1.62,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 1.62h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
+  },
+  {
+   "id": "E272-ATLAS-COST20",
+   "status": "ready",
+   "lane_owner": null,
+   "deliverable": "results/etf_book_phase_atlas_cost20.json -- the band as a function of toll. The atlas quotes one band (6.68pp) as the ruler every later arm is judged against; if the band itself is a toll artefact then every 'inside the band' verdict in the buffer/width families inherits that error. 20bp is the stress point the capacity ladder already prices.",
+   "deliverable_template": "results/etf_book_phase_atlas_cost20.json",
+   "declared_prose_stripped": true,
+   "entered_at": "2026-10-30T13:4x+08:00",
+   "entry_stamp_source": "git-introduction",
+   "faces_found": 1,
+   "face_newest": "results/etf_book_phase_atlas_cost20.json",
+   "face_newest_bytes": 101289,
+   "face_bytes_zero_any": false,
+   "face_commit_ts": 1793316200,
+   "entry_commit_ts": 1793339391,
+   "face_lag_hours": -6.44,
+   "reading": "BEFORE_ENTRY_GIT",
+   "evidence": "the deliverable was committed 6.44h BEFORE the card was registered: the work already existed, so this card is supply on paper only (duplicate supply)"
   }
  ],
  "apply": {
-  "ts": "2026-10-30T07:20:24+0800",
-  "closed": [],
-  "skipped": [
+  "ts": "2026-10-30T19:14:10+0800",
+  "closed": [
    {
     "id": "E243-ADDITIVITY-OUT-OF-SAMPLE",
-    "reading": "NO_FACE",
-    "reason": "no file matches the declared deliverable template"
+    "result_ref": "results/state_tilt/ADDOS-2026-10-29.json",
+    "reading": "BEFORE_ENTRY_GIT",
+    "face_lag_hours": -5.39
+   },
+   {
+    "id": "E272-ATLAS-COST0",
+    "result_ref": "results/etf_book_phase_atlas_cost0.json",
+    "reading": "BEFORE_ENTRY_GIT",
+    "face_lag_hours": -1.62
+   },
+   {
+    "id": "E272-ATLAS-COST20",
+    "result_ref": "results/etf_book_phase_atlas_cost20.json",
+    "reading": "BEFORE_ENTRY_GIT",
+    "face_lag_hours": -6.44
    }
   ],
+  "skipped": [],
   "pool": "results/runnable_pool.json"
  },
- "pool_after": {
-  "NO_FACE": 1
- }
+ "pool_after": {}
 }

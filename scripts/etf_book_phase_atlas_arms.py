@@ -65,6 +65,12 @@ ARMS = {
                           "buffer k=0.05 at 20bp/side -- the interaction neither family tested: "
                           "does a buffer that is harmless at 10bp recover any of the -1.41pp the "
                           "20bp toll costs?"),
+    # r1168: the bottom rung of the toll ladder. The face was produced by bm-c r1356 and then
+    # sat in results/ with no consumer -- the zero-toll arm is the one that decides whether the
+    # ordering the atlas reports is a property of the configuration or of the toll.
+    "cost0": (os.path.join(RES, "etf_book_phase_atlas_cost0.json"),
+              "0bp/side on the whole grid (no toll at all) -- if the ordering only appears here, "
+              "the ordering is bought with the toll and the 10bp reading stands"),
 }
 
 # the knob each arm declares in its own name; the face must carry the same number (a face wired
@@ -79,6 +85,7 @@ DECLARED = {
     "buffer_k02": {"buffer_k": 0.02},
     "buffer_k40": {"buffer_k": 0.40},
     "buffer_k05_cost20": {"buffer_k": 0.05, "cost": 0.002},
+    "cost0": {"cost": 0.0},
 }
 
 # ---- the frozen rule (written before the first read; echoed into the payload) -------------
@@ -232,6 +239,11 @@ def build():
             band_label, band_reasons = judge_bands(arm_bands, base_bands)
             entry["band_verdict"] = band_label
             entry["band_verdict_reasons"] = band_reasons
+            entry["returns_are_toll_arithmetic"] = (
+                "a cost arm does not change the strategy; its returns delta is the toll it "
+                "removes or adds (this arm's label is %s). Read band_verdict -- and read the "
+                "toll LADDER (scripts/etf_book_atlas_toll_ladder.py) for the ordering verdict "
+                "across rungs; never this label as an adoption." % label)
         payload["arms"][name] = entry
     return payload
 
@@ -1573,6 +1585,19 @@ def _selftest():
             chk(live_width_check() == 2, "a missing live-width face is stale, not inconsistent")
         finally:
             LIVE_OUT = keepl
+
+    # L30 a cost arm never publishes its returns label as an adoption (r1168): a zero-toll arm
+    # would otherwise read ADOPT, which is not a finding about the strategy at all
+    for name in ("cost0", "cost05", "cost20", "cost40"):
+        a = p["arms"][name]
+        chk("toll" in a.get("returns_are_toll_arithmetic", "").lower() and a.get("band_verdict"),
+            "%s carries the toll-arithmetic note and a band verdict" % name)
+    # L31 the zero-toll rung is in this face because the pool card asked for it, and its knob
+    # must be the one its name declares (0bp, buffer off) -- a face quoting another rung's
+    # numbers under this name would be invisible otherwise
+    chk(p["arms"]["cost0"]["audit"].get("cost") == 0.0
+        and p["arms"]["cost0"]["rows"][0]["n_hold"] == 3,
+        "the zero-toll rung really ran at cost 0.0 on the same 12-cell grid")
 
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1

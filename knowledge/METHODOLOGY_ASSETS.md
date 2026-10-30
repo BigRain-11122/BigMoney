@@ -6588,3 +6588,38 @@ shares; null keeps the real eligibility mask; attribution separates arithmetic f
 results/etf_book_width_cross.json (+ .md) + digest DIGEST-20261030-r1362-width-sign-cross-panel.md
 + smoke leg that rebuilds the arm states and the real-minus-null deltas from the published columns
 + chain leg `etf_book_width_cross`.
+## E277 A card whose deliverable was committed before the card was registered is supply on paper (2026-10-30 r1168 bm-a)
+
+Three open pool cards on the board were phantom supply, and the audit tool had been saying so
+for hours without anyone able to act on it: its verdict was `AMBIGUOUS` because the cards
+carried approximate stamps (`2026-10-30T13:4x+08:00`). An unparsable stamp meant the
+pre/post-entry question could never be answered, and an unanswerable question never closes a
+card -- so `pool_ready 3` read as three units of work while every one of their deliverables was
+already committed (E243's face 5.4h before its card, E272-COST0 1.6h before, E272-COST20 6.4h
+before). A supply floor red over nothing fails the same way a green over nothing does: the
+number cannot be believed in either direction.
+
+Two laws. (1) **A file's mtime is not provenance.** A checkout rewrites every mtime at once
+(this round's pull stamped eleven atlas faces with the same 19:04 minute), so a face that looks
+"newer than the card" may only have been restored. Git commit times answer the same question
+durably and survive any checkout: provenance asks git first and falls back to mtime only where
+git cannot answer. (2) **A card the audit cannot adjudicate must name who can decide it, not sit
+in AMBIGUOUS.** The cure was not to loosen the rule but to give it a second source stamp: when
+`entered_at` is unusable, compare the deliverable's commit time against the commit that
+introduced the card's id into the pool file; face-committed-earlier reads `BEFORE_ENTRY_GIT` =
+duplicate supply, closable with a close_note that says nothing was burned. Fail-closed
+everywhere else: a card git has never seen stays `AMBIGUOUS` (selftest L23), and a pre-existing
+face with a *parsable* stamp is still never auto-closed.
+
+By-product worth keeping: the same rule makes a zero-toll cost arm readable. Adding the 0bp rung
+to the arms face published `NOT-SEPARABLE` with `CADENCE_BAND_SURVIVES_THE_TOLL`; the plan to
+judge the ordering across rungs was DELETED on the spot, because bm-c r1361's
+`etf_book_atlas_toll_ladder` already publishes that ladder (crossing 1.045bp) with a chain leg
+and a smoke leg. A second face saying the same sentence is the r1290 defect, not a second
+opinion -- the arms face now points a reader at the ladder instead of restating it.
+
+Pos: Tools/pool_deliverable_audit.py (selftest 24/24: L21 stamps decide newer/older, L22 git
+answers for a tracked face and refuses an untracked one, L23 an unregistered card stays
+ambiguous, L24 a non-repo fixture cannot be closed) + `duplicate_supply` block in
+results/pool_deliverable_audit.json + the three closed cards' close_note + smoke leg
+"pool: a card whose deliverable already existed is not supply".

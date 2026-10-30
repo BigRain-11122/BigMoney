@@ -32,6 +32,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -140,7 +141,62 @@ def near_miss(deliverable, entered, root=ROOT):
     return sorted(out, key=lambda r: r["path"])
 
 
-def classify(entry, root=ROOT):
+def _git_ts(rel_path, root=ROOT):
+    """Epoch seconds of the last commit touching rel_path, or None (not a repo / untracked).
+
+    The file mtime is not evidence of when a face came into existence -- a checkout rewrites
+    every mtime (r1168: a pull stamped eleven atlas faces with the same 19:04 minute). The
+    commit time is the durable answer, so every provenance question goes through git first.
+    """
+    return _git_scalar(["-1", "--format=%ct", "--", rel_path], root)
+
+
+def _git_intro_ts(needle, rel_path, root=ROOT):
+    """Epoch seconds of the commit that first introduced `needle` into rel_path."""
+    return _git_scalar(["-1", "--format=%ct", "-S", needle, "--", rel_path], root)
+
+
+def _git_scalar(args, root):
+    try:
+        out = subprocess.run(["git", "-C", root, "log"] + args,
+                             capture_output=True, text=True, timeout=20)
+    except Exception:  # noqa: BLE001 -- git absent / not a repo: fall back, never crash
+        return None
+    s = (out.stdout or "").strip()
+    if out.returncode != 0 or not s.isdigit():
+        return None
+    return int(s)
+
+
+def provenance(entry, face_path, pool_path=DEFAULT_POOL, root=ROOT):
+    """Git stamps for a card whose own entered_at is unusable.
+
+    Returns {"entry_ts":..., "face_ts":..., "reading":...} or None when git cannot answer.
+    A card whose deliverable was COMMITTED before the card was registered is not supply --
+    it is a re-statement of work that already existed, and burning it would double-count.
+    """
+    if not pool_path:
+        return None
+    face_rel = os.path.relpath(face_path, root).replace("\\", "/")
+    pool_rel = os.path.relpath(pool_path, root).replace("\\", "/")
+    face_ts = _git_ts(face_rel, root)
+    entry_ts = _git_intro_ts(str(entry.get("id") or ""), pool_rel, root)
+    if face_ts is None or entry_ts is None:
+        return None
+    return {"entry_ts": entry_ts, "face_ts": face_ts,
+            "reading": reading_from_stamps(face_ts, entry_ts)}
+
+
+def reading_from_stamps(face_ts, entry_ts):
+    """Pure: what a pair of (face, card) stamps means, newest-first."""
+    if face_ts is None or entry_ts is None:
+        return "AMBIGUOUS"
+    if face_ts >= entry_ts:
+        return "AFTER_ENTRY"
+    return "BEFORE_ENTRY_GIT"
+
+
+def classify(entry, root=ROOT, pool_path=DEFAULT_POOL):
     """Read one card against the disk.  Pure: no writes, no clock beyond entry."""
     deliv = entry.get("deliverable")
     tpl, prose = _template(deliv)
@@ -154,6 +210,7 @@ def classify(entry, root=ROOT):
         "deliverable_template": tpl,
         "declared_prose_stripped": bool(prose),
         "entered_at": entry.get("entered_at"),
+        "entry_stamp_source": "entered_at" if entered is not None else None,
         "faces_found": len(faces),
         "face_newest": faces[0]["path"] if faces else None,
         "face_newest_bytes": faces[0]["bytes"] if faces else None,
@@ -165,8 +222,25 @@ def classify(entry, root=ROOT):
         row["near_miss"] = near_miss(deliv, entered, root)
         return row
     if entered is None:
-        row["reading"] = "AMBIGUOUS"
-        row["evidence"] = "face exists but the card carries no parsable entered_at"
+        prov = provenance(entry, faces[0]["path"], pool_path, root)
+        if prov is None:
+            row["reading"] = "AMBIGUOUS"
+            row["evidence"] = "face exists but the card carries no parsable entered_at"
+            return row
+        row["entry_stamp_source"] = "git-introduction"
+        row["face_commit_ts"] = prov["face_ts"]
+        row["entry_commit_ts"] = prov["entry_ts"]
+        delta_h = round((prov["face_ts"] - prov["entry_ts"]) / 3600.0, 2)
+        row["face_lag_hours"] = delta_h
+        row["reading"] = prov["reading"]
+        if row["reading"] == "BEFORE_ENTRY_GIT":
+            row["evidence"] = ("the deliverable was committed %.2fh BEFORE the card was "
+                               "registered: the work already existed, so this card is supply "
+                               "on paper only (duplicate supply)" % abs(delta_h))
+        else:
+            row["evidence"] = ("the deliverable was committed %.2fh after the card was "
+                               "registered (git stamps; the card's own stamp is unusable)"
+                               % delta_h)
         return row
     delta_h = round((faces[0]["mtime"] - entered) / 3600.0, 2)
     row["face_lag_hours"] = delta_h
@@ -198,7 +272,7 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
     for entry in _entries(doc):
         if entry.get("status") not in OPEN_STATUSES:
             continue
-        rows.append(classify(entry, root))
+        rows.append(classify(entry, root, pool_path))
     counts = {}
     for r in rows:
         counts[r["reading"]] = counts.get(r["reading"], 0) + 1
@@ -209,6 +283,7 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
         "open_cards": len(rows),
         "counts": counts,
         "stale_evidence": [r for r in rows if r["reading"] == "AFTER_ENTRY"],
+        "duplicate_supply": [r for r in rows if r["reading"] == "BEFORE_ENTRY_GIT"],
         "ambiguous": [r for r in rows if r["reading"] == "AMBIGUOUS"],
         "misnamed": [{"id": r["id"], "deliverable": r["deliverable"],
                       "near_miss": r.get("near_miss", [])}
@@ -220,15 +295,15 @@ def audit(pool_path=DEFAULT_POOL, root=ROOT):
 
 
 def apply_close(pool_path=DEFAULT_POOL, root=ROOT):
-    """Flip AFTER_ENTRY cards to done with the face as result_ref."""
+    """Flip AFTER_ENTRY and git-proven duplicate-supply cards to done with the face as result_ref."""
     doc = load_pool(pool_path)
     entries = _entries(doc)
     closed, skipped = [], []
     for entry in entries:
         if entry.get("status") not in OPEN_STATUSES:
             continue
-        row = classify(entry, root)
-        if row["reading"] != "AFTER_ENTRY":
+        row = classify(entry, root, pool_path)
+        if row["reading"] not in ("AFTER_ENTRY", "BEFORE_ENTRY_GIT"):
             skipped.append({"id": row["id"], "reading": row["reading"],
                             "reason": row["evidence"]})
             continue
@@ -236,10 +311,17 @@ def apply_close(pool_path=DEFAULT_POOL, root=ROOT):
         entry["result_ref"] = row["face_newest"]
         entry["closed_by"] = "Tools/pool_deliverable_audit.py apply"
         entry["closed_at"] = _now()
-        entry["close_note"] = ("deliverable landed on disk %.2fh after entry; "
-                               "closed by the reconciliation audit"
-                               % row["face_lag_hours"])
+        if row["reading"] == "AFTER_ENTRY":
+            entry["close_note"] = ("deliverable landed on disk %.2fh after entry; "
+                                   "closed by the reconciliation audit"
+                                   % row["face_lag_hours"])
+        else:
+            entry["close_note"] = (
+                "duplicate supply: the deliverable was committed %.2fh BEFORE this card was "
+                "registered, so nothing was burned and nothing is owed -- closed by the "
+                "reconciliation audit on git stamps" % abs(row["face_lag_hours"]))
         closed.append({"id": row["id"], "result_ref": row["face_newest"],
+                       "reading": row["reading"],
                        "face_lag_hours": row["face_lag_hours"]})
     if closed:
         doc["updated_at"] = _now()
@@ -428,6 +510,28 @@ def selftest():
         leg("L20 the prose card is closed, the misnamed one is not",
             sorted(c["id"] for c in c3["closed"]) == ["A-BURNED", "G-PROSE"],
             [c["id"] for c in c3["closed"]])
+
+        # G (r1168): an unparsable entered_at ("2026-10-30T13:4x+08:00") used to strand a
+        # card at AMBIGUOUS forever, so a deliverable that already existed kept counting as
+        # supply. Git stamps answer the same question durably.
+        leg("L21 git stamps decide newer/older, and an absent stamp stays ambiguous",
+            reading_from_stamps(200, 100) == "AFTER_ENTRY"
+            and reading_from_stamps(100, 200) == "BEFORE_ENTRY_GIT"
+            and reading_from_stamps(100, 100) == "AFTER_ENTRY"
+            and reading_from_stamps(None, 100) == "AMBIGUOUS",
+            [reading_from_stamps(200, 100), reading_from_stamps(100, 200),
+             reading_from_stamps(None, 100)])
+        leg("L22 git provenance answers for a tracked face and refuses for an untracked one",
+            isinstance(_git_ts("Tools/pool_deliverable_audit.py", ROOT), int)
+            and _git_ts("results/__no_such_face__.json", ROOT) is None)
+        leg("L23 a card git has never seen cannot be closed by provenance",
+            provenance({"id": "__NEVER_REGISTERED__"},
+                       os.path.join(ROOT, "Tools", "pool_deliverable_audit.py"),
+                       ppath, ROOT) is None)
+        leg("L24 the temp fixture has no git, so its cards stay AMBIGUOUS",
+            by["E-NOENTER"]["reading"] == "AMBIGUOUS"
+            and by["E-NOENTER"]["entry_stamp_source"] is None,
+            (by["E-NOENTER"]["reading"], by["E-NOENTER"]["entry_stamp_source"]))
         print("pool_deliverable_audit selftest: %d/%d legs pass"
               % (len(legs) - len(fails), len(legs)))
         for f in fails:
