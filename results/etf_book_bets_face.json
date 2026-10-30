@@ -1,0 +1,133 @@
+{
+ "book_weight": 0.47149,
+ "cash_note": "the cash leg carries repo interest, not covariance, so it is not counted as a bet",
+ "cash_weight": 0.52851,
+ "evidence_cutoff": "2026-10-30",
+ "long": {
+  "diversification_ratio": 1.2699478132593887,
+  "effective_bets": 2.1648970197587434,
+  "inverse_vol_risk_split": 4.896913972524085,
+  "inverse_vol_weights": [
+   0.1778547620654128,
+   0.15508172338306175,
+   0.2409969364695024,
+   0.16649860919163745,
+   0.2595679688903855
+  ],
+  "nominal_bets": 4.999999999999999,
+  "pairs": {
+   "flag": 0.85,
+   "max": 0.9628997632385243,
+   "median": 0.2372256095482881,
+   "n_above_flag": 3,
+   "n_pairs": 10
+  },
+  "risk_contrib": [
+   0.2473899809875201,
+   0.28598825267408556,
+   0.10717946075951748,
+   0.26287060719081057,
+   0.09657169838806619
+  ],
+  "risk_split": 4.29358560781991,
+  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "sleeve_vol_ann": 0.15369089702009645,
+  "status": "ok",
+  "symbols": [
+   "159501",
+   "513100",
+   "513690",
+   "159577",
+   "159263"
+  ],
+  "symbols_missing": [],
+  "verdict": "TWOISH_BETS",
+  "vol_ann": [
+   0.21040234912578903,
+   0.24129896757297903,
+   0.1552760806422395,
+   0.22475298696759705,
+   0.14416670863412226
+  ],
+  "weights_sleeve": [
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2
+  ],
+  "widest_name": "513100",
+  "widest_share": 0.28598825267408556,
+  "window_bars": 250,
+  "window_mode": "long"
+ },
+ "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+ "short": {
+  "diversification_ratio": 1.3916378665411178,
+  "effective_bets": 2.3477952853237825,
+  "inverse_vol_risk_split": 4.646594489109824,
+  "inverse_vol_weights": [
+   0.18063906929673684,
+   0.14721437981061272,
+   0.24607829393119757,
+   0.14977417288258804,
+   0.2762940840788648
+  ],
+  "nominal_bets": 4.999999999999999,
+  "pairs": {
+   "flag": 0.85,
+   "max": 0.913001590749792,
+   "median": 0.08484265332306168,
+   "n_above_flag": 2,
+   "n_pairs": 10
+  },
+  "risk_contrib": [
+   0.2522248840423961,
+   0.3237704215097391,
+   0.040274863930546335,
+   0.31213894002854836,
+   0.07159089048877008
+  ],
+  "risk_split": 3.668072911248223,
+  "sentence": "5 tickers (widest 20.0%) span 2.3 independent directions, not 5 (median pairwise correlation 0.08); the variance is still split fairly evenly across 3.7 equivalent names (4.6 under inverse-volatility weights), and the widest single name 513100 carries 32% of it",
+  "sleeve_vol_ann": 0.12260883426885885,
+  "status": "ok",
+  "symbols": [
+   "159501",
+   "513100",
+   "513690",
+   "159577",
+   "159263"
+  ],
+  "symbols_missing": [],
+  "verdict": "TWOISH_BETS",
+  "vol_ann": [
+   0.17696278075794336,
+   0.21714177689299966,
+   0.12990333891543904,
+   0.2134306028939762,
+   0.11569698324468274
+  ],
+  "weights_sleeve": [
+   0.2,
+   0.2,
+   0.2,
+   0.2,
+   0.2
+  ],
+  "widest_name": "513100",
+  "widest_share": 0.3237704215097391,
+  "window_bars": 60,
+  "window_mode": "short"
+ },
+ "sources": {
+  "panel": "data/daily/<sh|sz><code>.csv",
+  "ticket": "results/etf_book_order/TICKET-2026-10-30.json"
+ },
+ "status": "ok",
+ "ticket_decided_at": "2026-10-14",
+ "windows": {
+  "long": 250,
+  "short": 60
+ }
+}

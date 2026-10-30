@@ -155,15 +155,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1119,
-    "card_width_cagr": 0.0966,
-    "pp": -1.53
-   },
    "vol": {
     "ticket_width_cagr": 0.1197,
     "card_width_cagr": 0.1221,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1119,
+    "card_width_cagr": 0.0966,
+    "pp": -1.53
    }
   },
   "rules_differ": true,
@@ -289,7 +289,7 @@
   "identity_matched": true
  },
  "restatements": {
-  "path": "K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
+  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_forward\\LEDGER.json",
   "readable": true,
   "source": "restatements",
   "notices": [
@@ -307,11 +307,21 @@
   ],
   "bars_published": 6
  },
+ "bets": {
+  "status": "ok",
+  "verdict": "TWOISH_BETS",
+  "sentence": "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "effective_bets": 2.1648970197587434,
+  "risk_split": 4.29358560781991,
+  "nominal_bets": 4.999999999999999,
+  "evidence_cutoff": "2026-10-30"
+ },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
+  "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]

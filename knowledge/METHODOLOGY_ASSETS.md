@@ -6745,7 +6745,45 @@ copy-drift plus a moved verdict still reads inconsistent) + refreshed
 `results/etf_book_phase_atlas_arms.json` (one line changed -- the worker count; every published
 reading identical) + digest `DIGEST-20261030-r1371-copy-drift-vs-mtime.md`.
 
-## E282 A gate and its four siblings: sweep a defect family by the rule, not by the report (2026-10-30 r1372 bm-c)
+## E282 — two numbers can both be called "how many bets", and one of them is not a bet count
+
+`1 / sum(w_i^2)` counts tickers. `(sum lambda)^2 / sum lambda^2` on the CORRELATION matrix
+counts independent directions. `1 / sum(rc_i^2)` on the RISK CONTRIBUTIONS counts how
+evenly the variance is shared. On five copies of one series the first reads 5, the second
+reads 1, and the third reads 5. Only the middle one answers "how many separate things do I
+hold", and it is the only one that does not move when the weights move -- the other two are
+weight-dependent by construction.
+
+Why this is worth a card: the tempting face is a single "effective N", and whichever of the
+three it secretly computes will be quoted as diversification. The live ETF sleeve shows the
+trap in the other direction: five equal 9.4% names span **2.2** independent directions while
+the variance is split evenly across **4.3** equivalent names. Both sentences are true, and a
+book whose risk is evenly shared can still be one bet -- an even split says nothing about
+independence.
+
+Rules that fell out of it:
+  * the verdict is driven by the independence count ONLY (a weight-dependent number cannot
+    judge a weight choice);
+  * publish the counterfactual, not a claim: inverse-volatility weights on the same
+    covariance move the split (4.3 -> 4.9 here) and cannot move the independence count --
+    that arithmetic is the proof the two readings are different questions;
+  * a constant-price name has an UNDEFINED correlation: the face must say not-assessed
+    rather than divide by zero and publish a confident number;
+  * N returns need N+1 closes; slicing a window of N rows leaves N-1 returns and silently
+    drops the whole face into no-data (this cost a debug cycle -- the short window read
+    no_data while the long one looked fine).
+
+Pos: `scripts/etf_book_bets_face.py` (selftest 26/26: identical series = 1 direction / 5-way
+split, orthogonal Gram-Schmidt series reach N, bounds 1..N, equal vol+corr gives equal risk,
+absent inputs read None not 0, a ticket that does not add up is refused, verdict vocabulary
+incl. NOT_ASSESSED, reader never invents a verdict from a missing artifact) +
+`results/etf_book_bets_face.json` (long 249 bars / short 60) + the order ticket quotes its
+sentence verbatim in the limitations block (producer ordered ahead of the consumer on the
+chain) + smoke legs "product: etf_book_bets_face" and "product: the order ticket discloses
+how many bets the sleeve holds" (both re-read the artifacts, so a ticket that stops quoting
+reads red).
+
+## E283 A gate and its four siblings: sweep a defect family by the rule, not by the report (2026-10-30 r1372 bm-c) (renumbered from E282 — bm-c r1372 landed E282 on origin first, r1349 law)
 r1371 fixed the arms gate's staleness split and left the same decision in five more places -- the
 floor, width, live-width and readback gates in the same module plus the null-rule gate, all still
 asking mtime "is any source newer than the face". That is the shape a family defect takes: the

@@ -50,6 +50,7 @@ from scripts import etf_phase_beta_window as BW    # noqa: E402
 from scripts import etf_variants_null_rolling as V  # noqa: E402
 from scripts import exchange_calendar_audit as CA   # noqa: E402
 from scripts.etf_asset_class import classify       # noqa: E402
+from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa: E402
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -474,6 +475,8 @@ def card(ticket, mk, sched, asof, beta, extra):
     if ticket and ticket.get("basket_drift"):
         L += ["- **票面不可执行**：%d/%d 只在收盘日无价（停更），本单只能作为研究面参考。"
               % (len(ticket["basket_drift"]), len(ticket["order"]))]
+    if extra.get("bets_line"):
+        L += ["- **五只名字不是五个赌注**：%s" % extra["bets_line"]]
     L += ["- 票池=现存 ETF，存在幸存者偏差；票面仅按收盘价折算，未计冲击成本与涨跌停。",
           "- GC001 单期限且滚动假设零费；真实现金台应做 1/7/14 天梯队。",
           "- k 每 %d 个交易日才重算，段内实际 β 仍会漂移。" % REBAL]
@@ -656,6 +659,18 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     wd = width_disclosure()
     ruler = live_width_ruler(asof=asof, card_n=(wd or {}).get("card_names"))
     carry = carry_split(beta)
+    # r1172: five tickers are not five bets. The face that measures how many independent
+    # directions the sleeve spans is quoted HERE, verbatim, so the operator reading this
+    # order sees the concentration next to the weights instead of counting tickers (r1108
+    # 有产无读). Absent or unreadable -> the ticket says so, never a silent pass.
+    bets = read_bets_face()
+    if bets.get("status") == "ok" and bets.get("sentence"):
+        bets_line = bets["sentence"]
+        if bets.get("evidence_cutoff") and bets["evidence_cutoff"] != asof:
+            bets_line += " (measured on the %s bar)" % bets["evidence_cutoff"]
+    else:
+        bets_line = ("how many independent bets the sleeve holds is unpublished (%s); "
+                     "run scripts/etf_book_bets_face.py run" % (bets.get("status") or "absent"))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -678,10 +693,12 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "live_width_ruler": ruler,
                "carry_split": carry,
                "restatements": _ledger_restatements(),
+               "bets": bets,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
+                           bets_line,
                            "exploratory: no preregistration, no verdict, no ledger booking"]
                           + (["this ticket is the %d-name aggressive end of the book; the "
                               "production card runs %d names -- see width_disclosure"
@@ -700,7 +717,8 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
         f.write(card(ticket, mk, sched, asof, beta,
                      {"inception": payload["inception"], "stale": stale, "width": wd,
                       "feed": feed, "agreement": agreement, "ruler": ruler,
-                      "carry": carry, "restatements": payload["restatements"]}))
+                      "carry": carry, "restatements": payload["restatements"],
+                      "bets_line": bets_line}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
           % (asof, beta, k_now, state["nav"], len(merged), drift))

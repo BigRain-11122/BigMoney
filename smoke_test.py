@@ -1999,7 +1999,42 @@ def main() -> int:
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
         except Exception as e:
             check(_label, False, str(e))
+    # r1172: five tickers are not five bets. The producer publishes the independence count;
+    # the executable ticket must QUOTE it verbatim (r1108 有产无读), and an unpublished face
+    # must read as unpublished on the sheet rather than silently absent.
+    try:
+        import json as _j
+        _bp = os.path.join("results", "etf_book_bets_face.json")
+        _lp = os.path.join("results", "etf_book_order", "latest.json")
+        _sent = None
+        if os.path.exists(_bp):
+            _sent = (_j.load(open(_bp, encoding="utf-8")).get("long") or {}).get("sentence")
+        _cav = None
+        _tpath = None
+        if os.path.exists(_lp):
+            _ptr = _j.load(open(_lp, encoding="utf-8"))
+            _tpath = os.path.join("results", "etf_book_order", _ptr.get("file") or "")
+        if _tpath and os.path.exists(_tpath):
+            _cav = _j.load(open(_tpath, encoding="utf-8")).get("caveats") or []
+        if _cav is None:
+            check("product: the order ticket discloses how many bets the sleeve holds", False,
+                  "no ticket on disk to read")
+        elif _sent:
+            check("product: the order ticket discloses how many bets the sleeve holds",
+                  any(_sent in (c or "") for c in _cav),
+                  "ticket does not quote the published bet count verbatim")
+        else:
+            check("product: the order ticket discloses how many bets the sleeve holds",
+                  any("independent bets the sleeve holds is unpublished" in (c or "") for c in _cav),
+                  "face missing but the ticket did not say so")
+    except Exception as e:
+        check("product: the order ticket discloses how many bets the sleeve holds", False, str(e))
     for _label, _script, _args in (
+            # r1172: the bet count has two readings that must not be collapsed -- five
+            # copies of one series share their variance five ways while spanning a single
+            # direction -- and a constant series has no correlation to measure at all.
+            ("product: etf_book_bets_face (independence vs risk split)",
+             "scripts/etf_book_bets_face.py", ["--selftest"]),
             ("product: etf_book_production card (exit-code contract)",
              "scripts/etf_book_production.py", ["--selftest"]),
             # r1349 / E255: a percentile quoted from 2,000 draws has a resolution, and two

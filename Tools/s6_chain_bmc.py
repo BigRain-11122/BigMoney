@@ -165,6 +165,11 @@ LEGS = [
     # decomposition of today's headline (the r1290 two-days-one-sheet class, moved into
     # the sheet itself). ~5s on the warmed panel, no network.
     ("etf_book_return_regime", ["python", "scripts/etf_book_return_regime.py", "run"]),
+    # r1172: five tickers are not five bets. The ticket below quotes this face verbatim in
+    # its limitations block, so the leg must run FIRST -- behind it, the executable sheet
+    # would print the previous bar's concentration beside today's weights (the r1290 /
+    # r1367 two-days-one-sheet class). ~1s, no network, single writer.
+    ("etf_book_bets_face", ["python", "scripts/etf_book_bets_face.py", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
