@@ -5515,3 +5515,55 @@ READING: `scripts/etf_book_phase_atlas_arms.py` mode `--floor` / `--floor-check`
 `results/etf_book_buffer_resolution_floor.json` + `research/ETF_BOOK_BUFFER_RESOLUTION_FLOOR.md` +
 `Tools/s6_chain_bmc.py` leg `etf_book_buffer_floor` +
 `research/digests/DIGEST-20261030-r1354-buffer-floor.md`.
+
+## E266 Test the SIGN of the rungs before you fit a slope (2026-10-30 r1355 bm-c)
+
+WHEN: a knob is retired as "not quotable" and someone asks the E265 question of it. A line through
+a hill has a slope, and that slope will happily produce a "names/units required" number with an r2
+attached.
+
+RIGHT: run a sign test over the adjacent rungs FIRST, and fit only if the rungs agree. On the width
+ladder (N=3/5/8/12 x R=10/20/40, published baseline grid, cutoff 2026-10-29) 5 of 9 rungs point up:
+R10 +0.58 / +0.50 / -0.37, R20 +0.42 / +1.00 / -0.49, R40 +1.54 / -0.02 / -0.76. Sign agreement
+0.556 against a 0.75 floor, peak at N=8 with N=12 worse in ALL THREE cadences, so the verdict is
+DIRECTION_NOT_A_SIZE before any arithmetic. The arithmetic is still worth publishing beside it
+(+0.114pp per name, r2 0.525, so a full 6.68pp ruler would need 58.7 names of runway, i.e. width
+61.7 against the widest rung anyone has priced, N=20) -- but as a coda, not as the answer.
+
+WRONG: (a) fitting first and reporting "width 61.7 needed" -- true arithmetic, and it invites
+someone to buy 61 names and expect a ruler-width move out of a non-monotone ladder; (b) borrowing
+the buffer floor's continuous-k machinery for a discrete knob: k has an algebraic end (k=1.0 =
+never trade), names have only a PRICED envelope, so the envelope has to be named with a source
+("widest rung in results/etf_capacity_frontier.json") instead of derived; (c) quoting the hill
+without a second engine. The capacity face prices the same ladder on its own universe: R20 descends
+monotonically (15.56/15.00/14.03/12.64) while R40 ascends monotonically (10.04/10.71/11.28/11.32),
+so the sign flips between cadences and the atlas's hill does not reproduce. A shape a second engine
+cannot reproduce is a panel artefact and belongs next to the verdict, not in a drawer.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--width` / `--width-check` (selftest 74) +
+`results/etf_book_width_resolution_floor.json` + `research/ETF_BOOK_WIDTH_RESOLUTION_FLOOR.md` +
+chain leg `etf_book_width_floor` + `research/digests/DIGEST-20261030-r1355-width-floor.md`.
+
+## E267 An extrapolated fit is tested by whichever pool row lands in its widest gap (2026-10-30 r1355 bm-c)
+
+WHEN: a published fit answers by continuing a line past its last measured point (E265's k=7.79 came
+from 0.02..0.40 and was quoted for a knob range it never touched).
+
+RIGHT: stock the row that lands inside the fit's widest gap, and when the pool harvests it, read it
+back against the line -- with the tolerance derived from the fit's OWN residual scale rather than
+chosen. Here the harvested arm is buffer k=0.30 (the midpoint of 0.20->0.40): the fit predicted
++0.228pp, the arm's 12 cells say +0.260pp, gap +0.032pp against a tolerance of 0.127pp (= 3x the
+largest in-sample residual, 0.042pp, floored at 0.05). Verdict HOLDS, and the line gains a point it
+never saw. The same arm publishes its own spread (-0.72 .. +1.24pp across cells): the median
+agreeing with the line is not the book agreeing with the line.
+
+WRONG: (a) reading a harvested face without checking the knob it declares -- a face wired to the
+wrong arm answers a different question, so the read-back refuses to assess unless the face's own
+audit says k=0.30; (b) a fixed "0.1pp is close enough" tolerance, which is either loose enough to
+pass anything or tight enough to fail a correct fit depending on the axis; (c) publishing the
+verdict only in the round report, where an untested extrapolation and a tested one look identical.
+
+READING: `scripts/etf_book_phase_atlas_arms.py` mode `--readback` / `--readback-check` +
+`results/etf_book_buffer_floor_readback.json` + `research/ETF_BOOK_BUFFER_FLOOR_READBACK.md` +
+chain leg `etf_book_buffer_readback` + `smoke_test.py` leg that re-derives both r1355 verdicts from
+the published numbers.

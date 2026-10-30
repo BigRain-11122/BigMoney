@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -406,6 +407,377 @@ def render_floor_md(p):
     return "\n".join(L) + "\n"
 
 
+# ---- r1355: the resolution floor of the WIDTH axis ----------------------------------------
+# r1354 asked the buffer axis for a size and got one (k=7.79, past the end of the axis). The
+# width axis is the other knob r1350 refused to quote ("the cadence is quotable and the width
+# is not"), and it is a different animal: k is a continuous share with a defined end (1.0 =
+# never trade), while names are integers whose only hard end is the universe. So the size
+# question has to be answered against the width anyone has actually PRICED, not a mathematical
+# limit -- results/etf_capacity_frontier.json carries rungs N5..N20, and past N20 the capacity
+# story (E162 family) says the book cannot be sized at 1% ADV without shrinking CAGR anyway.
+WIDTH_OUT = os.path.join(RES, "etf_book_width_resolution_floor.json")
+# the second engine that prices the same ladder: the capacity face's cells are N5..N20 on its
+# own universe, so it can falsify a hill instead of confirming it
+CAPACITY_FACE = os.path.join(RES, "etf_capacity_frontier.json")
+WIDTH_RULE = {
+    # a rung is one adjacent pair of widths inside one cadence; the axis is a "size" only if
+    # the rungs agree on their sign. This is deliberately tested BEFORE the slope: a line
+    # through a hill has a slope and the slope means nothing.
+    "min_rungs": 4,
+    "sign_agreement_min": 0.75,
+    # the widest rung anyone has priced on this design (cell names in
+    # results/etf_capacity_frontier.json run N5..N20); past it the answer is not "untested",
+    # it is "outside the envelope the book has been shown to hold".
+    "priced_width_max": 20,
+    "frozen": ("written before the first read of the width floor: the axis is the published "
+               "baseline grid's own medians, the ruler is the same baseline median cell band "
+               "the buffer floor used, and the sign test runs before the slope"),
+}
+
+
+def width_of(payload, capacity=None):
+    """Does width buy a size or only a direction? Pure function over a baseline atlas face."""
+    cells = payload["per_cell"]
+    ruler = _median([c["p95_cagr_pp"] - c["p05_cagr_pp"] for c in cells])
+    by_w, rungs, per_cad = {}, [], {}
+    for c in cells:
+        by_w.setdefault(c["n_hold"], []).append(c)
+        per_cad.setdefault(c["rebal"], {})[c["n_hold"]] = c["median_cagr_pp"]
+    widths = {}
+    for n in sorted(by_w):
+        rows = by_w[n]
+        widths[str(n)] = {"n_hold": n, "cadences": len(rows),
+                          "median_cagr_pp": round(_median([r["median_cagr_pp"] for r in rows]), 3),
+                          "by_cadence": {str(c["rebal"]): c["median_cagr_pp"] for c in rows}}
+    for cad, m in sorted(per_cad.items()):
+        ns = sorted(m)
+        for a, b in zip(ns, ns[1:]):
+            rungs.append({"rebal": cad, "from": a, "to": b,
+                          "step_pp": round(m[b] - m[a], 3), "up": m[b] > m[a]})
+    ups = sum(1 for r in rungs if r["up"])
+    agree = max(ups, len(rungs) - ups) / float(len(rungs)) if rungs else 0.0
+    peak_n = max(widths.values(), key=lambda w: w["median_cagr_pp"])["n_hold"] if widths else None
+    out = {"script": "scripts/etf_book_phase_atlas_arms.py --width",
+           "question": ("the width ladder was retired as 'not quotable'. Turn that direction into "
+                        "a size: how many more names would the median have to clear for this "
+                        "ruler to register a width move, and is that width still a book?"),
+           "units": {"step_pp": "pp of median CAGR per one-name step inside one cadence",
+                     "slope_pp_per_name": "pp of median CAGR per additional name",
+                     "ruler_pp": "the baseline grid's median per-cell band (p95-p05)"},
+           "evidence_cutoff": payload.get("evidence_cutoff"),
+           "rule": WIDTH_RULE, "ruler_pp": round(ruler, 3),
+           "widths": widths, "rungs": rungs,
+           "sign_agreement": round(agree, 3),
+           "peak_width": peak_n,
+           "turnover_inside_grid": bool(peak_n is not None
+                                        and max(widths) and peak_n < max(int(k) for k in widths))}
+    if capacity is not None:
+        out["priced_envelope_crosscheck"] = width_crosscheck(capacity)
+    reasons = ["%d rungs over %d widths (need >= %d)"
+               % (len(rungs), len(widths), WIDTH_RULE["min_rungs"])]
+    if len(rungs) < WIDTH_RULE["min_rungs"] or len(widths) < 2:
+        out.update({"fit": None, "dn_required": None, "width_required": None,
+                    "verdict": "NOT-ASSESSED", "verdict_reasons": reasons})
+        return out
+    pts = [(w["n_hold"], w["median_cagr_pp"]) for w in widths.values()]
+    slope, inter, r2 = _ols(pts)
+    nmin = min(pts)[0]
+    dn = ruler / slope if slope > 0 else None
+    n_req = nmin + dn if dn is not None else None
+    out.update({"fit": {"slope_pp_per_name": round(slope, 4), "intercept_pp": round(inter, 4),
+                        "r2": round(r2, 4), "n_points": len(pts)},
+                "dn_required": None if dn is None else round(dn, 2),
+                "width_required": None if n_req is None else round(n_req, 2),
+                "sweep_span_pp": round(max(pts)[1] - min(pts)[1], 3),
+                "sweep_share_of_ruler": round((max(pts)[1] - min(pts)[1]) / ruler, 4)
+                if ruler else None})
+    ups = sum(1 for r in rungs if r["up"])
+    reasons += [
+        "%d of %d rungs point up (sign agreement %.3f; floor %.2f) -- a line through a hill "
+        "has a slope, so the sign test runs first"
+        % (ups, len(rungs), agree, WIDTH_RULE["sign_agreement_min"]),
+        "peak width %s with turnover inside the tested grid = %s"
+        % (peak_n, out["turnover_inside_grid"]),
+        "slope %+.4fpp per name, r2 %.3f on %d widths" % (slope, r2, len(pts)),
+        "ruler = median cell band %.2fpp; names of runway required = %s"
+        % (ruler, "n/a" if dn is None else "%.2f" % dn),
+        "width required = %s (thinnest tested %d + runway; widest PRICED rung = %d)"
+        % ("n/a" if n_req is None else "%.1f" % n_req, nmin, WIDTH_RULE["priced_width_max"]),
+        "the whole ladder spans %.3fpp = %.3f of the ruler"
+        % (out["sweep_span_pp"], out["sweep_share_of_ruler"] or 0.0),
+    ]
+    if agree < WIDTH_RULE["sign_agreement_min"]:
+        label = "DIRECTION_NOT_A_SIZE"
+        reasons.append("the rungs disagree about the sign, so no single number of names buys the "
+                       "ruler: width is a trade (CAGR against capacity), not a resolution knob")
+    elif slope <= 0:
+        label = "UNREACHABLE_BY_CONSTRUCTION"
+        reasons.append("no tested width earns more than a thinner one, so no width reaches it")
+    elif n_req > WIDTH_RULE["priced_width_max"]:
+        label = "UNREACHABLE_INSIDE_PRICED_ENVELOPE"
+        reasons.append("the fitted width %.1f sits past the widest rung anyone priced (%d): the "
+                       "answer is outside the envelope, not missing from it"
+                       % (n_req, WIDTH_RULE["priced_width_max"]))
+    else:
+        label = "REACHABLE_DECLARE_A_RUN"
+        reasons.append("width %.1f is inside the priced envelope: declare a run there instead of "
+                       "extrapolating into it" % n_req)
+    out.update({"verdict": label, "verdict_reasons": reasons})
+    cc = out.get("priced_envelope_crosscheck")
+    if cc:
+        out["verdict_reasons"].append(
+            "cross-check on the capacity face's own engine (%d rungs, %s up): sign flips "
+            "between cadences = %s -- a hill that a second engine cannot reproduce is a panel "
+            "artefact, not a property of width"
+            % (len(cc["rungs"]), cc["up_direction_share"], cc["sign_flips_by_cadence"]))
+    return out
+
+
+def width_crosscheck(cap):
+    """The same ladder on the capacity face's own engine: does the hill reproduce?
+
+    Nothing here feeds the verdict -- it is the cheap falsifier. If the atlas's descent past
+    N=8 is a property of width, a second published engine on a second universe should descend
+    too; if it is a property of one panel, the second engine will disagree, and that must be
+    visible next to the verdict rather than discovered by a reader who happens to own both.
+    """
+    per = {}
+    for c in cap["cells"]:
+        m = re.match(r"N(\d+)_R(\d+)", c["cell"])
+        if not m:
+            continue
+        per.setdefault(int(m.group(2)), {})[int(m.group(1))] = round(100.0 * c["cagr"], 3)
+    rungs, agree = [], []
+    for cad in sorted(per):
+        ns = sorted(per[cad])
+        for a, b in zip(ns, ns[1:]):
+            rungs.append({"rebal": cad, "from": a, "to": b,
+                          "step_pp": round(per[cad][b] - per[cad][a], 3)})
+            agree.append(per[cad][b] > per[cad][a])
+    ups = sum(1 for x in agree if x)
+    return {"source": os.path.basename(CAPACITY_FACE),
+            "evidence_cutoff": cap.get("evidence_cutoff"),
+            "by_cadence": {str(k): v for k, v in sorted(per.items())},
+            "rungs": rungs,
+            "up_direction_share": round(ups / float(len(agree)), 3) if agree else None,
+            "sign_flips_by_cadence": len({(r["step_pp"] > 0) for r in rungs}) > 1
+            if rungs else None}
+
+
+def build_width():
+    cap = face(CAPACITY_FACE) if os.path.exists(CAPACITY_FACE) else None
+    return width_of(face(BASE), cap)
+
+
+def width_check():
+    """Gate: the published width face must equal a re-derivation from the baseline grid."""
+    if not os.path.exists(WIDTH_OUT):
+        print("width face is stale: no published width face at %s" % _rel(WIDTH_OUT))
+        return 2
+    pub = face(WIDTH_OUT)
+    if pub.get("rule") != WIDTH_RULE:
+        print("width face is inconsistent: the published frozen rule is not the rule in this file")
+        return 1
+    rebuilt = json.loads(json.dumps(build_width()))
+    drift = _diff(pub, rebuilt)
+    if not drift:
+        print("width face matches its own sources on cutoff %s: %s (width required %s)"
+              % (rebuilt["evidence_cutoff"], rebuilt["verdict"], rebuilt["width_required"]))
+        return 0
+    try:
+        face_mtime = os.path.getmtime(WIDTH_OUT)
+    except OSError:
+        face_mtime = 0.0
+    if os.path.getmtime(BASE) > face_mtime + 1.0:
+        print("width face is stale: priced on cutoff %r while the baseline grid moved"
+              % pub.get("evidence_cutoff"))
+        return 2
+    print("width face is inconsistent: %d field(s) disagree with a re-derivation and no source "
+          "moved: %s" % (len(drift), "; ".join(drift)[:300]))
+    return 1
+
+
+def render_width_md(p):
+    L = ["# Width axis resolution floor (r1355 bm-c)\n",
+         "Face: `results/etf_book_width_resolution_floor.json`; script: "
+         "`scripts/etf_book_phase_atlas_arms.py --width`; source face "
+         "`results/etf_book_phase_atlas.json`; cutoff %s.\n" % p["evidence_cutoff"],
+         "r1350 could quote the cadence and not the width. This is how big a width move would "
+         "have to be to be quotable.\n",
+         "| width | cadences | median CAGR | by cadence |", "|---|---|---|---|"]
+    for k, w in p["widths"].items():
+        L.append("| %s | %d | %+.3fpp | %s |"
+                 % (k, w["cadences"], w["median_cagr_pp"],
+                    ", ".join("R%s %+.2f" % (r, v) for r, v in w["by_cadence"].items())))
+    L.append("")
+    if p.get("fit"):
+        L.append("Fit: **%+.4fpp per name**, r2 %.3f over %d widths. Ruler = **%.2fpp**. "
+                 "Names of runway needed = **%s**, i.e. width **%s** (widest priced rung %d)."
+                 % (p["fit"]["slope_pp_per_name"], p["fit"]["r2"], p["fit"]["n_points"],
+                    p["ruler_pp"], p["dn_required"], p["width_required"],
+                    p["rule"]["priced_width_max"]))
+    L.append("\nVerdict: **%s**\n" % p["verdict"])
+    L.append("| cadence | rung | step | up |")
+    L.append("|---|---|---|---|")
+    for r in p["rungs"]:
+        L.append("| R%s | %d -> %d | %+.3fpp | %s |"
+                 % (r["rebal"], r["from"], r["to"], r["step_pp"], "yes" if r["up"] else "no"))
+    L.append("")
+    cc = p.get("priced_envelope_crosscheck")
+    if cc:
+        L.append("Cross-check on `%s` (its own engine, its own universe, cutoff %s): "
+                 "sign flips between cadences = **%s**.\n"
+                 % (cc["source"], cc.get("evidence_cutoff"), cc["sign_flips_by_cadence"]))
+        L.append("| cadence | ladder (median CAGR %) |")
+        L.append("|---|---|")
+        for cad, m in cc["by_cadence"].items():
+            L.append("| R%s | %s |" % (cad, ", ".join("N%s %+.2f" % (k, v) for k, v in m.items())))
+        L.append("")
+    for x in p["verdict_reasons"]:
+        L.append("- %s" % x)
+    return "\n".join(L) + "\n"
+
+
+# ---- r1355: the floor's first out-of-sample point ----------------------------------------
+# The floor extrapolates k=7.79 by continuing a 5-point line. The pool row stocked at r1354
+# (buffer k=0.30, the midpoint of the widest fitted gap 0.20->0.40) was harvested by the
+# autofill tick during this round, so the line now has a point it never saw.
+READBACK_OUT = os.path.join(RES, "etf_book_buffer_floor_readback.json")
+READBACK_K = 0.30
+READBACK_FACE = os.path.join(RES, "etf_book_phase_atlas_buffer_k30.json")
+READBACK_RULE = {
+    # an unfitted point gets a WIDER band than a fitted one, not a tighter one: the tolerance
+    # is three times the fit's own largest in-sample residual, and the residual is recomputed
+    # here rather than quoted from the round that wrote the line.
+    "tol_multiple": 3.0,
+    "tol_floor_pp": 0.05,
+    "frozen": ("declared before reading the k=0.30 face: the reading holds if the observed "
+               "median delta is within tol of slope*k+intercept and carries the same sign"),
+}
+
+
+def readback_of(floor, arm, base):
+    """Did the fit predict the point it never saw? Pure function over three published faces."""
+    k_arm = (arm.get("audit") or {}).get("buffer_k")
+    reasons = []
+    if k_arm is None or abs(k_arm - READBACK_K) > 1e-9:
+        return {"script": "scripts/etf_book_phase_atlas_arms.py --readback",
+                "verdict": "NOT-ASSESSED",
+                "verdict_reasons": ["the harvested face does not declare k=%s (audit says %r): a "
+                                    "face wired to the wrong arm would answer a different "
+                                    "question" % (READBACK_K, k_arm)]}
+    slope = floor["fit"]["slope_pp_per_k"]
+    inter = floor["fit"]["intercept_pp"]
+    resid = [abs(a["median_delta_pp"] - (inter + slope * a["buffer_k"]))
+             for a in floor["arms"].values()]
+    tol = max(READBACK_RULE["tol_floor_pp"], READBACK_RULE["tol_multiple"] * max(resid))
+    bc = {(c["n_hold"], c["rebal"]): c["median_cagr_pp"] for c in base["per_cell"]}
+    rows = []
+    for c in arm["per_cell"]:
+        key = (c["n_hold"], c["rebal"])
+        if key not in bc:
+            continue
+        rows.append({"n_hold": key[0], "rebal": key[1], "median_cagr_pp": c["median_cagr_pp"],
+                     "baseline_cagr_pp": bc[key],
+                     "delta_pp": round(c["median_cagr_pp"] - bc[key], 3)})
+    if not rows:
+        return {"script": "scripts/etf_book_phase_atlas_arms.py --readback",
+                "verdict": "NOT-ASSESSED",
+                "verdict_reasons": ["the harvested face shares no cell with the baseline grid"]}
+    obs = _median([r["delta_pp"] for r in rows])
+    pred = inter + slope * READBACK_K
+    gap = obs - pred
+    reasons += [
+        "the fit says %+.3fpp at k=%.2f (slope %+.3f, intercept %+.3f)"
+        % (pred, READBACK_K, slope, inter),
+        "the harvested arm's own 12 cells say %+.3fpp (median)" % obs,
+        "gap %+.3fpp against tolerance %.3fpp = %.1fx the fit's largest in-sample residual "
+        "(%.3fpp, floored at %.2f)"
+        % (gap, tol, READBACK_RULE["tol_multiple"], max(resid), READBACK_RULE["tol_floor_pp"]),
+        "cell spread of the same arm: %+.3f .. %+.3fpp (%d cells), i.e. the median is not the "
+        "book" % (min(r["delta_pp"] for r in rows), max(r["delta_pp"] for r in rows), len(rows)),
+    ]
+    if abs(gap) > tol:
+        label = "REFUTED"
+        reasons.append("the line misses the point it never saw by more than its own residual "
+                       "band: the k the floor reports is an extrapolation with no support")
+    elif obs * pred < 0:
+        label = "REFUTED"
+        reasons.append("the point lands on the wrong side of zero (%+.3f observed against a "
+                       "prediction of %+.3f)" % (obs, pred))
+    else:
+        label = "HOLDS"
+        reasons.append("the line predicts a point it never saw, on the widest gap it spans -- "
+                       "the extrapolated k is a continuation of a measured slope, not a guess")
+    return {"script": "scripts/etf_book_phase_atlas_arms.py --readback",
+            "question": ("the buffer floor answers k=7.79 by continuing a line past its last "
+                         "arm. Price the midpoint of its widest gap and ask whether the line "
+                         "still holds there."),
+            "evidence_cutoff": arm.get("evidence_cutoff"),
+            "rule": READBACK_RULE, "buffer_k": READBACK_K,
+            "floor_face": os.path.basename(FLOOR_OUT), "arm_face": os.path.basename(READBACK_FACE),
+            "predicted_pp": round(pred, 3), "observed_pp": round(obs, 3),
+            "gap_pp": round(gap, 3), "tolerance_pp": round(tol, 3),
+            "max_in_sample_residual_pp": round(max(resid), 3),
+            "cells": rows, "verdict": label, "verdict_reasons": reasons}
+
+
+def build_readback():
+    if not (os.path.exists(FLOOR_OUT) and os.path.exists(READBACK_FACE)):
+        return None
+    return readback_of(face(FLOOR_OUT), face(READBACK_FACE), face(BASE))
+
+
+def readback_check():
+    if not os.path.exists(READBACK_OUT):
+        print("readback is stale: no published readback face at %s" % _rel(READBACK_OUT))
+        return 2
+    pub = face(READBACK_OUT)
+    if pub.get("rule") != READBACK_RULE:
+        print("readback is inconsistent: the published rule is not the rule in this file")
+        return 1
+    rebuilt = json.loads(json.dumps(build_readback()))
+    if rebuilt is None:
+        print("readback is stale: a source face is missing")
+        return 2
+    drift = _diff(pub, rebuilt)
+    if not drift:
+        print("readback matches its own sources: %s (predicted %+.3f, observed %+.3f)"
+              % (rebuilt["verdict"], rebuilt["predicted_pp"], rebuilt["observed_pp"]))
+        return 0
+    src = [FLOOR_OUT, READBACK_FACE, BASE]
+    face_mtime = os.path.getmtime(READBACK_OUT)
+    if any(os.path.getmtime(p) > face_mtime + 1.0 for p in src):
+        print("readback is stale: a source face moved after it was written")
+        return 2
+    print("readback is inconsistent: %d field(s) disagree: %s"
+          % (len(drift), "; ".join(drift)[:300]))
+    return 1
+
+
+def render_readback_md(p):
+    L = ["# 缓冲轴的第一个样本外点（r1355 bm-c）\n",
+         "面：`results/etf_book_buffer_floor_readback.json`｜脚本："
+         "`scripts/etf_book_phase_atlas_arms.py --readback`｜臂面 `%s`｜cutoff %s\n"
+         % (p["arm_face"], p["evidence_cutoff"]),
+         "r1354 用五个臂拟合出 **%+.3fpp / 单位 k**，再沿这条线外推到 k=7.79。本轮任务池交给"
+         "自动续批器的第一张票正是 k=0.30——拟合区间 0.20→0.40 的中点，这条线从没见过的点。\n",
+         "| 读数 | 值 |", "|---|---|",
+         "| 拟合预测 (k=0.30) | %+.3fpp |" % p["predicted_pp"],
+         "| 实测中位 | %+.3fpp |" % p["observed_pp"],
+         "| 差 | %+.3fpp (容差 %.3fpp) |" % (p["gap_pp"], p["tolerance_pp"]),
+         "| 拟合自身最大样本内残差 | %.3fpp |" % p["max_in_sample_residual_pp"],
+         "", "判决：**%s**\n" % p["verdict"], "| n | R | 中位 CAGR | 基线 | Δ |", "|---|---|---|---|---|"]
+    for r in p["cells"]:
+        L.append("| %d | %d | %+.2fpp | %+.2fpp | %+.3fpp |"
+                 % (r["n_hold"], r["rebal"], r["median_cagr_pp"], r["baseline_cagr_pp"],
+                    r["delta_pp"]))
+    L.append("")
+    for x in p["verdict_reasons"]:
+        L.append("- %s" % x)
+    return "\n".join(L) + "\n"
+
+
 def _selftest():
     bad = []
     CHECKS = [0]
@@ -572,6 +944,100 @@ def _selftest():
         finally:
             FLOOR_OUT = keepf
 
+    # L18-L23 the width floor: the same shape of guard, on the axis where the knob cannot be
+    # pushed past its end, so the envelope has to be a PRICED one rather than an algebraic one.
+    wf = width_of(base)
+    chk(wf["fit"] is not None and len(wf["widths"]) == 4,
+        "the width floor fits %d widths (%s)" % (len(wf["widths"]), sorted(wf["widths"])))
+    # L18 the rung count is the grid's own: (widths-1) rungs per cadence
+    chk(len(wf["rungs"]) == 9, "every adjacent width pair inside every cadence is a rung (%d)"
+        % len(wf["rungs"]))
+    # L19 the published reading is recomputable from the rungs it publishes
+    ups = sum(1 for r in wf["rungs"] if r["up"])
+    chk(abs(wf["sign_agreement"] - round(max(ups, len(wf["rungs"]) - ups) / float(len(wf["rungs"])), 3)) < 1e-9,
+        "sign agreement follows from the published rungs (%d of %d up)"
+        % (ups, len(wf["rungs"])))
+    # L20 a width ladder that rises monotonically must NOT read DIRECTION_NOT_A_SIZE -- the
+    # sign test must be able to pass, or it is a rule that only ever says no
+    mono = json.loads(json.dumps(base))
+    for c in mono["per_cell"]:
+        c["median_cagr_pp"] = 8.0 + 0.5 * c["n_hold"]
+    m = width_of(mono)
+    chk(m["verdict"] == "REACHABLE_DECLARE_A_RUN",
+        "a monotone, steep-enough ladder reaches a width inside the priced envelope (%s, width %r)"
+        % (m["verdict"], m["width_required"]))
+    # L21 a monotone but flat ladder is unreachable inside the envelope, by a size not by noise
+    flatw = json.loads(json.dumps(base))
+    for c in flatw["per_cell"]:
+        c["median_cagr_pp"] = 8.0 + 0.02 * c["n_hold"]
+    f = width_of(flatw)
+    chk(f["verdict"] == "UNREACHABLE_INSIDE_PRICED_ENVELOPE" and f["width_required"] > 20,
+        "a flat ladder needs a width past the widest priced rung (%s, width %r)"
+        % (f["verdict"], f["width_required"]))
+    # L22 a hill (up then down) reads DIRECTION_NOT_A_SIZE even though its slope is positive
+    hill = json.loads(json.dumps(base))
+    for c in hill["per_cell"]:
+        c["median_cagr_pp"] = 8.0 + (1.0 if c["n_hold"] in (5, 8) else 0.0)
+    h = width_of(hill)
+    chk(h["verdict"] == "DIRECTION_NOT_A_SIZE",
+        "a ladder whose rungs change sign is a direction, not a size (%s)" % h["verdict"])
+    # L24 the cross-check is a falsifier, not a rubber stamp: a capacity face whose ladder points
+    # one way everywhere must read sign_flips=False, and a saw-tooth must read True
+    def _cap(steps):
+        cells = []
+        for cad, ns in ((10, {5: 1.0, 8: 1.0 + steps[0]}),
+                        (20, {5: 1.0, 8: 1.0 + steps[1]})):
+            for n, v in ns.items():
+                cells.append({"cell": "N%d_R%d" % (n, cad), "cagr": v / 100.0})
+        return {"cells": cells, "evidence_cutoff": "fixture"}
+    one_way = width_crosscheck(_cap((0.5, 0.5)))
+    chk(one_way["sign_flips_by_cadence"] is False and one_way["up_direction_share"] == 1.0,
+        "a ladder that points one way everywhere does not read as a flip")
+    saw = width_crosscheck(_cap((0.5, -0.5)))
+    chk(saw["sign_flips_by_cadence"] is True and saw["up_direction_share"] == 0.5,
+        "a ladder that disagrees between cadences reads as a flip")
+
+    # L25-L27 the read-back: the fit must be able to FAIL the point it never saw, and a face
+    # wired to the wrong arm must refuse to answer at all
+    def _fx(observed, declared_k=0.30):
+        fl = {"fit": {"slope_pp_per_k": 1.0, "intercept_pp": 0.0},
+              "arms": {"a": {"buffer_k": 0.0, "median_delta_pp": 0.0},
+                       "b": {"buffer_k": 0.5, "median_delta_pp": 0.5}}}
+        am = {"audit": {"buffer_k": declared_k}, "evidence_cutoff": "fixture",
+              "per_cell": [{"n_hold": 5, "rebal": 20, "median_cagr_pp": 10.0 + observed},
+                           {"n_hold": 8, "rebal": 20, "median_cagr_pp": 10.0 + observed}]}
+        bs = {"per_cell": [{"n_hold": 5, "rebal": 20, "median_cagr_pp": 10.0},
+                           {"n_hold": 8, "rebal": 20, "median_cagr_pp": 10.0}]}
+        return readback_of(fl, am, bs)
+    chk(_fx(0.30)["verdict"] == "HOLDS", "a point on the line holds (%s)" % _fx(0.30)["verdict"])
+    chk(_fx(0.90)["verdict"] == "REFUTED",
+        "a point far off the line is refuted, not rounded into agreement (%s)"
+        % _fx(0.90)["verdict"])
+    chk(_fx(0.30, declared_k=0.20)["verdict"] == "NOT-ASSESSED",
+        "a face declaring another arm's knob is not assessed")
+
+    # L23 the width gate has the same three states as the other two gates
+    global WIDTH_OUT
+    keepw = WIDTH_OUT
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            wtmp = os.path.join(td, "width.json")
+            with open(wtmp, "w", encoding="utf-8") as fh:
+                json.dump(build_width(), fh, ensure_ascii=False, indent=1)
+            os.utime(wtmp, (os.path.getmtime(wtmp) + 3600, os.path.getmtime(wtmp) + 3600))
+            WIDTH_OUT = wtmp
+            chk(width_check() == 0, "an unedited width face passes its gate")
+            w2 = json.loads(json.dumps(build_width()))
+            w2["verdict"] = "REACHABLE_DECLARE_A_RUN"
+            with open(wtmp, "w", encoding="utf-8") as fh:
+                json.dump(w2, fh, ensure_ascii=False, indent=1)
+            os.utime(wtmp, (os.path.getmtime(wtmp) + 3600, os.path.getmtime(wtmp) + 3600))
+            chk(width_check() == 1, "an edited width verdict stays inconsistent")
+            WIDTH_OUT = os.path.join(td, "missing.json")
+            chk(width_check() == 2, "a missing width face is stale, not inconsistent")
+        finally:
+            WIDTH_OUT = keepw
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
 
@@ -684,6 +1150,41 @@ def main(argv):
         return check()
     if "--floor-check" in argv:
         return floor_check()
+    if "--width-check" in argv:
+        return width_check()
+    if "--readback-check" in argv:
+        return readback_check()
+    if "--readback" in argv:
+        rb = build_readback()
+        if rb is None:
+            print("readback not assessed: a source face is missing")
+            return 2
+        with open(READBACK_OUT, "w", encoding="utf-8") as fh:
+            json.dump(rb, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        md = os.path.join(ROOT, "research", "ETF_BOOK_BUFFER_FLOOR_READBACK.md")
+        with open(md, "w", encoding="utf-8") as fh:
+            fh.write(render_readback_md(rb))
+        print("%s: predicted %+.3fpp vs observed %+.3fpp at k=%.2f (gap %+.3fpp)"
+              % (rb["verdict"], rb.get("predicted_pp", 0.0), rb.get("observed_pp", 0.0),
+                 READBACK_K, rb.get("gap_pp", 0.0)))
+        print("wrote", os.path.relpath(READBACK_OUT, ROOT),
+              "and research/ETF_BOOK_BUFFER_FLOOR_READBACK.md")
+        return 0
+    if "--width" in argv:
+        w = build_width()
+        with open(WIDTH_OUT, "w", encoding="utf-8") as fh:
+            json.dump(w, fh, ensure_ascii=False, indent=1)
+            fh.write("\n")
+        md = os.path.join(ROOT, "research", "ETF_BOOK_WIDTH_RESOLUTION_FLOOR.md")
+        with open(md, "w", encoding="utf-8") as fh:
+            fh.write(render_width_md(w))
+        print("%s: width required %s (widest priced %d), sign agreement %.3f, ruler %.2fpp"
+              % (w["verdict"], w["width_required"], WIDTH_RULE["priced_width_max"],
+                 w["sign_agreement"], w["ruler_pp"]))
+        print("wrote", os.path.relpath(WIDTH_OUT, ROOT),
+              "and research/ETF_BOOK_WIDTH_RESOLUTION_FLOOR.md")
+        return 0
     if "--floor" in argv:
         f = build_floor()
         with open(FLOOR_OUT, "w", encoding="utf-8") as fh:

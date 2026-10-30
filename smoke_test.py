@@ -3429,6 +3429,63 @@ def main() -> int:
     except Exception as e:
         check("product: the CEO page carries today's market risk tape", False,
               repr(e)[:160])
+    try:
+        # r1355: the width floor and the buffer read-back are published verdicts, so a reader
+        # must be able to re-derive each one from the numbers ON the face -- not from the script
+        # that wrote it. The label is recomputed here from the published rungs and the face's
+        # own frozen thresholds, and a verdict that no longer follows from its numbers is red.
+        _wf = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_width_resolution_floor.json"),
+                             encoding="utf-8"))
+        _wrule = _wf.get("rule") or {}
+        _wr = _wf.get("rungs") or []
+        _wups = sum(1 for _r in _wr if _r.get("up"))
+        _wagree = round(max(_wups, len(_wr) - _wups) / float(len(_wr)), 3) if _wr else None
+        _wslope = (_wf.get("fit") or {}).get("slope_pp_per_name")
+        _wreq = _wf.get("width_required")
+        if _wagree is None or _wslope is None:
+            _wlab = "NOT-ASSESSED"
+        elif _wagree < _wrule.get("sign_agreement_min", 0.75):
+            _wlab = "DIRECTION_NOT_A_SIZE"
+        elif _wslope <= 0:
+            _wlab = "UNREACHABLE_BY_CONSTRUCTION"
+        elif _wreq is not None and _wreq > _wrule.get("priced_width_max", 20):
+            _wlab = "UNREACHABLE_INSIDE_PRICED_ENVELOPE"
+        else:
+            _wlab = "REACHABLE_DECLARE_A_RUN"
+        _wbad = []
+        if _wagree != _wf.get("sign_agreement"):
+            _wbad.append("sign agreement says %s, its own rungs say %s"
+                         % (_wf.get("sign_agreement"), _wagree))
+        if _wlab != _wf.get("verdict"):
+            _wbad.append("verdict says %s, its own numbers say %s"
+                         % (_wf.get("verdict"), _wlab))
+        if (_wf.get("priced_envelope_crosscheck") or {}).get("sign_flips_by_cadence") is None:
+            _wbad.append("the second engine's cross-check is absent")
+        _rb = json.load(open(os.path.join(PATHS.root, "results",
+                                          "etf_book_buffer_floor_readback.json"),
+                             encoding="utf-8"))
+        if _rb.get("verdict") == "NOT-ASSESSED":
+            _wbad.append("the read-back refused to answer")
+        else:
+            _gap = abs(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")))
+            if _gap > float(_rb.get("tolerance_pp")):
+                _wbad.append("the harvested point sits %.3fpp off the line, past the %.3fpp "
+                             "tolerance, but the face still says %s"
+                             % (_gap, float(_rb.get("tolerance_pp")), _rb.get("verdict")))
+            if (_rb.get("gap_pp") is None
+                    or abs(round(float(_rb.get("observed_pp")) - float(_rb.get("predicted_pp")), 3)
+                           - float(_rb.get("gap_pp"))) > 1e-9):
+                _wbad.append("the published gap is not observed minus predicted")
+        check("product: the width ladder names why it cannot be quoted, and the buffer line "
+              "is tested on a point it never saw", not _wbad,
+              "; ".join(_wbad)[:220] or "width=%s (agree %s, needs width %s) | readback=%s "
+              "(gap %+.3fpp/%.3fpp)" % (_wf.get("verdict"), _wagree, _wreq,
+                                        _rb.get("verdict"), float(_rb.get("gap_pp") or 0.0),
+                                        float(_rb.get("tolerance_pp") or 0.0)))
+    except Exception as e:
+        check("product: the width ladder names why it cannot be quoted, and the buffer line "
+              "is tested on a point it never saw", False, repr(e)[:160])
     return _finish()
 _MARK = (("<<<<<<<", "open"), ("|||||||", "base"), ("=======", "sep"), (">>>>>>>", "close"))
 

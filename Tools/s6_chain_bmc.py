@@ -278,6 +278,20 @@ LEGS = [
     ("etf_book_buffer_floor",
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor-check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "--floor"]),
+    # r1355: the floor answered with a k on ONE axis. This leg re-derives the width axis -- the
+    # knob r1350 refused to quote -- and it tests the SIGNS of the rungs before it fits a slope,
+    # because a line through a hill has a slope that means nothing. Engine-free, reads the
+    # published baseline grid, 0.05s.
+    ("etf_book_width_floor",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--width-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--width"]),
+    # r1355: the buffer floor extrapolates k=7.79 past its last arm. The pool harvested the row
+    # stocked at k=0.30 (the midpoint of the widest fitted gap) during the same round, so this
+    # leg re-derives the read-back: predicted vs observed, with the tolerance set to 3x the fit's
+    # own largest in-sample residual. A fit that is never tested is a claim, not a fit. 0.05s.
+    ("etf_book_buffer_readback",
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback-check"],
+     ["python", "scripts/etf_book_phase_atlas_arms.py", "--readback"]),
     # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
     # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
     # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel
