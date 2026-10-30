@@ -6700,6 +6700,78 @@ def main() -> int:
     except Exception as e:
         check(_name79, False, repr(e)[:160])
 
+    # E281: E279 scoped the substitution policy to "never conclude cannot". This leg asks the
+    # dependency question that scoping leaves open: does any published conclusion rest on a
+    # stranded tail to say cannot? The leg requires (a) the face re-derives, (b) every claim's
+    # published boolean equals its own range, (c) any dependent claim is either disclosed by its
+    # face or reported as needing action -- never silently counted as a measurement, and (d) the
+    # census-level identity with E279 holds cell by cell, which is what exposes E279's group-keyed
+    # summary field.
+    _name81 = ("product: a cannot on a stranded tail needs no withdrawal here, but it is never a "
+               "reading -- and the disagreement field is keyed on the group, not the cell")
+    _bad81 = []
+    try:
+        _p81 = os.path.join("results", "state_tilt", "bandsubstituteaudit_latest.json")
+        _f81 = None
+        if not os.path.exists(_p81):
+            _bad81.append("face missing: %s" % _p81)
+        else:
+            with io.open(_p81, encoding="utf-8") as _fh81:
+                _f81 = json.load(_fh81)
+        if _f81 is not None:
+            _s81 = _f81.get("summary") or {}
+            if _f81.get("evidence_cutoff") is None:
+                _bad81.append("no evidence_cutoff on the face")
+            if _s81.get("verdict") not in (
+                    "a_cannot_rests_on_a_substitute_that_contradicts_it",
+                    "a_cannot_rests_on_a_stranded_tail_without_disclosure",
+                    "every_dependent_cannot_is_vacuous_and_disclosed",
+                    "no_cannot_claim_rests_on_a_stranded_tail"):
+                _bad81.append("verdict %r is outside the frozen set" % (_s81.get("verdict"),))
+            if not _s81.get("claims_total"):
+                _bad81.append("no claim was extracted -- the face would be about nothing")
+            for _c81 in _f81.get("claims") or []:
+                if _c81.get("cannot") is False and not _c81.get("stranded"):
+                    if _c81.get("dependent"):
+                        _bad81.append("a measured tail was marked dependent")
+                if _c81.get("dependent") and not (
+                        _c81.get("disclosed_in_face") or _c81.get("load_bearing")):
+                    _bad81.append("a dependent claim is neither disclosed nor flagged")
+                if _c81.get("polarity_agrees") is False:
+                    _bad81.append("a published boolean contradicts its own range")
+            _ic81 = _f81.get("identity_check") or {}
+            if _ic81.get("checked_tail_booleans") != _s81.get("claims_total"):
+                _bad81.append("the identity check did not cover every claim")
+            if _ic81.get("mismatched"):
+                _bad81.append("our re-derivation disagrees with E279's census")
+            if _ic81.get("stranded_set_agrees") is not True:
+                _bad81.append("our stranded set disagrees with E279's census")
+            if _ic81.get("disagree_set_agrees") is not True:
+                _bad81.append("our disagreement set disagrees with E279's census")
+            if _ic81.get("e279_summary_field_is_ambiguous") and not _ic81.get(
+                    "e279_summary_field_over_claims"):
+                _bad81.append("the field is called ambiguous without the per-group counts")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m81 = __import__("importlib").import_module("e281_substitution_dependency_audit")
+            _fresh81 = _m81.build()
+            if _fresh81.get("summary") != _s81:
+                _bad81.append("summary does not re-derive from the published faces")
+            if _fresh81.get("claims") != (_f81.get("claims") or []):
+                _bad81.append("the claim census does not re-derive")
+        check(_name81, not _bad81,
+              "; ".join(_bad81)[:220]
+              or "verdict %r | %d face(s), %d claim(s), %d cannot, %d dependent (load-bearing %d); "
+                 "tails disagree on %s; E279 summary field keyed on %r"
+                 % ((_f81 or {}).get("verdict"),
+                    (_s81.get("faces_scanned") or 0), (_s81.get("claims_total") or 0),
+                    (_s81.get("claims_cannot") or 0),
+                    (_s81.get("dependent_cannot_claims") or 0),
+                    (_s81.get("load_bearing_claims") or 0),
+                    ",".join(_s81.get("rows_where_the_two_tails_disagree") or []) or "none",
+                    (_f81 or {}).get("identity_check", {}).get("e279_summary_field_scope")))
+    except Exception as e:
+        check(_name81, False, repr(e)[:160])
+
     return _finish()
 
 

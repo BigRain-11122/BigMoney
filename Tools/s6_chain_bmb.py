@@ -418,6 +418,17 @@ LEGS = [
     ("substitution_soundness",
      ["python", "scripts/e279_substitution_soundness.py", "verify"]),
 
+    # E281: the dependency question E279's scoping left open -- does any published conclusion rest
+    # on a stranded tail to say "cannot"? Structural scan of all 27 dated BAND* faces: only 1 face
+    # carries reachability booleans for BOTH tails (24 claims, 22 of them "cannot"), and exactly 2
+    # of those rest on a stranded tail -- both in a face that already labels the tail inert/dead by
+    # construction, with a substitute that agrees vacuously. Zero load-bearing claims. It also
+    # re-derives E279's census row by row (24/24) and finds E279's summary field is keyed on the
+    # GROUP label, so a group with 1 disagreeing cell of 4 is published whole. Published faces
+    # only, no draw. <1s.
+    ("substitution_dependency_audit",
+     ["python", "scripts/e281_substitution_dependency_audit.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

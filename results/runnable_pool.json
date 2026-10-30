@@ -25068,10 +25068,14 @@
   },
   {
    "deliverable": "results/state_tilt/BANDSUBSTITUTEAUDIT-<cutoff>.json",
+   "done_at": "2026-10-31T06:25+08:00",
    "evidence_cutoff": "2026-10-29",
    "id": "E281-SUBSTITUTION-DEPENDENCY-AUDIT",
    "lane": "cpu-only",
+   "owner": "bm-b",
    "priority": 3,
+   "result_note": "D1-D6: 27 dated faces scanned; only 1 carries reachability booleans for both tails (24 claims, 22 cannot). Exactly 2 cannots rest on a stranded tail, both in a face that already labels the tail inert/dead by construction, with a substitute that agrees vacuously. load_bearing=0 -> no published conclusion needs withdrawal. D7: E279's summary field is group-keyed (cross group: 1 of 4 cells disagrees, published as the whole group) -- disclosed here, repair seeded as E284.",
+   "result_ref": "results/state_tilt/BANDSUBSTITUTEAUDIT-2026-10-29.json",
    "runner": "scripts/e281_substitution_dependency_audit.py",
    "runner_args": [
     "run"
@@ -25079,7 +25083,7 @@
    "seeded_at": "2026-10-31T05:58+08:00",
    "seeded_by": "bm-b r1305",
    "source": "E279 scoped the E278 policy to 'substitute only to prove a row CAN move, never to conclude it cannot', because both substitution events it observed agreed vacuously. The open question that scoping leaves behind: does any already-published conclusion in the BAND family actually DEPEND on a substituted tail to say 'cannot'? Walk every dated BAND* face, and for each conclusion that rests on a normalised gap whose group has a zero-spread tail on one side, report which tail the conclusion used and whether the other tail would have changed it. A family with 0 dependent conclusions makes the policy harmless; any dependent conclusion must be re-read as an upper bound or withdrawn.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e281_substitution_dependency_audit.py (new runner)",
    "title": "is E278's substitution policy load-bearing anywhere it was never tested -- does any published BAND-family conclusion rest on a substituted 'unreachable' tail?",
    "worker_class": "code-change",
@@ -25131,6 +25135,28 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "deliverable": "results/state_tilt/BANDDISAGREESCOPE-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "id": "E284-DISAGREEMENT-FIELD-SCOPE",
+   "lane": "cpu-only",
+   "priority": 3,
+   "runner": "scripts/e284_disagreement_field_scope.py",
+   "runner_args": [
+    "run"
+   ],
+   "seeded_at": "2026-10-31T06:25+08:00",
+   "seeded_by": "bm-b r1306",
+   "source": "E281 re-derived E279's census cell by cell and found its summary field rows_where_tails_disagree_on_reachability is keyed on the group label while the disagreement is cell-scoped: cross and star_lag1_residual each have 4 cells and exactly 1 disagreeing cell, so the field names a whole group for one cell (group-scope over-claim, the same-name-different-quantity family of E240/E253). Repair = publish the cell-scoped keys (row|cell|index) alongside the group names and keep the old field readable as a group-scope upper bound; no BAND face needs a reburn because the census already carries the cells, only the summary projection changes. The card must also sweep every other summary field in the family for the same scope slip and publish which are ambiguous.",
+   "status": "ready",
+   "target": "scripts/e284_disagreement_field_scope.py (new runner)",
+   "title": "is any other published summary field keyed at the wrong scope -- a group label where the finding is cell-scoped, or a cell where the finding is group-scoped?",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25145,6 +25171,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T05:58+08:00",
+ "updated_at": "2026-10-31T06:25+08:00",
  "version": 1
 }

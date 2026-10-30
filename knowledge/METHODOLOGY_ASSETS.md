@@ -5499,3 +5499,57 @@ Evidence: `scripts/e279_substitution_soundness.py` (selftest 26/26),
 identity to E272; stranded set == E278's `["cross:200"]`), S6 leg `substitution_soundness`, smoke leg
 `product: reading the other tail never contradicts ...`, digest
 `research/digests/DIGEST-20261031-r1305-e279-substitution.md`.
+
+## E282 -- ask whether the policy is LOAD-BEARING, not whether it is sound: a dependency audit is a scope test on published conclusions, and its natural output is a defect in the face it audits
+
+E279 proved the substitution policy is sound as an upper bound and unproven as a reading, then scoped
+it with "substitute only to prove a row CAN move, never to conclude it cannot". That scoping is only
+harmless if no **already-published** conclusion needs the forbidden direction. So the follow-up is not
+another soundness test -- it is a dependency audit: walk every dated face in the family, extract each
+`(face, row, tail)` reachability claim **structurally** (a node carrying both tail blocks with a
+multiplier range), and ask of every `cannot`: is its own tail stranded, and does the face text rest on
+it?
+
+Five definitions make the audit decidable, and each one exists to stop a specific false answer.
+
+1. **Claim unit is structural, never nominal.** A bare `reachable` key is not a claim; the pair of
+   tail blocks is. In this family 27 dated faces were scanned and exactly **1** carries the pair (24
+   claims). The other 26 speak in prose and are *disclosure-only* -- they cannot be dependency-checked
+   at all, which is itself the finding: a conclusion stated in prose is unauditable by construction.
+2. **Dependent = a `cannot` whose own tail is stranded.** Measured: 22 of 24 claims are `cannot`, but
+   only **2** of them rest on a stranded tail -- the rest are measurements of a live interval, which
+   no substitution touches. The count that matters is 2, not 22.
+3. **Load-bearing = the face text names that tail AND carries a negative marker AND publishes no
+   `can` on that same tail.** This is what turns "dependent" into "a conclusion rests on it". Here it
+   is **0**: the only face holding those claims already says the tail is inert because the population
+   never publishes a narrowing multiplier, *not because the tail is safe*.
+4. **Self-disclosure clears the flag, and the disclosure is recorded.** Three faces independently
+   already publish the vacuity (inert / dead by construction / untested rather than safe). So the
+   policy is load-bearing exactly where the family had already said the claim is vacuous -- no
+   withdrawal needed, and no `cannot` on a stranded tail may ever be read as a measurement.
+5. **A defect found in a published face is disclosed and seeded, never repaired in the round that
+   found it.** The finding round must not also be the round that re-burns the face it is judging.
+
+That fifth rule earned its place immediately: the audit re-derived **24/24** of E279's census booleans
+and its stranded set, and in doing so found that E279's summary field
+`rows_where_tails_disagree_on_reachability` is keyed on the **group label** while the disagreement is
+**cell-scoped**. `cross` has 4 cells and exactly 1 disagreeing cell, `star_lag1_residual` likewise --
+so the field names a whole group for one cell. It is not wrong about *which groups* contain a
+disagreement; it over-claims at group scope, and a reader cannot recover the cells from it. That is the
+same-name-different-quantity family as E240/E253, and it is invisible from the group-level digest prose
+(r1305 wrote the cells correctly; only the machine-readable field is lossy).
+
+Two reusable lessons. **(a)** "Is this policy safe?" is the wrong question once a policy has been
+scoped; ask "does anything already published depend on it?" -- a dependency audit is a scope test over
+conclusions, and it is cheap because it reads faces, not draws. **(b)** The best thing a cell-by-cell
+identity check can produce is a defect in the face it audits: agreement is what makes the audit
+trustworthy, and disagreement is what makes it worth running. Publish both, and seed the repair
+separately so the finding round is never the verifying round.
+
+Evidence: `scripts/e281_substitution_dependency_audit.py` (selftest 18/18, run/verify green),
+`results/state_tilt/BANDSUBSTITUTEAUDIT-2026-10-29.json` (27 faces / 24 claims / 2 dependent /
+0 load-bearing; identity 24/24, stranded set and disagreement set both agree with E279's census;
+E279 summary field ambiguous with per-group counts 1-of-4), S6 leg
+`substitution_dependency_audit` (0.19s), smoke leg `product: a cannot on a stranded tail needs no
+withdrawal here ...`, repair card E284-DISAGREEMENT-FIELD-SCOPE, digest
+`research/digests/DIGEST-20261031-r1306-e281-dependency-audit.md`.
