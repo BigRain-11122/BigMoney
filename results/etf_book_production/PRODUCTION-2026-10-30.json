@@ -1,5 +1,5 @@
 {
- "ts": "2026-10-31 00:50:49",
+ "ts": "2026-10-31 02:44:38",
  "evidence_cutoff": "2026-10-30",
  "feed_status": {
   "ticket_bar": "2026-10-30",
@@ -7,6 +7,15 @@
   "lag_days": 0,
   "status": "current",
   "detail": "the ticket is priced on the newest official bar that must exist"
+ },
+ "price_basis": {
+  "panel": "repaired (flip prints neutralised before any measurement)",
+  "flip_thr": 0.35,
+  "flip_prints": 168,
+  "symbols_with_a_flip": 158,
+  "columns": 1613,
+  "sentence": "本面的数字算在**已修复**的面板上：**168 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 158 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1613 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+  "neutralised": true
  },
  "script": "scripts/etf_book_production.py",
  "config": {

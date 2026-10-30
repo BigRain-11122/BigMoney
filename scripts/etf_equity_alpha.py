@@ -72,6 +72,68 @@ def repair_flips(close, openp, thr=FLIP_THR):
     return adj, openp * factor, int(bad.to_numpy().sum())
 
 
+def flip_census(close, cols=None, thr=FLIP_THR):
+    """How many prints on this panel exceed `thr`, and on how many symbols.
+
+    One implementation for every face that has to state its own price basis: a second
+    copy of the arithmetic is the defect, not the redundancy (E289). Measured against
+    the last PRICED close, exactly as `repair_flips` measures it -- `pct_change()` on its
+    own returns NaN across a suspension bar and silently misses those prints.
+    """
+    px = close[cols] if cols is not None else close
+    bad = px.ffill().pct_change().abs() > thr
+    return {"thr": float(thr), "prints": int(bad.to_numpy().sum()),
+            "symbols": int((bad.sum() > 0).sum()), "columns": int(px.shape[1])}
+
+
+def price_basis_line(repaired, prints, thr=FLIP_THR, symbols=None, artifact=None,
+                     columns=None):
+    """The sentence a reader-facing sheet prints about the panel its numbers sit on.
+
+    Both the production card and the executable order sheet must quote the same
+    arithmetic (this function), and each states its own arm truthfully. `repaired` says
+    what THIS face did; `prints` is the census of the raw panel either way, so the reader
+    can see the size of what was neutralised instead of taking "clean" on trust.
+
+    `columns` is the width of the panel THIS face counted on. Two faces of one book can
+    legitimately count different totals -- the card repairs the whole panel before it
+    classifies, the ticket censuses only the classes it ranks -- and without the width the
+    reader cannot tell a universe difference from an arithmetic drift (r1177).
+    """
+    thr_pct = 0.0 if thr is None else float(thr) * 100.0
+    tail = ("修与不修的差额已单独立面：%s。" % artifact) if artifact else ""
+    width = ("本面板 %d 列。" % int(columns)) if columns else ""
+    if prints is None or thr is None:
+        sentence = ("本面的数字算在哪张价格面板上读不到（翻转计数或阈值缺失），"
+                    "所以这里不替它下结论。")
+        return {"panel": "unknown", "flip_thr": thr, "flip_prints": None,
+                "symbols_with_a_flip": symbols, "sentence": sentence}
+    if repaired:
+        if prints == 0:
+            sentence = ("本面的数字算在**已修复**的面板上，但这批票里没有单日超过 %.0f%% 的"
+                        "报价翻转——就本面板而言，修与不修读到的是同一批数字。" % thr_pct)
+        else:
+            sym = ("（份额变动被读成暴跌，涉及 %d 只票）" % symbols
+                   if symbols is not None else "（份额变动被读成暴跌）")
+            sentence = ("本面的数字算在**已修复**的面板上：**%d 处**单日超过 %.0f%% 的报价翻转"
+                        "%s在任何测量之前都已抹平为 0%% 日"
+                        "（`etf_equity_alpha.repair_flips`）。" % (prints, thr_pct, sym))
+        panel = "repaired (flip prints neutralised before any measurement)"
+    else:
+        symr = ("（涉及 %d 只票）" % symbols) if symbols is not None else ""
+        sentence = ("本面的数字算在**未修复**的原始面板上，其中有 **%d 处**单日超过 %.0f%% 的"
+                    "报价翻转%s：上面每一次排名都可能踩到其中一处。"
+                    % (prints, thr_pct, symr))
+        panel = "raw (no flip repair)"
+    if width:
+        sentence += width
+    if tail:
+        sentence += tail
+    return {"panel": panel, "flip_thr": thr, "flip_prints": int(prints),
+            "symbols_with_a_flip": symbols, "columns": columns, "sentence": sentence,
+            "neutralised": bool(repaired)}
+
+
 def load_class_map():
     """code -> (keyword class, name). Keyword class is only a first pass: plenty of cash
     ETFs are named 短融ETF / 银华日利 / 招商快线 and carry no bond keyword at all, so they

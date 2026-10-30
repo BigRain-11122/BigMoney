@@ -48,6 +48,7 @@ from scripts import etf_composite_pf as F          # noqa: E402
 from scripts import etf_phase_beta_target as BT    # noqa: E402
 from scripts import etf_phase_beta_window as BW    # noqa: E402
 from scripts import etf_variants_null_rolling as V  # noqa: E402
+from scripts import etf_equity_alpha as AE          # noqa: E402
 from scripts import exchange_calendar_audit as CA   # noqa: E402
 from scripts.etf_asset_class import classify       # noqa: E402
 from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa: E402
@@ -64,6 +65,13 @@ DEFAULT_NAV = 1_000_000.0
 DEFAULT_INCEPTION = "2024-01-01"
 MIN_HIST = 126
 LOT = 100
+# r1177: this sheet repairs quote flips before it measures anything, like the card and the
+# forward ledger already did. It was the last live face ranking on raw prices, so a
+# share-count flip could enter a pick here and nowhere else, and the two faces of one book
+# were quoting a CAGR computed on two different panels. The size of the correction is
+# priced, not assumed: results/etf_book_flip_contamination.json (verdict MATERIAL).
+REPAIR_PANEL = True
+PRICE_BASIS_ARTIFACT = "results/etf_book_flip_contamination.json"
 
 
 # ------------------------------------------------------------------ decision schedule
@@ -522,39 +530,30 @@ def staleness_stats(score, close, rebal=REBAL, n_hold=N_HOLD, start="2020-01-01"
             "decisions_with_too_few_picks": impossible}
 
 
-def price_basis(close, cols):
+def price_basis(close, cols, repaired=None):
     """Which prices this sheet's numbers are computed on, and how many prints that costs.
 
-    The production card (`etf_book_production`) and the forward ledger
-    (`etf_book_forward`) both call `repair_flips` before they measure anything; this
-    sheet does not. So a share-count flip that reads as a -90% day can enter a ranking
-    here and nowhere else. The number is published on the sheet rather than repaired
-    inside it: repairing moves every figure this book has published, which is a separate,
-    deliberate decision (its size is results/etf_book_flip_contamination.json).
+    One arithmetic, one sentence: `etf_equity_alpha.flip_census` counts the raw panel and
+    `etf_equity_alpha.price_basis_line` writes the line, so this sheet and the production
+    card cannot drift into quoting two different definitions of "clean" (E289).
+
+    Since r1177 this sheet repairs (`REPAIR_PANEL`), matching the card and the forward
+    ledger. Before that it was the only live face ranking on raw prices: a share-count flip
+    that reads as a -90% day could enter a pick here and nowhere else, and the ticket's
+    CAGR was then compared against a card priced on the other panel.
     """
     try:
         import etf_equity_alpha as A
-        thr = float(getattr(A, "FLIP_THR", 0.35))
     except Exception:
-        return {"panel": "raw (no flip repair)", "flip_thr": None, "flip_prints": None,
-                "sentence": ("本单的数字算在未修复的原始面板上；修复阈值读不到，所以无法报告"
-                             "面板里有多少处报价翻转。")}
-    bad = (close[cols].ffill().pct_change().abs() > thr)
-    n = int(bad.to_numpy().sum())
-    syms = int((bad.sum() > 0).sum())
-    if n == 0:
-        sentence = ("本单的数字算在**未修复**的原始面板上，但这批票里没有单日超过 %.0f%% 的"
-                    "报价翻转——就本面板而言，修与不修读到的是同一批数字。" % (thr * 100.0))
-    else:
-        sentence = ("本单的数字算在**未修复**的原始面板上，其中有 **%d 处**单日超过 %.0f%% 的"
-                    "报价翻转（份额变动被读成暴跌，涉及 %d 只票）。生产卡片与账本在测量前都先"
-                    "调用 `etf_equity_alpha.repair_flips`，本单没有——两侧因此不在同一张价格"
-                    "面板上。这里只报数，不在本单里悄悄改：修一次会挪动这本书全部已发布数字。"
-                    "差额量在 results/etf_book_flip_contamination.json。"
-                    % (n, thr * 100.0, syms))
-    return {"panel": "raw (no flip repair)", "flip_thr": thr, "flip_prints": n,
-            "symbols_with_a_flip": syms, "columns": int(len(cols)),
-            "sentence": sentence}
+        return {"panel": "unknown", "flip_thr": None, "flip_prints": None,
+                "sentence": ("本单的数字算在哪张价格面板上读不到（etf_equity_alpha 不可用），"
+                             "所以这里不替它下结论。")}
+    cen = A.flip_census(close, cols)
+    line = A.price_basis_line(bool(REPAIR_PANEL if repaired is None else repaired),
+                              cen["prints"], cen["thr"], cen["symbols"],
+                              PRICE_BASIS_ARTIFACT, columns=cen["columns"])
+    line["columns"] = cen["columns"]
+    return line
 
 
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
@@ -564,6 +563,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     close, openp, amt, feats = F.build_panel()
     classes = pd.Series(classify(list(close.columns)))
     cols = [c for c in close.columns if classes[c] in V.KEEP]
+    # census on the panel as the source prints it: after the repair the count is zero by
+    # construction, and a disclosure that always reads "no flips" discloses nothing.
+    basis = price_basis(close, cols)
+    if REPAIR_PANEL:
+        close, openp, _n_flip = AE.repair_flips(close, openp)
+        print("price basis: repaired %d flip prints on %s symbols before any measurement"
+              % (basis["flip_prints"], basis["symbols_with_a_flip"]), flush=True)
     score = F.build_score(close[cols], amt[cols], feats)
     stale = staleness_stats(score, close[cols])
     print("staleness: %d/%d picks (%.1f%%) priced before the decision bar | panel live on "
@@ -729,7 +735,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                           "rows_added": len(merged), "engine_naive_vs_ledger": drift},
                "width_disclosure": wd,
                "live_width_ruler": ruler,
-               "price_basis": price_basis(close, cols),
+               "price_basis": basis,
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
@@ -2470,7 +2476,7 @@ def selftest():
     _pb_ok = price_basis(_pb_flip, ["A"])
     chk("leg46a price basis: a -90% print on the panel is counted and called out",
         _pb_ok["flip_prints"] == 1 and "1 处" in _pb_ok["sentence"]
-        and _pb_ok["panel"] == "raw (no flip repair)", _pb_ok["sentence"][:60])
+        and _pb_ok["panel"].startswith("repaired"), _pb_ok["sentence"][:60])
     _pb_clean = pd.DataFrame({"B": [10.0, 10.1, 10.2, 10.3]}, index=_pb_idx)
     _pb_none = price_basis(_pb_clean, ["B"])
     chk("leg46b price basis: a panel with no flip says the repair would change nothing",
@@ -2481,6 +2487,19 @@ def selftest():
         "价格面板" in _pb_md and "1 处" in _pb_md
         and "价格面板" not in card(None, None, None, "2026-10-30", 0.2,
                                    {"inception": "2024-01-01"}), "")
+    _pb_raw = price_basis(_pb_flip, ["A"], repaired=False)
+    chk("leg46d price basis: the raw arm still exists and reads differently "
+        "(the counterfactual the audit needs, not a second definition)",
+        _pb_raw["panel"].startswith("raw") and _pb_raw["flip_prints"] == _pb_ok["flip_prints"]
+        and _pb_raw["sentence"] != _pb_ok["sentence"], _pb_raw["sentence"][:60])
+    chk("leg46e price basis: both faces quote ONE implementation "
+        "(the sentence this sheet prints is the one etf_equity_alpha writes)",
+        _pb_ok["sentence"] == AE.price_basis_line(
+            True, _pb_ok["flip_prints"], _pb_ok["flip_thr"],
+            _pb_ok["symbols_with_a_flip"], PRICE_BASIS_ARTIFACT,
+            columns=_pb_ok.get("columns"))["sentence"], "")
+    chk("leg46f this sheet repairs its panel (r1177): the module constant is on",
+        REPAIR_PANEL is True, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

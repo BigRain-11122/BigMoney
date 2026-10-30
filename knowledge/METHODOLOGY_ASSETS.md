@@ -7043,3 +7043,28 @@ round will re-open a closed row.
 Pos: scripts/alloc_backtest.py (panel_sha / config_sha(data_sha=) / load_valid_cell, selftest 21 -> 26,
 F9-a..e) + Tools/live_value_cache_audit.py (digest_argument_to_cache_read, selftest 14 -> 19, L15-L19) +
 results/live_value_cache_audit.json + 2 smoke legs + digest DIGEST-20261031-r1377-panel-digest-checkpoint.md.
+## E293 One book, two flip counts: a census total without its denominator reads as drift, and the face that feeds the identity check can still be ranking on raw prices (2026-10-31 r1177 bm-a)
+
+The r1177 arrival fixed the right defect -- the executable sheet now repairs its panel like the card
+already did -- and then printed the two faces side by side: the ticket says **164 flip prints on 155
+names**, the card says **168 on 158**. Same rule, same library, same day, two different totals. Both
+are truthful: the card repairs the whole 1,613-column panel before it classifies, the ticket censuses
+only the 1,503 columns it ranks. Nothing on either sheet said which universe its total was counted on,
+so a reader comparing them can only conclude that the arithmetic drifted. Adding the panel width to
+the shared sentence (`price_basis_line(..., columns=)`) turns an apparent contradiction into a
+visible universe difference -- and the smoke leg now fails when the two totals differ on the *same*
+width, which is the only case where it really is a drift.
+
+The bigger find was one layer upstream, and it was already red: the carry-split identity leg
+("base cell == the ticket's own headline") had started failing at 11.19% vs 12.78%. The cause was not
+the split arithmetic but `etf_book_return_regime.build()` -- the third face of this book -- still
+calling `F.build_panel()` and ranking on unrepaired prints, so its base cell priced a different world
+than the ticket it is supposed to reproduce. Repairing it moved the cell to 12.78% and
+`identity matched=True`. Two rules transfer: (1) **when two faces print the same statistic, print the
+denominator too** -- a total without its universe cannot be compared, and the reader will read the
+difference as sloppiness; (2) **a contradiction between two published numbers is a lead, not a
+tie-break**: ask which panel each sits on before assuming either is wrong, and fix the face that is
+still on the old panel rather than the one it is being compared against.
+
+Pos: `scripts/etf_equity_alpha.py` `price_basis_line(columns=)` / `scripts/etf_book_return_regime.py`
+`build()` / `smoke_test.py` (r1177 leg: width on both faces + same-panel-different-total is red).

@@ -13,6 +13,8 @@ Config: 12 names of a 1504-instrument bond-free pool, rebalance every 20 bars, 1
 
 **Feed: current** -- priced on the 2026-10-30 bar; the official calendar expects 2026-10-30 (lag 0 official day(s)).
 
+**Price basis:** 本面的数字算在**已修复**的面板上：**168 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 158 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1613 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。
+
 **Today (2026-10-30 bar): HOLD: 8 bars until the next decision point** (last grid decision 2026-10-14).
 
 Realised 60d book vol 11.4% -> risk scale 0.70, cash slot 29.9%.

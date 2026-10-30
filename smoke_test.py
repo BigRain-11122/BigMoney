@@ -3732,6 +3732,86 @@ def main() -> int:
     except Exception as e:
         check("product: a bar restated after settling reaches the ticket's own ledger line",
               False, repr(e)[:160])
+    # ---- r1177: both faces a reader holds must state their price basis ----------
+    # An executable sheet that ranked on raw prices while the card and the ledger repaired
+    # meant one book quoting two CAGR numbers computed on two panels, and nothing looked
+    # wrong. This leg fails if either face stops saying which panel its numbers sit on, if
+    # the ticket stops repairing, or if the two faces stop quoting ONE implementation.
+    try:
+        _bad44 = []
+        _ord_dir = os.path.join(PATHS.results_dir, "etf_book_order")
+        _ptr44 = os.path.join(_ord_dir, "latest.json")
+        _card44 = os.path.join(PATHS.results_dir, "etf_book_production", "latest.json")
+        _cmdp44 = os.path.join(PATHS.results_dir, "etf_book_production", "CARD.md")
+        for _p44 in (_ptr44, _card44, _cmdp44):
+            if not os.path.exists(_p44):
+                _bad44.append("%s missing" % os.path.basename(_p44))
+        if not _bad44:
+            with open(_ptr44, encoding="utf-8") as _fh44:
+                _pt44 = json.load(_fh44) or {}
+            _asof44 = str(_pt44.get("as_of") or "")
+            _tkp44 = os.path.join(_ord_dir, str(_pt44.get("file") or ""))
+            _mdp44 = os.path.join(_ord_dir, "ORDER-%s.md" % _asof44)
+            if not os.path.exists(_tkp44) or not os.path.exists(_mdp44):
+                _bad44.append("ticket %s / sheet missing" % _asof44)
+            else:
+                with open(_tkp44, encoding="utf-8") as _fh44:
+                    _tk44 = json.load(_fh44) or {}
+                with open(_mdp44, encoding="utf-8") as _fh44:
+                    _md44 = _fh44.read()
+                with open(_card44, encoding="utf-8") as _fh44:
+                    _cd44 = json.load(_fh44) or {}
+                with open(_cmdp44, encoding="utf-8") as _fh44:
+                    _cmd44 = _fh44.read()
+                _pb44 = _tk44.get("price_basis") or {}
+                if not str(_pb44.get("panel") or "").startswith("repaired"):
+                    _bad44.append("the executable sheet still prices the raw panel")
+                if _pb44.get("neutralised") is not True:
+                    _bad44.append("the sheet does not say it repaired")
+                if not _pb44.get("flip_prints"):
+                    _bad44.append("the sheet reports no flip census")
+                if not _pb44.get("columns"):
+                    _bad44.append("the sheet does not say how wide the panel it counted is")
+                if "价格面板" not in _md44:
+                    _bad44.append("ORDER md carries no price-basis line")
+                _cpb44 = _cd44.get("price_basis") or {}
+                if not str(_cpb44.get("panel") or "").startswith("repaired"):
+                    _bad44.append("the card does not state its price basis")
+                if not _cpb44.get("columns"):
+                    _bad44.append("the card does not say how wide the panel it counted is")
+                # Two faces of one book may count different totals because they count
+                # different panels (the card repairs before it classifies, the ticket only
+                # the classes it ranks). Without both widths that reads as a drift.
+                if (_pb44.get("flip_prints") != _cpb44.get("flip_prints")
+                        and _pb44.get("columns") == _cpb44.get("columns")):
+                    _bad44.append("same panel, two flip totals")
+                if "**Price basis:**" not in _cmd44:
+                    _bad44.append("CARD.md prints no price-basis line")
+                # one implementation: rebuilding each line with the shared writer must
+                # reproduce it character for character (E289 -- a second copy drifts).
+                _sys44 = os.path.join(PATHS.root, "scripts")
+                if _sys44 not in sys.path:
+                    sys.path.insert(0, _sys44)
+                import etf_equity_alpha as _A44
+                for _face44, _lab44 in ((_pb44, "ticket"), (_cpb44, "card")):
+                    if not _face44.get("sentence"):
+                        _bad44.append("%s carries no sentence" % _lab44)
+                        continue
+                    _exp44 = _A44.price_basis_line(
+                        True, _face44.get("flip_prints"), _face44.get("flip_thr"),
+                        _face44.get("symbols_with_a_flip"),
+                        "results/etf_book_flip_contamination.json",
+                        columns=_face44.get("columns"))["sentence"]
+                    if _face44["sentence"] != _exp44:
+                        _bad44.append("%s line is not the shared writer's output" % _lab44)
+                    if _face44["sentence"] not in (_md44 if _lab44 == "ticket" else _cmd44):
+                        _bad44.append("%s sentence is not on the rendered sheet" % _lab44)
+        check("product: both reader faces state which price panel their numbers sit on",
+              not _bad44, "; ".join(_bad44)[:220]
+              or "ticket and card both repaired, one shared sentence")
+    except Exception as e:
+        check("product: both reader faces state which price panel their numbers sit on",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

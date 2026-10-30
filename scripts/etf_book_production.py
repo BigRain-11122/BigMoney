@@ -669,6 +669,9 @@ def delivered_vs_target(bt_row, target):
     return out
 
 
+PANEL_CENSUS = {}
+
+
 def prep_panel(repair=True, repair_fn=None):
     """Panel + score exactly as the production run sees them (class filter included).
 
@@ -680,6 +683,15 @@ def prep_panel(repair=True, repair_fn=None):
     flip count travels too -- it is printed on the card as evidence the panel was repaired.
     """
     close, openp, amt, feats = E.build_panel()
+    # r1177: the census of the panel as the source printed it, taken before the repair (after
+    # it the count is zero by construction). The card has to state how wide the panel it
+    # counted was, otherwise its total and the ticket's -- which censuses only the classes it
+    # ranks -- read as an arithmetic drift instead of a universe difference.
+    global PANEL_CENSUS
+    try:
+        PANEL_CENSUS = A.flip_census(close)
+    except Exception:
+        PANEL_CENSUS = {}
     if repair_fn is not None:
         # counterfactual repair injected by an audit (e.g. the pre-r1282 behaviour), so a
         # twin can be priced through THIS universe and score builder instead of a copy.
@@ -805,10 +817,20 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
     # priced on against the official calendar -- the panel cannot judge this by itself.
     feed = CA.live_ticket_feed_status(last)
     vt_tail = vol_overlay_tail_support()
+    # r1177: the card is one of the two faces a reader holds, so it states which prices its
+    # numbers sit on, in the same words the executable sheet uses (one implementation,
+    # etf_equity_alpha.price_basis_line). The count comes from the repair that actually ran,
+    # not from a second census -- the raw panel is gone by the time this line is written --
+    # and the width of the panel it was counted on travels with it so the card's total and
+    # the ticket's (which censuses only the classes it ranks) can never read as a drift.
+    basis = A.price_basis_line(True, n_flip, A.FLIP_THR, PANEL_CENSUS.get("symbols"),
+                               "results/etf_book_flip_contamination.json",
+                               columns=PANEL_CENSUS.get("columns"))
     out = {
         "ts": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
         "evidence_cutoff": str(last.date()),
         "feed_status": feed,
+        "price_basis": basis,
         "script": "scripts/etf_book_production.py",
         "config": {"universe_classes": list(USE_CLASSES), "n_hold": n_hold, "rebal": rebal,
                    "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL,
@@ -958,6 +980,11 @@ def write_card(out):
             (out.get("feed_status") or {}).get("status", "unknown"), s["as_of_bar"],
             (out.get("feed_status") or {}).get("expected_bar") or "unknown",
             (out.get("feed_status") or {}).get("lag_days")), "",
+    ]
+    _pb = out.get("price_basis") or {}
+    if _pb.get("sentence"):
+        lines += ["**Price basis:** %s" % _pb["sentence"], ""]
+    lines += [
         "**Today (%s bar): %s** (last grid decision %s)." % (
             s["as_of_bar"], s["decision"], s["last_decision_bar"]),
         "",
@@ -1626,6 +1653,48 @@ def selftest():
         chk("a missing tail artifact is not fatal", vol_overlay_tail_support() is None)
     finally:
         E.PATHS.results_dir = _keep_results
+
+    # 10g. the card is one of the two faces a reader holds, so it says which prices its
+    #      numbers sit on (r1177) -- and it must say it in the SAME words as the executable
+    #      sheet, because two faces of one book quoting two definitions of "clean" is the
+    #      defect this line exists to end (E289).
+    _pb_line = A.price_basis_line(True, 168, A.FLIP_THR, None)
+    chk("price basis line states the repair and the size it neutralised",
+        "168" in _pb_line["sentence"] and "已修复" in _pb_line["sentence"]
+        and _pb_line["panel"].startswith("repaired"), _pb_line["sentence"][:50])
+    chk("price basis line on a clean panel says the repair changed nothing",
+        "同一批数字" in A.price_basis_line(True, 0, A.FLIP_THR, 0)["sentence"])
+    _pb_out = {"sheet": {"as_of_bar": "2026-10-30", "decision": "HOLD",
+                         "last_decision_bar": "2026-10-14", "realised_book_vol_60d": 0.07,
+                         "risk_scale": 0.9, "cash_weight": 0.1,
+                         "cash_amount_cny": 100000.0, "cash_executable_cny": 99000.0,
+                         "book_target_cny": 900000.0, "book_executable_cny": 890000.0,
+                         "lot_residual_cny": 10000.0, "lot_residual_pct_nav": 1.0,
+                         "legs": []},
+                "config": {"n_hold": 8, "universe_size": 10, "rebal": 20,
+                           "cost_bp_per_side": 8.0, "vol_target": 0.08},
+                "backtest": {}, "caveats": [], "price_basis": _pb_line}
+    _pb_dir = tempfile.mkdtemp(prefix="etf_book_prod_pb_")
+    _card_txt = os.path.join(_pb_dir, "CARD.md")
+    global OUT_DIR
+    _keep_out = OUT_DIR
+    try:
+        OUT_DIR = _pb_dir
+        write_card(_pb_out)
+        _txt = open(_card_txt, encoding="utf-8").read()
+    finally:
+        OUT_DIR = _keep_out
+    chk("the card prints the price basis line",
+        "**Price basis:**" in _txt and "168" in _txt, "%d chars" % len(_txt))
+    _pb_out["price_basis"] = None
+    try:
+        OUT_DIR = _pb_dir
+        write_card(_pb_out)
+        _txt2 = open(_card_txt, encoding="utf-8").read()
+    finally:
+        OUT_DIR = _keep_out
+    shutil.rmtree(_pb_dir, ignore_errors=True)
+    chk("no price basis -> no invented line", "**Price basis:**" not in _txt2)
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1

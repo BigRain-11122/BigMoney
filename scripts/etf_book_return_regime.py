@@ -147,6 +147,16 @@ def build():
     close, openp, amt, feats = F.build_panel()
     classes = pd.Series(classify(list(close.columns)))
     cols = [c for c in close.columns if classes[c] in V.KEEP]
+    # r1177: this face is one of the ones a reader compares against the ticket, so it has to
+    # rank on the same price panel -- share-count flips printed as -90% days were still
+    # entering this book's rankings after the ticket had stopped counting them, and the
+    # identity check then reported the two faces as two different books.
+    import etf_equity_alpha as A                                  # noqa: E402
+    _cen = A.flip_census(close)
+    basis = A.price_basis_line(True, _cen["prints"], A.FLIP_THR, _cen["symbols"],
+                               "results/etf_book_flip_contamination.json",
+                               columns=_cen["columns"])
+    close, openp, _n_flip = A.repair_flips(close, openp)
     score = F.build_score(close[cols], amt[cols], feats)
     ser, turnover, _gapfill = F.run_next_open(close[cols], openp[cols], amt[cols], feats,
                                               REBAL, n_hold=N_HOLD, cost=F.COST, score=score)
@@ -205,6 +215,7 @@ def build():
     out = {
         "script": "scripts/etf_book_return_regime.py",
         "evidence_cutoff": str(idx[-1].date()),
+        "price_basis": basis,
         "config": {"rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
                    "start": START, "betas": list(BETAS), "regimes": list(REGIMES),
                    "engine": ("etf_composite_pf.run_next_open + etf_book_order.k_schedule + "

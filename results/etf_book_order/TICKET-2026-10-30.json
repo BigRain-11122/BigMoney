@@ -56,10 +56,10 @@
    {
     "symbol": "513100",
     "weight": 0.094298,
-    "price": 2.399,
-    "lots": 393,
-    "shares": 39300,
-    "amount": 94280.7,
+    "price": 12.2715,
+    "lots": 76,
+    "shares": 7600,
+    "amount": 93263.67,
     "class": "crossborder",
     "note": ""
    },
@@ -94,18 +94,18 @@
     "note": ""
    }
   ],
-  "book_amount": 471225.5,
-  "cash_amount": 528774.5,
+  "book_amount": 470208.47,
+  "cash_amount": 529791.53,
   "cash_leg": "GC001 (1-day repo, observed close)",
   "basket_drift": [],
-  "underspend_pct": 0.0265
+  "underspend_pct": 0.1282
  },
  "metrics": {
   "book": {
-   "cagr": 0.1119,
-   "sharpe": 1.373,
-   "maxdd": -0.0601,
-   "vol": 0.0815,
+   "cagr": 0.1278,
+   "sharpe": 1.729,
+   "maxdd": -0.0578,
+   "vol": 0.0739,
    "bars": 683
   },
   "same_beta_benchmark": {
@@ -115,7 +115,7 @@
    "vol": 0.038,
    "bars": 683
   },
-  "excess_pp": 8.41
+  "excess_pp": 10.0
  },
  "book_leg": {
   "turnover_per_rebal": 1.5301,
@@ -271,26 +271,27 @@
   "source": "results/etf_book_live_width_ruler.json"
  },
  "price_basis": {
-  "panel": "raw (no flip repair)",
+  "panel": "repaired (flip prints neutralised before any measurement)",
   "flip_thr": 0.35,
   "flip_prints": 164,
   "symbols_with_a_flip": 155,
   "columns": 1503,
-  "sentence": "本单的数字算在**未修复**的原始面板上，其中有 **164 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 155 只票）。生产卡片与账本在测量前都先调用 `etf_equity_alpha.repair_flips`，本单没有——两侧因此不在同一张价格面板上。这里只报数，不在本单里悄悄改：修一次会挪动这本书全部已发布数字。差额量在 results/etf_book_flip_contamination.json。"
+  "sentence": "本面的数字算在**已修复**的面板上：**164 处**单日超过 35% 的报价翻转（份额变动被读成暴跌，涉及 155 只票）在任何测量之前都已抹平为 0% 日（`etf_equity_alpha.repair_flips`）。本面板 1503 列。修与不修的差额已单独立面：results/etf_book_flip_contamination.json。",
+  "neutralised": true
  },
  "carry_split": {
   "artifact": "results/etf_book_return_regime.json",
   "evidence_cutoff": "2026-10-30",
   "beta": 0.2,
   "beta_requested": 0.2,
-  "observed_pct": 11.19,
-  "flat_today_pct": 10.85,
-  "zero_pct": 10.19,
-  "carry_pp": 1.0,
-  "flat_rate_cost_pp": 0.34,
-  "carry_share_pct": 8.9,
-  "pp_per_100bp": 0.381,
-  "cash_share": 0.5501,
+  "observed_pct": 12.78,
+  "flat_today_pct": 12.42,
+  "zero_pct": 11.73,
+  "carry_pp": 1.05,
+  "flat_rate_cost_pp": 0.36,
+  "carry_share_pct": 8.2,
+  "pp_per_100bp": 0.404,
+  "cash_share": 0.5642,
   "rate_today_pct": 1.09,
   "rate_today_date": "2026-10-27",
   "rate_observed_pct": 1.9819,
