@@ -157,6 +157,14 @@ LEGS = [
     # sum by 1/4 only multiplies a coefficient, so this leg prices the own channel against ONE
     # counterparty per pair, pooled with pair fixed effects and again with member+date FE.
     ("own_vs_cross", ["python", "scripts/e239_own_vs_cross.py", "run"]),
+    # E243: E240's rest_channel_is_additive came from ONE window. This leg re-runs the same
+    # identified design on the pre-2020 four, three five-member eras, five leave-one-out cells and
+    # a labelled k=3 degenerate cell, publishing the difference interval in every one -- and it
+    # publishes the pooled aggregator as identifies:false, because the pooled stack replicates one
+    # member's response across its counterfactual blocks and annihilates the very direction that
+    # separates the one from the rest channel.
+    ("additivity_out_of_sample", ["python", "scripts/e243_additivity_out_of_sample.py", "run"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one

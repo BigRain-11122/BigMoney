@@ -23571,7 +23571,9 @@
     "run"
    ],
    "source": "E240 re-ran E238's own coordinates (dy on d(log share), d(log aggregate turnover)) on the common five-member grid and got (A, B) = (-0.333, -0.174), while E238 published (0.596, 0.771) on its 3,504-session panel. E240 published the gap as gap_A=-1.164 and gap_B=-1.178 rather than reconciling it by assertion. Three candidate causes are separable and must be tested one at a time: (1) ROWS -- E238 runs on each member's own date grid (3504 sessions), E240 on the intersection (1328); (2) WEIGHTS -- E238's kappa uses capital weights (nominal w=1/5, realised shares 0.10..0.29), E240's exposure is an equal-weight sum; (3) RESPONSE -- the sign of the fitted book-scaling coefficient flips, which no weighting choice can produce. Publish a ladder: reproduce E238 exactly on its own panel and rows (must match to the published precision or the face says plainly that it cannot), then relax one dimension at a time and report which single change carries the sign flip, with the residual attributed. Until this is settled the family must not quote 0.771 as a rest coefficient anywhere.",
-   "status": "done", "result_ref": "results/state_tilt/REPRO-2026-10-29.json", "done_note": "r1267: rung0 reproduces E238 exactly; the non-reproduction is E240 one session out of step -- 6630 of 6635 rows carry the previous session; corrected pair 0.791/1.343; reader repaired as F-20261030-01",
+   "status": "done",
+   "result_ref": "results/state_tilt/REPRO-2026-10-29.json",
+   "done_note": "r1267: rung0 reproduces E238 exactly; the non-reproduction is E240 one session out of step -- 6630 of 6635 rows carry the previous session; corrected pair 0.791/1.343; reader repaired as F-20261030-01",
    "target": "scripts/e241_pair_reproduction.py (new runner)",
    "title": "why does E238's published (A, B) pair not reproduce on the common grid?",
    "worker_class": "code-change",
@@ -23614,20 +23616,46 @@
    "evidence_cutoff": "2026-10-29",
    "id": "E243-ADDITIVITY-OUT-OF-SAMPLE",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 2,
    "runner": "scripts/e243_additivity_out_of_sample.py",
    "runner_args": [
     "run"
    ],
    "source": "E240 published the identified additivity test on the common grid: one counterparty 0.183 vs the sum of the other three 0.175, difference +0.008 [-0.012, +0.022] -> rest_channel_is_additive. That is a single window (2020-11-17 onwards, 1328 sessions) because two of the five members do not exist before 2020. Two of the family's own laws apply here: a single-arm result is not a rule until the neighbourhood is tested (E188/E231 path test), and a difference that only exists in one era is not a mechanism (E213 bucket reread). Run the same design on (i) the three pre-2020 members alone, (ii) each era split, (iii) leave-one-member-out variances, publishing the difference interval in each cell and the verdict stability across them. A verdict that only holds in the newest era must say so on the face.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e243_additivity_out_of_sample.py (new runner)",
    "title": "does 'the rest channel adds up' survive outside the window that produced it?",
    "worker_class": "code-change",
    "workers_plan": {
     "priority": "BelowNormal",
     "workers": 1
+   },
+   "finished_at": "2026-10-30T07:50:15",
+   "result_ref": "results/state_tilt/ADDOS-2026-10-29.json",
+   "result_note": "10 decided cells + 1 labelled degenerate; headline replays E240 (diff 0.00785 to 1e-9); verdict additivity_only_in_the_mean -- 9/20 counterparty pairs exclude zero with mixed signs while the mean interval covers it; pooled aggregator published identifies:false"
+  },
+  {
+   "id": "E244-ADDITIVITY-WHICH-COUNTERPARTY",
+   "title": "if the rest channel is not one channel, which counterparties carry it?",
+   "status": "ready",
+   "priority": 3,
+   "lane": "cpu-only",
+   "worker_class": "code-change",
+   "entered_by": "bm-b r1269",
+   "entered_at": "2026-10-30T07:50:15",
+   "evidence_cutoff": "2026-10-29",
+   "target": "scripts/e244_pair_heterogeneity.py (new runner)",
+   "runner": "scripts/e244_pair_heterogeneity.py",
+   "runner_args": [
+    "run"
+   ],
+   "deliverable": "results/state_tilt/PAIRHET-<cutoff>.json",
+   "owner": null,
+   "source": "E243 killed the additivity verdict but left the structure unnamed: 9 of 20 ordered pairs exclude zero with MIXED signs, and the per-pair difference has no obvious predictor. E240's design prices the difference as b_one - b_rest, where `rest` is the sum of k-2 members -- so the pair statistic is not a pair at all, it is one member against an average of the others, and a heterogeneous set of slopes averages into a number that no single counterparty reports. The follow-up must identify the CHANNEL STRUCTURE rather than the difference: (a) regress each member's move on every OTHER member separately (k-1 slopes per member, no sum regressor) and publish the full slope matrix with intervals; (b) test whether the rows of that matrix are equal across counterparties (a coherent rest channel) or concentrated on a few names (a star structure); (c) report the size of the matrix the design can resolve, since E243 showed the per-pair intervals are +/-0.2..0.6 and that is a statement about session counts, not about the market. No bill, no adoption.",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
    }
   }
  ],
@@ -23643,6 +23671,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T05:4x+08:00",
+ "updated_at": "2026-10-30T07:50:15",
  "version": 1
 }

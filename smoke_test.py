@@ -3506,6 +3506,53 @@ def main() -> int:
     except Exception as e:
         check("product: an omission-inflated slope is re-priced against a named identified form",
               False, repr(e)[:160])
+    # E243: the portability test. What makes it readable is that the headline cell must REPLAY the
+    # published E240 numbers rather than resemble them, that the pooled aggregator is published as
+    # identifies:false (its zero is the symmetric split of an annihilated direction, proven on a
+    # fixture whose truth differs 45x), that a cell wider than the resolution line is NOT-ASSESSED
+    # instead of additive, and that no cell grants a bill.
+    try:
+        _bad43 = []
+        _p43 = "results/state_tilt/addos_latest.json"
+        _f43 = {}
+        if not os.path.exists(_p43):
+            _bad43.append("addos face missing")
+        else:
+            _f43 = json.load(open(_p43, encoding="utf-8"))
+            _rep43 = _f43.get("e240_replay") or {}
+            if _rep43.get("reproduced") is not True:
+                _bad43.append("headline cell does not replay E240 (%s)" % _rep43.get("status"))
+            _art43 = _f43.get("pooled_split_is_an_artifact") or {}
+            if _art43.get("pooled_identifies") is not False:
+                _bad43.append("the pooled aggregator claims to identify the gap")
+            if not _art43.get("per_pair_reads_the_gap"):
+                _bad43.append("the artifact fixtures do not carry a gap the pair design can see")
+            _cells43 = [c for c in (_f43.get("cells") or []) if c.get("decided")]
+            if len(_cells43) < 5:
+                _bad43.append("only %d decided cells" % len(_cells43))
+            for _c43 in _cells43:
+                # a cell wider than the resolution line must never read as additive; the
+                # pair-unanimity reading is published beside it, not instead of it
+                if (_c43.get("diff_ci_halfwidth") or 0.0) > (_c43.get("resolution_max") or 99.0) \
+                        and _c43.get("verdict") == "rest_channel_is_additive":
+                    _bad43.append("cell %s has a %.2f half-width and still claims additivity"
+                                  % (_c43.get("label"), _c43.get("diff_ci_halfwidth") or 0.0))
+            if (_f43.get("rollup") or {}).get("verdict") not in (
+                    "rest_channel_is_additive", "additivity_only_in_the_mean",
+                    "additivity_era_dependent", "additivity_rejected_out_of_sample",
+                    "additivity_not_resolved_out_of_sample", "unresolved_insufficient_rows"):
+                _bad43.append("rollup verdict outside the frozen vocabulary")
+            if (_f43.get("no_bill") or {}).get("permitted") is not False:
+                _bad43.append("the face granted a charge")
+        check("product: a verdict survives its own out-of-sample path",
+              not _bad43, "; ".join(_bad43)[:220]
+              or "cells %d; headline %s; mean-only %s; pooled identifies %s"
+                 % (len(_cells43 if _f43 else []),
+                    (_f43.get("rollup") or {}).get("verdict"),
+                    (_f43.get("rollup") or {}).get("additivity_only_in_the_mean"),
+                    (_f43.get("summary") or {}).get("pooled_aggregator_identifies")))
+    except Exception as e:
+        check("product: a verdict survives its own out-of-sample path", False, repr(e)[:160])
     return _finish()
 
 
