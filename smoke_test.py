@@ -4931,6 +4931,115 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E263: E260 measured WHERE a window's band endpoint stops moving but not WHY it needs that many
+    # draws. This leg guards the face that tests the two rivals (window LENGTH vs band NARROWNESS).
+    # What can fabricate a claim here: an arrival that is not E260's (the response would then be
+    # about another sample), a response column with no variation (nothing was measured), a verdict
+    # that names a channel its own p-values do not support, a power floor that is missing or zero
+    # (a null then reads as "no effect" instead of "no design"), and a settled area that quietly
+    # includes its own reference point.
+    try:
+        _bad63 = []
+        _p63 = os.path.join("results", "state_tilt", "bandarrivalate_latest.json")
+        _f63 = None
+        if not os.path.exists(_p63):
+            _bad63.append("face missing: %s" % _p63)
+        else:
+            with io.open(_p63, encoding="utf-8") as _fh63:
+                _f63 = json.load(_fh63)
+        _m63 = None
+        if _f63 is not None:
+            try:
+                import e263_arrival_vs_cell_size as _m63
+            except Exception as _e63:
+                _bad63.append("module does not import: %r" % (_e63,))
+        if _m63 is not None:
+            for _p in (_m63.verify() or [])[:4]:
+                _bad63.append("verify: %s" % _p)
+        _arms63 = (_f63 or {}).get("arms") or []
+        if len(_arms63) < 8:
+            _bad63.append("fewer than eight arms were measured (%d)" % len(_arms63))
+        _areas = []
+        for _a in _arms63:
+            # (a) the response must be E260's own arrival, recomputed from the same edge table
+            if _a.get("arrival_recomputed_matches_e260") is not True:
+                _bad63.append("%s/%s: recomputed arrival does not match E260"
+                              % (_a.get("cell"), _a.get("leg")))
+            _curve = _a.get("curve") or {}
+            if (_curve.get("1920") or {}).get("share_settled") != 1.0:
+                _bad63.append("%s/%s: the top draw count does not settle every seed"
+                              % (_a.get("cell"), _a.get("leg")))
+            # (b) the area must average the counts BELOW the top, never the reference itself
+            _body = [_curve[k]["share_settled"] for k in ("60", "120", "200", "480", "960")
+                     if k in _curve]
+            if _body and _a.get("settled_area") is not None:
+                if abs(_a["settled_area"] - sum(_body) / float(len(_body))) > 1e-12:
+                    _bad63.append("%s/%s: the settled area is not the mean of the non-reference "
+                                  "counts" % (_a.get("cell"), _a.get("leg")))
+            if _a.get("settled_area") is not None:
+                _areas.append(_a["settled_area"])
+            # (c) a rival that is not present must say so, not be counted as measured
+            if _a.get("sessions") is None:
+                _bad63.append("%s/%s: no session count, so the length rival was never offered"
+                              % (_a.get("cell"), _a.get("leg")))
+        # ACTIVITY: a response column with no spread means nothing moved and no rank exists
+        if _areas and (max(_areas) - min(_areas)) <= 1e-9:
+            _bad63.append("every arm reports the identical settled area -- nothing was measured")
+        _ch63 = (_f63 or {}).get("channels") or {}
+        _lg, _bd = _ch63.get("length") or {}, _ch63.get("band") or {}
+        # (d) the verdict must name what its own p-values support
+        _ans = (_lg.get("answered") is True, _bd.get("answered") is True)
+        _want = {(True, True): "arrival_is_both_channels",
+                 (True, False): "arrival_is_a_length_effect",
+                 (False, True): "arrival_is_a_band_effect",
+                 (False, False): "arrival_is_neither_channel"}[_ans]
+        if (_f63 or {}).get("verdict") != _want:
+            _bad63.append("verdict says %r but the channels answer %r -- a verdict must be "
+                          "recomputed from its own channels"
+                          % ((_f63 or {}).get("verdict"), _ans))
+        for _nm, _c in (("length", _lg), ("band", _bd)):
+            if _c.get("rho") is None or _c.get("p") is None:
+                _bad63.append("the %s channel published no rho or no p" % _nm)
+            elif _c.get("answered") is not (float(_c["p"]) < 0.05):
+                _bad63.append("the %s channel's answered flag disagrees with its own p (%r)"
+                              % (_nm, _c.get("p")))
+        # (e) a null needs its power printed, and it must be a real number
+        _crit = ((_f63 or {}).get("power") or {}).get("critical_abs_rho_at_alpha")
+        if _crit is None or not (0.0 < float(_crit) <= 1.0):
+            _bad63.append("the design's critical |rho| is missing or not a usable number (%r)"
+                          % (_crit,))
+        # (f) the seeded channel must not be called answered against its own sign
+        _sd63 = _ch63.get("per_seed") or {}
+        if _sd63.get("answered") is True and (_sd63.get("arms_negative") or 0) <= (
+                _sd63.get("arms_positive") or 0):
+            _bad63.append("the per-seed channel is called answered where its sign does not carry "
+                          "the rival's prediction")
+        _s63 = (_f63 or {}).get("summary") or {}
+        if not isinstance(_s63.get("arms_recomputing_e260_arrival"), int):
+            _bad63.append("the summary's reproduction count is not an int (%r)"
+                          % (_s63.get("arms_recomputing_e260_arrival"),))
+        check("product: a draw budget is neither a window length nor a band width",
+              not _bad63,
+              "%s; %d arms over %d sessions (%s..%s), length rho %s (p %s) and band rho %s (p %s), "
+              "per-seed median rho %s with %s of %s arms positive; critical |rho| %.3f; %s of %s "
+              "arms recompute E260's arrival"
+              % ((_f63 or {}).get("verdict"), len(_arms63),
+                 _s63.get("sessions_min") or 0, _s63.get("sessions_min"),
+                 _s63.get("sessions_max"),
+                 ("%+.3f" % _lg["rho"]) if _lg.get("rho") is not None else "n/a",
+                 ("%.3f" % _lg["p"]) if _lg.get("p") is not None else "n/a",
+                 ("%+.3f" % _bd["rho"]) if _bd.get("rho") is not None else "n/a",
+                 ("%.3f" % _bd["p"]) if _bd.get("p") is not None else "n/a",
+                 ("%+.3f" % _sd63["rho_median"]) if _sd63.get("rho_median") is not None else "n/a",
+                 _sd63.get("arms_positive"), _sd63.get("arms_published"),
+                 float(_crit) if _crit else 0.0,
+                 _s63.get("arms_recomputing_e260_arrival"), len(_arms63))
+              + (" | " + "; ".join(_bad63[:4]) if _bad63 else ""))
+    except Exception as e:
+        check("product: a draw budget is neither a window length nor a band width",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

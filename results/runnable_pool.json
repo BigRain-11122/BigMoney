@@ -24532,13 +24532,16 @@
   },
   {
    "deliverable": "results/state_tilt/BANDARRIVALRATE-<cutoff>.json",
+   "delivered_by": "bm-b r1289",
    "entered_at": "2026-10-30T21:22:10+08:00",
    "entered_by": "bm-b r1287",
    "evidence_cutoff": "2026-10-29",
    "id": "E263-ARRIVAL-VS-CELL-SIZE",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
+   "owner_since": "2026-10-30T22:41:24+08:00",
    "priority": 3,
+   "result_ref": "results/state_tilt/BANDARRIVALATE-2026-10-29.json",
    "runner": "scripts/e263_arrival_vs_cell_size.py",
    "runner_args": [
     "run"
@@ -24547,13 +24550,13 @@
     {
      "checkpoint": "results/state_tilt/BANDARRIVALRATE-<cutoff>.json -- single deterministic face, no partial state to resume",
      "key": "e263-0of1",
-     "owner": null,
+     "owner": "bm-b",
      "owner_since": null,
-     "status": "open"
+     "status": "done"
     }
    ],
    "source": "E260 measured arrival at 960..1920 draws on windows of 1328 down to a few hundred sessions: if arrival scales with session count the fix is more draws per session, if it scales with band width it is a different knob entirely. Reads E260 arrivals (already on the face) against sessions and the published band width, no new draws",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e263_arrival_vs_cell_size.py (new runner)",
    "title": "does a window need more draws because it is longer, or because its band is narrower?",
    "worker_class": "code-change"
@@ -24590,6 +24593,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-30T21:22:10+08:00",
+ "updated_at": "2026-10-30T22:41:24+08:00",
  "version": 1
 }

@@ -5037,3 +5037,17 @@ rather than leaving it for the reader to compute; > a lookup keyed by (window, b
 silently returns the wrong leg -- E259's row table re-judged the cross and lag-1 rows against the self
 arm; this face resolves leg-less rows by the coefficient they publish and names the ambiguity (1 of 16
 verdicts moves when fixed, in the easier direction).
+
+### E263 -- a draw budget is neither a length effect nor a band effect, and a censored column is not a response (r1289 bm-b)
+
+E260 measured where each window's band endpoint stops moving and found the published base counts (60/200) far below the arrival (median 1440 draws). The obvious next question -- is the cost a property of the LENGTH of the window, or of the NARROWNESS of its band -- decides whether the fix is a per-window budget or one flat floor, and the answer is NEITHER: across 8 arms spanning 3.3x in sessions (440..1442) and 1.39x in the resolution ratio (spread / half the published band width), Spearman(settled area, sessions) = +0.000 (p=1.000) and Spearman(settled area, resolution ratio) = -0.167 (p=0.711); inside the arms the per-seed channel does not carry the band rival either (median rho +0.108, 5 of 8 arms POSITIVE where "a tighter claim needs more draws" predicts negative, sign test p=0.727). Read together with the published power floor (the smallest |rho| an 8-arm design can call at p<0.05 is 0.738, enumerated over all 40,320 orderings), the operative conclusion is that the draw requirement is roughly uniform across these windows -- so a per-window budget is a knob that buys nothing and the honest fix is one flat floor applied everywhere.
+
+Three reusable pieces:
+
+> the response must be the SETTLED-SHARE CURVE, not the arrival median -- the median is right-censored at the top of the grid (174 of 320 seeds arrive only AT 1920, so their true arrival is unknown), and a median over a censored column saturates at the ceiling in 5 of 8 arms and carries no rank information; the share settled at a fixed draw count is uncensored, monotone in arrival, and publishes the whole curve instead of one number.
+> a null result needs its power printed on it -- enumerate the exact critical |rho| for the arm count you actually have (n<=8 is 40,320 orderings, cheap) rather than leaving the reader to decide whether "not significant" means "no effect" or "no design".
+> when two rivals share a predicted SIGN, the discriminating quantity is WHICH covariate clears, not which way it points; publish both channels side by side and let the verdict name the channel that answered, or name that neither did.
+
+Engineering pit caught in the same round, on this face's own first run: `(face.get("x") or {}.get("k"))` -- the `.get` binds to the `{}` literal, so a truthy left side returns the WHOLE block, and a field named `arms_recomputing_e260_arrival` published a dict where a count belonged. The summary printed it in plain sight; the fix carries a leg asserting `isinstance(..., int)`.
+
+证据：scripts/e263_arrival_vs_cell_size.py（selftest 38/38 · verify 0 problems）、results/state_tilt/BANDARRIVALATE-2026-10-29.json（verdict=arrival_is_neither_channel · 8/8 arms 与 E260 arrivals 逐位复现）、source faces BANDARRIVAL/BANDWINDIST-2026-10-29。
