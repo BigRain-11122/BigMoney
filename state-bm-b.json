@@ -2515,6 +2515,16 @@
   "watermark_red": "red at open (pool-batch-runnable-idle-low-cpu, 3 ready pool rows, py 0.0% of 16 cores); the round burned the head card E284 in-round"
  },
  "r1310": {
+  "delivery": {
+   "behind_origin_main": 166,
+   "branch": "machine/bm-b-r1310",
+   "local_not_on_origin_main": 71,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1309 family); main push not attempted",
+   "pushed_sha": "16491562a026f8106d8d2999015aebef1a2f4b00",
+   "remote_ref_sha": "16491562a026f8106d8d2999015aebef1a2f4b00",
+   "ts": "2026-10-31T07:36:00+08:00",
+   "verified": true
+  },
   "dept": "research+engineering",
   "face": "results/state_tilt/BANDGAPCEILING-2026-10-29.json",
   "finding": "unreachable is not one thing: of the 12 rows carrying both published tails, 2 fall in a POSITIVE inter-range gap (cross|60|11 flip 1.8030, star_lag1_residual|60|15 flip 1.8843) where neither tail can reach them, while 6 sit above the family's published ceiling 2.2963 (max 3.2544 = 1.417x it: cross|200|1, star_lag1_residual|200|12, cross|60|7, star_lag1_residual|60|14, self|200|0, self|60|6) and 2 below the floor of 1.0 (self|60|8 0.8894, self|60|10 0.6304). Widening that stays inside the published evidence can add at most those 2 gap rows; the extrapolation zone is 60 pct of the 10 unresolvable rows against the gap's 20 pct, so it is the larger part and it is not headroom. Gap widths priced in each tail's own spread: 2.05-4.58 wide-tail spreads (8.60/7.37/9.09 tight spreads where the tight tail has a spread at all; cross:200's tight tail is degenerate so that ruler is published as null, not divided). To reach cross|60|11 the wide floor must drop 8.37 pct or the tight ceiling rise 38.94 pct; for star_lag1_residual|60|15 it is 4.24 / 41.58 pct.",
@@ -2585,12 +2595,12 @@
  "status": "green",
  "study": "E285_interrange_gap_ceiling",
  "sync": {
-  "ahead": 69,
+  "ahead": 71,
   "behind": 166,
-  "branch": "machine/bm-b-r1309",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation",
+  "branch": "machine/bm-b-r1310",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1309 family); main push not attempted",
   "peer": "origin",
-  "ts": "2026-10-31T07:24:00+08:00"
+  "ts": "2026-10-31T07:36:00+08:00"
  },
  "task": "E285 inter-range gap ceiling (done) -> next head E286 count field scope",
  "task_short": "E283 degenerate range",
