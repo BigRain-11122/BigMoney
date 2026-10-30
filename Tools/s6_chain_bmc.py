@@ -271,6 +271,14 @@ LEGS = [
     # red. 0.4s, no network, no engine.
     ("etf_book_phase_atlas_arms", ["python", "scripts/etf_book_phase_atlas_arms.py", "--check"],
      ["python", "scripts/etf_book_phase_atlas_arms.py", "run"]),
+    # r1352 / E261: the arms face publishes labels, and a label is only a measurement if it is
+    # rare when the data has no effect. This leg re-simulates the labeler on those same 12 cells
+    # with each delta replaced by zero-mean noise of that cell's own band: an effect-free panel
+    # reads REJECT 96.5% of the time, so the published REJECTs (buffer k=0.05 and both cost arms)
+    # carry almost nothing while the rare NOT-SEPARABLE branch is the informative one. Engine-free,
+    # ~2s; the refresh is a re-simulation, not an engine run.
+    ("etf_book_rule_null", ["python", "scripts/etf_book_rule_null.py", "--check"],
+     ["python", "scripts/etf_book_rule_null.py", "run"]),
     # r1327: the 8% sizing overlay is recomputed only at a decision and from a trailing
     # window, so it is late in two ways at once and the headline cannot tell them apart.
     # Re-deriving the four vol_window arms costs the panel build (~3 min), so the chain runs

@@ -1,6 +1,6 @@
 {
  "script": "scripts/etf_book_phase_atlas_arms.py",
- "question": "do the three follow-ups the atlas left behind (buffer k=0.05, cost 5bp, cost 20bp) change the reading when they are judged per cell against each cell's own band?",
+ "question": "do the follow-ups the atlas left behind (buffer k=0.05 / 0.10 / 0.20, cost 5bp / 20bp / 40bp) change the reading when they are judged per cell against each cell's own band?",
  "units": {
   "delta_pp": "percentage points of median CAGR, arm minus the SAME cell at the baseline (10bp/side, buffer k=0)",
   "band_pp": "p95-p05 of a cell's CAGR over its own decision origins"
@@ -736,6 +736,352 @@
    "band_verdict_reasons": [
     "R40/R10 band ratio 2.880 (must exceed 1.00)",
     "median band -0.24pp vs baseline (-3.6%, tolerance 25%)"
+   ]
+  },
+  "buffer_k10": {
+   "description": "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)",
+   "face": "results/etf_book_phase_atlas_buffer_k10.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 4,
+    "jobs": 280,
+    "cost": 0.001,
+    "buffer_k": 0.1,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 10.96,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": 0.035,
+     "band_pp": 4.537,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 1.1115,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 8.92,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": 0.205,
+     "band_pp": 7.065,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.8385,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 6.185,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -0.595,
+     "band_pp": 12.704,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.61,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 12.53,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": 1.025,
+     "band_pp": 3.338,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 1.2175,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 9.31,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": 0.18,
+     "band_pp": 6.059,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.9005,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 8.02,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": -0.3,
+     "band_pp": 9.912,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.7755,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 12.525,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": 0.525,
+     "band_pp": 3.139,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 1.2345,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 10.11,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -0.02,
+     "band_pp": 5.754,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 1.02,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 8.21,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": -0.095,
+     "band_pp": 8.377,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.743,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 11.74,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": 0.105,
+     "band_pp": 2.627,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 1.1785,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 9.685,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": 0.04,
+     "band_pp": 6.985,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 0.9675,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 7.905,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": 0.355,
+     "band_pp": 7.228,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.724,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 6.985,
+   "band_by_cadence": {
+    "10": 3.239,
+    "20": 6.522,
+    "40": 9.144
+   },
+   "verdict": "NOT-SEPARABLE",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.833 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta +0.072pp (floor -0.05pp)",
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
+   ]
+  },
+  "buffer_k20": {
+   "description": "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)",
+   "face": "results/etf_book_phase_atlas_buffer_k20.json",
+   "evidence_cutoff": "2026-10-29",
+   "audit": {
+    "workers": 4,
+    "jobs": 280,
+    "cost": 0.001,
+    "buffer_k": 0.2,
+    "target_vol": 0.08,
+    "start": "2020-01-01",
+    "parallelism": "ProcessPoolExecutor via scripts/parallel_runner.run_cells_parallel"
+   },
+   "rows": [
+    {
+     "n_hold": 3,
+     "rebal": 10,
+     "median_cagr_pp": 12.315,
+     "baseline_cagr_pp": 10.925,
+     "delta_pp": 1.39,
+     "band_pp": 4.557,
+     "baseline_band_pp": 4.217,
+     "median_sharpe": 1.2075,
+     "baseline_sharpe": 1.0885,
+     "phases": 10
+    },
+    {
+     "n_hold": 3,
+     "rebal": 20,
+     "median_cagr_pp": 9.82,
+     "baseline_cagr_pp": 8.715,
+     "delta_pp": 1.105,
+     "band_pp": 6.732,
+     "baseline_band_pp": 6.936,
+     "median_sharpe": 0.9085,
+     "baseline_sharpe": 0.8295,
+     "phases": 20
+    },
+    {
+     "n_hold": 3,
+     "rebal": 40,
+     "median_cagr_pp": 6.645,
+     "baseline_cagr_pp": 6.78,
+     "delta_pp": -0.135,
+     "band_pp": 12.853,
+     "baseline_band_pp": 12.413,
+     "median_sharpe": 0.637,
+     "baseline_sharpe": 0.6395,
+     "phases": 40
+    },
+    {
+     "n_hold": 5,
+     "rebal": 10,
+     "median_cagr_pp": 12.3,
+     "baseline_cagr_pp": 11.505,
+     "delta_pp": 0.795,
+     "band_pp": 3.835,
+     "baseline_band_pp": 3.499,
+     "median_sharpe": 1.2025,
+     "baseline_sharpe": 1.137,
+     "phases": 10
+    },
+    {
+     "n_hold": 5,
+     "rebal": 20,
+     "median_cagr_pp": 9.815,
+     "baseline_cagr_pp": 9.13,
+     "delta_pp": 0.685,
+     "band_pp": 5.741,
+     "baseline_band_pp": 6.246,
+     "median_sharpe": 0.9735,
+     "baseline_sharpe": 0.8935,
+     "phases": 20
+    },
+    {
+     "n_hold": 5,
+     "rebal": 40,
+     "median_cagr_pp": 7.935,
+     "baseline_cagr_pp": 8.32,
+     "delta_pp": -0.385,
+     "band_pp": 10.87,
+     "baseline_band_pp": 9.547,
+     "median_sharpe": 0.765,
+     "baseline_sharpe": 0.795,
+     "phases": 40
+    },
+    {
+     "n_hold": 8,
+     "rebal": 10,
+     "median_cagr_pp": 12.205,
+     "baseline_cagr_pp": 12.0,
+     "delta_pp": 0.205,
+     "band_pp": 2.712,
+     "baseline_band_pp": 3.316,
+     "median_sharpe": 1.2105,
+     "baseline_sharpe": 1.1915,
+     "phases": 10
+    },
+    {
+     "n_hold": 8,
+     "rebal": 20,
+     "median_cagr_pp": 9.99,
+     "baseline_cagr_pp": 10.13,
+     "delta_pp": -0.14,
+     "band_pp": 6.584,
+     "baseline_band_pp": 6.486,
+     "median_sharpe": 1.0155,
+     "baseline_sharpe": 1.021,
+     "phases": 20
+    },
+    {
+     "n_hold": 8,
+     "rebal": 40,
+     "median_cagr_pp": 8.375,
+     "baseline_cagr_pp": 8.305,
+     "delta_pp": 0.07,
+     "band_pp": 8.124,
+     "baseline_band_pp": 8.412,
+     "median_sharpe": 0.769,
+     "baseline_sharpe": 0.7505,
+     "phases": 40
+    },
+    {
+     "n_hold": 12,
+     "rebal": 10,
+     "median_cagr_pp": 11.585,
+     "baseline_cagr_pp": 11.635,
+     "delta_pp": -0.05,
+     "band_pp": 2.81,
+     "baseline_band_pp": 2.772,
+     "median_sharpe": 1.1705,
+     "baseline_sharpe": 1.173,
+     "phases": 10
+    },
+    {
+     "n_hold": 12,
+     "rebal": 20,
+     "median_cagr_pp": 9.62,
+     "baseline_cagr_pp": 9.645,
+     "delta_pp": -0.025,
+     "band_pp": 5.58,
+     "baseline_band_pp": 7.866,
+     "median_sharpe": 0.9845,
+     "baseline_sharpe": 0.9605,
+     "phases": 20
+    },
+    {
+     "n_hold": 12,
+     "rebal": 40,
+     "median_cagr_pp": 7.935,
+     "baseline_cagr_pp": 7.55,
+     "delta_pp": 0.385,
+     "band_pp": 7.506,
+     "baseline_band_pp": 6.88,
+     "median_sharpe": 0.759,
+     "baseline_sharpe": 0.695,
+     "phases": 40
+    }
+   ],
+   "median_band_pp": 6.584,
+   "band_by_cadence": {
+    "10": 3.323,
+    "20": 6.162,
+    "40": 9.497
+   },
+   "verdict": "NOT-SEPARABLE",
+   "verdict_reasons": [
+    "cells 12/12 judged",
+    "not-worse share 0.917 (floor 0.80, cell floor -0.15pp)",
+    "median per-cell delta +0.138pp (floor -0.05pp)",
+    "resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)"
    ]
   }
  }

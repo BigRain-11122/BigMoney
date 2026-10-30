@@ -1,4 +1,4 @@
-# 三个相位臂：把 r1325 的 buffer REJECT 放回它自己的尺子里重判
+# 相位臂：把 r1325 的 buffer REJECT 与成本档放回它们自己的尺子里重判
 
 面：`results/etf_book_phase_atlas_arms.json`｜脚本：`scripts/etf_book_phase_atlas_arms.py`｜基线面：`results/etf_book_phase_atlas.json`（cutoff 2026-10-29）
 
@@ -99,4 +99,52 @@ buffer k=0.05 on every cell (the r1325 arm, re-priced per phase)
 - not-worse share 0.000 (floor 0.80, cell floor -0.15pp)
 - median per-cell delta -4.185pp (floor -0.05pp)
 - resolvable share 0.333 (|delta| > the cell's own band; floor 0.50)
+
+## buffer_k10 — **NOT-SEPARABLE**
+
+buffer k=0.10 on every cell (the middle of the family r1325 named as a cost knob; declared in the pool at r1351 before this face existed)
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +10.96pp | +10.93pp | +0.035pp | 4.54pp |
+| 3 | 20 | +8.92pp | +8.71pp | +0.205pp | 7.07pp |
+| 3 | 40 | +6.18pp | +6.78pp | -0.595pp | 12.70pp |
+| 5 | 10 | +12.53pp | +11.51pp | +1.025pp | 3.34pp |
+| 5 | 20 | +9.31pp | +9.13pp | +0.180pp | 6.06pp |
+| 5 | 40 | +8.02pp | +8.32pp | -0.300pp | 9.91pp |
+| 8 | 10 | +12.53pp | +12.00pp | +0.525pp | 3.14pp |
+| 8 | 20 | +10.11pp | +10.13pp | -0.020pp | 5.75pp |
+| 8 | 40 | +8.21pp | +8.30pp | -0.095pp | 8.38pp |
+| 12 | 10 | +11.74pp | +11.63pp | +0.105pp | 2.63pp |
+| 12 | 20 | +9.69pp | +9.64pp | +0.040pp | 6.99pp |
+| 12 | 40 | +7.91pp | +7.55pp | +0.355pp | 7.23pp |
+
+- cells 12/12 judged
+- not-worse share 0.833 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta +0.072pp (floor -0.05pp)
+- resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
+
+## buffer_k20 — **NOT-SEPARABLE**
+
+buffer k=0.20 on every cell (the strongest arm -- if even this stays inside every cell's band, the buffer family is unmeasurable on this design, not negative)
+
+| n_hold | rebal | 中位 CAGR | 基线 | Δ | 本格 band |
+|---|---|---|---|---|---|
+| 3 | 10 | +12.31pp | +10.93pp | +1.390pp | 4.56pp |
+| 3 | 20 | +9.82pp | +8.71pp | +1.105pp | 6.73pp |
+| 3 | 40 | +6.64pp | +6.78pp | -0.135pp | 12.85pp |
+| 5 | 10 | +12.30pp | +11.51pp | +0.795pp | 3.83pp |
+| 5 | 20 | +9.81pp | +9.13pp | +0.685pp | 5.74pp |
+| 5 | 40 | +7.93pp | +8.32pp | -0.385pp | 10.87pp |
+| 8 | 10 | +12.21pp | +12.00pp | +0.205pp | 2.71pp |
+| 8 | 20 | +9.99pp | +10.13pp | -0.140pp | 6.58pp |
+| 8 | 40 | +8.38pp | +8.30pp | +0.070pp | 8.12pp |
+| 12 | 10 | +11.59pp | +11.63pp | -0.050pp | 2.81pp |
+| 12 | 20 | +9.62pp | +9.64pp | -0.025pp | 5.58pp |
+| 12 | 40 | +7.93pp | +7.55pp | +0.385pp | 7.51pp |
+
+- cells 12/12 judged
+- not-worse share 0.917 (floor 0.80, cell floor -0.15pp)
+- median per-cell delta +0.138pp (floor -0.05pp)
+- resolvable share 0.000 (|delta| > the cell's own band; floor 0.50)
 

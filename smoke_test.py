@@ -1890,6 +1890,12 @@ def main() -> int:
             # moved stays inconsistent, and a missing face reads stale (never "fine").
             ("product: etf_book_phase_atlas_arms (arms vs their own band + publish gate)",
              "scripts/etf_book_phase_atlas_arms.py", ["--selftest"]),
+            # r1352 / E261: a label is a measurement only if it is rare when nothing happened.
+            # The suite pins the null (seeded, reproducible), the activity preconditions (zero
+            # noise is NOT-SEPARABLE, a 50pp shift is ADOPT -- so the rule really ran), that the
+            # published verdict follows from its own frequencies, and the gate's three states.
+            ("product: etf_book_rule_null (labeler on an effect-free panel)",
+             "scripts/etf_book_rule_null.py", ["--selftest"]),
             ("product: etf_vol_delivery_audit (exit-code contract)",
              "scripts/etf_vol_delivery_audit.py", ["--selftest"]),
             ("product: etf_vol_calibration (exit-code contract)",

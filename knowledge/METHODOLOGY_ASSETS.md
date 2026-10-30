@@ -5355,6 +5355,7 @@ CADENCE_BAND_SURVIVES_THE_TOLL. The grid's own verdict stays CONFIG_ORDER_WITHIN
 Pos: scripts/etf_book_phase_atlas_arms.py (selftest 22 -> 25) + results/etf_book_phase_atlas_arms.json
 + results/etf_book_phase_atlas_cost40.json (280 engine runs, 5 workers, 3.5 min) + S6 leg
 etf_book_phase_atlas_arms + research/digests/DIGEST-20261030-r1351-arms-gate.md.
+
 ## E261 A tripwire that cannot be told "I meant that" gets relaxed instead of believed (2026-10-30 r1166 bm-a)
 
 WHEN: a guard fires on an action that was deliberate. Here the tree-shrink tripwire went red because
@@ -5420,3 +5421,38 @@ READING: removed `scripts/repo_ladder_menu.py` + `results/repo_ladder/` + chain 
 + the two smoke legs (tree returns to origin for all four) | kept `scripts/etf_book_order.py:cash_leg
 .accrual_window` + its selftest leg | the live answer stays
 `docs/live_book/LIVE-BOOK-<date>.md` section "现金腿要不要放长一期" -- verdict: do not lengthen.
+
+
+## E263 A label that an effect-free panel also receives is not a measurement (2026-10-30 r1352 bm-c)
+
+WHEN: a rule hands out categorical verdicts (REJECT / NOT-SEPARABLE / ADOPT) over a handful of
+cells whose own noise band is wider than the rule's numeric thresholds, and the verdict is about
+to be quoted as a finding. On this repo's phase grid the band is ~6.6pp per cell while the cell
+floor was −0.15pp, so the two quantities never met.
+
+RIGHT: calibrate the labeler before reading its output. Re-run the same rule on the same cell
+widths with the effect removed (each cell's delta drawn from N(0, band/3.2905) -- p95-p05 of a
+normal is 3.2905 sigma), seeded, many trials, importing the rule rather than copying it. Then:
+  * a label that the null panel also receives is not evidence. Measured here: REJECT **96.48%**,
+    NOT-SEPARABLE 3.52%, ADOPT 0.00% over 20,000 trials;
+  * only the rare branches carry information. The three arms reading NOT-SEPARABLE (p = 0.035)
+    say "not worse" -- a statement about sign, still silent about size;
+  * the mechanism is arithmetic and should be printed with the result: a cell floor 13.5x smaller
+    than one sigma makes about half the cells land under it by chance, so the "not-worse share
+    >= 0.80" condition fails by construction.
+
+WRONG: (a) reading a REJECT as a refutation when the empty panel reads REJECT by default -- it
+is the branch the rule takes when its own threshold is inside the noise; (b) answering the
+"tiny real effect vs noise" question by adding more arms (k=0.05 / 0.10 / 0.20 all sit inside
+their bands and the sign flips between the outer two in 3 of 12 cells): arm count cannot fix a
+degenerate label distribution, only the ruler can; (c) fixing the ruler by editing the frozen
+constants -- that is the E188 line, so it has to be a new pre-registered rule applied
+prospectively.
+
+READING: faces `results/etf_book_rule_null.json` (label frequencies + per-arm
+`null_p_same_or_worse`) and `results/etf_book_phase_atlas_arms.json` (six arms);
+scripts `scripts/etf_book_rule_null.py` (selftest 10) and `scripts/etf_book_phase_atlas_arms.py`
+(selftest 38, including "each face carries the knob its own name declares");
+digest `research/digests/DIGEST-20261030-r1352-buffer-family.md`.
+Buffer family closed: 0 of 36 cell deltas beyond their own band -- not adopted, not re-stocked;
+the three follow-up rows stocked instead are k=0.02, k=0.40 and the buffer x toll interaction.

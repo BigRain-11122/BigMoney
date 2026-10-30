@@ -44,6 +44,24 @@ ARMS = {
     "cost40": (os.path.join(RES, "etf_book_phase_atlas_cost40.json"),
                "40bp/side on the whole grid (4x the production toll -- does 'the cadence is "
                "quotable' have a toll ceiling, and does the ordering vanish first?)"),
+    "buffer_k10": (os.path.join(RES, "etf_book_phase_atlas_buffer_k10.json"),
+                   "buffer k=0.10 on every cell (the middle of the family r1325 named as a cost "
+                   "knob; declared in the pool at r1351 before this face existed)"),
+    "buffer_k20": (os.path.join(RES, "etf_book_phase_atlas_buffer_k20.json"),
+                   "buffer k=0.20 on every cell (the strongest arm -- if even this stays inside "
+                   "every cell's band, the buffer family is unmeasurable on this design, not "
+                   "negative)"),
+}
+
+# the knob each arm declares in its own name; the face must carry the same number (a face wired
+# to the wrong arm would otherwise publish the other arm's numbers under this name)
+DECLARED = {
+    "buffer_k05": {"buffer_k": 0.05},
+    "buffer_k10": {"buffer_k": 0.10},
+    "buffer_k20": {"buffer_k": 0.20},
+    "cost05": {"cost": 0.0005},
+    "cost20": {"cost": 0.002},
+    "cost40": {"cost": 0.004},
 }
 
 # ---- the frozen rule (written before the first read; echoed into the payload) -------------
@@ -149,8 +167,9 @@ def build():
     base_bands = band_by_cadence(base)
     payload = {
         "script": "scripts/etf_book_phase_atlas_arms.py",
-        "question": ("do the three follow-ups the atlas left behind (buffer k=0.05, cost 5bp, cost 20bp) "
-                     "change the reading when they are judged per cell against each cell's own band?"),
+        "question": ("do the follow-ups the atlas left behind (buffer k=0.05 / 0.10 / 0.20, cost "
+                     "5bp / 20bp / 40bp) change the reading when they are judged per cell against "
+                     "each cell's own band?"),
         "units": {"delta_pp": "percentage points of median CAGR, arm minus the SAME cell at the "
                               "baseline (10bp/side, buffer k=0)",
                   "band_pp": "p95-p05 of a cell's CAGR over its own decision origins"},
@@ -232,6 +251,22 @@ def _selftest():
     # L4 the arms really are different experiments (activity precondition, r1261 lesson)
     chk(p["arms"]["cost05"]["median_band_pp"] != p["arms"]["cost20"]["median_band_pp"],
         "the two cost arms do not produce an identical band (they are distinct runs)")
+    # L4b each face carries the knob its own name declares -- a face wired to the wrong arm
+    # would publish another arm's numbers under this name and nothing else would notice
+    for name, a in p["arms"].items():
+        decl = DECLARED.get(name) or {}
+        audit = a["audit"]
+        bad_knobs = [k for k, v in decl.items() if abs(audit.get(k, -1.0) - v) > 1e-9]
+        chk(not bad_knobs, "%s face carries its declared knob %r (audit says %r)"
+            % (name, decl, {k: audit.get(k) for k in decl}))
+    # L4c the buffer arms are three different runs of the same knob axis, not one face read
+    # three times (the median per-cell delta must differ between k=0.05 and k=0.20)
+    meds = {}
+    for name in ("buffer_k05", "buffer_k10", "buffer_k20"):
+        rows = p["arms"][name]["rows"]
+        meds[name] = round(sum(r["delta_pp"] for r in rows) / len(rows), 6)
+    chk(len(set(meds.values())) == 3, "the three buffer arms are distinct runs (mean deltas %r)"
+        % meds)
     # L5 more toll never pays more: every cell's median must fall from 5bp to 20bp
     c05 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost05"]["rows"]}
     c20 = {(r["n_hold"], r["rebal"]): r["median_cagr_pp"] for r in p["arms"]["cost20"]["rows"]}
@@ -370,7 +405,7 @@ def check():
 
 def render_md(p):
     L = []
-    L.append("# 三个相位臂：把 r1325 的 buffer REJECT 放回它自己的尺子里重判\n")
+    L.append("# 相位臂：把 r1325 的 buffer REJECT 与成本档放回它们自己的尺子里重判\n")
     L.append("面：`results/etf_book_phase_atlas_arms.json`｜脚本：`scripts/etf_book_phase_atlas_arms.py`｜"
              "基线面：`%s`（cutoff %s）\n" % (p["baseline"]["face"], p["baseline"]["evidence_cutoff"]))
     L.append("同日基线网格：格间 spread %.2fpp，格内 band 中位 %.2fpp。\n" % (
