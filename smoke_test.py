@@ -4558,6 +4558,96 @@ def main() -> int:
                     (_s56.get("secondary_reads") or {}).get("target_sessions_available")))
     except Exception as e:
         check("product: the band endpoint is scheduled, not waited out", False, repr(e)[:160])
+
+    # E257: E255/E256 proved the shuffled band's 5% endpoint was still rising at 1920 draws, so
+    # every published outside-the-band verdict in the star family had been judged against an edge
+    # read off a smaller grid. This leg guards the re-judgement face. What can fabricate a claim
+    # here: a row flagged as flipping that does not actually move at the median widened band, a
+    # published flag that does not reproduce from the row's own numbers, and -- the load-bearing
+    # one -- a multiplier that is not the one the ladder carries. The last check is that the face's
+    # row counts add up, because a dropped row reads as 'nothing moved'.
+    try:
+        _bad57 = []
+        _p57 = os.path.join("results", "state_tilt", "bandtopflip_latest.json")
+        _f57 = None
+        if not os.path.exists(_p57):
+            _bad57.append("face missing: %s" % _p57)
+        else:
+            with io.open(_p57, encoding="utf-8") as _fh57:
+                _f57 = json.load(_fh57)
+        _m57 = None
+        if _f57 is not None:
+            try:
+                import e257_band_at_top_flips as _m57
+            except Exception as _e57:
+                _bad57.append("module does not import: %r" % (_e57,))
+        if _m57 is not None:
+            _v57 = _m57.verify()
+            for _p in (_v57.get("problems") or []):
+                _bad57.append("verify: %s" % _p)
+            _rows57 = _f57.get("rows") or []
+            if not _rows57:
+                _bad57.append("the face measured no rows")
+            # ACTIVITY: the experiment must have moved the band, not merely been computed
+            _tab57 = (_f57.get("multiplier_table") or {})
+            if _tab57.get("multiplier_median") is None or _tab57["multiplier_median"] <= 1.0:
+                _bad57.append("the median draw multiplier is not above one -- the band did not "
+                              "widen, so nothing could be re-judged")
+            _moved57 = [r for r in _rows57
+                        if r.get("verdict") in ("flips_at_top_draws",
+                                                "flips_depends_on_measurement")]
+            if not _moved57:
+                _bad57.append("no published row moved across the whole measurement product")
+            # every flipping row must actually flip where it claims to: an "always" row at the
+            # median widened band, a "depends" row for at least one but not all measurements.
+            # (The first cut asserted the median for both classes and failed the face correctly.)
+            for _r in _rows57:
+                _vd = _r.get("verdict")
+                if _vd not in ("flips_at_top_draws", "flips_depends_on_measurement"):
+                    continue
+                _lo_t = (_r.get("band_at_top_median") or [None])[0]
+                _hi_t = (_r.get("band_at_top_median") or [None, None])[1]
+                if _lo_t is None or _hi_t is None:
+                    _bad57.append("%s/%s: flipping row carries no top band"
+                                  % (_r.get("cell"), _r.get("row")))
+                    continue
+                _now = _m57.outside(_r.get("b"), _lo_t, _hi_t)
+                if _vd == "flips_at_top_draws":
+                    if _now == _r.get("outside_at_published") or not _r.get(
+                            "flips_on_every_measurement"):
+                        _bad57.append("%s/%s: marked as always flipping but does not"
+                                      % (_r.get("cell"), _r.get("row")))
+                else:
+                    if not _r.get("flips_on_any_measurement") or _r.get(
+                            "flips_on_every_measurement"):
+                        _bad57.append("%s/%s: marked measurement-dependent but the flag pair "
+                                      "says otherwise" % (_r.get("cell"), _r.get("row")))
+            _s57 = _f57.get("summary") or {}
+            if not _s57.get("rows_counts_add_up"):
+                _bad57.append("row verdict buckets do not add up -- a dropped row reads as "
+                              "nothing moved")
+            # the two-face double count must be disclosed, not silently counted twice
+            _mov = sum(1 for _r in _rows57 if _r.get("verdict") in
+                       ("flips_at_top_draws", "flips_depends_on_measurement"))
+            if _mov and _s57.get("distinct_coefficients_moving") is None:
+                _bad57.append("moving rows are counted without disclosing how many distinct "
+                              "coefficients they are")
+        _s57 = (_f57 or {}).get("summary") or {}
+        check("product: the published band verdicts are re-judged at the top draw count",
+              not _bad57, "; ".join(_bad57)[:220]
+              or "verdict %s; %s rows (%s outside at publish); %s flip always, %s for some "
+                 "measurement (%s distinct coefficient(s)); %s survive; multiplier %.3f..%.3f "
+                 "median %.3f; E254 at top draws %s"
+                 % ((_f57 or {}).get("verdict"), _s57.get("rows"),
+                    _s57.get("rows_outside_at_published"), _s57.get("rows_flip_every_measurement"),
+                    _s57.get("rows_flip_for_some_measurement"),
+                    _s57.get("distinct_coefficients_moving"), _s57.get("rows_survive_outside"),
+                    _s57.get("multiplier_min") or 0, _s57.get("multiplier_max") or 0,
+                    _s57.get("multiplier_median") or 0,
+                    ((_f57 or {}).get("ladder_verdicts") or {}).get("e254", {}).get("at_top_draws")))
+    except Exception as e:
+        check("product: the published band verdicts are re-judged at the top draw count",
+              False, repr(e)[:160])
     return _finish()
 
 

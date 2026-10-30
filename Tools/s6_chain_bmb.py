@@ -245,6 +245,14 @@ LEGS = [
     # Reads the published faces only, no panel, no refit. <1s.
     ("band_draw_continuation", ["python", "scripts/e256_band_draw_continuation.py", "verify",
                                 "--tag=-d1920"]),
+    # E257: E255/E256 showed the band's 5% endpoint was still rising at 1920 draws, so every
+    # published "outside the band" verdict had been judged against an edge read off a smaller
+    # grid. This leg re-judges every published (coefficient, band) pair in the star family against
+    # a band widened by the measured draw multiplier, at EVERY multiplier the ladder carries (2
+    # families x 7 rungs) rather than nominating one, and publishes which verdicts flip, which
+    # survive, and which only flip for some measurement. Reads published faces only, no panel,
+    # no refit, no coefficient re-priced. <1s.
+    ("band_at_top_flips", ["python", "scripts/e257_band_at_top_flips.py", "verify"]),
 
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
@@ -276,14 +284,39 @@ LEGS = [
 
 
 def main(argv):
-    if not argv:
-        print("usage: s6_chain_bmb.py <round_no>")
+    # --only <name>[,<name>...] runs a subset of legs. r1281 recorded that the absence of this
+    # selector meant the whole chain could not be spot-run inside a round, so a single leg could
+    # only be verified by hand-copying its argv. Filtering here keeps the leg table the single
+    # source of truth: the subset runs exactly the commands the full chain would run.
+    only = None
+    rest = []
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == "--only":
+            i += 1
+            only = set(x.strip() for x in (argv[i] if i < len(argv) else "").split(",") if x.strip())
+        elif a.startswith("--only="):
+            only = set(x.strip() for x in a.split("=", 1)[1].split(",") if x.strip())
+        else:
+            rest.append(a)
+        i += 1
+    if not rest:
+        print("usage: s6_chain_bmb.py <round_no> [--only leg1,leg2]")
         return 2
-    rnd = str(argv[0])
+    rnd = str(rest[0])
+    legs = LEGS
+    if only is not None:
+        unknown = sorted(only - {name for name, _cmd in LEGS})
+        if unknown:
+            print("unknown leg(s): %s" % ", ".join(unknown))
+            print("available: %s" % ", ".join(name for name, _cmd in LEGS))
+            return 2
+        legs = [(name, cmd) for name, cmd in LEGS if name in only]
     out = os.path.join("results", "_r%sbmb_s6_chain.json" % rnd)
     rows = []
     t0 = time.time()
-    for leg, cmd in LEGS:
+    for leg, cmd in legs:
         s = time.time()
         try:
             p = subprocess.run(cmd, capture_output=True, text=True,

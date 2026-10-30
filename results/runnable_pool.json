@@ -24372,7 +24372,7 @@
    "evidence_cutoff": "2026-10-29",
    "id": "E257-BAND-AT-TOP-FLIPS",
    "lane": "cpu-only",
-   "owner": null,
+   "owner": "bm-b",
    "priority": 3,
    "runner": "scripts/e257_band_at_top_flips.py",
    "runner_args": [
@@ -24381,10 +24381,33 @@
    "seeded_at": "2026-10-30T18:5x+08:00",
    "seeded_by": "bm-b r1283",
    "source": "E255/E256 established that the shuffled band's 5% endpoint is still rising at 1920 draws and does not decay, so every 'inside the band' / 'outside the band' verdict in the star / own-row / band-exponent families was judged against edges measured at 60 draws. Take the published cells (E251/E252/E253/E254/E255 faces carry per-rung edges at 60/120/240/480/960/1920) and re-judge each cell against the top-draw edge: publish which verdicts FLIP, which survive, and by how much of the frozen tolerance. No new estimation, no panel re-read -- the band is already measured, the question is what the measurement changed.",
-   "status": "ready",
+   "status": "done",
    "target": "scripts/e257_band_at_top_flips.py (new runner)",
    "title": "which published verdicts change when the band is taken at the top draw count?",
-   "worker_class": "code-change"
+   "worker_class": "code-change",
+   "result_ref": "results/state_tilt/BANDTOPFLIP-2026-10-29.json",
+   "done_at": "2026-10-30T19:10:00+08:00",
+   "done_by": "bm-b r1284",
+   "result_note": "16 rows re-judged; 8 survive the widened band at every measurement; 1 distinct coefficient flips for some measurement only; E254 undetermined survives (reason moves to the family straddle); E255 reproduces 480"
+  },
+  {
+   "id": "E258-BAND-MULTIPLIER-IN-EACH-WINDOW",
+   "title": "does each published window carry its own draw multiplier, and do the surviving verdicts still survive?",
+   "status": "ready",
+   "lane": "cpu-only",
+   "priority": 3,
+   "worker_class": "code-change",
+   "owner": null,
+   "target": "scripts/e258_band_multiplier_per_window.py (new runner)",
+   "runner": "scripts/e258_band_multiplier_per_window.py",
+   "runner_args": [
+    "run"
+   ],
+   "deliverable": "results/state_tilt/BANDWINMULT-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "seeded_at": "2026-10-30T19:15:00+08:00",
+   "seeded_by": "bm-b r1284",
+   "source": "E257 could only transfer the draw multiplier measured inside era_2025_now to the other windows, and had to publish it as a RANGE over (family x rung) because no family is a fixed window's analogue. This card replaces the transfer with a measurement: rebuild the shuffled band inside EACH published window (all_five, era_2023_2024, era_2025_now, early_three) at the smallest and the top draw count, publish that window's own multiplier, and re-run E257's re-judgement with it. Then say whether the 8 surviving verdicts still survive and whether early_three's b=-0.4942 still straddles. Reads the panel only to rebuild each window's shuffle band -- no coefficient is refit."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

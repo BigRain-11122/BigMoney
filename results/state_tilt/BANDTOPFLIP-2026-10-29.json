@@ -1,0 +1,734 @@
+{
+ "study": "E257_band_at_top_flips",
+ "title": "which published verdicts change when the band is taken at the top draw count?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-30T18:59:46",
+ "frozen_spec": {
+  "design": "arithmetic on published faces only: no panel, no refit, no bootstrap",
+  "multiplier": "m = edge(top_draws) / edge(published band draws), read off E256's per-rung edge_self ladder with log-log interpolation in the draw count",
+  "multiplier_is_a_range": "every row is re-judged at all (family x rung) multipliers; the cells are fixed windows and neither E256 family is their analogue, so no family is nominated",
+  "rejudge_rule": "the published rule, unchanged: outside = value < lo or value > hi, applied to a band whose two edges are both scaled by m",
+  "reproduction_gate": "a row whose published outside/inside flag does not reproduce from its own published band is published as published_flag_not_reproduced and counted separately, never silently re-judged",
+  "band_draws_base": "each row's own published band draw count (200 in these faces), not 60",
+  "top_draws": "the largest draw count the ladder measured",
+  "tolerance_units": "distance_in_margins = |b|/|edge_top| - 1; zero is the line, negative is inside",
+  "what_is_not_done": [
+   "no coefficient is re-priced",
+   "no panel is read",
+   "no adoption, no bill",
+   "no verdict in the source faces is rewritten"
+  ]
+ },
+ "source_faces": {
+  "ladder": "results/state_tilt/BANDDRAW-2026-10-29-d1920.json",
+  "starself": "results/state_tilt/STARSELF-2026-10-29.json",
+  "starown": "results/state_tilt/STAROWN-2026-10-29.json"
+ },
+ "faces_missing": [],
+ "multiplier_table": {
+  "rows": [
+   {
+    "family": "head",
+    "sessions": 100,
+    "edge_at_base": 0.8318524579761816,
+    "edge_at_top": 1.1505908810040328,
+    "multiplier": 1.3831670147411859
+   },
+   {
+    "family": "head",
+    "sessions": 150,
+    "edge_at_base": 0.8256128021188153,
+    "edge_at_top": 0.9860894864398191,
+    "multiplier": 1.1943728148463344
+   },
+   {
+    "family": "head",
+    "sessions": 200,
+    "edge_at_base": 0.8439737937205944,
+    "edge_at_top": 0.9829071765296409,
+    "multiplier": 1.1646181242151716
+   },
+   {
+    "family": "head",
+    "sessions": 250,
+    "edge_at_base": 0.7649885435793046,
+    "edge_at_top": 0.8615776581484272,
+    "multiplier": 1.1262621713485954
+   },
+   {
+    "family": "head",
+    "sessions": 300,
+    "edge_at_base": 0.566601303780277,
+    "edge_at_top": 0.9425315999219831,
+    "multiplier": 1.6634829352378064
+   },
+   {
+    "family": "head",
+    "sessions": 350,
+    "edge_at_base": 0.6587039387119851,
+    "edge_at_top": 0.7234701756425397,
+    "multiplier": 1.0983237432239998
+   },
+   {
+    "family": "head",
+    "sessions": 408,
+    "edge_at_base": 0.5422194961929611,
+    "edge_at_top": 0.747866240534736,
+    "multiplier": 1.3792684434729197
+   },
+   {
+    "family": "tail",
+    "sessions": 100,
+    "edge_at_base": 1.5666792842884907,
+    "edge_at_top": 1.7401433587364479,
+    "multiplier": 1.1107208579238579
+   },
+   {
+    "family": "tail",
+    "sessions": 150,
+    "edge_at_base": 0.7948309616258741,
+    "edge_at_top": 1.2578487700257925,
+    "multiplier": 1.5825362004680692
+   },
+   {
+    "family": "tail",
+    "sessions": 200,
+    "edge_at_base": 0.8208936244164765,
+    "edge_at_top": 1.0427761165758924,
+    "multiplier": 1.2702938426609645
+   },
+   {
+    "family": "tail",
+    "sessions": 250,
+    "edge_at_base": 0.8569818502837181,
+    "edge_at_top": 0.9473394724501834,
+    "multiplier": 1.1054370312936626
+   },
+   {
+    "family": "tail",
+    "sessions": 300,
+    "edge_at_base": 0.7736673151945374,
+    "edge_at_top": 1.04002443476058,
+    "multiplier": 1.3442786251078316
+   },
+   {
+    "family": "tail",
+    "sessions": 350,
+    "edge_at_base": 0.6615620544322909,
+    "edge_at_top": 0.7671361354933256,
+    "multiplier": 1.1595830358674841
+   },
+   {
+    "family": "tail",
+    "sessions": 408,
+    "edge_at_base": 0.5422194961929611,
+    "edge_at_top": 0.747866240534736,
+    "multiplier": 1.3792684434729197
+   }
+  ],
+  "base_draws": 200,
+  "top_draws": 1920,
+  "multiplier_min": 1.0983237432239998,
+  "multiplier_max": 1.6634829352378064,
+  "multiplier_median": 1.2323333287536493,
+  "rung_index": [
+   [
+    "head",
+    100
+   ],
+   [
+    "head",
+    150
+   ],
+   [
+    "head",
+    200
+   ],
+   [
+    "head",
+    250
+   ],
+   [
+    "head",
+    300
+   ],
+   [
+    "head",
+    350
+   ],
+   [
+    "head",
+    408
+   ],
+   [
+    "tail",
+    100
+   ],
+   [
+    "tail",
+    150
+   ],
+   [
+    "tail",
+    200
+   ],
+   [
+    "tail",
+    250
+   ],
+   [
+    "tail",
+    300
+   ],
+   [
+    "tail",
+    350
+   ],
+   [
+    "tail",
+    408
+   ]
+  ]
+ },
+ "ladder_verdicts": {
+  "gamma_tol": 0.1,
+  "r2_floor": 0.8,
+  "draw_grid": [
+   60,
+   120,
+   240,
+   480,
+   960,
+   1920
+  ],
+  "top_draws": 1920,
+  "fit_at_top_draws": {
+   "head": {
+    "gamma": 0.3010627849909984,
+    "r2": 0.8250421339178977
+   },
+   "tail": {
+    "gamma": 0.5650809245935181,
+    "r2": 0.9232561405876129
+   }
+  },
+  "e254": {
+   "published": "exponent_undetermined_inside_the_cell",
+   "published_reason": "r2 below floor in at least one family (at 60 draws)",
+   "at_top_draws": "undetermined",
+   "reasons": [
+    "family_gap_exceeds_tolerance"
+   ],
+   "family_gap": 0.2640181396025197,
+   "survives_published_verdict": true,
+   "note": "the r2 floor now clears in both families, so the reason moved from the fit to the straddle"
+  },
+  "e255": {
+   "question": "is the undetermined exponent starved of draws or of rungs?",
+   "draws_needed_for_both_families": 480,
+   "rejudged": "draw_starvation_confirmed",
+   "converged_grid_point_published_by_e255": 480
+  },
+  "e256": {
+   "published": "increments_do_not_decay_with_draws",
+   "rejudged": "unchanged",
+   "note": "E256's verdict is about the DRAW axis itself (does the increment per doubling decay); taking the top draws does not re-judge it, it is the input to this face."
+  },
+  "e257_multipliers": {
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_median": 1.2323333287536493
+  }
+ },
+ "rows": [
+  {
+   "source": "E252:STARSELF",
+   "cell": "all_five",
+   "row": "self",
+   "sessions": 1328,
+   "b": -0.7338669780097795,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.31482186746270696,
+   "band_hi": 0.22694777216938677,
+   "band_draws": 200,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.31482186746270696,
+   "multiplier_median": 1.2323333287536493,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_draws_base": 200.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.3879654798947579,
+    0.2796753035307252
+   ],
+   "edge_at_top_median": 0.3879654798947579,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.331054649806725,
+   "margin_at_top_median": 1.8933746003444223,
+   "distance_in_margins_at_top_median": 0.8933746003444223,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "all_five",
+   "row": "cross",
+   "sessions": 1328,
+   "b": -0.7250430277727764,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.2680802007904303,
+   "band_hi": 0.2579169304029064,
+   "band_draws": 200,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.2680802007904303,
+   "multiplier_median": 1.2323333287536493,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_draws_base": 200.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.3303641662130177,
+    0.31783962938533694
+   ],
+   "edge_at_top_median": 0.3303641662130177,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.704575069829843,
+   "margin_at_top_median": 2.196762629466944,
+   "distance_in_margins_at_top_median": 1.196762629466944,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "pre2020_four",
+   "row": "self",
+   "sessions": 891,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "verdict": "unjudgeable",
+   "reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "pre2020_four",
+   "row": "cross",
+   "sessions": 891,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "verdict": "unjudgeable",
+   "reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2020_2022",
+   "row": "self",
+   "sessions": 474,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "verdict": "unjudgeable",
+   "reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2020_2022",
+   "row": "cross",
+   "sessions": 474,
+   "b": null,
+   "b_source": null,
+   "band_lo": null,
+   "band_hi": null,
+   "band_draws": null,
+   "published_outside": null,
+   "verdict": "unjudgeable",
+   "reason": "row carries no coefficient or no band"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2023_2024",
+   "row": "self",
+   "sessions": 446,
+   "b": -0.8027254787526823,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.3009172041368989,
+   "band_hi": 0.38241486006464576,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.38241486006464576,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.39655322326900844,
+    0.5039520615631256
+   ],
+   "edge_at_top_median": 0.5039520615631256,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.0990959363268065,
+   "margin_at_top_median": 1.5953787601288045,
+   "distance_in_margins_at_top_median": 0.5953787601288045,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2023_2024",
+   "row": "cross",
+   "sessions": 446,
+   "b": -0.8332269315437407,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.33888786748973576,
+   "band_hi": 0.3612981017916428,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.3612981017916428,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.4465915352539214,
+    0.47612407950350827
+   ],
+   "edge_at_top_median": 0.47612407950350827,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.30620345751015,
+   "margin_at_top_median": 1.7527869731793349,
+   "distance_in_margins_at_top_median": 0.7527869731793349,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2025_now",
+   "row": "self",
+   "sessions": 408,
+   "b": -0.46348275881928647,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.5211261029119459,
+   "band_hi": 0.4510867343946797,
+   "band_draws": 60,
+   "published_outside": false,
+   "outside_at_published": false,
+   "edge_published": 0.5211261029119459,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.6867478263068474,
+    0.5944488917181417
+   ],
+   "edge_at_top_median": 0.6867478263068474,
+   "outside_at_top_all_measurements": false,
+   "outside_at_top_any_measurement": false,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 0.8893869568794188,
+   "margin_at_top_median": 0.6759619872467366,
+   "distance_in_margins_at_top_median": -0.3240380127532634,
+   "rung_in_ladder": true,
+   "verdict": "stays_inside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "era_2025_now",
+   "row": "cross",
+   "sessions": 408,
+   "b": -0.9113353718550754,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.4149041386090875,
+   "band_hi": 0.46536854590686627,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.46536854590686627,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.5467669221007162,
+    0.6132696780055933
+   ],
+   "edge_at_top_median": 0.6132696780055933,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 1.9583089142373193,
+   "margin_at_top_median": 1.4883762068598987,
+   "distance_in_margins_at_top_median": 0.4883762068598987,
+   "rung_in_ladder": true,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "early_three",
+   "row": "self",
+   "sessions": 831,
+   "b": -0.2034528182205142,
+   "b_source": "self_row.b_self",
+   "band_lo": -0.3227391896025501,
+   "band_hi": 0.20152376421923934,
+   "band_draws": 60,
+   "published_outside": false,
+   "outside_at_published": false,
+   "edge_published": 0.3227391896025501,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.4253105643434543,
+    0.26557105133173664
+   ],
+   "edge_at_top_median": 0.4253105643434543,
+   "outside_at_top_all_measurements": false,
+   "outside_at_top_any_measurement": false,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 0.6303939055900345,
+   "margin_at_top_median": 0.47911914366947944,
+   "distance_in_margins_at_top_median": -0.5208808563305205,
+   "rung_in_ladder": false,
+   "verdict": "stays_inside"
+  },
+  {
+   "source": "E252:STARSELF",
+   "cell": "early_three",
+   "row": "cross",
+   "sessions": 831,
+   "b": -0.4942013405547795,
+   "b_source": "cross_row.b_cross",
+   "band_lo": -0.27410275200467416,
+   "band_hi": 0.30837107575218653,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.30837107575218653,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.3612167344373871,
+    0.4063760475350845
+   ],
+   "edge_at_top_median": 0.4063760475350845,
+   "outside_at_top_all_measurements": false,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": true,
+   "flips_on_every_measurement": false,
+   "margin_published": 1.6026189854197936,
+   "margin_at_top_median": 1.218040702985692,
+   "distance_in_margins_at_top_median": 0.2180407029856919,
+   "rung_in_ladder": false,
+   "verdict": "flips_depends_on_measurement"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "all_five",
+   "row": "star_lag1_residual",
+   "sessions": 1328,
+   "b": -0.7250430277727764,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.2227898080428957,
+   "band_hi": 0.23568968080162994,
+   "band_draws": 200,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.23568968080162994,
+   "multiplier_median": 1.2323333287536493,
+   "multiplier_min": 1.0983237432239998,
+   "multiplier_max": 1.6634829352378064,
+   "multiplier_draws_base": 200.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.2745513057578882,
+    0.2904482488951577
+   ],
+   "edge_at_top_median": 0.2904482488951577,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 3.076261231746563,
+   "margin_at_top_median": 2.498660801751739,
+   "distance_in_margins_at_top_median": 1.4986608017517389,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "era_2023_2024",
+   "row": "star_lag1_residual",
+   "sessions": 446,
+   "b": -0.8332269315437407,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.38965397709569133,
+   "band_hi": 0.34628292300900926,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.38965397709569133,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.5134918790039945,
+    0.45633685078293
+   ],
+   "edge_at_top_median": 0.5134918790039945,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.1383765610561616,
+   "margin_at_top_median": 1.625233267154083,
+   "distance_in_margins_at_top_median": 0.625233267154083,
+   "rung_in_ladder": false,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "era_2025_now",
+   "row": "star_lag1_residual",
+   "sessions": 408,
+   "b": -0.9113353718550754,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.3828993236712511,
+   "band_hi": 0.37517005828954664,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.3828993236712511,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.5045904949996814,
+    0.49440475268093365
+   ],
+   "edge_at_top_median": 0.5045904949996814,
+   "outside_at_top_all_measurements": true,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": false,
+   "flips_on_every_measurement": false,
+   "margin_published": 2.380091359569827,
+   "margin_at_top_median": 1.8089440966039851,
+   "distance_in_margins_at_top_median": 0.8089440966039851,
+   "rung_in_ladder": true,
+   "verdict": "survives_outside"
+  },
+  {
+   "source": "E251:STAROWN",
+   "cell": "early_three",
+   "row": "star_lag1_residual",
+   "sessions": 831,
+   "b": -0.4942013405547795,
+   "b_source": "star_residual.b1",
+   "band_lo": -0.26227210344102825,
+   "band_hi": 0.29882489984854366,
+   "band_draws": 60,
+   "published_outside": true,
+   "outside_at_published": true,
+   "edge_published": 0.29882489984854366,
+   "multiplier_median": 1.3178150594826112,
+   "multiplier_min": 1.1054370312936626,
+   "multiplier_max": 1.9254493445621528,
+   "multiplier_draws_base": 60.0,
+   "multiplier_draws_top": 1920,
+   "band_at_top_median": [
+    -0.3456261275967682,
+    0.3937959531687939
+   ],
+   "edge_at_top_median": 0.3937959531687939,
+   "outside_at_top_all_measurements": false,
+   "outside_at_top_any_measurement": true,
+   "flips_on_any_measurement": true,
+   "flips_on_every_measurement": false,
+   "margin_published": 1.6538157991695484,
+   "margin_at_top_median": 1.256951887476648,
+   "distance_in_margins_at_top_median": 0.2569518874766481,
+   "rung_in_ladder": false,
+   "verdict": "flips_depends_on_measurement"
+  }
+ ],
+ "verdict": "flips_depend_on_the_measurement_only",
+ "verdict_reason": "no row flips at every multiplier but 2 flip for some rung/family combination",
+ "no_bill": "bookkeeping only: every coefficient and band is taken verbatim from a published face; no re-estimation, no panel read, no adoption, no member billed",
+ "summary": {
+  "rows": 16,
+  "rows_by_verdict": {
+   "survives_outside": 8,
+   "unjudgeable": 4,
+   "stays_inside": 2,
+   "flips_depends_on_measurement": 2
+  },
+  "rows_outside_at_published": 10,
+  "rows_flip_every_measurement": 0,
+  "rows_flip_for_some_measurement": 2,
+  "rows_survive_outside": 8,
+  "distinct_coefficients_moving": 1,
+  "row_to_coefficient_note": "rows are (face, cell, row) triples; the same coefficient can be published by two faces, so distinct_coefficients_moving is the honest count of verdicts that moved",
+  "flipped_ids": [],
+  "depends_ids": [
+   "E252:STARSELF/early_three/cross",
+   "E251:STAROWN/early_three/star_lag1_residual"
+  ],
+  "multiplier_min": 1.0983237432239998,
+  "multiplier_max": 1.6634829352378064,
+  "multiplier_median": 1.2323333287536493,
+  "tightest_survivor_margin_at_top": 1.4883762068598987,
+  "rows_counts_add_up": true,
+  "rungs_in_ladder": [
+   100,
+   150,
+   200,
+   250,
+   300,
+   350,
+   408
+  ]
+ }
+}
