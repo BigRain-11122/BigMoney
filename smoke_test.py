@@ -4828,6 +4828,109 @@ def main() -> int:
               False, repr(e)[:160])
 
 
+    # E261: E260 counted the degeneracy but left its cost unstated. This leg guards the face that
+    # splits every published interval into the endpoint-already-attained bucket and the seeds still
+    # free to move. What can fabricate a claim here: an interval that does not reproduce E259
+    # bit-for-bit (then the split is of a different sample), a "floor that moved" counted on an arm
+    # that never had a floor, a trimmed interval published when too few seeds are left to support
+    # one, and -- the activity face -- a face whose trimming never changes a single number, which
+    # would mean it is not measuring anything.
+    try:
+        _bad61 = []
+        _p61 = os.path.join("results", "state_tilt", "bandbucket_latest.json")
+        _f61 = None
+        if not os.path.exists(_p61):
+            _bad61.append("face missing: %s" % _p61)
+        else:
+            with io.open(_p61, encoding="utf-8") as _fh61:
+                _f61 = json.load(_fh61)
+        _m61 = None
+        if _f61 is not None:
+            try:
+                import e261_degenerate_seeds_leave_one_bucket as _m61
+            except Exception as _e61:
+                _bad61.append("module does not import: %r" % (_e61,))
+        if _m61 is not None:
+            for _p in (_m61.verify() or [])[:4]:
+                _bad61.append("verify: %s" % _p)
+        _arms61 = (_f61 or {}).get("arms") or []
+        if len(_arms61) < 8:
+            _bad61.append("fewer than eight arms carry a bucket split (%d)" % len(_arms61))
+        _n_floor = 0
+        _n_moved = 0
+        _n_moved_any_width = 0
+        for _a in _arms61:
+            _full = _a.get("full") or {}
+            _trim = _a.get("trimmed") or {}
+            # (a) the full interval must be E259's, bit-for-bit -- otherwise the split is of
+            #     another sample and every count below it is about that other sample
+            if _a.get("reproduces_e259_interval") is not True:
+                _bad61.append("%s/%s: full interval does not reproduce E259" % (_a.get("cell"),
+                                                                               _a.get("arm")))
+            if _a.get("attained_count_matches_e259") is not True:
+                _bad61.append("%s/%s: attained count disagrees with E259" % (_a.get("cell"),
+                                                                            _a.get("arm")))
+            if _a.get("n_attained") and not _a.get("attained_values"):
+                _bad61.append("%s/%s: counted an attained bucket but carries no values"
+                              % (_a.get("cell"), _a.get("arm")))
+            if _trim:
+                if _a.get("n_kept", 0) < 5:
+                    _bad61.append("%s/%s: a trimmed interval was published on %r free seeds"
+                                  % (_a.get("cell"), _a.get("arm"), _a.get("n_kept")))
+                if len(_trim.get("interval") or []) != 2 or _trim["interval"][0] > _trim["interval"][1]:
+                    _bad61.append("%s/%s: trimmed interval is not an ordered pair"
+                                  % (_a.get("cell"), _a.get("arm")))
+                # (b) "the floor moved" must never be counted on an arm that had no floor
+                if _a.get("floor_moved_off_one") and not _a.get("floor_at_one"):
+                    _bad61.append("%s/%s: counted a moved floor on an arm that has no floor"
+                                  % (_a.get("cell"), _a.get("arm")))
+                if _a.get("floor_at_one"):
+                    _n_floor += 1
+                    if _a.get("floor_moved_off_one"):
+                        _n_moved += 1
+                if abs((_trim.get("width") or 0) - (_full.get("width") or 0)) > 1e-12:
+                    _n_moved_any_width += 1
+            elif _a.get("n_kept", 0) >= 5:
+                _bad61.append("%s/%s: %r free seeds but no trimmed interval published"
+                              % (_a.get("cell"), _a.get("arm"), _a.get("n_kept")))
+        # (c) activity: a split that changes no number anywhere is not a measurement
+        if not _n_moved_any_width:
+            _bad61.append("no arm's interval moves when the bucket is removed -- this face is "
+                          "not measuring anything")
+        # the headline must be earned by the arm table, not asserted in the verdict string
+        if _n_floor and _n_moved == _n_floor:
+            if (_f61 or {}).get("verdict") != "floor_at_one_is_the_attained_bucket":
+                _bad61.append("every floored arm moved yet the verdict says %r"
+                              % (_f61 or {}).get("verdict"))
+        elif _n_moved == 0:
+            if (_f61 or {}).get("verdict") != "floor_at_one_is_structural":
+                _bad61.append("no floored arm moved yet the verdict says %r"
+                              % (_f61 or {}).get("verdict"))
+        _tr61 = (_f61 or {}).get("trimming") or {}
+        if _tr61.get("rows_newly_outside_at_the_tight_end") is None:
+            _tr61_direction = "the trimming block does not publish its direction"
+            _bad61.append(_tr61_direction)
+        _s61 = (_f61 or {}).get("summary") or {}
+        check("product: the floor at one belongs to the attained bucket, not the stream",
+              not _bad61, "; ".join(_bad61)[:220]
+              or "verdict %s; %s of %s arms sit at a floor of one and %s of those move off it "
+                 "when the %s attained seeds are removed (median %s%% of the width); %s of %s arms "
+                 "reproduce E259 bit-for-bit; %s published rows were judged on the self arm while "
+                 "naming another leg, %s verdict moves on its own leg, %s row verdicts depend on "
+                 "the bucket"
+                 % ((_f61 or {}).get("verdict"), _n_floor, len(_arms61), _n_moved,
+                    _s61.get("seeds_attained"),
+                    ("%.1f" % (100 * _s61.get("width_drop_share_median"))
+                     if _s61.get("width_drop_share_median") is not None else "n/a"),
+                    _s61.get("arms_reproduce_e259_interval"), len(_arms61),
+                    _s61.get("rows_judged_on_a_leg_other_than_the_one_they_name"),
+                    _s61.get("rows_whose_verdict_changes_on_their_own_leg"),
+                    _s61.get("rows_verdict_changes_under_trimming")))
+    except Exception as e:
+        check("product: the floor at one belongs to the attained bucket, not the stream",
+              False, repr(e)[:160])
+
+
     # E258: E257 could only BORROW era_2025_now's draw ladder and apply it to every window as a
     # range, because a fixed published window is neither that era's head nor its tail. This leg
     # guards the face that measures each window's own multiplier. What can fabricate a claim here:

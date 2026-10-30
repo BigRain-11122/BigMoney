@@ -5012,3 +5012,28 @@ sample converged; > pin a cross-face reproduction ARM BY ARM (key = base count *
 summing whatever rows happen to be published: the published rows and the distribution arms were two
 different 16s, and the 29-vs-52 "reproduction failure" was that mistake, not a broken upstream.
 
+## E261 -- the floor at one belongs to the attained bucket, not to the stream
+
+A Monte-Carlo band built on prefix-nested draws has a *degenerate* reading: once the draw that sets a
+band endpoint has already arrived inside the base prefix, that endpoint cannot move again and the
+seed's multiplier is exactly one. E259 published 52 of 640 such seeds. The question a reader needs is
+what those seeds cost: if you take the bucket out, does the interval move a little (the floor was the
+stream's own bound) or a lot (the floor was arrival)?
+
+Measured by rebuilding every published interval twice on the same per-seed table (E259's face only,
+no new draws): **8 of 16 arms carry a floor at one and all 8 leave it** when the bucket is removed --
+median lift **+0.0734** (range +0.0327..+0.2005), median width loss **10.4%** of itself (max 18.2%).
+The floor is **not spread evenly across base counts**: **7 of 8 at base 200, 1 of 8 at base 60**,
+which is the direction E260's arrival result predicts. The bucket sits at the bottom of the
+distribution, so removing it moves the median by only +0.0148. **No published row verdict depends on
+the bucket** (0 of 16 rows re-judged).
+
+How to apply: > before quoting "this band can only widen", publish the interval with and without the
+endpoint-attained bucket -- a floor that moves was arrival, not a bound; > a trimmed sample selects on
+its own minimum, so it answers "how far can it still move", never "where does it land", and it makes
+"outside" easier -- publish that direction so a newly-outside row cannot be read as a finding; > a
+floor that concentrates in one base count is a statement about arrival, so publish the cross-tab
+rather than leaving it for the reader to compute; > a lookup keyed by (window, base count) alone
+silently returns the wrong leg -- E259's row table re-judged the cross and lag-1 rows against the self
+arm; this face resolves leg-less rows by the coefficient they publish and names the ambiguity (1 of 16
+verdicts moves when fixed, in the easier direction).

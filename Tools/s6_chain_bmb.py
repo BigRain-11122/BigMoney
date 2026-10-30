@@ -281,6 +281,16 @@ LEGS = [
     ("band_endpoint_arrival",
      ["python", "scripts/e260_band_endpoint_arrival.py", "verify"]),
 
+    # E261: E259 published that 52 of 640 per-seed multipliers read exactly 1.0 (the band's lower
+    # endpoint had already stopped moving) and that they dragged p05 to 1.0 in 14 of 16 arms. This
+    # leg re-derives each interval twice -- over all seeds and over the seeds still free to move --
+    # and pins that (a) all 16 arms reproduce E259 bit-for-bit, (b) the 8 arms whose lower end sits
+    # at one are exactly the 8 whose floor moves off one once the bucket is removed, and (c) no
+    # published row verdict depends on the bucket. Reads E259's published per-seed tables only, no
+    # panel, no draw, no re-pricing. <1s.
+    ("degenerate_seeds_leave_one_bucket",
+     ["python", "scripts/e261_degenerate_seeds_leave_one_bucket.py", "verify"]),
+
     # E241: E238's pair does not reproduce on the common grid, and the ladder rung that carries
     # it is the READER, not the market: E240's share/book design paired a y vector indexed by
     # the kept session with increments re-paired from k=1, so the dependent variable sat one
