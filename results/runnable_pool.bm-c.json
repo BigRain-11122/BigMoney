@@ -23556,7 +23556,18 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T09:1x+08:00",
    "entered_by": "bm-c r1352",
-   "source": "r1352 buffer family closure (0/36 cells beyond band; k05 -0.030 / k10 +0.072 / k20 +0.138; 3/12 sign flips)"
+   "source": "r1352 buffer family closure (0/36 cells beyond band; k05 -0.030 / k10 +0.072 / k20 +0.138; 3/12 sign flips)",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "ready",
+     "owner": "bm-c",
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k02.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)",
+     "owner_since": "2026-10-30 09:25:45"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1
   },
   {
    "id": "E262-ATLAS-BUFFER-K40",
@@ -23579,7 +23590,17 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T09:1x+08:00",
    "entered_by": "bm-c r1352",
-   "source": "r1352 buffer family closure -- one arm is a data point, the axis needs both ends"
+   "source": "r1352 buffer family closure -- one arm is a data point, the axis needs both ends",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "ready",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k40.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1
   },
   {
    "id": "E262-ATLAS-BUFFER-TOLL-INTERACTION",
@@ -23603,7 +23624,17 @@
    "evidence_cutoff": "2026-10-29",
    "entered_at": "2026-10-30T09:1x+08:00",
    "entered_by": "bm-c r1352",
-   "source": "r1352 arms gate + E260: both families were judged separately and never against each other"
+   "source": "r1352 arms gate + E260: both families were judged separately and never against each other",
+   "shards": [
+    {
+     "key": "atlas-0of1",
+     "status": "ready",
+     "owner": null,
+     "checkpoint": "results/etf_book_phase_atlas_buffer_k05_cost20.json -- the atlas run writes one whole face per invocation; a re-run reproduces the same bytes for the same bar set (no partial state to resume)"
+    }
+   ],
+   "shard_note": "r1353 bm-c repair: entered 09:1x without a shards array, so the picker could never take them (r301 submit law) while the watermark called the host idle at py 6%",
+   "priority": 1
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
