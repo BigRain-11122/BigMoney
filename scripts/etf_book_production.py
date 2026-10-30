@@ -531,6 +531,46 @@ def sign_pit_support():
         return None
 
 
+def control_moved(face_control, card, cell_key="n12_vt08", tol=1e-9):
+    """Has the control arm a research face graded against moved on the SAME bar?
+
+    A cutoff comparison answers "was this face priced before the card started": it is blind
+    to the way the card actually changes -- a config edit, a repaired print or a re-derived
+    cell on the bar it already carried. Those leave the date identical and every number the
+    face graded itself against different, which is exactly the state in which the face is
+    stale and a date-only gate reads green.
+
+    The face already records what it graded against (control.published / published_turnover),
+    so the question is answerable at check time with no engine run: compare the recorded
+    numbers with the card now on disk. Returns (moved, reason):
+      moved=None  -> the card or its cell is absent, nothing to compare (the caller falls
+                     back to its cutoff rule and says so; that is not the same as clean)
+      moved=True  -> the control moved under this face: stale, the chain pays a refresh
+      moved=False -> these are the numbers the face was graded against.
+    """
+    if not card:
+        return None, "production card unreadable -- the control arm cannot be re-read"
+    cell = (card.get("backtest") or {}).get(cell_key)
+    if not cell:
+        return None, "production card carries no %s cell -- the control arm cannot be re-read" % cell_key
+    face_control = face_control or {}
+    if face_control.get("published") is None:
+        return None, "face recorded no published control -- nothing to compare against"
+    now = (cell.get("full") or {}).get("cagr")
+    if now is None:
+        return None, "card cell %s has no full-window CAGR -- the control arm cannot be re-read" % cell_key
+    was = face_control.get("published")
+    if abs(float(now) - float(was)) > tol:
+        return True, ("the control arm this face graded against moved on the same bar: "
+                      "%.6f then, %.6f now (%s)" % (float(was), float(now), cell_key))
+    was_turn = face_control.get("published_turnover")
+    now_turn = cell.get("turnover_per_decision")
+    if was_turn is not None and now_turn is not None and abs(float(now_turn) - float(was_turn)) > tol:
+        return True, ("the control arm's turnover moved on the same bar: "
+                      "%.6f then, %.6f now (%s)" % (float(was_turn), float(now_turn), cell_key))
+    return False, None
+
+
 def load_names():
     """ETF code -> short name from the shipped list; empty on failure (never fatal)."""
     p = os.path.join(E.PATHS.data_dir, "basic", "etf_list.csv")

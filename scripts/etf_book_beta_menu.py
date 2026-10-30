@@ -19,6 +19,7 @@ Outputs:
 
 Exploratory: not a verdict, not investment advice, no ledger booking.
 """
+import hashlib
 import json
 import os
 import sys
@@ -191,6 +192,30 @@ def ticket_menu(score, close, dec_bar, k_by_beta, nav=NAV, classes=None, n_hold=
 
 
 # ------------------------------------------------------------------------- risk in money
+def stress_inputs_digest(close, priced_bar, capital, windows, menu):
+    """What the cached stress numbers were computed FROM, not when they were computed.
+
+    The cache file name is the priced bar, and the bar is what a repaired print or a
+    ticket rescale leaves untouched: a flip fix in the middle of the panel rewrites the
+    worst window without moving today's date, and the menu's k can move without the panel
+    moving at all. Keying the replay on the date alone therefore hands back numbers for a
+    world that no longer exists -- the cache form of the r1372/r1373 staleness family.
+    """
+    h = hashlib.sha256()
+    h.update(("bar|%s|cap|%.4f|win|%s" % (
+        priced_bar, float(capital or 0.0), ",".join(str(int(w)) for w in windows))).encode())
+    ks = ",".join("%.8f:%s" % (float(r.get("beta")), "none" if r.get("k") is None else "%.10f" % float(r["k"]))
+                  for r in menu or [])
+    h.update(("|k|" + ks).encode())
+    if close is not None and len(getattr(close, "index", [])):
+        try:
+            h.update(("|shape|%d,%d" % close.shape).encode())
+            h.update(pd.util.hash_pandas_object(close.fillna(0.0), index=True).values.tobytes())
+        except Exception:
+            h.update(b"|unhashable")
+    return h.hexdigest()
+
+
 def tier_stress(menu, close, capital, priced_bar, cache_dir=STRESS_DIR,
                 windows=STRESS_WINDOWS):
     """Worst N-day window for EACH tier, in percent and in yuan, on one shared panel.
@@ -201,18 +226,23 @@ def tier_stress(menu, close, capital, priced_bar, cache_dir=STRESS_DIR,
     Every tier is therefore walked separately through the same arithmetic the CEO page
     uses (stress_stats), rather than multiplied afterwards.
 
-    Cached per priced bar + capital: the answer only moves when the panel or the ticket
-    does, and re-walking the panel every tick is cost without information. Absent panel
-    -> None per tier, never a zero.
+    Cached per (priced bar, capital, panel content, ticket scale): re-walking the panel
+    every tick is cost without information, but a cache keyed on the date alone replays
+    numbers for a panel that has since been repaired (see stress_inputs_digest). A cache
+    written before this digest existed is a MISS, not a hit. Absent panel -> None per
+    tier, never a zero.
     """
     cache = os.path.join(cache_dir, "STRESS-%s-%d-%s.json" % (
         str(priced_bar).replace("-", ""), int(round(float(capital or 0.0))),
         "_".join(str(int(w)) for w in windows)))
+    inputs_sha = None if close is None else stress_inputs_digest(
+        close, priced_bar, capital, windows, menu)
     if os.path.exists(cache):
         try:
             with open(cache, encoding="utf-8") as fh:
                 c = json.load(fh)
-            if c.get("priced_bar") == str(priced_bar):
+            if (c.get("priced_bar") == str(priced_bar) and inputs_sha is not None
+                    and c.get("inputs_sha256") == inputs_sha):
                 # JSON turns the beta keys into strings; the caller keys by number
                 return {float(k): v for k, v in (c.get("tiers") or {}).items()}
         except (OSError, ValueError):
@@ -242,7 +272,8 @@ def tier_stress(menu, close, capital, priced_bar, cache_dir=STRESS_DIR,
         os.makedirs(cache_dir, exist_ok=True)
         with open(cache, "w", encoding="utf-8", newline="\n") as fh:
             json.dump({"priced_bar": str(priced_bar), "capital_cny": capital,
-                       "tiers": out}, fh, ensure_ascii=False, indent=1, sort_keys=True)
+                       "inputs_sha256": inputs_sha, "tiers": out}, fh,
+                      ensure_ascii=False, indent=1, sort_keys=True)
             fh.write("\n")
     except OSError:
         pass
@@ -521,6 +552,18 @@ def selftest():
         (tier_stress(m2, closes, 100_000.0, "2026-10-01", cache_dir=sdir,
                      windows=(1, 3)).get(1.0) or {}).get("worst")
         == (hi.get("worst")))
+    # L19b r1374: a repaired panel on the SAME bar is a cache MISS, not a replay. Without
+    # the content digest the file name (the bar) says "same world" and the reader gets the
+    # previous world's worst window.
+    import json as _json
+    cache_file = os.path.join(sdir, "STRESS-20261001-100000-1_3.json")
+    recorded = _json.load(open(cache_file, encoding="utf-8")).get("inputs_sha256") if os.path.exists(cache_file) else None
+    chk("L19b stress: the cache file records what it was computed from", bool(recorded))
+    repaired = closes.copy()
+    repaired.iloc[-2:, :] = repaired.iloc[-2:, :].values * 0.75      # a repair that moves the worst 1-day
+    fresh = tier_stress(m2, repaired, 100_000.0, "2026-10-01", cache_dir=sdir, windows=(1, 3))
+    chk("L19b stress: a same-bar panel repair is recomputed, never replayed",
+        (fresh.get(1.0) or {}).get("worst") != (hi.get("worst")))
     try:
         import shutil
         shutil.rmtree(sdir, ignore_errors=True)

@@ -288,12 +288,16 @@ def _caveats_with_adoption():
 
 # ---------------------------------------------------------------- consistency gate
 
-def check_payload(payload, production_cutoff=None, grid=BUFFER_GRID):
+def check_payload(payload, production_cutoff=None, grid=BUFFER_GRID, card=None):
     """Engine-free gate: is the published face still internally consistent and current?
 
     Deliberately cheap (0.1s) so the chain can judge it every round, following the
     etf_book_cagr_reconcile precedent -- re-deriving the arms costs the panel build.
     Returns (ok, reasons). Every reason names what is wrong; an empty list means green.
+
+    `card` (r1374) is the production face itself rather than only its date: a cutoff says
+    whether this face is older, never whether the card it graded against moved on the bar
+    they share. The control numbers recorded in the payload carry that second half.
     """
     bad = []
     cfg = payload.get("config") or {}
@@ -349,6 +353,9 @@ def check_payload(payload, production_cutoff=None, grid=BUFFER_GRID):
         if str(payload["evidence_cutoff"]) < str(production_cutoff):
             bad.append("face is stale: priced on %s while the production card is on %s"
                        % (payload["evidence_cutoff"], production_cutoff))
+    moved, why = P.control_moved(payload.get("control"), card)
+    if moved:
+        bad.append("face is stale: " + why)
     return (not bad), bad
 
 
@@ -357,13 +364,17 @@ def check():
         print("FAIL face missing: %s" % OUT_JSON.relative_to(ROOT))
         return 1
     payload = json.loads(OUT_JSON.read_text(encoding="utf-8"))
-    prod_cutoff = None
+    prod_cutoff, card = None, None
     if PRODUCTION_FACE.exists():
-        prod = json.loads(PRODUCTION_FACE.read_text(encoding="utf-8"))
-        prod_cutoff = prod.get("evidence_cutoff")
-    ok, bad = check_payload(payload, prod_cutoff)
+        card = json.loads(PRODUCTION_FACE.read_text(encoding="utf-8"))
+        prod_cutoff = card.get("evidence_cutoff")
+    ok, bad = check_payload(payload, prod_cutoff, card=card)
     for b in bad:
         print("[FAIL] " + b)
+    if card is not None:
+        moved, why = P.control_moved(payload.get("control"), card)
+        if moved is None:
+            print("[NOTE] control re-read unavailable: " + why)
     print("hysteresis face %s (cutoff %s, grid %r)" % (
         "OK" if ok else "RED", payload.get("evidence_cutoff"),
         [a.get("k") for a in payload.get("arms") or []]))
@@ -608,6 +619,20 @@ def selftest():
                  (not stale_ok) and any("stale" in r for r in stale_reasons), "reasons=%r" % (stale_reasons,)))
     same_ok, _ = check_payload(dict(good, evidence_cutoff="2026-10-27"), "2026-10-27")
     legs.append(("gate stays green on the same cutoff", same_ok, "should be green"))
+
+    # --- r1374: the same bar is not the same card -----------------------------
+    card = {"evidence_cutoff": "2026-10-27",
+            "backtest": {"n12_vt08": {"full": {"cagr": 0.0962}, "turnover_per_decision": 0.934}}}
+    legs.append(("gate: unchanged control on the same bar -> green",
+                 check_payload(good, "2026-10-27", card=card)[0], "should be green"))
+    moved = json.loads(json.dumps(card))
+    moved["backtest"]["n12_vt08"]["full"]["cagr"] = 0.0901
+    ok_m, bad_m = check_payload(good, "2026-10-27", card=moved)
+    legs.append(("gate: a card re-derived on the SAME bar is stale, not green",
+                 (not ok_m) and any("moved on the same bar" in r for r in bad_m), "reasons=%r" % (bad_m,)))
+    legs.append(("gate: an unreadable card cell is 'unknown', never 'clean'",
+                 P.control_moved(good["control"], {"backtest": {}})[0] is None,
+                 "%r" % (P.control_moved(good["control"], {"backtest": {}}),)))
 
     passed = sum(1 for _, ok, _ in legs if ok)
     for name, ok, detail in legs:

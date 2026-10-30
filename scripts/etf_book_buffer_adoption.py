@@ -430,11 +430,16 @@ def render_md(payload):
 
 # ---------------------------------------------------------------- consistency gate
 
-def check_payload(payload, production_cutoff=None):
+def check_payload(payload, production_cutoff=None, card=None):
     """Engine-free: is this face internally consistent, current, and honestly graded?
 
     Deliberately cheap so the chain can judge it every round (the cagr_reconcile and
     hysteresis precedent -- re-deriving the grid costs the panel build).
+
+    `card` is the production face itself, not just its date: a cutoff answers "was I priced
+    before the card", never "did the card move under me on the bar we share". The control
+    numbers this face records are the second, content-level half of the same question
+    (r1374: the date-only form of the r1372 mtime blindness).
     """
     bad = []
     for key in ("cagr", "turnover_per_decision", "delta_pp", "phase"):
@@ -500,6 +505,9 @@ def check_payload(payload, production_cutoff=None):
         if str(payload["evidence_cutoff"]) < str(production_cutoff):
             bad.append("face is stale: priced on %s while the production card is on %s"
                        % (payload["evidence_cutoff"], production_cutoff))
+    moved, why = P.control_moved(payload.get("control"), card)
+    if moved:
+        bad.append("face is stale: " + why)
     return (not bad), bad
 
 
@@ -508,12 +516,16 @@ def check():
         print("FAIL face missing: %s" % OUT_JSON.relative_to(ROOT))
         return 1
     payload = json.loads(OUT_JSON.read_text(encoding="utf-8"))
-    prod_cutoff = None
+    prod_cutoff, card = None, None
     if PRODUCTION_FACE.exists():
-        prod_cutoff = json.loads(PRODUCTION_FACE.read_text(encoding="utf-8")).get("evidence_cutoff")
-    ok, bad = check_payload(payload, prod_cutoff)
+        card = json.loads(PRODUCTION_FACE.read_text(encoding="utf-8"))
+        prod_cutoff = card.get("evidence_cutoff")
+    ok, bad = check_payload(payload, prod_cutoff, card)
     for b in bad:
         print("[FAIL] " + b)
+    if card is not None and P.control_moved(payload.get("control"), card)[0] is None:
+        print("[NOTE] control re-read unavailable: %s"
+              % P.control_moved(payload.get("control"), card)[1])
     print("buffer-adoption face %s (cutoff %s, verdict %s, %d cells)"
           % ("OK" if ok else "RED", payload.get("evidence_cutoff"),
              (payload.get("verdict") or {}).get("label"), len(payload.get("cells") or [])))
@@ -667,6 +679,28 @@ def selftest():
 
     ok8, bad8 = check_payload(payload, production_cutoff="2026-10-28")
     legs.append(("gate: a face priced on an older bar than the card -> red", not ok8, "%r" % (bad8,)))
+
+    # --- r1374: the same bar is not the same card -----------------------------
+    graded = dict(payload["control"], published_turnover=0.934)
+    face = dict(payload, control=graded)
+    card = {"evidence_cutoff": payload["evidence_cutoff"],
+            "backtest": {"n12_vt08": {"full": {"cagr": graded["published"]},
+                                      "turnover_per_decision": 0.934}}}
+    legs.append(("gate: card unchanged on the same bar -> green",
+                 check_payload(face, payload["evidence_cutoff"], card)[0], "should be green"))
+    moved_card = json.loads(json.dumps(card))
+    moved_card["backtest"]["n12_vt08"]["full"]["cagr"] += 0.004
+    ok9, bad9 = check_payload(face, payload["evidence_cutoff"], moved_card)
+    legs.append(("gate: the card re-derived on the SAME bar -> red, not green",
+                 (not ok9) and any("moved on the same bar" in b for b in bad9), "%r" % (bad9,)))
+    turn_card = json.loads(json.dumps(card))
+    turn_card["backtest"]["n12_vt08"]["turnover_per_decision"] += 0.02
+    ok10, bad10 = check_payload(face, payload["evidence_cutoff"], turn_card)
+    legs.append(("gate: a same-bar turnover move is caught too",
+                 (not ok10) and any("turnover moved" in b for b in bad10), "%r" % (bad10,)))
+    legs.append(("gate: a missing card cell is 'unreadable', never 'clean'",
+                 P.control_moved(face["control"], {"backtest": {}})[0] is None,
+                 "%r" % (P.control_moved(face["control"], {"backtest": {}}),)))
 
     # --- the reader-facing page carries the verdict, not just the numbers -----
     md = render_md({**payload, "cells": cells,

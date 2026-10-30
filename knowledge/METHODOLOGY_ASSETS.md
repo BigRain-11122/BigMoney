@@ -6823,3 +6823,36 @@ computation cannot drift in.
 Pos: scripts/etf_book_ceo_page.py (bets_face / render_md bet-count section / selftest 49 legs incl.
 L48-L50) + smoke leg "product: ETF live-book page says how many independent bets the holdings are"
 + docs/live_book/LIVE-BOOK-20261031.md.
+
+## E286 A date can say which bar a face is on, and nothing about whether the world it was priced against still exists (2026-10-31 r1374 bm-c)
+
+r1372 swept the gates that asked the clock whether their source had moved; r1373 hashed the last
+one. The same family has a second form, and it is the one a research face actually falls into: a
+gate comparing `evidence_cutoff` with the card's cutoff. That comparison answers "was I priced
+before the card", never "did the card move under me on the bar we share" -- a config edit, a
+repaired print or a re-derived cell leaves both dates identical and every number the face graded
+against different.
+
+The tell is that such a face usually ALREADY records what it graded against.
+`etf_book_buffer_adoption` and `etf_book_hysteresis` both store `control.published` and
+`published_turnover`, so the second half of the question is answerable at check time with no engine
+run; the rule now lives once, as `etf_book_production.control_moved()`, and is imported by both (a
+copy of a rule is the next defect). The third state matters as much as the first two: card, cell or
+recorded control absent returns `None` and the gate prints `control re-read unavailable` -- an
+unreadable input is not a clean one.
+
+The stronger instance was not a gate but a CACHE: `etf_book_beta_menu` keyed its stress replay on
+the priced bar, while its own docstring asserted "the answer only moves when the panel or the ticket
+does". A flip repair rewrites the worst N-day window without moving today's date, and the tier k
+moves without the panel moving at all, so the replay handed back numbers for a panel that no longer
+existed. `stress_inputs_digest()` now keys the replay on bar + capital + windows + ticket scale + a
+hash of the panel values, and a cache file that predates the digest is a MISS rather than a hit.
+
+Selftests 35/35 (hysteresis, +3 legs), 37/37 (buffer adoption, +4 legs), 27/27 (beta menu, 30 -> 32
+chk sites) including "a same-bar panel repair is recomputed, never replayed". Both live gates remain
+OK on the current bar: a correct rule finds nothing to report in an unchanged world.
+
+Pos: scripts/etf_book_production.py (control_moved) + scripts/etf_book_buffer_adoption.py +
+scripts/etf_book_hysteresis.py + scripts/etf_book_beta_menu.py (stress_inputs_digest)
++ digest DIGEST-20261031-r1374-date-only-gates.md.
+
