@@ -6744,3 +6744,31 @@ selftest 100->102 legs: copy-drift reads stale with the face deliberately NEWER 
 copy-drift plus a moved verdict still reads inconsistent) + refreshed
 `results/etf_book_phase_atlas_arms.json` (one line changed -- the worker count; every published
 reading identical) + digest `DIGEST-20261030-r1371-copy-drift-vs-mtime.md`.
+
+## E282 A gate and its four siblings: sweep a defect family by the rule, not by the report (2026-10-30 r1372 bm-c)
+r1371 fixed the arms gate's staleness split and left the same decision in five more places -- the
+floor, width, live-width and readback gates in the same module plus the null-rule gate, all still
+asking mtime "is any source newer than the face". That is the shape a family defect takes: the
+report names the one site that went red, and the siblings keep passing because nothing has yet
+perturbed them. This round replaced the clock in all five with the two content signals, and the
+sweep immediately found a live false alarm nobody had noticed.
+(1) **Two signals, both clock-free.** (a) a differing leaf that `build()` copies verbatim from the
+source means the source was regenerated; (b) a source face priced on a *later bar* than this one
+means it advanced. Everything a checkout can rewrite is excluded from both.
+(2) **A cutoff comparison is only safe between two faces that mean the same thing by it.** The
+first version compared the live-width face's cutoff (the atlas grid's bar) against
+`results/etf_book_order/latest.json`, whose `as_of` is the date the ticket was *written* -- and the
+gate went permanently stale against a ticket that re-derives to the same bytes. Same family as the
+r1292 unit mix-up, caught only because a pre-existing selftest leg went red. Narrow the reader:
+`evidence_cutoff` only, top level or inside `baseline`; nothing else is a priced bar.
+(3) **A sweep needs a leg that proves the clock is not consulted, in both directions.** A hand edit
+under an OLD clock must stay inconsistent (the mtime rule called it stale); a face priced on an
+older bar must go stale even when it is the newest file on disk (the mtime rule called it fresh).
+Proving only one direction leaves the old path reachable in the other.
+Law: when a defect is found in one gate, re-read every gate of the same kind before closing the
+round; and when staleness is decided by a date, only compare dates that the same face would have
+written -- a written-on date and a priced-on bar are different quantities.
+Pos: scripts/etf_book_phase_atlas_arms.py (_cutoff_of / _source_advanced / _source_moved, used by
+check/floor_check/width_check/live_width_check/readback_check; selftest 102->109) +
+scripts/etf_book_rule_null.py (same rule, its own copy of the read) + digest
+DIGEST-20261030-r1372-clock-free-staleness-sweep.md. All five gates green on the 2026-10-29 bar.

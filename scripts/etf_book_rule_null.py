@@ -33,7 +33,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
-from etf_book_phase_atlas_arms import judge, CRITERIA  # single source of the rule
+from etf_book_phase_atlas_arms import judge, CRITERIA, _cutoff_of  # single source of the rule
 
 RES = os.path.join(ROOT, "results")
 ARMS_FACE = os.path.join(RES, "etf_book_phase_atlas_arms.json")
@@ -194,11 +194,24 @@ def check():
         print("null face matches a re-simulation (seed %d, %d trials): %s"
               % (PARAMS["seed"], pub["null"]["trials"], pub["verdict"]))
         return 0
-    newer = os.path.getmtime(ARMS_FACE) > os.path.getmtime(OUT_JSON) + 1.0
-    if newer:
-        print("face is stale: the arms face moved after this one; drift=%s" % "; ".join(drift)[:300])
+    # r1372: content, not clock. A checkout rewrites mtimes in arbitrary order, so the arms face
+    # can look newer with the same bytes (or older after a restore); the bar it is priced on
+    # cannot be moved that way.
+    adv = []
+    mine = _cutoff_of(pub)
+    if mine and os.path.exists(ARMS_FACE):
+        try:
+            with open(ARMS_FACE, encoding="utf-8") as f:
+                c = _cutoff_of(json.load(f))
+        except (OSError, ValueError):
+            c = None
+        if c and c > mine:
+            adv.append("arms(%s>%s)" % (c, mine))
+    if adv:
+        print("face is stale: a source face is priced later than this one (%s); drift=%s"
+              % (",".join(adv), "; ".join(drift)[:300]))
         return 2
-    print("face is inconsistent: %d field(s) disagree and no source moved: %s"
+    print("face is inconsistent: %d field(s) disagree and no source is priced later: %s"
           % (len(drift), "; ".join(drift)[:400]))
     return 1
 

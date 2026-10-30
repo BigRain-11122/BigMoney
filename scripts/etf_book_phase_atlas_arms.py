@@ -381,16 +381,13 @@ def floor_check():
               % (rebuilt["evidence_cutoff"], rebuilt["verdict"], rebuilt["k_required"]))
         return 0
     src = [BASE] + [p for p, _ in ARMS.values()]
-    try:
-        face_mtime = os.path.getmtime(FLOOR_OUT)
-    except OSError:
-        face_mtime = 0.0
-    newer = [os.path.basename(p) for p in src if os.path.getmtime(p) > face_mtime + 1.0]
-    if newer:
-        print("floor is stale: priced on cutoff %r while its sources moved (%s)"
-              % (pub.get("evidence_cutoff"), ",".join(sorted(newer))[:160]))
+    why = _source_moved(pub, drift, src)
+    if why:
+        print("floor is stale: priced on cutoff %r -- %s; drift=%s"
+              % (pub.get("evidence_cutoff"), why, "; ".join(drift)[:300]))
         return 2
-    print("floor is inconsistent: %d field(s) disagree with a re-derivation and no source moved: %s"
+    print("floor is inconsistent: %d field(s) disagree with a re-derivation while every copied "
+          "field still matches and no source is priced later: %s"
           % (len(drift), "; ".join(drift)[:300]))
     return 1
 
@@ -596,16 +593,15 @@ def width_check():
         print("width face matches its own sources on cutoff %s: %s (width required %s)"
               % (rebuilt["evidence_cutoff"], rebuilt["verdict"], rebuilt["width_required"]))
         return 0
-    try:
-        face_mtime = os.path.getmtime(WIDTH_OUT)
-    except OSError:
-        face_mtime = 0.0
-    if os.path.getmtime(BASE) > face_mtime + 1.0:
-        print("width face is stale: priced on cutoff %r while the baseline grid moved"
-              % pub.get("evidence_cutoff"))
+    cap = face(CAPACITY_FACE) if os.path.exists(CAPACITY_FACE) else None
+    why = _source_moved(pub, drift, [BASE] + ([CAPACITY_FACE] if cap else []))
+    if why:
+        print("width face is stale: priced on cutoff %r -- %s; drift=%s"
+              % (pub.get("evidence_cutoff"), why, "; ".join(drift)[:300]))
         return 2
-    print("width face is inconsistent: %d field(s) disagree with a re-derivation and no source "
-          "moved: %s" % (len(drift), "; ".join(drift)[:300]))
+    print("width face is inconsistent: %d field(s) disagree with a re-derivation while every "
+          "copied field still matches and no source is priced later: %s"
+          % (len(drift), "; ".join(drift)[:300]))
     return 1
 
 
@@ -994,19 +990,19 @@ def live_width_check():
                  rebuilt["paired"]["median_pp"],
                  rebuilt["engine_disagreement"]["rung_disagreement_pp"]))
         return 0
-    try:
-        face_mtime = os.path.getmtime(LIVE_OUT)
-    except OSError:
-        face_mtime = 0.0
-    src = [BASE, CAPACITY_FACE, TICKET_LATEST]
-    newer = [os.path.basename(p) for p in src
-             if os.path.exists(p) and os.path.getmtime(p) > face_mtime + 1.0]
-    if newer:
-        print("live-width face is stale: sourced before %s moved; drift=%s"
-              % (",".join(sorted(newer)), "; ".join(drift)[:200]))
+    # TICKET_LATEST is deliberately NOT a cutoff source: its `evidence_cutoff` is the bar the
+    # ticket is priced on, which legitimately runs ahead of the atlas grid this face inherits
+    # its own cutoff from. Comparing the two would manufacture a permanent 'stale' (measured:
+    # TICKET-2026-10-30 vs a face priced 2026-10-29 that re-derives to the same bytes). The
+    # ticket's real contribution is covered by the drift comparison itself.
+    src = [BASE, CAPACITY_FACE]
+    why = _source_moved(pub, drift, [p for p in src if os.path.exists(p)])
+    if why:
+        print("live-width face is stale: %s; drift=%s" % (why, "; ".join(drift)[:250]))
         return 2
-    print("live-width face is inconsistent: %d field(s) disagree with a re-derivation and no "
-          "source moved: %s" % (len(drift), "; ".join(drift)[:300]))
+    print("live-width face is inconsistent: %d field(s) disagree with a re-derivation while "
+          "every copied field still matches and no source is priced later: %s"
+          % (len(drift), "; ".join(drift)[:300]))
     return 1
 
 
@@ -1179,11 +1175,12 @@ def readback_check():
               % (rebuilt["verdict"], rebuilt["predicted_pp"], rebuilt["observed_pp"]))
         return 0
     src = [FLOOR_OUT, READBACK_FACE, BASE]
-    face_mtime = os.path.getmtime(READBACK_OUT)
-    if any(os.path.getmtime(p) > face_mtime + 1.0 for p in src):
-        print("readback is stale: a source face moved after it was written")
+    why = _source_moved(pub, drift, [p for p in src if os.path.exists(p)])
+    if why:
+        print("readback is stale: %s; drift=%s" % (why, "; ".join(drift)[:250]))
         return 2
-    print("readback is inconsistent: %d field(s) disagree: %s"
+    print("readback is inconsistent: %d field(s) disagree while every copied field still "
+          "matches and no source is priced later: %s"
           % (len(drift), "; ".join(drift)[:300]))
     return 1
 
@@ -1622,6 +1619,56 @@ def _selftest():
         and p["arms"]["cost0"]["rows"][0]["n_hold"] == 3,
         "the zero-toll rung really ran at cost 0.0 on the same 12-cell grid")
 
+    # L32-L34 r1372: staleness is decided by CONTENT, not by clocks -- r1371 fixed that in
+    # check() and left it in five sibling gates. Both directions, on temp fixtures only:
+    #   a hand edit under an OLD clock must stay inconsistent (the mtime rule called it stale)
+    #   a face priced on an older bar must go stale even when it is the newest file on disk
+    saved = (FLOOR_OUT, WIDTH_OUT, LIVE_OUT)
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            ftmp = os.path.join(td, "floor.json")
+            with open(ftmp, "w", encoding="utf-8") as f:
+                json.dump(build_floor(), f, ensure_ascii=False, indent=1)
+            FLOOR_OUT = ftmp
+            base_cutoff = _cutoff_of(face(BASE))
+            past = os.stat(ftmp).st_mtime - 7200.0
+            os.utime(ftmp, (past, past))
+            chk(floor_check() == 0, "an unedited floor passes even with an old clock")
+            d2 = json.loads(json.dumps(build_floor()))
+            d2["k_required"] = 0.5
+            with open(ftmp, "w", encoding="utf-8") as f:
+                json.dump(d2, f, ensure_ascii=False, indent=1)
+            os.utime(ftmp, (past, past))
+            rc = floor_check()
+            chk(rc == 1, "a hand edit under an OLD clock is inconsistent, not stale (rc=%r)" % rc)
+            d3 = json.loads(json.dumps(d2))
+            d3["evidence_cutoff"] = "2000-01-04"
+            with open(ftmp, "w", encoding="utf-8") as f:
+                json.dump(d3, f, ensure_ascii=False, indent=1)
+            future = os.stat(ftmp).st_mtime + 7200.0
+            os.utime(ftmp, (future, future))
+            rc = floor_check()
+            chk(rc == 2 if base_cutoff and base_cutoff > "2000-01-04" else rc == 1,
+                "a face priced on an older bar than its source goes stale even when it is the "
+                "newest file on disk (rc=%r, source bar %r)" % (rc, base_cutoff))
+        finally:
+            FLOOR_OUT, WIDTH_OUT, LIVE_OUT = saved
+
+    # L35-L38 r1372: the ticket pointer is not a priced bar. results/etf_book_order/latest.json
+    # carries `as_of` (the date the ticket was written) and a file pointer; reading that as a
+    # cutoff compares two different quantities and manufactures staleness -- which this round
+    # did, once, on the live-width gate before narrowing _cutoff_of.
+    chk(_cutoff_of({"as_of": "2030-01-01", "file": "x.json"}) is None,
+        "a written-on date is not a priced bar")
+    chk(_cutoff_of({"evidence_cutoff": "2026-10-29"}) == "2026-10-29"
+        and _cutoff_of({"baseline": {"evidence_cutoff": "2026-10-29"}}) == "2026-10-29",
+        "the priced bar is read from evidence_cutoff, top level or inside baseline")
+    chk(_source_advanced({"evidence_cutoff": "2026-10-29"}, []) == [],
+        "a face with no sources is not stale")
+    if os.path.exists(TICKET_LATEST):
+        chk(_source_advanced(face(LIVE_OUT), [TICKET_LATEST]) == [],
+            "the ticket pointer never makes the live-width face stale on its own")
+
     print("selftest: %d legs, %d failed" % (CHECKS[0], len(bad)))
     return 0 if not bad else 1
 
@@ -1684,6 +1731,81 @@ def _classify_drift(drift):
     return copied, derived
 
 
+def _cutoff_of(payload):
+    """The bar a face is PRICED on, and nothing else.
+
+    Deliberately narrow: only `evidence_cutoff` (top level, or inside `baseline` for the arms
+    face) counts. `as_of` on results/etf_book_order/latest.json is the date the ticket was
+    written, not the bar its numbers come from -- reading it here would compare two different
+    quantities and manufacture a staleness that does not exist (the r1292 unit family).
+    """
+    if not isinstance(payload, dict):
+        return None
+    v = payload.get("evidence_cutoff")
+    if isinstance(v, str) and len(v) >= 10:
+        return v[:10]
+    base = payload.get("baseline")
+    if isinstance(base, dict):
+        return _cutoff_of(base)
+    return None
+
+
+def _ticket_bar_face():
+    """The TICKET-*.json that latest.json points at, because that file carries the bar."""
+    try:
+        d = face(TICKET_LATEST)
+    except (OSError, ValueError):
+        return None
+    f = d.get("file")
+    if isinstance(f, str):
+        p = os.path.join(TICKET_DIR, f)
+        if os.path.exists(p):
+            return p
+    return None
+
+
+def _source_advanced(pub, sources):
+    """Source faces priced LATER than this one. Content, not clock.
+
+    The second honest signal after copy-drift: a checkout can hand any file a fresh mtime with
+    old bytes, but it cannot move the date a face is priced on. Empty when nothing advanced,
+    when a side keeps no readable cutoff, or when the source is a fixture -- never claim
+    staleness on a number we did not read.
+    """
+    mine = _cutoff_of(pub)
+    if not mine:
+        return []
+    out = []
+    for p in sources:
+        if not os.path.exists(p):
+            continue
+        try:
+            c = _cutoff_of(face(p))
+        except (OSError, ValueError):
+            continue
+        if c and c > mine:
+            out.append("%s(%s>%s)" % (os.path.basename(p), c, mine))
+    return out
+
+
+def _source_moved(pub, drift, sources):
+    """Why a drifting face should be REFRESHED rather than called hand-edited, or None.
+
+    r1372 (r1371 follow-up): the sibling gates below still decided this by mtime, which is the
+    same defect in five more places -- every `git checkout`, clone, rebase and restore rewrites
+    clocks in arbitrary order. Both signals used here survive that: a copied leaf that differs
+    says the source face was regenerated, and a source priced on a later bar says it advanced.
+    """
+    copied, derived = _classify_drift(drift)
+    if copied and not derived:
+        return ("a source face was regenerated since this face was written -- copied run "
+                "metadata moved (%s)" % "; ".join(copied)[:300])
+    adv = _source_advanced(pub, sources)
+    if adv:
+        return "a source face is priced later than this one (%s)" % ",".join(adv)[:200]
+    return None
+
+
 def check():
     """Gate: the published face must equal a re-derivation from the four arm faces.
 
@@ -1715,26 +1837,13 @@ def check():
               % (rebuilt["baseline"]["evidence_cutoff"], verdicts))
         return 0
 
-    copied, derived = _classify_drift(drift)
-    if copied and not derived:
-        # nothing computed here disagrees: a source face was regenerated (its run metadata is
-        # what build() copies). Refresh, never call this an edit.
-        print("face is stale: a source face was regenerated since this face was written -- "
-              "copied run metadata moved (%s), cutoff stays %r; refresh re-derives it"
-              % ("; ".join(copied)[:300], pub.get("baseline", {}).get("evidence_cutoff")))
-        return 2
-
-    src = [BASE] + [p for p, _ in ARMS.values()]
-    try:
-        face_mtime = os.path.getmtime(OUT_JSON)
-    except OSError:
-        face_mtime = 0.0
-    newer = [os.path.basename(p) for p in src if os.path.getmtime(p) > face_mtime + 1.0]
-    if newer:
-        print("face is stale: priced on cutoff %r while its sources moved (%s); drift=%s"
-              % (pub.get("baseline", {}).get("evidence_cutoff"), ",".join(sorted(newer))[:160],
+    why = _source_moved(pub, drift, [BASE] + [p for p, _ in ARMS.values()])
+    if why:
+        print("face is stale: priced on cutoff %r -- %s; drift=%s"
+              % (pub.get("baseline", {}).get("evidence_cutoff"), why,
                  "; ".join(drift)[:300]))
         return 2
+    copied, derived = _classify_drift(drift)
     extra = (" (copied run metadata also moved: %s -- that alone would not make this an edit)"
              % "; ".join(copied)[:160]) if copied else ""
     print("face is inconsistent: %d field(s) disagree with a re-derivation while every copied "
