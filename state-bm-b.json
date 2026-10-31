@@ -2768,6 +2768,17 @@
   "s1": "the full 271-leg suite was launched in a previous window and finished green before this round began (results/_smoke_r1318.out: 271/271 PASS, 0 FAIL, written 11:18). The new leg was extracted verbatim from smoke_test.py and executed standalone (PASS) and FAILED after a mutation of margins[0].cell plus ladder_span.central_min, then passed again after `run` regenerated the face -- so the board is green on the leg added here plus a full suite that closed an hour ago, not re-measured end to end in this window.",
   "s6": "orphan probe py_faces=8 orphans=0 residents=0 | dualrun ZERO-DRIFT (796 entries, streak 51) | py_watermark py_low_board_clear (py 0.2 pct of 16 cores, 5 pool-ready, legal_idle_whitelist.satisfied=false, remediated by burning E295 in-round) | attrition CLEAN 4 ledgers (2 historical shrink rows healed) | new chain leg supply_gap_closure rc=0 0.15s | compute_audit and the lane collectors not re-run this window (wall budget, stated plainly)",
   "s7": "orders 114 files / 115 acks / 0 unacked carried from r1318 | decisions face not re-scanned this window (state carries 97fe122f, 0 unacked) | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
-  "pool": "E295 done with result_ref; 796 entries, 5 ready (E292, E294, E298, E299, E300)"
+  "pool": "E295 done with result_ref; 796 entries, 5 ready (E292, E294, E298, E299, E300)",
+  "delivery": {
+   "branch": "machine/bm-b-r1319",
+   "pushed_sha": "84a990bdd1810c012128662f915425c95690434b",
+   "remote_ref_sha": "84a990bdd1810c012128662f915425c95690434b",
+   "verified": true,
+   "local_not_on_origin_main": 89,
+   "behind_origin_main": 176,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1318 family); main push not attempted",
+   "ts": "2026-10-31T11:3x+08:00",
+   "note": "11 files staged (the new producer, both faces, the digest, the card, two wiring files, the pool, state, heartbeat, round report); the ~600 dirty tracked files left by collectors and prior windows were not swept in. S0.5: orders 114 files / 115 acks / 0 unacked (1 stale ack for a non-order file); group decisions face read from origin/main (sha256 85457be7.., moved since the recorded 97fe122f) -- D-20261029-06/11/12 read and every one is owned outside this repo: D-11's L1 endpoint change is already complied with here (scripts/llm_assist.py pins 11434, no 8090 default), D-06/D-12 are bm-c-POOL and AutoYield-window questions with no Bigmoney lane action."
+  }
  }
 }

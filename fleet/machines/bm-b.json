@@ -30,10 +30,9 @@
  "d19_note": "decisions 97fe122f / orders 2e5b6165 == stored watermark (repro@e2d59df) -> zero new rows; 114 order files / 115 acks / 0 unacked",
  "decisions_delta_pending": false,
  "delivery": {
-  "branch": "machine/bm-b-r1316",
-  "pushed_sha": "dfca6b16e300be73b48b776c3ac911f4e1ef394e",
-  "verified": true,
-  "local_not_on_origin_main": 83
+  "branch": "machine/bm-b-r1319",
+  "sha": "84a990bdd1810c012128662f915425c95690434b",
+  "verified": true
  },
  "delivery_note": "main-branch push blocked by the promisor lazy-fetch wedge (r1255 family); delivery stays on the machine branch, ls-remote verified in the amendment row",
  "dept": "研究",
@@ -829,9 +828,9 @@
  "smoke": "at open 262/269 (7 FAIL) -> mechanism fix applied; re-run in flight",
  "status": "green",
  "sync": {
-  "ahead": 33,
-  "behind": 120,
-  "branch": "machine/bm-b-r1292",
+  "ahead": 89,
+  "behind": 176,
+  "branch": "machine/bm-b-r1319",
   "peer": "origin"
  },
  "sync_note": "r1256: HEAD is the local r1256 commit; origin/main was 21 ahead / 7 ahead local at open. main push/merge wedges in the promisor lazy fetch (r1255 measured 85,599 objects before negotiation), so delivery goes to machine/bm-b-r<N> and the divergence is disclosed rather than forced.",
