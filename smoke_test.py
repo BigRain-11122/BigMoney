@@ -3530,6 +3530,79 @@ def main() -> int:
         check("config: the card ledger guard sees every card heading level",
               False, repr(e)[:160])
 
+    # r1385 / E310: a selftest cannot testify to its own deletion. A stale restore left
+    # the working tree one commit behind on two files, and the `leg_split` reader plus the
+    # CEO-page section it feeds were simply gone -- while the page's own selftest printed
+    # `Summary: N/N PASS`, because the three legs that guarded them (L60-L62) had gone with
+    # them, and one of them was the only place that counted the legs. A witness has to live
+    # OUTSIDE the thing it watches, so this one is a consumer: it renders the page and looks
+    # for what the reader is promised, and it hands the reader a face that does not add up.
+    # Deleting either half turns this leg red although its own body is untouched, which is
+    # exactly what the old legs could not do.
+    try:
+        import tempfile as _tf31
+        import etf_book_ceo_page as _pg31
+        import etf_book_leg_attribution as _la31
+        _bad31 = []
+        _p31, _ = _pg31.build(with_stress=False)
+        _p31["leg_split"] = {
+            "status": "ok", "artifact": "fixture", "evidence_cutoff": "2026-10-30",
+            "execution": "decide at close -> fill at next open",
+            "arms": {"production": {"buckets_pp_per_year": {"plain": 9.83, "overnight": 0.16,
+                                                           "intraday": -0.64, "toll": -1.15},
+                                   "total_log_pp": 8.21, "plain_carry_pp_per_year": 9.83,
+                                   "fill_bar_drag_pp_per_year": -1.62,
+                                   "fill_bars": 83, "plain_bars": 1569},
+                     "control_ew": {"buckets_pp_per_year": {"plain": 6.20}}}}
+        _md31 = _pg31.render_md(_p31)
+        for _tok, _why in (("一天里的哪一段", "the section is gone from the page"),
+                           ("+9.83", "the four buckets no longer reach the page"),
+                           ("1569", "the quiet-bar count is gone"),
+                           ("拖累 1.62", "the one-sentence reading is gone")):
+            if _tok not in _md31:
+                _bad31.append(_why)
+        _p31["leg_split"] = {"status": "broken", "artifact": "fixture",
+                             "detail": "production: buckets sum 5.000 != published 0.000",
+                             "arms": {}}
+        _md31b = _pg31.render_md(_p31)
+        if "无法核验" not in _md31b or "+9.83" in _md31b:
+            _bad31.append("a broken split prints numbers instead of 'cannot verify'")
+        # the reader must refuse a face whose own arithmetic does not close (the deleted
+        # L10c protected this from inside the module; the consumer protects it from here)
+        _art31 = os.path.join(PATHS.results_dir, "etf_book_legs", "latest.json")
+        if not os.path.exists(_art31):
+            _r31 = _la31.money_split_face(path=_art31)
+            if _r31.get("status") != "absent" or _r31.get("arms"):
+                _bad31.append("an unpublished split is not reported absent (%r)"
+                              % (_r31.get("status"),))
+        else:
+            with open(_art31, encoding="utf-8") as _fh31:
+                _face31 = json.load(_fh31)
+            _r31 = _la31.money_split_face(path=_art31)
+            if _r31.get("status") != "ok":
+                _bad31.append("the live split does not read ok (%r: %s)"
+                              % (_r31.get("status"), (_r31.get("detail") or "")[:80]))
+            _arm31 = sorted(_face31.get("arms") or {})
+            _arm31 = _arm31[0] if _arm31 else None
+            if _arm31:
+                _face31["arms"][_arm31].setdefault("buckets_pp_per_year", {})["plain"] += 5.0
+                _tmp31 = _tf31.mkdtemp()
+                _fp31 = os.path.join(_tmp31, "broken.json")
+                with open(_fp31, "w", encoding="utf-8") as _fh31w:
+                    json.dump(_face31, _fh31w)
+                _rb31 = _la31.money_split_face(path=_fp31)
+                if _rb31.get("status") != "broken" or _rb31.get("arms"):
+                    _bad31.append("reader served a split that does not add up (%r)"
+                                  % (_rb31.get("status"),))
+            else:
+                _bad31.append("live split carries no arm to perturb")
+        check("product: the CEO page still prints where in the day the money is earned",
+              not _bad31, "; ".join(_bad31)[:220]
+              or "section + four buckets + quiet-bar count + broken-face refusal all present")
+    except Exception as e:
+        check("product: the CEO page still prints where in the day the money is earned",
+              False, repr(e)[:160])
+
     # --- E226 the break-even toll: the published root must be the zero of the
     # published line, and surviving the toll must not read as clearing the bar
     try:

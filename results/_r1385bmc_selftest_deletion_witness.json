@@ -1,0 +1,46 @@
+{
+ "round": 1385,
+ "machine": "bm-c",
+ "evidence_cutoff": "2026-10-30",
+ "claim": "the working tree carried a stale revert of the leg_split feature; its own selftest could not see it, a consumer-side leg can",
+ "tree_equals_head": {
+  "git_diff_numstat": "",
+  "all_clean": true
+ },
+ "blob_identity": {
+  "scripts/etf_book_ceo_page.py": {
+   "head": "7c825377dafe6e6341af5961ff3909a0ed9c866f",
+   "worktree": "7c825377dafe6e6341af5961ff3909a0ed9c866f",
+   "stale_candidate": "f067baad0f9d612b41d40486a9d7534345851751",
+   "worktree_is_head": true
+  },
+  "scripts/etf_book_leg_attribution.py": {
+   "head": "b9b016c5ebd678e15f58f43eb3b565005d5553bd",
+   "worktree": "b9b016c5ebd678e15f58f43eb3b565005d5553bd",
+   "stale_candidate": "c854eccf9b7d0f70d7fca7c02e6c430871767dc2",
+   "worktree_is_head": true
+  }
+ },
+ "live_face": {
+  "status": "ok",
+  "section_in_page": true,
+  "page_chars": 7066
+ },
+ "incident_fixture": {
+  "stale_reader_has_money_split_face": false,
+  "stale_page_tokens": {
+   "一天里的哪一段": false,
+   "+9.83": false,
+   "1569": false,
+   "拖累 1.62": false
+  },
+  "stale_page_selftest_rc": 0,
+  "stale_page_selftest_summary": "Summary: 62/62 PASS",
+  "witness_would_be_red": true
+ },
+ "broken_face_refusal": {
+  "status": "broken",
+  "arms_served": false,
+  "detail": "base_book: buckets sum 17.432 != published 12.432; base_book: plain per-bar 6.084 bp x 1569 bars != 19.090 pp"
+ }
+}

@@ -7518,3 +7518,33 @@ Live reading (2026-10-31): top1 7.5%, top3 22.1%, HHI 0.0241 -> verdict BROAD|SU
 with the commodity caveat quoted above. Pos: scripts/etf_book_concentration.py (selftest 12/12) /
 results/etf_book_concentration.json / research/ETF_BOOK_CONCENTRATION.md / chain leg
 etf_book_concentration (before etf_book_order) / smoke leg re-deriving the verdict from the rows.
+
+## E310 A selftest cannot testify to its own deletion -- the witness has to be a consumer (2026-10-31 r1385 bm-c)
+
+**Shape.** Two files in the working tree were one commit behind: `scripts/etf_book_ceo_page.py`
+and `scripts/etf_book_leg_attribution.py` no longer contained the `leg_split` reader or the page
+section it feeds. Their own selftest still printed `Summary: 62/62 PASS` -- because the three legs
+that guarded the reader and the section (L60-L62) had gone away WITH the feature, and one of them
+was the only place that counted legs. Nothing else noticed: the regenerated live page simply lost
+the section (19 md lines / 66 json lines), which is how a user-facing guarantee disappears while
+every gate stays green.
+
+**Three rules.**
+
+1. **A test inside the thing it tests cannot notice its own removal.** `N/N PASS` is measured over
+   the legs that still exist, so deleting a leg is always a silent success. The only durable
+   witness is an assertion OUTSIDE, on the consumer's output: render the page with a fixture face
+   and require the promised tokens, then hand the reader a face whose buckets miss its own total
+   and require refusal. Delete either half and the leg turns red although its own body is untouched.
+2. **Stale is not intent: measure the tree against the commit, not against your expectations.**
+   `git hash-object <path>` vs `git rev-parse <commit>:<path>` matched `HEAD~5`'s blob exactly, so
+   the deletion was a restore artefact, not a decision -- restore, do not "review the change". The
+   r609 law applies to the closing window: `git add -A` on that tree would have shipped the revert.
+3. **The incident is the fixture.** Loading the actual stale blobs (`git show 1b0728461c:scripts/...`
+   into `scripts/_r1385_stale_*.py`, then `importlib`) gives `money_split_face absent` and tokens
+   `[False, False, False, False]` while their own selftest passes 62/62 -- so the new leg is proved
+   against the real regression rather than against a hand-made one.
+
+**Verify.** `smoke_test.py` leg `product: the CEO page still prints where in the day the money is
+earned`; `scripts/etf_book_leg_attribution.py selftest` 13/13; `scripts/etf_book_ceo_page.py
+selftest` 65/65; the reprised files are byte-identical to `HEAD` and the published page restored.
