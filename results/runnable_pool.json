@@ -25375,7 +25375,7 @@
    "id": "E294-LIVE-UNIVERSE-DRIFT",
    "title": "which BAND-family studies still census the live directory, how many faces would each gain if re-derived today, and does any published verdict depend on the universe it happened to see?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "runner": "scripts/e294_live_universe_drift.py",
    "runner_args": [
@@ -25391,7 +25391,19 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "r1314 found that every study in this family censuses its siblings' published faces, so four smoke legs went red for a reason that was not a number: the older faces re-derived over a directory that had grown (E286 32->34 faces, E281 27->34, E282 55->67). Three studies were frozen to their own vintage. The open question is the rest: for every study script in the family, does its build() read the LIVE face directory or a frozen universe, how many faces would it gain today, and would its published verdict survive that wider universe? Rank the unfrozen studies by faces gained and by verdict instability, publish each one's published vs live numbers side by side, and name the studies whose verdict is a function of the vintage rather than of the data. No reburn: published faces only, no draw stream, no engine."
+   "source": "r1314 found that every study in this family censuses its siblings' published faces, so four smoke legs went red for a reason that was not a number: the older faces re-derived over a directory that had grown (E286 32->34 faces, E281 27->34, E282 55->67). Three studies were frozen to their own vintage. The open question is the rest: for every study script in the family, does its build() read the LIVE face directory or a frozen universe, how many faces would it gain today, and would its published verdict survive that wider universe? Rank the unfrozen studies by faces gained and by verdict instability, publish each one's published vs live numbers side by side, and name the studies whose verdict is a function of the vintage rather than of the data. No reburn: published faces only, no draw stream, no engine.",
+   "claimed_by": "bm-b",
+   "done_at": "2026-10-31T12:5x+08:00",
+   "result_ref": {
+    "face": "results/state_tilt/BANDFROZEN-2026-10-29.json",
+    "runner": "scripts/e294_live_universe_drift.py",
+    "digest": "research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md",
+    "card": "E301",
+    "chain_leg": "live_universe_drift",
+    "smoke_leg": "E294",
+    "verdict": "no_published_verdict_moves_with_the_universe",
+    "note": "12 of 54 family study scripts census the directory; 9 measured, all stable with up to 34 more faces in view; 3 cannot be asked because build() takes no universe argument"
+   }
   },
   {
    "id": "E295-SUPPLY-GAP-CLOSURE",
@@ -25526,6 +25538,28 @@
     "workers": 1
    },
    "source": "r1319: E295 graded 2 of 12 demands because only era_2025_now owns a published draw ladder, and the widening margin read there is 5.98 pct instead of E287's headline 3.80 pct -- the headline pair came from all_five and early_three|60. That is a measurement about WINDOWS, not about the band: for every demand row, pair it with the reference published in its own window (E258 per-window multipliers, E257 per-rung multipliers, E288's mirror yardsticks) and publish what the margin becomes. Publish the 9 rows that stay not_graded with the specific face each would need, so 'unreachable' is never quoted from a cross-window subtraction. Published faces only; no new draw budget."
+  },
+  {
+   "id": "E302-UNIVERSE-SWITCH-BACKFILL",
+   "title": "three directory-censusing studies cannot be asked whether their verdict depends on the universe because build() takes no universe argument -- what would it cost to give each one a switch, and does any of them flip once it has one?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "runner": "scripts/e302_universe_switch_backfill.py",
+   "runner_args": [
+    "run"
+   ],
+   "target": "scripts/e290_selfauditable_face_profile.py, scripts/e291_ambiguity_chance.py, scripts/e292_scope_fix_plan.py",
+   "deliverable": "results/state_tilt/BANDSWITCH-<cutoff>.json",
+   "evidence_cutoff": "2026-10-29",
+   "seeded_at": "2026-10-31T12:5x+08:00",
+   "seeded_by": "bm-b r1322",
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25540,6 +25574,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T12:20:00+08:00",
+ "updated_at": "2026-10-31T12:5x+08:00",
  "version": 1
 }

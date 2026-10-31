@@ -8127,6 +8127,116 @@ def main() -> int:
     except Exception as e:
         check(_name94, False, repr(e)[:160])
 
+    # E294 (r1322 bm-b): the family's universe grows by one face per sibling publication, and r1314
+    # froze the census to stop the drift. This leg guards the question UNDER the freeze: the published
+    # face must keep (a) its verdict inside the frozen vocabulary, (b) a row list whose statuses
+    # reconcile with the summary, (c) a three-way rule applied consistently (a "flips" row must show
+    # two different verdicts, a "stable" row two identical ones, a "no-reproduce" row a frozen reading
+    # that disagrees with the published one), (d) no self-inclusion -- a census of the directory cannot
+    # list the census -- and (e) a measurement path that still runs: the row that gained the most
+    # faces is re-derived through the real entry point, because a sibling signature change is exactly
+    # what silently killed E293's derivation in r1318.
+    _name94 = ("product: the live-universe question under the freeze is priced -- for every study that "
+               "censuses the BAND directory the published verdict is re-derived twice (frozen vintage "
+               "vs the live directory), so 'the verdict moved' and 'the directory grew' are told apart")
+    _bad94 = []
+    try:
+        _p94 = os.path.join("results", "state_tilt", "bandfrozen_latest.json")
+        _f94 = None
+        if not os.path.exists(_p94):
+            _bad94.append("face missing: %s" % _p94)
+        else:
+            with io.open(_p94, encoding="utf-8") as _fh94:
+                _f94 = json.load(_fh94)
+        if _f94 is not None:
+            if _f94.get("evidence_cutoff") is None:
+                _bad94.append("no evidence_cutoff on the face")
+            _vocab94 = ("verdict_depends_on_the_universe_it_saw",
+                        "no_published_verdict_moves_with_the_universe",
+                        "unmeasurable_before_the_universe_question")
+            _v94 = _f94.get("verdict")
+            if _v94 not in _vocab94:
+                _bad94.append("verdict %r is outside the frozen vocabulary" % (_v94,))
+            _s94 = _f94.get("summary") or {}
+            _rw94 = _f94.get("rows") or []
+            _statuses94 = ("reproduces_and_stable", "reproduces_and_flips",
+                           "does_not_reproduce", "not_measurable")
+            if len(_rw94) != _s94.get("studies_censused"):
+                _bad94.append("the row list disagrees with summary.studies_censused")
+            _counts94 = {}
+            for _r94 in _rw94:
+                _counts94[_r94.get("status")] = _counts94.get(_r94.get("status"), 0) + 1
+            if _counts94 != _s94.get("status_counts"):
+                _bad94.append("the status counts do not match the rows")
+            if any(_r94.get("status") not in _statuses94 for _r94 in _rw94):
+                _bad94.append("a row carries a status outside the frozen set")
+            _flips94 = [r for r in _rw94 if r.get("status") == "reproduces_and_flips"]
+            if len(_flips94) != len(_s94.get("flipping") or []):
+                _bad94.append("summary.flipping disagrees with the flipping rows")
+            if _v94 == _vocab94[0] and not _flips94:
+                _bad94.append("the verdict claims a flip but no row flips")
+            if _v94 == _vocab94[1] and (_flips94 or not (_s94.get("measured") or 0)):
+                _bad94.append("the verdict claims stability with %d flipping row(s) and %d measured"
+                              % (len(_flips94), _s94.get("measured") or 0))
+            for _r94 in _rw94:
+                _st94 = _r94.get("status")
+                if _st94 == "reproduces_and_flips":
+                    if _r94.get("live_verdict") is None or \
+                            _r94.get("live_verdict") == _r94.get("published_verdict"):
+                        _bad94.append("%s flips but its two verdicts agree" % _r94.get("script"))
+                elif _st94 == "reproduces_and_stable":
+                    if not (_r94.get("frozen_verdict") == _r94.get("live_verdict")
+                            == _r94.get("published_verdict")):
+                        _bad94.append("%s is stable but its readings differ" % _r94.get("script"))
+                    if " vs " not in (_r94.get("varied") or ""):
+                        _bad94.append("%s is stable on two identical runs" % _r94.get("script"))
+                elif _st94 == "does_not_reproduce":
+                    if _r94.get("frozen_verdict") == _r94.get("published_verdict"):
+                        _bad94.append("%s is no-reproduce but reproduces" % _r94.get("script"))
+                elif _st94 == "not_measurable" and not _r94.get("reason"):
+                    _bad94.append("%s is unmeasurable without a reason" % _r94.get("script"))
+                _gain94 = _r94.get("faces_gained_since_publish")
+                if _gain94 is not None and _gain94 < 0:
+                    _bad94.append("%s claims a negative universe gain" % _r94.get("script"))
+                if _r94.get("published_files_touched"):
+                    _bad94.append("%s wrote into the face directory" % _r94.get("script"))
+            if any(_r94.get("script") == "e294_live_universe_drift.py" for _r94 in _rw94):
+                _bad94.append("the census lists itself")
+            _shape94 = _f94.get("directory_shape") or {}
+            if _shape94.get("census_the_directory") != len(_rw94):
+                _bad94.append("directory_shape disagrees with the row list")
+            if (_shape94.get("read_named_faces_only") or 0) + \
+                    (_shape94.get("census_the_directory") or 0) != _shape94.get("family_scripts"):
+                _bad94.append("the family shape does not add up")
+            # (e) one row must still re-derive through the real measurement path
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m94 = __import__("importlib").import_module("e294_live_universe_drift")
+            _meas94 = [r for r in _rw94 if r.get("status") in
+                       ("reproduces_and_stable", "reproduces_and_flips", "does_not_reproduce")]
+            if not _meas94:
+                _bad94.append("no measured row survives to re-derive")
+            else:
+                _top94 = max(_meas94, key=lambda r: r.get("faces_gained_since_publish") or 0)
+                _cand94 = [c for c in _m94.family_scripts() if c["script"] == _top94.get("script")]
+                _fresh94 = _m94.measure_one(_cand94[0]) if _cand94 else None
+                if not _fresh94 or _fresh94.get("status") != _top94.get("status"):
+                    _bad94.append("the measurement path no longer re-derives %s (%r -> %r)"
+                                  % (_top94.get("script"), _top94.get("status"),
+                                     (_fresh94 or {}).get("status")))
+        check(_name94, not _bad94,
+              "; ".join(_bad94)[:220]
+              or "verdict %r | %d study script(s) census the directory (%d of %d in the family read "
+                 "named faces only); %d measured, %d not measurable; %d flipping"
+                 % ((_f94 or {}).get("verdict"),
+                    ((_f94 or {}).get("directory_shape") or {}).get("census_the_directory") or 0,
+                    ((_f94 or {}).get("directory_shape") or {}).get("census_the_directory") or 0,
+                    ((_f94 or {}).get("directory_shape") or {}).get("family_scripts") or 0,
+                    ((_f94 or {}).get("summary") or {}).get("measured") or 0,
+                    ((_f94 or {}).get("summary") or {}).get("unmeasurable") or 0,
+                    len(((_f94 or {}).get("summary") or {}).get("flipping") or [])))
+    except Exception as e:
+        check(_name94, False, repr(e)[:160])
+
     return _finish()
 
 

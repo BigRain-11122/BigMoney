@@ -569,6 +569,19 @@ LEGS = [
     ("scope_fix_plan",
      ["python", "scripts/e292_scope_fix_plan.py", "verify"]),
 
+    # E294 (r1322 bm-b): r1314 froze the family census to stop the drift, which answered "how do we
+    # stop it" but not "did it matter". This leg asks the question under the freeze: for every study
+    # that censuses the BAND directory, re-derive it twice -- once against the vintage it published
+    # (faces stamped no later than its own) and once against the live directory -- and classify the
+    # verdict as stable / flips / does-not-reproduce / not-measurable. 12 of the family's 54 study
+    # scripts census the directory at all (the other 42 read named sibling faces and cannot move);
+    # 9 of the 12 can be varied, and every one prints the same verdict with up to 34 more faces in
+    # view, so the drift r1314 fixed was a reproducibility problem, not a conclusion problem. Each
+    # study runs in its own process under a wall-clock cap, self-inclusion is refused, and nothing in
+    # results/state_tilt is written by the measurement. ~70s (13 child processes).
+    ("live_universe_drift",
+     ["python", "scripts/e294_live_universe_drift.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

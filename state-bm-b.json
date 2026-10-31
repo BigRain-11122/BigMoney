@@ -2,7 +2,7 @@
  "agenda_starved": false,
  "clock_read": "2026-10-31T12:13:18+08:00",
  "cpu_pct": 18.3,
- "current": "E292 scope-fix plan priced (done)",
+ "current": "E294 live-universe drift -- done; face published",
  "current_task": "E292 scope-fix plan priced (done)",
  "current_work": "smoke legs 81/82/86/87 red fixed at the mechanism; E293 card burned",
  "cyc_round": 1321,
@@ -146,7 +146,7 @@
  "instrument_defect": "py_watermark published work_cand_buckets.pool_batch=3 while its frozen verdict read py_low_board_clear, and NOTHING consumed that difference: the O-1136 sec.4 legal-idle whitelist also requires 'no runnable batch', and pool-ready cards are runnable. A reader (me, at open) can take board_clear as a legal-idle proof while three cards sit unclaimed. The verdict face is design-frozen (T7/T14, 'verdict faces unchanged') so it was NOT touched; the record now publishes legal_idle_whitelist {board_closed, no_runnable_batch, pool_ready_cards, satisfied, why_not} and four selftest legs pin all four combinations. r1266 law: a judgement no next step consumes is not landed.",
  "last_action": "closed r1317 with the E288 mirror face, the chain leg, the smoke leg, card E296 and the pool flip",
  "last_action_at": "2026-10-31T10:52:20+08:00",
- "last_artifact": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+ "last_artifact": "results/state_tilt/BANDFROZEN-2026-10-29.json",
  "last_decisions_at": "2026-10-29T01:10:00+08:00",
  "last_decisions_probe_at": "2026-10-21T05:12:00+08:00",
  "last_decisions_probe_at_field": "2026-10-17T12:45:35+08:00",
@@ -166,19 +166,19 @@
  "last_orders_sha_probe_note": "r1000: consumed delta rows (zero bm-b action), advanced via d19 guard read-back OK",
  "last_orders_sha_recipe": "sha256 of git cat-file blob origin/main:docs/orders.md",
  "last_orders_watermark": "4348aa21bc8f",
- "last_product": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+ "last_product": "results/state_tilt/BANDFROZEN-2026-10-29.json",
  "last_push": true,
  "last_push_at": "2026-10-31T12:13:18+08:00",
  "last_push_sha": "9a960863b81c36e27007e1fab31e12963ec6a30c",
- "last_round": 1321,
- "last_round_at": "2026-10-31T12:13:18+08:00",
+ "last_round": 1322,
+ "last_round_at": "2026-10-31T13:04:01+08:00",
  "last_round_report": "logs/iteration-loop/round_reports.md",
  "last_round_ts": "2026-10-31T12:13:18+08:00",
  "last_round_utc": "2026-10-30T11:55:35+00:00",
  "last_run": "2026-10-31T10:52:20+08:00",
  "last_seen": "2026-10-31T12:13:18+08:00",
  "last_updated": "2026-10-31T04:46:00+08:00",
- "latest_artifact": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json",
+ "latest_artifact": "results/state_tilt/BANDFROZEN-2026-10-29.json",
  "local_not_on_origin": 93,
  "local_not_on_origin_commits": 93,
  "machine_health": "OK 8/8 for bm-a,bm-b,bm-c after gpu_face apply + machine_health_face write bm-b",
@@ -186,7 +186,7 @@
  "memory_note": "r1236: CODELY.md one-liner (name guard must be pruned by value shape)",
  "mirror_note": "r1198: both faces written in the same closeout (dual-face law)",
  "next": "E294 live-universe drift census (ready; runner unwritten; due next round, within 48h)",
- "next_milestone": "E294 live-universe drift census (ready; runner unwritten; due next round, within 48h)",
+ "next_milestone": "E298 replay-controls census (ready, runner not written; due next round, within 48h)",
  "next_pick": "E295-SUPPLY-GAP-CLOSURE",
  "next_pointer": "E272 target=scripts/e272_flip_budget_two_tails.py deliverable=results/state_tilt/BANDFLIPBUDGET-<cutoff>.json",
  "next_task": "E294 live-universe drift census (ready; runner unwritten; due next round, within 48h)",
@@ -235,7 +235,7 @@
   "r1172": "E108 closed. The factor in split_events was implied_ratio()[ratio] -- folded to >=1 so the integer test can see a reverse split -- which is right on downward prints and mirrors upward ones to (1+r)^2-1. Fixed to 1/(1+r). Seven consuming faces re-derived (MID armed, GAPARM endgrid, GAPARM family, GAPTOP3, HELDSPLIT, REPAIRSTEP, SCREENGAPERA) with a legacy-coded control: e108_repairfix.py \"legacy repairstep\" reproduced the published face with 0 of 966 numeric leaves moved, so panel drift is excluded. Readings: REPAIRSTEP fabricating_windows 8->0 and the class tally flips to step_cancels_print; HELDSPLIT 2024_now sh510580 arm reads 1902.84/1418.07 -> 28.05/-2.94; MID armed 2024_now mid level -364.7 -> +4.9bp (sign flip appears in the cross-arm list); GAPARM 2024_now mid delta -241.0 -> +128.6bp, span 107.1 -> 48.5bp; GAPTOP3 names a 4th large move (2024_now/mid, 100% one window). Untouched by design and verified: 2017_2020 me -745.9bp and the 2021_2023 pair. E104's \"the repaired arm is not automatically plausible\" loses its witness (that witness WAS this bug); the newest-era mid -364.7 readings are superseded. SCREENGAPERA is cross-cutoff confounded (20261023 vs 20261026) and is disclosed as direction only. Pool E108 done + E109 seeded (14 neutralise legs still carry the old factor).",
   "r1312": "r1312: E290 closed. Cheap legs only (the full 87-leg chain was not re-run -- wall budget, stated plainly): S6 leg self_auditable_face_profile rc=0 0.29s | smoke leg verified standalone (1/1) | e290 selftest 15/15, run+verify 0 problems | pool flip + 2 seeds (51/3 diff, no reflow) | methodology card appended as CRLF bytes (31/0) | GPU untouched (parked C-20261014-01) | cloud untouched | nothing deleted, no quarantine action. REDS LEFT OPEN AND NAMED (unchanged): cal_audit rc=1 panel_gap; etf_book_forward rc=3 FROZEN (needs the --rebase adopt-or-not decision)."
  },
- "now_active": "no batch in flight; GPU parked per C-20261014-01 sec.3",
+ "now_active": "E294 live-universe drift (done) -> E298 replay-controls census",
  "now_doing": "idle for the next round; pool head E295 is a code-change card",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -2578,8 +2578,8 @@
   "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision; adopting a re-derived history without a path test is exactly the E188 error"
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1321,
- "round_no": 1321,
+ "round": 1322,
+ "round_no": 1322,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T12:13:18+08:00",
@@ -2611,9 +2611,9 @@
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
  "ts": "2026-10-31T12:13:18+08:00",
  "updated": "2026-10-31T12:13:18+08:00",
- "updated_at": "2026-10-31T12:13:18+08:00",
- "verdict": "py_low_board_clear",
- "watermark_red": "py_low_with_work_cands at open (pool_ready 6, py 6.9 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head card E296 in-round and wired both legs for the face it names",
+ "updated_at": "2026-10-31T13:04:01+08:00",
+ "verdict": "no_published_verdict_moves_with_the_universe",
+ "watermark_red": false,
  "work": "E296 done",
  "r1313": {
   "ts": "2026-10-31T08:23:49+08:00",
@@ -2716,7 +2716,7 @@
   }
  },
  "notes_r1317": "| 2026-10-31T11:0x | r1317 | **watermark: py_low_with_work_cands at open (pool_ready 7, py idle); the round burned the head card E288 in-round.** **CURRENT:** E288 below-floor narrowing (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDFLOORMIRROR-2026-10-29.json`. **NEXT MILESTONE:** E295 supply-gap closure or E292 scope-fix plan (both ready, runners not written; due next round, within 48h). **PRODUCT:** the mirror of E287's ceiling question -- the two rows below the published floor of 1.0 need the band NARROWED, not widened. `self|60|8` sits 11.06 pct under the floor and `self|60|10` 36.96 pct; the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216, BANDFLOOR's counterfactual 5 pct band) -- every other 'narrow' reading in E287's census is a per-seed minimum of a WIDENING ratio and sits above 1.0 -- and it reaches neither row: the nearest is 3.67 pct short, the farthest 46.26 pct. Scored against all 12 rows on each row's OWN polarity the same instrument reaches 0, so tightening is not a free fix for the widening side either; the two demand sets and the 1.28 multiplier distance between the caps are published so 'unreachable' can never be quoted ",
- "watermark_verdict": "py_low_board_clear",
+ "watermark_verdict": "pool-batch-runnable-idle-low-cpu at open -> remediated in-round by burning E294",
  "notes_r1318": "| 2026-10-31T11:13:17+08:00 | r1318 | **watermark: py_low_with_work_cands at open (pool_ready 6); the round burned E296 in-round.** **CURRENT:** E296 wiring (done). **LATEST PHYSICAL:** `Tools/s6_chain_bmb.py` leg `duplicate_list_census` (rc=0, 0.45s) + `smoke_test.py` leg (PASS, FAILs under mutation). **NEXT MILESTONE:** E295 supply-gap closure -- price each rung of the published draw ladder against the 3.8 pct widening and 3.7 pct narrowing margins and publish the interpolation abort if no rung crosses; due next round, within 48h. **PRODUCT:** the E293 face was not merely unwired, it had stopped re-deriving at all -- E297 froze E291.census_names to (names, note) and E293 kept treating the tuple as a name list, so `verify` raised TypeError before reaching a single leg. Fixed at the caller, verify 0 problems, selftest 15/15, and both legs wired: the verdict vocabulary, the no-double-count closed class (0 convictions), the summary re-deriving from the face's own frozen universe, and the vintage disclosing any later sibling as excluded. Numbers unchanged: 6 groups / 38 members / 2 schema + 4 accidental.",
  "r1318": {
   "round": 1318,
@@ -2813,5 +2813,29 @@
    "note": "the state carried no r1320 block (that window committed its receipt but wrote no state); this block is r1321"
   }
  },
- "notes_r1321": "| 2026-10-31T12:13:18+08:00 | r1321 | **watermark: py_low_board_clear at open (4 pool-ready, py idle); the round burned the head card E292 in-round.** **CURRENT:** E292 scope-fix plan priced (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDSCOPEFIX-2026-10-29.json`. **NEXT MILESTONE:** E294 live-universe drift (ready, runner not written; due next round, within 48h). **PRODUCT:** the 301 \"move the count\" rows priced -- 0 land in a scope related to their count, 126 agree only against <=1-item lists in unrelated subtrees, 75 would convict, 76 need a choice, 24 name the unit as the key; the fix plan mostly does not exist."
+ "notes_r1321": "| 2026-10-31T12:13:18+08:00 | r1321 | **watermark: py_low_board_clear at open (4 pool-ready, py idle); the round burned the head card E292 in-round.** **CURRENT:** E292 scope-fix plan priced (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDSCOPEFIX-2026-10-29.json`. **NEXT MILESTONE:** E294 live-universe drift (ready, runner not written; due next round, within 48h). **PRODUCT:** the 301 \"move the count\" rows priced -- 0 land in a scope related to their count, 126 agree only against <=1-item lists in unrelated subtrees, 75 would convict, 76 need a choice, 24 name the unit as the key; the fix plan mostly does not exist.",
+ "r1322": {
+  "round": 1322,
+  "dept": "research+engineering",
+  "study": "E294_live_universe_drift",
+  "face": "results/state_tilt/BANDFROZEN-2026-10-29.json",
+  "finding": "r1314 froze the BAND family census to its publish vintage so four smoke legs would stop going red on a directory that had grown -- which answered 'how do we stop the drift' but not 'did it matter'. Re-derived every directory-censusing study twice in one process (frozen vintage vs live directory): of the family's 54 study scripts only 12 glob the face directory at all (the other 42 read named sibling faces and cannot move); 9 of the 12 can be varied and every one prints the same verdict with up to 34 more faces in view (e277 34, e278 32, e281 28, e282 26, e283 24, e284 22, e286 18, e293 12, e287 10); 3 cannot be asked because their build() takes no universe argument. Verdict no_published_verdict_moves_with_the_universe -- the drift was a reproducibility problem, not a conclusion problem.",
+  "pit": "(1) A freeze fixes reproducibility, not dependence: a face re-derived over its own vintage is reproducible BY CONSTRUCTION. Only a second universe tests whether the verdict was a function of the directory. (2) A study that owns a freeze switch must be driven through it -- the first build passed a staged directory to build(outdir, extend) while leaving extend=False, i.e. ran the same frozen computation twice and manufactured four stable verdicts (the exact tautology E294 exists to catch; the smoke leg now requires ' vs ' in every measured row's varied text). (3) Ask how much of the family the question can reach -- 'the family is unaffected' conflates the 42 studies that read named faces (immovable by construction) with the 12 that were measured. (4) Operational: the first in-process build wedged on one study and took the whole census with it (cancelled after 5 min of silence), so each study now runs in its own child process under a wall-clock cap and a cap that fires is published as not_measurable, not silently dropped. (5) Self-inclusion: the face is itself BAND*, so its own two files are excluded from the census and the exclusion is a leg. (6) The family glob BAND*.json is case-insensitive here, so band*_latest.json mirrors are inside every study's universe -- disclosed, not narrowed, because narrowing it would change all of them.",
+  "product": [
+   "scripts/e294_live_universe_drift.py (run / verify 0 problems / selftest 36/36 / measure <script>)",
+   "results/state_tilt/BANDFROZEN-2026-10-29.json + bandfrozen_latest.json",
+   "research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E301",
+   "Tools/s6_chain_bmb.py leg live_universe_drift (verify, 6.3s, rc=0)",
+   "smoke_test.py leg E294 (extracted verbatim and executed standalone: PASS; 4/4 mutations caught)",
+   "results/runnable_pool.json E294 done + E302 seeded (797 entries, 3 ready)"
+  ],
+  "s1": "the full 271-leg suite was not re-run this window. The new smoke leg was extracted verbatim from smoke_test.py and executed standalone against the published face (PASS) and failed under all four mutations applied to the face (a stable row's live verdict changed, the census listing itself, an inflated directory_shape, and status counts losing a row), then passed again after the bytes were restored.",
+  "s6": "orphan probe py_faces=10 orphans=0 residents=0 | dualrun ZERO-DRIFT (797 entries, streak 51) | py_watermark was RED at open (pool-batch-runnable-idle-low-cpu, 4 pool-ready, py idle) and is remediated in-round by burning the head card E294 | attrition CLEAN 4 ledgers (3 historical shrink rows healed) | new chain leg live_universe_drift rc=0 6.3s | the lane collectors and compute_audit were not re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked | decisions face not re-scanned this window (no fetch attempted, the recorded watermark stays) | Bigmoney-IterationLoop next 13:07 and Bigmoney-LoopWatchdog next 13:04 both present, pin untouched | pre-commit and pre-push claws present and untouched this window",
+  "pool": "E294 done with result_ref; 797 entries, 3 ready (E298, E299, E302)",
+  "verdict": "no_published_verdict_moves_with_the_universe",
+  "ts": "2026-10-31T13:04:01+08:00"
+ },
+ "notes_r1322": "| 2026-10-31T13:04:01 | r1322 | **watermark: pool-batch red at open (4 pool-ready, py idle); the round burned the head card E294.** **CURRENT:** E294 live-universe drift priced (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDFROZEN-2026-10-29.json`. **NEXT MILESTONE:** E298 replay-controls census (ready, runner not written; due next round, within 48h). **PRODUCT:** of 54 family study scripts only 12 census the directory; 9 varied, all stable with up to 34 more faces in view; 3 unaskable (build() has no universe argument)."
 }

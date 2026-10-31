@@ -5979,3 +5979,42 @@ Evidence: `scripts/e292_scope_fix_plan.py` (selftest 16/16, `verify` 0 problems)
 move is repointed into a foreign scope, if a bare key is priced as a move, or if V4 is claimed while a
 row still lands in a related scope), digest
 `research/digests/DIGEST-20261031-r1321-e292-scope-fix-plan.md`.
+
+
+### E301 a freeze answers reproducibility, not whether the verdict depended on the universe (r1322 bm-b)
+
+r1314 froze the BAND family's census to its publish-time vintage because four smoke legs went red on a
+directory that had grown (E286 32 -> 34 faces, E281 27 -> 34, E282 55 -> 67). The freeze stopped the
+drift but left the question underneath it unanswered: **was any published conclusion a function of the
+directory it happened to see?** Priced by re-deriving every directory-censusing study twice in the same
+process -- once against the vintage it published, once against the live directory -- the answer is no:
+9 of 12 studies can be varied at all and every one prints the same verdict with up to 34 more faces in
+view. The drift was a reproducibility problem, not a conclusion problem, and saying which one it was is
+the whole content of the face.
+
+Three rules:
+1. **A freeze fixes reproducibility; only a second universe tests dependence.** A face that re-derives
+   over a frozen vintage is reproducible by construction -- that says nothing about whether the wider
+   universe would have reached a different verdict. Publish both readings side by side and classify
+   three ways: stable / flips / does-not-reproduce (the last refuses attribution: the face has already
+   drifted for some other reason, so the universe question cannot be answered for it).
+2. **A study that owns a freeze switch must be driven THROUGH it.** Passing a staged directory to a
+   study whose `build(outdir, extend)` honours `extend=False` runs the same frozen computation twice and
+   manufactures a stable verdict -- the tautology this study exists to catch (the first build of this
+   face did exactly that for the 4 extend-capable studies). Vary the switch it owns, not the argument
+   that looks convenient.
+3. **Ask how much of the family the question can even reach.** Only 12 of the family's 54 study
+   scripts glob the face directory; the other 42 read named sibling faces, which are pinned by name and
+   vintage-stable by construction. Reporting "the family is unaffected" without that split conflates the
+   part that cannot move with the part that was measured.
+
+Two operational notes: a census cannot include the census (self-inclusion is refused and asserted), and
+each study is measured in its own child process under a wall-clock cap -- the first in-process build
+wedged on one study and took the whole census with it, which is a measurement result, not an excuse.
+
+Evidence: `scripts/e294_live_universe_drift.py` (selftest 36/36, `verify` 0 problems),
+`results/state_tilt/BANDFROZEN-2026-10-29.json` (+ `bandfrozen_latest.json`),
+`Tools/s6_chain_bmb.py` leg `live_universe_drift`, smoke leg E294 (re-derives the top row through the
+real entry point and fails on self-inclusion, an inflated family shape, or a stable row whose two
+verdicts differ -- 4/4 mutations caught), digest
+`research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md`.
