@@ -87,14 +87,12 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "branch": "machine/bm-b-r1321",
-  "pushed_sha": "9a960863b81c36e27007e1fab31e12963ec6a30c",
-  "remote_ref_sha": "9a960863b81c36e27007e1fab31e12963ec6a30c",
+  "branch": "machine/bm-b-r1337",
+  "pushed_sha": "83f4e32f8634e86074cb4c0e0eb89dc7248cefda",
+  "remote_ref_sha": "83f4e32f8634e86074cb4c0e0eb89dc7248cefda",
   "verified": true,
-  "local_not_on_origin_main": 93,
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1320 family); main push not attempted",
-  "ts": "2026-10-31T12:13:18+08:00",
-  "note": "the state carried no r1320 block (that window committed its receipt but wrote no state); this block is r1321"
+  "ts": "2026-10-31T22:46:59+08:00",
+  "note": "standing divergence: local clone is behind origin/main on a blob:none promisor clone, machine branch is the delivery channel"
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
@@ -3146,5 +3144,14 @@
   "study": "E318_count_named_gate_leaves",
   "ts": "2026-10-31T22:45:21+08:00",
   "watermark_red": "pool-batch-red at open with a stale pool face (E317 already burned r1336) -> authored and burned E318 in-window"
+ },
+ "r1337_push": {
+  "branch": "machine/bm-b-r1337",
+  "pushed_sha": "83f4e32f8634e86074cb4c0e0eb89dc7248cefda",
+  "remote_ref_sha": "83f4e32f8634e86074cb4c0e0eb89dc7248cefda",
+  "verified": true,
+  "ts": "2026-10-31T22:46:59+08:00",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255/r1264/r1271 family); not attempted",
+  "group_receipts": "c53dc000b (cph4/fleet/queue-receipts OB-20261031-182307-132 + OB-20261031-174059-609)"
  }
 }
