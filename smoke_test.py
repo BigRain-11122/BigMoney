@@ -3448,6 +3448,26 @@ def main() -> int:
         check("config: no tracked blob carries a conflict-marker fragment",
               False, repr(e)[:160])
 
+    # r1383: the card ledger carried seven control characters (0x08/0x07/0x1b) that
+    # ate the first letter of the token behind them -- `reak_guard` for `break_guard`,
+    # `bs(` for `abs(` -- so a card said something no reader ever saw. r1380 recorded
+    # the class and NOTHING read it, which is how a corruption class grows silently.
+    # The repair lives in Tools/card_text_hygiene.py (frozen table, site-local
+    # assertion, receipt) and this leg is what keeps the site from coming back.
+    try:
+        _cth = _card_text_hygiene()
+        _chits = _cth.findings()
+        check("config: no card or digest carries a control character",
+              not _chits,
+              ("%d site(s): " % len(_chits)
+               + "; ".join("%s:%d %s" % (h["path"], h["line"], h["byte"])
+                           for h in _chits[:4]))[:220]
+              if _chits else
+              "%d files scanned (tab/CR/LF stay legal)" % len(_cth.corpus()))
+    except Exception as e:
+        check("config: no card or digest carries a control character",
+              False, repr(e)[:160])
+
     # r1344: the card-ledger tripwire must see every card at either heading level.
     # bm-b files `### E221`, this machine files `## E232`, and the first version of
     # the guard matched only `##` -- so 6 of 158 cards were invisible to the one gate
@@ -4663,6 +4683,24 @@ def _claw():
         _s.loader.exec_module(_m)
         _SMOKE_GC = _m
     return _SMOKE_GC
+
+
+_SMOKE_CTH = None
+
+
+def _card_text_hygiene():
+    """Tools/card_text_hygiene.py as a module (r1383): the leg and the repair tool
+    must read the same corpus with the same control-character set, otherwise the
+    gate can pass while the tool still finds sites."""
+    global _SMOKE_CTH
+    if _SMOKE_CTH is None:
+        import importlib.util as _ilu
+        _p = os.path.join("Tools", "card_text_hygiene.py")
+        _s = _ilu.spec_from_file_location("_smoke_card_text_hygiene", _p)
+        _m = _ilu.module_from_spec(_s)
+        _s.loader.exec_module(_m)
+        _SMOKE_CTH = _m
+    return _SMOKE_CTH
 
 
 def _hunk_state(text: str, rev: str = "HEAD"):

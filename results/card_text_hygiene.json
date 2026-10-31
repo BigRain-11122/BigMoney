@@ -1,0 +1,62 @@
+{
+ "tool": "Tools/card_text_hygiene.py",
+ "target": "knowledge/METHODOLOGY_ASSETS.md",
+ "sites": [
+  {
+   "line": 301,
+   "damaged": "落 \break_guard",
+   "restored": "落 break_guard",
+   "proof": "scripts/e39_panel_census.py defines break_guard"
+  },
+  {
+   "line": 374,
+   "damaged": "断言 \u0007bs(ser.iloc[0] - 1.0)",
+   "restored": "断言 abs(ser.iloc[0] - 1.0)",
+   "proof": "arithmetic: abs() is the only reading of `bs(` on a signed series"
+  },
+  {
+   "line": 655,
+   "damaged": "只改主面 \u001btf_breadth_sweep.py",
+   "restored": "只改主面 etf_breadth_sweep.py",
+   "proof": "scripts/etf_breadth_sweep.py exists"
+  },
+  {
+   "line": 668,
+   "damaged": "out of \u001btf_book_production.run()",
+   "restored": "out of etf_book_production.run()",
+   "proof": "scripts/etf_book_production.py exists"
+  },
+  {
+   "line": 794,
+   "damaged": "The ticket now publishes \bbook_decided_at",
+   "restored": "The ticket now publishes book_decided_at",
+   "proof": "scripts/etf_book_order.py emits book_decided_at"
+  },
+  {
+   "line": 902,
+   "damaged": "\u001btf_vol_delivery_audit.py --selftest",
+   "restored": "etf_vol_delivery_audit.py --selftest",
+   "proof": "scripts/etf_vol_delivery_audit.py exists"
+  },
+  {
+   "line": 1006,
+   "damaged": "Here \burncontrol recomputes nothing",
+   "restored": "Here burncontrol recomputes nothing",
+   "proof": "scripts/e110_burncontrol_close.py + six other sources spell burncontrol"
+  }
+ ],
+ "lines_touched": [
+  301,
+  374,
+  655,
+  668,
+  794,
+  902,
+  1006
+ ],
+ "before_bytes": 728360,
+ "after_bytes": 728359,
+ "guard_note": "treasure_guard prescan rejects this file by design (registry hit, rc3); the permitted path is a line-level union with a receipt, which is what this is -- every other byte is asserted unchanged",
+ "applied": true,
+ "remaining": 0
+}

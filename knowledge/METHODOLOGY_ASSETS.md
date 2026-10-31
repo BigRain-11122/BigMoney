@@ -298,7 +298,7 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 ## E79 as-traded 面板的公司行动断点：单日跳变守卫 + 断点月剔除披露（r1115 bm-b 实弹）
 - 病理：ETF 面板是 as-traded 未复权收盘——份额折算/拆分在日线上是一条 100%+ 的「收益」。sh512100 2022-09-05 +176.3%、sh510500 2015-04-15 +248.6%，跑任何跨成员的月度序列（大小盘价差、风格敞口、成员贡献分解）时会被当成真收益平均进去。
 - 后果量化：不设守卫时 ladder 大小盘价差年化 1,489bp、最佳月 +49.8pp（假）；>20% 单日跳变月剔除后为 612bp/yr、最佳月 +14.1pp，且回归 beta 0.62 / R2 31.9% 才与其它面自洽（3.5 倍误差）。
-- 正法：成员级「单日 |ret| > 20% → 该月标记 break」→ 当月该成员从腿均值剔除并落 reak_guard（阈值+事件清单+被剔月），引擎曲线与标记面分账；引擎侧不受影响（持仓资格另算），但任何 mark 派生序列必须过闸。
+- 正法：成员级「单日 |ret| > 20% → 该月标记 break」→ 当月该成员从腿均值剔除并落 break_guard（阈值+事件清单+被剔月），引擎曲线与标记面分账；引擎侧不受影响（持仓资格另算），但任何 mark 派生序列必须过闸。
 - 自证：selftest 23/23 + 幂等字节恒等重跑 + 引擎月与标记面 0.4*large+0.6*small 的对账行（最大差 2.65pp = 建仓 burn-in/调仓时点，非恒等失败）。
 - 证据：scripts/e39_panel_census.py tilt leg + results/e40_ladder_tilt/TILT-20261020.json
 
@@ -371,7 +371,7 @@ proven：当窗双实弹。律五条：①**凡每轮被各机 daemon/工具活�
 - 缺陷：metrics(ser, label) 把 slice 当独立资产净值曲线处理——	otal = ser.iloc[-1] - 1、cagr = ser.iloc[-1]**(1/yrs) - 1。运行中的 equity 曲线切出 2024+ 段时首值已是 1.2056，于是「2024+」行报出的是**六年累计收益**与按此推算的年化（ETF R20 OOS 23.26% vs 真值 15.30%；bench 510300 OOS 0.25% vs 真值 7.03%——基准被低估 6.8pp，超额被夸大）。
 - 正法：growth = ser.iloc[-1] / ser.iloc[0]，cagr = growth**(1/yrs) - 1，并把 start_level 写进每行（读者可自证归一基）。sharpe/vol/maxdd 本来就按切片自身收益率/自身 cummax 计算=归一不变，**只有 total 与 cagr 会错**——所以「夏普看起来没问题」不能作为指标无罪的反证。
 - 校正纪律：旧数不静默抹平——json 里留 correction_r1242 段列新旧对照，research 笔记单列 correction 小节并重述读法变化（基准不再「走平」，超额从 ~23pp 降到 ~8.3pp/yr）。
-- 自检：切片指标算出后断言 bs(ser.iloc[0] - 1.0) < 1e-9 or 'start_level' in row；凡「full 与 oos 两行 total 完全相同」= 归一缺陷的指纹，一眼可判。
+- 自检：切片指标算出后断言 abs(ser.iloc[0] - 1.0) < 1e-9 or 'start_level' in row；凡「full 与 oos 两行 total 完全相同」= 归一缺陷的指纹，一眼可判。
 - 2026-10-25 11:4x 由 bm-c r1242 于产品轮立。
 
 ## E99 资产类别必须按**名称/元数据**认，代码前缀会把结论整个反过来（r1243 bm-c 实测·ETF 复合书分解）
@@ -652,7 +652,7 @@ esearch/ETF_BREADTH_SWEEP.md
 - 下一站：宽度 × 打分面（深位 9–12 名由哪些因子撑住）+ 部分成交档（>1% ADV 只成交 1%）+ 12 名单袖叠 8% 波动目标。
 - 2026-10-25 23:3x bm-c r1263 探索
 
-- 复算补注（r1263 值守窗）：同一面另有独立第二实现 scripts/etf_book_breadth.py（--selftest 11/11），flat 与容量列逐格相同=交叉复算通过；它多列了错峰对 12/16 名的增量（-1.09pp / +0.80pp，回撤双双恶化到 -18% 档），坐实「错峰只在 8 名成立」。扩展只改主面 tf_breadth_sweep.py。
+- 复算补注（r1263 值守窗）：同一面另有独立第二实现 scripts/etf_book_breadth.py（--selftest 11/11），flat 与容量列逐格相同=交叉复算通过；它多列了错峰对 12/16 名的增量（-1.09pp / +0.80pp，回撤双双恶化到 -18% 档），坐实「错峰只在 8 名成立」。扩展只改主面 etf_breadth_sweep.py。
 - **E121 (r1264, bm-c) — a research config must ship as a placeable sheet produced by the same engine that priced it.** A backtest row that says "11.5%/yr, Sharpe 1.13" is not yet a product: nobody can act on it. `scripts/etf_book_production.py` re-runs the exact settled configuration through the research engine (`etf_robust_pf.open_to_open_equity`) and then emits today's target weights, CNY amounts and 100-share lots at a stated capital, so the number on the card and the sheet under it cannot drift apart. Three rules the sheet taught: (1) reproduce a previously published cell and assert equality before trusting a new wrapper -- here n5+8%vol reproduced 11.49%/SR1.132/-10.56%, which is what proved the wrapper was not a reimplementation; (2) report the decision grid as *bars until the next decision*, never as an invented future date, because the panel ends at the last bar; (3) instrument names are not in the panel -- the shipped `data/basic/etf_list.csv` carries exchange prefixes (sz159998) while prices are keyed on bare 6-digit codes, so the join must strip the prefix and fall back to positional columns (its Chinese headers do not survive a hand-copied encoding guess).
 
 - **E122 (r1265, bm-c) a watermark must carry its source, and a delta verdict must be content-first.** A content digest proves *what* you read, never *where* you read it, so a watermark can be unreproducible at origin and still look well-formed (the ghost-sha family). Store the source trio beside the fingerprint -- v2:<owner/name>@<commit40>/<bytes>#<sha256> -- and compare repo -> commit -> bytes -> digest. Two rules the migration taught: (1) **commit-first comparison manufactures false deltas**: the pre-existing triple reported changed=true on both group files this window while the digests were byte-identical, purely because origin's tip had moved on an unrelated commit; identity of the blob is the only honest basis for 'did I miss anything', the source trio is for reproducibility. (2) **verify the STORED quad against its own commit** (re-fetch + re-hash): that is the only check that can see a phantom, and no forward comparison can. A not-reproducible watermark must refuse the advance (exit 3) with an explicit, receipt-logged repair path -- never silently overwrite a ghost into a fresh key, and never let a ghost be read as 'nothing new'. Evidence: scripts/d19_watermark.py --selftest 30/30, results/_r686bmb_d19_check.py, research/D19_WATERMARK_V2.md.
@@ -665,7 +665,7 @@ esearch/ETF_BREADTH_SWEEP.md
 
 - **E126 (r1270, bm-c) an unswept parameter pair must be priced before its headline is quoted — and a leverage cap at 1.0 means a "vol target" systematically undershoots the vol it names.** The production card's only two un-gridded numbers were the vol target (8%) and its estimate window (60 bars); sweeping them 5x3 at two sleeve widths separated the axes cleanly: (1) the TARGET is a risk dial (12-name Sharpe 0.980/0.978/0.956 across 6/8/10% while CAGR moves 3.76pp and drawdown -9.5%..-12.9%), so a CAGR spread across targets proves nothing and raw return must never referee a risk knob — the referee is whether risk-adjusted quality moves; (2) the WINDOW is load-bearing (Sharpe 1.045/1.039/0.978/0.841/0.817 at 30/45/60/90/120 bars, spread 0.228, with no drawdown penalty for the faster ones), so the published 60d is a convention sitting on a slope, not a plateau — which may be recorded but not re-picked on the same sample, because chasing the best cell of a fresh surface is the exact fitting the sweep exists to detect; (3) because scale = min(1, target/v) is a de-lever-only cap sized on the PICKED names' backward vol (momentum picks are recently calm), the delivered risk exceeds the label structurally: 8% target -> 10.18% realised at 12 names (10.5% at 5 names), and no window fixes it. How to apply: quote a de-levered sleeve by its DELIVERED vol next to its target, never by the target name alone; before trusting a parameter that no grid covers, price its row and its column, and read each axis on the metric that can actually referee it (return for exposure, Sharpe/DD for a risk knob). Evidence: scripts/etf_vol_target_sweep.py --selftest 8/8 (legacy-path maxdiff 0.00e+00, activity leg, higher-target-holds-more-risk, window-inert-without-target, short-history degrades to no overlay, hand-built surface arithmetic), results/etf_vol_target_sweep.json, research/ETF_VOL_TARGET_SURFACE.md.
 
-- **E127 (r1271, bm-c) extracting a helper can silently strip the caller's scope, and a deliverable nobody executes is not covered by green legs.** r1270 pulled the panel build out of tf_book_production.run() into a shared prep_panel(), but the caller kept reading cls[p] and len(cols) -- names that now existed only inside the helper. The production card, i.e. the ONLY artefact a human can place an order from, died with NameError at the order-sheet step and stayed dead for a full round while selftest, smoke 57/57, S6 and every audit stayed green, because no leg in the repo ever called 
+- **E127 (r1271, bm-c) extracting a helper can silently strip the caller's scope, and a deliverable nobody executes is not covered by green legs.** r1270 pulled the panel build out of etf_book_production.run() into a shared prep_panel(), but the caller kept reading cls[p] and len(cols) -- names that now existed only inside the helper. The production card, i.e. the ONLY artefact a human can place an order from, died with NameError at the order-sheet step and stayed dead for a full round while selftest, smoke 57/57, S6 and every audit stayed green, because no leg in the repo ever called 
 un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a unit test of the helper -- it is a cheap end-to-end invocation of the entry point that produces the deliverable, so the sheet path (backtest -> weights -> legs -> card text) executes on a synthetic panel in ~1s with prep_panel/load_names/OUT_DIR patched to a tmp dir (a real-panel leg would cost a minute and nobody would keep it in smoke); (2) register the expensive real-panel selftest wherever the repo's other exit-code contracts live (smoke_test.py), otherwise 'the card is broken' and 'the repo is healthy' are the same reading. Sibling of E120: a wrapper that is never re-run against its own deliverable rots exactly like a backtest that is never re-derived. Evidence: scripts/etf_book_production.py --selftest (4 new legs incl. the synthetic end-to-end run + card assertions), smoke_test.py product leg, results/etf_book_production/CARD.md.
 
 - **E128 (r1272, bm-c) "we reported it, we did not explain it" is a debt -- and the obvious
@@ -791,7 +791,7 @@ un(). Two rules: (1) when a refactor moves a variable's home, the guard is not a
   row (diag), not off a re-ranking of the latest bar. A grid that is computed only to print
   a label is a verdict with no consumer -- the E128 shape, at the money surface.
 - Second half of the rule: prove the two faces agree on the *artefact*, not on the intent.
-  The ticket now publishes book_decided_at and card_agreement{ticket_is_prefix_of_card}.
+  The ticket now publishes book_decided_at and card_agreement{ticket_is_prefix_of_card}.
 - Cost of the defect: an operator following the sheet trades the full round-trip of 11 names
   every time the chain regenerates it (the chain runs every round).
 - Gates: production selftest 11->14 (decision-row identity + activity leg that the off-grid
@@ -899,7 +899,7 @@ esults/data_lag_audit.json 把官方日历与本地面板逐日对账，判 in_s
 - **四个活面不是四本书：先按规则分组，再排名（r1300 bm-c）**：同一本 ETF 书在仓内能长成四张「活面」（可执行票据 / 生产卡 / 前向账 / 错峰账），但把面数当书数是错的——判据是**规则三元组**（持仓数 × 调仓频率 × 宇宙含不含债）。r1300 实测：card 与 forward 同为 12 名 / R20 / 含债 = 一本书（4 面塌缩成 3 本）；staggered 10 名 / R10 / 去债 = 另一本书，它的 20.77% 不能读成「同一本书做得更好」（同 r1291/r1296 口径律）。发表口径一律答「**在某资本上限下一年赚多少钱**」= min(资本, 该书自己的 ADV 上限) × 该书自己的年化：12@vol 在 1% ADV 约 173k、5% ADV 约 866k 元/年，5M 与 50M 资本的答案是同一个数（上限咬死）——所以「加资金」不是增长手段，「放过更大比例的 ADV」才是。跨规则排名一律不出（脚本内 suppress + selftest 钉住）。
 - 2026-10-27 r1300 bm-c·遵循 O-20261002-2100 收口步
 
-- **自检不许跑全量面板：它会把 S1 门锁死（r1300 bm-c）**：tf_vol_delivery_audit.py --selftest 原先调 P.prep_panel()（1499 只 × 1649 bar）再用同一引擎跑三臂，>10 分钟零输出——r1298 与本轮开头的 smoke 都是被它卡死的（smoke 打印到第 59 腿就静默）。修法=自检用 40 只 × 1500 bar 的合成面板（种子固定），四条守卫原义不变，5.3s 跑完。How：任何 --selftest 若 import 生产面板/全样本引擎，一律换合成 fixture；判据是「selftest 秒级 + 零网络」，跑不动的自检等于没有自检。
+- **自检不许跑全量面板：它会把 S1 门锁死（r1300 bm-c）**：etf_vol_delivery_audit.py --selftest 原先调 P.prep_panel()（1499 只 × 1649 bar）再用同一引擎跑三臂，>10 分钟零输出——r1298 与本轮开头的 smoke 都是被它卡死的（smoke 打印到第 59 腿就静默）。修法=自检用 40 只 × 1500 bar 的合成面板（种子固定），四条守卫原义不变，5.3s 跑完。How：任何 --selftest 若 import 生产面板/全样本引擎，一律换合成 fixture；判据是「selftest 秒级 + 零网络」，跑不动的自检等于没有自检。
 - 2026-10-27 r1300 bm-c·遵循 O-20261002-2100 收口步
 - **同族多臂先证「是不是同一个对象」，再谈几票证据；一致到小数点往往是同一个东西的多个名字（r1167 bm-b·E102）**：情形＝E99 一次发布五个臂（unscreened/neutralise_int/gap1/gap2/gap5），E101 只把其中一个挂在端网格上。要答「这五臂是五次测量还是一次转变的五个名字」，光比 delta 不够——改看两层：①同一端网格下逐臂的**零端计数**（步=11/12 零且跨度全落在纪元末段；效应=0/12 零且移动分散；无效应=12/12 零），②比 delta 更下层比**宇宙编辑量**（臂只修打印不删标的，名字数相同也可判同一对象）。实测：gap1/gap2/gap5 在六个纪元×账簿格上逐端完全相同（max−min=0.0），1271 名里 gap1 与 gap5 只差 **1 个**名且该名从不进任何格，gap1 与 gap2 编辑集完全相同（74 名）——即三列是同一个对象，gap 限 1/2/5 在该面板上**不可辨识**；neutralise_int 编辑 65 名是另一个对象（2017_2020 me 为 +52.5 小步 vs 缺口族 −745.9 大步，2021_2023 两账簿 12/12 零 vs 缺口族走 249.6/291.4bp）。判据：①「同族 N 臂互证」在报出前必须打印编辑计数，格级一致与同对象不可分；②零也是读数，引用 0.0 必带零端计数，否则「无效应」会被读成「测出来的空」；③控制腿＝网格自末端必须逐格复制已发布 delta（本例 24/24 abs_diff 0.0），这是「切的是评估端而非重烧」的唯一证明。
 - 2026-10-27 r1167 bm-b（捕获律 O-20261002-2100 收口步）
@@ -1003,7 +1003,7 @@ if the artefact only stores an index into a rebuildable series, it is not yet an
 
 - Card: separation first, verdict second (E110)
 - Trigger: a self-check/control that cannot be read as green -- rc=1 on a leg whose own numbers did not move.
-- Move: ask what the control READS before asking what it measures. Here urncontrol recomputes nothing;
+- Move: ask what the control READS before asking what it measures. Here burncontrol recomputes nothing;
   it joins three faces off disk, so it compared a face burned 2026-10-22 (pre-E108 factor) with one burned
   post-fix and reported the version gap as a burn defect. Same-panel A/B with only the factor flipped moved
   4 cells (all mid15 x neutralise x 2024_now, delta 369.6bp); the other 7 moved with four days of panel
@@ -7424,3 +7424,15 @@ Readings that came out of it: production 8.21pp/yr = plain +9.83 in 1569 quiet b
 drag -1.62 over 83 fill bars (toll -1.145, fill-bar intraday -0.636, overnight +0.163) --
 i.e. the book is paid on the quiet bars and the fill bars are a cost, which is what a
 20-day rebalance with 0.93 turnover per decision should look like and had never been said.
+
+## E307 - 账本里的控制字符是「没有读者的腐蚀类」：记录过不等于修过
+
+**触发**：r1380 在卡片账本里查明 7 个控制字符，写下「本轮不修」，然后**没有任何东西去读它**——一条已经登记的腐蚀类就这么躺了整夜。r1383 实测 `knowledge/METHODOLOGY_ASSETS.md` 仍有 7 处（0x08 / 0x07 / 0x1b），其中五处**吃掉了后面那个 token 的首字母**：`reak_guard`（应为 break_guard）、`bs(ser.iloc[0]`（应为 abs()）、`tf_breadth_sweep.py`、`tf_book_production.run()`、`urncontrol`（应为 burncontrol）；另两处是把转义符插在完整 token 之前（`book_decided_at`）。Markdown 渲染里这些字符不可见，所以账本可以长期「说着一句没人看见过的话」——而这句话恰好是代码里的标识符，读者照着抄会抄到一个不存在的函数。
+
+**正法**：`Tools/card_text_hygiene.py` 三件。①`scan` 只读扫 corpus（`knowledge/*.md` + `research/digests/*.md`；tab/CR/LF 合法），有命中 exit 1 并打印 文件:行:字节 + 上下文。②`fix` 走**冻结表**：每行 damaged → restored 都带 **proof**（磁盘上的文件名，或代码里真实使用的标识符——`scripts/e39_panel_census.py` 里确有 `break_guard`，`scripts/e110_burncontrol_close.py` 里确有 `burncontrol`），且每处必须**恰好出现一次**：0 次或 2 次一律 exit 2 且零写，绝不靠猜。③修完做**行级并集断言**：行数不变、变动行集合必须恰好等于修复行集合、且把 restored 换回 damaged 必须逐字复原该行；任一条不成立 exit 3 且零写。treasure_guard 对本面 rc3 硬拒是设计如此（登记簿的合法通路只有行级并集或摘录存旁），本工具走的就是行级并集并落回执。
+
+**验证脚**：`Tools/card_text_hygiene.py selftest` **11/11**（清洁文本通过 / 控制字符带行号 / digest 在射程 / 七处全部修复 / 每处一行 / 修后零控制字符 / 站点缺失拒且零写 / 重复出现拒 / 干跑可复原原字节 / 每行带 proof）。实弹：scan 411 文件 **7 处** → `fix` rc0 → scan **0 处**；`git diff --numstat` **7/7**（只有这 7 行动，其余 726KB 逐字节不动）。smoke 新增腿 `config: no card or digest carries a control character`，与工具**共用**同一个 corpus 与同一个控制字符集（抄一份规则就是下一个缺陷）。
+
+**首版自己的坑**：行级校验最初是把 restored 字符串在全文件里 `find()` 回来——可 `book_decided_at` 这类标识符在账本里本就出现多次，于是「复原」找错位置，健康文件被自己的断言判红。正法=**按行复原**：只在记录下来的那一行内部做逆向替换。同一个词在多处出现、却用全文件搜索当身份，是 E300「拿记忆核对 id」的同族错误。
+
+**局限**：本条只治**已知形态**（吃掉 token 首字母的转义残留）。被吃掉的是中间字母、或整段被截断的，scan 看得见但冻结表里没有对应行——那是人判范围，工具一律拒而不猜；corpus 也尚未覆盖 `research/*.md` 与 `docs/`，扩面须同窗核一遍假阳性。
