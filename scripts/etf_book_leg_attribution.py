@@ -373,6 +373,53 @@ def check():
     return 0
 
 
+def money_split_face(path=None):
+    """The published split, read the way a face has to quote it (r1189).
+
+    Single implementation of "where in the day does the money accrue". A face that
+    re-derived the four buckets from the nav curve would publish a second answer that
+    drifts silently the first time either copy is touched (E289 lineage), so the faces
+    quote this artifact and this function, never a re-derivation.
+
+    A face whose own arithmetic does not close is REFUSED here (`check_face`), not
+    printed with a caveat: a split that does not add up to its own total reads exactly
+    like data.
+    """
+    path = path or os.path.join(OUT_DIR, "latest.json")
+    if not os.path.exists(path):
+        return {"status": "absent", "artifact": path,
+                "detail": "leg split not published yet (%s)" % path}
+    try:
+        with open(path, encoding="utf-8") as f:
+            face = json.load(f)
+    except Exception as exc:                                     # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
+                "detail": "artifact unreadable (%s)" % str(exc)[:120]}
+    bad = check_face(face)
+    if bad:
+        return {"status": "broken", "artifact": path, "detail": "; ".join(bad)[:240]}
+    arms = {}
+    for name, arm in (face.get("arms") or {}).items():
+        arms[name] = {
+            "buckets_pp_per_year": dict(arm.get("buckets_pp_per_year") or {}),
+            "total_log_pp": arm.get("total_log_pp"),
+            "plain_carry_pp_per_year": arm.get("plain_carry_pp_per_year"),
+            "fill_bar_drag_pp_per_year": arm.get("fill_bar_drag_pp_per_year"),
+            "fill_bars": arm.get("fill_bars"),
+            "plain_bars": arm.get("plain_bars"),
+            "bars": arm.get("bars"),
+            "cagr_pct": arm.get("cagr_pct"),
+            "sharpe": arm.get("sharpe"),
+        }
+    return {"status": "ok", "artifact": path,
+            "evidence_cutoff": face.get("evidence_cutoff"),
+            "generated_ts": face.get("generated_ts"),
+            "execution": (face.get("config") or {}).get("execution"),
+            "priced_bar": (face.get("panel") or {}).get("last_bar"),
+            "panel_first_bar": (face.get("panel") or {}).get("first_bar"),
+            "arms": arms, "selection_wedge_pp": face.get("selection_wedge_pp")}
+
+
 def run():
     res = build_arms()
     if not res:
@@ -497,6 +544,41 @@ def selftest():
     else:
         check("L9 the face echoes its bucket list and the wedge is book minus control", False,
               "no face built")
+
+    # L10 -- the reader the faces quote. Three states, and a broken face must not leak
+    # numbers: "absent" is not zero, "broken" is not a caveat, and the ok path must hand
+    # back the artifact's own figures verbatim (a reader that recomputed them would be
+    # the second copy this leg exists to prevent).
+    import tempfile
+    tmp = tempfile.mkdtemp()
+    r_absent = money_split_face(path=os.path.join(tmp, "absent.json"))
+    check("L10a an unpublished split reads absent, with no arms",
+          r_absent.get("status") == "absent" and not r_absent.get("arms"),
+          "status=%r" % (r_absent.get("status"),))
+    if res:
+        good = os.path.join(tmp, "good.json")
+        with open(good, "w", encoding="utf-8") as f:
+            json.dump(_strip(res), f, ensure_ascii=False)
+        r_ok = money_split_face(path=good)
+        want = res["arms"]["production"]["buckets_pp_per_year"]
+        got = ((r_ok.get("arms") or {}).get("production") or {}).get("buckets_pp_per_year") or {}
+        check("L10b a published split is quoted verbatim (no re-derivation)",
+              r_ok.get("status") == "ok" and all(got.get(k) == want.get(k) for k in BUCKETS),
+              "status=%r production_plain=%r vs %r"
+              % (r_ok.get("status"), got.get("plain"), want.get("plain")))
+        bad_face = json.loads(json.dumps(_strip(res)))
+        bad_face["arms"]["production"]["buckets_pp_per_year"]["plain"] += 5.0
+        broken = os.path.join(tmp, "broken.json")
+        with open(broken, "w", encoding="utf-8") as f:
+            json.dump(bad_face, f, ensure_ascii=False)
+        r_bad = money_split_face(path=broken)
+        check("L10c a split whose buckets miss its own total is refused, not published",
+              r_bad.get("status") == "broken" and not r_bad.get("arms"),
+              "status=%r detail=%r" % (r_bad.get("status"), (r_bad.get("detail") or "")[:80]))
+    else:
+        check("L10b a published split is quoted verbatim (no re-derivation)", False, "no face")
+        check("L10c a split whose buckets miss its own total is refused, not published",
+              False, "no face")
 
     print("SELFTEST %s (%d fails)" % ("OK" if not fails else "FAIL", len(fails)), flush=True)
     return 0 if not fails else 1

@@ -33,6 +33,7 @@ LEDGER = os.path.join(ROOT, "results", "etf_book_forward", "LEDGER.json")
 CAL = os.path.join(ROOT, "data", "exchange_calendar.csv")
 REGIME_PATH = os.path.join(ROOT, "results", "etf_book_return_regime.json")
 BETS_JSON = os.path.join(ROOT, "results", "etf_book_bets_face.json")
+LEGS_JSON = os.path.join(ROOT, "results", "etf_book_legs", "latest.json")
 MACHINE = os.path.join(ROOT, "fleet", "machine.json")
 
 # Single writer: the page is a plain-language mirror of shared artefacts, so two
@@ -175,6 +176,27 @@ def family_coherence():
                 "detail": "arm family face unreadable (%s)" % str(exc)[:120],
                 "panels": [], "arms": 0, "evidence_cutoff": None,
                 "priced_same_panel": None}
+
+
+def leg_split(path=LEGS_JSON):
+    """Where in the day this book's money is earned (r1189).
+
+    Single implementation: `etf_book_leg_attribution.money_split_face()` owns the reader
+    and the arithmetic check; this page quotes it. The page already tells the reader how
+    much of the headline is lending cash out (the carry face) and how big the book is --
+    what it never said is that the headline is earned on the ~1,500 quiet bars and that
+    the ~83 bars where the order actually fills lose money. Without that line, a book
+    that is a toll machine and a book that is a slow accumulator print the same CAGR.
+    Absent/unreadable/broken reads as "cannot verify here", never as agreement."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_leg_attribution as _L
+        return _L.money_split_face(path=path)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"status": "unreadable", "artifact": path,
+                "detail": "reader failed (%s)" % str(exc)[:120], "arms": {}}
 
 
 def _load_ticket():
@@ -1074,6 +1096,7 @@ def build(with_stress=False):
     page["priced_faces"] = priced_faces(page["priced_bar"])
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
+    page["leg_split"] = leg_split()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
     return page, today
 
@@ -1435,6 +1458,51 @@ def render_md(p):
         add("> 口径来源：`%s`（现金流按「前一根 bar 的报价 x 日历天数 / 365」计息，三种情形用同一约定；"
             "缺口日不计息并计数，不补默认值）。" % cr.get("source"))
     add("")
+    ls = p.get("leg_split") or {}
+    add("## 这笔钱是「一天里的哪一段」挣的")
+    add("")
+    if ls.get("status") != "ok":
+        add("这一节没有数：拆解面%s（`%s`）。缺面就写「无法核验」，不拿零或「一致」顶上。"
+            % ("未产出" if ls.get("status") == "absent" else "读不出",
+               _rel(ls.get("artifact") or LEGS_JSON, ROOT).replace(os.sep, "/")))
+        add("")
+    else:
+        pr_arm = ls["arms"].get("production") or {}
+        bk = pr_arm.get("buckets_pp_per_year") or {}
+        cw = (ls["arms"].get("control_ew") or {}).get("buckets_pp_per_year") or {}
+        nf, npl = pr_arm.get("fill_bars") or 0, pr_arm.get("plain_bars") or 0
+        drag = pr_arm.get("fill_bar_drag_pp_per_year") or 0.0
+        carry = pr_arm.get("plain_carry_pp_per_year") or 0.0
+        gross = (bk.get("overnight") or 0.0) + (bk.get("intraday") or 0.0)
+        add("同一套引擎、同一批票、同样的换仓和成本，把上面那个回测年化按「钱是在哪一段挣的」拆成四桶——"
+            "四桶按对数记账相加**精确等于**总额（不是大约等于），所以这一节不新增任何假设，"
+            "只是把同一个数看仔细：")
+        add("")
+        add("| 桶 | 含义 | 一年几个百分点 |")
+        add("|---|---|---|")
+        add("| 安静 bar | %d 根「没有成交」的日子，持仓自己走 | %+.2f |" % (npl, bk.get("plain") or 0.0))
+        add("| 隔夜 | 单子还没成交，旧持仓扛过收盘到开盘 | %+.2f |" % (bk.get("overnight") or 0.0))
+        add("| 成交 bar 日内 | 新持仓在成交那天的开盘到收盘 | %+.2f |" % (bk.get("intraday") or 0.0))
+        add("| 手续费 | 成交那一刻被收掉的 | %+.2f |" % (bk.get("toll") or 0.0))
+        add("| **合计** | 与票面回测年化同一个词（对数口径） | **%+.2f** |" % (pr_arm.get("total_log_pp") or 0.0))
+        add("")
+        add("一句话：**%.2f 个百分点/年是在那 %d 根「什么都没发生」的 bar 上挣的；真正换手的那 %d 根 bar "
+            "合计%s %.2f 个百分点**（手续费 + 开盘成交差）。"
+            % (carry, npl, nf, "拖累" if drag < 0 else "贡献", abs(drag)))
+        add("")
+        add("- 这不是「少换手就多赚」的证据。把手续费当成 0，成交那一撮 bar 的毛腿**仍然是 %+.2f 个百分点**"
+            "（隔夜 %+.2f + 日内 %+.2f）——问题不只在收费上，也在那一撮 bar 本身的方向上。"
+            % (gross, bk.get("overnight") or 0.0, bk.get("intraday") or 0.0))
+        if cw:
+            add("- 同样这批票「平均买一遍」（等权、同样换仓同样成本）在安静 bar 上只有 **%+.2f**，"
+                "这本账是 **%+.2f**——差的 %.2f 个百分点是选券给的，不是换手给的。"
+                % (cw.get("plain") or 0.0, bk.get("plain") or 0.0,
+                   (bk.get("plain") or 0.0) - (cw.get("plain") or 0.0)))
+        add("")
+        add("> 拆解面：`%s`（计价截止 %s；执行约定：%s；三臂=这本账 / 裸书 / 等权控制）。"
+            % (_rel(ls.get("artifact") or LEGS_JSON, ROOT).replace(os.sep, "/"),
+               ls.get("evidence_cutoff") or "—", ls.get("execution") or "—"))
+        add("")
     add("## 换成年内能赚多少钱（按本单资金 ¥%s）" % format(p["money_cny"]["capital_cny"], ",.0f"))
     add("")
     add("同一批数字再换一把尺子，只做单位换算，不叠加任何新假设：")
@@ -2079,6 +2147,37 @@ def selftest():
     chk("L59 priced days: a paper with no day reads 'cannot tell', never agreement",
         "**无法判断。**" in _md_unknown and "**同一天。**" not in _md_unknown
         and "票据 没写" in _md_unknown, "")
+
+    # L60-L62 (r1189): the page told the reader how much of the headline is cash lending
+    # and how big the book is, but never where in the DAY the money accrues. The split
+    # must be quoted verbatim from the artifact (not recomputed here), the three states
+    # must read differently, and a broken face must print no numbers at all.
+    def _render_legs(ls):
+        _p, _ = build(with_stress=False)
+        _p["leg_split"] = ls
+        return render_md(_p)
+
+    _legs_ok = {"status": "ok", "artifact": LEGS_JSON, "evidence_cutoff": "2026-10-30",
+                "execution": "decide at close -> fill at next open",
+                "arms": {"production": {"buckets_pp_per_year": {"plain": 9.83, "overnight": 0.16,
+                                                                "intraday": -0.64, "toll": -1.15},
+                                        "total_log_pp": 8.21,
+                                        "plain_carry_pp_per_year": 9.83,
+                                        "fill_bar_drag_pp_per_year": -1.62,
+                                        "fill_bars": 83, "plain_bars": 1569},
+                         "control_ew": {"buckets_pp_per_year": {"plain": 6.20}}}}
+    _md_legs = _render_legs(_legs_ok)
+    chk("L60 leg split: the four buckets and the fill-bar count reach the page verbatim",
+        all(s in _md_legs for s in ("+9.83", "+0.16", "-0.64", "-1.15", "1569", "83")), "")
+    chk("L61 leg split: a book that earns on quiet bars says so in one sentence",
+        "什么都没发生" in _md_legs and "拖累 1.62" in _md_legs, "")
+    _md_legs_gone = _render_legs({"status": "absent", "artifact": LEGS_JSON, "arms": {}})
+    _md_legs_broken = _render_legs({"status": "broken", "artifact": LEGS_JSON,
+                                    "detail": "production: buckets sum 5.000 != published 0.000",
+                                    "arms": {}})
+    chk("L62 leg split: absent or broken prints 'cannot verify' and no bucket numbers",
+        "无法核验" in _md_legs_gone and "无法核验" in _md_legs_broken
+        and "+9.83" not in _md_legs_gone and "+9.83" not in _md_legs_broken, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

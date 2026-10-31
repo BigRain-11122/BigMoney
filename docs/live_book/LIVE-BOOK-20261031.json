@@ -646,6 +646,72 @@
   "source": "results/etf_book_return_regime.json",
   "evidence_cutoff": "2026-10-30"
  },
+ "leg_split": {
+  "status": "ok",
+  "artifact": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\etf_book_legs\\latest.json",
+  "evidence_cutoff": "2026-10-30",
+  "generated_ts": "2026-10-31T10:26:17+0800",
+  "execution": "decide at close of bar d -> fill at open of bar d+1 -> hold to the next fill",
+  "priced_bar": "2026-10-30",
+  "panel_first_bar": "2020-01-02",
+  "arms": {
+   "production": {
+    "buckets_pp_per_year": {
+     "overnight": 0.163,
+     "toll": -1.145,
+     "intraday": -0.636,
+     "plain": 9.83
+    },
+    "total_log_pp": 8.212,
+    "plain_carry_pp_per_year": 9.829,
+    "fill_bar_drag_pp_per_year": -1.618,
+    "fill_bars": 83,
+    "plain_bars": 1569,
+    "bars": 1653,
+    "cagr_pct": 8.49,
+    "sharpe": 0.894
+   },
+   "base_book": {
+    "buckets_pp_per_year": {
+     "overnight": 0.469,
+     "toll": -1.566,
+     "intraday": -0.561,
+     "plain": 14.09
+    },
+    "total_log_pp": 12.433,
+    "plain_carry_pp_per_year": 14.091,
+    "fill_bar_drag_pp_per_year": -1.658,
+    "fill_bars": 83,
+    "plain_bars": 1569,
+    "bars": 1653,
+    "cagr_pct": 13.13,
+    "sharpe": 0.916
+   },
+   "control_ew": {
+    "buckets_pp_per_year": {
+     "overnight": -0.144,
+     "toll": -0.074,
+     "intraday": -2.002,
+     "plain": 6.203
+    },
+    "total_log_pp": 3.983,
+    "plain_carry_pp_per_year": 6.202,
+    "fill_bar_drag_pp_per_year": -2.22,
+    "fill_bars": 83,
+    "plain_bars": 1569,
+    "bars": 1653,
+    "cagr_pct": 4.03,
+    "sharpe": 0.31
+   }
+  },
+  "selection_wedge_pp": {
+   "overnight": 0.613,
+   "toll": -1.492,
+   "intraday": 1.441,
+   "plain": 7.887,
+   "total": 8.45
+  }
+ },
  "stress": {
   "n_days": 5270,
   "first": "2005-02-23",
