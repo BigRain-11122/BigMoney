@@ -135,6 +135,26 @@ def bets_face(path=BETS_JSON):
         return {"status": "unreadable", "detail": str(exc)[:160]}
 
 
+def priced_faces(page_bar):
+    """Which closing bar each of the three papers was priced on (r1185).
+
+    Single implementation: `etf_book_production.priced_faces()` owns the rule. This page is
+    the last of the three in the chain (card -> ticket -> page), so it is the first place that
+    can print all three days beside each other. The footer used to say only
+    "same priced bar = True"; a reader who is told "different" has to be told which paper is
+    the stale one."""
+    scripts_dir = os.path.dirname(os.path.abspath(__file__))
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    try:
+        import etf_book_production as _P
+        return _P.priced_faces(page_bar=page_bar)
+    except Exception as exc:                                    # noqa: BLE001
+        return {"faces": {"card": None, "ticket": None, "page": page_bar},
+                "verdict": "UNKNOWN", "detail": "reader failed (%s)" % str(exc)[:120],
+                "missing": ["card", "ticket"], "same_day": None}
+
+
 def family_coherence():
     """Whether the width family behind this page's name count was one measurement (r1184).
 
@@ -1051,6 +1071,7 @@ def build(with_stress=False):
     page["today_action"] = today_action(page)
     page["bets"] = bets_face()
     page["family_coherence"] = family_coherence()
+    page["priced_faces"] = priced_faces(page["priced_bar"])
     page["cash_handshake"] = cash_handshake(cash_amt, page["cash_ladder"], today=today)
     page["carry_regime"] = carry_regime()
     page["stress"] = build_stress(order, nav, feed.get("ticket_bar")) if with_stress else None
@@ -1481,9 +1502,26 @@ def render_md(p):
     for c in p["caveats"]:
         add("- " + c)
     add("")
+    add("## 这三张纸是不是同一天算出来的")
+    add("")
+    _pf = p.get("priced_faces") or {}
+    _fm = _pf.get("faces") or {}
+    _shown = "卡片 %s / 票据 %s / 本页 %s" % (
+        _fm.get("card") or "没写", _fm.get("ticket") or "没写", _fm.get("page") or "没写")
+    if _pf.get("verdict") == "SAME_DAY":
+        add("**同一天。** %s —— 你手上的单子、卡片和这一页，用的是同一个收盘价。" % _shown)
+    elif _pf.get("verdict") == "DIFFERENT_DAYS":
+        add("**不是同一天。** %s —— 落后的那张纸，报的是上一个收盘的价；先别按它下单。"
+            % _shown)
+    else:
+        add("**无法判断。** %s —— 有一张纸没写自己的定价日，所以这里既不能说「一致」，"
+            "也不能说「不一致」。" % _shown)
+    add("")
     add("---")
-    add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s，同一定价日=%s*"
-        % (p["evidence_cutoff"], p["agreement"]["same_decision_bar"], p["agreement"]["same_priced_bar"]))
+    add("*生成脚本 scripts/etf_book_ceo_page.py｜证据截止 %s｜卡片与单子同一决策日=%s，"
+        "三张纸同一定价日=%s（%s）*"
+        % (p["evidence_cutoff"], p["agreement"]["same_decision_bar"],
+           _pf.get("verdict") or "UNKNOWN", _shown))
     return "\n".join(L) + "\n"
 
 
@@ -2008,6 +2046,39 @@ def selftest():
     chk("L56 family coherence: an absent face reads 'unknown', never a pass",
         "不知道。" in _md_absent and "ONE_WORLD" not in _md_absent
         and "没验" in _md_absent, "")
+
+    # L57-L59 (r1185): the page used to answer "same priced bar = True" without ever printing
+    # which day any of the three papers was priced on. A reader told "different" must be able
+    # to see WHICH paper is stale, so all three days are printed and the three states read
+    # differently -- an unknown must never borrow the wording of agreement.
+    def _render_pf(pf):
+        _p, _ = build(with_stress=False)
+        _p["priced_faces"] = pf
+        return render_md(_p)
+
+    _md_same = _render_pf({"verdict": "SAME_DAY", "same_day": True, "missing": [],
+                           "detail": "all three papers priced the 2026-10-30 bar",
+                           "faces": {"card": "2026-10-30", "ticket": "2026-10-30",
+                                     "page": "2026-10-30"}})
+    _md_split = _render_pf({"verdict": "DIFFERENT_DAYS", "same_day": False, "missing": [],
+                            "detail": "priced on different bars",
+                            "faces": {"card": "2026-10-30", "ticket": "2026-10-30",
+                                      "page": "2026-10-29"}})
+    _md_unknown = _render_pf({"verdict": "UNKNOWN", "same_day": False, "missing": ["ticket"],
+                              "detail": "no pricing day on: ticket",
+                              "faces": {"card": "2026-10-30", "ticket": None,
+                                        "page": "2026-10-30"}})
+    # the section HEADING asks "are these three the same day" and therefore literally
+    # contains the string 不是同一天, so every assertion anchors on the BOLDED verdict.
+    chk("L57 priced days: all three papers print their own day and read 'same day'",
+        "**同一天。**" in _md_same and _md_same.count("2026-10-30") >= 3
+        and "**不是同一天。**" not in _md_same, "")
+    chk("L58 priced days: a stale paper is named, not just denied",
+        "**不是同一天。**" in _md_split and "本页 2026-10-29" in _md_split
+        and "**同一天。**" not in _md_split, "")
+    chk("L59 priced days: a paper with no day reads 'cannot tell', never agreement",
+        "**无法判断。**" in _md_unknown and "**同一天。**" not in _md_unknown
+        and "票据 没写" in _md_unknown, "")
 
     print("\nSummary: %d/%d PASS%s" % (ok, total, "" if ok == total else " -- %d FAIL" % (total - ok)))
     return 0 if ok == total else 1

@@ -4000,6 +4000,63 @@ def main() -> int:
     except Exception as e:
         check("product: every face a reader holds says whether the width's family was one world",
               False, repr(e)[:160])
+    # ---- r1185: the three papers must each say WHICH day they were priced on ----
+    # "same priced bar = True" is a claim nobody can re-derive. This leg reads the three days
+    # out of the artifacts themselves, demands the page print all three, and proves the reader
+    # can move in both directions (different bars -> named stale paper; missing -> unknown,
+    # never agreement).
+    try:
+        import tempfile as _tf47
+        _bad47 = []
+        _sys47 = os.path.join(PATHS.root, "scripts")
+        if _sys47 not in sys.path:
+            sys.path.insert(0, _sys47)
+        import etf_book_production as _P47
+        _page_ptr = os.path.join(PATHS.root, "docs", "live_book", "latest.json")
+        if not os.path.exists(_page_ptr):
+            _bad47.append("page artifact missing")
+        else:
+            with open(_page_ptr, encoding="utf-8") as _fh47:
+                _pg47 = json.load(_fh47) or {}
+            # latest.json is a pointer, not the page: the priced bar lives on the dated twin
+            if not _pg47.get("priced_bar") and _pg47.get("json"):
+                with open(os.path.join(PATHS.root, _pg47["json"]), encoding="utf-8") as _fh47:
+                    _pg47 = json.load(_fh47) or {}
+            _pf47 = _P47.priced_faces(page_bar=_pg47.get("priced_bar"))
+            if _pf47.get("verdict") != "SAME_DAY":
+                _bad47.append("three papers disagree: %s" % (_pf47.get("detail") or "")[:120])
+            _lb47 = sorted(glob.glob(os.path.join(PATHS.root, "docs", "live_book",
+                                                  "LIVE-BOOK-*.md")))
+            _md47 = ""
+            if _lb47:
+                with open(_lb47[-1], encoding="utf-8") as _fh47:
+                    _md47 = _fh47.read()
+            for _k47 in ("card", "ticket", "page"):
+                _d47 = (_pf47.get("faces") or {}).get(_k47)
+                if _d47 and _d47 not in _md47:
+                    _bad47.append("page does not print the %s day %s" % (_k47, _d47))
+            # falsifiability: the reader must be able to say anything but "same"
+            with _tf47.TemporaryDirectory() as _td47:
+                for _sub47, _pl47 in (("etf_book_production", {"sheet": {"as_of_bar": "2026-01-05"}}),
+                                      ("etf_book_order", {"card_agreement": {
+                                          "ticket_priced_bar": "2026-01-06"}})):
+                    os.makedirs(os.path.join(_td47, _sub47), exist_ok=True)
+                    with open(os.path.join(_td47, _sub47, "latest.json"), "w",
+                              encoding="utf-8") as _fh47:
+                        json.dump(_pl47, _fh47)
+                _sp47 = _P47.priced_faces(page_bar="2026-01-07", results_dir=_td47)
+                if _sp47.get("verdict") != "DIFFERENT_DAYS" or "page 2026-01-07" not in (
+                        _sp47.get("detail") or ""):
+                    _bad47.append("stale fixture reads %r" % (_sp47.get("verdict"),))
+                _un47 = _P47.priced_faces(page_bar=None, results_dir=_td47 + os.sep + "nope")
+                if _un47.get("verdict") != "UNKNOWN" or _un47.get("same_day") is not False:
+                    _bad47.append("absent fixture reads %r" % (_un47.get("verdict"),))
+        check("product: the three papers print the day each was priced on, and can disagree",
+              not _bad47, "; ".join(_bad47)[:220]
+              or "card/ticket/page all priced %s" % ((_pf47.get("faces") or {}).get("card"),))
+    except Exception as e:
+        check("product: the three papers print the day each was priced on, and can disagree",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

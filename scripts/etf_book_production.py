@@ -130,6 +130,59 @@ def family_coherence(results_dir=None):
     }
 
 
+def priced_faces(page_bar=None, results_dir=None):
+    """Which closing bar each of the three papers a reader holds was priced on (r1185).
+
+    The card, the executable sheet and the CEO one-pager all quote the same book, and two of
+    them published only the boolean "same priced bar = True". A boolean a reader cannot
+    re-derive is a claim, not a measurement: when one paper falls a bar behind, the reader is
+    told "different" and left unable to say WHICH paper is the stale one. This reads the three
+    bars from the artifacts themselves and answers in three states -- SAME_DAY /
+    DIFFERENT_DAYS / UNKNOWN -- where a missing face reads UNKNOWN, never SAME_DAY.
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    faces, missing = {}, []
+
+    def _card():
+        with open(os.path.join(d, "etf_book_production", "latest.json"), "r", encoding="utf-8") as fh:
+            return ((json.load(fh) or {}).get("sheet") or {}).get("as_of_bar")
+
+    def _ticket():
+        # latest.json is a pointer: the agreement block lives on the dated ticket sheet.
+        with open(os.path.join(d, "etf_book_order", "latest.json"), "r", encoding="utf-8") as fh:
+            ptr = json.load(fh) or {}
+        doc = ptr
+        if not ptr.get("card_agreement") and ptr.get("as_of"):
+            with open(os.path.join(d, "etf_book_order", "TICKET-%s.json" % ptr["as_of"]),
+                      "r", encoding="utf-8") as fh:
+                doc = json.load(fh) or {}
+        return (doc.get("card_agreement") or {}).get("ticket_priced_bar")
+
+    for key, reader in (("card", _card), ("ticket", _ticket)):
+        try:
+            faces[key] = reader()
+        except (OSError, ValueError):
+            faces[key] = None
+        if not faces[key]:
+            missing.append(key)
+    faces["page"] = page_bar
+    if not page_bar:
+        missing.append("page")
+
+    if missing:
+        verdict = "UNKNOWN"
+        detail = "no pricing day on: %s -- unknown, not agreement" % ", ".join(missing)
+    elif len(set(faces.values())) == 1:
+        verdict = "SAME_DAY"
+        detail = "all three papers priced the %s bar" % faces["card"]
+    else:
+        verdict = "DIFFERENT_DAYS"
+        detail = ("priced on different bars: " +
+                  " / ".join("%s %s" % (k, v) for k, v in faces.items()))
+    return {"faces": faces, "verdict": verdict, "detail": detail,
+            "missing": missing, "same_day": verdict == "SAME_DAY"}
+
+
 def commodity_support():
     """Read results/etf_book_commodity_split.json -> what the commodity sleeve earns.
 
@@ -1819,6 +1872,45 @@ def selftest():
     finally:
         OUT_DIR = _keep_out2
         shutil.rmtree(_pb_dir2, ignore_errors=True)
+
+    # 10i. the three papers a reader holds each say which day they were priced on, and the
+    #      answer has to be re-derivable from the artifacts (r1185). A boolean nobody can
+    #      recompute is a claim; a missing face is UNKNOWN, never agreement.
+    _keep_res3 = E.PATHS.results_dir
+    _pf_dir = tempfile.mkdtemp(prefix="etf_book_prod_pf_")
+    try:
+        E.PATHS.results_dir = _pf_dir
+        _pf_none = priced_faces(page_bar="2026-10-30")
+        chk("no card/ticket artifact -> the day is UNKNOWN, not agreement",
+            _pf_none["verdict"] == "UNKNOWN" and _pf_none["same_day"] is False
+            and "card" in _pf_none["missing"] and "ticket" in _pf_none["missing"],
+            str(_pf_none["detail"])[:60])
+
+        def _write_pf(card_bar, ticket_bar):
+            for sub, payload in (("etf_book_production", {"sheet": {"as_of_bar": card_bar}}),
+                                 ("etf_book_order",
+                                  {"card_agreement": {"ticket_priced_bar": ticket_bar}})):
+                os.makedirs(os.path.join(_pf_dir, sub), exist_ok=True)
+                with open(os.path.join(_pf_dir, sub, "latest.json"), "w", encoding="utf-8") as fh:
+                    json.dump(payload, fh)
+
+        _write_pf("2026-10-30", "2026-10-30")
+        _pf_same = priced_faces(page_bar="2026-10-30")
+        chk("all three on one bar -> SAME_DAY with the day itself",
+            _pf_same["verdict"] == "SAME_DAY" and _pf_same["same_day"] is True
+            and _pf_same["faces"]["card"] == "2026-10-30"
+            and _pf_same["faces"]["ticket"] == "2026-10-30"
+            and _pf_same["faces"]["page"] == "2026-10-30", str(_pf_same["detail"])[:60])
+        _pf_split = priced_faces(page_bar="2026-10-29")
+        chk("a stale paper -> DIFFERENT_DAYS naming the stale one",
+            _pf_split["verdict"] == "DIFFERENT_DAYS" and _pf_split["same_day"] is False
+            and "page 2026-10-29" in _pf_split["detail"], str(_pf_split["detail"])[:80])
+        _pf_nopage = priced_faces(page_bar=None)
+        chk("the page without a bar -> UNKNOWN rather than a same-day pass",
+            _pf_nopage["verdict"] == "UNKNOWN" and _pf_nopage["missing"] == ["page"])
+    finally:
+        E.PATHS.results_dir = _keep_res3
+        shutil.rmtree(_pf_dir, ignore_errors=True)
 
     print("SELFTEST " + ("OK" if ok else "FAILED"), flush=True)
     return 0 if ok else 1
