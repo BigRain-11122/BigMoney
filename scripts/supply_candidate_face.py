@@ -81,15 +81,38 @@ def count_backlog(path):
     return unclaimed, claimed
 
 
-def open_queue_rows(path):
-    """[(rid, first 80 chars)] for table rows not marked done.
+CONSUMED_PREFIXES = ("done", "closed")
+LIVE_PREFIXES = ("open", "pending", "draft", "queued")
 
-    Rows are `| <id> | <text> | <pointer> | <status> |`. A row whose status
-    cell reads `done` is consumed and is not a candidate.
+
+def row_status(cell):
+    """`consumed` / `live` / `unreadable` -- never guesses a fourth state.
+
+    Real rows carry a suffix (`done（r873 bm-b）`) or a result where a status
+    belongs (`0.455 > null family p95`). Exact-match `== "done"` reads the
+    first kind as a live draft, which is how this face reported 19 drafts
+    when the queue held zero; a measurement in the status column is not a
+    status, so it is reported by name instead of being counted either way.
+    """
+    s = (cell or "").strip().lower()
+    if not s:
+        return "unreadable"
+    if s.startswith(CONSUMED_PREFIXES):
+        return "consumed"
+    if s.startswith(LIVE_PREFIXES):
+        return "live"
+    return "unreadable"
+
+
+def scan_queue(path):
+    """Per-row classification of a queue table.
+
+    Rows are `| <id> | <text> | <pointer> | <status> |`. Returns None when the
+    file is missing (unknown is not empty, r98).
     """
     if not os.path.exists(path):
         return None
-    rows = []
+    out = {"total": 0, "consumed": 0, "live": [], "unreadable": []}
     with io.open(path, encoding="utf-8", errors="replace") as f:
         for line in f:
             s = line.strip()
@@ -101,10 +124,21 @@ def open_queue_rows(path):
             rid = cells[0]
             if not (rid[:1] in ("T", "E") and rid[1:].isdigit()):
                 continue
-            if cells[-1].lower() == "done":
-                continue
-            rows.append((rid, cells[1][:80]))
-    return rows
+            out["total"] += 1
+            kind = row_status(cells[-1])
+            if kind == "consumed":
+                out["consumed"] += 1
+            elif kind == "live":
+                out["live"].append((rid, cells[1][:80]))
+            else:
+                out["unreadable"].append((rid, cells[-1][:80]))
+    return out
+
+
+def open_queue_rows(path):
+    """[(rid, first 80 chars)] for rows that are still live drafts."""
+    sc = scan_queue(path)
+    return None if sc is None else sc["live"]
 
 
 def classify(ready, tickets, floor):
@@ -135,11 +169,18 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
     queue_paths = queue_paths or [os.path.join(ROOT, q) for q in QUEUES]
     b_unclaimed, b_claimed = count_backlog(backlog_path)
     queue = {}
+    live = {}
+    unreadable = {}
+    consumed = {}
     for p in queue_paths:
-        rows = open_queue_rows(p)
-        queue[os.path.basename(p)] = None if rows is None else len(rows)
-        if rows:
-            queue.setdefault("_rows", {})[os.path.basename(p)] = rows
+        name = os.path.basename(p)
+        sc = scan_queue(p)
+        queue[name] = None if sc is None else len(sc["live"]) + len(sc["unreadable"])
+        live[name] = None if sc is None else len(sc["live"])
+        consumed[name] = None if sc is None else sc["consumed"]
+        unreadable[name] = [] if sc is None else sc["unreadable"]
+        if sc and sc["live"]:
+            queue.setdefault("_rows", {})[name] = sc["live"]
     verdict, startable = classify(pool_ready, tickets, floor)
     return {
         "tool": "supply_candidate_face",
@@ -154,11 +195,14 @@ def build(pool_ready=None, pool_ids=None, tickets=None, backlog_path=None,
         # counted, deliberately NOT startable: cross-company, or needs prereg
         "backlog_unclaimed_cross_company": b_unclaimed,
         "backlog_claimed": b_claimed,
-        # Name states what it measured (E206): rows whose status cell is not
-        # `done`. Consumption records written inline as `> rNNN 消耗记录` are
-        # NOT parsed, so this over-counts drafts that were already consumed.
+        # Rows whose status cell is not `done`/`closed`: live drafts plus rows
+        # whose status column holds something unreadable (named, not counted
+        # as drafts -- a measurement in the status column is not a status).
         "queue_rows_not_marked_done": {k: v for k, v in queue.items()
                                        if k != "_rows"},
+        "queue_live_drafts": live,
+        "queue_consumed": consumed,
+        "queue_status_unreadable": unreadable,
         "queue_open_names": queue.get("_rows", {}),
         "verdict": verdict,
         "reading": {
@@ -182,8 +226,12 @@ def write_md(face, path):
         "|---|---|---|",
         "| 池内 ready | %s | 是（已入池） |" % face["pool_ready"],
         "| 任务板 open 未认领 | %s | 是（认领即开动） |" % face["tickets_unclaimed"],
-        "| 队列草稿（tech/explore 状态列不是 done 的行） | %s | 否，每行还要先过预注册冻结 |"
-        % json.dumps(face["queue_rows_not_marked_done"], ensure_ascii=False),
+        "| 队列活草稿（状态列是 open/pending/draft） | %s | 否，每行还要先过预注册冻结 |"
+        % json.dumps(face.get("queue_live_drafts"), ensure_ascii=False),
+        "| 队列已消耗行（状态列 done/closed，含 rNNN 后缀） | %s | 无需动作 |"
+        % json.dumps(face.get("queue_consumed"), ensure_ascii=False),
+        "| 队列状态不可读行（状态列里是测量值，按名列出） | %s | 不是草稿，是队列卫生项 |"
+        % json.dumps(face.get("queue_status_unreadable"), ensure_ascii=False),
         "| backlog 未认领行 | %s | 否，跨公司 backlog，行内有属主 |"
         % face["backlog_unclaimed_cross_company"],
         "",
@@ -243,6 +291,28 @@ def _selftest():
     check("queue row id kept", open_queue_rows(q)[0][0], "T1")
     check("missing queue is unknown", open_queue_rows(os.path.join(d, "x.md")),
           None)
+
+    # (3b) a `done` row carrying its commit note is still consumed (this face
+    # once read `done（r873 bm-b）` as a live draft and reported 19 of them)
+    check("suffixed done is consumed", row_status("done（r873 bm-b）"),
+          "consumed")
+    check("closed is consumed", row_status("closed"), "consumed")
+    check("bare open is live", row_status("open"), "live")
+    check("a measurement in the status column is not a status",
+          row_status("0.455 > null family p95 0.077"), "unreadable")
+    check("empty cell is unreadable, not live", row_status("  "), "unreadable")
+    q2 = os.path.join(d, "explore.md")
+    with io.open(q2, "w", encoding="utf-8") as f:
+        f.write("| E1 | consumed with note | ptr | done（r873 bm-b） |\n"
+                "| E2 | live | ptr | open |\n"
+                "| E3 | result as status | ptr | 0.455 > null p95 0.077 |\n"
+                "| E4 | really closed | ptr | closed |\n")
+    sc2 = scan_queue(q2)
+    check("scan separates live from consumed", (len(sc2["live"]), sc2["consumed"]),
+          (1, 2))
+    check("scan names the unreadable row", sc2["unreadable"][0][0], "E3")
+    check("open_queue_rows returns only the live row",
+          [r[0] for r in open_queue_rows(q2)], ["E2"])
 
     # (4) end to end on fixtures, then the same call twice must be identical
     f1 = build(pool_ready=0, pool_ids=[], tickets=0, backlog_path=bl,

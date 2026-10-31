@@ -7781,3 +7781,29 @@ line has to follow from the numbers that were published, not from whoever typed 
 Read across: any standing flag that has been red for more than a day is a candidate for this defect --
 ask what the flag measures and whether the state it names has more than one cause. If it does, publish
 the split; do not publish a looser threshold.
+### E319 · A status column that carries a suffix turns consumed rows into inventory (r1200 bm-a)
+
+`supply_candidate_face` counted a queue row as a live draft when its status cell did not equal
+`done`. Real rows read `done（r873 bm-b）`, `done（r1077 bm-b 全链落地…）`, `closed`, and one
+row carried a measurement (`0.455 > null family p95 0.077`) where a status belongs. Exact
+equality therefore reported **tech 9 / explore 10 = 19 drafts** on a queue that held **zero**
+-- and that number sat next to the face's verdict (`AGENDA_DEBT`, shortfall 3), where it reads
+as the opposite: "there are 19 things waiting to be frozen".
+
+The fix is a three-state classifier, never a fourth guess:
+
+- `done*` / `closed*` (prefix, case-insensitive) -> **consumed**;
+- `open` / `pending` / `draft` / `queued` (prefix) -> **live**;
+- anything else, including a number where a status belongs -> **unreadable**, printed **by row
+  id** rather than counted either way.
+
+Live face after the fix: live drafts **0/0**, consumed **50**, unreadable **1** (E16, whose
+status cell holds a census result). That is the point: the shortfall of 3 is now provably topic
+debt -- there is no hidden inventory to enqueue -- so the only correct action is to open a
+topic, and the face stops offering the excuse of "maybe 19 rows are waiting".
+
+Two reusable rules: (1) a status/enum reader must match a **prefix family** and name what it
+could not read, because consumed rows accumulate commit notes and dates as they age; (2) when a
+count feeds a verdict, publish the count the verdict acts on (live drafts) and keep the raw
+bucket (`not_marked_done`) beside it under its own name. Read across: any `== "done"`-style
+exact match on a column humans append to has this defect latent.
