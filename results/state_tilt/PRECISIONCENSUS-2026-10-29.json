@@ -2628,6 +2628,86 @@
     8643,
     8644
    ]
+  },
+  {
+   "index": 329,
+   "name": "product: a tolerance gate is compared with a number the leg may never read -- the constant behind the declared key decides it",
+   "lines": [
+    8645,
+    8695
+   ]
+  },
+  {
+   "index": 330,
+   "name": "product: a tolerance gate is compared with a number the leg may never read -- the constant behind the declared key decides it",
+   "lines": [
+    8710,
+    8711
+   ]
+  },
+  {
+   "index": 331,
+   "name": "product: a clamped gate's tolerance is a function of the quantity it gates -- the switch point and both regimes have to be printed, and neither is",
+   "lines": [
+    8712,
+    8780
+   ]
+  },
+  {
+   "index": 332,
+   "name": "product: a clamped gate's tolerance is a function of the quantity it gates -- the switch point and both regimes have to be printed, and neither is",
+   "lines": [
+    8792,
+    8793
+   ]
+  },
+  {
+   "index": 333,
+   "name": "product: a two-regime gate meets a leg epsilon -- four legs demand exact equality and the fifth's crossover sits below one unit of the quantity",
+   "lines": [
+    8794,
+    8848
+   ]
+  },
+  {
+   "index": 334,
+   "name": "product: a two-regime gate meets a leg epsilon -- four legs demand exact equality and the fifth's crossover sits below one unit of the quantity",
+   "lines": [
+    8856,
+    8857
+   ]
+  },
+  {
+   "index": 335,
+   "name": "product: no face carries the reader set for its own gate -- three rows need a printed quantity on a face full of same-unit decoys, two sit on a day with no comparisons at all",
+   "lines": [
+    8858,
+    8919
+   ]
+  },
+  {
+   "index": 336,
+   "name": "product: no face carries the reader set for its own gate -- three rows need a printed quantity on a face full of same-unit decoys, two sit on a day with no comparisons at all",
+   "lines": [
+    8930,
+    8931
+   ]
+  },
+  {
+   "index": 337,
+   "name": "product: the reader set is missing across the whole published corpus -- 1047 of 1108 gate leaves print no unit and 33 are readable at all",
+   "lines": [
+    8932,
+    8997
+   ]
+  },
+  {
+   "index": 338,
+   "name": "product: the reader set is missing across the whole published corpus -- 1047 of 1108 gate leaves print no unit and 33 are readable at all",
+   "lines": [
+    9007,
+    9008
+   ]
   }
  ],
  "sites": [
@@ -5181,6 +5261,155 @@
    "at_risk_faces": [],
    "at_risk": false,
    "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 333,
+   "leg": "product: a two-regime gate meets a leg epsilon -- four legs demand exact equality and the fifth's crossover sits below one unit of the quantity",
+   "line": 8845,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "magnitudes_attributable_to_the_rated_quantity"
+   ],
+   "faces_named": [
+    "results/state_tilt/legeps_latest.json"
+   ],
+   "expression": "(_c102.get('magnitudes_attributable_to_the_rated_quantity') or 0) != 0",
+   "key_profiles": [
+    {
+     "key": "magnitudes_attributable_to_the_rated_quantity",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/legeps_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 335,
+   "leg": "product: no face carries the reader set for its own gate -- three rows need a printed quantity on a face full of same-unit decoys, two sit on a day with no comparisons at all",
+   "line": 8888,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "tolerances_computable_from_the_faces_alone"
+   ],
+   "faces_named": [
+    "results/state_tilt/gateprint_latest.json"
+   ],
+   "expression": "(_c103.get('tolerances_computable_from_the_faces_alone') or 0) != 0",
+   "key_profiles": [
+    {
+     "key": "tolerances_computable_from_the_faces_alone",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/gateprint_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 335,
+   "leg": "product: no face carries the reader set for its own gate -- three rows need a printed quantity on a face full of same-unit decoys, two sit on a day with no comparisons at all",
+   "line": 8899,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "tolerance_computable_from_the_face_alone"
+   ],
+   "faces_named": [
+    "results/state_tilt/gateprint_latest.json"
+   ],
+   "expression": "bool(_r103.get('tolerance_computable_from_the_face_alone')) != (not _absent103)",
+   "key_profiles": [
+    {
+     "key": "tolerance_computable_from_the_face_alone",
+     "n_values": 5,
+     "n_integral": 0,
+     "n_non_numeric": 5,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/gateprint_latest.json"
+    }
+   ],
+   "at_risk_faces": [],
+   "at_risk": false,
+   "cross_face_same_key_gaps": []
+  },
+  {
+   "leg_index": 337,
+   "leg": "product: the reader set is missing across the whole published corpus -- 1047 of 1108 gate leaves print no unit and 33 are readable at all",
+   "line": 8978,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "note": "",
+   "reads_a_face_value": true,
+   "keys": [
+    "gates_with_a_zero_tolerance",
+    "value"
+   ],
+   "faces_named": [
+    "results/state_tilt/printcov_latest.json"
+   ],
+   "expression": "(_c104.get('gates_with_a_zero_tolerance') or 0) != len([r for r in _rows104 if r.get('value') == 0])",
+   "key_profiles": [
+    {
+     "key": "gates_with_a_zero_tolerance",
+     "n_values": 1,
+     "n_integral": 1,
+     "n_non_numeric": 0,
+     "n_float": 0,
+     "integer_only": true,
+     "coarsest_decimals": null,
+     "coarsest_quantum": null,
+     "face": "results/state_tilt/printcov_latest.json"
+    },
+    {
+     "key": "value",
+     "n_values": 1117,
+     "n_integral": 0,
+     "n_non_numeric": 0,
+     "n_float": 1117,
+     "integer_only": false,
+     "coarsest_decimals": 0,
+     "coarsest_quantum": 1.0,
+     "face": "results/state_tilt/printcov_latest.json"
+    }
+   ],
+   "at_risk_faces": [
+    {
+     "face": "results/state_tilt/printcov_latest.json",
+     "key": "value",
+     "basis": "per_key",
+     "face_quantum": 1.0,
+     "face_decimals": 0,
+     "ratio": null
+    }
+   ],
+   "at_risk": true,
+   "cross_face_same_key_gaps": []
   }
  ],
  "at_risk": [
@@ -5566,6 +5795,19 @@
    "expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
    "faces": [
     "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "quantum_ratio": [
+    null
+   ]
+  },
+  {
+   "leg": "product: the reader set is missing across the whole published corpus -- 1047 of 1108 gate leaves print no unit and 33 are readable at all",
+   "line": 8978,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_c104.get('gates_with_a_zero_tolerance') or 0) != len([r for r in _rows104 if r.get('value') == 0])",
+   "faces": [
+    "results/state_tilt/printcov_latest.json"
    ],
    "quantum_ratio": [
     null
@@ -6176,6 +6418,32 @@
    "declares_its_precision": false,
    "declared_precision_keys": []
   },
+  "results/state_tilt/gateprint_latest.json": {
+   "face": "results/state_tilt/gateprint_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 38,
+   "decimals_histogram": {
+    "0": 27,
+    "3": 2,
+    "11": 6,
+    "15": 3
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/rows/0/decoy_magnitudes/0/value",
+    "value": 200.0
+   },
+   "declares_its_precision": true,
+   "declared_precision_keys": [
+    "rows_needing_a_printed_floor",
+    "rows_needing_a_printed_identifier",
+    "rows_needing_a_printed_magnitude",
+    "rows_needing_a_printed_scale_expression",
+    "rows_needing_a_printed_unit"
+   ]
+  },
   "results/state_tilt/gatetol_latest.json": {
    "face": "results/state_tilt/gatetol_latest.json",
    "exists": true,
@@ -6304,6 +6572,28 @@
    "declares_its_precision": false,
    "declared_precision_keys": []
   },
+  "results/state_tilt/legeps_latest.json": {
+   "face": "results/state_tilt/legeps_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 42,
+   "decimals_histogram": {
+    "0": 16,
+    "3": 12,
+    "7": 2,
+    "9": 2,
+    "11": 6,
+    "15": 4
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/quantity_dependent_rows/0/switch_point",
+    "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
   "results/state_tilt/matched_latest.json": {
    "face": "results/state_tilt/matched_latest.json",
    "exists": true,
@@ -6352,6 +6642,37 @@
    "coarsest_example": {
     "path": "/book/arms/0/uniform/0/gamma",
     "value": 1.0
+   },
+   "declares_its_precision": false,
+   "declared_precision_keys": []
+  },
+  "results/state_tilt/printcov_latest.json": {
+   "face": "results/state_tilt/printcov_latest.json",
+   "exists": true,
+   "readable": true,
+   "n_float_leaves": 2990,
+   "decimals_histogram": {
+    "0": 1744,
+    "1": 55,
+    "2": 217,
+    "3": 407,
+    "4": 57,
+    "5": 29,
+    "6": 161,
+    "7": 1,
+    "8": 1,
+    "9": 38,
+    "13": 4,
+    "14": 23,
+    "15": 99,
+    "16": 121,
+    "17": 3
+   },
+   "coarsest_printed_decimals": 0,
+   "coarsest_printed_quantum": 1.0,
+   "coarsest_example": {
+    "path": "/faces/0/rows/0/decoy/max",
+    "value": 36399.0
    },
    "declares_its_precision": false,
    "declared_precision_keys": []
@@ -6558,15 +6879,15 @@
  },
  "measured_pairs": {},
  "summary": {
-  "legs_in_smoke_test": 328,
-  "n_numeric_face_sites": 63,
-  "legs_with_a_numeric_face_site": 43,
+  "legs_in_smoke_test": 338,
+  "n_numeric_face_sites": 67,
+  "legs_with_a_numeric_face_site": 46,
   "by_kind": {
    "epsilon": 39,
-   "exact_equality": 22,
+   "exact_equality": 26,
    "quantized_equality": 2
   },
-  "faces_read_by_legs": 43,
+  "faces_read_by_legs": 46,
   "names_that_are_templates_not_faces": [
    "results/dom_profile/PROFILE-*.json",
    "results/state_tilt/BANDPATH-%s.json",
@@ -6603,8 +6924,10 @@
    "results/state_tilt/hysteresis_latest.json",
    "results/state_tilt/infostruct_latest.json",
    "results/state_tilt/latest.json",
+   "results/state_tilt/legeps_latest.json",
    "results/state_tilt/matched_latest.json",
    "results/state_tilt/per_member_gamma_latest.json",
+   "results/state_tilt/printcov_latest.json",
    "results/state_tilt/repro_latest.json",
    "results/state_tilt/selfres_latest.json",
    "results/state_tilt/starown_latest.json",
@@ -6615,9 +6938,9 @@
    "results/tom_overlay/latest.json",
    "results/vol_gate/latest.json"
   ],
-  "n_faces_declaring_precision": 5,
-  "n_at_risk_sites": 29,
-  "n_at_risk_with_per_key_evidence": 21,
+  "n_faces_declaring_precision": 6,
+  "n_at_risk_sites": 30,
+  "n_at_risk_with_per_key_evidence": 22,
   "n_at_risk_on_face_level_bound_only": 8,
   "at_risk_legs": [
    "product: a band that passed on one path is path-tested before it is a finding",
@@ -6634,19 +6957,19 @@
    "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
    "product: the paired timing value splits into selection, sizing and toll",
    "product: the published base draw count sits below the endpoint arrival count",
+   "product: the reader set is missing across the whole published corpus -- 1047 of 1108 gate leaves print no unit and 33 are readable at all",
    "product: the star's own row is priced against the column it carries for others",
    "product: the star's residual is decomposed and split from volatility and age",
    "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
    "product: the tight multiplier floor is the band build, not the windows -- a tight-pass check on this family can only return zero",
-   "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
-   "product: the volatility gate separates held days from episodes"
+   "product: the turn-of-month overlay keeps its rule, its toll and its OOS record"
   ],
   "n_faces_with_a_measured_pair": 0,
   "n_sites_with_a_cross_face_gap": 5,
   "n_cross_face_key_rows": 7,
   "n_cross_face_rows_exceeding_tolerance": 7,
   "cross_face_disclosure": "the same key name in two faces is not evidence of the same quantity; the gap is published as a distance so a reader can tell a copy pair from two unrelated studies that happen to share a name. A gap above the tolerance is read as 'same name, different quantity', never as a defect count.",
-  "statement": "43 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 43 face(s) read, 38 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
+  "statement": "46 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 46 face(s) read, 40 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects."
  },
  "identity_check": {
   "kind_partition_sums_to_sites": true,
@@ -6660,6 +6983,6 @@
   "all_checks": true
  },
  "verdict": "legs_compare_face_values_finer_than_the_faces_print",
- "verdict_reason": "43 leg(s) carry a numeric comparison against a published face; 29 of them compare at a tolerance finer than the quantum the field they read is printed with (21 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 43 face(s) read, 38 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
- "generated": "2026-10-31T18:30:07"
+ "verdict_reason": "46 leg(s) carry a numeric comparison against a published face; 30 of them compare at a tolerance finer than the quantum the field they read is printed with (22 of those on the field's own measured decimals, 8 only on the face's coarsest bound). Of 46 face(s) read, 40 publish no precision declaration. 5 site(s) read one key name in two faces; those gaps are published as distances, not as defects.",
+ "generated": "2026-10-31T22:16:03"
 }
