@@ -164,7 +164,7 @@ def _sha256_file(path, chunk=1 << 20):
     return h.hexdigest()
 
 
-def inputs_sha256():
+def inputs_sha256(cache_dir=None):
     """Digest of exactly what the verdict is a function of (r1380).
 
     The old guard compared `evidence_cutoff` against CUTOFF, and CUTOFF is the literal
@@ -177,8 +177,13 @@ def inputs_sha256():
     An unreadable panel returns None, and None is never clean: on a host without the
     bm-b lane cache the checkpoint must be a MISS, not a cache hit.
     """
-    cache_files = sorted(glob.glob(os.path.join(P1C.CACHE_DIR, "*.npy")) +
-                         glob.glob(os.path.join(P1C.CACHE_DIR, "*.json")))
+    # r1186: `cache_dir` exists so the None branch can be TESTED on a host that does have the
+    # panel. The selftest used to assert `inputs_sha256() is None`, which is not a property of
+    # the guard -- it is a property of the machine it happens to run on (bm-a carries the lane
+    # cache, so the leg read as a defect of the digest rather than of the leg).
+    base = cache_dir or P1C.CACHE_DIR
+    cache_files = sorted(glob.glob(os.path.join(base, "*.npy")) +
+                         glob.glob(os.path.join(base, "*.json")))
     if not cache_files:
         return None
     ident = {
@@ -545,10 +550,17 @@ def selftest():
         json.dump(dict(good, pairs=[]), f)
     check("zero pairs is not a verdict -> guard False",
           not _selfconsistent(tmpjson, expected="deadbeef"))
-    # An unreadable panel (no bm-b lane cache on this host) must not be able to match a
-    # product whose digest is also absent.
+    # An unreadable panel must not be able to match a product whose digest is also absent.
+    # r1186: point the digest at an EMPTY directory instead of assuming this host lacks the
+    # bm-b lane cache -- the previous spelling was a deployment-layout assertion (r1135 family)
+    # and it went red the first time the suite ran on a host that carries the panel.
+    with open(tmpjson, "w", encoding="utf-8") as f:
+        json.dump(good, f)                      # a clean product, so only the digest can fail
+    _empty = tempfile.mkdtemp(suffix="-empty-cache")
+    _none_digest = inputs_sha256(cache_dir=_empty)
     check("unreadable inputs -> digest None -> guard False",
-          inputs_sha256() is None and not _selfconsistent(tmpjson))
+          _none_digest is None and not _selfconsistent(tmpjson, expected=_none_digest))
+    os.rmdir(_empty)
     with open(tmpjson, "w", encoding="utf-8") as f:
         f.write("{corrupted")
     check("corrupted file -> guard False (rewrite path)",

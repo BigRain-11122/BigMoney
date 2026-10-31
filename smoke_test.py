@@ -4123,6 +4123,43 @@ def main() -> int:
     except Exception as e:
         check("product: the three papers print the day each was priced on, and can disagree",
               False, repr(e)[:160])
+    # ---- r1187: the dashboard says which bar the three papers were priced on ----
+    # The three papers each print their own priced day, but the 总控面板 -- the one face an
+    # operator opens first -- said nothing about it. A row that only carries the boolean
+    # would repeat the r1185 defect one page further out, so this leg recomputes the verdict
+    # from the artifacts with the ONE reader and demands the published dashboard numbers
+    # EQUAL it (r1130 precedent: equality, not key presence).
+    try:
+        _bad48 = []
+        _st48 = os.path.join(PATHS.results_dir, "dashboard_status.json")
+        if not os.path.exists(_st48):
+            _bad48.append("dashboard_status.json missing")
+        else:
+            with open(_st48, encoding="utf-8") as _fh48:
+                _d48 = json.load(_fh48) or {}
+            _eb48 = ((_d48.get("data") or {}).get("etf_book_priced") or {})
+            _exp48 = _P47.priced_faces()
+            if not _eb48.get("present"):
+                _bad48.append("dashboard publishes no priced-day block")
+            else:
+                if _eb48.get("verdict") != _exp48.get("verdict"):
+                    _bad48.append("verdict %r != reader %r"
+                                  % (_eb48.get("verdict"), _exp48.get("verdict")))
+                for _k48 in ("card", "ticket", "page"):
+                    if (_eb48.get("faces") or {}).get(_k48) != (_exp48.get("faces") or {}).get(_k48):
+                        _bad48.append("%s day %r != reader %r"
+                                      % (_k48, (_eb48.get("faces") or {}).get(_k48),
+                                         (_exp48.get("faces") or {}).get(_k48)))
+            with open(os.path.join(PATHS.root, "dashboard.html"), encoding="utf-8") as _fh48:
+                _js48 = _fh48.read()
+            if "etf_book_priced" not in _js48:
+                _bad48.append("dashboard.html has no row that renders the block")
+        check("product: the dashboard says which bar the three papers were priced on",
+              not _bad48, "; ".join(_bad48)[:220]
+              or "dashboard block == reader (%s)" % (_exp48.get("verdict"),))
+    except Exception as e:
+        check("product: the dashboard says which bar the three papers were priced on",
+              False, repr(e)[:160])
     # ---- v1.7: the CEO page must price the whole book in one line ----------
     try:
         _lu28p = os.path.join(PATHS.root, "docs", "live_usage", "LIVE-latest.json")

@@ -363,6 +363,21 @@ function renderCompany() {
       (pp.fill_verify_tier === "daily_bar_open" ? " · 该日盘中未采，成交价对官方日线开盘核" : ""),
       v === "BREACH" ? "bad" : (v === "NO_EVIDENCE" ? "warn" : "ok"), v));
   }
+  // r1187: three papers quote one book -- but they can have been priced on different
+  // closing bars, and a reader of this page could not tell. The verdict comes from the
+  // one reader (etf_book_production.priced_faces) via build_status; never re-derived here.
+  const eb = (D.data && D.data.etf_book_priced) || {};
+  if (eb.present) {
+    const nm = {card: "卡片", ticket: "执行单", page: "CEO 一页纸"};
+    const days = ["card", "ticket", "page"]
+      .map(k => `${nm[k]} ${(eb.faces || {})[k] || "未定价"}`).join(" · ");
+    const miss = (eb.missing || []).map(k => nm[k] || k).join(" ");
+    const tail = eb.verdict === "SAME_DAY" ? " · 三张纸同一天"
+      : (eb.verdict === "DIFFERENT_DAYS" ? ` · 不是同一天（${miss || "?"} 落后）` : " · 无法判断");
+    rows.push(chainRow("三张纸定价日", days + tail,
+      eb.verdict === "SAME_DAY" ? "ok" : (eb.verdict === "UNKNOWN" ? "warn" : "bad"),
+      eb.verdict));
+  }
   const lf = (D.data && D.data.lane_freshness) || {};
   if (lf.present) {
     const nb = lf.behind || [];

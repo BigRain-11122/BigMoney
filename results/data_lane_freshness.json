@@ -1,27 +1,27 @@
 {
  "schema": "data-lane-freshness/v1",
- "as_of": "2026-10-31T08:37:38",
+ "as_of": "2026-10-31T09:50:22",
  "close_accept_time": "15:30",
  "calendar_path": "data/exchange_calendar.csv",
  "calendar_days": 8797,
  "expected_last_official_day": "2026-10-30",
  "counts": {
   "retired": 1,
-  "unverifiable": 6,
-  "in_sync": 2,
-  "absent": 1
+  "unverifiable": 7,
+  "in_sync": 2
  },
  "n_lanes": 10,
  "n_auditable": 2,
  "unverifiable_lanes": [
   "moneyflow",
+  "heat",
   "repo",
-  "astock_daily",
   "marks",
   "zt_pool",
+  "astock_daily",
   "etf_panel"
  ],
- "verdict": "attention",
+ "verdict": "host_down",
  "hosts": {
   "bm-a": {
    "host": "bm-a",
@@ -33,29 +33,30 @@
    "lanes_unverifiable": [
     "etf_panel"
    ],
-   "last_seen": "2026-10-31T08:09:32+08:00",
-   "age_h": 0.47,
+   "last_seen": "2026-10-31T09:49:41+08:00",
+   "age_h": 0.01,
    "alive": true
   },
   "bm-b": {
    "host": "bm-b",
    "lanes": [
     "moneyflow",
+    "heat",
     "repo",
-    "astock_daily",
     "marks",
     "zt_pool",
-    "heat"
+    "astock_daily"
    ],
    "lanes_unverifiable": [
     "moneyflow",
+    "heat",
     "repo",
-    "astock_daily",
     "marks",
-    "zt_pool"
+    "zt_pool",
+    "astock_daily"
    ],
    "last_seen": "2026-10-30T12:43:06+08:00",
-   "age_h": 19.91,
+   "age_h": 21.12,
    "alive": false
   }
  },
@@ -64,6 +65,7 @@
  ],
  "lanes_hostage": [
   "astock_daily",
+  "heat",
   "marks",
   "moneyflow",
   "repo",
@@ -72,13 +74,13 @@
  "host_down_hours": 2.0,
  "worst": "moneyflow",
  "disk": {
-  "here": "bm-c",
-  "observer": "bm-c",
+  "here": "bm-a",
+  "observer": "bm-a",
   "n_lanes": 9,
-  "n_offhost": 7,
-  "n_here": 2,
+  "n_offhost": 6,
+  "n_here": 3,
   "n_auditable_here": 2,
-  "n_unsigned_here": 0,
+  "n_unsigned_here": 1,
   "groups": [
    {
     "machine": "bm-b",
@@ -92,39 +94,28 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 19.91,
+    "age_h": 21.12,
     "last_seen": "2026-10-30T12:43:06+08:00"
-   },
-   {
-    "machine": "bm-a",
-    "lanes": [
-     "etf_panel"
-    ],
-    "n": 1,
-    "alive": true,
-    "age_h": 0.47,
-    "last_seen": "2026-10-31T08:09:32+08:00"
    }
   ],
   "offhost_lanes": [
    "astock_daily",
-   "etf_panel",
    "heat",
    "marks",
    "moneyflow",
    "repo",
    "zt_pool"
   ],
-  "sentence": "以本机 bm-c 的盘为基准：9 条在役车道里有 7 条的数字不在本机盘上：6 条在 bm-b 的盘上（19.91h 未报到）、1 条在 bm-a 的盘上（心跳 0.47h 前）；留在本机盘上的 2 条里 2 条可核实。",
+  "sentence": "以本机 bm-a 的盘为基准：9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（21.12h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
   "labels": {
    "moneyflow": "无主封套",
+   "heat": "无主封套",
    "repo": "无主封套",
-   "astock_daily": "无主封套",
    "marks": "无主封套",
    "zt_pool": "他机本地副本",
+   "astock_daily": "无主封套",
    "etf_panel": "无主封套",
    "futures": "宿主自己写的封套",
-   "heat": "无主封套",
    "lhb": "宿主自己写的封套"
   }
  },
@@ -165,7 +156,7 @@
    "copy_verdict": "stalled",
    "retired_reason": "O-20261009-1105 -- the options face is closed; the panel is a historical wave-2 batch with no forward accumulation",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
+   "host_age_h": 21.12,
    "host_alive": false
   },
   {
@@ -195,7 +186,40 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
+   "host_age_h": 21.12,
+   "host_alive": false
+  },
+  {
+   "lane": "heat",
+   "dept": "data",
+   "owner": "bm-b",
+   "kind": "status",
+   "tail": "2026-10-20",
+   "expected": "2026-10-30",
+   "missing_days": [
+    "2026-10-21",
+    "2026-10-22",
+    "2026-10-23",
+    "2026-10-26",
+    "2026-10-27",
+    "2026-10-28",
+    "2026-10-29",
+    "2026-10-30"
+   ],
+   "n_missing": 8,
+   "verdict": "unverifiable",
+   "reported_by": null,
+   "files": 19,
+   "first": "2026-09-23",
+   "tail_source": "local_copy_fallback",
+   "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
+   "lane_host": "bm-b",
+   "authority": "unattributed",
+   "auditable": false,
+   "copy_verdict": "stalled",
+   "why": "the lane publishes no tail and this reading is this machine's local copy; it is hosted by bm-b",
+   "host_last_seen": "2026-10-30T12:43:06+08:00",
+   "host_age_h": 21.12,
    "host_alive": false
   },
   {
@@ -218,29 +242,7 @@
    "copy_verdict": "stalled",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
-   "host_alive": false
-  },
-  {
-   "lane": "astock_daily",
-   "dept": "data",
-   "owner": "bm-b",
-   "kind": "status",
-   "tail": "2026-10-29",
-   "expected": "2026-10-30",
-   "missing_days": [
-    "2026-10-30"
-   ],
-   "n_missing": 1,
-   "verdict": "unverifiable",
-   "reported_by": null,
-   "lane_host": "bm-b",
-   "authority": "unattributed",
-   "auditable": false,
-   "copy_verdict": "behind_1d",
-   "why": "the envelope does not name the machine whose data it describes",
-   "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
+   "host_age_h": 21.12,
    "host_alive": false
   },
   {
@@ -263,7 +265,7 @@
    "copy_verdict": "behind_1d",
    "why": "the envelope does not name the machine whose data it describes",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
+   "host_age_h": 21.12,
    "host_alive": false
   },
   {
@@ -291,7 +293,27 @@
    "copy_verdict": "behind_1d",
    "why": "read from this machine's local copy; the lane is hosted by bm-b",
    "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
+   "host_age_h": 21.12,
+   "host_alive": false
+  },
+  {
+   "lane": "astock_daily",
+   "dept": "data",
+   "owner": "bm-b",
+   "kind": "status",
+   "tail": "2026-10-30",
+   "expected": "2026-10-30",
+   "missing_days": [],
+   "n_missing": 0,
+   "verdict": "unverifiable",
+   "reported_by": null,
+   "lane_host": "bm-b",
+   "authority": "unattributed",
+   "auditable": false,
+   "copy_verdict": "in_sync",
+   "why": "the envelope does not name the machine whose data it describes",
+   "host_last_seen": "2026-10-30T12:43:06+08:00",
+   "host_age_h": 21.12,
    "host_alive": false
   },
   {
@@ -313,8 +335,8 @@
    "auditable": false,
    "copy_verdict": "in_sync",
    "why": "the envelope does not name the machine whose data it describes",
-   "host_last_seen": "2026-10-31T08:09:32+08:00",
-   "host_age_h": 0.47,
+   "host_last_seen": "2026-10-31T09:49:41+08:00",
+   "host_age_h": 0.01,
    "host_alive": true
   },
   {
@@ -331,30 +353,9 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-31T08:09:32+08:00",
-   "host_age_h": 0.47,
+   "host_last_seen": "2026-10-31T09:49:41+08:00",
+   "host_age_h": 0.01,
    "host_alive": true
-  },
-  {
-   "lane": "heat",
-   "dept": "data",
-   "owner": "bm-b",
-   "kind": "status",
-   "tail": null,
-   "expected": "2026-10-30",
-   "missing_days": [],
-   "n_missing": 0,
-   "verdict": "absent",
-   "reported_by": null,
-   "files": 0,
-   "tail_source": "local_copy_fallback",
-   "loss_mode": "a missed day is permanent: the guba rank is a live rolling list with no retrievable history (HEAT_ATTENTION_SPEC §1)",
-   "lane_host": "bm-b",
-   "authority": "unattributed",
-   "auditable": false,
-   "host_last_seen": "2026-10-30T12:43:06+08:00",
-   "host_age_h": 19.91,
-   "host_alive": false
   },
   {
    "lane": "lhb",
@@ -370,8 +371,8 @@
    "lane_host": "bm-a",
    "authority": "host_envelope",
    "auditable": true,
-   "host_last_seen": "2026-10-31T08:09:32+08:00",
-   "host_age_h": 0.47,
+   "host_last_seen": "2026-10-31T09:49:41+08:00",
+   "host_age_h": 0.01,
    "host_alive": true
   }
  ]

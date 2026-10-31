@@ -7286,7 +7286,7 @@ because every board it had seen had one author; a per-host statistic agrees with
 until it is read across machines (r1262 "compare like with like" one level up: the
 mismatching input was the observer, not a parameter).
 
-## E301 A paper that says "same" is not a paper that says WHICH day (2026-10-31 r1186 bm-a)
+## E303 A paper that says "same" is not a paper that says WHICH day (2026-10-31 r1186 bm-a)
 
 E299 made every face carry the family licence; the priced-day face was still published by ONE paper.
 The card and the executable sheet printed the bare boolean `same_priced_bar`, so an operator holding
@@ -7313,6 +7313,10 @@ scripts/etf_book_order.py::priced_face_check quotes it (selftest 79/79, legs 26b
 own block; smoke_test.py leg "the three papers print the day each was priced on, and can disagree"
 now checks all three papers. (Card number: bm-c took E300 at r1380, so this one moved to E301 per the
 collision rule -- card ids live only in this ledger, so the references moved with it.)
+
+**Renumbered E301 -> E303 (r1187):** the move to E301 was itself a collision -- bm-c's r1380 batch
+landed TWO cards (E300 and E301) while this window only checked against the one id it knew about, so
+the ledger now carried E301 twice and bm-c's next window took E302. See E304 for the rule.
 ||||||| parent of 552f00ce84 (round 1381: a supply gate said 'missing a schema field' about a family its own prereg calls judged-negative)
 
 ## E302 - 供给阶梯把「已关单的家族」读成「缺一个 schema 字段」
@@ -7338,3 +7342,23 @@ zoo #95 族、同一套冻结参数、同一组格子再烧一遍，产出第二
 
 **局限（写明）**：闸只认这五个字面，别族的关单词汇仍可能漏；真正的重开通道是写
 新 prereg，阶梯不做语义推断。
+
+
+## E304 A new id checked against the id you remember is not checked against the ledger (2026-10-31 r1187 bm-a)
+
+Two machines assign ledger ids by reading the highest one they know and adding one. The r1349
+collision rule ("later card yields numbers") is prose, so the only thing it constrains is a writer
+who happens to know every id the peers just wrote. r1186 checked against `E300` -- the id bm-c's
+window had named -- and took `E301`. bm-c's SAME batch had landed two cards, `E300` and `E301`, so
+the ledger carried `E301` twice, and bm-c's next window then took `E302`. Nothing complained: ids
+are cited from the ledger, and the ledger is append-only text nobody re-reads.
+
+The rule, mechanical: an id assignment must be validated against the **set** of ids present at
+origin, not against the maximum you remember, and the validation has to run at write time
+(`git show origin/main:<ledger> | grep -oE '^## E[0-9]+'`), not at plan time. A duplicate id is
+not a cosmetic problem -- E301 now names two unrelated lessons, so a citation of E301 is
+ambiguous forever, and the only repair is renumbering one of them and disclosing it in place
+(done here: bm-a's card moved E301 -> E303).
+
+Pos: knowledge/METHODOLOGY_ASSETS.md (E303 renumber + this card); the check is `git show
+origin/main:knowledge/METHODOLOGY_ASSETS.md` id sweep before every assignment.

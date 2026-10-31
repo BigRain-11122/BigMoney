@@ -139,7 +139,15 @@ def main(argv):
         note = (" +refresh(rc=%s,%ss)" % (refreshed["rc"], refreshed["elapsed_sec"])) if refreshed else ""
         print(f"{rc:3d} {name:18s} {el:7.1f}s {tail[0][:120]}{note}", flush=True)
 
-    path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain.json")
+    # r1186: the record name has to carry the run's SCOPE. A `--only=` re-run of four legs used
+    # to write the same `_r<N>bma_s6_chain.json` as the full 107-leg chain, so fixing one face
+    # silently replaced the whole chain's evidence with a four-leg record (bm-c paid this at
+    # r1364 and fixed it there; this runner is the other copy of the same defect). Atomic writes
+    # stop a torn file, not a small run wearing the big run's name.
+    scope = ""
+    if only is not None:
+        scope = ".only-" + "-".join(sorted({t[0] for t in legs}))
+    path = os.path.join(ROOT, "results", f"_r{round_no}bma_s6_chain{scope}.json")
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
     bad = [o for o in out if o["rc"] != 0]

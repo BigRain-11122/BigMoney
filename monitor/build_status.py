@@ -1628,6 +1628,33 @@ def _gate_chain(bt: dict) -> dict:
             "n_traders": len(traders),
             "trader_ids": traders}
 
+def _etf_book_priced_state() -> dict:
+    """Which closing bar each of the three reader-facing ETF papers was priced on.
+
+    The dashboard carried the paper trail and the fill check but never said whether
+    the card, the executable sheet and the CEO one-pager were priced on the SAME bar.
+    Three papers quoting one book and one CAGR can still be describing two different
+    snapshots, and a reader of this page had no way to tell. The question has one
+    reader (etf_book_production.priced_faces) and this row publishes its verdict
+    instead of deriving a second one; an absent artifact reads UNKNOWN, never a pass.
+    """
+    out = {"present": False, "verdict": "UNKNOWN", "faces": {}, "missing": [],
+           "detail": None}
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))), "scripts"))
+        import etf_book_production as _book
+        pf = _book.priced_faces()
+        out["present"] = bool(pf.get("faces"))
+        out["verdict"] = pf.get("verdict") or "UNKNOWN"
+        out["faces"] = pf.get("faces") or {}
+        out["missing"] = pf.get("missing") or []
+        out["detail"] = pf.get("detail")
+    except Exception:
+        pass
+    return out
+
+
 def _paper_state() -> dict:
     """Paper tracking state from results/paper/*_paper.json (live.paper output).
 
@@ -2741,6 +2768,7 @@ def build() -> dict:
     data["queue_bandit"] = _queue_bandit_state()
     data["alloc_paper"] = _alloc_paper_state()
     data["system_v1_paper"] = _system_v1_paper_state()
+    data["etf_book_priced"] = _etf_book_priced_state()
     data["trial_labor"] = _trial_labor_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
