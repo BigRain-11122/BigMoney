@@ -1,0 +1,1260 @@
+{
+ "schema": "bigmoney/e318-zerotolprune/v1",
+ "study": "E318_count_named_gate_leaves",
+ "title": "E317's zero-tolerance headline re-counted under the count-word guard, and what the surviving zeros gate",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "input_face": "results/state_tilt/PRINTCOV-2026-10-31.json",
+ "join_rules": {
+  "scope": "every row of E317's published census (289 faces / 1108 gate leaves)",
+  "count_word": "the final token of the leaf path starts with n_ , ends with _count, or names an absence (no_/not_) or a bare count noun; frozen before any number was read",
+  "block_shape": "the block the tolerance sits in, numeric leaves to depth 2: integers_only / floats_present / no_numeric_sibling / block_unresolved; bool is not a number",
+  "control_tolerance": "E317 publishes the substitution span to 4 decimals, so the re-count compares floats at 1e-4 absolute, not 1e-9",
+  "why_the_shape": "a zero tolerance is an exact-equality test; it is a legitimate test on counts and a fragile one on computed floats"
+ },
+ "census": {
+  "unpruned": {
+   "gate_leaves": 1108,
+   "exactly_zero": 122,
+   "value_bands": {
+    "at_least_1": 48,
+    "below_1e-2": 169,
+    "between_1e-2_and_1": 769,
+    "exactly_zero": 122
+   },
+   "reader_complete_leaves": 33,
+   "reader_complete_share": 0.029783393501805054,
+   "leaves_missing_each_element": {
+    "identifier": 883,
+    "magnitude": 100,
+    "scale": 973,
+    "unit": 1047
+   },
+   "leaves_readable_only_from_face_level_keys": 923,
+   "leaves_with_a_substitution_span": 225,
+   "max_substitution_span_orders_of_magnitude": 19.59352806507836,
+   "leaves_spanning_more_than_one_decade": 193,
+   "leaves_spanning_more_than_ten_decades": 68
+  },
+  "pruned": {
+   "gate_leaves": 1046,
+   "exactly_zero": 69,
+   "value_bands": {
+    "at_least_1": 39,
+    "below_1e-2": 169,
+    "between_1e-2_and_1": 769,
+    "exactly_zero": 69
+   },
+   "reader_complete_leaves": 33,
+   "reader_complete_share": 0.03154875717017208,
+   "leaves_missing_each_element": {
+    "identifier": 821,
+    "magnitude": 99,
+    "scale": 912,
+    "unit": 985
+   },
+   "leaves_readable_only_from_face_level_keys": 861,
+   "leaves_with_a_substitution_span": 219,
+   "max_substitution_span_orders_of_magnitude": 19.59352806507836,
+   "leaves_spanning_more_than_one_decade": 188,
+   "leaves_spanning_more_than_ten_decades": 68
+  },
+  "deltas": {
+   "gate_leaves": {
+    "unpruned": 1108,
+    "pruned": 1046,
+    "delta": -62
+   },
+   "exactly_zero": {
+    "unpruned": 122,
+    "pruned": 69,
+    "delta": -53
+   },
+   "reader_complete_leaves": {
+    "unpruned": 33,
+    "pruned": 33,
+    "delta": 0
+   },
+   "reader_complete_share": {
+    "unpruned": 0.029783393501805054,
+    "pruned": 0.03154875717017208,
+    "delta": 0.0017653636683670273
+   },
+   "leaves_readable_only_from_face_level_keys": {
+    "unpruned": 923,
+    "pruned": 861,
+    "delta": -62
+   },
+   "leaves_with_a_substitution_span": {
+    "unpruned": 225,
+    "pruned": 219,
+    "delta": -6
+   },
+   "max_substitution_span_orders_of_magnitude": {
+    "unpruned": 19.59352806507836,
+    "pruned": 19.59352806507836,
+    "delta": 0.0
+   },
+   "leaves_spanning_more_than_one_decade": {
+    "unpruned": 193,
+    "pruned": 188,
+    "delta": -5
+   },
+   "leaves_spanning_more_than_ten_decades": {
+    "unpruned": 68,
+    "pruned": 68,
+    "delta": 0
+   }
+  },
+  "count_named_rows": 62,
+  "count_named_by_word": {
+   "n_<count>": 56,
+   "no": 3,
+   "not": 2,
+   "numeric_values": 1
+  },
+  "count_named_zero_rows": 53,
+  "zero_tolerance_gates_residual": 69,
+  "zero_tolerance_block_shapes": {
+   "floats_present": 69
+  },
+  "zero_tolerance_gates_on_integer_blocks": 0,
+  "zero_tolerance_gates_gating_nothing_numeric": 0,
+  "zero_tolerance_gates_that_describe_a_gate": 68,
+  "zero_tolerance_gates_that_are_a_gate": 1,
+  "zero_tolerance_gates_by_provenance": {
+   "study_face": 68,
+   "data_face": 1
+  },
+  "zero_tolerance_gates_on_data_faces": [
+   {
+    "face": "results/shortline/t18_deep_manifest.json",
+    "leaf": "gates.GA.tolerance",
+    "block": "gates.GA",
+    "block_shape": "floats_present",
+    "observed_max": {
+     "key": "max_abs_close_diff_worst",
+     "value": 0.0
+    }
+   }
+  ],
+  "data_face_zero_gates_with_a_published_observed_max": 1,
+  "data_face_zero_gates_whose_observed_max_is_zero": 1,
+  "study_faces_carrying_a_residual_zero": [
+   "E299_rounded_vs_tolerance_census",
+   "E305_face_level_row_pricing",
+   "E308_leg_vs_producer_tolerance",
+   "E312_gate_operand_identity"
+  ],
+  "faces_with_a_residual_zero_tolerance_gate": 5
+ },
+ "control": {
+  "gate_leaves": {
+   "published": 1108,
+   "recounted": 1108,
+   "ok": true
+  },
+  "exactly_zero": {
+   "published": 122,
+   "recounted": 122,
+   "ok": true
+  },
+  "reader_complete_leaves": {
+   "published": 33,
+   "recounted": 33,
+   "ok": true
+  },
+  "leaves_with_a_substitution_span": {
+   "published": 225,
+   "recounted": 225,
+   "ok": true
+  },
+  "max_substitution_span_orders_of_magnitude": {
+   "published": 19.5935,
+   "recounted": 19.59352806507836,
+   "ok": true
+  }
+ },
+ "verdict": "53_of_the_122_zero_tolerance_gates_were_counts_and_68_of_the_remaining_69_sit_on_this_programmes_own_study_faces_leaving_1_on_a_data_face",
+ "residual_gates": [
+  {
+   "face": "results/shortline/t18_deep_manifest.json",
+   "leaf": "gates.GA.tolerance",
+   "block": "gates.GA",
+   "block_shape": "floats_present",
+   "face_provenance": "data_face",
+   "face_study": null,
+   "observed_max": {
+    "key": "max_abs_close_diff_worst",
+    "value": 0.0
+   }
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[10].leg_tolerance",
+   "block": "rows[10]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[12].leg_tolerance",
+   "block": "rows[12]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[13].leg_tolerance",
+   "block": "rows[13]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[14].leg_tolerance",
+   "block": "rows[14]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[15].leg_tolerance",
+   "block": "rows[15]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[16].leg_tolerance",
+   "block": "rows[16]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[1].leg_tolerance",
+   "block": "rows[1]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[23].leg_tolerance",
+   "block": "rows[23]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[24].leg_tolerance",
+   "block": "rows[24]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[28].leg_tolerance",
+   "block": "rows[28]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[2].leg_tolerance",
+   "block": "rows[2]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[3].leg_tolerance",
+   "block": "rows[3]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[4].leg_tolerance",
+   "block": "rows[4]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATEOPERANDS-2026-10-31.json",
+   "leaf": "rows[5].leg_tolerance",
+   "block": "rows[5]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E312_gate_operand_identity",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[10].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[10]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[11].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[11]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[12].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[12]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[13].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[13]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[14].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[14]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[15].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[15]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[16].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[16]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[17].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[17]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[4].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[4]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[5].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[5]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[6].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[6]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[7].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[7]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[8].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[8]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "rows_leg_tighter_or_exact[9].leg_tolerance",
+   "block": "rows_leg_tighter_or_exact[9]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E308_leg_vs_producer_tolerance",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[0].tolerance",
+   "block": "at_risk[0]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[13].tolerance",
+   "block": "at_risk[13]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[14].tolerance",
+   "block": "at_risk[14]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[18].tolerance",
+   "block": "at_risk[18]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[21].tolerance",
+   "block": "at_risk[21]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[22].tolerance",
+   "block": "at_risk[22]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[24].tolerance",
+   "block": "at_risk[24]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[25].tolerance",
+   "block": "at_risk[25]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[26].tolerance",
+   "block": "at_risk[26]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[27].tolerance",
+   "block": "at_risk[27]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[28].tolerance",
+   "block": "at_risk[28]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[2].tolerance",
+   "block": "at_risk[2]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "at_risk[7].tolerance",
+   "block": "at_risk[7]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[17].tolerance",
+   "block": "sites[17]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[1].tolerance",
+   "block": "sites[1]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[31].tolerance",
+   "block": "sites[31]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[32].tolerance",
+   "block": "sites[32]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[33].tolerance",
+   "block": "sites[33]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[35].tolerance",
+   "block": "sites[35]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[3].tolerance",
+   "block": "sites[3]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[44].tolerance",
+   "block": "sites[44]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[47].tolerance",
+   "block": "sites[47]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[48].tolerance",
+   "block": "sites[48]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[49].tolerance",
+   "block": "sites[49]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[52].tolerance",
+   "block": "sites[52]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[53].tolerance",
+   "block": "sites[53]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[55].tolerance",
+   "block": "sites[55]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[56].tolerance",
+   "block": "sites[56]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[57].tolerance",
+   "block": "sites[57]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[58].tolerance",
+   "block": "sites[58]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[59].tolerance",
+   "block": "sites[59]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[5].tolerance",
+   "block": "sites[5]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[60].tolerance",
+   "block": "sites[60]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[62].tolerance",
+   "block": "sites[62]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "sites[8].tolerance",
+   "block": "sites[8]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E299_rounded_vs_tolerance_census",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "leaf": "rows[3].tolerance",
+   "block": "rows[3]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E305_face_level_row_pricing",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "leaf": "rows[4].tolerance",
+   "block": "rows[4]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E305_face_level_row_pricing",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "leaf": "rows[5].tolerance",
+   "block": "rows[5]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E305_face_level_row_pricing",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "leaf": "rows[6].tolerance",
+   "block": "rows[6]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E305_face_level_row_pricing",
+   "observed_max": null
+  },
+  {
+   "face": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "leaf": "rows[7].tolerance",
+   "block": "rows[7]",
+   "block_shape": "floats_present",
+   "face_provenance": "study_face",
+   "face_study": "E305_face_level_row_pricing",
+   "observed_max": null
+  }
+ ],
+ "count_named": [
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "census.faces_with_no_tolerance_name_at_all",
+   "value": 41.0,
+   "count_word": "no"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "census.faces_with_tolerance_named_not_gate_only",
+   "value": 3.0,
+   "count_word": "not"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "census.pairs_no_leg_tolerance",
+   "value": 0.0,
+   "count_word": "no"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[0].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[10].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[11].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[12].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[13].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[14].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[15].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[16].n_tolerance_named_not_gate",
+   "value": 10.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[17].n_tolerance_named_not_gate",
+   "value": 14.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[18].n_tolerance_named_not_gate",
+   "value": 5.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[19].n_tolerance_named_not_gate",
+   "value": 5.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[1].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[20].n_tolerance_named_not_gate",
+   "value": 1.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[21].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[22].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[23].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[24].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[25].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[26].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[27].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[28].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[29].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[2].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[30].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[31].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[32].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[33].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[34].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[35].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[36].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[37].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[38].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[39].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[3].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[40].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[41].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[42].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[43].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[44].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[45].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[46].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[47].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[48].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[49].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[4].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[50].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[51].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[52].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[53].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[54].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[5].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[6].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[7].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[8].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/GATETOL-2026-10-31.json",
+   "leaf": "faces[9].n_tolerance_named_not_gate",
+   "value": 0.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "summary.n_cross_face_rows_exceeding_tolerance",
+   "value": 7.0,
+   "count_word": "n_<count>"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "leaf": "faces.tolerance.numeric_values",
+   "value": 0.0,
+   "count_word": "numeric_values"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "leaf": "summary.by_verdict.ordering_between_copies_no_tolerance",
+   "value": 33.0,
+   "count_word": "no"
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "leaf": "summary.comparisons_not_graded_tolerance_from_face",
+   "value": 0.0,
+   "count_word": "not"
+  }
+ ],
+ "identity_checks": [
+  {
+   "check": "the_unpruned_recount_reproduces_e317_published",
+   "ok": true,
+   "detail": {
+    "gate_leaves": {
+     "published": 1108,
+     "recounted": 1108,
+     "ok": true
+    },
+    "exactly_zero": {
+     "published": 122,
+     "recounted": 122,
+     "ok": true
+    },
+    "reader_complete_leaves": {
+     "published": 33,
+     "recounted": 33,
+     "ok": true
+    },
+    "leaves_with_a_substitution_span": {
+     "published": 225,
+     "recounted": 225,
+     "ok": true
+    },
+    "max_substitution_span_orders_of_magnitude": {
+     "published": 19.5935,
+     "recounted": 19.59352806507836,
+     "ok": true
+    }
+   }
+  },
+  {
+   "check": "kept_plus_pruned_is_the_published_set",
+   "ok": true,
+   "detail": [
+    1046,
+    62,
+    1108
+   ]
+  },
+  {
+   "check": "every_pruned_leaf_carries_its_count_word",
+   "ok": true
+  },
+  {
+   "check": "the_zero_residual_split_is_whole",
+   "ok": true,
+   "detail": [
+    69,
+    53,
+    122
+   ]
+  },
+  {
+   "check": "the_shapes_account_for_every_residual_gate",
+   "ok": true
+  },
+  {
+   "check": "the_provenance_split_is_whole",
+   "ok": true,
+   "detail": [
+    68,
+    1,
+    69
+   ]
+  },
+  {
+   "check": "the_guard_is_idempotent",
+   "ok": true
+  }
+ ],
+ "notes": [
+  "62 of E317's 1108 gate leaves are counts of gates, not gates; 53 of the 122 'exactly zero' rows are those counts, so the headline over-states the zero-tolerance population by 53 (43.4%).",
+  "the pruned share of the whole census is small (62 of 1108) but it is concentrated exactly where the headline was: it is the zero band that moves, not the middle.",
+  "the residual split is the part E317 asserted and did not measure: a zero tolerance on an integers-only block is an exact-equality test on counts (0), on a block carrying floats it is an exact float equality (69).",
+  "0 residual gates sit in a block with nothing numeric beside them (or a block the label no longer resolves): there the zero gates nothing measurable.",
+  "and the survivors are almost all self-referential: 68 of the 69 sit on this programme's own study faces (a file whose top-level `study` is E<n>_<slug>), i.e. they are census faces recording somebody else's exact-equality gate. E317 excluded its own E313-E317 studies and let the earlier members published by the same method through (E299 precision census, E305 precision gap, E308 leg tolerance, E312 gate operands), which is why the headline looked like a population of live gates: 1 gate(s) on a non-study face actually publishes a zero tolerance.",
+  "one of the 69 surviving zeros sits on a block a reader can check: it publishes its own observed maximum beside the zero (max_abs_close_diff_worst=0.0). A zero tolerance on a computed float is legitimate exactly where the compared number is a copy rather than a computation, and nothing else in the surviving population can say which one it is.",
+  "this study does not re-scan the 289 faces: it re-reads E317's published rows and opens a face only to shape the block of a surviving zero. E317's own selection stays the population under test, warts included -- that is the point."
+ ]
+}

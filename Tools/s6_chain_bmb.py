@@ -712,6 +712,16 @@ LEGS = [
     ("print_coverage_census",
      ["python", "scripts/e317_print_coverage_census.py", "verify"]),
 
+    # E318: E317's zero-tolerance headline read every tolerance-named leaf as a gate, including
+    # leaves that COUNT gates (`n_tolerance_named_not_gate`). This leg re-counts the census under
+    # a count-word guard frozen before any number was read: 62 of the 1108 leaves are counts and
+    # 53 of the 122 "exactly zero" gates are those counts, so the zero band halves to 69 -- and 68
+    # of the survivors sit on this programme's own study faces (E299/E305/E308/E312), leaving a
+    # single gate on a real data face (t18 known-answer, whose published observed max is 0.0).
+    # The unpruned control must still reproduce E317's five published numbers exactly. ~2s.
+    ("zero_tolerance_prune",
+     ["python", "scripts/e318_count_named_gate_leaves.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

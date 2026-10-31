@@ -25823,6 +25823,79 @@
    "done_by": "bm-b r1336",
    "result_ref": "results/state_tilt/PRINTCOV-2026-10-31.json (scripts/e317_print_coverage_census.py run / verify 0 problems / selftest 35/35, S6 leg print_coverage_census rc=0, smoke leg added, identity checks green)",
    "outcome": "289 faces / 1108 gate leaves: the unit is missing on 1047 of them and only 33 leaves (2.98%) are readable from their own face, on 2 faces that are both gate tables. 225 leaves publish a same-unit decoy; the substitution spans up to 19.6 orders of magnitude. 122 gates carry a zero tolerance."
+  },
+  {
+   "id": "E318-ZERO-TOLERANCE-PRUNE",
+   "title": "E317's zero-tolerance headline re-counted under the count-word guard: how much of it is counts of gates, and what is a surviving zero actually gating?",
+   "lane": "cpu-only",
+   "status": "done",
+   "priority": 3,
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1336 (E317): one of the leaves it counted is n_tolerance_named_not_gate, a count of gates that named a tolerance without being one",
+   "target": "every row of E317's published census (289 faces / 1108 gate leaves)",
+   "deliverable": "results/state_tilt/ZEROTOLPRUNE-<cutoff>.json",
+   "question": "per row: is the leaf a count (then it is not a gate), and for the survivors, does the block it gates publish integers (exact equality on counts) or floats (exact float equality), on a study face or a data face?",
+   "runner": "scripts/e318_count_named_gate_leaves.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T22:4x+08:00",
+   "done_by": "bm-b r1337",
+   "result_ref": "results/state_tilt/ZEROTOLPRUNE-2026-10-31.json (run / verify 0 problems over 7 checks / selftest 25/25, S6 leg zero_tolerance_prune rc=0 0.08s, smoke leg executed standalone PASS)",
+   "outcome": "62 of the 1108 leaves are counts and 53 of the 122 zeros are those counts, so the zero band halves to 69; 68 of the 69 sit on this programme's own study faces (E299/E305/E308/E312) and exactly one survives on a real data face (t18 known-answer, whose published observed max is 0.0). The unpruned control reproduces E317's five published numbers."
+  },
+  {
+   "id": "E319-CENSUS-SELF-INCLUSION-SWEEP",
+   "title": "E317 excluded its own E313-E317 family and let four earlier study faces through; sweep every study face (top-level study = E<n>_<slug>) and measure which of them are counted as rows by later censuses of the same programme",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1337 (E318): 68 of the 69 surviving zero-tolerance gates sit on four study faces published before E317's exclusion list existed",
+   "target": "every results/**/*.json face whose top-level study matches ^E\\d+_",
+   "deliverable": "results/state_tilt/SELFINCLUSION-<cutoff>.json",
+   "question": "for each census-style study face, which later study faces count its rows, and is the exclusion list a declared constant or a copy of the writer's own family?",
+   "runner": "scripts/e319_census_self_inclusion.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
+  },
+  {
+   "id": "E320-DECOY-IS-THE-GATED-QUANTITY",
+   "title": "E317 published 225 leaves whose block offers a same-unit decoy for the gate; for each, does the block also publish the gated quantity itself, i.e. is the substitution avoidable by a reader who reads the whole block?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T22:4x+08:00",
+   "entered_by": "bm-b r1337",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1337 (E318): the surviving population cannot say which zero is a copy check and which is a computation - the same question one layer down is which decoy is actually the gated quantity",
+   "target": "the 219 substitution-span leaves surviving E318's prune",
+   "deliverable": "results/state_tilt/DECOYRESOLVE-<cutoff>.json",
+   "question": "for each decoy-bearing leaf: does any candidate share the gated quantity's name token or magnitude fingerprint, and how many decades of ambiguity remain after that match?",
+   "runner": "scripts/e320_decoy_resolution.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

@@ -9007,6 +9007,65 @@ def main() -> int:
     except Exception as e:
         check(_name104, False, repr(e)[:160])
 
+    # E318: E317's "122 gates carry a zero tolerance" counted the leaves that COUNT gates as
+    # gates. This leg re-applies the census's own lesson (a name is not a measurement) to the
+    # census that published it: the pruned rows must be arity-exact, the zero band must lose
+    # exactly the pruned zeros, the unpruned recount must still reproduce E317, and the surviving
+    # gates must be split by provenance -- a study face is a census of somebody else's gate.
+    _name105 = ("product: the zero-tolerance headline is half counts -- 53 of 122 were counts of "
+                "gates and 68 of the 69 survivors sit on this programme's own study faces")
+    _bad105 = []
+    try:
+        _p105 = os.path.join("results", "state_tilt", "zerotolprune_latest.json")
+        _f105 = None
+        if not os.path.exists(_p105):
+            _bad105.append("face missing: %s" % _p105)
+        else:
+            with io.open(_p105, encoding="utf-8") as _fh105:
+                _f105 = json.load(_fh105)
+        if _f105 is not None:
+            _c105 = _f105.get("census") or {}
+            if _f105.get("evidence_cutoff") != "2026-10-31":
+                _bad105.append("evidence_cutoff moved: %r" % (_f105.get("evidence_cutoff"),))
+            if not str(_f105.get("verdict") or "").endswith("_leaving_1_on_a_data_face"):
+                _bad105.append("verdict moved: %r" % (_f105.get("verdict"),))
+            if any(not c.get("ok") for c in (_f105.get("identity_checks") or [])):
+                _bad105.append("identity checks are not all green")
+            _up105 = _c105.get("unpruned") or {}
+            _pr105 = _c105.get("pruned") or {}
+            _cn105 = _f105.get("count_named") or []
+            _rg105 = _f105.get("residual_gates") or []
+            if (_up105.get("gate_leaves") or 0) != (_pr105.get("gate_leaves") or 0) + len(_cn105):
+                _bad105.append("kept + pruned is not the published gate count")
+            if len(_cn105) != (_c105.get("count_named_rows") or 0):
+                _bad105.append("count_named_rows is not the published pruned list")
+            _zp105 = [r for r in _cn105 if r.get("value") == 0]
+            if len(_zp105) != (_c105.get("count_named_zero_rows") or 0):
+                _bad105.append("count_named_zero_rows does not recompute from the pruned list")
+            if (_up105.get("exactly_zero") or 0) - (_pr105.get("exactly_zero") or 0) != len(_zp105):
+                _bad105.append("the zero band did not lose exactly its pruned zeros")
+            if len(_rg105) != (_pr105.get("exactly_zero") or 0):
+                _bad105.append("the residual gate list is not the pruned zero band")
+            if any(r.get("face_provenance") == "study_face" for r in _rg105) and \
+                    len([r for r in _rg105 if r.get("face_provenance") == "study_face"]) != \
+                    (_c105.get("zero_tolerance_gates_that_describe_a_gate") or 0):
+                _bad105.append("the provenance split does not recompute")
+            _ctl105 = _f105.get("control") or {}
+            if not all(v.get("ok") for v in _ctl105.values()):
+                _bad105.append("the unpruned control does not reproduce E317")
+        check(_name105, not _bad105, "; ".join(_bad105)[:220]
+              or "gate leaves %s -> %s | zero tolerances %s -> %s (%s were counts) | survivors on "
+                 "study faces %s | data-face gates %s"
+                 % ((_c105.get("unpruned") or {}).get("gate_leaves"),
+                    (_c105.get("pruned") or {}).get("gate_leaves"),
+                    (_c105.get("unpruned") or {}).get("exactly_zero"),
+                    (_c105.get("pruned") or {}).get("exactly_zero"),
+                    _c105.get("count_named_zero_rows"),
+                    _c105.get("zero_tolerance_gates_that_describe_a_gate"),
+                    _c105.get("zero_tolerance_gates_that_are_a_gate")))
+    except Exception as e:
+        check(_name105, False, repr(e)[:160])
+
     return _finish()
 
 

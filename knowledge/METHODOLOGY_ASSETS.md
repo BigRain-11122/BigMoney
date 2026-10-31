@@ -6479,3 +6479,41 @@ identifier as a whole path token, the magnitude as a positive number under that 
 string the producer's own `scale_identifier` resolves to the identifier, the floor as its number
 under a floor-named path. Then, separately, count the numbers that merely *look* like it and price
 what substituting one would cost.
+
+### E318 a headline built from a name census inherits the census's own defect -- prune counts by token boundary, then split the survivors by whose gate they describe (r1337 bm-b)
+
+E317 counted every leaf whose name says *tolerance* and published "122 published gates are exactly
+zero".  One of those names is `n_tolerance_named_not_gate` -- **a count of gates that named a
+tolerance without being one**.  A census that prunes a token for being a name-not-a-measurement has
+to apply the same rule to the names it keeps.  Re-counted under a count-word guard frozen before any
+number was read: 62 of the 1108 leaves are counts, **53 of the 122 zeros are those counts**, the zero
+band halves to 69, and the census's other numbers barely move (gate leaves 1108 -> 1046, readable-in-
+place share 2.98% -> 3.15%, substitution span max unchanged at 19.5935 decades).  The unpruned
+control reproduces E317's five published numbers exactly, so the difference is the guard and not a
+re-derivation.
+
+1. **Prune by token, never by substring.** The first cut of the guard matched `n_` anywhere and took
+   `law.written_law_tol` = 1e-8 off `results/sina_mf_accept.json`, a real written-law acceptance
+   tolerance.  Pruning a real quote is worse than the over-count it fixes (E208), so the guard is
+   token-level: a leading `n` token, a `_count` suffix, an `no`/`not` token, or a bare count noun.
+   The regression leg pins the exact false positive this guard produced.
+2. **A count-word guard must publish what it pruned.** Every pruned row ships with the token that
+   pruned it and the value it carried, so a reader can audit the guard rather than trust it.
+3. **Ask whose gate the survivor describes.** 68 of the 69 residual zeros sit on faces whose
+   top-level `study` is `E<n>_<slug>` -- E299, E305, E308, E312, i.e. this same programme's earlier
+   censuses recording somebody else's exact-equality gate.  E317 excluded its own E313-E317 family
+   and let the earlier members of the same method through, so the headline looked like a population
+   of live gates.  **One** gate survives on a real data face.
+4. **A zero tolerance is legitimate exactly where the compared number is a copy, not a
+   computation.** The one survivor (`t18_deep_manifest.gates.GA`) publishes its own observed maximum
+   beside the zero (`max_abs_close_diff_worst = 0.0`), so its exact-equality test is checkable by the
+   reader and passes by construction on a byte-identical re-read.  Nothing else in the surviving
+   population can say which kind of zero it is -- that is the real finding, and it is a *reader-set*
+   gap, not a tolerance defect.
+
+How to apply: before quoting a census as a population, re-count it under the guard it claims to
+apply, publish the unpruned control so the movement is attributable, and classify the survivors by
+provenance (a study face is a census, not a measurement).  Face =
+`results/state_tilt/ZEROTOLPRUNE-2026-10-31.json`, runner =
+`scripts/e318_count_named_gate_leaves.py` (run / verify / selftest 25 legs), chain leg
+`zero_tolerance_prune`, smoke leg "the zero-tolerance headline is half counts".
