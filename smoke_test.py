@@ -4076,6 +4076,47 @@ def main() -> int:
                 _un47 = _P47.priced_faces(page_bar=None, results_dir=_td47 + os.sep + "nope")
                 if _un47.get("verdict") != "UNKNOWN" or _un47.get("same_day") is not False:
                     _bad47.append("absent fixture reads %r" % (_un47.get("verdict"),))
+            # r1186: the CEO page is not the only paper a reader holds. If the card and the
+            # executable sheet stop printing the three days themselves, an operator who never
+            # opens the page is back to the bare "same priced bar" claim he cannot re-derive --
+            # so the verdict each paper states is re-read from THAT paper's own artifact and
+            # then looked for in THAT paper's own text. Never from a neighbouring paper.
+            _papers47 = []
+            _card_ptr47 = os.path.join(PATHS.results_dir, "etf_book_production", "latest.json")
+            if os.path.exists(_card_ptr47):
+                with open(_card_ptr47, encoding="utf-8") as _fh47:
+                    _cd47 = json.load(_fh47) or {}
+                _papers47.append((os.path.join(PATHS.results_dir, "etf_book_production", "CARD.md"),
+                                  _cd47.get("priced_faces") or {},
+                                  {"SAME_DAY": "Priced day: SAME_DAY",
+                                   "DIFFERENT_DAYS": "Priced day: DIFFERENT_DAYS",
+                                   "UNKNOWN": "Priced day: UNKNOWN"}))
+            _ord47 = sorted(glob.glob(os.path.join(PATHS.root, "results", "etf_book_order", "ORDER-*.md")))
+            _tick47 = sorted(glob.glob(os.path.join(PATHS.root, "results", "etf_book_order", "TICKET-*.json")))
+            if _ord47 and _tick47:
+                with open(_tick47[-1], encoding="utf-8") as _fh47:
+                    _tk47 = json.load(_fh47) or {}
+                _papers47.append((_ord47[-1], _tk47.get("priced_faces") or {},
+                                  {"SAME_DAY": "同一天", "DIFFERENT_DAYS": "不是同一天",
+                                   "UNKNOWN": "无法判断"}))
+            for _path47, _blk47, _word47 in _papers47:
+                _lab47 = os.path.basename(_path47)
+                _v47 = _blk47.get("verdict")
+                if not _v47:
+                    _bad47.append("%s publishes no priced-day verdict" % _lab47)
+                    continue
+                if not os.path.exists(_path47):
+                    _bad47.append("%s missing" % _lab47)
+                    continue
+                with open(_path47, encoding="utf-8") as _fh47:
+                    _txt47 = _fh47.read()
+                if _word47.get(_v47, "") not in _txt47:
+                    _bad47.append("%s does not print its own verdict %s" % (_lab47, _v47))
+                for _k47b in ("card", "ticket", "page"):
+                    _dd47 = (_blk47.get("faces") or {}).get(_k47b)
+                    if _dd47 and _dd47 not in _txt47:
+                        _bad47.append("%s does not print the %s day %s"
+                                      % (_lab47, _k47b, _dd47))
         check("product: the three papers print the day each was priced on, and can disagree",
               not _bad47, "; ".join(_bad47)[:220]
               or "card/ticket/page all priced %s" % ((_pf47.get("faces") or {}).get("card"),))

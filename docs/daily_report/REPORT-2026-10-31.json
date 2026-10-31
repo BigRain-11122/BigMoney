@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-31",
- "generated_at": "2026-10-31 07:09:16",
+ "generated_at": "2026-10-31 08:57:59",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -294,21 +294,22 @@
   "md_link": "../live_usage/LIVE-2026-10-31.md"
  },
  "rd": {
-  "commits_24h": 127,
+  "commits_24h": 114,
   "result_jsons_landed_24h": 124,
-  "digests_landed_24h": 48,
-  "prereg_md_touched_24h": 28,
+  "digests_landed_24h": 47,
+  "prereg_md_touched_24h": 27,
   "compute_audit_latest": {
-   "ts": "2026-10-31 07:07:06",
-   "py_cpu_pct": 1.8,
+   "ts": "2026-10-31 08:41:45",
+   "py_cpu_pct": 0.2,
    "flags": [
+    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -651,7 +652,7 @@
   "total_state_tokens_est": 15889,
   "total_report_tokens_est": 2370765,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-30 23:14:37",
+   "prev_generated": "2026-10-31 07:12:18",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -664,25 +665,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-31 07:07:06",
-    "py_pct": 1.8,
-    "cpu_pct": 22.0,
+    "latest_ts": "2026-10-31 08:41:45",
+    "py_pct": 0.2,
+    "cpu_pct": 15.0,
     "ready": 0,
-    "streak_min": 41.8,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 136.5,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "00:47",
-      0.1
-     ],
-     [
-      "01:15",
-      4.9
-     ],
-     [
-      "02:52",
-      0.1
-     ],
      [
       "03:33",
       0.0
@@ -718,9 +707,21 @@
      [
       "07:07",
       1.8
+     ],
+     [
+      "07:23",
+      3.7
+     ],
+     [
+      "07:58",
+      4.5
+     ],
+     [
+      "08:41",
+      0.2
      ]
     ],
-    "today_samples": 13,
+    "today_samples": 16,
     "today_floor_ok": 3,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 1
@@ -869,7 +870,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-31 07:07:06"
+     "audit_ts": "2026-10-31 08:41:45"
     }
    },
    "bm-b": {
@@ -1697,14 +1698,14 @@
  },
  "lane_authority": {
   "present": true,
-  "as_of": "2026-10-31T06:25:27",
+  "as_of": "2026-10-31T08:41:54",
   "verdict": "host_down",
-  "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（17.71h 未报到）；留在本机盘上的 3 条里 0 条可核实，3 条连署名都没有。",
+  "sentence": "9 条在役车道里有 6 条的数字不在本机盘上：6 条在 bm-b 的盘上（19.98h 未报到）；留在本机盘上的 3 条里 2 条可核实，1 条连署名都没有。",
   "n_lanes": 9,
   "n_offhost": 6,
   "n_here": 3,
-  "n_auditable_here": 0,
-  "n_unsigned_here": 3,
+  "n_auditable_here": 2,
+  "n_unsigned_here": 1,
   "groups": [
    {
     "machine": "bm-b",
@@ -1718,7 +1719,7 @@
     ],
     "n": 6,
     "alive": false,
-    "age_h": 17.71,
+    "age_h": 19.98,
     "last_seen": "2026-10-30T12:43:06+08:00"
    }
   ],
@@ -1738,8 +1739,8 @@
    "marks": "无主封套",
    "zt_pool": "他机本地副本",
    "etf_panel": "无主封套",
-   "futures": "他机写的封套",
-   "lhb": "他机写的封套"
+   "futures": "宿主自己写的封套",
+   "lhb": "宿主自己写的封套"
   }
  },
  "cap_vs_book": {

@@ -413,6 +413,19 @@ def card(ticket, mk, sched, asof, beta, extra):
             L += ["- ⚠ 两张面定价不在同一天：卡片是配置口径的对照面、本单是可执行面，"
                   "若两张之间跨过了一个网格决策日，它们描述的是两本不同的书 —— 照单下手前"
                   "只看本单的仓位，卡片的名数与波动目标行不可当今天的仓位用。"]
+        pf = extra.get("priced_faces")
+        if pf:
+            day = "卡片 %s ｜ 本单 %s ｜ CEO 一页纸 %s" % (
+                (pf.get("faces") or {}).get("card") or "未知", ag["ticket_priced_bar"],
+                (pf.get("faces") or {}).get("page") or "未知")
+            if pf.get("verdict") == "SAME_DAY":
+                L += ["- **同一天**：%s —— 三张纸的数是同一本书。" % day]
+            elif pf.get("verdict") == "DIFFERENT_DAYS":
+                L += ["- **不是同一天**：%s —— %s。落后的那一张只能当历史读，不能与今天的仓位"
+                      "并排比。" % (day, pf.get("detail") or "无细节")]
+            else:
+                L += ["- **无法判断**：%s —— %s。缺一天不是「一致」。" % (
+                    day, pf.get("detail") or "无细节")]
     wd = extra.get("width")
     if wd:
         d = wd["delta_ticket_minus_card"]
@@ -596,6 +609,29 @@ def family_coherence():
                 "arms": 0, "evidence_cutoff": None, "priced_same_panel": None}
 
 
+def priced_face_check(card_bar, ticket_bar):
+    """Which day each of the three papers a reader holds was priced on (r1186).
+
+    One implementation: `etf_book_production.priced_faces()` owns the rule; this sheet only
+    supplies its own bar and quotes the three-state answer. Until r1186 the sheet published
+    the bare boolean `same_priced_bar`, which tells a reader "different" without saying
+    WHICH paper is the stale one -- a claim nobody can re-derive. The page's day is read
+    from the page's own artifact, so on a chain day where the page has not caught up yet
+    this sheet will name it instead of agreeing with itself.
+    """
+    try:
+        import sys as _sys
+        _d = os.path.dirname(os.path.abspath(__file__))
+        if _d not in _sys.path:
+            _sys.path.insert(0, _d)
+        import etf_book_production as _P
+        return _P.priced_faces(card_bar=card_bar, ticket_bar=ticket_bar)
+    except Exception as e:
+        return {"faces": {"card": card_bar, "ticket": ticket_bar, "page": None},
+                "verdict": "UNKNOWN", "detail": "reader failed (%s)" % str(e)[:120],
+                "missing": ["page"], "same_day": None}
+
+
 def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_gate=False):
     global OUT_DIR
     if fresh_gate:
@@ -749,6 +785,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     # verdict here too (same reader as the card), so the sheet an operator holds says
     # whether the arm family that picked this name count priced one panel.
     fam = family_coherence()
+    _priced_faces = priced_face_check((agreement or {}).get("card_priced_bar"), asof)
     carry = carry_split(beta)
     # r1172: five tickers are not five bets. The face that measures how many independent
     # directions the sleeve spans is quoted HERE, verbatim, so the operator reading this
@@ -784,6 +821,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "live_width_ruler": ruler,
                "price_basis": basis,
                "family_coherence": fam,
+               "priced_faces": _priced_faces,
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
@@ -813,6 +851,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "carry": carry, "restatements": payload["restatements"],
                       "bets_line": bets_line,
                       "family_coherence": fam,
+                      "priced_faces": _priced_faces,
                       "price_basis": payload["price_basis"]}))
 
     print("as_of=%s beta=%.2f k=%.2f nav=%.4f rows+=%d drift=%s"
@@ -2080,6 +2119,41 @@ def selftest():
         chk("leg26 a one-day-stale card is flagged despite a matching decision bar",
             "\u26a0" in md_split and "两张面定价不在同一天" in md_split
             and "一致=True" in md_split, "chars=%d" % len(md_split))
+        _pf_split = {"faces": {"card": "2026-10-23", "ticket": "2026-10-26",
+                               "page": "2026-10-26"},
+                     "verdict": "DIFFERENT_DAYS",
+                     "detail": "priced on different bars: card 2026-10-23 / ticket 2026-10-26 "
+                               "/ page 2026-10-26",
+                     "missing": [], "same_day": False}
+        md_pf = card(None, None, None, "2026-10-26", 0.2,
+                     {"inception": "2024-01-01", "feed": cur,
+                      "agreement": {"card_decided_at": cbo["decided_at"],
+                                    "ticket_book_decided_at": "2026-10-14",
+                                    "same_decision_bar": True,
+                                    "card_priced_bar": cbo["priced_bar"],
+                                    "card_feed_status": cbo["feed_status"],
+                                    "ticket_priced_bar": "2026-10-26",
+                                    "same_priced_bar": False},
+                      "priced_faces": _pf_split})
+        chk("leg26b the sheet names WHICH of the three papers is the stale one",
+            "不是同一天" in md_pf and "卡片 2026-10-23" in md_pf
+            and "CEO 一页纸 2026-10-26" in md_pf, "chars=%d" % len(md_pf))
+        _pf_missing = {"faces": {"card": "2026-10-26", "ticket": "2026-10-26", "page": None},
+                       "verdict": "UNKNOWN", "detail": "no pricing day on: page",
+                       "missing": ["page"], "same_day": None}
+        md_pf_unk = card(None, None, None, "2026-10-26", 0.2,
+                         {"inception": "2024-01-01", "feed": cur,
+                          "agreement": {"card_decided_at": cbo["decided_at"],
+                                        "ticket_book_decided_at": "2026-10-14",
+                                        "same_decision_bar": True,
+                                        "card_priced_bar": cbo["priced_bar"],
+                                        "card_feed_status": cbo["feed_status"],
+                                        "ticket_priced_bar": "2026-10-26",
+                                        "same_priced_bar": True},
+                          "priced_faces": _pf_missing})
+        chk("leg26c a missing paper reads unknown, never same-day",
+            "无法判断" in md_pf_unk and "同一天**：" not in md_pf_unk,
+            "chars=%d" % len(md_pf_unk))
     finally:
         shutil.rmtree(cdt, ignore_errors=True)
 

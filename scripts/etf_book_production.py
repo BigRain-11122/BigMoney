@@ -130,7 +130,29 @@ def family_coherence(results_dir=None):
     }
 
 
-def priced_faces(page_bar=None, results_dir=None):
+def _page_priced_bar(results_dir=None):
+    """The bar the CEO one-pager was priced on, read from its own artifact (r1186).
+
+    The page is the last paper in the chain, so earlier faces can only see the page that
+    already exists on disk -- which is exactly the measurement a stale-paper claim needs.
+    Absent page artifact reads None (UNKNOWN), never "same day".
+    """
+    d = E.PATHS.results_dir if results_dir is None else results_dir
+    root = os.path.dirname(os.path.abspath(d))
+    try:
+        with open(os.path.join(root, "docs", "live_book", "latest.json"), "r",
+                  encoding="utf-8") as fh:
+            ptr = json.load(fh) or {}
+        rel = ptr.get("json") or ""
+        if not rel:
+            return None
+        with open(os.path.join(root, rel), "r", encoding="utf-8") as fh:
+            return (json.load(fh) or {}).get("priced_bar")
+    except (OSError, ValueError):
+        return None
+
+
+def priced_faces(page_bar=None, results_dir=None, card_bar=None, ticket_bar=None):
     """Which closing bar each of the three papers a reader holds was priced on (r1185).
 
     The card, the executable sheet and the CEO one-pager all quote the same book, and two of
@@ -163,10 +185,18 @@ def priced_faces(page_bar=None, results_dir=None):
             faces[key] = reader()
         except (OSError, ValueError):
             faces[key] = None
+    # A face building itself knows its own bar better than its artifact does: the card is
+    # written AFTER this runs, so reading it back would compare today's paper to yesterday's
+    # copy of itself (r1186).
+    if card_bar:
+        faces["card"] = card_bar
+    if ticket_bar:
+        faces["ticket"] = ticket_bar
+    for key in ("card", "ticket"):
         if not faces[key]:
             missing.append(key)
-    faces["page"] = page_bar
-    if not page_bar:
+    faces["page"] = page_bar or _page_priced_bar(d)
+    if not faces["page"]:
         missing.append("page")
 
     if missing:
@@ -927,6 +957,7 @@ def run(capital=1_000_000.0, n_hold=8, rebal=20):
         "feed_status": feed,
         "price_basis": basis,
         "family_coherence": family_coherence(),
+        "priced_faces": priced_faces(card_bar=sheet.get("as_of_bar")),
         "script": "scripts/etf_book_production.py",
         "config": {"universe_classes": list(USE_CLASSES), "n_hold": n_hold, "rebal": rebal,
                    "cost_bp_per_side": COST * 1e4, "vol_target": TARGET_VOL,
@@ -1087,6 +1118,23 @@ def write_card(out):
                   "three priced one panel, on the same blocks." % (
                       _pdg["digest"], _pdg["dates"], _pdg["columns"],
                       _pdg["first"], _pdg["last"], "/".join(_pdg.get("blocks") or [])), ""]
+    _pf = out.get("priced_faces") or {}
+    if _pf:
+        _f = _pf.get("faces") or {}
+        _s = "card %s / ticket %s / page %s" % (_f.get("card") or "unknown",
+                                                _f.get("ticket") or "unknown",
+                                                _f.get("page") or "unknown")
+        _when = " (compared at %s)" % out["ts"] if out.get("ts") else ""
+        if _pf.get("verdict") == "SAME_DAY":
+            lines += ["**Priced day: SAME_DAY** -- %s%s; this card, the executable sheet and "
+                      "the CEO page all priced the same closing bar." % (_s, _when), ""]
+        elif _pf.get("verdict") == "DIFFERENT_DAYS":
+            lines += ["**Priced day: DIFFERENT_DAYS** -- %s%s; %s. A reader comparing numbers "
+                      "across these papers is comparing two different books, so read the lagging "
+                      "one only as history." % (_s, _when, _pf.get("detail") or "no detail"), ""]
+        else:
+            lines += ["**Priced day: UNKNOWN** -- %s%s; %s. Absence of a day is not agreement."
+                      % (_s, _when, _pf.get("detail") or "no detail"), ""]
     _fc = out.get("family_coherence") or {}
     if _fc.get("verdict") == "ONE_WORLD":
         lines += ["**Family coherence: ONE_WORLD** -- all %d width arms priced `%s` (cutoff %s); "
@@ -1908,6 +1956,15 @@ def selftest():
         _pf_nopage = priced_faces(page_bar=None)
         chk("the page without a bar -> UNKNOWN rather than a same-day pass",
             _pf_nopage["verdict"] == "UNKNOWN" and _pf_nopage["missing"] == ["page"])
+        # r1186: the card is written AFTER this runs, so it must hand its own bar in rather
+        # than read back yesterday's copy of itself.
+        _pf_ovr = priced_faces(page_bar="2026-10-30", card_bar="2026-10-30",
+                               ticket_bar="2026-10-30")
+        chk("a face that knows its own bar is not compared to its own older artifact",
+            _pf_ovr["verdict"] == "SAME_DAY" and _pf_ovr["faces"]["card"] == "2026-10-30"
+            and _pf_ovr["faces"]["ticket"] == "2026-10-30", str(_pf_ovr["faces"]))
+        chk("an absent page artifact reads None, never agreement",
+            _page_priced_bar(_pf_dir) is None)
     finally:
         E.PATHS.results_dir = _keep_res3
         shutil.rmtree(_pf_dir, ignore_errors=True)

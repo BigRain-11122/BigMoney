@@ -7285,3 +7285,31 @@ un-attributable, not a contradiction. The pit is the shape -- this leg was green
 because every board it had seen had one author; a per-host statistic agrees with itself
 until it is read across machines (r1262 "compare like with like" one level up: the
 mismatching input was the observer, not a parameter).
+
+## E301 A paper that says "same" is not a paper that says WHICH day (2026-10-31 r1186 bm-a)
+
+E299 made every face carry the family licence; the priced-day face was still published by ONE paper.
+The card and the executable sheet printed the bare boolean `same_priced_bar`, so an operator holding
+those two -- the two a person actually acts on -- was told "different" without being told WHICH paper
+had fallen behind. Publication on the page did not reach the readers who never open the page.
+
+Two rules, both cheap and both missed on the first attempt:
+
+1. A three-state answer has to be printed by every paper that quotes the number, each from its own
+   artifact, and a face that is building itself must hand in its OWN bar rather than read back
+   yesterday's copy of itself (the card is written after the comparison runs).
+2. The smoke leg has to re-derive the verdict from THAT paper's artifact and then look for it in THAT
+   paper's text. Reading it off a neighbouring paper (or asserting only the page) lets either paper
+   drop the sentence and still pass. Negative control: strip the line from copies of the live CARD.md
+   and ORDER-*.md and the leg must flag both by name.
+
+Also: absence of a day is never agreement. A missing artifact reads UNKNOWN, and the word for
+"unknown" must be distinguishable from the word for "same" in the text (SAME_DAY / DIFFERENT_DAYS /
+UNKNOWN on the card; 同一天 / 不是同一天 / 无法判断 on the executable sheet).
+
+Pos: scripts/etf_book_production.py::priced_faces(+_page_priced_bar) is the one implementation;
+scripts/etf_book_order.py::priced_face_check quotes it (selftest 79/79, legs 26b/26c); both the card
+(`Priced day: ...`) and ORDER-*.md (`两张生产面是不是同一天`, three days + verdict) print it from their
+own block; smoke_test.py leg "the three papers print the day each was priced on, and can disagree"
+now checks all three papers. (Card number: bm-c took E300 at r1380, so this one moved to E301 per the
+collision rule -- card ids live only in this ledger, so the references moved with it.)
