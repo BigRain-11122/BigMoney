@@ -27,15 +27,13 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "behind_origin_main": 166,
-  "branch": "machine/bm-b-r1313",
-  "local_not_on_origin_main": 77,
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
-  "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push).",
-  "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
-  "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
-  "ts": "2026-10-31T08:24:57+08:00",
-  "verified": true
+  "branch": "machine/bm-b-r1333",
+  "sha": "694d1a92844e1070e94365318e9103f1b3f41499",
+  "remote_ref_sha": "694d1a92844e1070e94365318e9103f1b3f41499",
+  "verified": true,
+  "local_commits_not_on_origin_main": 122,
+  "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted, delivered on a machine branch",
+  "ts": "2026-10-31T19:52:56"
  },
  "dept": "research+engineering",
  "did": "E305: the 8 face-bound at-risk rows are all withdrawn -- sibling-face read, container, boolean flag, or a record list empty today",
