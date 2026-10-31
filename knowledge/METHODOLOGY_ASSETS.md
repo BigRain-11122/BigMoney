@@ -7400,3 +7400,27 @@ pre-commit（钩子文件自己的头注就写着 Rebase replays are not affecte
 **局限**：闸在本机钩子上，`--no-verify` 仍是逃生口（须在轮报留痕）；`results/_*`
 不扫意味着抓原始 diff 的捕获件里可以合法躺记号（与 smoke 同 scope）；
 已经进历史的记号不会被这道闸回溯清理（r1381 的靠行级删除修）。
+
+## E306 Attribute a compounding book by booking each factor as a LOG, not by splitting the percentage (2026-10-31 r1188 bm-a)
+
+A book's nav is a product of factors, so a split of the *level* does not add up: 8.21pp/yr
+split as percentages leaves a residual that grows with sample length, while the same split
+done in logs closes exactly (measured residual -5.6e-17 over 1653 bars, four buckets).
+Two consequences worth remembering:
+
+* the four buckets are not "shares of the return" -- they are the log contributions of the
+  four places the machine multiplies (overnight while the order is pending / toll at the
+  fill open / intraday after the fill / quiet bar close-to-close). Booth-armed ordering
+  matters: `overnight` belongs to the OLD book and `intraday` to the NEW one, which is the
+  difference between a close-auction strategy and a market-on-open strategy;
+* the walker must be pinned to the engine by an identity leg, because a copied loop is a
+  second implementation. Here L1 recomputes Forward's nav curve and demands a byte-level
+  equal series, so a drift in either walker turns the suite red instead of publishing a
+  plausible attribution of a different book. Same family as E289 (one implementation,
+  imported) -- the exception is allowed only when the copy is *measured* against the source
+  on every run.
+
+Readings that came out of it: production 8.21pp/yr = plain +9.83 in 1569 quiet bars, fill
+drag -1.62 over 83 fill bars (toll -1.145, fill-bar intraday -0.636, overnight +0.163) --
+i.e. the book is paid on the quiet bars and the fill bars are a cost, which is what a
+20-day rebalance with 0.93 turnover per decision should look like and had never been said.
