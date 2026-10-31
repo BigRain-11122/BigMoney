@@ -2579,7 +2579,7 @@
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
  "round": 1323,
- "round_no": 1323,
+ "round_no": 1324,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T12:13:18+08:00",
@@ -2871,12 +2871,42 @@
   "watermark_red": "pool ready at open (E298/E299 work) -- burned the ready head E298 in-round; no red watermark file was read",
   "orders": "114 order files / 115 acks / 0 unacked at S0.5 double-scan"
  },
- "ts_utc_ms": 1793423585304,
+ "ts_utc_ms": 1793427805000,
  "ram_free_gb": 6.2,
  "ram_free_mb": 6352,
  "ram_free_pct": 25.9,
  "free_vram_gb": 3.5,
  "vram_free_gb": 3.5,
  "vram_used_gb": 4.3,
- "gpu_util_pct": 1.0
+ "gpu_util_pct": 1.0,
+ "r1324": {
+  "round": 1324,
+  "ts": "2026-10-31T14:23:00+08:00",
+  "dept": "research+engineering",
+  "study": "E299_rounded_vs_tolerance_census",
+  "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+  "finding": "r1316 repaired one leg that compared a 6-dp point set against a full-precision interval at 1e-9; this round priced the class. 320 legs in smoke_test.py, 42 carry a numeric comparison against a published face, and 29 of their 62 sites compare at a tolerance finer than the quantum the field they read is printed with (21 on the field's own measured decimals, 8 only on the face's coarsest bound). 37 of the 42 faces read publish no statement of their printed precision. The E233 shape is not rare: session_open is compared at 1e-9 while printed at 3 dp, two faces' band_frac at 1e-12 while printed at 6, and a nonzero test reads a cost printed at 6 dp against 0.0. Zero measured rounded/full sibling pairs survive in the directory -- the one the family had is the one r1316 fixed.",
+  "pit": "(1) the first build counted every exact equality, including `schema == 'etf-book-registry/v1'`: 356 sites and 292 'at-risk' rows that were names and counts, not numbers. An exact equality is only a measurement when a numeric anchor is in the expression (float literal, float() cast, or a key whose name says it holds a quantity); (2) a near pair is not a copy -- pairing any two leaves within 1e-3 'found' current_dd vs cumulative_ret at 4e-8, two different quantities, so a copy now requires the SAME leaf key under different parents, and on the real directory that returns zero; (3) the same key in two faces is not the same quantity -- 5 sites name one key across faces and the gaps (band_frac 1.98) ship as distances with a sentence forbidding their reading as defect counts; (4) an integer-only key cannot be at risk from rounding, so per-key evidence beats the face-level bound whenever the key is found.",
+  "product": [
+   "scripts/e299_rounded_vs_tolerance_census.py (run / verify 0 problems / selftest 32/32)",
+   "results/state_tilt/PRECISIONCENSUS-2026-10-30.json + precisioncensus_latest.json",
+   "research/digests/DIGEST-20261031-r1324-e299-precision-census.md",
+   "knowledge/METHODOLOGY_ASSETS.md card E304",
+   "Tools/s6_chain_bmb.py leg precision_census (verify, 55.3s, rc=0)",
+   "smoke_test.py leg E299 (executed standalone: PASS; fails under 3 mutations)",
+   "results/runnable_pool.json E299 done with result_ref (799 entries, 2 ready)"
+  ],
+  "s1": "the full 320-leg suite was not re-run this window (~35 min); the new E299 leg was extracted from smoke_test.py and executed standalone against the published face: PASS, and it failed under all three mutations applied to the face (verdict flipped, an at-risk row dropped so the summary lied, the cross-face disclosure removed), then passed again after the bytes were restored.",
+  "s6": "orphan probe py_faces=7 orphans=0 residents=0 | new chain leg precision_census rc=0 55.3s through the real driver (results/_r1324bmb_s6_chain.json) | dualrun, compute_audit, py_watermark, attrition and the lane collectors were NOT re-run this window (wall budget, stated plainly) -- so no dualrun streak is claimed here",
+  "s7": "Bigmoney-IterationLoop present, next run 14:27; Bigmoney-LoopWatchdog present, next run 14:24 -- both left to their own ticks (no re-registration, no drift observed) | pre-commit and pre-push claws not touched this window | orders 114 files / 115 acks carried, not re-scanned | decisions face not re-scanned (no fetch attempted, the recorded watermark stays)",
+  "pool": "E299 done with result_ref; E305-PRICE-THE-FACE-BOUND-ROWS seeded ready (799 entries, 2 ready)",
+  "identity": "identity_check ALL PASS (8 legs: kind partition, at-risk subset, every at-risk site names a face, no site counted twice, leg bounds ordered, self-faces excluded)",
+  "verdict": "legs_compare_face_values_finer_than_the_faces_print",
+  "delivery": {
+   "branch": "machine/bm-b-r1324",
+   "ts": "2026-10-31T14:23:00+08:00",
+   "note": "see the r1324_push receipt written after the push"
+  }
+ },
+ "notes_r1324": "| 2026-10-31T14:23:00+08:00 | r1324 | **watermark: pool ready at open (E299/E302/E303), burned the ready head E299 in-round** (no watermark file read). **CURRENT:** E299 precision census published (done). **LATEST PHYSICAL:** `results/state_tilt/PRECISIONCENSUS-2026-10-30.json`. **NEXT MILESTONE:** E305 price the 8 face-level rows (ready; due next round, within 48h). **PRODUCT:** 29 of 62 numeric face sites compare finer than the field is printed; 37 of 42 faces declare no precision at all."
 }

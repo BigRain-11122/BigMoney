@@ -8306,6 +8306,80 @@ def main() -> int:
     except Exception as e:
         check(_name94, False, repr(e)[:160])
 
+    # E299: r1316 repaired one leg that compared a 6-dp point set against a full-precision
+    # interval at 1e-9. This leg prices the CLASS from the published face and re-derives it:
+    # (a) every at-risk row names the face it read and carries a number as its tolerance, (b) no
+    # self-quantized comparison is scored at risk (the leg rounds BOTH sides, so its quantum is not
+    # the face's), (c) every per-key at-risk row was measured on a field that actually publishes
+    # floats -- an integer-only key cannot be undone by rounding, (d) template/glob names a leg
+    # mentions are disclosed as not-faces, and (e) the same-name-across-faces distances ship with
+    # the sentence that forbids reading them as defects.
+    _name95 = ("product: a leg that compares a face value finer than the field is printed is named, "
+               "and no integer key or self-quantized comparison is convicted as one")
+    _bad95 = []
+    try:
+        _p95 = os.path.join("results", "state_tilt", "precisioncensus_latest.json")
+        _f95 = None
+        if os.path.exists(_p95):
+            _f95 = json.load(open(_p95, encoding="utf-8"))
+        if _f95 is None:
+            _bad95.append("no published census face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m95 = __import__("importlib").import_module("e299_rounded_vs_tolerance_census")
+            _fresh95 = _m95.build()
+            if _f95.get("verdict") != _fresh95.get("verdict"):
+                _bad95.append("the verdict does not re-derive")
+            if _f95.get("verdict") not in _m95.VERDICT_VOCAB:
+                _bad95.append("verdict %r is outside the frozen set" % (_f95.get("verdict"),))
+            _id95 = _f95.get("identity_check") or {}
+            if not _id95.get("all_checks"):
+                _bad95.append("an identity check is false")
+            _s95 = _f95.get("summary") or {}
+            _rows95 = _f95.get("at_risk") or []
+            if _s95.get("n_at_risk_sites") != len(_rows95):
+                _bad95.append("the summary count disagrees with its own rows")
+            for _r95 in _rows95:
+                if not _r95.get("faces"):
+                    _bad95.append("an at-risk row names no face: %r" % (_r95.get("line"),))
+                    break
+                if not isinstance(_r95.get("tolerance"), (int, float)):
+                    _bad95.append("an at-risk row carries no numeric tolerance")
+                    break
+                if _r95.get("kind") == "quantized_equality":
+                    _bad95.append("a self-quantized comparison is scored at risk")
+                    break
+            _keys95 = {(_k["face"], _k["key"]): _k for _r in _f95.get("sites") or []
+                       for _k in (_r.get("key_profiles") or [])}
+            for _r95 in _rows95:
+                for _a95 in (_r95.get("at_risk_faces") or []):
+                    _kp95 = _keys95.get((_a95.get("face"), _a95.get("key")))
+                    if _a95.get("basis") == "per_key" and _kp95 and _kp95.get("integer_only"):
+                        _bad95.append("an integer-only key is scored at risk: %r"
+                                      % (_a95.get("key"),))
+                        break
+            if not _s95.get("cross_face_disclosure"):
+                _bad95.append("the same-name-across-faces distance ships without its disclosure")
+            for _t95 in (_s95.get("names_that_are_templates_not_faces") or []):
+                if "*" not in _t95 and "%" not in _t95:
+                    _bad95.append("a real face is excused as a template")
+                    break
+            if _f95.get("summary") != _fresh95.get("summary"):
+                _bad95.append("the summary does not re-derive")
+        check(_name95, not _bad95, "; ".join(_bad95)[:220]
+              or "verdict %s | %d of %d numeric face sites at risk (%d per-key, %d face-bound); "
+                 "%d of %d faces declare their precision; %d measured copy pair(s)"
+                 % (str((_f95 or {}).get("verdict")),
+                    ((_f95 or {}).get("summary") or {}).get("n_at_risk_sites") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("n_numeric_face_sites") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("n_at_risk_with_per_key_evidence") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("n_at_risk_on_face_level_bound_only") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("n_faces_declaring_precision") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("faces_read_by_legs") or 0,
+                    ((_f95 or {}).get("summary") or {}).get("n_faces_with_a_measured_pair") or 0))
+    except Exception as e:
+        check(_name95, False, repr(e)[:160])
+
     return _finish()
 
 

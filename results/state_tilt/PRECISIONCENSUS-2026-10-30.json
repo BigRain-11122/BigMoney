@@ -1,0 +1,1440 @@
+{
+ "study": "E299_rounded_vs_tolerance_census",
+ "title": "which smoke legs compare a rounded published value at a full-precision tolerance, how far apart are the copies, and does each face declare the precision it prints",
+ "evidence_cutoff": "2026-10-30",
+ "decision_rule": "tol < 0.5 * 10**-dp against a printed copy = at risk; exact equality on a printed float = at risk; a tolerance read from or derived from the face = declared and not graded; a copy computed in-process = not graded",
+ "no_bill": "measurement only: this face parses smoke_test.py with ast, reads the JSON those legs read with parse_float=str (so a published value keeps the digits it was printed with), and does arithmetic on both. No leg is executed, no face is rebuilt, no engine runs, no network, no draw stream. A leg whose copy is computed in-process is not graded here at all.",
+ "rows": [
+  {
+   "leg": "product: ETF book registry published",
+   "smoke_line": 576,
+   "op": "GtE",
+   "comparison": "_rg.get(\"n_faces\", 0) GtE 4",
+   "copy": {
+    "side": "_rg.get(\"n_faces\", 0)",
+    "face": "results/etf_book_registry.json",
+    "path": "/n_faces",
+    "printed": "5",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: ETF book registry published",
+   "smoke_line": 577,
+   "op": "Eq",
+   "comparison": "_rg.get(\"n_live\") Eq _rg.get(\"n_faces\")",
+   "copy": {
+    "side": "_rg.get(\"n_live\")",
+    "face": "results/etf_book_registry.json",
+    "path": "/n_live",
+    "printed": "5",
+    "dp": 0
+   },
+   "other_copy": {
+    "face": "results/etf_book_registry.json",
+    "path": "/n_faces",
+    "printed": 5,
+    "dp": 0
+   },
+   "copy_resolution": 1.0,
+   "delta": {
+    "abs": 0.0,
+    "coarser_resolution": 1.0,
+    "equal_at_the_coarser_print": true
+   },
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: marks coverage face names its holes",
+   "smoke_line": 668,
+   "op": "Eq",
+   "comparison": "(_mc.get(\"counters\") or {}).get(\"holes\") Eq len(_holes)",
+   "copy": {
+    "side": "(_mc.get(\"counters\") or {}).get(\"holes\")",
+    "face": "results/marks_coverage.json",
+    "path": "/counters/holes",
+    "printed": "3",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "smoke_line": 701,
+   "op": "Eq",
+   "comparison": "_pp.get(\"marks_closed_days\") Eq _c2.get(\"closed_days\")",
+   "copy": {
+    "side": "_c2.get(\"closed_days\")",
+    "face": "results/marks_coverage.json",
+    "path": "/counters/closed_days",
+    "printed": "19",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "smoke_line": 702,
+   "op": "Eq",
+   "comparison": "_pp.get(\"marks_captured\") Eq _c2.get(\"captured\")",
+   "copy": {
+    "side": "_c2.get(\"captured\")",
+    "face": "results/marks_coverage.json",
+    "path": "/counters/captured",
+    "printed": "16",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "smoke_line": 703,
+   "op": "Eq",
+   "comparison": "_pp.get(\"marks_coverage_pct\") Eq _c2.get(\"coverage_pct_closed\")",
+   "copy": {
+    "side": "_c2.get(\"coverage_pct_closed\")",
+    "face": "results/marks_coverage.json",
+    "path": "/counters/coverage_pct_closed",
+    "printed": "84.21",
+    "dp": 2
+   },
+   "other_copy": null,
+   "copy_resolution": 0.01,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": true,
+   "verdict": "exact_equality_on_a_printed_float"
+  },
+  {
+   "leg": "product: ETF live-book page current and its money closes",
+   "smoke_line": 817,
+   "op": "Gt",
+   "comparison": "_cap Gt 0",
+   "copy": {
+    "side": "_cap",
+    "face": "docs/live_book/LIVE-BOOK-20261029.json",
+    "path": "/capital_cny",
+    "printed": "1000000.0",
+    "dp": 1
+   },
+   "other_copy": null,
+   "copy_resolution": 0.1,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: ETF live-book page current and its money closes",
+   "smoke_line": 852,
+   "op": "Gt",
+   "comparison": "_st.get(\"n_days\", 0) Gt 0",
+   "copy": {
+    "side": "_st.get(\"n_days\", 0)",
+    "face": "docs/live_book/LIVE-BOOK-20261029.json",
+    "path": "/stress/n_days",
+    "printed": "5268",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: ETF live-book page current and its money closes",
+   "smoke_line": 1695,
+   "op": "Gt",
+   "comparison": "_cap Gt 0",
+   "copy": {
+    "side": "_cap",
+    "face": "docs/live_book/LIVE-BOOK-20261029.json",
+    "path": "/capital_cny",
+    "printed": "1000000.0",
+    "dp": 1
+   },
+   "other_copy": null,
+   "copy_resolution": 0.1,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: ETF live-book page current and its money closes",
+   "smoke_line": 1730,
+   "op": "Gt",
+   "comparison": "_st.get(\"n_days\", 0) Gt 0",
+   "copy": {
+    "side": "_st.get(\"n_days\", 0)",
+    "face": "docs/live_book/LIVE-BOOK-20261029.json",
+    "path": "/stress/n_days",
+    "printed": "5268",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: futures TSMOM shadow face keeps its sizing rules",
+   "smoke_line": 1900,
+   "op": "LtE",
+   "comparison": "_gross LtE 3.0 + 1e-9",
+   "copy": {
+    "side": "_gross",
+    "face": "results\\futures_tsmom_signal.json",
+    "path": "/book/gross",
+    "printed": "3.0",
+    "dp": 1
+   },
+   "other_copy": null,
+   "copy_resolution": 0.1,
+   "delta": null,
+   "tolerance": 1e-09,
+   "tolerance_source": "boundary_guard",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": false,
+   "at_risk": false,
+   "verdict": "boundary_guard_on_a_literal"
+  },
+  {
+   "leg": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "smoke_line": 2227,
+   "op": "NotEq",
+   "comparison": "_spec.get(\"sides_per_month\") or 0 NotEq 2",
+   "copy": {
+    "side": "_spec.get(\"sides_per_month\") or 0",
+    "face": "results\\tom_overlay\\latest.json",
+    "path": "/spec/sides_per_month",
+    "printed": "2",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "smoke_line": 2232,
+   "op": "Lt",
+   "comparison": "_a.get(\"oos_months\") or 0 Lt 1",
+   "copy": {
+    "side": "_a.get(\"oos_months\") or 0",
+    "face": "results\\tom_overlay\\latest.json",
+    "path": "/primary_arm/oos_months",
+    "printed": "70",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "smoke_line": 2536,
+   "op": "NotEq",
+   "comparison": "_spec28.get(\"tests\") NotEq 4 * max(1, len(_f28.get(\"panels\") or []))",
+   "copy": {
+    "side": "_spec28.get(\"tests\")",
+    "face": "results/state_tilt/matched_latest.json",
+    "path": "/frozen_spec/tests",
+    "printed": "8",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "smoke_line": 2538,
+   "op": "NotEq",
+   "comparison": "(_f28.get(\"benchmark_agreement\") or {}).get(\"cells\") NotEq sum(\n                    len(p.get(\"arms\") or []) for p in (_f28.get(\"panels\") or []))",
+   "copy": {
+    "side": "(_f28.get(\"benchmark_agreement\") or {}).get(\"cells\")",
+    "face": "results/state_tilt/matched_latest.json",
+    "path": "/benchmark_agreement/cells",
+    "printed": "8",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "smoke_line": 2693,
+   "op": "NotEq",
+   "comparison": "_ladder30.get(\"cells\") NotEq len(_rows30)",
+   "copy": {
+    "side": "_ladder30.get(\"cells\")",
+    "face": "results/state_tilt/hysteresis_latest.json",
+    "path": "/ladder_summary/cells",
+    "printed": "30",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a band that passed on one path is path-tested before it is a finding",
+   "smoke_line": 2776,
+   "op": "Lt",
+   "comparison": "_pc31.get(\"panel_paths\", 0) Lt 2",
+   "copy": {
+    "side": "_pc31.get(\"panel_paths\", 0)",
+    "face": "results/state_tilt/bandpath_latest.json",
+    "path": "/path_count/panel_paths",
+    "printed": "25",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a book-level exponent is measured per member before it is charged",
+   "smoke_line": 2994,
+   "op": "NotEq",
+   "comparison": "_pool.get(\"n_regressors\") NotEq len(_pool.get(\"controls\") or []) + len(\n                    _pool.get(\"members\") or []) - ",
+   "copy": {
+    "side": "_pool.get(\"n_regressors\")",
+    "face": "results/state_tilt/per_member_gamma_latest.json",
+    "path": "/pooled_fit/n_regressors",
+    "printed": "7",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "smoke_line": 2085,
+   "op": "Lt",
+   "comparison": "_share Lt float(_rule[\"min_positive_share\"])",
+   "copy": {
+    "side": "float(_rule[\"min_positive_share\"])",
+    "face": "results/futures_overlay_fliprate_paths.json",
+    "path": "/adoption_rule/min_positive_share",
+    "printed": "0.75",
+    "dp": 2
+   },
+   "other_copy": null,
+   "copy_resolution": 0.01,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the flip damper is adopted or rejected by path cells, not one run",
+   "smoke_line": 2086,
+   "op": "Lt",
+   "comparison": "_worst Lt float(_rule[\"worst_cell_floor_pp\"])",
+   "copy": {
+    "side": "float(_rule[\"worst_cell_floor_pp\"])",
+    "face": "results/futures_overlay_fliprate_paths.json",
+    "path": "/adoption_rule/worst_cell_floor_pp",
+    "printed": "-1.0",
+    "dp": 1
+   },
+   "other_copy": null,
+   "copy_resolution": 0.1,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the turn-of-month overlay keeps its rule, its toll and its OOS record",
+   "smoke_line": 2242,
+   "op": "Lt",
+   "comparison": "_a.get(\"excess_oos_t\") or 0 Lt _spec.get(\"multiple_comparison_bar\") or 2.0",
+   "copy": {
+    "side": "_a.get(\"excess_oos_t\") or 0",
+    "face": "results\\tom_overlay\\latest.json",
+    "path": "/primary_arm/excess_oos_t",
+    "printed": "0.6526190306783083",
+    "dp": 16
+   },
+   "other_copy": {
+    "face": "results\\tom_overlay\\latest.json",
+    "path": "/spec/multiple_comparison_bar",
+    "printed": "2.3939797998185073",
+    "dp": 16
+   },
+   "copy_resolution": 1e-16,
+   "delta": {
+    "abs": 1.7413607691401989,
+    "coarser_resolution": 1e-16,
+    "equal_at_the_coarser_print": false
+   },
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the volatility gate separates held days from episodes",
+   "smoke_line": 2323,
+   "op": "NotEq",
+   "comparison": "_spec.get(\"sides_per_episode\") or 0 NotEq 2",
+   "copy": {
+    "side": "_spec.get(\"sides_per_episode\") or 0",
+    "face": "results\\vol_gate\\latest.json",
+    "path": "/frozen_spec/sides_per_episode",
+    "printed": "2",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "smoke_line": 2687,
+   "op": "Lt",
+   "comparison": "_bar30 Lt 2.0",
+   "copy": {
+    "side": "_bar30",
+    "face": "results/state_tilt/hysteresis_latest.json",
+    "path": "/frozen_spec/bar_t",
+    "printed": "3.3414789560386087",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the own-turnover channel is re-measured against a book that does not contain it",
+   "smoke_line": 3221,
+   "op": "Gt",
+   "comparison": "_ident38 Gt (_f38.get(\"identity\") or {}).get(\"tolerance\", 1e-12)",
+   "copy": {
+    "side": "_ident38",
+    "face": "results/state_tilt/loobook_latest.json",
+    "path": "/identity/max_abs_deviation_all_members",
+    "printed": "0.0",
+    "dp": 1
+   },
+   "other_copy": {
+    "face": "results/state_tilt/loobook_latest.json",
+    "path": "/identity/tolerance",
+    "printed": "1e-12",
+    "dp": 0
+   },
+   "copy_resolution": 0.1,
+   "delta": {
+    "abs": 1e-12,
+    "coarser_resolution": 1.0,
+    "equal_at_the_coarser_print": true
+   },
+   "tolerance": 1e-12,
+   "tolerance_source": "defaulted",
+   "tolerance_face": "tolerance",
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": true,
+   "verdict": "tolerance_silently_defaulted"
+  },
+  {
+   "leg": "product: live paper book states its price lag",
+   "smoke_line": 772,
+   "op": "GtE",
+   "comparison": "_lag GtE 0",
+   "copy": {
+    "side": "_lag",
+    "face": "results/system_v1_paper/SYSTEM-V1_paper.json",
+    "path": "/staleness/lag_trading_days",
+    "printed": "1",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a hysteresis band's toll saving is judged against its selection loss",
+   "smoke_line": 2713,
+   "op": "Lt",
+   "comparison": "_r30.get(\"d_pair_t_nw\") or 0.0 Lt _bar30",
+   "copy": {
+    "side": "_bar30",
+    "face": "results/state_tilt/hysteresis_latest.json",
+    "path": "/frozen_spec/bar_t",
+    "printed": "3.3414789560386087",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "smoke_line": 2916,
+   "op": "Lt",
+   "comparison": "_lo33 Lt _pe33[\"gamma\"]",
+   "copy": {
+    "side": "_pe33[\"gamma\"]",
+    "face": "results/state_tilt/empirical_gamma_latest.json",
+    "path": "/primary_estimate/gamma",
+    "printed": "0.9276152246467291",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": true,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "smoke_line": 2916,
+   "op": "Lt",
+   "comparison": "_pe33[\"gamma\"] Lt _hi33",
+   "copy": {
+    "side": "_pe33[\"gamma\"]",
+    "face": "results/state_tilt/empirical_gamma_latest.json",
+    "path": "/primary_estimate/gamma",
+    "printed": "0.9276152246467291",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": true,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the charge curvature is measured, not assumed, before verdicts ride it",
+   "smoke_line": 2928,
+   "op": "Lt",
+   "comparison": "_dec33 Lt 0",
+   "copy": {
+    "side": "_dec33",
+    "face": "results/state_tilt/empirical_gamma_latest.json",
+    "path": "/summary/gamma_points_decimals",
+    "printed": "6",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": true,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "smoke_line": 3428,
+   "op": "Gt",
+   "comparison": "_prev41 + _same41 Gt _n41",
+   "copy": {
+    "side": "_n41",
+    "face": "results/state_tilt/repro_latest.json",
+    "path": "/misalignment/rows_tested",
+    "printed": "6640",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the observation-rate ladder prices its own resolution",
+   "smoke_line": 2286,
+   "op": "Lt",
+   "comparison": "_r.get(\"excess_oos_t\") or 0 Lt _spec.get(\"multiple_comparison_bar\") or 2.0",
+   "copy": {
+    "side": "_spec.get(\"multiple_comparison_bar\") or 2.0",
+    "face": "results\\obs_rate\\latest.json",
+    "path": "/spec/multiple_comparison_bar",
+    "printed": "2.4977054744123723",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the drift split is reproduced as a traded exposure-matched arm",
+   "smoke_line": 2569,
+   "op": "Lt",
+   "comparison": "_pa28.get(\"t_nw\") or 0.0 Lt _spec28.get(\"bar_t\") or 0.0",
+   "copy": {
+    "side": "_spec28.get(\"bar_t\") or 0.0",
+    "face": "results/state_tilt/matched_latest.json",
+    "path": "/frozen_spec/bar_t",
+    "printed": "2.7343687865331683",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the book aggregate is compared on ONE parametrisation",
+   "smoke_line": 3354,
+   "op": "LtE",
+   "comparison": "_ci40[0] LtE _d40",
+   "copy": {
+    "side": "_d40",
+    "face": "results/state_tilt/aggatt_latest.json",
+    "path": "/summary/diff_one_vs_rest3",
+    "printed": "0.00785405388745896",
+    "dp": 17
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-17,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the book aggregate is compared on ONE parametrisation",
+   "smoke_line": 3354,
+   "op": "LtE",
+   "comparison": "_d40 LtE _ci40[1]",
+   "copy": {
+    "side": "_d40",
+    "face": "results/state_tilt/aggatt_latest.json",
+    "path": "/summary/diff_one_vs_rest3",
+    "printed": "0.00785405388745896",
+    "dp": 17
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-17,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: a non-reproducing pair is traced rung by rung to the reader",
+   "smoke_line": 3430,
+   "op": "Lt",
+   "comparison": "_prev41 Lt 0.9 * _n41",
+   "copy": {
+    "side": "_prev41",
+    "face": "results/state_tilt/repro_latest.json",
+    "path": "/misalignment/dy_matches_the_previous_session",
+    "printed": "6635",
+    "dp": 0
+   },
+   "other_copy": null,
+   "copy_resolution": 1.0,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  },
+  {
+   "leg": "product: the volatility gate separates held days from episodes",
+   "smoke_line": 2354,
+   "op": "Lt",
+   "comparison": "_a.get(\"excess_oos_t\") or 0 Lt _spec.get(\"bar_t\") or 2.0",
+   "copy": {
+    "side": "_spec.get(\"bar_t\") or 2.0",
+    "face": "results\\vol_gate\\latest.json",
+    "path": "/frozen_spec/bar_t",
+    "printed": "2.7343687865331683",
+    "dp": 16
+   },
+   "other_copy": null,
+   "copy_resolution": 1e-16,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "tolerance_face": null,
+   "precision_declared_by_that_face": false,
+   "graded": true,
+   "at_risk": false,
+   "verdict": "ordering_between_copies_no_tolerance"
+  }
+ ],
+ "at_risk": [
+  {
+   "leg": "product: dashboard carries the marks coverage gap",
+   "smoke_line": 703,
+   "op": "Eq",
+   "comparison": "_pp.get(\"marks_coverage_pct\") Eq _c2.get(\"coverage_pct_closed\")",
+   "copy": {
+    "side": "_c2.get(\"coverage_pct_closed\")",
+    "face": "results/marks_coverage.json",
+    "path": "/counters/coverage_pct_closed",
+    "printed": "84.21",
+    "dp": 2
+   },
+   "other_copy": null,
+   "copy_resolution": 0.01,
+   "delta": null,
+   "tolerance": null,
+   "tolerance_source": "none",
+   "verdict": "exact_equality_on_a_printed_float"
+  },
+  {
+   "leg": "product: the own-turnover channel is re-measured against a book that does not contain it",
+   "smoke_line": 3221,
+   "op": "Gt",
+   "comparison": "_ident38 Gt (_f38.get(\"identity\") or {}).get(\"tolerance\", 1e-12)",
+   "copy": {
+    "side": "_ident38",
+    "face": "results/state_tilt/loobook_latest.json",
+    "path": "/identity/max_abs_deviation_all_members",
+    "printed": "0.0",
+    "dp": 1
+   },
+   "other_copy": {
+    "face": "results/state_tilt/loobook_latest.json",
+    "path": "/identity/tolerance",
+    "printed": "1e-12",
+    "dp": 0
+   },
+   "copy_resolution": 0.1,
+   "delta": {
+    "abs": 1e-12,
+    "coarser_resolution": 1.0,
+    "equal_at_the_coarser_print": true
+   },
+   "tolerance": 1e-12,
+   "tolerance_source": "defaulted",
+   "verdict": "tolerance_silently_defaulted"
+  }
+ ],
+ "faces": {
+  "results/etf_book_registry.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/etf_book_registry.json",
+   "declaration_keys": [],
+   "numeric_values": 104,
+   "dp_histogram": {
+    "0": 94,
+    "1": 3,
+    "5": 2,
+    "2": 2,
+    "4": 2,
+    "10": 1
+   },
+   "min_dp": 0,
+   "max_dp": 10
+  },
+  "results/marks_coverage.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/marks_coverage.json",
+   "declaration_keys": [],
+   "numeric_values": 56,
+   "dp_histogram": {
+    "0": 55,
+    "2": 1
+   },
+   "min_dp": 0,
+   "max_dp": 2
+  },
+  "docs/live_book/LIVE-BOOK-20261029.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs/live_book/LIVE-BOOK-20261029.json",
+   "declaration_keys": [],
+   "numeric_values": 283,
+   "dp_histogram": {
+    "0": 116,
+    "1": 66,
+    "4": 47,
+    "2": 29,
+    "3": 16,
+    "5": 1,
+    "6": 5,
+    "10": 3
+   },
+   "min_dp": 0,
+   "max_dp": 10
+  },
+  "results/futures_tsmom_signal.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\futures_tsmom_signal.json",
+   "declaration_keys": [],
+   "numeric_values": 75,
+   "dp_histogram": {
+    "1": 3,
+    "0": 10,
+    "6": 42,
+    "2": 6,
+    "5": 3,
+    "3": 4,
+    "4": 7
+   },
+   "min_dp": 0,
+   "max_dp": 6
+  },
+  "results/tom_overlay/latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\tom_overlay\\latest.json",
+   "declaration_keys": [],
+   "numeric_values": 284,
+   "dp_histogram": {
+    "3": 36,
+    "1": 5,
+    "0": 66,
+    "16": 19,
+    "15": 39,
+    "14": 58,
+    "13": 34,
+    "17": 14,
+    "18": 5,
+    "11": 3,
+    "12": 3,
+    "10": 2
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/state_tilt/matched_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/matched_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 215,
+   "dp_histogram": {
+    "12": 5,
+    "13": 61,
+    "15": 22,
+    "14": 42,
+    "16": 21,
+    "0": 34,
+    "28": 8,
+    "1": 16,
+    "3": 2,
+    "17": 2,
+    "29": 2
+   },
+   "min_dp": 0,
+   "max_dp": 29
+  },
+  "results/state_tilt/hysteresis_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/hysteresis_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 486,
+   "dp_histogram": {
+    "1": 55,
+    "2": 9,
+    "16": 24,
+    "3": 1,
+    "0": 88,
+    "15": 62,
+    "13": 81,
+    "14": 145,
+    "17": 7,
+    "11": 3,
+    "12": 9,
+    "18": 2
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/state_tilt/bandpath_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/bandpath_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 4525,
+   "dp_histogram": {
+    "2": 44,
+    "1": 224,
+    "17": 66,
+    "14": 1232,
+    "16": 531,
+    "15": 663,
+    "0": 962,
+    "13": 663,
+    "12": 131,
+    "18": 5,
+    "11": 3,
+    "3": 1
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/state_tilt/per_member_gamma_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/per_member_gamma_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 533,
+   "dp_histogram": {
+    "0": 82,
+    "17": 37,
+    "12": 10,
+    "6": 71,
+    "16": 155,
+    "15": 56,
+    "1": 24,
+    "13": 25,
+    "14": 59,
+    "2": 7,
+    "18": 7
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/futures_overlay_fliprate_paths.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/futures_overlay_fliprate_paths.json",
+   "declaration_keys": [],
+   "numeric_values": 510,
+   "dp_histogram": {
+    "1": 140,
+    "2": 115,
+    "4": 104,
+    "0": 134,
+    "3": 17
+   },
+   "min_dp": 0,
+   "max_dp": 4
+  },
+  "results/vol_gate/latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\vol_gate\\latest.json",
+   "declaration_keys": [],
+   "numeric_values": 230,
+   "dp_histogram": {
+    "12": 5,
+    "0": 69,
+    "14": 47,
+    "16": 27,
+    "3": 10,
+    "1": 7,
+    "15": 31,
+    "13": 29,
+    "17": 4,
+    "18": 1
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/state_tilt/loobook_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/loobook_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 405,
+   "dp_histogram": {
+    "0": 48,
+    "16": 124,
+    "1": 7,
+    "17": 151,
+    "20": 1,
+    "15": 28,
+    "19": 8,
+    "14": 8,
+    "21": 4,
+    "18": 23,
+    "2": 3
+   },
+   "min_dp": 0,
+   "max_dp": 21
+  },
+  "tolerance": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\tolerance",
+   "declaration_keys": [],
+   "numeric_values": 0,
+   "dp_histogram": {},
+   "min_dp": null,
+   "max_dp": null,
+   "missing": true
+  },
+  "results/system_v1_paper/SYSTEM-V1_paper.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/system_v1_paper/SYSTEM-V1_paper.json",
+   "declaration_keys": [],
+   "numeric_values": 213,
+   "dp_histogram": {
+    "1": 116,
+    "0": 37,
+    "2": 24,
+    "7": 4,
+    "8": 31,
+    "6": 1
+   },
+   "min_dp": 0,
+   "max_dp": 8
+  },
+  "results/state_tilt/empirical_gamma_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/empirical_gamma_latest.json",
+   "declaration_keys": [
+    {
+     "path": "/summary/gamma_points_decimals",
+     "value": 6
+    }
+   ],
+   "numeric_values": 1940,
+   "dp_histogram": {
+    "6": 89,
+    "15": 243,
+    "16": 324,
+    "13": 195,
+    "0": 169,
+    "1": 292,
+    "14": 291,
+    "17": 106,
+    "12": 16,
+    "11": 1,
+    "2": 189,
+    "18": 20,
+    "19": 2,
+    "3": 1,
+    "21": 1,
+    "20": 1
+   },
+   "min_dp": 0,
+   "max_dp": 21
+  },
+  "results/state_tilt/repro_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/repro_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 158,
+   "dp_histogram": {
+    "16": 70,
+    "17": 27,
+    "15": 18,
+    "0": 24,
+    "2": 7,
+    "19": 2,
+    "1": 6,
+    "14": 2,
+    "18": 1,
+    "3": 1
+   },
+   "min_dp": 0,
+   "max_dp": 19
+  },
+  "results/obs_rate/latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\obs_rate\\latest.json",
+   "declaration_keys": [],
+   "numeric_values": 457,
+   "dp_histogram": {
+    "3": 42,
+    "1": 12,
+    "0": 158,
+    "16": 24,
+    "14": 65,
+    "13": 70,
+    "12": 14,
+    "15": 64,
+    "17": 6,
+    "18": 1,
+    "11": 1
+   },
+   "min_dp": 0,
+   "max_dp": 18
+  },
+  "results/state_tilt/aggatt_latest.json": {
+   "face": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results/state_tilt/aggatt_latest.json",
+   "declaration_keys": [],
+   "numeric_values": 418,
+   "dp_histogram": {
+    "0": 56,
+    "1": 2,
+    "16": 140,
+    "17": 171,
+    "18": 23,
+    "15": 19,
+    "2": 1,
+    "19": 3,
+    "14": 1,
+    "30": 2
+   },
+   "min_dp": 0,
+   "max_dp": 30
+  }
+ },
+ "summary": {
+  "smoke_comparisons_in_legs": 805,
+  "comparisons_with_a_printed_copy": 36,
+  "comparisons_graded": 35,
+  "comparisons_not_graded_tolerance_from_face": 0,
+  "comparisons_with_a_computed_copy": 682,
+  "comparisons_resolving_to_a_face_but_no_printed_scalar": 87,
+  "by_verdict": {
+   "ordering_between_copies_no_tolerance": 33,
+   "exact_equality_on_a_printed_float": 1,
+   "boundary_guard_on_a_literal": 1,
+   "tolerance_silently_defaulted": 1
+  },
+  "by_tolerance_source": {
+   "none": 34,
+   "boundary_guard": 1,
+   "defaulted": 1
+  },
+  "n_at_risk": 2,
+  "at_risk_legs": [
+   "product: dashboard carries the marks coverage gap",
+   "product: the own-turnover channel is re-measured against a book that does not contain it"
+  ],
+  "at_risk_faces": [
+   "results/marks_coverage.json",
+   "results/state_tilt/loobook_latest.json"
+  ],
+  "at_risk_faces_declaring_no_precision": [
+   "results/marks_coverage.json",
+   "results/state_tilt/loobook_latest.json"
+  ],
+  "faces_read": 18,
+  "faces_declaring_precision": [
+   "results/state_tilt/empirical_gamma_latest.json"
+  ],
+  "per_leg": {
+   "product: ETF book registry published": {
+    "rows": 2,
+    "at_risk": 0,
+    "copies": [
+     "/n_faces",
+     "/n_live"
+    ]
+   },
+   "product: marks coverage face names its holes": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/counters/holes"
+    ]
+   },
+   "product: dashboard carries the marks coverage gap": {
+    "rows": 3,
+    "at_risk": 1,
+    "copies": [
+     "/counters/closed_days",
+     "/counters/captured",
+     "/counters/coverage_pct_closed"
+    ]
+   },
+   "product: ETF live-book page current and its money closes": {
+    "rows": 4,
+    "at_risk": 0,
+    "copies": [
+     "/capital_cny",
+     "/stress/n_days",
+     "/capital_cny",
+     "/stress/n_days"
+    ]
+   },
+   "product: futures TSMOM shadow face keeps its sizing rules": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/book/gross"
+    ]
+   },
+   "product: the turn-of-month overlay keeps its rule, its toll and its OOS record": {
+    "rows": 3,
+    "at_risk": 0,
+    "copies": [
+     "/spec/sides_per_month",
+     "/primary_arm/oos_months",
+     "/primary_arm/excess_oos_t"
+    ]
+   },
+   "product: the drift split is reproduced as a traded exposure-matched arm": {
+    "rows": 3,
+    "at_risk": 0,
+    "copies": [
+     "/frozen_spec/tests",
+     "/benchmark_agreement/cells",
+     "/frozen_spec/bar_t"
+    ]
+   },
+   "product: a hysteresis band's toll saving is judged against its selection loss": {
+    "rows": 3,
+    "at_risk": 0,
+    "copies": [
+     "/ladder_summary/cells",
+     "/frozen_spec/bar_t",
+     "/frozen_spec/bar_t"
+    ]
+   },
+   "product: a band that passed on one path is path-tested before it is a finding": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/path_count/panel_paths"
+    ]
+   },
+   "product: a book-level exponent is measured per member before it is charged": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/pooled_fit/n_regressors"
+    ]
+   },
+   "product: the flip damper is adopted or rejected by path cells, not one run": {
+    "rows": 2,
+    "at_risk": 0,
+    "copies": [
+     "/adoption_rule/min_positive_share",
+     "/adoption_rule/worst_cell_floor_pp"
+    ]
+   },
+   "product: the volatility gate separates held days from episodes": {
+    "rows": 2,
+    "at_risk": 0,
+    "copies": [
+     "/frozen_spec/sides_per_episode",
+     "/frozen_spec/bar_t"
+    ]
+   },
+   "product: the own-turnover channel is re-measured against a book that does not contain it": {
+    "rows": 1,
+    "at_risk": 1,
+    "copies": [
+     "/identity/max_abs_deviation_all_members"
+    ]
+   },
+   "product: live paper book states its price lag": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/staleness/lag_trading_days"
+    ]
+   },
+   "product: the charge curvature is measured, not assumed, before verdicts ride it": {
+    "rows": 3,
+    "at_risk": 0,
+    "copies": [
+     "/primary_estimate/gamma",
+     "/primary_estimate/gamma",
+     "/summary/gamma_points_decimals"
+    ]
+   },
+   "product: a non-reproducing pair is traced rung by rung to the reader": {
+    "rows": 2,
+    "at_risk": 0,
+    "copies": [
+     "/misalignment/rows_tested",
+     "/misalignment/dy_matches_the_previous_session"
+    ]
+   },
+   "product: the observation-rate ladder prices its own resolution": {
+    "rows": 1,
+    "at_risk": 0,
+    "copies": [
+     "/spec/multiple_comparison_bar"
+    ]
+   },
+   "product: the book aggregate is compared on ONE parametrisation": {
+    "rows": 2,
+    "at_risk": 0,
+    "copies": [
+     "/summary/diff_one_vs_rest3",
+     "/summary/diff_one_vs_rest3"
+    ]
+   }
+  },
+  "statement": "36 numeric comparison(s) inside smoke legs compare a value printed in a published face; 35 of them are graded (the other 0 take their tolerance from the face itself); 2 compare finer than the copy prints, across 2 leg(s) and 2 face(s), and 2 of those faces declare no precision at all."
+ },
+ "identity_check": {
+  "verdict_partition_sums_to_rows": true,
+  "source_partition_sums_to_rows": true,
+  "every_at_risk_row_is_graded": true,
+  "no_row_is_both_declared_and_at_risk": true,
+  "every_at_risk_row_carries_a_copy": true,
+  "per_leg_rows_sum_to_rows": true,
+  "per_leg_at_risk_sums": true,
+  "risk_legs_match_the_rollup": true,
+  "graded_plus_declared_plus_unresolved_plus_computed_covers_all_leg_comparisons": true,
+  "all_checks": true
+ },
+ "verdict": "printed_copies_are_compared_finer_than_they_print",
+ "verdict_reason": "36 numeric comparison(s) inside smoke legs compare a value printed in a published face; 35 of them are graded (the other 0 take their tolerance from the face itself); 2 compare finer than the copy prints, across 2 leg(s) and 2 face(s), and 2 of those faces declare no precision at all.",
+ "generated": "2026-10-31T13:45:22"
+}

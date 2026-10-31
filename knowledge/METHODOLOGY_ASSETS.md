@@ -6087,3 +6087,38 @@ Evidence: `scripts/e298_replay_control_census.py` (selftest 21/21, `verify` 0 pr
 `results/state_tilt/REPLAYCENSUS-2026-10-30.json` (+ `replaycensus_latest.json`),
 `Tools/s6_chain_bmb.py` leg `replay_control_census`, smoke leg E298, digest
 `research/digests/DIGEST-20261031-r1323-e298-replay-control-census.md`.
+
+### E304 a tolerance finer than the field's printed quantum is a question about the field, not about the leg (r1324 bm-b)
+
+r1316 repaired one leg that compared a 6-dp point set against a full-precision interval at 1e-9. One
+repair is not a census. Prices the class: 42 of `smoke_test.py`'s 320 legs carry a numeric comparison
+against a published face; 29 of their 62 sites compare at a tolerance finer than the field they read is
+printed with (21 on the field's own measured decimals, 8 on the face-level bound only), and 37 of the 42
+faces they read publish no statement of their printed precision at all.
+
+Three rules:
+
+1. **Measure the quantum of the field the leg names, not of the face.** A face's coarsest printed
+   quantum is an upper bound over every field it carries; the leg reads one key. `key_profile()` walks
+   the published leaves under that key name and takes the coarsest decimals among them, and only when
+   the key cannot be located at all does the face-level bound stand in -- labelled `face_level` so the
+   weaker rows are separable from the measured ones. Keys that hold only integers or labels are dropped
+   before any tolerance is compared: an exact equality on a count cannot be undone by rounding.
+2. **A near pair is not a copy.** Pairing any two close leaves "found" `current_dd` vs `cumulative_ret`
+   at a 4e-8 gap -- two different quantities that happen to sit close. A copy is the same leaf key
+   published twice under different parents, so that is the only pair reported. On the real directory it
+   comes back **zero**, and the zero is the finding: the one copy the family had was the one r1316
+   repaired.
+3. **The same key name in two faces is not the same quantity.** Five sites name one key across two
+   faces; the gaps (1.98 on `band_frac`, 0.22 on `share_taken_by_vol`) are published as distances with
+   the disclosure that a gap above the tolerance means "same name, different quantity", never a defect
+   count. Without that sentence the face manufactures five convictions out of a naming coincidence.
+
+Also: a comparison that is exact equality but carries no numeric anchor (`schema == 'etf-book-registry/v1'`)
+is not a measurement and must not be counted -- the first build counted 356 exact equalities, nearly all
+of them strings and counts, and reported 292 at-risk sites that were names.
+
+Evidence: `scripts/e299_rounded_vs_tolerance_census.py` (selftest 32/32, `verify` 0 problems),
+`results/state_tilt/PRECISIONCENSUS-2026-10-30.json` (+ `precisioncensus_latest.json`),
+`Tools/s6_chain_bmb.py` leg `precision_census`, smoke leg E299, digest
+`research/digests/DIGEST-20261031-r1324-e299-precision-census.md`.

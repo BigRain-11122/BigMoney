@@ -25507,7 +25507,7 @@
   },
   {
    "id": "E299-ROUNDED-VS-TOLERANCE-CENSUS",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "entered_at": "2026-10-31T10:30:00+08:00",
    "entered_by": "bm-b r1316",
@@ -25515,7 +25515,9 @@
    "source": "r1316: E233 publishes a 6-dp point set beside a full-precision interval and a leg compared them at 1e-9",
    "target": "smoke_test.py legs + the faces they read",
    "deliverable": "results/state_tilt/PRECISIONCENSUS-<cutoff>.json",
-   "question": "which smoke legs compare a rounded published value at a full-precision tolerance (or at exact equality), how far apart are the copies, and does each face declare the precision it prints"
+   "question": "which smoke legs compare a rounded published value at a full-precision tolerance (or at exact equality), how far apart are the copies, and does each face declare the precision it prints",
+   "done_at": "2026-10-31T14:5x+08:00",
+   "result_ref": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json (scripts/e299_rounded_vs_tolerance_census.py selftest 32/32; S6 leg precision_census rc=0)"
   },
   {
    "id": "E300-WINDOW-LOCAL-MARGIN-CENSUS",
@@ -25577,6 +25579,20 @@
    "target": "scripts/e2*_*.py (the writers of the 7 at-risk blocks)",
    "deliverable": "results/state_tilt/BASISRECOVERY-<cutoff>.json",
    "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone."
+  },
+  {
+   "id": "E305-PRICE-THE-FACE-BOUND-ROWS",
+   "title": "eight at-risk rows rest on the face-level bound because the key the leg reads could not be located in the face -- for each one, is the key absent from the face, spelled differently, or read from a nested record the walker truncates?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T14:5x+08:00",
+   "entered_by": "bm-b r1324",
+   "evidence_cutoff": "2026-10-30",
+   "source": "r1324 (E299) priced 62 numeric face sites: 29 compare finer than the field is printed, 21 on the field's own measured decimals and 8 only on the face's coarsest bound because no leaf under the read key name was found. Those 8 are the ones whose quantum is still an upper bound.",
+   "target": "scripts/e299_rounded_vs_tolerance_census.py face members named by the 8 face_level rows",
+   "deliverable": "results/state_tilt/PRECISIONGAP-<cutoff>.json",
+   "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25591,6 +25607,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T13:2x+08:00",
+ "updated_at": "2026-10-31T14:5x+08:00",
  "version": 1
 }

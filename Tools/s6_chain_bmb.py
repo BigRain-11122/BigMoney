@@ -594,6 +594,17 @@ LEGS = [
     ("replay_control_census",
      ["python", "scripts/e298_replay_control_census.py", "verify"]),
 
+    # E299: r1316 repaired one leg that compared a 6-dp point set against a full-precision
+    # interval at 1e-9. This leg prices the class: 42 of smoke_test.py's 320 legs carry a numeric
+    # comparison against a published face, 29 of their 62 sites compare at a tolerance finer than
+    # the quantum the field they read is printed with (21 on the field's own decimals, 8 on the
+    # face-level bound only), and 37 of the 42 faces read publish no precision declaration. Zero
+    # measured rounded/full sibling pairs survive -- the one the family had is the one r1316 fixed.
+    # Source + published JSON only; no study re-run, no draw, no engine. ~55s (the face reads and
+    # the per-key leaf walks dominate; measured in round 1324, not estimated).
+    ("precision_census",
+     ["python", "scripts/e299_rounded_vs_tolerance_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
