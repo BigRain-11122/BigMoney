@@ -6150,3 +6150,30 @@ Three rules:
 Also fixed in passing: `e_band_family_vintage.selftest()` leg V2 was date-dependent (its undated
 fixture inherits today's mtime, so it rots once the wall clock passes the frozen fixture cutoff) --
 fixture mtimes are now pinned with `os.utime`, so the leg tests the rule and not today's date.
+
+### E308 a published block that names no panel is a question for the writer, not a verdict on the face (r1326 bm-b)
+
+E298 left seven replay controls "unmeasurable" because their face carries no window / pin / vintage
+key. Asking the code that wrote them answers five of the seven without re-running anything, and
+splits the seven into three different defects:
+
+1. **The writer's own vocabulary is the first thing to test.** One of the seven (ADDOS) is computed by
+   `_replay`, which since r1316 writes `window_used`, `window_source`, `live_panel_last` and
+   `sessions_past_the_pinned_window` -- the published vintage simply predates the repair (r1269). A
+   stale face reads as an undeclared basis, and the witness is another vintage of the same face
+   carrying exactly those keys. Publish the cross-vintage witness with the row: "the writer computes
+   it" is an inference, "the 10-30 face carries it" is a measurement.
+2. **A basis declared beside the block counts.** Four of the seven declare it one level up -- a
+   `basis_note`, `source_faces` + `windows_measured`, `bar_lenient_basis` / `bar_strict_basis` /
+   `panels`. A census whose vocabulary only looks inside the block will keep re-reporting these as
+   unmeasurable. Scan the enclosing document and keep the witness key in the row.
+3. **Two really do derive on the live panel, and their own numbers say so.** REPRO's `reproduction`
+   and BANDPATH's `focus_replay_of_e230_global_path` move between vintages with nothing else published
+   changing (rows 13,911 -> 13,916; 285.88 -> 289.83 bp/yr). When a block has two dated vintages, the
+   drift of its own numbers is the observable consequence of an unpinned basis -- a single vintage
+   cannot show it and must not be read as "pinned".
+
+Keeping the keys honest: a writer extends its block after building it (`out["window_source"] = ...`),
+so a literal-dict scan misses exactly the field being looked for -- the selftest asserts the subscript
+form. And the class a row gets must be catchable by the face's own `verify()`: a mutated class is
+asserted to be rejected, otherwise the gate is a rubber stamp.

@@ -1,0 +1,610 @@
+{
+ "study": "E303",
+ "title": "seven replay controls publish no basis -- what does their writer read?",
+ "generated": "2026-10-31T15:17:40",
+ "evidence_cutoff": "2026-10-30",
+ "census_read": "results/state_tilt/REPLAYCENSUS-2026-10-30.json",
+ "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window or the live panel, and is the answer decidable from the code alone?",
+ "method": {
+  "published_keys": "read from the face on disk at the block's own path",
+  "writer_keys": "string keys of every Dict in the node that holds the block and in the function that produced its right-hand side",
+  "class_vocabulary": [
+   "published_basis",
+   "writer_publishes_dropped",
+   "declared_at_face_level",
+   "live_panel_derived",
+   "undecidable"
+  ],
+  "basis_words": [
+   "window",
+   "pinned",
+   "pin_",
+   "vintage",
+   "panel",
+   "source_faces",
+   "basis",
+   "live_panel"
+  ],
+  "vintage_drift": "two dated vintages of the same face: the numeric leaves of the block are compared; movement means the basis is the live panel",
+  "no_rerun": "no study is re-run and no panel is reloaded for this face"
+ },
+ "blocks": [
+  {
+   "face": "ADDOS-2026-10-29.json",
+   "path": "/e240_replay",
+   "key": "e240_replay",
+   "face_stem": "ADDOS",
+   "writer": "scripts/e243_additivity_out_of_sample.py",
+   "writer_symbol": "_replay",
+   "published_keys": [
+    "cell",
+    "gaps",
+    "reproduced",
+    "status",
+    "tolerance"
+   ],
+   "writer_basis_keys": [
+    "live_panel_last",
+    "sessions_past_the_pinned_window",
+    "window_source",
+    "window_used"
+   ],
+   "face_level_basis_keys": [
+    "window_inclusive"
+   ],
+   "panel_expressions": [
+    {
+     "token": "live panel",
+     "line": 507,
+     "text": "# control cell has to be pinned to this rather than to whatever the live panel now"
+    },
+    {
+     "token": "live panel",
+     "line": 538,
+     "text": "out[\"sessions_past_note\"] = (\"sessions the live panel now prints beyond the pinned \""
+    },
+    {
+     "token": "live panel",
+     "line": 756,
+     "text": "# the live panel later prints 12 more sessions of the same book"
+    },
+    {
+     "token": "live panel",
+     "line": 765,
+     "text": "raise AssertionError(\"the face hid that the live panel prints past the pinned \""
+    }
+   ],
+   "class": "writer_publishes_dropped",
+   "witness_keys": [
+    "live_panel_last",
+    "sessions_past_the_pinned_window",
+    "window_source",
+    "window_used"
+   ],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    },
+    {
+     "vintage": "2026-10-30",
+     "basis_keys": [
+      "live_panel_last",
+      "sessions_past_the_pinned_window",
+      "window_source",
+      "window_used"
+     ]
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": true,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29",
+     "2026-10-30"
+    ],
+    "comparable": true,
+    "first": "2026-10-29",
+    "last": "2026-10-30",
+    "fields_moved": {},
+    "n_moved": 0,
+    "note": "the control's numbers are identical across vintages: consistent with a pinned window, but the pin is still undeclared"
+   }
+  },
+  {
+   "face": "AGGATT-2026-10-29.json",
+   "path": "/designs/share_book_reproduction",
+   "key": "share_book_reproduction",
+   "face_stem": "AGGATT",
+   "writer": "scripts/e240_aggregate_attenuation.py",
+   "writer_symbol": "design_share_book",
+   "published_keys": [
+    "A_share",
+    "A_share_ci",
+    "B_book",
+    "B_book_ci",
+    "design",
+    "measured_kappa",
+    "note",
+    "r2",
+    "rows_used"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [
+    "basis_note"
+   ],
+   "panel_expressions": [
+    {
+     "token": "panel_dir",
+     "line": 476,
+     "text": "def run(save=True, panel_dir=None, outdir=None, per=None, lag=NW_LAG, reps=BOOT_REPS):"
+    },
+    {
+     "token": "panel_dir",
+     "line": 478,
+     "text": "per = per if per is not None else e239.panels(panel_dir)"
+    },
+    {
+     "token": "panel_dir",
+     "line": 936,
+     "text": "face = run(save=not args.no_save, panel_dir=args.panel_dir, outdir=args.outdir,"
+    }
+   ],
+   "class": "declared_at_face_level",
+   "witness_keys": [
+    "basis_note"
+   ],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": true,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29"
+    ],
+    "comparable": false,
+    "note": "a single vintage cannot show whether the control moves with the panel"
+   }
+  },
+  {
+   "face": "BANDARRIVALATE-2026-10-29.json",
+   "path": "/reproducibility",
+   "key": "reproducibility",
+   "face_stem": "BANDARRIVALATE",
+   "writer": "scripts/e263_arrival_vs_cell_size.py",
+   "writer_symbol": "run",
+   "published_keys": [
+    "arms",
+    "arms_recomputing_e260_arrival"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [
+    "source_faces",
+    "windows",
+    "windows_measured"
+   ],
+   "panel_expressions": [],
+   "class": "declared_at_face_level",
+   "witness_keys": [
+    "source_faces",
+    "windows",
+    "windows_measured"
+   ],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": true,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29"
+    ],
+    "comparable": false,
+    "note": "a single vintage cannot show whether the control moves with the panel"
+   }
+  },
+  {
+   "face": "BANDPATH-2026-10-29.json",
+   "path": "/focus_replay_of_e230_global_path",
+   "key": "focus_replay_of_e230_global_path",
+   "face_stem": "BANDPATH",
+   "writer": "scripts/e231_band_path_test.py",
+   "writer_symbol": "run",
+   "published_keys": [
+    "d_pair_ann_bp_per_year",
+    "d_pair_t_nw"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [
+    "bar_lenient_basis",
+    "bar_strict_basis",
+    "panel",
+    "panel_paths",
+    "panels"
+   ],
+   "panel_expressions": [
+    {
+     "token": "single_panel",
+     "line": 375,
+     "text": "single = e225.single_panel(PRIMARY_SYMBOL, panel_dir)"
+    },
+    {
+     "token": "basket_panel",
+     "line": 379,
+     "text": "basket = e225.basket_panel(panel_dir)"
+    },
+    {
+     "token": "panel_dir",
+     "line": 372,
+     "text": "def run(save=True, panel_dir=None, outdir=None):"
+    },
+    {
+     "token": "panel_dir",
+     "line": 373,
+     "text": "panel_dir = panel_dir or PANEL_DIR"
+    }
+   ],
+   "class": "declared_at_face_level",
+   "witness_keys": [
+    "bar_lenient_basis",
+    "bar_strict_basis",
+    "panel",
+    "panel_paths",
+    "panels"
+   ],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    },
+    {
+     "vintage": "2026-10-30",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": true,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29",
+     "2026-10-30"
+    ],
+    "comparable": true,
+    "first": "2026-10-29",
+    "last": "2026-10-30",
+    "fields_moved": {
+     "/d_pair_ann_bp_per_year": {
+      "first": 285.8795646381734,
+      "last": 289.8333776919291,
+      "delta": 3.9538130537557095
+     },
+     "/d_pair_t_nw": {
+      "first": 4.035816187909357,
+      "last": 4.071765324810679,
+      "delta": 0.03594913690132184
+     }
+    },
+    "n_moved": 2,
+    "note": "the control's own numbers move between vintages, so its basis is the live panel (nothing was pinned)"
+   }
+  },
+  {
+   "face": "BANDPATH-2026-10-30.json",
+   "path": "/focus_replay_of_e230_global_path",
+   "key": "focus_replay_of_e230_global_path",
+   "face_stem": "BANDPATH",
+   "writer": "scripts/e231_band_path_test.py",
+   "writer_symbol": "run",
+   "published_keys": [
+    "d_pair_ann_bp_per_year",
+    "d_pair_t_nw"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [
+    "bar_lenient_basis",
+    "bar_strict_basis",
+    "panel",
+    "panel_paths",
+    "panels"
+   ],
+   "panel_expressions": [
+    {
+     "token": "single_panel",
+     "line": 375,
+     "text": "single = e225.single_panel(PRIMARY_SYMBOL, panel_dir)"
+    },
+    {
+     "token": "basket_panel",
+     "line": 379,
+     "text": "basket = e225.basket_panel(panel_dir)"
+    },
+    {
+     "token": "panel_dir",
+     "line": 372,
+     "text": "def run(save=True, panel_dir=None, outdir=None):"
+    },
+    {
+     "token": "panel_dir",
+     "line": 373,
+     "text": "panel_dir = panel_dir or PANEL_DIR"
+    }
+   ],
+   "class": "declared_at_face_level",
+   "witness_keys": [
+    "bar_lenient_basis",
+    "bar_strict_basis",
+    "panel",
+    "panel_paths",
+    "panels"
+   ],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    },
+    {
+     "vintage": "2026-10-30",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": true,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29",
+     "2026-10-30"
+    ],
+    "comparable": true,
+    "first": "2026-10-29",
+    "last": "2026-10-30",
+    "fields_moved": {
+     "/d_pair_ann_bp_per_year": {
+      "first": 285.8795646381734,
+      "last": 289.8333776919291,
+      "delta": 3.9538130537557095
+     },
+     "/d_pair_t_nw": {
+      "first": 4.035816187909357,
+      "last": 4.071765324810679,
+      "delta": 0.03594913690132184
+     }
+    },
+    "n_moved": 2,
+    "note": "the control's own numbers move between vintages, so its basis is the live panel (nothing was pinned)"
+   }
+  },
+  {
+   "face": "REPRO-2026-10-29.json",
+   "path": "/reproduction",
+   "key": "reproduction",
+   "face_stem": "REPRO",
+   "writer": "scripts/e241_pair_reproduction.py",
+   "writer_symbol": "run",
+   "published_keys": [
+    "abs_diff_a",
+    "abs_diff_b",
+    "published_a_share",
+    "published_b_agg",
+    "published_rows",
+    "reproduced",
+    "rung0_a_share",
+    "rung0_b_agg",
+    "rung0_rows",
+    "tolerance"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [],
+   "panel_expressions": [
+    {
+     "token": "panel_dir",
+     "line": 324,
+     "text": "def run(save=True, panel_dir=None, outdir=None):"
+    },
+    {
+     "token": "panel_dir",
+     "line": 326,
+     "text": "maps = e238.book_maps(panel_dir)"
+    },
+    {
+     "token": "panel_dir",
+     "line": 346,
+     "text": "per = e239.panels(panel_dir)"
+    },
+    {
+     "token": "common_dates",
+     "line": 339,
+     "text": "common_dates = sorted(set(r[0] for r in common_loo[syms[0]])) if common_loo else []"
+    }
+   ],
+   "class": "live_panel_derived",
+   "witness_keys": [],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    },
+    {
+     "vintage": "2026-10-30",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": false,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29",
+     "2026-10-30"
+    ],
+    "comparable": true,
+    "first": "2026-10-29",
+    "last": "2026-10-30",
+    "fields_moved": {
+     "/published_a_share": {
+      "first": 0.5962738909935611,
+      "last": 0.5962496292423473,
+      "delta": -2.4261751213838778e-05
+     },
+     "/published_b_agg": {
+      "first": 0.770596628227935,
+      "last": 0.770644939620322,
+      "delta": 4.831139238703486e-05
+     },
+     "/published_rows": {
+      "first": 13911.0,
+      "last": 13916.0,
+      "delta": 5.0
+     },
+     "/rung0_a_share": {
+      "first": 0.5962738909935611,
+      "last": 0.5962496292423473,
+      "delta": -2.4261751213838778e-05
+     },
+     "/rung0_b_agg": {
+      "first": 0.770596628227935,
+      "last": 0.770644939620322,
+      "delta": 4.831139238703486e-05
+     },
+     "/rung0_rows": {
+      "first": 13911.0,
+      "last": 13916.0,
+      "delta": 5.0
+     }
+    },
+    "n_moved": 6,
+    "note": "the control's own numbers move between vintages, so its basis is the live panel (nothing was pinned)"
+   }
+  },
+  {
+   "face": "REPRO-2026-10-30.json",
+   "path": "/reproduction",
+   "key": "reproduction",
+   "face_stem": "REPRO",
+   "writer": "scripts/e241_pair_reproduction.py",
+   "writer_symbol": "run",
+   "published_keys": [
+    "abs_diff_a",
+    "abs_diff_b",
+    "published_a_share",
+    "published_b_agg",
+    "published_rows",
+    "reproduced",
+    "rung0_a_share",
+    "rung0_b_agg",
+    "rung0_rows",
+    "tolerance"
+   ],
+   "writer_basis_keys": [],
+   "face_level_basis_keys": [],
+   "panel_expressions": [
+    {
+     "token": "panel_dir",
+     "line": 324,
+     "text": "def run(save=True, panel_dir=None, outdir=None):"
+    },
+    {
+     "token": "panel_dir",
+     "line": 326,
+     "text": "maps = e238.book_maps(panel_dir)"
+    },
+    {
+     "token": "panel_dir",
+     "line": 346,
+     "text": "per = e239.panels(panel_dir)"
+    },
+    {
+     "token": "common_dates",
+     "line": 339,
+     "text": "common_dates = sorted(set(r[0] for r in common_loo[syms[0]])) if common_loo else []"
+    }
+   ],
+   "class": "live_panel_derived",
+   "witness_keys": [],
+   "vintage_basis": [
+    {
+     "vintage": "2026-10-29",
+     "basis_keys": []
+    },
+    {
+     "vintage": "2026-10-30",
+     "basis_keys": []
+    }
+   ],
+   "decidable_from_code": true,
+   "recoverable_without_rerun": false,
+   "vintage_drift": {
+    "vintages": [
+     "2026-10-29",
+     "2026-10-30"
+    ],
+    "comparable": true,
+    "first": "2026-10-29",
+    "last": "2026-10-30",
+    "fields_moved": {
+     "/published_a_share": {
+      "first": 0.5962738909935611,
+      "last": 0.5962496292423473,
+      "delta": -2.4261751213838778e-05
+     },
+     "/published_b_agg": {
+      "first": 0.770596628227935,
+      "last": 0.770644939620322,
+      "delta": 4.831139238703486e-05
+     },
+     "/published_rows": {
+      "first": 13911.0,
+      "last": 13916.0,
+      "delta": 5.0
+     },
+     "/rung0_a_share": {
+      "first": 0.5962738909935611,
+      "last": 0.5962496292423473,
+      "delta": -2.4261751213838778e-05
+     },
+     "/rung0_b_agg": {
+      "first": 0.770596628227935,
+      "last": 0.770644939620322,
+      "delta": 4.831139238703486e-05
+     },
+     "/rung0_rows": {
+      "first": 13911.0,
+      "last": 13916.0,
+      "delta": 5.0
+     }
+    },
+    "n_moved": 6,
+    "note": "the control's own numbers move between vintages, so its basis is the live panel (nothing was pinned)"
+   }
+  }
+ ],
+ "summary": {
+  "blocks": 7,
+  "by_class": {
+   "writer_publishes_dropped": 1,
+   "declared_at_face_level": 4,
+   "live_panel_derived": 2
+  },
+  "n_writer_publishes_dropped": 1,
+  "n_declared_at_face_level": 4,
+  "n_live_panel_derived": 2,
+  "n_undecidable": 0,
+  "n_recoverable_without_rerun": 5,
+  "n_with_measured_vintage_drift": 4,
+  "n_writer_dropped_confirmed_by_another_vintage": 1,
+  "one_line": "of the seven replays that publish no basis: 1 is computed by its writer and dropped from the face, 4 have the basis declared beside the block, 2 derive on the live panel and say so nowhere -- 5 of 7 are recoverable without re-running anything"
+ },
+ "no_bill": {
+  "permitted": false,
+  "reason": "a census of published basis declarations; nothing is charged and no arm is adopted"
+ },
+ "verify": {
+  "problems": [],
+  "n_problems": 0
+ }
+}

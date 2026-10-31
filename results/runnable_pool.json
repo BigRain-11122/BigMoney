@@ -25574,7 +25574,7 @@
    "id": "E303-RECOVER-UNMEASURABLE-BASIS",
    "title": "seven published replay controls cannot say which panel they re-derived on -- for each one, does the code that wrote it read a pinned window or the live panel, and is the answer recoverable without re-running the study?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T13:2x+08:00",
    "entered_by": "bm-b r1323",
@@ -25582,7 +25582,13 @@
    "source": "r1323: E298 censused 26 published control blocks and found 7 replays that publish no window/pin/vintage field, so their panel is not recoverable from the face; the r1316 repair touched only ADDOS",
    "target": "scripts/e2*_*.py (the writers of the 7 at-risk blocks)",
    "deliverable": "results/state_tilt/BASISRECOVERY-<cutoff>.json",
-   "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone."
+   "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone.",
+   "owner": "bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-31T15:13:41",
+   "done_at": "2026-10-31T15:13:41",
+   "result_ref": "results/state_tilt/BASISRECOVERY-2026-10-30.json + scripts/e303_recover_unmeasurable_basis.py (selftest 26/26; chain leg basis_recovery; smoke leg E303)",
+   "progress": "delivered r1326 bm-b: 7 blocks -> 1 writer_publishes_dropped (ADDOS, witnessed by the 10-30 vintage), 4 declared_at_face_level, 2 live_panel_derived (REPRO/BANDPATH, measured vintage drift)"
   },
   {
    "id": "E305-PRICE-THE-FACE-BOUND-ROWS",

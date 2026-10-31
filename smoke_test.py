@@ -8077,6 +8077,64 @@ def main() -> int:
     except Exception as e:
         check(_name298, False, repr(e)[:160])
 
+    # E303 (r1326 bm-b): E298 left seven replay controls whose basis is not in the face and called
+    # them unmeasurable. This leg asks the code instead of the face: (a) the same seven faces/keys
+    # are accounted for, one row each, so the recovery cannot quietly shrink the question; (b) every
+    # class is inside the frozen vocabulary and the class counts sum to the rows; (c) a row that
+    # claims the writer computes a basis the face drops must name that key AND at least one other
+    # vintage of the same face must actually carry it -- the claim is measured, not inferred; (d) a
+    # row that derives on the live panel is never published as recoverable without a re-run; and
+    # (e) verify() catches a mutated class, so the gate is not a rubber stamp.
+    _name303 = ("product: the seven replays that publish no basis are recovered from the code that "
+                "wrote them -- declared beside the block, dropped from a stale face, or live-panel "
+                "by construction, with the different vintage as the witness")
+    try:
+        _m303 = __import__("importlib").import_module("e303_recover_unmeasurable_basis")
+        _f303 = _m303.build()
+        _s303 = _f303.get("summary") or {}
+        _v303 = _f303.get("method", {}).get("class_vocabulary") or []
+        _census303 = __import__("json").load(open(_m303.CENSUS, encoding="utf-8"))
+        _bad303 = []
+        _risk303 = {(r.get("face"), r.get("key")) for r in (_census303.get("at_risk") or [])}
+        _rows303 = {(r.get("face"), r.get("key")) for r in _f303.get("blocks") or []}
+        if _risk303 != _rows303:
+            _bad303.append("the recovery does not cover exactly the censused at-risk rows")
+        if sum((_s303.get("by_class") or {}).values()) != _s303.get("blocks"):
+            _bad303.append("the class counts do not sum to the rows")
+        for _r in _f303.get("blocks") or []:
+            if _r.get("class") not in _v303:
+                _bad303.append("%s: class outside the frozen vocabulary" % _r.get("face"))
+            if _r.get("class") == "writer_publishes_dropped":
+                if not _r.get("writer_basis_keys"):
+                    _bad303.append("%s: claims a dropped basis with no witness key" % _r.get("face"))
+                if not any(v.get("basis_keys") for v in _r.get("vintage_basis") or []):
+                    _bad303.append("%s: no other vintage carries the dropped basis" % _r.get("face"))
+            if _r.get("class") == "live_panel_derived" and _r.get("recoverable_without_rerun"):
+                _bad303.append("%s: a live-panel basis is published as recoverable" % _r.get("face"))
+            if _r.get("decidable_from_code") and not _r.get("writer"):
+                _bad303.append("%s: decides without a writer" % _r.get("face"))
+        _mut303 = __import__("json").loads(__import__("json").dumps(_f303))
+        _mut303["blocks"][0]["class"] = "live_panel_derived"
+        if not _m303.verify(_mut303):
+            _bad303.append("verify did not catch a mutated class")
+        _fresh303 = _m303.build()
+        for _k in ("summary", "blocks", "method"):
+            if _fresh303.get(_k) != _f303.get(_k):
+                _bad303.append("%s does not re-derive" % _k)
+        check(_name303, not _bad303,
+              "; ".join(_bad303)[:220]
+              or "%d replay block(s): %d computed by the writer and dropped from the face, %d "
+                 "declared beside the block, %d live-panel with nothing said; %d of %d recoverable "
+                 "without a re-run, %d show measured vintage drift"
+                 % (_s303.get("blocks") or 0,
+                    _s303.get("n_writer_publishes_dropped") or 0,
+                    _s303.get("n_declared_at_face_level") or 0,
+                    _s303.get("n_live_panel_derived") or 0,
+                    _s303.get("n_recoverable_without_rerun") or 0, _s303.get("blocks") or 0,
+                    _s303.get("n_with_measured_vintage_drift") or 0))
+    except Exception as e:
+        check(_name303, False, repr(e)[:160])
+
     # E292 (r1321 bm-b): E290 handed the 301 'the face already publishes this unit elsewhere' counts on
     # as "move the count, no new data needed". This leg pins the price of that plan: (a) the frozen
     # five-verdict vocabulary, (b) that the shapes partition the 301 rows, (c) that a move is called

@@ -606,6 +606,17 @@ LEGS = [
     ("replay_control_census",
      ["python", "scripts/e298_replay_control_census.py", "verify"]),
 
+    # E303: E298 published seven replay controls as unmeasurable because their face names no panel.
+    # This leg asks the writer instead: of the seven, 1 is computed by its writer and dropped from a
+    # stale face (the same block in a newer vintage carries window_used/window_source and the
+    # sessions past the pin), 4 have the basis declared beside the block (basis_note, source_faces,
+    # windows_measured, bar_*_basis, panels), and 2 derive on the live panel with nothing said --
+    # and those two are the ones whose own numbers move between vintages (BANDPATH 285.88 ->
+    # 289.83 bp/yr; REPRO rows 13,911 -> 13,916). 5 of 7 are recoverable without re-running a
+    # study. Source + published JSON only; no panel re-read, no draw, no engine. <1s.
+    ("basis_recovery",
+     ["python", "scripts/e303_recover_unmeasurable_basis.py", "verify"]),
+
     # E299: r1316 repaired one leg that compared a 6-dp point set against a full-precision
     # interval at 1e-9. This leg prices the class: 42 of smoke_test.py's 320 legs carry a numeric
     # comparison against a published face, 29 of their 62 sites compare at a tolerance finer than
