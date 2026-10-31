@@ -9755,6 +9755,83 @@ def main() -> int:
                     "stems_where_the_pinned_fallback_is_already_stale"),
                 ((_f329 or {}).get("summary") or {}).get("call_site_stems")))
 
+    # E330: a construct that picks between two references to one family (the order of an existence
+    # chain, an `or` fallback, a default) decides what a reader gets, and a two-line edit would change
+    # the answer. This leg refuses a face whose verdict does not re-derive, a pinned row without an
+    # assertion site, an unpinned row that carries one, a chain whose row-level swap flag disagrees
+    # with its own per-stem evidence, a decision class outside the frozen four, and a face that hides
+    # how its population was cut.
+    _name330 = ("product: every two-reference decision in the tree is counted, and the ones no "
+                "assertion names are separated from the ones whose branches already disagree")
+    _bad330 = []
+    try:
+        _p330 = os.path.join("results", "state_tilt", "unpinnedchoice_latest.json")
+        _f330 = json.load(open(_p330, encoding="utf-8")) if os.path.exists(_p330) else None
+        if _f330 is None:
+            _bad330.append("no published unpinned-choice face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m330 = __import__("importlib").import_module("e330_unpinned_choice")
+            _fresh330 = _m330.build()
+            _s330 = _f330.get("summary") or {}
+            if _f330.get("verdict") != _fresh330.get("verdict"):
+                _bad330.append("the verdict does not re-derive")
+            if _f330.get("verdict") not in _m330.VERDICTS:
+                _bad330.append("verdict %r is outside the frozen set" % (_f330.get("verdict"),))
+            for _k330 in ("decisions", "decisions_by_class", "decisions_pinned",
+                          "decisions_unpinned", "decisions_whose_swap_changes_today",
+                          "unpinned_decisions_whose_branches_disagree_today",
+                          "or_lines_offered_and_rejected_as_one_sided"):
+                if _s330.get(_k330) != (_fresh330.get("summary") or {}).get(_k330):
+                    _bad330.append("summary.%s does not re-derive" % _k330)
+            for _r330 in _f330.get("rows") or []:
+                if _r330["class"] not in _m330.CLASSES:
+                    _bad330.append("a row carries a class outside the frozen set")
+                    break
+                if _r330["pinned"] and not _r330["pinned_by"]:
+                    _bad330.append("a pinned row carries no assertion site")
+                    break
+                if not _r330["pinned"] and _r330["pinned_by"]:
+                    _bad330.append("an unpinned row carries assertion sites")
+                    break
+                if not _r330["pinned"] and not _r330["pin_note"]:
+                    _bad330.append("an unpinned row does not say why")
+                    break
+                if _r330["class"] == _m330.C_CHAIN:
+                    _ps330 = _r330.get("per_stem") or []
+                    if not _ps330:
+                        _bad330.append("a chain row carries no per-stem evidence")
+                        break
+                    if _r330["swap_changes_today"] != any(
+                            p["swap_changes_today"] for p in _ps330):
+                        _bad330.append("a chain's swap flag disagrees with its own stems")
+                        break
+                    if _r330["fallback_lags_newest_cut"] != any(
+                            p["fallback_lags_newest_cut"] for p in _ps330):
+                        _bad330.append("a chain's lag flag disagrees with its own stems")
+                        break
+                if _r330["class"] == _m330.C_OR and len(_r330["branches"]) != 2:
+                    _bad330.append("an or-decision without two branches")
+                    break
+            _lim330 = _f330.get("limits") or {}
+            if "faces_on_both_sides" not in _lim330 or "quoted_text" not in _lim330:
+                _bad330.append("the population cut is not disclosed")
+    except Exception as e:
+        check(_name330, False, repr(e)[:160])
+
+    check(_name330, not _bad330, "; ".join(_bad330)[:220]
+          or "%s | %s two-reference decisions in %s sources (%s unpinned, %s nameless), %s of them "
+             "with branches that already disagree on disk; %s one-sided `or` lines were rejected"
+             % (str((_f330 or {}).get("verdict")),
+                ((_f330 or {}).get("summary") or {}).get("decisions"),
+                ((_f330 or {}).get("summary") or {}).get("sources_scanned"),
+                ((_f330 or {}).get("summary") or {}).get("decisions_unpinned"),
+                ((_f330 or {}).get("summary") or {}).get("decisions_nameless"),
+                ((_f330 or {}).get("summary") or {}).get(
+                    "unpinned_decisions_whose_branches_disagree_today"),
+                ((_f330 or {}).get("summary") or {}).get(
+                    "or_lines_offered_and_rejected_as_one_sided")))
+
     return _finish()
 
 

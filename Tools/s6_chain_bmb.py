@@ -825,6 +825,18 @@ LEGS = [
     ("two_vintage_binding",
      ["python", "scripts/e329_two_vintage_binding.py", "verify"]),
 
+    # E330: E329 named one order-decided resolver; this asks the wider mechanical question -- across
+    # the tree, which constructs pick between two references to one family, and which of those
+    # decisions no assertion names? Four classes (existence chain, `or` fallback, argparse default,
+    # mutable default arg). Of 1 decision the tree actually makes (e242's _face_file), 0 are pinned,
+    # and 2 of its 4 call-site stems hold a pointer one cut ahead of the pinned fallback, so a
+    # two-line swap would return 2026-10-29 instead of 2026-10-30 today. 34 `or` lines carried a face
+    # on one side only and are published as rejected rather than silently dropped; 0 mutable
+    # defaults exist in 646k code lines. Verify re-derives every row, both pin indexes and the
+    # per-stem evidence. ~40s (corpus scan).
+    ("unpinned_choice",
+     ["python", "scripts/e330_unpinned_choice.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
