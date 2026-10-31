@@ -25323,7 +25323,7 @@
    "id": "E292-SCOPE-FIX-PLAN",
    "title": "which faces would gain the most checkable counts by moving a count into the scope that already publishes its unit -- a ranked fix plan over the 299 scopes?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "runner": "scripts/e292_scope_fix_plan.py",
    "runner_args": [
@@ -25339,7 +25339,10 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "E290 split the un-derivable counts into 301 rows over 299 distinct scopes (the face already publishes the unit elsewhere, so the count can be moved or its scope named) and 566 rows over 8 keys (no records exist at all). Price the first half as work: group the 301 rows by face and by target scope, publish how many counts each move would make checkable, and rank the faces by that gain per move so the next author knows where a naming change buys the most auditability. No reburn: published faces only."
+   "source": "E290 split the un-derivable counts into 301 rows over 299 distinct scopes (the face already publishes the unit elsewhere, so the count can be moved or its scope named) and 566 rows over 8 keys (no records exist at all). Price the first half as work: group the 301 rows by face and by target scope, publish how many counts each move would make checkable, and rank the faces by that gain per move so the next author knows where a naming change buys the most auditability. No reburn: published faces only.",
+   "done_at": "2026-10-31T12:20:00+08:00",
+   "done_by": "bm-b r1321",
+   "result_ref": "results/state_tilt/BANDSCOPEFIX-2026-10-29.json (verdict the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count; 301 elsewhere rows: 0 related-scope clean moves, 126 agreements all against a <=1-item list in an unrelated subtree, 75 would convict, 76 need a choice, 24 name the unit as the key; runner scripts/e292_scope_fix_plan.py selftest 16/16, verify 0 problems)"
   },
   {
    "id": "E293-DUPLICATE-LIST-CENSUS",
@@ -25537,6 +25540,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T11:4x+08:00",
+ "updated_at": "2026-10-31T12:20:00+08:00",
  "version": 1
 }

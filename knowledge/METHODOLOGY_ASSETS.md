@@ -5949,3 +5949,33 @@ Evidence: `scripts/e300_window_local_margin_census.py` (selftest 27/27, `verify`
 re-derives it from the frozen sources, and fails if a graded row's reference is repointed to another
 cell or another base draw count), digest
 `research/digests/DIGEST-20261031-r1320-e300-window-local-margin.md`.
+
+### E299 a fix plan must be priced by where the move LANDS, not only by whether the numbers agree (r1321 bm-b)
+
+A published count can agree with a list of the same unit name and still be measuring something else.
+E290 handed 301 un-derivable counts on as "the face already publishes this unit elsewhere, so move the
+count" -- a plan with no new data behind it. Pricing that plan row by row (scope of the count vs scope
+of the candidate list, then value vs list length) showed the plan is mostly not executable: 24 of the
+301 name the unit AS the key (so no sibling list of that name can ever exist in the same parent), 76
+have the unit published in more than one scope (a choice, not a move), and of the 201 single-target
+rows **not one lands beside a list in its own scope or in a scope that contains / sits under it**.
+All 126 agreements come from unrelated subtrees -- and every single one of those target lists holds at
+most one item, so the "agreement" is the arithmetic of a one-element list meeting a count of 1.
+
+Three rules:
+1. **Agreement is necessary, not sufficient.** Ask where the candidate list lives before calling a move
+   clean. `same / ancestor / descendant` scope is a plausible target; `face_root` or an unrelated
+   subtree is a coincidence bucket, and it must be published beside the clean count, never added to it.
+2. **Disclose the degeneracy of the target.** A list of length <= 1 agrees with any count that is 1.
+   Report the share of agreements whose target is degenerate (here 126 of 126, 100 pct) or the
+   headline "138 of 217 move cleanly" reads as a majority finding when it is an artifact.
+3. **A bare unit name can never be moved.** If the key IS the unit (`arms` beside no `arms` list), no
+   sibling list of that name can exist in the same parent -- the scope needs its own records. Price
+   those as a different job, and never as "no new data needed".
+
+Evidence: `scripts/e292_scope_fix_plan.py` (selftest 16/16, `verify` 0 problems),
+`results/state_tilt/BANDSCOPEFIX-2026-10-29.json` (+ `bandscopefix_latest.json`),
+`Tools/s6_chain_bmb.py` leg `scope_fix_plan`, smoke leg E292 (re-derives the face and fails if a clean
+move is repointed into a foreign scope, if a bare key is priced as a move, or if V4 is claimed while a
+row still lands in a related scope), digest
+`research/digests/DIGEST-20261031-r1321-e292-scope-fix-plan.md`.

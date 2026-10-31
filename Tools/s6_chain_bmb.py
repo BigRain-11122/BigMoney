@@ -558,6 +558,17 @@ LEGS = [
     ("window_local_margin_census",
      ["python", "scripts/e300_window_local_margin_census.py", "verify"]),
 
+    # E292 (r1321 bm-b): E290 handed the 301 'the face already publishes this unit elsewhere' rows on
+    # as "move the count, no new data needed". Priced: 24 of them name the unit AS the key (so no
+    # sibling list of that name can exist), 76 have the unit published in more than one scope (a
+    # choice, not a move), and of the 201 single-target rows 126 agree with the candidate list while 75
+    # do not -- but ZERO of the 201 land beside a list in their own scope or a scope that contains /
+    # sits under it, and every one of the 126 agreements is against a list holding at most one item in
+    # an unrelated subtree. So the premise fails: those counts measure a collection the face never
+    # enumerates. Published faces only, no draw, no engine. <1s.
+    ("scope_fix_plan",
+     ["python", "scripts/e292_scope_fix_plan.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

@@ -8008,6 +8008,125 @@ def main() -> int:
     except Exception as e:
         check(_name93, False, repr(e)[:160])
 
+    # E292 (r1321 bm-b): E290 handed the 301 'the face already publishes this unit elsewhere' counts on
+    # as "move the count, no new data needed". This leg pins the price of that plan: (a) the frozen
+    # five-verdict vocabulary, (b) that the shapes partition the 301 rows, (c) that a move is called
+    # CLEAN only when it agrees with the list AND the list lives in the count's own scope or a scope
+    # that contains / sits under it -- an agreement in an unrelated subtree is its own bucket, (d) that
+    # a bare unit name is never priced as a move, and (e) that V4 is only reachable when NOT ONE row
+    # lands in a related scope (the premise failure, published as a count of rows, not as a phrase).
+    _name94 = ("product: the 'move the count into the scope that publishes its unit' fix plan is "
+               "priced -- each of the 301 rows is scored by where a move would land, so an agreement "
+               "against a one-item list in an unrelated subtree is never sold as an auditability gain")
+    _bad94 = []
+    try:
+        _p94 = os.path.join("results", "state_tilt", "bandscopefix_latest.json")
+        _f94 = None
+        if not os.path.exists(_p94):
+            _bad94.append("face missing: %s" % _p94)
+        else:
+            with io.open(_p94, encoding="utf-8") as _fh94:
+                _f94 = json.load(_fh94)
+        if _f94 is not None:
+            if _f94.get("evidence_cutoff") is None:
+                _bad94.append("no evidence_cutoff on the face")
+            _vocab94 = (
+                "the_cheap_naming_fix_is_cheap_and_every_moveable_count_would_agree_with_the_list_it_moves_beside",
+                "the_naming_fix_is_mostly_clean_but_a_minority_would_publish_a_new_disagreement",
+                "most_elsewhere_rows_need_a_choice_because_their_unit_is_published_in_more_than_one_scope",
+                "most_elsewhere_rows_are_bare_unit_names_so_the_cheap_move_does_not_exist_for_them",
+                "the_elsewhere_scope_premise_does_not_hold_no_move_lands_in_a_scope_related_to_the_count")
+            _v94 = _f94.get("verdict")
+            if _v94 not in _vocab94:
+                _bad94.append("verdict %r is outside the frozen vocabulary" % (_v94,))
+            _s94 = _f94.get("summary") or {}
+            _rw94 = _f94.get("rows") or []
+            # (b) the shape buckets partition the censused rows, and the row list agrees with them
+            _shapes94 = ("move_count_clean", "move_count_clean_foreign_scope",
+                         "move_count_would_convict", "choice_required", "needs_own_records",
+                         "mirror_copy", "collision", "premise_fails")
+            if sum(len([r for r in _rw94 if r.get("fix_shape") == _sh]) for _sh in _shapes94) != \
+                    len(_rw94):
+                _bad94.append("the shape buckets do not partition the priced rows")
+            if len(_rw94) != _s94.get("elsewhere_rows"):
+                _bad94.append("the priced rows disagree with summary.elsewhere_rows")
+            if len([r for r in _rw94 if r.get("fix_shape") not in _shapes94]):
+                _bad94.append("a row carries a fix shape outside the frozen set")
+            _related94 = ("same_scope", "ancestor_scope", "descendant_scope")
+            # (c) clean moves agree AND land in a related scope; foreign agreements do the opposite
+            for _r94 in _rw94:
+                if _r94.get("fix_shape") == "move_count_clean":
+                    if _r94.get("published_value") != _r94.get("target_list_length"):
+                        _bad94.append("clean move %s does not equal its target length"
+                                      % (_r94.get("path"),))
+                    if _r94.get("scope_relation") not in _related94:
+                        _bad94.append("clean move %s lands outside a related scope (%s)"
+                                      % (_r94.get("path"), _r94.get("scope_relation")))
+                if _r94.get("fix_shape") == "move_count_clean_foreign_scope":
+                    if _r94.get("scope_relation") in _related94:
+                        _bad94.append("foreign agreement %s is in a related scope"
+                                      % (_r94.get("path"),))
+                    if _r94.get("published_value") != _r94.get("target_list_length"):
+                        _bad94.append("foreign agreement %s does not even agree"
+                                      % (_r94.get("path"),))
+            # (d) a bare unit name is never priced as a move
+            for _r94 in _rw94:
+                if _r94.get("bare_unit_key") and _r94.get("fix_shape") != "needs_own_records":
+                    _bad94.append("bare unit key %s was priced as %s"
+                                  % (_r94.get("path"), _r94.get("fix_shape")))
+            # the decisive counts must be derived from the row list, not asserted
+            _single94 = [r for r in _rw94 if r.get("fix_shape") in (
+                "move_count_clean", "move_count_clean_foreign_scope", "move_count_would_convict",
+                "mirror_copy", "collision")]
+            if len(_single94) != _s94.get("single_target_rows"):
+                _bad94.append("summary.single_target_rows does not match the rows")
+            _rel94 = len([r for r in _single94 if r.get("scope_relation") in _related94])
+            if _rel94 != _s94.get("rows_landing_in_a_related_scope"):
+                _bad94.append("summary.rows_landing_in_a_related_scope does not match the rows")
+            _deg94 = len([r for r in _rw94 if r.get("fix_shape") in (
+                "move_count_clean", "move_count_clean_foreign_scope")
+                and r.get("target_is_degenerate")])
+            if _deg94 != _s94.get("agreeing_rows_whose_target_holds_at_most_one_item"):
+                _bad94.append("the degenerate-target count does not match the rows")
+            # (e) V4 is only reachable when no row lands in a related scope
+            if _v94 == _vocab94[4] and (_s94.get("rows_landing_in_a_related_scope") or 0) != 0:
+                _bad94.append("V4 is claimed while %d row(s) land in a related scope"
+                              % (_s94.get("rows_landing_in_a_related_scope"),))
+            if _v94 != _vocab94[4] and (_s94.get("rows_landing_in_a_related_scope") or 0) == 0:
+                _bad94.append("no row lands in a related scope but the verdict is not V4")
+            # the plan must still re-derive, or the published price is stale
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m94 = __import__("importlib").import_module("e292_scope_fix_plan")
+            _fresh94 = _m94.build()
+            if _fresh94.get("verdict") != _v94:
+                _bad94.append("the verdict does not re-derive")
+            if [r.get("fix_shape") for r in (_fresh94.get("rows") or [])] != \
+                    [r.get("fix_shape") for r in _rw94]:
+                _bad94.append("the fix-shape assignment does not re-derive")
+            _fs94 = _fresh94.get("summary") or {}
+            for _k94 in ("elsewhere_rows", "related_clean_moves", "foreign_scope_agreements",
+                         "moves_that_would_convict", "choice_required", "needs_own_records",
+                         "rows_landing_in_a_related_scope"):
+                if _fs94.get(_k94) != _s94.get(_k94):
+                    _bad94.append("summary.%s does not re-derive" % _k94)
+        check(_name94, not _bad94,
+              "; ".join(_bad94)[:220]
+              or "verdict %r | %d elsewhere row(s): %d related-scope clean move(s), %d foreign "
+                 "agreement(s) (%d of them against a <=1-item list), %d would convict, %d need a "
+                 "choice, %d need their own records; %d row(s) land in a scope related to the count"
+                 % ((_f94 or {}).get("verdict"),
+                    (_f94 or {}).get("summary", {}).get("elsewhere_rows") or 0,
+                    (_f94 or {}).get("summary", {}).get("related_clean_moves") or 0,
+                    (_f94 or {}).get("summary", {}).get("foreign_scope_agreements") or 0,
+                    (_f94 or {}).get("summary", {}).get(
+                        "agreeing_rows_whose_target_holds_at_most_one_item") or 0,
+                    (_f94 or {}).get("summary", {}).get("moves_that_would_convict") or 0,
+                    (_f94 or {}).get("summary", {}).get("choice_required") or 0,
+                    (_f94 or {}).get("summary", {}).get("needs_own_records") or 0,
+                    (_f94 or {}).get("summary", {}).get("rows_landing_in_a_related_scope") or 0))
+    except Exception as e:
+        check(_name94, False, repr(e)[:160])
+
     return _finish()
 
 
