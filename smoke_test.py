@@ -7880,6 +7880,134 @@ def main() -> int:
     except Exception as e:
         check(_name92, False, repr(e)[:160])
 
+    # E300 r1320 (published r1320, wired same round): E295 could grade only the rows whose window
+    # owned a draw ladder and had to borrow one cap written at another window for the rest, which is
+    # why its margins and E287's headline were both window artefacts (3.80 pct vs 5.98 pct on the
+    # same demand). The leg pins (a) the frozen verdict vocabulary, (b) that every graded row is
+    # priced against a reference published IN ITS OWN CELL at ITS OWN base draw count -- never a
+    # borrowed one, (c) that a row with no window-local reference is published with needs_face and
+    # no margin (nothing is subtracted across windows), (d) that a reach flip is published only
+    # where the two denominators actually disagree, and (e) that the cross-window column
+    # reproduces E295 exactly, which is what makes the own-window column comparable arithmetic.
+    _name93 = ("product: a demand is priced against the window that owns it -- every published "
+               "demand row carries its own-window margin beside the borrowed-cap margin, and a "
+               "row with no window-local reference says which face it needs instead of borrowing")
+    _bad93 = []
+    try:
+        _p93 = os.path.join("results", "state_tilt", "bandmarginwindow_latest.json")
+        _f93 = None
+        if not os.path.exists(_p93):
+            _bad93.append("face missing: %s" % _p93)
+        else:
+            with io.open(_p93, encoding="utf-8") as _fh93:
+                _f93 = json.load(_fh93)
+        if _f93 is not None:
+            if _f93.get("evidence_cutoff") is None:
+                _bad93.append("no evidence_cutoff on the face")
+            _vocab93 = (
+                "every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is",
+                "every_demand_is_graded_against_its_own_window",
+                "window_local_references_are_missing_for_some_demands")
+            _v93 = _f93.get("verdict")
+            if _v93 not in _vocab93:
+                _bad93.append("verdict %r is outside the frozen vocabulary" % (_v93,))
+            _s93 = _f93.get("summary") or {}
+            _rw93 = _f93.get("rows") or []
+            # (b) every graded row's reference belongs to its own cell and its own base draws
+            for _r93 in _rw93:
+                if not _r93.get("graded_on_own_window"):
+                    continue
+                _ref93 = _r93.get("own_reference") or {}
+                if not str(_ref93.get("label") or "").startswith(str(_r93.get("cell")) + "|"):
+                    _bad93.append("row %s was priced against another window's reference (%s)"
+                                  % (_r93.get("row_key"), _ref93.get("label")))
+                if _ref93.get("base_draws") != _r93.get("base_draws"):
+                    _bad93.append("row %s was priced at base %s, published at %s"
+                                  % (_r93.get("row_key"), _ref93.get("base_draws"),
+                                     _r93.get("base_draws")))
+                if _r93.get("own_margin_pct") is None:
+                    _bad93.append("row %s is graded but carries no margin"
+                                  % (_r93.get("row_key"),))
+            # (c) an ungraded row names the face it needs and quotes no number
+            for _r93 in _rw93:
+                if _r93.get("graded_on_own_window"):
+                    continue
+                if not _r93.get("needs_face"):
+                    _bad93.append("row %s is ungraded without naming the face it needs"
+                                  % (_r93.get("row_key"),))
+                if _r93.get("own_margin_pct") is not None:
+                    _bad93.append("row %s is ungraded but still quotes an own-window margin"
+                                  % (_r93.get("row_key"),))
+            # census partition + reach flips agree with their own row list
+            if (_s93.get("n_graded_on_own_window") or 0) + (_s93.get("n_not_graded") or 0) != \
+                    _s93.get("n_rows_censused"):
+                _bad93.append("the census does not partition")
+            if (_s93.get("n_graded_widening") or 0) + (_s93.get("n_graded_narrowing") or 0) != \
+                    _s93.get("n_graded_on_own_window"):
+                _bad93.append("the polarity split does not add up")
+            _flip93 = sorted(r.get("row_key") for r in _rw93 if r.get("reach_flips") is True)
+            if _flip93 != sorted(_s93.get("reach_flip_rows") or []):
+                _bad93.append("the reach-flip rows disagree with the count")
+            # (d) a flip is published only where the denominators disagree
+            for _r93 in _rw93:
+                if _r93.get("reach_flips") is None:
+                    continue
+                if bool(_r93.get("reach_flips")) != (
+                        _r93.get("own_reached_central") != _r93.get("cross_reached_central")):
+                    _bad93.append("row %s's flip flag contradicts its two reach verdicts"
+                                  % (_r93.get("row_key"),))
+            # the own-window column must actually move the number, or the study measured nothing
+            if not (_s93.get("n_cross_window_understated") or 0) > 0:
+                _bad93.append("no row moved, so the two denominators measured the same thing")
+            # (e) the cross-window column reproduces E295 (same arithmetic, borrowed caps)
+            _w93 = _s93.get("witness_e295") or {}
+            if not _w93.get("checked"):
+                _bad93.append("the E295 witness rows were not checked")
+            elif not _w93.get("all_agree"):
+                _bad93.append("the cross-window column does not reproduce E295")
+            # a ladder count alone must never be read as 'no reference'
+            if (_s93.get("n_ladder_windows") or 0) >= (_s93.get("n_multiplier_windows") or 0):
+                _bad93.append("the ladder/multiplier distinction is not published")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m93 = __import__("importlib").import_module("e300_window_local_margin_census")
+            _fresh93 = _m93.build()
+            if _fresh93.get("verdict") != _v93:
+                _bad93.append("the verdict does not re-derive")
+            if [r.get("row_key") for r in (_fresh93.get("rows") or [])] != \
+                    [r.get("row_key") for r in _rw93]:
+                _bad93.append("the demand rows do not re-derive")
+            _fs93 = _fresh93.get("summary") or {}
+            for _k in ("n_rows_censused", "n_graded_on_own_window", "n_graded_widening",
+                       "n_graded_narrowing", "n_reach_flips", "n_narrowing_instruments_published"):
+                if _fs93.get(_k) != _s93.get(_k):
+                    _bad93.append("summary.%s does not re-derive" % _k)
+        check(_name93, not _bad93,
+              "; ".join(_bad93)[:220]
+              or "verdict %r | %d demand row(s): %d graded on their own window (%d widening / %d "
+                 "narrowing), %d with no window-local reference and a named face; %d ladder "
+                 "window(s) vs %d multiplier window(s), so %d un-laddered row(s) still got priced; "
+                 "own-window margin %s..%s pct vs borrowed-cap %s..%s pct; %d reach flip(s); "
+                 "cross-window column reproduces E295 on %d row(s)"
+                 % ((_f93 or {}).get("verdict"),
+                    (_f93 or {}).get("summary", {}).get("n_rows_censused") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_graded_on_own_window") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_graded_widening") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_graded_narrowing") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_not_graded") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_ladder_windows") or 0,
+                    (_f93 or {}).get("summary", {}).get("n_multiplier_windows") or 0,
+                    (_f93 or {}).get("summary", {}).get(
+                        "n_rows_un_laddered_but_multiplier_graded") or 0,
+                    _r78(_f93 or {}, "own_margin_pct_min"),
+                    _r78(_f93 or {}, "own_margin_pct_max"),
+                    _r78(_f93 or {}, "cross_margin_pct_min"),
+                    _r78(_f93 or {}, "cross_margin_pct_max"),
+                    (_f93 or {}).get("summary", {}).get("n_reach_flips") or 0,
+                    ((_f93 or {}).get("summary", {}) or {}).get("witness_e295", {}).get("checked")
+                    or 0))
+    except Exception as e:
+        check(_name93, False, repr(e)[:160])
+
     return _finish()
 
 

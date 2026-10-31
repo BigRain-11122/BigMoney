@@ -546,6 +546,18 @@ LEGS = [
     ("supply_gap_closure",
      ["python", "scripts/e295_supply_gap_closure.py", "verify"]),
 
+    # E300 (r1320 bm-b): E295 had to call 9 of 12 demand rows not_graded because only era_2025_now
+    # owns a draw ladder, and the widening margin it read (5.98 pct) differed from E287's headline
+    # (3.80 pct) purely by which window's cap was the denominator. Re-priced every published demand
+    # row against the multiplier its own window published at its own base draws (E258 measured all
+    # four cells): 10 of 12 are graded on their own window, 3 reach verdicts flip (rows that looked
+    # reachable only under a borrowed cap), and the borrowed-cap denominator understates the margin
+    # by up to 147 pct. The 2 narrowing rows stay ungraded with a named face because the family
+    # publishes no window-local narrowing instrument (BANDFLOOR is one synthetic seed). Witnesses
+    # that E295's own margins reproduce on the cross-window column. Published faces only. <1s.
+    ("window_local_margin_census",
+     ["python", "scripts/e300_window_local_margin_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

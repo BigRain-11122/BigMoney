@@ -1,0 +1,662 @@
+{
+ "study": "E300_window_local_margin_census",
+ "title": "the same demand, priced against the window that owns it -- what does each of the twelve published demand rows cost when the denominator is its own window's published multiplier instead of a cap written at another window, and which rows were 'unreachable' only because the reference came from a different cell?",
+ "evidence_cutoff": "2026-10-29",
+ "generated": "2026-10-31T11:41:06",
+ "no_bill": "measurement only: the twelve published demand rows are compared with the multiplier each window already published for itself. No draw stream is drawn, no band rebuilt, no engine runs, no new draw budget is requested. A margin here is a statement about the references the family has already measured.",
+ "source_faces": [
+  "BANDGAPCEILING-2026-10-29.json",
+  "BANDWINMULT-2026-10-29.json",
+  "BANDSUPPLY-2026-10-29.json",
+  "BANDFLOOR-2026-10-29.json",
+  "BANDCLOSURE-2026-10-29.json",
+  "BANDDRAW-2026-10-29-d1920.json"
+ ],
+ "frozen_spec": {
+  "M1_own_window": "a demand row is graded against a reference published in its own cell; another cell's reference is never the denominator",
+  "M2_own_base": "the reference is read at the row's own published base draw count (60 for the era cells, 200 for all_five)",
+  "M3_three_basis": "central / matched-seed min / matched-seed max are published; a reach at one seed only is seed-dependent",
+  "M4_polarity": "widen: reached iff cap >= flip, margin_pct = (flip/cap-1)*100; narrow: reached iff cap <= flip, margin_pct = (cap-flip)/cap*100 (E295's arithmetic, so the faces are comparable)",
+  "M5_nothing_fitted": "no window-local reference -> the row is published with needs_face; no cross-window subtraction is quoted as a margin",
+  "M6_nobill": "published faces only: no stream drawn, no band rebuilt, no engine run",
+  "M7_ladder_vs_multiplier": "a ladder is a per-rung draw grid inside one window; a multiplier is one published reference at the row's own base draws. Both counts are reported",
+  "tolerance": 1e-12,
+  "verdict_vocab": [
+   "every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is",
+   "every_demand_is_graded_against_its_own_window",
+   "window_local_references_are_missing_for_some_demands"
+  ]
+ },
+ "rows": [
+  {
+   "row_key": "cross|200|1",
+   "cell": "all_five",
+   "class_published": "above_ceiling",
+   "flip": 2.704575069829843,
+   "arm": "cross:200",
+   "base_draws": 200,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "all_five|200",
+    "basis": "central",
+    "value": 1.3166618466295334,
+    "seed_min": 1.1046343939394732,
+    "seed_max": 1.3369005899072757,
+    "base_draws": 200,
+    "top_draws": 1920,
+    "sessions": 1328,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 2.054115167652,
+   "own_margin_pct": 105.411517,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.2043165184,
+   "cross_margin_pct": 20.431652,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 84.979865,
+   "reach_flips": false
+  },
+  {
+   "row_key": "star_lag1_residual|200|12",
+   "cell": "all_five",
+   "class_published": "above_ceiling",
+   "flip": 3.254381491424318,
+   "arm": "cross:200",
+   "base_draws": 200,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "all_five|200",
+    "basis": "central",
+    "value": 1.3166618466295334,
+    "seed_min": 1.1046343939394732,
+    "seed_max": 1.3369005899072757,
+    "base_draws": 200,
+    "top_draws": 1920,
+    "sessions": 1328,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 2.471691193722,
+   "own_margin_pct": 147.169119,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.449139064771,
+   "cross_margin_pct": 44.913906,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 102.255213,
+   "reach_flips": false
+  },
+  {
+   "row_key": "cross|60|7",
+   "cell": "era_2023_2024",
+   "class_published": "above_ceiling",
+   "flip": 2.4587098314134175,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "era_2023_2024|60",
+    "basis": "central",
+    "value": 1.4731822958792595,
+    "seed_min": 1.3382959296771073,
+    "seed_max": 1.6180914021424722,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 446,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.668978671744,
+   "own_margin_pct": 66.897867,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.094835524055,
+   "cross_margin_pct": 9.483552,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 57.414315,
+   "reach_flips": false
+  },
+  {
+   "row_key": "cross|60|9",
+   "cell": "era_2025_now",
+   "class_published": "reachable_wide",
+   "flip": 2.1964962193681883,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": true,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "era_2025_now|60",
+    "basis": "central",
+    "value": 1.6441450852416506,
+    "seed_min": 1.5777731687311436,
+    "seed_max": 1.6661891111598466,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 408,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.335950360515,
+   "own_margin_pct": 33.595036,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 0.97807478487,
+   "cross_margin_pct": -2.192522,
+   "cross_reached_central": true,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 35.787558,
+   "reach_flips": true
+  },
+  {
+   "row_key": "cross|60|11",
+   "cell": "early_three",
+   "class_published": "in_gap",
+   "flip": 1.8029783974819489,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "early_three|60",
+    "basis": "central",
+    "value": 1.8382513527582964,
+    "seed_min": 1.4022025093409514,
+    "seed_max": 2.245734429868289,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 831,
+    "star": "sh510050"
+   },
+   "own_margin_factor": 0.980811679957,
+   "own_margin_pct": -1.918832,
+   "own_reached_central": true,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": true,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 0.802845774417,
+   "cross_margin_pct": -19.715423,
+   "cross_reached_central": true,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 17.796591,
+   "reach_flips": false
+  },
+  {
+   "row_key": "star_lag1_residual|60|13",
+   "cell": "era_2023_2024",
+   "class_published": "reachable_wide",
+   "flip": 2.1383765610561616,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "era_2023_2024|60",
+    "basis": "central",
+    "value": 1.4731822958792595,
+    "seed_min": 1.3382959296771073,
+    "seed_max": 1.6180914021424722,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 446,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.451535609027,
+   "own_margin_pct": 45.153561,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 0.952194762041,
+   "cross_margin_pct": -4.780524,
+   "cross_reached_central": true,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 49.934085,
+   "reach_flips": true
+  },
+  {
+   "row_key": "star_lag1_residual|60|14",
+   "cell": "era_2025_now",
+   "class_published": "above_ceiling",
+   "flip": 2.380091359569827,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": true,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "era_2025_now|60",
+    "basis": "central",
+    "value": 1.6441450852416506,
+    "seed_min": 1.5777731687311436,
+    "seed_max": 1.6661891111598466,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 408,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.447616381872,
+   "own_margin_pct": 44.761638,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.059827612702,
+   "cross_margin_pct": 5.982761,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 38.778877,
+   "reach_flips": false
+  },
+  {
+   "row_key": "star_lag1_residual|60|15",
+   "cell": "early_three",
+   "class_published": "in_gap",
+   "flip": 1.88430768682915,
+   "arm": "cross:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "early_three|60",
+    "basis": "central",
+    "value": 1.8382513527582964,
+    "seed_min": 1.4022025093409514,
+    "seed_max": 2.245734429868289,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 831,
+    "star": "sh510050"
+   },
+   "own_margin_factor": 1.025054426862,
+   "own_margin_pct": 2.505443,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": true,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 0.839060781973,
+   "cross_margin_pct": -16.093922,
+   "cross_reached_central": true,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 18.599365,
+   "reach_flips": true
+  },
+  {
+   "row_key": "self|200|0",
+   "cell": "all_five",
+   "class_published": "above_ceiling",
+   "flip": 2.331054649806725,
+   "arm": "self:200",
+   "base_draws": 200,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "all_five|200",
+    "basis": "central",
+    "value": 1.3166618466295334,
+    "seed_min": 1.1046343939394732,
+    "seed_max": 1.3369005899072757,
+    "base_draws": 200,
+    "top_draws": 1920,
+    "sessions": 1328,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.770427734178,
+   "own_margin_pct": 77.042773,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.037992123558,
+   "cross_margin_pct": 3.799212,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 73.243561,
+   "reach_flips": false
+  },
+  {
+   "row_key": "self|60|6",
+   "cell": "era_2023_2024",
+   "class_published": "above_ceiling",
+   "flip": 2.6675958294079174,
+   "arm": "self:60",
+   "base_draws": 60,
+   "direction": "widen",
+   "has_window_ladder": false,
+   "own_reference": {
+    "face": "BANDWINMULT-2026-10-29.json",
+    "label": "era_2023_2024|60",
+    "basis": "central",
+    "value": 1.4731822958792595,
+    "seed_min": 1.3382959296771073,
+    "seed_max": 1.6180914021424722,
+    "base_draws": 60,
+    "top_draws": 1920,
+    "sessions": 446,
+    "star": "sh588000"
+   },
+   "own_margin_factor": 1.810771034155,
+   "own_margin_pct": 81.077103,
+   "own_reached_central": false,
+   "own_reached_seed_min": false,
+   "own_reached_seed_max": false,
+   "cross_window_reference": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "cross_margin_factor": 1.187850083219,
+   "cross_margin_pct": 18.785008,
+   "cross_reached_central": false,
+   "graded_on_own_window": true,
+   "needs_face": null,
+   "margin_delta_pct": 62.292095,
+   "reach_flips": false
+  },
+  {
+   "row_key": "self|60|8",
+   "cell": "era_2025_now",
+   "class_published": "below_floor",
+   "flip": 0.8893869568794188,
+   "arm": "self:60",
+   "base_draws": 60,
+   "direction": "narrow",
+   "has_window_ladder": true,
+   "own_reference": null,
+   "own_margin_pct": null,
+   "own_margin_factor": null,
+   "own_reached_central": null,
+   "own_reached_seed_min": null,
+   "own_reached_seed_max": null,
+   "cross_window_reference": {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "label": "counterfactual_percentile_band.multiplier",
+    "value": 0.9220216139981448
+   },
+   "cross_margin_pct": 3.539468,
+   "cross_margin_factor": 0.964605323104,
+   "cross_reached_central": false,
+   "graded_on_own_window": false,
+   "needs_face": "a per-window narrowing ladder: the same shape as BANDDRAW (rungs x draw counts, per seed) rebuilt on the narrowing polarity -- era_2025_now at the row's own base draws. BANDFLOOR is a synthetic counterfactual (fixed seed 20261031), not a per-window instrument, so it cannot stand in as this window's denominator",
+   "margin_delta_pct": null,
+   "reach_flips": null
+  },
+  {
+   "row_key": "self|60|10",
+   "cell": "early_three",
+   "class_published": "below_floor",
+   "flip": 0.6303939055900345,
+   "arm": "self:60",
+   "base_draws": 60,
+   "direction": "narrow",
+   "has_window_ladder": false,
+   "own_reference": null,
+   "own_margin_pct": null,
+   "own_margin_factor": null,
+   "own_reached_central": null,
+   "own_reached_seed_min": null,
+   "own_reached_seed_max": null,
+   "cross_window_reference": {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "label": "counterfactual_percentile_band.multiplier",
+    "value": 0.9220216139981448
+   },
+   "cross_margin_pct": 31.629162,
+   "cross_margin_factor": 0.68370838169,
+   "cross_reached_central": false,
+   "graded_on_own_window": false,
+   "needs_face": "a per-window narrowing ladder: the same shape as BANDDRAW (rungs x draw counts, per seed) rebuilt on the narrowing polarity -- early_three at the row's own base draws. BANDFLOOR is a synthetic counterfactual (fixed seed 20261031), not a per-window instrument, so it cannot stand in as this window's denominator",
+   "margin_delta_pct": null,
+   "reach_flips": null
+  }
+ ],
+ "headline_rows_by_cross_margin": [
+  {
+   "row_key": "cross|60|11",
+   "cell": "early_three",
+   "cross_margin_pct": -19.715423,
+   "own_margin_pct": -1.918832,
+   "delta_pct": 17.796591
+  },
+  {
+   "row_key": "star_lag1_residual|60|15",
+   "cell": "early_three",
+   "cross_margin_pct": -16.093922,
+   "own_margin_pct": 2.505443,
+   "delta_pct": 18.599365
+  },
+  {
+   "row_key": "star_lag1_residual|60|13",
+   "cell": "era_2023_2024",
+   "cross_margin_pct": -4.780524,
+   "own_margin_pct": 45.153561,
+   "delta_pct": 49.934085
+  },
+  {
+   "row_key": "cross|60|9",
+   "cell": "era_2025_now",
+   "cross_margin_pct": -2.192522,
+   "own_margin_pct": 33.595036,
+   "delta_pct": 35.787558
+  },
+  {
+   "row_key": "self|200|0",
+   "cell": "all_five",
+   "cross_margin_pct": 3.799212,
+   "own_margin_pct": 77.042773,
+   "delta_pct": 73.243561
+  },
+  {
+   "row_key": "star_lag1_residual|60|14",
+   "cell": "era_2025_now",
+   "cross_margin_pct": 5.982761,
+   "own_margin_pct": 44.761638,
+   "delta_pct": 38.778877
+  },
+  {
+   "row_key": "cross|60|7",
+   "cell": "era_2023_2024",
+   "cross_margin_pct": 9.483552,
+   "own_margin_pct": 66.897867,
+   "delta_pct": 57.414315
+  },
+  {
+   "row_key": "self|60|6",
+   "cell": "era_2023_2024",
+   "cross_margin_pct": 18.785008,
+   "own_margin_pct": 81.077103,
+   "delta_pct": 62.292095
+  },
+  {
+   "row_key": "cross|200|1",
+   "cell": "all_five",
+   "cross_margin_pct": 20.431652,
+   "own_margin_pct": 105.411517,
+   "delta_pct": 84.979865
+  },
+  {
+   "row_key": "star_lag1_residual|200|12",
+   "cell": "all_five",
+   "cross_margin_pct": 44.913906,
+   "own_margin_pct": 147.169119,
+   "delta_pct": 102.255213
+  }
+ ],
+ "summary": {
+  "n_rows_censused": 12,
+  "n_widening": 10,
+  "n_narrowing": 2,
+  "n_graded_on_own_window": 10,
+  "n_graded_widening": 10,
+  "n_graded_narrowing": 0,
+  "n_not_graded": 2,
+  "n_not_graded_widening": 0,
+  "n_not_graded_narrowing": 2,
+  "n_ladder_windows": 1,
+  "ladder_windows": [
+   "era_2025_now"
+  ],
+  "n_multiplier_windows": 4,
+  "multiplier_windows": [
+   "all_five",
+   "early_three",
+   "era_2023_2024",
+   "era_2025_now"
+  ],
+  "n_rows_un_laddered_but_multiplier_graded": 8,
+  "n_reached_own_central": 1,
+  "n_reached_cross_central": 4,
+  "n_reach_flips": 3,
+  "reach_flip_rows": [
+   "cross|60|9",
+   "star_lag1_residual|60|13",
+   "star_lag1_residual|60|15"
+  ],
+  "n_cross_window_understated": 10,
+  "cross_window_understated_rows": [
+   "cross|200|1",
+   "star_lag1_residual|200|12",
+   "cross|60|7",
+   "cross|60|9",
+   "cross|60|11",
+   "star_lag1_residual|60|13",
+   "star_lag1_residual|60|14",
+   "star_lag1_residual|60|15",
+   "self|200|0",
+   "self|60|6"
+  ],
+  "own_margin_pct_min": -1.918832,
+  "own_margin_pct_max": 147.169119,
+  "cross_margin_pct_min": -19.715423,
+  "cross_margin_pct_max": 44.913906,
+  "cross_window_caps": {
+   "widen": {
+    "face": "BANDSUPPLY-2026-10-29.json",
+    "label": "widen_cap_optimistic",
+    "value": 2.245734429868289
+   },
+   "narrow": {
+    "face": "BANDFLOOR-2026-10-29.json",
+    "label": "counterfactual_percentile_band.multiplier",
+    "value": 0.9220216139981448
+   }
+  },
+  "headline_rows_by_cross_margin": [
+   {
+    "row_key": "cross|60|11",
+    "cell": "early_three",
+    "cross_margin_pct": -19.715423,
+    "own_margin_pct": -1.918832,
+    "delta_pct": 17.796591
+   },
+   {
+    "row_key": "star_lag1_residual|60|15",
+    "cell": "early_three",
+    "cross_margin_pct": -16.093922,
+    "own_margin_pct": 2.505443,
+    "delta_pct": 18.599365
+   },
+   {
+    "row_key": "star_lag1_residual|60|13",
+    "cell": "era_2023_2024",
+    "cross_margin_pct": -4.780524,
+    "own_margin_pct": 45.153561,
+    "delta_pct": 49.934085
+   }
+  ],
+  "narrow_tool_audit": [],
+  "n_narrowing_instruments_published": 0,
+  "witness_e295": {
+   "basis": "cross_window (the denominators E295 used)",
+   "checked": 2,
+   "agree": 2,
+   "rows": [
+    {
+     "row_key": "star_lag1_residual|60|14",
+     "e295_margin_pct": 5.982761,
+     "cross_window_margin_pct": 5.982761,
+     "own_window_margin_pct": 44.761638,
+     "abs_diff": 0.0,
+     "agrees": true
+    },
+    {
+     "row_key": "self|60|8",
+     "e295_margin_pct": 3.539468,
+     "cross_window_margin_pct": 3.539468,
+     "own_window_margin_pct": null,
+     "abs_diff": 0.0,
+     "agrees": true
+    }
+   ],
+   "all_agree": true
+  },
+  "verdict": "every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is"
+ },
+ "verdict": "every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is",
+ "verdict_reason": "all 12 published demand row(s) were priced twice: against the cap E287 wrote at widen_cap_optimistic (the denominator E295 had to reuse) and against the multiplier their own window published for itself; 10 row(s) are graded on their own window (10 widening / 0 narrowing) and 2 still have no window-local reference; 8 of the rows E295 called not_graded own no draw LADDER but do own a published MULTIPLIER, so 'unreachable' was never the right word for them; 3 row(s) change their reach verdict when the denominator moves to their own window: cross|60|9, star_lag1_residual|60|13, star_lag1_residual|60|15; on 10 row(s) the cross-window denominator UNDERSTATES the margin by up to 102.26 pct; 2 narrowing row(s) stay not_graded because the family publishes no window-local narrowing instrument at all (the only sub-1.0 multiplier, BANDFLOOR, is a synthetic counterfactual with one frozen seed)"
+}

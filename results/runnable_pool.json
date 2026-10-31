@@ -25503,7 +25503,10 @@
    "id": "E300-WINDOW-LOCAL-MARGIN-CENSUS",
    "title": "the same widening margin moved from 3.80 pct to 5.98 pct purely by reading the demand in the ladder's own window -- for all twelve demand rows, what does the margin become when the reference is the window that owns it, and which of the nine rows without a ladder would gain one from a face the family already published?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
+   "result_ref": "results/state_tilt/BANDMARGINWINDOW-2026-10-29.json (verdict every_widening_demand_is_graded_against_its_own_window_and_no_narrowing_one_is; 12 rows censused, 10 graded on their own window, 2 narrowing rows name the face they need; own-window margin -1.92..147.17 pct vs borrowed-cap -19.72..44.91 pct; 3 reach flips; cross-window column reproduces E295 on 2 row(s))",
+   "done_at": "2026-10-31T12:0x+08:00",
+   "done_by": "bm-b r1320",
    "priority": 3,
    "runner": "scripts/e300_window_local_margin_census.py",
    "runner_args": [

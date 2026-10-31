@@ -5915,3 +5915,37 @@ Evidence: `scripts/e295_supply_gap_closure.py` (selftest 22/22, `verify` 0 probl
 of `smoke_test.py` and executed standalone: PASS; FAILs when a graded margin is repointed to another
 window or the ladder span is mutated), digest
 `research/digests/DIGEST-20261031-r1319-e295-supply-gap-closure.md`.
+
+### E298 a margin has a denominator with a window -- moving it home flips reach verdicts and can inflate the gap 20x (r1320 bm-b)
+
+"Not gradable because no ladder was published for this window" and "no reference exists" are different
+statements, and only the second one licenses the word *unreachable*. Here only one of four cells owned
+a per-rung draw ladder, so 9 of 12 published demand rows were filed `not_graded`, while all four cells
+had already published a single draw multiplier for themselves (E258) at each row's own base draw count.
+Re-pricing the same twelve rows with the same arithmetic but the home denominator gradated 10 of 12 and
+moved three reach verdicts: two rows that looked reachable under a cap written at `early_three|60` are
+not reachable by their own window's supply, and one row published as `in_gap` actually reaches once its
+own multiplier is the denominator. The borrowed cap understated every widening margin, by up to 147 pct
+-- the row behind the family's 3.80 pct headline is 77.04 pct short at home, a factor of 20 away.
+
+Three rules:
+
+1. **A margin is a ratio of two numbers from the same window.** If the demand carries a `cell` and the
+   reference does not, you are not measuring a gap; you are measuring the distance between two vintages.
+   Publish the pair (borrowed-cap margin, home-window margin) so the reader can see the artifact.
+2. **Count ladders and references separately.** "Only 1 of 4 windows has a ladder" is a capacity
+   statement about grids; "4 of 4 have a multiplier" is a statement about references. Reporting only
+   the first makes nine gradable rows look unmeasurable, and the cheaper answer (build more ladders)
+   passes for the fix.
+3. **A synthetic counterfactual is not a per-window instrument.** The only sub-1.0 multiplier the
+   family publishes runs on one frozen seed to demonstrate that the floor *can* be broken. It cannot
+   stand in as a window's narrowing denominator, so those rows are published with `needs_face` naming
+   the exact face required (a per-window narrowing ladder, BANDDRAW's shape) rather than priced against
+   a number that belongs to no window.
+
+Evidence: `scripts/e300_window_local_margin_census.py` (selftest 27/27, `verify` 0 problems),
+`results/state_tilt/BANDMARGINWINDOW-2026-10-29.json` (+ `bandmarginwindow_latest.json`),
+`Tools/s6_chain_bmb.py` leg `window_local_margin_census`, smoke leg E300 (reads the published face,
+re-derives it from the frozen sources, and fails if a graded row's reference is repointed to another
+cell or another base draw count), digest
+`research/digests/DIGEST-20261031-r1320-e300-window-local-margin.md`.
