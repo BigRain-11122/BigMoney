@@ -848,10 +848,10 @@
  "src": "D-20261027-08 memory-file reconstruction + smoke structure leg",
  "status": "idle",
  "sync": {
-  "delivered_head": "9edd2437af",
-  "note": "pushed on origin tip after a rebase over bm-a r1187 (union card ledger: E303/E304 theirs, E305 ours; the inherited marker line stripped from both sides)",
-  "origin_tip": "9edd2437af",
-  "ts": "2026-10-31T10:47:30+08:00"
+  "origin_tip": "3193f999f8",
+  "delivered_head": "3193f999f8",
+  "ts": "2026-10-31T13:45:00+08:00",
+  "note": "cherry-picked onto origin after bm-a r1190; card ledger union (E310 after theirs), shared regenerated faces taken from origin"
  },
  "task": "r1385: a stale tree carried a silent revert of the leg_split feature and the page's own selftest could not see it -- restored from HEAD and moved the witness into a consumer",
  "total_ram_gb": 23.9,
@@ -859,6 +859,6 @@
  "updated": "2026-10-31T13:02:00+08:00",
  "updated_at": "2026-10-31T13:02:00+08:00",
  "verdict": "green",
- "verify": "consumer-side smoke leg proved against the actual stale blobs (tokens all False, selftest 62/62 PASS); ceo_page 65/65; leg_attribution SELFTEST OK; smoke 281/281 PASS 0 FAIL",
+ "verify": "consumer-side smoke leg proved against the actual stale blobs (tokens all False, selftest 62/62 PASS); ceo_page 65/65; leg_attribution SELFTEST OK; full smoke on the MERGED tree 282/282 PASS 0 FAIL; pushed 3193f999f8, local tree converged (0/0/0)",
  "vram_free_gb": 13.95
 }
