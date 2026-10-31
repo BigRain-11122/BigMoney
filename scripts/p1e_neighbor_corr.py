@@ -40,6 +40,8 @@ Subcommands:
              (idempotent: existing self-consistent output = skip)
 """
 import argparse
+import glob
+import hashlib
 import json
 import os
 import sys
@@ -151,12 +153,78 @@ def anchor_check(computed_pairs):
 
 # ------------------------------------------------------------------- run
 
-def _selfconsistent(path):
+def _sha256_file(path, chunk=1 << 20):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        while True:
+            b = f.read(chunk)
+            if not b:
+                break
+            h.update(b)
+    return h.hexdigest()
+
+
+def inputs_sha256():
+    """Digest of exactly what the verdict is a function of (r1380).
+
+    The old guard compared `evidence_cutoff` against CUTOFF, and CUTOFF is the literal
+    the writer copies into that same field: a comparison between two spellings of one
+    constant. It could catch a hand-edited file and nothing else -- a moved reject line,
+    a moved anchor tolerance, an added pair, a repaired panel bar, all leave it green.
+    What this face actually depends on is the frozen constant block, the recorded probe
+    anchors, and the panel bytes it reads; that is what is hashed now.
+
+    An unreadable panel returns None, and None is never clean: on a host without the
+    bm-b lane cache the checkpoint must be a MISS, not a cache hit.
+    """
+    cache_files = sorted(glob.glob(os.path.join(P1C.CACHE_DIR, "*.npy")) +
+                         glob.glob(os.path.join(P1C.CACHE_DIR, "*.json")))
+    if not cache_files:
+        return None
+    ident = {
+        "cutoff": CUTOFF,
+        "is_end": str(IS_END),
+        "reject_line": REJECT_LINE,
+        "anchor_tol": ANCHOR_TOL,
+        "f2_min_common": F2_MIN_COMMON,
+        "materials": MATERIALS,
+        "verdict_pairs": [list(p) for p in VERDICT_PAIRS],
+        "advisory_pairs": [list(p) for p in ADVISORY_PAIRS],
+        "probe_anchors": [[k, list(p), v] for k, p, v in PROBE_ANCHORS],
+        "panel": [[os.path.basename(p), os.path.getsize(p), _sha256_file(p)]
+                  for p in cache_files],
+    }
+    blob = json.dumps(ident, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
+
+def _selfconsistent(path, expected=None):
+    """Is the file on disk the product of THIS rule against THIS panel?
+
+    `expected` is for the selftest only: on a host without the bm-b lane panel the digest
+    is unreadable, and an unreadable input must not be able to match a product that
+    carries no digest either.
+
+    Limit, stated rather than papered over: the digest covers the inputs, not the
+    conclusion. A hand-edited verdict with an untouched inputs_sha256 still reads as
+    clean -- what it cannot do is survive a moved constant or a repaired panel.
+    """
+    if expected is None:
+        expected = inputs_sha256()
+    if expected is None:
+        return False
     try:
         d = json.load(open(path, encoding="utf-8"))
-        return (isinstance(d, dict) and {"verdict", "pairs",
-                "evidence_cutoff", "probe_anchor"} <= set(d)
-                and d.get("evidence_cutoff") == CUTOFF)
+        if not (isinstance(d, dict) and {"verdict", "pairs", "evidence_cutoff",
+                                         "probe_anchor", "inputs_sha256"} <= set(d)):
+            return False
+        if d.get("evidence_cutoff") != CUTOFF:
+            return False
+        if not d.get("pairs"):                      # zero pairs is not a verdict
+            return False
+        if not (d.get("probe_anchor") or {}).get("all_ok"):
+            return False
+        return d.get("inputs_sha256") == expected
     except Exception:
         return False
 
@@ -284,6 +352,7 @@ def run():
             "elapsed_s": round(time.time() - t0, 1),
         },
         "evidence_cutoff": CUTOFF,        # C2 legal key (top level)
+        "inputs_sha256": inputs_sha256(),  # r1380: rule + panel, not the date alone
         "science_gates": {"cutoff_meta": CUTOFF},
         "verdict": {"verdict": v, "max_abs_corr": mx,
                     "argmax_pair": arg_pair, "argmax_face": arg_face,
@@ -452,16 +521,38 @@ def selftest():
 
     print("[7/7] idempotency guard leg:", flush=True)
     tmpjson = tempfile.mktemp(suffix=".json")
+    good = {"verdict": {"verdict": "pass"}, "pairs": [{"a": "x", "b": "y"}],
+            "evidence_cutoff": CUTOFF, "probe_anchor": {"all_ok": True},
+            "inputs_sha256": "deadbeef"}
     with open(tmpjson, "w", encoding="utf-8") as f:
-        json.dump({"verdict": "pass", "pairs": [],
-                   "evidence_cutoff": CUTOFF,
-                   "probe_anchor": {"all_ok": True}}, f)
-    check("self-consistent existing file -> guard True (skip path)",
-          _selfconsistent(tmpjson))
+        json.dump(good, f)
+    check("digest-matching file -> guard True (skip path)",
+          _selfconsistent(tmpjson, expected="deadbeef"))
+    check("a moved constant (digest differs) -> guard False (recompute)",
+          not _selfconsistent(tmpjson, expected="cafebabe"))
+    # r1380: the old guard was `evidence_cutoff == CUTOFF`, and the writer wrote CUTOFF
+    # into that field from the same constant -- so only the digest term can move.
+    legacy = {k: v for k, v in good.items() if k != "inputs_sha256"}
+    with open(tmpjson, "w", encoding="utf-8") as f:
+        json.dump(legacy, f)
+    check("a product written before the digest (legacy) -> MISS, never clean",
+          not _selfconsistent(tmpjson, expected="deadbeef"))
+    with open(tmpjson, "w", encoding="utf-8") as f:
+        json.dump(dict(good, probe_anchor={"all_ok": False}), f)
+    check("a failed probe-anchor record -> never clean even with the digest",
+          not _selfconsistent(tmpjson, expected="deadbeef"))
+    with open(tmpjson, "w", encoding="utf-8") as f:
+        json.dump(dict(good, pairs=[]), f)
+    check("zero pairs is not a verdict -> guard False",
+          not _selfconsistent(tmpjson, expected="deadbeef"))
+    # An unreadable panel (no bm-b lane cache on this host) must not be able to match a
+    # product whose digest is also absent.
+    check("unreadable inputs -> digest None -> guard False",
+          inputs_sha256() is None and not _selfconsistent(tmpjson))
     with open(tmpjson, "w", encoding="utf-8") as f:
         f.write("{corrupted")
     check("corrupted file -> guard False (rewrite path)",
-          not _selfconsistent(tmpjson))
+          not _selfconsistent(tmpjson, expected="deadbeef"))
     os.remove(tmpjson)
 
     print(f"SELFTEST {'PASS' if ok_all else 'FAIL'} "

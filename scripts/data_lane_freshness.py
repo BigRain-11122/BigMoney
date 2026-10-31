@@ -511,7 +511,15 @@ def disk_face(rows, hosts=None, here=None):
                     + f"；留在本机盘上的 {n_here} 条里 {n_aud} 条可核实"
                     + (f"，{n_unsigned} 条连署名都没有" if n_unsigned else "")
                     + "。")
-    return {"here": here, "n_lanes": len(live), "n_offhost": n_offhost,
+    # r1380: "本机" is a fact about the observer, and this file is rewritten by
+    # whichever machine ran the chain. Two boards an hour apart can say "6 off
+    # this disk" and "9 off this disk" and both be right; a reader with only the
+    # sentence cannot tell which disk was meant, and a gate that compared the two
+    # read a host difference as a contradiction. So the observer says its name.
+    if here and here != "unknown":
+        sentence = f"以本机 {here} 的盘为基准：{sentence}"
+    return {"here": here, "observer": here,
+            "n_lanes": len(live), "n_offhost": n_offhost,
             "n_here": n_here, "n_auditable_here": n_aud,
             "n_unsigned_here": n_unsigned, "groups": out_groups,
             "offhost_lanes": sorted(r["lane"] for r in away),
@@ -856,7 +864,27 @@ def selftest():
     print("[PASS] L15 all-ours and empty boards read honestly, not as a "
           "zero-row gap", flush=True)
 
-    print("selftest: 15/15 PASS", flush=True)
+    # L16 (r1380) the sentence must name the OBSERVER. One shared file, rewritten
+    # by whichever machine ran the chain, and "本机" means a different disk on each
+    # of them -- an unnamed sentence is a sentence about nobody, and the same rows
+    # read from two hosts must not produce two identical sentences.
+    _rows = [{"lane": "heat", "verdict": "unverifiable",
+              "authority": "non_host_copy", "lane_host": "bm-b"}]
+    _hc = {"bm-b": {"alive": True, "age_h": 0.4}}
+    a_side = disk_face(_rows, _hc, here="bm-a")
+    c_side = disk_face(_rows, _hc, here="bm-c")
+    assert a_side["n_offhost"] == c_side["n_offhost"] == 1, (a_side, c_side)
+    assert "bm-a" in a_side["sentence"] and "bm-c" in c_side["sentence"], \
+        (a_side["sentence"], c_side["sentence"])
+    assert a_side["sentence"] != c_side["sentence"], "observer is not named"
+    assert a_side["observer"] == "bm-a", a_side
+    # an unknown observer is not a name: it must not print "本机 unknown"
+    _u = disk_face(_rows, _hc, here="unknown")
+    assert "unknown" not in _u["sentence"], _u["sentence"]
+    print("[PASS] L16 the disk sentence names its observer, so the same rows "
+          "read from two hosts are attributable, not contradictory", flush=True)
+
+    print("selftest: 16/16 PASS", flush=True)
     return 0
 
 

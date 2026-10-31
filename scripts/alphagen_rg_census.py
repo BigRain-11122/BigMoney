@@ -32,6 +32,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import importlib.util
 import json
 import os
@@ -533,6 +534,77 @@ def _cal_slice():
     return cal, census_rows
 
 
+def _prefix_fingerprint(path, cutoff):
+    """(bytes, sha256) of the file prefix the census is a function of.
+
+    Rows dated after the frozen cutoff are dropped at load, so an appended bar
+    must NOT invalidate the cache; a repaired bar INSIDE the window must, and
+    no stamp, date count or file name moves when one is repaired (E289 class).
+    """
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    keep = []
+    for line in raw.split(b"\n"):
+        head = line.split(b",", 1)[0].strip().strip(b'"')
+        if len(head) == 10 and head[:1].isdigit() and head.decode() > cutoff:
+            break
+        keep.append(line)
+    blob = b"\n".join(keep)
+    return len(blob), hashlib.sha256(blob).hexdigest()
+
+
+def member_fingerprints(uni):
+    """code -> (consumed bytes, sha256) for every member file present on disk."""
+    out = {}
+    for code in uni:
+        path = os.path.join(ua.PER_DIR, code + ".csv")
+        if os.path.exists(path):
+            out[code] = _prefix_fingerprint(path, CAL_LAST)
+    return out
+
+
+def _rule_fingerprint():
+    """The frozen constants build_cache reads: a moved gate must rebuild too."""
+    return {"cutoff": CAL_LAST, "census_start": CENSUS_START,
+            "warmup_rows": WARMUP_ROWS, "cal_window_rows": CAL_WINDOW_ROWS,
+            "census_rows_n": CENSUS_ROWS_N, "panel_cols": list(PANEL_COLS),
+            "base_inputs": list(BASE_INPUTS), "universe_band": list(UNIVERSE_BAND),
+            "price_min": revo.PRICE_MIN, "amt20_min": revo.AMT20_MIN,
+            "listed_min": revo.LISTED_MIN, "fresh_max": revo.FRESH_MAX}
+
+
+def panel_inputs_sha256(members):
+    """Digest of the rule block plus every member's consumed bytes."""
+    h = hashlib.sha256()
+    h.update(json.dumps(_rule_fingerprint(), sort_keys=True).encode())
+    for code in sorted(members):
+        size, sha = members[code]
+        h.update(b"\0" + code.encode() + b"|" + str(size).encode()
+                 + b"|" + sha.encode())
+    return h.hexdigest()
+
+
+def cache_meta_valid(meta, members):
+    """Is this stored cache a cache of the SAME world it is about to answer for?
+
+    A cutoff stamp, a row count and the cache file's own name all stay green
+    while a bar inside the frozen window is repaired, so the identity is the
+    member bytes themselves. A cache written before the digest existed is a
+    MISS, never a hit: unreadable is not clean.
+    """
+    if not meta:
+        return False, "no meta"
+    if meta.get("cutoff") != CAL_LAST:
+        return False, "cutoff moved"
+    want = meta.get("inputs_sha256")
+    if not want:
+        return False, "written before the inputs digest existed"
+    have = panel_inputs_sha256(members)
+    if want != have:
+        return False, f"inputs digest moved {want[:12]} -> {have[:12]}"
+    return True, "inputs digest matches"
+
+
 def build_cache(cutoff):
     """Deterministic panel cache (first shard builds; later shards reuse).
     Universe = sff._universe() single source; eligibility = P4_BATCH2
@@ -543,10 +615,12 @@ def build_cache(cutoff):
     T, N = len(cal), len(uni)
     F = {k: np.full((T, N), np.nan, dtype=np.float64) for k in PANEL_COLS}
     dpos = {d: i for i, d in enumerate(cal)}
+    mfp = {}
     for j, code in enumerate(uni):
         path = os.path.join(ua.PER_DIR, code + ".csv")
         if not os.path.exists(path):
             continue
+        mfp[code] = _prefix_fingerprint(path, CAL_LAST)
         df = pd.read_csv(path)
         df = df[df["date"].astype(str) <= CAL_LAST]
         pos = df["date"].astype(str).map(dpos)
@@ -581,7 +655,9 @@ def build_cache(cutoff):
     tmp = path + ".tmp.npz"
     meta = {"cutoff": CAL_LAST, "cal_first": cal[0], "cal_last": cal[-1],
             "window_rows": int(T), "census_rows": int(len(census_rows)),
-            "universe_n": int(N), "roster_sha16": _roster_sha16()}
+            "universe_n": int(N), "roster_sha16": _roster_sha16(),
+            "inputs_sha256": panel_inputs_sha256(mfp),
+            "inputs_members": int(len(mfp))}
     np.savez(tmp, meta=json.dumps(meta), cal=np.array(cal),
              universe=np.array(uni), elig=elig, fwd1=fwd1,
              census_rows=census_rows.astype(np.int64),
@@ -600,10 +676,13 @@ def ensure_cache(cutoff):
         try:
             with np.load(path, allow_pickle=False) as z:
                 meta = json.loads(str(z["meta"]))
-            if meta.get("cutoff") == CAL_LAST:
+            reusable, why = cache_meta_valid(meta, member_fingerprints(
+                sff._universe()))
+            if reusable:
                 return path, meta
-        except Exception:                           # noqa: BLE001
-            pass
+            print(f"[e16] panel cache MISS: {why}")
+        except Exception as exc:                    # noqa: BLE001
+            print(f"[e16] panel cache MISS: unreadable cache ({exc!r})")
     print("[e16] building panel cache (deterministic, one-time) ...")
     t0 = time.time()
     path, meta = build_cache(cutoff)
@@ -1188,6 +1267,45 @@ def selftest():
     check("s8b r491 park marker on cmd_run gate-refusal path",
           _run_fn is not None
           and "AUTOFILL-PARK" in _ast.get_source_segment(_self_src, _run_fn))
+
+    # s9 cache identity (r1380): the panel cache used to be validated by its
+    # own name and its own cutoff literal -- both sides the same constant -- so
+    # a repaired bar inside the frozen window left every shard resuming on a
+    # world that no longer existed. The identity is now the consumed bytes.
+    import tempfile
+    _tmp = tempfile.mkdtemp(prefix="e16s9_")
+    _fx = os.path.join(_tmp, "AAA.csv")
+    _lines = ["date,open", "2026-01-02,1.0", "2026-01-03,2.0"]
+    with open(_fx, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(_lines + ["2026-10-10,3.0"]) + "\n")
+    _a = _prefix_fingerprint(_fx, CAL_LAST)
+    with open(_fx, "a", encoding="utf-8", newline="\n") as fh:
+        fh.write("2026-10-12,4.0\n")
+    _b = _prefix_fingerprint(_fx, CAL_LAST)
+    check("s9a an appended bar does not move the cache identity", _a == _b)
+    with open(_fx, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(["date,open", "2026-01-02,1.0",
+                            "2026-01-03,2.5", "2026-10-10,3.0"]) + "\n")
+    _c = _prefix_fingerprint(_fx, CAL_LAST)
+    check("s9b a bar repaired inside the window DOES move it", _c != _a)
+    _mem = {"AAA": _a}
+    _d1 = panel_inputs_sha256(_mem)
+    _saved = WARMUP_ROWS
+    try:
+        globals()["WARMUP_ROWS"] = _saved + 1
+        _d2 = panel_inputs_sha256(_mem)
+    finally:
+        globals()["WARMUP_ROWS"] = _saved
+    check("s9c a moved rule constant changes the digest", _d1 != _d2)
+    _ok_hit, _ = cache_meta_valid({"cutoff": CAL_LAST, "inputs_sha256": _d1},
+                                  _mem)
+    _ok_old, _why_old = cache_meta_valid({"cutoff": CAL_LAST}, _mem)
+    _ok_drift, _why_drift = cache_meta_valid(
+        {"cutoff": CAL_LAST, "inputs_sha256": _d1}, {"AAA": _c})
+    check("s9d a matching digest is a hit, a pre-digest cache is not, and a "
+          "repaired member is a named MISS",
+          _ok_hit and not _ok_old and not _ok_drift
+          and "digest" in _why_old and "digest" in _why_drift)
 
     n_pass = sum(1 for _, c in ok if c)
     print(f"selftest: {n_pass}/{len(ok)} PASS")

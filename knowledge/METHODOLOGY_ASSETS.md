@@ -7228,3 +7228,60 @@ Pos: scripts/etf_book_production.py::family_coherence (the one implementation) +
 scripts/etf_book_order.py (ORDER sheet + card-config sheet, selftest 77/77, legs 46g/46h) +
 scripts/etf_book_ceo_page.py (L54-L56, selftest 59/59) + smoke_test.py leg "every face a reader
 holds says whether the width's family was one world" + research/digests/DIGEST-20261031-r1184-width-license.md
+
+## E300 A provenance pin whose two sides are one literal is a spelling check (2026-10-31 r1380 bm-c)
+
+`if d.get("evidence_cutoff") == CUTOFF` where the writer wrote `"evidence_cutoff": CUTOFF`
+cannot distinguish a product of this rule from a product of the previous rule: both sides
+are the same constant. It catches a hand-edited file and nothing else -- a moved reject
+line, a moved tolerance, an added pair, a repaired panel bar all leave it green. A date at
+least moves with the calendar; a constant moves with nothing.
+
+Cure: digest the rule block and the panel bytes (`inputs_sha256`), and make an unreadable
+panel a MISS rather than a cache hit. Limit that must be published with it: the digest
+covers the inputs, not the conclusion.
+
+Detector (`Tools/live_value_cache_audit.py`, selftest 41/41): a row carries
+`identity_pins` and `identity_pin_is_self_written` when the compared constant is also baked
+into a payload the module writes. Two refinements keep the count honest -- the pin may live
+in a helper the face merely calls (r1379's delegation shape, one layer down), and a pin
+stops being tautological once the same stored value is ALSO compared against something
+computable (`guarded_by_computed`), so fixing a face moves the number that measured it.
+Live 2026-10-31, first reading: 19 identity-checked rows, 5 self-written, 2 of them live
+(`alphagen_rg_census.cmd_run`, `member_reinforce_p1.finalize`). Republished after the
+`alphagen_rg_census` cure landed in the same round: 18 identity-checked, 4 self-written,
+exactly ONE live face left -- because that face now keys its panel cache on the member
+bytes it consumed plus the rule block (selftest 37/37, legs s9a-s9d: an appended bar must
+NOT move the digest, a repaired bar MUST, a moved constant must, a pre-digest cache is a
+named MISS). The count fell because the face changed, which is the point of
+`guarded_by_computed`; a detector that cannot see its own fix reports it forever.
+
+## E301 A shared face's sentence about "本机" is a sentence about nobody until it names the observer (2026-10-31 r1380 bm-c)
+
+`results/data_lane_freshness.json` is one shared file, rewritten each round by whichever
+machine ran the chain, and its disk block counts lanes relative to that machine. The daily
+report copies the sentence verbatim (single implementation, r1162) -- so the CEO page printed
+"9 条在役车道里有 9 条的数字不在**本机**盘上" with no way to learn whose disk "本机" was. On
+the morning two machines took turns, the bm-c-built report (9 off-host) sat beside the
+bm-a-refreshed board (6 off-host) and a smoke leg demanding `n_offhost` equality read a
+host difference as a contradiction.
+
+Three rules, and each one is a leg now. **A face that aggregates a per-observer statistic
+must publish the observer**: `disk_face()` returns `observer` and prefixes its sentence with
+"以本机 <id> 的盘为基准", so the same lanes read from bm-a and bm-c give different sentences
+and neither is lying (L16). **The face that copies it must carry the name through**:
+`_lane_authority_face()` publishes `observer` next to the sentence -- a copy is the next
+defect, so the name travels with the number. **A gate comparing two faces of one shared
+artifact must first ask whether they were computed by the same observer**: same observer ->
+the counters must be equal; different observers -> both sides must name themselves, and the
+reason line says `observers differ (report=bm-a board=bm-c)` instead of printing a fake
+inequality. Demanding numeric equality across hosts does not test agreement, it demands that
+the other machines stop writing their own boards.
+
+Falsifiability kept: the sentence check runs on every path, so a report that drops the
+sentence still reds. The limit, stated: a report written before the tag existed passes with
+the word `report-predates-observer-tag` and its counts are NOT judged -- an old artifact is
+un-attributable, not a contradiction. The pit is the shape -- this leg was green for weeks
+because every board it had seen had one author; a per-host statistic agrees with itself
+until it is read across machines (r1262 "compare like with like" one level up: the
+mismatching input was the observer, not a parameter).

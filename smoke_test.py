@@ -1288,10 +1288,27 @@ def main() -> int:
             _rmd_p = _rep_js[-1][:-5] + ".md"
             if _la.get("present") and os.path.exists(_rmd_p):
                 _rmd = open(_rmd_p, encoding="utf-8").read()
-                _rep_ok = (_la.get("sentence") in _rmd
-                           and _la.get("n_offhost") == _dk.get("n_offhost"))
+                # r1380: the count is a statistic OF ONE OBSERVER. Two boards taken
+                # an hour apart on two machines can say 6 and 9 off-disk and both be
+                # right; demanding equality read a host difference as a contradiction.
+                # Same observer -> the counters must agree. Different observers -> the
+                # difference is only readable if BOTH sides say whose disk they mean.
+                _obs_r, _obs_b = _la.get("observer"), _dk.get("observer")
+                _same_obs = bool(_obs_r) and _obs_r == _obs_b
+                _counts_agree = _la.get("n_offhost") == _dk.get("n_offhost")
+                if _same_obs:
+                    _rep_ok = bool(_la.get("sentence") in _rmd and _counts_agree)
+                    _obs_why = f"same-observer({_obs_r}) counts={_counts_agree}"
+                elif _obs_r:
+                    _rep_ok = bool(_la.get("sentence") in _rmd)
+                    _obs_why = (f"observers differ (report={_obs_r} "
+                                f"board={_obs_b}) -- attributable")
+                else:
+                    _rep_ok = bool(_la.get("sentence") in _rmd)
+                    _obs_why = "report-predates-observer-tag (counts not judged)"
                 _rep_why = (f"{os.path.basename(_rmd_p)} "
-                            f"offhost={_la.get('n_offhost')}=={_dk.get('n_offhost')} "
+                            f"offhost={_la.get('n_offhost')} vs {_dk.get('n_offhost')} "
+                            f"{_obs_why} "
                             f"sentence-in-page={_la.get('sentence') in _rmd}")
         check("product: whose disk the lane numbers are on reaches both human faces",
               _same and _dash and _rep_ok,
@@ -2075,6 +2092,14 @@ def main() -> int:
             # and a gate that raises must not be reported as one that serves.
             ("audit: which caches serve a live value on a key with no digest",
              "Tools/live_value_cache_audit.py", ["selftest"]),
+            # r1380: a provenance gate is only a gate if its two sides can disagree.
+            # p1e_neighbor_corr guarded its checkpoint with `evidence_cutoff == CUTOFF`,
+            # and the writer wrote CUTOFF into that field from the same constant. The
+            # suite pins the digest that replaced it and the class that finds the shape,
+            # including the fact that a face also comparing a computed value is no longer
+            # counted as self-pinned.
+            ("product: a checkpoint pinned to the constant its own writer spelt",
+             "scripts/p1e_neighbor_corr.py", ["selftest"]),
             # r1378: the same question one lane over. cn_mkneutral_p1 gates its panel on the
             # asset STAMP, the last bar and the shape -- a repaired print inside the window moves
             # none of them, so cells and null/sobol shards were resumable against a world that no

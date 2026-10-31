@@ -9,26 +9,87 @@
  "summary": {
   "files_scanned": 699,
   "files_skipped_scratch": 1464,
-  "cache_names_that_never_compare": 68,
-  "cache_writers": 31,
+  "cache_names_that_never_compare": 70,
+  "cache_writers": 30,
   "no_digest_anywhere": 5,
   "module_has_digest_key_does_not": 2,
-  "identity_checked_read": 19,
+  "identity_checked_read": 18,
   "digest_argument_to_cache_read": 1,
   "digest_in_key": 4,
   "unreadable": 0,
-  "serves_without_digest": 23,
+  "serves_without_digest": 22,
   "refuses_on_mismatch": 4,
   "digest_argument_evidence": 1,
   "serves_with_no_digest_and_no_argument": 5,
   "fixture_readback": 11,
   "no_stored_value_read": 2,
   "persisted_read_not_served": 8,
-  "reads_a_stored_value": 29,
+  "reads_a_stored_value": 28,
   "serves_stored_value_without_digest": 1,
-  "identity_checked_evidence": 19,
-  "blind_spot_persisted_serving": 152,
-  "blind_spot_digested": 12,
+  "identity_checked_evidence": 18,
+  "identity_checked_against_own_constant": 4,
+  "faces_with_a_self_written_identity_pin": [
+   {
+    "file": "scripts/cn_mkneutral_p1.py",
+    "function": "cmd_selftest",
+    "verdict": "identity_checked_read",
+    "pins": [
+     {
+      "key": "batch",
+      "pinned_to": "BATCH_NAME",
+      "constant_written_by_module": true,
+      "guarded_by_computed": false
+     }
+    ]
+   },
+   {
+    "file": "scripts/innovation_quota_w7.py",
+    "function": "cmd_selftest",
+    "verdict": "identity_checked_read",
+    "pins": [
+     {
+      "key": "batch",
+      "pinned_to": "BATCH_NAME",
+      "constant_written_by_module": true,
+      "guarded_by_computed": false
+     }
+    ]
+   },
+   {
+    "file": "scripts/innovation_quota_w9.py",
+    "function": "cmd_selftest",
+    "verdict": "identity_checked_read",
+    "pins": [
+     {
+      "key": "batch",
+      "pinned_to": "BATCH_NAME",
+      "constant_written_by_module": true,
+      "guarded_by_computed": false
+     }
+    ]
+   },
+   {
+    "file": "scripts/member_reinforce_p1.py",
+    "function": "finalize",
+    "verdict": "identity_checked_read",
+    "pins": [
+     {
+      "key": "batch",
+      "pinned_to": "BATCH_NAME",
+      "constant_written_by_module": true,
+      "guarded_by_computed": false
+     },
+     {
+      "key": "evidence_cutoff",
+      "pinned_to": "EVIDENCE_CUTOFF",
+      "constant_written_by_module": true,
+      "guarded_by_computed": false
+     }
+    ]
+   }
+  ],
+  "blind_spot_persisted_serving": 151,
+  "blind_spot_digested": 13,
   "faces_serving_a_stored_value": [
    {
     "file": "scripts/alloc_backtest.py",
@@ -106,15 +167,6 @@
    "key_fields": [
     "config_sha",
     "panel_sha"
-   ],
-   "digest_in_key": false
-  },
-  {
-   "file": "scripts/alphagen_rg_census.py",
-   "function": "ensure_cache",
-   "line": 597,
-   "key_fields": [
-    "cutoff"
    ],
    "digest_in_key": false
   },
@@ -683,7 +735,7 @@
   {
    "file": "scripts/etf_book_ceo_page.py",
    "function": "_load_ticket",
-   "line": 138,
+   "line": 180,
    "key_fields": [
     "file",
     "path",
@@ -694,7 +746,7 @@
   {
    "file": "scripts/etf_book_ceo_page.py",
    "function": "build_stress",
-   "line": 799,
+   "line": 841,
    "key_fields": [
     "inputs_sha256",
     "priced_bar"
@@ -1236,11 +1288,15 @@
   {
    "file": "scripts/p1e_neighbor_corr.py",
    "function": "_selfconsistent",
-   "line": 154,
+   "line": 201,
    "key_fields": [
-    "evidence_cutoff"
+    "all_ok",
+    "evidence_cutoff",
+    "inputs_sha256",
+    "pairs",
+    "probe_anchor"
    ],
-   "digest_in_key": false
+   "digest_in_key": true
   },
   {
    "file": "scripts/p3_portfolio.py",
@@ -2074,6 +2130,8 @@
     "sha"
    ],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "load_valid_cell": [
      "config_sha"
@@ -2090,32 +2148,14 @@
    "served_to_caller": true
   },
   {
-   "file": "scripts/alphagen_rg_census.py",
-   "function": "cmd_run",
-   "line": 766,
-   "key_fields": [],
-   "digest_argument_names": [],
-   "identity_keys": [],
-   "delegated_identity": {
-    "ensure_cache": [
-     "cutoff"
-    ]
-   },
-   "module_has_digest": true,
-   "on_mismatch": "unknown",
-   "verdict": "identity_checked_read",
-   "evidence_class": null,
-   "reads_a_stored_value": true,
-   "stored_read_names": [],
-   "served_to_caller": true
-  },
-  {
    "file": "scripts/alphagen_rl_p1.py",
    "function": "selftest",
    "line": 1971,
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
@@ -2134,6 +2174,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "load_panel": [
      "shape"
@@ -2196,6 +2238,8 @@
     "share_eligible",
     "share_of_window_mean_pct"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
@@ -2234,7 +2278,7 @@
   {
    "file": "scripts/etf_book_ceo_page.py",
    "function": "selftest",
-   "line": 1477,
+   "line": 1557,
    "key_fields": [
     "effective_bets",
     "nominal_bets",
@@ -2244,6 +2288,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
@@ -2264,6 +2310,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
@@ -2282,6 +2330,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
@@ -2306,6 +2356,15 @@
    "identity_keys": [
     "batch"
    ],
+   "identity_pins": [
+    {
+     "key": "batch",
+     "pinned_to": "BATCH_NAME",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    }
+   ],
+   "identity_pin_is_self_written": true,
    "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
@@ -2332,6 +2391,15 @@
    "identity_keys": [
     "batch"
    ],
+   "identity_pins": [
+    {
+     "key": "batch",
+     "pinned_to": "BATCH_NAME",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    }
+   ],
+   "identity_pin_is_self_written": true,
    "delegated_identity": {},
    "module_has_digest": true,
    "on_mismatch": "unknown",
@@ -2353,6 +2421,21 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [
+    {
+     "key": "batch",
+     "pinned_to": "BATCH_NAME",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    },
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUTOFF",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    }
+   ],
+   "identity_pin_is_self_written": true,
    "delegated_identity": {
     "_chain_base": [
      "batch",
@@ -2381,6 +2464,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
@@ -2402,6 +2487,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "load_universe": [
      "shape"
@@ -2421,16 +2508,26 @@
   {
    "file": "scripts/p1e_neighbor_corr.py",
    "function": "run",
-   "line": 164,
+   "line": 232,
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "CUTOFF",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    }
+   ],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_selfconsistent": [
-     "evidence_cutoff"
+     "evidence_cutoff",
+     "inputs_sha256"
     ]
    },
-   "module_has_digest": false,
+   "module_has_digest": true,
    "on_mismatch": "unknown",
    "verdict": "identity_checked_read",
    "evidence_class": null,
@@ -2455,6 +2552,8 @@
    "identity_keys": [
     "shape"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
@@ -2475,6 +2574,15 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    }
+   ],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "load_members": [
      "evidence_cutoff"
@@ -2502,6 +2610,39 @@
    "identity_keys": [
     "batch"
    ],
+   "identity_pins": [
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    },
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    },
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    },
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    },
+    {
+     "key": "evidence_cutoff",
+     "pinned_to": "EVIDENCE_CUT",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    }
+   ],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_shard_valid": [
      "batch",
@@ -2530,6 +2671,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_nulls_resume": [
      "manifest_sha"
@@ -2563,6 +2706,8 @@
    "identity_keys": [
     "shape"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "unknown",
@@ -2586,6 +2731,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "build_panels_from_cache": [
      "shape"
@@ -2608,6 +2755,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "build_panels_from_cache": [
      "shape"
@@ -2628,6 +2777,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "build_panels_from_cache": [
      "shape"
@@ -2651,6 +2802,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "build_panels_from_cache": [
      "shape"
@@ -2679,6 +2832,15 @@
    "identity_keys": [
     "batch"
    ],
+   "identity_pins": [
+    {
+     "key": "batch",
+     "pinned_to": "BATCH_NAME",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    }
+   ],
+   "identity_pin_is_self_written": true,
    "delegated_identity": {
     "load_panel": [
      "shape"
@@ -2707,6 +2869,21 @@
    "identity_keys": [
     "batch"
    ],
+   "identity_pins": [
+    {
+     "key": "batch",
+     "pinned_to": "BATCH_NAME",
+     "constant_written_by_module": true,
+     "guarded_by_computed": false
+    },
+    {
+     "key": "cutoff",
+     "pinned_to": "EVIDENCE_CUTOFF",
+     "constant_written_by_module": true,
+     "guarded_by_computed": true
+    }
+   ],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "load_panel": [
      "cutoff",
@@ -2730,6 +2907,8 @@
    "key_fields": [],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "refuses",
@@ -2749,6 +2928,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {},
    "module_has_digest": false,
    "on_mismatch": "refuses",
@@ -2772,6 +2953,8 @@
    ],
    "digest_argument_names": [],
    "identity_keys": [],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "tier_stress": [
      "inputs_sha256"
@@ -2798,6 +2981,8 @@
    "identity_keys": [
     "manifest_sha256"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_nulls_resume": [
      "manifest_sha"
@@ -2827,6 +3012,8 @@
    "identity_keys": [
     "manifest_sha256"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_reval_resume": [
      "manifest_sha"
@@ -2858,6 +3045,8 @@
    "identity_keys": [
     "manifest_sha256"
    ],
+   "identity_pins": [],
+   "identity_pin_is_self_written": false,
    "delegated_identity": {
     "_pbo_resume": [
      "manifest_sha"

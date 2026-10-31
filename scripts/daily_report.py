@@ -702,6 +702,7 @@ def _lane_authority_face(root=None):
                 "note": "板面存在但未带归属块（旧版本）——如实标注"}
     return {"present": True, "as_of": doc.get("as_of"),
             "verdict": doc.get("verdict"),
+            "observer": disk.get("observer") or disk.get("here"),
             "sentence": disk.get("sentence"),
             "n_lanes": disk.get("n_lanes"),
             "n_offhost": disk.get("n_offhost"),

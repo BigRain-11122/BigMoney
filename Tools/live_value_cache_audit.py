@@ -235,6 +235,97 @@ def _identity_checked_keys(fn, disk_names):
     return sorted(keys)
 
 
+def _module_constants(tree):
+    """Module-level names bound to a literal (`CUTOFF = "2026-09-22"`).
+
+    Only simples: a constant, or a tuple/list of constants. Anything computed is left
+    out -- the question this answers is "does the reader compare the stored field to a
+    literal the same module also spells", which a computed value would blur.
+    """
+    out = {}
+    for node in getattr(tree, "body", []):
+        targets, value = [], None
+        if isinstance(node, ast.Assign):
+            targets, value = node.targets, node.value
+        elif isinstance(node, ast.AnnAssign) and node.value is not None:
+            targets, value = [node.target], node.value
+        if value is None:
+            continue
+        lit = (isinstance(value, ast.Constant)
+               or (isinstance(value, (ast.Tuple, ast.List))
+                   and all(isinstance(e, ast.Constant)
+                           for e in value.elts)))
+        if not lit:
+            continue
+        for t in targets:
+            if isinstance(t, ast.Name):
+                out[t.id] = value
+    return out
+
+
+def _written_constant_names(tree):
+    """Constant names this module bakes into a literal payload (`{"evidence_cutoff": CUTOFF}`).
+
+    That is the writer side. A name that appears here AND on the comparison side of an
+    identity check is a comparison of the module with itself.
+    """
+    out = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Dict):
+            for v in node.values:
+                if isinstance(v, ast.Name):
+                    out.add(v.id)
+    return out
+
+
+def _identity_pins(fn, disk_names, mod_consts, written):
+    """Identity keys compared against a module constant -- and whether that constant is
+    also written by this module into its own product (r1380).
+
+    `if d.get("evidence_cutoff") == CUTOFF` where the writer wrote
+    `"evidence_cutoff": CUTOFF` cannot distinguish a product of this rule from a product
+    of the previous rule: both sides are one literal. Such a pin can only catch a
+    hand-edited file, never a moved world, so it is published as its own evidence class
+    rather than counted as a satisfied identity gate.
+
+    A face that ALSO compares the same stored value against something computable (a
+    digest, a parameter, a value read from today's panel) is not tautological, however
+    many self-written pins it keeps -- `guarded_by_computed` records that, so fixing a
+    face is visible in the same number the defect was measured in.
+    """
+    pins = []
+    guarded = False
+    for sub in ast.walk(fn):
+        if not isinstance(sub, ast.Compare):
+            continue
+        sides = [sub.left] + list(sub.comparators)
+        stored = set()
+        for side in sides:
+            for _base, key, _disk in _literal_reads(side, disk_names, disk_names):
+                stored.add(_base)
+                if not any(w in key.lower() for w in IDENTITY_WORDS):
+                    continue
+                for comp in sub.comparators:
+                    if isinstance(comp, ast.Name) and comp.id in mod_consts:
+                        pins.append({"key": key, "pinned_to": comp.id,
+                                     "constant_written_by_module":
+                                         comp.id in written})
+        if stored:
+            for side in sides:
+                names = set(_names_in(side))
+                if not (names & stored):
+                    continue
+                for comp in sides:
+                    if comp is side:
+                        continue
+                    cnames = set(_names_in(comp))
+                    if cnames and not cnames <= set(mod_consts):
+                        guarded = True
+    for p in pins:
+        p["guarded_by_computed"] = guarded
+    return pins
+
+
 def _taint(fn, tainted):
     """Every name in `fn` that can carry one of `tainted` (assignment, one hop per pass)."""
     reach = set(tainted)
@@ -316,10 +407,15 @@ def audit_source(text, path="<mem>"):
     # under their own name.
     # Computed lazily: walking every function of every module made the whole scan
     # O(functions x file size) and turned a seconds-long audit into a minutes-long one.
+    # r1380: a pin is only a pin if the two sides can disagree. Constants are collected
+    # once per module, readers are matched inside helper functions as well as in the
+    # calling face (the tautology in p1e_neighbor_corr lived in a helper).
+    mod_consts = _module_constants(tree)
+    written = _written_constant_names(tree)
     helper_cases = {"defs": None}
 
     def helper_facts(name):
-        """(identity keys, loads off disk) for a helper this module defines."""
+        """(identity keys, loads off disk, identity pins) for a helper this module defines."""
         if name in helper_cases:
             return helper_cases[name]
         if helper_cases["defs"] is None:
@@ -328,14 +424,15 @@ def audit_source(text, path="<mem>"):
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                     helper_cases["defs"].setdefault(node.name, node)
         node = helper_cases["defs"].get(name)
-        keys, disk = [], False
+        keys, disk, pins = [], False, []
         if node is not None:
             dn = _loaded_names(node)
             if dn:
                 disk = True
                 keys = _identity_checked_keys(node, dn)
-        helper_cases[name] = (keys, disk)
-        return keys, disk
+                pins = _identity_pins(node, dn, mod_consts, written)
+        helper_cases[name] = (keys, disk, pins)
+        return keys, disk, pins
 
     
     module_strs = " ".join(_strs_in(tree)).lower()
@@ -369,14 +466,16 @@ def audit_source(text, path="<mem>"):
         # every caller of every disk-loading helper is how r1376's 40 report readers
         # came back in through the side door.
         delegated = {}
+        delegated_pins = []
         for sub in ast.walk(fn):
             if isinstance(sub, ast.Call):
                 nm = (sub.func.attr if isinstance(sub.func, ast.Attribute)
                       else sub.func.id if isinstance(sub.func, ast.Name) else "")
                 if nm and nm != fn.name:      # a function is not its own helper
-                    ks, disk = helper_facts(nm)
+                    ks, disk, hp = helper_facts(nm)
                     if disk and ks:
                         delegated[nm] = ks
+                    delegated_pins.extend(hp)
         if not fields and not _compares_cache(fn, cacheish) and not delegated:
             ignored += 1
             continue
@@ -409,6 +508,13 @@ def audit_source(text, path="<mem>"):
         digest_in_key = any(w in f.lower() for f in fields for w in DIGEST_WORDS)
         digest_args = _digest_argument_evidence(fn, cacheish)
         identity_keys = _identity_checked_keys(fn, disk_names) if disk_names else []
+        pins = (_identity_pins(fn, disk_names, mod_consts, written)
+                if disk_names else []) + delegated_pins
+        # A pin is "self-written" when the module bakes the same constant into a payload
+        # it writes: reader and writer then compare one literal with itself.
+        tautological = (bool(pins)
+                        and all(p["constant_written_by_module"] for p in pins)
+                        and not any(p.get("guarded_by_computed") for p in pins))
         if digest_in_key:
             verdict = "digest_in_key"
         elif digest_args:
@@ -428,6 +534,8 @@ def audit_source(text, path="<mem>"):
             "key_fields": fields,
             "digest_argument_names": digest_args,
             "identity_keys": identity_keys,
+            "identity_pins": pins,
+            "identity_pin_is_self_written": tautological,
             "delegated_identity": delegated,
             "module_has_digest": has_digest,
             "on_mismatch": _mismatch_policy(fn, cacheish),
@@ -549,6 +657,16 @@ def run(scan_dirs=SCAN_DIRS, root=ROOT):
     # lucky word (L31/L32).
     summary["identity_checked_evidence"] = sum(
         1 for r in rows if r["verdict"] == "identity_checked_read")
+    # r1380: of those gates, how many compare the stored field to a literal this module
+    # ALSO writes into its own product? That comparison cannot fail when the rule or the
+    # panel moves -- it is a spelling check, not a provenance check.
+    summary["identity_checked_against_own_constant"] = sum(
+        1 for r in rows if r.get("identity_pin_is_self_written"))
+    summary["faces_with_a_self_written_identity_pin"] = sorted(
+        [{"file": r["file"], "function": r["function"], "verdict": r["verdict"],
+          "pins": r["identity_pins"]}
+         for r in rows if r.get("identity_pin_is_self_written")],
+        key=lambda d: (d["file"], d["function"]))
     # The shape the name-keyed census cannot see (a disk-loaded payload that is not called
     # cache-ish), measured with a tight gate so nobody has to guess its size next round.
     summary["blind_spot_persisted_serving"] = len(blind)
@@ -742,6 +860,37 @@ def build(x):
     json.dump({"bar": 1}, open("c.json", "w"))
 '''
 
+# r1380: the reader compares the stored stamp against a literal, and the writer wrote
+# that same literal into the same field. Two spellings of one constant.
+_FIX_SELFPIN = '''
+import json
+CUT = "2026-09-22"
+CACHE_OUT = "o.json"
+def _selfconsistent(path):
+    d = _load(path)
+    return d.get("evidence_cutoff") == CUT
+def run(x):
+    if _selfconsistent(CACHE_OUT):
+        return 0
+    json.dump({"evidence_cutoff": CUT, "verdict": "pass"}, open(CACHE_OUT, "w"))
+    return 1
+'''
+
+# The same shape, but the compared constant is a parameter of the run: reader and writer
+# cannot both be satisfied by one spelling, so the pin is real.
+_FIX_REALPIN = '''
+import json
+CACHE_OUT = "o.json"
+def _same_as(path, cutoff):
+    d = _load(path)
+    return d.get("evidence_cutoff") == cutoff
+def run(x):
+    if _same_as(CACHE_OUT, x["cutoff"]):
+        return 0
+    json.dump({"evidence_cutoff": x["cutoff"]}, open(CACHE_OUT, "w"))
+    return 1
+'''
+
 
 def live_served(row):
     """Is this row a face that can hand a caller a number from an earlier tick?"""
@@ -887,6 +1036,31 @@ def selftest():
         and mr[0]["served_to_caller"] is True and mr[0]["evidence_class"] is None)
     chk("L37 a caller of an UNGATED disk helper does not become a cache by delegation",
         audit_source(_FIX_DELEGATE_UNGATED, "ungated.py")[0] == [])
+
+    # r1380: a pin whose two sides are one literal cannot move.
+    selfpin, _ig13 = audit_source(_FIX_SELFPIN, "selfpin.py")
+    sprow = [r for r in selfpin if r["function"] == "run"]
+    chk("L38 a pin compared to a constant the module also writes is published as such",
+        len(sprow) == 1 and sprow[0]["identity_pin_is_self_written"] is True
+        and sprow[0]["identity_pins"] and
+        sprow[0]["identity_pins"][0]["pinned_to"] == "CUT")
+    realpin, _ig14 = audit_source(_FIX_REALPIN, "realpin.py")
+    chk("L39 the same text with a parameter on the comparison side is NOT self-written",
+        all(r.get("identity_pin_is_self_written") is not True for r in realpin))
+    # The fix must be visible in the same number the defect is measured in: p1e_neighbor_corr
+    # keeps its cutoff pin but now also compares a computed digest, so it is not a tautology.
+    p1e = [r for r in live["rows"] if r["file"] == "scripts/p1e_neighbor_corr.py"
+           and r["function"] == "run"]
+    chk("L41 a face that also compares a computed digest is no longer counted as self-pinned",
+        len(p1e) == 1 and p1e[0]["identity_pin_is_self_written"] is False
+        and p1e[0]["identity_pins"]
+        and any(p.get("guarded_by_computed") for p in p1e[0]["identity_pins"]))
+    chk("L40 the live count of self-written pins is published beside the identity count",
+        "identity_checked_against_own_constant" in live["summary"]
+        and live["summary"]["identity_checked_against_own_constant"]
+        <= live["summary"]["identity_checked_evidence"]
+        and len(live["summary"]["faces_with_a_self_written_identity_pin"])
+        == live["summary"]["identity_checked_against_own_constant"])
 
     npass = sum(1 for _, c in ok if c)
     for name, c in ok:
