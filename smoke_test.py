@@ -7692,6 +7692,94 @@ def main() -> int:
     except Exception as e:
         check(_name90, False, repr(e)[:160])
 
+    # E293 r1318 (published r1314, wired now): a duplicated list is the family's SHAPE, and the only
+    # way it costs anything is if a number in an enclosing scope counts the group twice. The face says
+    # it does not, on 6 groups over 32 censused faces (2 schema-driven, 4 accidental), so the leg pins
+    # (a) the verdict vocabulary and the no-double-count closed class, (b) that the summary re-derives
+    # from the frozen universe the face itself published, and (c) that a later sibling face is
+    # DISCLOSED as excluded rather than silently folded in.
+    _name91 = ("product: a duplicated list is the family's shape, and no published scope counts an "
+               "alias group twice -- re-derived against the universe the face published")
+    _bad91 = []
+    try:
+        _p91 = os.path.join("results", "state_tilt", "banddupes_latest.json")
+        _f91 = None
+        if not os.path.exists(_p91):
+            _bad91.append("face missing: %s" % _p91)
+        else:
+            with io.open(_p91, encoding="utf-8") as _fh91:
+                _f91 = json.load(_fh91)
+        if _f91 is not None:
+            if _f91.get("evidence_cutoff") is None:
+                _bad91.append("no evidence_cutoff on the face")
+            _vocab91 = ("no_published_face_repeats_list_content_so_no_alias_exists",
+                        "every_alias_is_a_schema_copy_and_no_scope_counts_one_twice",
+                        "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
+                        "a_count_in_an_enclosing_scope_equals_the_alias_total_so_the_duplicate_is_"
+                        "counted_twice")
+            _v91 = _f91.get("verdict")
+            if _v91 not in _vocab91:
+                _bad91.append("verdict %r is outside the frozen vocabulary" % (_v91,))
+            _s91 = _f91.get("summary") or {}
+            _g91 = _f91.get("groups") or []
+            if _s91.get("alias_groups") != len(_g91):
+                _bad91.append("summary.alias_groups disagrees with the published group rows")
+            _st91 = _s91.get("strict_sum_test") or {}
+            if _st91.get("convictions"):
+                _bad91.append("a group is convicted of double counting")
+            if any(g.get("counts_one_twice") for g in _g91):
+                _bad91.append("a group row says counts_one_twice but the verdict says it does not")
+            if _v91 == "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice" and \
+                    not (_s91.get("accidental_groups") or 0):
+                _bad91.append("the verdict names accidental copies but the count is zero")
+            _id91 = _f91.get("identity_check") or {}
+            if not all(_id91.values()) or not _id91:
+                _bad91.append("an identity check is false: %s"
+                              % ",".join(k for k, v in _id91.items() if not v))
+            # (b) the freeze must describe the face, not the directory: every censused name is in the
+            # universe it names, and a later face is disclosed rather than absorbed.
+            _vn91 = _f91.get("universe_vintage") or {}
+            if _vn91.get("faces_used") != _s91.get("faces_censused"):
+                _bad91.append("universe_vintage.faces_used disagrees with summary.faces_censused")
+            if _vn91.get("faces_used") != len(_f91.get("faces_censused") or []):
+                _bad91.append("the censused name list is not the length the face claims")
+            if _vn91.get("faces_in_directory_now", 0) > _vn91.get("faces_used", 0) and \
+                    not _vn91.get("faces_excluded_as_later"):
+                _bad91.append("the directory grew but no later face is disclosed as excluded")
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m91 = __import__("importlib").import_module("e293_duplicate_list_census")
+            _fresh91 = _m91.build()
+            if _fresh91.get("verdict") != _v91:
+                _bad91.append("the verdict does not re-derive")
+            _fs91 = _fresh91.get("summary") or {}
+            for _k in ("faces_censused", "alias_groups", "alias_members", "schema_driven_groups",
+                       "accidental_groups"):
+                if _fs91.get(_k) != _s91.get(_k):
+                    _bad91.append("summary.%s does not re-derive" % _k)
+            if [g.get("face") for g in (_fresh91.get("groups") or [])] != \
+                    [g.get("face") for g in _g91]:
+                _bad91.append("the group faces do not re-derive")
+        check(_name91, not _bad91,
+              "; ".join(_bad91)[:220]
+              or "verdict %r | %d alias group(s) over %d face(s): %d schema-driven and %d "
+                 "accidental, %d of %d list(s) (%.1f pct); %d group(s) count one thing twice; "
+                 "%d later face(s) disclosed as excluded by the vintage"
+                 % ((_f91 or {}).get("verdict"),
+                    (_f91 or {}).get("summary", {}).get("alias_groups") or 0,
+                    (_f91 or {}).get("summary", {}).get("faces_with_an_alias") or 0,
+                    (_f91 or {}).get("summary", {}).get("schema_driven_groups") or 0,
+                    (_f91 or {}).get("summary", {}).get("accidental_groups") or 0,
+                    (_f91 or {}).get("summary", {}).get("alias_members") or 0,
+                    sum(len(g.get("members") or []) for g in ((_f91 or {}).get("groups") or []))
+                    or 0,
+                    100.0 * ((_f91 or {}).get("summary", {}).get(
+                        "alias_member_share_of_all_lists") or 0.0),
+                    ((_f91 or {}).get("summary", {}).get("strict_sum_test") or {}).get("convictions") or 0,
+                    len(((_f91 or {}).get("universe_vintage") or {}).get(
+                        "faces_excluded_as_later") or [])))
+    except Exception as e:
+        check(_name91, False, repr(e)[:160])
+
     return _finish()
 
 

@@ -524,6 +524,17 @@ LEGS = [
     ("below_floor_narrowing",
      ["python", "scripts/e288_below_floor_narrowing.py", "verify"]),
 
+    # E293 (r1314 published, wired r1318 bm-b): E291 showed equal-length lists are the family's
+    # SHAPE; the open question was whether a copy makes a number count one thing twice. Six alias
+    # groups over 32 censused faces (38 members, 26.6 pct of all lists): 2 are schema-driven (the
+    # same slot across arms) and 4 accidental, and no scope anywhere publishes a total that sums an
+    # alias group -- so the duplicate lists cost nothing in double counting, they just are one list
+    # printed more than once. Wiring leg: the published face had no chain leg and no smoke leg, and
+    # its derivation had in fact stopped running (E291's frozen census_names returns a tuple).
+    # Published faces only, no draw. <1s.
+    ("duplicate_list_census",
+     ["python", "scripts/e293_duplicate_list_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

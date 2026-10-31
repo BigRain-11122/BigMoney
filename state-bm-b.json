@@ -2578,8 +2578,8 @@
   "etf_book_forward rc=3 FROZEN: ledger drift, needs the --rebase adopt-or-not decision; adopting a re-derived history without a path test is exactly the E188 error"
  ],
  "root_path": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney",
- "round": 1316,
- "round_no": 1317,
+ "round": 1318,
+ "round_no": 1318,
  "round_no_label": "r1316",
  "round_no_note": "git log is the canvas; round number follows the highest round report row",
  "round_no_ts": "2026-10-31T10:29:27+08:00",
@@ -2613,8 +2613,8 @@
  "updated": "2026-10-31T10:30:09+08:00",
  "updated_at": "2026-10-31T10:30:09+08:00",
  "verdict": "both_red_legs_were_the_check_not_the_science",
- "watermark_red": "py_low_with_work_cands at open (pool_ready 6, py 0.0 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head red card E297 in-round and re-seeded the pool to 7 ready",
- "work": "E297 done",
+ "watermark_red": "py_low_with_work_cands at open (pool_ready 6, py 6.9 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head card E296 in-round and wired both legs for the face it names",
+ "work": "E296 done",
  "r1313": {
   "ts": "2026-10-31T08:23:49+08:00",
   "dept": "research+engineering",
@@ -2646,7 +2646,7 @@
    "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
   }
  },
- "face": "results/state_tilt/addos_latest.json",
+ "face": "results/state_tilt/BANDDUPES-2026-10-29.json",
  "r1315": {
   "round": 1315,
   "ts": "2026-10-31T10:05:00+08:00",
@@ -2716,5 +2716,25 @@
   }
  },
  "notes_r1317": "| 2026-10-31T11:0x | r1317 | **watermark: py_low_with_work_cands at open (pool_ready 7, py idle); the round burned the head card E288 in-round.** **CURRENT:** E288 below-floor narrowing (done, face published). **LATEST PHYSICAL:** `results/state_tilt/BANDFLOORMIRROR-2026-10-29.json`. **NEXT MILESTONE:** E295 supply-gap closure or E292 scope-fix plan (both ready, runners not written; due next round, within 48h). **PRODUCT:** the mirror of E287's ceiling question -- the two rows below the published floor of 1.0 need the band NARROWED, not widened. `self|60|8` sits 11.06 pct under the floor and `self|60|10` 36.96 pct; the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216, BANDFLOOR's counterfactual 5 pct band) -- every other 'narrow' reading in E287's census is a per-seed minimum of a WIDENING ratio and sits above 1.0 -- and it reaches neither row: the nearest is 3.67 pct short, the farthest 46.26 pct. Scored against all 12 rows on each row's OWN polarity the same instrument reaches 0, so tightening is not a free fix for the widening side either; the two demand sets and the 1.28 multiplier distance between the caps are published so 'unreachable' can never be quoted ",
- "watermark_verdict": "py_low_board_clear"
+ "watermark_verdict": "py_low_with_work_cands",
+ "notes_r1318": "| 2026-10-31T11:13:17+08:00 | r1318 | **watermark: py_low_with_work_cands at open (pool_ready 6); the round burned E296 in-round.** **CURRENT:** E296 wiring (done). **LATEST PHYSICAL:** `Tools/s6_chain_bmb.py` leg `duplicate_list_census` (rc=0, 0.45s) + `smoke_test.py` leg (PASS, FAILs under mutation). **NEXT MILESTONE:** E295 supply-gap closure -- price each rung of the published draw ladder against the 3.8 pct widening and 3.7 pct narrowing margins and publish the interpolation abort if no rung crosses; due next round, within 48h. **PRODUCT:** the E293 face was not merely unwired, it had stopped re-deriving at all -- E297 froze E291.census_names to (names, note) and E293 kept treating the tuple as a name list, so `verify` raised TypeError before reaching a single leg. Fixed at the caller, verify 0 problems, selftest 15/15, and both legs wired: the verdict vocabulary, the no-double-count closed class (0 convictions), the summary re-deriving from the face's own frozen universe, and the vintage disclosing any later sibling as excluded. Numbers unchanged: 6 groups / 38 members / 2 schema + 4 accidental.",
+ "r1318": {
+  "round": 1318,
+  "ts": "2026-10-31T11:13:17+08:00",
+  "dept": "engineering+research",
+  "study": "E296_wire_e293_legs",
+  "face": "results/state_tilt/BANDDUPES-2026-10-29.json",
+  "finding": "Wiring an unprotected face found the deeper defect: BANDDUPES had stopped re-deriving entirely. E297 pinned E291's census to the names it published and returned (names, note); E293's own census_names still iterated that value as a list, so `verify` died on TypeError: unhashable type 'list' -- a published face whose science could not be re-run, exactly the state E292 legislated against the same day. With the tuple unwrapped, verify reports 0 problems and the face re-derives its own numbers (6 alias groups over 32 censused faces, 38 members = 26.6 pct of all lists, 2 schema-driven / 4 accidental, 0 strict-sum convictions, verdict some_aliases_are_accidental_copies_but_no_scope_counts_one_twice). Wired two legs: chain duplicate_list_census (rc=0, 0.45s) and a smoke leg that pins the verdict vocabulary, the no-double-count closed class, the summary re-derivation and the vintage disclosure.",
+  "pit": "(1) a fix in a SIBLING script is a breaking change for every caller that consumed the old return type -- E297 changed E291's census_names signature and no leg noticed because E293 had none; the missing leg was masking a dead derivation, not just missing coverage. (2) the pool writer recurred a third time: json.dumps + newline='' writes bare LF, so the first patch reflowed 25,504 lines; the correct writer is newline='\\r\\n' on io.open (14/5 lines, 1,702,019B). The dead r1317 window's mis-indented E288 fields were also normalised by the same round-trip.",
+  "product": [
+   "scripts/e293_duplicate_list_census.py (census_names unwraps E291's frozen tuple; verify 0 problems, selftest 15/15)",
+   "Tools/s6_chain_bmb.py leg duplicate_list_census (rc=0, 0.45s)",
+   "smoke_test.py leg: the duplicate-list census re-derives and no scope counts an alias group twice",
+   "results/runnable_pool.json E296 done with result_ref (795 entries, 6 ready)"
+  ],
+  "s1": "the full suite was launched in the background (results/_smoke_r1318.out) and is still running at closeout; the new leg was extracted verbatim from smoke_test.py and executed standalone (PASS), and mutating a group's counts_one_twice flips it to FAIL -- the board is green on the leg added here, not re-measured end to end.",
+  "s6": "orphan probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT (795 entries, streak 51) | py_watermark py_low_with_work_cands (write moment; 6 ready, legal_idle_whitelist.satisfied=false, remediated by burning E296 in-round) | new chain leg duplicate_list_census rc=0 0.45s | collectors/compute_audit not re-run this window (wall budget, stated plainly)",
+  "s7": "orders 114 files / 115 acks / 0 unacked | decisions face sha256 97fe122f... unchanged vs the recorded watermark -> zero action | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
+  "pool": "E296 done with result_ref; 795 entries, 6 ready (E292, E294, E295, E298, E299)"
+ }
 }

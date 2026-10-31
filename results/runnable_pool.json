@@ -25257,8 +25257,8 @@
    "seeded_by": "bm-b r1310",
    "source": "E285's partition has a bottom class it did not open: 2 of 12 flips sit below the published floor of 1.0 (self|60|8 0.8894, self|60|10 0.6304) and the source summary already counts them as rows_flip_needs_narrowing=2 -- a multiplier below 1 means the band must NARROW, the mirror of the widening every other row needs. Measure: how far below the floor each sits (absolute and relative), whether any face in the family publishes a sub-1.0 multiplier at all (i.e. whether a narrowing instrument exists in the published evidence), and what a narrowed tight tail would cost in rows it currently reaches (0 of 12 at publication). Publish the mirror verdict so 'unreachable' is never reported as a single direction of fix. No reburn: published records only.",
    "status": "done",
-  "result_ref": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
-  "done_note": "r1317: 2 rows below the floor (11.06 / 36.96 pct); the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it reaches NEITHER (3.67 / 46.26 pct short); scored on each row's own polarity it reaches 0 of 12 rows, so tightening costs every widening row; E285's per-row distance column is published with its implied reference (1.0283 / 1.5815, both ABOVE the floor).",
+   "result_ref": "results/state_tilt/BANDFLOORMIRROR-2026-10-29.json",
+   "done_note": "r1317: 2 rows below the floor (11.06 / 36.96 pct); the family publishes exactly one sub-1.0 band-edge multiplier (0.9220216) and it reaches NEITHER (3.67 / 46.26 pct short); scored on each row's own polarity it reaches 0 of 12 rows, so tightening costs every widening row; E285's per-row distance column is published with its implied reference (1.0283 / 1.5815, both ABOVE the floor).",
    "target": "scripts/e288_below_floor_narrowing.py (new runner)",
    "title": "a flip below 1.0 needs the band NARROWED, not widened -- does the family publish any narrowing instrument, and what would narrowing cost?",
    "worker_class": "code-change",
@@ -25416,7 +25416,7 @@
    "id": "E296-WIRE-E293-LEGS",
    "title": "E293's duplicate-list census published a face but no chain leg and no smoke leg -- wire both, and check that its alias verdict still re-derives from the frozen universe",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 2,
    "runner": "Tools/s6_chain_bmb.py + smoke_test.py (wiring), scripts/e293_duplicate_list_census.py",
    "runner_args": [
@@ -25432,7 +25432,16 @@
     "priority": "BelowNormal",
     "workers": 1
    },
-   "source": "The r1314 window published E293 (BANDDUPES face + runner, verify 0 problems, selftest 15/15) and card E292, then died before closeout: no commit, and neither a chain leg nor a smoke leg exists for it. That is the one state the family's own audits call unprotected -- a published face whose derivation is not re-checked every chain run can drift silently (E292 is exactly the rule it violated by omission). Wiring only: add a verify leg so the chain re-derives it, add a smoke leg that pins the alias verdict and the vintage freeze, and confirm the face still re-derives against the universe it published. Do not change the face's numbers."
+   "source": "The r1314 window published E293 (BANDDUPES face + runner, verify 0 problems, selftest 15/15) and card E292, then died before closeout: no commit, and neither a chain leg nor a smoke leg exists for it. That is the one state the family's own audits call unprotected -- a published face whose derivation is not re-checked every chain run can drift silently (E292 is exactly the rule it violated by omission). Wiring only: add a verify leg so the chain re-derives it, add a smoke leg that pins the alias verdict and the vintage freeze, and confirm the face still re-derives against the universe it published. Do not change the face's numbers.",
+   "done_at": "2026-10-31T11:25:00+08:00",
+   "done_by": "bm-b r1318",
+   "result_ref": [
+    "results/state_tilt/BANDDUPES-2026-10-29.json",
+    "Tools/s6_chain_bmb.py",
+    "smoke_test.py",
+    "scripts/e293_duplicate_list_census.py"
+   ],
+   "runner_note": "the face had in fact stopped re-deriving: E297 froze E291 census_names to a (names, note) tuple and E293 still treated it as a name list (TypeError: unhashable list), so verify exited 1 before any leg could be wired. Fixed at the caller (tuple unwrapped) rather than at the source; verify 0 problems / selftest 15/15; chain leg duplicate_list_census rc=0 0.45s; smoke leg pins the verdict vocab, the no-double-count closed class, the summary re-derivation and the vintage disclosure -- PASS, and FAILs under a counts_one_twice mutation of the face. Face numbers unchanged (6 groups, 38 members, 2 schema / 4 accidental, 0 convictions)"
   },
   {
    "id": "E297-FIX-TWO-RED-LEGS",

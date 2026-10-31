@@ -99,7 +99,13 @@ def load(name):
 def census_names():
     """E291's universe (its own and E290's faces already excluded) minus this study's own faces."""
     blocked = set(SELF_FACES)
-    return [n for n in e291.census_names() if n not in blocked]
+    upstream = e291.census_names()
+    # E297 (r1315) froze E291 to the name list it published, so its census_names now returns
+    # (names, vintage_note). Taking the tuple as a name list raised TypeError: unhashable list --
+    # i.e. a published face whose derivation had stopped running at all.
+    if isinstance(upstream, tuple):
+        upstream = upstream[0]
+    return [n for n in upstream if n not in blocked]
 
 
 # ------------------------------------------------------------------ paths
