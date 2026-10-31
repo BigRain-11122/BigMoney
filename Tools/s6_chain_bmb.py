@@ -628,6 +628,15 @@ LEGS = [
     ("precision_census",
      ["python", "scripts/e299_rounded_vs_tolerance_census.py", "verify"]),
 
+    # E305: E299 could only bound 8 of its 29 at-risk rows at face level, because the key the leg
+    # reads was not found as a leaf. This leg prices those 8: 3 read a key that lives in a sibling
+    # face the same leg names (15 dp at the producer, so neither is at risk), 3 read a container or
+    # a label rather than a printed number, 1 reads a key the producer writes inside per-record
+    # lists that are empty on this vintage, and 1 reads a boolean flag. All 8 are withdrawn.
+    # Published faces + producer text only; no study re-run. <0.2s.
+    ("face_level_row_pricing",
+     ["python", "scripts/e305_face_level_row_pricing.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

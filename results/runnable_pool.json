@@ -25594,7 +25594,7 @@
    "id": "E305-PRICE-THE-FACE-BOUND-ROWS",
    "title": "eight at-risk rows rest on the face-level bound because the key the leg reads could not be located in the face -- for each one, is the key absent from the face, spelled differently, or read from a nested record the walker truncates?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T14:5x+08:00",
    "entered_by": "bm-b r1324",
@@ -25602,7 +25602,13 @@
    "source": "r1324 (E299) priced 62 numeric face sites: 29 compare finer than the field is printed, 21 on the field's own measured decimals and 8 only on the face's coarsest bound because no leaf under the read key name was found. Those 8 are the ones whose quantum is still an upper bound.",
    "target": "scripts/e299_rounded_vs_tolerance_census.py face members named by the 8 face_level rows",
    "deliverable": "results/state_tilt/PRECISIONGAP-<cutoff>.json",
-   "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?"
+   "question": "for each face_level row: does the face publish that key at all, under a different spelling, or inside a list the leaf walk stops short of -- and once the key is found, does the row stay at risk on its own decimals?",
+   "owner": "bm-b",
+   "claimed_by": "bm-b",
+   "claimed_at": "2026-10-31T16:2x+08:00",
+   "done_at": "2026-10-31T16:5x+08:00",
+   "result_ref": "results/state_tilt/PRECISIONGAP-2026-10-31.json",
+   "progress": "priced all 8 face-bound rows: 3 read a key living in a sibling face the same leg names (15 dp, not at risk), 3 read a container rather than a printed number, 1 reads a boolean flag, 1 reads a key the producer writes into per-record lists that are empty on this vintage; all 8 withdrawn, verdict none_of_the_face_level_rows_is_at_risk"
   },
   {
    "id": "E307-UNDATED-FACE-VINTAGE",
@@ -25626,6 +25632,29 @@
     "priority": "BelowNormal",
     "workers": 1
    }
+  },
+  {
+   "id": "E308-LEG-VS-PRODUCER-TOLERANCE",
+   "title": "ten of the 42 faces a smoke leg reads publish their own tolerance key -- where a leg compares at a tolerance tighter than the producer's own gate, does the leg flag differences the producer is entitled to make?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T16:5x+08:00",
+   "entered_by": "bm-b r1327",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1327 (E305): pricing the face-bound rows exposed the open-fill leg comparing two session_open values at 1e-9 absolute while the face it reads publishes rel_tol=0.002 as its own gate; 10 of the 42 faces named by smoke legs publish a tolerance at all (band family frozen_spec.tolerance=1e-12, repro reproduction.tolerance=0.005, t35 rel_tol=0.002)",
+   "target": "results/state_tilt/precisioncensus_latest.json sites × the faces that publish a tolerance",
+   "deliverable": "results/state_tilt/GATETOL-<cutoff>.json",
+   "question": "per (leg, face) where the face declares its own tolerance: what is the producer's gate, what is the leg's, and would a difference inside the producer's gate fail the leg? Publish the pairing and the gap, never a count of 'wrong' legs.",
+   "runner": "scripts/e308_leg_vs_producer_tolerance.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   }
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25640,6 +25669,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T14:5x+08:00",
+ "updated_at": "2026-10-31T16:5x+08:00",
  "version": 1
 }

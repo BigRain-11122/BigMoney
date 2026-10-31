@@ -1,0 +1,995 @@
+{
+ "study": "E305_face_level_row_pricing",
+ "title": "eight at-risk rows were graded on the face's coarsest bound because the key the leg reads could not be found -- is the key absent, spelled differently, or inside a container the walker skips, and once found does the row stay at risk?",
+ "evidence_cutoff": "2026-10-31",
+ "decision_rule": "a row is at risk after pricing only when a numeric value under the key it reads exists in a face the leg names and the leg's tolerance is finer than half that value's printed quantum; a container, a string or an absent key can never be at risk from rounding.",
+ "no_bill": "measurement only: the row list is read out of the published E299 census face, the quantum of each field is measured from the published JSON the leg names, and producer sources are read as text. No study is re-run, no face is rebuilt, no engine runs, no draw stream is regenerated, and no smoke leg is edited.",
+ "rows": [
+  {
+   "leg": "product: open-fill gate names its evidence tier and the bar tier's prices are the bars'",
+   "line": 750,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs(_px - _r['session_open']) > 1e-09",
+   "priced_against": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "faces_named": [
+    "results/t35_open_fill_verify.json"
+   ],
+   "keys": [
+    "session_open"
+   ],
+   "resolution": "written_inside_records",
+   "value_kinds": [],
+   "key_sites": [
+    {
+     "key": "session_open",
+     "in_priced_face": [],
+     "in_other_faces": {}
+    }
+   ],
+   "producer_writers": [
+    {
+     "script": "scripts/e305_face_level_row_pricing.py",
+     "line": 423,
+     "text": "payload = {\"per_trader\": {\"T1\": {\"detail\": [{\"session_open\": 3.21}]}}}"
+    },
+    {
+     "script": "scripts/e305_face_level_row_pricing.py",
+     "line": 424,
+     "text": "hits = scan_key(payload, \"session_open\")"
+    },
+    {
+     "script": "scripts/e305_face_level_row_pricing.py",
+     "line": 486,
+     "text": "r = resolve_row(row(keys=[\"session_open\"], faces_named=[\"results/zzz.json\"],"
+    },
+    {
+     "script": "scripts/t35_open_fill_verify.py",
+     "line": 214,
+     "text": "\"session_open\": session_open,"
+    },
+    {
+     "script": "scripts/t35_open_fill_verify.py",
+     "line": 220,
+     "text": "\"cost_price\": cost, \"session_open\": session_open,"
+    },
+    {
+     "script": "scripts/t35_open_fill_verify.py",
+     "line": 331,
+     "text": "f\"{r['session_open']} (rel {r['rel_diff']})\")"
+    },
+    {
+     "script": "scripts/update_intraday_marks.py",
+     "line": 284,
+     "text": "\"session_open\": (q or {}).get(\"open\"),"
+    },
+    {
+     "script": "scripts/update_intraday_marks.py",
+     "line": 526,
+     "text": "ok &= tx[\"positions\"][0][\"session_open\"] == 4.1"
+    }
+   ],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "the producer writes this key inside per-record dicts and the face carries none on this vintage, so there is no printed number to be finer than"
+  },
+  {
+   "leg": "product: the star's residual is decomposed and split from volatility and age",
+   "line": 4028,
+   "kind": "epsilon",
+   "tolerance": 1e-09,
+   "expression": "abs(_sh51 - _r51['share_taken_by_vol']) > 1e-09",
+   "priced_against": [
+    "results/state_tilt/bookecho_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/bookecho_latest.json",
+    "results/state_tilt/starown_latest.json"
+   ],
+   "keys": [
+    "share_taken_by_vol"
+   ],
+   "resolution": "in_a_sibling_face",
+   "value_kinds": [
+    "float"
+   ],
+   "key_sites": [
+    {
+     "key": "share_taken_by_vol",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/starown_latest.json": [
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.0023829879646222185,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.02090482754193168,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.006322059815195846,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.013177794336544979,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.0069497722220641656,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/star_residual/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.0069497722220641656,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.005803280036220326,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.00857104037768841,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.028426152279714234,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.0740778332950891,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.011771528107017426,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.17867722384838625,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.032580695193696,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.04053549617026608,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.014291908335263948,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.01074398265131915,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.01670806483424392,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.05176407985810294,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.04827908105791234,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.011179937136354012,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/star_residual/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.011179937136354012,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.0009170945712230205,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.023778265733163995,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.013058553439327825,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh512100/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.014014116573696667,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh588000/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.011590376099013033,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/star_residual/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.011590376099013033,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510050/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.0037217650618946996,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510300/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.03006465960565763,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/columns/sh510500/share_taken_by_vol",
+        "kind": "float",
+        "value": -0.00027221573930336085,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       },
+       {
+        "path": "/cells/[]/star_residual/share_taken_by_vol",
+        "kind": "float",
+        "value": 0.0037217650618946996,
+        "container": null,
+        "face": "results/state_tilt/starown_latest.json"
+       }
+      ]
+     }
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": 15,
+   "found_quantum": 1e-15,
+   "at_risk_after": false,
+   "reason": "the number found is printed at 15 dp, finer than 2x the tolerance"
+  },
+  {
+   "leg": "product: the star's own row is priced against the column it carries for others",
+   "line": 4117,
+   "kind": "epsilon",
+   "tolerance": 1e-12,
+   "expression": "abs(_d52 - (_sr52['b_self'] - _cr52['b_cross'])) > 1e-12",
+   "priced_against": [
+    "results/state_tilt/starown_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/starown_latest.json",
+    "results/state_tilt/starself_latest.json"
+   ],
+   "keys": [
+    "b_cross",
+    "b_self"
+   ],
+   "resolution": "in_a_sibling_face",
+   "value_kinds": [
+    "float"
+   ],
+   "key_sites": [
+    {
+     "key": "b_cross",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/starself_latest.json": [
+       {
+        "path": "/cells/[]/cross_row/b_cross",
+        "kind": "float",
+        "value": -0.7250430277727764,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510050/b_cross",
+        "kind": "float",
+        "value": -0.41809673978759304,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510300/b_cross",
+        "kind": "float",
+        "value": -0.8776680220026446,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510500/b_cross",
+        "kind": "float",
+        "value": -0.8556604794568131,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh512100/b_cross",
+        "kind": "float",
+        "value": -0.7487468698440545,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/b_cross",
+        "kind": "float",
+        "value": -0.8332269315437407,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510050/b_cross",
+        "kind": "float",
+        "value": -0.7358004442807127,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510300/b_cross",
+        "kind": "float",
+        "value": -1.090066384723375,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510500/b_cross",
+        "kind": "float",
+        "value": -0.8802382493642353,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh512100/b_cross",
+        "kind": "float",
+        "value": -0.6268026478066401,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/b_cross",
+        "kind": "float",
+        "value": -0.9113353718550754,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510050/b_cross",
+        "kind": "float",
+        "value": -0.1380736046752635,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510300/b_cross",
+        "kind": "float",
+        "value": -0.8062387177381385,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510500/b_cross",
+        "kind": "float",
+        "value": -1.3448829373619131,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh512100/b_cross",
+        "kind": "float",
+        "value": -1.3561462276449863,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/b_cross",
+        "kind": "float",
+        "value": -0.4942013405547795,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510300/b_cross",
+        "kind": "float",
+        "value": -0.6413303073649168,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/cross_row/per_member/sh510500/b_cross",
+        "kind": "float",
+        "value": -0.3470723737446421,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/summary/headline_cross_per_member/sh510050/b_cross",
+        "kind": "float",
+        "value": -0.41809673978759304,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/summary/headline_cross_per_member/sh510300/b_cross",
+        "kind": "float",
+        "value": -0.8776680220026446,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/summary/headline_cross_per_member/sh510500/b_cross",
+        "kind": "float",
+        "value": -0.8556604794568131,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/summary/headline_cross_per_member/sh512100/b_cross",
+        "kind": "float",
+        "value": -0.7487468698440545,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       }
+      ]
+     }
+    },
+    {
+     "key": "b_self",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/starself_latest.json": [
+       {
+        "path": "/cells/[]/self_row/b_self",
+        "kind": "float",
+        "value": -0.7338669780097795,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/self_row/b_self",
+        "kind": "float",
+        "value": -0.8027254787526823,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/self_row/b_self",
+        "kind": "float",
+        "value": -0.46348275881928647,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       },
+       {
+        "path": "/cells/[]/self_row/b_self",
+        "kind": "float",
+        "value": -0.2034528182205142,
+        "container": null,
+        "face": "results/state_tilt/starself_latest.json"
+       }
+      ]
+     }
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": 15,
+   "found_quantum": 1e-15,
+   "at_risk_after": false,
+   "reason": "the number found is printed at 15 dp, finer than 2x the tolerance"
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5753,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "priced_against": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "keys": [
+    "rows_could_move_within_observed_p05_range"
+   ],
+   "resolution": "in_a_sibling_face",
+   "value_kinds": [
+    "int"
+   ],
+   "key_sites": [
+    {
+     "key": "rows_could_move_within_observed_p05_range",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/bandtight_latest.json": [
+       {
+        "path": "/summary/rows_could_move_within_observed_p05_range",
+        "kind": "int",
+        "value": 0,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       }
+      ]
+     }
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "every value under the read key is an integer, which carries no printed fractional quantum"
+  },
+  {
+   "leg": "product: the tight end cannot transfer badly if it cannot move anything -- and a zero has to say which one it measured",
+   "line": 5741,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "priced_against": [
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandtight_latest.json",
+    "results/state_tilt/bandtransfer_latest.json"
+   ],
+   "keys": [
+    "verdict_at_max_p05",
+    "verdict_at_min_p05"
+   ],
+   "resolution": "not_a_number_in_a_sibling_face",
+   "value_kinds": [
+    "bool"
+   ],
+   "key_sites": [
+    {
+     "key": "verdict_at_max_p05",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/bandtight_latest.json": [
+       {
+        "path": "/sensitivity/cross:200/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:200/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:200/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": false,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_max_p05",
+        "kind": "bool",
+        "value": false,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       }
+      ]
+     }
+    },
+    {
+     "key": "verdict_at_min_p05",
+     "in_priced_face": [],
+     "in_other_faces": {
+      "results/state_tilt/bandtight_latest.json": [
+       {
+        "path": "/sensitivity/cross:200/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:200/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/cross:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:200/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": true,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": false,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       },
+       {
+        "path": "/sensitivity/self:60/rows/[]/verdict_at_min_p05",
+        "kind": "bool",
+        "value": false,
+        "container": null,
+        "face": "results/state_tilt/bandtight_latest.json"
+       }
+      ]
+     }
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "the key is present in a sibling face the same leg names as only bool values: a container or a label is not a printed number, so no quantum can put it at risk"
+  },
+  {
+   "leg": "product: two published numbers -- the flip multiplier and the range an axis offers -- reproduce every moved set the band family published",
+   "line": 5866,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "sorted(_weak274 - _strict274) != (_sc274.get('moves_only_in_the_weaker_set') or [])",
+   "priced_against": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandstraddlesweep_latest.json"
+   ],
+   "keys": [
+    "moves_only_in_the_weaker_set"
+   ],
+   "resolution": "not_a_number_in_priced_face",
+   "value_kinds": [
+    "list"
+   ],
+   "key_sites": [
+    {
+     "key": "moves_only_in_the_weaker_set",
+     "in_priced_face": [
+      {
+       "path": "/scores/[]/moves_only_in_the_weaker_set",
+       "kind": "list",
+       "value": null,
+       "container": "list[2]",
+       "face": "results/state_tilt/bandstraddlesweep_latest.json"
+      },
+      {
+       "path": "/scores/[]/moves_only_in_the_weaker_set",
+       "kind": "list",
+       "value": null,
+       "container": "list[0]",
+       "face": "results/state_tilt/bandstraddlesweep_latest.json"
+      },
+      {
+       "path": "/scores/[]/moves_only_in_the_weaker_set",
+       "kind": "list",
+       "value": null,
+       "container": "list[2]",
+       "face": "results/state_tilt/bandstraddlesweep_latest.json"
+      }
+     ],
+     "in_other_faces": {}
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "the key is present in the face it was priced against as a list[0]/list[2]: a container or a label is not a printed number, so no quantum can put it at risk"
+  },
+  {
+   "leg": "product: a contradiction branch that needs a 63 pct tolerance is not a test -- publish the split the tolerance would produce, not only the tolerance",
+   "line": 6946,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "_fresh83.get('tolerance_band') != (_f83.get('tolerance_band') or {})",
+   "priced_against": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/banddeflate_latest.json"
+   ],
+   "keys": [
+    "tolerance_band"
+   ],
+   "resolution": "not_a_number_in_priced_face",
+   "value_kinds": [
+    "dict"
+   ],
+   "key_sites": [
+    {
+     "key": "tolerance_band",
+     "in_priced_face": [
+      {
+       "path": "/tolerance_band",
+       "kind": "dict",
+       "value": null,
+       "container": "dict[8]",
+       "face": "results/state_tilt/banddeflate_latest.json"
+      }
+     ],
+     "in_other_faces": {}
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "the key is present in the face it was priced against as a dict[8]: a container or a label is not a printed number, so no quantum can put it at risk"
+  },
+  {
+   "leg": "product: the inter-range gap is a smaller widening target than the area beyond the published ceiling -- both must be counted, not added",
+   "line": 7130,
+   "kind": "exact_equality",
+   "tolerance": 0.0,
+   "expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
+   "priced_against": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "faces_named": [
+    "results/state_tilt/bandgapceiling_latest.json"
+   ],
+   "keys": [
+    "gap_rows",
+    "summary"
+   ],
+   "resolution": "not_a_number_in_priced_face",
+   "value_kinds": [
+    "dict",
+    "list"
+   ],
+   "key_sites": [
+    {
+     "key": "gap_rows",
+     "in_priced_face": [
+      {
+       "path": "/summary/gap_rows",
+       "kind": "list",
+       "value": null,
+       "container": "list[2]",
+       "face": "results/state_tilt/bandgapceiling_latest.json"
+      }
+     ],
+     "in_other_faces": {}
+    },
+    {
+     "key": "summary",
+     "in_priced_face": [
+      {
+       "path": "/summary",
+       "kind": "dict",
+       "value": null,
+       "container": "dict[17]",
+       "face": "results/state_tilt/bandgapceiling_latest.json"
+      }
+     ],
+     "in_other_faces": {}
+    }
+   ],
+   "producer_writers": [],
+   "found_decimals": null,
+   "found_quantum": null,
+   "at_risk_after": false,
+   "reason": "the key is present in the face it was priced against as a dict[17]/list[2]: a container or a label is not a printed number, so no quantum can put it at risk"
+  }
+ ],
+ "summary": {
+  "census_face": "precisioncensus_latest.json",
+  "census_published_face_level_rows": 8,
+  "rows_priced": 8,
+  "by_resolution": {
+   "written_inside_records": 1,
+   "in_a_sibling_face": 3,
+   "not_a_number_in_a_sibling_face": 1,
+   "not_a_number_in_priced_face": 3
+  },
+  "n_at_risk_after": 0,
+  "n_withdrawn": 8,
+  "faces_read": 9,
+  "faces_unreadable_or_missing": [],
+  "statement": "of the 8 at-risk rows E299 could only bound at face level, 8 are withdrawn: 4 rest on a value that is a container or a label rather than a printed number, 3 read a key that lives in a sibling face the same leg names, 1 name a key the producer writes inside per-record lists that are empty on this vintage; 0 stay at risk once the printed number is found. A face-level bound is an upper bound on resolution, not a measurement of the field."
+ },
+ "identity_check": {
+  "row_count_matches_the_census": true,
+  "every_row_carries_a_resolution": true,
+  "partition_sums_to_rows": true,
+  "every_sibling_row_names_the_face_it_was_found_in": true,
+  "no_row_is_at_risk_without_a_printed_number": true,
+  "at_risk_after_agrees_with_verdict": true,
+  "self_faces_excluded": true,
+  "unreadable_faces_disclosed": true,
+  "all_checks": true
+ },
+ "verdict": "none_of_the_face_level_rows_is_at_risk",
+ "verdict_reason": "8 row(s) priced; 8 withdrawn as unmeasurable-or-finer, 0 still finer than the quantum of the number actually found.",
+ "generated": "2026-10-31T16:26:06"
+}

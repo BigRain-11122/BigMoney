@@ -6184,3 +6184,33 @@ is recomputed from the class rather than trusted, and a mutated class is asserte
 Also: a census that counts the directory must be regenerated when the directory grows -- three
 sibling smoke legs (E298/E299/E302) went red the moment new faces landed, all with the same verdict
 "the summary does not re-derive".
+
+### E309 a face-level bound is an upper bound on resolution, not a measurement of the field (r1327 bm-b)
+
+A census that cannot find the key a leg reads has three cheap fallbacks and one honest answer. E299
+gave 8 of its 29 at-risk rows the face's coarsest printed quantum when no leaf under the key was
+found; pricing those 8 (E305) withdrew every one of them, and the reasons fall into four kinds that
+are worth recognising before the next census falls back:
+
+1. **A container is not a printed number.** Three of the eight read keys whose value is a
+   `list[0]/list[2]`, a `dict[8]`, or `dict[17]/list[2]`. A leaf walker skips dict/list values on
+   purpose (that is correct for measuring a quantum) but the same walker cannot then answer "is the
+   key there". Keep a second scan that records container values, or "no printed number" and "no key"
+   become the same answer.
+2. **"Absent from the face being priced" usually means "present in a sibling face the leg names".**
+   Three rows read a key that lives in another face the SAME leg reads, printed at 15 dp -- finer
+   than the tolerance, so not at risk. The join that matters is per-leg, not per-face; two of those
+   sibling readings were already in the census's own `key_profiles`, one field away from the at-risk
+   row saying the field could not be found.
+3. **A producer's record list can be empty on the vintage that was read.** `session_open` is written
+   inside `per_trader/<id>/detail[]`; on 2026-10-30 all six traders were `zero_pending`, so the same
+   key that is a float on a filled day is simply absent. Answer absence from the producer's text, and
+   say it is absent *today* -- an empty list is not a missing field.
+4. **A boolean flag is a label.** One row read `verdict_at_max_p05` / `verdict_at_min_p05`, which are
+   `True`/`False`. No quantum can put a boolean at risk.
+
+How to apply: when a fallback fires, publish the fallback's own count beside the headline (E299 did
+publish `n_at_risk_on_face_level_bound_only`; the "29 at risk" sentence is what read as 29
+measurements), and price the fallback rows in a second study rather than in the same face. The
+withdrawal is the product: a bound reported as a measurement is the defect, and naming which of the
+four kinds it was is the whole repair.

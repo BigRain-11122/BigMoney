@@ -8438,6 +8438,69 @@ def main() -> int:
     except Exception as e:
         check(_name95, False, repr(e)[:160])
 
+    # E305: E299 graded 8 of its 29 at-risk rows on the FACE's coarsest bound because the key the
+    # leg reads could not be located -- an upper bound, not a measurement. This leg re-derives the
+    # pricing of those 8: (a) every row is resolved to a named reason, never left blank, (b) no row
+    # is kept at risk without a printed number behind it, (c) the row set is exactly the one the
+    # census published as face-bound, and (d) the withdrawn/at-risk counts sum to the rows.
+    _name97 = ("product: a face-level bound is not a measurement -- every face-bound row is "
+               "resolved to a reason and none is left at risk without a printed number")
+    _bad97 = []
+    try:
+        _p97 = os.path.join("results", "state_tilt", "precisiongap_latest.json")
+        _f97 = None
+        if os.path.exists(_p97):
+            _f97 = json.load(open(_p97, encoding="utf-8"))
+        if _f97 is None:
+            _bad97.append("no published pricing face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m97 = __import__("importlib").import_module("e305_face_level_row_pricing")
+            _fresh97 = _m97.build()
+            if _f97.get("verdict") != _fresh97.get("verdict"):
+                _bad97.append("the verdict does not re-derive")
+            if _f97.get("verdict") not in _m97.VERDICT_VOCAB:
+                _bad97.append("verdict %r is outside the frozen set" % (_f97.get("verdict"),))
+            if not (_f97.get("identity_check") or {}).get("all_checks"):
+                _bad97.append("an identity check is false")
+            if _f97.get("summary") != _fresh97.get("summary"):
+                _bad97.append("the summary does not re-derive")
+            if _f97.get("rows") != _fresh97.get("rows"):
+                _bad97.append("the priced rows do not re-derive")
+            _s97 = _f97.get("summary") or {}
+            _rows97 = _f97.get("rows") or []
+            _ok_kinds = ("in_priced_face", "in_a_sibling_face", "not_a_number_in_priced_face",
+                         "not_a_number_in_a_sibling_face", "written_inside_records", "absent")
+            if _s97.get("rows_priced") != len(_rows97):
+                _bad97.append("the summary count disagrees with its own rows")
+            if _s97.get("rows_priced") != _s97.get("census_published_face_level_rows"):
+                _bad97.append("the row set is not the census's face-bound set")
+            if (_s97.get("n_withdrawn") or 0) + (_s97.get("n_at_risk_after") or 0) != len(_rows97):
+                _bad97.append("the withdrawn and at-risk counts do not sum to the rows")
+            for _r97 in _rows97:
+                if _r97.get("resolution") not in _ok_kinds:
+                    _bad97.append("an unresolvable row is left unnamed: %r" % (_r97.get("line"),))
+                    break
+                if not _r97.get("reason"):
+                    _bad97.append("a row ships without a reason")
+                    break
+                if _r97.get("at_risk_after") and _r97.get("found_quantum") is None:
+                    _bad97.append("a row is kept at risk with no printed number behind it")
+                    break
+                if not _r97.get("priced_against"):
+                    _bad97.append("a row names no face it was priced against")
+                    break
+        check(_name97, not _bad97, "; ".join(_bad97)[:220]
+              or "verdict %s | %d face-bound row(s) priced, %d withdrawn, %d still at risk (%s)"
+                 % (str((_f97 or {}).get("verdict")),
+                    ((_f97 or {}).get("summary") or {}).get("rows_priced") or 0,
+                    ((_f97 or {}).get("summary") or {}).get("n_withdrawn") or 0,
+                    ((_f97 or {}).get("summary") or {}).get("n_at_risk_after") or 0,
+                    ", ".join("%s=%d" % kv for kv in sorted(
+                        (((_f97 or {}).get("summary") or {}).get("by_resolution") or {}).items()))))
+    except Exception as e:
+        check(_name97, False, repr(e)[:160])
+
     # E302: three studies publish build() with no universe argument, so E294 could not ask them
     # whether their verdict depends on the directory. This leg re-derives the priced switch:
     # (a) every row that reports a verdict was measured against a staged universe that is actually
