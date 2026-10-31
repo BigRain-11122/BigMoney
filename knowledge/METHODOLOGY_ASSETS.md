@@ -7436,3 +7436,37 @@ i.e. the book is paid on the quiet bars and the fill bars are a cost, which is w
 **首版自己的坑**：行级校验最初是把 restored 字符串在全文件里 `find()` 回来——可 `book_decided_at` 这类标识符在账本里本就出现多次，于是「复原」找错位置，健康文件被自己的断言判红。正法=**按行复原**：只在记录下来的那一行内部做逆向替换。同一个词在多处出现、却用全文件搜索当身份，是 E300「拿记忆核对 id」的同族错误。
 
 **局限**：本条只治**已知形态**（吃掉 token 首字母的转义残留）。被吃掉的是中间字母、或整段被截断的，scan 看得见但冻结表里没有对应行——那是人判范围，工具一律拒而不猜；corpus 也尚未覆盖 `research/*.md` 与 `docs/`，扩面须同窗核一遍假阳性。
+## E308 A module nobody committed is a dependency nobody can install -- and the face it published is the only witness that can prove the restoration (2026-10-31 r1384 bm-c)
+
+**Shape.** `scripts/e230_hysteresis_toll.py` was imported by seven scripts and present in no
+commit (`git log --all -- <path>` empty). Every one of them was therefore un-startable on a
+clean checkout, and nothing in the tree could see it: the importers compile, the file simply
+is not there at run time. Same family as E302 (a supply row closed as "missing a schema
+field" that its own prereg calls judged-negative) and the r1360 finding (`ready_dep_broken`).
+
+**Two rules.**
+
+1. **A published face is an executable acceptance test for code that no longer exists.** The
+   missing module's OUTPUT was committed (`HYSTERESIS-2026-10-29.json` + the per-rung CSV),
+   so the reconstruction could be held to `0 numeric diffs` over 2 panels x 3 arms x 6 rungs
+   x 2 cost levels rather than to a plausible story: `reproduce()` truncates the live panel
+   back to the face's own session counts and diffs every number, then the verdict counts
+   (1/5/24) fall out as a consequence. Any future "we rewrote X from its digest" claim has a
+   template now -- publish the face first, then the code can always be rebuilt and checked.
+2. **Text is not a number: release the prose separately.** The r1256 face prints
+   `toll +226.8` beside a published delta of `+113.4` -- twice the number it measured. The
+   restoration reproduces every numeric field and DISAGREES with that sentence on purpose,
+   so the gate has two outputs (`numeric_identical`, `prose_diffs`) and only the numeric one
+   is a leg. A gate that demanded byte equality would have made the bug load-bearing.
+
+**The second layer.** `e229.channel_rows` called `e228.rows_for`, which no longer existed
+either -- so the family was broken twice over and the first fix alone would have looked like
+a fix. The cheapest test that sees this is not the importer's: it is the DOWNSTREAM
+selftest (`e232_cost_curvature.py selftest` crashed on `e228.rows_for` in its gamma=1
+crosscheck). `rows_for` is restored once, `e230` delegates to it instead of carrying a copy,
+and a leg pins it to `excess_series` -- the function the published E228 face actually uses --
+so the two definitions of the same excess cannot drift.
+
+**Verify.** e230 selftest 16/16 incl. `reproduces_the_published_face_numbers` and
+`frozen_acceptance_face_still_exists`; e228 22/22 (+3); e231/e233/e234/e235/e236/e237
+18/13/14/18/18/18 all green on a clean checkout; e232 10/10 (was a crash).
