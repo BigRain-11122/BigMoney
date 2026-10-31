@@ -3,15 +3,15 @@
  "title": "which BAND-family studies census the live directory, how many faces each would gain if re-derived today, and does any published verdict depend on it",
  "evidence_cutoff": "2026-10-29",
  "verdict": "no_published_verdict_moves_with_the_universe",
- "verdict_reason": "all 9 measured studies print the same verdict under the published vintage and the live directory; 3 could not be varied at all and are named with their reason",
+ "verdict_reason": "all 9 measured studies print the same verdict under the published vintage and the live directory; 4 could not be varied at all and are named with their reason",
  "summary": {
-  "studies_censused": 12,
+  "studies_censused": 13,
   "status_counts": {
    "reproduces_and_stable": 9,
-   "not_measurable": 3
+   "not_measurable": 4
   },
   "measured": 9,
-  "unmeasurable": 3,
+  "unmeasurable": 4,
   "flipping": [],
   "no_reproduction": [],
   "frozen_in_code": [
@@ -28,67 +28,73 @@
    "e277_tight_multiplier_floor.py",
    "e278_spread_floor.py",
    "e283_degenerate_range_reachable.py",
-   "e284_disagreement_field_scope.py"
+   "e284_disagreement_field_scope.py",
+   "e298_replay_control_census.py"
   ],
   "ranking_by_faces_gained": [
    {
     "script": "e277_tight_multiplier_floor.py",
-    "faces_gained": 34,
+    "faces_gained": 38,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e278_spread_floor.py",
-    "faces_gained": 32,
+    "faces_gained": 36,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e281_substitution_dependency_audit.py",
-    "faces_gained": 28,
+    "faces_gained": 32,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e282_substitution_disagreement_census.py",
-    "faces_gained": 26,
+    "faces_gained": 30,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e283_degenerate_range_reachable.py",
-    "faces_gained": 24,
+    "faces_gained": 28,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e284_disagreement_field_scope.py",
-    "faces_gained": 22,
+    "faces_gained": 26,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e286_count_field_scope.py",
-    "faces_gained": 18,
+    "faces_gained": 22,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e290_selfauditable_face_profile.py",
-    "faces_gained": 16,
+    "faces_gained": 20,
     "status": "not_measurable"
    },
    {
     "script": "e291_ambiguity_chance.py",
-    "faces_gained": 14,
+    "faces_gained": 18,
     "status": "not_measurable"
    },
    {
     "script": "e293_duplicate_list_census.py",
-    "faces_gained": 12,
+    "faces_gained": 16,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e287_supply_ceiling_axes.py",
-    "faces_gained": 10,
+    "faces_gained": 14,
     "status": "reproduces_and_stable"
    },
    {
     "script": "e292_scope_fix_plan.py",
-    "faces_gained": 0,
+    "faces_gained": 6,
+    "status": "not_measurable"
+   },
+   {
+    "script": "e298_replay_control_census.py",
+    "faces_gained": null,
     "status": "not_measurable"
    }
   ]
@@ -101,9 +107,9 @@
   "bandfrozen_latest.json"
  ],
  "directory_shape": {
-  "family_scripts": 54,
-  "census_the_directory": 12,
-  "read_named_faces_only": 42,
+  "family_scripts": 56,
+  "census_the_directory": 13,
+  "read_named_faces_only": 43,
   "census_scripts": [
    "e277_tight_multiplier_floor.py",
    "e278_spread_floor.py",
@@ -116,11 +122,12 @@
    "e290_selfauditable_face_profile.py",
    "e291_ambiguity_chance.py",
    "e292_scope_fix_plan.py",
-   "e293_duplicate_list_census.py"
+   "e293_duplicate_list_census.py",
+   "e298_replay_control_census.py"
   ]
  },
  "glob_case_note": "the family's census glob is `BAND*.json` and globbing is case-insensitive on this filesystem, so `band*_latest.json` mirrors are inside every study's universe; narrowing it here would change all of them",
- "isolation_note": "each study is measured in its own process under a 45s cap; a study that does not answer is reported, not silently dropped",
+ "isolation_note": "each study is measured in its own process under a 120s cap; a study that does not answer is reported, not silently dropped",
  "classification_frozen": {
   "A": "reproduces_and_stable -- frozen == published and live == published",
   "B": "reproduces_and_flips -- frozen == published and live != published",
@@ -143,10 +150,10 @@
    "face_generated": "2026-10-31T04:50:11",
    "universe_published_key": "source_faces",
    "faces_published_used": 3,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 47,
-   "faces_dropped_as_later": 34,
-   "faces_gained_since_publish": 34,
+   "faces_dropped_as_later": 38,
+   "faces_gained_since_publish": 38,
    "entry_point": "run",
    "varied": "run(outdir=frozen staging) vs run(outdir=live)",
    "frozen_verdict": "tight_end_dead_by_construction_family_should_stop_publishing_tight_pass_checks",
@@ -173,10 +180,10 @@
    "face_generated": "2026-10-31T04:59:38",
    "universe_published_key": "source_faces",
    "faces_published_used": 3,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 49,
-   "faces_dropped_as_later": 32,
-   "faces_gained_since_publish": 32,
+   "faces_dropped_as_later": 36,
+   "faces_gained_since_publish": 36,
    "entry_point": "build",
    "varied": "build(outdir=frozen staging) vs build(outdir=live)",
    "frozen_verdict": "the_zero_spread_tail_is_the_band_floor_landing_on_the_thin_shuffle",
@@ -203,10 +210,10 @@
    "face_generated": "2026-10-31T06:09:48",
    "universe_published_key": "source_faces",
    "faces_published_used": 27,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 53,
-   "faces_dropped_as_later": 28,
-   "faces_gained_since_publish": 28,
+   "faces_dropped_as_later": 32,
+   "faces_gained_since_publish": 32,
    "entry_point": "build",
    "varied": "build(extend=False, freeze on) vs build(extend=True, live directory)",
    "frozen_verdict": "every_dependent_cannot_is_vacuous_and_disclosed",
@@ -233,10 +240,10 @@
    "face_generated": "2026-10-31T06:31:08",
    "universe_published_key": null,
    "faces_published_used": null,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 55,
-   "faces_dropped_as_later": 26,
-   "faces_gained_since_publish": 26,
+   "faces_dropped_as_later": 30,
+   "faces_gained_since_publish": 30,
    "entry_point": "build",
    "varied": "build(extend=False, freeze on) vs build(extend=True, live directory)",
    "frozen_verdict": "the_disagreement_is_a_range_difference_not_a_boundary_tie",
@@ -262,10 +269,10 @@
    "face_generated": "2026-10-31T07:04:32",
    "universe_published_key": "source_faces",
    "faces_published_used": 2,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 57,
-   "faces_dropped_as_later": 24,
-   "faces_gained_since_publish": 24,
+   "faces_dropped_as_later": 28,
+   "faces_gained_since_publish": 28,
    "entry_point": "build",
    "varied": "build(outdir=frozen staging) vs build(outdir=live)",
    "frozen_verdict": "the_branch_needs_a_tolerance_that_erases_the_reading",
@@ -288,10 +295,10 @@
    "face_generated": "2026-10-31T07:15:18",
    "universe_published_key": "source_faces",
    "faces_published_used": 1,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 59,
-   "faces_dropped_as_later": 22,
-   "faces_gained_since_publish": 22,
+   "faces_dropped_as_later": 26,
+   "faces_gained_since_publish": 26,
    "entry_point": "build",
    "varied": "build(outdir=frozen staging) vs build(outdir=live)",
    "frozen_verdict": "the_slip_is_unique_to_one_field",
@@ -315,10 +322,10 @@
    "face_generated": "2026-10-31T07:35:26",
    "universe_published_key": "faces_censused",
    "faces_published_used": 32,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 63,
-   "faces_dropped_as_later": 18,
-   "faces_gained_since_publish": 18,
+   "faces_dropped_as_later": 22,
+   "faces_gained_since_publish": 22,
    "entry_point": "build",
    "varied": "build(extend=False, freeze on) vs build(extend=True, live directory)",
    "frozen_verdict": "the_checkable_share_of_unit_named_counts_is_a_minority_and_every_one_agrees",
@@ -341,10 +348,10 @@
    "face_generated": "2026-10-31T09:50:01",
    "universe_published_key": "source_faces",
    "faces_published_used": 6,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 71,
-   "faces_dropped_as_later": 10,
-   "faces_gained_since_publish": 10,
+   "faces_dropped_as_later": 14,
+   "faces_gained_since_publish": 14,
    "entry_point": "build",
    "varied": "build(outdir=frozen staging) vs build(outdir=live)",
    "frozen_verdict": "published_supply_reaches_the_gap_rows_only",
@@ -365,10 +372,10 @@
    "face_generated": "2026-10-31T08:00:17",
    "universe_published_key": "faces_censused",
    "faces_published_used": 32,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 65,
-   "faces_dropped_as_later": 16,
-   "faces_gained_since_publish": 16,
+   "faces_dropped_as_later": 20,
+   "faces_gained_since_publish": 20,
    "entry_point": null,
    "varied": null,
    "frozen_verdict": null,
@@ -388,10 +395,10 @@
    "face_generated": "2026-10-31T08:19:55",
    "universe_published_key": "faces_censused",
    "faces_published_used": 32,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 67,
-   "faces_dropped_as_later": 14,
-   "faces_gained_since_publish": 14,
+   "faces_dropped_as_later": 18,
+   "faces_gained_since_publish": 18,
    "entry_point": null,
    "varied": null,
    "frozen_verdict": null,
@@ -411,10 +418,10 @@
    "face_generated": "2026-10-31T12:10:37",
    "universe_published_key": "faces_censused",
    "faces_published_used": 32,
-   "faces_in_directory_now": 81,
-   "faces_kept_by_stamp": 81,
-   "faces_dropped_as_later": 0,
-   "faces_gained_since_publish": 0,
+   "faces_in_directory_now": 85,
+   "faces_kept_by_stamp": 79,
+   "faces_dropped_as_later": 6,
+   "faces_gained_since_publish": 6,
    "entry_point": null,
    "varied": null,
    "frozen_verdict": null,
@@ -436,10 +443,10 @@
    "face_generated": "2026-10-31T09:04:25",
    "universe_published_key": "faces_censused",
    "faces_published_used": 32,
-   "faces_in_directory_now": 81,
+   "faces_in_directory_now": 85,
    "faces_kept_by_stamp": 69,
-   "faces_dropped_as_later": 12,
-   "faces_gained_since_publish": 12,
+   "faces_dropped_as_later": 16,
+   "faces_gained_since_publish": 16,
    "entry_point": "build",
    "varied": "build(extend=False, freeze on) vs build(extend=True, live directory)",
    "frozen_verdict": "some_aliases_are_accidental_copies_but_no_scope_counts_one_twice",
@@ -448,6 +455,31 @@
    "status": "reproduces_and_stable",
    "reason": "same verdict under both universes",
    "distinct_measurements": true
+  },
+  {
+   "script": "e298_replay_control_census.py",
+   "face": "REPLAYCENSUS-%s.json",
+   "census_glob": "*.json",
+   "frozen_in_code": false,
+   "build_args": [
+    "outdir"
+   ],
+   "run_args": null,
+   "published_verdict": null,
+   "face_generated": null,
+   "universe_published_key": null,
+   "faces_published_used": null,
+   "faces_in_directory_now": null,
+   "faces_kept_by_stamp": null,
+   "faces_dropped_as_later": null,
+   "faces_gained_since_publish": null,
+   "entry_point": null,
+   "varied": null,
+   "frozen_verdict": null,
+   "live_verdict": null,
+   "published_files_touched": [],
+   "status": "not_measurable",
+   "reason": "no published face of its own in results/state_tilt (FACE='REPLAYCENSUS-%s.json')"
   }
  ],
  "frozen_spec": {
@@ -474,5 +506,5 @@
    "unmeasurable_before_the_universe_question"
   ]
  },
- "generated": "2026-10-31T12:56:43"
+ "generated": "2026-10-31T22:20:25"
 }
