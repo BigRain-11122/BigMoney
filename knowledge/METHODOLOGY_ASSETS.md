@@ -6018,3 +6018,72 @@ Evidence: `scripts/e294_live_universe_drift.py` (selftest 36/36, `verify` 0 prob
 real entry point and fails on self-inclusion, an inflated family shape, or a stable row whose two
 verdicts differ -- 4/4 mutations caught), digest
 `research/digests/DIGEST-20261031-r1322-e294-live-universe-drift.md`.
+
+### E298 a control that cannot name its panel is unmeasurable, not safe and not broken (r1323 bm-b)
+
+r1316 diagnosed one replay control (E243's) as re-deriving over the live panel and reading its own
+vintage as a reproduction failure; the repair taught that one block to say `window_used` /
+`window_source` / `live_panel_last` / `sessions_past_the_pinned_window`. A fix to a face is not a fix
+to a class, so the class was counted: of 26 published control blocks in 23 dated faces, 12 are identity
+checks (they re-derive from the face's own records, so no vintage can move them) and 14 are replays.
+Seven replays declare their basis; seven publish nothing, so which panel they read is not recoverable
+from the face at all.
+
+Three rules:
+
+1. **Grade a control on KIND first, BASIS second.** An identity check is immune to the panel by
+   construction and must never be scored on basis -- scoring it would manufacture risk where there is
+   none. Only a replay can be moved by a vintage, so only a replay can be at risk.
+2. **"Cannot say" is a published category, never a default.** Writing `reproduced: false` for an
+   undeclared control convicts it of using the wrong panel; writing `true` acquits it. Both are
+   inventions. Publish the row as unmeasurable and name it, so the next round reads a list.
+3. **A path is not an identity.** Two vintages of the same study carry the same control path
+   (ADDOS 10-29 and 10-30 both publish `/e240_replay`, one undeclared and one live-declared), so any
+   census, dictionary or smoke join keyed on the path alone silently collapses them and hands an
+   at-risk row its sibling's basis. Key on `(face, path)` and repeat the face inside every derived row.
+
+Operational notes: a census living in the directory it scans must exclude itself (the first run
+graded 26 controls, the second 27, and `verify` could never pass until `self_faces_excluded` was
+published and asserted); and the repair's landing is only visible as a *transition* -- the same block
+moving undeclared -> live_declared between two vintages -- so vintages are compared pairwise by
+(study, path) rather than read one face at a time.
+
+Evidence: `scripts/e298_replay_control_census.py` (selftest 21/21, `verify` 0 problems),
+`results/state_tilt/REPLAYCENSUS-2026-10-30.json` (+ `replaycensus_latest.json`),
+`Tools/s6_chain_bmb.py` leg `replay_control_census`, smoke leg E298, digest
+`research/digests/DIGEST-20261031-r1323-e298-replay-control-census.md`.
+
+
+### E298 a control that cannot name its panel is unmeasurable, not safe and not broken (r1323 bm-b)
+
+r1316 diagnosed one replay control (E243's) as re-deriving over the live panel and reading its own
+vintage as a reproduction failure; the repair taught that one block to say `window_used` /
+`window_source` / `live_panel_last` / `sessions_past_the_pinned_window`. A fix to a face is not a fix
+to a class, so the class was counted: of 26 published control blocks in 23 dated faces, 12 are identity
+checks (they re-derive from the face's own records, so no vintage can move them) and 14 are replays.
+Seven replays declare their basis; seven publish nothing, so which panel they read is not recoverable
+from the face at all.
+
+Three rules:
+
+1. **Grade a control on KIND first, BASIS second.** An identity check is immune to the panel by
+   construction and must never be scored on basis -- scoring it would manufacture risk where there is
+   none. Only a replay can be moved by a vintage, so only a replay can be at risk.
+2. **"Cannot say" is a published category, never a default.** Writing `reproduced: false` for an
+   undeclared control convicts it of using the wrong panel; writing `true` acquits it. Both are
+   inventions. Publish the row as unmeasurable and name it, so the next round reads a list.
+3. **A path is not an identity.** Two vintages of the same study carry the same control path
+   (ADDOS 10-29 and 10-30 both publish `/e240_replay`, one undeclared and one live-declared), so any
+   census, dictionary or smoke join keyed on the path alone silently collapses them and hands an
+   at-risk row its sibling's basis. Key on `(face, path)` and repeat the face inside every derived row.
+
+Operational notes: a census living in the directory it scans must exclude itself (the first run
+graded 26 controls, the second 27, and `verify` could never pass until `self_faces_excluded` was
+published and asserted); and the repair's landing is only visible as a *transition* -- the same block
+moving undeclared -> live_declared between two vintages -- so vintages are compared pairwise by
+(study, path) rather than read one face at a time.
+
+Evidence: `scripts/e298_replay_control_census.py` (selftest 21/21, `verify` 0 problems),
+`results/state_tilt/REPLAYCENSUS-2026-10-30.json` (+ `replaycensus_latest.json`),
+`Tools/s6_chain_bmb.py` leg `replay_control_census`, smoke leg E298, digest
+`research/digests/DIGEST-20261031-r1323-e298-replay-control-census.md`.

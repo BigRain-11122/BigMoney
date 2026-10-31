@@ -25492,7 +25492,7 @@
   },
   {
    "id": "E298-REPLAY-CONTROLS-CENSUS",
-   "status": "ready",
+   "status": "done",
    "lane": "cpu-only",
    "entered_at": "2026-10-31T10:30:00+08:00",
    "entered_by": "bm-b r1316",
@@ -25500,7 +25500,10 @@
    "source": "r1316: E243's replay control re-derived over the live panel and read its own vintage as a reproduction failure; E239/E240 carry e238/e239_reference blocks the same shape",
    "target": "scripts/e2*_*.py + smoke_test.py",
    "deliverable": "results/state_tilt/REPLAYCENSUS-<cutoff>.json",
-   "question": "which published faces carry a replay/reproduction control, how many of them re-derive over the live panel instead of the reference's declared window, and what does each one currently report"
+   "question": "which published faces carry a replay/reproduction control, how many of them re-derive over the live panel instead of the reference's declared window, and what does each one currently report",
+   "result_ref": "results/state_tilt/REPLAYCENSUS-2026-10-30.json (verdict controls_that_cannot_state_their_basis_exist; 26 control blocks in 23 faces = 12 identity + 14 replay; 7 replays declare a basis (6 pinned, 1 live with its overshoot), 7 publish no basis at all and are reported unmeasurable; the ADDOS block moved undeclared -> live_declared between its two vintages)",
+   "done_at": "2026-10-31T13:2x+08:00",
+   "done_by": "bm-b r1323"
   },
   {
    "id": "E299-ROUNDED-VS-TOLERANCE-CENSUS",
@@ -25560,6 +25563,20 @@
     "workers": 1
    },
    "source": "r1322 (E294) re-derived every directory-censusing study under a frozen vintage and under the live directory: 9 of 12 were varied and none flips, but e290/e291/e292 publish only build() with no universe argument, so the question is unasked for them rather than answered. Price the switch: what each study's build() would have to accept, whether the frozen vintage reproduces its published verdict once the switch exists, and whether it flips. No reburn: published faces only."
+  },
+  {
+   "id": "E303-RECOVER-UNMEASURABLE-BASIS",
+   "title": "seven published replay controls cannot say which panel they re-derived on -- for each one, does the code that wrote it read a pinned window or the live panel, and is the answer recoverable without re-running the study?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T13:2x+08:00",
+   "entered_by": "bm-b r1323",
+   "evidence_cutoff": "2026-10-30",
+   "source": "r1323: E298 censused 26 published control blocks and found 7 replays that publish no window/pin/vintage field, so their panel is not recoverable from the face; the r1316 repair touched only ADDOS",
+   "target": "scripts/e2*_*.py (the writers of the 7 at-risk blocks)",
+   "deliverable": "results/state_tilt/BASISRECOVERY-<cutoff>.json",
+   "question": "for each of the 7 unmeasurable replay controls, does its writer read a pinned window (a literal date range or an upstream face's window) or the live panel? Publish per-block: writer symbol, the panel expression it uses, and whether the answer is decidable from the code alone."
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
@@ -25574,6 +25591,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T12:5x+08:00",
+ "updated_at": "2026-10-31T13:2x+08:00",
  "version": 1
 }

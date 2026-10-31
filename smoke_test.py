@@ -8008,6 +8008,75 @@ def main() -> int:
     except Exception as e:
         check(_name93, False, repr(e)[:160])
 
+    # E298 (r1323 bm-b): r1316 fixed ONE replay control so it says which panel it re-derived on, and
+    # the class was never counted. This leg pins the census: (a) the frozen verdict vocabulary, (b)
+    # that every control block is classified as identity or replay and the two partitions are
+    # exhaustive, (c) that EVERY at-risk row is a replay with no basis evidence -- never an identity
+    # check and never a block that carries a window, (d) that the census excludes its own two faces
+    # and the mirrors it lives among, so a second run cannot grade itself, and (e) that a replay
+    # which cannot name its panel is published as unmeasurable rather than as reproduced-false.
+    _name298 = ("product: every published control block is censused by which panel it re-derived on "
+                "-- replays that cannot name their basis are published as unmeasurable, never as "
+                "safe or broken")
+    try:
+        _m298 = __import__("importlib").import_module("e298_replay_control_census")
+        _f298 = _m298.load("replaycensus_latest.json")
+        _s298 = _f298.get("summary") or {}
+        _id298 = _f298.get("identity_check") or {}
+        _bad298 = []
+        if _f298.get("verdict") not in _m298.VERDICT_VOCAB:
+            _bad298.append("verdict outside the frozen set")
+        if not _id298.get("all_checks"):
+            _bad298.append("the face's own identity check is not green")
+        _byk298 = _s298.get("by_kind") or {}
+        _byb298 = _s298.get("by_basis") or {}
+        if sum(_byk298.values()) != _s298.get("n_control_containers"):
+            _bad298.append("the kind partition does not sum to the containers")
+        if sum(_byb298.values()) != _s298.get("n_control_containers"):
+            _bad298.append("the basis partition does not sum to the containers")
+        _risk298 = _f298.get("at_risk") or []
+        # the path is NOT an identity -- two vintages of one study share it -- so the at-risk rows
+        # must carry their own face and the join is on the pair
+        _con298 = {(c["face"], c["path"]): c for c in (_f298.get("controls") or [])}
+        if len(_risk298) != _s298.get("n_at_risk"):
+            _bad298.append("the at-risk list does not match its own count")
+        for _r in _risk298:
+            _c = _con298.get((_r.get("face"), _r["path"]))
+            if not _c or _c["kind"] != "replay" or _c["basis"] != "undeclared":
+                _bad298.append("an at-risk row is not a replay with no basis")
+            elif _c.get("basis_evidence"):
+                _bad298.append("an at-risk row still published basis evidence")
+        if (_s298.get("self_faces_excluded") or 0) < 2:
+            _bad298.append("the census did not exclude its own face and its mirror")
+        if (_s298.get("mirror_files_excluded") or 0) < 1:
+            _bad298.append("the census did not exclude the mirrors beside it")
+        if _s298.get("n_replay_with_declared_basis", 0) + _s298.get("n_at_risk", 0) != \
+                _s298.get("n_replay_controls"):
+            _bad298.append("the replay partition does not close")
+        # a live re-derive is declared with the overshoot, so it is never silently equal to a pin
+        _live298 = [c for c in (_f298.get("controls") or []) if c.get("basis") == "live_declared"]
+        for _c in _live298:
+            if not any("live_panel" in f or "sessions_past" in f for f in _c["basis_evidence"]):
+                _bad298.append("a live_declared block does not name the live panel")
+        _fresh298 = _m298.build()
+        for _k in ("verdict", "summary", "identity_check", "at_risk", "vintage_transitions"):
+            if _fresh298.get(_k) != _f298.get(_k):
+                _bad298.append("%s does not re-derive" % _k)
+        check(_name298, not _bad298,
+              "; ".join(_bad298)[:220]
+              or "verdict %r | %d control block(s) in %d face(s): %d identity / %d replay; %d "
+                 "replay(s) declare a basis (%d of them the live panel plus its overshoot), %d "
+                 "cannot and are published unmeasurable; %d vintage transition(s) observed"
+                 % (_f298.get("verdict"),
+                    _s298.get("n_control_containers") or 0,
+                    _s298.get("faces_with_controls") or 0,
+                    _byk298.get("identity") or 0, _byk298.get("replay") or 0,
+                    _s298.get("n_replay_with_declared_basis") or 0, len(_live298),
+                    _s298.get("n_at_risk") or 0,
+                    len(_f298.get("vintage_transitions") or [])))
+    except Exception as e:
+        check(_name298, False, repr(e)[:160])
+
     # E292 (r1321 bm-b): E290 handed the 301 'the face already publishes this unit elsewhere' counts on
     # as "move the count, no new data needed". This leg pins the price of that plan: (a) the frozen
     # five-verdict vocabulary, (b) that the shapes partition the 301 rows, (c) that a move is called

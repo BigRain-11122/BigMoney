@@ -582,6 +582,18 @@ LEGS = [
     ("live_universe_drift",
      ["python", "scripts/e294_live_universe_drift.py", "verify"]),
 
+    # E298 (r1323 bm-b): r1316 taught ONE replay control (E243's) to say which panel it re-derived
+    # on, which fixed a face and not the class. This leg censuses every control block published in
+    # results/state_tilt (90 dated faces; 67 mirrors and its own two faces excluded): 26 containers,
+    # 12 identity checks (re-derived from the face's own records, so a vintage cannot move them) and
+    # 14 replays. Of the 14 replays only 7 declare a basis -- 6 carry their own window/pin, 1 names
+    # the live panel and its overshoot (ADDOS 2026-10-30) -- so 7 replays are published reacting to
+    # an unknown panel. They are published as UNMEASURABLE, never as safe or broken. The ADDOS pair
+    # also shows the repair landing: the same block went undeclared (10-29) -> live_declared (10-30).
+    # Published faces only; no panel re-read, no draw, no engine. <3s.
+    ("replay_control_census",
+     ["python", "scripts/e298_replay_control_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
