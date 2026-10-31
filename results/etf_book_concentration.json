@@ -1,0 +1,405 @@
+{
+ "ts": "2026-10-31 12:22:02",
+ "script": "scripts/etf_book_concentration.py",
+ "face": "results/etf_book_concentration.json",
+ "evidence_cutoff": "2026-10-30",
+ "criteria": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp_per_side": 10.0,
+  "vol_target": 0.08,
+  "top_k": 3,
+  "top3_share_band": 0.55,
+  "edge_survives_cagr_share": 0.5,
+  "edge_survives_sharpe": 0.5,
+  "min_decisions": 8,
+  "frozen": "constants above were written before the first run; the gate refuses a face that echoes others"
+ },
+ "execution": "decide at close t -> fill at open t+1 -> hold to next decision",
+ "panel": {
+  "columns": 1504,
+  "bars": 5270,
+  "flips_repaired": 168,
+  "digest": "a1a42aee64453839"
+ },
+ "book": {
+  "n_hold": 12,
+  "rebal": 20,
+  "vol_target": 0.08,
+  "cost_bp_per_side": 10.0,
+  "decisions": 83,
+  "turnover_per_decision": 0.934
+ },
+ "identity": {
+  "replica_vs_engine_max_abs": 3.1086244689504383e-15,
+  "bars_compared": 1652,
+  "passes": true
+ },
+ "return_sum": {
+  "gross": 0.744362,
+  "sum_of_symbol_contributions": 0.744362,
+  "fee_toll": 0.077548,
+  "unit_note": "gross and contributions are sums of daily arithmetic returns; the net curve = compounded gross minus the fee charged at each decision, and is what `baseline` quotes"
+ },
+ "baseline": {
+  "full": {
+   "cagr": 0.096,
+   "sharpe": 0.99,
+   "maxdd": -0.1177,
+   "vol": 0.1017,
+   "years": 6.82
+  },
+  "is": {
+   "cagr": 0.0384,
+   "sharpe": 0.442,
+   "maxdd": -0.1177,
+   "vol": 0.0997,
+   "years": 3.99
+  },
+  "oos": {
+   "cagr": 0.1835,
+   "sharpe": 1.738,
+   "maxdd": -0.107,
+   "vol": 0.1044,
+   "years": 2.83
+  }
+ },
+ "concentration": {
+  "computable": true,
+  "symbols_with_any_contribution": 189,
+  "top": [
+   {
+    "symbol": "159934",
+    "contribution_sum": 0.056005,
+    "share_of_return_sum": 0.0752
+   },
+   {
+    "symbol": "518800",
+    "contribution_sum": 0.055486,
+    "share_of_return_sum": 0.0745
+   },
+   {
+    "symbol": "159937",
+    "contribution_sum": 0.052608,
+    "share_of_return_sum": 0.0707
+   },
+   {
+    "symbol": "518880",
+    "contribution_sum": 0.05012,
+    "share_of_return_sum": 0.0673
+   },
+   {
+    "symbol": "159980",
+    "contribution_sum": 0.034362,
+    "share_of_return_sum": 0.0462
+   },
+   {
+    "symbol": "513100",
+    "contribution_sum": 0.03244,
+    "share_of_return_sum": 0.0436
+   },
+   {
+    "symbol": "518850",
+    "contribution_sum": 0.030415,
+    "share_of_return_sum": 0.0409
+   },
+   {
+    "symbol": "518660",
+    "contribution_sum": 0.03011,
+    "share_of_return_sum": 0.0405
+   },
+   {
+    "symbol": "518600",
+    "contribution_sum": 0.026506,
+    "share_of_return_sum": 0.0356
+   },
+   {
+    "symbol": "518680",
+    "contribution_sum": 0.025906,
+    "share_of_return_sum": 0.0348
+   }
+  ],
+  "top1_share": 0.0752,
+  "top3_share": 0.2205,
+  "positive_contribution_hhi": 0.0241,
+  "shares_sum_all_names": 1.0,
+  "names_above_1pct_share": 41,
+  "names_negative": 69,
+  "total_return_sum": 0.744362,
+  "unit_note": "shares are of the SUM of daily arithmetic returns, not of log growth; they add to 100% by construction and are unit-free"
+ },
+ "exposure": {
+  "distinct_names_held": 189,
+  "top": [
+   {
+    "symbol": "518880",
+    "decisions_held": 39,
+    "share_of_decisions": 0.4699,
+    "first_held": "2020-03-06",
+    "last_held": "2025-10-16",
+    "mean_weight_when_held": 0.0639
+   },
+   {
+    "symbol": "159934",
+    "decisions_held": 38,
+    "share_of_decisions": 0.4578,
+    "first_held": "2020-03-06",
+    "last_held": "2025-09-10",
+    "mean_weight_when_held": 0.0643
+   },
+   {
+    "symbol": "518800",
+    "decisions_held": 37,
+    "share_of_decisions": 0.4458,
+    "first_held": "2020-02-07",
+    "last_held": "2025-10-16",
+    "mean_weight_when_held": 0.0642
+   },
+   {
+    "symbol": "159937",
+    "decisions_held": 36,
+    "share_of_decisions": 0.4337,
+    "first_held": "2020-03-06",
+    "last_held": "2025-10-16",
+    "mean_weight_when_held": 0.0656
+   },
+   {
+    "symbol": "511180",
+    "decisions_held": 33,
+    "share_of_decisions": 0.3976,
+    "first_held": "2021-08-25",
+    "last_held": "2026-06-15",
+    "mean_weight_when_held": 0.0672
+   },
+   {
+    "symbol": "511380",
+    "decisions_held": 31,
+    "share_of_decisions": 0.3735,
+    "first_held": "2021-06-01",
+    "last_held": "2026-06-15",
+    "mean_weight_when_held": 0.0671
+   },
+   {
+    "symbol": "510760",
+    "decisions_held": 28,
+    "share_of_decisions": 0.3373,
+    "first_held": "2021-09-24",
+    "last_held": "2026-08-11",
+    "mean_weight_when_held": 0.0648
+   },
+   {
+    "symbol": "513500",
+    "decisions_held": 28,
+    "share_of_decisions": 0.3373,
+    "first_held": "2020-02-07",
+    "last_held": "2026-07-14",
+    "mean_weight_when_held": 0.0587
+   },
+   {
+    "symbol": "159980",
+    "decisions_held": 27,
+    "share_of_decisions": 0.3253,
+    "first_held": "2021-03-03",
+    "last_held": "2026-09-08",
+    "mean_weight_when_held": 0.0654
+   },
+   {
+    "symbol": "510210",
+    "decisions_held": 23,
+    "share_of_decisions": 0.2771,
+    "first_held": "2020-09-28",
+    "last_held": "2026-08-11",
+    "mean_weight_when_held": 0.0601
+   },
+   {
+    "symbol": "513100",
+    "decisions_held": 23,
+    "share_of_decisions": 0.2771,
+    "first_held": "2020-01-02",
+    "last_held": "2026-10-14",
+    "mean_weight_when_held": 0.0584
+   },
+   {
+    "symbol": "515450",
+    "decisions_held": 19,
+    "share_of_decisions": 0.2289,
+    "first_held": "2021-08-25",
+    "last_held": "2026-07-14",
+    "mean_weight_when_held": 0.0671
+   }
+  ]
+ },
+ "control": {
+  "symbol": "159992",
+  "max_abs_diff": 0.0,
+  "inert": true,
+  "detail": "masking a name the book never held must be bit-identical"
+ },
+ "leave_one_out": {
+  "159934": {
+   "solo": {
+    "full": {
+     "cagr": 0.0884,
+     "sharpe": 0.919,
+     "maxdd": -0.1489,
+     "vol": 0.1017,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0321,
+     "sharpe": 0.379,
+     "maxdd": -0.1489,
+     "vol": 0.0996,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1739,
+     "sharpe": 1.657,
+     "maxdd": -0.1064,
+     "vol": 0.1044,
+     "years": 2.83
+    }
+   },
+   "turnover": 0.926,
+   "delta_vs_base": {
+    "cagr_pp": -0.76,
+    "sharpe": 0.919,
+    "maxdd": -0.1489
+   }
+  },
+  "518800": {
+   "solo": {
+    "full": {
+     "cagr": 0.0907,
+     "sharpe": 0.941,
+     "maxdd": -0.1429,
+     "vol": 0.1016,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0335,
+     "sharpe": 0.394,
+     "maxdd": -0.1429,
+     "vol": 0.0994,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1773,
+     "sharpe": 1.683,
+     "maxdd": -0.1063,
+     "vol": 0.1046,
+     "years": 2.83
+    }
+   },
+   "turnover": 0.927,
+   "delta_vs_base": {
+    "cagr_pp": -0.53,
+    "sharpe": 0.941,
+    "maxdd": -0.1429
+   }
+  },
+  "159937": {
+   "solo": {
+    "full": {
+     "cagr": 0.0901,
+     "sharpe": 0.935,
+     "maxdd": -0.1496,
+     "vol": 0.1017,
+     "years": 6.82
+    },
+    "is": {
+     "cagr": 0.0325,
+     "sharpe": 0.383,
+     "maxdd": -0.1496,
+     "vol": 0.0996,
+     "years": 3.99
+    },
+    "oos": {
+     "cagr": 0.1775,
+     "sharpe": 1.685,
+     "maxdd": -0.1064,
+     "vol": 0.1045,
+     "years": 2.83
+    }
+   },
+   "turnover": 0.927,
+   "delta_vs_base": {
+    "cagr_pp": -0.59,
+    "sharpe": 0.935,
+    "maxdd": -0.1496
+   }
+  }
+ },
+ "leave_top_k_out": {
+  "k": 3,
+  "symbols": [
+   "159934",
+   "518800",
+   "159937"
+  ],
+  "stats": {
+   "full": {
+    "cagr": 0.0761,
+    "sharpe": 0.809,
+    "maxdd": -0.1868,
+    "vol": 0.1007,
+    "years": 6.82
+   },
+   "is": {
+    "cagr": 0.0237,
+    "sharpe": 0.294,
+    "maxdd": -0.1868,
+    "vol": 0.0996,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1551,
+    "sharpe": 1.525,
+    "maxdd": -0.1083,
+    "vol": 0.1021,
+    "years": 2.83
+   }
+  },
+  "turnover": 0.879,
+  "delta_cagr_pp": -1.99,
+  "delta_sharpe": -0.181
+ },
+ "leave_class_out": {
+  "class": "commodity",
+  "symbols_removed": 41,
+  "contains_top_k": true,
+  "stats": {
+   "full": {
+    "cagr": 0.0589,
+    "sharpe": 0.643,
+    "maxdd": -0.2226,
+    "vol": 0.1005,
+    "years": 6.82
+   },
+   "is": {
+    "cagr": 0.0097,
+    "sharpe": 0.151,
+    "maxdd": -0.2226,
+    "vol": 0.1002,
+    "years": 3.99
+   },
+   "oos": {
+    "cagr": 0.1322,
+    "sharpe": 1.334,
+    "maxdd": -0.1086,
+    "vol": 0.101,
+    "years": 2.83
+   }
+  },
+  "turnover": 0.856,
+  "delta_cagr_pp": -3.71,
+  "delta_sharpe": -0.347,
+  "detail": "removing the whole commodity sleeve (41 ETFs); a top-k leave-out of names that share a class is partly a redundancy test, not a sleeve test"
+ },
+ "verdict": "BROAD|SURVIVES_WITHOUT_TOP3",
+ "names": {
+  "159934": "黄金ETF易方达",
+  "518800": "黄金ETF国泰",
+  "159937": "黄金ETF博时"
+ }
+}

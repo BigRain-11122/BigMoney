@@ -155,15 +155,15 @@
    "vol": 0.0879
   },
   "width_effect": {
-   "beta": {
-    "ticket_width_cagr": 0.1119,
-    "card_width_cagr": 0.0966,
-    "pp": -1.53
-   },
    "vol": {
     "ticket_width_cagr": 0.1197,
     "card_width_cagr": 0.1221,
     "pp": 0.24
+   },
+   "beta": {
+    "ticket_width_cagr": 0.1119,
+    "card_width_cagr": 0.0966,
+    "pp": -1.53
    }
   },
   "rules_differ": true,
@@ -360,12 +360,19 @@
   "nominal_bets": 4.999999999999999,
   "evidence_cutoff": "2026-10-30"
  },
+ "concentration": {
+  "status": "ok",
+  "sentence": "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
+  "evidence_cutoff": "2026-10-30",
+  "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"
+ },
  "caveats": [
   "survivorship: on-disk panel holds ETFs that still exist",
   "ticket prices are closes; no impact cost, no limit-move guard",
   "GC001 single tenor, rolling assumed cost-free",
   "k revised every 20 bars so delivered beta still wanders",
   "5 tickers (widest 20.0%) span 2.2 independent directions, not 5 (median pairwise correlation 0.24); the variance is still split fairly evenly across 4.3 equivalent names (4.9 under inverse-volatility weights), and the widest single name 513100 carries 29% of it",
+  "前三名只占毛收益 22.1%（第一 黄金ETF易方达 7.5%）；删掉这三只年化 -1.99pp；删掉整条 commodity 袖（41 只）年化 -3.71pp、回撤 -10.5pp（判 BROAD|SURVIVES_WITHOUT_TOP3）",
   "exploratory: no preregistration, no verdict, no ledger booking",
   "this ticket is the 5-name aggressive end of the book; the production card runs 12 names -- see width_disclosure"
  ]

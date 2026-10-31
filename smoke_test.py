@@ -927,6 +927,40 @@ def main() -> int:
     except Exception as e:
         check("product: the human faces quote the measured draw-tail share, not the impression",
               False, str(e))
+    # r1190 / E298: the book's concentration face must be re-derivable, not trusted. Three
+    # things on disk: the identity arm really matched the engine (a split of its own
+    # arithmetic is worthless), the frozen criteria are the ones the code holds today, and
+    # the verdict recomputes from the published rows. The class arm must also contain the
+    # top-k names -- a sleeve test that silently dropped different names would read as a
+    # stronger result than it is.
+    try:
+        _cpath = os.path.join("results", "etf_book_concentration.json")
+        if os.path.exists(_cpath):
+            _cdoc = json.load(open(_cpath, encoding="utf-8"))
+            _cmod = __import__("importlib").import_module("scripts.etf_book_concentration")
+            _rc = _cmod.check(_cpath)
+            _idl = _cdoc.get("identity") or {}
+            _cl = _cdoc.get("leave_class_out") or {}
+            _topk = set((_cdoc.get("leave_top_k_out") or {}).get("symbols") or [])
+            _conc = _cdoc.get("concentration") or {}
+            _shares_ok = abs((_conc.get("shares_sum_all_names") or 0) - 1.0) < 1e-4
+            check("product: E298 concentration face re-derives its own verdict, and its sleeve arm "
+                  "really carries the top names",
+                  _rc == 0 and bool(_idl.get("passes"))
+                  and (_idl.get("replica_vs_engine_max_abs") or 1) < 1e-9
+                  and _shares_ok
+                  and bool(_cl.get("contains_top_k"))
+                  and (_cdoc.get("control") or {}).get("inert") is True,
+                  "verdict=%s identity=%.2g shares=%.4f class=%s(%d) contains_topk=%s"
+                  % (_cdoc.get("verdict"), _idl.get("replica_vs_engine_max_abs") or 0,
+                     _conc.get("shares_sum_all_names") or 0, _cl.get("class"),
+                     _cl.get("symbols_removed") or 0, _cl.get("contains_top_k")))
+        else:
+            check("product: E298 concentration face re-derives its own verdict, and its sleeve arm "
+                  "really carries the top names", True, "concentration artifact absent -- soft-fails by design")
+    except Exception as e:
+        check("product: E298 concentration face re-derives its own verdict, and its sleeve arm "
+              "really carries the top names", False, str(e))
     # r1335 / E221: the book's six factor directions are the full-sample IC signs, so the
     # honest number is the point-in-time arm. Two things must stay true on disk: the verdict
     # is recomputable from the payload's own summary (never a stored string), and both arms

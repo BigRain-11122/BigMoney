@@ -7491,3 +7491,30 @@ so the two definitions of the same excess cannot drift.
 **Verify.** e230 selftest 16/16 incl. `reproduces_the_published_face_numbers` and
 `frozen_acceptance_face_still_exists`; e228 22/22 (+3); e231/e233/e234/e235/e236/e237
 18/13/14/18/18/18 all green on a clean checkout; e232 10/10 (was a crash).
+
+### E298 -- "is the book concentrated?" is two questions, and a top-k leave-out answers neither well (r1190 bm-a)
+
+The allocator's question after a CAGR is *whose* CAGR. Two traps, both hit and both now pinned
+by tests on `scripts/etf_book_concentration.py` (selftest 12/12, `--check` recomputes):
+
+1. **A contribution split must first be the engine, then a split.** Splitting P&L bar by bar is a
+   second implementation of the equity path; if it drifts, the face measures its own arithmetic
+   and every share inherits the error silently. The replica therefore rebuilds the curve from the
+   engine's own `diag` weights and REFUSES TO PUBLISH when `max|replica-engine| > 1e-10` (live:
+   3.1e-15). Same discipline as the drawdown guard's identity arm (E287).
+2. **A top-k leave-out of names that share an asset class is a redundancy test, not a sleeve
+   test.** The book's four biggest contributors were four gold ETFs held in 43-47% of decisions;
+   deleting the top three cost only -1.99pp CAGR because the fourth simply took the slot. The
+   question that matters needed a second arm: delete the whole commodity sleeve (41 ETFs) ->
+   9.60% -> 5.89% CAGR, Sharpe 0.99 -> 0.64, maxDD -11.8% -> **-22.3%**. The same sleeve that
+   earns is the sleeve that cushions -- a single dependency invisible in a top-k table.
+3. **Report the denominator with the share.** Shares are of the SUM of daily arithmetic returns
+   (gross 0.7444), not of log growth and not of the net curve, which also carries the fee toll
+   (0.0775). Mixing the two made a first draft of the selftest read shares summing to 1.18.
+   The face publishes `shares_sum_all_names` so a gate can check 100% over ALL names -- a
+   truncated top-10 table sums past 100% whenever any contributor is negative (69 of 189 were).
+
+Live reading (2026-10-31): top1 7.5%, top3 22.1%, HHI 0.0241 -> verdict BROAD|SURVIVES_WITHOUT_TOP3,
+with the commodity caveat quoted above. Pos: scripts/etf_book_concentration.py (selftest 12/12) /
+results/etf_book_concentration.json / research/ETF_BOOK_CONCENTRATION.md / chain leg
+etf_book_concentration (before etf_book_order) / smoke leg re-deriving the verdict from the rows.

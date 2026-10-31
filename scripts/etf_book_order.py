@@ -52,6 +52,7 @@ from scripts import etf_equity_alpha as AE          # noqa: E402
 from scripts import exchange_calendar_audit as CA   # noqa: E402
 from scripts.etf_asset_class import classify       # noqa: E402
 from scripts.etf_book_bets_face import read_published as read_bets_face  # noqa: E402
+from scripts.etf_book_concentration import read_published as read_concentration  # noqa: E402
 from config import PATHS                           # noqa: E402
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -498,6 +499,8 @@ def card(ticket, mk, sched, asof, beta, extra):
               % (len(ticket["basket_drift"]), len(ticket["order"]))]
     if extra.get("bets_line"):
         L += ["- **五只名字不是五个赌注**：%s" % extra["bets_line"]]
+    if extra.get("conc_line"):
+        L += ["- **这笔钱是从哪赚来的**：%s" % extra["conc_line"]]
     pb = extra.get("price_basis") or {}
     if pb.get("sentence"):
         L += ["- **价格面板**：%s" % pb["sentence"]]
@@ -799,6 +802,18 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
     else:
         bets_line = ("how many independent bets the sleeve holds is unpublished (%s); "
                      "run scripts/etf_book_bets_face.py run" % (bets.get("status") or "absent"))
+    # r1190 / E298: five names are not five sources of RETURN either. The concentration face
+    # splits the book's own P&L by symbol and re-prices it without the top names and without
+    # their whole sleeve; quoting it here puts "whose CAGR is this" beside the weights instead
+    # of one document away (r1108 有产无读). Unreadable -> the ticket says so, never a pass.
+    conc = read_concentration()
+    if conc.get("status") == "ok" and conc.get("sentence"):
+        conc_line = conc["sentence"]
+        if conc.get("evidence_cutoff") and conc["evidence_cutoff"] != asof:
+            conc_line += " (measured on the %s bar)" % conc["evidence_cutoff"]
+    else:
+        conc_line = ("where this book's return actually comes from is unpublished (%s); "
+                     "run scripts/etf_book_concentration.py run" % (conc.get("status") or "absent"))
     payload = {"evidence_cutoff": asof, "beta_target": float(beta),
                "inception": str(slip.index[0].date()) if len(slip) else inception,
                "rebal": REBAL, "n_hold": N_HOLD, "cost_bp_per_side": COST_BP,
@@ -825,11 +840,13 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                "carry_split": carry,
                "restatements": _ledger_restatements(),
                "bets": bets,
+               "concentration": conc,
                "caveats": ["survivorship: on-disk panel holds ETFs that still exist",
                            "ticket prices are closes; no impact cost, no limit-move guard",
                            "GC001 single tenor, rolling assumed cost-free",
                            "k revised every %d bars so delivered beta still wanders" % REBAL,
                            bets_line,
+                           conc_line,
                            "exploratory: no preregistration, no verdict, no ledger booking"]
                           + (["this ticket is the %d-name aggressive end of the book; the "
                               "production card runs %d names -- see width_disclosure"
@@ -850,6 +867,7 @@ def run(beta=DEFAULT_BETA, nav=DEFAULT_NAV, inception=DEFAULT_INCEPTION, fresh_g
                       "feed": feed, "agreement": agreement, "ruler": ruler,
                       "carry": carry, "restatements": payload["restatements"],
                       "bets_line": bets_line,
+                      "conc_line": conc_line,
                       "family_coherence": fam,
                       "priced_faces": _priced_faces,
                       "price_basis": payload["price_basis"]}))
@@ -2656,6 +2674,23 @@ def selftest():
     chk("leg46h family coherence: withheld and absent never read as a pass",
         "名数没被证过" in _md_mixed and "ONE_WORLD" not in _md_mixed
         and "名数没被证过" in _md_absent and "ONE_WORLD" not in _md_absent, "")
+
+    # 46i. five names are not five sources of return either (r1190 / E298). The sheet must
+    # quote the concentration face verbatim, and an absent/unreadable face must read as a
+    # gap on the page -- "no line" would look identical to "not concentrated".
+    _cq = {"status": "ok", "sentence": "前三名只占毛收益 22.1%（第一 a 7.5%）（判 BROAD）",
+           "evidence_cutoff": "2026-10-30", "verdict": "BROAD|SURVIVES_WITHOUT_TOP3"}
+    _md_cq = card(None, None, None, "2026-10-30", 0.2,
+                  {"inception": "2024-01-01", "conc_line": _cq["sentence"]})
+    _md_cq_miss = card(None, None, None, "2026-10-30", 0.2,
+                       {"inception": "2024-01-01",
+                        "conc_line": "where this book's return actually comes from is "
+                                     "unpublished (absent); run scripts/etf_book_concentration.py run"})
+    chk("leg46i concentration: the sheet quotes the face verbatim, and a missing face reads "
+        "as a gap rather than silence",
+        "这笔钱是从哪赚来的" in _md_cq and _cq["sentence"] in _md_cq
+        and "这笔钱是从哪赚来的" in _md_cq_miss and "unpublished" in _md_cq_miss
+        and "22.1%" not in _md_cq_miss, "")
 
     print("selftest:", "PASS %d/%d" % (ok, total) if ok == total else "FAIL %d/%d" % (ok, total))
     return 0 if ok == total else 1

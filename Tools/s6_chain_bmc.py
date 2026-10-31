@@ -170,6 +170,13 @@ LEGS = [
     # would print the previous bar's concentration beside today's weights (the r1290 /
     # r1367 two-days-one-sheet class). ~1s, no network, single writer.
     ("etf_book_bets_face", ["python", "scripts/etf_book_bets_face.py", "run"]),
+    # r1190 / E298: five tickers are not five bets -- and five names are not five sources of
+    # return either. This face splits the book's own P&L by symbol (the replica must match the
+    # engine's equity bit for bit or it refuses to publish) and re-prices the book with the top
+    # names, then with their whole asset class, deleted from the universe. Cost is the panel
+    # build (~30s) plus five book runs (~1s each), no network. Runs before the ticket so the
+    # executable sheet can quote a same-bar concentration reading instead of a stale one.
+    ("etf_book_concentration", ["python", "scripts/etf_book_concentration.py", "run"]),
     ("etf_book_order", ["python", "scripts/etf_book_order.py", "run"]),
     # r1333: the ticket above is a 5-name beta-overlay book while the card and the ledger
     # run 12 names at an 8% vol target -- two published books with one operator. This leg
