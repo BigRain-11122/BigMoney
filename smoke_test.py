@@ -4564,11 +4564,19 @@ def main() -> int:
             if set(_arms56) != {"production", "full", "constant"}:
                 _bad56.append("arms are %r" % (sorted(_arms56),))
             else:
-                if abs(float(_arms56["full"]["mean_exposure"]) - 1.0) > 1e-6:
-                    _bad56.append("the 'full' arm is not fully invested")
-                if not (float(_arms56["production"]["mean_exposure"])
-                        < float(_arms56["constant"]["mean_exposure"]) + 1e-6):
-                    _bad56.append("production is not at or below its own average exposure")
+                # The book is flat until its first decision, so no arm averages exactly 1.0;
+                # the control is that the constant arm really is matched to production's
+                # average exposure (that is what makes the timing comparison meaningful) and
+                # that both sit below the fully invested arm.
+                _e56 = {k: float(v.get("mean_exposure") or 0.0) for k, v in _arms56.items()}
+                if _e56["full"] < 0.98:
+                    _bad56.append("the 'full' arm averages %r exposure" % (_e56["full"],))
+                if abs(_e56["production"] - _e56["constant"]) > 0.01:
+                    _bad56.append("the constant arm is not matched on average exposure (%r)"
+                                  % (_e56,))
+                if not (_e56["production"] < _e56["full"] - 0.02):
+                    _bad56.append("production is not de-levered against the full arm (%r)"
+                                  % (_e56,))
                 for _a56 in _arms56.values():
                     if int(_a56.get("selection_drift") or 0) != 0:
                         _bad56.append("arm %r changed the engine's picks" % (_a56.get("arm"),))
