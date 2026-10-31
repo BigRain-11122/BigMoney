@@ -9368,6 +9368,73 @@ def main() -> int:
     except Exception as e:
         check(_name308, False, repr(e)[:160])
 
+    # E324: E323 left six gates as "a producer is found but it publishes no key of that name".
+    # All six keys are in the repository: four are copied into the card wholesale from a sub-face
+    # writer (value-identical), one is an accumulation keyed by a data value, and one exists only
+    # inside the published face -- that face cannot be reproduced from the tree it is committed in.
+    # The leg re-derives every cause and refuses a cause set that drifts.
+    _name309 = ("product: the six 'unpublished key' gates are composed, computed, or a face no "
+                "source can reproduce -- not a missing key")
+    _bad309 = []
+    try:
+        _p310 = os.path.join("results", "state_tilt", "unpublishedkey_latest.json")
+        _f310 = json.load(open(_p310, encoding="utf-8")) if os.path.exists(_p310) else None
+        if _f310 is None:
+            _bad309.append("no published unpublished-key face")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m310 = __import__("importlib").import_module("e324_unpublished_key_causes")
+            _fresh310 = _m310.build()
+            if _f310.get("verdict") != _fresh310.get("verdict"):
+                _bad309.append("the verdict does not re-derive")
+            if _f310.get("verdict") not in (_m310.VERDICT_LOCATED, _m310.VERDICT_ALL_LOCATED,
+                                            _m310.VERDICT_ABSENT):
+                _bad309.append("verdict %r is outside the frozen set" % (_f310.get("verdict"),))
+            if _f310.get("summary") != _fresh310.get("summary"):
+                _bad309.append("the summary does not re-derive")
+            _rows310 = _f310.get("rows") or []
+            for _r310, _g310 in zip(_rows310, _fresh310.get("rows") or []):
+                if _r310.get("cause") != _g310.get("cause"):
+                    _bad309.append("a cause does not re-derive: %s" % _r310.get("leaf"))
+                    break
+                if _r310.get("cause") not in _m310.CAUSES:
+                    _bad309.append("a row cause is outside the frozen set")
+                    break
+                if not _r310.get("present_in_face"):
+                    _bad309.append("a row's leaf is not in its own face")
+                    break
+            # the population must be E323's own six, not a hand-typed list
+            _p311 = os.path.join("results", "state_tilt", "reachwide_latest.json")
+            if os.path.exists(_p311):
+                _f311 = json.load(open(_p311, encoding="utf-8"))
+                _want311 = sorted((r.get("face"), r.get("leaf")) for r in _f311.get("rows") or []
+                                  if r.get("class_after") == _m310.POPULATION_CLASS)
+                if sorted((r.get("face"), r.get("leaf")) for r in _rows310) != _want311:
+                    _bad309.append("the population is not the upstream class")
+            # every located key must carry a value identity, or "located" is a sentence
+            for _r310 in _rows310:
+                if (_r310.get("cause") == _m310.CAUSE_SUBFACE
+                        and not _r310["subface"][0]["value_matches"]):
+                    _bad309.append("a sub-face copy does not reproduce the value")
+                    break
+                if (_r310.get("cause") == _m310.CAUSE_DATAKEY
+                        and not _r310["data_key"]["value_matches"]):
+                    _bad309.append("a data key does not re-count to its published number")
+                    break
+                if (_r310.get("cause") == _m310.CAUSE_ORPHAN
+                        and _r310.get("sources_mentioning_the_key")):
+                    _bad309.append("a row called orphan is mentioned by a source")
+                    break
+        check(_name309, not _bad309, "; ".join(_bad309)[:220]
+              or "%s | %d rows, causes %s, %d of the census sit in a copied block"
+                 % (str((_f310 or {}).get("verdict")),
+                    ((_f310 or {}).get("summary") or {}).get("rows") or 0,
+                    json.dumps(((_f310 or {}).get("summary") or {}).get("by_cause") or {},
+                               ensure_ascii=False),
+                    ((_f310 or {}).get("blind_spot") or {}).get("rows_inside_a_copied_block") or 0))
+    except Exception as e:
+        check(_name309, False, repr(e)[:160])
+
     return _finish()
 
 

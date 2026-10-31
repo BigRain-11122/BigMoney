@@ -768,6 +768,16 @@ LEGS = [
     ("reach_under_wider_needle",
      ["python", "scripts/e323_reach_under_wider_needle.py", "verify"]),
 
+    # E324: E323 left six gates classed "a producer is found but it publishes no key of that
+    # name". This leg re-locates all six: four keys are copied wholesale into the card from a
+    # sub-face writer (the card embeds `"control": doc.get("control")` and the key is published
+    # against the sub-face), one is an accumulation whose key is a data value
+    # (`by_kind[r["kind"]]`), and one exists only inside the published face -- no source in the
+    # tree mentions the string at all, so that face is not reproducible from the tree it is
+    # committed in. Verify re-derives every cause, reason and value identity. ~5s.
+    ("unpublished_key_causes",
+     ["python", "scripts/e324_unpublished_key_causes.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

@@ -6616,3 +6616,18 @@ Three things this cost, all of them mechanical:
 证据：scripts/e323_reach_under_wider_needle.py（selftest 18/18·verify problems=[]）→ results/state_tilt/REACHWIDE-2026-10-31.json
 + S6 leg reach_under_wider_needle + smoke leg（product: widening the producer needle relocates the unowned gates but names no more of them ...）
 + research/digests/DIGEST-20261101-r1342-e323-wider-needle.md
+
+### E324 "publishes no key of that name" is usually a composition or a data key -- locate the key before calling it missing
+
+Six gates survived every needle E321/E323 tried and came back as `producer_found_but_publishes_no_such_key`. Read one at a time, **five of the six keys are published in the tree** and the sixth is a face no source can reproduce. The class was never about a missing key.
+
+1. **A card that composes other faces has no single producer.** `PRODUCTION-<date>.json` embeds `"control": doc.get("control")` out of `etf_book_spanning_pre2020.json` and `"controls": doc.get("controls")` out of `etf_book_window_decomp.json`. `tolerance_pp` is published -- as `"tolerance_pp": TOL_PP` -- by the sub-face writer, which never names the card. Any ownership census that asks "does the face's writer publish this key" reports four absences that are one indirection deep. Fix the *map*, not the key: 16 of the 196 census rows sit inside a block their face writer copies from another face.
+2. **A key can be a value.** `by_kind[r["kind"]] = by_kind.get(r["kind"], 0) + 1` publishes `epsilon` with no literal `epsilon` key anywhere: the key is the value of a column. "No publish site" is then the correct reading and the wrong question -- the identity that proves it is arithmetic (`epsilon`=39 re-counts to the 39 rows of kind epsilon), not lexical.
+3. **A face can be unreproducible.** `PRECISIONCENSUS-2026-10-30.json` publishes `summary.by_verdict.tolerance_silently_defaulted` while **no .py under scripts/Tools/live/monitor/firm contains the string**. The artifact (generated 13:45, committed at r1324 14:24) came from a writer version that was never committed. A face is evidence only if a committed writer reproduces it; before calling a key missing, ask whether the *face* is producible at all.
+4. **Two predicates had to be tightened, and both were permissive in the wrong direction.** `writes_the_face` counted `open` as writing, so a module that *reads* a sub-face (`with open(DEC, "r")`) was credited as its writer -- that alone mis-assigned one row to `etf_book_pre2020_wf.py`. And a string on a line carrying `=` is not a key: `kind = "epsilon"` is a value. The fixed predicates (`owns_face`: the name assigned the path is opened in a write mode; `shape_of`: mapping key or item-assignment key only) each carry a fixture leg in both directions.
+
+How to apply: for any "no producer publishes this" verdict, first resolve the row's own path in its face (is the value there at all?), then look for a *sub-face* writer the card reads, then for an accumulation keyed by a data column, and only then for absence -- and when you claim absence, say whether any source so much as mentions the string, because "no site" and "no mention" are different defects.
+
+证据：scripts/e324_unpublished_key_causes.py（selftest 28/28·verify problems=[]）→ results/state_tilt/UNPUBLISHEDKEY-2026-10-31.json
++ S6 leg unpublished_key_causes（6.1s）+ smoke leg（product: the six 'unpublished key' gates are composed, computed, or a face no source can reproduce ...）
++ research/digests/DIGEST-20261101-r1344-e324-unpublished-key-causes.md

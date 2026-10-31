@@ -1,0 +1,995 @@
+{
+ "study": "E324_unpublished_key_causes",
+ "title": "the six gates whose producer 'publishes no key of that name': locate the keys before calling them missing",
+ "evidence_cutoff": "2026-10-31",
+ "upstream": "REACHWIDE-2026-10-31.json",
+ "population_class": "producer_found_but_publishes_no_such_key",
+ "verdict": "five_of_the_six_keys_are_published_by_a_writer_and_the_sixth_is_a_face_no_committed_writer_can_reproduce",
+ "verdict_reason": "5 of 6 gates have their key located in the repository: 4 are copied wholesale from a sub-face writer and 1 are accumulated under a data value; 1 key(s) exist only inside the published face (0 are named as a value but never published).",
+ "summary": {
+  "rows": 6,
+  "by_cause": {
+   "copied_wholesale_from_a_subface_writer": 4,
+   "the_key_is_a_data_value_so_no_literal_key_exists": 1,
+   "no_source_in_the_tree_mentions_the_key_so_the_face_is_unreproducible": 1
+  },
+  "causes": [
+   "copied_wholesale_from_a_subface_writer",
+   "the_key_is_a_data_value_so_no_literal_key_exists",
+   "no_source_in_the_tree_mentions_the_key_so_the_face_is_unreproducible",
+   "named_as_a_value_but_never_published_as_a_key"
+  ],
+  "gates_whose_key_exists_somewhere": 5,
+  "gates_whose_own_writer_publishes_it": 0
+ },
+ "blind_spot": {
+  "faces": 51,
+  "rows": 196,
+  "rows_inside_a_copied_block": 16,
+  "example_leaves": [
+   "control.tolerance_pp",
+   "control.tolerance_pp",
+   "spanning_pre2020.control.tolerance_pp",
+   "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "spanning_pre2020.control.tolerance_pp"
+  ]
+ },
+ "identity_checks": [
+  {
+   "check": "subface spanning_pre2020.control.tolerance_pp value == face value",
+   "ok": true,
+   "detail": "0.5 vs 0.5"
+  },
+  {
+   "check": "subface window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp value == face value",
+   "ok": true,
+   "detail": "0.5 vs 0.5"
+  },
+  {
+   "check": "subface spanning_pre2020.control.tolerance_pp value == face value",
+   "ok": true,
+   "detail": "0.5 vs 0.5"
+  },
+  {
+   "check": "subface window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp value == face value",
+   "ok": true,
+   "detail": "0.5 vs 0.5"
+  },
+  {
+   "check": "array count summary.by_kind.epsilon == published 39",
+   "ok": true,
+   "detail": "('sites', 39)"
+  }
+ ],
+ "rows": [
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "leaf": "spanning_pre2020.control.tolerance_pp",
+   "block": "spanning_pre2020.control",
+   "key": "tolerance_pp",
+   "parent": "control",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ],
+   "own_key_sites": [],
+   "subface": [
+    {
+     "key_writer": "scripts/etf_book_spanning_pre2020.py",
+     "key_writer_line": 123,
+     "published_as": "TOL_PP",
+     "owns_face_via": "RESULT",
+     "sub_face": "results/etf_book_spanning_pre2020.json",
+     "block_component": "spanning_pre2020",
+     "sub_face_leaf": "control.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 216,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_bakeoff.py",
+     "key_writer_line": 256,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_commodity_split.py",
+     "key_writer_line": 180,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_commodity_split.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 43,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_passive_mix.py",
+     "key_writer_line": 337,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_passive_mix.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 77,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_tsmom.py",
+     "key_writer_line": 325,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 194,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 199,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    }
+   ],
+   "data_key": null,
+   "cause": "copied_wholesale_from_a_subface_writer",
+   "face_value": 0.5,
+   "reason": "the key is published as TOL_PP by scripts/etf_book_spanning_pre2020.py:123 against results/etf_book_spanning_pre2020.json, which the card copies (value 0.5 == 0.5)",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "LEDGER-other.json",
+    "LEDGER.json",
+    "PRODUCTION-2026-10-23.json",
+    "audit.json",
+    "audit2.json",
+    "etf_book_buffer_adoption.json",
+    "etf_book_commodity_split.json",
+    "etf_book_hysteresis.json",
+    "etf_book_passive_mix.json",
+    "etf_book_pre2020.json",
+    "etf_book_spanning.json",
+    "etf_book_spanning_pre2020.json",
+    "etf_book_voltarget_lag.json",
+    "etf_book_width_audit.json",
+    "etf_book_window_decomp.json",
+    "latest.json",
+    "nope.json",
+    "state.json",
+    "x.json"
+   ],
+   "rejected_links": [
+    {
+     "producer": "scripts/etf_book_passive_mix.py",
+     "face": "latest.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_pre2020_wf.py",
+     "face": "etf_book_window_decomp.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    }
+   ]
+  },
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-27.json",
+   "leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "block": "window_decomp.controls.rung4_vs_passive_mix_pre2020",
+   "key": "tolerance_pp",
+   "parent": "rung4_vs_passive_mix_pre2020",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ],
+   "own_key_sites": [],
+   "subface": [
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 194,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": "window_decomp",
+     "sub_face_leaf": "controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 199,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": "window_decomp",
+     "sub_face_leaf": "controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_bakeoff.py",
+     "key_writer_line": 256,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_commodity_split.py",
+     "key_writer_line": 180,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_commodity_split.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 43,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_passive_mix.py",
+     "key_writer_line": 337,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_passive_mix.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 77,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_spanning_pre2020.py",
+     "key_writer_line": 123,
+     "published_as": "TOL_PP",
+     "owns_face_via": "RESULT",
+     "sub_face": "results/etf_book_spanning_pre2020.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 216,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_tsmom.py",
+     "key_writer_line": 325,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    }
+   ],
+   "data_key": null,
+   "cause": "copied_wholesale_from_a_subface_writer",
+   "face_value": 0.5,
+   "reason": "the key is published as CONTROL_TOL_PP by scripts/etf_book_window_decomp.py:194 against results/etf_book_window_decomp.json, which the card copies (value 0.5 == 0.5)",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "LEDGER-other.json",
+    "LEDGER.json",
+    "PRODUCTION-2026-10-23.json",
+    "audit.json",
+    "audit2.json",
+    "etf_book_buffer_adoption.json",
+    "etf_book_commodity_split.json",
+    "etf_book_hysteresis.json",
+    "etf_book_passive_mix.json",
+    "etf_book_pre2020.json",
+    "etf_book_spanning.json",
+    "etf_book_spanning_pre2020.json",
+    "etf_book_voltarget_lag.json",
+    "etf_book_width_audit.json",
+    "etf_book_window_decomp.json",
+    "latest.json",
+    "nope.json",
+    "state.json",
+    "x.json"
+   ],
+   "rejected_links": [
+    {
+     "producer": "scripts/etf_book_passive_mix.py",
+     "face": "latest.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_pre2020_wf.py",
+     "face": "etf_book_window_decomp.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    }
+   ]
+  },
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "leaf": "spanning_pre2020.control.tolerance_pp",
+   "block": "spanning_pre2020.control",
+   "key": "tolerance_pp",
+   "parent": "control",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ],
+   "own_key_sites": [],
+   "subface": [
+    {
+     "key_writer": "scripts/etf_book_spanning_pre2020.py",
+     "key_writer_line": 123,
+     "published_as": "TOL_PP",
+     "owns_face_via": "RESULT",
+     "sub_face": "results/etf_book_spanning_pre2020.json",
+     "block_component": "spanning_pre2020",
+     "sub_face_leaf": "control.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 216,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_bakeoff.py",
+     "key_writer_line": 256,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_commodity_split.py",
+     "key_writer_line": 180,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_commodity_split.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 43,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_passive_mix.py",
+     "key_writer_line": 337,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_passive_mix.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 77,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_tsmom.py",
+     "key_writer_line": 325,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 194,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 199,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": null,
+     "sub_face_leaf": "spanning_pre2020.control.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    }
+   ],
+   "data_key": null,
+   "cause": "copied_wholesale_from_a_subface_writer",
+   "face_value": 0.5,
+   "reason": "the key is published as TOL_PP by scripts/etf_book_spanning_pre2020.py:123 against results/etf_book_spanning_pre2020.json, which the card copies (value 0.5 == 0.5)",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "LEDGER-other.json",
+    "LEDGER.json",
+    "PRODUCTION-2026-10-23.json",
+    "audit.json",
+    "audit2.json",
+    "etf_book_buffer_adoption.json",
+    "etf_book_commodity_split.json",
+    "etf_book_hysteresis.json",
+    "etf_book_passive_mix.json",
+    "etf_book_pre2020.json",
+    "etf_book_spanning.json",
+    "etf_book_spanning_pre2020.json",
+    "etf_book_voltarget_lag.json",
+    "etf_book_width_audit.json",
+    "etf_book_window_decomp.json",
+    "latest.json",
+    "nope.json",
+    "state.json",
+    "x.json"
+   ],
+   "rejected_links": [
+    {
+     "producer": "scripts/etf_book_passive_mix.py",
+     "face": "latest.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_pre2020_wf.py",
+     "face": "etf_book_window_decomp.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    }
+   ]
+  },
+  {
+   "face": "results/etf_book_production/PRODUCTION-2026-10-28.json",
+   "leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+   "block": "window_decomp.controls.rung4_vs_passive_mix_pre2020",
+   "key": "tolerance_pp",
+   "parent": "rung4_vs_passive_mix_pre2020",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/etf_book_buffer_adoption.py",
+    "scripts/etf_book_hysteresis.py",
+    "scripts/etf_book_order.py",
+    "scripts/etf_book_production.py",
+    "scripts/etf_book_voltarget_lag.py"
+   ],
+   "own_key_sites": [],
+   "subface": [
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 194,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": "window_decomp",
+     "sub_face_leaf": "controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_window_decomp.py",
+     "key_writer_line": 199,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_window_decomp.json",
+     "block_component": "window_decomp",
+     "sub_face_leaf": "controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": 0.5,
+     "sub_face_has_it": true,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 115,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": true
+    },
+    {
+     "key_writer": "scripts/etf_book_bakeoff.py",
+     "key_writer_line": 256,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_commodity_split.py",
+     "key_writer_line": 180,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_commodity_split.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 43,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_passive_mix.py",
+     "key_writer_line": 337,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "OUT",
+     "sub_face": "results/etf_book_passive_mix.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 77,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_spanning_pre2020.py",
+     "key_writer_line": 123,
+     "published_as": "TOL_PP",
+     "owns_face_via": "RESULT",
+     "sub_face": "results/etf_book_spanning_pre2020.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": null,
+      "scripts/etf_book_hysteresis.py": null,
+      "scripts/etf_book_order.py": null,
+      "scripts/etf_book_production.py": 216,
+      "scripts/etf_book_voltarget_lag.py": null
+     },
+     "value_matches": false
+    },
+    {
+     "key_writer": "scripts/etf_book_tsmom.py",
+     "key_writer_line": 325,
+     "published_as": "CONTROL_TOL_PP",
+     "owns_face_via": "p",
+     "sub_face": "results/latest.json",
+     "block_component": null,
+     "sub_face_leaf": "window_decomp.controls.rung4_vs_passive_mix_pre2020.tolerance_pp",
+     "sub_face_value": null,
+     "sub_face_has_it": false,
+     "composer": "scripts/etf_book_voltarget_lag.py",
+     "composer_reads": {
+      "scripts/etf_book_buffer_adoption.py": 52,
+      "scripts/etf_book_hysteresis.py": 24,
+      "scripts/etf_book_order.py": 33,
+      "scripts/etf_book_production.py": 649,
+      "scripts/etf_book_voltarget_lag.py": 57
+     },
+     "value_matches": false
+    }
+   ],
+   "data_key": null,
+   "cause": "copied_wholesale_from_a_subface_writer",
+   "face_value": 0.5,
+   "reason": "the key is published as CONTROL_TOL_PP by scripts/etf_book_window_decomp.py:194 against results/etf_book_window_decomp.json, which the card copies (value 0.5 == 0.5)",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "LEDGER-other.json",
+    "LEDGER.json",
+    "PRODUCTION-2026-10-23.json",
+    "audit.json",
+    "audit2.json",
+    "etf_book_buffer_adoption.json",
+    "etf_book_commodity_split.json",
+    "etf_book_hysteresis.json",
+    "etf_book_passive_mix.json",
+    "etf_book_pre2020.json",
+    "etf_book_spanning.json",
+    "etf_book_spanning_pre2020.json",
+    "etf_book_voltarget_lag.json",
+    "etf_book_width_audit.json",
+    "etf_book_window_decomp.json",
+    "latest.json",
+    "nope.json",
+    "state.json",
+    "x.json"
+   ],
+   "rejected_links": [
+    {
+     "producer": "scripts/etf_book_passive_mix.py",
+     "face": "latest.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_pre2020_wf.py",
+     "face": "etf_book_window_decomp.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_passive_mix.json",
+     "why": "names the face but never opens it for writing"
+    },
+    {
+     "producer": "scripts/etf_book_window_decomp.py",
+     "face": "etf_book_pre2020.json",
+     "why": "names the face but never opens it for writing"
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-29.json",
+   "leaf": "summary.by_kind.epsilon",
+   "block": "summary.by_kind",
+   "key": "epsilon",
+   "parent": "by_kind",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ],
+   "own_key_sites": [],
+   "subface": null,
+   "data_key": {
+    "dict": "by_kind",
+    "publisher": "scripts/e299_rounded_vs_tolerance_census.py",
+    "published_line": 663,
+    "accum_line": 646,
+    "subscript": "r[\"kind\"]",
+    "field": "kind",
+    "counted_in_face": [
+     "sites",
+     39
+    ],
+    "value_matches": true
+   },
+   "cause": "the_key_is_a_data_value_so_no_literal_key_exists",
+   "face_value": 39,
+   "reason": "scripts/e299_rounded_vs_tolerance_census.py:663 publishes 'by_kind' from by_kind, whose key at scripts/e299_rounded_vs_tolerance_census.py:646 is `by_kind[r[\"kind\"]] = by_kind.get(r[\"kind\"], 0) + 1` -- the key is a value of the column 'kind', so no literal exists anywhere",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "ADDOS-2026-10-30.json",
+    "BBB-2026-01-02.json",
+    "PRECISIONCENSUS-2026-10-30.json",
+    "precisioncensus_latest.json"
+   ],
+   "rejected_links": []
+  },
+  {
+   "face": "results/state_tilt/PRECISIONCENSUS-2026-10-30.json",
+   "leaf": "summary.by_verdict.tolerance_silently_defaulted",
+   "block": "summary.by_verdict",
+   "key": "tolerance_silently_defaulted",
+   "parent": "by_verdict",
+   "upstream_class": "producer_found_but_publishes_no_such_key",
+   "writers": [
+    "scripts/e299_rounded_vs_tolerance_census.py"
+   ],
+   "own_key_sites": [],
+   "subface": null,
+   "data_key": null,
+   "cause": "no_source_in_the_tree_mentions_the_key_so_the_face_is_unreproducible",
+   "face_value": 1,
+   "reason": "no source under scripts/Tools/live/monitor/firm mentions 'tolerance_silently_defaulted' at all, yet the face publishes it (1, face generated 2026-10-31T13:45:22) -- the face is not reproducible from the tree it is committed in",
+   "present_in_face": true,
+   "faces_named_by_the_face_writer": [
+    "ADDOS-2026-10-30.json",
+    "BBB-2026-01-02.json",
+    "precisioncensus_latest.json"
+   ],
+   "rejected_links": [],
+   "sources_mentioning_the_key": [],
+   "face_generated": "2026-10-31T13:45:22"
+  }
+ ],
+ "no_bill": "measurement only: reads six published gates and the sources that write them; no burn, no threshold, no admission, no engine",
+ "held_fixed": "the six rows are taken from REACHWIDE's own class_after, not re-derived"
+}
