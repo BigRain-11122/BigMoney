@@ -2904,8 +2904,14 @@
   "verdict": "legs_compare_face_values_finer_than_the_faces_print",
   "delivery": {
    "branch": "machine/bm-b-r1324",
-   "ts": "2026-10-31T14:23:00+08:00",
-   "note": "see the r1324_push receipt written after the push"
+   "pushed_sha": "9f8f42076ec06de510b1548b9fb61cb7395d81f7",
+   "remote_ref_sha": "9f8f42076ec06de510b1548b9fb61cb7395d81f7",
+   "verified": true,
+   "local_not_on_origin_main": 98,
+   "behind_origin_main": 191,
+   "main_push_blocker": "the local main has diverged from origin/main for many rounds (promisor lazy fetch wedges before negotiation, r1255 family); main push not attempted",
+   "ts": "2026-10-31T14:30:00+08:00",
+   "note": "11 files staged (the new producer, both faces, the digest, the methodology card, two wiring files, the pool, state, heartbeat, round report); the ~600 dirty tracked files left by collectors and prior windows were not swept in. The new chain leg was run through the real driver (results/_r1324bmb_s6_chain.json, S6 1/1 rc=0, 55.3s)."
   }
  },
  "notes_r1324": "| 2026-10-31T14:23:00+08:00 | r1324 | **watermark: pool ready at open (E299/E302/E303), burned the ready head E299 in-round** (no watermark file read). **CURRENT:** E299 precision census published (done). **LATEST PHYSICAL:** `results/state_tilt/PRECISIONCENSUS-2026-10-30.json`. **NEXT MILESTONE:** E305 price the 8 face-level rows (ready; due next round, within 48h). **PRODUCT:** 29 of 62 numeric face sites compare finer than the field is printed; 37 of 42 faces declare no precision at all."
