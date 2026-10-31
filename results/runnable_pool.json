@@ -25721,7 +25721,7 @@
    "id": "E314-CLAMPED-GATE-CENSUS",
    "title": "three rows multiply a gate by max(1.0, x) and one divides by a fixed 100.0: which published gates change form with the size of the quantity they gate, and what is the tolerance in each regime?",
    "lane": "cpu-only",
-   "status": "ready",
+   "status": "done",
    "priority": 3,
    "entered_at": "2026-10-31T19:2x+08:00",
    "entered_by": "bm-b r1332",
@@ -25731,6 +25731,32 @@
    "deliverable": "results/state_tilt/GATECLAMP-<cutoff>.json",
    "question": "per clamped gate: where does the form switch, what is the tolerance in each regime as a number in both units, and can a consumer of the face reproduce either regime without reading the producer?",
    "runner": "scripts/e314_clamped_gate_census.py",
+   "runner_args": [
+    "run"
+   ],
+   "worker_class": "code-change",
+   "workers_plan": {
+    "priority": "BelowNormal",
+    "workers": 1
+   },
+   "done_at": "2026-10-31T20:0x+08:00",
+   "done_by": "bm-b r1333",
+   "result_ref": "results/state_tilt/GATECLAMP-2026-10-31.json (scripts/e314_clamped_gate_census.py selftest 37/37, verify 0 problems, S6 leg clamped_gate_census rc=0, smoke leg 7/7 mutations caught)"
+  },
+  {
+   "id": "E315-LEG-EPSILON-INSIDE-THE-FLAT-REGIME",
+   "title": "the four non-constant gates now publish a switch point and two regimes, but the legs that consume them still compare with one epsilon: how many leg epsilons fall inside the gate's flat regime (gate looser than the leg) and how many outside it?",
+   "lane": "cpu-only",
+   "status": "ready",
+   "priority": 3,
+   "entered_at": "2026-10-31T20:0x+08:00",
+   "entered_by": "bm-b r1333",
+   "evidence_cutoff": "2026-10-31",
+   "source": "r1333 (E314): the three clamped rows switch at 1.0 and never engage on their own face (largest published number 1,920 draws vs a half-unit crossing of 5e11), while the fixed-normalisation row's gate is 1e-12 in the fraction it compares but 1e-10 percent in the unit its variable is named in -- so 'is the leg tighter than the gate' still cannot be answered from the face",
+   "target": "results/state_tilt/gateclamp_latest.json rows (regime_model, switch_point, leg_tolerance)",
+   "deliverable": "results/state_tilt/REGIMECOMPARE-<cutoff>.json",
+   "question": "per row: where does the leg's epsilon sit relative to the gate's regime at the magnitude the leg actually reads, and is the comparison decided by the flat regime, the linear regime, or the leg's own epsilon?",
+   "runner": "scripts/e315_leg_epsilon_regime_check.py",
    "runner_args": [
     "run"
    ],
@@ -25753,6 +25779,6 @@
   "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-10-31T19:2x+08:00",
+ "updated_at": "2026-10-31T20:0x+08:00",
  "version": 1
 }

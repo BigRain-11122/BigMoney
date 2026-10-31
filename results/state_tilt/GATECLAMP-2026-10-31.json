@@ -1,0 +1,1454 @@
+{
+ "schema": "bigmoney/e314-gateclamp/v1",
+ "study": "E314_clamped_gate_census",
+ "title": "where does each clamped gate switch form, what is its tolerance in each regime in both units, and can a consumer of the face reproduce either regime?",
+ "evidence_cutoff": "2026-10-31",
+ "generated": "2026-10-31",
+ "self_faces_excluded": [
+  "GATECLAMP-2026-10-31.json",
+  "gateclamp_latest.json"
+ ],
+ "upstream": {
+  "gate_form_face": "results/state_tilt/gateform_latest.json",
+  "upstream_rows": 30
+ },
+ "join_rules": {
+  "switch_point": "the floor of `max(floor, x)` in the scale's own unit; the two regimes meet there exactly (published as a continuity identity)",
+  "units": "absolute = the gate times the scale, in the gated quantity's own units; relative = the gate itself above the switch, and tol*floor/x below it",
+  "half_unit_crossing": "0.5 / tol -- the quantity at which a `tol * x` gate's tolerance reaches half a unit, so a gate below it can only ever separate values that differ by more than that quantity",
+  "reproducible": "the gate path must resolve on the face AND the scale identifier must appear as a key name there; anything less entitles no regime"
+ },
+ "census": {
+  "upstream_rows": 30,
+  "rows": 30,
+  "regime_piecewise_floor": 3,
+  "regime_linear_in_the_quantity": 2,
+  "regime_constant_after_normalisation": 1,
+  "regime_constant_absolute": 24,
+  "regime_unresolved": 0,
+  "rows_whose_tolerance_depends_on_the_quantity": 5,
+  "rows_publishing_a_switch_point": 3,
+  "rows_where_the_clamp_never_engages_on_their_own_face": 3,
+  "rows_whose_tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": 0,
+  "rows_whose_named_face_is_absent": 1,
+  "rows_whose_half_unit_crossing_exceeds_the_faces_largest_number": 27,
+  "rows_reproducible_from_the_face": 23,
+  "rows_not_reproducible_from_the_face": 7,
+  "rows_whose_scale_is_not_a_key_on_the_face": 5,
+  "rows_whose_clamp_tokens_are_absent_from_the_face": 26
+ },
+ "verdict": "a_clamp_that_never_engages_still_hides_the_tolerance_in_the_quantitys_own_units",
+ "clamped_rows": [
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "switch_point": 1.0,
+   "tolerance_below_the_switch": {
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+    "at_the_switch_relative": 1e-12
+   },
+   "tolerance_above_the_switch": {
+    "absolute_in_the_quantitys_units": "tol * x",
+    "relative_to_the_quantity": 1e-12
+   },
+   "face_max_abs_value": 1920.0,
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_on_this_face": false,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   },
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "switch_point": 1.0,
+   "tolerance_below_the_switch": {
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+    "at_the_switch_relative": 1e-12
+   },
+   "tolerance_above_the_switch": {
+    "absolute_in_the_quantitys_units": "tol * x",
+    "relative_to_the_quantity": 1e-12
+   },
+   "face_max_abs_value": 1920.0,
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_on_this_face": false,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   },
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "scale_expressions": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "switch_point": 1.0,
+   "tolerance_below_the_switch": {
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+    "at_the_switch_relative": 1e-12
+   },
+   "tolerance_above_the_switch": {
+    "absolute_in_the_quantitys_units": "tol * x",
+    "relative_to_the_quantity": 1e-12
+   },
+   "face_max_abs_value": 1920.0,
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_on_this_face": false,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   },
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   }
+  }
+ ],
+ "rows": [
+  {
+   "face": "results/state_tilt/REPRO-%s.json",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 0.005,
+    "absolute_in_the_quantitys_units": 0.005,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": null,
+   "face_max_abs_path": null,
+   "face_state": "absent",
+   "tolerance_at_the_face_maximum_magnitude": null,
+   "half_unit_crossing": 100.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": null,
+   "face_publishes": {
+    "gate_path_resolves": false,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": null,
+    "divisor_published": null
+   },
+   "leg_expression": "abs((_al41.get('aligned_gap') or 0.0) - _par41) > 1e-06",
+   "leg_tolerance": 1e-06,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "why": "the face is absent, so nothing about the gate is published"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "relative",
+   "gate_scales": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "gate_scale_floors": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "regime_model": {
+    "class": "piecewise_floor",
+    "gate": 1e-12,
+    "floor": 1.0,
+    "scale_expressions": [
+     "scale",
+     "max(1.0, prev)"
+    ],
+    "switch_point_in_the_scales_units": 1.0,
+    "below_the_switch": {
+     "absolute_in_the_quantitys_units": 1e-12,
+     "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+     "at_the_switch_relative": 1e-12
+    },
+    "above_the_switch": {
+     "absolute_in_the_quantitys_units": "tol * x",
+     "relative_to_the_quantity": 1e-12
+    },
+    "regimes": 2
+   },
+   "regime_classes": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_identifier": "prev",
+   "face_max_abs_value": 1920.0,
+   "face_max_abs_path": "arrivals_per_seed.all_five.cross[0]",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": false,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "(_s60.get('rows_pre_settlement') or 0) == 0",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "relative",
+   "gate_scales": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "gate_scale_floors": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "regime_model": {
+    "class": "piecewise_floor",
+    "gate": 1e-12,
+    "floor": 1.0,
+    "scale_expressions": [
+     "scale",
+     "max(1.0, prev)"
+    ],
+    "switch_point_in_the_scales_units": 1.0,
+    "below_the_switch": {
+     "absolute_in_the_quantitys_units": 1e-12,
+     "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+     "at_the_switch_relative": 1e-12
+    },
+    "above_the_switch": {
+     "absolute_in_the_quantitys_units": "tol * x",
+     "relative_to_the_quantity": 1e-12
+    },
+    "regimes": 2
+   },
+   "regime_classes": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_identifier": "prev",
+   "face_max_abs_value": 1920.0,
+   "face_max_abs_path": "arrivals_per_seed.all_five.cross[0]",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": false,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_mine != _a.get('n_at_base')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandarrival_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "relative",
+   "gate_scales": [
+    "scale",
+    "max(1.0, prev)"
+   ],
+   "gate_scale_floors": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "regime_model": {
+    "class": "piecewise_floor",
+    "gate": 1e-12,
+    "floor": 1.0,
+    "scale_expressions": [
+     "scale",
+     "max(1.0, prev)"
+    ],
+    "switch_point_in_the_scales_units": 1.0,
+    "below_the_switch": {
+     "absolute_in_the_quantitys_units": 1e-12,
+     "relative_to_the_quantity": "tol * floor / x  (grows without bound as x -> 0)",
+     "at_the_switch_relative": 1e-12
+    },
+    "above_the_switch": {
+     "absolute_in_the_quantitys_units": "tol * x",
+     "relative_to_the_quantity": 1e-12
+    },
+    "regimes": 2
+   },
+   "regime_classes": "piecewise_floor",
+   "switch_point": 1.0,
+   "scale_identifier": "prev",
+   "face_max_abs_value": 1920.0,
+   "face_max_abs_path": "arrivals_per_seed.all_five.cross[0]",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1.92e-09,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": false,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_rec.get('arrival_median') != _med60",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'prev' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   }
+  },
+  {
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "census[11].tails.wide.distance_to_nearest_bound_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": true,
+    "divisor_published": null
+   },
+   "leg_expression": "_s82.get('reaching_readings') != _s82.get('reaching_readings_with_zero_gap')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/banddisagree_latest.json",
+   "gate_path": "hypothesis_test.tie_impossibility.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "census[11].tails.wide.distance_to_nearest_bound_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": true,
+    "divisor_published": null
+   },
+   "leg_expression": "_s82.get('reaching_readings') != _s82.get('reaching_readings_with_zero_gap')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandexp_latest.json",
+   "gate_path": "verdict_inputs.tol",
+   "gate_value": 0.1,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 0.1,
+    "absolute_in_the_quantitys_units": 0.1,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 20261130.0,
+   "face_max_abs_path": "frozen_spec.base_seed",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 0.1,
+   "half_unit_crossing": 5.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_re54 - _tgt54) > 1e-06",
+   "leg_tolerance": 1e-06,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "tail_budget.self:60.rows[2].wide.gap_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "(_b72.get('gap_pct') or 0) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "tail_budget.self:60.rows[2].wide.gap_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_a72 - _c72) <= 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "tail_budget.self:60.rows[2].wide.gap_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_pub72 - _gn72) > 1e-09",
+   "leg_tolerance": 1e-09,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandflipbudget_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 215.37976178206128,
+   "face_max_abs_path": "tail_budget.self:60.rows[2].wide.gap_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "len(_scored72) != (_s72.get('rows_scored') or 0)",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandfloormirror_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [
+    "100.0"
+   ],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_after_normalisation",
+    "gate": 1e-12,
+    "divisor": 100.0,
+    "absolute_in_the_published_units": 1e-12,
+    "absolute_in_the_original_units": 1e-10,
+    "regime_note": "the producer divides the quantity by the constant before comparing, so one gate reads as two numbers depending on which unit a reader assumes",
+    "regimes": 1
+   },
+   "regime_classes": "constant_after_normalisation",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 60.13844488582435,
+   "face_max_abs_path": "mirror_rows[0].e285_distance_below_tight_lo_pct",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-10,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": true,
+    "divisor_published": false
+   },
+   "leg_expression": "abs(_flip90 + _r90.get('distance_below_floor', 0) - 1.0) > 1e-09",
+   "leg_tolerance": 1e-09,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "divisor_published": false,
+    "why": "the gate is on the face but the fixed divisor is not, so the tolerance exists in an unnamed unit"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[0].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "(_fresh85.get('summary') or {}).get('gap_rows') != _s85.get('gap_rows')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[0].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_gap85.get('max_rows_any_gap_widening_could_add') != len(_gap_rows85)",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandgapceiling_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[0].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_s85.get('n_gap_rows') != len(_gap_rows85)",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "absolute",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "flat_tight.cross:200.base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "absolute",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "flat_tight.cross:200.base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "absolute",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "flat_tight.cross:200.base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtight_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "absolute",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "flat_tight.cross:200.base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_r69c.get('verdict_at_min_p05') != _r69c.get('verdict_at_max_p05')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_s69.get('rows_could_move_within_observed_p05_range') != _could69",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_blk69f.get('flat_loose_p05') - max(_vals69)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_blk69f.get('flat_p05') - min(_vals69)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(float(_da['p95']) - float(_p['donor_p95'])) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(float(_fl['flat_p95']) - max(_vals)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(float(_fl['flat_tight_p95']) - min(_vals)) > 1e-12",
+   "leg_tolerance": 1e-12,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/bandtransfer_latest.json",
+   "gate_path": "frozen_spec.tolerance",
+   "gate_value": 1e-12,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 1e-12,
+    "absolute_in_the_quantitys_units": 1e-12,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 200.0,
+   "face_max_abs_path": "arms[1].base",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 1e-12,
+   "half_unit_crossing": 500000000000.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "max(_p95s) - min(_p95s) <= 1e-09",
+   "leg_tolerance": 1e-09,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/state_tilt/repro_latest.json",
+   "gate_path": "reproduction.tolerance",
+   "gate_value": 0.005,
+   "gate_form_observed": "multi_site",
+   "gate_scales": [],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "constant_absolute",
+    "gate": 0.005,
+    "absolute_in_the_quantitys_units": 0.005,
+    "relative_to_the_quantity": "tol / x  (no scale is named, so no relative reading is published)",
+    "regimes": 1
+   },
+   "regime_classes": "constant_absolute",
+   "switch_point": null,
+   "scale_identifier": null,
+   "face_max_abs_value": 13916.0,
+   "face_max_abs_path": "ladder[0].rows",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 0.005,
+   "half_unit_crossing": 100.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": null,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs((_al41.get('aligned_gap') or 0.0) - _par41) > 1e-06",
+   "leg_tolerance": 1e-06,
+   "reproducible_from_the_face": {
+    "answer": true,
+    "gate_published": true,
+    "why": "a constant gate needs no scale: the face carries the whole tolerance"
+   }
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_form_observed": "relative",
+   "gate_scales": [
+    "session_open"
+   ],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "linear_in_the_quantity",
+    "gate": 0.002,
+    "floor": null,
+    "scale_expressions": [
+     "session_open"
+    ],
+    "switch_point_in_the_scales_units": null,
+    "above_the_switch": {
+     "absolute_in_the_quantitys_units": "tol * x",
+     "relative_to_the_quantity": 0.002
+    },
+    "at_zero_scale": {
+     "absolute_in_the_quantitys_units": 0.0,
+     "reading": "at x = 0 the gate is exact equality -- the degenerate end of a relative band, and the reason a clamp exists"
+    },
+    "regimes": 1
+   },
+   "regime_classes": "linear_in_the_quantity",
+   "switch_point": null,
+   "scale_identifier": "session_open",
+   "face_max_abs_value": 6.0,
+   "face_max_abs_path": "counters.zero_pending_traders",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 0.012,
+   "half_unit_crossing": 250.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "_pp.get('marks_coverage_pct') == _c2.get('coverage_pct_closed')",
+   "leg_tolerance": 0.0,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'session_open' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   }
+  },
+  {
+   "face": "results/t35_open_fill_verify.json",
+   "gate_path": "rel_tol",
+   "gate_value": 0.002,
+   "gate_form_observed": "relative",
+   "gate_scales": [
+    "session_open"
+   ],
+   "gate_scale_floors": [],
+   "regime_model": {
+    "class": "linear_in_the_quantity",
+    "gate": 0.002,
+    "floor": null,
+    "scale_expressions": [
+     "session_open"
+    ],
+    "switch_point_in_the_scales_units": null,
+    "above_the_switch": {
+     "absolute_in_the_quantitys_units": "tol * x",
+     "relative_to_the_quantity": 0.002
+    },
+    "at_zero_scale": {
+     "absolute_in_the_quantitys_units": 0.0,
+     "reading": "at x = 0 the gate is exact equality -- the degenerate end of a relative band, and the reason a clamp exists"
+    },
+    "regimes": 1
+   },
+   "regime_classes": "linear_in_the_quantity",
+   "switch_point": null,
+   "scale_identifier": "session_open",
+   "face_max_abs_value": 6.0,
+   "face_max_abs_path": "counters.zero_pending_traders",
+   "face_state": "present",
+   "tolerance_at_the_face_maximum_magnitude": 0.012,
+   "half_unit_crossing": 250.0,
+   "clamp_engages_anywhere_on_this_face": null,
+   "tolerance_is_half_a_unit_or_coarser_at_the_face_maximum": false,
+   "face_publishes": {
+    "gate_path_resolves": true,
+    "scale_identifier_in_a_key_name": false,
+    "clamp_tokens_on_the_face": false,
+    "divisor_published": null
+   },
+   "leg_expression": "abs(_px - _r['session_open']) > 1e-09",
+   "leg_tolerance": 1e-09,
+   "reproducible_from_the_face": {
+    "answer": false,
+    "gate_published": true,
+    "scale_published": false,
+    "why": "the gate is published as one number; the scale 'session_open' that turns tol into a tolerance is not a key on the face, so neither regime can be reproduced from it"
+   }
+  }
+ ],
+ "notes": [
+  "the clamp is continuous in both units: at the switch the absolute tolerance is tol*floor on both sides and the relative tolerance is tol on both sides, so the piecewise form is one band with one kink, not two bands",
+  "what the clamp buys is boundedness of the relative tolerance as x -> 0; what it costs is that the gate's absolute size now depends on a scale the face does not print",
+  "a gate that needs 5e11 units of the quantity before its tolerance reaches half a unit cannot separate adjacent values of that quantity anywhere in a face whose largest number is far below that -- the tolerance is a formality and equality is the real test, which is a statement about the domain, not about the clamp"
+ ],
+ "identity_checks": [
+  {
+   "check": "row_count_matches_the_upstream_face",
+   "ok": true
+  },
+  {
+   "check": "regime_partition_sums_to_the_rows",
+   "ok": true
+  },
+  {
+   "check": "every_clamped_row_publishes_its_switch_point",
+   "ok": true
+  },
+  {
+   "check": "every_clamped_row_publishes_its_tolerance_below_the_switch",
+   "ok": true
+  },
+  {
+   "check": "the_two_regimes_meet_exactly_at_the_switch",
+   "ok": true
+  },
+  {
+   "check": "the_relative_tolerance_is_continuous_at_the_switch",
+   "ok": true
+  },
+  {
+   "check": "the_half_unit_crossing_is_the_inverse_of_twice_the_gate",
+   "ok": true
+  },
+  {
+   "check": "a_fixed_normalisation_is_undone_by_exactly_its_divisor",
+   "ok": true
+  },
+  {
+   "check": "no_row_claims_reproducibility_without_publishing_its_scale",
+   "ok": true
+  },
+  {
+   "check": "a_clamp_engagement_flag_is_never_true_when_the_face_stays_below_the_floor",
+   "ok": true
+  },
+  {
+   "check": "every_row_with_a_present_face_publishes_the_maximum_it_was_measured_against",
+   "ok": true
+  },
+  {
+   "check": "a_row_whose_face_is_absent_says_so_instead_of_publishing_a_number",
+   "ok": true
+  },
+  {
+   "check": "the_study_never_reads_itself_as_a_producer",
+   "ok": true
+  },
+  {
+   "check": "the_clamped_rows_are_the_rows_that_carry_a_floor",
+   "ok": true
+  }
+ ]
+}

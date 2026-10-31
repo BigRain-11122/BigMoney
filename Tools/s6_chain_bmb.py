@@ -668,6 +668,17 @@ LEGS = [
     ("gate_form_and_scale",
      ["python", "scripts/e313_gate_form_and_scale.py", "verify"]),
 
+    # E314: E313's clamp is a promise about the zero end of a domain and nothing more. This leg
+    # publishes, per clamped gate, the switch point in the scale's own units and the tolerance in
+    # BOTH regimes in BOTH units (tol*floor flat below the switch, tol*x above it, meeting exactly
+    # there), plus the quantity at which a tol*x gate reaches half a unit (0.5/tol). On the three
+    # clamped rows that is 5e11 against a face whose largest number is 1,920, so the clamp never
+    # engages and the gate is exact equality in disguise; the same pass measures that no face
+    # publishes the scale (0 of 30 rows reproducible) and that one row names a face path with an
+    # unformatted %s in it. Verify rebuilds from the E313 face and the producers' own faces.
+    ("clamped_gate_census",
+     ["python", "scripts/e314_clamped_gate_census.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

@@ -6357,3 +6357,42 @@ How to apply: before transporting any published tolerance onto another number, w
 expression, (3) any divisor -- free or fixed -- and only then (4) the arithmetic that converts one
 side to the other. Publish the conversion and the breakeven; a shared name is evidence of nothing
 on its own.
+
+### E315 a clamp that never engages still costs the reader the tolerance -- publish the switch point and both regimes, and put each number in the quantity's own units (r1333 bm-b)
+
+E313 published that 3 of 30 gates are `tol * max(1.0, x)` and one divides by a fixed `100.0`.
+Reading the arithmetic out at both ends gives a rule about what a clamp actually buys and costs.
+
+1. **The two regimes meet exactly, so a clamp is one band with a kink, not two bands.** At the
+   switch `x = floor` the absolute tolerance is `tol*floor` on both sides and the relative
+   tolerance is `tol` on both sides. Publish the continuity as an identity leg; it is what lets a
+   reader trust the two numbers as one band.
+2. **What the clamp buys is boundedness as `x -> 0`; what it costs is that the gate's absolute
+   size now depends on a scale the face does not print.** `tol * x` degenerates to exact equality
+   at `x = 0`. The clamp converts unbounded relative looseness into a flat absolute tolerance.
+3. **The decisive number is `0.5 / tol`, not the gate.** A `tol * x` gate cannot separate
+   neighbouring values of a quantity below `0.5/tol`. On band-arrival that is `5e11` draws against
+   a face whose largest number is `1,920` -- so the clamp never engages and the gate is exact
+   equality in disguise. That is a statement about the domain, and it is the one that decides
+   whether the tolerance matters at all.
+4. **A consumer cannot use a gate the face publishes alone.** 0 of 30 rows are reproducible from
+   their own face: `scale` appears in none of them, and no clamp token appears on 26 of 30. Publish
+   three booleans per row (`gate_path_resolves`, `scale_identifier_in_a_key_name`,
+   `clamp_tokens_on_the_face`) so "not published" is measured rather than asserted.
+
+Three traps, each caught inside the window:
+
+* **A check that raises is a check no mutation can fail.** A removed switch point produced
+  `float(None)` -> `TypeError` instead of a red leg; every guard now returns `False`.
+* **Mutate the block the consumer reads.** The smoke leg reads `clamped_rows`; a harness that
+  edited `rows` made 7 mutations "pass" against a leg that was working. Both views of the face are
+  legitimate and the mutation must land in the one under test (7/7 caught once fixed).
+* **"The largest number on the face" is a bound, not the gated quantity.** One face maximum is
+  `20261130.0` -- a date. Computing tolerance as `tol * x` regardless of the row's regime class
+  nearly reported constant gates as "growing"; the tolerance is now computed model-aware and a
+  constant gate is asserted not to move with an unrelated large number.
+
+How to apply: whenever a gate is not a single number, publish (switch point in the scale's own
+units, tolerance below and above in both units, half-unit crossing `0.5/tol`) and one boolean per
+face: can this be reproduced from what the face prints? A tolerance that cannot be reproduced is a
+comment, not a gate.

@@ -8710,6 +8710,88 @@ def main() -> int:
     except Exception as e:
         check(_name100, False, repr(e)[:160])
 
+    # E314: E313 showed that three published gates are clamped (tol * max(1.0, x)) and one divides
+    # by a fixed 100.0, which makes their tolerance a function of the gated quantity rather than a
+    # number. This leg asserts the arithmetic and the publication: the two regimes must meet
+    # exactly at the switch, the half-unit crossing must be 0.5/tol, a constant gate must not grow
+    # because some other number on the face is large, and a clamped row may not claim it is
+    # reproducible from a face that carries neither the scale nor a clamp token.
+    _name101 = ("product: a clamped gate's tolerance is a function of the quantity it gates -- the "
+                "switch point and both regimes have to be printed, and neither is")
+    _bad101 = []
+    try:
+        _p101 = os.path.join("results", "state_tilt", "gateclamp_latest.json")
+        _f101 = None
+        if not os.path.exists(_p101):
+            _bad101.append("face missing: %s" % _p101)
+        else:
+            with io.open(_p101, encoding="utf-8") as _fh101:
+                _f101 = json.load(_fh101)
+        if _f101 is not None:
+            _c101 = _f101.get("census") or {}
+            _rows101 = _f101.get("rows") or []
+            _clamp101 = _f101.get("clamped_rows") or []
+            if _f101.get("verdict") != ("a_clamp_that_never_engages_still_hides_the_tolerance_in_"
+                                        "the_quantitys_own_units"):
+                _bad101.append("verdict moved: %r" % (_f101.get("verdict"),))
+            _part101 = ((_c101.get("regime_piecewise_floor") or 0)
+                        + (_c101.get("regime_linear_in_the_quantity") or 0)
+                        + (_c101.get("regime_constant_after_normalisation") or 0)
+                        + (_c101.get("regime_constant_absolute") or 0)
+                        + (_c101.get("regime_unresolved") or 0))
+            if _part101 != len(_rows101):
+                _bad101.append("regime partition does not sum: %s vs %s"
+                               % (_part101, len(_rows101)))
+            if any(not c.get("ok") for c in (_f101.get("identity_checks") or [])):
+                _bad101.append("identity checks are not all green")
+            if len(_clamp101) != 3:
+                _bad101.append("the clamped row count moved: %s" % (len(_clamp101),))
+            for _r101 in _clamp101:
+                _below = (_r101.get("tolerance_below_the_switch") or {}).get(
+                    "absolute_in_the_quantitys_units")
+                _gate, _sw = _r101.get("gate_value"), _r101.get("switch_point")
+                if _below is None or _gate is None or _sw is None:
+                    _bad101.append("a clamped row omits its switch point or its flat tolerance")
+                elif abs(_below - _gate * _sw) > 1e-30 + 1e-9 * abs(_gate * _sw):
+                    _bad101.append("the two regimes do not meet at the switch: %r vs %r"
+                                   % (_below, _gate * _sw))
+                _half = _r101.get("half_unit_crossing")
+                if _half is None or abs(_half * _gate - 0.5) > 1e-9 * max(1.0, abs(_half * _gate)):
+                    _bad101.append("the half unit crossing is not 0.5/tol: %r" % (_half,))
+                if _r101.get("clamp_engages_on_this_face") is not False:
+                    _bad101.append("the clamp is declared engaged on a face that stays below the "
+                                   "floor")
+                _rep = _r101.get("reproducible_from_the_face") or {}
+                _pub = _r101.get("face_publishes") or {}
+                if _rep.get("answer") and not _pub.get("scale_identifier_in_a_key_name"):
+                    _bad101.append("a clamped row claims reproducibility without publishing its "
+                                   "scale")
+                if _pub.get("clamp_tokens_on_the_face"):
+                    _bad101.append("a clamped row's face claims to carry a clamp token")
+            # a constant gate must not be dragged by an unrelated large number on the face
+            for _r101 in _rows101:
+                if _r101.get("regime_classes") == "constant_absolute":
+                    _tol101 = _r101.get("tolerance_at_the_face_maximum_magnitude")
+                    if _tol101 is not None and _tol101 != _r101.get("gate_value"):
+                        _bad101.append("a constant gate's tolerance grew with the face maximum")
+                        break
+            if (_c101.get("rows_whose_named_face_is_absent") or 0) != 1:
+                _bad101.append("the row naming a non-existent face is no longer disclosed")
+        check(_name101, not _bad101, "; ".join(_bad101)[:220]
+              or "rows %s | regimes piecewise %s linear %s const-normalised %s const %s | clamp "
+                 "never engages %s | half-unit crossing above the face maximum %s | reproducible "
+                 "from the face %s of %s"
+                 % (len(_f101.get("rows") or []), _c101.get("regime_piecewise_floor"),
+                    _c101.get("regime_linear_in_the_quantity"),
+                    _c101.get("regime_constant_after_normalisation"),
+                    _c101.get("regime_constant_absolute"),
+                    _c101.get("rows_where_the_clamp_never_engages_on_their_own_face"),
+                    _c101.get("rows_whose_half_unit_crossing_exceeds_the_faces_largest_number"),
+                    _c101.get("rows_reproducible_from_the_face"),
+                    _c101.get("rows")))
+    except Exception as e:
+        check(_name101, False, repr(e)[:160])
+
     return _finish()
 
 
