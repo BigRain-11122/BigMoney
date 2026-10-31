@@ -1,0 +1,643 @@
+{
+ "generated": "2026-11-01 06:50:19",
+ "elapsed_sec": 164.9,
+ "evidence_cutoff": "2026-10-30",
+ "bars": 1653,
+ "question": "keep the 8% vol-target de-lever rule, or hold a fixed fraction? priced on 4 decision phases so the answer does not depend on one calibrated constant",
+ "criteria": {
+  "k_grid": [
+   0.4,
+   0.5,
+   0.6,
+   0.7,
+   0.8,
+   0.9,
+   1.0
+  ],
+  "n_phases": 4,
+  "cagr_tol_pp": 0.15,
+  "dd_tol_pp": 0.5,
+  "sharpe_tol": 0.02,
+  "share_min": 0.75,
+  "oos_from": "2023-12-31"
+ },
+ "identity": [
+  {
+   "phase": 0,
+   "start": "2020-01-02",
+   "gap": 0.0,
+   "tol": 1e-12,
+   "passes": true,
+   "pick_drift": 0
+  },
+  {
+   "phase": 1,
+   "start": "2020-01-09",
+   "gap": 0.0,
+   "tol": 1e-12,
+   "passes": true,
+   "pick_drift": 0
+  },
+  {
+   "phase": 2,
+   "start": "2020-01-16",
+   "gap": 0.0,
+   "tol": 1e-12,
+   "passes": true,
+   "pick_drift": 0
+  },
+  {
+   "phase": 3,
+   "start": "2020-01-23",
+   "gap": 0.0,
+   "tol": 1e-12,
+   "passes": true,
+   "pick_drift": 0
+  }
+ ],
+ "identity_all_pass": true,
+ "panel": {
+  "n_instruments": 1613,
+  "flips_repaired": 168,
+  "digest": "a1a42aee64453839",
+  "bars_named": 5270,
+  "first_bar": "2005-02-23",
+  "last_bar": "2026-10-30",
+  "covers": [
+   "close",
+   "open",
+   "amount"
+  ]
+ },
+ "config": {
+  "n_hold": 12,
+  "rebal": 20,
+  "cost_bp": 10.0,
+  "vol_target": 0.08,
+  "carry": "ladder3 (GC007/GC014/GC028) commission charged",
+  "mean_production_exposure": 0.7176
+ },
+ "phase_rows": [
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "production",
+   "cagr": 0.0912,
+   "sharpe": 0.955,
+   "maxdd": -0.1326,
+   "vol": 0.1005,
+   "oos_cagr": 0.1811,
+   "oos_sharpe": 1.698,
+   "mean_exposure": 0.7073,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.40",
+   "cagr": 0.0656,
+   "sharpe": 1.111,
+   "maxdd": -0.064,
+   "vol": 0.0612,
+   "oos_cagr": 0.1018,
+   "oos_sharpe": 1.708,
+   "mean_exposure": 0.3998,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.50",
+   "cagr": 0.077,
+   "sharpe": 1.048,
+   "maxdd": -0.0808,
+   "vol": 0.0765,
+   "oos_cagr": 0.1239,
+   "oos_sharpe": 1.657,
+   "mean_exposure": 0.4997,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.60",
+   "cagr": 0.0883,
+   "sharpe": 1.006,
+   "maxdd": -0.0975,
+   "vol": 0.0918,
+   "oos_cagr": 0.1463,
+   "oos_sharpe": 1.622,
+   "mean_exposure": 0.5996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.70",
+   "cagr": 0.0995,
+   "sharpe": 0.976,
+   "maxdd": -0.1141,
+   "vol": 0.1071,
+   "oos_cagr": 0.1688,
+   "oos_sharpe": 1.598,
+   "mean_exposure": 0.6996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.80",
+   "cagr": 0.1105,
+   "sharpe": 0.953,
+   "maxdd": -0.1305,
+   "vol": 0.1224,
+   "oos_cagr": 0.1916,
+   "oos_sharpe": 1.579,
+   "mean_exposure": 0.7995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_0.90",
+   "cagr": 0.1214,
+   "sharpe": 0.935,
+   "maxdd": -0.1468,
+   "vol": 0.1377,
+   "oos_cagr": 0.2145,
+   "oos_sharpe": 1.565,
+   "mean_exposure": 0.8995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 0,
+   "phase_start": "2020-01-02",
+   "arm": "const_1.00",
+   "cagr": 0.1321,
+   "sharpe": 0.921,
+   "maxdd": -0.1629,
+   "vol": 0.153,
+   "oos_cagr": 0.2375,
+   "oos_sharpe": 1.554,
+   "mean_exposure": 0.9994,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "production",
+   "cagr": 0.0967,
+   "sharpe": 0.956,
+   "maxdd": -0.1677,
+   "vol": 0.1066,
+   "oos_cagr": 0.1694,
+   "oos_sharpe": 1.449,
+   "mean_exposure": 0.7099,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.40",
+   "cagr": 0.0651,
+   "sharpe": 1.035,
+   "maxdd": -0.1016,
+   "vol": 0.0656,
+   "oos_cagr": 0.0902,
+   "oos_sharpe": 1.311,
+   "mean_exposure": 0.3998,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.50",
+   "cagr": 0.0763,
+   "sharpe": 0.976,
+   "maxdd": -0.1279,
+   "vol": 0.0819,
+   "oos_cagr": 0.109,
+   "oos_sharpe": 1.267,
+   "mean_exposure": 0.4997,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.60",
+   "cagr": 0.0874,
+   "sharpe": 0.936,
+   "maxdd": -0.1537,
+   "vol": 0.0983,
+   "oos_cagr": 0.1277,
+   "oos_sharpe": 1.237,
+   "mean_exposure": 0.5996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.70",
+   "cagr": 0.0982,
+   "sharpe": 0.908,
+   "maxdd": -0.1792,
+   "vol": 0.1147,
+   "oos_cagr": 0.1465,
+   "oos_sharpe": 1.216,
+   "mean_exposure": 0.6996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.80",
+   "cagr": 0.1089,
+   "sharpe": 0.887,
+   "maxdd": -0.2041,
+   "vol": 0.1311,
+   "oos_cagr": 0.1652,
+   "oos_sharpe": 1.201,
+   "mean_exposure": 0.7995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_0.90",
+   "cagr": 0.1194,
+   "sharpe": 0.871,
+   "maxdd": -0.2286,
+   "vol": 0.1475,
+   "oos_cagr": 0.1838,
+   "oos_sharpe": 1.188,
+   "mean_exposure": 0.8995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 1,
+   "phase_start": "2020-01-09",
+   "arm": "const_1.00",
+   "cagr": 0.1297,
+   "sharpe": 0.858,
+   "maxdd": -0.2527,
+   "vol": 0.1638,
+   "oos_cagr": 0.2024,
+   "oos_sharpe": 1.179,
+   "mean_exposure": 0.9994,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "production",
+   "cagr": 0.0622,
+   "sharpe": 0.662,
+   "maxdd": -0.1894,
+   "vol": 0.1029,
+   "oos_cagr": 0.1147,
+   "oos_sharpe": 1.06,
+   "mean_exposure": 0.7191,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.40",
+   "cagr": 0.0461,
+   "sharpe": 0.766,
+   "maxdd": -0.113,
+   "vol": 0.064,
+   "oos_cagr": 0.0562,
+   "oos_sharpe": 0.858,
+   "mean_exposure": 0.3998,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.50",
+   "cagr": 0.0524,
+   "sharpe": 0.705,
+   "maxdd": -0.1407,
+   "vol": 0.08,
+   "oos_cagr": 0.066,
+   "oos_sharpe": 0.812,
+   "mean_exposure": 0.4997,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.60",
+   "cagr": 0.0584,
+   "sharpe": 0.664,
+   "maxdd": -0.1677,
+   "vol": 0.096,
+   "oos_cagr": 0.0755,
+   "oos_sharpe": 0.782,
+   "mean_exposure": 0.5996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.70",
+   "cagr": 0.0642,
+   "sharpe": 0.635,
+   "maxdd": -0.1939,
+   "vol": 0.112,
+   "oos_cagr": 0.0847,
+   "oos_sharpe": 0.76,
+   "mean_exposure": 0.6996,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.80",
+   "cagr": 0.0698,
+   "sharpe": 0.614,
+   "maxdd": -0.2195,
+   "vol": 0.1279,
+   "oos_cagr": 0.0937,
+   "oos_sharpe": 0.744,
+   "mean_exposure": 0.7995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_0.90",
+   "cagr": 0.0752,
+   "sharpe": 0.597,
+   "maxdd": -0.2444,
+   "vol": 0.1439,
+   "oos_cagr": 0.1025,
+   "oos_sharpe": 0.731,
+   "mean_exposure": 0.8995,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 2,
+   "phase_start": "2020-01-16",
+   "arm": "const_1.00",
+   "cagr": 0.0802,
+   "sharpe": 0.583,
+   "maxdd": -0.2686,
+   "vol": 0.1599,
+   "oos_cagr": 0.111,
+   "oos_sharpe": 0.721,
+   "mean_exposure": 0.9994,
+   "n_fills": 83,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "production",
+   "cagr": 0.1011,
+   "sharpe": 1.053,
+   "maxdd": -0.1494,
+   "vol": 0.1001,
+   "oos_cagr": 0.1315,
+   "oos_sharpe": 1.236,
+   "mean_exposure": 0.7342,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.40",
+   "cagr": 0.0662,
+   "sharpe": 1.174,
+   "maxdd": -0.0646,
+   "vol": 0.0584,
+   "oos_cagr": 0.0739,
+   "oos_sharpe": 1.238,
+   "mean_exposure": 0.3998,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.50",
+   "cagr": 0.0779,
+   "sharpe": 1.108,
+   "maxdd": -0.0806,
+   "vol": 0.073,
+   "oos_cagr": 0.0885,
+   "oos_sharpe": 1.188,
+   "mean_exposure": 0.4997,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.60",
+   "cagr": 0.0894,
+   "sharpe": 1.063,
+   "maxdd": -0.0993,
+   "vol": 0.0875,
+   "oos_cagr": 0.1031,
+   "oos_sharpe": 1.154,
+   "mean_exposure": 0.5996,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.70",
+   "cagr": 0.1009,
+   "sharpe": 1.032,
+   "maxdd": -0.1186,
+   "vol": 0.1021,
+   "oos_cagr": 0.1175,
+   "oos_sharpe": 1.13,
+   "mean_exposure": 0.6996,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.80",
+   "cagr": 0.1122,
+   "sharpe": 1.008,
+   "maxdd": -0.1376,
+   "vol": 0.1167,
+   "oos_cagr": 0.1319,
+   "oos_sharpe": 1.111,
+   "mean_exposure": 0.7995,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_0.90",
+   "cagr": 0.1234,
+   "sharpe": 0.99,
+   "maxdd": -0.1563,
+   "vol": 0.1313,
+   "oos_cagr": 0.1462,
+   "oos_sharpe": 1.097,
+   "mean_exposure": 0.8995,
+   "n_fills": 82,
+   "selection_drift": 0
+  },
+  {
+   "phase": 3,
+   "phase_start": "2020-01-23",
+   "arm": "const_1.00",
+   "cagr": 0.1345,
+   "sharpe": 0.975,
+   "maxdd": -0.1748,
+   "vol": 0.1459,
+   "oos_cagr": 0.1604,
+   "oos_sharpe": 1.086,
+   "mean_exposure": 0.9994,
+   "n_fills": 82,
+   "selection_drift": 0
+  }
+ ],
+ "verdict": {
+  "state": "CONSTANT_LADDER_DOMINATES",
+  "best_fixed_scale": "const_0.70",
+  "best_phases_not_worse": 3,
+  "phases_needed": 3,
+  "phases_tested": 4,
+  "production_cell_wins": 0,
+  "cells_total": 28,
+  "ladder": [
+   {
+    "arm": "const_0.40",
+    "cagr_delta_pp_mean": -2.7,
+    "phases_not_worse": 0,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_0.50",
+    "cagr_delta_pp_mean": -1.69,
+    "phases_not_worse": 0,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_0.60",
+    "cagr_delta_pp_mean": -0.69,
+    "phases_not_worse": 0,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_0.70",
+    "cagr_delta_pp_mean": 0.29,
+    "phases_not_worse": 3,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_0.80",
+    "cagr_delta_pp_mean": 1.25,
+    "phases_not_worse": 2,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_0.90",
+    "cagr_delta_pp_mean": 2.21,
+    "phases_not_worse": 0,
+    "phases_tested": 4
+   },
+   {
+    "arm": "const_1.00",
+    "cagr_delta_pp_mean": 3.13,
+    "phases_not_worse": 0,
+    "phases_tested": 4
+   }
+  ],
+  "rule": "CONSTANT_LADDER_DOMINATES iff one fixed fraction is no worse than production on return and drawdown in >= share_min of the phases; PRODUCTION_RULE_EARNS_ITS_KEEP iff production beats every fixed fraction by more than the tolerance in >= share_min of the cells; otherwise the answer depends on the phase"
+ },
+ "adoption": {
+  "state": "REJECT_FIXED_FRACTION",
+  "best_fixed_scale": "const_0.70",
+  "best_out_of_sample_ok": 0,
+  "best_full_window_ok": 3,
+  "phases_needed": 3,
+  "phases_tested": 4,
+  "ladder": [
+   {
+    "arm": "const_0.40",
+    "full_window_ok": 0,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": -6.87
+   },
+   {
+    "arm": "const_0.50",
+    "full_window_ok": 0,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": -5.23
+   },
+   {
+    "arm": "const_0.60",
+    "full_window_ok": 0,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": -3.6
+   },
+   {
+    "arm": "const_0.70",
+    "full_window_ok": 3,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": -1.98
+   },
+   {
+    "arm": "const_0.80",
+    "full_window_ok": 2,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": -0.36
+   },
+   {
+    "arm": "const_0.90",
+    "full_window_ok": 0,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": 1.26
+   },
+   {
+    "arm": "const_1.00",
+    "full_window_ok": 0,
+    "out_of_sample_ok": 0,
+    "oos_cagr_delta_pp_mean": 2.86
+   }
+  ],
+  "rule": "ADOPT_FIXED_FRACTION iff one fixed fraction is no worse than production on BOTH the full window and the out-of-sample window in >= share_min of the phases; REJECT_FIXED_FRACTION iff no fixed fraction clears out of sample; otherwise the answer depends on the phase"
+ },
+ "notes": [
+  "every arm holds the same names on the same grid and pays the same cost model; only the multiplier applied at each decision differs",
+  "the constant arms are fixed BEFORE the run, so no arm is calibrated from the answer it is testing",
+  "the production arm re-runs the engine's own scale and must reproduce its nav bit for bit (published identity leg, one per phase)",
+  "out of sample = bars after 2023-12-31; a fixed fraction that only wins in sample is not an adoption"
+ ]
+}

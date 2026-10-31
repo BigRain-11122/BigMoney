@@ -4610,6 +4610,75 @@ def main() -> int:
     except Exception as e:
         check("product: a de-levered book is told apart from a well-timed one", False,
               repr(e)[:160])
+    # ---- r1202: a fixed fraction is only an adoption if it survives out of sample ----
+    # r1196 measured the de-lever rule as "average exposure, not timing" and named the
+    # obvious next question: would a fixed fraction do the same job? A single constant
+    # calibrated from the production path's own mean exposure cannot answer it, so the
+    # ladder prices seven fixed fractions on four decision phases. The face's own
+    # pre-stated rule ("a fixed fraction that only wins in sample is not an adoption") is
+    # enforced here: the published full-window verdict AND the adoption verdict must both
+    # recompute from the published rows, every arm must be on every phase, and production
+    # must really be a de-levered book rather than an arm that reintroduced itself.
+    try:
+        import importlib as _il58
+        _P58 = _il58.import_module("etf_book_exposure_ladder")
+        _p58 = os.path.join(PATHS.results_dir, "etf_book_exposure_ladder.json")
+        _bad58 = []
+        if not os.path.exists(_p58):
+            _bad58.append("results/etf_book_exposure_ladder.json missing")
+        else:
+            with open(_p58, encoding="utf-8") as _fh58:
+                _doc58 = json.load(_fh58)
+            if _P58.check(_p58) != 0:
+                _bad58.append("the verdict does not recompute from the published rows")
+            _v58 = _doc58.get("verdict") or {}
+            if _v58.get("state") not in ("CONSTANT_LADDER_DOMINATES",
+                                         "PRODUCTION_RULE_EARNS_ITS_KEEP",
+                                         "PHASE_DEPENDENT", "INCOMPLETE"):
+                _bad58.append("unknown verdict %r" % (_v58.get("state"),))
+            if not _doc58.get("identity_all_pass"):
+                _bad58.append("the production arm does not reproduce the engine in every phase")
+            _rows58 = _doc58.get("phase_rows") or []
+            _ph58 = sorted({r.get("phase") for r in _rows58})
+            _arms58 = sorted({r.get("arm") for r in _rows58})
+            if len(_ph58) != _P58.N_PHASES:
+                _bad58.append("%d phases, expected %d" % (len(_ph58), _P58.N_PHASES))
+            if len({r.get("phase_start") for r in _rows58}) != len(_ph58):
+                _bad58.append("two phases share a decision start -- the phase did not move")
+            _want58 = ["production"] + ["const_%.2f" % k for k in _P58.K_GRID]
+            if _arms58 != sorted(_want58):
+                _bad58.append("arms are %r" % (_arms58,))
+            for _p58_i in _ph58:
+                for _a58 in _want58:
+                    if not any(r.get("phase") == _p58_i and r.get("arm") == _a58
+                               for r in _rows58):
+                        _bad58.append("phase %r is missing arm %r" % (_p58_i, _a58))
+            _prod58 = [r for r in _rows58 if r.get("arm") == "production"]
+            if _prod58:
+                _e58 = max(float(r.get("mean_exposure") or 0.0) for r in _prod58)
+                if _e58 >= 0.99:
+                    _bad58.append("the production arm is not de-levered (%.3f)" % _e58)
+            for _r58 in _rows58:
+                if int(_r58.get("selection_drift") or 0) != 0:
+                    _bad58.append("arm %r changed the engine's picks" % (_r58.get("arm"),))
+            _ad58 = _doc58.get("adoption") or {}
+            if _ad58.get("state") not in ("ADOPT_FIXED_FRACTION",
+                                          "REJECT_FIXED_FRACTION",
+                                          "PHASE_DEPENDENT", "INCOMPLETE"):
+                _bad58.append("unknown adoption verdict %r" % (_ad58.get("state"),))
+            elif _ad58.get("state") != _P58.decide_adoption(_rows58)["state"]:
+                _bad58.append("the adoption verdict does not recompute from the published rows")
+            for _k58, _w58 in _P58.CRITERIA.items():
+                if (_doc58.get("criteria") or {}).get(_k58) != _w58:
+                    _bad58.append("criterion %s moved off the module constant" % (_k58,))
+        check("product: a fixed fraction is only an adoption if it survives out of sample",
+              not _bad58,
+              "; ".join(_bad58)[:220] or "full window %s / adoption %s, %d phases"
+              % ((_doc58.get("verdict") or {}).get("state"),
+                 (_doc58.get("adoption") or {}).get("state"), _P58.N_PHASES))
+    except Exception as e:
+        check("product: a fixed fraction is only an adoption if it survives out of sample",
+              False, repr(e)[:160])
     # ---- r1197: the exposure-timing answer has to reach the face the CEO opens ----
     # r1196 answered "is the de-lever timing or just a smaller book?" and filed it in a
     # research note; the page -- the one face the CEO actually opens -- still told him the

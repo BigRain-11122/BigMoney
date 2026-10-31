@@ -6,8 +6,8 @@
 |---|---|---|
 | 池内 ready | 0 | 是（已入池） |
 | 任务板 open 未认领 | 0 | 是（认领即开动） |
-| 队列活草稿（状态列是 open/pending/draft） | {"tech.md": 0, "explore.md": 0} | 否，每行还要先过预注册冻结 |
-| 队列已消耗行（状态列 done/closed，含 rNNN 后缀） | {"tech.md": 26, "explore.md": 24} | 无需动作 |
+| 队列活草稿（状态列是 open/pending/draft） | {"tech.md": 0, "explore.md": 1} | 否，每行还要先过预注册冻结 |
+| 队列已消耗行（状态列 done/closed，含 rNNN 后缀） | {"tech.md": 26, "explore.md": 25} | 无需动作 |
 | 队列状态不可读行（状态列里是测量值，按名列出） | {"tech.md": [], "explore.md": [["E16", "0.455 ＞ null family p95 0.077·n_ok 200/200·CENSUS-2026-10-09.json·refuse-if-exis"]]} | 不是草稿，是队列卫生项 |
 | backlog 未认领行 | 2 | 否，跨公司 backlog，行内有属主 |
 

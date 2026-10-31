@@ -7807,3 +7807,45 @@ could not read, because consumed rows accumulate commit notes and dates as they 
 count feeds a verdict, publish the count the verdict acts on (live drafts) and keep the raw
 bucket (`not_marked_done`) beside it under its own name. Read across: any `== "done"`-style
 exact match on a column humans append to has this defect latent.
+
+### E320 · An arm calibrated from the answer it tests, and a full-window verdict its own note reversed (r1202 bm-a)
+
+r1196 measured the book's 8% vol target against "the same book held at a constant exposure", and the
+constant was set to **the production path's own mean exposure (0.708)**. That arm won by +0.91 pp/yr
+and the reading went into the research file. It cannot answer the question it is named after: 0.708 is
+a number you only know after you have run the thing you are comparing against, so the arm is calibrated
+from the answer. `etf_book_exposure_ladder` fixes the grid before the run (0.40 .. 1.00, seven fixed
+fractions) and prices every one on four decision phases.
+
+What that bought, on the same panel and the same identity leg:
+
+| fixed fraction | full-window CAGR vs production | phases not worse | out-of-sample CAGR vs production |
+|---|---|---|---|
+| 0.70 | +0.29 pp | 3/4 | -1.98 pp |
+| 0.80 | +1.25 pp | 2/4 | -0.36 pp |
+| 1.00 | +3.13 pp | 0/4 | +2.86 pp |
+
+So the ladder reproduces r1196's headline on the full window (0.70 is no worse, in three of four
+phases) and **the out-of-sample window reverses it**: production's own out-of-sample Sharpe (1.698)
+is the highest of the eight arms, above the average-size match (1.598). The de-lever rule is not
+"just a smaller book" once you ask the question where the answer can be wrong.
+
+Two reusable rules.
+
+1. **A control arm may not be calibrated from the thing it is controlling for.** If the comparator is
+   derived from the treatment's realised path (mean exposure, mean turnover, realised bandwidth), it
+   answers "is a book of that size equal to this book of that size", not "is the rule worth having".
+   Fix the comparator's grid in advance and report the whole ladder -- the ladder is also the only way
+   to see whether the champion is a plateau or a knife-edge.
+2. **A pre-stated standard may not be dropped when it bites, and a frozen verdict may not be retuned
+   when it flatters.** This face's own notes, written before the first run, said "a fixed fraction
+   that only wins in sample is not an adoption". The first run is exactly that case. The honest
+   resolution is not to re-tune `decide()` (that would be editing the criteria after seeing the
+   answer) but to publish **both**: the frozen full-window verdict keeps its v1.0 criteria, and the
+   adoption verdict applies the pre-stated rule, with the difference named on the page. A reader can
+   then see that the two verdicts disagree and why, instead of receiving whichever one the author
+   preferred.
+
+Read across: any "constant / matched / average" control arm (matched exposure, matched turnover,
+matched risk), and any face whose verdict block was frozen before the run -- ask whether its own
+notes contain a test that the first run already failed.
