@@ -7229,6 +7229,118 @@ def main() -> int:
     except Exception as e:
         check(_name86, False, repr(e)[:160])
 
+    # 87) E290 self-auditable face profile (r1312 bm-b): the 27 checkable counts sit beside a
+    # same-parent list of exactly the unit their name claims, and every one equals that list -- but
+    # co-location is not evidence, so the leg asserts (a) every checkable row really equals its own
+    # list, (b) an equal-length same-unit list elsewhere in the same face is published as an
+    # ambiguity rather than a clean bill, (c) the exemplar faces' own coverage is published beside the
+    # family-wide share (27 of 151 = 17.9 pct against 3.0 pct), and (d) the un-derivable halves are
+    # two separate work items, never one 'fixable' number.
+    _name87 = ("product: a count is self-auditable only when its own records share its scope -- and "
+               "an equal-length alternative list makes the agreement ambiguous, not clean")
+    _bad87 = []
+    try:
+        _p87 = os.path.join("results", "state_tilt", "bandselfaudit_latest.json")
+        _f87 = None
+        if not os.path.exists(_p87):
+            _bad87.append("face missing: %s" % _p87)
+        else:
+            with io.open(_p87, encoding="utf-8") as _fh87:
+                _f87 = json.load(_fh87)
+        if _f87 is not None:
+            if _f87.get("evidence_cutoff") is None:
+                _bad87.append("no evidence_cutoff on the face")
+            if _f87.get("verdict") not in (
+                    "the_checkable_counts_share_a_same_parent_record_list_and_every_agreement_is_unambiguous",
+                    "the_checkable_counts_share_a_same_parent_record_list_but_some_agreements_could_be_coincidence",
+                    "the_checkable_counts_share_a_same_parent_record_list_but_the_records_are_not_uniformly_typed",
+                    "no_count_is_checkable_so_there_is_no_shape_to_copy"):
+                _bad87.append("verdict %r is outside the frozen set" % (_f87.get("verdict"),))
+            _s87 = _f87.get("summary") or {}
+            _cr87 = _f87.get("checkable_rows") or []
+            if _s87.get("checkable_counts") != len(_cr87):
+                _bad87.append("checkable_counts disagrees with the published rows")
+            if _s87.get("n_agree") != len([_r for _r in _cr87 if _r.get("agrees")]):
+                _bad87.append("n_agree disagrees with the published rows")
+            _amb87 = ["%s :: %s" % (_r.get("face"), _r.get("path")) for _r in _cr87 if _r.get("ambiguous")]
+            if _s87.get("ambiguous_rows") != _amb87:
+                _bad87.append("the ambiguous row list disagrees with the published rows")
+            if _s87.get("n_ambiguous") != len(_amb87):
+                _bad87.append("n_ambiguous disagrees with the ambiguous row list")
+            for _r in _cr87:
+                if not _r.get("sibling_present_same_parent"):
+                    _bad87.append("row %s is published checkable without its sibling in scope"
+                                  % _r.get("path"))
+                if _r.get("agrees") and _r.get("records_length") != _r.get("published_value"):
+                    _bad87.append("row %s is marked agreeing but its count differs" % _r.get("path"))
+                if _r.get("ambiguous") and not (_r.get("alternatives_with_equal_length") or 0):
+                    _bad87.append("row %s is marked ambiguous with no equal-length alternative"
+                                  % _r.get("path"))
+            if (_s87.get("n_records_are_dicts") or 0) + (_s87.get("n_records_are_scalars") or 0) \
+                    != _s87.get("checkable_counts"):
+                _bad87.append("the record-type partition does not sum to the checkable counts")
+            # (c) the pattern's coverage is measured, never assumed to be the whole face
+            if (_s87.get("exemplar_unit_named_counts") or 0) < (_s87.get("checkable_counts") or 0):
+                _bad87.append("the exemplar coverage excludes the checkable counts themselves")
+            if _s87.get("exemplar_checkable_share") is None or \
+                    _s87.get("checkable_share_family") is None:
+                _bad87.append("the pattern's coverage is not published")
+            # (d) the two un-derivable halves stay separate
+            if (_s87.get("un_derivable_elsewhere_scope") or {}).get("n_rows") is None or \
+                    (_s87.get("un_derivable_never_published") or {}).get("n_rows") is None:
+                _bad87.append("the un-derivable halves are not published separately")
+            _ic87 = _f87.get("identity_check") or {}
+            for _k in ("checkable_rows_equal_e286_census", "rows_partition_by_record_type",
+                       "every_checkable_row_has_its_sibling_in_scope",
+                       "every_checkable_row_agrees_with_its_own_records",
+                       "exemplar_face_set_matches_rows", "self_faces_absent_from_universe"):
+                if not _ic87.get(_k):
+                    _bad87.append("identity check %s is false" % _k)
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m87 = __import__("importlib").import_module("e290_selfauditable_face_profile")
+            _fresh87 = _m87.build()
+            _fs87 = _fresh87.get("summary") or {}
+            if _fresh87.get("verdict") != _f87.get("verdict"):
+                _bad87.append("the verdict does not re-derive")
+            for _k in ("checkable_counts", "unit_named_counts", "n_agree", "n_disagree",
+                       "n_ambiguous", "n_records_are_dicts", "n_records_are_scalars",
+                       "exemplar_checkable_counts", "exemplar_unit_named_counts"):
+                if _fs87.get(_k) != _s87.get(_k):
+                    _bad87.append("summary.%s does not re-derive" % _k)
+            if [("%s :: %s" % (_r.get("face"), _r.get("path"))) for _r in
+                    (_fresh87.get("checkable_rows") or [])] != \
+                    [("%s :: %s" % (_r.get("face"), _r.get("path"))) for _r in _cr87]:
+                _bad87.append("the checkable row set does not re-derive")
+        check(_name87, not _bad87,
+              "; ".join(_bad87)[:220]
+              or "verdict %r | %d checkable of %d unit-named count(s) (%s) in %d face(s): all %d "
+                 "agree with their own records, %d ambiguous against an equal-length alternative "
+                 "(dicts %d / scalars %d); exemplars are %d of %d of their own counts (%s) against %s "
+                 "family-wide; un-derivable = %d anywhere-scope row(s) over %d scope(s) + %d "
+                 "never-published row(s) over %d key(s)"
+                 % ((_f87 or {}).get("verdict"),
+                    _s87.get("checkable_counts") or 0,
+                    _s87.get("unit_named_counts") or 0,
+                    "n/a" if _s87.get("checkable_share_family") is None
+                    else "%.1f pct" % (100.0 * _s87["checkable_share_family"]),
+                    _s87.get("exemplar_faces_n") or 0,
+                    _s87.get("n_agree") or 0,
+                    _s87.get("n_ambiguous") or 0,
+                    _s87.get("n_records_are_dicts") or 0,
+                    _s87.get("n_records_are_scalars") or 0,
+                    _s87.get("exemplar_checkable_counts") or 0,
+                    _s87.get("exemplar_unit_named_counts") or 0,
+                    "n/a" if _s87.get("exemplar_checkable_share") is None
+                    else "%.1f pct" % (100.0 * _s87["exemplar_checkable_share"]),
+                    "n/a" if _s87.get("checkable_share_family") is None
+                    else "%.1f pct" % (100.0 * _s87["checkable_share_family"]),
+                    (_s87.get("un_derivable_elsewhere_scope") or {}).get("n_rows") or 0,
+                    (_s87.get("un_derivable_elsewhere_scope") or {}).get("distinct_scopes") or 0,
+                    (_s87.get("un_derivable_never_published") or {}).get("n_rows") or 0,
+                    (_s87.get("un_derivable_never_published") or {}).get("distinct_keys") or 0))
+    except Exception as e:
+        check(_name87, False, repr(e)[:160])
+
     return _finish()
 
 

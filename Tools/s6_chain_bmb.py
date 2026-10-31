@@ -478,6 +478,18 @@ LEGS = [
     ("count_field_scope",
      ["python", "scripts/e286_count_field_scope.py", "verify"]),
 
+    # E290 (r1312 bm-b): E286 could say which counts are checkable but not whether copying the
+    # checkable faces would help. This leg profiles the shape: all 27 sit beside a same-parent list of
+    # exactly the unit their name claims, and every one equals that list -- but 12 of the 27 carry an
+    # equal-length same-unit list elsewhere in the same face, so those agreements cannot be told from
+    # coincidence, and the exemplar faces are only 17.9 pct self-auditable (27 of 151 of their own
+    # counts) against 3.0 pct family-wide. The 867 un-derivable counts split into 301 rows over 299
+    # scopes (move the count into the scope that already publishes the unit) and 566 rows over just 8
+    # keys (no record face exists, so no naming convention can rescue them). Published faces only,
+    # no draw. <1s.
+    ("self_auditable_face_profile",
+     ["python", "scripts/e290_selfauditable_face_profile.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the

@@ -5706,3 +5706,34 @@ Evidence: `scripts/e286_count_field_scope.py` (selftest 24/24, run/verify green)
 smoke leg `product: a unit-named count is checkable only inside its own scope`,
 digest `research/digests/DIGEST-20261031-r1311-e289-count-scope.md`.
 Pool item `E286-COUNT-FIELD-SCOPE` (pool E286 -> card E289).
+
+### E290 - co-location is not evidence: self-auditable counts need their own records AND no equal-length rival (r1312 bm-b)
+
+E286 could say WHICH counts are checkable (27 of 894) but not whether copying the checkable faces would
+help a new author. Answering that needs the shape, and the shape has three parts that are easy to
+conflate: the count sits beside a list of exactly the unit its name claims (27/27 do), the count EQUALS
+that list's length (27/27 do), and no OTHER list of the same unit in the same face happens to have that
+length -- and that last one fails 12 of 27 times. An equal-length rival is published as an ambiguity,
+not a clean bill: with `summary.rows` (2 rows) and `tags.labels` (2 labels) in one face both length 2, a
+`n_rows = 2` agreement cannot be told from a coincidence of size. Co-location alone proves nothing; the
+agreement plus the absence of an equal-length rival is the whole test.
+
+Second measurement, and the one that changes an instruction into a number: the pattern's coverage
+INSIDE its own exemplars is 27 of 151 of their unit-named counts = 17.9 pct, against 3.0 pct
+family-wide. "Publish like these five faces do" therefore multiplies your odds sixfold and still leaves
+five of six counts un-auditable, because those faces publish plenty of counts with no records in scope
+too. Report the exemplar's own rate before recommending it.
+
+Third: the un-derivable majority is two work items with unrelated costs. 301 rows sit over 299 distinct
+scopes -- the face already publishes that unit somewhere, so the fix is to move the count into that
+scope or name the scope it counts. 566 rows sit over just 8 keys (draws 253, n_records 115, n_seeds 96,
+seeds 56 ...) -- those units are never enumerated anywhere, so no naming convention can rescue them and
+they stay un-auditable by design. Never add the halves into one "fixable" number.
+
+Evidence: `scripts/e290_selfauditable_face_profile.py` (selftest 15/15, run/verify 0 problems),
+`results/state_tilt/BANDSELFAUDIT-2026-10-29.json` + `bandselfaudit_latest.json`, S6 leg
+`self_auditable_face_profile` (verify, 0.29s), smoke leg `product: a count is self-auditable only when
+its own records share its scope`, digest
+`research/digests/DIGEST-20261031-r1312-e290-self-audit-shape.md`.
+Pool item `E290-SELF-AUDITABLE-FACE-PROFILE` (pool E290 -> card E290; the ids coincide this round).
+Seeded this round: `E291-AMBIGUITY-BY-LENGTH-CHANCE`, `E292-SCOPE-FIX-PLAN`.
