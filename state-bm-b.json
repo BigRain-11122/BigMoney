@@ -2599,19 +2599,19 @@
  "status": "green",
  "study": "E297_fix_two_red_legs",
  "sync": {
-  "ahead": 77,
-  "behind": 166,
-  "branch": "machine/bm-b-r1313",
+  "ahead": 83,
+  "behind": 172,
+  "branch": "machine/bm-b-r1316",
   "peer": "origin",
-  "ts": "2026-10-31T08:24:57+08:00",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted"
+  "ts": "2026-10-31T10:30:09+08:00",
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1315 family); main push not attempted"
  },
  "task": "E297 fix two red legs (done) -> next head E288 below-floor narrowing cost",
  "task_short": "E297 two red legs fixed",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T10:29:27+08:00",
- "updated": "2026-10-31T10:29:27+08:00",
- "updated_at": "2026-10-31T10:29:27+08:00",
+ "ts": "2026-10-31T10:30:09+08:00",
+ "updated": "2026-10-31T10:30:09+08:00",
+ "updated_at": "2026-10-31T10:30:09+08:00",
  "verdict": "both_red_legs_were_the_check_not_the_science",
  "watermark_red": "py_low_with_work_cands at open (pool_ready 6, py 0.0 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head red card E297 in-round and re-seeded the pool to 7 ready",
  "work": "E297 done",
@@ -2702,6 +2702,17 @@
   "s1": "the two red legs from r1315 were extracted verbatim from smoke_test.py and executed standalone (exec harness, no re-implementation) and both FAILED for the reasons above; after the fix both PASS, and the producers' own selftests are 16/16 and 13/13. The full ~270-leg suite was NOT re-run in this window (wall budget) -- stated plainly: the board is green on the two legs that were red, not re-measured end to end.",
   "s6": "orphan probe py_faces=7 orphans=0 residents=0 | py_watermark insufficient_history with pool_ready=6 and py 0.0 pct of 16 cores (legal_idle_whitelist.satisfied=false) | dualrun ZERO-DRIFT (793 entries, streak 51) | attrition CLEAN 4 ledgers (2 historical shrink rows healed) | collectors/compute_audit not re-run this window (wall budget, stated plainly)",
   "s7": "orders 114 files / 115 acks / 0 unacked (1 stale ack name for a non-order file) | decisions face sha256 97fe122f... unchanged vs the recorded watermark -> zero action | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
-  "pool": "E297 done with result_ref; 795 entries, 7 ready (E288, E292, E294, E295, E296, E298, E299)"
+  "pool": "E297 done with result_ref; 795 entries, 7 ready (E288, E292, E294, E295, E296, E298, E299)",
+  "delivery": {
+   "branch": "machine/bm-b-r1316",
+   "pushed_sha": "dfca6b16e300be73b48b776c3ac911f4e1ef394e",
+   "remote_ref_sha": "dfca6b16e300be73b48b776c3ac911f4e1ef394e",
+   "verified": true,
+   "local_not_on_origin_main": 83,
+   "behind_origin_main": 172,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1315 family); main push not attempted",
+   "ts": "2026-10-31T10:30:09+08:00",
+   "note": "13 product files staged (scripts, both regenerated faces + their dated twins, the card, the digest, the pool, the three S6 artifacts) plus 3 closeout files; the ~600 dirty tracked files left by collectors and prior windows were not swept in."
+  }
  }
 }
