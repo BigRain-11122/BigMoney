@@ -1,0 +1,42 @@
+{
+ "face": "delivery_divergence",
+ "machine_id": "bm-b",
+ "evidence_cutoff": "2026-10-31",
+ "head": "92e85f3235632505dc55480951bf179ebbfd1e36",
+ "origin_main": "2e4217a0a12eaca618dd06b9af2ea7e9e6e98770",
+ "ahead_of_origin_main": 109,
+ "behind_origin_main": 195,
+ "delivered_via_machine_branch": 109,
+ "undelivered_on_this_disk": 0,
+ "undelivered_shas": [],
+ "machine_branch_counts": {
+  "bm-a": 24,
+  "bm-b": 136,
+  "bm-c": 49
+ },
+ "latest_machine_branch": {
+  "bm-a": {
+   "branch": "origin/machine/bm-a-r893",
+   "tip": "cf5bb41892559861bb689a4a7033d6cc2b6dcc94",
+   "date": "2026-10-09",
+   "round_no": 893
+  },
+  "bm-b": {
+   "branch": "origin/machine/bm-b-r1327",
+   "tip": "92e85f3235632505dc55480951bf179ebbfd1e36",
+   "date": "2026-10-31",
+   "round_no": 1327
+  },
+  "bm-c": {
+   "branch": "origin/machine/bm-c-r1384",
+   "tip": "f8320d3f3a43afe77dcb1c39a9aaab09ae9981dd",
+   "date": "2026-10-31",
+   "round_no": 1384
+  }
+ },
+ "machine_branch_tips_considered": 209,
+ "machine_refs_covered_by_fetch_refspec": false,
+ "machine_refs_note": "false = 'git fetch' alone does not refresh origin/machine/*; run `git fetch origin +refs/heads/machine/*:refs/remotes/origin/machine/*` before trusting an undelivered count. This face is read after that fetch.",
+ "verdict": "all_delivered",
+ "unmerged_backlog_note": "ahead_of_origin_main counts commits main has not merged; delivery is what machine/* carries. A large ahead figure with undelivered=0 means the merge is owed to whoever owns main, not a lost push."
+}

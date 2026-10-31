@@ -1007,12 +1007,12 @@
  "ram_free_pct": 35.1,
  "ram_load_pct": 66,
  "ram_total_gb": 23.9,
- "round": 1327,
- "round_no": 1327,
+ "round": 1328,
+ "round_no": 1328,
  "round_no_drift_healed": "state.json stood at 1259 while the report series and commits were at r1262 (r1020 double-drift class); healed to 1263 from the report series",
  "round_no_label": "r1313",
  "round_no_note": "r1325 appended the block and healed the label (state round_no had drifted to 1314)",
- "round_no_ts": "2026-10-31T14:45:31+08:00",
+ "round_no_ts": "2026-10-31T16:45:54+08:00",
  "s1": "the new E305 leg was extracted from smoke_test.py and executed standalone: PASS; it fails under all four mutations (verdict flipped, a row dropped with its count, a reason stripped, a row kept at risk with no printed number) and passes again after the bytes are restored. The full 321-leg suite was not re-run this window (~35 min).",
  "s6": "chain leg face_level_row_pricing rc=0 1.68s through the real driver (results/_r1327bmb_s6_chain.json, S6 1/1) | orphan probe py_faces=7 orphans=0 residents=0 | attrition guard CLEAN (4 ledgers, historical shrink rows healed) | dualrun, compute_audit, py_watermark and the lane collectors were NOT re-run this window (wall budget, stated plainly)",
  "s7": "schtasks: Bigmoney-IterationLoop running (it launched this round) next 16:32, Bigmoney-LoopWatchdog present next 16:31, Bigmoney-Autofill 16:30, Bigmoney-IntradayMarks 16:36, Bigmoney-ContentLoop 16:32 -- all present, none re-registered | pre-commit (2138 B) and pre-push (1893 B) claws present and untouched",
@@ -1027,23 +1027,21 @@
  "status": "ok",
  "study": "E291_ambiguity_by_length_chance",
  "sync": {
-  "ahead": 77,
-  "behind": 166,
-  "branch": "machine/bm-b-r1313",
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
-  "peer": "origin",
-  "ts": "2026-10-31T08:24:57+08:00"
+  "ahead": 109,
+  "behind": 195,
+  "branch": "machine/bm-b-r1328",
+  "peer": "origin"
  },
  "sync_note": "the 29-commit deferral is closed: every round since r1230 rode machine/bm-b-r* branches instead of main because the blob:none promisor clone hung on rebase and mktree replay is banned after the LEDGER loss. A git-native merge in a throwaway worktree with -c merge.renames=false (the rename pass is what triggered the unfetchable-object fetch) lands both lineages at once.",
- "task": "E291 ambiguity by length chance (done)",
+ "task": "delivery divergence audit",
  "task_short": "E274 straddle sweep",
  "task_short_note": "3-class resolution (union on leg containers and append-only ledgers, owner-verbatim on faces another host writes); AST + selftest validated; 8 upstream deletions caught by the tree-shrink claw and restored before push",
- "ts": "2026-10-31T16:32:00+08:00",
- "updated": "2026-10-31T16:32:00+08:00",
- "updated_at": "2026-10-31T16:32:00+08:00",
- "verdict": "none_of_the_face_level_rows_is_at_risk",
+ "ts": "2026-10-31T16:45:54+08:00",
+ "updated": "2026-10-31T16:45:54+08:00",
+ "updated_at": "2026-10-31T16:45:54+08:00",
+ "verdict": "delivery_is_tracked_the_merge_is_owed",
  "watermark_red": "pool ready at open (E305/E307) and py idle -- burned the ready head E305 in-round; no watermark file read",
- "work": "scripts/e266_wide_end_screen_holdout.py (run / verify 0 problems / selftest 26/26) + BANDSCREEN face + digest + card E266 + S6 leg + smoke leg + pool",
+ "work": "r1328 delivery divergence face",
  "r1327": {
   "round": 1327,
   "dept": "research+engineering",
@@ -1077,5 +1075,18 @@
   }
  },
  "pool_ready_unclaimed": 2,
- "notes_r1327": "| 2026-10-31T16:32:00+08:00 | r1327 | **watermark: pool ready at open (E305/E307, py idle) -- burned the ready head E305 in-round; absorb window (state stopped at 1325 while git log and the round line carried 1326).** **CURRENT:** E305 face-level row pricing published (done). **LATEST PHYSICAL:** `results/state_tilt/PRECISIONGAP-2026-10-31.json`. **NEXT MILESTONE:** E307 undated-face vintage (ready, due next round, within 48h). **PRODUCT:** all 8 face-bound rows withdrawn -- 3 read a key living in a sibling face the same leg names, 3 read a container, 1 a boolean flag, 1 a record list that is empty on this vintage."
+ "notes_r1327": "| 2026-10-31T16:32:00+08:00 | r1327 | **watermark: pool ready at open (E305/E307, py idle) -- burned the ready head E305 in-round; absorb window (state stopped at 1325 while git log and the round line carried 1326).** **CURRENT:** E305 face-level row pricing published (done). **LATEST PHYSICAL:** `results/state_tilt/PRECISIONGAP-2026-10-31.json`. **NEXT MILESTONE:** E307 undated-face vintage (ready, due next round, within 48h). **PRODUCT:** all 8 face-bound rows withdrawn -- 3 read a key living in a sibling face the same leg names, 3 read a container, 1 a boolean flag, 1 a record list that is empty on this vintage.",
+ "r1328_face": {
+  "dept": "engineering+fleet",
+  "dt": "2026-10-31T16:45:54+08:00",
+  "finding": "of 109 commits main has not merged, 109 are reachable from a pushed machine branch and 0 exist only on this disk; the bottleneck is the merge into main, not delivery. Pushed branch counts: bm-a 24 (newest r893, 2026-10-09), bm-b 136 (newest r1327), bm-c 49 (newest r1384).",
+  "product": [
+   "scripts/delivery_divergence_audit.py (run / selftest 5/5)",
+   "results/delivery_divergence.json"
+  ],
+  "selftest": "5/5",
+  "s1": "full suite not re-run this window (baseline 321 legs; a smoke run produced no output for 5 minutes and was cancelled inside the round budget) -- the new script was exercised by its own 5/5 selftest",
+  "not_run": "GPU untouched (parked C-20261014-01); cloud untouched; nothing deleted; no cleanup/quarantine action; bm-a/bm-c lane collectors not exercised",
+  "pit": "(1) 'local commits not on origin = N' cannot tell a lost push from an unmerged bloodline: with only the main refspec fetched, all 109 local-only commits read as undelivered, while fetching refs/heads/machine/* shows all 109 reachable from machine/bm-b-r1327 -> the reading was an artifact of the refspec; (2) the face now carries machine_refs_covered_by_fetch_refspec so an unrefreshed reading refuses to be believed; (3) picking a 'latest' machine branch by committer date alone tied at 2026-10-31 and fell back to r1325 while r1327 was the real tip -- the round number in the branch name is the discriminator."
+ }
 }
