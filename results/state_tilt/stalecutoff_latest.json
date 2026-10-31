@@ -1,0 +1,223 @@
+{
+ "study": "E328_quoted_number_staleness",
+ "evidence_cutoff": "2026-11-01",
+ "verdict": "quoted_numbers_are_read_from_vintages_and_move_when_the_newest_cut_is_opened",
+ "summary": {
+  "faces_scanned": 550,
+  "families": 416,
+  "families_with_more_than_one_cut": 68,
+  "faces_with_stated_cutoff": 491,
+  "stale_faces": 133,
+  "stale_faces_quoted": 4,
+  "stale_faces_unquoted": 129,
+  "stale_faces_quoted_and_parsed": 4,
+  "quoted_numbers": 1430,
+  "numbers_that_move": 536,
+  "numbers_absent_from_newest_cut": 0,
+  "numbers_equal": 894,
+  "unparsed_stale_quoted": 0
+ },
+ "rules": {
+  "family": "(directory, stem) -- the same stem in another directory is another family",
+  "cutoff": "first ISO date in evidence_cutoff/cutoff/as_of/asof, else the name token",
+  "stale": "cutoff < the newest cutoff of the same family on disk",
+  "quote": "a non-writer python source names the literal basename and subscripts a quoted key within 8 lines of that line",
+  "producer_excluded": "a source that binds the basename and dumps the binding is the face's writer, not a reader"
+ },
+ "limits": {
+  "numeric_read_is_line_local": "a reader that names the face in one function and reads the numbers elsewhere is measured by the 8-line window only",
+  "no_reach_into_the_newest_cut": "a changed number is what the stale file prints; it is not proof the reader would have used the newest cut if it had opened that file",
+  "family_by_name": "two faces with different stems that carry the same series are two families here"
+ },
+ "rows": [
+  {
+   "face": "results/etf_book_order/TICKET-2026-10-26.json",
+   "family": "results/etf_book_order/TICKET",
+   "cutoff": "2026-10-26",
+   "cutoff_source": "evidence_cutoff",
+   "family_newest_face": "results/etf_book_order/TICKET-2026-10-28.json",
+   "family_newest_cutoff": "2026-10-28",
+   "days_behind": 2,
+   "readers": 1,
+   "reader_sources": [
+    "scripts/etf_book_publish_decision.py"
+   ],
+   "reader_lines": [
+    {
+     "source": "scripts/etf_book_publish_decision.py",
+     "line": 82,
+     "text": "ticket = _load(\"etf_book_order/TICKET-2026-10-26.json\")"
+    }
+   ],
+   "numbers": 116,
+   "changed": 45,
+   "equal": 71,
+   "absent_from_newest_cut": 0,
+   "examples": [
+    {
+     "path": "staleness.symbols_with_value_on_last_bar",
+     "stale": 1494.0,
+     "newest": 1489.0
+    },
+    {
+     "path": "staleness.symbols_total",
+     "stale": 1498.0,
+     "newest": 1499.0
+    },
+    {
+     "path": "next_decision_bars",
+     "stale": 12.0,
+     "newest": 10.0
+    },
+    {
+     "path": "metrics.book.cagr",
+     "stale": 0.1104,
+     "newest": 0.1139
+    },
+    {
+     "path": "metrics.book.sharpe",
+     "stale": 1.352,
+     "newest": 1.395
+    }
+   ]
+  },
+  {
+   "face": "results/regime5_labels/REGIME5-2026-09-30.json",
+   "family": "results/regime5_labels/REGIME5",
+   "cutoff": "2026-09-30",
+   "cutoff_source": "cutoff",
+   "family_newest_face": "results/regime5_labels/REGIME5-2026-10-19.json",
+   "family_newest_cutoff": "2026-10-19",
+   "days_behind": 19,
+   "readers": 2,
+   "reader_sources": [
+    "scripts/regime_matrix_p0.py",
+    "scripts/sscombo_pit_drift_audit.py"
+   ],
+   "reader_lines": [
+    {
+     "source": "scripts/regime_matrix_p0.py",
+     "line": 687,
+     "text": "\"regime_axis\": {\"labels_file\": \"results/regime5_labels/REGIME5-2026-09-30.json\","
+    },
+    {
+     "source": "scripts/sscombo_pit_drift_audit.py",
+     "line": 29,
+     "text": "DEFAULT_ASOF = os.path.join(LABEL_DIR, \"REGIME5-2026-09-30.json\")"
+    }
+   ],
+   "numbers": 0,
+   "changed": 0,
+   "equal": 0,
+   "absent_from_newest_cut": 0,
+   "examples": []
+  },
+  {
+   "face": "results/state_tilt/ADDOS-2026-10-29.json",
+   "family": "results/state_tilt/ADDOS",
+   "cutoff": "2026-10-29",
+   "cutoff_source": "evidence_cutoff",
+   "family_newest_face": "results/state_tilt/ADDOS-2026-10-30.json",
+   "family_newest_cutoff": "2026-10-30",
+   "days_behind": 1,
+   "readers": 2,
+   "reader_sources": [
+    "scripts/e298_replay_control_census.py"
+   ],
+   "reader_lines": [
+    {
+     "source": "scripts/e298_replay_control_census.py",
+     "line": 413,
+     "text": "ca, _ = census_face(\"ADDOS-2026-10-29.json\", a)"
+    },
+    {
+     "source": "scripts/e298_replay_control_census.py",
+     "line": 495,
+     "text": "mixed = {\"ADDOS-2026-10-29.json\": a, \"ADDOS-2026-10-30.json\": b}"
+    }
+   ],
+   "numbers": 712,
+   "changed": 306,
+   "equal": 406,
+   "absent_from_newest_cut": 0,
+   "examples": [
+    {
+     "path": "cells[4].sessions",
+     "stale": 408.0,
+     "newest": 409.0
+    },
+    {
+     "path": "cells[4].mean_b_one",
+     "stale": 0.2133023094363416,
+     "newest": 0.21349726009440828
+    },
+    {
+     "path": "cells[4].mean_b_rest",
+     "stale": 0.1868823327689718,
+     "newest": 0.18704673474556938
+    },
+    {
+     "path": "cells[4].mean_diff",
+     "stale": 0.026419976667369772,
+     "newest": 0.02645052534883897
+    },
+    {
+     "path": "cells[4].diff_ci_pairspread[0]",
+     "stale": -0.21475371249030994,
+     "newest": -0.21478572245568725
+    }
+   ]
+  },
+  {
+   "face": "results/state_tilt/STARDIR-2026-10-29.json",
+   "family": "results/state_tilt/STARDIR",
+   "cutoff": "2026-10-29",
+   "cutoff_source": "evidence_cutoff",
+   "family_newest_face": "results/state_tilt/STARDIR-2026-10-30.json",
+   "family_newest_cutoff": "2026-10-30",
+   "days_behind": 1,
+   "readers": 1,
+   "reader_sources": [
+    "scripts/e247_era_cell_power.py"
+   ],
+   "reader_lines": [
+    {
+     "source": "scripts/e247_era_cell_power.py",
+     "line": 39,
+     "text": "FACE_DEFAULT = os.path.join(ROOT, \"results\", \"state_tilt\", \"STARDIR-2026-10-29.json\")"
+    }
+   ],
+   "numbers": 602,
+   "changed": 185,
+   "equal": 417,
+   "absent_from_newest_cut": 0,
+   "examples": [
+    {
+     "path": "cells[0].sessions",
+     "stale": 1328.0,
+     "newest": 1329.0
+    },
+    {
+     "path": "cells[0].resolution_median_halfwidth",
+     "stale": 0.2640519749202488,
+     "newest": 0.2640787163899738
+    },
+    {
+     "path": "cells[0].lags.0.rows_used",
+     "stale": 1328.0,
+     "newest": 1329.0
+    },
+    {
+     "path": "cells[0].lags.1.rows_used",
+     "stale": 1327.0,
+     "newest": 1328.0
+    },
+    {
+     "path": "cells[0].lags.2.rows_used",
+     "stale": 1326.0,
+     "newest": 1327.0
+    }
+   ]
+  }
+ ]
+}

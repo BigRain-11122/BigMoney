@@ -9624,6 +9624,63 @@ def main() -> int:
     except Exception as e:
         check(_name327, False, repr(e)[:160])
 
+    # E328: a stated cutoff is not a fresh one. This leg refuses a row that is not older than its
+    # family's newest cut, a number split that does not sum, a quoted+unquoted tally that misses the
+    # stale count, a "no stale quote" verdict beside rows, and a face that hides its limits.
+    _name328 = ("product: a quoted number read from a vintage its own family has outgrown is "
+                "re-measured against the newest cut")
+    _bad328 = []
+    try:
+        _p328 = os.path.join("results", "state_tilt", "stalecutoff_latest.json")
+        _f328 = json.load(open(_p328, encoding="utf-8")) if os.path.exists(_p328) else None
+        if _f328 is None:
+            _bad328.append("no published stale-cutoff census")
+        else:
+            sys.path.insert(0, os.path.join(os.getcwd(), "scripts"))
+            _m328 = __import__("importlib").import_module("e328_quoted_number_staleness")
+            _fresh328 = _m328.build()
+            _s328 = _f328.get("summary") or {}
+            if _f328.get("verdict") != _fresh328.get("verdict"):
+                _bad328.append("the verdict does not re-derive")
+            if _f328.get("verdict") not in _m328.VERDICTS:
+                _bad328.append("verdict %r is outside the frozen set" % (_f328.get("verdict"),))
+            for _k328 in ("faces_scanned", "families", "stale_faces", "stale_faces_quoted",
+                          "quoted_numbers", "numbers_that_move",
+                          "numbers_absent_from_newest_cut"):
+                if _s328.get(_k328) != (_fresh328.get("summary") or {}).get(_k328):
+                    _bad328.append("summary.%s does not re-derive" % _k328)
+            _disk328 = {r["face"]: (r["cutoff"], r["changed"]) for r in _f328.get("rows") or []}
+            if _disk328 != {r["face"]: (r["cutoff"], r["changed"])
+                            for r in _fresh328["rows"]}:
+                _bad328.append("a quoted stale face does not re-derive")
+            for _r328 in _f328.get("rows") or []:
+                if _r328["cutoff"] >= _r328["family_newest_cutoff"]:
+                    _bad328.append("a row is not older than its family's newest cut")
+                    break
+                if (_r328["changed"] + _r328["absent_from_newest_cut"] + _r328["equal"]
+                        != _r328["numbers"]):
+                    _bad328.append("a row's number split does not sum")
+                    break
+            if (_s328.get("stale_faces_quoted", 0) + _s328.get("stale_faces_unquoted", 0)
+                    != _s328.get("stale_faces")):
+                _bad328.append("quoted + unquoted does not equal the stale count")
+            if not _s328.get("stale_faces_quoted") and \
+                    _f328.get("verdict") != _m328.V_NO_STALE_QUOTE:
+                _bad328.append("a census with no quoted stale face does not say so")
+            if _f328.get("limits") is None:
+                _bad328.append("the instrument's limits are not disclosed")
+        check(_name328, not _bad328, "; ".join(_bad328)[:220]
+              or "%s | %s of %s faces are older than their family's newest cut, %s of them are "
+                 "quoted by code, and %s of %s numbers read there move"
+                 % (str((_f328 or {}).get("verdict")),
+                    ((_f328 or {}).get("summary") or {}).get("stale_faces"),
+                    ((_f328 or {}).get("summary") or {}).get("faces_scanned"),
+                    ((_f328 or {}).get("summary") or {}).get("stale_faces_quoted"),
+                    ((_f328 or {}).get("summary") or {}).get("numbers_that_move"),
+                    ((_f328 or {}).get("summary") or {}).get("quoted_numbers")))
+    except Exception as e:
+        check(_name328, False, repr(e)[:160])
+
     return _finish()
 
 

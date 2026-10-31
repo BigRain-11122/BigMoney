@@ -26063,7 +26063,7 @@
    "id": "E328-WHICH-PUBLISHED-NUMBER-CARRIES-NO-CUTOFF-AT-ALL",
    "lane": "cpu-only",
    "priority": 3,
-   "status": "ready",
+   "status": "done",
    "owner": null,
    "owner_since": null,
    "entered_at": "2026-11-01T03:5x+08:00",
@@ -26071,7 +26071,24 @@
    "target": "every quote of a numeric key read from a face whose evidence_cutoff is not the max cutoff available for that family in the tree",
    "deliverable": "results/state_tilt/<face> + scripts/e328_*.py + chain leg + smoke leg + methodology card",
    "source": "E327 POINTERREAD-2026-11-01 (all 3 real pointers carry the parameter; the staleness of the parameter itself was out of scope)",
-   "notes": "seeded by r1347 bm-b at E327 close; supply floor stays breached honestly (ready 1 of floor 3)"
+   "notes": "seeded by r1347 bm-b at E327 close; supply floor stays breached honestly (ready 1 of floor 3)",
+   "result_ref": "results/state_tilt/STALECUTOFF-2026-11-01.json",
+   "done_note": "r1348 bm-b: 133 of 550 dated faces are older than their own family's newest cut, only 4 of them are quoted by code, and 536 of the 1,430 numbers read there move when the newest cut is opened (0 lack a fresh counterpart); selftest 20/20, verify 0 problems",
+   "done_at": "2026-11-01T04:06:00+08:00"
+  },
+  {
+   "id": "E329-WHICH-SOURCE-READS-TWO-VINTAGES",
+   "lane": "cpu-only",
+   "priority": 3,
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "entered_at": "2026-11-01T04:06:00+08:00",
+   "question": "E328 measured which quoted numbers sit on a cut their own family has outgrown. It did not ask whether the quoting source ALSO opens the newest cut: a source that names two vintages of one family decides which number reaches its output by load order, not by intent. Which non-writer sources name more than one cut of the same family, and where both are bound, does the stale file win?",
+   "target": "every source that names two or more cuts of one family, and the order in which it binds and uses them",
+   "deliverable": "results/state_tilt/<face> + scripts/e329_*.py + chain leg + smoke leg + methodology card",
+   "source": "E328 STALECUTOFF-2026-11-01 (4 stale faces qualified for reading; 0 of 1,430 numbers lacked a fresh counterpart, so both vintages are always available)",
+   "notes": "seeded by r1348 bm-b at E328 close; supply floor stays breached honestly (ready 1 of floor 3)"
   }
  ],
  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",

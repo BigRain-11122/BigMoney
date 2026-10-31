@@ -804,6 +804,15 @@ LEGS = [
     ("who_reads_a_face_through_a_pointer",
      ["python", "scripts/e327_who_reads_a_face_through_a_pointer.py", "verify"]),
 
+    # E328: a stated cutoff is not a fresh one. 550 dated faces group into 416 (directory, stem)
+    # families; 68 hold more than one cut, so 133 faces sit on a cutoff their own family has
+    # outgrown. Only 4 of those are actually quoted by code (a non-writer source names the literal
+    # basename and subscripts a key); those 4 carry 1,430 numbers of which 536 disagree with the
+    # newest cut and 0 have no fresh counterpart. Verify re-derives the verdict, the summary and
+    # every row's cutoff and change count. ~3s.
+    ("quoted_number_staleness",
+     ["python", "scripts/e328_quoted_number_staleness.py", "verify"]),
+
     # E270: the screen E267/E268 published is a rule over four per-row numbers (b, band_lo,
     # band_hi, own_p95), so its reach is bounded by which published faces actually carry them.
     # This leg walks all 17 dated BAND* faces (mirrors and its own face excluded) and finds the
