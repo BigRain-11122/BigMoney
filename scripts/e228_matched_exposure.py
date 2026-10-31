@@ -135,6 +135,32 @@ def excess_series(weights, ret_bp, split, cost_bp):
     return [x for (i, x) in rows if i >= cut]
 
 
+def rows_for(weights, ret_bp, split, cost_side_bp):
+    """Every session's gross, charged cost and excess against the in-sample drift.
+
+    Returns (rows, mu_is). This is the panel the whole E229..E237 family decomposes: it
+    had gone missing from this module while four of them still called it, so the accounting
+    lives here once and `excess_series` is its out-of-sample slice (L0 pins that).
+    """
+    n = len(ret_bp)
+    is_rets = [r for r in ret_bp[1:split] if r is not None]
+    mu_is = e225._mean(is_rets)
+    rows = []
+    prev_w = 0.0
+    for i in range(0, n - 1):
+        w = weights[i]
+        abs_dw = abs(w - prev_w)
+        cost = abs_dw * cost_side_bp
+        r = ret_bp[i + 1]
+        if r is None:
+            prev_w = w
+            continue
+        rows.append({"i": i, "w": w, "abs_dw": abs_dw, "gross_bp": w * r,
+                     "cost_bp": cost, "excess_bp": w * r - cost - w * mu_is})
+        prev_w = w
+    return rows, mu_is
+
+
 def series_matches_stats(series, stats, tol=1e-6):
     """The daily series must rebuild the annual figure it is printed beside."""
     if not series or stats is None:
@@ -473,6 +499,26 @@ def selftest():
     ret = _synth(n)
     split = e225.split_index(n)
     bar_t = 2.8
+
+    # L0 the restored rows_for is the panel the family decomposes: its out-of-sample slice
+    # must equal excess_series, which is the same accounting the published face uses
+    sig0 = e225.vol_signal(ret)
+    w0 = e225.weights_series(sig0, "tilt_step")
+    rows0, mu0 = rows_for(w0, ret, split, UNIT_COST_BP)
+    checks.append(("L0 rows_for agrees with excess_series",
+                   [r["excess_bp"] for r in rows0 if r["i"] >= split - 1]
+                   == excess_series(w0, ret, split, UNIT_COST_BP)))
+    checks.append(("L0b rows_for never emits a session without a return",
+                   all(ret[r["i"] + 1] is not None for r in rows0)))
+    def _dw_ok(rows):
+        if not rows:
+            return False
+        if abs(rows[0]["abs_dw"] - abs(rows[0]["w"])) > 1e-12:
+            return False
+        return all(abs(b["abs_dw"] - abs(b["w"] - a["w"])) < 1e-12
+                   for a, b in zip(rows, rows[1:]))
+
+    checks.append(("L0c rows_for charges |dw| against the weight actually held", _dw_ok(rows0)))
 
     # L1 a flat null's out-of-sample turnover is zero and its excess is w*(drift)
     w_bar = 0.35
