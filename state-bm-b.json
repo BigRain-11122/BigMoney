@@ -2735,6 +2735,16 @@
   "s1": "the full suite was launched in the background (results/_smoke_r1318.out) and is still running at closeout; the new leg was extracted verbatim from smoke_test.py and executed standalone (PASS), and mutating a group's counts_one_twice flips it to FAIL -- the board is green on the leg added here, not re-measured end to end.",
   "s6": "orphan probe py_faces=7 orphans=0 residents=0 | dualrun ZERO-DRIFT (795 entries, streak 51) | py_watermark py_low_with_work_cands (write moment; 6 ready, legal_idle_whitelist.satisfied=false, remediated by burning E296 in-round) | new chain leg duplicate_list_census rc=0 0.45s | collectors/compute_audit not re-run this window (wall budget, stated plainly)",
   "s7": "orders 114 files / 115 acks / 0 unacked | decisions face sha256 97fe122f... unchanged vs the recorded watermark -> zero action | loop pin=2 and LoopWatchdog left to their own ticks | pre-commit and pre-push claws untouched this window",
-  "pool": "E296 done with result_ref; 795 entries, 6 ready (E292, E294, E295, E298, E299)"
+  "pool": "E296 done with result_ref; 795 entries, 6 ready (E292, E294, E295, E298, E299)",
+  "delivery": {
+   "branch": "machine/bm-b-r1318",
+   "pushed_sha": "c64946005b8d9c242191fa35c5a58161e352f8c7",
+   "remote_ref_sha": "c64946005b8d9c242191fa35c5a58161e352f8c7",
+   "verified": true,
+   "local_not_on_origin_main": 87,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1317 family); main push not attempted",
+   "ts": "2026-10-31T11:14:12+08:00",
+   "note": "8 files staged (2 producers, 2 legs/wiring, pool, state, heartbeat, round report); the ~590 dirty tracked files left by collectors and prior windows were not swept in. The pool patch was redone with newline=\\r\\n after the first attempt reflowed 25,504 lines."
+  }
  }
 }
