@@ -87,15 +87,14 @@
  "decisions_delta_pending": false,
  "decisions_regression_note": "r701: regression adjudicated group-side; watermarks follow origin current truth; consumed receipts live in round reports",
  "delivery": {
-  "branch": "machine/bm-b-r1313",
-  "pushed_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
-  "remote_ref_sha": "d5e4d152b9dc77989af3c95ea90c5a8f40802045",
+  "branch": "machine/bm-b-r1315",
+  "pushed_sha": "092334022e36f5c8b246f38b599705a63c59cba4",
+  "remote_ref_sha": "092334022e36f5c8b246f38b599705a63c59cba4",
   "verified": true,
-  "local_not_on_origin_main": 77,
-  "behind_origin_main": 166,
-  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1312 family); main push not attempted",
-  "ts": "2026-10-31T08:24:57+08:00",
-  "note": "staged 12 files, all this round's outputs; the ~340 dirty tracked files left by collectors and prior windows were not swept in. Heartbeat EOL had to be repaired from CRLF to the blob's LF and orders_ack kept a LIST (type flip caught before push)."
+  "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1313 family); main push not attempted",
+  "local_not_on_origin_main": 78,
+  "ts": "2026-10-31T10:09:00+08:00",
+  "note": "21 files staged, all this round's outputs plus the absorbed r1314 window's landed files; the ~600 dirty tracked files left by collectors and prior windows were not swept in. state-bm-b.json and fleet/machines/bm-b.json carry a one-time whole-file reflow from the dead window and are landed as found."
  },
  "delivery_note": "main-branch push is not attempted: a bounded attempt has hung in promisor lazy-fetch for thirteen consecutive rounds (r1255..r1295 family), so the machine branch is the delivery channel until it clears",
  "dept": "research+engineering",
@@ -2610,9 +2609,9 @@
  "task": "E287 supply ceiling axes (done) -> next head E288 below-floor narrowing cost",
  "task_short": "E283 degenerate range",
  "task_short_note": "scripts/e262_p95_transfer_across_windows.py; selftest 43/43; face results/state_tilt/BANDTRANSFER-2026-10-29.json",
- "ts": "2026-10-31T10:05:00+08:00",
- "updated": "2026-10-31T10:05:00+08:00",
- "updated_at": "2026-10-31T10:05:00+08:00",
+ "ts": "2026-10-31T10:09:00+08:00",
+ "updated": "2026-10-31T10:09:00+08:00",
+ "updated_at": "2026-10-31T10:09:00+08:00",
  "verdict": "published_supply_reaches_the_gap_rows_only",
  "watermark_red": "py_low_with_work_cands at open (lane pool-batch-runnable-idle-low-cpu, 4 ready pool rows, py 0.1 pct of 16 cores, legal_idle_whitelist.satisfied=false); the round burned the head card E287 in-round and re-seeded the pool to 6 ready",
  "work": "E282 done",
@@ -2670,6 +2669,16 @@
   "s6": "orphan probe py_faces=7 orphans=0 residents=0 | py_watermark insufficient_history with pool_ready=4 and py 0.1 pct of 16 cores (legal_idle_whitelist.satisfied=false) | dualrun ZERO-DRIFT (791 entries, streak 51) | attrition CLEAN 4 ledgers (2 historical shrink rows healed) | new chain leg supply_ceiling_axes rc=0 0.30s",
   "s7": "loop pin=2 and LoopWatchdog left to their own ticks | orders 114 files / 115 acks / 0 unacked | decisions face not re-scanned (0 unacked carried from r1313) | pre-commit and pre-push claws untouched this window",
   "s1": "the full 270-leg suite ran to completion: 266/270 PASS with 4 FAIL at open. Two were universe drift (E290 and E291 re-deriving over the live directory); both are now frozen to their published census and PASS with their original numbers, so the board reads 268/270 with two science-defect reds seeded as E297 (E243 E240-replay MISMATCH at 5e-5 against a 1e-9 tolerance; empirical gamma CI endpoint absent from its own point set). The new E287 leg was also extracted verbatim and executed standalone (PASS, and FAILs under a reach-count mutation)",
-  "absorb": "the r1314 window (vintage freeze E292 + E293 duplicate-list census) landed its files and its pool/ledger/round-report edits but died before closeout -- no commit, no chain leg, no smoke leg. Its files are landed here as-is after running its own verify (0 problems) and selftest (15/15); the missing legs are seeded as E296 rather than improvised."
+  "absorb": "the r1314 window (vintage freeze E292 + E293 duplicate-list census) landed its files and its pool/ledger/round-report edits but died before closeout -- no commit, no chain leg, no smoke leg. Its files are landed here as-is after running its own verify (0 problems) and selftest (15/15); the missing legs are seeded as E296 rather than improvised.",
+  "delivery": {
+   "branch": "machine/bm-b-r1315",
+   "pushed_sha": "092334022e36f5c8b246f38b599705a63c59cba4",
+   "remote_ref_sha": "092334022e36f5c8b246f38b599705a63c59cba4",
+   "verified": true,
+   "main_push_blocker": "promisor lazy fetch wedges before negotiation (r1255..r1313 family); main push not attempted",
+   "local_not_on_origin_main": 78,
+   "ts": "2026-10-31T10:09:00+08:00",
+   "note": "21 files staged, all this round's outputs plus the absorbed r1314 window's landed files; the ~600 dirty tracked files left by collectors and prior windows were not swept in. state-bm-b.json and fleet/machines/bm-b.json carry a one-time whole-file reflow from the dead window and are landed as found."
+  }
  }
 }
